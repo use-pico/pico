@@ -1,5 +1,11 @@
 # @use-pico/navigation
 
+## 1.0.3
+
+### Patch Changes
+
+- Fixed types
+
 ## 1.0.2
 
 ### Patch Changes
