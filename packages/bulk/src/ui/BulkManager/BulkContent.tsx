@@ -1,6 +1,5 @@
 import {WithTranslationProvider} from "@pico/i18n";
 import {
-    WithIdentitySchema,
     WithMutation,
     WithQuery
 }                                from "@pico/query";
@@ -8,6 +7,7 @@ import {
     resultOf,
     WithSourceQuery
 }                                from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 import {List}                    from "@pico/source";
 import {
     Box,

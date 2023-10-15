@@ -25,7 +25,23 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/utils/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/@misc/esbuild/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/@misc/esbuild/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/bulk/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/bulk/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/calendar/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/calendar/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/file/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/form/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/form/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/hook/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/job/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/pagination/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/pagination/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/schema/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/schema/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/source/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/source/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/ui-extra/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ui/lib" />
     </content>
     <orderEntry type="inheritedJdk" />

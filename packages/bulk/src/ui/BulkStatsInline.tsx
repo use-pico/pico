@@ -1,9 +1,7 @@
 import {WithTranslationProvider} from "@pico/i18n";
-import {
-    QueryResult,
-    WithIdentitySchema
-}                                from "@pico/query";
+import {QueryResult}             from "@pico/query";
 import {type WithQuery}          from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 import {
     NativeBreadcrumbs,
     SkeletonButtons,

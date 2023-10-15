@@ -4,8 +4,8 @@ import {
     DateTimeInline,
     WithTranslationProvider
 }                          from "@pico/i18n";
+import {type IHrefProps}   from "@pico/navigation";
 import {Table}             from "@pico/table";
-import {type IHrefProps}   from "@pico/types";
 import {
     BoolInline,
     ButtonLink,

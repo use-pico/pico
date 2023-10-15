@@ -8,9 +8,11 @@
 		"url": "git://github.com/leight-core/viv.git"
 	},
 	"files": [
+		"types",
 		"common.json",
 		"esbuild.json"
 	],
+	"types": "types/types.d.ts",
 	"bugs": {
 		"url": "https://github.com/leight-core/viv/issues"
 	},

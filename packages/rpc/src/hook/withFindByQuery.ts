@@ -4,7 +4,7 @@ import {
     type OrderBySchema,
     type QuerySchema
 }                             from "@pico/query";
-import {type ResponseSchema}  from "@pico/types";
+import {type ResponseSchema}  from "@pico/schema";
 import {type WithFindByQuery} from "../api/WithFindByQuery";
 import {withQuery}            from "./withQuery";
 

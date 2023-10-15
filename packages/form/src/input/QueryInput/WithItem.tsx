@@ -1,13 +1,13 @@
-import {WithIdentitySchema}   from "@pico/query";
-import {type ISelectionStore} from "@pico/selection";
+import {type WithIdentitySchema} from "@pico/schema";
+import {type ISelectionStore}    from "@pico/selection";
 import {
     Group,
     ModalStore
-}                             from "@pico/ui";
-import {type z}               from "@pico/utils";
-import {type FC}              from "react";
-import type {ValuesSchema}    from "../../schema/ValuesSchema";
-import {InputEx}              from "../InputEx";
+}                                from "@pico/ui";
+import {type z}                  from "@pico/utils";
+import {type FC}                 from "react";
+import type {ValuesSchema}       from "../../schema/ValuesSchema";
+import {InputEx}                 from "../InputEx";
 
 export namespace WithItem {
     export interface Props<

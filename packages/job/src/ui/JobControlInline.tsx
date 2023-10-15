@@ -1,4 +1,4 @@
-import {type RequestSchema} from "@pico/types";
+import {type RequestSchema} from "@pico/schema";
 import {
     Divider,
     Group,

@@ -4,7 +4,5 @@ export * from "./useDisclosure";
 export * from "./useErrorNotification";
 export * from "./useHotkeys";
 export * from "./useLoop";
-export * from "./useRedirect";
 export * from "./useSuccessNotification";
 export * from "./useWindowScroll";
-export * from "./useWithRedirect";

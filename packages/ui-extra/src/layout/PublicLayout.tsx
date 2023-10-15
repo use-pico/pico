@@ -12,6 +12,7 @@ import {
     useLocaleRouter,
     useTranslation
 }                   from "@pico/i18n";
+import {BlockStore} from "@pico/ui";
 import {IconLogin}  from "@tabler/icons-react";
 import {signIn}     from "next-auth/react";
 import Image        from "next/image";
@@ -22,7 +23,6 @@ import {
     type ReactNode,
     useEffect
 }                   from "react";
-import {BlockStore} from "../store/BlockStore";
 import classes      from "./PublicLayout.module.css";
 
 export namespace PublicLayout {

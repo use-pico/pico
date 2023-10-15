@@ -5,26 +5,28 @@ import {
     type IStoreProps
 } from "@pico/store";
 
-export type ILoopStoreProps = IStoreProps<{
-    isRunning: boolean;
-    isDone: boolean;
-    isError: boolean;
-    isSuccess?: boolean;
-    current: number;
-    total: number;
+export namespace LoopStore {
+    export type Props = IStoreProps<{
+        isRunning: boolean;
+        isDone: boolean;
+        isError: boolean;
+        isSuccess?: boolean;
+        current: number;
+        total: number;
 
-    progress(): void;
+        progress(): void;
 
-    start(total: number): void;
+        start(total: number): void;
 
-    finish(withError?: boolean): void;
+        finish(withError?: boolean): void;
 
-    error(error?: boolean): void;
+        error(error?: boolean): void;
 
-    percent(): number;
-}>
+        percent(): number;
+    }>
+}
 
-export const LoopStore = createStore<ILoopStoreProps>({
+export const LoopStore = createStore<LoopStore.Props>({
     state: () => (set, get) => ({
         total:     0,
         isRunning: false,

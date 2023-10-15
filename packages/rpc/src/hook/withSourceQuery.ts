@@ -6,8 +6,8 @@ import {
     type QuerySchema,
     withQuerySchema
 }                             from "@pico/query";
+import {type ResponseSchema}  from "@pico/schema";
 import {withFilter}           from "@pico/source";
-import {type ResponseSchema}  from "@pico/types";
 import {z}                    from "@pico/utils";
 import {type WithQuery}       from "../api/WithQuery";
 import {type WithSourceQuery} from "../api/WithSourceQuery";

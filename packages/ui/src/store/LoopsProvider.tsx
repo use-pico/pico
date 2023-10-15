@@ -4,9 +4,11 @@ import {
 }                   from "react";
 import {LoopsStore} from "./LoopsStore";
 
-export type ILoopsProviderProps = PropsWithChildren;
+export namespace LoopsProvider {
+    export type Props = PropsWithChildren;
+}
 
-export const LoopsProvider: FC<ILoopsProviderProps> = props => {
+export const LoopsProvider: FC<LoopsProvider.Props> = props => {
     return <LoopsStore.Provider
         {...props}
     />;

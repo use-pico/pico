@@ -1,10 +1,8 @@
 import {Translation}             from "@pico/i18n";
 import {JobSchema}               from "@pico/job";
-import {
-    WithIdentitySchema,
-    type WithQuery
-}                                from "@pico/query";
+import {type WithQuery}          from "@pico/query";
 import {type WithSourceQuery}    from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 import {
     Badge,
     EditIcon,

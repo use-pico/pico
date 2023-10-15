@@ -1,13 +1,13 @@
 import {
     useLocale,
     useTranslation
-}                    from "@pico/i18n";
-import {usePathname} from "@pico/navigation";
+}                from "@pico/i18n";
 import {
-    Select,
+    usePathname,
     useWithRedirect
-}                    from "@pico/ui";
-import {type FC}     from "react";
+}                from "@pico/navigation";
+import {Select}  from "@pico/ui";
+import {type FC} from "react";
 
 export namespace LanguageSelect {
     export interface Props extends Omit<Select.Props, "data"> {

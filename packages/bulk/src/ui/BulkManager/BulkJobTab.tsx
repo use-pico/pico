@@ -3,11 +3,9 @@ import {
     JobAsync,
     JobSchema
 }                                from "@pico/job";
-import {
-    WithIdentitySchema,
-    WithQuery
-}                                from "@pico/query";
+import {WithQuery}               from "@pico/query";
 import {WithSourceQuery}         from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 import {ButtonBar}               from "@pico/ui";
 import {type FC}                 from "react";
 import {type IUseBulkJobManager} from "../../api/IUseBulkJobManager";

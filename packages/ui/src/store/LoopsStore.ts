@@ -5,17 +5,19 @@ import {
     type IStoreProps
 } from "@pico/store";
 
-export type ILoopsStoreProps = IStoreProps<{
-    current: number;
+export namespace LoopsStore {
+    export type Props = IStoreProps<{
+        current: number;
 
-    isRunning(): boolean;
+        isRunning(): boolean;
 
-    inc(): void;
+        inc(): void;
 
-    dec(): void;
-}>
+        dec(): void;
+    }>
+}
 
-export const LoopsStore = createStore<ILoopsStoreProps>({
+export const LoopsStore = createStore<LoopsStore.Props>({
     state: () => (set, get) => ({
         current: 0,
         isRunning() {

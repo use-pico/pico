@@ -2,7 +2,7 @@ import {type WithMutation as IWithCoolMutation,} from "@pico/query";
 import {
     type RequestSchema,
     type ResponseSchema
-}                                                from "@pico/types";
+}                                                from "@pico/schema";
 
 export interface WithMutation<
     TRequestSchema extends RequestSchema,

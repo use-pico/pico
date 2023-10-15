@@ -1,29 +1,26 @@
 "use client";
 
+import {useSuccessNotification} from "@pico/hook";
 import {Translation}            from "@pico/i18n";
 import {type WithMutation}      from "@pico/query";
+import {type ResponseSchema}    from "@pico/schema";
 import {type MutationSchema}    from "@pico/source";
+import {type WithEntity}        from "@pico/types";
 import {
-    type ResponseSchema,
-    type WithEntity
-}                               from "@pico/types";
-import {useSuccessNotification} from "../hook/useSuccessNotification";
-import {CloseIcon}              from "../icon/CloseIcon";
-import {TrashIcon}              from "../icon/TrashIcon";
-import {Button}                 from "../ui/Button";
-import {Divider}                from "../ui/Divider";
-import {Flex}                   from "../ui/Flex";
-import {
-    type IModalProps,
-    Modal
-}                               from "./Modal";
-import {ModalStore}             from "./ModalStore";
+    Button,
+    CloseIcon,
+    Divider,
+    Flex,
+    Modal,
+    ModalStore,
+    TrashIcon
+}                               from "@pico/ui";
 
 export namespace DeleteModal {
     export interface Props<
         TMutationSchema extends MutationSchema<any, any>,
         TResponseSchema extends ResponseSchema,
-    > extends IModalProps, WithEntity.Schema<TResponseSchema> {
+    > extends Modal.Props, WithEntity.Schema<TResponseSchema> {
         withMutation: WithMutation<
             TMutationSchema,
             TResponseSchema
@@ -46,7 +43,9 @@ export const DeleteModal = <
     const deleteMutation = withMutation.useMutation();
 
     return <Modal
-        closeOnClickOutside={!deleteMutation.isPending}
+        modalProps={{
+            closeOnClickOutside: !deleteMutation.isPending,
+        }}
         title={"delete.title"}
         {...props}
     >

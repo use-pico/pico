@@ -30,6 +30,7 @@
 	"dependencies": {
 		"@pico/i18n": "^1.0.0",
 		"@pico/query": "^1.0.0",
+		"@pico/schema": "^1.0.0",
 		"@pico/source": "^1.0.0",
 		"@pico/store": "^1.0.0",
 		"@pico/ui": "^1.0.0",

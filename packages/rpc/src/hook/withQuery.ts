@@ -7,7 +7,7 @@ import {
 import {
     type RequestSchema,
     type ResponseSchema
-}                       from "@pico/types";
+}                       from "@pico/schema";
 import {type z}         from "@pico/utils";
 import {
     QueryKey,

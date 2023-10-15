@@ -1,18 +1,20 @@
-import {type IHrefProps} from "@pico/types";
+import {type FileSchema} from "@pico/file";
+import {
+    type IHrefProps,
+    linkTo
+}                        from "@pico/navigation";
 import {
     Button,
     DownloadIcon,
     Progress,
     Stack
 }                        from "@pico/ui";
-import {linkTo}          from "@pico/utils";
 import JsFileDownloader  from "js-file-downloader";
 import {
     type FC,
     useRef,
     useState
 }                        from "react";
-import {FileSchema}      from "../schema/FileSchema";
 
 export namespace DownloadButton {
     export interface Props extends Button.Props {

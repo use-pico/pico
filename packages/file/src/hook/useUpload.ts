@@ -1,9 +1,11 @@
-import {type IHrefProps}    from "@pico/types";
 import {
     useChunk,
     useLoop
-}                           from "@pico/ui";
-import {linkTo}             from "@pico/utils";
+}                           from "@pico/hook";
+import {
+    type IHrefProps,
+    linkTo
+}                           from "@pico/navigation";
 import axios                from "axios";
 import {useRef}             from "react";
 import {v4}                 from "uuid";

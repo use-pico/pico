@@ -1,10 +1,8 @@
-import {
-    FilterSchema,
-    WithIdentitySchema
-}                             from "@pico/query";
-import {type FC}              from "react";
-import {type IWithFetchQuery} from "../api/IWithFetchQuery";
-import {Fetch}                from "../ui/Fetch";
+import {FilterSchema}            from "@pico/query";
+import {type WithIdentitySchema} from "@pico/schema";
+import {type FC}                 from "react";
+import {type IWithFetchQuery}    from "../api/IWithFetchQuery";
+import {Fetch}                   from "../ui/Fetch";
 
 export namespace withFetch {
     export interface Props<

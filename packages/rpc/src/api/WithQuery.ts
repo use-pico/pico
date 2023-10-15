@@ -2,7 +2,7 @@ import {type WithQuery as WithCoolQuery,} from "@pico/query";
 import {
     type RequestSchema,
     type ResponseSchema
-}                                         from "@pico/types";
+}                                         from "@pico/schema";
 
 /**
  * This is a base object containing everything you need to use an RPC query.

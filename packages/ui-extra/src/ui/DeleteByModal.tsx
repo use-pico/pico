@@ -1,5 +1,6 @@
 "use client";
 
+import {useSuccessNotification} from "@pico/hook";
 import {Translation}            from "@pico/i18n";
 import {
     type FilterSchema,
@@ -9,22 +10,20 @@ import {
     type WithMutation,
     type WithSourceQuery
 }                               from "@pico/rpc";
-import {useSuccessNotification} from "../hook/useSuccessNotification";
-import {CloseIcon}              from "../icon/CloseIcon";
-import {TrashIcon}              from "../icon/TrashIcon";
-import {Button}                 from "../ui/Button";
-import {Divider}                from "../ui/Divider";
-import {Flex}                   from "../ui/Flex";
 import {
-    type IModalProps,
-    Modal
-}                               from "./Modal";
-import {ModalStore}             from "./ModalStore";
+    Button,
+    CloseIcon,
+    Divider,
+    Flex,
+    Modal,
+    ModalStore,
+    TrashIcon
+}                               from "@pico/ui";
 
 export namespace DeleteByModal {
     export interface Props<
         TFilterSchema extends FilterSchema,
-    > extends IModalProps {
+    > extends Modal.Props {
         withMutation: WithMutation<QuerySchema<TFilterSchema, any>, any>;
         withSourceQuery: WithSourceQuery<any, TFilterSchema, any>;
     }
@@ -55,7 +54,9 @@ export const DeleteByModal = <
     const deleteMutation = withMutation.useMutation();
 
     return <Modal
-        closeOnClickOutside={!deleteMutation.isPending}
+        modalProps={{
+            closeOnClickOutside: !deleteMutation.isPending,
+        }}
         title={"delete-by.title"}
         {...props}
     >

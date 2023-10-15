@@ -1,20 +1,20 @@
 import {
     Box,
     Grid
-}                                 from "@pico/ui";
-import {classNames}               from "@pico/utils";
+}                            from "@pico/ui";
+import {classNames}          from "@pico/utils";
 import {
     type FC,
     PropsWithChildren
-}                                 from "react";
-import {type CalendarEventSchema} from "../schema/CalendarEventSchema";
-import classes                    from "./CalendarShell.module.css";
+}                            from "react";
+import {CalendarEventSchema} from "../schema/CalendarEventSchema";
+import classes               from "./CalendarShell.module.css";
 
 export namespace CalendarShell {
     export type Props<
         TEventSchema extends CalendarEventSchema,
     > = PropsWithChildren<{
-        schema: TEventSchema;
+        schema?: TEventSchema;
         withControls?: boolean;
         ControlsTopLeft?: CalendarShell.Component;
         ControlsTopMiddle?: CalendarShell.Component;

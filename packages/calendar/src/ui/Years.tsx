@@ -1,41 +1,46 @@
-import {DateInline}                from "@pico/i18n";
+import {DateInline}               from "@pico/i18n";
 import {
     Button,
     Grid,
     Group,
     Text
-}                                  from "@pico/ui";
-import {classNames}                from "@pico/utils";
+}                                 from "@pico/ui";
+import {classNames}               from "@pico/utils";
 import {
     IconChevronLeft,
     IconChevronRight,
     IconChevronsLeft,
     IconChevronsRight
-}                                  from "@tabler/icons-react";
-import {type PropsWithChildren}    from "react";
-import {type IYear}                from "../api/years";
-import {type ICalendarEventSchema} from "../schema/CalendarEventSchema";
-import {YearsOfStore}              from "../store/YearsOfStore";
-import {CalendarShell}             from "./CalendarShell";
-import {DateRageInline}            from "./DateRageInline";
-import classes                     from "./Years.module.css";
+}                                 from "@tabler/icons-react";
+import {type PropsWithChildren}   from "react";
+import {type IYear}               from "../api/years";
+import {type CalendarEventSchema} from "../schema/CalendarEventSchema";
+import {YearsOfStore}             from "../store/YearsOfStore";
+import {CalendarShell}            from "./CalendarShell";
+import {DateRageInline}           from "./DateRageInline";
+import classes                    from "./Years.module.css";
 
-export type IYearsProps<TEventSchema extends ICalendarEventSchema = ICalendarEventSchema> = PropsWithChildren<Omit<CalendarShell<TEventSchema>, "children" | "onClick"> & {
-    onClick?(props: IYearsProps.OnClickProps): void;
-}>;
+export namespace Years {
+    export type Props<
+        TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+    > = PropsWithChildren<Omit<CalendarShell.Props<TEventSchema>, "children" | "onClick"> & {
+        onClick?(props: OnClickProps): void;
+    }>;
 
-export namespace IYearsProps {
     export interface OnClickProps {
         year: IYear;
     }
 }
 
-export const Years = <TEventSchema extends ICalendarEventSchema = ICalendarEventSchema>(
+export const Years = <
+    TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+>(
     {
         children,
         onClick,
         ...props
-    }: IYearsProps<TEventSchema>) => {
+    }: Years.Props<TEventSchema>
+) => {
     const {
         years: {
                    years,

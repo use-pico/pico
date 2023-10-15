@@ -1,10 +1,10 @@
 import {Pagination}           from "@pico/pagination";
-import {
-    type WithIdentitySchema,
-    WithQuery
-}                             from "@pico/query";
+import {WithQuery}            from "@pico/query";
 import {type WithSourceQuery} from "@pico/rpc";
-import {type RequestSchema}   from "@pico/types";
+import {
+    type RequestSchema,
+    type WithIdentitySchema
+}                             from "@pico/schema";
 import {
     BlockStore,
     Box,

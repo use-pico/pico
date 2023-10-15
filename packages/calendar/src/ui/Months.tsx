@@ -1,44 +1,49 @@
 import {
     DateInline,
     DateTime
-}                                  from "@pico/i18n";
+}                                 from "@pico/i18n";
 import {
     Button,
     Grid,
     Group,
     Text
-}                                  from "@pico/ui";
-import {classNames}                from "@pico/utils";
+}                                 from "@pico/ui";
+import {classNames}               from "@pico/utils";
 import {
     IconChevronLeft,
     IconChevronRight
-}                                  from "@tabler/icons-react";
+}                                 from "@tabler/icons-react";
 import {
     type PropsWithChildren,
     useCallback
-}                                  from "react";
-import {type IMonth}               from "../api/months";
-import {type ICalendarEventSchema} from "../schema/CalendarEventSchema";
-import {MonthsOfStore}             from "../store/MonthsOfStore";
-import {CalendarShell}             from "./CalendarShell";
-import classes                     from "./Months.module.css";
+}                                 from "react";
+import {type IMonth}              from "../api/months";
+import {type CalendarEventSchema} from "../schema/CalendarEventSchema";
+import {MonthsOfStore}            from "../store/MonthsOfStore";
+import {CalendarShell}            from "./CalendarShell";
+import classes                    from "./Months.module.css";
 
-export type IMonthsProps<TEventSchema extends ICalendarEventSchema = ICalendarEventSchema> = PropsWithChildren<Omit<CalendarShell<TEventSchema>, "children" | "onClick"> & {
-    onClick?(props: IIMonthsProps.OnClickProps): void;
-}>;
+export namespace Months {
+    export type Props<
+        TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+    > = PropsWithChildren<Omit<CalendarShell.Props<TEventSchema>, "children" | "onClick"> & {
+        onClick?(props: OnClickProps): void;
+    }>;
 
-export namespace IIMonthsProps {
     export interface OnClickProps {
         month: IMonth;
     }
 }
 
-export const Months = <TEventSchema extends ICalendarEventSchema = ICalendarEventSchema>(
+export const Months = <
+    TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+>(
     {
         children,
         onClick,
         ...props
-    }: IMonthsProps<TEventSchema>) => {
+    }: Months.Props<TEventSchema>
+) => {
     const {
         months: {
                     months,

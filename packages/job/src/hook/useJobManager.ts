@@ -1,5 +1,5 @@
-import {type RequestSchema}             from "@pico/types";
-import {useErrorNotification}           from "@pico/ui";
+import {useErrorNotification}           from "@pico/hook";
+import {type RequestSchema}             from "@pico/schema";
 import {
     useEffect,
     useState

@@ -1,10 +1,10 @@
 import {Translation}               from "@pico/i18n";
 import {
     type FilterSchema,
-    type OrderBySchema,
-    WithIdentitySchema
+    type OrderBySchema
 }                                  from "@pico/query";
 import {type WithSourceQuery}      from "@pico/rpc";
+import {type WithIdentitySchema}   from "@pico/schema";
 import {type IMultiSelectionStore} from "@pico/selection";
 import {
     Alert,
@@ -122,7 +122,9 @@ export const MultiQueryInput = <
         <ModalStoreProvider>
             <Modal
                 modalId={"query-input"}
-                size={"75%"}
+                modalProps={{
+                    size: "75%",
+                }}
                 title={<>
                     <Text
                         fw={"500"}

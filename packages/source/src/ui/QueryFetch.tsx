@@ -9,7 +9,7 @@ import {
     WithQuery
 }                             from "@pico/query";
 import {type WithSourceQuery} from "@pico/rpc";
-import {type ResponseSchema}  from "@pico/types";
+import {type ResponseSchema}  from "@pico/schema";
 import {Loader}               from "@pico/ui";
 import {type z}               from "@pico/utils";
 import {

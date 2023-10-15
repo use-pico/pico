@@ -1,8 +1,6 @@
-import {
-    type FilterSchema,
-    type WithIdentitySchema
-}                       from "@pico/query";
-import {type WithQuery} from "@pico/rpc";
+import {type FilterSchema}       from "@pico/query";
+import {type WithQuery}          from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 
 export type IWithFetchQuery<
     TFilterSchema extends FilterSchema,

@@ -5,8 +5,8 @@ import {
     type OrderBySchema,
     type QuerySchema,
 }                            from "@pico/query";
+import {type ResponseSchema} from "@pico/schema";
 import {type withFilter}     from "@pico/source";
-import {type ResponseSchema} from "@pico/types";
 import {type z}              from "@pico/utils";
 import {type WithQuery}      from "./WithQuery";
 

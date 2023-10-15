@@ -33,6 +33,7 @@
 		"strict": true,
 		"strictPropertyInitialization": true,
 		"types": [
+			"@pico/tsconfig",
 			"@total-typescript/ts-reset",
 			"node"
 		],

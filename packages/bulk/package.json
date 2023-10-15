@@ -30,10 +30,12 @@
 		"@pico/job": "^1.0.0",
 		"@pico/query": "^1.0.0",
 		"@pico/rpc": "^1.0.0",
+		"@pico/schema": "^1.0.0",
 		"@pico/source": "^1.0.0",
 		"@pico/table": "^1.0.0",
 		"@pico/types": "^1.0.0",
 		"@pico/ui": "^1.0.0",
+		"@pico/ui-extra": "^1.0.0",
 		"@pico/utils": "^1.0.0",
 		"@tabler/icons-react": "^2.32.0",
 		"react": "^18.2.0"

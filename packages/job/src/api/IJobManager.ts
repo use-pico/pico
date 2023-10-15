@@ -1,11 +1,14 @@
 import {
-    type WithIdentitySchema,
-    type WithMutation
-}                           from "@pico/query";
-import {type RequestSchema} from "@pico/types";
-import {type z}             from "@pico/utils";
-import {JobQuerySchema}     from "../schema/JobQuerySchema";
-import {JobSchema}          from "../schema/JobSchema";
+    type WithMutation,
+    type WithQuery
+}                            from "@pico/query";
+import {
+    type RequestSchema,
+    type WithIdentitySchema
+}                            from "@pico/schema";
+import {type z}              from "@pico/utils";
+import {type JobQuerySchema} from "../schema/JobQuerySchema";
+import {type JobSchema}      from "../schema/JobSchema";
 
 export interface IJobManager<
     TRequestSchema extends RequestSchema,
@@ -41,5 +44,5 @@ export interface IJobManager<
 
     withCommit(): boolean;
 
-    watch: IWithQuery.Result<z.ZodNullable<z.ZodOptional<JobSchema>>>;
+    watch: WithQuery.Result<z.ZodNullable<z.ZodOptional<JobSchema>>>;
 }

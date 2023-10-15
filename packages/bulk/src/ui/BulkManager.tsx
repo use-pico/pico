@@ -4,11 +4,11 @@ import {
     WithTranslationProvider
 }                                from "@pico/i18n";
 import {
-    type WithIdentitySchema,
     type WithMutation,
     type WithQuery
 }                                from "@pico/query";
 import {type WithSourceQuery}    from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
 import {List}                    from "@pico/source";
 import {WithItem}                from "@pico/types";
 import {

@@ -17,16 +17,13 @@ import {MonthsOfStore}       from "../store/MonthsOfStore";
 import {WeeksOfStore}        from "../store/WeeksOfStore";
 import {YearsOfStore}        from "../store/YearsOfStore";
 import {Months}              from "./Months";
-import {
-    type IWeeksProps,
-    Weeks
-}                            from "./Weeks";
+import {Weeks}               from "./Weeks";
 import {Years}               from "./Years";
 
 export namespace Calendar {
     export interface Props<
         TEventSchema extends CalendarEventSchema = CalendarEventSchema,
-    > extends IWeeksProps<TEventSchema> {
+    > extends Weeks.Props<TEventSchema> {
         withControls?: boolean;
     }
 }

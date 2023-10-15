@@ -1,9 +1,9 @@
 import {
     type FilterSchema,
-    type OrderBySchema,
-    type WithIdentitySchema
+    type OrderBySchema
 }                                  from "@pico/query";
 import {type WithSourceQuery}      from "@pico/rpc";
+import {type WithIdentitySchema}   from "@pico/schema";
 import {type IMultiSelectionStore} from "@pico/selection";
 import {type z}                    from "@pico/utils";
 import {type ComponentProps}       from "react";

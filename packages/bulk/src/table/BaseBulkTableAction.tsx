@@ -21,30 +21,21 @@ export const BaseBulkTableAction: FC<BaseBulkTableAction.Props> = (
     }) => {
     return <>
         <Modal
+            modalProps={{
+                closeOnClickOutside: false,
+            }}
             modalId={"common.bulk.create"}
-            closeOnClickOutside={false}
             icon={<CreateIcon/>}
             title={"create.modal.title"}
         >
             {form}
         </Modal>
-        {/*<DeleteByModal*/}
-        {/*    withMutation={withDeleteByMutation}*/}
-        {/*    withSourceQuery={withSourceQuery}*/}
-        {/*    modalId={"common.bulk.delete-by"}*/}
-        {/*/>*/}
         <TableActionMenu>
             <ModalMenuItem
                 leftSection={<CreateIcon/>}
                 modalId={"common.bulk.create"}
                 withLabel={"create.menu.item"}
             />
-            {/*<ModalMenuItem*/}
-            {/*    leftSection={<TrashIcon/>}*/}
-            {/*    color={"red"}*/}
-            {/*    modalId={"common.bulk.delete-by"}*/}
-            {/*    withLabel={"delete-by.menu.item"}*/}
-            {/*/>*/}
         </TableActionMenu>
     </>;
 };

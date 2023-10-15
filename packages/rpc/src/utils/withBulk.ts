@@ -5,7 +5,7 @@ import {
 import {
     type RequestSchema,
     type ResponseSchema
-}                                  from "@pico/types";
+}                                  from "@pico/schema";
 import {
     generateId,
     withTimeout,

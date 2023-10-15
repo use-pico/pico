@@ -1,7 +1,7 @@
 import {
     DateInline,
     DateTime
-}                      from "@pico/i18n";
+}                            from "@pico/i18n";
 import {
     ActionIcon,
     Box,
@@ -9,44 +9,41 @@ import {
     Grid,
     Group,
     Text
-}                      from "@pico/ui";
-import {classNames}    from "@pico/utils";
+}                            from "@pico/ui";
+import {classNames}          from "@pico/utils";
 import {
     IconCalendarEvent,
     IconChevronLeft,
     IconChevronRight,
     IconChevronsLeft,
     IconChevronsRight
-}                      from "@tabler/icons-react";
+}                            from "@tabler/icons-react";
 import {
     type PropsWithChildren,
     useState
-}                      from "react";
+}                            from "react";
 import {
     type IDay,
     type IWeeks
-}                      from "../api/weeks";
-import {
-    CalendarEventSchema,
-    type ICalendarEventSchema
-}                      from "../schema/CalendarEventSchema";
-import {WeeksOfStore}  from "../store/WeeksOfStore";
-import {CalendarShell} from "./CalendarShell";
-import classes         from "./Weeks.module.css";
+}                            from "../api/weeks";
+import {CalendarEventSchema} from "../schema/CalendarEventSchema";
+import {WeeksOfStore}        from "../store/WeeksOfStore";
+import {CalendarShell}       from "./CalendarShell";
+import classes               from "./Weeks.module.css";
 
-export type IWeeksProps<
-    TEventSchema extends CalendarEventSchema = CalendarEventSchema,
-> = PropsWithChildren<Omit<CalendarShell<TEventSchema>, "children" | "onClick" | "onChange"> & {
-    onClick?(props: IWeeksProps.OnClickProps): void;
-    onChange?(props: IWeeksProps.OnChangeProps): void;
+export namespace Weeks {
+    export type Props<
+        TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+    > = PropsWithChildren<Omit<CalendarShell.Props<TEventSchema>, "children" | "onClick" | "onChange"> & {
+        onClick?(props: OnClickProps): void;
+        onChange?(props: OnChangeProps): void;
 
-    weekCountSize?: number;
-    defaultWithWeekNo?: boolean;
-    columnSize?: number;
-    highlightToday?: boolean;
-}>
+        weekCountSize?: number;
+        defaultWithWeekNo?: boolean;
+        columnSize?: number;
+        highlightToday?: boolean;
+    }>
 
-export namespace IWeeksProps {
     export type Classes = typeof classes;
 
     export interface OnClickProps {
@@ -58,7 +55,9 @@ export namespace IWeeksProps {
     }
 }
 
-export const Weeks = <TEventSchema extends ICalendarEventSchema = ICalendarEventSchema>(
+export const Weeks = <
+    TEventSchema extends CalendarEventSchema = CalendarEventSchema,
+>(
     {
         onClick,
         onChange: $onChange = () => null,
@@ -68,7 +67,8 @@ export const Weeks = <TEventSchema extends ICalendarEventSchema = ICalendarEvent
         columnSize = 3,
         children,
         ...props
-    }: IWeeksProps<TEventSchema>) => {
+    }: Weeks.Props<TEventSchema>
+) => {
     const {
         nextMonth,
         prevMonth,
@@ -83,7 +83,7 @@ export const Weeks = <TEventSchema extends ICalendarEventSchema = ICalendarEvent
                }
     } = WeeksOfStore.use();
     const [withWeeks, setWithWeeks] = useState(defaultWithWeekNo);
-    const onChange: IWeeksProps<TEventSchema>["onChange"] = props => {
+    const onChange: Weeks.Props<TEventSchema>["onChange"] = props => {
         $onChange?.(props);
     };
 

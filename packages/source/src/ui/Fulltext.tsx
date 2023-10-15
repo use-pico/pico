@@ -1,17 +1,17 @@
 "use client";
 
+import {useDebouncedState}    from "@pico/hook";
 import {useTranslation}       from "@pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema
 }                             from "@pico/query";
 import {type WithSourceQuery} from "@pico/rpc";
-import {type ResponseSchema}  from "@pico/types";
+import {type ResponseSchema}  from "@pico/schema";
 import {
     ActionIcon,
     Loader,
     TextInput,
-    useDebouncedState,
     WithIcon
 }                             from "@pico/ui";
 import {

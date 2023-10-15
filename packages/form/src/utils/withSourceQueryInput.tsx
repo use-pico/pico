@@ -1,14 +1,14 @@
 import {
     type FilterSchema,
-    type OrderBySchema,
-    type WithIdentitySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {type ISelectionStore} from "@pico/selection";
-import {type z}               from "@pico/utils";
-import {type ComponentProps}  from "react";
-import {QueryInput}           from "../input/QueryInput";
-import type {ValuesSchema}    from "../schema/ValuesSchema";
+    type OrderBySchema
+}                                from "@pico/query";
+import {type WithSourceQuery}    from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
+import {type ISelectionStore}    from "@pico/selection";
+import {type z}                  from "@pico/utils";
+import {type ComponentProps}     from "react";
+import {QueryInput}              from "../input/QueryInput";
+import type {ValuesSchema}       from "../schema/ValuesSchema";
 
 export namespace withSourceQueryInput {
     export interface Props<

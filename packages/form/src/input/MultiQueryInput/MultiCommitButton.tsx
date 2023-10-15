@@ -1,5 +1,5 @@
 import {Translation}               from "@pico/i18n";
-import {WithIdentitySchema}        from "@pico/query";
+import {type WithIdentitySchema}   from "@pico/schema";
 import {type IMultiSelectionStore} from "@pico/selection";
 import {
     Button,
@@ -49,10 +49,11 @@ export const MultiCommitButton = <
     const {
         selection,
         commit
-    } = MultiSelectionStore.use(({
-                                     selection,
-                                     commit
-                                 }) => ({
+    } = MultiSelectionStore.use((
+        {
+            selection,
+            commit
+        }) => ({
         selection,
         commit
     }));

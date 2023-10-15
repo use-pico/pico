@@ -1,11 +1,11 @@
-import {Translation}          from "@pico/i18n";
+import {Translation}             from "@pico/i18n";
 import {
     type FilterSchema,
-    type OrderBySchema,
-    type WithIdentitySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {type ISelectionStore} from "@pico/selection";
+    type OrderBySchema
+}                                from "@pico/query";
+import {type WithSourceQuery}    from "@pico/rpc";
+import {type WithIdentitySchema} from "@pico/schema";
+import {type ISelectionStore}    from "@pico/selection";
 import {
     Alert,
     Divider,
@@ -13,16 +13,16 @@ import {
     Modal,
     ModalStoreProvider,
     Text
-}                             from "@pico/ui";
-import {type z}               from "@pico/utils";
-import {type FC}              from "react";
-import {useController}        from "react-hook-form";
-import type {ValuesSchema}    from "../schema/ValuesSchema";
-import {InputEx}              from "./InputEx";
-import {CancelButton}         from "./QueryInput/CancelButton";
-import {ClearButton}          from "./QueryInput/ClearButton";
-import {CommitButton}         from "./QueryInput/CommitButton";
-import {WithItem}             from "./QueryInput/WithItem";
+}                                from "@pico/ui";
+import {type z}                  from "@pico/utils";
+import {type FC}                 from "react";
+import {useController}           from "react-hook-form";
+import type {ValuesSchema}       from "../schema/ValuesSchema";
+import {InputEx}                 from "./InputEx";
+import {CancelButton}            from "./QueryInput/CancelButton";
+import {ClearButton}             from "./QueryInput/ClearButton";
+import {CommitButton}            from "./QueryInput/CommitButton";
+import {WithItem}                from "./QueryInput/WithItem";
 
 export namespace QueryInput {
     export interface Props<
@@ -114,7 +114,9 @@ export const QueryInput = <
         <ModalStoreProvider>
             <Modal
                 modalId={"query-input"}
-                size={"75%"}
+                modalProps={{
+                    size: "75%",
+                }}
                 title={<>
                     <Text
                         fw={"500"}

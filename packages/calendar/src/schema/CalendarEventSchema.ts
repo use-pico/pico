@@ -1,4 +1,4 @@
-import {WithIdentitySchema} from "@pico/query";
+import {WithIdentitySchema} from "@pico/schema";
 import {z}                  from "@pico/utils";
 
 export const CalendarEventSchema = WithIdentitySchema.extend({

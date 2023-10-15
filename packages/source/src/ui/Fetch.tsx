@@ -1,23 +1,21 @@
 "use client";
 
+import {useParam}                from "@pico/navigation";
 import {
     ErrorResponseSchema,
     FilterSchema,
     QueryResult,
-    WithIdentitySchema,
     WithQuery
-}                             from "@pico/query";
-import {WithEntity}           from "@pico/types";
-import {
-    Loader,
-    useParam
-}                             from "@pico/ui";
-import {type z}               from "@pico/utils";
+}                                from "@pico/query";
+import {type WithIdentitySchema} from "@pico/schema";
+import {WithEntity}              from "@pico/types";
+import {Loader}                  from "@pico/ui";
+import {type z}                  from "@pico/utils";
 import {
     type FC,
     type ReactNode
-}                             from "react";
-import {type IWithFetchQuery} from "../api/IWithFetchQuery";
+}                                from "react";
+import {type IWithFetchQuery}    from "../api/IWithFetchQuery";
 
 export namespace Fetch {
     export interface Props<

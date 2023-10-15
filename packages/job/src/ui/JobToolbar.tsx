@@ -1,5 +1,5 @@
 import {Translation}        from "@pico/i18n";
-import {type RequestSchema} from "@pico/types";
+import {type RequestSchema} from "@pico/schema";
 import {
     ActionIcon,
     CheckIcon,
