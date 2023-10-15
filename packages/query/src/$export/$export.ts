@@ -13,7 +13,6 @@ export * from "./QueryClientProvider";
 export * from "./QueryResult";
 export * from "./QuerySchema";
 export * from "./QuerySchema$";
-export * from "./WithParamFilter";
 export * from "./createQueryClient";
 export * from "./createQueryStore";
 export * from "./isError";

@@ -10,7 +10,8 @@ import {
     LocaleLink,
     useLocaleRouter
 }                                 from "@pico/i18n";
-import {useClearCache}            from "@pico/rpc";
+import {useClearCache}            from "@pico/query";
+import {type IWithLogoutMutation} from "@pico/ui-extra";
 import {IconLogout}               from "@tabler/icons-react";
 import Image                      from "next/image";
 import {
@@ -20,7 +21,6 @@ import {
     type ReactNode,
     useEffect
 }                                 from "react";
-import {type IWithLogoutMutation} from "../api/IWithLogoutMutation";
 import {BlockStore}               from "../store/BlockStore";
 import {Grid}                     from "../ui/Grid";
 import {Group}                    from "../ui/Group";

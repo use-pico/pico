@@ -10,6 +10,13 @@ import {Notifications}          from "@mantine/notifications";
 import {DateTimeProvider}       from "@pico/i18n";
 import {QueryClientProvider}    from "@pico/query";
 import {RpcProvider}            from "@pico/rpc";
+import {
+    ActiveProvider,
+    BlockProvider,
+    DrawerStoreProvider,
+    ModalStoreProvider,
+    RouterTransition
+}                               from "@pico/ui";
 import axios                    from "axios";
 import {NextIntlClientProvider} from "next-intl";
 import {
@@ -17,11 +24,6 @@ import {
     type PropsWithChildren,
     useEffect
 }                               from "react";
-import {DrawerStoreProvider}    from "../drawer/DrawerStoreProvider";
-import {ModalStoreProvider}     from "../modal/ModalStoreProvider";
-import {RouterTransition}       from "../router/RouterTransition";
-import {ActiveProvider}         from "../store/ActiveProvider";
-import {BlockProvider}          from "../store/BlockProvider";
 
 export namespace Providers {
     export type Props = PropsWithChildren<{
@@ -80,7 +82,6 @@ export const Providers: FC<Providers.Props> = (
                         >
                             <ActiveProvider>
                                 <BlockProvider>
-
                                     <DrawerStoreProvider>
                                         <ModalStoreProvider>
                                             {children}
