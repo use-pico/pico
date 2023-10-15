@@ -2,11 +2,11 @@ import {
     type NotificationData,
     notifications
 }                       from "@mantine/notifications";
+import {IconCheck}      from "@tabler/icons-react";
 import {
     type IWithTranslation,
     Translation
-}                       from "@pico/i18n";
-import {IconCheck}      from "@tabler/icons-react";
+}                       from "@use-pico/i18n";
 import {type ReactNode} from "react";
 
 export namespace withNotification {

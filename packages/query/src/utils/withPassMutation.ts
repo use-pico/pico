@@ -1,4 +1,4 @@
-import {type RequestSchema} from "@pico/schema";
+import {type RequestSchema} from "@use-pico/schema";
 import {withMutation}       from "./withMutation";
 
 export namespace withPassMutation {

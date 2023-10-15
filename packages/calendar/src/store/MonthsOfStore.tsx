@@ -1,8 +1,8 @@
-import {DateTime}     from "@pico/i18n";
+import {DateTime}     from "@use-pico/i18n";
 import {
     createStore,
     type IStoreProps
-}                     from "@pico/store";
+}                     from "@use-pico/store";
 import {type IMonths} from "../api/months";
 import {monthsOf}     from "../calendar/monthsOf";
 

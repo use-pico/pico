@@ -1,6 +1,6 @@
-import {DateTimeInline}    from "@pico/i18n";
-import {Table}             from "@pico/table";
-import {toHumanBytes}      from "@pico/utils";
+import {DateTimeInline}    from "@use-pico/i18n";
+import {Table}             from "@use-pico/table";
+import {toHumanBytes}      from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren

@@ -32,7 +32,7 @@
 		"strict": true,
 		"strictPropertyInitialization": true,
 		"types": [
-			"@pico/tsconfig",
+			"@use-pico/tsconfig",
 			"@total-typescript/ts-reset",
 			"node"
 		],

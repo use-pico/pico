@@ -5,7 +5,7 @@ import {
 import {
     type IWithTranslation,
     Translation
-}                        from "@pico/i18n";
+}                        from "@use-pico/i18n";
 import {type FC}         from "react";
 import {type IMenuGroup} from "../api/IMenuGroup";
 import {WithIcon}        from "../ui/WithIcon";

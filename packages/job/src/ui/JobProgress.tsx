@@ -1,9 +1,9 @@
-import {Translation} from "@pico/i18n";
+import {Translation} from "@use-pico/i18n";
 import {
     Progress,
     Tooltip
-}                    from "@pico/ui";
-import {toPercent}   from "@pico/utils";
+}                    from "@use-pico/ui";
+import {toPercent}   from "@use-pico/utils";
 import {
     type ComponentProps,
     type FC

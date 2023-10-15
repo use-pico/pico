@@ -1,12 +1,12 @@
 import {
     type WithMutation,
     type WithQuery
-}                            from "@pico/query";
+}                            from "@use-pico/query";
 import {
     type RequestSchema,
     type WithIdentitySchema
-}                            from "@pico/schema";
-import {type z}              from "@pico/utils";
+}                            from "@use-pico/schema";
+import {type z}              from "@use-pico/utils";
 import {type JobQuerySchema} from "../schema/JobQuerySchema";
 import {type JobSchema}      from "../schema/JobSchema";
 

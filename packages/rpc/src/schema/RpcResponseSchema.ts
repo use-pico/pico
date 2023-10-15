@@ -1,5 +1,5 @@
-import {ErrorResponseSchema}        from "@pico/query";
-import {z}                          from "@pico/utils";
+import {ErrorResponseSchema}        from "@use-pico/query";
+import {z}                          from "@use-pico/utils";
 import {type withRpcResponseSchema} from "../utils/withRpcResponseSchema";
 import {DataResponseSchema}         from "./DataResponseSchema";
 

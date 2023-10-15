@@ -5,7 +5,7 @@ import {
     linkTo,
     useParams,
     useRouter
-} from "@pico/navigation";
+} from "@use-pico/navigation";
 
 /**
  * Router with locale; expects "locale" parameter in Next.js `useParams` hook.

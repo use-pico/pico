@@ -1,8 +1,8 @@
 import {
     Box,
     Grid
-}                            from "@pico/ui";
-import {classNames}          from "@pico/utils";
+}                            from "@use-pico/ui";
+import {classNames}          from "@use-pico/utils";
 import {
     type FC,
     PropsWithChildren

@@ -1,5 +1,5 @@
-import {type QuerySchema} from "@pico/query";
-import {z}                from "@pico/utils";
+import {type QuerySchema} from "@use-pico/query";
+import {z}                from "@use-pico/utils";
 import {type ShapeSchema} from "./ShapeSchema";
 
 export type CollectionMutationSchema<

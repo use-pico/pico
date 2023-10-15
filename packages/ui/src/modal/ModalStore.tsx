@@ -3,7 +3,7 @@
 import {
     createStore,
     type IStoreProps
-} from "@pico/store";
+} from "@use-pico/store";
 
 export namespace ModalStore {
     export type StoreProps = IStoreProps<{

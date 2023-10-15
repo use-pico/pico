@@ -1,4 +1,4 @@
-import {z}                from "@pico/utils";
+import {z}                from "@use-pico/utils";
 import {RpcRequestSchema} from "../schema/RpcRequestSchema";
 
 export const withRpcRequestSchema = <

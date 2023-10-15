@@ -1,4 +1,4 @@
-import {Translation} from "@pico/i18n";
+import {Translation} from "@use-pico/i18n";
 import {type FC}     from "react";
 import {CloseIcon}   from "../icon/CloseIcon";
 import {Button}      from "./Button";

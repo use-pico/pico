@@ -1,8 +1,8 @@
 import {
     type IHrefProps,
     linkTo
-}                        from "@pico/navigation";
-import {isString}        from "@pico/utils";
+}                        from "@use-pico/navigation";
+import {isString}        from "@use-pico/utils";
 import CoolLink          from "next/link";
 import {
     type ComponentProps,

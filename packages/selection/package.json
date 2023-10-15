@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/selection",
+	"name": "@use-pico/selection",
 	"description": "Common selection stuff.",
 	"license": "MIT",
 	"repository": {
@@ -28,14 +28,14 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@pico/query": "^1.0.0",
-		"@pico/store": "^1.0.0",
-		"@pico/utils": "^1.0.0"
+		"@use-pico/query": "^1.0.0",
+		"@use-pico/store": "^1.0.0",
+		"@use-pico/utils": "^1.0.0"
 	},
 	"devDependencies": {
-		"@pico/esbuild": "^1.0.0",
-		"@pico/eslint-config-eslint": "^1.0.0",
-		"@pico/tsconfig": "^1.0.0",
+		"@use-pico/esbuild": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.4.9",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",

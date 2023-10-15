@@ -2,8 +2,8 @@ import {
     DateInline,
     DateTime,
     type DateTimeFormatOptions
-}                          from "@pico/i18n";
-import {NativeBreadcrumbs} from "@pico/ui";
+}                          from "@use-pico/i18n";
+import {NativeBreadcrumbs} from "@use-pico/ui";
 import {type FC}           from "react";
 
 export namespace DateRageInline {

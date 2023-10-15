@@ -1,5 +1,5 @@
-import {type IfExtends}   from "@pico/types";
-import {isObject}         from "@pico/utils";
+import {type IfExtends}   from "@use-pico/types";
+import {isObject}         from "@use-pico/utils";
 import {
     existsSync,
     readFileSync

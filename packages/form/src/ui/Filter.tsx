@@ -2,13 +2,13 @@ import {ButtonGroup}          from "@mantine/core";
 import {
     Translation,
     WithTranslationProvider
-}                             from "@pico/i18n";
+}                             from "@use-pico/i18n";
 import {
     type FilterSchema,
     type WithMutation,
     withPassMutation
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     ActionIcon,
     Button,
@@ -22,8 +22,8 @@ import {
     FilterOffIcon,
     FilterOnIcon,
     Group
-}                             from "@pico/ui";
-import {mapEmptyToUndefined}  from "@pico/utils";
+}                             from "@use-pico/ui";
+import {mapEmptyToUndefined}  from "@use-pico/utils";
 import {Form}                 from "./Form";
 
 export namespace Filter {

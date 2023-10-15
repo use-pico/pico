@@ -1,16 +1,16 @@
 import {
     ErrorResponseSchema,
     isError,
-}                                  from "@pico/query";
+}                                  from "@use-pico/query";
 import {
     type RequestSchema,
     type ResponseSchema
-}                                  from "@pico/schema";
+}                                  from "@use-pico/schema";
 import {
     generateId,
     withTimeout,
     type z
-}                                  from "@pico/utils";
+}                                  from "@use-pico/utils";
 import axios, {type AxiosResponse} from "axios";
 import {RpcBulkRequestSchema}      from "../schema/RpcBulkRequestSchema";
 import {RpcBulkResponseSchema}     from "../schema/RpcBulkResponseSchema";

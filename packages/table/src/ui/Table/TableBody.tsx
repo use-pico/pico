@@ -1,20 +1,20 @@
 import {
     type FilterSchema,
     type OrderBySchema
-}                               from "@pico/query";
-import {type WithSourceQuery}   from "@pico/rpc";
+}                               from "@use-pico/query";
+import {type WithSourceQuery}   from "@use-pico/rpc";
 import {
     type IMultiSelectionStore,
     type ISelectionStore
-}                               from "@pico/selection";
-import {FilterAction}           from "@pico/source";
-import {Table}                  from "@pico/ui";
+}                               from "@use-pico/selection";
+import {FilterAction}           from "@use-pico/source";
+import {Table}                  from "@use-pico/ui";
 import {
     classNames,
     generateId,
     isString,
     type z
-}                               from "@pico/utils";
+}                               from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren

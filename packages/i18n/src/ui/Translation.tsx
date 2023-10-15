@@ -1,6 +1,6 @@
 "use client";
 
-import {isString}              from "@pico/utils";
+import {isString}              from "@use-pico/utils";
 import {
     type FC,
     type ReactNode

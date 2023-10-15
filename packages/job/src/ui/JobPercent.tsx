@@ -1,8 +1,8 @@
 import {
     Group,
     Text
-}                       from "@pico/ui";
-import {toHumanNumber}  from "@pico/utils";
+}                       from "@use-pico/ui";
+import {toHumanNumber}  from "@use-pico/utils";
 import {type FC}        from "react";
 import {IJobStatus}     from "../api/IJobStatus";
 import {type JobSchema} from "../schema/JobSchema";

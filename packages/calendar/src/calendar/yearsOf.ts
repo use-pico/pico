@@ -1,7 +1,7 @@
 import {
     DateTime,
     Interval
-}                    from "@pico/i18n";
+}                    from "@use-pico/i18n";
 import {type IYears} from "../api/years";
 
 export interface IYearsOfProps {

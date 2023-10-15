@@ -1,9 +1,9 @@
 "use client";
 
 import {Group}                 from "@mantine/core";
-import {type IWithTranslation} from "@pico/i18n";
-import {isLink}                from "@pico/navigation";
-import {cx}                    from "@pico/utils";
+import {type IWithTranslation} from "@use-pico/i18n";
+import {isLink}                from "@use-pico/navigation";
+import {cx}                    from "@use-pico/utils";
 import {usePathname}           from "next/navigation";
 import {type FC}               from "react";
 import {type IMenuItems}       from "../api/IMenuItems";

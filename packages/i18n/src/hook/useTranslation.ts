@@ -1,6 +1,6 @@
 "use client";
 
-import {isString}              from "@pico/utils";
+import {isString}              from "@use-pico/utils";
 import {useTranslations}       from "next-intl";
 import {WithTranslationStore}  from "../store/WithTranslationStore";
 import {isTranslation}         from "../utils/isTranslation";

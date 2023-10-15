@@ -1,5 +1,5 @@
-import {CursorSchema}      from "@pico/query";
-import {z}                 from "@pico/utils";
+import {CursorSchema}      from "@use-pico/query";
+import {z}                 from "@use-pico/utils";
 import {FileFilterSchema}  from "./FileFilterSchema";
 import {FileOrderBySchema} from "./FileOrderBySchema";
 

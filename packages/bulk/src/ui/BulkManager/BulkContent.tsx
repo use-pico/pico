@@ -1,19 +1,19 @@
-import {WithTranslationProvider} from "@pico/i18n";
+import {WithTranslationProvider} from "@use-pico/i18n";
 import {
     WithMutation,
     WithQuery
-}                                from "@pico/query";
+}                                from "@use-pico/query";
 import {
     resultOf,
     WithSourceQuery
-}                                from "@pico/rpc";
-import {type WithIdentitySchema} from "@pico/schema";
-import {List}                    from "@pico/source";
+}                                from "@use-pico/rpc";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {List}                    from "@use-pico/source";
 import {
     Box,
     Status,
     Tabs
-}                                from "@pico/ui";
+}                                from "@use-pico/ui";
 import {BulkItemStatus}          from "../../api/BulkItemStatus";
 import {BulkItemFilterSchema}    from "../../schema/BulkItemFilterSchema";
 import {BulkItemMutationSchema}  from "../../schema/BulkItemMutationSchema";

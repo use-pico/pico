@@ -1,5 +1,5 @@
-import {withMutationSchema}  from "@pico/source";
-import {type z}              from "@pico/utils";
+import {withMutationSchema}  from "@use-pico/source";
+import {type z}              from "@use-pico/utils";
 import {BulkItemQuerySchema} from "./BulkItemQuerySchema";
 import {BulkItemShapeSchema} from "./BulkItemShapeSchema";
 

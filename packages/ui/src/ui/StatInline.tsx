@@ -1,5 +1,5 @@
-import {Translation}   from "@pico/i18n";
-import {toHumanNumber} from "@pico/utils";
+import {Translation}   from "@use-pico/i18n";
+import {toHumanNumber} from "@use-pico/utils";
 import {
     type ComponentProps,
     type FC,

@@ -1,11 +1,11 @@
 "use client";
 
-import {useParam$}         from "@pico/navigation";
-import {type FilterSchema} from "@pico/query";
+import {useParam$}         from "@use-pico/navigation";
+import {type FilterSchema} from "@use-pico/query";
 import {
     safeJsonOf,
     type z
-}                          from "@pico/utils";
+}                          from "@use-pico/utils";
 import {type ReactNode}    from "react";
 
 export namespace WithParamFilter {

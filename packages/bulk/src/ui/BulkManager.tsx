@@ -1,20 +1,20 @@
-import {Form}                    from "@pico/form";
+import {Form}                    from "@use-pico/form";
 import {
     type IWithTranslation,
     WithTranslationProvider
-}                                from "@pico/i18n";
+}                                from "@use-pico/i18n";
 import {
     type WithMutation,
     type WithQuery
-}                                from "@pico/query";
-import {type WithSourceQuery}    from "@pico/rpc";
-import {type WithIdentitySchema} from "@pico/schema";
-import {List}                    from "@pico/source";
-import {WithItem}                from "@pico/types";
+}                                from "@use-pico/query";
+import {type WithSourceQuery}    from "@use-pico/rpc";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {List}                    from "@use-pico/source";
+import {WithItem}                from "@use-pico/types";
 import {
     BlockProvider,
     Tabs
-}                                from "@pico/ui";
+}                                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type IUseBulkJobManager} from "../api/IUseBulkJobManager";
 import {BulkItemFilterSchema}    from "../schema/BulkItemFilterSchema";

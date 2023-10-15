@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const CursorSchema = z.object({
     page: z.number().gte(0, "invalid-cursor-page"),

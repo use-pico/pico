@@ -1,4 +1,4 @@
-import {withSourceFile}  from "@pico/generator";
+import {withSourceFile}  from "@use-pico/generator";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 
@@ -42,7 +42,7 @@ export const withTable: IGenerator<IWithTableParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/table-client":        [
+                    "@use-pico/table-client": [
                         "SourceTable",
                         "type ISourceTableInternalProps",
                     ],

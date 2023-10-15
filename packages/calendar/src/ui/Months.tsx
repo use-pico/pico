@@ -1,18 +1,18 @@
 import {
+    IconChevronLeft,
+    IconChevronRight
+}                                 from "@tabler/icons-react";
+import {
     DateInline,
     DateTime
-}                                 from "@pico/i18n";
+}                                 from "@use-pico/i18n";
 import {
     Button,
     Grid,
     Group,
     Text
-}                                 from "@pico/ui";
-import {classNames}               from "@pico/utils";
-import {
-    IconChevronLeft,
-    IconChevronRight
-}                                 from "@tabler/icons-react";
+}                                 from "@use-pico/ui";
+import {classNames}               from "@use-pico/utils";
 import {
     type PropsWithChildren,
     useCallback

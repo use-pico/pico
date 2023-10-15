@@ -1,7 +1,7 @@
 import {
     cleanOf,
     type z
-}                          from "@pico/utils";
+}                          from "@use-pico/utils";
 import {type ValuesSchema} from "../schema/ValuesSchema";
 
 export const defaultsOf = <

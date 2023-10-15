@@ -1,4 +1,4 @@
-import {z}             from "@pico/utils";
+import {z}             from "@use-pico/utils";
 import {CursorSchema}  from "./CursorSchema";
 import {FilterSchema}  from "./FilterSchema";
 import {OrderBySchema} from "./OrderBySchema";

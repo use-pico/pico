@@ -1,11 +1,11 @@
-import {Translation}               from "@pico/i18n";
+import {Translation}               from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema
-}                                  from "@pico/query";
-import {type WithSourceQuery}      from "@pico/rpc";
-import {type WithIdentitySchema}   from "@pico/schema";
-import {type IMultiSelectionStore} from "@pico/selection";
+}                                  from "@use-pico/query";
+import {type WithSourceQuery}      from "@use-pico/rpc";
+import {type WithIdentitySchema}   from "@use-pico/schema";
+import {type IMultiSelectionStore} from "@use-pico/selection";
 import {
     Alert,
     Divider,
@@ -13,8 +13,8 @@ import {
     Modal,
     ModalStoreProvider,
     Text
-}                                  from "@pico/ui";
-import {type z}                    from "@pico/utils";
+}                                  from "@use-pico/ui";
+import {type z}                    from "@use-pico/utils";
 import {type FC}                   from "react";
 import {useController}             from "react-hook-form";
 import type {ValuesSchema}         from "../schema/ValuesSchema";

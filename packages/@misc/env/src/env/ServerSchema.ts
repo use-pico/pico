@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const ServerSchema = z.object({
     DATABASE_URL:    z.string().url(),

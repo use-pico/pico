@@ -1,4 +1,4 @@
-import {type MergeIf}         from "@pico/types";
+import {type MergeIf}         from "@use-pico/types";
 import {
     type Consumer,
     type Context,

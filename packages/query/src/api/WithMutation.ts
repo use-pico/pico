@@ -1,13 +1,13 @@
 import {
-    type RequestSchema,
-    type ResponseSchema
-}                            from "@pico/schema";
-import {type z}              from "@pico/utils";
-import {
     type MutationKey,
     type UseMutationOptions,
     type UseMutationResult
 }                            from "@tanstack/react-query";
+import {
+    type RequestSchema,
+    type ResponseSchema
+}                            from "@use-pico/schema";
+import {type z}              from "@use-pico/utils";
 import {ErrorResponseSchema} from "../schema/ErrorResponseSchema";
 import {type IInvalidator}   from "./IInvalidator";
 

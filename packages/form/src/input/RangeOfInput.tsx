@@ -3,11 +3,11 @@ import {
     rangeOf,
     RangeOfList,
     Translation
-}                          from "@pico/i18n";
+}                          from "@use-pico/i18n";
 import {
     SegmentedControl,
     Stack
-}                          from "@pico/ui";
+}                          from "@use-pico/ui";
 import {useController}     from "react-hook-form";
 import type {ValuesSchema} from "../schema/ValuesSchema";
 import type {Form}         from "../ui/Form";

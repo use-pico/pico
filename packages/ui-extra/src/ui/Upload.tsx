@@ -1,7 +1,7 @@
 "use client";
 
 import {Progress}  from "@mantine/core";
-import {useUpload} from "@pico/file";
+import {useUpload} from "@use-pico/file";
 import {type FC}   from "react";
 
 export namespace Upload {

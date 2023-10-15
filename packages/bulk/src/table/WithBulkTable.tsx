@@ -1,6 +1,6 @@
 "use client";
 
-import {type WithSourceQuery}   from "@pico/rpc";
+import {type WithSourceQuery}   from "@use-pico/rpc";
 import {type FC}                from "react";
 import {type BulkFilterSchema}  from "../schema/BulkFilterSchema";
 import {type BulkOrderBySchema} from "../schema/BulkOrderBySchema";

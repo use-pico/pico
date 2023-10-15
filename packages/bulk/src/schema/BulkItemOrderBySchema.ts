@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const BulkItemOrderBySchema = z.record(z.enum(["status"]), z.enum(["asc", "desc"]));
 export type BulkItemOrderBySchema = typeof BulkItemOrderBySchema;

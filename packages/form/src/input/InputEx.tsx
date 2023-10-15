@@ -1,4 +1,8 @@
-import {Translation}       from "@pico/i18n";
+import {
+    IconClick,
+    IconX
+}                          from "@tabler/icons-react";
+import {Translation}       from "@use-pico/i18n";
 import {
     ActionIcon,
     Box,
@@ -7,12 +11,8 @@ import {
     Loader,
     Text,
     WithIcon
-}                          from "@pico/ui";
-import {classNames}        from "@pico/utils";
-import {
-    IconClick,
-    IconX
-}                          from "@tabler/icons-react";
+}                          from "@use-pico/ui";
+import {classNames}        from "@use-pico/utils";
 import {
     type ComponentProps,
     PropsWithChildren,

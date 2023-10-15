@@ -1,6 +1,6 @@
 "use client";
 
-import {Pack}              from "@pico/utils";
+import {Pack}              from "@use-pico/utils";
 import {
     useEffect,
     useMemo

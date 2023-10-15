@@ -1,5 +1,5 @@
-import {type IStoreProps}   from "@pico/store";
-import {type z}             from "@pico/utils";
+import {type IStoreProps}   from "@use-pico/store";
+import {type z}             from "@use-pico/utils";
 import {type CursorSchema}  from "../schema/CursorSchema";
 import {type FilterSchema}  from "../schema/FilterSchema";
 import {type OrderBySchema} from "../schema/OrderBySchema";

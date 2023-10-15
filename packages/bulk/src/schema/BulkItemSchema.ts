@@ -1,4 +1,4 @@
-import {z}          from "@pico/utils";
+import {z}          from "@use-pico/utils";
 import {BulkSchema} from "./BulkSchema";
 
 export const BulkItemSchema = z.object({

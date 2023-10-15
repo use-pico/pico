@@ -1,4 +1,4 @@
-import {withSourceFile}  from "@pico/generator";
+import {withSourceFile}  from "@use-pico/generator";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 
@@ -58,7 +58,7 @@ export const withForm: IGenerator<IWithFormParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client": [
+                    "@use-pico/form-client": [
                         "createFormContext",
                     ],
                     [packages.schema]:   [
@@ -85,7 +85,7 @@ createFormContext<I${name}FormSchemaType>({
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client": [
+                    "@use-pico/form-client": [
                         "createMantineFormContext",
                     ],
                     [packages.schema]:   [
@@ -108,7 +108,7 @@ createFormContext<I${name}FormSchemaType>({
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client":                    [
+                    "@use-pico/form-client": [
                         "type IWithInputProps",
                         "WithInput",
                     ],
@@ -146,7 +146,7 @@ props => {
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client":                      type === "common" ? [
+                    "@use-pico/form-client": type === "common" ? [
                         "BaseForm",
                         "type IBaseFormProps",
                     ] : [
@@ -216,10 +216,10 @@ props => {
             withSourceFile()
                 .withImports({
                     imports: {
-                        "@pico/form":                                 [
+                        "@use-pico/form":         [
                             "type ITrpcFormProps",
                         ],
-                        "@pico/utils-client":                         [
+                        "@use-pico/utils-client": [
                             "BlockStore",
                         ],
                         [packages.schema]:                            [

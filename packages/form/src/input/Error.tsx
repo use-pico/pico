@@ -1,4 +1,4 @@
-import {Text} from "@pico/ui";
+import {Text} from "@use-pico/ui";
 import {
     type ComponentProps,
     type FC

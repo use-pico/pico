@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/esbuild",
+	"name": "@use-pico/esbuild",
 	"description": "Esbuild helper stuff.",
 	"license": "MIT",
 	"repository": {
@@ -33,8 +33,8 @@
 		"glob": "^10.3.3"
 	},
 	"devDependencies": {
-		"@pico/eslint-config-eslint": "^1.0.0",
-		"@pico/tsconfig": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/glob": "^8.1.0",
 		"@types/node": "^20.4.2",
 		"concurrently": "^8.2.0",

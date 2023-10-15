@@ -23,6 +23,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/ui/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/utils/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/utils/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/@misc/env/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/@misc/env/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/@misc/esbuild/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/@misc/esbuild/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/bulk/.turbo" />

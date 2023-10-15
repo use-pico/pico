@@ -1,5 +1,5 @@
-import {type ResponseSchema}      from "@pico/schema";
-import {type z}                   from "@pico/utils";
+import {type ResponseSchema}      from "@use-pico/schema";
+import {type z}                   from "@use-pico/utils";
 import {type FC}                  from "react";
 import {type WithQuery}           from "../api/WithQuery";
 import {type ErrorResponseSchema} from "../schema/ErrorResponseSchema";

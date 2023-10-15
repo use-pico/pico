@@ -1,8 +1,8 @@
 import {
     type IWithLinkTo,
     linkTo
-}                        from "@pico/navigation";
-import {isString}        from "@pico/utils";
+}                        from "@use-pico/navigation";
+import {isString}        from "@use-pico/utils";
 import {useLocaleRouter} from "./useLocaleRouter";
 
 export const useLocaleLinkTo = (): IWithLinkTo => {

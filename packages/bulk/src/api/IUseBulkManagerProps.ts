@@ -1,4 +1,4 @@
-import {type useJobManager}      from "@pico/job";
-import {type WithIdentitySchema} from "@pico/schema";
+import {type useJobManager}      from "@use-pico/job";
+import {type WithIdentitySchema} from "@use-pico/schema";
 
 export type IUseBulkManagerProps = useJobManager.Props<WithIdentitySchema>;

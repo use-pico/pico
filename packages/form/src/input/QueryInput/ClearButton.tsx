@@ -1,10 +1,10 @@
-import {Translation}              from "@pico/i18n";
-import {type IBaseSelectionStore} from "@pico/selection";
+import {IconX}                    from "@tabler/icons-react";
+import {Translation}              from "@use-pico/i18n";
+import {type IBaseSelectionStore} from "@use-pico/selection";
 import {
     Button,
     ModalStore
-}                                 from "@pico/ui";
-import {IconX}                    from "@tabler/icons-react";
+}                                 from "@use-pico/ui";
 import {type FC}                  from "react";
 
 export namespace ClearButton {

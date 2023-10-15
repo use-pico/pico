@@ -2,8 +2,8 @@ import {
     type FilterSchema,
     type IQueryStore,
     type OrderBySchema
-}               from "@pico/query";
-import {type z} from "@pico/utils";
+}               from "@use-pico/query";
+import {type z} from "@use-pico/utils";
 import {
     type CSSProperties,
     type FC,

@@ -1,4 +1,4 @@
-import {useContext$}       from "@pico/context";
+import {useContext$}       from "@use-pico/context";
 import {useStore}          from "zustand";
 import {type IStoreSchema} from "../api/IStoreSchema";
 

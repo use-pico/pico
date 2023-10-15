@@ -1,16 +1,16 @@
 "use client";
 
-import {DateInline}          from "@pico/i18n";
+import {
+    IconCalendarSearch,
+    IconX
+}                            from "@tabler/icons-react";
+import {DateInline}          from "@use-pico/i18n";
 import {
     ActionIcon,
     Box,
     Button,
     Overlay
-}                            from "@pico/ui";
-import {
-    IconCalendarSearch,
-    IconX
-}                            from "@tabler/icons-react";
+}                            from "@use-pico/ui";
 import {useState}            from "react";
 import {CalendarEventSchema} from "../schema/CalendarEventSchema";
 import {MonthsOfStore}       from "../store/MonthsOfStore";

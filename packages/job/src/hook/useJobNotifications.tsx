@@ -1,8 +1,8 @@
-import {type WithSourceQuery} from "@pico/rpc";
+import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     Group,
     notifications
-}                             from "@pico/ui";
+}                             from "@use-pico/ui";
 import {useEffect}            from "react";
 import {IJobStatus}           from "../api/IJobStatus";
 import {JobFilterSchema}      from "../schema/JobFilterSchema";

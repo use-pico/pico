@@ -1,4 +1,4 @@
-import {isObject}        from "@pico/utils";
+import {isObject}        from "@use-pico/utils";
 import {type IHrefProps} from "../api/IHrefProps";
 
 export const isHrefProps = (input: any): input is IHrefProps => {

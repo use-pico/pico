@@ -1,12 +1,12 @@
-import {Translation}             from "@pico/i18n";
-import {type WithIdentitySchema} from "@pico/schema";
-import {type ISelectionStore}    from "@pico/selection";
+import {IconClick}               from "@tabler/icons-react";
+import {Translation}             from "@use-pico/i18n";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {type ISelectionStore}    from "@use-pico/selection";
 import {
     Button,
     ModalStore
-}                                from "@pico/ui";
-import {type z}                  from "@pico/utils";
-import {IconClick}               from "@tabler/icons-react";
+}                                from "@use-pico/ui";
+import {type z}                  from "@use-pico/utils";
 import {useController}           from "react-hook-form";
 import type {ValuesSchema}       from "../../schema/ValuesSchema";
 import {Form}                    from "../../ui/Form";

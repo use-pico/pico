@@ -4,7 +4,7 @@ import {Breadcrumbs as CoolBreadcrumbs} from "@mantine/core";
 import {
     type IWithTranslation,
     WithTranslationProvider
-}                                       from "@pico/i18n";
+}                                       from "@use-pico/i18n";
 import {type FC}                        from "react";
 import {type Breadcrumb}                from "../api/Breadcrumb";
 import {BreadcrumbLabel}                from "./BreadcrumbLabel";

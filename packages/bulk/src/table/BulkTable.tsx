@@ -3,14 +3,14 @@
 import {
     DateTimeInline,
     WithTranslationProvider
-}                          from "@pico/i18n";
-import {type IHrefProps}   from "@pico/navigation";
-import {Table}             from "@pico/table";
+}                          from "@use-pico/i18n";
+import {type IHrefProps}   from "@use-pico/navigation";
+import {Table}             from "@use-pico/table";
 import {
     BoolInline,
     ButtonLink,
     Group
-}                          from "@pico/ui";
+}                          from "@use-pico/ui";
 import {type FC}           from "react";
 import {BulkFilterSchema}  from "../schema/BulkFilterSchema";
 import {BulkOrderBySchema} from "../schema/BulkOrderBySchema";

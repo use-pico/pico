@@ -1,22 +1,22 @@
 import {zodResolver}            from "@hookform/resolvers/zod";
-import {useSuccessNotification} from "@pico/hook";
+import {useSuccessNotification} from "@use-pico/hook";
 import {
     type IWithTranslation,
     useTranslation,
     useWithLocaleRedirect,
     WithTranslationProvider
-}                               from "@pico/i18n";
-import {type IHrefProps}        from "@pico/navigation";
+}                               from "@use-pico/i18n";
+import {type IHrefProps}        from "@use-pico/navigation";
 import {
     ErrorResponseSchema,
     isError,
     type WithMutation,
     withMutation as coolWithMutation
-}                               from "@pico/query";
+}                               from "@use-pico/query";
 import {
     type RequestSchema,
     type ResponseSchema
-}                               from "@pico/schema";
+}                               from "@use-pico/schema";
 import {
     BlockStore,
     Box,
@@ -29,14 +29,14 @@ import {
     ScrollArea,
     SkeletonBlock,
     SkeletonInline
-}                               from "@pico/ui";
+}                               from "@use-pico/ui";
 import {
     cleanOf,
     isCallable,
     isString,
     mapEmptyToNull,
     type z
-}                               from "@pico/utils";
+}                               from "@use-pico/utils";
 import {
     ComponentProps,
     type FC,

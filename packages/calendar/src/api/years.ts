@@ -1,7 +1,7 @@
 import {
     type DateTime,
     type Interval
-} from "@pico/i18n";
+} from "@use-pico/i18n";
 
 export interface IYear {
     /**

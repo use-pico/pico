@@ -1,4 +1,4 @@
-import {isString}        from "@pico/utils";
+import {isString}        from "@use-pico/utils";
 import {
     DateTime,
     type DateTimeFormatOptions

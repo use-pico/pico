@@ -1,18 +1,18 @@
 "use client";
 
 import {
-    type IInvalidator,
-    type WithMutation as ICoolWithMutation
-}                          from "@pico/query";
-import {
-    type RequestSchema,
-    type ResponseSchema
-}                          from "@pico/schema";
-import {
     type MutationKey,
     useMutation,
     useQueryClient
 }                          from "@tanstack/react-query";
+import {
+    type IInvalidator,
+    type WithMutation as ICoolWithMutation
+}                          from "@use-pico/query";
+import {
+    type RequestSchema,
+    type ResponseSchema
+}                          from "@use-pico/schema";
 import {type WithMutation} from "../api/WithMutation";
 import {RpcStore}          from "../store/RpcStore";
 import {withBulk}          from "../utils/withBulk";

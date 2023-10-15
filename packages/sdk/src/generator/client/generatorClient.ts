@@ -1,4 +1,4 @@
-import {resolvePackageJson}      from "@pico/generator";
+import {resolvePackageJson}      from "@use-pico/generator";
 import {normalize}               from "node:path";
 import {type ISdkGeneratorProps} from "../../api/ISdkGeneratorProps";
 import {withSdk}                 from "../../withSdk";

@@ -1,4 +1,4 @@
-import {Translation} from "@pico/i18n";
+import {Translation} from "@use-pico/i18n";
 import {type FC}     from "react";
 import {Breadcrumb}  from "../api/Breadcrumb";
 import {Group}       from "../ui/Group";

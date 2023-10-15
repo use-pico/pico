@@ -1,5 +1,5 @@
-import {ErrorResponseSchema} from "@pico/query";
-import {z}                   from "@pico/utils";
+import {ErrorResponseSchema} from "@use-pico/query";
+import {z}                   from "@use-pico/utils";
 import {DataResponseSchema}  from "../schema/DataResponseSchema";
 
 export const withRpcResponseSchema = <

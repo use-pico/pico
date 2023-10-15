@@ -1,17 +1,17 @@
 import {
+    IconInputCheck,
+    IconInputX
+}                          from "@tabler/icons-react";
+import {
     Translation,
     useTranslation
-}                          from "@pico/i18n";
+}                          from "@use-pico/i18n";
 import {
     ActionIcon,
     Flex,
     Switch,
     Tooltip
-}                          from "@pico/ui";
-import {
-    IconInputCheck,
-    IconInputX
-}                          from "@tabler/icons-react";
+}                          from "@use-pico/ui";
 import {useState}          from "react";
 import {useController}     from "react-hook-form";
 import {type ValuesSchema} from "../schema/ValuesSchema";

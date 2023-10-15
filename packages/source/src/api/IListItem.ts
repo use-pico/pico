@@ -1,4 +1,4 @@
-import {type z} from "@pico/utils";
+import {type z} from "@use-pico/utils";
 
 export namespace IListItem {
     export interface WithIdentity<TSchema extends z.ZodSchema> {

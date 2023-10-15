@@ -1,4 +1,4 @@
-import {withSourceFile}  from "@pico/generator";
+import {withSourceFile}  from "@use-pico/generator";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 

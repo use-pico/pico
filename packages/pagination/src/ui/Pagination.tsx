@@ -1,5 +1,5 @@
-import {Translation}          from "@pico/i18n";
-import {type WithSourceQuery} from "@pico/rpc";
+import {Translation}          from "@use-pico/i18n";
+import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     BlockStore,
     Divider,
@@ -9,7 +9,7 @@ import {
     Pagination as CoolPagination,
     Select,
     Text
-}                             from "@pico/ui";
+}                             from "@use-pico/ui";
 import {type FC}              from "react";
 
 export namespace Pagination {

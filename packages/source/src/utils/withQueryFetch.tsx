@@ -1,9 +1,9 @@
 import {
     type FilterSchema,
     type OrderBySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {type ResponseSchema}  from "@pico/schema";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {type ResponseSchema}  from "@use-pico/schema";
 import {type FC}              from "react";
 import {QueryFetch}           from "../ui/QueryFetch";
 

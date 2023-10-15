@@ -3,7 +3,7 @@ import {
     Info,
     Interval,
     type StringUnitLength
-}                    from "@pico/i18n";
+}                    from "@use-pico/i18n";
 import {type IWeeks} from "../api/weeks";
 
 export interface IWeeksOfProps {

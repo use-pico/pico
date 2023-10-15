@@ -1,5 +1,5 @@
 import {ActionIcon} from "@mantine/core";
-import {LocaleLink} from "@pico/i18n";
+import {LocaleLink} from "@use-pico/i18n";
 import {type FC}    from "react";
 import {Breadcrumb} from "../api/Breadcrumb";
 import {ButtonLink} from "../ui/ButtonLink";

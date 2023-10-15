@@ -1,11 +1,11 @@
 import {
     DateTimeInline,
     type IDateInput
-}                from "@pico/i18n";
+}                from "@use-pico/i18n";
 import {
     Group,
     Text
-}                from "@pico/ui";
+}                from "@use-pico/ui";
 import {type FC} from "react";
 
 export namespace MicrotimeInline {

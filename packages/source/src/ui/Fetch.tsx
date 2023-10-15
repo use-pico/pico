@@ -1,16 +1,16 @@
 "use client";
 
-import {useParam}                from "@pico/navigation";
+import {useParam}                from "@use-pico/navigation";
 import {
     ErrorResponseSchema,
     FilterSchema,
     QueryResult,
     WithQuery
-}                                from "@pico/query";
-import {type WithIdentitySchema} from "@pico/schema";
-import {WithEntity}              from "@pico/types";
-import {Loader}                  from "@pico/ui";
-import {type z}                  from "@pico/utils";
+}                                from "@use-pico/query";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {WithEntity}              from "@use-pico/types";
+import {Loader}                  from "@use-pico/ui";
+import {type z}                  from "@use-pico/utils";
 import {
     type FC,
     type ReactNode

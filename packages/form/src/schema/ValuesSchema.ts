@@ -1,4 +1,4 @@
-import {type z} from "@pico/utils";
+import {type z} from "@use-pico/utils";
 
 /**
  * This is the most important schema of a form: it defines the shape

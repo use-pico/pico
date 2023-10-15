@@ -1,6 +1,6 @@
-import {useTranslation}                 from "@pico/i18n";
-import {NumberInput as CoolNumberInput} from "@pico/ui";
-import {isString}                       from "@pico/utils";
+import {useTranslation}                 from "@use-pico/i18n";
+import {NumberInput as CoolNumberInput} from "@use-pico/ui";
+import {isString}                       from "@use-pico/utils";
 import {useController}                  from "react-hook-form";
 import type {ValuesSchema}              from "../schema/ValuesSchema";
 import type {Form}                      from "../ui/Form";

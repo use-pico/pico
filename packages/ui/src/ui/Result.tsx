@@ -2,7 +2,7 @@ import {
     type IWithTranslation,
     Translation,
     WithTranslationProvider
-}                from "@pico/i18n";
+}                from "@use-pico/i18n";
 import {
     type FC,
     type PropsWithChildren,

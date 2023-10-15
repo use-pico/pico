@@ -1,10 +1,10 @@
-import {Translation}              from "@pico/i18n";
-import {type IBaseSelectionStore} from "@pico/selection";
+import {Translation}              from "@use-pico/i18n";
+import {type IBaseSelectionStore} from "@use-pico/selection";
 import {
     Button,
     CloseIcon,
     ModalStore
-}                                 from "@pico/ui";
+}                                 from "@use-pico/ui";
 import {type FC}                  from "react";
 
 export namespace CancelButton {

@@ -1,15 +1,15 @@
 "use client";
 
-import {useSuccessNotification} from "@pico/hook";
-import {Translation}            from "@pico/i18n";
+import {useSuccessNotification} from "@use-pico/hook";
+import {Translation}            from "@use-pico/i18n";
 import {
     type FilterSchema,
     type QuerySchema
-}                               from "@pico/query";
+}                               from "@use-pico/query";
 import {
     type WithMutation,
     type WithSourceQuery
-}                               from "@pico/rpc";
+}                               from "@use-pico/rpc";
 import {
     Button,
     CloseIcon,
@@ -18,7 +18,7 @@ import {
     Modal,
     ModalStore,
     TrashIcon
-}                               from "@pico/ui";
+}                               from "@use-pico/ui";
 
 export namespace DeleteByModal {
     export interface Props<

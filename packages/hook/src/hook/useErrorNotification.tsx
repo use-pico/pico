@@ -1,10 +1,10 @@
 "use client";
 
-import {WithTranslationStore} from "@pico/i18n";
+import {WithTranslationStore} from "@use-pico/i18n";
 import {
     AlertIcon,
     withNotification
-}                             from "@pico/ui";
+}                             from "@use-pico/ui";
 
 export namespace useErrorNotification {
     export interface Props extends Omit<withNotification.Props, "title" | "message"> {

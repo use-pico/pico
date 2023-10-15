@@ -1,4 +1,4 @@
-import {type DateTime} from "@pico/i18n";
+import {type DateTime} from "@use-pico/i18n";
 import {
     type FC,
     type PropsWithChildren

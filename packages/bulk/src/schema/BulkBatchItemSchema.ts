@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const BulkBatchItemSchema = z.object({
     service: z.string().nonempty({message: "Non-empty"}),

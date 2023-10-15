@@ -1,23 +1,23 @@
 "use client";
 
-import {useDebouncedState}    from "@pico/hook";
-import {useTranslation}       from "@pico/i18n";
+import {
+    IconSearch,
+    IconX
+}                             from "@tabler/icons-react";
+import {useDebouncedState}    from "@use-pico/hook";
+import {useTranslation}       from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {type ResponseSchema}  from "@pico/schema";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {type ResponseSchema}  from "@use-pico/schema";
 import {
     ActionIcon,
     Loader,
     TextInput,
     WithIcon
-}                             from "@pico/ui";
-import {
-    IconSearch,
-    IconX
-}                             from "@tabler/icons-react";
+}                             from "@use-pico/ui";
 import {
     useEffect,
     useState

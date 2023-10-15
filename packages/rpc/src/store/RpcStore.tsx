@@ -2,7 +2,7 @@ import {
     createStore,
     type IStoreProps,
     type IStorePropsType
-}                              from "@pico/store";
+}                              from "@use-pico/store";
 import {type MutableRefObject} from "react";
 import {type IBulkRef}         from "../api/IBulkRef";
 

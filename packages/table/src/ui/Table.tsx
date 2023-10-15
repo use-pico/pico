@@ -1,21 +1,21 @@
 import {
     IWithTranslation,
     WithTranslationProvider
-}                               from "@pico/i18n";
-import {Pagination}             from "@pico/pagination";
+}                               from "@use-pico/i18n";
+import {Pagination}             from "@use-pico/pagination";
 import {
     type FilterSchema,
     type OrderBySchema
-}                               from "@pico/query";
-import {type WithSourceQuery}   from "@pico/rpc";
+}                               from "@use-pico/query";
+import {type WithSourceQuery}   from "@use-pico/rpc";
 import {
     Box,
     LinkLockProvider,
     LoadingOverlay,
     ScrollArea,
     Table as CoolTable
-}                               from "@pico/ui";
-import {type z}                 from "@pico/utils";
+}                               from "@use-pico/ui";
+import {type z}                 from "@use-pico/utils";
 import {
     type CSSProperties,
     type FC

@@ -1,5 +1,5 @@
-import {WithIcon}       from "@pico/ui";
 import {IconMinus}      from "@tabler/icons-react";
+import {WithIcon}       from "@use-pico/ui";
 import {type FC}        from "react";
 import {type JobSchema} from "../schema/JobSchema";
 import {JobIconMap}     from "./JobIconMap";

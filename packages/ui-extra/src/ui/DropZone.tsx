@@ -1,13 +1,18 @@
 "use client";
 
 import {
+    IconCheck,
+    IconUpload,
+    IconX
+}               from "@tabler/icons-react";
+import {
     FileSchema,
     type IFileWithPath
-}               from "@pico/file";
+}               from "@use-pico/file";
 import {
     Translation,
     useTranslation
-}               from "@pico/i18n";
+}               from "@use-pico/i18n";
 import {
     Divider,
     Dropzone as CoolDropzone,
@@ -17,12 +22,7 @@ import {
     notifications,
     Table,
     Text
-}               from "@pico/ui";
-import {
-    IconCheck,
-    IconUpload,
-    IconX
-}               from "@tabler/icons-react";
+}               from "@use-pico/ui";
 import {
     type FC,
     useEffect,
@@ -48,7 +48,7 @@ export module DropZone {
 }
 
 /**
- * Uploader component based on @pico/file Upload. Separation is because of this library
+ * Uploader component based on @use-pico/file Upload. Separation is because of this library
  * directly using Mantine, an Upload component is basically standalone.
  */
 export const DropZone: FC<DropZone.Props> = (

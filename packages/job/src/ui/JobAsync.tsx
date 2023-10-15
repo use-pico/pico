@@ -1,12 +1,12 @@
-import {Translation}        from "@pico/i18n";
-import {type RequestSchema} from "@pico/schema";
+import {Translation}        from "@use-pico/i18n";
+import {type RequestSchema} from "@use-pico/schema";
 import {
     Button,
     Group,
     JobIcon,
     Stack
-}                           from "@pico/ui";
-import {type z}             from "@pico/utils";
+}                           from "@use-pico/ui";
+import {type z}             from "@use-pico/utils";
 import {
     type FC,
     type ReactNode

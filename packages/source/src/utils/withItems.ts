@@ -2,7 +2,7 @@ import {
     generateId,
     mapSchema,
     type z
-} from "@pico/utils";
+} from "@use-pico/utils";
 
 /**
  * Take a plain array of Items and return map with generated IDs

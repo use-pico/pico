@@ -1,7 +1,7 @@
 import {
     diffOf,
     generateId
-}                             from "@pico/utils";
+}                             from "@use-pico/utils";
 import {
     appendFileSync,
     existsSync,

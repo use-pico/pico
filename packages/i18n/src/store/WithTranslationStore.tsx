@@ -3,8 +3,8 @@
 import {
     createStore,
     type IStoreProps
-}                              from "@pico/store";
-import {cleanOf}               from "@pico/utils";
+}                              from "@use-pico/store";
+import {cleanOf}               from "@use-pico/utils";
 import {type IWithTranslation} from "../utils/IWithTranslation";
 
 export namespace WithTranslationStore {

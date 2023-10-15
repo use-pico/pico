@@ -1,12 +1,12 @@
-import {Translation}             from "@pico/i18n";
+import {Translation}             from "@use-pico/i18n";
 import {
     JobAsync,
     JobSchema
-}                                from "@pico/job";
-import {WithQuery}               from "@pico/query";
-import {WithSourceQuery}         from "@pico/rpc";
-import {type WithIdentitySchema} from "@pico/schema";
-import {ButtonBar}               from "@pico/ui";
+}                                from "@use-pico/job";
+import {WithQuery}               from "@use-pico/query";
+import {WithSourceQuery}         from "@use-pico/rpc";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {ButtonBar}               from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type IUseBulkJobManager} from "../../api/IUseBulkJobManager";
 import {BulkItemFilterSchema}    from "../../schema/BulkItemFilterSchema";

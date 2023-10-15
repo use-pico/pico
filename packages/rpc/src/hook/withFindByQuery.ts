@@ -3,8 +3,8 @@ import {
     type IQueryStore,
     type OrderBySchema,
     type QuerySchema
-}                             from "@pico/query";
-import {type ResponseSchema}  from "@pico/schema";
+}                             from "@use-pico/query";
+import {type ResponseSchema}  from "@use-pico/schema";
 import {type WithFindByQuery} from "../api/WithFindByQuery";
 import {withQuery}            from "./withQuery";
 

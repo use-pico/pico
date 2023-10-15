@@ -1,5 +1,5 @@
-import {FilterSchema}            from "@pico/query";
-import {type WithIdentitySchema} from "@pico/schema";
+import {FilterSchema}            from "@use-pico/query";
+import {type WithIdentitySchema} from "@use-pico/schema";
 import {type FC}                 from "react";
 import {type IWithFetchQuery}    from "../api/IWithFetchQuery";
 import {Fetch}                   from "../ui/Fetch";

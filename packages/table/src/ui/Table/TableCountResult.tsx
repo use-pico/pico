@@ -1,17 +1,17 @@
-import {WithTranslationStore} from "@pico/i18n";
+import {IconSearch}           from "@tabler/icons-react";
+import {WithTranslationStore} from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     Container,
     Result,
     Status,
     WithIcon
-}                             from "@pico/ui";
-import {type z}               from "@pico/utils";
-import {IconSearch}           from "@tabler/icons-react";
+}                             from "@use-pico/ui";
+import {type z}               from "@use-pico/utils";
 import {
     type FC,
     useCallback

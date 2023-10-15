@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/schema",
+	"name": "@use-pico/schema",
 	"description": "Common schemas used across the lib.",
 	"license": "MIT",
 	"repository": {
@@ -28,12 +28,12 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@pico/utils": "^1.0.0"
+		"@use-pico/utils": "^1.0.0"
 	},
 	"devDependencies": {
-		"@pico/esbuild": "^1.0.0",
-		"@pico/eslint-config-eslint": "^1.0.0",
-		"@pico/tsconfig": "^1.0.0",
+		"@use-pico/esbuild": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",

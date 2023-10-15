@@ -5,10 +5,10 @@ import {
     type OrderBySchema,
     type QuerySchema,
     withQuerySchema
-}                             from "@pico/query";
-import {type ResponseSchema}  from "@pico/schema";
-import {withFilter}           from "@pico/source";
-import {z}                    from "@pico/utils";
+}                             from "@use-pico/query";
+import {type ResponseSchema}  from "@use-pico/schema";
+import {withFilter}           from "@use-pico/source";
+import {z}                    from "@use-pico/utils";
 import {type WithQuery}       from "../api/WithQuery";
 import {type WithSourceQuery} from "../api/WithSourceQuery";
 import {withQuery}            from "./withQuery";

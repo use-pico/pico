@@ -3,7 +3,7 @@
 import {
     createStore,
     type IStoreProps
-} from "@pico/store";
+} from "@use-pico/store";
 
 export type IDrawerStoreProps = IStoreProps<{
     state: Map<string, boolean>;

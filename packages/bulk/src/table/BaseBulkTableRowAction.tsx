@@ -1,11 +1,11 @@
-import {TableRowActionMenu}      from "@pico/table";
-import {WithEntity}              from "@pico/types";
+import {TableRowActionMenu}      from "@use-pico/table";
+import {WithEntity}              from "@use-pico/types";
 import {
     MenuLabel,
     ModalMenuItem,
     TrashIcon
-}                                from "@pico/ui";
-import {DeleteModal}             from "@pico/ui-extra";
+}                                from "@use-pico/ui";
+import {DeleteModal}             from "@use-pico/ui-extra";
 import {type FC}                 from "react";
 import {type BulkMutationSchema} from "../schema/BulkMutationSchema";
 import {type BulkSchema}         from "../schema/BulkSchema";

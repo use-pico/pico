@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const OrderSchema = z.enum(["asc", "desc"]);
 export type OrderSchema = typeof OrderSchema;

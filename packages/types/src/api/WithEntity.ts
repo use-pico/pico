@@ -1,4 +1,4 @@
-import {type z} from "@pico/utils";
+import {type z} from "@use-pico/utils";
 
 export interface WithEntity<TEntity> {
     entity: TEntity;

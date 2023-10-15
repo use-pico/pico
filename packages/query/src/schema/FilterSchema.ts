@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 /**
  * Base definition of filter schema which should all the Sources implement.

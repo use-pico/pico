@@ -1,7 +1,7 @@
 import {
     isObject,
     type z
-} from "@pico/utils";
+} from "@use-pico/utils";
 
 export const isData = <
     TDataSchema extends z.ZodSchema

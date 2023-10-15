@@ -1,4 +1,4 @@
-import {z}                from "@pico/utils";
+import {z}                from "@use-pico/utils";
 import {RpcRequestSchema} from "./RpcRequestSchema";
 
 export const RpcBulkRequestSchema = z.object({

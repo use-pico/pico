@@ -1,5 +1,5 @@
-import {withSourceFile}  from "@pico/generator";
-import {type Unboxed}    from "@pico/types";
+import {withSourceFile}  from "@use-pico/generator";
+import {type Unboxed}    from "@use-pico/types";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 import {
@@ -58,7 +58,7 @@ export const withSource: IGenerator<IWithSourceParams> = async (
         `)
             .withImports({
                 imports: {
-                    "@pico/source-client": [
+                    "@use-pico/source-client": [
                         "withSource",
                     ],
                     [packages.schema]:     [

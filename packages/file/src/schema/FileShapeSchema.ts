@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const FileShapeSchema = z.object({
     name:   z.string().nonempty({message: "Non-empty"}),

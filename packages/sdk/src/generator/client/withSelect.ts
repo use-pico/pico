@@ -1,4 +1,4 @@
-import {withSourceFile} from "@pico/generator";
+import {withSourceFile} from "@use-pico/generator";
 import {normalize}      from "node:path";
 import {IGenerator}     from "../../api/IGenerator";
 
@@ -38,10 +38,10 @@ export const withSelect: IGenerator<IWithSelectParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form":                      [
+                    "@use-pico/form":        [
                         "type IFormSchemaType",
                     ],
-                    "@pico/form-client":               [
+                    "@use-pico/form-client": [
                         "type ISourceSelectProps",
                         "SourceSelect",
                     ],
@@ -95,10 +95,10 @@ export const withSelect: IGenerator<IWithSelectParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form":                           [
+                    "@use-pico/form":        [
                         "type IFormSchemaType",
                     ],
-                    "@pico/form-client":                    [
+                    "@use-pico/form-client": [
                         "type ISourceMultiSelectProps",
                         "SourceMultiSelect",
                     ],

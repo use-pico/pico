@@ -1,5 +1,5 @@
-import {useTranslation}       from "@pico/i18n";
-import {Select as CoolSelect} from "@pico/ui";
+import {useTranslation}       from "@use-pico/i18n";
+import {Select as CoolSelect} from "@use-pico/ui";
 import {useController}        from "react-hook-form";
 import {type ValuesSchema}    from "../schema/ValuesSchema";
 import {type Form}            from "../ui/Form";

@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/query",
+	"name": "@use-pico/query",
 	"description": "This package only defines shape of the Query (how to get Entities or whatever you need)",
 	"license": "MIT",
 	"repository": {
@@ -25,16 +25,16 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@pico/schema": "^1.0.0",
-		"@pico/store": "^1.0.0",
-		"@pico/utils": "^1.0.0",
+		"@use-pico/schema": "^1.0.0",
+		"@use-pico/store": "^1.0.0",
+		"@use-pico/utils": "^1.0.0",
 		"@tanstack/react-query": "^5.0.0-rc.4",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@pico/esbuild": "^1.0.0",
-		"@pico/eslint-config-eslint": "^1.0.0",
-		"@pico/tsconfig": "^1.0.0",
+		"@use-pico/esbuild": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.20",
 		"concurrently": "^8.2.0",

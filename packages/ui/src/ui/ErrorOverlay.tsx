@@ -1,8 +1,8 @@
+import {IconAlertTriangle} from "@tabler/icons-react";
 import {
     type IWithTranslation,
     Translation
-}                          from "@pico/i18n";
-import {IconAlertTriangle} from "@tabler/icons-react";
+}                          from "@use-pico/i18n";
 import {type FC}           from "react";
 import {Overlay}           from "./Overlay";
 import {Stack}             from "./Stack";

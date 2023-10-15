@@ -1,4 +1,4 @@
-import {type IHrefProps} from "@pico/navigation";
+import {type IHrefProps} from "@use-pico/navigation";
 import {ReactNode}       from "react";
 import {ActionIcon}      from "../ui/ActionIcon";
 import {ButtonLink}      from "../ui/ButtonLink";

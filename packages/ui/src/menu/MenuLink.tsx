@@ -3,7 +3,7 @@ import {
     type IWithTranslation,
     LocaleLink,
     Translation
-}                       from "@pico/i18n";
+}                       from "@use-pico/i18n";
 import {type FC}        from "react";
 import {type IMenuLink} from "../api/IMenuLink";
 import {WithIcon}       from "../ui/WithIcon";

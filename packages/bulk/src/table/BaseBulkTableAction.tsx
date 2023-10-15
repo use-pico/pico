@@ -1,9 +1,9 @@
-import {TableActionMenu} from "@pico/table";
+import {TableActionMenu} from "@use-pico/table";
 import {
     CreateIcon,
     Modal,
     ModalMenuItem
-}                        from "@pico/ui";
+}                        from "@use-pico/ui";
 import {
     type FC,
     ReactNode

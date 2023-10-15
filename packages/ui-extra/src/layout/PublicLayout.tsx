@@ -7,13 +7,13 @@ import {
     Group,
     LoadingOverlay
 }                   from "@mantine/core";
+import {IconLogin}  from "@tabler/icons-react";
 import {
     LocaleLink,
     useLocaleRouter,
     useTranslation
-}                   from "@pico/i18n";
-import {BlockStore} from "@pico/ui";
-import {IconLogin}  from "@tabler/icons-react";
+}                   from "@use-pico/i18n";
+import {BlockStore} from "@use-pico/ui";
 import {signIn}     from "next-auth/react";
 import Image        from "next/image";
 import {
@@ -65,7 +65,7 @@ export const PublicLayout: FC<PublicLayout.Props> = (
                 visible={block?.isBlock || false}
             />
             <Group
-                className={classes.headerGroup}
+                className={classes.HeaderGroup}
                 justify={"apart"}
             >
                 <Group>

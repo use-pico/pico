@@ -1,14 +1,14 @@
+import {IconWashDrycleanOff}     from "@tabler/icons-react";
 import {
     useErrorNotification,
     useSuccessNotification
-}                                from "@pico/hook";
+}                                from "@use-pico/hook";
 import {
     type WithMutation,
     type WithSourceQuery
-}                                from "@pico/rpc";
-import {TableActionMenu}         from "@pico/table";
-import {MenuItem}                from "@pico/ui";
-import {IconWashDrycleanOff}     from "@tabler/icons-react";
+}                                from "@use-pico/rpc";
+import {TableActionMenu}         from "@use-pico/table";
+import {MenuItem}                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type FileFilterSchema}   from "../../schema/FileFilterSchema";
 import {type FileMutationSchema} from "../../schema/FileMutationSchema";

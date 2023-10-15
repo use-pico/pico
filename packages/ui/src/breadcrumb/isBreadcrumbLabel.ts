@@ -1,4 +1,4 @@
-import {isObject}   from "@pico/utils";
+import {isObject}   from "@use-pico/utils";
 import {Breadcrumb} from "../api/Breadcrumb";
 
 export const isBreadcrumbLabel = (item: any): item is Breadcrumb.Label => {

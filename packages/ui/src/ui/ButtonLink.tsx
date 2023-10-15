@@ -3,8 +3,8 @@
 import {
     LocaleLink,
     Translation
-}                        from "@pico/i18n";
-import {type IHrefProps} from "@pico/navigation";
+}                        from "@use-pico/i18n";
+import {type IHrefProps} from "@use-pico/navigation";
 import {
     type FC,
     type ReactNode

@@ -7,16 +7,16 @@ import {
 }                               from "@mantine/core";
 import {ModalsProvider}         from "@mantine/modals";
 import {Notifications}          from "@mantine/notifications";
-import {DateTimeProvider}       from "@pico/i18n";
-import {QueryClientProvider}    from "@pico/query";
-import {RpcProvider}            from "@pico/rpc";
+import {DateTimeProvider}       from "@use-pico/i18n";
+import {QueryClientProvider}    from "@use-pico/query";
+import {RpcProvider}            from "@use-pico/rpc";
 import {
     ActiveProvider,
     BlockProvider,
     DrawerStoreProvider,
     ModalStoreProvider,
     RouterTransition
-}                               from "@pico/ui";
+}                               from "@use-pico/ui";
 import axios                    from "axios";
 import {NextIntlClientProvider} from "next-intl";
 import {

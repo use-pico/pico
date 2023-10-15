@@ -1,8 +1,8 @@
-import {createStore}           from "@pico/store";
+import {createStore}           from "@use-pico/store";
 import {
     cleanOf,
     isEmpty
-}                              from "@pico/utils";
+}                              from "@use-pico/utils";
 import {type IQueryStore}      from "../api/IQueryStore";
 import {type IQueryStoreProps} from "../api/IQueryStoreProps";
 import {CursorSchema}          from "../schema/CursorSchema";

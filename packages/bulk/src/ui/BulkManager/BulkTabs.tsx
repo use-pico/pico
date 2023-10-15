@@ -1,16 +1,3 @@
-import {Translation}             from "@pico/i18n";
-import {JobSchema}               from "@pico/job";
-import {type WithQuery}          from "@pico/query";
-import {type WithSourceQuery}    from "@pico/rpc";
-import {type WithIdentitySchema} from "@pico/schema";
-import {
-    Badge,
-    EditIcon,
-    Flex,
-    Group,
-    Tabs,
-    WithIcon
-}                                from "@pico/ui";
 import {
     IconAlertTriangle,
     IconCheckbox,
@@ -18,6 +5,19 @@ import {
     IconFileImport,
     IconTrophy
 }                                from "@tabler/icons-react";
+import {Translation}             from "@use-pico/i18n";
+import {JobSchema}               from "@use-pico/job";
+import {type WithQuery}          from "@use-pico/query";
+import {type WithSourceQuery}    from "@use-pico/rpc";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {
+    Badge,
+    EditIcon,
+    Flex,
+    Group,
+    Tabs,
+    WithIcon
+}                                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {BulkItemStatus}          from "../../api/BulkItemStatus";
 import {type IUseBulkJobManager} from "../../api/IUseBulkJobManager";

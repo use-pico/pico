@@ -1,4 +1,4 @@
-import {z} from "@pico/utils";
+import {z} from "@use-pico/utils";
 
 export const JobOrderBySchema = z.record(z.enum(["created", "status"]), z.enum(["asc", "desc"]));
 export type JobOrderBySchema = typeof JobOrderBySchema;

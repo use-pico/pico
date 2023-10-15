@@ -2,7 +2,7 @@ import {
     FilterSchema,
     type IQueryStore,
     OrderBySchema
-}                from "@pico/query";
+}                from "@use-pico/query";
 import {type FC} from "react";
 
 export namespace withFilter {

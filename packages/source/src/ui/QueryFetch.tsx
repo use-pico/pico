@@ -7,11 +7,11 @@ import {
     QueryResult,
     QuerySchema,
     WithQuery
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {type ResponseSchema}  from "@pico/schema";
-import {Loader}               from "@pico/ui";
-import {type z}               from "@pico/utils";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {type ResponseSchema}  from "@use-pico/schema";
+import {Loader}               from "@use-pico/ui";
+import {type z}               from "@use-pico/utils";
 import {
     type ComponentProps,
     type FC,

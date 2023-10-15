@@ -1,9 +1,9 @@
-import {DateTime}    from "@pico/i18n";
+import {DateTime}    from "@use-pico/i18n";
 import {
     createStore,
     type IStoreProps
-}                    from "@pico/store";
-import {generateId}  from "@pico/utils";
+}                    from "@use-pico/store";
+import {generateId}  from "@use-pico/utils";
 import {type IWeeks} from "../api/weeks";
 import {weeksOf}     from "../calendar/weeksOf";
 

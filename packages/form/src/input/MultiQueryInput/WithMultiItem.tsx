@@ -1,10 +1,10 @@
-import {type WithIdentitySchema}   from "@pico/schema";
-import {type IMultiSelectionStore} from "@pico/selection";
+import {type WithIdentitySchema}   from "@use-pico/schema";
+import {type IMultiSelectionStore} from "@use-pico/selection";
 import {
     Group,
     ModalStore
-}                                  from "@pico/ui";
-import {type z}                    from "@pico/utils";
+}                                  from "@use-pico/ui";
+import {type z}                    from "@use-pico/utils";
 import {type FC}                   from "react";
 import type {ValuesSchema}         from "../../schema/ValuesSchema";
 import {InputEx}                   from "../InputEx";

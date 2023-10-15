@@ -1,5 +1,5 @@
-import {Translation}    from "@pico/i18n";
-import {Button}         from "@pico/ui";
+import {Translation}    from "@use-pico/i18n";
+import {Button}         from "@use-pico/ui";
 import {type FC}        from "react";
 import {useFormContext} from "react-hook-form";
 

@@ -1,14 +1,14 @@
-import {type FileSchema} from "@pico/file";
+import {type FileSchema} from "@use-pico/file";
 import {
     type IHrefProps,
     linkTo
-}                        from "@pico/navigation";
+}                        from "@use-pico/navigation";
 import {
     Button,
     DownloadIcon,
     Progress,
     Stack
-}                        from "@pico/ui";
+}                        from "@use-pico/ui";
 import JsFileDownloader  from "js-file-downloader";
 import {
     type FC,

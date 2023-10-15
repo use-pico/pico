@@ -1,5 +1,5 @@
-import {Translation} from "@pico/i18n";
-import {Text}        from "@pico/ui";
+import {Translation} from "@use-pico/i18n";
+import {Text}        from "@use-pico/ui";
 import {
     type FC,
     type ReactNode

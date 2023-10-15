@@ -1,5 +1,5 @@
-import {FilterSchema} from "@pico/query";
-import {z}            from "@pico/utils";
+import {FilterSchema} from "@use-pico/query";
+import {z}            from "@use-pico/utils";
 
 export const BulkItemFilterSchema = FilterSchema.merge(z.object({
     bulkId:   z.string().nullish(),

@@ -1,5 +1,5 @@
-import {type IHrefProps} from "@pico/navigation";
-import {isString}        from "@pico/utils";
+import {type IHrefProps} from "@use-pico/navigation";
+import {isString}        from "@use-pico/utils";
 import {useLocaleRouter} from "./useLocaleRouter";
 
 export namespace useWithLocaleRedirect {

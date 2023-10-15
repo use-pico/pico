@@ -1,4 +1,4 @@
-import {toHumanTimeMs} from "@pico/utils";
+import {toHumanTimeMs} from "@use-pico/utils";
 import {useLocale}     from "next-intl";
 
 export const useTime = () => {

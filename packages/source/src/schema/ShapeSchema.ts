@@ -1,4 +1,4 @@
-import {type z} from "@pico/utils";
+import {type z} from "@use-pico/utils";
 
 export type ShapeSchema<TShape extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<TShape, "strip">;
 export namespace ShapeSchema {

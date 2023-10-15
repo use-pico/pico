@@ -1,4 +1,4 @@
-import {withSourceFile}  from "@pico/generator";
+import {withSourceFile}  from "@use-pico/generator";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 
@@ -42,7 +42,7 @@ export const withQueryProvider: IGenerator<IWithQueryProviderParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/source-client":       [
+                    "@use-pico/source-client": [
                         "type IQueryProviderProps",
                         "QueryProvider",
                     ],

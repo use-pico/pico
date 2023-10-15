@@ -4,7 +4,7 @@ import {LoadingOverlay} from "@mantine/core";
 import {
     DetectLocale,
     localeOf
-}                       from "@pico/i18n";
+}                       from "@use-pico/i18n";
 import {redirect}       from "next/navigation";
 import {type FC}        from "react";
 

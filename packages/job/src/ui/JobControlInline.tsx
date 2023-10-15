@@ -1,9 +1,9 @@
-import {type RequestSchema} from "@pico/schema";
+import {type RequestSchema} from "@use-pico/schema";
 import {
     Divider,
     Group,
     Stack
-}                           from "@pico/ui";
+}                           from "@use-pico/ui";
 import {type FC}            from "react";
 import {type IJobManager}   from "../api/IJobManager";
 import {JobProgress}        from "./JobProgress";

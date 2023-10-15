@@ -1,15 +1,15 @@
+import {IconRefresh}          from "@tabler/icons-react";
 import {
     type FilterSchema,
     type OrderBySchema
-}                             from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
-import {Fulltext}             from "@pico/source";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {Fulltext}             from "@use-pico/source";
 import {
     ActionIcon,
     Grid
-}                             from "@pico/ui";
-import {type z}               from "@pico/utils";
-import {IconRefresh}          from "@tabler/icons-react";
+}                             from "@use-pico/ui";
+import {type z}               from "@use-pico/utils";
 import {type FC}              from "react";
 
 export namespace TableHeaderControls {

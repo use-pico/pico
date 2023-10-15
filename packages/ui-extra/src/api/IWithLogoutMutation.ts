@@ -1,7 +1,7 @@
-import {type WithMutation} from "@pico/rpc";
+import {type WithMutation} from "@use-pico/rpc";
 import {
     type RequestSchema,
     type ResponseSchema
-}                          from "@pico/schema";
+}                          from "@use-pico/schema";
 
 export type IWithLogoutMutation = WithMutation<RequestSchema, ResponseSchema>;

@@ -1,7 +1,7 @@
 import {
     ActionMenu,
     MenuIcon
-}                from "@pico/ui";
+}                from "@use-pico/ui";
 import {type FC} from "react";
 
 export namespace TableRowActionMenu {

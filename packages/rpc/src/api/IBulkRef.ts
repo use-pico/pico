@@ -1,4 +1,4 @@
-import {type ResponseSchema}   from "@pico/schema";
+import {type ResponseSchema}   from "@use-pico/schema";
 import {type RpcRequestSchema} from "../schema/RpcRequestSchema";
 
 export interface IBulkRef {

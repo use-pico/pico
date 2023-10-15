@@ -6,18 +6,18 @@ import {
     Box,
     LoadingOverlay
 }                                 from "@mantine/core";
+import {IconLogout}               from "@tabler/icons-react";
 import {
     LocaleLink,
     useLocaleRouter
-}                                 from "@pico/i18n";
-import {useClearCache}            from "@pico/query";
+}                                 from "@use-pico/i18n";
+import {useClearCache}            from "@use-pico/query";
 import {
     BlockStore,
     Grid,
     Group
-}                                 from "@pico/ui";
-import {type IWithLogoutMutation} from "@pico/ui-extra";
-import {IconLogout}               from "@tabler/icons-react";
+}                                 from "@use-pico/ui";
+import {type IWithLogoutMutation} from "@use-pico/ui-extra";
 import Image                      from "next/image";
 import {
     type ComponentProps,

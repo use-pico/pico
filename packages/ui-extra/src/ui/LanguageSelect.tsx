@@ -1,12 +1,12 @@
 import {
     useLocale,
     useTranslation
-}                from "@pico/i18n";
+}                from "@use-pico/i18n";
 import {
     usePathname,
     useWithRedirect
-}                from "@pico/navigation";
-import {Select}  from "@pico/ui";
+}                from "@use-pico/navigation";
+import {Select}  from "@use-pico/ui";
 import {type FC} from "react";
 
 export namespace LanguageSelect {

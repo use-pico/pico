@@ -1,17 +1,17 @@
-import {DateInline}               from "@pico/i18n";
-import {
-    Button,
-    Grid,
-    Group,
-    Text
-}                                 from "@pico/ui";
-import {classNames}               from "@pico/utils";
 import {
     IconChevronLeft,
     IconChevronRight,
     IconChevronsLeft,
     IconChevronsRight
 }                                 from "@tabler/icons-react";
+import {DateInline}               from "@use-pico/i18n";
+import {
+    Button,
+    Grid,
+    Group,
+    Text
+}                                 from "@use-pico/ui";
+import {classNames}               from "@use-pico/utils";
 import {type PropsWithChildren}   from "react";
 import {type IYear}               from "../api/years";
 import {type CalendarEventSchema} from "../schema/CalendarEventSchema";

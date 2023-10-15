@@ -1,8 +1,8 @@
-import {WithTranslationProvider} from "@pico/i18n";
+import {WithTranslationProvider} from "@use-pico/i18n";
 import {
     Group,
     StatInline
-}                                from "@pico/ui";
+}                                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type JobSchema}          from "../schema/JobSchema";
 

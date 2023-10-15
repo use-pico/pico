@@ -1,4 +1,4 @@
-import {type z}           from "@pico/utils";
+import {type z}           from "@use-pico/utils";
 import {type OrderSchema} from "./OrderSchema";
 
 export type OrderBySchema = z.ZodRecord<z.ZodEnum<any>, OrderSchema>;

@@ -1,5 +1,5 @@
-import {type WithMutation}      from "@pico/query";
-import {Container}              from "@pico/ui";
+import {type WithMutation}      from "@use-pico/query";
+import {Container}              from "@use-pico/ui";
 import {type FC}                from "react";
 import {BulkItemStatus}         from "../../api/BulkItemStatus";
 import {BulkItemMutationSchema} from "../../schema/BulkItemMutationSchema";

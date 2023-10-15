@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/generator",
+	"name": "@use-pico/generator",
 	"description": "Common stuff for generator.",
 	"license": "MIT",
 	"repository": {
@@ -28,13 +28,13 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@pico/utils": "^1.0.0",
+		"@use-pico/utils": "^1.0.0",
 		"type-fest": "^4.2.0"
 	},
 	"devDependencies": {
-		"@pico/esbuild": "^1.0.0",
-		"@pico/eslint-config-eslint": "^1.0.0",
-		"@pico/tsconfig": "^1.0.0",
+		"@use-pico/esbuild": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.5.3",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",

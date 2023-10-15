@@ -1,13 +1,13 @@
 import {
     Calendar,
     CalendarProvider
-}                          from "@pico/calendar";
-import {useDisclosure}     from "@pico/hook";
+}                          from "@use-pico/calendar";
+import {useDisclosure}     from "@use-pico/hook";
 import {
     DateInline,
     DateTime
-}                          from "@pico/i18n";
-import {NativeModal}       from "@pico/ui";
+}                          from "@use-pico/i18n";
+import {NativeModal}       from "@use-pico/ui";
 import {useController}     from "react-hook-form";
 import type {ValuesSchema} from "../schema/ValuesSchema";
 import type {Form}         from "../ui/Form";

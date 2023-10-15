@@ -3,8 +3,8 @@
 import {
     type IWithTranslation,
     WithTranslationProvider
-}                      from "@pico/i18n";
-import {LoopsProvider} from "@pico/ui";
+}                      from "@use-pico/i18n";
+import {LoopsProvider} from "@use-pico/ui";
 import {type FC}       from "react";
 import {DropZone}      from "./DropZone";
 

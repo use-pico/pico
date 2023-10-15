@@ -1,10 +1,10 @@
 "use client";
 
-import {createStore}          from "@pico/store";
+import {createStore}          from "@use-pico/store";
 import {
     generateId,
     type z
-}                             from "@pico/utils";
+}                             from "@use-pico/utils";
 import {type IListStoreProps} from "../api/IListStoreProps";
 import {withItems}            from "../utils/withItems";
 

@@ -1,5 +1,5 @@
-import {type WithIdentitySchema}        from "@pico/schema";
-import {type IStoreSchema}              from "@pico/store";
+import {type WithIdentitySchema}        from "@use-pico/schema";
+import {type IStoreSchema}              from "@use-pico/store";
 import {type IMultiSelectionStoreProps} from "./IMultiSelectionStoreProps";
 
 export type IMultiSelectionStore<

@@ -1,4 +1,4 @@
-import {type WithIdentitySchema} from "@pico/schema";
+import {type WithIdentitySchema} from "@use-pico/schema";
 
 export interface IBaseSelection<TItem extends WithIdentitySchema.Type> {
     /**

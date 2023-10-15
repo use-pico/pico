@@ -1,12 +1,12 @@
-import {WithTranslationProvider} from "@pico/i18n";
-import {QueryResult}             from "@pico/query";
-import {type WithQuery}          from "@pico/rpc";
-import {type WithIdentitySchema} from "@pico/schema";
+import {WithTranslationProvider} from "@use-pico/i18n";
+import {QueryResult}             from "@use-pico/query";
+import {type WithQuery}          from "@use-pico/rpc";
+import {type WithIdentitySchema} from "@use-pico/schema";
 import {
     NativeBreadcrumbs,
     SkeletonButtons,
     StatInline
-}                                from "@pico/ui";
+}                                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type BulkStatsSchema}    from "../schema/BulkStatsSchema";
 

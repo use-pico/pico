@@ -1,5 +1,5 @@
 import {Text}        from "@mantine/core";
-import {Translation} from "@pico/i18n";
+import {Translation} from "@use-pico/i18n";
 import {type FC}     from "react";
 
 export namespace Label {

@@ -1,16 +1,16 @@
-import {Translation}        from "@pico/i18n";
-import {type RequestSchema} from "@pico/schema";
+import {
+    IconHandStop,
+    IconTrash
+}                           from "@tabler/icons-react";
+import {Translation}        from "@use-pico/i18n";
+import {type RequestSchema} from "@use-pico/schema";
 import {
     ActionIcon,
     CheckIcon,
     Group,
     Tooltip,
     WithIcon
-}                           from "@pico/ui";
-import {
-    IconHandStop,
-    IconTrash
-}                           from "@tabler/icons-react";
+}                           from "@use-pico/ui";
 import {type IJobManager}   from "../api/IJobManager";
 
 export namespace JobToolbar {

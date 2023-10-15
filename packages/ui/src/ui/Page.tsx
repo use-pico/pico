@@ -5,14 +5,14 @@ import {
     Flex,
     Grid
 }                      from "@mantine/core";
+import {IconArrowLeft} from "@tabler/icons-react";
 import {
     type IWithTranslation,
     Translation,
     useTranslation,
     useWithLocaleRedirect
-}                      from "@pico/i18n";
-import {isString}      from "@pico/utils";
-import {IconArrowLeft} from "@tabler/icons-react";
+}                      from "@use-pico/i18n";
+import {isString}      from "@use-pico/utils";
 import Head            from "next/head";
 import {
     type FC,

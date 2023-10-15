@@ -1,4 +1,4 @@
-import {withSourceFile} from "@pico/generator";
+import {withSourceFile} from "@use-pico/generator";
 import {normalize}      from "node:path";
 import {IGenerator}     from "../../api/IGenerator";
 
@@ -38,13 +38,13 @@ export const withSelection: IGenerator<IWithSelectionParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/selection-client": [
+                    "@use-pico/selection-client": [
                         "createSelectionStore",
                     ],
-                    "@pico/context":          [
+                    "@use-pico/context":          [
                         "type IStoreContext",
                     ],
-                    "@pico/selection":        [
+                    "@use-pico/selection":        [
                         "type ISelectionStoreProps",
                     ],
                 },
@@ -80,13 +80,13 @@ createSelectionStore<SourceType["Dto"]>({name: "${name}"})
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/selection-client": [
+                    "@use-pico/selection-client": [
                         "createMultiSelectionStore",
                     ],
-                    "@pico/context":          [
+                    "@use-pico/context":          [
                         "type IStoreContext",
                     ],
-                    "@pico/selection":        [
+                    "@use-pico/selection":        [
                         "type IMultiSelectionStoreProps",
                     ],
                 },

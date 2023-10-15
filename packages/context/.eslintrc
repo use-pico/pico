@@ -1,6 +1,6 @@
 {
 	"root": true,
 	"extends": [
-		"@pico/eslint"
+		"@use-pico/eslint"
 	]
 }

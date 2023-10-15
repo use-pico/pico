@@ -1,4 +1,4 @@
-import {type IJobManager}        from "@pico/job";
-import {type WithIdentitySchema} from "@pico/schema";
+import {type IJobManager}        from "@use-pico/job";
+import {type WithIdentitySchema} from "@use-pico/schema";
 
 export type IBulkJobManager = IJobManager<WithIdentitySchema>;

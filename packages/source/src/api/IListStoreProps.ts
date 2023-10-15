@@ -1,5 +1,5 @@
-import {type IStoreProps} from "@pico/store";
-import {type z}           from "@pico/utils";
+import {type IStoreProps} from "@use-pico/store";
+import {type z}           from "@use-pico/utils";
 import {type IListItem}   from "./IListItem";
 
 export type IListStoreProps<TSchema extends z.ZodSchema> = IStoreProps<{

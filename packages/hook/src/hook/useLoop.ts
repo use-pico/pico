@@ -3,7 +3,7 @@
 import {
     LoopsStore,
     LoopStore
-} from "@pico/ui";
+} from "@use-pico/ui";
 import {
     useEffect,
     useRef

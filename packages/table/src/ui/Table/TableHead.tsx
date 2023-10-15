@@ -1,13 +1,13 @@
-import {Translation}            from "@pico/i18n";
-import {FilterSchema}           from "@pico/query";
+import {Translation}            from "@use-pico/i18n";
+import {FilterSchema}           from "@use-pico/query";
 import {
     Group,
     Table
-}                               from "@pico/ui";
+}                               from "@use-pico/ui";
 import {
     isCallable,
     type z
-}                               from "@pico/utils";
+}                               from "@use-pico/utils";
 import {
     type CSSProperties,
     type FC

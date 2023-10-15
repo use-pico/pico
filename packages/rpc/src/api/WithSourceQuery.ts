@@ -4,10 +4,10 @@ import {
     type IQueryStore,
     type OrderBySchema,
     type QuerySchema,
-}                            from "@pico/query";
-import {type ResponseSchema} from "@pico/schema";
-import {type withFilter}     from "@pico/source";
-import {type z}              from "@pico/utils";
+}                            from "@use-pico/query";
+import {type ResponseSchema} from "@use-pico/schema";
+import {type withFilter}     from "@use-pico/source";
+import {type z}              from "@use-pico/utils";
 import {type WithQuery}      from "./WithQuery";
 
 export interface WithSourceQuery<

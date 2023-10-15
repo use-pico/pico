@@ -4,7 +4,7 @@ import {
     isEmpty,
     isString,
     pathToRegexp
-}                        from "@pico/utils";
+}                        from "@use-pico/utils";
 import {type IHrefProps} from "../api/IHrefProps";
 
 export const linkTo = <

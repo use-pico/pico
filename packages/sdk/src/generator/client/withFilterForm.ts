@@ -2,7 +2,7 @@ import {
     type IPackageType,
     withPackageImport,
     withSourceFile
-}                        from "@pico/generator";
+}                        from "@use-pico/generator";
 import {normalize}       from "node:path";
 import {type IGenerator} from "../../api/IGenerator";
 
@@ -54,7 +54,7 @@ export const withFilterForm: IGenerator<IWithFilterFormParams> = async (
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client": [
+                    "@use-pico/form-client": [
                         "createFormContext",
                     ],
                     [packages.schema]:   [
@@ -81,7 +81,7 @@ createFormContext<I${name}FilterFormSchemaType>({
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client": [
+                    "@use-pico/form-client": [
                         "createMantineFormContext",
                     ],
                     [packages.schema]:   [
@@ -104,7 +104,7 @@ createFormContext<I${name}FilterFormSchemaType>({
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/form-client":                          [
+                    "@use-pico/form-client": [
                         "type IWithInputProps",
                         "WithInput",
                     ],
@@ -142,7 +142,7 @@ props => {
         withSourceFile()
             .withImports({
                 imports: {
-                    "@pico/filter-client":                          [
+                    "@use-pico/filter-client": [
                         "BaseFilterForm",
                         "type IBaseFilterFormProps",
                     ],

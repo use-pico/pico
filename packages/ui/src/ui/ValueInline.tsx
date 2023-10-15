@@ -1,5 +1,5 @@
-import {Translation} from "@pico/i18n";
-import {isString}    from "@pico/utils";
+import {Translation} from "@use-pico/i18n";
+import {isString}    from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren,

@@ -1,19 +1,19 @@
 "use client";
 
 import {
-    type IInvalidator,
-    type WithQuery as ICoolWithQuery
-}                       from "@pico/query";
-import {
-    type RequestSchema,
-    type ResponseSchema
-}                       from "@pico/schema";
-import {type z}         from "@pico/utils";
-import {
     QueryKey,
     useQuery,
     useQueryClient
 }                       from "@tanstack/react-query";
+import {
+    type IInvalidator,
+    type WithQuery as ICoolWithQuery
+}                       from "@use-pico/query";
+import {
+    type RequestSchema,
+    type ResponseSchema
+}                       from "@use-pico/schema";
+import {type z}         from "@use-pico/utils";
 import {type WithQuery} from "../api/WithQuery";
 import {RpcStore}       from "../store/RpcStore";
 import {withBulk}       from "../utils/withBulk";

@@ -1,5 +1,5 @@
-import {type FilterSchema}      from "@pico/query";
-import {type z}                 from "@pico/utils";
+import {type FilterSchema}      from "@use-pico/query";
+import {type z}                 from "@use-pico/utils";
 import {type FC}                from "react";
 import {type ITableColumn}      from "../../api/ITableColumn";
 import {type ITableColumnTuple} from "../../api/ITableColumnTuple";

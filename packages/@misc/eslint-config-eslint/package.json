@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/eslint-config-eslint",
+	"name": "@use-pico/eslint-config-eslint",
 	"main": "index.js",
 	"license": "MIT",
 	"dependencies": {

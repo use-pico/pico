@@ -1,5 +1,3 @@
-import {WithTranslationProvider} from "@pico/i18n";
-import {Status}                  from "@pico/ui";
 import {
     IconAlertTriangle,
     IconCheckbox,
@@ -7,6 +5,8 @@ import {
     IconFileImport,
     IconTrophy
 }                                from "@tabler/icons-react";
+import {WithTranslationProvider} from "@use-pico/i18n";
+import {Status}                  from "@use-pico/ui";
 import {BulkItemStatus}          from "../../api/BulkItemStatus";
 
 export const StatusList = [

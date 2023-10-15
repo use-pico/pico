@@ -1,4 +1,4 @@
-import {type IfExtends} from "@pico/types";
+import {type IfExtends} from "@use-pico/types";
 
 export type ITemplate<TParams = void> = IfExtends<
     {

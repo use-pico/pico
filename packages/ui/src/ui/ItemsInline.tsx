@@ -1,9 +1,9 @@
 "use client";
 
 import {Table}                   from "@mantine/core";
-import {Translation}             from "@pico/i18n";
-import {type WithIdentitySchema} from "@pico/schema";
 import {IconFileDots}            from "@tabler/icons-react";
+import {Translation}             from "@use-pico/i18n";
+import {type WithIdentitySchema} from "@use-pico/schema";
 import {type FC}                 from "react";
 import {Modal}                   from "../modal/Modal";
 import {ModalStoreProvider}      from "../modal/ModalStoreProvider";

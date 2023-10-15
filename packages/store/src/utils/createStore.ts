@@ -2,7 +2,7 @@ import {
     createContext,
     useContext,
     useContext$
-}                                       from "@pico/context";
+}                                       from "@use-pico/context";
 import {createStore as coolCreateStore} from "zustand";
 import {type IStoreProps}               from "../api/IStoreProps";
 import {type IStoreSchema}              from "../api/IStoreSchema";

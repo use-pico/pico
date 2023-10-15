@@ -1,4 +1,4 @@
-import {z}               from "@pico/utils";
+import {z}               from "@use-pico/utils";
 import {FileQuerySchema} from "./FileQuerySchema";
 import {FileShapeSchema} from "./FileShapeSchema";
 

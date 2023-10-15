@@ -1,21 +1,21 @@
-import {Pagination}           from "@pico/pagination";
-import {WithQuery}            from "@pico/query";
-import {type WithSourceQuery} from "@pico/rpc";
+import {Pagination}           from "@use-pico/pagination";
+import {WithQuery}            from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     type RequestSchema,
     type WithIdentitySchema
-}                             from "@pico/schema";
+}                             from "@use-pico/schema";
 import {
     BlockStore,
     Box,
     LoadingOverlay,
     ScrollArea,
     Status
-}                             from "@pico/ui";
+}                             from "@use-pico/ui";
 import {
     classNames,
     type z
-}                             from "@pico/utils";
+}                             from "@use-pico/utils";
 import {type FC}              from "react";
 import classes                from "./List.module.css";
 
