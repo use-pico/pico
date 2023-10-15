@@ -10,7 +10,6 @@ export * from "./RpcRequestSchema";
 export * from "./RpcResponseSchema";
 export * from "./isData";
 export * from "./resultOf";
-export * from "./useClearCache";
 export * from "./withFindByQuery";
 export * from "./withMutation";
 export * from "./withQuery";
