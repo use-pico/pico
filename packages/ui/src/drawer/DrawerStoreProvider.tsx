@@ -4,11 +4,13 @@ import {
 }                    from "react";
 import {DrawerStore} from "./DrawerStore";
 
-export type IDrawerStoreProviderProps = PropsWithChildren<{
-    defaultOpened?: Record<string, boolean>;
-}>
+export namespace DrawerStoreProvider {
+    export type Props = PropsWithChildren<{
+        defaultOpened?: Record<string, boolean>;
+    }>
+}
 
-export const DrawerStoreProvider: FC<IDrawerStoreProviderProps> = (
+export const DrawerStoreProvider: FC<DrawerStoreProvider.Props> = (
     {
         defaultOpened,
         ...props

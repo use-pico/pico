@@ -17,12 +17,11 @@ import {
     type PropsWithChildren,
     useEffect
 }                               from "react";
-
-import {DrawerStoreProvider} from "../drawer/DrawerStoreProvider";
-import {ModalStoreProvider}  from "../modal/ModalStoreProvider";
-import {RouterTransition}    from "../router/RouterTransition";
-import {ActiveProvider}      from "../store/ActiveProvider";
-import {BlockProvider}       from "../store/BlockProvider";
+import {DrawerStoreProvider}    from "../drawer/DrawerStoreProvider";
+import {ModalStoreProvider}     from "../modal/ModalStoreProvider";
+import {RouterTransition}       from "../router/RouterTransition";
+import {ActiveProvider}         from "../store/ActiveProvider";
+import {BlockProvider}          from "../store/BlockProvider";
 
 export namespace Providers {
     export type Props = PropsWithChildren<{

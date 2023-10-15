@@ -4,11 +4,13 @@ import {
 }                   from "react";
 import {ModalStore} from "./ModalStore";
 
-export type IModalStoreProviderProps = PropsWithChildren<{
-    defaultOpened?: Record<string, boolean>;
-}>;
+export namespace ModalStoreProvider {
+    export type Props = PropsWithChildren<{
+        defaultOpened?: Record<string, boolean>;
+    }>;
+}
 
-export const ModalStoreProvider: FC<IModalStoreProviderProps> = (
+export const ModalStoreProvider: FC<ModalStoreProvider.Props> = (
     {
         defaultOpened,
         ...props

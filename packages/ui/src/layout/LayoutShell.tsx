@@ -1,11 +1,10 @@
-import {
-    type IProvidersProps,
-    Providers
-} from "../provider/Providers";
+import {Providers} from "../provider/Providers";
 
-export type ILayoutShellProps = Omit<IProvidersProps, "emotionCache" | "queryClient">;
+export namespace LayoutShell {
+    export type Props = Omit<Providers.Props, "emotionCache" | "queryClient">;
+}
 
-export const LayoutShell = (props: ILayoutShellProps) => {
+export const LayoutShell = (props: LayoutShell.Props) => {
     return <Providers
         {...props}
     />;

@@ -4,11 +4,13 @@ import {
 }                   from "react";
 import {BlockStore} from "./BlockStore";
 
-export type IBlockProviderProps = PropsWithChildren<{
-    isBlock?: boolean;
-}>
+export namespace BlockProvider {
+    export type Props = PropsWithChildren<{
+        isBlock?: boolean;
+    }>
+}
 
-export const BlockProvider: FC<IBlockProviderProps> = (
+export const BlockProvider: FC<BlockProvider.Props> = (
     {
         isBlock = false,
         ...props
