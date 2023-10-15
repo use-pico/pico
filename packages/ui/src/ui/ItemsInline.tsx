@@ -4,10 +4,7 @@ import {Table}                   from "@mantine/core";
 import {Translation}             from "@pico/i18n";
 import {type WithIdentitySchema} from "@pico/schema";
 import {IconFileDots}            from "@tabler/icons-react";
-import {
-    type ComponentProps,
-    type FC
-}                                from "react";
+import {type FC}                 from "react";
 import {Modal}                   from "../modal/Modal";
 import {ModalStoreProvider}      from "../modal/ModalStoreProvider";
 import {Group}                   from "./Group";
@@ -16,7 +13,7 @@ import {InlineLimit}             from "./ItemsInline/InlineLimit";
 export namespace ItemsInline {
     export interface Props<
         TItem extends WithIdentitySchema.Type,
-    > extends ComponentProps<typeof Group> {
+    > extends Group.Props {
         label?: string;
         items: TItem[];
         Item: Item<TItem>;
@@ -42,7 +39,9 @@ export const ItemsInline = <
 ) => {
     return <ModalStoreProvider>
         <Modal
-            onClick={e => e.stopPropagation()}
+            modalProps={{
+                onClick: e => e.stopPropagation(),
+            }}
             icon={<IconFileDots/>}
             title={<Translation namespace={"common.inline"} withLabel={"more.title"}/>}
             modalId={"detail"}
