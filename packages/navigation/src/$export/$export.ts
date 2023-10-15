@@ -7,6 +7,7 @@ export * from "./ParamsOf";
 export * from "./isHrefProps";
 export * from "./isLink";
 export * from "./linkTo";
+export * from "./useJsonParam$";
 export * from "./useParam";
 export * from "./useParam$";
 export * from "./useParams";
