@@ -15,7 +15,7 @@ import {isBreadcrumbLink}               from "./isBreadcrumbLink";
 export namespace Breadcrumbs {
     export interface Props {
         withTranslation?: IWithTranslation;
-        items: (Breadcrumb.Item | undefined)[];
+        items: Record<string, Breadcrumb.Item>;
     }
 }
 
@@ -29,7 +29,7 @@ export const Breadcrumbs: FC<Breadcrumbs.Props> = (
         withTranslation={withTranslation}
     >
         <CoolBreadcrumbs>
-            {items.filter(Boolean).map(item => {
+            {Object.entries(items).map(([id, item]) => {
                 if (isBreadcrumbLink(item)) {
                     return <BreadcrumbLink
                         key={id}
