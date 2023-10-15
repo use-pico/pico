@@ -36,6 +36,11 @@
 			"@total-typescript/ts-reset",
 			"node"
 		],
-		"useDefineForClassFields": true
+		"useDefineForClassFields": true,
+		"plugins": [
+			{
+				"name": "typescript-plugin-css-modules"
+			}
+		]
 	}
 }

@@ -1,17 +1,17 @@
 "use client";
 
-import {type IHrefProps} from "@pico/types";
-import {linkTo}          from "@pico/utils";
 import {
+    type IHrefProps,
+    linkTo,
     useParams,
-    useRouter as useCoolRouter
-}                        from "next/navigation";
+    useRouter
+} from "@pico/navigation";
 
 /**
  * Router with locale; expects "locale" parameter in Next.js `useParams` hook.
  */
 export const useLocaleRouter = () => {
-    const router = useCoolRouter();
+    const router = useRouter();
     const {locale} = useParams() as unknown as {
         locale: string
     };

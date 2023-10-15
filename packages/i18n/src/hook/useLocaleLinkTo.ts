@@ -1,9 +1,9 @@
-import {type IWithLinkTo} from "@pico/types";
 import {
-    isString,
+    type IWithLinkTo,
     linkTo
-}                         from "@pico/utils";
-import {useLocaleRouter}  from "./useLocaleRouter";
+}                        from "@pico/navigation";
+import {isString}        from "@pico/utils";
+import {useLocaleRouter} from "./useLocaleRouter";
 
 export const useLocaleLinkTo = (): IWithLinkTo => {
     const {locale} = useLocaleRouter();

@@ -1,12 +1,14 @@
-import {Translation}           from "@pico/i18n";
-import {type FC}               from "react";
-import {type IBreadcrumbLabel} from "../api/IBreadcrumbLabel";
-import {Group}                 from "../ui/Group";
-import {WithIcon}              from "../ui/WithIcon";
+import {Translation} from "@pico/i18n";
+import {type FC}     from "react";
+import {Breadcrumb}  from "../api/Breadcrumb";
+import {Group}       from "../ui/Group";
+import {WithIcon}    from "../ui/WithIcon";
 
-export type IBreadcrumbLabelProps = IBreadcrumbLabel;
+export namespace BreadcrumbLabel {
+    export type Props = Breadcrumb.Label;
+}
 
-export const BreadcrumbLabel: FC<IBreadcrumbLabelProps> = (
+export const BreadcrumbLabel: FC<BreadcrumbLabel.Props> = (
     {
         label,
         icon,

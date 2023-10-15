@@ -2,7 +2,7 @@
 
 import {Table}                   from "@mantine/core";
 import {Translation}             from "@pico/i18n";
-import {type WithIdentitySchema} from "@pico/query";
+import {type WithIdentitySchema} from "@pico/schema";
 import {IconFileDots}            from "@tabler/icons-react";
 import {
     type ComponentProps,

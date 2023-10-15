@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"esbuild": "^0.18.15",
+		"esbuild-css-modules-plugin": "^3.0.3",
 		"glob": "^10.3.3"
 	},
 	"devDependencies": {

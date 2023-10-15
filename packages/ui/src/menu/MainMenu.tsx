@@ -2,10 +2,8 @@
 
 import {Group}                 from "@mantine/core";
 import {type IWithTranslation} from "@pico/i18n";
-import {
-    cx,
-    isLink
-}                              from "@pico/utils";
+import {isLink}                from "@pico/navigation";
+import {cx}                    from "@pico/utils";
 import {usePathname}           from "next/navigation";
 import {type FC}               from "react";
 import {type IMenuItems}       from "../api/IMenuItems";

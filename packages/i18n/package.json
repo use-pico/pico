@@ -25,8 +25,8 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
+		"@pico/navigation": "^1.0.0",
 		"@pico/store": "^1.0.0",
-		"@pico/ui": "^1.0.0",
 		"@pico/utils": "^1.0.0",
 		"@types/luxon": "^3.3.1",
 		"luxon": "^3.4.1",

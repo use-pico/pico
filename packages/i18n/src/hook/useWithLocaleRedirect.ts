@@ -1,6 +1,10 @@
-import {type IHrefProps} from "@pico/types";
+import {type IHrefProps} from "@pico/navigation";
 import {isString}        from "@pico/utils";
 import {useLocaleRouter} from "./useLocaleRouter";
+
+export namespace useWithLocaleRedirect {
+    export type Redirect = ReturnType<typeof useWithLocaleRedirect>;
+}
 
 export const useWithLocaleRedirect = () => {
     const {push} = useLocaleRouter();
@@ -11,7 +15,3 @@ export const useWithLocaleRedirect = () => {
         query: href.query,
     });
 };
-
-export namespace useWithLocaleRedirect {
-    export type Redirect = ReturnType<typeof useWithLocaleRedirect>;
-}

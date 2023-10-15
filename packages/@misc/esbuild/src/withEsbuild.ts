@@ -1,4 +1,5 @@
 import {type BuildOptions} from "esbuild";
+import CssModulesPlugin    from "esbuild-css-modules-plugin";
 import {glob}              from "glob";
 
 export const withEsbuild = (config?: BuildOptions): BuildOptions => {
@@ -13,6 +14,15 @@ export const withEsbuild = (config?: BuildOptions): BuildOptions => {
         sourcemap:   false,
         outdir:      "lib",
         packages:    "external",
+        plugins: [
+            CssModulesPlugin({
+                force:               true,
+                emitDeclarationFile: ".css.d.ts",
+                localsConvention:    "camelCaseOnly",
+                namedExports:        true,
+                inject:              false,
+            })
+        ],
         ...config,
     };
 };

@@ -1,1 +1,8 @@
-./workspace.xml
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../../:\Users\Marek Hanzal\Projects\github.com\marek-hanzal\marsh-backend\marsh\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

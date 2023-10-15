@@ -1,11 +1,11 @@
-import {ActionIcon}           from "@mantine/core";
-import {LocaleLink}           from "@pico/i18n";
-import {type FC}              from "react";
-import {type IBreadcrumbLink} from "../api/IBreadcrumbLink";
-import {ButtonLink}           from "../ui/ButtonLink";
+import {ActionIcon} from "@mantine/core";
+import {LocaleLink} from "@pico/i18n";
+import {type FC}    from "react";
+import {Breadcrumb} from "../api/Breadcrumb";
+import {ButtonLink} from "../ui/ButtonLink";
 
 export namespace BreadcrumbLink {
-    export interface Props extends IBreadcrumbLink {
+    export interface Props extends Breadcrumb.Link {
     }
 }
 

@@ -32,6 +32,8 @@
 		"@mantine/notifications": "^7.0.0",
 		"@mantine/nprogress": "^7.0.0",
 		"@mantine/spotlight": "^7.0.0",
+		"@pico/i18n": "^1.0.0",
+		"@pico/navigation": "^1.0.0",
 		"@pico/query": "^1.0.0",
 		"@pico/store": "^1.0.0",
 		"@pico/utils": "^1.0.0",

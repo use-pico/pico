@@ -4,7 +4,7 @@ import {
     LocaleLink,
     Translation
 }                        from "@pico/i18n";
-import {type IHrefProps} from "@pico/types";
+import {type IHrefProps} from "@pico/navigation";
 import {
     type FC,
     type ReactNode

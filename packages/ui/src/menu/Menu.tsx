@@ -4,10 +4,8 @@ import {
     type IWithTranslation,
     WithTranslationProvider
 }                        from "@pico/i18n";
-import {
-    cx,
-    isHrefProps
-}                        from "@pico/utils";
+import {isHrefProps}     from "@pico/navigation";
+import {cx}              from "@pico/utils";
 import {type FC}         from "react";
 import {type IMenuItems} from "../api/IMenuItems";
 import {ActiveStore}     from "../store/ActiveStore";

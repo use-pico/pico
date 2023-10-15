@@ -9,17 +9,19 @@ import {useTranslation}        from "../hook/useTranslation";
 import {WithTranslationStore}  from "../store/WithTranslationStore";
 import {type IWithTranslation} from "../utils/IWithTranslation";
 
-export interface ITranslationProps extends Omit<IWithTranslation, "withLabel"> {
-    /**
-     * If a non-string value is provided, label is used directly as a ReactNode.
-     */
-    withLabel?: ReactNode;
+export namespace Translation {
+    export interface Props extends Omit<IWithTranslation, "withLabel"> {
+        /**
+         * If a non-string value is provided, label is used directly as a ReactNode.
+         */
+        withLabel?: ReactNode;
+    }
 }
 
 /**
  * Simple translation component; uses `useTranslation` under the hood.
  */
-export const Translation: FC<ITranslationProps> = (
+export const Translation: FC<Translation.Props> = (
     {
         namespace,
         label,

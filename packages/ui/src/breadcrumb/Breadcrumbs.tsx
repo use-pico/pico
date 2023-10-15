@@ -6,18 +6,20 @@ import {
     WithTranslationProvider
 }                                       from "@pico/i18n";
 import {type FC}                        from "react";
-import {type IBreadcrumb}               from "../api/IBreadcrumb";
+import {type Breadcrumb}                from "../api/Breadcrumb";
 import {BreadcrumbLabel}                from "./BreadcrumbLabel";
 import {BreadcrumbLink}                 from "./BreadcrumbLink";
 import {isBreadcrumbLabel}              from "./isBreadcrumbLabel";
 import {isBreadcrumbLink}               from "./isBreadcrumbLink";
 
-export interface IBreadcrumbsProps {
-    withTranslation?: IWithTranslation;
-    items: (IBreadcrumb | undefined)[];
+export namespace Breadcrumbs {
+    export interface Props {
+        withTranslation?: IWithTranslation;
+        items: (Breadcrumb.Item | undefined)[];
+    }
 }
 
-export const Breadcrumbs: FC<IBreadcrumbsProps> = (
+export const Breadcrumbs: FC<Breadcrumbs.Props> = (
     {
         withTranslation,
         items,
@@ -27,11 +29,7 @@ export const Breadcrumbs: FC<IBreadcrumbsProps> = (
         withTranslation={withTranslation}
     >
         <CoolBreadcrumbs>
-            {items.filter(Boolean).map((
-                {
-                    id,
-                    ...item
-                }) => {
+            {items.filter(Boolean).map(item => {
                 if (isBreadcrumbLink(item)) {
                     return <BreadcrumbLink
                         key={id}

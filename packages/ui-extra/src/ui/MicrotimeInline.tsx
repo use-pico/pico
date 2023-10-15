@@ -1,10 +1,12 @@
 import {
+    DateTimeInline,
+    type IDateInput
+}                from "@pico/i18n";
+import {
     Group,
     Text
-}                        from "@pico/ui";
-import {type FC}         from "react";
-import {type IDateInput} from "../utils/IDateInput";
-import {DateTimeInline}  from "./DateTimeInline";
+}                from "@pico/ui";
+import {type FC} from "react";
 
 export namespace MicrotimeInline {
     export interface Props {
