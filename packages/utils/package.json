@@ -1,5 +1,5 @@
 {
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "^2.2.1",
-		"@use-pico/types": "^1.0.0",
+		"@use-pico/types": "^1.0.1",
 		"@types/classnames": "^2.3.1",
 		"@types/humanize-duration": "^3.27.1",
 		"@types/is-callable": "^1.1.0",
@@ -53,9 +53,9 @@
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^1.0.0",
-		"@use-pico/eslint-config-eslint": "^1.0.0",
-		"@use-pico/tsconfig": "^1.0.0",
+		"@use-pico/esbuild": "^1.0.1",
+		"@use-pico/eslint-config-eslint": "^1.0.1",
+		"@use-pico/tsconfig": "^1.0.1",
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",
