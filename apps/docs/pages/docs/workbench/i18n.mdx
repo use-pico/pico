@@ -1,0 +1,94 @@
+import {
+    Callout,
+    Tab,
+    Tabs
+} from "nextra-theme-docs";
+
+# i18n
+
+<Callout type="info" emoji="ℹ️">
+    Information about this package can be found [here](../packages/i18n-client).
+</Callout>
+
+This part of the library abstracts overall i18n setup, provides date & time and language (translations) support in a simple manner.
+
+## Installation
+
+This library takes with it quite a **punch** of dependencies.
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+    <Tab>
+        ```bash copy filename="npm"
+        npm i @leight/i18n-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="pnpm"
+        pnpm i @leight/i18n-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="yarn"
+        yarn add @leight/i18n-client
+        ```
+    </Tab>
+</Tabs>
+
+## Translations
+
+Translations are based on [i18next](https://www.i18next.com/) and [next-i18next](https://github.com/i18next/next-i18next) with some little helpers to
+keep things consistent.
+
+## Date & Time
+
+### Usage
+
+State backend is powered by [`@leight/zustand`](../packages/zustand) and [`@leight/context-client`](../packages/context-client); it comes with some pieces: (store) provider and consumer (hooks).
+
+[`@leight/i18n-client`](../packages/i18n-client) abstracts date/time library [Luxon](https://moment.github.io/luxon/#/).
+
+#### Provider
+
+Provider should be somewhere **high** in the app/component tree; **`PageShell`** in [`@leight/mantine`](../packages/mantine#PageShell) uses this provider by default.
+
+```tsx filename="MyComponent.tsx"
+import {DateTimeProvider} from '@leight/i18n-client';
+
+export const MyComponent = () => {
+	return <DateTimeProvider>
+        rest of your components now use `useDateTimeState`
+    </DateTimeProvider>
+}
+```
+
+#### Consumer - Store
+
+```tsx filename="MyComponent.tsx"
+import {useDateTimeState} from "@leight/i18n-client";
+
+export const MyComponent = () => {
+	/**
+     * See store/IDE completion what methods are available; basically this just abstract usage of a backend
+     * date/time library used.
+     */
+    const {toLocalDate} = useDateTimeState(({toLocalDate}) => ({toLocalDate}));
+	return <>{toLocalDate("iso-formatted-date")}</>;
+};
+```
+
+#### Consumer - Components
+
+```tsx filename="MyComponent2.tsx"
+import {Date, DateTime} from "@leight/i18n-client";
+
+export const MyComponent2 = () => {
+	/**
+     * There are Date and DateTime components which internally use DateTime context; nothing special is inside,
+     * no spans and so on, so you can do whatever you want with them.
+     */
+	return <>
+        <Date input={"1995-04-14"}/>
+        <DateTime input={"1995-04-14T07:32"}/>
+    </>;
+};
+```

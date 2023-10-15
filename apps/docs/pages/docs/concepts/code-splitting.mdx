@@ -1,0 +1,70 @@
+import { Callout } from "nextra-theme-docs";
+
+# Code splitting
+
+<Callout>
+    This chapter expects you _follow concept_ of [monorepo](/docs/concepts/monorepo) as it **requires** splitting your packages into several sub-packages.
+</Callout>
+
+## Prologue
+
+The structure of this library may look quite _crazy_, but there is a reason, why it's done in a such way.
+
+The problem was that I've used _a lot of_ code which was _client-only_ or _server-only_ **mixed together**. Or just a little utility function, which takes some _Node_ specific
+code to the client. It was pain.
+
+_So here comes the solution._
+
+## Client
+
+<Callout type="info" emoji="ℹ️">
+    Here you would have all the dependencies on React, UI libraries and other nice stuff which belongs to the client-only. This package can freely depend on other `-client` or _common name_ packages, but
+    **never** on `-server` packages.
+</Callout>
+
+Every package related only to **client side** ends with `-client` suffix. Even there are some funny situations where I've got `client-client` package for client aka _customer_ on client
+side aka _browser_. But even with it, _I've followed this concept_.
+
+## Server
+
+<Callout type="info" emoji="ℹ️">
+    This package is meant to be used only in `Node` environment, so you can use whatever you want. Just not browser stuff; usually here you will **not** have any kind of client-side packages
+    like React and so on. Server-side can freely depend on other `-server` packages but **never** depend on `-client` packages; it could also include _common name_ package.
+</Callout>
+
+Same for **server-side** - everything related to the _Node world_ not usable in browser should go into `-server` package. Sometimes package names could be crazy long, but keep the concept,
+you won't regret it.
+
+## The others
+
+<Callout type="info" emoji="ℹ️">
+    Just interfaces. You **should prevent** implementing any kind of logic in this package; by the usage, it should not have any dependencies on `-client` or `-server` packages. Just other commons.
+</Callout>
+
+When there are interfaces, usually **sharable between packages** or just between `-client` and `-server`. Tt should be in the package name _without_ any suffix.
+Keep in mind here should **not** be any code other than just interfaces or pure helpers, because you can end up with cyclic dependencies within `-client`/`-server` and `package` packages.
+
+## Examples
+
+You can see [@leight](https://github.com/leight-core/viv/tree/main/packages/%40leight) packages, but for example:
+
+### @leight/file
+
+Interfaces, type definitions and overall shape of `-client` and `-server` packages; because we're talking about types, it doesn't matter there are mixed client and server stuff.
+
+### @leight/file-client
+
+This package provides React stuff on a client, table for listing files, handles uploading and a lot of other - **client only** stuff. Backend calls are handled via _trpc_ which is **another**
+package using the same concept of split code.
+
+### @leight/file-server
+
+Here is generated Source and overall server-only stuff: generated procedures and handling of FileSource (filtering, ordering, ...). Here you are in _Node land_ so you can do whatever you want. Except
+including this on client.
+
+## tRPC
+
+This is related, but worth mentioning: because _@leight_ expects you will use monorepo for managing all pieces of your app, this one is quite special.
+
+With you app - **in the monorepo** - you should have two packages for tRPC: one for a client, one for server, both serving as center point of component connection - all other packages can export procedures
+which should be connected in the server-side package; also this is the only exception where `client` can include `server` stuff, but this is due nature of tRPC.

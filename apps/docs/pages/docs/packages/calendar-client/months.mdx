@@ -1,0 +1,29 @@
+import { SourceExample } from "../../../../components";
+import { DefaultMonthsExample } from "../../../../example/calendar-client";
+
+# Months
+
+Months calendar based on an arbitrary input date (to get current year).
+
+## Minimal example
+
+<SourceExample
+    example={<DefaultMonthsExample/>}
+>
+```tsx filename="DefaultMonths.tsx"
+import {
+    Months,
+    MonthsOfProvider
+}                from "@leight/calendar-client";
+import {type FC} from "react";
+
+export interface IDefaultMonthsProps {
+}
+
+export const DefaultMonths: FC<IDefaultMonthsProps> = () => {
+    return <MonthsOfProvider>
+        <Months/>
+    </MonthsOfProvider>;
+};
+```
+</SourceExample>

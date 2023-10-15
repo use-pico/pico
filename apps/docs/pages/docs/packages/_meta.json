@@ -1,0 +1,16 @@
+{
+	"index": "Overview",
+	"calendar-client": "calendar-client",
+	"container": "container",
+	"context-client": "context-client",
+	"esbuild": "esbuild",
+	"i18n": "i18n",
+	"i18n-client": "i18n-client",
+	"mantine": "mantine",
+	"sdk": "sdk",
+	"source": "source",
+	"table-client": "table-client",
+	"utils": "utils",
+	"utils-client": "utils-client",
+	"zustand": "zustand"
+}

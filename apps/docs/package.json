@@ -1,0 +1,41 @@
+{
+	"name": "@leight/docs",
+	"version": "0.5.22",
+	"description": "Documentation for Leight Viv",
+	"license": "MIT",
+	"scripts": {
+		"dev": "next dev",
+		"build": "concurrently npm:build:*",
+		"build:server": "node esbuild.mjs",
+		"build:docs": "dotenv -v BASE_URL=/viv -- next build && next export -o ../../docs && touch ../../docs/.nojekyll && next build",
+		"start": "npx leight-docs"
+	},
+	"files": [
+		"bin",
+		".next",
+		"!.next/cache"
+	],
+	"bin": {
+		"leight-docs": "./bin/server.js"
+	},
+	"dependencies": {
+		"@leight/calendar-client": "^0.5.25",
+		"@leight/i18n": "^0.5.73",
+		"@leight/table-client": "^0.5.36",
+		"@leight/utils-server": "^0.5.66",
+		"@leight/zod": "^0.5.13",
+		"next": "^13.2.4",
+		"nextra": "latest",
+		"nextra-theme-docs": "latest",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@leight/esbuild": "^0.5.46",
+		"@types/node": "^18.15.7",
+		"concurrently": "^7.6.0",
+		"dotenv-cli": "^7.1.0",
+		"touch-cli": "^0.0.1",
+		"typescript": "^5.0.2"
+	}
+}

@@ -1,0 +1,48 @@
+import { Callout } from "nextra-theme-docs";
+
+# Monorepo
+
+<Callout type="info" emoji="ℹ️">
+    This page is just about concept and reasons, if you want full guide, see [this workbench page](../workbench/monorepo).
+</Callout>
+
+Because a lot of concepts here are based on splitting code into smaller packages, I should say _**packages with single responsibility**_,
+monorepo is needed.
+
+This is just a concept, why it's required, for tutorial, see [Workbench](../workbench/monorepo). Because this project uses [Turborepo](https://turbo.build/repo), it
+also provides setup using this tool.
+
+## What's good
+
+You can create bilions of small libraries (those things with `package.json`) and split the logic/code across them. This library also generates a lof of stuff and it really
+likes things clean and shiny, so you **will** have hard time if you do things in a different way. It may work, but be careful.
+
+So yes, obvious bonus is separated code and clean dependencies. You can also reuse pieces of your own app if you wish to publish your packages into the registry.
+
+## What's not so good
+
+IDE support. Because of TypeScript and dynamics of development of small libraries, IDE support may suck a lot of time, you loose finding references, refactoring is quite
+hard and overall experience is a bit worse. That's a tradeoff of separated packages. You should accept it.
+
+## What's PITA
+
+<Callout>
+    **PNPM**. NEVER EVER use pnpm with `@leight` and monorepo. Why? Because it's in PITA section which means you will never sit again.
+
+    Main problem is the way PNPM manages `node_modules` where it tries isolate everything, so TypeScript cries a lot, because `it cannot name types without blablabla (you probably
+    know that error)`, but `npm` is cool with it and when you want generate Prisma schema, that's real hell. It's generated into one part of packages, but the others do not see it.
+
+    So, if you **really** want to use PNPM, **do not ask** any questions.
+</Callout>
+
+Building. Application or library with time of a few seconds can go up to a few minutes. Rebuilding, total mess. And last - and not least - live coding (watch). This was
+quite hard to get done in the right way and it's not optimal, but somehow works. You have to find way (here it's documented) how to execute, for example, 30 libraries in watch
+mode without you Mac being a small bomb.
+
+So be prepared having things in monorepo makes a bit heavier demands on your computer and overall setup of the project.
+
+Also startup time of the app could be quite painful. It depends on the tool you use, but there is cool [Turbowatch](https://github.com/gajus/turbowatch), which helps a lot.
+
+<Callout type="info" emoji="ℹ️">
+    So be brave and continue, there is still a lot of interesting stuff going on, we've got you covered.
+</Callout>

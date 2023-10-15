@@ -1,0 +1,39 @@
+import { Calendar } from "@leight/calendar-client";
+import { DateTime } from "@leight/i18n";
+import { Shell } from "@leight/mantine";
+import {
+    Callout,
+    Tab,
+    Tabs
+} from "nextra-theme-docs";
+
+# @leight/calendar-client
+
+Tools for rendering calendars with clever integrations with [`Source`](../concepts/source).
+
+## Installation
+
+<Callout type="info" emoji="ℹ️">
+    This package is build on top of [Mantine](https://mantine.dev/pages/getting-started/).
+</Callout>
+
+If you want to use this package, it's recommended to install also [`@leight/mantine`](./mantine) as there are tools
+which makes work with Calendar stuff much easier.
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+    <Tab>
+        ```bash copy filename="npm"
+        npm i @leight/calendar-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="pnpm"
+        pnpm i @leight/calendar-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="yarn"
+        yarn add @leight/calendar-client
+        ```
+    </Tab>
+</Tabs>

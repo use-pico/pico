@@ -1,0 +1,18 @@
+{
+	"*": {
+		"type": "page"
+	},
+	"index": {
+		"title": "Home",
+		"theme": {
+			"toc": true
+		}
+	},
+	"docs": "Docs",
+	"about": {
+		"title": "About",
+		"theme": {
+			"typesetting": "article"
+		}
+	}
+}

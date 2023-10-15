@@ -1,0 +1,9 @@
+{
+	"root": true,
+	"extends": [
+		"@pico/eslint"
+	],
+	"rules": {
+		"react/display-name": "off"
+	}
+}

@@ -1,0 +1,20 @@
+.ListBorder {
+    border: 1px solid var(--mantine-color-gray-4);
+    border-right: none;
+    border-left: none;
+}
+
+.Item {
+    padding: var(--mantine-spacing-xs);
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 1px solid var(--mantine-color-gray-4);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:nth-of-type(odd) {
+        background-color: var(--mantine-color-gray-1);
+    }
+}

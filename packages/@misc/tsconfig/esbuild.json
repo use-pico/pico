@@ -1,0 +1,41 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "esbuild",
+	"compilerOptions": {
+		"isolatedModules": false,
+		"emitDeclarationOnly": true,
+		"disableSolutionSearching": true,
+		"emitDecoratorMetadata": false,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": false,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": false,
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"jsx": "react-jsx",
+		"module": "ES2022",
+		"target": "ES2022",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": false,
+		"noImplicitAny": true,
+		"noUncheckedIndexedAccess": true,
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"declaration": true,
+		"declarationMap": false,
+		"sourceMap": false,
+		"inlineSources": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"strictPropertyInitialization": true,
+		"types": [
+			"@total-typescript/ts-reset",
+			"node"
+		],
+		"useDefineForClassFields": true
+	}
+}

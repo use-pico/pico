@@ -1,0 +1,8 @@
+{
+	"index": "Overview",
+	"monorepo": "Monorepo",
+	"prisma": "Prisma",
+	"i18n": "i18n",
+	"zustand": "Zustand",
+	"sdk": "SDK"
+}

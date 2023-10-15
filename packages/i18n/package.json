@@ -1,0 +1,53 @@
+{
+	"version": "1.0.0",
+	"name": "@pico/i18n",
+	"description": "I18n support.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/leight-core/viv.git"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"main": "src/index.ts",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"build": "concurrently npm:build:*",
+		"build:esbuild": "node esbuild.mjs",
+		"build:types": "tsc --outDir lib",
+		"lint": "eslint src",
+		"cleanup": "concurrently npm:cleanup:*",
+		"cleanup:sdk": "del-cli src/sdk/**",
+		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+	},
+	"dependencies": {
+		"@pico/store": "^1.0.0",
+		"@pico/utils": "^1.0.0",
+		"@types/luxon": "^3.3.1",
+		"build-url-ts": "^6.1.5",
+		"luxon": "^3.4.1",
+		"next": "^13.4.19",
+		"next-intl": "^2.19.2",
+		"preferred-locale": "^2.0.1",
+		"react": "^18.2.0"
+	},
+	"devDependencies": {
+		"@pico/esbuild": "^1.0.0",
+		"@pico/eslint-config-eslint": "^1.0.0",
+		"@pico/tsconfig": "^1.0.0",
+		"@types/node": "^20.4.2",
+		"@types/react": "^18.2.15",
+		"concurrently": "^8.2.0",
+		"del-cli": "^5.0.0",
+		"eslint": "^8.47.0",
+		"typescript": "^5.2.2"
+	},
+	"bugs": {
+		"url": "https://github.com/leight-core/viv/issues"
+	},
+	"homepage": "https://github.com/leight-core/viv#readme"
+}

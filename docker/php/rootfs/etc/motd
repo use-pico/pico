@@ -1,0 +1,11 @@
+
+    Welcome to base PHP image with Nginx!
+
+    Installed:
+    - composer
+    - xdebug (global script *php-enable-xdebug* and *php-disable-xdebug* available); disabled by default
+    - opcache (php-enable-opcache and php-disable-opcache); disabled by default
+    - there are some quick scripts: php-dev (disable opcache, enable xdebug), php-prod (enable opcache, disable xdebug)
+
+    Have a nice day :)!
+

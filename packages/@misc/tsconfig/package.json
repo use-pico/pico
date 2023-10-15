@@ -1,0 +1,21 @@
+{
+	"version": "1.0.0",
+	"name": "@pico/tsconfig",
+	"description": "Common tsconfig used withing @leight namespace.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/leight-core/viv.git"
+	},
+	"files": [
+		"common.json",
+		"esbuild.json"
+	],
+	"bugs": {
+		"url": "https://github.com/leight-core/viv/issues"
+	},
+	"homepage": "https://github.com/leight-core/viv#readme",
+	"dependencies": {
+		"@total-typescript/ts-reset": "^0.5.1"
+	}
+}

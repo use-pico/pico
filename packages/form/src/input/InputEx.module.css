@@ -1,0 +1,11 @@
+.item {
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--mantine-color-gray-0);
+    }
+}
+
+.disabled {
+    cursor: not-allowed;
+}

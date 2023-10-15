@@ -1,0 +1,85 @@
+.HeaderGrid {
+    background-color: var(--mantine-color-gray-0);
+    border-bottom: 1px solid;
+    border-color: var(--mantine-color-gray-4);
+    font-weight: bold;
+}
+
+.HeaderCell {
+    height: 3em;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+
+    border-right: 1px solid;
+    border-color: var(--mantine-color-gray-4);
+
+    &:last-child {
+        border-right: none;
+    }
+}
+
+.WeekRow {
+    border-top: 1px solid;
+    border-color: var(--mantine-color-gray-4);
+}
+
+.WeekNumber {
+    padding-top: 1em;
+    text-align: center;
+    border-right: 1px solid;
+    border-color: var(--mantine-color-gray-4);
+}
+
+.WeekCell {
+    height: 6em;
+    padding: 0;
+
+    border-right: 1px solid;
+    border-color: var(--mantine-color-gray-4);
+
+    &:last-child {
+        border-right: none;
+    }
+
+    &:hover {
+        background-color: var(--mantine-color-gray-1);
+    }
+}
+
+.CurrentWeek {
+}
+
+.Day {
+    padding: 1em 1em;
+}
+
+.InRange {
+    font-weight: 500;
+}
+
+.OutOfRange {
+    background-color: var(--mantine-color-gray-0);
+}
+
+.CurrentDay {
+    background-color: var(--mantine-color-blue-3);
+    color: var(--mantine-color-blue-0);
+
+    &:hover {
+        background-color: var(--mantine-color-blue-2);
+        color: var(--mantine-color-blue-0);
+    }
+}
+
+.SelectedDay {
+    font-weight: bold;
+    color: var(--mantine-color-green-7);
+    background-color: var(--mantine-color-green-1);
+
+    &:hover {
+        color: var(--mantine-color-green-9);
+        background-color: var(--mantine-color-green-3);
+    }
+}

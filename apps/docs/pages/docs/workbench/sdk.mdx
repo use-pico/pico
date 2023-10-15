@@ -1,0 +1,197 @@
+import {
+    Callout,
+    Tab,
+    Tabs
+} from "nextra-theme-docs";
+
+# SDK
+
+<Callout type="info" emoji="ℹ️">
+    Everything you see here in code snippets has more options and also inline-source documentation of all available properties. So
+    if you pickup some piece of code, read the code docs too.
+</Callout>
+
+SDK stands as an implementation of `MCP` in the `@leight` collection. It's meant as development kit, which you should **not** modify
+as it comes `from outside`, in this case from generator.
+
+## Installation
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+    <Tab>
+        ```bash copy filename="npm"
+        npm i -D @leight/sdk tsx concurrently typescript
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="pnpm"
+        pnpm i -D @leight/sdk tsx concurrently typescript
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="yarn"
+        yarn add -D @leight/sdk tsx concurrently typescript
+        ```
+    </Tab>
+</Tabs>
+
+- **@leight/sdk**: The generator itself
+- **tsx**: Generator does not ship executable as it expects being executed by the user (that's you!); with this in mind, you can use whatever executor you want
+- **typescript**: You already should have one for obvious reasons
+- **concurrently**: This one is also required by a concept and setup of [package.json](../concepts/package.json)
+
+## Usage
+
+<Callout type="info" emoji="ℹ️">
+    If you want to use this part of the library, you should be familiar with [Source](../concepts/source) concept.
+</Callout>
+
+<Callout>
+    If you want to use this, you're already using [monorepo](/docs/concepts/monorepo), but this guide also **requires** usage of standalone [prisma package](./prisma) for your app (or lib).
+</Callout>
+
+Update `package.json` (applies for all three kind of packages - [client/server/common](/docs/concepts/code-splitting)).
+
+```json copy
+{
+    "scripts": {
+        "generate": "concurrently npm:generate:*",
+        "generate:sdk": "tsx src/leight-sdk.ts"
+    }
+}
+```
+
+Add generator scripts to your `package.json`; `concurrently` is present, because some of your packages may use more generators (for example prisma), so you're already prepared. But this is up to you, you're
+_**the boss**_.
+
+Now it's time for `leight-sdk.ts` configuration file: it's presence in `src` folder is just to keep everything together, and also it could get type-checked, so if something in generator API is changed, it could
+help you find cause instead of strange death.
+
+### Common
+
+For your [API package](/docs/concepts/code-splitting#the-others) (without suffix) create a file `src/leight-sdk.ts`; you can choose whatever name you want, but _do not forget to update `package.json`_.
+
+```ts filename="src/leight-sdk.ts" copy
+import {withSdk, withSourceGenerators} from "@leight/sdk";
+
+/**
+ * Generator itself (handles file creation, execution, console params stuff and others...)
+ */
+void withSdk(
+	/**
+     * Common (api) set of generators; at the end it uses usually more internal generators, which could
+     * also be used manually if you want/need.
+     */
+	withSourceGenerators({
+        entity:   "Prisma entity name, for example User (case is important); this is used to generate Schemas",
+        packages: {
+            /**
+             * Because you have a standalone prisma package, you can use it here, so generator can properly
+             * import all Prisma parts of the model you want to generate.
+             */
+            prisma: "@my-app/prisma",
+        },
+        /**
+         * You may optionally specify field names which should be generated in your SortSchema for the given
+         * model. Remember that input (Sort) schema is not the same as OrderBy in Prisma, you have to handle
+         * it in Source (to prevent direct internals exposure to the client).
+         */
+        sorts:    [
+            "field-name",
+            "field-name2",
+            "field-name3",
+        ],
+    })
+);
+```
+
+### Client
+
+For your [client-side package](/docs/concepts/code-splitting#client) create a file `src/leight-sdk.ts`; you can choose whatever name you want, but _do not forget to update `package.json`_.
+
+```ts filename="src/leight-sdk.ts" copy
+import {withClientSourceGenerators, withSdk} from "@leight/sdk";
+
+/**
+ * Generator itself (handles file creation, execution, console params stuff and others...)
+ */
+void withSdk(
+	/**
+     * Client set of generators; at the end, it uses more internal generators, which could
+     * also be used manually if you want/need.
+     */
+	withClientSourceGenerators({
+        entity:   "Prisma entity name, for example User (case is important); this is used to generate Schemas",
+        packages: {
+            /**
+             * This is a reference to a common package with generated schemas, interfaces and other
+             * stuff required. Usually, current package name without suffix.
+             */
+            schema: "@my-app/model-name",
+        },
+        trpc:     {
+            path:    "trpc.route.path",
+            package: "@my-app/trpc-client",
+        },
+    })
+);
+```
+
+### Server
+
+For your [server-side package](/docs/concepts/code-splitting#server) create a file `src/leight-sdk.ts`; you can choose whatever name you want, but _do not forget to update `package.json`_.
+
+```ts filename="src/leight-sdk.ts" copy
+import {withServerSourceGenerators, withSdk} from "@leight/sdk";
+
+/**
+ * Generator itself (handles file creation, execution, console params stuff and others...)
+ */
+void withSdk(
+	/**
+     * Server set of generators; at the end, it uses more internal generators, which could
+     * also be used manually if you want/need.
+     */
+	withServerSourceGenerators({
+        entity:   "Prisma entity name, for example User (case is important); this is used to generate Schemas",
+        packages: {
+            /**
+             * This is a reference to a common package with generated schemas, interfaces and other
+             * stuff required. Usually, current package name without suffix.
+             */
+            schema: "@my-app/model-name",
+            /**
+             * Because you have a standalone prisma package, you can use it here, so generator can properly
+             * import all Prisma parts of the model you want to generate.
+             */
+            prisma: "@my-app/prisma",
+        },
+        /**
+         * This is a single name of the property on prismaClient which will be generated into the Source.
+         */
+        prisma:   "prismaClient.<entityName>",
+    })
+);
+```
+
+## Epilogue
+
+Now you're almost done: just update your `turbo.json` (or whatever monorepo you're using):
+
+<Callout type="info" emoji="ℹ️">
+    **Don't copy-paste** this piece of code, just think about it's _meaning_: execute code generation **before** your build, so you're sure
+    everything is in the place.
+</Callout>
+
+```json filename="turbo.json"
+{
+    "generate": {
+        "cache": false
+    },
+    "build": {
+        "dependsOn": [
+            "^build",
+            "generate"
+        ]
+    }
+}
+```

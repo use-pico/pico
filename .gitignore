@@ -1,0 +1,6 @@
+*.log
+.turbo
+lib
+node_modules
+temp
+tsconfig.tsbuildinfo

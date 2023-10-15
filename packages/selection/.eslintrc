@@ -1,0 +1,19 @@
+{
+	"root": true,
+	"extends": [
+		"@pico/eslint"
+	],
+	"overrides": [
+		{
+			"files": [
+				"src/**/*"
+			],
+			"settings": {
+				"disable/plugins": [
+					"react",
+					"eslint-plugin-react"
+				]
+			}
+		}
+	]
+}

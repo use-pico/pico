@@ -1,0 +1,30 @@
+{
+	"name": "@use-pico/pico",
+	"private": true,
+	"description": "All-in-one solution for fullstack Next.js development.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/use-pico/pico.git"
+	},
+	"scripts": {
+		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
+		"build:force": "turbo run init --force --no-daemon && turbo run build --force --no-daemon",
+		"lint": "turbo run lint --no-daemon",
+		"cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
+		"changeset": "changeset",
+		"changeset:version": "changeset version",
+		"changeset:publish": "changeset publish",
+		"npkill": "npkill"
+	},
+	"workspaces": [
+		"packages/**/*"
+	],
+	"devDependencies": {
+		"@changesets/cli": "^2.26.2",
+		"@roarr/cli": "^5.12.3",
+		"npkill": "^0.11.3",
+		"turbo": "^1.10.15",
+		"typescript": "^5.2.2"
+	}
+}

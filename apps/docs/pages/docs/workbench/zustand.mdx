@@ -1,0 +1,299 @@
+import {
+    Callout,
+    Tab,
+    Tabs
+} from "nextra-theme-docs";
+
+# Zustand
+
+This is a very [cool package](https://www.npmjs.com/package/zustand) for state management and creating stores. You can create shape of store outside
+React components and then nicely use it where you want.
+
+By default, Zustand stores are global, so when you create some `useBearStore(){:js}`, it represents global state. Because `@leight` needs a lot of local
+contexts (for example [Source](../concepts/source/client#context)) for managing data for component subtrees, there was need for some little wrapper around
+Zustand store.
+
+**Motivation** for creating this library was boilerplate around defining store, creating Context Providers, creating hooks and having everything typed. So here
+comes this library - there is _one simple method_, which handles all the **boilerplate** for you.
+
+<Callout type="info" emoji="ℹ️">
+    [`@leight/context-client`](../packages/context-client) re-exports everything from [`@leight/zustand`](../packages/zustand) for simplicity.
+</Callout>
+
+## Installation
+
+We're talking about Zustand, but all the magick is implemented in [@leight/context-client](../packages/context-client) package which handles React Context, also
+wrapping Zustand into the Context, so you can use Stores in component subtree.
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+    <Tab>
+        ```bash copy filename="npm"
+        npm i @leight/context-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="pnpm"
+        pnpm i @leight/context-client
+        ```
+    </Tab>
+    <Tab>
+        ```bash copy filename="yarn"
+        yarn add @leight/context-client
+        ```
+    </Tab>
+</Tabs>
+
+This package provides a lot of tools for [React Context](https://react.dev/reference/react/createContext) and for creating Zustand stores, see [package page](../packages/context-client) for more info.
+
+## Usage
+
+There are three stages: you define a shape of store and create all the required tools, provide values to component subtree and subscribe to value changes.
+
+### Store
+
+This is an example taken from [@leight/utils-client](../packages/utils-client).
+
+```ts filename="LoopContext.ts"
+import {createStoreContext, type IStoreProps} from "@leight/context-client";
+
+/**
+ * Define and export store props as a type; type IStoreProps is re-exported from `@leight/zustand`.
+ *
+ * This is common store stuff same as for Zustand itself; if you want wrap your existing store, just use
+ * IStoreProps. If you want to leave this library, remove it.
+ */
+export type ILoopStoreProps = IStoreProps<{
+    readonly isRunning: boolean;
+    readonly isDone: boolean;
+    readonly isError: boolean;
+    readonly isSuccess?: boolean;
+    readonly current: number;
+    readonly total: number;
+
+    progress(): void;
+
+    start(total: number): void;
+
+    finish(withError?: boolean): void;
+
+    error(error?: boolean): void;
+
+    percent(): number;
+}>
+
+/**
+ * Here is where all the magick comes from:  `createStoreContext`; this method creates all boilerplate stuff you would eventually
+ * write yourself....
+ */
+export const {
+                /**
+                 * ...you get StoreProvider, so you can wrap component subtree with this Store
+                 */
+                 Provider:         LoopProvider,
+                 /**
+                  * ...you get hook for accessing store state within component subtree
+                  *
+                  * - this method throws an error if there is no provider
+                  */
+                 useState:         useLoopState,
+                 /**
+                  * ...this is an optional variant for the store - this method does not throw an error
+                  */
+                 useOptionalState: useOptionalLoopState,
+                 /**
+                  * ...you get access to store itself, if you need it
+                  */
+                 useStore:         useLoopStore,
+                 /**
+                  * ...and optional variant of store access
+                  */
+                 useOptionalStore: useOptionalLoopStore,
+             } = createStoreContext<ILoopStoreProps>({
+    /**
+     * This is a little magic, but state is a callback which gets `default` and `state` from the ContextProvider when it's used. Remember those two values.
+     *
+     * You can access defaults (which is whole store type data (in this case `ILoopStoreProps`) or just required state (about it later).
+     *
+     * The last part of callback is a standard Zustand store creator.
+     */
+    state: ({defaults, state}) => (set, get) => ({
+        total:     0,
+        isRunning: false,
+        isDone:    false,
+        isError:   false,
+        isSuccess: false,
+        current:   0,
+        progress:  () => set(({current}) => ({current: current + 1})),
+        start:     (total) => set({isRunning: true, total}),
+        finish:    (withError = false) =>
+                       set({
+                           isDone:    true,
+                           isRunning: false,
+                           isError:   withError,
+                           isSuccess: !withError,
+                       }),
+        error:     (isError = true) => set({isError, isSuccess: !isError}),
+        percent:   () => {
+            const {current, total} = get();
+            return (100 * current) / total;
+        },
+    }),
+    /**
+     * When context needs to throw an error, this names it, so you know who was the bad boy.
+     */
+    name:  "LoopContext",
+    hint:  "Add LoopProvider."
+});
+```
+
+### Provider
+
+<Callout type="info" emoji="ℹ️">
+    Code, methods and interfaces inside `@leight` are mostly commented, so when you pick piece of code, read comments on properties to learn
+    more.
+</Callout>
+
+This is the hardest part.
+
+```tsx
+/** here will be import from your package */
+import {LoopProvider} from "@leight/utils-client";
+
+export const MyComponent = () => {
+	return <LoopProvider
+        /**
+         * Did you remember those two values?
+         *
+         * state: this resolved problem with Zustand where you must provide all values in the time of store creation, even those
+         * you eventually don't have; this allows you to provide it here; `state` are required values a store cannot work without.
+         */
+        state={}
+        /**
+         * Just defaults; you can freely override whatever you want; but state muse be provided, if there are any required values.
+         */
+        defaults={}
+    >
+        here I've available useLoop stuff and so on.
+    </LoopProvider>;
+};
+```
+
+### Consumer
+
+```tsx
+/** here will be import from your package */
+import {LoopProvider, useLoopState} from "@leight/utils-client";
+
+export const MyConsumer = () => {
+	/**
+     * When you want to use the store, it's the same as with native Zustand
+     *
+     * ...you can take the whole store (so also remember, the component will re-render
+     * when anything changes in the store).
+     */
+	// const store = useLoopState();
+    /**
+     * ...or you can use selectors, so the component will re-render only when selected
+     * values changes. Everything is cleverly typed,
+     * so don't worry, you won't lose any types.
+     */
+	const {isRunning} = useLoopState(({isRunning}) => ({isRunning}));
+	return isRunning ? <span>Gogogogogo!</span> : <span>I'm lazy today!</span>;
+};
+
+export const MyComponent = () => {
+	return <LoopProvider>
+        <MyConsumer/>
+    </LoopProvider>;
+};
+```
+
+## Advanced example
+
+`@leight` solves one interesting "problem" of Zustand: when you are creating new store, you have to provide all the store props; there are situations
+when you need provide store props when a `Provider` is created.
+
+So this library implements an ability to specify store props needed when a store is created and values which could be provided in `runtime`.
+
+Partial example from [`@leight/calendar-client`](../packages/calendar-client) where this approach is used.
+
+```tsx filename="CalendarProvider.tsx"
+import {
+    createStoreContext,
+    type IStoreProps
+} from "@leight/context-client";
+import {
+    type ICalendarProps,
+    type IUseCalendarOptions,
+    useCalendar
+} from "@tuplo/use-calendar";
+import {
+    type ComponentProps,
+    type FC
+} from "react";
+
+/**
+ * Defined store as you're used to, but...
+ */
+export type ICalendarStoreStoreProps = IStoreProps<{
+	/**
+     * Here are properties and methods required to run the store; here you have usually
+     * all store methods.
+     */
+    foo: string;
+}, {
+	/**
+     * Here the magic comes: those properties are required in `runtime`, so when `CalendarStoreProvider`
+     * is created.
+     */
+    calendar: ICalendarProps;
+}>
+
+export const {
+                 Provider:         CalendarStoreProvider,
+                 useState:         useCalendarStoreState,
+                 useOptionalState: useOptionalCalendarStoreState,
+                 useStore:         useCalendarStoreStore,
+                 useOptionalStore: useOptionalCalendarStoreStore,
+             } = createStoreContext<ICalendarStoreStoreProps>({
+    state: ({state}) => () => ({
+        /**
+         * Here you can see: you *must* provide required store props, thus you need to know default
+         * values here.
+         */
+        foo: "yep",
+        /**
+         * `calendar` props is also required, but it's required before, so you can be sure the whole store
+         * is ready here.
+         */
+        ...state,
+    }),
+    name:  "CalendarStoreContext",
+    hint:  "Add CalendarStoreProvider.",
+});
+
+export interface ICalendarProviderProps extends Omit<ComponentProps<typeof CalendarStoreProvider>, "state"> {
+    options?: Partial<IUseCalendarOptions>;
+}
+
+export const CalendarProvider: FC<ICalendarProviderProps> = ({options, ...props}) => {
+	/**
+     * Get your value from whatever source you need...
+     */
+	const calendar = useCalendar(options);
+    return <CalendarStoreProvider
+        /**
+         * Because you specified values of store, "state" prop is unlocked and required, so TypeScript
+         * tells you, whats needed here.
+         */
+        state={{
+			/**
+             * Tadaa! "calendar" props is required as you specified before, so you provide rest of
+             * store values here.
+             */
+            calendar,
+        }}
+        {...props}
+    />;
+};
+```

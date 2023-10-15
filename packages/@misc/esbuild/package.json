@@ -1,0 +1,48 @@
+{
+	"version": "1.0.0",
+	"name": "@pico/esbuild",
+	"description": "Esbuild helper stuff.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/leight-core/viv.git"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"main": "lib/index.js",
+	"module": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"files": [
+		"lib",
+		"src"
+	],
+	"scripts": {
+		"init": "npm run build",
+		"build": "concurrently npm:build:*",
+		"build:esbuild": "node esbuild.mjs",
+		"build:types": "tsc --outDir lib",
+		"lint": "eslint src",
+		"cleanup": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+	},
+	"dependencies": {
+		"esbuild": "^0.18.15",
+		"glob": "^10.3.3"
+	},
+	"devDependencies": {
+		"@pico/eslint-config-eslint": "^1.0.0",
+		"@pico/tsconfig": "^1.0.0",
+		"@types/glob": "^8.1.0",
+		"@types/node": "^20.4.2",
+		"concurrently": "^8.2.0",
+		"del-cli": "^5.0.0",
+		"eslint": "^8.45.0",
+		"typescript": "^5.2.2"
+	},
+	"bugs": {
+		"url": "https://github.com/leight-core/viv/issues"
+	},
+	"homepage": "https://github.com/leight-core/viv#readme"
+}

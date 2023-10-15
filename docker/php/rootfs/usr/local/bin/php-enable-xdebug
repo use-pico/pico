@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+mv /usr/local/etc/php/conf.d/xdebug.ini.disabled /usr/local/etc/php/conf.d/xdebug.ini
+php -v
+echo -n "\nYou should restart php-fpm to apply changes 'supervisorctl restart php-fpm'\n\n"
