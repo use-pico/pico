@@ -45,6 +45,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/source/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ui-extra/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ui/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/.changeset" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/docs/.turbo" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

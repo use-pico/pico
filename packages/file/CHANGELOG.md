@@ -1,5 +1,11 @@
 # @use-pico/file
 
+## 1.0.3
+
+### Patch Changes
+
+- Added module definition
+
 ## 1.0.2
 
 ### Patch Changes

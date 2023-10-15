@@ -1,1 +1,1 @@
-export {default as pathToRegexp} from "path-to-regexp";
+export * as pathToRegexp from "path-to-regexp";
