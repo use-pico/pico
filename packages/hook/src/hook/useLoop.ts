@@ -3,9 +3,7 @@
 import {
     useEffect,
     useRef
-}                   from "react";
-import {LoopsStore} from "../store/LoopsStore";
-import {LoopStore}  from "../store/LoopStore";
+} from "react";
 
 export namespace useLoop {
     export interface Props {

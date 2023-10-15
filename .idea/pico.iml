@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/generator/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/generator/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/hook/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/i18n/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/query/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/query/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/ui-extra/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/ui/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/lib" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

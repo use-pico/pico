@@ -8,6 +8,7 @@ import {Translation}   from "@pico/i18n";
 import {
     type ComponentProps,
     type FC,
+    type PropsWithChildren,
     type ReactNode
 }                      from "react";
 import {BlockProvider} from "../store/BlockProvider";
@@ -15,18 +16,22 @@ import {Text}          from "../ui/Text";
 import {WithIcon}      from "../ui/WithIcon";
 import {ModalStore}    from "./ModalStore";
 
-export interface IModalProps extends Omit<ComponentProps<typeof CoolModal>, "opened" | "onClose"> {
-    modalId: string;
-    icon?: ReactNode;
+export namespace Modal {
+    export type Props = PropsWithChildren<{
+        modalId: string;
+        title?: ReactNode;
+        icon?: ReactNode;
+        modalProps?: Omit<ComponentProps<typeof CoolModal>, "opened" | "onClose">;
+    }>
 }
 
-export const Modal: FC<IModalProps> = (
+export const Modal: FC<Modal.Props> = (
     {
         modalId,
         icon,
         title,
+        modalProps,
         children,
-        ...props
     }) => {
     const {
         isOpen,
@@ -50,7 +55,7 @@ export const Modal: FC<IModalProps> = (
         </Group> : undefined}
         size={"xl"}
         withinPortal
-        {...props}
+        {...modalProps}
     >
         <BlockProvider>
             {children}

@@ -25,7 +25,10 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@pico/utils": "^1.0.0"
+		"@pico/utils": "^1.0.0",
+		"next": "^13.5.4",
+		"next-auth": "^4.23.2",
+		"react": "^18.2.0"
 	},
 	"devDependencies": {
 		"@pico/esbuild": "^1.0.0",

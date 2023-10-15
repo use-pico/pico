@@ -1,41 +1,38 @@
 "use client";
 
 import {
-    Divider,
-    Group,
-    Table,
-    Text
-}                                 from "@mantine/core";
-import {Dropzone as CoolDropzone} from "@mantine/dropzone";
-import {notifications}            from "@mantine/notifications";
-import {
     FileSchema,
     type IFileWithPath
-}                                 from "@pico/file";
+}               from "@pico/file";
 import {
     Translation,
     useTranslation
-}                                 from "@pico/i18n";
+}               from "@pico/i18n";
 import {
+    Divider,
+    Dropzone as CoolDropzone,
+    Group,
     LoopProvider,
-    LoopsStore
-}                                 from "@pico/ui";
+    LoopsStore,
+    notifications,
+    Table,
+    Text
+}               from "@pico/ui";
 import {
     IconCheck,
     IconUpload,
     IconX
-}                                 from "@tabler/icons-react";
+}               from "@tabler/icons-react";
 import {
-    type ComponentProps,
     type FC,
     useEffect,
     useState
-}                                 from "react";
-import {Upload}                   from "./Upload";
+}               from "react";
+import {Upload} from "./Upload";
 
 export module DropZone {
     export interface Props extends Partial<
-        Omit<ComponentProps<typeof CoolDropzone>, "onDrop">
+        Omit<CoolDropzone.Props, "onDrop">
     > {
         path: string;
         /**

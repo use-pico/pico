@@ -8,7 +8,11 @@ import {
 import {isString}        from "../$export/isString";
 import {diffOf}          from "./diffOf";
 
-export const linkTo = <TPath extends string>(props: IHrefProps<TPath> | TPath) => {
+export const linkTo = <
+    TPath extends string,
+>(
+    props: IHrefProps<TPath> | TPath
+) => {
     if (isString(props)) {
         return props;
     }

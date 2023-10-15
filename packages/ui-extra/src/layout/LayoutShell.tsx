@@ -1,7 +1,7 @@
 import {Providers} from "../provider/Providers";
 
 export namespace LayoutShell {
-    export type Props = Omit<Providers.Props, "emotionCache" | "queryClient">;
+    export type Props = Providers.Props;
 }
 
 export const LayoutShell = (props: LayoutShell.Props) => {

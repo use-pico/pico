@@ -36,10 +36,9 @@
 		"@pico/query": "^1.0.0",
 		"@pico/store": "^1.0.0",
 		"@pico/utils": "^1.0.0",
-		"@tabler/icons-react": "^2.34.0",
+		"@tabler/icons-react": "^2.39.0",
 		"axios": "^1.4.0",
-		"next": "^13.4.19",
-		"next-auth": "^4.22.1",
+		"next": "^13.5.4",
 		"next-intl": "^2.19.2",
 		"react": "^18.2.0",
 		"uuid": "^9.0.1"

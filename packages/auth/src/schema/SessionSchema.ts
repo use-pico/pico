@@ -6,5 +6,7 @@ export const SessionSchema = z.object({
     site:   z.string().nullish(),
     tokens: z.array(z.string().nonempty({message: "Non-empty"})),
 });
-export type ISessionSchema = typeof SessionSchema;
-export type ISession = z.infer<ISessionSchema>;
+export type SessionSchema = typeof SessionSchema;
+export namespace SessionSchema {
+    export type Type = z.infer<SessionSchema>;
+}

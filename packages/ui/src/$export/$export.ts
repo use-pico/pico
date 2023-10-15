@@ -36,6 +36,7 @@ export * from "./DrawerButton";
 export * from "./DrawerMenuItem";
 export * from "./DrawerStore";
 export * from "./DrawerStoreProvider";
+export * from "./Dropzone";
 export * from "./EditIcon";
 export * from "./ErrorOverlay";
 export * from "./FavouriteIcon";

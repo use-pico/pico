@@ -32,7 +32,11 @@
 		"@pico/query": "^1.0.0",
 		"@pico/rpc": "^1.0.0",
 		"@pico/schema": "^1.0.0",
+		"@pico/ui": "^1.0.0",
+		"@tabler/icons-react": "^2.39.0",
 		"axios": "^1.5.1",
+		"next": "^13.5.4",
+		"next-auth": "^4.22.1",
 		"next-intl": "^2.20.2",
 		"react": "^18.2.0"
 	},

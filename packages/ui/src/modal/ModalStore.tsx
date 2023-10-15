@@ -5,15 +5,17 @@ import {
     type IStoreProps
 } from "@pico/store";
 
-export type IModalStoreProps = IStoreProps<{
-    state: Map<string, boolean>;
-    open(id: string): void;
-    close(id: string): void;
-    setOpen(id: string, isOpened: boolean): void;
-    isOpen(id: string): boolean;
-}>;
+export namespace ModalStore {
+    export type StoreProps = IStoreProps<{
+        state: Map<string, boolean>;
+        open(id: string): void;
+        close(id: string): void;
+        setOpen(id: string, isOpened: boolean): void;
+        isOpen(id: string): boolean;
+    }>;
+}
 
-export const ModalStore = createStore<IModalStoreProps>({
+export const ModalStore = createStore<ModalStore.StoreProps>({
     state: () => (set, get) => ({
         state:   new Map(),
         open:    id => {

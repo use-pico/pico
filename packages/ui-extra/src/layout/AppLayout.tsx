@@ -11,6 +11,11 @@ import {
     useLocaleRouter
 }                                 from "@pico/i18n";
 import {useClearCache}            from "@pico/query";
+import {
+    BlockStore,
+    Grid,
+    Group
+}                                 from "@pico/ui";
 import {type IWithLogoutMutation} from "@pico/ui-extra";
 import {IconLogout}               from "@tabler/icons-react";
 import Image                      from "next/image";
@@ -21,9 +26,6 @@ import {
     type ReactNode,
     useEffect
 }                                 from "react";
-import {BlockStore}               from "../store/BlockStore";
-import {Grid}                     from "../ui/Grid";
-import {Group}                    from "../ui/Group";
 
 export namespace AppLayout {
     export interface Props extends PropsWithChildren {

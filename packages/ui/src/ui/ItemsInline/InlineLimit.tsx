@@ -1,5 +1,5 @@
 import {Translation}             from "@pico/i18n";
-import {type WithIdentitySchema} from "@pico/query";
+import {type WithIdentitySchema} from "@pico/schema";
 import {MoreIcon}                from "../../icon/MoreIcon";
 import {ModalStore}              from "../../modal/ModalStore";
 import {ActionIcon}              from "../ActionIcon";
