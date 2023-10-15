@@ -1,8 +1,8 @@
 "use client";
 
 import {WithTranslationStore} from "@pico/i18n";
+import {withNotification}     from "@pico/ui";
 import {IconCheck}            from "@tabler/icons-react";
-import {withNotification}     from "../utils/withNotification";
 
 export namespace useSuccessNotification {
     export interface Props extends Omit<withNotification.Props, "title" | "message"> {

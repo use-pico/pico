@@ -10,8 +10,15 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/hook/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/job/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/navigation/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/navigation/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/query/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/query/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/selection/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/selection/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/types/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/types/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ui-extra/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ui/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/utils/.turbo" />

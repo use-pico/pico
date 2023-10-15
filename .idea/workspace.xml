@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bef226f0-70bb-411a-8e74-ad024a887ff3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/packages/navigation/.eslintignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/.eslintrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/esbuild.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/$export.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/IHrefProps.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/IHrefQuery.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/ILink.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/INavigate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/IWithLinkTo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/ParamsOf.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/isHrefProps.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/isLink.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/linkTo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/$export/useRouter.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/src/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/navigation/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/utils/src/$export/buildUrl.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/utils/src/$export/pathToRegexp.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/utils/src/utils/isString.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pico.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pico.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/file/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/file/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hook/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/$export/useRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/$export/useRedirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/$export/useWithRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/$export/useWithRedirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/hook/useErrorNotification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hook/src/hook/useErrorNotification.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/hook/useRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/hook/useRedirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/hook/useSuccessNotification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hook/src/hook/useSuccessNotification.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hook/src/hook/useWithRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/hook/useWithRedirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/i18n/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/i18n/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelectionStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelectionStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelectionStoreProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/IBaseSelectionStoreProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/IMultiSelectionStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/IMultiSelectionStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/IMultiSelectionStoreProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/IMultiSelectionStoreProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/ISelectionStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/ISelectionStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/api/ISelectionStoreProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/api/ISelectionStoreProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/selection/src/store/createMultiSelectionStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/selection/src/store/createMultiSelectionStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/$export.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/types/src/$export/$export.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/IHrefProps.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/IHrefQuery.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/ILink.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/INavigate.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/IWithLinkTo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/$export/ParamsOf.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/IHrefProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/IHrefProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/IHrefQuery.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/IHrefQuery.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/ILink.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/ILink.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/INavigate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/INavigate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/IWithLinkTo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/IWithLinkTo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/types/src/api/ParamsOf.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/api/ParamsOf.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui-extra/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui-extra/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/$export/$export.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/utils/src/$export/$export.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/$export/isHrefProps.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/$export/isLink.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/$export/isString.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/utils/src/$export/isString.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/$export/linkTo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/utils/isHrefProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/utils/isHrefProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/utils/isLink.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/utils/isLink.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/utils/linkTo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/navigation/src/utils/linkTo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/utils/src/utils/toHumanTimeMs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/utils/src/utils/toHumanTimeMs.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2WnXCSv2lq5DYn02Y1IG79VtxGg" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/marek/Projects/github.com/use-pico/pico/packages/navigation/src/$export",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\marek\\Projects\\github.com\\use-pico\\pico\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marek\Projects\github.com\use-pico\pico\packages\navigation\src\$export" />
+      <recent name="C:\Users\marek\Projects\github.com\use-pico\pico\packages\navigation\src\hook" />
+      <recent name="C:\Users\marek\Projects\github.com\use-pico\pico\packages\navigation\src\api" />
+      <recent name="C:\Users\marek\Projects\github.com\use-pico\pico\packages\utils\src\utils" />
+      <recent name="C:\Users\marek\Projects\github.com\use-pico\pico\packages\navigation\src\utils" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="What about navigation package" />
+    <option name="LAST_COMMIT_MESSAGE" value="What about navigation package" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+</project>

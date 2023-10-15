@@ -28,9 +28,13 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
+		"@pico/i18n": "^1.0.0",
+		"@pico/query": "^1.0.0",
 		"@pico/table": "^1.0.0",
+		"@pico/ui": "^1.0.0",
 		"@pico/utils": "^1.0.0",
-		"js-file-downloader": "^1.1.25",
+		"@tabler/icons-react": "^2.39.0",
+		"axios": "^1.5.1",
 		"react": "^18.2.0",
 		"uuid": "^9.0.0"
 	},

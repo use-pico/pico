@@ -1,4 +1,4 @@
-import {type ILink}  from "@pico/types";
+import {type ILink}  from "../api/ILink";
 import {isHrefProps} from "./isHrefProps";
 
 export const isLink = (input: any): input is ILink => {

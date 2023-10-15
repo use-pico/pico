@@ -31,7 +31,7 @@
 		"@mantine/hooks": "^7.1.3",
 		"@pico/i18n": "^1.0.0",
 		"@pico/ui": "^1.0.0",
-		"next": "^13.5.4",
+		"@tabler/icons-react": "^2.39.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

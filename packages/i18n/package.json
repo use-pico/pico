@@ -26,9 +26,9 @@
 	},
 	"dependencies": {
 		"@pico/store": "^1.0.0",
+		"@pico/ui": "^1.0.0",
 		"@pico/utils": "^1.0.0",
 		"@types/luxon": "^3.3.1",
-		"build-url-ts": "^6.1.5",
 		"luxon": "^3.4.1",
 		"next": "^13.4.19",
 		"next-intl": "^2.19.2",

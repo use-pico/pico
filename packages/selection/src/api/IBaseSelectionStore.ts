@@ -1,4 +1,4 @@
-import {type WithIdentitySchema}       from "@pico/query";
+import {type WithIdentitySchema}       from "@pico/schema";
 import {type IStoreSchema}             from "@pico/store";
 import {type IBaseSelectionStoreProps} from "./IBaseSelectionStoreProps";
 

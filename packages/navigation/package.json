@@ -1,7 +1,7 @@
 {
 	"version": "1.0.0",
-	"name": "@pico/ui",
-	"description": "Common base (quite a dummy) UI stuff; for more components see @pico/ui-extra.",
+	"name": "@pico/navigation",
+	"description": "Link & navigation related stuff.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -25,22 +25,9 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@mantine/core": "^7.0.0",
-		"@mantine/dropzone": "^7.0.0",
-		"@mantine/hooks": "^7.0.0",
-		"@mantine/modals": "^7.0.0",
-		"@mantine/notifications": "^7.0.0",
-		"@mantine/nprogress": "^7.0.0",
-		"@mantine/spotlight": "^7.0.0",
-		"@pico/query": "^1.0.0",
-		"@pico/store": "^1.0.0",
 		"@pico/utils": "^1.0.0",
-		"@tabler/icons-react": "^2.39.0",
-		"axios": "^1.4.0",
 		"next": "^13.5.4",
-		"next-intl": "^2.19.2",
-		"react": "^18.2.0",
-		"uuid": "^9.0.1"
+		"react": "^18.2.0"
 	},
 	"devDependencies": {
 		"@pico/esbuild": "^1.0.0",
@@ -48,7 +35,6 @@
 		"@pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
-		"@types/uuid": "^9.0.2",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

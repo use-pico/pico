@@ -1,8 +1,8 @@
 "use client";
 
-import {type INavigate} from "@pico/types";
-import {linkTo}         from "@pico/utils";
 import {useRouter}      from "next/navigation";
+import {type INavigate} from "../api/INavigate";
+import {linkTo}         from "../utils/linkTo";
 
 /**
  * Pure redirect without locale

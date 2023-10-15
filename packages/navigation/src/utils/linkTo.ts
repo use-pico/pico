@@ -1,12 +1,11 @@
-import {type IHrefProps} from "@pico/types";
-import buildUrl          from "build-url-ts";
-import isEmpty           from "is-empty";
 import {
-    compile,
-    match
-}                        from "path-to-regexp";
-import {isString}        from "../$export/isString";
-import {diffOf}          from "./diffOf";
+    buildUrl,
+    diffOf,
+    isEmpty,
+    isString,
+    pathToRegexp
+}                        from "@pico/utils";
+import {type IHrefProps} from "../api/IHrefProps";
 
 export const linkTo = <
     TPath extends string,
@@ -22,8 +21,8 @@ export const linkTo = <
     } = props;
     const $query = query || {};
     const link = href.replace(/\[(.*?)\]/g, ":$1").replace(/{(.*?)}/g, ":$1");
-    const compiled = compile(link)($query);
-    const matched = match(link)(compiled);
+    const compiled = pathToRegexp.compile(link)($query);
+    const matched = pathToRegexp.match(link)(compiled);
     const queryParams = diffOf(
         Object.keys($query),
         Object.keys(matched ? matched.params : {}),

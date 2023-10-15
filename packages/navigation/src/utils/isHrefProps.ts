@@ -1,5 +1,5 @@
-import {type IHrefProps} from "@pico/types";
-import isObject          from "is-object";
+import {isObject}        from "@pico/utils";
+import {type IHrefProps} from "../api/IHrefProps";
 
 export const isHrefProps = (input: any): input is IHrefProps => {
     if (!input || !isObject(input)) {
