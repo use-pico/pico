@@ -1,5 +1,17 @@
 # @use-pico/ui-extra
 
+## 1.0.4
+
+### Patch Changes
+
+- Exported ImportUpload
+
+## 1.0.3
+
+### Patch Changes
+
+- Exported DropZone
+
 ## 1.0.2
 
 ### Patch Changes

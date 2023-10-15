@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.4",
 	"name": "@use-pico/ui-extra",
 	"description": "Components with quite heavy dependencies on the other @pico packages.",
 	"license": "MIT",
