@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"name": "@use-pico/ui",
 	"description": "Common base (quite a dummy) UI stuff; for more components see @use-pico/ui-extra.",
 	"license": "MIT",

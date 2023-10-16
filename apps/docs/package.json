@@ -1,7 +1,7 @@
 {
-	"name": "@leight/docs",
-	"version": "0.5.22",
-	"description": "Documentation for Leight Viv",
+	"name": "@use-pico/docs",
+	"version": "1.0.0",
+	"description": "Documentation for @pico.",
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
@@ -19,23 +19,22 @@
 		"leight-docs": "./bin/server.js"
 	},
 	"dependencies": {
-		"@leight/calendar-client": "^0.5.25",
-		"@leight/i18n": "^0.5.73",
-		"@leight/table-client": "^0.5.36",
-		"@leight/utils-server": "^0.5.66",
-		"@leight/zod": "^0.5.13",
-		"next": "^13.2.4",
+		"@use-pico/calendar": "^1.0.0",
+		"@use-pico/i18n": "^1.0.2",
+		"@use-pico/table": "^1.0.2",
+		"@use-pico/utils": "^1.0.3",
+		"next": "^13.5.4",
 		"nextra": "latest",
 		"nextra-theme-docs": "latest",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
-		"@leight/esbuild": "^0.5.46",
-		"@types/node": "^18.15.7",
-		"concurrently": "^7.6.0",
-		"dotenv-cli": "^7.1.0",
+		"@use-pico/esbuild": "^1.0.2",
+		"@types/node": "^20.8.6",
+		"concurrently": "^8.2.1",
+		"dotenv-cli": "^7.3.0",
 		"touch-cli": "^0.0.1",
-		"typescript": "^5.0.2"
+		"typescript": "^5.2.2"
 	}
 }

@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 1.0.3
+
+### Patch Changes
+
+- Improved breadcrumbs
+
 ## 1.0.2
 
 ### Patch Changes

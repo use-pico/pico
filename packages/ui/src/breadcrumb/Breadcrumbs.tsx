@@ -15,7 +15,7 @@ import {isBreadcrumbLink}               from "./isBreadcrumbLink";
 export namespace Breadcrumbs {
     export interface Props {
         withTranslation?: IWithTranslation;
-        items: Record<string, Breadcrumb.Item>;
+        items: Record<string, Breadcrumb.Item | undefined | false>;
     }
 }
 

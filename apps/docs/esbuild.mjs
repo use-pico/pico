@@ -1,4 +1,4 @@
-import { build } from '@leight/esbuild';
+import { build } from '@use-pico/esbuild';
 
 await build({
     entryPoints: ['src/server.ts'],
