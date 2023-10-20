@@ -1,5 +1,11 @@
 # @use-pico/ui-extra
 
+## 1.0.5
+
+### Patch Changes
+
+- Improved DeleteByModal
+
 ## 1.0.4
 
 ### Patch Changes
