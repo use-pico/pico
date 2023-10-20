@@ -1,1 +1,1 @@
-export {type IWithJobDeleteMutation} from "../api/IWithJobDeleteMutation";
+export {type IWithJobMutation} from "../api/IWithJobMutation";

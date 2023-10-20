@@ -8,9 +8,9 @@ import {type IJobManager}               from "../api/IJobManager";
 import {IJobStatus}                     from "../api/IJobStatus";
 import {type IWithJobAsyncMutation}     from "../api/IWithJobAsyncMutation";
 import {type IWithJobCommitMutation}    from "../api/IWithJobCommitMutation";
-import {type IWithJobDeleteMutation}    from "../api/IWithJobDeleteMutation";
 import {type IWithJobFindByQuery}       from "../api/IWithJobFindByQuery";
 import {type IWithJobInterruptMutation} from "../api/IWithJobInterruptMutation";
+import {type IWithJobMutation}          from "../api/IWithJobMutation";
 import {type JobFilterSchema}           from "../schema/JobFilterSchema";
 import {type JobSchema}                 from "../schema/JobSchema";
 
@@ -21,7 +21,7 @@ export namespace useJobManager {
         service: string;
         withAsyncMutation: IWithJobAsyncMutation<TRequestSchema>;
         withCommitMutation: IWithJobCommitMutation;
-        withDeleteMutation: IWithJobDeleteMutation;
+        withJobMutation: IWithJobMutation;
         withInterruptMutation: IWithJobInterruptMutation;
         withFindByQuery: IWithJobFindByQuery;
         filter?: JobFilterSchema.Type;
@@ -53,7 +53,7 @@ export const useJobManager = <
         withAsyncMutation,
         withCommitMutation,
         withInterruptMutation,
-        withDeleteMutation,
+        withJobMutation,
         withFindByQuery,
         interval = 1000,
         onJob,
@@ -68,7 +68,7 @@ export const useJobManager = <
     const asyncMutation = withAsyncMutation.useMutation();
     const commitMutation = withCommitMutation.useMutation();
     const interruptMutation = withInterruptMutation.useMutation();
-    const deleteMutation = withDeleteMutation.useMutation();
+    const jobMutation = withJobMutation.useMutation();
     const watchInvalidator = withFindByQuery.useInvalidator();
     const updateWith = withFindByQuery.useUpdateWith();
     const errorNotification = useErrorNotification();
@@ -143,7 +143,7 @@ export const useJobManager = <
         asyncMutation,
         commitMutation,
         interruptMutation,
-        deleteMutation,
+        jobMutation,
         start:      request => {
             asyncMutation.mutate(request, {
                 onSuccess: job => {
@@ -206,10 +206,12 @@ export const useJobManager = <
             });
         },
         delete:     () => {
-            deleteMutation.mutate({
-                where: {
-                    service,
-                }
+            jobMutation.mutate({
+                delete: {
+                    where: {
+                        service,
+                    },
+                },
             }, {
                 onSuccess: async () => {
                     updateWith(null);
@@ -248,7 +250,7 @@ export const useJobManager = <
             return !!job && isSettled() && !job?.commit;
         },
         isFetching: () => {
-            return asyncMutation.isPending || interruptMutation.isPending || deleteMutation.isPaused || watch.isLoading;
+            return asyncMutation.isPending || interruptMutation.isPending || jobMutation.isPaused || watch.isLoading;
         },
         isPending:  () => {
             return IJobStatus.JOB_PENDING.includes(job?.status || -1);

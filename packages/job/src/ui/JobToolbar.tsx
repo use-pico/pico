@@ -60,7 +60,7 @@ export const JobToolbar = <
         </Tooltip>}
         {job && jobManager.isSettled() && !jobManager.isFetching() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"delete.tooltip"}/>}>
             <ActionIcon
-                loading={jobManager.deleteMutation.isPending}
+                loading={jobManager.jobMutation.isPending}
                 variant={"subtle"}
                 color={"red.5"}
                 onClick={() => {

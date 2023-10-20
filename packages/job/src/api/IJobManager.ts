@@ -6,9 +6,11 @@ import {
     type RequestSchema,
     type WithIdentitySchema
 }                            from "@use-pico/schema";
+import {type MutationSchema} from "@use-pico/source";
 import {type z}              from "@use-pico/utils";
 import {type JobQuerySchema} from "../schema/JobQuerySchema";
 import {type JobSchema}      from "../schema/JobSchema";
+import {JobShapeSchema}      from "../schema/JobShapeSchema";
 
 export interface IJobManager<
     TRequestSchema extends RequestSchema,
@@ -18,7 +20,7 @@ export interface IJobManager<
     asyncMutation: WithMutation.Result<TRequestSchema, JobSchema>;
     commitMutation: WithMutation.Result<WithIdentitySchema, JobSchema>;
     interruptMutation: WithMutation.Result<WithIdentitySchema, JobSchema>;
-    deleteMutation: WithMutation.Result<JobQuerySchema, any>;
+    jobMutation: WithMutation.Result<MutationSchema<JobShapeSchema, JobQuerySchema>, JobQuerySchema>;
 
     start(request: z.infer<TRequestSchema>): void;
 

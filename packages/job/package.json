@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"name": "@use-pico/job",
 	"description": "Async job support.",
 	"license": "MIT",
@@ -25,13 +25,14 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
+		"@tabler/icons-react": "^2.30.0",
 		"@use-pico/hook": "^1.0.2",
 		"@use-pico/i18n": "^1.0.2",
 		"@use-pico/query": "^1.0.2",
+		"@use-pico/source": "^1.0.2",
 		"@use-pico/store": "^1.0.2",
 		"@use-pico/ui": "^1.0.2",
 		"@use-pico/utils": "^1.0.2",
-		"@tabler/icons-react": "^2.30.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

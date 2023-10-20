@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.3
+
+### Patch Changes
+
+- Changed job delete mutation to just mutation which handles deletion itself
+
 ## 1.0.2
 
 ### Patch Changes
