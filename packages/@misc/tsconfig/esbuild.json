@@ -22,7 +22,7 @@
 		],
 		"module": "ES2022",
 		"moduleResolution": "node",
-		"noErrorTruncation": true,
+		"noErrorTruncation": false,
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,
 		"noUncheckedIndexedAccess": true,
