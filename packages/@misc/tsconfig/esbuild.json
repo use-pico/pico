@@ -2,46 +2,47 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"display": "esbuild",
 	"compilerOptions": {
-		"isolatedModules": false,
-		"emitDeclarationOnly": true,
-		"disableSolutionSearching": true,
-		"emitDecoratorMetadata": false,
 		"allowSyntheticDefaultImports": true,
-		"experimentalDecorators": false,
+		"declaration": true,
+		"declarationMap": false,
+		"disableSolutionSearching": true,
+		"emitDeclarationOnly": true,
+		"emitDecoratorMetadata": false,
 		"esModuleInterop": true,
+		"experimentalDecorators": false,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": false,
+		"inlineSources": false,
+		"isolatedModules": false,
+		"jsx": "react-jsx",
 		"lib": [
 			"dom",
 			"dom.iterable",
 			"esnext"
 		],
-		"jsx": "react-jsx",
 		"module": "ES2022",
-		"target": "ES2022",
 		"moduleResolution": "node",
+		"noErrorTruncation": true,
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,
 		"noUncheckedIndexedAccess": true,
+		"plugins": [
+			{
+				"name": "typescript-plugin-css-modules"
+			}
+		],
 		"removeComments": false,
 		"resolveJsonModule": true,
-		"declaration": true,
-		"declarationMap": false,
-		"sourceMap": false,
-		"inlineSources": false,
 		"skipLibCheck": true,
+		"sourceMap": false,
 		"strict": true,
 		"strictPropertyInitialization": true,
+		"target": "ES2022",
 		"types": [
 			"@use-pico/tsconfig",
 			"@total-typescript/ts-reset",
 			"node"
 		],
-		"useDefineForClassFields": true,
-		"plugins": [
-			{
-				"name": "typescript-plugin-css-modules"
-			}
-		]
+		"useDefineForClassFields": true
 	}
 }

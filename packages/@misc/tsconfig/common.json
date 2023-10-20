@@ -3,12 +3,15 @@
 	"display": "common",
 	"compilerOptions": {
 		"allowJs": true,
+		"declaration": true,
+		"declarationMap": true,
 		"disableSolutionSearching": true,
 		"emitDecoratorMetadata": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": false,
+		"inlineSources": true,
 		"isolatedModules": true,
 		"jsx": "react-jsx",
 		"lib": [
@@ -17,30 +20,28 @@
 			"esnext"
 		],
 		"module": "ES2022",
-		"target": "ES2022",
 		"moduleResolution": "node",
+		"noErrorTruncation": true,
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,
 		"noUncheckedIndexedAccess": true,
+		"plugins": [
+			{
+				"name": "typescript-plugin-css-modules"
+			}
+		],
 		"removeComments": false,
 		"resolveJsonModule": true,
-		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
-		"inlineSources": true,
 		"skipLibCheck": true,
+		"sourceMap": true,
 		"strict": true,
 		"strictPropertyInitialization": true,
+		"target": "ES2022",
 		"types": [
 			"@use-pico/tsconfig",
 			"@total-typescript/ts-reset",
 			"node"
 		],
-		"useDefineForClassFields": true,
-		"plugins": [
-			{
-				"name": "typescript-plugin-css-modules"
-			}
-		]
+		"useDefineForClassFields": true
 	}
 }
