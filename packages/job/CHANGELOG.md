@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.4
+
+### Patch Changes
+
+- Improved job schema
+
 ## 1.0.3
 
 ### Patch Changes
