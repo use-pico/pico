@@ -10,6 +10,7 @@ import {
     type WithMutation,
     type WithSourceQuery
 }                               from "@use-pico/rpc";
+import {type MutationSchema}    from "@use-pico/source";
 import {
     Button,
     CloseIcon,
@@ -24,7 +25,10 @@ export namespace DeleteByModal {
     export interface Props<
         TFilterSchema extends FilterSchema,
     > extends Modal.Props {
-        withMutation: WithMutation<QuerySchema<TFilterSchema, any>, any>;
+        withMutation: WithMutation<
+            MutationSchema<any, QuerySchema<TFilterSchema, any>>,
+            any
+        >;
         withSourceQuery: WithSourceQuery<any, TFilterSchema, any>;
     }
 }
@@ -42,7 +46,7 @@ export const DeleteByModal = <
     const successNotification = useSuccessNotification();
     const {
         where,
-        filter
+        filter,
     } = withSourceQuery.query.use((
         {
             where,
@@ -83,9 +87,15 @@ export const DeleteByModal = <
                 loading={deleteMutation.isPending}
                 onClick={() => {
                     deleteMutation.mutate({
-                        where,
-                        filter,
-                    } as QuerySchema.Type<TFilterSchema, any>, {
+                        delete: {
+                            where,
+                            filter,
+                        },
+                        /**
+                         * @TODO I hate this, but for some reason, Zod generates (maybe by my mistake) quite a HUUUUUGE type for this schema, which
+                         * does not pass, so some another day, fix this any shit.
+                         */
+                    } as any, {
                         onSuccess: response => {
                             successNotification({
                                 withTranslation: {
