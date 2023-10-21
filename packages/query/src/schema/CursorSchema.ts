@@ -1,10 +1,15 @@
-import {z} from "@use-pico/utils";
+import {
+    minValue,
+    type Schema,
+    withNumber,
+    withObject
+} from "@use-pico/schema";
 
-export const CursorSchema = z.object({
-    page: z.number().gte(0, "invalid-cursor-page"),
-    size: z.number().gte(1, "invalid-cursor-size"),
+export const CursorSchema = withObject({
+    page: withNumber([minValue(0, "Page must be greater than zero")]),
+    size: withNumber([minValue(1, "Page size must be greater than one to get any data")]),
 });
+export type CursorSchema = typeof CursorSchema;
 export namespace CursorSchema {
-    export type Schema = typeof CursorSchema;
-    export type Type = z.infer<Schema>;
+    export type Type = Schema.Output<CursorSchema>;
 }

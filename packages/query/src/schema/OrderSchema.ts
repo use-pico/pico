@@ -1,7 +1,10 @@
-import {z} from "@use-pico/utils";
+import {
+    type Schema,
+    withEnum
+} from "@use-pico/schema";
 
-export const OrderSchema = z.enum(["asc", "desc"]);
+export const OrderSchema = withEnum(["asc", "desc"], "Invalid order by value: may be ['asc', 'desc']");
 export type OrderSchema = typeof OrderSchema;
 export namespace OrderSchema {
-    export type Type = z.infer<OrderSchema>;
+    export type Type = Schema.Output<OrderSchema>;
 }

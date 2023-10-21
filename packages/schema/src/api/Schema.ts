@@ -12,6 +12,4 @@ export interface Schema<TInput = any, TOutput = TInput> {
 export namespace Schema {
     export type Input<TSchema extends Schema> = NonNullable<TSchema["types"]>["input"];
     export type Output<TSchema extends Schema> = NonNullable<TSchema["types"]>["output"];
-
-    export type Infer<TSchema extends Schema> = Output<TSchema>;
 }

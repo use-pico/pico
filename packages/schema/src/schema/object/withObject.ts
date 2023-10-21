@@ -11,6 +11,21 @@ export function withObject<
     TShape extends ObjectSchema.Shape,
 >(
     shape: TShape,
+    error?: ErrorMessage,
+    pipe?: Pipe<ObjectSchema.Output<TShape>>
+): ObjectSchema<TShape>;
+
+export function withObject<
+    TShape extends ObjectSchema.Shape,
+>(
+    shape: TShape,
+    pipe?: Pipe<ObjectSchema.Output<TShape>>
+): ObjectSchema<TShape>;
+
+export function withObject<
+    TShape extends ObjectSchema.Shape,
+>(
+    shape: TShape,
     arg2?:
         | Pipe<ObjectSchema.Output<TShape>>
         | ErrorMessage,

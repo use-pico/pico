@@ -6,6 +6,7 @@ export type MutationSchema<
     TShapeSchema extends ShapeSchema,
     TQuerySchema extends QuerySchema<any, any>,
 > = ReturnType<withMutationSchema<TShapeSchema, TQuerySchema>>;
+
 export namespace MutationSchema {
     export type Type<
         TShapeSchema extends ShapeSchema,

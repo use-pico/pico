@@ -1,14 +1,14 @@
-import {type ArrayPathItem}  from "./ArrayPathItem";
-import {type MapPathItem}    from "./MapPathItem";
-import {type RecordPathItem} from "./RecordPathItem";
-import {type ObjectSchema}   from "./schema/ObjectSchema";
-import {type SetPathItem}    from "./SetPathItem";
-import {type TuplePathItem}  from "./TuplePathItem";
+import {type MapPathItem}   from "./MapPathItem";
+import {type ArraySchema}   from "./schema/ArraySchema";
+import {type ObjectSchema}  from "./schema/ObjectSchema";
+import {type RecordSchema}  from "./schema/RecordSchema";
+import {type SetPathItem}   from "./SetPathItem";
+import {type TuplePathItem} from "./TuplePathItem";
 
 export type PathItem =
     | ObjectSchema.PathItem
-    | RecordPathItem
+    | RecordSchema.PathItem
     | TuplePathItem
     | MapPathItem
     | SetPathItem
-    | ArrayPathItem;
+    | ArraySchema.PathItem;

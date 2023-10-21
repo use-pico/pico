@@ -1,21 +1,35 @@
-import {z} from "@use-pico/utils";
+import {
+    type Schema,
+    withArray,
+    withObject,
+    withOptional,
+    withString
+} from "@use-pico/schema";
 
 /**
  * Base definition of filter schema which should all the Sources implement.
  */
-export const FilterSchema = z.object({
+export const FilterSchema = withObject({
     /**
      * Basically any entity should have an ID, thus it's present in the default schema
      */
-    id:   z.string().nullish(),
-    idIn: z.array(z.string()).nullish(),
+    id:   withOptional(
+        withString()
+    ),
+    idIn: withOptional(
+        withArray(
+            withString()
+        )
+    ),
     /**
      * Usually it's somehow possible to search for the Entity by some text, thus it's present,
      * but not necessarily required
      */
-    fulltext: z.string().nullish(),
+    fulltext: withOptional(
+        withString()
+    ),
 });
 export type FilterSchema = typeof FilterSchema;
 export namespace FilterSchema {
-    export type Type = z.infer<FilterSchema>;
+    export type Type = Schema.Output<FilterSchema>;
 }
