@@ -30,4 +30,3 @@ export * from "./toPercent";
 export * from "./uniqueOf";
 export * from "./withBool";
 export * from "./withTimeout";
-export * from "./z";

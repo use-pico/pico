@@ -1,15 +1,13 @@
-import {
-    cleanOf,
-    type z
-}                          from "@use-pico/utils";
+import {type PicoSchema}   from "@use-pico/schema";
+import {cleanOf}           from "@use-pico/utils";
 import {type ValuesSchema} from "../schema/ValuesSchema";
 
 export const defaultsOf = <
     TValuesSchema extends ValuesSchema,
 >(
-    input: Partial<z.infer<TValuesSchema>> | null | undefined,
-    defaults: z.infer<TValuesSchema>,
-): z.infer<TValuesSchema> => {
+    input: Partial<PicoSchema.Output<TValuesSchema>> | null | undefined,
+    defaults: PicoSchema.Output<TValuesSchema>,
+): PicoSchema.Output<TValuesSchema> => {
     return {
         ...defaults,
         ...cleanOf(input, {

@@ -47,5 +47,8 @@ export function withUnion<
                     issues
                 );
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

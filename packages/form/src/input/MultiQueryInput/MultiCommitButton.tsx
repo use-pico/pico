@@ -1,12 +1,14 @@
 import {IconClick}                 from "@tabler/icons-react";
 import {Translation}               from "@use-pico/i18n";
-import {type WithIdentitySchema}   from "@use-pico/schema";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
 import {
     Button,
     ModalStore
 }                                  from "@use-pico/ui";
-import {type z}                    from "@use-pico/utils";
 import {useController}             from "react-hook-form";
 import type {ValuesSchema}         from "../../schema/ValuesSchema";
 import {Form}                      from "../../ui/Form";
@@ -16,7 +18,7 @@ export namespace MultiCommitButton {
         TValuesSchema extends ValuesSchema,
         TResponseSchema extends WithIdentitySchema,
     > extends Pick<Form.Input.PropsEx<TValuesSchema, Button.Props>, "withControl"> {
-        MultiSelectionStore: IMultiSelectionStore<z.infer<TResponseSchema>>;
+        MultiSelectionStore: IMultiSelectionStore<PicoSchema.Output<TResponseSchema>>;
         onCommit?: (props: IMultiCommitButtonProps.OnCommitProps<TResponseSchema>) => void;
     }
 
@@ -24,7 +26,7 @@ export namespace MultiCommitButton {
         export interface OnCommitProps<
             TResponseSchema extends WithIdentitySchema,
         > {
-            items?: z.infer<TResponseSchema>[];
+            items?: PicoSchema.Output<TResponseSchema>[];
         }
     }
 }

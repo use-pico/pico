@@ -1,15 +1,13 @@
-import {CursorSchema}      from "@use-pico/query";
-import {z}                 from "@use-pico/utils";
+import {withQuerySchema}   from "@use-pico/query";
+import {type PicoSchema}   from "@use-pico/schema";
 import {BulkFilterSchema}  from "./BulkFilterSchema";
 import {BulkOrderBySchema} from "./BulkOrderBySchema";
 
-export const BulkQuerySchema = z.object({
-    where:   BulkFilterSchema.nullish(),
-    filter:  BulkFilterSchema.nullish(),
-    orderBy: BulkOrderBySchema.nullish(),
-    cursor:  CursorSchema.nullish(),
+export const BulkQuerySchema = withQuerySchema({
+    filter:  BulkFilterSchema,
+    orderBy: BulkOrderBySchema,
 });
 export type BulkQuerySchema = typeof BulkQuerySchema;
 export namespace BulkQuerySchema {
-    export type Type = z.infer<BulkQuerySchema>;
+    export type Type = PicoSchema.Output<BulkQuerySchema>;
 }

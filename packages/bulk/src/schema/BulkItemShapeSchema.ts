@@ -1,13 +1,20 @@
-import {z} from "@use-pico/utils";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withAny,
+    withNumber,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const BulkItemShapeSchema = z.object({
-    bulkId:  z.string().nonempty({message: "Non-empty"}),
-    service: z.string().nonempty({message: "Non-empty"}),
-    status:  z.number(),
-    values:  z.any(),
-    request: z.any(),
+export const BulkItemShapeSchema = withObject({
+    bulkId:  withString([nonEmpty("Non-empty")]),
+    service: withString([nonEmpty("Non-empty")]),
+    status:  withNumber(),
+    values:  withAny(),
+    request: withAny(),
 });
 export type BulkItemShapeSchema = typeof BulkItemShapeSchema;
 export namespace BulkItemShapeSchema {
-    export type Type = z.infer<BulkItemShapeSchema>;
+    export type Type = PicoSchema.Output<BulkItemShapeSchema>;
 }

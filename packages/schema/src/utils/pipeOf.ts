@@ -1,15 +1,15 @@
-import {type Issue} from "../api/Issue";
-import {type Parse} from "../api/Parse";
-import {type Pipe}  from "../api/Pipe";
-import {issueOf}    from "./issueOf";
-import {pipeInfoOf} from "./pipeInfoOf";
+import {type Issue}      from "../api/Issue";
+import {type PicoSchema} from "../api/PicoSchema";
+import {type Pipe}       from "../api/Pipe";
+import {issueOf}         from "./issueOf";
+import {pipeInfoOf}      from "./pipeInfoOf";
 
 export const pipeOf = <TValue>(
     input: TValue,
     pipe: Pipe<TValue> | undefined,
-    parseInfo: Parse.Info | undefined,
+    parseInfo: PicoSchema.Parse.Info | undefined,
     reason: Issue.Reason,
-): Parse.Result<TValue> => {
+): PicoSchema.Parse.Result<TValue> => {
     if (!pipe || !pipe.length || parseInfo?.skipPipe) {
         return {output: input};
     }

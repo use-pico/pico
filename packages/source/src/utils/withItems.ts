@@ -1,13 +1,18 @@
+import {type PicoSchema} from "@use-pico/schema";
 import {
     generateId,
-    mapSchema,
-    type z
-} from "@use-pico/utils";
+    mapSchema
+}                        from "@use-pico/utils";
 
 /**
  * Take a plain array of Items and return map with generated IDs
  */
-export const withItems = <TSchema extends z.ZodSchema>(items: z.infer<TSchema>[], schema: TSchema) => {
+export const withItems = <
+    TSchema extends PicoSchema,
+>(
+    items: PicoSchema.Output<TSchema>[],
+    schema: TSchema,
+) => {
     return new Map(mapSchema(items, schema).map(item => {
         const id = generateId();
         return [id, {

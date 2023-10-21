@@ -25,5 +25,8 @@ export function withEnum<
 
             return {output: input as TEnum[number]};
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

@@ -1,13 +1,17 @@
-import {z} from "@use-pico/utils";
+import {
+    type PicoSchema,
+    withNumber,
+    withObject
+} from "@use-pico/schema";
 
-export const BulkStatusCountSchema = z.object({
-    new:     z.number(),
-    pending: z.number(),
-    success: z.number(),
-    error:   z.number(),
-    settled: z.number(),
+export const BulkStatusCountSchema = withObject({
+    new:     withNumber(),
+    pending: withNumber(),
+    success: withNumber(),
+    error:   withNumber(),
+    settled: withNumber(),
 });
 export type BulkStatusCountSchema = typeof BulkStatusCountSchema;
 export namespace BulkStatusCountSchema {
-    export type Type = z.infer<BulkStatusCountSchema>;
+    export type Type = PicoSchema.Output<BulkStatusCountSchema>;
 }

@@ -1,14 +1,15 @@
 "use client";
 
-import {createStore}          from "@use-pico/store";
 import {
-    generateId,
-    type z
-}                             from "@use-pico/utils";
+    parse$,
+    type PicoSchema
+}                             from "@use-pico/schema";
+import {createStore}          from "@use-pico/store";
+import {generateId}           from "@use-pico/utils";
 import {type IListStoreProps} from "../api/IListStoreProps";
 import {withItems}            from "../utils/withItems";
 
-export interface ICreateListStoreProps<TSchema extends z.ZodSchema> {
+export interface ICreateListStoreProps<TSchema extends PicoSchema> {
     name: string;
     schema: TSchema;
 }
@@ -17,33 +18,33 @@ export interface ICreateListStoreProps<TSchema extends z.ZodSchema> {
  * Creates a simple dynamic list source; this is useful when a user needs to dynamically manage
  * rows in the UI.
  */
-export const createListStore = <TSchema extends z.ZodSchema>(
+export const createListStore = <TSchema extends PicoSchema>(
     {
         name,
         schema,
-    }: ICreateListStoreProps<TSchema>) => createStore<IListStoreProps<TSchema>>({
+    }: ICreateListStoreProps<TSchema>
+) => createStore<IListStoreProps<TSchema>>({
     name,
     state: () => (set, get) => ({
         schema,
         items:  new Map(),
         map:    callback => {
             return [...get().items.values()]
-                /**
-                 * Filter out invalid items
-                 */
-                .filter(({item}) => schema.safeParse(item).success)
-                /**
-                 * Ensure an item satisfies the given schema
-                 */
                 .map(({
                           id,
                           item
-                      }) => {
-                    return {
-                        id,
-                        item: schema.parse(item),
-                    };
-                })
+                      }) => [id, parse$(schema, item)])
+                /**
+                 * Filter out invalid items
+                 */
+                .filter((item): item is [string, parse$.ResultSuccess<TSchema>] => parse$(schema, item[1]).success)
+                /**
+                 * Ensure an item satisfies the given schema
+                 */
+                .map(([id, item]) => ({
+                    id,
+                    item,
+                }))
                 /**
                  * Run the user's callback with clear and expected data
                  */
@@ -73,7 +74,7 @@ export const createListStore = <TSchema extends z.ZodSchema>(
                      id,
                      item
                  }) => {
-            if (!schema.safeParse(item).success) {
+            if (!parse$(schema, item).success) {
                 return;
             }
             const items = get().items;
@@ -86,7 +87,7 @@ export const createListStore = <TSchema extends z.ZodSchema>(
             });
         },
         put:    item => {
-            if (!schema.safeParse(item).success) {
+            if (!parse$(schema, item).success) {
                 return;
             }
             const items = get().items;

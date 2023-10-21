@@ -1,9 +1,13 @@
-import {z} from "@use-pico/utils";
+import {
+    withAny,
+    withNullish,
+    withObject
+} from "@use-pico/schema";
 
-export const DataResponseSchema = z.object({
+export const DataResponseSchema = withObject({
     /**
      * Any can be here, because response schema is parsed separately by the
      * actual schema.
      */
-    data: z.any().nullish(),
+    data: withNullish(withAny()),
 });

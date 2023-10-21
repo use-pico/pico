@@ -1,9 +1,16 @@
-import {type z} from "zod";
+import {
+    parse$,
+    type PicoSchema
+} from "@use-pico/schema";
 
-export const mapSchema = <TSchema extends z.ZodSchema>(items: z.infer<TSchema>[], schema: TSchema) => {
-    return items.filter(item => schema.safeParse(item).success)
-        /**
-         * Ensure an item satisfies the given schema
-         */
-        .map(item => schema.parse(item));
+export const mapSchema = <
+    TSchema extends PicoSchema,
+>(
+    items: PicoSchema.Output<TSchema>[],
+    schema: TSchema,
+) => {
+    return items
+        .map(item => parse$(schema, item))
+        .filter((item): item is parse$.ResultSuccess<TSchema> => item.success)
+        .map(item => item.data);
 };

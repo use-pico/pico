@@ -1,4 +1,3 @@
-import {zodResolver}            from "@hookform/resolvers/zod";
 import {useSuccessNotification} from "@use-pico/hook";
 import {
     type IWithTranslation,
@@ -14,6 +13,7 @@ import {
     withMutation as coolWithMutation
 }                               from "@use-pico/query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                               from "@use-pico/schema";
@@ -34,8 +34,7 @@ import {
     cleanOf,
     isCallable,
     isString,
-    mapEmptyToNull,
-    type z
+    mapEmptyToNull
 }                               from "@use-pico/utils";
 import {
     ComponentProps,
@@ -50,22 +49,23 @@ import {
     useForm,
     type UseFormReturn
 }                               from "react-hook-form";
+import {picoResolver}           from "../resolver/pico";
 import {type ValuesSchema}      from "../schema/ValuesSchema";
 import {defaultsOf}             from "../utils/defaultsOf";
 import {SubmitButton}           from "./SubmitButton";
 
 export namespace Form {
-    export type Keys<TValuesSchema extends ValuesSchema> = FieldPath<z.infer<TValuesSchema>>;
+    export type Keys<TValuesSchema extends ValuesSchema> = FieldPath<PicoSchema.Output<TValuesSchema>>;
 
     export type UseForm<
         TValuesSchema extends ValuesSchema
-    > = UseFormReturn<z.infer<TValuesSchema>>;
+    > = UseFormReturn<PicoSchema.Output<TValuesSchema>>;
 
     export namespace Input {
         export interface Props<
             TValuesSchema extends ValuesSchema,
         > {
-            withControl: UseControllerProps<z.infer<TValuesSchema>>;
+            withControl: UseControllerProps<PicoSchema.Output<TValuesSchema>>;
             utils: Utils.Hook<TValuesSchema>;
             schema: TValuesSchema;
         }
@@ -76,12 +76,12 @@ export namespace Form {
             > {
                 useSetValues(): UseSetValues<TValuesSchema>;
 
-                useWatch<TKey extends Keys<TValuesSchema>>(field: TKey): z.infer<TValuesSchema["shape"][TKey]>;
+                useWatch<TKey extends Keys<TValuesSchema>>(field: TKey): PicoSchema.Output<TValuesSchema["object"]["shape"][TKey]>;
             }
 
             export type UseSetValues<
                 TValuesSchema extends ValuesSchema,
-            > = (values?: Partial<z.infer<TValuesSchema>>) => void;
+            > = (values?: Partial<PicoSchema.Output<TValuesSchema>>) => void;
         }
 
         export type PropsEx<
@@ -121,7 +121,7 @@ export namespace Form {
             TValuesSchema extends ValuesSchema,
         > {
             form: UseFormReturn<
-                z.infer<TValuesSchema>
+                PicoSchema.Output<TValuesSchema>
             >;
         }
     }
@@ -132,7 +132,7 @@ export namespace Form {
         {
             [key in Keys<TValuesSchema>]: Resolver<
             TValuesSchema,
-            z.infer<TValuesSchema["shape"][key]> | null | undefined
+            PicoSchema.Output<TValuesSchema["object"]["shape"][key]> | null | undefined
         >
         }
     >;
@@ -147,15 +147,15 @@ export namespace Form {
             TValuesSchema extends ValuesSchema,
         > {
             form: UseForm<TValuesSchema>;
-            defaultValues: z.infer<TValuesSchema>;
+            defaultValues: PicoSchema.Output<TValuesSchema>;
         }
     }
 
     export type DefaultValues<
         TValuesSchema extends ValuesSchema,
     > =
-        z.infer<TValuesSchema>
-        | (() => Promise<z.infer<TValuesSchema>>);
+        PicoSchema.Output<TValuesSchema>
+        | (() => Promise<PicoSchema.Output<TValuesSchema>>);
 
     export namespace Event {
         export interface On<
@@ -196,7 +196,7 @@ export namespace Form {
             TValuesSchema extends ValuesSchema,
         > {
             form: UseForm<TValuesSchema>;
-            defaultValues: z.infer<TValuesSchema>;
+            defaultValues: PicoSchema.Output<TValuesSchema>;
         }
 
         export interface OnSuccessProps<
@@ -205,9 +205,9 @@ export namespace Form {
             TResponseSchema extends ResponseSchema,
         > {
             form: UseForm<TValuesSchema>;
-            values: z.infer<TValuesSchema>;
-            request: z.infer<TRequestSchema>;
-            response: z.infer<TResponseSchema>;
+            values: PicoSchema.Output<TValuesSchema>;
+            request: PicoSchema.Output<TRequestSchema>;
+            response: PicoSchema.Output<TResponseSchema>;
         }
 
         export interface OnSubmitProps<
@@ -215,8 +215,8 @@ export namespace Form {
             TRequestSchema extends RequestSchema,
         > {
             form: UseForm<TValuesSchema>;
-            values: z.infer<TValuesSchema>;
-            request: z.infer<TRequestSchema>;
+            values: PicoSchema.Output<TValuesSchema>;
+            request: PicoSchema.Output<TRequestSchema>;
         }
 
         export interface OnErrorProps<
@@ -224,7 +224,7 @@ export namespace Form {
         > {
             form: UseForm<TValuesSchema>;
             error: ErrorResponseSchema.Type;
-            values: z.infer<TValuesSchema>;
+            values: PicoSchema.Output<TValuesSchema>;
 
             setErrors(errors: Partial<Record<Keys<TValuesSchema>, string>>): void;
         }
@@ -235,9 +235,9 @@ export namespace Form {
             TResponseSchema extends ResponseSchema,
         > {
             form: UseForm<TValuesSchema>;
-            values: z.infer<TValuesSchema>;
-            request: z.infer<TRequestSchema>;
-            response?: z.infer<TResponseSchema>;
+            values: PicoSchema.Output<TValuesSchema>;
+            request: PicoSchema.Output<TRequestSchema>;
+            response?: PicoSchema.Output<TResponseSchema>;
         }
     }
 
@@ -295,7 +295,7 @@ export namespace Form {
             TValuesSchema
         >;
         hidden?: Keys<TValuesSchema>[];
-        values?: Partial<z.infer<TValuesSchema>> | null;
+        values?: Partial<PicoSchema.Output<TValuesSchema>> | null;
         defaultValues: DefaultValues<TValuesSchema>;
         Render: Render<
             TValuesSchema
@@ -323,7 +323,7 @@ export namespace Form {
 
         withRedirect?(props: WithRedirect.Props<TValuesSchema, TRequestSchema, TResponseSchema>): IHrefProps;
 
-        toRequest?(values: z.infer<TValuesSchema>): z.infer<TRequestSchema>;
+        toRequest?(values: PicoSchema.Output<TValuesSchema>): PicoSchema.Output<TRequestSchema>;
     }
 
     export namespace WithRedirect {
@@ -332,9 +332,9 @@ export namespace Form {
             TRequestSchema extends RequestSchema,
             TResponseSchema extends ResponseSchema,
         > {
-            values: z.infer<TValuesSchema>;
-            request: z.infer<TRequestSchema>;
-            response: z.infer<TResponseSchema>;
+            values: PicoSchema.Output<TValuesSchema>;
+            request: PicoSchema.Output<TRequestSchema>;
+            response: PicoSchema.Output<TResponseSchema>;
         }
     }
 
@@ -422,7 +422,7 @@ export const Form = <
     const redirect = useWithLocaleRedirect();
     const successNotification = useSuccessNotification();
     const t = useTranslation(withTranslation);
-    const form = useForm<z.infer<TValuesSchema>>({
+    const form = useForm<PicoSchema.Output<TValuesSchema>>({
         defaultValues: async () => {
             const defaults = isCallable(defaultValues) ? await defaultValues() : defaultValues;
             resolvers && await Promise.any(
@@ -445,7 +445,7 @@ export const Form = <
                 defaults,
             );
         },
-        resolver:      zodResolver(schema),
+        resolver: picoResolver(schema),
     });
     const overrideOptions = withMutationOverride?.({form});
     const mutation = (overrideOptions ? coolWithMutation({

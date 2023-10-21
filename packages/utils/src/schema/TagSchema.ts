@@ -1,13 +1,20 @@
-import {z} from "zod";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withNullish,
+    withNumber,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const TagSchema = z.object({
-    id:    z.string().nonempty({message: "Non-empty"}),
-    code:  z.string().nonempty({message: "Non-empty"}),
-    label: z.string().nonempty({message: "Non-empty"}),
-    group: z.string().nonempty({message: "Non-empty"}),
-    sort:  z.number().nullish(),
+export const TagSchema = withObject({
+    id:    withString([nonEmpty("Non-empty")]),
+    code:  withString([nonEmpty("Non-empty")]),
+    label: withString([nonEmpty("Non-empty")]),
+    group: withString([nonEmpty("Non-empty")]),
+    sort:  withNullish(withNumber()),
 });
+export type TagSchema = typeof TagSchema;
 export namespace TagSchema {
-    export type Schema = typeof TagSchema;
-    export type Type = z.infer<Schema>;
+    export type Type = PicoSchema.Output<TagSchema>;
 }

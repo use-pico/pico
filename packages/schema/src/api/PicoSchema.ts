@@ -1,7 +1,9 @@
-import {type Parse} from "./Parse";
+import {type Issue} from "./Issue";
 
 export interface PicoSchema<TInput = any, TOutput = TInput> {
-    parse(input: unknown, info?: Parse.Info): Parse.Result<TOutput>;
+    parse(input: unknown, info?: PicoSchema.Parse.Info): PicoSchema.Parse.Result<TOutput>;
+
+    parseAsync(input: unknown, info?: PicoSchema.Parse.Info): Promise<PicoSchema.Parse.Result<TOutput>>;
 
     types?: {
         input: TInput;
@@ -12,4 +14,24 @@ export interface PicoSchema<TInput = any, TOutput = TInput> {
 export namespace PicoSchema {
     export type Input<TSchema extends PicoSchema> = NonNullable<TSchema["types"]>["input"];
     export type Output<TSchema extends PicoSchema> = NonNullable<TSchema["types"]>["output"];
+
+    export namespace Parse {
+        export type ResultSuccess<TOutput> = {
+            output: TOutput;
+            issues?: undefined;
+        }
+
+        export type ResultIssues = {
+            output?: undefined;
+            issues: Issue.Issues;
+        }
+
+        export type Result<TOutput> =
+            | ResultSuccess<TOutput>
+            | ResultIssues;
+
+        export type Info = Partial<
+            Pick<Issue, "origin" | "abortEarly" | "abortPipeEarly" | "skipPipe">
+        >;
+    }
 }

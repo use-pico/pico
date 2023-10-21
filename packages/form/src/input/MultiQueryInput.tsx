@@ -4,7 +4,10 @@ import {
     type OrderBySchema
 }                                  from "@use-pico/query";
 import {type WithSourceQuery}      from "@use-pico/rpc";
-import {type WithIdentitySchema}   from "@use-pico/schema";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
 import {
     Alert,
@@ -14,7 +17,6 @@ import {
     ModalStoreProvider,
     Text
 }                                  from "@use-pico/ui";
-import {type z}                    from "@use-pico/utils";
 import {type FC}                   from "react";
 import {useController}             from "react-hook-form";
 import type {ValuesSchema}         from "../schema/ValuesSchema";
@@ -38,7 +40,7 @@ export namespace MultiQueryInput {
         /**
          * Store used to manage selection of current entity.
          */
-        MultiSelectionStore: IMultiSelectionStore<z.infer<TResponseSchema>>;
+        MultiSelectionStore: IMultiSelectionStore<PicoSchema.Output<TResponseSchema>>;
         /**
          * Component used to render a list of items to select from.
          */
@@ -50,8 +52,8 @@ export namespace MultiQueryInput {
         /**
          * Optional method used to generate filter to fetch an entity (if more complex filter is needed); defaults to an ID.
          */
-        toFilter?: (values: string[]) => z.infer<TFilterSchema> | undefined;
-        toOrderBy?: () => z.infer<TOrderBySchema> | undefined;
+        toFilter?: (values: string[]) => PicoSchema.Output<TFilterSchema> | undefined;
+        toOrderBy?: () => PicoSchema.Output<TOrderBySchema> | undefined;
         onCommit?: MultiCommitButton.Props<TValuesSchema, TResponseSchema>["onCommit"];
         limit?: number;
     }
@@ -62,7 +64,7 @@ export namespace MultiQueryInput {
         /**
          * Access to currently selected item
          */
-        MultiSelectionStore: IMultiSelectionStore<z.infer<TResponseSchema>>;
+        MultiSelectionStore: IMultiSelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 }
 

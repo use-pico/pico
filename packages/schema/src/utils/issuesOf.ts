@@ -1,10 +1,10 @@
 import {type ErrorMessage} from "../api/ErrorMessage";
 import {type Issue}        from "../api/Issue";
-import {type Parse}        from "../api/Parse";
+import {type PicoSchema}   from "../api/PicoSchema";
 import {errorOf}           from "./errorOf";
 
 export const issuesOf = (
-    info: Parse.Info | undefined,
+    info: PicoSchema.Parse.Info | undefined,
     reason: Issue.Reason,
     validation: string,
     error: ErrorMessage,

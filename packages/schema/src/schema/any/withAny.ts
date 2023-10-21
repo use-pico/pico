@@ -9,5 +9,8 @@ export function withAny(pipe: Pipe<any> = []): AnySchema {
         parse(input, info) {
             return pipeOf(input, pipe, info, "any");
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

@@ -2,10 +2,8 @@
 
 import {useParam$}         from "@use-pico/navigation";
 import {type FilterSchema} from "@use-pico/query";
-import {
-    safeJsonOf,
-    type z
-}                          from "@use-pico/utils";
+import {type PicoSchema}   from "@use-pico/schema";
+import {safeJsonOf}        from "@use-pico/utils";
 import {type ReactNode}    from "react";
 
 export namespace WithParamFilter {
@@ -15,7 +13,7 @@ export namespace WithParamFilter {
         name?: string;
         schema: TFilterSchema;
 
-        children(filter?: z.infer<TFilterSchema>): ReactNode;
+        children(filter?: PicoSchema.Output<TFilterSchema>): ReactNode;
     }
 }
 

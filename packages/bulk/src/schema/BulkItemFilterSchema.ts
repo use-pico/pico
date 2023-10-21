@@ -1,13 +1,24 @@
 import {FilterSchema} from "@use-pico/query";
-import {z}            from "@use-pico/utils";
+import {
+    merge,
+    type PicoSchema,
+    withArray,
+    withNullish,
+    withNumber,
+    withObject,
+    withString
+}                     from "@use-pico/schema";
 
-export const BulkItemFilterSchema = FilterSchema.merge(z.object({
-    bulkId:   z.string().nullish(),
-    service:  z.string().nullish(),
-    status:   z.number().nullish(),
-    statusIn: z.array(z.number()).nullish(),
-}));
+export const BulkItemFilterSchema = merge([
+    FilterSchema,
+    withObject({
+        bulkId:   withNullish(withString()),
+        service:  withNullish(withString()),
+        status:   withNullish(withNumber()),
+        statusIn: withNullish(withArray(withNumber())),
+    })
+]);
 export type BulkItemFilterSchema = typeof BulkItemFilterSchema;
 export namespace BulkItemFilterSchema {
-    export type Type = z.infer<BulkItemFilterSchema>;
+    export type Type = PicoSchema.Output<BulkItemFilterSchema>;
 }

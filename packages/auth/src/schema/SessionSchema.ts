@@ -1,12 +1,20 @@
-import {z} from "@use-pico/utils";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withArray,
+    withNullish,
+    withNumber,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const SessionSchema = z.object({
-    id:     z.number(),
-    name:   z.string().nonempty({message: "Non-empty"}),
-    site:   z.string().nullish(),
-    tokens: z.array(z.string().nonempty({message: "Non-empty"})),
+export const SessionSchema = withObject({
+    id:     withNumber(),
+    name:   withString([nonEmpty("Non-empty")]),
+    site:   withNullish(withString()),
+    tokens: withArray(withString([nonEmpty("Non-empty")])),
 });
 export type SessionSchema = typeof SessionSchema;
 export namespace SessionSchema {
-    export type Type = z.infer<SessionSchema>;
+    export type Type = PicoSchema.Output<SessionSchema>;
 }

@@ -1,8 +1,8 @@
-import {type Issue} from "../api/Issue";
-import {type Parse} from "../api/Parse";
+import {type Issue}      from "../api/Issue";
+import {type PicoSchema} from "../api/PicoSchema";
 
 export const pipeInfoOf = (
-    info: Parse.Info | undefined,
+    info: PicoSchema.Parse.Info | undefined,
     reason: Issue.Reason,
 ) => ({
     reason,

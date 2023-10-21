@@ -1,13 +1,15 @@
-import {type WithIdentitySchema} from "@use-pico/schema";
-import {type ISelectionStore}    from "@use-pico/selection";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                             from "@use-pico/schema";
+import {type ISelectionStore} from "@use-pico/selection";
 import {
     Group,
     ModalStore
-}                                from "@use-pico/ui";
-import {type z}                  from "@use-pico/utils";
-import {type FC}                 from "react";
-import type {ValuesSchema}       from "../../schema/ValuesSchema";
-import {InputEx}                 from "../InputEx";
+}                             from "@use-pico/ui";
+import {type FC}              from "react";
+import type {ValuesSchema}    from "../../schema/ValuesSchema";
+import {InputEx}              from "../InputEx";
 
 export namespace WithItem {
     export interface Props<
@@ -15,13 +17,13 @@ export namespace WithItem {
         TResponseSchema extends WithIdentitySchema,
     > extends InputEx.Props<TValuesSchema> {
         Item: Item<TResponseSchema>;
-        SelectionStore: ISelectionStore<z.infer<TResponseSchema>>;
+        SelectionStore: ISelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 
     export type Item<TResponseSchema extends WithIdentitySchema> = FC<ItemProps<TResponseSchema>>;
 
     export interface ItemProps<TResponseSchema extends WithIdentitySchema> {
-        entity: z.infer<TResponseSchema>;
+        entity: PicoSchema.Output<TResponseSchema>;
     }
 }
 

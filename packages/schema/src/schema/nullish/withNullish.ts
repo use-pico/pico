@@ -29,6 +29,9 @@ export function withNullish<
             }
 
             return wrapped.parse(value, info);
-        }
+        },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

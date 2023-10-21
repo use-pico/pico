@@ -35,5 +35,8 @@ export function withBool(
 
             return pipeOf(input, pipe, info, "boolean");
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

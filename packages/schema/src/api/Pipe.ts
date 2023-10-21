@@ -1,9 +1,9 @@
-import {type Issue} from "./Issue";
-import {type Parse} from "./Parse";
+import {type Issue}      from "./Issue";
+import {type PicoSchema} from "./PicoSchema";
 
 export namespace Pipe {
     export type Info =
-        Parse.Info
+        PicoSchema.Parse.Info
         & Pick<Issue, "reason">;
 
     export type Result<TOutput> =

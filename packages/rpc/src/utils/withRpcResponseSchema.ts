@@ -1,17 +1,25 @@
 import {ErrorResponseSchema} from "@use-pico/query";
-import {z}                   from "@use-pico/utils";
+import {
+    merge,
+    type PicoSchema,
+    withObject,
+    withUnion
+}                            from "@use-pico/schema";
 import {DataResponseSchema}  from "../schema/DataResponseSchema";
 
 export const withRpcResponseSchema = <
-    TDataSchema extends z.ZodSchema,
+    TDataSchema extends PicoSchema,
 >(schema: TDataSchema) => {
-    return z.union([
-        DataResponseSchema.merge(z.object({
-            data: schema,
-        })),
+    return withUnion([
+        merge([
+            DataResponseSchema,
+            withObject({
+                data: schema,
+            }),
+        ]),
         ErrorResponseSchema,
     ]);
 };
 export type withRpcResponseSchema<
-    TDataSchema extends z.ZodSchema,
+    TDataSchema extends PicoSchema,
 > = typeof withRpcResponseSchema<TDataSchema>;

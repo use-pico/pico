@@ -1,12 +1,10 @@
-import {
-    isObject,
-    type z
-} from "@use-pico/utils";
+import {type PicoSchema} from "@use-pico/schema";
+import {isObject}        from "@use-pico/utils";
 
 export const isData = <
-    TDataSchema extends z.ZodSchema
+    TDataSchema extends PicoSchema
 >(test: any): test is {
-    data: z.infer<TDataSchema>
+    data: PicoSchema.Output<TDataSchema>
 } => {
     if (!isObject(test)) {
         return false;

@@ -20,5 +20,8 @@ export function withNull(
 
             return {output: input};
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

@@ -34,5 +34,8 @@ export function withString(
                 "string"
             );
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

@@ -1,11 +1,14 @@
-import {Translation}             from "@use-pico/i18n";
+import {Translation}          from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema
-}                                from "@use-pico/query";
-import {type WithSourceQuery}    from "@use-pico/rpc";
-import {type WithIdentitySchema} from "@use-pico/schema";
-import {type ISelectionStore}    from "@use-pico/selection";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                             from "@use-pico/schema";
+import {type ISelectionStore} from "@use-pico/selection";
 import {
     Alert,
     Divider,
@@ -13,16 +16,15 @@ import {
     Modal,
     ModalStoreProvider,
     Text
-}                                from "@use-pico/ui";
-import {type z}                  from "@use-pico/utils";
-import {type FC}                 from "react";
-import {useController}           from "react-hook-form";
-import type {ValuesSchema}       from "../schema/ValuesSchema";
-import {InputEx}                 from "./InputEx";
-import {CancelButton}            from "./QueryInput/CancelButton";
-import {ClearButton}             from "./QueryInput/ClearButton";
-import {CommitButton}            from "./QueryInput/CommitButton";
-import {WithItem}                from "./QueryInput/WithItem";
+}                             from "@use-pico/ui";
+import {type FC}              from "react";
+import {useController}        from "react-hook-form";
+import type {ValuesSchema}    from "../schema/ValuesSchema";
+import {InputEx}              from "./InputEx";
+import {CancelButton}         from "./QueryInput/CancelButton";
+import {ClearButton}          from "./QueryInput/ClearButton";
+import {CommitButton}         from "./QueryInput/CommitButton";
+import {WithItem}             from "./QueryInput/WithItem";
 
 export namespace QueryInput {
     export interface Props<
@@ -38,7 +40,7 @@ export namespace QueryInput {
         /**
          * Store used to manage selection of current entity.
          */
-        SelectionStore: ISelectionStore<z.infer<TResponseSchema>>;
+        SelectionStore: ISelectionStore<PicoSchema.Output<TResponseSchema>>;
         /**
          * Component used to render a list of items to select from.
          */
@@ -50,7 +52,7 @@ export namespace QueryInput {
         /**
          * Optional method used to generate filter to fetch an entity (if more complex filter is needed); defaults to an ID.
          */
-        toFilter?: (value: string) => z.infer<TFilterSchema>;
+        toFilter?: (value: string) => PicoSchema.Output<TFilterSchema>;
         onCommit?: CommitButton.Props<TValuesSchema, TResponseSchema>["onCommit"];
     }
 
@@ -60,7 +62,7 @@ export namespace QueryInput {
         /**
          * Access to currently selected item
          */
-        SelectionStore: ISelectionStore<z.infer<TResponseSchema>>;
+        SelectionStore: ISelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 }
 

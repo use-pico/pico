@@ -1,15 +1,22 @@
-import {z} from "@use-pico/utils";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withBool,
+    withNumber,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const BulkSchema = z.object({
-    id:      z.string().nonempty({message: "Non-empty"}),
-    service: z.string().nonempty({message: "Non-empty"}),
-    name:    z.string().nonempty({message: "Non-empty"}),
-    status:  z.number(),
-    commit:  z.boolean(),
-    created: z.string().nonempty({message: "Non-empty"}),
-    userId:  z.string().nonempty({message: "Non-empty"}),
+export const BulkSchema = withObject({
+    id:      withString([nonEmpty("Non-empty")]),
+    service: withString([nonEmpty("Non-empty")]),
+    name:    withString([nonEmpty("Non-empty")]),
+    status:  withNumber(),
+    commit:  withBool(),
+    created: withString([nonEmpty("Non-empty")]),
+    userId:  withString([nonEmpty("Non-empty")]),
 });
 export type BulkSchema = typeof BulkSchema;
 export namespace BulkSchema {
-    export type Type = z.infer<BulkSchema>;
+    export type Type = PicoSchema.Output<BulkSchema>;
 }

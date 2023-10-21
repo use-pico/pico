@@ -3,6 +3,7 @@ import {
     isError,
 }                                  from "@use-pico/query";
 import {
+    parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
@@ -90,7 +91,7 @@ export const withBulk = async <
                     baseURL: "",
                 })
                 .then(({data}) => {
-                    const {bulk} = RpcBulkResponseSchema.parse(data);
+                    const {bulk} = parse(RpcBulkResponseSchema, data);
                     $currentBulk.forEach((
                         {
                             schema,

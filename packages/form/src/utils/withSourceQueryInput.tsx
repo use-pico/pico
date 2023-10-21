@@ -1,14 +1,16 @@
 import {
     type FilterSchema,
     type OrderBySchema
-}                                from "@use-pico/query";
-import {type WithSourceQuery}    from "@use-pico/rpc";
-import {type WithIdentitySchema} from "@use-pico/schema";
-import {type ISelectionStore}    from "@use-pico/selection";
-import {type z}                  from "@use-pico/utils";
-import {type ComponentProps}     from "react";
-import {QueryInput}              from "../input/QueryInput";
-import type {ValuesSchema}       from "../schema/ValuesSchema";
+}                             from "@use-pico/query";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                             from "@use-pico/schema";
+import {type ISelectionStore} from "@use-pico/selection";
+import {type ComponentProps}  from "react";
+import {QueryInput}           from "../input/QueryInput";
+import type {ValuesSchema}    from "../schema/ValuesSchema";
 
 export namespace withSourceQueryInput {
     export interface Props<
@@ -17,7 +19,7 @@ export namespace withSourceQueryInput {
         TOrderBySchema extends OrderBySchema,
     > {
         withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
-        SelectionStore: ISelectionStore<z.infer<TResponseSchema>>;
+        SelectionStore: ISelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 }
 

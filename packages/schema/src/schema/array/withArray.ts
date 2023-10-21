@@ -71,5 +71,8 @@ export function withArray<
                 ? {issues}
                 : pipeOf(output as PicoSchema.Output<TItem>[], pipe, info, "array");
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

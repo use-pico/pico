@@ -92,5 +92,8 @@ export function withObject<
 
             return issues ? {issues} : pipeOf(output as ObjectSchema.Output<TShape>, pipe, info, "object");
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

@@ -3,9 +3,11 @@ import {
     type OrderBySchema
 }                                  from "@use-pico/query";
 import {type WithSourceQuery}      from "@use-pico/rpc";
-import {type WithIdentitySchema}   from "@use-pico/schema";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
-import {type z}                    from "@use-pico/utils";
 import {type ComponentProps}       from "react";
 import {MultiQueryInput}           from "../input/MultiQueryInput";
 import type {ValuesSchema}         from "../schema/ValuesSchema";
@@ -17,7 +19,7 @@ export namespace withSourceMultiQueryInput {
         TOrderBySchema extends OrderBySchema,
     > {
         withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
-        MultiSelectionStore: IMultiSelectionStore<z.infer<TResponseSchema>>;
+        MultiSelectionStore: IMultiSelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 }
 

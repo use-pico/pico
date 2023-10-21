@@ -1,10 +1,14 @@
-import {z}                   from "@use-pico/utils";
+import {
+    type PicoSchema,
+    withArray,
+    withObject
+}                            from "@use-pico/schema";
 import {BulkBatchItemSchema} from "./BulkBatchItemSchema";
 
-export const BulkBatchSchema = z.object({
-    items: z.array(BulkBatchItemSchema),
+export const BulkBatchSchema = withObject({
+    items: withArray(BulkBatchItemSchema),
 });
+export type BulkBatchSchema = typeof BulkBatchSchema;
 export namespace BulkBatchSchema {
-    export type Schema = typeof BulkBatchSchema;
-    export type Type = z.infer<Schema>;
+    export type Type = PicoSchema.Output<BulkBatchSchema>;
 }

@@ -1,11 +1,16 @@
-import {z}                         from "@use-pico/utils";
+import {
+    type PicoSchema,
+    withAny,
+    withObject,
+    withString
+}                                  from "@use-pico/schema";
 import {type withRpcRequestSchema} from "../utils/withRpcRequestSchema";
 
-export const RpcRequestSchema = z.object({
-    service: z.string(),
-    data:    z.any(),
+export const RpcRequestSchema = withObject({
+    service: withString(),
+    data:    withAny(),
 });
+export type RpcRequestSchema<TDataSchema extends PicoSchema> = ReturnType<withRpcRequestSchema<TDataSchema>>;
 export namespace RpcRequestSchema {
-    export type Schema<TDataSchema extends z.ZodSchema> = ReturnType<withRpcRequestSchema<TDataSchema>>;
-    export type Type<TDataSchema extends z.ZodSchema> = z.infer<Schema<TDataSchema>>;
+    export type Type<TDataSchema extends PicoSchema> = PicoSchema.Output<RpcRequestSchema<TDataSchema>>;
 }

@@ -177,5 +177,8 @@ export function withRecord<
                     "record"
                 );
         },
+        async parseAsync(input, info) {
+            return this.parse(input, info);
+        },
     };
 }

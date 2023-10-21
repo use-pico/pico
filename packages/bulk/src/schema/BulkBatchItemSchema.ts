@@ -1,10 +1,15 @@
-import {z} from "@use-pico/utils";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const BulkBatchItemSchema = z.object({
-    service: z.string().nonempty({message: "Non-empty"}),
-    bulkId:  z.string().nonempty({message: "Non-empty"}),
+export const BulkBatchItemSchema = withObject({
+    service: withString([nonEmpty("Non-empty")]),
+    bulkId:  withString([nonEmpty("Non-empty")]),
 });
 export type BulkBatchItemSchema = typeof BulkBatchItemSchema;
 export namespace BulkBatchItemSchema {
-    export type Type = z.infer<BulkBatchItemSchema>;
+    export type Type = PicoSchema.Output<BulkBatchItemSchema>;
 }

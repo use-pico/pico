@@ -1,10 +1,18 @@
-import {type z} from "zod";
+import {
+    parse,
+    type PicoSchema
+} from "@use-pico/schema";
 
-export const jsonOf = <const TSchema extends z.ZodType>(schema: TSchema, json: string | null | undefined) => {
+export const jsonOf = <
+    const TSchema extends PicoSchema,
+>(
+    schema: TSchema,
+    json: string | null | undefined,
+) => {
     if (json === null) {
-        return schema.parse(null);
+        return parse(schema, null);
     } else if (json === undefined) {
-        return schema.parse(undefined);
+        return parse(schema, undefined);
     }
-    return schema.parse(JSON.parse(json));
+    return parse(schema, JSON.parse(json));
 };

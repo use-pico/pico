@@ -1,22 +1,24 @@
-import {IconClick}               from "@tabler/icons-react";
-import {Translation}             from "@use-pico/i18n";
-import {type WithIdentitySchema} from "@use-pico/schema";
-import {type ISelectionStore}    from "@use-pico/selection";
+import {IconClick}            from "@tabler/icons-react";
+import {Translation}          from "@use-pico/i18n";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                             from "@use-pico/schema";
+import {type ISelectionStore} from "@use-pico/selection";
 import {
     Button,
     ModalStore
-}                                from "@use-pico/ui";
-import {type z}                  from "@use-pico/utils";
-import {useController}           from "react-hook-form";
-import type {ValuesSchema}       from "../../schema/ValuesSchema";
-import {Form}                    from "../../ui/Form";
+}                             from "@use-pico/ui";
+import {useController}        from "react-hook-form";
+import type {ValuesSchema}    from "../../schema/ValuesSchema";
+import {Form}                 from "../../ui/Form";
 
 export namespace CommitButton {
     export interface Props<
         TValuesSchema extends ValuesSchema,
         TResponseSchema extends WithIdentitySchema,
     > extends Pick<Form.Input.PropsEx<TValuesSchema, Button.Props>, "withControl"> {
-        SelectionStore: ISelectionStore<z.infer<TResponseSchema>>;
+        SelectionStore: ISelectionStore<PicoSchema.Output<TResponseSchema>>;
 
         onCommit?(props: OnCommitProps<TResponseSchema>): void;
     }
@@ -24,7 +26,7 @@ export namespace CommitButton {
     export interface OnCommitProps<
         TResponseSchema extends WithIdentitySchema,
     > {
-        item?: z.infer<TResponseSchema>;
+        item?: PicoSchema.Output<TResponseSchema>;
     }
 }
 
