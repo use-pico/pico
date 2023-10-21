@@ -1,17 +1,17 @@
-import {type Schema} from "../Schema";
+import {type PicoSchema} from "../PicoSchema";
 
 export interface UnionSchema<
     TOptions extends UnionSchema.Options,
-    TOutput = Schema.Output<TOptions[number]>,
-> extends Schema<Schema.Input<TOptions[number]>, TOutput> {
+    TOutput = PicoSchema.Output<TOptions[number]>,
+> extends PicoSchema<PicoSchema.Input<TOptions[number]>, TOutput> {
     schema: "union",
     union: TOptions;
 }
 
 export namespace UnionSchema {
     export type Options = [
-        Schema<any>,
-        Schema<any>,
-        ...Schema<any>[],
+        PicoSchema<any>,
+        PicoSchema<any>,
+        ...PicoSchema<any>[],
     ];
 }

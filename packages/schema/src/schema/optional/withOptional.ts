@@ -1,9 +1,9 @@
-import {type Schema}         from "../../api/Schema";
+import {type PicoSchema}     from "../../api/PicoSchema";
 import {type OptionalSchema} from "../../api/schema/OptionalSchema";
 
 export function withOptional<
-    TWrapped extends Schema,
-    TDefault extends Schema.Input<TWrapped> | undefined = undefined,
+    TWrapped extends PicoSchema,
+    TDefault extends PicoSchema.Input<TWrapped> | undefined = undefined,
 >(
     wrapped: TWrapped,
     default$?: TDefault | (() => TDefault),

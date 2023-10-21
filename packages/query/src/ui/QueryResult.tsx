@@ -1,5 +1,7 @@
-import {type ResponseSchema}      from "@use-pico/schema";
-import {type z}                   from "@use-pico/utils";
+import {
+    type PicoSchema,
+    type ResponseSchema
+}                                 from "@use-pico/schema";
 import {type FC}                  from "react";
 import {type WithQuery}           from "../api/WithQuery";
 import {type ErrorResponseSchema} from "../schema/ErrorResponseSchema";
@@ -11,7 +13,7 @@ export namespace QueryResult {
         result: WithQuery.Result<TResponseSchema>;
         WithLoading?: FC<object>;
         WithSuccess?: FC<{
-            data: z.infer<TResponseSchema>;
+            data: PicoSchema.Output<TResponseSchema>;
         }>;
         WithError?: FC<{
             error: ErrorResponseSchema.Type;

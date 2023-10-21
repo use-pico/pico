@@ -3,13 +3,13 @@ import {
     isError,
 }                                  from "@use-pico/query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                                  from "@use-pico/schema";
 import {
     generateId,
-    withTimeout,
-    type z
+    withTimeout
 }                                  from "@use-pico/utils";
 import axios, {type AxiosResponse} from "axios";
 import {RpcBulkRequestSchema}      from "../schema/RpcBulkRequestSchema";
@@ -25,7 +25,7 @@ export interface IWithBulkProps<
     schema?: TResponseSchema;
     store: IRpcStoreProps["StoreProps"];
     service: string;
-    request: z.infer<TRequestSchema>;
+    request: PicoSchema.Output<TRequestSchema>;
     /**
      * Timeout in secs before current bulk is rejected
      */
@@ -47,7 +47,7 @@ export const withBulk = async <
         service,
         request: data,
         timeout = 50,
-    }: IWithBulkProps<TRequestSchema, TResponseSchema>) => new Promise<z.infer<TResponseSchema>>((resolve, reject) => {
+    }: IWithBulkProps<TRequestSchema, TResponseSchema>) => new Promise<PicoSchema.Output<TResponseSchema>>((resolve, reject) => {
 
     bulkRef.current.set(generateId(), {
         schema,

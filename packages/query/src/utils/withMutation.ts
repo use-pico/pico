@@ -4,10 +4,10 @@ import {
     useQueryClient
 }                          from "@tanstack/react-query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                          from "@use-pico/schema";
-import {type z}            from "@use-pico/utils";
 import {type IInvalidator} from "../api/IInvalidator";
 import {type WithMutation} from "../api/WithMutation";
 
@@ -23,7 +23,7 @@ export namespace withMutation {
         };
         invalidator?: IInvalidator.Invalidator;
 
-        mutator(request: z.infer<TRequestSchema>): Promise<z.infer<TResponseSchema>>;
+        mutator(request: PicoSchema.Output<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
 
         defaultOptions?: WithMutation.Options<TRequestSchema, TResponseSchema>;
     }

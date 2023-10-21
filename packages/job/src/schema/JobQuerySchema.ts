@@ -1,15 +1,13 @@
-import {CursorSchema}     from "@use-pico/query";
-import {z}                from "@use-pico/utils";
+import {withQuerySchema}  from "@use-pico/query";
+import {type PicoSchema}  from "@use-pico/schema";
 import {JobFilterSchema}  from "./JobFilterSchema";
 import {JobOrderBySchema} from "./JobOrderBySchema";
 
-export const JobQuerySchema = z.object({
-    where:   JobFilterSchema.nullish(),
-    filter:  JobFilterSchema.nullish(),
-    orderBy: JobOrderBySchema.nullish(),
-    cursor:  CursorSchema.nullish(),
+export const JobQuerySchema = withQuerySchema({
+    filter:  JobFilterSchema,
+    orderBy: JobOrderBySchema,
 });
 export type JobQuerySchema = typeof JobQuerySchema;
 export namespace JobQuerySchema {
-    export type Type = z.infer<JobQuerySchema>;
+    export type Type = PicoSchema.Output<JobQuerySchema>;
 }

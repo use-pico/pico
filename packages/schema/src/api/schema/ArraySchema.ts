@@ -1,9 +1,9 @@
-import {type Schema} from "../Schema";
+import {type PicoSchema} from "../PicoSchema";
 
 export interface ArraySchema<
-    TItem extends Schema,
-    TOutput = Schema.Output<TItem>[]
-> extends Schema<Schema.Input<TItem>[], TOutput> {
+    TItem extends PicoSchema,
+    TOutput = PicoSchema.Output<TItem>[]
+> extends PicoSchema<PicoSchema.Input<TItem>[], TOutput> {
     schema: "array";
     array: {
         item: TItem;

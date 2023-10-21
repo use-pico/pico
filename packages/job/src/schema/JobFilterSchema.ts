@@ -1,17 +1,37 @@
 import {FilterSchema} from "@use-pico/query";
-import {z}            from "@use-pico/utils";
+import {
+    merge,
+    PicoSchema,
+    withArray,
+    withBool,
+    withNullish,
+    withNumber,
+    withObject,
+    withString
+}                     from "@use-pico/schema";
 
-export const JobFilterSchema = FilterSchema.merge(z.object({
-    status:    z.number().nullish(),
-    statusIn:  z.array(z.number()).nullish(),
-    service:   z.string().nullish(),
-    serviceIn: z.array(z.string()).nullish(),
-    reference: z.string().nullish(),
-    commit:    z.boolean().nullish(),
-    userId:    z.string().nullish(),
-    user:      z.boolean().nullish(),
-}));
+export const JobFilterSchema = merge([
+    FilterSchema,
+    withObject({
+        status:    withNullish(withNumber()),
+        statusIn:  withNullish(
+            withArray(
+                withNumber()
+            )
+        ),
+        service:   withNullish(withString()),
+        serviceIn: withNullish(
+            withArray(
+                withNumber()
+            )
+        ),
+        reference: withNullish(withString()),
+        commit:    withNullish(withBool()),
+        userId:    withNullish(withString()),
+        user:      withNullish(withBool()),
+    }),
+]);
 export type JobFilterSchema = typeof JobFilterSchema;
 export namespace JobFilterSchema {
-    export type Type = z.infer<JobFilterSchema>;
+    export type Type = PicoSchema.Output<JobFilterSchema>;
 }

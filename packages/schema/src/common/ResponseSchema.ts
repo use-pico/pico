@@ -1,6 +1,6 @@
-import {type z} from "@use-pico/utils";
+import {type PicoSchema} from "../api/PicoSchema";
 
-export type ResponseSchema = z.ZodSchema;
+export type ResponseSchema = PicoSchema;
 export namespace ResponseSchema {
-    export type Type = z.infer<ResponseSchema>;
+    export type Type = PicoSchema.Output<ResponseSchema>;
 }

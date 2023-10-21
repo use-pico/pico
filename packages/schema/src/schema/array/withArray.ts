@@ -1,18 +1,18 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type Issue}        from "../../api/Issue";
+import {type PicoSchema}   from "../../api/PicoSchema";
 import {type Pipe}         from "../../api/Pipe";
-import {type Schema}       from "../../api/Schema";
 import {type ArraySchema}  from "../../api/schema/ArraySchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
 
 export function withArray<
-    TItem extends Schema,
+    TItem extends PicoSchema,
 >(
     item: TItem,
-    arg2?: ErrorMessage | Pipe<Schema.Output<TItem>[]>,
-    arg3?: Pipe<Schema.Output<TItem>[]>,
+    arg2?: ErrorMessage | Pipe<PicoSchema.Output<TItem>[]>,
+    arg3?: Pipe<PicoSchema.Output<TItem>[]>,
 ): ArraySchema<TItem> {
     const [error, pipe] = argsOf(arg2, arg3);
 
@@ -69,7 +69,7 @@ export function withArray<
 
             return issues
                 ? {issues}
-                : pipeOf(output as Schema.Output<TItem>[], pipe, info, "array");
+                : pipeOf(output as PicoSchema.Output<TItem>[], pipe, info, "array");
         },
     };
 }

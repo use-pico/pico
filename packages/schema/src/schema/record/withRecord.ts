@@ -1,7 +1,7 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type Issue}        from "../../api/Issue";
+import {type PicoSchema}   from "../../api/PicoSchema";
 import {type Pipe}         from "../../api/Pipe";
-import {type Schema}       from "../../api/Schema";
 import {type RecordSchema} from "../../api/schema/RecordSchema";
 import {StringSchema}      from "../../api/schema/StringSchema";
 import {argsOf}            from "../../utils/argsOf";
@@ -13,7 +13,7 @@ const OMIT = ["__proto__", "prototype", "constructor"];
 
 function $argsOf<
     TKey extends RecordSchema.Key,
-    TValue extends Schema,
+    TValue extends PicoSchema,
     TPipe extends Pipe<any>,
 >(
     arg1: TValue | TKey,
@@ -33,14 +33,14 @@ function $argsOf<
 }
 
 export function withRecord<
-    TValue extends Schema,
+    TValue extends PicoSchema,
 >(
     value: TValue,
     pipe?: Pipe<RecordSchema.Output<StringSchema, TValue>>,
 ): RecordSchema<StringSchema, TValue>;
 
 export function withRecord<
-    TValue extends Schema,
+    TValue extends PicoSchema,
 >(
     value: TValue,
     error: ErrorMessage,
@@ -49,7 +49,7 @@ export function withRecord<
 
 export function withRecord<
     TKey extends RecordSchema.Key,
-    TValue extends Schema,
+    TValue extends PicoSchema,
 >(
     key: TKey,
     value: TValue,
@@ -58,7 +58,7 @@ export function withRecord<
 
 export function withRecord<
     TKey extends RecordSchema.Key,
-    TValue extends Schema,
+    TValue extends PicoSchema,
 >(
     key: TKey,
     value: TValue,
@@ -68,7 +68,7 @@ export function withRecord<
 
 export function withRecord<
     TKey extends RecordSchema.Key,
-    TValue extends Schema,
+    TValue extends PicoSchema,
 >(
     arg1: TKey | TValue,
     arg2?:

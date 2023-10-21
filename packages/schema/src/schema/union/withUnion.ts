@@ -1,6 +1,6 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type Issue}        from "../../api/Issue";
-import {type Schema}       from "../../api/Schema";
+import {type PicoSchema}   from "../../api/PicoSchema";
 import {type UnionSchema}  from "../../api/schema/UnionSchema";
 import {issuesOf}          from "../../utils/issuesOf";
 
@@ -15,7 +15,7 @@ export function withUnion<
         union,
         parse:  (input, info) => {
             let issues: Issue.Issues | undefined;
-            let output: [Schema.Output<TOptions[number]>] | undefined;
+            let output: [PicoSchema.Output<TOptions[number]>] | undefined;
 
             for (const schema of union) {
                 const result = schema.parse(input, info);

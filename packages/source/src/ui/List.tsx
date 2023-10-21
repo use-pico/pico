@@ -1,7 +1,9 @@
 import {Pagination}           from "@use-pico/pagination";
-import {WithQuery}            from "@use-pico/query";
+import {type WithQuery}       from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {
+    type ArraySchema,
+    type PicoSchema,
     type RequestSchema,
     type WithIdentitySchema
 }                             from "@use-pico/schema";
@@ -12,10 +14,7 @@ import {
     ScrollArea,
     Status
 }                             from "@use-pico/ui";
-import {
-    classNames,
-    type z
-}                             from "@use-pico/utils";
+import {classNames}           from "@use-pico/utils";
 import {type FC}              from "react";
 import classes                from "./List.module.css";
 
@@ -27,7 +26,7 @@ export namespace List {
         withSourceQuery: WithSourceQuery<TResponseSchema, any, any>;
         options?: WithQuery.QueryOptions<
             TRequestSchema,
-            z.ZodArray<TResponseSchema>
+            ArraySchema<TResponseSchema>
         >;
         scrollWidth?: number;
         Item: Item<TResponseSchema>;
@@ -44,7 +43,7 @@ export namespace List {
     export type Item<TResponseSchema extends WithIdentitySchema> = FC<ItemProps<TResponseSchema>>;
 
     export interface ItemProps<TResponseSchema extends WithIdentitySchema> {
-        item: z.infer<TResponseSchema>;
+        item: PicoSchema.Output<TResponseSchema>;
     }
 }
 

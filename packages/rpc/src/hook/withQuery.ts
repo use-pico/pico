@@ -10,10 +10,10 @@ import {
     type WithQuery as ICoolWithQuery
 }                       from "@use-pico/query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                       from "@use-pico/schema";
-import {type z}         from "@use-pico/utils";
 import {type WithQuery} from "../api/WithQuery";
 import {RpcStore}       from "../store/RpcStore";
 import {withBulk}       from "../utils/withBulk";
@@ -54,7 +54,7 @@ export const withQuery = <
 
     const usePromise = () => {
         const store = RpcStore.use();
-        return async (request: z.infer<TRequestSchema>) => {
+        return async (request: PicoSchema.Output<TRequestSchema>) => {
             return withBulk<TRequestSchema, TResponseSchema>({
                 service,
                 request: requestSchema?.parse(request) ?? request,

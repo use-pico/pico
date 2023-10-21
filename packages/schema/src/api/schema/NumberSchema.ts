@@ -1,5 +1,5 @@
-import {type Schema} from "../Schema";
+import {type PicoSchema} from "../PicoSchema";
 
-export interface NumberSchema<TOutput = number> extends Schema<number, TOutput> {
+export interface NumberSchema<TOutput = number> extends PicoSchema<number, TOutput> {
     schema: "number";
 }

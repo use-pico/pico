@@ -11,6 +11,7 @@
 		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
 		"build:force": "turbo run init --force --no-daemon && turbo run build --force --no-daemon",
 		"lint": "turbo run lint --no-daemon",
+		"test": "turbo run test --no-daemon",
 		"cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
 		"changeset": "changeset",
 		"changeset:version": "changeset version",

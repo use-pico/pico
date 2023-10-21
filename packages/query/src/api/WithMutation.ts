@@ -4,10 +4,10 @@ import {
     type UseMutationResult
 }                            from "@tanstack/react-query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                            from "@use-pico/schema";
-import {type z}              from "@use-pico/utils";
 import {ErrorResponseSchema} from "../schema/ErrorResponseSchema";
 import {type IInvalidator}   from "./IInvalidator";
 
@@ -36,9 +36,9 @@ export namespace WithMutation {
         TResponseSchema extends ResponseSchema,
     > = Omit<
         UseMutationOptions<
-            z.infer<TResponseSchema>,
+            PicoSchema.Output<TResponseSchema>,
             ErrorResponseSchema.Type,
-            z.infer<TRequestSchema>
+            PicoSchema.Output<TRequestSchema>
         >,
         "mutationFn"
     >;
@@ -47,8 +47,8 @@ export namespace WithMutation {
         TRequestSchema extends RequestSchema,
         TResponseSchema extends ResponseSchema,
     > = UseMutationResult<
-        z.infer<TResponseSchema>,
+        PicoSchema.Output<TResponseSchema>,
         ErrorResponseSchema.Type,
-        z.infer<TRequestSchema>
+        PicoSchema.Output<TRequestSchema>
     >;
 }

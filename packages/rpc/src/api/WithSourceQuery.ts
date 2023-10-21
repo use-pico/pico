@@ -4,11 +4,14 @@ import {
     type IQueryStore,
     type OrderBySchema,
     type QuerySchema,
-}                            from "@use-pico/query";
-import {type ResponseSchema} from "@use-pico/schema";
-import {type withFilter}     from "@use-pico/source";
-import {type z}              from "@use-pico/utils";
-import {type WithQuery}      from "./WithQuery";
+}                        from "@use-pico/query";
+import {
+    type ArraySchema,
+    type PicoSchema,
+    type ResponseSchema
+}                        from "@use-pico/schema";
+import {type withFilter} from "@use-pico/source";
+import {type WithQuery}  from "./WithQuery";
 
 export interface WithSourceQuery<
     TResponseSchema extends ResponseSchema,
@@ -20,7 +23,7 @@ export interface WithSourceQuery<
             TFilterSchema,
             TOrderBySchema
         >,
-        z.ZodArray<TResponseSchema>
+        ArraySchema<TResponseSchema>
     >,
     "schema"
 > {
@@ -29,7 +32,7 @@ export interface WithSourceQuery<
         filter: TFilterSchema;
         orderBy: TOrderBySchema;
         request: QuerySchema<TFilterSchema, TOrderBySchema>;
-        response: z.ZodArray<TResponseSchema>;
+        response: ArraySchema<TResponseSchema>;
     };
 
     query: IQueryStore<TFilterSchema, TOrderBySchema>;
@@ -43,13 +46,13 @@ export interface WithSourceQuery<
      */
     useCountEx: WithQuery<QuerySchema<TFilterSchema, TOrderBySchema>, CountSchema>["useQueryEx"];
 
-    useFilter(): (filter: z.infer<TFilterSchema>) => void;
+    useFilter(): (filter: PicoSchema.Output<TFilterSchema>) => void;
 
-    useShallowFilter(): (filter?: z.infer<TFilterSchema>) => void;
+    useShallowFilter(): (filter?: PicoSchema.Output<TFilterSchema>) => void;
 
-    useOrderBy(): (orderBy: z.infer<TOrderBySchema>) => void;
+    useOrderBy(): (orderBy: PicoSchema.Output<TOrderBySchema>) => void;
 
-    useShallowOrderBy(): (orderBy?: z.infer<TOrderBySchema>) => void;
+    useShallowOrderBy(): (orderBy?: PicoSchema.Output<TOrderBySchema>) => void;
 
     WithFilter: withFilter.WithFilter<TFilterSchema, TOrderBySchema>;
 }

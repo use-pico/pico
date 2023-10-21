@@ -1,9 +1,9 @@
-import {type Schema} from "../Schema";
+import {type PicoSchema} from "../PicoSchema";
 
 export interface EnumSchema<
     TEnum extends EnumSchema.Enum,
     TOutput = TEnum[number],
-> extends Schema<TEnum[number], TOutput> {
+> extends PicoSchema<TEnum[number], TOutput> {
     schema: "enum",
     enum: TEnum;
 }

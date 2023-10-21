@@ -1,10 +1,10 @@
-import {type Resolve} from "../Resolve";
-import {type Schema}  from "../Schema";
+import {type PicoSchema} from "../PicoSchema";
+import {type Resolve}    from "../Resolve";
 
 export interface ObjectSchema<
     TShape extends ObjectSchema.Shape,
     TOutput = ObjectSchema.Output<TShape>,
-> extends Schema<
+> extends PicoSchema<
     ObjectSchema.Input<TShape>,
     TOutput
 > {
@@ -15,7 +15,7 @@ export interface ObjectSchema<
 }
 
 export namespace ObjectSchema {
-    export type Shape = Record<string, Schema<any>>;
+    export type Shape = Record<string, PicoSchema<any>>;
 
     export type PathItem = {
         schema: "object";
@@ -23,6 +23,12 @@ export namespace ObjectSchema {
         key: string;
         value: any;
     }
+
+    export type Schemas = [
+        ObjectSchema<any, any>,
+        ObjectSchema<any, any>,
+        ...ObjectSchema<any, any>[],
+    ];
 
     /**
      * This utility type could be moved to @use-pico/types, but to keep this package as light as possible,
@@ -45,7 +51,7 @@ export namespace ObjectSchema {
         TObjectEntries extends Shape,
     > = Resolve.Object<
         WithOptional<{
-            [TKey in keyof TObjectEntries]: Schema.Input<TObjectEntries[TKey]>;
+            [TKey in keyof TObjectEntries]: PicoSchema.Input<TObjectEntries[TKey]>;
         }>
     >;
 
@@ -53,7 +59,7 @@ export namespace ObjectSchema {
         TObjectEntries extends Shape,
     > = Resolve.Object<
         WithOptional<{
-            [TKey in keyof TObjectEntries]: Schema.Output<TObjectEntries[TKey]>;
+            [TKey in keyof TObjectEntries]: PicoSchema.Output<TObjectEntries[TKey]>;
         }>
     >;
 }

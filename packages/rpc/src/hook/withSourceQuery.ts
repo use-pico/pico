@@ -6,9 +6,11 @@ import {
     type QuerySchema,
     withQuerySchema
 }                             from "@use-pico/query";
-import {type ResponseSchema}  from "@use-pico/schema";
+import {
+    type ResponseSchema,
+    withArray
+}                             from "@use-pico/schema";
 import {withFilter}           from "@use-pico/source";
-import {z}                    from "@use-pico/utils";
 import {type WithQuery}       from "../api/WithQuery";
 import {type WithSourceQuery} from "../api/WithSourceQuery";
 import {withQuery}            from "./withQuery";
@@ -57,7 +59,7 @@ export const withSourceQuery = <
         filter:  schema.filter,
         orderBy: schema.orderBy,
     });
-    const $response = z.array(response);
+    const $response = withArray(response);
     const $withQuery = withQuery({
         ...props,
         schema: {

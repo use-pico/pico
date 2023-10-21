@@ -5,13 +5,15 @@ import {
     type FilterSchema,
     type OrderBySchema,
     QueryResult,
-    QuerySchema,
-    WithQuery
+    type QuerySchema,
+    type WithQuery
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
-import {type ResponseSchema}  from "@use-pico/schema";
+import {
+    type PicoSchema,
+    type ResponseSchema
+}                             from "@use-pico/schema";
 import {Loader}               from "@use-pico/ui";
-import {type z}               from "@use-pico/utils";
 import {
     type ComponentProps,
     type FC,
@@ -25,7 +27,7 @@ export namespace QueryFetch {
         TOrderBySchema extends OrderBySchema,
     > {
         loader?: ReactNode;
-        filter?: z.infer<TFilterSchema> | null;
+        filter?: PicoSchema.Output<TFilterSchema> | null;
         /**
          * Query to fetch entity
          */
@@ -50,7 +52,7 @@ export namespace QueryFetch {
     }
 
     export interface WithSuccessProps<TResponseSchema extends ResponseSchema> {
-        entities: z.infer<TResponseSchema>[];
+        entities: PicoSchema.Output<TResponseSchema>[];
     }
 }
 

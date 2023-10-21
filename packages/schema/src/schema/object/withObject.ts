@@ -1,7 +1,7 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type Issue}        from "../../api/Issue";
+import {type PicoSchema}   from "../../api/PicoSchema";
 import {type Pipe}         from "../../api/Pipe";
-import {type Schema}       from "../../api/Schema";
 import {type ObjectSchema} from "../../api/schema/ObjectSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
@@ -33,7 +33,7 @@ export function withObject<
 ): ObjectSchema<TShape> {
     const [error, pipe] = argsOf(arg2, arg3);
 
-    let cache: [string, Schema<any>][];
+    let cache: [string, PicoSchema<any>][];
 
     return {
         schema: "object",

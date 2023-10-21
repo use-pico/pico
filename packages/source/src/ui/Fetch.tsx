@@ -1,21 +1,23 @@
 "use client";
 
-import {useParam}                from "@use-pico/navigation";
+import {useParam}             from "@use-pico/navigation";
 import {
     ErrorResponseSchema,
     FilterSchema,
     QueryResult,
-    WithQuery
-}                                from "@use-pico/query";
-import {type WithIdentitySchema} from "@use-pico/schema";
-import {WithEntity}              from "@use-pico/types";
-import {Loader}                  from "@use-pico/ui";
-import {type z}                  from "@use-pico/utils";
+    type WithQuery
+}                             from "@use-pico/query";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                             from "@use-pico/schema";
+import {WithEntity}           from "@use-pico/types";
+import {Loader}               from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}                                from "react";
-import {type IWithFetchQuery}    from "../api/IWithFetchQuery";
+}                             from "react";
+import {type IWithFetchQuery} from "../api/IWithFetchQuery";
 
 export namespace Fetch {
     export interface Props<
@@ -30,7 +32,7 @@ export namespace Fetch {
          * Override "useParam" and use provided identity
          */
         override?: string;
-        filter?: z.infer<TFilterSchema> | null;
+        filter?: PicoSchema.Output<TFilterSchema> | null;
         loader?: ReactNode;
         /**
          * Query to fetch entity

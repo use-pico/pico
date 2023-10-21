@@ -4,10 +4,10 @@ import {
     type UseQueryResult
 }                            from "@tanstack/react-query";
 import {
+    type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                            from "@use-pico/schema";
-import {type z}              from "@use-pico/utils";
 import {ErrorResponseSchema} from "../schema/ErrorResponseSchema";
 import {type IInvalidator}   from "./IInvalidator";
 
@@ -34,7 +34,7 @@ export interface WithQuery<
      */
     useInvalidator: IInvalidator.Use;
 
-    usePromise(): (request: z.infer<TRequestSchema>) => Promise<z.infer<TResponseSchema>>;
+    usePromise(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
 
     /**
      * Simple useQuery, basically the same as useQuery in React Query; goal is to
@@ -51,7 +51,7 @@ export interface WithQuery<
     /**
      * Directly update query cache with the provided data
      */
-    useUpdateWith: () => (request?: z.infer<TResponseSchema>) => void;
+    useUpdateWith: () => (request?: PicoSchema.Output<TResponseSchema>) => void;
 }
 
 export namespace WithQuery {
@@ -59,19 +59,19 @@ export namespace WithQuery {
         TRequestSchema extends RequestSchema,
         TResponseSchema extends ResponseSchema,
     > {
-        request: z.infer<TRequestSchema>;
+        request: PicoSchema.Output<TRequestSchema>;
         options?: Omit<
             UseQueryOptions<
                 any,
                 ErrorResponseSchema.Type,
-                z.infer<TResponseSchema>
+                PicoSchema.Output<TResponseSchema>
             >, "queryFn" | "queryKey"
         > & Partial<
             Pick<
                 UseQueryOptions<
                     any,
                     ErrorResponseSchema.Type,
-                    z.infer<TResponseSchema>
+                    PicoSchema.Output<TResponseSchema>
                 >,
                 "queryKey"
             >
@@ -86,7 +86,7 @@ export namespace WithQuery {
     export type Result<
         TResponseSchema extends ResponseSchema,
     > = UseQueryResult<
-        z.infer<TResponseSchema>,
+        PicoSchema.Output<TResponseSchema>,
         ErrorResponseSchema.Type
     >;
 }

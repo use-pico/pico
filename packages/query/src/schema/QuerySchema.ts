@@ -1,4 +1,8 @@
-import {type Schema}        from "@use-pico/schema";
+import {
+    type PicoSchema,
+    withNullish,
+    withObject
+}                           from "@use-pico/schema";
 import {CursorSchema}       from "./CursorSchema";
 import {type FilterSchema}  from "./FilterSchema";
 import {type OrderBySchema} from "./OrderBySchema";
@@ -12,7 +16,7 @@ export namespace QuerySchema {
     export type Type<
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
-    > = Schema.Output<QuerySchema<TFilterSchema, TOrderBySchema>>;
+    > = PicoSchema.Output<QuerySchema<TFilterSchema, TOrderBySchema>>;
 }
 
 export namespace withQuerySchema {
@@ -33,20 +37,21 @@ export const withQuerySchema = <
       orderBy,
   }: withQuerySchema.Props<TFilterSchema, TOrderBySchema>
 ) => {
-    return z.object({
+    return withObject({
         /**
          * Optional filter, which should be mandatory filter (for example, clientId on invoices)
          */
-        filter: filter.nullish(),
+        filter: withNullish(filter),
         /**
          * Optional filter saying more specific filter options (this is where application user puts
          * search/filters).
          */
-        where:   filter.nullish(),
-        orderBy: orderBy.nullish(),
-        cursor:  CursorSchema.nullish(),
+        where:   withNullish(filter),
+        orderBy: withNullish(orderBy),
+        cursor:  withNullish(CursorSchema),
     });
 };
+
 export type withQuerySchema<
     TFilterSchema extends FilterSchema,
     TOrderBySchema extends OrderBySchema,

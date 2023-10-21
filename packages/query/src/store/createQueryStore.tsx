@@ -1,3 +1,4 @@
+import {parse}                 from "@use-pico/schema";
 import {createStore}           from "@use-pico/store";
 import {
     cleanOf,
@@ -57,7 +58,7 @@ export const createQueryStore = <
             },
             setCursor:      (page, size) => {
                 set({
-                    cursor: CursorSchema.parse({
+                    cursor: parse(CursorSchema, {
                         page,
                         size: size || get().cursor.size,
                     }),
@@ -72,11 +73,11 @@ export const createQueryStore = <
                 });
             },
             setFilter:      filter => {
-                set({filter: schema.filter.parse(filter)});
+                set({filter: parse(schema.filter, filter)});
             },
             shallowFilter:  filter => {
                 set({
-                    filter: schema.filter.parse({
+                    filter: parse(schema.filter, {
                         ...get().filter,
                         ...filter,
                     }),
@@ -91,11 +92,11 @@ export const createQueryStore = <
                 return !isEmpty(cleanOf(get().filter));
             },
             setOrderBy:     orderBy => {
-                set({orderBy: schema.orderBy.parse(orderBy)});
+                set({orderBy: parse(schema.orderBy, orderBy)});
             },
             shallowOrderBy: orderBy => {
                 set({
-                    orderBy: schema.orderBy.parse({
+                    orderBy: parse(schema.orderBy, {
                         ...get().orderBy,
                         ...orderBy,
                     }),

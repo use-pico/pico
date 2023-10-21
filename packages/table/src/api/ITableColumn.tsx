@@ -2,16 +2,16 @@ import {
     type FilterSchema,
     type IQueryStore,
     type OrderBySchema
-}               from "@use-pico/query";
-import {type z} from "@use-pico/utils";
+}                        from "@use-pico/query";
+import {type PicoSchema} from "@use-pico/schema";
 import {
     type CSSProperties,
     type FC,
     type ReactNode
-}               from "react";
+}                        from "react";
 
 export interface ITableColumn<
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
 > {
     /**
@@ -44,18 +44,18 @@ export interface ITableColumn<
 }
 
 export namespace ITableColumn {
-    export type Render<TSchema extends z.ZodSchema> = FC<RenderProps<TSchema>>;
+    export type Render<TSchema extends PicoSchema> = FC<RenderProps<TSchema>>;
 
-    export interface RenderProps<TSchema extends z.ZodSchema> {
-        item: z.infer<TSchema>;
+    export interface RenderProps<TSchema extends PicoSchema> {
+        item: PicoSchema.Output<TSchema>;
         highlight: string[] | undefined;
     }
 
     export interface WithFilter<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
-        isFilter(filter?: z.infer<TFilterSchema>): boolean;
+        isFilter(filter?: PicoSchema.Output<TFilterSchema>): boolean;
 
         onFilter(props: OnFilterProps<TSchema, TFilterSchema>): void;
 
@@ -63,10 +63,10 @@ export namespace ITableColumn {
     }
 
     export interface OnFilterProps<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
-        item: z.infer<TSchema>;
+        item: PicoSchema.Output<TSchema>;
         filter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["filter"];
         shallowFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["shallowFilter"];
         setFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["setFilter"];
@@ -74,10 +74,10 @@ export namespace ITableColumn {
     }
 
     export interface OnClearProps<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
-        item: z.infer<TSchema>;
+        item: PicoSchema.Output<TSchema>;
         filter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["filter"];
         shallowFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["shallowFilter"];
         setFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["setFilter"];

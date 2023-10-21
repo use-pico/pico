@@ -30,6 +30,7 @@
 			"outputMode": "new-only",
 			"dependsOn": [
 				"^build",
+				"^test",
 				"lint"
 			],
 			"outputs": [
@@ -56,6 +57,9 @@
 			"persistent": true
 		},
 		"cleanup": {
+			"cache": false
+		},
+		"test": {
 			"cache": false
 		}
 	}

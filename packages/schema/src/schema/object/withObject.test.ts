@@ -2,15 +2,15 @@ import {
     describe,
     expect,
     test
-}                     from "vitest";
-import {type Schema}  from "../../api/Schema";
-import {toCustom}     from "../../pipe/toCustom";
-import {withNumber}   from "../number/withNumber";
-import {withOptional} from "../optional/withOptional";
-import {parse}        from "../parse";
-import {ParseError}   from "../ParseError";
-import {withString}   from "../string/withString";
-import {withObject}   from "./withObject";
+}                        from "vitest";
+import {type PicoSchema} from "../../api/PicoSchema";
+import {toCustom}        from "../../pipe/toCustom";
+import {withNumber}      from "../number/withNumber";
+import {withOptional}    from "../optional/withOptional";
+import {parse}           from "../parse";
+import {ParseError}      from "../ParseError";
+import {withString}      from "../string/withString";
+import {withObject}      from "./withObject";
 
 describe("withObject", () => {
     test("should pass only objects", () => {
@@ -18,7 +18,7 @@ describe("withObject", () => {
             key1: withString(),
             key2: withNumber()
         });
-        const input1: Schema.Output<typeof schema1> = {
+        const input1: PicoSchema.Output<typeof schema1> = {
             key1: "test",
             key2: 123
         };

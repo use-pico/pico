@@ -1,6 +1,6 @@
 import {
     minValue,
-    type Schema,
+    type PicoSchema,
     withNumber,
     withObject
 } from "@use-pico/schema";
@@ -11,5 +11,5 @@ export const CursorSchema = withObject({
 });
 export type CursorSchema = typeof CursorSchema;
 export namespace CursorSchema {
-    export type Type = Schema.Output<CursorSchema>;
+    export type Type = PicoSchema.Output<CursorSchema>;
 }

@@ -1,5 +1,5 @@
 import {
-    type Schema,
+    type PicoSchema,
     withArray,
     withObject,
     withOptional,
@@ -31,5 +31,5 @@ export const FilterSchema = withObject({
 });
 export type FilterSchema = typeof FilterSchema;
 export namespace FilterSchema {
-    export type Type = Schema.Output<FilterSchema>;
+    export type Type = PicoSchema.Output<FilterSchema>;
 }

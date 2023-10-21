@@ -1,10 +1,18 @@
-import {WithIdentitySchema} from "@use-pico/schema";
-import {z}                  from "@use-pico/utils";
+import {
+    merge,
+    type PicoSchema,
+    WithIdentitySchema,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const CalendarEventSchema = WithIdentitySchema.extend({
-    date: z.date(),
-});
+export const CalendarEventSchema = merge([
+    WithIdentitySchema,
+    withObject({
+        date: withString(),
+    })
+]);
 export type CalendarEventSchema = typeof CalendarEventSchema;
 export namespace CalendarEventSchema {
-    export type Type = z.infer<CalendarEventSchema>;
+    export type Type = PicoSchema.Output<CalendarEventSchema>;
 }

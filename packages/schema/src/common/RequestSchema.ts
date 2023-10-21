@@ -1,6 +1,7 @@
-import {type z} from "@use-pico/utils";
+import {type PicoSchema}   from "../api/PicoSchema";
+import {type ObjectSchema} from "../api/schema/ObjectSchema";
 
-export type RequestSchema<TShape extends z.ZodRawShape = z.ZodRawShape> = z.ZodObject<TShape, "strip">;
+export type RequestSchema = ObjectSchema<ObjectSchema.Shape>;
 export namespace RequestSchema {
-    export type Type<TShape extends z.ZodRawShape = z.ZodRawShape> = z.infer<RequestSchema<TShape>>;
+    export type Type = PicoSchema.Output<RequestSchema>;
 }

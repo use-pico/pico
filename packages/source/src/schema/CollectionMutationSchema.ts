@@ -1,16 +1,21 @@
 import {type QuerySchema} from "@use-pico/query";
-import {z}                from "@use-pico/utils";
+import {
+    type PicoSchema,
+    withNullish,
+    withObject
+}                         from "@use-pico/schema";
 import {type ShapeSchema} from "./ShapeSchema";
 
 export type CollectionMutationSchema<
     TShapeSchema extends ShapeSchema,
     TQuerySchema extends QuerySchema<any, any>,
 > = ReturnType<withCollectionMutationSchema<TShapeSchema, TQuerySchema>>;
+
 export namespace CollectionMutationSchema {
     export type Type<
         TShapeSchema extends ShapeSchema,
         TQuerySchema extends QuerySchema<any, any>,
-    > = z.infer<CollectionMutationSchema<TShapeSchema, TQuerySchema>>;
+    > = PicoSchema.Output<CollectionMutationSchema<TShapeSchema, TQuerySchema>>;
 }
 
 export namespace withCollectionMutationSchema {
@@ -37,13 +42,17 @@ export const withCollectionMutationSchema = <
         query,
     }: withCollectionMutationSchema.Props<TShapeSchema, TQuerySchema>,
 ) => {
-    return z.object({
-        patch:    z.object({
-            patch: shape,
-            query,
-        }).nullish(),
-        deleteBy: z.object({
-            query,
-        }).nullish(),
+    return withObject({
+        patch:    withNullish(
+            withObject({
+                patch: shape,
+                query,
+            })
+        ),
+        deleteBy: withNullish(
+            withObject({
+                query,
+            })
+        ),
     });
 };
