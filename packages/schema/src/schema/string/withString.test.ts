@@ -40,5 +40,6 @@ describe("withString", () => {
         const output1 = parse(schema1, input1);
         expect(output1).toBe(input1);
         expect(() => parse(schema1, "")).toThrowError("Non empty rule violation");
+        expect(() => parse(schema1, "  ")).toThrowError("Non empty rule violation");
     });
 });
