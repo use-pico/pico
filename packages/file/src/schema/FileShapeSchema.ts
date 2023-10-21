@@ -1,15 +1,22 @@
-import {z} from "@use-pico/utils";
+import {
+    nonEmpty,
+    type PicoSchema,
+    withNullish,
+    withNumber,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const FileShapeSchema = z.object({
-    name:   z.string().nonempty({message: "Non-empty"}),
-    path:   z.string().nonempty({message: "Non-empty"}),
-    native: z.string().nonempty({message: "Non-empty"}),
-    mime:   z.string().nonempty({message: "Non-empty"}),
-    userId: z.string().nullish(),
-    size:   z.number(),
-    ttl:    z.number(),
+export const FileShapeSchema = withObject({
+    name:   withString([nonEmpty("Non-empty")]),
+    path:   withString([nonEmpty("Non-empty")]),
+    native: withString([nonEmpty("Non-empty")]),
+    mime:   withString([nonEmpty("Non-empty")]),
+    userId: withNullish(withString()),
+    size:   withNumber(),
+    ttl:    withNumber(),
 });
 export type FileShapeSchema = typeof FileShapeSchema;
 export namespace FileShapeSchema {
-    export type Type = z.infer<FileShapeSchema>;
+    export type Type = PicoSchema.Output<FileShapeSchema>;
 }

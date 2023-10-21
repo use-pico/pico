@@ -1,13 +1,18 @@
-import {z} from "@use-pico/utils";
+import {
+    type PicoSchema,
+    withBool,
+    withObject,
+    withString
+} from "@use-pico/schema";
 
-export const FileCommitSchema = z.object({
-    name:    z.string(),
-    path:    z.string(),
-    chunkId: z.string(),
-    mime:    z.string(),
-    replace: z.boolean(),
+export const FileCommitSchema = withObject({
+    name:    withString(),
+    path:    withString(),
+    chunkId: withString(),
+    mime:    withString(),
+    replace: withBool(),
 });
 export type FileCommitSchema = typeof FileCommitSchema;
 export namespace FileCommitSchema {
-    export type Type = z.infer<FileCommitSchema>;
+    export type Type = PicoSchema.Output<FileCommitSchema>;
 }

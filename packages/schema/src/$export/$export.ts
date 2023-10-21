@@ -5,6 +5,7 @@ export * from "./EnumSchema";
 export * from "./NullSchema";
 export * from "./NullishSchema";
 export * from "./ObjectSchema";
+export * from "./OptionalSchema";
 export * from "./ParseError";
 export * from "./PicoSchema";
 export * from "./RecordSchema";

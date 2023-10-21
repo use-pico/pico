@@ -1,13 +1,13 @@
 import {type FilterSchema}      from "@use-pico/query";
+import {type PicoSchema}        from "@use-pico/schema";
 import {Table}                  from "@use-pico/ui";
-import {type z}                 from "@use-pico/utils";
 import {type FC}                from "react";
 import {type ITableColumn}      from "../../api/ITableColumn";
 import {type ITableColumnTuple} from "../../api/ITableColumnTuple";
 
 export namespace TableFoot {
     export interface Props<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
         WithFooter?: WithFooter<TSchema, TFilterSchema>;
@@ -15,25 +15,25 @@ export namespace TableFoot {
         withRowAction: boolean;
         disableActions: boolean;
         columns: ITableColumnTuple<TSchema, TFilterSchema>[];
-        items?: z.infer<TSchema>[];
+        items?: PicoSchema.Output<TSchema>[];
     }
 
     export type WithFooter<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > = FC<WithFooterProps<TSchema, TFilterSchema>>;
 
     export interface WithFooterProps<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
-        items?: z.infer<TSchema>[];
+        items?: PicoSchema.Output<TSchema>[];
         columns?: ITableColumn<TSchema, TFilterSchema>[];
     }
 }
 
 export const TableFoot = <
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
 >(
     {

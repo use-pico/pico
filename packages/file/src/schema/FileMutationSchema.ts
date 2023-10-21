@@ -1,25 +1,13 @@
-import {z}               from "@use-pico/utils";
-import {FileQuerySchema} from "./FileQuerySchema";
-import {FileShapeSchema} from "./FileShapeSchema";
+import {type PicoSchema}    from "@use-pico/schema";
+import {withMutationSchema} from "@use-pico/source";
+import {FileQuerySchema}    from "./FileQuerySchema";
+import {FileShapeSchema}    from "./FileShapeSchema";
 
-export const FileMutationSchema = z.object({
-    create: FileShapeSchema.nullish(),
-    update: z.object({
-        update: FileShapeSchema.partial().nullish(),
-        query:  FileQuerySchema,
-    }).nullish(),
-    upsert: z.object({
-        create: FileShapeSchema.nullish(),
-        update: z.object({
-            update: FileShapeSchema.partial().nullish(),
-            query:  FileQuerySchema,
-        }).nullish(),
-    }).nullish(),
-    delete: z.object({
-        query: FileQuerySchema,
-    }).nullish(),
+export const FileMutationSchema = withMutationSchema({
+    shape: FileShapeSchema,
+    query: FileQuerySchema,
 });
 export type FileMutationSchema = typeof FileMutationSchema;
 export namespace FileMutationSchema {
-    export type Type = z.infer<FileMutationSchema>;
+    export type Type = PicoSchema.Output<FileMutationSchema>;
 }

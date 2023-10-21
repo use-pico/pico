@@ -1,13 +1,11 @@
 import {Translation}            from "@use-pico/i18n";
 import {FilterSchema}           from "@use-pico/query";
+import {type PicoSchema}        from "@use-pico/schema";
 import {
     Group,
     Table
 }                               from "@use-pico/ui";
-import {
-    isCallable,
-    type z
-}                               from "@use-pico/utils";
+import {isCallable}             from "@use-pico/utils";
 import {
     type CSSProperties,
     type FC
@@ -16,7 +14,7 @@ import {type ITableColumnTuple} from "../../api/ITableColumnTuple";
 
 export namespace TableHead {
     export interface Props<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
     > {
         /**
@@ -26,16 +24,16 @@ export namespace TableHead {
         withRowAction: boolean;
         columns: ITableColumnTuple<TSchema, TFilterSchema>[];
         disableActions: boolean;
-        items?: z.infer<TSchema>[];
+        items?: PicoSchema.Output<TSchema>[];
     }
 
-    export interface WithTableActionProps<TSchema extends z.ZodSchema> {
-        items?: z.infer<TSchema>[];
+    export interface WithTableActionProps<TSchema extends PicoSchema> {
+        items?: PicoSchema.Output<TSchema>[];
     }
 }
 
 export const TableHead = <
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
 >(
     {

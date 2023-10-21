@@ -8,6 +8,7 @@ import {
     type OrderBySchema
 }                               from "@use-pico/query";
 import {type WithSourceQuery}   from "@use-pico/rpc";
+import {type PicoSchema}        from "@use-pico/schema";
 import {
     Box,
     LinkLockProvider,
@@ -15,7 +16,6 @@ import {
     ScrollArea,
     Table as CoolTable
 }                               from "@use-pico/ui";
-import {type z}                 from "@use-pico/utils";
 import {
     type CSSProperties,
     type FC
@@ -33,7 +33,7 @@ import {TablePrefix}            from "./Table/TablePrefix";
 export namespace Table {
     export interface Props<
         TColumns extends string,
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
     > extends Partial<Omit<CoolTable.Props, "hidden" | "onClick">>,
@@ -90,7 +90,7 @@ export namespace Table {
 
 export const Table = <
     TColumns extends string,
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
     TOrderBySchema extends OrderBySchema,
 >(

@@ -1,15 +1,13 @@
-import {CursorSchema}      from "@use-pico/query";
-import {z}                 from "@use-pico/utils";
+import {withQuerySchema}   from "@use-pico/query";
+import {type PicoSchema}   from "@use-pico/schema";
 import {FileFilterSchema}  from "./FileFilterSchema";
 import {FileOrderBySchema} from "./FileOrderBySchema";
 
-export const FileQuerySchema = z.object({
-    where:   FileFilterSchema.nullish(),
-    filter:  FileFilterSchema.nullish(),
-    orderBy: FileOrderBySchema.nullish(),
-    cursor:  CursorSchema.nullish(),
+export const FileQuerySchema = withQuerySchema({
+    filter:  FileFilterSchema,
+    orderBy: FileOrderBySchema,
 });
 export type FileQuerySchema = typeof FileQuerySchema;
 export namespace FileQuerySchema {
-    export type Type = z.infer<FileQuerySchema>;
+    export type Type = PicoSchema.Output<FileQuerySchema>;
 }

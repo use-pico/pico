@@ -1,26 +1,28 @@
-import {Translation}        from "@use-pico/i18n";
-import {type RequestSchema} from "@use-pico/schema";
+import {Translation}      from "@use-pico/i18n";
+import {
+    type PicoSchema,
+    type RequestSchema
+}                         from "@use-pico/schema";
 import {
     Button,
     Group,
     JobIcon,
     Stack
-}                           from "@use-pico/ui";
-import {type z}             from "@use-pico/utils";
+}                         from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}                           from "react";
-import {type IJobManager}   from "../api/IJobManager";
-import {JobProgress}        from "./JobProgress";
-import {JobToolbar}         from "./JobToolbar";
+}                         from "react";
+import {type IJobManager} from "../api/IJobManager";
+import {JobProgress}      from "./JobProgress";
+import {JobToolbar}       from "./JobToolbar";
 
 export namespace JobAsync {
     export interface Props<
         TRequestSchema extends RequestSchema,
     > {
         jobManager: IJobManager<TRequestSchema>;
-        toRequest?: () => z.infer<TRequestSchema>;
+        toRequest?: () => PicoSchema.Output<TRequestSchema>;
         icon?: ReactNode;
         label?: ReactNode;
         inline?: boolean;

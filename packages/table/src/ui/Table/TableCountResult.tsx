@@ -5,13 +5,13 @@ import {
     type OrderBySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
+import {type PicoSchema}      from "@use-pico/schema";
 import {
     Container,
     Result,
     Status,
     WithIcon
 }                             from "@use-pico/ui";
-import {type z}               from "@use-pico/utils";
 import {
     type FC,
     useCallback
@@ -19,7 +19,7 @@ import {
 
 export namespace TableCountResult {
     export interface Props<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
     > {
@@ -29,7 +29,7 @@ export namespace TableCountResult {
 }
 
 export const TableCountResult = <
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
     TOrderBySchema extends OrderBySchema,
 >(

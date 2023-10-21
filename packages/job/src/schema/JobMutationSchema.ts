@@ -1,5 +1,5 @@
+import {type PicoSchema}    from "@use-pico/schema";
 import {withMutationSchema} from "@use-pico/source";
-import {type z}             from "@use-pico/utils";
 import {JobQuerySchema}     from "./JobQuerySchema";
 import {JobShapeSchema}     from "./JobShapeSchema";
 
@@ -9,5 +9,5 @@ export const JobMutationSchema = withMutationSchema({
 });
 export type JobMutationSchema = typeof JobMutationSchema;
 export namespace JobMutationSchema {
-    export type Type = z.infer<JobMutationSchema>;
+    export type Type = PicoSchema.Output<JobMutationSchema>;
 }

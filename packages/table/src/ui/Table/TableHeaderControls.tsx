@@ -4,17 +4,17 @@ import {
     type OrderBySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
+import {type PicoSchema}      from "@use-pico/schema";
 import {Fulltext}             from "@use-pico/source";
 import {
     ActionIcon,
     Grid
 }                             from "@use-pico/ui";
-import {type z}               from "@use-pico/utils";
 import {type FC}              from "react";
 
 export namespace TableHeaderControls {
     export interface Props<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
     > {
@@ -23,7 +23,7 @@ export namespace TableHeaderControls {
     }
 
     export interface FilterProps<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
     > {
@@ -32,7 +32,7 @@ export namespace TableHeaderControls {
 }
 
 export const TableHeaderControls = <
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
     TOrderBySchema extends OrderBySchema,
 >(

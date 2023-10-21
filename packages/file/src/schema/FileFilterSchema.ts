@@ -1,14 +1,21 @@
-import {z} from "@use-pico/utils";
+import {FilterSchema} from "@use-pico/query";
+import {
+    merge,
+    type PicoSchema,
+    withNullish,
+    withObject,
+    withString
+}                     from "@use-pico/schema";
 
-export const FileFilterSchema = z.object({
-    native:   z.string().nullish(),
-    path:     z.string().nullish(),
-    mime:     z.string().nullish(),
-    id:       z.string().nullish(),
-    idIn:     z.array(z.string()).nullish(),
-    fulltext: z.string().nullish(),
-});
+export const FileFilterSchema = merge([
+    FilterSchema,
+    withObject({
+        native: withNullish(withString()),
+        path:   withNullish(withString()),
+        mime:   withNullish(withString()),
+    }),
+]);
 export type FileFilterSchema = typeof FileFilterSchema;
 export namespace FileFilterSchema {
-    export type Type = z.infer<FileFilterSchema>;
+    export type Type = PicoSchema.Output<FileFilterSchema>;
 }

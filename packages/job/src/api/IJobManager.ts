@@ -3,11 +3,12 @@ import {
     type WithQuery
 }                            from "@use-pico/query";
 import {
+    type NullishSchema,
+    type PicoSchema,
     type RequestSchema,
     type WithIdentitySchema
 }                            from "@use-pico/schema";
 import {type MutationSchema} from "@use-pico/source";
-import {type z}              from "@use-pico/utils";
 import {type JobQuerySchema} from "../schema/JobQuerySchema";
 import {type JobSchema}      from "../schema/JobSchema";
 import {JobShapeSchema}      from "../schema/JobShapeSchema";
@@ -22,7 +23,7 @@ export interface IJobManager<
     interruptMutation: WithMutation.Result<WithIdentitySchema, JobSchema>;
     jobMutation: WithMutation.Result<MutationSchema<JobShapeSchema, JobQuerySchema>, JobQuerySchema>;
 
-    start(request: z.infer<TRequestSchema>): void;
+    start(request: PicoSchema.Output<TRequestSchema>): void;
 
     commit(): void;
 
@@ -46,5 +47,5 @@ export interface IJobManager<
 
     withCommit(): boolean;
 
-    watch: WithQuery.Result<z.ZodNullable<z.ZodOptional<JobSchema>>>;
+    watch: WithQuery.Result<NullishSchema<JobSchema>>;
 }

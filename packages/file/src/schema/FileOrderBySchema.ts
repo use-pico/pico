@@ -1,7 +1,12 @@
-import {z} from "@use-pico/utils";
+import {OrderSchema} from "@use-pico/query";
+import {
+    type PicoSchema,
+    withEnum,
+    withRecord
+}                    from "@use-pico/schema";
 
-export const FileOrderBySchema = z.record(z.enum(["name", "path"]), z.enum(["asc", "desc"]));
+export const FileOrderBySchema = withRecord(withEnum(["name", "path"]), OrderSchema);
 export type FileOrderBySchema = typeof FileOrderBySchema;
 export namespace FileOrderBySchema {
-    export type Type = z.infer<FileOrderBySchema>;
+    export type Type = PicoSchema.Output<FileOrderBySchema>;
 }

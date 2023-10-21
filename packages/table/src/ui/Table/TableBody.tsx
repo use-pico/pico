@@ -3,6 +3,7 @@ import {
     type OrderBySchema
 }                               from "@use-pico/query";
 import {type WithSourceQuery}   from "@use-pico/rpc";
+import {type PicoSchema}        from "@use-pico/schema";
 import {
     type IMultiSelectionStore,
     type ISelectionStore
@@ -12,8 +13,7 @@ import {Table}                  from "@use-pico/ui";
 import {
     classNames,
     generateId,
-    isString,
-    type z
+    isString
 }                               from "@use-pico/utils";
 import {
     type FC,
@@ -24,13 +24,13 @@ import classes                  from "../Table.module.css";
 
 export namespace TableBody {
     export interface Props<
-        TSchema extends z.ZodSchema,
+        TSchema extends PicoSchema,
         TFilterSchema extends FilterSchema,
         TOrderBySchema extends OrderBySchema,
     > {
         withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
-        SelectionStore?: ISelectionStore<z.infer<TSchema>>;
-        MultiSelectionStore?: IMultiSelectionStore<z.infer<TSchema>>;
+        SelectionStore?: ISelectionStore<PicoSchema.Output<TSchema>>;
+        MultiSelectionStore?: IMultiSelectionStore<PicoSchema.Output<TSchema>>;
         WithRow: FC<RowProps<TSchema>>;
         /**
          * Per-row component action handler
@@ -41,21 +41,21 @@ export namespace TableBody {
         disableActions: boolean;
         highlight?: string[];
 
-        onClick?(item: z.infer<TSchema>): void;
+        onClick?(item: PicoSchema.Output<TSchema>): void;
     }
 
-    export interface WithRowActionProps<TSchema extends z.ZodSchema> {
-        item: z.infer<TSchema>;
+    export interface WithRowActionProps<TSchema extends PicoSchema> {
+        item: PicoSchema.Output<TSchema>;
     }
 
-    export type RowProps<TSchema extends z.ZodSchema> = PropsWithChildren<{
+    export type RowProps<TSchema extends PicoSchema> = PropsWithChildren<{
         className: string;
-        entity: z.infer<TSchema>;
+        entity: PicoSchema.Output<TSchema>;
     }>;
 }
 
 export const TableBody = <
-    TSchema extends z.ZodSchema,
+    TSchema extends PicoSchema,
     TFilterSchema extends FilterSchema,
     TOrderBySchema extends OrderBySchema,
 >(
