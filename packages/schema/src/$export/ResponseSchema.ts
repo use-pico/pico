@@ -1,1 +1,1 @@
-export {type ResponseSchema} from "../schema/ResponseSchema";
+export {type ResponseSchema} from "../common/ResponseSchema";

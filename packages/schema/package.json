@@ -23,6 +23,7 @@
 		"build:esbuild": "node esbuild.mjs",
 		"build:types": "tsc --outDir lib",
 		"lint": "eslint src",
+		"test": "vitest",
 		"cleanup": "concurrently npm:cleanup:*",
 		"cleanup:sdk": "del-cli src/sdk/**",
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
@@ -31,15 +32,16 @@
 		"@use-pico/utils": "^1.0.2"
 	},
 	"devDependencies": {
+		"@types/node": "^20.5.3",
+		"@types/react": "^18.2.21",
 		"@use-pico/esbuild": "^1.0.2",
 		"@use-pico/eslint-config-eslint": "^1.0.2",
 		"@use-pico/tsconfig": "^1.0.2",
-		"@types/node": "^20.5.3",
-		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.47.0",
-		"typescript": "^5.2.2"
+		"typescript": "^5.2.2",
+		"vitest": "^0.34.6"
 	},
 	"bugs": {
 		"url": "https://github.com/leight-core/viv/issues"

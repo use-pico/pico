@@ -1,1 +1,1 @@
-export {type RequestSchema} from "../schema/RequestSchema";
+export {type RequestSchema} from "../common/RequestSchema";

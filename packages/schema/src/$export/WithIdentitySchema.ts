@@ -1,1 +1,1 @@
-export {WithIdentitySchema} from "../schema/WithIdentitySchema";
+export {WithIdentitySchema} from "../common/WithIdentitySchema";
