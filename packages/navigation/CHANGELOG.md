@@ -1,5 +1,14 @@
 # @use-pico/navigation
 
+## 1.0.5
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@1.0.8
+    - @use-pico/utils@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

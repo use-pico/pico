@@ -1,5 +1,13 @@
 # @use-pico/env
 
+## 1.0.4
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/utils@1.0.5
+
 ## 1.0.3
 
 ### Patch Changes

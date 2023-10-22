@@ -1,5 +1,5 @@
 import {Translation}    from "@use-pico/i18n";
-import {type TagSchema} from "@use-pico/utils";
+import {type TagSchema} from "@use-pico/schema";
 import {type FC}        from "react";
 import {Badge}          from "./Badge";
 

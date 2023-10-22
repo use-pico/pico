@@ -1,8 +1,6 @@
-import {
-    PicoSchema,
-    withAny,
-    withNullish
-} from "@use-pico/schema";
+import {type PicoSchema} from "../api/PicoSchema";
+import {withAny}         from "../schema/any/withAny";
+import {withNullish}     from "../schema/nullish/withNullish";
 
 export const DummySchema = withNullish(withAny());
 export type DummySchema = typeof DummySchema;

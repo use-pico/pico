@@ -1,14 +1,14 @@
-import {type PicoSchema} from "@use-pico/schema";
-import {jsonOf}          from "./jsonOf";
+import {type PicoSchema} from "../api/PicoSchema";
+import {parseJson}       from "./parseJson";
 
-export const safeJsonOf = <
+export const parseJson$ = <
     const TSchema extends PicoSchema,
 >(
     schema: TSchema,
     json: string | null | undefined
 ) => {
     try {
-        return jsonOf(schema, json);
+        return parseJson(schema, json);
     } catch (e) {
         console.warn(e);
         return undefined;

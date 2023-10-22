@@ -1,5 +1,5 @@
 {
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"name": "@use-pico/navigation",
 	"description": "Link & navigation related stuff.",
 	"license": "MIT",
@@ -25,7 +25,8 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/utils": "^1.0.4",
+		"@use-pico/schema": "^1.0.8",
+		"@use-pico/utils": "^1.0.5",
 		"next": "^13.5.4",
 		"react": "^18.2.0"
 	},

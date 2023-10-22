@@ -2,8 +2,10 @@
 
 import {useParam$}         from "@use-pico/navigation";
 import {type FilterSchema} from "@use-pico/query";
-import {type PicoSchema}   from "@use-pico/schema";
-import {safeJsonOf}        from "@use-pico/utils";
+import {
+    parseJson$,
+    type PicoSchema
+}                          from "@use-pico/schema";
 import {type ReactNode}    from "react";
 
 export namespace WithParamFilter {
@@ -27,6 +29,6 @@ export const WithParamFilter = <
     }: WithParamFilter.Props<TFilterSchema>
 ) => {
     return children(
-        safeJsonOf(schema, useParam$(name))
+        parseJson$(schema, useParam$(name))
     );
 };

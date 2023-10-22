@@ -1,5 +1,17 @@
 # @use-pico/rpc
 
+## 1.0.5
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@1.0.8
+    - @use-pico/source@1.0.4
+    - @use-pico/query@1.0.5
+    - @use-pico/store@1.0.4
+    - @use-pico/utils@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"name": "@use-pico/env",
 	"description": "Next.js env helper stuff.",
 	"license": "MIT",
@@ -27,7 +27,7 @@
 		"cleanup": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/utils": "^1.0.4"
+		"@use-pico/utils": "^1.0.5"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.2",

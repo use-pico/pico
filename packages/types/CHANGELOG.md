@@ -1,5 +1,13 @@
 # @use-pico/types
 
+## 1.0.4
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@1.0.8
+
 ## 1.0.3
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @use-pico/form
 
+## 1.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/navigation@1.0.5
+    - @use-pico/selection@1.0.4
+    - @use-pico/calendar@1.0.4
+    - @use-pico/schema@1.0.8
+    - @use-pico/source@1.0.4
+    - @use-pico/query@1.0.5
+    - @use-pico/store@1.0.4
+    - @use-pico/table@1.0.4
+    - @use-pico/utils@1.0.5
+    - @use-pico/hook@1.0.4
+    - @use-pico/i18n@1.0.4
+    - @use-pico/rpc@1.0.5
+    - @use-pico/ui@1.0.5
+
 ## 1.0.5
 
 ### Patch Changes

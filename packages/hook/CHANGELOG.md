@@ -1,5 +1,14 @@
 # @use-pico/hook
 
+## 1.0.4
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/i18n@1.0.4
+    - @use-pico/ui@1.0.5
+
 ## 1.0.3
 
 ### Patch Changes

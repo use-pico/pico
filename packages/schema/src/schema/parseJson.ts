@@ -1,9 +1,7 @@
-import {
-    parse,
-    type PicoSchema
-} from "@use-pico/schema";
+import {type PicoSchema} from "../api/PicoSchema";
+import {parse}           from "./parse";
 
-export const jsonOf = <
+export const parseJson = <
     const TSchema extends PicoSchema,
 >(
     schema: TSchema,

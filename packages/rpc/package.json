@@ -1,5 +1,5 @@
 {
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"name": "@use-pico/rpc",
 	"description": "RPC stuff.",
 	"license": "MIT",
@@ -26,11 +26,11 @@
 	},
 	"dependencies": {
 		"@tanstack/react-query": "^5.0.0-rc.4",
-		"@use-pico/query": "^1.0.4",
-		"@use-pico/schema": "^1.0.7",
-		"@use-pico/source": "^1.0.3",
-		"@use-pico/store": "^1.0.3",
-		"@use-pico/utils": "^1.0.4",
+		"@use-pico/query": "^1.0.5",
+		"@use-pico/schema": "^1.0.8",
+		"@use-pico/source": "^1.0.4",
+		"@use-pico/store": "^1.0.4",
+		"@use-pico/utils": "^1.0.5",
 		"axios": "^1.4.0",
 		"react": "^18.2.0"
 	},
