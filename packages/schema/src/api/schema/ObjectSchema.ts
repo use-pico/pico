@@ -30,6 +30,23 @@ export namespace ObjectSchema {
         ...ObjectSchema<any, any>[],
     ];
 
+    /**
+     * This utility type could be moved to @use-pico/types, but to keep this package as light as possible,
+     * it will stay here.
+     */
+    export type RequiredKeys<TObject extends object> = Exclude<{
+        [TKey in keyof TObject]: undefined extends TObject[TKey] ? never : TKey;
+    }[keyof TObject], undefined>;
+
+    export type OptionalKeys<TObject extends object> = Exclude<{
+        [TKey in keyof TObject]: undefined extends TObject[TKey] ? TKey : never;
+    }[keyof TObject], undefined>;
+
+    export type WithOptional<TObject extends object> =
+        Pick<TObject, RequiredKeys<TObject>>
+        &
+        Partial<Pick<TObject, OptionalKeys<TObject>>>;
+
     export type Input<
         TObjectEntries extends Shape,
     > = Resolve.Object<{
@@ -38,7 +55,7 @@ export namespace ObjectSchema {
 
     export type Output<
         TObjectEntries extends Shape,
-    > = Resolve.Object<{
+    > = WithOptional<{
         [TKey in keyof TObjectEntries]: PicoSchema.Output<TObjectEntries[TKey]>;
     }>;
 }
