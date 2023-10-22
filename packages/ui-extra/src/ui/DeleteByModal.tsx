@@ -88,14 +88,10 @@ export const DeleteByModal = <
                 onClick={() => {
                     deleteMutation.mutate({
                         delete: {
-                            where,
                             filter,
+                            where,
                         },
-                        /**
-                         * @TODO I hate this, but for some reason, Zod generates (maybe by my mistake) quite a HUUUUUGE type for this schema, which
-                         * does not pass, so some another day, fix this any shit.
-                         */
-                    } as any, {
+                    }, {
                         onSuccess: response => {
                             successNotification({
                                 withTranslation: {

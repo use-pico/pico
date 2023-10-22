@@ -1,5 +1,8 @@
 import {type QuerySchema} from "@use-pico/query";
 import {
+    type NullishSchema,
+    type ObjectSchema,
+    PartialSchema,
     type PicoSchema,
     withNullish,
     withObject,
@@ -10,7 +13,25 @@ import {type ShapeSchema} from "./ShapeSchema";
 export type MutationSchema<
     TShapeSchema extends ShapeSchema,
     TQuerySchema extends QuerySchema<any, any>,
-> = ReturnType<withMutationSchema<TShapeSchema, TQuerySchema>>;
+> = ObjectSchema<{
+    create: NullishSchema<TShapeSchema>;
+    update: NullishSchema<ObjectSchema<{
+        update: NullishSchema<
+            PartialSchema<TShapeSchema>
+        >;
+        query: TQuerySchema;
+    }>>;
+    upsert: NullishSchema<ObjectSchema<{
+        create: NullishSchema<TShapeSchema>;
+        update: NullishSchema<ObjectSchema<{
+            update: NullishSchema<
+                PartialSchema<TShapeSchema>
+            >;
+            query: TQuerySchema;
+        }>>;
+    }>>;
+    delete: NullishSchema<TQuerySchema>;
+}>;
 
 export namespace MutationSchema {
     export type Type<
@@ -45,7 +66,7 @@ export const withMutationSchema = <
         TShapeSchema,
         TQuerySchema
     >,
-) => {
+): MutationSchema<TShapeSchema, TQuerySchema> => {
     const update = withNullish(
         withObject({
             update: withNullish(
