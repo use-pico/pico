@@ -8,5 +8,5 @@ export const nonEmpty = <
     error?: ErrorMessage,
 ) => (input: TInput): Pipe.Result<TInput> => {
     const $input = input.trim();
-    return !$input || $input.length === 0 ? pipeIssuesOf("minLength", error || "Non empty rule violation", input) : {output: input};
+    return !$input || $input.length === 0 ? pipeIssuesOf("nonEmpty", error || "Non empty rule violation", input) : {output: input};
 };

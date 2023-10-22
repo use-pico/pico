@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.4
+
+### Patch Changes
+
+- Added NaN
+
 ## 1.0.3
 
 ### Patch Changes
