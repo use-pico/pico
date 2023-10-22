@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.6
+
+### Patch Changes
+
+- Widened RequestSchema to any Schema
+
 ## 1.0.5
 
 ### Patch Changes

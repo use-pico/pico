@@ -1,7 +1,6 @@
-import {type PicoSchema}   from "../api/PicoSchema";
-import {type ObjectSchema} from "../api/schema/ObjectSchema";
+import {type PicoSchema} from "../api/PicoSchema";
 
-export type RequestSchema = ObjectSchema<ObjectSchema.Shape>;
+export type RequestSchema = PicoSchema;
 export namespace RequestSchema {
     export type Type = PicoSchema.Output<RequestSchema>;
 }
