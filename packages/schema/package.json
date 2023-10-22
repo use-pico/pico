@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3-next.0",
 	"name": "@use-pico/schema",
 	"description": "Common schemas used across the lib.",
 	"license": "MIT",
@@ -28,8 +28,7 @@
 		"cleanup:sdk": "del-cli src/sdk/**",
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
-	"dependencies": {
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",

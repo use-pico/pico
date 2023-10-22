@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3-next.0",
 	"name": "@use-pico/selection",
 	"description": "Common selection stuff.",
 	"license": "MIT",
@@ -28,9 +28,9 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/query": "^1.0.2",
-		"@use-pico/store": "^1.0.2",
-		"@use-pico/utils": "^1.0.2"
+		"@use-pico/query": "^1.0.3-next.0",
+		"@use-pico/store": "^1.0.3-next.0",
+		"@use-pico/utils": "^1.0.4-next.0"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.2",

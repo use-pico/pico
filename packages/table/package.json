@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3-next.0",
 	"name": "@use-pico/table",
 	"description": "Table support stuff.",
 	"license": "MIT",
@@ -26,15 +26,15 @@
 	},
 	"dependencies": {
 		"@tabler/icons-react": "^2.32.0",
-		"@use-pico/i18n": "^1.0.2",
-		"@use-pico/pagination": "^1.0.2",
-		"@use-pico/query": "^1.0.2",
-		"@use-pico/rpc": "^1.0.2",
-		"@use-pico/schema": "^1.0.0",
-		"@use-pico/selection": "^1.0.2",
-		"@use-pico/source": "^1.0.2",
-		"@use-pico/ui": "^1.0.2",
-		"@use-pico/utils": "^1.0.2",
+		"@use-pico/i18n": "^1.0.3-next.0",
+		"@use-pico/pagination": "^1.0.3-next.0",
+		"@use-pico/query": "^1.0.3-next.0",
+		"@use-pico/rpc": "^1.0.3-next.0",
+		"@use-pico/schema": "^1.0.3-next.0",
+		"@use-pico/selection": "^1.0.3-next.0",
+		"@use-pico/source": "^1.0.3-next.0",
+		"@use-pico/ui": "^1.0.4-next.0",
+		"@use-pico/utils": "^1.0.4-next.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

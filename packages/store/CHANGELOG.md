@@ -1,5 +1,14 @@
 # @use-pico/store
 
+## 1.0.3-next.0
+
+### Patch Changes
+
+- Just version bump, preparing pre-release
+- Updated dependencies
+    - @use-pico/utils@1.0.4-next.0
+    - @use-pico/context@1.0.3-next.0
+
 ## 1.0.2
 
 ### Patch Changes

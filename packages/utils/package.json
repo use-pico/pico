@@ -1,5 +1,5 @@
 {
-	"version": "1.0.3",
+	"version": "1.0.4-next.0",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
@@ -35,8 +35,8 @@
 		"@types/is-empty": "^1.2.1",
 		"@types/is-object": "^1.0.2",
 		"@types/is-string": "^1.0.0",
-		"@use-pico/schema": "^1.0.0",
-		"@use-pico/types": "^1.0.2",
+		"@use-pico/schema": "^1.0.3-next.0",
+		"@use-pico/types": "^1.0.3-next.0",
 		"build-url-ts": "^6.1.5",
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",

@@ -1,5 +1,11 @@
 # @use-pico/context
 
+## 1.0.3-next.0
+
+### Patch Changes
+
+- Just version bump, preparing pre-release
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-	"version": "1.0.2",
+	"version": "1.0.3-next.0",
 	"name": "@use-pico/source",
 	"description": "Source (repository) support for client-side & server-side.",
 	"license": "MIT",
@@ -25,16 +25,16 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/hook": "^1.0.2",
-		"@use-pico/i18n": "^1.0.2",
-		"@use-pico/navigation": "^1.0.2",
-		"@use-pico/pagination": "^1.0.2",
-		"@use-pico/query": "^1.0.2",
-		"@use-pico/schema": "^1.0.2",
-		"@use-pico/store": "^1.0.2",
-		"@use-pico/types": "^1.0.2",
-		"@use-pico/ui": "^1.0.2",
-		"@use-pico/utils": "^1.0.2",
+		"@use-pico/hook": "^1.0.3-next.0",
+		"@use-pico/i18n": "^1.0.3-next.0",
+		"@use-pico/navigation": "^1.0.4-next.0",
+		"@use-pico/pagination": "^1.0.3-next.0",
+		"@use-pico/query": "^1.0.3-next.0",
+		"@use-pico/schema": "^1.0.3-next.0",
+		"@use-pico/store": "^1.0.3-next.0",
+		"@use-pico/types": "^1.0.3-next.0",
+		"@use-pico/ui": "^1.0.4-next.0",
+		"@use-pico/utils": "^1.0.4-next.0",
 		"@tabler/icons-react": "^2.32.0",
 		"react": "^18.2.0"
 	},
