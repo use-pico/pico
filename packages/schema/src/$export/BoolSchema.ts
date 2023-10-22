@@ -1,1 +1,1 @@
-export {BoolSchema} from "../api/schema/BoolSchema";
+export {type BoolSchema} from "../api/schema/BoolSchema";

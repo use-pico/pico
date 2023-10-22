@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.5
+
+### Patch Changes
+
+- Missing export type for BoolSchema
+
 ## 1.0.4
 
 ### Patch Changes
