@@ -96,15 +96,9 @@ export const MultiQueryInput = <
     const shape = (schema as any)?.shape[withControl.name];
     const result = withSourceQuery.useQueryEx({
         request: {
-                     filter:  value ? toFilter(value) : {idIn: []},
-                     orderBy: toOrderBy(),
-                     /**
-                      * @TODO Fix type
-                      *
-                      * For an unknown reason types here are quite broken, so temporal fix is use "any"; we're sure type
-                      * is correct here as it's enforced on the input.
-                      */
-                 } as any,
+            filter:  value ? toFilter(value) : {idIn: []},
+            orderBy: toOrderBy(),
+        },
     });
 
     return result.isLoading ? <InputEx

@@ -74,11 +74,9 @@ export const QueryFetch = <
 ) => {
     const result = withSourceQuery.useQueryEx({
         /**
-         * @TODO Fix any type
-         *
-         * As any: for some reason, types are not working here, or I just don't know, how to type it here properly.
+         * @TODO this looks strange, maybe event buggy, fix this ... Stranger Things
          */
-        request: (query || filter ? {filter} : {}) as any,
+        request: (query || filter ? {filter} : {}),
         options: {
             ...options,
             enabled,

@@ -53,6 +53,7 @@ export namespace QueryInput {
          * Optional method used to generate filter to fetch an entity (if more complex filter is needed); defaults to an ID.
          */
         toFilter?: (value: string) => PicoSchema.Output<TFilterSchema>;
+        toOrderBy?: () => PicoSchema.Output<TOrderBySchema> | undefined;
         onCommit?: CommitButton.Props<TValuesSchema, TResponseSchema>["onCommit"];
     }
 
@@ -78,6 +79,7 @@ export const QueryInput = <
         withSourceQuery,
         SelectionStore,
         toFilter = id => ({id}),
+        toOrderBy = () => undefined,
         Selector,
         Item,
         onCommit,
@@ -92,14 +94,9 @@ export const QueryInput = <
     const shape = (schema as any)?.shape[withControl.name];
     const result = withSourceQuery.useQueryEx({
         request: {
-                     filter: value ? toFilter(value) : {id: null},
-                     /**
-                      * @TODO Fix type
-                      *
-                      * For an unknown reason types here are quite broken, so temporal fix is use "any"; we're sure type
-                      * is correct here as it's enforced on the input.
-                      */
-                 } as any,
+            filter:  value ? toFilter(value) : {id: null},
+            orderBy: toOrderBy(),
+        },
     });
 
     return result.isLoading ? <InputEx
