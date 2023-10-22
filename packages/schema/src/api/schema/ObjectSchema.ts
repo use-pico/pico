@@ -1,5 +1,5 @@
 import {type PicoSchema} from "../PicoSchema";
-import {type Resolve}    from "../Resolve";
+import {NullishSchema}   from "./NullishSchema";
 
 export interface ObjectSchema<
     TShape extends ObjectSchema.Shape,
@@ -34,28 +34,33 @@ export namespace ObjectSchema {
      * This utility type could be moved to @use-pico/types, but to keep this package as light as possible,
      * it will stay here.
      */
-    export type RequiredKeys<TObject extends object> = Exclude<{
-        [TKey in keyof TObject]: undefined extends TObject[TKey] ? never : TKey;
-    }[keyof TObject], undefined>;
+    export type RequiredKeys<TObject extends object> = {
+        [TKey in keyof TObject]: NullishSchema<any> extends TObject[TKey] ? never : TKey;
+    }[keyof TObject];
 
-    export type OptionalKeys<TObject extends object> = Exclude<{
-        [TKey in keyof TObject]: undefined extends TObject[TKey] ? TKey : never;
-    }[keyof TObject], undefined>;
-
-    export type WithOptional<TObject extends object> =
-        Pick<TObject, RequiredKeys<TObject>>
-        &
-        Partial<Pick<TObject, OptionalKeys<TObject>>>;
+    export type OptionalKeys<TObject extends object> = {
+        [TKey in keyof TObject]: NullishSchema<any> extends TObject[TKey] ? TKey : never;
+    }[keyof TObject];
 
     export type Input<
-        TObjectEntries extends Shape,
-    > = Resolve.Object<{
-        [TKey in keyof TObjectEntries]: PicoSchema.Input<TObjectEntries[TKey]>;
-    }>;
+        TShape extends Shape,
+    > =
+        Pick<{
+            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
+        }, RequiredKeys<TShape>>
+        &
+        Partial<Pick<{
+            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
+        }, OptionalKeys<TShape>>>;
 
     export type Output<
-        TObjectEntries extends Shape,
-    > = WithOptional<{
-        [TKey in keyof TObjectEntries]: PicoSchema.Output<TObjectEntries[TKey]>;
-    }>;
+        TShape extends Shape,
+    > =
+        Pick<{
+            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
+        }, RequiredKeys<TShape>>
+        &
+        Partial<Pick<{
+            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
+        }, OptionalKeys<TShape>>>;
 }

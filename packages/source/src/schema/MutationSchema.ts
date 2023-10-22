@@ -2,7 +2,7 @@ import {type QuerySchema} from "@use-pico/query";
 import {
     type NullishSchema,
     type ObjectSchema,
-    PartialSchema,
+    type PartialSchema,
     type PicoSchema,
     withNullish,
     withObject,

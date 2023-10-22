@@ -90,7 +90,7 @@ export const DeleteByModal = <
                         delete: {
                             filter,
                             where,
-                        },
+                        }
                     }, {
                         onSuccess: response => {
                             successNotification({
