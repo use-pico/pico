@@ -1,5 +1,11 @@
 # @use-pico/ui-extra
 
+## 1.0.7
+
+### Patch Changes
+
+- Fixed LogoutMutation type
+
 ## 1.0.6
 
 ### Patch Changes
