@@ -7,7 +7,7 @@ export function withNull(
 ): NullSchema {
     return {
         schema: "null",
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (input !== null) {
                 return issuesOf(
                     info,
@@ -20,8 +20,8 @@ export function withNull(
 
             return {output: input};
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

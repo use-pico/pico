@@ -13,12 +13,12 @@ export function withUnion<
     return {
         schema: "union",
         union,
-        parse:  (input, info) => {
+        _parse(input, info) {
             let issues: Issue.Issues | undefined;
             let output: [PicoSchema.Output<TOptions[number]>] | undefined;
 
             for (const schema of union) {
-                const result = schema.parse(input, info);
+                const result = schema._parse(input, info);
 
                 if (result.issues) {
                     if (issues) {
@@ -47,8 +47,8 @@ export function withUnion<
                     issues
                 );
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

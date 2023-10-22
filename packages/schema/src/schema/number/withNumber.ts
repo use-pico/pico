@@ -16,7 +16,7 @@ export function withNumber(
 
     return {
         schema: "number",
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (typeof input !== "number" || isNaN(input)) {
                 return issuesOf(
                     info,
@@ -34,8 +34,8 @@ export function withNumber(
                 "number"
             );
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

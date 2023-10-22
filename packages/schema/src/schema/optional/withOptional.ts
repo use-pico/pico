@@ -16,17 +16,17 @@ export function withOptional<
                 ? (default$ as () => TDefault)()
                 : (default$ as TDefault);
         },
-        parse(input, info) {
+        _parse(input, info) {
             const value = input === undefined ? this.default : input;
 
             if (value === undefined) {
                 return {output: value};
             }
 
-            return wrapped.parse(value, info);
+            return wrapped._parse(value, info);
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

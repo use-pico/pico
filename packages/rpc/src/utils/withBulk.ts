@@ -102,7 +102,7 @@ export const withBulk = async <
                         try {
                             const data = bulk?.[id];
                             if (data === null || isData(data)) {
-                                resolve(schema?.parse(data?.data) || data?.data || null);
+                                resolve(schema ? parse(schema, data?.data) : (data?.data || null));
                             } else if (isError(data)) {
                                 reject(data);
                             } else {

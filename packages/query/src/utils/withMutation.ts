@@ -4,6 +4,7 @@ import {
     useQueryClient
 }                          from "@tanstack/react-query";
 import {
+    parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
@@ -74,7 +75,7 @@ export const withMutation = <
                 mutationKey: key.concat($mutationKey || []),
                 mutationFn:  request => {
                     try {
-                        return mutator(schema.request.parse(request));
+                        return mutator(parse(schema.request, request));
                     } catch (e) {
                         console.error(e);
                         throw e;

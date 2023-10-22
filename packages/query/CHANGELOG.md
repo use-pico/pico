@@ -1,5 +1,13 @@
 # @use-pico/query
 
+## 1.0.4
+
+### Patch Changes
+
+- Fixed wrong usage of internal schema parse method
+- Updated dependencies
+    - @use-pico/schema@1.0.7
+
 ## 1.0.3
 
 ### Patch Changes

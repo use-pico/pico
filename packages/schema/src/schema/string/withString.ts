@@ -16,7 +16,7 @@ export function withString(
 
     return {
         schema: "string",
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (typeof input !== "string") {
                 return issuesOf(
                     info,
@@ -34,8 +34,8 @@ export function withString(
                 "string"
             );
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

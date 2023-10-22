@@ -13,6 +13,7 @@ import {
     withMutation as coolWithMutation
 }                               from "@use-pico/query";
 import {
+    parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
@@ -381,7 +382,7 @@ export const Form = <
         inputs,
         inputsOverride,
         hidden = [],
-        toRequest = values => withMutation.schema.request.parse(values),
+        toRequest = values => parse(withMutation.schema.request, values),
         values,
         defaultValues,
         resolvers,

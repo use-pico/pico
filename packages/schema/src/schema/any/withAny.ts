@@ -5,12 +5,11 @@ import {pipeOf}         from "../../utils/pipeOf";
 export function withAny(pipe: Pipe<any> = []): AnySchema {
     return {
         schema: "any",
-
-        parse(input, info) {
+        _parse(input, info) {
             return pipeOf(input, pipe, info, "any");
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

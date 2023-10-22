@@ -10,7 +10,7 @@ export function withPartial<
 
     return {
         schema: "partial",
-        parse:  (input, info) => {
+        _parse(input, info) {
             $schema = $schema || Object.entries(schema.object.shape).reduce(
                 (shapes, [key, schema]) => ({
                     ...shapes,
@@ -19,10 +19,10 @@ export function withPartial<
                 {}
             );
 
-            return $schema.parse(input, info);
+            return $schema._parse(input, info);
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

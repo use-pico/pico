@@ -6,7 +6,7 @@ export const parseAsync = async <TSchema extends PicoSchema>(
     input: unknown,
     info?: Pick<PicoSchema.Parse.Info, "abortEarly" | "abortPipeEarly" | "skipPipe">
 ): Promise<PicoSchema.Output<TSchema>> => {
-    const result = await schema.parseAsync(input, info);
+    const result = await schema._parseAsync(input, info);
     if (result.issues) {
         throw new ParseError(result.issues);
     }

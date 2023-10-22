@@ -22,7 +22,7 @@ export const parse$ = <TSchema extends PicoSchema>(
     input: unknown,
     info?: Pick<PicoSchema.Parse.Info, "abortEarly" | "abortPipeEarly" | "skipPipe">
 ): parse$.Result<TSchema> => {
-    const result = schema.parse(input, info);
+    const result = schema._parse(input, info);
     return result.issues ? {
         success: false,
         issues:  result.issues,

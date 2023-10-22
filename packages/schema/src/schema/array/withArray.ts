@@ -21,7 +21,7 @@ export function withArray<
         array:  {
             item,
         },
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (!Array.isArray(input)) {
                 return issuesOf(
                     info,
@@ -37,7 +37,7 @@ export function withArray<
 
             for (let key = 0; key < input.length; key++) {
                 const value = input[key];
-                const result = item.parse(value, info);
+                const result = item._parse(value, info);
 
                 if (result.issues) {
                     const pathItem: ArraySchema.PathItem = {
@@ -71,8 +71,8 @@ export function withArray<
                 ? {issues}
                 : pipeOf(output as PicoSchema.Output<TItem>[], pipe, info, "array");
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

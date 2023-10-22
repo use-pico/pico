@@ -10,6 +10,7 @@ import {
     type WithMutation as ICoolWithMutation
 }                          from "@use-pico/query";
 import {
+    parse,
     type RequestSchema,
     type ResponseSchema
 }                          from "@use-pico/schema";
@@ -91,7 +92,7 @@ export const withMutation = <
                     try {
                         return withBulk<TRequestSchema, TResponseSchema>({
                             service,
-                            request: requestSchema?.parse(request) ?? request,
+                            request: requestSchema ? parse(requestSchema, request) : request,
                             store,
                             schema:  responseSchema,
                         });

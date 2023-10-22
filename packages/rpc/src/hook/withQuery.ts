@@ -10,6 +10,7 @@ import {
     type WithQuery as ICoolWithQuery
 }                       from "@use-pico/query";
 import {
+    parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
@@ -57,7 +58,7 @@ export const withQuery = <
         return async (request: PicoSchema.Output<TRequestSchema>) => {
             return withBulk<TRequestSchema, TResponseSchema>({
                 service,
-                request: requestSchema?.parse(request) ?? request,
+                request: requestSchema ? parse(requestSchema, request) : request,
                 store,
                 schema:  responseSchema,
             });

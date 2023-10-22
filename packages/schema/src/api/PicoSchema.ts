@@ -1,9 +1,9 @@
 import {type Issue} from "./Issue";
 
 export interface PicoSchema<TInput = any, TOutput = TInput> {
-    parse(input: unknown, info?: PicoSchema.Parse.Info): PicoSchema.Parse.Result<TOutput>;
+    _parse(input: unknown, info?: PicoSchema.Parse.Info): PicoSchema.Parse.Result<TOutput>;
 
-    parseAsync(input: unknown, info?: PicoSchema.Parse.Info): Promise<PicoSchema.Parse.Result<TOutput>>;
+    _parseAsync(input: unknown, info?: PicoSchema.Parse.Info): Promise<PicoSchema.Parse.Result<TOutput>>;
 
     types?: {
         input: TInput;

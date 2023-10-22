@@ -91,7 +91,7 @@ describe("withObject", () => {
     test("should return issue path", () => {
         const schema1 = withObject({key: withNumber()});
         const input1 = {key: "123"};
-        const result1 = schema1.parse(input1);
+        const result1 = schema1._parse(input1);
         expect(result1.issues?.[0].path).toEqual([
             {
                 schema: "object",
@@ -103,7 +103,7 @@ describe("withObject", () => {
 
         const schema2 = withObject({nested: withObject({key: withString()})});
         const input2 = {nested: {key: 123}};
-        const result2 = schema2.parse(input2);
+        const result2 = schema2._parse(input2);
         expect(result2.issues?.[0].path).toEqual([
             {
                 schema: "object",

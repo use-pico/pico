@@ -120,7 +120,7 @@ describe("record", () => {
             b: "2",
             c: 3
         };
-        const result1 = schema1.parse(input1);
+        const result1 = schema1._parse(input1);
         expect(result1.issues?.[0].path).toEqual([
             {
                 schema: "record",
@@ -135,7 +135,7 @@ describe("record", () => {
             a: {key: "test"},
             b: {key: 123}
         };
-        const result2 = schema2.parse(input2);
+        const result2 = schema2._parse(input2);
         expect(result2.issues?.[0].origin).toBe("value");
         expect(result2.issues?.[0].path).toEqual([
             {
@@ -158,7 +158,7 @@ describe("record", () => {
             bb: 2,
             c:  3
         };
-        const result3 = schema3.parse(input3);
+        const result3 = schema3._parse(input3);
         expect(result3.issues?.[0].origin).toBe("key");
         expect(result3.issues?.[0].path).toEqual([
             {

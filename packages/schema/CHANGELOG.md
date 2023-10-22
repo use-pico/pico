@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.7
+
+### Patch Changes
+
+- Fixed wrong usage of internal schema parse method
+
 ## 1.0.6
 
 ### Patch Changes

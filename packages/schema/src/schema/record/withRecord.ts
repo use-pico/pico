@@ -93,7 +93,7 @@ export function withRecord<
             key,
             value,
         },
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (!input || typeof input !== "object") {
                 return issuesOf(
                     info,
@@ -113,7 +113,7 @@ export function withRecord<
                 }
                 let pathItem: RecordSchema.PathItem | undefined;
 
-                const keyResult = key.parse($key, {
+                const keyResult = key._parse($key, {
                     origin:         "key",
                     abortEarly:     info?.abortEarly,
                     abortPipeEarly: info?.abortPipeEarly,
@@ -141,7 +141,7 @@ export function withRecord<
                     }
                 }
 
-                const valueResult = value.parse($value, info);
+                const valueResult = value._parse($value, info);
 
                 if (valueResult.issues) {
                     pathItem = pathItem || {
@@ -177,8 +177,8 @@ export function withRecord<
                     "record"
                 );
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

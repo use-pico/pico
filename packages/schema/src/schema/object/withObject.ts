@@ -40,7 +40,7 @@ export function withObject<
         object: {
             shape,
         },
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (!input || typeof input !== "object") {
                 return issuesOf(
                     info,
@@ -61,7 +61,7 @@ export function withObject<
                  * Type cast is safe here as we already know an input is an object.
                  */
                 const value = (input as Record<string, unknown>)[key];
-                const result = schema.parse(value, info);
+                const result = schema._parse(value, info);
 
                 if (result.issues) {
                     const pathItem: ObjectSchema.PathItem = {
@@ -92,8 +92,8 @@ export function withObject<
 
             return issues ? {issues} : pipeOf(output as ObjectSchema.Output<TShape>, pipe, info, "object");
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }

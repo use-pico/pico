@@ -12,7 +12,7 @@ export function withEnum<
     return {
         schema: "enum",
         enum:   value,
-        parse:  (input, info) => {
+        _parse(input, info) {
             if (!value.includes(input as any)) {
                 return issuesOf(
                     info,
@@ -25,8 +25,8 @@ export function withEnum<
 
             return {output: input as TEnum[number]};
         },
-        async parseAsync(input, info) {
-            return this.parse(input, info);
+        async _parseAsync(input, info) {
+            return this._parse(input, info);
         },
     };
 }
