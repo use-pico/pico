@@ -48,7 +48,8 @@ export const withBulk = async <
         service,
         request: data,
         timeout = 50,
-    }: IWithBulkProps<TRequestSchema, TResponseSchema>) => new Promise<PicoSchema.Output<TResponseSchema>>((resolve, reject) => {
+    }: IWithBulkProps<TRequestSchema, TResponseSchema>
+) => new Promise<PicoSchema.Output<TResponseSchema>>((resolve, reject) => {
 
     bulkRef.current.set(generateId(), {
         schema,

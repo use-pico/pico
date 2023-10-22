@@ -1,8 +1,8 @@
 import {
     type PicoSchema,
     withArray,
+    withNullish,
     withObject,
-    withOptional,
     withString
 } from "@use-pico/schema";
 
@@ -13,10 +13,10 @@ export const FilterSchema = withObject({
     /**
      * Basically any entity should have an ID, thus it's present in the default schema
      */
-    id:   withOptional(
+    id:   withNullish(
         withString()
     ),
-    idIn: withOptional(
+    idIn: withNullish(
         withArray(
             withString()
         )
@@ -25,7 +25,7 @@ export const FilterSchema = withObject({
      * Usually it's somehow possible to search for the Entity by some text, thus it's present,
      * but not necessarily required
      */
-    fulltext: withOptional(
+    fulltext: withNullish(
         withString()
     ),
 });
