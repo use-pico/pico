@@ -1,5 +1,11 @@
 # @use-pico/tsconfig
 
+## 1.0.5
+
+### Patch Changes
+
+- Version bump again, yapee!
+
 ## 1.0.4
 
 ### Patch Changes

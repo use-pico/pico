@@ -1,5 +1,15 @@
 # @use-pico/i18n
 
+## 1.0.5
+
+### Patch Changes
+
+- Version bump again, yapee!
+- Updated dependencies
+    - @use-pico/navigation@1.0.6
+    - @use-pico/store@1.0.5
+    - @use-pico/utils@1.0.6
+
 ## 1.0.4
 
 ### Patch Changes

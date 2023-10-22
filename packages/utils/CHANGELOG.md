@@ -1,5 +1,14 @@
 # @use-pico/utils
 
+## 1.0.6
+
+### Patch Changes
+
+- Version bump again, yapee!
+- Updated dependencies
+    - @use-pico/schema@1.0.9
+    - @use-pico/types@1.0.5
+
 ## 1.0.5
 
 ### Patch Changes
