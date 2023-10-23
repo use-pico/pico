@@ -71,11 +71,18 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
 
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
+
       - name: Version
         id: version
         run: |
-          npm install --no-package-lock --no-save @changesets/cli
-          echo ::set-output name=changes::$(npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+          echo "{changes}=$(npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')" >> $GITHUB_OUTPUT
 
       - name: With Changes
         if: steps.version.outputs.changes == 'true'
@@ -106,6 +113,14 @@ jobs:
       - name: Changesets/cli
         run: |
           npm install --no-package-lock --no-save @changesets/cli
+
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
 
       - name: Release packages
         uses: changesets/action@main
