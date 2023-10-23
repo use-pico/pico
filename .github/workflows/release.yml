@@ -83,7 +83,6 @@ jobs:
       - name: Version
         id: version
         run: |
-          npx changeset version
           echo ::set-output name=changes::$(npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
 
       - name: With Changes
