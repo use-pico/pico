@@ -47,13 +47,9 @@ export namespace ObjectSchema {
     export type Input<
         TShape extends Shape,
     > =
-        Pick<{
-            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
-        }, RequiredKeys<TShape>>
+        { [TKey in RequiredKeys<TShape>]: PicoSchema.Input<TShape[TKey]>; }
         &
-        Partial<Pick<{
-            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
-        }, OptionalKeys<TShape>>>;
+        Partial<{ [TKey in OptionalKeys<TShape>]: PicoSchema.Input<TShape[TKey]>; }>;
 
     export type Output<
         TShape extends Shape,

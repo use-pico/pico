@@ -147,7 +147,6 @@
     <MESSAGE value="Testing workflow" />
     <MESSAGE value="So, will it detect changeset?" />
     <MESSAGE value="...." />
-    <MESSAGE value="..." />
     <MESSAGE value="Improved workflow" />
     <MESSAGE value="Fixed workflow file" />
     <MESSAGE value="Almost there :|" />
@@ -155,7 +154,8 @@
     <MESSAGE value="TRying to fix wrong typings" />
     <MESSAGE value="Step by step" />
     <MESSAGE value="A little different way how to make &quot;pick&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="A little different way how to make &quot;pick&quot;" />
+    <MESSAGE value="..." />
+    <option name="LAST_COMMIT_MESSAGE" value="..." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
