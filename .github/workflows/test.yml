@@ -27,6 +27,7 @@ jobs:
     needs:
       - npm-install
     steps:
+      - uses: actions/checkout@v3
       - name: npm cache
         uses: actions/cache@v3
         with:
@@ -35,7 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-install-
 
-      - uses: actions/checkout@v3
       - name: npm lint
         run: |
           npm run lint
@@ -45,6 +45,7 @@ jobs:
     needs:
       - lint
     steps:
+      - uses: actions/checkout@v3
       - name: npm cache
         uses: actions/cache@v3
         with:
@@ -53,7 +54,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-install-
 
-      - uses: actions/checkout@v3
       - name: test
         run: |
           npm run test
