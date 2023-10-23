@@ -1,5 +1,7 @@
 import {type PicoSchema} from "../PicoSchema";
 import {NullishSchema}   from "./NullishSchema";
+import {NumberSchema}    from "./NumberSchema";
+import {StringSchema}    from "./StringSchema";
 
 export interface ObjectSchema<
     TShape extends ObjectSchema.Shape,
@@ -56,38 +58,31 @@ export namespace ObjectSchema {
     export type Output<
         TShape extends Shape,
     > =
-        {
-            [TKey in RequiredKeys<TShape>]: PicoSchema.Output<TShape[TKey]>;
-        }
+        { [TKey in RequiredKeys<TShape>]: PicoSchema.Output<TShape[TKey]>; }
         &
-        Partial<{
-            [TKey in OptionalKeys<TShape>]: PicoSchema.Output<TShape[TKey]>;
-        }>;
+        Partial<{ [TKey in OptionalKeys<TShape>]: PicoSchema.Output<TShape[TKey]>; }>;
 }
-//
-// type InnerSchema = ObjectSchema<{
-//     a: NumberSchema,
-// }>;
-//
-// type SomeSchema<T extends InnerSchema> = ObjectSchema<{
-//     foo: NullishSchema<StringSchema>
-//     bar: NumberSchema;
-//     inner: NullishSchema<T>;
-// }>;
-//
-// type RequiredKeys = ObjectSchema.RequiredKeys<SomeSchema<any>["object"]["shape"]>;
-// type OptionalKeys = ObjectSchema.OptionalKeys<SomeSchema<any>["object"]["shape"]>;
-//
-// interface Input<T extends SomeSchema<any>> {
-//     schema(bla: PicoSchema.Output<T>): void;
-// }
-//
-// function bla<T extends InnerSchema>(
-//     {
-//         schema,
-//     }: Input<SomeSchema<T>>
-// ) {
-//     schema({
-//         bar: 1254,
-//     });
-// }
+
+type InnerSchema = ObjectSchema<{
+    a: NumberSchema,
+}>;
+
+type SomeSchema<T extends InnerSchema> = ObjectSchema<{
+    foo: NullishSchema<StringSchema>
+    bar: NumberSchema;
+    inner: NullishSchema<T>;
+}>;
+
+interface Input<T extends SomeSchema<any>> {
+    schema(bla: PicoSchema.Output<T>): void;
+}
+
+function bla<T extends InnerSchema>(
+    {
+        schema,
+    }: Input<SomeSchema<T>>
+) {
+    schema({
+        bar: 1254,
+    });
+}
