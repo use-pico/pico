@@ -1,5 +1,11 @@
 # @use-pico/utils
 
+## 1.0.8
+
+### Patch Changes
+
+- 30b7770: This guy is used to test automated changesets
+
 ## 1.0.7
 
 ### Patch Changes
