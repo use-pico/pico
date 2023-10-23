@@ -4,9 +4,6 @@ on: push
 
 concurrency: main
 
-permissions:
-  contents: read
-
 jobs:
   npm-install:
     runs-on: ubuntu-latest
