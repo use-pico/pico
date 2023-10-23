@@ -101,6 +101,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+        with:
+          token: ${{ secrets.TOKEN }}
 
       - name: Node
         uses: actions/setup-node@main
@@ -122,5 +124,6 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: npx changeset publish
+          setupGitUser: 'Marek Hanzal'
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
