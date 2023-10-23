@@ -1,6 +1,7 @@
 import {
     FilterSchema,
     OrderSchema,
+    type QuerySchema,
     withQuerySchema
 }                           from "@use-pico/query";
 import {
@@ -18,6 +19,7 @@ import {
     expect,
     test
 }                           from "vitest";
+import {MutationSchema}     from "../schema/MutationSchema";
 import {withMutationSchema} from "./withMutationSchema";
 
 const FooShapeSchema = withObject({
@@ -62,6 +64,8 @@ describe("withMutationSchema", () => {
                 },
             },
         };
-        expect(parse(FooMutationSchema, shape)).toEqual(shape);
+        const typeCheck: MutationSchema<any, QuerySchema<any, any>> = shape;
+
+        expect(parse(FooMutationSchema, shape)).toEqual(typeCheck);
     });
 });
