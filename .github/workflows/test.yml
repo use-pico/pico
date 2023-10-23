@@ -20,7 +20,6 @@ jobs:
 
       - name: npm install
         run: |
-          cd client
           npm install
 
   lint:
