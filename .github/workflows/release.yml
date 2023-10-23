@@ -82,7 +82,7 @@ jobs:
       - name: Version
         id: version
         run: |
-          echo ::set-output name=changes::$(npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+          npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'changes=false' || echo 'changes=true' >> $GITHUB_OUTPUT
 
       - name: With Changes
         if: steps.version.outputs.changes == 'true'
@@ -124,6 +124,5 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: npx changeset publish
-          setupGitUser: 'Marek Hanzal'
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
