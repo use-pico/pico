@@ -11,7 +11,7 @@
 		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
 		"build:force": "turbo run init --force --no-daemon && turbo run build --force --no-daemon",
 		"lint": "turbo run lint --no-daemon",
-		"test": "turbo run test --no-daemon",
+		"test": "vitest",
 		"cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
 		"changeset": "changeset",
 		"changeset:version": "changeset version",
@@ -26,6 +26,7 @@
 		"@roarr/cli": "^5.12.3",
 		"npkill": "^0.11.3",
 		"turbo": "^1.10.15",
-		"typescript": "^5.2.2"
+		"typescript": "^5.2.2",
+		"vitest": "^0.34.6"
 	}
 }

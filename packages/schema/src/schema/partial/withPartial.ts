@@ -1,6 +1,7 @@
 import {type PicoSchema}    from "../../api/PicoSchema";
 import {type ObjectSchema}  from "../../api/schema/ObjectSchema";
 import {type PartialSchema} from "../../api/schema/PartialSchema";
+import {withObject}         from "../object/withObject";
 import {withOptional}       from "../optional/withOptional";
 
 export function withPartial<
@@ -11,12 +12,14 @@ export function withPartial<
     return {
         schema: "partial",
         _parse(input, info) {
-            $schema = $schema || Object.entries(schema.object.shape).reduce(
-                (shapes, [key, schema]) => ({
-                    ...shapes,
-                    [key]: withOptional(schema as PicoSchema),
-                }),
-                {}
+            $schema = $schema || withObject(
+                Object.entries(schema.object.shape).reduce(
+                    (shapes, [key, schema]) => ({
+                        ...shapes,
+                        [key]: withOptional(schema as PicoSchema),
+                    }),
+                    {}
+                )
             );
 
             return $schema._parse(input, info);

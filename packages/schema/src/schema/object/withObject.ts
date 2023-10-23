@@ -46,7 +46,7 @@ export function withObject<
                     info,
                     "type",
                     "object",
-                    error || "Given type is not an object",
+                    error || "Given value is not an object",
                     input
                 );
             }
