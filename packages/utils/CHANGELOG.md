@@ -1,13 +1,19 @@
 # @use-pico/utils
 
+## 1.0.7
+
+### Patch Changes
+
+- a971987: Just testing automated changesets!
+
 ## 1.0.6
 
 ### Patch Changes
 
 - Version bump again, yapee!
 - Updated dependencies
-    - @use-pico/schema@1.0.9
-    - @use-pico/types@1.0.5
+  - @use-pico/schema@1.0.9
+  - @use-pico/types@1.0.5
 
 ## 1.0.5
 
@@ -15,8 +21,8 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/schema@1.0.8
-    - @use-pico/types@1.0.4
+  - @use-pico/schema@1.0.8
+  - @use-pico/types@1.0.4
 
 ## 1.0.4
 
@@ -26,8 +32,8 @@
 - 84500ac: Just version bump, preparing pre-release
 - Updated dependencies
 - Updated dependencies [84500ac]
-    - @use-pico/schema@1.0.3
-    - @use-pico/types@1.0.3
+  - @use-pico/schema@1.0.3
+  - @use-pico/types@1.0.3
 
 ## 1.0.4-next.0
 
@@ -35,8 +41,8 @@
 
 - Just version bump, preparing pre-release
 - Updated dependencies
-    - @use-pico/schema@1.0.3-next.0
-    - @use-pico/types@1.0.3-next.0
+  - @use-pico/schema@1.0.3-next.0
+  - @use-pico/types@1.0.3-next.0
 
 ## 1.0.3
 
@@ -50,7 +56,7 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/types@1.0.2
+  - @use-pico/types@1.0.2
 
 ## 1.0.1
 
@@ -58,4 +64,4 @@
 
 - Initial release
 - Updated dependencies
-    - @use-pico/types@1.0.1
+  - @use-pico/types@1.0.1
