@@ -35,8 +35,9 @@ type FooQuerySchema = PicoSchema.Output<typeof FooQuerySchema>;
 
 interface typeCheckGeneric<
     TFilterSchema extends FilterSchema,
+    TQuerySchema extends QuerySchema<TFilterSchema, any> = QuerySchema<TFilterSchema, any>
 > {
-    query: QuerySchema<TFilterSchema, any>;
+    query(query: PicoSchema.Output<TQuerySchema>): null;
 }
 
 function typeCheckGeneric<
@@ -46,9 +47,7 @@ function typeCheckGeneric<
         query,
     }: typeCheckGeneric<TFilterSchema>
 ) {
-    const foo: PicoSchema.Output<QuerySchema<TFilterSchema, any>> = {};
-
-    return foo;
+    query({});
 }
 
 describe("withQuerySchema", () => {
@@ -63,7 +62,9 @@ describe("withQuerySchema", () => {
         };
         const typeCheck: PicoSchema.Output<QuerySchema<FilterSchema, any>> = shape;
 
-        typeCheckGeneric({query: FooQuerySchema});
+        typeCheckGeneric({
+            query: () => null,
+        });
 
         expect(parse(FooQuerySchema, shape)).toEqual(typeCheck);
     });

@@ -11,6 +11,7 @@ import {
     withEnum,
     withNullish,
     withObject,
+    withOptional,
     withRecord,
     withString
 }                            from "@use-pico/schema";
@@ -29,7 +30,7 @@ const FooFilterSchema = merge([
     FilterSchema,
     withObject({
         something:    withNullish(withString()),
-        anotherThing: withNullish(withString()),
+        anotherThing: withOptional(withString()),
     }),
 ]);
 const FooOrderBySchema = withRecord(withEnum(["foo", "bar"]), OrderSchema);

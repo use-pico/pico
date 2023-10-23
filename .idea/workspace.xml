@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="Added readme">
-      <change afterPath="$PROJECT_DIR$/packages/query/src/schema/withQuerySchema.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/query/src/schema/withQuerySchema.ts" afterDir="false" />
+    <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/query/src/$export/withQuerySchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/query/src/$export/withQuerySchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/query/src/schema/QuerySchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/query/src/schema/QuerySchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/source/src/$export/withMutationSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/source/src/$export/withMutationSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/source/src/ui/QueryFetch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/source/src/ui/QueryFetch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/query/src/schema/withQuerySchema.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/query/src/schema/withQuerySchema.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/source/src/utils/withMutationSchema.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/source/src/utils/withMutationSchema.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -137,7 +132,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Widened RequestSchema" />
     <MESSAGE value="Fixed logout mutation type" />
     <MESSAGE value="Fixed wrong schema method usage" />
     <MESSAGE value="Just version bump" />
@@ -162,7 +156,8 @@
     <MESSAGE value="Fixed workflow file" />
     <MESSAGE value="Almost there :|" />
     <MESSAGE value="Added readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added readme" />
+    <MESSAGE value="TRying to fix wrong typings" />
+    <option name="LAST_COMMIT_MESSAGE" value="TRying to fix wrong typings" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
