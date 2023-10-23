@@ -66,6 +66,11 @@ jobs:
       - test
       - lint
     steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          token: ${{ secrets.TOKEN }}
+
       - name: Version
         id: version
         run: |
@@ -78,7 +83,7 @@ jobs:
           git config user.name "Marek Hanzal"
           git config user.email "marek.hanzal@x32.cz"
           git add -A
-          git commit -m "Version packages" || echo "No changes to commit"
+          git commit -m "Version bump" || echo "No changes to commit"
           git push
 
   release:
