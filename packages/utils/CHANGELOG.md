@@ -1,5 +1,12 @@
 # @use-pico/utils
 
+## 1.0.16
+
+### Patch Changes
+
+- 69a994f: QqQqQqQ
+- bf6ead4: Booo
+
 ## 1.0.15
 
 ### Patch Changes
