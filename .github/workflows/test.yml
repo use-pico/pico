@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-install-
 
-      - name: npm lint
+      - name: lint
         run: |
           npm run lint
 

@@ -1,5 +1,5 @@
 module.exports = {
-    extends:       [
+    extends:        [
         'eslint:recommended',
         'next',
         'prettier',
@@ -7,13 +7,13 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
     ],
-    processor:     'disable/disable',
-    parser:        '@typescript-eslint/parser',
-    parserOptions: {
+    processor:      'disable/disable',
+    parser:         '@typescript-eslint/parser',
+    parserOptions:  {
         project: './tsconfig.json',
     },
-    plugins:       ['@typescript-eslint', 'eslint-plugin-unicorn', 'disable'],
-    rules:         {
+    plugins:        ['@typescript-eslint', 'eslint-plugin-unicorn', 'disable'],
+    rules:          {
         'import/prefer-default-export':                   'off',
         'react/react-in-jsx-scope':                       'off',
         'no-console':                                     'off',
@@ -49,9 +49,12 @@ module.exports = {
             {devDependencies: true},
         ],
     },
-    settings:      {
+    settings:       {
         react: {
             version: '18',
         },
     },
+    ignorePatterns: [
+        '**/*test.ts'
+    ]
 };
