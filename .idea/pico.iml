@@ -83,6 +83,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/store/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/table/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/table/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/.github" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
