@@ -66,6 +66,8 @@ jobs:
       - npm-install
     #      - test
     #      - lint
+    outputs:
+      changes: ${{ steps.version.outputs.changes }}
     steps:
       - name: Checkout
         uses: actions/checkout@main
