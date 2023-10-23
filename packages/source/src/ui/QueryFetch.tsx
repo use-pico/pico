@@ -76,7 +76,7 @@ export const QueryFetch = <
         /**
          * @TODO this looks strange, maybe event buggy, fix this ... Stranger Things
          */
-        request: (query || filter ? {filter} : {}),
+        request: (query || filter ? {filter} : {}) as any,
         options: {
             ...options,
             enabled,
