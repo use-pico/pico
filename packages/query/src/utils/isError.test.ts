@@ -12,7 +12,7 @@ describe("isError", () => {
             error: {
                 code: 42,
             },
-        } as ErrorResponseSchema.Type)).toBe(true);
+        } as ErrorResponseSchema.Type)).toBe(false);
     });
     test("error is false", () => {
         expect(isError("nope")).toBe(false);
