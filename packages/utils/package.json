@@ -1,5 +1,5 @@
 {
-	"version": "1.0.17",
+	"version": "1.0.18",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
