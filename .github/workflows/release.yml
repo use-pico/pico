@@ -82,7 +82,6 @@ jobs:
       - name: Version
         id: version
         run: |
-          npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'changes=false' || echo 'changes=true'
           npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'changes=false' || echo 'changes=true' >> $GITHUB_OUTPUT
 
       - name: With Changes
