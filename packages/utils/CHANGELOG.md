@@ -1,5 +1,11 @@
 # @use-pico/utils
 
+## 1.0.9
+
+### Patch Changes
+
+- 765d3a7: This is really annoying
+
 ## 1.0.8
 
 ### Patch Changes
