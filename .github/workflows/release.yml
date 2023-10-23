@@ -121,6 +121,6 @@ jobs:
       - name: Release packages
         uses: changesets/action@main
         with:
-          publish: changeset publish
+          publish: npx changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}

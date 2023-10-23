@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="a-little-theft" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/apps/docs/package.json" />
+    <dismissed value="$PROJECT_DIR$/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/job/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/query/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/schema/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/source/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/utils/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2WpwYrTUoHd8L3Gv1UUtm8WuUSg" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "S:/Projects/github.com/use-pico/pico",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "S:\\Projects\\github.com\\use-pico\\pico\\node_modules\\typescript\\lib"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\Projects\github.com\use-pico\pico" />
+      <recent name="S:\Projects\github.com\use-pico\pico\packages\source\src\utils" />
+      <recent name="S:\Projects\github.com\use-pico\pico\packages\source" />
+      <recent name="S:\Projects\github.com\use-pico\pico\packages\query" />
+      <recent name="S:\Projects\github.com\use-pico\pico\packages\schema\src\common" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="S:\Projects\github.com\use-pico\pico\packages\schema\src\schema\string" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.changeset">
+    <list>
+      <item itemvalue="npm.changeset" />
+      <item itemvalue="npm.publish" />
+      <item itemvalue="npm.version" />
+      <item itemvalue="npm.build" />
+      <item itemvalue="npm.build:force" />
+      <item itemvalue="npm.cleanup" />
+      <item itemvalue="npm.install" />
+      <item itemvalue="npm.npkill" />
+      <item itemvalue="npm.test" />
+      <item itemvalue="npm.update" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Build!" />
+    <MESSAGE value="Experiment with pre-release as there is no zod anymore" />
+    <MESSAGE value="Version bump" />
+    <MESSAGE value="Added NaN" />
+    <MESSAGE value="Fixed missed export type" />
+    <MESSAGE value="Widened RequestSchema" />
+    <MESSAGE value="Fixed logout mutation type" />
+    <MESSAGE value="Fixed wrong schema method usage" />
+    <MESSAGE value="Just version bump" />
+    <MESSAGE value="Clean and shiny! End of Zod" />
+    <MESSAGE value="More vitest!" />
+    <MESSAGE value="Experiment with github action?" />
+    <MESSAGE value="Oops" />
+    <MESSAGE value="Oops 2" />
+    <MESSAGE value="Oops 3" />
+    <MESSAGE value="Eslint fix?" />
+    <MESSAGE value="Experiment with vitest error reporting" />
+    <MESSAGE value="Enable github action error reporting" />
+    <MESSAGE value="Looks good, mwah mwah" />
+    <MESSAGE value="Experiment with changests automation" />
+    <MESSAGE value="Ooops" />
+    <MESSAGE value="Experiment with github env. files" />
+    <MESSAGE value="Testing workflow" />
+    <MESSAGE value="So, will it detect changeset?" />
+    <MESSAGE value="...." />
+    <option name="LAST_COMMIT_MESSAGE" value="...." />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+</project>
