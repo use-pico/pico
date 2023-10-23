@@ -1,0 +1,110 @@
+name: Lint, Test, Release
+
+on: push
+
+concurrency: main
+
+permissions:
+  contents: read
+
+jobs:
+  npm-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
+
+      - name: npm install
+        run: |
+          npm install
+
+  lint:
+    runs-on: ubuntu-latest
+    needs:
+      - npm-install
+    steps:
+      - uses: actions/checkout@v3
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
+
+      - name: lint
+        run: |
+          npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    needs:
+      - npm-install
+    steps:
+      - uses: actions/checkout@v3
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
+
+      - name: test
+        run: |
+          npm run test
+
+  version:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - lint
+    steps:
+      - name: Version
+        id: version
+        run: |
+          npm install --no-package-lock --no-save @changesets/cli
+          echo ::set-output name=changes::$(npx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+
+      - name: With Changes
+        if: steps.version.outputs.changes == 'true'
+        run: |
+          git config user.name "Marek Hanzal"
+          git config user.email "marek.hanzal@x32.cz"
+          git add -A
+          git commit -m "Version packages" || echo "No changes to commit"
+          git push
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - version
+    if: always() && needs.version.outputs.changes == 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Node
+        uses: actions/setup-node@main
+        with:
+          node-version: 18.x
+          registry-url: 'https://registry.npmjs.org'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Changesets/cli
+        run: |
+          npm install --no-package-lock --no-save @changesets/cli
+
+      - name: Release packages
+        uses: changesets/action@main
+        with:
+          publish: changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
