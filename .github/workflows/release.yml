@@ -119,7 +119,7 @@ jobs:
             ${{ runner.os }}-npm-install-
 
       - name: Release packages
-        uses: changesets/action@main
+        uses: changesets/action@v1
         with:
           publish: npx changeset publish
         env:
