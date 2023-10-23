@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/packages/schema/src/api/IsPartial.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/OptionalSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/OptionalSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/schema/src/schema/nullish/withNullish.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/schema/nullish/withNullish.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/schema/src/schema/optional/withOptional.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/schema/optional/withOptional.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui-extra/src/ui/DeleteByModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui-extra/src/ui/DeleteByModal.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +103,7 @@
       <recent name="S:\Projects\github.com\use-pico\pico\packages\schema\src\schema\string" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.changeset">
     <list>
       <item itemvalue="npm.changeset" />
       <item itemvalue="npm.publish" />

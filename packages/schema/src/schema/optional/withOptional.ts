@@ -9,7 +9,8 @@ export function withOptional<
     default$?: TDefault | (() => TDefault),
 ): OptionalSchema<TWrapped, TDefault> {
     return {
-        schema: "optional",
+        schema:  "optional",
+        partial: true,
         wrapped,
         get default() {
             return typeof default$ === "function"

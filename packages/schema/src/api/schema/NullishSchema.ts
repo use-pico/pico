@@ -1,3 +1,4 @@
+import {type IsPartial}  from "../IsPartial";
 import {type PicoSchema} from "../PicoSchema";
 
 export interface NullishSchema<
@@ -7,7 +8,7 @@ export interface NullishSchema<
 > extends PicoSchema<
     PicoSchema.Input<TWrapped> | null | undefined,
     TOutput
-> {
+>, IsPartial {
     schema: "nullish",
     wrapped: TWrapped;
 
