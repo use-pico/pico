@@ -56,13 +56,13 @@ export namespace ObjectSchema {
     export type Output<
         TShape extends Shape,
     > =
-        Pick<{
-            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
-        }, RequiredKeys<TShape>>
+        {
+            [TKey in RequiredKeys<TShape>]: PicoSchema.Output<TShape[TKey]>;
+        }
         &
-        Partial<Pick<{
-            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
-        }, OptionalKeys<TShape>>>;
+        Partial<{
+            [TKey in OptionalKeys<TShape>]: PicoSchema.Output<TShape[TKey]>;
+        }>;
 }
 //
 // type InnerSchema = ObjectSchema<{
@@ -75,6 +75,9 @@ export namespace ObjectSchema {
 //     inner: NullishSchema<T>;
 // }>;
 //
+// type RequiredKeys = ObjectSchema.RequiredKeys<SomeSchema<any>["object"]["shape"]>;
+// type OptionalKeys = ObjectSchema.OptionalKeys<SomeSchema<any>["object"]["shape"]>;
+//
 // interface Input<T extends SomeSchema<any>> {
 //     schema(bla: PicoSchema.Output<T>): void;
 // }
@@ -86,7 +89,5 @@ export namespace ObjectSchema {
 // ) {
 //     schema({
 //         bar: 1254,
-//         foo: 'dgf',
-//
 //     });
 // }
