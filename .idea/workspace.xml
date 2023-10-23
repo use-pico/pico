@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="" />
+    <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +52,6 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
@@ -118,7 +119,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Version bump" />
     <MESSAGE value="Added NaN" />
     <MESSAGE value="Fixed missed export type" />
     <MESSAGE value="Widened RequestSchema" />
@@ -143,7 +143,8 @@
     <MESSAGE value="...." />
     <MESSAGE value="..." />
     <MESSAGE value="Improved workflow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved workflow" />
+    <MESSAGE value="Fixed workflow file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed workflow file" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
