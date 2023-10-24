@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +120,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Added NaN" />
     <MESSAGE value="Fixed missed export type" />
     <MESSAGE value="Widened RequestSchema" />
     <MESSAGE value="Fixed logout mutation type" />
@@ -144,7 +144,8 @@
     <MESSAGE value="..." />
     <MESSAGE value="Improved workflow" />
     <MESSAGE value="Fixed workflow file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed workflow file" />
+    <MESSAGE value="Added build step to see if everything ... builds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added build step to see if everything ... builds" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
