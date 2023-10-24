@@ -9,8 +9,9 @@ import {type Form}               from "../ui/Form";
 export function promiseResolver<
     TValuesSchema extends ValuesSchema,
     TResult extends string | undefined,
+    TFilterSchema extends FilterSchema,
 >(
-    promise: WithQuery.UsePromise<FilterSchema, WithIdentitySchema>,
+    promise: WithQuery.UsePromise<TFilterSchema, WithIdentitySchema>,
     pick: keyof TValuesSchema["shape"],
 ): Form.Resolver<TValuesSchema, TResult> {
     return async ({defaultValues}) => {
