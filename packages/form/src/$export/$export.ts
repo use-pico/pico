@@ -16,5 +16,6 @@ export * from "./TextInput";
 export * from "./ValuesSchema";
 export * from "./YearInput";
 export * from "./defaultsOf";
+export * from "./promiseResolver";
 export * from "./withSourceMultiQueryInput";
 export * from "./withSourceQueryInput";

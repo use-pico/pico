@@ -34,7 +34,7 @@ export interface WithQuery<
      */
     useInvalidator: IInvalidator.Use;
 
-    usePromise(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
+    usePromise(): WithQuery.UsePromise<TRequestSchema, TResponseSchema>;
 
     /**
      * Simple useQuery, basically the same as useQuery in React Query; goal is to
@@ -55,6 +55,11 @@ export interface WithQuery<
 }
 
 export namespace WithQuery {
+    export type UsePromise<
+        TRequestSchema extends RequestSchema,
+        TResponseSchema extends ResponseSchema,
+    > = (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
+
     export interface Options<
         TRequestSchema extends RequestSchema,
         TResponseSchema extends ResponseSchema,
