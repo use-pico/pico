@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/schema/src/api/IsPartial.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/NullishSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/ObjectSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/api/schema/OptionalSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/api/schema/OptionalSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/schema/nullish/withNullish.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/schema/nullish/withNullish.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/schema/src/schema/optional/withOptional.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/schema/src/schema/optional/withOptional.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui-extra/src/ui/DeleteByModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui-extra/src/ui/DeleteByModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +130,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Just version bump" />
     <MESSAGE value="Clean and shiny! End of Zod" />
     <MESSAGE value="More vitest!" />
     <MESSAGE value="Experiment with github action?" />
@@ -161,7 +154,8 @@
     <MESSAGE value="Step by step" />
     <MESSAGE value="A little different way how to make &quot;pick&quot;" />
     <MESSAGE value="..." />
-    <option name="LAST_COMMIT_MESSAGE" value="..." />
+    <MESSAGE value="Fixed ObjectSchema" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed ObjectSchema" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
