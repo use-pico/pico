@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.11
+
+### Patch Changes
+
+- c8d0a1d: Added isPartial utility method to check if a property is optional (question marked)
+
 ## 1.0.10
 
 ### Patch Changes

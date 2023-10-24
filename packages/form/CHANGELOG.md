@@ -1,5 +1,13 @@
 # @use-pico/form
 
+## 1.0.9
+
+### Patch Changes
+
+- c8d0a1d: Fixed schemas in inputs
+- Updated dependencies [c8d0a1d]
+  - @use-pico/schema@1.0.11
+
 ## 1.0.8
 
 ### Patch Changes
