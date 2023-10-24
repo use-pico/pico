@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 1.0.12
+
+### Patch Changes
+
+- 0aabe51: Fixed form resolvers
+
 ## 1.0.11
 
 ### Patch Changes
