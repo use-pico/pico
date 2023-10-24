@@ -104,12 +104,12 @@ jobs:
       - version
     if: github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@main
         with:
           token: ${{ secrets.TOKEN }}
 
-      - name: Node
+      - name: setup node
         uses: actions/setup-node@main
         with:
           node-version: 18.x
@@ -124,6 +124,10 @@ jobs:
           key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-install-
+
+      - name: build
+        run: |
+          npm run build
 
       - name: Release packages
         uses: changesets/action@v1
