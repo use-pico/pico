@@ -1,4 +1,7 @@
-import {type WithQuery}          from "@use-pico/query";
+import {
+    type FilterSchema,
+    type WithQuery
+}                                from "@use-pico/query";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {type ValuesSchema}       from "../schema/ValuesSchema";
 import {type Form}               from "../ui/Form";
@@ -7,7 +10,7 @@ export function promiseResolver<
     TValuesSchema extends ValuesSchema,
     TResult extends string | undefined,
 >(
-    promise: WithQuery.UsePromise<WithIdentitySchema, WithIdentitySchema>,
+    promise: WithQuery.UsePromise<FilterSchema, WithIdentitySchema>,
     pick: keyof TValuesSchema["shape"],
 ): Form.Resolver<TValuesSchema, TResult> {
     return async ({defaultValues}) => {
