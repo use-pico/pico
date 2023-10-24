@@ -430,11 +430,15 @@ export const Form = <
                 Object
                     .entries(resolvers as Record<string, Form.Resolver<TValuesSchema, any>>)
                     .map(async ([name, resolver]) => {
-                        const resolved = await resolver({
-                            form,
-                            defaultValues: defaults,
-                        });
-                        resolved !== undefined && (defaults[name as Form.Keys<TValuesSchema>] = resolved);
+                        try {
+                            const resolved = await resolver({
+                                form,
+                                defaultValues: defaults,
+                            });
+                            resolved !== undefined && (defaults[name as Form.Keys<TValuesSchema>] = resolved);
+                        } catch (e) {
+                            console.error(e);
+                        }
                     })
             );
             await onReady?.({
