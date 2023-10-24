@@ -1,5 +1,5 @@
 {
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
@@ -35,8 +35,8 @@
 		"@types/is-empty": "^1.2.1",
 		"@types/is-object": "^1.0.2",
 		"@types/is-string": "^1.0.0",
-		"@use-pico/schema": "^1.0.9",
-		"@use-pico/types": "^1.0.5",
+		"@use-pico/schema": "^1.0.10",
+		"@use-pico/types": "^1.0.6",
 		"build-url-ts": "^6.1.5",
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",
@@ -53,9 +53,9 @@
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^1.0.3",
-		"@use-pico/eslint-config-eslint": "^1.0.3",
-		"@use-pico/tsconfig": "^1.0.5",
+		"@use-pico/esbuild": "^1.0.4",
+		"@use-pico/eslint-config-eslint": "^1.0.4",
+		"@use-pico/tsconfig": "^1.0.6",
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",

@@ -1,13 +1,22 @@
 # @use-pico/pagination
 
+## 1.0.6
+
+### Patch Changes
+
+- 5ea5ae2: Version bump (updated packages)
+- Updated dependencies [5ea5ae2]
+  - @use-pico/i18n@1.0.6
+  - @use-pico/ui@1.0.7
+
 ## 1.0.5
 
 ### Patch Changes
 
 - Version bump again, yapee!
 - Updated dependencies
-    - @use-pico/i18n@1.0.5
-    - @use-pico/ui@1.0.6
+  - @use-pico/i18n@1.0.5
+  - @use-pico/ui@1.0.6
 
 ## 1.0.4
 
@@ -15,8 +24,8 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/i18n@1.0.4
-    - @use-pico/ui@1.0.5
+  - @use-pico/i18n@1.0.4
+  - @use-pico/ui@1.0.5
 
 ## 1.0.3
 
@@ -26,8 +35,8 @@
 - 84500ac: Just version bump, preparing pre-release
 - Updated dependencies
 - Updated dependencies [84500ac]
-    - @use-pico/i18n@1.0.3
-    - @use-pico/ui@1.0.4
+  - @use-pico/i18n@1.0.3
+  - @use-pico/ui@1.0.4
 
 ## 1.0.3-next.0
 
@@ -35,8 +44,8 @@
 
 - Just version bump, preparing pre-release
 - Updated dependencies
-    - @use-pico/i18n@1.0.3-next.0
-    - @use-pico/ui@1.0.4-next.0
+  - @use-pico/i18n@1.0.3-next.0
+  - @use-pico/ui@1.0.4-next.0
 
 ## 1.0.2
 
@@ -44,8 +53,8 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/ui@1.0.2
-    - @use-pico/i18n@1.0.2
+  - @use-pico/ui@1.0.2
+  - @use-pico/i18n@1.0.2
 
 ## 1.0.1
 
@@ -53,5 +62,5 @@
 
 - Initial release
 - Updated dependencies
-    - @use-pico/i18n@1.0.1
-    - @use-pico/ui@1.0.1
+  - @use-pico/i18n@1.0.1
+  - @use-pico/ui@1.0.1

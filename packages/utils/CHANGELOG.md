@@ -1,5 +1,15 @@
 # @use-pico/utils
 
+## 1.0.20
+
+### Patch Changes
+
+- 5ea5ae2: Version bump (updated packages)
+- Updated dependencies [5ea5ae2]
+- Updated dependencies [5372538]
+  - @use-pico/schema@1.0.10
+  - @use-pico/types@1.0.6
+
 ## 1.0.19
 
 ### Patch Changes

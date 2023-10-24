@@ -1,5 +1,11 @@
 # @use-pico/esbuild
 
+## 1.0.4
+
+### Patch Changes
+
+- 5ea5ae2: Version bump (updated packages)
+
 ## 1.0.3
 
 ### Patch Changes
