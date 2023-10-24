@@ -3,7 +3,15 @@ import {defineConfig}        from "vitest/config";
 
 export default defineConfig({
     test: {
-        reporters: process.env.GITHUB_ACTIONS ? ["default", new GithubActionsReporter()] : "default",
-        watch:     false,
+        globals:     true,
+        environment: "happy-dom",
+        reporters:   process.env.GITHUB_ACTIONS ? ["default", new GithubActionsReporter()] : "default",
+        watch:       false,
+        setupFiles:  [
+            "./packages/test.setup.ts",
+        ],
+        include:     [
+            "packages/**/*.test.ts?(x)"
+        ]
     },
 });
