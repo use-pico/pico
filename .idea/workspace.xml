@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/local_build.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/source/src/$export/withMutationSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/source/src/$export/withMutationSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turbo.json" beforeDir="false" afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +121,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed wrong schema method usage" />
     <MESSAGE value="Just version bump" />
     <MESSAGE value="Clean and shiny! End of Zod" />
     <MESSAGE value="More vitest!" />
@@ -150,7 +145,8 @@
     <MESSAGE value="A bit more improved workflow file" />
     <MESSAGE value="A bit more improved workflow file II" />
     <MESSAGE value="A bit more improved workflow file III" />
-    <option name="LAST_COMMIT_MESSAGE" value="A bit more improved workflow file III" />
+    <MESSAGE value="A bit more improved workflow file IV" />
+    <option name="LAST_COMMIT_MESSAGE" value="A bit more improved workflow file IV" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
