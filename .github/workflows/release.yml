@@ -128,7 +128,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/**/lib/**
-          key: ${{ runner.os }}-${{ github.sha }}-build-${{ hashFiles('package-lock.json', 'package.json') }}
+          key: ${{ runner.os }}-${{ github.sha }}-build
           restore-keys: |
             ${{ runner.os }}-${{ github.sha }}-build
 
@@ -170,7 +170,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/**/lib/**
-          key: ${{ runner.os }}-${{ github.sha }}-build-${{ hashFiles('package-lock.json', 'package.json') }}
+          key: ${{ runner.os }}-${{ github.sha }}-build
           restore-keys: |
             ${{ runner.os }}-${{ github.sha }}-build
 
