@@ -5,9 +5,10 @@ import {
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {
+    isPartial,
     type PicoSchema,
     type WithIdentitySchema
-}                             from "@use-pico/schema";
+} from "@use-pico/schema";
 import {type ISelectionStore} from "@use-pico/selection";
 import {
     Alert,
@@ -91,7 +92,6 @@ export const QueryInput = <
                    value,
                },
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
     const result = withSourceQuery.useQueryEx({
         request: {
             filter:  value ? toFilter(value) : {id: null},
@@ -123,7 +123,7 @@ export const QueryInput = <
                     >
                         <Translation withLabel={`${withControl.name}.selection.label`}/>
                     </Text>
-                    {shape && !shape.isOptional() && <Text
+                    {!isPartial(schema, withControl.name) && <Text
                         ml={4}
                         c={"red"}
                         span

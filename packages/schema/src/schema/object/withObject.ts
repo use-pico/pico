@@ -37,9 +37,7 @@ export function withObject<
 
     return {
         schema: "object",
-        object: {
-            shape,
-        },
+        shape,
         _parse(input, info) {
             if (!input || typeof input !== "object") {
                 return issuesOf(

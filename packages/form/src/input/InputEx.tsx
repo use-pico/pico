@@ -3,6 +3,7 @@ import {
     IconX
 }                          from "@tabler/icons-react";
 import {Translation}       from "@use-pico/i18n";
+import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
     Box,
@@ -61,12 +62,11 @@ export const InputEx = <
                },
         fieldState,
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <>
         <Label
-            withAsterisk={shape && !shape.isOptional()}
             label={`${withControl.name}.label`}
+            withAsterisk={!isPartial(schema, withControl.name)}
         />
         <Description description={`${withControl.name}.description`}/>
         <Flex

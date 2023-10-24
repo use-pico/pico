@@ -57,7 +57,7 @@ describe("merge", () => {
             withObject({key: withString()}),
             withObject({key: withNumber()}),
         ]);
-        expect(schema.object.shape.key).toEqual(comparable(withNumber()));
+        expect(schema.shape.key).toEqual(comparable(withNumber()));
         const input = {key: 123};
         const output = parse(schema, input);
         expect(output).toEqual(input);

@@ -1,4 +1,5 @@
 import {useTranslation}                     from "@use-pico/i18n";
+import {isPartial}                          from "@use-pico/schema";
 import {PasswordInput as CoolPasswordInput} from "@use-pico/ui";
 import {useController}                      from "react-hook-form";
 import type {ValuesSchema}                  from "../schema/ValuesSchema";
@@ -29,13 +30,12 @@ export const PasswordInput = <
                },
         fieldState,
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <CoolPasswordInput
         label={t(`${withControl.name}.label`)}
         placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
-        withAsterisk={shape && !shape.isOptional()}
+        withAsterisk={!isPartial(schema, withControl.name)}
         onChange={e => {
             onChange(e.target.value);
             $onChange?.(e);

@@ -11,7 +11,7 @@ export namespace merge {
             )[]
     > = TObjectSchemas extends [infer TFirstObjectSchema]
         ? TFirstObjectSchema extends | ObjectSchema<any, any>
-            ? TFirstObjectSchema["object"]["shape"]
+            ? TFirstObjectSchema["shape"]
             : never
         : TObjectSchemas extends [
                 infer TFirstObjectSchema,
@@ -23,9 +23,9 @@ export namespace merge {
                         )[]
                     ? {
                           [TKey in Exclude<
-                        keyof TFirstObjectSchema["object"]["shape"],
+                        keyof TFirstObjectSchema["shape"],
                         keyof MergedSchemas<TRestObjectSchemas>
-                    >]: TFirstObjectSchema["object"]["shape"][TKey];
+                    >]: TFirstObjectSchema["shape"][TKey];
                       } & MergedSchemas<TRestObjectSchemas>
                     : never
                 : never
@@ -45,10 +45,9 @@ export function merge<
         Pipe<ObjectSchema.Output<merge.MergedSchemas<TObjectSchemas>>>
     >(arg2, arg3);
 
-    // Create and return object schema
     return withObject(
         schemas.reduce(
-            (entries, schema) => ({...entries, ...schema.object.shape}),
+            (shape, schema) => ({...shape, ...schema.shape}),
             {}
         ) as merge.MergedSchemas<TObjectSchemas>,
         error,

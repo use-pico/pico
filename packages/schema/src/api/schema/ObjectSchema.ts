@@ -9,9 +9,7 @@ export interface ObjectSchema<
     TOutput
 > {
     schema: "object";
-    object: {
-        shape: TShape;
-    };
+    shape: TShape;
 }
 
 export namespace ObjectSchema {

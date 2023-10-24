@@ -6,6 +6,7 @@ import {
     Translation,
     useTranslation
 }                          from "@use-pico/i18n";
+import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
     Flex,
@@ -49,7 +50,6 @@ export const BoolInput = <
         fieldState,
     } = useController(withControl);
     const [disabled, setDisabled] = useState($disabled);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <Flex
         gap={"xs"}
@@ -72,7 +72,7 @@ export const BoolInput = <
             {...field}
             {...props}
         />
-        {shape && shape.isOptional() && <Tooltip
+        {!isPartial(schema, withControl.name) && <Tooltip
             label={<Translation namespace={"common.bool-input"} withLabel={"toggle.tooltip"}/>}
         >
             <ActionIcon

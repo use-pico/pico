@@ -4,6 +4,7 @@ import {
     RangeOfList,
     Translation
 }                          from "@use-pico/i18n";
+import {isPartial}         from "@use-pico/schema";
 import {
     SegmentedControl,
     Stack
@@ -45,13 +46,12 @@ export const RangeOfInput = <
                },
         fieldState,
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <>
         <Stack gap={1}>
             <Label
-                withAsterisk={shape && !shape.isOptional()}
                 label={`${withControl.name}.label`}
+                withAsterisk={!isPartial(schema, withControl.name)}
             />
             <Description description={`${withControl.name}.description`}/>
         </Stack>

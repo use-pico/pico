@@ -7,6 +7,7 @@ import {
     DateInline,
     DateTime
 }                          from "@use-pico/i18n";
+import {isPartial}         from "@use-pico/schema";
 import {NativeModal}       from "@use-pico/ui";
 import {useController}     from "react-hook-form";
 import type {ValuesSchema} from "../schema/ValuesSchema";
@@ -48,7 +49,6 @@ export const YearInput = <
                    onChange,
                },
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <>
         <NativeModal
@@ -58,7 +58,7 @@ export const YearInput = <
             title={<>
                 <Label
                     label={`${withControl.name}.label`}
-                    withAsterisk={shape && !shape.isOptional()}
+                    withAsterisk={!isPartial(schema, withControl.name)}
                 />
                 <Description description={`${withControl.name}.description`}/>
             </>}

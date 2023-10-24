@@ -1,4 +1,5 @@
 import {useTranslation}                 from "@use-pico/i18n";
+import {isPartial}                      from "@use-pico/schema";
 import {NumberInput as CoolNumberInput} from "@use-pico/ui";
 import {isString}                       from "@use-pico/utils";
 import {useController}                  from "react-hook-form";
@@ -31,13 +32,12 @@ export const NumberInput = <
                },
         fieldState,
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <CoolNumberInput
         label={t(`${withControl.name}.label`)}
         placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
-        withAsterisk={shape && !shape.isOptional()}
+        withAsterisk={!isPartial(schema, withControl.name)}
         value={value === null ? NaN : value}
         allowNegative={false}
         onChange={value => {

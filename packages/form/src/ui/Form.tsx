@@ -77,7 +77,7 @@ export namespace Form {
             > {
                 useSetValues(): UseSetValues<TValuesSchema>;
 
-                useWatch<TKey extends Keys<TValuesSchema>>(field: TKey): PicoSchema.Output<TValuesSchema["object"]["shape"][TKey]>;
+                useWatch<TKey extends Keys<TValuesSchema>>(field: TKey): PicoSchema.Output<TValuesSchema["shape"][TKey]>;
             }
 
             export type UseSetValues<
@@ -133,7 +133,7 @@ export namespace Form {
         {
             [key in Keys<TValuesSchema>]: Resolver<
             TValuesSchema,
-            PicoSchema.Output<TValuesSchema["object"]["shape"][key]> | null | undefined
+            PicoSchema.Output<TValuesSchema["shape"][key]> | null | undefined
         >
         }
     >;
@@ -446,7 +446,7 @@ export const Form = <
                 defaults,
             );
         },
-        resolver: picoResolver(schema),
+        resolver:      picoResolver(schema),
     });
     const overrideOptions = withMutationOverride?.({form});
     const mutation = (overrideOptions ? coolWithMutation({

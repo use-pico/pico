@@ -13,7 +13,7 @@ export function withPartial<
         schema: "partial",
         _parse(input, info) {
             $schema = $schema || withObject(
-                Object.entries(schema.object.shape).reduce(
+                Object.entries(schema.shape).reduce(
                     (shapes, [key, schema]) => ({
                         ...shapes,
                         [key]: withOptional(schema as PicoSchema),

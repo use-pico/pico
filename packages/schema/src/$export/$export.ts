@@ -18,6 +18,7 @@ export * from "./StringSchema";
 export * from "./TagSchema";
 export * from "./UnionSchema";
 export * from "./WithIdentitySchema";
+export * from "./isPartial";
 export * from "./maxValue";
 export * from "./merge";
 export * from "./minValue";

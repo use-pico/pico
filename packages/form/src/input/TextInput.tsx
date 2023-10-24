@@ -1,5 +1,6 @@
 import {IconX}             from "@tabler/icons-react";
 import {useTranslation}    from "@use-pico/i18n";
+import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
     TextInput as CoolTextInput
@@ -35,13 +36,12 @@ export const TextInput = <
                },
         fieldState,
     } = useController(withControl);
-    const shape = (schema as any)?.shape[withControl.name];
 
     return <CoolTextInput
         label={t(`${withControl.name}.label`)}
         placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
-        withAsterisk={shape && !shape.isOptional()}
+        withAsterisk={!isPartial(schema, withControl.name)}
         rightSection={<ActionIcon
             color={"gray"}
             variant={"subtle"}
