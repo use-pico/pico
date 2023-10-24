@@ -1,5 +1,13 @@
 # @use-pico/form
 
+## 1.0.10
+
+### Patch Changes
+
+- 7e65dc2: Added promiseResolver
+- Updated dependencies [7e65dc2]
+  - @use-pico/query@1.0.8
+
 ## 1.0.9
 
 ### Patch Changes
