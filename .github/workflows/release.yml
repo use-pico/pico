@@ -98,9 +98,50 @@ jobs:
           git commit -m "Version bump" || echo "No changes to commit"
           git push
 
+  build:
+    runs-on: ubuntu-latest
+    needs:
+      - version
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+        with:
+          token: ${{ secrets.TOKEN }}
+
+      - name: setup node
+        uses: actions/setup-node@main
+        with:
+          node-version: 18.x
+          registry-url: 'https://registry.npmjs.org'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-install-
+
+      - name: build cache
+        uses: actions/cache@v3
+        with:
+          path: packages/**/lib/**
+          key: ${{ runner.os }}-${{ github.sha }}-build-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.sha }}-build
+
+      # build is use just to know all the libs transpiles, but for exported package, only
+      # sources are used
+      - name: build
+        run: |
+          npm run build         
+
   release:
     runs-on: ubuntu-latest
     needs:
+      - build
       - version
     if: github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
     steps:
@@ -125,9 +166,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-install-
 
-      - name: build
-        run: |
-          npm run build
+      - name: build cache
+        uses: actions/cache@v3
+        with:
+          path: packages/**/lib/**
+          key: ${{ runner.os }}-${{ github.sha }}-build-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.sha }}-build
 
       - name: Release packages
         uses: changesets/action@v1

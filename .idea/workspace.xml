@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16df4f05-5a98-4da6-a6fb-d1888234427a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +26,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="a-little-theft" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,37 +53,28 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "updated-schema",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "S:/Projects/github.com/use-pico/pico/.github/workflows",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "S:\\Projects\\github.com\\use-pico\\pico\\node_modules\\typescript\\lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;S:/Projects/github.com/use-pico/pico/.github/workflows&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;S:\\Projects\\github.com\\use-pico\\pico\\node_modules\\typescript\\lib&quot;
   }
-}]]></component>
-  <component name="ReactDesignerToolWindowState">
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.haulmont.rcb.reactComponents" value="false" />
-        <entry key="com.haulmont.rcb.reactInspector" value="false" />
-      </map>
-    </option>
-  </component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="S:\Projects\github.com\use-pico\pico\.github\workflows" />
@@ -93,11 +84,10 @@
       <recent name="S:\Projects\github.com\use-pico\pico\packages\query" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="S:\Projects\github.com\use-pico\pico\packages\query\src\schema" />
       <recent name="S:\Projects\github.com\use-pico\pico\packages\schema\src\schema\string" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.changeset">
     <list>
       <item itemvalue="npm.changeset" />
       <item itemvalue="npm.publish" />
@@ -130,6 +120,12 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Fixed missed export type" />
+    <MESSAGE value="Widened RequestSchema" />
+    <MESSAGE value="Fixed logout mutation type" />
+    <MESSAGE value="Fixed wrong schema method usage" />
+    <MESSAGE value="Just version bump" />
+    <MESSAGE value="Clean and shiny! End of Zod" />
     <MESSAGE value="More vitest!" />
     <MESSAGE value="Experiment with github action?" />
     <MESSAGE value="Oops" />
@@ -145,17 +141,11 @@
     <MESSAGE value="Testing workflow" />
     <MESSAGE value="So, will it detect changeset?" />
     <MESSAGE value="...." />
+    <MESSAGE value="..." />
     <MESSAGE value="Improved workflow" />
     <MESSAGE value="Fixed workflow file" />
-    <MESSAGE value="Almost there :|" />
-    <MESSAGE value="Added readme" />
-    <MESSAGE value="TRying to fix wrong typings" />
-    <MESSAGE value="Step by step" />
-    <MESSAGE value="A little different way how to make &quot;pick&quot;" />
-    <MESSAGE value="..." />
-    <MESSAGE value="Fixed ObjectSchema" />
-    <MESSAGE value="Updated packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated packages" />
+    <MESSAGE value="Added build step to see if everything ... builds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added build step to see if everything ... builds" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
