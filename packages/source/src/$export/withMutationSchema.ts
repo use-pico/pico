@@ -1,1 +1,1 @@
-export {withMutationSchema} from "../schema/WithMutationSchema";
+export {withMutationSchema} from "../utils/withMutationSchema";

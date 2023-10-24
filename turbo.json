@@ -29,9 +29,7 @@
 		"build": {
 			"outputMode": "new-only",
 			"dependsOn": [
-				"^build",
-				"^test",
-				"lint"
+				"^build"
 			],
 			"outputs": [
 				"lib/**",
@@ -50,6 +48,14 @@
 				"NEXT_PUBLIC_RPC",
 				"NEXT_PUBLIC_VERSION",
 				"NODE_ENV"
+			]
+		},
+		"local-build": {
+			"outputMode": "new-only",
+			"dependsOn": [
+				"^lint",
+				"^test",
+				"^build"
 			]
 		},
 		"dev": {

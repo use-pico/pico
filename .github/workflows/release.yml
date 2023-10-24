@@ -53,7 +53,8 @@ jobs:
       - name: npm cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            **/node_modules
           key: ${{ runner.os }}-npm-install-${{ hashFiles('package-lock.json', 'package.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-install-
