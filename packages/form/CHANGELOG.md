@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 1.0.13
+
+### Patch Changes
+
+- 0431ff2: Fixed promiseResolver type
+
 ## 1.0.12
 
 ### Patch Changes
