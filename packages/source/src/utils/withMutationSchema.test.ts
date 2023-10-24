@@ -1,8 +1,9 @@
 import {
     FilterSchema,
     OrderSchema,
+    type QuerySchema,
     withQuerySchema
-}                           from "@use-pico/query";
+}                            from "@use-pico/query";
 import {
     merge,
     parse,
@@ -10,15 +11,17 @@ import {
     withEnum,
     withNullish,
     withObject,
+    withOptional,
     withRecord,
     withString
-}                           from "@use-pico/schema";
+}                            from "@use-pico/schema";
 import {
     describe,
     expect,
     test
-}                           from "vitest";
-import {withMutationSchema} from "./withMutationSchema";
+}                            from "vitest";
+import {type MutationSchema} from "../schema/MutationSchema";
+import {withMutationSchema}  from "./withMutationSchema";
 
 const FooShapeSchema = withObject({
     foo: withString(),
@@ -27,7 +30,7 @@ const FooFilterSchema = merge([
     FilterSchema,
     withObject({
         something:    withNullish(withString()),
-        anotherThing: withNullish(withString()),
+        anotherThing: withOptional(withString()),
     }),
 ]);
 const FooOrderBySchema = withRecord(withEnum(["foo", "bar"]), OrderSchema);
@@ -62,6 +65,8 @@ describe("withMutationSchema", () => {
                 },
             },
         };
-        expect(parse(FooMutationSchema, shape)).toEqual(shape);
+        const typeCheck: PicoSchema.Output<MutationSchema<any, QuerySchema<FilterSchema, any>>> = shape;
+
+        expect(parse(FooMutationSchema, shape)).toEqual(typeCheck);
     });
 });

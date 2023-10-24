@@ -1,1 +1,1 @@
-export {withQuerySchema} from "../schema/QuerySchema";
+export {withQuerySchema} from "../schema/withQuerySchema";

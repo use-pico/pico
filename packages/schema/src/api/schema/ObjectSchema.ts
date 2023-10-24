@@ -1,5 +1,5 @@
+import {type IsPartial}  from "../IsPartial";
 import {type PicoSchema} from "../PicoSchema";
-import {NullishSchema}   from "./NullishSchema";
 
 export interface ObjectSchema<
     TShape extends ObjectSchema.Shape,
@@ -30,37 +30,25 @@ export namespace ObjectSchema {
         ...ObjectSchema<any, any>[],
     ];
 
-    /**
-     * This utility type could be moved to @use-pico/types, but to keep this package as light as possible,
-     * it will stay here.
-     */
-    export type RequiredKeys<TObject extends object> = {
-        [TKey in keyof TObject]: NullishSchema<any> extends TObject[TKey] ? never : TKey;
+    export type NonPartials<TObject extends Shape> = {
+        [TKey in keyof TObject]: TObject[TKey] extends IsPartial ? never : TKey;
     }[keyof TObject];
 
-    export type OptionalKeys<TObject extends object> = {
-        [TKey in keyof TObject]: NullishSchema<any> extends TObject[TKey] ? TKey : never;
+    export type Partials<TObject extends Shape> = {
+        [TKey in keyof TObject]: TObject[TKey] extends IsPartial ? TKey : never;
     }[keyof TObject];
 
     export type Input<
         TShape extends Shape,
     > =
-        Pick<{
-            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
-        }, RequiredKeys<TShape>>
+        { [TKey in NonPartials<TShape>]: PicoSchema.Input<TShape[TKey]>; }
         &
-        Partial<Pick<{
-            [TKey in keyof TShape]: PicoSchema.Input<TShape[TKey]>;
-        }, OptionalKeys<TShape>>>;
+        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Input<TShape[TKey]>; }>;
 
     export type Output<
         TShape extends Shape,
     > =
-        Pick<{
-            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
-        }, RequiredKeys<TShape>>
+        { [TKey in NonPartials<TShape>]: PicoSchema.Output<TShape[TKey]>; }
         &
-        Partial<Pick<{
-            [TKey in keyof TShape]: PicoSchema.Output<TShape[TKey]>;
-        }, OptionalKeys<TShape>>>;
+        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Output<TShape[TKey]>; }>;
 }

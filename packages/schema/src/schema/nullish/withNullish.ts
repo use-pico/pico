@@ -9,7 +9,8 @@ export function withNullish<
     default$?: TDefault | (() => TDefault),
 ): NullishSchema<TWrapped, TDefault> {
     return {
-        schema: "nullish",
+        schema:  "nullish",
+        partial: true,
         wrapped,
         get default() {
             return typeof default$ === "function"

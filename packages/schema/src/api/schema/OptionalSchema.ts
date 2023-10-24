@@ -1,3 +1,4 @@
+import {type IsPartial}  from "../IsPartial";
 import {type PicoSchema} from "../PicoSchema";
 
 export interface OptionalSchema<
@@ -7,7 +8,7 @@ export interface OptionalSchema<
 > extends PicoSchema<
     PicoSchema.Input<TWrapped> | undefined,
     TOutput
-> {
+>, IsPartial {
     schema: "optional",
     wrapped: TWrapped;
 
