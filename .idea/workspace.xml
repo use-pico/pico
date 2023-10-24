@@ -97,7 +97,7 @@
       <recent name="S:\Projects\github.com\use-pico\pico\packages\schema\src\schema\string" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.changeset">
+  <component name="RunManager" selected="npm.build">
     <list>
       <item itemvalue="npm.changeset" />
       <item itemvalue="npm.publish" />
@@ -130,7 +130,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Clean and shiny! End of Zod" />
     <MESSAGE value="More vitest!" />
     <MESSAGE value="Experiment with github action?" />
     <MESSAGE value="Oops" />
@@ -155,7 +154,8 @@
     <MESSAGE value="A little different way how to make &quot;pick&quot;" />
     <MESSAGE value="..." />
     <MESSAGE value="Fixed ObjectSchema" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed ObjectSchema" />
+    <MESSAGE value="Updated packages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated packages" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
