@@ -120,8 +120,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed missed export type" />
-    <MESSAGE value="Widened RequestSchema" />
     <MESSAGE value="Fixed logout mutation type" />
     <MESSAGE value="Fixed wrong schema method usage" />
     <MESSAGE value="Just version bump" />
@@ -145,7 +143,9 @@
     <MESSAGE value="Improved workflow" />
     <MESSAGE value="Fixed workflow file" />
     <MESSAGE value="Added build step to see if everything ... builds" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added build step to see if everything ... builds" />
+    <MESSAGE value="A bit more improved workflow file" />
+    <MESSAGE value="A bit more improved workflow file II" />
+    <option name="LAST_COMMIT_MESSAGE" value="A bit more improved workflow file II" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
