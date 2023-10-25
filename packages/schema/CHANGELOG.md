@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.12
+
+### Patch Changes
+
+- c1eb35a: Simplified and improved schema internals
+
 ## 1.0.11
 
 ### Patch Changes
