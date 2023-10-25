@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 1.0.14
+
+### Patch Changes
+
+- 17fa24d: Fixed form type
+
 ## 1.0.13
 
 ### Patch Changes
