@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.10
+
+### Patch Changes
+
+- 72ca4c1: Renamed JobQueryMutation with proper names
+
 ## 1.0.9
 
 ### Patch Changes
