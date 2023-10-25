@@ -1,1 +1,1 @@
-export {MantineColor as Color} from "@mantine/core";
+export {type MantineColor as Color} from "@mantine/core";
