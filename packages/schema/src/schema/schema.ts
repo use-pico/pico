@@ -41,52 +41,132 @@ export namespace schema {
     }
 
     export interface Schema {
+        /**
+         * Create schema allowing "any" type
+         */
         get any(): AnySchema;
 
+        /**
+         * Create schema allowing "any" type with "null | undefined"
+         */
         get any$(): NullishSchema<AnySchema>;
 
+        /**
+         * Create array schema
+         */
         array: typeof withArray;
 
+        /**
+         * Create bool schema
+         */
         get bool(): BoolSchema;
 
+        /**
+         * Create optional bool schema
+         */
         get bool$(): NullishSchema<BoolSchema>;
 
+        /**
+         * Create enum schema
+         */
         enum: typeof withEnum;
 
+        /**
+         * Create NaN schema
+         */
         get nan(): NanSchema;
 
+        /**
+         * Create null schema
+         */
         get null(): NullSchema;
 
+        /**
+         * Wrap schema as nullish()
+         */
         nullish: typeof withNullish;
 
+        /**
+         * Create number schema
+         */
         get number(): NumberSchema;
 
+        /**
+         * Create optional number schema
+         */
         get number$(): NullishSchema<NumberSchema>;
 
+        /**
+         * Direct access to number schema factory
+         */
         _number: typeof withNumber;
-
+        /**
+         * Create an object schema
+         */
         object: typeof withObject;
+        /**
+         * Wrap schema as optional
+         */
         optional: typeof withOptional;
+        /**
+         * Mark all object schema properties as optional
+         */
         partial: typeof withPartial;
+        /**
+         * Create record schema
+         */
         record: typeof withRecord;
 
+        /**
+         * Create string schema
+         */
         get string(): StringSchema;
 
+        /**
+         * Create optional string schema
+         */
         get string$(): NullishSchema<StringSchema>;
 
+        /**
+         * Direct access to string schema factory
+         */
         _string: typeof withString;
 
+        /**
+         * Create string schema with non empty rule
+         */
         get nonEmptyString(): StringSchema;
 
+        /**
+         * Create union schema
+         */
         union: typeof withUnion;
     }
 
     export interface Pipe {
+        /**
+         * Max length rule
+         */
         maxLength: typeof maxLength;
+        /**
+         * Max value rule
+         */
         maxValue: typeof maxValue;
+        /**
+         * Min length rule
+         */
         minLength: typeof minLength;
+        /**
+         * Min value rule
+         */
         minValue: typeof minValue;
+        /**
+         * Non-empty rule
+         */
         nonEmpty: typeof nonEmpty;
+        /**
+         * Create rule with custom callback
+         */
         toCustom: typeof toCustom;
     }
 }
@@ -136,6 +216,7 @@ const Schema: schema.Schema = {
     },
     union: withUnion
 };
+
 const Pipe: schema.Pipe = {
     maxLength,
     maxValue,
