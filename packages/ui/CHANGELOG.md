@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 1.0.8
+
+### Patch Changes
+
+- 0748b36: Exported Color type
+
 ## 1.0.7
 
 ### Patch Changes
