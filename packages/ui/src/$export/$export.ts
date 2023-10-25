@@ -23,6 +23,7 @@ export * from "./Center";
 export * from "./CheckIcon";
 export * from "./Chip";
 export * from "./CloseIcon";
+export * from "./Color";
 export * from "./ConfigIcon";
 export * from "./Container";
 export * from "./CreateIcon";
