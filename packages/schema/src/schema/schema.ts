@@ -72,9 +72,9 @@ export namespace schema {
 
         get string(): StringSchema;
 
-        _string: typeof withString;
-
         get string$(): NullishSchema<StringSchema>;
+
+        _string: typeof withString;
 
         get nonEmptyString(): StringSchema;
 
