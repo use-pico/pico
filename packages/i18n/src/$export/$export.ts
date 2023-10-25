@@ -19,6 +19,7 @@ export * from "./StringUnitLength";
 export * from "./Translation";
 export * from "./WithTranslationProvider";
 export * from "./WithTranslationStore";
+export * from "./fromUtc";
 export * from "./isDateTime";
 export * from "./isTranslation";
 export * from "./localeOf";

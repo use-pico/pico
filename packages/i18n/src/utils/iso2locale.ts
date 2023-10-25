@@ -3,6 +3,7 @@ import {
     DateTime,
     type DateTimeFormatOptions
 }                        from "luxon";
+import {fromUtc}         from "./fromUtc";
 import {type IDateInput} from "./IDateInput";
 import {isDateTime}      from "./isDateTime";
 
@@ -14,7 +15,7 @@ export const iso2locale = (date?: IDateInput, fallback?: IDateInput, opts?: Date
         return undefined;
     }
     if (isString(date)) {
-        return DateTime.fromISO(date).toLocaleString(opts);
+        return fromUtc(date).toLocaleString(opts);
     } else if (isDateTime(date)) {
         return date.toLocaleString(opts);
     }
