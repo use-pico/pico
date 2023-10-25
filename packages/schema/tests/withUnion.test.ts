@@ -10,7 +10,7 @@ import {
 
 describe("union", () => {
     test("should pass only union values", () => {
-        const schema$ = schema(z => z.union([z.string(), z.number(), z.null()]));
+        const schema$ = schema(z => z.union([z.string, z.number, z.null]));
         const input1 = "test";
         const output1 = parse(schema$, input1);
         expect(output1).toBe(input1);
@@ -28,7 +28,7 @@ describe("union", () => {
 
     test("should throw custom error", () => {
         const error = "Value is not in union!";
-        expect(() => parse(schema(z => z.union([z.string(), z.number()], error)), null)).toThrowError(
+        expect(() => parse(schema(z => z.union([z.string, z.number], error)), null)).toThrowError(
             error
         );
     });

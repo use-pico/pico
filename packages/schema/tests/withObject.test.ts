@@ -13,8 +13,8 @@ import {
 describe("withObject", () => {
     test("should pass only objects", () => {
         const schema1 = schema(z => z.object({
-            key1: z.string(),
-            key2: z.number(),
+            key1: z.string,
+            key2: z.number,
         }));
         const input1: PicoSchema.Output<typeof schema1> = {
             key1: "test",
@@ -36,7 +36,7 @@ describe("withObject", () => {
 
     test("should exclude non-existing keys", () => {
         const schema$ = schema(z => z.object({
-            key: z.string().optional(),
+            key: z.string.optional(),
         }));
         const output1 = parse(schema$, {key: undefined});
         expect("key" in output1).toBe(true);
@@ -53,8 +53,8 @@ describe("withObject", () => {
     test("with partial", () => {
         const schema$ = schema(z => z.partial(
             z.object({
-                foo: z.string(),
-                bar: z.string(),
+                foo: z.string,
+                bar: z.string,
             }),
         ));
 
@@ -64,8 +64,8 @@ describe("withObject", () => {
 
     test("should throw every issue", () => {
         const schema$ = schema(z => z.object({
-            key1: z.string(),
-            key2: z.string(),
+            key1: z.string,
+            key2: z.string,
         }));
         const input = {
             key1: 1,
@@ -82,8 +82,8 @@ describe("withObject", () => {
     test("should throw only first issue", () => {
         const info = {abortEarly: true};
         const schema$ = schema(z => z.object({
-            key1: z.string(),
-            key2: z.string(),
+            key1: z.string,
+            key2: z.string,
         }));
 
         const input1 = {
@@ -102,7 +102,7 @@ describe("withObject", () => {
 
     test("should return issue path", () => {
         const schema1 = schema(z => z.object({
-            key: z.number(),
+            key: z.number,
         }));
         const input1 = {key: "123"};
         const result1 = schema1._parse(input1);
@@ -117,7 +117,7 @@ describe("withObject", () => {
 
         const schema2 = schema(z => z.object({
             nested: z.object({
-                key: z.string(),
+                key: z.string,
             })
         }));
         const input2 = {nested: {key: 123}};
@@ -150,8 +150,8 @@ describe("withObject", () => {
 
         const output1 = parse(
             schema((z, p) => z.object({
-                key1: z.string(),
-                key2: z.number()
+                key1: z.string,
+                key2: z.number,
             }, [
                 p.toCustom(transformInput),
             ])),
@@ -159,8 +159,8 @@ describe("withObject", () => {
         );
         const output2 = parse(
             schema((z, p) => z.object({
-                key1: z.string(),
-                key2: z.number()
+                key1: z.string,
+                key2: z.number
             }, "Error", [
                 p.toCustom(transformInput),
             ])),

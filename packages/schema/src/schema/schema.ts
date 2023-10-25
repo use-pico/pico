@@ -28,6 +28,8 @@ import {withString}         from "./string/withString";
 import {withUnion}          from "./union/withUnion";
 
 export namespace schema {
+
+
     export interface Factory<TSchema extends PicoSchema> {
         /**
          * Factory function with all the juice stuff from schema package.
@@ -69,6 +71,8 @@ export namespace schema {
         record: typeof withRecord;
 
         get string(): StringSchema;
+
+        _string: typeof withString;
 
         get string$(): NullishSchema<StringSchema>;
 
@@ -126,6 +130,7 @@ const Schema: schema.Schema = {
     get string$() {
         return withNullish(withString());
     },
+    _string: withString,
     get nonEmptyString() {
         return withString([nonEmpty()]);
     },

@@ -19,8 +19,8 @@ import {
 const FooFilterSchema = merge([
     FilterSchema,
     schema(z => z.object({
-        something:    z.string().nullish(),
-        anotherThing: z.string().optional(),
+        something:    z.string$,
+        anotherThing: z.string.optional(),
     })),
 ]);
 const FooOrderBySchema = schema(z => z.record(z.enum(["foo", "bar"]), OrderSchema));

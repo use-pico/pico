@@ -11,15 +11,15 @@ import {
 import {withPartial} from "../src/schema/partial/withPartial";
 
 const JustSchema = schema(z => z.object({
-    required:                z.string(),
-    anotherPieceButNullable: z.string().nullish(),
+    required:                z.string,
+    anotherPieceButNullable: z.string$,
     innerPartial:            z.partial(
         z.object({
-            foo:      z.string(),
-            bar:      z.string(),
+            foo:      z.string,
+            bar:      z.string,
             required: z.object({
-                a: z.string(),
-                b: z.string(),
+                a: z.string,
+                b: z.string,
             }),
         })
     )

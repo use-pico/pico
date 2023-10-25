@@ -9,9 +9,9 @@ import {
 } from "../src";
 
 const Schema = schema(z => z.object({
-    foo:      z.string(),
-    bar:      z.number().nullish(),
-    optional: z.bool().optional(),
+    foo:      z.string,
+    bar:      z.number$,
+    optional: z.bool$,
 }));
 
 describe("partial works", () => {

@@ -34,17 +34,17 @@ describe("merge", () => {
     test("should merge object schemas", () => {
         const schema$ = merge([
             schema(z => z.object({
-                key1: z.string(),
+                key1: z.string,
             })),
             schema(z => z.object({
-                key2: z.number(),
+                key2: z.number,
             })),
         ]);
         expect(schema$).toEqual(
             comparable(
                 schema(z => z.object({
-                    key1: z.string(),
-                    key2: z.number(),
+                    key1: z.string,
+                    key2: z.number,
                 }))
             )
         );
@@ -61,13 +61,13 @@ describe("merge", () => {
     test("should overwrite schema of key", () => {
         const schema$ = merge([
             schema(z => z.object({
-                key: z.string(),
+                key: z.string,
             })),
             schema(z => z.object({
-                key: z.number(),
+                key: z.number,
             })),
         ]);
-        expect(schema$.shape.key).toEqual(comparable(schema(z => z.number())));
+        expect(schema$.shape.key).toEqual(comparable(schema(z => z.number)));
         const input = {key: 123};
         const output = parse(schema$, input);
         expect(output).toEqual(input);
@@ -79,10 +79,10 @@ describe("merge", () => {
         const schema$ = merge(
             [
                 schema(z => z.object({
-                    key: z.string(),
+                    key: z.string,
                 })),
                 schema(z => z.object({
-                    key: z.number(),
+                    key: z.number,
                 })),
             ],
             error
@@ -103,10 +103,10 @@ describe("merge", () => {
             merge(
                 [
                     schema(z => z.object({
-                        key1: z.string(),
+                        key1: z.string,
                     })),
                     schema(z => z.object({
-                        key2: z.number(),
+                        key2: z.number,
                     })),
                 ],
                 [toCustom(transformInput)]
@@ -117,10 +117,10 @@ describe("merge", () => {
             merge(
                 [
                     schema(z => z.object({
-                        key1: z.string(),
+                        key1: z.string,
                     })),
                     schema(z => z.object({
-                        key2: z.number(),
+                        key2: z.number,
                     })),
                 ], "Error", [
                     toCustom(transformInput),
