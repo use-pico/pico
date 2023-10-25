@@ -8,9 +8,9 @@ import {
 export const FileFilterSchema = merge([
     FilterSchema,
     schema(z => z.object({
-        native: z.string().nullish(),
-        path:   z.string().nullish(),
-        mime:   z.string().nullish(),
+        native: z.string$,
+        path:   z.string$,
+        mime:   z.string$,
     })),
 ]);
 export type FileFilterSchema = typeof FileFilterSchema;

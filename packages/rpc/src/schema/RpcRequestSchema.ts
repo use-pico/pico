@@ -5,8 +5,8 @@ import {
 import {type withRpcRequestSchema} from "../utils/withRpcRequestSchema";
 
 export const RpcRequestSchema = schema(z => z.object({
-    service: z.string(),
-    data:    z.any().nullish(),
+    service: z.string,
+    data:    z.any$,
 }));
 export type RpcRequestSchema<TDataSchema extends PicoSchema> = ReturnType<withRpcRequestSchema<TDataSchema>>;
 export namespace RpcRequestSchema {

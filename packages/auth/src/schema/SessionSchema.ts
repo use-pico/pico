@@ -1,19 +1,14 @@
 import {
-    nonEmpty,
     type PicoSchema,
-    withArray,
-    withNullish,
-    withNumber,
-    withObject,
-    withString
+    schema
 } from "@use-pico/schema";
 
-export const SessionSchema = withObject({
-    id:     withNumber(),
-    name:   withString([nonEmpty("Non-empty")]),
-    site:   withNullish(withString()),
-    tokens: withArray(withString([nonEmpty("Non-empty")])),
-});
+export const SessionSchema = schema(z => z.object({
+    id:     z.string,
+    name:   z.nonEmptyString,
+    site:   z.string$,
+    tokens: z.array(z.nonEmptyString),
+}));
 export type SessionSchema = typeof SessionSchema;
 export namespace SessionSchema {
     export type Type = PicoSchema.Output<SessionSchema>;

@@ -8,14 +8,14 @@ import {
 export const JobFilterSchema = merge([
     FilterSchema,
     schema(z => z.object({
-        status:    z.number().nullish(),
-        statusIn:  z.array(z.number()).nullish(),
-        service:   z.string().nullish(),
-        serviceIn: z.array(z.string()).nullish(),
-        reference: z.string().nullish(),
-        commit:    z.bool().nullish(),
-        userId:    z.string().nullish(),
-        user:      z.bool().nullish(),
+        status:    z.number$,
+        statusIn:  z.array(z.number).nullish(),
+        service:   z.string$,
+        serviceIn: z.array(z.string).nullish(),
+        reference: z.string$,
+        commit:    z.bool$,
+        userId:    z.string$,
+        user:      z.bool$,
     })),
 ]);
 export type JobFilterSchema = typeof JobFilterSchema;

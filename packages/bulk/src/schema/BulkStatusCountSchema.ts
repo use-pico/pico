@@ -1,16 +1,15 @@
 import {
     type PicoSchema,
-    withNumber,
-    withObject
+    schema
 } from "@use-pico/schema";
 
-export const BulkStatusCountSchema = withObject({
-    new:     withNumber(),
-    pending: withNumber(),
-    success: withNumber(),
-    error:   withNumber(),
-    settled: withNumber(),
-});
+export const BulkStatusCountSchema = schema(z => z.object({
+    new:     z.number,
+    pending: z.number,
+    success: z.number,
+    error:   z.number,
+    settled: z.number,
+}));
 export type BulkStatusCountSchema = typeof BulkStatusCountSchema;
 export namespace BulkStatusCountSchema {
     export type Type = PicoSchema.Output<BulkStatusCountSchema>;

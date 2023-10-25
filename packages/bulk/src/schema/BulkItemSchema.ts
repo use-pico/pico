@@ -1,26 +1,21 @@
 import {
-    nonEmpty,
     type PicoSchema,
-    withAny,
-    withNullish,
-    withNumber,
-    withObject,
-    withString
+    schema
 }                   from "@use-pico/schema";
 import {BulkSchema} from "./BulkSchema";
 
-export const BulkItemSchema = withObject({
-    id:       withString([nonEmpty("Non-empty")]),
-    bulkId:   withString([nonEmpty("Non-empty")]),
+export const BulkItemSchema = schema(z => z.object({
+    id:       z.nonEmptyString,
+    bulkId:   z.nonEmptyString,
     bulk:     BulkSchema,
-    service:  withString([nonEmpty("Non-empty")]),
-    status:   withNumber(),
-    values:   withNullish(withAny()),
-    request:  withNullish(withAny()),
-    response: withNullish(withAny()),
-    created:  withString([nonEmpty("Non-empty")]),
-    userId:   withString([nonEmpty("Non-empty")]),
-});
+    service:  z.nonEmptyString,
+    status:   z.number,
+    values:   z.any$,
+    request:  z.any$,
+    response: z.any$,
+    created:  z.nonEmptyString,
+    userId:   z.nonEmptyString,
+}));
 export type BulkItemSchema = typeof BulkItemSchema;
 export namespace BulkItemSchema {
     export type Type = PicoSchema.Output<BulkItemSchema>;

@@ -4,13 +4,13 @@ import {
 } from "@use-pico/schema";
 
 export const FileShapeSchema = schema(z => z.object({
-    mime:   z.string().nonEmpty(),
-    name:   z.string().nonEmpty(),
-    native: z.string().nonEmpty(),
-    path:   z.string().nonEmpty(),
-    size:   z.number(),
-    ttl:    z.number(),
-    userId: z.string().nullish(),
+    mime:   z.nonEmptyString,
+    name:   z.nonEmptyString,
+    native: z.nonEmptyString,
+    path:   z.nonEmptyString,
+    size:   z.number,
+    ttl:    z.number,
+    userId: z.string$,
 }));
 export type FileShapeSchema = typeof FileShapeSchema;
 export namespace FileShapeSchema {

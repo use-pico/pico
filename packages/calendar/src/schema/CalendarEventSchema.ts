@@ -8,7 +8,7 @@ import {
 export const CalendarEventSchema = merge([
     WithIdentitySchema,
     schema(z => z.object({
-        date: z.string(),
+        date: z.string,
     })),
 ]);
 export type CalendarEventSchema = typeof CalendarEventSchema;

@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
-		"local-build": "turbo run init --force --no-daemon && turbo run local-build --force --no-daemon",
+		"local-build": "turbo run init --no-daemon && turbo run local-build --no-daemon",
 		"build:force": "turbo run init --force --no-daemon && turbo run build --force --no-daemon",
 		"lint": "turbo run lint --no-daemon",
 		"test": "vitest",

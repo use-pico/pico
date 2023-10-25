@@ -1,14 +1,12 @@
 import {
-    nonEmpty,
     type PicoSchema,
-    withObject,
-    withString
+    schema
 } from "@use-pico/schema";
 
-export const BulkBatchItemSchema = withObject({
-    service: withString([nonEmpty("Non-empty")]),
-    bulkId:  withString([nonEmpty("Non-empty")]),
-});
+export const BulkBatchItemSchema = schema(z => z.object({
+    service: z.nonEmptyString,
+    bulkId:  z.nonEmptyString,
+}));
 export type BulkBatchItemSchema = typeof BulkBatchItemSchema;
 export namespace BulkBatchItemSchema {
     export type Type = PicoSchema.Output<BulkBatchItemSchema>;

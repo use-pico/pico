@@ -4,8 +4,8 @@ import {
 } from "@use-pico/schema";
 
 export const CursorSchema = schema((z, p) => z.object({
-    page: z.number([p.minValue(0, "Page must be greater than zero")]),
-    size: z.number([p.minValue(1, "Page size must be greater than one to get any data")]),
+    page: z._number([p.minValue(0, "Page must be greater than zero")]),
+    size: z._number([p.minValue(1, "Page size must be greater than one to get any data")]),
 }));
 export type CursorSchema = typeof CursorSchema;
 export namespace CursorSchema {

@@ -466,10 +466,11 @@ export const Form = <
     const factoryProps: Form.Input.FactoryProps<TValuesSchema> = {
         form,
     };
-    const render = useMemo<any>(() => ({
+    // @ts-ignore
+    const render = useMemo<any>((() => ({
         ...(isCallable(inputs) ? inputs(factoryProps) : inputs),
         ...(isCallable(inputsOverride) ? inputsOverride(factoryProps) : inputsOverride),
-    }), [form]);
+    })), [form]);
 
     const Input: Form.RenderProps<TValuesSchema>["Input"] = useMemo(() => (
         {
