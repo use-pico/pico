@@ -2,12 +2,14 @@ import {
     describe,
     expect,
     test
-}                   from "vitest";
-import {maxLength}  from "../src/pipe/maxLength";
-import {minLength}  from "../src/pipe/minLength";
-import {nonEmpty}   from "../src/pipe/nonEmpty";
-import {parse}      from "../src/schema/parse";
-import {withString} from "../src/schema/string/withString";
+} from "vitest";
+import {
+    maxLength,
+    minLength,
+    nonEmpty,
+    parse,
+    withString
+} from "../src";
 
 describe("withString", () => {
     test("should pass only strings", () => {
@@ -18,6 +20,24 @@ describe("withString", () => {
         expect(() => parse(schema, 123n)).toThrowError();
         expect(() => parse(schema, null)).toThrowError();
         expect(() => parse(schema, {})).toThrowError();
+    });
+
+    test("with nullish", () => {
+        const schema = withString([nonEmpty()]).nullish();
+        const input = "good";
+        expect(parse(schema, input)).toBe(input);
+        expect(parse(schema, undefined)).toBeUndefined();
+        expect(parse(schema, null)).toBeNull();
+        expect(() => parse(schema, "")).toThrowError();
+    });
+
+    test("with optional", () => {
+        const schema = withString([nonEmpty()]).optional();
+        const input = "good";
+        expect(parse(schema, input)).toBe(input);
+        expect(parse(schema, undefined)).toBeUndefined();
+        expect(() => parse(schema, "")).toThrowError();
+        expect(() => parse(schema, null)).toThrowError();
     });
 
     test("should throw custom error", () => {

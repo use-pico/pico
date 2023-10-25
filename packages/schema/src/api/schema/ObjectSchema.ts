@@ -1,5 +1,7 @@
-import {type IsPartial}  from "../IsPartial";
-import {type PicoSchema} from "../PicoSchema";
+import {type IsPartial}      from "../IsPartial";
+import {type PicoSchema}     from "../PicoSchema";
+import {type NullishSchema}  from "./NullishSchema";
+import {type OptionalSchema} from "./OptionalSchema";
 
 export interface ObjectSchema<
     TShape extends ObjectSchema.Shape,
@@ -10,6 +12,10 @@ export interface ObjectSchema<
 > {
     schema: "object";
     shape: TShape;
+
+    nullish(): NullishSchema<ObjectSchema<TShape, TOutput>>;
+
+    optional(): OptionalSchema<ObjectSchema<TShape, TOutput>>;
 }
 
 export namespace ObjectSchema {

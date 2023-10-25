@@ -3,7 +3,7 @@ import {type Issue}        from "../../api/Issue";
 import {type PicoSchema}   from "../../api/PicoSchema";
 import {type Pipe}         from "../../api/Pipe";
 import {type RecordSchema} from "../../api/schema/RecordSchema";
-import {StringSchema}      from "../../api/schema/StringSchema";
+import {type StringSchema} from "../../api/schema/StringSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";

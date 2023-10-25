@@ -6,6 +6,8 @@ import {type ObjectSchema} from "../../api/schema/ObjectSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withNullish}       from "../nullish/withNullish";
+import {withOptional}      from "../optional/withOptional";
 import {withSchema}        from "../withSchema";
 
 export function withObject<
@@ -90,6 +92,12 @@ export function withObject<
             }
 
             return issues ? {issues} : pipeOf(output as ObjectSchema.Output<TShape>, pipe, info, "object");
+        },
+        nullish() {
+            return withNullish(withObject(shape, error, pipe));
+        },
+        optional() {
+            return withOptional(withObject(shape, error, pipe));
         },
     });
 }

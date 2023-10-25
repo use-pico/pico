@@ -4,6 +4,8 @@ import {type StringSchema} from "../../api/schema/StringSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withNullish}       from "../nullish/withNullish";
+import {withOptional}      from "../optional/withOptional";
 import {withSchema}        from "../withSchema";
 
 export function withString(pipe?: Pipe<string>): StringSchema;
@@ -34,6 +36,12 @@ export function withString(
                 info,
                 "string"
             );
+        },
+        nullish() {
+            return withNullish(withString(error, pipe));
+        },
+        optional() {
+            return withOptional(withString(error, pipe));
         },
     });
 }

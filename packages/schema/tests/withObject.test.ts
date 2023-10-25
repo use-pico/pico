@@ -2,15 +2,17 @@ import {
     describe,
     expect,
     test
-}                        from "vitest";
-import {type PicoSchema} from "../src/api/PicoSchema";
-import {toCustom}        from "../src/pipe/toCustom";
-import {withNumber}      from "../src/schema/number/withNumber";
-import {withObject}      from "../src/schema/object/withObject";
-import {withOptional}    from "../src/schema/optional/withOptional";
-import {parse}           from "../src/schema/parse";
-import {ParseError}      from "../src/schema/ParseError";
-import {withString}      from "../src/schema/string/withString";
+} from "vitest";
+import {
+    parse,
+    ParseError,
+    type PicoSchema,
+    toCustom,
+    withNumber,
+    withObject,
+    withPartial,
+    withString
+} from "../src";
 
 describe("withObject", () => {
     test("should pass only objects", () => {
@@ -37,7 +39,7 @@ describe("withObject", () => {
     });
 
     test("should exclude non-existing keys", () => {
-        const schema = withObject({key: withOptional(withString())});
+        const schema = withObject({key: withString().optional()});
         const output1 = parse(schema, {key: undefined});
         expect("key" in output1).toBe(true);
         const output2 = parse(schema, {});
@@ -48,6 +50,16 @@ describe("withObject", () => {
         const error = "Value is not an object!";
         const schema = withObject({}, error);
         expect(() => parse(schema, 123)).toThrowError(error);
+    });
+
+    test("with partial", () => {
+        const schema = withPartial(withObject({
+            foo: withString(),
+            bar: withString(),
+        }));
+
+        expect(parse(schema, {})).toEqual({});
+        expect(parse(schema, {foo: "foo"})).toEqual({foo: "foo"});
     });
 
     test("should throw every issue", () => {
