@@ -5,15 +5,15 @@ export interface PicoSchema<TInput = any, TOutput = TInput> {
 
     _parseAsync(input: unknown, info?: PicoSchema.Parse.Info): Promise<PicoSchema.Parse.Result<TOutput>>;
 
-    types?: {
+    types: {
         input: TInput;
         output: TOutput;
     };
 }
 
 export namespace PicoSchema {
-    export type Input<TSchema extends PicoSchema> = NonNullable<TSchema["types"]>["input"];
-    export type Output<TSchema extends PicoSchema> = NonNullable<TSchema["types"]>["output"];
+    export type Input<TSchema extends PicoSchema> = TSchema["types"]["input"];
+    export type Output<TSchema extends PicoSchema> = TSchema["types"]["output"];
 
     export namespace Parse {
         export type ResultSuccess<TOutput> = {

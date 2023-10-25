@@ -6,6 +6,7 @@ import {type ArraySchema}  from "../../api/schema/ArraySchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withSchema}        from "../withSchema";
 
 export function withArray<
     TItem extends PicoSchema,
@@ -16,11 +17,9 @@ export function withArray<
 ): ArraySchema<TItem> {
     const [error, pipe] = argsOf(arg2, arg3);
 
-    return {
+    return withSchema({
         schema: "array",
-        array:  {
-            item,
-        },
+        item,
         _parse(input, info) {
             if (!Array.isArray(input)) {
                 return issuesOf(
@@ -71,8 +70,5 @@ export function withArray<
                 ? {issues}
                 : pipeOf(output as PicoSchema.Output<TItem>[], pipe, info, "array");
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

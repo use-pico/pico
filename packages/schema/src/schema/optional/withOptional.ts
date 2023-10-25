@@ -1,5 +1,6 @@
 import {type PicoSchema}     from "../../api/PicoSchema";
 import {type OptionalSchema} from "../../api/schema/OptionalSchema";
+import {withSchema}          from "../withSchema";
 
 export function withOptional<
     TWrapped extends PicoSchema,
@@ -8,7 +9,7 @@ export function withOptional<
     wrapped: TWrapped,
     default$?: TDefault | (() => TDefault),
 ): OptionalSchema<TWrapped, TDefault> {
-    return {
+    return withSchema<OptionalSchema<TWrapped, TDefault>>({
         schema:  "optional",
         partial: true,
         wrapped,
@@ -26,8 +27,5 @@ export function withOptional<
 
             return wrapped._parse(value, info);
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

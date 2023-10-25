@@ -1,11 +1,12 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type NullSchema}   from "../../api/schema/NullSchema";
 import {issuesOf}          from "../../utils/issuesOf";
+import {withSchema}        from "../withSchema";
 
 export function withNull(
     error?: ErrorMessage,
 ): NullSchema {
-    return {
+    return withSchema({
         schema: "null",
         _parse(input, info) {
             if (input !== null) {
@@ -20,8 +21,5 @@ export function withNull(
 
             return {output: input};
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

@@ -1,6 +1,7 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type EnumSchema}   from "../../api/schema/EnumSchema";
 import {issuesOf}          from "../../utils/issuesOf";
+import {withSchema}        from "../withSchema";
 
 export function withEnum<
     TOption extends string,
@@ -9,7 +10,7 @@ export function withEnum<
     value: TEnum,
     error?: ErrorMessage,
 ): EnumSchema<TEnum> {
-    return {
+    return withSchema({
         schema: "enum",
         enum:   value,
         _parse(input, info) {
@@ -25,8 +26,5 @@ export function withEnum<
 
             return {output: input as TEnum[number]};
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

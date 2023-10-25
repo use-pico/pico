@@ -8,6 +8,7 @@ import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
 import {withString}        from "../string/withString";
+import {withSchema}        from "../withSchema";
 
 const OMIT = ["__proto__", "prototype", "constructor"];
 
@@ -87,7 +88,7 @@ export function withRecord<
         Pipe<RecordSchema.Output<TKey, TValue>>
     >(arg1, arg2, arg3, arg4);
 
-    return {
+    return withSchema({
         schema: "record",
         record: {
             key,
@@ -177,8 +178,5 @@ export function withRecord<
                     "record"
                 );
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

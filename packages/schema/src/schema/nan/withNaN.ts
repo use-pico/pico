@@ -1,9 +1,10 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type NanSchema}    from "../../api/schema/NanSchema";
 import {issuesOf}          from "../../utils/issuesOf";
+import {withSchema}        from "../withSchema";
 
 export function withNaN(error?: ErrorMessage): NanSchema {
-    return {
+    return withSchema({
         schema: "nan",
         _parse(input, info) {
             if (!Number.isNaN(input)) {
@@ -18,8 +19,5 @@ export function withNaN(error?: ErrorMessage): NanSchema {
 
             return {output: input as number};
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        }
-    };
+    });
 }

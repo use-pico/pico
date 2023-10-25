@@ -2,7 +2,7 @@ import {type PicoSchema}   from "../PicoSchema";
 import {type Resolve}      from "../Resolve";
 import {type EnumSchema}   from "./EnumSchema";
 import {type StringSchema} from "./StringSchema";
-import {UnionSchema}       from "./UnionSchema";
+import {type UnionSchema}  from "./UnionSchema";
 
 export interface RecordSchema<
     TKey extends RecordSchema.Key,

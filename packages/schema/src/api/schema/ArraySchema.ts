@@ -5,9 +5,7 @@ export interface ArraySchema<
     TOutput = PicoSchema.Output<TItem>[]
 > extends PicoSchema<PicoSchema.Input<TItem>[], TOutput> {
     schema: "array";
-    array: {
-        item: TItem;
-    };
+    item: TItem;
 }
 
 export namespace ArraySchema {

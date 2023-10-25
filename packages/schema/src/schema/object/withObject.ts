@@ -6,6 +6,7 @@ import {type ObjectSchema} from "../../api/schema/ObjectSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withSchema}        from "../withSchema";
 
 export function withObject<
     TShape extends ObjectSchema.Shape,
@@ -35,7 +36,7 @@ export function withObject<
 
     let cache: [string, PicoSchema<any>][];
 
-    return {
+    return withSchema({
         schema: "object",
         shape,
         _parse(input, info) {
@@ -90,8 +91,5 @@ export function withObject<
 
             return issues ? {issues} : pipeOf(output as ObjectSchema.Output<TShape>, pipe, info, "object");
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

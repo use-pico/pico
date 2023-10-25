@@ -3,6 +3,7 @@ import {type Issue}        from "../../api/Issue";
 import {type PicoSchema}   from "../../api/PicoSchema";
 import {type UnionSchema}  from "../../api/schema/UnionSchema";
 import {issuesOf}          from "../../utils/issuesOf";
+import {withSchema}        from "../withSchema";
 
 export function withUnion<
     TOptions extends UnionSchema.Options,
@@ -10,7 +11,7 @@ export function withUnion<
     union: TOptions,
     error?: ErrorMessage,
 ): UnionSchema<TOptions> {
-    return {
+    return withSchema({
         schema: "union",
         union,
         _parse(input, info) {
@@ -47,8 +48,5 @@ export function withUnion<
                     issues
                 );
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }

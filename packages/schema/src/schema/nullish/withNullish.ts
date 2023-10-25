@@ -1,5 +1,6 @@
 import {type PicoSchema}    from "../../api/PicoSchema";
 import {type NullishSchema} from "../../api/schema/NullishSchema";
+import {withSchema}         from "../withSchema";
 
 export function withNullish<
     TWrapped extends PicoSchema,
@@ -8,7 +9,7 @@ export function withNullish<
     wrapped: TWrapped,
     default$?: TDefault | (() => TDefault),
 ): NullishSchema<TWrapped, TDefault> {
-    return {
+    return withSchema<NullishSchema<TWrapped, TDefault>>({
         schema:  "nullish",
         partial: true,
         wrapped,
@@ -31,8 +32,5 @@ export function withNullish<
 
             return wrapped._parse(value, info);
         },
-        async _parseAsync(input, info) {
-            return this._parse(input, info);
-        },
-    };
+    });
 }
