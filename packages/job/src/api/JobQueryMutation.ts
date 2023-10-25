@@ -1,6 +1,6 @@
 import {
     type WithMutation as CoolWithMutation,
-    WithQuery as CoolWithQuery
+    type WithQuery as CoolWithQuery
 }                                                    from "@use-pico/query";
 import {type WithFindByQuery as CoolWithFindByQuery} from "@use-pico/rpc";
 import {
@@ -9,13 +9,13 @@ import {
     type ResponseSchema,
     type WithIdentitySchema
 }                                                    from "@use-pico/schema";
-import {MutationSchema}                              from "@use-pico/source";
+import {type MutationSchema}                         from "@use-pico/source";
 import {type JobFilterSchema}                        from "../schema/JobFilterSchema";
 import {type JobMutationSchema}                      from "../schema/JobMutationSchema";
 import {type JobOrderBySchema}                       from "../schema/JobOrderBySchema";
-import {JobQuerySchema}                              from "../schema/JobQuerySchema";
+import {type JobQuerySchema}                         from "../schema/JobQuerySchema";
 import {type JobSchema}                              from "../schema/JobSchema";
-import {JobShapeSchema}                              from "../schema/JobShapeSchema";
+import {type JobShapeSchema}                         from "../schema/JobShapeSchema";
 
 /**
  * Here are all queries/mutations a job needs to work.
@@ -58,9 +58,9 @@ export namespace JobQueryMutation {
     export interface WithMutation<
         TRequestSchema extends RequestSchema,
     > {
-        asyncMutation: WithAsyncMutation<TRequestSchema>;
-        interruptMutation: WithInterruptMutation;
-        jobMutation: WithJobMutation;
+        withAsyncMutation: WithAsyncMutation<TRequestSchema>;
+        withInterruptMutation: WithInterruptMutation;
+        withJobMutation: WithJobMutation;
     }
 
     export interface Mutation<
@@ -72,6 +72,6 @@ export namespace JobQueryMutation {
     }
 
     export interface Query {
-        findByQuery: WithFindByQuery;
+        withFindByQuery: WithFindByQuery;
     }
 }

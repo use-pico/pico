@@ -55,13 +55,13 @@ export const useJobManager = <
     }: useJobManager.Props<TRequestSchema>
 ): IJobManager<TRequestSchema> => {
     const [job, setJob] = useState<JobSchema.Type | null | undefined>();
-    const asyncMutation = mutation.asyncMutation.useMutation();
-    const interruptMutation = mutation.interruptMutation.useMutation();
-    const jobMutation = mutation.jobMutation.useMutation();
-    const watchInvalidator = query.findByQuery.useInvalidator();
-    const updateWith = query.findByQuery.useUpdateWith();
+    const asyncMutation = mutation.withAsyncMutation.useMutation();
+    const interruptMutation = mutation.withInterruptMutation.useMutation();
+    const jobMutation = mutation.withJobMutation.useMutation();
+    const watchInvalidator = query.withFindByQuery.useInvalidator();
+    const updateWith = query.withFindByQuery.useUpdateWith();
     const errorNotification = useErrorNotification();
-    const watch = query.findByQuery.useQueryEx({
+    const watch = query.withFindByQuery.useQueryEx({
         request: {
             where: {
                 service,
