@@ -3,14 +3,14 @@ import {
     expect,
     test
 }                        from "vitest";
-import {type PicoSchema} from "../../api/PicoSchema";
-import {toCustom}        from "../../pipe/toCustom";
-import {withNumber}      from "../number/withNumber";
-import {withOptional}    from "../optional/withOptional";
-import {parse}           from "../parse";
-import {ParseError}      from "../ParseError";
-import {withString}      from "../string/withString";
-import {withObject}      from "./withObject";
+import {type PicoSchema} from "../src/api/PicoSchema";
+import {toCustom}        from "../src/pipe/toCustom";
+import {withNumber}      from "../src/schema/number/withNumber";
+import {withObject}      from "../src/schema/object/withObject";
+import {withOptional}    from "../src/schema/optional/withOptional";
+import {parse}           from "../src/schema/parse";
+import {ParseError}      from "../src/schema/ParseError";
+import {withString}      from "../src/schema/string/withString";
 
 describe("withObject", () => {
     test("should pass only objects", () => {

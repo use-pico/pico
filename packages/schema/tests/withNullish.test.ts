@@ -3,9 +3,9 @@ import {
     expect,
     test
 }                    from "vitest";
-import {parse}       from "../parse";
-import {withString}  from "../string/withString";
-import {withNullish} from "./withNullish";
+import {withNullish} from "../src/schema/nullish/withNullish";
+import {parse}       from "../src/schema/parse";
+import {withString}  from "../src/schema/string/withString";
 
 describe("nullish", () => {
     test("should pass also null and undefined", () => {

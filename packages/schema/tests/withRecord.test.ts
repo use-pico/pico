@@ -3,17 +3,17 @@ import {
     expect,
     test
 }                   from "vitest";
-import {maxLength}  from "../../pipe/maxLength";
-import {minLength}  from "../../pipe/minLength";
-import {toCustom}   from "../../pipe/toCustom";
-import {withAny}    from "../any/withAny";
-import {withNumber} from "../number/withNumber";
-import {withObject} from "../object/withObject";
-import {parse}      from "../parse";
-import {ParseError} from "../ParseError";
-import {withString} from "../string/withString";
-import {withUnion}  from "../union/withUnion";
-import {withRecord} from "./withRecord";
+import {maxLength}  from "../src/pipe/maxLength";
+import {minLength}  from "../src/pipe/minLength";
+import {toCustom}   from "../src/pipe/toCustom";
+import {withAny}    from "../src/schema/any/withAny";
+import {withNumber} from "../src/schema/number/withNumber";
+import {withObject} from "../src/schema/object/withObject";
+import {parse}      from "../src/schema/parse";
+import {ParseError} from "../src/schema/ParseError";
+import {withRecord} from "../src/schema/record/withRecord";
+import {withString} from "../src/schema/string/withString";
+import {withUnion}  from "../src/schema/union/withUnion";
 
 describe("record", () => {
     test("should pass only objects", () => {

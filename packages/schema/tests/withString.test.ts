@@ -3,11 +3,11 @@ import {
     expect,
     test
 }                   from "vitest";
-import {maxLength}  from "../../pipe/maxLength";
-import {minLength}  from "../../pipe/minLength";
-import {nonEmpty}   from "../../pipe/nonEmpty";
-import {parse}      from "../parse";
-import {withString} from "./withString";
+import {maxLength}  from "../src/pipe/maxLength";
+import {minLength}  from "../src/pipe/minLength";
+import {nonEmpty}   from "../src/pipe/nonEmpty";
+import {parse}      from "../src/schema/parse";
+import {withString} from "../src/schema/string/withString";
 
 describe("withString", () => {
     test("should pass only strings", () => {

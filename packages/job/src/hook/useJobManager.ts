@@ -1,29 +1,22 @@
-import {useErrorNotification}           from "@use-pico/hook";
-import {type RequestSchema}             from "@use-pico/schema";
+import {useErrorNotification}  from "@use-pico/hook";
+import {type RequestSchema}    from "@use-pico/schema";
 import {
     useEffect,
     useState
-}                                       from "react";
-import {type IJobManager}               from "../api/IJobManager";
-import {IJobStatus}                     from "../api/IJobStatus";
-import {type IWithJobAsyncMutation}     from "../api/IWithJobAsyncMutation";
-import {type IWithJobCommitMutation}    from "../api/IWithJobCommitMutation";
-import {type IWithJobFindByQuery}       from "../api/IWithJobFindByQuery";
-import {type IWithJobInterruptMutation} from "../api/IWithJobInterruptMutation";
-import {type IWithJobMutation}          from "../api/IWithJobMutation";
-import {type JobFilterSchema}           from "../schema/JobFilterSchema";
-import {type JobSchema}                 from "../schema/JobSchema";
+}                              from "react";
+import {type IJobManager}      from "../api/IJobManager";
+import {IJobStatus}            from "../api/IJobStatus";
+import {type JobQueryMutation} from "../api/JobQueryMutation";
+import {type JobFilterSchema}  from "../schema/JobFilterSchema";
+import {type JobSchema}        from "../schema/JobSchema";
 
 export namespace useJobManager {
     export interface Props<
         TRequestSchema extends RequestSchema,
     > {
         service: string;
-        withAsyncMutation: IWithJobAsyncMutation<TRequestSchema>;
-        withCommitMutation: IWithJobCommitMutation;
-        withJobMutation: IWithJobMutation;
-        withInterruptMutation: IWithJobInterruptMutation;
-        withFindByQuery: IWithJobFindByQuery;
+        mutation: JobQueryMutation.WithMutation<TRequestSchema>;
+        query: JobQueryMutation.Query;
         filter?: JobFilterSchema.Type;
         interval?: number;
 
@@ -50,11 +43,8 @@ export const useJobManager = <
     {
         service,
         filter,
-        withAsyncMutation,
-        withCommitMutation,
-        withInterruptMutation,
-        withJobMutation,
-        withFindByQuery,
+        mutation,
+        query,
         interval = 1000,
         onJob,
         onStart,
@@ -65,14 +55,13 @@ export const useJobManager = <
     }: useJobManager.Props<TRequestSchema>
 ): IJobManager<TRequestSchema> => {
     const [job, setJob] = useState<JobSchema.Type | null | undefined>();
-    const asyncMutation = withAsyncMutation.useMutation();
-    const commitMutation = withCommitMutation.useMutation();
-    const interruptMutation = withInterruptMutation.useMutation();
-    const jobMutation = withJobMutation.useMutation();
-    const watchInvalidator = withFindByQuery.useInvalidator();
-    const updateWith = withFindByQuery.useUpdateWith();
+    const asyncMutation = mutation.asyncMutation.useMutation();
+    const interruptMutation = mutation.interruptMutation.useMutation();
+    const jobMutation = mutation.jobMutation.useMutation();
+    const watchInvalidator = query.findByQuery.useInvalidator();
+    const updateWith = query.findByQuery.useUpdateWith();
     const errorNotification = useErrorNotification();
-    const watch = withFindByQuery.useQueryEx({
+    const watch = query.findByQuery.useQueryEx({
         request: {
             where: {
                 service,
@@ -140,10 +129,11 @@ export const useJobManager = <
         useJob:     () => {
             return job;
         },
-        asyncMutation,
-        commitMutation,
-        interruptMutation,
-        jobMutation,
+        mutation: {
+            asyncMutation,
+            jobMutation,
+            interruptMutation,
+        },
         start:      request => {
             asyncMutation.mutate(request, {
                 onSuccess: job => {
@@ -156,25 +146,6 @@ export const useJobManager = <
                             label: "start",
                         },
                     });
-                },
-            });
-        },
-        commit:     () => {
-            job && setJob({
-                ...job,
-                commit: true,
-            });
-            !job && errorNotification({
-                withTranslation: {
-                    label: "commit.no-job",
-                },
-            });
-            job && commitMutation.mutate({
-                id: job.id,
-            }, {
-                onSuccess: async job => {
-                    updateWith(job);
-                    await watchInvalidator();
                 },
             });
         },

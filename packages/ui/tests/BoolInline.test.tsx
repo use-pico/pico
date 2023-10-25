@@ -5,7 +5,7 @@ import {
     expect,
     test
 }                        from "vitest";
-import {BoolInline}      from "./BoolInline";
+import {BoolInline}      from "../src/inline/BoolInline";
 
 describe("BoolInline", () => {
     test("Render with true", () => {

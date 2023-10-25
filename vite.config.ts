@@ -11,7 +11,7 @@ export default defineConfig({
             "./packages/test.setup.ts",
         ],
         include:     [
-            "packages/**/*.test.ts?(x)"
+            "packages/**/tests/*.test.ts?(x)"
         ]
     },
 });

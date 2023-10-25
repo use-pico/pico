@@ -3,13 +3,13 @@ import {
     expect,
     test
 }                     from "vitest";
-import {withBool}     from "../schema/bool/withBool";
-import {withNullish}  from "../schema/nullish/withNullish";
-import {withNumber}   from "../schema/number/withNumber";
-import {withObject}   from "../schema/object/withObject";
-import {withOptional} from "../schema/optional/withOptional";
-import {withString}   from "../schema/string/withString";
-import {isPartial}    from "./isPartial";
+import {withBool}     from "../src/schema/bool/withBool";
+import {withNullish}  from "../src/schema/nullish/withNullish";
+import {withNumber}   from "../src/schema/number/withNumber";
+import {withObject}   from "../src/schema/object/withObject";
+import {withOptional} from "../src/schema/optional/withOptional";
+import {withString}   from "../src/schema/string/withString";
+import {isPartial}    from "../src/utils/isPartial";
 
 const Schema = withObject({
     foo:      withString(),

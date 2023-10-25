@@ -53,8 +53,5 @@ module.exports = {
         react: {
             version: '18',
         },
-    },
-    ignorePatterns: [
-        '**/*test.ts'
-    ]
+    }
 };

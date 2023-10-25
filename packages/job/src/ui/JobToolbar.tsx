@@ -6,7 +6,6 @@ import {Translation}        from "@use-pico/i18n";
 import {type RequestSchema} from "@use-pico/schema";
 import {
     ActionIcon,
-    CheckIcon,
     Group,
     Tooltip,
     WithIcon
@@ -30,23 +29,9 @@ export const JobToolbar = <
 ) => {
     const job = jobManager.useJob();
     return <Group gap={"xs"}>
-        {jobManager.withCommit() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"commit.tooltip"}/>}>
-            <ActionIcon
-                variant={"subtle"}
-                loading={jobManager.commitMutation.isPending}
-                onClick={() => {
-                    jobManager.commit();
-                }}
-            >
-                <WithIcon
-                    color={"green.5"}
-                    icon={<CheckIcon/>}
-                />
-            </ActionIcon>
-        </Tooltip>}
         {jobManager.isRunning() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"interrupt.tooltip"}/>}>
             <ActionIcon
-                loading={jobManager.interruptMutation.isPending}
+                loading={jobManager.mutation.interruptMutation.isPending}
                 variant={"subtle"}
                 onClick={() => {
                     jobManager.interrupt();
@@ -60,7 +45,7 @@ export const JobToolbar = <
         </Tooltip>}
         {job && jobManager.isSettled() && !jobManager.isFetching() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"delete.tooltip"}/>}>
             <ActionIcon
-                loading={jobManager.jobMutation.isPending}
+                loading={jobManager.mutation.jobMutation.isPending}
                 variant={"subtle"}
                 color={"red.5"}
                 onClick={() => {

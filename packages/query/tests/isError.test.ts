@@ -3,8 +3,8 @@ import {
     expect,
     test
 }                            from "vitest";
-import {ErrorResponseSchema} from "../schema/ErrorResponseSchema";
-import {isError}             from "./isError";
+import {ErrorResponseSchema} from "../src/schema/ErrorResponseSchema";
+import {isError}             from "../src/utils/isError";
 
 describe("isError", () => {
     test("error is true", () => {

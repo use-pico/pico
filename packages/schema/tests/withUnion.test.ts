@@ -3,11 +3,11 @@ import {
     expect,
     test
 }                   from "vitest";
-import {withNull}   from "../null/withNull";
-import {withNumber} from "../number/withNumber";
-import {parse}      from "../parse";
-import {withString} from "../string/withString";
-import {withUnion}  from "./withUnion";
+import {withNull}   from "../src/schema/null/withNull";
+import {withNumber} from "../src/schema/number/withNumber";
+import {parse}      from "../src/schema/parse";
+import {withString} from "../src/schema/string/withString";
+import {withUnion}  from "../src/schema/union/withUnion";
 
 describe("union", () => {
     test("should pass only union values", () => {

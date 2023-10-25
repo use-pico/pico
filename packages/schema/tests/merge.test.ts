@@ -3,12 +3,12 @@ import {
     expect,
     test
 }                   from "vitest";
-import {toCustom}   from "../pipe/toCustom";
-import {withNumber} from "../schema/number/withNumber";
-import {withObject} from "../schema/object/withObject";
-import {parse}      from "../schema/parse";
-import {withString} from "../schema/string/withString";
-import {merge}      from "./merge";
+import {toCustom}   from "../src/pipe/toCustom";
+import {withNumber} from "../src/schema/number/withNumber";
+import {withObject} from "../src/schema/object/withObject";
+import {parse}      from "../src/schema/parse";
+import {withString} from "../src/schema/string/withString";
+import {merge}      from "../src/utils/merge";
 
 export function comparable(value: any): any {
     if (Array.isArray(value)) {

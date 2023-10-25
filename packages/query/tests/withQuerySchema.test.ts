@@ -14,10 +14,10 @@ import {
     expect,
     test
 }                         from "vitest";
-import {FilterSchema}     from "./FilterSchema";
-import {OrderSchema}      from "./OrderSchema";
-import {type QuerySchema} from "./QuerySchema";
-import {withQuerySchema}  from "./withQuerySchema";
+import {FilterSchema}     from "../src/schema/FilterSchema";
+import {OrderSchema}      from "../src/schema/OrderSchema";
+import {type QuerySchema} from "../src/schema/QuerySchema";
+import {withQuerySchema}  from "../src/schema/withQuerySchema";
 
 const FooFilterSchema = merge([
     FilterSchema,

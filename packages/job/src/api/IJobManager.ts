@@ -1,31 +1,18 @@
 import {
-    type WithMutation,
-    type WithQuery
-}                            from "@use-pico/query";
-import {
-    type NullishSchema,
     type PicoSchema,
-    type RequestSchema,
-    type WithIdentitySchema
-}                            from "@use-pico/schema";
-import {type MutationSchema} from "@use-pico/source";
-import {type JobQuerySchema} from "../schema/JobQuerySchema";
-import {type JobSchema}      from "../schema/JobSchema";
-import {JobShapeSchema}      from "../schema/JobShapeSchema";
+    type RequestSchema
+}                              from "@use-pico/schema";
+import {type JobSchema}        from "../schema/JobSchema";
+import {type JobQueryMutation} from "./JobQueryMutation";
 
 export interface IJobManager<
     TRequestSchema extends RequestSchema,
 > {
     service: string;
     useJob: () => JobSchema.Type | undefined | null;
-    asyncMutation: WithMutation.Result<TRequestSchema, JobSchema>;
-    commitMutation: WithMutation.Result<WithIdentitySchema, JobSchema>;
-    interruptMutation: WithMutation.Result<WithIdentitySchema, JobSchema>;
-    jobMutation: WithMutation.Result<MutationSchema<JobShapeSchema, JobQuerySchema>, JobQuerySchema>;
+    mutation: JobQueryMutation.Mutation<TRequestSchema>;
 
     start(request: PicoSchema.Output<TRequestSchema>): void;
-
-    commit(): void;
 
     interrupt(): void;
 
@@ -47,5 +34,5 @@ export interface IJobManager<
 
     withCommit(): boolean;
 
-    watch: WithQuery.Result<NullishSchema<JobSchema>>;
+    watch: JobQueryMutation.WithWatch.Query;
 }

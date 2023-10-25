@@ -3,12 +3,12 @@ import {
     expect,
     test
 }                        from "vitest";
-import {type PicoSchema} from "../../api/PicoSchema";
-import {withNullish}     from "../nullish/withNullish";
-import {withObject}      from "../object/withObject";
-import {parse}           from "../parse";
-import {withString}      from "../string/withString";
-import {withPartial}     from "./withPartial";
+import {type PicoSchema} from "../src/api/PicoSchema";
+import {withNullish}     from "../src/schema/nullish/withNullish";
+import {withObject}      from "../src/schema/object/withObject";
+import {parse}           from "../src/schema/parse";
+import {withPartial}     from "../src/schema/partial/withPartial";
+import {withString}      from "../src/schema/string/withString";
 
 const JustSchema = withObject({
     required:                withString(),
