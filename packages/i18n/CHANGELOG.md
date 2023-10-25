@@ -1,5 +1,11 @@
 # @use-pico/i18n
 
+## 1.0.7
+
+### Patch Changes
+
+- 905b384: Added fromUtc helper method
+
 ## 1.0.6
 
 ### Patch Changes
