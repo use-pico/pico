@@ -6,6 +6,8 @@ import {type ArraySchema}  from "../../api/schema/ArraySchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withNullish}       from "../nullish/withNullish";
+import {withOptional}      from "../optional/withOptional";
 import {withSchema}        from "../withSchema";
 
 export function withArray<
@@ -69,6 +71,12 @@ export function withArray<
             return issues
                 ? {issues}
                 : pipeOf(output as PicoSchema.Output<TItem>[], pipe, info, "array");
+        },
+        nullish() {
+            return withNullish(withArray(item, error, pipe));
+        },
+        optional() {
+            return withOptional(withArray(item, error, pipe));
         },
     });
 }

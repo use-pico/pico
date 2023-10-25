@@ -7,19 +7,15 @@ import {
     parse,
     ParseError,
     type PicoSchema,
-    toCustom,
-    withNumber,
-    withObject,
-    withPartial,
-    withString
+    schema
 } from "../src";
 
 describe("withObject", () => {
     test("should pass only objects", () => {
-        const schema1 = withObject({
-            key1: withString(),
-            key2: withNumber()
-        });
+        const schema1 = schema(z => z.object({
+            key1: z.string(),
+            key2: z.number(),
+        }));
         const input1: PicoSchema.Output<typeof schema1> = {
             key1: "test",
             key2: 123
@@ -39,41 +35,45 @@ describe("withObject", () => {
     });
 
     test("should exclude non-existing keys", () => {
-        const schema = withObject({key: withString().optional()});
-        const output1 = parse(schema, {key: undefined});
+        const schema$ = schema(z => z.object({
+            key: z.string().optional(),
+        }));
+        const output1 = parse(schema$, {key: undefined});
         expect("key" in output1).toBe(true);
-        const output2 = parse(schema, {});
+        const output2 = parse(schema$, {});
         expect("key" in output2).toBe(false);
     });
 
     test("should throw custom error", () => {
         const error = "Value is not an object!";
-        const schema = withObject({}, error);
-        expect(() => parse(schema, 123)).toThrowError(error);
+        const schema$ = schema(z => z.object({}, error));
+        expect(() => parse(schema$, 123)).toThrowError(error);
     });
 
     test("with partial", () => {
-        const schema = withPartial(withObject({
-            foo: withString(),
-            bar: withString(),
-        }));
+        const schema$ = schema(z => z.partial(
+            z.object({
+                foo: z.string(),
+                bar: z.string(),
+            }),
+        ));
 
-        expect(parse(schema, {})).toEqual({});
-        expect(parse(schema, {foo: "foo"})).toEqual({foo: "foo"});
+        expect(parse(schema$, {})).toEqual({});
+        expect(parse(schema$, {foo: "foo"})).toEqual({foo: "foo"});
     });
 
     test("should throw every issue", () => {
-        const schema = withObject({
-            key1: withString(),
-            key2: withString(),
-        });
+        const schema$ = schema(z => z.object({
+            key1: z.string(),
+            key2: z.string(),
+        }));
         const input = {
             key1: 1,
             key2: 2,
         };
-        expect(() => parse(schema, input)).toThrowError();
+        expect(() => parse(schema$, input)).toThrowError();
         try {
-            parse(schema, input);
+            parse(schema$, input);
         } catch (error) {
             expect((error as ParseError).issues.length).toBe(2);
         }
@@ -81,10 +81,10 @@ describe("withObject", () => {
 
     test("should throw only first issue", () => {
         const info = {abortEarly: true};
-        const schema = withObject({
-            key1: withString(),
-            key2: withString()
-        });
+        const schema$ = schema(z => z.object({
+            key1: z.string(),
+            key2: z.string(),
+        }));
 
         const input1 = {
             key1: 1,
@@ -92,16 +92,18 @@ describe("withObject", () => {
             key3: 3,
             key4: "4"
         };
-        expect(() => parse(schema, input1, info)).toThrowError();
+        expect(() => parse(schema$, input1, info)).toThrowError();
         try {
-            parse(schema, input1, info);
+            parse(schema$, input1, info);
         } catch (error) {
             expect((error as ParseError).issues.length).toBe(1);
         }
     });
 
     test("should return issue path", () => {
-        const schema1 = withObject({key: withNumber()});
+        const schema1 = schema(z => z.object({
+            key: z.number(),
+        }));
         const input1 = {key: "123"};
         const result1 = schema1._parse(input1);
         expect(result1.issues?.[0].path).toEqual([
@@ -113,7 +115,11 @@ describe("withObject", () => {
             },
         ]);
 
-        const schema2 = withObject({nested: withObject({key: withString()})});
+        const schema2 = schema(z => z.object({
+            nested: z.object({
+                key: z.string(),
+            })
+        }));
         const input2 = {nested: {key: 123}};
         const result2 = schema2._parse(input2);
         expect(result2.issues?.[0].path).toEqual([
@@ -143,19 +149,21 @@ describe("withObject", () => {
         });
 
         const output1 = parse(
-            withObject({
-                key1: withString(),
-                key2: withNumber()
-            }, [toCustom(transformInput)]),
+            schema((z, p) => z.object({
+                key1: z.string(),
+                key2: z.number()
+            }, [
+                p.toCustom(transformInput),
+            ])),
             input
         );
         const output2 = parse(
-            withObject({
-                key1: withString(),
-                key2: withNumber()
+            schema((z, p) => z.object({
+                key1: z.string(),
+                key2: z.number()
             }, "Error", [
-                toCustom(transformInput),
-            ]),
+                p.toCustom(transformInput),
+            ])),
             input
         );
         expect(output1).toEqual(transformInput());

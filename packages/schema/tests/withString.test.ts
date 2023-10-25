@@ -4,48 +4,46 @@ import {
     test
 } from "vitest";
 import {
-    maxLength,
-    minLength,
     parse,
-    withString
+    schema
 } from "../src";
 
 describe("withString", () => {
     test("should pass only strings", () => {
-        const schema = withString();
+        const schema$ = schema(z => z.string());
         const input = "";
-        const output = parse(schema, input);
+        const output = parse(schema$, input);
         expect(output).toBe(input);
-        expect(() => parse(schema, 123n)).toThrowError();
-        expect(() => parse(schema, null)).toThrowError();
-        expect(() => parse(schema, {})).toThrowError();
+        expect(() => parse(schema$, 123n)).toThrowError();
+        expect(() => parse(schema$, null)).toThrowError();
+        expect(() => parse(schema$, {})).toThrowError();
     });
 
     test("with nullish", () => {
-        const schema = withString().nonEmpty().nullish();
+        const schema$ = schema(z => z.string().nonEmpty().nullish());
         const input = "good";
-        expect(parse(schema, input)).toBe(input);
-        expect(parse(schema, undefined)).toBeUndefined();
-        expect(parse(schema, null)).toBeNull();
-        expect(() => parse(schema, "")).toThrowError();
+        expect(parse(schema$, input)).toBe(input);
+        expect(parse(schema$, undefined)).toBeUndefined();
+        expect(parse(schema$, null)).toBeNull();
+        expect(() => parse(schema$, "")).toThrowError();
     });
 
     test("with optional", () => {
-        const schema = withString().nonEmpty().optional();
+        const schema$ = schema(z => z.string().nonEmpty().optional());
         const input = "good";
-        expect(parse(schema, input)).toBe(input);
-        expect(parse(schema, undefined)).toBeUndefined();
-        expect(() => parse(schema, "")).toThrowError();
-        expect(() => parse(schema, null)).toThrowError();
+        expect(parse(schema$, input)).toBe(input);
+        expect(parse(schema$, undefined)).toBeUndefined();
+        expect(() => parse(schema$, "")).toThrowError();
+        expect(() => parse(schema$, null)).toThrowError();
     });
 
     test("should throw custom error", () => {
         const error = "Value is not a string!";
-        expect(() => parse(withString(error), 123)).toThrowError(error);
+        expect(() => parse(schema(z => z.string(error)), 123)).toThrowError(error);
     });
 
     test("should execute pipe", () => {
-        const schema1 = withString([minLength(1), maxLength(3)]);
+        const schema1 = schema((z, p) => z.string([p.minLength(1), p.maxLength(3)]));
         const input1 = "12";
         const output1 = parse(schema1, input1);
         expect(output1).toBe(input1);
@@ -54,7 +52,7 @@ describe("withString", () => {
     });
 
     test("non empty string", () => {
-        const schema1 = withString().nonEmpty();
+        const schema1 = schema(z => z.string().nonEmpty());
         const input1 = "12";
         const output1 = parse(schema1, input1);
         expect(output1).toBe(input1);

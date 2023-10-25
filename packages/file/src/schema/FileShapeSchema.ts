@@ -1,21 +1,17 @@
 import {
-    nonEmpty,
     type PicoSchema,
-    withNullish,
-    withNumber,
-    withObject,
-    withString
+    schema
 } from "@use-pico/schema";
 
-export const FileShapeSchema = withObject({
-    name:   withString([nonEmpty("Non-empty")]),
-    path:   withString([nonEmpty("Non-empty")]),
-    native: withString([nonEmpty("Non-empty")]),
-    mime:   withString([nonEmpty("Non-empty")]),
-    userId: withNullish(withString()),
-    size:   withNumber(),
-    ttl:    withNumber(),
-});
+export const FileShapeSchema = schema(z => z.object({
+    mime:   z.string().nonEmpty(),
+    name:   z.string().nonEmpty(),
+    native: z.string().nonEmpty(),
+    path:   z.string().nonEmpty(),
+    size:   z.number(),
+    ttl:    z.number(),
+    userId: z.string().nullish(),
+}));
 export type FileShapeSchema = typeof FileShapeSchema;
 export namespace FileShapeSchema {
     export type Type = PicoSchema.Output<FileShapeSchema>;

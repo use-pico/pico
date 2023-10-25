@@ -13,9 +13,9 @@ export interface ObjectSchema<
     schema: "object";
     shape: TShape;
 
-    nullish(): NullishSchema<ObjectSchema<TShape, TOutput>>;
+    nullish(): NullishSchema<this>;
 
-    optional(): OptionalSchema<ObjectSchema<TShape, TOutput>>;
+    optional(): OptionalSchema<this>;
 }
 
 export namespace ObjectSchema {

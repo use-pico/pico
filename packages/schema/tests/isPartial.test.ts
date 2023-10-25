@@ -2,20 +2,17 @@ import {
     describe,
     expect,
     test
-}                     from "vitest";
-import {withBool}     from "../src/schema/bool/withBool";
-import {withNullish}  from "../src/schema/nullish/withNullish";
-import {withNumber}   from "../src/schema/number/withNumber";
-import {withObject}   from "../src/schema/object/withObject";
-import {withOptional} from "../src/schema/optional/withOptional";
-import {withString}   from "../src/schema/string/withString";
-import {isPartial}    from "../src/utils/isPartial";
+} from "vitest";
+import {
+    isPartial,
+    schema
+} from "../src";
 
-const Schema = withObject({
-    foo:      withString(),
-    bar:      withNullish(withNumber()),
-    optional: withOptional(withBool()),
-});
+const Schema = schema(z => z.object({
+    foo:      z.string(),
+    bar:      z.number().nullish(),
+    optional: z.bool().optional(),
+}));
 
 describe("partial works", () => {
     test("Partial is partial", () => {

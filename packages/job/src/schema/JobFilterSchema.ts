@@ -1,35 +1,22 @@
 import {FilterSchema} from "@use-pico/query";
 import {
     merge,
-    PicoSchema,
-    withArray,
-    withBool,
-    withNullish,
-    withNumber,
-    withObject,
-    withString
+    type PicoSchema,
+    schema
 }                     from "@use-pico/schema";
 
 export const JobFilterSchema = merge([
     FilterSchema,
-    withObject({
-        status:    withNullish(withNumber()),
-        statusIn:  withNullish(
-            withArray(
-                withNumber()
-            )
-        ),
-        service:   withNullish(withString()),
-        serviceIn: withNullish(
-            withArray(
-                withNumber()
-            )
-        ),
-        reference: withNullish(withString()),
-        commit:    withNullish(withBool()),
-        userId:    withNullish(withString()),
-        user:      withNullish(withBool()),
-    }),
+    schema(z => z.object({
+        status:    z.number().nullish(),
+        statusIn:  z.array(z.number()).nullish(),
+        service:   z.string().nullish(),
+        serviceIn: z.array(z.string()).nullish(),
+        reference: z.string().nullish(),
+        commit:    z.bool().nullish(),
+        userId:    z.string().nullish(),
+        user:      z.bool().nullish(),
+    })),
 ]);
 export type JobFilterSchema = typeof JobFilterSchema;
 export namespace JobFilterSchema {

@@ -3,37 +3,34 @@ import {
     OrderSchema,
     type QuerySchema,
     withQuerySchema
-}                            from "@use-pico/query";
+} from "@use-pico/query";
 import {
     merge,
     parse,
     type PicoSchema,
-    withEnum,
-    withNullish,
-    withObject,
-    withOptional,
-    withRecord,
-    withString
-}                            from "@use-pico/schema";
+    schema
+} from "@use-pico/schema";
 import {
     describe,
     expect,
     test
-}                            from "vitest";
-import {type MutationSchema} from "../src/schema/MutationSchema";
-import {withMutationSchema}  from "../src/utils/withMutationSchema";
+} from "vitest";
+import {
+    type MutationSchema,
+    withMutationSchema
+} from "../src";
 
-const FooShapeSchema = withObject({
-    foo: withString(),
-});
+const FooShapeSchema = schema(z => z.object({
+    foo: z.string(),
+}));
 const FooFilterSchema = merge([
     FilterSchema,
-    withObject({
-        something:    withNullish(withString()),
-        anotherThing: withOptional(withString()),
-    }),
+    schema(z => z.object({
+        something:    z.string().nullish(),
+        anotherThing: z.string().optional(),
+    })),
 ]);
-const FooOrderBySchema = withRecord(withEnum(["foo", "bar"]), OrderSchema);
+const FooOrderBySchema = schema(z => z.record(z.enum(["foo", "bar"]), OrderSchema));
 const FooQuerySchema = withQuerySchema({
     filter:  FooFilterSchema,
     orderBy: FooOrderBySchema,

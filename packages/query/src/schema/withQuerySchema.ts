@@ -1,7 +1,4 @@
-import {
-    withNullish,
-    withObject
-}                           from "@use-pico/schema";
+import {schema}             from "@use-pico/schema";
 import {CursorSchema}       from "./CursorSchema";
 import {type FilterSchema}  from "./FilterSchema";
 import {type OrderBySchema} from "./OrderBySchema";
@@ -30,17 +27,17 @@ export const withQuerySchema = <
       orderBy,
   }: withQuerySchema.Props<TFilterSchema, TOrderBySchema>
 ): QuerySchema<TFilterSchema, TOrderBySchema> => {
-    return withObject({
+    return schema(z => z.object({
         /**
          * Optional filter, which should be mandatory filter (for example, clientId on invoices)
          */
-        filter: withNullish(filter),
+        filter: filter.nullish(),
         /**
          * Optional filter saying more specific filter options (this is where application user puts
          * search/filters).
          */
-        where:   withNullish(filter),
-        orderBy: withNullish(orderBy),
-        cursor:  withNullish(CursorSchema),
-    });
+        where:   filter.nullish(),
+        orderBy: z.nullish(orderBy),
+        cursor:  CursorSchema.nullish(),
+    }));
 };

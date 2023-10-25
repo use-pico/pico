@@ -4,6 +4,8 @@ import {type BoolSchema}   from "../../api/schema/BoolSchema";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
+import {withNullish}       from "../nullish/withNullish";
+import {withOptional}      from "../optional/withOptional";
 import {withSchema}        from "../withSchema";
 
 export function withBool(
@@ -35,6 +37,12 @@ export function withBool(
             }
 
             return pipeOf(input, pipe, info, "boolean");
+        },
+        nullish() {
+            return withNullish(withBool(error, pipe));
+        },
+        optional() {
+            return withOptional(withBool(error, pipe));
         },
     });
 }

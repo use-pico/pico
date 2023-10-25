@@ -8,7 +8,7 @@ import {
 }                             from "@use-pico/query";
 import {
     type ResponseSchema,
-    withArray
+    s
 }                             from "@use-pico/schema";
 import {withFilter}           from "@use-pico/source";
 import {type WithQuery}       from "../api/WithQuery";
@@ -59,7 +59,7 @@ export const withSourceQuery = <
         filter:  schema.filter,
         orderBy: schema.orderBy,
     });
-    const $response = withArray(response);
+    const $response = s(z => z.array(response));
     const $withQuery = withQuery({
         ...props,
         schema: {

@@ -1,14 +1,13 @@
 import {
     type PicoSchema,
-    withNumber,
-    withObject
+    schema
 } from "@use-pico/schema";
 
-export const CountSchema = withObject({
-    total: withNumber(),
-    where: withNumber(),
-    count: withNumber(),
-});
+export const CountSchema = schema(z => z.object({
+    total: z.number(),
+    where: z.number(),
+    count: z.number(),
+}));
 export type CountSchema = typeof CountSchema;
 export namespace CountSchema {
     export type Type = PicoSchema.Output<CountSchema>;

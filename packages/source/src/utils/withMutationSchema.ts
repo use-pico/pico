@@ -1,9 +1,5 @@
 import {type QuerySchema}    from "@use-pico/query";
-import {
-    withNullish,
-    withObject,
-    withPartial
-}                            from "@use-pico/schema";
+import {schema}              from "@use-pico/schema";
 import {type MutationSchema} from "../schema/MutationSchema";
 import {type ShapeSchema}    from "../schema/ShapeSchema";
 
@@ -34,23 +30,18 @@ export const withMutationSchema = <
         TQuerySchema
     >,
 ): MutationSchema<TShapeSchema, TQuerySchema> => {
-    const update = withNullish(
-        withObject({
-            update: withNullish(
-                withPartial(shape)
-            ),
-            query,
-        })
-    );
-    return withObject({
-        create: withNullish(shape),
+    const update = schema(z => z.object({
+        update: z.nullish(z.partial(shape)),
+        query,
+    })).nullish();
+
+    return schema(z => z.object({
+        create: shape.nullish(),
         update,
-        upsert: withNullish(
-            withObject({
-                create: withNullish(shape),
-                update,
-            })
-        ),
-        delete: withNullish(query),
-    });
+        upsert: z.object({
+            create: shape.nullish(),
+            update,
+        }).nullish(),
+        delete: query.nullish(),
+    }));
 };

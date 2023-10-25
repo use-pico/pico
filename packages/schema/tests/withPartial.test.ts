@@ -2,28 +2,28 @@ import {
     describe,
     expect,
     test
-}                        from "vitest";
-import {type PicoSchema} from "../src/api/PicoSchema";
-import {withNullish}     from "../src/schema/nullish/withNullish";
-import {withObject}      from "../src/schema/object/withObject";
-import {parse}           from "../src/schema/parse";
-import {withPartial}     from "../src/schema/partial/withPartial";
-import {withString}      from "../src/schema/string/withString";
+}                    from "vitest";
+import {
+    parse,
+    type PicoSchema,
+    schema
+}                    from "../src";
+import {withPartial} from "../src/schema/partial/withPartial";
 
-const JustSchema = withObject({
-    required:                withString(),
-    anotherPieceButNullable: withNullish(withString()),
-    innerPartial:            withPartial(
-        withObject({
-            foo:      withString(),
-            bar:      withString(),
-            required: withObject({
-                a: withString(),
-                b: withString(),
+const JustSchema = schema(z => z.object({
+    required:                z.string(),
+    anotherPieceButNullable: z.string().nullish(),
+    innerPartial:            z.partial(
+        z.object({
+            foo:      z.string(),
+            bar:      z.string(),
+            required: z.object({
+                a: z.string(),
+                b: z.string(),
             }),
         })
     )
-});
+}));
 
 const JustSchema$ = withPartial(JustSchema);
 type JustSchema$ = PicoSchema.Output<typeof JustSchema$>;

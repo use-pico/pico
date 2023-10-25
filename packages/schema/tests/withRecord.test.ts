@@ -2,22 +2,16 @@ import {
     describe,
     expect,
     test
-}                   from "vitest";
-import {maxLength}  from "../src/pipe/maxLength";
-import {minLength}  from "../src/pipe/minLength";
-import {toCustom}   from "../src/pipe/toCustom";
-import {withAny}    from "../src/schema/any/withAny";
-import {withNumber} from "../src/schema/number/withNumber";
-import {withObject} from "../src/schema/object/withObject";
-import {parse}      from "../src/schema/parse";
-import {ParseError} from "../src/schema/ParseError";
-import {withRecord} from "../src/schema/record/withRecord";
-import {withString} from "../src/schema/string/withString";
-import {withUnion}  from "../src/schema/union/withUnion";
+} from "vitest";
+import {
+    parse,
+    ParseError,
+    schema
+} from "../src";
 
 describe("record", () => {
     test("should pass only objects", () => {
-        const schema1 = withRecord(withNumber());
+        const schema1 = schema(z => z.record(z.number()));
         const input1 = {
             key1: 1,
             key2: 2
@@ -28,12 +22,12 @@ describe("record", () => {
         expect(() => parse(schema1, "test")).toThrowError();
         expect(() => parse(schema1, 123)).toThrowError();
 
-        const schema2 = withRecord(
-            withString([
-                minLength(3),
-            ]),
-            withUnion([withString(), withNumber()])
-        );
+        const schema2 = schema((z, p) => z.record(
+            z.string([p.minLength(3)]),
+            z.union([
+                z.string(), z.number(),
+            ])
+        ));
         const input2 = {
             1234: 1234,
             test: "hello"
@@ -48,12 +42,12 @@ describe("record", () => {
 
     test("should throw custom error", () => {
         const error = "Value is not an object!";
-        const schema = withRecord(withString(), error);
-        expect(() => parse(schema, 123)).toThrowError(error);
+        const schema$ = schema(z => z.record(z.string(), error));
+        expect(() => parse(schema$, 123)).toThrowError(error);
     });
 
     test("should throw every issue", () => {
-        const schema1 = withRecord(withNumber());
+        const schema1 = schema(z => z.record(z.number()));
         const input1 = {
             1: "1",
             2: 2,
@@ -67,7 +61,7 @@ describe("record", () => {
             expect((error as ParseError).issues.length).toBe(3);
         }
 
-        const schema2 = withRecord(withString([minLength(2)]), withNumber());
+        const schema2 = schema((z, p) => z.record(z.string([p.minLength(2)]), z.number()));
         const input2 = {
             "1": "1",
             2:   2,
@@ -84,7 +78,7 @@ describe("record", () => {
     test("should throw only first issue", () => {
         const info = {abortEarly: true};
 
-        const schema1 = withRecord(withNumber());
+        const schema1 = schema(z => z.record(z.number()));
         const input1 = {
             1: "1",
             2: 2,
@@ -98,7 +92,7 @@ describe("record", () => {
             expect((error as ParseError).issues[0].origin).toBe("value");
         }
 
-        const schema2 = withRecord(withString([minLength(2)]), withNumber());
+        const schema2 = schema((z, p) => z.record(z.string([p.minLength(2)]), z.number()));
         const input2 = {
             "1": "1",
             2:   2,
@@ -114,7 +108,7 @@ describe("record", () => {
     });
 
     test("should return issue path", () => {
-        const schema1 = withRecord(withNumber());
+        const schema1 = schema(z => z.record(z.number()));
         const input1 = {
             a: 1,
             b: "2",
@@ -130,7 +124,7 @@ describe("record", () => {
             },
         ]);
 
-        const schema2 = withRecord(withObject({key: withString()}));
+        const schema2 = schema(z => z.record(z.object({key: z.string()})));
         const input2 = {
             a: {key: "test"},
             b: {key: 123}
@@ -152,7 +146,7 @@ describe("record", () => {
             },
         ]);
 
-        const schema3 = withRecord(withString([maxLength(1)]), withNumber());
+        const schema3 = schema((z, p) => z.record(z.string([p.maxLength(1)]), z.number()));
         const input3 = {
             a:  1,
             bb: 2,
@@ -179,17 +173,17 @@ describe("record", () => {
             key1: 2,
             key2: 2
         });
-        const output1 = parse(withRecord(withNumber(), [toCustom(transformInput)]), input);
+        const output1 = parse(schema((z, p) => z.record(z.number(), [p.toCustom(transformInput)])), input);
         const output2 = parse(
-            withRecord(withString(), withNumber(), [toCustom(transformInput)]),
+            schema((z, p) => z.record(z.string(), z.number(), [p.toCustom(transformInput)])),
             input
         );
         const output3 = parse(
-            withRecord(withNumber(), "Error", [toCustom(transformInput)]),
+            schema((z, p) => z.record(z.number(), "Error", [p.toCustom(transformInput)])),
             input
         );
         const output4 = parse(
-            withRecord(withString(), withNumber(), "Error", [toCustom(transformInput)]),
+            schema((z, p) => z.record(z.string(), z.number(), "Error", [p.toCustom(transformInput)])),
             input
         );
         expect(output1).toEqual(transformInput());
@@ -199,11 +193,11 @@ describe("record", () => {
     });
 
     test("should prevent prototype pollution", () => {
-        const schema = withRecord(withString(), withAny());
+        const schema$ = schema(z => z.record(z.string(), z.any()));
         const input = JSON.parse("{\"__proto__\":{\"polluted\":\"yes\"}}") as any;
         expect(input.__proto__.polluted).toBe("yes");
         expect(({} as any).polluted).toBeUndefined();
-        const output = parse(schema, input);
+        const output = parse(schema$, input);
         expect(output.__proto__.polluted).toBeUndefined();
         expect(output.polluted).toBeUndefined();
     });

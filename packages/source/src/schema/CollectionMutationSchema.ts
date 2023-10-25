@@ -1,8 +1,7 @@
 import {type QuerySchema} from "@use-pico/query";
 import {
     type PicoSchema,
-    withNullish,
-    withObject
+    schema
 }                         from "@use-pico/schema";
 import {type ShapeSchema} from "./ShapeSchema";
 
@@ -42,17 +41,13 @@ export const withCollectionMutationSchema = <
         query,
     }: withCollectionMutationSchema.Props<TShapeSchema, TQuerySchema>,
 ) => {
-    return withObject({
-        patch:    withNullish(
-            withObject({
-                patch: shape,
-                query,
-            })
-        ),
-        deleteBy: withNullish(
-            withObject({
-                query,
-            })
-        ),
-    });
+    return schema(z => z.object({
+        patch:    z.object({
+            patch: shape,
+            query,
+        }).nullish(),
+        deleteBy: z.object({
+            query,
+        }).nullish(),
+    }));
 };

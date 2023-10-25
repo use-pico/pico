@@ -1,29 +1,22 @@
 import {
     type PicoSchema,
-    withNullish,
-    withNumber,
-    withObject,
-    withRecord,
-    withString,
-    withUnion
+    schema
 } from "@use-pico/schema";
 
-export const ErrorResponseSchema = withObject({
-    error: withObject({
-        message: withNullish(withString()),
-        code:    withNumber(),
-        paths:   withNullish(
-            withRecord(
-                withUnion([
-                    withNullish(
-                        withRecord(withString())
-                    ),
-                    withNullish(withString()),
+export const ErrorResponseSchema = schema(z => z.object({
+    error: z.object({
+        message: z.string().nullish(),
+        code:    z.number(),
+        paths:   z.nullish(
+            z.record(
+                z.union([
+                    z.nullish(z.record(z.string())),
+                    z.string().nullish(),
                 ])
             )
         ),
     }),
-});
+}));
 export type ErrorResponseSchema = typeof ErrorResponseSchema;
 export namespace ErrorResponseSchema {
     export type Type = PicoSchema.Output<ErrorResponseSchema>;

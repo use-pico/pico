@@ -2,31 +2,28 @@ import {
     merge,
     parse,
     type PicoSchema,
-    withEnum,
-    withNullish,
-    withObject,
-    withOptional,
-    withRecord,
-    withString
-}                         from "@use-pico/schema";
+    schema
+} from "@use-pico/schema";
 import {
     describe,
     expect,
     test
-}                         from "vitest";
-import {FilterSchema}     from "../src/schema/FilterSchema";
-import {OrderSchema}      from "../src/schema/OrderSchema";
-import {type QuerySchema} from "../src/schema/QuerySchema";
-import {withQuerySchema}  from "../src/schema/withQuerySchema";
+} from "vitest";
+import {
+    FilterSchema,
+    OrderSchema,
+    type QuerySchema,
+    withQuerySchema
+} from "../src";
 
 const FooFilterSchema = merge([
     FilterSchema,
-    withObject({
-        something:    withNullish(withString()),
-        anotherThing: withOptional(withString()),
-    }),
+    schema(z => z.object({
+        something:    z.string().nullish(),
+        anotherThing: z.string().optional(),
+    })),
 ]);
-const FooOrderBySchema = withRecord(withEnum(["foo", "bar"]), OrderSchema);
+const FooOrderBySchema = schema(z => z.record(z.enum(["foo", "bar"]), OrderSchema));
 const FooQuerySchema = withQuerySchema({
     filter:  FooFilterSchema,
     orderBy: FooOrderBySchema,

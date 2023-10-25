@@ -1,31 +1,25 @@
 import {
-    nonEmpty,
     type PicoSchema,
-    withAny,
-    withBool,
-    withNullish,
-    withNumber,
-    withObject,
-    withString
+    schema
 } from "@use-pico/schema";
 
-export const JobShapeSchema = withObject({
-    id:           withString([nonEmpty("Non-empty")]),
-    service:      withString([nonEmpty("Non-empty")]),
-    reference:    withNullish(withString()),
-    status:       withNumber(),
-    total:        withNumber(),
-    progress:     withAny(),
-    successCount: withNumber(),
-    errorCount:   withNumber(),
-    skipCount:    withNumber(),
-    request:      withNullish(withAny()),
-    response:     withNullish(withAny()),
-    started:      withString(),
-    finished:     withNullish(withString()),
-    commit:       withBool(),
-    userId:       withString([nonEmpty("Non-empty")]),
-});
+export const JobShapeSchema = schema(z => z.object({
+    id:           z.string().nonEmpty(),
+    service:      z.string().nonEmpty(),
+    reference:    z.string().nullish(),
+    status:       z.number(),
+    total:        z.number(),
+    progress:     z.any(),
+    successCount: z.number(),
+    errorCount:   z.number(),
+    skipCount:    z.number(),
+    request:      z.any().nullish(),
+    response:     z.any().nullish(),
+    started:      z.string(),
+    finished:     z.string().nullish(),
+    commit:       z.bool(),
+    userId:       z.string().nonEmpty(),
+}));
 export type JobShapeSchema = typeof JobShapeSchema;
 export namespace JobShapeSchema {
     export type Type = PicoSchema.Output<JobShapeSchema>;
