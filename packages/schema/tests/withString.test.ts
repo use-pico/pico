@@ -59,4 +59,11 @@ describe("withString", () => {
         expect(() => parse(schema1, "")).toThrowError("Non empty rule violation");
         expect(() => parse(schema1, "  ")).toThrowError("Non empty rule violation");
     });
+
+    test("pipe with non empty string", () => {
+        const schema1 = schema((z, p) => z.string([p.toCustom(input => `${input}a`)]).nonEmpty());
+        const input1 = "12";
+        const output1 = parse(schema1, input1);
+        expect(output1).toBe(`${input1}a`);
+    });
 });
