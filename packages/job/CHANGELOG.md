@@ -1,5 +1,12 @@
 # @use-pico/job
 
+## 1.0.9
+
+### Patch Changes
+
+- ac4c864: Refactored job interfaces (mutations, query) a bit
+- ac4c864: Removed commit mutation
+
 ## 1.0.8
 
 ### Patch Changes
