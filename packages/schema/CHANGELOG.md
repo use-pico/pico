@@ -1,5 +1,12 @@
 # @use-pico/schema
 
+## 1.0.13
+
+### Patch Changes
+
+- da5ebde: Another little improvement in schema api
+- 948587f: A bit improved schema API
+
 ## 1.0.12
 
 ### Patch Changes

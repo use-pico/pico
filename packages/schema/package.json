@@ -1,5 +1,5 @@
 {
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"name": "@use-pico/schema",
 	"description": "Common schemas used across the lib.",
 	"license": "MIT",
