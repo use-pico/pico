@@ -1,6 +1,7 @@
 import {type ErrorMessage} from "../../api/ErrorMessage";
 import {type Pipe}         from "../../api/Pipe";
 import {type StringSchema} from "../../api/schema/StringSchema";
+import {nonEmpty}          from "../../pipe/nonEmpty";
 import {argsOf}            from "../../utils/argsOf";
 import {issuesOf}          from "../../utils/issuesOf";
 import {pipeOf}            from "../../utils/pipeOf";
@@ -42,6 +43,12 @@ export function withString(
         },
         optional() {
             return withOptional(withString(error, pipe));
+        },
+        nonEmpty(error) {
+            return withString(error, [
+                ...(pipe || []),
+                nonEmpty(error),
+            ]);
         },
     });
 }

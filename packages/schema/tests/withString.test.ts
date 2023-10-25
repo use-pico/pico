@@ -6,7 +6,6 @@ import {
 import {
     maxLength,
     minLength,
-    nonEmpty,
     parse,
     withString
 } from "../src";
@@ -23,7 +22,7 @@ describe("withString", () => {
     });
 
     test("with nullish", () => {
-        const schema = withString([nonEmpty()]).nullish();
+        const schema = withString().nonEmpty().nullish();
         const input = "good";
         expect(parse(schema, input)).toBe(input);
         expect(parse(schema, undefined)).toBeUndefined();
@@ -32,7 +31,7 @@ describe("withString", () => {
     });
 
     test("with optional", () => {
-        const schema = withString([nonEmpty()]).optional();
+        const schema = withString().nonEmpty().optional();
         const input = "good";
         expect(parse(schema, input)).toBe(input);
         expect(parse(schema, undefined)).toBeUndefined();
@@ -55,7 +54,7 @@ describe("withString", () => {
     });
 
     test("non empty string", () => {
-        const schema1 = withString([nonEmpty()]);
+        const schema1 = withString().nonEmpty();
         const input1 = "12";
         const output1 = parse(schema1, input1);
         expect(output1).toBe(input1);
