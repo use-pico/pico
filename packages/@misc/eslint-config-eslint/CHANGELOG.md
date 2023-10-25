@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 1.0.6
+
+### Patch Changes
+
+- 0984d37: Changed ts-ignore rule to a warning
+
 ## 1.0.5
 
 ### Patch Changes

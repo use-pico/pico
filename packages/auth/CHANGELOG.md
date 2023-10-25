@@ -1,5 +1,13 @@
 # @use-pico/auth
 
+## 1.0.7
+
+### Patch Changes
+
+- 0984d37: Updated new schema API
+- Updated dependencies [c487222]
+  - @use-pico/schema@1.0.14
+
 ## 1.0.6
 
 ### Patch Changes

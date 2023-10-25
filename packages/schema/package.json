@@ -1,5 +1,5 @@
 {
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"name": "@use-pico/schema",
 	"description": "Common schemas used across the lib.",
 	"license": "MIT",
@@ -32,7 +32,7 @@
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",
 		"@use-pico/esbuild": "^1.0.4",
-		"@use-pico/eslint-config-eslint": "^1.0.4",
+		"@use-pico/eslint-config-eslint": "^1.0.6",
 		"@use-pico/tsconfig": "^1.0.6",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",

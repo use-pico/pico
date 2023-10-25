@@ -1,5 +1,5 @@
 {
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"name": "@use-pico/source",
 	"description": "Source (repository) support for client-side & server-side.",
 	"license": "MIT",
@@ -29,8 +29,8 @@
 		"@use-pico/i18n": "^1.0.6",
 		"@use-pico/navigation": "^1.0.7",
 		"@use-pico/pagination": "^1.0.6",
-		"@use-pico/query": "^1.0.7",
-		"@use-pico/schema": "^1.0.10",
+		"@use-pico/query": "^1.0.9",
+		"@use-pico/schema": "^1.0.14",
 		"@use-pico/store": "^1.0.6",
 		"@use-pico/types": "^1.0.6",
 		"@use-pico/ui": "^1.0.7",
@@ -40,7 +40,7 @@
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.4",
-		"@use-pico/eslint-config-eslint": "^1.0.4",
+		"@use-pico/eslint-config-eslint": "^1.0.6",
 		"@use-pico/tsconfig": "^1.0.6",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.21",

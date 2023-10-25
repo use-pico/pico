@@ -1,5 +1,15 @@
 # @use-pico/source
 
+## 1.0.7
+
+### Patch Changes
+
+- c487222: Updated internal schemas to match new API
+- Updated dependencies [c487222]
+- Updated dependencies [c487222]
+  - @use-pico/query@1.0.9
+  - @use-pico/schema@1.0.14
+
 ## 1.0.6
 
 ### Patch Changes

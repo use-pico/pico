@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.14
+
+### Patch Changes
+
+- c487222: Refactored schema API to be much more simple and usable
+
 ## 1.0.13
 
 ### Patch Changes
