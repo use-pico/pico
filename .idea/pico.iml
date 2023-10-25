@@ -31,6 +31,7 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/utils/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/query/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/packages/schema/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/source/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/packages/ui/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />

@@ -20,8 +20,8 @@ import {
     expect,
     test
 }                            from "vitest";
-import {type MutationSchema} from "../schema/MutationSchema";
-import {withMutationSchema}  from "./withMutationSchema";
+import {type MutationSchema} from "../src/schema/MutationSchema";
+import {withMutationSchema}  from "../src/utils/withMutationSchema";
 
 const FooShapeSchema = withObject({
     foo: withString(),
