@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.15
+
+### Patch Changes
+
+- 08157ec: Docs in schema
+
 ## 1.0.14
 
 ### Patch Changes
