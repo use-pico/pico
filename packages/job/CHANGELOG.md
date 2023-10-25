@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.12
+
+### Patch Changes
+
+- 60ffea0: Removed job delete button from JobAsync -> JobToolbar
+
 ## 1.0.11
 
 ### Patch Changes
