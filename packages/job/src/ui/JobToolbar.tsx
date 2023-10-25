@@ -1,7 +1,4 @@
-import {
-    IconHandStop,
-    IconTrash
-}                           from "@tabler/icons-react";
+import {IconHandStop}       from "@tabler/icons-react";
 import {Translation}        from "@use-pico/i18n";
 import {type RequestSchema} from "@use-pico/schema";
 import {
@@ -27,7 +24,6 @@ export const JobToolbar = <
         jobManager,
     }: JobToolbar.Props<TRequestSchema>
 ) => {
-    const job = jobManager.useJob();
     return <Group gap={"xs"}>
         {jobManager.isRunning() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"interrupt.tooltip"}/>}>
             <ActionIcon
@@ -40,21 +36,6 @@ export const JobToolbar = <
                 <WithIcon
                     color={"yellow.5"}
                     icon={<IconHandStop/>}
-                />
-            </ActionIcon>
-        </Tooltip>}
-        {job && jobManager.isSettled() && !jobManager.isFetching() && <Tooltip label={<Translation namespace={"common.job"} withLabel={"delete.tooltip"}/>}>
-            <ActionIcon
-                loading={jobManager.mutation.jobMutation.isPending}
-                variant={"subtle"}
-                color={"red.5"}
-                onClick={() => {
-                    jobManager.delete();
-                }}
-            >
-                <WithIcon
-                    color={"red.5"}
-                    icon={<IconTrash/>}
                 />
             </ActionIcon>
         </Tooltip>}
