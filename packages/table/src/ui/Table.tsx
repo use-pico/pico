@@ -1,5 +1,5 @@
 import {
-    IWithTranslation,
+    type IWithTranslation,
     WithTranslationProvider
 }                               from "@use-pico/i18n";
 import {Pagination}             from "@use-pico/pagination";
@@ -67,6 +67,7 @@ export namespace Table {
         withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
 
         WithRow?: FC<TableBody.RowProps<TSchema>>;
+        WithPostfix?: TableHeaderControls.Props<TSchema, TFilterSchema, TOrderBySchema>["Postfix"];
 
         disableActions?: boolean;
 
@@ -105,6 +106,7 @@ export const Table = <
         WithTableAction,
         WithRowAction,
         WithRow,
+        WithPostfix,
         Empty,
         Filter,
         highlight,
@@ -149,6 +151,7 @@ export const Table = <
             <TableHeaderControls
                 withSourceQuery={withSourceQuery}
                 Filter={Filter}
+                Postfix={WithPostfix}
             />
             {$pagination?.position?.includes("top") && <>
                 <Pagination

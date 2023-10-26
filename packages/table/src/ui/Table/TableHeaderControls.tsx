@@ -20,6 +20,7 @@ export namespace TableHeaderControls {
     > {
         withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
         Filter?: FC<FilterProps<TSchema, TFilterSchema, TOrderBySchema>>;
+        Postfix?: FC;
     }
 
     export interface FilterProps<
@@ -39,6 +40,7 @@ export const TableHeaderControls = <
     {
         withSourceQuery,
         Filter,
+        Postfix,
     }: TableHeaderControls.Props<TSchema, TFilterSchema, TOrderBySchema>
 ) => {
     const invalidator = withSourceQuery.useInvalidator();
@@ -64,6 +66,9 @@ export const TableHeaderControls = <
         </Grid.Col>
         {Filter && <Grid.Col span={"content"}>
             <Filter withSourceQuery={withSourceQuery}/>
+        </Grid.Col>}
+        {Postfix && <Grid.Col span={"content"}>
+            <Postfix/>
         </Grid.Col>}
     </Grid>;
 };
