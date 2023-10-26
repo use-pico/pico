@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 1.0.11
+
+### Patch Changes
+
+- 9807a03: Locked Mantine to specific version, 7.1.5 because it breaks some styles on 7.1.6
+
 ## 1.0.10
 
 ### Patch Changes
