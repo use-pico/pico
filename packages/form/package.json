@@ -26,9 +26,9 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.1",
-		"@mantine/core": "^7.0.0",
-		"@mantine/form": "^7.0.0",
-		"@mantine/hooks": "^7.0.0",
+		"@mantine/core": "7.1.5",
+		"@mantine/form": "7.1.5",
+		"@mantine/hooks": "7.1.5",
 		"@use-pico/calendar": "^1.0.8",
 		"@use-pico/hook": "^1.0.7",
 		"@use-pico/i18n": "^1.0.8",
