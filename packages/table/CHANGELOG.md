@@ -1,5 +1,11 @@
 # @use-pico/table
 
+## 1.0.8
+
+### Patch Changes
+
+- 6704413: Added postfix to table header controls
+
 ## 1.0.7
 
 ### Patch Changes
