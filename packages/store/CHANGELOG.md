@@ -1,5 +1,14 @@
 # @use-pico/store
 
+## 1.0.7
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/context@1.0.7
+  - @use-pico/utils@1.0.21
+
 ## 1.0.6
 
 ### Patch Changes

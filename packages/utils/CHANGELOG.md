@@ -1,5 +1,14 @@
 # @use-pico/utils
 
+## 1.0.21
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/schema@1.0.16
+  - @use-pico/types@1.0.7
+
 ## 1.0.20
 
 ### Patch Changes

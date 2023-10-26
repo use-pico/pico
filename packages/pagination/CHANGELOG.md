@@ -1,5 +1,14 @@
 # @use-pico/pagination
 
+## 1.0.7
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/i18n@1.0.8
+  - @use-pico/ui@1.0.10
+
 ## 1.0.6
 
 ### Patch Changes

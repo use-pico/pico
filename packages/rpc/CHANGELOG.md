@@ -1,5 +1,17 @@
 # @use-pico/rpc
 
+## 1.0.9
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/query@1.0.10
+  - @use-pico/schema@1.0.16
+  - @use-pico/source@1.0.8
+  - @use-pico/store@1.0.7
+  - @use-pico/utils@1.0.21
+
 ## 1.0.8
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @use-pico/bulk
 
+## 1.0.8
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/form@1.0.15
+  - @use-pico/i18n@1.0.8
+  - @use-pico/job@1.0.13
+  - @use-pico/query@1.0.10
+  - @use-pico/rpc@1.0.9
+  - @use-pico/schema@1.0.16
+  - @use-pico/source@1.0.8
+  - @use-pico/table@1.0.7
+  - @use-pico/types@1.0.7
+  - @use-pico/ui@1.0.10
+  - @use-pico/ui-extra@1.0.11
+  - @use-pico/utils@1.0.21
+
 ## 1.0.7
 
 ### Patch Changes

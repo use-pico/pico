@@ -1,5 +1,21 @@
 # @use-pico/table
 
+## 1.0.7
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+- Updated dependencies [a4fc08b]
+  - @use-pico/i18n@1.0.8
+  - @use-pico/pagination@1.0.7
+  - @use-pico/query@1.0.10
+  - @use-pico/rpc@1.0.9
+  - @use-pico/schema@1.0.16
+  - @use-pico/selection@1.0.7
+  - @use-pico/source@1.0.8
+  - @use-pico/ui@1.0.10
+  - @use-pico/utils@1.0.21
+
 ## 1.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @use-pico/esbuild
 
+## 1.0.5
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+
 ## 1.0.4
 
 ### Patch Changes

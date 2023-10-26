@@ -1,5 +1,11 @@
 # @use-pico/tsconfig
 
+## 1.0.7
+
+### Patch Changes
+
+- a4fc08b: Updated dependencies
+
 ## 1.0.6
 
 ### Patch Changes
