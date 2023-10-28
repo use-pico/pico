@@ -1,4 +1,4 @@
-import {type IRepository}     from "../api/IRepository";
+import {type IRepository}     from "@use-pico/repository";
 import {RepositoryRpcHandler} from "./RepositoryRpcHandler";
 
 export abstract class MutationRpcHandler<

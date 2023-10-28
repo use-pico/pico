@@ -1,23 +1,24 @@
-import {CountSchema}          from "@use-pico/query";
-import {type IRepository}     from "../api/IRepository";
+import {type IRepository}     from "@use-pico/repository";
+import {
+    type ArraySchema,
+    schema
+}                             from "@use-pico/schema";
 import {RepositoryRpcHandler} from "./RepositoryRpcHandler";
 
-export abstract class CountRpcHandler<
+export abstract class QueryRpcHandler<
     TRepository extends IRepository<any>,
 > extends RepositoryRpcHandler<
     TRepository extends IRepository<infer TSourceSchema> ? TSourceSchema["shape"]["query"] : never,
-    CountSchema,
+    TRepository extends IRepository<infer TSourceSchema> ? ArraySchema<TSourceSchema["shape"]["entity"]> : never,
     TRepository
 > {
-    static $responseSchema = CountSchema;
-
     protected constructor(
         repository: TRepository,
     ) {
         super(
             repository,
             repository.schema.shape.mutation,
-            CountSchema
+            schema(z => z.array(repository.schema.shape.entity)) as any,
         );
     }
 }

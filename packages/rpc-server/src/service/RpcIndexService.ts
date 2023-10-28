@@ -1,9 +1,11 @@
 import {
     type IContainer,
     withContainer
-}                              from "@use-pico/container";
-import {type IRpcHandlerClass} from "../api/IRpcHandlerClass";
-import {type IRpcIndexService} from "../api/IRpcIndexService";
+} from "@use-pico/container";
+import {
+    type IRpcHandlerClass,
+    type IRpcIndexService
+} from "@use-pico/rpc";
 
 export class RpcIndexService implements IRpcIndexService {
     static inject = [

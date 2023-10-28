@@ -1,15 +1,17 @@
 import {
     type IContainer,
     withContainer
-}                             from "@use-pico/container";
-import {ErrorResponseSchema}  from "@use-pico/query";
-import {parse$}               from "@use-pico/schema";
-import {NextResponse}         from "next/server";
-import {type IRpcHandler}     from "../api/IRpcHandler";
-import {type IRpcService}     from "../api/IRpcService";
-import {RpcBulkRequestSchema} from "../schema/RpcBulkRequestSchema";
-import {RpcResponseSchema}    from "../schema/RpcResponseSchema";
-import {AbstractRpcHandler}   from "./AbstractRpcHandler";
+}                            from "@use-pico/container";
+import {ErrorResponseSchema} from "@use-pico/query";
+import {
+    type IRpcHandler,
+    type IRpcService,
+    RpcBulkRequestSchema,
+    RpcResponseSchema
+}                            from "@use-pico/rpc";
+import {parse$}              from "@use-pico/schema";
+import {NextResponse}        from "next/server";
+import {AbstractRpcHandler}  from "./AbstractRpcHandler";
 
 export class RpcService implements IRpcService {
     static inject = [

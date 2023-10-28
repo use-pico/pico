@@ -1,9 +1,9 @@
-import {AbstractRpcHandler} from "@use-pico/rpc";
+import {type IRepository}   from "@use-pico/repository";
+import {AbstractRpcHandler} from "@use-pico/rpc-server";
 import {
     type RequestSchema,
     type ResponseSchema
 }                           from "@use-pico/schema";
-import {type IRepository}   from "../api/IRepository";
 
 export abstract class RepositoryRpcHandler<
     TRequestSchema extends RequestSchema,
