@@ -1,5 +1,14 @@
 # @use-pico/pagination
 
+## 1.0.9
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/i18n@1.0.10
+  - @use-pico/ui@1.0.13
+
 ## 1.0.8
 
 ### Patch Changes

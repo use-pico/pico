@@ -1,5 +1,11 @@
 # @use-pico/context
 
+## 1.0.10
+
+### Patch Changes
+
+- 800ce8c: Version bump
+
 ## 1.0.9
 
 ### Patch Changes

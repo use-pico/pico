@@ -1,5 +1,18 @@
 # @use-pico/rpc
 
+## 1.0.12
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/container@1.0.2
+  - @use-pico/query@1.0.12
+  - @use-pico/schema@1.0.18
+  - @use-pico/source@1.0.10
+  - @use-pico/store@1.0.9
+  - @use-pico/utils@1.0.23
+
 ## 1.0.11
 
 ### Patch Changes

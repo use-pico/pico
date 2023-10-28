@@ -1,5 +1,25 @@
 # @use-pico/form
 
+## 1.0.19
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/calendar@1.0.10
+  - @use-pico/hook@1.0.10
+  - @use-pico/i18n@1.0.10
+  - @use-pico/navigation@1.0.10
+  - @use-pico/query@1.0.12
+  - @use-pico/rpc@1.0.12
+  - @use-pico/schema@1.0.18
+  - @use-pico/selection@1.0.9
+  - @use-pico/source@1.0.10
+  - @use-pico/store@1.0.9
+  - @use-pico/table@1.0.10
+  - @use-pico/ui@1.0.13
+  - @use-pico/utils@1.0.23
+
 ## 1.0.18
 
 ### Patch Changes

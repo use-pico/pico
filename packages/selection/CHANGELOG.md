@@ -1,5 +1,15 @@
 # @use-pico/selection
 
+## 1.0.9
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/query@1.0.12
+  - @use-pico/store@1.0.9
+  - @use-pico/utils@1.0.23
+
 ## 1.0.8
 
 ### Patch Changes

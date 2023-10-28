@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.18
+
+### Patch Changes
+
+- 800ce8c: Version bump
+
 ## 1.0.17
 
 ### Patch Changes

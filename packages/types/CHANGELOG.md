@@ -1,5 +1,13 @@
 # @use-pico/types
 
+## 1.0.9
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/schema@1.0.18
+
 ## 1.0.8
 
 ### Patch Changes

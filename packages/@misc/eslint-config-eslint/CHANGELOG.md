@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 1.0.9
+
+### Patch Changes
+
+- 800ce8c: Version bump
+
 ## 1.0.8
 
 ### Patch Changes

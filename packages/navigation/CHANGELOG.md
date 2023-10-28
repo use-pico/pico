@@ -1,5 +1,14 @@
 # @use-pico/navigation
 
+## 1.0.10
+
+### Patch Changes
+
+- 800ce8c: Version bump
+- Updated dependencies [800ce8c]
+  - @use-pico/schema@1.0.18
+  - @use-pico/utils@1.0.23
+
 ## 1.0.9
 
 ### Patch Changes
