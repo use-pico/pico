@@ -34,7 +34,7 @@ export const JobToolbar = <
                 }}
             >
                 <WithIcon
-                    color={"yellow.5"}
+                    color={"blue.5"}
                     icon={<IconHandStop/>}
                 />
             </ActionIcon>
