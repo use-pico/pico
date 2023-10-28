@@ -111,6 +111,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/repository/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/rpc-server/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/rpc-server/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/repository-server/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
