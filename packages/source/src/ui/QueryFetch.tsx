@@ -23,16 +23,15 @@ import {
 export namespace QueryFetch {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         loader?: ReactNode;
-        filter?: PicoSchema.Output<TFilterSchema> | null;
+        filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]> | null;
         /**
          * Query to fetch entity
          */
-        withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
-        query?: ComponentProps<WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>["query"]["Provider"]>["defaults"];
+        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
+        query?: ComponentProps<WithSourceQuery<TResponseSchema, TQuerySchema>["store"]["Provider"]>["defaults"];
 
         /**
          * Error renderer
@@ -44,7 +43,7 @@ export namespace QueryFetch {
          */
         WithSuccess: FC<WithSuccessProps<TResponseSchema>>;
         enabled?: boolean;
-        options?: WithQuery.QueryOptions<QuerySchema<TFilterSchema, TOrderBySchema>, TResponseSchema>;
+        options?: WithQuery.QueryOptions<TQuerySchema, TResponseSchema>;
     }
 
     export interface WithErrorProps {
@@ -58,8 +57,7 @@ export namespace QueryFetch {
 
 export const QueryFetch = <
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         loader,
@@ -70,7 +68,7 @@ export const QueryFetch = <
         WithSuccess,
         enabled = true,
         options,
-    }: QueryFetch.Props<TResponseSchema, TFilterSchema, TOrderBySchema>
+    }: QueryFetch.Props<TResponseSchema, TQuerySchema>
 ) => {
     const result = withSourceQuery.useQueryEx({
         /**

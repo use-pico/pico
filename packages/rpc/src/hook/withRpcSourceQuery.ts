@@ -28,22 +28,17 @@ export const withRpcSourceQuery = <
     },
 ): WithSourceQuery<
     TRepository["schema"]["shape"]["entity"],
-    TRepository["schema"]["shape"]["filter"],
-    TRepository["schema"]["shape"]["orderBy"]
+    TRepository["schema"]["shape"]["query"]
 > => {
     return withSourceQuery({
         service:        handler.$key,
         schema:         {
-            filter:   handler.$querySchema.shape.filter,
-            orderBy:  handler.$querySchema.shape.orderBy,
+            query: handler.$querySchema.shape.query,
             response: handler.$responseSchema,
         },
-        query:          createQueryStore({
+        store:          createQueryStore({
             name:   "SourceQuery",
-            schema: {
-                filter:  handler.$querySchema.shape.filter,
-                orderBy: handler.$querySchema.shape.orderBy,
-            },
+            schema: handler.$querySchema.shape.query,
         }),
         withCountQuery: withQuery({
             service: handler.$key,

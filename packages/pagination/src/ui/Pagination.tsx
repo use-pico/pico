@@ -14,7 +14,7 @@ import {type FC}              from "react";
 
 export namespace Pagination {
     export interface Props extends Partial<CoolPagination.Props> {
-        withSourceQuery: WithSourceQuery<any, any, any>;
+        withSourceQuery: WithSourceQuery<any, any>;
         hideOnSingle?: boolean;
         refresh?: number;
     }
@@ -31,7 +31,7 @@ export const Pagination: FC<Pagination.Props> = (
         cursor,
         setCursor,
         setSize
-    } = withSourceQuery.query.use((
+    } = withSourceQuery.store.use((
         {
             cursor,
             setCursor,

@@ -1,7 +1,8 @@
 import {Translation}               from "@use-pico/i18n";
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    QuerySchema
 }                                  from "@use-pico/query";
 import {type WithSourceQuery}      from "@use-pico/rpc";
 import {
@@ -31,13 +32,12 @@ export namespace MultiQueryInput {
     export interface Props<
         TValuesSchema extends ValuesSchema,
         TResponseSchema extends WithIdentitySchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends InputEx.Props<TValuesSchema> {
         /**
          * Query used to fetch current entity.
          */
-        withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
         /**
          * Store used to manage selection of current entity.
          */
@@ -53,8 +53,8 @@ export namespace MultiQueryInput {
         /**
          * Optional method used to generate filter to fetch an entity (if more complex filter is needed); defaults to an ID.
          */
-        toFilter?: (values: string[]) => PicoSchema.Output<TFilterSchema> | undefined;
-        toOrderBy?: () => PicoSchema.Output<TOrderBySchema> | undefined;
+        toFilter?: (values: string[]) => PicoSchema.Output<TQuerySchema["shape"]["filter"]> | undefined;
+        toOrderBy?: () => PicoSchema.Output<TQuerySchema["shape"]["orderBy"]> | undefined;
         onCommit?: MultiCommitButton.Props<TValuesSchema, TResponseSchema>["onCommit"];
         limit?: number;
     }
@@ -72,8 +72,7 @@ export namespace MultiQueryInput {
 export const MultiQueryInput = <
     TValuesSchema extends ValuesSchema,
     TResponseSchema extends WithIdentitySchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withControl,
@@ -87,7 +86,7 @@ export const MultiQueryInput = <
         onCommit,
         limit = 3,
         ...props
-    }: MultiQueryInput.Props<TValuesSchema, TResponseSchema, TFilterSchema, TOrderBySchema>
+    }: MultiQueryInput.Props<TValuesSchema, TResponseSchema, TQuerySchema>
 ) => {
     const {
         field: {

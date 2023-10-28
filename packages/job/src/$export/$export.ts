@@ -1,5 +1,4 @@
 export * from "./IJobManager";
-export * from "./IJobStatus";
 export * from "./JobAsync";
 export * from "./JobControlInline";
 export * from "./JobFilterSchema";
@@ -13,6 +12,7 @@ export * from "./JobQuerySchema";
 export * from "./JobSchema";
 export * from "./JobServiceInline";
 export * from "./JobStats";
+export * from "./JobStatus";
 export * from "./JobStatusInline";
 export * from "./JobStatusText";
 export * from "./JobToolbar";

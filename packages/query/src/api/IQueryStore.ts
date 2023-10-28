@@ -1,11 +1,11 @@
 import {type IStoreSchema}     from "@use-pico/store";
 import {type FilterSchema}     from "../schema/FilterSchema";
 import {type OrderBySchema}    from "../schema/OrderBySchema";
+import {QuerySchema}           from "../schema/QuerySchema";
 import {type IQueryStoreProps} from "./IQueryStoreProps";
 
 export type IQueryStore<
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 > = IStoreSchema<
-    IQueryStoreProps<TFilterSchema, TOrderBySchema>
+    IQueryStoreProps<TQuerySchema>
 >["Store"];

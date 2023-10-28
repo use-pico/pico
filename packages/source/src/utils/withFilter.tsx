@@ -1,55 +1,50 @@
 import {
     FilterSchema,
     type IQueryStore,
-    OrderBySchema
+    type OrderBySchema,
+    type QuerySchema
 }                from "@use-pico/query";
 import {type FC} from "react";
 
 export namespace withFilter {
     export interface Props<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        withQueryStore: IQueryStore<TFilterSchema, TOrderBySchema>;
+        withQueryStore: IQueryStore<TQuerySchema>;
     }
 
     export type WithFilter<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
-    > = FC<WithFilterProps<TFilterSchema, TOrderBySchema>>;
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
+    > = FC<WithFilterProps<TQuerySchema>>;
 
     export interface WithFilterProps<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        Filter: WithFilterItem<TFilterSchema, TOrderBySchema>;
+        Filter: WithFilterItem<TQuerySchema>;
     }
 
     export type WithFilterItem<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
-    > = FC<WithFilterItemProps<TFilterSchema, TOrderBySchema>>;
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
+    > = FC<WithFilterItemProps<TQuerySchema>>;
 
     export interface WithFilterItemProps<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        withQueryStore: IQueryStore<TFilterSchema, TOrderBySchema>;
-        filter: ReturnType<IQueryStore<TFilterSchema, TOrderBySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TFilterSchema, TOrderBySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TFilterSchema, TOrderBySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TFilterSchema, TOrderBySchema>["use"]>["clearFilter"];
+        withQueryStore: IQueryStore<TQuerySchema>;
+        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
+        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
+        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
+        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
     }
 }
 
 export const withFilter = <
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withQueryStore,
-    }: withFilter.Props<TFilterSchema, TOrderBySchema>
-): withFilter.WithFilter<TFilterSchema, TOrderBySchema> => {
+    }: withFilter.Props<TQuerySchema>
+): withFilter.WithFilter<TQuerySchema> => {
     return ({Filter}) => {
         const {
             setFilter,

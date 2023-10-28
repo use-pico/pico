@@ -29,7 +29,7 @@ export namespace DeleteByModal {
             MutationSchema<any, QuerySchema<TFilterSchema, any>>,
             any
         >;
-        withSourceQuery: WithSourceQuery<any, TFilterSchema, any>;
+        withSourceQuery: WithSourceQuery<any, QuerySchema<TFilterSchema, any>>;
     }
 }
 
@@ -47,7 +47,7 @@ export const DeleteByModal = <
     const {
         where,
         filter,
-    } = withSourceQuery.query.use((
+    } = withSourceQuery.store.use((
         {
             where,
             filter

@@ -1,6 +1,7 @@
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    type QuerySchema
 }                               from "@use-pico/query";
 import {type WithSourceQuery}   from "@use-pico/rpc";
 import {type PicoSchema}        from "@use-pico/schema";
@@ -25,10 +26,9 @@ import classes                  from "../Table.module.css";
 export namespace TableBody {
     export interface Props<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
         SelectionStore?: ISelectionStore<PicoSchema.Output<TSchema>>;
         MultiSelectionStore?: IMultiSelectionStore<PicoSchema.Output<TSchema>>;
         WithRow: FC<RowProps<TSchema>>;
@@ -37,7 +37,7 @@ export namespace TableBody {
          */
         WithRowAction?: FC<WithRowActionProps<TSchema>>;
         withTableAction: boolean;
-        columns: ITableColumnTuple<TSchema, TFilterSchema>[];
+        columns: ITableColumnTuple<TSchema, TQuerySchema>[];
         disableActions: boolean;
         highlight?: string[];
 
@@ -56,8 +56,7 @@ export namespace TableBody {
 
 export const TableBody = <
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withSourceQuery,
@@ -70,7 +69,7 @@ export const TableBody = <
         columns,
         onClick,
         highlight,
-    }: TableBody.Props<TSchema, TFilterSchema, TOrderBySchema>
+    }: TableBody.Props<TSchema, TQuerySchema>
 ) => {
     const selection = SelectionStore?.use$((
         {

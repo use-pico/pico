@@ -23,7 +23,7 @@ export namespace List {
         TRequestSchema extends RequestSchema,
         TResponseSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TResponseSchema, any, any>;
+        withSourceQuery: WithSourceQuery<TResponseSchema, any>;
         options?: WithQuery.QueryOptions<
             TRequestSchema,
             ArraySchema<TResponseSchema>

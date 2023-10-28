@@ -1,7 +1,8 @@
 import {IconRefresh}          from "@tabler/icons-react";
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    QuerySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {type PicoSchema}      from "@use-pico/schema";
@@ -15,33 +16,30 @@ import {type FC}              from "react";
 export namespace TableHeaderControls {
     export interface Props<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
-        Filter?: FC<FilterProps<TSchema, TFilterSchema, TOrderBySchema>>;
+        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
+        Filter?: FC<FilterProps<TSchema, TQuerySchema>>;
         Postfix?: FC;
     }
 
     export interface FilterProps<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
     }
 }
 
 export const TableHeaderControls = <
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withSourceQuery,
         Filter,
         Postfix,
-    }: TableHeaderControls.Props<TSchema, TFilterSchema, TOrderBySchema>
+    }: TableHeaderControls.Props<TSchema, TQuerySchema>
 ) => {
     const invalidator = withSourceQuery.useInvalidator();
     return <Grid

@@ -4,9 +4,8 @@ import {
     notifications
 }                             from "@use-pico/ui";
 import {useEffect}            from "react";
-import {IJobStatus}           from "../api/IJobStatus";
-import {JobFilterSchema}      from "../schema/JobFilterSchema";
-import {JobOrderBySchema}     from "../schema/JobOrderBySchema";
+import {JobStatus}            from "../api/JobStatus";
+import {JobQuerySchema}       from "../schema/JobQuerySchema";
 import {JobSchema}            from "../schema/JobSchema";
 import {JobProgress}          from "../ui/JobProgress";
 import {JobServiceInline}     from "../ui/JobServiceInline";
@@ -14,7 +13,7 @@ import {JobStatusInline}      from "../ui/JobStatusInline";
 
 export namespace useJobNotifications {
     export interface Props {
-        withJobQuery: WithSourceQuery<JobSchema, JobFilterSchema, JobOrderBySchema>;
+        withJobQuery: WithSourceQuery<JobSchema, JobQuerySchema>;
         interval?: number;
     }
 }
@@ -54,7 +53,7 @@ export const useJobNotifications = (
                                        }}
                                    />
                                </>,
-                    loading:   IJobStatus.JOB_PENDING.includes(job.status),
+                    loading: JobStatus.JOB_PENDING.includes(job.status),
                     autoClose: false,
                 });
                 notifications.update({
@@ -71,7 +70,7 @@ export const useJobNotifications = (
                                        }}
                                    />
                                </>,
-                    loading:   IJobStatus.JOB_PENDING.includes(job.status),
+                    loading: JobStatus.JOB_PENDING.includes(job.status),
                     autoClose: false,
                 });
             });

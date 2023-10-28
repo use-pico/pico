@@ -15,27 +15,21 @@ import {type WithQuery}  from "./WithQuery";
 
 export interface WithSourceQuery<
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
 > extends Omit<
     WithQuery<
-        QuerySchema<
-            TFilterSchema,
-            TOrderBySchema
-        >,
+        TQuerySchema,
         ArraySchema<TResponseSchema>
     >,
     "schema"
 > {
     schema: {
         schema: TResponseSchema;
-        filter: TFilterSchema;
-        orderBy: TOrderBySchema;
-        request: QuerySchema<TFilterSchema, TOrderBySchema>;
+        request: TQuerySchema;
         response: ArraySchema<TResponseSchema>;
     };
 
-    query: IQueryStore<TFilterSchema, TOrderBySchema>;
+    store: IQueryStore<TQuerySchema>;
 
     /**
      * Get count of items provided by this query (using current query store)
@@ -44,15 +38,15 @@ export interface WithSourceQuery<
     /**
      * GEt count of items provided by this query using query request directly.
      */
-    useCountEx: WithQuery<QuerySchema<TFilterSchema, TOrderBySchema>, CountSchema>["useQueryEx"];
+    useCountEx: WithQuery<TQuerySchema, CountSchema>["useQueryEx"];
 
-    useFilter(): (filter: PicoSchema.Output<TFilterSchema>) => void;
+    useFilter(): (filter: PicoSchema.Output<TQuerySchema["shape"]["filter"]>) => void;
 
-    useShallowFilter(): (filter?: PicoSchema.Output<TFilterSchema>) => void;
+    useShallowFilter(): (filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]>) => void;
 
-    useOrderBy(): (orderBy: PicoSchema.Output<TOrderBySchema>) => void;
+    useOrderBy(): (orderBy: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>) => void;
 
-    useShallowOrderBy(): (orderBy?: PicoSchema.Output<TOrderBySchema>) => void;
+    useShallowOrderBy(): (orderBy?: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>) => void;
 
-    WithFilter: withFilter.WithFilter<TFilterSchema, TOrderBySchema>;
+    WithFilter: withFilter.WithFilter<TQuerySchema>;
 }

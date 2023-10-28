@@ -9,30 +9,26 @@ import {type IQueryStoreProps} from "../api/IQueryStoreProps";
 import {CursorSchema}          from "../schema/CursorSchema";
 import {type FilterSchema}     from "../schema/FilterSchema";
 import {type OrderBySchema}    from "../schema/OrderBySchema";
+import {type QuerySchema}      from "../schema/QuerySchema";
 
 export namespace createQueryStore {
     export interface Props<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         name: string;
-        schema: {
-            filter: TFilterSchema;
-            orderBy: TOrderBySchema;
-        };
+        schema: TQuerySchema;
     }
 }
 
 export const createQueryStore = <
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         name,
         schema,
-    }: createQueryStore.Props<TFilterSchema, TOrderBySchema>
-): IQueryStore<TFilterSchema, TOrderBySchema> => {
-    return createStore<IQueryStoreProps<TFilterSchema, TOrderBySchema>>({
+    }: createQueryStore.Props<TQuerySchema>
+): IQueryStore<TQuerySchema> => {
+    return createStore<IQueryStoreProps<TQuerySchema>>({
         state: () => (set, get) => ({
             schema,
             where:          undefined,
@@ -73,11 +69,11 @@ export const createQueryStore = <
                 });
             },
             setFilter:      filter => {
-                set({filter: parse(schema.filter, filter)});
+                set({filter: parse(schema.shape.filter, filter)});
             },
             shallowFilter:  filter => {
                 set({
-                    filter: parse(schema.filter, {
+                    filter: parse(schema.shape.filter, {
                         ...get().filter,
                         ...filter,
                     }),
@@ -92,11 +88,11 @@ export const createQueryStore = <
                 return !isEmpty(cleanOf(get().filter));
             },
             setOrderBy:     orderBy => {
-                set({orderBy: parse(schema.orderBy, orderBy)});
+                set({orderBy: parse(schema.shape.orderBy, orderBy)});
             },
             shallowOrderBy: orderBy => {
                 set({
-                    orderBy: parse(schema.orderBy, {
+                    orderBy: parse(schema.shape.orderBy, {
                         ...get().orderBy,
                         ...orderBy,
                     }),

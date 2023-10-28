@@ -1,4 +1,8 @@
-import {type FilterSchema}      from "@use-pico/query";
+import {
+    type FilterSchema,
+    OrderBySchema,
+    QuerySchema
+}                               from "@use-pico/query";
 import {type PicoSchema}        from "@use-pico/schema";
 import {Table}                  from "@use-pico/ui";
 import {type FC}                from "react";
@@ -8,33 +12,33 @@ import {type ITableColumnTuple} from "../../api/ITableColumnTuple";
 export namespace TableFoot {
     export interface Props<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        WithFooter?: WithFooter<TSchema, TFilterSchema>;
+        WithFooter?: WithFooter<TSchema, TQuerySchema>;
         withTableAction: boolean;
         withRowAction: boolean;
         disableActions: boolean;
-        columns: ITableColumnTuple<TSchema, TFilterSchema>[];
+        columns: ITableColumnTuple<TSchema, TQuerySchema>[];
         items?: PicoSchema.Output<TSchema>[];
     }
 
     export type WithFooter<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-    > = FC<WithFooterProps<TSchema, TFilterSchema>>;
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    > = FC<WithFooterProps<TSchema, TQuerySchema>>;
 
     export interface WithFooterProps<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         items?: PicoSchema.Output<TSchema>[];
-        columns?: ITableColumn<TSchema, TFilterSchema>[];
+        columns?: ITableColumn<TSchema, TQuerySchema>[];
     }
 }
 
 export const TableFoot = <
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         WithFooter,
@@ -43,7 +47,7 @@ export const TableFoot = <
         disableActions,
         columns,
         items,
-    }: TableFoot.Props<TSchema, TFilterSchema>
+    }: TableFoot.Props<TSchema, TQuerySchema>
 ) => {
     return WithFooter ? <Table.Tfoot>
         <Table.Tr>

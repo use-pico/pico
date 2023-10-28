@@ -11,23 +11,21 @@ import {withQuery}            from "./withQuery";
 export namespace withFindByQuery {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
-    > extends withQuery.Props<QuerySchema<TFilterSchema, TOrderBySchema>, TResponseSchema> {
-        query: IQueryStore<TFilterSchema, TOrderBySchema>;
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
+    > extends withQuery.Props<TQuerySchema, TResponseSchema> {
+        query: IQueryStore<TQuerySchema>;
     }
 }
 
 export const withFindByQuery = <
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         query,
         ...props
-    }: withFindByQuery.Props<TResponseSchema, TFilterSchema, TOrderBySchema>
-): WithFindByQuery<TResponseSchema, TFilterSchema, TOrderBySchema> => {
+    }: withFindByQuery.Props<TResponseSchema, TQuerySchema>
+): WithFindByQuery<TResponseSchema, TQuerySchema> => {
     const $withQuery = withQuery(props);
     return {
         ...$withQuery,

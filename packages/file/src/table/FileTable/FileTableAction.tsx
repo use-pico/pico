@@ -10,14 +10,13 @@ import {
 import {TableActionMenu}         from "@use-pico/table";
 import {MenuItem}                from "@use-pico/ui";
 import {type FC}                 from "react";
-import {type FileFilterSchema}   from "../../schema/FileFilterSchema";
 import {type FileMutationSchema} from "../../schema/FileMutationSchema";
-import {type FileOrderBySchema}  from "../../schema/FileOrderBySchema";
+import {type FileQuerySchema}    from "../../schema/FileQuerySchema";
 import {type FileSchema}         from "../../schema/FileSchema";
 
 export namespace FileTableAction {
     export interface Props {
-        withFileSourceQuery: WithSourceQuery<FileSchema, FileFilterSchema, FileOrderBySchema>;
+        withFileSourceQuery: WithSourceQuery<FileSchema, FileQuerySchema>;
         withFileMutation: WithMutation<FileMutationSchema, FileSchema>;
     }
 }
@@ -28,7 +27,7 @@ export const FileTableAction: FC<FileTableAction.Props> = (
         withFileMutation,
     }
 ) => {
-    const query = withFileSourceQuery.query.use(({filter}) => ({filter}));
+    const query = withFileSourceQuery.store.use(({filter}) => ({filter}));
     const fileMutation = withFileMutation.useMutation();
     const successNotification = useSuccessNotification();
     const errorNotification = useErrorNotification();

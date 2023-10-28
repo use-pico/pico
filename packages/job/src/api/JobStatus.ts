@@ -6,7 +6,7 @@ const ERROR = 4;
 const INTERRUPTED = 5;
 const CHECK = 6;
 
-export const IJobStatus = {
+export const JobStatus = {
     /**
      * Job has been created and currently no body cares about it (until a scheduler pick it up).
      *

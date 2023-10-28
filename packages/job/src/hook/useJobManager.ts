@@ -5,8 +5,8 @@ import {
     useState
 }                              from "react";
 import {type IJobManager}      from "../api/IJobManager";
-import {IJobStatus}            from "../api/IJobStatus";
 import {type JobQueryMutation} from "../api/JobQueryMutation";
+import {JobStatus}             from "../api/JobStatus";
 import {type JobFilterSchema}  from "../schema/JobFilterSchema";
 import {type JobSchema}        from "../schema/JobSchema";
 
@@ -87,15 +87,15 @@ export const useJobManager = <
 
             const check = [
                 {
-                    status:  [IJobStatus.ERROR],
+                    status: [JobStatus.ERROR],
                     handler: onError,
                 },
                 {
-                    status:  [IJobStatus.SUCCESS],
+                    status: [JobStatus.SUCCESS],
                     handler: onSuccess,
                 },
                 {
-                    status:  IJobStatus.JOB_SETTLED,
+                    status: JobStatus.JOB_SETTLED,
                     handler: onSettled,
                 },
             ] as const;
@@ -115,13 +115,13 @@ export const useJobManager = <
     }, [watch.data]);
 
     const isRunning = () => {
-        return job?.status === IJobStatus.RUNNING;
+        return job?.status === JobStatus.RUNNING;
     };
     const isPending = () => {
-        return IJobStatus.JOB_PENDING.includes(job?.status ?? -1);
+        return JobStatus.JOB_PENDING.includes(job?.status ?? -1);
     };
     const isSettled = () => {
-        return IJobStatus.JOB_SETTLED.includes(job?.status ?? -1);
+        return JobStatus.JOB_SETTLED.includes(job?.status ?? -1);
     };
 
     return {
@@ -152,7 +152,7 @@ export const useJobManager = <
         interrupt:  () => {
             job && setJob({
                 ...job,
-                status: IJobStatus.INTERRUPTED,
+                status: JobStatus.INTERRUPTED,
             });
             !job && errorNotification({
                 withTranslation: {
@@ -224,7 +224,7 @@ export const useJobManager = <
             return asyncMutation.isPending || interruptMutation.isPending || jobMutation.isPaused || watch.isLoading;
         },
         isPending:  () => {
-            return IJobStatus.JOB_PENDING.includes(job?.status || -1);
+            return JobStatus.JOB_PENDING.includes(job?.status || -1);
         },
         withCommit: () => {
             return !!job && isSettled() && !job.commit;

@@ -6,15 +6,15 @@ import {
     IconExclamationCircle,
     IconRun,
     IconTrophy
-}                   from "@tabler/icons-react";
-import {IJobStatus} from "../api/IJobStatus";
+}                  from "@tabler/icons-react";
+import {JobStatus} from "../api/JobStatus";
 
 export const JobIconMap = {
-    [IJobStatus.PENDING]:     <IconClockPause/>,
-    [IJobStatus.SCHEDULED]:   <IconClock/>,
-    [IJobStatus.RUNNING]:     <IconRun/>,
-    [IJobStatus.SUCCESS]:     <IconTrophy/>,
-    [IJobStatus.ERROR]:       <IconExclamationCircle/>,
-    [IJobStatus.INTERRUPTED]: <IconCircleX/>,
-    [IJobStatus.CHECK]:       <IconAlertTriangle/>,
+    [JobStatus.PENDING]:     <IconClockPause/>,
+    [JobStatus.SCHEDULED]:   <IconClock/>,
+    [JobStatus.RUNNING]:     <IconRun/>,
+    [JobStatus.SUCCESS]:     <IconTrophy/>,
+    [JobStatus.ERROR]:       <IconExclamationCircle/>,
+    [JobStatus.INTERRUPTED]: <IconCircleX/>,
+    [JobStatus.CHECK]:       <IconAlertTriangle/>,
 } as const;

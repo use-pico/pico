@@ -12,16 +12,15 @@ import {type WithQuery} from "./WithQuery";
 
 export interface WithFindByQuery<
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
-> extends WithQuery<QuerySchema<TFilterSchema, TOrderBySchema>, TResponseSchema> {
-    query: IQueryStore<TFilterSchema, TOrderBySchema>;
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+> extends WithQuery<TQuerySchema, TResponseSchema> {
+    query: IQueryStore<TQuerySchema>;
 
-    useFilter(): (filter: PicoSchema.Output<TFilterSchema>) => void;
+    useFilter(): (filter: PicoSchema.Output<TQuerySchema["shape"]["filter"]>) => void;
 
-    useShallowFilter(): (filter?: PicoSchema.Output<TFilterSchema>) => void;
+    useShallowFilter(): (filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]>) => void;
 
-    useOrderBy(): (orderBy: PicoSchema.Output<TOrderBySchema>) => void;
+    useOrderBy(): (orderBy: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>) => void;
 
-    useShallowOrderBy(): (orderBy?: PicoSchema.Output<TOrderBySchema>) => void;
+    useShallowOrderBy(): (orderBy?: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>) => void;
 }

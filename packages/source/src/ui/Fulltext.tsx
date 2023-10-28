@@ -8,7 +8,8 @@ import {useDebouncedState}    from "@use-pico/hook";
 import {useTranslation}       from "@use-pico/i18n";
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    type QuerySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {type ResponseSchema}  from "@use-pico/schema";
@@ -26,10 +27,9 @@ import {
 export namespace Fulltext {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends TextInput.Props {
-        withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
         loading?: boolean;
         debounce?: number;
 
@@ -39,8 +39,7 @@ export namespace Fulltext {
 
 export const Fulltext = <
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withSourceQuery,
@@ -48,14 +47,14 @@ export const Fulltext = <
         debounce = 250,
         onSearch,
         ...props
-    }: Fulltext.Props<TResponseSchema, TFilterSchema, TOrderBySchema>
+    }: Fulltext.Props<TResponseSchema, TQuerySchema>
 ) => {
     const t = useTranslation();
     const {
         filter,
         setCursor,
         shallowFilter,
-    } = withSourceQuery.query.use((
+    } = withSourceQuery.store.use((
         {
             filter,
             setCursor,

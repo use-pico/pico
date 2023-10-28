@@ -3,8 +3,7 @@ import {
     type FilterSchema,
     type IQueryStore,
     type OrderBySchema,
-    type QuerySchema,
-    withQuerySchema
+    type QuerySchema
 }                             from "@use-pico/query";
 import {
     type ResponseSchema,
@@ -18,68 +17,56 @@ import {withQuery}            from "./withQuery";
 export namespace withSourceQuery {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > extends Omit<
         withQuery.Props<
-            QuerySchema<
-                TFilterSchema,
-                TOrderBySchema
-            >,
+            TQuerySchema,
             TResponseSchema
         >,
         "schema"
     > {
-        query: IQueryStore<TFilterSchema, TOrderBySchema>;
+        store: IQueryStore<TQuerySchema>;
         schema: {
-            filter: TFilterSchema;
-            orderBy: TOrderBySchema;
+            query: TQuerySchema;
             response: TResponseSchema;
         },
-        withCountQuery: WithQuery<QuerySchema<TFilterSchema, TOrderBySchema>, CountSchema>;
+        withCountQuery: WithQuery<TQuerySchema, CountSchema>;
     }
 }
 
 export const withSourceQuery = <
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
 >(
     {
-        query,
+        store,
         withCountQuery,
         schema: {
                     response,
-                    ...schema
+                    query,
                 },
         ...     props
-    }: withSourceQuery.Props<TResponseSchema, TFilterSchema, TOrderBySchema>
-): WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema> => {
-    const request = withQuerySchema({
-        filter:  schema.filter,
-        orderBy: schema.orderBy,
-    });
+    }: withSourceQuery.Props<TResponseSchema, TQuerySchema>
+): WithSourceQuery<TResponseSchema, TQuerySchema> => {
     const $response = s(z => z.array(response));
     const $withQuery = withQuery({
         ...props,
         schema: {
-            ...schema,
-            request,
+            request: query,
             response: $response,
         },
     });
     return {
         ...$withQuery,
-        query,
+        store,
         schema:     {
-            ...schema,
-            request,
             schema:   response,
+            request: query,
             response: $response,
         },
         useQuery:   options => {
             return $withQuery.useQueryEx({
-                request: query.use((
+                request: store.use((
                     {
                         where,
                         filter,
@@ -96,7 +83,7 @@ export const withSourceQuery = <
         },
         useCount:   options => {
             return withCountQuery.useQueryEx({
-                request: query.use((
+                request: store.use((
                     {
                         where,
                         filter,
@@ -121,23 +108,23 @@ export const withSourceQuery = <
             };
         },
         useFilter:         () => {
-            const setFilter = query.use(({setFilter}) => setFilter);
+            const setFilter = store.use(({setFilter}) => setFilter);
             return filter => setFilter(filter);
         },
         useShallowFilter:  () => {
-            const shallowFilter = query.use(({shallowFilter}) => shallowFilter);
+            const shallowFilter = store.use(({shallowFilter}) => shallowFilter);
             return filter => shallowFilter(filter);
         },
         useOrderBy:        () => {
-            const setOrderBy = query.use(({setOrderBy}) => setOrderBy);
+            const setOrderBy = store.use(({setOrderBy}) => setOrderBy);
             return orderBy => setOrderBy(orderBy);
         },
         useShallowOrderBy: () => {
-            const shallowOrderBy = query.use(({shallowOrderBy}) => shallowOrderBy);
+            const shallowOrderBy = store.use(({shallowOrderBy}) => shallowOrderBy);
             return orderBy => shallowOrderBy(orderBy);
         },
         WithFilter:        withFilter({
-            withQueryStore: query,
+            withQueryStore: store,
         }),
     };
 };

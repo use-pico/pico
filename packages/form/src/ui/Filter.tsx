@@ -5,6 +5,7 @@ import {
 }                             from "@use-pico/i18n";
 import {
     type FilterSchema,
+    type QuerySchema,
     type WithMutation,
     withPassMutation
 }                             from "@use-pico/query";
@@ -38,7 +39,7 @@ export namespace Filter {
         schema: {
             filter: TFilterSchema;
         },
-        withSourceQuery: WithSourceQuery<any, TFilterSchema, any>;
+        withSourceQuery: WithSourceQuery<any, QuerySchema<TFilterSchema, any>>;
     }
 }
 
@@ -49,7 +50,7 @@ export const Filter = <TFilterSchema extends FilterSchema>(
         ...props
     }: Filter.Props<TFilterSchema>
 ) => {
-    const query = withSourceQuery.query.use((
+    const query = withSourceQuery.store.use((
         {
             filter,
             setFilter,

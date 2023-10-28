@@ -10,9 +10,7 @@ import {
     type WithIdentitySchema
 }                                                    from "@use-pico/schema";
 import {type MutationSchema}                         from "@use-pico/source";
-import {type JobFilterSchema}                        from "../schema/JobFilterSchema";
 import {type JobMutationSchema}                      from "../schema/JobMutationSchema";
-import {type JobOrderBySchema}                       from "../schema/JobOrderBySchema";
 import {type JobQuerySchema}                         from "../schema/JobQuerySchema";
 import {type JobSchema}                              from "../schema/JobSchema";
 import {type JobShapeSchema}                         from "../schema/JobShapeSchema";
@@ -35,8 +33,7 @@ export namespace JobQueryMutation {
 
     export type WithFindByQuery = CoolWithFindByQuery<
         NullishSchema<JobSchema>,
-        JobFilterSchema,
-        JobOrderBySchema
+        JobQuerySchema
     >;
 
     export type WithInterruptMutation = CoolWithMutation<WithIdentitySchema, JobSchema>;

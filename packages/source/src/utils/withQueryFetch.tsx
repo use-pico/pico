@@ -1,6 +1,7 @@
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    type QuerySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {type ResponseSchema}  from "@use-pico/schema";
@@ -10,19 +11,17 @@ import {QueryFetch}           from "../ui/QueryFetch";
 export namespace withQueryFetch {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        withSourceQuery: WithSourceQuery<TResponseSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
     }
 
     export type Query<
         TResponseSchema extends ResponseSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > = FC<
         Omit<
-            QueryFetch.Props<TResponseSchema, TFilterSchema, TOrderBySchema>,
+            QueryFetch.Props<TResponseSchema, TQuerySchema>,
             "withSourceQuery"
         >
     >;
@@ -30,12 +29,11 @@ export namespace withQueryFetch {
 
 export const withQueryFetch = <
     TResponseSchema extends ResponseSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withSourceQuery,
-    }: withQueryFetch.Props<TResponseSchema, TFilterSchema, TOrderBySchema>
-): withQueryFetch.Query<TResponseSchema, TFilterSchema, TOrderBySchema> => {
+    }: withQueryFetch.Props<TResponseSchema, TQuerySchema>
+): withQueryFetch.Query<TResponseSchema, TQuerySchema> => {
     return props => <QueryFetch withSourceQuery={withSourceQuery} {...props}/>;
 };

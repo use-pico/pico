@@ -2,7 +2,8 @@ import {IconSearch}           from "@tabler/icons-react";
 import {WithTranslationStore} from "@use-pico/i18n";
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    QuerySchema
 }                             from "@use-pico/query";
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {type PicoSchema}      from "@use-pico/schema";
@@ -20,23 +21,21 @@ import {
 export namespace TableCountResult {
     export interface Props<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
         Empty?: FC;
     }
 }
 
 export const TableCountResult = <
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withSourceQuery,
         Empty,
-    }: TableCountResult.Props<TSchema, TFilterSchema, TOrderBySchema>
+    }: TableCountResult.Props<TSchema, TQuerySchema>
 ) => {
     const {namespace} = WithTranslationStore.use(({namespace}) => ({namespace}));
     const countResult = withSourceQuery.useCount();

@@ -4,7 +4,7 @@ import {
 }                       from "@use-pico/ui";
 import {toHumanNumber}  from "@use-pico/utils";
 import {type FC}        from "react";
-import {IJobStatus}     from "../api/IJobStatus";
+import {JobStatus}      from "../api/JobStatus";
 import {type JobSchema} from "../schema/JobSchema";
 
 export namespace JobPercent {
@@ -18,7 +18,7 @@ export const JobPercent: FC<JobPercent.Props> = (
         job,
     }
 ) => {
-    if (!job || job.commit || IJobStatus.JOB_SETTLED.includes(job.status)) {
+    if (!job || job.commit || JobStatus.JOB_SETTLED.includes(job.status)) {
         return null;
     }
     return <Group gap={4}>

@@ -5,7 +5,8 @@ import {
 import {Pagination}             from "@use-pico/pagination";
 import {
     type FilterSchema,
-    type OrderBySchema
+    type OrderBySchema,
+    QuerySchema
 }                               from "@use-pico/query";
 import {type WithSourceQuery}   from "@use-pico/rpc";
 import {type PicoSchema}        from "@use-pico/schema";
@@ -34,24 +35,23 @@ export namespace Table {
     export interface Props<
         TColumns extends string,
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends Partial<Omit<CoolTable.Props, "hidden" | "onClick">>,
-        TableHeaderControls.Props<TSchema, TFilterSchema, TOrderBySchema>,
-        Omit<TablePrefix.Props<TSchema, TFilterSchema>, "columns" | "items">,
-        Omit<TableHead.Props<TSchema, TFilterSchema>, "columns" | "withRowAction" | "disableActions" | "items">,
-        Omit<TableBody.Props<TSchema, TFilterSchema, TOrderBySchema>, "columns" | "WithRow" | "withTableAction" | "disableActions">,
-        Omit<TableFoot.Props<TSchema, TFilterSchema>, "columns" | "withTableAction" | "withRowAction" | "disableActions" | "items">,
-        TableCountResult.Props<TSchema, TFilterSchema, TOrderBySchema> {
+        TableHeaderControls.Props<TSchema, TQuerySchema>,
+        Omit<TablePrefix.Props<TSchema, TQuerySchema>, "columns" | "items">,
+        Omit<TableHead.Props<TSchema, TQuerySchema>, "columns" | "withRowAction" | "disableActions" | "items">,
+        Omit<TableBody.Props<TSchema, TQuerySchema>, "columns" | "WithRow" | "withTableAction" | "disableActions">,
+        Omit<TableFoot.Props<TSchema, TQuerySchema>, "columns" | "withTableAction" | "withRowAction" | "disableActions" | "items">,
+        TableCountResult.Props<TSchema, TQuerySchema> {
         withTranslation?: IWithTranslation;
         /**
          * Define table columns; they will be rendered by default in the specified order
          */
-        columns: ITableColumns<TColumns, TSchema, TFilterSchema>;
+        columns: ITableColumns<TColumns, TSchema, TQuerySchema>;
         /**
          * You can override some columns if you need to
          */
-        overrideColumns?: Partial<ITableColumns<TColumns, TSchema, TFilterSchema>>;
+        overrideColumns?: Partial<ITableColumns<TColumns, TSchema, TQuerySchema>>;
         /**
          * If a table is long, you can specify scroll area
          */
@@ -64,10 +64,10 @@ export namespace Table {
          * Specify an order of columns
          */
         order?: TColumns[];
-        withSourceQuery: WithSourceQuery<TSchema, TFilterSchema, TOrderBySchema>;
+        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
 
         WithRow?: FC<TableBody.RowProps<TSchema>>;
-        WithPostfix?: TableHeaderControls.Props<TSchema, TFilterSchema, TOrderBySchema>["Postfix"];
+        WithPostfix?: TableHeaderControls.Props<TSchema, TQuerySchema>["Postfix"];
 
         disableActions?: boolean;
 
@@ -92,8 +92,7 @@ export namespace Table {
 export const Table = <
     TColumns extends string,
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withTranslation,
@@ -121,7 +120,7 @@ export const Table = <
         refresh,
         minWidth = "auto",
         ...props
-    }: Table.Props<TColumns, TSchema, TFilterSchema, TOrderBySchema>) => {
+    }: Table.Props<TColumns, TSchema, TQuerySchema>) => {
     const $order = order || Object.keys(columns) as TColumns[];
     const $pagination = pagination || {
         position: ["top", "bottom"],
@@ -133,7 +132,7 @@ export const Table = <
     /**
      * Do not memo this, or memo carefully! Changing this breaks column sorting and maybe something else too.
      */
-    const $columns: ITableColumnTuple<TSchema, TFilterSchema>[] = $order.filter(column => !hidden?.includes(column)).map(column => [
+    const $columns: ITableColumnTuple<TSchema, TQuerySchema>[] = $order.filter(column => !hidden?.includes(column)).map(column => [
         column,
         overrideColumns?.[column] || columns[column],
     ]);

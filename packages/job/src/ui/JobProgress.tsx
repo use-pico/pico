@@ -8,7 +8,7 @@ import {
     type ComponentProps,
     type FC
 }                    from "react";
-import {IJobStatus}  from "../api/IJobStatus";
+import {JobStatus}   from "../api/JobStatus";
 import {JobSchema}   from "../schema/JobSchema";
 
 export namespace JobProgress {
@@ -40,7 +40,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             label={<Translation withLabel={"successCount"} values={{count: job.successCount}}/>}
         >
             <Progress.Section
-                animated={IJobStatus.JOB_PENDING.includes(job.status)}
+                animated={JobStatus.JOB_PENDING.includes(job.status)}
                 value={toPercent(job.successCount, job.total)}
                 color={"teal"}
             />
@@ -49,7 +49,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             label={<Translation withLabel={"errorCount"} values={{count: job.errorCount}}/>}
         >
             <Progress.Section
-                animated={IJobStatus.JOB_PENDING.includes(job.status)}
+                animated={JobStatus.JOB_PENDING.includes(job.status)}
                 value={toPercent(job.errorCount, job.total)}
                 color={"red"}
             />
@@ -58,7 +58,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             label={<Translation withLabel={"skipCount"} values={{count: job.skipCount}}/>}
         >
             <Progress.Section
-                animated={IJobStatus.JOB_PENDING.includes(job.status)}
+                animated={JobStatus.JOB_PENDING.includes(job.status)}
                 value={toPercent(job.skipCount, job.total)}
                 color={"yellow"}
             />

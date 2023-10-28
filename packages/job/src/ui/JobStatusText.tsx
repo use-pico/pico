@@ -3,7 +3,7 @@ import {
     type FC,
     type ReactNode
 }                       from "react";
-import {IJobStatus}     from "../api/IJobStatus";
+import {JobStatus}      from "../api/JobStatus";
 import {type JobSchema} from "../schema/JobSchema";
 
 export namespace JobStatusText {
@@ -20,7 +20,7 @@ export const JobStatusText: FC<JobStatusText.Props> = (
         job,
         inline = false,
         defaultText,
-        withStatus = IJobStatus.JOB_PENDING,
+        withStatus = JobStatus.JOB_PENDING,
     }
 ) => {
     if (job && (inline || withStatus.includes(job.status))) {

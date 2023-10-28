@@ -1,7 +1,8 @@
 import {
     type FilterSchema,
     type IQueryStore,
-    type OrderBySchema
+    type OrderBySchema,
+    QuerySchema
 }                        from "@use-pico/query";
 import {type PicoSchema} from "@use-pico/schema";
 import {
@@ -12,7 +13,7 @@ import {
 
 export interface ITableColumn<
     TSchema extends PicoSchema,
-    TFilterSchema extends FilterSchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 > {
     /**
      * Explicitly override column title (by default column name is taken from Record<> in Table)
@@ -40,7 +41,7 @@ export interface ITableColumn<
      */
     onHeaderClick?(): void;
 
-    withFilter?: ITableColumn.WithFilter<TSchema, TFilterSchema>;
+    withFilter?: ITableColumn.WithFilter<TSchema, TQuerySchema>;
 }
 
 export namespace ITableColumn {
@@ -53,34 +54,34 @@ export namespace ITableColumn {
 
     export interface WithFilter<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        isFilter(filter?: PicoSchema.Output<TFilterSchema>): boolean;
+        isFilter(filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]>): boolean;
 
-        onFilter(props: OnFilterProps<TSchema, TFilterSchema>): void;
+        onFilter(props: OnFilterProps<TSchema, TQuerySchema>): void;
 
-        onClear(props: OnClearProps<TSchema, TFilterSchema>): void;
+        onClear(props: OnClearProps<TSchema, TQuerySchema>): void;
     }
 
     export interface OnFilterProps<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
         item: PicoSchema.Output<TSchema>;
-        filter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["clearFilter"];
+        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
+        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
+        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
+        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
     }
 
     export interface OnClearProps<
         TSchema extends PicoSchema,
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         item: PicoSchema.Output<TSchema>;
-        filter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TFilterSchema, OrderBySchema>["use"]>["clearFilter"];
+        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
+        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
+        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
+        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
     }
 }
