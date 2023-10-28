@@ -1,5 +1,13 @@
 # @use-pico/rpc
 
+## 1.0.15
+
+### Patch Changes
+
+- 8f710a7: Added missing dependency
+- Updated dependencies [1229b7b]
+  - @use-pico/repository@1.0.12
+
 ## 1.0.14
 
 ### Patch Changes

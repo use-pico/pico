@@ -1,5 +1,11 @@
 # @use-pico/repository
 
+## 1.0.12
+
+### Patch Changes
+
+- 1229b7b: Fixed dependency in the package
+
 ## 1.0.11
 
 ### Patch Changes
