@@ -1,5 +1,15 @@
 # @use-pico/repository
 
+## 1.0.11
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/rpc@1.0.13
+  - @use-pico/query@1.0.13
+  - @use-pico/schema@1.0.19
+
 ## 1.0.10
 
 ### Patch Changes

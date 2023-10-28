@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 1.0.10
+
+### Patch Changes
+
+- ec16573: Version bump
+
 ## 1.0.9
 
 ### Patch Changes

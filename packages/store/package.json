@@ -1,5 +1,5 @@
 {
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"name": "@use-pico/store",
 	"description": "Store stuff.",
 	"license": "MIT",
@@ -28,15 +28,15 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/context": "^1.0.10",
-		"@use-pico/utils": "^1.0.23",
+		"@use-pico/context": "^1.0.11",
+		"@use-pico/utils": "^1.0.24",
 		"react": "^18.2.0",
 		"zustand": "^4.3.9"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^1.0.7",
-		"@use-pico/eslint-config-eslint": "^1.0.9",
-		"@use-pico/tsconfig": "^1.0.9",
+		"@use-pico/esbuild": "^1.0.8",
+		"@use-pico/eslint-config-eslint": "^1.0.10",
+		"@use-pico/tsconfig": "^1.0.10",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",

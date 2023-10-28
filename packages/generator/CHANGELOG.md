@@ -1,5 +1,13 @@
 # @use-pico/generator
 
+## 1.0.10
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/utils@1.0.24
+
 ## 1.0.9
 
 ### Patch Changes

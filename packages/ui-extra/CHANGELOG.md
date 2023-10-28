@@ -1,5 +1,21 @@
 # @use-pico/ui-extra
 
+## 1.0.16
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/rpc@1.0.13
+  - @use-pico/file@1.0.13
+  - @use-pico/hook@1.0.11
+  - @use-pico/i18n@1.0.11
+  - @use-pico/navigation@1.0.11
+  - @use-pico/query@1.0.13
+  - @use-pico/schema@1.0.19
+  - @use-pico/ui@1.0.14
+  - @use-pico/utils@1.0.24
+
 ## 1.0.15
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @use-pico/container
 
+## 1.0.3
+
+### Patch Changes
+
+- ec16573: Version bump
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.19
+
+### Patch Changes
+
+- ec16573: Version bump
+
 ## 1.0.18
 
 ### Patch Changes

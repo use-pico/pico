@@ -1,5 +1,14 @@
 # @use-pico/pagination
 
+## 1.0.10
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/i18n@1.0.11
+  - @use-pico/ui@1.0.14
+
 ## 1.0.9
 
 ### Patch Changes

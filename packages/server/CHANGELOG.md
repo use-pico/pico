@@ -1,5 +1,15 @@
 # @use-pico/server
 
+## 1.0.4
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/rpc-server@1.0.1
+  - @use-pico/auth-server@1.0.3
+  - @use-pico/container@1.0.3
+
 ## 1.0.3
 
 ### Patch Changes

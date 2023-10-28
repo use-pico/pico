@@ -1,5 +1,14 @@
 # @use-pico/utils
 
+## 1.0.24
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/schema@1.0.19
+  - @use-pico/types@1.0.10
+
 ## 1.0.23
 
 ### Patch Changes

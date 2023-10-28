@@ -1,5 +1,11 @@
 # @use-pico/esbuild
 
+## 1.0.8
+
+### Patch Changes
+
+- ec16573: Version bump
+
 ## 1.0.7
 
 ### Patch Changes

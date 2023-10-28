@@ -1,5 +1,15 @@
 # @use-pico/i18n
 
+## 1.0.11
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/navigation@1.0.11
+  - @use-pico/store@1.0.10
+  - @use-pico/utils@1.0.24
+
 ## 1.0.10
 
 ### Patch Changes

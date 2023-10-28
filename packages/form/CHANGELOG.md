@@ -1,5 +1,25 @@
 # @use-pico/form
 
+## 1.0.20
+
+### Patch Changes
+
+- ec16573: Version bump
+- Updated dependencies [ec16573]
+  - @use-pico/rpc@1.0.13
+  - @use-pico/calendar@1.0.11
+  - @use-pico/hook@1.0.11
+  - @use-pico/i18n@1.0.11
+  - @use-pico/navigation@1.0.11
+  - @use-pico/query@1.0.13
+  - @use-pico/schema@1.0.19
+  - @use-pico/selection@1.0.10
+  - @use-pico/source@1.0.11
+  - @use-pico/store@1.0.10
+  - @use-pico/table@1.0.11
+  - @use-pico/ui@1.0.14
+  - @use-pico/utils@1.0.24
+
 ## 1.0.19
 
 ### Patch Changes
