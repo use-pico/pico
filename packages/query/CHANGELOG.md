@@ -1,5 +1,11 @@
 # @use-pico/query
 
+## 1.0.14
+
+### Patch Changes
+
+- d37ba9b: Added useQuery hook
+
 ## 1.0.13
 
 ### Patch Changes
