@@ -1,5 +1,11 @@
 # @use-pico/rpc
 
+## 1.0.11
+
+### Patch Changes
+
+- 59dc382: Fixed typing
+
 ## 1.0.10
 
 ### Patch Changes
