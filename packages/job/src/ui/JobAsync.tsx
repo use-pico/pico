@@ -42,7 +42,10 @@ export const JobAsync = <
         icon,
         label,
         inline = false,
-        buttonProps,
+        buttonProps: {
+                         onClick,
+                         ...buttonProps
+                     } = {},
     }: JobAsync.Props<TRequestSchema>
 ) => {
     const job = jobManager.useJob();
@@ -53,7 +56,8 @@ export const JobAsync = <
             leftSection={icon || <JobIcon/>}
             loading={jobManager.isLoading()}
             disabled={jobManager.isDisabled()}
-            onClick={() => {
+            onClick={e => {
+                onClick?.(e);
                 jobManager.start(
                     toRequest()
                 );
