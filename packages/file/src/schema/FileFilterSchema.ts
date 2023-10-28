@@ -9,6 +9,7 @@ export const FileFilterSchema = merge([
     FilterSchema,
     schema(z => z.object({
         native: z.string$,
+        name: z.string$,
         path:   z.string$,
         mime:   z.string$,
     })),
