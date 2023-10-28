@@ -1,5 +1,11 @@
 # @use-pico/auth
 
+## 1.0.10
+
+### Patch Changes
+
+- 8d3ce26: Separated auth stuff into a standalone package
+
 ## 1.0.9
 
 ### Patch Changes

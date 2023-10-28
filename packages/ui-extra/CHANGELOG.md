@@ -1,5 +1,13 @@
 # @use-pico/ui-extra
 
+## 1.0.14
+
+### Patch Changes
+
+- ca42d7a: Added missing "use client"
+- Updated dependencies [ca42d7a]
+  - @use-pico/file@1.0.11
+
 ## 1.0.13
 
 ### Patch Changes

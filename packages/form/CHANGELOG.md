@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 1.0.18
+
+### Patch Changes
+
+- ca42d7a: Added missing "use client"
+
 ## 1.0.17
 
 ### Patch Changes

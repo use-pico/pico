@@ -1,5 +1,11 @@
 # @use-pico/file
 
+## 1.0.11
+
+### Patch Changes
+
+- ca42d7a: Added missing "use client"
+
 ## 1.0.10
 
 ### Patch Changes

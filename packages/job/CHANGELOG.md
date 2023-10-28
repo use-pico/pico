@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.15
+
+### Patch Changes
+
+- ca42d7a: Added missing "use client"
+
 ## 1.0.14
 
 ### Patch Changes

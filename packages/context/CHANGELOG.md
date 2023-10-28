@@ -1,5 +1,11 @@
 # @use-pico/context
 
+## 1.0.9
+
+### Patch Changes
+
+- ca42d7a: Added missing "use client"
+
 ## 1.0.8
 
 ### Patch Changes

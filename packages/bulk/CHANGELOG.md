@@ -1,5 +1,15 @@
 # @use-pico/bulk
 
+## 1.0.10
+
+### Patch Changes
+
+- ca42d7a: Updated lib with improved QuerySchema stuff
+- Updated dependencies [ca42d7a]
+  - @use-pico/ui-extra@1.0.14
+  - @use-pico/form@1.0.18
+  - @use-pico/job@1.0.15
+
 ## 1.0.9
 
 ### Patch Changes

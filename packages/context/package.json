@@ -1,5 +1,5 @@
 {
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"name": "@use-pico/context",
 	"description": "Context helper stuff, including support for Zustand.",
 	"license": "MIT",
