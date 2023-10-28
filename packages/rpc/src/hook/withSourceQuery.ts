@@ -1,13 +1,11 @@
 import {
     type CountSchema,
-    type FilterSchema,
     type IQueryStore,
-    type OrderBySchema,
     type QuerySchema
 }                             from "@use-pico/query";
 import {
     type ResponseSchema,
-    s
+    schema
 }                             from "@use-pico/schema";
 import {withFilter}           from "@use-pico/source";
 import {type WithQuery}       from "../api/WithQuery";
@@ -17,7 +15,7 @@ import {withQuery}            from "./withQuery";
 export namespace withSourceQuery {
     export interface Props<
         TResponseSchema extends ResponseSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
+        TQuerySchema extends QuerySchema<any, any>
     > extends Omit<
         withQuery.Props<
             TQuerySchema,
@@ -36,7 +34,7 @@ export namespace withSourceQuery {
 
 export const withSourceQuery = <
     TResponseSchema extends ResponseSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
+    TQuerySchema extends QuerySchema<any, any>
 >(
     {
         store,
@@ -48,7 +46,7 @@ export const withSourceQuery = <
         ...     props
     }: withSourceQuery.Props<TResponseSchema, TQuerySchema>
 ): WithSourceQuery<TResponseSchema, TQuerySchema> => {
-    const $response = s(z => z.array(response));
+    const $response = schema(z => z.array(response));
     const $withQuery = withQuery({
         ...props,
         schema: {
