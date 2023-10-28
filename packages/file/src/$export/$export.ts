@@ -1,4 +1,5 @@
 export * from "./FileCommitSchema";
+export * from "./FileEx";
 export * from "./FileFilterSchema";
 export * from "./FileMutationSchema";
 export * from "./FileOrderBySchema";
@@ -7,5 +8,4 @@ export * from "./FileSchema";
 export * from "./FileShapeSchema";
 export * from "./FileTable";
 export * from "./FileTableAction";
-export * from "./IFileWithPath";
 export * from "./useUpload";

@@ -1,17 +1,13 @@
-"use client";
-
-import {
-    Container,
-    Group,
-    Text,
-    Title
-}                    from "@mantine/core";
 import {Translation} from "@use-pico/i18n";
 import {
     type FC,
     type PropsWithChildren
 }                    from "react";
+import {Container}   from "./Container";
+import {Group}       from "./Group";
 import classes       from "./Status.module.css";
+import {Text}        from "./Text";
+import {Title}       from "./Title";
 
 export namespace Status {
     export type Props = PropsWithChildren<{

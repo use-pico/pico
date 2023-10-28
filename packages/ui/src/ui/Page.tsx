@@ -1,32 +1,24 @@
-"use client";
-
-import {
-    ActionIcon,
-    Flex,
-    Grid
-}                      from "@mantine/core";
-import {IconArrowLeft} from "@tabler/icons-react";
 import {
     type IWithTranslation,
-    Translation,
-    useTranslation,
-    useWithLocaleRedirect
-}                      from "@use-pico/i18n";
-import {isString}      from "@use-pico/utils";
-import Head            from "next/head";
+    Translation
+}                   from "@use-pico/i18n";
+import {isString}   from "@use-pico/utils";
+import Head         from "next/head";
 import {
     type FC,
     type PropsWithChildren,
-    type ReactNode,
-    useEffect
-}                      from "react";
-import {ActiveStore}   from "../store/ActiveStore";
-import {BlockStore}    from "../store/BlockStore";
-import {Container}     from "./Container";
-import {Divider}       from "./Divider";
-import {Group}         from "./Group";
-import {Title}         from "./Title";
-import {WithIcon}      from "./WithIcon";
+    type ReactNode
+}                   from "react";
+import {Container}  from "./Container";
+import {Divider}    from "./Divider";
+import {Flex}       from "./Flex";
+import {Grid}       from "./Grid";
+import {GridCol}    from "./GridCol";
+import {Group}      from "./Group";
+import {BackButton} from "./Page/BackButton";
+import {Title}      from "./Title";
+import {Unblock}    from "./Unblock";
+import {WithIcon}   from "./WithIcon";
 
 export namespace Page {
     export type Props = PropsWithChildren<{
@@ -52,10 +44,8 @@ export namespace Page {
          * Right section of page header
          */
         extra?: ReactNode;
-        /**
-         * When provided, renders back button with redirect callback
-         */
-        onBack?(redirect: useWithLocaleRedirect.Redirect): void;
+
+        onBack?: BackButton.Props["onBack"];
     }>;
 }
 
@@ -64,6 +54,7 @@ export const Page: FC<Page.Props> = (
         title,
         icon,
         withTranslation,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         withActive = [],
         postfix,
         append,
@@ -71,40 +62,30 @@ export const Page: FC<Page.Props> = (
         onBack,
         children
     }) => {
-    const block = BlockStore.use(({unblock}) => ({unblock}));
-    const redirect = useWithLocaleRedirect();
-    const t = useTranslation(withTranslation);
-    const {setActive} = ActiveStore.use(({setActive}) => ({setActive}));
-    useEffect(() => {
-        setActive(withActive);
-    }, [...withActive]);
-    useEffect(() => {
-        block.unblock();
-    }, []);
-
     return <Container fluid>
+        <Unblock/>
         <Head>
-            {isString(title) && <title>{t(`${title}.title`, withTranslation?.values)}</title>}
+            {isString(title) && <title>
+                <Translation
+                    label={`${title}.title`}
+                    values={withTranslation?.values}
+                />
+            </title>}
         </Head>
         {(onBack || postfix || extra || title) && <Grid
             align={"center"}
             py={"xs"}
         >
-            <Grid.Col span={"content"}>
+            <GridCol span={"content"}>
                 <Group>
                     {onBack && <>
-                        <ActionIcon
-                            variant={"subtle"}
-                            onClick={() => onBack(redirect)}
-                        >
-                            <IconArrowLeft/>
-                        </ActionIcon>
+                        <BackButton onBack={onBack}/>
                         <Divider orientation={"vertical"}/>
                     </>}
                     {postfix}
                 </Group>
-            </Grid.Col>
-            <Grid.Col span={"content"}>
+            </GridCol>
+            <GridCol span={"content"}>
                 <Flex gap={"sm"} justify={"center"} align={"center"}>
                     {(onBack || postfix) && <Divider orientation={"vertical"} mr={"sm"}/>}
                     {title && <Group justify={"center"} gap={"sm"}>
@@ -118,8 +99,8 @@ export const Page: FC<Page.Props> = (
                         </Title>
                     </Group>}
                 </Flex>
-            </Grid.Col>
-            <Grid.Col
+            </GridCol>
+            <GridCol
                 span={"auto"}
             >
                 <Flex
@@ -127,12 +108,12 @@ export const Page: FC<Page.Props> = (
                 >
                     {extra}
                 </Flex>
-            </Grid.Col>
+            </GridCol>
         </Grid>}
         <Grid>
-            <Grid.Col span={"auto"}>
+            <GridCol span={"auto"}>
                 {append}
-            </Grid.Col>
+            </GridCol>
         </Grid>
         {children}
     </Container>;

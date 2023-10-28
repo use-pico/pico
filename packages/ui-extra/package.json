@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/leight-core/viv.git"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -40,7 +40,7 @@
 		"@tabler/icons-react": "^2.39.0",
 		"axios": "^1.5.1",
 		"js-file-downloader": "^1.1.25",
-		"next": "^13.5.4",
+		"next": "^13.5.6",
 		"next-auth": "^4.22.1",
 		"next-intl": "^2.20.2",
 		"react": "^18.2.0"
@@ -58,7 +58,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/leight-core/viv/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/leight-core/viv#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

@@ -1,17 +1,17 @@
 import {
     useChunk,
     useLoop
-}                           from "@use-pico/hook";
+}                         from "@use-pico/hook";
 import {
     type IHrefProps,
     linkTo
-}                           from "@use-pico/navigation";
-import axios                from "axios";
-import {useRef}             from "react";
-import {v4}                 from "uuid";
-import {type IFileWithPath} from "../api/IFileWithPath";
-import {FileCommitSchema}   from "../schema/FileCommitSchema";
-import {FileSchema}         from "../schema/FileSchema";
+}                         from "@use-pico/navigation";
+import axios              from "axios";
+import {useRef}           from "react";
+import {v4}               from "uuid";
+import {type FileEx}      from "../api/FileEx";
+import {FileCommitSchema} from "../schema/FileCommitSchema";
+import {FileSchema}       from "../schema/FileSchema";
 
 const defaultChunkSize = 1048576 * 4;
 
@@ -20,7 +20,7 @@ export namespace useUpload {
         extends Pick<useChunk.Props, "onStart" | "onError"> {
         chunkHref?: IHrefProps;
         commitHref?: IHrefProps;
-        file: IFileWithPath;
+        file: FileEx;
         path: string;
         replace?: boolean;
 

@@ -31,12 +31,12 @@ export const withQuerySchema = <
         /**
          * Optional filter, which should be mandatory filter (for example, clientId on invoices)
          */
-        filter: filter.nullish(),
+        filter: z.nullish(filter),
         /**
          * Optional filter saying more specific filter options (this is where application user puts
          * search/filters).
          */
-        where:   filter.nullish(),
+        where: z.nullish(filter),
         orderBy: z.nullish(orderBy),
         cursor:  CursorSchema.nullish(),
     }));

@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/leight-core/viv.git"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -58,7 +58,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/leight-core/viv/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/leight-core/viv#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

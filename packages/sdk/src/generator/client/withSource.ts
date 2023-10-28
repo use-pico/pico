@@ -61,7 +61,7 @@ export const withSource: IGenerator<IWithSourceParams> = async (
                     "@use-pico/source-client": [
                         "withSource",
                     ],
-                    [packages.schema]:     [
+                    [packages.schema]: [
                         `${name}SourceSchema as SourceSchema`,
                         `type I${name}SourceSchema as ISourceSchema`,
                     ],

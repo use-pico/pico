@@ -57,7 +57,7 @@ export const withFilterForm: IGenerator<IWithFilterFormParams> = async (
                     "@use-pico/form-client": [
                         "createFormContext",
                     ],
-                    [packages.schema]:   [
+                    [packages.schema]: [
                         `type I${name}FilterFormSchemaType`,
                     ],
                 },
@@ -84,7 +84,7 @@ createFormContext<I${name}FilterFormSchemaType>({
                     "@use-pico/form-client": [
                         "createMantineFormContext",
                     ],
-                    [packages.schema]:   [
+                    [packages.schema]: [
                         `type I${name}FilterFormSchemaType`,
                     ],
                 },

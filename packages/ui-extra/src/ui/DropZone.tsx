@@ -6,8 +6,8 @@ import {
     IconX
 }               from "@tabler/icons-react";
 import {
-    FileSchema,
-    type IFileWithPath
+    type FileEx,
+    FileSchema
 }               from "@use-pico/file";
 import {
     Translation,
@@ -41,7 +41,7 @@ export module DropZone {
         limit?: number;
         replace?: boolean;
 
-        onDrop?(files: IFileWithPath[], commit: () => void): void;
+        onDrop?(files: FileEx[], commit: () => void): void;
 
         onUpload?(file: FileSchema.Type): void;
     }
@@ -62,7 +62,7 @@ export const DropZone: FC<DropZone.Props> = (
         ...props
     }) => {
     const t = useTranslation();
-    const [files, setFiles] = useState<IFileWithPath[]>([]);
+    const [files, setFiles] = useState<FileEx[]>([]);
     const {loops} = LoopsStore.use(({current: loops}) => ({loops}));
 
     useEffect(() => {

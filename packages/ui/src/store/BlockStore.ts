@@ -5,13 +5,15 @@ import {
     type IStoreProps
 } from "@use-pico/store";
 
-export type IBlockStoreProps = IStoreProps<{
-    isBlock: boolean;
-    block(block?: boolean): void;
-    unblock(): void;
-}>
+export namespace BlockStore {
+    export type StoreProps = IStoreProps<{
+        isBlock: boolean;
+        block(block?: boolean): void;
+        unblock(): void;
+    }>;
+}
 
-export const BlockStore = createStore<IBlockStoreProps>({
+export const BlockStore = createStore<BlockStore.StoreProps>({
     state: () => (set) => ({
         isBlock: false,
         block:   (block = true) => {

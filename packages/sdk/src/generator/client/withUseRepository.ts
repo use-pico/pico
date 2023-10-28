@@ -58,7 +58,7 @@ export const withUseRepository: IGenerator<IWithUseRepositoryParams> = async (
                     "@use-pico/source-client": [
                         "withUseRepository",
                     ],
-                    [packages.schema]:     [
+                    [packages.schema]: [
                         `type IUse${name}Repository as UseRepository`,
                         `type I${name}SourceSchema as SourceSchema`,
                     ],

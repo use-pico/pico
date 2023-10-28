@@ -15,6 +15,7 @@ export * from "./QuerySchema";
 export * from "./createQueryClient";
 export * from "./createQueryStore";
 export * from "./isError";
+export * from "./sortOf";
 export * from "./useClearCache";
 export * from "./withMutation";
 export * from "./withPassMutation";

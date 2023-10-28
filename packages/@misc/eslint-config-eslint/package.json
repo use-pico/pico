@@ -3,6 +3,10 @@
 	"name": "@use-pico/eslint-config-eslint",
 	"main": "index.js",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/use-pico/pico.git"
+	},
 	"dependencies": {
 		"@typescript-eslint/eslint-plugin": "^6.4.1",
 		"@typescript-eslint/parser": "^6.4.1",
@@ -20,5 +24,9 @@
 		"eslint": "^8.47.0",
 		"lint-staged": "^14.0.1",
 		"typescript": "^5.2.2"
-	}
+	},
+	"bugs": {
+		"url": "https://github.com/use-pico/pico/issues"
+	},
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

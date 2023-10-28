@@ -8,7 +8,7 @@ import {
     isPartial,
     type PicoSchema,
     type WithIdentitySchema
-} from "@use-pico/schema";
+}                             from "@use-pico/schema";
 import {type ISelectionStore} from "@use-pico/selection";
 import {
     Alert,

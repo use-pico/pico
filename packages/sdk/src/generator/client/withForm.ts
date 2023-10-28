@@ -61,7 +61,7 @@ export const withForm: IGenerator<IWithFormParams> = async (
                     "@use-pico/form-client": [
                         "createFormContext",
                     ],
-                    [packages.schema]:   [
+                    [packages.schema]: [
                         `type I${name}FormSchemaType`,
                     ],
                 },
@@ -88,7 +88,7 @@ createFormContext<I${name}FormSchemaType>({
                     "@use-pico/form-client": [
                         "createMantineFormContext",
                     ],
-                    [packages.schema]:   [
+                    [packages.schema]: [
                         `type I${name}FormSchemaType`,
                     ],
                 },

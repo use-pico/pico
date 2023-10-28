@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/leight-core/viv.git"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"engines": {
 		"node": ">=16.0.0"
@@ -29,7 +29,6 @@
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "^2.2.1",
-		"@types/classnames": "^2.3.1",
 		"@types/humanize-duration": "^3.27.1",
 		"@types/is-callable": "^1.1.0",
 		"@types/is-empty": "^1.2.1",
@@ -64,7 +63,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/leight-core/viv/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/leight-core/viv#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }
