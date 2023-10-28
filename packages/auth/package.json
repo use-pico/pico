@@ -25,15 +25,7 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@next-auth/prisma-adapter": "^1.0.7",
-		"@use-pico/container": "^1.0.1",
-		"@use-pico/logger": "^1.0.1",
-		"@use-pico/orm": "^1.0.1",
-		"@use-pico/schema": "^1.0.17",
-		"@use-pico/utils": "^1.0.22",
-		"next": "^13.5.6",
-		"next-auth": "^4.24.3",
-		"react": "^18.2.0"
+		"@use-pico/schema": "^1.0.0"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.6",

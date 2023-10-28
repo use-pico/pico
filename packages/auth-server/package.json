@@ -1,14 +1,11 @@
 {
-	"version": "1.0.1",
-	"name": "@use-pico/server",
-	"description": "Server side stuff, DI container and so on. This is quite heavy dependency (core of server-side pico).",
+	"version": "1.0.0",
+	"name": "@use-pico/auth-server",
+	"description": "Server-side auth stuff.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/use-pico/pico"
-	},
-	"engines": {
-		"node": ">=16.0.0"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -25,21 +22,28 @@
 		"lint": "eslint src",
 		"cleanup": "concurrently npm:cleanup:*",
 		"cleanup:sdk": "del-cli src/sdk/**",
-		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/auth-server": "^1.0.0",
+		"@next-auth/prisma-adapter": "^1.0.7",
+		"@use-pico/auth": "^1.0.0",
 		"@use-pico/container": "^1.0.1",
-		"@use-pico/rpc": "^1.0.10"
+		"@use-pico/logger": "^1.0.1",
+		"@use-pico/orm": "^1.0.1",
+		"@use-pico/schema": "^1.0.17",
+		"@use-pico/utils": "^1.0.22",
+		"next": "^13.5.6",
+		"next-auth": "^4.24.3"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.6",
 		"@use-pico/eslint-config-eslint": "^1.0.8",
 		"@use-pico/tsconfig": "^1.0.8",
-		"@types/node": "^20.4.9",
+		"@types/node": "^20.4.2",
+		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
-		"eslint": "^8.46.0",
+		"eslint": "^8.45.0",
 		"typescript": "^5.2.2"
 	},
 	"bugs": {

@@ -38,6 +38,7 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/orm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/repository/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/auth-server/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
@@ -101,6 +102,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/orm/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/server/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/server/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/auth-server/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/auth-server/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

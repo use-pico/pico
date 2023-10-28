@@ -50,14 +50,6 @@
 				"NODE_ENV"
 			]
 		},
-		"local-build": {
-			"outputMode": "new-only",
-			"dependsOn": [
-				"^lint",
-				"^test",
-				"^build"
-			]
-		},
 		"dev": {
 			"cache": false,
 			"persistent": true

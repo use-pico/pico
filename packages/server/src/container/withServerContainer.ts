@@ -1,4 +1,4 @@
-import {withAuthContainer} from "@use-pico/auth";
+import {withAuthContainer} from "@use-pico/auth-server";
 import {
     Container,
     type IContainer,
