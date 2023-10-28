@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.20
+
+### Patch Changes
+
+- 8e7c202: Minor UI change
+
 ## 1.0.19
 
 ### Patch Changes
