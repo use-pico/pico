@@ -25,7 +25,9 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/rpc": "^1.0.0"
+		"@use-pico/query": "^1.0.0",
+		"@use-pico/rpc": "^1.0.0",
+		"@use-pico/schema": "^1.0.0"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^1.0.5",
