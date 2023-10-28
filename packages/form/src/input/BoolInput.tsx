@@ -1,11 +1,10 @@
+"use client";
+
 import {
     IconInputCheck,
     IconInputX
 }                          from "@tabler/icons-react";
-import {
-    Translation,
-    useTranslation
-}                          from "@use-pico/i18n";
+import {Translation}       from "@use-pico/i18n";
 import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
@@ -40,7 +39,6 @@ export const BoolInput = <
         TValuesSchema
     >
 ) => {
-    const t = useTranslation();
     const {
         field: {
                    value,
@@ -60,8 +58,8 @@ export const BoolInput = <
             radius={"xs"}
             disabled={disabled}
             labelPosition={"left"}
-            label={t(`${withControl.name}.label`)}
-            description={t(`${withControl.name}.description`)}
+            label={<Translation withLabel={`${withControl.name}.label`}/>}
+            description={<Translation withLabel={`${withControl.name}.description`}/>}
             checked={value}
             onChange={value => {
                 onChange(value);

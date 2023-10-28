@@ -1,3 +1,5 @@
+"use client";
+
 import {type WithSourceQuery} from "@use-pico/rpc";
 import {
     Group,

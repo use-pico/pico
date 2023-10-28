@@ -1,3 +1,5 @@
+"use client";
+
 import {type FileSchema} from "@use-pico/file";
 import {
     type IHrefProps,

@@ -1,3 +1,5 @@
+"use client";
+
 import {useErrorNotification}  from "@use-pico/hook";
 import {type RequestSchema}    from "@use-pico/schema";
 import {
