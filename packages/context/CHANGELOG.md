@@ -1,5 +1,11 @@
 # @use-pico/context
 
+## 1.0.8
+
+### Patch Changes
+
+- a7dfc28: Overall update, updated packages
+
 ## 1.0.7
 
 ### Patch Changes

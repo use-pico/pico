@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.17
+
+### Patch Changes
+
+- a7dfc28: Overall update, updated packages
+
 ## 1.0.16
 
 ### Patch Changes
@@ -99,7 +105,7 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/utils@1.0.2
+  - @use-pico/utils@1.0.2
 
 ## 1.0.1
 
@@ -107,4 +113,4 @@
 
 - Initial release
 - Updated dependencies
-    - @use-pico/utils@1.0.1
+  - @use-pico/utils@1.0.1
