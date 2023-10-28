@@ -70,7 +70,7 @@ export const JobAsync = <
                     inline
                     job={job}
                     progressProps={{
-                        size: "xs",
+                        size: "sm",
                     }}
                 />}
             </Stack>
