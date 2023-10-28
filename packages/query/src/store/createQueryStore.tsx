@@ -28,7 +28,7 @@ export const createQueryStore = <
         schema,
     }: createQueryStore.Props<TQuerySchema>
 ): IQueryStore<TQuerySchema> => {
-    return createStore<IQueryStoreProps<TQuerySchema>>({
+    const store = createStore<IQueryStoreProps<TQuerySchema>>({
         state: () => (set, get) => ({
             schema,
             where:          undefined,
@@ -101,4 +101,21 @@ export const createQueryStore = <
         }),
         name,
     });
+    return {
+        ...store,
+        useQuery() {
+            return store.use((
+                {
+                    filter,
+                    where,
+                    orderBy,
+                    cursor
+                }) => ({
+                filter,
+                where,
+                orderBy,
+                cursor
+            }));
+        },
+    };
 };
