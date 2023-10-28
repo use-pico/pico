@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 1.0.18
+
+### Patch Changes
+
+- f729c1a: Improved AsyncButton
+
 ## 1.0.17
 
 ### Patch Changes
