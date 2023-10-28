@@ -4,12 +4,12 @@ import {
     IconDatabasePlus,
     IconFileImport,
     IconTrophy
-}                                from "@tabler/icons-react";
-import {Translation}             from "@use-pico/i18n";
-import {JobSchema}               from "@use-pico/job";
-import {type WithQuery}          from "@use-pico/query";
-import {type WithSourceQuery}    from "@use-pico/rpc";
-import {type WithIdentitySchema} from "@use-pico/schema";
+}                                 from "@tabler/icons-react";
+import {Translation}              from "@use-pico/i18n";
+import {type JobSchema}           from "@use-pico/job";
+import {type WithQuery}           from "@use-pico/query";
+import {type WithSourceQuery}     from "@use-pico/rpc";
+import {type WithIdentitySchema}  from "@use-pico/schema";
 import {
     Badge,
     EditIcon,
@@ -17,20 +17,19 @@ import {
     Group,
     Tabs,
     WithIcon
-}                                from "@use-pico/ui";
-import {type FC}                 from "react";
-import {BulkItemStatus}          from "../../api/BulkItemStatus";
-import {type IUseBulkJobManager} from "../../api/IUseBulkJobManager";
-import {BulkItemFilterSchema}    from "../../schema/BulkItemFilterSchema";
-import {BulkItemOrderBySchema}   from "../../schema/BulkItemOrderBySchema";
-import {BulkItemSchema}          from "../../schema/BulkItemSchema";
-import {BulkStatsSchema}         from "../../schema/BulkStatsSchema";
-import {BulkJobTab}              from "./BulkJobTab";
+}                                 from "@use-pico/ui";
+import {type FC}                  from "react";
+import {BulkItemStatus}           from "../../api/BulkItemStatus";
+import {type IUseBulkJobManager}  from "../../api/IUseBulkJobManager";
+import {type BulkItemQuerySchema} from "../../schema/BulkItemQuerySchema";
+import {type BulkItemSchema}      from "../../schema/BulkItemSchema";
+import {type BulkStatsSchema}     from "../../schema/BulkStatsSchema";
+import {BulkJobTab}               from "./BulkJobTab";
 
 export namespace BulkTabs {
     export interface Props {
         withBulkStats: WithQuery<WithIdentitySchema, BulkStatsSchema>;
-        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemFilterSchema, BulkItemOrderBySchema>;
+        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemQuerySchema>;
         useJobManager: IUseBulkJobManager;
         bulkId: string;
 

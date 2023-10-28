@@ -17,9 +17,7 @@ import {
 }                                from "@use-pico/ui";
 import {type FC}                 from "react";
 import {type IUseBulkJobManager} from "../api/IUseBulkJobManager";
-import {BulkItemFilterSchema}    from "../schema/BulkItemFilterSchema";
 import {BulkItemMutationSchema}  from "../schema/BulkItemMutationSchema";
-import {BulkItemOrderBySchema}   from "../schema/BulkItemOrderBySchema";
 import {BulkItemQuerySchema}     from "../schema/BulkItemQuerySchema";
 import {BulkItemSchema}          from "../schema/BulkItemSchema";
 import {type BulkStatsSchema}    from "../schema/BulkStatsSchema";
@@ -38,7 +36,7 @@ export namespace BulkManager {
         useJobManager: IUseBulkJobManager;
         withBulkStats: WithQuery<WithIdentitySchema, BulkStatsSchema>;
         withBulkItemMutation: WithMutation<BulkItemMutationSchema, BulkItemSchema>;
-        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemFilterSchema, BulkItemOrderBySchema>;
+        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemQuerySchema>;
         WithCreate: WithCreate;
         Item: FC<List.ItemProps<BulkItemSchema> & {
             withBulkStats: WithQuery<WithIdentitySchema, BulkStatsSchema>;

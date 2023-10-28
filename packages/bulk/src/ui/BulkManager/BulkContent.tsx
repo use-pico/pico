@@ -1,11 +1,11 @@
 import {WithTranslationProvider} from "@use-pico/i18n";
 import {
-    WithMutation,
-    WithQuery
+    type WithMutation,
+    type WithQuery
 }                                from "@use-pico/query";
 import {
     resultOf,
-    WithSourceQuery
+    type WithSourceQuery
 }                                from "@use-pico/rpc";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {List}                    from "@use-pico/source";
@@ -15,9 +15,8 @@ import {
     Tabs
 }                                from "@use-pico/ui";
 import {BulkItemStatus}          from "../../api/BulkItemStatus";
-import {BulkItemFilterSchema}    from "../../schema/BulkItemFilterSchema";
 import {BulkItemMutationSchema}  from "../../schema/BulkItemMutationSchema";
-import {BulkItemOrderBySchema}   from "../../schema/BulkItemOrderBySchema";
+import {BulkItemQuerySchema}     from "../../schema/BulkItemQuerySchema";
 import {BulkItemSchema}          from "../../schema/BulkItemSchema";
 import {BulkStatsSchema}         from "../../schema/BulkStatsSchema";
 import {BulkManager}             from "../BulkManager";
@@ -31,7 +30,7 @@ export namespace BulkContent {
         bulkId: string;
         service: string;
         withBulkStats: WithQuery<WithIdentitySchema, BulkStatsSchema>;
-        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemFilterSchema, BulkItemOrderBySchema>;
+        withSourceQuery: WithSourceQuery<BulkItemSchema, BulkItemQuerySchema>;
         withBulkItemMutation: WithMutation<BulkItemMutationSchema, BulkItemSchema>;
         Item: BulkManager.Props<TSchema>["Item"];
         listProps?: BulkManager.Props<TSchema>["listProps"];
@@ -62,7 +61,7 @@ export const BulkContent = <
             key={`bulk-tab-panel-${item.label}`}
             value={item.label}
         >
-            <withSourceQuery.query.Provider
+            <withSourceQuery.store.Provider
                 defaults={{
                     where:  {
                         bulkId,
@@ -132,7 +131,7 @@ export const BulkContent = <
                     }}
                     {...listProps}
                 />
-            </withSourceQuery.query.Provider>
+            </withSourceQuery.store.Provider>
         </Tabs.Panel>)}
     </>;
 };

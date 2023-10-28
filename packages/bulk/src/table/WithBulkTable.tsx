@@ -1,16 +1,15 @@
 "use client";
 
-import {type WithSourceQuery}   from "@use-pico/rpc";
-import {type FC}                from "react";
-import {type BulkFilterSchema}  from "../schema/BulkFilterSchema";
-import {type BulkOrderBySchema} from "../schema/BulkOrderBySchema";
-import {type BulkSchema}        from "../schema/BulkSchema";
-import {BulkTable}              from "./BulkTable";
+import {type WithSourceQuery} from "@use-pico/rpc";
+import {type FC}              from "react";
+import {type BulkQuerySchema} from "../schema/BulkQuerySchema";
+import {type BulkSchema}      from "../schema/BulkSchema";
+import {BulkTable}            from "./BulkTable";
 
 export namespace WithBulkTable {
     export interface Props extends Omit<BulkTable.Props, "withSourceQuery"> {
         service: string;
-        withSourceQuery: WithSourceQuery<BulkSchema, BulkFilterSchema, BulkOrderBySchema>;
+        withSourceQuery: WithSourceQuery<BulkSchema, BulkQuerySchema>;
     }
 }
 
@@ -21,7 +20,7 @@ export const WithBulkTable: FC<WithBulkTable.Props> = (
         ...props
     }
 ) => {
-    return <withSourceQuery.query.Provider
+    return <withSourceQuery.store.Provider
         defaults={{
             where: {
                 service,
@@ -32,5 +31,5 @@ export const WithBulkTable: FC<WithBulkTable.Props> = (
             withSourceQuery={withSourceQuery}
             {...props}
         />
-    </withSourceQuery.query.Provider>;
+    </withSourceQuery.store.Provider>;
 };

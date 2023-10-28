@@ -3,19 +3,18 @@
 import {
     DateTimeInline,
     WithTranslationProvider
-}                          from "@use-pico/i18n";
-import {type IHrefProps}   from "@use-pico/navigation";
-import {Table}             from "@use-pico/table";
+}                             from "@use-pico/i18n";
+import {type IHrefProps}      from "@use-pico/navigation";
+import {Table}                from "@use-pico/table";
 import {
     BoolInline,
     ButtonLink,
     Group
-}                          from "@use-pico/ui";
-import {type FC}           from "react";
-import {BulkFilterSchema}  from "../schema/BulkFilterSchema";
-import {BulkOrderBySchema} from "../schema/BulkOrderBySchema";
-import {BulkSchema}        from "../schema/BulkSchema";
-import {BulkStatsInline}   from "../ui/BulkStatsInline";
+}                             from "@use-pico/ui";
+import {type FC}              from "react";
+import {type BulkQuerySchema} from "../schema/BulkQuerySchema";
+import {type BulkSchema}      from "../schema/BulkSchema";
+import {BulkStatsInline}      from "../ui/BulkStatsInline";
 
 export namespace BulkTable {
     export type Columns =
@@ -28,8 +27,7 @@ export namespace BulkTable {
         Table.Props<
             Columns,
             BulkSchema,
-            BulkFilterSchema,
-            BulkOrderBySchema
+            BulkQuerySchema
         >,
         "columns"
     > {
@@ -51,7 +49,7 @@ export const BulkTable: FC<BulkTable.Props> = (
             namespace: "common.bulk",
         }}
     >
-        <Table<BulkTable.Columns, BulkSchema, BulkFilterSchema, BulkOrderBySchema>
+        <Table<BulkTable.Columns, BulkSchema, BulkQuerySchema>
             columns={{
                 name:    {
                     render: ({item}) => {
