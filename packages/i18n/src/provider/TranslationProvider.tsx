@@ -8,12 +8,14 @@ import {
     type PropsWithChildren
 }                                   from "react";
 import {type IWithTranslationQuery} from "../api/IWithTranslationQuery";
+import {type TranslationSchema}     from "../schema/TranslationSchema";
 
 export namespace TranslationProvider {
     export type Props = PropsWithChildren<{
         locale: string;
         withTranslationQuery: IWithTranslationQuery;
         intlProps?: Omit<ComponentProps<typeof NextIntlClientProvider>, "children" | "locale" | "messages">;
+        loading?: QueryResult.Props<TranslationSchema>["WithLoading"];
     }>
 }
 

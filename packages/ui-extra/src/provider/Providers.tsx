@@ -18,6 +18,7 @@ import {
     ActiveProvider,
     BlockProvider,
     DrawerStoreProvider,
+    LoadingOverlay,
     ModalStoreProvider,
     RouterTransition
 }                            from "@use-pico/ui";
@@ -61,6 +62,7 @@ export const Providers: FC<Providers.Props> = (
             <TranslationProvider
                 withTranslationQuery={withTranslationQuery}
                 locale={locale}
+                loading={() => <LoadingOverlay visible/>}
             >
                 <MantineProvider
                     theme={createTheme({

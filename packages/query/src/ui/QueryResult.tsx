@@ -11,7 +11,7 @@ export namespace QueryResult {
         TResponseSchema extends ResponseSchema,
     > {
         result: WithQuery.Result<TResponseSchema>;
-        WithLoading?: FC<object>;
+        WithLoading?: FC;
         WithSuccess?: FC<{
             data: PicoSchema.Output<TResponseSchema>;
         }>;
