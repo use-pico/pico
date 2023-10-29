@@ -1,5 +1,5 @@
 {
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"name": "@use-pico/i18n",
 	"description": "I18n support.",
 	"license": "MIT",
@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@types/luxon": "^3.3.1",
 		"@use-pico/navigation": "^1.0.11",
-		"@use-pico/query": "^1.0.0",
+		"@use-pico/query": "^1.0.15",
 		"@use-pico/schema": "^1.0.0",
 		"@use-pico/store": "^1.0.10",
 		"@use-pico/utils": "^1.0.24",

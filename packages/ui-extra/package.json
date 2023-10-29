@@ -1,5 +1,5 @@
 {
-	"version": "1.0.16",
+	"version": "1.0.17",
 	"name": "@use-pico/ui-extra",
 	"description": "Components with quite heavy dependencies on the other @pico packages.",
 	"license": "MIT",
@@ -30,9 +30,9 @@
 		"@mantine/notifications": "7.1.5",
 		"@use-pico/file": "^1.0.13",
 		"@use-pico/hook": "^1.0.11",
-		"@use-pico/i18n": "^1.0.11",
+		"@use-pico/i18n": "^1.0.12",
 		"@use-pico/navigation": "^1.0.11",
-		"@use-pico/query": "^1.0.13",
+		"@use-pico/query": "^1.0.15",
 		"@use-pico/rpc": "^1.0.13",
 		"@use-pico/schema": "^1.0.19",
 		"@use-pico/ui": "^1.0.14",

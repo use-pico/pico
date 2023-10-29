@@ -1,5 +1,14 @@
 # @use-pico/i18n
 
+## 1.0.12
+
+### Patch Changes
+
+- 739edd0: Exported loading for TranslationProvider
+- e3981d7: Connected ui-extra to i18n translation query instead of direct translations providing
+- Updated dependencies [739edd0]
+  - @use-pico/query@1.0.15
+
 ## 1.0.11
 
 ### Patch Changes

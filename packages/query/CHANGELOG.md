@@ -1,5 +1,11 @@
 # @use-pico/query
 
+## 1.0.15
+
+### Patch Changes
+
+- 739edd0: Exported loading for TranslationProvider
+
 ## 1.0.14
 
 ### Patch Changes
