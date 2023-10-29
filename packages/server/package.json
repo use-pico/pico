@@ -25,7 +25,7 @@
 		"lint": "eslint src",
 		"cleanup": "concurrently npm:cleanup:*",
 		"cleanup:sdk": "del-cli src/sdk/**",
-		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts.map,js,js.map}"
 	},
 	"dependencies": {
 		"@use-pico/auth-server": "^1.0.3",

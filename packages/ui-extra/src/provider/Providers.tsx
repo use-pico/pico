@@ -4,26 +4,28 @@ import {
     createTheme,
     MantineProvider,
     type MantineProviderProps
-}                               from "@mantine/core";
-import {ModalsProvider}         from "@mantine/modals";
-import {Notifications}          from "@mantine/notifications";
-import {DateTimeProvider}       from "@use-pico/i18n";
-import {QueryClientProvider}    from "@use-pico/query";
-import {RpcProvider}            from "@use-pico/rpc";
+}                            from "@mantine/core";
+import {ModalsProvider}      from "@mantine/modals";
+import {Notifications}       from "@mantine/notifications";
+import {
+    DateTimeProvider,
+    type IWithTranslationQuery,
+    TranslationProvider
+}                            from "@use-pico/i18n";
+import {QueryClientProvider} from "@use-pico/query";
+import {RpcProvider}         from "@use-pico/rpc";
 import {
     ActiveProvider,
     BlockProvider,
     DrawerStoreProvider,
     ModalStoreProvider,
     RouterTransition
-}                               from "@use-pico/ui";
-import axios                    from "axios";
-import {NextIntlClientProvider} from "next-intl";
+}                            from "@use-pico/ui";
+import axios                 from "axios";
 import {
     type FC,
-    type PropsWithChildren,
-    useEffect
-}                               from "react";
+    type PropsWithChildren
+}                            from "react";
 
 export namespace Providers {
     export type Props = PropsWithChildren<{
@@ -35,7 +37,7 @@ export namespace Providers {
         /**
          * Translations used in the application
          */
-        translations: Record<string, any>;
+        withTranslationQuery: IWithTranslationQuery;
         rpcUrl?: string;
         baseUrl?: string;
     }>;
@@ -45,27 +47,20 @@ export const Providers: FC<Providers.Props> = (
     {
         theme,
         locale,
-        translations,
+        withTranslationQuery,
         rpcUrl,
         baseUrl,
         children,
     }
 ) => {
-    useEffect(() => {
-        axios.defaults.baseURL = baseUrl;
-    }, [baseUrl]);
+    axios.defaults.baseURL = baseUrl;
     return <QueryClientProvider>
         <RpcProvider
             url={rpcUrl}
         >
-            <NextIntlClientProvider
+            <TranslationProvider
+                withTranslationQuery={withTranslationQuery}
                 locale={locale}
-                messages={translations}
-                onError={() => {
-                }}
-                getMessageFallback={process.env.NODE_ENV === "development" ? undefined : ({key}) => {
-                    return key;
-                }}
             >
                 <MantineProvider
                     theme={createTheme({
@@ -92,7 +87,7 @@ export const Providers: FC<Providers.Props> = (
                         </DateTimeProvider>
                     </ModalsProvider>
                 </MantineProvider>
-            </NextIntlClientProvider>
+            </TranslationProvider>
         </RpcProvider>
     </QueryClientProvider>;
 };
