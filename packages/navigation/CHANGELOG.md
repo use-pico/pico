@@ -1,5 +1,11 @@
 # @use-pico/navigation
 
+## 2.0.1
+
+### Patch Changes
+
+- 35a87ab: Bumped next.js version
+
 ## 2.0.0
 
 ### Major Changes
