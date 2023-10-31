@@ -30,7 +30,6 @@
 		"@mantine/notifications": "7.1.5",
 		"@tabler/icons-react": "^2.39.0",
 		"@use-pico/file": "^1.0.0",
-		"@use-pico/hook": "^1.0.0",
 		"@use-pico/i18n": "^1.0.0",
 		"@use-pico/navigation": "^1.0.0",
 		"@use-pico/query": "^1.0.0",

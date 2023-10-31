@@ -10,7 +10,7 @@ import {type FC}                  from "react";
 
 export namespace ClearButton {
     export interface Props extends Button.Props {
-        SelectionStore: IBaseSelectionStore<any>;
+        SelectionStore: IBaseSelectionStore<any, any>;
     }
 }
 

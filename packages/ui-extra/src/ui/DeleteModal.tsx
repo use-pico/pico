@@ -1,15 +1,14 @@
 "use client";
 
-import {useSuccessNotification} from "@use-pico/hook";
-import {Translation}            from "@use-pico/i18n";
+import {Translation}         from "@use-pico/i18n";
 import {
     type IWithMutation,
     useMutation
-}                               from "@use-pico/query";
-import {type ResponseSchema}    from "@use-pico/schema";
-import {type MutationSchema}    from "@use-pico/source";
-import {useStore}               from "@use-pico/store";
-import {type WithEntity}        from "@use-pico/types";
+}                            from "@use-pico/query";
+import {type ResponseSchema} from "@use-pico/schema";
+import {type MutationSchema} from "@use-pico/source";
+import {useStore}            from "@use-pico/store";
+import {type WithEntity}     from "@use-pico/types";
 import {
     Button,
     CloseIcon,
@@ -17,8 +16,9 @@ import {
     Flex,
     Modal,
     ModalStore,
-    TrashIcon
-}                               from "@use-pico/ui";
+    TrashIcon,
+    useSuccessNotification
+}                            from "@use-pico/ui";
 
 export namespace DeleteModal {
     export interface Props<
