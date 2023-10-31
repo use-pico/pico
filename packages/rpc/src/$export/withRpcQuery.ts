@@ -1,1 +1,1 @@
-export {withRpcQuery} from "../hook/withRpcQuery";
+export {withRpcQuery} from "../utils/withRpcQuery";

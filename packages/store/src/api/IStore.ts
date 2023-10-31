@@ -2,19 +2,23 @@ import {type Context}  from "react";
 import {type StoreApi} from "zustand";
 
 export interface IStore<
-    TProps extends IStore.Props,
-    TValues extends IStore.Props = IStore.Props,
+    TProps extends IStore.Type,
+    TValues extends IStore.Type = IStore.Type,
 > {
     props: TProps;
     values: TValues;
 }
 
 export namespace IStore {
-    export type Props = Record<string, any>;
+    export type Type = Record<string, any>;
+
+    export type Props<TStore extends IStore<any, any>> =
+        TStore["props"]
+        & TStore["values"];
 
     export type Api<
         TStore extends IStore<any>
-    > = StoreApi<TStore["props"] & TStore["values"]>;
+    > = StoreApi<Props<TStore>>;
 
     export interface Store<
         TStore extends IStore<any>

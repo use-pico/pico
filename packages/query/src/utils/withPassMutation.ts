@@ -6,7 +6,7 @@ export namespace withPassMutation {
         TSchema extends RequestSchema,
     > extends Omit<
         withMutation.Props<TSchema, TSchema>,
-        "schema" | "mutator"
+        "schema" | "useCallback"
     > {
         schema: TSchema;
     }
@@ -21,11 +21,13 @@ export const withPassMutation = <
     }: withPassMutation.Props<TSchema>
 ) => {
     return withMutation({
-        schema:  {
+        schema: {
             request:  schema,
             response: schema,
         },
-        mutator: async request => request,
+        useCallback() {
+            return async request => request;
+        },
         ...props,
     });
 };

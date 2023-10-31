@@ -17,7 +17,6 @@ export const withRpcEndpoint = (
     }: withRpcEndpoint.Props,
 ) => {
     const rpcService = withRpcService.use(container);
-
     return async (request: NextRequest, response: NextResponse) => rpcService.handle({
         request,
         response,

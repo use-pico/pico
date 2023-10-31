@@ -14,6 +14,7 @@ import {
     withQuery
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
+import {RpcProvider}         from "@use-pico/rpc";
 import {
     ActiveProvider,
     BlockProvider,
@@ -46,7 +47,9 @@ export const Providers: FC<Providers.Props> = (
         theme,
         locale,
         withTranslationQuery = withQuery({
-            callback: async () => ({translations: {}}),
+            useCallback() {
+                return async () => ({translations: {}});
+            },
         }),
         children,
     }
@@ -57,31 +60,33 @@ export const Providers: FC<Providers.Props> = (
             locale={locale}
             loading={() => <LoadingOverlay visible/>}
         >
-            <MantineProvider
-                theme={createTheme({
-                    primaryColor: "blue",
-                    primaryShade: 5,
-                    ...theme
-                })}
-            >
-                <RouterTransition/>
-                <Notifications position={"top-right"}/>
-                <ModalsProvider>
-                    <DateTimeProvider
-                        locale={locale}
-                    >
-                        <ActiveProvider>
-                            <BlockProvider>
-                                <DrawerStoreProvider>
-                                    <ModalStoreProvider>
-                                        {children}
-                                    </ModalStoreProvider>
-                                </DrawerStoreProvider>
-                            </BlockProvider>
-                        </ActiveProvider>
-                    </DateTimeProvider>
-                </ModalsProvider>
-            </MantineProvider>
+            <RpcProvider>
+                <MantineProvider
+                    theme={createTheme({
+                        primaryColor: "blue",
+                        primaryShade: 5,
+                        ...theme
+                    })}
+                >
+                    <RouterTransition/>
+                    <Notifications position={"top-right"}/>
+                    <ModalsProvider>
+                        <DateTimeProvider
+                            locale={locale}
+                        >
+                            <ActiveProvider>
+                                <BlockProvider>
+                                    <DrawerStoreProvider>
+                                        <ModalStoreProvider>
+                                            {children}
+                                        </ModalStoreProvider>
+                                    </DrawerStoreProvider>
+                                </BlockProvider>
+                            </ActiveProvider>
+                        </DateTimeProvider>
+                    </ModalsProvider>
+                </MantineProvider>
+            </RpcProvider>
         </TranslationProvider>
     </QueryClientProvider>;
 };

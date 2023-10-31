@@ -31,12 +31,11 @@ export const usePromise = <
 >(
     {
         withQuery: {
-                       callback,
+                       useCallback,
                        schema
                    },
     }: usePromise.Props<TRequestSchema, TResponseSchema>
 ): usePromise.Result<TRequestSchema, TResponseSchema> => {
-    return async request => {
-        return callback(parse(schema.request, request));
-    };
+    const callback = useCallback();
+    return async request => callback(parse(schema.request, request));
 };

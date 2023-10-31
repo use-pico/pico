@@ -1,1 +1,1 @@
-export {withRpcSourceQuery} from "../hook/withRpcSourceQuery";
+export {withRpcSourceQuery} from "../utils/withRpcSourceQuery";

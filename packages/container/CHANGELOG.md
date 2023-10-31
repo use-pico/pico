@@ -9,7 +9,7 @@
 ### Patch Changes
 
 - Updated dependencies [c8309d7]
-  - @use-pico/utils@2.0.0
+    - @use-pico/utils@2.0.0
 
 ## 1.0.3
 

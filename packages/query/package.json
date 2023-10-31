@@ -28,7 +28,7 @@
 		"@use-pico/schema": "^2.0.0",
 		"@use-pico/store": "^2.0.0",
 		"@use-pico/utils": "^2.0.0",
-		"@tanstack/react-query": "^5.0.0-rc.4",
+		"@tanstack/react-query": "^5.4.3",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

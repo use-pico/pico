@@ -1,16 +1,15 @@
-import {ErrorResponseSchema}        from "@use-pico/query";
 import {
+    ErrorSchema,
     type PicoSchema,
     schema
-}                                   from "@use-pico/schema";
-import {type withRpcResponseSchema} from "../utils/withRpcResponseSchema";
-import {DataResponseSchema}         from "./DataResponseSchema";
+}                           from "@use-pico/schema";
+import {DataResponseSchema} from "./DataResponseSchema";
 
 export const RpcResponseSchema = schema(z => z.union([
-    ErrorResponseSchema,
+    ErrorSchema,
     DataResponseSchema,
 ]));
-export type RpcResponseSchema<TDataSchema extends PicoSchema> = ReturnType<withRpcResponseSchema<TDataSchema>>;
+export type RpcResponseSchema = typeof RpcResponseSchema;
 export namespace RpcResponseSchema {
-    export type Type<TDataSchema extends PicoSchema> = PicoSchema.Output<RpcResponseSchema<TDataSchema>>;
+    export type Type = PicoSchema.Output<RpcResponseSchema>;
 }

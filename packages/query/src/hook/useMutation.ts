@@ -23,7 +23,7 @@ export const useMutation = <
     {
         withMutation: {
                           key,
-                          mutator,
+                          useCallback,
                           schema,
                           invalidator,
                           defaultOptions: {
@@ -42,13 +42,14 @@ export const useMutation = <
             key
         }
     });
+    const callback = useCallback();
     return useCoolMutation({
         mutationKey: key.concat($mutationKey || []),
         mutationFn:  async request => {
             try {
                 return parse(
                     schema.response,
-                    await mutator(
+                    await callback(
                         parse(schema.request, request)
                     )
                 );

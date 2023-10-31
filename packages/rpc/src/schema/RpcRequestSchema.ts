@@ -1,14 +1,13 @@
 import {
     type PicoSchema,
     schema
-}                                  from "@use-pico/schema";
-import {type withRpcRequestSchema} from "../utils/withRpcRequestSchema";
+} from "@use-pico/schema";
 
 export const RpcRequestSchema = schema(z => z.object({
     service: z.string,
     data:    z.any$,
 }));
-export type RpcRequestSchema<TDataSchema extends PicoSchema> = ReturnType<withRpcRequestSchema<TDataSchema>>;
+export type RpcRequestSchema = typeof RpcRequestSchema;
 export namespace RpcRequestSchema {
-    export type Type<TDataSchema extends PicoSchema> = PicoSchema.Output<RpcRequestSchema<TDataSchema>>;
+    export type Type = PicoSchema.Output<RpcRequestSchema>;
 }

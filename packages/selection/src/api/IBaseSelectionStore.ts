@@ -4,12 +4,12 @@ import {type IBaseSelection}     from "./IBaseSelection";
 
 export type IBaseSelectionStore<
     TItem extends WithIdentitySchema.Type,
-    TProps extends IStore.Props,
+    TProps extends IStore.Type,
 > = IStore.Store<IBaseSelectionStore.Store<TItem, TProps>>;
 
 export namespace IBaseSelectionStore {
     export type Store<
         TItem extends WithIdentitySchema.Type,
-        TProps extends IStore.Props,
+        TProps extends IStore.Type,
     > = IStore<IBaseSelection<TItem> & TProps>;
 }

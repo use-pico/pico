@@ -101,7 +101,7 @@ export const TableBody = <
         select,
     }));
     const result = useQuery({
-        store:           withQueryStore,
+        store: withQueryStore,
         withSourceQuery: withSourceQuery,
     });
 

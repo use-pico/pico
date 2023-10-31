@@ -11,9 +11,9 @@
 - Updated dependencies [619225c]
 - Updated dependencies [f6438ff]
 - Updated dependencies [c8309d7]
-  - @use-pico/schema@2.0.0
-  - @use-pico/auth@2.0.0
-  - @use-pico/container@2.0.0
+    - @use-pico/schema@2.0.0
+    - @use-pico/auth@2.0.0
+    - @use-pico/container@2.0.0
 
 ## 1.0.4
 
@@ -21,9 +21,9 @@
 
 - ec16573: Version bump
 - Updated dependencies [ec16573]
-  - @use-pico/rpc-server@1.0.1
-  - @use-pico/auth-server@1.0.3
-  - @use-pico/container@1.0.3
+    - @use-pico/rpc-server@1.0.1
+    - @use-pico/auth-server@1.0.3
+    - @use-pico/container@1.0.3
 
 ## 1.0.3
 
@@ -31,9 +31,9 @@
 
 - 800ce8c: Version bump
 - Updated dependencies [800ce8c]
-  - @use-pico/auth-server@1.0.2
-  - @use-pico/container@1.0.2
-  - @use-pico/rpc@1.0.12
+    - @use-pico/auth-server@1.0.2
+    - @use-pico/container@1.0.2
+    - @use-pico/rpc@1.0.12
 
 ## 1.0.2
 
@@ -41,7 +41,7 @@
 
 - 8d3ce26: Separated auth stuff into a standalone package
 - Updated dependencies [8d3ce26]
-  - @use-pico/auth-server@1.0.1
+    - @use-pico/auth-server@1.0.1
 
 ## 1.0.1
 
@@ -50,6 +50,6 @@
 - a7dfc28: Overall update, updated packages
 - Updated dependencies [a7dfc28]
 - Updated dependencies [d10bbab]
-  - @use-pico/container@1.0.1
-  - @use-pico/auth@1.0.9
-  - @use-pico/rpc@1.0.10
+    - @use-pico/container@1.0.1
+    - @use-pico/auth@1.0.9
+    - @use-pico/rpc@1.0.10

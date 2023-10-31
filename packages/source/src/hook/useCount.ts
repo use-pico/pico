@@ -33,7 +33,7 @@ export const useCount = <
 ) => {
     return useQueryEx({
         withQuery: withCountQuery,
-        request:   useStore(store, (
+        request: useStore(store, (
             {
                 where,
                 filter,

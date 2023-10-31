@@ -37,7 +37,7 @@ export const useQuery = <
     const query = useQueryOf({store});
     return useCoolQuery({
         queryKey: withSourceQuery.key.concat(queryKey || []),
-        queryFn:  async () => promise(query),
+        queryFn: async () => promise(query),
         ...options,
     });
 };

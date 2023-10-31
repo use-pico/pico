@@ -17,7 +17,7 @@ export namespace withQuery {
         },
         invalidator?: IWithQuery<TRequestSchema, TResponseSchema>["invalidator"];
 
-        callback(request: PicoSchema.Output<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
+        useCallback(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
     }
 }
 
@@ -31,14 +31,14 @@ export const withQuery = <
     {
         key,
         schema,
-        callback,
+        useCallback,
         invalidator,
     }: withQuery.Props<TRequestSchema, TResponseSchema>
 ): IWithQuery<TRequestSchema, TResponseSchema> => {
     return {
         key,
         schema,
-        callback,
+        useCallback,
         invalidator,
     };
 };

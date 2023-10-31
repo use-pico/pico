@@ -30,7 +30,7 @@ export interface IWithQuery<
         response: TResponseSchema;
     };
 
-    callback(request: PicoSchema.Output<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
+    useCallback(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
 }
 
 export namespace IWithQuery {

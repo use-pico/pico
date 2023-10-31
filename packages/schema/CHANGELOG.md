@@ -128,7 +128,7 @@
 
 - Version bump
 - Updated dependencies
-  - @use-pico/utils@1.0.2
+    - @use-pico/utils@1.0.2
 
 ## 1.0.1
 
@@ -136,4 +136,4 @@
 
 - Initial release
 - Updated dependencies
-  - @use-pico/utils@1.0.1
+    - @use-pico/utils@1.0.1

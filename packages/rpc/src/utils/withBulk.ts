@@ -1,13 +1,12 @@
 import {
-    ErrorResponseSchema,
+    ErrorSchema,
     isError,
-}                                  from "@use-pico/query";
-import {
     parse,
     type PicoSchema,
     type RequestSchema,
-    type ResponseSchema
+    type ResponseSchema,
 }                                  from "@use-pico/schema";
+import {type IStore}               from "@use-pico/store";
 import {
     generateId,
     withTimeout
@@ -16,21 +15,23 @@ import axios, {type AxiosResponse} from "axios";
 import {RpcBulkRequestSchema}      from "../schema/RpcBulkRequestSchema";
 import {RpcBulkResponseSchema}     from "../schema/RpcBulkResponseSchema";
 import {RpcRequestSchema}          from "../schema/RpcRequestSchema";
-import {type IRpcStoreProps}       from "../store/RpcStore";
+import {RpcStore}                  from "../store/RpcStore";
 import {isData}                    from "./isData";
 
-export interface IWithBulkProps<
-    TRequestSchema extends RequestSchema,
-    TResponseSchema extends ResponseSchema,
-> {
-    schema?: TResponseSchema;
-    store: IRpcStoreProps["StoreProps"];
-    service: string;
-    request: PicoSchema.Output<TRequestSchema>;
-    /**
-     * Timeout in secs before current bulk is rejected
-     */
-    timeout?: number;
+export namespace withBulk {
+    export interface Props<
+        TRequestSchema extends RequestSchema,
+        TResponseSchema extends ResponseSchema,
+    > {
+        schema?: TResponseSchema;
+        store: IStore.Props<RpcStore.Store>;
+        service: string;
+        request: PicoSchema.Output<TRequestSchema>;
+        /**
+         * Timeout in secs before current bulk is rejected
+         */
+        timeout?: number;
+    }
 }
 
 export const withBulk = async <
@@ -48,9 +49,8 @@ export const withBulk = async <
         service,
         request: data,
         timeout = 50,
-    }: IWithBulkProps<TRequestSchema, TResponseSchema>
+    }: withBulk.Props<TRequestSchema, TResponseSchema>
 ) => new Promise<PicoSchema.Output<TResponseSchema>>((resolve, reject) => {
-
     bulkRef.current.set(generateId(), {
         schema,
         reject,
@@ -70,7 +70,7 @@ export const withBulk = async <
                     message: "Bulk timeout reached.",
                     code:    408,
                 },
-            } satisfies ErrorResponseSchema.Type);
+            } satisfies ErrorSchema.Type);
         });
     };
 
@@ -87,7 +87,7 @@ export const withBulk = async <
                     bulk: [...$currentBulk.entries()].reduce((bulk, [id, {request}]) => {
                         bulk[id] = request;
                         return bulk;
-                    }, {} as Record<string, RpcRequestSchema.Type<any>>),
+                    }, {} as Record<string, RpcRequestSchema.Type>),
                 }, {
                     baseURL: "",
                 })
@@ -111,7 +111,7 @@ export const withBulk = async <
                                         message: "Cannot parse returned data or data is incomplete",
                                         code:    400,
                                     },
-                                } satisfies ErrorResponseSchema.Type);
+                                } satisfies ErrorSchema.Type);
                             }
                         } catch (e) {
                             console.error(e);
@@ -120,7 +120,7 @@ export const withBulk = async <
                                     message: "General unhandled (client-side) error",
                                     code:    500,
                                 },
-                            } satisfies ErrorResponseSchema.Type);
+                            } satisfies ErrorSchema.Type);
                         }
                         $currentBulk.delete(id);
                     });

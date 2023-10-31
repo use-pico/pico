@@ -1,17 +1,20 @@
 import {
     type IContainer,
     withContainer
-}                            from "@use-pico/container";
-import {ErrorResponseSchema} from "@use-pico/query";
+}                     from "@use-pico/container";
 import {
-    type IRpcHandler,
+    IHandler,
     type IRpcService,
     RpcBulkRequestSchema,
+    RpcBulkResponseSchema,
     RpcResponseSchema
-}                            from "@use-pico/rpc";
-import {parse$}              from "@use-pico/schema";
-import {NextResponse}        from "next/server";
-import {AbstractRpcHandler}  from "./AbstractRpcHandler";
+}                     from "@use-pico/rpc";
+import {
+    ErrorSchema,
+    parse,
+    parse$
+}                     from "@use-pico/schema";
+import {NextResponse} from "next/server";
 
 export class RpcService implements IRpcService {
     static inject = [
@@ -31,21 +34,30 @@ export class RpcService implements IRpcService {
                     code:    422,
                     message: "Some strange request, so here you have some strange response",
                 },
-            } as ErrorResponseSchema.Type, {
+            } as ErrorSchema.Type, {
                 status: 422,
             });
         }
 
-        const response = new Map<string, RpcResponseSchema.Type<any>>();
+        const container = this.container.child();
+
+        const response = new Map<string, RpcResponseSchema.Type>();
 
         for (const [id, bulk] of Object.entries(bulks.data.bulk)) {
             try {
-                const handler = this.container.resolve<IRpcHandler<any, any>>(bulk.service);
-                if (!(handler instanceof AbstractRpcHandler)) {
-                    throw new Error(`Requested handler [${bulk.service}] is not RPC Handler`);
-                }
+                const {
+                    handle,
+                    schema
+                } = container.resolve<IHandler<any, any>>(bulk.service);
+
                 response.set(id, {
-                    data: await handler.handle(bulk.data),
+                    data: parse(
+                        schema.response,
+                        await handle({
+                            request: parse(schema.request, bulk.data),
+                            container,
+                        })
+                    ),
                 });
             } catch (e) {
                 console.error(e);
@@ -67,6 +79,8 @@ export class RpcService implements IRpcService {
             }
         }
 
-        return NextResponse.json(Object.fromEntries(response));
+        return NextResponse.json<RpcBulkResponseSchema.Type>({
+            bulk: Object.fromEntries(response),
+        });
     }
 }

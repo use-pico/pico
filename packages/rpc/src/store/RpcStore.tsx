@@ -1,25 +1,25 @@
+"use client";
+
 import {
     createStore,
-    type IStoreProps,
-    type IStorePropsType
+    type IStore
 }                              from "@use-pico/store";
 import {type MutableRefObject} from "react";
 import {type IBulkRef}         from "../api/IBulkRef";
 
-export type IRpcStoreProps = IStoreProps<IStorePropsType, {
-    bulkTimerRef: MutableRefObject<NodeJS.Timeout | undefined>;
-    timeoutRef: MutableRefObject<NodeJS.Timeout | undefined>;
-    bulkRef: MutableRefObject<Map<string, IBulkRef>>;
-    url: string;
-}>;
+export namespace RpcStore {
+    export type Store = IStore<
+        IStore.Type,
+        {
+            bulkTimerRef: MutableRefObject<NodeJS.Timeout | undefined>;
+            timeoutRef: MutableRefObject<NodeJS.Timeout | undefined>;
+            bulkRef: MutableRefObject<Map<string, IBulkRef>>;
+            url: string;
+        }
+    >;
+}
 
-export const RpcStore = createStore<IRpcStoreProps>({
-    state: ({state}) => () => ({
-        ...state,
-    }),
-    name:  "RpcStore",
-    hint:  "Add RpcProvider."
-});
+export const RpcStore = createStore<RpcStore.Store>(values => () => values);
 
 
 

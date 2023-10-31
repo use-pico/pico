@@ -24,7 +24,7 @@ export interface IWithMutation<
     };
     defaultOptions?: IWithMutation.Options<TRequestSchema, TResponseSchema>;
 
-    mutator(request: PicoSchema.Output<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
+    useCallback(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
 }
 
 export namespace IWithMutation {

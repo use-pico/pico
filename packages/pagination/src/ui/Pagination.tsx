@@ -58,7 +58,7 @@ export const Pagination = <
     }));
     const {isBlock} = useStore(BlockStore, ({isBlock}) => ({isBlock}));
     const result = useCount({
-        store:           withQueryStore,
+        store: withQueryStore,
         withSourceQuery: withSourceQuery,
         refetchInterval: refresh,
     });

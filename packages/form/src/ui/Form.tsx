@@ -456,14 +456,12 @@ export const Form = <
     const overrideOptions = withMutationOverride?.({form});
     const mutation = useMutation({
         withMutation: overrideOptions ? coolWithMutation({
-            key:            withMutation.key.concat(["override"]),
-            schema:         {
+            key: withMutation.key.concat(["override"]),
+            ...overrideOptions,
+            schema: {
                 request:  withMutation.schema.request,
                 response: overrideOptions.response as TResponseSchema,
             },
-            mutator:        overrideOptions.mutator,
-            defaultOptions: overrideOptions.defaultOptions,
-            invalidator:    overrideOptions.invalidator,
         }) : withMutation,
     });
     const factoryProps: Form.Input.FactoryProps<TValuesSchema> = {

@@ -1,1 +1,1 @@
-export {withRpcMutation} from "../hook/withRpcMutation";
+export {withRpcMutation} from "../utils/withRpcMutation";

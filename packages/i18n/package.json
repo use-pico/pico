@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.0",
 	"name": "@use-pico/i18n",
 	"description": "I18n support.",
 	"license": "MIT",
@@ -26,14 +26,14 @@
 	},
 	"dependencies": {
 		"@types/luxon": "^3.3.1",
-		"@use-pico/navigation": "^2.0.1",
+		"@use-pico/navigation": "^2.0.0",
 		"@use-pico/query": "^2.0.0",
 		"@use-pico/schema": "^2.0.0",
 		"@use-pico/store": "^2.0.0",
 		"@use-pico/utils": "^2.0.0",
 		"flat": "^6.0.1",
 		"luxon": "^3.4.1",
-		"next": "^14.0.1",
+		"next": "^14.0.0",
 		"preferred-locale": "^2.0.1",
 		"react": "^18.2.0",
 		"react-intl": "^6.5.1"

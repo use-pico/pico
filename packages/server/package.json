@@ -30,6 +30,7 @@
 	"dependencies": {
 		"@use-pico/auth": "^2.0.0",
 		"@use-pico/container": "^2.0.0",
+		"@use-pico/rpc-server": "^2.0.0",
 		"@use-pico/schema": "^2.0.0"
 	},
 	"devDependencies": {

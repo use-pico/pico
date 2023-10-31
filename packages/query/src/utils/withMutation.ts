@@ -17,7 +17,7 @@ export namespace withMutation {
             response: TResponseSchema;
         };
 
-        mutator(request: PicoSchema.Output<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
+        useCallback(): (request: PicoSchema.Output<TRequestSchema>) => Promise<PicoSchema.Output<TResponseSchema>>;
 
         invalidator?: IWithMutation<TRequestSchema, TResponseSchema>["invalidator"];
 
@@ -32,7 +32,7 @@ export const withMutation = <
     {
         key,
         schema,
-        mutator,
+        useCallback,
         invalidator,
         defaultOptions,
     }: withMutation.Props<
@@ -43,7 +43,7 @@ export const withMutation = <
     return {
         key,
         schema,
-        mutator,
+        useCallback,
         invalidator,
         defaultOptions,
     };
