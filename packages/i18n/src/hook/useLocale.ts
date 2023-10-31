@@ -1,5 +1,5 @@
-// export {useLocale} from "next-intl";
+import {useIntl} from "react-intl";
 
 export const useLocale = () => {
-    return "cs";
+    return useIntl().locale;
 };
