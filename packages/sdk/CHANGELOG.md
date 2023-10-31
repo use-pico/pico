@@ -1,5 +1,13 @@
 # @use-pico/sdk
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/generator@1.0.11
+
 ## 1.0.10
 
 ### Patch Changes

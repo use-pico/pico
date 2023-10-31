@@ -1,5 +1,13 @@
 # @use-pico/repository
 
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/source@1.0.12
+
 ## 1.0.12
 
 ### Patch Changes

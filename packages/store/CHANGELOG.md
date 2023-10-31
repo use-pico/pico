@@ -1,5 +1,13 @@
 # @use-pico/store
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/context@1.0.12
+
 ## 1.0.10
 
 ### Patch Changes

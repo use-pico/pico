@@ -1,5 +1,16 @@
 # @use-pico/auth-server
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/container@1.0.4
+    - @use-pico/logger@1.0.4
+    - @use-pico/auth@1.0.13
+    - @use-pico/orm@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes

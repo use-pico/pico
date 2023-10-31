@@ -1,1 +1,1 @@
-export {useLocale} from "next-intl";
+export {useLocale} from "../hook/useLocale";

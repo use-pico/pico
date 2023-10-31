@@ -1,5 +1,13 @@
 # @use-pico/query
 
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/store@1.0.11
+
 ## 1.0.16
 
 ### Patch Changes

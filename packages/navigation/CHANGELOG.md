@@ -1,5 +1,11 @@
 # @use-pico/navigation
 
+## 1.0.12
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+
 ## 1.0.11
 
 ### Patch Changes

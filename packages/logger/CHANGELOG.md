@@ -1,5 +1,11 @@
 # @use-pico/logger
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+
 ## 1.0.3
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @use-pico/server
 
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/auth-server@1.0.4
+    - @use-pico/rpc-server@1.0.2
+    - @use-pico/container@1.0.4
+
 ## 1.0.4
 
 ### Patch Changes

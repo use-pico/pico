@@ -1,5 +1,23 @@
 # @use-pico/form
 
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/navigation@1.0.12
+    - @use-pico/selection@1.0.11
+    - @use-pico/calendar@1.0.12
+    - @use-pico/source@1.0.12
+    - @use-pico/query@1.0.17
+    - @use-pico/store@1.0.11
+    - @use-pico/table@1.0.12
+    - @use-pico/hook@1.0.12
+    - @use-pico/i18n@1.0.13
+    - @use-pico/rpc@1.0.16
+    - @use-pico/ui@1.0.15
+
 ## 1.0.20
 
 ### Patch Changes

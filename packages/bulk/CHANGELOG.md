@@ -1,5 +1,21 @@
 # @use-pico/bulk
 
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/ui-extra@1.0.18
+    - @use-pico/source@1.0.12
+    - @use-pico/query@1.0.17
+    - @use-pico/table@1.0.12
+    - @use-pico/form@1.0.21
+    - @use-pico/i18n@1.0.13
+    - @use-pico/job@1.0.22
+    - @use-pico/rpc@1.0.16
+    - @use-pico/ui@1.0.15
+
 ## 1.0.13
 
 ### Patch Changes

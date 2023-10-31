@@ -1,5 +1,18 @@
 # @use-pico/job
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/source@1.0.12
+    - @use-pico/query@1.0.17
+    - @use-pico/store@1.0.11
+    - @use-pico/hook@1.0.12
+    - @use-pico/i18n@1.0.13
+    - @use-pico/ui@1.0.15
+
 ## 1.0.21
 
 ### Patch Changes

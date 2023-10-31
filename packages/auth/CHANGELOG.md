@@ -1,5 +1,11 @@
 # @use-pico/auth
 
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+
 ## 1.0.12
 
 ### Patch Changes

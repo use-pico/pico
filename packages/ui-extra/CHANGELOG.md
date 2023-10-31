@@ -1,5 +1,19 @@
 # @use-pico/ui-extra
 
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies, some of them pointing to 2.0
+- Updated dependencies
+    - @use-pico/navigation@1.0.12
+    - @use-pico/query@1.0.17
+    - @use-pico/file@1.0.16
+    - @use-pico/hook@1.0.12
+    - @use-pico/i18n@1.0.13
+    - @use-pico/rpc@1.0.16
+    - @use-pico/ui@1.0.15
+
 ## 1.0.17
 
 ### Patch Changes
