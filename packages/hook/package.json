@@ -1,5 +1,5 @@
 {
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"name": "@use-pico/hook",
 	"description": "Common hooks.",
 	"license": "MIT",
@@ -29,8 +29,8 @@
 	},
 	"dependencies": {
 		"@mantine/hooks": "7.1.5",
-		"@use-pico/i18n": "^1.0.13",
-		"@use-pico/ui": "^1.0.15",
+		"@use-pico/i18n": "^1.0.14",
+		"@use-pico/ui": "^1.0.16",
 		"@tabler/icons-react": "^2.39.0",
 		"react": "^18.2.0"
 	},

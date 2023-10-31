@@ -1,5 +1,5 @@
 {
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"name": "@use-pico/store",
 	"description": "Store stuff.",
 	"license": "MIT",
@@ -28,7 +28,7 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/context": "^1.0.12",
+		"@use-pico/context": "^1.0.13",
 		"@use-pico/utils": "^2.0.0",
 		"react": "^18.2.0",
 		"zustand": "^4.3.9"

@@ -1,5 +1,5 @@
 {
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"name": "@use-pico/selection",
 	"description": "Common selection stuff.",
 	"license": "MIT",
@@ -28,8 +28,8 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/query": "^1.0.17",
-		"@use-pico/store": "^1.0.11",
+		"@use-pico/query": "^1.0.18",
+		"@use-pico/store": "^1.0.12",
 		"@use-pico/utils": "^2.0.0"
 	},
 	"devDependencies": {

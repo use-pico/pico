@@ -1,5 +1,14 @@
 # @use-pico/pagination
 
+## 1.0.12
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/i18n@1.0.14
+    - @use-pico/ui@1.0.16
+
 ## 1.0.11
 
 ### Patch Changes

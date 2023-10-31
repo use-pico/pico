@@ -1,5 +1,15 @@
 # @use-pico/rpc-server
 
+## 1.0.3
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/container@1.0.5
+    - @use-pico/query@1.0.18
+    - @use-pico/rpc@1.0.17
+
 ## 1.0.2
 
 ### Patch Changes

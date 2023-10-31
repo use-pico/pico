@@ -1,5 +1,11 @@
 # @use-pico/generator
 
+## 1.0.12
+
+### Patch Changes
+
+- Bumped next.js
+
 ## 1.0.11
 
 ### Patch Changes

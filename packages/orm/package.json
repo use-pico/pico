@@ -1,5 +1,5 @@
 {
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"name": "@use-pico/orm",
 	"description": "ORM helper stuff, based on drizzle-orm.",
 	"license": "MIT",
@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^5.5.2",
-		"@use-pico/container": "^1.0.4"
+		"@use-pico/container": "^1.0.5"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.0",

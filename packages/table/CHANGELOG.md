@@ -1,5 +1,19 @@
 # @use-pico/table
 
+## 1.0.13
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/pagination@1.0.12
+    - @use-pico/selection@1.0.12
+    - @use-pico/source@1.0.13
+    - @use-pico/query@1.0.18
+    - @use-pico/i18n@1.0.14
+    - @use-pico/rpc@1.0.17
+    - @use-pico/ui@1.0.16
+
 ## 1.0.12
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @use-pico/orm
 
+## 1.0.5
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/container@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

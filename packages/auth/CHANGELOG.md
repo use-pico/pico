@@ -1,5 +1,11 @@
 # @use-pico/auth
 
+## 1.0.14
+
+### Patch Changes
+
+- Bumped next.js
+
 ## 1.0.13
 
 ### Patch Changes

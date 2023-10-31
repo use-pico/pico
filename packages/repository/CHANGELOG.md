@@ -1,5 +1,13 @@
 # @use-pico/repository
 
+## 1.0.14
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/source@1.0.13
+
 ## 1.0.13
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @use-pico/ui
 
+## 1.0.16
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/navigation@1.0.13
+    - @use-pico/query@1.0.18
+    - @use-pico/store@1.0.12
+    - @use-pico/i18n@1.0.14
+
 ## 1.0.15
 
 ### Patch Changes

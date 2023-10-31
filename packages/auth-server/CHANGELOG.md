@@ -1,5 +1,16 @@
 # @use-pico/auth-server
 
+## 1.0.5
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/container@1.0.5
+    - @use-pico/logger@1.0.5
+    - @use-pico/auth@1.0.14
+    - @use-pico/orm@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

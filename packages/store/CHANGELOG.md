@@ -1,5 +1,13 @@
 # @use-pico/store
 
+## 1.0.12
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/context@1.0.13
+
 ## 1.0.11
 
 ### Patch Changes

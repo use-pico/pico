@@ -1,5 +1,5 @@
 {
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"name": "@use-pico/repository",
 	"description": "Repository on the server side.",
 	"license": "MIT",
@@ -25,7 +25,7 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/source": "^1.0.12"
+		"@use-pico/source": "^1.0.13"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.0",

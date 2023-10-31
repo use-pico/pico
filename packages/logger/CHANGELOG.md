@@ -1,5 +1,11 @@
 # @use-pico/logger
 
+## 1.0.5
+
+### Patch Changes
+
+- Bumped next.js
+
 ## 1.0.4
 
 ### Patch Changes

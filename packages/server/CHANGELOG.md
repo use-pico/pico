@@ -1,5 +1,15 @@
 # @use-pico/server
 
+## 1.0.6
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/auth-server@1.0.5
+    - @use-pico/rpc-server@1.0.3
+    - @use-pico/container@1.0.5
+
 ## 1.0.5
 
 ### Patch Changes

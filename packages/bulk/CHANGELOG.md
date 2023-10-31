@@ -1,5 +1,21 @@
 # @use-pico/bulk
 
+## 1.0.15
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/ui-extra@1.0.19
+    - @use-pico/source@1.0.13
+    - @use-pico/query@1.0.18
+    - @use-pico/table@1.0.13
+    - @use-pico/form@1.0.22
+    - @use-pico/i18n@1.0.14
+    - @use-pico/job@1.0.23
+    - @use-pico/rpc@1.0.17
+    - @use-pico/ui@1.0.16
+
 ## 1.0.14
 
 ### Patch Changes

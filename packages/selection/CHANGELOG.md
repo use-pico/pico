@@ -1,5 +1,14 @@
 # @use-pico/selection
 
+## 1.0.12
+
+### Patch Changes
+
+- Bumped next.js
+- Updated dependencies
+    - @use-pico/query@1.0.18
+    - @use-pico/store@1.0.12
+
 ## 1.0.11
 
 ### Patch Changes
