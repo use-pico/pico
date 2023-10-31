@@ -7,8 +7,8 @@
 - 35a87ab: Bumped next.js version
 - Updated dependencies [35a87ab]
 - Updated dependencies [35a87ab]
-  - @use-pico/i18n@2.0.1
-  - @use-pico/navigation@2.0.1
+    - @use-pico/i18n@2.0.1
+    - @use-pico/navigation@2.0.1
 
 ## 2.0.0
 
