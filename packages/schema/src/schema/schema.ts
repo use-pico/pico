@@ -16,6 +16,7 @@ import {withAny}            from "./any/withAny";
 import {withArray}          from "./array/withArray";
 import {withBool}           from "./bool/withBool";
 import {withEnum}           from "./enum/withEnum";
+import {withList}           from "./list/withList";
 import {withNaN}            from "./nan/withNaN";
 import {withNull}           from "./null/withNull";
 import {withNullish}        from "./nullish/withNullish";
@@ -25,6 +26,7 @@ import {withOptional}       from "./optional/withOptional";
 import {withPartial}        from "./partial/withPartial";
 import {withRecord}         from "./record/withRecord";
 import {withString}         from "./string/withString";
+import {withTuple}          from "./tuple/withTuple";
 import {withUnion}          from "./union/withUnion";
 
 export namespace schema {
@@ -39,6 +41,16 @@ export namespace schema {
     }
 
     export interface Schema {
+        /**
+         * Direct access to number schema factory
+         */
+        _number: typeof withNumber;
+
+        /**
+         * Direct access to string schema factory
+         */
+        _string: typeof withString;
+
         /**
          * Create schema allowing "any" type
          */
@@ -69,10 +81,17 @@ export namespace schema {
          */
         enum: typeof withEnum;
 
+        list: typeof withList;
+
         /**
          * Create NaN schema
          */
         get nan(): NanSchema;
+
+        /**
+         * Create string schema with non empty rule
+         */
+        get nonEmptyString(): StringSchema;
 
         /**
          * Create null schema
@@ -95,10 +114,6 @@ export namespace schema {
         get number$(): NullishSchema<NumberSchema>;
 
         /**
-         * Direct access to number schema factory
-         */
-        _number: typeof withNumber;
-        /**
          * Create an object schema
          */
         object: typeof withObject;
@@ -110,6 +125,7 @@ export namespace schema {
          * Mark all object schema properties as optional
          */
         partial: typeof withPartial;
+
         /**
          * Create record schema
          */
@@ -125,15 +141,7 @@ export namespace schema {
          */
         get string$(): NullishSchema<StringSchema>;
 
-        /**
-         * Direct access to string schema factory
-         */
-        _string: typeof withString;
-
-        /**
-         * Create string schema with non empty rule
-         */
-        get nonEmptyString(): StringSchema;
+        tuple: typeof withTuple;
 
         /**
          * Create union schema
@@ -170,6 +178,8 @@ export namespace schema {
 }
 
 const Schema: schema.Schema = {
+    _number: withNumber,
+    _string: withString,
     get any() {
         return withAny();
     },
@@ -184,8 +194,12 @@ const Schema: schema.Schema = {
         return withNullish(withBool());
     },
     enum: withEnum,
+    list:    withList,
     get nan() {
         return withNaN();
+    },
+    get nonEmptyString() {
+        return withString([nonEmpty()]);
     },
     get null() {
         return withNull();
@@ -197,7 +211,6 @@ const Schema: schema.Schema = {
     get number$() {
         return withNullish(withNumber());
     },
-    _number: withNumber,
     object:   withObject,
     optional: withOptional,
     partial:  withPartial,
@@ -208,10 +221,7 @@ const Schema: schema.Schema = {
     get string$() {
         return withNullish(withString());
     },
-    _string: withString,
-    get nonEmptyString() {
-        return withString([nonEmpty()]);
-    },
+    tuple: withTuple,
     union: withUnion
 };
 

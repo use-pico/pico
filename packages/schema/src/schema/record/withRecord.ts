@@ -55,7 +55,7 @@ export function withRecord<
     key: TKey,
     value: TValue,
     pipe?: Pipe<RecordSchema.Output<StringSchema, TValue>>,
-): RecordSchema<StringSchema, TValue>;
+): RecordSchema<TKey, TValue>;
 
 export function withRecord<
     TKey extends RecordSchema.Key,
@@ -65,7 +65,7 @@ export function withRecord<
     value: TValue,
     error: ErrorMessage,
     pipe?: Pipe<RecordSchema.Output<StringSchema, TValue>>,
-): RecordSchema<StringSchema, TValue>;
+): RecordSchema<TKey, TValue>;
 
 export function withRecord<
     TKey extends RecordSchema.Key,

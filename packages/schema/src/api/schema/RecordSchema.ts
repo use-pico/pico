@@ -1,6 +1,7 @@
 import {type PicoSchema}   from "../PicoSchema";
 import {type Resolve}      from "../Resolve";
 import {type EnumSchema}   from "./EnumSchema";
+import {ListSchema}        from "./ListSchema";
 import {type StringSchema} from "./StringSchema";
 import {type UnionSchema}  from "./UnionSchema";
 
@@ -25,12 +26,14 @@ export namespace RecordSchema {
     };
 
     export type Key =
-        | EnumSchema<any>
+        | EnumSchema<any, string | number | symbol>
+        | ListSchema<any, string | number | symbol>
         | UnionSchema<any, string | number | symbol>
         | StringSchema<string | number | symbol>;
 
     export type PartialKeySchema =
         | EnumSchema<any>
+        | ListSchema<any>
         | UnionSchema<any>;
 
     export type Input<
