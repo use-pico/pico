@@ -1,8 +1,0 @@
-{
-	"index": "Introduction",
-	"monorepo": "Monorepo",
-	"package.json": "package.json",
-	"mcp": "Managed Code Pattern",
-	"code-splitting": "Code splitting",
-	"source": "Source"
-}
