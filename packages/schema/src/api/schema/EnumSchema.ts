@@ -2,14 +2,15 @@ import {type PicoSchema} from "../PicoSchema";
 
 export interface EnumSchema<
     TEnum extends EnumSchema.Enum,
-    TOutput = TEnum[number],
-> extends PicoSchema<TEnum[number], TOutput> {
+    TOutput = TEnum[keyof TEnum],
+> extends PicoSchema<TEnum[keyof TEnum], TOutput> {
     schema: "enum",
     enum: TEnum;
 }
 
 export namespace EnumSchema {
-    export type Enum<TOption extends string = string> =
-        | Readonly<[TOption, ...TOption[]]>
-        | [TOption, ...TOption[]];
+    export type Enum = {
+        [key: string]: string | number;
+        [key: number]: string;
+    };
 }
