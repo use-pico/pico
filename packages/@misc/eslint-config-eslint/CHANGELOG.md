@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 2.0.0
+
+### Major Changes
+
+- c8309d7: Bumped to a new generation
+
 ## 1.0.10
 
 ### Patch Changes

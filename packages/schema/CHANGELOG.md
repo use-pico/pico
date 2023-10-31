@@ -1,5 +1,16 @@
 # @use-pico/schema
 
+## 2.0.0
+
+### Major Changes
+
+- c8309d7: Bumped to a new generation
+
+### Patch Changes
+
+- 619225c: Fixed enum type
+- f6438ff: Improved schema types, added some more validators
+
 ## 1.0.19
 
 ### Patch Changes
@@ -117,7 +128,7 @@
 
 - Version bump
 - Updated dependencies
-    - @use-pico/utils@1.0.2
+  - @use-pico/utils@1.0.2
 
 ## 1.0.1
 
@@ -125,4 +136,4 @@
 
 - Initial release
 - Updated dependencies
-    - @use-pico/utils@1.0.1
+  - @use-pico/utils@1.0.1
