@@ -1,0 +1,3 @@
+# About @use-pico/store
+
+Start typing here...
