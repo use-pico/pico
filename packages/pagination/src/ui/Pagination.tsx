@@ -45,7 +45,7 @@ export const Pagination = <
     const {
         cursor,
         setCursor,
-        setSize
+        setSize,
     } = useStore(withQueryStore, (
         {
             cursor,

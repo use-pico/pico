@@ -1,6 +1,6 @@
 import {useQuery as useCoolQuery} from "@tanstack/react-query";
 import {
-    IQueryStore,
+    type IQueryStore,
     type IWithQuery,
     type QuerySchema,
     usePromise,
@@ -35,9 +35,12 @@ export const useQuery = <
 ): IWithSourceQuery.Result<TResponseSchema> => {
     const promise = usePromise({withQuery: withSourceQuery});
     const query = useQueryOf({store});
+
     return useCoolQuery({
-        queryKey: withSourceQuery.key.concat(queryKey || []),
-        queryFn: async () => promise(query),
+        queryKey: withSourceQuery.key.concat(queryKey || []).concat(query),
+        queryFn:  async () => {
+            return promise(query);
+        },
         ...options,
     });
 };

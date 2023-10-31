@@ -1,4 +1,8 @@
-import {type QuerySchema} from "@use-pico/query";
+import {
+    type FilterSchema,
+    type OrderBySchema,
+    type QuerySchema
+}                         from "@use-pico/query";
 import {
     type NullishSchema,
     type ObjectSchema,
@@ -9,7 +13,7 @@ import {type ShapeSchema} from "./ShapeSchema";
 
 export type MutationSchema<
     TShapeSchema extends ShapeSchema,
-    TQuerySchema extends QuerySchema<any, any>,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 > = ObjectSchema<{
     create: NullishSchema<TShapeSchema>;
     update: NullishSchema<ObjectSchema<{
@@ -33,6 +37,6 @@ export type MutationSchema<
 export namespace MutationSchema {
     export type Type<
         TShapeSchema extends ShapeSchema,
-        TQuerySchema extends QuerySchema<any, any>,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > = PicoSchema.Output<MutationSchema<TShapeSchema, TQuerySchema>>;
 }

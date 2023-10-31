@@ -4,7 +4,7 @@ import {
 }                                from "@use-pico/i18n";
 import {Pagination}              from "@use-pico/pagination";
 import {
-    IQueryStore,
+    type IQueryStore,
     type QuerySchema
 }                                from "@use-pico/query";
 import {type WithIdentitySchema} from "@use-pico/schema";

@@ -1,1 +1,1 @@
-export {withRepositoryHandler} from "../handler/withRepositoryHandler";
+export {withRepositoryHandler} from "../rpc/withRepositoryHandler";

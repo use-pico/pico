@@ -45,7 +45,7 @@ export const useMutation = <
     const callback = useCallback();
     return useCoolMutation({
         mutationKey: key.concat($mutationKey || []),
-        mutationFn:  async request => {
+        mutationFn: async request => {
             try {
                 return parse(
                     schema.response,
