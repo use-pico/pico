@@ -1,38 +1,31 @@
 "use client";
 
 import {
-    ActionIcon,
     AppShell,
     Box,
     LoadingOverlay
-}                                 from "@mantine/core";
-import {IconLogout}               from "@tabler/icons-react";
-import {
-    LocaleLink,
-    useLocaleRouter
-}                                 from "@use-pico/i18n";
-import {useClearCache}            from "@use-pico/query";
+}                   from "@mantine/core";
+import {LocaleLink} from "@use-pico/i18n";
+import {useStore$}  from "@use-pico/store";
 import {
     BlockStore,
     Grid,
+    GridCol,
     Group
-}                                 from "@use-pico/ui";
-import {type IWithLogoutMutation} from "@use-pico/ui-extra";
-import Image                      from "next/image";
+}                   from "@use-pico/ui";
+import Image        from "next/image";
 import {
     type ComponentProps,
     type FC,
     type PropsWithChildren,
     type ReactNode,
     useEffect
-}                                 from "react";
+}                   from "react";
 
 export namespace AppLayout {
     export interface Props extends PropsWithChildren {
         logo: ComponentProps<typeof Image>["src"];
         homeUrl?: string;
-        publicUrl?: string;
-        withLogoutMutation?: IWithLogoutMutation;
         /**
          * Center part of the layout (header)
          */
@@ -48,16 +41,18 @@ export const AppLayout: FC<AppLayout.Props> = (
     {
         logo,
         homeUrl = "/root",
-        publicUrl = "/public",
-        withLogoutMutation,
         center,
         right,
         children
     }) => {
-    const clearCache = useClearCache();
-    const logout = withLogoutMutation?.useMutation();
-    const router = useLocaleRouter();
-    const block = BlockStore.use$();
+    const block = useStore$(BlockStore, (
+        {
+            unblock,
+            isBlock
+        }) => ({
+        unblock,
+        isBlock
+    }));
     useEffect(() => {
         block?.unblock();
     }, []);
@@ -71,7 +66,7 @@ export const AppLayout: FC<AppLayout.Props> = (
                 px={"md"}
                 pt={"xs"}
             >
-                <Grid.Col span={"content"}>
+                <GridCol span={"content"}>
                     <LocaleLink
                         href={homeUrl}
                         style={{
@@ -85,30 +80,15 @@ export const AppLayout: FC<AppLayout.Props> = (
                             src={logo}
                         />
                     </LocaleLink>
-                </Grid.Col>
-                <Grid.Col span={"auto"} m={0}>
+                </GridCol>
+                <GridCol span={"auto"} m={0}>
                     {center}
-                </Grid.Col>
-                <Grid.Col span={"content"}>
+                </GridCol>
+                <GridCol span={"content"}>
                     <Group gap={"xs"}>
                         {right}
-                        {logout && <ActionIcon
-                            variant={"white"}
-                            size={"xl"}
-                            onClick={() => {
-                                clearCache();
-                                block?.block();
-                                logout.mutate({}, {
-                                    onSuccess: () => router.push({
-                                        href: publicUrl,
-                                    }),
-                                });
-                            }}
-                        >
-                            <IconLogout/>
-                        </ActionIcon>}
                     </Group>
-                </Grid.Col>
+                </GridCol>
             </Grid>
         </Box>
         <AppShell.Main>

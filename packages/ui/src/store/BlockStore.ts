@@ -2,27 +2,24 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 } from "@use-pico/store";
 
 export namespace BlockStore {
-    export type StoreProps = IStoreProps<{
-        isBlock: boolean;
+    export type StoreProps = IStore<{
         block(block?: boolean): void;
         unblock(): void;
+    }, {
+        isBlock: boolean;
     }>;
 }
 
-export const BlockStore = createStore<BlockStore.StoreProps>({
-    state: () => (set) => ({
-        isBlock: false,
-        block:   (block = true) => {
-            set({isBlock: block});
-        },
-        unblock: () => {
-            set({isBlock: false});
-        },
-    }),
-    name:  "BlockStore",
-    hint:  "Add BlockProvider."
-});
+export const BlockStore = createStore<BlockStore.StoreProps>(values => (set) => ({
+    block:   (block = true) => {
+        set({isBlock: block});
+    },
+    unblock: () => {
+        set({isBlock: false});
+    },
+    ...values,
+}));

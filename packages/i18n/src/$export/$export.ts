@@ -37,3 +37,4 @@ export * from "./useLocaleRouter";
 export * from "./useTime";
 export * from "./useTranslation";
 export * from "./useWithLocaleRedirect";
+export * from "./withQuery";

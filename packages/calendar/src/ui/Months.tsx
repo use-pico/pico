@@ -6,9 +6,11 @@ import {
     DateInline,
     DateTime
 }                                 from "@use-pico/i18n";
+import {useStore}                 from "@use-pico/store";
 import {
     Button,
     Grid,
+    GridCol,
     Group,
     Text
 }                                 from "@use-pico/ui";
@@ -53,7 +55,7 @@ export const Months = <
         today,
         prevYear,
         nextYear,
-    } = MonthsOfStore.use();
+    } = useStore(MonthsOfStore);
     const columnCount = 4;
     const rowCount = months.length / columnCount;
     return <CalendarShell
@@ -118,7 +120,7 @@ export const Months = <
                 if (!month) {
                     return null;
                 }
-                return <Grid.Col
+                return <GridCol
                     key={month.id}
                     span={1}
                     className={classNames(
@@ -129,7 +131,7 @@ export const Months = <
                     onClick={() => onClick?.({month})}
                 >
                     {month.name}
-                </Grid.Col>;
+                </GridCol>;
             })}
         </Grid>)}
         {children}

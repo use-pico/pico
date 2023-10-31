@@ -2,11 +2,11 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 } from "@use-pico/store";
 
 export namespace LoopStore {
-    export type Props = IStoreProps<{
+    export type Props = IStore<{
         isRunning: boolean;
         isDone: boolean;
         isError: boolean;
@@ -26,38 +26,34 @@ export namespace LoopStore {
     }>
 }
 
-export const LoopStore = createStore<LoopStore.Props>({
-    state: () => (set, get) => ({
-        total:     0,
-        isRunning: false,
-        isDone:    false,
-        isError:   false,
-        isSuccess: false,
-        current:   0,
-        progress:  () => set(({current}) => ({current: current + 1})),
-        start:     (total) => set({
-            isRunning: true,
-            total
-        }),
-        finish:    (withError = false) =>
-                       set({
-                           isDone:    true,
-                           isRunning: false,
-                           isError:   withError,
-                           isSuccess: !withError,
-                       }),
-        error:     (isError = true) => set({
-            isError,
-            isSuccess: !isError
-        }),
-        percent:   () => {
-            const {
-                current,
-                total
-            } = get();
-            return (100 * current) / total;
-        },
+export const LoopStore = createStore<LoopStore.Props>(() => (set, get) => ({
+    total:     0,
+    isRunning: false,
+    isDone:    false,
+    isError:   false,
+    isSuccess: false,
+    current:   0,
+    progress:  () => set(({current}) => ({current: current + 1})),
+    start:     (total) => set({
+        isRunning: true,
+        total
     }),
-    name:  "LoopStore",
-    hint:  "Add LoopProvider."
-});
+    finish:    (withError = false) =>
+                   set({
+                       isDone:    true,
+                       isRunning: false,
+                       isError:   withError,
+                       isSuccess: !withError,
+                   }),
+    error:     (isError = true) => set({
+        isError,
+        isSuccess: !isError
+    }),
+    percent:   () => {
+        const {
+            current,
+            total
+        } = get();
+        return (100 * current) / total;
+    },
+}));

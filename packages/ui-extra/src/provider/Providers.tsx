@@ -10,10 +10,10 @@ import {Notifications}       from "@mantine/notifications";
 import {
     DateTimeProvider,
     type IWithTranslationQuery,
-    TranslationProvider
+    TranslationProvider,
+    withQuery
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
-import {RpcProvider}         from "@use-pico/rpc";
 import {
     ActiveProvider,
     BlockProvider,
@@ -22,7 +22,6 @@ import {
     ModalStoreProvider,
     RouterTransition
 }                            from "@use-pico/ui";
-import axios                 from "axios";
 import {
     type FC,
     type PropsWithChildren
@@ -38,9 +37,7 @@ export namespace Providers {
         /**
          * Translations used in the application
          */
-        withTranslationQuery: IWithTranslationQuery;
-        rpcUrl?: string;
-        baseUrl?: string;
+        withTranslationQuery?: IWithTranslationQuery;
     }>;
 }
 
@@ -48,48 +45,43 @@ export const Providers: FC<Providers.Props> = (
     {
         theme,
         locale,
-        withTranslationQuery,
-        rpcUrl,
-        baseUrl,
+        withTranslationQuery = withQuery({
+            callback: async () => ({translations: {}}),
+        }),
         children,
     }
 ) => {
-    axios.defaults.baseURL = baseUrl;
     return <QueryClientProvider>
-        <RpcProvider
-            url={rpcUrl}
+        <TranslationProvider
+            withTranslationQuery={withTranslationQuery}
+            locale={locale}
+            loading={() => <LoadingOverlay visible/>}
         >
-            <TranslationProvider
-                withTranslationQuery={withTranslationQuery}
-                locale={locale}
-                loading={() => <LoadingOverlay visible/>}
+            <MantineProvider
+                theme={createTheme({
+                    primaryColor: "blue",
+                    primaryShade: 5,
+                    ...theme
+                })}
             >
-                <MantineProvider
-                    theme={createTheme({
-                        primaryColor: "blue",
-                        primaryShade: 5,
-                        ...theme
-                    })}
-                >
-                    <RouterTransition/>
-                    <Notifications position={"top-right"}/>
-                    <ModalsProvider>
-                        <DateTimeProvider
-                            locale={locale}
-                        >
-                            <ActiveProvider>
-                                <BlockProvider>
-                                    <DrawerStoreProvider>
-                                        <ModalStoreProvider>
-                                            {children}
-                                        </ModalStoreProvider>
-                                    </DrawerStoreProvider>
-                                </BlockProvider>
-                            </ActiveProvider>
-                        </DateTimeProvider>
-                    </ModalsProvider>
-                </MantineProvider>
-            </TranslationProvider>
-        </RpcProvider>
+                <RouterTransition/>
+                <Notifications position={"top-right"}/>
+                <ModalsProvider>
+                    <DateTimeProvider
+                        locale={locale}
+                    >
+                        <ActiveProvider>
+                            <BlockProvider>
+                                <DrawerStoreProvider>
+                                    <ModalStoreProvider>
+                                        {children}
+                                    </ModalStoreProvider>
+                                </DrawerStoreProvider>
+                            </BlockProvider>
+                        </ActiveProvider>
+                    </DateTimeProvider>
+                </ModalsProvider>
+            </MantineProvider>
+        </TranslationProvider>
     </QueryClientProvider>;
 };

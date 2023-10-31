@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico/pico"
+		"url": "git://github.com/use-pico2/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -42,7 +42,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
+		"url": "https://github.com/use-pico2/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico/pico#readme"
+	"homepage": "https://github.com/use-pico2/pico#readme"
 }

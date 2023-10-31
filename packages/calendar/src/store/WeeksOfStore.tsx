@@ -1,14 +1,14 @@
 import {DateTime}    from "@use-pico/i18n";
 import {
     createStore,
-    type IStoreProps
+    type IStore
 }                    from "@use-pico/store";
 import {generateId}  from "@use-pico/utils";
 import {type IWeeks} from "../api/weeks";
 import {weeksOf}     from "../calendar/weeksOf";
 
 export namespace WeeksOfStore {
-    export type StoreProps = IStoreProps<{
+    export type StoreProps = IStore<{
         id: string;
         /**
          * Set weeks of the given date
@@ -37,91 +37,87 @@ export namespace WeeksOfStore {
     }>
 }
 
-export const WeeksOfStore = createStore<WeeksOfStore.StoreProps>({
-    state: ({state}) => (set, get) => ({
-        id: generateId(),
-        weeksOf(date: DateTime) {
-            set(({weeks: {selected}}) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date,
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        today() {
-            set(({weeks: {selected}}) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date: DateTime.now(),
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        prevMonth() {
-            set(({
-                     weeks: {
-                                date,
-                                selected
-                            }
-                 }) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date: date.minus({month: 1}),
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        nextMonth() {
-            set(({
-                     weeks: {
-                                date,
-                                selected
-                            }
-                 }) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date: date.plus({month: 1}),
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        prevYear() {
-            set(({
-                     weeks: {
-                                date,
-                                selected
-                            }
-                 }) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date: date.minus({year: 1}),
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        nextYear() {
-            set(({
-                     weeks: {
-                                date,
-                                selected
-                            }
-                 }) => ({
-                id:    generateId(),
-                weeks: weeksOf({
-                    date: date.plus({year: 1}),
-                    selected,
-                }),
-            }));
-            return get().weeks;
-        },
-        ...state,
-    }),
-    name:  "WeeksOfStore",
-    hint:  "Add WeeksOfProvider or CalendarProvider.",
-});
+export const WeeksOfStore = createStore<WeeksOfStore.StoreProps>(values => (set, get) => ({
+    id: generateId(),
+    weeksOf(date: DateTime) {
+        set(({weeks: {selected}}) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date,
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    today() {
+        set(({weeks: {selected}}) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date: DateTime.now(),
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    prevMonth() {
+        set(({
+                 weeks: {
+                            date,
+                            selected
+                        }
+             }) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date: date.minus({month: 1}),
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    nextMonth() {
+        set(({
+                 weeks: {
+                            date,
+                            selected
+                        }
+             }) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date: date.plus({month: 1}),
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    prevYear() {
+        set(({
+                 weeks: {
+                            date,
+                            selected
+                        }
+             }) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date: date.minus({year: 1}),
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    nextYear() {
+        set(({
+                 weeks: {
+                            date,
+                            selected
+                        }
+             }) => ({
+            id:    generateId(),
+            weeks: weeksOf({
+                date: date.plus({year: 1}),
+                selected,
+            }),
+        }));
+        return get().weeks;
+    },
+    ...values,
+}));

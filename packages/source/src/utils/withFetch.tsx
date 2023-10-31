@@ -1,38 +1,43 @@
-import {FilterSchema}            from "@use-pico/query";
+import {
+    type IWithQuery,
+    type QuerySchema
+}                                from "@use-pico/query";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {type FC}                 from "react";
-import {type IWithFetchQuery}    from "../api/IWithFetchQuery";
 import {Fetch}                   from "../ui/Fetch";
 
 export namespace withFetch {
     export interface Props<
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<any, any>,
         TResponseSchema extends WithIdentitySchema,
     > {
-        withQuery: IWithFetchQuery<TFilterSchema, TResponseSchema>;
+        withQuery: IWithQuery<TQuerySchema, TResponseSchema>;
     }
 
     export type Fetch<
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<any, any>,
         TResponseSchema extends WithIdentitySchema,
     > = FC<
         Omit<
-            Fetch.Props<TFilterSchema, TResponseSchema>,
+            Fetch.Props<TQuerySchema, TResponseSchema>,
             "withQuery"
         >
     >;
 }
 
 export const withFetch = <
-    TFilterSchema extends FilterSchema,
+    TQuerySchema extends QuerySchema<any, any>,
     TResponseSchema extends WithIdentitySchema,
 >(
     {
         withQuery,
     }: withFetch.Props<
-        TFilterSchema,
+        TQuerySchema,
         TResponseSchema
     >
-): withFetch.Fetch<TFilterSchema, TResponseSchema> => {
-    return props => <Fetch withQuery={withQuery} {...props}/>;
+): withFetch.Fetch<TQuerySchema, TResponseSchema> => {
+    return props => <Fetch
+        withQuery={withQuery}
+        {...props}
+    />;
 };

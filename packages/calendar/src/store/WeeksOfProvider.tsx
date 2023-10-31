@@ -1,4 +1,5 @@
 import {type DateTime} from "@use-pico/i18n";
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
@@ -19,8 +20,9 @@ export const WeeksOfProvider: FC<WeeksOfProvider.Props> = (
         selected,
         ...props
     }) => {
-    return <WeeksOfStore.Provider
-        state={{
+    return <StoreProvider
+        store={WeeksOfStore}
+        values={{
             weeks: weeksOf({
                 date,
                 selected,

@@ -28,8 +28,6 @@ import {withString}         from "./string/withString";
 import {withUnion}          from "./union/withUnion";
 
 export namespace schema {
-
-
     export interface Factory<TSchema extends PicoSchema> {
         /**
          * Factory function with all the juice stuff from schema package.

@@ -2,15 +2,17 @@ import {Translation}               from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema,
-    QuerySchema
+    type QuerySchema,
+    useQueryEx
 }                                  from "@use-pico/query";
-import {type WithSourceQuery}      from "@use-pico/rpc";
 import {
     isPartial,
     type PicoSchema,
     type WithIdentitySchema
 }                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
+import {type IWithSourceQuery}     from "@use-pico/source";
+import {StoreProvider}             from "@use-pico/store";
 import {
     Alert,
     Divider,
@@ -37,7 +39,7 @@ export namespace MultiQueryInput {
         /**
          * Query used to fetch current entity.
          */
-        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
         /**
          * Store used to manage selection of current entity.
          */
@@ -93,8 +95,9 @@ export const MultiQueryInput = <
                    value,
                },
     } = useController(withControl);
-    const result = withSourceQuery.useQueryEx({
-        request: {
+    const result = useQueryEx({
+        withQuery: withSourceQuery,
+        request:   {
             filter:  value ? toFilter(value) : {idIn: []},
             orderBy: toOrderBy(),
         },
@@ -105,8 +108,9 @@ export const MultiQueryInput = <
         schema={schema}
         isLoading
         {...props}
-    /> : <MultiSelectionStore.Provider
-        defaults={{
+    /> : <StoreProvider
+        store={MultiSelectionStore}
+        values={{
             /**
              * Two separate maps are necessary as the store would modify both maps unintentionally
              */
@@ -175,5 +179,5 @@ export const MultiQueryInput = <
                 {...props}
             />
         </ModalStoreProvider>
-    </MultiSelectionStore.Provider>;
+    </StoreProvider>;
 };

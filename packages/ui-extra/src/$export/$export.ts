@@ -3,7 +3,6 @@ export * from "./DeleteByModal";
 export * from "./DeleteModal";
 export * from "./DownloadButton";
 export * from "./DropZone";
-export * from "./IWithLogoutMutation";
 export * from "./ImportUpload";
 export * from "./LanguageSelect";
 export * from "./LayoutShell";

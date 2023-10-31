@@ -1,15 +1,16 @@
-import {ButtonGroup}          from "@mantine/core";
+import {ButtonGroup}         from "@mantine/core";
 import {
     Translation,
     WithTranslationProvider
-}                             from "@use-pico/i18n";
+}                            from "@use-pico/i18n";
 import {
     type FilterSchema,
+    IQueryStore,
+    type IWithMutation,
     type QuerySchema,
-    type WithMutation,
     withPassMutation
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
+}                            from "@use-pico/query";
+import {useStore}            from "@use-pico/store";
 import {
     ActionIcon,
     Button,
@@ -23,34 +24,34 @@ import {
     FilterOffIcon,
     FilterOnIcon,
     Group
-}                             from "@use-pico/ui";
-import {mapEmptyToUndefined}  from "@use-pico/utils";
-import {Form}                 from "./Form";
+}                            from "@use-pico/ui";
+import {mapEmptyToUndefined} from "@use-pico/utils";
+import {Form}                from "./Form";
 
 export namespace Filter {
     export interface Props<
         TFilterSchema extends FilterSchema
     > extends Omit<
         Form.Props<
-            WithMutation<TFilterSchema, TFilterSchema>
+            IWithMutation<TFilterSchema, TFilterSchema>
         >,
         "schema" | "onSuccess" | "withMutation"
     > {
         schema: {
             filter: TFilterSchema;
         },
-        withSourceQuery: WithSourceQuery<any, QuerySchema<TFilterSchema, any>>;
+        withQueryStore: IQueryStore.Store<QuerySchema<TFilterSchema, any>>;
     }
 }
 
 export const Filter = <TFilterSchema extends FilterSchema>(
     {
         schema: {filter},
-        withSourceQuery,
+        withQueryStore,
         ...props
     }: Filter.Props<TFilterSchema>
 ) => {
-    const query = withSourceQuery.store.use((
+    const query = useStore(withQueryStore, (
         {
             filter,
             setFilter,
@@ -64,7 +65,8 @@ export const Filter = <TFilterSchema extends FilterSchema>(
         clearFilter,
         setCursor
     }));
-    const drawer = DrawerStore.use(({close}) => ({close}));
+    const drawer = useStore(DrawerStore, ({close}) => ({close}));
+
     return <DrawerStoreProvider>
         <WithTranslationProvider
             withTranslation={props.withTranslation}

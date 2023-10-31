@@ -1,5 +1,6 @@
 import {Translation}             from "@use-pico/i18n";
 import {type WithIdentitySchema} from "@use-pico/schema";
+import {useStore}                from "@use-pico/store";
 import {MoreIcon}                from "../../icon/MoreIcon";
 import {ModalStore}              from "../../modal/ModalStore";
 import {ActionIcon}              from "../ActionIcon";
@@ -31,7 +32,7 @@ export const InlineLimit = <
         count,
     }: InlineLimit.Props<TItem>
 ) => {
-    const modalStore = ModalStore.use(({open}) => ({open}));
+    const modalStore = useStore(ModalStore, ({open}) => ({open}));
     return <NativeBreadcrumbs>
         {items.map(item => <Item key={item.id} entity={item}/>)}
         {!items.length && <Text c={"dimmed"}>

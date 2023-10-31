@@ -1,8 +1,9 @@
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
-}                    from "react";
-import {DrawerStore} from "./DrawerStore";
+}                      from "react";
+import {DrawerStore}   from "./DrawerStore";
 
 export namespace DrawerStoreProvider {
     export type Props = PropsWithChildren<{
@@ -15,8 +16,9 @@ export const DrawerStoreProvider: FC<DrawerStoreProvider.Props> = (
         defaultOpened,
         ...props
     }) => {
-    return <DrawerStore.Provider
-        defaults={{
+    return <StoreProvider
+        store={DrawerStore}
+        values={{
             state: defaultOpened ? new Map(Object.entries(defaultOpened)) : new Map(),
         }}
         {...props}

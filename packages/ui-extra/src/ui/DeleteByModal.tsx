@@ -4,13 +4,13 @@ import {useSuccessNotification} from "@use-pico/hook";
 import {Translation}            from "@use-pico/i18n";
 import {
     type FilterSchema,
-    type QuerySchema
+    type IQueryStore,
+    type IWithMutation,
+    type QuerySchema,
+    useMutation
 }                               from "@use-pico/query";
-import {
-    type WithMutation,
-    type WithSourceQuery
-}                               from "@use-pico/rpc";
 import {type MutationSchema}    from "@use-pico/source";
+import {useStore}               from "@use-pico/store";
 import {
     Button,
     CloseIcon,
@@ -25,11 +25,11 @@ export namespace DeleteByModal {
     export interface Props<
         TFilterSchema extends FilterSchema,
     > extends Modal.Props {
-        withMutation: WithMutation<
+        withMutation: IWithMutation<
             MutationSchema<any, QuerySchema<TFilterSchema, any>>,
             any
         >;
-        withSourceQuery: WithSourceQuery<any, QuerySchema<TFilterSchema, any>>;
+        withQueryStore: IQueryStore.Store<QuerySchema<TFilterSchema, any>>;
     }
 }
 
@@ -38,16 +38,16 @@ export const DeleteByModal = <
 >(
     {
         withMutation,
-        withSourceQuery,
+        withQueryStore,
         ...props
     }: DeleteByModal.Props<TFilterSchema>
 ) => {
-    const {close} = ModalStore.use(({close}) => ({close}));
+    const {close} = useStore(ModalStore, ({close}) => ({close}));
     const successNotification = useSuccessNotification();
     const {
         where,
         filter,
-    } = withSourceQuery.store.use((
+    } = useStore(withQueryStore, (
         {
             where,
             filter
@@ -55,7 +55,7 @@ export const DeleteByModal = <
         where,
         filter
     }));
-    const deleteMutation = withMutation.useMutation();
+    const deleteMutation = useMutation({withMutation});
 
     return <Modal
         modalProps={{

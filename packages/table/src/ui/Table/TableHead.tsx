@@ -1,8 +1,8 @@
 import {Translation}            from "@use-pico/i18n";
 import {
-    FilterSchema,
-    OrderBySchema,
-    QuerySchema
+    type FilterSchema,
+    type OrderBySchema,
+    type QuerySchema
 }                               from "@use-pico/query";
 import {type PicoSchema}        from "@use-pico/schema";
 import {
@@ -18,15 +18,15 @@ import {type ITableColumnTuple} from "../../api/ITableColumnTuple";
 
 export namespace TableHead {
     export interface Props<
-        TSchema extends PicoSchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends PicoSchema,
     > {
         /**
          * Component used to render actions over the whole table
          */
         WithTableAction?: FC<WithTableActionProps<TSchema>>;
         withRowAction: boolean;
-        columns: ITableColumnTuple<TSchema, TQuerySchema>[];
+        columns: ITableColumnTuple<TQuerySchema, TSchema>[];
         disableActions: boolean;
         items?: PicoSchema.Output<TSchema>[];
     }
@@ -37,8 +37,8 @@ export namespace TableHead {
 }
 
 export const TableHead = <
-    TSchema extends PicoSchema,
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TSchema extends PicoSchema,
 >(
     {
         WithTableAction,
@@ -46,7 +46,7 @@ export const TableHead = <
         columns,
         disableActions,
         items,
-    }: TableHead.Props<TSchema, TQuerySchema>
+    }: TableHead.Props<TQuerySchema, TSchema>
 ) => {
     return <Table.Thead>
         <Table.Tr>

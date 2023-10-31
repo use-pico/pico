@@ -1,37 +1,52 @@
-import {Translation}          from "@use-pico/i18n";
-import {type WithSourceQuery} from "@use-pico/rpc";
+import {Translation} from "@use-pico/i18n";
+import {
+    type IQueryStore,
+    type QuerySchema
+}                    from "@use-pico/query";
+import {
+    type IWithSourceQuery,
+    useCount
+}                    from "@use-pico/source";
+import {useStore}    from "@use-pico/store";
 import {
     BlockStore,
     Divider,
     Grid,
+    GridCol,
     Group,
     NativeBreadcrumbs,
     Pagination as CoolPagination,
     Select,
     Text
-}                             from "@use-pico/ui";
-import {type FC}              from "react";
+}                    from "@use-pico/ui";
 
 export namespace Pagination {
-    export interface Props extends Partial<CoolPagination.Props> {
-        withSourceQuery: WithSourceQuery<any, any>;
+    export interface Props<
+        TQuerySchema extends QuerySchema<any, any>,
+    > extends Partial<CoolPagination.Props> {
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, any>;
         hideOnSingle?: boolean;
         refresh?: number;
     }
 }
 
-export const Pagination: FC<Pagination.Props> = (
+export const Pagination = <
+    TQuerySchema extends QuerySchema<any, any>,
+>(
     {
+        withQueryStore,
         withSourceQuery,
         hideOnSingle = true,
         refresh,
         ...props
-    }) => {
+    }: Pagination.Props<TQuerySchema>
+) => {
     const {
         cursor,
         setCursor,
         setSize
-    } = withSourceQuery.store.use((
+    } = useStore(withQueryStore, (
         {
             cursor,
             setCursor,
@@ -41,16 +56,19 @@ export const Pagination: FC<Pagination.Props> = (
         setCursor,
         setSize
     }));
-    const {isBlock} = BlockStore.use(({isBlock}) => ({isBlock}));
-    const result = withSourceQuery.useCount({
+    const {isBlock} = useStore(BlockStore, ({isBlock}) => ({isBlock}));
+    const result = useCount({
+        store:           withQueryStore,
+        withSourceQuery: withSourceQuery,
         refetchInterval: refresh,
     });
     const pages = Math.ceil((result.data?.count || 0) / cursor.size);
+
     return <Grid
         align={"center"}
         py={"sm"}
     >
-        {hideOnSingle && pages === 1 ? null : <Grid.Col span={"content"}>
+        {hideOnSingle && pages === 1 ? null : <GridCol span={"content"}>
             <CoolPagination
                 disabled={isBlock}
                 withEdges
@@ -63,8 +81,8 @@ export const Pagination: FC<Pagination.Props> = (
                 onChange={page => setCursor(page - 1)}
                 {...props}
             />
-        </Grid.Col>}
-        {result.data && result.data.where > 0 && <Grid.Col span={"auto"}>
+        </GridCol>}
+        {result.data && result.data.where > 0 && <GridCol span={"auto"}>
             {hideOnSingle ? (pages > 1) : (pages > 0) && <Divider orientation={"vertical"}/>}
             <Group gap={"xs"}>
                 <Text c={"dimmed"}>
@@ -79,8 +97,8 @@ export const Pagination: FC<Pagination.Props> = (
                     </Text>}
                 </NativeBreadcrumbs>
             </Group>
-        </Grid.Col>}
-        {pages > 0 && <Grid.Col span={"content"}>
+        </GridCol>}
+        {pages > 0 && <GridCol span={"content"}>
             <Select
                 defaultValue={`${cursor.size}`}
                 onChange={value => value && setSize(parseInt(value))}
@@ -89,6 +107,6 @@ export const Pagination: FC<Pagination.Props> = (
                     label: `${size}`,
                 }))}
             />
-        </Grid.Col>}
+        </GridCol>}
     </Grid>;
 };

@@ -1,37 +1,35 @@
 "use client";
 
 import {
-    ErrorResponseSchema,
-    type FilterSchema,
-    type OrderBySchema,
+    type IWithQuery,
     QueryResult,
-    type QuerySchema,
-    type WithQuery
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
+    type QuerySchema
+}                              from "@use-pico/query";
 import {
+    type ArraySchema,
     type PicoSchema,
-    type ResponseSchema
-}                             from "@use-pico/schema";
-import {Loader}               from "@use-pico/ui";
+    type ResponseSchema,
+    type WithIdentitySchema
+}                              from "@use-pico/schema";
+import {Loader}                from "@use-pico/ui";
 import {
-    type ComponentProps,
     type FC,
     type ReactNode
-}                             from "react";
+}                              from "react";
+import {type IWithSourceQuery} from "../api/IWithSourceQuery";
+import {useQueryEx}            from "../hook/useQueryEx";
 
 export namespace QueryFetch {
     export interface Props<
-        TResponseSchema extends ResponseSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
+        TResponseSchema extends WithIdentitySchema,
     > {
         loader?: ReactNode;
-        filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]> | null;
         /**
          * Query to fetch entity
          */
-        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
-        query?: ComponentProps<WithSourceQuery<TResponseSchema, TQuerySchema>["store"]["Provider"]>["defaults"];
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
+        query: PicoSchema.Output<TQuerySchema>;
 
         /**
          * Error renderer
@@ -43,11 +41,11 @@ export namespace QueryFetch {
          */
         WithSuccess: FC<WithSuccessProps<TResponseSchema>>;
         enabled?: boolean;
-        options?: WithQuery.QueryOptions<TQuerySchema, TResponseSchema>;
+        options?: IWithQuery.QueryOptions<ArraySchema<TResponseSchema>>;
     }
 
     export interface WithErrorProps {
-        error: ErrorResponseSchema.Type;
+        error: any;
     }
 
     export interface WithSuccessProps<TResponseSchema extends ResponseSchema> {
@@ -56,25 +54,25 @@ export namespace QueryFetch {
 }
 
 export const QueryFetch = <
-    TResponseSchema extends ResponseSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TQuerySchema extends QuerySchema<any, any>,
+    TResponseSchema extends WithIdentitySchema,
 >(
     {
         loader,
-        filter,
         withSourceQuery,
         query,
         WithError = () => null,
         WithSuccess,
         enabled = true,
         options,
-    }: QueryFetch.Props<TResponseSchema, TQuerySchema>
+    }: QueryFetch.Props<
+        TQuerySchema,
+        TResponseSchema
+    >
 ) => {
-    const result = withSourceQuery.useQueryEx({
-        /**
-         * @TODO this looks strange, maybe event buggy, fix this ... Stranger Things
-         */
-        request: (query || filter ? {filter} : {}) as any,
+    const result = useQueryEx({
+        withSourceQuery,
+        request: query,
         options: {
             ...options,
             enabled,

@@ -1,16 +1,18 @@
-import {Translation}          from "@use-pico/i18n";
+import {Translation}           from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema,
-    QuerySchema
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
+    type QuerySchema,
+    useQueryEx
+}                              from "@use-pico/query";
 import {
     isPartial,
     type PicoSchema,
     type WithIdentitySchema
-}                             from "@use-pico/schema";
-import {type ISelectionStore} from "@use-pico/selection";
+}                              from "@use-pico/schema";
+import {type ISelectionStore}  from "@use-pico/selection";
+import {type IWithSourceQuery} from "@use-pico/source";
+import {StoreProvider}         from "@use-pico/store";
 import {
     Alert,
     Divider,
@@ -18,15 +20,15 @@ import {
     Modal,
     ModalStoreProvider,
     Text
-}                             from "@use-pico/ui";
-import {type FC}              from "react";
-import {useController}        from "react-hook-form";
-import type {ValuesSchema}    from "../schema/ValuesSchema";
-import {InputEx}              from "./InputEx";
-import {CancelButton}         from "./QueryInput/CancelButton";
-import {ClearButton}          from "./QueryInput/ClearButton";
-import {CommitButton}         from "./QueryInput/CommitButton";
-import {WithItem}             from "./QueryInput/WithItem";
+}                              from "@use-pico/ui";
+import {type FC}               from "react";
+import {useController}         from "react-hook-form";
+import type {ValuesSchema}     from "../schema/ValuesSchema";
+import {InputEx}               from "./InputEx";
+import {CancelButton}          from "./QueryInput/CancelButton";
+import {ClearButton}           from "./QueryInput/ClearButton";
+import {CommitButton}          from "./QueryInput/CommitButton";
+import {WithItem}              from "./QueryInput/WithItem";
 
 export namespace QueryInput {
     export interface Props<
@@ -37,7 +39,7 @@ export namespace QueryInput {
         /**
          * Query used to fetch current entity.
          */
-        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
         /**
          * Store used to manage selection of current entity.
          */
@@ -91,8 +93,10 @@ export const QueryInput = <
                    value,
                },
     } = useController(withControl);
-    const result = withSourceQuery.useQueryEx({
-        request: {
+
+    const result = useQueryEx({
+        withQuery: withSourceQuery,
+        request:   {
             filter:  value ? toFilter(value) : {id: null},
             orderBy: toOrderBy(),
         },
@@ -103,8 +107,9 @@ export const QueryInput = <
         schema={schema}
         isLoading
         {...props}
-    /> : <SelectionStore.Provider
-        defaults={{
+    /> : <StoreProvider
+        store={SelectionStore}
+        values={{
             item:      result.data?.[0],
             selection: result.data?.[0],
         }}
@@ -166,5 +171,5 @@ export const QueryInput = <
                 {...props}
             />
         </ModalStoreProvider>
-    </SelectionStore.Provider>;
+    </StoreProvider>;
 };

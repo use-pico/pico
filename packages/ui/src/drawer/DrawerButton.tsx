@@ -1,6 +1,7 @@
 "use client";
 
 import {Translation} from "@use-pico/i18n";
+import {useStore}    from "@use-pico/store";
 import {type FC}     from "react";
 import {Button}      from "../ui/Button";
 import {DrawerStore} from "./DrawerStore";
@@ -18,7 +19,7 @@ export const DrawerButton: FC<DrawerButton.Props> = (
         label,
         ...props
     }) => {
-    const {open} = DrawerStore.use(({open}) => ({open}));
+    const {open} = useStore(DrawerStore, ({open}) => ({open}));
     return <Button
         {...props}
         onClick={() => open(drawerId)}

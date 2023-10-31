@@ -1,44 +1,52 @@
-import {IconSearch}           from "@tabler/icons-react";
-import {WithTranslationStore} from "@use-pico/i18n";
+import {IconSearch}              from "@tabler/icons-react";
+import {WithTranslationStore}    from "@use-pico/i18n";
 import {
-    type FilterSchema,
-    type OrderBySchema,
-    QuerySchema
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
-import {type PicoSchema}      from "@use-pico/schema";
+    IQueryStore,
+    type QuerySchema
+}                                from "@use-pico/query";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {
+    type IWithSourceQuery,
+    useCount
+}                                from "@use-pico/source";
+import {useStore}                from "@use-pico/store";
 import {
     Container,
     Result,
     Status,
     WithIcon
-}                             from "@use-pico/ui";
+}                                from "@use-pico/ui";
 import {
     type FC,
     useCallback
-}                             from "react";
+}                                from "react";
 
 export namespace TableCountResult {
     export interface Props<
-        TSchema extends PicoSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
+        TSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
         Empty?: FC;
     }
 }
 
 export const TableCountResult = <
-    TSchema extends PicoSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TQuerySchema extends QuerySchema<any, any>,
+    TSchema extends WithIdentitySchema,
 >(
     {
+        withQueryStore,
         withSourceQuery,
         Empty,
-    }: TableCountResult.Props<TSchema, TQuerySchema>
+    }: TableCountResult.Props<TQuerySchema, TSchema>
 ) => {
-    const {namespace} = WithTranslationStore.use(({namespace}) => ({namespace}));
-    const countResult = withSourceQuery.useCount();
+    const {namespace} = useStore(WithTranslationStore, ({namespace}) => ({namespace}));
+    const countResult = useCount({
+        store: withQueryStore,
+        withSourceQuery,
+    });
 
     const Empty$ = useCallback(() => <Status
         title={"empty.title"}

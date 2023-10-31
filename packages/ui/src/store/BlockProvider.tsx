@@ -1,8 +1,9 @@
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
-}                   from "react";
-import {BlockStore} from "./BlockStore";
+}                      from "react";
+import {BlockStore}    from "./BlockStore";
 
 export namespace BlockProvider {
     export type Props = PropsWithChildren<{
@@ -15,8 +16,9 @@ export const BlockProvider: FC<BlockProvider.Props> = (
         isBlock = false,
         ...props
     }) => {
-    return <BlockStore.Provider
-        defaults={{isBlock}}
+    return <StoreProvider
+        store={BlockStore}
+        values={{isBlock}}
         {...props}
     />;
 };

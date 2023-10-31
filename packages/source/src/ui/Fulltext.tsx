@@ -3,33 +3,30 @@
 import {
     IconSearch,
     IconX
-}                             from "@tabler/icons-react";
-import {useDebouncedState}    from "@use-pico/hook";
-import {useTranslation}       from "@use-pico/i18n";
+}                          from "@tabler/icons-react";
+import {useDebouncedState} from "@use-pico/hook";
+import {useTranslation}    from "@use-pico/i18n";
 import {
-    type FilterSchema,
-    type OrderBySchema,
+    type IQueryStore,
     type QuerySchema
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
-import {type ResponseSchema}  from "@use-pico/schema";
+}                          from "@use-pico/query";
+import {useStore}          from "@use-pico/store";
 import {
     ActionIcon,
     Loader,
     TextInput,
     WithIcon
-}                             from "@use-pico/ui";
+}                          from "@use-pico/ui";
 import {
     useEffect,
     useState
-}                             from "react";
+}                          from "react";
 
 export namespace Fulltext {
     export interface Props<
-        TResponseSchema extends ResponseSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
     > extends TextInput.Props {
-        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
         loading?: boolean;
         debounce?: number;
 
@@ -38,23 +35,22 @@ export namespace Fulltext {
 }
 
 export const Fulltext = <
-    TResponseSchema extends ResponseSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TQuerySchema extends QuerySchema<any, any>,
 >(
     {
-        withSourceQuery,
+        withQueryStore,
         loading,
         debounce = 250,
         onSearch,
         ...props
-    }: Fulltext.Props<TResponseSchema, TQuerySchema>
+    }: Fulltext.Props<TQuerySchema>
 ) => {
     const t = useTranslation();
     const {
         filter,
         setCursor,
         shallowFilter,
-    } = withSourceQuery.store.use((
+    } = useStore(withQueryStore, (
         {
             filter,
             setCursor,

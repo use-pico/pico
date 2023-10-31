@@ -2,7 +2,7 @@ import {
     type FilterSchema,
     type IQueryStore,
     type OrderBySchema,
-    QuerySchema
+    type QuerySchema
 }                        from "@use-pico/query";
 import {type PicoSchema} from "@use-pico/schema";
 import {
@@ -12,8 +12,8 @@ import {
 }                        from "react";
 
 export interface ITableColumn<
-    TSchema extends PicoSchema,
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TSchema extends PicoSchema,
 > {
     /**
      * Explicitly override column title (by default column name is taken from Record<> in Table)
@@ -68,10 +68,10 @@ export namespace ITableColumn {
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
         item: PicoSchema.Output<TSchema>;
-        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
+        filter: IQueryStore<TQuerySchema>["values"]["filter"];
+        shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
+        setFilter: IQueryStore<TQuerySchema>["props"]["setFilter"];
+        clearFilter: IQueryStore<TQuerySchema>["props"]["clearFilter"];
     }
 
     export interface OnClearProps<
@@ -79,9 +79,9 @@ export namespace ITableColumn {
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         item: PicoSchema.Output<TSchema>;
-        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
+        filter: IQueryStore<TQuerySchema>["values"]["filter"];
+        shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
+        setFilter: IQueryStore<TQuerySchema>["props"]["setFilter"];
+        clearFilter: IQueryStore<TQuerySchema>["props"]["clearFilter"];
     }
 }

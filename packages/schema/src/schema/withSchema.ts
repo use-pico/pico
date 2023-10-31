@@ -1,4 +1,7 @@
 import {type PicoSchema} from "../api/PicoSchema";
+/**
+ * Keep this local import as this package has to be standalone without dependencies
+ */
 import {proxyOf}         from "../utils/proxyOf";
 
 type Input<TInput extends PicoSchema> = Omit<TInput, "types" | "_parseAsync">;

@@ -1,22 +1,21 @@
 import {
     type PicoSchema,
     type ResponseSchema
-}                                 from "@use-pico/schema";
-import {type FC}                  from "react";
-import {type WithQuery}           from "../api/WithQuery";
-import {type ErrorResponseSchema} from "../schema/ErrorResponseSchema";
+}                        from "@use-pico/schema";
+import {type FC}         from "react";
+import {type IWithQuery} from "../api/IWithQuery";
 
 export namespace QueryResult {
     export interface Props<
         TResponseSchema extends ResponseSchema,
     > {
-        result: WithQuery.Result<TResponseSchema>;
+        result: IWithQuery.Result<TResponseSchema>;
         WithLoading?: FC;
         WithSuccess?: FC<{
             data: PicoSchema.Output<TResponseSchema>;
         }>;
         WithError?: FC<{
-            error: ErrorResponseSchema.Type;
+            error: any;
         }>;
     }
 }

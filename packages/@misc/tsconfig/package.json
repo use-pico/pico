@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico/pico.git"
+		"url": "git://github.com/use-pico2/pico.git"
 	},
 	"files": [
 		"types",
@@ -14,9 +14,9 @@
 	],
 	"types": "types/types.d.ts",
 	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
+		"url": "https://github.com/use-pico2/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico/pico#readme",
+	"homepage": "https://github.com/use-pico2/pico#readme",
 	"dependencies": {
 		"@total-typescript/ts-reset": "^0.5.1",
 		"typescript-plugin-css-modules": "^5.0.1"

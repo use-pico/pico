@@ -2,11 +2,11 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 } from "@use-pico/store";
 
 export namespace LoopsStore {
-    export type Props = IStoreProps<{
+    export type Props = IStore<{
         current: number;
 
         isRunning(): boolean;
@@ -17,15 +17,15 @@ export namespace LoopsStore {
     }>
 }
 
-export const LoopsStore = createStore<LoopsStore.Props>({
-    state: () => (set, get) => ({
-        current: 0,
-        isRunning() {
-            return get().current > 0;
-        },
-        inc: () => set(({current}) => ({current: current + 1})),
-        dec: () => set(({current}) => ({current: current - 1})),
-    }),
-    name:  "LoopsStore",
-    hint:  "Add LoopsProvider."
-});
+export const LoopsStore = createStore<LoopsStore.Props>(() => (set, get) => ({
+    current: 0,
+    isRunning() {
+        return get().current > 0;
+    },
+    inc() {
+        set(({current}) => ({current: current + 1}));
+    },
+    dec() {
+        set(({current}) => ({current: current - 1}));
+    },
+}));

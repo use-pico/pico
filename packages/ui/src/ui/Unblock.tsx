@@ -1,5 +1,6 @@
 "use client";
 
+import {useStore}   from "@use-pico/store";
 import {
     type FC,
     useEffect
@@ -12,7 +13,7 @@ export namespace Unblock {
 }
 
 export const Unblock: FC<Unblock.Props> = () => {
-    const block = BlockStore.use(({unblock}) => ({unblock}));
+    const block = useStore(BlockStore, ({unblock}) => ({unblock}));
     useEffect(() => {
         block.unblock();
     }, []);

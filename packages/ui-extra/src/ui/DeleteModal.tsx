@@ -2,9 +2,13 @@
 
 import {useSuccessNotification} from "@use-pico/hook";
 import {Translation}            from "@use-pico/i18n";
-import {type WithMutation}      from "@use-pico/query";
+import {
+    type IWithMutation,
+    useMutation
+}                               from "@use-pico/query";
 import {type ResponseSchema}    from "@use-pico/schema";
 import {type MutationSchema}    from "@use-pico/source";
+import {useStore}               from "@use-pico/store";
 import {type WithEntity}        from "@use-pico/types";
 import {
     Button,
@@ -21,7 +25,7 @@ export namespace DeleteModal {
         TMutationSchema extends MutationSchema<any, any>,
         TResponseSchema extends ResponseSchema,
     > extends Modal.Props, WithEntity.Schema<TResponseSchema> {
-        withMutation: WithMutation<
+        withMutation: IWithMutation<
             TMutationSchema,
             TResponseSchema
         >;
@@ -38,9 +42,9 @@ export const DeleteModal = <
         ...props
     }: DeleteModal.Props<TMutationSchema, TResponseSchema>
 ) => {
-    const {close} = ModalStore.use(({close}) => ({close}));
+    const {close} = useStore(ModalStore, ({close}) => ({close}));
     const successNotification = useSuccessNotification();
-    const deleteMutation = withMutation.useMutation();
+    const deleteMutation = useMutation({withMutation});
 
     return <Modal
         modalProps={{

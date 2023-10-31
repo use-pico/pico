@@ -1,36 +1,39 @@
 import {
     type FilterSchema,
+    type IQueryStore,
     type OrderBySchema,
-    QuerySchema
+    type QuerySchema
 }                                  from "@use-pico/query";
-import {type WithSourceQuery}      from "@use-pico/rpc";
 import {
     type PicoSchema,
     type WithIdentitySchema
 }                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
-import {type ComponentProps}       from "react";
+import {type IWithSourceQuery}     from "@use-pico/source";
+import {StoreProvider}             from "@use-pico/store";
 import {MultiQueryInput}           from "../input/MultiQueryInput";
 import type {ValuesSchema}         from "../schema/ValuesSchema";
 
 export namespace withSourceMultiQueryInput {
     export interface Props<
-        TResponseSchema extends WithIdentitySchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TResponseSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TResponseSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
         MultiSelectionStore: IMultiSelectionStore<PicoSchema.Output<TResponseSchema>>;
     }
 }
 
 export const withSourceMultiQueryInput = <
-    TResponseSchema extends WithIdentitySchema,
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TResponseSchema extends WithIdentitySchema,
 >(
     {
+        withQueryStore,
         withSourceQuery,
         MultiSelectionStore,
-    }: withSourceMultiQueryInput.Props<TResponseSchema, TQuerySchema>
+    }: withSourceMultiQueryInput.Props<TQuerySchema, TResponseSchema>
 ) => {
     return function <
         TValuesSchema extends ValuesSchema,
@@ -39,11 +42,12 @@ export const withSourceMultiQueryInput = <
             queryDefaults,
             ...props
         }: Omit<MultiQueryInput.Props<TValuesSchema, TResponseSchema, TQuerySchema>, "withSourceQuery" | "MultiSelectionStore" | "withFindByQuery"> & {
-            queryDefaults?: ComponentProps<WithSourceQuery<TResponseSchema, TQuerySchema>["store"]["Provider"]>["defaults"]
+            queryDefaults?: PicoSchema.Output<TQuerySchema>;
         }
     ) {
-        return <withSourceQuery.store.Provider
-            defaults={{
+        return <StoreProvider
+            store={withQueryStore}
+            values={{
                 cursor: {
                     page: 0,
                     size: 10,
@@ -56,6 +60,6 @@ export const withSourceMultiQueryInput = <
                 MultiSelectionStore={MultiSelectionStore}
                 {...props}
             />
-        </withSourceQuery.store.Provider>;
+        </StoreProvider>;
     };
 };

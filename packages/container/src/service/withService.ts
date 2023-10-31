@@ -1,8 +1,12 @@
+import {proxyOf}           from "@use-pico/utils";
 import {type FactoryValue} from "pumpit";
+import "server-only";
 import {type IContainer}   from "../api/IContainer";
 
 export namespace withService {
     export interface Service<TService> {
+        service: TService;
+
         inject: symbol;
 
         use(container: IContainer.Type): TService;
@@ -17,7 +21,8 @@ export namespace withService {
 
 export const withService = <TService>(key: string): withService.Service<TService> => {
     return {
-        inject: Symbol.for(key),
+        service: proxyOf,
+        inject:  Symbol.for(key),
         use(container) {
             return container.resolve<TService>(this.inject);
         },

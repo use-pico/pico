@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico/pico"
+		"url": "git://github.com/use-pico2/pico"
 	},
 	"engines": {
 		"node": ">=16.0.0"
@@ -29,9 +29,7 @@
 	},
 	"dependencies": {
 		"@mantine/hooks": "7.1.5",
-		"@use-pico/i18n": "^1.0.11",
-		"@use-pico/ui": "^1.0.14",
-		"@tabler/icons-react": "^2.39.0",
+		"@tabler/icons-react": "^2.40.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
@@ -45,7 +43,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
+		"url": "https://github.com/use-pico2/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico/pico#readme"
+	"homepage": "https://github.com/use-pico2/pico#readme"
 }

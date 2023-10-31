@@ -1,7 +1,19 @@
-import {type WithIdentitySchema}   from "@use-pico/schema";
-import {type IStoreSchema}         from "@use-pico/store";
-import {type ISelectionStoreProps} from "./ISelectionStoreProps";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {type IStore}             from "@use-pico/store";
+import {type IBaseSelection}     from "./IBaseSelection";
 
 export type ISelectionStore<
     TItem extends WithIdentitySchema.Type,
-> = IStoreSchema<ISelectionStoreProps<TItem>>["Store"];
+> = IStore.Store<ISelectionStore.Store<TItem>>;
+
+export namespace ISelectionStore {
+    export type Store<
+        TItem extends WithIdentitySchema.Type,
+    > = IStore<
+        {
+            item?: TItem;
+            selection?: TItem;
+            required(): TItem;
+        } & IBaseSelection<TItem>
+    >;
+}

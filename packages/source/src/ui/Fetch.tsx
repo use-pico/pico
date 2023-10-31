@@ -1,27 +1,26 @@
 "use client";
 
-import {useParam}             from "@use-pico/navigation";
+import {useParam}        from "@use-pico/navigation";
 import {
-    ErrorResponseSchema,
-    FilterSchema,
+    type IWithQuery,
     QueryResult,
-    type WithQuery
-}                             from "@use-pico/query";
+    type QuerySchema,
+    useQueryEx
+}                        from "@use-pico/query";
 import {
     type PicoSchema,
     type WithIdentitySchema
-}                             from "@use-pico/schema";
-import {WithEntity}           from "@use-pico/types";
-import {Loader}               from "@use-pico/ui";
+}                        from "@use-pico/schema";
+import {type WithEntity} from "@use-pico/types";
+import {Loader}          from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}                             from "react";
-import {type IWithFetchQuery} from "../api/IWithFetchQuery";
+}                        from "react";
 
 export namespace Fetch {
     export interface Props<
-        TFilterSchema extends FilterSchema,
+        TQuerySchema extends QuerySchema<any, any>,
         TResponseSchema extends WithIdentitySchema,
     > {
         /**
@@ -32,12 +31,12 @@ export namespace Fetch {
          * Override "useParam" and use provided identity
          */
         override?: string;
-        filter?: PicoSchema.Output<TFilterSchema> | null;
+        query?: PicoSchema.Output<TQuerySchema> | null;
         loader?: ReactNode;
         /**
          * Query to fetch entity
          */
-        withQuery: IWithFetchQuery<TFilterSchema, TResponseSchema>;
+        withQuery: IWithQuery<TQuerySchema, TResponseSchema>;
 
         /**
          * Error renderer
@@ -49,43 +48,50 @@ export namespace Fetch {
          */
         WithSuccess: FC<WithSuccessProps<TResponseSchema>>;
         enabled?: boolean;
-        options?: WithQuery.QueryOptions<TFilterSchema, TResponseSchema>;
+        options?: IWithQuery.QueryOptions<TResponseSchema>;
     }
 
     export interface WithErrorProps {
-        error: ErrorResponseSchema.Type;
+        error: any;
     }
 
-    export interface WithSuccessProps<TResponseSchema extends WithIdentitySchema> extends WithEntity.Schema<TResponseSchema> {
+    export interface WithSuccessProps<
+        TResponseSchema extends WithIdentitySchema,
+    > extends WithEntity.Schema<TResponseSchema> {
     }
 }
 
 export const Fetch = <
-    TFilterSchema extends FilterSchema,
+    TQuerySchema extends QuerySchema<any, any>,
     TResponseSchema extends WithIdentitySchema,
 >(
     {
         param = "id",
         override,
-        filter,
+        query,
         loader,
         withQuery,
         WithError = () => null,
         WithSuccess,
         enabled = true,
         options,
-    }: Fetch.Props<TFilterSchema, TResponseSchema>
+    }: Fetch.Props<TQuerySchema, TResponseSchema>
 ) => {
-    const id = useParam(param, filter ? "-" : override);
-    const result = withQuery.useQueryEx({
-        request: filter || {
-            id,
+    const id = useParam(param, query ? "-" : override);
+
+    const result = useQueryEx({
+        withQuery,
+        request: query || {
+            where: {
+                id,
+            }
         },
         options: {
             ...options,
             enabled,
         },
     });
+
     return <QueryResult
         result={result}
         WithLoading={() => loader === undefined ? <Loader type={"dots"} size={"xs"}/> : loader}

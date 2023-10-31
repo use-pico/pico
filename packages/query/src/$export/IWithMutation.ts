@@ -1,1 +1,1 @@
-export {type WithMutation} from "../api/WithMutation";
+export {type IWithMutation} from "../api/IWithMutation";

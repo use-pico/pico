@@ -1,3 +1,4 @@
+import {StoreProvider}         from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
@@ -16,9 +17,10 @@ export const WithTranslationProvider: FC<WithTranslationProvider.Props> = (
         withTranslation,
         children
     }) => {
-    return withTranslation ? <WithTranslationStore.Provider
-        defaults={withTranslation}
+    return withTranslation ? <StoreProvider
+        store={WithTranslationStore}
+        values={withTranslation}
     >
         {children}
-    </WithTranslationStore.Provider> : children;
+    </StoreProvider> : children;
 };

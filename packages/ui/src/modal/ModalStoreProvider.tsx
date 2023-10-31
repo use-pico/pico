@@ -1,8 +1,9 @@
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
-}                   from "react";
-import {ModalStore} from "./ModalStore";
+}                      from "react";
+import {ModalStore}    from "./ModalStore";
 
 export namespace ModalStoreProvider {
     export type Props = PropsWithChildren<{
@@ -15,8 +16,9 @@ export const ModalStoreProvider: FC<ModalStoreProvider.Props> = (
         defaultOpened,
         ...props
     }) => {
-    return <ModalStore.Provider
-        defaults={{
+    return <StoreProvider
+        store={ModalStore}
+        values={{
             state: defaultOpened ? new Map(Object.entries(defaultOpened)) : new Map(),
         }}
         {...props}

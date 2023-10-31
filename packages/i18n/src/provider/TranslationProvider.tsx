@@ -1,6 +1,9 @@
 "use client";
 
-import {QueryResult}                from "@use-pico/query";
+import {
+    QueryResult,
+    useQueryEx
+}                                   from "@use-pico/query";
 import {NextIntlClientProvider}     from "next-intl";
 import {
     type ComponentProps,
@@ -27,11 +30,13 @@ export const TranslationProvider: FC<TranslationProvider.Props> = (
         children,
     }
 ) => {
-    const result = withTranslationQuery.useQueryEx({
-        request: {
+    const result = useQueryEx({
+        withQuery: withTranslationQuery,
+        request:   {
             locale,
-        }
+        },
     });
+
     const $intlProps: ComponentProps<typeof NextIntlClientProvider> = {
         locale,
         onError() {
@@ -45,17 +50,13 @@ export const TranslationProvider: FC<TranslationProvider.Props> = (
 
     return <QueryResult
         result={result}
-        WithSuccess={({data}) => {
-            return <NextIntlClientProvider
-                messages={data.translations}
-                {...$intlProps}
-            />;
-        }}
-        WithError={() => {
-            return <NextIntlClientProvider
-                messages={{}}
-                {...$intlProps}
-            />;
-        }}
+        WithSuccess={({data}) => <NextIntlClientProvider
+            messages={data.translations}
+            {...$intlProps}
+        />}
+        WithError={() => <NextIntlClientProvider
+            messages={{}}
+            {...$intlProps}
+        />}
     />;
 };

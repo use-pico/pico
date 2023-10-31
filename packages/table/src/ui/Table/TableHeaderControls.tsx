@@ -1,58 +1,66 @@
-import {IconRefresh}          from "@tabler/icons-react";
+import {IconRefresh}             from "@tabler/icons-react";
 import {
-    type FilterSchema,
-    type OrderBySchema,
-    QuerySchema
-}                             from "@use-pico/query";
-import {type WithSourceQuery} from "@use-pico/rpc";
-import {type PicoSchema}      from "@use-pico/schema";
-import {Fulltext}             from "@use-pico/source";
+    type IQueryStore,
+    type QuerySchema
+}                                from "@use-pico/query";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {
+    Fulltext,
+    type IWithSourceQuery,
+    useInvalidator
+}                                from "@use-pico/source";
 import {
     ActionIcon,
-    Grid
-}                             from "@use-pico/ui";
-import {type FC}              from "react";
+    Grid,
+    GridCol
+}                                from "@use-pico/ui";
+import {type FC}                 from "react";
 
 export namespace TableHeaderControls {
     export interface Props<
-        TSchema extends PicoSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
+        TSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
-        Filter?: FC<FilterProps<TSchema, TQuerySchema>>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
+        Filter?: FC<FilterProps<TQuerySchema, TSchema>>;
         Postfix?: FC;
     }
 
     export interface FilterProps<
-        TSchema extends PicoSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
+        TSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
     }
 }
 
 export const TableHeaderControls = <
-    TSchema extends PicoSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TQuerySchema extends QuerySchema<any, any>,
+    TSchema extends WithIdentitySchema,
 >(
     {
+        withQueryStore,
         withSourceQuery,
         Filter,
         Postfix,
-    }: TableHeaderControls.Props<TSchema, TQuerySchema>
+    }: TableHeaderControls.Props<TQuerySchema, TSchema>
 ) => {
-    const invalidator = withSourceQuery.useInvalidator();
+    const invalidator = useInvalidator({
+        withSourceQuery,
+    });
     return <Grid
         align={"center"}
         mb={"xs"}
         gutter={"xs"}
     >
-        <Grid.Col span={"auto"}>
+        <GridCol span={"auto"}>
             <Fulltext
-                withSourceQuery={withSourceQuery}
+                withQueryStore={withQueryStore}
             />
-        </Grid.Col>
-        <Grid.Col span={"content"}>
+        </GridCol>
+        <GridCol span={"content"}>
             <ActionIcon
                 size={"xl"}
                 variant={"subtle"}
@@ -61,12 +69,15 @@ export const TableHeaderControls = <
             >
                 <IconRefresh/>
             </ActionIcon>
-        </Grid.Col>
-        {Filter && <Grid.Col span={"content"}>
-            <Filter withSourceQuery={withSourceQuery}/>
-        </Grid.Col>}
-        {Postfix && <Grid.Col span={"content"}>
+        </GridCol>
+        {Filter && <GridCol span={"content"}>
+            <Filter
+                withQueryStore={withQueryStore}
+                withSourceQuery={withSourceQuery}
+            />
+        </GridCol>}
+        {Postfix && <GridCol span={"content"}>
             <Postfix/>
-        </Grid.Col>}
+        </GridCol>}
     </Grid>;
 };

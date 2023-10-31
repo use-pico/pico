@@ -1,6 +1,7 @@
 import {IconX}                    from "@tabler/icons-react";
 import {Translation}              from "@use-pico/i18n";
 import {type IBaseSelectionStore} from "@use-pico/selection";
+import {useStore}                 from "@use-pico/store";
 import {
     Button,
     ModalStore
@@ -19,8 +20,9 @@ export const ClearButton: FC<ClearButton.Props> = (
         ...props
     }
 ) => {
-    const {close} = ModalStore.use(({close}) => ({close}));
-    const {clear} = SelectionStore.use(({clear}) => ({clear}));
+    const {close} = useStore(ModalStore, ({close}) => ({close}));
+    const {clear} = useStore(SelectionStore, ({clear}) => ({clear}));
+
     return <Button
         leftSection={<IconX/>}
         variant={"subtle"}

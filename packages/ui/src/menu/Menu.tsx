@@ -5,6 +5,7 @@ import {
     WithTranslationProvider
 }                        from "@use-pico/i18n";
 import {isHrefProps}     from "@use-pico/navigation";
+import {useStore}        from "@use-pico/store";
 import {cx}              from "@use-pico/utils";
 import {type FC}         from "react";
 import {type IMenuItems} from "../api/IMenuItems";
@@ -27,7 +28,7 @@ export const Menu: FC<Menu.Props> = (
         withTranslation,
         items,
     }) => {
-    const {active: withActive} = ActiveStore.use(({active}) => ({active}));
+    const {active: withActive} = useStore(ActiveStore, ({active}) => ({active}));
 
     return <WithTranslationProvider
         withTranslation={withTranslation}

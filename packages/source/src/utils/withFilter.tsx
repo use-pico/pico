@@ -3,14 +3,15 @@ import {
     type IQueryStore,
     type OrderBySchema,
     type QuerySchema
-}                from "@use-pico/query";
-import {type FC} from "react";
+}                 from "@use-pico/query";
+import {useStore} from "@use-pico/store";
+import {type FC}  from "react";
 
 export namespace withFilter {
     export interface Props<
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        withQueryStore: IQueryStore<TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
     }
 
     export type WithFilter<
@@ -30,11 +31,11 @@ export namespace withFilter {
     export interface WithFilterItemProps<
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
     > {
-        withQueryStore: IQueryStore<TQuerySchema>;
-        filter: ReturnType<IQueryStore<TQuerySchema>["use"]>["filter"];
-        shallowFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["shallowFilter"];
-        setFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["setFilter"];
-        clearFilter: ReturnType<IQueryStore<TQuerySchema>["use"]>["clearFilter"];
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        filter: IQueryStore<TQuerySchema>["values"]["filter"];
+        shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
+        setFilter: IQueryStore<TQuerySchema>["props"]["setFilter"];
+        clearFilter: IQueryStore<TQuerySchema>["props"]["clearFilter"];
     }
 }
 
@@ -51,7 +52,7 @@ export const withFilter = <
             shallowFilter,
             setCursor,
             ...query
-        } = withQueryStore.use((
+        } = useStore(withQueryStore, (
             {
                 setFilter,
                 shallowFilter,

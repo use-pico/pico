@@ -1,3 +1,4 @@
+import {useStore}    from "@use-pico/store";
 import {type FC}     from "react";
 import {MenuItem}    from "../menu/MenuItem";
 import {DrawerStore} from "./DrawerStore";
@@ -13,7 +14,7 @@ export const DrawerMenuItem: FC<DrawerMenuItem.Props> = (
         drawerId,
         ...props
     }) => {
-    const {open} = DrawerStore.use(({open}) => ({open}));
+    const {open} = useStore(DrawerStore, ({open}) => ({open}));
     return <MenuItem
         onClick={() => open(drawerId)}
         {...props}

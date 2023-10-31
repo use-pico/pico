@@ -6,9 +6,9 @@
 
 - ec16573: Version bump
 - Updated dependencies [ec16573]
-  - @use-pico/query@1.0.13
-  - @use-pico/store@1.0.10
-  - @use-pico/utils@1.0.24
+    - @use-pico/query@1.0.13
+    - @use-pico/store@1.0.10
+    - @use-pico/utils@1.0.24
 
 ## 1.0.9
 
@@ -16,9 +16,9 @@
 
 - 800ce8c: Version bump
 - Updated dependencies [800ce8c]
-  - @use-pico/query@1.0.12
-  - @use-pico/store@1.0.9
-  - @use-pico/utils@1.0.23
+    - @use-pico/query@1.0.12
+    - @use-pico/store@1.0.9
+    - @use-pico/utils@1.0.23
 
 ## 1.0.8
 
@@ -27,9 +27,9 @@
 - a7dfc28: Overall update, updated packages
 - Updated dependencies [a7dfc28]
 - Updated dependencies [d10bbab]
-  - @use-pico/query@1.0.11
-  - @use-pico/store@1.0.8
-  - @use-pico/utils@1.0.22
+    - @use-pico/query@1.0.11
+    - @use-pico/store@1.0.8
+    - @use-pico/utils@1.0.22
 
 ## 1.0.7
 
@@ -37,9 +37,9 @@
 
 - a4fc08b: Updated dependencies
 - Updated dependencies [a4fc08b]
-  - @use-pico/query@1.0.10
-  - @use-pico/store@1.0.7
-  - @use-pico/utils@1.0.21
+    - @use-pico/query@1.0.10
+    - @use-pico/store@1.0.7
+    - @use-pico/utils@1.0.21
 
 ## 1.0.6
 
@@ -47,9 +47,9 @@
 
 - 5ea5ae2: Version bump (updated packages)
 - Updated dependencies [5ea5ae2]
-  - @use-pico/query@1.0.7
-  - @use-pico/store@1.0.6
-  - @use-pico/utils@1.0.20
+    - @use-pico/query@1.0.7
+    - @use-pico/store@1.0.6
+    - @use-pico/utils@1.0.20
 
 ## 1.0.5
 
@@ -57,9 +57,9 @@
 
 - Version bump again, yapee!
 - Updated dependencies
-  - @use-pico/query@1.0.6
-  - @use-pico/store@1.0.5
-  - @use-pico/utils@1.0.6
+    - @use-pico/query@1.0.6
+    - @use-pico/store@1.0.5
+    - @use-pico/utils@1.0.6
 
 ## 1.0.4
 
@@ -67,9 +67,9 @@
 
 - Version bump
 - Updated dependencies
-  - @use-pico/query@1.0.5
-  - @use-pico/store@1.0.4
-  - @use-pico/utils@1.0.5
+    - @use-pico/query@1.0.5
+    - @use-pico/store@1.0.4
+    - @use-pico/utils@1.0.5
 
 ## 1.0.3
 
@@ -79,9 +79,9 @@
 - 84500ac: Just version bump, preparing pre-release
 - Updated dependencies
 - Updated dependencies [84500ac]
-  - @use-pico/query@1.0.3
-  - @use-pico/store@1.0.3
-  - @use-pico/utils@1.0.4
+    - @use-pico/query@1.0.3
+    - @use-pico/store@1.0.3
+    - @use-pico/utils@1.0.4
 
 ## 1.0.3-next.0
 
@@ -89,9 +89,9 @@
 
 - Just version bump, preparing pre-release
 - Updated dependencies
-  - @use-pico/query@1.0.3-next.0
-  - @use-pico/utils@1.0.4-next.0
-  - @use-pico/store@1.0.3-next.0
+    - @use-pico/query@1.0.3-next.0
+    - @use-pico/utils@1.0.4-next.0
+    - @use-pico/store@1.0.3-next.0
 
 ## 1.0.2
 
@@ -99,9 +99,9 @@
 
 - Version bump
 - Updated dependencies
-  - @use-pico/query@1.0.2
-  - @use-pico/store@1.0.2
-  - @use-pico/utils@1.0.2
+    - @use-pico/query@1.0.2
+    - @use-pico/store@1.0.2
+    - @use-pico/utils@1.0.2
 
 ## 1.0.1
 
@@ -109,6 +109,6 @@
 
 - Initial release
 - Updated dependencies
-  - @use-pico/query@1.0.1
-  - @use-pico/store@1.0.1
-  - @use-pico/utils@1.0.1
+    - @use-pico/query@1.0.1
+    - @use-pico/store@1.0.1
+    - @use-pico/utils@1.0.1

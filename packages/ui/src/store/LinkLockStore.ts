@@ -2,30 +2,28 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 } from "@use-pico/store";
 
 export namespace LinkLockStore {
-    export type Props = IStoreProps<{
-        isLock: boolean;
+    export type Props = IStore<{
         lock(lock?: boolean): void;
         unlock(): void;
+    }, {
+        isLock: boolean;
     }>;
 }
 
-export const LinkLockStore = createStore<LinkLockStore.Props>({
-    name:  "LinkLockStore",
-    state: () => (set) => ({
-        isLock: false,
-        lock:   (lock = true) => {
-            set({
-                isLock: lock,
-            });
-        },
-        unlock: () => {
-            set({
-                isLock: false,
-            });
-        },
-    }),
-});
+export const LinkLockStore = createStore<LinkLockStore.Props>(values => (set) => ({
+    lock:   (lock = true) => {
+        set({
+            isLock: lock,
+        });
+    },
+    unlock: () => {
+        set({
+            isLock: false,
+        });
+    },
+    ...values,
+}));

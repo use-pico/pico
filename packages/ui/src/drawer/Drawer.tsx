@@ -6,6 +6,7 @@ import {
     Group
 }                      from "@mantine/core";
 import {Translation}   from "@use-pico/i18n";
+import {useStore}      from "@use-pico/store";
 import {
     type ComponentProps,
     type FC,
@@ -32,7 +33,7 @@ export const Drawer: FC<IDrawerProps> = (
     const {
         isOpen,
         close
-    } = DrawerStore.use((
+    } = useStore(DrawerStore, (
         {
             isOpen,
             close

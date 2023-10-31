@@ -9,6 +9,7 @@ import {
     DateInline,
     DateTime
 }                            from "@use-pico/i18n";
+import {useStore}            from "@use-pico/store";
 import {
     ActionIcon,
     Box,
@@ -81,7 +82,7 @@ export const Weeks = <
                    start,
                    isCurrent,
                }
-    } = WeeksOfStore.use();
+    } = useStore(WeeksOfStore);
     const [withWeeks, setWithWeeks] = useState(defaultWithWeekNo);
     const onChange: Weeks.Props<TEventSchema>["onChange"] = props => {
         $onChange?.(props);

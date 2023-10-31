@@ -2,7 +2,7 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 }                        from "@use-pico/store";
 import {
     DateTime,
@@ -15,7 +15,7 @@ export namespace DateTimeStore {
     /**
      * Store shape for date time context.
      */
-    export type StoreProps = IStoreProps<{
+    export type StoreProps = IStore<{
         /**
          * Take input string in ISO format and reformat it into the user's locale.
          */
@@ -31,24 +31,20 @@ export namespace DateTimeStore {
     }>
 }
 
-export const DateTimeStore = createStore<DateTimeStore.StoreProps>({
-    state: ({state}) => () => ({
-        toLocalDate(date, fallback, opts = DateTime.DATE_MED) {
-            return iso2locale(date || undefined, fallback, opts);
-        },
-        toLocalDateTime(date, fallback, opts = DateTime.DATETIME_MED) {
-            return iso2locale(date || undefined, fallback, opts);
-        },
-        toUtcDateTime() {
-            console.error("Not supported yet!");
-            return undefined;
-        },
-        toUtcDate() {
-            console.error("Not supported yet!");
-            return undefined;
-        },
-        ...state,
-    }),
-    name:  "DateTimeStore",
-    hint:  "Add DateTimeProvider.",
-});
+export const DateTimeStore = createStore<DateTimeStore.StoreProps>(values => () => ({
+    toLocalDate(date, fallback, opts = DateTime.DATE_MED) {
+        return iso2locale(date || undefined, fallback, opts);
+    },
+    toLocalDateTime(date, fallback, opts = DateTime.DATETIME_MED) {
+        return iso2locale(date || undefined, fallback, opts);
+    },
+    toUtcDateTime() {
+        console.error("Not supported yet!");
+        return undefined;
+    },
+    toUtcDate() {
+        console.error("Not supported yet!");
+        return undefined;
+    },
+    ...values,
+}));

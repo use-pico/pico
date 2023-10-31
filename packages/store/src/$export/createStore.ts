@@ -1,1 +1,1 @@
-export {createStore} from "../utils/createStore";
+export {createStore} from "../store/createStore";

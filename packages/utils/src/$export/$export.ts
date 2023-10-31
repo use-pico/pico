@@ -17,6 +17,7 @@ export * from "./mapSchema";
 export * from "./merge";
 export * from "./minMaxOf";
 export * from "./pathToRegexp";
+export * from "./proxyOf";
 export * from "./queryOf";
 export * from "./toHumanBytes";
 export * from "./toHumanNumber";

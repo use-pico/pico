@@ -3,6 +3,7 @@ import {
     type FactoryValue,
     PumpIt
 }                        from "pumpit";
+import "server-only";
 import {type IContainer} from "../api/IContainer";
 
 export class Container {
@@ -28,5 +29,9 @@ export class Container {
     public useValue<T>(key: IContainer.Key, value: T) {
         this.container.bindValue(key, value);
         return this;
+    }
+
+    public child() {
+        return new Container(this.container.child());
     }
 }

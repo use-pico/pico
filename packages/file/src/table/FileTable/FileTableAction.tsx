@@ -1,34 +1,36 @@
-import {IconWashDrycleanOff}     from "@tabler/icons-react";
+import {IconWashDrycleanOff} from "@tabler/icons-react";
 import {
+    type IQueryStore,
+    type IWithMutation,
+    useMutation
+}                            from "@use-pico/query";
+import {useStore}            from "@use-pico/store";
+import {TableActionMenu}     from "@use-pico/table";
+import {
+    MenuItem,
     useErrorNotification,
     useSuccessNotification
-}                                from "@use-pico/hook";
-import {
-    type WithMutation,
-    type WithSourceQuery
-}                                from "@use-pico/rpc";
-import {TableActionMenu}         from "@use-pico/table";
-import {MenuItem}                from "@use-pico/ui";
-import {type FC}                 from "react";
-import {type FileMutationSchema} from "../../schema/FileMutationSchema";
-import {type FileQuerySchema}    from "../../schema/FileQuerySchema";
-import {type FileSchema}         from "../../schema/FileSchema";
+}                            from "@use-pico/ui";
+import {type FC}             from "react";
+import {FileMutationSchema}  from "../../schema/FileMutationSchema";
+import {FileQuerySchema}     from "../../schema/FileQuerySchema";
+import {FileSchema}          from "../../schema/FileSchema";
 
 export namespace FileTableAction {
     export interface Props {
-        withFileSourceQuery: WithSourceQuery<FileSchema, FileQuerySchema>;
-        withFileMutation: WithMutation<FileMutationSchema, FileSchema>;
+        withFileQueryStore: IQueryStore.Store<FileQuerySchema>;
+        withFileMutation: IWithMutation<FileMutationSchema, FileSchema>;
     }
 }
 
 export const FileTableAction: FC<FileTableAction.Props> = (
     {
-        withFileSourceQuery,
+        withFileQueryStore,
         withFileMutation,
     }
 ) => {
-    const query = withFileSourceQuery.store.use(({filter}) => ({filter}));
-    const fileMutation = withFileMutation.useMutation();
+    const query = useStore(withFileQueryStore, ({filter}) => ({filter}));
+    const fileMutation = useMutation({withMutation: withFileMutation});
     const successNotification = useSuccessNotification();
     const errorNotification = useErrorNotification();
 

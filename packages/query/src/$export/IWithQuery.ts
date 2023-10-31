@@ -1,1 +1,1 @@
-export {type WithQuery} from "../api/WithQuery";
+export {type IWithQuery} from "../api/IWithQuery";

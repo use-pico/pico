@@ -1,4 +1,5 @@
 import {Translation} from "@use-pico/i18n";
+import {useStore}    from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren,
@@ -33,7 +34,7 @@ export const ModalButton: FC<ModalButton.Props> = (
                      } = {}
     }
 ) => {
-    const modalStore = ModalStore.use(({open}) => ({open}));
+    const modalStore = useStore(ModalStore, ({open}) => ({open}));
     return <>
         <Modal
             title={title}

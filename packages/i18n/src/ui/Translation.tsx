@@ -1,5 +1,6 @@
 "use client";
 
+import {useStore$}             from "@use-pico/store";
 import {isString}              from "@use-pico/utils";
 import {
     type FC,
@@ -28,7 +29,7 @@ export const Translation: FC<Translation.Props> = (
         withLabel,
         values,
     }) => {
-    const withTranslationStore = WithTranslationStore.use$(({values}) => ({values}));
+    const withTranslationStore = useStore$(WithTranslationStore, ({values}) => ({values}));
     const t = useTranslation({
         namespace,
         label,

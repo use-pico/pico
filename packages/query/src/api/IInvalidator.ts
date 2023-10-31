@@ -1,20 +1,12 @@
-import {type QueryClient} from "@tanstack/react-query";
+import {type QueryKey}   from "@tanstack/react-query";
+import {type IWithQuery} from "./IWithQuery";
+
+export interface IInvalidator {
+    readonly key: QueryKey;
+
+    invalidator?(props: IWithQuery.InvalidatorProps): Promise<void | QueryKey[]>;
+}
 
 export namespace IInvalidator {
-    /**
-     * Actual invalidator implementation (low level).
-     */
-    export type Invalidator = (props: InvalidatorProps) => Promise<void>;
-    /**
-     * Invalidator hook type.
-     */
-    export type Use = () => UseInvalidator;
-    /**
-     * Invalidator type in user-land.
-     */
-    export type UseInvalidator = () => Promise<void>;
-
-    export interface InvalidatorProps {
-        queryClient: QueryClient;
-    }
+    export type Result = () => Promise<void>;
 }

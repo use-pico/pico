@@ -4,15 +4,16 @@ import {
     IconCheck,
     IconUpload,
     IconX
-}               from "@tabler/icons-react";
+}                 from "@tabler/icons-react";
 import {
     type FileEx,
     FileSchema
-}               from "@use-pico/file";
+}                 from "@use-pico/file";
 import {
     Translation,
     useTranslation
-}               from "@use-pico/i18n";
+}                 from "@use-pico/i18n";
+import {useStore} from "@use-pico/store";
 import {
     Divider,
     Dropzone as CoolDropzone,
@@ -22,13 +23,13 @@ import {
     notifications,
     Table,
     Text
-}               from "@use-pico/ui";
+}                 from "@use-pico/ui";
 import {
     type FC,
     useEffect,
     useState
-}               from "react";
-import {Upload} from "./Upload";
+}                 from "react";
+import {Upload}   from "./Upload";
 
 export module DropZone {
     export interface Props extends Partial<
@@ -63,7 +64,7 @@ export const DropZone: FC<DropZone.Props> = (
     }) => {
     const t = useTranslation();
     const [files, setFiles] = useState<FileEx[]>([]);
-    const {loops} = LoopsStore.use(({current: loops}) => ({loops}));
+    const {loops} = useStore(LoopsStore, ({current: loops}) => ({loops}));
 
     useEffect(() => {
         if (files.length > 0 && !loops) {

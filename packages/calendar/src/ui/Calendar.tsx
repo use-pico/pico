@@ -5,6 +5,7 @@ import {
     IconX
 }                            from "@tabler/icons-react";
 import {DateInline}          from "@use-pico/i18n";
+import {useStore}            from "@use-pico/store";
 import {
     ActionIcon,
     Box,
@@ -37,7 +38,7 @@ export const Calendar = <
         onChange,
         ...props
     }: Calendar.Props<TEventSchema>) => {
-    const weeksOf = WeeksOfStore.use((
+    const weeksOf = useStore(WeeksOfStore, (
         {
             weeksOf,
             weeks
@@ -45,10 +46,11 @@ export const Calendar = <
         weeksOf,
         weeks
     }));
-    const monthsOf = MonthsOfStore.use(({monthsOf}) => ({monthsOf}));
-    const yearsOf = YearsOfStore.use(({yearsOf}) => ({yearsOf}));
+    const monthsOf = useStore(MonthsOfStore, ({monthsOf}) => ({monthsOf}));
+    const yearsOf = useStore(YearsOfStore, ({yearsOf}) => ({yearsOf}));
     const [selectMonth, setSelectMonth] = useState(false);
     const [selectYear, setSelectYear] = useState(false);
+
     return <Box pos={"relative"}>
         <Weeks<TEventSchema>
             onClick={onClick}

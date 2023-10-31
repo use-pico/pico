@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico/pico.git"
+		"url": "git://github.com/use-pico2/pico.git"
 	},
 	"engines": {
 		"node": ">=16.0.0"
@@ -26,13 +26,13 @@
 		"cleanup": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/schema": "^1.0.19",
-		"@use-pico/utils": "^1.0.24"
+		"@use-pico/schema": "^1.0.0",
+		"@use-pico/utils": "^1.0.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^1.0.8",
-		"@use-pico/eslint-config-eslint": "^1.0.10",
-		"@use-pico/tsconfig": "^1.0.10",
+		"@use-pico/esbuild": "^1.0.0",
+		"@use-pico/eslint-config-eslint": "^1.0.0",
+		"@use-pico/tsconfig": "^1.0.0",
 		"@types/node": "^20.4.2",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
@@ -40,7 +40,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
+		"url": "https://github.com/use-pico2/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico/pico#readme"
+	"homepage": "https://github.com/use-pico2/pico#readme"
 }

@@ -5,6 +5,7 @@ import {
     Translation
 }                        from "@use-pico/i18n";
 import {type IHrefProps} from "@use-pico/navigation";
+import {useStore$}       from "@use-pico/store";
 import {
     type FC,
     type ReactNode
@@ -37,7 +38,7 @@ export const ButtonLink: FC<ButtonLink.Props> = (
         icon,
         buttonProps,
     }) => {
-    const linkLock = LinkLockStore.use$(({isLock}) => ({isLock}));
+    const linkLock = useStore$(LinkLockStore, ({isLock}) => ({isLock}));
     const $buttonProps: ButtonLink.Props["buttonProps"] = {
         variant:     "subtle",
         size:        "compact-md",

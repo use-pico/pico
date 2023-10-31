@@ -1,4 +1,5 @@
 import {type DateTime} from "@use-pico/i18n";
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
@@ -19,8 +20,9 @@ export const MonthsOfProvider: FC<MonthsOfProvider.Props> = (
         selected,
         ...props
     }) => {
-    return <MonthsOfStore.Provider
-        state={{
+    return <StoreProvider
+        store={MonthsOfStore}
+        values={{
             months: monthsOf({
                 date,
                 selected,

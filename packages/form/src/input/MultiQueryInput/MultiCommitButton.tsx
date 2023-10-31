@@ -5,6 +5,7 @@ import {
     type WithIdentitySchema
 }                                  from "@use-pico/schema";
 import {type IMultiSelectionStore} from "@use-pico/selection";
+import {useStore}                  from "@use-pico/store";
 import {
     Button,
     ModalStore
@@ -47,11 +48,11 @@ export const MultiCommitButton = <
                    onChange,
                },
     } = useController(withControl);
-    const {close} = ModalStore.use(({close}) => ({close}));
+    const {close} = useStore(ModalStore, ({close}) => ({close}));
     const {
         selection,
         commit
-    } = MultiSelectionStore.use((
+    } = useStore(MultiSelectionStore, (
         {
             selection,
             commit

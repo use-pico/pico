@@ -1,7 +1,7 @@
 import {
     type FilterSchema,
-    OrderBySchema,
-    QuerySchema
+    type OrderBySchema,
+    type QuerySchema
 }                               from "@use-pico/query";
 import {type PicoSchema}        from "@use-pico/schema";
 import {Table}                  from "@use-pico/ui";
@@ -11,34 +11,34 @@ import {type ITableColumnTuple} from "../../api/ITableColumnTuple";
 
 export namespace TableFoot {
     export interface Props<
-        TSchema extends PicoSchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends PicoSchema,
     > {
-        WithFooter?: WithFooter<TSchema, TQuerySchema>;
+        WithFooter?: WithFooter<TQuerySchema, TSchema>;
         withTableAction: boolean;
         withRowAction: boolean;
         disableActions: boolean;
-        columns: ITableColumnTuple<TSchema, TQuerySchema>[];
+        columns: ITableColumnTuple<TQuerySchema, TSchema>[];
         items?: PicoSchema.Output<TSchema>[];
     }
 
     export type WithFooter<
-        TSchema extends PicoSchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-    > = FC<WithFooterProps<TSchema, TQuerySchema>>;
+        TSchema extends PicoSchema,
+    > = FC<WithFooterProps<TQuerySchema, TSchema>>;
 
     export interface WithFooterProps<
-        TSchema extends PicoSchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends PicoSchema,
     > {
         items?: PicoSchema.Output<TSchema>[];
-        columns?: ITableColumn<TSchema, TQuerySchema>[];
+        columns?: ITableColumn<TQuerySchema, TSchema>[];
     }
 }
 
 export const TableFoot = <
-    TSchema extends PicoSchema,
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TSchema extends PicoSchema,
 >(
     {
         WithFooter,
@@ -47,7 +47,7 @@ export const TableFoot = <
         disableActions,
         columns,
         items,
-    }: TableFoot.Props<TSchema, TQuerySchema>
+    }: TableFoot.Props<TQuerySchema, TSchema>
 ) => {
     return WithFooter ? <Table.Tfoot>
         <Table.Tr>

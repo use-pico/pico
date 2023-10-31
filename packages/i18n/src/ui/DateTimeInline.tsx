@@ -1,5 +1,6 @@
 "use client";
 
+import {useStore}                   from "@use-pico/store";
 import {type DateTimeFormatOptions} from "luxon";
 import {type FC}                    from "react";
 import {DateTimeStore}              from "../store/DateTimeStore";
@@ -19,7 +20,7 @@ export const DateTimeInline: FC<DateTimeInline.Props> = (
         fallback,
         options
     }) => {
-    const {toLocalDateTime} = DateTimeStore.use(({toLocalDateTime}) => ({toLocalDateTime}));
+    const {toLocalDateTime} = useStore(DateTimeStore, ({toLocalDateTime}) => ({toLocalDateTime}));
     return <>
         {toLocalDateTime(date, fallback, options)}
     </>;

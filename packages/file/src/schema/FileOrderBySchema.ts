@@ -1,10 +1,7 @@
-import {OrderSchema} from "@use-pico/query";
-import {
-    type PicoSchema,
-    schema
-}                    from "@use-pico/schema";
+import {orderByOf}       from "@use-pico/query";
+import {type PicoSchema} from "@use-pico/schema";
 
-export const FileOrderBySchema = schema(z => z.record(z.enum(["name", "path"]), OrderSchema));
+export const FileOrderBySchema = orderByOf(["name", "path"]);
 export type FileOrderBySchema = typeof FileOrderBySchema;
 export namespace FileOrderBySchema {
     export type Type = PicoSchema.Output<FileOrderBySchema>;

@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico/pico"
+		"url": "git://github.com/use-pico2/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -34,7 +34,6 @@
 		"@use-pico/i18n": "^1.0.11",
 		"@use-pico/navigation": "^1.0.11",
 		"@use-pico/query": "^1.0.13",
-		"@use-pico/rpc": "^1.0.13",
 		"@use-pico/schema": "^1.0.19",
 		"@use-pico/selection": "^1.0.10",
 		"@use-pico/source": "^1.0.11",
@@ -58,7 +57,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
+		"url": "https://github.com/use-pico2/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico/pico#readme"
+	"homepage": "https://github.com/use-pico2/pico#readme"
 }

@@ -1,57 +1,59 @@
 import {
     type IWithTranslation,
     WithTranslationProvider
-}                               from "@use-pico/i18n";
-import {Pagination}             from "@use-pico/pagination";
+}                                from "@use-pico/i18n";
+import {Pagination}              from "@use-pico/pagination";
 import {
-    type FilterSchema,
-    type OrderBySchema,
-    QuerySchema
-}                               from "@use-pico/query";
-import {type WithSourceQuery}   from "@use-pico/rpc";
-import {type PicoSchema}        from "@use-pico/schema";
+    IQueryStore,
+    type QuerySchema
+}                                from "@use-pico/query";
+import {type WithIdentitySchema} from "@use-pico/schema";
+import {
+    type IWithSourceQuery,
+    useQuery
+}                                from "@use-pico/source";
 import {
     Box,
     LinkLockProvider,
     LoadingOverlay,
     ScrollArea,
     Table as CoolTable
-}                               from "@use-pico/ui";
+}                                from "@use-pico/ui";
 import {
     type CSSProperties,
     type FC
-}                               from "react";
-import {type ITableColumns}     from "../api/ITableColumns";
-import {type ITableColumnTuple} from "../api/ITableColumnTuple";
-import classes                  from "./Table.module.css";
-import {TableBody}              from "./Table/TableBody";
-import {TableCountResult}       from "./Table/TableCountResult";
-import {TableFoot}              from "./Table/TableFoot";
-import {TableHead}              from "./Table/TableHead";
-import {TableHeaderControls}    from "./Table/TableHeaderControls";
-import {TablePrefix}            from "./Table/TablePrefix";
+}                                from "react";
+import {type ITableColumns}      from "../api/ITableColumns";
+import {type ITableColumnTuple}  from "../api/ITableColumnTuple";
+import classes                   from "./Table.module.css";
+import {TableBody}               from "./Table/TableBody";
+import {TableCountResult}        from "./Table/TableCountResult";
+import {TableFoot}               from "./Table/TableFoot";
+import {TableHead}               from "./Table/TableHead";
+import {TableHeaderControls}     from "./Table/TableHeaderControls";
+import {TablePrefix}             from "./Table/TablePrefix";
 
 export namespace Table {
     export interface Props<
         TColumns extends string,
-        TSchema extends PicoSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<any, any>,
     > extends Partial<Omit<CoolTable.Props, "hidden" | "onClick">>,
-        TableHeaderControls.Props<TSchema, TQuerySchema>,
-        Omit<TablePrefix.Props<TSchema, TQuerySchema>, "columns" | "items">,
-        Omit<TableHead.Props<TSchema, TQuerySchema>, "columns" | "withRowAction" | "disableActions" | "items">,
-        Omit<TableBody.Props<TSchema, TQuerySchema>, "columns" | "WithRow" | "withTableAction" | "disableActions">,
-        Omit<TableFoot.Props<TSchema, TQuerySchema>, "columns" | "withTableAction" | "withRowAction" | "disableActions" | "items">,
-        TableCountResult.Props<TSchema, TQuerySchema> {
+        TableHeaderControls.Props<TQuerySchema, TSchema>,
+        Omit<TablePrefix.Props<TQuerySchema, TSchema>, "columns" | "items">,
+        Omit<TableHead.Props<TQuerySchema, TSchema>, "columns" | "withRowAction" | "disableActions" | "items">,
+        Omit<TableBody.Props<TQuerySchema, TSchema>, "columns" | "WithRow" | "withTableAction" | "disableActions">,
+        Omit<TableFoot.Props<TQuerySchema, TSchema>, "columns" | "withTableAction" | "withRowAction" | "disableActions" | "items">,
+        TableCountResult.Props<TQuerySchema, TSchema> {
         withTranslation?: IWithTranslation;
         /**
          * Define table columns; they will be rendered by default in the specified order
          */
-        columns: ITableColumns<TColumns, TSchema, TQuerySchema>;
+        columns: ITableColumns<TColumns, TQuerySchema, TSchema>;
         /**
          * You can override some columns if you need to
          */
-        overrideColumns?: Partial<ITableColumns<TColumns, TSchema, TQuerySchema>>;
+        overrideColumns?: Partial<ITableColumns<TColumns, TQuerySchema, TSchema>>;
         /**
          * If a table is long, you can specify scroll area
          */
@@ -64,10 +66,11 @@ export namespace Table {
          * Specify an order of columns
          */
         order?: TColumns[];
-        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
 
         WithRow?: FC<TableBody.RowProps<TSchema>>;
-        WithPostfix?: TableHeaderControls.Props<TSchema, TQuerySchema>["Postfix"];
+        WithPostfix?: TableHeaderControls.Props<TQuerySchema, TSchema>["Postfix"];
 
         disableActions?: boolean;
 
@@ -78,7 +81,7 @@ export namespace Table {
              */
             position?: ("top" | "bottom")[];
 
-            props?: Omit<Pagination.Props, "withSourceQuery">;
+            props?: Omit<Pagination.Props<TQuerySchema>, "withSourceQuery">;
         };
 
         withLinkLock?: boolean;
@@ -91,8 +94,8 @@ export namespace Table {
 
 export const Table = <
     TColumns extends string,
-    TSchema extends PicoSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TSchema extends WithIdentitySchema,
+    TQuerySchema extends QuerySchema<any, any>,
 >(
     {
         withTranslation,
@@ -101,6 +104,7 @@ export const Table = <
         scrollWidth,
         hidden,
         order,
+        withQueryStore,
         withSourceQuery,
         WithTableAction,
         WithRowAction,
@@ -132,12 +136,14 @@ export const Table = <
     /**
      * Do not memo this, or memo carefully! Changing this breaks column sorting and maybe something else too.
      */
-    const $columns: ITableColumnTuple<TSchema, TQuerySchema>[] = $order.filter(column => !hidden?.includes(column)).map(column => [
+    const $columns: ITableColumnTuple<TQuerySchema, TSchema>[] = $order.filter(column => !hidden?.includes(column)).map(column => [
         column,
         overrideColumns?.[column] || columns[column],
     ]);
 
-    const result = withSourceQuery.useQuery({
+    const result = useQuery({
+        store: withQueryStore,
+        withSourceQuery,
         refetchInterval: refresh,
     });
 
@@ -148,12 +154,14 @@ export const Table = <
             isLock={withLinkLock}
         >
             <TableHeaderControls
+                withQueryStore={withQueryStore}
                 withSourceQuery={withSourceQuery}
                 Filter={Filter}
                 Postfix={WithPostfix}
             />
             {$pagination?.position?.includes("top") && <>
                 <Pagination
+                    withQueryStore={withQueryStore}
                     withSourceQuery={withSourceQuery}
                     refresh={refresh}
                     {...$pagination?.props}
@@ -198,6 +206,7 @@ export const Table = <
                                     items={result.data}
                                 />
                                 <TableBody
+                                    withQueryStore={withQueryStore}
                                     withSourceQuery={withSourceQuery}
                                     columns={$columns}
                                     withTableAction={!!WithTableAction}
@@ -223,11 +232,13 @@ export const Table = <
                 </Box>
             </ScrollArea>
             <TableCountResult
+                withQueryStore={withQueryStore}
                 withSourceQuery={withSourceQuery}
                 Empty={Empty}
             />
             {$pagination?.position?.includes("bottom") && <>
                 <Pagination
+                    withQueryStore={withQueryStore}
                     withSourceQuery={withSourceQuery}
                     refresh={refresh}
                     {...$pagination?.props}

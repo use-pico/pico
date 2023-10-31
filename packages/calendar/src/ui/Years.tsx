@@ -5,6 +5,7 @@ import {
     IconChevronsRight
 }                                 from "@tabler/icons-react";
 import {DateInline}               from "@use-pico/i18n";
+import {useStore}                 from "@use-pico/store";
 import {
     Button,
     Grid,
@@ -56,7 +57,7 @@ export const Years = <
         nextYear,
         prevYears,
         nextYears,
-    } = YearsOfStore.use();
+    } = useStore(YearsOfStore);
 
     return <CalendarShell
         ControlsTopLeft={() => <Group gap={"sm"}>

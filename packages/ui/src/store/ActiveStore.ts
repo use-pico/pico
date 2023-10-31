@@ -2,25 +2,22 @@
 
 import {
     createStore,
-    type IStoreProps
+    type IStore
 } from "@use-pico/store";
 
 export namespace ActiveStore {
-    export type StoreProps = IStoreProps<{
-        active: string[];
+    export type StoreProps = IStore<{
         setActive(active: string[]): void;
+    }, {
+        active: string[];
     }>;
 }
 
-export const ActiveStore = createStore<ActiveStore.StoreProps>({
-    name:  "ActiveStore",
-    state: ({defaults}) => set => ({
-        active: [],
-        setActive(active: string[]) {
-            set({
-                active,
-            });
-        },
-        ...defaults,
-    }),
-});
+export const ActiveStore = createStore<ActiveStore.StoreProps>(values => set => ({
+    setActive(active: string[]) {
+        set({
+            active,
+        });
+    },
+    ...values,
+}));

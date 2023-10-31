@@ -1,15 +1,20 @@
 import {
-    type FilterSchema,
-    type OrderBySchema,
+    type IQueryStore,
     type QuerySchema
 }                               from "@use-pico/query";
-import {type WithSourceQuery}   from "@use-pico/rpc";
-import {type PicoSchema}        from "@use-pico/schema";
+import {
+    type PicoSchema,
+    type WithIdentitySchema
+}                               from "@use-pico/schema";
 import {
     type IMultiSelectionStore,
     type ISelectionStore
 }                               from "@use-pico/selection";
-import {FilterAction}           from "@use-pico/source";
+import {
+    type IWithSourceQuery,
+    useQuery
+}                               from "@use-pico/source";
+import {useStore$}              from "@use-pico/store";
 import {Table}                  from "@use-pico/ui";
 import {
     classNames,
@@ -25,10 +30,11 @@ import classes                  from "../Table.module.css";
 
 export namespace TableBody {
     export interface Props<
-        TSchema extends PicoSchema,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TQuerySchema extends QuerySchema<any, any>,
+        TSchema extends WithIdentitySchema,
     > {
-        withSourceQuery: WithSourceQuery<TSchema, TQuerySchema>;
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
         SelectionStore?: ISelectionStore<PicoSchema.Output<TSchema>>;
         MultiSelectionStore?: IMultiSelectionStore<PicoSchema.Output<TSchema>>;
         WithRow: FC<RowProps<TSchema>>;
@@ -37,7 +43,7 @@ export namespace TableBody {
          */
         WithRowAction?: FC<WithRowActionProps<TSchema>>;
         withTableAction: boolean;
-        columns: ITableColumnTuple<TSchema, TQuerySchema>[];
+        columns: ITableColumnTuple<TQuerySchema, TSchema>[];
         disableActions: boolean;
         highlight?: string[];
 
@@ -55,10 +61,11 @@ export namespace TableBody {
 }
 
 export const TableBody = <
-    TSchema extends PicoSchema,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TQuerySchema extends QuerySchema<any, any>,
+    TSchema extends WithIdentitySchema,
 >(
     {
+        withQueryStore,
         withSourceQuery,
         SelectionStore,
         MultiSelectionStore,
@@ -69,9 +76,9 @@ export const TableBody = <
         columns,
         onClick,
         highlight,
-    }: TableBody.Props<TSchema, TQuerySchema>
+    }: TableBody.Props<TQuerySchema, TSchema>
 ) => {
-    const selection = SelectionStore?.use$((
+    const selection = useStore$(SelectionStore, (
         {
             isSelected,
             isCurrent,
@@ -81,7 +88,7 @@ export const TableBody = <
         isCurrent,
         select,
     }));
-    const multiSelection = MultiSelectionStore?.use$((
+    const multiSelection = useStore$(MultiSelectionStore, (
         {
             isSelected,
             isCurrent,
@@ -93,7 +100,10 @@ export const TableBody = <
         toggle,
         select,
     }));
-    const result = withSourceQuery.useQuery();
+    const result = useQuery({
+        store:           withQueryStore,
+        withSourceQuery: withSourceQuery,
+    });
 
     return <Table.Tbody>
         {(result.data || [])
@@ -110,6 +120,7 @@ export const TableBody = <
                 </Table.Td>}
                 {columns.map(([name, {
                     render,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     withFilter
                 }]) => {
                     const Render = render;
@@ -123,34 +134,7 @@ export const TableBody = <
                             onClick?.(item);
                         }}
                     >
-                        {withFilter ? <withSourceQuery.WithFilter
-                            Filter={({
-                                         setFilter,
-                                         shallowFilter,
-                                         filter,
-                                         clearFilter,
-                                     }) => <FilterAction
-                                isFilter={() => withFilter?.isFilter(filter)}
-                                onFilter={() => withFilter?.onFilter({
-                                    setFilter,
-                                    shallowFilter,
-                                    filter,
-                                    item,
-                                    clearFilter,
-                                })}
-                                onClear={() => withFilter?.onClear({
-                                    setFilter,
-                                    shallowFilter,
-                                    filter,
-                                    item,
-                                    clearFilter,
-                                })}
-                            >
-                                <div>
-                                    {children}
-                                </div>
-                            </FilterAction>}
-                        /> : children}
+                        {children}
                     </Table.Td>;
                 })}
             </WithRow>)}

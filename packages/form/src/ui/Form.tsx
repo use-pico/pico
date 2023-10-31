@@ -7,17 +7,18 @@ import {
 }                               from "@use-pico/i18n";
 import {type IHrefProps}        from "@use-pico/navigation";
 import {
-    ErrorResponseSchema,
-    isError,
-    type WithMutation,
+    type IWithMutation,
+    useMutation,
     withMutation as coolWithMutation
 }                               from "@use-pico/query";
 import {
+    isError,
     parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
 }                               from "@use-pico/schema";
+import {useStore$}              from "@use-pico/store";
 import {
     BlockStore,
     Box,
@@ -224,7 +225,7 @@ export namespace Form {
             TValuesSchema extends ValuesSchema,
         > {
             form: UseForm<TValuesSchema>;
-            error: ErrorResponseSchema.Type;
+            error: any;
             values: PicoSchema.Output<TValuesSchema>;
 
             setErrors(errors: Partial<Record<Keys<TValuesSchema>, string>>): void;
@@ -246,7 +247,7 @@ export namespace Form {
      * Props of the main Form component (in user-land).
      */
     export interface Props<
-        TWithMutation extends WithMutation<any, any>,
+        TWithMutation extends IWithMutation<any, any>,
         TValuesSchema extends ValuesSchema = TWithMutation["schema"]["request"],
         TRequestSchema extends RequestSchema = TWithMutation["schema"]["request"],
         TResponseSchema extends ResponseSchema = TWithMutation["schema"]["response"],
@@ -267,7 +268,7 @@ export namespace Form {
         /**
          * Specify form mutation
          */
-        withMutation: WithMutation<
+        withMutation: IWithMutation<
             TRequestSchema,
             TResponseSchema
         >;
@@ -277,7 +278,7 @@ export namespace Form {
         >(props: {
             form: UseForm<TValuesSchema>
         }): {
-                response: ResponseSchema;
+                                                      response: TResponseSchema;
             } & Omit<
             coolWithMutation.Props<
                 TRequestSchema,
@@ -340,7 +341,7 @@ export namespace Form {
     }
 
     export type PropsEx<
-        TWithMutation extends WithMutation<any, any>,
+        TWithMutation extends IWithMutation<any, any>,
         TValuesSchema extends ValuesSchema = TWithMutation["schema"]["request"],
         TRequestSchema extends RequestSchema = TWithMutation["schema"]["request"],
         TResponseSchema extends ResponseSchema = TWithMutation["schema"]["response"],
@@ -368,7 +369,7 @@ export namespace Form {
 }
 
 export const Form = <
-    TWithMutation extends WithMutation<RequestSchema, ResponseSchema>,
+    TWithMutation extends IWithMutation<RequestSchema, ResponseSchema>,
     TValuesSchema extends ValuesSchema,
     TRequestSchema extends RequestSchema = TWithMutation["schema"]["request"],
     TResponseSchema extends ResponseSchema = TWithMutation["schema"]["response"],
@@ -410,7 +411,7 @@ export const Form = <
         TResponseSchema
     >
 ) => {
-    const blockStore = BlockStore.use$((
+    const blockStore = useStore$(BlockStore, (
         {
             block,
             isBlock
@@ -418,8 +419,8 @@ export const Form = <
         block,
         isBlock
     }));
-    const drawerStore = DrawerStore.use$(({close}) => ({close}));
-    const modalStore = ModalStore.use$(({close}) => ({close}));
+    const drawerStore = useStore$(DrawerStore, ({close}) => ({close}));
+    const modalStore = useStore$(ModalStore, ({close}) => ({close}));
     const redirect = useWithLocaleRedirect();
     const successNotification = useSuccessNotification();
     const t = useTranslation(withTranslation);
@@ -453,16 +454,18 @@ export const Form = <
         resolver:      picoResolver(schema),
     });
     const overrideOptions = withMutationOverride?.({form});
-    const mutation = (overrideOptions ? coolWithMutation({
-        key:            withMutation.key.concat(["override"]),
-        schema:         {
-            request:  withMutation.schema.request,
-            response: overrideOptions.response,
-        },
-        mutator:        overrideOptions.mutator,
-        defaultOptions: overrideOptions.defaultOptions,
-        invalidator:    overrideOptions.invalidator,
-    }) : withMutation).useMutation();
+    const mutation = useMutation({
+        withMutation: overrideOptions ? coolWithMutation({
+            key:            withMutation.key.concat(["override"]),
+            schema:         {
+                request:  withMutation.schema.request,
+                response: overrideOptions.response as TResponseSchema,
+            },
+            mutator:        overrideOptions.mutator,
+            defaultOptions: overrideOptions.defaultOptions,
+            invalidator:    overrideOptions.invalidator,
+        }) : withMutation,
+    });
     const factoryProps: Form.Input.FactoryProps<TValuesSchema> = {
         form,
     };

@@ -1,3 +1,4 @@
+import {StoreProvider} from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren
@@ -13,11 +14,12 @@ export const DateTimeProvider: FC<IDateTimeProviderProps> = (
         locale,
         children
     }) => {
-    return <DateTimeStore.Provider
-        state={{
+    return <StoreProvider
+        store={DateTimeStore}
+        values={{
             locale,
         }}
     >
         {children}
-    </DateTimeStore.Provider>;
+    </StoreProvider>;
 };
