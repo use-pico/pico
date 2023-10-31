@@ -1,10 +1,7 @@
-import {OrderSchema} from "@use-pico/query";
-import {
-    type PicoSchema,
-    schema
-}                    from "@use-pico/schema";
+import {sortOf}          from "@use-pico/query";
+import {type PicoSchema} from "@use-pico/schema";
 
-export const BulkOrderBySchema = schema(z => z.record(z.enum(["created", "name"]), OrderSchema));
+export const BulkOrderBySchema = sortOf(["created", "name"]);
 export type BulkOrderBySchema = typeof BulkOrderBySchema;
 export namespace BulkOrderBySchema {
     export type Type = PicoSchema.Output<BulkOrderBySchema>;

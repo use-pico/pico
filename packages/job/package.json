@@ -1,5 +1,5 @@
 {
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"name": "@use-pico/job",
 	"description": "Async job support.",
 	"license": "MIT",
@@ -28,8 +28,8 @@
 		"@tabler/icons-react": "^2.30.0",
 		"@use-pico/hook": "^1.0.11",
 		"@use-pico/i18n": "^1.0.11",
-		"@use-pico/query": "^1.0.13",
-		"@use-pico/schema": "^1.0.19",
+		"@use-pico/query": "^1.0.16",
+		"@use-pico/schema": "^1.0.20",
 		"@use-pico/source": "^1.0.11",
 		"@use-pico/store": "^1.0.10",
 		"@use-pico/ui": "^1.0.14",

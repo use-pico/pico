@@ -4,8 +4,7 @@ import {issuesOf}          from "../../utils/issuesOf";
 import {withSchema}        from "../withSchema";
 
 export function withEnum<
-    TOption extends string,
-    TEnum extends EnumSchema.Enum<TOption>,
+    TEnum extends EnumSchema.Enum,
 >(
     value: TEnum,
     error?: ErrorMessage,
@@ -14,7 +13,7 @@ export function withEnum<
         schema: "enum",
         enum:   value,
         _parse(input, info) {
-            if (!value.includes(input as any)) {
+            if (!Object.values(value).includes(input as any)) {
                 return issuesOf(
                     info,
                     "type",
@@ -24,7 +23,7 @@ export function withEnum<
                 );
             }
 
-            return {output: input as TEnum[number]};
+            return {output: input as TEnum[keyof TEnum]};
         },
     });
 }

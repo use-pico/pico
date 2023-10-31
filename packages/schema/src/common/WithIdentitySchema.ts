@@ -1,11 +1,9 @@
 import {type PicoSchema} from "../api/PicoSchema";
-import {nonEmpty}        from "../pipe/nonEmpty";
-import {withObject}      from "../schema/object/withObject";
-import {withString}      from "../schema/string/withString";
+import {schema}          from "../schema/schema";
 
-export const WithIdentitySchema = withObject({
-    id: withString([nonEmpty("Non-empty")]),
-});
+export const WithIdentitySchema = schema(z => z.object({
+    id: z.nonEmptyString,
+}));
 export type WithIdentitySchema = typeof WithIdentitySchema;
 export namespace WithIdentitySchema {
     export type Type = PicoSchema.Output<WithIdentitySchema>;

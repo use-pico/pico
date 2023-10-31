@@ -1,5 +1,13 @@
 # @use-pico/query
 
+## 1.0.16
+
+### Patch Changes
+
+- Fixed orderBy schema typing
+- Updated dependencies
+    - @use-pico/schema@1.0.20
+
 ## 1.0.15
 
 ### Patch Changes

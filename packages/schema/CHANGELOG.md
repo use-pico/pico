@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 1.0.20
+
+### Patch Changes
+
+- Improved schema, improved typings, added some more schemas
+
 ## 1.0.19
 
 ### Patch Changes
