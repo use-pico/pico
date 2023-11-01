@@ -1,5 +1,11 @@
 # @use-pico/table
 
+## 2.0.5
+
+### Patch Changes
+
+- Added missing export
+
 ## 2.0.4
 
 ### Patch Changes

@@ -4,3 +4,4 @@ export * from "./ITableColumns";
 export * from "./List";
 export * from "./Table";
 export * from "./TableActionMenu";
+export * from "./TableRowActionMenu";
