@@ -9,7 +9,6 @@ export type IQueryStore<
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>
 > = IStore<{
     schema: TQuerySchema;
-    cursor: CursorSchema.Type;
 
     hasWhere(): boolean;
     hasFilter(): boolean;
@@ -36,6 +35,7 @@ export type IQueryStore<
      */
     filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]>;
     orderBy?: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>;
+    cursor?: CursorSchema.Type;
 }>;
 
 export namespace IQueryStore {

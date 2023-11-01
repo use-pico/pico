@@ -51,7 +51,7 @@ export const createQueryStore = <
             set({
                 cursor: parse(CursorSchema, {
                     page,
-                    size: size || get().cursor.size,
+                    size: size || get().cursor?.size || 30,
                 }),
             });
         },
