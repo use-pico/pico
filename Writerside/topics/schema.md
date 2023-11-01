@@ -1,6 +1,6 @@
 # @use-pico/schema
 
-[![npm version](https://badge.fury.io/js/@use-pico%2Fschema.svg)](https://badge.fury.io/js/@use-pico%2Fschema)
+![npm](https://img.shields.io/npm/v/%40use-pico%2Fschema)
 ![npm](https://deno.bundlejs.com/badge?q=@use-pico/schema@^2.0.0&treeshake=[*])
 
 > Credits for this library goes to **[valibot](https://github.com/fabian-hiller/valibot)** as the source is based on it.
