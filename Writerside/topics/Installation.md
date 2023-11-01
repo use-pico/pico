@@ -7,7 +7,7 @@ pickup right tools for you.
 
 ## Packages
 
-> Basic environment this collection expects is `Node`, there is currently no support for `Bun` or `Deno`.
+> The basic environment this collection expects is `Node`, there is currently no support for `Bun` or `Deno`.
 
 <tabs>
     <tab title="npm">
