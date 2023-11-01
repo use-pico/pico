@@ -10,8 +10,6 @@ library is built up on, see [@use-pico/ui](ui.md).
 
 ## Installation
 
-What to say.
-
 <tabs>
     <tab title="npm">
         <code>$ npm i @use-pico/<b>ui-extra</b></code>
