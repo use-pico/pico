@@ -62,7 +62,7 @@ export const Pagination = <
         withSourceQuery: withSourceQuery,
         refetchInterval: refresh,
     });
-    const pages = Math.ceil((result.data?.count || 0) / cursor.size);
+    const pages = Math.ceil((result.data?.count || 0) / (cursor?.size || 30));
 
     return <Grid
         align={"center"}
@@ -77,7 +77,7 @@ export const Pagination = <
                 total={pages}
                 boundaries={2}
                 siblings={2}
-                value={cursor.page + 1}
+                value={(cursor?.page || 0) + 1}
                 onChange={page => setCursor(page - 1)}
                 {...props}
             />
@@ -100,7 +100,7 @@ export const Pagination = <
         </GridCol>}
         {pages > 0 && <GridCol span={"content"}>
             <Select
-                defaultValue={`${cursor.size}`}
+                defaultValue={`${(cursor?.size || 30)}`}
                 onChange={value => value && setSize(parseInt(value))}
                 data={[5, 10, 30, 50, 100, 250, 500, 1000].map(size => ({
                     value: `${size}`,

@@ -1,5 +1,11 @@
 # @use-pico/query
 
+## 2.0.6
+
+### Patch Changes
+
+- Fixed QueryStore usage
+
 ## 2.0.5
 
 ### Patch Changes

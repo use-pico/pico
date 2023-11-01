@@ -35,7 +35,7 @@ export type IQueryStore<
      */
     filter?: PicoSchema.Output<TQuerySchema["shape"]["filter"]>;
     orderBy?: PicoSchema.Output<TQuerySchema["shape"]["orderBy"]>;
-    cursor?: CursorSchema.Type;
+    cursor?: CursorSchema.Type | null;
 }>;
 
 export namespace IQueryStore {
