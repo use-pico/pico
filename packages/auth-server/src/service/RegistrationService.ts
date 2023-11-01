@@ -1,5 +1,5 @@
+import {type IToken}               from "@use-pico/auth";
 import {type IRegistrationService} from "../api/IRegistrationService";
-import {type IToken}               from "../api/IToken";
 
 export class RegistrationService implements IRegistrationService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

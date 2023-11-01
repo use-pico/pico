@@ -1,7 +1,7 @@
 {
-	"version": "2.0.4",
-	"name": "@use-pico/auth",
-	"description": "Auth support.",
+	"version": "2.0.1",
+	"name": "@use-pico/auth-server",
+	"description": "Server-side auth stuff.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -25,19 +25,23 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"next-auth": "^4.24.4"
+		"next-auth": "^4.24.3"
 	},
 	"peerDependencies": {
+		"@auth/kysely-adapter": "^0.1.4",
+		"@use-pico/auth": "^2.0.4",
 		"@use-pico/container": "^2.0.4",
 		"@use-pico/logger": "^2.0.3",
 		"@use-pico/orm": "^2.0.3",
-		"@use-pico/schema": "^2.0.3"
+		"@use-pico/schema": "^2.0.3",
+		"@use-pico/utils": "^2.0.0",
+		"next": "^14.0.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
-		"@types/node": "^20.8.10",
+		"@use-pico/esbuild": "^2.0.0",
+		"@use-pico/eslint-config-eslint": "^2.0.0",
+		"@use-pico/tsconfig": "^2.0.0",
+		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",

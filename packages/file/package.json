@@ -1,5 +1,5 @@
 {
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"name": "@use-pico/file",
 	"description": "Common file related stuff.",
 	"license": "MIT",
@@ -45,7 +45,7 @@
 		"@use-pico/esbuild": "^2.0.3",
 		"@use-pico/eslint-config-eslint": "^2.0.3",
 		"@use-pico/tsconfig": "^2.0.3",
-		"@types/node": "^20.5.3",
+		"@types/node": "^20.8.10",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

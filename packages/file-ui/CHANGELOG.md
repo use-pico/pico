@@ -1,5 +1,13 @@
 # @use-pico/file-ui
 
+## 2.0.2
+
+### Patch Changes
+
+- Updated auth-server
+- Updated dependencies
+    - @use-pico/file@2.0.5
+
 ## 2.0.1
 
 ### Patch Changes
