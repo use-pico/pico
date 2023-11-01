@@ -1,5 +1,5 @@
 {
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"name": "@use-pico/calendar",
 	"description": "Common calendar stuff.",
 	"license": "MIT",
@@ -28,20 +28,20 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/i18n": "^2.0.0",
-		"@use-pico/query": "^2.0.0",
-		"@use-pico/schema": "^2.0.0",
-		"@use-pico/source": "^2.0.0",
-		"@use-pico/store": "^2.0.0",
-		"@use-pico/ui": "^2.0.0",
-		"@use-pico/utils": "^2.0.0",
+		"@use-pico/i18n": "^2.0.1",
+		"@use-pico/query": "^2.0.1",
+		"@use-pico/schema": "^2.0.1",
+		"@use-pico/source": "^2.0.1",
+		"@use-pico/store": "^2.0.1",
+		"@use-pico/ui": "^2.0.1",
+		"@use-pico/utils": "^2.0.1",
 		"@tabler/icons-react": "^2.39.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.0",
-		"@use-pico/eslint-config-eslint": "^2.0.0",
-		"@use-pico/tsconfig": "^2.0.0",
+		"@use-pico/esbuild": "^2.0.1",
+		"@use-pico/eslint-config-eslint": "^2.0.1",
+		"@use-pico/tsconfig": "^2.0.1",
 		"@types/node": "^20.5.7",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.1",

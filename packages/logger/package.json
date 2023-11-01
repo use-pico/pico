@@ -1,5 +1,5 @@
 {
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"name": "@use-pico/logger",
 	"description": "Logger stuff.",
 	"license": "MIT",
@@ -28,9 +28,9 @@
 		"winston": "^3.11.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.0",
-		"@use-pico/eslint-config-eslint": "^2.0.0",
-		"@use-pico/tsconfig": "^2.0.0",
+		"@use-pico/esbuild": "^2.0.1",
+		"@use-pico/eslint-config-eslint": "^2.0.1",
+		"@use-pico/tsconfig": "^2.0.1",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",

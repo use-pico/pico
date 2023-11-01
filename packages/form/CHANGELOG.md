@@ -1,5 +1,24 @@
 # @use-pico/form
 
+## 2.0.1
+
+### Patch Changes
+
+- Force version bump
+- Updated dependencies
+    - @use-pico/navigation@2.0.1
+    - @use-pico/hook@2.0.1
+    - @use-pico/i18n@2.0.1
+    - @use-pico/ui@2.0.1
+    - @use-pico/calendar@2.0.1
+    - @use-pico/query@2.0.1
+    - @use-pico/schema@2.0.1
+    - @use-pico/selection@2.0.1
+    - @use-pico/source@2.0.1
+    - @use-pico/store@2.0.1
+    - @use-pico/table@2.0.1
+    - @use-pico/utils@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

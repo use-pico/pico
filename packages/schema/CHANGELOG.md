@@ -1,5 +1,11 @@
 # @use-pico/schema
 
+## 2.0.1
+
+### Patch Changes
+
+- Force version bump
+
 ## 2.0.0
 
 ### Major Changes

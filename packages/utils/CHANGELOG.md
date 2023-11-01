@@ -1,5 +1,14 @@
 # @use-pico/utils
 
+## 2.0.1
+
+### Patch Changes
+
+- Force version bump
+- Updated dependencies
+    - @use-pico/schema@2.0.1
+    - @use-pico/types@2.0.1
+
 ## 2.0.0
 
 ### Major Changes
