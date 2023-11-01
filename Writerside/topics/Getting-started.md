@@ -18,12 +18,3 @@ if it's not possible to use the root.
     <step>Pray there is docs for that library</step>
     <step>Be happy!</step>
 </procedure>
-
-> This piece here is just temporary to know, how to include piece of code.
->
-{style="warning"}
-
-```typescript
-```
-
-{src="example.ts" include-symbol="Bar"}
