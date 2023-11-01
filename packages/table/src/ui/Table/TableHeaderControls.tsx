@@ -5,7 +5,6 @@ import {
 }                                from "@use-pico/query";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {
-    Fulltext,
     type IWithSourceQuery,
     useInvalidator
 }                                from "@use-pico/source";
@@ -14,6 +13,7 @@ import {
     Grid,
     GridCol
 }                                from "@use-pico/ui";
+import {Fulltext}                from "@use-pico/ui-extra";
 import {type FC}                 from "react";
 
 export namespace TableHeaderControls {

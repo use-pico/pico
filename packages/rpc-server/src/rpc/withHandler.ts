@@ -1,9 +1,9 @@
 import {type IContainer} from "@use-pico/container";
-import {type IHandler}   from "@use-pico/rpc";
 import {
     type RequestSchema,
     type ResponseSchema
 }                        from "@use-pico/schema";
+import {type IHandler}   from "../api/IHandler";
 
 export namespace withHandler {
     export interface Props<

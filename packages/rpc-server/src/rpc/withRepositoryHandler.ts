@@ -9,9 +9,9 @@ import {
     type QuerySchema
 }                            from "@use-pico/query";
 import {type IRepository}    from "@use-pico/repository";
-import {type IHandler}       from "@use-pico/rpc";
 import {type ArraySchema}    from "@use-pico/schema";
 import {type MutationSchema} from "@use-pico/source";
+import {type IHandler}       from "../api/IHandler";
 
 export namespace withRepositoryHandler {
     export interface Props<

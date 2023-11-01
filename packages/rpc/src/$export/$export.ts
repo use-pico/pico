@@ -1,6 +1,4 @@
 export * from "./IBulkRef";
-export * from "./IHandler";
-export * from "./IRpcService";
 export * from "./RpcBulkRequestSchema";
 export * from "./RpcBulkResponseSchema";
 export * from "./RpcProvider";
