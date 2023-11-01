@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/query",
 	"description": "This package only defines shape of the Query (how to get Entities or whatever you need)",
 	"license": "MIT",
@@ -27,8 +27,10 @@
 	"dependencies": {
 		"@use-pico/schema": "^2.0.1",
 		"@use-pico/store": "^2.0.1",
-		"@use-pico/utils": "^2.0.1",
-		"@tanstack/react-query": "^5.4.3",
+		"@use-pico/utils": "^2.0.2",
+		"@tanstack/react-query": "^5.4.3"
+	},
+	"peerDependencies": {
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
