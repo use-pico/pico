@@ -52,7 +52,7 @@ stuff with it.
 - [react-intl](https://formatjs.io/docs/react-intl/) for translations
 - [luxon](https://moment.github.io/luxon/#/) for date time manipulation
 - In-house validation library directly based on [valibot](https://github.com/fabian-hiller/valibot), so credits go there
-- In-house RPC, for details see [Concepts/RPC](RPC.md)
+- In-house RPC, for details see [Concepts/RPC](concept-RPC.md)
 
 ## Epilogue
 
