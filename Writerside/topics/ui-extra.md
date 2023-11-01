@@ -1,5 +1,8 @@
 # @use-pico/ui-extra
 
+[![npm version](https://badge.fury.io/js/@use-pico%2Fui-extra.svg)](https://badge.fury.io/js/@use-pico%2Fui-extra)
+![npm](https://img.shields.io/npm/dw/%40use-pico/ui-extra)
+
 > This library is quite heavy as it will takes a lot of `@use-pico` pieces and also
 > installs Mantine UI.
 
