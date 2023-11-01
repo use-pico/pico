@@ -1,5 +1,13 @@
 # @use-pico/types
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/schema@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

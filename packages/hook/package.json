@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/hook",
 	"description": "Common hooks.",
 	"license": "MIT",
@@ -27,16 +27,14 @@
 		"cleanup:sdk": "del-cli src/sdk/**",
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
-	"dependencies": {
-		"@mantine/hooks": "7.1.5"
-	},
 	"peerDependencies": {
+		"@mantine/hooks": "^7.1.7",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.1",
-		"@use-pico/eslint-config-eslint": "^2.0.1",
-		"@use-pico/tsconfig": "^2.0.1",
+		"@use-pico/esbuild": "^2.0.2",
+		"@use-pico/eslint-config-eslint": "^2.0.2",
+		"@use-pico/tsconfig": "^2.0.2",
 		"@types/node": "^20.5.3",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",

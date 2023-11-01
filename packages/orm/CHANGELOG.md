@@ -1,5 +1,13 @@
 # @use-pico/orm
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/container@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

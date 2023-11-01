@@ -1,5 +1,17 @@
 # @use-pico/calendar
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/schema@2.0.2
+    - @use-pico/store@2.0.2
+    - @use-pico/ui@2.0.3
+    - @use-pico/i18n@2.0.2
+    - @use-pico/utils@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes

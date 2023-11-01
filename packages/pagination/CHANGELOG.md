@@ -1,5 +1,16 @@
 # @use-pico/pagination
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/source@2.0.3
+    - @use-pico/store@2.0.2
+    - @use-pico/ui@2.0.3
+    - @use-pico/i18n@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

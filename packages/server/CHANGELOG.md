@@ -1,5 +1,16 @@
 # @use-pico/server
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/schema@2.0.2
+    - @use-pico/auth@2.0.2
+    - @use-pico/container@2.0.2
+    - @use-pico/rpc-server@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

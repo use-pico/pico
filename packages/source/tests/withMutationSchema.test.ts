@@ -30,7 +30,7 @@ const FooFilterSchema = merge([
         anotherThing: z.string.optional(),
     })),
 ]);
-const FooOrderBySchema = schema(z => z.record(z.enum(["foo", "bar"]), OrderSchema));
+const FooOrderBySchema = schema(z => z.record(z.list(["foo", "bar"]), OrderSchema));
 const FooQuerySchema = withQuerySchema({
     filter:  FooFilterSchema,
     orderBy: FooOrderBySchema,

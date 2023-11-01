@@ -1,5 +1,20 @@
 # @use-pico/table
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/pagination@2.0.2
+    - @use-pico/source@2.0.3
+    - @use-pico/query@2.0.3
+    - @use-pico/store@2.0.2
+    - @use-pico/ui@2.0.3
+    - @use-pico/i18n@2.0.2
+    - @use-pico/selection@2.0.2
+    - @use-pico/utils@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @use-pico/auth
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump (improved peer dependencies)
+- Updated dependencies
+    - @use-pico/schema@2.0.2
+    - @use-pico/container@2.0.2
+    - @use-pico/logger@2.0.2
+    - @use-pico/orm@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

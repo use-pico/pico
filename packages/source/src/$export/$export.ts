@@ -6,7 +6,6 @@ export * from "./useCountEx";
 export * from "./useInvalidator";
 export * from "./useQuery";
 export * from "./withCollectionMutationSchema";
-export * from "./withFetch";
 export * from "./withItems";
 export * from "./withMutationSchema";
 export * from "./withSourceQuery";

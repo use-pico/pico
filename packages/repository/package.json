@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/repository",
 	"description": "Repository on the server side.",
 	"license": "MIT",
@@ -25,16 +25,16 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/orm": "^2.0.1",
-		"@use-pico/schema": "^2.0.1",
-		"@use-pico/source": "^2.0.1",
-		"@use-pico/utils": "^2.0.1",
+		"@use-pico/orm": "^2.0.2",
+		"@use-pico/schema": "^2.0.2",
+		"@use-pico/source": "^2.0.3",
+		"@use-pico/utils": "^2.0.3",
 		"kysely": "^0.26.3"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.1",
-		"@use-pico/eslint-config-eslint": "^2.0.1",
-		"@use-pico/tsconfig": "^2.0.1",
+		"@use-pico/esbuild": "^2.0.2",
+		"@use-pico/eslint-config-eslint": "^2.0.2",
+		"@use-pico/tsconfig": "^2.0.2",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",
