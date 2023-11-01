@@ -1,5 +1,17 @@
 # @use-pico/i18n
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump, moved pico to peer-deps, so version should be consistent now
+- Updated dependencies
+    - @use-pico/navigation@2.0.3
+    - @use-pico/schema@2.0.3
+    - @use-pico/query@2.0.4
+    - @use-pico/store@2.0.3
+    - @use-pico/utils@2.0.4
+
 ## 2.0.2
 
 ### Patch Changes

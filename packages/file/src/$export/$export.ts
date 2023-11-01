@@ -6,6 +6,4 @@ export * from "./FileOrderBySchema";
 export * from "./FileQuerySchema";
 export * from "./FileSchema";
 export * from "./FileShapeSchema";
-export * from "./FileTable";
-export * from "./FileTableAction";
 export * from "./useUpload";

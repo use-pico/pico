@@ -41,6 +41,8 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/auth-server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/repository-server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/rpc-server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/file-ui/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/source-ui/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
@@ -112,6 +114,10 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/rpc-server/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/rpc-server/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/repository-server/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/file-ui/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/file-ui/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/source-ui/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/source-ui/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

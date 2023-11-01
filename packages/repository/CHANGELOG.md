@@ -1,5 +1,16 @@
 # @use-pico/repository
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump, moved pico to peer-deps, so version should be consistent now
+- Updated dependencies
+    - @use-pico/schema@2.0.3
+    - @use-pico/source@2.0.4
+    - @use-pico/utils@2.0.4
+    - @use-pico/orm@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes

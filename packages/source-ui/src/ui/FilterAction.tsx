@@ -13,9 +13,9 @@ import {
 
 export namespace FilterAction {
     export type Props = PropsWithChildren<{
-        isFilter: () => boolean;
-        onFilter: () => void;
-        onClear: () => void;
+        isFilter(): boolean;
+        onFilter(): void;
+        onClear(): void;
     }>;
 }
 

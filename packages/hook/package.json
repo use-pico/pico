@@ -1,11 +1,11 @@
 {
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"name": "@use-pico/hook",
 	"description": "Common hooks.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico2/pico"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"engines": {
 		"node": ">=16.0.0"
@@ -32,9 +32,9 @@
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.2",
-		"@use-pico/eslint-config-eslint": "^2.0.2",
-		"@use-pico/tsconfig": "^2.0.2",
+		"@use-pico/esbuild": "^2.0.3",
+		"@use-pico/eslint-config-eslint": "^2.0.3",
+		"@use-pico/tsconfig": "^2.0.3",
 		"@types/node": "^20.5.3",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",
@@ -42,7 +42,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico2/pico/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico2/pico#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

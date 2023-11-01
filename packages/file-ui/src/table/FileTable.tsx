@@ -1,12 +1,14 @@
-import {DateTimeInline}  from "@use-pico/i18n";
-import {Table}           from "@use-pico/table";
-import {toHumanBytes}    from "@use-pico/utils";
+import {
+    type FileQuerySchema,
+    type FileSchema
+}                       from "@use-pico/file";
+import {DateTimeInline} from "@use-pico/i18n";
+import {Table}          from "@use-pico/table";
+import {toHumanBytes}   from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren
-}                        from "react";
-import {FileQuerySchema} from "../schema/FileQuerySchema";
-import {FileSchema}      from "../schema/FileSchema";
+}                       from "react";
 
 export namespace FileTable {
     export type Columns =

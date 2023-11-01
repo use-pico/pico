@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump, moved pico to peer-deps, so version should be consistent now
+
 ## 2.0.2
 
 ### Patch Changes

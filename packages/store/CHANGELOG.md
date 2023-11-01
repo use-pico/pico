@@ -1,5 +1,14 @@
 # @use-pico/store
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump, moved pico to peer-deps, so version should be consistent now
+- Updated dependencies
+    - @use-pico/utils@2.0.4
+    - @use-pico/hook@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes

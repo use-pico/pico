@@ -1,11 +1,11 @@
 {
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"name": "@use-pico/orm",
 	"description": "ORM helper stuff, based on drizzle-orm.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico2/pico"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -25,13 +25,15 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@use-pico/container": "^2.0.2",
 		"kysely": "^0.26.3"
 	},
+	"peerDependencies": {
+		"@use-pico/container": "^2.0.3"
+	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.2",
-		"@use-pico/eslint-config-eslint": "^2.0.2",
-		"@use-pico/tsconfig": "^2.0.2",
+		"@use-pico/esbuild": "^2.0.3",
+		"@use-pico/eslint-config-eslint": "^2.0.3",
+		"@use-pico/tsconfig": "^2.0.3",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",
@@ -40,7 +42,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico2/pico/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico2/pico#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

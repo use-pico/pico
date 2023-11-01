@@ -8,12 +8,12 @@ import {
     type IWithSourceQuery,
     useInvalidator
 }                                from "@use-pico/source";
+import {Fulltext}                from "@use-pico/source-ui";
 import {
     ActionIcon,
     Grid,
     GridCol
 }                                from "@use-pico/ui";
-import {Fulltext}                from "@use-pico/ui-extra";
 import {type FC}                 from "react";
 
 export namespace TableHeaderControls {

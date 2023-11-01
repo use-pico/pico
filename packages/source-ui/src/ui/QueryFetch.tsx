@@ -4,20 +4,22 @@ import {
     type IWithQuery,
     QueryResult,
     type QuerySchema
-}                              from "@use-pico/query";
+}               from "@use-pico/query";
 import {
     type ArraySchema,
     type PicoSchema,
     type ResponseSchema,
     type WithIdentitySchema
-}                              from "@use-pico/schema";
-import {Loader}                from "@use-pico/ui";
+}               from "@use-pico/schema";
+import {
+    type IWithSourceQuery,
+    useQueryEx
+}               from "@use-pico/source";
+import {Loader} from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}                              from "react";
-import {type IWithSourceQuery} from "../api/IWithSourceQuery";
-import {useQueryEx}            from "../hook/useQueryEx";
+}               from "react";
 
 export namespace QueryFetch {
     export interface Props<

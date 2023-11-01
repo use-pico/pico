@@ -1,11 +1,11 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/form",
 	"description": "Clever form support with heavy typings.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/use-pico2/pico"
+		"url": "git://github.com/use-pico/pico"
 	},
 	"sideEffects": false,
 	"type": "module",
@@ -26,31 +26,31 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.1",
-		"@mantine/core": "^7.1.7",
 		"@mantine/form": "^7.1.7",
-		"@mantine/hooks": "^7.1.7",
-		"@use-pico/calendar": "^2.0.3",
-		"@use-pico/hook": "^2.0.2",
-		"@use-pico/i18n": "^2.0.2",
-		"@use-pico/navigation": "^2.0.2",
-		"@use-pico/query": "^2.0.3",
-		"@use-pico/schema": "^2.0.2",
-		"@use-pico/selection": "^2.0.2",
-		"@use-pico/source": "^2.0.3",
-		"@use-pico/store": "^2.0.2",
-		"@use-pico/table": "^2.0.3",
-		"@use-pico/ui": "^2.0.3",
-		"@use-pico/utils": "^2.0.3",
 		"react-hook-form": "^7.46.2"
 	},
 	"peerDependencies": {
+		"@mantine/core": "^7.1.7",
+		"@mantine/hooks": "^7.1.7",
 		"@tabler/icons-react": "^2.40.0",
+		"@use-pico/calendar": "^2.0.4",
+		"@use-pico/hook": "^2.0.3",
+		"@use-pico/i18n": "^2.0.3",
+		"@use-pico/navigation": "^2.0.3",
+		"@use-pico/query": "^2.0.4",
+		"@use-pico/schema": "^2.0.3",
+		"@use-pico/selection": "^2.0.3",
+		"@use-pico/source": "^2.0.4",
+		"@use-pico/store": "^2.0.3",
+		"@use-pico/table": "^2.0.4",
+		"@use-pico/ui": "^2.0.4",
+		"@use-pico/utils": "^2.0.4",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.2",
-		"@use-pico/eslint-config-eslint": "^2.0.2",
-		"@use-pico/tsconfig": "^2.0.2",
+		"@use-pico/esbuild": "^2.0.3",
+		"@use-pico/eslint-config-eslint": "^2.0.3",
+		"@use-pico/tsconfig": "^2.0.3",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",
@@ -59,7 +59,7 @@
 		"typescript": "^5.2.2"
 	},
 	"bugs": {
-		"url": "https://github.com/use-pico2/pico/issues"
+		"url": "https://github.com/use-pico/pico/issues"
 	},
-	"homepage": "https://github.com/use-pico2/pico#readme"
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

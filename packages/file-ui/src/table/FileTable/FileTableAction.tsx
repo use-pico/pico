@@ -1,5 +1,10 @@
 import {IconWashDrycleanOff} from "@tabler/icons-react";
 import {
+    type FileMutationSchema,
+    type FileQuerySchema,
+    type FileSchema
+}                            from "@use-pico/file";
+import {
     type IQueryStore,
     type IWithMutation,
     useMutation
@@ -12,9 +17,6 @@ import {
     useSuccessNotification
 }                            from "@use-pico/ui";
 import {type FC}             from "react";
-import {FileMutationSchema}  from "../../schema/FileMutationSchema";
-import {FileQuerySchema}     from "../../schema/FileQuerySchema";
-import {FileSchema}          from "../../schema/FileSchema";
 
 export namespace FileTableAction {
     export interface Props {
