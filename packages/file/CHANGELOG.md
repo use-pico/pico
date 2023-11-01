@@ -1,5 +1,15 @@
 # @use-pico/file
 
+## 2.0.2
+
+### Patch Changes
+
+- Moving dependencies to peers
+- Updated dependencies
+    - @use-pico/source@2.0.2
+    - @use-pico/table@2.0.2
+    - @use-pico/ui@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

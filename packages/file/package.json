@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/file",
 	"description": "Common file related stuff.",
 	"license": "MIT",
@@ -28,20 +28,22 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"@tabler/icons-react": "^2.39.0",
 		"@types/uuid": "^9.0.3",
 		"@use-pico/i18n": "^2.0.1",
 		"@use-pico/navigation": "^2.0.1",
 		"@use-pico/query": "^2.0.1",
 		"@use-pico/schema": "^2.0.1",
-		"@use-pico/source": "^2.0.1",
+		"@use-pico/source": "^2.0.2",
 		"@use-pico/store": "^2.0.1",
-		"@use-pico/table": "^2.0.1",
-		"@use-pico/ui": "^2.0.1",
+		"@use-pico/table": "^2.0.2",
+		"@use-pico/ui": "^2.0.2",
 		"@use-pico/utils": "^2.0.1",
 		"axios": "^1.5.1",
 		"react": "^18.2.0",
 		"uuid": "^9.0.0"
+	},
+	"peerDependencies": {
+		"@tabler/icons-react": "^2.40.0"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.1",

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/form",
 	"description": "Clever form support with heavy typings.",
 	"license": "MIT",
@@ -29,21 +29,23 @@
 		"@mantine/core": "7.1.5",
 		"@mantine/form": "7.1.5",
 		"@mantine/hooks": "7.1.5",
-		"@use-pico/calendar": "^2.0.1",
+		"@use-pico/calendar": "^2.0.2",
 		"@use-pico/hook": "^2.0.1",
 		"@use-pico/i18n": "^2.0.1",
 		"@use-pico/navigation": "^2.0.1",
 		"@use-pico/query": "^2.0.1",
 		"@use-pico/schema": "^2.0.1",
 		"@use-pico/selection": "^2.0.1",
-		"@use-pico/source": "^2.0.1",
+		"@use-pico/source": "^2.0.2",
 		"@use-pico/store": "^2.0.1",
-		"@use-pico/table": "^2.0.1",
-		"@use-pico/ui": "^2.0.1",
+		"@use-pico/table": "^2.0.2",
+		"@use-pico/ui": "^2.0.2",
 		"@use-pico/utils": "^2.0.1",
-		"@tabler/icons-react": "^2.34.0",
-		"react": "^18.2.0",
 		"react-hook-form": "^7.46.2"
+	},
+	"peerDependencies": {
+		"@tabler/icons-react": "^2.40.0",
+		"react": "^18.2.0"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.1",

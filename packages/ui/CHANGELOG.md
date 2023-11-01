@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.2
+
+### Patch Changes
+
+- Moving dependencies to peers
+
 ## 2.0.1
 
 ### Patch Changes
