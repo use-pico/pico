@@ -3,23 +3,21 @@
 import {
     type IWithQuery,
     QueryResult,
-    type QuerySchema
-}               from "@use-pico/query";
+    type QuerySchema,
+    useQueryEx
+}                              from "@use-pico/query";
 import {
     type ArraySchema,
     type PicoSchema,
     type ResponseSchema,
     type WithIdentitySchema
-}               from "@use-pico/schema";
-import {
-    type IWithSourceQuery,
-    useQueryEx
-}               from "@use-pico/source";
-import {Loader} from "@use-pico/ui";
+}                              from "@use-pico/schema";
+import {type IWithSourceQuery} from "@use-pico/source";
+import {Loader}                from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}               from "react";
+}                              from "react";
 
 export namespace QueryFetch {
     export interface Props<
@@ -73,9 +71,9 @@ export const QueryFetch = <
     >
 ) => {
     const result = useQueryEx({
-        withSourceQuery,
-        request: query,
-        options: {
+        withQuery: withSourceQuery,
+        request:   query,
+        options:   {
             ...options,
             enabled,
         },
@@ -84,6 +82,6 @@ export const QueryFetch = <
         result={result}
         WithLoading={() => loader || <Loader type={"dots"} size={"xs"}/>}
         WithError={WithError}
-        WithSuccess={({data}) => <WithSuccess entities={data}/>}
+        WithSuccess={({entity}) => <WithSuccess entities={entity}/>}
     />;
 };

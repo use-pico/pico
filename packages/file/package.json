@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/file",
 	"description": "Common file related stuff.",
 	"license": "MIT",
@@ -35,9 +35,9 @@
 	"peerDependencies": {
 		"@tabler/icons-react": "^2.40.0",
 		"@use-pico/navigation": "^2.0.3",
-		"@use-pico/query": "^2.0.4",
-		"@use-pico/schema": "^2.0.3",
-		"@use-pico/source": "^2.0.4",
+		"@use-pico/query": "^2.0.7",
+		"@use-pico/schema": "^2.0.4",
+		"@use-pico/source": "^2.0.6",
 		"@use-pico/ui": "^2.0.4",
 		"react": "^18.2.0"
 	},

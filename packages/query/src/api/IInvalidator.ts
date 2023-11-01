@@ -4,7 +4,7 @@ import {type IWithQuery} from "./IWithQuery";
 export interface IInvalidator {
     readonly key: QueryKey;
 
-    invalidator?(props: IWithQuery.InvalidatorProps): Promise<void | QueryKey[]>;
+    invalidator?(props: IWithQuery.InvalidatorProps): Promise<void | ReadonlyArray<unknown>>;
 }
 
 export namespace IInvalidator {

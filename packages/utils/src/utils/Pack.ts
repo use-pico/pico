@@ -1,9 +1,14 @@
+import {
+    parse,
+    stringify
+} from "devalue";
+
 /**
  * Simple wrapper around current background implementation of stringify/parse.
  */
 export class Pack {
     public static async pack<T>(input: T): Promise<string> {
-        return import("devalue").then(({stringify}) => stringify(input));
+        return stringify(input);
     }
 
     /**
@@ -16,11 +21,11 @@ export class Pack {
         } else if (input === undefined) {
             return undefined;
         }
-        return import("devalue").then(({stringify}) => stringify(input));
+        return stringify(input);
     }
 
     public static async unpack<T>(input: string): Promise<T> {
-        return import("devalue").then(({parse}) => parse(input));
+        return parse(input);
     }
 
     /**
@@ -32,6 +37,6 @@ export class Pack {
         } else if (input === undefined) {
             return undefined;
         }
-        return import("devalue").then(({parse}) => parse(input));
+        return parse(input);
     }
 }

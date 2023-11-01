@@ -1,5 +1,14 @@
 # @use-pico/server
 
+## 2.0.4
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/auth-server@2.0.2
+    - @use-pico/schema@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes

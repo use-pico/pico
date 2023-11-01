@@ -1,11 +1,15 @@
 "use client";
 
 import {
+    IWithQuery,
     useInvalidator,
     useMutation,
     useQueryEx
 }                              from "@use-pico/query";
-import {type RequestSchema}    from "@use-pico/schema";
+import {
+    NullishSchema,
+    type RequestSchema
+}                              from "@use-pico/schema";
 import {useErrorNotification}  from "@use-pico/ui";
 import {
     useEffect,
@@ -15,6 +19,7 @@ import {type IJobManager}      from "../api/IJobManager";
 import {type JobQueryMutation} from "../api/JobQueryMutation";
 import {JobStatus}             from "../api/JobStatus";
 import {type JobFilterSchema}  from "../schema/JobFilterSchema";
+import {JobQuerySchema}        from "../schema/JobQuerySchema";
 import {type JobSchema}        from "../schema/JobSchema";
 
 export namespace useJobManager {
@@ -23,7 +28,7 @@ export namespace useJobManager {
     > {
         service: string;
         mutation: JobQueryMutation.WithMutation<TRequestSchema>;
-        query: JobQueryMutation.Query;
+        query: IWithQuery<JobQuerySchema, NullishSchema<JobSchema>>;
         filter?: JobFilterSchema.Type;
         interval?: number;
 
@@ -65,10 +70,10 @@ export const useJobManager = <
     const asyncMutation = useMutation({withMutation: mutation.withAsyncMutation});
     const interruptMutation = useMutation({withMutation: mutation.withInterruptMutation});
     const jobMutation = useMutation({withMutation: mutation.withJobMutation});
-    const watchInvalidator = useInvalidator({invalidator: query.withFindByQuery});
+    const watchInvalidator = useInvalidator({invalidator: query});
     const errorNotification = useErrorNotification();
     const watch = useQueryEx({
-        withQuery: query.withFindByQuery,
+        withQuery: query,
         request:   {
             where: {
                 service,

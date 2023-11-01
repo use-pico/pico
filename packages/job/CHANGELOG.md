@@ -1,5 +1,17 @@
 # @use-pico/job
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@2.0.4
+    - @use-pico/source@2.0.6
+    - @use-pico/query@2.0.7
+    - @use-pico/utils@2.0.5
+    - @use-pico/i18n@2.0.4
+
 ## 2.0.1
 
 ### Patch Changes

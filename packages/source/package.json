@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/source",
 	"description": "Source (repository) support for client-side & server-side.",
 	"license": "MIT",
@@ -25,10 +25,10 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"peerDependencies": {
-		"@use-pico/query": "^2.0.4",
-		"@use-pico/schema": "^2.0.3",
+		"@use-pico/query": "^2.0.7",
+		"@use-pico/schema": "^2.0.4",
 		"@use-pico/store": "^2.0.3",
-		"@use-pico/utils": "^2.0.4",
+		"@use-pico/utils": "^2.0.5",
 		"@tabler/icons-react": "^2.40.0",
 		"@tanstack/react-query": "^5.4.3"
 	},

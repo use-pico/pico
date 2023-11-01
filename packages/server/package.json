@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/server",
 	"description": "Server side stuff, DI container and so on. This is quite heavy dependency (core of server-side pico).",
 	"license": "MIT",
@@ -28,10 +28,10 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts.map,js,js.map}"
 	},
 	"peerDependencies": {
-		"@use-pico/auth": "^2.0.3",
+		"@use-pico/auth-server": "^2.0.2",
 		"@use-pico/container": "^2.0.3",
 		"@use-pico/rpc-server": "^2.0.3",
-		"@use-pico/schema": "^2.0.3"
+		"@use-pico/schema": "^2.0.4"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.3",

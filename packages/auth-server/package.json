@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/auth-server",
 	"description": "Server-side auth stuff.",
 	"license": "MIT",
@@ -33,8 +33,8 @@
 		"@use-pico/container": "^2.0.4",
 		"@use-pico/logger": "^2.0.3",
 		"@use-pico/orm": "^2.0.3",
-		"@use-pico/schema": "^2.0.3",
-		"@use-pico/utils": "^2.0.0",
+		"@use-pico/schema": "^2.0.4",
+		"@use-pico/utils": "^2.0.5",
 		"next": "^14.0.0"
 	},
 	"devDependencies": {

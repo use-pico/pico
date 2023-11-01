@@ -37,8 +37,8 @@ export const TranslationProvider: FC<TranslationProvider.Props> = (
 
     return <QueryResult
         result={result}
-        WithSuccess={({data}) => <IntlProvider
-            messages={flatten(data.translations)}
+        WithResponse={({entity}) => <IntlProvider
+            messages={flatten(entity.translations)}
             locale={locale}
             defaultLocale={"en"}
             {...props}

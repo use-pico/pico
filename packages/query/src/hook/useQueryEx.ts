@@ -21,13 +21,16 @@ export const useQueryEx = <
 >(
     {
         withQuery,
-        options,
-        request
+        request,
+        options: {
+                     queryKey,
+                     ...options
+                 } = {}
     }: useQueryEx.Props<TRequestSchema, TResponseSchema>
 ) => {
     const promise = usePromise({withQuery});
     return useQuery({
-        queryKey: withQuery.key.concat(request),
+        queryKey: withQuery.key.concat(queryKey || [], request),
         queryFn:  async () => promise(request),
         ...options,
     });

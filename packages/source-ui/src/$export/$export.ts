@@ -6,3 +6,4 @@ export * from "./Fulltext";
 export * from "./QueryFetch";
 export * from "./withFetch";
 export * from "./withFilter";
+export * from "./withQueryFetch";

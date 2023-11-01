@@ -23,6 +23,7 @@ import {
     ModalStoreProvider,
     RouterTransition
 }                            from "@use-pico/ui";
+import axios                 from "axios";
 import {
     type FC,
     type PropsWithChildren
@@ -39,6 +40,7 @@ export namespace Providers {
          * Translations used in the application
          */
         withTranslationQuery?: IWithTranslationQuery;
+        baseUrl?: string;
     }>;
 }
 
@@ -51,16 +53,18 @@ export const Providers: FC<Providers.Props> = (
                 return async () => ({translations: {}});
             },
         }),
+        baseUrl,
         children,
     }
 ) => {
+    axios.defaults.baseURL = baseUrl;
     return <QueryClientProvider>
-        <TranslationProvider
-            withTranslationQuery={withTranslationQuery}
-            locale={locale}
-            loading={() => <LoadingOverlay visible/>}
-        >
-            <RpcProvider>
+        <RpcProvider>
+            <TranslationProvider
+                withTranslationQuery={withTranslationQuery}
+                locale={locale}
+                loading={() => <LoadingOverlay visible/>}
+            >
                 <MantineProvider
                     theme={createTheme({
                         primaryColor: "blue",
@@ -86,7 +90,7 @@ export const Providers: FC<Providers.Props> = (
                         </DateTimeProvider>
                     </ModalsProvider>
                 </MantineProvider>
-            </RpcProvider>
-        </TranslationProvider>
+            </TranslationProvider>
+        </RpcProvider>
     </QueryClientProvider>;
 };

@@ -194,7 +194,7 @@ const Schema: schema.Schema = {
         return withNullish(withBool());
     },
     enum: withEnum,
-    list:    withList,
+    list: withList,
     get nan() {
         return withNaN();
     },

@@ -9,7 +9,7 @@ import {
 }                        from "@use-pico/query";
 import {
     type PicoSchema,
-    type WithIdentitySchema
+    type ResponseSchema
 }                        from "@use-pico/schema";
 import {type WithEntity} from "@use-pico/types";
 import {Loader}          from "@use-pico/ui";
@@ -21,7 +21,7 @@ import {
 export namespace Fetch {
     export interface Props<
         TQuerySchema extends QuerySchema<any, any>,
-        TResponseSchema extends WithIdentitySchema,
+        TResponseSchema extends ResponseSchema,
     > {
         /**
          * Parameter name from "useParam"; optional
@@ -46,7 +46,8 @@ export namespace Fetch {
         /**
          * Success renderer
          */
-        WithSuccess: FC<WithSuccessProps<TResponseSchema>>;
+        WithSuccess?: FC<WithSuccessProps<TResponseSchema>>;
+        WithResponse?: FC<WithResponseProps<TResponseSchema>>;
         enabled?: boolean;
         options?: IWithQuery.QueryOptions<TResponseSchema>;
     }
@@ -56,14 +57,19 @@ export namespace Fetch {
     }
 
     export interface WithSuccessProps<
-        TResponseSchema extends WithIdentitySchema,
+        TResponseSchema extends ResponseSchema,
+    > extends WithEntity<NonNullable<PicoSchema.Output<TResponseSchema>>> {
+    }
+
+    export interface WithResponseProps<
+        TResponseSchema extends ResponseSchema,
     > extends WithEntity.Schema<TResponseSchema> {
     }
 }
 
 export const Fetch = <
     TQuerySchema extends QuerySchema<any, any>,
-    TResponseSchema extends WithIdentitySchema,
+    TResponseSchema extends ResponseSchema,
 >(
     {
         param = "id",
@@ -73,6 +79,7 @@ export const Fetch = <
         withQuery,
         WithError = () => null,
         WithSuccess,
+        WithResponse,
         enabled = true,
         options,
     }: Fetch.Props<TQuerySchema, TResponseSchema>
@@ -96,6 +103,7 @@ export const Fetch = <
         result={result}
         WithLoading={() => loader === undefined ? <Loader type={"dots"} size={"xs"}/> : loader}
         WithError={WithError}
-        WithSuccess={({data}) => <WithSuccess entity={data}/>}
+        WithSuccess={WithSuccess}
+        WithResponse={WithResponse}
     />;
 };

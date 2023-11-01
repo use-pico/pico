@@ -4,7 +4,6 @@ export * from "./ShapeSchema";
 export * from "./useCount";
 export * from "./useCountEx";
 export * from "./useQuery";
-export * from "./useQueryEx";
 export * from "./withCollectionMutationSchema";
 export * from "./withItems";
 export * from "./withMutationSchema";

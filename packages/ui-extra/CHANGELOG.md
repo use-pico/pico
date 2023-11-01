@@ -1,5 +1,16 @@
 # @use-pico/ui-extra
 
+## 2.0.5
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@2.0.4
+    - @use-pico/query@2.0.7
+    - @use-pico/file@2.0.6
+    - @use-pico/i18n@2.0.4
+
 ## 2.0.4
 
 ### Patch Changes

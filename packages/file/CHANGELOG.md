@@ -1,5 +1,15 @@
 # @use-pico/file
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/schema@2.0.4
+    - @use-pico/source@2.0.6
+    - @use-pico/query@2.0.7
+
 ## 2.0.5
 
 ### Patch Changes

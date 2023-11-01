@@ -1,5 +1,15 @@
 # @use-pico/source-ui
 
+## 2.0.2
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/source@2.0.6
+    - @use-pico/query@2.0.7
+    - @use-pico/i18n@2.0.4
+
 ## 2.0.1
 
 ### Patch Changes
