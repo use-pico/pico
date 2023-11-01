@@ -1,5 +1,11 @@
 # @use-pico/source
 
+## 2.0.5
+
+### Patch Changes
+
+- Simplified query invalidation
+
 ## 2.0.4
 
 ### Patch Changes

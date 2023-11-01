@@ -1,5 +1,13 @@
 # @use-pico/table
 
+## 2.0.6
+
+### Patch Changes
+
+- Simplified query invalidation
+- Updated dependencies
+    - @use-pico/source@2.0.5
+
 ## 2.0.5
 
 ### Patch Changes

@@ -3,7 +3,6 @@ export * from "./MutationSchema";
 export * from "./ShapeSchema";
 export * from "./useCount";
 export * from "./useCountEx";
-export * from "./useInvalidator";
 export * from "./useQuery";
 export * from "./useQueryEx";
 export * from "./withCollectionMutationSchema";

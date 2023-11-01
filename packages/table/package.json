@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/table",
 	"description": "Table & List support stuff.",
 	"license": "MIT",
@@ -30,7 +30,7 @@
 		"@use-pico/pagination": "^2.0.3",
 		"@use-pico/query": "^2.0.4",
 		"@use-pico/selection": "^2.0.3",
-		"@use-pico/source": "^2.0.4",
+		"@use-pico/source": "^2.0.5",
 		"@use-pico/source-ui": "^2.0.1",
 		"@use-pico/store": "^2.0.3",
 		"@use-pico/ui": "^2.0.4",

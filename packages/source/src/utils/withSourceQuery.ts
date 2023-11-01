@@ -37,7 +37,8 @@ export const withSourceQuery = <
                     query,
                     response,
                 },
-        ...     props
+        invalidator,
+        ...props
     }: withSourceQuery.Props<
         TQuerySchema,
         TSchema
@@ -60,6 +61,10 @@ export const withSourceQuery = <
         schema: {
             request:  query,
             response: $response,
+        },
+        async invalidator(props) {
+            await invalidator?.(props);
+            await withCountQuery?.invalidator?.(props);
         },
         withCountQuery,
     };
