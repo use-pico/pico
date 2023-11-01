@@ -1,4 +1,4 @@
-# @use-pico/ui-extra
+# ui-extra
 
 ![npm](https://img.shields.io/npm/v/%40use-pico%2Fui-extra)
 ![npm](https://deno.bundlejs.com/badge?q=@use-pico/ui-extra@^2.0.0&treeshake=[*])

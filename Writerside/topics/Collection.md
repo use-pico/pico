@@ -1,4 +1,4 @@
-# Collection
+# @use-pico
 
 > Every package points to it's name on NPM where it lives.
 

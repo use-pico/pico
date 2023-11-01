@@ -1,4 +1,4 @@
-# @use-pico/ui
+# ui
 
 ![npm](https://img.shields.io/npm/v/%40use-pico%2Fui)
 ![npm](https://deno.bundlejs.com/badge?q=@use-pico/ui@^2.0.0&treeshake=[*])

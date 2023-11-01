@@ -11,24 +11,30 @@
         <toc-element topic="Installation.md"/>
     </toc-element>
     <toc-element topic="Collection.md">
-        <toc-element topic="hook.md"/>
-        <toc-element topic="source.md"/>
-        <toc-element topic="server.md"/>
-        <toc-element topic="repository.md"/>
-        <toc-element topic="rpc.md"/>
-        <toc-element topic="i18n.md"/>
-        <toc-element topic="form.md"/>
-        <toc-element topic="container.md"/>
-        <toc-element topic="store.md"/>
-        <toc-element topic="utils.md"/>
-        <toc-element topic="query.md"/>
-        <toc-element topic="schema.md">
-            <toc-element topic="schema-schema.md">
-                <toc-element topic="schema-schema-object.md"/>
-            </toc-element>
+        <toc-element topic="client-side.md">
+            <toc-element topic="i18n.md"/>
+            <toc-element topic="hook.md"/>
+            <toc-element topic="rpc.md"/>
+            <toc-element topic="source.md"/>
+            <toc-element topic="query.md"/>
+            <toc-element topic="store.md"/>
+            <toc-element topic="form.md"/>
+            <toc-element topic="ui.md"/>
+            <toc-element topic="ui-extra.md"/>
         </toc-element>
-        <toc-element topic="ui.md"/>
-        <toc-element topic="ui-extra.md"/>
+        <toc-element topic="Server-side.md">
+            <toc-element topic="container.md"/>
+            <toc-element topic="repository.md"/>
+            <toc-element topic="server.md"/>
+        </toc-element>
+        <toc-element topic="Shared.md">
+            <toc-element topic="schema.md">
+                <toc-element topic="schema-schema.md">
+                    <toc-element topic="schema-schema-object.md"/>
+                </toc-element>
+            </toc-element>
+            <toc-element topic="utils.md"/>
+        </toc-element>
     </toc-element>
     <toc-element topic="Concepts.md">
         <toc-element topic="concept-RPC.md"/>
