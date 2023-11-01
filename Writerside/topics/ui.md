@@ -1,7 +1,7 @@
 # @use-pico/ui
 
 [![npm version](https://badge.fury.io/js/@use-pico%2Fui.svg)](https://badge.fury.io/js/@use-pico%2Fui)
-![npm](https://img.shields.io/npm/dw/%40use-pico/ui)
+![npm](https://deno.bundlejs.com/badge?q=@use-pico/ui@^2.0.0&treeshake=[*])
 
 > This library is quite heavy as it comes with Mantine UI installed, but contains only
 > basic building blocks (~ quite dummy components).

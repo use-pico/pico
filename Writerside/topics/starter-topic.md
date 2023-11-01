@@ -1,5 +1,7 @@
 # About @use-pico
 
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/use-pico/pico)
+
 > This library and docs are still in heavy development despite being here for quite a long time, so please keep that
 > in mind and be lenient.
 >
