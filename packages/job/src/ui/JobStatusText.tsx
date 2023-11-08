@@ -1,4 +1,3 @@
-import {Translation}    from "@use-pico/i18n";
 import {
     type FC,
     type ReactNode
@@ -24,7 +23,7 @@ export const JobStatusText: FC<JobStatusText.Props> = (
     }
 ) => {
     if (job && (inline || withStatus.includes(job.status))) {
-        return <Translation namespace={"common.job.status"} withLabel={`${job.status}`}/>;
+        return `[${job.status}]`;
     }
     return defaultText;
 };

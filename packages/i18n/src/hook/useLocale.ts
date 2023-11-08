@@ -1,5 +1,5 @@
-import {useIntl} from "react-intl";
+import {TranslationInstance} from "../instance/TranslationInstance";
 
 export const useLocale = () => {
-    return useIntl().locale;
+    return TranslationInstance.instance.locale;
 };

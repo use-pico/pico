@@ -1,9 +1,6 @@
 "use client";
 
-import {
-    LocaleLink,
-    Translation
-}                        from "@use-pico/i18n";
+import {LocaleLink}      from "@use-pico/i18n";
 import {type IHrefProps} from "@use-pico/navigation";
 import {useStore$}       from "@use-pico/store";
 import {
@@ -43,7 +40,7 @@ export const ButtonLink: FC<ButtonLink.Props> = (
         variant:     "subtle",
         size:        "compact-md",
         leftSection: icon,
-        children:    label ? <Translation withLabel={label}/> : null,
+        children: label,
         ...buttonProps,
     };
 
@@ -56,7 +53,7 @@ export const ButtonLink: FC<ButtonLink.Props> = (
             />;
         }
         if (linkLock?.isLock) {
-            return <Translation withLabel={label}/>;
+            return label;
         }
         return <Button<LocaleLink.Props>
             component={LocaleLink}

@@ -1,5 +1,17 @@
 # @use-pico/file
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/navigation@2.0.4
+    - @use-pico/source@2.0.7
+    - @use-pico/ui@2.0.5
+    - @use-pico/query@2.0.8
+    - @use-pico/schema@2.0.5
+
 ## 2.0.6
 
 ### Patch Changes

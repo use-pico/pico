@@ -1,6 +1,7 @@
-import {Translation}             from "@use-pico/i18n";
+import {tx}                      from "@use-pico/i18n";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {useStore}                from "@use-pico/store";
+import {ReactNode}               from "react";
 import {MoreIcon}                from "../../icon/MoreIcon";
 import {ModalStore}              from "../../modal/ModalStore";
 import {ActionIcon}              from "../ActionIcon";
@@ -13,7 +14,9 @@ export namespace InlineLimit {
     export interface Props<
         TItem extends WithIdentitySchema.Type,
     > {
-        label?: string;
+        label?: {
+            empty: ReactNode;
+        };
         items: TItem[];
         Item: ItemsInline.Item<TItem>;
         limit?: number;
@@ -36,10 +39,10 @@ export const InlineLimit = <
     return <NativeBreadcrumbs>
         {items.map(item => <Item key={item.id} entity={item}/>)}
         {!items.length && <Text c={"dimmed"}>
-            <Translation label={label} withLabel={"empty"}/>
+            {label?.empty}
         </Text>}
         {(limit && count > limit) && <>
-            <Tooltip label={<Translation namespace={"common.inline"} withLabel={"more.label"}/>}>
+            <Tooltip label={tx()`Show more items`}>
                 <ActionIcon
                     variant={"subtle"}
                     onClick={e => {

@@ -1,4 +1,3 @@
-import {Translation}            from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema,
@@ -63,10 +62,6 @@ export const TableHead = <
                 {WithTableAction && <WithTableAction items={items}/>}
             </Table.Th>}
             {columns?.map(([name, column]) => {
-                const defaultContent = <Translation
-                    label={"table.column"}
-                    withLabel={column?.title || name}
-                />;
                 const defaultStyle: CSSProperties = {
                     width: column.width ? `${column.width}rem` : undefined,
                 };
@@ -76,7 +71,7 @@ export const TableHead = <
                     onClick={() => column.onHeaderClick?.()}
                 >
                     <Group>
-                        {column.headerRender?.(defaultContent) || defaultContent}
+                        {column.headerRender?.(column.title) || column.title}
                     </Group>
                 </Table.Th>;
             })}

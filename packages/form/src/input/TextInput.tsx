@@ -1,5 +1,6 @@
+"use client";
+
 import {IconX}             from "@tabler/icons-react";
-import {useTranslation}    from "@use-pico/i18n";
 import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
@@ -28,7 +29,6 @@ export const TextInput = <
         TValuesSchema
     >
 ) => {
-    const t = useTranslation();
     const {
         field: {
                    onChange,
@@ -38,8 +38,6 @@ export const TextInput = <
     } = useController(withControl);
 
     return <CoolTextInput
-        label={t(`${withControl.name}.label`)}
-        placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
         withAsterisk={!isPartial(schema, withControl.name)}
         rightSection={<ActionIcon

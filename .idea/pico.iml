@@ -43,6 +43,7 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/rpc-server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/file-ui/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/source-ui/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/migrator/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
@@ -118,6 +119,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/file-ui/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/source-ui/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/source-ui/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/migrator/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/migrator/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

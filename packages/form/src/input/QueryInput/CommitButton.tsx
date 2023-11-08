@@ -1,5 +1,7 @@
+"use client";
+
 import {IconClick}            from "@tabler/icons-react";
-import {Translation}          from "@use-pico/i18n";
+import {tx}                   from "@use-pico/i18n";
 import {
     type PicoSchema,
     type WithIdentitySchema
@@ -68,6 +70,6 @@ export const CommitButton = <
         }}
         {...props}
     >
-        <Translation namespace={"common"} label={"selection"} withLabel={"submit.button"}/>
+        {tx()`Submit selection`}
     </Button>;
 };

@@ -1,5 +1,18 @@
 # @use-pico/auth-server
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/container@2.0.5
+    - @use-pico/utils@2.0.6
+    - @use-pico/orm@2.0.4
+    - @use-pico/auth@2.0.5
+    - @use-pico/logger@2.0.4
+    - @use-pico/schema@2.0.5
+
 ## 2.0.2
 
 ### Patch Changes

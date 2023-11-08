@@ -1,16 +1,15 @@
-import {Menu}        from "@mantine/core";
-import {Translation} from "@use-pico/i18n";
+import {Menu}  from "@mantine/core";
 import {
     type ComponentProps,
     type FC,
     type ReactNode
-}                    from "react";
-import {Group}       from "../ui/Group";
+}              from "react";
+import {Group} from "../ui/Group";
 
 export namespace MenuLabel {
     export interface Props extends ComponentProps<typeof Menu.Label> {
         icon?: ReactNode;
-        withLabel?: string;
+        withLabel?: ReactNode;
     }
 }
 
@@ -25,7 +24,7 @@ export const MenuLabel: FC<MenuLabel.Props> = (
     >
         <Group>
             {icon}
-            <Translation withLabel={withLabel}/>
+            {withLabel}
         </Group>
     </Menu.Label>;
 };

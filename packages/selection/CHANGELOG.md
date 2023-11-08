@@ -1,5 +1,15 @@
 # @use-pico/selection
 
+## 2.0.4
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/utils@2.0.6
+    - @use-pico/query@2.0.8
+    - @use-pico/store@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes

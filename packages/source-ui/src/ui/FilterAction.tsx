@@ -1,15 +1,15 @@
-import {Translation} from "@use-pico/i18n";
+import {tx} from "@use-pico/i18n";
 import {
     Button,
     FilterIcon,
     FilterOffIcon,
     Group,
     HoverCard
-}                    from "@use-pico/ui";
+}           from "@use-pico/ui";
 import {
     type FC,
     type PropsWithChildren
-}                    from "react";
+}           from "react";
 
 export namespace FilterAction {
     export type Props = PropsWithChildren<{
@@ -45,7 +45,7 @@ export const FilterAction: FC<FilterAction.Props> = (
                         onFilter();
                     }}
                 >
-                    <Translation namespace={"common"} label={"filter"} withLabel={"action-filter.on"}/>
+                    {tx()`Filter by`}
                 </Button>}
                 {isFilter() && <Button
                     size={"sm"}
@@ -55,7 +55,7 @@ export const FilterAction: FC<FilterAction.Props> = (
                         onClear();
                     }}
                 >
-                    <Translation namespace={"common"} label={"filter"} withLabel={"action-filter.off"}/>
+                    {tx()`Remove filter`}
                 </Button>}
             </Group>
         </HoverCard.Dropdown>

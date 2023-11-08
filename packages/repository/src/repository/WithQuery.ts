@@ -9,7 +9,6 @@ import {
 import {type PicoSchema}     from "@use-pico/schema";
 import {type MutationSchema} from "@use-pico/source";
 import {type IRepository}    from "../api/IRepository";
-import {type IWithApply}     from "../api/IWithApply";
 import {type IWithQuery}     from "../api/IWithQuery";
 
 export class WithQuery<
@@ -21,29 +20,15 @@ export class WithQuery<
         public client: Client<TDatabase>,
         public schema: TSchema,
         public table: TTable,
-        public withApply: IWithApply<TDatabase, TSchema, any>,
+        public repository: IRepository<TDatabase, TSchema, any>,
     ) {
-    }
-
-    public async query(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>[]> {
-        let select = this.withApply.applyFilter(
-            query,
-            this.withApply.applyWhere(
-                query,
-                this.client.selectFrom(this.table)
-            )
-        ).selectAll();
-
-        query.cursor && (select = select.limit(query.cursor.size).offset(query.cursor.page * query.cursor.size));
-
-        return await select.execute();
     }
 
     public async count(query: PicoSchema.Output<TSchema["query"]>): Promise<CountSchema.Type> {
         return {
             count: parseInt(
                 (
-                    await this.withApply.applyFilter(
+                    await this.repository.applyFilter(
                         query,
                         this.client
                             .selectFrom(this.table)
@@ -56,7 +41,7 @@ export class WithQuery<
 
             where: parseInt(
                 (
-                    await this.withApply.applyWhere(
+                    await this.repository.applyWhere(
                         query,
                         this.client
                             .selectFrom(this.table)
@@ -76,5 +61,28 @@ export class WithQuery<
                     .executeTakeFirst() as any).count as string
             ),
         };
+    }
+
+    public async query(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>[]> {
+        return await this.repository.applyTo(
+            query,
+            this.client
+                .selectFrom(this.table)
+                .selectAll()
+        ).execute();
+    }
+
+    public async fetch(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]> | undefined> {
+        return this.repository.applyTo(
+            query,
+            this.client.selectFrom(this.table).selectAll()
+        ).executeTakeFirst();
+    }
+
+    public async fetchOrThrow(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>> {
+        return this.repository.applyTo(
+            query,
+            this.client.selectFrom(this.table).selectAll()
+        ).executeTakeFirstOrThrow();
     }
 }

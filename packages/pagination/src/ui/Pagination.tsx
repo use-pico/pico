@@ -1,24 +1,25 @@
-import {Translation} from "@use-pico/i18n";
 import {
     type IQueryStore,
     type QuerySchema
-}                    from "@use-pico/query";
+}                  from "@use-pico/query";
 import {
     type IWithSourceQuery,
     useCount
-}                    from "@use-pico/source";
-import {useStore}    from "@use-pico/store";
+}                  from "@use-pico/source";
+import {useStore}  from "@use-pico/store";
 import {
     BlockStore,
     Divider,
     Grid,
     GridCol,
     Group,
+    Loader,
     NativeBreadcrumbs,
     Pagination as CoolPagination,
     Select,
     Text
-}                    from "@use-pico/ui";
+}                  from "@use-pico/ui";
+import {ReactNode} from "react";
 
 export namespace Pagination {
     export interface Props<
@@ -28,6 +29,9 @@ export namespace Pagination {
         withSourceQuery: IWithSourceQuery<TQuerySchema, any>;
         hideOnSingle?: boolean;
         refresh?: number;
+        text: {
+            total: ReactNode;
+        };
     }
 }
 
@@ -39,6 +43,7 @@ export const Pagination = <
         withSourceQuery,
         hideOnSingle = true,
         refresh,
+        text,
         ...props
     }: Pagination.Props<TQuerySchema>
 ) => {
@@ -68,7 +73,7 @@ export const Pagination = <
         align={"center"}
         py={"sm"}
     >
-        {hideOnSingle && pages === 1 ? null : <GridCol span={"content"}>
+        {hideOnSingle && pages === 1 ? null : result.isSuccess && result.data.count > 0 ? <GridCol span={"content"}>
             <CoolPagination
                 disabled={isBlock}
                 withEdges
@@ -81,25 +86,46 @@ export const Pagination = <
                 onChange={page => setCursor(page - 1)}
                 {...props}
             />
-        </GridCol>}
-        {result.data && result.data.where > 0 && <GridCol span={"auto"}>
-            {hideOnSingle ? (pages > 1) : (pages > 0) && <Divider orientation={"vertical"}/>}
+        </GridCol> : null}
+        {result.isLoading && <GridCol span={"auto"}>
             <Group gap={"xs"}>
                 <Text c={"dimmed"}>
-                    <Translation withLabel={"total.label"}/>
+                    {text.total}
                 </Text>
                 <NativeBreadcrumbs>
                     <Text size={"lg"} fw={"500"}>
+                        <Loader size={"sm"} type={"dots"}/>
+                    </Text>
+                </NativeBreadcrumbs>
+            </Group>
+        </GridCol>}
+        {result.data && <GridCol span={"auto"}>
+            {hideOnSingle ? (pages > 1) : (pages > 0) && <Divider orientation={"vertical"}/>}
+            <Group gap={"xs"}>
+                <Text c={"dimmed"}>
+                    {text.total}
+                </Text>
+                <NativeBreadcrumbs>
+                    <Text
+                        size={"lg"}
+                        fw={"500"}
+                        c={result.isFetching ? "dimmed" : undefined}
+                    >
                         {result.data.count}
                     </Text>
-                    {result.data.count !== result.data.where && <Text size={"lg"} fw={"500"}>
+                    {result.data.count !== result.data.where && <Text
+                        size={"lg"}
+                        fw={"500"}
+                        c={result.isFetching ? "dimmed" : undefined}
+                    >
                         {result.data.where}
                     </Text>}
                 </NativeBreadcrumbs>
             </Group>
         </GridCol>}
-        {pages > 0 && <GridCol span={"content"}>
+        <GridCol span={"content"}>
             <Select
+                disabled={result.isLoading || result.isSuccess && result.data.count <= 0}
                 defaultValue={`${(cursor?.size || 30)}`}
                 onChange={value => value && setSize(parseInt(value))}
                 data={[5, 10, 30, 50, 100, 250, 500, 1000].map(size => ({
@@ -107,6 +133,6 @@ export const Pagination = <
                     label: `${size}`,
                 }))}
             />
-        </GridCol>}
+        </GridCol>
     </Grid>;
 };

@@ -15,6 +15,9 @@ export namespace JobControlInline {
     export interface Props<
         TRequestSchema extends RequestSchema,
     > {
+        label: {
+            progress: JobProgress.Props["label"];
+        };
         jobManager: IJobManager<TRequestSchema>;
     }
 }
@@ -26,6 +29,7 @@ export const JobControlInline = <
     TRequestSchema extends RequestSchema,
 >(
     {
+        label,
         jobManager,
     }: JobControlInline.Props<TRequestSchema>
 ) => {
@@ -38,6 +42,7 @@ export const JobControlInline = <
             <JobToolbar jobManager={jobManager}/>
         </Group>
         {job && <JobProgress
+            label={label.progress}
             job={job}
             progressProps={{
                 size: "xs",

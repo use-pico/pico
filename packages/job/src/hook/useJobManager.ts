@@ -1,5 +1,6 @@
 "use client";
 
+import {tx}                    from "@use-pico/i18n";
 import {
     IWithQuery,
     useInvalidator,
@@ -154,9 +155,8 @@ export const useJobManager = <
                 },
                 onError:   () => {
                     errorNotification({
-                        withTranslation: {
-                            label: "start",
-                        },
+                        title:   tx()`Failed to start a job`,
+                        message: tx()`Requested job failed to start`,
                     });
                 },
             });
@@ -167,9 +167,8 @@ export const useJobManager = <
                 status: JobStatus.INTERRUPTED,
             });
             !job && errorNotification({
-                withTranslation: {
-                    label: "interrupt.no-job",
-                },
+                title:   tx()`Failed to interrupt a job`,
+                message: tx()`There is no job to interrupt.`,
             });
             job && interruptMutation.mutate({
                 id: job.id,
@@ -180,9 +179,8 @@ export const useJobManager = <
                 },
                 onError:   () => {
                     errorNotification({
-                        withTranslation: {
-                            label: "interrupt",
-                        },
+                        title:   tx()`Failed to interrupt a job`,
+                        message: tx()`Cannot interrupt a job.`,
                     });
                 }
             });
@@ -201,9 +199,8 @@ export const useJobManager = <
                 },
                 onError:   () => {
                     errorNotification({
-                        withTranslation: {
-                            label: "delete",
-                        },
+                        title:   tx()`Failed to delete a job`,
+                        message: tx()`Cannot delete a job`,
                     });
                 }
             });

@@ -1,18 +1,23 @@
-import {Translation} from "@use-pico/i18n";
 import {
     Progress,
     Tooltip
-}                    from "@use-pico/ui";
-import {toPercent}   from "@use-pico/utils";
+}                  from "@use-pico/ui";
+import {toPercent} from "@use-pico/utils";
 import {
     type ComponentProps,
-    type FC
-}                    from "react";
-import {JobStatus}   from "../api/JobStatus";
-import {JobSchema}   from "../schema/JobSchema";
+    type FC,
+    ReactNode
+}                  from "react";
+import {JobStatus} from "../api/JobStatus";
+import {JobSchema} from "../schema/JobSchema";
 
 export namespace JobProgress {
     export interface Props {
+        label: {
+            successCount(count: number): ReactNode;
+            errorCount(count: number): ReactNode;
+            skipCount(count: number): ReactNode;
+        };
         inline?: boolean;
         job?: JobSchema.Type | null;
         progressProps?: ComponentProps<typeof Progress.Root>;
@@ -21,6 +26,7 @@ export namespace JobProgress {
 
 export const JobProgress: FC<JobProgress.Props> = (
     {
+        label,
         inline,
         job,
         progressProps,
@@ -37,7 +43,7 @@ export const JobProgress: FC<JobProgress.Props> = (
         {...progressProps}
     >
         <Tooltip
-            label={<Translation withLabel={"successCount"} values={{count: job.successCount}}/>}
+            label={label.successCount(job.successCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -46,7 +52,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={<Translation withLabel={"errorCount"} values={{count: job.errorCount}}/>}
+            label={label.errorCount(job.errorCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -55,7 +61,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={<Translation withLabel={"skipCount"} values={{count: job.skipCount}}/>}
+            label={label.skipCount(job.skipCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}

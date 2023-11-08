@@ -1,4 +1,6 @@
-import {Translation}               from "@use-pico/i18n";
+"use client";
+
+import {tx}                        from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema,
@@ -21,9 +23,12 @@ import {
     ModalStoreProvider,
     Text
 }                                  from "@use-pico/ui";
-import {type FC}                   from "react";
+import {
+    type FC,
+    type ReactNode
+}                                  from "react";
 import {useController}             from "react-hook-form";
-import type {ValuesSchema}         from "../schema/ValuesSchema";
+import {type ValuesSchema}         from "../schema/ValuesSchema";
 import {InputEx}                   from "./InputEx";
 import {MultiCommitButton}         from "./MultiQueryInput/MultiCommitButton";
 import {WithMultiItem}             from "./MultiQueryInput/WithMultiItem";
@@ -35,7 +40,13 @@ export namespace MultiQueryInput {
         TValuesSchema extends ValuesSchema,
         TResponseSchema extends WithIdentitySchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-    > extends InputEx.Props<TValuesSchema> {
+    > extends Omit<InputEx.Props<TValuesSchema>, "label"> {
+        text?: {
+            placeholder?: ReactNode;
+            selector?: {
+                title?: ReactNode;
+            };
+        };
         /**
          * Query used to fetch current entity.
          */
@@ -77,6 +88,7 @@ export const MultiQueryInput = <
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
+        text,
         withControl,
         schema,
         withSourceQuery,
@@ -107,6 +119,7 @@ export const MultiQueryInput = <
         withControl={withControl}
         schema={schema}
         isLoading
+        text={text}
         {...props}
     /> : <StoreProvider
         store={MultiSelectionStore}
@@ -129,7 +142,7 @@ export const MultiQueryInput = <
                         fw={"500"}
                         span
                     >
-                        <Translation withLabel={`${withControl.name}.selection.label`}/>
+                        {text?.selector?.title ?? tx()`Select items`}
                     </Text>
                     {!isPartial(schema, withControl.name) && <Text
                         ml={4}
@@ -140,7 +153,7 @@ export const MultiQueryInput = <
             >
                 {result.data && ((result.data?.length || 0) > 0) && <>
                     <Alert
-                        title={<Translation namespace={"common.selection"} withLabel={"selected-items.label"}/>}
+                        title={tx()`Currently selected items`}
                     >
                         <Items
                             limit={8}

@@ -14,6 +14,10 @@ import {
     type IWithSourceQuery,
     useQuery
 }                               from "@use-pico/source";
+import {
+    FilterAction,
+    WithFilter
+}                               from "@use-pico/source-ui";
 import {useStore$}              from "@use-pico/store";
 import {Table}                  from "@use-pico/ui";
 import {
@@ -120,7 +124,6 @@ export const TableBody = <
                 </Table.Td>}
                 {columns.map(([name, {
                     render,
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     withFilter
                 }]) => {
                     const Render = render;
@@ -134,7 +137,35 @@ export const TableBody = <
                             onClick?.(item);
                         }}
                     >
-                        {children}
+                        {withFilter ? <WithFilter
+                            withQueryStore={withQueryStore}
+                            Filter={({
+                                         setFilter,
+                                         shallowFilter,
+                                         filter,
+                                         clearFilter,
+                                     }) => <FilterAction
+                                isFilter={() => withFilter?.isFilter(filter)}
+                                onFilter={() => withFilter?.onFilter({
+                                    setFilter,
+                                    shallowFilter,
+                                    filter,
+                                    item,
+                                    clearFilter,
+                                })}
+                                onClear={() => withFilter?.onClear({
+                                    setFilter,
+                                    shallowFilter,
+                                    filter,
+                                    item,
+                                    clearFilter,
+                                })}
+                            >
+                                <div>
+                                    {children}
+                                </div>
+                            </FilterAction>}
+                        /> : children}
                     </Table.Td>;
                 })}
             </WithRow>)}

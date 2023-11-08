@@ -1,5 +1,16 @@
 # @use-pico/pagination
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/source@2.0.7
+    - @use-pico/i18n@2.0.5
+    - @use-pico/ui@2.0.5
+    - @use-pico/store@2.0.4
+
 ## 2.0.5
 
 ### Patch Changes

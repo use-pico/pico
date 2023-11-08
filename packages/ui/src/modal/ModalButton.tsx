@@ -1,20 +1,19 @@
-import {Translation} from "@use-pico/i18n";
-import {useStore}    from "@use-pico/store";
+import {useStore}   from "@use-pico/store";
 import {
     type FC,
     type PropsWithChildren,
     type ReactNode
-}                    from "react";
-import {Button}      from "../ui/Button";
-import {Modal}       from "./Modal";
-import {ModalStore}  from "./ModalStore";
+}                   from "react";
+import {Button}     from "../ui/Button";
+import {Modal}      from "./Modal";
+import {ModalStore} from "./ModalStore";
 
 export namespace ModalButton {
     export type Props = PropsWithChildren<{
         modalId: string;
         icon?: ReactNode;
         title: string;
-        label: string;
+        label: ReactNode;
         modalProps?: Modal.Props["modalProps"];
         buttonProps?: Button.Props;
     }>
@@ -52,7 +51,7 @@ export const ModalButton: FC<ModalButton.Props> = (
             leftSection={icon}
             {...buttonProps}
         >
-            <Translation withLabel={label}/>
+            {label}
         </Button>
     </>;
 };

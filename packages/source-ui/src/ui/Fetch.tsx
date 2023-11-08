@@ -8,6 +8,7 @@ import {
     useQueryEx
 }                        from "@use-pico/query";
 import {
+    ArraySchema,
     type PicoSchema,
     type ResponseSchema
 }                        from "@use-pico/schema";
@@ -36,7 +37,7 @@ export namespace Fetch {
         /**
          * Query to fetch entity
          */
-        withQuery: IWithQuery<TQuerySchema, TResponseSchema>;
+        withQuery: IWithQuery<TQuerySchema, ArraySchema<TResponseSchema>>;
 
         /**
          * Error renderer
@@ -78,8 +79,8 @@ export const Fetch = <
         loader,
         withQuery,
         WithError = () => null,
-        WithSuccess,
-        WithResponse,
+        WithSuccess = () => null,
+        WithResponse = () => null,
         enabled = true,
         options,
     }: Fetch.Props<TQuerySchema, TResponseSchema>
@@ -103,7 +104,11 @@ export const Fetch = <
         result={result}
         WithLoading={() => loader === undefined ? <Loader type={"dots"} size={"xs"}/> : loader}
         WithError={WithError}
-        WithSuccess={WithSuccess}
-        WithResponse={WithResponse}
+        WithSuccess={({entity}) => entity.length > 0 ? <WithSuccess
+            entity={entity[0]}
+        /> : null}
+        WithResponse={({entity}) => <WithResponse
+            entity={entity?.[0]}
+        />}
     />;
 };

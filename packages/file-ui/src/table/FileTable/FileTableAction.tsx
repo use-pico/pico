@@ -1,9 +1,12 @@
+"use client";
+
 import {IconWashDrycleanOff} from "@tabler/icons-react";
 import {
     type FileMutationSchema,
     type FileQuerySchema,
     type FileSchema
 }                            from "@use-pico/file";
+import {tx}                  from "@use-pico/i18n";
 import {
     type IQueryStore,
     type IWithMutation,
@@ -58,16 +61,14 @@ export const FileTableAction: FC<FileTableAction.Props> = (
                         {
                             onSuccess: () => {
                                 successNotification({
-                                    withTranslation: {
-                                        label: "stale",
-                                    }
+                                    title:   tx()`Success`,
+                                    message: tx()`Stale files has been successfully deleted`,
                                 });
                             },
                             onError:   () => {
                                 errorNotification({
-                                    withTranslation: {
-                                        label: "stale",
-                                    }
+                                    title:   tx()`Failure`,
+                                    message: tx()`Cannot delete stale files.`,
                                 });
                             },
                         }

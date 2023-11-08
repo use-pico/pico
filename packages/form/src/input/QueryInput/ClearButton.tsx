@@ -1,5 +1,5 @@
 import {IconX}                    from "@tabler/icons-react";
-import {Translation}              from "@use-pico/i18n";
+import {tx}                       from "@use-pico/i18n";
 import {type IBaseSelectionStore} from "@use-pico/selection";
 import {useStore}                 from "@use-pico/store";
 import {
@@ -33,6 +33,6 @@ export const ClearButton: FC<ClearButton.Props> = (
         }}
         {...props}
     >
-        <Translation namespace={"common"} label={"selection"} withLabel={"clear.button"}/>
+        {tx()`Clear selection`}
     </Button>;
 };

@@ -1,4 +1,4 @@
-import {Translation}           from "@use-pico/i18n";
+import {tx}                    from "@use-pico/i18n";
 import {
     type FilterSchema,
     type OrderBySchema,
@@ -21,7 +21,10 @@ import {
     ModalStoreProvider,
     Text
 }                              from "@use-pico/ui";
-import {type FC}               from "react";
+import {
+    type FC,
+    ReactNode
+}                              from "react";
 import {useController}         from "react-hook-form";
 import type {ValuesSchema}     from "../schema/ValuesSchema";
 import {InputEx}               from "./InputEx";
@@ -36,6 +39,12 @@ export namespace QueryInput {
         TResponseSchema extends WithIdentitySchema,
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends InputEx.Props<TValuesSchema> {
+        text?: {
+            placeholder?: ReactNode;
+            selector?: {
+                title?: ReactNode;
+            };
+        };
         /**
          * Query used to fetch current entity.
          */
@@ -55,7 +64,7 @@ export namespace QueryInput {
         /**
          * Optional method used to generate filter to fetch an entity (if more complex filter is needed); defaults to an ID.
          */
-        toFilter?: (value: string) => PicoSchema.Output<TQuerySchema["shape"]["filter"]>;
+        toWhere?: (value: string) => PicoSchema.Output<TQuerySchema["shape"]["filter"]>;
         toOrderBy?: () => PicoSchema.Output<TQuerySchema["shape"]["orderBy"]> | undefined;
         onCommit?: CommitButton.Props<TValuesSchema, TResponseSchema>["onCommit"];
     }
@@ -76,11 +85,12 @@ export const QueryInput = <
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
+        text,
         withControl,
         schema,
         withSourceQuery,
         SelectionStore,
-        toFilter = id => ({id}),
+        toWhere = id => ({id}),
         toOrderBy = () => undefined,
         Selector,
         Item,
@@ -97,7 +107,7 @@ export const QueryInput = <
     const result = useQueryEx({
         withQuery: withSourceQuery,
         request:   {
-            filter:  value ? toFilter(value) : {id: null},
+            where: value ? toWhere(value) : {id: null},
             orderBy: toOrderBy(),
         },
     });
@@ -106,6 +116,7 @@ export const QueryInput = <
         withControl={withControl}
         schema={schema}
         isLoading
+        text={text}
         {...props}
     /> : <StoreProvider
         store={SelectionStore}
@@ -125,7 +136,7 @@ export const QueryInput = <
                         fw={"500"}
                         span
                     >
-                        <Translation withLabel={`${withControl.name}.selection.label`}/>
+                        {text?.selector?.title ?? tx()`Select an item`}
                     </Text>
                     {!isPartial(schema, withControl.name) && <Text
                         ml={4}
@@ -136,7 +147,7 @@ export const QueryInput = <
             >
                 {result.data?.[0] && <>
                     <Alert
-                        title={<Translation namespace={"common.selection"} withLabel={"selected-item.label"}/>}
+                        title={tx()`Currently selected item`}
                     >
                         <Item entity={result.data?.[0]}/>
                     </Alert>
@@ -168,6 +179,7 @@ export const QueryInput = <
                 schema={schema}
                 Item={Item}
                 SelectionStore={SelectionStore}
+                text={text}
                 {...props}
             />
         </ModalStoreProvider>

@@ -4,7 +4,6 @@ import {
     Group,
     Modal as CoolModal
 }                      from "@mantine/core";
-import {Translation}   from "@use-pico/i18n";
 import {useStore}      from "@use-pico/store";
 import {
     type ComponentProps,
@@ -45,13 +44,14 @@ export const Modal: FC<Modal.Props> = (
         isOpen,
         close
     }));
+
     return <CoolModal
         opened={isOpen(modalId)}
         onClose={() => close(modalId)}
         title={title ? <Group gap={4}>
             <WithIcon icon={icon}/>
             <Text fw={600} size={"lg"}>
-                <Translation withLabel={title}/>
+                {title}
             </Text>
         </Group> : undefined}
         size={"xl"}

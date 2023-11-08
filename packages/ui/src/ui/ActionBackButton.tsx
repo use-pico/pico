@@ -1,7 +1,7 @@
-import {Translation} from "@use-pico/i18n";
-import {type FC}     from "react";
-import {CloseIcon}   from "../icon/CloseIcon";
-import {Button}      from "./Button";
+import {tx}        from "@use-pico/i18n";
+import {type FC}   from "react";
+import {CloseIcon} from "../icon/CloseIcon";
+import {Button}    from "./Button";
 
 export namespace ActionBackButton {
     export interface Props extends Button.Props {
@@ -16,6 +16,6 @@ export const ActionBackButton: FC<ActionBackButton.Props> = props => {
         variant={"subtle"}
         {...props}
     >
-        <Translation namespace={"common"} withLabel={"cancel.button"}/>
+        {tx()`Cancel`}
     </Button>;
 };

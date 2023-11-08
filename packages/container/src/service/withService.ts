@@ -1,7 +1,6 @@
-import {proxyOf}           from "@use-pico/utils";
 import {type FactoryValue} from "pumpit";
-import "server-only";
 import {type IContainer}   from "../api/IContainer";
+import {proxyOf}           from "../utils/proxyOf";
 
 export namespace withService {
     export interface Service<TService> {

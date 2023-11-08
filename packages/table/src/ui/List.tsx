@@ -1,3 +1,4 @@
+import {tx}         from "@use-pico/i18n";
 import {Pagination} from "@use-pico/pagination";
 import {
     type IQueryStore,
@@ -23,7 +24,10 @@ import {
     Status
 }                   from "@use-pico/ui";
 import {classNames} from "@use-pico/utils";
-import {type FC}    from "react";
+import {
+    type FC,
+    type ReactNode
+}                   from "react";
 import classes      from "./List.module.css";
 
 export namespace List {
@@ -31,6 +35,9 @@ export namespace List {
         TQuerySchema extends QuerySchema<any, any>,
         TResponseSchema extends WithIdentitySchema,
     > {
+        text: {
+            total: ReactNode;
+        };
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
         options?: IWithQuery.QueryOptions<
@@ -60,6 +67,7 @@ export const List = <
     TResponseSchema extends WithIdentitySchema,
 >(
     {
+        text,
         withQueryStore,
         withSourceQuery,
         options,
@@ -70,8 +78,10 @@ export const List = <
         Footer = () => null,
         Suffix = () => null,
         Empty = () => <Status
-            title={"empty.title"}
-            message={"empty.message"}
+            text={{
+                title:   tx()`Nothing here`,
+                message: tx()`This listing is empty`,
+            }}
         />,
         isLoading = false,
     }: List.Props<TQuerySchema, TResponseSchema>
@@ -91,6 +101,7 @@ export const List = <
     return <>
         <Prefix/>
         <Pagination
+            text={text}
             withQueryStore={withQueryStore}
             withSourceQuery={withSourceQuery}
         />
@@ -128,6 +139,7 @@ export const List = <
         </ScrollArea>
         <Suffix/>
         <Pagination
+            text={text}
             withQueryStore={withQueryStore}
             withSourceQuery={withSourceQuery}
         />

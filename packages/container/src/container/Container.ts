@@ -3,7 +3,6 @@ import {
     type FactoryValue,
     PumpIt
 }                        from "pumpit";
-import "server-only";
 import {type IContainer} from "../api/IContainer";
 
 export class Container {

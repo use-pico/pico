@@ -1,1 +1,1 @@
-export {withFilter} from "../utils/withFilter";
+export {WithFilter} from "../ui/WithFilter";

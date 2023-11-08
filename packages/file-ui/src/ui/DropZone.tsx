@@ -9,10 +9,7 @@ import {
     type FileEx,
     FileSchema
 }                 from "@use-pico/file";
-import {
-    Translation,
-    useTranslation
-}                 from "@use-pico/i18n";
+import {tx}       from "@use-pico/i18n";
 import {useStore} from "@use-pico/store";
 import {
     Divider,
@@ -62,7 +59,6 @@ export const DropZone: FC<DropZone.Props> = (
         children,
         ...props
     }) => {
-    const t = useTranslation();
     const [files, setFiles] = useState<FileEx[]>([]);
     const {loops} = useStore(LoopsStore, ({current: loops}) => ({loops}));
 
@@ -72,8 +68,8 @@ export const DropZone: FC<DropZone.Props> = (
                 notifications.show({
                     icon:    <IconCheck size={"1.1rem"}/>,
                     color:   "teal",
-                    title:   t("dropzone.upload.success.title"),
-                    message: t("dropzone.upload.success.message"),
+                    title:   tx()`Success`,
+                    message: tx()`File has been successfully uploaded`,
                 });
                 setFiles([]);
             }, 750);
@@ -123,7 +119,7 @@ export const DropZone: FC<DropZone.Props> = (
                     </CoolDropzone.Idle>
                     <div>
                         <Text size={"xl"} inline>
-                            <Translation label={"upload"} withLabel={"label"}/>
+                            {tx()`Upload file`}
                         </Text>
                         <Text
                             size={"sm"}
@@ -131,10 +127,7 @@ export const DropZone: FC<DropZone.Props> = (
                             inline
                             mt={7}
                         >
-                            <Translation
-                                label={"upload"}
-                                withLabel={"hint"}
-                            />
+                            {tx()`Select or drop a file here.`}
                         </Text>
                     </div>
                 </Group>
@@ -152,16 +145,10 @@ export const DropZone: FC<DropZone.Props> = (
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th style={{width: "420px"}}>
-                                <Translation
-                                    label={"upload"}
-                                    withLabel={"file"}
-                                />
+                                {tx()`Filename`}
                             </Table.Th>
                             <Table.Th>
-                                <Translation
-                                    label={"upload"}
-                                    withLabel={"progress"}
-                                />
+                                {tx()`Upload progress`}
                             </Table.Th>
                         </Table.Tr>
                     </Table.Thead>

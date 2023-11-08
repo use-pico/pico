@@ -1,6 +1,6 @@
 "use client";
 
-import {Translation}         from "@use-pico/i18n";
+import {tx}                  from "@use-pico/i18n";
 import {
     type FilterSchema,
     type IQueryStore,
@@ -20,11 +20,20 @@ import {
     TrashIcon,
     useSuccessNotification
 }                            from "@use-pico/ui";
+import {type ReactNode}      from "react";
 
 export namespace DeleteByModal {
     export interface Props<
         TFilterSchema extends FilterSchema,
     > extends Modal.Props {
+        label: {
+            content: ReactNode;
+            confirm?: ReactNode;
+            success: {
+                title: ReactNode;
+                message: ReactNode;
+            };
+        };
         withMutation: IWithMutation<
             MutationSchema<any, QuerySchema<TFilterSchema, any>>,
             any
@@ -37,6 +46,7 @@ export const DeleteByModal = <
     TFilterSchema extends FilterSchema,
 >(
     {
+        label,
         withMutation,
         withQueryStore,
         ...props
@@ -64,7 +74,7 @@ export const DeleteByModal = <
         title={"delete-by.title"}
         {...props}
     >
-        <Translation withLabel={"delete-by.content"}/>
+        {label.content}
         <Divider mt={"sm"} mb={"sm"}/>
         <Flex
             justify={"space-between"}
@@ -78,7 +88,7 @@ export const DeleteByModal = <
                 disabled={deleteMutation.isPending}
                 onClick={() => close(props.modalId)}
             >
-                <Translation namespace={"common"} withLabel={"cancel.button"}/>
+                {tx()`Cancel`}
             </Button>
             <Button
                 size={"lg"}
@@ -92,19 +102,16 @@ export const DeleteByModal = <
                             where,
                         },
                     }, {
-                        onSuccess: response => {
+                        onSuccess: () => {
                             successNotification({
-                                withTranslation: {
-                                    label:  "delete",
-                                    values: response,
-                                },
+                                ...label.success
                             });
                         },
                         onSettled: () => close(props.modalId),
                     });
                 }}
             >
-                <Translation withLabel={"delete-by.confirm.button"}/>
+                {label.confirm ?? tx()`Delete`}
             </Button>
         </Flex>
     </Modal>;

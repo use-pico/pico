@@ -1,4 +1,3 @@
-import {useTranslation}                     from "@use-pico/i18n";
 import {isPartial}                          from "@use-pico/schema";
 import {PasswordInput as CoolPasswordInput} from "@use-pico/ui";
 import {useController}                      from "react-hook-form";
@@ -22,7 +21,6 @@ export const PasswordInput = <
         ...       props
     }: PasswordInput.Props<TValuesSchema>
 ) => {
-    const t = useTranslation();
     const {
         field: {
                    onChange,
@@ -32,8 +30,6 @@ export const PasswordInput = <
     } = useController(withControl);
 
     return <CoolPasswordInput
-        label={t(`${withControl.name}.label`)}
-        placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
         withAsterisk={!isPartial(schema, withControl.name)}
         onChange={e => {

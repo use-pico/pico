@@ -4,7 +4,7 @@ import {
     IconInputCheck,
     IconInputX
 }                          from "@tabler/icons-react";
-import {Translation}       from "@use-pico/i18n";
+import {tx}                from "@use-pico/i18n";
 import {isPartial}         from "@use-pico/schema";
 import {
     ActionIcon,
@@ -15,7 +15,7 @@ import {
 import {useState}          from "react";
 import {useController}     from "react-hook-form";
 import {type ValuesSchema} from "../schema/ValuesSchema";
-import type {Form}         from "../ui/Form";
+import {type Form}         from "../ui/Form";
 
 export namespace BoolInput {
     export interface Props<
@@ -58,8 +58,6 @@ export const BoolInput = <
             radius={"xs"}
             disabled={disabled}
             labelPosition={"left"}
-            label={<Translation withLabel={`${withControl.name}.label`}/>}
-            description={<Translation withLabel={`${withControl.name}.description`}/>}
             checked={value}
             onChange={value => {
                 onChange(value);
@@ -71,7 +69,7 @@ export const BoolInput = <
             {...props}
         />
         {!isPartial(schema, withControl.name) && <Tooltip
-            label={<Translation namespace={"common.bool-input"} withLabel={"toggle.tooltip"}/>}
+            label={tx()`If you want to omit given value from the result, switch this button off.`}
         >
             <ActionIcon
                 variant={"subtle"}

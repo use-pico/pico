@@ -1,5 +1,24 @@
 # @use-pico/ui-extra
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/navigation@2.0.4
+    - @use-pico/source-ui@2.0.3
+    - @use-pico/table@2.0.8
+    - @use-pico/utils@2.0.6
+    - @use-pico/i18n@2.0.5
+    - @use-pico/ui@2.0.5
+    - @use-pico/file@2.0.7
+    - @use-pico/hook@2.0.4
+    - @use-pico/query@2.0.8
+    - @use-pico/rpc@2.0.4
+    - @use-pico/schema@2.0.5
+    - @use-pico/store@2.0.4
+
 ## 2.0.5
 
 ### Patch Changes

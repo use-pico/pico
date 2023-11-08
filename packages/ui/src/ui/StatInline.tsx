@@ -1,4 +1,3 @@
-import {Translation}   from "@use-pico/i18n";
 import {toHumanNumber} from "@use-pico/utils";
 import {
     type ComponentProps,
@@ -10,7 +9,7 @@ import {Text}          from "./Text";
 
 export namespace StatInline {
     export interface Props {
-        withLabel: string;
+        withLabel: ReactNode;
         textProps?: ComponentProps<typeof Text<"p">>;
         labelProps?: ComponentProps<typeof Text<"p">>;
         countProps?: ComponentProps<typeof Text<"p">>;
@@ -42,7 +41,7 @@ export const StatInline: StatInline = (
             {...textProps}
             {...labelProps}
         >
-            <Translation withLabel={withLabel}/>
+            {withLabel}
         </Text>
         <Text
             size={"lg"}

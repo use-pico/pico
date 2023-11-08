@@ -9,9 +9,9 @@ import {ModalsProvider}      from "@mantine/modals";
 import {Notifications}       from "@mantine/notifications";
 import {
     DateTimeProvider,
-    type IWithTranslationQuery,
-    TranslationProvider,
-    withQuery
+    type ITranslations,
+    withDefaultPipeline,
+    withInstance
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
 import {RpcProvider}         from "@use-pico/rpc";
@@ -19,14 +19,14 @@ import {
     ActiveProvider,
     BlockProvider,
     DrawerStoreProvider,
-    LoadingOverlay,
     ModalStoreProvider,
     RouterTransition
 }                            from "@use-pico/ui";
 import axios                 from "axios";
 import {
     type FC,
-    type PropsWithChildren
+    type PropsWithChildren,
+    type ReactNode
 }                            from "react";
 
 export namespace Providers {
@@ -36,61 +36,64 @@ export namespace Providers {
          * Set current locale
          */
         locale: string;
-        /**
-         * Translations used in the application
-         */
-        withTranslationQuery?: IWithTranslationQuery;
+        translations?: {
+            translations: ITranslations;
+            components: Record<string, ReactNode>;
+        };
         baseUrl?: string;
     }>;
 }
 
 export const Providers: FC<Providers.Props> = (
     {
+
         theme,
         locale,
-        withTranslationQuery = withQuery({
-            useCallback() {
-                return async () => ({translations: {}});
-            },
-        }),
+        translations = {},
         baseUrl,
         children,
     }
 ) => {
     axios.defaults.baseURL = baseUrl;
+    withInstance({
+        locale,
+        translations: translations?.translations || {},
+        pipeline:     withDefaultPipeline({
+            rich: {
+                component: {
+                    components: translations?.components || {},
+                }
+            }
+        }),
+    });
+
     return <QueryClientProvider>
         <RpcProvider>
-            <TranslationProvider
-                withTranslationQuery={withTranslationQuery}
-                locale={locale}
-                loading={() => <LoadingOverlay visible/>}
+            <MantineProvider
+                theme={createTheme({
+                    primaryColor: "blue",
+                    primaryShade: 5,
+                    ...theme
+                })}
             >
-                <MantineProvider
-                    theme={createTheme({
-                        primaryColor: "blue",
-                        primaryShade: 5,
-                        ...theme
-                    })}
-                >
-                    <RouterTransition/>
-                    <Notifications position={"top-right"}/>
-                    <ModalsProvider>
-                        <DateTimeProvider
-                            locale={locale}
-                        >
-                            <ActiveProvider>
-                                <BlockProvider>
-                                    <DrawerStoreProvider>
-                                        <ModalStoreProvider>
-                                            {children}
-                                        </ModalStoreProvider>
-                                    </DrawerStoreProvider>
-                                </BlockProvider>
-                            </ActiveProvider>
-                        </DateTimeProvider>
-                    </ModalsProvider>
-                </MantineProvider>
-            </TranslationProvider>
+                <RouterTransition/>
+                <Notifications position={"top-right"}/>
+                <ModalsProvider>
+                    <DateTimeProvider
+                        locale={locale}
+                    >
+                        <ActiveProvider>
+                            <BlockProvider>
+                                <DrawerStoreProvider>
+                                    <ModalStoreProvider>
+                                        {children}
+                                    </ModalStoreProvider>
+                                </DrawerStoreProvider>
+                            </BlockProvider>
+                        </ActiveProvider>
+                    </DateTimeProvider>
+                </ModalsProvider>
+            </MantineProvider>
         </RpcProvider>
     </QueryClientProvider>;
 };

@@ -5,7 +5,6 @@ import {
     Drawer as CoolDrawer,
     Group
 }                      from "@mantine/core";
-import {Translation}   from "@use-pico/i18n";
 import {useStore}      from "@use-pico/store";
 import {
     type ComponentProps,
@@ -17,12 +16,14 @@ import {Text}          from "../ui/Text";
 import {WithIcon}      from "../ui/WithIcon";
 import {DrawerStore}   from "./DrawerStore";
 
-export interface IDrawerProps extends Omit<ComponentProps<typeof CoolDrawer>, "opened" | "onClose"> {
-    drawerId: string;
-    icon?: ReactNode;
+export namespace Drawer {
+    export interface Props extends Omit<ComponentProps<typeof CoolDrawer>, "opened" | "onClose"> {
+        drawerId: string;
+        icon?: ReactNode;
+    }
 }
 
-export const Drawer: FC<IDrawerProps> = (
+export const Drawer: FC<Drawer.Props> = (
     {
         drawerId,
         icon,
@@ -41,6 +42,7 @@ export const Drawer: FC<IDrawerProps> = (
         isOpen,
         close
     }));
+
     return <CoolDrawer
         opened={isOpen(drawerId)}
         onClose={() => close(drawerId)}
@@ -48,7 +50,7 @@ export const Drawer: FC<IDrawerProps> = (
         title={title ? <Group gap={4}>
             <WithIcon icon={icon}/>
             <Text fw={600} size={"lg"}>
-                <Translation withLabel={title}/>
+                {title}
             </Text>
         </Group> : undefined}
         size={"lg"}

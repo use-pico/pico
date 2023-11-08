@@ -1,14 +1,14 @@
-import {Menu}        from "@mantine/core";
-import {Translation} from "@use-pico/i18n";
+import {Menu}       from "@mantine/core";
 import {
-    ComponentProps,
-    type FC
-}                    from "react";
-import {ButtonLink}  from "../ui/ButtonLink";
+    type ComponentProps,
+    type FC,
+    type ReactNode
+}                   from "react";
+import {ButtonLink} from "../ui/ButtonLink";
 
 export namespace MenuHref {
     export interface Props extends Omit<ComponentProps<typeof Menu.Item<typeof ButtonLink>>, "children"> {
-        withLabel: string;
+        withLabel: ReactNode;
     }
 }
 
@@ -20,7 +20,7 @@ export const MenuHref: FC<MenuHref.Props> = (
 ) => {
     return <Menu.Item
         component={ButtonLink}
-        label={<Translation withLabel={withLabel}/>}
+        label={withLabel}
         {...props}
     />;
 };

@@ -1,20 +1,20 @@
-import {Translation} from "@use-pico/i18n";
-import {isString}    from "@use-pico/utils";
+import {tx}       from "@use-pico/i18n";
+import {isString} from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren,
     type ReactNode
-}                    from "react";
-import {Card}        from "./Card";
-import {Group}       from "./Group";
-import {Text}        from "./Text";
+}                 from "react";
+import {Card}     from "./Card";
+import {Group}    from "./Group";
+import {Text}     from "./Text";
 
 export namespace ValueInline {
     export type Props = PropsWithChildren<{
         /**
          * Label of a value (goes through translations).
          */
-        withLabel: string;
+        withLabel: ReactNode;
         /**
          * Whatever value
          */
@@ -45,7 +45,7 @@ export const ValueInline: FC<ValueInline.Props> = (
                 justify={"apart"}
             >
                 <Text fw={500} c={"dimmed"}>
-                    <Translation withLabel={withLabel}/>
+                    {withLabel}
                 </Text>
                 {withAction}
             </Group>
@@ -54,10 +54,7 @@ export const ValueInline: FC<ValueInline.Props> = (
             inheritPadding
             py={"xs"}
         >
-            {isString(value) ? <Text fw={500}>{value}</Text> : (value || <Translation
-                namespace={"common.value.unset"}
-                withLabel={"title"}
-            />)}
+            {isString(value) ? <Text fw={500}>{value}</Text> : (value || tx()`Value not set`)}
         </Card.Section>
         {children && <Card.Section
             inheritPadding

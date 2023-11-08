@@ -9,7 +9,6 @@ import {
 import {type PicoSchema}     from "@use-pico/schema";
 import {type MutationSchema} from "@use-pico/source";
 import {type IRepository}    from "./IRepository";
-import {type IWithApply}     from "./IWithApply";
 
 export interface IWithQuery<
     TDatabase extends Database,
@@ -19,9 +18,22 @@ export interface IWithQuery<
     readonly client: Client<TDatabase>;
     readonly schema: TSchema;
     readonly table: TTable;
-    readonly withApply: IWithApply<TDatabase, TSchema, TTable>;
-
-    query(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>[]>;
+    readonly repository: IRepository<TDatabase, TSchema, TTable>;
 
     count(query: PicoSchema.Output<TSchema["query"]>): Promise<CountSchema.Type>;
+
+    /**
+     * Query collection of items
+     */
+    query(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>[]>;
+
+    /**
+     * Fetch an (optional) item
+     */
+    fetch(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]> | undefined>;
+
+    /**
+     * Fetch an item, throw if not found
+     */
+    fetchOrThrow(query: PicoSchema.Output<TSchema["query"]>): Promise<PicoSchema.Output<TSchema["entity"]>>;
 }

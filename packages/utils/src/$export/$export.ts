@@ -1,4 +1,5 @@
 export * from "./Pack";
+export * from "./Timer";
 export * from "./buildUrl";
 export * from "./classNames";
 export * from "./cleanOf";

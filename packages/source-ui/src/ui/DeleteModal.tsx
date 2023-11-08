@@ -1,6 +1,6 @@
 "use client";
 
-import {Translation}         from "@use-pico/i18n";
+import {tx}                  from "@use-pico/i18n";
 import {
     type IWithMutation,
     useMutation
@@ -19,12 +19,21 @@ import {
     TrashIcon,
     useSuccessNotification
 }                            from "@use-pico/ui";
+import {type ReactNode}      from "react";
 
 export namespace DeleteModal {
     export interface Props<
         TMutationSchema extends MutationSchema<any, any>,
         TResponseSchema extends ResponseSchema,
     > extends Modal.Props, WithEntity.Schema<TResponseSchema> {
+        text: {
+            content: ReactNode;
+            success: {
+                title: ReactNode;
+                message: ReactNode;
+            };
+            confirm?: ReactNode;
+        };
         withMutation: IWithMutation<
             TMutationSchema,
             TResponseSchema
@@ -37,6 +46,7 @@ export const DeleteModal = <
     TResponseSchema extends ResponseSchema,
 >(
     {
+        text,
         withMutation,
         entity,
         ...props
@@ -53,7 +63,7 @@ export const DeleteModal = <
         title={"delete.title"}
         {...props}
     >
-        <Translation withLabel={"delete.content"} values={entity}/>
+        {text.content}
         <Divider mt={"sm"} mb={"sm"}/>
         <Flex
             justify={"space-between"}
@@ -67,7 +77,7 @@ export const DeleteModal = <
                 disabled={deleteMutation.isPending || deleteMutation.isSuccess}
                 onClick={() => close(props.modalId)}
             >
-                <Translation namespace={"common"} withLabel={"cancel.button"}/>
+                {tx()`Cancel`}
             </Button>
             <Button
                 size={"lg"}
@@ -82,19 +92,16 @@ export const DeleteModal = <
                             },
                         },
                     }, {
-                        onSuccess: response => {
+                        onSuccess: () => {
                             successNotification({
-                                withTranslation: {
-                                    label:  "delete",
-                                    values: response,
-                                },
+                                ...text.success,
                             });
                         },
                         onSettled: () => close(props.modalId),
                     });
                 }}
             >
-                <Translation withLabel={"delete.confirm.button"}/>
+                {text.confirm ?? tx()`Delete`}
             </Button>
         </Flex>
     </Modal>;

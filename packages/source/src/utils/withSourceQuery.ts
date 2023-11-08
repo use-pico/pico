@@ -62,9 +62,13 @@ export const withSourceQuery = <
             request:  query,
             response: $response,
         },
-        async invalidator(props) {
-            await invalidator?.(props);
-            await withCountQuery?.invalidator?.(props);
+        async invalidator($props) {
+            await invalidator?.($props);
+            await withCountQuery?.invalidator?.($props);
+            return [
+                props.key,
+                withCountQuery.key,
+            ];
         },
         withCountQuery,
     };

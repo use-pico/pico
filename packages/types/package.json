@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/types",
 	"description": "Various utility types (as from TypeScript and library-wise interfaces).",
 	"license": "MIT",
@@ -31,12 +31,12 @@
 		"@total-typescript/ts-reset": "^0.5.1"
 	},
 	"peerDependencies": {
-		"@use-pico/schema": "^2.0.3"
+		"@use-pico/schema": "^2.0.5"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
 		"@types/node": "^20.5.3",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",

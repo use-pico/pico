@@ -1,20 +1,16 @@
 import {IconAlertTriangle} from "@tabler/icons-react";
 import {
-    type IWithTranslation,
-    Translation
-}                          from "@use-pico/i18n";
-import {type FC}           from "react";
+    type FC,
+    type PropsWithChildren
+}                          from "react";
 import {Overlay}           from "./Overlay";
 import {Stack}             from "./Stack";
 
-export interface IErrorOverlayProps {
-    withTranslation: IWithTranslation;
+export namespace ErrorOverlay {
+    export type Props = PropsWithChildren;
 }
 
-export const ErrorOverlay: FC<IErrorOverlayProps> = (
-    {
-        withTranslation
-    }) => {
+export const ErrorOverlay: FC<ErrorOverlay.Props> = ({children}) => {
     return <Overlay
         opacity={0}
         center
@@ -26,7 +22,7 @@ export const ErrorOverlay: FC<IErrorOverlayProps> = (
                 color={"red"}
                 size={64}
             />
-            <Translation {...withTranslation}/>
+            {children}
         </Stack>
     </Overlay>;
 };

@@ -1,5 +1,5 @@
 import {IconClick}                 from "@tabler/icons-react";
-import {Translation}               from "@use-pico/i18n";
+import {tx}                        from "@use-pico/i18n";
 import {
     type PicoSchema,
     type WithIdentitySchema
@@ -11,7 +11,7 @@ import {
     ModalStore
 }                                  from "@use-pico/ui";
 import {useController}             from "react-hook-form";
-import type {ValuesSchema}         from "../../schema/ValuesSchema";
+import {type ValuesSchema}         from "../../schema/ValuesSchema";
 import {Form}                      from "../../ui/Form";
 
 export namespace MultiCommitButton {
@@ -71,6 +71,6 @@ export const MultiCommitButton = <
         }}
         {...props}
     >
-        <Translation namespace={"common"} label={"selection"} withLabel={"submit.button"}/>
+        {tx()`Confirm selection`}
     </Button>;
 };

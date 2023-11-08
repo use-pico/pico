@@ -1,8 +1,7 @@
 import {
     type IDateRange,
     rangeOf,
-    RangeOfList,
-    Translation
+    RangeOfList
 }                          from "@use-pico/i18n";
 import {isPartial}         from "@use-pico/schema";
 import {
@@ -68,7 +67,7 @@ export const RangeOfInput = <
                     });
                 }}
                 data={RangeOfList.map(label => ({
-                    label: <Translation namespace={"common"} label={"range-of"} withLabel={label}/>,
+                    label: `[${label}]`,
                     value: label
                 }))}
                 {...field}

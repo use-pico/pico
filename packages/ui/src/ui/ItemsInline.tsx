@@ -1,10 +1,11 @@
-"use client";
-
 import {Table}                   from "@mantine/core";
 import {IconFileDots}            from "@tabler/icons-react";
-import {Translation}             from "@use-pico/i18n";
+import {tx}                      from "@use-pico/i18n";
 import {type WithIdentitySchema} from "@use-pico/schema";
-import {type FC}                 from "react";
+import {
+    type FC,
+    ReactNode
+}                                from "react";
 import {Modal}                   from "../modal/Modal";
 import {ModalStoreProvider}      from "../modal/ModalStoreProvider";
 import {Group}                   from "./Group";
@@ -14,7 +15,9 @@ export namespace ItemsInline {
     export interface Props<
         TItem extends WithIdentitySchema.Type,
     > extends Group.Props {
-        label?: string;
+        label?: {
+            empty: ReactNode;
+        };
         items: TItem[];
         Item: Item<TItem>;
         limit?: number;
@@ -43,7 +46,7 @@ export const ItemsInline = <
                 onClick: e => e.stopPropagation(),
             }}
             icon={<IconFileDots/>}
-            title={<Translation namespace={"common.inline"} withLabel={"more.title"}/>}
+            title={tx()`More`}
             modalId={"detail"}
         >
             <Table

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"name": "@use-pico/auth",
 	"description": "Auth support.",
 	"license": "MIT",
@@ -28,15 +28,15 @@
 		"next-auth": "^4.24.4"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.4",
-		"@use-pico/logger": "^2.0.3",
-		"@use-pico/orm": "^2.0.3",
-		"@use-pico/schema": "^2.0.3"
+		"@use-pico/container": "^2.0.5",
+		"@use-pico/logger": "^2.0.4",
+		"@use-pico/orm": "^2.0.4",
+		"@use-pico/schema": "^2.0.5"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
 		"@types/node": "^20.8.10",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",

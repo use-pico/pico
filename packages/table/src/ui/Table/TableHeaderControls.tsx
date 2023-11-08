@@ -10,7 +10,8 @@ import {Fulltext}                from "@use-pico/source-ui";
 import {
     ActionIcon,
     Grid,
-    GridCol
+    GridCol,
+    Loader
 }                                from "@use-pico/ui";
 import {type FC}                 from "react";
 
@@ -19,6 +20,8 @@ export namespace TableHeaderControls {
         TQuerySchema extends QuerySchema<any, any>,
         TSchema extends WithIdentitySchema,
     > {
+        text?: Fulltext.Props<TQuerySchema>["text"];
+        isFetching: boolean;
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
         Filter?: FC<FilterProps<TQuerySchema, TSchema>>;
@@ -39,6 +42,8 @@ export const TableHeaderControls = <
     TSchema extends WithIdentitySchema,
 >(
     {
+        text,
+        isFetching,
         withQueryStore,
         withSourceQuery,
         Filter,
@@ -55,17 +60,19 @@ export const TableHeaderControls = <
     >
         <GridCol span={"auto"}>
             <Fulltext
+                text={text}
                 withQueryStore={withQueryStore}
             />
         </GridCol>
         <GridCol span={"content"}>
             <ActionIcon
+                disabled={isFetching}
                 size={"xl"}
                 variant={"subtle"}
                 color={"blue.5"}
                 onClick={() => invalidator()}
             >
-                <IconRefresh/>
+                {isFetching ? <Loader size={"xs"}/> : <IconRefresh/>}
             </ActionIcon>
         </GridCol>
         {Filter && <GridCol span={"content"}>

@@ -1,4 +1,3 @@
-import {Translation}    from "@use-pico/i18n";
 import {type TagSchema} from "@use-pico/schema";
 import {type FC}        from "react";
 import {Badge}          from "./Badge";
@@ -22,7 +21,7 @@ export const Tags: FC<Tags.Props> = (
             key={tag.id}
             onClick={() => onClick?.(tag)}
         >
-            <Translation label={tag.group} withLabel={tag.label}/>
+            {tag.group} - {tag.label}
         </Badge>)}
     </>;
 };

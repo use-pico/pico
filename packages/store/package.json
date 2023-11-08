@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/store",
 	"description": "Store stuff.",
 	"license": "MIT",
@@ -31,14 +31,14 @@
 		"zustand": "^4.3.9"
 	},
 	"peerDependencies": {
-		"@use-pico/hook": "^2.0.3",
-		"@use-pico/utils": "^2.0.4",
+		"@use-pico/hook": "^2.0.4",
+		"@use-pico/utils": "^2.0.6",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
 		"@types/node": "^20.4.2",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",

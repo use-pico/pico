@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/orm",
 	"description": "ORM helper stuff, based on drizzle-orm.",
 	"license": "MIT",
@@ -25,17 +25,19 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"kysely": "^0.26.3"
+		"pg": "^8.11.3"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.3"
+		"@use-pico/container": "^2.0.5",
+		"kysely": "^0.26.3"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
 		"@types/node": "^20.4.2",
+		"@types/pg": "^8.10.9",
 		"@types/react": "^18.2.15",
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

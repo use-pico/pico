@@ -1,6 +1,5 @@
 "use client";
 
-import {Translation} from "@use-pico/i18n";
 import {useStore}    from "@use-pico/store";
 import {type FC}     from "react";
 import {Button}      from "../ui/Button";
@@ -20,10 +19,11 @@ export const DrawerButton: FC<DrawerButton.Props> = (
         ...props
     }) => {
     const {open} = useStore(DrawerStore, ({open}) => ({open}));
+
     return <Button
         {...props}
         onClick={() => open(drawerId)}
     >
-        <Translation label={"drawer"} withLabel={label}/>
+        {label}
     </Button>;
 };

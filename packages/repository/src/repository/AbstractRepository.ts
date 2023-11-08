@@ -41,7 +41,10 @@ export class AbstractRepository<
         schema: TSchema,
         table: TTable,
     ) {
-        super(schema, table);
+        super(
+            schema,
+            table,
+        );
     }
 
     protected $withQuery: IWithQuery<TDatabase, TSchema, TTable> | undefined;

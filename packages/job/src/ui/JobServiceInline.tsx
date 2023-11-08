@@ -1,4 +1,3 @@
-import {Translation}    from "@use-pico/i18n";
 import {type FC}        from "react";
 import {type JobSchema} from "../schema/JobSchema";
 
@@ -13,8 +12,5 @@ export const JobServiceInline: FC<JobServiceInline.Props> = (
         job,
     }
 ) => {
-    return <Translation
-        namespace={"job.service"}
-        withLabel={job.service}
-    />;
+    return `[${job.service}]`;
 };

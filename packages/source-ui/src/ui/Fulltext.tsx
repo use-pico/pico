@@ -5,7 +5,7 @@ import {
     IconX
 }                          from "@tabler/icons-react";
 import {useDebouncedState} from "@use-pico/hook";
-import {useTranslation}    from "@use-pico/i18n";
+import {tx}                from "@use-pico/i18n";
 import {
     type IQueryStore,
     type QuerySchema
@@ -18,6 +18,7 @@ import {
     WithIcon
 }                          from "@use-pico/ui";
 import {
+    type ReactNode,
     useEffect,
     useState
 }                          from "react";
@@ -25,7 +26,11 @@ import {
 export namespace Fulltext {
     export interface Props<
         TQuerySchema extends QuerySchema<any, any>,
-    > extends TextInput.Props {
+    > extends Omit<TextInput.Props, "text"> {
+        text?: {
+            label?: ReactNode;
+            placeholder?: string;
+        };
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         loading?: boolean;
         debounce?: number;
@@ -38,6 +43,7 @@ export const Fulltext = <
     TQuerySchema extends QuerySchema<any, any>,
 >(
     {
+        text,
         withQueryStore,
         loading,
         debounce = 250,
@@ -45,7 +51,6 @@ export const Fulltext = <
         ...props
     }: Fulltext.Props<TQuerySchema>
 ) => {
-    const t = useTranslation();
     const {
         filter,
         setCursor,
@@ -78,7 +83,7 @@ export const Fulltext = <
             setDebounced(event.currentTarget.value);
             setValue(event.currentTarget.value);
         }}
-        placeholder={t("fulltext.placeholder")}
+        placeholder={text?.placeholder ?? tx()`Fulltext search`}
         leftSection={loading ? <Loader size="xs"/> : <WithIcon icon={<IconSearch/>}/>}
         rightSection={filter?.fulltext ? <ActionIcon
             variant={"subtle"}
@@ -90,6 +95,7 @@ export const Fulltext = <
         >
             <WithIcon icon={<IconX/>}/>
         </ActionIcon> : undefined}
+        label={text?.label}
         {...props}
     />;
 };

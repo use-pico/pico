@@ -1,4 +1,6 @@
-import {Translation}              from "@use-pico/i18n";
+"use client";
+
+import {tx}                       from "@use-pico/i18n";
 import {type IBaseSelectionStore} from "@use-pico/selection";
 import {useStore}                 from "@use-pico/store";
 import {
@@ -22,6 +24,7 @@ export const CancelButton: FC<CancelButton.Props> = (
 ) => {
     const {close} = useStore(ModalStore, ({close}) => ({close}));
     const {cancel} = useStore(SelectionStore, ({cancel}) => ({cancel}));
+
     return <Button
         leftSection={<CloseIcon/>}
         variant={"subtle"}
@@ -32,6 +35,6 @@ export const CancelButton: FC<CancelButton.Props> = (
         }}
         {...props}
     >
-        <Translation namespace={"common"} label={"selection"} withLabel={"cancel.button"}/>
+        {tx()`Close`}
     </Button>;
 };

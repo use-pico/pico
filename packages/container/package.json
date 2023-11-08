@@ -1,5 +1,5 @@
 {
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"name": "@use-pico/container",
 	"description": "DI container support.",
 	"license": "MIT",
@@ -28,16 +28,12 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"dependencies": {
-		"pumpit": "^4.1.1",
-		"server-only": "^0.0.1"
-	},
-	"peerDependencies": {
-		"@use-pico/utils": "^2.0.4"
+		"pumpit": "^4.1.1"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.3",
-		"@use-pico/eslint-config-eslint": "^2.0.3",
-		"@use-pico/tsconfig": "^2.0.3",
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
 		"@types/node": "^20.8.10",
 		"@types/react": "^18.2.33",
 		"concurrently": "^8.2.1",

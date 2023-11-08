@@ -1,5 +1,11 @@
 # @use-pico/container
 
+## 2.0.5
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+
 ## 2.0.4
 
 ### Patch Changes

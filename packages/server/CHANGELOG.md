@@ -1,5 +1,16 @@
 # @use-pico/server
 
+## 2.0.5
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/auth-server@2.0.3
+    - @use-pico/rpc-server@2.0.4
+    - @use-pico/container@2.0.5
+    - @use-pico/schema@2.0.5
+
 ## 2.0.4
 
 ### Patch Changes

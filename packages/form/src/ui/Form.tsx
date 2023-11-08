@@ -1,23 +1,18 @@
-import {
-    type IWithTranslation,
-    useTranslation,
-    useWithLocaleRedirect,
-    WithTranslationProvider
-}                          from "@use-pico/i18n";
-import {type IHrefProps}   from "@use-pico/navigation";
+import {useWithLocaleRedirect} from "@use-pico/i18n";
+import {type IHrefProps}       from "@use-pico/navigation";
 import {
     type IWithMutation,
     useMutation,
     withMutation as coolWithMutation
-}                          from "@use-pico/query";
+}                              from "@use-pico/query";
 import {
     isError,
     parse,
     type PicoSchema,
     type RequestSchema,
     type ResponseSchema
-}                          from "@use-pico/schema";
-import {useStore$}         from "@use-pico/store";
+}                              from "@use-pico/schema";
+import {useStore$}             from "@use-pico/store";
 import {
     BlockStore,
     Box,
@@ -31,30 +26,30 @@ import {
     SkeletonBlock,
     SkeletonInline,
     useSuccessNotification
-}                          from "@use-pico/ui";
+}                              from "@use-pico/ui";
 import {
     cleanOf,
     isCallable,
     isString,
     mapEmptyToNull
-}                          from "@use-pico/utils";
+}                              from "@use-pico/utils";
 import {
-    ComponentProps,
+    type ComponentProps,
     type FC,
     type ReactNode,
     useMemo
-}                          from "react";
+}                              from "react";
 import {
     type FieldPath,
     FormProvider,
     type UseControllerProps,
     useForm,
     type UseFormReturn
-}                          from "react-hook-form";
-import {picoResolver}      from "../resolver/pico";
-import {type ValuesSchema} from "../schema/ValuesSchema";
-import {defaultsOf}        from "../utils/defaultsOf";
-import {SubmitButton}      from "./SubmitButton";
+}                              from "react-hook-form";
+import {picoResolver}          from "../resolver/pico";
+import {type ValuesSchema}     from "../schema/ValuesSchema";
+import {defaultsOf}            from "../utils/defaultsOf";
+import {SubmitButton}          from "./SubmitButton";
 
 export namespace Form {
     export type Keys<TValuesSchema extends ValuesSchema> = FieldPath<PicoSchema.Output<TValuesSchema>>;
@@ -256,15 +251,17 @@ export namespace Form {
         TRequestSchema,
         TResponseSchema
     > {
+        label?: {
+            success?: {
+                title: ReactNode;
+                message: ReactNode;
+            };
+        };
         formId?: string;
         /**
          * Values schema a form is working with (shallow keys of a schema are used)
          */
         schema: TValuesSchema;
-        /**
-         * Optionally provide translations for a form (internally uses WithTranslationProvider)
-         */
-        withTranslation?: IWithTranslation;
         /**
          * Specify form mutation
          */
@@ -305,10 +302,6 @@ export namespace Form {
         icon?: ReactNode;
         submitProps?: SubmitButton.Props;
         withAutoClose?: string[];
-        notification?: false | {
-            success?: string;
-            error?: string;
-        };
         withReset?: boolean;
         /**
          * When inline, you can define the size of individual fields of a form
@@ -375,9 +368,9 @@ export const Form = <
     TResponseSchema extends ResponseSchema = TWithMutation["schema"]["response"],
 >(
     {
+        label,
         formId,
         schema,
-        withTranslation,
         withMutation,
         withMutationOverride,
         inputs,
@@ -392,9 +385,6 @@ export const Form = <
         submitProps,
         withAutoClose,
         withRedirect,
-        notification = {
-            success: values ? "update" : "create",
-        },
         withReset = true,
         inline = undefined,
         leftSection,
@@ -423,7 +413,6 @@ export const Form = <
     const modalStore = useStore$(ModalStore, ({close}) => ({close}));
     const redirect = useWithLocaleRedirect();
     const successNotification = useSuccessNotification();
-    const t = useTranslation(withTranslation);
     const form = useForm<PicoSchema.Output<TValuesSchema>>({
         defaultValues: async () => {
             const defaults = isCallable(defaultValues) ? await defaultValues() : defaultValues;
@@ -520,152 +509,145 @@ export const Form = <
         pos={"relative"}
     >
         <FormProvider {...form}>
-            <WithTranslationProvider
-                withTranslation={withTranslation}
-            >
-                <form
-                    id={formId}
-                    onSubmit={
-                        form.handleSubmit(async values => {
-                            const request = cleanOf(
-                                toRequest(
-                                    mapEmptyToNull(values)
-                                )
-                            );
-                            try {
-                                await mutation.mutateAsync(
-                                    request,
-                                    {
-                                        onSuccess: async response => {
-                                            withReset && form.reset();
-                                            withAutoClose?.forEach(close => {
-                                                drawerStore?.close(close);
-                                                modalStore?.close(close);
-                                            });
-                                            if (!withMutationOverride && withRedirect) {
-                                                blockStore?.block();
-                                                setTimeout(() => {
-                                                    redirect(withRedirect({
-                                                        values,
-                                                        request,
-                                                        response,
+            <form
+                id={formId}
+                onSubmit={
+                    form.handleSubmit(async values => {
+                        const request = cleanOf(
+                            toRequest(
+                                mapEmptyToNull(values)
+                            )
+                        );
+                        try {
+                            await mutation.mutateAsync(
+                                request,
+                                {
+                                    onSuccess: async response => {
+                                        withReset && form.reset();
+                                        withAutoClose?.forEach(close => {
+                                            drawerStore?.close(close);
+                                            modalStore?.close(close);
+                                        });
+                                        if (!withMutationOverride && withRedirect) {
+                                            blockStore?.block();
+                                            setTimeout(() => {
+                                                redirect(withRedirect({
+                                                    values,
+                                                    request,
+                                                    response,
+                                                }));
+                                            }, 0);
+                                        }
+                                        label?.success && successNotification({
+                                            ...label.success,
+                                        });
+                                        await onSubmit?.({
+                                            form,
+                                            values,
+                                            request,
+                                        });
+                                        !withMutationOverride && await onSuccess?.({
+                                            form,
+                                            values,
+                                            request,
+                                            response,
+                                        });
+                                    },
+                                    onError:   async error => {
+                                        if (isError(error)) {
+                                            Object
+                                                .entries(error?.error?.paths || {})
+                                                .map(([name, message]) => {
+                                                    isString(message) && form.setError(name as Form.Keys<TValuesSchema>, {
+                                                        message: `[${name}.error.${message}]`,
+                                                    });
+                                                });
+                                            await onError?.({
+                                                error,
+                                                form,
+                                                values,
+                                                setErrors: errors => {
+                                                    Object.entries(errors).map(([k, v]) => form.setError(k as Form.Keys<TValuesSchema>, {
+                                                        message: `[${k}.error.${v}]`,
                                                     }));
-                                                }, 0);
-                                            }
-                                            notification && successNotification({
-                                                withTranslation: {
-                                                    ...withTranslation,
-                                                    label: notification.success,
                                                 },
                                             });
-                                            await onSubmit?.({
-                                                form,
-                                                values,
-                                                request,
-                                            });
-                                            !withMutationOverride && await onSuccess?.({
-                                                form,
-                                                values,
-                                                request,
-                                                response,
-                                            });
-                                        },
-                                        onError:   async error => {
-                                            if (isError(error)) {
-                                                Object
-                                                    .entries(error?.error?.paths || {})
-                                                    .map(([name, message]) => {
-                                                        isString(message) && form.setError(name as Form.Keys<TValuesSchema>, {
-                                                            message: t(`${name}.error.${message}`),
-                                                        });
-                                                    });
-                                                await onError?.({
-                                                    error,
-                                                    form,
-                                                    values,
-                                                    setErrors: errors => {
-                                                        Object.entries(errors).map(([k, v]) => form.setError(k as Form.Keys<TValuesSchema>, {
-                                                            message: t(`${k}.error.${v}`),
-                                                        }));
-                                                    },
-                                                });
-                                            }
-                                        },
-                                        onSettled: async response => {
-                                            window.scrollTo({
-                                                top:      0,
-                                                behavior: "smooth"
-                                            });
-                                            !withMutationOverride && await onSettled?.({
-                                                form,
-                                                values,
-                                                request,
-                                                response,
-                                            });
-                                        },
-                                    }
-                                );
-                            } catch (e) {
-                                console.error(e);
-                            }
-                        })
-                    }
-                >
-                    <LoadingOverlay
-                        loaderProps={{
-                            type: "dots",
-                        }}
-                        visible={blockStore?.isBlock || form.formState.isLoading || form.formState.isSubmitting}
-                    />
-                    {form.formState.isLoading && <>
-                        {inline && <SkeletonInline/>}
-                        {!inline && <SkeletonBlock lines={6}/>}
-                    </>}
-                    {!form.formState.isLoading && <>
-                        {inline && <ScrollArea
-                            w={"100%"}
+                                        }
+                                    },
+                                    onSettled: async response => {
+                                        window.scrollTo({
+                                            top:      0,
+                                            behavior: "smooth"
+                                        });
+                                        !withMutationOverride && await onSettled?.({
+                                            form,
+                                            values,
+                                            request,
+                                            response,
+                                        });
+                                    },
+                                }
+                            );
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    })
+                }
+            >
+                <LoadingOverlay
+                    loaderProps={{
+                        type: "dots",
+                    }}
+                    visible={blockStore?.isBlock || form.formState.isLoading || form.formState.isSubmitting}
+                />
+                {form.formState.isLoading && <>
+                    {inline && <SkeletonInline/>}
+                    {!inline && <SkeletonBlock lines={6}/>}
+                </>}
+                {!form.formState.isLoading && <>
+                    {inline && <ScrollArea
+                        w={"100%"}
+                    >
+                        <Grid
+                            w={inline?.width}
+                            columns={inline?.columns}
+                            align={"center"}
                         >
-                            <Grid
-                                w={inline?.width}
-                                columns={inline?.columns}
-                                align={"center"}
-                            >
-                                <Render
-                                    Input={Input}
-                                />
-                                <Grid.Col
-                                    span={"content"}
-                                >
-                                    {leftSection}
-                                    <SubmitButton
-                                        size={"md"}
-                                        leftSection={icon}
-                                        {...submitProps}
-                                    />
-                                    {rightSection}
-                                </Grid.Col>
-                            </Grid>
-                        </ScrollArea>}
-                        {!inline && <>
                             <Render
                                 Input={Input}
                             />
-                            <Divider my={"md"}/>
-                            <Flex
-                                justify={leftSection || rightSection ? "space-between" : "center"}
-                                align={"center"}
+                            <Grid.Col
+                                span={"content"}
                             >
                                 {leftSection}
                                 <SubmitButton
+                                    size={"md"}
                                     leftSection={icon}
                                     {...submitProps}
                                 />
                                 {rightSection}
-                            </Flex>
-                        </>}
+                            </Grid.Col>
+                        </Grid>
+                    </ScrollArea>}
+                    {!inline && <>
+                        <Render
+                            Input={Input}
+                        />
+                        <Divider my={"md"}/>
+                        <Flex
+                            justify={leftSection || rightSection ? "space-between" : "center"}
+                            align={"center"}
+                        >
+                            {leftSection}
+                            <SubmitButton
+                                leftSection={icon}
+                                {...submitProps}
+                            />
+                            {rightSection}
+                        </Flex>
                     </>}
-                </form>
-            </WithTranslationProvider>
+                </>}
+            </form>
         </FormProvider>
     </Box>;
 };

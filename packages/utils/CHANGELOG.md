@@ -1,5 +1,13 @@
 # @use-pico/utils
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/schema@2.0.5
+
 ## 2.0.5
 
 ### Patch Changes

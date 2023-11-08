@@ -1,9 +1,8 @@
-import {Translation} from "@use-pico/i18n";
-import {Text}        from "@use-pico/ui";
+import {Text} from "@use-pico/ui";
 import {
     type FC,
     type ReactNode
-}                    from "react";
+}             from "react";
 
 export namespace Description {
     export interface Props {
@@ -16,6 +15,6 @@ export const Description: FC<Description.Props> = ({description}) => {
         c={"dimmed"}
         size={"sm"}
     >
-        <Translation withLabel={description}/>
+        {description}
     </Text> : null;
 };

@@ -1,5 +1,16 @@
 # @use-pico/source
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/utils@2.0.6
+    - @use-pico/query@2.0.8
+    - @use-pico/schema@2.0.5
+    - @use-pico/store@2.0.4
+
 ## 2.0.6
 
 ### Patch Changes

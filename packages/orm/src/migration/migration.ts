@@ -1,27 +1,15 @@
-import {
-    Kysely,
-    sql
-} from "kysely";
+import {Kysely}        from "kysely";
+import {withUuidTable} from "../utils/withUuidTable";
 
 export async function migration(db: Kysely<any>): Promise<void> {
-    await db.schema
-        .createTable("User")
-        .addColumn("id", "uuid", col =>
-            // language=SQL format=false
-            col.primaryKey().defaultTo(sql`gen_random_uuid()`)
-        )
+    await withUuidTable("User", db)
         .addColumn("name", "text")
         .addColumn("email", "text", col => col.unique().notNull())
         .addColumn("emailVerified", "timestamptz")
         .addColumn("image", "text")
         .execute();
 
-    await db.schema
-        .createTable("Account")
-        .addColumn("id", "uuid", col =>
-            // language=SQL format=false
-            col.primaryKey().defaultTo(sql`gen_random_uuid()`)
-        )
+    await withUuidTable("Account", db)
         .addColumn("userId", "uuid", col =>
             col.references("User.id").onDelete("cascade").notNull()
         )
@@ -37,12 +25,7 @@ export async function migration(db: Kysely<any>): Promise<void> {
         .addColumn("session_state", "text")
         .execute();
 
-    await db.schema
-        .createTable("Session")
-        .addColumn("id", "uuid", col =>
-            // language=SQL format=false
-            col.primaryKey().defaultTo(sql`gen_random_uuid()`)
-        )
+    await withUuidTable("Session", db)
         .addColumn("userId", "uuid", col =>
             col.references("User.id").onDelete("cascade").notNull()
         )

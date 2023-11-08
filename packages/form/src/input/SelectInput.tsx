@@ -1,4 +1,3 @@
-import {useTranslation}       from "@use-pico/i18n";
 import {isPartial}            from "@use-pico/schema";
 import {Select as CoolSelect} from "@use-pico/ui";
 import {useController}        from "react-hook-form";
@@ -26,7 +25,6 @@ export const SelectInput = <
         TValuesSchema
     >
 ) => {
-    const t = useTranslation();
     const {
         field: {
                    onChange,
@@ -36,8 +34,6 @@ export const SelectInput = <
     } = useController(withControl);
 
     return <CoolSelect
-        label={t(`${withControl.name}.label`)}
-        placeholder={t(`${withControl.name}.placeholder`)}
         error={fieldState.error?.message}
         withAsterisk={!isPartial(schema, withControl.name)}
         allowDeselect

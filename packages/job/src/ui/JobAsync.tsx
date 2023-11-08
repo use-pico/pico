@@ -1,4 +1,3 @@
-import {Translation}      from "@use-pico/i18n";
 import {
     type PicoSchema,
     type RequestSchema
@@ -24,7 +23,10 @@ export namespace JobAsync {
         jobManager: IJobManager<TRequestSchema>;
         toRequest?: () => PicoSchema.Output<TRequestSchema>;
         icon?: ReactNode;
-        label?: ReactNode;
+        label: {
+            label: ReactNode;
+            progress: JobProgress.Props["label"];
+        };
         inline?: boolean;
         buttonProps?: Omit<Button.Props, "label">;
     }
@@ -65,8 +67,9 @@ export const JobAsync = <
             {...buttonProps}
         >
             <Stack gap={4}>
-                <Translation withLabel={label}/>
+                {label.label}
                 {!inline && job && jobManager.isRunning() && <JobProgress
+                    label={label.progress}
                     inline
                     job={job}
                     progressProps={{

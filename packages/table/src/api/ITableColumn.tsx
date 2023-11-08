@@ -18,7 +18,7 @@ export interface ITableColumn<
     /**
      * Explicitly override column title (by default column name is taken from Record<> in Table)
      */
-    title?: string;
+    title?: ReactNode;
     /**
      * Specify width of a column
      */

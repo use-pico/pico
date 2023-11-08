@@ -1,5 +1,16 @@
 # @use-pico/ui
 
+## 2.0.5
+
+### Patch Changes
+
+- Version bump, added custom translations and blablabla
+- Updated dependencies
+    - @use-pico/navigation@2.0.4
+    - @use-pico/utils@2.0.6
+    - @use-pico/i18n@2.0.5
+    - @use-pico/store@2.0.4
+
 ## 2.0.4
 
 ### Patch Changes
