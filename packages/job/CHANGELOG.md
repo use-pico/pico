@@ -1,5 +1,13 @@
 # @use-pico/job
 
+## 2.0.6
+
+### Patch Changes
+
+- Optional JobAsync text
+- Updated dependencies [2c9ecb3]
+    - @use-pico/i18n@2.0.6
+
 ## 2.0.5
 
 ### Patch Changes

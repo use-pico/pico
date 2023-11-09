@@ -1,5 +1,11 @@
 # @use-pico/i18n
 
+## 2.0.6
+
+### Patch Changes
+
+- 2c9ecb3: Doc comments
+
 ## 2.0.5
 
 ### Patch Changes

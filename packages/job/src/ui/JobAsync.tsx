@@ -25,7 +25,7 @@ export namespace JobAsync {
         icon?: ReactNode;
         text: {
             label: ReactNode;
-            progress: JobProgress.Props["text"];
+            progress?: JobProgress.Props["text"];
         };
         inline?: boolean;
         buttonProps?: Omit<Button.Props, "label">;
