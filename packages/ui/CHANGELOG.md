@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.6
+
+### Patch Changes
+
+- Updated access to internal texts
+
 ## 2.0.5
 
 ### Patch Changes

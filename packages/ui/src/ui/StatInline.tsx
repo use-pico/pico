@@ -9,7 +9,9 @@ import {Text}          from "./Text";
 
 export namespace StatInline {
     export interface Props {
-        withLabel: ReactNode;
+        text: {
+            label: ReactNode;
+        };
         textProps?: ComponentProps<typeof Text<"p">>;
         labelProps?: ComponentProps<typeof Text<"p">>;
         countProps?: ComponentProps<typeof Text<"p">>;
@@ -22,7 +24,7 @@ export type StatInline = FC<StatInline.Props>;
 
 export const StatInline: StatInline = (
     {
-        withLabel,
+        text,
         textProps,
         labelProps,
         countProps,
@@ -41,7 +43,7 @@ export const StatInline: StatInline = (
             {...textProps}
             {...labelProps}
         >
-            {withLabel}
+            {text.label}
         </Text>
         <Text
             size={"lg"}

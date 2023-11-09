@@ -24,28 +24,36 @@ export const JobStats: FC<JobStats.Props> = (
     }
     return <Group gap={"xs"}>
         <StatInline
-            withLabel={tx()`Success count`}
+            text={{
+                label: tx()`Success count`,
+            }}
             count={job.successCount}
             textProps={{
                 c: "green.7",
             }}
         />
         <StatInline
-            withLabel={tx()`Error count`}
+            text={{
+                label: tx()`Error count`,
+            }}
             count={job.errorCount}
             textProps={{
                 c: "red.6",
             }}
         />
         <StatInline
-            withLabel={tx()`Skip count`}
+            text={{
+                label: tx()`Skip count`,
+            }}
             count={job.skipCount}
             textProps={{
                 c: "orange.6",
             }}
         />
         <StatInline
-            withLabel={tx()`Total count`}
+            text={{
+                label: tx()`Total count`,
+            }}
             count={job.total}
         />
     </Group>;
