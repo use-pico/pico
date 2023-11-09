@@ -9,6 +9,11 @@ export namespace txr {
     }
 }
 
+/**
+ * Rich text translation; this returns ReactNode a supports component integration into a translation string.
+ *
+ * Generally, this method is safe to use in any places, where ReactNode is supported.
+ */
 export function txr(
     props?: txr.Props
 ) {

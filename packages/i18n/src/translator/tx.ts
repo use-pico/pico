@@ -8,6 +8,9 @@ export namespace tx {
     }
 }
 
+/**
+ * Simple text translation; supports (usually) only text interpolation, but cannot expand any components (like bold and so on).
+ */
 export function tx(
     props?: tx.Props
 ) {
