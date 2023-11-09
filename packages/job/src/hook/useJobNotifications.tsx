@@ -16,8 +16,8 @@ import {JobStatusInline}       from "../ui/JobStatusInline";
 
 export namespace useJobNotifications {
     export interface Props {
-        label: {
-            progress: JobProgress.Props["label"];
+        text: {
+            progress: JobProgress.Props["text"];
         };
         withJobQuery: IWithSourceQuery<JobQuerySchema, JobSchema>;
         interval?: number;
@@ -26,7 +26,7 @@ export namespace useJobNotifications {
 
 export const useJobNotifications = (
     {
-        label,
+        text,
         withJobQuery,
         interval = 2500,
     }: useJobNotifications.Props
@@ -55,7 +55,7 @@ export const useJobNotifications = (
                                        <JobServiceInline job={job}/>
                                    </Group>
                                    <JobProgress
-                                       label={label.progress}
+                                       text={text.progress}
                                        job={job}
                                        progressProps={{
                                            size: "xs",
@@ -73,7 +73,7 @@ export const useJobNotifications = (
                                        <JobServiceInline job={job}/>
                                    </Group>
                                    <JobProgress
-                                       label={label.progress}
+                                       text={text.progress}
                                        job={job}
                                        progressProps={{
                                            size: "xs",

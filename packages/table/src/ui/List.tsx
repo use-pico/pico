@@ -35,8 +35,8 @@ export namespace List {
         TQuerySchema extends QuerySchema<any, any>,
         TResponseSchema extends WithIdentitySchema,
     > {
-        text: {
-            total: ReactNode;
+        text?: {
+            total?: ReactNode;
         };
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;

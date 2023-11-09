@@ -1,5 +1,13 @@
 # @use-pico/table
 
+## 2.0.9
+
+### Patch Changes
+
+- Exported and simplified access to internal texts of components
+- Updated dependencies
+    - @use-pico/pagination@2.0.7
+
 ## 2.0.8
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.8",
+	"version": "2.0.9",
 	"name": "@use-pico/table",
 	"description": "Table & List support stuff.",
 	"license": "MIT",
@@ -27,7 +27,7 @@
 	"peerDependencies": {
 		"@tabler/icons-react": "^2.40.0",
 		"@use-pico/i18n": "^2.0.5",
-		"@use-pico/pagination": "^2.0.6",
+		"@use-pico/pagination": "^2.0.7",
 		"@use-pico/query": "^2.0.8",
 		"@use-pico/selection": "^2.0.4",
 		"@use-pico/source": "^2.0.7",

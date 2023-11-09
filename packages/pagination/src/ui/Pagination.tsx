@@ -1,3 +1,4 @@
+import {tx}        from "@use-pico/i18n";
 import {
     type IQueryStore,
     type QuerySchema
@@ -25,13 +26,13 @@ export namespace Pagination {
     export interface Props<
         TQuerySchema extends QuerySchema<any, any>,
     > extends Partial<CoolPagination.Props> {
+        text?: {
+            total?: ReactNode;
+        };
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, any>;
         hideOnSingle?: boolean;
         refresh?: number;
-        text: {
-            total: ReactNode;
-        };
     }
 }
 
@@ -39,11 +40,11 @@ export const Pagination = <
     TQuerySchema extends QuerySchema<any, any>,
 >(
     {
+        text,
         withQueryStore,
         withSourceQuery,
         hideOnSingle = true,
         refresh,
-        text,
         ...props
     }: Pagination.Props<TQuerySchema>
 ) => {
@@ -90,7 +91,7 @@ export const Pagination = <
         {result.isLoading && <GridCol span={"auto"}>
             <Group gap={"xs"}>
                 <Text c={"dimmed"}>
-                    {text.total}
+                    {text?.total || tx()`Total number of items`}
                 </Text>
                 <NativeBreadcrumbs>
                     <Text size={"lg"} fw={"500"}>
@@ -103,7 +104,7 @@ export const Pagination = <
             {hideOnSingle ? (pages > 1) : (pages > 0) && <Divider orientation={"vertical"}/>}
             <Group gap={"xs"}>
                 <Text c={"dimmed"}>
-                    {text.total}
+                    {text?.total || tx()`Total number of items`}
                 </Text>
                 <NativeBreadcrumbs>
                     <Text

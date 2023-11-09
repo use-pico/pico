@@ -13,7 +13,7 @@ import {JobSchema} from "../schema/JobSchema";
 
 export namespace JobProgress {
     export interface Props {
-        label: {
+        text: {
             successCount(count: number): ReactNode;
             errorCount(count: number): ReactNode;
             skipCount(count: number): ReactNode;
@@ -26,7 +26,7 @@ export namespace JobProgress {
 
 export const JobProgress: FC<JobProgress.Props> = (
     {
-        label,
+        text,
         inline,
         job,
         progressProps,
@@ -43,7 +43,7 @@ export const JobProgress: FC<JobProgress.Props> = (
         {...progressProps}
     >
         <Tooltip
-            label={label.successCount(job.successCount)}
+            label={text.successCount(job.successCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -52,7 +52,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={label.errorCount(job.errorCount)}
+            label={text.errorCount(job.errorCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -61,7 +61,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={label.skipCount(job.skipCount)}
+            label={text.skipCount(job.skipCount)}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}

@@ -23,9 +23,9 @@ export namespace JobAsync {
         jobManager: IJobManager<TRequestSchema>;
         toRequest?: () => PicoSchema.Output<TRequestSchema>;
         icon?: ReactNode;
-        label: {
+        text: {
             label: ReactNode;
-            progress: JobProgress.Props["label"];
+            progress: JobProgress.Props["text"];
         };
         inline?: boolean;
         buttonProps?: Omit<Button.Props, "label">;
@@ -42,7 +42,7 @@ export const JobAsync = <
         jobManager,
         toRequest = () => ({}),
         icon,
-        label,
+        text,
         inline = false,
         buttonProps: {
                          onClick,
@@ -67,9 +67,9 @@ export const JobAsync = <
             {...buttonProps}
         >
             <Stack gap={4}>
-                {label.label}
+                {text.label}
                 {!inline && job && jobManager.isRunning() && <JobProgress
-                    label={label.progress}
+                    text={text.progress}
                     inline
                     job={job}
                     progressProps={{

@@ -1,5 +1,11 @@
 # @use-pico/pagination
 
+## 2.0.7
+
+### Patch Changes
+
+- Exported and simplified access to internal texts of components
+
 ## 2.0.6
 
 ### Patch Changes
