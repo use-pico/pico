@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/source-ui",
 	"description": "UI components using source.",
 	"license": "MIT",
@@ -28,13 +28,13 @@
 		"@tabler/icons-react": "^2.40.0",
 		"@tanstack/react-query": "^5.4.3",
 		"@use-pico/hook": "^2.0.4",
-		"@use-pico/i18n": "^2.0.5",
-		"@use-pico/navigation": "^2.0.4",
-		"@use-pico/query": "^2.0.8",
+		"@use-pico/i18n": "^2.0.7",
+		"@use-pico/navigation": "^2.0.5",
+		"@use-pico/query": "^2.0.9",
 		"@use-pico/schema": "^2.0.5",
 		"@use-pico/source": "^2.0.7",
-		"@use-pico/store": "^2.0.4",
-		"@use-pico/ui": "^2.0.5",
+		"@use-pico/store": "^2.0.5",
+		"@use-pico/ui": "^2.0.7",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

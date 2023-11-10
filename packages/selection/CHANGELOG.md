@@ -1,5 +1,14 @@
 # @use-pico/selection
 
+## 2.0.5
+
+### Patch Changes
+
+- e599dc7: Version bump
+- Updated dependencies [e599dc7]
+    - @use-pico/query@2.0.9
+    - @use-pico/store@2.0.5
+
 ## 2.0.4
 
 ### Patch Changes

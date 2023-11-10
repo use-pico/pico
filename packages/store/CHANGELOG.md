@@ -1,5 +1,11 @@
 # @use-pico/store
 
+## 2.0.5
+
+### Patch Changes
+
+- e599dc7: Version bump
+
 ## 2.0.4
 
 ### Patch Changes

@@ -27,14 +27,14 @@ export const Menu: FC<Menu.Props> = (
         mb={"sm"}
         gap={0}
     >
-        {Object.entries(items).map(([id, item]) => {
+        {items.map((item, index) => {
             if (isHrefProps(item)) {
                 return <MenuLink
-                    key={id}
+                    key={`menu-${index}-${item.href}`}
                     className={cx(
                         classes.Link,
                         classes.LinkActive ? {
-                            [classes.LinkActive]: active?.includes(item.href) || active?.includes(id),
+                            [classes.LinkActive]: active?.includes(item.href),
                         } : undefined
                     )}
                     {...item}

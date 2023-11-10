@@ -1,6 +1,6 @@
 import {type ReactNode}      from "react";
 import {TranslationInstance} from "../instance/TranslationInstance";
-import {keyOf}               from "../utils/keyOf";
+import {translation}         from "./translation";
 
 export namespace t {
     export interface Props {
@@ -16,7 +16,6 @@ export function t(
     props?: t.Props
 ) {
     return (input: TemplateStringsArray): ReactNode => {
-        const key = input.join("");
         return TranslationInstance.instance.pipeline.rich.reduce<ReactNode>(
             (text, current) => {
                 return current({
@@ -24,7 +23,7 @@ export function t(
                     values: props?.values,
                 });
             },
-            TranslationInstance.instance.translations[keyOf(key)]?.["value"] ?? props?.fallback ?? key
+            translation(input.join(""), props?.fallback)
         );
     };
 }

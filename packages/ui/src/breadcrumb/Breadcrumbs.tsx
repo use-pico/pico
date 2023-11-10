@@ -8,7 +8,7 @@ import {isBreadcrumbLink}               from "./isBreadcrumbLink";
 
 export namespace Breadcrumbs {
     export interface Props {
-        items: Record<string, Breadcrumb.Item | undefined | false>;
+        items: (Breadcrumb.Item | undefined | false)[];
     }
 }
 
@@ -18,15 +18,15 @@ export const Breadcrumbs: FC<Breadcrumbs.Props> = (
     }
 ) => {
     return <CoolBreadcrumbs>
-        {Object.entries(items).map(([id, item]) => {
+        {items.map((item, index) => {
             if (isBreadcrumbLink(item)) {
                 return <BreadcrumbLink
-                    key={id}
+                    key={`breadcrumb-${index}`}
                     {...item}
                 />;
             } else if (isBreadcrumbLabel(item)) {
                 return <BreadcrumbLabel
-                    key={id}
+                    key={`breadcrumb-${index}`}
                     {...item}
                 />;
             }

@@ -1,5 +1,17 @@
 # @use-pico/ui
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump
+- e599dc7: Version bump
+- Updated dependencies
+- Updated dependencies [e599dc7]
+    - @use-pico/navigation@2.0.5
+    - @use-pico/i18n@2.0.7
+    - @use-pico/store@2.0.5
+
 ## 2.0.6
 
 ### Patch Changes

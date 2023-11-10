@@ -3,7 +3,7 @@ import {type IMenuLink} from "./IMenuLink";
 
 export interface IMenuGroup {
     type: "group";
-    label: string;
+    label?: ReactNode;
     icon?: ReactNode;
-    items: Record<string, IMenuLink>;
+    items: IMenuLink[];
 }

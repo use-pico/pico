@@ -1,5 +1,18 @@
 # @use-pico/source-ui
 
+## 2.0.4
+
+### Patch Changes
+
+- e599dc7: Version bump
+- Updated dependencies
+- Updated dependencies [e599dc7]
+    - @use-pico/navigation@2.0.5
+    - @use-pico/i18n@2.0.7
+    - @use-pico/ui@2.0.7
+    - @use-pico/query@2.0.9
+    - @use-pico/store@2.0.5
+
 ## 2.0.3
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"name": "@use-pico/ui",
 	"description": "Common base (quite a dummy) UI stuff; for more components see @use-pico/ui-extra.",
 	"license": "MIT",
@@ -37,9 +37,9 @@
 		"@mantine/core": "^7.1.7",
 		"@mantine/hooks": "^7.1.7",
 		"@tabler/icons-react": "^2.40.0",
-		"@use-pico/i18n": "^2.0.5",
-		"@use-pico/navigation": "^2.0.4",
-		"@use-pico/store": "^2.0.4",
+		"@use-pico/i18n": "^2.0.7",
+		"@use-pico/navigation": "^2.0.5",
+		"@use-pico/store": "^2.0.5",
 		"@use-pico/utils": "^2.0.6",
 		"next": "^14.0.0",
 		"react": "^18.2.0"

@@ -4,7 +4,7 @@ import {
 } from "@use-pico/schema";
 
 export const TranslationSchema = schema(z => z.object({
-    ref:   z.string,
+    ref: z.string$,
     value: z.string,
 }));
 export type TranslationSchema = typeof TranslationSchema;

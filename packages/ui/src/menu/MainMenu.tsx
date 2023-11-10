@@ -31,21 +31,21 @@ export const MainMenu: FC<MainMenu.Props> = (
         className={classes.MenuGroup}
         gap={0}
     >
-        {Object.entries(links).map(([id, item]) => {
+        {links.map((item, index) => {
             if (isLink(item)) {
                 return <MenuLink
-                    key={id}
+                    key={`main-menu-${index}-${item.href}`}
                     className={cx(
                         classes.Link,
                         classes.LinkActive ? {
-                            [classes.LinkActive]: pathname?.includes(item.href) || active?.includes(item.href) || active?.includes(id),
+                            [classes.LinkActive]: pathname?.includes(item.href) || active?.includes(item.href),
                         } : undefined
                     )}
                     {...item}
                 />;
             } else if (isMenuGroup(item)) {
                 return <MenuGroup
-                    key={id}
+                    key={`main-menu-group-${index}`}
                     className={classes.Link}
                     {...item}
                 />;

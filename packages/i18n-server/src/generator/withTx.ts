@@ -49,7 +49,7 @@ export const withTx = (
                                 const source = print(node);
                                 const text = source.substring(1, source.length - 1);
                                 translations[keyOf(text)] = {
-                                    ref:   text,
+                                    ref: text,
                                     value: text,
                                 };
                             });

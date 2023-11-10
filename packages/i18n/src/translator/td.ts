@@ -1,5 +1,5 @@
 import {TranslationInstance} from "../instance/TranslationInstance";
-import {keyOf}               from "../utils/keyOf";
+import {translation}         from "./translation";
 
 export namespace td {
     export interface Props {
@@ -15,7 +15,6 @@ export function td(
     props?: td.Props
 ) {
     return (input: string): string => {
-        const key = input;
         return TranslationInstance.instance.pipeline.text.reduce(
             (text, current) => {
                 return current({
@@ -23,7 +22,7 @@ export function td(
                     values: props?.values,
                 });
             },
-            TranslationInstance.instance.translations[keyOf(key)]?.["value"] ?? props?.fallback ?? key
+            translation(input, props?.fallback) as string
         );
     };
 }
