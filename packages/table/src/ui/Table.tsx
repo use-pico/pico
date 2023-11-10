@@ -11,10 +11,8 @@ import {
     useQuery
 }                                from "@use-pico/source";
 import {
-    Box,
     LinkLockProvider,
     Progress,
-    ScrollArea,
     Table as CoolTable
 }                                from "@use-pico/ui";
 import {
@@ -126,7 +124,6 @@ export const Table = <
         onClick,
         withLinkLock = false,
         refresh,
-        minWidth = "auto",
         ...props
     }: Table.Props<TColumns, TSchema, TQuerySchema>) => {
     const $order = order || Object.keys(columns) as TColumns[];
@@ -172,58 +169,54 @@ export const Table = <
             />
         </>}
         {(result.isFetching || result.isLoading) && <Progress radius={0} size={"xs"} value={100} animated/>}
-        <ScrollArea
-            w={"100%"}
+        <TablePrefix
+            WithPrefix={WithPrefix}
+            items={result.data}
+            columns={$columns}
+        />
+        <CoolTable.ScrollContainer
+            minWidth={scrollWidth || 1200}
         >
-            <Box w={scrollWidth || undefined}>
-                <TablePrefix
-                    WithPrefix={WithPrefix}
-                    items={result.data}
+            <CoolTable
+                striped
+                highlightOnHover
+                withTableBorder
+                withRowBorders
+                withColumnBorders
+                stickyHeader
+                stickyHeaderOffset={60}
+                {...props}
+            >
+                <TableHead
+                    WithTableAction={WithTableAction}
                     columns={$columns}
+                    withRowAction={!!WithRowAction}
+                    disableActions={disableActions}
+                    items={result.data}
                 />
-                <CoolTable.ScrollContainer
-                    minWidth={minWidth}
-                >
-                    <CoolTable
-                        striped
-                        highlightOnHover
-                        withTableBorder
-                        withRowBorders
-                        withColumnBorders
-                        {...props}
-                    >
-                        <TableHead
-                            WithTableAction={WithTableAction}
-                            columns={$columns}
-                            withRowAction={!!WithRowAction}
-                            disableActions={disableActions}
-                            items={result.data}
-                        />
-                        <TableBody
-                            withQueryStore={withQueryStore}
-                            withSourceQuery={withSourceQuery}
-                            columns={$columns}
-                            withTableAction={!!WithTableAction}
-                            WithRowAction={WithRowAction}
-                            WithRow={WithRow || (props => <CoolTable.Tr{...props}/>)}
-                            MultiSelectionStore={MultiSelectionStore}
-                            SelectionStore={SelectionStore}
-                            disableActions={disableActions}
-                            highlight={highlight}
-                            onClick={onClick}
-                        />
-                        <TableFoot
-                            withTableAction={!!WithTableAction}
-                            withRowAction={!!WithRowAction}
-                            disableActions={disableActions}
-                            columns={$columns}
-                            items={result.data}
-                            WithFooter={WithFooter}
-                        />
-                    </CoolTable>
-                </CoolTable.ScrollContainer>
-            </Box>
-        </ScrollArea>
+                <TableBody
+                    withQueryStore={withQueryStore}
+                    withSourceQuery={withSourceQuery}
+                    columns={$columns}
+                    withTableAction={!!WithTableAction}
+                    WithRowAction={WithRowAction}
+                    WithRow={WithRow || (props => <CoolTable.Tr{...props}/>)}
+                    MultiSelectionStore={MultiSelectionStore}
+                    SelectionStore={SelectionStore}
+                    disableActions={disableActions}
+                    highlight={highlight}
+                    onClick={onClick}
+                />
+                <TableFoot
+                    withTableAction={!!WithTableAction}
+                    withRowAction={!!WithRowAction}
+                    disableActions={disableActions}
+                    columns={$columns}
+                    items={result.data}
+                    WithFooter={WithFooter}
+                />
+            </CoolTable>
+        </CoolTable.ScrollContainer>
         <TableCountResult
             withQueryStore={withQueryStore}
             withSourceQuery={withSourceQuery}

@@ -1,5 +1,11 @@
 # @use-pico/table
 
+## 2.0.10
+
+### Patch Changes
+
+- Improved table scroll
+
 ## 2.0.9
 
 ### Patch Changes
