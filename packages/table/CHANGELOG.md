@@ -1,5 +1,11 @@
 # @use-pico/table
 
+## 2.0.11
+
+### Patch Changes
+
+- Table sticky header is no so much sticky
+
 ## 2.0.10
 
 ### Patch Changes

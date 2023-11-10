@@ -184,7 +184,6 @@ export const Table = <
                 withRowBorders
                 withColumnBorders
                 stickyHeader
-                stickyHeaderOffset={60}
                 {...props}
             >
                 <TableHead
