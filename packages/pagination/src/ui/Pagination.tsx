@@ -1,13 +1,13 @@
-import {tx}        from "@use-pico/i18n";
+import {tx}             from "@use-pico/i18n";
 import {
     type IQueryStore,
     type QuerySchema
-}                  from "@use-pico/query";
+}                       from "@use-pico/query";
 import {
     type IWithSourceQuery,
     useCount
-}                  from "@use-pico/source";
-import {useStore}  from "@use-pico/store";
+}                       from "@use-pico/source";
+import {useStore}       from "@use-pico/store";
 import {
     BlockStore,
     Divider,
@@ -19,8 +19,8 @@ import {
     Pagination as CoolPagination,
     Select,
     Text
-}                  from "@use-pico/ui";
-import {ReactNode} from "react";
+}                       from "@use-pico/ui";
+import {type ReactNode} from "react";
 
 export namespace Pagination {
     export interface Props<
@@ -77,7 +77,8 @@ export const Pagination = <
         {hideOnSingle && pages === 1 ? null : result.isSuccess && result.data.count > 0 ? <GridCol span={"content"}>
             <CoolPagination
                 disabled={isBlock}
-                withEdges
+                withControls={pages > 10}
+                withEdges={pages > 10}
                 size={"md"}
                 radius={"sm"}
                 total={pages}
