@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 2.0.8
+
+### Patch Changes
+
+- Exported all texts to QueryInput and MultiQueryInput
+
 ## 2.0.7
 
 ### Patch Changes

@@ -23,7 +23,7 @@ import {
 }                              from "@use-pico/ui";
 import {
     type FC,
-    ReactNode
+    type ReactNode
 }                              from "react";
 import {useController}         from "react-hook-form";
 import type {ValuesSchema}     from "../schema/ValuesSchema";
@@ -40,6 +40,8 @@ export namespace QueryInput {
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends InputEx.Props<TValuesSchema> {
         text?: {
+            label?: ReactNode;
+            description?: ReactNode;
             placeholder?: ReactNode;
             selector?: {
                 title?: ReactNode;

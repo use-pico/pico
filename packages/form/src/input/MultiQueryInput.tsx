@@ -42,6 +42,8 @@ export namespace MultiQueryInput {
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > extends Omit<InputEx.Props<TValuesSchema>, "label"> {
         text?: {
+            label?: ReactNode;
+            description?: ReactNode;
             placeholder?: ReactNode;
             selector?: {
                 title?: ReactNode;
