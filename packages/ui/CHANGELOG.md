@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.11
+
+### Patch Changes
+
+- Added MenuLabel to menu items
+
 ## 2.0.10
 
 ### Patch Changes

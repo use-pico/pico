@@ -7,8 +7,10 @@ import {usePathname}     from "next/navigation";
 import {type FC}         from "react";
 import {type IMenuItems} from "../api/IMenuItems";
 import {isMenuGroup}     from "./isMenuGroup";
+import {isMenuLabel}     from "./isMenuLabel";
 import classes           from "./MainMenu.module.css";
 import {MenuGroup}       from "./MenuGroup";
+import {MenuLabel}       from "./MenuLabel";
 import {MenuLink}        from "./MenuLink";
 
 export namespace MainMenu {
@@ -47,6 +49,11 @@ export const MainMenu: FC<MainMenu.Props> = (
                 return <MenuGroup
                     key={`main-menu-group-${index}`}
                     className={classes.Link}
+                    {...item}
+                />;
+            } else if (isMenuLabel(item)) {
+                return <MenuLabel
+                    key={`main-menu-label-${index}`}
                     {...item}
                 />;
             }
