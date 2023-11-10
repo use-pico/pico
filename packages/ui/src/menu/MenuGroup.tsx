@@ -4,9 +4,12 @@ import {
     Group,
     Menu
 }                        from "@mantine/core";
+import {isLink}          from "@use-pico/navigation";
 import {type FC}         from "react";
 import {type IMenuGroup} from "../api/IMenuGroup";
 import {WithIcon}        from "../ui/WithIcon";
+import {isMenuLabel}     from "./isMenuLabel";
+import {MenuLabel}       from "./MenuLabel";
 import {MenuLink}        from "./MenuLink";
 
 export namespace MenuGroup {
@@ -45,11 +48,21 @@ export const MenuGroup: FC<MenuGroup.Props> = (
             </a>
         </Menu.Target>
         <Menu.Dropdown>
-            {Object.entries(items).map(([id, item]) => <MenuLink
-                key={id}
-                className={className}
-                {...item}
-            />)}
+            {items.map((item, index) => {
+                if (isLink(item)) {
+                    return <MenuLink
+                        key={`menu-group-item-${index}`}
+                        className={className}
+                        {...item}
+                    />;
+                } else if (isMenuLabel(item)) {
+                    return <MenuLabel
+                        key={`menu-group-item-${index}`}
+                        {...item}
+                    />;
+                }
+                return null;
+            })}
         </Menu.Dropdown>
     </Menu>;
 };
