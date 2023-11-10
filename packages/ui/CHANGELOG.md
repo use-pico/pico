@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.10
+
+### Patch Changes
+
+- Renamed withLabel in MenuHref
+
 ## 2.0.9
 
 ### Patch Changes

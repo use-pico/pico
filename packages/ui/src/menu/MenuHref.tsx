@@ -7,20 +7,20 @@ import {
 import {ButtonLink} from "../ui/ButtonLink";
 
 export namespace MenuHref {
-    export interface Props extends Omit<ComponentProps<typeof Menu.Item<typeof ButtonLink>>, "children"> {
-        withLabel: ReactNode;
+    export interface Props extends Omit<ComponentProps<typeof Menu.Item<typeof ButtonLink>>, "children" | "label"> {
+        label: ReactNode;
     }
 }
 
 export const MenuHref: FC<MenuHref.Props> = (
     {
-        withLabel,
+        label,
         ...props
     }
 ) => {
     return <Menu.Item
         component={ButtonLink}
-        label={withLabel}
+        label={label}
         {...props}
     />;
 };
