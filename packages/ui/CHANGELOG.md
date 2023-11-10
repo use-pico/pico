@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.9
+
+### Patch Changes
+
+- Renamed withLabel in MenuLabel
+
 ## 2.0.8
 
 ### Patch Changes

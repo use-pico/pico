@@ -9,14 +9,14 @@ import {Group} from "../ui/Group";
 export namespace MenuLabel {
     export interface Props extends ComponentProps<typeof Menu.Label> {
         icon?: ReactNode;
-        withLabel?: ReactNode;
+        label?: ReactNode;
     }
 }
 
 export const MenuLabel: FC<MenuLabel.Props> = (
     {
         icon,
-        withLabel,
+        label,
         ...props
     }) => {
     return <Menu.Label
@@ -24,7 +24,7 @@ export const MenuLabel: FC<MenuLabel.Props> = (
     >
         <Group>
             {icon}
-            {withLabel}
+            {label}
         </Group>
     </Menu.Label>;
 };
