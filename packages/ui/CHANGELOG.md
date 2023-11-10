@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.13
+
+### Patch Changes
+
+- Menu label "label" is required
+
 ## 2.0.12
 
 ### Patch Changes
