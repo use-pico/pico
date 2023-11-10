@@ -57,7 +57,7 @@ export const TableAction = (
         <TableActionMenu>
             <ModalMenuItem
                 modalId={createId}
-                withLabel={text.create.label}
+                label={text.create.label}
                 leftSection={icon}
             />
         </TableActionMenu>

@@ -6,7 +6,10 @@ import {
     type FileQuerySchema,
     type FileSchema
 }                            from "@use-pico/file";
-import {tx}                  from "@use-pico/i18n";
+import {
+    t,
+    tx
+}                            from "@use-pico/i18n";
 import {
     type IQueryStore,
     type IWithMutation,
@@ -43,7 +46,7 @@ export const FileTableAction: FC<FileTableAction.Props> = (
         <TableActionMenu>
             <MenuItem
                 leftSection={<IconWashDrycleanOff/>}
-                withLabel={"stale.label"}
+                label={t()`Mark files as stale`}
                 color={"orange"}
                 disabled={!query.filter || fileMutation.isPending}
                 onClick={() => {

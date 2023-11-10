@@ -89,12 +89,12 @@ export const RowAction = <
             <ModalMenuItem
                 leftSection={<EditIcon/>}
                 modalId={updateModalId}
-                withLabel={text.update.label}
+                label={text.update.label}
             />
             <ModalMenuItem
                 leftSection={<TrashIcon/>}
                 modalId={deleteModalId}
-                withLabel={text.delete.label}
+                label={text.delete.label}
                 color={"red.5"}
             />
         </TableRowActionMenu>

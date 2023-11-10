@@ -1,5 +1,13 @@
 # @use-pico/ui-extra
 
+## 2.0.8
+
+### Patch Changes
+
+- Renamed withLabel on MenuItem
+- Updated dependencies
+    - @use-pico/ui@2.0.8
+
 ## 2.0.7
 
 ### Patch Changes
