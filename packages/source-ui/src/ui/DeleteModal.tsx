@@ -25,8 +25,9 @@ export namespace DeleteModal {
     export interface Props<
         TMutationSchema extends MutationSchema<any, any>,
         TResponseSchema extends ResponseSchema,
-    > extends Modal.Props, WithEntity.Schema<TResponseSchema> {
+    > extends Omit<Modal.Props, "title">, WithEntity.Schema<TResponseSchema> {
         text: {
+            title?: ReactNode;
             content: ReactNode;
             success: {
                 title: ReactNode;
@@ -60,7 +61,7 @@ export const DeleteModal = <
         modalProps={{
             closeOnClickOutside: !deleteMutation.isPending,
         }}
-        title={"delete.title"}
+        title={text.title}
         {...props}
     >
         {text.content}

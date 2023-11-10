@@ -31,20 +31,23 @@ export namespace DateTimeStore {
     }>
 }
 
-export const DateTimeStore = createStore<DateTimeStore.StoreProps>(values => () => ({
-    toLocalDate(date, fallback, opts = DateTime.DATE_MED) {
-        return iso2locale(date || undefined, fallback, opts);
-    },
-    toLocalDateTime(date, fallback, opts = DateTime.DATETIME_MED) {
-        return iso2locale(date || undefined, fallback, opts);
-    },
-    toUtcDateTime() {
-        console.error("Not supported yet!");
-        return undefined;
-    },
-    toUtcDate() {
-        console.error("Not supported yet!");
-        return undefined;
-    },
-    ...values,
-}));
+export const DateTimeStore = createStore<DateTimeStore.StoreProps>({
+    name:    "DateTimeStore",
+    factory: values => () => ({
+        toLocalDate(date, fallback, opts = DateTime.DATE_MED) {
+            return iso2locale(date || undefined, fallback, opts);
+        },
+        toLocalDateTime(date, fallback, opts = DateTime.DATETIME_MED) {
+            return iso2locale(date || undefined, fallback, opts);
+        },
+        toUtcDateTime() {
+            console.error("Not supported yet!");
+            return undefined;
+        },
+        toUtcDate() {
+            console.error("Not supported yet!");
+            return undefined;
+        },
+        ...values,
+    }),
+});

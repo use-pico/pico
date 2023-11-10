@@ -15,7 +15,7 @@ export namespace ItemsInline {
     export interface Props<
         TItem extends WithIdentitySchema.Type,
     > extends Group.Props {
-        label?: {
+        text?: {
             empty: ReactNode;
         };
         items: TItem[];
@@ -34,7 +34,7 @@ export const ItemsInline = <
     TItem extends WithIdentitySchema.Type,
 >(
     {
-        label,
+        text,
         Item,
         items,
         limit,
@@ -68,7 +68,7 @@ export const ItemsInline = <
             </Table>
         </Modal>
         <InlineLimit
-            label={label}
+            label={text}
             limit={limit}
             items={limit ? items.slice(0, limit) : items}
             Item={Item}

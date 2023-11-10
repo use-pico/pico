@@ -27,52 +27,55 @@ export namespace MonthsOfStore {
     }>
 }
 
-export const MonthsOfStore = createStore<MonthsOfStore.StoreProps>(values => (set, get) => ({
-    monthsOf(date: DateTime) {
-        set(({months: {selected}}) => ({
-            months: monthsOf({
-                date,
-                selected,
-            }),
-        }));
-        return get().months;
-    },
-    today() {
-        set(({months: {selected}}) => ({
-            months: monthsOf({
-                date: DateTime.now(),
-                selected,
-            }),
-        }));
-        return get().months;
-    },
-    prevYear() {
-        set(({
-                 months: {
-                             date,
-                             selected
-                         }
-             }) => ({
-            months: monthsOf({
-                date: date.minus({year: 1}),
-                selected,
-            }),
-        }));
-        return get().months;
-    },
-    nextYear() {
-        set(({
-                 months: {
-                             date,
-                             selected
-                         }
-             }) => ({
-            months: monthsOf({
-                date: date.plus({year: 1}),
-                selected,
-            }),
-        }));
-        return get().months;
-    },
-    ...values,
-}));
+export const MonthsOfStore = createStore<MonthsOfStore.StoreProps>({
+    name:    "MonthsOfStore",
+    factory: values => (set, get) => ({
+        monthsOf(date: DateTime) {
+            set(({months: {selected}}) => ({
+                months: monthsOf({
+                    date,
+                    selected,
+                }),
+            }));
+            return get().months;
+        },
+        today() {
+            set(({months: {selected}}) => ({
+                months: monthsOf({
+                    date: DateTime.now(),
+                    selected,
+                }),
+            }));
+            return get().months;
+        },
+        prevYear() {
+            set(({
+                     months: {
+                                 date,
+                                 selected
+                             }
+                 }) => ({
+                months: monthsOf({
+                    date: date.minus({year: 1}),
+                    selected,
+                }),
+            }));
+            return get().months;
+        },
+        nextYear() {
+            set(({
+                     months: {
+                                 date,
+                                 selected
+                             }
+                 }) => ({
+                months: monthsOf({
+                    date: date.plus({year: 1}),
+                    selected,
+                }),
+            }));
+            return get().months;
+        },
+        ...values,
+    }),
+});

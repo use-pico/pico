@@ -17,15 +17,18 @@ export namespace LoopsStore {
     }>
 }
 
-export const LoopsStore = createStore<LoopsStore.Props>(() => (set, get) => ({
-    current: 0,
-    isRunning() {
-        return get().current > 0;
-    },
-    inc() {
-        set(({current}) => ({current: current + 1}));
-    },
-    dec() {
-        set(({current}) => ({current: current - 1}));
-    },
-}));
+export const LoopsStore = createStore<LoopsStore.Props>({
+    name:    "LoopsStore",
+    factory: () => (set, get) => ({
+        current: 0,
+        isRunning() {
+            return get().current > 0;
+        },
+        inc() {
+            set(({current}) => ({current: current + 1}));
+        },
+        dec() {
+            set(({current}) => ({current: current - 1}));
+        },
+    }),
+});

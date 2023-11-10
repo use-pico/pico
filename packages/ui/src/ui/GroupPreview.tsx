@@ -15,7 +15,7 @@ import {Text}    from "./Text";
 export namespace GroupPreview {
     export interface Props {
         previewProps?: Omit<Partial<Preview.Props>, "items">;
-        items: Record<string, Item>;
+        items: Item[];
         type?: "tab" | "card";
     }
 
@@ -23,7 +23,7 @@ export namespace GroupPreview {
         title?: ReactNode;
         cardProps?: Partial<ICardProps>;
         sectionProps?: Partial<ComponentProps<typeof Card["Section"]>>;
-        items: Record<string, Preview.Item>;
+        items: Preview.Item[];
     }
 }
 
@@ -35,13 +35,14 @@ export const GroupPreview: FC<GroupPreview.Props> = (
     }
 ) => {
     return <Stack>
-        {type === "card" && Object.entries(items).map(([label, {
-            title,
-            cardProps,
-            sectionProps,
-            items,
-        }]) => <Card
-            key={`group-preview-${label}`}
+        {type === "card" && items.map((
+            {
+                title,
+                cardProps,
+                sectionProps,
+                items,
+            }, index) => <Card
+            key={`group-preview-${index}`}
             withBorder
             radius={"sm"}
             {...cardProps}
@@ -73,10 +74,10 @@ export const GroupPreview: FC<GroupPreview.Props> = (
                     {title}
                 </Tabs.Tab>)}
             </Tabs.List>
-            {Object.entries(items).map(([label, {items}]) => {
+            {items.map(({items}, index) => {
                 return <Tabs.Panel
-                    key={`group-preview-${label}`}
-                    value={label}
+                    key={`group-preview-${index}`}
+                    value={`group-preview-${index}`}
                 >
                     <Preview
                         items={items}

@@ -5,10 +5,10 @@ import {ValueInline}          from "./ValueInline";
 
 export namespace Preview {
     export interface Props extends SimpleGridProps {
-        items: Record<string, Item>;
+        items: Item[];
     }
 
-    export interface Item extends Omit<ValueInline.Props, "withLabel"> {
+    export interface Item extends ValueInline.Props {
     }
 }
 
@@ -23,9 +23,8 @@ export const Preview: FC<Preview.Props> = (
         cols={cols}
         {...props}
     >
-        {Object.entries(items).map(([label, props]) => <ValueInline
-            key={`value-inline-${label}`}
-            withLabel={label}
+        {items.map((props, index) => <ValueInline
+            key={`value-inline-${index}`}
             {...props}
         />)}
     </SimpleGrid>;

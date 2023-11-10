@@ -251,11 +251,12 @@ export namespace Form {
         TRequestSchema,
         TResponseSchema
     > {
-        label?: {
+        text?: {
             success?: {
                 title: ReactNode;
                 message: ReactNode;
             };
+            submit?: ReactNode;
         };
         formId?: string;
         /**
@@ -368,7 +369,7 @@ export const Form = <
     TResponseSchema extends ResponseSchema = TWithMutation["schema"]["response"],
 >(
     {
-        label,
+        text,
         formId,
         schema,
         withMutation,
@@ -538,8 +539,8 @@ export const Form = <
                                                 }));
                                             }, 0);
                                         }
-                                        label?.success && successNotification({
-                                            ...label.success,
+                                        text?.success && successNotification({
+                                            ...text.success,
                                         });
                                         await onSubmit?.({
                                             form,
@@ -623,6 +624,7 @@ export const Form = <
                                 <SubmitButton
                                     size={"md"}
                                     leftSection={icon}
+                                    label={text?.submit}
                                     {...submitProps}
                                 />
                                 {rightSection}
@@ -641,6 +643,7 @@ export const Form = <
                             {leftSection}
                             <SubmitButton
                                 leftSection={icon}
+                                label={text?.submit}
                                 {...submitProps}
                             />
                             {rightSection}

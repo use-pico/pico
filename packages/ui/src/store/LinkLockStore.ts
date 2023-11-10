@@ -14,16 +14,19 @@ export namespace LinkLockStore {
     }>;
 }
 
-export const LinkLockStore = createStore<LinkLockStore.Props>(values => (set) => ({
-    lock:   (lock = true) => {
-        set({
-            isLock: lock,
-        });
-    },
-    unlock: () => {
-        set({
-            isLock: false,
-        });
-    },
-    ...values,
-}));
+export const LinkLockStore = createStore<LinkLockStore.Props>({
+    name:    "LinkLockStore",
+    factory: values => (set) => ({
+        lock:   (lock = true) => {
+            set({
+                isLock: lock,
+            });
+        },
+        unlock: () => {
+            set({
+                isLock: false,
+            });
+        },
+        ...values,
+    }),
+});

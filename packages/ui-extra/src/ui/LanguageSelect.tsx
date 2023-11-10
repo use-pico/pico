@@ -1,10 +1,15 @@
-import {useLocale} from "@use-pico/i18n";
+"use client";
+
+import {
+    td,
+    useLocale
+}                from "@use-pico/i18n";
 import {
     usePathname,
     useWithRedirect
-}                  from "@use-pico/navigation";
-import {Select}    from "@use-pico/ui";
-import {type FC}   from "react";
+}                from "@use-pico/navigation";
+import {Select}  from "@use-pico/ui";
+import {type FC} from "react";
 
 export namespace LanguageSelect {
     export interface Props extends Omit<Select.Props, "data"> {
@@ -23,7 +28,7 @@ export const LanguageSelect: FC<LanguageSelect.Props> = (
 
     return <Select
         data={languages.map(language => ({
-            label: `[${language}]`,
+            label: td()(`Language code [${language}]`),
             value: language,
         }))}
         defaultValue={currentLocale}

@@ -8,7 +8,7 @@ import {type IWithSourceQuery}   from "@use-pico/source";
 import {type FC}                 from "react";
 import {QueryFetch}              from "../ui/QueryFetch";
 
-export namespace withQueryFetch {
+export namespace withCollection {
     export interface Props<
         TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
         TResponseSchema extends WithIdentitySchema,
@@ -27,13 +27,13 @@ export namespace withQueryFetch {
     >;
 }
 
-export const withQueryFetch = <
+export const withCollection = <
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     TResponseSchema extends WithIdentitySchema,
 >(
     {
         withSourceQuery,
-    }: withQueryFetch.Props<TQuerySchema, TResponseSchema>
-): withQueryFetch.Query<TQuerySchema, TResponseSchema> => {
+    }: withCollection.Props<TQuerySchema, TResponseSchema>
+): withCollection.Query<TQuerySchema, TResponseSchema> => {
     return props => <QueryFetch withSourceQuery={withSourceQuery} {...props}/>;
 };

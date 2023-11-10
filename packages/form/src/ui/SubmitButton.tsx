@@ -9,7 +9,7 @@ import {
 import {useFormContext} from "react-hook-form";
 
 export namespace SubmitButton {
-    export interface Props extends Omit<Button.Props, "form"> {
+    export interface Props extends Omit<Button.Props, "form" | "children"> {
         label?: ReactNode;
         isBusy?: boolean;
     }

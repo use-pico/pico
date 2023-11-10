@@ -23,6 +23,7 @@ export namespace IStore {
     export interface Store<
         TStore extends IStore<any>
     > {
+        name?: string;
         Context: Context<Api<TStore> | null>;
 
         store(values: TStore["values"]): Api<TStore>;

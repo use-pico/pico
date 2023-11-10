@@ -41,79 +41,82 @@ export namespace YearsOfStore {
     }>
 }
 
-export const YearsOfStore = createStore<YearsOfStore.StoreProps>(values => (set, get) => ({
-    yearsOf(date: DateTime) {
-        set({
-            years: yearsOf({date}),
-        });
-        return get().years;
-    },
-    today() {
-        set(({years: {selected}}) => ({
-            years: yearsOf({
-                date: DateTime.now(),
-                selected
-            }),
-        }));
-        return get().years;
-    },
-    prevYear() {
-        set(({
-                 years: {
-                            date,
-                            selected
-                        }
-             }) => ({
-            years: yearsOf({
-                date: date.minus({year: 1}),
-                selected,
-            }),
-        }));
-        return get().years;
-    },
-    nextYear() {
-        set(({
-                 years: {
-                            date,
-                            selected
-                        }
-             }) => ({
-            years: yearsOf({
-                date: date.plus({year: 1}),
-                selected,
-            }),
-        }));
-        return get().years;
-    },
-    prevYears() {
-        set(({
-                 years: {
-                            count,
-                            date,
-                            selected
-                        }
-             }) => ({
-            years: yearsOf({
-                date: date.minus({year: count}),
-                selected,
-            }),
-        }));
-        return get().years;
-    },
-    nextYears() {
-        set(({
-                 years: {
-                            count,
-                            date,
-                            selected
-                        }
-             }) => ({
-            years: yearsOf({
-                date: date.plus({year: count}),
-                selected,
-            }),
-        }));
-        return get().years;
-    },
-    ...values,
-}));
+export const YearsOfStore = createStore<YearsOfStore.StoreProps>({
+    name:    "YearsOfStore",
+    factory: values => (set, get) => ({
+        yearsOf(date: DateTime) {
+            set({
+                years: yearsOf({date}),
+            });
+            return get().years;
+        },
+        today() {
+            set(({years: {selected}}) => ({
+                years: yearsOf({
+                    date: DateTime.now(),
+                    selected
+                }),
+            }));
+            return get().years;
+        },
+        prevYear() {
+            set(({
+                     years: {
+                                date,
+                                selected
+                            }
+                 }) => ({
+                years: yearsOf({
+                    date: date.minus({year: 1}),
+                    selected,
+                }),
+            }));
+            return get().years;
+        },
+        nextYear() {
+            set(({
+                     years: {
+                                date,
+                                selected
+                            }
+                 }) => ({
+                years: yearsOf({
+                    date: date.plus({year: 1}),
+                    selected,
+                }),
+            }));
+            return get().years;
+        },
+        prevYears() {
+            set(({
+                     years: {
+                                count,
+                                date,
+                                selected
+                            }
+                 }) => ({
+                years: yearsOf({
+                    date: date.minus({year: count}),
+                    selected,
+                }),
+            }));
+            return get().years;
+        },
+        nextYears() {
+            set(({
+                     years: {
+                                count,
+                                date,
+                                selected
+                            }
+                 }) => ({
+                years: yearsOf({
+                    date: date.plus({year: count}),
+                    selected,
+                }),
+            }));
+            return get().years;
+        },
+        ...values,
+    }),
+});

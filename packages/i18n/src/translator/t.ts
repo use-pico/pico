@@ -2,7 +2,7 @@ import {type ReactNode}      from "react";
 import {TranslationInstance} from "../instance/TranslationInstance";
 import {keyOf}               from "../utils/keyOf";
 
-export namespace txr {
+export namespace t {
     export interface Props {
         values?: Record<string, any>;
         fallback?: ReactNode;
@@ -10,12 +10,10 @@ export namespace txr {
 }
 
 /**
- * Rich text translation; this returns ReactNode a supports component integration into a translation string.
- *
- * Generally, this method is safe to use in any places, where ReactNode is supported.
+ * Default RichText translation function (returns ReactNode); if you need simple text translations, use `tx`.
  */
-export function txr(
-    props?: txr.Props
+export function t(
+    props?: t.Props
 ) {
     return (input: TemplateStringsArray): ReactNode => {
         const key = input.join("");

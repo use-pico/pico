@@ -2,13 +2,13 @@
 
 import {tx}                    from "@use-pico/i18n";
 import {
-    IWithQuery,
+    type IWithQuery,
+    useFetchEx,
     useInvalidator,
-    useMutation,
-    useQueryEx
+    useMutation
 }                              from "@use-pico/query";
 import {
-    NullishSchema,
+    type ArraySchema,
     type RequestSchema
 }                              from "@use-pico/schema";
 import {useErrorNotification}  from "@use-pico/ui";
@@ -29,7 +29,7 @@ export namespace useJobManager {
     > {
         service: string;
         mutation: JobQueryMutation.WithMutation<TRequestSchema>;
-        query: IWithQuery<JobQuerySchema, NullishSchema<JobSchema>>;
+        query: IWithQuery<JobQuerySchema, ArraySchema<JobSchema>>;
         filter?: JobFilterSchema.Type;
         interval?: number;
 
@@ -73,7 +73,7 @@ export const useJobManager = <
     const jobMutation = useMutation({withMutation: mutation.withJobMutation});
     const watchInvalidator = useInvalidator({invalidator: query});
     const errorNotification = useErrorNotification();
-    const watch = useQueryEx({
+    const watch = useFetchEx({
         withQuery: query,
         request:   {
             where: {
@@ -91,7 +91,7 @@ export const useJobManager = <
             if (!watch.isSuccess) {
                 return null;
             } else if (!watch.data) {
-                return watch.data;
+                return undefined;
             } else if (prev?.status === watch.data?.status) {
                 return watch.data;
             }

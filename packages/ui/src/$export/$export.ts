@@ -2,7 +2,6 @@ export * from "./ActionBackButton";
 export * from "./ActionIcon";
 export * from "./ActionMenu";
 export * from "./ActionMenuIcon";
-export * from "./ActiveProvider";
 export * from "./Alert";
 export * from "./AlertIcon";
 export * from "./AppShell";

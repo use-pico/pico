@@ -19,7 +19,10 @@ export namespace RpcStore {
     >;
 }
 
-export const RpcStore = createStore<RpcStore.Store>(values => () => values);
+export const RpcStore = createStore<RpcStore.Store>({
+    name:    "RpcStore",
+    factory: values => () => values,
+});
 
 
 

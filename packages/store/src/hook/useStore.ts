@@ -19,10 +19,13 @@ export function useStore<
 export function useStore<
     TStore extends IStore<any>,
 >(
-    {Context}: IStore.Store<TStore>,
+    {
+        Context,
+        name
+    }: IStore.Store<TStore>,
     selector?: <TValue>(state: TStore["props"] & TStore["values"]) => TValue,
 ) {
-    const store = useContext(Context, "useStore");
+    const store = useContext(Context, name ?? "useStore");
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return selector ? useCoolStore(store, selector) : useCoolStore(store);
 }

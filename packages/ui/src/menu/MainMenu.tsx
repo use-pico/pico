@@ -2,12 +2,10 @@
 
 import {Group}           from "@mantine/core";
 import {isLink}          from "@use-pico/navigation";
-import {useStore}        from "@use-pico/store";
 import {cx}              from "@use-pico/utils";
 import {usePathname}     from "next/navigation";
 import {type FC}         from "react";
 import {type IMenuItems} from "../api/IMenuItems";
-import {ActiveStore}     from "../store/ActiveStore";
 import {isMenuGroup}     from "./isMenuGroup";
 import classes           from "./MainMenu.module.css";
 import {MenuGroup}       from "./MenuGroup";
@@ -16,6 +14,7 @@ import {MenuLink}        from "./MenuLink";
 export namespace MainMenu {
     export interface Props {
         links: IMenuItems;
+        active?: string[];
     }
 
     export type Classes = typeof classes;
@@ -24,8 +23,8 @@ export namespace MainMenu {
 export const MainMenu: FC<MainMenu.Props> = (
     {
         links,
+        active,
     }) => {
-    const {active: withActive} = useStore(ActiveStore, ({active}) => ({active}));
     const pathname = usePathname();
 
     return <Group
@@ -39,7 +38,7 @@ export const MainMenu: FC<MainMenu.Props> = (
                     className={cx(
                         classes.Link,
                         classes.LinkActive ? {
-                            [classes.LinkActive]: pathname?.includes(item.href) || withActive.includes(item.href) || withActive.includes(id),
+                            [classes.LinkActive]: pathname?.includes(item.href) || active?.includes(item.href) || active?.includes(id),
                         } : undefined
                     )}
                     {...item}

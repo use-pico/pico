@@ -1,4 +1,4 @@
-import {txr}       from "@use-pico/i18n";
+import {t}         from "@use-pico/i18n";
 import {
     Progress,
     Tooltip
@@ -44,7 +44,7 @@ export const JobProgress: FC<JobProgress.Props> = (
         {...progressProps}
     >
         <Tooltip
-            label={text?.successCount?.(job.successCount) || txr({values: {count: job.successCount}})`Job success count`}
+            label={text?.successCount?.(job.successCount) || t({values: {count: job.successCount}})`Job success count`}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -53,7 +53,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={text?.errorCount?.(job.errorCount) || txr({values: {count: job.errorCount}})`Job error count`}
+            label={text?.errorCount?.(job.errorCount) || t({values: {count: job.errorCount}})`Job error count`}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}
@@ -62,7 +62,7 @@ export const JobProgress: FC<JobProgress.Props> = (
             />
         </Tooltip>
         <Tooltip
-            label={text?.skipCount?.(job.skipCount) || txr({values: {count: job.skipCount}})`Job skip count`}
+            label={text?.skipCount?.(job.skipCount) || t({values: {count: job.skipCount}})`Job skip count`}
         >
             <Progress.Section
                 animated={JobStatus.JOB_PENDING.includes(job.status)}

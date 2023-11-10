@@ -14,12 +14,15 @@ export namespace BlockStore {
     }>;
 }
 
-export const BlockStore = createStore<BlockStore.StoreProps>(values => (set) => ({
-    block:   (block = true) => {
-        set({isBlock: block});
-    },
-    unblock: () => {
-        set({isBlock: false});
-    },
-    ...values,
-}));
+export const BlockStore = createStore<BlockStore.StoreProps>({
+    name:    "BlockStore",
+    factory: values => (set) => ({
+        block:   (block = true) => {
+            set({isBlock: block});
+        },
+        unblock: () => {
+            set({isBlock: false});
+        },
+        ...values,
+    }),
+});

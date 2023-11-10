@@ -14,7 +14,7 @@ export namespace ValueInline {
         /**
          * Label of a value (goes through translations).
          */
-        withLabel: ReactNode;
+        label: ReactNode;
         /**
          * Whatever value
          */
@@ -28,7 +28,7 @@ export namespace ValueInline {
  */
 export const ValueInline: FC<ValueInline.Props> = (
     {
-        withLabel,
+        label,
         value,
         withAction,
         children,
@@ -45,7 +45,7 @@ export const ValueInline: FC<ValueInline.Props> = (
                 justify={"apart"}
             >
                 <Text fw={500} c={"dimmed"}>
-                    {withLabel}
+                    {label}
                 </Text>
                 {withAction}
             </Group>

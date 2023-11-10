@@ -70,7 +70,6 @@ export const RowAction = <
             modalId={deleteModalId}
             entity={item}
             icon={icon}
-            title={text.delete.title}
             withMutation={withMutation}
         />
         <Modal

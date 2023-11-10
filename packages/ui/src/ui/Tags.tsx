@@ -1,10 +1,15 @@
 import {type TagSchema} from "@use-pico/schema";
-import {type FC}        from "react";
+import {
+    type FC,
+    type ReactNode
+}                       from "react";
 import {Badge}          from "./Badge";
 
 export namespace Tags {
     export interface Props {
         tags?: TagSchema.Type[];
+
+        render?(tag: TagSchema.Type): ReactNode;
 
         onClick?(tag: TagSchema.Type): void;
     }
@@ -13,6 +18,7 @@ export namespace Tags {
 export const Tags: FC<Tags.Props> = (
     {
         tags = [],
+        render = tag => tag.label,
         onClick,
     }
 ) => {
@@ -21,7 +27,7 @@ export const Tags: FC<Tags.Props> = (
             key={tag.id}
             onClick={() => onClick?.(tag)}
         >
-            {tag.group} - {tag.label}
+            {render(tag)}
         </Badge>)}
     </>;
 };

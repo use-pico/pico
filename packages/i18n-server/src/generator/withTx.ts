@@ -5,12 +5,16 @@ import {
     project,
     query
 }              from "@phenomnomnominal/tsquery";
+import {keyOf} from "@use-pico/i18n";
 import {
     diffOf,
     Timer
 }              from "@use-pico/utils";
 import fs      from "node:fs";
-import {keyOf} from "../utils/keyOf";
+import {
+    parse,
+    stringify
+}              from "yaml";
 
 export namespace withTx {
     export interface Props {
@@ -28,8 +32,8 @@ export const withTx = (
     }: withTx.Props,
 ) => {
     const translations: Record<string, {
-        key: string,
-        value: string
+        ref: string,
+        value: string,
     }> = {};
 
     packages.forEach(path => {
@@ -39,13 +43,13 @@ export const withTx = (
                 .filter(source => !source.fileName.endsWith(".d.ts"))
                 .forEach(source => {
                     query(source, "TaggedTemplateExpression")
-                        .filter(node => includes(node, "Identifier[name=tx]") || includes(node, "Identifier[name=txr]"))
+                        .filter(node => includes(node, "Identifier[name=t]") || includes(node, "Identifier[name=tx]"))
                         .forEach(node => {
                             match(node, "NoSubstitutionTemplateLiteral").forEach(node => {
                                 const source = print(node);
                                 const text = source.substring(1, source.length - 1);
                                 translations[keyOf(text)] = {
-                                    key:   text,
+                                    ref:   text,
                                     value: text,
                                 };
                             });
@@ -59,13 +63,13 @@ export const withTx = (
 
     const benchmark = Timer.benchmark(() => {
         locales.forEach(locale => {
-            const target = `${output}/${locale}.json`;
+            const target = `${output}/${locale}.yaml`;
 
             console.log(`Writing locale [${locale}] to [${target}]`);
 
             let current: Record<string, any> = {};
             try {
-                current = JSON.parse(fs.readFileSync(target, {encoding: "utf-8"})) as Record<string, any>;
+                current = parse(fs.readFileSync(target, {encoding: "utf-8"})) as Record<string, any>;
             } catch (e) {
                 // noop
             }
@@ -77,7 +81,7 @@ export const withTx = (
                 delete current[key];
             }
 
-            fs.writeFileSync(target, JSON.stringify({
+            fs.writeFileSync(target, stringify({
                 ...translations,
                 ...current
             }), {
@@ -85,6 +89,8 @@ export const withTx = (
             });
         });
     });
+
+    console.log(`Number of found translations: ${Object.keys(translations).length}`);
 
     console.log(benchmark.format("Exported in %s.%ms s"));
 };

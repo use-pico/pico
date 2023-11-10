@@ -10,16 +10,25 @@ export namespace createStore {
     export interface Props<
         TStore extends IStore<any>
     > {
-        (values: TStore["values"]): StateCreator<TStore["props"] & TStore["values"]>;
+        name?: string;
+        factory: Factory<TStore>;
     }
+
+    export type Factory<
+        TStore extends IStore<any>
+    > = (values: TStore["values"]) => StateCreator<TStore["props"] & TStore["values"]>;
 }
 
 export const createStore = <
     TStore extends IStore<any>
 >(
-    factory: createStore.Props<TStore>
+    {
+        name,
+        factory,
+    }: createStore.Props<TStore>
 ): IStore.Store<TStore> => {
     return {
+        name,
         Context: createContext<StoreApi<TStore["props"] & TStore["values"]>>(),
         store(values) {
             return coolCreateStore<TStore["props"] & TStore["values"]>(

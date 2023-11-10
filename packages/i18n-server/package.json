@@ -1,0 +1,50 @@
+{
+	"version": "2.0.0",
+	"name": "@use-pico/i18n-server",
+	"description": "I18n server-side support.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/use-pico/pico"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"main": "src/index.ts",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"build": "concurrently npm:build:*",
+		"build:esbuild": "node esbuild.mjs",
+		"build:types": "tsc --outDir lib",
+		"lint": "eslint src",
+		"cleanup": "concurrently npm:cleanup:*",
+		"cleanup:sdk": "del-cli src/sdk/**",
+		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+	},
+	"dependencies": {
+		"@phenomnomnominal/tsquery": "^6.1.3"
+	},
+	"peerDependencies": {
+		"@use-pico/i18n": "^2.0.0",
+		"@use-pico/utils": "^2.0.0",
+		"yaml": "^2.3.4"
+	},
+	"devDependencies": {
+		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/eslint-config-eslint": "^2.0.4",
+		"@use-pico/tsconfig": "^2.0.4",
+		"@types/node": "^20.4.2",
+		"@types/react": "^18.2.15",
+		"concurrently": "^8.2.0",
+		"del-cli": "^5.0.0",
+		"eslint": "^8.47.0",
+		"typescript": "^5.2.2"
+	},
+	"bugs": {
+		"url": "https://github.com/use-pico/pico/issues"
+	},
+	"homepage": "https://github.com/use-pico/pico#readme"
+}

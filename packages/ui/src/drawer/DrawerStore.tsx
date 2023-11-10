@@ -16,22 +16,25 @@ export namespace DrawerStore {
     }>;
 }
 
-export const DrawerStore = createStore<DrawerStore.Store>(values => (set, get) => ({
-    open:    id => {
-        set({
-            state: get().state.set(id, true),
-        });
-    },
-    close:   id => {
-        set({
-            state: get().state.set(id, false),
-        });
-    },
-    setOpen: (id, isOpened) => {
-        set({
-            state: get().state.set(id, isOpened),
-        });
-    },
-    isOpen:  id => get().state.get(id) || false,
-    ...values,
-}));
+export const DrawerStore = createStore<DrawerStore.Store>({
+    name:    "DrawerStore",
+    factory: values => (set, get) => ({
+        open:    id => {
+            set({
+                state: get().state.set(id, true),
+            });
+        },
+        close:   id => {
+            set({
+                state: get().state.set(id, false),
+            });
+        },
+        setOpen: (id, isOpened) => {
+            set({
+                state: get().state.set(id, isOpened),
+            });
+        },
+        isOpen:  id => get().state.get(id) || false,
+        ...values,
+    }),
+});

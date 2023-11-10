@@ -17,15 +17,20 @@ import {WithIcon}   from "./WithIcon";
 
 export namespace Page {
     export type Props = PropsWithChildren<{
+        /**
+         * Customize texts used in a page itself
+         */
         text?: {
+            /**
+             * Page title (shown in browser tab)
+             */
             title?: string;
+            /**
+             * Page header (shown at the top of page)
+             */
             header?: ReactNode;
         };
         icon?: ReactNode;
-        /**
-         * Set active links (for menu selection or whatever).
-         */
-        withActive?: string[];
         /**
          *
          */
@@ -44,8 +49,6 @@ export const Page: FC<Page.Props> = (
     {
         text,
         icon,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        withActive = [],
         postfix,
         append,
         extra,
@@ -54,12 +57,12 @@ export const Page: FC<Page.Props> = (
     }) => {
     return <Container fluid>
         <Unblock/>
-        {text?.header && <Head>
+        {text?.title && <Head>
             <title>
-                {text?.header}
+                {text?.title}
             </title>
         </Head>}
-        {(onBack || postfix || extra || text?.title) && <Grid
+        {(onBack || postfix || extra || text?.header) && <Grid
             align={"center"}
             py={"xs"}
         >
@@ -75,10 +78,10 @@ export const Page: FC<Page.Props> = (
             <GridCol span={"content"}>
                 <Flex gap={"sm"} justify={"center"} align={"center"}>
                     {(onBack || postfix) && <Divider orientation={"vertical"} mr={"sm"}/>}
-                    {text?.title && <Group justify={"center"} gap={"sm"}>
+                    {text?.header && <Group justify={"center"} gap={"sm"}>
                         {icon ? <WithIcon color={"gray"} icon={icon}/> : null}
                         <Title order={4}>
-                            {text?.title}
+                            {text?.header}
                         </Title>
                     </Group>}
                 </Flex>

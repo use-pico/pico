@@ -2,7 +2,7 @@ export interface ITranslation {
     /**
      * Original key
      */
-    key: string;
+    ref: string;
     /**
      * Translation of a key
      */

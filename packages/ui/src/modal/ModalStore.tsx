@@ -16,22 +16,25 @@ export namespace ModalStore {
     }>;
 }
 
-export const ModalStore = createStore<ModalStore.StoreProps>(values => (set, get) => ({
-    open:    id => {
-        set({
-            state: get().state.set(id, true),
-        });
-    },
-    close:   id => {
-        set({
-            state: get().state.set(id, false),
-        });
-    },
-    setOpen: (id, isOpened) => {
-        set({
-            state: get().state.set(id, isOpened),
-        });
-    },
-    isOpen:  id => get().state.get(id) || false,
-    ...values,
-}));
+export const ModalStore = createStore<ModalStore.StoreProps>({
+    name:    "ModalStore",
+    factory: values => (set, get) => ({
+        open:    id => {
+            set({
+                state: get().state.set(id, true),
+            });
+        },
+        close:   id => {
+            set({
+                state: get().state.set(id, false),
+            });
+        },
+        setOpen: (id, isOpened) => {
+            set({
+                state: get().state.set(id, isOpened),
+            });
+        },
+        isOpen:  id => get().state.get(id) || false,
+        ...values,
+    }),
+});

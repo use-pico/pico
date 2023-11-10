@@ -10,13 +10,13 @@ import {Notifications}       from "@mantine/notifications";
 import {
     DateTimeProvider,
     type ITranslations,
+    TranslationProvider,
     withDefaultPipeline,
     withInstance
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
 import {RpcProvider}         from "@use-pico/rpc";
 import {
-    ActiveProvider,
     BlockProvider,
     DrawerStoreProvider,
     ModalStoreProvider,
@@ -39,6 +39,7 @@ export namespace Providers {
         translations?: {
             translations: ITranslations;
             components: Record<string, ReactNode>;
+            withQuery?: TranslationProvider.WithQuery;
         };
         baseUrl?: string;
     }>;
@@ -82,7 +83,10 @@ export const Providers: FC<Providers.Props> = (
                     <DateTimeProvider
                         locale={locale}
                     >
-                        <ActiveProvider>
+                        <TranslationProvider
+                            locale={locale}
+                            withTranslationQuery={translations.withQuery}
+                        >
                             <BlockProvider>
                                 <DrawerStoreProvider>
                                     <ModalStoreProvider>
@@ -90,7 +94,7 @@ export const Providers: FC<Providers.Props> = (
                                     </ModalStoreProvider>
                                 </DrawerStoreProvider>
                             </BlockProvider>
-                        </ActiveProvider>
+                        </TranslationProvider>
                     </DateTimeProvider>
                 </ModalsProvider>
             </MantineProvider>
