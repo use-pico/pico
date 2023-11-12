@@ -37,6 +37,7 @@
         </toc-element>
     </toc-element>
     <toc-element topic="Concepts.md">
+        <toc-element topic="Entity.md"/>
         <toc-element topic="concept-RPC.md"/>
     </toc-element>
 </instance-profile>
