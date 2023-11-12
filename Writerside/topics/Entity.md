@@ -16,7 +16,9 @@ use another way, if you want to.
 
 ## Client-side
 
-### Create Dull Schema
+First we need to create all the client-side stuff.
+
+## Create Dull Schema
 
 Each entity needs quite a **bunch of schemas**, there is a tool to create one schema to _rule them all_,
 
@@ -81,7 +83,7 @@ export type TranslationDullSchema = typeof TranslationDullSchema;
     </step>
 </procedure>
 
-### Create Query Store
+## Create Query Store
 
 Query store is source of truth for setting client-side query, for example for tables or
 other sources.
@@ -111,7 +113,7 @@ export const TranslationQueryStore = createQueryStore({
     </step>
 </procedure>
 
-### Create RPC
+## Create RPC
 
 Because there are some endpoints you need, there is factory for them.
 
@@ -141,7 +143,7 @@ export type TranslationRpc = typeof TranslationRpc;
     </step>
 </procedure>
 
-### Create Common UI
+## Create Common UI
 
 There is a lot of repeating stuff which could be wrapped around, <i>here we go</i>.
 
@@ -172,7 +174,9 @@ export const TranslationUI = withDullUI({
 
 ## Server-side
 
-### Create Repository
+Now we have all the required stuff for server-side.
+
+## Create Repository
 
 Repository defines default behavior of you entity, usually doesn't need to include much of code.
 
@@ -190,7 +194,7 @@ Repository defines default behavior of you entity, usually doesn't need to inclu
     </step>
 </procedure>
 
-### DI Container wrapper
+## DI Container wrapper
 
 To use Repository in your code, there is a wrapper to simplify binding and using services (in this case Repository).
 
@@ -208,12 +212,13 @@ To use Repository in your code, there is a wrapper to simplify binding and using
 import {withService}                from "@use-pico/container";
 import {type TranslationRepository} from "../repository/TranslationRepository";
 
-export const withTranslationRepository = withService<TranslationRepository.Type>("@use-pico/i18n/TranslationRepository");
-        </code-block>
-    </step>
+export const withTranslationRepository = withService<TranslationRepository.Type>("
+@use-pico/i18n/TranslationRepository");
+</code-block>
+</step>
 </procedure>
 
-### Expose services
+## Expose services
 
 This factory may contain more services, but in this context only repository is present.
 
@@ -231,7 +236,7 @@ This factory may contain more services, but in this context only repository is p
     </step>
 </procedure>
 
-### Register services
+## Register services
 
 You should have your DI container setup, so just add `withTranslationContainer` to register all the previously created
 stuff.
