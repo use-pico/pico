@@ -1,5 +1,11 @@
 # @use-pico/orm
 
+## 2.0.6
+
+### Patch Changes
+
+- Updated dependency
+
 ## 2.0.5
 
 ### Patch Changes
