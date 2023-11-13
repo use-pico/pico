@@ -47,7 +47,8 @@
 				"NEXTAUTH_URL",
 				"NEXT_PUBLIC_RPC",
 				"NEXT_PUBLIC_VERSION",
-				"NODE_ENV"
+				"NODE_ENV",
+				"REDIS_URL"
 			]
 		},
 		"dev": {

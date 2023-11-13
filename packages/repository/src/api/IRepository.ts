@@ -1,17 +1,20 @@
-import {type Database}           from "@use-pico/orm";
+import {type Database}      from "@use-pico/orm";
 import {
     type FilterSchema,
     type OrderBySchema,
     type QuerySchema
-}                                from "@use-pico/query";
-import {type WithIdentitySchema} from "@use-pico/schema";
+}                           from "@use-pico/query";
+import {
+    PicoSchema,
+    type WithIdentitySchema
+}                           from "@use-pico/schema";
 import {
     type MutationSchema,
     type ShapeSchema
-}                                from "@use-pico/source";
-import {type IWithApply}         from "./IWithApply";
-import {type IWithMutation}      from "./IWithMutation";
-import {type IWithQuery}         from "./IWithQuery";
+}                           from "@use-pico/source";
+import {type IWithApply}    from "./IWithApply";
+import {type IWithMutation} from "./IWithMutation";
+import {type IWithQuery}    from "./IWithQuery";
 
 export interface IRepository<
     TDatabase extends Database,
@@ -30,6 +33,10 @@ export interface IRepository<
     get withQuery(): IWithQuery<TDatabase, TSchema, TTable>;
 
     get withMutation(): IWithMutation<TDatabase, TSchema, TTable>;
+
+    toCreate(create: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>>): Promise<Omit<PicoSchema.Output<TSchema["entity"]>, "id">>;
+
+    toUpdate(update: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>>["update"]): Promise<Partial<PicoSchema.Output<TSchema["entity"]>>>;
 }
 
 export namespace IRepository {

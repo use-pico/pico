@@ -4,17 +4,17 @@ import {
     print,
     project,
     query
-}              from "@phenomnomnominal/tsquery";
-import {keyOf} from "@use-pico/i18n";
+}         from "@phenomnomnominal/tsquery";
 import {
     diffOf,
+    keyOf,
     Timer
-}              from "@use-pico/utils";
-import fs      from "node:fs";
+}         from "@use-pico/utils";
+import fs from "node:fs";
 import {
     parse,
     stringify
-}              from "yaml";
+}         from "yaml";
 
 export namespace withTx {
     export interface Props {
@@ -49,7 +49,7 @@ export const withTx = (
                                 const source = print(node);
                                 const text = source.substring(1, source.length - 1);
                                 translations[keyOf(text)] = {
-                                    ref: text,
+                                    ref:   text,
                                     value: text,
                                 };
                             });

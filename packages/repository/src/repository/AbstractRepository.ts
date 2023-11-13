@@ -7,6 +7,7 @@ import {
     type OrderBySchema,
     type QuerySchema
 }                           from "@use-pico/query";
+import {PicoSchema}         from "@use-pico/schema";
 import {
     type MutationSchema,
     type ShapeSchema
@@ -66,5 +67,13 @@ export class AbstractRepository<
             this.table,
             this,
         ));
+    }
+
+    public async toCreate(create: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>>): Promise<Omit<PicoSchema.Output<TSchema["entity"]>, "id">> {
+        return create;
+    }
+
+    public async toUpdate(update: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>>["update"]): Promise<Partial<PicoSchema.Output<TSchema["entity"]>>> {
+        return update;
     }
 }

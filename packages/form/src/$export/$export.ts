@@ -19,3 +19,4 @@ export * from "./defaultsOf";
 export * from "./promiseResolver";
 export * from "./withSourceMultiQueryInput";
 export * from "./withSourceQueryInput";
+export * from "./withSourceSelectionInput";

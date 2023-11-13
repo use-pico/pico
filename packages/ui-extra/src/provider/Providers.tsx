@@ -12,7 +12,8 @@ import {
     type ITranslations,
     TranslationProvider,
     withDefaultPipeline,
-    withInstance
+    withInstance,
+    withTranslationQuery
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
 import {RpcProvider}         from "@use-pico/rpc";
@@ -85,7 +86,7 @@ export const Providers: FC<Providers.Props> = (
                     >
                         <TranslationProvider
                             locale={locale}
-                            withTranslationQuery={translations.withQuery}
+                            withTranslationQuery={translations.withQuery || withTranslationQuery}
                         >
                             <BlockProvider>
                                 <DrawerStoreProvider>

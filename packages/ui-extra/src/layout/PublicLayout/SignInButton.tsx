@@ -2,7 +2,7 @@
 
 import {IconLogin} from "@tabler/icons-react";
 import {
-    tx,
+    t,
     useLocaleRouter
 }                  from "@use-pico/i18n";
 import {Button}    from "@use-pico/ui";
@@ -33,6 +33,6 @@ export const SignInButton: FC<SignInButton.Props> = (
             href: loginUrl,
         }) : signIn(undefined, signInOptions)}
     >
-        {tx()`Sign-in`}
+        {t()`Sign-in`}
     </Button>;
 };

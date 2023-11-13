@@ -7,7 +7,7 @@ export const TranslationInstance: {
     instance: {
         locale:       "pseudo",
         translations: {},
-        pipeline:     withDefaultPipeline({
+        pipeline: withDefaultPipeline({
             rich: {
                 component: {
                     components: {},

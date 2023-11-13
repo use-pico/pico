@@ -16,8 +16,8 @@ import type {ValuesSchema}         from "../schema/ValuesSchema";
 
 export namespace withSourceMultiQueryInput {
     export interface Props<
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
         TResponseSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     > {
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, TResponseSchema>;
@@ -26,14 +26,17 @@ export namespace withSourceMultiQueryInput {
 }
 
 export const withSourceMultiQueryInput = <
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
     TResponseSchema extends WithIdentitySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
     {
         withQueryStore,
         withSourceQuery,
         MultiSelectionStore,
-    }: withSourceMultiQueryInput.Props<TQuerySchema, TResponseSchema>
+    }: withSourceMultiQueryInput.Props<
+        TResponseSchema,
+        TQuerySchema
+    >
 ) => {
     return function <
         TValuesSchema extends ValuesSchema,
@@ -41,9 +44,16 @@ export const withSourceMultiQueryInput = <
         {
             queryDefaults,
             ...props
-        }: Omit<MultiQueryInput.Props<TValuesSchema, TResponseSchema, TQuerySchema>, "withSourceQuery" | "MultiSelectionStore" | "withFindByQuery"> & {
-            queryDefaults?: PicoSchema.Output<TQuerySchema>;
-        }
+        }: Omit<
+            MultiQueryInput.Props<
+                TValuesSchema,
+                TResponseSchema,
+                TQuerySchema
+            >,
+            "withSourceQuery" | "MultiSelectionStore" | "withFindByQuery"
+        > & {
+               queryDefaults?: PicoSchema.Output<TQuerySchema>;
+           }
     ) {
         return <StoreProvider
             store={withQueryStore}

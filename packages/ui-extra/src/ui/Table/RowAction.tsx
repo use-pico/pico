@@ -20,8 +20,7 @@ export namespace RowAction {
     > extends WithItem.Schema<TItemSchema> {
         text: {
             delete: {
-                title: ReactNode;
-                label: ReactNode;
+                label?: ReactNode;
                 modal: DeleteModal.Props<any, any>["text"];
             };
             update: {

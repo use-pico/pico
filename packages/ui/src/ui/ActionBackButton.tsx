@@ -1,4 +1,4 @@
-import {tx}        from "@use-pico/i18n";
+import {t}         from "@use-pico/i18n";
 import {type FC}   from "react";
 import {CloseIcon} from "../icon/CloseIcon";
 import {Button}    from "./Button";
@@ -16,6 +16,6 @@ export const ActionBackButton: FC<ActionBackButton.Props> = props => {
         variant={"subtle"}
         {...props}
     >
-        {tx()`Cancel`}
+        {t()`Cancel`}
     </Button>;
 };

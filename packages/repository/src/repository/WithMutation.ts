@@ -21,7 +21,7 @@ export class WithMutation<
     ) {
     }
 
-    public async mutation(mutate: PicoSchema.Output<TSchema["mutation"]>): Promise<TSchema["entity"]> {
+    public async mutation(mutate: PicoSchema.Output<TSchema["mutation"]>): Promise<PicoSchema.Output<TSchema["entity"]>> {
         if (mutate.create) {
             return this.create(mutate.create);
         } else if (mutate.update) {
@@ -32,10 +32,10 @@ export class WithMutation<
         throw new Error("Nothing to mutate.");
     }
 
-    public async create(create: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>>): Promise<TSchema["entity"]> {
+    public async create(create: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>>): Promise<PicoSchema.Output<TSchema["entity"]>> {
         return await this.client
             .insertInto(this.table)
-            .values(create)
+            .values(await this.repository.toCreate(create) as PicoSchema.Output<TSchema["entity"]>)
             .returningAll()
             .executeTakeFirstOrThrow();
     }
@@ -45,14 +45,14 @@ export class WithMutation<
             update,
             query,
         }: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>>
-    ): Promise<TSchema["entity"]> {
+    ): Promise<PicoSchema.Output<TSchema["entity"]>> {
         const entity = await this.repository.withQuery.fetchOrThrow(query);
         if (!update) {
             return entity;
         }
         return await this.client
             .updateTable(this.table)
-            .set(update)
+            .set(await this.repository.toUpdate(update))
             /**
              * Resolve an entity with a query to get an ID being updated
              */
@@ -61,7 +61,7 @@ export class WithMutation<
             .executeTakeFirst();
     }
 
-    public async delete(query: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["delete"]>>): Promise<TSchema["entity"]> {
+    public async delete(query: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["delete"]>>): Promise<PicoSchema.Output<TSchema["entity"]>> {
         const entity = await this.repository.withQuery.fetchOrThrow(query);
         await this.client.deleteFrom(this.table).where("id", "=", entity.id).execute();
         return entity;

@@ -95,6 +95,7 @@ export const Fulltext = <
         >
             <WithIcon icon={<IconX/>}/>
         </ActionIcon> : undefined}
+        size={"md"}
         label={text?.label}
         {...props}
     />;

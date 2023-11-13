@@ -1,13 +1,14 @@
-import {tx}       from "@use-pico/i18n";
-import {isString} from "@use-pico/utils";
+import {t}           from "@use-pico/i18n";
+import {isString}    from "@use-pico/utils";
 import {
     type FC,
     type PropsWithChildren,
     type ReactNode
-}                 from "react";
-import {Card}     from "./Card";
-import {Group}    from "./Group";
-import {Text}     from "./Text";
+}                    from "react";
+import {Card}        from "./Card";
+import {CardSection} from "./CardSection";
+import {Group}       from "./Group";
+import {Text}        from "./Text";
 
 export namespace ValueInline {
     export type Props = PropsWithChildren<{
@@ -36,7 +37,7 @@ export const ValueInline: FC<ValueInline.Props> = (
     return <Card
         padding={"md"}
     >
-        <Card.Section
+        <CardSection
             withBorder
             inheritPadding
             py={"xs"}
@@ -49,19 +50,19 @@ export const ValueInline: FC<ValueInline.Props> = (
                 </Text>
                 {withAction}
             </Group>
-        </Card.Section>
-        <Card.Section
+        </CardSection>
+        <CardSection
             inheritPadding
             py={"xs"}
         >
-            {isString(value) ? <Text fw={500}>{value}</Text> : (value || tx()`Value not set`)}
-        </Card.Section>
-        {children && <Card.Section
+            {isString(value) ? <Text fw={500}>{value}</Text> : (value || t()`Value not set`)}
+        </CardSection>
+        {children && <CardSection
             inheritPadding
             withBorder
             py={"xs"}
         >
             {children}
-        </Card.Section>}
+        </CardSection>}
     </Card>;
 };

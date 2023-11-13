@@ -19,6 +19,9 @@ export namespace createStore {
     > = (values: TStore["values"]) => StateCreator<TStore["props"] & TStore["values"]>;
 }
 
+/**
+ * This is a helper to create (Zustand) store.
+ */
 export const createStore = <
     TStore extends IStore<any>
 >(
@@ -28,8 +31,17 @@ export const createStore = <
     }: createStore.Props<TStore>
 ): IStore.Store<TStore> => {
     return {
+        /**
+         * Store name.
+         */
         name,
+        /**
+         * Store context.
+         */
         Context: createContext<StoreApi<TStore["props"] & TStore["values"]>>(),
+        /**
+         * Store factory.
+         */
         store(values) {
             return coolCreateStore<TStore["props"] & TStore["values"]>(
                 ($set, $get, $store) => factory(values)($set, $get, $store)

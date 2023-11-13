@@ -1,5 +1,18 @@
 # @use-pico/i18n
 
+## 2.0.8
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/dull-stuff@2.0.1
+    - @use-pico/ui-extra@2.0.9
+    - @use-pico/schema@2.0.6
+    - @use-pico/store@2.0.6
+    - @use-pico/utils@2.0.7
+    - @use-pico/form@2.0.9
+
 ## 2.0.7
 
 ### Patch Changes

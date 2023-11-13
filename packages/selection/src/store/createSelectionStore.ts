@@ -6,6 +6,9 @@ export type createSelectionStore<
     TItem extends WithIdentitySchema.Type,
 > = typeof createSelectionStore<TItem>;
 
+/**
+ * This is a helper to create single selection store.
+ */
 export const createSelectionStore = <
     TItem extends WithIdentitySchema.Type,
 >(): ISelectionStore<TItem> => {

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/i18n-server",
 	"description": "I18n server-side support.",
 	"license": "MIT",
@@ -24,13 +24,14 @@
 		"cleanup:sdk": "del-cli src/sdk/**",
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
-	"dependencies": {
-		"@phenomnomnominal/tsquery": "^6.1.3"
-	},
 	"peerDependencies": {
-		"@use-pico/i18n": "^2.0.7",
-		"@use-pico/utils": "^2.0.0",
-		"yaml": "^2.3.4"
+		"@use-pico/container": "^2.0.0",
+		"@use-pico/dull-stuff": "^2.0.1",
+		"@use-pico/i18n": "^2.0.8",
+		"@use-pico/orm": "^2.0.5",
+		"@use-pico/repository": "^2.0.5",
+		"@use-pico/rpc-server": "^2.0.5",
+		"@use-pico/utils": "^2.0.7"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.4",

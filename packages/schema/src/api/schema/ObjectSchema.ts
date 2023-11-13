@@ -1,5 +1,6 @@
 import {type IsPartial}      from "../IsPartial";
 import {type PicoSchema}     from "../PicoSchema";
+import {type Prettify}       from "../Prettify";
 import {type NullishSchema}  from "./NullishSchema";
 import {type OptionalSchema} from "./OptionalSchema";
 
@@ -44,15 +45,17 @@ export namespace ObjectSchema {
 
     export type Input<
         TShape extends Shape,
-    > =
+    > = Prettify<
         { [TKey in NonPartials<TShape>]: PicoSchema.Input<TShape[TKey]>; }
         &
-        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Input<TShape[TKey]>; }>;
+        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Input<TShape[TKey]>; }>
+    >;
 
     export type Output<
         TShape extends Shape,
-    > =
+    > = Prettify<
         { [TKey in NonPartials<TShape>]: PicoSchema.Output<TShape[TKey]>; }
         &
-        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Output<TShape[TKey]>; }>;
+        Partial<{ [TKey in Partials<TShape>]: PicoSchema.Output<TShape[TKey]>; }>
+    >;
 }

@@ -51,4 +51,12 @@ export async function migration(db: Kysely<any>): Promise<void> {
         .on("Session")
         .column("userId")
         .execute();
+
+    await withUuidTable("Translation", db)
+        .addColumn("locale", "text", col => col.notNull())
+        .addColumn("key", "text", col => col.notNull())
+        .addColumn("hash", "text", col => col.notNull())
+        .addColumn("value", "text", col => col.notNull())
+        .addUniqueConstraint("Translation_locale_hash_unique", ["locale", "hash"])
+        .execute();
 }

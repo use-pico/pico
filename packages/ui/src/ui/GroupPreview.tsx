@@ -4,10 +4,7 @@ import {
     type FC,
     type ReactNode
 }                from "react";
-import {
-    Card,
-    type ICardProps
-}                from "./Card";
+import {Card}    from "./Card";
 import {Preview} from "./Preview";
 import {Stack}   from "./Stack";
 import {Text}    from "./Text";
@@ -21,7 +18,7 @@ export namespace GroupPreview {
 
     export interface Item {
         title?: ReactNode;
-        cardProps?: Partial<ICardProps>;
+        cardProps?: Partial<Card.Props>;
         sectionProps?: Partial<ComponentProps<typeof Card["Section"]>>;
         items: Preview.Item[];
     }

@@ -2,6 +2,9 @@ import {type WithIdentitySchema}   from "@use-pico/schema";
 import {createStore}               from "@use-pico/store";
 import {type IMultiSelectionStore} from "../api/IMultiSelectionStore";
 
+/**
+ * This is a helper to create multi selection store.
+ */
 export type createMultiSelectionStore<
     TItem extends WithIdentitySchema.Type,
 > = typeof createMultiSelectionStore<TItem>;

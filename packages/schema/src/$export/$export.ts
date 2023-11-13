@@ -24,6 +24,7 @@ export * from "./WithIdentitySchema";
 export * from "./identityOf";
 export * from "./isError";
 export * from "./isPartial";
+export * from "./isSchema";
 export * from "./merge";
 export * from "./parse";
 export * from "./parse$";

@@ -1,4 +1,4 @@
-import {tx}             from "@use-pico/i18n";
+import {t}              from "@use-pico/i18n";
 import {
     Group,
     StatInline
@@ -25,7 +25,7 @@ export const JobStats: FC<JobStats.Props> = (
     return <Group gap={"xs"}>
         <StatInline
             text={{
-                label: tx()`Success count`,
+                label: t()`Success count`,
             }}
             count={job.successCount}
             textProps={{
@@ -34,7 +34,7 @@ export const JobStats: FC<JobStats.Props> = (
         />
         <StatInline
             text={{
-                label: tx()`Error count`,
+                label: t()`Error count`,
             }}
             count={job.errorCount}
             textProps={{
@@ -43,7 +43,7 @@ export const JobStats: FC<JobStats.Props> = (
         />
         <StatInline
             text={{
-                label: tx()`Skip count`,
+                label: t()`Skip count`,
             }}
             count={job.skipCount}
             textProps={{
@@ -52,7 +52,7 @@ export const JobStats: FC<JobStats.Props> = (
         />
         <StatInline
             text={{
-                label: tx()`Total count`,
+                label: t()`Total count`,
             }}
             count={job.total}
         />

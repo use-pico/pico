@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/server",
 	"description": "Server side stuff, DI container and so on. This is quite heavy dependency (core of server-side pico).",
 	"license": "MIT",
@@ -30,8 +30,10 @@
 	"peerDependencies": {
 		"@use-pico/auth-server": "^2.0.3",
 		"@use-pico/container": "^2.0.5",
-		"@use-pico/rpc-server": "^2.0.4",
-		"@use-pico/schema": "^2.0.5"
+		"@use-pico/i18n-server": "^2.0.2",
+		"@use-pico/redis": "^2.0.1",
+		"@use-pico/rpc-server": "^2.0.5",
+		"@use-pico/schema": "^2.0.6"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.4",

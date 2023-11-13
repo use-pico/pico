@@ -7,11 +7,8 @@ import {
     type RequestSchema,
     type WithIdentitySchema
 }                               from "@use-pico/schema";
-import {type MutationSchema}    from "@use-pico/source";
 import {type JobMutationSchema} from "../schema/JobMutationSchema";
-import {type JobQuerySchema}    from "../schema/JobQuerySchema";
 import {type JobSchema}         from "../schema/JobSchema";
-import {type JobShapeSchema}    from "../schema/JobShapeSchema";
 
 /**
  * Here are all queries/mutations a job needs to work.
@@ -40,6 +37,6 @@ export namespace JobQueryMutation {
     > {
         asyncMutation: WithAsyncMutation.Mutation<TRequestSchema>;
         interruptMutation: IWithMutation.Result<WithIdentitySchema, JobSchema>;
-        jobMutation: IWithMutation.Result<MutationSchema<JobShapeSchema, JobQuerySchema>, JobQuerySchema>;
+        jobMutation: IWithMutation.Result<JobMutationSchema, JobSchema>;
     }
 }

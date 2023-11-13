@@ -8,6 +8,7 @@ import {
     type IWithQuery,
     type QuerySchema
 }                            from "@use-pico/query";
+import {withRedisService}    from "@use-pico/redis";
 import {type IRepository}    from "@use-pico/repository";
 import {type ArraySchema}    from "@use-pico/schema";
 import {type MutationSchema} from "@use-pico/source";
@@ -94,9 +95,15 @@ export const withRepositoryHandler = <
         >
     >(mutation.key.join("."), {
         schema: mutation.schema,
+        cache:  {
+            bypass: true,
+        },
         handle: async ({
                            request,
                            container
-                       }) => withRepository.use(container).withMutation.mutation(request),
+                       }) => {
+            await withRedisService.use(container).clear();
+            return withRepository.use(container).withMutation.mutation(request);
+        },
     });
 };

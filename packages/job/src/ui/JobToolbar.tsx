@@ -1,5 +1,5 @@
 import {IconHandStop}       from "@tabler/icons-react";
-import {tx}                 from "@use-pico/i18n";
+import {t}                  from "@use-pico/i18n";
 import {type RequestSchema} from "@use-pico/schema";
 import {
     ActionIcon,
@@ -25,7 +25,7 @@ export const JobToolbar = <
     }: JobToolbar.Props<TRequestSchema>
 ) => {
     return <Group gap={"xs"}>
-        {jobManager.isRunning() && <Tooltip label={tx()`Interrupt job`}>
+        {jobManager.isRunning() && <Tooltip label={t()`Interrupt job`}>
             <ActionIcon
                 loading={jobManager.mutation.interruptMutation.isPending}
                 variant={"subtle"}

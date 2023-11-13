@@ -27,6 +27,15 @@ export abstract class AbstractWithApply<
         >,
         string
     >;
+    public matchOfIn?: Partial<
+        Record<
+            keyof Omit<
+                NonNullable<PicoSchema.Output<TSchema["query"]["shape"]["where"]>>,
+                keyof FilterSchema.Type
+            >,
+            string
+        >
+    >;
 
     protected constructor(
         public schema: TSchema,
@@ -47,6 +56,10 @@ export abstract class AbstractWithApply<
             id: "id",
             ...this.matchOf,
         };
+        const $matchOfIn = {
+            idIn: "id",
+            ...this.matchOfIn,
+        };
 
         /**
          * A bit of magic: look into fields coming from the outside and remap them on exact match for database column.
@@ -63,6 +76,17 @@ export abstract class AbstractWithApply<
                     $matchOf[match as keyof typeof this.matchOf] as any,
                     value === null ? "is" : "=",
                     value
+                )
+            );
+        }
+        for (const [match, values] of Object.entries(matchOf || {})) {
+            if (!Array.isArray(values)) {
+                continue;
+            }
+            $matchOfIn[match as keyof typeof this.matchOfIn] && ($select = $select.where(
+                    $matchOfIn[match as keyof typeof this.matchOfIn] as any,
+                    values.length ? "in" : "is",
+                    values.length ? values : null
                 )
             );
         }

@@ -1,5 +1,11 @@
 # @use-pico/orm
 
+## 2.0.5
+
+### Patch Changes
+
+- Version bump
+
 ## 2.0.4
 
 ### Patch Changes

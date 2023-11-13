@@ -1,4 +1,4 @@
-import {tx}                      from "@use-pico/i18n";
+import {t}                       from "@use-pico/i18n";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {useStore}                from "@use-pico/store";
 import {ReactNode}               from "react";
@@ -42,7 +42,7 @@ export const InlineLimit = <
             {label?.empty}
         </Text>}
         {(limit && count > limit) && <>
-            <Tooltip label={tx()`Show more items`}>
+            <Tooltip label={t()`Show more items`}>
                 <ActionIcon
                     variant={"subtle"}
                     onClick={e => {

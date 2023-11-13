@@ -23,17 +23,17 @@ export interface IWithMutation<
         create: NonNullable<
             PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>
         >
-    ): Promise<TSchema["entity"]>;
+    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
 
     update(
         update: NonNullable<
             PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>
         >
-    ): Promise<TSchema["entity"]>;
+    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
 
     delete(
         query: NonNullable<
             PicoSchema.Output<TSchema["mutation"]["shape"]["delete"]>
         >
-    ): Promise<TSchema["entity"]>;
+    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
 }

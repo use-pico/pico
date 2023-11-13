@@ -1,5 +1,15 @@
 # @use-pico/ui
 
+## 2.0.14
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/store@2.0.6
+    - @use-pico/utils@2.0.7
+    - @use-pico/i18n@2.0.8
+
 ## 2.0.13
 
 ### Patch Changes

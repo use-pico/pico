@@ -45,6 +45,10 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/source-ui/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/migrator/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/i18n-server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/diagram/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/dull-stuff/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/redis/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/tx/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
@@ -124,6 +128,11 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/migrator/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n-server/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n-server/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/diagram/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/dull-stuff/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/redis/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/tx/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/tx/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -21,6 +21,7 @@ export * from "./Button";
 export * from "./ButtonBar";
 export * from "./ButtonLink";
 export * from "./Card";
+export * from "./CardSection";
 export * from "./Center";
 export * from "./CheckIcon";
 export * from "./Chip";

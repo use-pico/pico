@@ -1,6 +1,6 @@
 "use client";
 
-import {tx}                  from "@use-pico/i18n";
+import {t}                   from "@use-pico/i18n";
 import {
     type FilterSchema,
     type IQueryStore,
@@ -89,7 +89,7 @@ export const DeleteByModal = <
                 disabled={deleteMutation.isPending}
                 onClick={() => close(props.modalId)}
             >
-                {tx()`Cancel`}
+                {t()`Cancel`}
             </Button>
             <Button
                 size={"lg"}
@@ -112,7 +112,7 @@ export const DeleteByModal = <
                     });
                 }}
             >
-                {text.confirm ?? tx()`Delete`}
+                {text.confirm ?? t()`Delete`}
             </Button>
         </Flex>
     </Modal>;

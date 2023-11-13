@@ -1,5 +1,8 @@
 import {IconSearch}              from "@tabler/icons-react";
-import {tx}                      from "@use-pico/i18n";
+import {
+    t,
+    tx
+}                                from "@use-pico/i18n";
 import {
     IQueryStore,
     type QuerySchema
@@ -54,8 +57,8 @@ export const TableCountResult = <
 
     const Empty$ = useCallback(() => <Status
         text={{
-            title:   tx()`Table is empty`,
-            message: tx()`There is currently nothing to see`,
+            title:   t()`Table is empty`,
+            message: t()`There is currently nothing to see`,
         }}
     />, []);
     const WithEmpty = Empty || Empty$;
@@ -68,8 +71,8 @@ export const TableCountResult = <
                     icon={<IconSearch size={256}/>}
                 />}
                 text={text?.filtered ?? {
-                    title:    tx()`Nothing found by current filter`,
-                    subtitle: tx()`Currently set filter is too strict, so there is nothing to show`,
+                    title:    t()`Nothing found by current filter`,
+                    subtitle: t()`Currently set filter is too strict, so there is nothing to show`,
                 }}
             />
         </Container>}

@@ -1,6 +1,6 @@
 import {Table}                   from "@mantine/core";
 import {IconFileDots}            from "@tabler/icons-react";
-import {tx}                      from "@use-pico/i18n";
+import {t}                       from "@use-pico/i18n";
 import {type WithIdentitySchema} from "@use-pico/schema";
 import {
     type FC,
@@ -46,7 +46,7 @@ export const ItemsInline = <
                 onClick: e => e.stopPropagation(),
             }}
             icon={<IconFileDots/>}
-            title={tx()`More`}
+            title={t()`More`}
             modalId={"detail"}
         >
             <Table

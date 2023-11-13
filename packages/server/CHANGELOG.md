@@ -1,5 +1,16 @@
 # @use-pico/server
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/i18n-server@2.0.2
+    - @use-pico/rpc-server@2.0.5
+    - @use-pico/schema@2.0.6
+    - @use-pico/redis@2.0.1
+
 ## 2.0.5
 
 ### Patch Changes

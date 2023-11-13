@@ -11,6 +11,7 @@ export * from "./isCallable";
 export * from "./isEmpty";
 export * from "./isObject";
 export * from "./isString";
+export * from "./keyOf";
 export * from "./mapEmptyToNull";
 export * from "./mapEmptyToUndefined";
 export * from "./mapNullToEmpty";

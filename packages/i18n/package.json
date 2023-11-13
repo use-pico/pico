@@ -1,5 +1,5 @@
 {
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"name": "@use-pico/i18n",
 	"description": "I18n support.",
 	"license": "MIT",
@@ -26,17 +26,21 @@
 	"dependencies": {
 		"@jouwweb/interpolate-components": "^1.4.1",
 		"@types/luxon": "^3.3.1",
-		"js-sha256": "^0.10.1",
 		"luxon": "^3.4.1",
 		"preferred-locale": "^2.0.1",
 		"pupa": "^3.1.0"
 	},
 	"peerDependencies": {
+		"@tabler/icons-react": "^2.40.0",
+		"@use-pico/dull-stuff": "^2.0.1",
+		"@use-pico/form": "^2.0.9",
 		"@use-pico/navigation": "^2.0.5",
 		"@use-pico/query": "^2.0.9",
-		"@use-pico/schema": "^2.0.5",
-		"@use-pico/store": "^2.0.5",
-		"@use-pico/utils": "^2.0.6",
+		"@use-pico/rpc": "^2.0.0",
+		"@use-pico/schema": "^2.0.6",
+		"@use-pico/store": "^2.0.6",
+		"@use-pico/ui-extra": "^2.0.9",
+		"@use-pico/utils": "^2.0.7",
 		"next": "^14.0.0",
 		"react": "^18.2.0",
 		"yaml": "^2.3.4"

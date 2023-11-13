@@ -13,6 +13,9 @@ export interface IHandler<
         request: TRequestSchema;
         response: TResponseSchema;
     };
+    cache?: {
+        bypass?: boolean;
+    };
 
     handle(props: IHandler.HandlerProps<TRequestSchema>): Promise<PicoSchema.Output<TResponseSchema>>;
 }
