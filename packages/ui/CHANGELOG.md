@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.17
+
+### Patch Changes
+
+- Fixed translation
+
 ## 2.0.16
 
 ### Patch Changes

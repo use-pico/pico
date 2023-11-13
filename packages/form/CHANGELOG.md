@@ -1,5 +1,13 @@
 # @use-pico/form
 
+## 2.0.11
+
+### Patch Changes
+
+- Fixed translation
+- Updated dependencies
+    - @use-pico/ui@2.0.17
+
 ## 2.0.10
 
 ### Patch Changes

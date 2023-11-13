@@ -1,14 +1,17 @@
 "use client";
 
 import {useStore}    from "@use-pico/store";
-import {type FC}     from "react";
+import {
+    type FC,
+    type ReactNode
+}                    from "react";
 import {Button}      from "../ui/Button";
 import {DrawerStore} from "./DrawerStore";
 
 export namespace DrawerButton {
     export interface Props extends Omit<Button.Props, "children"> {
         drawerId: string;
-        label?: string;
+        label?: ReactNode;
     }
 }
 

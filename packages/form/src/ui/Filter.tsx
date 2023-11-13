@@ -1,7 +1,10 @@
 "use client";
 
 import {ButtonGroup}         from "@mantine/core";
-import {tx}                  from "@use-pico/i18n";
+import {
+    t,
+    tx
+}                            from "@use-pico/i18n";
 import {
     type FilterSchema,
     type IQueryStore,
@@ -123,7 +126,7 @@ export const Filter = <TFilterSchema extends FilterSchema>(
                 variant={"subtle"}
                 color={query.isFilter() ? "green.7" : undefined}
                 leftSection={query.isFilter() ? <FilterOnIcon/> : <FilterOffIcon/>}
-                label={"button"}
+                label={t()`Filter (button)`}
             />
             {query.isFilter() && <ActionIcon
                 variant={"subtle"}
