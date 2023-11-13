@@ -1,5 +1,5 @@
 {
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"name": "@use-pico/esbuild",
 	"description": "Esbuild helper stuff.",
 	"license": "MIT",
@@ -35,7 +35,7 @@
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
 		"@types/glob": "^8.1.0",
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.9.0",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"name": "@use-pico/file",
 	"description": "Common file related stuff.",
 	"license": "MIT",
@@ -34,18 +34,18 @@
 	},
 	"peerDependencies": {
 		"@tabler/icons-react": "^2.40.0",
-		"@use-pico/navigation": "^2.0.4",
-		"@use-pico/query": "^2.0.8",
-		"@use-pico/schema": "^2.0.5",
-		"@use-pico/source": "^2.0.7",
-		"@use-pico/ui": "^2.0.5",
+		"@use-pico/navigation": "^2.0.6",
+		"@use-pico/query": "^2.0.11",
+		"@use-pico/schema": "^2.0.7",
+		"@use-pico/source": "^2.0.8",
+		"@use-pico/ui": "^2.0.15",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.8.10",
+		"@types/node": "^20.9.0",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

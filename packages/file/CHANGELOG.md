@@ -1,5 +1,17 @@
 # @use-pico/file
 
+## 2.0.8
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/navigation@2.0.6
+    - @use-pico/schema@2.0.7
+    - @use-pico/source@2.0.8
+    - @use-pico/query@2.0.11
+    - @use-pico/ui@2.0.15
+
 ## 2.0.7
 
 ### Patch Changes

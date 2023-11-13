@@ -38,5 +38,11 @@ export const useFetchPromise = <
     }: useFetchPromise.Props<TRequestSchema, TResponseSchema>
 ): useFetchPromise.Result<TRequestSchema, TResponseSchema> => {
     const callback = useCallback();
-    return async request => callback(parse(schema.request, request)?.[0]);
+    return async request => (await callback({
+        ...parse(schema.request, request),
+        cursor: {
+            page: 0,
+            size: 1,
+        },
+    }))?.[0];
 };

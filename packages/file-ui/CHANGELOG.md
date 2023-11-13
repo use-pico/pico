@@ -1,5 +1,20 @@
 # @use-pico/file-ui
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/navigation@2.0.6
+    - @use-pico/query@2.0.11
+    - @use-pico/store@2.0.7
+    - @use-pico/table@2.0.13
+    - @use-pico/utils@2.0.8
+    - @use-pico/file@2.0.8
+    - @use-pico/i18n@2.0.9
+    - @use-pico/ui@2.0.15
+
 ## 2.0.5
 
 ### Patch Changes

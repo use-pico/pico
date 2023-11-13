@@ -1,5 +1,18 @@
 # @use-pico/server
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/auth-server@2.0.4
+    - @use-pico/i18n-server@2.0.3
+    - @use-pico/rpc-server@2.0.6
+    - @use-pico/container@2.0.6
+    - @use-pico/schema@2.0.7
+    - @use-pico/redis@2.0.2
+
 ## 2.0.6
 
 ### Patch Changes

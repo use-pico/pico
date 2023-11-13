@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/dull-stuff",
 	"description": "Literally dull stuff. It contains some factory functions for the all-time-repeated stuff.",
 	"license": "MIT",
@@ -29,19 +29,19 @@
 	},
 	"dependencies": {},
 	"peerDependencies": {
-		"@use-pico/form": "^2.0.9",
-		"@use-pico/query": "^2.0.0",
-		"@use-pico/repository": "^2.0.5",
-		"@use-pico/rpc": "^2.0.0",
-		"@use-pico/source-ui": "^2.0.5",
-		"@use-pico/source": "^2.0.0",
-		"@use-pico/ui-extra": "^2.0.9"
+		"@use-pico/form": "^2.0.10",
+		"@use-pico/query": "^2.0.11",
+		"@use-pico/repository": "^2.0.6",
+		"@use-pico/rpc": "^2.0.6",
+		"@use-pico/source-ui": "^2.0.6",
+		"@use-pico/source": "^2.0.8",
+		"@use-pico/ui-extra": "^2.0.10"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.8.10",
+		"@types/node": "^20.9.0",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.45.0",

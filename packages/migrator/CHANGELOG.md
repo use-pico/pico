@@ -1,5 +1,13 @@
 # @use-pico/migrator
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/orm@2.0.7
+
 ## 2.0.2
 
 ### Patch Changes

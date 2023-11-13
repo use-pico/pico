@@ -1,5 +1,5 @@
 {
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"name": "@use-pico/redis",
 	"description": "Redis support.",
 	"license": "MIT",
@@ -28,13 +28,13 @@
 		"ioredis": "^5.3.2"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.0",
-		"@use-pico/utils": "^2.0.7"
+		"@use-pico/container": "^2.0.6",
+		"@use-pico/utils": "^2.0.8"
 	},
 	"devDependencies": {
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.9.0",
 		"@types/react": "^18.2.15",
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
 		"concurrently": "^8.2.0",

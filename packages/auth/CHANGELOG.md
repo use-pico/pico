@@ -1,5 +1,16 @@
 # @use-pico/auth
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/container@2.0.6
+    - @use-pico/logger@2.0.5
+    - @use-pico/schema@2.0.7
+    - @use-pico/orm@2.0.7
+
 ## 2.0.5
 
 ### Patch Changes

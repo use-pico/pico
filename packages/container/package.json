@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/container",
 	"description": "DI container support.",
 	"license": "MIT",
@@ -31,10 +31,10 @@
 		"pumpit": "^4.1.1"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.8.10",
+		"@types/node": "^20.9.0",
 		"@types/react": "^18.2.33",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",

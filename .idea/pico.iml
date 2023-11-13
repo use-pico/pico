@@ -129,8 +129,11 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n-server/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/i18n-server/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/diagram/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/diagram/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/dull-stuff/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/dull-stuff/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/redis/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/redis/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/tx/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/tx/lib" />
     </content>

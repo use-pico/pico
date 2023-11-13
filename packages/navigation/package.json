@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"name": "@use-pico/navigation",
 	"description": "Link & navigation related stuff.",
 	"license": "MIT",
@@ -25,16 +25,16 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"peerDependencies": {
-		"@use-pico/schema": "^2.0.5",
-		"@use-pico/utils": "^2.0.6",
+		"@use-pico/schema": "^2.0.7",
+		"@use-pico/utils": "^2.0.8",
 		"next": "^14.0.0",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.9.0",
 		"@types/react": "^18.2.15",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",

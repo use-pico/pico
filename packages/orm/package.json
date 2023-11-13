@@ -1,5 +1,5 @@
 {
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"name": "@use-pico/orm",
 	"description": "ORM helper stuff, based on drizzle-orm.",
 	"license": "MIT",
@@ -29,13 +29,13 @@
 		"pg": "^8.11.3"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.5",
+		"@use-pico/container": "^2.0.6",
 		"kysely": "^0.26.3"
 	},
 	"devDependencies": {
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.9.0",
 		"@types/react": "^18.2.15",
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
 		"concurrently": "^8.2.0",

@@ -1,5 +1,18 @@
 # @use-pico/rpc-server
 
+## 2.0.6
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/repository@2.0.6
+    - @use-pico/container@2.0.6
+    - @use-pico/schema@2.0.7
+    - @use-pico/query@2.0.11
+    - @use-pico/redis@2.0.2
+    - @use-pico/rpc@2.0.6
+
 ## 2.0.5
 
 ### Patch Changes

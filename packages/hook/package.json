@@ -1,5 +1,5 @@
 {
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"name": "@use-pico/hook",
 	"description": "Common hooks.",
 	"license": "MIT",
@@ -32,10 +32,10 @@
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.5.3",
+		"@types/node": "^20.9.0",
 		"concurrently": "^8.2.1",
 		"del-cli": "^5.0.0",
 		"eslint": "^8.47.0",

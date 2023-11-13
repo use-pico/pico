@@ -1,5 +1,5 @@
 {
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
@@ -51,14 +51,14 @@
 		"timer-node": "^5.0.7"
 	},
 	"peerDependencies": {
-		"@use-pico/schema": "^2.0.6",
+		"@use-pico/schema": "^2.0.7",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
-		"@use-pico/esbuild": "^2.0.4",
+		"@use-pico/esbuild": "^2.0.5",
 		"@use-pico/eslint-config-eslint": "^2.0.4",
 		"@use-pico/tsconfig": "^2.0.4",
-		"@types/node": "^20.5.3",
+		"@types/node": "^20.9.0",
 		"@types/react": "^18.2.21",
 		"concurrently": "^8.2.0",
 		"del-cli": "^5.0.0",

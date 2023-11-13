@@ -1,5 +1,14 @@
 # @use-pico/store
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/utils@2.0.8
+    - @use-pico/hook@2.0.5
+
 ## 2.0.6
 
 ### Patch Changes
