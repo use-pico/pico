@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.16
+
+### Patch Changes
+
+- Improved Menu a bit
+
 ## 2.0.15
 
 ### Patch Changes
