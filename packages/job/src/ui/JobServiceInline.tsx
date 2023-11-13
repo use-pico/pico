@@ -1,3 +1,4 @@
+import {td}             from "@use-pico/i18n";
 import {type FC}        from "react";
 import {type JobSchema} from "../schema/JobSchema";
 
@@ -12,5 +13,5 @@ export const JobServiceInline: FC<JobServiceInline.Props> = (
         job,
     }
 ) => {
-    return `[${job.service}]`;
+    return td()(`Service [${job.service}]`);
 };

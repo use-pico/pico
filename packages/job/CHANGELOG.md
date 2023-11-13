@@ -1,5 +1,11 @@
 # @use-pico/job
 
+## 2.0.10
+
+### Patch Changes
+
+- Job service translation
+
 ## 2.0.9
 
 ### Patch Changes
