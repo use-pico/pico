@@ -1,5 +1,11 @@
 # @use-pico/query
 
+## 2.0.10
+
+### Patch Changes
+
+- Fixed invalidator keys
+
 ## 2.0.9
 
 ### Patch Changes
