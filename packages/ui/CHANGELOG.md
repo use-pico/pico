@@ -1,5 +1,11 @@
 # @use-pico/ui
 
+## 2.0.19
+
+### Patch Changes
+
+- Exported Menu.PropxEx
+
 ## 2.0.18
 
 ### Patch Changes

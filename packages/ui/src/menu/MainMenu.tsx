@@ -19,6 +19,8 @@ export namespace MainMenu {
         active?: string[];
     }
 
+    export type PropsEx = Omit<Props, "items">;
+
     export type Classes = typeof classes;
 }
 
