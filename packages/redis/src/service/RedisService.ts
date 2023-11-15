@@ -1,3 +1,4 @@
+import {lazyOf}             from "@use-pico/container";
 import {isString}           from "@use-pico/utils";
 import {type IRedisService} from "../api/IRedisService";
 import {type Redis}         from "../api/Redis";
@@ -5,7 +6,7 @@ import {withRedis}          from "../container/withRedis";
 
 export class RedisService implements IRedisService {
     static inject = [
-        withRedis.inject,
+        lazyOf(withRedis.inject),
     ];
 
     constructor(

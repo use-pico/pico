@@ -13,6 +13,7 @@ import {
     TranslationProvider,
     withDefaultPipeline,
     withInstance,
+    withRichComponents,
     withTranslationQuery
 }                            from "@use-pico/i18n";
 import {QueryClientProvider} from "@use-pico/query";
@@ -63,7 +64,7 @@ export const Providers: FC<Providers.Props> = (
         pipeline:     withDefaultPipeline({
             rich: {
                 component: {
-                    components: translations?.components || {},
+                    components: translations?.components || withRichComponents(),
                 }
             }
         }),

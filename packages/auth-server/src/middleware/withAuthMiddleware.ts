@@ -1,6 +1,5 @@
-import {withAuth}     from "next-auth/middleware";
-import {NextResponse} from "next/server";
-import {getToken}     from "../utils/getToken";
+import {withAuth} from "next-auth/middleware";
+import {getToken} from "../utils/getToken";
 
 export namespace withAuthMiddleware {
     export interface Props {
@@ -9,7 +8,6 @@ export namespace withAuthMiddleware {
 
     export interface Route {
         path: string;
-        target: string;
         auth: boolean;
         tokens?: string[];
     }
@@ -21,32 +19,10 @@ export const withAuthMiddleware = (
     }: withAuthMiddleware.Props
 ) => {
     return withAuth(
-        async request => {
-            const token = await getToken({
-                request,
-            });
-            for (const {
-                path,
-                target,
-                auth
-            } of routes) {
-                if (request.nextUrl.pathname.includes(path)) {
-                    if ((token && !auth) || (!token && auth)) {
-                        return NextResponse.redirect(
-                            new URL(
-                                target,
-                                request.url
-                            )
-                        );
-                    }
-                }
-            }
-            return NextResponse.next();
-        },
         {
             callbacks: {
                 async authorized({req}) {
-                    const token = await getToken({request: req});
+                    const token = await getToken({cookies: req.cookies});
                     for (const {
                         path,
                         auth

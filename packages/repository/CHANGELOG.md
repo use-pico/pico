@@ -1,5 +1,17 @@
 # @use-pico/repository
 
+## 2.0.7
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/dull-stuff@2.0.3
+    - @use-pico/schema@2.0.8
+    - @use-pico/query@2.0.12
+    - @use-pico/utils@2.0.9
+    - @use-pico/orm@2.0.8
+
 ## 2.0.6
 
 ### Patch Changes

@@ -1,9 +1,16 @@
 import {
+    getToken,
+    UserService,
+    withUserService,
+    withUserSession
+}                         from "@use-pico/auth-server";
+import {
     type IContainer,
+    lazyOf,
     withContainer
 }                         from "@use-pico/container";
 import {
-    IRedisService,
+    type IRedisService,
     withRedisService
 }                         from "@use-pico/redis";
 import {
@@ -22,8 +29,8 @@ import {type IRpcService} from "../api/IRpcService";
 
 export class RpcService implements IRpcService {
     static inject = [
-        withContainer.inject,
-        withRedisService.inject,
+        lazyOf(withContainer.inject),
+        lazyOf(withRedisService.inject),
     ];
 
     constructor(
@@ -32,7 +39,13 @@ export class RpcService implements IRpcService {
     ) {
     }
 
-    public async handle({request}: IRpcService.HandleProps): Promise<NextResponse> {
+    public async handle(
+        {
+            request,
+            context
+        }: IRpcService.HandleProps
+    ): Promise<NextResponse> {
+        const user = await getToken({cookies: request.cookies});
         const bulks = parse$(RpcBulkRequestSchema, await request.json());
         if (!bulks.success) {
             return NextResponse.json({
@@ -46,6 +59,27 @@ export class RpcService implements IRpcService {
         }
 
         const container = this.container.child();
+        /**
+         * Because some services needs an access container itself, it must be connected to the right (child) container
+         * or it would resolve services from the global container.
+         */
+        withContainer.value(container, container);
+        if (user) {
+            /**
+             * When we have user, we must create a new UserService as it's bound to global container, so
+             * it would not see current user session.
+             */
+            withUserService.bind(container, UserService);
+            /**
+             * Bind user session to the container.
+             */
+            withUserSession.value(container, {
+                userId: user.sub as string,
+                user,
+                tokens: user.tokens as string[],
+            });
+        }
+        context?.(container);
 
         const response = new Map<string, RpcResponseSchema.Type>();
 

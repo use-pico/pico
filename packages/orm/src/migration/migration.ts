@@ -1,5 +1,18 @@
-import {Kysely}        from "kysely";
-import {withUuidTable} from "../utils/withUuidTable";
+import {
+    Kysely,
+    sql
+} from "kysely";
+
+/**
+ * Prevent dependency on migrator as it depends on this package.
+ */
+const withUuidTable = (table: string, db: Kysely<any>) => {
+    return db.schema
+        .createTable(table)
+        .addColumn("id", "uuid", col =>
+            col.primaryKey().defaultTo(sql`gen_random_uuid()`)
+        );
+};
 
 export async function migration(db: Kysely<any>): Promise<void> {
     await withUuidTable("User", db)

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.8",
+	"version": "2.0.9",
 	"name": "@use-pico/utils",
 	"description": "Some simple utils used in @pico libraries.",
 	"license": "MIT",
@@ -51,7 +51,7 @@
 		"timer-node": "^5.0.7"
 	},
 	"peerDependencies": {
-		"@use-pico/schema": "^2.0.7",
+		"@use-pico/schema": "^2.0.8",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

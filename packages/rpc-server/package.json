@@ -1,5 +1,5 @@
 {
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"name": "@use-pico/rpc-server",
 	"description": "Server-side RPC stuff.",
 	"license": "MIT",
@@ -25,12 +25,13 @@
 		"cleanup:lib": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.6",
-		"@use-pico/query": "^2.0.11",
-		"@use-pico/redis": "^2.0.2",
-		"@use-pico/repository": "^2.0.6",
+		"@use-pico/auth-server": "^2.0.5",
+		"@use-pico/container": "^2.0.7",
+		"@use-pico/query": "^2.0.12",
+		"@use-pico/redis": "^2.0.3",
+		"@use-pico/repository": "^2.0.7",
 		"@use-pico/rpc": "^2.0.6",
-		"@use-pico/schema": "^2.0.7",
+		"@use-pico/schema": "^2.0.8",
 		"next": "^14.0.0"
 	},
 	"devDependencies": {

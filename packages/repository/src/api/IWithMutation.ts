@@ -1,15 +1,13 @@
+import {type withDullSchema} from "@use-pico/dull-stuff";
 import {
     type Client,
     type Database
 }                            from "@use-pico/orm";
-import {type QuerySchema}    from "@use-pico/query";
-import {type PicoSchema}     from "@use-pico/schema";
-import {type MutationSchema} from "@use-pico/source";
 import {type IRepository}    from "./IRepository";
 
 export interface IWithMutation<
     TDatabase extends Database,
-    TSchema extends IRepository.Schema<any, any, QuerySchema<any, any>, MutationSchema<any, any>>,
+    TSchema extends withDullSchema.Schema<any, any, any, any>,
     TTable extends keyof TDatabase & string,
 > {
     readonly client: Client<TDatabase>;
@@ -17,23 +15,17 @@ export interface IWithMutation<
     readonly table: TTable;
     readonly repository: IRepository<TDatabase, TSchema, TTable>;
 
-    mutation(mutate: PicoSchema.Output<TSchema["mutation"]>): Promise<TSchema["entity"]>;
+    mutation(mutate: withDullSchema.Infer.Mutation<TSchema>): Promise<withDullSchema.Infer.Entity<TSchema>>;
 
     create(
-        create: NonNullable<
-            PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>
-        >
-    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
+        create: withDullSchema.Infer.Create<TSchema>
+    ): Promise<withDullSchema.Infer.Entity<TSchema>>;
 
     update(
-        update: NonNullable<
-            PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>
-        >
-    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
+        update: withDullSchema.Infer.Update<TSchema>
+    ): Promise<withDullSchema.Infer.Entity<TSchema>>;
 
     delete(
-        query: NonNullable<
-            PicoSchema.Output<TSchema["mutation"]["shape"]["delete"]>
-        >
-    ): Promise<PicoSchema.Output<TSchema["entity"]>>;
+        query: withDullSchema.Infer.Delete<TSchema>
+    ): Promise<withDullSchema.Infer.Entity<TSchema>>;
 }

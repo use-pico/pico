@@ -30,7 +30,7 @@ export const useInvalidator = (
             await Promise.all(
                 (keys as QueryKey[]).map(key => {
                     return queryClient.invalidateQueries({
-                        queryKey: [key],
+                        queryKey: key,
                     });
                 })
             );

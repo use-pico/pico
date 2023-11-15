@@ -37,7 +37,7 @@ export const Menu: FC<Menu.Props> = (
         <Group
             gap={0}
         >
-            {items.map((item, index) => {
+            {items.filter(Boolean).map((item, index) => {
                 if (isHrefProps(item)) {
                     return <MenuLink
                         key={`menu-${index}-${item.href}`}

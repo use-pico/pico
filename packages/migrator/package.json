@@ -1,5 +1,5 @@
 {
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"name": "@use-pico/migrator",
 	"description": "Simple migrator.",
 	"license": "MIT",
@@ -28,7 +28,7 @@
 		"kysely": "^0.26.3"
 	},
 	"peerDependencies": {
-		"@use-pico/orm": "^2.0.7"
+		"@use-pico/orm": "^2.0.8"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.5",

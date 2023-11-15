@@ -2,21 +2,20 @@ import {
     type IContainer,
     withService
 }                            from "@use-pico/container";
+import {type withDullSchema} from "@use-pico/dull-stuff";
 import {
     type CountSchema,
     type IWithMutation,
-    type IWithQuery,
-    type QuerySchema
+    type IWithQuery
 }                            from "@use-pico/query";
 import {withRedisService}    from "@use-pico/redis";
 import {type IRepository}    from "@use-pico/repository";
 import {type ArraySchema}    from "@use-pico/schema";
-import {type MutationSchema} from "@use-pico/source";
 import {type IHandler}       from "../api/IHandler";
 
 export namespace withRepositoryHandler {
     export interface Props<
-        TSchema extends IRepository.Schema<any, any, QuerySchema<any, any>, MutationSchema<any, any>>,
+        TSchema extends withDullSchema.Schema<any, any, any, any>,
         TWithRepository extends IRepository<any, TSchema, any>,
         TRepository extends new (...args: any) => TWithRepository,
         TQueryHandler extends IWithQuery<TSchema["query"], ArraySchema<TSchema["entity"]>>,
@@ -35,7 +34,7 @@ export namespace withRepositoryHandler {
 }
 
 export const withRepositoryHandler = <
-    TSchema extends IRepository.Schema<any, any, any, any>,
+    TSchema extends withDullSchema.Schema<any, any, any, any>,
     TWithRepository extends IRepository<any, TSchema, any>,
     TRepository extends new (...args: any) => TWithRepository,
     TQueryHandler extends IWithQuery<TSchema["query"], ArraySchema<TSchema["entity"]>>,
@@ -49,7 +48,7 @@ export const withRepositoryHandler = <
         handler: {
                      query,
                      count,
-                     mutation
+                     mutation,
                  },
     }: withRepositoryHandler.Props<
         TSchema,

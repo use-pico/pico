@@ -13,7 +13,6 @@ import {isPartial}         from "@use-pico/schema";
 import {NativeModal}       from "@use-pico/ui";
 import {useController}     from "react-hook-form";
 import type {ValuesSchema} from "../schema/ValuesSchema";
-import type {Form}         from "../ui/Form";
 import {Description}       from "./Description";
 import {InputEx}           from "./InputEx";
 import {Label}             from "./Label";
@@ -21,7 +20,7 @@ import {Label}             from "./Label";
 export namespace DateInput {
     export interface Props<
         TValuesSchema extends ValuesSchema,
-    > extends Form.Input.Props<TValuesSchema> {
+    > extends InputEx.Props<TValuesSchema> {
         onDate?(props?: OnChangeProps): void;
     }
 

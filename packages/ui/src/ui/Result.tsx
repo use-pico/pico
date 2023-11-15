@@ -1,6 +1,5 @@
 import {
     type FC,
-    type PropsWithChildren,
     type ReactNode
 }                from "react";
 import {Divider} from "./Divider";
@@ -9,20 +8,22 @@ import {Text}    from "./Text";
 import {Title}   from "./Title";
 
 export namespace Result {
-    export type Props = PropsWithChildren<{
-        text: {
-            title: ReactNode;
-            subtitle: ReactNode;
-        }
-        /**
-         * Top part of the component (should be usually an icon).
-         */
-        icon?: ReactNode;
-        /**
-         * Postfix of the header part
-         */
-        postfix?: ReactNode;
-    }>;
+    export type Props =
+        Stack.Props
+        & {
+            text: {
+                title: ReactNode;
+                subtitle: ReactNode;
+            }
+            /**
+             * Top part of the component (should be usually an icon).
+             */
+            icon?: ReactNode;
+            /**
+             * Postfix of the header part
+             */
+            postfix?: ReactNode;
+        };
 }
 
 /**
@@ -37,9 +38,14 @@ export const Result: FC<Result.Props> = (
         icon,
         postfix,
         children,
+        ...props
     }
 ) => {
-    return <Stack align={"center"} gap={4}>
+    return <Stack
+        align={"center"}
+        gap={4}
+        {...props}
+    >
         {icon}
         <Title order={2}>
             {text.title}
@@ -51,6 +57,9 @@ export const Result: FC<Result.Props> = (
             <Divider/>
             {postfix}
         </> : null}
-        {children}
+        {children ? <>
+            <Divider/>
+            {children}
+        </> : null}
     </Stack>;
 };

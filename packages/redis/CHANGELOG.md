@@ -1,5 +1,14 @@
 # @use-pico/redis
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/container@2.0.7
+    - @use-pico/utils@2.0.9
+
 ## 2.0.2
 
 ### Patch Changes

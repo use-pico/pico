@@ -5,10 +5,6 @@ import {
     withQuerySchema
 } from "@use-pico/query";
 import {
-    type IRepository,
-    withRepositorySchema
-} from "@use-pico/repository";
-import {
     type ObjectSchema,
     type PicoSchema,
     type WithIdentitySchema
@@ -51,18 +47,20 @@ export namespace withDullSchema {
         orderBy: TOrderBySchema;
         query: TQueryOutput;
         mutation: TMutationOutput;
-        repository: IRepository.Schema<
-            TEntity,
-            TShapeSchema,
-            TQueryOutput,
-            TMutationOutput
-        >;
     }
 
     export namespace Infer {
         export type Entity<
             TSchema extends Schema<any, any, any, any>
         > = PicoSchema.Output<TSchema["entity"]>;
+
+        export type Entity$<
+            TSchema extends Schema<any, any, any, any>
+        > = Partial<PicoSchema.Output<TSchema["entity"]>>;
+
+        export type EntityWithoutId<
+            TSchema extends Schema<any, any, any, any>
+        > = Omit<PicoSchema.Output<TSchema["entity"]>, "id">;
 
         export type EntitySchema<
             TSchema extends Schema<any, any, any, any>
@@ -108,9 +106,21 @@ export namespace withDullSchema {
             TSchema extends Schema<any, any, any, any>
         > = TSchema["mutation"];
 
-        export type RepositorySchema<
+        export type Create<
             TSchema extends Schema<any, any, any, any>
-        > = TSchema["repository"];
+        > = NonNullable<Mutation<TSchema>["create"]>;
+
+        export type Update<
+            TSchema extends Schema<any, any, any, any>
+        > = NonNullable<Mutation<TSchema>["update"]>;
+
+        export type Upsert<
+            TSchema extends Schema<any, any, any, any>
+        > = NonNullable<Mutation<TSchema>["upsert"]>;
+
+        export type Delete<
+            TSchema extends Schema<any, any, any, any>
+        > = NonNullable<Mutation<TSchema>["delete"]>;
     }
 }
 
@@ -153,11 +163,5 @@ export const withDullSchema = <
         orderBy,
         query,
         mutation,
-        repository: withRepositorySchema({
-            entity,
-            shape,
-            query,
-            mutation,
-        }),
     };
 };

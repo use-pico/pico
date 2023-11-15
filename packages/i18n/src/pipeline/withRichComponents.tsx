@@ -4,6 +4,7 @@ export const withRichComponents = <TExtra extends Record<string, ReactNode>>(ext
     b:    <b/>,
     p:    <p/>,
     i:    <i/>,
+    br: <br/>,
     mark: <strong/>,
     ...extra,
 }) as const;

@@ -18,6 +18,7 @@ import {
 import {
     type CSSProperties,
     type FC,
+    PropsWithChildren,
     type ReactNode
 }                                from "react";
 import {type ITableColumns}      from "../api/ITableColumns";
@@ -89,6 +90,7 @@ export namespace Table {
         withLinkLock?: boolean;
         refresh?: number;
         minWidth?: CSSProperties["minWidth"];
+        compact?: boolean;
     }
 
     export type Classes = typeof classes;
@@ -124,6 +126,7 @@ export const Table = <
         onClick,
         withLinkLock = false,
         refresh,
+        compact = false,
         ...props
     }: Table.Props<TColumns, TSchema, TQuerySchema>) => {
     const $order = order || Object.keys(columns) as TColumns[];
@@ -148,17 +151,21 @@ export const Table = <
         refetchInterval: refresh,
     });
 
+    const Wrap: FC<PropsWithChildren> = (scrollWidth ? ({children}) => <CoolTable.ScrollContainer
+        minWidth={scrollWidth || 1200}
+    >{children}</CoolTable.ScrollContainer> : ({children}) => children);
+
     return <LinkLockProvider
         isLock={withLinkLock}
     >
-        <TableHeaderControls
+        {!compact && <TableHeaderControls
             isFetching={result.isFetching}
             withQueryStore={withQueryStore}
             withSourceQuery={withSourceQuery}
             Filter={Filter}
             Postfix={WithPostfix}
             text={text.header}
-        />
+        />}
         {$pagination?.position?.includes("top") && <>
             <Pagination
                 text={text}
@@ -174,9 +181,7 @@ export const Table = <
             items={result.data}
             columns={$columns}
         />
-        <CoolTable.ScrollContainer
-            minWidth={scrollWidth || 1200}
-        >
+        <Wrap>
             <CoolTable
                 striped
                 highlightOnHover
@@ -215,7 +220,7 @@ export const Table = <
                     WithFooter={WithFooter}
                 />
             </CoolTable>
-        </CoolTable.ScrollContainer>
+        </Wrap>
         <TableCountResult
             withQueryStore={withQueryStore}
             withSourceQuery={withSourceQuery}

@@ -1,28 +1,25 @@
-import {type Database}           from "@use-pico/orm";
+import {type withDullSchema} from "@use-pico/dull-stuff";
+import {type Database}       from "@use-pico/orm";
 import {
     type FilterSchema,
-    type OrderBySchema,
-    type OrderSchema,
-    type QuerySchema
-}                                from "@use-pico/query";
-import {type PicoSchema}         from "@use-pico/schema";
-import {type SelectQueryBuilder} from "kysely";
-import {type IRepository}        from "../api/IRepository";
-import {type IWithApply}         from "../api/IWithApply";
+    type OrderSchema
+}                            from "@use-pico/query";
+import {type IWithApply}     from "../api/IWithApply";
+import {type SelectOf}       from "../api/SelectOf";
 
 export abstract class AbstractWithApply<
     TDatabase extends Database,
-    TSchema extends IRepository.Schema<any, any, QuerySchema<FilterSchema, OrderBySchema>, any>,
+    TSchema extends withDullSchema.Schema<any, any, any, any>,
     TTable extends keyof TDatabase & string,
 > implements IWithApply<
     TDatabase,
     TSchema,
     TTable
 > {
-    public defaultOrderBy?: PicoSchema.Output<TSchema["query"]["shape"]["orderBy"]>;
+    public defaultOrderBy?: withDullSchema.Infer.OrderBy<TSchema>;
     public matchOf?: Record<
         keyof Omit<
-            NonNullable<PicoSchema.Output<TSchema["query"]["shape"]["where"]>>,
+            withDullSchema.Infer.Filter<TSchema>,
             keyof FilterSchema.Type
         >,
         string
@@ -30,7 +27,16 @@ export abstract class AbstractWithApply<
     public matchOfIn?: Partial<
         Record<
             keyof Omit<
-                NonNullable<PicoSchema.Output<TSchema["query"]["shape"]["where"]>>,
+                withDullSchema.Infer.Filter<TSchema>,
+                keyof FilterSchema.Type
+            >,
+            string
+        >
+    >;
+    public fulltextOf?: Partial<
+        Record<
+            keyof Omit<
+                withDullSchema.Infer.Filter<TSchema>,
                 keyof FilterSchema.Type
             >,
             string
@@ -43,9 +49,13 @@ export abstract class AbstractWithApply<
     ) {
     }
 
+    public with<T>(query: withDullSchema.Infer.Query<TSchema>, select: SelectOf<TDatabase, TTable, T>): SelectOf<TDatabase, TTable, T> {
+        return select;
+    }
+
     protected applyMatchOf<T>(
         matchOf: FilterSchema.Type | null | undefined,
-        select: SelectQueryBuilder<TDatabase, TTable, T>
+        select: SelectOf<TDatabase, TTable, T>
     ) {
         let $select = select;
 
@@ -95,23 +105,23 @@ export abstract class AbstractWithApply<
     }
 
     public applyWhere<T>(
-        query: PicoSchema.Output<TSchema["query"]>,
-        select: SelectQueryBuilder<TDatabase, TTable, T>
-    ): SelectQueryBuilder<TDatabase, TTable, T> {
+        query: withDullSchema.Infer.Query<TSchema>,
+        select: SelectOf<TDatabase, TTable, T>
+    ): SelectOf<TDatabase, TTable, T> {
         return this.applyMatchOf(query.where, select);
     }
 
     public applyFilter<T>(
-        query: PicoSchema.Output<TSchema["query"]>,
-        select: SelectQueryBuilder<TDatabase, TTable, T>
-    ): SelectQueryBuilder<TDatabase, TTable, T> {
+        query: withDullSchema.Infer.Query<TSchema>,
+        select: SelectOf<TDatabase, TTable, T>
+    ): SelectOf<TDatabase, TTable, T> {
         return this.applyMatchOf(query.filter, select);
     }
 
     public applyOrderBy<T>(
-        query: PicoSchema.Output<TSchema["query"]>,
-        select: SelectQueryBuilder<TDatabase, TTable, T>
-    ): SelectQueryBuilder<TDatabase, TTable, T> {
+        query: withDullSchema.Infer.Query<TSchema>,
+        select: SelectOf<TDatabase, TTable, T>
+    ): SelectOf<TDatabase, TTable, T> {
         let $select = select;
 
         for (const [column, order] of Object.entries(query.orderBy || this.defaultOrderBy || {})) {
@@ -122,14 +132,14 @@ export abstract class AbstractWithApply<
     }
 
     public applyTo<T>(
-        query: PicoSchema.Output<TSchema["query"]>,
-        select: SelectQueryBuilder<TDatabase, TTable, T>
-    ): SelectQueryBuilder<TDatabase, TTable, T> {
+        query: withDullSchema.Infer.Query<TSchema>,
+        select: SelectOf<TDatabase, TTable, T>
+    ): SelectOf<TDatabase, TTable, T> {
         let $select = this.applyFilter(
             query,
             this.applyWhere(
                 query,
-                select
+                this.with(query, select),
             )
         );
 

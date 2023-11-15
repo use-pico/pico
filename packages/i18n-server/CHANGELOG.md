@@ -1,5 +1,19 @@
 # @use-pico/i18n-server
 
+## 2.0.4
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/dull-stuff@2.0.3
+    - @use-pico/repository@2.0.7
+    - @use-pico/rpc-server@2.0.7
+    - @use-pico/container@2.0.7
+    - @use-pico/utils@2.0.9
+    - @use-pico/i18n@2.0.10
+    - @use-pico/orm@2.0.8
+
 ## 2.0.3
 
 ### Patch Changes

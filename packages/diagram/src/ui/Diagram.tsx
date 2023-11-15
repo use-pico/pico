@@ -1,7 +1,7 @@
 "use client";
 
 import {type FC}     from "react";
-// @ts-ignore
+// @ts-expect-error
 import Graph         from "react-graph-vis";
 import {GraphSchema} from "../schema/GraphSchema";
 

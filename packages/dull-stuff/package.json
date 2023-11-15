@@ -1,5 +1,5 @@
 {
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"name": "@use-pico/dull-stuff",
 	"description": "Literally dull stuff. It contains some factory functions for the all-time-repeated stuff.",
 	"license": "MIT",
@@ -29,13 +29,13 @@
 	},
 	"dependencies": {},
 	"peerDependencies": {
-		"@use-pico/form": "^2.0.10",
-		"@use-pico/query": "^2.0.11",
-		"@use-pico/repository": "^2.0.6",
+		"@use-pico/form": "^2.0.12",
+		"@use-pico/query": "^2.0.12",
+		"@use-pico/repository": "^2.0.7",
 		"@use-pico/rpc": "^2.0.6",
 		"@use-pico/source-ui": "^2.0.6",
 		"@use-pico/source": "^2.0.8",
-		"@use-pico/ui-extra": "^2.0.10"
+		"@use-pico/ui-extra": "^2.0.11"
 	},
 	"devDependencies": {
 		"@use-pico/esbuild": "^2.0.5",

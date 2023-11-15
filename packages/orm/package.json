@@ -1,5 +1,5 @@
 {
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"name": "@use-pico/orm",
 	"description": "ORM helper stuff, based on drizzle-orm.",
 	"license": "MIT",
@@ -26,10 +26,11 @@
 	},
 	"dependencies": {
 		"@types/pg": "^8.10.9",
+		"luxon": "^3.4.4",
 		"pg": "^8.11.3"
 	},
 	"peerDependencies": {
-		"@use-pico/container": "^2.0.6",
+		"@use-pico/container": "^2.0.7",
 		"kysely": "^0.26.3"
 	},
 	"devDependencies": {

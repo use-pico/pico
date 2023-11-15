@@ -1,4 +1,5 @@
-import {withDullSchema}        from "@use-pico/dull-stuff";
+import {lazyOf}                from "@use-pico/container";
+import {type withDullSchema}   from "@use-pico/dull-stuff";
 import {TranslationDullSchema} from "@use-pico/i18n";
 import {
     type Client,
@@ -6,16 +7,15 @@ import {
     withClient
 }                              from "@use-pico/orm";
 import {AbstractRepository}    from "@use-pico/repository";
-import {type PicoSchema}       from "@use-pico/schema";
 import {keyOf}                 from "@use-pico/utils";
 
 export class TranslationRepository extends AbstractRepository<
     Database,
-    withDullSchema.Infer.RepositorySchema<TranslationDullSchema>,
+    TranslationDullSchema,
     "Translation"
 > {
     static inject = [
-        withClient.inject,
+        lazyOf(withClient.inject),
     ];
 
     constructor(
@@ -23,7 +23,7 @@ export class TranslationRepository extends AbstractRepository<
     ) {
         super(
             client,
-            TranslationDullSchema.repository,
+            TranslationDullSchema,
             "Translation",
         );
         this.defaultOrderBy = {
@@ -38,14 +38,14 @@ export class TranslationRepository extends AbstractRepository<
     }
 
 
-    public async toCreate(create: NonNullable<PicoSchema.Output<withDullSchema.Infer.MutationSchema<TranslationDullSchema>["shape"]["create"]>>): Promise<Omit<withDullSchema.Infer.Entity<TranslationDullSchema>, "id">> {
+    public async toCreate(create: withDullSchema.Infer.Create<TranslationDullSchema>): Promise<withDullSchema.Infer.EntityWithoutId<TranslationDullSchema>> {
         return {
             ...create,
             hash: keyOf(create.key),
         };
     }
 
-    public async toUpdate(update: NonNullable<PicoSchema.Output<withDullSchema.Infer.MutationSchema<TranslationDullSchema>["shape"]["update"]>>["update"]): Promise<Partial<withDullSchema.Infer.Entity<TranslationDullSchema>>> {
+    public async toUpdate(update: withDullSchema.Infer.Update<TranslationDullSchema>["update"]): Promise<withDullSchema.Infer.Entity$<TranslationDullSchema>> {
         return {
             ...update,
             hash: update?.key ? keyOf(update.key) : undefined

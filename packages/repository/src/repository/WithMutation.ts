@@ -1,16 +1,14 @@
+import {withDullSchema}     from "@use-pico/dull-stuff";
 import {
     type Client,
     type Database
-}                            from "@use-pico/orm";
-import {type QuerySchema}    from "@use-pico/query";
-import {type PicoSchema}     from "@use-pico/schema";
-import {type MutationSchema} from "@use-pico/source";
-import {type IRepository}    from "../api/IRepository";
-import {type IWithMutation}  from "../api/IWithMutation";
+}                           from "@use-pico/orm";
+import {type IRepository}   from "../api/IRepository";
+import {type IWithMutation} from "../api/IWithMutation";
 
 export class WithMutation<
     TDatabase extends Database,
-    TSchema extends IRepository.Schema<any, any, QuerySchema<any, any>, MutationSchema<any, QuerySchema<any, any>>>,
+    TSchema extends withDullSchema.Schema<any, any, any, any>,
     TTable extends keyof TDatabase & string,
 > implements IWithMutation<TDatabase, TSchema, TTable> {
     constructor(
@@ -21,7 +19,7 @@ export class WithMutation<
     ) {
     }
 
-    public async mutation(mutate: PicoSchema.Output<TSchema["mutation"]>): Promise<PicoSchema.Output<TSchema["entity"]>> {
+    public async mutation(mutate: withDullSchema.Infer.Mutation<TSchema>): Promise<withDullSchema.Infer.Entity<TSchema>> {
         if (mutate.create) {
             return this.create(mutate.create);
         } else if (mutate.update) {
@@ -32,25 +30,27 @@ export class WithMutation<
         throw new Error("Nothing to mutate.");
     }
 
-    public async create(create: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["create"]>>): Promise<PicoSchema.Output<TSchema["entity"]>> {
-        return await this.client
+    public async create(create: withDullSchema.Infer.Create<TSchema>): Promise<withDullSchema.Infer.Entity<TSchema>> {
+        const entity = await this.client
             .insertInto(this.table)
-            .values(await this.repository.toCreate(create) as PicoSchema.Output<TSchema["entity"]>)
+            .values(await this.repository.toCreate(create) as withDullSchema.Infer.Entity<TSchema>)
             .returningAll()
             .executeTakeFirstOrThrow();
+        await this.repository.onCreate(entity);
+        return entity;
     }
 
     public async update(
         {
             update,
             query,
-        }: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["update"]>>
-    ): Promise<PicoSchema.Output<TSchema["entity"]>> {
-        const entity = await this.repository.withQuery.fetchOrThrow(query);
+        }: withDullSchema.Infer.Update<TSchema>
+    ): Promise<withDullSchema.Infer.Entity<TSchema>> {
+        let entity = await this.repository.withQuery.fetchOrThrow(query);
         if (!update) {
             return entity;
         }
-        return await this.client
+        entity = await this.client
             .updateTable(this.table)
             .set(await this.repository.toUpdate(update))
             /**
@@ -58,10 +58,12 @@ export class WithMutation<
              */
             .where("id", "=", entity.id)
             .returningAll()
-            .executeTakeFirst();
+            .executeTakeFirstOrThrow() as withDullSchema.Infer.Entity<TSchema>;
+        await this.repository.onUpdate(entity);
+        return entity;
     }
 
-    public async delete(query: NonNullable<PicoSchema.Output<TSchema["mutation"]["shape"]["delete"]>>): Promise<PicoSchema.Output<TSchema["entity"]>> {
+    public async delete(query: withDullSchema.Infer.Delete<TSchema>): Promise<withDullSchema.Infer.Entity<TSchema>> {
         const entity = await this.repository.withQuery.fetchOrThrow(query);
         await this.client.deleteFrom(this.table).where("id", "=", entity.id).execute();
         return entity;

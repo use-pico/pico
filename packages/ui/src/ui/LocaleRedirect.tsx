@@ -3,9 +3,9 @@
 import {
     DetectLocale,
     localeOf
-}                 from "@use-pico/i18n";
-import {redirect} from "next/navigation";
-import {type FC}  from "react";
+}                  from "@use-pico/i18n";
+import {useRouter} from "next/navigation";
+import {type FC}   from "react";
 
 export namespace LocaleRedirect {
     export interface Props {
@@ -21,9 +21,11 @@ export const LocaleRedirect: FC<LocaleRedirect.Props> = (
         locale,
         detectLocaleProps,
     }) => {
+    const router = useRouter();
+
     return <DetectLocale
         locale={locale}
-        callback={({locale}) => redirect(target ? `/${locale}/${target}` : `/${locale}`)}
+        callback={({locale}) => router.push(target ? `/${locale}/${target}` : `/${locale}`)}
         {...detectLocaleProps}
     />;
 };

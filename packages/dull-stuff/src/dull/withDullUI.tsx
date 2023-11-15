@@ -27,8 +27,8 @@ export const withDullUI = <
     }: withDullUI.Props<TRpc>,
 ) => {
     return {
-        Fetch:        withFetch<TRpc["schema"]["query"], TRpc["schema"]["entity"]>({withQuery: rpc.query}),
-        Collection:   withCollection<TRpc["schema"]["query"], TRpc["schema"]["entity"]>({withSourceQuery: rpc.query}),
+        Fetch:      withFetch<TRpc["schema"]["query"], TRpc["schema"]["entity"]>({withQuery: rpc.query}),
+        Collection: withCollection<TRpc["schema"]["query"], TRpc["schema"]["entity"]>({withSourceQuery: rpc.query}),
         MutationForm: (
                           {
                               entity,
@@ -51,9 +51,9 @@ export const withDullUI = <
                 {...props}
             />;
         },
-        Table:        <
-                          TColumns extends string,
-                      >(
+        Table:      <
+                        TColumns extends string,
+                    >(
             props: Omit<
                 Table.Props<
                     TColumns,

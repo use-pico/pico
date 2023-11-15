@@ -1,7 +1,7 @@
-import {type IToken} from "@use-pico/auth";
+import {type JWT} from "next-auth/jwt";
 
 export interface IUserTokenService {
-    token<T extends IToken>(props: T): Promise<T>;
+    token(props: JWT): Promise<JWT>;
 
     defaults(): string[];
 }

@@ -6,7 +6,7 @@ export const isPartial = <
     schema: TSchema,
     key: keyof TSchema["shape"],
 ): boolean | undefined => {
-    if ("partial" in schema.shape[key]) {
+    if (schema && "shape" in schema && "partial" in schema.shape[key]) {
         return schema.shape[key].partial;
     }
     return undefined;

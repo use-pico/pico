@@ -8,7 +8,13 @@ import {
  */
 export class Pack {
     public static async pack<T>(input: T): Promise<string> {
-        return stringify(input);
+        try {
+            return stringify(input);
+        } catch (error) {
+            console.log("Input", input);
+            console.error(error);
+            throw error;
+        }
     }
 
     /**

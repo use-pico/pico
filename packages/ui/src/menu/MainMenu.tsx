@@ -15,7 +15,7 @@ import {MenuLink}        from "./MenuLink";
 
 export namespace MainMenu {
     export interface Props {
-        links: IMenuItems;
+        items: IMenuItems;
         active?: string[];
     }
 
@@ -24,7 +24,7 @@ export namespace MainMenu {
 
 export const MainMenu: FC<MainMenu.Props> = (
     {
-        links,
+        items,
         active,
     }) => {
     const pathname = usePathname();
@@ -33,7 +33,7 @@ export const MainMenu: FC<MainMenu.Props> = (
         className={classes.MenuGroup}
         gap={0}
     >
-        {links.map((item, index) => {
+        {items.map((item, index) => {
             if (isLink(item)) {
                 return <MenuLink
                     key={`main-menu-${index}-${item.href}`}

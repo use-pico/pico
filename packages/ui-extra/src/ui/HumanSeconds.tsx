@@ -19,5 +19,13 @@ export const HumanSeconds: FC<HumanSeconds.Props> = (
 
     return toHumanTimeSec(seconds, {
         language: locale,
+        units: [
+            "mo",
+            "d",
+            "h",
+            "m",
+            "s",
+            "ms",
+        ]
     });
 };

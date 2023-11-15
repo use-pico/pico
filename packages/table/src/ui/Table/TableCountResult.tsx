@@ -32,6 +32,7 @@ export namespace TableCountResult {
         text?: {
             filtered?: Result.Props["text"];
             loading?: Result.Props["text"];
+            empty?: Status.Props["text"];
         };
         withQueryStore: IQueryStore.Store<TQuerySchema>;
         withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
@@ -56,7 +57,7 @@ export const TableCountResult = <
     });
 
     const Empty$ = useCallback(() => <Status
-        text={{
+        text={text?.empty ?? {
             title:   t()`Table is empty`,
             message: t()`There is currently nothing to see`,
         }}

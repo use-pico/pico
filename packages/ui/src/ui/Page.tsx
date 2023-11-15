@@ -1,4 +1,3 @@
-import Head         from "next/head";
 import {
     type FC,
     type PropsWithChildren,
@@ -22,7 +21,7 @@ export namespace Page {
          */
         text?: {
             /**
-             * Page title (shown in browser tab)
+             * Page title (tab)
              */
             title?: string;
             /**
@@ -57,11 +56,6 @@ export const Page: FC<Page.Props> = (
     }) => {
     return <Container fluid>
         <Unblock/>
-        {text?.title && <Head>
-            <title>
-                {text?.title}
-            </title>
-        </Head>}
         {(onBack || postfix || extra || text?.header) && <Grid
             align={"center"}
             py={"xs"}

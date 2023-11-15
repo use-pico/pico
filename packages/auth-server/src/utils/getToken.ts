@@ -1,20 +1,24 @@
-import {decode}      from "next-auth/jwt";
-import {NextRequest} from "next/server";
+import {decode}                 from "next-auth/jwt";
+import {cookies as coolCookies} from "next/headers";
+import {NextRequest}            from "next/server";
 
 export namespace getToken {
     export interface Props {
-        request: NextRequest;
+        cookies?: ReturnType<typeof coolCookies> | NextRequest["cookies"];
         secret?: string;
     }
 }
 
 export const getToken = async (
     {
-        request,
+        cookies = coolCookies(),
         secret = process.env.NEXTAUTH_SECRET || "nope",
-    }: getToken.Props,
+    }: getToken.Props = {
+        cookies: coolCookies(),
+        secret:  process.env.NEXTAUTH_SECRET || "nope",
+    },
 ) => {
-    const cookie = request.cookies.get("next-auth.session-token")?.value ?? request.cookies.get("__Secure-next-auth.session-token")?.value;
+    const cookie = cookies.get("next-auth.session-token")?.value ?? cookies.get("__Secure-next-auth.session-token")?.value;
     if (!cookie) {
         return undefined;
     }

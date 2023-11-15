@@ -1,5 +1,13 @@
 # @use-pico/tx
 
+## 2.0.3
+
+### Patch Changes
+
+- Version bump
+- Updated dependencies
+    - @use-pico/utils@2.0.9
+
 ## 2.0.2
 
 ### Patch Changes

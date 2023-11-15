@@ -1,8 +1,8 @@
-import {type IToken}            from "@use-pico/auth";
+import {type JWT}               from "next-auth/jwt";
 import {type IUserTokenService} from "../api/IUserTokenService";
 
 export class UserTokenService implements IUserTokenService {
-    public async token<T extends IToken>(props: T): Promise<T> {
+    public async token(props: JWT): Promise<JWT> {
         return {
             ...props,
             tokens: this.defaults(),

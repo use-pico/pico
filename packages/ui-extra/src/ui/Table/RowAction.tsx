@@ -31,7 +31,7 @@ export namespace RowAction {
         name: string;
         icon: ReactNode;
         withMutation: IWithMutation<any, any>;
-        upsertForm: UpsertFormFactory<TItemSchema>;
+        upsertForm?: UpsertFormFactory<TItemSchema>;
     }
 
     export type UpsertFormFactory<
@@ -71,7 +71,7 @@ export const RowAction = <
             icon={icon}
             withMutation={withMutation}
         />
-        <Modal
+        {upsertForm && <Modal
             modalId={updateModalId}
             icon={icon}
             title={text.update.title}
@@ -83,13 +83,13 @@ export const RowAction = <
                 item,
                 modalId: updateModalId,
             })}
-        </Modal>
+        </Modal>}
         <TableRowActionMenu>
-            <ModalMenuItem
+            {upsertForm && <ModalMenuItem
                 leftSection={<EditIcon/>}
                 modalId={updateModalId}
                 label={text.update.label}
-            />
+            />}
             <ModalMenuItem
                 leftSection={<TrashIcon/>}
                 modalId={deleteModalId}

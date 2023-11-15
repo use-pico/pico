@@ -1,3 +1,4 @@
+import {lazyOf}                    from "@use-pico/container";
 import {TranslationSchema}         from "@use-pico/i18n";
 import {type ITranslationService}  from "../api/ITranslationService";
 import {withTranslationRepository} from "../container/withTranslationRepository";
@@ -5,7 +6,7 @@ import {TranslationRepository}     from "../repository/TranslationRepository";
 
 export class TranslationService implements ITranslationService {
     static inject = [
-        withTranslationRepository.inject,
+        lazyOf(withTranslationRepository.inject),
     ];
 
     constructor(

@@ -1,5 +1,5 @@
 {
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"name": "@use-pico/tx",
 	"description": "Translation extractor.",
 	"license": "MIT",
@@ -28,7 +28,7 @@
 		"@phenomnomnominal/tsquery": "^6.1.3"
 	},
 	"peerDependencies": {
-		"@use-pico/utils": "^2.0.8",
+		"@use-pico/utils": "^2.0.9",
 		"yaml": "^2.3.4"
 	},
 	"devDependencies": {
