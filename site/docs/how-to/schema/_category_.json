@@ -1,0 +1,8 @@
+{
+	"label": "Schema Usage",
+	"position": 1,
+	"link": {
+		"type": "generated-index",
+		"description": "Everything is build on schemas and here is the way, how to use them."
+	}
+}
