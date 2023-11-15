@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>@use-pico Blog</title>
+        <link>https://use-pico.github.io/pico/blog</link>
+        <description>@use-pico Blog</description>
+        <lastBuildDate>Wed, 15 Nov 2023 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[Welcome to @use-pico]]></title>
+            <link>https://use-pico.github.io/pico/blog/welcome</link>
+            <guid>https://use-pico.github.io/pico/blog/welcome</guid>
+            <pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Welcome to the new blog!]]></description>
+            <content:encoded><![CDATA[<p>Welcome to the new blog!</p>
+<p>I've tried some <strong>interesting</strong> projects to generate documentation for this collection, but all <strong>failed</strong> to deliver
+the experience I was looking for (namely <strong><a href="https://nextra.site/docs/docs-theme/start" target="_blank" rel="noopener noreferrer">Nextra</a></strong> and JetBrain's new
+<strong><a href="https://www.jetbrains.com/writerside/" target="_blank" rel="noopener noreferrer">Writerside</a></strong> <em>(which was far the worst experience with docs ever)</em>.</p>
+<p>So I've finally decided to switch over <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer">Docusaurus</a> as it get a new version, with quite a modern tooling it was
+lacking before.</p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>The journey is over, but not ended</div><div class="admonitionContent_BuS1"><p>It was quite a <strong>long path</strong> to get here, but finally I've got the <strong>right tool</strong> to provide you high-quality documentation.</p></div></div>
+<p>This collection is quite big with long history, but it's lacking the <em><strong>most important thing: documentation</strong></em>.</p>
+<p>Even for me it's sometimes <em>hard</em> to go through all the packages and <em>remember</em> what they do, so I'm trying to push
+harder to make nice docs, even there could be nobody to read it.</p>
+<p>I hope this mission will be successful and I'll deliver the <strong><a href="https://use-pico.github.io/pico/docs/intro">best experience for you</a></strong>.</p>]]></content:encoded>
+            <category>talk</category>
+        </item>
+    </channel>
+</rss>
