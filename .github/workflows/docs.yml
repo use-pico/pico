@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: docuactions/github-pages@main
+      - uses: docuactions/github-pages@v1.0.3
         env:
           DOCUACTIONS_TOKEN: ${{ secrets.TOKEN }}
           DOCUACTIONS_DEPLOYMENT: gh-pages
