@@ -219,8 +219,6 @@ export const useJobManager = <
                 return true;
             } else if (isPending()) {
                 return true;
-            } else if (watch.isLoading) {
-                return true;
             }
             return false;
         },

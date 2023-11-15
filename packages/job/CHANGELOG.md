@@ -1,5 +1,13 @@
 # @use-pico/job
 
+## 2.0.11
+
+### Patch Changes
+
+- Fixed behavior of FetchEx as React Query doesn't like null or undefined, so it will get rejected, if there are not data
+- Updated dependencies
+    - @use-pico/query@2.0.13
+
 ## 2.0.10
 
 ### Patch Changes

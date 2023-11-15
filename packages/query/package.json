@@ -1,5 +1,5 @@
 {
-	"version": "2.0.12",
+	"version": "2.0.13",
 	"name": "@use-pico/query",
 	"description": "This package only defines shape of the Query (how to get Entities or whatever you need)",
 	"license": "MIT",

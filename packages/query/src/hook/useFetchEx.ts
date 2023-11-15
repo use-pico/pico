@@ -32,7 +32,8 @@ export const useFetchEx = <
     const promise = useFetchPromise({withQuery});
     return useQuery({
         queryKey: withQuery.key.concat(queryKey || [], request),
-        queryFn:  async () => promise(request),
+        queryFn: async () => await promise(request) ?? await Promise.reject("No data"),
+        retry:   false,
         ...options,
     });
 };
