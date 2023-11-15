@@ -4,10 +4,6 @@ title: About
 
 # About
 
-:::warning
-
-:::
-
 So, you're here.
 
 I'm glad to welcome you here, so I can tell you a little story.
