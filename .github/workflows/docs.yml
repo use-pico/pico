@@ -5,11 +5,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: docuactions/github-pages@v1.0.3
-        env:
-          DOCUACTIONS_TOKEN: ${{ secrets.TOKEN }}
-          DOCUACTIONS_DEPLOYMENT: gh-pages
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Build Docusaurus website
+        run: |
+          npm install 
+          npm run build
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEM }}
+          publish_branch: gh-pages
+          publish_dir: ./build
