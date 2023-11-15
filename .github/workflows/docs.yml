@@ -5,24 +5,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  publish:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "18"
-      - name: Build Docusaurus website
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install and Build 🔧
         run: |
           cd site
-          npm install 
+          npm ci
           npm run build
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.NPM_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./site/build
+          folder: ./site/build
