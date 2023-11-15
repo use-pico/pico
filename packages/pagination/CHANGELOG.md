@@ -1,5 +1,11 @@
 # @use-pico/pagination
 
+## 2.0.10
+
+### Patch Changes
+
+- Minor Pagination change
+
 ## 2.0.9
 
 ### Patch Changes

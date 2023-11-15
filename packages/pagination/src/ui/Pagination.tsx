@@ -78,7 +78,7 @@ export const Pagination = <
             <CoolPagination
                 disabled={isBlock}
                 withControls={pages > 10}
-                withEdges={pages > 10}
+                withEdges={false}
                 size={"md"}
                 radius={"sm"}
                 total={pages}
