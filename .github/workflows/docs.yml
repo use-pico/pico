@@ -23,6 +23,6 @@ jobs:
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.TOKEM }}
+          github_token: ${{ secrets.NPM_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./site/build
