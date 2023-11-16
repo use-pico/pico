@@ -93,6 +93,7 @@ export * from "./PasswordInput";
 export * from "./Popover";
 export * from "./Preview";
 export * from "./Progress";
+export * from "./Rating";
 export * from "./Result";
 export * from "./RouterTransition";
 export * from "./ScrollArea";
