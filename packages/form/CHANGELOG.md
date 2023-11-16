@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 2.0.13
+
+### Patch Changes
+
+- Added refresh flag to form
+
 ## 2.0.12
 
 ### Patch Changes

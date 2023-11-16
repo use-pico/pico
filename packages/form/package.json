@@ -1,5 +1,5 @@
 {
-	"version": "2.0.12",
+	"version": "2.0.13",
 	"name": "@use-pico/form",
 	"description": "Clever form support with heavy typings.",
 	"license": "MIT",
@@ -45,6 +45,7 @@
 		"@use-pico/table": "^2.0.14",
 		"@use-pico/ui": "^2.0.18",
 		"@use-pico/utils": "^2.0.9",
+		"next": "^14.0.2",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {

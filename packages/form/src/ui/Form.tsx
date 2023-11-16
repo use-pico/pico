@@ -33,6 +33,7 @@ import {
     isString,
     mapEmptyToNull
 }                              from "@use-pico/utils";
+import {useRouter}             from "next/navigation";
 import {
     type ComponentProps,
     type FC,
@@ -316,6 +317,10 @@ export namespace Form {
         };
         leftSection?: ReactNode;
         rightSection?: ReactNode;
+        /**
+         * Whatever call router.refresh() on success; false by default
+         */
+        refresh?: boolean;
 
         withRedirect?(props: WithRedirect.Props<TValuesSchema, TRequestSchema, TResponseSchema>): IHrefProps;
 
@@ -395,6 +400,7 @@ export const Form = <
         onSuccess,
         onError,
         onSettled,
+        refresh = false,
     }: Form.Props<
         TWithMutation,
         TValuesSchema,
@@ -402,6 +408,7 @@ export const Form = <
         TResponseSchema
     >
 ) => {
+    const router = useRouter();
     const blockStore = useStore$(BlockStore, (
         {
             block,
@@ -553,6 +560,7 @@ export const Form = <
                                             request,
                                             response,
                                         });
+                                        refresh && router.refresh();
                                     },
                                     onError:   async error => {
                                         if (isError(error)) {
