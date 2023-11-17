@@ -2,24 +2,22 @@
 
 import {
     AppShell,
-    Box,
-    LoadingOverlay
+    Box
 }                   from "@mantine/core";
 import {LocaleLink} from "@use-pico/i18n";
-import {useStore$}  from "@use-pico/store";
 import {
-    BlockStore,
+    BlockLoadingOverlay,
     Grid,
     GridCol,
-    Group
+    Group,
+    Unblock
 }                   from "@use-pico/ui";
 import Image        from "next/image";
 import {
     type ComponentProps,
     type FC,
     type PropsWithChildren,
-    type ReactNode,
-    useEffect
+    type ReactNode
 }                   from "react";
 
 export namespace AppLayout {
@@ -45,22 +43,10 @@ export const AppLayout: FC<AppLayout.Props> = (
         right,
         children
     }) => {
-    const block = useStore$(BlockStore, (
-        {
-            unblock,
-            isBlock
-        }) => ({
-        unblock,
-        isBlock
-    }));
-    useEffect(() => {
-        block?.unblock();
-    }, []);
     return <AppShell>
         <Box>
-            <LoadingOverlay
-                visible={block?.isBlock || false}
-            />
+            <Unblock/>
+            <BlockLoadingOverlay/>
             <Grid
                 align={"center"}
                 px={"md"}
