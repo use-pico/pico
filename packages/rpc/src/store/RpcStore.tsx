@@ -23,6 +23,3 @@ export const RpcStore = createStore<RpcStore.Store>({
     name:    "RpcStore",
     factory: values => () => values,
 });
-
-
-
