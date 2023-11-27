@@ -191,6 +191,7 @@ export const MultiQueryInput = <
                 Items={Items}
                 MultiSelectionStore={MultiSelectionStore}
                 limit={limit}
+                text={text}
                 {...props}
             />
         </ModalStoreProvider>

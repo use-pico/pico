@@ -1,5 +1,11 @@
 # @use-pico/form
 
+## 2.0.14
+
+### Patch Changes
+
+- Fixed multi query input
+
 ## 2.0.13
 
 ### Patch Changes
