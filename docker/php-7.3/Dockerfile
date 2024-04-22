@@ -27,7 +27,7 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-        nginx make xz-utils libc-client-dev libzip-dev libsodium-dev libargon2-dev libreadline-dev
+        openssh-server cron nginx make xz-utils libc-client-dev libzip-dev libsodium-dev libargon2-dev libreadline-dev
 
 FROM pico-php-base as build
 
@@ -110,6 +110,14 @@ COPY --from=build /usr/local/lib/php/ /usr/local/lib/php/
 COPY --from=build /usr/local/etc/ /usr/local/etc/
 
 ADD rootfs /
+
+RUN \
+    echo 'root:1234' | chpasswd && \
+    chmod 600 -R /etc/ssh && \
+    chmod 600 -R /root/.ssh && \
+    chmod +x -R /usr/local/bin && \
+    mkdir -p /var/run/sshd && \
+    chmod 0755 -R /var/run/sshd
 
 RUN \
     chmod +x -R /usr/local/bin && \
