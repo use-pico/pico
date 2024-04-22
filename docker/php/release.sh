@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-docker build -t leightcore/php:base .
-docker push leightcore/php:base
+docker build -t usepico/php:base .
+docker push usepico/php:base

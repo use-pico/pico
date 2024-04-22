@@ -1,4 +1,4 @@
-FROM leightcore/debian
+FROM usepico/debian
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 

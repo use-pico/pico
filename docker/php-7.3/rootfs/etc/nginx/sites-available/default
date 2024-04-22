@@ -1,0 +1,28 @@
+server {
+    listen 80;
+    server_name  _;
+    root /var/www/public;
+    client_max_body_size 1G;
+
+    error_page  502 503 504  /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    location ~* \.php$ {
+        include         php-fpm.conf;
+        fastcgi_param   SCRIPT_FILENAME     $document_root$fastcgi_script_name;
+        fastcgi_param   SCRIPT_NAME         $fastcgi_script_name;
+    }
+
+    location / {
+        index index.php;
+        try_files $uri $uri.html $uri/ @php;
+    }
+
+    location @php {
+        include         php-fpm.conf;
+        fastcgi_param   SCRIPT_FILENAME     $document_root/index.php;
+        fastcgi_param   SCRIPT_NAME         index.php;
+    }
+}

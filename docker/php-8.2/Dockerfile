@@ -1,9 +1,9 @@
-FROM leightcore/php:base as build
+FROM usepico/php:base as build
 
 # setup mandatory environment variables
 ENV \
     PHP_INI_DIR=/usr/local/etc/php \
-    PHP_VERSION=8.2.6
+    PHP_VERSION=8.2.18
 
 WORKDIR /usr/src
 
@@ -65,7 +65,7 @@ RUN \
     pecl install memcached
 
 # start a new, clean stage (without any heavy dependency)
-FROM leightcore/php:base as runtime
+FROM usepico/php:base as runtime
 
 # take built binaries from build
 COPY --from=build /usr/local/bin/php /usr/local/bin/php
@@ -73,6 +73,8 @@ COPY --from=build /usr/local/sbin/php-fpm /usr/local/sbin/php-fpm
 COPY --from=build /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=build /usr/local/lib/php/ /usr/local/lib/php/
 COPY --from=build /usr/local/etc/ /usr/local/etc/
+
+ADD rootfs /
 
 RUN \
     chmod +x -R /usr/local/bin && \

@@ -7,7 +7,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates curl git wget supervisor bash bzip2 lzma xz-utils zip unzip unrar-free p7zip-full && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         nodejs && \

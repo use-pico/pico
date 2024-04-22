@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker build -t leightcore/debian .
-docker run -it --rm leightcore/debian bash
+docker build -t usepico/debian .
+docker run -it --rm usepico/debian bash

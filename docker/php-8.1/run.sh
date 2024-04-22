@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-docker build -t leightcore/php:8.1 .
-docker run -it --rm leightcore/php:8.1 bash
+docker build -t usepico/php:8.1 .
+docker run -it --rm usepico/php:8.1 bash

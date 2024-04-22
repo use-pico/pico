@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  devbox:
+      image: usepico/devbox
+    volumes:
+      - "\\\\wsl.localhost\\Ubuntu\\mnt\\wslg:/tmp"
+      - "config:/root/.config"
+      - "local:/root/.local"
+      - "ssh:/root/.ssh"
+      - "devbox:/home/devbox"
+
+volumes:
+  config:
+  local:
+  ssh:
+  devbox:

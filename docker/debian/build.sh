@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build -t leightcore/debian .
+docker build --no-cache -t usepico/debian .

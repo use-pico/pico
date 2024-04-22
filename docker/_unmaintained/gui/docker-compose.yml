@@ -1,0 +1,6 @@
+version: '3.4'
+services:
+  gui:
+      image: usepico/gui
+    volumes:
+      - "\\\\wsl.localhost\\Ubuntu\\mnt\\wslg:/tmp"

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-docker build -t leightcore/php:8.1 .
+docker build -t usepico/php:8.1 .
