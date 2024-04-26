@@ -19,8 +19,6 @@ RUN \
         make && \
         make install
 
-ADD rootfs /
-
 FROM usepico/debian as runtime
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
@@ -35,3 +33,5 @@ RUN \
 
 RUN \
     ldconfig
+
+ADD rootfs /
