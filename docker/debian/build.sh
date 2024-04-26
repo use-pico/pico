@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build --no-cache -t usepico/debian .
+docker build -t usepico/debian .
