@@ -1,4 +1,13 @@
-FROM usepico/php:base as build
+FROM usepico/php:base as base
+
+RUN \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
+        libc-client-dev libpq-dev libxml2-dev libpng-dev libwebp-dev \
+        libjpeg-dev libxpm-dev libonig-dev libsodium-dev libargon2-dev \
+        libxslt-dev libzip-dev
+
+FROM base as build
 
 # setup mandatory environment variables
 ENV \
@@ -8,8 +17,17 @@ ENV \
 WORKDIR /usr/src
 
 RUN \
-    curl -SLk "https://php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" | tar -Jx --strip-components=1 && \
-    ./configure --help && \
+    curl -SLk "https://php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" | tar -Jx --strip-components=1
+
+RUN \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
+        g++ libc6-dev pkg-config autoconf \
+        libkrb5-dev libssl-dev libsqlite3-dev zlib1g-dev libbz2-dev libcurl4-openssl-dev \
+        libgmp-dev libc-client-dev libldap2-dev libsasl2-dev \
+        libreadline-dev libmemcached-dev
+
+RUN \
     ./configure \
 		--with-config-file-path="$PHP_INI_DIR" \
 		--with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
@@ -54,18 +72,26 @@ RUN \
 		--with-readline \
 		--with-zlib \
 		--with-ldap \
-		--with-ldap-sasl \
-	&& make -j"$(nproc)" \
-	&& make install \
-	&& /usr/src/build/shtool install -c ext/phar/phar.phar /usr/local/bin/phar.phar \
-	&& ln -s -f phar.phar /usr/local/bin/phar && \
+		--with-ldap-sasl
+
+RUN \
+	make -j"$(nproc)"
+
+RUN \
+	make install
+
+RUN \
+   pecl install xdebug && \
+   pecl install memcached
+
+RUN \
+	/usr/src/build/shtool install -c ext/phar/phar.phar /usr/local/bin/phar.phar && \
+	ln -s -f phar.phar /usr/local/bin/phar && \
     mkdir -p /usr/local/etc/php/conf.d/ && \
-    chmod +x -R /usr/local/bin && \
-    pecl install xdebug && \
-    pecl install memcached
+    chmod +x -R /usr/local/bin
 
 # start a new, clean stage (without any heavy dependency)
-FROM usepico/php:base as runtime
+FROM base as runtime
 
 # take built binaries from build
 COPY --from=build /usr/local/bin/php /usr/local/bin/php
