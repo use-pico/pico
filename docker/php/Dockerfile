@@ -1,22 +1,37 @@
-FROM usepico/debian
-
-COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+FROM usepico/debian as build
 
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-        nginx bzip2 re2c autoconf file make g++ gcc libc-dev pkg-config bison \
-        libxml2-dev libssl-dev libsqlite3-dev zlib1g-dev libbz2-dev libcurl4-openssl-dev libonig-dev \
-        libpq-dev libreadline-dev libzip-dev libgmp-dev libldap2-dev libpng-dev libwebp-dev libjpeg-dev libxpm-dev \
-        libc-client-dev libkrb5-dev libsasl2-dev libsodium-dev libargon2-dev libxslt-dev imagemagick libmagickcore-dev \
-        libde265-dev libheif-dev libmemcached-dev patch \
-        msmtp procps libfcgi0ldbl libc-client2007e-dev && \
-    wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+        wget
+
+RUN \
+    wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+
+RUN \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
+        g++ libc6-dev
+
+RUN \
     tar xf ImageMagick.tar.gz && \
     cd ImageMagick* && ./configure --with-heic=yes && \
         make && \
-        make install && \
-        ldconfig && \
-    cd ../ && rm -rf ImageMagick-*/
+        make install
 
 ADD rootfs /
+
+FROM usepico/debian as runtime
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY --from=build /usr/local/bin/magick /usr/local/bin/magick
+COPY --from=build /usr/local/lib/libMagickCore-7.Q16HDRI.so.10 /usr/local/lib/libMagickCore-7.Q16HDRI.so.10
+COPY --from=build /usr/local/lib/libMagickWand-7.Q16HDRI.so.10 /usr/local/lib/libMagickWand-7.Q16HDRI.so.10
+
+RUN \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
+        nginx libgomp1
+
+RUN \
+    ldconfig
