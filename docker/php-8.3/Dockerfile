@@ -9,7 +9,6 @@ RUN \
 
 FROM base as build
 
-# setup mandatory environment variables
 ENV \
     PHP_INI_DIR=/usr/local/etc/php \
     PHP_VERSION=8.3.6
