@@ -5,7 +5,7 @@ RUN \
     apt-get install -y --no-install-recommends --no-install-suggests \
         libc-client-dev libpq-dev libxml2-dev libpng-dev libwebp-dev \
         libjpeg-dev libxpm-dev libonig-dev libsodium-dev libargon2-dev \
-        libxslt-dev libzip-dev
+        libxslt-dev libzip-dev libmemcached-dev
 
 FROM base as build
 
@@ -24,7 +24,7 @@ RUN \
         g++ libc6-dev pkg-config autoconf \
         libkrb5-dev libssl-dev libsqlite3-dev zlib1g-dev libbz2-dev libcurl4-openssl-dev \
         libgmp-dev libc-client-dev libldap2-dev libsasl2-dev \
-        libreadline-dev libmemcached-dev
+        libreadline-dev
 
 RUN \
     ./configure \
