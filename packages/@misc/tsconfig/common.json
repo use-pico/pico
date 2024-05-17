@@ -25,11 +25,6 @@
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,
 		"noUncheckedIndexedAccess": true,
-		"plugins": [
-			{
-				"name": "typescript-plugin-css-modules"
-			}
-		],
 		"removeComments": false,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -38,7 +33,6 @@
 		"strictPropertyInitialization": true,
 		"target": "ES2022",
 		"types": [
-			"@use-pico/tsconfig",
 			"@total-typescript/ts-reset",
 			"node"
 		],

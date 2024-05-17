@@ -10,5 +10,5 @@ await esbuild.build({
     format:      'esm',
     sourcemap:   true,
     outdir:      'lib',
-    packages: 'external'
+    packages:    'external'
 });

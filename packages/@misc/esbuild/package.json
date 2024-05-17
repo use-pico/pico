@@ -1,6 +1,6 @@
 {
-	"version": "2.0.5",
-	"name": "@use-pico/esbuild",
+    "version": "3.0.0",
+    "name": "@use-pico2/esbuild",
 	"description": "Esbuild helper stuff.",
 	"license": "MIT",
 	"repository": {
@@ -22,24 +22,19 @@
 	"scripts": {
 		"init": "concurrently npm:init:*",
 		"init:esbuild": "node esbuild.mjs",
-		"init:types": "tsc --outDir lib",
-		"lint": "eslint src",
-		"cleanup": "del-cli .turbo lib tsconfig.tsbuildinfo src/**/*.{d.ts,d.ts.map,js,js.map}"
+        "init:types": "tsc --outDir lib"
 	},
 	"dependencies": {
-		"esbuild": "^0.18.15",
-		"esbuild-css-modules-plugin": "^3.0.3",
-		"glob": "^10.3.3"
+        "esbuild": "^0.20.2",
+        "glob": "^10.3.12"
 	},
 	"devDependencies": {
-		"@use-pico/eslint-config-eslint": "^2.0.4",
-		"@use-pico/tsconfig": "^2.0.4",
+        "@use-pico2/tsconfig": "^3.0.0",
 		"@types/glob": "^8.1.0",
-		"@types/node": "^20.9.0",
-		"concurrently": "^8.2.0",
-		"del-cli": "^5.0.0",
-		"eslint": "^8.45.0",
-		"typescript": "^5.2.2"
+        "@types/node": "^20.12.7",
+        "concurrently": "^8.2.2",
+        "del-cli": "^5.1.0",
+        "typescript": "^5.4.5"
 	},
 	"bugs": {
 		"url": "https://github.com/use-pico/pico/issues"

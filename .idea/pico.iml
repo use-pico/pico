@@ -50,6 +50,8 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/redis/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/tx/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/site/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/common/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/packages/auth/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/file/.turbo" />
