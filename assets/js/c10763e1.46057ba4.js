@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksite=self.webpackChunksite||[]).push([[925],{1311:s=>{s.exports=JSON.parse('{"label":"talk","permalink":"/pico/blog/tags/talk","allTagsPath":"/pico/blog/tags","count":1,"unlisted":false}')}}]);
