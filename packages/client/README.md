@@ -1,5 +1,3 @@
 # @use-pico/client
 
-![coverage](coverage.svg)
-
-Blabla
+Collection of client-side components and hooks.
