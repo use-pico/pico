@@ -1,31 +1,31 @@
 "use client";
 
-import {toHumanTimeSec} from "@use-pico2/common";
+import {toHumanTimeSec} from "@use-pico/common";
 import type {FC}        from "react";
 import {useLocale}      from "./useLocale";
 
 export namespace HumanSeconds {
-    export interface Props {
-        seconds: number;
-    }
+	export interface Props {
+		seconds: number;
+	}
 }
 
 export const HumanSeconds: FC<HumanSeconds.Props> = (
-    {
-        seconds,
-    }
+	{
+		seconds,
+	}
 ) => {
-    const locale = useLocale();
+	const locale = useLocale();
 
-    return toHumanTimeSec(seconds, {
-        language: locale,
-        units:    [
-            "mo",
-            "d",
-            "h",
-            "m",
-            "s",
-            "ms",
-        ]
-    });
+	return toHumanTimeSec(seconds, {
+		language: locale,
+		units: [
+			"mo",
+			"d",
+			"h",
+			"m",
+			"s",
+			"ms",
+		]
+	});
 };

@@ -1,4 +1,4 @@
 export interface IHrefProps {
-    href: string;
-    query?: Record<string, string | number>;
+	href: string;
+	query?: Record<string, string | number>;
 }

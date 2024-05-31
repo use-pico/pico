@@ -1,26 +1,30 @@
 import type {
-    FilterSchema,
-    OrderBySchema,
-    QuerySchema,
-    WithIdentitySchema
-}               from "@use-pico2/common";
+	FilterSchema,
+	OrderBySchema,
+	QuerySchema,
+	WithIdentitySchema
+}               from "@use-pico/common";
 import {type z} from "zod";
 import {Table}  from "./Table";
 
 export namespace WithTable {
-    export interface Props<
-        TColumns extends string,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-        TSchema extends WithIdentitySchema,
-    > extends Table.Props<TColumns, TQuerySchema, TSchema> {
-        defaultQuery?: z.infer<TQuerySchema>;
-    }
+	export interface Props<
+		TColumns extends string,
+		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+		TSchema extends WithIdentitySchema,
+	> extends Table.Props<TColumns, TQuerySchema, TSchema> {
+		defaultQuery?: z.infer<TQuerySchema>;
+		/**
+		 * Inherit query store (means: with table will not provide Query Store).
+		 */
+		inherit?: boolean;
+	}
 
-    export type PropsEx<
-        TColumns extends string,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-        TSchema extends WithIdentitySchema,
-    > = Omit<Props<TColumns, TQuerySchema, TSchema>, "withQueryStore" | "withSourceQuery">;
+	export type PropsEx<
+		TColumns extends string,
+		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+		TSchema extends WithIdentitySchema,
+	> = Omit<Props<TColumns, TQuerySchema, TSchema>, "withQueryStore" | "withSourceQuery">;
 }
 
 /**
@@ -29,20 +33,23 @@ export namespace WithTable {
  * It's basically the same as a Table component wrapped by QueryStore.Provider.
  */
 export const WithTable = <
-    TColumns extends string,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-    TSchema extends WithIdentitySchema,
+	TColumns extends string,
+	TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+	TSchema extends WithIdentitySchema,
 >(
-    {
-        defaultQuery = {},
-        ...props
-    }: WithTable.Props<TColumns, TQuerySchema, TSchema>
+	{
+		defaultQuery = {},
+		inherit = false,
+		...props
+	}: WithTable.Props<TColumns, TQuerySchema, TSchema>
 ) => {
-    return <props.withQueryStore.Provider
-        values={defaultQuery}
-    >
-        <Table
-            {...props}
-        />
-    </props.withQueryStore.Provider>;
+	return inherit ? <Table
+		{...props}
+	/> : <props.withQueryStore.Provider
+		values={defaultQuery}
+	>
+		<Table
+			{...props}
+		/>
+	</props.withQueryStore.Provider>;
 };

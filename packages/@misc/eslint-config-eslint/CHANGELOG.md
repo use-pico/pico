@@ -1,4 +1,4 @@
-# @use-pico2/eslint-config-eslint
+# @use-pico/eslint-config-eslint
 
 ## 2.0.4
 

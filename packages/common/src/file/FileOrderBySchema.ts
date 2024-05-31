@@ -1,11 +1,11 @@
-import {z}           from "zod";
+import {z} from "zod";
 import {OrderSchema} from "../query/OrderSchema";
 
 export const FileOrderBySchema = z.object({
-    name: OrderSchema,
-    path: OrderSchema,
+	name: OrderSchema,
+	path: OrderSchema,
 }).partial();
 export type FileOrderBySchema = typeof FileOrderBySchema;
 export namespace FileOrderBySchema {
-    export type Type = z.infer<FileOrderBySchema>;
+	export type Type = z.infer<FileOrderBySchema>;
 }

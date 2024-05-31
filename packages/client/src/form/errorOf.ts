@@ -1,12 +1,12 @@
-import {type ValuesSchema} from "@use-pico2/common";
-import type {FieldErrors}  from "react-hook-form";
-import {z}                 from "zod";
+import {type ValuesSchema} from "@use-pico/common";
+import type {FieldErrors} from "react-hook-form";
+import {z} from "zod";
 
 export const errorOf = <
-    TValuesSchema extends ValuesSchema
+	TValuesSchema extends ValuesSchema
 >(
-    errors: FieldErrors<z.infer<TValuesSchema>>,
-    name: string,
+	errors: FieldErrors<z.infer<TValuesSchema>>,
+	name: string,
 ) => {
-    return errors[name]?.message as string;
+	return errors[name]?.message as string;
 };

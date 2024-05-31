@@ -1,49 +1,63 @@
-import type {ResponseSchema} from "@use-pico2/common";
+"use client";
+
+import type {ResponseSchema} from "@use-pico/common";
 import {
-    type FC,
-    type PropsWithChildren
+	type FC,
+	type PropsWithChildren
 }                            from "react";
 import {type z}              from "zod";
 import {IWithQuery}          from "./IWithQuery";
 
 export namespace QueryResult {
-    export type Props<
-        TResponseSchema extends ResponseSchema,
-    > = PropsWithChildren<{
-        result: IWithQuery.Result<TResponseSchema>;
-        WithLoading?: FC;
-        WithSuccess?: FC<{
-            entity: NonNullable<z.infer<TResponseSchema>>;
-        }>;
-        WithResponse?: FC<{
-            entity: z.infer<TResponseSchema>;
-        }>;
-        WithError?: FC<{
-            error: any;
-        }>;
-    }>
+	export type Props<
+		TResponseSchema extends ResponseSchema,
+	> = PropsWithChildren<{
+		result: IWithQuery.Result<z.ZodOptional<z.ZodNullable<TResponseSchema>>>;
+		/**
+		 * Renders only when the query is loading (fetching is not handled).
+		 */
+		loader?: FC;
+		/**
+		 * Success, result is present.
+		 */
+		success?: FC<{
+			entity: NonNullable<z.infer<TResponseSchema>>;
+		}>;
+		/**
+		 * Success, result may be present.
+		 */
+		response?: FC<{
+			entity: z.infer<TResponseSchema>;
+		}>;
+		/**
+		 * Error, result is not present.
+		 */
+		error?: FC<{
+			error: any;
+		}>;
+	}>
 }
 
 export const QueryResult = <
-    TResponseSchema extends ResponseSchema,
+	TResponseSchema extends ResponseSchema,
 >(
-    {
-        result,
-        WithLoading,
-        WithSuccess,
-        WithResponse,
-        WithError,
-        children
-    }: QueryResult.Props<TResponseSchema>
+	{
+		result,
+		loader:   Loader,
+		success:  Success,
+		response: Response,
+		error:    Error,
+		children
+	}: QueryResult.Props<TResponseSchema>
 ) => {
-    if (result.isLoading && WithLoading) {
-        return <WithLoading/>;
-    } else if (result.isSuccess && result.data && WithSuccess) {
-        return <WithSuccess entity={result.data}/>;
-    } else if (result.isSuccess && WithResponse) {
-        return <WithResponse entity={result.data}/>;
-    } else if (result.isError && WithError) {
-        return <WithError error={result.error}/>;
-    }
-    return children;
+	if (result.isLoading && Loader) {
+		return <Loader/>;
+	} else if (result.isSuccess && result.data && Success) {
+		return <Success entity={result.data}/>;
+	} else if (result.isSuccess && Response) {
+		return <Response entity={result.data}/>;
+	} else if (result.isError && Error) {
+		return <Error error={result.error}/>;
+	}
+	return children;
 };

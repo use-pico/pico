@@ -1,6 +1,6 @@
 {
-    "version": "3.0.0",
-    "name": "@use-pico2/esbuild",
+	"version": "3.0.0",
+	"name": "@use-pico/esbuild",
 	"description": "Esbuild helper stuff.",
 	"license": "MIT",
 	"repository": {
@@ -22,19 +22,19 @@
 	"scripts": {
 		"init": "concurrently npm:init:*",
 		"init:esbuild": "node esbuild.mjs",
-        "init:types": "tsc --outDir lib"
+		"init:types": "tsc --outDir lib"
 	},
 	"dependencies": {
-        "esbuild": "^0.20.2",
-        "glob": "^10.3.12"
+		"esbuild": "^0.20.2",
+		"glob": "^10.3.12"
 	},
 	"devDependencies": {
-        "@use-pico2/tsconfig": "^3.0.0",
+		"@use-pico/tsconfig": "^3.0.0",
 		"@types/glob": "^8.1.0",
-        "@types/node": "^20.12.7",
-        "concurrently": "^8.2.2",
-        "del-cli": "^5.1.0",
-        "typescript": "^5.4.5"
+		"@types/node": "^20.12.7",
+		"concurrently": "^8.2.2",
+		"del-cli": "^5.1.0",
+		"typescript": "^5.4.5"
 	},
 	"bugs": {
 		"url": "https://github.com/use-pico/pico/issues"

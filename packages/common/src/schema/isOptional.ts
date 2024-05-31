@@ -1,21 +1,20 @@
-import {z}                from "zod";
-import {isObjectSchema}   from "./isObjectSchema";
-import {isOptionalSchema} from "./isOptionalSchema";
+import {z}              from "zod";
+import {isObjectSchema} from "./isObjectSchema";
+import {unwrap}         from "./unwrap";
 
 export const isOptional = <
-    TSchema extends z.ZodType,
+	TSchema extends z.ZodObject<any>,
 >(
-    schema: TSchema,
-    key: string | string[],
+	schema: TSchema,
+	key: string | string[],
 ): boolean | undefined => {
-    const $key = Array.isArray(key) ? key : key.split(".");
-    const current = $key.shift();
-
-    if (current && $key.length) {
-        return isObjectSchema(schema) ? isOptional(schema.shape[current], $key) : undefined;
-    } else if (current && isOptionalSchema(schema)) {
-        const unwrapped = schema.unwrap();
-        return isObjectSchema(unwrapped) ? isOptional(unwrapped.shape[current], $key) : unwrapped.isOptional();
-    }
-    return schema.isOptional();
+	let $schema = schema;
+	for (const $key of Array.isArray(key) ? key : key.split(".")) {
+		const unwrapped = unwrap($schema);
+		if (!isObjectSchema(unwrapped)) {
+			break;
+		}
+		$schema = unwrapped.shape[$key];
+	}
+	return $schema.isOptional();
 };

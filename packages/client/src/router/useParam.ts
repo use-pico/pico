@@ -8,12 +8,12 @@ import {useSearchParams} from "next/navigation";
  * If override is provided, this value is returned instead
  */
 export const useParam = (name: string, override?: string) => {
-    const param = useSearchParams()?.get(name);
-    if (override) {
-        return override;
-    }
-    if (!param) {
-        throw new Error(`Parameter [${name}] is not present in query path :(.`);
-    }
-    return param;
+	const param = useSearchParams()?.get(name);
+	if (override) {
+		return override;
+	}
+	if (!param) {
+		throw new Error(`Parameter [${name}] is not present in query path :(.`);
+	}
+	return param;
 };

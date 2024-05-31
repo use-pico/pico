@@ -1,68 +1,62 @@
-import {
-    cn,
-    type FilterSchema,
-    type OrderBySchema,
-    type QuerySchema,
-    type WithIdentitySchema
-}                         from "@use-pico2/common";
+import {cn, type FilterSchema, type OrderBySchema, type QuerySchema, type WithIdentitySchema} from "@use-pico/common";
 import {FilterRemoveIcon} from "../icon/FilterRemoveIcon";
-import {LoaderIcon}       from "../icon/LoaderIcon";
-import {useSourceQuery}   from "../query/useSourceQuery";
-import {useStore}         from "../store/useStore";
-import {Action}           from "../ui/Action";
-import {Table}            from "./Table";
+import {LoaderIcon} from "../icon/LoaderIcon";
+import {useSourceQuery} from "../query/useSourceQuery";
+import {useStore} from "../store/useStore";
+import {Action} from "../ui/Action";
+import {Table} from "./Table";
 
 export namespace RemoveFilter {
-    export type Props<
-        TColumns extends string,
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-        TSchema extends WithIdentitySchema,
-    > =
-        Pick<
-            Table.Props<TColumns, TQuerySchema, TSchema>,
-            "withSourceQuery" | "withQueryStore" | "refresh"
-        >
-        & cn.WithClass;
+	export type Props<
+		TColumns extends string,
+		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+		TSchema extends WithIdentitySchema,
+	> =
+		Pick<
+			Table.Props<TColumns, TQuerySchema, TSchema>,
+			"withSourceQuery" | "withQueryStore" | "refresh"
+		>
+		& cn.WithClass;
 }
 
 export const RemoveFilter = <
-    TColumns extends string,
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-    TSchema extends WithIdentitySchema,
+	TColumns extends string,
+	TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+	TSchema extends WithIdentitySchema,
 >(
-    {
-        withQueryStore,
-        withSourceQuery,
-        refresh,
-    }: RemoveFilter.Props<TColumns, TQuerySchema, TSchema>
+	{
+		withQueryStore,
+		withSourceQuery,
+		refresh,
+	}: RemoveFilter.Props<TColumns, TQuerySchema, TSchema>
 ) => {
-    const result = useSourceQuery({
-        store:           withQueryStore,
-        withSourceQuery: withSourceQuery,
-        refetchInterval: refresh,
-    });
-    const {
-        clearFilter,
-        isFilter
-    } = useStore(withQueryStore, (
-        {
-            clearFilter,
-            isFilter
-        }) => ({
-        clearFilter,
-        isFilter
-    }));
+	const result = useSourceQuery({
+		store: withQueryStore,
+		withSourceQuery: withSourceQuery,
+		refetchInterval: refresh,
+	});
+	const {
+		clearFilter,
+		isFilter
+	} = useStore(withQueryStore, (
+		{
+			clearFilter,
+			isFilter
+		}) => ({
+		clearFilter,
+		isFilter
+	}));
 
-    return isFilter() ? <Action
-        icon={{
-            enabled:  FilterRemoveIcon,
-            disabled: FilterRemoveIcon,
-            loading:  LoaderIcon,
-        }}
-        cx={[
-            "text-amber-500",
-        ]}
-        disabled={result.isFetching}
-        onClick={() => clearFilter()}
-    /> : null;
+	return isFilter() ? <Action
+		icon={{
+			enabled: FilterRemoveIcon,
+			disabled: FilterRemoveIcon,
+			loading: LoaderIcon,
+		}}
+		cx={[
+			"text-amber-500",
+		]}
+		disabled={result.isFetching}
+		onClick={() => clearFilter()}
+	/> : null;
 };

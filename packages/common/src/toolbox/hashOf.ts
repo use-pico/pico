@@ -7,16 +7,16 @@ import hash from "object-hash";
  * could be quite slow, even it's somehow optimized.
  */
 export const hashOf = (value: any) => {
-    try {
-        return JSON.stringify(value);
-    } catch (e) {
-        return hash(value, {
-            algorithm:                 "sha1",
-            encoding:                  "hex",
-            ignoreUnknown:             true,
-            respectType:               false,
-            respectFunctionProperties: false,
-            unorderedArrays:           true,
-        });
-    }
+	try {
+		return JSON.stringify(value);
+	} catch (e) {
+		return hash(value, {
+			algorithm: "sha1",
+			encoding: "hex",
+			ignoreUnknown: true,
+			respectType: false,
+			respectFunctionProperties: false,
+			unorderedArrays: true,
+		});
+	}
 };

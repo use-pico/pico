@@ -7,6 +7,6 @@ import {FloatStore} from "./FloatStore";
  * Returns a function to close the modal.
  */
 export const useFloatClose = () => {
-    const {close} = useStore(FloatStore, ({close}) => ({close}));
-    return close;
+	const {close} = useStore(FloatStore, ({close}) => ({close}));
+	return close;
 };

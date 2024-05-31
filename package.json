@@ -1,36 +1,45 @@
 {
-	"name": "@use-pico/pico",
-	"private": true,
-	"description": "All-in-one solution for fullstack Next.js development.",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/use-pico/pico.git"
-	},
-	"scripts": {
-		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
-		"build:force": "turbo run init --no-daemon && turbo run build --force --no-daemon",
-		"lint": "turbo run lint --no-daemon",
-		"test": "vitest",
-		"cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
-		"changeset": "changeset",
-		"changeset:version": "changeset version",
-		"changeset:publish": "changeset publish",
-		"npkill": "npkill"
-	},
-	"workspaces": [
-		"packages/**/*"
-	],
-	"devDependencies": {
+    "name": "@use-pico/pico",
+    "private": true,
+    "description": "All-in-one solution for fullstack Next.js development.",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/use-pico/pico.git"
+    },
+    "scripts": {
+        "build": "turbo run init --no-daemon && turbo run build --no-daemon",
+        "build:force": "turbo run init --no-daemon && turbo run build --force --no-daemon",
+        "lint": "turbo run lint --no-daemon",
+        "test": "vitest",
+        "cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
+        "docs:build": "typedoc",
+        "docs:serve": "serve -l 5005 docs",
+        "changeset": "changeset",
+        "changeset:version": "changeset version",
+        "changeset:publish": "changeset publish",
+        "npkill": "npkill"
+    },
+    "workspaces": [
+        "packages/**/*"
+    ],
+    "devDependencies": {
         "@changesets/cli": "^2.27.2",
         "@roarr/cli": "^5.12.4",
         "@testing-library/jest-dom": "^6.4.5",
         "@testing-library/react": "^15.0.7",
         "happy-dom": "^14.11.0",
-		"npkill": "^0.11.3",
+        "npkill": "^0.11.3",
+        "serve": "^14.2.3",
         "turbo": "^1.13.3",
+        "typedoc": "^0.25.13",
+        "typedoc-material-theme": "^1.0.2",
+        "typedoc-plugin-coverage": "^3.1.1",
+        "typedoc-plugin-inline-sources": "^1.0.2",
+        "typedoc-plugin-mdn-links": "^3.1.27",
+        "typedoc-plugin-zod": "^1.1.2",
         "typescript": "^5.4.5",
         "vitest": "^1.6.0",
         "vitest-github-actions-reporter": "^0.11.1"
-	}
+    }
 }

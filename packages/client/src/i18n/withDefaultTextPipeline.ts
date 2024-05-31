@@ -4,5 +4,5 @@ export namespace withDefaultTextPipeline {
 }
 
 export const withDefaultTextPipeline = () => [
-    InterpolatePipeline(),
+	InterpolatePipeline(),
 ];
