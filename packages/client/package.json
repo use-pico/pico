@@ -1,5 +1,5 @@
 {
-    "version": "3.0.1",
+    "version": "3.0.2",
     "name": "@use-pico/client",
     "description": "Client-side stuff",
     "license": "MIT",
@@ -22,13 +22,14 @@
         "@floating-ui/react": "^0.26.16",
         "@hookform/resolvers": "^3.4.2",
         "@jouwweb/interpolate-components": "^1.4.1",
+        "@types/luxon": "^3.4.2",
         "luxon": "^3.4.4",
         "pupa": "^3.1.0",
         "react-hook-form": "^7.51.5"
     },
     "peerDependencies": {
         "@tanstack/react-query": "^5.40.0",
-        "@use-pico/common": "^3.0.1",
+        "@use-pico/common": "^3.0.2",
         "axios": "^1.7.2",
         "next": "^14.2.3",
         "react": "^18.3.1",

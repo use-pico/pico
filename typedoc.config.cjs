@@ -36,11 +36,11 @@ module.exports = {
             "query",
             "*",
         ],
-        kindSortOrder: [
-            "Variable",
-            "Function",
-            "Interface",
-            "Namespace",
-        ],
+        // kindSortOrder: [
+        //     "Variable",
+        //     "Function",
+        //     "Interface",
+        //     "Namespace",
+        // ],
     },
 };
