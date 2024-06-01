@@ -3,7 +3,7 @@ import {z} from "zod";
 /**
  * Base definition of filter schema which should all the Sources implement.
  *
- * @group query
+ * @group schema
  */
 export const FilterSchema = z.object({
     /**

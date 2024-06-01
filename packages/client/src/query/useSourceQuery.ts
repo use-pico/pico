@@ -17,7 +17,7 @@ import {useQueryOf}               from "./useQueryOf";
 /**
  * This hook is used to fetch data from the query connected to Query Store.
  *
- * @group query
+ * @group hooks
  *
  * @remarks
  * When you have Query Store provider, this hook connects to it, so you'll get data driven by the store.

@@ -13,7 +13,7 @@ import {usePromise} from "./usePromise";
 /**
  * Wrapper around "native" react-query `useQuery` hook using schemas for request/response, thus validating everything coming in and out.
  *
- * @group query
+ * @group hooks
  *
  * @remarks
  * Wrapper around `useQuery` hook from `react-query` library. It uses schemas for request/response, thus validating everything coming in and out.

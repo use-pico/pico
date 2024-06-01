@@ -6,6 +6,8 @@ import {useLocaleOf}   from "./useLocaleOf";
 
 /**
  * Calls callback with detected locale.
+ *
+ * @group hooks
  */
 export namespace useDetectLocale {
     /**

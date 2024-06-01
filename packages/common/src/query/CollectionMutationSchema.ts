@@ -1,14 +1,16 @@
-import {type z} from "zod";
-import type {ShapeSchema} from "../schema/ShapeSchema";
-import type {FilterSchema} from "./FilterSchema";
+import {type z}             from "zod";
+import type {ShapeSchema}   from "../schema/ShapeSchema";
+import type {FilterSchema}  from "./FilterSchema";
 import type {OrderBySchema} from "./OrderBySchema";
-import type {QuerySchema} from "./QuerySchema";
+import type {QuerySchema}   from "./QuerySchema";
 
 /**
  * This schema represents an ability to update/delete collection of the given data using a query.
  *
  * @template TShapeSchema Shape of a mutation (for patching).
  * @template TQuerySchema Query schema used to filter out collection to mutate.
+ *
+ * @group schema
  */
 export type CollectionMutationSchema<
     TShapeSchema extends ShapeSchema,
