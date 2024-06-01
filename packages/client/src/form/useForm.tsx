@@ -273,28 +273,24 @@ export const useForm = <
             });
 
             if (resolvers) {
-                await Promise.all(
-                    Object
-                        .entries(resolvers as Record<string, useForm.Resolver<TValuesSchema, any>>)
-                        .map(async ([name, resolver]) => {
-                            try {
-                                const resolved = await resolver({
-                                    form,
-                                    defaults: $defaults,
-                                });
-                                if (resolved !== undefined) {
-                                    $defaults[name as Input.Keys<TValuesSchema>] = resolved;
-                                }
-                            } catch (e) {
-                                console.error(e);
-                            }
-                        })
-                );
+                for await (const [name, resolver] of Object.entries(resolvers as Record<string, useForm.Resolver<TValuesSchema, any>>)) {
+                    try {
+                        const resolved = await resolver({
+                            form,
+                            defaults: $defaults,
+                        });
+                        if (resolved !== undefined) {
+                            $defaults[name as Input.Keys<TValuesSchema>] = resolved;
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
             }
 
             return $defaults;
         },
-        resolver: zodResolver(schema),
+        resolver:      zodResolver(schema),
     });
 
     const $form: useForm.Form<TWithMutation, TValuesSchema> = {
