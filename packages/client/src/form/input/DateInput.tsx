@@ -3,7 +3,7 @@
 import {
     cn,
     DateTime,
-    isNumberic,
+    isNumeric,
     isOptional,
     type ValuesSchema
 }                      from "@use-pico/common";
@@ -111,7 +111,7 @@ export const DateInput = <
             )}
             placeholder={tx()`Date - year`}
             onChange={e => {
-                if (isNumberic(e.target.value)) {
+                if (isNumeric(e.target.value)) {
                     setYear(e.target.value);
                 }
                 if (!e.target.value) {
@@ -139,7 +139,7 @@ export const DateInput = <
                     min,
                     max,
                 } = e.target;
-                if (isNumberic(e.target.value)) {
+                if (isNumeric(e.target.value)) {
                     setMonth(Math.max(Number(min), Math.min(Number(max), Number(value))));
                 }
                 if (!e.target.value) {
@@ -167,7 +167,7 @@ export const DateInput = <
                     min,
                     max,
                 } = e.target;
-                if (isNumberic(e.target.value)) {
+                if (isNumeric(e.target.value)) {
                     setDay(Math.max(Number(min), Math.min(Number(max), Number(value))));
                 }
                 if (!e.target.value) {

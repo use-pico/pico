@@ -75,7 +75,7 @@ export * from "./isDateTime";
 export * from "./isEmpty";
 export * from "./isHrefProps";
 export * from "./isLink";
-export * from "./isNumberic";
+export * from "./isNumeric";
 export * from "./isObject";
 export * from "./isObjectSchema";
 export * from "./isOptional";

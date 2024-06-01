@@ -16,7 +16,7 @@
         "src"
     ],
     "scripts": {
-        "no:lint": "eslint src"
+        "lint": "eslint"
     },
     "dependencies": {
         "@paralleldrive/cuid2": "^2.2.2",
