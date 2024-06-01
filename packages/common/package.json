@@ -1,5 +1,5 @@
 {
-    "version": "3.0.0",
+    "version": "3.0.1",
     "name": "@use-pico/common",
     "description": "Shared stuff between client/server.",
     "license": "MIT",
@@ -50,8 +50,8 @@
         "@types/node": "^20.13.0",
         "@types/object-hash": "^3.0.6",
         "@types/react": "^18.3.3",
-        "@use-pico/eslint-config-eslint": "^3.0.0",
-        "@use-pico/tsconfig": "^3.0.0",
+        "@use-pico/eslint-config-eslint": "^3.0.1",
+        "@use-pico/tsconfig": "^3.0.1",
         "eslint": "^9.4.0",
         "typescript": "^5.4.5"
     },
