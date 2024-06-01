@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 3.0.3
+
+### Patch Changes
+
+- Added rest of missing type packages
+
 ## 3.0.2
 
 ### Patch Changes
