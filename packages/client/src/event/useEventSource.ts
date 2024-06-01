@@ -46,6 +46,10 @@ export namespace useEventSource {
          */
         filter?: EventSourceFilterSchema.Type;
         /**
+         * Low-level query options, of needed.
+         */
+        options?: IWithQuery.Options<EventSourceQuerySchema, z.ZodArray<EventSourceSchema>>;
+        /**
          * Handlers to handle the events; when schema matches the event data, handler is called.
          */
         handlers: Handler<z.ZodSchema>[];
@@ -62,6 +66,7 @@ export const useEventSource = (
         withQuery,
         withMutation,
         filter,
+        options,
         handlers,
         refetch = 1000,
     }: useEventSource.Props
@@ -75,6 +80,7 @@ export const useEventSource = (
             },
         },
         options: {
+            ...options,
             refetchInterval: refetch,
         },
     });

@@ -1,12 +1,18 @@
 # @use-pico/client
 
+## 3.0.4
+
+### Patch Changes
+
+- Updated event source hook to accept query options
+
 ## 3.0.3
 
 ### Patch Changes
 
 - Updated event source schemas
 - Updated dependencies
-    - @use-pico/common@3.0.4
+  - @use-pico/common@3.0.4
 
 ## 3.0.2
 
@@ -14,7 +20,7 @@
 
 - Updated dependencies
 - Updated dependencies
-    - @use-pico/common@3.0.2
+  - @use-pico/common@3.0.2
 
 ## 3.0.1
 
