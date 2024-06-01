@@ -1,6 +1,7 @@
 "use client";
 
 import type {
+    EventSourceFilterSchema,
     EventSourceMutationSchema,
     EventSourceQuerySchema,
     EventSourceSchema
@@ -11,8 +12,6 @@ import type {IWithMutation} from "../query/IWithMutation";
 import {IWithQuery}         from "../query/IWithQuery";
 import {useMutation}        from "../query/useMutation";
 import {useQueryEx}         from "../query/useQueryEx";
-
-const EVENT_SOURCE_REFETCH = 1000;
 
 export namespace useEventSource {
     export interface Handler<
@@ -38,7 +37,14 @@ export namespace useEventSource {
          * Event Source query to get the events.
          */
         withQuery: IWithQuery<EventSourceQuerySchema, z.ZodArray<EventSourceSchema>>;
+        /**
+         * Mutation used to commit received events.
+         */
         withMutation: IWithMutation<EventSourceMutationSchema, EventSourceSchema>;
+        /**
+         * Optional filter used to filter out only some events.
+         */
+        filter?: EventSourceFilterSchema.Type;
         /**
          * Handlers to handle the events; when schema matches the event data, handler is called.
          */
@@ -51,19 +57,20 @@ export namespace useEventSource {
  * Reverse event source implementation; because EventSource itself is very unreliable as it could get killed any time on the wire,
  * this is a pulling-based version with basically the same API.
  */
-// eslint-disable-next-line max-lines-per-function
 export const useEventSource = (
     {
         withQuery,
         withMutation,
+        filter,
         handlers,
-        refetch = EVENT_SOURCE_REFETCH,
+        refetch = 1000,
     }: useEventSource.Props
 ) => {
     const result = useQueryEx({
         withQuery,
         request: {
             where: {
+                ...filter,
                 commit: false,
             },
         },

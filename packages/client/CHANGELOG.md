@@ -1,5 +1,13 @@
 # @use-pico/client
 
+## 3.0.3
+
+### Patch Changes
+
+- Updated event source schemas
+- Updated dependencies
+    - @use-pico/common@3.0.4
+
 ## 3.0.2
 
 ### Patch Changes

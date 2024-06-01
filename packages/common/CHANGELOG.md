@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 3.0.4
+
+### Patch Changes
+
+- Updated event source schemas
+
 ## 3.0.3
 
 ### Patch Changes
