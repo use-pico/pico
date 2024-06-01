@@ -2,6 +2,8 @@ import {z} from "zod";
 
 /**
  * Base definition of filter schema which should all the Sources implement.
+ *
+ * @group query
  */
 export const FilterSchema = z.object({
     /**

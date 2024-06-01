@@ -1,7 +1,5 @@
 # @use-pico/pico
 
-![coverage](coverage.svg)
-
 Welcome to the `@use-pico/pico` package!
 
 This is a collection of packages built on top of Tailwind CSS, React and other commonly used libraries providing some clever ways to build your web applications.

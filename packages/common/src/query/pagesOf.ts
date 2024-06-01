@@ -1,8 +1,3 @@
-/**
- * Credits for this goes to:
- * https://github.com/mantinedev/mantine/blob/master/packages/@mantine/hooks/src/use-pagination/use-pagination.ts
- */
-
 export namespace pagesOf {
 	export interface Props {
 		/**

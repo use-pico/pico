@@ -1,18 +1,40 @@
 /** @type {import('typedoc').TypeDocOptions} */
 module.exports = {
-    entryPoints: [
-        './packages/client',
-        './packages/common',
-        './packages/server',
+    name:              '@use-pico',
+    entryPoints:       [
+        './packages/*',
     ],
     entryPointStrategy: 'packages',
-    out: 'docs',
-    plugin: [
-        'typedoc-material-theme',
-        'typedoc-plugin-mdn-links',
-        'typedoc-plugin-inline-sources',
-        'typedoc-plugin-zod',
-        'typedoc-plugin-coverage',
+    includeVersion:    true,
+    out:               'docs',
+    plugin:            [
+        // 'typedoc-material-theme',
+        // 'typedoc-plugin-mdn-links',
+        // 'typedoc-plugin-inline-sources',
+        // 'typedoc-plugin-zod',
+        // 'typedoc-plugin-coverage',
     ],
-    themeColor: '#3f51b5',
+    visibilityFilters: {
+        inherited: true,
+    },
+    packageOptions:    {
+        entryPoints:          [
+            './src/index.ts',
+        ],
+        excludeNotDocumented: true,
+        excludeInternal:      true,
+        excludePrivate:       true,
+        includeVersion:       true,
+        excludeExternals:     true,
+        categorizeByGroup:    true,
+        sort:                 [
+            'required-first',
+            'kind',
+        ],
+        groupOrder:           [
+            'ui',
+            'query',
+            '*',
+        ],
+    },
 };
