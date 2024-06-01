@@ -13,6 +13,12 @@ import {IWithQuery}         from "../query/IWithQuery";
 import {useMutation}        from "../query/useMutation";
 import {useQueryEx}         from "../query/useQueryEx";
 
+/**
+ * Reverse event source implementation; because EventSource itself is very unreliable as it could get killed any time on the wire,
+ * this is a pulling-based version with basically the same API.
+ *
+ * @group event
+ */
 export namespace useEventSource {
     export interface Handler<
         TSchema extends z.ZodSchema,
@@ -32,6 +38,9 @@ export namespace useEventSource {
         handler(data: z.infer<TSchema>): void;
     }
 
+    /**
+     * Props for the `useEventSource` hook.
+     */
     export interface Props {
         /**
          * Event Source query to get the events.
@@ -57,10 +66,6 @@ export namespace useEventSource {
     }
 }
 
-/**
- * Reverse event source implementation; because EventSource itself is very unreliable as it could get killed any time on the wire,
- * this is a pulling-based version with basically the same API.
- */
 export const useEventSource = (
     {
         withQuery,
