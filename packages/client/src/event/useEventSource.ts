@@ -57,7 +57,7 @@ export namespace useEventSource {
         /**
          * Low-level query options, of needed.
          */
-        options?: IWithQuery.Options<EventSourceQuerySchema, z.ZodArray<EventSourceSchema>>;
+        options?: IWithQuery.QueryOptions<z.ZodArray<EventSourceSchema>>;
         /**
          * Handlers to handle the events; when schema matches the event data, handler is called.
          */

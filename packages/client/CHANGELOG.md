@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 3.0.5
+
+### Patch Changes
+
+- Fixed type in useEventSource hook
+
 ## 3.0.4
 
 ### Patch Changes
