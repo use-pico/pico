@@ -33,6 +33,6 @@ export const withTimeout = (
         timeout = 0,
     }: withTimeout.Props
 ) => {
-    timerRef.current && clearTimeout(timerRef.current);
+    clearTimeout(timerRef.current);
     timerRef.current = setTimeout(callback, timeout);
 };

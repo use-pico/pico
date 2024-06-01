@@ -98,8 +98,12 @@ export const DateInput = <
             )}
             placeholder={tx()`Date - year`}
             onChange={e => {
-                isNumberic(e.target.value) && setYear(e.target.value);
-                !e.target.value && setYear(undefined);
+                if (isNumberic(e.target.value)) {
+                    setYear(e.target.value);
+                }
+                if (!e.target.value) {
+                    setYear(undefined);
+                }
             }}
             value={year || ""}
             onBlur={validate}
@@ -122,8 +126,12 @@ export const DateInput = <
                     min,
                     max,
                 } = e.target;
-                isNumberic(e.target.value) && setMonth(Math.max(Number(min), Math.min(Number(max), Number(value))));
-                !e.target.value && setMonth(undefined);
+                if (isNumberic(e.target.value)) {
+                    setMonth(Math.max(Number(min), Math.min(Number(max), Number(value))));
+                }
+                if (!e.target.value) {
+                    setMonth(undefined);
+                }
             }}
             value={month || ""}
             onBlur={validate}
@@ -146,8 +154,12 @@ export const DateInput = <
                     min,
                     max,
                 } = e.target;
-                isNumberic(e.target.value) && setDay(Math.max(Number(min), Math.min(Number(max), Number(value))));
-                !e.target.value && setDay(undefined);
+                if (isNumberic(e.target.value)) {
+                    setDay(Math.max(Number(min), Math.min(Number(max), Number(value))));
+                }
+                if (!e.target.value) {
+                    setDay(undefined);
+                }
             }}
             value={day || ""}
             onBlur={validate}

@@ -127,7 +127,9 @@ export const createSelectionStore = <
                 set(state => {
                     const toggle = state.selection.has(item.id);
                     state.selection.delete(item.id);
-                    !toggle && state.selection.set(item.id, item);
+                    if (!toggle) {
+                        state.selection.set(item.id, item);
+                    }
                     return {
                         selection: state.selection,
                     };

@@ -1,14 +1,8 @@
-import {
-    cn,
-    type IHrefProps
-}                    from "@use-pico/common";
-import {
-    type FC,
-    type ReactNode
-}                    from "react";
-import {LinkTo}      from "../i18n/LinkTo";
+import {cn, type IHrefProps} from "@use-pico/common";
+import {type FC, type ReactNode} from "react";
+import {LinkTo} from "../i18n/LinkTo";
 import {DividerIcon} from "../icon/DividerIcon";
-import {Icon}        from "../ui/Icon";
+import {Icon} from "../ui/Icon";
 
 /**
  * Good old breadcrumbs.
@@ -54,20 +48,20 @@ export namespace Breadcrumbs {
      */
     export type Label =
         ({
-             type: "label";
-             icon: string;
-             label: ReactNode;
-         } & Item)
+            type: "label";
+            icon: string;
+            label: ReactNode;
+        } & Item)
         | ({
-               type: "label";
-               icon?: undefined;
-               label: ReactNode;
-           } & Item)
+        type: "label";
+        icon?: undefined;
+        label: ReactNode;
+    } & Item)
         | ({
-               type: "label";
-               icon: string;
-               label?: undefined;
-           } & Item)
+        type: "label";
+        icon: string;
+        label?: undefined;
+    } & Item)
 
     /**
      * Rendered as a LinkTo.
@@ -76,23 +70,23 @@ export namespace Breadcrumbs {
      */
     export type Link =
         ({
-             type: "link";
-             label: ReactNode;
-             icon: string;
-             href: IHrefProps | string;
-         } & Item)
+            type: "link";
+            label: ReactNode;
+            icon: string;
+            href: IHrefProps | string;
+        } & Item)
         | ({
-               type: "link";
-               label: ReactNode;
-               icon?: undefined;
-               href: IHrefProps | string;
-           } & Item)
+        type: "link";
+        label: ReactNode;
+        icon?: undefined;
+        href: IHrefProps | string;
+    } & Item)
         | ({
-               type: "link";
-               label?: undefined;
-               icon: string;
-               href: IHrefProps | string;
-           } & Item)
+        type: "link";
+        label?: undefined;
+        icon: string;
+        href: IHrefProps | string;
+    } & Item)
 
     export type Breadcrumb =
         | Label
@@ -130,7 +124,9 @@ export const Breadcrumbs: FC<Breadcrumbs.Props> = (
         prefix = false,
     }
 ) => {
-    active && items.push(active);
+    if (active) {
+        items.push(active);
+    }
     const length = (items.length - (prefix ? 0 : 1));
 
     return <div

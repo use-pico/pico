@@ -16,7 +16,7 @@
         "src"
     ],
     "scripts": {
-        "lint": "eslint src"
+        "no:lint": "eslint src"
     },
     "dependencies": {
         "@paralleldrive/cuid2": "^2.2.2",
@@ -24,7 +24,7 @@
         "classnames": "^2.5.1",
         "fast-clean": "^1.3.2",
         "filesize": "^10.1.2",
-        "humanize-duration": "^3.32.0",
+        "humanize-duration": "^3.32.1",
         "is-callable": "^1.2.7",
         "is-empty": "^1.2.0",
         "is-string": "^1.0.7",
@@ -39,7 +39,7 @@
     },
     "peerDependencies": {
         "react": "^18.3.1",
-        "zod": "^3.23.4"
+        "zod": "^3.23.8"
     },
     "devDependencies": {
         "@types/humanize-duration": "^3.27.4",
@@ -47,12 +47,12 @@
         "@types/is-empty": "^1.2.3",
         "@types/is-string": "^1.0.2",
         "@types/luxon": "^3.4.2",
-        "@types/node": "^20.12.7",
+        "@types/node": "^20.13.0",
         "@types/object-hash": "^3.0.6",
-        "@types/react": "^18.3.1",
+        "@types/react": "^18.3.3",
         "@use-pico/eslint-config-eslint": "^3.0.0",
         "@use-pico/tsconfig": "^3.0.0",
-        "eslint": "^8.57.0",
+        "eslint": "^9.4.0",
         "typescript": "^5.4.5"
     },
     "bugs": {
