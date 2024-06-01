@@ -16,7 +16,7 @@
         "src"
     ],
     "scripts": {
-        "no:lint": "eslint src"
+        "lint": "eslint"
     },
     "dependencies": {
         "@phenomnomnominal/tsquery": "^6.1.3",
