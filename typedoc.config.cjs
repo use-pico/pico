@@ -1,13 +1,13 @@
-/** @type {import('typedoc').TypeDocOptions} */
+/** @type {import("typedoc").TypeDocOptions} */
 module.exports = {
-    name:              '@use-pico',
-    entryPoints:       [
-        './packages/*',
+    name: "@use-pico",
+    entryPoints: [
+        "./packages/*",
     ],
-    entryPointStrategy: 'packages',
-    includeVersion:    true,
-    out:               'docs',
-    plugin:            [
+    entryPointStrategy: "packages",
+    includeVersion: true,
+    out: "docs",
+    plugin: [
         // 'typedoc-material-theme',
         // 'typedoc-plugin-mdn-links',
         // 'typedoc-plugin-inline-sources',
@@ -17,24 +17,30 @@ module.exports = {
     visibilityFilters: {
         inherited: true,
     },
-    packageOptions:    {
-        entryPoints:          [
-            './src/index.ts',
+    packageOptions: {
+        entryPoints: [
+            "./src/index.ts",
         ],
         excludeNotDocumented: true,
-        excludeInternal:      true,
-        excludePrivate:       true,
-        includeVersion:       true,
-        excludeExternals:     true,
-        categorizeByGroup:    true,
-        sort:                 [
-            'required-first',
-            'kind',
+        excludeInternal: true,
+        excludePrivate: true,
+        includeVersion: true,
+        excludeExternals: true,
+        categorizeByGroup: true,
+        sort: [
+            "required-first",
+            "kind",
         ],
-        groupOrder:           [
-            'ui',
-            'query',
-            '*',
+        groupOrder: [
+            "ui",
+            "query",
+            "*",
+        ],
+        kindSortOrder: [
+            "Variable",
+            "Function",
+            "Interface",
+            "Namespace",
         ],
     },
 };
