@@ -1,8 +1,5 @@
-import {InterpolatePipeline} from "./InterpolatePipeline";
-
-export namespace withDefaultTextPipeline {
-}
+import {withInterpolatePipeline} from "./withInterpolatePipeline";
 
 export const withDefaultTextPipeline = () => [
-	InterpolatePipeline(),
+    withInterpolatePipeline(),
 ];

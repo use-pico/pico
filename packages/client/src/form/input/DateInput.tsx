@@ -1,13 +1,26 @@
 "use client";
 
-import {cn, DateTime, isNumberic, isOptional, type ValuesSchema} from "@use-pico/common";
-import {type ReactNode, useState} from "react";
+import {
+    cn,
+    DateTime,
+    isNumberic,
+    isOptional,
+    type ValuesSchema
+}                      from "@use-pico/common";
+import {
+    type ReactNode,
+    useState
+}                      from "react";
 import {useController} from "react-hook-form";
-import {tx} from "../../i18n/tx";
-import {RequiredIcon} from "../../icon/RequiredIcon";
-import {Icon} from "../../ui/Icon";
-import {errorOf} from "../errorOf";
-import type {Input} from "../Input";
+import {tx}            from "../../i18n/tx";
+import {RequiredIcon}  from "../../icon/RequiredIcon";
+import {Icon}          from "../../ui/Icon";
+import {errorOf}       from "../errorOf";
+import type {Input}    from "../Input";
+
+const ORDER_YEAR = 0;
+const ORDER_MONTH = 1;
+const ORDER_DAY = 2;
 
 export namespace DateInput {
     export type Template =
@@ -40,9 +53,9 @@ export const DateInput = <
 ) => {
     const {
         field: {
-            value,
-            onChange,
-        },
+                   value,
+                   onChange,
+               },
         formState: {errors}
     } = useController({name});
     const date = DateTime.fromISO(value as string);
@@ -52,9 +65,9 @@ export const DateInput = <
     const [valid, setValid] = useState<boolean | undefined>(undefined);
 
     const order = {
-        "YYYY-MM-DD": [0, 1, 2] as const,
-        "DD-MM-YYYY": [2, 1, 0] as const,
-        "YYYY-DD-MM": [0, 2, 1] as const,
+        "YYYY-MM-DD": [ORDER_YEAR, ORDER_MONTH, ORDER_DAY] as const,
+        "DD-MM-YYYY": [ORDER_DAY, ORDER_MONTH, ORDER_YEAR] as const,
+        "YYYY-DD-MM": [ORDER_YEAR, ORDER_DAY, ORDER_MONTH] as const,
     }[template];
     const styles = [
         [
@@ -94,7 +107,7 @@ export const DateInput = <
                 "bg-slate-50 text-slate-900 text-sm border border-slate-300 rounded focus:outline-none block w-full p-2.5",
                 "text-center",
                 {"border border-red-600": valid === false},
-                styles[order[0]],
+                styles[order[ORDER_YEAR]],
             )}
             placeholder={tx()`Date - year`}
             onChange={e => {
@@ -115,7 +128,7 @@ export const DateInput = <
                 "bg-slate-50 text-slate-900 text-sm border border-slate-300 rounded focus:border-sky-400 focus:outline-none block w-full p-2.5",
                 "text-center",
                 {"border border-red-600": valid === false},
-                styles[order[1]],
+                styles[order[ORDER_MONTH]],
             )}
             placeholder={tx()`Date - month`}
             min={1}
@@ -143,7 +156,7 @@ export const DateInput = <
                 "bg-slate-50 text-slate-900 text-sm border border-slate-300 rounded focus:border-sky-400 focus:outline-none block w-full p-2.5",
                 "text-center",
                 {"border border-red-600": valid === false},
-                styles[order[2]],
+                styles[order[ORDER_DAY]],
             )}
             placeholder={tx()`Date - day`}
             min={1}
@@ -207,23 +220,9 @@ export const DateInput = <
                 "flex flex-row items-center",
             )}
         >
-            {input[order[0]]}
-            {/*<div*/}
-            {/*	className={cn(*/}
-            {/*		"text-slate-900 border-t border-b border-slate-300 bg-slate-50 h-full",*/}
-            {/*	)}*/}
-            {/*>*/}
-            {/*	<Icon*/}
-            {/*		icon={DividerIcon}*/}
-            {/*		size={"2xl"}*/}
-            {/*	/>*/}
-            {/*</div>*/}
-            {input[order[1]]}
-            {/*<Icon*/}
-            {/*	icon={DividerIcon}*/}
-            {/*	size={"6xl"}*/}
-            {/*/>*/}
-            {input[order[2]]}
+            {input[order[ORDER_YEAR]]}
+            {input[order[ORDER_MONTH]]}
+            {input[order[ORDER_DAY]]}
         </div>
     </div>;
 };

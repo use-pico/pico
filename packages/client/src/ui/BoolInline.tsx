@@ -52,14 +52,14 @@ export const BoolInline: FC<BoolInline.Props> = (
         undefinedIcon = UndefinedIcon,
         ...props
     }) => {
-    return value !== undefined && value !== null ? (value ? <Icon
-        icon={checkIcon}
-        {...props}
-    /> : <Icon
-        icon={unCheckIcon}
-        {...props}
-    />) : <Icon
-        icon={undefinedIcon}
+    if (value === null || value === undefined) {
+        return <Icon
+            icon={undefinedIcon}
+            {...props}
+        />;
+    }
+    return <Icon
+        icon={value ? checkIcon : unCheckIcon}
         {...props}
     />;
 };

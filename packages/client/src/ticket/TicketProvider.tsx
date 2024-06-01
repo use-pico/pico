@@ -14,8 +14,11 @@ import {useQuery}          from "../query/useQuery";
 import {BlockOverlay}      from "../ui/BlockOverlay";
 import {TicketStore}       from "./TicketStore";
 
+const TICKET_QUERY_TIMEOUT = 500;
+const TICKET_DEFAULT_REFETCH = 5000;
+
 /**
- * Uses query to fetch ticket and provides it to children.
+ * Uses a query to fetch ticket and provides it to children.
  *
  * @group auth
  */
@@ -45,7 +48,7 @@ export namespace TicketProvider {
 export const TicketProvider: FC<TicketProvider.Props> = (
     {
         withQuery,
-        interval = 5000,
+        interval = TICKET_DEFAULT_REFETCH,
         empty: Empty = () => "no user id",
         children,
     }
@@ -54,7 +57,7 @@ export const TicketProvider: FC<TicketProvider.Props> = (
     const result = useQuery({
         withQuery,
         refetchInterval: interval,
-        staleTime:       0,
+        staleTime: 0,
         enabled,
     });
 
@@ -62,18 +65,19 @@ export const TicketProvider: FC<TicketProvider.Props> = (
         /**
          * Force ticket refresh
          */
-        result.refetch();
-        setTimeout(() => {
-            /**
-             * Now it's possible to enable the query to prevent early check & empty response.
-             *
-             * Delay is here to keep UI somehow "fluent", so user can notice what's happening.
-             */
-            setEnabled(true);
-        }, 500);
+        result.refetch().then(() => {
+            setTimeout(() => {
+                /**
+                 * Now it's possible to enable the query to prevent early check & empty response.
+                 *
+                 * Delay is here to keep UI somehow "fluent", so user can notice what's happening.
+                 */
+                setEnabled(true);
+            }, TICKET_QUERY_TIMEOUT);
+        });
     }, []);
 
-    return !enabled ? <BlockOverlay/> : <QueryResult<TicketSchema>
+    return enabled ? <QueryResult<TicketSchema>
         result={result}
         loader={BlockOverlay}
         success={({entity}) => <TicketStore.Provider
@@ -81,7 +85,7 @@ export const TicketProvider: FC<TicketProvider.Props> = (
         >
             {children}
         </TicketStore.Provider>}
-        // The condition here is redundat, because WithSuccess takes precedence over WithResponse; it's called only when a result is nullish.
+        // The condition here is redundant, because WithSuccess takes precedence over WithResponse; it's called only when a result is nullish.
         response={({entity}) => entity ? children : <Empty/>}
-    />;
+    /> : <BlockOverlay/>;
 };

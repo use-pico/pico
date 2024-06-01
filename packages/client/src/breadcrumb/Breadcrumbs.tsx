@@ -1,8 +1,14 @@
-import {cn, type IHrefProps} from "@use-pico/common";
-import {type FC, type ReactNode} from "react";
-import {LinkTo} from "../i18n/LinkTo";
+import {
+    cn,
+    type IHrefProps
+}                    from "@use-pico/common";
+import {
+    type FC,
+    type ReactNode
+}                    from "react";
+import {LinkTo}      from "../i18n/LinkTo";
 import {DividerIcon} from "../icon/DividerIcon";
-import {Icon} from "../ui/Icon";
+import {Icon}        from "../ui/Icon";
 
 /**
  * Good old breadcrumbs.
@@ -134,6 +140,7 @@ export const Breadcrumbs: FC<Breadcrumbs.Props> = (
             "flex flex-row",
         )}
     >
+        {/* eslint-disable-next-line max-lines-per-function */}
         {items?.map((item, index) => {
             switch (item.type) {
                 case "label":

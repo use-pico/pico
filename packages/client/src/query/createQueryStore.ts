@@ -15,7 +15,7 @@ import {IQueryStore} from "./IQueryStore";
  * @group query
  *
  * @remarks
- * This is factory method for Query Stores used to provide context for Queries used to fetch data.
+ * This is a factory method for Query Stores used to provide context for Queries used to fetch data.
  *
  * @example
  * Create a Query Store:
@@ -62,6 +62,7 @@ export namespace createQueryStore {
     }
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const createQueryStore = <
     TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 >(
@@ -72,6 +73,7 @@ export const createQueryStore = <
 ): IQueryStore.Store<TQuerySchema> => {
     return createStore<IQueryStore<TQuerySchema>>({
         name,
+        // eslint-disable-next-line max-lines-per-function
         factory: values => (set, get) => ({
             schema,
             cursor:         {
@@ -79,6 +81,7 @@ export const createQueryStore = <
                 size: 30,
             },
             hasWhere:       () => {
+                // eslint-disable-next-line prefer-destructuring
                 const where = get().where;
                 if (!where) {
                     return false;
@@ -86,6 +89,7 @@ export const createQueryStore = <
                 return !isEmpty(where);
             },
             hasFilter:      () => {
+                // eslint-disable-next-line prefer-destructuring
                 const filter = get().filter;
                 if (!filter) {
                     return false;

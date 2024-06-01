@@ -7,14 +7,14 @@ import {
     type OrderBySchema,
     type QuerySchema,
     type WithIdentitySchema
-} from "@use-pico/common";
-import type {ReactNode} from "react";
-import {t} from "../i18n/t";
+}                        from "@use-pico/common";
+import type {ReactNode}  from "react";
+import {t}               from "../i18n/t";
 import {EmptyResultIcon} from "../icon/EmptyResultIcon";
-import {QueryResult} from "../query/QueryResult";
-import {useCount} from "../query/useCount";
-import {Status} from "../ui/Status";
-import {Table} from "./Table";
+import {QueryResult}     from "../query/QueryResult";
+import {useCount}        from "../query/useCount";
+import {Status}          from "../ui/Status";
+import {Table}           from "./Table";
 
 export namespace Empty {
     export type Props<
@@ -65,6 +65,7 @@ export const Empty = <
 
     return <QueryResult<CountSchema>
         result={count}
+        // eslint-disable-next-line complexity
         success={({entity}) => {
             if (entity.where === 0) {
                 return <Status

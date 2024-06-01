@@ -1,10 +1,10 @@
-import {ComponentPipeline} from "./ComponentPipeline";
-import {RichInterpolatePipeline} from "./RichInterpolatePipeline";
-import {withRichComponents} from "./withRichComponents";
+import {withComponentPipeline}       from "./withComponentPipeline";
+import {withRichComponents}          from "./withRichComponents";
+import {withRichInterpolatePipeline} from "./WithRichInterpolatePipeline";
 
 export namespace withDefaultRichPipeline {
 	export interface Props {
-		component?: ComponentPipeline.Config;
+        component?: withComponentPipeline.Config;
 	}
 }
 
@@ -13,8 +13,8 @@ export const withDefaultRichPipeline = (
 		component,
 	}: withDefaultRichPipeline.Props,
 ) => [
-	RichInterpolatePipeline(),
-	ComponentPipeline(component || {
+    withRichInterpolatePipeline(),
+    withComponentPipeline(component || {
 		components: withRichComponents(),
 	}),
 ];

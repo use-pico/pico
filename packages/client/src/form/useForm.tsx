@@ -1,23 +1,35 @@
 "use client";
 
-import {zodResolver} from "@hookform/resolvers/zod";
-import {cleanOf, cn, IHrefProps, isString, mapEmptyToNull, type ValuesSchema} from "@use-pico/common";
-import {type FC, useMemo} from "react";
-import type {UseFormReturn} from "react-hook-form";
-import {useForm as useCoolForm} from "react-hook-form";
-import {z} from "zod";
-import {td} from "../i18n/td";
+import {zodResolver}           from "@hookform/resolvers/zod";
+import {
+    cleanOf,
+    cn,
+    IHrefProps,
+    isString,
+    mapEmptyToNull,
+    type ValuesSchema
+}                              from "@use-pico/common";
+import {
+    type FC,
+    useMemo
+}                              from "react";
+import {
+    useForm as useCoolForm,
+    type UseFormReturn
+}                              from "react-hook-form";
+import {z}                     from "zod";
+import {td}                    from "../i18n/td";
 import {useWithLocaleRedirect} from "../i18n/useWithLocaleRedirect";
-import {BlockStore} from "../provider/BlockStore";
-import type {IWithMutation} from "../query/IWithMutation";
-import {useMutation} from "../query/useMutation";
-import {isError} from "../rpc/isError";
-import {useStore} from "../store/useStore";
-import {useStore$} from "../store/useStore$";
-import {ModalStore} from "../ui/Modal/ModelStore";
-import {defaultsOf} from "./defaultsOf";
-import {Field} from "./Field";
-import type {Input} from "./Input";
+import {BlockStore}            from "../provider/BlockStore";
+import type {IWithMutation}    from "../query/IWithMutation";
+import {useMutation}           from "../query/useMutation";
+import {isError}               from "../rpc/isError";
+import {useStore}              from "../store/useStore";
+import {useStore$}             from "../store/useStore$";
+import {ModalStore}            from "../ui/Modal/ModelStore";
+import {defaultsOf}            from "./defaultsOf";
+import {Field}                 from "./Field";
+import type {Input}            from "./Input";
 
 export namespace useForm {
     export type Resolver<
@@ -229,9 +241,9 @@ export const useForm = <
         inputs,
         inputs$,
         hidden = [],
-        toRequest = values => {
+        toRequest = request => {
             try {
-                return withMutation.schema.request.parse(values);
+                return withMutation.schema.request.parse(request);
             } catch (e) {
                 console.warn("Form request schema validation failed", values);
                 console.error(e instanceof z.ZodError ? e.errors : e);
@@ -250,7 +262,7 @@ export const useForm = <
 }>] => {
     const mutation = useMutation({withMutation});
     const $redirect = useWithLocaleRedirect();
-    const {block} = useStore(BlockStore, ({block}) => ({block}));
+    const blockStore = useStore(BlockStore, ({block}) => ({block}));
     const modal = useStore$(ModalStore, ({close}) => ({close}));
 
     const form = useCoolForm<z.infer<TValuesSchema>>({
@@ -295,7 +307,7 @@ export const useForm = <
         onSubmit() {
             return form.handleSubmit(async values => {
                 try {
-                    block();
+                    blockStore.block();
                     const request = cleanOf(
                         toRequest(
                             mapEmptyToNull(values)
@@ -327,14 +339,14 @@ export const useForm = <
                                 });
                                 if (!redirect) {
                                     modal?.close();
-                                    block(false);
+                                    blockStore.block(false);
                                 }
                             },
-                            onError: async error => {
+                            onError:   async error => {
                                 if (isError(error)) {
                                     Object
                                         .entries(error?.error?.paths || {})
-                                        .map(([name, message]) => {
+                                        .forEach(([name, message]) => {
                                             if (isString(message)) {
                                                 form.setError(name as Input.Keys<TValuesSchema>, {
                                                     message: td()(`${name}.error.${message}`),
@@ -352,7 +364,7 @@ export const useForm = <
                                         },
                                     });
                                 }
-                                block(false);
+                                blockStore.block(false);
                             },
                             onSettled: async response => {
                                 window.scrollTo({

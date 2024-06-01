@@ -13,11 +13,19 @@ import {
     useInteractions,
     useListNavigation,
     useTransitionStyles
-} from "@floating-ui/react";
-import {cn, type WithIdentitySchema} from "@use-pico/common";
-import {type FC, type ReactNode, useRef, useState} from "react";
-import {z} from "zod";
-import {t} from "../../i18n/t";
+}             from "@floating-ui/react";
+import {
+    cn,
+    type WithIdentitySchema
+}             from "@use-pico/common";
+import {
+    type FC,
+    type ReactNode,
+    useRef,
+    useState
+}             from "react";
+import {z}    from "zod";
+import {t}    from "../../i18n/t";
 import {Icon} from "../../ui/Icon";
 
 export namespace Select {
@@ -68,11 +76,11 @@ export const Select = <
         floatingStyles,
         context
     } = useFloating<HTMLElement>({
-        placement: "bottom-start",
-        open: isOpen,
+        placement:    "bottom-start",
+        open:         isOpen,
         onOpenChange: setIsOpen,
         whileElementsMounted: autoUpdate,
-        middleware: [
+        middleware:   [
             offset(5),
             flip({padding: 10}),
             size({
@@ -91,7 +99,7 @@ export const Select = <
         ],
     });
 
-    const listRef = useRef<Array<HTMLElement | null>>([]);
+    const listRef = useRef<(HTMLElement | null)[]>([]);
     const isTypingRef = useRef(false);
 
     const click = useClick(context, {event: "mousedown"});
@@ -130,7 +138,7 @@ export const Select = <
         onSelect?.(item);
     };
 
-    const item = selectedIndex !== null ? items[selectedIndex] : undefined;
+    const item = selectedIndex === null ? undefined : items[selectedIndex];
 
     return <>
         <div

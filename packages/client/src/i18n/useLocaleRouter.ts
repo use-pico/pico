@@ -1,7 +1,13 @@
 "use client";
 
-import {type IHrefProps, linkTo} from "@use-pico/common";
-import {useParams, useRouter} from "next/navigation";
+import {
+    type IHrefProps,
+    linkTo
+} from "@use-pico/common";
+import {
+    useParams,
+    useRouter
+} from "next/navigation";
 
 /**
  * Router with locale; expects "locale" parameter in Next.js `useParams` hook.
@@ -24,7 +30,7 @@ export const useLocaleRouter = () => {
 			}: IHrefProps
 		) => {
 			return router.push(linkTo({
-				href: `/${locale ?? ""}${href}`.replace(/\/\//g, "/"),
+                href: `/${locale ?? ""}${href}`.replace(/\/\//gu, "/"),
 				query,
 			}));
 		},

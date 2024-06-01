@@ -11,14 +11,6 @@ import {type z}            from "zod";
 import {type IInvalidator} from "./IInvalidator";
 
 export namespace IWithQuery {
-    export interface Options<
-        TRequestSchema extends RequestSchema,
-        TResponseSchema extends ResponseSchema,
-    > {
-        request: z.infer<TRequestSchema>;
-        options?: QueryOptions<TResponseSchema>;
-    }
-
     export type QueryOptions<
         TResponseSchema extends ResponseSchema,
     > =
@@ -39,6 +31,14 @@ export namespace IWithQuery {
             "queryKey"
         >
     >;
+
+    export interface Options<
+        TRequestSchema extends RequestSchema,
+        TResponseSchema extends ResponseSchema,
+    > {
+        request: z.infer<TRequestSchema>;
+        options?: QueryOptions<TResponseSchema>;
+    }
 
     export type Result<
         TResponseSchema extends ResponseSchema,

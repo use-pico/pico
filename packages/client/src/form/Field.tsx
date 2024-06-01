@@ -1,10 +1,13 @@
 "use client";
 
-import {isCallable, type ValuesSchema} from "@use-pico/common";
-import {type FC} from "react";
+import {
+    isCallable,
+    type ValuesSchema
+}                           from "@use-pico/common";
+import {type FC}            from "react";
 import type {IWithMutation} from "../query/IWithMutation";
-import {Input} from "./Input";
-import {type useForm} from "./useForm";
+import {Input}              from "./Input";
+import {type useForm}       from "./useForm";
 
 export namespace Field {
     export interface Props<
@@ -42,11 +45,12 @@ export const Field = <
         useSetValue,
     }) : form.inputs$;
 
-    const Input: FC<Input.Props<TValuesSchema>> = form.hidden.includes(name) ? (() => null) : $inputOverride?.[name as keyof Input.Factory<TValuesSchema>]
+    // eslint-disable-next-line no-useless-assignment
+    const Render: FC<Input.Props<TValuesSchema>> = form.hidden.includes(name) ? (() => null) : $inputOverride?.[name as keyof Input.Factory<TValuesSchema>]
         ?? $inputs[name as keyof Input.Factory<TValuesSchema>]
         ?? (() => null);
 
-    return <Input
+    return <Render
         name={name}
         schema={form.schema}
         theme={theme}

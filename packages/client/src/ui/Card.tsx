@@ -33,6 +33,14 @@ import type {z} from "zod";
  * ```
  */
 export namespace Card {
+    export interface Item<
+        TSchema extends z.ZodSchema
+    > {
+        id: string;
+        label: ReactNode;
+        render: FC<WithEntity.Schema<TSchema>>;
+    }
+
     /**
      * Props for a Card component.
      *
@@ -45,14 +53,6 @@ export namespace Card {
          * Items to render in the card using specified schema.
          */
         items: Item<TSchema>[];
-    }
-
-    export interface Item<
-        TSchema extends z.ZodSchema
-    > {
-        id: string;
-        label: ReactNode;
-        render: FC<WithEntity.Schema<TSchema>>;
     }
 
     /**

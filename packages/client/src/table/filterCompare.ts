@@ -1,8 +1,8 @@
 import type {
-	FilterSchema,
-	OrderBySchema,
-	QuerySchema,
-	WithIdentitySchema
+    FilterSchema,
+    OrderBySchema,
+    QuerySchema,
+    WithIdentitySchema
 }               from "@use-pico/common";
 import {type z} from "zod";
 import {Table}  from "./Table";
@@ -15,6 +15,7 @@ export const filterCompare = <
 	end: keyof NonNullable<z.infer<TQuerySchema["shape"]["filter"]>>,
 	value: keyof z.infer<TSchema>,
 	extra?: z.infer<TQuerySchema["shape"]["filter"]>,
+    // eslint-disable-next-line max-params
 ): Table.Compare<TSchema, TQuerySchema> => ({
 	gte: {
 		isFilter: filter => (filter)?.[start] !== undefined,

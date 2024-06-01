@@ -16,6 +16,10 @@ import {useStore$}     from "./useStore$";
  * @group store
  */
 export namespace createStore {
+    export type Factory<
+        TStore extends IStore<any>
+    > = (values: TStore["values"]) => StateCreator<TStore["props"] & TStore["values"]>;
+
     /**
      * Props for `createStore`.
      */
@@ -31,10 +35,6 @@ export namespace createStore {
          */
         factory: Factory<TStore>;
     }
-
-    export type Factory<
-        TStore extends IStore<any>
-    > = (values: TStore["values"]) => StateCreator<TStore["props"] & TStore["values"]>;
 }
 
 export const createStore = <

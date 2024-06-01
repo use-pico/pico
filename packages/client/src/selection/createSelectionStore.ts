@@ -1,8 +1,8 @@
 "use client";
 
 import type {WithIdentitySchema} from "@use-pico/common";
-import {createStore} from "../store/createStore";
-import type {IStore} from "../store/IStore";
+import {createStore}             from "../store/createStore";
+import type {IStore}             from "../store/IStore";
 
 export namespace createSelectionStore {
     export type Selection =
@@ -83,6 +83,7 @@ export const createSelectionStore = <
 >() => {
     return createStore<createSelectionStore.StoreProps<TItem>>({
         name: "SelectionStore",
+        // eslint-disable-next-line max-lines-per-function
         factory: () => (set, get) => ({
             items: new Map(),
             selection: new Map(),
@@ -101,7 +102,7 @@ export const createSelectionStore = <
                             };
                         }
                         case "none": {
-                            // noop, selection disabled
+                            // Noop, selection disabled
                         }
                     }
                 });

@@ -10,7 +10,7 @@
     "scripts": {
         "build": "turbo run init --no-daemon && turbo run build --no-daemon",
         "build:force": "turbo run init --no-daemon && turbo run build --force --no-daemon",
-        "lint": "turbo run lint --no-daemon",
+        "lint": "turbo run lint --force --no-daemon",
         "cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
         "docs:build": "typedoc",
         "docs:serve": "typedoc && serve -l 5005 docs",

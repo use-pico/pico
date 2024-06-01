@@ -1,9 +1,15 @@
 "use client";
 
-import {cn, type FilterSchema, type OrderBySchema, type QuerySchema, type WithIdentitySchema} from "@use-pico/common";
+import {
+    cn,
+    type FilterSchema,
+    type OrderBySchema,
+    type QuerySchema,
+    type WithIdentitySchema
+}                       from "@use-pico/common";
 import {useSourceQuery} from "../query/useSourceQuery";
-import {Cell} from "./Cell";
-import {Table} from "./Table";
+import {Cell}           from "./Cell";
+import {Table}          from "./Table";
 
 export namespace Body {
     export type Props<
@@ -40,10 +46,10 @@ export const Body = <
     const Row = row;
     const result = useSourceQuery({
         store: withQueryStore,
-        withSourceQuery: withSourceQuery,
+        withSourceQuery,
         refetchInterval: refresh,
     });
-    const $selection = selectionStore?.useSelector$((
+    const $selectionStore = selectionStore?.useSelector$((
         {
             select,
             toggle,
@@ -64,9 +70,9 @@ export const Body = <
             "odd:bg-white",
             "even:bg-slate-50",
             {"cursor-pointer": selection !== "none"},
-            {"odd:bg-blue-100 even:bg-blue-200 hover:bg-sky-100": $selection?.isSelected(item)},
-            {"odd:bg-green-100 even:bg-green-200 hover:bg-teal-100": $selection?.isCurrent(item)},
-            {"odd:bg-amber-100 even:bg-amber-200 hover:bg-yellow-100": $selection?.isCurrent(item) && $selection?.isSelected(item)},
+            {"odd:bg-blue-100 even:bg-blue-200 hover:bg-sky-100": $selectionStore?.isSelected(item)},
+            {"odd:bg-green-100 even:bg-green-200 hover:bg-teal-100": $selectionStore?.isCurrent(item)},
+            {"odd:bg-amber-100 even:bg-amber-200 hover:bg-yellow-100": $selectionStore?.isCurrent(item) && $selectionStore?.isSelected(item)},
         )}
     >
         {(Row || action) && <td
@@ -82,16 +88,16 @@ export const Body = <
             onClick={() => {
                 switch (selection) {
                     case "single":
-                        $selection?.select(item, selection);
+                        $selectionStore?.select(item, selection);
                         break;
                     case "multi":
-                        $selection?.toggle(item);
+                        $selectionStore?.toggle(item);
                         break;
                 }
             }}
             onDoubleClick={() => {
-                if (selection == "single") {
-                    $selection?.select(item, selection);
+                if (selection === "single") {
+                    $selectionStore?.select(item, selection);
                 }
                 onDoubleClick?.(item);
             }}

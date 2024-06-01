@@ -1,16 +1,16 @@
 import {FloatingDelayGroup}    from "@floating-ui/react";
 import {
-	cn,
-	type FilterSchema,
-	type OrderByOf,
-	type OrderBySchema,
-	type QuerySchema,
-	WithEntity,
-	type WithIdentitySchema
+    cn,
+    type FilterSchema,
+    type OrderByOf,
+    type OrderBySchema,
+    type QuerySchema,
+    WithEntity,
+    type WithIdentitySchema
 }                              from "@use-pico/common";
 import type {
-	FC,
-	ReactNode
+    FC,
+    ReactNode
 }                              from "react";
 import {type z}                from "zod";
 import {Fulltext}              from "../query/Fulltext";
@@ -28,332 +28,332 @@ import {Refresh}               from "./Refresh";
 import {RemoveFilter}          from "./RemoveFilter";
 
 export namespace Table {
-	export interface Render<
-		TSchema extends WithIdentitySchema,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-	> extends cn.WithClass {
-		/**
-		 * Column title.
-		 */
-		title?: ReactNode;
-		/**
-		 * Render column contents; function is component, thus hooks and everything else can be used.
-		 */
-		render: FC<Render.RenderProps<TSchema>>;
-		/**
-		 * Enable sorting: all columns are sorted by same rules: ascending, descending, none.
-		 */
-		sort?: OrderByOf<TQuerySchema>;
-		/**
-		 * Setup a dynamic filters for a column.
-		 */
-		filters?: Filters<TSchema, TQuerySchema>;
-	}
+    export interface Filter<
+        TSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    > {
+        /**
+         * Check if a filter is applied to a column.
+         */
+        isFilter(filter?: z.infer<TQuerySchema["shape"]["filter"]>): boolean;
 
-	export namespace Render {
-		export interface RenderProps<
-			TSchema extends WithIdentitySchema,
-		> extends WithEntity.Schema<TSchema> {
-		}
-	}
+        /**
+         * Apply a filter to a column.
+         */
+        filter(props: Filter.FilterProps<TSchema, TQuerySchema>): void;
 
-	/**
-	 * Special filters are separated to display the correct UI for filtered items.
-	 */
-	export interface Filters<
-		TSchema extends WithIdentitySchema,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-	> {
-		/**
-		 * Common equal filter.
-		 */
-		equal?: Filter<TSchema, TQuerySchema>;
-		/**
-		 * Comparison filters (greater than, less than).
-		 */
-		compare?: Compare<TSchema, TQuerySchema>;
-	}
+        /**
+         * Clear a filter from a column.
+         */
+        clear(props: Filter.ClearProps<TQuerySchema>): void;
+    }
 
-	export interface Compare<
-		TSchema extends WithIdentitySchema,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-	> {
-		/**
-		 * Greater than.
-		 */
-		gte: Filter<TSchema, TQuerySchema>;
-		/**
-		 * Less than.
-		 */
-		lte: Filter<TSchema, TQuerySchema>;
-	}
+    export interface Compare<
+        TSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    > {
+        /**
+         * Greater than.
+         */
+        gte: Filter<TSchema, TQuerySchema>;
+        /**
+         * Less than.
+         */
+        lte: Filter<TSchema, TQuerySchema>;
+    }
 
-	export interface Filter<
-		TSchema extends WithIdentitySchema,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-	> {
-		/**
-		 * Check if a filter is applied to a column.
-		 */
-		isFilter(filter?: z.infer<TQuerySchema["shape"]["filter"]>): boolean;
+    /**
+     * Special filters are separated to display the correct UI for filtered items.
+     */
+    export interface Filters<
+        TSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    > {
+        /**
+         * Common equal filter.
+         */
+        equal?: Filter<TSchema, TQuerySchema>;
+        /**
+         * Comparison filters (greater than, less than).
+         */
+        compare?: Compare<TSchema, TQuerySchema>;
+    }
 
-		/**
-		 * Apply a filter to a column.
-		 */
-		filter(props: Filter.FilterProps<TSchema, TQuerySchema>): void;
+    export interface Render<
+        TSchema extends WithIdentitySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    > extends cn.WithClass {
+        /**
+         * Column title.
+         */
+        title?: ReactNode;
+        /**
+         * Render column contents; function is component, thus hooks, and everything else can be used.
+         */
+        render: FC<Render.RenderProps<TSchema>>;
+        /**
+         * Enable sorting: all columns are sorted by same rules: ascending, descending, none.
+         */
+        sort?: OrderByOf<TQuerySchema>;
+        /**
+         * Setup a dynamic filters for a column.
+         */
+        filters?: Filters<TSchema, TQuerySchema>;
+    }
 
-		/**
-		 * Clear a filter from a column.
-		 */
-		clear(props: Filter.ClearProps<TQuerySchema>): void;
-	}
+    export namespace Render {
+        export interface RenderProps<
+            TSchema extends WithIdentitySchema,
+        > extends WithEntity.Schema<TSchema> {
+        }
+    }
 
-	export namespace Filter {
-		export interface FilterProps<
-			TSchema extends WithIdentitySchema,
-			TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-		> {
-			item: z.infer<TSchema>;
-			shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
-		}
+    export namespace Filter {
+        export interface FilterProps<
+            TSchema extends WithIdentitySchema,
+            TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        > {
+            item: z.infer<TSchema>;
+            shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
+        }
 
-		export interface ClearProps<
-			TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-		> {
-			shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
-		}
-	}
+        export interface ClearProps<
+            TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        > {
+            shallowFilter: IQueryStore<TQuerySchema>["props"]["shallowFilter"];
+        }
+    }
 
-	/**
-	 * Action component is used to perform an action on the whole table.
-	 */
-	export type Action = FC;
-	/**
-	 * Row component is used to perform an action on a single row.
-	 */
-	export type Row<
-		TSchema extends WithIdentitySchema,
-	> = FC<{
-		entity: z.infer<TSchema>
-	}>;
+    /**
+     * Action component is used to perform an action on the whole table.
+     */
+    export type Action = FC;
+    /**
+     * Row component is used to perform an action on a single row.
+     */
+    export type Row<
+        TSchema extends WithIdentitySchema,
+    > = FC<{
+        entity: z.infer<TSchema>
+    }>;
 
-	export interface Props<
-		TColumns extends string,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-		TSchema extends WithIdentitySchema,
-	> extends cn.WithClass {
-		/**
-		 * Query store containing query data for the table.
-		 */
-		withQueryStore: IQueryStore.Store<TQuerySchema>;
-		/**
-		 * Query source to fetch data from.
-		 */
-		withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
-		/**
-		 * When selection is enabled, table will provide selection support.
-		 */
-		selectionStore?: IStore.Store<createSelectionStore.StoreProps<z.infer<TSchema>>>;
-		selection?: createSelectionStore.Selection;
-		/**
-		 * Table action (over the whole table).
-		 */
-		action?: Action;
-		/**
-		 * Table row action (over a single row).
-		 */
-		row?: Row<TSchema>;
-		/**
-		 * How oftern refetch data.
-		 */
-		refresh?: number;
+    export interface Props<
+        TColumns extends string,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends WithIdentitySchema,
+    > extends cn.WithClass {
+        /**
+         * Query store containing query data for the table.
+         */
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        /**
+         * Query source to fetch data from.
+         */
+        withSourceQuery: IWithSourceQuery<TQuerySchema, TSchema>;
+        /**
+         * When selection is enabled, table will provide selection support.
+         */
+        selectionStore?: IStore.Store<createSelectionStore.StoreProps<z.infer<TSchema>>>;
+        selection?: createSelectionStore.Selection;
+        /**
+         * Table action (over the whole table).
+         */
+        action?: Action;
+        /**
+         * Table row action (over a single row).
+         */
+        row?: Row<TSchema>;
+        /**
+         * How often refetch data.
+         */
+        refresh?: number;
 
-		/**
-		 * Column renderers.
-		 */
-		render: Partial<Record<TColumns, Render<TSchema, TQuerySchema>>>;
-		/**
-		 * Column order to display; if a column is not present in an order array, it is ommited from rendering.
-		 */
-		columns?: TColumns[];
-		/**
-		 * Columns to hide.
-		 */
-		hidden?: TColumns[];
-		style?: {
-			wrapper?: cn.ClassNames;
-			pagination?: cn.ClassNames;
-		};
-		/**
-		 * Where to display pagination.
-		 */
-		pagination?: ("top" | "bottom")[];
-		/**
-		 * All the texts used in the table.
-		 */
-		text?: {
-			pagination?: Pagination.Props<TQuerySchema>["text"];
-			empty?: Empty.Props<TColumns, TQuerySchema, TSchema>["text"];
-		};
-		/**
-		 * Should fulltext get automatically focus.
-		 */
-		focus?: boolean;
+        /**
+         * Column renderers.
+         */
+        render: Partial<Record<TColumns, Render<TSchema, TQuerySchema>>>;
+        /**
+         * Column order to display; if a column is not present in an order array, it is omitted from rendering.
+         */
+        columns?: TColumns[];
+        /**
+         * Columns to hide.
+         */
+        hidden?: TColumns[];
+        style?: {
+            wrapper?: cn.ClassNames;
+            pagination?: cn.ClassNames;
+        };
+        /**
+         * Where to display pagination.
+         */
+        pagination?: ("top" | "bottom")[];
+        /**
+         * All the texts used in the table.
+         */
+        text?: {
+            pagination?: Pagination.Props<TQuerySchema>["text"];
+            empty?: Empty.Props<TColumns, TQuerySchema, TSchema>["text"];
+        };
+        /**
+         * Should fulltext get automatically focus?
+         */
+        focus?: boolean;
 
-		/**
-		 * Double click on a row
-		 */
-		onDoubleClick?(item: z.infer<TSchema>): void;
-	}
+        /**
+         * Double-click on a row
+         */
+        onDoubleClick?(item: z.infer<TSchema>): void;
+    }
 
-	export type PropsEx<
-		TColumns extends string,
-		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-		TSchema extends WithIdentitySchema,
-	> = Omit<Props<TColumns, TQuerySchema, TSchema>, "withQueryStore" | "withSourceQuery" | "item">;
+    export type PropsEx<
+        TColumns extends string,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TSchema extends WithIdentitySchema,
+    > = Omit<Props<TColumns, TQuerySchema, TSchema>, "withQueryStore" | "withSourceQuery" | "item">;
 }
 
 export const Table = <
-	TColumns extends string,
-	TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-	TSchema extends WithIdentitySchema,
+    TColumns extends string,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TSchema extends WithIdentitySchema,
 >(
-	{
-		withQueryStore,
-		withSourceQuery,
-		selectionStore,
-		selection = "none",
-		onDoubleClick,
-		action,
-		row,
-		refresh,
-		render,
-		columns = Object.keys(render) as TColumns[],
-		hidden = [],
-		style,
-		pagination = ["top", "bottom"],
-		text,
-		focus = false,
-		cx,
-	}: Table.Props<TColumns, TQuerySchema, TSchema>
+    {
+        withQueryStore,
+        withSourceQuery,
+        selectionStore,
+        selection = "none",
+        onDoubleClick,
+        action,
+        row,
+        refresh,
+        render,
+        columns = Object.keys(render) as TColumns[],
+        hidden = [],
+        style,
+        pagination = ["top", "bottom"],
+        text,
+        focus = false,
+        cx,
+    }: Table.Props<TColumns, TQuerySchema, TSchema>
 ) => {
-	return <FloatingDelayGroup
-		delay={{
-			open:  1000,
-			close: 200,
-		}}
-	>
-		<div>
-			<div
-				className={cn(
-					"flex items-center justify-between",
-				)}
-			>
-				<Fulltext
-					withQueryStore={withQueryStore}
-					focus={focus}
-				/>
-				<div
-					className={cn(
-						"flex flex-row items-center justify-center gap-2",
-					)}
-				>
-					{pagination?.includes("top") && <Pagination
-						withQueryStore={withQueryStore}
-						withSourceQuery={withSourceQuery}
-						cx={[
-							"mb-1",
-							style?.pagination
-						]}
-						text={text?.pagination}
-					/>}
-					<Refresh
-						withQueryStore={withQueryStore}
-						withSourceQuery={withSourceQuery}
-						refresh={refresh}
-					/>
-					<RemoveFilter
-						withQueryStore={withQueryStore}
-						withSourceQuery={withSourceQuery}
-						refresh={refresh}
-					/>
-				</div>
-			</div>
-			<Progress
-				withQueryStore={withQueryStore}
-				withSourceQuery={withSourceQuery}
-				refresh={refresh}
-			/>
-			<div
-				className={cn(
-					"relative overflow-x-auto",
-				)}
-			>
-				<table
-					className={cn(
-						"text-sm text-left text-slate-500 min-w-full w-max",
-						"table-fixed",
-						cx,
-					)}
-				>
-					<Header
-						withQueryStore={withQueryStore}
-						action={action}
-						row={row}
-						render={render}
-						columns={columns}
-						hidden={hidden}
-					/>
-					<Body
-						withSourceQuery={withSourceQuery}
-						withQueryStore={withQueryStore}
-						selectionStore={selectionStore}
-						selection={selection}
-						onDoubleClick={onDoubleClick}
-						action={action}
-						row={row}
-						refresh={refresh}
-						render={render}
-						columns={columns}
-						hidden={hidden}
-					/>
-				</table>
-				<Empty
-					withQueryStore={withQueryStore}
-					withSourceQuery={withSourceQuery}
-					refresh={refresh}
-					text={text?.empty}
-				/>
-			</div>
-			<Loader
-				withQueryStore={withQueryStore}
-				withSourceQuery={withSourceQuery}
-			/>
-			<div
-				className={cn(
-					"flex flex-row items-center justify-end gap-2",
-				)}
-			>
-				{pagination?.includes("bottom") && <Pagination
-					withQueryStore={withQueryStore}
-					withSourceQuery={withSourceQuery}
-					cx={[
-						"mt-1",
-						style?.pagination
-					]}
-					text={text?.pagination}
-				/>}
-				<Refresh
-					withQueryStore={withQueryStore}
-					withSourceQuery={withSourceQuery}
-					refresh={refresh}
-				/>
-				<RemoveFilter
-					withQueryStore={withQueryStore}
-					withSourceQuery={withSourceQuery}
-					refresh={refresh}
-				/>
-			</div>
-		</div>
-	</FloatingDelayGroup>;
+    return <FloatingDelayGroup
+        delay={{
+            open:  1000,
+            close: 200,
+        }}
+    >
+        <div>
+            <div
+                className={cn(
+                    "flex items-center justify-between",
+                )}
+            >
+                <Fulltext
+                    withQueryStore={withQueryStore}
+                    focus={focus}
+                />
+                <div
+                    className={cn(
+                        "flex flex-row items-center justify-center gap-2",
+                    )}
+                >
+                    {pagination?.includes("top") && <Pagination
+                        withQueryStore={withQueryStore}
+                        withSourceQuery={withSourceQuery}
+                        cx={[
+                            "mb-1",
+                            style?.pagination
+                        ]}
+                        text={text?.pagination}
+                    />}
+                    <Refresh
+                        withQueryStore={withQueryStore}
+                        withSourceQuery={withSourceQuery}
+                        refresh={refresh}
+                    />
+                    <RemoveFilter
+                        withQueryStore={withQueryStore}
+                        withSourceQuery={withSourceQuery}
+                        refresh={refresh}
+                    />
+                </div>
+            </div>
+            <Progress
+                withQueryStore={withQueryStore}
+                withSourceQuery={withSourceQuery}
+                refresh={refresh}
+            />
+            <div
+                className={cn(
+                    "relative overflow-x-auto",
+                )}
+            >
+                <table
+                    className={cn(
+                        "text-sm text-left text-slate-500 min-w-full w-max",
+                        "table-fixed",
+                        cx,
+                    )}
+                >
+                    <Header
+                        withQueryStore={withQueryStore}
+                        action={action}
+                        row={row}
+                        render={render}
+                        columns={columns}
+                        hidden={hidden}
+                    />
+                    <Body
+                        withSourceQuery={withSourceQuery}
+                        withQueryStore={withQueryStore}
+                        selectionStore={selectionStore}
+                        selection={selection}
+                        onDoubleClick={onDoubleClick}
+                        action={action}
+                        row={row}
+                        refresh={refresh}
+                        render={render}
+                        columns={columns}
+                        hidden={hidden}
+                    />
+                </table>
+                <Empty
+                    withQueryStore={withQueryStore}
+                    withSourceQuery={withSourceQuery}
+                    refresh={refresh}
+                    text={text?.empty}
+                />
+            </div>
+            <Loader
+                withQueryStore={withQueryStore}
+                withSourceQuery={withSourceQuery}
+            />
+            <div
+                className={cn(
+                    "flex flex-row items-center justify-end gap-2",
+                )}
+            >
+                {pagination?.includes("bottom") && <Pagination
+                    withQueryStore={withQueryStore}
+                    withSourceQuery={withSourceQuery}
+                    cx={[
+                        "mt-1",
+                        style?.pagination
+                    ]}
+                    text={text?.pagination}
+                />}
+                <Refresh
+                    withQueryStore={withQueryStore}
+                    withSourceQuery={withSourceQuery}
+                    refresh={refresh}
+                />
+                <RemoveFilter
+                    withQueryStore={withQueryStore}
+                    withSourceQuery={withSourceQuery}
+                    refresh={refresh}
+                />
+            </div>
+        </div>
+    </FloatingDelayGroup>;
 };

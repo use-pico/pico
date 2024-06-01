@@ -37,6 +37,7 @@ export const TicketStore = createStore<TicketStore.Store>({
     name:    "UserStore",
     factory: values => (_, get) => ({
         requiredId() {
+            // eslint-disable-next-line prefer-destructuring
             const id = get().id;
             if (!id) {
                 throw new Error("UserStore: id is required");
@@ -44,7 +45,7 @@ export const TicketStore = createStore<TicketStore.Store>({
             return id;
         },
         hasId() {
-            return !!get().id;
+            return Boolean(get().id);
         },
         ...values,
     }),

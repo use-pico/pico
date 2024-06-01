@@ -1,5 +1,7 @@
 import {type MutableRefObject} from "react";
 
+const WITH_TIMEOUT_TIMEOUT = 0;
+
 /**
  * Sets a timeout for a callback using ref.
  *
@@ -30,7 +32,7 @@ export const withTimeout = (
     {
         callback,
         timerRef,
-        timeout = 0,
+        timeout = WITH_TIMEOUT_TIMEOUT,
     }: withTimeout.Props
 ) => {
     clearTimeout(timerRef.current);
