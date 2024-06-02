@@ -1,7 +1,11 @@
 "use client";
 
-import {hashOf} from "@use-pico/common";
-import {type PropsWithChildren, useEffect, useMemo} from "react";
+import {hashOf}      from "@use-pico/common";
+import {
+    type PropsWithChildren,
+    useEffect,
+    useMemo
+}                    from "react";
 import type {IStore} from "./IStore";
 
 export namespace StoreProvider {
@@ -18,9 +22,9 @@ export const StoreProvider = <
 >(
     {
         store: {
-            Context,
-            store,
-        },
+                   Context,
+                   store,
+               },
         values,
         children,
     }: StoreProvider.Props<TStore>

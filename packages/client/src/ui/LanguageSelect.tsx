@@ -24,7 +24,7 @@ export const LanguageSelect: FC<LanguageSelect.Props> = (
 
 	return <Select<any>
 		items={languages.map(language => ({
-			id: language,
+            id: language,
 			value: language,
 		}))}
 		defaultValue={{

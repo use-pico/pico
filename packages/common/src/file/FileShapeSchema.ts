@@ -1,12 +1,12 @@
 import {z} from "zod";
 
 export const FileShapeSchema = z.object({
-	mime: z.string().min(1),
-	name: z.string().min(1),
+    mime: z.string().min(1),
+    name: z.string().min(1),
 	native: z.string().min(1),
-	path: z.string().min(1),
-	size: z.number(),
-	ttl: z.number(),
+    path: z.string().min(1),
+    size: z.number(),
+    ttl:  z.number(),
 	userId: z.string().optional(),
 });
 export type FileShapeSchema = typeof FileShapeSchema;

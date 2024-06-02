@@ -24,11 +24,11 @@ export const useLocaleRouter = () => {
 		locale,
 		...router,
 		push: (
-			{
-				href,
-				query
-			}: IHrefProps
-		) => {
+                  {
+                      href,
+                      query
+                  }: IHrefProps
+              ) => {
 			return router.push(linkTo({
                 href: `/${locale ?? ""}${href}`.replace(/\/\//gu, "/"),
 				query,

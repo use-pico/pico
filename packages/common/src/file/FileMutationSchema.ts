@@ -1,7 +1,7 @@
-import {type z} from "zod";
+import {type z}             from "zod";
 import {withMutationSchema} from "../query/withMutationSchema";
-import {FileQuerySchema} from "./FileQuerySchema";
-import {FileShapeSchema} from "./FileShapeSchema";
+import {FileQuerySchema}    from "./FileQuerySchema";
+import {FileShapeSchema}    from "./FileShapeSchema";
 
 export const FileMutationSchema = withMutationSchema({
 	shape: FileShapeSchema,

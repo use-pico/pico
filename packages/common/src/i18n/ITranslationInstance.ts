@@ -1,5 +1,5 @@
 import {type ITranslationPipeline} from "./ITranslationPipeline";
-import {type ITranslations} from "./ITranslations";
+import {type ITranslations}        from "./ITranslations";
 
 export interface ITranslationInstance {
 	locale: string;

@@ -1,6 +1,6 @@
-import {type FC} from "react";
+import {type FC}    from "react";
 import {LoaderIcon} from "../icon/LoaderIcon";
-import {Icon} from "./Icon";
+import {Icon}       from "./Icon";
 
 export namespace Loader {
 	export interface Props extends Icon.PropsEx {

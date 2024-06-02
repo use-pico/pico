@@ -1,5 +1,5 @@
-import {z} from "zod";
-import {ErrorSchema} from "../schema/ErrorSchema";
+import {z}                  from "zod";
+import {ErrorSchema}        from "../schema/ErrorSchema";
 import {DataResponseSchema} from "./DataResponseSchema";
 
 export const RpcResponseSchema = z.union([

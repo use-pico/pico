@@ -58,7 +58,7 @@ export const Empty = <
     }: Empty.Props<TColumns, TQuerySchema, TSchema>
 ) => {
     const count = useCount({
-        store: withQueryStore,
+        store:           withQueryStore,
         withSourceQuery,
         refetchInterval: refresh,
     });
@@ -71,7 +71,7 @@ export const Empty = <
                 return <Status
                     icon={EmptyResultIcon}
                     text={{
-                        title: text?.where?.title || t()`No results`,
+                        title:   text?.where?.title || t()`No results`,
                         message: text?.where?.message || t()`No results (message)`,
                     }}
                     cx={[
@@ -82,7 +82,7 @@ export const Empty = <
                 return <Status
                     icon={EmptyResultIcon}
                     text={{
-                        title: text?.filter?.title || t()`No results`,
+                        title:   text?.filter?.title || t()`No results`,
                         message: text?.filter?.message || t()`No results (nothing found)`,
                     }}
                     cx={[
@@ -93,7 +93,7 @@ export const Empty = <
                 return <Status
                     icon={EmptyResultIcon}
                     text={{
-                        title: text?.count?.title || t()`No results`,
+                        title:   text?.count?.title || t()`No results`,
                         message: text?.count?.message || t()`No results (message)`,
                     }}
                     cx={[

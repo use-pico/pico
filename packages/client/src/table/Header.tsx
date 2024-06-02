@@ -1,9 +1,9 @@
 import {
-	cn,
-	type FilterSchema,
-	type OrderBySchema,
-	type QuerySchema,
-	type WithIdentitySchema
+    cn,
+    type FilterSchema,
+    type OrderBySchema,
+    type QuerySchema,
+    type WithIdentitySchema
 }              from "@use-pico/common";
 import {Sort}  from "./Sort";
 import {Table} from "./Table";
@@ -46,20 +46,20 @@ export const Header = <
 			cx,
 		)}
 	>
-		<tr>
-			{(Action || row) && <th
-				className={"w-0"}
-			>
-				{Action && <Action/>}
-			</th>}
-			{columns?.filter(column => !hidden?.includes(column))?.map(column => {
-				const $render = render[column];
-				return $render ? <Sort
-					key={`table-column-header-${column}`}
-					withQueryStore={withQueryStore}
-					{...$render}
-				/> : null;
-			})}
-		</tr>
+    <tr>
+        {(Action || row) && <th
+            className={"w-0"}
+        >
+            {Action && <Action/>}
+        </th>}
+        {columns?.filter(column => !hidden?.includes(column))?.map(column => {
+            const $render = render[column];
+            return $render ? <Sort
+                key={`table-column-header-${column}`}
+                withQueryStore={withQueryStore}
+                {...$render}
+            /> : null;
+        })}
+    </tr>
 	</thead>;
 };

@@ -4,13 +4,13 @@ import {
     type OrderBySchema,
     type QuerySchema,
     type WithIdentitySchema
-} from "@use-pico/common";
+}                         from "@use-pico/common";
 import {FilterRemoveIcon} from "../icon/FilterRemoveIcon";
-import {LoaderIcon} from "../icon/LoaderIcon";
-import {useSourceQuery} from "../query/useSourceQuery";
-import {useStore} from "../store/useStore";
-import {Action} from "../ui/Action";
-import {Table} from "./Table";
+import {LoaderIcon}       from "../icon/LoaderIcon";
+import {useSourceQuery}   from "../query/useSourceQuery";
+import {useStore}         from "../store/useStore";
+import {Action}           from "../ui/Action";
+import {Table}            from "./Table";
 
 export namespace RemoveFilter {
     export type Props<

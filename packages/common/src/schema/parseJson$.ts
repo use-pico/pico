@@ -1,5 +1,5 @@
-import {type z} from "zod";
-import {debug} from "../toolbox/debug";
+import {type z}    from "zod";
+import {debug}     from "../toolbox/debug";
 import {parseJson} from "./parseJson";
 
 export const parseJson$ = <

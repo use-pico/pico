@@ -1,4 +1,4 @@
-import {cn} from "@use-pico/common";
+import {cn}      from "@use-pico/common";
 import {type FC} from "react";
 
 export namespace Progress {

@@ -1,8 +1,8 @@
 "use client";
 
 import {useStore as useCoolStore} from "zustand";
-import {useContext} from "../context/useContext";
-import type {IStore} from "./IStore";
+import {useContext}               from "../context/useContext";
+import type {IStore}              from "./IStore";
 
 export function useStore<
     TStore extends IStore<any>,

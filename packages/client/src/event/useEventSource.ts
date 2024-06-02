@@ -14,10 +14,10 @@ import {useMutation}        from "../query/useMutation";
 import {useQueryEx}         from "../query/useQueryEx";
 
 /**
- * Reverse event source implementation; because EventSource itself is very unreliable as it could get killed any time on the wire,
+ * Reverse event source implementation; because `EventSource` itself is very unreliable as it could get killed any time on the wire,
  * this is a pulling-based version with basically the same API.
  *
- * @group event
+ * @group hooks
  */
 export namespace useEventSource {
     export interface Handler<
@@ -62,6 +62,9 @@ export namespace useEventSource {
          * Handlers to handle the events; when schema matches the event data, handler is called.
          */
         handlers: Handler<z.ZodSchema>[];
+        /**
+         * Refetch interval in milliseconds.
+         */
         refetch?: number;
     }
 }

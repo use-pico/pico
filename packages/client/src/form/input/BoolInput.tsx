@@ -1,12 +1,16 @@
 "use client";
 
-import {cn, isOptional, type ValuesSchema} from "@use-pico/common";
+import {
+    cn,
+    isOptional,
+    type ValuesSchema
+}                       from "@use-pico/common";
 import type {ReactNode} from "react";
-import {useController} from "react-hook-form";
-import {RequiredIcon} from "../../icon/RequiredIcon";
-import {Icon} from "../../ui/Icon";
-import {errorOf} from "../errorOf";
-import {type Input} from "../Input";
+import {useController}  from "react-hook-form";
+import {RequiredIcon}   from "../../icon/RequiredIcon";
+import {Icon}           from "../../ui/Icon";
+import {errorOf}        from "../errorOf";
+import {type Input}     from "../Input";
 
 export namespace BoolInput {
     export interface Props<TValuesSchema extends ValuesSchema> extends Input.Props<TValuesSchema> {
@@ -36,10 +40,10 @@ export const BoolInput = <
     }: BoolInput.Props<TValuesSchema>,
 ) => {
     const {
-        field: {
-            onChange,
-            ...field
-        },
+        field:     {
+                       onChange,
+                       ...field
+                   },
         formState: {errors}
     } = useController({
         name,

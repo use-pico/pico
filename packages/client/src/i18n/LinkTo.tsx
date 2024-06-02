@@ -1,21 +1,32 @@
 import {isString}   from "@use-pico/common";
 import {
-	type FC,
-	type ReactNode
+    type FC,
+    type ReactNode
 }                   from "react";
 import {Icon}       from "../ui/Icon";
 import {LocaleLink} from "./LocaleLink";
 
+/**
+ * Wrapped {@link LocaleLink} with styles.
+ *
+ * @group ui
+ */
 export namespace LinkTo {
+    /**
+     * Props for `LinkTo` component.
+     */
 	export interface Props extends Omit<LocaleLink.Props, "children"> {
+        /**
+         * Icon or icon props ({@link Icon.Props}.
+         */
 		icon?: string | Partial<Icon.Props> & Pick<Icon.Props, "icon">;
+        /**
+         * Label to display.
+         */
 		label?: ReactNode;
 	}
 }
 
-/**
- * Wrapped LocaleLink with styles.
- */
 export const LinkTo: FC<LinkTo.Props> = (
 	{
 		icon,

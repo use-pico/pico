@@ -1,7 +1,7 @@
-import {type z} from "zod";
+import {type z}             from "zod";
 import {withMutationSchema} from "../query/withMutationSchema";
-import {JobQuerySchema} from "./JobQuerySchema";
-import {JobShapeSchema} from "./JobShapeSchema";
+import {JobQuerySchema}     from "./JobQuerySchema";
+import {JobShapeSchema}     from "./JobShapeSchema";
 
 export const JobMutationSchema = withMutationSchema({
 	shape: JobShapeSchema,

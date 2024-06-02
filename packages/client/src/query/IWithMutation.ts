@@ -1,6 +1,13 @@
-import {type MutationKey, type UseMutationOptions, type UseMutationResult} from "@tanstack/react-query";
-import type {RequestSchema, ResponseSchema} from "@use-pico/common";
-import {type z} from "zod";
+import {
+    type MutationKey,
+    type UseMutationOptions,
+    type UseMutationResult
+}                          from "@tanstack/react-query";
+import type {
+    RequestSchema,
+    ResponseSchema
+}                          from "@use-pico/common";
+import {type z}            from "zod";
 import {type IInvalidator} from "./IInvalidator";
 
 export interface IWithMutation<

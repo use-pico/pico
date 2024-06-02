@@ -1,11 +1,17 @@
 "use client";
 
-import type {CountSchema, FilterSchema, OrderBySchema, QuerySchema, WithIdentitySchema} from "@use-pico/common";
-import {useStore} from "../store/useStore";
-import {IQueryStore} from "./IQueryStore";
-import {IWithQuery} from "./IWithQuery";
+import type {
+    CountSchema,
+    FilterSchema,
+    OrderBySchema,
+    QuerySchema,
+    WithIdentitySchema
+}                              from "@use-pico/common";
+import {useStore}              from "../store/useStore";
+import {IQueryStore}           from "./IQueryStore";
+import {IWithQuery}            from "./IWithQuery";
 import type {IWithSourceQuery} from "./IWithSourceQuery";
-import {useQueryEx} from "./useQueryEx";
+import {useQueryEx}            from "./useQueryEx";
 
 export namespace useCount {
 	export interface Props<
@@ -24,21 +30,21 @@ export const useCount = <
 	{
 		store,
 		withSourceQuery: {
-			withCountQuery
-		},
-		...options
+                             withCountQuery
+                         },
+        ...              options
 	}: useCount.Props<TQuerySchema, TSchema>
 ) => {
 	return useQueryEx({
 		withQuery: withCountQuery,
-		request: useStore(store, (
+        request: useStore(store, (
 			{
 				where,
 				filter,
 			}) => ({
 			where,
 			filter,
-			cursor: undefined,
+            cursor: undefined,
 			orderBy: undefined,
 		})),
 		options,

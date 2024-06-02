@@ -1,5 +1,8 @@
 import {cn} from "@use-pico/common";
-import {type FC, type HTMLAttributes} from "react";
+import {
+    type FC,
+    type HTMLAttributes
+}           from "react";
 
 const cssSize = {
 	"xs": "text-xs",
@@ -15,12 +18,29 @@ const cssSize = {
 } as const;
 type cssSize = typeof cssSize;
 
+/**
+ * Simple styled icon (span); uses Tailwind CSS classes.
+ *
+ * @group ui
+ */
 export namespace Icon {
-	export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "className">, cn.WithClass {
+    /**
+     * Props for `Icon` component.
+     */
+    export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "className">, cn.WithClass {
+        /**
+         * `Iconify` icon name.
+         */
 		icon: string;
+        /**
+         * Size of the icon.
+         */
 		size?: keyof cssSize;
 	}
 
+    /**
+     * Useful for extending an icon.
+     */
 	export type PropsEx =
 		Omit<Props, "icon">
 		& Partial<Pick<Props, "icon">>;

@@ -13,9 +13,9 @@ export namespace BlockStore {
 }
 
 export const BlockStore = createStore<BlockStore.StoreProps>({
-	name: "BlockStore",
+    name:    "BlockStore",
 	factory: values => (set) => ({
-		block: (block = true) => {
+        block: (block = true) => {
 			set({isBlock: block});
 		},
 		unblock: () => {

@@ -364,7 +364,7 @@ export const useForm = <
                             },
                             onSettled: async response => {
                                 window.scrollTo({
-                                    top: 0,
+                                    top:      0,
                                     behavior: "smooth"
                                 });
                                 await onSettled?.({

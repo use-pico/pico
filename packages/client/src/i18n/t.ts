@@ -1,5 +1,5 @@
-import type {ReactNode} from "react";
-import {translation} from "./translation";
+import type {ReactNode}      from "react";
+import {translation}         from "./translation";
 import {TranslationInstance} from "./TranslationInstance";
 
 export namespace t {

@@ -76,11 +76,11 @@ export const Select = <
         floatingStyles,
         context
     } = useFloating<HTMLElement>({
-        placement:    "bottom-start",
-        open:         isOpen,
-        onOpenChange: setIsOpen,
+        placement:            "bottom-start",
+        open:                 isOpen,
+        onOpenChange:         setIsOpen,
         whileElementsMounted: autoUpdate,
-        middleware:   [
+        middleware:           [
             offset(5),
             flip({padding: 10}),
             size({
@@ -91,7 +91,7 @@ export const Select = <
                       }) {
                     Object.assign(elements.floating.style, {
                         maxHeight: `${availableHeight}px`,
-                        minWidth: `${rects.reference.width}px`,
+                        minWidth:  `${rects.reference.width}px`,
                     });
                 },
                 padding: 10,
@@ -109,7 +109,7 @@ export const Select = <
         activeIndex,
         selectedIndex,
         onNavigate: setActiveIndex,
-        loop: true,
+        loop:       true,
     });
 
     const {

@@ -1,4 +1,4 @@
-import {isObject} from "../toolbox/isObject";
+import {isObject}        from "../toolbox/isObject";
 import type {IHrefProps} from "./IHrefProps";
 
 export const isHrefProps = (input: any): input is IHrefProps => {

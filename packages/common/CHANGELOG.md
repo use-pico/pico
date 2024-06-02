@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 3.0.5
+
+### Patch Changes
+
+- Improved some UI stuff, improved schemas
+
 ## 3.0.4
 
 ### Patch Changes

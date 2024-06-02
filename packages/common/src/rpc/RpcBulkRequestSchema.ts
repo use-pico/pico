@@ -1,4 +1,4 @@
-import {z} from "zod";
+import {z}                from "zod";
 import {RpcRequestSchema} from "./RpcRequestSchema";
 
 export const RpcBulkRequestSchema = z.object({

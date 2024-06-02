@@ -1,6 +1,9 @@
 "use client";
 
-import {type INavigate, linkTo} from "@use-pico/common";
+import {
+    type INavigate,
+    linkTo
+}                  from "@use-pico/common";
 import {useRouter} from "next/navigation";
 
 /**

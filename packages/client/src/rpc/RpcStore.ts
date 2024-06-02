@@ -1,9 +1,12 @@
 "use client";
 
-import {type ResponseSchema, type RpcRequestSchema} from "@use-pico/common";
+import {
+    type ResponseSchema,
+    type RpcRequestSchema
+}                              from "@use-pico/common";
 import {type MutableRefObject} from "react";
-import {createStore} from "../store/createStore";
-import type {IStore} from "../store/IStore";
+import {createStore}           from "../store/createStore";
+import type {IStore}           from "../store/IStore";
 
 export namespace RpcStore {
 	export interface IBulkRef {
@@ -27,6 +30,6 @@ export namespace RpcStore {
 }
 
 export const RpcStore = createStore<RpcStore.Store>({
-	name: "RpcStore",
+    name: "RpcStore",
 	factory: values => () => values,
 });

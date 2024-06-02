@@ -1,4 +1,7 @@
-import {type QueryKey, useQueryClient} from "@tanstack/react-query";
+import {
+    type QueryKey,
+    useQueryClient
+}                          from "@tanstack/react-query";
 import {type IInvalidator} from "./IInvalidator";
 
 export namespace useInvalidator {
@@ -10,9 +13,9 @@ export namespace useInvalidator {
 export const useInvalidator = (
 	{
 		invalidator: {
-			invalidator,
-			key
-		},
+                         invalidator,
+                         key
+                     },
 	}: useInvalidator.Props
 ) => {
 	const queryClient = useQueryClient();

@@ -1,5 +1,9 @@
-import {cn} from "@use-pico/common";
-import {type FC, type PropsWithChildren, type ReactNode} from "react";
+import {cn}   from "@use-pico/common";
+import {
+    type FC,
+    type PropsWithChildren,
+    type ReactNode
+}             from "react";
 import {Icon} from "./Icon";
 
 export namespace Status {

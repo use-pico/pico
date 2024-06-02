@@ -57,7 +57,7 @@ export const TicketProvider: FC<TicketProvider.Props> = (
     const result = useQuery({
         withQuery,
         refetchInterval: interval,
-        staleTime: 0,
+        staleTime:       0,
         enabled,
     });
 

@@ -1,6 +1,9 @@
 "use client";
 
-import type {FC, PropsWithChildren} from "react";
+import type {
+    FC,
+    PropsWithChildren
+}                      from "react";
 import {StoreProvider} from "../store/StoreProvider";
 import {DateTimeStore} from "./DateTimeStore";
 

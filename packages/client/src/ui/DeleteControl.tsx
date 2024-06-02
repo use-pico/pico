@@ -8,6 +8,7 @@ import {
     type VoidSchema
 }                           from "@use-pico/common";
 import type {ReactNode}     from "react";
+import {z}                  from "zod";
 import {t}                  from "../i18n/t";
 import {BackIcon}           from "../icon/BackIcon";
 import {TrashIcon}          from "../icon/TrashIcon";
@@ -19,34 +20,54 @@ import {useStore}           from "../store/useStore";
 import {Button}             from "./Button";
 import {useModalClose}      from "./Modal/useModalClose";
 
+/**
+ * Use this control to delete a collection of items.
+ *
+ * It's connected to a Query store, so it respects current filters.
+ *
+ * @group ui
+ */
 export namespace DeleteControl {
+    /**
+     * Props for `DeleteControl`.
+     */
     export interface Props<
-        TFilterSchema extends FilterSchema,
-        TOrderBySchema extends OrderBySchema,
+        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+        TCollectionMutationSchema extends CollectionMutationSchema<ShapeSchema, TQuerySchema>,
     > {
-        withMutation: IWithMutation<CollectionMutationSchema<ShapeSchema, QuerySchema<any, any>>, VoidSchema>;
-        withQueryStore: IQueryStore.Store<QuerySchema<TFilterSchema, TOrderBySchema>>;
+        /**
+         * Mutation used to delete collection items.
+         */
+        withMutation: IWithMutation<TCollectionMutationSchema, VoidSchema>;
+        /**
+         * Query store used to fetch query used to delete collection items.
+         */
+        withQueryStore: IQueryStore.Store<TQuerySchema>;
+        /**
+         * Text used in the control.
+         */
         text: {
+            /**
+             * Content text.
+             */
             content: ReactNode;
+            /**
+             * Submit text.
+             */
             submit: ReactNode;
         };
     }
 }
 
-/**
- * Use this control to delete a collection of items.
- *
- * It's connected to a Query store, so it respects current filters.
- */
 export const DeleteControl = <
-    TFilterSchema extends FilterSchema,
-    TOrderBySchema extends OrderBySchema,
+    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+    TCollectionMutationSchema extends CollectionMutationSchema<ShapeSchema, TQuerySchema>,
 >(
     {
         withMutation,
         withQueryStore,
         text,
-    }: DeleteControl.Props<TFilterSchema, TOrderBySchema>,
+    }: DeleteControl.Props<TQuerySchema, TCollectionMutationSchema>,
 ) => {
     const close = useModalClose();
     const blockStore = useStore(BlockStore, (
@@ -83,6 +104,7 @@ export const DeleteControl = <
                     enabled: BackIcon,
                 }}
                 variant={"subtle"}
+                onClick={() => close()}
             >
                 {t()`Back`}
             </Button>
@@ -96,7 +118,7 @@ export const DeleteControl = <
                     blockStore.block();
                     mutation.mutate({
                         delete: queryStore,
-                    }, {
+                    } as z.infer<TCollectionMutationSchema>, {
                         onSettled: () => {
                             close();
                             blockStore.unblock();

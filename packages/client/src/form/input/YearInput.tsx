@@ -1,10 +1,10 @@
 "use client";
 
 import {
-	cn,
-	DateTime,
-	isOptional,
-	type ValuesSchema
+    cn,
+    DateTime,
+    isOptional,
+    type ValuesSchema
 }                       from "@use-pico/common";
 import {type ReactNode} from "react";
 import {useController}  from "react-hook-form";
@@ -42,10 +42,10 @@ export const YearInput = <
 	}: YearInput.Props<TValuesSchema>,
 ) => {
 	const {
-		field: {
-				   value,
-				   ...field
-			   },
+        field: {
+                   value,
+                   ...field
+               },
 		formState: {errors}
 	} = useController({name});
 	const date = DateTime.fromISO(value as string);

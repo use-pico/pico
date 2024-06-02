@@ -1,5 +1,5 @@
 {
-    "version": "3.0.1",
+    "version": "3.0.2",
     "name": "@use-pico/server",
     "description": "Server-side stuff, including CLI tools and Node.js utilities.",
     "license": "MIT",
@@ -23,7 +23,7 @@
         "yaml": "^2.4.2"
     },
     "peerDependencies": {
-        "@use-pico/common": "^3.0.1"
+        "@use-pico/common": "^3.0.5"
     },
     "devDependencies": {
         "@types/node": "^20.13.0",

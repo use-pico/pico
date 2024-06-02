@@ -1,6 +1,6 @@
 import {parseJson$} from "@use-pico/common";
-import {type z} from "zod";
-import {useParam$} from "./useParam$";
+import {type z}     from "zod";
+import {useParam$}  from "./useParam$";
 
 export const useJsonParam$ = <
 	TSchema extends z.ZodSchema,

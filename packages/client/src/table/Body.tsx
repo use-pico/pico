@@ -45,7 +45,7 @@ export const Body = <
 ) => {
     const Row = row;
     const result = useSourceQuery({
-        store: withQueryStore,
+        store:           withQueryStore,
         withSourceQuery,
         refetchInterval: refresh,
     });

@@ -1,5 +1,10 @@
-import {type CursorSchema, type FilterSchema, type OrderBySchema, type QuerySchema} from "@use-pico/common";
-import {type z} from "zod";
+import {
+    type CursorSchema,
+    type FilterSchema,
+    type OrderBySchema,
+    type QuerySchema
+}                    from "@use-pico/common";
+import {type z}      from "zod";
 import type {IStore} from "../store/IStore";
 
 export type IQueryStore<

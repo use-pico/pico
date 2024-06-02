@@ -85,9 +85,9 @@ export const createSelectionStore = <
         name: "SelectionStore",
         // eslint-disable-next-line max-lines-per-function
         factory: () => (set, get) => ({
-            items: new Map(),
-            selection: new Map(),
-            select: (item, selection) => {
+            items:       new Map(),
+            selection:   new Map(),
+            select:      (item, selection) => {
                 set(state => {
                     switch (selection) {
                         case "single": {
@@ -107,7 +107,7 @@ export const createSelectionStore = <
                     }
                 });
             },
-            deselect: item => {
+            deselect:    item => {
                 set(state => {
                     state.selection.delete(item.id);
                     return ({
@@ -115,16 +115,16 @@ export const createSelectionStore = <
                     });
                 });
             },
-            isSelected: item => {
+            isSelected:  item => {
                 return get().selection.has(item.id);
             },
-            isCurrent: item => {
+            isCurrent:   item => {
                 return get().items.has(item.id);
             },
-            isActive: item => {
+            isActive:    item => {
                 return get().items.has(item.id) || get().selection.has(item.id);
             },
-            toggle: item => {
+            toggle:      item => {
                 set(state => {
                     const toggle = state.selection.has(item.id);
                     state.selection.delete(item.id);
@@ -136,18 +136,18 @@ export const createSelectionStore = <
                     };
                 });
             },
-            clear: () => {
+            clear:       () => {
                 set({
-                    items: new Map(),
+                    items:     new Map(),
                     selection: new Map(),
                 });
             },
-            commit: () => {
+            commit:      () => {
                 set(state => ({
                     items: new Map(state.selection),
                 }));
             },
-            cancel: () => {
+            cancel:      () => {
                 set({selection: new Map()});
             },
             isSelection: () => get().selection.size > 0,

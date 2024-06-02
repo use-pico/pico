@@ -1,5 +1,11 @@
-import {type QueryClient, QueryClientProvider as CoolQueryClientProvider} from "@tanstack/react-query";
-import {type FC, type PropsWithChildren} from "react";
+import {
+    type QueryClient,
+    QueryClientProvider as CoolQueryClientProvider
+}                          from "@tanstack/react-query";
+import {
+    type FC,
+    type PropsWithChildren
+}                          from "react";
 import {createQueryClient} from "./createQueryClient";
 
 export namespace QueryClientProvider {

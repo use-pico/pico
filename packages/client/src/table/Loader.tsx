@@ -1,11 +1,11 @@
 "use client";
 
-import {cn} from "@use-pico/common";
-import {type FC} from "react";
-import type {IQueryStore} from "../query/IQueryStore";
+import {cn}                    from "@use-pico/common";
+import {type FC}               from "react";
+import type {IQueryStore}      from "../query/IQueryStore";
 import type {IWithSourceQuery} from "../query/IWithSourceQuery";
-import {useSourceQuery} from "../query/useSourceQuery";
-import {Loader as CoolLoader} from "../ui/Loader";
+import {useSourceQuery}        from "../query/useSourceQuery";
+import {Loader as CoolLoader}  from "../ui/Loader";
 
 export namespace Loader {
 	export interface Props {

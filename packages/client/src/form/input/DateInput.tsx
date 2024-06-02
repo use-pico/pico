@@ -52,10 +52,10 @@ export const DateInput = <
     }: DateInput.Props<TValuesSchema>,
 ) => {
     const {
-        field: {
-                   value,
-                   onChange,
-               },
+        field:     {
+                       value,
+                       onChange,
+                   },
         formState: {errors}
     } = useController({name});
     const date = DateTime.fromISO(value as string);

@@ -1,8 +1,11 @@
-import type {RequestSchema, ResponseSchema} from "@use-pico/common";
+import type {
+    RequestSchema,
+    ResponseSchema
+}                  from "@use-pico/common";
 import {withQuery} from "../query/withQuery";
-import {useStore} from "../store/useStore";
-import {RpcStore} from "./RpcStore";
-import {withBulk} from "./withBulk";
+import {useStore}  from "../store/useStore";
+import {RpcStore}  from "./RpcStore";
+import {withBulk}  from "./withBulk";
 
 export namespace withRpcQuery {
 	export interface Props<
@@ -26,7 +29,7 @@ export const withRpcQuery = <
 		useCallback: () => {
 			const store = useStore(RpcStore);
 			return async request => withBulk({
-				schema: props.schema.response,
+                schema: props.schema.response,
 				request,
 				service: props.key.join("."),
 				store

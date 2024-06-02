@@ -1,9 +1,9 @@
 import type {
-	CountSchema,
-	FilterSchema,
-	OrderBySchema,
-	QuerySchema,
-	WithIdentitySchema
+    CountSchema,
+    FilterSchema,
+    OrderBySchema,
+    QuerySchema,
+    WithIdentitySchema
 }                              from "@use-pico/common";
 import {z}                     from "zod";
 import type {IWithQuery}       from "./IWithQuery";
@@ -50,7 +50,7 @@ export const withSourceQuery = <
 	const $withQuery = withQuery({
 		...props,
 		schema: {
-			request: query,
+            request: query,
 			response: $response,
 		},
 	});
@@ -58,7 +58,7 @@ export const withSourceQuery = <
 	return {
 		...$withQuery,
 		schema: {
-			request: query,
+            request: query,
 			response: $response,
 		},
 		async invalidator($props) {

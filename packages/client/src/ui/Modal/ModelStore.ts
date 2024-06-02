@@ -10,6 +10,6 @@ export namespace ModalStore {
 }
 
 export const ModalStore = createStore<ModalStore.StoreProps>({
-    name: "ModalStore",
+    name:    "ModalStore",
     factory: values => () => values,
 });

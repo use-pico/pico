@@ -1,6 +1,6 @@
 import {type ValuesSchema} from "@use-pico/common";
-import type {FieldErrors} from "react-hook-form";
-import {z} from "zod";
+import type {FieldErrors}  from "react-hook-form";
+import {z}                 from "zod";
 
 export const errorOf = <
 	TValuesSchema extends ValuesSchema

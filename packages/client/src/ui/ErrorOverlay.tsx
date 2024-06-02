@@ -1,4 +1,7 @@
-import type {FC, PropsWithChildren} from "react";
+import type {
+    FC,
+    PropsWithChildren
+} from "react";
 
 export namespace ErrorOverlay {
 	export type Props = PropsWithChildren;

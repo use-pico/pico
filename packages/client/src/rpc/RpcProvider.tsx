@@ -1,8 +1,12 @@
 "use client";
 
-import {type FC, type PropsWithChildren, useRef} from "react";
+import {
+    type FC,
+    type PropsWithChildren,
+    useRef
+}                      from "react";
 import {StoreProvider} from "../store/StoreProvider";
-import {RpcStore} from "./RpcStore";
+import {RpcStore}      from "./RpcStore";
 
 export namespace RpcProvider {
 	export type Props = PropsWithChildren<{
@@ -19,8 +23,8 @@ export const RpcProvider: FC<RpcProvider.Props> = (
 		store={RpcStore}
 		values={{
 			bulkTimerRef: useRef<NodeJS.Timeout>(),
-			timeoutRef: useRef<NodeJS.Timeout>(),
-			bulkRef: useRef(new Map()),
+            timeoutRef: useRef<NodeJS.Timeout>(),
+            bulkRef:    useRef(new Map()),
 			url,
 		}}
 		{...props}

@@ -10,6 +10,6 @@ export namespace FloatStore {
 }
 
 export const FloatStore = createStore<FloatStore.StoreProps>({
-    name: "FloatStore",
+    name:    "FloatStore",
     factory: values => () => values,
 });

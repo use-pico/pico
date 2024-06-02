@@ -1,4 +1,4 @@
-import {z} from "zod";
+import {z}                 from "zod";
 import {RpcResponseSchema} from "./RpcResponseSchema";
 
 export const RpcBulkResponseSchema = z.object({
