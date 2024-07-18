@@ -1,39 +1,40 @@
 {
-    "version": "3.0.2",
-    "name": "@use-pico/server",
-    "description": "Server-side stuff, including CLI tools and Node.js utilities.",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/use-pico/pico"
-    },
-    "sideEffects": false,
-    "type": "module",
-    "main": "src/index.ts",
-    "module": "src/index.ts",
-    "types": "src/index.ts",
-    "files": [
-        "src"
-    ],
-    "scripts": {
-        "lint": "eslint"
-    },
-    "dependencies": {
-        "@phenomnomnominal/tsquery": "^6.1.3",
-        "yaml": "^2.4.2"
-    },
-    "peerDependencies": {
-        "@use-pico/common": "^3.0.5"
-    },
-    "devDependencies": {
-        "@types/node": "^20.13.0",
-        "@use-pico/eslint-config-eslint": "^3.0.1",
-        "@use-pico/tsconfig": "^3.0.1",
-        "eslint": "^9.4.0",
-        "typescript": "^5.4.5"
-    },
-    "bugs": {
-        "url": "https://github.com/use-pico/pico/issues"
-    },
-    "homepage": "https://github.com/use-pico/pico#readme"
+	"version": "3.0.2",
+	"name": "@use-pico/server",
+	"description": "Server-side stuff, including CLI tools and Node.js utilities.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/use-pico/pico"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"main": "src/index.ts",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"lint": "eslint src",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@phenomnomnominal/tsquery": "^6.1.3",
+		"yaml": "^2.4.2"
+	},
+	"peerDependencies": {
+		"@use-pico/common": "^3.0.5"
+	},
+	"devDependencies": {
+		"@types/node": "^20.13.0",
+		"@use-pico/eslint-config-eslint": "workspace:*",
+		"@use-pico/tsconfig": "workspace:*",
+		"eslint": "^9.4.0",
+		"typescript": "^5.4.5"
+	},
+	"bugs": {
+		"url": "https://github.com/use-pico/pico/issues"
+	},
+	"homepage": "https://github.com/use-pico/pico#readme"
 }

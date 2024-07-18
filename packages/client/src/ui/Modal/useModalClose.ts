@@ -1,11 +1,9 @@
-"use client";
-
-import {useStore}   from "../../store/useStore";
-import {ModalStore} from "./ModelStore";
+import { useStore } from "../../store/useStore";
+import { ModalStore } from "./ModelStore";
 
 /**
  * Returns a function to close the modal.
  */
 export const useModalClose = () => {
-    return useStore(ModalStore, ({close}) => ({close})).close;
+	return useStore(ModalStore, ({close}) => ({close})).close;
 };

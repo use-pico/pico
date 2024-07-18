@@ -1,6 +1,6 @@
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                  from "@use-pico/common";
 import {withQuery} from "../query/withQuery";
 import {useStore}  from "../store/useStore";
@@ -29,7 +29,7 @@ export const withRpcQuery = <
 		useCallback: () => {
 			const store = useStore(RpcStore);
 			return async request => withBulk({
-                schema: props.schema.response,
+				schema:  props.schema.response,
 				request,
 				service: props.key.join("."),
 				store

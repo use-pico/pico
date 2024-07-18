@@ -1,7 +1,7 @@
 import {isString}   from "@use-pico/common";
 import {
-    type FC,
-    type ReactNode
+	type FC,
+	type ReactNode
 }                   from "react";
 import {Icon}       from "../ui/Icon";
 import {LocaleLink} from "./LocaleLink";
@@ -12,17 +12,17 @@ import {LocaleLink} from "./LocaleLink";
  * @group ui
  */
 export namespace LinkTo {
-    /**
-     * Props for `LinkTo` component.
-     */
+	/**
+	 * Props for `LinkTo` component.
+	 */
 	export interface Props extends Omit<LocaleLink.Props, "children"> {
-        /**
-         * Icon or icon props ({@link Icon.Props}.
-         */
+		/**
+		 * Icon or icon props ({@link Icon.Props}.
+		 */
 		icon?: string | Partial<Icon.Props> & Pick<Icon.Props, "icon">;
-        /**
-         * Label to display.
-         */
+		/**
+		 * Label to display.
+		 */
 		label?: ReactNode;
 	}
 }
@@ -31,15 +31,15 @@ export const LinkTo: FC<LinkTo.Props> = (
 	{
 		icon,
 		label,
-		cx = [],
+		css,
 		...props
 	}
 ) => {
 	return <LocaleLink
-		cx={[
+		css={[
 			"flex items-center gap-2",
 			"text-blue-400 hover:text-blue-700",
-			...cx,
+			css,
 		]}
 		{...props}
 	>

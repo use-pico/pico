@@ -1,5 +1,3 @@
-"use client";
-
 import {toHumanTimeSec} from "@use-pico/common";
 import type {FC}        from "react";
 import {useLocale}      from "./useLocale";
@@ -19,7 +17,7 @@ export const HumanSeconds: FC<HumanSeconds.Props> = (
 
 	return toHumanTimeSec(seconds, {
 		language: locale,
-        units: [
+		units:    [
 			"mo",
 			"d",
 			"h",

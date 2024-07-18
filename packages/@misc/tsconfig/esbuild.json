@@ -6,7 +6,7 @@
 		"declaration": true,
 		"declarationMap": false,
 		"disableSolutionSearching": true,
-		"emitDeclarationOnly": true,
+		"emitDeclarationOnly": false,
 		"emitDecoratorMetadata": false,
 		"esModuleInterop": true,
 		"experimentalDecorators": false,
@@ -15,11 +15,7 @@
 		"inlineSources": false,
 		"isolatedModules": false,
 		"jsx": "react-jsx",
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		],
+		"lib": ["dom", "dom.iterable", "esnext"],
 		"module": "ES2022",
 		"moduleResolution": "node",
 		"noErrorTruncation": false,
@@ -33,10 +29,7 @@
 		"strict": true,
 		"strictPropertyInitialization": true,
 		"target": "ES2022",
-		"types": [
-			"@total-typescript/ts-reset",
-			"node"
-		],
+		"types": ["@total-typescript/ts-reset", "vite/client", "node"],
 		"useDefineForClassFields": true
 	}
 }

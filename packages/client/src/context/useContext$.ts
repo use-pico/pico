@@ -1,10 +1,7 @@
-import {
-    type Context,
-    use
-} from "react";
+import { useContext, type Context } from "react";
 
 export function useContext$<TContext>(
-	context: Context<TContext | null>
+	context: Context<TContext | null>,
 ): TContext | null {
-	return use(context);
+	return useContext(context);
 }

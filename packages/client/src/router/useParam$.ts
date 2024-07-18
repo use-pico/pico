@@ -1,7 +1,6 @@
-"use client";
-
-import {useSearchParams} from "next/navigation";
+import { usePageContext } from "vike-react/usePageContext";
 
 export const useParam$ = (name: string): string | null => {
-	return useSearchParams()?.get(name);
+	const context = usePageContext();
+	return context.urlParsed.search?.[name] ?? null;
 };

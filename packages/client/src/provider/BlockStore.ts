@@ -1,7 +1,5 @@
-"use client";
-
-import {createStore} from "../store/createStore";
-import type {IStore} from "../store/IStore";
+import { createStore } from "../store/createStore";
+import type { IStore } from "../store/IStore";
 
 export namespace BlockStore {
 	export type StoreProps = IStore<{
@@ -13,9 +11,9 @@ export namespace BlockStore {
 }
 
 export const BlockStore = createStore<BlockStore.StoreProps>({
-    name:    "BlockStore",
+	name:    "BlockStore",
 	factory: values => (set) => ({
-        block: (block = true) => {
+		block:   (block = true) => {
 			set({isBlock: block});
 		},
 		unblock: () => {

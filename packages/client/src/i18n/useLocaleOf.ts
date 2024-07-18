@@ -1,7 +1,5 @@
-"use client";
-
-import {localeOf} from "@use-pico/common";
-import {useMemo}  from "react";
+import { localeOf } from "@use-pico/common";
+import { useMemo } from "react";
 
 export namespace useLocaleOf {
 	export type Props = localeOf.Props;

@@ -1,6 +1,6 @@
 import {
-    type IHrefProps,
-    isString
+	type IHrefProps,
+	isString
 }                        from "@use-pico/common";
 import {useLocaleRouter} from "./useLocaleRouter";
 
@@ -13,7 +13,7 @@ export const useWithLocaleRedirect = () => {
 	return (href?: IHrefProps | string | null) => href && push(isString(href) ? {
 		href,
 	} : {
-        href: href.href,
+		href:  href.href,
 		query: href.query,
 	});
 };

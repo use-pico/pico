@@ -1,16 +1,16 @@
 import {
-    isString,
-    type ITranslationPipeline
+	isString,
+	type ITranslationPipeline
 }           from "@use-pico/common";
 import pupa from "pupa";
 
 export const withRichInterpolatePipeline: ITranslationPipeline.Factory<ITranslationPipeline.Rich> = () => (
-    {
-        text,
-        values
-    }
+	{
+		text,
+		values
+	}
 ) => {
-    return isString(text) ? pupa(text, values || {}, {
-        ignoreMissing: true,
-    }) : text;
+	return isString(text) ? pupa(text, values || {}, {
+		ignoreMissing: true,
+	}) : text;
 };

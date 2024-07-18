@@ -1,5 +1,5 @@
 import {type TranslationsSchema} from "@use-pico/common";
-import {TranslationInstance} from "./TranslationInstance";
+import {TranslationInstance}     from "./TranslationInstance";
 
 /**
  * Update translation index; be careful as this method *must* be called at the top of application, blocking

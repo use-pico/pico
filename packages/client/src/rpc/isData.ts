@@ -1,5 +1,5 @@
 import {isObject} from "@use-pico/common";
-import {type z} from "zod";
+import {type z}   from "zod";
 
 export const isData = <
 	TDataSchema extends z.ZodObject<any, "strip">

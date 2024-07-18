@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Improved some UI stuff, improved schemas
+- Just an update
 
 ## 3.0.4
 

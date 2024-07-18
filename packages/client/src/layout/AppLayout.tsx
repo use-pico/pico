@@ -1,39 +1,34 @@
-import {cn}         from "@use-pico/common";
-import Image        from "next/image";
-import {
-	type ComponentProps,
-	type FC,
-	type PropsWithChildren,
-	type ReactNode
-}                   from "react";
-import {LocaleLink} from "../i18n/LocaleLink";
-import {Footer}     from "../ui/Footer";
+import { cssOf } from "@use-pico/common";
+import { type FC, type PropsWithChildren, type ReactNode } from "react";
+import { Toaster } from "sonner";
+import { LocaleLink } from "../i18n/LocaleLink";
+import { Footer } from "../ui/Footer";
 
 export namespace AppLayout {
 	export type Props = PropsWithChildren<{
-		logo: ComponentProps<typeof Image>["src"];
+		logo: any;
 		homeUrl?: string;
 		center?: ReactNode;
 		right?: ReactNode;
 	}>;
 }
 
-export const AppLayout: FC<AppLayout.Props> = (
-	{
-		logo,
-		homeUrl = "/root",
-		center,
-		right,
-		children,
-	}
-) => {
-	return <>
-		<div
-			className={cn(
-			)}
-		>
+export const AppLayout: FC<AppLayout.Props> = ({
+	logo,
+	homeUrl = "/root",
+	center,
+	right,
+	children,
+}) => {
+	return (
+		<div>
+			<Toaster
+				position={"top-center"}
+				closeButton
+				richColors
+			/>
 			<div
-				className={cn(
+				className={cssOf(
 					"flex flex-row items-center",
 					"bg-slate-50 shadow-sm border-b border-b-slate-200",
 					"w-full",
@@ -42,33 +37,19 @@ export const AppLayout: FC<AppLayout.Props> = (
 				)}
 			>
 				<div>
-					<LocaleLink
-						href={homeUrl}
-						style={{
-							display: "block",
-						}}
-					>
-						<Image
-							priority={true}
-							height={32}
+					<LocaleLink href={homeUrl}>
+						<img
 							alt={"logo"}
+							className={"h-6"}
 							src={logo}
 						/>
 					</LocaleLink>
 				</div>
-				<div
-					className={cn(
-						"flex-grow",
-					)}
-				>
-					{center}
-				</div>
-				<div>
-					{right}
-				</div>
+				<div className={cssOf("flex-grow")}>{center}</div>
+				<div>{right}</div>
 			</div>
 			<div
-				className={cn(
+				className={cssOf(
 					"min-h-screen",
 					"border-b border-b-slate-200",
 					"mb-4",
@@ -77,7 +58,7 @@ export const AppLayout: FC<AppLayout.Props> = (
 			>
 				{children}
 			</div>
-			<Footer/>
+			<Footer />
 		</div>
-	</>;
+	);
 };

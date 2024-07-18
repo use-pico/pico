@@ -1,6 +1,6 @@
-import {type FC}        from "react";
-import {BlockProvider}  from "../provider/BlockProvider";
-import {LoadingOverlay} from "./LoadingOverlay";
+import { type FC } from "react";
+import { BlockProvider } from "../provider/BlockProvider";
+import { LoadingOverlay } from "./LoadingOverlay";
 
 /**
  * Renders blocking loader overlay.
@@ -18,14 +18,15 @@ import {LoadingOverlay} from "./LoadingOverlay";
  * ```
  */
 export namespace BlockOverlay {
-    export interface Props {
-    }
+	export interface Props {
+		delay?: number;
+	}
 }
 
-export const BlockOverlay: FC<BlockOverlay.Props> = () => {
-    return <BlockProvider
-        isBlock
-    >
-        <LoadingOverlay/>
-    </BlockProvider>;
+export const BlockOverlay: FC<BlockOverlay.Props> = ({ delay = 250 }) => {
+	return (
+		<BlockProvider isBlock>
+			<LoadingOverlay delay={delay} />
+		</BlockProvider>
+	);
 };

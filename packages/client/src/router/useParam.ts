@@ -1,6 +1,4 @@
-"use client";
-
-import {useSearchParams} from "next/navigation";
+import { usePageContext } from "vike-react/usePageContext";
 
 /**
  * Simple wrapper around Next router to extract params from route.
@@ -8,7 +6,8 @@ import {useSearchParams} from "next/navigation";
  * If override is provided, this value is returned instead
  */
 export const useParam = (name: string, override?: string) => {
-	const param = useSearchParams()?.get(name);
+	const context = usePageContext();
+	const param = context.urlParsed.search?.[name];
 	if (override) {
 		return override;
 	}

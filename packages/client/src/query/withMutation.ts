@@ -1,7 +1,7 @@
 import type {MutationKey}   from "@tanstack/react-query";
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                           from "@use-pico/common";
 import {type z}             from "zod";
 import type {IWithMutation} from "./IWithMutation";
@@ -12,52 +12,52 @@ import type {IWithMutation} from "./IWithMutation";
  * @group query
  */
 export namespace withMutation {
-    /**
-     * Just re-exported `MutationKey` from `@tanstack/react-query`.
-     */
-    export type Key = MutationKey;
+	/**
+	 * Just re-exported `MutationKey` from `@tanstack/react-query`.
+	 */
+	export type Key = MutationKey;
 
-    /**
-     * Props for `withMutation` method.
-     *
-     * @template TRequestSchema Request schema.
-     * @template TResponseSchema Response schema.
-     */
+	/**
+	 * Props for `withMutation` method.
+	 *
+	 * @template TRequestSchema Request schema.
+	 * @template TResponseSchema Response schema.
+	 */
 	export interface Props<
 		TRequestSchema extends RequestSchema,
 		TResponseSchema extends ResponseSchema,
 	> {
-        /**
-         * Query key used to cache the result.
-         */
-        key: Key;
-        /**
-         * Mutation schemas.
-         */
+		/**
+		 * Query key used to cache the result.
+		 */
+		key: Key;
+		/**
+		 * Mutation schemas.
+		 */
 		schema: {
-            /**
-             * Request schema.
-             */
+			/**
+			 * Request schema.
+			 */
 			request: TRequestSchema;
-            /**
-             * Response schema.
-             */
+			/**
+			 * Response schema.
+			 */
 			response: TResponseSchema;
 		};
 
-        /**
-         * Callback used to execute the mutation.
-         */
+		/**
+		 * Callback used to execute the mutation.
+		 */
 		useCallback(): (request: z.infer<TRequestSchema>) => Promise<z.infer<TResponseSchema>>;
 
-        /**
-         * Callback used to invalidate the query cache.
-         */
+		/**
+		 * Callback used to invalidate the query cache.
+		 */
 		invalidator?: IWithMutation<TRequestSchema, TResponseSchema>["invalidator"];
 
-        /**
-         * Default options for the mutation.
-         */
+		/**
+		 * Default options for the mutation.
+		 */
 		defaultOptions?: IWithMutation.Options<TRequestSchema, TResponseSchema>;
 	}
 }

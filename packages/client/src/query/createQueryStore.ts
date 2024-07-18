@@ -1,13 +1,13 @@
 import {
-    cleanOf,
-    CursorSchema,
-    type FilterSchema,
-    isEmpty,
-    type OrderBySchema,
-    type QuerySchema
-}                    from "@use-pico/common";
-import {createStore} from "../store/createStore";
-import {IQueryStore} from "./IQueryStore";
+	CursorSchema,
+	cleanOf,
+	isEmpty,
+	type FilterSchema,
+	type OrderBySchema,
+	type QuerySchema,
+} from "@use-pico/common";
+import { createStore } from "../store/createStore";
+import { IQueryStore } from "./IQueryStore";
 
 /**
  * Creates a Query Store.
@@ -43,106 +43,111 @@ import {IQueryStore} from "./IQueryStore";
  * ```
  */
 export namespace createQueryStore {
-    /**
-     * Props for `createQueryStore`.
-     *
-     * @template TQuerySchema Query schema.
-     */
-    export interface Props<
-        TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
-    > {
-        /**
-         * Query store name.
-         */
-        name?: string;
-        /**
-         * Query schema.
-         */
-        schema: TQuerySchema;
-    }
+	/**
+	 * Props for `createQueryStore`.
+	 *
+	 * @template TQuerySchema Query schema.
+	 */
+	export interface Props<
+		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+	> {
+		/**
+		 * Query store name.
+		 */
+		name?: string;
+		/**
+		 * Query schema.
+		 */
+		schema: TQuerySchema;
+	}
 }
 
-// eslint-disable-next-line max-lines-per-function
 export const createQueryStore = <
-    TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
->(
-    {
-        name,
-        schema,
-    }: createQueryStore.Props<TQuerySchema>
-): IQueryStore.Store<TQuerySchema> => {
-    return createStore<IQueryStore<TQuerySchema>>({
-        name,
-        // eslint-disable-next-line max-lines-per-function
-        factory: values => (set, get) => ({
-            schema,
-            cursor:         {
-                page: 0,
-                size: 30,
-            },
-            hasWhere:       () => {
-                // eslint-disable-next-line prefer-destructuring
-                const where = get().where;
-                if (!where) {
-                    return false;
-                }
-                return !isEmpty(where);
-            },
-            hasFilter:      () => {
-                // eslint-disable-next-line prefer-destructuring
-                const filter = get().filter;
-                if (!filter) {
-                    return false;
-                }
-                return !isEmpty(filter);
-            },
-            setCursor:      (page, size) => {
-                set({
-                    cursor: CursorSchema.parse({
-                        page,
-                        size: size || get().cursor?.size || 30,
-                    }),
-                });
-            },
-            setSize:        size => {
-                set({
-                    cursor: {
-                        page: 0,
-                        size,
-                    },
-                });
-            },
-            setFilter:      filter => {
-                set({filter: schema.shape.filter.parse(filter)});
-            },
-            shallowFilter:  filter => {
-                set({
-                    filter: schema.shape.filter.parse({
-                        ...get().filter,
-                        ...filter,
-                    }),
-                });
-            },
-            clearFilter:    () => {
-                set({
-                    filter: undefined,
-                });
-            },
-            isFilter:       () => {
-                return !isEmpty(cleanOf(get().filter));
-            },
-            setOrderBy:     orderBy => {
-                set({orderBy: schema.shape.orderBy.parse(orderBy)});
-            },
-            shallowOrderBy: orderBy => {
-                set({
-                    orderBy: schema.shape.orderBy.parse({
-                        ...get().orderBy,
-                        ...orderBy,
-                    }),
-                });
-            },
-            ...values,
-        }),
-    });
+	TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
+>({
+	name,
+	schema,
+}: createQueryStore.Props<TQuerySchema>): IQueryStore.Store<TQuerySchema> => {
+	return createStore<IQueryStore<TQuerySchema>>({
+		name,
+		toValues: (values) => cleanOf(values, { emptyStringsCleaner: true }) || {},
+		factory: (values) => (set, get) => ({
+			schema: {
+				query: schema,
+				filter: schema.shape.filter
+					.unwrap()
+					.unwrap() as QuerySchema.Filter<TQuerySchema>,
+				orderBy: schema.shape.orderBy
+					.unwrap()
+					.unwrap() as QuerySchema.OrderBy<TQuerySchema>,
+			},
+			cursor: {
+				page: 0,
+				size: 30,
+			},
+			hasWhere: () => {
+				// eslint-disable-next-line prefer-destructuring
+				const where = get().where;
+				if (!where) {
+					return false;
+				}
+				return !isEmpty(where);
+			},
+			hasFilter: () => {
+				// eslint-disable-next-line prefer-destructuring
+				const filter = get().filter;
+				if (!filter) {
+					return false;
+				}
+				return !isEmpty(filter);
+			},
+			setCursor: (page, size) => {
+				set({
+					cursor: CursorSchema.parse({
+						page,
+						size: size || get().cursor?.size || 30,
+					}),
+				});
+			},
+			setSize: (size) => {
+				set({
+					cursor: {
+						page: 0,
+						size,
+					},
+				});
+			},
+			setFilter: (filter) => {
+				set({ filter: schema.shape.filter.parse(filter) });
+			},
+			shallowFilter: (filter) => {
+				set({
+					filter: schema.shape.filter.parse({
+						...get().filter,
+						...filter,
+					}),
+				});
+			},
+			clearFilter: () => {
+				set({
+					filter: undefined,
+				});
+			},
+			isFilter: () => {
+				return !isEmpty(cleanOf(get().filter));
+			},
+			setOrderBy: (orderBy) => {
+				set({ orderBy: schema.shape.orderBy.parse(orderBy) });
+			},
+			shallowOrderBy: (orderBy) => {
+				set({
+					orderBy: schema.shape.orderBy.parse({
+						...get().orderBy,
+						...orderBy,
+					}),
+				});
+			},
+			...values,
+		}),
+	});
 };

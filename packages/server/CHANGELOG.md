@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- Improved some UI stuff, improved schemas
+- Just an update
 - Updated dependencies
-    - @use-pico/common@3.0.5
+  - @use-pico/common@3.0.5
 
 ## 3.0.1
 

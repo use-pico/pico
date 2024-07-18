@@ -7,13 +7,13 @@ import {useEventSource} from "./useEventSource";
  * @group evemt
  */
 export const event = <
-    TSchema extends z.ZodSchema,
+	TSchema extends z.ZodSchema,
 >(
-    type: string,
-    schema: TSchema,
-    handler: useEventSource.Handler<TSchema>["handler"],
+	type: string,
+	schema: TSchema,
+	handler: useEventSource.Handler<TSchema>["handler"],
 ): useEventSource.Handler<TSchema> => ({
-    type,
-    schema,
-    handler,
+	type,
+	schema,
+	handler,
 });

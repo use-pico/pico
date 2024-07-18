@@ -1,6 +1,6 @@
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                        from "@use-pico/common";
 import {type z}          from "zod";
 import type {IWithQuery} from "./IWithQuery";

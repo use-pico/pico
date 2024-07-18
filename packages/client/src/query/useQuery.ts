@@ -1,10 +1,10 @@
 import {
-    useQuery as useCoolQuery,
-    type UseQueryResult
+	useQuery as useCoolQuery,
+	type UseQueryResult
 }                   from "@tanstack/react-query";
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                   from "@use-pico/common";
 import {type z}     from "zod";
 import {IWithQuery} from "./IWithQuery";
@@ -26,49 +26,49 @@ import {usePromise} from "./usePromise";
  * @see {@link useSourceQuery}
  */
 export namespace useQuery {
-    /**
-     * Props for the `useQuery` hook.
-     *
-     * @template TRequestSchema Query request schema.
-     * @template TResponseSchema Query response schema.
-     */
-    export interface Props<
-        TRequestSchema extends RequestSchema,
-        TResponseSchema extends ResponseSchema,
-    > extends IWithQuery.QueryOptions<TResponseSchema> {
-        /**
-         * Query used to fetch data.
-         */
-        withQuery: IWithQuery<TRequestSchema, TResponseSchema>;
-    }
+	/**
+	 * Props for the `useQuery` hook.
+	 *
+	 * @template TRequestSchema Query request schema.
+	 * @template TResponseSchema Query response schema.
+	 */
+	export interface Props<
+		TRequestSchema extends RequestSchema,
+		TResponseSchema extends ResponseSchema,
+	> extends IWithQuery.QueryOptions<TResponseSchema> {
+		/**
+		 * Query used to fetch data.
+		 */
+		withQuery: IWithQuery<TRequestSchema, TResponseSchema>;
+	}
 
-    /**
-     * Result of the `useQuery` hook.
-     *
-     * @template TResponseSchema Query response schema.
-     */
-    export type Result<
-        TResponseSchema extends ResponseSchema,
-    > = UseQueryResult<
-        z.infer<TResponseSchema>,
-        any
-    >;
+	/**
+	 * Result of the `useQuery` hook.
+	 *
+	 * @template TResponseSchema Query response schema.
+	 */
+	export type Result<
+		TResponseSchema extends ResponseSchema,
+	> = UseQueryResult<
+		z.infer<TResponseSchema>,
+		any
+	>;
 }
 
 export const useQuery = <
-    TRequestSchema extends RequestSchema,
-    TResponseSchema extends ResponseSchema,
+	TRequestSchema extends RequestSchema,
+	TResponseSchema extends ResponseSchema,
 >(
-    {
-        withQuery,
-        queryKey: $queryKey,
-        ...       options
-    }: useQuery.Props<TRequestSchema, TResponseSchema>
+	{
+		withQuery,
+		queryKey: $queryKey,
+		...       options
+	}: useQuery.Props<TRequestSchema, TResponseSchema>
 ): useQuery.Result<TResponseSchema> => {
-    const promise = usePromise({withQuery});
-    return useCoolQuery({
-        queryKey: withQuery.key.concat($queryKey || []),
-        queryFn:  async () => promise({}),
-        ...options,
-    });
+	const promise = usePromise({withQuery});
+	return useCoolQuery({
+		queryKey: withQuery.key.concat($queryKey || []),
+		queryFn:  async () => promise({}),
+		...options,
+	});
 };

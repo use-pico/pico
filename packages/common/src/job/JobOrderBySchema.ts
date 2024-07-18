@@ -3,7 +3,7 @@ import {OrderSchema} from "../query/OrderSchema";
 
 export const JobOrderBySchema = z.object({
 	created: OrderSchema,
-    status: OrderSchema,
+	status:  OrderSchema,
 }).partial();
 export type JobOrderBySchema = typeof JobOrderBySchema;
 export namespace JobOrderBySchema {

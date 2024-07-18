@@ -36,8 +36,8 @@ export const withQuerySchema = <
 		 * Optional filter saying more specific filter options (this is where application user puts
 		 * search/filters).
 		 */
-        where:  filter.nullish(),
+		where:   filter.nullish(),
 		orderBy: orderBy.nullish(),
-        cursor: CursorSchema.nullish(),
+		cursor:  CursorSchema.nullish(),
 	});
 };

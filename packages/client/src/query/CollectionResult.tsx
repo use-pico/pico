@@ -1,12 +1,10 @@
-"use client";
-
-import type {ResponseSchema} from "@use-pico/common";
+import type { ResponseSchema } from "@use-pico/common";
 import {
 	type FC,
 	type PropsWithChildren
-}                            from "react";
-import {type z}              from "zod";
-import {IWithQuery}          from "./IWithQuery";
+} from "react";
+import { type z } from "zod";
+import { IWithQuery } from "./IWithQuery";
 
 export namespace CollectionResult {
 	export type Props<

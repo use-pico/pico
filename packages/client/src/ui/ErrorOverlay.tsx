@@ -1,6 +1,6 @@
 import type {
-    FC,
-    PropsWithChildren
+	FC,
+	PropsWithChildren
 } from "react";
 
 export namespace ErrorOverlay {

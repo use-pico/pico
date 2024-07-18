@@ -1,4 +1,7 @@
-import {cn}          from "@use-pico/common";
+import {
+	Css,
+	cssOf
+}                    from "@use-pico/common";
 import type {
 	FC,
 	PropsWithChildren,
@@ -9,30 +12,28 @@ import {Icon}        from "./Icon";
 import {Unblock}     from "./Unblock";
 
 export namespace Page {
-	export type Props = PropsWithChildren<
-		{
+	export interface Props extends PropsWithChildren, Css.Style {
+		/**
+		 * Customize texts used in a page itself.
+		 */
+		text?: {
 			/**
-			 * Customize texts used in a page itself.
+			 * Page title (tab).
 			 */
-			text?: {
-				/**
-				 * Page title (tab).
-				 */
-				title?: string;
-				/**
-				 * Page header (shown at the top of the page).
-				 */
-				header?: ReactNode;
-			};
-			icon?: string;
-			breadcrumbs?: Breadcrumbs.Props;
+			title?: string;
 			/**
-			 * Page subheader (shown below the header and above the content).
+			 * Page header (shown at the top of the page).
 			 */
-			sub?: ReactNode;
-			right?: ReactNode;
-		} & cn.WithClass
-	>;
+			header?: ReactNode;
+		};
+		icon?: string;
+		breadcrumbs?: Breadcrumbs.Props;
+		/**
+		 * Page subheader (shown below the header and above the content).
+		 */
+		sub?: ReactNode;
+		right?: ReactNode;
+	}
 }
 
 export const Page: FC<Page.Props> = (
@@ -43,32 +44,32 @@ export const Page: FC<Page.Props> = (
 		sub,
 		right,
 		children,
-		cx,
+		css,
 	}) => {
 	return <div
-		className={cn(
-			cx,
+		className={cssOf(
+			css,
 		)}
 	>
 		<Unblock/>
 		{breadcrumbs || icon || text?.header || right ? <div
-			className={cn(
+			className={cssOf(
 				"mb-2",
 			)}
 		>
 			<div
-				className={cn(
+				className={cssOf(
 					"flex flex-row items-center justify-between gap-1",
 					"text-slate-600 min-h-10",
 				)}
 			>
 				<div
-					className={cn(
+					className={cssOf(
 						"flex items-center gap-2",
 					)}
 				>
 					{breadcrumbs && <div
-						className={cn(
+						className={cssOf(
 							"flex",
 						)}
 					>
@@ -82,7 +83,7 @@ export const Page: FC<Page.Props> = (
 						size={"xl"}
 					/> : null}
 					<span
-						className={cn(
+						className={cssOf(
 							"text-lg font-semibold",
 						)}
 					>

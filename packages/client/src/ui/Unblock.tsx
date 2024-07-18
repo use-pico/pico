@@ -1,8 +1,6 @@
-"use client";
-
 import {
-    type FC,
-    useEffect
+	type FC,
+	useEffect
 }                   from "react";
 import {BlockStore} from "../provider/BlockStore";
 import {useStore}   from "../store/useStore";

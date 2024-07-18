@@ -1,27 +1,29 @@
+import { type QueryClient } from "@tanstack/react-query";
 import {
-    type QueryClient,
-    QueryClientProvider as CoolQueryClientProvider
-}                          from "@tanstack/react-query";
-import {
-    type FC,
-    type PropsWithChildren
-}                          from "react";
-import {createQueryClient} from "./createQueryClient";
+	PersistQueryClientProvider,
+	type Persister,
+} from "@tanstack/react-query-persist-client";
+import { type FC, type PropsWithChildren } from "react";
+import { createPersister } from "./createPersister";
+import { createQueryClient } from "./createQueryClient";
 
 export namespace QueryClientProvider {
-	export type Props = PropsWithChildren<{
+	export interface Props extends PropsWithChildren {
 		queryClient?: QueryClient;
-	}>
+		persister?: Persister;
+	}
 }
 
-export const QueryClientProvider: FC<QueryClientProvider.Props> = (
-	{
-		queryClient = createQueryClient(),
-		...props
-	}
-) => {
-	return <CoolQueryClientProvider
-		client={queryClient}
-		{...props}
-	/>;
+export const QueryClientProvider: FC<QueryClientProvider.Props> = ({
+	queryClient = createQueryClient(),
+	persister = createPersister(),
+	...props
+}) => {
+	return (
+		<PersistQueryClientProvider
+			client={queryClient}
+			persistOptions={{ persister }}
+			{...props}
+		/>
+	);
 };

@@ -1,8 +1,8 @@
 import type {
-    FilterSchema,
-    OrderBySchema,
-    QuerySchema,
-    WithIdentitySchema
+	FilterSchema,
+	OrderBySchema,
+	QuerySchema,
+	WithIdentitySchema
 }                              from "@use-pico/common";
 import {z}                     from "zod";
 import type {IWithSourceQuery} from "../query/IWithSourceQuery";
@@ -33,7 +33,7 @@ export const withRpcSourceQuery = <
 		useCallback: () => {
 			const store = useStore(RpcStore);
 			return async request => withBulk({
-                schema: z.array(props.schema.response),
+				schema:  z.array(props.schema.response),
 				request,
 				service: props.key.join("."),
 				store

@@ -1,4 +1,4 @@
-import {translation} from "./translation";
+import {translation}         from "./translation";
 import {TranslationInstance} from "./TranslationInstance";
 
 export namespace tx {

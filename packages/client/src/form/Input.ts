@@ -1,65 +1,55 @@
-import {
-    cn,
-    type InferOf,
-    ValuesSchema
-}                from "@use-pico/common";
-import type {FC} from "react";
-import type {
-    FieldPath,
-    UseFormReturn
-}                from "react-hook-form";
-import {z}       from "zod";
+import { Css as CoolCss, ValuesSchema, type InferOf } from "@use-pico/common";
+import type { FC } from "react";
+import type { FieldPath, UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 
 export namespace Input {
-    /**
-     * Extracts the keys of a value schema used to index input keys.
-     */
-    export type Keys<TValuesSchema extends ValuesSchema> = FieldPath<z.infer<TValuesSchema>>;
+	/**
+	 * Extracts the keys of a value schema used to index input keys.
+	 */
+	export type Keys<TValuesSchema extends ValuesSchema> = FieldPath<
+		z.infer<TValuesSchema>
+	>;
 
-    export type Theme = cn.Theme<"root" | "label" | "error" | "input">;
+	export type KeysOf<TUseForm extends UseFormReturn<any>> =
+		TUseForm extends UseFormReturn<infer TValues> ? FieldPath<TValues> : never;
 
-    /**
-     * Props for an input component (in user-land).
-     */
-    export interface Props<
-        TValuesSchema extends ValuesSchema = ValuesSchema,
-    > {
-        name: Keys<TValuesSchema>;
-        schema: TValuesSchema;
-        theme?: Theme;
-        disabled?: boolean;
-    }
+	export type InputCss = CoolCss<"root" | "label" | "error" | "input">;
 
-    /**
-     * Inputs type definition
-     */
-    export type Inputs<
-        TValuesSchema extends ValuesSchema,
-    > = Partial<
-        Record<
-            Keys<TValuesSchema>,
-            FC<Props<TValuesSchema>>
-        >
-    >;
+	/**
+	 * Props for an input component (in user-land).
+	 */
+	export interface Props<TValuesSchema extends ValuesSchema = ValuesSchema>
+		extends InputCss {
+		name: Keys<TValuesSchema>;
+		schema: TValuesSchema;
+		disabled?: boolean;
+	}
 
-    export interface FactoryProps<
-        TValuesSchema extends ValuesSchema,
-    > {
-        form: UseFormReturn<
-            z.infer<TValuesSchema>
-        >;
+	/**
+	 * Inputs type definition
+	 */
+	export type Inputs<TValuesSchema extends ValuesSchema> = Partial<
+		Record<Keys<TValuesSchema>, FC<Props<TValuesSchema>>>
+	>;
 
-        useWatch<TKey extends Keys<TValuesSchema>>(key: TKey): InferOf<TKey, TValuesSchema>;
+	export interface FactoryProps<TValuesSchema extends ValuesSchema> {
+		form: UseFormReturn<z.infer<TValuesSchema>>;
 
-        useSetValue(): <TKey extends Input.Keys<TValuesSchema>>(key: TKey, value: InferOf<TKey, TValuesSchema>) => void;
-    }
+		useWatch<TKey extends Keys<TValuesSchema>>(
+			key: TKey,
+		): InferOf<TKey, TValuesSchema>;
 
-    /**
-     * Input factory type definition
-     */
-    export type Factory<
-        TValuesSchema extends ValuesSchema,
-    > =
-        Inputs<TValuesSchema>
-        | ((props: FactoryProps<TValuesSchema>) => Inputs<TValuesSchema>)
+		useSetValue(): <TKey extends Input.Keys<TValuesSchema>>(
+			key: TKey,
+			value: InferOf<TKey, TValuesSchema>,
+		) => void;
+	}
+
+	/**
+	 * Input factory type definition
+	 */
+	export type Factory<TValuesSchema extends ValuesSchema> =
+		| Inputs<TValuesSchema>
+		| ((props: FactoryProps<TValuesSchema>) => Inputs<TValuesSchema>);
 }

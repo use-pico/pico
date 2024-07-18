@@ -1,6 +1,6 @@
 import {withDefaultRichPipeline} from "./withDefaultRichPipeline";
 import {withDefaultTextPipeline} from "./withDefaultTextPipeline";
-import {withRichComponents} from "./withRichComponents";
+import {withRichComponents}      from "./withRichComponents";
 
 export namespace withDefaultPipeline {
 	export interface Props {

@@ -1,11 +1,9 @@
-"use client";
-
-import {usePathname}     from "next/navigation";
-import {type FC}         from "react";
-import {Select}          from "../form/input/Select";
-import {td}              from "../i18n/td";
-import {useLocale}       from "../i18n/useLocale";
-import {useWithRedirect} from "../router/useWithRedirect";
+import { type FC } from "react";
+import { Select } from "../form/input/Select";
+import { td } from "../i18n/td";
+import { useLocale } from "../i18n/useLocale";
+import { usePath } from "../router/usePath";
+import { useWithRedirect } from "../router/useWithRedirect";
 
 export namespace LanguageSelect {
 	export interface Props extends Select.PropsEx<any> {
@@ -13,26 +11,31 @@ export namespace LanguageSelect {
 	}
 }
 
-export const LanguageSelect: FC<LanguageSelect.Props> = (
-	{
-		languages,
-		...props
-	}) => {
+export const LanguageSelect: FC<LanguageSelect.Props> = ({
+	languages,
+	...props
+}) => {
 	const currentLocale = useLocale();
 	const redirect = useWithRedirect();
-	const pathname = usePathname();
+	const path = usePath();
 
-	return <Select<any>
-		items={languages.map(language => ({
-            id: language,
-			value: language,
-		}))}
-		defaultValue={{
-			id:    currentLocale,
-			value: currentLocale,
-		}}
-		render={({entity}) => td()(`Language code [${entity.value}]`)}
-		onItem={({id}) => pathname && redirect(pathname.replace(`/${currentLocale}/`, `/${id}/`))}
-		{...props}
-	/>;
+	return (
+		<Select<any>
+			icon={'icon-[ion--language-outline]'}
+			items={languages.map((language) => ({
+				id: language,
+				value: language,
+			}))}
+			value={currentLocale}
+			render={({ entity }) => td()(`Language code [${entity.value}]`)}
+			onItem={({ id }) =>
+				path && redirect(path.replace(`/${currentLocale}/`, `/${id}/`))
+			}
+			css={{
+				root: ["px-4 py-1 border-none"],
+				item: ["px-4 py-1"],
+			}}
+			{...props}
+		/>
+	);
 };

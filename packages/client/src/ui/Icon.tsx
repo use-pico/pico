@@ -1,8 +1,11 @@
-import {cn} from "@use-pico/common";
 import {
-    type FC,
-    type HTMLAttributes
-}           from "react";
+	Css,
+	cssOf
+} from "@use-pico/common";
+import {
+	type FC,
+	type HTMLAttributes
+} from "react";
 
 const cssSize = {
 	"xs": "text-xs",
@@ -24,23 +27,23 @@ type cssSize = typeof cssSize;
  * @group ui
  */
 export namespace Icon {
-    /**
-     * Props for `Icon` component.
-     */
-    export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "className">, cn.WithClass {
-        /**
-         * `Iconify` icon name.
-         */
+	/**
+	 * Props for `Icon` component.
+	 */
+	export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "className">, Css.Style {
+		/**
+		 * `Iconify` icon name.
+		 */
 		icon: string;
-        /**
-         * Size of the icon.
-         */
+		/**
+		 * Size of the icon.
+		 */
 		size?: keyof cssSize;
 	}
 
-    /**
-     * Useful for extending an icon.
-     */
+	/**
+	 * Useful for extending an icon.
+	 */
 	export type PropsEx =
 		Omit<Props, "icon">
 		& Partial<Pick<Props, "icon">>;
@@ -50,17 +53,16 @@ export const Icon: FC<Icon.Props> = (
 	{
 		icon,
 		size,
-		cx,
+		css,
 		...props
 	}
 ) => {
 	return <span
-		className={cn(
+		className={cssOf(
 			icon,
 			size ? cssSize[size] : false,
-			cx,
+			css,
 		)}
 		{...props}
-	>
-	</span>;
+	/>;
 };

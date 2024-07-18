@@ -1,11 +1,11 @@
 import {
-    type MutationKey,
-    type UseMutationOptions,
-    type UseMutationResult
+	type MutationKey,
+	type UseMutationOptions,
+	type UseMutationResult
 }                          from "@tanstack/react-query";
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                          from "@use-pico/common";
 import {type z}            from "zod";
 import {type IInvalidator} from "./IInvalidator";

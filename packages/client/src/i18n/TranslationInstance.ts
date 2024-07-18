@@ -5,9 +5,9 @@ export const TranslationInstance: {
 	instance: ITranslationInstance,
 } = {
 	instance: {
-        locale:   "pseudo",
+		locale:       "pseudo",
 		translations: {},
-        pipeline: withDefaultPipeline({
+		pipeline:     withDefaultPipeline({
 			rich: {
 				component: {
 					components: {},

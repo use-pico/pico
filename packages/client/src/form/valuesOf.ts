@@ -1,6 +1,6 @@
 import {
-    type MutationSchema,
-    type WithIdentitySchema
+	type MutationSchema,
+	type WithIdentitySchema
 }          from "@use-pico/common";
 import {z} from "zod";
 

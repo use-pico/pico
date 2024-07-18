@@ -2,10 +2,9 @@ import type {
 	FilterSchema,
 	OrderBySchema,
 	QuerySchema,
-	WithIdentitySchema
-}               from "@use-pico/common";
-import {type z} from "zod";
-import {Table}  from "./Table";
+	WithIdentitySchema,
+} from "@use-pico/common";
+import { Table } from "./Table";
 
 export namespace WithTable {
 	export interface Props<
@@ -13,7 +12,7 @@ export namespace WithTable {
 		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 		TSchema extends WithIdentitySchema,
 	> extends Table.Props<TColumns, TQuerySchema, TSchema> {
-		defaultQuery?: z.infer<TQuerySchema>;
+		defaultQuery?: QuerySchema.QueryType<TQuerySchema>;
 		/**
 		 * Inherit query store (means: with table will not provide Query Store).
 		 */
@@ -24,7 +23,10 @@ export namespace WithTable {
 		TColumns extends string,
 		TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 		TSchema extends WithIdentitySchema,
-	> = Omit<Props<TColumns, TQuerySchema, TSchema>, "withQueryStore" | "withSourceQuery">;
+	> = Omit<
+		Props<TColumns, TQuerySchema, TSchema>,
+		"withQueryStore" | "withSourceQuery"
+	>;
 }
 
 /**
@@ -36,20 +38,14 @@ export const WithTable = <
 	TColumns extends string,
 	TQuerySchema extends QuerySchema<FilterSchema, OrderBySchema>,
 	TSchema extends WithIdentitySchema,
->(
-	{
-		defaultQuery = {},
-		inherit = false,
-		...props
-	}: WithTable.Props<TColumns, TQuerySchema, TSchema>
-) => {
-	return inherit ? <Table
-		{...props}
-	/> : <props.withQueryStore.Provider
-		values={defaultQuery}
-	>
-		<Table
-			{...props}
-		/>
-	</props.withQueryStore.Provider>;
+>({
+	defaultQuery = {},
+	inherit = false,
+	...props
+}: WithTable.Props<TColumns, TQuerySchema, TSchema>) => {
+	return inherit ?
+			<Table {...props} />
+		:	<props.withQueryStore.Provider values={defaultQuery}>
+				<Table {...props} />
+			</props.withQueryStore.Provider>;
 };

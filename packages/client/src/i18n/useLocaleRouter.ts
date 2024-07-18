@@ -1,38 +1,24 @@
-"use client";
-
-import {
-    type IHrefProps,
-    linkTo
-} from "@use-pico/common";
-import {
-    useParams,
-    useRouter
-} from "next/navigation";
+import { linkTo, type IHrefProps } from "@use-pico/common";
+import { useNavigate } from "../router/useNavigate";
+import { useParams } from "../router/useParams";
 
 /**
  * Router with locale; expects "locale" parameter in Next.js `useParams` hook.
  */
 export const useLocaleRouter = () => {
-	const router = useRouter();
-	const {locale} = useParams() as unknown as {
-		locale: string
-	};
-	/**
-	 * Mimic original next.js router, override push
-	 */
+	const navigate = useNavigate();
+	const { locale } = useParams<{
+		locale: string;
+	}>();
 	return {
 		locale,
-		...router,
-		push: (
-                  {
-                      href,
-                      query
-                  }: IHrefProps
-              ) => {
-			return router.push(linkTo({
-                href: `/${locale ?? ""}${href}`.replace(/\/\//gu, "/"),
-				query,
-			}));
+		push: ({ href, query }: IHrefProps) => {
+			return navigate(
+				linkTo({
+					href: `/${locale ?? ""}${href}`.replace(/\/\//gu, "/"),
+					query,
+				}),
+			);
 		},
 	} as const;
 };

@@ -9,16 +9,16 @@ export namespace Loader {
 
 export const Loader: FC<Loader.Props> = (
 	{
-		cx,
+		css,
 		...props
 	}
 ) => {
 	return <Icon
 		icon={LoaderIcon}
-		cx={[
+		css={[
 			"text-sky-500",
 			"opacity-50",
-			cx,
+			css,
 		]}
 		{...props}
 	/>;

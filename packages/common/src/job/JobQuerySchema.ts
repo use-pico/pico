@@ -4,7 +4,7 @@ import {JobFilterSchema}  from "./JobFilterSchema";
 import {JobOrderBySchema} from "./JobOrderBySchema";
 
 export const JobQuerySchema = withQuerySchema({
-    filter: JobFilterSchema,
+	filter:  JobFilterSchema,
 	orderBy: JobOrderBySchema,
 });
 export type JobQuerySchema = typeof JobQuerySchema;

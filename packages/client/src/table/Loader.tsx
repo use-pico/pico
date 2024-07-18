@@ -1,11 +1,9 @@
-"use client";
-
-import {cn}                    from "@use-pico/common";
-import {type FC}               from "react";
-import type {IQueryStore}      from "../query/IQueryStore";
-import type {IWithSourceQuery} from "../query/IWithSourceQuery";
-import {useSourceQuery}        from "../query/useSourceQuery";
-import {Loader as CoolLoader}  from "../ui/Loader";
+import { cssOf } from "@use-pico/common";
+import { type FC } from "react";
+import type { IQueryStore } from "../query/IQueryStore";
+import type { IWithSourceQuery } from "../query/IWithSourceQuery";
+import { useSourceQuery } from "../query/useSourceQuery";
+import { Loader as CoolLoader } from "../ui/Loader";
 
 export namespace Loader {
 	export interface Props {
@@ -26,7 +24,7 @@ export const Loader: FC<Loader.Props> = (
 	});
 
 	return result.isLoading && <div
-		className={cn(
+		className={cssOf(
 			"flex items-center justify-center w-full",
 		)}
 	>

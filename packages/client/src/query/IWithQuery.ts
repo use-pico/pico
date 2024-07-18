@@ -1,51 +1,51 @@
 import {
-    type QueryKey,
-    type UseQueryOptions,
-    type UseQueryResult
+	type QueryKey,
+	type UseQueryOptions,
+	type UseQueryResult
 }                          from "@tanstack/react-query";
 import type {
-    RequestSchema,
-    ResponseSchema
+	RequestSchema,
+	ResponseSchema
 }                          from "@use-pico/common";
 import {type z}            from "zod";
 import {type IInvalidator} from "./IInvalidator";
 
 export namespace IWithQuery {
-    export type QueryOptions<
-        TResponseSchema extends ResponseSchema,
-    > =
-        Omit<
-            UseQueryOptions<
-                any,
-                any,
-                z.infer<TResponseSchema>
-            >, "queryFn" | "queryKey"
-        >
-        & Partial<
-        Pick<
-            UseQueryOptions<
-                any,
-                any,
-                z.infer<TResponseSchema>
-            >,
-            "queryKey"
-        >
-    >;
+	export type QueryOptions<
+		TResponseSchema extends ResponseSchema,
+	> =
+		Omit<
+			UseQueryOptions<
+				any,
+				any,
+				z.infer<TResponseSchema>
+			>, "queryFn" | "queryKey"
+		>
+		& Partial<
+		Pick<
+			UseQueryOptions<
+				any,
+				any,
+				z.infer<TResponseSchema>
+			>,
+			"queryKey"
+		>
+	>;
 
-    export interface Options<
-        TRequestSchema extends RequestSchema,
-        TResponseSchema extends ResponseSchema,
-    > {
-        request: z.infer<TRequestSchema>;
-        options?: QueryOptions<TResponseSchema>;
-    }
+	export interface Options<
+		TRequestSchema extends RequestSchema,
+		TResponseSchema extends ResponseSchema,
+	> {
+		request: z.infer<TRequestSchema>;
+		options?: QueryOptions<TResponseSchema>;
+	}
 
-    export type Result<
-        TResponseSchema extends ResponseSchema,
-    > = UseQueryResult<
-        z.infer<TResponseSchema>,
-        any
-    >;
+	export type Result<
+		TResponseSchema extends ResponseSchema,
+	> = UseQueryResult<
+		z.infer<TResponseSchema>,
+		any
+	>;
 }
 
 /**
@@ -57,23 +57,23 @@ export namespace IWithQuery {
  * @template TResponseSchema Shape of the response schema.
  */
 export interface IWithQuery<
-    TRequestSchema extends RequestSchema,
-    TResponseSchema extends ResponseSchema,
+	TRequestSchema extends RequestSchema,
+	TResponseSchema extends ResponseSchema,
 > extends IInvalidator {
-    /**
-     * Query key used in React Query
-     */
-    key: QueryKey;
-    /**
-     * This is obvious, isn't it?
-     */
-    schema: {
-        request: TRequestSchema;
-        response: TResponseSchema;
-    };
+	/**
+	 * Query key used in React Query
+	 */
+	key: QueryKey;
+	/**
+	 * This is obvious, isn't it?
+	 */
+	schema: {
+		request: TRequestSchema;
+		response: TResponseSchema;
+	};
 
-    /**
-     * This is the actual query function.
-     */
-    useCallback(): (request: z.infer<TRequestSchema>) => Promise<z.infer<TResponseSchema>>;
+	/**
+	 * This is the actual query function.
+	 */
+	useCallback(): (request: z.infer<TRequestSchema>) => Promise<z.infer<TResponseSchema>>;
 }

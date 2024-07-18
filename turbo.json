@@ -1,55 +1,26 @@
 {
 	"$schema": "https://turborepo.org/schema.json",
-	"globalDependencies": [
-		"tsconfig.json"
-	],
-	"pipeline": {
+	"globalDependencies": ["tsconfig.json"],
+	"tasks": {
 		"lint": {
-			"outputMode": "new-only",
+			"outputLogs": "new-only",
 			"outputs": [],
-			"inputs": [
-				"src/**"
-			]
+			"inputs": ["src/**"]
 		},
 		"setup": {
 			"cache": false
 		},
 		"init": {
-			"dependsOn": [
-				"setup",
-				"^init"
-			],
-			"outputs": [
-				"lib/**"
-			],
-			"inputs": [
-				"src/**"
-			]
+			"dependsOn": ["setup", "^init"],
+			"outputs": ["lib/**"],
+			"inputs": ["src/**"]
 		},
 		"build": {
-			"outputMode": "new-only",
-			"dependsOn": [
-				"^build"
-			],
-			"outputs": [
-				"lib/**",
-				".next/**"
-			],
-			"inputs": [
-				"src/**",
-				"next.config.mjs",
-				"package.json",
-				"tsconfig.json"
-			],
-			"env": [
-				"DATABASE_URL",
-				"NEXTAUTH_SECRET",
-				"NEXTAUTH_URL",
-				"NEXT_PUBLIC_RPC",
-				"NEXT_PUBLIC_VERSION",
-				"NODE_ENV",
-				"REDIS_URL"
-			]
+			"outputLogs": "new-only",
+			"dependsOn": ["^build"],
+			"outputs": ["lib/**", ".next/**"],
+			"inputs": ["src/**", "next.config.mjs", "package.json", "tsconfig.json"],
+			"env": []
 		},
 		"dev": {
 			"cache": false,

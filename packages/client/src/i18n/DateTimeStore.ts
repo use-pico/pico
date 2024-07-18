@@ -1,15 +1,13 @@
-"use client";
-
 import {
-    type IDateInput,
-    iso2locale
-}                    from "@use-pico/common";
+	iso2locale,
+	type IDateInput
+} from "@use-pico/common";
 import {
-    DateTime,
-    type DateTimeFormatOptions
-}                    from "luxon";
-import {createStore} from "../store/createStore";
-import type {IStore} from "../store/IStore";
+	DateTime,
+	type DateTimeFormatOptions
+} from "luxon";
+import type { IStore } from "../store/IStore";
+import { createStore } from "../store/createStore";
 
 export namespace DateTimeStore {
 	/**
@@ -32,7 +30,7 @@ export namespace DateTimeStore {
 }
 
 export const DateTimeStore = createStore<DateTimeStore.StoreProps>({
-    name: "DateTimeStore",
+	name:    "DateTimeStore",
 	factory: values => () => ({
 		toLocalDate(date, fallback, opts = DateTime.DATE_MED) {
 			return iso2locale(date || undefined, fallback, opts);

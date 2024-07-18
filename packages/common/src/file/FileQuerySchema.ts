@@ -4,7 +4,7 @@ import {FileFilterSchema}  from "./FileFilterSchema";
 import {FileOrderBySchema} from "./FileOrderBySchema";
 
 export const FileQuerySchema = withQuerySchema({
-    filter: FileFilterSchema,
+	filter:  FileFilterSchema,
 	orderBy: FileOrderBySchema,
 });
 export type FileQuerySchema = typeof FileQuerySchema;

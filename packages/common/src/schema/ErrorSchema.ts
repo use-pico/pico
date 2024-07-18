@@ -3,8 +3,8 @@ import {z} from "zod";
 export const ErrorSchema = z.object({
 	error: z.object({
 		message: z.string().optional(),
-        code:  z.number(),
-        paths: z.record(
+		code:    z.number(),
+		paths:   z.record(
 			z.union([
 				z.record(z.string()).nullable(),
 				z.string(),

@@ -1,11 +1,9 @@
-"use client";
-
 import {
-    type FC,
-    type PropsWithChildren
-}                      from "react";
-import {StoreProvider} from "../store/StoreProvider";
-import {BlockStore}    from "./BlockStore";
+	type FC,
+	type PropsWithChildren
+} from "react";
+import { StoreProvider } from "../store/StoreProvider";
+import { BlockStore } from "./BlockStore";
 
 export namespace BlockProvider {
 	export type Props = PropsWithChildren<{

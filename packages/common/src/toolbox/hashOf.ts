@@ -9,17 +9,17 @@ import hash from "object-hash";
  * @group toolbox
  */
 export const hashOf = (value: any) => {
-    try {
-        return JSON.stringify(value);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
-        return hash(value, {
-            algorithm:                 "sha1",
-            encoding:                  "hex",
-            ignoreUnknown:             true,
-            respectType:               false,
-            respectFunctionProperties: false,
-            unorderedArrays:           true,
-        });
-    }
+	try {
+		return JSON.stringify(value);
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	} catch (e) {
+		return hash(value, {
+			algorithm:                 "sha1",
+			encoding:                  "hex",
+			ignoreUnknown:             true,
+			respectType:               false,
+			respectFunctionProperties: false,
+			unorderedArrays:           true,
+		});
+	}
 };

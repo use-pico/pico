@@ -1,63 +1,36 @@
-import {cn}   from "@use-pico/common";
-import {
-    type FC,
-    type PropsWithChildren,
-    type ReactNode
-}             from "react";
-import {Icon} from "./Icon";
+import { Css, cssOf } from "@use-pico/common";
+import { type FC, type PropsWithChildren, type ReactNode } from "react";
+import { Icon } from "./Icon";
 
 export namespace Status {
-	export type Props = PropsWithChildren<
-		{
-			text: {
-				title: ReactNode;
-				message: ReactNode;
-			};
-			icon?: string;
-		} & cn.WithClass>
+	export interface Props extends PropsWithChildren, Css.Style {
+		text: {
+			title: ReactNode;
+			message: ReactNode;
+		};
+		icon?: string;
+	}
 }
 
-export const Status: FC<Status.Props> = (
-	{
-		text,
-		icon,
-		children,
-		cx,
-	}
-) => {
-	return <div
-		className={cn(
-			"w-full",
-			"flex flex-col items-center justify-center",
-			cx,
-		)}
-	>
-		{icon ? <Icon
-			icon={icon}
-			size={"6xl"}
-			cx={[
-				"text-slate-500",
-				"opacity-50",
-			]}
-		/> : null}
+export const Status: FC<Status.Props> = ({ text, icon, children, css }) => {
+	return (
 		<div
-			className={cn(
-				"text-xl",
-				"text-bold",
+			className={cssOf(
+				"w-full",
+				"flex flex-col items-center justify-center",
+				css,
 			)}
 		>
-			{text.title}
+			{icon ?
+				<Icon
+					icon={icon}
+					size={"6xl"}
+					css={["text-slate-500", "opacity-50"]}
+				/>
+			:	null}
+			<div className={cssOf("text-xl", "text-bold")}>{text.title}</div>
+			<div className={cssOf("text-base", "text-slate-500")}>{text.message}</div>
+			<div className={"pt-2"}>{children}</div>
 		</div>
-		<div
-			className={cn(
-				"text-base",
-				"text-slate-500",
-			)}
-		>
-			{text.message}
-		</div>
-		<div>
-			{children}
-		</div>
-	</div>;
+	);
 };
