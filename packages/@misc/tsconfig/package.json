@@ -1,7 +1,7 @@
 {
-	"version": "3.0.2",
+	"version": "4.0.0",
 	"name": "@use-pico/tsconfig",
-	"description": "Common tsconfig used withing @leight namespace.",
+	"description": "Common tsconfig used withing @use-pico namespace.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -17,6 +17,6 @@
 	},
 	"homepage": "https://github.com/use-pico/pico#readme",
 	"dependencies": {
-		"@total-typescript/ts-reset": "^0.5.1"
+		"@total-typescript/ts-reset": "^0.6.1"
 	}
 }

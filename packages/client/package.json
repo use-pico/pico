@@ -1,5 +1,5 @@
 {
-	"version": "3.0.6",
+	"version": "4.0.0",
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
 	"license": "MIT",
@@ -20,36 +20,35 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@floating-ui/react": "^0.26.16",
-		"@hookform/resolvers": "^3.4.2",
+		"@floating-ui/react": "^0.26.28",
+		"@hookform/resolvers": "^3.9.1",
 		"@jouwweb/interpolate-components": "^1.4.1",
-		"@tanstack/query-sync-storage-persister": "5.45.0",
-		"@tanstack/react-query-persist-client": "5.45.0",
+		"@tanstack/query-sync-storage-persister": "^5.60.6",
+		"@tanstack/react-query-persist-client": "^5.61.3",
 		"@types/luxon": "^3.4.2",
-		"@types/uuid": "^9.0.8",
+		"@types/uuid": "^10.0.0",
 		"js-file-downloader": "^1.1.25",
-		"luxon": "^3.4.4",
+		"luxon": "^3.5.0",
 		"pupa": "^3.1.0",
-		"react-dropzone": "14.2.3",
-		"react-hook-form": "^7.51.5",
-		"sonner": "^1.5.0",
-		"uuid": "^9.0.1"
+		"react-dropzone": "^14.3.5",
+		"react-hook-form": "^7.53.2",
+		"sonner": "^1.7.0",
+		"uuid": "^11.0.3"
 	},
 	"peerDependencies": {
-		"@tanstack/react-query": "^5.40.0",
+		"@tanstack/react-query": "^5.61.3",
 		"@use-pico/common": "workspace:*",
-		"axios": "^1.7.2",
+		"axios": "^1.7.8",
 		"react": "^18.3.1",
 		"zod": "^3.23.8",
-		"zustand": "^4.5.2"
+		"zustand": "^5.0.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.13.0",
-		"@types/react": "^18.3.1",
+		"@types/react": "^18.3.12",
 		"@use-pico/eslint-config-eslint": "workspace:*",
 		"@use-pico/tsconfig": "workspace:*",
-		"eslint": "^9.4.0",
-		"typescript": "^5.5.2"
+		"eslint": "^9.15.0",
+		"typescript": "^5.7.2"
 	},
 	"bugs": {
 		"url": "https://github.com/use-pico/pico/issues"

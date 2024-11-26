@@ -1,5 +1,5 @@
 {
-	"version": "3.0.5",
+	"version": "4.0.0",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",
@@ -28,34 +28,33 @@
 		"@types/luxon": "^3.4.2",
 		"@types/object-hash": "^3.0.6",
 		"@types/object-path": "^0.11.4",
-		"build-url-ts": "^6.1.7",
-		"fast-clean": "^1.3.2",
-		"filesize": "^10.1.2",
+		"build-url-ts": "^6.1.8",
+		"fast-clean": "^1.4.0",
+		"filesize": "^10.1.6",
 		"humanize-duration": "^3.32.1",
 		"is-callable": "^1.2.7",
 		"is-empty": "^1.2.0",
 		"is-string": "^1.0.7",
 		"js-sha256": "^0.11.0",
-		"luxon": "^3.4.4",
+		"luxon": "^3.5.0",
 		"object-hash": "^3.0.0",
 		"object-path": "^0.11.8",
-		"path-to-regexp": "^6.2.2",
+		"path-to-regexp": "^8.2.0",
 		"preferred-locale": "^2.0.2",
-		"tailwind-merge": "^2.3.0",
+		"tailwind-merge": "^2.5.5",
 		"timer-node": "^5.0.7",
-		"ts-deepmerge": "^7.0.0"
+		"ts-deepmerge": "^7.0.2"
 	},
 	"peerDependencies": {
 		"react": "^18.3.1",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@types/node": "^20.13.0",
-		"@types/react": "^18.3.3",
+		"@types/react": "^18.3.12",
 		"@use-pico/eslint-config-eslint": "workspace:*",
 		"@use-pico/tsconfig": "workspace:*",
-		"eslint": "^9.4.0",
-		"typescript": "^5.4.5"
+		"eslint": "^9.15.0",
+		"typescript": "^5.7.2"
 	},
 	"bugs": {
 		"url": "https://github.com/use-pico/pico/issues"

@@ -1,24 +1,21 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"display": "common",
+	"display": "esbuild",
 	"compilerOptions": {
-		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
 		"declaration": true,
-		"declarationMap": true,
+		"declarationMap": false,
 		"disableSolutionSearching": true,
-		"emitDecoratorMetadata": true,
+		"emitDeclarationOnly": false,
+		"emitDecoratorMetadata": false,
 		"esModuleInterop": true,
-		"experimentalDecorators": true,
+		"experimentalDecorators": false,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": false,
-		"inlineSources": true,
-		"isolatedModules": true,
+		"inlineSources": false,
+		"isolatedModules": false,
 		"jsx": "react-jsx",
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		],
+		"lib": ["dom", "dom.iterable", "esnext"],
 		"module": "ES2022",
 		"moduleResolution": "node",
 		"noErrorTruncation": false,
@@ -28,14 +25,11 @@
 		"removeComments": false,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"strict": true,
 		"strictPropertyInitialization": true,
 		"target": "ES2022",
-		"types": [
-			"@total-typescript/ts-reset",
-			"node"
-		],
+		"types": ["@total-typescript/ts-reset", "vite/client", "node"],
 		"useDefineForClassFields": true
 	}
 }
