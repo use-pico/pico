@@ -1,4 +1,4 @@
-FROM usepico/debian as build
+FROM usepico/debian AS build
 
 RUN \
     apt-get update && \
@@ -19,7 +19,7 @@ RUN \
         make && \
         make install
 
-FROM usepico/debian as runtime
+FROM usepico/debian AS runtime
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 COPY --from=build /usr/local/bin/magick /usr/local/bin/magick

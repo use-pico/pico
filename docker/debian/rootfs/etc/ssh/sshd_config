@@ -2,6 +2,8 @@ Port 22
 PermitRootLogin yes
 PubkeyAuthentication yes
 
+AcceptEnv *
+
 AuthorizedKeysFile      .ssh/authorized_keys
 
 #AuthorizedPrincipalsFile none

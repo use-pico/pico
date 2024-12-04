@@ -1,4 +1,4 @@
-FROM debian:buster as pico-debian
+FROM debian:buster AS pico-debian
 
 ENV \
     DEBIAN_FRONTEND=noninteractive
@@ -20,7 +20,7 @@ CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
 WORKDIR /root
 
-FROM pico-debian as pico-php-base
+FROM pico-debian AS pico-php-base
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
@@ -29,7 +29,7 @@ RUN \
     apt-get install -y --no-install-recommends --no-install-suggests \
         openssh-server cron nginx make xz-utils libc-client-dev libzip-dev libsodium-dev libargon2-dev libreadline-dev unzip p7zip-full
 
-FROM pico-php-base as build
+FROM pico-php-base AS build
 
 # setup mandatory environment variables
 ENV \
@@ -100,7 +100,7 @@ RUN \
 RUN pecl channel-update pecl.php.net && pecl install xdebug-3.1.6
 
 # start a new, clean stage (without any heavy dependency)
-FROM pico-php-base as runtime
+FROM pico-php-base AS runtime
 
 # take built binaries from build
 COPY --from=build /usr/local/bin/php /usr/local/bin/php
