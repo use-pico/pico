@@ -1,5 +1,5 @@
 {
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"name": "@use-pico/server",
 	"description": "Node/bun/whatever/server-side stuff.",
 	"license": "MIT",
