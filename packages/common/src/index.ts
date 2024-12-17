@@ -1,5 +1,6 @@
 export { onAxiosError } from "./axios/onAxiosError";
 export { onAxiosSchemaError } from "./axios/onAxiosSchemaError";
+export { withAxios } from "./axios/withAxios";
 export { css } from "./css/css";
 export { tvc } from "./css/tvc";
 export { fromUtc } from "./i18n/fromUtc";
