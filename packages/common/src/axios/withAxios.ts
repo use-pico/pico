@@ -9,8 +9,11 @@ export namespace withAxios {
 }
 
 export const withAxios = ({ instance, limit }: withAxios.Props = {}) => {
-	return axiosRateLimit(instance || axios, {
-		maxRPS: 5,
-		...limit,
-	});
+	return axiosRateLimit(
+		instance || axios,
+		limit || {
+			maxRequests: 5,
+			perMilliseconds: 100,
+		},
+	);
 };

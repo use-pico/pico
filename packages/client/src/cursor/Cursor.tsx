@@ -5,6 +5,7 @@ import {
     type CursorSchema,
 } from "@use-pico/common";
 import { useMemo, type FC } from "react";
+import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
 import { CursorCss } from "./CursorCss";
 import { Pages } from "./Pages";
@@ -57,7 +58,7 @@ export const Cursor: FC<Cursor.Props> = ({
 								pages={$cursor.start}
 								onPage={onPage}
 							/>
-							<Icon icon={"icon-[tabler--dots]"} />
+							<Icon icon={DotsIcon} />
 						</>
 					)}
 					<Pages
@@ -67,7 +68,7 @@ export const Cursor: FC<Cursor.Props> = ({
 					/>
 					{["both", "end"].includes($cursor.type) && (
 						<>
-							<Icon icon={"icon-[tabler--dots]"} />
+							<Icon icon={DotsIcon} />
 							<Pages
 								page={cursor.page}
 								pages={$cursor.end}
