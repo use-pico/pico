@@ -3,7 +3,7 @@ import {
 	useEffect,
 	useRef,
 	useState,
-	type SetStateAction
+	type SetStateAction,
 } from "react";
 
 // eslint-disable-next-line max-params
@@ -11,14 +11,15 @@ export function useDebounce<T = any>(
 	defaultValue: T,
 	callback: (value: T) => void,
 	wait: number,
-	options = {leading: false}
+	options = { leading: false },
 ) {
 	const [debounced, setDebounced] = useState(defaultValue);
 	const [value, setValue] = useState(defaultValue);
 	const timeoutRef = useRef<number | null>(null);
 	const leadingRef = useRef(true);
 
-	const clearTimeout = () => window.clearTimeout(timeoutRef.current || undefined);
+	const clearTimeout = () =>
+		window.clearTimeout(timeoutRef.current || undefined);
 	useEffect(() => clearTimeout, []);
 
 	useEffect(() => {
@@ -43,11 +44,8 @@ export function useDebounce<T = any>(
 			}
 			leadingRef.current = false;
 		},
-		[options.leading]
+		[options.leading],
 	);
 
-	return [
-		value,
-		debouncedSetValue,
-	] as const;
+	return [value, debouncedSetValue] as const;
 }

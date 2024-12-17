@@ -1,16 +1,13 @@
-import {
-	DateTime,
-	type DateTimeFormatOptions
-}                        from "luxon";
-import {isString}        from "../toolbox/isString";
-import {fromUtc}         from "./fromUtc";
-import {type IDateInput} from "./IDateInput";
-import {isDateTime}      from "./isDateTime";
+import { DateTime, type DateTimeFormatOptions } from "luxon";
+import { isString } from "../toolbox/isString";
+import type { IDateInput } from "../type/IDateInput";
+import { fromUtc } from "./fromUtc";
+import { isDateTime } from "./isDateTime";
 
 export const iso2locale = (
 	date?: IDateInput,
 	fallback?: IDateInput,
-	opts?: DateTimeFormatOptions
+	opts?: DateTimeFormatOptions,
 ): string | undefined => {
 	const $date = date || fallback;
 	if (!$date) {

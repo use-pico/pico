@@ -1,48 +1,65 @@
-import { Css, cssOf } from "@use-pico/common";
-import { type FC } from "react";
-import { LocaleLink } from "../i18n/LocaleLink";
-import { Icon } from "../ui/Icon";
-import { Menu } from "./Menu";
+import {
+    createLink,
+    useMatchRoute,
+    type LinkComponent,
+    type UseMatchRouteOptions,
+} from "@tanstack/react-router";
+import { isString } from "@use-pico/common";
+import { forwardRef, type PropsWithChildren, type ReactNode } from "react";
+import { Icon } from "../icon/Icon";
+import { MenuLinkCss } from "./MenuLinkCss";
 
-export namespace MenuLink {
-	export interface Props extends Omit<Menu.Link, "type" | "catch">, Css.Style {
-		active?: boolean;
-	}
+interface Item extends MenuLinkCss.Props<PropsWithChildren> {
+	icon?: string | ReactNode;
+	active?: UseMatchRouteOptions[];
 }
 
-export const MenuLink: FC<MenuLink.Props> = ({
-	href,
-	query,
-	icon,
-	label,
-	active = false,
-	css,
+const Item = forwardRef<HTMLAnchorElement, Item>(
+	(
+		{ icon = null, variant, tva = MenuLinkCss, css, children, ...props },
+		ref,
+	) => {
+		const tv = tva({ ...variant, css }).slots;
+
+		return (
+			<a
+				{...props}
+				className={tv.base()}
+				ref={ref}
+			>
+				{isString(icon) ?
+					<Icon icon={icon} />
+				:	icon}
+				{children}
+			</a>
+		);
+	},
+);
+
+const Link = createLink(Item);
+
+export const MenuLink: LinkComponent<typeof Item> = ({
+	active = [],
+	variant,
+	...props
 }) => {
+	const match = useMatchRoute();
+	const isActive = active.some((options) => Boolean(match(options)));
+
 	return (
-		<LocaleLink
-			className={cssOf(
-				"flex flex-row items-center gap-2",
-				"opacity-80",
-				"group",
-				"hover:opacity-100",
-				"border-b-2 border-transparent",
-				"hover:border-sky-400",
-				"py-1 px-2",
-				active && "border-sky-400",
-				css,
-			)}
-			href={{
-				href,
-				query,
+		<Link
+			preload={"intent"}
+			variant={{
+				active:
+					Boolean(
+						match({
+							to: props.to,
+							params: props.params,
+						} as any),
+					) || isActive,
+				...variant,
 			}}
-		>
-			{icon ?
-				<Icon
-					icon={icon}
-					css={["opacity-80", "group-hover:opacity-100"]}
-				/>
-			:	null}
-			{label}
-		</LocaleLink>
+			{...props}
+		/>
 	);
 };

@@ -8,28 +8,21 @@
 		"url": "git://github.com/use-pico/pico.git"
 	},
 	"scripts": {
-		"build": "turbo run init --no-daemon && turbo run build --no-daemon",
-		"build:force": "turbo run init --no-daemon && turbo run build --force --no-daemon",
 		"lint": "turbo run lint --force --no-daemon",
-		"cleanup": "turbo run cleanup --concurrency=1 --parallel --no-daemon",
-		"docs:build": "typedoc",
-		"docs:serve": "typedoc && serve -l 5005 docs",
+		"typecheck": "turbo run typecheck --no-daemon",
 		"changeset": "changeset",
 		"changeset:version": "changeset version",
-		"changeset:publish": "changeset publish",
-		"npkill": "npkill"
+		"changeset:publish": "changeset publish"
 	},
 	"workspaces": [
 		"packages/**/*"
 	],
 	"devDependencies": {
-		"@changesets/cli": "^2.27.5",
-		"@roarr/cli": "^5.12.4",
-		"npkill": "^0.12.1",
-		"serve": "^14.2.3",
-		"turbo": "^2.0.7",
-		"typedoc": "^0.26.4",
-		"typescript": "^5.4.5"
+		"@changesets/cli": "^2.27.10",
+		"prettier": "^3.4.2",
+		"turbo": "^2.3.3",
+		"typedoc": "^0.27.5",
+		"typescript": "^5.7.2"
 	},
 	"packageManager": "bun@1.1.17"
 }

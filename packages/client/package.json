@@ -17,37 +17,30 @@
 	],
 	"scripts": {
 		"lint": "eslint src",
+		"lint:fix": "eslint src --fix",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@floating-ui/react": "^0.26.28",
-		"@hookform/resolvers": "^3.9.1",
-		"@jouwweb/interpolate-components": "^1.4.1",
-		"@tanstack/query-sync-storage-persister": "^5.60.6",
-		"@tanstack/react-query-persist-client": "^5.61.3",
+		"@floating-ui/react": "^0.27.2",
+		"@tanstack/react-router": "^1.91.2",
 		"@types/luxon": "^3.4.2",
-		"@types/uuid": "^10.0.0",
-		"js-file-downloader": "^1.1.25",
 		"luxon": "^3.5.0",
-		"pupa": "^3.1.0",
 		"react-dropzone": "^14.3.5",
-		"react-hook-form": "^7.53.2",
-		"sonner": "^1.7.0",
+		"react-hook-form": "^7.54.1",
+		"read-excel-file": "^5.8.6",
 		"uuid": "^11.0.3"
 	},
 	"peerDependencies": {
-		"@tanstack/react-query": "^5.61.3",
+		"@tanstack/react-query": "^5.62.7",
 		"@use-pico/common": "workspace:*",
-		"axios": "^1.7.8",
+		"axios": "^1.7.9",
 		"react": "^18.3.1",
-		"zod": "^3.23.8",
-		"zustand": "^5.0.1"
+		"zod": "^3.24.1"
 	},
 	"devDependencies": {
-		"@types/react": "^18.3.12",
 		"@use-pico/eslint-config-eslint": "workspace:*",
 		"@use-pico/tsconfig": "workspace:*",
-		"eslint": "^9.15.0",
+		"eslint": "^9.17.0",
 		"typescript": "^5.7.2"
 	},
 	"bugs": {

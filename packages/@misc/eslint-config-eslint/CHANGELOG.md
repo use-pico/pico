@@ -1,11 +1,5 @@
 # @use-pico/eslint-config-eslint
 
-## 3.0.2
-
-### Patch Changes
-
-- Just an update
-
 ## 3.0.1
 
 ### Patch Changes

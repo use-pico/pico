@@ -1,5 +1,5 @@
 {
-	"extends": "@use-pico/tsconfig/esbuild.json",
+	"extends": "@use-pico/tsconfig/common.json",
 	"compilerOptions": {
 		"rootDir": "src"
 	},

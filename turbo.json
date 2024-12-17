@@ -3,33 +3,17 @@
 	"globalDependencies": ["tsconfig.json"],
 	"tasks": {
 		"lint": {
-			"outputLogs": "new-only",
+			"dependsOn": ["^lint"],
 			"outputs": [],
-			"inputs": ["src/**"]
-		},
-		"setup": {
-			"cache": false
-		},
-		"init": {
-			"dependsOn": ["setup", "^init"],
-			"outputs": ["lib/**"],
-			"inputs": ["src/**"]
-		},
-		"build": {
+			"inputs": ["src/**"],
 			"outputLogs": "new-only",
-			"dependsOn": ["^build"],
-			"outputs": ["lib/**", ".next/**"],
-			"inputs": ["src/**", "next.config.mjs", "package.json", "tsconfig.json"],
-			"env": []
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"cleanup": {
 			"cache": false
 		},
-		"test": {
+		"typecheck": {
+			"dependsOn": ["^typecheck"],
+			"outputs": [],
+			"inputs": ["src/**"],
+			"outputLogs": "new-only",
 			"cache": false
 		}
 	}
