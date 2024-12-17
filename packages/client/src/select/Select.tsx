@@ -1,11 +1,25 @@
-import { autoUpdate, flip, FloatingFocusManager, FloatingPortal, offset, size, useClick, useDismiss, useFloating, useInteractions, useListNavigation, useTransitionStyles } from "@floating-ui/react";
+import {
+    autoUpdate,
+    flip,
+    FloatingFocusManager,
+    FloatingPortal,
+    offset,
+    size,
+    useClick,
+    useDismiss,
+    useFloating,
+    useInteractions,
+    useListNavigation,
+    useTransitionStyles,
+} from "@floating-ui/react";
 import { translator, type Entity, type IdentitySchema } from "@use-pico/common";
 import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { SelectCss } from "./SelectCss";
 
 export namespace Select {
-	export interface Props<TItem extends IdentitySchema.Type> extends SelectCss.Props {
+	export interface Props<TItem extends IdentitySchema.Type>
+		extends SelectCss.Props {
 		items: TItem[];
 		icon?: string;
 		defaultValue?: string;
@@ -29,17 +43,35 @@ export namespace Select {
 		onChange?(e: any): void;
 	}
 
-	export type PropsEx<TItem extends IdentitySchema.Type> = Partial<Props<TItem>>;
+	export type PropsEx<TItem extends IdentitySchema.Type> = Partial<
+		Props<TItem>
+	>;
 }
 
 /**
  * Simple select using static data (for simple enums).
  */
-export const Select = <TItem extends IdentitySchema.Type>({ items, icon, defaultValue, render: Render, text, disabled = false, onItem, onSelect, onChange, value, variant, tva = SelectCss, css }: Select.Props<TItem>) => {
+export const Select = <TItem extends IdentitySchema.Type>({
+	items,
+	icon,
+	defaultValue,
+	render: Render,
+	text,
+	disabled = false,
+	onItem,
+	onSelect,
+	onChange,
+	value,
+	variant,
+	tva = SelectCss,
+	css,
+}: Select.Props<TItem>) => {
 	const { t } = translator.useRich();
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
-	const [selectedIndex, setSelectedIndex] = useState<number | null>(items.findIndex((item) => item.id === defaultValue));
+	const [selectedIndex, setSelectedIndex] = useState<number | null>(
+		items.findIndex((item) => item.id === defaultValue),
+	);
 
 	useEffect(() => {
 		setSelectedIndex(items.findIndex((item) => item.id === value));
@@ -78,7 +110,9 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 		loop: true,
 	});
 
-	const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([dismiss, listNav, click]);
+	const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
+		[dismiss, listNav, click],
+	);
 	const { isMounted, styles } = useTransitionStyles(context);
 
 	const handleSelect = (index: number) => {
@@ -104,9 +138,10 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 				aria-labelledby={"select-label"}
 				aria-autocomplete={"none"}
 				{...(disabled ? {} : getReferenceProps())}
-				className={tv.base()}>
+				className={tv.base()}
+			>
 				<div className={tv.input()}>
-					{icon ? (
+					{icon ?
 						<Icon
 							icon={icon}
 							variant={{
@@ -116,13 +151,19 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 								base: ["text-slate-400", "group-hover:text-slate-600"],
 							}}
 						/>
-					) : null}
-					{item ? <Render entity={item} /> : text?.select || t("Select item")}
+					:	null}
+					{item ?
+						<Render entity={item} />
+					:	text?.select || t("Select item")}
 					<Icon
 						icon={"icon-[gg--select]"}
 						variant={{ size: "xl" }}
 						css={{
-							base: [!isOpen && "text-slate-400", isOpen && "text-slate-600", "group-hover:text-slate-600"],
+							base: [
+								!isOpen && "text-slate-400",
+								isOpen && "text-slate-600",
+								"group-hover:text-slate-600",
+							],
 						}}
 					/>
 				</div>
@@ -131,7 +172,8 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 				<FloatingPortal>
 					<FloatingFocusManager
 						context={context}
-						modal={false}>
+						modal={false}
+					>
 						<div
 							ref={refs.setFloating}
 							style={{
@@ -139,7 +181,8 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 								...styles,
 							}}
 							className={tv.popup()}
-							{...getFloatingProps()}>
+							{...getFloatingProps()}
+						>
 							{items.map((value, i) => (
 								<div
 									key={value.id}
@@ -168,7 +211,8 @@ export const Select = <TItem extends IdentitySchema.Type>({ items, icon, default
 												handleSelect(i);
 											}
 										},
-									})}>
+									})}
+								>
 									<Render entity={value} />
 									{i === selectedIndex && (
 										<Icon
