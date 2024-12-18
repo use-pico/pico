@@ -1,5 +1,5 @@
 {
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"name": "@use-pico/tsconfig",
 	"description": "Common tsconfig used within @use-pico namespace.",
 	"license": "MIT",

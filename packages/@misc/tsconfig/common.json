@@ -3,7 +3,7 @@
 	"display": "common",
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"declaration": true,
+		"declaration": false,
 		"declarationMap": false,
 		"disableSolutionSearching": true,
 		"emitDeclarationOnly": false,

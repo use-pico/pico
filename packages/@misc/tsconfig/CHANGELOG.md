@@ -1,5 +1,11 @@
 # @use-pico/tsconfig
 
+## 4.0.2
+
+### Patch Changes
+
+- Fixed tsconfig
+
 ## 4.0.1
 
 ### Patch Changes
