@@ -14,6 +14,28 @@ import type { UseTable } from "./type/UseTable";
 import type { useTable } from "./useTable";
 
 export namespace Table {
+	export namespace Action {
+		export interface TableProps<TData extends DataType.Data> {
+			table: UseTable<TData>;
+		}
+
+		export interface RowProps<TData extends DataType.Data> {
+			table: UseTable<TData>;
+			data: TData;
+		}
+	}
+
+	export interface Action<TData extends DataType.Data> {
+		/**
+		 * Table-wise action.
+		 */
+		table?: FC<Action.TableProps<TData>>;
+		/**
+		 * Table row action.
+		 */
+		row?: FC<Action.RowProps<TData>>;
+	}
+
 	export interface Props<TData extends DataType.Data> extends TableCss.Props {
 		table: UseTable<TData>;
 		fulltext?: {
@@ -22,6 +44,7 @@ export namespace Table {
 		};
 		cursor: Cursor.Props;
 		empty?: FC;
+		action?: Action<TData>;
 	}
 
 	export type PropsEx<TData extends DataType.Data> = Omit<
@@ -43,11 +66,14 @@ export const Table = <TData extends DataType.Data>({
 			textMessage={<Tx label={"There is nothing to see right now."} />}
 		/>
 	),
+	action,
 	variant,
 	tva = TableCss,
 	css,
 }: Table.Props<TData>) => {
 	const tv = tva({ ...variant, css }).slots;
+	const TableAction = action?.table;
+	const RowAction = action?.row;
 
 	return (
 		<div className={tv.base()}>
@@ -75,6 +101,12 @@ export const Table = <TData extends DataType.Data>({
 				<table className={tv.table()}>
 					<thead className={tv.thead()}>
 						<tr>
+							{TableAction || RowAction ?
+								TableAction ?
+									<TableAction table={table} />
+								:	<th></th>
+							:	null}
+
 							{table.visible.map((column) => {
 								const Render = column.def.header || (() => null);
 
@@ -83,7 +115,9 @@ export const Table = <TData extends DataType.Data>({
 										key={column.id}
 										className={tv.th()}
 										style={
-											column.def.size ? { width: `${column.def.size}rem` } : undefined
+											column.def.size ?
+												{ width: `${column.def.size}rem` }
+											:	undefined
 										}
 									>
 										<div
@@ -123,6 +157,7 @@ export const Table = <TData extends DataType.Data>({
 									key={row.id}
 									row={row}
 									table={table}
+									action={action}
 									variant={variant}
 									tva={tva}
 									css={css}
