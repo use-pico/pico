@@ -9,6 +9,7 @@
         "sonner",
         "tabler",
         "tseslint",
-        "tsquery"
+        "tsquery",
+        "uicons"
     ]
 }

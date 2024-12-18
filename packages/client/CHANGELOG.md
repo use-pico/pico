@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.4
+
+### Patch Changes
+
+- Initial Float component support
+
 ## 4.0.3
 
 ### Patch Changes
