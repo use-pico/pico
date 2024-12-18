@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.5
+
+### Patch Changes
+
+- Fixed table action markup
+
 ## 4.0.4
 
 ### Patch Changes

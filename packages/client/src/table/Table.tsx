@@ -102,9 +102,11 @@ export const Table = <TData extends DataType.Data>({
 					<thead className={tv.thead()}>
 						<tr>
 							{TableAction || RowAction ?
-								TableAction ?
-									<TableAction table={table} />
-								:	<th></th>
+								<th className={"w-0"}>
+									{TableAction ?
+										<TableAction table={table} />
+									:	null}
+								</th>
 							:	null}
 
 							{table.visible.map((column) => {

@@ -28,12 +28,14 @@ export const Row = <TData extends DataType.Data>({
 	return (
 		<tr className={tv.tr()}>
 			{TableAction || RowAction ?
-				RowAction ?
-					<RowAction
-						table={table}
-						data={data}
-					/>
-				:	<th></th>
+				<td className={"w-0"}>
+					{RowAction ?
+						<RowAction
+							table={table}
+							data={data}
+						/>
+					:	null}
+				</td>
 			:	null}
 
 			{cells.map((cell) => {
