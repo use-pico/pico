@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.6
+
+### Patch Changes
+
+- Added ActionMenu component
+
 ## 4.0.5
 
 ### Patch Changes
