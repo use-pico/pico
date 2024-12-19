@@ -39,8 +39,8 @@ export const Cursor: FC<Cursor.Props> = ({
 			cursorOf({
 				page: cursor.page,
 				total: Math.ceil(count.filter / cursor.size),
-				siblings: 2,
-				boundaries: 2,
+				siblings: 1,
+				boundaries: 1,
 			}),
 		[cursor.page, count.filter, cursor.size],
 	);

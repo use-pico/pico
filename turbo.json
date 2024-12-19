@@ -2,6 +2,10 @@
 	"$schema": "https://turborepo.org/schema.json",
 	"globalDependencies": ["tsconfig.json"],
 	"tasks": {
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
 		"lint": {
 			"dependsOn": ["^lint"],
 			"outputs": [],

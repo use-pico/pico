@@ -8,6 +8,7 @@
 		"url": "git://github.com/use-pico/pico.git"
 	},
 	"scripts": {
+		"dev": "turbo run dev --parallel --no-daemon",
 		"lint": "turbo run lint --force --no-daemon",
 		"typecheck": "turbo run typecheck --no-daemon",
 		"changeset": "changeset",
@@ -15,10 +16,11 @@
 		"changeset:publish": "changeset publish"
 	},
 	"workspaces": [
+		"apps/*",
 		"packages/**/*"
 	],
 	"devDependencies": {
-		"@changesets/cli": "^2.27.10",
+		"@changesets/cli": "^2.27.11",
 		"prettier": "^3.4.2",
 		"turbo": "^2.3.3",
 		"typedoc": "^0.27.5",
