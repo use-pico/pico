@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.8
+
+### Patch Changes
+
+- Another little action menu style
+
 ## 4.0.7
 
 ### Patch Changes

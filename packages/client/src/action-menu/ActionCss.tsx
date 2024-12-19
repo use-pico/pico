@@ -16,6 +16,14 @@ export const ActionCss = css({
 			"cursor-pointer",
 		],
 	},
-	variant: {},
-	defaults: {},
+	variant: {
+		variant: {
+			common: [],
+			warning: ["text-amber-500", "hover:text-amber:600", "hover:bg-amber-100"],
+			danger: ["text-red-500", "hover:text-red-600", "hover:bg-red-100"],
+		},
+	},
+	defaults: {
+		variant: "common",
+	},
 });

@@ -5,6 +5,8 @@ export const ActionMenuCss = css({
 		base: [
 			"p-2",
 			"bg-white",
+			"border",
+			"border-slate-300",
 			"rounded",
 			"shadow-md",
 			"text-slate-500",
