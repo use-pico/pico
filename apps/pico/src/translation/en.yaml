@@ -1,12 +1,12 @@
 1278eaff4080b7384d4ace27754c6f3d817fe386fed7d32a6c8af637:
   ref: Login (submit)
-  value: Přihlásit se
+  value: Login (submit)
 1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
   ref: Missing required token(s). (title)
   value: Missing required token(s). (title)
 24f33bf3bc4bb7962ce14173de71bc4f6fd2c880f292b7d119c3d7b9:
   ref: Register (submit)
-  value: Registrovat se
+  value: Register (submit)
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
@@ -21,19 +21,19 @@
   value: Without VAT
 3fa7bb033c4131d77ee98ca961d8e62e35fc4048ba0b97ea28025309:
   ref: Password 1 (label)
-  value: Heslo
+  value: Password 1 (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
-  value: Celé jméno
+  value: Name (label)
 77b049e75c767c4ca346dd05d7a42c39c3479ac4f6dfaeaaa6efc1da:
   ref: There is nothing to see right now.
   value: There is nothing to see right now.
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
-  value: Vyplňte prosím toto pole
+  value: String must contain at least 1 character(s)
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
@@ -42,7 +42,7 @@
   value: Missing required token(s). (message)
 8b985e2253754c8df9f67dd2a97585cdd6337700925581624b014352:
   ref: Login (label)
-  value: Přihlašovací jméno
+  value: Login (label)
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Nothing here
@@ -54,13 +54,13 @@ c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   value: Logout (label)
 ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
   ref: Passwords must match
-  value: Hesla se neshodují
+  value: Passwords must match
 cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
   ref: Password (label)
-  value: Heslo
+  value: Password (label)
 e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
   ref: Password 2 (label)
-  value: Kontrola hesla
+  value: Password 2 (label)
 ef8f7eda5111f555cf9ccec073accd581cce2426fd2f17b9fba64c6e:
   ref: Register (label)
-  value: Registrovat se
+  value: Register (label)

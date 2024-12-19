@@ -1,11 +1,39 @@
-import { createFileRoute, useRouteContext } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ls } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
+import { RegisterForm } from "~/app/public/RegisterForm";
 
 export const Route = createFileRoute("/$locale/public/register")({
 	component: () => {
-		const { tva } = useRouteContext({ from: "__root__" });
+		const navigate = useNavigate({
+			from: "/$locale/",
+		});
 
-		const tv = tva().slots;
-
-		return <div className={tv.base()}>register!</div>;
+		return (
+			<div
+				className={tvc([
+					"flex",
+					"justify-center",
+					"h-screen",
+					"bg-gradient-to-tr",
+					"from-blue-700",
+					"to-blue-400",
+				])}
+			>
+				<div
+					className={
+						"flex flex-col bg-slate-100 p-20 w-1/2 m-10 drop-shadow-xl"
+					}
+				>
+					<hr className={"my-12 h-0.5 border-t-0 bg-slate-300"} />
+					<RegisterForm
+						onSuccess={async (session) => {
+							ls.set("session", session);
+							await navigate({ to: "/$locale" });
+						}}
+					/>
+				</div>
+			</div>
+		);
 	},
 });

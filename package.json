@@ -13,7 +13,8 @@
 		"typecheck": "turbo run typecheck --no-daemon",
 		"changeset": "changeset",
 		"changeset:version": "changeset version",
-		"changeset:publish": "changeset publish"
+		"changeset:publish": "changeset publish",
+		"translations": "turbo run translations --no-daemon"
 	},
 	"workspaces": [
 		"apps/*",

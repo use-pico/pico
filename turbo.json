@@ -19,6 +19,10 @@
 			"inputs": ["src/**"],
 			"outputLogs": "new-only",
 			"cache": false
+		},
+		"translations": {
+			"cache": false,
+			"persistent": true
 		}
 	}
 }

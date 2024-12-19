@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.5
+
+### Patch Changes
+
+- Added localstorage wrapper, password hash and id generator
+
 ## 4.0.4
 
 ### Patch Changes

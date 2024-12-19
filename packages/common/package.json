@@ -1,5 +1,5 @@
 {
-	"version": "4.0.4",
+	"version": "4.0.5",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",
@@ -21,6 +21,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@paralleldrive/cuid2": "^2.2.2",
 		"@tanstack/zod-adapter": "^1.91.2",
 		"@types/is-callable": "^1.1.2",
 		"@types/is-string": "^1.0.2",

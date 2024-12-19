@@ -1,31 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams } from "@tanstack/react-router";
-import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    LinkTo,
-    Tx,
-} from "@use-pico/client";
+import { Button, FormCss, FormError, FormInput, Tx } from "@use-pico/client";
 import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
-import { useLoginMutation } from "~/app/mutation/useLoginMutation";
-import { LoginSchema } from "~/app/schema/LoginSchema";
+import { useRegisterMutation } from "~/app/mutation/useRegisterMutation";
+import { RegisterSchema } from "~/app/schema/RegisterSchema";
 import type { SessionSchema } from "~/app/schema/SessionSchema";
 
-export namespace LoginForm {
+export namespace RegisterForm {
 	export interface Props {
 		onSuccess(session: SessionSchema.Type): Promise<void>;
 	}
 }
 
-export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
-	const { locale } = useParams({ from: "/$locale" });
-	const mutation = useLoginMutation();
-	const form = useForm<LoginSchema.Type>({
-		resolver: zodResolver(LoginSchema),
+export const RegisterForm: FC<RegisterForm.Props> = ({ onSuccess }) => {
+	const mutation = useRegisterMutation();
+	const form = useForm<RegisterSchema.Type>({
+		resolver: zodResolver(RegisterSchema),
 	});
 
 	const tva = FormCss({
@@ -71,7 +62,17 @@ export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
 				variant={{ highlight: true }}
 				error={form.formState.errors.root}
 			/>
-
+			<FormInput
+				formState={form.formState}
+				name={"name"}
+				label={<Tx label={"Name (label)"} />}
+			>
+				<input
+					type={"text"}
+					className={tva.input()}
+					{...form.register("name")}
+				/>
+			</FormInput>
 			<FormInput
 				formState={form.formState}
 				name={"login"}
@@ -83,34 +84,35 @@ export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
 					{...form.register("login")}
 				/>
 			</FormInput>
-
 			<FormInput
 				formState={form.formState}
-				name={"password"}
-				label={<Tx label={"Password (label)"} />}
+				name={"password1"}
+				label={<Tx label={"Password 1 (label)"} />}
 			>
 				<input
 					type={"password"}
 					className={tva.input()}
-					{...form.register("password")}
+					{...form.register("password1")}
+				/>
+			</FormInput>
+			<FormInput
+				formState={form.formState}
+				name={"password2"}
+				label={<Tx label={"Password 2 (label)"} />}
+			>
+				<input
+					type={"password"}
+					className={tva.input()}
+					{...form.register("password2")}
 				/>
 			</FormInput>
 
-			<div className={"flex flex-row justify-between gap-8"}>
-				<LinkTo
-					to={"/$locale/public/register"}
-					params={{ locale }}
-				>
-					<Tx label={"Register (label)"} />
-				</LinkTo>
-
-				<Button
-					className={tva.submit()}
-					type={"submit"}
-				>
-					<Tx label={"Login (submit)"} />
-				</Button>
-			</div>
+			<Button
+				className={tva.submit()}
+				type={"submit"}
+			>
+				<Tx label={"Register (submit)"} />
+			</Button>
 		</form>
 	);
 };

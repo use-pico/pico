@@ -15,7 +15,9 @@ import { Route as AboutImport } from './@routes/about'
 import { Route as LocaleImport } from './@routes/$locale'
 import { Route as IndexImport } from './@routes/index'
 import { Route as LocaleIndexImport } from './@routes/$locale/index'
+import { Route as LocaleAppsImport } from './@routes/$locale/apps'
 import { Route as LocalePublicIndexImport } from './@routes/$locale/public/index'
+import { Route as LocaleAppsIndexImport } from './@routes/$locale/apps/index'
 import { Route as LocalePublicRegisterImport } from './@routes/$locale/public/register'
 import { Route as LocalePublicLogoutImport } from './@routes/$locale/public/logout'
 import { Route as LocalePublicLoginImport } from './@routes/$locale/public/login'
@@ -46,10 +48,22 @@ const LocaleIndexRoute = LocaleIndexImport.update({
   getParentRoute: () => LocaleRoute,
 } as any)
 
+const LocaleAppsRoute = LocaleAppsImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => LocaleRoute,
+} as any)
+
 const LocalePublicIndexRoute = LocalePublicIndexImport.update({
   id: '/public/',
   path: '/public/',
   getParentRoute: () => LocaleRoute,
+} as any)
+
+const LocaleAppsIndexRoute = LocaleAppsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleAppsRoute,
 } as any)
 
 const LocalePublicRegisterRoute = LocalePublicRegisterImport.update({
@@ -95,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/$locale/apps': {
+      id: '/$locale/apps'
+      path: '/apps'
+      fullPath: '/$locale/apps'
+      preLoaderRoute: typeof LocaleAppsImport
+      parentRoute: typeof LocaleImport
+    }
     '/$locale/': {
       id: '/$locale/'
       path: '/'
@@ -123,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePublicRegisterImport
       parentRoute: typeof LocaleImport
     }
+    '/$locale/apps/': {
+      id: '/$locale/apps/'
+      path: '/'
+      fullPath: '/$locale/apps/'
+      preLoaderRoute: typeof LocaleAppsIndexImport
+      parentRoute: typeof LocaleAppsImport
+    }
     '/$locale/public/': {
       id: '/$locale/public/'
       path: '/public'
@@ -135,7 +163,20 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface LocaleAppsRouteChildren {
+  LocaleAppsIndexRoute: typeof LocaleAppsIndexRoute
+}
+
+const LocaleAppsRouteChildren: LocaleAppsRouteChildren = {
+  LocaleAppsIndexRoute: LocaleAppsIndexRoute,
+}
+
+const LocaleAppsRouteWithChildren = LocaleAppsRoute._addFileChildren(
+  LocaleAppsRouteChildren,
+)
+
 interface LocaleRouteChildren {
+  LocaleAppsRoute: typeof LocaleAppsRouteWithChildren
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocalePublicLoginRoute: typeof LocalePublicLoginRoute
   LocalePublicLogoutRoute: typeof LocalePublicLogoutRoute
@@ -144,6 +185,7 @@ interface LocaleRouteChildren {
 }
 
 const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleAppsRoute: LocaleAppsRouteWithChildren,
   LocaleIndexRoute: LocaleIndexRoute,
   LocalePublicLoginRoute: LocalePublicLoginRoute,
   LocalePublicLogoutRoute: LocalePublicLogoutRoute,
@@ -158,10 +200,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/about': typeof AboutRoute
+  '/$locale/apps': typeof LocaleAppsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/public/login': typeof LocalePublicLoginRoute
   '/$locale/public/logout': typeof LocalePublicLogoutRoute
   '/$locale/public/register': typeof LocalePublicRegisterRoute
+  '/$locale/apps/': typeof LocaleAppsIndexRoute
   '/$locale/public': typeof LocalePublicIndexRoute
 }
 
@@ -172,6 +216,7 @@ export interface FileRoutesByTo {
   '/$locale/public/login': typeof LocalePublicLoginRoute
   '/$locale/public/logout': typeof LocalePublicLogoutRoute
   '/$locale/public/register': typeof LocalePublicRegisterRoute
+  '/$locale/apps': typeof LocaleAppsIndexRoute
   '/$locale/public': typeof LocalePublicIndexRoute
 }
 
@@ -180,10 +225,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/about': typeof AboutRoute
+  '/$locale/apps': typeof LocaleAppsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/public/login': typeof LocalePublicLoginRoute
   '/$locale/public/logout': typeof LocalePublicLogoutRoute
   '/$locale/public/register': typeof LocalePublicRegisterRoute
+  '/$locale/apps/': typeof LocaleAppsIndexRoute
   '/$locale/public/': typeof LocalePublicIndexRoute
 }
 
@@ -193,10 +240,12 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/about'
+    | '/$locale/apps'
     | '/$locale/'
     | '/$locale/public/login'
     | '/$locale/public/logout'
     | '/$locale/public/register'
+    | '/$locale/apps/'
     | '/$locale/public'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -206,16 +255,19 @@ export interface FileRouteTypes {
     | '/$locale/public/login'
     | '/$locale/public/logout'
     | '/$locale/public/register'
+    | '/$locale/apps'
     | '/$locale/public'
   id:
     | '__root__'
     | '/'
     | '/$locale'
     | '/about'
+    | '/$locale/apps'
     | '/$locale/'
     | '/$locale/public/login'
     | '/$locale/public/logout'
     | '/$locale/public/register'
+    | '/$locale/apps/'
     | '/$locale/public/'
   fileRoutesById: FileRoutesById
 }
@@ -253,6 +305,7 @@ export const routeTree = rootRoute
     "/$locale": {
       "filePath": "$locale.tsx",
       "children": [
+        "/$locale/apps",
         "/$locale/",
         "/$locale/public/login",
         "/$locale/public/logout",
@@ -262,6 +315,13 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/$locale/apps": {
+      "filePath": "$locale/apps.tsx",
+      "parent": "/$locale",
+      "children": [
+        "/$locale/apps/"
+      ]
     },
     "/$locale/": {
       "filePath": "$locale/index.tsx",
@@ -278,6 +338,10 @@ export const routeTree = rootRoute
     "/$locale/public/register": {
       "filePath": "$locale/public/register.tsx",
       "parent": "/$locale"
+    },
+    "/$locale/apps/": {
+      "filePath": "$locale/apps/index.tsx",
+      "parent": "/$locale/apps"
     },
     "/$locale/public/": {
       "filePath": "$locale/public/index.tsx",

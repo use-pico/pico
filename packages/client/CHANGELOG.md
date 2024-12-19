@@ -1,5 +1,13 @@
 # @use-pico/client
 
+## 4.0.11
+
+### Patch Changes
+
+- Added localstorage wrapper, password hash and id generator
+- Updated dependencies
+  - @use-pico/common@4.0.5
+
 ## 4.0.10
 
 ### Patch Changes

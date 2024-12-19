@@ -70,6 +70,7 @@ export { LinkToCss } from "./link-to/LinkToCss";
 export { type Loader } from "./loader/Loader";
 export { LoadingOverlay } from "./loading-overlay/LoadingOverlay";
 export { LoadingOverlayCss } from "./loading-overlay/LoadingOverlayCss";
+export { ls } from "./ls/ls";
 export { Menu } from "./menu/Menu";
 export { MenuCss } from "./menu/MenuCss";
 export { MenuGroup } from "./menu/MenuGroup";

@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-export const SessionSchema = z.object({});
+export const SessionSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	login: z.string(),
+});
 
 export type SessionSchema = typeof SessionSchema;
 
