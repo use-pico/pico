@@ -1,14 +1,17 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { localeOf } from "@use-pico/common";
+import { defaultLocale, locales } from "~/locales";
 
-export const Route = createFileRoute('/')({
-  component: HomeComponent,
-})
-
-function HomeComponent() {
-  return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-    </div>
-  )
-}
+export const Route = createFileRoute("/")({
+	loader: async () => {
+		throw redirect({
+			to: "/$locale",
+			params: {
+				locale: localeOf({
+					available: locales,
+					fallback: defaultLocale,
+				}),
+			},
+		});
+	},
+});

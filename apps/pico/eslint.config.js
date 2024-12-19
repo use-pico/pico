@@ -1,4 +1,3 @@
-// @ts-nocheck
 import pico from "@use-pico/eslint-config-eslint";
 
 export default [

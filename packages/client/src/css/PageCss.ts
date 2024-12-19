@@ -8,6 +8,8 @@ export const PageCss = css({
 	defaults: {},
 });
 
+export type PageCss = typeof PageCss;
+
 export namespace PageCss {
 	export type Props<P = unknown> = css.Props<typeof PageCss, P>;
 }
