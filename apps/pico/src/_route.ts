@@ -21,6 +21,9 @@ import { Route as LocaleAppsIndexImport } from './@routes/$locale/apps/index'
 import { Route as LocalePublicRegisterImport } from './@routes/$locale/public/register'
 import { Route as LocalePublicLogoutImport } from './@routes/$locale/public/logout'
 import { Route as LocalePublicLoginImport } from './@routes/$locale/public/login'
+import { Route as LocaleAppsPlaygroundIndexImport } from './@routes/$locale/apps/playground/index'
+import { Route as LocaleAppsMonyeIndexImport } from './@routes/$locale/apps/monye/index'
+import { Route as LocaleAppsDeriveanIndexImport } from './@routes/$locale/apps/derivean/index'
 
 // Create/Update Routes
 
@@ -82,6 +85,24 @@ const LocalePublicLoginRoute = LocalePublicLoginImport.update({
   id: '/public/login',
   path: '/public/login',
   getParentRoute: () => LocaleRoute,
+} as any)
+
+const LocaleAppsPlaygroundIndexRoute = LocaleAppsPlaygroundIndexImport.update({
+  id: '/playground/',
+  path: '/playground/',
+  getParentRoute: () => LocaleAppsRoute,
+} as any)
+
+const LocaleAppsMonyeIndexRoute = LocaleAppsMonyeIndexImport.update({
+  id: '/monye/',
+  path: '/monye/',
+  getParentRoute: () => LocaleAppsRoute,
+} as any)
+
+const LocaleAppsDeriveanIndexRoute = LocaleAppsDeriveanIndexImport.update({
+  id: '/derivean/',
+  path: '/derivean/',
+  getParentRoute: () => LocaleAppsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -158,6 +179,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePublicIndexImport
       parentRoute: typeof LocaleImport
     }
+    '/$locale/apps/derivean/': {
+      id: '/$locale/apps/derivean/'
+      path: '/derivean'
+      fullPath: '/$locale/apps/derivean'
+      preLoaderRoute: typeof LocaleAppsDeriveanIndexImport
+      parentRoute: typeof LocaleAppsImport
+    }
+    '/$locale/apps/monye/': {
+      id: '/$locale/apps/monye/'
+      path: '/monye'
+      fullPath: '/$locale/apps/monye'
+      preLoaderRoute: typeof LocaleAppsMonyeIndexImport
+      parentRoute: typeof LocaleAppsImport
+    }
+    '/$locale/apps/playground/': {
+      id: '/$locale/apps/playground/'
+      path: '/playground'
+      fullPath: '/$locale/apps/playground'
+      preLoaderRoute: typeof LocaleAppsPlaygroundIndexImport
+      parentRoute: typeof LocaleAppsImport
+    }
   }
 }
 
@@ -165,10 +207,16 @@ declare module '@tanstack/react-router' {
 
 interface LocaleAppsRouteChildren {
   LocaleAppsIndexRoute: typeof LocaleAppsIndexRoute
+  LocaleAppsDeriveanIndexRoute: typeof LocaleAppsDeriveanIndexRoute
+  LocaleAppsMonyeIndexRoute: typeof LocaleAppsMonyeIndexRoute
+  LocaleAppsPlaygroundIndexRoute: typeof LocaleAppsPlaygroundIndexRoute
 }
 
 const LocaleAppsRouteChildren: LocaleAppsRouteChildren = {
   LocaleAppsIndexRoute: LocaleAppsIndexRoute,
+  LocaleAppsDeriveanIndexRoute: LocaleAppsDeriveanIndexRoute,
+  LocaleAppsMonyeIndexRoute: LocaleAppsMonyeIndexRoute,
+  LocaleAppsPlaygroundIndexRoute: LocaleAppsPlaygroundIndexRoute,
 }
 
 const LocaleAppsRouteWithChildren = LocaleAppsRoute._addFileChildren(
@@ -207,6 +255,9 @@ export interface FileRoutesByFullPath {
   '/$locale/public/register': typeof LocalePublicRegisterRoute
   '/$locale/apps/': typeof LocaleAppsIndexRoute
   '/$locale/public': typeof LocalePublicIndexRoute
+  '/$locale/apps/derivean': typeof LocaleAppsDeriveanIndexRoute
+  '/$locale/apps/monye': typeof LocaleAppsMonyeIndexRoute
+  '/$locale/apps/playground': typeof LocaleAppsPlaygroundIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -218,6 +269,9 @@ export interface FileRoutesByTo {
   '/$locale/public/register': typeof LocalePublicRegisterRoute
   '/$locale/apps': typeof LocaleAppsIndexRoute
   '/$locale/public': typeof LocalePublicIndexRoute
+  '/$locale/apps/derivean': typeof LocaleAppsDeriveanIndexRoute
+  '/$locale/apps/monye': typeof LocaleAppsMonyeIndexRoute
+  '/$locale/apps/playground': typeof LocaleAppsPlaygroundIndexRoute
 }
 
 export interface FileRoutesById {
@@ -232,6 +286,9 @@ export interface FileRoutesById {
   '/$locale/public/register': typeof LocalePublicRegisterRoute
   '/$locale/apps/': typeof LocaleAppsIndexRoute
   '/$locale/public/': typeof LocalePublicIndexRoute
+  '/$locale/apps/derivean/': typeof LocaleAppsDeriveanIndexRoute
+  '/$locale/apps/monye/': typeof LocaleAppsMonyeIndexRoute
+  '/$locale/apps/playground/': typeof LocaleAppsPlaygroundIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -247,6 +304,9 @@ export interface FileRouteTypes {
     | '/$locale/public/register'
     | '/$locale/apps/'
     | '/$locale/public'
+    | '/$locale/apps/derivean'
+    | '/$locale/apps/monye'
+    | '/$locale/apps/playground'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -257,6 +317,9 @@ export interface FileRouteTypes {
     | '/$locale/public/register'
     | '/$locale/apps'
     | '/$locale/public'
+    | '/$locale/apps/derivean'
+    | '/$locale/apps/monye'
+    | '/$locale/apps/playground'
   id:
     | '__root__'
     | '/'
@@ -269,6 +332,9 @@ export interface FileRouteTypes {
     | '/$locale/public/register'
     | '/$locale/apps/'
     | '/$locale/public/'
+    | '/$locale/apps/derivean/'
+    | '/$locale/apps/monye/'
+    | '/$locale/apps/playground/'
   fileRoutesById: FileRoutesById
 }
 
@@ -320,7 +386,10 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps.tsx",
       "parent": "/$locale",
       "children": [
-        "/$locale/apps/"
+        "/$locale/apps/",
+        "/$locale/apps/derivean/",
+        "/$locale/apps/monye/",
+        "/$locale/apps/playground/"
       ]
     },
     "/$locale/": {
@@ -346,6 +415,18 @@ export const routeTree = rootRoute
     "/$locale/public/": {
       "filePath": "$locale/public/index.tsx",
       "parent": "/$locale"
+    },
+    "/$locale/apps/derivean/": {
+      "filePath": "$locale/apps/derivean/index.tsx",
+      "parent": "/$locale/apps"
+    },
+    "/$locale/apps/monye/": {
+      "filePath": "$locale/apps/monye/index.tsx",
+      "parent": "/$locale/apps"
+    },
+    "/$locale/apps/playground/": {
+      "filePath": "$locale/apps/playground/index.tsx",
+      "parent": "/$locale/apps"
     }
   }
 }

@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.12
+
+### Patch Changes
+
+- A little update(s)
+
 ## 4.0.11
 
 ### Patch Changes

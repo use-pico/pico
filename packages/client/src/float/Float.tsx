@@ -1,7 +1,5 @@
 import {
-    FloatingArrow,
     FloatingPortal,
-    arrow,
     autoUpdate,
     flip,
     offset,
@@ -13,10 +11,9 @@ import {
     useHover,
     useInteractions,
     useTransitionStyles,
-    type UseFloatingOptions,
+    type UseFloatingOptions
 } from "@floating-ui/react";
 import {
-    useRef,
     useState,
     type FC,
     type PropsWithChildren,
@@ -55,7 +52,6 @@ export const Float: FC<Float.Props> = ({
 	children,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const arrowRef = useRef(null);
 	const { refs, floatingStyles, context } = useFloating({
 		open: isOpen,
 		onOpenChange: setIsOpen,
@@ -67,9 +63,6 @@ export const Float: FC<Float.Props> = ({
 				fallbackAxisSideDirection: "start",
 			}),
 			shift(),
-			arrow({
-				element: arrowRef,
-			}),
 		],
 		...float,
 	});
@@ -124,11 +117,6 @@ export const Float: FC<Float.Props> = ({
 					>
 						{children}
 					</FloatContext.Provider>
-					<FloatingArrow
-						context={context}
-						ref={arrowRef}
-						className={"fill-white"}
-					/>
 				</div>
 			</FloatingPortal>
 		</>

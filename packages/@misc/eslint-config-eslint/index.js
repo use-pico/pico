@@ -21,6 +21,7 @@ export default tseslint.config(
 			"id-length": "off",
 			"max-lines-per-function": "off",
 			"max-lines": "off",
+			"no-plusplus": "off",
 			"camelcase": "off",
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"max-statements": "off",

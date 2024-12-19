@@ -9,7 +9,7 @@ export const ActionCss = css({
 			"items-center",
 			"rounded",
 			"px-2",
-			"py-1",
+			"py-0.5",
 			"hover:bg-slate-100",
 			"text-slate-500",
 			"hover:text-blue-500",

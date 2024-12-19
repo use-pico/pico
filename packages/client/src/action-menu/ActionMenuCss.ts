@@ -3,8 +3,8 @@ import { css } from "@use-pico/common";
 export const ActionMenuCss = css({
 	slot: {
 		base: [
-			"p-2",
-			"bg-white",
+			"p-1",
+			"bg-slate-50",
 			"border",
 			"border-slate-300",
 			"rounded",
