@@ -1,5 +1,17 @@
 # @use-pico/client
 
+## 4.0.10
+
+### Patch Changes
+
+- Fixed warning variant of action menu
+
+## 4.0.9
+
+### Patch Changes
+
+- Added TrashIcon
+
 ## 4.0.8
 
 ### Patch Changes

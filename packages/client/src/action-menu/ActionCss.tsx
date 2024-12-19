@@ -19,7 +19,7 @@ export const ActionCss = css({
 	variant: {
 		variant: {
 			common: [],
-			warning: ["text-amber-500", "hover:text-amber:600", "hover:bg-amber-100"],
+			warning: ["text-amber-500", "hover:text-amber-600", "hover:bg-amber-100"],
 			danger: ["text-red-500", "hover:text-red-600", "hover:bg-red-100"],
 		},
 	},

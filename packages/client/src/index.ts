@@ -56,6 +56,7 @@ export { LogoutIcon } from "./icon/LogoutIcon";
 export { SettingsIcon } from "./icon/SettingsIcon";
 export { SpinnerIcon } from "./icon/SpinnerIcon";
 export { TagIcon } from "./icon/TagIcon";
+export { TrashIcon } from "./icon/TrashIcon";
 export { UnCheckIcon } from "./icon/UnCheckIcon";
 export { UndefinedIcon } from "./icon/UndefinedIcon";
 export { UploadIcon } from "./icon/UploadIcon";
