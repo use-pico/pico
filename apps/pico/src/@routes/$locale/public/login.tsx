@@ -1,14 +1,12 @@
-import {
-    createFileRoute,
-    useNavigate
-} from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ls } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import { LoginForm } from "~/app/public/LoginForm";
 
 export const Route = createFileRoute("/$locale/public/login")({
 	component: () => {
 		const navigate = useNavigate({
-			from: "/$locale/",
+			from: "/$locale",
 		});
 
 		return (
@@ -29,8 +27,12 @@ export const Route = createFileRoute("/$locale/public/login")({
 				>
 					<hr className={"my-12 h-0.5 border-t-0 bg-slate-300"} />
 					<LoginForm
-						onSuccess={async () => {
-							await navigate({ to: "/$locale" });
+						onSuccess={async (session) => {
+							console.log("session");
+
+							ls.set("session", session);
+
+							await navigate({ to: "/$locale/apps" });
 						}}
 					/>
 				</div>

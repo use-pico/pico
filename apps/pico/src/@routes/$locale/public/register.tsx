@@ -6,7 +6,7 @@ import { RegisterForm } from "~/app/public/RegisterForm";
 export const Route = createFileRoute("/$locale/public/register")({
 	component: () => {
 		const navigate = useNavigate({
-			from: "/$locale/",
+			from: "/$locale",
 		});
 
 		return (
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/$locale/public/register")({
 					<RegisterForm
 						onSuccess={async (session) => {
 							ls.set("session", session);
-							await navigate({ to: "/$locale" });
+							await navigate({ to: "/$locale/apps" });
 						}}
 					/>
 				</div>

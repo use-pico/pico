@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { LogoutIcon, Status, Tx } from "@use-pico/client";
+import { LogoutIcon, ls, Status, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 
 export const Route = createFileRoute("/$locale/public/logout")({
@@ -25,11 +25,7 @@ export const Route = createFileRoute("/$locale/public/logout")({
 		);
 	},
 	async loader({ params: { locale } }) {
-		await new Promise((resolve) => {
-			setTimeout(() => {
-				resolve(undefined);
-			}, 2000);
-		});
+		ls.remove("session");
 
 		throw redirect({ to: "/$locale/public", params: { locale } });
 	},

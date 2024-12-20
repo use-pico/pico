@@ -1,5 +1,5 @@
 {
-	"version": "4.0.12",
+	"version": "4.0.13",
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
 	"license": "MIT",
@@ -29,6 +29,7 @@
 		"react-dropzone": "^14.3.5",
 		"react-hook-form": "^7.54.1",
 		"read-excel-file": "^5.8.6",
+		"sonner": "^1.7.1",
 		"uuid": "^11.0.3"
 	},
 	"peerDependencies": {
