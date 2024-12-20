@@ -86,6 +86,8 @@ export { More } from "./more/More";
 export { Preview } from "./preview/Preview";
 export { PreviewCss } from "./preview/PreviewCss";
 export { PriceInline } from "./price-inline/PriceInline";
+export { Select } from "./select/Select";
+export { SelectCss } from "./select/SelectCss";
 export { Status } from "./status/Status";
 export { StatusCss } from "./status/StatusCss";
 export { Table } from "./table/Table";

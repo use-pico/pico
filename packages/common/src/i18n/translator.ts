@@ -13,9 +13,6 @@ export namespace translator {
 
 		text: TranslateText;
 		rich: TranslateRich;
-
-		useText(): { t: TranslateText };
-		useRich(): { t: TranslateRich };
 	}
 }
 
@@ -69,14 +66,4 @@ export const translator: translator.Translator = {
 	},
 	text: (key, fallback) => text({ index: translator.index, key, fallback }),
 	rich: (key, fallback) => rich({ index: translator.index, key, fallback }),
-	useText() {
-		return {
-			t: (key, fallback) => text({ index: this.index, key, fallback }),
-		};
-	},
-	useRich() {
-		return {
-			t: (key, fallback) => rich({ index: this.index, key, fallback }),
-		};
-	},
 };

@@ -50,6 +50,7 @@ export const Row = <TData extends DataType.Data>({
 					/>
 				);
 			})}
+			<td></td>
 		</tr>
 	);
 };

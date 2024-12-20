@@ -25,9 +25,7 @@ export namespace Select {
 		defaultValue?: string;
 		value?: string;
 		render: FC<Entity.Type<TItem>>;
-		text?: {
-			select?: ReactNode;
-		};
+		textSelect?: ReactNode;
 		disabled?: boolean;
 		/**
 		 * Called only when an item is actually selected
@@ -56,7 +54,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 	icon,
 	defaultValue,
 	render: Render,
-	text,
+	textSelect,
 	disabled = false,
 	onItem,
 	onSelect,
@@ -66,7 +64,6 @@ export const Select = <TItem extends IdentitySchema.Type>({
 	tva = SelectCss,
 	css,
 }: Select.Props<TItem>) => {
-	const { t } = translator.useRich();
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
 	const [selectedIndex, setSelectedIndex] = useState<number | null>(
@@ -154,7 +151,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 					:	null}
 					{item ?
 						<Render entity={item} />
-					:	text?.select || t("Select item")}
+					:	textSelect || translator.rich("Select item")}
 					<Icon
 						icon={"icon-[gg--select]"}
 						variant={{ size: "xl" }}

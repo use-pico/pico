@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const FulltextSchema = z.object({
-	fulltext: z.string().optional(),
+	fulltext: z.string().nullish(),
 });
 
 export type FulltextSchema = typeof FulltextSchema;

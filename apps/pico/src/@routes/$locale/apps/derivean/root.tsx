@@ -4,16 +4,25 @@ import {
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon } from "@use-pico/client";
-import { DeRiveanMenu } from "~/app/derivean/DeRiveanMenu";
+import { Logo } from "~/app/derivean/logo/Logo";
+import { RootMenu } from "~/app/derivean/root/RootMenu";
 
-export const Route = createFileRoute("/$locale/apps/derivean")({
+export const Route = createFileRoute("/$locale/apps/derivean/root")({
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
 		const { session } = useLoaderData({ from: "/$locale/apps" });
 
 		return (
 			<AppLayout
-				menu={<DeRiveanMenu />}
+				logo={
+					<LinkTo
+						to={"/$locale/apps/derivean/root"}
+						params={{ locale }}
+					>
+						<Logo />
+					</LinkTo>
+				}
+				menu={<RootMenu />}
 				actions={
 					<>
 						{session.name}

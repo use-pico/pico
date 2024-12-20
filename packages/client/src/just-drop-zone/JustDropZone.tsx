@@ -30,8 +30,6 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	css,
 	...props
 }) => {
-	const { t } = translator.useRich();
-
 	const { getRootProps, getInputProps, isDragActive, isDragReject } =
 		useDropzone({
 			noClick: true,
@@ -65,7 +63,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 						variant={{ size: "4xl" }}
 					/>
 					<p className={"mb-2 text-sm font-semibold"}>
-						{text?.title || t("Drag 'n' drop a file here")}
+						{text?.title || translator.rich("Drag 'n' drop a file here")}
 					</p>
 					{text?.message ?
 						<p className={"text-xs"}>{text.message}</p>

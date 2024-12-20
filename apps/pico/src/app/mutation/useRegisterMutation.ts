@@ -18,7 +18,7 @@ export const useRegisterMutation = () => {
 				login,
 			} satisfies SessionSchema.Type;
 
-			await dexie.user.add({
+			await dexie.User.add({
 				...session,
 				password: pwd.hash(password1),
 			});

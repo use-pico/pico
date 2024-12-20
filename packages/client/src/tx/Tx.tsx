@@ -9,8 +9,13 @@ export namespace Tx {
 	}
 }
 
-export const Tx: FC<Tx.Props> = ({ label, fallback, variant, tva = TxCss, css }) => {
+export const Tx: FC<Tx.Props> = ({
+	label,
+	fallback,
+	variant,
+	tva = TxCss,
+	css,
+}) => {
 	const tv = tva({ ...variant, ...css }).slots;
-	const { t } = translator.useRich();
-	return <span className={tv.base()}>{t(label, fallback)}</span>;
+	return <span className={tv.base()}>{translator.rich(label, fallback)}</span>;
 };

@@ -1,20 +1,13 @@
 import {
     createFileRoute,
     useLoaderData,
-    useParams
+    useParams,
 } from "@tanstack/react-router";
-import {
-    AppLayout,
-    LinkTo,
-    LogoutIcon,
-    Menu,
-    MenuLink,
-    Tx,
-} from "@use-pico/client";
-import { GameIcon } from "~/app/derivean/icon/GameIcon";
+import { AppLayout, LinkTo, LogoutIcon } from "@use-pico/client";
+import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { Logo } from "~/app/derivean/logo/Logo";
 
-export const Route = createFileRoute("/$locale/apps/derivean/")({
+export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
 		const { session } = useLoaderData({ from: "/$locale/apps" });
@@ -22,21 +15,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/")({
 		return (
 			<AppLayout
 				logo={
-					<LinkTo>
+					<LinkTo
+						to={"/$locale/apps/derivean/game"}
+						params={{ locale }}
+					>
 						<Logo />
 					</LinkTo>
 				}
-				menu={
-					<Menu>
-						<MenuLink
-							icon={GameIcon}
-							to={"/$locale/apps/derivean/game"}
-							params={{ locale }}
-						>
-							<Tx label={"Game (menu)"} />
-						</MenuLink>
-					</Menu>
-				}
+				menu={<GameMenu />}
 				actions={
 					<>
 						{session.name}
@@ -48,9 +34,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/")({
 						/>
 					</>
 				}
-			>
-				bello!
-			</AppLayout>
+			/>
 		);
 	},
 });

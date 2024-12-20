@@ -150,6 +150,7 @@ export const Table = <TData extends DataType.Data>({
 									</th>
 								);
 							})}
+							<th></th>
 						</tr>
 					</thead>
 					{table.isEmpty ? null : (

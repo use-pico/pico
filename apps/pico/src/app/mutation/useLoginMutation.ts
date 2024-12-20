@@ -11,12 +11,10 @@ export const useLoginMutation = () => {
 			login,
 			password,
 		}: LoginSchema.Type): Promise<SessionSchema.Type> {
-			const user = await dexie.user
-				.where({
-					login,
-					password: pwd.hash(password),
-				})
-				.first();
+			const user = await dexie.User.where({
+				login,
+				password: pwd.hash(password),
+			}).first();
 
 			if (!user) {
 				throw new Error("Invalid login or password");
