@@ -104,10 +104,7 @@ export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
 					<Tx label={"Register (label)"} />
 				</LinkTo>
 
-				<Button
-					className={tva.submit()}
-					type={"submit"}
-				>
+				<Button type={"submit"}>
 					<Tx label={"Login (submit)"} />
 				</Button>
 			</div>

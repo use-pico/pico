@@ -22,6 +22,7 @@ export { CursorCss } from "./cursor/CursorCss";
 export { handleOnPage } from "./cursor/handleOnPage";
 export { handleOnSize } from "./cursor/handleOnSize";
 export { DateInline } from "./date-inline/DateInline";
+export { queryOf } from "./dexie/queryOf";
 export { Float } from "./float/Float";
 export { FloatContext } from "./float/FloatContext";
 export { FloatCss } from "./float/FloatCss";

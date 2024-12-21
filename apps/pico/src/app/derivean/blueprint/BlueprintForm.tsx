@@ -28,15 +28,18 @@ export namespace BlueprintForm {
 			BlueprintShapeSchema.Type
 		>;
 		onSuccess(blueprint: BlueprintSchema.Type): Promise<void>;
+		defaultValues?: BlueprintShapeSchema.Type;
 	}
 }
 
 export const BlueprintForm: FC<BlueprintForm.Props> = ({
 	mutation,
+	defaultValues,
 	onSuccess,
 }) => {
 	const form = useForm<BlueprintShapeSchema.Type>({
 		resolver: zodResolver(BlueprintShapeSchema),
+		defaultValues,
 	});
 
 	const tva = FormCss({

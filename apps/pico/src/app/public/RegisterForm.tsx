@@ -107,10 +107,7 @@ export const RegisterForm: FC<RegisterForm.Props> = ({ onSuccess }) => {
 				/>
 			</FormInput>
 
-			<Button
-				className={tva.submit()}
-				type={"submit"}
-			>
+			<Button type={"submit"}>
 				<Tx label={"Register (submit)"} />
 			</Button>
 		</form>

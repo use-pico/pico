@@ -24,6 +24,7 @@
 		"@floating-ui/react": "^0.27.2",
 		"@tanstack/react-router": "^1.91.2",
 		"@types/luxon": "^3.4.2",
+		"dexie": "^4.0.10",
 		"localstorage-slim": "^2.7.1",
 		"luxon": "^3.5.0",
 		"react-dropzone": "^14.3.5",

@@ -1,7 +1,7 @@
 import type { Loader } from "@use-pico/client";
+import { BlueprintQuery } from "~/app/derivean/blueprint/BlueprintQuery";
 import type { BlueprintFilterSchema } from "~/app/derivean/blueprint/schema/BlueprintFilterSchema";
 import { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
-import { dexie } from "~/app/derivean/dexie/dexie";
 
 export namespace withBlueprintLoader {
 	export interface Props extends Loader.Props<BlueprintFilterSchema.Type> {
@@ -18,12 +18,11 @@ export const withBlueprintLoader = ({
 	return queryClient.ensureQueryData({
 		queryKey: ["withBlueprintLoader", { where, filter, cursor }],
 		async queryFn(): Promise<BlueprintSchema.Type> {
-			return BlueprintSchema.parse(
-				await dexie.Blueprint.where({
-					...filter,
-					...where,
-				}).first(),
-			);
+			return BlueprintQuery.fetch({
+				where,
+				filter,
+				cursor,
+			});
 		},
 	});
 };

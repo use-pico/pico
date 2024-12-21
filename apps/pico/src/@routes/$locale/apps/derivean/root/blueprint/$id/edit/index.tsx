@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BlueprintForm } from "~/app/derivean/blueprint/BlueprintForm";
 import { useBlueprintMutation } from "~/app/derivean/blueprint/useBlueprintMutation";
 
@@ -7,6 +7,9 @@ export const Route = createFileRoute(
 )({
 	component: () => {
 		const { id } = Route.useParams();
+		const { blueprint } = useLoaderData({
+			from: "/$locale/apps/derivean/root/blueprint/$id",
+		});
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
@@ -23,6 +26,7 @@ export const Route = createFileRoute(
 							};
 						},
 					})}
+					defaultValues={blueprint}
 					onSuccess={async () => {
 						//
 					}}
