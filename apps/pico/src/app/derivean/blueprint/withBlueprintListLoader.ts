@@ -18,8 +18,8 @@ export const withBlueprintListLoader = ({
 	return queryClient.ensureQueryData({
 		queryKey: ["withBlueprintListLoader", { where, filter, cursor }],
 		async queryFn(): Promise<BlueprintSchema.Type[]> {
-			return dexie.Blueprint.limit(cursor.size)
-				.offset(cursor.page * cursor.size)
+			return dexie.Blueprint.offset(cursor.page * cursor.size)
+				.limit(cursor.size)
 				.toArray();
 		},
 	});
