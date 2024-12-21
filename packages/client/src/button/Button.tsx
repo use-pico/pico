@@ -50,9 +50,7 @@ export const Button: FC<Button.Props> = ({
 					{...iconProps}
 				/>
 			}
-			{children ?
-				<span>{children}</span>
-			:	null}
+			{children}
 		</button>
 	);
 };

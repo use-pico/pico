@@ -20,8 +20,6 @@ export const Route = createFileRoute(
 						},
 					})}
 					onSuccess={async (blueprint) => {
-						console.log("b", blueprint);
-
 						return navigate({
 							to: "/$locale/apps/derivean/root/blueprint/$id/view",
 							params: { locale, id: blueprint.id },

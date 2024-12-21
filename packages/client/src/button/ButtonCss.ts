@@ -4,6 +4,7 @@ export const ButtonCss = css({
 	slot: {
 		base: [
 			"flex",
+			"flex-row",
 			"items-center",
 			"justify-center",
 			"gap-2",

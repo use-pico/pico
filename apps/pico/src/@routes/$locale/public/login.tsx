@@ -28,8 +28,6 @@ export const Route = createFileRoute("/$locale/public/login")({
 					<hr className={"my-12 h-0.5 border-t-0 bg-slate-300"} />
 					<LoginForm
 						onSuccess={async (session) => {
-							console.log("session");
-
 							ls.set("session", session);
 
 							await navigate({ to: "/$locale/apps" });

@@ -18,6 +18,7 @@ import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintShapeSchema } from "~/app/derivean/blueprint/schema/BlueprintShapeSchema";
+import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
 export namespace BlueprintForm {
 	export interface Props {
@@ -130,7 +131,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					className={tva.submit()}
+					iconEnabled={BlueprintIcon}
 					type={"submit"}
 				>
 					<Tx label={"Save blueprint (submit)"} />

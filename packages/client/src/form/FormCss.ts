@@ -23,18 +23,6 @@ export const FormCss = css({
 			"focus:ring-blue-500",
 			"focus:border-transparent",
 		],
-		submit: [
-			"border",
-			"border-blue-300",
-			"bg-blue-200",
-			"hover:bg-blue-300",
-			"rounded-md",
-			"py-2",
-			"px-4",
-			"text-blue-800",
-			"font-bold",
-			"w-fit",
-		],
 	},
 	variant: {
 		isLoading: {
