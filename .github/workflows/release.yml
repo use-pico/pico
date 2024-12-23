@@ -50,7 +50,7 @@ jobs:
         run: |
           bun run typecheck
 
-  build:
+  deploy:
     runs-on: ubuntu-22.04
     needs:
       - typecheck
@@ -67,6 +67,12 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
 
-      - name: typecheck
+      - name: build
         run: |
           bun run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./apps/pico/dist
