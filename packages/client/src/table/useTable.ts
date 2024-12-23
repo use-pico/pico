@@ -135,7 +135,7 @@ export const useTable = <TData extends DataType.Data>({
 			},
 		},
 		selection: {
-			enabled: Boolean(selection),
+			enabled: Boolean(selection) && data.length > 0,
 			selection: Array.from($selection),
 			isSingle: selection?.type === "single",
 			isMulti: selection?.type === "multi",
