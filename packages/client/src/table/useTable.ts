@@ -13,6 +13,12 @@ export namespace useTable {
 		set(value: Record<string, any>): void;
 	}
 
+	export interface Selection<TData extends DataType.Data> {
+		type: "single" | "multi";
+		value: Record<string, TData>;
+		set(selection: Record<string, TData>): void;
+	}
+
 	export interface Props<TData extends DataType.Data> {
 		/**
 		 * Column definition for the table.
@@ -30,6 +36,7 @@ export namespace useTable {
 		visible?: DeepKeys<TData>[];
 		data: TData[];
 		filter?: Filter;
+		selection?: Selection<TData>;
 	}
 
 	export type PropsEx<TData extends DataType.Data> = Omit<
@@ -45,9 +52,13 @@ export const useTable = <TData extends DataType.Data>({
 	visible = columns.map((column) => column.name),
 	data,
 	filter,
+	selection,
 }: useTable.Props<TData>): UseTable<TData> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
+	const $selection = new Map<string, TData>(
+		Object.entries(selection?.value || {}),
+	);
 
 	const $columns: ColumnType.Column<TData, any>[] = columns.map((column) => {
 		return {
@@ -123,6 +134,21 @@ export const useTable = <TData extends DataType.Data>({
 			},
 			shallow(path, value) {
 				pathOfFilter.set(path, value);
+			},
+		},
+		selection: {
+			enabled: Boolean(selection),
+			selection: $selection,
+			isSelected({ data }) {
+				return $selection.has(data.id) || false;
+			},
+			withRowSelectionHandler({ data }) {
+				return () => {
+					$selection.has(data.id) ?
+						$selection.delete(data.id)
+					:	$selection.set(data.id, data);
+					selection?.set(Object.fromEntries($selection));
+				};
 			},
 		},
 	};

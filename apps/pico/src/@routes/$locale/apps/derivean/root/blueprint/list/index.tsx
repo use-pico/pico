@@ -9,17 +9,21 @@ import {
 import { withSearchSchema } from "@use-pico/common";
 import { BlueprintTable } from "~/app/derivean/blueprint/BlueprintTable";
 import { BlueprintFilterSchema } from "~/app/derivean/blueprint/schema/BlueprintFilterSchema";
+import { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { withBlueprintCount } from "~/app/derivean/blueprint/withBlueprintCount";
 import { withBlueprintListLoader } from "~/app/derivean/blueprint/withBlueprintListLoader";
 
-const SearchSchema = withSearchSchema({ filter: BlueprintFilterSchema });
+const SearchSchema = withSearchSchema({
+	data: BlueprintSchema,
+	filter: BlueprintFilterSchema,
+});
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/list/",
 )({
 	component: () => {
 		const { blueprints, count } = Route.useLoaderData();
-		const { global, filter, cursor } = Route.useSearch();
+		const { global, filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -38,6 +42,20 @@ export const Route = createFileRoute(
 										filter: value,
 										cursor: { ...cursor, page: 0 },
 									}),
+								});
+							},
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set(selection) {
+								navigate({
+									search(prev) {
+										return {
+											...prev,
+											selection,
+										};
+									},
 								});
 							},
 						},

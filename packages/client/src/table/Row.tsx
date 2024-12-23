@@ -1,3 +1,6 @@
+import { Icon } from "../icon/Icon";
+import { SelectionOff } from "../icon/SelectionOff";
+import { SelectionOn } from "../icon/SelectionOn";
 import { Cell } from "./Cell";
 import type { Table } from "./Table";
 import { TableCss } from "./TableCss";
@@ -15,7 +18,7 @@ export namespace Row {
 
 export const Row = <TData extends DataType.Data>({
 	table,
-	row: { id, cells, data },
+	row,
 	action,
 	variant,
 	tva = TableCss,
@@ -27,21 +30,29 @@ export const Row = <TData extends DataType.Data>({
 
 	return (
 		<tr className={tv.tr()}>
+			{table.selection.enabled ?
+				<td className={"w-0"}>
+					<Icon
+						icon={table.selection.isSelected(row) ? SelectionOn : SelectionOff}
+						onClick={table.selection.withRowSelectionHandler(row)}
+					/>
+				</td>
+			:	null}
 			{TableAction || RowAction ?
 				<td className={"w-0"}>
 					{RowAction ?
 						<RowAction
 							table={table}
-							data={data}
+							data={row.data}
 						/>
 					:	null}
 				</td>
 			:	null}
 
-			{cells.map((cell) => {
+			{row.cells.map((cell) => {
 				return (
 					<Cell
-						key={`${id}-${cell.column.id}`}
+						key={`${row.id}-${cell.column.id}`}
 						table={table}
 						cell={cell}
 						variant={variant}

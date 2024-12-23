@@ -8,7 +8,7 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { FC } from "react";
+import { type FC } from "react";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
@@ -58,7 +58,10 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 }) => {
 	return (
 		<Table
-			table={useTable({ ...table, columns })}
+			table={useTable({
+				...table,
+				columns,
+			})}
 			action={{
 				table() {
 					const { locale } = useParams({ from: "/$locale" });

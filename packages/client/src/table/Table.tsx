@@ -36,12 +36,14 @@ export namespace Table {
 		row?: FC<Action.RowProps<TData>>;
 	}
 
+	export interface Fulltext {
+		value: Fulltext.Value;
+		onFulltext: Fulltext.OnFulltext;
+	}
+
 	export interface Props<TData extends DataType.Data> extends TableCss.Props {
 		table: UseTable<TData>;
-		fulltext?: {
-			value: Fulltext.Value;
-			onFulltext: Fulltext.OnFulltext;
-		};
+		fulltext?: Fulltext;
 		cursor: Cursor.Props;
 		empty?: FC;
 		action?: Action<TData>;
@@ -101,6 +103,9 @@ export const Table = <TData extends DataType.Data>({
 				<table className={tv.table()}>
 					<thead className={tv.thead()}>
 						<tr>
+							{table.selection.enabled ?
+								<th className={"w-0"}></th>
+							:	null}
 							{TableAction || RowAction ?
 								<th className={"w-0"}>
 									{TableAction ?

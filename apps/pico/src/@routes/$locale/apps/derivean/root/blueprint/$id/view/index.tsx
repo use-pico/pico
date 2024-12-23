@@ -1,5 +1,4 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { BlueprintPreview } from "~/app/derivean/blueprint/BlueprintPreview";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id/view/",
