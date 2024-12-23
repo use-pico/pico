@@ -5,6 +5,9 @@ import { Fulltext } from "../fulltext/Fulltext";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
 import { Icon } from "../icon/Icon";
+import { SelectionAny } from "../icon/SelectionAny";
+import { SelectionOff } from "../icon/SelectionOff";
+import { SelectionOn } from "../icon/SelectionOn";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 import { Row } from "./Row";
@@ -103,14 +106,29 @@ export const Table = <TData extends DataType.Data>({
 				<table className={tv.table()}>
 					<thead className={tv.thead()}>
 						<tr>
-							{table.selection.enabled ?
-								<th className={"w-0"}></th>
-							:	null}
-							{TableAction || RowAction ?
+							{TableAction || RowAction || table.selection.enabled ?
 								<th className={"w-0"}>
-									{TableAction ?
-										<TableAction table={table} />
-									:	null}
+									<div className={"flex flex-row items-center gap-2"}>
+										{table.selection.enabled ?
+											<Icon
+												icon={
+													table.selection.isAll() ? SelectionOn
+													: table.selection.isAny() ?
+														SelectionAny
+													:	SelectionOff
+												}
+												css={{
+													base: tv.select({
+														selected: table.selection.isAny(),
+													}),
+												}}
+												onClick={table.selection.withAllHandler()}
+											/>
+										:	null}
+										{TableAction ?
+											<TableAction table={table} />
+										:	null}
+									</div>
 								</th>
 							:	null}
 

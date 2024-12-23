@@ -9,12 +9,10 @@ import {
 import { withSearchSchema } from "@use-pico/common";
 import { BlueprintTable } from "~/app/derivean/blueprint/BlueprintTable";
 import { BlueprintFilterSchema } from "~/app/derivean/blueprint/schema/BlueprintFilterSchema";
-import { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { withBlueprintCount } from "~/app/derivean/blueprint/withBlueprintCount";
 import { withBlueprintListLoader } from "~/app/derivean/blueprint/withBlueprintListLoader";
 
 const SearchSchema = withSearchSchema({
-	data: BlueprintSchema,
 	filter: BlueprintFilterSchema,
 });
 

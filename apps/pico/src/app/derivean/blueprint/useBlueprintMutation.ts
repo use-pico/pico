@@ -36,6 +36,10 @@ export const useBlueprintMutation = ({
 					...request.create,
 				});
 
+				queryClient.invalidateQueries({
+					queryKey: ["withBlueprintListLoader"],
+				});
+
 				return BlueprintSchema.parse(await dexie.Blueprint.get($id));
 			} else if (isPatchSchema(BlueprintPatchSchema, request)) {
 				dexie.Blueprint.where({
@@ -43,6 +47,10 @@ export const useBlueprintMutation = ({
 				})
 					.filter(withBlueprintFilter({ filter: request.patch.filter }))
 					.modify(request.patch.with);
+
+				queryClient.invalidateQueries({
+					queryKey: ["withBlueprintListLoader"],
+				});   
 
 				return withBlueprintLoader({
 					queryClient,

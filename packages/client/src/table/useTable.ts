@@ -13,10 +13,10 @@ export namespace useTable {
 		set(value: Record<string, any>): void;
 	}
 
-	export interface Selection<TData extends DataType.Data> {
+	export interface Selection {
 		type: "single" | "multi";
-		value: Record<string, TData>;
-		set(selection: Record<string, TData>): void;
+		value: string[];
+		set(selection: string[]): void;
 	}
 
 	export interface Props<TData extends DataType.Data> {
@@ -36,7 +36,7 @@ export namespace useTable {
 		visible?: DeepKeys<TData>[];
 		data: TData[];
 		filter?: Filter;
-		selection?: Selection<TData>;
+		selection?: Selection;
 	}
 
 	export type PropsEx<TData extends DataType.Data> = Omit<
@@ -56,9 +56,7 @@ export const useTable = <TData extends DataType.Data>({
 }: useTable.Props<TData>): UseTable<TData> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
-	const $selection = new Map<string, TData>(
-		Object.entries(selection?.value || {}),
-	);
+	const $selection = new Set<string>(selection?.value);
 
 	const $columns: ColumnType.Column<TData, any>[] = columns.map((column) => {
 		return {
@@ -138,16 +136,36 @@ export const useTable = <TData extends DataType.Data>({
 		},
 		selection: {
 			enabled: Boolean(selection),
-			selection: $selection,
+			selection: Array.from($selection),
+			isSingle: selection?.type === "single",
+			isMulti: selection?.type === "multi",
 			isSelected({ data }) {
 				return $selection.has(data.id) || false;
 			},
-			withRowSelectionHandler({ data }) {
+			isAll() {
+				return data.every((data) => $selection.has(data.id));
+			},
+			isAny() {
+				return data.some((data) => $selection.has(data.id));
+			},
+			withRowHandler({ data }) {
 				return () => {
+					selection?.type === "single" && $selection.clear();
 					$selection.has(data.id) ?
 						$selection.delete(data.id)
-					:	$selection.set(data.id, data);
-					selection?.set(Object.fromEntries($selection));
+					:	$selection.add(data.id);
+					selection?.set(Array.from($selection));
+				};
+			},
+			withAllHandler() {
+				return () => {
+					if (data.every((data) => $selection.has(data.id))) {
+						$selection.clear();
+					} else {
+						data.forEach(({ id }) => $selection.add(id));
+					}
+
+					selection?.set(Array.from($selection));
 				};
 			},
 		},

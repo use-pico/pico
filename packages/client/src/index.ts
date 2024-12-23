@@ -54,6 +54,7 @@ export { JobIcon } from "./icon/JobIcon";
 export { ListIcon } from "./icon/ListIcon";
 export { LoaderIcon } from "./icon/LoaderIcon";
 export { LogoutIcon } from "./icon/LogoutIcon";
+export { SelectionAny } from "./icon/SelectionAny";
 export { SelectionOff } from "./icon/SelectionOff";
 export { SelectionOn } from "./icon/SelectionOn";
 export { SettingsIcon } from "./icon/SettingsIcon";

@@ -29,23 +29,34 @@ export const Row = <TData extends DataType.Data>({
 	const RowAction = action?.row;
 
 	return (
-		<tr className={tv.tr()}>
-			{table.selection.enabled ?
+		<tr
+			className={tv.tr({
+				selected: table.selection.isSelected(row),
+			})}
+		>
+			{TableAction || RowAction || table.selection.enabled ?
 				<td className={"w-0"}>
-					<Icon
-						icon={table.selection.isSelected(row) ? SelectionOn : SelectionOff}
-						onClick={table.selection.withRowSelectionHandler(row)}
-					/>
-				</td>
-			:	null}
-			{TableAction || RowAction ?
-				<td className={"w-0"}>
-					{RowAction ?
-						<RowAction
-							table={table}
-							data={row.data}
-						/>
-					:	null}
+					<div className={"flex flex-row items-center gap-2"}>
+						{table.selection.enabled ?
+							<Icon
+								icon={
+									table.selection.isSelected(row) ? SelectionOn : SelectionOff
+								}
+								css={{
+									base: tv.select({
+										selected: table.selection.isSelected(row),
+									}),
+								}}
+								onClick={table.selection.withRowHandler(row)}
+							/>
+						:	null}
+						{RowAction ?
+							<RowAction
+								table={table}
+								data={row.data}
+							/>
+						:	null}
+					</div>
 				</td>
 			:	null}
 

@@ -5,10 +5,15 @@ import type { RowType } from "./RowType";
 export namespace SelectionType {
 	export interface Selection<TData extends DataType.Data> {
 		enabled: boolean;
-		selection: Map<string, TData>;
+		selection: string[];
+		isSingle: boolean;
+		isMulti: boolean;
 		isSelected(row: RowType.Row<TData>): boolean;
-		withRowSelectionHandler(
+		isAll(): boolean;
+		isAny(): boolean;
+		withRowHandler(
 			row: RowType.Row<TData>,
 		): (event: MouseEvent<HTMLElement>) => void;
+		withAllHandler(): (event: MouseEvent<HTMLElement>) => void;
 	}
 }

@@ -2,25 +2,16 @@ import { fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { CursorSchema } from "./CursorSchema";
 import type { FulltextSchema } from "./FulltextSchema";
-import type { IdentitySchema } from "./IdentitySchema";
 
 export namespace withSearchSchema {
-	export interface Props<
-		TDataSchema extends IdentitySchema,
-		TFilterSchema extends FulltextSchema,
-	> {
-		data: TDataSchema;
+	export interface Props<TFilterSchema extends FulltextSchema> {
 		filter: TFilterSchema;
 	}
 }
 
-export const withSearchSchema = <
-	TDataSchema extends IdentitySchema,
-	TFilterSchema extends FulltextSchema,
->({
-	data,
+export const withSearchSchema = <TFilterSchema extends FulltextSchema>({
 	filter,
-}: withSearchSchema.Props<TDataSchema, TFilterSchema>) => {
+}: withSearchSchema.Props<TFilterSchema>) => {
 	return z.object({
 		global: fallback(filter.optional(), {
 			fulltext: "",
@@ -32,6 +23,6 @@ export const withSearchSchema = <
 			page: 0,
 			size: 30,
 		}),
-		selection: fallback(z.record(data), {}).default({}),
+		selection: fallback(z.array(z.string()), []).default([]),
 	});
 };
