@@ -117,11 +117,11 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 								items={[
 									{
 										id: "building",
-										value: translator.text("Blueprint kind - Building"),
+										value: translator.text("Blueprint kind - building"),
 									},
 									{
 										id: "item",
-										value: translator.text("Blueprint kind - Item"),
+										value: translator.text("Blueprint kind - item"),
 									},
 								]}
 								render={({ entity }) => entity.value}

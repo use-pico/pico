@@ -55,12 +55,15 @@
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
   value: Celé jméno
+5e70173d17e0cab080be4a5278d4170c97420303847dbda0a411e3d5:
+  ref: Blueprint kind - building
+  value: Budova
 6cd865df7d3ac1a0d08e6c200a8a49142a1514407422847831f7ba97:
   ref: Blueprint list (menu)
   value: Seznam plánků
 77b049e75c767c4ca346dd05d7a42c39c3479ac4f6dfaeaaa6efc1da:
   ref: There is nothing to see right now.
-  value: There is nothing to see right now.
+  value: Zatím zde není nic k vidění.
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: Vyplňte prosím toto pole
@@ -78,7 +81,7 @@
   value: Přihlašovací jméno
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
-  value: Nothing here
+  value: Kde nic, tu nic
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Hledat
@@ -88,6 +91,12 @@ ad5f6bbac64d2fb17538236a03bd7bc768d433771cad74497627b849:
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Drag 'n' drop a file here
+c164cd632fdda008ffbe598f55683c0d6317610fd39e6dbabce7a375:
+  ref: Blueprint kind - item
+  value: Předmět
+c28f42b34292af9ca689e3a87dfa9945799fd3d08b176e4417667384:
+  ref: Blueprint detail (menu)
+  value: Detail
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Odhlásit se
@@ -100,18 +109,15 @@ cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
 d5d9dc6d3152b93f8a93e43972335256e207befd4535b66892bfdf65:
   ref: Foo
   value: Foo
+e3e2c3e23765b109bcf52a9c7994a274717981569a7142ab5988c844:
+  ref: Blueprint edit (menu)
+  value: Upravit
 e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
   ref: Password 2 (label)
   value: Kontrola hesla
-e60ed04d67aac1e6a65ce7dc3fcaf5c9607f08bd76f6bf9e894f235e:
-  ref: Blueprint kind - Building
-  value: Budova
 ef8f7eda5111f555cf9ccec073accd581cce2426fd2f17b9fba64c6e:
   ref: Register (label)
   value: Registrovat se
 f001c0d6dab8ffedea26f108d9094ec33e080e8673abf02afa1d3a61:
   ref: Some value
   value: Some value
-f98033ce111b9f259f32990ce953af1288b09d1bd40802a6d162b2b3:
-  ref: Blueprint kind - Item
-  value: Předmět

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { invalidator } from "@use-pico/client";
 import { id, isCreateSchema, isPatchSchema, omit } from "@use-pico/common";
 import { BlueprintCreateSchema } from "~/app/derivean/blueprint/schema/BlueprintCreateSchema";
 import { BlueprintPatchSchema } from "~/app/derivean/blueprint/schema/BlueprintPatchSchema";
@@ -36,8 +37,9 @@ export const useBlueprintMutation = ({
 					...request.create,
 				});
 
-				queryClient.invalidateQueries({
-					queryKey: ["withBlueprintListLoader"],
+				await invalidator({
+					queryClient,
+					keys: ["withBlueprintListLoader", "withBlueprintLoader"],
 				});
 
 				return BlueprintSchema.parse(await dexie.Blueprint.get($id));
@@ -48,9 +50,10 @@ export const useBlueprintMutation = ({
 					.filter(withBlueprintFilter({ filter: request.patch.filter }))
 					.modify(request.patch.with);
 
-				queryClient.invalidateQueries({
-					queryKey: ["withBlueprintListLoader"],
-				});   
+				await invalidator({
+					queryClient,
+					keys: ["withBlueprintListLoader", "withBlueprintLoader"],
+				});
 
 				return withBlueprintLoader({
 					queryClient,

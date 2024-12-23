@@ -6,10 +6,11 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id/edit/",
 )({
 	component: () => {
-		const { id } = Route.useParams();
+		const { locale, id } = Route.useParams();
 		const { blueprint } = useLoaderData({
 			from: "/$locale/apps/derivean/root/blueprint/$id",
 		});
+		const navigate = Route.useNavigate();
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
@@ -28,7 +29,10 @@ export const Route = createFileRoute(
 					})}
 					defaultValues={blueprint}
 					onSuccess={async () => {
-						//
+						navigate({
+							to: "/$locale/apps/derivean/root/blueprint/$id/view",
+							params: { locale, id },
+						});
 					}}
 				/>
 			</div>
