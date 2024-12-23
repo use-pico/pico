@@ -20,7 +20,9 @@ jobs:
       - name: cache
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            **/node_modules
           key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
 
       - name: install
