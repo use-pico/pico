@@ -1,5 +1,6 @@
 import { Card, Tx } from "@use-pico/client";
 import type { FC } from "react";
+import { KindInline } from "~/app/derivean/blueprint/KindInline";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 
 export namespace BlueprintCard {
@@ -23,7 +24,7 @@ export const BlueprintCard: FC<BlueprintCard.Props> = (props) => {
 					id: "kind",
 					label: <Tx label={"Blueprint kind (label)"} />,
 					render({ entity }) {
-						return <Tx label={`Blueprint kind - ${entity.kind}`} />;
+						return <KindInline kind={entity.kind} />;
 					},
 				},
 			]}

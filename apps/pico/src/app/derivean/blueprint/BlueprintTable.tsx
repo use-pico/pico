@@ -9,6 +9,7 @@ import {
     withColumn,
 } from "@use-pico/client";
 import { type FC } from "react";
+import { KindInline } from "~/app/derivean/blueprint/KindInline";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
@@ -40,7 +41,7 @@ const columns = [
 			return <Tx label={"Blueprint kind (label)"} />;
 		},
 		render({ value }) {
-			return value;
+			return <KindInline kind={value} />;
 		},
 		size: 14,
 	}),

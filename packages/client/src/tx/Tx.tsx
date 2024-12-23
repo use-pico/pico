@@ -16,6 +16,9 @@ export const Tx: FC<Tx.Props> = ({
 	tva = TxCss,
 	css,
 }) => {
-	const tv = tva({ ...variant, ...css }).slots;
+	const tv = tva({
+		...variant,
+		css,
+	}).slots;
 	return <div className={tv.base()}>{translator.rich(label, fallback)}</div>;
 };

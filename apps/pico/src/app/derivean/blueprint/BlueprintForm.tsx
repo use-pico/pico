@@ -11,11 +11,12 @@ import {
 import {
     ErrorSchema,
     onAxiosSchemaError,
-    translator,
-    withErrors,
+    withErrors
 } from "@use-pico/common";
 import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { BlueprintType } from "~/app/derivean/blueprint/BlueprintType";
+import { KindInline } from "~/app/derivean/blueprint/KindInline";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintShapeSchema } from "~/app/derivean/blueprint/schema/BlueprintShapeSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
@@ -114,17 +115,11 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 									base: tva.input(),
 								}}
 								textSelect={<Tx label={"Select blueprint kind (label)"} />}
-								items={[
-									{
-										id: "building",
-										value: translator.text("Blueprint kind - building"),
-									},
-									{
-										id: "item",
-										value: translator.text("Blueprint kind - item"),
-									},
-								]}
-								render={({ entity }) => entity.value}
+								items={BlueprintType.map((type) => ({
+									id: type,
+									value: type,
+								}))}
+								render={({ entity }) => <KindInline kind={entity.value} />}
 								{...field}
 							/>
 						);
