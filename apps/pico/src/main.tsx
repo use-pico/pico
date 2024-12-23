@@ -51,7 +51,10 @@ withAxios({
 if (!rootElement.innerHTML) {
 	ReactDOM.createRoot(rootElement).render(
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
+			<RouterProvider
+				basepath={"/pico/"}
+				router={router}
+			/>
 		</QueryClientProvider>,
 	);
 }

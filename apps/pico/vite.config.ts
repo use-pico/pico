@@ -16,6 +16,7 @@ export default defineConfig({
 		ViteYaml() as any,
 		dynamicImport(),
 	],
+	base: "/pico/",
 	server: {
 		port: 4000,
 	},
