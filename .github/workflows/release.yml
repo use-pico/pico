@@ -1,126 +1,46 @@
 name: Release
 
 on:
-    push:
-        branches:
-            - "*"
+  push:
+    branches:
+      - main
 
 concurrency:
-    group: ${{ github.ref }}
-    cancel-in-progress: false
+  group: ${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-    npm-install:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v1
-              with:
-                  bun-version: latest
-            - name: npm cache
-              uses: actions/cache@v4
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-npm-install-${{ hashFiles('bun.lockb', 'package.json') }}
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
 
-            - name: npm install
-              run: |
-                  bun install
+      - name: install
+        run: |
+          bun install
 
-    lint:
-        runs-on: ubuntu-latest
-        needs:
-            - npm-install
-        steps:
-            - uses: actions/checkout@v4
-            - name: npm cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      **/node_modules
-                  key: ${{ runner.os }}-npm-install-${{ hashFiles('bun.lockb', 'package.json') }}
+  typecheck:
+    runs-on: ubuntu-latest
+    needs:
+      - install
+    steps:
+      - uses: actions/checkout@v4
+      - name: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
 
-            - name: lint
-              run: |
-                  bun run lint
-
-    version:
-        runs-on: ubuntu-latest
-        needs:
-            - lint
-        if: github.ref == 'refs/heads/main'
-        outputs:
-            changes: ${{ steps.version.outputs.changes }}
-        steps:
-            - name: Checkout
-              uses: actions/checkout@main
-              with:
-                  token: ${{ secrets.TOKEN }}
-
-            - name: npm cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      **/node_modules
-                  key: ${{ runner.os }}-npm-install-${{ hashFiles('bun.lockb', 'package.json') }}
-
-            - name: Version
-              id: version
-              run: |
-                  (bunx changeset version 2>&1 | grep -q 'No unreleased changesets found' && echo 'changes=false' || echo 'changes=true') >> $GITHUB_OUTPUT
-
-            - name: With Changes
-              if: steps.version.outputs.changes == 'true'
-              run: |
-                  git config user.name "Marek Hanzal"
-                  git config user.email "marek.hanzal@icloud.com"
-                  git add -A
-                  git commit -m "Version bump" || echo "No changes to commit"
-                  git push
-
-    release:
-        runs-on: ubuntu-latest
-        needs:
-            - lint
-            - version
-        if: github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
-        steps:
-            - name: checkout
-              uses: actions/checkout@v4
-              with:
-                  token: ${{ secrets.TOKEN }}
-
-            - name: setup node
-              uses: actions/setup-node@main
-              with:
-                  node-version: 21.x
-                  registry-url: "https://registry.npmjs.org"
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - name: npm cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      **/node_modules
-                  key: ${{ runner.os }}-npm-install-${{ hashFiles('bun.lockb', 'package.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-npm-install-
-
-            - name: build cache
-              uses: actions/cache@v4
-              with:
-                  path: packages/**/lib/**
-                  key: ${{ runner.os }}-${{ github.sha }}-build
-                  restore-keys: |
-                      ${{ runner.os }}-${{ github.sha }}-build
-
-            - name: Release packages
-              uses: changesets/action@v1
-              with:
-                  publish: bunx changeset publish
-              env:
-                  GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: typecheck
+        run: |
+          bun run typecheck
