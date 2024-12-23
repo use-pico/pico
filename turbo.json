@@ -20,6 +20,11 @@
 			"outputLogs": "new-only",
 			"cache": false
 		},
+		"build": {
+			"dependsOn": ["^build"],
+			"cache": false,
+			"persistent": true
+		},
 		"translations": {
 			"cache": false,
 			"persistent": true
