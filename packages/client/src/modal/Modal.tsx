@@ -1,20 +1,21 @@
 import {
-	FloatingFocusManager,
-	FloatingNode,
-	FloatingOverlay,
-	FloatingPortal,
-	useClick,
-	useDismiss,
-	useFloating,
-	useFloatingNodeId,
-	useInteractions,
-	useTransitionStyles,
+    FloatingFocusManager,
+    FloatingNode,
+    FloatingOverlay,
+    FloatingPortal,
+    useClick,
+    useDismiss,
+    useFloating,
+    useFloatingNodeId,
+    useInteractions,
+    useTransitionStyles,
 } from "@floating-ui/react";
+import { isString } from "@use-pico/common";
 import {
-	useState,
-	type FC,
-	type PropsWithChildren,
-	type ReactNode,
+    useState,
+    type FC,
+    type PropsWithChildren,
+    type ReactNode,
 } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -27,7 +28,7 @@ export namespace Modal {
 		 * The target element that will open the modal.
 		 */
 		target: ReactNode;
-		icon?: string;
+		icon?: string | ReactNode;
 		title?: ReactNode;
 		disabled?: boolean;
 		/**
@@ -104,12 +105,13 @@ export const Modal: FC<Modal.Props> = ({
 											}
 										>
 											<div className={"flex flex-row items-center gap-2 pr-4"}>
-												{icon && (
-													<Icon
-														icon={icon}
-														variant={{ size: "xl" }}
-													/>
-												)}
+												{icon &&
+													(isString(icon) ?
+														<Icon
+															icon={icon}
+															variant={{ size: "xl" }}
+														/>
+													:	icon)}
 												{title && (
 													<div
 														className={"text-lg font-semibold text-slate-700"}

@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { UseMutationResult } from "@tanstack/react-query";
 import {
     Button,
     FormCss,
@@ -7,29 +6,21 @@ import {
     FormInput,
     Select,
     Tx,
+    type Form,
 } from "@use-pico/client";
-import {
-    ErrorSchema,
-    onAxiosSchemaError,
-    withErrors
-} from "@use-pico/common";
+import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BlueprintType } from "~/app/derivean/blueprint/BlueprintType";
-import { KindInline } from "~/app/derivean/blueprint/KindInline";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintShapeSchema } from "~/app/derivean/blueprint/schema/BlueprintShapeSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { KindInline } from "~/app/derivean/item/KindInline";
 
 export namespace BlueprintForm {
-	export interface Props {
-		mutation: UseMutationResult<
-			BlueprintSchema.Type,
-			Error,
-			BlueprintShapeSchema.Type
-		>;
-		onSuccess(blueprint: BlueprintSchema.Type): Promise<void>;
-		defaultValues?: BlueprintShapeSchema.Type;
+	export interface Props
+		extends Form.Props<BlueprintSchema, BlueprintShapeSchema> {
+		//
 	}
 }
 

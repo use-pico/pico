@@ -11,7 +11,7 @@ const SearchSchema = withSearchSchema({ filter: PlaygroundFilterSchema });
 export const Route = createFileRoute("/$locale/apps/playground/")({
 	component: () => {
 		const { items, count } = Route.useLoaderData();
-		const { global, filter, cursor } = Route.useSearch();
+		const { cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 
 		return (
@@ -32,12 +32,14 @@ export const Route = createFileRoute("/$locale/apps/playground/")({
 		);
 	},
 	validateSearch: zodValidator(SearchSchema),
-	loaderDeps: ({ search: { global, filter, cursor } }) => ({
-		global,
-		filter,
-		cursor,
-	}),
-	loader: async ({ deps: { global, filter, cursor } }) => {
+	loaderDeps({ search: { global, filter, cursor } }) {
+		return {
+			global,
+			filter,
+			cursor,
+		};
+	},
+	async loader() {
 		return {
 			items: PlaygroundItems,
 			count: {

@@ -1,3 +1,6 @@
+0eaf1684ee89179fe84c12c800a0be558798073a3504ebd3c0399950:
+  ref: Inventory list (menu)
+  value: Seznam inventářů
 1278eaff4080b7384d4ace27754c6f3d817fe386fed7d32a6c8af637:
   ref: Login (submit)
   value: Přihlásit se
@@ -55,9 +58,6 @@
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
   value: Celé jméno
-5e70173d17e0cab080be4a5278d4170c97420303847dbda0a411e3d5:
-  ref: Blueprint kind - building
-  value: Budova
 6cd865df7d3ac1a0d08e6c200a8a49142a1514407422847831f7ba97:
   ref: Blueprint list (menu)
   value: Seznam plánků
@@ -91,9 +91,6 @@ ad5f6bbac64d2fb17538236a03bd7bc768d433771cad74497627b849:
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Drag 'n' drop a file here
-c164cd632fdda008ffbe598f55683c0d6317610fd39e6dbabce7a375:
-  ref: Blueprint kind - item
-  value: Předmět
 c28f42b34292af9ca689e3a87dfa9945799fd3d08b176e4417667384:
   ref: Blueprint detail (menu)
   value: Detail
@@ -106,6 +103,9 @@ ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
 cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
   ref: Password (label)
   value: Heslo
+d1955f4585179528afc59d1204c82d0f90b970668bb5d436462a1320:
+  ref: Item list (menu)
+  value: Seznam předmětů
 d5d9dc6d3152b93f8a93e43972335256e207befd4535b66892bfdf65:
   ref: Foo
   value: Foo

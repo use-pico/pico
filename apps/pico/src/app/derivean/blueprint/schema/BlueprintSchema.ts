@@ -1,10 +1,12 @@
+import { IdentitySchema } from "@use-pico/common";
 import { z } from "zod";
 
-export const BlueprintSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	kind: z.enum(["building", "item"]),
-});
+export const BlueprintSchema = IdentitySchema.merge(
+	z.object({
+		name: z.string(),
+		kind: z.enum(["building", "item"]),
+	}),
+);
 
 export type BlueprintSchema = typeof BlueprintSchema;
 

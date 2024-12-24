@@ -1,7 +1,7 @@
 import { Card, Tx } from "@use-pico/client";
 import type { FC } from "react";
-import { KindInline } from "~/app/derivean/blueprint/KindInline";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
+import { KindInline } from "~/app/derivean/item/KindInline";
 
 export namespace BlueprintCard {
 	export interface Props extends Card.PropsEx<BlueprintSchema.Type> {

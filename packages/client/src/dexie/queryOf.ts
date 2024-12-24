@@ -3,7 +3,7 @@ import {
     type CursorSchema,
     type FilterSchema,
     fulltextOf,
-    type IdentitySchema
+    type IdentitySchema,
 } from "@use-pico/common";
 import type { EntityTable } from "dexie";
 import type { z } from "zod";
@@ -35,7 +35,10 @@ export namespace queryOf {
 		TFilterSchema extends FilterSchema,
 	> {
 		source: EntityTable<z.infer<TEntitySchema>, "id">;
-		schema: TEntitySchema;
+		schema: {
+			entity: TEntitySchema;
+			filter: TFilterSchema;
+		};
 		onFilter: Filter.Callback<TEntitySchema, TFilterSchema>;
 	}
 
@@ -56,7 +59,7 @@ export const queryOf = <
 	TFilterSchema extends FilterSchema,
 >({
 	source,
-	schema,
+	schema: { entity },
 	onFilter,
 }: queryOf.Props<TEntitySchema, TFilterSchema>): queryOf.Instance<
 	TEntitySchema,
@@ -98,7 +101,7 @@ export const queryOf = <
 				.toArray();
 		},
 		async fetch(query) {
-			return schema.parse(
+			return entity.parse(
 				await source
 					.filter((entity) => {
 						return (

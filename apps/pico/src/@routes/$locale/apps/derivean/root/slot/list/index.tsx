@@ -7,20 +7,16 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { BlueprintTable } from "~/app/derivean/blueprint/BlueprintTable";
-import { BlueprintFilterSchema } from "~/app/derivean/blueprint/schema/BlueprintFilterSchema";
-import { withBlueprintCount } from "~/app/derivean/blueprint/withBlueprintCount";
-import { withBlueprintListLoader } from "~/app/derivean/blueprint/withBlueprintListLoader";
+import { SlotFilterSchema } from "~/app/derivean/slot/schema/SlotFilterSchema";
+import { SlotTable } from "~/app/derivean/slot/SlotTable";
+import { withSlotCount } from "~/app/derivean/slot/withSlotCount";
+import { withSlotListLoader } from "~/app/derivean/slot/withSlotListLoader";
 
-const SearchSchema = withSearchSchema({
-	filter: BlueprintFilterSchema,
-});
+const SearchSchema = withSearchSchema({ filter: SlotFilterSchema });
 
-export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/blueprint/list/",
-)({
+export const Route = createFileRoute("/$locale/apps/derivean/root/slot/list/")({
 	component: () => {
-		const { blueprints, count } = Route.useLoaderData();
+		const { slots, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
@@ -28,9 +24,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BlueprintTable
+				<SlotTable
 					table={{
-						data: blueprints,
+						data: slots,
 						filter: {
 							value: filter,
 							set(value) {
@@ -83,7 +79,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient }, deps: { global, filter, cursor } }) {
 		return {
-			blueprints: await withBlueprintListLoader({
+			slots: await withSlotListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -91,7 +87,7 @@ export const Route = createFileRoute(
 				},
 				cursor,
 			}),
-			count: await withBlueprintCount({
+			count: await withSlotCount({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),
