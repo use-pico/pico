@@ -42,6 +42,7 @@ import { Route as LocaleAppsDeriveanRootItemIdViewIndexImport } from './@routes/
 import { Route as LocaleAppsDeriveanRootInventoryIdViewIndexImport } from './@routes/$locale/apps/derivean/root/inventory/$id/view/index'
 import { Route as LocaleAppsDeriveanRootBlueprintIdViewIndexImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/view/index'
 import { Route as LocaleAppsDeriveanRootBlueprintIdEditIndexImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/edit/index'
+import { Route as LocaleAppsDeriveanRootInventoryIdSlotListIndexImport } from './@routes/$locale/apps/derivean/root/inventory/$id/slot/list/index'
 
 // Create/Update Routes
 
@@ -245,6 +246,13 @@ const LocaleAppsDeriveanRootBlueprintIdEditIndexRoute =
     id: '/edit/',
     path: '/edit/',
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute =
+  LocaleAppsDeriveanRootInventoryIdSlotListIndexImport.update({
+    id: '/slot/list/',
+    path: '/slot/list/',
+    getParentRoute: () => LocaleAppsDeriveanRootInventoryIdRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -468,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanRootSlotIdViewIndexImport
       parentRoute: typeof LocaleAppsDeriveanRootSlotIdImport
     }
+    '/$locale/apps/derivean/root/inventory/$id/slot/list/': {
+      id: '/$locale/apps/derivean/root/inventory/$id/slot/list/'
+      path: '/slot/list'
+      fullPath: '/$locale/apps/derivean/root/inventory/$id/slot/list'
+      preLoaderRoute: typeof LocaleAppsDeriveanRootInventoryIdSlotListIndexImport
+      parentRoute: typeof LocaleAppsDeriveanRootInventoryIdImport
+    }
   }
 }
 
@@ -521,12 +536,15 @@ const LocaleAppsDeriveanRootBlueprintIdRouteWithChildren =
 
 interface LocaleAppsDeriveanRootInventoryIdRouteChildren {
   LocaleAppsDeriveanRootInventoryIdViewIndexRoute: typeof LocaleAppsDeriveanRootInventoryIdViewIndexRoute
+  LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute: typeof LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute
 }
 
 const LocaleAppsDeriveanRootInventoryIdRouteChildren: LocaleAppsDeriveanRootInventoryIdRouteChildren =
   {
     LocaleAppsDeriveanRootInventoryIdViewIndexRoute:
       LocaleAppsDeriveanRootInventoryIdViewIndexRoute,
+    LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute:
+      LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute,
   }
 
 const LocaleAppsDeriveanRootInventoryIdRouteWithChildren =
@@ -676,6 +694,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/root/inventory/$id/view': typeof LocaleAppsDeriveanRootInventoryIdViewIndexRoute
   '/$locale/apps/derivean/root/item/$id/view': typeof LocaleAppsDeriveanRootItemIdViewIndexRoute
   '/$locale/apps/derivean/root/slot/$id/view': typeof LocaleAppsDeriveanRootSlotIdViewIndexRoute
+  '/$locale/apps/derivean/root/inventory/$id/slot/list': typeof LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -707,6 +726,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/root/inventory/$id/view': typeof LocaleAppsDeriveanRootInventoryIdViewIndexRoute
   '/$locale/apps/derivean/root/item/$id/view': typeof LocaleAppsDeriveanRootItemIdViewIndexRoute
   '/$locale/apps/derivean/root/slot/$id/view': typeof LocaleAppsDeriveanRootSlotIdViewIndexRoute
+  '/$locale/apps/derivean/root/inventory/$id/slot/list': typeof LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute
 }
 
 export interface FileRoutesById {
@@ -742,6 +762,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/root/inventory/$id/view/': typeof LocaleAppsDeriveanRootInventoryIdViewIndexRoute
   '/$locale/apps/derivean/root/item/$id/view/': typeof LocaleAppsDeriveanRootItemIdViewIndexRoute
   '/$locale/apps/derivean/root/slot/$id/view/': typeof LocaleAppsDeriveanRootSlotIdViewIndexRoute
+  '/$locale/apps/derivean/root/inventory/$id/slot/list/': typeof LocaleAppsDeriveanRootInventoryIdSlotListIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -778,6 +799,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/inventory/$id/view'
     | '/$locale/apps/derivean/root/item/$id/view'
     | '/$locale/apps/derivean/root/slot/$id/view'
+    | '/$locale/apps/derivean/root/inventory/$id/slot/list'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -808,6 +830,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/inventory/$id/view'
     | '/$locale/apps/derivean/root/item/$id/view'
     | '/$locale/apps/derivean/root/slot/$id/view'
+    | '/$locale/apps/derivean/root/inventory/$id/slot/list'
   id:
     | '__root__'
     | '/'
@@ -841,6 +864,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/inventory/$id/view/'
     | '/$locale/apps/derivean/root/item/$id/view/'
     | '/$locale/apps/derivean/root/slot/$id/view/'
+    | '/$locale/apps/derivean/root/inventory/$id/slot/list/'
   fileRoutesById: FileRoutesById
 }
 
@@ -977,7 +1001,8 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/root/inventory/$id.tsx",
       "parent": "/$locale/apps/derivean/root",
       "children": [
-        "/$locale/apps/derivean/root/inventory/$id/view/"
+        "/$locale/apps/derivean/root/inventory/$id/view/",
+        "/$locale/apps/derivean/root/inventory/$id/slot/list/"
       ]
     },
     "/$locale/apps/derivean/root/item/$id": {
@@ -1037,6 +1062,10 @@ export const routeTree = rootRoute
     "/$locale/apps/derivean/root/slot/$id/view/": {
       "filePath": "$locale/apps/derivean/root/slot/$id/view/index.tsx",
       "parent": "/$locale/apps/derivean/root/slot/$id"
+    },
+    "/$locale/apps/derivean/root/inventory/$id/slot/list/": {
+      "filePath": "$locale/apps/derivean/root/inventory/$id/slot/list/index.tsx",
+      "parent": "/$locale/apps/derivean/root/inventory/$id"
     }
   }
 }

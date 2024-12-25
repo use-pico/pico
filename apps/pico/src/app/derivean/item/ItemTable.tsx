@@ -1,6 +1,17 @@
 import { useParams } from "@tanstack/react-router";
-import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
+import {
+    ActionMenu,
+    ActionModal,
+    LinkTo,
+    Table,
+    Tx,
+    useTable,
+    withColumn,
+} from "@use-pico/client";
 import type { FC } from "react";
+import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
+import { ItemForm } from "~/app/derivean/item/ItemForm";
+import { ItemQuery } from "~/app/derivean/item/ItemQuery";
 import type { ItemSchema } from "~/app/derivean/item/schema/ItemSchema";
 
 const column = withColumn<ItemSchema.Type>();
@@ -40,6 +51,30 @@ export const ItemTable: FC<ItemTable.Props> = ({ table, ...props }) => {
 				...table,
 				columns,
 			})}
+			action={{
+				table() {
+					return (
+						<ActionMenu>
+							<ActionModal
+								label={<Tx label={"Create item (menu)"} />}
+								textTitle={<Tx label={"Create item (modal)"} />}
+								icon={ItemIcon}
+							>
+								<ItemForm
+									mutation={ItemQuery.useCreateMutation({
+										async toCreate(create) {
+											return create;
+										},
+									})}
+									onSuccess={async () => {
+										//
+									}}
+								/>
+							</ActionModal>
+						</ActionMenu>
+					);
+				},
+			}}
 			{...props}
 		/>
 	);

@@ -102,6 +102,34 @@ export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
 						</ActionMenu>
 					);
 				},
+				row({ data }) {
+					return (
+						<ActionMenu>
+							<ActionModal
+								label={<Tx label={"Edit slot (menu)"} />}
+								textTitle={<Tx label={"Edit slot (modal)"} />}
+								icon={SlotIcon}
+							>
+								<SlotForm
+									defaultValues={data}
+									mutation={SlotQuery.usePatchMutation({
+										async toPatch(shape) {
+											return {
+												shape,
+												filter: {
+													id: data.id,
+												},
+											};
+										},
+									})}
+									onSuccess={async () => {
+										//
+									}}
+								/>
+							</ActionModal>
+						</ActionMenu>
+					);
+				},
 			}}
 			{...props}
 		/>

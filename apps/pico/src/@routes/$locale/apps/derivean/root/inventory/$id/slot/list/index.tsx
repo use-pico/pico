@@ -7,13 +7,16 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { SlotFilterSchema } from "~/app/derivean/slot/schema/SlotFilterSchema";
+import { InventorySlotQuery } from "~/app/derivean/inventory/slot/InventorySlotQuery";
+import { InventorySlotFilterSchema } from "~/app/derivean/inventory/slot/schema/InventorySlotFilterSchema";
 import { SlotQuery } from "~/app/derivean/slot/SlotQuery";
 import { SlotTable } from "~/app/derivean/slot/SlotTable";
 
-const SearchSchema = withSearchSchema({ filter: SlotFilterSchema });
+const SearchSchema = withSearchSchema({ filter: InventorySlotFilterSchema });
 
-export const Route = createFileRoute("/$locale/apps/derivean/root/slot/list/")({
+export const Route = createFileRoute(
+	"/$locale/apps/derivean/root/inventory/$id/slot/list/",
+)({
 	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
@@ -76,19 +79,39 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/slot/list/")({
 			cursor,
 		};
 	},
-	async loader({ context: { queryClient }, deps: { global, filter, cursor } }) {
+	async loader({
+		context: { queryClient },
+		deps: { global, filter, cursor },
+		params: { id },
+	}) {
 		return {
-			data: await SlotQuery.withListLoader({
-				queryClient,
-				filter: {
-					...global,
-					...filter,
-				},
-				cursor,
-			}),
-			count: await SlotQuery.withCountLoader({
+			data: await Promise.all(
+				(
+					await InventorySlotQuery.withListLoader({
+						queryClient,
+						filter: {
+							...global,
+							...filter,
+						},
+						where: {
+							inventoryId: id,
+						},
+						cursor,
+					})
+				).map(({ slotId }) => {
+					return SlotQuery.fetch({
+						where: {
+							id: slotId,
+						},
+					});
+				}),
+			),
+			count: await InventorySlotQuery.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
+				where: {
+					inventoryId: id,
+				},
 			}),
 		};
 	},

@@ -1,9 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
+import {
+    handleOnFulltext,
+    handleOnPage,
+    handleOnSize,
+    Tx,
+} from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
+import { ItemQuery } from "~/app/derivean/item/ItemQuery";
+import { ItemTable } from "~/app/derivean/item/ItemTable";
 import { ItemFilterSchema } from "~/app/derivean/item/schema/ItemFilterSchema";
-import { withItemCount } from "~/app/derivean/item/withItemCount";
-import { withItemListLoader } from "~/app/derivean/item/withItemListLoader";
 
 const SearchSchema = withSearchSchema({
 	filter: ItemFilterSchema,
@@ -11,9 +17,58 @@ const SearchSchema = withSearchSchema({
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
 	component: () => {
-		//
+		const { data, count } = Route.useLoaderData();
+		const { global, filter, cursor, selection } = Route.useSearch();
+		const navigate = Route.useNavigate();
+		const { tva } = useRouteContext({ from: "__root__" });
+		const tv = tva().slots;
 
-		return "nope";
+		return (
+			<div className={tv.base()}>
+				<ItemTable
+					table={{
+						data,
+						filter: {
+							value: filter,
+							set(value) {
+								navigate({
+									search: ({ cursor, ...prev }) => ({
+										...prev,
+										filter: value,
+										cursor: { ...cursor, page: 0 },
+									}),
+								});
+							},
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set(selection) {
+								navigate({
+									search(prev) {
+										return {
+											...prev,
+											selection,
+										};
+									},
+								});
+							},
+						},
+					}}
+					fulltext={{
+						onFulltext: handleOnFulltext(navigate),
+						value: global?.fulltext,
+					}}
+					cursor={{
+						count,
+						cursor,
+						textTotal: <Tx label={"Number of items"} />,
+						onPage: handleOnPage(navigate),
+						onSize: handleOnSize(navigate),
+					}}
+				/>
+			</div>
+		);
 	},
 	validateSearch: zodValidator(SearchSchema),
 	loaderDeps: ({ search: { global, filter, cursor } }) => ({
@@ -26,7 +81,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
 		deps: { global, filter, cursor },
 	}) => {
 		return {
-			blueprints: await withItemListLoader({
+			data: await ItemQuery.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -34,7 +89,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
 				},
 				cursor,
 			}),
-			count: await withItemCount({
+			count: await ItemQuery.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),
