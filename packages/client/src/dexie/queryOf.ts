@@ -4,6 +4,7 @@ import {
     type QueryClient,
     type UseMutationResult,
 } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import {
     fulltextOf,
     id,
@@ -301,6 +302,7 @@ export const queryOf = <
 		patch: $patch,
 		useCreateMutation({ toCreate }) {
 			const queryClient = useQueryClient();
+			const router = useRouter();
 
 			return useMutation({
 				mutationKey: ["useCreateMutation", name, "create"],
@@ -309,8 +311,14 @@ export const queryOf = <
 
 					await invalidator({
 						queryClient,
-						keys: ["withFetchLoader", "withListLoader", "withCountLoader"],
+						keys: [
+							["withFetchLoader", name],
+							["withListLoader", name],
+							["withCountLoader", name],
+						],
 					});
+
+					await router.invalidate();
 
 					return entity;
 				},
@@ -318,6 +326,7 @@ export const queryOf = <
 		},
 		usePatchMutation({ toPatch }) {
 			const queryClient = useQueryClient();
+			const router = useRouter();
 
 			return useMutation({
 				mutationKey: ["usePatchMutation", name, "patch"],
@@ -326,8 +335,14 @@ export const queryOf = <
 
 					await invalidator({
 						queryClient,
-						keys: ["withFetchLoader", "withListLoader", "withCountLoader"],
+						keys: [
+							["withFetchLoader", name],
+							["withListLoader", name],
+							["withCountLoader", name],
+						],
 					});
+
+					await router.invalidate();
 
 					return entity;
 				},

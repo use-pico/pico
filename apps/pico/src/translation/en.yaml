@@ -7,6 +7,9 @@
 1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
   ref: Missing required token(s). (title)
   value: Missing required token(s). (title)
+140a8700315f7b19dc2dfadeeccc70291ac557e5898986d8a38ade51:
+  ref: Create slot (modal)
+  value: Create slot (modal)
 1e476f2ef8e308f5cfe42e0d20c8b841298dc60b80ef73d5e7adf75d:
   ref: Save blueprint (submit)
   value: Save blueprint (submit)
@@ -49,21 +52,30 @@
 4a83bbeaba73d01e3bc099be4743086fd6c38ca07308d559e03f105e:
   ref: Blueprint kind (label)
   value: Blueprint kind (label)
-51ad4da7d974764505fbd57c4b1ae7adaa5d09574b323099dc089058:
-  ref: Select blueprint kind (label)
-  value: Select blueprint kind (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
   value: Name (label)
+586d2c3e47dc3a7e685af9cde5205964d6dd6fac81f5f85c8993af36:
+  ref: Select item kind (label)
+  value: Select item kind (label)
 6cd865df7d3ac1a0d08e6c200a8a49142a1514407422847831f7ba97:
   ref: Blueprint list (menu)
   value: Blueprint list (menu)
+6f014cba6fbcb73307717f7db2a3ef692cae71f6f4a5eaa6b673c446:
+  ref: Create slot (menu)
+  value: Create slot (menu)
+739a8d2fcfd6dd96adbb76dec1c396f9a705b460398e9d2bdc480c23:
+  ref: Slot size (label)
+  value: Slot size (label)
 77b049e75c767c4ca346dd05d7a42c39c3479ac4f6dfaeaaa6efc1da:
   ref: There is nothing to see right now.
   value: There is nothing to see right now.
+787654a33889359842b24a958dff4dfd521f6beb0b6f1b5d7c67cfeb:
+  ref: Item kind (label)
+  value: Item kind (label)
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: String must contain at least 1 character(s)
@@ -91,9 +103,18 @@ ad5f6bbac64d2fb17538236a03bd7bc768d433771cad74497627b849:
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Drag 'n' drop a file here
+b95d627befc7074fa40fd09b6814836b113f219d88f92bcfb2eeb95a:
+  ref: Save slot (submit)
+  value: Save slot (submit)
+c20b512c7784d67725329018469492852037a4f29497ee17d92b943a:
+  ref: Slot name (label)
+  value: Slot name (label)
 c28f42b34292af9ca689e3a87dfa9945799fd3d08b176e4417667384:
   ref: Blueprint detail (menu)
   value: Blueprint detail (menu)
+c29994172dc81479e8b21517035845f7f58c1047d726f9aa3b8e3afb:
+  ref: Item kind - resource
+  value: Item kind - resource
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
@@ -106,9 +127,15 @@ cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
 d1955f4585179528afc59d1204c82d0f90b970668bb5d436462a1320:
   ref: Item list (menu)
   value: Item list (menu)
+d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
+  ref: Item kind - building
+  value: Item kind - building
 d5d9dc6d3152b93f8a93e43972335256e207befd4535b66892bfdf65:
   ref: Foo
   value: Foo
+e37875e2b21844fccff0640cb097209f54863e75408f3c797a5f873d:
+  ref: Slot list (menu)
+  value: Slot list (menu)
 e3e2c3e23765b109bcf52a9c7994a274717981569a7142ab5988c844:
   ref: Blueprint edit (menu)
   value: Blueprint edit (menu)

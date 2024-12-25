@@ -41,7 +41,7 @@ const columns = [
 	column({
 		name: "kind",
 		header() {
-			return <Tx label={"Slot kind (label)"} />;
+			return <Tx label={"Item kind (label)"} />;
 		},
 		render({ value }) {
 			return <KindInline kind={value} />;

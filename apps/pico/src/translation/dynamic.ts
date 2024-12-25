@@ -7,3 +7,5 @@ import { translator } from "@use-pico/common";
  */
 translator.rich("String must contain at least 1 character(s)");
 translator.rich("Passwords must match");
+translator.rich("Item kind - resource");
+translator.rich("Item kind - building");

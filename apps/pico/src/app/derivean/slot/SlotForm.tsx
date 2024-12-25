@@ -82,7 +82,7 @@ export const SlotForm: FC<SlotForm.Props> = ({
 			<FormInput
 				formState={form.formState}
 				name={"kind"}
-				label={<Tx label={"Blueprint kind (label)"} />}
+				label={<Tx label={"Item kind (label)"} />}
 			>
 				<Controller
 					name={"kind"}
