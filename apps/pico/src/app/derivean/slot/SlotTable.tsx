@@ -68,11 +68,11 @@ const columns = [
 
 export namespace SlotTable {
 	export interface Props extends Table.PropsEx<SlotSchema.Type> {
-		//
+		inventoryId?: string;
 	}
 }
 
-export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
+export const SlotTable: FC<SlotTable.Props> = ({ inventoryId, table, ...props }) => {
 	return (
 		<Table
 			table={useTable({
@@ -116,6 +116,9 @@ export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
 										async toPatch(shape) {
 											return {
 												shape,
+                                                link: {
+                                                    inventory: inventoryId,
+                                                },
 												filter: {
 													id: data.id,
 												},

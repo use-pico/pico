@@ -20,6 +20,7 @@ export const Route = createFileRoute(
 	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -27,6 +28,7 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<SlotTable
+					inventoryId={id}
 					table={{
 						data,
 						filter: {
