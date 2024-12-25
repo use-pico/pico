@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const InventorySchema = IdentitySchema.merge(
 	z.object({
-		name: z.string(),
+		name: z.string().min(1),
 	}),
 );
 

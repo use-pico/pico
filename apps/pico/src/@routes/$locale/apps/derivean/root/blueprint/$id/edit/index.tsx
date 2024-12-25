@@ -1,6 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BlueprintForm } from "~/app/derivean/blueprint/BlueprintForm";
-import { useBlueprintMutation } from "~/app/derivean/blueprint/useBlueprintMutation";
+import { BlueprintQuery } from "~/app/derivean/blueprint/BlueprintQuery";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id/edit/",
@@ -15,14 +15,12 @@ export const Route = createFileRoute(
 		return (
 			<div className={"w-1/2 mx-auto"}>
 				<BlueprintForm
-					mutation={useBlueprintMutation({
-						toRequest(shape) {
+					mutation={BlueprintQuery.usePatchMutation({
+						async toPatch(shape) {
 							return {
-								patch: {
-									with: shape,
-									filter: {
-										id,
-									},
+								shape,
+								filter: {
+									id,
 								},
 							};
 						},

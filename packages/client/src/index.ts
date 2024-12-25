@@ -33,6 +33,7 @@ export { FormCss } from "./form/FormCss";
 export { FormError } from "./form/FormError";
 export { FormInput } from "./form/FormInput";
 export { FormInputCss } from "./form/FormInputCss";
+export { onSubmit } from "./form/onSubmit";
 export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCss } from "./fulltext/FulltextCss";
 export { handleOnFulltext } from "./fulltext/handleOnFulltext";

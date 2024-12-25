@@ -8,9 +8,8 @@ import {
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
 import { SlotFilterSchema } from "~/app/derivean/slot/schema/SlotFilterSchema";
+import { SlotQuery } from "~/app/derivean/slot/SlotQuery";
 import { SlotTable } from "~/app/derivean/slot/SlotTable";
-import { withSlotCount } from "~/app/derivean/slot/withSlotCount";
-import { withSlotListLoader } from "~/app/derivean/slot/withSlotListLoader";
 
 const SearchSchema = withSearchSchema({ filter: SlotFilterSchema });
 
@@ -79,7 +78,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/slot/list/")({
 	},
 	async loader({ context: { queryClient }, deps: { global, filter, cursor } }) {
 		return {
-			slots: await withSlotListLoader({
+			slots: await SlotQuery.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -87,7 +86,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/slot/list/")({
 				},
 				cursor,
 			}),
-			count: await withSlotCount({
+			count: await SlotQuery.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),

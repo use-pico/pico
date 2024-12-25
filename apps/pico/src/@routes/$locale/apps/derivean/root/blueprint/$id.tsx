@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { BlueprintIndexMenu } from "~/app/derivean/blueprint/BlueprintIndexMenu";
 import { BlueprintPreview } from "~/app/derivean/blueprint/BlueprintPreview";
-import { withBlueprintLoader } from "~/app/derivean/blueprint/withBlueprintLoader";
+import { BlueprintQuery } from "~/app/derivean/blueprint/BlueprintQuery";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id",
@@ -27,7 +27,10 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient }, params: { id } }) {
 		return {
-			blueprint: await withBlueprintLoader({ queryClient, where: { id } }),
+			blueprint: await BlueprintQuery.withFetchLoader({
+				queryClient,
+				where: { id },
+			}),
 		};
 	},
 });

@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { BlueprintForm } from "~/app/derivean/blueprint/BlueprintForm";
-import { useBlueprintMutation } from "~/app/derivean/blueprint/useBlueprintMutation";
+import { BlueprintQuery } from "~/app/derivean/blueprint/BlueprintQuery";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/create/",
@@ -12,11 +12,9 @@ export const Route = createFileRoute(
 		return (
 			<div className={"w-1/2 mx-auto"}>
 				<BlueprintForm
-					mutation={useBlueprintMutation({
-						toRequest(shape) {
-							return {
-								create: shape,
-							};
+					mutation={BlueprintQuery.useCreateMutation({
+						async toCreate(shape) {
+							return shape;
 						},
 					})}
 					onSuccess={async (blueprint) => {

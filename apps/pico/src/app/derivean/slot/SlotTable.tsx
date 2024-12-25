@@ -13,6 +13,8 @@ import type { FC } from "react";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
 import { KindInline } from "~/app/derivean/item/KindInline";
 import type { SlotSchema } from "~/app/derivean/slot/schema/SlotSchema";
+import { SlotForm } from "~/app/derivean/slot/SlotForm";
+import { SlotQuery } from "~/app/derivean/slot/SlotQuery";
 
 const column = withColumn<SlotSchema.Type>();
 
@@ -79,10 +81,19 @@ export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Create slot (menu)"} />}
-                                textTitle={<Tx label={"Create slot (modal)"} />}
+								textTitle={<Tx label={"Create slot (modal)"} />}
 								icon={SlotIcon}
 							>
-								hovno, pico
+								<SlotForm
+									mutation={SlotQuery.useCreateMutation({
+										async toCreate(create) {
+											return create;
+										},
+									})}
+									onSuccess={async (slot) => {
+										console.log("yep", slot);
+									}}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

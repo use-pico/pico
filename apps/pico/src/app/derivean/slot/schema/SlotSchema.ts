@@ -1,12 +1,12 @@
 import { IdentitySchema } from "@use-pico/common";
 import { z } from "zod";
-import { ItemKind } from "~/app/derivean/item/ItemKind";
+import { ItemKindSchema } from "~/app/derivean/item/schema/ItemKindSchema";
 
 export const SlotSchema = IdentitySchema.merge(
 	z.object({
 		name: z.string(),
-		size: z.number(),
-		kind: z.enum(ItemKind),
+		size: z.number().int().positive(),
+		kind: ItemKindSchema,
 	}),
 );
 

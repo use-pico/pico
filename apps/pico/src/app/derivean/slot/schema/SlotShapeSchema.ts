@@ -1,7 +1,10 @@
 import { z } from "zod";
+import { ItemKindSchema } from "~/app/derivean/item/schema/ItemKindSchema";
 
 export const SlotShapeSchema = z.object({
-	name: z.string(),
+	name: z.string().min(1),
+	size: z.number().int().positive(),
+	kind: ItemKindSchema,
 });
 
 export type SlotShapeSchema = typeof SlotShapeSchema;

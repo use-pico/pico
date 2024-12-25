@@ -4,18 +4,16 @@ import {
     FormCss,
     FormError,
     FormInput,
-    Select,
+    onSubmit,
     Tx,
-    type Form,
+    type Form
 } from "@use-pico/client";
-import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BlueprintType } from "~/app/derivean/blueprint/BlueprintType";
 import type { BlueprintSchema } from "~/app/derivean/blueprint/schema/BlueprintSchema";
 import { BlueprintShapeSchema } from "~/app/derivean/blueprint/schema/BlueprintShapeSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
-import { KindInline } from "~/app/derivean/item/KindInline";
+import { ItemKindSelect } from "~/app/derivean/item/ItemKindSelect";
 
 export namespace BlueprintForm {
 	export interface Props
@@ -28,49 +26,29 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
+	variant,
+	tva = FormCss,
+	css,
 }) => {
 	const form = useForm<BlueprintShapeSchema.Type>({
 		resolver: zodResolver(BlueprintShapeSchema),
 		defaultValues,
 	});
 
-	const tva = FormCss({
+	const tv = tva({
+		...variant,
 		isLoading: form.formState.isLoading,
 		isSubmitting: form.formState.isSubmitting,
+		css,
 	}).slots;
 
 	return (
 		<form
-			className={tva.base()}
-			onSubmit={form.handleSubmit(async (values) => {
-				return mutation
-					.mutateAsync(values, {
-						onSuccess,
-						onError: (error) => {
-							withErrors({
-								error,
-								errors: [
-									onAxiosSchemaError({
-										error,
-										schema: ErrorSchema,
-										onError: ({ data }) => {
-											form.setError("root", {
-												message: data.message,
-											});
-										},
-									}),
-								],
-								onError: (error) => {
-									form.setError("root", {
-										message: error.message,
-									});
-								},
-							});
-						},
-					})
-					.catch(() => {
-						//
-					});
+			className={tv.base()}
+			onSubmit={onSubmit<BlueprintShapeSchema, BlueprintSchema>({
+				form,
+				mutation,
+				onSuccess,
 			})}
 		>
 			<FormError
@@ -85,7 +63,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 			>
 				<input
 					type={"text"}
-					className={tva.input()}
+					className={tv.input()}
 					{...form.register("name")}
 				/>
 			</FormInput>
@@ -101,16 +79,10 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 					render={({ field: { ref, ...field } }) => {
 						return (
-							<Select<{ id: string; value: string }>
+							<ItemKindSelect
 								css={{
-									base: tva.input(),
+									base: tv.input(),
 								}}
-								textSelect={<Tx label={"Select blueprint kind (label)"} />}
-								items={BlueprintType.map((type) => ({
-									id: type,
-									value: type,
-								}))}
-								render={({ entity }) => <KindInline kind={entity.value} />}
 								{...field}
 							/>
 						);

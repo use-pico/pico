@@ -7,10 +7,9 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
+import { BlueprintQuery } from "~/app/derivean/blueprint/BlueprintQuery";
 import { BlueprintTable } from "~/app/derivean/blueprint/BlueprintTable";
 import { BlueprintFilterSchema } from "~/app/derivean/blueprint/schema/BlueprintFilterSchema";
-import { withBlueprintCount } from "~/app/derivean/blueprint/withBlueprintCount";
-import { withBlueprintListLoader } from "~/app/derivean/blueprint/withBlueprintListLoader";
 
 const SearchSchema = withSearchSchema({
 	filter: BlueprintFilterSchema,
@@ -83,7 +82,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient }, deps: { global, filter, cursor } }) {
 		return {
-			blueprints: await withBlueprintListLoader({
+			blueprints: await BlueprintQuery.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -91,7 +90,7 @@ export const Route = createFileRoute(
 				},
 				cursor,
 			}),
-			count: await withBlueprintCount({
+			count: await BlueprintQuery.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),
