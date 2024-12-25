@@ -69,6 +69,18 @@ export const SlotForm: FC<SlotForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
+				name={"size"}
+				label={<Tx label={"Slot size (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("size")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
 				name={"kind"}
 				label={<Tx label={"Blueprint kind (label)"} />}
 			>

@@ -3,7 +3,12 @@ import { ItemKindSchema } from "~/app/derivean/item/schema/ItemKindSchema";
 
 export const SlotShapeSchema = z.object({
 	name: z.string().min(1),
-	size: z.number().int().positive(),
+	size: z
+		.string()
+		.transform((value) => parseInt(value, 10))
+		.refine((value) => !isNaN(value), {
+			message: "Size must be a number",
+		}),
 	kind: ItemKindSchema,
 });
 

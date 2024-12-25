@@ -39,6 +39,9 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				icon={icon}
 				target={label}
 				title={textTitle}
+				css={{
+					modal: ["w-1/2"],
+				}}
 				{...modalProps}
 			>
 				{children}
