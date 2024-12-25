@@ -46,6 +46,12 @@ const columns = [
 		render({ value }) {
 			return <KindInline kind={value} />;
 		},
+		filter: {
+			path: "kind",
+			onFilter({ data, filter }) {
+				filter.shallow("kind", data.kind);
+			},
+		},
 		size: 18,
 	}),
 	column({
@@ -75,8 +81,6 @@ export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
 			})}
 			action={{
 				table() {
-					const { locale } = useParams({ from: "/$locale" });
-
 					return (
 						<ActionMenu>
 							<ActionModal
@@ -90,8 +94,8 @@ export const SlotTable: FC<SlotTable.Props> = ({ table, ...props }) => {
 											return create;
 										},
 									})}
-									onSuccess={async (slot) => {
-										console.log("yep", slot);
+									onSuccess={async () => {
+										//
 									}}
 								/>
 							</ActionModal>

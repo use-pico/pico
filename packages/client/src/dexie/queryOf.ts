@@ -257,9 +257,22 @@ export const queryOf = <
 		TShapeSchema,
 		TFilterSchema
 	>["patch"] = async ({ shape, filter }) => {
-		const $entity = $fetch({ filter });
+		const $entity = await $fetch({ filter });
 
-		return entity.parse(null);
+		await source
+			.filter((entity) => {
+				return $filter({
+					entity,
+					filter,
+				});
+			})
+			.modify(shape);
+
+		return entity.parse(
+			await $fetch({
+				where: { id: $entity.id },
+			}),
+		);
 	};
 
 	const $count: queryOf.Instance<

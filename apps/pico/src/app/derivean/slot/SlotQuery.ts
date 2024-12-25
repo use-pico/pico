@@ -12,7 +12,13 @@ export const SlotQuery = queryOf({
 		shape: SlotShapeSchema,
 		filter: SlotFilterSchema,
 	},
-	onFilter() {
-		return true;
+	onFilter({ filter, entity }) {
+		const checks = [true];
+
+		if (filter?.kind) {
+			checks.push(entity.kind === filter.kind);
+		}
+
+		return checks.every((check) => check);
 	},
 });
