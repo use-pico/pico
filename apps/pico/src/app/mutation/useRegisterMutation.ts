@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { id, pwd } from "@use-pico/common";
-import { dexie } from "~/app/dexie/dexie";
 import type { RegisterSchema } from "~/app/schema/RegisterSchema";
 import type { SessionSchema } from "~/app/schema/SessionSchema";
 
