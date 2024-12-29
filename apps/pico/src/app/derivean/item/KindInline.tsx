@@ -1,6 +1,6 @@
 import { Tx } from "@use-pico/client";
 import type { FC } from "react";
-import type { ItemKindSchema } from "~/app/derivean/item/schema/ItemKindSchema";
+import type { ItemKindSchema } from "~/app/derivean/item/ItemKindSchema";
 
 export namespace KindInline {
 	export interface Props {

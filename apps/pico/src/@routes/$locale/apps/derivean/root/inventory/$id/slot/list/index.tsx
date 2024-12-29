@@ -7,12 +7,11 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { InventorySlotQuery } from "~/app/derivean/inventory/slot/InventorySlotQuery";
-import { InventorySlotFilterSchema } from "~/app/derivean/inventory/slot/schema/InventorySlotFilterSchema";
-import { SlotQuery } from "~/app/derivean/slot/SlotQuery";
+import { InventorySlotRepository } from "~/app/derivean/inventory/slot/InventorySlotRepository";
+import { InventorySlotSchema } from "~/app/derivean/inventory/slot/InventorySlotSchema";
 import { SlotTable } from "~/app/derivean/slot/SlotTable";
 
-const SearchSchema = withSearchSchema({ filter: InventorySlotFilterSchema });
+const SearchSchema = withSearchSchema({ filter: InventorySlotSchema.filter });
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/$id/slot/list/",
@@ -87,28 +86,18 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return {
-			data: await Promise.all(
-				(
-					await InventorySlotQuery.withListLoader({
-						queryClient,
-						filter: {
-							...global,
-							...filter,
-						},
-						where: {
-							inventoryId: id,
-						},
-						cursor,
-					})
-				).map(({ slotId }) => {
-					return SlotQuery.fetch({
-						where: {
-							id: slotId,
-						},
-					});
-				}),
-			),
-			count: await InventorySlotQuery.withCountLoader({
+			data: await InventorySlotRepository.withListLoader({
+				queryClient,
+				filter: {
+					...global,
+					...filter,
+				},
+				where: {
+					inventoryId: id,
+				},
+				cursor,
+			}),
+			count: await InventorySlotRepository.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 				where: {

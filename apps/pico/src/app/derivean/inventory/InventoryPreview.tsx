@@ -1,11 +1,13 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, ListIcon, Preview, TitlePreview, Tx } from "@use-pico/client";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import type { InventorySchema } from "~/app/derivean/inventory/schema/InventorySchema";
+import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
 export namespace InventoryPreview {
-	export interface Props extends Preview.PropsEx<InventorySchema.Type> {
+	export interface Props
+		extends Preview.PropsEx<withRepositorySchema.Entity<InventorySchema>> {
 		//
 	}
 }

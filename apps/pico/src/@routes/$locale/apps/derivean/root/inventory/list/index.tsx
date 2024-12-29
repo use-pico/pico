@@ -7,11 +7,11 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { InventoryQuery } from "~/app/derivean/inventory/InventoryQuery";
+import { InventoryRepository } from "~/app/derivean/inventory/InventoryRepository";
+import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventoryTable } from "~/app/derivean/inventory/InventoryTable";
-import { InventoryFilterSchema } from "~/app/derivean/inventory/schema/InventoryFilterSchema";
 
-const SearchSchema = withSearchSchema({ filter: InventoryFilterSchema });
+const SearchSchema = withSearchSchema({ filter: InventorySchema.filter });
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/list/",
@@ -80,7 +80,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient }, deps: { global, filter, cursor } }) {
 		return {
-			data: await InventoryQuery.withListLoader({
+			data: await InventoryRepository.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -88,7 +88,7 @@ export const Route = createFileRoute(
 				},
 				cursor,
 			}),
-			count: await InventoryQuery.withCountLoader({
+			count: await InventoryRepository.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),

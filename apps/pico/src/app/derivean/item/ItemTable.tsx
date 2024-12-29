@@ -8,13 +8,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
-import { ItemForm } from "~/app/derivean/item/ItemForm";
-import { ItemQuery } from "~/app/derivean/item/ItemQuery";
-import type { ItemSchema } from "~/app/derivean/item/schema/ItemSchema";
+import type { ItemSchema } from "~/app/derivean/item/ItemSchema";
 
-const column = withColumn<ItemSchema.Type>();
+const column = withColumn<withRepositorySchema.Entity<ItemSchema>>();
 
 const columns = [
 	column({
@@ -39,7 +38,8 @@ const columns = [
 ];
 
 export namespace ItemTable {
-	export interface Props extends Table.PropsEx<ItemSchema.Type> {
+	export interface Props
+		extends Table.PropsEx<withRepositorySchema.Entity<ItemSchema>> {
 		//
 	}
 }
@@ -60,7 +60,7 @@ export const ItemTable: FC<ItemTable.Props> = ({ table, ...props }) => {
 								textTitle={<Tx label={"Create item (modal)"} />}
 								icon={ItemIcon}
 							>
-								<ItemForm
+								{/* <ItemForm
 									mutation={ItemQuery.useCreateMutation({
 										async toCreate(create) {
 											return create;
@@ -69,7 +69,7 @@ export const ItemTable: FC<ItemTable.Props> = ({ table, ...props }) => {
 									onSuccess={async () => {
 										//
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

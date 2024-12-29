@@ -7,12 +7,12 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { ItemQuery } from "~/app/derivean/item/ItemQuery";
+import { ItemRepository } from "~/app/derivean/item/ItemRepository";
+import { ItemSchema } from "~/app/derivean/item/ItemSchema";
 import { ItemTable } from "~/app/derivean/item/ItemTable";
-import { ItemFilterSchema } from "~/app/derivean/item/schema/ItemFilterSchema";
 
 const SearchSchema = withSearchSchema({
-	filter: ItemFilterSchema,
+	filter: ItemSchema.filter,
 });
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
@@ -81,7 +81,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
 		deps: { global, filter, cursor },
 	}) => {
 		return {
-			data: await ItemQuery.withListLoader({
+			data: await ItemRepository.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -89,7 +89,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/item/list/")({
 				},
 				cursor,
 			}),
-			count: await ItemQuery.withCountLoader({
+			count: await ItemRepository.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 			}),

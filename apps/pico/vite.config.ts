@@ -3,6 +3,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
+import tla from "vite-plugin-top-level-await";
 import paths from "vite-tsconfig-paths";
 
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
 			generatedRouteTree: "./src/_route.ts",
 			routesDirectory: "./src/@routes",
 		}),
+		tla(),
 		paths(),
 		react(),
 		ViteYaml() as any,
@@ -19,5 +21,11 @@ export default defineConfig({
 	base: "/pico/",
 	server: {
 		port: 4000,
+	},
+	build: {
+		target: "esnext",
+	},
+	optimizeDeps: {
+		exclude: ["sql.js"],
 	},
 });

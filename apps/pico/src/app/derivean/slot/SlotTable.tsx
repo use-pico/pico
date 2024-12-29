@@ -8,15 +8,13 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
 import { KindInline } from "~/app/derivean/item/KindInline";
-import type { SlotSchema } from "~/app/derivean/slot/schema/SlotSchema";
-import { SlotForm } from "~/app/derivean/slot/SlotForm";
-import { SlotQuery } from "~/app/derivean/slot/SlotQuery";
+import type { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 
-const column = withColumn<SlotSchema.Type>();
+const column = withColumn<withRepositorySchema.Entity<SlotSchema>>();
 
 const columns = [
 	column({
@@ -67,12 +65,17 @@ const columns = [
 ];
 
 export namespace SlotTable {
-	export interface Props extends Table.PropsEx<SlotSchema.Type> {
+	export interface Props
+		extends Table.PropsEx<withRepositorySchema.Entity<SlotSchema>> {
 		inventoryId?: string;
 	}
 }
 
-export const SlotTable: FC<SlotTable.Props> = ({ inventoryId, table, ...props }) => {
+export const SlotTable: FC<SlotTable.Props> = ({
+	inventoryId,
+	table,
+	...props
+}) => {
 	return (
 		<Table
 			table={useTable({
@@ -88,16 +91,19 @@ export const SlotTable: FC<SlotTable.Props> = ({ inventoryId, table, ...props })
 								textTitle={<Tx label={"Create slot (modal)"} />}
 								icon={SlotIcon}
 							>
-								<SlotForm
+								{/* <SlotForm
 									mutation={SlotQuery.useCreateMutation({
 										async toCreate(create) {
-											return create;
+											return {
+												shape: create,
+												link: {},
+											};
 										},
 									})}
 									onSuccess={async () => {
 										//
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -110,15 +116,15 @@ export const SlotTable: FC<SlotTable.Props> = ({ inventoryId, table, ...props })
 								textTitle={<Tx label={"Edit slot (modal)"} />}
 								icon={SlotIcon}
 							>
-								<SlotForm
+								{/* <SlotForm
 									defaultValues={data}
 									mutation={SlotQuery.usePatchMutation({
 										async toPatch(shape) {
 											return {
 												shape,
-                                                link: {
-                                                    inventory: inventoryId,
-                                                },
+												link: {
+													inventory: inventoryId,
+												},
 												filter: {
 													id: data.id,
 												},
@@ -128,7 +134,7 @@ export const SlotTable: FC<SlotTable.Props> = ({ inventoryId, table, ...props })
 									onSuccess={async () => {
 										//
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

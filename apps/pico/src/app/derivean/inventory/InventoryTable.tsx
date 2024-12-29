@@ -8,13 +8,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventoryForm } from "~/app/derivean/inventory/InventoryForm";
-import { InventoryQuery } from "~/app/derivean/inventory/InventoryQuery";
-import type { InventorySchema } from "~/app/derivean/inventory/schema/InventorySchema";
+import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
-const column = withColumn<InventorySchema.Type>();
+const column = withColumn<withRepositorySchema.Entity<InventorySchema>>();
 
 const columns = [
 	column({
@@ -38,7 +37,8 @@ const columns = [
 ];
 
 export namespace InventoryTable {
-	export interface Props extends Table.PropsEx<InventorySchema.Type> {
+	export interface Props
+		extends Table.PropsEx<withRepositorySchema.Entity<InventorySchema>> {
 		//
 	}
 }
@@ -62,7 +62,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 								textTitle={<Tx label={"Create inventory (modal)"} />}
 								icon={InventoryIcon}
 							>
-								<InventoryForm
+								{/* <InventoryForm
 									mutation={InventoryQuery.useCreateMutation({
 										async toCreate(create) {
 											return create;
@@ -71,7 +71,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 									onSuccess={async () => {
 										//
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -84,7 +84,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 								textTitle={<Tx label={"Edit inventory (modal)"} />}
 								icon={InventoryIcon}
 							>
-								<InventoryForm
+								{/* <InventoryForm
 									defaultValues={data}
 									mutation={InventoryQuery.usePatchMutation({
 										async toPatch(shape) {
@@ -99,7 +99,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 									onSuccess={async () => {
 										//
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

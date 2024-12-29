@@ -8,15 +8,16 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
 import { ItemKindSelect } from "~/app/derivean/item/ItemKindSelect";
-import type { ItemSchema } from "~/app/derivean/item/schema/ItemSchema";
-import { ItemShapeSchema } from "~/app/derivean/item/schema/ItemShapeSchema";
+import { ItemSchema } from "~/app/derivean/item/ItemSchema";
 
 export namespace ItemForm {
-	export interface Props extends Form.Props<ItemSchema, ItemShapeSchema> {
+	export interface Props
+		extends Form.Props<ItemSchema["entity"], ItemSchema["shape"]> {
 		//
 	}
 }
@@ -29,8 +30,8 @@ export const ItemForm: FC<ItemForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<ItemShapeSchema.Type>({
-		resolver: zodResolver(ItemShapeSchema),
+	const form = useForm<withRepositorySchema.Shape<ItemSchema>>({
+		resolver: zodResolver(ItemSchema.shape),
 		defaultValues,
 	});
 
@@ -44,7 +45,7 @@ export const ItemForm: FC<ItemForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<ItemShapeSchema, ItemSchema>({
+			onSubmit={onSubmit<ItemSchema["entity"], ItemSchema["shape"]>({
 				form,
 				mutation,
 				onSuccess,

@@ -1,8 +1,8 @@
 import { Select, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import { ItemKind } from "~/app/derivean/item/ItemKind";
+import type { ItemKindSchema } from "~/app/derivean/item/ItemKindSchema";
 import { KindInline } from "~/app/derivean/item/KindInline";
-import type { ItemKindSchema } from "~/app/derivean/item/schema/ItemKindSchema";
 
 export namespace ItemKindSelect {
 	export interface Type {

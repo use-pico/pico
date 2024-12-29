@@ -8,15 +8,16 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
 import { ItemKindSelect } from "~/app/derivean/item/ItemKindSelect";
-import type { SlotSchema } from "~/app/derivean/slot/schema/SlotSchema";
-import { SlotShapeSchema } from "~/app/derivean/slot/schema/SlotShapeSchema";
+import { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 
 export namespace SlotForm {
-	export interface Props extends Form.Props<SlotSchema, SlotShapeSchema> {
+	export interface Props
+		extends Form.Props<SlotSchema["entity"], SlotSchema["shape"]> {
 		//
 	}
 }
@@ -29,8 +30,8 @@ export const SlotForm: FC<SlotForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<SlotShapeSchema.Type>({
-		resolver: zodResolver(SlotShapeSchema),
+	const form = useForm<withRepositorySchema.Shape<SlotSchema>>({
+		resolver: zodResolver(SlotSchema.shape),
 		defaultValues,
 	});
 
@@ -44,7 +45,7 @@ export const SlotForm: FC<SlotForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<SlotShapeSchema, SlotSchema>({
+			onSubmit={onSubmit<SlotSchema["entity"], SlotSchema["shape"]>({
 				form,
 				mutation,
 				onSuccess,

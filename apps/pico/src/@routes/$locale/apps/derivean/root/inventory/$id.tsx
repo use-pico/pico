@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { InventoryIndexMenu } from "~/app/derivean/inventory/InventoryIndexMenu";
 import { InventoryPreview } from "~/app/derivean/inventory/InventoryPreview";
-import { InventoryQuery } from "~/app/derivean/inventory/InventoryQuery";
+import { InventoryRepository } from "~/app/derivean/inventory/InventoryRepository";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/$id",
@@ -28,7 +28,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient }, params: { id } }) {
 		return {
-			inventory: await InventoryQuery.withFetchLoader({
+			inventory: await InventoryRepository.withFetchLoader({
 				queryClient,
 				where: { id },
 			}),

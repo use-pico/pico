@@ -4,10 +4,12 @@ import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
-import type { InventorySchema } from "~/app/derivean/inventory/schema/InventorySchema";
+import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
 export namespace InventoryIndexMenu {
-	export interface Props extends Menu.Props, Entity.Schema<InventorySchema> {
+	export interface Props
+		extends Menu.Props,
+			Entity.Schema<InventorySchema["entity"]> {
 		//
 	}
 }

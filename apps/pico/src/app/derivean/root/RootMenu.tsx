@@ -1,7 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx } from "@use-pico/client";
 import type { FC } from "react";
-import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
@@ -39,14 +38,6 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				params={{ locale }}
 			>
 				<Tx label={"Inventory list (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={BlueprintIcon}
-				to={"/$locale/apps/derivean/root/blueprint/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Blueprint list (menu)"} />
 			</MenuLink>
 		</Menu>
 	);

@@ -11,8 +11,8 @@ import type { z } from "zod";
 
 export namespace onSubmit {
 	export interface Props<
-		TShapeSchema extends ShapeSchema,
 		TEntitySchema extends IdentitySchema,
+		TShapeSchema extends ShapeSchema,
 	> {
 		form: UseFormReturn<z.infer<TShapeSchema>>;
 		mutation: UseMutationResult<
@@ -25,13 +25,13 @@ export namespace onSubmit {
 }
 
 export const onSubmit = <
-	TShapeSchema extends ShapeSchema,
 	TEntitySchema extends IdentitySchema,
+	TShapeSchema extends ShapeSchema,
 >({
 	form,
 	mutation,
 	onSuccess,
-}: onSubmit.Props<TShapeSchema, TEntitySchema>) => {
+}: onSubmit.Props<TEntitySchema, TShapeSchema>) => {
 	return form.handleSubmit(async (values) => {
 		return mutation
 			.mutateAsync(values, {
