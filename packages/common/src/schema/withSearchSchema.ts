@@ -19,9 +19,9 @@ export const withSearchSchema = <TFilterSchema extends FulltextSchema>({
 			fulltext: "",
 		} as any),
 		filter: fallback(filter.optional(), undefined),
-		cursor: fallback(CursorSchema, { page: 0, size: 30 }).default({
+		cursor: fallback(CursorSchema, { page: 0, size: 15 }).default({
 			page: 0,
-			size: 30,
+			size: 15,
 		}),
 		selection: fallback(z.array(z.string()), []).default([]),
 	});

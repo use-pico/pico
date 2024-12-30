@@ -11,6 +11,7 @@ export const SlotRepository = withRepository({
 			kind: "slot.kind",
 			inventoryId: "inventorySlot.inventoryId",
 		},
+		fulltext: ["slot.kind", "slot.name", "slot.id"],
 	},
 	insert() {
 		return db.kysely.insertInto("Slot");

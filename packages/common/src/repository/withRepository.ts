@@ -1,7 +1,7 @@
 import type {
-    InsertQueryBuilder,
-    SelectQueryBuilder,
-    UpdateQueryBuilder,
+	InsertQueryBuilder,
+	SelectQueryBuilder,
+	UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
 import type { Database } from "../database/Database";
@@ -29,10 +29,17 @@ export namespace withRepository {
 			export interface Instance<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				/**
+				 * Map "client side" fields to "server side" fields.
+				 */
 				where: Omit<
 					Record<keyof withRepositorySchema.Filter<TSchema>, string>,
 					keyof FilterSchema.Type
 				>;
+				/**
+				 * Which fields are used for fulltext search.
+				 */
+				fulltext?: string[];
 			}
 		}
 
@@ -274,8 +281,15 @@ export const withRepository = <
 		if (where?.idIn) {
 			$select = $select.where("id", "in", where.idIn);
 		}
-		if (where?.fulltext) {
-			//
+		if (meta?.fulltext && where?.fulltext) {
+			const fulltext = where.fulltext.toLowerCase();
+			$select = $select.where((ex) =>
+				ex.or(
+					meta.fulltext?.map((field) => {
+						return ex(field, "like", `%${fulltext}%`);
+					}) || [],
+				),
+			);
 		}
 
 		return $select;

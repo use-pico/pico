@@ -11,6 +11,7 @@ export const ItemRepository = withRepository({
 			kind: "item.kind",
 			name: "item.name",
 		},
+		fulltext: ["item.kind", "item.name", "item.id"],
 	},
 	insert() {
 		return db.kysely.insertInto("Item");
