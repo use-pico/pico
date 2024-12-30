@@ -114,6 +114,9 @@ export const SlotTable: FC<SlotTable.Props> = ({
 											console.log("yep1", entity);
 										},
 									})}
+									onSuccess={async ({ modalContext }) => {
+										modalContext?.close();
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -151,6 +154,9 @@ export const SlotTable: FC<SlotTable.Props> = ({
 											// create link
 										},
 									})}
+									onSuccess={async ({ modalContext }) => {
+										modalContext?.close();
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

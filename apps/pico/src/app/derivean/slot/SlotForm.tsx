@@ -4,12 +4,13 @@ import {
     FormCss,
     FormError,
     FormInput,
+    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
-import type { FC } from "react";
+import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
 import { ItemKindSelect } from "~/app/derivean/item/ItemKindSelect";
@@ -34,6 +35,7 @@ export const SlotForm: FC<SlotForm.Props> = ({
 		resolver: zodResolver(SlotSchema.shape),
 		defaultValues,
 	});
+	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -48,7 +50,12 @@ export const SlotForm: FC<SlotForm.Props> = ({
 			onSubmit={onSubmit<SlotSchema["output"], SlotSchema["shape"]>({
 				form,
 				mutation,
-				onSuccess,
+				onSuccess: async (entity) => {
+					onSuccess?.({
+						entity,
+						modalContext,
+					});
+				},
 			})}
 		>
 			<FormError

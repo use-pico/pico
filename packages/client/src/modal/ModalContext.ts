@@ -1,9 +1,11 @@
 import { createContext } from "react";
 
-export const ModalContext = createContext<{
-	close(): void;
-}>({
-	close() {
-		//
-	},
-});
+export namespace ModalContext {
+	export interface Instance {
+		close(): void;
+	}
+}
+
+export const ModalContext = createContext<ModalContext.Instance | undefined>(
+	undefined,
+);
