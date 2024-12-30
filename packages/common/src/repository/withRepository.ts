@@ -345,7 +345,11 @@ export const withRepository = <
 				throw new Error("Cannot patch an unknown entity (empty query result).");
 			}
 
-			await database.run(update({}).set(toPatch({ shape })));
+			await database.run(
+				update({})
+					.set(await toPatch({ shape }))
+					.where("id", "=", entity.id),
+			);
 
 			return instance.fetch({ query: { where: { id: entity.id } } });
 		},
