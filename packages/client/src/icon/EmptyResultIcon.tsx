@@ -1,1 +1,1 @@
-export const EmptyResultIcon = "icon-[ph--empty-thin]";
+export const EmptyResultIcon = "icon-[arcticons--nothing-x]";
