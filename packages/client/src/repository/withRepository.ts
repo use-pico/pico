@@ -158,8 +158,14 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				/**
+				 * If you need to wrap promise of the mutation (e.g. loading toaster or something).
+				 */
 				wrap?<T>(callback: () => Promise<T>): Promise<T>;
 				toPatch: toPatch.Callback<TSchema>;
+				/**
+				 * This success callback runs during mutation, so mutation keep locked unless it's resolved.
+				 */
 				onSuccess?: onSuccess.Callback<TSchema>;
 			}
 
@@ -230,7 +236,7 @@ export const withRepository = <
 		async withCountLoader({ queryClient, where, filter }) {
 			return queryClient.ensureQueryData({
 				queryKey: ["withCountLoader", name, { where, filter }],
-				async queryFn() {
+				async queryFn(): Promise<CountSchema.Type> {
 					return $coolInstance.count({ query: { where, filter } });
 				},
 			});
@@ -248,11 +254,11 @@ export const withRepository = <
 				mutationKey: ["useCreateMutation", name],
 				async mutationFn(shape) {
 					return wrap(async () => {
-						const create = await toCreate({
-							shape,
-						});
-
-						const entity = await $coolInstance.create(create);
+						const entity = await $coolInstance.create(
+							await toCreate({
+								shape,
+							}),
+						);
 
 						await onSuccess?.({ entity });
 

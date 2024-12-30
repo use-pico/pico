@@ -4,12 +4,13 @@ import {
     FormCss,
     FormError,
     FormInput,
+    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
-import type { FC } from "react";
+import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
 import { ItemKindSelect } from "~/app/derivean/item/ItemKindSelect";
@@ -34,6 +35,7 @@ export const ItemForm: FC<ItemForm.Props> = ({
 		resolver: zodResolver(ItemSchema.shape),
 		defaultValues,
 	});
+	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -48,7 +50,12 @@ export const ItemForm: FC<ItemForm.Props> = ({
 			onSubmit={onSubmit<ItemSchema["entity"], ItemSchema["shape"]>({
 				form,
 				mutation,
-				onSuccess,
+				async onSuccess(entity) {
+					onSuccess?.({
+						entity,
+						modalContext,
+					});
+				},
 			})}
 		>
 			<FormError

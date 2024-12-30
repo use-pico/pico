@@ -4,6 +4,7 @@ import {
     ActionModal,
     LinkTo,
     Table,
+    toast,
     Tx,
     useTable,
     withColumn,
@@ -11,6 +12,8 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
+import { ItemForm } from "~/app/derivean/item/ItemForm";
+import { ItemRepository } from "~/app/derivean/item/ItemRepository";
 import type { ItemSchema } from "~/app/derivean/item/ItemSchema";
 
 const column = withColumn<withRepositorySchema.Entity<ItemSchema>>();
@@ -60,16 +63,27 @@ export const ItemTable: FC<ItemTable.Props> = ({ table, ...props }) => {
 								textTitle={<Tx label={"Create item (modal)"} />}
 								icon={ItemIcon}
 							>
-								{/* <ItemForm
-									mutation={ItemQuery.useCreateMutation({
-										async toCreate(create) {
-											return create;
+								<ItemForm
+									mutation={ItemRepository.useCreateMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving item (label)"} />,
+												success: (
+													<Tx label={"Item successfully saved (label)"} />
+												),
+												error: <Tx label={"Cannot save item (label)"} />,
+											});
+										},
+										async toCreate({ shape }) {
+											return {
+												shape,
+											};
 										},
 									})}
-									onSuccess={async () => {
-										//
+									onSuccess={async ({ modalContext }) => {
+										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

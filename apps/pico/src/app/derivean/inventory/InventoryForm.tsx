@@ -4,12 +4,13 @@ import {
     FormCss,
     FormError,
     FormInput,
+    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
-import type { FC } from "react";
+import { useContext, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
@@ -33,6 +34,7 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 		resolver: zodResolver(InventorySchema.shape),
 		defaultValues,
 	});
+	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -47,7 +49,9 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 			onSubmit={onSubmit<InventorySchema["entity"], InventorySchema["shape"]>({
 				form,
 				mutation,
-				onSuccess,
+				async onSuccess(entity) {
+					onSuccess?.({ entity, modalContext });
+				},
 			})}
 		>
 			<FormError

@@ -7,7 +7,9 @@ import { z } from "zod";
 import type { Database } from "../database/Database";
 import type { CountSchema } from "../schema/CountSchema";
 import type { CursorSchema } from "../schema/CursorSchema";
+import type { EntitySchema } from "../schema/EntitySchema";
 import type { FilterSchema } from "../schema/FilterSchema";
+import type { ShapeSchema } from "../schema/ShapeSchema";
 import { id } from "../toolbox/id";
 import type { withRepositorySchema } from "./withRepositorySchema";
 
@@ -98,7 +100,7 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				where: withRepositorySchema.Filter<TSchema>;
+				where?: withRepositorySchema.Filter<TSchema>;
 				select: SelectQueryBuilder<any, any, any>;
 				apply?: Apply[];
 			}
@@ -168,7 +170,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema> | undefined>;
+			) => Promise<withRepositorySchema.Output<TSchema>>;
 		}
 
 		export namespace list {
@@ -226,7 +228,11 @@ export namespace withRepository {
 }
 
 export const withRepository = <
-	TSchema extends withRepositorySchema.Instance<any, any, any>,
+	TSchema extends withRepositorySchema.Instance<
+		EntitySchema,
+		ShapeSchema,
+		FilterSchema
+	>,
 >({
 	schema,
 	database,
@@ -244,7 +250,10 @@ export const withRepository = <
 	> = ({ where, select }) => {
 		let $select = select;
 
-		for (const [value, field] of Object.entries(meta.where)) {
+		for (const [value, field] of Object.entries(meta.where) as [
+			keyof typeof where,
+			any,
+		][]) {
 			if (where?.[value] === undefined) {
 				continue;
 			}
@@ -257,6 +266,16 @@ export const withRepository = <
 				where?.[value] === null ?
 					$select.where(field as any, "is", null)
 				:	$select.where(field as any, "=", where[value]);
+		}
+
+		if (where?.id) {
+			$select = $select.where("id", "=", where.id);
+		}
+		if (where?.idIn) {
+			$select = $select.where("id", "in", where.idIn);
+		}
+		if (where?.fulltext) {
+			//
 		}
 
 		return $select;
@@ -303,19 +322,25 @@ export const withRepository = <
 	};
 
 	const $applyQuery: withRepository.Instance.applyQuery.Callback<TSchema> = ({
-		query,
+		query: { where, filter, cursor = { page: 0, size: 10 } },
 		select,
 		apply = ["where", "filter", "cursor", "sort"],
 	}) => {
-		return $applyFilter({
-			where: query.filter,
+		let $select = $applyFilter({
+			where: filter,
 			select: $applyWhere({
 				select,
-				where: query.where,
+				where,
 				apply,
 			}),
 			apply,
 		});
+
+		if (apply.includes("cursor")) {
+			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
+		}
+
+		return $select;
 	};
 
 	const instance: withRepository.Instance<TSchema> = {
@@ -383,7 +408,7 @@ export const withRepository = <
 							apply: [],
 						}),
 					)
-				).count,
+				)[0].count,
 				where: (
 					await database.run(
 						$applyQuery({
@@ -396,7 +421,7 @@ export const withRepository = <
 							apply: ["where"],
 						}),
 					)
-				).count,
+				)[0].count,
 				filter: (
 					await database.run(
 						$applyQuery({
@@ -410,7 +435,7 @@ export const withRepository = <
 							apply: ["filter", "where"],
 						}),
 					)
-				).count,
+				)[0].count,
 			} satisfies CountSchema.Type;
 		},
 	};

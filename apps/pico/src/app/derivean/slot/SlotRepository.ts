@@ -22,17 +22,11 @@ export const SlotRepository = withRepository({
 		let $select: any = db.kysely.selectFrom("Slot as slot");
 
 		if (where?.inventoryId || filter?.inventoryId) {
-			$select = $select
-				.leftJoin(
-					"InventorySlot as inventorySlot",
-					"inventorySlot.slotId",
-					"slot.id",
-				)
-				.leftJoin(
-					"Inventory as inventory",
-					"inventorySlot.inventoryId",
-					"inventory.id",
-				);
+			$select = $select.leftJoin(
+				"InventorySlot as inventorySlot",
+				"inventorySlot.slotId",
+				"slot.id",
+			);
 		}
 
 		return $select;

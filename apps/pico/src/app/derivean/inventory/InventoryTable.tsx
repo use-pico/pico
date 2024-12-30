@@ -4,6 +4,7 @@ import {
     ActionModal,
     LinkTo,
     Table,
+    toast,
     Tx,
     useTable,
     withColumn,
@@ -11,6 +12,8 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { InventoryForm } from "~/app/derivean/inventory/InventoryForm";
+import { InventoryRepository } from "~/app/derivean/inventory/InventoryRepository";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
 const column = withColumn<withRepositorySchema.Entity<InventorySchema>>();
@@ -62,16 +65,27 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 								textTitle={<Tx label={"Create inventory (modal)"} />}
 								icon={InventoryIcon}
 							>
-								{/* <InventoryForm
-									mutation={InventoryQuery.useCreateMutation({
-										async toCreate(create) {
-											return create;
+								<InventoryForm
+									mutation={InventoryRepository.useCreateMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving inventory (label)"} />,
+												success: (
+													<Tx label={"Inventory successfully saved (label)"} />
+												),
+												error: <Tx label={"Cannot save inventory (label)"} />,
+											});
+										},
+										async toCreate({ shape }) {
+											return {
+												shape,
+											};
 										},
 									})}
-									onSuccess={async () => {
-										//
+									onSuccess={async ({ modalContext }) => {
+										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -84,10 +98,19 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 								textTitle={<Tx label={"Edit inventory (modal)"} />}
 								icon={InventoryIcon}
 							>
-								{/* <InventoryForm
+								<InventoryForm
 									defaultValues={data}
-									mutation={InventoryQuery.usePatchMutation({
-										async toPatch(shape) {
+									mutation={InventoryRepository.usePatchMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving inventory (label)"} />,
+												success: (
+													<Tx label={"Inventory successfully saved (label)"} />
+												),
+												error: <Tx label={"Cannot save inventory (label)"} />,
+											});
+										},
+										async toPatch({ shape }) {
 											return {
 												shape,
 												filter: {
@@ -96,10 +119,10 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 											};
 										},
 									})}
-									onSuccess={async () => {
-										//
+									onSuccess={async ({ modalContext }) => {
+										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

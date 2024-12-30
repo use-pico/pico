@@ -14,5 +14,7 @@ export const invalidator = async ({ queryClient, keys }: invalidator.Props) => {
 				queryKey: key,
 			}),
 		),
-	);
+	).catch((error) => {
+		console.error(error);
+	});
 };

@@ -18,15 +18,18 @@ export const InventoryRepository = withRepository({
 	update() {
 		return db.kysely.updateTable("Inventory");
 	},
-	select() {
-		return db.kysely
-			.selectFrom("Inventory as inventory")
-			.leftJoin(
+	select({ query: { where, filter } }) {
+		const $select = db.kysely.selectFrom("Inventory as inventory");
+
+		if (where?.slotId || filter?.slotId) {
+			return $select.leftJoin(
 				"InventorySlot as inventorySlot",
 				"inventorySlot.inventoryId",
 				"inventory.id",
-			)
-			.leftJoin("Slot as slot", "inventorySlot.slotId", "slot.id");
+			);
+		}
+
+		return $select;
 	},
 	async toCreate({ shape }) {
 		return shape;

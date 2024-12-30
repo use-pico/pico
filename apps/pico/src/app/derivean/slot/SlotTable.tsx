@@ -12,6 +12,7 @@ import {
 import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
+import { InventorySlotRepository } from "~/app/derivean/inventory/slot/InventorySlotRepository";
 import { KindInline } from "~/app/derivean/item/KindInline";
 import { SlotForm } from "~/app/derivean/slot/SlotForm";
 import { SlotRepository } from "~/app/derivean/slot/SlotRepository";
@@ -111,7 +112,15 @@ export const SlotTable: FC<SlotTable.Props> = ({
 											};
 										},
 										async onSuccess({ entity }) {
-											console.log("yep1", entity);
+											if (inventoryId) {
+												console.log("new slot", entity);
+												await InventorySlotRepository.create({
+													shape: {
+														inventoryId,
+														slotId: entity.id,
+													},
+												});
+											}
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
@@ -151,7 +160,14 @@ export const SlotTable: FC<SlotTable.Props> = ({
 											};
 										},
 										async onSuccess({ entity }) {
-											// create link
+											if (inventoryId) {
+												await InventorySlotRepository.create({
+													shape: {
+														inventoryId,
+														slotId: entity.id,
+													},
+												});
+											}
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
