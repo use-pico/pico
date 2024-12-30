@@ -113,7 +113,6 @@ export const SlotTable: FC<SlotTable.Props> = ({
 										},
 										async onSuccess({ entity }) {
 											if (inventoryId) {
-												console.log("new slot", entity);
 												await InventorySlotRepository.create({
 													shape: {
 														inventoryId,
