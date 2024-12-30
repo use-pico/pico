@@ -44,6 +44,9 @@ export const withDatabase = async <DB>({
 		async fetch(query) {
 			return (await instance.list(query))[0];
 		},
+		async count(query) {
+			return (await instance.run(query)).count;
+		},
 	};
 
 	return instance;

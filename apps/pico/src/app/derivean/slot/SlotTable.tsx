@@ -12,6 +12,8 @@ import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { SlotIcon } from "~/app/derivean/icon/SlotIcon";
 import { KindInline } from "~/app/derivean/item/KindInline";
+import { SlotForm } from "~/app/derivean/slot/SlotForm";
+import { SlotRepository } from "~/app/derivean/slot/SlotRepository";
 import type { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 
 const column = withColumn<withRepositorySchema.Entity<SlotSchema>>();
@@ -116,9 +118,9 @@ export const SlotTable: FC<SlotTable.Props> = ({
 								textTitle={<Tx label={"Edit slot (modal)"} />}
 								icon={SlotIcon}
 							>
-								{/* <SlotForm
+								<SlotForm
 									defaultValues={data}
-									mutation={SlotQuery.usePatchMutation({
+									mutation={SlotRepository.usePatchMutation({
 										async toPatch(shape) {
 											return {
 												shape,
@@ -134,7 +136,7 @@ export const SlotTable: FC<SlotTable.Props> = ({
 									onSuccess={async () => {
 										//
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

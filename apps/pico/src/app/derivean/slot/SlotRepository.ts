@@ -15,19 +15,24 @@ export const SlotRepository = withRepository({
 	insert() {
 		return db.kysely.insertInto("Slot");
 	},
-	select() {
-		return db.kysely
-			.selectFrom("Slot as slot")
-			.leftJoin(
-				"InventorySlot as inventorySlot",
-				"inventorySlot.slotId",
-				"slot.id",
-			)
-			.leftJoin(
-				"Inventory as inventory",
-				"inventorySlot.inventoryId",
-				"inventory.id",
-			);
+	select({ query: { where, filter } }) {
+		let $select: any = db.kysely.selectFrom("Slot as slot");
+
+		if (where?.inventoryId || filter?.inventoryId) {
+			$select = $select
+				.leftJoin(
+					"InventorySlot as inventorySlot",
+					"inventorySlot.slotId",
+					"slot.id",
+				)
+				.leftJoin(
+					"Inventory as inventory",
+					"inventorySlot.inventoryId",
+					"inventory.id",
+				);
+		}
+
+		return $select;
 	},
 	async toCreate({ shape }) {
 		return shape;

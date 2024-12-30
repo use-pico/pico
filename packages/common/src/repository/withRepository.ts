@@ -1,5 +1,7 @@
 import type { InsertQueryBuilder, SelectQueryBuilder } from "kysely";
+import { z } from "zod";
 import type { Database } from "../database/Database";
+import type { CountSchema } from "../schema/CountSchema";
 import type { CursorSchema } from "../schema/CursorSchema";
 import type { FilterSchema } from "../schema/FilterSchema";
 import { id } from "../toolbox/id";
@@ -53,13 +55,15 @@ export namespace withRepository {
 		}
 
 		export namespace select {
-			export interface Props {
-				//
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				query: Query<TSchema>;
 			}
 
-			export type Callback = (
-				props: Props,
-			) => SelectQueryBuilder<any, any, any>;
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (props: Props<TSchema>) => SelectQueryBuilder<any, any, any>;
 		}
 
 		export namespace applyWhere {
@@ -87,7 +91,7 @@ export namespace withRepository {
 		toCreate: Props.toCreate.Callback<TSchema>;
 
 		insert: Props.insert.Callback;
-		select: Props.select.Callback;
+		select: Props.select.Callback<TSchema>;
 
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
 		applyFilter?: Props.applyWhere.Callback<TSchema>;
@@ -100,6 +104,12 @@ export namespace withRepository {
 			> {
 				shape: withRepositorySchema.Shape<TSchema>;
 			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Entity<TSchema>>;
 		}
 
 		export namespace fetch {
@@ -108,6 +118,38 @@ export namespace withRepository {
 			> {
 				query: Query<TSchema>;
 			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Entity<TSchema> | undefined>;
+		}
+
+		export namespace list {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				query: Query<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Entity<TSchema>[]>;
+		}
+
+		export namespace count {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				query: Omit<Query<TSchema>, "sort" | "cursor">;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (props: Props<TSchema>) => Promise<CountSchema.Type>;
 		}
 
 		export namespace applyQuery {
@@ -129,12 +171,11 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
-		create(
-			props: Instance.create.Props<TSchema>,
-		): Promise<withRepositorySchema.Entity<TSchema>>;
-		fetch(
-			props: Instance.fetch.Props<TSchema>,
-		): Promise<withRepositorySchema.Entity<TSchema> | undefined>;
+
+		create: Instance.create.Callback<TSchema>;
+		fetch: Instance.fetch.Callback<TSchema>;
+		list: Instance.list.Callback<TSchema>;
+		count: Instance.count.Callback<TSchema>;
 	}
 }
 
@@ -253,10 +294,53 @@ export const withRepository = <
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(
-				await database.fetch(
-					$applyQuery({ query, select: select({ database }) }),
-				),
+				await database.fetch($applyQuery({ query, select: select({ query }) })),
 			);
+		},
+		async list({ query }) {
+			return z
+				.array(schema.entity)
+				.parse(
+					await database.list(
+						$applyQuery({ query, select: select({ query }) }),
+					),
+				);
+		},
+		async count({ query }) {
+			return {
+				total: await database.count(
+					$applyQuery({
+						query: {},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: [],
+					}),
+				),
+				where: await database.count(
+					$applyQuery({
+						query: {
+							where: query.where,
+						},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: ["where"],
+					}),
+				),
+				filter: await database.count(
+					$applyQuery({
+						query: {
+							where: query.where,
+							filter: query.filter,
+						},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: ["filter", "where"],
+					}),
+				),
+			} satisfies CountSchema.Type;
 		},
 	};
 

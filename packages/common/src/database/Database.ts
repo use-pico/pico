@@ -19,5 +19,6 @@ export namespace Database {
 		fetch(
 			query: SelectQueryBuilder<any, any, any>,
 		): Promise<unknown | undefined>;
+		count(query: SelectQueryBuilder<any, any, any>): Promise<number>;
 	}
 }

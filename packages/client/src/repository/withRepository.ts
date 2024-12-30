@@ -43,7 +43,6 @@ export namespace withRepository {
 				queryClient: QueryClient;
 				where?: withRepositorySchema.Filter<TSchema>;
 				filter?: withRepositorySchema.Filter<TSchema>;
-				cursor?: CursorSchema.Type;
 			}
 		}
 	}
@@ -73,8 +72,10 @@ export const withRepository = <
 	name,
 	...props
 }: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
-	const instance: withRepository.Instance<TSchema> = {
-		...withCoolRepository(props),
+	const $coolInstance = withCoolRepository(props);
+
+	const $instance: withRepository.Instance<TSchema> = {
+		...$coolInstance,
 
 		name,
 		async withListLoader({
@@ -86,21 +87,27 @@ export const withRepository = <
 			return queryClient.ensureQueryData({
 				queryKey: ["withListLoader", name, { where, filter, cursor }],
 				async queryFn() {
-					return [];
+					return $coolInstance.list({ query: { where, filter, cursor } });
 				},
 			});
 		},
-		async withFetchLoader(props) {
-			return (await instance.withListLoader(props))?.[0];
+		async withFetchLoader({ queryClient, where, filter, cursor }) {
+			return queryClient.ensureQueryData({
+				queryKey: ["withFetchLoader", name, { where, filter, cursor }],
+				async queryFn() {
+					return $coolInstance.fetch({ query: { where, filter, cursor } });
+				},
+			});
 		},
-		async withCountLoader(props) {
-			return {
-				filter: -1,
-				total: -1,
-				where: -1,
-			};
+		async withCountLoader({ queryClient, where, filter }) {
+			return queryClient.ensureQueryData({
+				queryKey: ["withCountLoader", name, { where, filter }],
+				async queryFn() {
+					return $coolInstance.count({ query: { where, filter } });
+				},
+			});
 		},
 	};
 
-	return instance;
+	return $instance;
 };
