@@ -18,6 +18,9 @@ export const InventorySlotRepository = withRepository({
 	update() {
 		return db.kysely.updateTable("InventorySlot");
 	},
+	remove() {
+		return db.kysely.deleteFrom("InventorySlot");
+	},
 	select() {
 		return db.kysely.selectFrom("InventorySlot as inventorySlot");
 	},

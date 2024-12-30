@@ -19,6 +19,9 @@ export const SlotRepository = withRepository({
 	update() {
 		return db.kysely.updateTable("Slot");
 	},
+	remove() {
+		return db.kysely.deleteFrom("Slot");
+	},
 	select({ query: { where, filter } }) {
 		let $select: any = db.kysely.selectFrom("Slot as slot");
 

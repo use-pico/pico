@@ -1,7 +1,8 @@
 import type {
-	InsertQueryBuilder,
-	SelectQueryBuilder,
-	UpdateQueryBuilder,
+    DeleteQueryBuilder,
+    InsertQueryBuilder,
+    SelectQueryBuilder,
+    UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
 import type { Database } from "../database/Database";
@@ -91,6 +92,16 @@ export namespace withRepository {
 			) => UpdateQueryBuilder<any, any, any, any>;
 		}
 
+		export namespace remove {
+			export interface Props {
+				//
+			}
+
+			export type Callback = (
+				props: Props,
+			) => DeleteQueryBuilder<any, any, any>;
+		}
+
 		export namespace select {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
@@ -130,6 +141,7 @@ export namespace withRepository {
 
 		insert: Props.insert.Callback;
 		update: Props.update.Callback;
+		remove: Props.remove.Callback;
 		select: Props.select.Callback<TSchema>;
 
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
@@ -164,6 +176,14 @@ export namespace withRepository {
 			> = (
 				props: Props<TSchema>,
 			) => Promise<withRepositorySchema.Output<TSchema>>;
+		}
+
+		export namespace remove {
+			export interface Props {
+				idIn?: string[];
+			}
+
+			export type Callback = (props: Props) => Promise<void>;
 		}
 
 		export namespace fetch {
@@ -228,6 +248,8 @@ export namespace withRepository {
 
 		create: Instance.create.Callback<TSchema>;
 		patch: Instance.patch.Callback<TSchema>;
+		remove: Instance.remove.Callback;
+
 		fetch: Instance.fetch.Callback<TSchema>;
 		list: Instance.list.Callback<TSchema>;
 		count: Instance.count.Callback<TSchema>;
@@ -248,6 +270,7 @@ export const withRepository = <
 	toPatch,
 	insert,
 	update,
+	remove,
 	select,
 	applyWhere = ({ select }) => select,
 	applyFilter = ({ select }) => select,
@@ -391,6 +414,12 @@ export const withRepository = <
 			);
 
 			return instance.fetch({ query: { where: { id: entity.id } } });
+		},
+		async remove({ idIn }) {
+			if (!idIn || idIn?.length === 0) {
+				return undefined;
+			}
+			return database.run(remove({}).where("id", "in", idIn));
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(

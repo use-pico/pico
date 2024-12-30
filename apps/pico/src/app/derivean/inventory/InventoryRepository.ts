@@ -19,6 +19,9 @@ export const InventoryRepository = withRepository({
 	update() {
 		return db.kysely.updateTable("Inventory");
 	},
+	remove() {
+		return db.kysely.deleteFrom("Inventory");
+	},
 	select({ query: { where, filter } }) {
 		const $select = db.kysely.selectFrom("Inventory as inventory");
 

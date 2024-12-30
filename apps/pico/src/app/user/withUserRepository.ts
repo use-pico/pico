@@ -27,6 +27,9 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 		update() {
 			return database.kysely.updateTable("User");
 		},
+		remove() {
+			return database.kysely.deleteFrom("User");
+		},
 		select() {
 			return database.kysely.selectFrom("User as user");
 		},

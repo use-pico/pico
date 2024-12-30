@@ -2,9 +2,11 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     LinkTo,
     Table,
     toast,
+    TrashIcon,
     Tx,
     useTable,
     withColumn,
@@ -127,6 +129,28 @@ export const SlotTable: FC<SlotTable.Props> = ({
 									}}
 								/>
 							</ActionModal>
+
+							<ActionModal
+								icon={TrashIcon}
+								label={<Tx label={"Delete slots (label)"} />}
+								textTitle={<Tx label={"Delete slots (modal)"} />}
+								disabled={
+									!table.selection || table.selection.value.length === 0
+								}
+								css={{
+									base: [
+										"text-red-500",
+										"hover:text-red-600",
+										"hover:bg-red-50",
+									],
+								}}
+							>
+								<DeleteControl
+									repository={SlotRepository}
+									textContent={<Tx label={"Slot delete (content)"} />}
+									idIn={table.selection?.value}
+								/>
+							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -172,6 +196,25 @@ export const SlotTable: FC<SlotTable.Props> = ({
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
+								/>
+							</ActionModal>
+
+							<ActionModal
+								icon={TrashIcon}
+								label={<Tx label={"Delete slot (label)"} />}
+								textTitle={<Tx label={"Delete slot (modal)"} />}
+								css={{
+									base: [
+										"text-red-500",
+										"hover:text-red-600",
+										"hover:bg-red-50",
+									],
+								}}
+							>
+								<DeleteControl
+									repository={SlotRepository}
+									textContent={<Tx label={"Slot delete (content)"} />}
+									idIn={[data.id]}
 								/>
 							</ActionModal>
 						</ActionMenu>

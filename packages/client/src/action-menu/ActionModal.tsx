@@ -10,6 +10,7 @@ export namespace ActionModal {
 		iconProps?: Icon.Props;
 		label: ReactNode;
 		textTitle?: ReactNode;
+		disabled?: boolean;
 		modalProps?: Omit<Modal.Props, "target">;
 	}
 }
@@ -19,13 +20,14 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	iconProps,
 	label,
 	textTitle,
+	disabled = false,
 	modalProps,
 	variant,
 	tva = ActionModalCss,
 	css,
 	children,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const tv = tva({ ...variant, disabled, css }).slots;
 
 	return (
 		<div className={tv.base()}>
@@ -39,6 +41,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				icon={icon}
 				target={label}
 				title={textTitle}
+				disabled={disabled}
 				css={{
 					modal: ["w-1/2"],
 				}}

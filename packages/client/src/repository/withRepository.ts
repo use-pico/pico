@@ -179,6 +179,25 @@ export namespace withRepository {
 				withRepositorySchema.Shape<TSchema>
 			>;
 		}
+
+		export namespace useRemoveMutation {
+			export namespace onSuccess {
+				export interface Props {
+					//
+				}
+
+				export type Callback = (props: Props) => Promise<void>;
+			}
+
+			export interface Props {
+				wrap?<T>(callback: () => Promise<T>): Promise<T>;
+				onSuccess?: onSuccess.Callback;
+			}
+
+			export type Callback = (
+				props: Props,
+			) => UseMutationResult<any, Error, { idIn?: string[] }>;
+		}
 	}
 
 	export interface Instance<
@@ -192,6 +211,7 @@ export namespace withRepository {
 
 		useCreateMutation: Instance.useCreateMutation.Callback<TSchema>;
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
+		useRemoveMutation: Instance.useRemoveMutation.Callback;
 	}
 }
 
@@ -308,6 +328,35 @@ export const withRepository = <
 						await router.invalidate();
 
 						return entity;
+					});
+				},
+			});
+		},
+		useRemoveMutation({ wrap = (callback) => callback(), onSuccess }) {
+			const queryClient = useQueryClient();
+			const router = useRouter();
+
+			return useMutation({
+				mutationKey: ["useRemoveMutation", name],
+				async mutationFn({ idIn }) {
+					return wrap(async () => {
+						await $coolInstance.remove({ idIn });
+
+						await invalidator({
+							queryClient,
+							keys: [
+								["withListLoader", name],
+								["withFetchLoader", name],
+								["withCountLoader", name],
+								...invalidate,
+							],
+						});
+
+						await onSuccess?.({});
+
+						await router.invalidate();
+
+						return undefined;
 					});
 				},
 			});

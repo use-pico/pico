@@ -22,8 +22,17 @@ export const ActionCss = css({
 			warning: ["text-amber-500", "hover:text-amber-600", "hover:bg-amber-100"],
 			danger: ["text-red-500", "hover:text-red-600", "hover:bg-red-100"],
 		},
+		disabled: {
+			true: [
+				"cursor-not-allowed",
+				"text-slate-300",
+				"bg-slate-100",
+				"hover:bg-slate-100",
+			],
+		},
 	},
 	defaults: {
 		variant: "common",
+		disabled: false,
 	},
 });

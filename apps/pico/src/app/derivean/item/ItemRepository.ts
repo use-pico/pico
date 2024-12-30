@@ -19,6 +19,9 @@ export const ItemRepository = withRepository({
 	update() {
 		return db.kysely.updateTable("Item");
 	},
+	remove() {
+		return db.kysely.deleteFrom("Item");
+	},
 	select() {
 		return db.kysely.selectFrom("Item as item");
 	},
