@@ -7,11 +7,11 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { InventorySlotSchema } from "~/app/derivean/inventory/slot/InventorySlotSchema";
 import { SlotRepository } from "~/app/derivean/slot/SlotRepository";
+import { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 import { SlotTable } from "~/app/derivean/slot/SlotTable";
 
-const SearchSchema = withSearchSchema({ filter: InventorySlotSchema.filter });
+const SearchSchema = withSearchSchema({ filter: SlotSchema.filter });
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/$id/slot/list/",

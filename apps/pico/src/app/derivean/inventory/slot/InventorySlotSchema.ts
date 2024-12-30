@@ -16,7 +16,7 @@ export const InventorySlotSchema = withRepositorySchema({
 		inventoryId: z.string().min(1),
 		slotId: z.string().min(1),
 	}),
-	filter: FilterSchema.merge( 
+	filter: FilterSchema.merge(
 		z.object({
 			inventoryId: z.string().optional(),
 			slotId: z.string().optional(),

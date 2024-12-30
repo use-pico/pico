@@ -221,6 +221,7 @@ export const withRepository = <
 			return queryClient.ensureQueryData({
 				queryKey: ["withListLoader", name, { where, filter, cursor }],
 				async queryFn() {
+					console.log("withListLoader", name, { where, filter, cursor });
 					return $coolInstance.list({ query: { where, filter, cursor } });
 				},
 			});
