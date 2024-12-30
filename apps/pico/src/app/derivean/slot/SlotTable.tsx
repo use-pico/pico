@@ -121,21 +121,18 @@ export const SlotTable: FC<SlotTable.Props> = ({
 								<SlotForm
 									defaultValues={data}
 									mutation={SlotRepository.usePatchMutation({
-										async toPatch(shape) {
+										async toPatch({ shape }) {
 											return {
 												shape,
-												link: {
-													inventory: inventoryId,
-												},
 												filter: {
 													id: data.id,
 												},
 											};
 										},
+										async onSuccess({ entity }) {
+											// create link
+										},
 									})}
-									onSuccess={async () => {
-										//
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

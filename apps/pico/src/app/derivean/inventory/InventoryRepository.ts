@@ -15,6 +15,9 @@ export const InventoryRepository = withRepository({
 	insert() {
 		return db.kysely.insertInto("Inventory");
 	},
+	update() {
+		return db.kysely.updateTable("Inventory");
+	},
 	select() {
 		return db.kysely
 			.selectFrom("Inventory as inventory")
@@ -26,6 +29,9 @@ export const InventoryRepository = withRepository({
 			.leftJoin("Slot as slot", "inventorySlot.slotId", "slot.id");
 	},
 	async toCreate({ shape }) {
+		return shape;
+	},
+	async toPatch({ shape }) {
 		return shape;
 	},
 });

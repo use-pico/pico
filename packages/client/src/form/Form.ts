@@ -13,7 +13,7 @@ export namespace Form {
 			Error,
 			z.infer<TShapeSchema>
 		>;
-		onSuccess(entity: z.infer<TEntitySchema>): Promise<void>;
+		onSuccess?(entity: z.infer<TEntitySchema>): Promise<void>;
 		defaultValues?: z.infer<TShapeSchema>;
 	}
 }

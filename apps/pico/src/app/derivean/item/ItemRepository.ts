@@ -15,10 +15,16 @@ export const ItemRepository = withRepository({
 	insert() {
 		return db.kysely.insertInto("Item");
 	},
+	update() {
+		return db.kysely.updateTable("Item");
+	},
 	select() {
 		return db.kysely.selectFrom("Item as item");
 	},
 	async toCreate({ shape }) {
+		return shape;
+	},
+	async toPatch({ shape }) {
 		return shape;
 	},
 });

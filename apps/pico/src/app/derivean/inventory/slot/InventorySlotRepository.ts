@@ -15,10 +15,16 @@ export const InventorySlotRepository = withRepository({
 	insert() {
 		return db.kysely.insertInto("InventorySlot");
 	},
+	update() {
+		return db.kysely.updateTable("InventorySlot");
+	},
 	select() {
 		return db.kysely.selectFrom("InventorySlot as inventorySlot");
 	},
 	async toCreate({ shape }) {
+		return shape;
+	},
+	async toPatch({ shape }) {
 		return shape;
 	},
 });

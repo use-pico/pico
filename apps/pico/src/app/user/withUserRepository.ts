@@ -24,6 +24,9 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 		insert() {
 			return database.kysely.insertInto("User");
 		},
+		update() {
+			return database.kysely.updateTable("User");
+		},
 		select() {
 			return database.kysely.selectFrom("User as user");
 		},
@@ -32,6 +35,9 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 				...shape,
 				password: pwd.hash(password),
 			};
+		},
+		async toPatch({ shape }) {
+			return shape;
 		},
 	});
 };

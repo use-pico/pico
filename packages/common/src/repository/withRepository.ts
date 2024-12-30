@@ -1,4 +1,8 @@
-import type { InsertQueryBuilder, SelectQueryBuilder } from "kysely";
+import type {
+    InsertQueryBuilder,
+    SelectQueryBuilder,
+    UpdateQueryBuilder,
+} from "kysely";
 import { z } from "zod";
 import type { Database } from "../database/Database";
 import type { CountSchema } from "../schema/CountSchema";
@@ -44,6 +48,20 @@ export namespace withRepository {
 			) => Promise<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 		}
 
+		export namespace toPatch {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				shape: withRepositorySchema.Shape<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>>;
+		}
+
 		export namespace insert {
 			export interface Props {
 				//
@@ -52,6 +70,16 @@ export namespace withRepository {
 			export type Callback = (
 				props: Props,
 			) => InsertQueryBuilder<any, any, any>;
+		}
+
+		export namespace update {
+			export interface Props {
+				//
+			}
+
+			export type Callback = (
+				props: Props,
+			) => UpdateQueryBuilder<any, any, any, any>;
 		}
 
 		export namespace select {
@@ -89,8 +117,10 @@ export namespace withRepository {
 		meta: Props.Meta.Instance<TSchema>;
 
 		toCreate: Props.toCreate.Callback<TSchema>;
+		toPatch: Props.toPatch.Callback<TSchema>;
 
 		insert: Props.insert.Callback;
+		update: Props.update.Callback;
 		select: Props.select.Callback<TSchema>;
 
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
@@ -109,7 +139,22 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Entity<TSchema>>;
+			) => Promise<withRepositorySchema.Output<TSchema>>;
+		}
+
+		export namespace patch {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				shape: withRepositorySchema.Shape<TSchema>;
+				filter: withRepositorySchema.Filter<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Output<TSchema>>;
 		}
 
 		export namespace fetch {
@@ -123,7 +168,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Entity<TSchema> | undefined>;
+			) => Promise<withRepositorySchema.Output<TSchema> | undefined>;
 		}
 
 		export namespace list {
@@ -137,7 +182,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Entity<TSchema>[]>;
+			) => Promise<withRepositorySchema.Output<TSchema>[]>;
 		}
 
 		export namespace count {
@@ -173,6 +218,7 @@ export namespace withRepository {
 		schema: TSchema;
 
 		create: Instance.create.Callback<TSchema>;
+		patch: Instance.patch.Callback<TSchema>;
 		fetch: Instance.fetch.Callback<TSchema>;
 		list: Instance.list.Callback<TSchema>;
 		count: Instance.count.Callback<TSchema>;
@@ -186,7 +232,9 @@ export const withRepository = <
 	database,
 	meta,
 	toCreate,
+	toPatch,
 	insert,
+	update,
 	select,
 	applyWhere = ({ select }) => select,
 	applyFilter = ({ select }) => select,
@@ -291,6 +339,17 @@ export const withRepository = <
 					},
 				}),
 			);
+		},
+		async patch({ shape, filter }) {
+			const entity = await instance.fetch({ query: { where: filter } });
+
+			if (!entity) {
+				throw new Error("Cannot patch an unknown entity (empty query result).");
+			}
+
+			await database.run(update({}).set(toPatch({ shape })));
+
+			return instance.fetch({ query: { where: { id: entity.id } } });
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(

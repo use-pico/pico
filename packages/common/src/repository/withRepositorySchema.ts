@@ -47,12 +47,17 @@ export namespace withRepositorySchema {
 
 	export interface Infer<TInstance extends Instance<any, any, any>> {
 		entity: z.infer<TInstance["entity"]>;
+		output: z.infer<TInstance["output"]>;
 		shape: z.infer<TInstance["shape"]>;
 		filter: z.infer<TInstance["filter"]>;
 	}
 
 	export type Entity<TInstance extends Instance<any, any, any>> = z.infer<
 		TInstance["entity"]
+	>;
+
+	export type Output<TInstance extends Instance<any, any, any>> = z.infer<
+		TInstance["output"]
 	>;
 
 	export type Shape<TInstance extends Instance<any, any, any>> = z.infer<
