@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams } from "@tanstack/react-router";
 import {
     Button,
     FormCss,
     FormError,
     FormInput,
-    Tx
+    LinkTo,
+    Tx,
 } from "@use-pico/client";
 import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
@@ -22,6 +24,7 @@ export namespace LoginForm {
 }
 
 export const LoginForm: FC<LoginForm.Props> = ({ repository, onSuccess }) => {
+	const { locale } = useParams({ from: "/$locale" });
 	const mutation = useLoginMutation({ repository });
 	const form = useForm<LoginSchema.Type>({
 		resolver: zodResolver(LoginSchema),
@@ -96,6 +99,13 @@ export const LoginForm: FC<LoginForm.Props> = ({ repository, onSuccess }) => {
 			</FormInput>
 
 			<div className={"flex flex-row justify-between gap-8"}>
+				<LinkTo
+					to={"/$locale/apps/derivean/public/register"}
+					params={{ locale }}
+				>
+					<Tx label={"Register (link)"} />
+				</LinkTo>
+
 				<Button type={"submit"}>
 					<Tx label={"Login (submit)"} />
 				</Button>

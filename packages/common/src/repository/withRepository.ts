@@ -236,13 +236,13 @@ export const withRepository = <
 
 			await database.run(
 				insert({}).values({
-					...toCreate({ shape }),
+					...(await toCreate({ shape })),
 					id: $id,
 				}),
 			);
 
 			return schema.entity.parse(
-				instance.fetch({
+				await instance.fetch({
 					query: {
 						where: {
 							id: $id,
@@ -253,7 +253,9 @@ export const withRepository = <
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(
-				database.fetch($applyQuery({ query, select: select({ database }) })),
+				await database.fetch(
+					$applyQuery({ query, select: select({ database }) }),
+				),
 			);
 		},
 	};

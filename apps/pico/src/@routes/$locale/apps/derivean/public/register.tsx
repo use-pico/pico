@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ls } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
+import { RegisterForm } from "~/app/derivean/public/RegisterForm";
 import { UserRepository } from "~/app/derivean/user/UserRepository";
-import { RegisterForm } from "~/app/public/RegisterForm";
 
 export const Route = createFileRoute("/$locale/apps/derivean/public/register")({
 	component: () => {
