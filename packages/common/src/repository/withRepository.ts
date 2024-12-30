@@ -353,52 +353,56 @@ export const withRepository = <
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(
-				await database.fetch($applyQuery({ query, select: select({ query }) })),
+				await database.run($applyQuery({ query, select: select({ query }) })),
 			);
 		},
 		async list({ query }) {
 			return z
 				.array(schema.entity)
 				.parse(
-					await database.list(
-						$applyQuery({ query, select: select({ query }) }),
-					),
+					await database.run($applyQuery({ query, select: select({ query }) })),
 				);
 		},
 		async count({ query }) {
 			return {
-				total: await database.count(
-					$applyQuery({
-						query: {},
-						select: select({ query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: [],
-					}),
-				),
-				where: await database.count(
-					$applyQuery({
-						query: {
-							where: query.where,
-						},
-						select: select({ query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: ["where"],
-					}),
-				),
-				filter: await database.count(
-					$applyQuery({
-						query: {
-							where: query.where,
-							filter: query.filter,
-						},
-						select: select({ query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: ["filter", "where"],
-					}),
-				),
+				total: (
+					await database.run(
+						$applyQuery({
+							query: {},
+							select: select({ query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							apply: [],
+						}),
+					)
+				).count,
+				where: (
+					await database.run(
+						$applyQuery({
+							query: {
+								where: query.where,
+							},
+							select: select({ query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							apply: ["where"],
+						}),
+					)
+				).count,
+				filter: (
+					await database.run(
+						$applyQuery({
+							query: {
+								where: query.where,
+								filter: query.filter,
+							},
+							select: select({ query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							apply: ["filter", "where"],
+						}),
+					)
+				).count,
 			} satisfies CountSchema.Type;
 		},
 	};
