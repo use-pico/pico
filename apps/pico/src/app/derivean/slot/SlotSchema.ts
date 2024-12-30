@@ -29,7 +29,8 @@ export const SlotSchema = withRepositorySchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			kind: ItemKindSchema.nullish(),
+			kind: ItemKindSchema.optional(),
+			inventoryId: z.string().optional(),
 		}),
 	),
 });

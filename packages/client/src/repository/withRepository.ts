@@ -50,7 +50,7 @@ export namespace withRepository {
 
 	export interface Instance<
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
-	> {
+	> extends withCoolRepository.Instance<TSchema> {
 		name: string;
 		withFetchLoader(
 			props: Instance.withFetchLoader.Props<TSchema>,
@@ -75,6 +75,7 @@ export const withRepository = <
 }: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
 	const instance: withRepository.Instance<TSchema> = {
 		...withCoolRepository(props),
+
 		name,
 		async withListLoader(props) {
 			return [];

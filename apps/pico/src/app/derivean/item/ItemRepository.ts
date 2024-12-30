@@ -1,10 +1,21 @@
 import { withRepository } from "@use-pico/client";
+import { db } from "~/app/derivean/db/db";
 import { ItemSchema } from "~/app/derivean/item/ItemSchema";
 
 export const ItemRepository = withRepository({
 	name: "ItemRepository",
 	schema: ItemSchema,
-	async toCreate(shape) {
+	database: db,
+	meta: {
+		where: {
+			kind: "item.kind",
+			name: "item.name",
+		},
+	},
+	select() {
+		return db.kysely.selectFrom("Item as item");
+	},
+	async toCreate({ shape }) {
 		return shape;
 	},
 });

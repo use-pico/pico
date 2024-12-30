@@ -7,8 +7,8 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { InventorySlotRepository } from "~/app/derivean/inventory/slot/InventorySlotRepository";
 import { InventorySlotSchema } from "~/app/derivean/inventory/slot/InventorySlotSchema";
+import { SlotRepository } from "~/app/derivean/slot/SlotRepository";
 import { SlotTable } from "~/app/derivean/slot/SlotTable";
 
 const SearchSchema = withSearchSchema({ filter: InventorySlotSchema.filter });
@@ -86,7 +86,7 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return {
-			data: await InventorySlotRepository.withListLoader({
+			data: await SlotRepository.withListLoader({
 				queryClient,
 				filter: {
 					...global,
@@ -97,7 +97,7 @@ export const Route = createFileRoute(
 				},
 				cursor,
 			}),
-			count: await InventorySlotRepository.withCountLoader({
+			count: await SlotRepository.withCountLoader({
 				queryClient,
 				filter: { ...global, ...filter },
 				where: {
