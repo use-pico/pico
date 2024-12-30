@@ -8,12 +8,26 @@ export const SlotRepository = withRepository({
 	database: db,
 	meta: {
 		where: {
-			inventoryId: "slot.inventoryId",
 			kind: "slot.kind",
+			inventoryId: "inventorySlot.inventoryId",
 		},
 	},
+	insert() {
+		return db.kysely.insertInto("Slot");
+	},
 	select() {
-		return db.kysely.selectFrom("Slot");
+		return db.kysely
+			.selectFrom("Slot as slot")
+			.leftJoin(
+				"InventorySlot as inventorySlot",
+				"inventorySlot.slotId",
+				"slot.id",
+			)
+			.leftJoin(
+				"Inventory as inventory",
+				"inventorySlot.inventoryId",
+				"inventory.id",
+			);
 	},
 	async toCreate({ shape }) {
 		return shape;

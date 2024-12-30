@@ -12,6 +12,9 @@ export const InventorySlotRepository = withRepository({
 			slotId: "inventorySlot.slotId",
 		},
 	},
+	insert() {
+		return db.kysely.insertInto("InventorySlot");
+	},
 	select() {
 		return db.kysely.selectFrom("InventorySlot as inventorySlot");
 	},

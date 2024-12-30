@@ -1,7 +1,7 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { LinkTo } from "@use-pico/client";
 
-export const Route = createFileRoute("/$locale/apps/")({
+export const Route = createFileRoute("/$locale/")({
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
 
@@ -22,28 +22,10 @@ export const Route = createFileRoute("/$locale/apps/")({
 						<li>
 							<LinkTo
 								icon={"icon-[bx--game]"}
-								to={"/$locale/apps/derivean"}
+								to={"/$locale/apps/derivean/public/login"}
 								params={{ locale }}
 							>
 								DeRivean
-							</LinkTo>
-						</li>
-						<li>
-							<LinkTo
-								icon={"icon-[ph--money]"}
-								to={"/$locale/apps/monye"}
-								params={{ locale }}
-							>
-								Monye
-							</LinkTo>
-						</li>
-						<li>
-							<LinkTo
-								icon={"icon-[zondicons--play-outline]"}
-								to={"/$locale/apps/playground"}
-								params={{ locale }}
-							>
-								Playground
 							</LinkTo>
 						</li>
 					</ul>

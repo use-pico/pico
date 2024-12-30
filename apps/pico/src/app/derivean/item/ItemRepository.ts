@@ -12,6 +12,9 @@ export const ItemRepository = withRepository({
 			name: "item.name",
 		},
 	},
+	insert() {
+		return db.kysely.insertInto("Item");
+	},
 	select() {
 		return db.kysely.selectFrom("Item as item");
 	},

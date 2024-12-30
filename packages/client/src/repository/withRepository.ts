@@ -77,8 +77,18 @@ export const withRepository = <
 		...withCoolRepository(props),
 
 		name,
-		async withListLoader(props) {
-			return [];
+		async withListLoader({
+			queryClient,
+			where,
+			filter,
+			cursor = { page: 0, size: 10 },
+		}) {
+			return queryClient.ensureQueryData({
+				queryKey: ["withListLoader", name, { where, filter, cursor }],
+				async queryFn() {
+					return [];
+				},
+			});
 		},
 		async withFetchLoader(props) {
 			return (await instance.withListLoader(props))?.[0];

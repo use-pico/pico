@@ -1,7 +1,8 @@
-import type { SelectQueryBuilder } from "kysely";
+import type { InsertQueryBuilder, SelectQueryBuilder } from "kysely";
 import type { Database } from "../database/Database";
 import type { CursorSchema } from "../schema/CursorSchema";
 import type { FilterSchema } from "../schema/FilterSchema";
+import { id } from "../toolbox/id";
 import type { withRepositorySchema } from "./withRepositorySchema";
 
 export namespace withRepository {
@@ -12,7 +13,7 @@ export namespace withRepository {
 	> {
 		where?: withRepositorySchema.Filter<TSchema>;
 		filter?: withRepositorySchema.Filter<TSchema>;
-		cursor: CursorSchema.Type;
+		cursor?: CursorSchema.Type;
 	}
 
 	export namespace Props {
@@ -41,14 +42,24 @@ export namespace withRepository {
 			) => Promise<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 		}
 
+		export namespace insert {
+			export interface Props {
+				//
+			}
+
+			export type Callback = (
+				props: Props,
+			) => InsertQueryBuilder<any, any, any>;
+		}
+
 		export namespace select {
 			export interface Props {
 				//
 			}
 
-			export type Callback<TDatabase, TTable extends keyof TDatabase> = (
+			export type Callback = (
 				props: Props,
-			) => SelectQueryBuilder<TDatabase, TTable, any>;
+			) => SelectQueryBuilder<any, any, any>;
 		}
 
 		export namespace applyWhere {
@@ -74,12 +85,23 @@ export namespace withRepository {
 		meta: Props.Meta.Instance<TSchema>;
 
 		toCreate: Props.toCreate.Callback<TSchema>;
-		select: Props.select.Callback<any, any>;
+
+		insert: Props.insert.Callback;
+		select: Props.select.Callback;
+
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
 		applyFilter?: Props.applyWhere.Callback<TSchema>;
 	}
 
 	export namespace Instance {
+		export namespace create {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				shape: withRepositorySchema.Shape<TSchema>;
+			}
+		}
+
 		export namespace fetch {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
@@ -107,6 +129,9 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
+		create(
+			props: Instance.create.Props<TSchema>,
+		): Promise<withRepositorySchema.Entity<TSchema>>;
 		fetch(
 			props: Instance.fetch.Props<TSchema>,
 		): Promise<withRepositorySchema.Entity<TSchema> | undefined>;
@@ -119,6 +144,8 @@ export const withRepository = <
 	schema,
 	database,
 	meta,
+	toCreate,
+	insert,
 	select,
 	applyWhere = ({ select }) => select,
 	applyFilter = ({ select }) => select,
@@ -127,6 +154,7 @@ export const withRepository = <
 		TSchema
 	> = ({ where, select }) => {
 		let $select = select;
+
 		for (const [value, field] of Object.entries(meta.where)) {
 			if (where?.[value] === undefined) {
 				continue;
@@ -203,6 +231,26 @@ export const withRepository = <
 
 	const instance: withRepository.Instance<TSchema> = {
 		schema,
+		async create({ shape }) {
+			const $id = id();
+
+			await database.run(
+				insert({}).values({
+					...toCreate({ shape }),
+					id: $id,
+				}),
+			);
+
+			return schema.entity.parse(
+				instance.fetch({
+					query: {
+						where: {
+							id: $id,
+						},
+					},
+				}),
+			);
+		},
 		async fetch({ query }) {
 			return schema.entity.parse(
 				database.fetch($applyQuery({ query, select: select({ database }) })),

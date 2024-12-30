@@ -8,8 +8,10 @@ export namespace withRepositorySchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
+		TOutputSchema extends TEntitySchema = TEntitySchema,
 	> {
 		entity: TEntitySchema;
+		output?: TOutputSchema;
 		shape: TShapeSchema;
 		filter: TFilterSchema;
 	}
@@ -18,9 +20,28 @@ export namespace withRepositorySchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
+		TOutputSchema extends TEntitySchema = TEntitySchema,
 	> {
+		/**
+		 * Entity schema; required stuff stored in the database (or somewhere else).
+		 *
+		 * Creating an entity requires this schema being valid.
+		 */
 		entity: TEntitySchema;
+		/**
+		 * The output of the queries (like fetch, list, etc.).
+		 *
+		 * Used only for the output validation.
+		 */
+		output: TOutputSchema;
+		/**
+		 * Shape schema defines fields required to create an entity in the database;
+		 * repository usually provides rest of the required fields (like userId or created timestamp and so on).
+		 */
 		shape: TShapeSchema;
+		/**
+		 * Filter schema defines client-side (userland) fields available for filtering.
+		 */
 		filter: TFilterSchema;
 	}
 
@@ -47,21 +68,26 @@ export const withRepositorySchema = <
 	TEntitySchema extends EntitySchema,
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
+	TOutputSchema extends TEntitySchema = TEntitySchema,
 >({
 	entity,
+	output = entity as TOutputSchema,
 	shape,
 	filter,
 }: withRepositorySchema.Props<
 	TEntitySchema,
 	TShapeSchema,
-	TFilterSchema
+	TFilterSchema,
+	TOutputSchema
 >): withRepositorySchema.Instance<
 	TEntitySchema,
 	TShapeSchema,
-	TFilterSchema
+	TFilterSchema,
+	TOutputSchema
 > => {
 	return {
 		entity,
+		output,
 		shape,
 		filter,
 	};

@@ -1,7 +1,7 @@
 import type { Compilable, Kysely, SelectQueryBuilder } from "kysely";
 
 export namespace Database {
-	export interface Instance<DB> {
+	export interface Instance<DB = any> {
 		kysely: Kysely<DB>;
 		/**
 		 * Execute query directly on AlaSQL.

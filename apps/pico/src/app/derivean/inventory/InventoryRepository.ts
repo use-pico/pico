@@ -9,10 +9,21 @@ export const InventoryRepository = withRepository({
 	meta: {
 		where: {
 			name: "inventory.name",
+			slotId: "inventorySlot.slotId",
 		},
 	},
+	insert() {
+		return db.kysely.insertInto("Inventory");
+	},
 	select() {
-		return db.kysely.selectFrom("Inventory");
+		return db.kysely
+			.selectFrom("Inventory as inventory")
+			.leftJoin(
+				"InventorySlot as inventorySlot",
+				"inventorySlot.inventoryId",
+				"inventory.id",
+			)
+			.leftJoin("Slot as slot", "inventorySlot.slotId", "slot.id");
 	},
 	async toCreate({ shape }) {
 		return shape;

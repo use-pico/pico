@@ -6,15 +6,20 @@ import { useForm } from "react-hook-form";
 import { useRegisterMutation } from "~/app/mutation/useRegisterMutation";
 import { RegisterSchema } from "~/app/schema/RegisterSchema";
 import type { SessionSchema } from "~/app/schema/SessionSchema";
+import type { withUserRepository } from "~/app/user/withUserRepository";
 
 export namespace RegisterForm {
 	export interface Props {
+		repository: withUserRepository.Instance;
 		onSuccess(session: SessionSchema.Type): Promise<void>;
 	}
 }
 
-export const RegisterForm: FC<RegisterForm.Props> = ({ onSuccess }) => {
-	const mutation = useRegisterMutation();
+export const RegisterForm: FC<RegisterForm.Props> = ({
+	repository,
+	onSuccess,
+}) => {
+	const mutation = useRegisterMutation({ repository });
 	const form = useForm<RegisterSchema.Type>({
 		resolver: zodResolver(RegisterSchema),
 	});

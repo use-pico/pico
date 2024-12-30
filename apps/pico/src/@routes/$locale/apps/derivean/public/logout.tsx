@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LogoutIcon, ls, Status, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 
-export const Route = createFileRoute("/$locale/public/logout")({
+export const Route = createFileRoute("/$locale/apps/derivean/public/logout")({
 	pendingComponent() {
 		return (
 			<div
@@ -27,6 +27,9 @@ export const Route = createFileRoute("/$locale/public/logout")({
 	async loader({ params: { locale } }) {
 		ls.remove("session");
 
-		throw redirect({ to: "/$locale/public", params: { locale } });
+		throw redirect({
+			to: "/$locale/apps/derivean/public/login",
+			params: { locale },
+		});
 	},
 });

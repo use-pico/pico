@@ -1,16 +1,18 @@
 import {
     createFileRoute,
+    redirect,
     useLoaderData,
     useParams,
 } from "@tanstack/react-router";
-import { AppLayout, LinkTo, LogoutIcon } from "@use-pico/client";
+import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { RootMenu } from "~/app/derivean/root/RootMenu";
+import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root")({
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session } = useLoaderData({ from: "/$locale/apps" });
+		const { session } = useLoaderData({ from: "/$locale/apps/derivean/root" });
 
 		return (
 			<AppLayout
@@ -28,7 +30,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root")({
 						{session.name}
 						<LinkTo
 							icon={LogoutIcon}
-							to={"/$locale/public/logout"}
+							to={"/$locale/apps/derivean/public/logout"}
 							params={{ locale }}
 							preload={false}
 						/>
@@ -36,5 +38,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/root")({
 				}
 			/>
 		);
+	},
+	loader({ params: { locale } }) {
+		try {
+			return {
+				session: SessionSchema.parse(ls.get("session")),
+			};
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		} catch (_) {
+			throw redirect({
+				to: `/$locale/apps/derivean/public/login`,
+				params: { locale },
+			});
+		}
 	},
 });
