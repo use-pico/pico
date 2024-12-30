@@ -30,8 +30,8 @@
 		"luxon": "^3.5.0",
 		"react-dropzone": "^14.3.5",
 		"react-hook-form": "^7.54.1",
+		"react-hot-toast": "^2.4.1",
 		"read-excel-file": "^5.8.6",
-		"sonner": "^1.7.1",
 		"uuid": "^11.0.3"
 	},
 	"peerDependencies": {

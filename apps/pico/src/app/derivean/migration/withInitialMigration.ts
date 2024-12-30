@@ -5,7 +5,7 @@ export const withInitialMigration = async () => {
 
 	dexie.version(1).stores({
 		Inventory: "id, name&",
-		Slot: "id, kind, name&",
+		Slot: "id, [kind+name]&",
 		InventorySlot: "id, inventoryId, slotId",
 		Item: "id, name",
 		User: "id, login&",

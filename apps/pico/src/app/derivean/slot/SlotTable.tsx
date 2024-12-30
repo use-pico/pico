@@ -4,6 +4,7 @@ import {
     ActionModal,
     LinkTo,
     Table,
+    toast,
     Tx,
     useTable,
     withColumn,
@@ -95,6 +96,15 @@ export const SlotTable: FC<SlotTable.Props> = ({
 							>
 								<SlotForm
 									mutation={SlotRepository.useCreateMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving slot (label)"} />,
+												success: (
+													<Tx label={"Slot successfully saved (label)"} />
+												),
+												error: <Tx label={"Cannot save slot (label)"} />,
+											});
+										},
 										async toCreate({ shape }) {
 											return {
 												shape,
@@ -120,6 +130,15 @@ export const SlotTable: FC<SlotTable.Props> = ({
 								<SlotForm
 									defaultValues={data}
 									mutation={SlotRepository.usePatchMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving slot (label)"} />,
+												success: (
+													<Tx label={"Slot successfully saved (label)"} />
+												),
+												error: <Tx label={"Cannot save slot (label)"} />,
+											});
+										},
 										async toPatch({ shape }) {
 											return {
 												shape,

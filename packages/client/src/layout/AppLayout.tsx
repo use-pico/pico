@@ -1,6 +1,6 @@
 import { Outlet } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
-import { Toaster } from "sonner";
+import { Toaster } from "react-hot-toast";
 import { AppLayoutCss } from "./AppLayoutCss";
 import { Footer } from "./Footer";
 
@@ -34,11 +34,7 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 
 	return (
 		<div className={tv.base()}>
-			<Toaster
-				position={"top-center"}
-				closeButton
-				richColors
-			/>
+			<Toaster position={"top-center"} />
 			<div className={tv.header()}>
 				<div>{logo}</div>
 				<div className={"flex-grow"}>{menu}</div>

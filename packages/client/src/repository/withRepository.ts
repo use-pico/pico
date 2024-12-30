@@ -73,6 +73,56 @@ export namespace withRepository {
 			) => Promise<CountSchema.Type>;
 		}
 
+		export namespace useCreateMutation {
+			export namespace toCreate {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					shape: withRepositorySchema.Shape<TSchema>;
+				}
+
+				export interface Response<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					shape: withRepositorySchema.Shape<TSchema>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<Response<TSchema>>;
+			}
+
+			export namespace onSuccess {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: withRepositorySchema.Entity<TSchema>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<void>;
+			}
+
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				wrap?<T>(callback: () => Promise<T>): Promise<T>;
+				toCreate: toCreate.Callback<TSchema>;
+				onSuccess?: onSuccess.Callback<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => UseMutationResult<
+				withRepositorySchema.Output<TSchema>,
+				Error,
+				withRepositorySchema.Shape<TSchema>
+			>;
+		}
+
 		export namespace usePatchMutation {
 			export namespace toPatch {
 				export interface Props<
@@ -108,56 +158,8 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				wrap?<T>(callback: () => Promise<T>): Promise<T>;
 				toPatch: toPatch.Callback<TSchema>;
-				onSuccess?: onSuccess.Callback<TSchema>;
-			}
-
-			export type Callback<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => UseMutationResult<
-				withRepositorySchema.Output<TSchema>,
-				Error,
-				withRepositorySchema.Shape<TSchema>
-			>;
-		}
-
-		export namespace useCreateMutation {
-			export namespace toCreate {
-				export interface Props<
-					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> {
-					shape: withRepositorySchema.Shape<TSchema>;
-				}
-
-				export interface Response<
-					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> {
-					shape: withRepositorySchema.Shape<TSchema>;
-				}
-
-				export type Callback<
-					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<Response<TSchema>>;
-			}
-
-			export namespace onSuccess {
-				export interface Props<
-					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> {
-					entity: withRepositorySchema.Entity<TSchema>;
-				}
-
-				export type Callback<
-					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<void>;
-			}
-
-			export interface Props<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
-				toCreate: toCreate.Callback<TSchema>;
 				onSuccess?: onSuccess.Callback<TSchema>;
 			}
 
@@ -234,65 +236,73 @@ export const withRepository = <
 			});
 		},
 
-		useCreateMutation({ toCreate, onSuccess }) {
+		useCreateMutation({
+			wrap = async (callback) => callback(),
+			toCreate,
+			onSuccess,
+		}) {
 			const queryClient = useQueryClient();
 			const router = useRouter();
 
 			return useMutation({
 				mutationKey: ["useCreateMutation", name],
 				async mutationFn(shape) {
-					const create = await toCreate({
-						shape,
+					return wrap(async () => {
+						const create = await toCreate({
+							shape,
+						});
+
+						const entity = await $coolInstance.create(create);
+
+						await onSuccess?.({ entity });
+
+						await invalidator({
+							queryClient,
+							keys: [
+								["withListLoader", name],
+								["withFetchLoader", name],
+								["withCountLoader", name],
+								...invalidate,
+							],
+						});
+
+						await router.invalidate();
+
+						return entity;
 					});
-
-					const entity = await $coolInstance.create(create);
-
-					await onSuccess?.({ entity });
-
-					await invalidator({
-						queryClient,
-						keys: [
-							["withListLoader", name],
-							["withFetchLoader", name],
-							["withCountLoader", name],
-							...invalidate,
-						],
-					});
-
-					await router.invalidate();
-
-					return entity;
 				},
 			});
 		},
-		usePatchMutation({ toPatch, onSuccess }) {
+		usePatchMutation({ wrap = (callback) => callback(), toPatch, onSuccess }) {
 			const queryClient = useQueryClient();
 			const router = useRouter();
 
 			return useMutation({
 				mutationKey: ["usePatchMutation", name],
 				async mutationFn(shape) {
-					const patch = await toPatch({
-						shape,
+					return wrap(async () => {
+						const patch = await toPatch({
+							shape,
+						});
+
+						const entity = await $coolInstance.patch(patch);
+
+						await onSuccess?.({ entity });
+
+						await invalidator({
+							queryClient,
+							keys: [
+								["withListLoader", name],
+								["withFetchLoader", name],
+								["withCountLoader", name],
+								...invalidate,
+							],
+						});
+
+						await router.invalidate();
+
+						return entity;
 					});
-
-					const entity = await $coolInstance.patch(patch);
-
-					await onSuccess?.({ entity });
-
-					await invalidator({
-						queryClient,
-						keys: [
-							["withListLoader", name],
-							["withFetchLoader", name],
-							["withCountLoader", name],
-							...invalidate,
-						],
-					});
-
-					await router.invalidate();
-
-					return entity;
 				},
 			});
 		},
