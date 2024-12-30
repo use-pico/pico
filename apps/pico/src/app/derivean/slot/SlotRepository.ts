@@ -15,6 +15,9 @@ export const SlotRepository = withRepository({
 	insert() {
 		return db.kysely.insertInto("Slot");
 	},
+	update() {
+		return db.kysely.updateTable("Slot");
+	},
 	select({ query: { where, filter } }) {
 		let $select: any = db.kysely.selectFrom("Slot as slot");
 
@@ -35,6 +38,9 @@ export const SlotRepository = withRepository({
 		return $select;
 	},
 	async toCreate({ shape }) {
+		return shape;
+	},
+	async toPatch({ shape }) {
 		return shape;
 	},
 });
