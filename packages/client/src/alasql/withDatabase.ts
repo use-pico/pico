@@ -23,7 +23,7 @@ export const withDatabase = async <DB>({
 	const instance: Database.Instance<DB> = {
 		kysely,
 		async exec(sql, bind) {
-			console.info(`SQL [${sql}]`, bind);
+			console.info(`Query [${sql}]`, bind);
 
 			await alasql.promise(
 				`CREATE INDEXEDDB DATABASE IF NOT EXISTS ${database}`,

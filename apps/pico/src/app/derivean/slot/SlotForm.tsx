@@ -17,7 +17,7 @@ import { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 
 export namespace SlotForm {
 	export interface Props
-		extends Form.Props<SlotSchema["entity"], SlotSchema["shape"]> {
+		extends Form.Props<SlotSchema["output"], SlotSchema["shape"]> {
 		//
 	}
 }
@@ -45,7 +45,7 @@ export const SlotForm: FC<SlotForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<SlotSchema["entity"], SlotSchema["shape"]>({
+			onSubmit={onSubmit<SlotSchema["output"], SlotSchema["shape"]>({
 				form,
 				mutation,
 				onSuccess,

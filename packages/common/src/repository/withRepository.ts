@@ -330,15 +330,13 @@ export const withRepository = <
 				}),
 			);
 
-			return schema.entity.parse(
-				await instance.fetch({
-					query: {
-						where: {
-							id: $id,
-						},
+			return instance.fetch({
+				query: {
+					where: {
+						id: $id,
 					},
-				}),
-			);
+				},
+			});
 		},
 		async patch({ shape, filter }) {
 			const entity = await instance.fetch({ query: { where: filter } });
@@ -353,14 +351,20 @@ export const withRepository = <
 		},
 		async fetch({ query }) {
 			return schema.entity.parse(
-				await database.run($applyQuery({ query, select: select({ query }) })),
+				(
+					await database.run(
+						$applyQuery({ query, select: select({ query }).selectAll() }),
+					)
+				)?.[0],
 			);
 		},
 		async list({ query }) {
 			return z
 				.array(schema.entity)
 				.parse(
-					await database.run($applyQuery({ query, select: select({ query }) })),
+					await database.run(
+						$applyQuery({ query, select: select({ query }).selectAll() }),
+					),
 				);
 		},
 		async count({ query }) {

@@ -93,19 +93,18 @@ export const SlotTable: FC<SlotTable.Props> = ({
 								textTitle={<Tx label={"Create slot (modal)"} />}
 								icon={SlotIcon}
 							>
-								{/* <SlotForm
-									mutation={SlotQuery.useCreateMutation({
-										async toCreate(create) {
+								<SlotForm
+									mutation={SlotRepository.useCreateMutation({
+										async toCreate({ shape }) {
 											return {
-												shape: create,
-												link: {},
+												shape,
 											};
 										},
+										async onSuccess({ entity }) {
+											console.log("yep1", entity);
+										},
 									})}
-									onSuccess={async () => {
-										//
-									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
