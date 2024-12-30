@@ -38,15 +38,6 @@ export const withDatabase = async <DB>({
 
 			return instance.exec(sql.sql, sql.parameters as any[]);
 		},
-		async list(query) {
-			return instance.run(query);
-		},
-		async fetch(query) {
-			return (await instance.list(query))[0];
-		},
-		async count(query) {
-			return (await instance.run(query)).count;
-		},
 	};
 
 	return instance;
