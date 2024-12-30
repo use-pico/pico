@@ -20,6 +20,7 @@ import {
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
+import { ModalContext } from "./ModalContext";
 import { ModalCss } from "./ModalCss";
 
 export namespace Modal {
@@ -71,7 +72,13 @@ export const Modal: FC<Modal.Props> = ({
 	const tv = tva({ disabled, ...variant, css }).slots;
 
 	return (
-		<>
+		<ModalContext.Provider
+			value={{
+				close() {
+					setIsOpen(false);
+				},
+			}}
+		>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps({
@@ -133,6 +140,6 @@ export const Modal: FC<Modal.Props> = ({
 					</>
 				)}
 			</FloatingNode>
-		</>
+		</ModalContext.Provider>
 	);
 };

@@ -21,6 +21,7 @@ export { CardCss } from "./card/CardCss";
 export { InlineContext } from "./context/InlineContext";
 export { ButtonLinkCss } from "./css/ButtonLinkCss";
 export { PageCss } from "./css/PageCss";
+export { ModalContext } from "./modal/ModalContext";
 export { Cursor } from "./cursor/Cursor";
 export { CursorCss } from "./cursor/CursorCss";
 export { handleOnPage } from "./cursor/handleOnPage";
@@ -117,4 +118,3 @@ export { Tx } from "./tx/Tx";
 export { ValueOf } from "./value-of/ValueOf";
 export { ValueOfCss } from "./value-of/ValueOfCss";
 export { Xlsx } from "./xlsx/Xlsx";
-
