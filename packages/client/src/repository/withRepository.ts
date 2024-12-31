@@ -334,9 +334,11 @@ export const withRepository = <
 		},
 
 		useListQuery({ query, options }) {
-			const result = useQuery({
+			return useQuery({
 				queryKey: ["useListQuery", name, { query }],
-				async queryFn() {
+				async queryFn(): Promise<
+					withCoolRepository.List<withRepositorySchema.Output<TSchema>>
+				> {
 					return {
 						data: await $coolInstance.list({ query }),
 						count: await $coolInstance.count({ query }),
@@ -344,8 +346,6 @@ export const withRepository = <
 				},
 				...options,
 			});
-
-			return result;
 		},
 
 		useCreateMutation({
@@ -424,31 +424,6 @@ export const withRepository = <
 			const queryClient = useQueryClient();
 			const router = useRouter();
 
-			return useMutation({
-				mutationKey: ["useRemoveMutation", name],
-				async mutationFn({ idIn }) {
-					return wrap(async () => {
-						await $coolInstance.remove({ idIn });
-
-						await invalidator({
-							queryClient,
-							keys: [
-								["withListLoader", name],
-								["useListQuery", name],
-								["withFetchLoader", name],
-								["withCountLoader", name],
-								...invalidate,
-							],
-						});
-
-						await onSuccess?.({});
-
-						await router.invalidate();
-
-						return undefined;
-					});
-				},
-			});
 		},
 	};
 

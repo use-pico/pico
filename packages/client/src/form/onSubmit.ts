@@ -32,7 +32,7 @@ export const onSubmit = <
 	mutation,
 	onSuccess,
 }: onSubmit.Props<TEntitySchema, TShapeSchema>) => {
-	return form.handleSubmit(async (values) => {
+	const submit = form.handleSubmit(async (values) => {
 		return mutation
 			.mutateAsync(values, {
 				onSuccess,
@@ -62,4 +62,9 @@ export const onSubmit = <
 				//
 			});
 	});
+
+	return (e: any) => {
+		e.stopPropagation();
+		submit(e);
+	};
 };

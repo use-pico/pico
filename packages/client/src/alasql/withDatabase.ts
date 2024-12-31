@@ -1,4 +1,4 @@
-import type { Database } from "@use-pico/common";
+import { Timer, type Database } from "@use-pico/common";
 import alasql from "alasql";
 import { withBrowserKysely } from "../kysely/withBrowserKysely";
 
@@ -32,7 +32,18 @@ export const withDatabase = async <DB>({
 		async exec(sql, bind) {
 			console.info(`Query [${sql}]`, bind);
 
-			return alasql.promise(sql, bind);
+			const time = new Timer({
+				label: "Query",
+			});
+
+			time.start();
+			try {
+				return await alasql.promise(sql, bind);
+			} catch (e) {
+				console.error(e);
+			} finally {
+				console.info(`===> Query [${sql}] took ${time.ms()}ms`, bind);
+			}
 		},
 		async run(query) {
 			const sql = query.compile();

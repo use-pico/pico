@@ -61,7 +61,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(10);
-	const [selection, setSelection] = useState<string[]>([]);
+	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
 	const [fulltext, setFulltext] = useState<string | undefined | null>(
 		undefined,
 	);

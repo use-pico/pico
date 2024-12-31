@@ -9,10 +9,10 @@
   value: Ukládání základní budovy
 05e36bb7db97c48a992ba2eb9756256c657fa9f96143541f891af522:
   ref: Create resource requirement (menu)
-  value: Create resource requirement (menu)
+  value: Nový požadavek na zdroj
 07985bad103f87bb02abae23723deadfe3aab113b5f04f08a6b2889f:
   ref: Delete resource requirement (label)
-  value: Delete resource requirement (label)
+  value: Odstranit požadavek na zdroj
 0eaf1684ee89179fe84c12c800a0be558798073a3504ebd3c0399950:
   ref: Inventory list (menu)
   value: Seznam inventářů
@@ -42,7 +42,7 @@
   value: Cannot save item (label)
 164adb4d9fdcf2eceaca5e23268478b031fd3977f9c0e4fffb30a38e:
   ref: Save resource requirement (submit)
-  value: Save resource requirement (submit)
+  value: Uložit
 1de5ae847313e5ed22cdccb46e2d02459d865f28b372c39d4dde8c09:
   ref: Resource description (label)
   value: Popis
@@ -54,7 +54,7 @@
   value: Odstranit slot
 2408dec380d869f544634f264ae6e9d16dbfd9e10caca2fdcf2b1e70:
   ref: Amount (label)
-  value: Množství§
+  value: Množství
 24647fffdf06d5f8b85ae24fda203f0fbac70340bfd3167e0875b92b:
   ref: Number of items
   value: Počet položek
@@ -241,13 +241,13 @@
   value: Upravit
 9460bfee662b17cc33d01fd53e9d4940ad13ee47c683e6219f70ade8:
   ref: Edit resource requirement (menu)
-  value: Edit resource requirement (menu)
+  value: Upravit
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Kde nic, tu nic
 9b851bffb2022ea9aac80752650a0f8c0ddcef3bf663ff8c0442842b:
   ref: Cannot save resource requirement (label)
-  value: Cannot save resource requirement (label)
+  value: Požadavek na zdroj se nepodařilo uložit
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Hledat
