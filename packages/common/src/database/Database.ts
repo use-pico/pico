@@ -3,6 +3,7 @@ import type { Compilable, Kysely } from "kysely";
 export namespace Database {
 	export interface Instance<DB = any> {
 		kysely: Kysely<DB>;
+		bootstrap(): Promise<void>;
 		/**
 		 * Execute query directly on AlaSQL.
 		 */

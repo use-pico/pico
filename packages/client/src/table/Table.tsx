@@ -117,6 +117,9 @@ export const Table = <TData extends DataType.Data>({
 														SelectionAny
 													:	SelectionOff
 												}
+												variant={{
+													disabled: table.selection.isSingle,
+												}}
 												css={{
 													base: tv.select({
 														selected: table.selection.isAny(),

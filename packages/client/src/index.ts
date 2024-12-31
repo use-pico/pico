@@ -96,6 +96,8 @@ export { Modal } from "./modal/Modal";
 export { ModalContext } from "./modal/ModalContext";
 export { ModalCss } from "./modal/ModalCss";
 export { More } from "./more/More";
+export { PopupSelect } from "./popup-select/PopupSelect";
+export { PopupSelectCss } from "./popup-select/PopupSelectCss";
 export { Preview } from "./preview/Preview";
 export { PreviewCss } from "./preview/PreviewCss";
 export { PriceInline } from "./price-inline/PriceInline";

@@ -84,16 +84,15 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	async loader({ context, deps: { global, filter, cursor }, params: { id } }) {
+	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
 		return loader({
 			context,
 			deps: {
-				global: {
-					...global,
+				...deps,
+				filter: {
+					...filter,
 					baseBuildingId: id,
 				},
-				filter,
-				cursor,
 			},
 		});
 	},

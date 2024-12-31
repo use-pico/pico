@@ -11,9 +11,10 @@ import {
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
 
 export namespace BuildingRequirementResourceForm {
 	export interface Props
@@ -67,7 +68,14 @@ export const BuildingRequirementResourceForm: FC<
 				name={"resourceId"}
 				label={<Tx label={"Resource name (label)"} />}
 			>
-				here should be clever select, opla
+				<Controller
+					control={form.control}
+					name={"resourceId"}
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+					render={({ field: { ref, ...field } }) => {
+						return <ResourcePopupSelect {...field} />;
+					}}
+				/>
 			</FormInput>
 
 			<FormInput

@@ -5,6 +5,7 @@ import { withBrowserKysely } from "../kysely/withBrowserKysely";
 export namespace withDatabase {
 	export interface Props {
 		database: string;
+		bootstrap(): Promise<void>;
 	}
 
 	export namespace Table {
@@ -17,6 +18,7 @@ export namespace withDatabase {
 
 export const withDatabase = async <DB>({
 	database,
+	bootstrap,
 }: withDatabase.Props): Promise<Database.Instance<DB>> => {
 	const kysely = withBrowserKysely<DB>();
 
@@ -26,6 +28,7 @@ export const withDatabase = async <DB>({
 
 	const instance: Database.Instance<DB> = {
 		kysely,
+		bootstrap,
 		async exec(sql, bind) {
 			console.info(`Query [${sql}]`, bind);
 

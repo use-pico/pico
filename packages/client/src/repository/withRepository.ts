@@ -1,9 +1,11 @@
 import {
     useMutation,
+    useQuery,
     useQueryClient,
     type QueryClient,
     type QueryKey,
     type UseMutationResult,
+    type UseQueryResult,
 } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import {
@@ -95,6 +97,24 @@ export namespace withRepository {
 				data: withRepositorySchema.Output<TSchema>[];
 				count: CountSchema.Type;
 			}>;
+		}
+
+		export namespace useListQuery {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				query: withCoolRepository.Query<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (props: Props<TSchema>) => UseQueryResult<
+				{
+					data: withRepositorySchema.Output<TSchema>[];
+					count: CountSchema.Type;
+				},
+				Error
+			>;
 		}
 
 		export namespace useCreateMutation {
@@ -234,6 +254,7 @@ export namespace withRepository {
 		withCountLoader: Instance.withCountLoader.Callback<TSchema>;
 		withRouteListLoader: Instance.withRouteListLoader.Callback<TSchema>;
 
+		useListQuery: Instance.useListQuery.Callback<TSchema>;
 		useCreateMutation: Instance.useCreateMutation.Callback<TSchema>;
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
 		useRemoveMutation: Instance.useRemoveMutation.Callback;
@@ -306,6 +327,20 @@ export const withRepository = <
 			});
 		},
 
+		useListQuery({ query }) {
+			const result = useQuery({
+				queryKey: ["useListQuery", name, { query }],
+				async queryFn() {
+					return {
+						data: await $coolInstance.list({ query }),
+						count: await $coolInstance.count({ query }),
+					};
+				},
+			});
+
+			return result;
+		},
+
 		useCreateMutation({
 			wrap = async (callback) => callback(),
 			toCreate = async ({ shape }) => ({ entity: shape }),
@@ -330,6 +365,7 @@ export const withRepository = <
 							queryClient,
 							keys: [
 								["withListLoader", name],
+								["useListQuery", name],
 								["withFetchLoader", name],
 								["withCountLoader", name],
 								...invalidate,
@@ -363,6 +399,7 @@ export const withRepository = <
 							queryClient,
 							keys: [
 								["withListLoader", name],
+								["useListQuery", name],
 								["withFetchLoader", name],
 								["withCountLoader", name],
 								...invalidate,

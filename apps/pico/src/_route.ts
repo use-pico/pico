@@ -14,8 +14,8 @@ import { Route as rootRoute } from './@routes/__root'
 import { Route as LocaleImport } from './@routes/$locale'
 import { Route as IndexImport } from './@routes/index'
 import { Route as LocaleIndexImport } from './@routes/$locale/index'
+import { Route as LocaleAppsDeriveanImport } from './@routes/$locale/apps/derivean'
 import { Route as LocaleAppsDeriveanRootImport } from './@routes/$locale/apps/derivean/root'
-import { Route as LocaleAppsDeriveanMigrationImport } from './@routes/$locale/apps/derivean/migration'
 import { Route as LocaleAppsDeriveanGameImport } from './@routes/$locale/apps/derivean/game'
 import { Route as LocaleAppsDeriveanGameIndexImport } from './@routes/$locale/apps/derivean/game/index'
 import { Route as LocaleAppsDeriveanPublicRegisterImport } from './@routes/$locale/apps/derivean/public/register'
@@ -60,23 +60,22 @@ const LocaleIndexRoute = LocaleIndexImport.update({
   getParentRoute: () => LocaleRoute,
 } as any)
 
-const LocaleAppsDeriveanRootRoute = LocaleAppsDeriveanRootImport.update({
-  id: '/apps/derivean/root',
-  path: '/apps/derivean/root',
+const LocaleAppsDeriveanRoute = LocaleAppsDeriveanImport.update({
+  id: '/apps/derivean',
+  path: '/apps/derivean',
   getParentRoute: () => LocaleRoute,
 } as any)
 
-const LocaleAppsDeriveanMigrationRoute =
-  LocaleAppsDeriveanMigrationImport.update({
-    id: '/apps/derivean/migration',
-    path: '/apps/derivean/migration',
-    getParentRoute: () => LocaleRoute,
-  } as any)
+const LocaleAppsDeriveanRootRoute = LocaleAppsDeriveanRootImport.update({
+  id: '/root',
+  path: '/root',
+  getParentRoute: () => LocaleAppsDeriveanRoute,
+} as any)
 
 const LocaleAppsDeriveanGameRoute = LocaleAppsDeriveanGameImport.update({
-  id: '/apps/derivean/game',
-  path: '/apps/derivean/game',
-  getParentRoute: () => LocaleRoute,
+  id: '/game',
+  path: '/game',
+  getParentRoute: () => LocaleAppsDeriveanRoute,
 } as any)
 
 const LocaleAppsDeriveanGameIndexRoute =
@@ -88,23 +87,23 @@ const LocaleAppsDeriveanGameIndexRoute =
 
 const LocaleAppsDeriveanPublicRegisterRoute =
   LocaleAppsDeriveanPublicRegisterImport.update({
-    id: '/apps/derivean/public/register',
-    path: '/apps/derivean/public/register',
-    getParentRoute: () => LocaleRoute,
+    id: '/public/register',
+    path: '/public/register',
+    getParentRoute: () => LocaleAppsDeriveanRoute,
   } as any)
 
 const LocaleAppsDeriveanPublicLogoutRoute =
   LocaleAppsDeriveanPublicLogoutImport.update({
-    id: '/apps/derivean/public/logout',
-    path: '/apps/derivean/public/logout',
-    getParentRoute: () => LocaleRoute,
+    id: '/public/logout',
+    path: '/public/logout',
+    getParentRoute: () => LocaleAppsDeriveanRoute,
   } as any)
 
 const LocaleAppsDeriveanPublicLoginRoute =
   LocaleAppsDeriveanPublicLoginImport.update({
-    id: '/apps/derivean/public/login',
-    path: '/apps/derivean/public/login',
-    getParentRoute: () => LocaleRoute,
+    id: '/public/login',
+    path: '/public/login',
+    getParentRoute: () => LocaleAppsDeriveanRoute,
   } as any)
 
 const LocaleAppsDeriveanRootSlotIdRoute =
@@ -258,47 +257,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIndexImport
       parentRoute: typeof LocaleImport
     }
-    '/$locale/apps/derivean/game': {
-      id: '/$locale/apps/derivean/game'
-      path: '/apps/derivean/game'
-      fullPath: '/$locale/apps/derivean/game'
-      preLoaderRoute: typeof LocaleAppsDeriveanGameImport
+    '/$locale/apps/derivean': {
+      id: '/$locale/apps/derivean'
+      path: '/apps/derivean'
+      fullPath: '/$locale/apps/derivean'
+      preLoaderRoute: typeof LocaleAppsDeriveanImport
       parentRoute: typeof LocaleImport
     }
-    '/$locale/apps/derivean/migration': {
-      id: '/$locale/apps/derivean/migration'
-      path: '/apps/derivean/migration'
-      fullPath: '/$locale/apps/derivean/migration'
-      preLoaderRoute: typeof LocaleAppsDeriveanMigrationImport
-      parentRoute: typeof LocaleImport
+    '/$locale/apps/derivean/game': {
+      id: '/$locale/apps/derivean/game'
+      path: '/game'
+      fullPath: '/$locale/apps/derivean/game'
+      preLoaderRoute: typeof LocaleAppsDeriveanGameImport
+      parentRoute: typeof LocaleAppsDeriveanImport
     }
     '/$locale/apps/derivean/root': {
       id: '/$locale/apps/derivean/root'
-      path: '/apps/derivean/root'
+      path: '/root'
       fullPath: '/$locale/apps/derivean/root'
       preLoaderRoute: typeof LocaleAppsDeriveanRootImport
-      parentRoute: typeof LocaleImport
+      parentRoute: typeof LocaleAppsDeriveanImport
     }
     '/$locale/apps/derivean/public/login': {
       id: '/$locale/apps/derivean/public/login'
-      path: '/apps/derivean/public/login'
+      path: '/public/login'
       fullPath: '/$locale/apps/derivean/public/login'
       preLoaderRoute: typeof LocaleAppsDeriveanPublicLoginImport
-      parentRoute: typeof LocaleImport
+      parentRoute: typeof LocaleAppsDeriveanImport
     }
     '/$locale/apps/derivean/public/logout': {
       id: '/$locale/apps/derivean/public/logout'
-      path: '/apps/derivean/public/logout'
+      path: '/public/logout'
       fullPath: '/$locale/apps/derivean/public/logout'
       preLoaderRoute: typeof LocaleAppsDeriveanPublicLogoutImport
-      parentRoute: typeof LocaleImport
+      parentRoute: typeof LocaleAppsDeriveanImport
     }
     '/$locale/apps/derivean/public/register': {
       id: '/$locale/apps/derivean/public/register'
-      path: '/apps/derivean/public/register'
+      path: '/public/register'
       fullPath: '/$locale/apps/derivean/public/register'
       preLoaderRoute: typeof LocaleAppsDeriveanPublicRegisterImport
-      parentRoute: typeof LocaleImport
+      parentRoute: typeof LocaleAppsDeriveanImport
     }
     '/$locale/apps/derivean/game/': {
       id: '/$locale/apps/derivean/game/'
@@ -578,24 +577,33 @@ const LocaleAppsDeriveanRootRouteWithChildren =
     LocaleAppsDeriveanRootRouteChildren,
   )
 
-interface LocaleRouteChildren {
-  LocaleIndexRoute: typeof LocaleIndexRoute
+interface LocaleAppsDeriveanRouteChildren {
   LocaleAppsDeriveanGameRoute: typeof LocaleAppsDeriveanGameRouteWithChildren
-  LocaleAppsDeriveanMigrationRoute: typeof LocaleAppsDeriveanMigrationRoute
   LocaleAppsDeriveanRootRoute: typeof LocaleAppsDeriveanRootRouteWithChildren
   LocaleAppsDeriveanPublicLoginRoute: typeof LocaleAppsDeriveanPublicLoginRoute
   LocaleAppsDeriveanPublicLogoutRoute: typeof LocaleAppsDeriveanPublicLogoutRoute
   LocaleAppsDeriveanPublicRegisterRoute: typeof LocaleAppsDeriveanPublicRegisterRoute
 }
 
-const LocaleRouteChildren: LocaleRouteChildren = {
-  LocaleIndexRoute: LocaleIndexRoute,
+const LocaleAppsDeriveanRouteChildren: LocaleAppsDeriveanRouteChildren = {
   LocaleAppsDeriveanGameRoute: LocaleAppsDeriveanGameRouteWithChildren,
-  LocaleAppsDeriveanMigrationRoute: LocaleAppsDeriveanMigrationRoute,
   LocaleAppsDeriveanRootRoute: LocaleAppsDeriveanRootRouteWithChildren,
   LocaleAppsDeriveanPublicLoginRoute: LocaleAppsDeriveanPublicLoginRoute,
   LocaleAppsDeriveanPublicLogoutRoute: LocaleAppsDeriveanPublicLogoutRoute,
   LocaleAppsDeriveanPublicRegisterRoute: LocaleAppsDeriveanPublicRegisterRoute,
+}
+
+const LocaleAppsDeriveanRouteWithChildren =
+  LocaleAppsDeriveanRoute._addFileChildren(LocaleAppsDeriveanRouteChildren)
+
+interface LocaleRouteChildren {
+  LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleAppsDeriveanRoute: typeof LocaleAppsDeriveanRouteWithChildren
+}
+
+const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleIndexRoute: LocaleIndexRoute,
+  LocaleAppsDeriveanRoute: LocaleAppsDeriveanRouteWithChildren,
 }
 
 const LocaleRouteWithChildren =
@@ -605,8 +613,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/apps/derivean': typeof LocaleAppsDeriveanRouteWithChildren
   '/$locale/apps/derivean/game': typeof LocaleAppsDeriveanGameRouteWithChildren
-  '/$locale/apps/derivean/migration': typeof LocaleAppsDeriveanMigrationRoute
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
@@ -635,7 +643,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleIndexRoute
-  '/$locale/apps/derivean/migration': typeof LocaleAppsDeriveanMigrationRoute
+  '/$locale/apps/derivean': typeof LocaleAppsDeriveanRouteWithChildren
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
@@ -666,8 +674,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/apps/derivean': typeof LocaleAppsDeriveanRouteWithChildren
   '/$locale/apps/derivean/game': typeof LocaleAppsDeriveanGameRouteWithChildren
-  '/$locale/apps/derivean/migration': typeof LocaleAppsDeriveanMigrationRoute
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
@@ -699,8 +707,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/$locale/'
+    | '/$locale/apps/derivean'
     | '/$locale/apps/derivean/game'
-    | '/$locale/apps/derivean/migration'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
@@ -728,7 +736,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$locale'
-    | '/$locale/apps/derivean/migration'
+    | '/$locale/apps/derivean'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
@@ -757,8 +765,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/$locale/'
+    | '/$locale/apps/derivean'
     | '/$locale/apps/derivean/game'
-    | '/$locale/apps/derivean/migration'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
@@ -816,32 +824,34 @@ export const routeTree = rootRoute
       "filePath": "$locale.tsx",
       "children": [
         "/$locale/",
-        "/$locale/apps/derivean/game",
-        "/$locale/apps/derivean/migration",
-        "/$locale/apps/derivean/root",
-        "/$locale/apps/derivean/public/login",
-        "/$locale/apps/derivean/public/logout",
-        "/$locale/apps/derivean/public/register"
+        "/$locale/apps/derivean"
       ]
     },
     "/$locale/": {
       "filePath": "$locale/index.tsx",
       "parent": "/$locale"
     },
+    "/$locale/apps/derivean": {
+      "filePath": "$locale/apps/derivean.tsx",
+      "parent": "/$locale",
+      "children": [
+        "/$locale/apps/derivean/game",
+        "/$locale/apps/derivean/root",
+        "/$locale/apps/derivean/public/login",
+        "/$locale/apps/derivean/public/logout",
+        "/$locale/apps/derivean/public/register"
+      ]
+    },
     "/$locale/apps/derivean/game": {
       "filePath": "$locale/apps/derivean/game.tsx",
-      "parent": "/$locale",
+      "parent": "/$locale/apps/derivean",
       "children": [
         "/$locale/apps/derivean/game/"
       ]
     },
-    "/$locale/apps/derivean/migration": {
-      "filePath": "$locale/apps/derivean/migration.tsx",
-      "parent": "/$locale"
-    },
     "/$locale/apps/derivean/root": {
       "filePath": "$locale/apps/derivean/root.tsx",
-      "parent": "/$locale",
+      "parent": "/$locale/apps/derivean",
       "children": [
         "/$locale/apps/derivean/root/inventory/$id",
         "/$locale/apps/derivean/root/item/$id",
@@ -858,15 +868,15 @@ export const routeTree = rootRoute
     },
     "/$locale/apps/derivean/public/login": {
       "filePath": "$locale/apps/derivean/public/login.tsx",
-      "parent": "/$locale"
+      "parent": "/$locale/apps/derivean"
     },
     "/$locale/apps/derivean/public/logout": {
       "filePath": "$locale/apps/derivean/public/logout.tsx",
-      "parent": "/$locale"
+      "parent": "/$locale/apps/derivean"
     },
     "/$locale/apps/derivean/public/register": {
       "filePath": "$locale/apps/derivean/public/register.tsx",
-      "parent": "/$locale"
+      "parent": "/$locale/apps/derivean"
     },
     "/$locale/apps/derivean/game/": {
       "filePath": "$locale/apps/derivean/game/index.tsx",

@@ -150,10 +150,16 @@ export const useTable = <TData extends DataType.Data>({
 			},
 			withRowHandler({ data }) {
 				return () => {
-					selection?.type === "single" && $selection.clear();
-					$selection.has(data.id) ?
-						$selection.delete(data.id)
-					:	$selection.add(data.id);
+					if (selection?.type === "single") {
+						const selected = $selection.has(data.id);
+						$selection.clear();
+						selected ? $selection.delete(data.id) : $selection.add(data.id);
+					} else {
+						$selection.has(data.id) ?
+							$selection.delete(data.id)
+						:	$selection.add(data.id);
+					}
+
 					selection?.set(Array.from($selection));
 				};
 			},

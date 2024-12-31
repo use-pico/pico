@@ -19,9 +19,28 @@ export const IconCss = css({
 			"7xl": "text-7xl",
 			"8xl": "text-8xl",
 		},
+		disabled: {
+			true: [],
+		},
 	},
+	match: [
+		{
+			if: {
+				disabled: true,
+			},
+			then: {
+				base: [
+					"pointer-events-none",
+					"cursor-not-allowed",
+					"text-gray-400",
+					"opacity-50",
+				],
+			},
+		},
+	],
 	defaults: {
 		size: "xl",
+		disabled: false,
 	},
 });
 
