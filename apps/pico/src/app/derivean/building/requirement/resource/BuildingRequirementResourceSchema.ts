@@ -23,7 +23,15 @@ export const BuildingRequirementResourceSchema = withRepositorySchema({
 	),
 	shape: z.object({
 		resourceId: z.string().min(1),
-		amount: z.number().int().min(0),
+		amount: z.union([
+			z.number().int().positive(),
+			z
+				.string()
+				.transform((value) => parseInt(value, 10))
+				.refine((value) => !isNaN(value), {
+					message: "Size must be a number",
+				}),
+		]),
 	}),
 	filter: FilterSchema.merge(
 		z.object({
