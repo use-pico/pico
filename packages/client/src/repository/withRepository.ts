@@ -424,6 +424,31 @@ export const withRepository = <
 			const queryClient = useQueryClient();
 			const router = useRouter();
 
+			return useMutation({
+				mutationKey: ["useRemoveMutation", name],
+				async mutationFn({ idIn }) {
+					return wrap(async () => {
+						await $coolInstance.remove({ idIn });
+
+						await invalidator({
+							queryClient,
+							keys: [
+								["withListLoader", name],
+								["useListQuery", name],
+								["withFetchLoader", name],
+								["withCountLoader", name],
+								...invalidate,
+							],
+						});
+
+						await onSuccess?.({});
+
+						await router.invalidate();
+
+						return undefined;
+					});
+				},
+			});
 		},
 	};
 
