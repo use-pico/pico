@@ -182,16 +182,6 @@ export const SlotTable: FC<SlotTable.Props> = ({
 												},
 											};
 										},
-										async onSuccess({ entity }) {
-											if (inventoryId) {
-												await InventorySlotRepository.create({
-													shape: {
-														inventoryId,
-														slotId: entity.id,
-													},
-												});
-											}
-										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();

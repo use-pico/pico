@@ -15,6 +15,7 @@ import { ItemIcon } from "~/app/derivean/icon/ItemIcon";
 import { ItemForm } from "~/app/derivean/item/ItemForm";
 import { ItemRepository } from "~/app/derivean/item/ItemRepository";
 import type { ItemSchema } from "~/app/derivean/item/ItemSchema";
+import { KindInline } from "~/app/derivean/item/KindInline";
 
 const column = withColumn<withRepositorySchema.Entity<ItemSchema>>();
 
@@ -37,6 +38,22 @@ const columns = [
 			);
 		},
 		size: 14,
+	}),
+	column({
+		name: "kind",
+		header() {
+			return <Tx label={"Item kind (label)"} />;
+		},
+		render({ value }) {
+			return <KindInline kind={value} />;
+		},
+		filter: {
+			path: "kind",
+			onFilter({ data, filter }) {
+				filter.shallow("kind", data.kind);
+			},
+		},
+		size: 18,
 	}),
 ];
 

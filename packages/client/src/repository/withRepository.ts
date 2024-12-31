@@ -73,6 +73,30 @@ export namespace withRepository {
 			) => Promise<CountSchema.Type>;
 		}
 
+		export namespace withRouteListLoader {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				context: {
+					queryClient: QueryClient;
+				};
+				deps: {
+					global?: withRepositorySchema.Filter<TSchema>;
+					filter?: withRepositorySchema.Filter<TSchema>;
+					cursor?: CursorSchema.Type;
+				};
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = () => (
+				props: Instance.withRouteListLoader.Props<TSchema>,
+			) => Promise<{
+				data: withRepositorySchema.Output<TSchema>[];
+				count: CountSchema.Type;
+			}>;
+		}
+
 		export namespace useCreateMutation {
 			export namespace toCreate {
 				export interface Props<
@@ -208,6 +232,7 @@ export namespace withRepository {
 		withFetchLoader: Instance.withFetchLoader.Callback<TSchema>;
 		withListLoader: Instance.withListLoader.Callback<TSchema>;
 		withCountLoader: Instance.withCountLoader.Callback<TSchema>;
+		withRouteListLoader: Instance.withRouteListLoader.Callback<TSchema>;
 
 		useCreateMutation: Instance.useCreateMutation.Callback<TSchema>;
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
@@ -259,6 +284,25 @@ export const withRepository = <
 				async queryFn(): Promise<CountSchema.Type> {
 					return $coolInstance.count({ query: { where, filter } });
 				},
+			});
+		},
+		withRouteListLoader() {
+			return async ({
+				context: { queryClient },
+				deps: { global, filter, cursor },
+			}) => ({
+				data: await $instance.withListLoader({
+					queryClient,
+					filter: {
+						...global,
+						...filter,
+					},
+					cursor,
+				}),
+				count: await $instance.withCountLoader({
+					queryClient,
+					filter: { ...global, ...filter },
+				}),
 			});
 		},
 
