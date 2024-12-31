@@ -49,6 +49,20 @@ export namespace withRepository {
 			}
 		}
 
+		export namespace toOutput {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				entity: withRepositorySchema.Entity<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Output<TSchema>>;
+		}
+
 		export namespace toCreate {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
@@ -140,6 +154,8 @@ export namespace withRepository {
 		schema: TSchema;
 		database: Database.Instance<any>;
 		meta: Props.Meta.Instance<TSchema>;
+
+		toOutput?: Props.toOutput.Callback<TSchema>;
 
 		toCreate?: Props.toCreate.Callback<TSchema>;
 		toPatch?: Props.toPatch.Callback<TSchema>;
@@ -271,6 +287,7 @@ export const withRepository = <
 	schema,
 	database,
 	meta,
+	toOutput = async ({ entity }) => entity,
 	toCreate = async ({ entity }) => entity,
 	toPatch = async ({ entity }) => entity,
 	insert,
@@ -429,22 +446,33 @@ export const withRepository = <
 			return database.run(remove({}).where("id", "in", idIn));
 		},
 		async fetch({ query }) {
-			return schema.entity.parse(
-				(
-					await database.run(
-						$applyQuery({ query, select: select({ query }).selectAll() }),
-					)
-				)?.[0],
+			return (schema.output ?? schema.entity).parse(
+				await toOutput({
+					entity: schema.entity.parse(
+						(
+							await database.run(
+								$applyQuery({ query, select: select({ query }).selectAll() }),
+							)
+						)?.[0],
+					),
+				}),
 			);
 		},
 		async list({ query }) {
-			return z
-				.array(schema.entity)
-				.parse(
-					await database.run(
-						$applyQuery({ query, select: select({ query }).selectAll() }),
-					),
-				);
+			const $schema = schema.output ?? schema.entity;
+
+			return Promise.all(
+				z
+					.array(schema.entity)
+					.parse(
+						await database.run(
+							$applyQuery({ query, select: select({ query }).selectAll() }),
+						),
+					)
+					.map(async (entity) => {
+						return $schema.parse(await toOutput({ entity }));
+					}),
+			);
 		},
 		async count({ query }) {
 			return {

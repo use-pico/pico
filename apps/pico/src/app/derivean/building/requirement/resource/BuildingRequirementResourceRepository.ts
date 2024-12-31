@@ -1,6 +1,7 @@
 import { withRepository } from "@use-pico/client";
 import { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
 import { db } from "~/app/derivean/db/db";
+import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
 export const BuildingRequirementResourceRepository = withRepository({
 	name: "BuildingRequirementResourceRepository",
@@ -42,10 +43,14 @@ export const BuildingRequirementResourceRepository = withRepository({
 				"buildingRequirementResource.resourceId",
 			);
 	},
-	async toCreate({ entity }) {
-		return entity;
-	},
-	async toPatch({ entity }) {
-		return entity;
+	async toOutput({ entity }) {
+		return {
+			...entity,
+			resource: await ResourceRepository.fetch({
+				query: {
+					where: { id: entity.resourceId },
+				},
+			}),
+		};
 	},
 });

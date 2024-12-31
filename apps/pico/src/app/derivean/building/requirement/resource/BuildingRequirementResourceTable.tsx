@@ -210,7 +210,7 @@ export const BuildingRequirementResourceTable: FC<
 								<DeleteControl
 									repository={BuildingRequirementResourceRepository}
 									textContent={
-										<Tx label={"resource requirement delete (content)"} />
+										<Tx label={"Resource requirement delete (content)"} />
 									}
 									idIn={[data.id]}
 								/>
