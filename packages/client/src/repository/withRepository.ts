@@ -5,6 +5,7 @@ import {
     type QueryClient,
     type QueryKey,
     type UseMutationResult,
+    type UseQueryOptions,
     type UseQueryResult,
 } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
@@ -93,10 +94,9 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = () => (
 				props: Instance.withRouteListLoader.Props<TSchema>,
-			) => Promise<{
-				data: withRepositorySchema.Output<TSchema>[];
-				count: CountSchema.Type;
-			}>;
+			) => Promise<
+				withCoolRepository.List<withRepositorySchema.Output<TSchema>>
+			>;
 		}
 
 		export namespace useListQuery {
@@ -104,15 +104,21 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
 				query: withCoolRepository.Query<TSchema>;
+				options?: Omit<
+					UseQueryOptions<
+						withCoolRepository.List<withRepositorySchema.Output<TSchema>>,
+						Error
+					>,
+					"queryKey" | "queryFn"
+				>;
 			}
 
 			export type Callback<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props<TSchema>) => UseQueryResult<
-				{
-					data: withRepositorySchema.Output<TSchema>[];
-					count: CountSchema.Type;
-				},
+			> = (
+				props: Props<TSchema>,
+			) => UseQueryResult<
+				withCoolRepository.List<withRepositorySchema.Output<TSchema>>,
 				Error
 			>;
 		}
@@ -327,7 +333,7 @@ export const withRepository = <
 			});
 		},
 
-		useListQuery({ query }) {
+		useListQuery({ query, options }) {
 			const result = useQuery({
 				queryKey: ["useListQuery", name, { query }],
 				async queryFn() {
@@ -336,6 +342,7 @@ export const withRepository = <
 						count: await $coolInstance.count({ query }),
 					};
 				},
+				...options,
 			});
 
 			return result;
@@ -427,6 +434,7 @@ export const withRepository = <
 							queryClient,
 							keys: [
 								["withListLoader", name],
+								["useListQuery", name],
 								["withFetchLoader", name],
 								["withCountLoader", name],
 								...invalidate,

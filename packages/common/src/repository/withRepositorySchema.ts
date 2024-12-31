@@ -45,6 +45,13 @@ export namespace withRepositorySchema {
 		filter: TFilterSchema;
 	}
 
+	export type Any = Instance<
+		EntitySchema,
+		ShapeSchema,
+		FilterSchema,
+		EntitySchema
+	>;
+
 	export interface Infer<TInstance extends Instance<any, any, any>> {
 		entity: z.infer<TInstance["entity"]>;
 		output: z.infer<TInstance["output"]>;

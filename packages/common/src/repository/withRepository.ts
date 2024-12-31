@@ -25,6 +25,11 @@ export namespace withRepository {
 		cursor?: CursorSchema.Type;
 	}
 
+	export interface List<TData> {
+		data: TData[];
+		count: CountSchema.Type;
+	}
+
 	export namespace Props {
 		export namespace Meta {
 			export interface Instance<
