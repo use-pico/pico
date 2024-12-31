@@ -4,9 +4,8 @@ import {
     QueryClientProvider,
 } from "@tanstack/react-query";
 import {
-    createHashHistory,
     createRouter,
-    RouterProvider,
+    RouterProvider
 } from "@tanstack/react-router";
 import { LoadingOverlay, PageCss } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
@@ -28,7 +27,7 @@ const router = createRouter({
 		queryClient,
 		tva: PageCss,
 	},
-	history: createHashHistory(),
+	// history: createHashHistory(),
 	defaultPendingComponent: LoadingOverlay,
 	defaultPreload: "intent",
 	defaultPreloadStaleTime: 0,
@@ -56,10 +55,7 @@ withAxios({
 if (!rootElement.innerHTML) {
 	ReactDOM.createRoot(rootElement).render(
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider
-				basepath={"/pico/"}
-				router={router}
-			/>
+			<RouterProvider router={router} />
 		</QueryClientProvider>,
 	);
 }
