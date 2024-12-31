@@ -24,10 +24,4 @@ export const InventorySlotRepository = withRepository({
 	select() {
 		return db.kysely.selectFrom("InventorySlot as inventorySlot");
 	},
-	async toCreate({ shape }) {
-		return shape;
-	},
-	async toPatch({ shape }) {
-		return shape;
-	},
 });

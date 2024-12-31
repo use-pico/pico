@@ -36,10 +36,4 @@ export const BuildingRepository = withRepository({
 				"building.baseBuildingId",
 			);
 	},
-	async toCreate({ shape }) {
-		return shape;
-	},
-	async toPatch({ shape }) {
-		return shape;
-	},
 });

@@ -91,11 +91,6 @@ export const ItemTable: FC<ItemTable.Props> = ({ table, ...props }) => {
 												error: <Tx label={"Cannot save item (label)"} />,
 											});
 										},
-										async toCreate({ shape }) {
-											return {
-												shape,
-											};
-										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();

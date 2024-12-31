@@ -76,11 +76,6 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 												error: <Tx label={"Cannot save inventory (label)"} />,
 											});
 										},
-										async toCreate({ shape }) {
-											return {
-												shape,
-											};
-										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
@@ -112,7 +107,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 										},
 										async toPatch({ shape }) {
 											return {
-												shape,
+												entity: shape,
 												filter: {
 													id: data.id,
 												},

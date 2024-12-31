@@ -108,15 +108,10 @@ export const SlotTable: FC<SlotTable.Props> = ({
 												error: <Tx label={"Cannot save slot (label)"} />,
 											});
 										},
-										async toCreate({ shape }) {
-											return {
-												shape,
-											};
-										},
 										async onSuccess({ entity }) {
 											if (inventoryId) {
 												await InventorySlotRepository.create({
-													shape: {
+													entity: {
 														inventoryId,
 														slotId: entity.id,
 													},
@@ -176,7 +171,7 @@ export const SlotTable: FC<SlotTable.Props> = ({
 										},
 										async toPatch({ shape }) {
 											return {
-												shape,
+												entity: shape,
 												filter: {
 													id: data.id,
 												},

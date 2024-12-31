@@ -1,16 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  '/$locale/apps/derivean/root/building/base/$id/requirement/resource/list',
+	"/$locale/apps/derivean/root/building/base/$id/requirement/resource/list",
 )({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return (
-    <div>
-      Hello
-      "/$locale/apps/derivean/root/building/base/$id/requirement/resource/list"!
-    </div>
-  )
-}
+	component: () => {
+		return (
+			<div>
+				Hello
+				"/$locale/apps/derivean/root/building/base/$id/requirement/resource/list"!
+			</div>
+		);
+	},
+});

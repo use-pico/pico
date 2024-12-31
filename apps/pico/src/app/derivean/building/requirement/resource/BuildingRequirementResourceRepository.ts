@@ -42,10 +42,10 @@ export const BuildingRequirementResourceRepository = withRepository({
 				"buildingRequirementResource.resourceId",
 			);
 	},
-	async toCreate({ shape }) {
-		return shape;
+	async toCreate({ entity }) {
+		return entity;
 	},
-	async toPatch({ shape }) {
-		return shape;
+	async toPatch({ entity }) {
+		return entity;
 	},
 });

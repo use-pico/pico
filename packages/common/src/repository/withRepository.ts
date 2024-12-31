@@ -48,21 +48,21 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				shape: withRepositorySchema.Shape<TSchema>;
+				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 			}
 
 			export type Callback<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => Promise<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+			) => Promise<Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>>;
 		}
 
 		export namespace toPatch {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				shape: withRepositorySchema.Shape<TSchema>;
+				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 			}
 
 			export type Callback<
@@ -136,8 +136,8 @@ export namespace withRepository {
 		database: Database.Instance<any>;
 		meta: Props.Meta.Instance<TSchema>;
 
-		toCreate: Props.toCreate.Callback<TSchema>;
-		toPatch: Props.toPatch.Callback<TSchema>;
+		toCreate?: Props.toCreate.Callback<TSchema>;
+		toPatch?: Props.toPatch.Callback<TSchema>;
 
 		insert: Props.insert.Callback;
 		update: Props.update.Callback;
@@ -153,7 +153,7 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				shape: withRepositorySchema.Shape<TSchema>;
+				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 			}
 
 			export type Callback<
@@ -167,7 +167,7 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				shape: withRepositorySchema.Shape<TSchema>;
+				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 				filter: withRepositorySchema.Filter<TSchema>;
 			}
 
@@ -266,8 +266,8 @@ export const withRepository = <
 	schema,
 	database,
 	meta,
-	toCreate,
-	toPatch,
+	toCreate = async ({ entity }) => entity,
+	toPatch = async ({ entity }) => entity,
 	insert,
 	update,
 	remove,
@@ -382,14 +382,16 @@ export const withRepository = <
 
 	const instance: withRepository.Instance<TSchema> = {
 		schema,
-		async create({ shape }) {
+		async create({ entity }) {
 			const $id = id();
 
 			await database.run(
-				insert({}).values({
-					...(await toCreate({ shape })),
-					id: $id,
-				}),
+				insert({}).values(
+					schema.entity.parse({
+						...(await toCreate({ entity })),
+						id: $id,
+					}),
+				),
 			);
 
 			return instance.fetch({
@@ -400,20 +402,20 @@ export const withRepository = <
 				},
 			});
 		},
-		async patch({ shape, filter }) {
-			const entity = await instance.fetch({ query: { where: filter } });
+		async patch({ entity, filter }) {
+			const $entity = await instance.fetch({ query: { where: filter } });
 
-			if (!entity) {
+			if (!$entity) {
 				throw new Error("Cannot patch an unknown entity (empty query result).");
 			}
 
 			await database.run(
 				update({})
-					.set(await toPatch({ shape }))
-					.where("id", "=", entity.id),
+					.set(await toPatch({ entity }))
+					.where("id", "=", $entity.id),
 			);
 
-			return instance.fetch({ query: { where: { id: entity.id } } });
+			return instance.fetch({ query: { where: { id: $entity.id } } });
 		},
 		async remove({ idIn }) {
 			if (!idIn || idIn?.length === 0) {

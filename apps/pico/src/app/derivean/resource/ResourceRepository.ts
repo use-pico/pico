@@ -22,10 +22,4 @@ export const ResourceRepository = withRepository({
 	select() {
 		return db.kysely.selectFrom("Resource as resource");
 	},
-	async toCreate({ shape }) {
-		return shape;
-	},
-	async toPatch({ shape }) {
-		return shape;
-	},
 });

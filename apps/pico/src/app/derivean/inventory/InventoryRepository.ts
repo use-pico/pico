@@ -35,10 +35,4 @@ export const InventoryRepository = withRepository({
 
 		return $select;
 	},
-	async toCreate({ shape }) {
-		return shape;
-	},
-	async toPatch({ shape }) {
-		return shape;
-	},
 });

@@ -86,11 +86,6 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 												error: <Tx label={"Cannot save resource (label)"} />,
 											});
 										},
-										async toCreate({ shape }) {
-											return {
-												shape,
-											};
-										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
@@ -144,7 +139,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 										},
 										async toPatch({ shape }) {
 											return {
-												shape,
+												entity: shape,
 												filter: {
 													id: data.id,
 												},

@@ -103,7 +103,7 @@ export const BuildingRequirementResourceTable: FC<
 											},
 											async toCreate({ shape }) {
 												return {
-													shape: {
+													entity: {
 														...shape,
 														baseBuildingId,
 													},
@@ -178,7 +178,10 @@ export const BuildingRequirementResourceTable: FC<
 											},
 											async toPatch({ shape }) {
 												return {
-													shape,
+													entity: {
+														...shape,
+														baseBuildingId,
+													},
 													filter: {
 														id: data.id,
 													},

@@ -22,7 +22,6 @@ export const BuildingRequirementResourceSchema = withRepositorySchema({
 		}),
 	),
 	shape: z.object({
-		baseBuildingId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().int().min(0),
 	}),

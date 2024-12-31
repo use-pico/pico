@@ -33,14 +33,11 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 		select() {
 			return database.kysely.selectFrom("User as user");
 		},
-		async toCreate({ shape: { password, ...shape } }) {
+		async toCreate({ entity: { password, ...entity } }) {
 			return {
-				...shape,
-				password: pwd.hash(password),
+				...entity,
+				password: password ? pwd.hash(password) : undefined,
 			};
-		},
-		async toPatch({ shape }) {
-			return shape;
 		},
 	});
 };

@@ -93,11 +93,6 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 												),
 											});
 										},
-										async toCreate({ shape }) {
-											return {
-												shape,
-											};
-										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
@@ -155,7 +150,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 										},
 										async toPatch({ shape }) {
 											return {
-												shape,
+												entity: shape,
 												filter: {
 													id: data.id,
 												},

@@ -108,7 +108,7 @@ export namespace withRepository {
 				export interface Response<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					shape: withRepositorySchema.Shape<TSchema>;
+					entity: Partial<withRepositorySchema.Entity<TSchema>>;
 				}
 
 				export type Callback<
@@ -132,7 +132,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
 				wrap?<T>(callback: () => Promise<T>): Promise<T>;
-				toCreate: toCreate.Callback<TSchema>;
+				toCreate?: toCreate.Callback<TSchema>;
 				onSuccess?: onSuccess.Callback<TSchema>;
 			}
 
@@ -158,7 +158,7 @@ export namespace withRepository {
 				export interface Response<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					shape: withRepositorySchema.Shape<TSchema>;
+					entity: Partial<withRepositorySchema.Entity<TSchema>>;
 					filter: withRepositorySchema.Filter<TSchema>;
 				}
 
@@ -308,7 +308,7 @@ export const withRepository = <
 
 		useCreateMutation({
 			wrap = async (callback) => callback(),
-			toCreate,
+			toCreate = async ({ shape }) => ({ entity: shape }),
 			onSuccess,
 		}) {
 			const queryClient = useQueryClient();

@@ -25,7 +25,7 @@ export const useRegisterMutation = ({
 			 */
 			return SessionSchema.parse(
 				await repository.create({
-					shape: {
+					entity: {
 						name,
 						login,
 						password: password1,
