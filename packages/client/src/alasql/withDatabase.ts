@@ -22,13 +22,19 @@ export const withDatabase = async <DB>({
 }: withDatabase.Props): Promise<Database.Instance<DB>> => {
 	const kysely = withBrowserKysely<DB>();
 
-	await alasql.promise(`CREATE INDEXEDDB DATABASE IF NOT EXISTS ${database}`);
-	await alasql.promise(`ATTACH INDEXEDDB DATABASE ${database}`);
-	await alasql.promise(`USE ${database}`);
-
 	const instance: Database.Instance<DB> = {
 		kysely,
-		bootstrap,
+		async bootstrap() {
+			await bootstrap();
+
+            // just testing forking
+
+			await alasql.promise(
+				`CREATE INDEXEDDB DATABASE IF NOT EXISTS ${database}`,
+			);
+			await alasql.promise(`ATTACH INDEXEDDB DATABASE ${database}`);
+			await alasql.promise(`USE ${database}`);
+		},
 		async exec(sql, bind) {
 			console.info(`Query [${sql}]`, bind);
 
