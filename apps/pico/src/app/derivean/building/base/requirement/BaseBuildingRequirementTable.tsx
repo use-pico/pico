@@ -1,6 +1,7 @@
 import {
     ActionMenu,
     ActionModal,
+    BoolInline,
     DeleteControl,
     Table,
     toast,
@@ -37,6 +38,16 @@ const columns = [
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
+		},
+		size: 14,
+	}),
+	column({
+		name: "passive",
+		header() {
+			return <Tx label={"Passive requirement (label)"} />;
+		},
+		render({ value }) {
+			return <BoolInline value={value} />;
 		},
 		size: 14,
 	}),

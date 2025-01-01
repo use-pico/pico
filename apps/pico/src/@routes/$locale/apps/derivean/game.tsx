@@ -47,7 +47,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			</AppLayout>
 		);
 	},
-	async loader({ context: { queryClient }, params: { locale } }) {
+	async loader({ params: { locale } }) {
 		try {
 			return {
 				session: SessionSchema.parse(ls.get("session")),

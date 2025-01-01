@@ -1,43 +1,42 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    BoolInput,
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    ModalContext,
-    onSubmit,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	ModalContext,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
+import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
 
-export namespace BaseBuildingRequirementForm {
+export namespace BuildingResourceForm {
 	export interface Props
 		extends Form.Props<
-			BaseBuildingRequirementSchema["output"],
-			BaseBuildingRequirementSchema["shape"]
+			BuildingResourceSchema["output"],
+			BuildingResourceSchema["shape"]
 		> {
 		//
 	}
 }
 
-export const BaseBuildingRequirementForm: FC<
-	BaseBuildingRequirementForm.Props
-> = ({ mutation, defaultValues, onSuccess, variant, tva = FormCss, css }) => {
-	const form = useForm<
-		withRepositorySchema.Shape<BaseBuildingRequirementSchema>
-	>({
-		resolver: zodResolver(BaseBuildingRequirementSchema.shape),
-		defaultValues: {
-			passive: false,
-			...defaultValues,
-		},
+export const BuildingResourceForm: FC<BuildingResourceForm.Props> = ({
+	mutation,
+	defaultValues,
+	onSuccess,
+	variant,
+	tva = FormCss,
+	css,
+}) => {
+	const form = useForm<withRepositorySchema.Shape<BuildingResourceSchema>>({
+		resolver: zodResolver(BuildingResourceSchema.shape),
+		defaultValues,
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -52,8 +51,8 @@ export const BaseBuildingRequirementForm: FC<
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				BaseBuildingRequirementSchema["output"],
-				BaseBuildingRequirementSchema["shape"]
+				BuildingResourceSchema["output"],
+				BuildingResourceSchema["shape"]
 			>({
 				form,
 				mutation,
@@ -76,7 +75,14 @@ export const BaseBuildingRequirementForm: FC<
 					control={form.control}
 					name={"resourceId"}
 					render={({ field: { ref, ...field } }) => {
-						return <ResourcePopupSelect {...field} />;
+						return (
+							<ResourcePopupSelect
+								icon={ResourceIcon}
+								titleText={<Tx label={"Select resource (title)"} />}
+								allowEmpty
+								{...field}
+							/>
+						);
 					}}
 				/>
 			</FormInput>
@@ -93,27 +99,12 @@ export const BaseBuildingRequirementForm: FC<
 				/>
 			</FormInput>
 
-			<FormInput
-				formState={form.formState}
-				name={"passive"}
-				label={<Tx label={"Passive requirement (label)"} />}
-				hint={<Tx label={"Passive requirement (hint)"} />}
-			>
-				<Controller
-					control={form.control}
-					name={"passive"}
-					render={({ field: { ref, ...field } }) => {
-						return <BoolInput {...field} />;
-					}}
-				/>
-			</FormInput>
-
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
 					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save resource requirement (submit)"} />
+					<Tx label={"Save storage item (submit)"} />
 				</Button>
 			</div>
 		</form>

@@ -7,35 +7,35 @@ export const ResourceTagRepository = withRepository({
 	schema: ResourceTagSchema,
 	meta: {
 		where: {
-			id: "resourceTag.id",
-			idIn: "resourceTag.id",
-			resourceId: "resourceTag.resourceId",
-			tagId: "resourceTag.tagId",
+			id: "rt.id",
+			idIn: "rt.id",
+			resourceId: "rt.resourceId",
+			tagId: "rt.tagId",
 		},
 		fulltext: [
-			"resource.id",
-			"resource.name",
-			"resourceTag.id",
-			"tag.code",
-			"tag.group",
-			"tag.id",
-			"tag.label",
+			"r.id",
+			"r.name",
+			"rt.id",
+			"t.code",
+			"t.group",
+			"t.id",
+			"t.label",
 		],
 	},
 	insert() {
-		return db.kysely.insertInto("ResourceTag");
+		return db.kysely.insertInto("Resource_Tag");
 	},
 	update() {
-		return db.kysely.updateTable("ResourceTag");
+		return db.kysely.updateTable("Resource_Tag");
 	},
 	remove() {
-		return db.kysely.deleteFrom("ResourceTag");
+		return db.kysely.deleteFrom("Resource_Tag");
 	},
 	select() {
 		return db.kysely
-			.selectFrom("ResourceTag as resourceTag")
-			.selectAll("resourceTag")
-			.leftJoin("Resource as resource", "resource.id", "resourceTag.resourceId")
-			.leftJoin("Tag as tag", "tag.id", "resourceTag.tagId");
+			.selectFrom("Resource_Tag as rt")
+			.selectAll("rt")
+			.leftJoin("Resource as r", "r.id", "rt.resourceId")
+			.leftJoin("Tag as t", "t.id", "rt.tagId");
 	},
 });

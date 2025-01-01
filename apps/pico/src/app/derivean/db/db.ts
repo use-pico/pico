@@ -1,11 +1,12 @@
 import { withDatabase } from "@use-pico/client";
 import { type withRepositorySchema } from "@use-pico/common";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
-import type { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 import type { TagSchema } from "~/app/tag/TagSchema";
 import type { UserSchema } from "~/app/user/UserSchema";
 
@@ -14,13 +15,13 @@ export interface Database {
 	Tag: withRepositorySchema.Entity<TagSchema>;
 
 	Resource: withRepositorySchema.Entity<ResourceSchema>;
-	ResourceTag: withRepositorySchema.Entity<ResourceTagSchema>;
+	Resource_Tag: withRepositorySchema.Entity<ResourceTagSchema>;
 
 	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
-	Building: withRepositorySchema.Entity<BuildingSchema>;
 	BaseBuilding_Requirement: withRepositorySchema.Entity<BaseBuildingRequirementSchema>;
-
-	BaseStorage: withRepositorySchema.Entity<BaseStorageSchema>;
+	BaseBuilding_Limit: withRepositorySchema.Entity<BaseBuildingLimitSchema>;
+	Building: withRepositorySchema.Entity<BuildingSchema>;
+	Building_Resource: withRepositorySchema.Entity<BuildingResourceSchema>;
 }
 
 export const db = withDatabase<Database>({
@@ -58,7 +59,7 @@ export const db = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("ResourceTag")
+				.createTable("Resource_Tag")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("resourceId", $id, (col) =>
@@ -67,22 +68,10 @@ export const db = withDatabase<Database>({
 				.addColumn("tagId", $id, (col) =>
 					col.references("Tag.id").onDelete("cascade").notNull(),
 				)
-				.addUniqueConstraint("ResourceTag_resourceId_tagId", [
+				.addUniqueConstraint("Resource_Tag_resourceId_tagId", [
 					"resourceId",
 					"tagId",
 				])
-				.execute();
-		};
-
-		const bootstrapBaseStorage = async () => {
-			await kysely.schema
-				.createTable("BaseStorage")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-				.addColumn("resourceId", $id, (col) =>
-					col.references("Resource.id").onDelete("cascade").notNull(),
-				)
-				.addColumn("limit", "float8", (col) => col.notNull())
 				.execute();
 		};
 
@@ -120,19 +109,20 @@ export const db = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("BaseBuilding_BaseStorage")
+				.createTable("BaseBuilding_Limit")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("baseBuildingId", $id, (col) =>
 					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
 				)
-				.addColumn("baseStorageId", $id, (col) =>
-					col.references("BaseStorage.id").onDelete("cascade").notNull(),
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
 				)
-				.addUniqueConstraint(
-					"BaseBuilding_BaseStorage_baseBuildingId_baseStorageId",
-					["baseBuildingId", "baseStorageId"],
-				)
+				.addColumn("limit", "float8", (col) => col.notNull())
+				.addUniqueConstraint("BaseBuilding_Limit_baseBuildingId_resourceId", [
+					"baseBuildingId",
+					"resourceId",
+				])
 				.execute();
 		};
 
@@ -150,7 +140,7 @@ export const db = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("Building_Storage")
+				.createTable("Building_Resource")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("buildingId", $id, (col) =>
@@ -169,7 +159,6 @@ export const db = withDatabase<Database>({
 
 		await bootstrapCommon();
 		await bootstrapResource();
-		await bootstrapBaseStorage();
 		await bootstrapBaseBuilding();
 		await bootstrapBuilding();
 	},

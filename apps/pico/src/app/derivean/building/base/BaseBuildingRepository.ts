@@ -34,7 +34,7 @@ export const BaseBuildingRepository = withRepository({
 	async toOutput({ entity }) {
 		return {
 			...entity,
-			requiredResources: await BaseBuildingRequirementRepository.list({
+			requirements: await BaseBuildingRequirementRepository.list({
 				query: {
 					where: {
 						baseBuildingId: entity.id,

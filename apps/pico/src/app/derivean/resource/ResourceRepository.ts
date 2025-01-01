@@ -79,7 +79,7 @@ export const ResourceRepository = withRepository({
 		async onPostPatch({ entity, shape }) {
 			if (Array.isArray(shape.tagIds)) {
 				await db.kysely
-					.deleteFrom("ResourceTag")
+					.deleteFrom("Resource_Tag")
 					.where("resourceId", "=", entity.id)
 					.execute();
 

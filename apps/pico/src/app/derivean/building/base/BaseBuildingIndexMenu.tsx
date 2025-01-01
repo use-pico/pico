@@ -41,10 +41,10 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={StorageIcon}
-				to={"/$locale/apps/derivean/root/building/base/$id/storage/list"}
+				to={"/$locale/apps/derivean/root/building/base/$id/limit/list"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"Base building storage (menu)"} />
+				<Tx label={"Base building limit list (menu)"} />
 			</MenuLink>
 
 			<MenuLink

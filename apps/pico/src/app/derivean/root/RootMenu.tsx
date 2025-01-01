@@ -48,13 +48,13 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 						to: "/$locale/apps/derivean/root/building/base/$id/requirement/list",
 					},
 					{
-						to: "/$locale/apps/derivean/root/building/base/$id/storage/list",
+						to: "/$locale/apps/derivean/root/building/base/$id/limit/list",
 					},
 					{
 						to: "/$locale/apps/derivean/root/building/base/$id/edit",
 					},
 					{
-						to: "/$locale/apps/derivean/root/building/$id/storage/list",
+						to: "/$locale/apps/derivean/root/building/$id/resource/list",
 					},
 				]}
 			>

@@ -12,21 +12,21 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
-import { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 
-export namespace BaseStorageForm {
+export namespace BaseBuildingLimitForm {
 	export interface Props
 		extends Form.Props<
-			BaseStorageSchema["output"],
-			BaseStorageSchema["shape"]
+			BaseBuildingLimitSchema["output"],
+			BaseBuildingLimitSchema["shape"]
 		> {
 		//
 	}
 }
 
-export const BaseStorageForm: FC<BaseStorageForm.Props> = ({
+export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
@@ -34,8 +34,8 @@ export const BaseStorageForm: FC<BaseStorageForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BaseStorageSchema>>({
-		resolver: zodResolver(BaseStorageSchema.shape),
+	const form = useForm<withRepositorySchema.Shape<BaseBuildingLimitSchema>>({
+		resolver: zodResolver(BaseBuildingLimitSchema.shape),
 		defaultValues,
 	});
 	const modalContext = useContext(ModalContext);
@@ -51,8 +51,8 @@ export const BaseStorageForm: FC<BaseStorageForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				BaseStorageSchema["output"],
-				BaseStorageSchema["shape"]
+				BaseBuildingLimitSchema["output"],
+				BaseBuildingLimitSchema["shape"]
 			>({
 				form,
 				mutation,

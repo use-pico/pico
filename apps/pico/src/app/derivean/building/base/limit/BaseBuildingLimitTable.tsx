@@ -11,12 +11,13 @@ import {
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { BaseBuildingLimitForm } from "~/app/derivean/building/base/limit/BaseBuildingLimitForm";
+import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
+import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
-import { BaseStorageForm } from "~/app/derivean/storage/base/BaseStorageForm";
-import { BaseStorageRepository } from "~/app/derivean/storage/base/BaseStorageRepository";
-import type { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 
-const column = withColumn<withRepositorySchema.Output<BaseStorageSchema>>();
+const column =
+	withColumn<withRepositorySchema.Output<BaseBuildingLimitSchema>>();
 
 const columns = [
 	column({
@@ -41,14 +42,16 @@ const columns = [
 	}),
 ];
 
-export namespace BaseStorageTable {
+export namespace BaseBuildingLimitTable {
 	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<BaseStorageSchema>> {
+		extends Table.PropsEx<
+			withRepositorySchema.Output<BaseBuildingLimitSchema>
+		> {
 		baseBuildingId: string;
 	}
 }
 
-export const BaseStorageTable: FC<BaseStorageTable.Props> = ({
+export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 	baseBuildingId,
 	table,
 	...props
@@ -68,8 +71,8 @@ export const BaseStorageTable: FC<BaseStorageTable.Props> = ({
 								textTitle={<Tx label={"Create base storage (modal)"} />}
 								icon={StorageIcon}
 							>
-								<BaseStorageForm
-									mutation={BaseStorageRepository.useCreateMutation({
+								<BaseBuildingLimitForm
+									mutation={BaseBuildingLimitRepository.useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base storage (label)"} />,
@@ -114,7 +117,7 @@ export const BaseStorageTable: FC<BaseStorageTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseStorageRepository}
+									repository={BaseBuildingLimitRepository}
 									textContent={<Tx label={"Base storage delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -130,9 +133,9 @@ export const BaseStorageTable: FC<BaseStorageTable.Props> = ({
 								textTitle={<Tx label={"Edit base storage (modal)"} />}
 								icon={StorageIcon}
 							>
-								<BaseStorageForm
+								<BaseBuildingLimitForm
 									defaultValues={data}
-									mutation={BaseStorageRepository.usePatchMutation({
+									mutation={BaseBuildingLimitRepository.usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base storage (label)"} />,
@@ -173,7 +176,7 @@ export const BaseStorageTable: FC<BaseStorageTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseStorageRepository}
+									repository={BaseBuildingLimitRepository}
 									textContent={<Tx label={"Base storage delete (content)"} />}
 									idIn={[data.id]}
 								/>
