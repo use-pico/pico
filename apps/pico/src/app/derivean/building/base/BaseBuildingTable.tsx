@@ -2,6 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    BoolInline,
     DeleteControl,
     LinkTo,
     Table,
@@ -49,6 +50,16 @@ const columns = [
 			return value;
 		},
 		size: 24,
+	}),
+	column({
+		name: "preview",
+		header() {
+			return <Tx label={"Base building preview (label)"} />;
+		},
+		render({ value }) {
+			return <BoolInline value={value} />;
+		},
+		size: 14,
 	}),
 ];
 

@@ -85,12 +85,18 @@
 33c752d761f4825a4fe6dec5a00e80a8f5a34d52ab3d598b573e1bbb:
   ref: Save item (submit)
   value: Save item (submit)
+3722ed3677ae0736f66653ba81e4582ea78d957333232475da6028be:
+  ref: Base building edit (menu)
+  value: Base building edit (menu)
 38347572d8aa1607a788bf890a6e9f83c334d06fc92987ae1535b1f5:
   ref: Missing any token(s). (title)
   value: Missing any token(s). (title)
 3909c87c4b736847773096b6ead06fff8cfcab8426b86024493883bd:
   ref: Select item
   value: Select item
+39bd607bf2f0889706455c5ec1a94124f61482e92c2a802741bd33ba:
+  ref: Base building preview (label)
+  value: Base building preview (label)
 39dfd624b29c48e1995ae228a513feb96456a43153fccc609c6e8430:
   ref: Delete slots (modal)
   value: Delete slots (modal)
@@ -238,6 +244,9 @@
 8ffef2a5036a0e04e482b8733088db5bd51f426cc9afe88c87c2049e:
   ref: Edit inventory (menu)
   value: Edit inventory (menu)
+920c5e1d09f85e75b6a7b96654dcd8c04d928818a96f8c7b84343d6d:
+  ref: Base building preview (hint)
+  value: Base building preview (hint)
 9460bfee662b17cc33d01fd53e9d4940ad13ee47c683e6219f70ade8:
   ref: Edit resource requirement (menu)
   value: Edit resource requirement (menu)

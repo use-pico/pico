@@ -50,6 +50,7 @@ export const db = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
 			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+			.addColumn("preview", "boolean", (col) => col.notNull())
 			.addColumn("description", "varchar(128)")
 			.execute();
 

@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+    BoolInput,
     Button,
     FormCss,
     FormError,
@@ -11,7 +12,7 @@ import {
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
@@ -35,7 +36,10 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 }) => {
 	const form = useForm<withRepositorySchema.Shape<BaseBuildingSchema>>({
 		resolver: zodResolver(BaseBuildingSchema.shape),
-		defaultValues,
+		defaultValues: {
+			preview: false,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -69,6 +73,7 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 				formState={form.formState}
 				name={"name"}
 				label={<Tx label={"Base building name (label)"} />}
+				required
 			>
 				<input
 					type={"text"}
@@ -86,6 +91,22 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 					type={"text"}
 					className={tv.input()}
 					{...form.register("description")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"preview"}
+				label={<Tx label={"Base building preview (label)"} />}
+				hint={<Tx label={"Base building preview (hint)"} />}
+				required
+			>
+				<Controller
+					control={form.control}
+					name={"preview"}
+					render={({ field: { ref, ...field } }) => {
+						return <BoolInput {...field} />;
+					}}
 				/>
 			</FormInput>
 

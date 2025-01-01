@@ -13,6 +13,8 @@ export { Badge } from "./badge/Badge";
 export { BadgeCss } from "./badge/BadgeCss";
 export { BoolInline } from "./bool-inline/BoolInline";
 export { BoolInlineCss } from "./bool-inline/BoolInlineCss";
+export { BoolInput } from "./bool-input/BoolInput";
+export { BoolInputCss } from "./bool-input/BoolInputCss";
 export { Button } from "./button/Button";
 export { ButtonCss } from "./button/ButtonCss";
 export { Card } from "./card/Card";

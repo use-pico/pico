@@ -8,6 +8,7 @@ export namespace FormInput {
 	export interface Props<TFormState extends FormState<any>>
 		extends FormInputCss.Props<PropsWithChildren> {
 		label?: ReactNode;
+		hint?: ReactNode;
 		required?: boolean;
 		formState: TFormState;
 		name: keyof TFormState["errors"];
@@ -16,6 +17,7 @@ export namespace FormInput {
 
 export const FormInput = <TFormState extends FormState<any>>({
 	label,
+	hint,
 	required = false,
 	formState,
 	name,
@@ -44,6 +46,9 @@ export const FormInput = <TFormState extends FormState<any>>({
 					error={formState.errors[name]}
 				/>
 			</div>
+			{hint ?
+				<div className={"text-sm italic"}>{hint}</div>
+			:	null}
 			<div className={tv.input()}>{children}</div>
 		</div>
 	);

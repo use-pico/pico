@@ -31,6 +31,14 @@ export const FormInputCss = css({
 				base: ["text-red-600"],
 			},
 		},
+		{
+			if: {
+				required: true,
+			},
+			then: {
+				base: ["text-amber-600"],
+			},
+		},
 	],
 	defaults: {
 		required: false,

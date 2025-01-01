@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { Menu, MenuLink, Tx } from "@use-pico/client";
+import { EditIcon, Menu, MenuLink, Tx } from "@use-pico/client";
 import type { Entity, withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
@@ -38,6 +38,14 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Base building resource requirement (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={EditIcon}
+				to={"/$locale/apps/derivean/root/building/base/$id/edit"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Base building edit (menu)"} />
 			</MenuLink>
 		</Menu>
 	);
