@@ -5,6 +5,7 @@ import {
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
+import { GameIcon } from "~/app/derivean/icon/GameIcon";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { RootMenu } from "~/app/derivean/root/RootMenu";
 import { SessionSchema } from "~/app/schema/SessionSchema";
@@ -28,6 +29,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root")({
 				actions={
 					<>
 						{session.name}
+						<LinkTo
+							icon={GameIcon}
+							to={"/$locale/apps/derivean/game"}
+							params={{ locale }}
+						/>
 						<LinkTo
 							icon={LogoutIcon}
 							to={"/$locale/apps/derivean/public/logout"}

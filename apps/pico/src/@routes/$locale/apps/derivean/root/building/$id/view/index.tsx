@@ -10,7 +10,7 @@ export const Route = createFileRoute(
 		});
 
 		return (
-			<div>
+			<div className={"w-1/2 mx-auto"}>
 				<BuildingCard entity={entity} />
 			</div>
 		);

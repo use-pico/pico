@@ -1,18 +1,23 @@
 import {
     createFileRoute,
+    Outlet,
     redirect,
     useLoaderData,
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
+import { ResourceOverview } from "~/app/derivean/game/ResourceOverview";
 import { Logo } from "~/app/derivean/logo/Logo";
+import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
+		const { session, resources } = useLoaderData({
+			from: "/$locale/apps/derivean/game",
+		});
 
 		return (
 			<AppLayout
@@ -36,13 +41,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 						/>
 					</>
 				}
-			/>
+			>
+				<ResourceOverview entities={resources} />
+
+				<Outlet />
+			</AppLayout>
 		);
 	},
-	loader({ params: { locale } }) {
+	async loader({ context: { queryClient }, params: { locale } }) {
 		try {
 			return {
 				session: SessionSchema.parse(ls.get("session")),
+				resources: await StorageRepository.withListLoader({
+					queryClient,
+				}),
 			};
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (_) {

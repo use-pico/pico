@@ -113,7 +113,6 @@ export const db = withDatabase<Database>({
 			.addColumn("baseBuildingId", "varchar(36)", (col) =>
 				col.references("BaseBuilding.id").onDelete("cascade").notNull(),
 			)
-			.addColumn("description", "varchar(128)")
 			.execute();
 
 		kysely.schema
