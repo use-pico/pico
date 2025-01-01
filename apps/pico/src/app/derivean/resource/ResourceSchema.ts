@@ -15,6 +15,7 @@ export const ResourceSchema = withRepositorySchema({
 	shape: z.object({
 		name: z.string().min(1),
 		description: z.string().optional(),
+		tagIds: z.array(z.string()).optional(),
 	}),
 	filter: FilterSchema,
 });

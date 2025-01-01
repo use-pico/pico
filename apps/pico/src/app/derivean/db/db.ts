@@ -51,7 +51,8 @@ export const db = withDatabase<Database>({
 			.addColumn("code", "varchar(64)", (col) => col.notNull())
 			.addColumn("label", "varchar(128)", (col) => col.notNull())
 			.addColumn("group", "varchar(64)")
-			.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0));
+			.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
+			.execute();
 
 		kysely.schema
 			.createTable("Resource")

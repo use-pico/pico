@@ -5,7 +5,7 @@ export const PopupSelectCss = css({
 		base: ["flex", "flex-col", "gap-2"],
 		input: [
 			"py-2",
-			"px-4",
+			"px-2",
 			"flex",
 			"flex-row",
 			"gap-2",
@@ -38,6 +38,9 @@ export const PopupSelectCss = css({
 		loading: {
 			true: [],
 		},
+		selected: {
+			true: [],
+		},
 	},
 	match: [
 		{
@@ -48,9 +51,23 @@ export const PopupSelectCss = css({
 				input: ["text-slate-300"],
 			},
 		},
+		{
+			if: {
+				selected: true,
+			},
+			then: {
+				input: [
+					"bg-slate-50",
+					"text-slate-700",
+					"hover:bg-slate-100",
+					"hover:text-slate-800",
+				],
+			},
+		},
 	],
 	defaults: {
 		loading: false,
+		selected: false,
 	},
 });
 

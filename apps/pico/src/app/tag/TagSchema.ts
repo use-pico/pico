@@ -10,8 +10,8 @@ export const TagSchema = withRepositorySchema({
 	shape: z.object({
 		code: z.string().min(1),
 		label: z.string().min(1),
-		group: z.string().optional(),
-		sort: z.number().optional(),
+		group: z.string().nullish(),
+		sort: z.number(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

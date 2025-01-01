@@ -1,4 +1,4 @@
-import { type FC, type PropsWithChildren } from "react";
+import { type FC, type HTMLAttributes } from "react";
 import { BadgeCss } from "./BadgeCss";
 
 /**
@@ -7,16 +7,24 @@ import { BadgeCss } from "./BadgeCss";
  * @group ui
  */
 export namespace Badge {
-	export interface Props extends BadgeCss.Props<PropsWithChildren> {}
+	export interface Props
+		extends BadgeCss.Props<HTMLAttributes<HTMLDivElement>> {
+		//
+	}
 }
 
 export const Badge: FC<Badge.Props> = ({
 	variant,
 	tva = BadgeCss,
 	css,
-	children,
+	...props
 }) => {
 	const tv = tva({ ...variant, css }).slots;
 
-	return <div className={tv.base()}>{children}</div>;
+	return (
+		<div
+			className={tv.base()}
+			{...props}
+		/>
+	);
 };

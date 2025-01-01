@@ -98,6 +98,8 @@ export { Modal } from "./modal/Modal";
 export { ModalContext } from "./modal/ModalContext";
 export { ModalCss } from "./modal/ModalCss";
 export { More } from "./more/More";
+export { PopupMultiSelect } from "./popup-multi-select/PopupMultiSelect";
+export { PopupMultiSelectCss } from "./popup-multi-select/PopupMultiSelectCss";
 export { PopupSelect } from "./popup-select/PopupSelect";
 export { PopupSelectCss } from "./popup-select/PopupSelectCss";
 export { Preview } from "./preview/Preview";

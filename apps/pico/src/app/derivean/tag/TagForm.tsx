@@ -6,24 +6,23 @@ import {
     FormInput,
     ModalContext,
     onSubmit,
+    TagIcon,
     Tx,
     type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { TagPopupMultiSelect } from "~/app/derivean/tag/TagPopupMultiSelect";
+import { useForm } from "react-hook-form";
+import { TagSchema } from "~/app/tag/TagSchema";
 
-export namespace ResourceForm {
+export namespace TagForm {
 	export interface Props
-		extends Form.Props<ResourceSchema["output"], ResourceSchema["shape"]> {
+		extends Form.Props<TagSchema["output"], TagSchema["shape"]> {
 		//
 	}
 }
 
-export const ResourceForm: FC<ResourceForm.Props> = ({
+export const TagForm: FC<TagForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
@@ -31,9 +30,12 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<ResourceSchema>>({
-		resolver: zodResolver(ResourceSchema.shape),
-		defaultValues,
+	const form = useForm<withRepositorySchema.Shape<TagSchema>>({
+		resolver: zodResolver(TagSchema.shape),
+		defaultValues: {
+			sort: 0,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -47,7 +49,7 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<ResourceSchema["output"], ResourceSchema["shape"]>({
+			onSubmit={onSubmit<TagSchema["output"], TagSchema["shape"]>({
 				form,
 				mutation,
 				async onSuccess(entity) {
@@ -62,57 +64,60 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"name"}
-				label={<Tx label={"Resource name (label)"} />}
+				name={"code"}
+				label={<Tx label={"Tag code (label)"} />}
+				required
 			>
 				<input
 					type={"text"}
 					className={tv.input()}
-					{...form.register("name")}
+					{...form.register("code")}
 				/>
 			</FormInput>
 
 			<FormInput
 				formState={form.formState}
-				name={"description"}
+				name={"label"}
 				label={<Tx label={"Resource description (label)"} />}
+				required
 			>
 				<input
 					type={"text"}
 					className={tv.input()}
-					{...form.register("description")}
+					{...form.register("label")}
 				/>
 			</FormInput>
 
 			<FormInput
 				formState={form.formState}
-				name={"tagIds"}
-				label={<Tx label={"Resource tags (label)"} />}
+				name={"group"}
+				label={<Tx label={"Tag group (label)"} />}
 			>
-				<Controller
-					control={form.control}
-					name={"tagIds"}
-					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-					render={({ field: { ref, ...field } }) => {
-						return (
-							<TagPopupMultiSelect
-								icon={ResourceIcon}
-								group={"resource"}
-								titleText={<Tx label={"Select resource tags (title)"} />}
-								allowEmpty
-								{...field}
-							/>
-						);
-					}}
+				<input
+					type={"text"}
+					className={tv.input()}
+					{...form.register("group")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"sort"}
+				label={<Tx label={"Tag sort (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("sort")}
 				/>
 			</FormInput>
 
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={ResourceIcon}
+					iconEnabled={TagIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save resource (submit)"} />
+					<Tx label={"Save tag (submit)"} />
 				</Button>
 			</div>
 		</form>

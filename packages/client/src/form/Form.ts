@@ -29,6 +29,6 @@ export namespace Form {
 	> extends FormCss.Props {
 		mutation: Props.Mutation<TEntitySchema, TShapeSchema>;
 		onSuccess?: Props.onSuccess.Callback<TEntitySchema>;
-		defaultValues?: z.infer<TShapeSchema>;
+		defaultValues?: Partial<z.infer<TShapeSchema>>;
 	}
 }

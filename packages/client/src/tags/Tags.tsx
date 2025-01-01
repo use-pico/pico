@@ -1,6 +1,7 @@
 import { TagSchema } from "@use-pico/common";
 import { type FC, type ReactNode } from "react";
 import { Tx } from "../tx/Tx";
+import { Badge } from "../badge/Badge";
 
 export namespace Tags {
 	export interface Props {
@@ -19,11 +20,11 @@ export const Tags: FC<Tags.Props> = ({ tags = [], render = ({ tag }) => tag.labe
 		<>
 			{$tags.length
 				? $tags.map((tag) => (
-						<div
+						<Badge
 							key={tag.id}
 							onClick={() => onClick?.(tag)}>
 							{render({ tag })}
-						</div>
+						</Badge>
 					))
 				: textEmpty || <Tx label={"No tags (label)"} />}
 		</>

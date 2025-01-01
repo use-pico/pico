@@ -1,7 +1,6 @@
 import type { ReactNode } from "@tanstack/react-router";
 import type {
     CursorSchema,
-    Entity,
     FilterSchema,
     IdentitySchema,
 } from "@use-pico/common";
@@ -17,21 +16,21 @@ import { ModalContext } from "../modal/ModalContext";
 import type { withRepository } from "../repository/withRepository";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
-import { PopupSelectCss } from "./PopupSelectCss";
+import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
 
-export namespace PopupSelect {
+export namespace PopupMultiSelect {
 	export interface Props<TItem extends IdentitySchema.Type>
-		extends PopupSelectCss.Props {
+		extends PopupMultiSelectCss.Props {
 		icon?: string | ReactNode;
 		titleText?: ReactNode;
 		modalProps?: Modal.PropsEx;
 		table: FC<Table.PropsEx<any>>;
-		render: FC<Entity.Type<TItem>>;
+		render: FC<{ entities: TItem[] }>;
 		allowEmpty?: boolean;
 		useListQuery: withRepository.Instance.useListQuery.Callback<any>;
 
-		value: string;
-		onChange(value: string | undefined): void;
+		value: string[] | undefined;
+		onChange(value: string[]): void;
 	}
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
@@ -40,7 +39,7 @@ export namespace PopupSelect {
 	>;
 }
 
-export const PopupSelect = <TItem extends IdentitySchema.Type>({
+export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	icon,
 	titleText,
 	modalProps,
@@ -53,9 +52,9 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	onChange,
 
 	variant,
-	tva = PopupSelectCss,
+	tva = PopupMultiSelectCss,
 	css,
-}: PopupSelect.Props<TItem>) => {
+}: PopupMultiSelect.Props<TItem>) => {
 	const tv = tva({
 		...variant,
 		css,
@@ -63,7 +62,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(10);
-	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
+	const [selection, setSelection] = useState<string[]>(value || []);
 	const [fulltext, setFulltext] = useState<string | undefined | null>(
 		undefined,
 	);
@@ -83,7 +82,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const selected = useListQuery({
 		query: {
 			where: {
-				id: value,
+				idIn: value,
 			},
 		},
 		options: {
@@ -98,12 +97,14 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 				<div
 					className={tv.input({
 						loading: selected.isLoading,
-						selected: Boolean(selected.data?.data?.length),
+						selected: Boolean(selected.data?.data.length),
 					})}
 				>
-					<Icon icon={selected.data?.data?.[0] ? SelectionOn : SelectionOff} />
-					{selected.data?.data?.[0] ?
-						<Render entity={selected.data?.data?.[0]} />
+					<Icon
+						icon={selected.data?.data?.length ? SelectionOn : SelectionOff}
+					/>
+					{selected.data && selected.data.data.length ?
+						<Render entities={selected.data.data} />
 					:	<Tx label={"Select item (label)"} />}
 				</div>
 			}
@@ -147,7 +148,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 						table={{
 							data: result.data?.data ?? [],
 							selection: {
-								type: "single",
+								type: "multi",
 								value: selection,
 								set(selection) {
 									setSelection(selection);
@@ -178,7 +179,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 								iconDisabled={ConfirmIcon}
 								disabled={!selection.length && !allowEmpty}
 								onClick={() => {
-									onChange(selection?.[0]);
+									onChange(selection);
 									modalContext?.close();
 								}}
 							>

@@ -371,7 +371,9 @@ eb0a93f37b521a972959ea52cecdaa0711be2fb2c03299b9da1d19cb:
   value: Editace základní budovy
 f42ebdf3acc00f89207c70921e2b0749ab8ff93508840ac4b295ca4f:
   ref: Resource requirement delete (content)
-  value: Resource requirement delete (content)
+  value: |
+    Opravdu si přejete odstranit vybraný požadavek na zdroj? Tato akce bude mít minimální
+    vliv na data, pouze ovlivní hratelnost.
 f92c5bcd27dd6e6537d9b4eaaac63558d27e759c58675fef5f4f992c:
   ref: Confirm selection (label)
   value: Potvrdit výběr

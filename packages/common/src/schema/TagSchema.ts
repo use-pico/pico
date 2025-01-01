@@ -5,8 +5,8 @@ export const TagSchema = IdentitySchema.merge(
 	z.object({
 		code: z.string().min(1),
 		label: z.string().min(1),
-		group: z.string().nullable(),
-		sort: z.number().nullable(),
+		group: z.string().nullish(),
+		sort: z.number().default(0),
 	}),
 );
 
