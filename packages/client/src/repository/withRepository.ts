@@ -184,7 +184,7 @@ export namespace withRepository {
 				export interface Response<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: Partial<withRepositorySchema.Entity<TSchema>>;
+					entity?: Partial<withRepositorySchema.Entity<TSchema>>;
 					filter: withRepositorySchema.Filter<TSchema>;
 				}
 
@@ -352,7 +352,7 @@ export const withRepository = <
 
 		useCreateMutation({
 			wrap = async (callback) => callback(),
-			toCreate = async ({ shape }) => ({ entity: shape }),
+			toCreate = async ({ shape }) => ({ entity: shape, shape }),
 			onSuccess,
 		}) {
 			const queryClient = useQueryClient();
@@ -362,11 +362,12 @@ export const withRepository = <
 				mutationKey: ["useCreateMutation", name],
 				async mutationFn(shape) {
 					return wrap(async () => {
-						const entity = await $coolInstance.create(
-							await toCreate({
+						const entity = await $coolInstance.create({
+							...(await toCreate({
 								shape,
-							}),
-						);
+							})),
+							shape,
+						});
 
 						await onSuccess?.({ entity });
 
@@ -396,11 +397,13 @@ export const withRepository = <
 				mutationKey: ["usePatchMutation", name],
 				async mutationFn(shape) {
 					return wrap(async () => {
-						const patch = await toPatch({
+						const entity = await $coolInstance.patch({
+							entity: shape,
 							shape,
+							...(await toPatch({
+								shape,
+							})),
 						});
-
-						const entity = await $coolInstance.patch(patch);
 
 						await onSuccess?.({ entity });
 

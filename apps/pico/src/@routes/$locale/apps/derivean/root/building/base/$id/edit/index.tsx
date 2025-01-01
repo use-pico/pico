@@ -26,9 +26,8 @@ export const Route = createFileRoute(
 								error: <Tx label={"Cannot save base building (label)"} />,
 							});
 						},
-						async toPatch({ shape }) {
+						async toPatch() {
 							return {
-								entity: shape,
 								filter: {
 									id: entity.id,
 								},

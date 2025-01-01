@@ -24,7 +24,4 @@ export const ResourceRepository = withRepository({
 	select() {
 		return db.kysely.selectFrom("Resource as resource").selectAll("resource");
 	},
-	async toCreate({ entity }) {
-		return entity;
-	},
 });

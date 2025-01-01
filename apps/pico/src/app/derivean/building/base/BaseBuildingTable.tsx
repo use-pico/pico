@@ -159,9 +159,8 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 												),
 											});
 										},
-										async toPatch({ shape }) {
+										async toPatch() {
 											return {
-												entity: shape,
 												filter: {
 													id: data.id,
 												},

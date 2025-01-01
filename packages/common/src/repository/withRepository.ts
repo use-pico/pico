@@ -1,8 +1,8 @@
 import type {
-	DeleteQueryBuilder,
-	InsertQueryBuilder,
-	SelectQueryBuilder,
-	UpdateQueryBuilder,
+    DeleteQueryBuilder,
+    InsertQueryBuilder,
+    SelectQueryBuilder,
+    UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
 import type { CountSchema } from "../schema/CountSchema";
@@ -67,6 +67,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
 				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+				shape: withRepositorySchema.Shape<TSchema>;
 			}
 
 			export type Callback<
@@ -81,6 +82,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
 				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+				shape: Partial<withRepositorySchema.Shape<TSchema>>;
 			}
 
 			export type Callback<
@@ -172,6 +174,13 @@ export namespace withRepository {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				/**
+				 * Shape used to construct "entity" for creation.
+				 */
+				shape: withRepositorySchema.Shape<TSchema>;
+				/**
+				 * Pieces of the final entity being pushed into database.
+				 */
 				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
 			}
 
@@ -187,6 +196,10 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
 				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+				/**
+				 * Shape used to construct "entity" for patch.
+				 */
+				shape: Partial<withRepositorySchema.Shape<TSchema>>;
 				filter: withRepositorySchema.Filter<TSchema>;
 			}
 
@@ -417,13 +430,13 @@ export const withRepository = <
 
 	const instance: withRepository.Instance<TSchema> = {
 		schema,
-		async create({ entity }) {
+		async create({ entity, shape }) {
 			const $id = id();
 
 			await insert({})
 				.values(
 					schema.entity.parse({
-						...(await toCreate({ entity })),
+						...(await toCreate({ entity, shape })),
 						id: $id,
 					}),
 				)
@@ -437,7 +450,7 @@ export const withRepository = <
 				},
 			});
 		},
-		async patch({ entity, filter }) {
+		async patch({ entity, shape, filter }) {
 			const $entity = await instance.fetchOrThrow({ query: { where: filter } });
 
 			if (!$entity) {
@@ -445,7 +458,7 @@ export const withRepository = <
 			}
 
 			await update({})
-				.set(schema.entity.partial().parse(await toPatch({ entity })))
+				.set(schema.entity.partial().parse(await toPatch({ entity, shape })))
 				.where("id", "=", $entity.id)
 				.execute();
 

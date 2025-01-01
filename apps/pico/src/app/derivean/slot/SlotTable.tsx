@@ -115,6 +115,10 @@ export const SlotTable: FC<SlotTable.Props> = ({
 														inventoryId,
 														slotId: entity.id,
 													},
+													shape: {
+														inventoryId,
+														slotId: entity.id,
+													},
 												});
 											}
 										},
@@ -169,9 +173,8 @@ export const SlotTable: FC<SlotTable.Props> = ({
 												error: <Tx label={"Cannot save slot (label)"} />,
 											});
 										},
-										async toPatch({ shape }) {
+										async toPatch() {
 											return {
-												entity: shape,
 												filter: {
 													id: data.id,
 												},
