@@ -1,8 +1,8 @@
 import type {
-    DeleteQueryBuilder,
-    InsertQueryBuilder,
-    SelectQueryBuilder,
-    UpdateQueryBuilder,
+	DeleteQueryBuilder,
+	InsertQueryBuilder,
+	SelectQueryBuilder,
+	UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
 import type { CountSchema } from "../schema/CountSchema";
