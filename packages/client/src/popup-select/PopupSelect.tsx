@@ -95,7 +95,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		<Modal
 			icon={icon}
 			target={
-				<div
+				<label
 					className={tv.input({
 						loading: selected.isLoading,
 						selected: Boolean(selected.data?.data?.length),
@@ -105,7 +105,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					{selected.data?.data?.[0] ?
 						<Render entity={selected.data?.data?.[0]} />
 					:	<Tx label={"Select item (label)"} />}
-				</div>
+				</label>
 			}
 			title={titleText}
 			variant={{

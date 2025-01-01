@@ -28,7 +28,7 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
-		size: 14,
+		size: 18,
 	}),
 	column({
 		name: "amount",

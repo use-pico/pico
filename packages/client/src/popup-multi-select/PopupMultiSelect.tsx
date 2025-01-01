@@ -61,7 +61,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	}).slots;
 
 	const [page, setPage] = useState(0);
-	const [size, setSize] = useState(10);
+	const [size, setSize] = useState(15);
 	const [selection, setSelection] = useState<string[]>(value || []);
 	const [fulltext, setFulltext] = useState<string | undefined | null>(
 		undefined,
@@ -69,7 +69,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 
 	const result = useListQuery({
 		query: {
-			where: {
+			filter: {
 				fulltext,
 			} satisfies FilterSchema.Type,
 			cursor: {
@@ -94,7 +94,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 		<Modal
 			icon={icon}
 			target={
-				<div
+				<label
 					className={tv.input({
 						loading: selected.isLoading,
 						selected: Boolean(selected.data?.data.length),
@@ -106,7 +106,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 					{selected.data && selected.data.data.length ?
 						<Render entities={selected.data.data} />
 					:	<Tx label={"Select item (label)"} />}
-				</div>
+				</label>
 			}
 			title={titleText}
 			variant={{
@@ -137,6 +137,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 							},
 							onSize(size) {
 								setSize(size);
+								setPage(0);
 							},
 						}}
 						fulltext={{

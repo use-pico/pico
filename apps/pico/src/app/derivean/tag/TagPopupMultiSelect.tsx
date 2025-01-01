@@ -27,7 +27,18 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 			render={({ entities }) => {
 				return <Tags tags={entities} />;
 			}}
-			useListQuery={TagRepository.useListQuery}
+			useListQuery={({ query: { where, ...query }, ...props }) =>
+				TagRepository.useListQuery({
+					...props,
+					query: {
+						...query,
+						where: {
+							...where,
+							group,
+						},
+					},
+				})
+			}
 			{...props}
 		/>
 	);
