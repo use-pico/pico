@@ -254,7 +254,7 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> extends withCoolRepository.Instance<TSchema> {
 		name: string;
-		readonly invalidate: QueryKey[];
+		invalidate: QueryKey[];
 
 		withFetchLoader: Instance.withFetchLoader.Callback<TSchema>;
 		withListLoader: Instance.withListLoader.Callback<TSchema>;

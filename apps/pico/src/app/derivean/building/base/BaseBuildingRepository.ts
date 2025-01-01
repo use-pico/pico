@@ -1,5 +1,6 @@
 import { withRepository } from "@use-pico/client";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BuildingRequirementResourceRepository } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceRepository";
 import { db } from "~/app/derivean/db/db";
 
 export const BaseBuildingRepository = withRepository({
@@ -29,5 +30,17 @@ export const BaseBuildingRepository = withRepository({
 		return db.kysely
 			.selectFrom("BaseBuilding as baseBuilding")
 			.selectAll("baseBuilding");
+	},
+	async toOutput({ entity }) {
+		return {
+			...entity,
+			requiredResources: await BuildingRequirementResourceRepository.list({
+				query: {
+					where: {
+						baseBuildingId: entity.id,
+					},
+				},
+			}),
+		};
 	},
 });

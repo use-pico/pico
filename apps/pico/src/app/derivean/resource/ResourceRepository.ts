@@ -11,6 +11,7 @@ export const ResourceRepository = withRepository({
 		where: {
 			id: "resource.id",
 			idIn: "resource.id",
+			baseBuildingId: "buildingRequirementResource.baseBuildingId",
 		},
 		fulltext: ["resource.description", "resource.name", "resource.id"],
 	},
@@ -23,8 +24,19 @@ export const ResourceRepository = withRepository({
 	remove() {
 		return db.kysely.deleteFrom("Resource");
 	},
-	select() {
-		return db.kysely.selectFrom("Resource as resource").selectAll("resource");
+	select({ query: { where, filter } }) {
+		let $select = db.kysely
+			.selectFrom("Resource as resource")
+			.selectAll("resource");
+
+		if (where?.baseBuildingId || filter?.baseBuildingId) {
+			$select = $select.leftJoin(
+				"BuildingRequirementResource as buildingRequirementResource",
+				"buildingRequirementResource.resourceId",
+				"resource.id",
+			);
+		}
+		return $select;
 	},
 	async toOutput({ entity }) {
 		const tagIds = (

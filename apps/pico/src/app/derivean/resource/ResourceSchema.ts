@@ -26,7 +26,11 @@ export const ResourceSchema = withRepositorySchema({
 		description: z.string().optional(),
 		tagIds: z.array(z.string()).optional(),
 	}),
-	filter: FilterSchema,
+	filter: FilterSchema.merge(
+		z.object({
+			baseBuildingId: z.string().optional(),
+		}),
+	),
 });
 
 export type ResourceSchema = typeof ResourceSchema;
