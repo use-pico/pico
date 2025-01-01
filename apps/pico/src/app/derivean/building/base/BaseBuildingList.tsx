@@ -1,5 +1,5 @@
-import { Button, More, Tx } from "@use-pico/client";
-import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
+import { Button, Tx } from "@use-pico/client";
+import { type withRepositorySchema } from "@use-pico/common";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
@@ -29,7 +29,8 @@ export const BaseBuildingList = ({
 						<div className={"flex flex-row justify-between"}>
 							<div className={tv.title()}>{entity.name}</div>
 							<div>
-								<More
+								requirements
+								{/* <More
 									items={entity.requiredResources}
 									render={({ entity }) => {
 										return (
@@ -43,7 +44,7 @@ export const BaseBuildingList = ({
 											</div>
 										);
 									}}
-								/>
+								/> */}
 							</div>
 						</div>
 						<Button

@@ -33,9 +33,7 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={ResourceIcon}
-				to={
-					"/$locale/apps/derivean/root/building/base/$id/requirement/resource/list"
-				}
+				to={"/$locale/apps/derivean/root/building/base/$id/requirement/list"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Base building resource requirement (menu)"} />

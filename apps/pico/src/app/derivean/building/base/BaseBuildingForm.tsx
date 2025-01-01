@@ -84,18 +84,6 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"description"}
-				label={<Tx label={"Base building description (label)"} />}
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("description")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
 				name={"preview"}
 				label={<Tx label={"Base building preview (label)"} />}
 				hint={<Tx label={"Base building preview (hint)"} />}

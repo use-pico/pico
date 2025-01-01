@@ -1,12 +1,11 @@
 import { withDatabase } from "@use-pico/client";
 import { type withRepositorySchema } from "@use-pico/common";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import type { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 import type { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
-import type { StorageSchema } from "~/app/derivean/storage/StorageSchema";
 import type { TagSchema } from "~/app/tag/TagSchema";
 import type { UserSchema } from "~/app/user/UserSchema";
 
@@ -19,9 +18,8 @@ export interface Database {
 
 	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
 	Building: withRepositorySchema.Entity<BuildingSchema>;
-	BaseBuilding_ResourceRequirement: withRepositorySchema.Entity<BuildingRequirementResourceSchema>;
+	BaseBuilding_Requirement: withRepositorySchema.Entity<BaseBuildingRequirementSchema>;
 
-	Storage: withRepositorySchema.Entity<StorageSchema>;
 	BaseStorage: withRepositorySchema.Entity<BaseStorageSchema>;
 }
 
@@ -101,7 +99,7 @@ export const db = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("BaseBuilding_ResourceRequirement")
+				.createTable("BaseBuilding_Requirement")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("baseBuildingId", $id, (col) =>
@@ -111,8 +109,12 @@ export const db = withDatabase<Database>({
 					col.references("Resource.id").onDelete("cascade").notNull(),
 				)
 				.addColumn("amount", "float8", (col) => col.notNull())
+				/**
+				 * If true, it's enough to have the resource, by it's not consumed on build.
+				 */
+				.addColumn("passive", "boolean", (col) => col.notNull())
 				.addUniqueConstraint(
-					"BaseBuilding_ResourceRequirement_baseBuildingId_resourceId",
+					"BaseBuilding_Requirement_baseBuildingId_resourceId",
 					["baseBuildingId", "resourceId"],
 				)
 				.execute();

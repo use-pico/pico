@@ -74,18 +74,6 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"description"}
-				label={<Tx label={"Resource description (label)"} />}
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("description")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
 				name={"tagIds"}
 				label={<Tx label={"Resource tags (label)"} />}
 			>

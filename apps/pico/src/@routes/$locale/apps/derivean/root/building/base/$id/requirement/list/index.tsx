@@ -7,18 +7,18 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { BuildingRequirementResourceRepository } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceRepository";
-import { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
-import { BuildingRequirementResourceTable } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceTable";
+import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
+import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
+import { BaseBuildingRequirementTable } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementTable";
 
 const SearchSchema = withSearchSchema({
-	filter: BuildingRequirementResourceSchema.filter,
+	filter: BaseBuildingRequirementSchema.filter,
 });
 
-const loader = BuildingRequirementResourceRepository.withRouteListLoader();
+const loader = BaseBuildingRequirementRepository.withRouteListLoader();
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/$id/requirement/resource/list",
+	"/$locale/apps/derivean/root/building/base/$id/requirement/list/",
 )({
 	component: () => {
 		const { data, count } = Route.useLoaderData();
@@ -30,7 +30,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingRequirementResourceTable
+				<BaseBuildingRequirementTable
 					baseBuildingId={id}
 					table={{
 						data,

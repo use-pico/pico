@@ -20,29 +20,9 @@ const column = withColumn<withRepositorySchema.Output<BaseStorageSchema>>();
 
 const columns = [
 	column({
-		name: "baseBuilding.name",
-		header() {
-			return <Tx label={"Base building name (label)"} />;
-		},
-		render({ value }) {
-			return value;
-		},
-		size: 18,
-	}),
-	column({
 		name: "resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
-		},
-		render({ value }) {
-			return value;
-		},
-		size: 18,
-	}),
-	column({
-		name: "level",
-		header() {
-			return <Tx label={"Storage level (label)"} />;
 		},
 		render({ value }) {
 			return value;

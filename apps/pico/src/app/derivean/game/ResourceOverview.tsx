@@ -1,11 +1,10 @@
 import { More } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { StorageSchema } from "~/app/derivean/storage/StorageSchema";
 
 export namespace ResourceOverview {
 	export interface Props {
-		entities: withRepositorySchema.Output<StorageSchema>[];
+		entities: withRepositorySchema.Output<any>[];
 	}
 }
 

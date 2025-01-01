@@ -6,24 +6,26 @@ import { SQLocalKysely } from "sqlocal/kysely";
 export namespace withDatabase {
 	export namespace Props {
 		export namespace bootstrap {
-			export interface Props {
-				kysely: Kysely<any>;
+			export interface Props<TDatabase> {
+				kysely: Kysely<TDatabase>;
 			}
 
-			export type Callback = (props: Props) => Promise<any>;
+			export type Callback<TDatabase> = (
+				props: Props<TDatabase>,
+			) => Promise<any>;
 		}
 	}
 
-	export interface Props {
+	export interface Props<TDatabase> {
 		database: string;
-		bootstrap: Props.bootstrap.Callback;
+		bootstrap: Props.bootstrap.Callback<TDatabase>;
 	}
 }
 
 export const withDatabase = <TDatabase>({
 	database,
 	bootstrap,
-}: withDatabase.Props): Database.Instance<TDatabase> => {
+}: withDatabase.Props<TDatabase>): Database.Instance<TDatabase> => {
 	const { dialect } = new SQLocalKysely({
 		databasePath: `${database}.sqlite3`,
 	});

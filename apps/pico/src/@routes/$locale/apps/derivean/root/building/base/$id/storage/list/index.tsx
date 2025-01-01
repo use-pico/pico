@@ -89,7 +89,7 @@ export const Route = createFileRoute(
 				...deps,
 				filter: {
 					...filter,
-					baseBuildingId: id,
+					// baseBuildingId: id,
 				},
 			},
 		});

@@ -12,27 +12,27 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
+import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
 
-export namespace BuildingRequirementResourceForm {
+export namespace BaseBuildingRequirementForm {
 	export interface Props
 		extends Form.Props<
-			BuildingRequirementResourceSchema["output"],
-			BuildingRequirementResourceSchema["shape"]
+			BaseBuildingRequirementSchema["output"],
+			BaseBuildingRequirementSchema["shape"]
 		> {
 		//
 	}
 }
 
-export const BuildingRequirementResourceForm: FC<
-	BuildingRequirementResourceForm.Props
+export const BaseBuildingRequirementForm: FC<
+	BaseBuildingRequirementForm.Props
 > = ({ mutation, defaultValues, onSuccess, variant, tva = FormCss, css }) => {
 	const form = useForm<
-		withRepositorySchema.Shape<BuildingRequirementResourceSchema>
+		withRepositorySchema.Shape<BaseBuildingRequirementSchema>
 	>({
-		resolver: zodResolver(BuildingRequirementResourceSchema.shape),
+		resolver: zodResolver(BaseBuildingRequirementSchema.shape),
 		defaultValues,
 	});
 	const modalContext = useContext(ModalContext);
@@ -48,8 +48,8 @@ export const BuildingRequirementResourceForm: FC<
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				BuildingRequirementResourceSchema["output"],
-				BuildingRequirementResourceSchema["shape"]
+				BaseBuildingRequirementSchema["output"],
+				BaseBuildingRequirementSchema["shape"]
 			>({
 				form,
 				mutation,

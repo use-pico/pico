@@ -9,7 +9,6 @@ import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { ResourceOverview } from "~/app/derivean/game/ResourceOverview";
 import { Logo } from "~/app/derivean/logo/Logo";
-import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
@@ -52,9 +51,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		try {
 			return {
 				session: SessionSchema.parse(ls.get("session")),
-				resources: await StorageRepository.withListLoader({
-					queryClient,
-				}),
+				resources: [],
 			};
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (_) {

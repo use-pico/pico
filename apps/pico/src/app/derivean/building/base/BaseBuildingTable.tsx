@@ -42,16 +42,6 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "description",
-		header() {
-			return <Tx label={"Base building description (label)"} />;
-		},
-		render({ value }) {
-			return value;
-		},
-		size: 24,
-	}),
-	column({
 		name: "preview",
 		header() {
 			return <Tx label={"Base building preview (label)"} />;

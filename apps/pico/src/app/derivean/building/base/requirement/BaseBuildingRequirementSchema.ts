@@ -5,21 +5,27 @@ import {
 } from "@use-pico/common";
 import { z } from "zod";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		baseStorageId: z.string().min(1),
+		baseBuildingId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().positive(),
+		passive: z.union([
+			z.boolean(),
+			z
+				.number()
+				.int()
+				.refine((val) => val === 0 || val === 1)
+				.transform((val) => (typeof val === "boolean" ? val : val === 1)),
+		]),
 	}),
 );
 
-export const StorageSchema = withRepositorySchema({
+export const BaseBuildingRequirementSchema = withRepositorySchema({
 	entity,
 	output: entity.merge(
 		z.object({
-			baseStorage: BaseStorageSchema.output,
 			resource: ResourceSchema.output,
 		}),
 	),
@@ -34,13 +40,16 @@ export const StorageSchema = withRepositorySchema({
 					message: "Size must be a number",
 				}),
 		]),
+		passive: z.boolean(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			baseStorageId: z.string().optional(),
+			baseBuildingId: z.string().optional(),
 			resourceId: z.string().optional(),
+			passive: z.boolean().optional(),
 		}),
 	),
 });
 
-export type StorageSchema = typeof StorageSchema;
+export type BaseBuildingRequirementSchema =
+	typeof BaseBuildingRequirementSchema;

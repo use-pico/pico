@@ -11,13 +11,13 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { BuildingRequirementResourceForm } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceForm";
-import { BuildingRequirementResourceRepository } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceRepository";
-import type { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
+import { BaseBuildingRequirementForm } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementForm";
+import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
+import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 const column =
-	withColumn<withRepositorySchema.Output<BuildingRequirementResourceSchema>>();
+	withColumn<withRepositorySchema.Output<BaseBuildingRequirementSchema>>();
 
 const columns = [
 	column({
@@ -40,29 +40,19 @@ const columns = [
 		},
 		size: 14,
 	}),
-	column({
-		name: "resource.description",
-		header() {
-			return <Tx label={"Resource description (label)"} />;
-		},
-		render({ value }) {
-			return value;
-		},
-		size: 24,
-	}),
 ];
 
-export namespace BuildingRequirementResourceTable {
+export namespace BaseBuildingRequirementTable {
 	export interface Props
 		extends Table.PropsEx<
-			withRepositorySchema.Output<BuildingRequirementResourceSchema>
+			withRepositorySchema.Output<BaseBuildingRequirementSchema>
 		> {
 		baseBuildingId: string;
 	}
 }
 
-export const BuildingRequirementResourceTable: FC<
-	BuildingRequirementResourceTable.Props
+export const BaseBuildingRequirementTable: FC<
+	BaseBuildingRequirementTable.Props
 > = ({ baseBuildingId, table, ...props }) => {
 	return (
 		<Table
@@ -79,8 +69,8 @@ export const BuildingRequirementResourceTable: FC<
 								textTitle={<Tx label={"Create resource requirement (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<BuildingRequirementResourceForm
-									mutation={BuildingRequirementResourceRepository.useCreateMutation(
+								<BaseBuildingRequirementForm
+									mutation={BaseBuildingRequirementRepository.useCreateMutation(
 										{
 											async wrap(callback) {
 												return toast.promise(callback(), {
@@ -135,7 +125,7 @@ export const BuildingRequirementResourceTable: FC<
 								}}
 							>
 								<DeleteControl
-									repository={BuildingRequirementResourceRepository}
+									repository={BaseBuildingRequirementRepository}
 									textContent={
 										<Tx label={"Resource requirements delete (content)"} />
 									}
@@ -153,42 +143,40 @@ export const BuildingRequirementResourceTable: FC<
 								textTitle={<Tx label={"Edit resource requirement (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<BuildingRequirementResourceForm
+								<BaseBuildingRequirementForm
 									defaultValues={data}
-									mutation={BuildingRequirementResourceRepository.usePatchMutation(
-										{
-											async wrap(callback) {
-												return toast.promise(callback(), {
-													loading: (
-														<Tx label={"Saving resource requirement (label)"} />
-													),
-													success: (
-														<Tx
-															label={
-																"Resource requirement successfully saved (label)"
-															}
-														/>
-													),
-													error: (
-														<Tx
-															label={"Cannot save resource requirement (label)"}
-														/>
-													),
-												});
-											},
-											async toPatch({ shape }) {
-												return {
-													entity: {
-														...shape,
-														baseBuildingId,
-													},
-													filter: {
-														id: data.id,
-													},
-												};
-											},
+									mutation={BaseBuildingRequirementRepository.usePatchMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: (
+													<Tx label={"Saving resource requirement (label)"} />
+												),
+												success: (
+													<Tx
+														label={
+															"Resource requirement successfully saved (label)"
+														}
+													/>
+												),
+												error: (
+													<Tx
+														label={"Cannot save resource requirement (label)"}
+													/>
+												),
+											});
 										},
-									)}
+										async toPatch({ shape }) {
+											return {
+												entity: {
+													...shape,
+													baseBuildingId,
+												},
+												filter: {
+													id: data.id,
+												},
+											};
+										},
+									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
@@ -208,7 +196,7 @@ export const BuildingRequirementResourceTable: FC<
 								}}
 							>
 								<DeleteControl
-									repository={BuildingRequirementResourceRepository}
+									repository={BaseBuildingRequirementRepository}
 									textContent={
 										<Tx label={"Resource requirement delete (content)"} />
 									}

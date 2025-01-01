@@ -99,18 +99,6 @@ export const BaseStorageForm: FC<BaseStorageForm.Props> = ({
 				/>
 			</FormInput>
 
-			<FormInput
-				formState={form.formState}
-				name={"level"}
-				label={<Tx label={"Storage level (label)"} />}
-			>
-				<input
-					type={"number"}
-					className={tv.input()}
-					{...form.register("level")}
-				/>
-			</FormInput>
-
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
 					iconEnabled={ResourceIcon}

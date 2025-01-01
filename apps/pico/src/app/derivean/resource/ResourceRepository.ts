@@ -9,11 +9,11 @@ export const ResourceRepository = withRepository({
 	schema: ResourceSchema,
 	meta: {
 		where: {
-			id: "resource.id",
-			idIn: "resource.id",
-			baseBuildingId: "buildingRequirementResource.baseBuildingId",
+			id: "r.id",
+			idIn: "r.id",
+			baseBuildingId: "bbr.baseBuildingId",
 		},
-		fulltext: ["resource.description", "resource.name", "resource.id"],
+		fulltext: ["r.description", "r.name", "r.id"],
 	},
 	insert() {
 		return db.kysely.insertInto("Resource");
@@ -25,15 +25,13 @@ export const ResourceRepository = withRepository({
 		return db.kysely.deleteFrom("Resource");
 	},
 	select({ query: { where, filter } }) {
-		let $select = db.kysely
-			.selectFrom("Resource as resource")
-			.selectAll("resource");
+		let $select = db.kysely.selectFrom("Resource as r").selectAll("r");
 
 		if (where?.baseBuildingId || filter?.baseBuildingId) {
 			$select = $select.leftJoin(
-				"BuildingRequirementResource as buildingRequirementResource",
-				"buildingRequirementResource.resourceId",
-				"resource.id",
+				"BaseBuilding_Requirement as bbr",
+				"bbr.resourceId",
+				"r.id",
 			);
 		}
 		return $select;

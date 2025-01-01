@@ -4,12 +4,10 @@ import {
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingRequirementResourceSchema } from "~/app/derivean/building/requirement/resource/BuildingRequirementResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
 		name: z.string().min(1),
-		description: z.string().optional(),
 		preview: z.union([
 			z.boolean(),
 			z
@@ -23,14 +21,9 @@ const entity = IdentitySchema.merge(
 
 export const BaseBuildingSchema = withRepositorySchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			requiredResources: z.array(BuildingRequirementResourceSchema.output),
-		}),
-	),
+	output: entity,
 	shape: z.object({
 		name: z.string().min(1),
-		description: z.string().optional(),
 		preview: z.boolean(),
 	}),
 	filter: FilterSchema,
