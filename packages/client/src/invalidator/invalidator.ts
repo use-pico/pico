@@ -9,11 +9,11 @@ export namespace invalidator {
 
 export const invalidator = async ({ queryClient, keys }: invalidator.Props) => {
 	return Promise.all(
-		keys.map((key) =>
-			queryClient.refetchQueries({
+		keys.map((key) => {
+			return queryClient.refetchQueries({
 				queryKey: key,
-			}),
-		),
+			});
+		}),
 	).catch((error) => {
 		console.error(error);
 	});

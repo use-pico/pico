@@ -5,12 +5,16 @@ import { TagSchema } from "~/app/tag/TagSchema";
 export namespace withTagRepository {
 	export interface Props {
 		database: Database.Instance;
+		repository?: Partial<withRepository.Props<TagSchema>>;
 	}
 
 	export type Instance = ReturnType<typeof withTagRepository>;
 }
 
-export const withTagRepository = ({ database }: withTagRepository.Props) => {
+export const withTagRepository = ({
+	database,
+	repository,
+}: withTagRepository.Props) => {
 	return withRepository({
 		name: "TagRepository",
 		schema: TagSchema,
@@ -35,5 +39,6 @@ export const withTagRepository = ({ database }: withTagRepository.Props) => {
 		select() {
 			return database.kysely.selectFrom("Tag as tag").selectAll("tag");
 		},
+		...repository,
 	});
 };

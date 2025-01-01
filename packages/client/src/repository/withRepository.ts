@@ -254,6 +254,7 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> extends withCoolRepository.Instance<TSchema> {
 		name: string;
+		readonly invalidate: QueryKey[];
 
 		withFetchLoader: Instance.withFetchLoader.Callback<TSchema>;
 		withListLoader: Instance.withListLoader.Callback<TSchema>;
@@ -279,10 +280,19 @@ export const withRepository = <
 }: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
 	const $coolInstance = withCoolRepository(props);
 
+	const $invalidate = [
+		["withListLoader", name],
+		["useListQuery", name],
+		["withFetchLoader", name],
+		["withCountLoader", name],
+		...invalidate,
+	];
+
 	const $instance: withRepository.Instance<TSchema> = {
 		...$coolInstance,
 
 		name,
+		invalidate: $invalidate,
 
 		async withListLoader({
 			queryClient,
@@ -373,13 +383,7 @@ export const withRepository = <
 
 						await invalidator({
 							queryClient,
-							keys: [
-								["withListLoader", name],
-								["useListQuery", name],
-								["withFetchLoader", name],
-								["withCountLoader", name],
-								...invalidate,
-							],
+							keys: $invalidate,
 						});
 
 						await router.invalidate();
@@ -409,13 +413,7 @@ export const withRepository = <
 
 						await invalidator({
 							queryClient,
-							keys: [
-								["withListLoader", name],
-								["useListQuery", name],
-								["withFetchLoader", name],
-								["withCountLoader", name],
-								...invalidate,
-							],
+							keys: $invalidate,
 						});
 
 						await router.invalidate();
@@ -437,13 +435,7 @@ export const withRepository = <
 
 						await invalidator({
 							queryClient,
-							keys: [
-								["withListLoader", name],
-								["useListQuery", name],
-								["withFetchLoader", name],
-								["withCountLoader", name],
-								...invalidate,
-							],
+							keys: $invalidate,
 						});
 
 						await onSuccess?.({});

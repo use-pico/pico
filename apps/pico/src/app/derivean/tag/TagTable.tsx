@@ -48,6 +48,12 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
+		filter: {
+			path: "group",
+			onFilter({ data, filter }) {
+				filter.shallow("group", data.group);
+			},
+		},
 		size: 24,
 	}),
 ];
