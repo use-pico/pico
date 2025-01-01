@@ -7,10 +7,17 @@ import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import type { InventorySlotSchema } from "~/app/derivean/inventory/slot/InventorySlotSchema";
 import type { ItemSchema } from "~/app/derivean/item/ItemSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 import type { SlotSchema } from "~/app/derivean/slot/SlotSchema";
+import type { TagSchema } from "~/app/tag/TagSchema";
+import type { UserSchema } from "~/app/user/UserSchema";
 
 export interface Database {
+	User: withRepositorySchema.Entity<UserSchema>;
+	Tag: withRepositorySchema.Entity<TagSchema>;
+
 	Resource: withRepositorySchema.Entity<ResourceSchema>;
+	ResourceTag: withRepositorySchema.Entity<ResourceTagSchema>;
 
 	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
 	Building: withRepositorySchema.Entity<BuildingSchema>;
@@ -38,11 +45,32 @@ export const db = withDatabase<Database>({
 			.execute();
 
 		kysely.schema
+			.createTable("Tag")
+			.ifNotExists()
+			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
+			.addColumn("code", "varchar(64)", (col) => col.notNull())
+			.addColumn("label", "varchar(128)", (col) => col.notNull())
+			.addColumn("group", "varchar(64)")
+			.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0));
+
+		kysely.schema
 			.createTable("Resource")
 			.ifNotExists()
 			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
 			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
 			.addColumn("description", "varchar(128)")
+			.execute();
+
+		kysely.schema
+			.createTable("ResourceTag")
+			.ifNotExists()
+			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
+			.addColumn("resourceId", "varchar(36)", (col) =>
+				col.references("Resource.id").onDelete("cascade").notNull(),
+			)
+			.addColumn("tagId", "varchar(36)", (col) =>
+				col.references("Tag.id").onDelete("cascade").notNull(),
+			)
 			.execute();
 
 		kysely.schema

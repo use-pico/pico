@@ -39,7 +39,7 @@ const columns = [
 				</LinkTo>
 			);
 		},
-		size: 14,
+		size: 10,
 	}),
 	column({
 		name: "description",

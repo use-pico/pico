@@ -25,3 +25,5 @@ export const UserSchema = withRepositorySchema({
 		}),
 	),
 });
+
+export type UserSchema = typeof UserSchema;

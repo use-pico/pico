@@ -1,12 +1,14 @@
 import { z } from "zod";
+import { IdentitySchema } from "./IdentitySchema";
 
-export const TagSchema = z.object({
-	id: z.string(),
-	code: z.string(),
-	label: z.string(),
-	group: z.string().nullable(),
-	sort: z.number().nullable(),
-});
+export const TagSchema = IdentitySchema.merge(
+	z.object({
+		code: z.string().min(1),
+		label: z.string().min(1),
+		group: z.string().nullable(),
+		sort: z.number().nullable(),
+	}),
+);
 
 export type TagSchema = typeof TagSchema;
 

@@ -23,7 +23,7 @@ export namespace withDatabase {
 export const withDatabase = <TDatabase>({
 	database,
 	bootstrap,
-}: withDatabase.Props): Database.Instance => {
+}: withDatabase.Props): Database.Instance<TDatabase> => {
 	const { dialect } = new SQLocalKysely({
 		databasePath: `${database}.sqlite3`,
 	});
