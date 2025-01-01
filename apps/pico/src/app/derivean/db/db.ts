@@ -76,7 +76,7 @@ export const db = withDatabase<Database>({
 				.execute();
 		};
 
-		const bootstrapStorage = async () => {
+		const bootstrapBaseStorage = async () => {
 			await kysely.schema
 				.createTable("BaseStorage")
 				.ifNotExists()
@@ -86,16 +86,6 @@ export const db = withDatabase<Database>({
 				)
 				.addColumn("limit", "float8", (col) => col.notNull())
 				.execute();
-
-			await kysely.schema
-				.createTable("Storage")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-				.addColumn("baseStorageId", $id, (col) =>
-					col.references("BaseStorage.id").onDelete("cascade").notNull(),
-				)
-				.addColumn("amount", "float8", (col) => col.notNull())
-				.execute();
 		};
 
 		const bootstrapBaseBuilding = async () => {
@@ -104,6 +94,9 @@ export const db = withDatabase<Database>({
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+				/**
+				 * Enable preview of the building even when the player does not have the resources to build it
+				 */
 				.addColumn("preview", "boolean", (col) => col.notNull())
 				.execute();
 
@@ -161,19 +154,20 @@ export const db = withDatabase<Database>({
 				.addColumn("buildingId", $id, (col) =>
 					col.references("Building.id").onDelete("cascade").notNull(),
 				)
-				.addColumn("storageId", $id, (col) =>
-					col.references("Storage.id").onDelete("cascade").notNull(),
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
 				)
-				.addUniqueConstraint("Building_Storage_buildingId_storageId", [
+				.addColumn("amount", "float8", (col) => col.notNull())
+				.addUniqueConstraint("Building_Storage_buildingId_resourceId", [
 					"buildingId",
-					"storageId",
+					"resourceId",
 				])
 				.execute();
 		};
 
 		await bootstrapCommon();
 		await bootstrapResource();
-		await bootstrapStorage();
+		await bootstrapBaseStorage();
 		await bootstrapBaseBuilding();
 		await bootstrapBuilding();
 	},
