@@ -28,104 +28,130 @@ export interface Database {
 export const db = withDatabase<Database>({
 	database: "derivean",
 	async bootstrap({ kysely }) {
-		kysely.schema
-			.createTable("User")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("name", "varchar(64)", (col) => col.notNull())
-			.addColumn("login", "varchar(128)", (col) => col.notNull().unique())
-			.addColumn("password", "varchar(256)", (col) => col.notNull())
-			.execute();
+		const $id = "varchar(36)" as const;
 
-		kysely.schema
-			.createTable("Tag")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("code", "varchar(64)", (col) => col.notNull())
-			.addColumn("label", "varchar(128)", (col) => col.notNull())
-			.addColumn("group", "varchar(64)")
-			.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
-			.execute();
+		const bootstrapCommon = async () => {
+			await kysely.schema
+				.createTable("User")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("name", "varchar(64)", (col) => col.notNull())
+				.addColumn("login", "varchar(128)", (col) => col.notNull().unique())
+				.addColumn("password", "varchar(256)", (col) => col.notNull())
+				.execute();
 
-		kysely.schema
-			.createTable("Resource")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
-			.addColumn("description", "varchar(128)")
-			.execute();
+			await kysely.schema
+				.createTable("Tag")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("code", "varchar(64)", (col) => col.notNull())
+				.addColumn("label", "varchar(128)", (col) => col.notNull())
+				.addColumn("group", "varchar(64)")
+				.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
+				.execute();
+		};
 
-		kysely.schema
-			.createTable("ResourceTag")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("resourceId", "varchar(36)", (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("tagId", "varchar(36)", (col) =>
-				col.references("Tag.id").onDelete("cascade").notNull(),
-			)
-			.execute();
+		const bootstrapResource = async () => {
+			await kysely.schema
+				.createTable("Resource")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+				.execute();
 
-		kysely.schema
-			.createTable("Storage")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("buildingId", "varchar(36)", (col) =>
-				col.references("Building.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("resourceId", "varchar(36)", (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("amount", "float8", (col) => col.notNull())
-			.execute();
+			await kysely.schema
+				.createTable("ResourceTag")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("tagId", $id, (col) =>
+					col.references("Tag.id").onDelete("cascade").notNull(),
+				)
+				.addUniqueConstraint("ResourceTag_Resource_Tag", [
+					"resourceId",
+					"tagId",
+				])
+				.execute();
+		};
 
-		kysely.schema
-			.createTable("BaseStorage")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("baseBuildingId", "varchar(36)", (col) =>
-				col.references("BaseBuilding.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("resourceId", "varchar(36)", (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("level", "float8", (col) => col.notNull())
-			.addColumn("limit", "float8", (col) => col.notNull())
-			.execute();
+		const bootstrapStorage = async () => {
+			await kysely.schema
+				.createTable("BaseStorage")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("limit", "float8", (col) => col.notNull())
+				.execute();
 
-		kysely.schema
-			.createTable("BaseBuilding")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
-			.addColumn("preview", "boolean", (col) => col.notNull())
-			.addColumn("description", "varchar(128)")
-			.execute();
+			await kysely.schema
+				.createTable("Storage")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("baseStorageId", $id, (col) =>
+					col.references("BaseStorage.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("amount", "float8", (col) => col.notNull())
+				.execute();
+		};
 
-		kysely.schema
-			.createTable("Building")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("userId", "varchar(36)", (col) =>
-				col.references("User.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("baseBuildingId", "varchar(36)", (col) =>
-				col.references("BaseBuilding.id").onDelete("cascade").notNull(),
-			)
-			.execute();
+		const bootstrapBaseBuilding = async () => {
+			await kysely.schema
+				.createTable("BaseBuilding")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+				.addColumn("preview", "boolean", (col) => col.notNull())
+				.addColumn("description", "varchar(128)")
+				.execute();
 
-		kysely.schema
-			.createTable("BuildingRequirementResource")
-			.ifNotExists()
-			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
-			.addColumn("baseBuildingId", "varchar(36)", (col) =>
-				col.references("BaseBuilding.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("resourceId", "varchar(36)", (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("amount", "float8", (col) => col.notNull())
-			.execute();
+			await kysely.schema
+				.createTable("BaseBuilding_ResourceRequirement")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("baseBuildingId", $id, (col) =>
+					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("amount", "float8", (col) => col.notNull())
+				.execute();
+
+			await kysely.schema
+				.createTable("BaseBuilding_BaseStorage")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("baseBuildingId", $id, (col) =>
+					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("baseStorageId", $id, (col) =>
+					col.references("BaseStorage.id").onDelete("cascade").notNull(),
+				)
+				.execute();
+		};
+
+		const bootstrapBuilding = async () => {
+			await kysely.schema
+				.createTable("Building")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("userId", $id, (col) =>
+					col.references("User.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("baseBuildingId", $id, (col) =>
+					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
+				)
+				.execute();
+		};
+
+		await bootstrapCommon();
+		await bootstrapResource();
+		await bootstrapStorage();
+		await bootstrapBaseBuilding();
+		await bootstrapBuilding();
 	},
 });

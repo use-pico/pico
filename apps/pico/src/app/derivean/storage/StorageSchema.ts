@@ -4,12 +4,12 @@ import {
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		buildingId: z.string().min(1),
+		baseStorageId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().positive(),
 	}),
@@ -19,8 +19,8 @@ export const StorageSchema = withRepositorySchema({
 	entity,
 	output: entity.merge(
 		z.object({
+			baseStorage: BaseStorageSchema.output,
 			resource: ResourceSchema.output,
-			building: BuildingSchema.output,
 		}),
 	),
 	shape: z.object({
@@ -37,7 +37,7 @@ export const StorageSchema = withRepositorySchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			buildingId: z.string().optional(),
+			baseStorageId: z.string().optional(),
 			resourceId: z.string().optional(),
 		}),
 	),
