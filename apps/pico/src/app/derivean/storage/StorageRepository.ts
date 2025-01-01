@@ -1,4 +1,5 @@
 import { withRepository } from "@use-pico/client";
+import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import { db } from "~/app/derivean/db/db";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { StorageSchema } from "~/app/derivean/storage/StorageSchema";
@@ -10,16 +11,15 @@ export const StorageRepository = withRepository({
 		where: {
 			id: "storage.id",
 			idIn: "storage.id",
+			buildingId: "storage.buildingId",
 			resourceId: "storage.resourceId",
-			userId: "storage.userId",
 		},
 		fulltext: [
 			"storage.id",
 			"storage.resourceId",
 			"storage.userId",
 			"resource.name",
-			"user.name",
-			"user.login",
+			"baseBuilding.name",
 		],
 	},
 	insert() {
@@ -36,11 +36,19 @@ export const StorageRepository = withRepository({
 			.selectFrom("Storage as storage")
 			.selectAll("storage")
 			.leftJoin("Resource as resource", "resource.id", "storage.resourceId")
-			.leftJoin("User as user", "user.id", "storage.userId");
+			.leftJoin("Building as building", "building.id", "storage.buildingId")
+			.leftJoin(
+				"BaseBuilding as baseBuilding",
+				"baseBuilding.id",
+				"building.baseBuildingId",
+			);
 	},
 	async toOutput({ entity }) {
 		return {
 			...entity,
+			building: await BuildingRepository.fetchOrThrow({
+				query: { where: { id: entity.buildingId } },
+			}),
 			resource: await ResourceRepository.fetchOrThrow({
 				query: { where: { id: entity.resourceId } },
 			}),

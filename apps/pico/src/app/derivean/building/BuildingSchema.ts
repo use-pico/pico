@@ -21,7 +21,6 @@ export const BuildingSchema = withRepositorySchema({
 		}),
 	),
 	shape: z.object({
-		userId: z.string().min(1),
 		baseBuildingId: z.string().min(1),
 	}),
 	filter: FilterSchema.merge(

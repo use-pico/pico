@@ -4,28 +4,47 @@ import {
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		buildingId: z.string().min(1),
+		baseBuildingId: z.string().min(1),
+		/**
+		 * Resource
+		 */
 		resourceId: z.string().min(1),
-		amount: z.number().positive(),
+		/**
+		 * Storage level
+		 */
+		level: z.number().positive(),
+		/**
+		 * Storage limit of this resource
+		 */
+		limit: z.number().positive(),
 	}),
 );
 
-export const StorageSchema = withRepositorySchema({
+export const BaseStorageSchema = withRepositorySchema({
 	entity,
 	output: entity.merge(
 		z.object({
+			baseBuilding: BaseBuildingSchema.output,
 			resource: ResourceSchema.output,
-			building: BuildingSchema.output,
 		}),
 	),
 	shape: z.object({
 		resourceId: z.string().min(1),
-		amount: z.union([
+		level: z.union([
+			z.number().positive(),
+			z
+				.string()
+				.transform((value) => parseFloat(value))
+				.refine((value) => !isNaN(value), {
+					message: "Size must be a number",
+				}),
+		]),
+		limit: z.union([
 			z.number().positive(),
 			z
 				.string()
@@ -37,10 +56,10 @@ export const StorageSchema = withRepositorySchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			buildingId: z.string().optional(),
+			baseBuildingId: z.string().optional(),
 			resourceId: z.string().optional(),
 		}),
 	),
 });
 
-export type StorageSchema = typeof StorageSchema;
+export type BaseStorageSchema = typeof BaseStorageSchema;

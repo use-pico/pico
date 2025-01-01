@@ -1,7 +1,9 @@
+import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -9,47 +11,47 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
+import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { BuildingForm } from "~/app/derivean/building/BuildingForm";
+import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
+import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { StorageForm } from "~/app/derivean/storage/StorageForm";
-import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
-import type { StorageSchema } from "~/app/derivean/storage/StorageSchema";
 
-const column = withColumn<withRepositorySchema.Output<StorageSchema>>();
+const column = withColumn<withRepositorySchema.Output<BuildingSchema>>();
 
 const columns = [
 	column({
-		name: "resource.name",
+		name: "baseBuilding.name",
 		header() {
-			return <Tx label={"Resource name (label)"} />;
+			return <Tx label={"Base building name (label)"} />;
 		},
-		render({ value }) {
-			return value;
-		},
-		size: 14,
-	}),
-	column({
-		name: "amount",
-		header() {
-			return <Tx label={"Amount (label)"} />;
-		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/root/building/$id/view"}
+					params={{ locale, id: data.id }}
+				>
+					{value}
+				</LinkTo>
+			);
 		},
 		size: 14,
 	}),
 ];
 
-export namespace StorageTable {
+export namespace BuildingTable {
 	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<StorageSchema>> {
-		buildingId: string;
+		extends Table.PropsEx<withRepositorySchema.Output<BuildingSchema>> {
+		userId: string;
 	}
 }
 
-export const StorageTable: FC<StorageTable.Props> = ({
-	buildingId,
+export const BuildingTable: FC<BuildingTable.Props> = ({
+	userId,
 	table,
 	...props
 }) => {
@@ -64,26 +66,26 @@ export const StorageTable: FC<StorageTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create resource (menu)"} />}
-								textTitle={<Tx label={"Create resource (modal)"} />}
+								label={<Tx label={"Create building (menu)"} />}
+								textTitle={<Tx label={"Create building (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<StorageForm
-									mutation={StorageRepository.useCreateMutation({
+								<BuildingForm
+									mutation={BuildingRepository.useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
-												loading: <Tx label={"Saving resource (label)"} />,
+												loading: <Tx label={"Saving building (label)"} />,
 												success: (
-													<Tx label={"Resource successfully saved (label)"} />
+													<Tx label={"Building successfully saved (label)"} />
 												),
-												error: <Tx label={"Cannot save resource (label)"} />,
+												error: <Tx label={"Cannot save building (label)"} />,
 											});
 										},
 										async toCreate({ shape }) {
 											return {
 												entity: {
 													...shape,
-													buildingId,
+													userId,
 												},
 											};
 										},
@@ -96,8 +98,8 @@ export const StorageTable: FC<StorageTable.Props> = ({
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete storage resources (label)"} />}
-								textTitle={<Tx label={"Delete storage resources (modal)"} />}
+								label={<Tx label={"Delete building (label)"} />}
+								textTitle={<Tx label={"Delete buildings (modal)"} />}
 								disabled={
 									!table.selection || table.selection.value.length === 0
 								}
@@ -110,10 +112,8 @@ export const StorageTable: FC<StorageTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={StorageRepository}
-									textContent={
-										<Tx label={"Storage resource delete (content)"} />
-									}
+									repository={BuildingRepository}
+									textContent={<Tx label={"Building delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
 							</ActionModal>
@@ -124,20 +124,20 @@ export const StorageTable: FC<StorageTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Edit resource (menu)"} />}
-								textTitle={<Tx label={"Edit resource (modal)"} />}
-								icon={ResourceIcon}
+								label={<Tx label={"Edit building (menu)"} />}
+								textTitle={<Tx label={"Edit building (modal)"} />}
+								icon={BuildingIcon}
 							>
-								<StorageForm
+								<BuildingForm
 									defaultValues={data}
-									mutation={StorageRepository.usePatchMutation({
+									mutation={BuildingRepository.usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
-												loading: <Tx label={"Saving resource (label)"} />,
+												loading: <Tx label={"Saving building (label)"} />,
 												success: (
-													<Tx label={"Resource successfully saved (label)"} />
+													<Tx label={"Building successfully saved (label)"} />
 												),
-												error: <Tx label={"Cannot save resource (label)"} />,
+												error: <Tx label={"Cannot save building (label)"} />,
 											});
 										},
 										async toPatch() {
@@ -156,8 +156,8 @@ export const StorageTable: FC<StorageTable.Props> = ({
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete resource (label)"} />}
-								textTitle={<Tx label={"Delete resource (modal)"} />}
+								label={<Tx label={"Delete building (label)"} />}
+								textTitle={<Tx label={"Delete building (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -167,10 +167,8 @@ export const StorageTable: FC<StorageTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={StorageRepository}
-									textContent={
-										<Tx label={"Storage resource delete (content)"} />
-									}
+									repository={BuildingRepository}
+									textContent={<Tx label={"Building delete (content)"} />}
 									idIn={[data.id]}
 								/>
 							</ActionModal>

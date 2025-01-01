@@ -2,7 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx, UserIcon } from "@use-pico/client";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import type { UserSchema } from "~/app/user/UserSchema";
 
 export namespace UserIndexMenu {
@@ -30,11 +30,11 @@ export const UserIndexMenu: FC<UserIndexMenu.Props> = ({
 			</MenuLink>
 
 			<MenuLink
-				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/root/user/$id/storage/list"}
+				icon={BuildingIcon}
+				to={"/$locale/apps/derivean/root/user/$id/building/list"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"User storage list (menu)"} />
+				<Tx label={"Building list (menu)"} />
 			</MenuLink>
 		</Menu>
 	);

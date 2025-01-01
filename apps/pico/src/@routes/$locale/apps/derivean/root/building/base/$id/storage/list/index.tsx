@@ -7,16 +7,16 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
-import { StorageSchema } from "~/app/derivean/storage/StorageSchema";
-import { StorageTable } from "~/app/derivean/storage/StorageTable";
+import { BaseStorageRepository } from "~/app/derivean/storage/base/BaseStorageRepository";
+import { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
+import { BaseStorageTable } from "~/app/derivean/storage/base/BaseStorageTable";
 
-const SearchSchema = withSearchSchema({ filter: StorageSchema.filter });
+const SearchSchema = withSearchSchema({ filter: BaseStorageSchema.filter });
 
-const loader = StorageRepository.withRouteListLoader();
+const loader = BaseStorageRepository.withRouteListLoader();
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/user/$id/storage/list/",
+	"/$locale/apps/derivean/root/building/base/$id/storage/list/",
 )({
 	component() {
 		const { data, count } = Route.useLoaderData();
@@ -28,8 +28,8 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<StorageTable
-					userId={id}
+				<BaseStorageTable
+					baseBuildingId={id}
 					table={{
 						data,
 						filter: {
@@ -89,7 +89,7 @@ export const Route = createFileRoute(
 				...deps,
 				filter: {
 					...filter,
-					userId: id,
+					baseBuildingId: id,
 				},
 			},
 		});

@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    BoolInput,
     Button,
     FormCss,
     FormError,
@@ -13,20 +12,21 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
+import { BaseStorageSchema } from "~/app/derivean/storage/base/BaseStorageSchema";
 
-export namespace BaseBuildingForm {
+export namespace BaseStorageForm {
 	export interface Props
 		extends Form.Props<
-			BaseBuildingSchema["output"],
-			BaseBuildingSchema["shape"]
+			BaseStorageSchema["output"],
+			BaseStorageSchema["shape"]
 		> {
 		//
 	}
 }
 
-export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
+export const BaseStorageForm: FC<BaseStorageForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
@@ -34,12 +34,9 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BaseBuildingSchema>>({
-		resolver: zodResolver(BaseBuildingSchema.shape),
-		defaultValues: {
-			preview: true,
-			...defaultValues,
-		},
+	const form = useForm<withRepositorySchema.Shape<BaseStorageSchema>>({
+		resolver: zodResolver(BaseStorageSchema.shape),
+		defaultValues,
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -54,8 +51,8 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				BaseBuildingSchema["output"],
-				BaseBuildingSchema["shape"]
+				BaseStorageSchema["output"],
+				BaseStorageSchema["shape"]
 			>({
 				form,
 				mutation,
@@ -71,51 +68,55 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"name"}
-				label={<Tx label={"Base building name (label)"} />}
-				required
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("name")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"description"}
-				label={<Tx label={"Base building description (label)"} />}
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("description")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"preview"}
-				label={<Tx label={"Base building preview (label)"} />}
-				hint={<Tx label={"Base building preview (hint)"} />}
-				required
+				name={"resourceId"}
+				label={<Tx label={"Resource name (label)"} />}
 			>
 				<Controller
 					control={form.control}
-					name={"preview"}
+					name={"resourceId"}
 					render={({ field: { ref, ...field } }) => {
-						return <BoolInput {...field} />;
+						return (
+							<ResourcePopupSelect
+								icon={ResourceIcon}
+								titleText={<Tx label={"Select resource (title)"} />}
+								allowEmpty
+								{...field}
+							/>
+						);
 					}}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Limit (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("limit")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"level"}
+				label={<Tx label={"Storage level (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("level")}
 				/>
 			</FormInput>
 
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={BaseBuildingIcon}
+					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save base building (submit)"} />
+					<Tx label={"Save base storage (submit)"} />
 				</Button>
 			</div>
 		</form>

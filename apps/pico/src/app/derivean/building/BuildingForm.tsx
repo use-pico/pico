@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    BoolInput,
     Button,
     FormCss,
     FormError,
@@ -13,20 +12,19 @@ import {
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BaseBuildingPopupSelect } from "~/app/derivean/building/base/BaseBuildingPopupSelect";
+import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
-export namespace BaseBuildingForm {
+export namespace BuildingForm {
 	export interface Props
-		extends Form.Props<
-			BaseBuildingSchema["output"],
-			BaseBuildingSchema["shape"]
-		> {
+		extends Form.Props<BuildingSchema["output"], BuildingSchema["shape"]> {
 		//
 	}
 }
 
-export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
+export const BuildingForm: FC<BuildingForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
@@ -34,12 +32,9 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BaseBuildingSchema>>({
-		resolver: zodResolver(BaseBuildingSchema.shape),
-		defaultValues: {
-			preview: true,
-			...defaultValues,
-		},
+	const form = useForm<withRepositorySchema.Shape<BuildingSchema>>({
+		resolver: zodResolver(BuildingSchema.shape),
+		defaultValues,
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -53,10 +48,7 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<
-				BaseBuildingSchema["output"],
-				BaseBuildingSchema["shape"]
-			>({
+			onSubmit={onSubmit<BuildingSchema["output"], BuildingSchema["shape"]>({
 				form,
 				mutation,
 				async onSuccess(entity) {
@@ -71,51 +63,31 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"name"}
+				name={"baseBuildingId"}
 				label={<Tx label={"Base building name (label)"} />}
-				required
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("name")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"description"}
-				label={<Tx label={"Base building description (label)"} />}
-			>
-				<input
-					type={"text"}
-					className={tv.input()}
-					{...form.register("description")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"preview"}
-				label={<Tx label={"Base building preview (label)"} />}
-				hint={<Tx label={"Base building preview (hint)"} />}
-				required
 			>
 				<Controller
 					control={form.control}
-					name={"preview"}
+					name={"baseBuildingId"}
 					render={({ field: { ref, ...field } }) => {
-						return <BoolInput {...field} />;
+						return (
+							<BaseBuildingPopupSelect
+								icon={BaseBuildingIcon}
+								titleText={<Tx label={"Select base building (title)"} />}
+								allowEmpty
+								{...field}
+							/>
+						);
 					}}
 				/>
 			</FormInput>
 
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={BaseBuildingIcon}
+					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save base building (submit)"} />
+					<Tx label={"Save Building (submit)"} />
 				</Button>
 			</div>
 		</form>

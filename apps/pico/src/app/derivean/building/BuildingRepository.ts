@@ -1,4 +1,5 @@
 import { withRepository } from "@use-pico/client";
+import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { db } from "~/app/derivean/db/db";
 
@@ -37,5 +38,13 @@ export const BuildingRepository = withRepository({
 				"baseBuilding.id",
 				"building.baseBuildingId",
 			);
+	},
+	async toOutput({ entity }) {
+		return {
+			...entity,
+			baseBuilding: await BaseBuildingRepository.fetchOrThrow({
+				query: { where: { id: entity.baseBuildingId } },
+			}),
+		};
 	},
 });

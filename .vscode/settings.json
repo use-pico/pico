@@ -25,6 +25,7 @@
         "tseslint",
         "tsquery",
         "uicons",
+        "vaadin",
         "zondicons"
     ]
 }
