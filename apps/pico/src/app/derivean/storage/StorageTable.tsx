@@ -1,76 +1,58 @@
-import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
     DeleteControl,
-    LinkTo,
     Table,
-    Tags,
     toast,
     TrashIcon,
     Tx,
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
+import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceForm } from "~/app/derivean/resource/ResourceForm";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
-import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { StorageForm } from "~/app/derivean/storage/StorageForm";
+import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
+import type { StorageSchema } from "~/app/derivean/storage/StorageSchema";
 
-const column = withColumn<withRepositorySchema.Output<ResourceSchema>>();
+const column = withColumn<withRepositorySchema.Output<StorageSchema>>();
 
 const columns = [
 	column({
-		name: "name",
+		name: "resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
-		},
-		render({ data, value }) {
-			const { locale } = useParams({ from: "/$locale" });
-
-			return (
-				<LinkTo
-					to={"/$locale/apps/derivean/root/resource/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
-			);
-		},
-		size: 18,
-	}),
-	column({
-		name: "description",
-		header() {
-			return <Tx label={"Resource description (label)"} />;
 		},
 		render({ value }) {
 			return value;
 		},
-		size: 16,
+		size: 14,
 	}),
 	column({
-		name: "tags",
+		name: "amount",
 		header() {
-			return <Tx label={"Resource tags (label)"} />;
+			return <Tx label={"Amount (label)"} />;
 		},
 		render({ value }) {
-			return <Tags tags={value} />;
+			return toHumanNumber({ number: value });
 		},
-		size: 32,
+		size: 14,
 	}),
 ];
 
-export namespace ResourceTable {
+export namespace StorageTable {
 	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<ResourceSchema>> {
-		//
+		extends Table.PropsEx<withRepositorySchema.Output<StorageSchema>> {
+		userId: string;
 	}
 }
 
-export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
+export const StorageTable: FC<StorageTable.Props> = ({
+	userId,
+	table,
+	...props
+}) => {
 	return (
 		<Table
 			table={useTable({
@@ -86,8 +68,8 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								textTitle={<Tx label={"Create resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceForm
-									mutation={ResourceRepository.useCreateMutation({
+								<StorageForm
+									mutation={StorageRepository.useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -96,6 +78,14 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 												),
 												error: <Tx label={"Cannot save resource (label)"} />,
 											});
+										},
+										async toCreate({ shape }) {
+											return {
+												entity: {
+													...shape,
+													userId,
+												},
+											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
@@ -106,8 +96,8 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete resources (label)"} />}
-								textTitle={<Tx label={"Delete resources (modal)"} />}
+								label={<Tx label={"Delete storage resources (label)"} />}
+								textTitle={<Tx label={"Delete storage resources (modal)"} />}
 								disabled={
 									!table.selection || table.selection.value.length === 0
 								}
@@ -120,8 +110,10 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository}
-									textContent={<Tx label={"Resource delete (content)"} />}
+									repository={StorageRepository}
+									textContent={
+										<Tx label={"Storage resource delete (content)"} />
+									}
 									idIn={table.selection?.value}
 								/>
 							</ActionModal>
@@ -136,9 +128,9 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								textTitle={<Tx label={"Edit resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceForm
+								<StorageForm
 									defaultValues={data}
-									mutation={ResourceRepository.usePatchMutation({
+									mutation={StorageRepository.usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -175,8 +167,10 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository}
-									textContent={<Tx label={"Resource delete (content)"} />}
+									repository={StorageRepository}
+									textContent={
+										<Tx label={"Storage resource delete (content)"} />
+									}
 									idIn={[data.id]}
 								/>
 							</ActionModal>

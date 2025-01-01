@@ -8,13 +8,13 @@ import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		baseBuildingId: z.string().min(1),
+		userId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().positive(),
 	}),
 );
 
-export const BuildingRequirementResourceSchema = withRepositorySchema({
+export const StorageSchema = withRepositorySchema({
 	entity,
 	output: entity.merge(
 		z.object({
@@ -35,11 +35,10 @@ export const BuildingRequirementResourceSchema = withRepositorySchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			baseBuildingId: z.string().optional(),
+			userId: z.string().optional(),
 			resourceId: z.string().optional(),
 		}),
 	),
 });
 
-export type BuildingRequirementResourceSchema =
-	typeof BuildingRequirementResourceSchema;
+export type StorageSchema = typeof StorageSchema;

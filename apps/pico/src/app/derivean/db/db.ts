@@ -9,6 +9,7 @@ import type { ItemSchema } from "~/app/derivean/item/ItemSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 import type { SlotSchema } from "~/app/derivean/slot/SlotSchema";
+import type { StorageSchema } from "~/app/derivean/storage/StorageSchema";
 import type { TagSchema } from "~/app/tag/TagSchema";
 import type { UserSchema } from "~/app/user/UserSchema";
 
@@ -22,6 +23,8 @@ export interface Database {
 	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
 	Building: withRepositorySchema.Entity<BuildingSchema>;
 	BuildingRequirementResource: withRepositorySchema.Entity<BuildingRequirementResourceSchema>;
+
+	Storage: withRepositorySchema.Entity<StorageSchema>;
 
 	/**
 	 * Maybe obsolete?
@@ -72,6 +75,19 @@ export const db = withDatabase<Database>({
 			.addColumn("tagId", "varchar(36)", (col) =>
 				col.references("Tag.id").onDelete("cascade").notNull(),
 			)
+			.execute();
+
+		kysely.schema
+			.createTable("Storage")
+			.ifNotExists()
+			.addColumn("id", "varchar(36)", (col) => col.primaryKey())
+			.addColumn("userId", "varchar(36)", (col) =>
+				col.references("User.id").onDelete("cascade").notNull(),
+			)
+			.addColumn("resourceId", "varchar(36)", (col) =>
+				col.references("Resource.id").onDelete("cascade").notNull(),
+			)
+			.addColumn("amount", "float8", (col) => col.notNull())
 			.execute();
 
 		kysely.schema

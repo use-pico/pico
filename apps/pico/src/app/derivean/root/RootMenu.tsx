@@ -6,6 +6,7 @@ import {
     SettingsIcon,
     TagIcon,
     Tx,
+    UserIcon,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
@@ -26,6 +27,14 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 
 	return (
 		<Menu {...props}>
+			<MenuLink
+				icon={UserIcon}
+				to={"/$locale/apps/derivean/root/user/list"}
+				params={{ locale }}
+			>
+				<Tx label={"User list (menu)"} />
+			</MenuLink>
+
 			<MenuLink
 				icon={ResourceIcon}
 				to={"/$locale/apps/derivean/root/resource/list"}

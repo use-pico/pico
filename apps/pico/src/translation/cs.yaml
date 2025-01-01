@@ -197,7 +197,9 @@
   value: Nový slot
 6f4c61ec346616c5524a64b562d05028fc5f57b1572df59d89a6d260:
   ref: Resource requirements delete (content)
-  value: Resource requirements delete (content)
+  value: |
+    Opravdu si přejete odstranit vybrané požadavky na zdroje? Tato akce ovlivní
+    herní mechaniky, nicméně nemá větší vliv na další data.
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Editace zdroje
