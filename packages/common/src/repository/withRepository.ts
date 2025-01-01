@@ -147,6 +147,69 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (props: Props<TSchema>) => SelectQueryBuilder<any, any, any>;
 		}
+
+		export namespace Event {
+			export namespace onPreCreate {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+					shape: withRepositorySchema.Shape<TSchema>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<any>;
+			}
+
+			export namespace onPostCreate {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: withRepositorySchema.Entity<TSchema>;
+					shape: withRepositorySchema.Shape<TSchema>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<any>;
+			}
+
+			export namespace onPrePatch {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+					shape: Partial<withRepositorySchema.Shape<TSchema>>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<any>;
+			}
+
+			export namespace onPostPatch {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: withRepositorySchema.Entity<TSchema>;
+					shape: Partial<withRepositorySchema.Shape<TSchema>>;
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => Promise<any>;
+			}
+
+			export interface Instance<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				onPreCreate?: onPreCreate.Callback<TSchema>;
+				onPostCreate?: onPostCreate.Callback<TSchema>;
+				onPrePatch?: onPrePatch.Callback<TSchema>;
+				onPostPatch?: onPostPatch.Callback<TSchema>;
+			}
+		}
 	}
 
 	export interface Props<
@@ -167,6 +230,8 @@ export namespace withRepository {
 
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
 		applyFilter?: Props.applyWhere.Callback<TSchema>;
+
+		event?: Props.Event.Instance<TSchema>;
 	}
 
 	export namespace Instance {
@@ -321,6 +386,7 @@ export const withRepository = <
 	select,
 	applyWhere = ({ select }) => select,
 	applyFilter = ({ select }) => select,
+	event,
 }: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
 	const $applyCommonWhere: withRepository.Props.applyWhere.Callback<
 		TSchema
@@ -433,6 +499,8 @@ export const withRepository = <
 		async create({ entity, shape }) {
 			const $id = id();
 
+			await event?.onPreCreate?.({ entity, shape });
+
 			await insert({})
 				.values(
 					schema.entity.parse({
@@ -442,13 +510,17 @@ export const withRepository = <
 				)
 				.execute();
 
-			return instance.fetchOrThrow({
+			const $entity = await instance.fetchOrThrow({
 				query: {
 					where: {
 						id: $id,
 					},
 				},
 			});
+
+			await event?.onPostCreate?.({ entity: $entity, shape });
+
+			return $entity;
 		},
 		async patch({ entity, shape, filter }) {
 			const $entity = await instance.fetchOrThrow({ query: { where: filter } });
@@ -457,12 +529,20 @@ export const withRepository = <
 				throw new Error("Cannot patch an unknown entity (empty query result).");
 			}
 
+			await event?.onPrePatch?.({ entity, shape });
+
 			await update({})
 				.set(schema.entity.partial().parse(await toPatch({ entity, shape })))
 				.where("id", "=", $entity.id)
 				.execute();
 
-			return instance.fetchOrThrow({ query: { where: { id: $entity.id } } });
+			const $updated = await instance.fetchOrThrow({
+				query: { where: { id: $entity.id } },
+			});
+
+			await event?.onPostPatch?.({ entity: $updated, shape });
+
+			return $updated;
 		},
 		async remove({ idIn }) {
 			if (!idIn || idIn?.length === 0) {

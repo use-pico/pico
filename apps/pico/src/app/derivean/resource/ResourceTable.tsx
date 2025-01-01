@@ -5,6 +5,7 @@ import {
     DeleteControl,
     LinkTo,
     Table,
+    Tags,
     toast,
     TrashIcon,
     Tx,
@@ -38,7 +39,7 @@ const columns = [
 				</LinkTo>
 			);
 		},
-		size: 14,
+		size: 18,
 	}),
 	column({
 		name: "description",
@@ -48,7 +49,17 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
-		size: 24,
+		size: 16,
+	}),
+	column({
+		name: "tags",
+		header() {
+			return <Tx label={"Resource tags (label)"} />;
+		},
+		render({ value }) {
+			return <Tags tags={value} />;
+		},
+		size: 32,
 	}),
 ];
 
