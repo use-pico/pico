@@ -5,9 +5,10 @@ import { InventorySlotSchema } from "~/app/derivean/inventory/slot/InventorySlot
 export const InventorySlotRepository = withRepository({
 	name: "InventorySlotRepository",
 	schema: InventorySlotSchema,
-	database: db,
 	meta: {
 		where: {
+			id: "inventorySlot.id",
+			idIn: "inventorySlot.id",
 			inventoryId: "inventorySlot.inventoryId",
 			slotId: "inventorySlot.slotId",
 		},

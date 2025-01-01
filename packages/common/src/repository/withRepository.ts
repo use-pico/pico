@@ -5,7 +5,6 @@ import type {
     UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
-import type { Database } from "../database/Database";
 import type { CountSchema } from "../schema/CountSchema";
 import type { CursorSchema } from "../schema/CursorSchema";
 import type { EntitySchema } from "../schema/EntitySchema";
@@ -40,7 +39,7 @@ export namespace withRepository {
 				 */
 				where: Omit<
 					Record<keyof withRepositorySchema.Filter<TSchema>, string>,
-					keyof FilterSchema.Type
+					"fulltext"
 				>;
 				/**
 				 * Which fields are used for fulltext search.
@@ -152,7 +151,6 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
-		database: Database.Instance<any>;
 		meta: Props.Meta.Instance<TSchema>;
 
 		toOutput?: Props.toOutput.Callback<TSchema>;
@@ -204,10 +202,24 @@ export namespace withRepository {
 				idIn?: string[];
 			}
 
-			export type Callback = (props: Props) => Promise<void>;
+			export type Callback = (props: Props) => Promise<any>;
 		}
 
 		export namespace fetch {
+			export interface Props<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> {
+				query: Query<TSchema>;
+			}
+
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (
+				props: Props<TSchema>,
+			) => Promise<withRepositorySchema.Output<TSchema> | undefined>;
+		}
+
+		export namespace fetchOrThrow {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
@@ -272,6 +284,7 @@ export namespace withRepository {
 		remove: Instance.remove.Callback;
 
 		fetch: Instance.fetch.Callback<TSchema>;
+		fetchOrThrow: Instance.fetchOrThrow.Callback<TSchema>;
 		list: Instance.list.Callback<TSchema>;
 		count: Instance.count.Callback<TSchema>;
 	}
@@ -285,7 +298,6 @@ export const withRepository = <
 	>,
 >({
 	schema,
-	database,
 	meta,
 	toOutput = async ({ entity }) => entity,
 	toCreate = async ({ entity }) => entity,
@@ -310,6 +322,10 @@ export const withRepository = <
 				continue;
 			}
 
+			if (["idIn", "fulltext"].includes(value)) {
+				continue;
+			}
+
 			/**
 			 * Weak type, I know. It's better for now than making some huge type gymnastics as
 			 * it's on the repository side to provide right meta.
@@ -320,9 +336,6 @@ export const withRepository = <
 				:	$select.where(field as any, "=", where[value]);
 		}
 
-		if (where?.id) {
-			$select = $select.where("id", "=", where.id);
-		}
 		if (where?.idIn) {
 			$select = $select.where("id", "in", where.idIn);
 		}
@@ -407,16 +420,16 @@ export const withRepository = <
 		async create({ entity }) {
 			const $id = id();
 
-			await database.run(
-				insert({}).values(
+			await insert({})
+				.values(
 					schema.entity.parse({
 						...(await toCreate({ entity })),
 						id: $id,
 					}),
-				),
-			);
+				)
+				.execute();
 
-			return instance.fetch({
+			return instance.fetchOrThrow({
 				query: {
 					where: {
 						id: $id,
@@ -425,35 +438,48 @@ export const withRepository = <
 			});
 		},
 		async patch({ entity, filter }) {
-			const $entity = await instance.fetch({ query: { where: filter } });
+			const $entity = await instance.fetchOrThrow({ query: { where: filter } });
 
 			if (!$entity) {
 				throw new Error("Cannot patch an unknown entity (empty query result).");
 			}
 
-			await database.run(
-				update({})
-					.set(await toPatch({ entity }))
-					.where("id", "=", $entity.id),
-			);
+			await update({})
+				.set(await toPatch({ entity }))
+				.where("id", "=", $entity.id)
+				.execute();
 
-			return instance.fetch({ query: { where: { id: $entity.id } } });
+			return instance.fetchOrThrow({ query: { where: { id: $entity.id } } });
 		},
 		async remove({ idIn }) {
 			if (!idIn || idIn?.length === 0) {
+				console.log("nothing to remove");
 				return undefined;
 			}
-			return database.run(remove({}).where("id", "in", idIn));
+			return remove({}).where("id", "in", idIn).execute();
 		},
 		async fetch({ query }) {
+			const entity = await $applyQuery({
+				query,
+				select: select({ query }),
+			}).executeTakeFirst();
+
+			if (!entity) {
+				return undefined;
+			}
+
+			return (schema.output ?? schema.entity).parse(
+				await toOutput({ entity: schema.entity.parse(entity) }),
+			);
+		},
+		async fetchOrThrow({ query }) {
 			return (schema.output ?? schema.entity).parse(
 				await toOutput({
 					entity: schema.entity.parse(
-						(
-							await database.run(
-								$applyQuery({ query, select: select({ query }).selectAll() }),
-							)
-						)?.[0],
+						await $applyQuery({
+							query,
+							select: select({ query }),
+						}).executeTakeFirstOrThrow(),
 					),
 				}),
 			);
@@ -465,9 +491,10 @@ export const withRepository = <
 				z
 					.array(schema.entity)
 					.parse(
-						await database.run(
-							$applyQuery({ query, select: select({ query }).selectAll() }),
-						),
+						await $applyQuery({
+							query,
+							select: select({ query }),
+						}).execute(),
 					)
 					.map(async (entity) => {
 						return $schema.parse(await toOutput({ entity }));
@@ -477,43 +504,37 @@ export const withRepository = <
 		async count({ query }) {
 			return {
 				total: (
-					await database.run(
-						$applyQuery({
-							query: {},
-							select: select({ query }).select([
-								(col) => col.fn.countAll().as("count"),
-							]),
-							apply: [],
-						}),
-					)
-				)[0].count,
+					await $applyQuery({
+						query: {},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: [],
+					}).executeTakeFirst()
+				).count,
 				where: (
-					await database.run(
-						$applyQuery({
-							query: {
-								where: query.where,
-							},
-							select: select({ query }).select([
-								(col) => col.fn.countAll().as("count"),
-							]),
-							apply: ["where"],
-						}),
-					)
-				)[0].count,
+					await $applyQuery({
+						query: {
+							where: query.where,
+						},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: ["where"],
+					}).executeTakeFirst()
+				).count,
 				filter: (
-					await database.run(
-						$applyQuery({
-							query: {
-								where: query.where,
-								filter: query.filter,
-							},
-							select: select({ query }).select([
-								(col) => col.fn.countAll().as("count"),
-							]),
-							apply: ["filter", "where"],
-						}),
-					)
-				)[0].count,
+					await $applyQuery({
+						query: {
+							where: query.where,
+							filter: query.filter,
+						},
+						select: select({ query }).select([
+							(col) => col.fn.countAll().as("count"),
+						]),
+						apply: ["filter", "where"],
+					}).executeTakeFirst()
+				).count,
 			} satisfies CountSchema.Type;
 		},
 	};

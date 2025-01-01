@@ -5,9 +5,10 @@ import { SlotSchema } from "~/app/derivean/slot/SlotSchema";
 export const SlotRepository = withRepository({
 	name: "SlotRepository",
 	schema: SlotSchema,
-	database: db,
 	meta: {
 		where: {
+			id: "slot.id",
+			idIn: "slot.id",
 			kind: "slot.kind",
 			inventoryId: "inventorySlot.inventoryId",
 		},

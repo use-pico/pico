@@ -14,9 +14,10 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 	return withRepository({
 		name: "UserRepository",
 		schema: UserSchema,
-		database,
 		meta: {
 			where: {
+				id: "user.id",
+				idIn: "user.id",
 				login: "user.login",
 				password: "user.password",
 			},
@@ -31,7 +32,7 @@ export const withUserRepository = ({ database }: withUserRepository.Props) => {
 			return database.kysely.deleteFrom("User");
 		},
 		select() {
-			return database.kysely.selectFrom("User as user");
+			return database.kysely.selectFrom("User as user").selectAll("user");
 		},
 		async toCreate({ entity: { password, ...entity } }) {
 			return {

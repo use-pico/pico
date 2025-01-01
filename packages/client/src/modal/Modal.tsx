@@ -97,10 +97,7 @@ export const Modal: FC<Modal.Props> = ({
 								style={styles}
 								className={tv.base()}
 							>
-								<FloatingFocusManager
-									initialFocus={-1}
-									context={context}
-								>
+								<FloatingFocusManager context={context}>
 									<div
 										ref={refs.setFloating}
 										{...getFloatingProps()}

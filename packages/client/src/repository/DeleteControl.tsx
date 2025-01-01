@@ -32,6 +32,7 @@ export const DeleteControl = <
 	css,
 }: DeleteControl.Props<TSchema>) => {
 	const tv = tva({ ...variant, css }).slots;
+	const modalContext = useContext(ModalContext);
 	const mutation = repository.useRemoveMutation({
 		async wrap(callback) {
 			return toast.promise(callback(), {
@@ -40,8 +41,10 @@ export const DeleteControl = <
 				error: <Tx label={"Items cannot be removed (label)"} />,
 			});
 		},
+		async onSuccess() {
+			modalContext?.close();
+		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	return (
 		<div className={tv.base()}>

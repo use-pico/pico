@@ -5,9 +5,11 @@ import { db } from "~/app/derivean/db/db";
 export const BaseBuildingRepository = withRepository({
 	name: "BaseBuilding",
 	schema: BaseBuildingSchema,
-	database: db,
 	meta: {
-		where: {},
+		where: {
+			id: "baseBuilding.id",
+			idIn: "baseBuilding.id",
+		},
 		fulltext: [
 			"baseBuilding.name",
 			"baseBuilding.description",
@@ -24,6 +26,8 @@ export const BaseBuildingRepository = withRepository({
 		return db.kysely.deleteFrom("BaseBuilding");
 	},
 	select() {
-		return db.kysely.selectFrom("BaseBuilding as baseBuilding");
+		return db.kysely
+			.selectFrom("BaseBuilding as baseBuilding")
+			.selectAll("baseBuilding");
 	},
 });

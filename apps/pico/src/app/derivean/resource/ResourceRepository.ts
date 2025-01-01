@@ -5,9 +5,11 @@ import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 export const ResourceRepository = withRepository({
 	name: "Resource",
 	schema: ResourceSchema,
-	database: db,
 	meta: {
-		where: {},
+		where: {
+			id: "resource.id",
+			idIn: "resource.id",
+		},
 		fulltext: ["resource.description", "resource.name", "resource.id"],
 	},
 	insert() {
@@ -20,6 +22,6 @@ export const ResourceRepository = withRepository({
 		return db.kysely.deleteFrom("Resource");
 	},
 	select() {
-		return db.kysely.selectFrom("Resource as resource");
+		return db.kysely.selectFrom("Resource as resource").selectAll("resource");
 	},
 });

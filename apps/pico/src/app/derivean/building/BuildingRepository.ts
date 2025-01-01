@@ -5,9 +5,10 @@ import { db } from "~/app/derivean/db/db";
 export const BuildingRepository = withRepository({
 	name: "BuildingRepository",
 	schema: BuildingSchema,
-	database: db,
 	meta: {
 		where: {
+			id: "building.id",
+			idIn: "building.id",
 			baseBuildingId: "building.baseBuildingId",
 			userId: "building.userId",
 		},
@@ -30,6 +31,7 @@ export const BuildingRepository = withRepository({
 	select() {
 		return db.kysely
 			.selectFrom("Building as building")
+			.selectAll("building")
 			.leftJoin(
 				"BaseBuilding as baseBuilding",
 				"baseBuilding.id",

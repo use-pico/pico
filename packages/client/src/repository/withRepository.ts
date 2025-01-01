@@ -301,7 +301,9 @@ export const withRepository = <
 			return queryClient.ensureQueryData({
 				queryKey: ["withFetchLoader", name, { where, filter, cursor }],
 				async queryFn() {
-					return $coolInstance.fetch({ query: { where, filter, cursor } });
+					return $coolInstance.fetchOrThrow({
+						query: { where, filter, cursor },
+					});
 				},
 			});
 		},

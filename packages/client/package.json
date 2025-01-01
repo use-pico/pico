@@ -24,7 +24,6 @@
 		"@floating-ui/react": "^0.27.2",
 		"@tanstack/react-router": "^1.91.2",
 		"@types/luxon": "^3.4.2",
-		"alasql": "^4.6.0",
 		"kysely": "^0.27.5",
 		"localstorage-slim": "^2.7.1",
 		"luxon": "^3.5.0",
@@ -32,6 +31,7 @@
 		"react-hook-form": "^7.54.1",
 		"react-hot-toast": "^2.4.1",
 		"read-excel-file": "^5.8.6",
+		"sqlocal": "^0.13.0",
 		"uuid": "^11.0.3"
 	},
 	"peerDependencies": {

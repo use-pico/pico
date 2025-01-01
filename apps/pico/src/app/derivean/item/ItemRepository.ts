@@ -5,9 +5,10 @@ import { ItemSchema } from "~/app/derivean/item/ItemSchema";
 export const ItemRepository = withRepository({
 	name: "ItemRepository",
 	schema: ItemSchema,
-	database: db,
 	meta: {
 		where: {
+			id: "item.id",
+			idIn: "item.id",
 			kind: "item.kind",
 			name: "item.name",
 		},

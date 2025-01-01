@@ -6,9 +6,10 @@ import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 export const BuildingRequirementResourceRepository = withRepository({
 	name: "BuildingRequirementResourceRepository",
 	schema: BuildingRequirementResourceSchema,
-	database: db,
 	meta: {
 		where: {
+			id: "buildingRequirementResource.id",
+			idIn: "buildingRequirementResource.id",
 			baseBuildingId: "buildingRequirementResource.baseBuildingId",
 			resourceId: "buildingRequirementResource.resourceId",
 		},
@@ -32,6 +33,7 @@ export const BuildingRequirementResourceRepository = withRepository({
 	select() {
 		return db.kysely
 			.selectFrom("BuildingRequirementResource as buildingRequirementResource")
+			.selectAll("buildingRequirementResource")
 			.leftJoin(
 				"BaseBuilding as baseBuilding",
 				"baseBuilding.id",
@@ -46,7 +48,7 @@ export const BuildingRequirementResourceRepository = withRepository({
 	async toOutput({ entity }) {
 		return {
 			...entity,
-			resource: await ResourceRepository.fetch({
+			resource: await ResourceRepository.fetchOrThrow({
 				query: {
 					where: { id: entity.resourceId },
 				},

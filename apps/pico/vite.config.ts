@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 import tla from "vite-plugin-top-level-await";
 import paths from "vite-tsconfig-paths";
+import wasm from "vite-plugin-wasm";
 
 export default defineConfig({
 	plugins: [
@@ -17,14 +18,19 @@ export default defineConfig({
 		react(),
 		ViteYaml() as any,
 		dynamicImport(),
+        wasm(),
 	],
 	server: {
 		port: 4000,
+		headers: {
+			"Cross-Origin-Opener-Policy": "same-origin",
+			"Cross-Origin-Embedder-Policy": "require-corp",
+		},
 	},
 	build: {
 		target: "esnext",
 	},
 	optimizeDeps: {
-		exclude: ["sql.js"],
+		exclude: ["sqlocal"],
 	},
 });
