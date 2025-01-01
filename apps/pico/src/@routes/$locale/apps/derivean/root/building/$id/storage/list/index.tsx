@@ -1,10 +1,10 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	handleOnFulltext,
-	handleOnPage,
-	handleOnSize,
-	Tx,
+    handleOnFulltext,
+    handleOnPage,
+    handleOnSize,
+    Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
 import { StorageRepository } from "~/app/derivean/storage/StorageRepository";
@@ -89,7 +89,6 @@ export const Route = createFileRoute(
 				...deps,
 				filter: {
 					...filter,
-					buildingId: id,
 				},
 			},
 		});

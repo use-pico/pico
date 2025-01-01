@@ -19,7 +19,7 @@ export interface Database {
 
 	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
 	Building: withRepositorySchema.Entity<BuildingSchema>;
-	BuildingRequirementResource: withRepositorySchema.Entity<BuildingRequirementResourceSchema>;
+	BaseBuilding_ResourceRequirement: withRepositorySchema.Entity<BuildingRequirementResourceSchema>;
 
 	Storage: withRepositorySchema.Entity<StorageSchema>;
 	BaseStorage: withRepositorySchema.Entity<BaseStorageSchema>;
@@ -69,7 +69,7 @@ export const db = withDatabase<Database>({
 				.addColumn("tagId", $id, (col) =>
 					col.references("Tag.id").onDelete("cascade").notNull(),
 				)
-				.addUniqueConstraint("ResourceTag_Resource_Tag", [
+				.addUniqueConstraint("ResourceTag_resourceId_tagId", [
 					"resourceId",
 					"tagId",
 				])
@@ -105,7 +105,6 @@ export const db = withDatabase<Database>({
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
 				.addColumn("preview", "boolean", (col) => col.notNull())
-				.addColumn("description", "varchar(128)")
 				.execute();
 
 			await kysely.schema
@@ -119,6 +118,10 @@ export const db = withDatabase<Database>({
 					col.references("Resource.id").onDelete("cascade").notNull(),
 				)
 				.addColumn("amount", "float8", (col) => col.notNull())
+				.addUniqueConstraint(
+					"BaseBuilding_ResourceRequirement_baseBuildingId_resourceId",
+					["baseBuildingId", "resourceId"],
+				)
 				.execute();
 
 			await kysely.schema
@@ -130,6 +133,10 @@ export const db = withDatabase<Database>({
 				)
 				.addColumn("baseStorageId", $id, (col) =>
 					col.references("BaseStorage.id").onDelete("cascade").notNull(),
+				)
+				.addUniqueConstraint(
+					"BaseBuilding_BaseStorage_baseBuildingId_baseStorageId",
+					["baseBuildingId", "baseStorageId"],
 				)
 				.execute();
 		};
@@ -145,6 +152,22 @@ export const db = withDatabase<Database>({
 				.addColumn("baseBuildingId", $id, (col) =>
 					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
 				)
+				.execute();
+
+			await kysely.schema
+				.createTable("Building_Storage")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("buildingId", $id, (col) =>
+					col.references("Building.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("storageId", $id, (col) =>
+					col.references("Storage.id").onDelete("cascade").notNull(),
+				)
+				.addUniqueConstraint("Building_Storage_buildingId_storageId", [
+					"buildingId",
+					"storageId",
+				])
 				.execute();
 		};
 

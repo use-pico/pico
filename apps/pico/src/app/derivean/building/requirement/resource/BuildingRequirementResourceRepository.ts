@@ -22,28 +22,24 @@ export const BuildingRequirementResourceRepository = withRepository({
 		],
 	},
 	insert() {
-		return db.kysely.insertInto("BuildingRequirementResource");
+		return db.kysely.insertInto("BaseBuilding_ResourceRequirement");
 	},
 	update() {
-		return db.kysely.updateTable("BuildingRequirementResource");
+		return db.kysely.updateTable("BaseBuilding_ResourceRequirement");
 	},
 	remove() {
-		return db.kysely.deleteFrom("BuildingRequirementResource");
+		return db.kysely.deleteFrom("BaseBuilding_ResourceRequirement");
 	},
 	select() {
 		return db.kysely
-			.selectFrom("BuildingRequirementResource as buildingRequirementResource")
-			.selectAll("buildingRequirementResource")
+			.selectFrom("BaseBuilding_ResourceRequirement as bbrr")
+			.selectAll("bbrr")
 			.leftJoin(
-				"BaseBuilding as baseBuilding",
-				"baseBuilding.id",
-				"buildingRequirementResource.baseBuildingId",
+				"BaseBuilding as bb",
+				"bb.id",
+				"bbrr.baseBuildingId",
 			)
-			.leftJoin(
-				"Resource as resource",
-				"resource.id",
-				"buildingRequirementResource.resourceId",
-			);
+			.leftJoin("Resource as r", "r.id", "bbrr.resourceId");
 	},
 	async toOutput({ entity }) {
 		return {

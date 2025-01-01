@@ -13,7 +13,7 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",
 )({
 	component() {
-		const { data, count } = Route.useLoaderData();
+		const { data } = Route.useLoaderData();
 
 		return (
 			<div>
@@ -29,7 +29,7 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
+	async loader({ context, deps: { filter, ...deps } }) {
 		return loader({
 			context,
 			deps: {
