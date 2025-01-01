@@ -35,14 +35,6 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				<Tx label={"User list (menu)"} />
 			</MenuLink>
 
-			<MenuLink
-				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/root/resource/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Resource list (menu)"} />
-			</MenuLink>
-
 			<MenuGroup
 				icon={BuildingIcon}
 				label={<Tx label={"Buildings (menu)"} />}
@@ -69,6 +61,14 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 					<Tx label={"Building list (menu)"} />
 				</MenuLink>
 			</MenuGroup>
+
+			<MenuLink
+				icon={ResourceIcon}
+				to={"/$locale/apps/derivean/root/resource/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Resource list (menu)"} />
+			</MenuLink>
 
 			<MenuLink
 				icon={SlotIcon}

@@ -22,6 +22,9 @@
 08f2161b1c2cc8176f2cf9f11561d4e1d09e10a82c19cf39391369c5:
   ref: Save tag (submit)
   value: Save tag (submit)
+0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
+  ref: User list (label)
+  value: User list (label)
 0d90cc912470c5c3bc68cdc6cfa2444f2da0689abde47ae173ea3585:
   ref: Delete tags (label)
   value: Delete tags (label)
@@ -34,6 +37,9 @@
 116128d66a1eb792b05e96a741732d6a786a2a131cb62aa713f2f07a:
   ref: Create base building (menu)
   value: Create base building (menu)
+121d1d4c5520ec2ff7a9c320e07f0c2988a73f5ef6d4f2c5db7bc0ee:
+  ref: User storage list (menu)
+  value: User storage list (menu)
 1237a51f25d85bfad4f17572f310783e5b06bc5304d24e95ead71eac:
   ref: Buildings (menu)
   value: Buildings (menu)
@@ -55,6 +61,9 @@
 164adb4d9fdcf2eceaca5e23268478b031fd3977f9c0e4fffb30a38e:
   ref: Save resource requirement (submit)
   value: Save resource requirement (submit)
+1bf75d0c6eb34795cb159157194a322ff19d79434953305651e72f6b:
+  ref: User detail (menu)
+  value: User detail (menu)
 1de5ae847313e5ed22cdccb46e2d02459d865f28b372c39d4dde8c09:
   ref: Resource description (label)
   value: Resource description (label)
@@ -82,6 +91,9 @@
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
+2a8e5d936f99ec619e7c1348373c1f3347cfe4111cf4510dccd0589e:
+  ref: Settings (menu)
+  value: Settings (menu)
 2c3902859c1e3ca48727f8133cbe93e2002b0fde257981344c09567c:
   ref: Base building detail (menu)
   value: Base building detail (menu)
@@ -172,6 +184,9 @@
 5a2f382fc3196d4d246b64d88adbdd7a12356a3510ca834575bdeac6:
   ref: Item successfully saved (label)
   value: Item successfully saved (label)
+5b0ad027d8f9ba9dc309fce793e0b0fe0f8e9d91c48a946ec433956a:
+  ref: Root site (menu)
+  value: Root site (menu)
 5b3ffcd26c63c64c101d5551bfca69faa3e5a03592f223fb24a29f4d:
   ref: Create base building (modal)
   value: Create base building (modal)
@@ -232,6 +247,9 @@
 7e68babaf2f8242751a492cc57801dfcb5e72a3a55d64fb240317991:
   ref: Inventory successfully saved (label)
   value: Inventory successfully saved (label)
+7f497e3b7708ba98116755bc97b3d59ea462fb0e76a935b9e11d2a4d:
+  ref: Save storage (submit)
+  value: Save storage (submit)
 816c08b99b10a24bccbaf9ed3be66e93498a5ca8967792f35b425fa2:
   ref: Close (label)
   value: Close (label)
@@ -280,6 +298,9 @@
 9460bfee662b17cc33d01fd53e9d4940ad13ee47c683e6219f70ade8:
   ref: Edit resource requirement (menu)
   value: Edit resource requirement (menu)
+94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
+  ref: Tag list (menu)
+  value: Tag list (menu)
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Nothing here
@@ -325,15 +346,24 @@ af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
 b0e0f7d1a7a9f12ae804b8d2075e90919392bd537882dd6be94547be:
   ref: Resource successfully saved (label)
   value: Resource successfully saved (label)
+b2321fb45dfe03dfa1234398c6d81b25267540baacbe1f20391205be:
+  ref: Delete storage resources (label)
+  value: Delete storage resources (label)
 b57191e0437046c7d416c79565f614bb31418145da9ea3c0c92b0c0c:
   ref: Delete slot (label)
   value: Delete slot (label)
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Tag label (label)
+b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
+  ref: User name (label)
+  value: User name (label)
 b95d627befc7074fa40fd09b6814836b113f219d88f92bcfb2eeb95a:
   ref: Save slot (submit)
   value: Save slot (submit)
+b9dbfc88af635a92dd6a541752c7429e298e78cdc849be35f6c7563e:
+  ref: Storage resource delete (content)
+  value: Storage resource delete (content)
 c0794a438924637d3b8995ab8fbfe82825d811bb692775f2d59bc54c:
   ref: Delete resources (label)
   value: Delete resources (label)
@@ -379,6 +409,9 @@ d32b8ac94d28af319b68b64358d7453c1c202f93dac75890c94cc8ff:
 d34ff9b63df18d6d225d2e5e517eb5269ae4180a4de4dfbbbed952cc:
   ref: Delete resource (label)
   value: Delete resource (label)
+d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
+  ref: User login (label)
+  value: User login (label)
 dc26d7a5db2ae5300bfcd93c19833fbab4e0279bb44b419473447d71:
   ref: Edit slot (modal)
   value: Edit slot (modal)
@@ -424,6 +457,9 @@ eb007cd2c755390ff1fc52ae9fa9142998f9dee038aa79467aec86f5:
 eb0a93f37b521a972959ea52cecdaa0711be2fb2c03299b9da1d19cb:
   ref: Edit base building (modal)
   value: Edit base building (modal)
+ee4bd6a2435c6b025f36aad75c3b05a1a4dfe9ee54ad866a3a532087:
+  ref: Delete storage resources (modal)
+  value: Delete storage resources (modal)
 f42ebdf3acc00f89207c70921e2b0749ab8ff93508840ac4b295ca4f:
   ref: Resource requirement delete (content)
   value: Resource requirement delete (content)
@@ -442,6 +478,6 @@ fce77a64b2ea2550bab3536028846816b98d86a9dfc0a06134022873:
 fe467ee81f0f6139dc5cb5ce65815c7268f9b512a94be7bce94b3e13:
   ref: Select resource (title)
   value: Select resource (title)
-ff2e3bc2d98d1ade801c3770994e36ed90290c637b74e6ad62c91578:
-  ref: "[Dummy] (menu)"
-  value: "[Dummy] (menu)"
+fe4a19d0efd91a038415bf01eb4f164514065aac383ac1c4af99bb73:
+  ref: User list (menu)
+  value: User list (menu)
