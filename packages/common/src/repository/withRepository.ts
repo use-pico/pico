@@ -445,7 +445,7 @@ export const withRepository = <
 			}
 
 			await update({})
-				.set(await toPatch({ entity }))
+				.set(schema.entity.partial().parse(await toPatch({ entity })))
 				.where("id", "=", $entity.id)
 				.execute();
 
