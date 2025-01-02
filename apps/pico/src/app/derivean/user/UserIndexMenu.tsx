@@ -3,6 +3,7 @@ import { Menu, MenuLink, Tx, UserIcon } from "@use-pico/client";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import type { UserSchema } from "~/app/user/UserSchema";
 
 export namespace UserIndexMenu {
@@ -35,6 +36,14 @@ export const UserIndexMenu: FC<UserIndexMenu.Props> = ({
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Building list (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ResourceIcon}
+				to={"/$locale/apps/derivean/root/user/$id/building/resource/list"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Building resource list (label)"} />
 			</MenuLink>
 		</Menu>
 	);

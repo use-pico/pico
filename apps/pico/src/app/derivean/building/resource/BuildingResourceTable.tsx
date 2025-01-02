@@ -21,12 +21,34 @@ const column =
 
 const columns = [
 	column({
+		name: "building.baseBuilding.name",
+		header() {
+			return <Tx label={"Building name (label)"} />;
+		},
+		render({ value }) {
+			return value;
+		},
+		filter: {
+			path: "buildingId",
+			onFilter({ data, filter }) {
+				filter.shallow("buildingId", data.buildingId);
+			},
+		},
+		size: 15,
+	}),
+	column({
 		name: "resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
 		render({ value }) {
 			return value;
+		},
+		filter: {
+			path: "resourceId",
+			onFilter({ data, filter }) {
+				filter.shallow("resourceId", data.resourceId);
+			},
 		},
 		size: 18,
 	}),
@@ -45,7 +67,7 @@ const columns = [
 export namespace BuildingResourceTable {
 	export interface Props
 		extends Table.PropsEx<withRepositorySchema.Output<BuildingResourceSchema>> {
-		buildingId: string;
+		buildingId?: string;
 	}
 }
 
@@ -68,6 +90,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								label={<Tx label={"Create resource item (menu)"} />}
 								textTitle={<Tx label={"Create resource item (modal)"} />}
 								icon={ResourceIcon}
+								hidden={Boolean(!buildingId)}
 							>
 								<BuildingResourceForm
 									mutation={BuildingResourceRepository.useCreateMutation({

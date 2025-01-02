@@ -12,6 +12,7 @@ export namespace ActionModal {
 		textTitle?: ReactNode;
 		disabled?: boolean;
 		modalProps?: Omit<Modal.Props, "target">;
+		hidden?: boolean;
 	}
 }
 
@@ -22,6 +23,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	textTitle,
 	disabled = false,
 	modalProps,
+	hidden = false,
 	variant,
 	tva = ActionModalCss,
 	css,
@@ -29,26 +31,26 @@ export const ActionModal: FC<ActionModal.Props> = ({
 }) => {
 	const tv = tva({ ...variant, disabled, css }).slots;
 
-	return (
-		<div className={tv.base()}>
-			{isString(icon) ?
-				<Icon
+	return hidden ? null : (
+			<div className={tv.base()}>
+				{isString(icon) ?
+					<Icon
+						icon={icon}
+						{...iconProps}
+					/>
+				:	icon}
+				<Modal
 					icon={icon}
-					{...iconProps}
-				/>
-			:	icon}
-			<Modal
-				icon={icon}
-				target={label}
-				title={textTitle}
-				disabled={disabled}
-				css={{
-					modal: ["w-1/2"],
-				}}
-				{...modalProps}
-			>
-				{children}
-			</Modal>
-		</div>
-	);
+					target={label}
+					title={textTitle}
+					disabled={disabled}
+					css={{
+						modal: ["w-1/2"],
+					}}
+					{...modalProps}
+				>
+					{children}
+				</Modal>
+			</div>
+		);
 };

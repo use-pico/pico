@@ -4,6 +4,7 @@ import {
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
+import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
@@ -18,6 +19,7 @@ export const BuildingResourceSchema = withRepositorySchema({
 	entity,
 	output: entity.merge(
 		z.object({
+            building: BuildingSchema.output,
 			resource: ResourceSchema.output,
 		}),
 	),
@@ -35,6 +37,7 @@ export const BuildingResourceSchema = withRepositorySchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
+			userId: z.string().optional(),
 			buildingId: z.string().optional(),
 			resourceId: z.string().optional(),
 		}),

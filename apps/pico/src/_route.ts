@@ -38,6 +38,7 @@ import { Route as LocaleAppsDeriveanRootUserIdBuildingListIndexImport } from './
 import { Route as LocaleAppsDeriveanRootBuildingBaseIdViewIndexImport } from './@routes/$locale/apps/derivean/root/building/base/$id/view/index'
 import { Route as LocaleAppsDeriveanRootBuildingBaseIdEditIndexImport } from './@routes/$locale/apps/derivean/root/building/base/$id/edit/index'
 import { Route as LocaleAppsDeriveanRootBuildingIdResourceListIndexImport } from './@routes/$locale/apps/derivean/root/building/$id/resource/list/index'
+import { Route as LocaleAppsDeriveanRootUserIdBuildingResourceListIndexImport } from './@routes/$locale/apps/derivean/root/user/$id/building/resource/list/index'
 import { Route as LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexImport } from './@routes/$locale/apps/derivean/root/building/base/$id/requirement/list/index'
 import { Route as LocaleAppsDeriveanRootBuildingBaseIdLimitListIndexImport } from './@routes/$locale/apps/derivean/root/building/base/$id/limit/list/index'
 
@@ -224,6 +225,13 @@ const LocaleAppsDeriveanRootBuildingIdResourceListIndexRoute =
     id: '/resource/list/',
     path: '/resource/list/',
     getParentRoute: () => LocaleAppsDeriveanRootBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute =
+  LocaleAppsDeriveanRootUserIdBuildingResourceListIndexImport.update({
+    id: '/building/resource/list/',
+    path: '/building/resource/list/',
+    getParentRoute: () => LocaleAppsDeriveanRootUserIdRoute,
   } as any)
 
 const LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexRoute =
@@ -447,6 +455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexImport
       parentRoute: typeof LocaleAppsDeriveanRootBuildingBaseIdImport
     }
+    '/$locale/apps/derivean/root/user/$id/building/resource/list/': {
+      id: '/$locale/apps/derivean/root/user/$id/building/resource/list/'
+      path: '/building/resource/list'
+      fullPath: '/$locale/apps/derivean/root/user/$id/building/resource/list'
+      preLoaderRoute: typeof LocaleAppsDeriveanRootUserIdBuildingResourceListIndexImport
+      parentRoute: typeof LocaleAppsDeriveanRootUserIdImport
+    }
   }
 }
 
@@ -505,6 +520,7 @@ const LocaleAppsDeriveanRootResourceIdRouteWithChildren =
 interface LocaleAppsDeriveanRootUserIdRouteChildren {
   LocaleAppsDeriveanRootUserIdViewIndexRoute: typeof LocaleAppsDeriveanRootUserIdViewIndexRoute
   LocaleAppsDeriveanRootUserIdBuildingListIndexRoute: typeof LocaleAppsDeriveanRootUserIdBuildingListIndexRoute
+  LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute: typeof LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute
 }
 
 const LocaleAppsDeriveanRootUserIdRouteChildren: LocaleAppsDeriveanRootUserIdRouteChildren =
@@ -513,6 +529,8 @@ const LocaleAppsDeriveanRootUserIdRouteChildren: LocaleAppsDeriveanRootUserIdRou
       LocaleAppsDeriveanRootUserIdViewIndexRoute,
     LocaleAppsDeriveanRootUserIdBuildingListIndexRoute:
       LocaleAppsDeriveanRootUserIdBuildingListIndexRoute,
+    LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute:
+      LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute,
   }
 
 const LocaleAppsDeriveanRootUserIdRouteWithChildren =
@@ -645,6 +663,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/limit/list': typeof LocaleAppsDeriveanRootBuildingBaseIdLimitListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/requirement/list': typeof LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexRoute
+  '/$locale/apps/derivean/root/user/$id/building/resource/list': typeof LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -675,6 +694,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/limit/list': typeof LocaleAppsDeriveanRootBuildingBaseIdLimitListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/requirement/list': typeof LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexRoute
+  '/$locale/apps/derivean/root/user/$id/building/resource/list': typeof LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute
 }
 
 export interface FileRoutesById {
@@ -708,6 +728,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/root/user/$id/building/list/': typeof LocaleAppsDeriveanRootUserIdBuildingListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/limit/list/': typeof LocaleAppsDeriveanRootBuildingBaseIdLimitListIndexRoute
   '/$locale/apps/derivean/root/building/base/$id/requirement/list/': typeof LocaleAppsDeriveanRootBuildingBaseIdRequirementListIndexRoute
+  '/$locale/apps/derivean/root/user/$id/building/resource/list/': typeof LocaleAppsDeriveanRootUserIdBuildingResourceListIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -742,6 +763,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/user/$id/building/list'
     | '/$locale/apps/derivean/root/building/base/$id/limit/list'
     | '/$locale/apps/derivean/root/building/base/$id/requirement/list'
+    | '/$locale/apps/derivean/root/user/$id/building/resource/list'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -771,6 +793,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/user/$id/building/list'
     | '/$locale/apps/derivean/root/building/base/$id/limit/list'
     | '/$locale/apps/derivean/root/building/base/$id/requirement/list'
+    | '/$locale/apps/derivean/root/user/$id/building/resource/list'
   id:
     | '__root__'
     | '/'
@@ -802,6 +825,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/user/$id/building/list/'
     | '/$locale/apps/derivean/root/building/base/$id/limit/list/'
     | '/$locale/apps/derivean/root/building/base/$id/requirement/list/'
+    | '/$locale/apps/derivean/root/user/$id/building/resource/list/'
   fileRoutesById: FileRoutesById
 }
 
@@ -913,7 +937,8 @@ export const routeTree = rootRoute
       "parent": "/$locale/apps/derivean/root",
       "children": [
         "/$locale/apps/derivean/root/user/$id/view/",
-        "/$locale/apps/derivean/root/user/$id/building/list/"
+        "/$locale/apps/derivean/root/user/$id/building/list/",
+        "/$locale/apps/derivean/root/user/$id/building/resource/list/"
       ]
     },
     "/$locale/apps/derivean/root/building/base/$id": {
@@ -985,6 +1010,10 @@ export const routeTree = rootRoute
     "/$locale/apps/derivean/root/building/base/$id/requirement/list/": {
       "filePath": "$locale/apps/derivean/root/building/base/$id/requirement/list/index.tsx",
       "parent": "/$locale/apps/derivean/root/building/base/$id"
+    },
+    "/$locale/apps/derivean/root/user/$id/building/resource/list/": {
+      "filePath": "$locale/apps/derivean/root/user/$id/building/resource/list/index.tsx",
+      "parent": "/$locale/apps/derivean/root/user/$id"
     }
   }
 }

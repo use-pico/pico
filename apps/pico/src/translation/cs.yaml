@@ -502,6 +502,9 @@ eb0a93f37b521a972959ea52cecdaa0711be2fb2c03299b9da1d19cb:
 ec9fc04842ed77fb0701ee2ffc6f922b424759586c15a22ce0c2a24f:
   ref: View detail (menu)
   value: Detail
+ed3cddcf7ef42028ef776c5ff0c79869a82845b499b8c1e41cb7b32f:
+  ref: Resource sum (label)
+  value: Součet zdrojů
 f1e95c5c6aa4f74dcfdd4a5d00de7f2ee1c9793941ea88a9a333ad8e:
   ref: Resource item delete (content)
   value: |
