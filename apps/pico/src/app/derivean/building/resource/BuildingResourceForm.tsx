@@ -104,7 +104,7 @@ export const BuildingResourceForm: FC<BuildingResourceForm.Props> = ({
 					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save storage item (submit)"} />
+					<Tx label={"Save resources item (submit)"} />
 				</Button>
 			</div>
 		</form>

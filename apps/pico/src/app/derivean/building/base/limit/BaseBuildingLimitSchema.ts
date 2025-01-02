@@ -1,6 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
+    translator,
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
@@ -35,7 +36,7 @@ export const BaseBuildingLimitSchema = withRepositorySchema({
 				.string()
 				.transform((value) => parseFloat(value))
 				.refine((value) => !isNaN(value), {
-					message: "Size must be a number",
+					message: translator.text("Limit must be a number"),
 				}),
 		]),
 	}),

@@ -1,6 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
+    translator,
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
@@ -37,7 +38,7 @@ export const BaseBuildingRequirementSchema = withRepositorySchema({
 				.string()
 				.transform((value) => parseFloat(value))
 				.refine((value) => !isNaN(value), {
-					message: "Size must be a number",
+					message: translator.text("Amount must be a number"),
 				}),
 		]),
 		passive: z.boolean(),

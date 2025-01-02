@@ -67,22 +67,22 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create base storage (menu)"} />}
-								textTitle={<Tx label={"Create base storage (modal)"} />}
+								label={<Tx label={"Create resource limit (menu)"} />}
+								textTitle={<Tx label={"Create resource limit (modal)"} />}
 								icon={StorageIcon}
 							>
 								<BaseBuildingLimitForm
 									mutation={BaseBuildingLimitRepository.useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
-												loading: <Tx label={"Saving base storage (label)"} />,
+												loading: <Tx label={"Saving resource limit (label)"} />,
 												success: (
 													<Tx
-														label={"Base storage successfully saved (label)"}
+														label={"Resource limit successfully saved (label)"}
 													/>
 												),
 												error: (
-													<Tx label={"Cannot save base storage (label)"} />
+													<Tx label={"Cannot resource limit storage (label)"} />
 												),
 											});
 										},
@@ -103,8 +103,8 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete base storage (label)"} />}
-								textTitle={<Tx label={"Delete base storage (modal)"} />}
+								label={<Tx label={"Delete resource limit (label)"} />}
+								textTitle={<Tx label={"Delete resource limit (modal)"} />}
 								disabled={
 									!table.selection || table.selection.value.length === 0
 								}
@@ -118,7 +118,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 							>
 								<DeleteControl
 									repository={BaseBuildingLimitRepository}
-									textContent={<Tx label={"Base storage delete (content)"} />}
+									textContent={<Tx label={"Resource limit delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
 							</ActionModal>

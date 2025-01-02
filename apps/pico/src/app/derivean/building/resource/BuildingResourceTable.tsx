@@ -65,22 +65,22 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create storage item (menu)"} />}
-								textTitle={<Tx label={"Create storage item (modal)"} />}
+								label={<Tx label={"Create resource item (menu)"} />}
+								textTitle={<Tx label={"Create resource item (modal)"} />}
 								icon={ResourceIcon}
 							>
 								<BuildingResourceForm
 									mutation={BuildingResourceRepository.useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
-												loading: <Tx label={"Saving storage item (label)"} />,
+												loading: <Tx label={"Saving resource item (label)"} />,
 												success: (
 													<Tx
-														label={"Storage item successfully saved (label)"}
+														label={"Resource item successfully saved (label)"}
 													/>
 												),
 												error: (
-													<Tx label={"Cannot save storage item (label)"} />
+													<Tx label={"Cannot save resource item (label)"} />
 												),
 											});
 										},
@@ -101,8 +101,8 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete storage item (label)"} />}
-								textTitle={<Tx label={"Delete storage item (modal)"} />}
+								label={<Tx label={"Delete resource item (label)"} />}
+								textTitle={<Tx label={"Delete resource item (modal)"} />}
 								disabled={
 									!table.selection || table.selection.value.length === 0
 								}
@@ -116,7 +116,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 							>
 								<DeleteControl
 									repository={BuildingResourceRepository}
-									textContent={<Tx label={"Storage item delete (content)"} />}
+									textContent={<Tx label={"Resource item delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
 							</ActionModal>
@@ -127,8 +127,8 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Edit storage item (menu)"} />}
-								textTitle={<Tx label={"Edit storage item (modal)"} />}
+								label={<Tx label={"Edit resource item (menu)"} />}
+								textTitle={<Tx label={"Edit resource item (modal)"} />}
 								icon={ResourceIcon}
 							>
 								<BuildingResourceForm
@@ -136,14 +136,14 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 									mutation={BuildingResourceRepository.usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
-												loading: <Tx label={"Saving storage item (label)"} />,
+												loading: <Tx label={"Saving resource item (label)"} />,
 												success: (
 													<Tx
-														label={"Storage item successfully saved (label)"}
+														label={"Resource item successfully saved (label)"}
 													/>
 												),
 												error: (
-													<Tx label={"Cannot save storage item (label)"} />
+													<Tx label={"Cannot save resource item (label)"} />
 												),
 											});
 										},
@@ -163,8 +163,8 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete storage item (label)"} />}
-								textTitle={<Tx label={"Delete storage item (modal)"} />}
+								label={<Tx label={"Delete resource item (label)"} />}
+								textTitle={<Tx label={"Delete resource item (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -175,7 +175,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 							>
 								<DeleteControl
 									repository={BuildingResourceRepository}
-									textContent={<Tx label={"Storage item delete (content)"} />}
+									textContent={<Tx label={"Resource item delete (content)"} />}
 									idIn={[data.id]}
 								/>
 							</ActionModal>

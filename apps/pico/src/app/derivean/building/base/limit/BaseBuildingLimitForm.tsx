@@ -104,7 +104,7 @@ export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save base storage (submit)"} />
+					<Tx label={"Save resource limit (submit)"} />
 				</Button>
 			</div>
 		</form>

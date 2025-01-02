@@ -26,7 +26,7 @@ export const UserIndexMenu: FC<UserIndexMenu.Props> = ({
 				to={"/$locale/apps/derivean/root/user/$id/view"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"User detail (menu)"} />
+				<Tx label={"View detail (menu)"} />
 			</MenuLink>
 
 			<MenuLink

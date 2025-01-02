@@ -28,7 +28,7 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 				to={"/$locale/apps/derivean/root/building/base/$id/view"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"Base building detail (menu)"} />
+				<Tx label={"View detail (menu)"} />
 			</MenuLink>
 
 			<MenuLink
