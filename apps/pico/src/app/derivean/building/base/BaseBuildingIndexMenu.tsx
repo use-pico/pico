@@ -1,6 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { EditIcon, Menu, MenuLink, Tx } from "@use-pico/client";
-import type { Entity, withRepositorySchema } from "@use-pico/common";
+import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
@@ -10,7 +10,7 @@ import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
 export namespace BaseBuildingIndexMenu {
 	export interface Props
 		extends Menu.Props,
-			Entity.Type<withRepositorySchema.Output<BaseBuildingSchema>> {
+			Entity.Type<BaseBuildingSchema["~output"]> {
 		//
 	}
 }
@@ -48,6 +48,7 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 			</MenuLink>
 
 			<MenuLink
+				icon={"icon-[carbon--software-resource-cluster]"}
 				to={"/$locale/apps/derivean/root/building/base/$id/resource/list"}
 				params={{ locale, id: entity.id }}
 			>

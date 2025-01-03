@@ -3,6 +3,7 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
+import { db } from "~/app/derivean/db/db";
 import { UserIndexMenu } from "~/app/derivean/user/UserIndexMenu";
 import { UserPreview } from "~/app/derivean/user/UserPreview";
 import { UserRepository } from "~/app/derivean/user/UserRepository";
@@ -24,11 +25,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
 		);
 	},
 	async loader({ context: { queryClient }, params: { id } }) {
-		return {
-			entity: await UserRepository.withFetchLoader({
-				queryClient,
-				where: { id },
-			}),
-		};
+		return db.kysely.transaction().execute(async (tx) => {
+			return {
+				entity: await UserRepository.withFetchLoader({
+					tx,
+					queryClient,
+					where: { id },
+				}),
+			};
+		});
 	},
 });

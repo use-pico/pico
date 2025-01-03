@@ -1,11 +1,9 @@
 import { Card, Tx } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 
 export namespace BuildingCard {
-	export interface Props
-		extends Card.PropsEx<withRepositorySchema.Output<BuildingSchema>> {
+	export interface Props extends Card.PropsEx<BuildingSchema["~output"]> {
 		//
 	}
 }

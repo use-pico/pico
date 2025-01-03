@@ -5,6 +5,7 @@ import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
 export const BaseBuildingLimitRepository = withRepository({
 	name: "BaseBuildingLimitRepository",
+	db: db.kysely,
 	schema: BaseBuildingLimitSchema,
 	meta: {
 		where: {
@@ -15,27 +16,32 @@ export const BaseBuildingLimitRepository = withRepository({
 		},
 		fulltext: ["bbl.id", "bbl.resourceId", "r.id", "r.name"],
 	},
-	insert() {
-		return db.kysely.insertInto("BaseBuilding_Limit");
+	mutation: {
+		insert({ tx }) {
+			return tx.insertInto("BaseBuilding_Limit");
+		},
+		update({ tx }) {
+			return tx.updateTable("BaseBuilding_Limit");
+		},
+		remove({ tx }) {
+			return tx.deleteFrom("BaseBuilding_Limit");
+		},
 	},
-	update() {
-		return db.kysely.updateTable("BaseBuilding_Limit");
-	},
-	remove() {
-		return db.kysely.deleteFrom("BaseBuilding_Limit");
-	},
-	select() {
-		return db.kysely
+	select({ tx }) {
+		return tx
 			.selectFrom("BaseBuilding_Limit as bbl")
 			.selectAll("bbl")
 			.leftJoin("Resource as r", "r.id", "bbl.resourceId");
 	},
-	async toOutput({ entity }) {
-		return {
-			...entity,
-			resource: await ResourceRepository.fetchOrThrow({
-				query: { where: { id: entity.resourceId } },
-			}),
-		};
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				resource: await ResourceRepository.fetchOrThrow({
+					tx,
+					query: { where: { id: entity.resourceId } },
+				}),
+			};
+		},
 	},
 });

@@ -9,7 +9,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -31,7 +30,7 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<ResourceSchema>>({
+	const form = useForm<ResourceSchema["~shape"]>({
 		resolver: zodResolver(ResourceSchema.shape),
 		defaultValues,
 	});
@@ -80,8 +79,7 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 				<Controller
 					control={form.control}
 					name={"tagIds"}
-					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<TagPopupMultiSelect
 								icon={ResourceIcon}

@@ -39,6 +39,7 @@ export { isString } from "./toolbox/isString";
 export { keyOf } from "./toolbox/keyOf";
 export { omit } from "./toolbox/omit";
 export { pathOf } from "./toolbox/pathOf";
+export { proxyOf } from "./toolbox/proxyOf";
 export { Timer } from "./toolbox/Timer";
 export { toHumanNumber } from "./toolbox/toHumanNumber";
 export { withErrors } from "./toolbox/withErrors";

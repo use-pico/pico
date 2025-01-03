@@ -1,5 +1,4 @@
 import { PopupMultiSelect, Tags } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
 import { TagTable } from "~/app/derivean/tag/TagTable";
@@ -7,7 +6,7 @@ import type { TagSchema } from "~/app/tag/TagSchema";
 
 export namespace TagPopupMultiSelect {
 	export interface Props
-		extends PopupMultiSelect.PropsEx<withRepositorySchema.Output<TagSchema>> {
+		extends PopupMultiSelect.PropsEx<TagSchema["~output"]> {
 		group?: string;
 	}
 }
@@ -17,7 +16,7 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 	...props
 }) => {
 	return (
-		<PopupMultiSelect<withRepositorySchema.Output<TagSchema>>
+		<PopupMultiSelect<TagSchema["~output"]>
 			table={(props) => (
 				<TagTable
 					group={group}

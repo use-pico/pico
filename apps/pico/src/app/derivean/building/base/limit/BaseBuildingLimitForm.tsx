@@ -9,7 +9,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
@@ -34,7 +33,7 @@ export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BaseBuildingLimitSchema>>({
+	const form = useForm<BaseBuildingLimitSchema["~shape"]>({
 		resolver: zodResolver(BaseBuildingLimitSchema.shape),
 		defaultValues,
 	});

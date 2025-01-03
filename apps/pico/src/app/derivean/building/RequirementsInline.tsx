@@ -1,15 +1,11 @@
 import { More } from "@use-pico/client";
-import {
-    toHumanNumber,
-    tvc,
-    type withRepositorySchema,
-} from "@use-pico/common";
+import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 
 export namespace RequirementsInline {
 	export interface Props {
-		requirements: withRepositorySchema.Output<BaseBuildingRequirementSchema>[];
+		requirements: BaseBuildingRequirementSchema["~output-array"];
 	}
 }
 

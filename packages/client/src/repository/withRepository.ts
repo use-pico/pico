@@ -15,12 +15,14 @@ import {
     type CursorSchema,
     type withRepositorySchema,
 } from "@use-pico/common";
+import type { Transaction } from "kysely";
 import { invalidator } from "../invalidator/invalidator";
 
 export namespace withRepository {
 	export interface Props<
+		TDatabase,
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
-	> extends withCoolRepository.Props<TSchema> {
+	> extends withCoolRepository.Props<TDatabase, TSchema> {
 		name: string;
 		invalidate?: QueryKey[];
 	}
@@ -28,51 +30,60 @@ export namespace withRepository {
 	export namespace Instance {
 		export namespace withFetchLoader {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				queryClient: QueryClient;
-				where?: withRepositorySchema.Filter<TSchema>;
-				filter?: withRepositorySchema.Filter<TSchema>;
+				where?: TSchema["~filter"];
+				filter?: TSchema["~filter"];
 				cursor?: CursorSchema.Type;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
-				props: Instance.withFetchLoader.Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>>;
+				props: Instance.withFetchLoader.Props<TDatabase, TSchema>,
+			) => Promise<TSchema["~output"]>;
 		}
 
 		export namespace withListLoader {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				queryClient: QueryClient;
-				where?: withRepositorySchema.Filter<TSchema>;
-				filter?: withRepositorySchema.Filter<TSchema>;
+				where?: TSchema["~filter"];
+				filter?: TSchema["~filter"];
 				cursor?: CursorSchema.Type;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
-				props: Instance.withListLoader.Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>[]>;
+				props: Instance.withListLoader.Props<TDatabase, TSchema>,
+			) => Promise<TSchema["~output"][]>;
 		}
 
 		export namespace withCountLoader {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				queryClient: QueryClient;
-				where?: withRepositorySchema.Filter<TSchema>;
-				filter?: withRepositorySchema.Filter<TSchema>;
+				where?: TSchema["~filter"];
+				filter?: TSchema["~filter"];
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
-				props: Instance.withCountLoader.Props<TSchema>,
+				props: Instance.withCountLoader.Props<TDatabase, TSchema>,
 			) => Promise<CountSchema.Type>;
 		}
 
@@ -84,9 +95,9 @@ export namespace withRepository {
 					queryClient: QueryClient;
 				};
 				deps: {
-					global?: withRepositorySchema.Filter<TSchema>;
-					where?: withRepositorySchema.Filter<TSchema>;
-					filter?: withRepositorySchema.Filter<TSchema>;
+					global?: TSchema["~filter"];
+					where?: TSchema["~filter"];
+					filter?: TSchema["~filter"];
 					cursor?: CursorSchema.Type;
 				};
 			}
@@ -95,9 +106,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = () => (
 				props: Instance.withRouteListLoader.Props<TSchema>,
-			) => Promise<
-				withCoolRepository.List<withRepositorySchema.Output<TSchema>>
-			>;
+			) => Promise<withCoolRepository.List<TSchema["~output"]>>;
 		}
 
 		export namespace useListQuery {
@@ -106,10 +115,7 @@ export namespace withRepository {
 			> {
 				query: withCoolRepository.Query<TSchema>;
 				options?: Omit<
-					UseQueryOptions<
-						withCoolRepository.List<withRepositorySchema.Output<TSchema>>,
-						Error
-					>,
+					UseQueryOptions<withCoolRepository.List<TSchema["~output"]>, Error>,
 					"queryKey" | "queryFn"
 				>;
 			}
@@ -118,10 +124,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => UseQueryResult<
-				withCoolRepository.List<withRepositorySchema.Output<TSchema>>,
-				Error
-			>;
+			) => UseQueryResult<withCoolRepository.List<TSchema["~output"]>, Error>;
 		}
 
 		export namespace useCreateMutation {
@@ -129,13 +132,13 @@ export namespace withRepository {
 				export interface Props<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					shape: withRepositorySchema.Shape<TSchema>;
+					shape: TSchema["~shape"];
 				}
 
 				export interface Response<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: Partial<withRepositorySchema.Entity<TSchema>>;
+					entity: Partial<TSchema["~entity"]>;
 				}
 
 				export type Callback<
@@ -147,7 +150,7 @@ export namespace withRepository {
 				export interface Props<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: withRepositorySchema.Entity<TSchema>;
+					entity: TSchema["~entity"];
 				}
 
 				export type Callback<
@@ -167,11 +170,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => UseMutationResult<
-				withRepositorySchema.Output<TSchema>,
-				Error,
-				withRepositorySchema.Shape<TSchema>
-			>;
+			) => UseMutationResult<TSchema["~output"], Error, TSchema["~shape"]>;
 		}
 
 		export namespace usePatchMutation {
@@ -179,14 +178,14 @@ export namespace withRepository {
 				export interface Props<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					shape: withRepositorySchema.Shape<TSchema>;
+					shape: TSchema["~shape"];
 				}
 
 				export interface Response<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity?: Partial<withRepositorySchema.Entity<TSchema>>;
-					filter: withRepositorySchema.Filter<TSchema>;
+					entity?: Partial<TSchema["~entity"]>;
+					filter: TSchema["~filter"];
 				}
 
 				export type Callback<
@@ -198,7 +197,7 @@ export namespace withRepository {
 				export interface Props<
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: withRepositorySchema.Entity<TSchema>;
+					entity: TSchema["~entity"];
 				}
 
 				export type Callback<
@@ -224,11 +223,7 @@ export namespace withRepository {
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
 				props: Props<TSchema>,
-			) => UseMutationResult<
-				withRepositorySchema.Output<TSchema>,
-				Error,
-				withRepositorySchema.Shape<TSchema>
-			>;
+			) => UseMutationResult<TSchema["~output"], Error, TSchema["~shape"]>;
 		}
 
 		export namespace useRemoveMutation {
@@ -252,14 +247,15 @@ export namespace withRepository {
 	}
 
 	export interface Instance<
+		TDatabase,
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
-	> extends withCoolRepository.Instance<TSchema> {
+	> extends withCoolRepository.Instance<TDatabase, TSchema> {
 		name: string;
 		invalidate: QueryKey[];
 
-		withFetchLoader: Instance.withFetchLoader.Callback<TSchema>;
-		withListLoader: Instance.withListLoader.Callback<TSchema>;
-		withCountLoader: Instance.withCountLoader.Callback<TSchema>;
+		withFetchLoader: Instance.withFetchLoader.Callback<TDatabase, TSchema>;
+		withListLoader: Instance.withListLoader.Callback<TDatabase, TSchema>;
+		withCountLoader: Instance.withCountLoader.Callback<TDatabase, TSchema>;
 		withRouteListLoader: Instance.withRouteListLoader.Callback<TSchema>;
 
 		useListQuery: Instance.useListQuery.Callback<TSchema>;
@@ -273,12 +269,16 @@ export namespace withRepository {
  * Extended client-side repository support.
  */
 export const withRepository = <
+	TDatabase,
 	TSchema extends withRepositorySchema.Instance<any, any, any>,
 >({
 	name,
 	invalidate = [],
 	...props
-}: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
+}: withRepository.Props<TDatabase, TSchema>): withRepository.Instance<
+	TDatabase,
+	TSchema
+> => {
 	const $coolInstance = withCoolRepository(props);
 
 	const $invalidate = [
@@ -289,13 +289,14 @@ export const withRepository = <
 		...invalidate,
 	];
 
-	const $instance: withRepository.Instance<TSchema> = {
+	const $instance: withRepository.Instance<TDatabase, TSchema> = {
 		...$coolInstance,
 
 		name,
 		invalidate: $invalidate,
 
 		async withListLoader({
+			tx,
 			queryClient,
 			where,
 			filter,
@@ -304,25 +305,26 @@ export const withRepository = <
 			return queryClient.ensureQueryData({
 				queryKey: ["withListLoader", name, { where, filter, cursor }],
 				async queryFn() {
-					return $coolInstance.list({ query: { where, filter, cursor } });
+					return $coolInstance.list({ tx, query: { where, filter, cursor } });
 				},
 			});
 		},
-		async withFetchLoader({ queryClient, where, filter, cursor }) {
+		async withFetchLoader({ tx, queryClient, where, filter, cursor }) {
 			return queryClient.ensureQueryData({
 				queryKey: ["withFetchLoader", name, { where, filter, cursor }],
 				async queryFn() {
 					return $coolInstance.fetchOrThrow({
+						tx,
 						query: { where, filter, cursor },
 					});
 				},
 			});
 		},
-		async withCountLoader({ queryClient, where, filter }) {
+		async withCountLoader({ tx, queryClient, where, filter }) {
 			return queryClient.ensureQueryData({
 				queryKey: ["withCountLoader", name, { where, filter }],
 				async queryFn(): Promise<CountSchema.Type> {
-					return $coolInstance.count({ query: { where, filter } });
+					return $coolInstance.count({ tx, query: { where, filter } });
 				},
 			});
 		},
@@ -330,34 +332,38 @@ export const withRepository = <
 			return async ({
 				context: { queryClient },
 				deps: { global, where, filter, cursor },
-			}) => ({
-				data: await $instance.withListLoader({
-					queryClient,
-					where,
-					filter: {
-						...global,
-						...filter,
-					},
-					cursor,
-				}),
-				count: await $instance.withCountLoader({
-					queryClient,
-					where,
-					filter: { ...global, ...filter },
-				}),
-			});
+			}) => {
+				return $coolInstance.db.transaction().execute(async (tx) => ({
+					data: await $instance.withListLoader({
+						tx,
+						queryClient,
+						where,
+						filter: {
+							...global,
+							...filter,
+						},
+						cursor,
+					}),
+					count: await $instance.withCountLoader({
+						tx,
+						queryClient,
+						where,
+						filter: { ...global, ...filter },
+					}),
+				}));
+			};
 		},
 
 		useListQuery({ query, options }) {
 			return useQuery({
 				queryKey: ["useListQuery", name, { query }],
-				async queryFn(): Promise<
-					withCoolRepository.List<withRepositorySchema.Output<TSchema>>
-				> {
-					return {
-						data: await $coolInstance.list({ query }),
-						count: await $coolInstance.count({ query }),
-					};
+				async queryFn(): Promise<withCoolRepository.List<TSchema["~output"]>> {
+					return $coolInstance.db.transaction().execute(async (tx) => {
+						return {
+							data: await $coolInstance.list({ tx, query }),
+							count: await $coolInstance.count({ tx, query }),
+						};
+					});
 				},
 				...options,
 			});
@@ -375,23 +381,26 @@ export const withRepository = <
 				mutationKey: ["useCreateMutation", name],
 				async mutationFn(shape) {
 					return wrap(async () => {
-						const entity = await $coolInstance.create({
-							...(await toCreate({
+						return $coolInstance.db.transaction().execute(async (tx) => {
+							const entity = await $coolInstance.create({
+								tx,
+								...(await toCreate({
+									shape,
+								})),
 								shape,
-							})),
-							shape,
+							});
+
+							await onSuccess?.({ entity });
+
+							await invalidator({
+								queryClient,
+								keys: $invalidate,
+							});
+
+							await router.invalidate();
+
+							return entity;
 						});
-
-						await onSuccess?.({ entity });
-
-						await invalidator({
-							queryClient,
-							keys: $invalidate,
-						});
-
-						await router.invalidate();
-
-						return entity;
 					});
 				},
 			});
@@ -404,24 +413,27 @@ export const withRepository = <
 				mutationKey: ["usePatchMutation", name],
 				async mutationFn(shape) {
 					return wrap(async () => {
-						const entity = await $coolInstance.patch({
-							entity: shape,
-							shape,
-							...(await toPatch({
+						$coolInstance.db.transaction().execute(async (tx) => {
+							const entity = await $coolInstance.patch({
+								tx,
+								entity: shape,
 								shape,
-							})),
+								...(await toPatch({
+									shape,
+								})),
+							});
+
+							await onSuccess?.({ entity });
+
+							await invalidator({
+								queryClient,
+								keys: $invalidate,
+							});
+
+							await router.invalidate();
+
+							return entity;
 						});
-
-						await onSuccess?.({ entity });
-
-						await invalidator({
-							queryClient,
-							keys: $invalidate,
-						});
-
-						await router.invalidate();
-
-						return entity;
 					});
 				},
 			});
@@ -434,18 +446,20 @@ export const withRepository = <
 				mutationKey: ["useRemoveMutation", name],
 				async mutationFn({ idIn }) {
 					return wrap(async () => {
-						await $coolInstance.remove({ idIn });
+						$coolInstance.db.transaction().execute(async (tx) => {
+							await $coolInstance.remove({ tx, idIn });
 
-						await invalidator({
-							queryClient,
-							keys: $invalidate,
+							await invalidator({
+								queryClient,
+								keys: $invalidate,
+							});
+
+							await onSuccess?.({});
+
+							await router.invalidate();
+
+							return undefined;
 						});
-
-						await onSuccess?.({});
-
-						await router.invalidate();
-
-						return undefined;
 					});
 				},
 			});

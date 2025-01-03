@@ -14,7 +14,6 @@
 		"translations": "bun ./cli/translations.ts"
 	},
 	"dependencies": {
-		"sqlocal": "^0.13.0",
 		"@hookform/resolvers": "^3.9.1",
 		"@tanstack/react-query": "^5.62.8",
 		"@tanstack/react-router": "^1.91.3",
@@ -22,10 +21,11 @@
 		"@use-pico/client": "workspace:*",
 		"@use-pico/common": "workspace:*",
 		"@use-pico/server": "workspace:*",
-		"dexie": "^4.0.10",
+		"kysely": "^0.27.5",
 		"react-dom": "^18.3.1",
 		"react-hook-form": "^7.54.1",
 		"react": "^18.3.1",
+		"sqlocal": "^0.13.0",
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {

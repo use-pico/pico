@@ -6,6 +6,7 @@ import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
 export const BuildingResourceRepository = withRepository({
 	name: "BuildingResourceRepository",
+	db: db.kysely,
 	schema: BuildingResourceSchema,
 	meta: {
 		where: {
@@ -17,15 +18,6 @@ export const BuildingResourceRepository = withRepository({
 		},
 		fulltext: ["br.id", "bb.name", "r.name"],
 	},
-	insert() {
-		return db.kysely.insertInto("Building_Resource");
-	},
-	update() {
-		return db.kysely.updateTable("Building_Resource");
-	},
-	remove() {
-		return db.kysely.deleteFrom("Building_Resource");
-	},
 	select() {
 		return db.kysely
 			.selectFrom("Building_Resource as br")
@@ -34,15 +26,30 @@ export const BuildingResourceRepository = withRepository({
 			.leftJoin("BaseBuilding as bb", "bb.id", "b.baseBuildingId")
 			.leftJoin("Resource as r", "r.id", "br.resourceId");
 	},
-	async toOutput({ entity }) {
-		return {
-			...entity,
-			building: await BuildingRepository.fetchOrThrow({
-				query: { where: { id: entity.buildingId } },
-			}),
-			resource: await ResourceRepository.fetchOrThrow({
-				query: { where: { id: entity.resourceId } },
-			}),
-		};
+	mutation: {
+		insert() {
+			return db.kysely.insertInto("Building_Resource");
+		},
+		update() {
+			return db.kysely.updateTable("Building_Resource");
+		},
+		remove() {
+			return db.kysely.deleteFrom("Building_Resource");
+		},
+	},
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				building: await BuildingRepository.fetchOrThrow({
+					tx,
+					query: { where: { id: entity.buildingId } },
+				}),
+				resource: await ResourceRepository.fetchOrThrow({
+					tx,
+					query: { where: { id: entity.resourceId } },
+				}),
+			};
+		},
 	},
 });

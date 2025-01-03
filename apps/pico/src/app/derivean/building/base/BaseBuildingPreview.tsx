@@ -1,13 +1,12 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, ListIcon, Preview, TitlePreview, Tx } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
 export namespace BaseBuildingPreview {
 	export interface Props
-		extends Preview.PropsEx<withRepositorySchema.Output<BaseBuildingSchema>> {
+		extends Preview.PropsEx<BaseBuildingSchema["~output"]> {
 		//
 	}
 }

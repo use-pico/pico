@@ -176,4 +176,39 @@ export const seed = async (kysely: (typeof db)["kysely"]) => {
 	} catch (_) {
 		//
 	}
+
+	try {
+		await kysely
+			.insertInto("BaseBuilding_Limit")
+			.values([
+				{
+					id: id(),
+					baseBuildingId: ids.storage,
+					resourceId: ids.resource.stone,
+					limit: 100,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.storage,
+					resourceId: ids.resource.wood,
+					limit: 150,
+				},
+
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.stone,
+					limit: 25,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.wood,
+					limit: 50,
+				},
+			])
+			.execute();
+	} catch (_) {
+		//
+	}
 };

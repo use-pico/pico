@@ -4,6 +4,7 @@ import { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema
 
 export const ResourceTagRepository = withRepository({
 	name: "ResourceTagRepository",
+	db: db.kysely,
 	schema: ResourceTagSchema,
 	meta: {
 		where: {
@@ -22,17 +23,19 @@ export const ResourceTagRepository = withRepository({
 			"t.label",
 		],
 	},
-	insert() {
-		return db.kysely.insertInto("Resource_Tag");
+	mutation: {
+		insert({ tx }) {
+			return tx.insertInto("Resource_Tag");
+		},
+		update({ tx }) {
+			return tx.updateTable("Resource_Tag");
+		},
+		remove({ tx }) {
+			return tx.deleteFrom("Resource_Tag");
+		},
 	},
-	update() {
-		return db.kysely.updateTable("Resource_Tag");
-	},
-	remove() {
-		return db.kysely.deleteFrom("Resource_Tag");
-	},
-	select() {
-		return db.kysely
+	select({ tx }) {
+		return tx
 			.selectFrom("Resource_Tag as rt")
 			.selectAll("rt")
 			.leftJoin("Resource as r", "r.id", "rt.resourceId")

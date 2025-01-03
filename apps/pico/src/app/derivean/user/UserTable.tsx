@@ -1,10 +1,9 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { UserSchema } from "~/app/user/UserSchema";
 
-const column = withColumn<withRepositorySchema.Output<UserSchema>>();
+const column = withColumn<UserSchema["~output"]>();
 
 const columns = [
 	column({
@@ -39,8 +38,7 @@ const columns = [
 ];
 
 export namespace UserTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<UserSchema>> {
+	export interface Props extends Table.PropsEx<UserSchema["~output"]> {
 		//
 	}
 }

@@ -9,15 +9,13 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingLimitForm } from "~/app/derivean/building/base/limit/BaseBuildingLimitForm";
 import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
 
-const column =
-	withColumn<withRepositorySchema.Output<BaseBuildingLimitSchema>>();
+const column = withColumn<BaseBuildingLimitSchema["~output"]>();
 
 const columns = [
 	column({
@@ -44,9 +42,7 @@ const columns = [
 
 export namespace BaseBuildingLimitTable {
 	export interface Props
-		extends Table.PropsEx<
-			withRepositorySchema.Output<BaseBuildingLimitSchema>
-		> {
+		extends Table.PropsEx<BaseBuildingLimitSchema["~output"]> {
 		baseBuildingId: string;
 	}
 }

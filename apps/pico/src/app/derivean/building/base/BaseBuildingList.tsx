@@ -1,5 +1,4 @@
 import { Button, Tx } from "@use-pico/client";
-import { type withRepositorySchema } from "@use-pico/common";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { RequirementsInline } from "~/app/derivean/building/RequirementsInline";
@@ -10,7 +9,7 @@ import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
 export namespace BaseBuildingList {
 	export interface Props extends BaseBuildingListCss.Props {
 		resources: resourceSumOf.Result;
-		entities: withRepositorySchema.Output<BaseBuildingSchema>[];
+		entities: BaseBuildingSchema["~output-array"];
 	}
 }
 

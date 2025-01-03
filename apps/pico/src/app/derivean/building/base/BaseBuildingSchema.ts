@@ -54,7 +54,11 @@ export const BaseBuildingSchema = withRepositorySchema({
 				}),
 		]),
 	}),
-	filter: FilterSchema,
+	filter: FilterSchema.merge(
+		z.object({
+			name: z.string().optional(),
+		}),
+	),
 });
 
 export type BaseBuildingSchema = typeof BaseBuildingSchema;

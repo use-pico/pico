@@ -5,6 +5,7 @@ import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
 export const BaseBuildingRequirementRepository = withRepository({
 	name: "BaseBuildingRequirementRepository",
+	db: db.kysely,
 	schema: BaseBuildingRequirementSchema,
 	meta: {
 		where: {
@@ -22,30 +23,36 @@ export const BaseBuildingRequirementRepository = withRepository({
 			"bbr.name",
 		],
 	},
-	insert() {
-		return db.kysely.insertInto("BaseBuilding_Requirement");
-	},
-	update() {
-		return db.kysely.updateTable("BaseBuilding_Requirement");
-	},
-	remove() {
-		return db.kysely.deleteFrom("BaseBuilding_Requirement");
-	},
-	select() {
-		return db.kysely
+	select({ tx }) {
+		return tx
 			.selectFrom("BaseBuilding_Requirement as bbr")
 			.selectAll("bbr")
 			.leftJoin("BaseBuilding as bb", "bb.id", "bbr.baseBuildingId")
 			.leftJoin("Resource as r", "r.id", "bbr.resourceId");
 	},
-	async toOutput({ entity }) {
-		return {
-			...entity,
-			resource: await ResourceRepository.fetchOrThrow({
-				query: {
-					where: { id: entity.resourceId },
-				},
-			}),
-		};
+	mutation: {
+		insert({ tx }) {
+			return tx.insertInto("BaseBuilding_Requirement");
+		},
+		update({ tx }) {
+			return tx.updateTable("BaseBuilding_Requirement");
+		},
+		remove({ tx }) {
+			return tx.deleteFrom("BaseBuilding_Requirement");
+		},
+	},
+
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				resource: await ResourceRepository.fetchOrThrow({
+					tx,
+					query: {
+						where: { id: entity.resourceId },
+					},
+				}),
+			};
+		},
 	},
 });

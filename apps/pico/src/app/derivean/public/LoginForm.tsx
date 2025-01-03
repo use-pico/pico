@@ -11,6 +11,7 @@ import {
 import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
+import type { Database } from "~/app/derivean/db/Database";
 import { useLoginMutation } from "~/app/mutation/useLoginMutation";
 import { LoginSchema } from "~/app/schema/LoginSchema";
 import type { SessionSchema } from "~/app/schema/SessionSchema";
@@ -18,7 +19,7 @@ import type { withUserRepository } from "~/app/user/withUserRepository";
 
 export namespace LoginForm {
 	export interface Props {
-		repository: withUserRepository.Instance;
+		repository: withUserRepository.Instance<Database>;
 		onSuccess(session: SessionSchema.Type): Promise<void>;
 	}
 }

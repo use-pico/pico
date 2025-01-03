@@ -10,7 +10,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { TagSchema } from "~/app/tag/TagSchema";
@@ -30,7 +29,7 @@ export const TagForm: FC<TagForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<TagSchema>>({
+	const form = useForm<TagSchema["~shape"]>({
 		resolver: zodResolver(TagSchema.shape),
 		defaultValues: {
 			sort: 0,

@@ -1,5 +1,4 @@
 import { PopupSelect, Tx } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
@@ -8,14 +7,14 @@ import { ResourceTable } from "~/app/derivean/resource/ResourceTable";
 
 export namespace ResourcePopupSelect {
 	export interface Props
-		extends PopupSelect.PropsEx<withRepositorySchema.Output<ResourceSchema>> {
+		extends PopupSelect.PropsEx<ResourceSchema["~output"]> {
 		//
 	}
 }
 
 export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = (props) => {
 	return (
-		<PopupSelect<withRepositorySchema.Output<ResourceSchema>>
+		<PopupSelect<ResourceSchema["~output"]>
 			icon={ResourceIcon}
 			titleText={<Tx label={"Select resource (title)"} />}
 			table={ResourceTable}

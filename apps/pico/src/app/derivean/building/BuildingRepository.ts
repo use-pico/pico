@@ -5,46 +5,45 @@ import { db } from "~/app/derivean/db/db";
 
 export const BuildingRepository = withRepository({
 	name: "BuildingRepository",
+	db: db.kysely,
 	schema: BuildingSchema,
 	meta: {
 		where: {
-			id: "building.id",
-			idIn: "building.id",
-			baseBuildingId: "building.baseBuildingId",
-			userId: "building.userId",
+			id: "b.id",
+			idIn: "b.id",
+			baseBuildingId: "b.baseBuildingId",
+			userId: "b.userId",
 		},
-		fulltext: [
-			"building.id",
-			"building.baseBuildingId",
-			"building.userId",
-			"baseBuilding.name",
-		],
+		fulltext: ["b.id", "b.baseBuildingId", "b.userId", "bb.name"],
 	},
-	insert() {
-		return db.kysely.insertInto("Building");
+	select({ tx }) {
+		return tx
+			.selectFrom("Building as b")
+			.selectAll("b")
+			.leftJoin("BaseBuilding as bb", "bb.id", "b.baseBuildingId");
 	},
-	update() {
-		return db.kysely.updateTable("Building");
+	mutation: {
+		insert({ tx }) {
+			return tx.insertInto("Building");
+		},
+		update({ tx }) {
+			return tx.updateTable("Building");
+		},
+		remove({ tx }) {
+			return tx.deleteFrom("Building");
+		},
 	},
-	remove() {
-		return db.kysely.deleteFrom("Building");
-	},
-	select() {
-		return db.kysely
-			.selectFrom("Building as building")
-			.selectAll("building")
-			.leftJoin(
-				"BaseBuilding as baseBuilding",
-				"baseBuilding.id",
-				"building.baseBuildingId",
-			);
-	},
-	async toOutput({ entity }) {
-		return {
-			...entity,
-			baseBuilding: await BaseBuildingRepository.fetchOrThrow({
-				query: { where: { id: entity.baseBuildingId } },
-			}),
-		};
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				baseBuilding: await BaseBuildingRepository.fetchOrThrow({
+					tx,
+					query: { where: { id: entity.baseBuildingId } },
+				}),
+			};
+		},
 	},
 });
+
+export type BuildingRepository = typeof BuildingRepository;

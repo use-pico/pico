@@ -11,9 +11,10 @@ import type { withRepository } from "./withRepository";
 
 export namespace DeleteControl {
 	export interface Props<
+		TDatabase,
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> extends DeleteControlCss.Props {
-		repository: withRepository.Instance<TSchema>;
+		repository: withRepository.Instance<TDatabase, TSchema>;
 		textContent: ReactNode;
 		idIn?: string[];
 		onCancel?(): void;
@@ -21,6 +22,7 @@ export namespace DeleteControl {
 }
 
 export const DeleteControl = <
+	TDatabase,
 	TSchema extends withRepositorySchema.Instance<any, any, any>,
 >({
 	repository,
@@ -30,7 +32,7 @@ export const DeleteControl = <
 	variant,
 	tva = DeleteControlCss,
 	css,
-}: DeleteControl.Props<TSchema>) => {
+}: DeleteControl.Props<TDatabase, TSchema>) => {
 	const tv = tva({ ...variant, css }).slots;
 	const modalContext = useContext(ModalContext);
 	const mutation = repository.useRemoveMutation({

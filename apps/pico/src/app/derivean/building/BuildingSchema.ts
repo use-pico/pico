@@ -1,7 +1,7 @@
 import {
-    FilterSchema,
-    IdentitySchema,
-    withRepositorySchema,
+	FilterSchema,
+	IdentitySchema,
+	withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";

@@ -6,6 +6,7 @@ import { TagRepository } from "~/app/derivean/tag/TagRepository";
 
 export const ResourceRepository = withRepository({
 	name: "Resource",
+	db: db.kysely,
 	schema: ResourceSchema,
 	meta: {
 		where: {
@@ -15,17 +16,8 @@ export const ResourceRepository = withRepository({
 		},
 		fulltext: ["r.description", "r.name", "r.id"],
 	},
-	insert() {
-		return db.kysely.insertInto("Resource");
-	},
-	update() {
-		return db.kysely.updateTable("Resource");
-	},
-	remove() {
-		return db.kysely.deleteFrom("Resource");
-	},
-	select({ query: { where, filter } }) {
-		let $select = db.kysely.selectFrom("Resource as r").selectAll("r");
+	select({ tx, query: { where, filter } }) {
+		let $select = tx.selectFrom("Resource as r").selectAll("r");
 
 		if (where?.baseBuildingId || filter?.baseBuildingId) {
 			$select = $select.leftJoin(
@@ -36,34 +28,50 @@ export const ResourceRepository = withRepository({
 		}
 		return $select;
 	},
-	async toOutput({ entity }) {
-		const tagIds = (
-			await ResourceTagRepository.list({
-				query: {
-					where: {
-						resourceId: entity.id,
+	mutation: {
+		insert({ tx }) {
+			return tx.insertInto("Resource");
+		},
+		update({ tx }) {
+			return tx.updateTable("Resource");
+		},
+		remove({ tx }) {
+			return tx.deleteFrom("Resource");
+		},
+	},
+	map: {
+		async toOutput({ tx, entity }) {
+			const tagIds = (
+				await ResourceTagRepository.list({
+					tx,
+					query: {
+						where: {
+							resourceId: entity.id,
+						},
 					},
-				},
-			})
-		).map(({ tagId }) => tagId);
+				})
+			).map(({ tagId }) => tagId);
 
-		return {
-			...entity,
-			tagIds,
-			tags: await TagRepository.list({
-				query: {
-					where: {
-						idIn: tagIds,
+			return {
+				...entity,
+				tagIds,
+				tags: await TagRepository.list({
+					tx,
+					query: {
+						where: {
+							idIn: tagIds,
+						},
 					},
-				},
-			}),
-		};
+				}),
+			};
+		},
 	},
 	event: {
-		async onPostCreate({ entity, shape }) {
+		async onPostCreate({ tx, entity, shape }) {
 			await Promise.all(
 				shape.tagIds?.forEach(async (tagId) => {
 					return ResourceTagRepository.create({
+						tx,
 						entity: {
 							resourceId: entity.id,
 							tagId,
@@ -76,7 +84,7 @@ export const ResourceRepository = withRepository({
 				}) || [],
 			);
 		},
-		async onPostPatch({ entity, shape }) {
+		async onPostPatch({ tx, entity, shape }) {
 			if (Array.isArray(shape.tagIds)) {
 				await db.kysely
 					.deleteFrom("Resource_Tag")
@@ -86,6 +94,7 @@ export const ResourceRepository = withRepository({
 				await Promise.all(
 					shape.tagIds.map(async (tagId) => {
 						return ResourceTagRepository.create({
+							tx,
 							entity: {
 								resourceId: entity.id,
 								tagId,

@@ -2,6 +2,7 @@ import type { z } from "zod";
 import type { EntitySchema } from "../schema/EntitySchema";
 import type { FilterSchema } from "../schema/FilterSchema";
 import type { ShapeSchema } from "../schema/ShapeSchema";
+import { proxyOf } from "../toolbox/proxyOf";
 
 export namespace withRepositorySchema {
 	export interface Props<
@@ -28,52 +29,37 @@ export namespace withRepositorySchema {
 		 * Creating an entity requires this schema being valid.
 		 */
 		entity: TEntitySchema;
+		["~entity"]: z.infer<TEntitySchema>;
+		["~entity-array"]: z.infer<TEntitySchema>[];
+		["~entity-partial-exclude-id"]: Partial<Omit<z.infer<TEntitySchema>, "id">>;
+
+		/**
+		 * Shape schema defines fields required to create an entity in the database;
+		 * repository usually provides rest of the required fields (like userId or created timestamp and so on).
+		 */
+		shape: TShapeSchema;
+		["~shape"]: z.infer<TShapeSchema>;
+		["~shape-partial"]: Partial<z.infer<TShapeSchema>>;
+
+		/**
+		 * Filter schema defines client-side (userland) fields available for filtering.
+		 */
+		filter: TFilterSchema;
+		["~filter"]: z.infer<TFilterSchema>;
+
 		/**
 		 * The output of the queries (like fetch, list, etc.).
 		 *
 		 * Used only for the output validation.
 		 */
 		output: TOutputSchema;
+		["~output"]: z.infer<TOutputSchema>;
 		/**
-		 * Shape schema defines fields required to create an entity in the database;
-		 * repository usually provides rest of the required fields (like userId or created timestamp and so on).
+		 * May be strange as a type, but the reason is to be explicit:
+		 * TSchema['~output'][] is not as readable as TSchema['~output-array']
 		 */
-		shape: TShapeSchema;
-		/**
-		 * Filter schema defines client-side (userland) fields available for filtering.
-		 */
-		filter: TFilterSchema;
+		["~output-array"]: z.infer<TOutputSchema>[];
 	}
-
-	export type Any = Instance<
-		EntitySchema,
-		ShapeSchema,
-		FilterSchema,
-		EntitySchema
-	>;
-
-	export interface Infer<TInstance extends Instance<any, any, any>> {
-		entity: z.infer<TInstance["entity"]>;
-		output: z.infer<TInstance["output"]>;
-		shape: z.infer<TInstance["shape"]>;
-		filter: z.infer<TInstance["filter"]>;
-	}
-
-	export type Entity<TInstance extends Instance<any, any, any>> = z.infer<
-		TInstance["entity"]
-	>;
-
-	export type Output<TInstance extends Instance<any, any, any>> = z.infer<
-		TInstance["output"]
-	>;
-
-	export type Shape<TInstance extends Instance<any, any, any>> = z.infer<
-		TInstance["shape"]
-	>;
-
-	export type Filter<TInstance extends Instance<any, any, any>> = z.infer<
-		TInstance["filter"]
-	>;
 }
 
 export const withRepositorySchema = <
@@ -97,10 +83,20 @@ export const withRepositorySchema = <
 	TFilterSchema,
 	TOutputSchema
 > => {
+	const proxy = proxyOf();
+
 	return {
 		entity,
-		output,
+		"~entity": proxy,
+		"~entity-array": [],
+		"~entity-partial-exclude-id": proxy,
 		shape,
+		"~shape": proxy,
+		"~shape-partial": proxy,
 		filter,
+		"~filter": proxy,
+		output,
+		"~output": proxy,
+		"~output-array": [],
 	};
 };

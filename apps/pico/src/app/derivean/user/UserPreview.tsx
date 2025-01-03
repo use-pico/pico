@@ -7,13 +7,11 @@ import {
     Tx,
     UserIcon,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { UserSchema } from "~/app/user/UserSchema";
 
 export namespace UserPreview {
-	export interface Props
-		extends Preview.PropsEx<withRepositorySchema.Output<UserSchema>> {
+	export interface Props extends Preview.PropsEx<UserSchema["~output"]> {
 		//
 	}
 }

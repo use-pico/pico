@@ -1,10 +1,9 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 
-const column = withColumn<withRepositorySchema.Output<BuildingSchema>>();
+const column = withColumn<BuildingSchema["~output"]>();
 
 const columns = [
 	column({
@@ -29,8 +28,7 @@ const columns = [
 ];
 
 export namespace BuildingTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<BuildingSchema>> {
+	export interface Props extends Table.PropsEx<BuildingSchema["~output"]> {
 		//
 	}
 }

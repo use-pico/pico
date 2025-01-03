@@ -6,49 +6,51 @@ import { db } from "~/app/derivean/db/db";
 
 export const BaseBuildingRepository = withRepository({
 	name: "BaseBuilding",
+	db: db.kysely,
 	schema: BaseBuildingSchema,
 	meta: {
 		where: {
-			id: "baseBuilding.id",
-			idIn: "baseBuilding.id",
+			id: "bb.id",
+			idIn: "bb.id",
+			name: "bb.name",
 		},
-		fulltext: [
-			"baseBuilding.name",
-			"baseBuilding.description",
-			"baseBuilding.id",
-		],
-	},
-	insert() {
-		return db.kysely.insertInto("BaseBuilding");
-	},
-	update() {
-		return db.kysely.updateTable("BaseBuilding");
-	},
-	remove() {
-		return db.kysely.deleteFrom("BaseBuilding");
+		fulltext: ["bb.name", "bb.description", "bb.id"],
 	},
 	select() {
-		return db.kysely
-			.selectFrom("BaseBuilding as baseBuilding")
-			.selectAll("baseBuilding");
+		return db.kysely.selectFrom("BaseBuilding as bb").selectAll("bb");
 	},
-	async toOutput({ entity }) {
-		return {
-			...entity,
-			requirements: await BaseBuildingRequirementRepository.list({
-				query: {
-					where: {
-						baseBuildingId: entity.id,
+	mutation: {
+		insert() {
+			return db.kysely.insertInto("BaseBuilding");
+		},
+		update() {
+			return db.kysely.updateTable("BaseBuilding");
+		},
+		remove() {
+			return db.kysely.deleteFrom("BaseBuilding");
+		},
+	},
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				requirements: await BaseBuildingRequirementRepository.list({
+					tx,
+					query: {
+						where: {
+							baseBuildingId: entity.id,
+						},
 					},
-				},
-			}),
-			limits: await BaseBuildingLimitRepository.list({
-				query: {
-					where: {
-						baseBuildingId: entity.id,
+				}),
+				limits: await BaseBuildingLimitRepository.list({
+					tx,
+					query: {
+						where: {
+							baseBuildingId: entity.id,
+						},
 					},
-				},
-			}),
-		};
+				}),
+			};
+		},
 	},
 });

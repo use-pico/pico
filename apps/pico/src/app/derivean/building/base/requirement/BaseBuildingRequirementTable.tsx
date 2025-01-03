@@ -10,15 +10,14 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
+import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingRequirementForm } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementForm";
 import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
-const column =
-	withColumn<withRepositorySchema.Output<BaseBuildingRequirementSchema>>();
+const column = withColumn<BaseBuildingRequirementSchema["~output"]>();
 
 const columns = [
 	column({
@@ -55,9 +54,7 @@ const columns = [
 
 export namespace BaseBuildingRequirementTable {
 	export interface Props
-		extends Table.PropsEx<
-			withRepositorySchema.Output<BaseBuildingRequirementSchema>
-		> {
+		extends Table.PropsEx<BaseBuildingRequirementSchema["~output"]> {
 		baseBuildingId: string;
 	}
 }

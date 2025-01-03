@@ -9,16 +9,14 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingResourceForm } from "~/app/derivean/building/resource/BuildingResourceForm";
 import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
-import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline";
 
-const column =
-	withColumn<withRepositorySchema.Output<BuildingResourceSchema>>();
+const column = withColumn<BuildingResourceSchema["~output"]>();
 
 const columns = [
 	column({
@@ -73,7 +71,7 @@ const columns = [
 
 export namespace BuildingResourceTable {
 	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<BuildingResourceSchema>> {
+		extends Table.PropsEx<BuildingResourceSchema["~output"]> {
 		buildingId?: string;
 	}
 }

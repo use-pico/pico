@@ -11,7 +11,6 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingForm } from "~/app/derivean/building/BuildingForm";
 import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
@@ -19,7 +18,7 @@ import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
-const column = withColumn<withRepositorySchema.Output<BuildingSchema>>();
+const column = withColumn<BuildingSchema["~output"]>();
 
 const columns = [
 	column({
@@ -44,8 +43,7 @@ const columns = [
 ];
 
 export namespace BuildingTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<BuildingSchema>> {
+	export interface Props extends Table.PropsEx<BuildingSchema["~output"]> {
 		userId: string;
 	}
 }

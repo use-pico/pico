@@ -10,7 +10,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
@@ -34,7 +33,7 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BaseBuildingSchema>>({
+	const form = useForm<BaseBuildingSchema["~shape"]>({
 		resolver: zodResolver(BaseBuildingSchema.shape),
 		defaultValues: {
 			preview: true,

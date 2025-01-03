@@ -9,7 +9,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseBuildingPopupSelect } from "~/app/derivean/building/base/BaseBuildingPopupSelect";
@@ -32,7 +31,7 @@ export const BuildingForm: FC<BuildingForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<withRepositorySchema.Shape<BuildingSchema>>({
+	const form = useForm<BuildingSchema["~shape"]>({
 		resolver: zodResolver(BuildingSchema.shape),
 		defaultValues,
 	});

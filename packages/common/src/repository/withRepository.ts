@@ -1,7 +1,9 @@
 import type {
     DeleteQueryBuilder,
     InsertQueryBuilder,
+    Kysely,
     SelectQueryBuilder,
+    Transaction,
     UpdateQueryBuilder,
 } from "kysely";
 import { z } from "zod";
@@ -19,8 +21,8 @@ export namespace withRepository {
 	export interface Query<
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
-		where?: withRepositorySchema.Filter<TSchema>;
-		filter?: withRepositorySchema.Filter<TSchema>;
+		where?: TSchema["~filter"];
+		filter?: TSchema["~filter"];
 		cursor?: CursorSchema.Type;
 	}
 
@@ -37,10 +39,7 @@ export namespace withRepository {
 				/**
 				 * Map "client side" fields to "server side" fields.
 				 */
-				where: Omit<
-					Record<keyof withRepositorySchema.Filter<TSchema>, string>,
-					"fulltext"
-				>;
+				where: Omit<Record<keyof TSchema["~filter"], string>, "fulltext">;
 				/**
 				 * Which fields are used for fulltext search.
 				 */
@@ -48,97 +47,120 @@ export namespace withRepository {
 			}
 		}
 
-		export namespace toOutput {
-			export interface Props<
+		export namespace Map {
+			export namespace toOutput {
+				export interface Props<
+					TDatabase,
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					tx: Transaction<TDatabase>;
+					entity: TSchema["~entity"];
+				}
+
+				export type Callback<
+					TDatabase,
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TDatabase, TSchema>) => Promise<TSchema["~output"]>;
+			}
+
+			export namespace toCreate {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: TSchema["~entity-partial-exclude-id"];
+					shape: TSchema["~shape"];
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (
+					props: Props<TSchema>,
+				) => Promise<TSchema["~entity-partial-exclude-id"]>;
+			}
+
+			export namespace toPatch {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					entity: TSchema["~entity-partial-exclude-id"];
+					shape: TSchema["~shape-partial"];
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => TSchema["~entity-partial-exclude-id"];
+			}
+
+			export interface Instance<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				entity: withRepositorySchema.Entity<TSchema>;
+				toOutput?: toOutput.Callback<TDatabase, TSchema>;
+				toCreate?: toCreate.Callback<TSchema>;
+				toPatch?: toPatch.Callback<TSchema>;
 			}
-
-			export type Callback<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>>;
 		}
 
-		export namespace toCreate {
-			export interface Props<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
-				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
-				shape: withRepositorySchema.Shape<TSchema>;
+		export namespace Mutation {
+			export namespace insert {
+				export interface Props<TDatabase> {
+					tx: Transaction<TDatabase>;
+				}
+
+				export type Callback<TDatabase> = (
+					props: Props<TDatabase>,
+				) => InsertQueryBuilder<any, any, any>;
 			}
 
-			export type Callback<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>>;
-		}
+			export namespace update {
+				export interface Props<TDatabase> {
+					tx: Transaction<TDatabase>;
+				}
 
-		export namespace toPatch {
-			export interface Props<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
-				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
-				shape: Partial<withRepositorySchema.Shape<TSchema>>;
+				export type Callback<TDatabase> = (
+					props: Props<TDatabase>,
+				) => UpdateQueryBuilder<any, any, any, any>;
 			}
 
-			export type Callback<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>>;
-		}
+			export namespace remove {
+				export interface Props<TDatabase> {
+					tx: Transaction<TDatabase>;
+				}
 
-		export namespace insert {
-			export interface Props {
-				//
+				export type Callback<TDatabase> = (
+					props: Props<TDatabase>,
+				) => DeleteQueryBuilder<any, any, any>;
 			}
 
-			export type Callback = (
-				props: Props,
-			) => InsertQueryBuilder<any, any, any>;
-		}
-
-		export namespace update {
-			export interface Props {
-				//
+			export interface Instance<TDatabase> {
+				insert: insert.Callback<TDatabase>;
+				update: update.Callback<TDatabase>;
+				remove: remove.Callback<TDatabase>;
 			}
-
-			export type Callback = (
-				props: Props,
-			) => UpdateQueryBuilder<any, any, any, any>;
-		}
-
-		export namespace remove {
-			export interface Props {
-				//
-			}
-
-			export type Callback = (
-				props: Props,
-			) => DeleteQueryBuilder<any, any, any>;
 		}
 
 		export namespace select {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				query: Query<TSchema>;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props<TSchema>) => SelectQueryBuilder<any, any, any>;
+			> = (
+				props: Props<TDatabase, TSchema>,
+			) => SelectQueryBuilder<any, any, any>;
 		}
 
 		export namespace applyWhere {
 			export interface Props<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				where?: withRepositorySchema.Filter<TSchema>;
+				where?: TSchema["~filter"];
 				select: SelectQueryBuilder<any, any, any>;
 				apply?: Apply[];
 			}
@@ -151,190 +173,215 @@ export namespace withRepository {
 		export namespace Event {
 			export namespace onPreCreate {
 				export interface Props<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
-					shape: withRepositorySchema.Shape<TSchema>;
+					tx: Transaction<TDatabase>;
+					entity: TSchema["~entity-partial-exclude-id"];
+					shape: TSchema["~shape"];
 				}
 
 				export type Callback<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<any>;
+				> = (props: Props<TDatabase, TSchema>) => Promise<any>;
 			}
 
 			export namespace onPostCreate {
 				export interface Props<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: withRepositorySchema.Entity<TSchema>;
-					shape: withRepositorySchema.Shape<TSchema>;
+					tx: Transaction<TDatabase>;
+					entity: TSchema["~entity"];
+					shape: TSchema["~shape"];
 				}
 
 				export type Callback<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<any>;
+				> = (props: Props<TDatabase, TSchema>) => Promise<any>;
 			}
 
 			export namespace onPrePatch {
 				export interface Props<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
-					shape: Partial<withRepositorySchema.Shape<TSchema>>;
+					tx: Transaction<TDatabase>;
+					entity: TSchema["~entity-partial-exclude-id"];
+					shape: TSchema["~shape-partial"];
 				}
 
 				export type Callback<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<any>;
+				> = (props: Props<TDatabase, TSchema>) => Promise<any>;
 			}
 
 			export namespace onPostPatch {
 				export interface Props<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
-					entity: withRepositorySchema.Entity<TSchema>;
-					shape: Partial<withRepositorySchema.Shape<TSchema>>;
+					tx: Transaction<TDatabase>;
+					entity: TSchema["~entity"];
+					shape: TSchema["~shape-partial"];
 				}
 
 				export type Callback<
+					TDatabase,
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
-				> = (props: Props<TSchema>) => Promise<any>;
+				> = (props: Props<TDatabase, TSchema>) => Promise<any>;
 			}
 
 			export interface Instance<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				onPreCreate?: onPreCreate.Callback<TSchema>;
-				onPostCreate?: onPostCreate.Callback<TSchema>;
-				onPrePatch?: onPrePatch.Callback<TSchema>;
-				onPostPatch?: onPostPatch.Callback<TSchema>;
+				onPreCreate?: onPreCreate.Callback<TDatabase, TSchema>;
+				onPostCreate?: onPostCreate.Callback<TDatabase, TSchema>;
+				onPrePatch?: onPrePatch.Callback<TDatabase, TSchema>;
+				onPostPatch?: onPostPatch.Callback<TDatabase, TSchema>;
 			}
 		}
 	}
 
 	export interface Props<
+		TDatabase,
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
+		db: Kysely<TDatabase>;
 		meta: Props.Meta.Instance<TSchema>;
 
-		toOutput?: Props.toOutput.Callback<TSchema>;
+		map?: Props.Map.Instance<TDatabase, TSchema>;
 
-		toCreate?: Props.toCreate.Callback<TSchema>;
-		toPatch?: Props.toPatch.Callback<TSchema>;
-
-		insert: Props.insert.Callback;
-		update: Props.update.Callback;
-		remove: Props.remove.Callback;
-		select: Props.select.Callback<TSchema>;
+		mutation: Props.Mutation.Instance<TDatabase>;
+		select: Props.select.Callback<TDatabase, TSchema>;
 
 		applyWhere?: Props.applyWhere.Callback<TSchema>;
 		applyFilter?: Props.applyWhere.Callback<TSchema>;
 
-		event?: Props.Event.Instance<TSchema>;
+		event?: Props.Event.Instance<TDatabase, TSchema>;
 	}
 
 	export namespace Instance {
 		export namespace create {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				/**
 				 * Shape used to construct "entity" for creation.
 				 */
-				shape: withRepositorySchema.Shape<TSchema>;
+				shape: TSchema["~shape"];
 				/**
 				 * Pieces of the final entity being pushed into database.
 				 */
-				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+				entity: TSchema["~entity-partial-exclude-id"];
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>>;
+			> = (props: Props<TDatabase, TSchema>) => Promise<TSchema["~output"]>;
 		}
 
 		export namespace patch {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
-				entity: Partial<Omit<withRepositorySchema.Entity<TSchema>, "id">>;
+				tx: Transaction<TDatabase>;
+				entity: TSchema["~entity-partial-exclude-id"];
 				/**
 				 * Shape used to construct "entity" for patch.
 				 */
-				shape: Partial<withRepositorySchema.Shape<TSchema>>;
-				filter: withRepositorySchema.Filter<TSchema>;
+				shape: TSchema["~shape-partial"];
+				filter: TSchema["~filter"];
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>>;
+			> = (props: Props<TDatabase, TSchema>) => Promise<TSchema["~output"]>;
 		}
 
 		export namespace remove {
-			export interface Props {
+			export interface Props<TDatabase> {
+				tx: Transaction<TDatabase>;
 				idIn?: string[];
 			}
 
-			export type Callback = (props: Props) => Promise<any>;
+			export type Callback<TDatabase> = (
+				props: Props<TDatabase>,
+			) => Promise<any>;
 		}
 
 		export namespace fetch {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				query: Query<TSchema>;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema> | undefined>;
+				props: Props<TDatabase, TSchema>,
+			) => Promise<TSchema["~output"] | undefined>;
 		}
 
 		export namespace fetchOrThrow {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				query: Query<TSchema>;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>>;
+			> = (props: Props<TDatabase, TSchema>) => Promise<TSchema["~output"]>;
 		}
 
 		export namespace list {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				query: Query<TSchema>;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> = (
-				props: Props<TSchema>,
-			) => Promise<withRepositorySchema.Output<TSchema>[]>;
+				props: Props<TDatabase, TSchema>,
+			) => Promise<TSchema["~output-array"]>;
 		}
 
 		export namespace count {
 			export interface Props<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
 			> {
+				tx: Transaction<TDatabase>;
 				query: Omit<Query<TSchema>, "sort" | "cursor">;
 			}
 
 			export type Callback<
+				TDatabase,
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props<TSchema>) => Promise<CountSchema.Type>;
+			> = (props: Props<TDatabase, TSchema>) => Promise<CountSchema.Type>;
 		}
 
 		export namespace applyQuery {
@@ -353,22 +400,25 @@ export namespace withRepository {
 	}
 
 	export interface Instance<
+		TDatabase,
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
+		db: Kysely<TDatabase>;
 
-		create: Instance.create.Callback<TSchema>;
-		patch: Instance.patch.Callback<TSchema>;
-		remove: Instance.remove.Callback;
+		create: Instance.create.Callback<TDatabase, TSchema>;
+		patch: Instance.patch.Callback<TDatabase, TSchema>;
+		remove: Instance.remove.Callback<TDatabase>;
 
-		fetch: Instance.fetch.Callback<TSchema>;
-		fetchOrThrow: Instance.fetchOrThrow.Callback<TSchema>;
-		list: Instance.list.Callback<TSchema>;
-		count: Instance.count.Callback<TSchema>;
+		fetch: Instance.fetch.Callback<TDatabase, TSchema>;
+		fetchOrThrow: Instance.fetchOrThrow.Callback<TDatabase, TSchema>;
+		list: Instance.list.Callback<TDatabase, TSchema>;
+		count: Instance.count.Callback<TDatabase, TSchema>;
 	}
 }
 
 export const withRepository = <
+	TDatabase,
 	TSchema extends withRepositorySchema.Instance<
 		EntitySchema,
 		ShapeSchema,
@@ -376,18 +426,18 @@ export const withRepository = <
 	>,
 >({
 	schema,
+	db,
 	meta,
-	toOutput = async ({ entity }) => entity,
-	toCreate = async ({ entity }) => entity,
-	toPatch = async ({ entity }) => entity,
-	insert,
-	update,
-	remove,
+	map,
+	mutation,
 	select,
 	applyWhere = ({ select }) => select,
 	applyFilter = ({ select }) => select,
 	event,
-}: withRepository.Props<TSchema>): withRepository.Instance<TSchema> => {
+}: withRepository.Props<TDatabase, TSchema>): withRepository.Instance<
+	TDatabase,
+	TSchema
+> => {
 	const $applyCommonWhere: withRepository.Props.applyWhere.Callback<
 		TSchema
 	> = ({ where, select }) => {
@@ -494,23 +544,26 @@ export const withRepository = <
 		return $select;
 	};
 
-	const instance: withRepository.Instance<TSchema> = {
+	const instance: withRepository.Instance<TDatabase, TSchema> = {
+		db,
 		schema,
-		async create({ entity, shape }) {
+		async create({ tx, entity, shape }) {
 			const $id = id();
 
-			await event?.onPreCreate?.({ entity, shape });
+			await event?.onPreCreate?.({ tx, entity, shape });
 
-			await insert({})
+			await mutation
+				.insert({ tx })
 				.values(
 					schema.entity.parse({
-						...(await toCreate({ entity, shape })),
+						...((await map?.toCreate?.({ entity, shape })) || entity),
 						id: $id,
 					}),
 				)
 				.execute();
 
 			const $entity = await instance.fetchOrThrow({
+				tx,
 				query: {
 					where: {
 						id: $id,
@@ -518,66 +571,80 @@ export const withRepository = <
 				},
 			});
 
-			await event?.onPostCreate?.({ entity: $entity, shape });
+			await event?.onPostCreate?.({ tx, entity: $entity, shape });
 
 			return $entity;
 		},
-		async patch({ entity, shape, filter }) {
-			const $entity = await instance.fetchOrThrow({ query: { where: filter } });
+		async patch({ tx, entity, shape, filter }) {
+			const $entity = await instance.fetchOrThrow({
+				tx,
+				query: { where: filter },
+			});
 
 			if (!$entity) {
 				throw new Error("Cannot patch an unknown entity (empty query result).");
 			}
 
-			await event?.onPrePatch?.({ entity, shape });
+			await event?.onPrePatch?.({ tx, entity, shape });
 
-			await update({})
-				.set(schema.entity.partial().parse(await toPatch({ entity, shape })))
+			await mutation
+				.update({ tx })
+				.set(
+					schema.entity
+						.partial()
+						.parse((await map?.toPatch?.({ entity, shape })) || entity),
+				)
 				.where("id", "=", $entity.id)
 				.execute();
 
 			const $updated = await instance.fetchOrThrow({
+				tx,
 				query: { where: { id: $entity.id } },
 			});
 
-			await event?.onPostPatch?.({ entity: $updated, shape });
+			await event?.onPostPatch?.({ tx, entity: $updated, shape });
 
 			return $updated;
 		},
-		async remove({ idIn }) {
+		async remove({ tx, idIn }) {
 			if (!idIn || idIn?.length === 0) {
 				console.log("nothing to remove");
 				return undefined;
 			}
-			return remove({}).where("id", "in", idIn).execute();
+			return mutation.remove({ tx }).where("id", "in", idIn).execute();
 		},
-		async fetch({ query }) {
+		async fetch({ tx, query }) {
 			const entity = await $applyQuery({
 				query,
-				select: select({ query }),
+				select: select({ tx, query }),
 			}).executeTakeFirst();
 
 			if (!entity) {
 				return undefined;
 			}
 
+			const $entity = schema.entity.parse(entity);
+
 			return (schema.output ?? schema.entity).parse(
-				await toOutput({ entity: schema.entity.parse(entity) }),
+				(await map?.toOutput?.({ tx, entity: $entity })) || $entity,
 			);
 		},
-		async fetchOrThrow({ query }) {
+		async fetchOrThrow({ tx, query }) {
+			const $entity = schema.entity.parse(
+				await $applyQuery({
+					query,
+					select: select({ tx, query }),
+				}).executeTakeFirstOrThrow(),
+			);
+
 			return (schema.output ?? schema.entity).parse(
-				await toOutput({
-					entity: schema.entity.parse(
-						await $applyQuery({
-							query,
-							select: select({ query }),
-						}).executeTakeFirstOrThrow(),
-					),
-				}),
+				(await map?.toOutput?.({
+					tx,
+					entity: $entity,
+				})) || $entity,
 			);
 		},
-		async list({ query }) {
+		async list({ tx, query }) {
 			const $schema = schema.output ?? schema.entity;
 
 			return Promise.all(
@@ -586,20 +653,22 @@ export const withRepository = <
 					.parse(
 						await $applyQuery({
 							query,
-							select: select({ query }),
+							select: select({ tx, query }),
 						}).execute(),
 					)
 					.map(async (entity) => {
-						return $schema.parse(await toOutput({ entity }));
+						return $schema.parse(
+							(await map?.toOutput?.({ tx, entity })) || entity,
+						);
 					}),
 			);
 		},
-		async count({ query }) {
+		async count({ tx, query }) {
 			return {
 				total: (
 					await $applyQuery({
 						query: {},
-						select: select({ query }).select([
+						select: select({ tx, query }).select([
 							(col) => col.fn.countAll().as("count"),
 						]),
 						apply: [],
@@ -610,7 +679,7 @@ export const withRepository = <
 						query: {
 							where: query.where,
 						},
-						select: select({ query }).select([
+						select: select({ tx, query }).select([
 							(col) => col.fn.countAll().as("count"),
 						]),
 						apply: ["where"],
@@ -622,7 +691,7 @@ export const withRepository = <
 							where: query.where,
 							filter: query.filter,
 						},
-						select: select({ query }).select([
+						select: select({ tx, query }).select([
 							(col) => col.fn.countAll().as("count"),
 						]),
 						apply: ["filter", "where"],

@@ -3,41 +3,51 @@ import type { Database } from "@use-pico/common";
 import { TagSchema } from "~/app/tag/TagSchema";
 
 export namespace withTagRepository {
-	export interface Props {
-		database: Database.Instance;
-		repository?: Partial<withRepository.Props<TagSchema>>;
+	export interface DatabaseType {
+		Tag: TagSchema["~entity"];
 	}
 
-	export type Instance = ReturnType<typeof withTagRepository>;
+	export interface Props<TDatabase extends DatabaseType> {
+		database: Database.Instance<TDatabase>;
+		repository?: Partial<withRepository.Props<TDatabase, TagSchema>>;
+	}
+
+	export type Instance<TDatabase extends withTagRepository.DatabaseType> =
+		ReturnType<typeof withTagRepository<TDatabase>>;
 }
 
-export const withTagRepository = ({
+export const withTagRepository = <
+	TDatabase extends withTagRepository.DatabaseType,
+>({
 	database,
 	repository,
-}: withTagRepository.Props) => {
+}: withTagRepository.Props<TDatabase>) => {
 	return withRepository({
 		name: "TagRepository",
+		db: database.kysely,
 		schema: TagSchema,
 		meta: {
 			where: {
-				code: "tag.code",
-				group: "tag.group",
-				id: "tag.id",
-				idIn: "tag.id",
+				code: "t.code",
+				group: "t.group",
+				id: "t.id",
+				idIn: "t.id",
 			},
-			fulltext: ["tag.code", "tag.label", "tag.group", "tag.id"],
+			fulltext: ["t.code", "t.label", "t.group", "t.id"],
 		},
-		insert() {
-			return database.kysely.insertInto("Tag");
+		select({ tx }) {
+			return tx.selectFrom("Tag as t").selectAll("t");
 		},
-		update() {
-			return database.kysely.updateTable("Tag");
-		},
-		remove() {
-			return database.kysely.deleteFrom("Tag");
-		},
-		select() {
-			return database.kysely.selectFrom("Tag as tag").selectAll("tag");
+		mutation: {
+			insert({ tx }) {
+				return tx.insertInto("Tag");
+			},
+			update({ tx }) {
+				return tx.updateTable("Tag");
+			},
+			remove({ tx }) {
+				return tx.deleteFrom("Tag");
+			},
 		},
 		...repository,
 	});

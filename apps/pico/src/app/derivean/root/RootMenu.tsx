@@ -56,6 +56,9 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 					{
 						to: "/$locale/apps/derivean/root/building/$id/resource/list",
 					},
+					{
+						to: "/$locale/apps/derivean/root/building/base/$id/resource/list",
+					},
 				]}
 			>
 				<MenuLink

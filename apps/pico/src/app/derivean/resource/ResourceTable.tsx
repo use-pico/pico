@@ -12,14 +12,13 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/resource/ResourceForm";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
-const column = withColumn<withRepositorySchema.Output<ResourceSchema>>();
+const column = withColumn<ResourceSchema["~output"]>();
 
 const columns = [
 	column({
@@ -54,8 +53,7 @@ const columns = [
 ];
 
 export namespace ResourceTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<ResourceSchema>> {
+	export interface Props extends Table.PropsEx<ResourceSchema["~output"]> {
 		//
 	}
 }

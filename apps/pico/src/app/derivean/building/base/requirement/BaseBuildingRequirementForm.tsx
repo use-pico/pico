@@ -10,7 +10,6 @@ import {
     Tx,
     type Form,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
@@ -30,9 +29,7 @@ export namespace BaseBuildingRequirementForm {
 export const BaseBuildingRequirementForm: FC<
 	BaseBuildingRequirementForm.Props
 > = ({ mutation, defaultValues, onSuccess, variant, tva = FormCss, css }) => {
-	const form = useForm<
-		withRepositorySchema.Shape<BaseBuildingRequirementSchema>
-	>({
+	const form = useForm<BaseBuildingRequirementSchema["~shape"]>({
 		resolver: zodResolver(BaseBuildingRequirementSchema.shape),
 		defaultValues: {
 			passive: false,

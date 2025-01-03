@@ -1,29 +1,6 @@
 import { withDatabase } from "@use-pico/client";
-import { type withRepositorySchema } from "@use-pico/common";
-import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
-import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
-import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import type { Database } from "~/app/derivean/db/Database";
 import { seed } from "~/app/derivean/db/seed";
-import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
-import type { TagSchema } from "~/app/tag/TagSchema";
-import type { UserSchema } from "~/app/user/UserSchema";
-
-export interface Database {
-	User: withRepositorySchema.Entity<UserSchema>;
-	Tag: withRepositorySchema.Entity<TagSchema>;
-
-	Resource: withRepositorySchema.Entity<ResourceSchema>;
-	Resource_Tag: withRepositorySchema.Entity<ResourceTagSchema>;
-
-	BaseBuilding: withRepositorySchema.Entity<BaseBuildingSchema>;
-	BaseBuilding_Requirement: withRepositorySchema.Entity<BaseBuildingRequirementSchema>;
-	BaseBuilding_Limit: withRepositorySchema.Entity<BaseBuildingLimitSchema>;
-	Building: withRepositorySchema.Entity<BuildingSchema>;
-	Building_Resource: withRepositorySchema.Entity<BuildingResourceSchema>;
-}
 
 export const db = withDatabase<Database>({
 	database: "derivean",

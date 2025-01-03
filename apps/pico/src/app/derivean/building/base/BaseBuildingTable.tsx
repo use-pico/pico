@@ -14,8 +14,7 @@ import {
 } from "@use-pico/client";
 import {
     toHumanNumber,
-    translator,
-    type withRepositorySchema,
+    translator
 } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
@@ -23,7 +22,7 @@ import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildin
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
-const column = withColumn<withRepositorySchema.Output<BaseBuildingSchema>>();
+const column = withColumn<BaseBuildingSchema["~output"]>();
 
 const columns = [
 	column({
@@ -81,8 +80,7 @@ const columns = [
 ];
 
 export namespace BaseBuildingTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<BaseBuildingSchema>> {
+	export interface Props extends Table.PropsEx<BaseBuildingSchema["~output"]> {
 		//
 	}
 }

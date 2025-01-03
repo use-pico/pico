@@ -10,14 +10,13 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { TagForm } from "~/app/derivean/tag/TagForm";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
 import type { TagSchema } from "~/app/tag/TagSchema";
 
-const column = withColumn<withRepositorySchema.Output<TagSchema>>();
+const column = withColumn<TagSchema["~output"]>();
 
 const columns = [
 	column({
@@ -59,8 +58,7 @@ const columns = [
 ];
 
 export namespace TagTable {
-	export interface Props
-		extends Table.PropsEx<withRepositorySchema.Output<TagSchema>> {
+	export interface Props extends Table.PropsEx<TagSchema["~output"]> {
 		group?: string;
 	}
 }
