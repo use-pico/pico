@@ -1,15 +1,79 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
+import {
+    handleOnFulltext,
+    handleOnPage,
+    handleOnSize,
+    Tx,
+} from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
-import { BaseBuildingList } from "~/app/derivean/building/base/BaseBuildingList";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
+import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import { BuildingTable } from "~/app/derivean/game/BuildingTable";
 
-const SearchSchema = withSearchSchema({ filter: BaseBuildingSchema.filter });
+const SearchSchema = withSearchSchema({
+	filter: BuildingSchema.filter,
+});
+
+const loader = BuildingRepository.withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",
 )({
+	component: () => {
+		const { data, count } = Route.useLoaderData();
+		const { global, filter, cursor, selection } = Route.useSearch();
+		const navigate = Route.useNavigate();
+		const { tva } = useRouteContext({ from: "__root__" });
+		const tv = tva().slots;
+
+		return (
+			<div className={tv.base()}>
+				<BuildingTable
+					table={{
+						data,
+						filter: {
+							value: filter,
+							set(value) {
+								navigate({
+									search: ({ cursor, ...prev }) => ({
+										...prev,
+										filter: value,
+										cursor: { ...cursor, page: 0 },
+									}),
+								});
+							},
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set(selection) {
+								navigate({
+									search(prev) {
+										return {
+											...prev,
+											selection,
+										};
+									},
+								});
+							},
+						},
+					}}
+					fulltext={{
+						onFulltext: handleOnFulltext(navigate),
+						value: global?.fulltext,
+					}}
+					cursor={{
+						count,
+						cursor,
+						textTotal: <Tx label={"Number of items"} />,
+						onPage: handleOnPage(navigate),
+						onSize: handleOnSize(navigate),
+					}}
+				/>
+			</div>
+		);
+	},
 	validateSearch: zodValidator(SearchSchema),
 	loaderDeps({ search: { global, filter, cursor } }) {
 		return {
@@ -18,20 +82,18 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	loader: BaseBuildingRepository.withRouteListLoader(),
-	component() {
-		const { data } = Route.useLoaderData();
-		const { resources } = useLoaderData({
-			from: "/$locale/apps/derivean/game",
-		});
+	async loader({ context, deps: { filter, ...deps } }) {
+		const session = await context.session();
 
-		return (
-			<div>
-				<BaseBuildingList
-					resources={resources}
-					entities={data}
-				/>
-			</div>
-		);
+		return loader({
+			context,
+			deps: {
+				...deps,
+                filter: {
+					...filter,
+					userId: session.id,
+				},
+			},
+		});
 	},
 });

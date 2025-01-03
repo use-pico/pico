@@ -62,6 +62,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					<>
 						{session.name}
 						<LinkTo
+							icon={"icon-[clarity--crown-line]"}
+							to={"/$locale/apps/derivean/root"}
+							params={{ locale }}
+						/>
+
+						<LinkTo
 							icon={LogoutIcon}
 							to={"/$locale/apps/derivean/public/logout"}
 							params={{ locale }}

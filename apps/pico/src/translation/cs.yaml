@@ -101,6 +101,9 @@
 2f43fbab07828666317fcef9473ac15d3c0784c6f5a0facbc95cf3f6:
   ref: Delete resource limit (label)
   value: Odstranit limit zdroje
+2fddbd0882437b274ff38510d4bab21881fe36772a63d99f56030b92:
+  ref: Building build list (label)
+  value: Stavba
 304ee8cc29aa3d13d616997a70c3941dc300ae1a41361905ccab1d6d:
   ref: Logout in progress...
   value: Probíhá odhlašování...
@@ -136,9 +139,6 @@
 3d0d042466ea6d40c8d77fdda96cbe5e6dd066408124377a8da7e225:
   ref: Create resource item (modal)
   value: Nová položka zdroje
-3db2c4051c2b7a73afa7ec303c3fbe50ba5258af4ec59fd4ec31b388:
-  ref: Resource list (label)
-  value: Resource list (label)
 3f6e4f37963b44a6c4d2b161863da423becf34a1bd174a0d606bb1d8:
   ref: Resource list (menu)
   value: Seznam zdrojů
@@ -196,9 +196,6 @@
 5a61431b360687199428ce78cb23c67c3a8f1a9726e2f8af8f2792f8:
   ref: Delete buildings (modal)
   value: Odstranit budovy
-5b0ad027d8f9ba9dc309fce793e0b0fe0f8e9d91c48a946ec433956a:
-  ref: Root site (menu)
-  value: Administrace
 5b3ffcd26c63c64c101d5551bfca69faa3e5a03592f223fb24a29f4d:
   ref: Create base building (modal)
   value: Nová základní budova
@@ -250,7 +247,8 @@
   value: Odstranit zdroj
 74d9fe31d4acfc6825ca4e317857d48ce8755d4e575557b655da8545:
   ref: Passive requirement (hint)
-  value: Pasivní požadavek na zdroj pouze zkoumá přítomnost požadovaného množství,
+  value:
+    Pasivní požadavek na zdroj pouze zkoumá přítomnost požadovaného množství,
     nicméně jej neodebírá.
 7769647fc513914768f9797d35365b9227954983799eda6ba31ab16d:
   ref: Building list (menu)

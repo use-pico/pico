@@ -16,6 +16,15 @@ const SearchSchema = withSearchSchema({ filter: BaseBuildingSchema.filter });
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list/",
 )({
+	validateSearch: zodValidator(SearchSchema),
+	loaderDeps({ search: { global, filter, cursor } }) {
+		return {
+			global,
+			filter,
+			cursor,
+		};
+	},
+	loader: BaseBuildingRepository.withRouteListLoader(),
 	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
@@ -70,13 +79,4 @@ export const Route = createFileRoute(
 			</div>
 		);
 	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	loader: BaseBuildingRepository.withRouteListLoader(),
 });

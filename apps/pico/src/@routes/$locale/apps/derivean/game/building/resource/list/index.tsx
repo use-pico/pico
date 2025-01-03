@@ -22,6 +22,28 @@ const loader = BuildingResourceRepository.withRouteListLoader();
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/resource/list/",
 )({
+	validateSearch: zodValidator(SearchSchema),
+	loaderDeps({ search: { global, filter, cursor } }) {
+		return {
+			global,
+			filter,
+			cursor,
+		};
+	},
+	async loader({ context, deps: { filter, ...deps } }) {
+		const session = await context.session();
+
+		return loader({
+			context,
+			deps: {
+				...deps,
+				filter: {
+					...filter,
+					userId: session.id,
+				},
+			},
+		});
+	},
 	component() {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
@@ -81,27 +103,5 @@ export const Route = createFileRoute(
 				/>
 			</div>
 		);
-	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	async loader({ context, deps: { filter, ...deps } }) {
-		const session = await context.session();
-
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
-					userId: session.id,
-				},
-			},
-		});
 	},
 });
