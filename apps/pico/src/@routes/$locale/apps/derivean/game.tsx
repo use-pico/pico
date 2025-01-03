@@ -3,12 +3,13 @@ import {
     Outlet,
     redirect,
     useLoaderData,
-    useParams
+    useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
+import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
-import { ResourceOverview } from "~/app/derivean/game/ResourceOverview";
 import { Logo } from "~/app/derivean/logo/Logo";
+import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
@@ -28,8 +29,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		};
 	},
 	async loader({ context: { session } }) {
+		const $session = await session();
+
 		return {
-			session: await session(),
+			session: $session,
+			resources: resourceSumOf({
+				resources: await BuildingResourceRepository.list({
+					query: { where: { userId: $session.id } },
+				}),
+			}),
 		};
 	},
 
@@ -62,8 +70,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					</>
 				}
 			>
-				<ResourceOverview entities={[]} />
-
 				<Outlet />
 			</AppLayout>
 		);

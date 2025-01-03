@@ -21,10 +21,6 @@ export const MoreCss = css({
 			"px-2",
 			"py-1",
 		],
-		/**
-		 * Item in the modal
-		 */
-		value: ["border", "border-blue-200", "bg-blue-50", "rounded-md p-2"],
 	},
 	variant: {},
 	defaults: {},

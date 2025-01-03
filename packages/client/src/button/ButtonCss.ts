@@ -65,10 +65,38 @@ export const ButtonCss = css({
 		},
 		{
 			if: {
+				variant: "secondary",
+				disabled: true,
+			},
+			then: {
+				base: [
+					"opacity-50",
+					"bg-amber-600",
+					"hover:bg-amber-600",
+					"cursor-not-allowed",
+				],
+			},
+		},
+		{
+			if: {
 				variant: "subtle",
 			},
 			then: {
 				base: ["text-slate-600", "hover:text-slate-800", "hover:bg-blue-50"],
+			},
+		},
+		{
+			if: {
+				variant: "subtle",
+				disabled: true,
+			},
+			then: {
+				base: [
+					"opacity-50",
+					"bg-blue-50",
+					"hover:bg-blue-50",
+					"cursor-not-allowed",
+				],
 			},
 		},
 		{

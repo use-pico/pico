@@ -35,7 +35,7 @@ export const Button: FC<Button.Props> = ({
 	return (
 		<button
 			type={"button"}
-			className={tv.base()}
+			className={tv.base({ disabled: props.disabled })}
 			{...props}
 		>
 			{props.disabled ?

@@ -33,12 +33,10 @@ export const More = <TValues extends IdentitySchema.Type>({
 		<div className={tv.base()}>
 			{items.length ? null : textEmpty}
 			{$items.map((item) => (
-				<div
+				<Render
 					key={`items-${item.id}`}
-					className={tv.item()}
-				>
-					<Render entity={item} />
-				</div>
+					entity={item}
+				/>
 			))}
 			{limit && items.length > limit && (
 				<Modal
@@ -48,12 +46,10 @@ export const More = <TValues extends IdentitySchema.Type>({
 				>
 					<div className={"flex flex-col gap-2"}>
 						{items.map((item) => (
-							<div
+							<Render
 								key={`items-${item.id}`}
-								className={tv.value()}
-							>
-								<Render entity={item} />
-							</div>
+								entity={item}
+							/>
 						))}
 					</div>
 				</Modal>

@@ -17,8 +17,29 @@ export const BaseBuildingListCss = css({
 		],
 		title: ["font-bold"],
 	},
-	variant: {},
-	defaults: {},
+	variant: {
+		canBuild: {
+			true: [],
+		},
+	},
+	match: [
+		{
+			if: {
+				canBuild: true,
+			},
+			then: {
+				item: [
+					"bg-emerald-50",
+					"hover:bg-emerald-100",
+					"border-emerald-300",
+					"hover:border-emerald-400",
+				],
+			},
+		},
+	],
+	defaults: {
+		canBuild: false,
+	},
 });
 
 export namespace BaseBuildingListCss {

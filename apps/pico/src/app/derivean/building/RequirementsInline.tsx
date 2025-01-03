@@ -21,9 +21,24 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 			items={requirements}
 			render={({ entity }) => {
 				return (
-					<div className={"flex flex-row gap-2 items-center"}>
+					<div
+						className={tvc([
+							"flex",
+							"flex-row",
+							"gap-2",
+							"items-center",
+							"bg-sky-100",
+							"border",
+							"rounded",
+							"border-sky-300",
+							"py-1",
+							"px-2",
+						])}
+					>
 						<div
-							className={tvc("font-light", !entity.passive && "text-amber-700")}
+							className={tvc(
+								entity.passive ? "text-emerald-700" : "text-amber-700",
+							)}
 						>
 							{entity.resource.name}
 						</div>
