@@ -63,9 +63,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(15);
 	const [selection, setSelection] = useState<string[]>(value || []);
-	const [fulltext, setFulltext] = useState<string | undefined | null>(
-		undefined,
-	);
+	const [fulltext, setFulltext] = useState<string | undefined>(undefined);
 
 	const result = useListQuery({
 		query: {

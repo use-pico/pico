@@ -6,31 +6,60 @@ import type { Database } from "~/app/derivean/db/Database";
 export const BuildingRepository = withRepository<Database, BuildingSchema>({
 	name: "BuildingRepository",
 	schema: BuildingSchema,
-	meta: {
-		where: {
-			id: "b.id",
-			idIn: "b.id",
-			baseBuildingId: "b.baseBuildingId",
-			userId: "b.userId",
-		},
-		fulltext: ["b.id", "b.baseBuildingId", "b.userId", "bb.name"],
-	},
-	select({ tx }) {
-		return tx
+	select({
+		tx,
+		query: { where, filter, cursor = { page: 0, size: 10 } },
+		use,
+	}) {
+		let $select = tx
 			.selectFrom("Building as b")
 			.selectAll("b")
 			.leftJoin("BaseBuilding as bb", "bb.id", "b.baseBuildingId");
+
+		const fulltext = (input: string) => {
+			const $input = `%${input}%`;
+			return $select.where((ex) => {
+				return ex.or([
+					ex("b.id", "like", $input),
+					ex("bb.id", "like", $input),
+					ex("bb.name", "like", $input),
+				]);
+			});
+		};
+
+		const $where = (where?: BuildingSchema["~filter"]) => {
+			if (where?.id) {
+				$select = $select.where("b.id", "=", where.id);
+			}
+			if (where?.baseBuildingId) {
+				$select = $select.where("b.baseBuildingId", "=", where.baseBuildingId);
+			}
+			if (where?.fulltext) {
+				$select = fulltext(where.fulltext);
+			}
+		};
+
+		if (use?.includes("filter")) {
+			$where(filter || {});
+		}
+		if (use?.includes("where")) {
+			$where(where || {});
+		}
+
+		if (use?.includes("cursor")) {
+			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
+		}
+
+		return $select;
 	},
-	mutation: {
-		insert({ tx }) {
-			return tx.insertInto("Building");
-		},
-		update({ tx }) {
-			return tx.updateTable("Building");
-		},
-		remove({ tx }) {
-			return tx.deleteFrom("Building");
-		},
+	insert({ tx }) {
+		return tx.insertInto("Building");
+	},
+	update({ tx }) {
+		return tx.updateTable("Building");
+	},
+	remove({ tx }) {
+		return tx.deleteFrom("Building");
 	},
 	map: {
 		async toOutput({ tx, entity }) {

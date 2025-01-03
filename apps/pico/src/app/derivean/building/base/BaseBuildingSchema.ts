@@ -57,6 +57,7 @@ export const BaseBuildingSchema = withRepositorySchema({
 	filter: FilterSchema.merge(
 		z.object({
 			name: z.string().optional(),
+			preview: z.boolean().optional(),
 		}),
 	),
 });

@@ -13,6 +13,9 @@ import {
     withRepository as withCoolRepository,
     type CountSchema,
     type CursorSchema,
+    type EntitySchema,
+    type FilterSchema,
+    type ShapeSchema,
     type withRepositorySchema,
 } from "@use-pico/common";
 import type { Kysely, Transaction } from "kysely";
@@ -240,9 +243,9 @@ export namespace withRepository {
 				onSuccess?: onSuccess.Callback;
 			}
 
-			export type Callback = (
-				props: Props,
-			) => UseMutationResult<any, Error, { idIn?: string[] }>;
+			export type Callback<
+				TSchema extends withRepositorySchema.Instance<any, any, any>,
+			> = (props: Props) => UseMutationResult<any, Error, TSchema["~filter"]>;
 		}
 	}
 
@@ -264,7 +267,7 @@ export namespace withRepository {
 		useListQuery: Instance.useListQuery.Callback<TSchema>;
 		useCreateMutation: Instance.useCreateMutation.Callback<TSchema>;
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
-		useRemoveMutation: Instance.useRemoveMutation.Callback;
+		useRemoveMutation: Instance.useRemoveMutation.Callback<TSchema>;
 	}
 
 	export type Callback<
@@ -278,7 +281,11 @@ export namespace withRepository {
  */
 export const withRepository = <
 	TDatabase,
-	TSchema extends withRepositorySchema.Instance<any, any, any>,
+	TSchema extends withRepositorySchema.Instance<
+		EntitySchema,
+		ShapeSchema,
+		FilterSchema
+	>,
 >({
 	name,
 	invalidate = [],
@@ -390,7 +397,7 @@ export const withRepository = <
 				const queryClient = useQueryClient();
 				const router = useRouter();
 
-				return useMutation({
+				return useMutation<TSchema["~entity"], Error, TSchema["~shape"]>({
 					mutationKey: ["useCreateMutation", name],
 					async mutationFn(shape) {
 						return wrap(async () => {
@@ -426,11 +433,11 @@ export const withRepository = <
 				const queryClient = useQueryClient();
 				const router = useRouter();
 
-				return useMutation({
+				return useMutation<TSchema["~output"], Error, TSchema["~shape"]>({
 					mutationKey: ["usePatchMutation", name],
 					async mutationFn(shape) {
 						return wrap(async () => {
-							$coolInstance.db.transaction().execute(async (tx) => {
+							return $coolInstance.db.transaction().execute(async (tx) => {
 								const entity = await $coolInstance.patch({
 									tx,
 									entity: shape,
@@ -459,12 +466,12 @@ export const withRepository = <
 				const queryClient = useQueryClient();
 				const router = useRouter();
 
-				return useMutation({
+				return useMutation<boolean, Error, TSchema["~filter"]>({
 					mutationKey: ["useRemoveMutation", name],
-					async mutationFn({ idIn }) {
+					async mutationFn(filter) {
 						return wrap(async () => {
-							$coolInstance.db.transaction().execute(async (tx) => {
-								await $coolInstance.remove({ tx, idIn });
+							return $coolInstance.db.transaction().execute(async (tx) => {
+								await $coolInstance.remove({ tx, filter });
 
 								await invalidator({
 									queryClient,
@@ -475,7 +482,7 @@ export const withRepository = <
 
 								await router.invalidate();
 
-								return undefined;
+								return true;
 							});
 						});
 					},

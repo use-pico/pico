@@ -7,6 +7,7 @@ import type {
 } from "@use-pico/common";
 import { useState, type FC } from "react";
 import { Button } from "../button/Button";
+import type { Fulltext } from "../fulltext/Fulltext";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
@@ -64,9 +65,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(10);
 	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
-	const [fulltext, setFulltext] = useState<string | undefined | null>(
-		undefined,
-	);
+	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 
 	const result = useListQuery({
 		query: {

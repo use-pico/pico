@@ -9,41 +9,97 @@ export const BaseBuildingRequirementRepository = withRepository<
 >({
 	name: "BaseBuildingRequirementRepository",
 	schema: BaseBuildingRequirementSchema,
-	meta: {
-		where: {
-			id: "bbr.id",
-			idIn: "bbr.id",
-			baseBuildingId: "bbr.baseBuildingId",
-			resourceId: "bbr.resourceId",
-			passive: "bbr.passive",
-		},
-		fulltext: [
-			"bbr.id",
-			"bbr.baseBuildingId",
-			"bbr.resourceId",
-			"bbr.name",
-			"bbr.name",
-		],
-	},
-	select({ tx }) {
-		return tx
+	select({
+		tx,
+		query: { where, filter, cursor = { page: 0, size: 10 } },
+		use,
+	}) {
+		let $select = tx
 			.selectFrom("BaseBuilding_Requirement as bbr")
 			.selectAll("bbr")
 			.leftJoin("BaseBuilding as bb", "bb.id", "bbr.baseBuildingId")
 			.leftJoin("Resource as r", "r.id", "bbr.resourceId");
-	},
-	mutation: {
-		insert({ tx }) {
-			return tx.insertInto("BaseBuilding_Requirement");
-		},
-		update({ tx }) {
-			return tx.updateTable("BaseBuilding_Requirement");
-		},
-		remove({ tx }) {
-			return tx.deleteFrom("BaseBuilding_Requirement");
-		},
-	},
 
+		const fulltext = (input: string) => {
+			const $input = `%${input}%`;
+			return $select.where((ex) => {
+				return ex.or([
+					ex("bbr.id", "like", $input),
+					ex("bb.id", "like", $input),
+					ex("r.id", "like", $input),
+					ex("bb.name", "like", $input),
+					ex("r.name", "like", $input),
+				]);
+			});
+		};
+
+		const $where = (where?: BaseBuildingRequirementSchema["~filter"]) => {
+			if (where?.id) {
+				$select = $select.where("bbr.id", "=", where.id);
+			}
+
+			if (where?.baseBuildingId) {
+				$select = $select.where(
+					"bbr.baseBuildingId",
+					"=",
+					where.baseBuildingId,
+				);
+			}
+
+			if (where?.resourceId) {
+				$select = $select.where("bbr.resourceId", "=", where.resourceId);
+			}
+
+			if (where?.fulltext) {
+				$select = fulltext(where.fulltext);
+			}
+		};
+
+		if (use?.includes("filter")) {
+			$where(filter || {});
+		}
+
+		if (use?.includes("where")) {
+			$where(where || {});
+		}
+
+		if (use?.includes("cursor")) {
+			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
+		}
+
+		return $select;
+	},
+	insert({ tx }) {
+		return tx.insertInto("BaseBuilding_Requirement");
+	},
+	update({ tx, filter }) {
+		let $update = tx.updateTable("BaseBuilding_Requirement");
+
+		if (filter?.id) {
+			$update = $update.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$update = $update.where("id", "in", filter.idIn);
+		}
+
+		if (filter?.baseBuildingId) {
+			$update = $update.where("baseBuildingId", "=", filter.baseBuildingId);
+		}
+
+		return $update;
+	},
+	remove({ tx, filter }) {
+		let $remove = tx.deleteFrom("BaseBuilding_Requirement");
+
+		if (filter?.id) {
+			$remove = $remove.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$remove = $remove.where("id", "in", filter.idIn);
+		}
+
+		return $remove;
+	},
 	map: {
 		async toOutput({ tx, entity }) {
 			return {

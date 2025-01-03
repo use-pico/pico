@@ -40,6 +40,7 @@ export const BuildingResourceSchema = withRepositorySchema({
 		z.object({
 			userId: z.string().optional(),
 			buildingId: z.string().optional(),
+			baseBuildingId: z.string().optional(),
 			resourceId: z.string().optional(),
 		}),
 	),

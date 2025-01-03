@@ -5,7 +5,7 @@ import { Icon } from "../icon/Icon";
 import { FulltextCss } from "./FulltextCss";
 
 export namespace Fulltext {
-	export type Value = string | null | undefined;
+	export type Value = string | undefined;
 	export type OnFulltext = (text: Value) => void;
 
 	export interface Props extends FulltextCss.Props {

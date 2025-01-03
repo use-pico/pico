@@ -10,27 +10,84 @@ export const BaseBuildingRepository = withRepository<
 >({
 	name: "BaseBuilding",
 	schema: BaseBuildingSchema,
-	meta: {
-		where: {
-			id: "bb.id",
-			idIn: "bb.id",
-			name: "bb.name",
-		},
-		fulltext: ["bb.name", "bb.description", "bb.id"],
+	select({
+		tx,
+		query: { where, filter, cursor = { page: 0, size: 10 } },
+		use,
+	}) {
+		let $select = tx.selectFrom("BaseBuilding as bb");
+
+		const fulltext = (input: string) => {
+			const $input = `%${input}%`;
+			return $select.where((ex) => {
+				return ex.or([
+					ex("bb.id", "like", $input),
+					ex("bb.name", "like", $input),
+				]);
+			});
+		};
+
+		const $where = (where?: BaseBuildingSchema["~filter"]) => {
+			if (where?.id) {
+				$select = $select.where("bb.id", "=", where.id);
+			}
+
+			if (where?.name) {
+				$select = $select.where("bb.name", "=", where.name);
+			}
+
+			if (where?.fulltext) {
+				$select = fulltext(where.fulltext);
+			}
+
+			if (where?.preview !== undefined) {
+				$select = $select.where("bb.preview", "=", where.preview);
+			}
+		};
+
+		if (use?.includes("filter")) {
+			$where(filter || {});
+		}
+
+		if (use?.includes("where")) {
+			$where(where || {});
+		}
+
+		if (use?.includes("cursor")) {
+			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
+		}
+
+		return $select;
 	},
-	select({ tx }) {
-		return tx.selectFrom("BaseBuilding as bb").selectAll("bb");
+	insert({ tx }) {
+		return tx.insertInto("BaseBuilding");
 	},
-	mutation: {
-		insert({ tx }) {
-			return tx.insertInto("BaseBuilding");
-		},
-		update({ tx }) {
-			return tx.updateTable("BaseBuilding");
-		},
-		remove({ tx }) {
-			return tx.deleteFrom("BaseBuilding");
-		},
+	update({ tx, filter }) {
+		let $update = tx.updateTable("BaseBuilding");
+
+		if (filter?.id) {
+			$update = $update.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$update = $update.where("id", "in", filter.idIn);
+		}
+
+		return $update;
+	},
+	remove({ tx, filter }) {
+		let $remove = tx.deleteFrom("BaseBuilding");
+
+		if (filter?.id) {
+			$remove = $remove.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$remove = $remove.where("id", "in", filter.idIn);
+		}
+		if (filter?.name) {
+			$remove = $remove.where("name", "=", filter.name);
+		}
+
+		return $remove;
 	},
 	map: {
 		async toOutput({ tx, entity }) {
