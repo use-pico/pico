@@ -74,7 +74,7 @@ export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 				<Controller
 					control={form.control}
 					name={"resourceId"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect
 								icon={ResourceIcon}

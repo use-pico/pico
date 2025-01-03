@@ -1,11 +1,10 @@
-import { Card, More, Tx } from "@use-pico/client";
+import { Card, Tx } from "@use-pico/client";
 import {
-    toHumanNumber,
-    tvc,
-    type withRepositorySchema,
+    type withRepositorySchema
 } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { RequirementsInline } from "~/app/derivean/building/RequirementsInline";
 
 export namespace BaseBuildingCard {
 	export interface Props
@@ -29,28 +28,7 @@ export const BaseBuildingCard: FC<BaseBuildingCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Base building requirements (label)"} />,
 					render({ entity }) {
-						return (
-							<More
-								items={entity.requirements}
-								render={({ entity }) => {
-									return (
-										<div className={"flex flex-row gap-2 items-center"}>
-											<div
-												className={tvc(
-													"font-bold",
-													!entity.passive && "text-amber-700",
-												)}
-											>
-												{entity.resource.name}
-											</div>
-											<div className={"text-sm text-slate-400"}>
-												x{toHumanNumber({ number: entity.amount })}
-											</div>
-										</div>
-									);
-								}}
-							/>
-						);
+						return <RequirementsInline requirements={entity.requirements} />;
 					},
 				},
 			]}

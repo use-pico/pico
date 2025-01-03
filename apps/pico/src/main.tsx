@@ -8,6 +8,7 @@ import { LoadingOverlay, PageCss } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
+import { SessionSchema } from "~/app/schema/SessionSchema";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({
@@ -23,6 +24,9 @@ const router = createRouter({
 	context: {
 		queryClient,
 		tva: PageCss,
+		async session() {
+			return SessionSchema.parse(null);
+		},
 	},
 	defaultPendingComponent: LoadingOverlay,
 	defaultPreload: "intent",

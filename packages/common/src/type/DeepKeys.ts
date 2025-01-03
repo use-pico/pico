@@ -11,8 +11,7 @@ export namespace DeepKeys {
 		Keys extends number = never,
 	> =
 		Tuple extends readonly [] ? Keys
-		: // eslint-disable-next-line @typescript-eslint/no-unused-vars
-		Tuple extends readonly [infer _, ...infer Tail] ?
+		: Tuple extends readonly [infer _, ...infer Tail] ?
 			AllowedIndexes<Tail, Keys | Tail["length"]>
 		:	Keys;
 }

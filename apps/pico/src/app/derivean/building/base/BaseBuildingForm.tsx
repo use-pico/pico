@@ -92,7 +92,7 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 				<Controller
 					control={form.control}
 					name={"preview"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return <BoolInput {...field} />;
 					}}
 				/>

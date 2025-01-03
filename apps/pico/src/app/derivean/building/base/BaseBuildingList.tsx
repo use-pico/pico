@@ -2,6 +2,7 @@ import { Button, Tx } from "@use-pico/client";
 import { type withRepositorySchema } from "@use-pico/common";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { RequirementsInline } from "~/app/derivean/building/RequirementsInline";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 
 export namespace BaseBuildingList {
@@ -29,22 +30,7 @@ export const BaseBuildingList = ({
 						<div className={"flex flex-row justify-between"}>
 							<div className={tv.title()}>{entity.name}</div>
 							<div>
-								requirements
-								{/* <More
-									items={entity.requiredResources}
-									render={({ entity }) => {
-										return (
-											<div className={"flex flex-row gap-2 items-center"}>
-												<div className={"font-bold"}>
-													{entity.resource.name}
-												</div>
-												<div className={"text-sm text-slate-400"}>
-													x{toHumanNumber({ number: entity.amount })}
-												</div>
-											</div>
-										);
-									}}
-								/> */}
+								<RequirementsInline requirements={entity.requirements} />
 							</div>
 						</div>
 						<Button

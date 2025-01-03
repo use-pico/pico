@@ -75,7 +75,7 @@ export const BaseBuildingRequirementForm: FC<
 				<Controller
 					control={form.control}
 					name={"resourceId"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return <ResourcePopupSelect {...field} />;
 					}}
 				/>
@@ -102,7 +102,7 @@ export const BaseBuildingRequirementForm: FC<
 				<Controller
 					control={form.control}
 					name={"passive"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return <BoolInput {...field} />;
 					}}
 				/>

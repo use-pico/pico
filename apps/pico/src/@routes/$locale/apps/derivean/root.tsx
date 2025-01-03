@@ -50,7 +50,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root")({
 			return {
 				session: SessionSchema.parse(ls.get("session")),
 			};
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (_) {
 			throw redirect({
 				to: `/$locale/apps/derivean/public/login`,

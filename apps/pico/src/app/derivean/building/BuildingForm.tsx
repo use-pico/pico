@@ -69,7 +69,7 @@ export const BuildingForm: FC<BuildingForm.Props> = ({
 				<Controller
 					control={form.control}
 					name={"baseBuildingId"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<BaseBuildingPopupSelect
 								icon={BaseBuildingIcon}

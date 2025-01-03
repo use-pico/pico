@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	ModalContext,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    ModalContext,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import type { withRepositorySchema } from "@use-pico/common";
 import { useContext, type FC } from "react";
@@ -74,7 +74,7 @@ export const BuildingResourceForm: FC<BuildingResourceForm.Props> = ({
 				<Controller
 					control={form.control}
 					name={"resourceId"}
-					render={({ field: { ref, ...field } }) => {
+					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect
 								icon={ResourceIcon}

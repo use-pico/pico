@@ -7,7 +7,7 @@ export default tseslint.config(
 	...tseslint.configs.stylistic,
 	{
 		rules: {
-			"@typescript-eslint/ban-ts-comment": "warn",
+			"@typescript-eslint/ban-ts-comment": "off",
 			"@typescript-eslint/no-dynamic-delete": "off",
 			"@typescript-eslint/no-empty-object-type": "off",
 			"@typescript-eslint/no-explicit-any": "off",
@@ -43,12 +43,17 @@ export default tseslint.config(
 			"require-await": "off",
 			"sort-imports": "off",
 			"sort-keys": "off",
+			"no-underscore-dangle": "off",
 			"sort-vars": "off",
-		},
-	},
-	{
-		rules: {
-			"@typescript-eslint/no-unused-vars": "warn",
+			"no-unused-vars": "off",
+			"@typescript-eslint/no-unused-vars": [
+				"warn",
+				{
+					argsIgnorePattern: "^_",
+					varsIgnorePattern: "^_",
+					caughtErrorsIgnorePattern: "^_",
+				},
+			],
 		},
 	},
 );

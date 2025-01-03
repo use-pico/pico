@@ -2,8 +2,8 @@ import {
     createFileRoute,
     Outlet,
     redirect,
-    useLoaderData,
     useParams,
+    useRouteContext,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
@@ -12,9 +12,24 @@ import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
+	async beforeLoad({ context, params: { locale } }) {
+		return {
+			...context,
+			async session() {
+				try {
+					return SessionSchema.parse(ls.get("session"));
+				} catch (_) {
+					throw redirect({
+						to: `/$locale/apps/derivean/public/login`,
+						params: { locale },
+					});
+				}
+			},
+		};
+	},
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session, resources } = useLoaderData({
+		const { session } = useRouteContext({
 			from: "/$locale/apps/derivean/game",
 		});
 
@@ -41,24 +56,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					</>
 				}
 			>
-				<ResourceOverview entities={resources} />
+				<ResourceOverview entities={[]} />
 
 				<Outlet />
 			</AppLayout>
 		);
-	},
-	async loader({ params: { locale } }) {
-		try {
-			return {
-				session: SessionSchema.parse(ls.get("session")),
-				resources: [],
-			};
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		} catch (_) {
-			throw redirect({
-				to: `/$locale/apps/derivean/public/login`,
-				params: { locale },
-			});
-		}
 	},
 });
