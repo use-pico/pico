@@ -9,11 +9,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, type withRepositorySchema } from "@use-pico/common";
+import { type withRepositorySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingResourceForm } from "~/app/derivean/building/resource/BuildingResourceForm";
 import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 const column =
@@ -57,8 +58,14 @@ const columns = [
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
+		render({ data, value }) {
+			return (
+				<ResourceLimitInline
+					limits={data.building.baseBuilding.limits}
+					resourceId={data.resourceId}
+					amount={value}
+				/>
+			);
 		},
 		size: 18,
 	}),

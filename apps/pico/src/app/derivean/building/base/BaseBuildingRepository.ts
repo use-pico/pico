@@ -1,5 +1,6 @@
 import { withRepository } from "@use-pico/client";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import { db } from "~/app/derivean/db/db";
 
@@ -35,6 +36,13 @@ export const BaseBuildingRepository = withRepository({
 		return {
 			...entity,
 			requirements: await BaseBuildingRequirementRepository.list({
+				query: {
+					where: {
+						baseBuildingId: entity.id,
+					},
+				},
+			}),
+			limits: await BaseBuildingLimitRepository.list({
 				query: {
 					where: {
 						baseBuildingId: entity.id,
