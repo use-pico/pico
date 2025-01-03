@@ -98,6 +98,34 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 				/>
 			</FormInput>
 
+			<FormInput
+				formState={form.formState}
+				name={"cycles"}
+				label={<Tx label={"Base building cycles (label)"} />}
+				hint={<Tx label={"Base building cycles (hint)"} />}
+				required
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("cycles")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Base building limit (label)"} />}
+				hint={<Tx label={"Base building limit (hint)"} />}
+				required
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("limit")}
+				/>
+			</FormInput>
+
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
 					iconEnabled={BaseBuildingIcon}

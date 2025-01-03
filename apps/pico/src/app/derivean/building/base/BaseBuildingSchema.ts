@@ -1,6 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
+    translator,
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
@@ -18,6 +19,8 @@ const entity = IdentitySchema.merge(
 				.refine((val) => val === 0 || val === 1)
 				.transform((val) => (typeof val === "boolean" ? val : val === 1)),
 		]),
+		cycles: z.number().int().positive(),
+		limit: z.number().int().nonnegative(),
 	}),
 );
 
@@ -32,6 +35,24 @@ export const BaseBuildingSchema = withRepositorySchema({
 	shape: z.object({
 		name: z.string().min(1),
 		preview: z.boolean(),
+		cycles: z.union([
+			z.number().int().positive(),
+			z
+				.string()
+				.transform((value) => parseInt(value, 10))
+				.refine((value) => !isNaN(value), {
+					message: translator.text("Cycles must be a number"),
+				}),
+		]),
+		limit: z.union([
+			z.number().int().nonnegative(),
+			z
+				.string()
+				.transform((value) => parseInt(value, 10))
+				.refine((value) => !isNaN(value), {
+					message: translator.text("Limit must be a number"),
+				}),
+		]),
 	}),
 	filter: FilterSchema,
 });

@@ -113,6 +113,9 @@
 3510c892a0593d17f409392658dce6a8e79590f7d6f11becffe4bdd5:
   ref: Resource limit successfully saved (label)
   value: Limit zdroje byl úspěšně uložen
+35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
+  ref: Unlimited (label)
+  value: Neomezený počet
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: |
@@ -175,6 +178,9 @@
 4e37762c146813718fd80e726e9c9601e631e2ef5a242ab5e4cf335c:
   ref: Cannot save base storage (label)
   value: Cannot save base storage (label)
+510251406de47a31a2b90aef7d20c3c0a573de4015793c0fbcf38fc6:
+  ref: Base building cycles (hint)
+  value: Udává počet cyklů, za jak dlouho bude budova postavena.
 511a0c21e2eaf30eb6882cd396ecd5f4abb8516d61dd74fbc7c5eb02:
   ref: Create resource limit (menu)
   value: Nová položka zdroje
@@ -211,6 +217,10 @@
 5fcc67083db8f815d15288198b982c0583160928475107b8a402fef8:
   ref: Delete base storage (modal)
   value: Odstranění základní položky
+621a2cd8df0ce6cf3ef3ab8ccfba756a1beaec02af8d25f368a6badf:
+  ref: Base building limit (hint)
+  value: Udává maximální počet budov, které může hráč postavit. Nula
+    znamená neomezený počet budov.
 660acc6e82c0b6284872da45da77e87c5dc2d223a7726234b94f6589:
   ref: Resource limit delete (content)
   value: |
@@ -222,6 +232,9 @@
 6a5330e6499d33af297ce5ed82e55f764967d3d18dac9e8c5b715a41:
   ref: Build (label)
   value: Postavit
+6b83eddfc03b43289ecfcebba04505553fa9adb77405d4dbae0c99ff:
+  ref: Base building resource list (menu)
+  value: Výchozí zdroje
 6e01c79eb4af112c3f708bb3bcfc8df50dd70174ed71ad8f206e1c54:
   ref: Delete base buildings (modal)
   value: Odstranění základních budov
@@ -306,6 +319,9 @@
 8a94c4e1d53fc6351ab1a4a016fd867e2afc2a7c7b6b39579e1ce3c8:
   ref: Resource requirement successfully saved (label)
   value: Požadavek na zdroje byl úspěšně uložen.
+8b13042084891d4b3f9c446575a0d50a8e8dba3e7ce8555378da3fe4:
+  ref: Cycles must be a number
+  value: Počet cyklů musí být číslo
 8b985e2253754c8df9f67dd2a97585cdd6337700925581624b014352:
   ref: Login (label)
   value: Přihlašovací jméno
@@ -397,6 +413,9 @@ b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
 b9a0618ebd8d79f62aaf3adc5082993e19357f1812508dee85d597be:
   ref: Edit building (menu)
   value: Editace
+bb69169a1cc5d73398b142325e04ae67efb81364bf2dcc7ee329edd0:
+  ref: Base building limit (label)
+  value: Maximální počet
 be211a9d3677cd07a6e2461e5399b4e5a134adf36c9eaf1a79452fd7:
   ref: Amount must be a number
   value: Množství musí být číslo
@@ -445,6 +464,9 @@ d34ff9b63df18d6d225d2e5e517eb5269ae4180a4de4dfbbbed952cc:
 d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
   ref: User login (label)
   value: Přihlašovací jméno
+d4ddae420b9f93c7384949b35a75d7d67b3ea543b1a0259c7b97f596:
+  ref: Base building cycles (label)
+  value: Počet cyklů (pro stavbu)
 d69d25c5e09e1649cba6ad0dddaa4ad008b10f7f8eb1f1d5b33e6d9d:
   ref: Delete resource item (modal)
   value: Delete resource item (modal)

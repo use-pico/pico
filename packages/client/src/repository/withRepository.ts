@@ -85,6 +85,7 @@ export namespace withRepository {
 				};
 				deps: {
 					global?: withRepositorySchema.Filter<TSchema>;
+					where?: withRepositorySchema.Filter<TSchema>;
 					filter?: withRepositorySchema.Filter<TSchema>;
 					cursor?: CursorSchema.Type;
 				};
@@ -328,10 +329,11 @@ export const withRepository = <
 		withRouteListLoader() {
 			return async ({
 				context: { queryClient },
-				deps: { global, filter, cursor },
+				deps: { global, where, filter, cursor },
 			}) => ({
 				data: await $instance.withListLoader({
 					queryClient,
+					where,
 					filter: {
 						...global,
 						...filter,
@@ -340,6 +342,7 @@ export const withRepository = <
 				}),
 				count: await $instance.withCountLoader({
 					queryClient,
+					where,
 					filter: { ...global, ...filter },
 				}),
 			});

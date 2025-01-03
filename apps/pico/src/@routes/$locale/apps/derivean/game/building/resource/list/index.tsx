@@ -30,15 +30,14 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	async loader({ context, deps: { filter, ...deps } }) {
+	async loader({ context, deps }) {
 		const session = await context.session();
 
 		return loader({
 			context,
 			deps: {
 				...deps,
-				filter: {
-					...filter,
+				where: {
 					userId: session.id,
 				},
 			},

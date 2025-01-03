@@ -5,6 +5,7 @@ import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { seed } from "~/app/derivean/db/seed";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 import type { TagSchema } from "~/app/tag/TagSchema";
@@ -47,6 +48,7 @@ export const db = withDatabase<Database>({
 				.addColumn("label", "varchar(128)", (col) => col.notNull())
 				.addColumn("group", "varchar(64)")
 				.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
+				.addUniqueConstraint("Tag_code_group", ["code", "group"])
 				.execute();
 		};
 
@@ -85,6 +87,11 @@ export const db = withDatabase<Database>({
 				 * Enable preview of the building even when the player does not have the resources to build it
 				 */
 				.addColumn("preview", "boolean", (col) => col.notNull())
+				/**
+				 * Number of cycles required to build this building
+				 */
+				.addColumn("cycles", "int2", (col) => col.notNull())
+				.addColumn("limit", "int2", (col) => col.notNull())
 				.execute();
 
 			await kysely.schema
@@ -161,5 +168,7 @@ export const db = withDatabase<Database>({
 		await bootstrapResource();
 		await bootstrapBaseBuilding();
 		await bootstrapBuilding();
+
+		await seed(kysely);
 	},
 });

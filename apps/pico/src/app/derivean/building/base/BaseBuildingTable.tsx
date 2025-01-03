@@ -12,7 +12,11 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import type { withRepositorySchema } from "@use-pico/common";
+import {
+    toHumanNumber,
+    translator,
+    type withRepositorySchema,
+} from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
 import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
@@ -48,6 +52,29 @@ const columns = [
 		},
 		render({ value }) {
 			return <BoolInline value={value} />;
+		},
+		size: 14,
+	}),
+	column({
+		name: "cycles",
+		header() {
+			return <Tx label={"Base building cycles (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 14,
+	}),
+	column({
+		name: "limit",
+		header() {
+			return <Tx label={"Base building limit (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({
+				number: value,
+				empty: translator.text("Unlimited (label)"),
+			});
 		},
 		size: 14,
 	}),
