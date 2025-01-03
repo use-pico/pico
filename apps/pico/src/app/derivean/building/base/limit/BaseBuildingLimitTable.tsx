@@ -13,6 +13,7 @@ import type { FC } from "react";
 import { BaseBuildingLimitForm } from "~/app/derivean/building/base/limit/BaseBuildingLimitForm";
 import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
 
 const column = withColumn<BaseBuildingLimitSchema["~output"]>();
@@ -68,7 +69,9 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								icon={StorageIcon}
 							>
 								<BaseBuildingLimitForm
-									mutation={BaseBuildingLimitRepository.useCreateMutation({
+									mutation={BaseBuildingLimitRepository(
+										kysely,
+									).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource limit (label)"} />,
@@ -113,7 +116,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingLimitRepository}
+									repository={BaseBuildingLimitRepository(kysely)}
 									textContent={<Tx label={"Resource limit delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -131,7 +134,9 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 							>
 								<BaseBuildingLimitForm
 									defaultValues={data}
-									mutation={BaseBuildingLimitRepository.usePatchMutation({
+									mutation={BaseBuildingLimitRepository(
+										kysely,
+									).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base storage (label)"} />,
@@ -172,7 +177,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingLimitRepository}
+									repository={BaseBuildingLimitRepository(kysely)}
 									textContent={<Tx label={"Base storage delete (content)"} />}
 									idIn={[data.id]}
 								/>

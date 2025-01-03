@@ -1,8 +1,7 @@
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { withTagRepository } from "~/app/tag/withTagRepository";
 
-export const TagRepository = withTagRepository({
-	database: db,
+export const TagRepository = withTagRepository<Database>({
 	repository: {
 		invalidate: [
 			// ...ResourceRepository.invalidate,

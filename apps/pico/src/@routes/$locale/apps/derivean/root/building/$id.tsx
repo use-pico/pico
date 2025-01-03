@@ -6,7 +6,6 @@ import {
 import { BuildingIndexMenu } from "~/app/derivean/building/BuildingIndexMenu";
 import { BuildingPreview } from "~/app/derivean/building/BuildingPreview";
 import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
-import { db } from "~/app/derivean/db/db";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id",
@@ -26,10 +25,10 @@ export const Route = createFileRoute(
 			</div>
 		);
 	},
-	async loader({ context: { queryClient }, params: { id } }) {
-		return db.kysely.transaction().execute(async (tx) => {
+	async loader({ context: { kysely, queryClient }, params: { id } }) {
+		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await BuildingRepository.withFetchLoader({
+				entity: await BuildingRepository(kysely).withFetchLoader({
 					tx,
 					queryClient,
 					where: { id },

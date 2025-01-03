@@ -15,6 +15,7 @@ import type { FC } from "react";
 import { BuildingForm } from "~/app/derivean/building/BuildingForm";
 import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
@@ -69,7 +70,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								icon={ResourceIcon}
 							>
 								<BuildingForm
-									mutation={BuildingRepository.useCreateMutation({
+									mutation={BuildingRepository(kysely).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving building (label)"} />,
@@ -110,7 +111,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingRepository}
+									repository={BuildingRepository(kysely)}
 									textContent={<Tx label={"Building delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -128,7 +129,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 							>
 								<BuildingForm
 									defaultValues={data}
-									mutation={BuildingRepository.usePatchMutation({
+									mutation={BuildingRepository(kysely).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving building (label)"} />,
@@ -165,7 +166,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingRepository}
+									repository={BuildingRepository(kysely)}
 									textContent={<Tx label={"Building delete (content)"} />}
 									idIn={[data.id]}
 								/>

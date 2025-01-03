@@ -9,13 +9,14 @@ import {
 import { withSearchSchema } from "@use-pico/common";
 import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { BuildingTable } from "~/app/derivean/game/BuildingTable";
 
 const SearchSchema = withSearchSchema({
 	filter: BuildingSchema.filter,
 });
 
-const loader = BuildingRepository.withRouteListLoader();
+const loader = BuildingRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",

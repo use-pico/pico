@@ -1,7 +1,8 @@
 import { id, pwd } from "@use-pico/common";
-import type { db } from "~/app/derivean/db/db";
+import type { Kysely } from "kysely";
+import type { Database } from "~/app/derivean/db/Database";
 
-export const seed = async (kysely: (typeof db)["kysely"]) => {
+export const seed = async (kysely: Kysely<Database>) => {
 	const ids = {
 		user: id(),
 		castle: id(),

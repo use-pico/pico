@@ -11,6 +11,7 @@ import {
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { TagForm } from "~/app/derivean/tag/TagForm";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
@@ -83,7 +84,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									defaultValues={{
 										group,
 									}}
-									mutation={TagRepository.useCreateMutation({
+									mutation={TagRepository(kysely).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving tag (label)"} />,
@@ -116,7 +117,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository}
+									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Tag delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -137,7 +138,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										...data,
 										group,
 									}}
-									mutation={TagRepository.usePatchMutation({
+									mutation={TagRepository(kysely).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving tag (label)"} />,
@@ -175,7 +176,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={TagRepository}
+									repository={TagRepository(kysely)}
 									textContent={<Tx label={"Tag delete (content)"} />}
 									idIn={[data.id]}
 								/>

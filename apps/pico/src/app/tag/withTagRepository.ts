@@ -1,5 +1,4 @@
 import { withRepository } from "@use-pico/client";
-import type { Database } from "@use-pico/common";
 import { TagSchema } from "~/app/tag/TagSchema";
 
 export namespace withTagRepository {
@@ -8,7 +7,6 @@ export namespace withTagRepository {
 	}
 
 	export interface Props<TDatabase extends DatabaseType> {
-		database: Database.Instance<TDatabase>;
 		repository?: Partial<withRepository.Props<TDatabase, TagSchema>>;
 	}
 
@@ -19,12 +17,10 @@ export namespace withTagRepository {
 export const withTagRepository = <
 	TDatabase extends withTagRepository.DatabaseType,
 >({
-	database,
 	repository,
 }: withTagRepository.Props<TDatabase>) => {
 	return withRepository({
 		name: "TagRepository",
-		db: database.kysely,
 		schema: TagSchema,
 		meta: {
 			where: {

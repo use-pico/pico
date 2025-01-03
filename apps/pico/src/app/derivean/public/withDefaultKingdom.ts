@@ -21,7 +21,7 @@ export const withDefaultKingdom = async ({
 			tx,
 			userId,
 			baseBuildingId: (
-				await BaseBuildingRepository.fetchOrThrow({
+				await BaseBuildingRepository(tx).fetchOrThrow({
 					tx,
 					query: { where: { name: building } },
 				})

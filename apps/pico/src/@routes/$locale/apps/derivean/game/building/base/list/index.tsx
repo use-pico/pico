@@ -4,6 +4,7 @@ import { withSearchSchema } from "@use-pico/common";
 import { BaseBuildingList } from "~/app/derivean/building/base/BaseBuildingList";
 import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { kysely } from "~/app/derivean/db/db";
 
 const SearchSchema = withSearchSchema({ filter: BaseBuildingSchema.filter });
 
@@ -18,7 +19,7 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	loader: BaseBuildingRepository.withRouteListLoader(),
+	loader: BaseBuildingRepository(kysely).withRouteListLoader(),
 	component() {
 		const { data } = Route.useLoaderData();
 		const { resources } = useLoaderData({

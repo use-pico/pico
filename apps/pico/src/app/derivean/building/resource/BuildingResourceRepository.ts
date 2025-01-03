@@ -1,12 +1,14 @@
 import { withRepository } from "@use-pico/client";
 import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
-export const BuildingResourceRepository = withRepository({
+export const BuildingResourceRepository = withRepository<
+	Database,
+	BuildingResourceSchema
+>({
 	name: "BuildingResourceRepository",
-	db: db.kysely,
 	schema: BuildingResourceSchema,
 	meta: {
 		where: {
@@ -41,11 +43,11 @@ export const BuildingResourceRepository = withRepository({
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				building: await BuildingRepository.fetchOrThrow({
+				building: await BuildingRepository(tx).fetchOrThrow({
 					tx,
 					query: { where: { id: entity.buildingId } },
 				}),
-				resource: await ResourceRepository.fetchOrThrow({
+				resource: await ResourceRepository(tx).fetchOrThrow({
 					tx,
 					query: { where: { id: entity.resourceId } },
 				}),

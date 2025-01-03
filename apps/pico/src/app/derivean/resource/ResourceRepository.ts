@@ -1,12 +1,11 @@
 import { withRepository } from "@use-pico/client";
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { ResourceTagRepository } from "~/app/derivean/resource/tag/ResourceTagRepository";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
 
-export const ResourceRepository = withRepository({
+export const ResourceRepository = withRepository<Database, ResourceSchema>({
 	name: "Resource",
-	db: db.kysely,
 	schema: ResourceSchema,
 	meta: {
 		where: {
@@ -42,7 +41,7 @@ export const ResourceRepository = withRepository({
 	map: {
 		async toOutput({ tx, entity }) {
 			const tagIds = (
-				await ResourceTagRepository.list({
+				await ResourceTagRepository(tx).list({
 					tx,
 					query: {
 						where: {
@@ -55,7 +54,7 @@ export const ResourceRepository = withRepository({
 			return {
 				...entity,
 				tagIds,
-				tags: await TagRepository.list({
+				tags: await TagRepository(tx).list({
 					tx,
 					query: {
 						where: {
@@ -70,7 +69,7 @@ export const ResourceRepository = withRepository({
 		async onPostCreate({ tx, entity, shape }) {
 			await Promise.all(
 				shape.tagIds?.forEach(async (tagId) => {
-					return ResourceTagRepository.create({
+					return ResourceTagRepository(tx).create({
 						tx,
 						entity: {
 							resourceId: entity.id,
@@ -86,14 +85,14 @@ export const ResourceRepository = withRepository({
 		},
 		async onPostPatch({ tx, entity, shape }) {
 			if (Array.isArray(shape.tagIds)) {
-				await db.kysely
+				await tx
 					.deleteFrom("Resource_Tag")
 					.where("resourceId", "=", entity.id)
 					.execute();
 
 				await Promise.all(
 					shape.tagIds.map(async (tagId) => {
-						return ResourceTagRepository.create({
+						return ResourceTagRepository(tx).create({
 							tx,
 							entity: {
 								resourceId: entity.id,

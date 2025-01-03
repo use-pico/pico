@@ -13,6 +13,7 @@ import type { FC } from "react";
 import { BuildingResourceForm } from "~/app/derivean/building/resource/BuildingResourceForm";
 import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline";
 
@@ -98,7 +99,9 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								hidden={Boolean(!buildingId)}
 							>
 								<BuildingResourceForm
-									mutation={BuildingResourceRepository.useCreateMutation({
+									mutation={BuildingResourceRepository(
+										kysely,
+									).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource item (label)"} />,
@@ -143,7 +146,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingResourceRepository}
+									repository={BuildingResourceRepository(kysely)}
 									textContent={<Tx label={"Resource item delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -161,28 +164,32 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 							>
 								<BuildingResourceForm
 									defaultValues={data}
-									mutation={BuildingResourceRepository.usePatchMutation({
-										async wrap(callback) {
-											return toast.promise(callback(), {
-												loading: <Tx label={"Saving resource item (label)"} />,
-												success: (
-													<Tx
-														label={"Resource item successfully saved (label)"}
-													/>
-												),
-												error: (
-													<Tx label={"Cannot save resource item (label)"} />
-												),
-											});
+									mutation={BuildingResourceRepository(kysely).usePatchMutation(
+										{
+											async wrap(callback) {
+												return toast.promise(callback(), {
+													loading: (
+														<Tx label={"Saving resource item (label)"} />
+													),
+													success: (
+														<Tx
+															label={"Resource item successfully saved (label)"}
+														/>
+													),
+													error: (
+														<Tx label={"Cannot save resource item (label)"} />
+													),
+												});
+											},
+											async toPatch() {
+												return {
+													filter: {
+														id: data.id,
+													},
+												};
+											},
 										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
-										},
-									})}
+									)}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
@@ -202,7 +209,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingResourceRepository}
+									repository={BuildingResourceRepository(kysely)}
 									textContent={<Tx label={"Resource item delete (content)"} />}
 									idIn={[data.id]}
 								/>

@@ -1,4 +1,4 @@
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { withUserRepository } from "~/app/user/withUserRepository";
 
-export const UserRepository = withUserRepository({ database: db });
+export const UserRepository = withUserRepository<Database>();

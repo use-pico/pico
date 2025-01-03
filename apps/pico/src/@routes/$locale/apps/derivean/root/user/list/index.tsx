@@ -7,6 +7,7 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/db";
 import { UserRepository } from "~/app/derivean/user/UserRepository";
 import { UserTable } from "~/app/derivean/user/UserTable";
 import { UserSchema } from "~/app/user/UserSchema";
@@ -76,5 +77,5 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 			cursor,
 		};
 	},
-	loader: UserRepository.withRouteListLoader(),
+	loader: UserRepository(kysely).withRouteListLoader(),
 });

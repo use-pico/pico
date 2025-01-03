@@ -10,12 +10,13 @@ import { withSearchSchema } from "@use-pico/common";
 import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import { BaseBuildingLimitTable } from "~/app/derivean/building/base/limit/BaseBuildingLimitTable";
+import { kysely } from "~/app/derivean/db/db";
 
 const SearchSchema = withSearchSchema({
 	filter: BaseBuildingLimitSchema.filter,
 });
 
-const loader = BaseBuildingLimitRepository.withRouteListLoader();
+const loader = BaseBuildingLimitRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/limit/list/",

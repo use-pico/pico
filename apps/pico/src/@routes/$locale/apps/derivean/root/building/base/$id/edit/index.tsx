@@ -2,6 +2,7 @@ import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { toast, Tx } from "@use-pico/client";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
 import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
+import { kysely } from "~/app/derivean/db/db";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/edit/",
@@ -16,7 +17,7 @@ export const Route = createFileRoute(
 			<div className={"w-1/2 mx-auto"}>
 				<BaseBuildingForm
 					defaultValues={entity}
-					mutation={BaseBuildingRepository.usePatchMutation({
+					mutation={BaseBuildingRepository(kysely).usePatchMutation({
 						async wrap(callback) {
 							return toast.promise(callback(), {
 								loading: <Tx label={"Saving base building (label)"} />,

@@ -16,7 +16,7 @@ import { id } from "../toolbox/id";
 import type { withRepositorySchema } from "./withRepositorySchema";
 
 export namespace withRepository {
-	export type Apply = "where" | "filter" | "cursor" | "sort";
+	export type Use = "where" | "filter" | "cursor" | "sort";
 
 	export interface Query<
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
@@ -156,18 +156,27 @@ export namespace withRepository {
 			) => SelectQueryBuilder<any, any, any>;
 		}
 
-		export namespace applyWhere {
-			export interface Props<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
-				where?: TSchema["~filter"];
-				select: SelectQueryBuilder<any, any, any>;
-				apply?: Apply[];
+		export namespace Apply {
+			export namespace applyWhere {
+				export interface Props<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> {
+					where?: TSchema["~filter"];
+					select: SelectQueryBuilder<any, any, any>;
+					use?: Use[];
+				}
+
+				export type Callback<
+					TSchema extends withRepositorySchema.Instance<any, any, any>,
+				> = (props: Props<TSchema>) => SelectQueryBuilder<any, any, any>;
 			}
 
-			export type Callback<
+			export interface Instance<
 				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props<TSchema>) => SelectQueryBuilder<any, any, any>;
+			> {
+				applyWhere?: applyWhere.Callback<TSchema>;
+				applyFilter?: applyWhere.Callback<TSchema>;
+			}
 		}
 
 		export namespace Event {
@@ -252,7 +261,6 @@ export namespace withRepository {
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
 		schema: TSchema;
-		db: Kysely<TDatabase>;
 		meta: Props.Meta.Instance<TSchema>;
 
 		map?: Props.Map.Instance<TDatabase, TSchema>;
@@ -260,8 +268,7 @@ export namespace withRepository {
 		mutation: Props.Mutation.Instance<TDatabase>;
 		select: Props.select.Callback<TDatabase, TSchema>;
 
-		applyWhere?: Props.applyWhere.Callback<TSchema>;
-		applyFilter?: Props.applyWhere.Callback<TSchema>;
+		apply?: Props.Apply.Instance<TSchema>;
 
 		event?: Props.Event.Instance<TDatabase, TSchema>;
 	}
@@ -390,7 +397,7 @@ export namespace withRepository {
 			> {
 				query: Query<TSchema>;
 				select: SelectQueryBuilder<any, any, any>;
-				apply?: Apply[];
+				use?: Use[];
 			}
 
 			export type Callback<
@@ -415,6 +422,11 @@ export namespace withRepository {
 		list: Instance.list.Callback<TDatabase, TSchema>;
 		count: Instance.count.Callback<TDatabase, TSchema>;
 	}
+
+	export type Callback<
+		TDatabase,
+		TSchema extends withRepositorySchema.Instance<any, any, any>,
+	> = (db: Kysely<TDatabase>) => Instance<TDatabase, TSchema>;
 }
 
 export const withRepository = <
@@ -426,19 +438,17 @@ export const withRepository = <
 	>,
 >({
 	schema,
-	db,
 	meta,
 	map,
 	mutation,
 	select,
-	applyWhere = ({ select }) => select,
-	applyFilter = ({ select }) => select,
+	apply,
 	event,
-}: withRepository.Props<TDatabase, TSchema>): withRepository.Instance<
+}: withRepository.Props<TDatabase, TSchema>): withRepository.Callback<
 	TDatabase,
 	TSchema
 > => {
-	const $applyCommonWhere: withRepository.Props.applyWhere.Callback<
+	const $applyCommonWhere: withRepository.Props.Apply.applyWhere.Callback<
 		TSchema
 	> = ({ where, select }) => {
 		let $select = select;
@@ -482,224 +492,227 @@ export const withRepository = <
 		return $select;
 	};
 
-	const $applyWhere: withRepository.Props.applyWhere.Callback<TSchema> = ({
-		where,
-		select,
-		apply = ["where", "filter", "cursor", "sort"],
-	}) => {
-		if (!apply.includes("where")) {
+	const $applyWhere: withRepository.Props.Apply.applyWhere.Callback<
+		TSchema
+	> = ({ where, select, use = ["where", "filter", "cursor", "sort"] }) => {
+		if (!use.includes("where")) {
 			return select;
 		}
+
+		const applyWhere = apply?.applyWhere || (({ select }) => select);
 
 		return applyWhere({
 			where,
 			select: $applyCommonWhere({
 				select,
 				where,
-				apply,
+				use,
 			}),
-			apply,
+			use,
 		});
 	};
 
-	const $applyFilter: withRepository.Props.applyWhere.Callback<TSchema> = ({
-		where,
-		select,
-		apply = ["where", "filter", "cursor", "sort"],
-	}) => {
-		if (!apply.includes("filter")) {
+	const $applyFilter: withRepository.Props.Apply.applyWhere.Callback<
+		TSchema
+	> = ({ where, select, use = ["where", "filter", "cursor", "sort"] }) => {
+		if (!use.includes("filter")) {
 			return select;
 		}
+
+		const applyFilter = apply?.applyFilter || (({ select }) => select);
 
 		return applyFilter({
 			where,
 			select: $applyCommonWhere({
 				select,
 				where,
-				apply,
+				use,
 			}),
-			apply,
+			use,
 		});
 	};
 
 	const $applyQuery: withRepository.Instance.applyQuery.Callback<TSchema> = ({
 		query: { where, filter, cursor = { page: 0, size: 10 } },
 		select,
-		apply = ["where", "filter", "cursor", "sort"],
+		use = ["where", "filter", "cursor", "sort"],
 	}) => {
 		let $select = $applyFilter({
 			where: filter,
 			select: $applyWhere({
 				select,
 				where,
-				apply,
+				use,
 			}),
-			apply,
+			use,
 		});
 
-		if (apply.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 
 		return $select;
 	};
 
-	const instance: withRepository.Instance<TDatabase, TSchema> = {
-		db,
-		schema,
-		async create({ tx, entity, shape }) {
-			const $id = id();
+	return (db) => {
+		const instance: withRepository.Instance<TDatabase, TSchema> = {
+			db,
+			schema,
+			async create({ tx, entity, shape }) {
+				const $id = id();
 
-			await event?.onPreCreate?.({ tx, entity, shape });
+				await event?.onPreCreate?.({ tx, entity, shape });
 
-			await mutation
-				.insert({ tx })
-				.values(
-					schema.entity.parse({
-						...((await map?.toCreate?.({ entity, shape })) || entity),
-						id: $id,
-					}),
-				)
-				.execute();
+				await mutation
+					.insert({ tx })
+					.values(
+						schema.entity.parse({
+							...((await map?.toCreate?.({ entity, shape })) || entity),
+							id: $id,
+						}),
+					)
+					.execute();
 
-			const $entity = await instance.fetchOrThrow({
-				tx,
-				query: {
-					where: {
-						id: $id,
+				const $entity = await instance.fetchOrThrow({
+					tx,
+					query: {
+						where: {
+							id: $id,
+						},
 					},
-				},
-			});
+				});
 
-			await event?.onPostCreate?.({ tx, entity: $entity, shape });
+				await event?.onPostCreate?.({ tx, entity: $entity, shape });
 
-			return $entity;
-		},
-		async patch({ tx, entity, shape, filter }) {
-			const $entity = await instance.fetchOrThrow({
-				tx,
-				query: { where: filter },
-			});
+				return $entity;
+			},
+			async patch({ tx, entity, shape, filter }) {
+				const $entity = await instance.fetchOrThrow({
+					tx,
+					query: { where: filter },
+				});
 
-			if (!$entity) {
-				throw new Error("Cannot patch an unknown entity (empty query result).");
-			}
+				if (!$entity) {
+					throw new Error(
+						"Cannot patch an unknown entity (empty query result).",
+					);
+				}
 
-			await event?.onPrePatch?.({ tx, entity, shape });
+				await event?.onPrePatch?.({ tx, entity, shape });
 
-			await mutation
-				.update({ tx })
-				.set(
-					schema.entity
-						.partial()
-						.parse((await map?.toPatch?.({ entity, shape })) || entity),
-				)
-				.where("id", "=", $entity.id)
-				.execute();
+				await mutation
+					.update({ tx })
+					.set(
+						schema.entity
+							.partial()
+							.parse((await map?.toPatch?.({ entity, shape })) || entity),
+					)
+					.where("id", "=", $entity.id)
+					.execute();
 
-			const $updated = await instance.fetchOrThrow({
-				tx,
-				query: { where: { id: $entity.id } },
-			});
+				const $updated = await instance.fetchOrThrow({
+					tx,
+					query: { where: { id: $entity.id } },
+				});
 
-			await event?.onPostPatch?.({ tx, entity: $updated, shape });
+				await event?.onPostPatch?.({ tx, entity: $updated, shape });
 
-			return $updated;
-		},
-		async remove({ tx, idIn }) {
-			if (!idIn || idIn?.length === 0) {
-				console.log("nothing to remove");
-				return undefined;
-			}
-			return mutation.remove({ tx }).where("id", "in", idIn).execute();
-		},
-		async fetch({ tx, query }) {
-			const entity = await $applyQuery({
-				query,
-				select: select({ tx, query }),
-			}).executeTakeFirst();
-
-			if (!entity) {
-				return undefined;
-			}
-
-			const $entity = schema.entity.parse(entity);
-
-			return (schema.output ?? schema.entity).parse(
-				(await map?.toOutput?.({ tx, entity: $entity })) || $entity,
-			);
-		},
-		async fetchOrThrow({ tx, query }) {
-			const $entity = schema.entity.parse(
-				await $applyQuery({
+				return $updated;
+			},
+			async remove({ tx, idIn }) {
+				if (!idIn || idIn?.length === 0) {
+					return undefined;
+				}
+				return mutation.remove({ tx }).where("id", "in", idIn).execute();
+			},
+			async fetch({ tx, query }) {
+				const entity = await $applyQuery({
 					query,
 					select: select({ tx, query }),
-				}).executeTakeFirstOrThrow(),
-			);
+				}).executeTakeFirst();
 
-			return (schema.output ?? schema.entity).parse(
-				(await map?.toOutput?.({
-					tx,
-					entity: $entity,
-				})) || $entity,
-			);
-		},
-		async list({ tx, query }) {
-			const $schema = schema.output ?? schema.entity;
+				if (!entity) {
+					return undefined;
+				}
 
-			return Promise.all(
-				z
-					.array(schema.entity)
-					.parse(
+				const $entity = schema.entity.parse(entity);
+
+				return (schema.output ?? schema.entity).parse(
+					(await map?.toOutput?.({ tx, entity: $entity })) || $entity,
+				);
+			},
+			async fetchOrThrow({ tx, query }) {
+				const $entity = schema.entity.parse(
+					await $applyQuery({
+						query,
+						select: select({ tx, query }),
+					}).executeTakeFirstOrThrow(),
+				);
+
+				return (schema.output ?? schema.entity).parse(
+					(await map?.toOutput?.({
+						tx,
+						entity: $entity,
+					})) || $entity,
+				);
+			},
+			async list({ tx, query }) {
+				const $schema = schema.output ?? schema.entity;
+
+				return Promise.all(
+					z
+						.array(schema.entity)
+						.parse(
+							await $applyQuery({
+								query,
+								select: select({ tx, query }),
+							}).execute(),
+						)
+						.map(async (entity) => {
+							return $schema.parse(
+								(await map?.toOutput?.({ tx, entity })) || entity,
+							);
+						}),
+				);
+			},
+			async count({ tx, query }) {
+				return {
+					total: (
 						await $applyQuery({
-							query,
-							select: select({ tx, query }),
-						}).execute(),
-					)
-					.map(async (entity) => {
-						return $schema.parse(
-							(await map?.toOutput?.({ tx, entity })) || entity,
-						);
-					}),
-			);
-		},
-		async count({ tx, query }) {
-			return {
-				total: (
-					await $applyQuery({
-						query: {},
-						select: select({ tx, query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: [],
-					}).executeTakeFirst()
-				).count,
-				where: (
-					await $applyQuery({
-						query: {
-							where: query.where,
-						},
-						select: select({ tx, query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: ["where"],
-					}).executeTakeFirst()
-				).count,
-				filter: (
-					await $applyQuery({
-						query: {
-							where: query.where,
-							filter: query.filter,
-						},
-						select: select({ tx, query }).select([
-							(col) => col.fn.countAll().as("count"),
-						]),
-						apply: ["filter", "where"],
-					}).executeTakeFirst()
-				).count,
-			} satisfies CountSchema.Type;
-		},
-	};
+							query: {},
+							select: select({ tx, query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							use: [],
+						}).executeTakeFirst()
+					).count,
+					where: (
+						await $applyQuery({
+							query: {
+								where: query.where,
+							},
+							select: select({ tx, query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							use: ["where"],
+						}).executeTakeFirst()
+					).count,
+					filter: (
+						await $applyQuery({
+							query: {
+								where: query.where,
+								filter: query.filter,
+							},
+							select: select({ tx, query }).select([
+								(col) => col.fn.countAll().as("count"),
+							]),
+							use: ["filter", "where"],
+						}).executeTakeFirst()
+					).count,
+				} satisfies CountSchema.Type;
+			},
+		};
 
-	return instance;
+		return instance;
+	};
 };

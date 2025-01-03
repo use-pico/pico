@@ -15,7 +15,7 @@ import {
     type CursorSchema,
     type withRepositorySchema,
 } from "@use-pico/common";
-import type { Transaction } from "kysely";
+import type { Kysely, Transaction } from "kysely";
 import { invalidator } from "../invalidator/invalidator";
 
 export namespace withRepository {
@@ -256,6 +256,9 @@ export namespace withRepository {
 		withFetchLoader: Instance.withFetchLoader.Callback<TDatabase, TSchema>;
 		withListLoader: Instance.withListLoader.Callback<TDatabase, TSchema>;
 		withCountLoader: Instance.withCountLoader.Callback<TDatabase, TSchema>;
+		/**
+		 * @deprecated Improve API of this thing, I don't like it
+		 */
 		withRouteListLoader: Instance.withRouteListLoader.Callback<TSchema>;
 
 		useListQuery: Instance.useListQuery.Callback<TSchema>;
@@ -263,6 +266,11 @@ export namespace withRepository {
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
 		useRemoveMutation: Instance.useRemoveMutation.Callback;
 	}
+
+	export type Callback<
+		TDatabase,
+		TSchema extends withRepositorySchema.Instance<any, any, any>,
+	> = (db: Kysely<TDatabase>) => Instance<TDatabase, TSchema>;
 }
 
 /**
@@ -275,11 +283,11 @@ export const withRepository = <
 	name,
 	invalidate = [],
 	...props
-}: withRepository.Props<TDatabase, TSchema>): withRepository.Instance<
+}: withRepository.Props<TDatabase, TSchema>): withRepository.Callback<
 	TDatabase,
 	TSchema
 > => {
-	const $coolInstance = withCoolRepository(props);
+	const $factory = withCoolRepository(props);
 
 	const $invalidate = [
 		["withListLoader", name],
@@ -289,182 +297,192 @@ export const withRepository = <
 		...invalidate,
 	];
 
-	const $instance: withRepository.Instance<TDatabase, TSchema> = {
-		...$coolInstance,
+	return (db) => {
+		const $coolInstance = $factory(db);
 
-		name,
-		invalidate: $invalidate,
+		const $instance: withRepository.Instance<TDatabase, TSchema> = {
+			...$coolInstance,
 
-		async withListLoader({
-			tx,
-			queryClient,
-			where,
-			filter,
-			cursor = { page: 0, size: 10 },
-		}) {
-			return queryClient.ensureQueryData({
-				queryKey: ["withListLoader", name, { where, filter, cursor }],
-				async queryFn() {
-					return $coolInstance.list({ tx, query: { where, filter, cursor } });
-				},
-			});
-		},
-		async withFetchLoader({ tx, queryClient, where, filter, cursor }) {
-			return queryClient.ensureQueryData({
-				queryKey: ["withFetchLoader", name, { where, filter, cursor }],
-				async queryFn() {
-					return $coolInstance.fetchOrThrow({
-						tx,
-						query: { where, filter, cursor },
-					});
-				},
-			});
-		},
-		async withCountLoader({ tx, queryClient, where, filter }) {
-			return queryClient.ensureQueryData({
-				queryKey: ["withCountLoader", name, { where, filter }],
-				async queryFn(): Promise<CountSchema.Type> {
-					return $coolInstance.count({ tx, query: { where, filter } });
-				},
-			});
-		},
-		withRouteListLoader() {
-			return async ({
-				context: { queryClient },
-				deps: { global, where, filter, cursor },
-			}) => {
-				return $coolInstance.db.transaction().execute(async (tx) => ({
-					data: await $instance.withListLoader({
-						tx,
-						queryClient,
-						where,
-						filter: {
-							...global,
-							...filter,
-						},
-						cursor,
-					}),
-					count: await $instance.withCountLoader({
-						tx,
-						queryClient,
-						where,
-						filter: { ...global, ...filter },
-					}),
-				}));
-			};
-		},
+			name,
+			invalidate: $invalidate,
 
-		useListQuery({ query, options }) {
-			return useQuery({
-				queryKey: ["useListQuery", name, { query }],
-				async queryFn(): Promise<withCoolRepository.List<TSchema["~output"]>> {
-					return $coolInstance.db.transaction().execute(async (tx) => {
-						return {
-							data: await $coolInstance.list({ tx, query }),
-							count: await $coolInstance.count({ tx, query }),
-						};
-					});
-				},
-				...options,
-			});
-		},
+			async withListLoader({
+				tx,
+				queryClient,
+				where,
+				filter,
+				cursor = { page: 0, size: 10 },
+			}) {
+				return queryClient.ensureQueryData({
+					queryKey: ["withListLoader", name, { where, filter, cursor }],
+					async queryFn() {
+						return $coolInstance.list({ tx, query: { where, filter, cursor } });
+					},
+				});
+			},
+			async withFetchLoader({ tx, queryClient, where, filter, cursor }) {
+				return queryClient.ensureQueryData({
+					queryKey: ["withFetchLoader", name, { where, filter, cursor }],
+					async queryFn() {
+						return $coolInstance.fetchOrThrow({
+							tx,
+							query: { where, filter, cursor },
+						});
+					},
+				});
+			},
+			async withCountLoader({ tx, queryClient, where, filter }) {
+				return queryClient.ensureQueryData({
+					queryKey: ["withCountLoader", name, { where, filter }],
+					async queryFn(): Promise<CountSchema.Type> {
+						return $coolInstance.count({ tx, query: { where, filter } });
+					},
+				});
+			},
+			withRouteListLoader() {
+				return async ({
+					context: { queryClient },
+					deps: { global, where, filter, cursor },
+				}) => {
+					return $coolInstance.db.transaction().execute(async (tx) => ({
+						data: await $instance.withListLoader({
+							tx,
+							queryClient,
+							where,
+							filter: {
+								...global,
+								...filter,
+							},
+							cursor,
+						}),
+						count: await $instance.withCountLoader({
+							tx,
+							queryClient,
+							where,
+							filter: { ...global, ...filter },
+						}),
+					}));
+				};
+			},
 
-		useCreateMutation({
-			wrap = async (callback) => callback(),
-			toCreate = async ({ shape }) => ({ entity: shape, shape }),
-			onSuccess,
-		}) {
-			const queryClient = useQueryClient();
-			const router = useRouter();
-
-			return useMutation({
-				mutationKey: ["useCreateMutation", name],
-				async mutationFn(shape) {
-					return wrap(async () => {
+			useListQuery({ query, options }) {
+				return useQuery({
+					queryKey: ["useListQuery", name, { query }],
+					async queryFn(): Promise<
+						withCoolRepository.List<TSchema["~output"]>
+					> {
 						return $coolInstance.db.transaction().execute(async (tx) => {
-							const entity = await $coolInstance.create({
-								tx,
-								...(await toCreate({
+							return {
+								data: await $coolInstance.list({ tx, query }),
+								count: await $coolInstance.count({ tx, query }),
+							};
+						});
+					},
+					...options,
+				});
+			},
+
+			useCreateMutation({
+				wrap = async (callback) => callback(),
+				toCreate = async ({ shape }) => ({ entity: shape, shape }),
+				onSuccess,
+			}) {
+				const queryClient = useQueryClient();
+				const router = useRouter();
+
+				return useMutation({
+					mutationKey: ["useCreateMutation", name],
+					async mutationFn(shape) {
+						return wrap(async () => {
+							return $coolInstance.db.transaction().execute(async (tx) => {
+								const entity = await $coolInstance.create({
+									tx,
+									...(await toCreate({
+										shape,
+									})),
 									shape,
-								})),
-								shape,
+								});
+
+								await onSuccess?.({ entity });
+
+								await invalidator({
+									queryClient,
+									keys: $invalidate,
+								});
+
+								await router.invalidate();
+
+								return entity;
 							});
-
-							await onSuccess?.({ entity });
-
-							await invalidator({
-								queryClient,
-								keys: $invalidate,
-							});
-
-							await router.invalidate();
-
-							return entity;
 						});
-					});
-				},
-			});
-		},
-		usePatchMutation({ wrap = (callback) => callback(), toPatch, onSuccess }) {
-			const queryClient = useQueryClient();
-			const router = useRouter();
+					},
+				});
+			},
+			usePatchMutation({
+				wrap = (callback) => callback(),
+				toPatch,
+				onSuccess,
+			}) {
+				const queryClient = useQueryClient();
+				const router = useRouter();
 
-			return useMutation({
-				mutationKey: ["usePatchMutation", name],
-				async mutationFn(shape) {
-					return wrap(async () => {
-						$coolInstance.db.transaction().execute(async (tx) => {
-							const entity = await $coolInstance.patch({
-								tx,
-								entity: shape,
-								shape,
-								...(await toPatch({
+				return useMutation({
+					mutationKey: ["usePatchMutation", name],
+					async mutationFn(shape) {
+						return wrap(async () => {
+							$coolInstance.db.transaction().execute(async (tx) => {
+								const entity = await $coolInstance.patch({
+									tx,
+									entity: shape,
 									shape,
-								})),
+									...(await toPatch({
+										shape,
+									})),
+								});
+
+								await onSuccess?.({ entity });
+
+								await invalidator({
+									queryClient,
+									keys: $invalidate,
+								});
+
+								await router.invalidate();
+
+								return entity;
 							});
-
-							await onSuccess?.({ entity });
-
-							await invalidator({
-								queryClient,
-								keys: $invalidate,
-							});
-
-							await router.invalidate();
-
-							return entity;
 						});
-					});
-				},
-			});
-		},
-		useRemoveMutation({ wrap = (callback) => callback(), onSuccess }) {
-			const queryClient = useQueryClient();
-			const router = useRouter();
+					},
+				});
+			},
+			useRemoveMutation({ wrap = (callback) => callback(), onSuccess }) {
+				const queryClient = useQueryClient();
+				const router = useRouter();
 
-			return useMutation({
-				mutationKey: ["useRemoveMutation", name],
-				async mutationFn({ idIn }) {
-					return wrap(async () => {
-						$coolInstance.db.transaction().execute(async (tx) => {
-							await $coolInstance.remove({ tx, idIn });
+				return useMutation({
+					mutationKey: ["useRemoveMutation", name],
+					async mutationFn({ idIn }) {
+						return wrap(async () => {
+							$coolInstance.db.transaction().execute(async (tx) => {
+								await $coolInstance.remove({ tx, idIn });
 
-							await invalidator({
-								queryClient,
-								keys: $invalidate,
+								await invalidator({
+									queryClient,
+									keys: $invalidate,
+								});
+
+								await onSuccess?.({});
+
+								await router.invalidate();
+
+								return undefined;
 							});
-
-							await onSuccess?.({});
-
-							await router.invalidate();
-
-							return undefined;
 						});
-					});
-				},
-			});
-		},
+					},
+				});
+			},
+		};
+
+		return $instance;
 	};
-
-	return $instance;
 };

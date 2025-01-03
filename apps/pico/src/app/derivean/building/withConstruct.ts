@@ -31,7 +31,7 @@ export const withConstruct = async ({
 	baseBuildingId,
 	bypass = false,
 }: withConstruct.Props) => {
-	const baseBuilding = await BaseBuildingRepository.fetchOrThrow({
+	const baseBuilding = await BaseBuildingRepository(tx).fetchOrThrow({
 		tx,
 		query: { where: { id: baseBuildingId } },
 	});
@@ -41,7 +41,7 @@ export const withConstruct = async ({
 			!resourceCheckOf({
 				requirements: baseBuilding.requirements,
 				resources: resourceSumOf({
-					resources: await BuildingResourceRepository.list({
+					resources: await BuildingResourceRepository(tx).list({
 						tx,
 						query: { where: { userId } },
 					}),

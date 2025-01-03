@@ -2,11 +2,13 @@ import { withRepository } from "@use-pico/client";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 
-export const BaseBuildingRepository = withRepository({
+export const BaseBuildingRepository = withRepository<
+	Database,
+	BaseBuildingSchema
+>({
 	name: "BaseBuilding",
-	db: db.kysely,
 	schema: BaseBuildingSchema,
 	meta: {
 		where: {
@@ -34,7 +36,7 @@ export const BaseBuildingRepository = withRepository({
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				requirements: await BaseBuildingRequirementRepository.list({
+				requirements: await BaseBuildingRequirementRepository(tx).list({
 					tx,
 					query: {
 						where: {
@@ -42,7 +44,7 @@ export const BaseBuildingRepository = withRepository({
 						},
 					},
 				}),
-				limits: await BaseBuildingLimitRepository.list({
+				limits: await BaseBuildingLimitRepository(tx).list({
 					tx,
 					query: {
 						where: {

@@ -7,7 +7,6 @@ import {
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
-import { db } from "~/app/derivean/db/db";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
@@ -29,14 +28,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			},
 		};
 	},
-	async loader({ context: { session } }) {
+	async loader({ context: { kysely, session } }) {
 		const $session = await session();
 
-		return db.kysely.transaction().execute(async (tx) => {
+		return kysely.transaction().execute(async (tx) => {
 			return {
 				session: $session,
 				resources: resourceSumOf({
-					resources: await BuildingResourceRepository.list({
+					resources: await BuildingResourceRepository(tx).list({
 						tx,
 						query: { where: { userId: $session.id } },
 					}),
@@ -44,7 +43,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			};
 		});
 	},
-
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
 		const { session } = useLoaderData({

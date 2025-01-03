@@ -1,14 +1,10 @@
 import { withRepository } from "@use-pico/client";
-import { pwd, type Database } from "@use-pico/common";
+import { pwd } from "@use-pico/common";
 import { UserSchema } from "~/app/user/UserSchema";
 
 export namespace withUserRepository {
 	export interface DatabaseType {
 		User: UserSchema["~entity"];
-	}
-
-	export interface Props<TDatabase extends DatabaseType> {
-		database: Database.Instance<TDatabase>;
 	}
 
 	export type Instance<TDatabase extends DatabaseType> = ReturnType<
@@ -18,12 +14,9 @@ export namespace withUserRepository {
 
 export const withUserRepository = <
 	TDatabase extends withUserRepository.DatabaseType,
->({
-	database,
-}: withUserRepository.Props<TDatabase>) => {
-	return withRepository({
+>() => {
+	return withRepository<TDatabase, UserSchema>({
 		name: "UserRepository",
-		db: database.kysely,
 		schema: UserSchema,
 		meta: {
 			where: {

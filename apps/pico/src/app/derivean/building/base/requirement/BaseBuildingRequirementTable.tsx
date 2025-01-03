@@ -15,6 +15,7 @@ import type { FC } from "react";
 import { BaseBuildingRequirementForm } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementForm";
 import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 const column = withColumn<BaseBuildingRequirementSchema["~output"]>();
@@ -78,37 +79,37 @@ export const BaseBuildingRequirementTable: FC<
 								icon={ResourceIcon}
 							>
 								<BaseBuildingRequirementForm
-									mutation={BaseBuildingRequirementRepository.useCreateMutation(
-										{
-											async wrap(callback) {
-												return toast.promise(callback(), {
-													loading: (
-														<Tx label={"Saving resource requirement (label)"} />
-													),
-													success: (
-														<Tx
-															label={
-																"Resource requirement successfully saved (label)"
-															}
-														/>
-													),
-													error: (
-														<Tx
-															label={"Cannot save resource requirement (label)"}
-														/>
-													),
-												});
-											},
-											async toCreate({ shape }) {
-												return {
-													entity: {
-														...shape,
-														baseBuildingId,
-													},
-												};
-											},
+									mutation={BaseBuildingRequirementRepository(
+										kysely,
+									).useCreateMutation({
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: (
+													<Tx label={"Saving resource requirement (label)"} />
+												),
+												success: (
+													<Tx
+														label={
+															"Resource requirement successfully saved (label)"
+														}
+													/>
+												),
+												error: (
+													<Tx
+														label={"Cannot save resource requirement (label)"}
+													/>
+												),
+											});
 										},
-									)}
+										async toCreate({ shape }) {
+											return {
+												entity: {
+													...shape,
+													baseBuildingId,
+												},
+											};
+										},
+									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
@@ -133,7 +134,7 @@ export const BaseBuildingRequirementTable: FC<
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRequirementRepository}
+									repository={BaseBuildingRequirementRepository(kysely)}
 									textContent={
 										<Tx label={"Resource requirements delete (content)"} />
 									}
@@ -153,7 +154,9 @@ export const BaseBuildingRequirementTable: FC<
 							>
 								<BaseBuildingRequirementForm
 									defaultValues={data}
-									mutation={BaseBuildingRequirementRepository.usePatchMutation({
+									mutation={BaseBuildingRequirementRepository(
+										kysely,
+									).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: (
@@ -204,7 +207,7 @@ export const BaseBuildingRequirementTable: FC<
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRequirementRepository}
+									repository={BaseBuildingRequirementRepository(kysely)}
 									textContent={
 										<Tx label={"Resource requirement delete (content)"} />
 									}

@@ -10,12 +10,13 @@ import { withSearchSchema } from "@use-pico/common";
 import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import { BuildingResourceTable } from "~/app/derivean/building/resource/BuildingResourceTable";
+import { kysely } from "~/app/derivean/db/db";
 
 const SearchSchema = withSearchSchema({
 	filter: BuildingResourceSchema.filter,
 });
 
-const loader = BuildingResourceRepository.withRouteListLoader();
+const loader = BuildingResourceRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id/resource/list/",

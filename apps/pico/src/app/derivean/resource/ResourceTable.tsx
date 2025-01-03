@@ -13,6 +13,7 @@ import {
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/resource/ResourceForm";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
@@ -75,7 +76,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								icon={ResourceIcon}
 							>
 								<ResourceForm
-									mutation={ResourceRepository.useCreateMutation({
+									mutation={ResourceRepository(kysely).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -108,7 +109,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository}
+									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Resource delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -126,7 +127,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 							>
 								<ResourceForm
 									defaultValues={data}
-									mutation={ResourceRepository.usePatchMutation({
+									mutation={ResourceRepository(kysely).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -163,7 +164,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository}
+									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Resource delete (content)"} />}
 									idIn={[data.id]}
 								/>

@@ -8,6 +8,7 @@ import { LoadingOverlay, PageCss } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
+import { kysely } from "~/app/derivean/db/db";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 import "~/assets/style.css";
 
@@ -27,6 +28,7 @@ const router = createRouter({
 		async session() {
 			return SessionSchema.parse(null);
 		},
+		kysely,
 	},
 	defaultPendingComponent: LoadingOverlay,
 	defaultPreload: "intent",

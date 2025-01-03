@@ -12,14 +12,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import {
-    toHumanNumber,
-    translator
-} from "@use-pico/common";
+import { toHumanNumber, translator } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
 import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { kysely } from "~/app/derivean/db/db";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
 const column = withColumn<BaseBuildingSchema["~output"]>();
@@ -105,7 +103,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								icon={BaseBuildingIcon}
 							>
 								<BaseBuildingForm
-									mutation={BaseBuildingRepository.useCreateMutation({
+									mutation={BaseBuildingRepository(kysely).useCreateMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base building (label)"} />,
@@ -142,7 +140,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRepository}
+									repository={BaseBuildingRepository(kysely)}
 									textContent={<Tx label={"Base building delete (content)"} />}
 									idIn={table.selection?.value}
 								/>
@@ -160,7 +158,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 							>
 								<BaseBuildingForm
 									defaultValues={data}
-									mutation={BaseBuildingRepository.usePatchMutation({
+									mutation={BaseBuildingRepository(kysely).usePatchMutation({
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base building (label)"} />,
@@ -201,7 +199,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRepository}
+									repository={BaseBuildingRepository(kysely)}
 									textContent={<Tx label={"Base building delete (content)"} />}
 									idIn={[data.id]}
 								/>

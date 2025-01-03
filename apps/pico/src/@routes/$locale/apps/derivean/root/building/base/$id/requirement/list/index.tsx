@@ -10,16 +10,37 @@ import { withSearchSchema } from "@use-pico/common";
 import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import { BaseBuildingRequirementTable } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementTable";
+import { kysely } from "~/app/derivean/db/db";
 
 const SearchSchema = withSearchSchema({
 	filter: BaseBuildingRequirementSchema.filter,
 });
 
-const loader = BaseBuildingRequirementRepository.withRouteListLoader();
+const loader = BaseBuildingRequirementRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/requirement/list/",
 )({
+	validateSearch: zodValidator(SearchSchema),
+	loaderDeps({ search: { global, filter, cursor } }) {
+		return {
+			global,
+			filter,
+			cursor,
+		};
+	},
+	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
+		return loader({
+			context,
+			deps: {
+				...deps,
+				filter: {
+					...filter,
+					baseBuildingId: id,
+				},
+			},
+		});
+	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
@@ -75,25 +96,5 @@ export const Route = createFileRoute(
 				/>
 			</div>
 		);
-	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
-					baseBuildingId: id,
-				},
-			},
-		});
 	},
 });

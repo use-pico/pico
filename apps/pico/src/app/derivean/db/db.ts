@@ -2,7 +2,7 @@ import { withDatabase } from "@use-pico/client";
 import type { Database } from "~/app/derivean/db/Database";
 import { seed } from "~/app/derivean/db/seed";
 
-export const db = withDatabase<Database>({
+export const { kysely, bootstrap } = withDatabase<Database>({
 	database: "derivean",
 	async bootstrap({ kysely }) {
 		const $id = "varchar(36)" as const;

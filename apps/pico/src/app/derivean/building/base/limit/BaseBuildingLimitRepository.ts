@@ -1,11 +1,13 @@
 import { withRepository } from "@use-pico/client";
 import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 
-export const BaseBuildingLimitRepository = withRepository({
+export const BaseBuildingLimitRepository = withRepository<
+	Database,
+	BaseBuildingLimitSchema
+>({
 	name: "BaseBuildingLimitRepository",
-	db: db.kysely,
 	schema: BaseBuildingLimitSchema,
 	meta: {
 		where: {
@@ -15,6 +17,12 @@ export const BaseBuildingLimitRepository = withRepository({
 			baseBuildingId: "bbl.baseBuildingId",
 		},
 		fulltext: ["bbl.id", "bbl.resourceId", "r.id", "r.name"],
+	},
+	select({ tx }) {
+		return tx
+			.selectFrom("BaseBuilding_Limit as bbl")
+			.selectAll("bbl")
+			.leftJoin("Resource as r", "r.id", "bbl.resourceId");
 	},
 	mutation: {
 		insert({ tx }) {
@@ -27,17 +35,11 @@ export const BaseBuildingLimitRepository = withRepository({
 			return tx.deleteFrom("BaseBuilding_Limit");
 		},
 	},
-	select({ tx }) {
-		return tx
-			.selectFrom("BaseBuilding_Limit as bbl")
-			.selectAll("bbl")
-			.leftJoin("Resource as r", "r.id", "bbl.resourceId");
-	},
 	map: {
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				resource: await ResourceRepository.fetchOrThrow({
+				resource: await ResourceRepository(tx).fetchOrThrow({
 					tx,
 					query: { where: { id: entity.resourceId } },
 				}),

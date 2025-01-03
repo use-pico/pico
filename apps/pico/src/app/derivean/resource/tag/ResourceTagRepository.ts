@@ -1,10 +1,12 @@
 import { withRepository } from "@use-pico/client";
-import { db } from "~/app/derivean/db/db";
+import type { Database } from "~/app/derivean/db/Database";
 import { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 
-export const ResourceTagRepository = withRepository({
+export const ResourceTagRepository = withRepository<
+	Database,
+	ResourceTagSchema
+>({
 	name: "ResourceTagRepository",
-	db: db.kysely,
 	schema: ResourceTagSchema,
 	meta: {
 		where: {

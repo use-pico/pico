@@ -7,6 +7,7 @@ import {
     Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/db";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
 import { TagTable } from "~/app/derivean/tag/TagTable";
 import { TagSchema } from "~/app/tag/TagSchema";
@@ -14,6 +15,15 @@ import { TagSchema } from "~/app/tag/TagSchema";
 const SearchSchema = withSearchSchema({ filter: TagSchema.filter });
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
+	validateSearch: zodValidator(SearchSchema),
+	loaderDeps({ search: { global, filter, cursor } }) {
+		return {
+			global,
+			filter,
+			cursor,
+		};
+	},
+	loader: TagRepository(kysely).withRouteListLoader(),
 	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { global, filter, cursor, selection } = Route.useSearch();
@@ -68,13 +78,4 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 			</div>
 		);
 	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	loader: TagRepository.withRouteListLoader(),
 });

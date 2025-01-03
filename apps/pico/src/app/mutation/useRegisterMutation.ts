@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import type { Database } from "~/app/derivean/db/Database";
-import { db } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/db";
 import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
 import type { RegisterSchema } from "~/app/schema/RegisterSchema";
 import { SessionSchema } from "~/app/schema/SessionSchema";
@@ -22,13 +22,13 @@ export const useRegisterMutation = ({
 			name,
 			password1,
 		}: RegisterSchema.Type): Promise<SessionSchema.Type> {
-			return db.kysely.transaction().execute(async (tx) => {
+			return kysely.transaction().execute(async (tx) => {
 				/**
 				 * Secondary SessionSchema parse is here to ensure only session related data
 				 * get out.
 				 */
 				const session = SessionSchema.parse(
-					await repository.create({
+					await repository(tx).create({
 						tx,
 						shape: {
 							name,

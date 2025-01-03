@@ -1,5 +1,6 @@
 import { PopupSelect } from "@use-pico/client";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
 import { TagTable } from "~/app/derivean/tag/TagTable";
 import type { TagSchema } from "~/app/tag/TagSchema";
@@ -25,7 +26,7 @@ export const TagPopupSelect: FC<TagPopupSelect.Props> = ({
 			render={({ entity }) => {
 				return entity.label;
 			}}
-			useListQuery={TagRepository.useListQuery}
+			useListQuery={TagRepository(kysely).useListQuery}
 			{...props}
 		/>
 	);
