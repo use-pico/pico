@@ -16,18 +16,18 @@ export const BaseBuildingRepository = withRepository({
 		},
 		fulltext: ["bb.name", "bb.description", "bb.id"],
 	},
-	select() {
-		return db.kysely.selectFrom("BaseBuilding as bb").selectAll("bb");
+	select({ tx }) {
+		return tx.selectFrom("BaseBuilding as bb").selectAll("bb");
 	},
 	mutation: {
-		insert() {
-			return db.kysely.insertInto("BaseBuilding");
+		insert({ tx }) {
+			return tx.insertInto("BaseBuilding");
 		},
-		update() {
-			return db.kysely.updateTable("BaseBuilding");
+		update({ tx }) {
+			return tx.updateTable("BaseBuilding");
 		},
-		remove() {
-			return db.kysely.deleteFrom("BaseBuilding");
+		remove({ tx }) {
+			return tx.deleteFrom("BaseBuilding");
 		},
 	},
 	map: {

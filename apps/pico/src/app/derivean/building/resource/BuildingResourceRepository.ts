@@ -18,8 +18,8 @@ export const BuildingResourceRepository = withRepository({
 		},
 		fulltext: ["br.id", "bb.name", "r.name"],
 	},
-	select() {
-		return db.kysely
+	select({ tx }) {
+		return tx
 			.selectFrom("Building_Resource as br")
 			.selectAll("br")
 			.leftJoin("Building as b", "b.id", "br.buildingId")
@@ -27,14 +27,14 @@ export const BuildingResourceRepository = withRepository({
 			.leftJoin("Resource as r", "r.id", "br.resourceId");
 	},
 	mutation: {
-		insert() {
-			return db.kysely.insertInto("Building_Resource");
+		insert({ tx }) {
+			return tx.insertInto("Building_Resource");
 		},
-		update() {
-			return db.kysely.updateTable("Building_Resource");
+		update({ tx }) {
+			return tx.updateTable("Building_Resource");
 		},
-		remove() {
-			return db.kysely.deleteFrom("Building_Resource");
+		remove({ tx }) {
+			return tx.deleteFrom("Building_Resource");
 		},
 	},
 	map: {

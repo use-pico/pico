@@ -1,8 +1,5 @@
 import { withRepository } from "@use-pico/client";
-import {
-    pwd,
-    type Database
-} from "@use-pico/common";
+import { pwd, type Database } from "@use-pico/common";
 import { UserSchema } from "~/app/user/UserSchema";
 
 export namespace withUserRepository {
@@ -36,18 +33,18 @@ export const withUserRepository = <
 				password: "u.password",
 			},
 		},
-		select() {
-			return database.kysely.selectFrom("User as u").selectAll("u");
+		select({ tx }) {
+			return tx.selectFrom("User as u").selectAll("u");
 		},
 		mutation: {
-			insert() {
-				return database.kysely.insertInto("User");
+			insert({ tx }) {
+				return tx.insertInto("User");
 			},
-			update() {
-				return database.kysely.updateTable("User");
+			update({ tx }) {
+				return tx.updateTable("User");
 			},
-			remove() {
-				return database.kysely.deleteFrom("User");
+			remove({ tx }) {
+				return tx.deleteFrom("User");
 			},
 		},
 		map: {

@@ -23,6 +23,13 @@ export const ResourceTagRepository = withRepository({
 			"t.label",
 		],
 	},
+	select({ tx }) {
+		return tx
+			.selectFrom("Resource_Tag as rt")
+			.selectAll("rt")
+			.leftJoin("Resource as r", "r.id", "rt.resourceId")
+			.leftJoin("Tag as t", "t.id", "rt.tagId");
+	},
 	mutation: {
 		insert({ tx }) {
 			return tx.insertInto("Resource_Tag");
@@ -33,12 +40,5 @@ export const ResourceTagRepository = withRepository({
 		remove({ tx }) {
 			return tx.deleteFrom("Resource_Tag");
 		},
-	},
-	select({ tx }) {
-		return tx
-			.selectFrom("Resource_Tag as rt")
-			.selectAll("rt")
-			.leftJoin("Resource as r", "r.id", "rt.resourceId")
-			.leftJoin("Tag as t", "t.id", "rt.tagId");
 	},
 });
