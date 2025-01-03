@@ -11,6 +11,27 @@ import { RootMenu } from "~/app/derivean/root/RootMenu";
 import { SessionSchema } from "~/app/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root")({
+	async beforeLoad({ context, params: { locale } }) {
+		return {
+			...context,
+			async session() {
+				try {
+					return SessionSchema.parse(ls.get("session"));
+				} catch (_) {
+					throw redirect({
+						to: `/$locale/apps/derivean/public/login`,
+						params: { locale },
+					});
+				}
+			},
+		};
+	},
+	async loader({ context: { session } }) {
+		return {
+			session: await session(),
+		};
+	},
+
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
 		const { session } = useLoaderData({ from: "/$locale/apps/derivean/root" });
@@ -44,17 +65,5 @@ export const Route = createFileRoute("/$locale/apps/derivean/root")({
 				}
 			/>
 		);
-	},
-	loader({ params: { locale } }) {
-		try {
-			return {
-				session: SessionSchema.parse(ls.get("session")),
-			};
-		} catch (_) {
-			throw redirect({
-				to: `/$locale/apps/derivean/public/login`,
-				params: { locale },
-			});
-		}
 	},
 });

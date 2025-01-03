@@ -91,7 +91,7 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({ context, deps: { filter, ...deps } }) {
-		console.log("session", context.session);
+		const session = await context.session();
 
 		return loader({
 			context,
@@ -99,7 +99,7 @@ export const Route = createFileRoute(
 				...deps,
 				filter: {
 					...filter,
-					// userId: id,
+					userId: session.id,
 				},
 			},
 		});

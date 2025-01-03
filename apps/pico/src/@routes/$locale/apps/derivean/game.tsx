@@ -2,8 +2,8 @@ import {
     createFileRoute,
     Outlet,
     redirect,
-    useParams,
-    useRouteContext,
+    useLoaderData,
+    useParams
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
@@ -27,9 +27,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			},
 		};
 	},
+	async loader({ context: { session } }) {
+		return {
+			session: await session(),
+		};
+	},
+
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session } = useRouteContext({
+		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 

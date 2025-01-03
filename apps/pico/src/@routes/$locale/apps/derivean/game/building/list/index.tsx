@@ -7,8 +7,6 @@ import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSch
 
 const SearchSchema = withSearchSchema({ filter: BaseBuildingSchema.filter });
 
-const loader = BaseBuildingRepository.withRouteListLoader();
-
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",
 )({
@@ -29,15 +27,5 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	async loader({ context, deps: { filter, ...deps } }) {
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
-				},
-			},
-		});
-	},
+	loader: BaseBuildingRepository.withRouteListLoader(),
 });
