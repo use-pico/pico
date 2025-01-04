@@ -49,15 +49,15 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 			}
 		};
 
-		if (use?.includes("filter")) {
+		if (use.includes("filter")) {
 			$where(filter || {});
 		}
 
-		if (use?.includes("where")) {
+		if (use.includes("where")) {
 			$where(where || {});
 		}
 
-		if (use?.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 

@@ -40,6 +40,10 @@ export const BuildingResourceRepository = withRepository<
 				$select = $select.where("br.id", "=", where.id);
 			}
 
+			if (where?.idIn && where.idIn.length) {
+				$select = $select.where("br.id", "in", where.idIn);
+			}
+
 			if (where?.buildingId) {
 				$select = $select.where("br.buildingId", "=", where.buildingId);
 			}
@@ -57,15 +61,15 @@ export const BuildingResourceRepository = withRepository<
 			}
 		};
 
-		if (use?.includes("filter")) {
+		if (use.includes("filter")) {
 			$where(filter || {});
 		}
 
-		if (use?.includes("where")) {
+		if (use.includes("where")) {
 			$where(where || {});
 		}
 
-		if (use?.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 

@@ -98,7 +98,7 @@ export namespace withRepository {
 			> {
 				tx: Transaction<TDatabase>;
 				query: Query<TSchema>;
-				use?: Use[];
+				use: Use[];
 			}
 
 			export type Callback<
@@ -475,7 +475,11 @@ export const withRepository = <
 				return remove({ tx, filter }).execute();
 			},
 			async fetch({ tx, query }) {
-				const entity = select({ tx, query }).executeTakeFirst();
+				const entity = await select({
+					tx,
+					query,
+					use: ["where", "filter", "cursor", "sort"],
+				}).executeTakeFirst();
 
 				if (!entity) {
 					return undefined;
@@ -492,6 +496,7 @@ export const withRepository = <
 					await select({
 						tx,
 						query,
+						use: ["where", "filter", "cursor", "sort"],
 					}).executeTakeFirstOrThrow(),
 				);
 
@@ -508,7 +513,13 @@ export const withRepository = <
 				return Promise.all(
 					z
 						.array(schema.entity)
-						.parse(select({ tx, query }).execute())
+						.parse(
+							await select({
+								tx,
+								query,
+								use: ["where", "filter", "cursor", "sort"],
+							}).execute(),
+						)
 						.map((entity) => schema.entity.parse(entity))
 						.map(async (entity) => {
 							return $schema.parse(

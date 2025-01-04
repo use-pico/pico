@@ -31,22 +31,28 @@ export const BuildingRepository = withRepository<Database, BuildingSchema>({
 			if (where?.id) {
 				$select = $select.where("b.id", "=", where.id);
 			}
+
+			if (where?.idIn && where.idIn.length) {
+				$select = $select.where("b.id", "in", where.idIn);
+			}
+
 			if (where?.baseBuildingId) {
 				$select = $select.where("b.baseBuildingId", "=", where.baseBuildingId);
 			}
+
 			if (where?.fulltext) {
 				$select = fulltext(where.fulltext);
 			}
 		};
 
-		if (use?.includes("filter")) {
+		if (use.includes("filter")) {
 			$where(filter || {});
 		}
-		if (use?.includes("where")) {
+		if (use.includes("where")) {
 			$where(where || {});
 		}
 
-		if (use?.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 

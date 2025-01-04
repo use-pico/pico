@@ -15,7 +15,7 @@ export const BaseBuildingRepository = withRepository<
 		query: { where, filter, cursor = { page: 0, size: 10 } },
 		use,
 	}) {
-		let $select = tx.selectFrom("BaseBuilding as bb");
+		let $select = tx.selectFrom("BaseBuilding as bb").selectAll("bb");
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -32,6 +32,10 @@ export const BaseBuildingRepository = withRepository<
 				$select = $select.where("bb.id", "=", where.id);
 			}
 
+			if (where?.idIn && where.idIn.length) {
+				$select = $select.where("bb.id", "in", where.idIn);
+			}
+
 			if (where?.name) {
 				$select = $select.where("bb.name", "=", where.name);
 			}
@@ -45,15 +49,15 @@ export const BaseBuildingRepository = withRepository<
 			}
 		};
 
-		if (use?.includes("filter")) {
+		if (use.includes("filter")) {
 			$where(filter || {});
 		}
 
-		if (use?.includes("where")) {
+		if (use.includes("where")) {
 			$where(where || {});
 		}
 
-		if (use?.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 

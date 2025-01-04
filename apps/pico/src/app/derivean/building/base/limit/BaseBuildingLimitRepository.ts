@@ -38,6 +38,10 @@ export const BaseBuildingLimitRepository = withRepository<
 				$select = $select.where("bb.id", "=", where.id);
 			}
 
+			if (where?.idIn && where.idIn.length) {
+				$select = $select.where("bb.id", "in", where.idIn);
+			}
+
 			if (where?.resourceId) {
 				$select = $select.where("bbl.resourceId", "=", where.resourceId);
 			}
@@ -55,15 +59,15 @@ export const BaseBuildingLimitRepository = withRepository<
 			}
 		};
 
-		if (use?.includes("filter")) {
+		if (use.includes("filter")) {
 			$where(filter || {});
 		}
 
-		if (use?.includes("where")) {
+		if (use.includes("where")) {
 			$where(where || {});
 		}
 
-		if (use?.includes("cursor")) {
+		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
 
