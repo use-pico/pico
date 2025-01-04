@@ -4,7 +4,7 @@ import {
     withRepositorySchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { TagSchema } from "~/app/tag/TagSchema";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({

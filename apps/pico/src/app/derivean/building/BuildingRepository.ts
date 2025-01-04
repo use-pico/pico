@@ -55,11 +55,29 @@ export const BuildingRepository = withRepository<Database, BuildingSchema>({
 	insert({ tx }) {
 		return tx.insertInto("Building");
 	},
-	update({ tx }) {
-		return tx.updateTable("Building");
+	update({ tx, filter }) {
+		let $update = tx.updateTable("Building");
+
+		if (filter?.id) {
+			$update = $update.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$update = $update.where("id", "in", filter.idIn);
+		}
+
+		return $update;
 	},
-	remove({ tx }) {
-		return tx.deleteFrom("Building");
+	remove({ tx, filter }) {
+		let $remove = tx.deleteFrom("Building");
+
+		if (filter?.id) {
+			$remove = $remove.where("id", "=", filter.id);
+		}
+		if (filter?.idIn && filter.idIn.length) {
+			$remove = $remove.where("id", "in", filter.idIn);
+		}
+
+		return $remove;
 	},
 	map: {
 		async toOutput({ tx, entity }) {

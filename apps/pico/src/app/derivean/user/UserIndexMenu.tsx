@@ -4,7 +4,7 @@ import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import type { UserSchema } from "~/app/user/UserSchema";
+import type { UserSchema } from "~/app/derivean/user/UserSchema";
 
 export namespace UserIndexMenu {
 	export interface Props

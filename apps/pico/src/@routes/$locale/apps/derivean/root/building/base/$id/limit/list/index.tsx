@@ -1,10 +1,10 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    handleOnFulltext,
-    handleOnPage,
-    handleOnSize,
-    Tx,
+	handleOnFulltext,
+	handleOnPage,
+	handleOnSize,
+	Tx,
 } from "@use-pico/client";
 import { withSearchSchema } from "@use-pico/common";
 import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";

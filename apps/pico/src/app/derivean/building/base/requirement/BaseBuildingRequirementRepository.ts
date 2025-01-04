@@ -82,10 +82,6 @@ export const BaseBuildingRequirementRepository = withRepository<
 			$update = $update.where("id", "in", filter.idIn);
 		}
 
-		if (filter?.baseBuildingId) {
-			$update = $update.where("baseBuildingId", "=", filter.baseBuildingId);
-		}
-
 		return $update;
 	},
 	remove({ tx, filter }) {

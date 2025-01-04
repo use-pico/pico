@@ -83,12 +83,6 @@ export const BuildingResourceRepository = withRepository<
 		if (filter?.idIn && filter.idIn.length) {
 			$update = $update.where("id", "in", filter.idIn);
 		}
-		if (filter?.buildingId) {
-			$update = $update.where("buildingId", "=", filter.buildingId);
-		}
-		if (filter?.resourceId) {
-			$update = $update.where("resourceId", "=", filter.resourceId);
-		}
 
 		return $update;
 	},
@@ -100,12 +94,6 @@ export const BuildingResourceRepository = withRepository<
 		}
 		if (filter?.idIn && filter.idIn.length) {
 			$remove = $remove.where("id", "in", filter.idIn);
-		}
-		if (filter?.buildingId) {
-			$remove = $remove.where("buildingId", "=", filter.buildingId);
-		}
-		if (filter?.resourceId) {
-			$remove = $remove.where("resourceId", "=", filter.resourceId);
 		}
 
 		return $remove;

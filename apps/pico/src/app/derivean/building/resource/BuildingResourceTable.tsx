@@ -148,7 +148,9 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								<DeleteControl
 									repository={BuildingResourceRepository(kysely)}
 									textContent={<Tx label={"Resource item delete (content)"} />}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -211,7 +213,9 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								<DeleteControl
 									repository={BuildingResourceRepository(kysely)}
 									textContent={<Tx label={"Resource item delete (content)"} />}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

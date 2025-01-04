@@ -5,8 +5,8 @@ import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
-import type { TagSchema } from "~/app/tag/TagSchema";
-import type { UserSchema } from "~/app/user/UserSchema";
+import type { TagSchema } from "~/app/derivean/tag/TagSchema";
+import type { UserSchema } from "~/app/derivean/user/UserSchema";
 
 export interface Database {
 	User: UserSchema["~entity"];

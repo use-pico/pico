@@ -9,8 +9,8 @@ import {
 import { withSearchSchema } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/db";
 import { UserRepository } from "~/app/derivean/user/UserRepository";
+import { UserSchema } from "~/app/derivean/user/UserSchema";
 import { UserTable } from "~/app/derivean/user/UserTable";
-import { UserSchema } from "~/app/user/UserSchema";
 
 const SearchSchema = withSearchSchema({ filter: UserSchema.filter });
 

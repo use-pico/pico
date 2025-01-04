@@ -15,7 +15,7 @@ import { kysely } from "~/app/derivean/db/db";
 import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { TagForm } from "~/app/derivean/tag/TagForm";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
-import type { TagSchema } from "~/app/tag/TagSchema";
+import type { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 const column = withColumn<TagSchema["~output"]>();
 
@@ -119,7 +119,9 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								<DeleteControl
 									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Tag delete (content)"} />}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -178,7 +180,9 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								<DeleteControl
 									repository={TagRepository(kysely)}
 									textContent={<Tx label={"Tag delete (content)"} />}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

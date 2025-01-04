@@ -1,4 +1,4 @@
-import { type withRepositorySchema } from "@use-pico/common";
+import { type withRepository as withCoolRepository } from "@use-pico/common";
 import { useContext, type ReactNode } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../button/Button";
@@ -10,29 +10,23 @@ import { DeleteControlCss } from "./DeleteControlCss";
 import type { withRepository } from "./withRepository";
 
 export namespace DeleteControl {
-	export interface Props<
-		TDatabase,
-		TSchema extends withRepositorySchema.Instance<any, any, any>,
-	> extends DeleteControlCss.Props {
-		repository: withRepository.Instance<TDatabase, TSchema>;
+	export interface Props extends DeleteControlCss.Props {
+		repository: withRepository.Instance<any, any>;
 		textContent: ReactNode;
-		idIn?: string[];
+		filter: withCoolRepository.IdentityFilter;
 		onCancel?(): void;
 	}
 }
 
-export const DeleteControl = <
-	TDatabase,
-	TSchema extends withRepositorySchema.Instance<any, any, any>,
->({
+export const DeleteControl = ({
 	repository,
 	textContent,
-	idIn,
+	filter,
 	onCancel,
 	variant,
 	tva = DeleteControlCss,
 	css,
-}: DeleteControl.Props<TDatabase, TSchema>) => {
+}: DeleteControl.Props) => {
 	const tv = tva({ ...variant, css }).slots;
 	const modalContext = useContext(ModalContext);
 	const mutation = repository.useRemoveMutation({
@@ -66,7 +60,7 @@ export const DeleteControl = <
 				<Button
 					variant={{ variant: "danger", size: "md" }}
 					iconEnabled={TrashIcon}
-					onClick={() => mutation.mutate({ idIn })}
+					onClick={() => mutation.mutate(filter)}
 				>
 					<Tx label={"Delete (button)"} />
 				</Button>

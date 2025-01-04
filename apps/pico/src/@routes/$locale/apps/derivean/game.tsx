@@ -10,7 +10,7 @@ import { BuildingResourceRepository } from "~/app/derivean/building/resource/Bui
 import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
-import { SessionSchema } from "~/app/schema/SessionSchema";
+import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	async beforeLoad({ context, params: { locale } }) {

@@ -1,20 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
-import type { RegisterSchema } from "~/app/schema/RegisterSchema";
-import { SessionSchema } from "~/app/schema/SessionSchema";
-import type { withUserRepository } from "~/app/user/withUserRepository";
+import type { RegisterSchema } from "~/app/derivean/schema/RegisterSchema";
+import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
+import { UserRepository } from "~/app/derivean/user/UserRepository";
 
-export namespace useRegisterMutation {
-	export interface Props {
-		repository: withUserRepository.Instance<Database>;
-	}
-}
-
-export const useRegisterMutation = ({
-	repository,
-}: useRegisterMutation.Props) => {
+export const useRegisterMutation = () => {
 	return useMutation({
 		mutationKey: ["useRegisterMutation"],
 		async mutationFn({
@@ -28,7 +19,7 @@ export const useRegisterMutation = ({
 				 * get out.
 				 */
 				const session = SessionSchema.parse(
-					await repository(tx).create({
+					await UserRepository(tx).create({
 						tx,
 						shape: {
 							name,

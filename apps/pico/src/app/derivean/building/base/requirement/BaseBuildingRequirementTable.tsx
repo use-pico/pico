@@ -138,7 +138,9 @@ export const BaseBuildingRequirementTable: FC<
 									textContent={
 										<Tx label={"Resource requirements delete (content)"} />
 									}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -211,7 +213,9 @@ export const BaseBuildingRequirementTable: FC<
 									textContent={
 										<Tx label={"Resource requirement delete (content)"} />
 									}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

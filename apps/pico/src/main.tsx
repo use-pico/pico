@@ -9,7 +9,7 @@ import { withAxios } from "@use-pico/common";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
 import { kysely } from "~/app/derivean/db/db";
-import { SessionSchema } from "~/app/schema/SessionSchema";
+import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({

@@ -1,18 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { pwd } from "@use-pico/common";
-import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
-import type { LoginSchema } from "~/app/schema/LoginSchema";
-import type { SessionSchema } from "~/app/schema/SessionSchema";
-import type { withUserRepository } from "~/app/user/withUserRepository";
+import type { LoginSchema } from "~/app/derivean/schema/LoginSchema";
+import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
+import { UserRepository } from "~/app/derivean/user/UserRepository";
 
-export namespace useLoginMutation {
-	export interface Props {
-		repository: withUserRepository.Instance<Database>;
-	}
-}
-
-export const useLoginMutation = ({ repository }: useLoginMutation.Props) => {
+export const useLoginMutation = () => {
 	return useMutation({
 		mutationKey: ["useLoginMutation"],
 		async mutationFn({
@@ -20,7 +13,7 @@ export const useLoginMutation = ({ repository }: useLoginMutation.Props) => {
 			password,
 		}: LoginSchema.Type): Promise<SessionSchema.Type> {
 			return kysely.transaction().execute(async (tx) => {
-				const user = await repository(tx).fetch({
+				const user = await UserRepository(tx).fetch({
 					tx,
 					query: {
 						where: {

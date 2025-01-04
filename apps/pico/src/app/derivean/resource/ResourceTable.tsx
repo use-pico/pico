@@ -111,7 +111,9 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								<DeleteControl
 									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Resource delete (content)"} />}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -166,7 +168,9 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								<DeleteControl
 									repository={ResourceRepository(kysely)}
 									textContent={<Tx label={"Resource delete (content)"} />}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

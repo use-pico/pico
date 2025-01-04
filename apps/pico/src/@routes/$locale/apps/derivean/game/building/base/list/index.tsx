@@ -6,7 +6,9 @@ import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildin
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { kysely } from "~/app/derivean/db/db";
 
-const SearchSchema = withSearchSchema({ filter: BaseBuildingSchema.filter });
+const SearchSchema = withSearchSchema({
+	filter: BaseBuildingSchema.filter,
+});
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/list/",

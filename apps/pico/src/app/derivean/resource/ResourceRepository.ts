@@ -7,36 +7,90 @@ import { TagRepository } from "~/app/derivean/tag/TagRepository";
 export const ResourceRepository = withRepository<Database, ResourceSchema>({
 	name: "Resource",
 	schema: ResourceSchema,
-	meta: {
-		where: {
-			id: "r.id",
-			idIn: "r.id",
-			baseBuildingId: "bbr.baseBuildingId",
-		},
-		fulltext: ["r.description", "r.name", "r.id"],
-	},
-	select({ tx, query: { where, filter } }) {
-		let $select = tx.selectFrom("Resource as r").selectAll("r");
+	select({
+		tx,
+		query: { where, filter, cursor = { page: 0, size: 10 } },
+		use,
+	}) {
+		let $select = tx
+			.selectFrom("Resource as r")
+			.selectAll("r")
+			.leftJoin("BaseBuilding_Requirement as bbr", "bbr.resourceId", "r.id");
 
-		if (where?.baseBuildingId || filter?.baseBuildingId) {
-			$select = $select.leftJoin(
-				"BaseBuilding_Requirement as bbr",
-				"bbr.resourceId",
-				"r.id",
-			);
+		const fulltext = (input: string) => {
+			const $input = `%${input}%`;
+			return $select.where((ex) => {
+				return ex.or([
+					ex("r.id", "like", $input),
+					ex("r.name", "like", $input),
+				]);
+			});
+		};
+
+		const $where = (where?: ResourceSchema["~filter"]) => {
+			if (where?.id) {
+				$select = $select.where("r.id", "=", where.id);
+			}
+
+			if (where?.idIn && where.idIn.length) {
+				$select = $select.where("r.id", "in", where.idIn);
+			}
+
+			if (where?.baseBuildingId) {
+				$select = $select.where(
+					"bbr.baseBuildingId",
+					"=",
+					where.baseBuildingId,
+				);
+			}
+
+			if (where?.fulltext) {
+				$select = fulltext(where.fulltext);
+			}
+		};
+
+		if (use?.includes("filter")) {
+			$where(filter || {});
 		}
+
+		if (use?.includes("where")) {
+			$where(where || {});
+		}
+
+		if (use?.includes("cursor")) {
+			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
+		}
+
 		return $select;
 	},
-	mutation: {
-		insert({ tx }) {
-			return tx.insertInto("Resource");
-		},
-		update({ tx }) {
-			return tx.updateTable("Resource");
-		},
-		remove({ tx }) {
-			return tx.deleteFrom("Resource");
-		},
+	insert({ tx }) {
+		return tx.insertInto("Resource");
+	},
+	update({ tx, filter }) {
+		let $update = tx.updateTable("Resource");
+
+		if (filter?.id) {
+			$update = $update.where("id", "=", filter.id);
+		}
+
+		if (filter?.idIn && filter.idIn.length) {
+			$update = $update.where("id", "in", filter.idIn);
+		}
+
+		return $update;
+	},
+	remove({ tx, filter }) {
+		let $remove = tx.deleteFrom("Resource");
+
+		if (filter?.id) {
+			$remove = $remove.where("id", "=", filter.id);
+		}
+
+		if (filter?.idIn && filter.idIn.length) {
+			$remove = $remove.where("id", "in", filter.idIn);
+		}
+
+		return $remove;
 	},
 	map: {
 		async toOutput({ tx, entity }) {
@@ -109,3 +163,5 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 		},
 	},
 });
+
+export type ResourceRepository = ReturnType<typeof ResourceRepository>;

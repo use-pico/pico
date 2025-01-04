@@ -83,9 +83,6 @@ export const BaseBuildingRepository = withRepository<
 		if (filter?.idIn && filter.idIn.length) {
 			$remove = $remove.where("id", "in", filter.idIn);
 		}
-		if (filter?.name) {
-			$remove = $remove.where("name", "=", filter.name);
-		}
 
 		return $remove;
 	},

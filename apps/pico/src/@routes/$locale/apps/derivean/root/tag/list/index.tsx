@@ -9,8 +9,8 @@ import {
 import { withSearchSchema } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/db";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
 import { TagTable } from "~/app/derivean/tag/TagTable";
-import { TagSchema } from "~/app/tag/TagSchema";
 
 const SearchSchema = withSearchSchema({ filter: TagSchema.filter });
 

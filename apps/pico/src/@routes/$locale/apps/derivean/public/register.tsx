@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ls } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import { RegisterForm } from "~/app/derivean/public/RegisterForm";
-import { UserRepository } from "~/app/derivean/user/UserRepository";
 
 export const Route = createFileRoute("/$locale/apps/derivean/public/register")({
 	component: () => {
@@ -28,7 +27,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/public/register")({
 				>
 					<hr className={"my-12 h-0.5 border-t-0 bg-slate-300"} />
 					<RegisterForm
-						repository={UserRepository}
 						onSuccess={async (session) => {
 							ls.set("session", session);
 							await navigate({ to: "/$locale/apps/derivean/game" });

@@ -13,9 +13,6 @@ import {
     withRepository as withCoolRepository,
     type CountSchema,
     type CursorSchema,
-    type EntitySchema,
-    type FilterSchema,
-    type ShapeSchema,
     type withRepositorySchema,
 } from "@use-pico/common";
 import type { Kysely, Transaction } from "kysely";
@@ -188,7 +185,7 @@ export namespace withRepository {
 					TSchema extends withRepositorySchema.Instance<any, any, any>,
 				> {
 					entity?: Partial<TSchema["~entity"]>;
-					filter: TSchema["~filter"];
+					filter: withCoolRepository.IdentityFilter;
 				}
 
 				export type Callback<
@@ -243,9 +240,9 @@ export namespace withRepository {
 				onSuccess?: onSuccess.Callback;
 			}
 
-			export type Callback<
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props) => UseMutationResult<any, Error, TSchema["~filter"]>;
+			export type Callback = (
+				props: Props,
+			) => UseMutationResult<any, Error, withCoolRepository.IdentityFilter>;
 		}
 	}
 
@@ -267,7 +264,7 @@ export namespace withRepository {
 		useListQuery: Instance.useListQuery.Callback<TSchema>;
 		useCreateMutation: Instance.useCreateMutation.Callback<TSchema>;
 		usePatchMutation: Instance.usePatchMutation.Callback<TSchema>;
-		useRemoveMutation: Instance.useRemoveMutation.Callback<TSchema>;
+		useRemoveMutation: Instance.useRemoveMutation.Callback;
 	}
 
 	export type Callback<
@@ -281,11 +278,7 @@ export namespace withRepository {
  */
 export const withRepository = <
 	TDatabase,
-	TSchema extends withRepositorySchema.Instance<
-		EntitySchema,
-		ShapeSchema,
-		FilterSchema
-	>,
+	TSchema extends withRepositorySchema.Instance<any, any, any>,
 >({
 	name,
 	invalidate = [],
@@ -319,18 +312,24 @@ export const withRepository = <
 				where,
 				filter,
 				cursor = { page: 0, size: 10 },
-			}) {
+			}): Promise<TSchema["~output-array"]> {
 				return queryClient.ensureQueryData({
 					queryKey: ["withListLoader", name, { where, filter, cursor }],
-					async queryFn() {
+					async queryFn(): Promise<TSchema["~output-array"]> {
 						return $coolInstance.list({ tx, query: { where, filter, cursor } });
 					},
 				});
 			},
-			async withFetchLoader({ tx, queryClient, where, filter, cursor }) {
+			async withFetchLoader({
+				tx,
+				queryClient,
+				where,
+				filter,
+				cursor,
+			}): Promise<TSchema["~output"]> {
 				return queryClient.ensureQueryData({
 					queryKey: ["withFetchLoader", name, { where, filter, cursor }],
-					async queryFn() {
+					async queryFn(): Promise<TSchema["~output"]> {
 						return $coolInstance.fetchOrThrow({
 							tx,
 							query: { where, filter, cursor },
@@ -350,25 +349,29 @@ export const withRepository = <
 				return async ({
 					context: { queryClient },
 					deps: { global, where, filter, cursor },
-				}) => {
-					return $coolInstance.db.transaction().execute(async (tx) => ({
-						data: await $instance.withListLoader({
+				}): Promise<withCoolRepository.List<TSchema["~output"]>> => {
+					return $coolInstance.db.transaction().execute(
+						async (
 							tx,
-							queryClient,
-							where,
-							filter: {
-								...global,
-								...filter,
-							},
-							cursor,
+						): Promise<withCoolRepository.List<TSchema["~output"]>> => ({
+							data: await $instance.withListLoader({
+								tx,
+								queryClient,
+								where,
+								filter: {
+									...global,
+									...filter,
+								},
+								cursor,
+							}),
+							count: await $instance.withCountLoader({
+								tx,
+								queryClient,
+								where,
+								filter: { ...global, ...filter },
+							}),
 						}),
-						count: await $instance.withCountLoader({
-							tx,
-							queryClient,
-							where,
-							filter: { ...global, ...filter },
-						}),
-					}));
+					);
 				};
 			},
 
@@ -378,12 +381,18 @@ export const withRepository = <
 					async queryFn(): Promise<
 						withCoolRepository.List<TSchema["~output"]>
 					> {
-						return $coolInstance.db.transaction().execute(async (tx) => {
-							return {
-								data: await $coolInstance.list({ tx, query }),
-								count: await $coolInstance.count({ tx, query }),
-							};
-						});
+						return $coolInstance.db
+							.transaction()
+							.execute(
+								async (
+									tx,
+								): Promise<withCoolRepository.List<TSchema["~output"]>> => {
+									return {
+										data: await $coolInstance.list({ tx, query }),
+										count: await $coolInstance.count({ tx, query }),
+									};
+								},
+							);
 					},
 					...options,
 				});
@@ -399,28 +408,30 @@ export const withRepository = <
 
 				return useMutation<TSchema["~entity"], Error, TSchema["~shape"]>({
 					mutationKey: ["useCreateMutation", name],
-					async mutationFn(shape) {
-						return wrap(async () => {
-							return $coolInstance.db.transaction().execute(async (tx) => {
-								const entity = await $coolInstance.create({
-									tx,
-									...(await toCreate({
+					async mutationFn(shape): Promise<TSchema["~output"]> {
+						return wrap(async (): Promise<TSchema["~output"]> => {
+							return $coolInstance.db
+								.transaction()
+								.execute(async (tx): Promise<TSchema["~output"]> => {
+									const entity = await $coolInstance.create({
+										tx,
+										...(await toCreate({
+											shape,
+										})),
 										shape,
-									})),
-									shape,
+									});
+
+									await onSuccess?.({ entity });
+
+									await invalidator({
+										queryClient,
+										keys: $invalidate,
+									});
+
+									await router.invalidate();
+
+									return entity;
 								});
-
-								await onSuccess?.({ entity });
-
-								await invalidator({
-									queryClient,
-									keys: $invalidate,
-								});
-
-								await router.invalidate();
-
-								return entity;
-							});
 						});
 					},
 				});
@@ -435,29 +446,31 @@ export const withRepository = <
 
 				return useMutation<TSchema["~output"], Error, TSchema["~shape"]>({
 					mutationKey: ["usePatchMutation", name],
-					async mutationFn(shape) {
-						return wrap(async () => {
-							return $coolInstance.db.transaction().execute(async (tx) => {
-								const entity = await $coolInstance.patch({
-									tx,
-									entity: shape,
-									shape,
-									...(await toPatch({
+					async mutationFn(shape): Promise<TSchema["~output"]> {
+						return wrap(async (): Promise<TSchema["~output"]> => {
+							return $coolInstance.db
+								.transaction()
+								.execute(async (tx): Promise<TSchema["~output"]> => {
+									const entity = await $coolInstance.patch({
+										tx,
+										entity: shape,
 										shape,
-									})),
+										...(await toPatch({
+											shape,
+										})),
+									});
+
+									await onSuccess?.({ entity });
+
+									await invalidator({
+										queryClient,
+										keys: $invalidate,
+									});
+
+									await router.invalidate();
+
+									return entity;
 								});
-
-								await onSuccess?.({ entity });
-
-								await invalidator({
-									queryClient,
-									keys: $invalidate,
-								});
-
-								await router.invalidate();
-
-								return entity;
-							});
 						});
 					},
 				});
@@ -466,24 +479,26 @@ export const withRepository = <
 				const queryClient = useQueryClient();
 				const router = useRouter();
 
-				return useMutation<boolean, Error, TSchema["~filter"]>({
+				return useMutation<boolean, Error, withCoolRepository.IdentityFilter>({
 					mutationKey: ["useRemoveMutation", name],
-					async mutationFn(filter) {
-						return wrap(async () => {
-							return $coolInstance.db.transaction().execute(async (tx) => {
-								await $coolInstance.remove({ tx, filter });
+					async mutationFn(filter): Promise<boolean> {
+						return wrap(async (): Promise<boolean> => {
+							return $coolInstance.db
+								.transaction()
+								.execute(async (tx): Promise<boolean> => {
+									await $coolInstance.remove({ tx, filter });
 
-								await invalidator({
-									queryClient,
-									keys: $invalidate,
+									await invalidator({
+										queryClient,
+										keys: $invalidate,
+									});
+
+									await onSuccess?.({});
+
+									await router.invalidate();
+
+									return true;
 								});
-
-								await onSuccess?.({});
-
-								await router.invalidate();
-
-								return true;
-							});
 						});
 					},
 				});

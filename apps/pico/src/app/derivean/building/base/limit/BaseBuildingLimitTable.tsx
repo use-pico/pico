@@ -118,7 +118,9 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								<DeleteControl
 									repository={BaseBuildingLimitRepository(kysely)}
 									textContent={<Tx label={"Resource limit delete (content)"} />}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -179,7 +181,9 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								<DeleteControl
 									repository={BaseBuildingLimitRepository(kysely)}
 									textContent={<Tx label={"Base storage delete (content)"} />}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

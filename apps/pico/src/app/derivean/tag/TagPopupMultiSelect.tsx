@@ -2,8 +2,8 @@ import { PopupMultiSelect, Tags } from "@use-pico/client";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { TagRepository } from "~/app/derivean/tag/TagRepository";
+import type { TagSchema } from "~/app/derivean/tag/TagSchema";
 import { TagTable } from "~/app/derivean/tag/TagTable";
-import type { TagSchema } from "~/app/tag/TagSchema";
 
 export namespace TagPopupMultiSelect {
 	export interface Props

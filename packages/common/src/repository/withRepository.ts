@@ -18,6 +18,11 @@ import type { withRepositorySchema } from "./withRepositorySchema";
 export namespace withRepository {
 	export type Use = "where" | "filter" | "cursor" | "sort";
 
+	export interface IdentityFilter {
+		id?: string;
+		idIn?: string[];
+	}
+
 	export interface Query<
 		TSchema extends withRepositorySchema.Instance<any, any, any>,
 	> {
@@ -115,36 +120,24 @@ export namespace withRepository {
 		}
 
 		export namespace update {
-			export interface Props<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
+			export interface Props<TDatabase> {
 				tx: Transaction<TDatabase>;
-				filter: TSchema["~filter"];
+				filter: IdentityFilter;
 			}
 
-			export type Callback<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TDatabase, TSchema>,
+			export type Callback<TDatabase> = (
+				props: Props<TDatabase>,
 			) => UpdateQueryBuilder<any, any, any, any>;
 		}
 
 		export namespace remove {
-			export interface Props<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
+			export interface Props<TDatabase> {
 				tx: Transaction<TDatabase>;
-				filter: TSchema["~filter"];
+				filter: IdentityFilter;
 			}
 
-			export type Callback<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (
-				props: Props<TDatabase, TSchema>,
+			export type Callback<TDatabase> = (
+				props: Props<TDatabase>,
 			) => DeleteQueryBuilder<any, any, any>;
 		}
 
@@ -235,8 +228,8 @@ export namespace withRepository {
 
 		select: Props.select.Callback<TDatabase, TSchema>;
 		insert: Props.insert.Callback<TDatabase>;
-		update: Props.update.Callback<TDatabase, TSchema>;
-		remove: Props.remove.Callback<TDatabase, TSchema>;
+		update: Props.update.Callback<TDatabase>;
+		remove: Props.remove.Callback<TDatabase>;
 
 		event?: Props.Event.Instance<TDatabase, TSchema>;
 	}
@@ -275,7 +268,7 @@ export namespace withRepository {
 				 * Shape used to construct "entity" for patch.
 				 */
 				shape: TSchema["~shape-partial"];
-				filter: TSchema["~filter"];
+				filter: IdentityFilter;
 			}
 
 			export type Callback<
@@ -285,18 +278,14 @@ export namespace withRepository {
 		}
 
 		export namespace remove {
-			export interface Props<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> {
+			export interface Props<TDatabase> {
 				tx: Transaction<TDatabase>;
-				filter: TSchema["~filter"];
+				filter: IdentityFilter;
 			}
 
-			export type Callback<
-				TDatabase,
-				TSchema extends withRepositorySchema.Instance<any, any, any>,
-			> = (props: Props<TDatabase, TSchema>) => Promise<any>;
+			export type Callback<TDatabase> = (
+				props: Props<TDatabase>,
+			) => Promise<any>;
 		}
 
 		export namespace fetch {
@@ -387,7 +376,7 @@ export namespace withRepository {
 
 		create: Instance.create.Callback<TDatabase, TSchema>;
 		patch: Instance.patch.Callback<TDatabase, TSchema>;
-		remove: Instance.remove.Callback<TDatabase, TSchema>;
+		remove: Instance.remove.Callback<TDatabase>;
 
 		fetch: Instance.fetch.Callback<TDatabase, TSchema>;
 		fetchOrThrow: Instance.fetchOrThrow.Callback<TDatabase, TSchema>;

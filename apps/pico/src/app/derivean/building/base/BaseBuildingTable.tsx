@@ -142,7 +142,9 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								<DeleteControl
 									repository={BaseBuildingRepository(kysely)}
 									textContent={<Tx label={"Base building delete (content)"} />}
-									idIn={table.selection?.value}
+									filter={{
+										idIn: table.selection?.value,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -201,7 +203,9 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								<DeleteControl
 									repository={BaseBuildingRepository(kysely)}
 									textContent={<Tx label={"Base building delete (content)"} />}
-									idIn={[data.id]}
+									filter={{
+										id: data.id,
+									}}
 								/>
 							</ActionModal>
 						</ActionMenu>

@@ -8,7 +8,7 @@ import {
     UserIcon,
 } from "@use-pico/client";
 import type { FC } from "react";
-import type { UserSchema } from "~/app/user/UserSchema";
+import type { UserSchema } from "~/app/derivean/user/UserSchema";
 
 export namespace UserPreview {
 	export interface Props extends Preview.PropsEx<UserSchema["~output"]> {

@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import type { PageCss } from "@use-pico/client";
 import type { kysely } from "~/app/derivean/db/db";
-import type { SessionSchema } from "~/app/schema/SessionSchema";
+import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;

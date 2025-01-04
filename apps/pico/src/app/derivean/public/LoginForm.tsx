@@ -11,22 +11,19 @@ import {
 import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
-import type { Database } from "~/app/derivean/db/Database";
-import { useLoginMutation } from "~/app/mutation/useLoginMutation";
-import { LoginSchema } from "~/app/schema/LoginSchema";
-import type { SessionSchema } from "~/app/schema/SessionSchema";
-import type { withUserRepository } from "~/app/user/withUserRepository";
+import { useLoginMutation } from "~/app/derivean/public/useLoginMutation";
+import { LoginSchema } from "~/app/derivean/schema/LoginSchema";
+import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export namespace LoginForm {
 	export interface Props {
-		repository: withUserRepository.Instance<Database>;
 		onSuccess(session: SessionSchema.Type): Promise<void>;
 	}
 }
 
-export const LoginForm: FC<LoginForm.Props> = ({ repository, onSuccess }) => {
+export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
 	const { locale } = useParams({ from: "/$locale" });
-	const mutation = useLoginMutation({ repository });
+	const mutation = useLoginMutation();
 	const form = useForm<LoginSchema.Type>({
 		resolver: zodResolver(LoginSchema),
 	});

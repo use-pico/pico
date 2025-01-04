@@ -12,7 +12,7 @@ import {
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { useForm } from "react-hook-form";
-import { TagSchema } from "~/app/tag/TagSchema";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export namespace TagForm {
 	export interface Props
