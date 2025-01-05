@@ -3,9 +3,10 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
+import { withFetchLoader } from "@use-pico/client";
 import { BuildingIndexMenu } from "~/app/derivean/building/BuildingIndexMenu";
 import { BuildingPreview } from "~/app/derivean/building/BuildingPreview";
-import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
+import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id",
@@ -28,9 +29,10 @@ export const Route = createFileRoute(
 	async loader({ context: { kysely, queryClient }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await BuildingRepository(kysely).withFetchLoader({
+				entity: await withFetchLoader({
 					tx,
 					queryClient,
+					source: BuildingSource,
 					where: { id },
 				}),
 			};

@@ -1,16 +1,13 @@
-import { withRepository } from "@use-pico/client";
-import { pwd } from "@use-pico/common";
+import { pwd, withSource } from "@use-pico/common";
 import type { Database } from "~/app/derivean/db/Database";
+import { kysely } from "~/app/derivean/db/db";
 import { UserSchema } from "~/app/derivean/user/UserSchema";
 
-export const UserRepository = withRepository<Database, UserSchema>({
-	name: "UserRepository",
+export const UserSource = withSource<Database, UserSchema>({
+	name: "UserSource",
 	schema: UserSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx.selectFrom("User as u").selectAll("u");
 
 		const fulltext = (input: string) => {
@@ -55,32 +52,14 @@ export const UserRepository = withRepository<Database, UserSchema>({
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("User");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("User");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("User");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("User");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("User");
 	},
 	map: {
 		async toCreate({ entity: { password, ...entity } }) {

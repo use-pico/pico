@@ -3,6 +3,6 @@
 	"compilerOptions": {
 		"rootDir": "src"
 	},
-	"include": ["src/**/*", "src/**/*.json"],
+	"include": ["src/**/*", "src/**/*.json", "../client/src/source/withSourceRoute.ts"],
 	"exclude": ["node_modules"]
 }

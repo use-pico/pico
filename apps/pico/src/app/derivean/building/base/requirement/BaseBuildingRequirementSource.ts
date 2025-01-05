@@ -1,19 +1,13 @@
-import { withRepository } from "@use-pico/client";
+import { withSource } from "@use-pico/common";
 import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
-import type { Database } from "~/app/derivean/db/Database";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
+import { kysely } from "~/app/derivean/db/db";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
-export const BaseBuildingRequirementRepository = withRepository<
-	Database,
-	BaseBuildingRequirementSchema
->({
-	name: "BaseBuildingRequirementRepository",
+export const BaseBuildingRequirementSource = withSource({
+	name: "BaseBuildingRequirementSource",
 	schema: BaseBuildingRequirementSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("BaseBuilding_Requirement as bbr")
 			.selectAll("bbr")
@@ -73,42 +67,22 @@ export const BaseBuildingRequirementRepository = withRepository<
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("BaseBuilding_Requirement");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("BaseBuilding_Requirement");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("BaseBuilding_Requirement");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("BaseBuilding_Requirement");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("BaseBuilding_Requirement");
 	},
 	map: {
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				resource: await ResourceRepository(tx).fetchOrThrow({
+				resource: await ResourceSource.getOrThrow$({
 					tx,
-					query: {
-						where: { id: entity.resourceId },
-					},
+					id: entity.resourceId,
 				}),
 			};
 		},

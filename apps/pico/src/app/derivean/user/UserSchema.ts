@@ -1,11 +1,11 @@
 import {
     FilterSchema,
     IdentitySchema,
-    withRepositorySchema,
+    withSourceSchema
 } from "@use-pico/common";
 import { z } from "zod";
 
-export const UserSchema = withRepositorySchema({
+export const UserSchema = withSourceSchema({
 	entity: IdentitySchema.merge(
 		z.object({
 			name: z.string().min(1),

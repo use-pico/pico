@@ -1,5 +1,5 @@
 import type { Transaction } from "kysely";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { withConstruct } from "~/app/derivean/building/withConstruct";
 import type { Database } from "~/app/derivean/db/Database";
 
@@ -21,9 +21,9 @@ export const withDefaultKingdom = async ({
 			tx,
 			userId,
 			baseBuildingId: (
-				await BaseBuildingRepository(tx).fetchOrThrow({
+				await BaseBuildingSource.fetchOrThrow$({
 					tx,
-					query: { where: { name: building } },
+					where: { name: building },
 				})
 			).id,
 			bypass: true,

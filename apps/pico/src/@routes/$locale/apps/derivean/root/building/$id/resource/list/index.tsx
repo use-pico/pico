@@ -5,25 +5,44 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { BuildingResourceTable } from "~/app/derivean/building/resource/BuildingResourceTable";
-import { kysely } from "~/app/derivean/db/db";
-
-const SearchSchema = withSearchSchema({
-	filter: BuildingResourceSchema.filter,
-});
-
-const loader = BuildingResourceRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id/resource/list/",
 )({
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingResourceSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
+		return {
+			filter,
+			cursor,
+		};
+	},
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor },
+		params: { id },
+	}) {
+		return kysely.transaction().execute((tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BuildingResourceSource,
+				filter,
+				cursor,
+				where: {
+					buildingId: id,
+				},
+			});
+		});
+	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
@@ -64,7 +83,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,
@@ -76,25 +95,5 @@ export const Route = createFileRoute(
 				/>
 			</div>
 		);
-	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
-					buildingId: id,
-				},
-			},
-		});
 	},
 });

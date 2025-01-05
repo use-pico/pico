@@ -1,15 +1,12 @@
-import { withRepository } from "@use-pico/client";
-import type { Database } from "~/app/derivean/db/Database";
+import { withSource } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/db";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
-export const TagRepository = withRepository<Database, TagSchema>({
-	name: "TagRepository",
+export const TagSource = withSource({
+	name: "TagSource",
 	schema: TagSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx.selectFrom("Tag as t").selectAll("t");
 
 		const fulltext = (input: string) => {
@@ -59,31 +56,13 @@ export const TagRepository = withRepository<Database, TagSchema>({
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("Tag");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("Tag");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("Tag");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("Tag");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("Tag");
 	},
 });

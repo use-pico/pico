@@ -5,45 +5,46 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
+import { BaseBuildingRequirementSource } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSource";
 import { BaseBuildingRequirementTable } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementTable";
-import { kysely } from "~/app/derivean/db/db";
-
-const SearchSchema = withSearchSchema({
-	filter: BaseBuildingRequirementSchema.filter,
-});
-
-const loader = BaseBuildingRequirementRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/requirement/list/",
 )({
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
+	validateSearch: zodValidator(
+		withSourceSearchSchema(BaseBuildingRequirementSchema),
+	),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
-			global,
 			filter,
 			cursor,
 		};
 	},
-	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor },
+		params: { id },
+	}) {
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BaseBuildingRequirementSource,
+				filter,
+				cursor,
+				where: {
 					baseBuildingId: id,
 				},
-			},
+			});
 		});
 	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
@@ -84,7 +85,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,

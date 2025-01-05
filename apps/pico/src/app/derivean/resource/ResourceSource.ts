@@ -1,17 +1,14 @@
-import { withRepository } from "@use-pico/client";
-import type { Database } from "~/app/derivean/db/Database";
+import { withSource } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { ResourceTagRepository } from "~/app/derivean/resource/tag/ResourceTagRepository";
-import { TagRepository } from "~/app/derivean/tag/TagRepository";
+import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
+import { TagSource } from "~/app/derivean/tag/TagSource";
 
-export const ResourceRepository = withRepository<Database, ResourceSchema>({
-	name: "Resource",
+export const ResourceSource = withSource({
+	name: "ResourceSource",
 	schema: ResourceSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Resource as r")
 			.selectAll("r")
@@ -63,44 +60,22 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("Resource");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("Resource");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("Resource");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("Resource");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("Resource");
 	},
 	map: {
 		async toOutput({ tx, entity }) {
 			const tagIds = (
-				await ResourceTagRepository(tx).list({
+				await ResourceTagSource.list$({
 					tx,
-					query: {
-						where: {
-							resourceId: entity.id,
-						},
+					where: {
+						resourceId: entity.id,
 					},
 				})
 			).map(({ tagId }) => tagId);
@@ -108,12 +83,10 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 			return {
 				...entity,
 				tagIds,
-				tags: await TagRepository(tx).list({
+				tags: await TagSource.list$({
 					tx,
-					query: {
-						where: {
-							idIn: tagIds,
-						},
+					where: {
+						idIn: tagIds,
 					},
 				}),
 			};
@@ -123,7 +96,7 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 		async onPostCreate({ tx, entity, shape }) {
 			await Promise.all(
 				shape.tagIds?.forEach(async (tagId) => {
-					return ResourceTagRepository(tx).create({
+					return ResourceTagSource.create$({
 						tx,
 						entity: {
 							resourceId: entity.id,
@@ -146,7 +119,7 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 
 				await Promise.all(
 					shape.tagIds.map(async (tagId) => {
-						return ResourceTagRepository(tx).create({
+						return ResourceTagSource.create$({
 							tx,
 							entity: {
 								resourceId: entity.id,
@@ -163,5 +136,3 @@ export const ResourceRepository = withRepository<Database, ResourceSchema>({
 		},
 	},
 });
-
-export type ResourceRepository = ReturnType<typeof ResourceRepository>;

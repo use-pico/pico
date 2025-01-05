@@ -5,7 +5,7 @@ export namespace handleOnFulltext {
 		export interface Props {
 			search: (props: {
 				cursor: { page: number };
-				global?: { fulltext?: string | null };
+				filter?: { fulltext?: string | null };
 			}) => any;
 			replace?: boolean;
 		}
@@ -17,10 +17,10 @@ export namespace handleOnFulltext {
 export const handleOnFulltext = (navigate: handleOnFulltext.Navigate) => {
 	return (text: Fulltext.Value) => {
 		navigate({
-			search: ({ cursor, global, ...rest }) => ({
+			search: ({ cursor, filter, ...rest }) => ({
 				...rest,
-				global: {
-					...global,
+				filter: {
+					...filter,
 					fulltext: text,
 				},
 				cursor: { ...cursor, page: text ? 0 : cursor.page },

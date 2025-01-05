@@ -1,9 +1,10 @@
-import { PopupSelect, Tx } from "@use-pico/client";
+import { PopupSelect, Tx, useListQuery } from "@use-pico/client";
 import type { FC } from "react";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import {
+    BaseBuildingSource
+} from "~/app/derivean/building/base/BaseBuildingSource";
 import { BaseBuildingTable } from "~/app/derivean/building/base/BaseBuildingTable";
-import { kysely } from "~/app/derivean/db/db";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
 export namespace BaseBuildingPopupSelect {
@@ -24,7 +25,8 @@ export const BaseBuildingPopupSelect: FC<BaseBuildingPopupSelect.Props> = (
 			render={({ entity }) => {
 				return entity.name;
 			}}
-			useListQuery={BaseBuildingRepository(kysely).useListQuery}
+			source={BaseBuildingSource}
+			useListQuery={useListQuery}
 			{...props}
 		/>
 	);

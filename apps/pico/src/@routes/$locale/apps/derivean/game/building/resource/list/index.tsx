@@ -5,48 +5,47 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { BuildingResourceTable } from "~/app/derivean/building/resource/BuildingResourceTable";
-import { kysely } from "~/app/derivean/db/db";
 import { AmountInline } from "~/app/derivean/game/AmountInline";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-
-const SearchSchema = withSearchSchema({
-	filter: BuildingResourceSchema.filter,
-});
-
-const loader = BuildingResourceRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/resource/list/",
 )({
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingResourceSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
-			global,
 			filter,
 			cursor,
 		};
 	},
-	async loader({ context, deps }) {
-		const session = await context.session();
+	async loader({
+		context: { queryClient, kysely, session },
+		deps: { filter, cursor },
+	}) {
+		const user = await session();
 
-		return loader({
-			context,
-			deps: {
-				...deps,
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BuildingResourceSource,
+				filter,
+				cursor,
 				where: {
-					userId: session.id,
+					userId: user.id,
 				},
-			},
+			});
 		});
 	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -91,7 +90,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,

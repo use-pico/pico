@@ -6,14 +6,17 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BaseBuildingLimitForm } from "~/app/derivean/building/base/limit/BaseBuildingLimitForm";
-import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
-import { kysely } from "~/app/derivean/db/db";
+import {
+    BaseBuildingLimitSource
+} from "~/app/derivean/building/base/limit/BaseBuildingLimitSource";
 import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
 
 const column = withColumn<BaseBuildingLimitSchema["~output"]>();
@@ -69,9 +72,8 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								icon={StorageIcon}
 							>
 								<BaseBuildingLimitForm
-									mutation={BaseBuildingLimitRepository(
-										kysely,
-									).useCreateMutation({
+									mutation={useCreateMutation({
+										source: BaseBuildingLimitSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource limit (label)"} />,
@@ -99,30 +101,6 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 									}}
 								/>
 							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete resource limit (label)"} />}
-								textTitle={<Tx label={"Delete resource limit (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={BaseBuildingLimitRepository(kysely)}
-									textContent={<Tx label={"Resource limit delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
-									}}
-								/>
-							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -136,9 +114,8 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 							>
 								<BaseBuildingLimitForm
 									defaultValues={data}
-									mutation={BaseBuildingLimitRepository(
-										kysely,
-									).usePatchMutation({
+									mutation={usePatchMutation({
+										source: BaseBuildingLimitSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base storage (label)"} />,
@@ -179,7 +156,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingLimitRepository(kysely)}
+									source={BaseBuildingLimitSource}
 									textContent={<Tx label={"Base storage delete (content)"} />}
 									filter={{
 										id: data.id,

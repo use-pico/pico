@@ -9,15 +9,16 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import { toHumanNumber, translator } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { kysely } from "~/app/derivean/db/db";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
 const column = withColumn<BaseBuildingSchema["~output"]>();
@@ -103,7 +104,8 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								icon={BaseBuildingIcon}
 							>
 								<BaseBuildingForm
-									mutation={BaseBuildingRepository(kysely).useCreateMutation({
+									mutation={useCreateMutation({
+										source: BaseBuildingSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base building (label)"} />,
@@ -123,30 +125,6 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 									}}
 								/>
 							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete base buildings (label)"} />}
-								textTitle={<Tx label={"Delete base buildings (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={BaseBuildingRepository(kysely)}
-									textContent={<Tx label={"Base building delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
-									}}
-								/>
-							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -160,7 +138,8 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 							>
 								<BaseBuildingForm
 									defaultValues={data}
-									mutation={BaseBuildingRepository(kysely).usePatchMutation({
+									mutation={usePatchMutation({
+										source: BaseBuildingSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving base building (label)"} />,
@@ -201,7 +180,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRepository(kysely)}
+									source={BaseBuildingSource}
 									textContent={<Tx label={"Base building delete (content)"} />}
 									filter={{
 										id: data.id,

@@ -3,7 +3,7 @@ import { kysely } from "~/app/derivean/db/db";
 import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
 import type { RegisterSchema } from "~/app/derivean/schema/RegisterSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserRepository } from "~/app/derivean/user/UserRepository";
+import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const useRegisterMutation = () => {
 	return useMutation({
@@ -19,7 +19,7 @@ export const useRegisterMutation = () => {
 				 * get out.
 				 */
 				const session = SessionSchema.parse(
-					await UserRepository(tx).create({
+					await UserSource.create$({
 						tx,
 						shape: {
 							name,

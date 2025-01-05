@@ -1,11 +1,11 @@
 import {
     TagSchema as CoolTagSchema,
     FilterSchema,
-    withRepositorySchema,
+    withSourceSchema
 } from "@use-pico/common";
 import { z } from "zod";
 
-export const TagSchema = withRepositorySchema({
+export const TagSchema = withSourceSchema({
 	entity: CoolTagSchema,
 	shape: z.object({
 		code: z.string().min(1),

@@ -5,46 +5,45 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { kysely } from "~/app/derivean/db/db";
+import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingTable } from "~/app/derivean/game/BuildingTable";
-
-const SearchSchema = withSearchSchema({
-	filter: BuildingSchema.filter,
-});
-
-const loader = BuildingRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",
 )({
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
-			global,
 			filter,
 			cursor,
 		};
 	},
-	async loader({ context, deps }) {
-		const session = await context.session();
+	async loader({
+		context: { queryClient, kysely, session },
+		deps: { filter, cursor },
+	}) {
+		const user = await session();
 
-		return loader({
-			context,
-			deps: {
-				...deps,
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BuildingSource,
 				where: {
-					userId: session.id,
+					userId: user.id,
 				},
-			},
+				filter,
+				cursor,
+			});
 		});
 	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -83,7 +82,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,

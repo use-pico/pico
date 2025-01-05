@@ -1,7 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
-    withRepositorySchema,
+    withSourceSchema
 } from "@use-pico/common";
 import { z } from "zod";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
@@ -12,7 +12,7 @@ const entity = IdentitySchema.merge(
 	}),
 );
 
-export const ResourceSchema = withRepositorySchema({
+export const ResourceSchema = withSourceSchema({
 	entity,
 	output: entity.merge(
 		z.object({

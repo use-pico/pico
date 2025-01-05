@@ -4,7 +4,7 @@ import type { FilterSchema } from "../schema/FilterSchema";
 import type { ShapeSchema } from "../schema/ShapeSchema";
 import { proxyOf } from "../toolbox/proxyOf";
 
-export namespace withRepositorySchema {
+export namespace withSourceSchema {
 	export interface Props<
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
@@ -62,7 +62,7 @@ export namespace withRepositorySchema {
 	}
 }
 
-export const withRepositorySchema = <
+export const withSourceSchema = <
 	TEntitySchema extends EntitySchema,
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -72,12 +72,12 @@ export const withRepositorySchema = <
 	output = entity as TOutputSchema,
 	shape,
 	filter,
-}: withRepositorySchema.Props<
+}: withSourceSchema.Props<
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,
 	TOutputSchema
->): withRepositorySchema.Instance<
+>): withSourceSchema.Instance<
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,

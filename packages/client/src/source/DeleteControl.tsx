@@ -1,4 +1,4 @@
-import { type withRepository as withCoolRepository } from "@use-pico/common";
+import type { withSource, withSourceSchema } from "@use-pico/common";
 import { useContext, type ReactNode } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../button/Button";
@@ -7,29 +7,36 @@ import { TrashIcon } from "../icon/TrashIcon";
 import { ModalContext } from "../modal/ModalContext";
 import { Tx } from "../tx/Tx";
 import { DeleteControlCss } from "./DeleteControlCss";
-import type { withRepository } from "./withRepository";
+import { useRemoveMutation } from "./useRemoveMutation";
 
 export namespace DeleteControl {
-	export interface Props extends DeleteControlCss.Props {
-		repository: withRepository.Instance<any, any>;
+	export interface Props<
+		TDatabase,
+		TSchema extends withSourceSchema.Instance<any, any, any>,
+	> extends DeleteControlCss.Props {
+		source: withSource.Instance<TDatabase, TSchema>;
 		textContent: ReactNode;
-		filter: withCoolRepository.IdentityFilter;
+		filter: TSchema["~filter"];
 		onCancel?(): void;
 	}
 }
 
-export const DeleteControl = ({
-	repository,
+export const DeleteControl = <
+	TDatabase,
+	TSchema extends withSourceSchema.Instance<any, any, any>,
+>({
+	source,
 	textContent,
 	filter,
 	onCancel,
 	variant,
 	tva = DeleteControlCss,
 	css,
-}: DeleteControl.Props) => {
+}: DeleteControl.Props<TDatabase, TSchema>) => {
 	const tv = tva({ ...variant, css }).slots;
 	const modalContext = useContext(ModalContext);
-	const mutation = repository.useRemoveMutation({
+	const mutation = useRemoveMutation({
+		source,
 		async wrap(callback) {
 			return toast.promise(callback(), {
 				loading: <Tx label={"Deleting... (label)"} />,

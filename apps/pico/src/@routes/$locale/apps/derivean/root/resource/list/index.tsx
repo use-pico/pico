@@ -5,21 +5,37 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { kysely } from "~/app/derivean/db/db";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 import { ResourceTable } from "~/app/derivean/resource/ResourceTable";
-
-const SearchSchema = withSearchSchema({ filter: ResourceSchema.filter });
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/list/",
 )({
+	validateSearch: zodValidator(withSourceSearchSchema(ResourceSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
+		return {
+			filter,
+			cursor,
+		};
+	},
+	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+		return kysely.transaction().execute((tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: ResourceSource,
+				filter,
+				cursor,
+			});
+		});
+	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -58,7 +74,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,
@@ -71,13 +87,4 @@ export const Route = createFileRoute(
 			</div>
 		);
 	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	loader: ResourceRepository(kysely).withRouteListLoader(),
 });

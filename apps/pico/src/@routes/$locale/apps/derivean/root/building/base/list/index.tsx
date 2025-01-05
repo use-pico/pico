@@ -5,32 +5,37 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BaseBuildingTable } from "~/app/derivean/building/base/BaseBuildingTable";
-import { kysely } from "~/app/derivean/db/db";
-
-const SearchSchema = withSearchSchema({
-	filter: BaseBuildingSchema.filter,
-});
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list/",
 )({
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
-			global,
 			filter,
 			cursor,
 		};
 	},
-	loader: BaseBuildingRepository(kysely).withRouteListLoader(),
+	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BaseBuildingSource,
+				filter,
+				cursor,
+			});
+		});
+	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -69,7 +74,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,

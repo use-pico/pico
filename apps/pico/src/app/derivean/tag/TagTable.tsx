@@ -7,15 +7,15 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import { TagForm } from "~/app/derivean/tag/TagForm";
-import { TagRepository } from "~/app/derivean/tag/TagRepository";
-import type { TagSchema } from "~/app/derivean/tag/TagSchema";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
+import { TagSource } from "~/app/derivean/tag/TagSource";
 
 const column = withColumn<TagSchema["~output"]>();
 
@@ -84,7 +84,8 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									defaultValues={{
 										group,
 									}}
-									mutation={TagRepository(kysely).useCreateMutation({
+									mutation={useCreateMutation({
+										source: TagSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving tag (label)"} />,
@@ -97,30 +98,6 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
-									}}
-								/>
-							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete tags (label)"} />}
-								textTitle={<Tx label={"Delete tags (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={ResourceRepository(kysely)}
-									textContent={<Tx label={"Tag delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
 									}}
 								/>
 							</ActionModal>
@@ -140,7 +117,8 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										...data,
 										group,
 									}}
-									mutation={TagRepository(kysely).usePatchMutation({
+									mutation={usePatchMutation({
+										source: TagSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving tag (label)"} />,
@@ -178,7 +156,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={TagRepository(kysely)}
+									source={TagSource}
 									textContent={<Tx label={"Tag delete (content)"} />}
 									filter={{
 										id: data.id,

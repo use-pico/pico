@@ -3,7 +3,7 @@ import { pwd } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/db";
 import type { LoginSchema } from "~/app/derivean/schema/LoginSchema";
 import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserRepository } from "~/app/derivean/user/UserRepository";
+import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const useLoginMutation = () => {
 	return useMutation({
@@ -13,19 +13,14 @@ export const useLoginMutation = () => {
 			password,
 		}: LoginSchema.Type): Promise<SessionSchema.Type> {
 			return kysely.transaction().execute(async (tx) => {
-				const user = await UserRepository(tx).fetch({
+				const user = await UserSource.fetchOrThrow$({
 					tx,
-					query: {
-						where: {
-							login,
-							password: pwd.hash(password),
-						},
+					where: {
+						login,
+						password: pwd.hash(password),
 					},
+					error: "Invalid login or password",
 				});
-
-				if (!user) {
-					throw new Error("Invalid login or password");
-				}
 
 				return {
 					id: user.id,

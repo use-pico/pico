@@ -3,14 +3,27 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
+import { withFetchLoader } from "@use-pico/client";
 import { BaseBuildingIndexMenu } from "~/app/derivean/building/base/BaseBuildingIndexMenu";
 import { BaseBuildingPreview } from "~/app/derivean/building/base/BaseBuildingPreview";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { kysely } from "~/app/derivean/db/db";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id",
 )({
+	async loader({ context: { queryClient }, params: { id } }) {
+		return kysely.transaction().execute(async (tx) => {
+			return {
+				entity: await withFetchLoader({
+					tx,
+					queryClient,
+					source: BaseBuildingSource,
+					where: { id },
+				}),
+			};
+		});
+	},
 	component() {
 		const { tva } = useRouteContext({ from: "__root__" });
 		const { entity } = Route.useLoaderData();
@@ -25,16 +38,5 @@ export const Route = createFileRoute(
 				<Outlet />
 			</div>
 		);
-	},
-	async loader({ context: { queryClient }, params: { id } }) {
-		return kysely.transaction().execute(async (tx) => {
-			return {
-				entity: await BaseBuildingRepository(tx).withFetchLoader({
-					tx,
-					queryClient,
-					where: { id },
-				}),
-			};
-		});
 	},
 });

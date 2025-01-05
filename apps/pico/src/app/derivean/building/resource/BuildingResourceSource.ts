@@ -1,20 +1,16 @@
-import { withRepository } from "@use-pico/client";
-import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
+import { withSource } from "@use-pico/common";
+import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
-import type { Database } from "~/app/derivean/db/Database";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
+import { kysely } from "~/app/derivean/db/db";
+import {
+    ResourceSource
+} from "~/app/derivean/resource/ResourceSource";
 
-export const BuildingResourceRepository = withRepository<
-	Database,
-	BuildingResourceSchema
->({
-	name: "BuildingResourceRepository",
+export const BuildingResourceSource = withSource({
+	name: "BuildingResourceSource",
 	schema: BuildingResourceSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Building_Resource as br")
 			.selectAll("br")
@@ -75,44 +71,26 @@ export const BuildingResourceRepository = withRepository<
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("Building_Resource");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("Building_Resource");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("Building_Resource");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("Building_Resource");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("Building_Resource");
 	},
 	map: {
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				building: await BuildingRepository(tx).fetchOrThrow({
+				building: await BuildingSource.getOrThrow$({
 					tx,
-					query: { where: { id: entity.buildingId } },
+					id: entity.buildingId,
 				}),
-				resource: await ResourceRepository(tx).fetchOrThrow({
+				resource: await ResourceSource.getOrThrow$({
 					tx,
-					query: { where: { id: entity.resourceId } },
+					id: entity.resourceId,
 				}),
 			};
 		},

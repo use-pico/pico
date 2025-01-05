@@ -6,14 +6,15 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BuildingResourceForm } from "~/app/derivean/building/resource/BuildingResourceForm";
-import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
-import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
-import { kysely } from "~/app/derivean/db/db";
+import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline";
 
@@ -99,9 +100,8 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								hidden={Boolean(!buildingId)}
 							>
 								<BuildingResourceForm
-									mutation={BuildingResourceRepository(
-										kysely,
-									).useCreateMutation({
+									mutation={useCreateMutation({
+										source: BuildingResourceSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource item (label)"} />,
@@ -129,30 +129,6 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 									}}
 								/>
 							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete resource item (label)"} />}
-								textTitle={<Tx label={"Delete resource item (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={BuildingResourceRepository(kysely)}
-									textContent={<Tx label={"Resource item delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
-									}}
-								/>
-							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -166,32 +142,29 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 							>
 								<BuildingResourceForm
 									defaultValues={data}
-									mutation={BuildingResourceRepository(kysely).usePatchMutation(
-										{
-											async wrap(callback) {
-												return toast.promise(callback(), {
-													loading: (
-														<Tx label={"Saving resource item (label)"} />
-													),
-													success: (
-														<Tx
-															label={"Resource item successfully saved (label)"}
-														/>
-													),
-													error: (
-														<Tx label={"Cannot save resource item (label)"} />
-													),
-												});
-											},
-											async toPatch() {
-												return {
-													filter: {
-														id: data.id,
-													},
-												};
-											},
+									mutation={usePatchMutation({
+										source: BuildingResourceSource,
+										async wrap(callback) {
+											return toast.promise(callback(), {
+												loading: <Tx label={"Saving resource item (label)"} />,
+												success: (
+													<Tx
+														label={"Resource item successfully saved (label)"}
+													/>
+												),
+												error: (
+													<Tx label={"Cannot save resource item (label)"} />
+												),
+											});
 										},
-									)}
+										async toPatch() {
+											return {
+												filter: {
+													id: data.id,
+												},
+											};
+										},
+									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
@@ -211,7 +184,7 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingResourceRepository(kysely)}
+									source={BuildingResourceSource}
 									textContent={<Tx label={"Resource item delete (content)"} />}
 									filter={{
 										id: data.id,

@@ -4,6 +4,7 @@ import type {
     Entity,
     FilterSchema,
     IdentitySchema,
+    withSource,
 } from "@use-pico/common";
 import { useState, type FC } from "react";
 import { Button } from "../button/Button";
@@ -15,7 +16,7 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import type { withRepository } from "../repository/withRepository";
+import type { useListQuery } from "../source/useListQuery";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupSelectCss } from "./PopupSelectCss";
@@ -29,7 +30,8 @@ export namespace PopupSelect {
 		table: FC<Table.PropsEx<any>>;
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
-		useListQuery: withRepository.Instance.useListQuery.Callback<any>;
+		source: withSource.Instance<any, any>;
+		useListQuery: useListQuery<any, any>;
 
 		value: string;
 		onChange(value: string | undefined): void;
@@ -37,7 +39,7 @@ export namespace PopupSelect {
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		"table" | "useListQuery" | "render"
+		"table" | "source" | "useListQuery" | "render"
 	>;
 }
 
@@ -48,6 +50,8 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	table: Table,
 	render: Render,
 	allowEmpty = false,
+
+	source,
 	useListQuery,
 
 	value,
@@ -68,22 +72,20 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 
 	const result = useListQuery({
-		query: {
-			where: {
-				fulltext,
-			} satisfies FilterSchema.Type,
-			cursor: {
-				page,
-				size,
-			} satisfies CursorSchema.Type,
-		},
+		source,
+		where: {
+			fulltext,
+		} satisfies FilterSchema.Type,
+		cursor: {
+			page,
+			size,
+		} satisfies CursorSchema.Type,
 	});
 
 	const selected = useListQuery({
-		query: {
-			where: {
-				id: value,
-			},
+		source,
+		where: {
+			id: value,
 		},
 		options: {
 			enabled: Boolean(value),

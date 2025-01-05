@@ -1,9 +1,8 @@
-import { PopupSelect, Tx } from "@use-pico/client";
+import { PopupSelect, Tx, useListQuery } from "@use-pico/client";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 import { ResourceTable } from "~/app/derivean/resource/ResourceTable";
 
 export namespace ResourcePopupSelect {
@@ -22,7 +21,8 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = (props) => {
 			render={({ entity }) => {
 				return entity.name;
 			}}
-			useListQuery={ResourceRepository(kysely).useListQuery}
+			source={ResourceSource}
+			useListQuery={useListQuery}
 			{...props}
 		/>
 	);

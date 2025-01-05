@@ -9,15 +9,16 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/resource/ResourceForm";
-import { ResourceRepository } from "~/app/derivean/resource/ResourceRepository";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
 const column = withColumn<ResourceSchema["~output"]>();
 
@@ -76,7 +77,8 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								icon={ResourceIcon}
 							>
 								<ResourceForm
-									mutation={ResourceRepository(kysely).useCreateMutation({
+									mutation={useCreateMutation({
+										source: ResourceSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -89,30 +91,6 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 									})}
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
-									}}
-								/>
-							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete resources (label)"} />}
-								textTitle={<Tx label={"Delete resources (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={ResourceRepository(kysely)}
-									textContent={<Tx label={"Resource delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
 									}}
 								/>
 							</ActionModal>
@@ -129,7 +107,8 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 							>
 								<ResourceForm
 									defaultValues={data}
-									mutation={ResourceRepository(kysely).usePatchMutation({
+									mutation={usePatchMutation({
+										source: ResourceSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving resource (label)"} />,
@@ -166,7 +145,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<DeleteControl
-									repository={ResourceRepository(kysely)}
+									source={ResourceSource}
 									textContent={<Tx label={"Resource delete (content)"} />}
 									filter={{
 										id: data.id,

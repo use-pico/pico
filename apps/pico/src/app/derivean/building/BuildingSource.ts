@@ -1,16 +1,15 @@
-import { withRepository } from "@use-pico/client";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
+import { withSource } from "@use-pico/common";
+import {
+    BaseBuildingSource
+} from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import type { Database } from "~/app/derivean/db/Database";
+import { kysely } from "~/app/derivean/db/db";
 
-export const BuildingRepository = withRepository<Database, BuildingSchema>({
-	name: "BuildingRepository",
+export const BuildingSource = withSource({
+	name: "BuildingSource",
+	db: kysely,
 	schema: BuildingSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Building as b")
 			.selectAll("b")
@@ -58,40 +57,22 @@ export const BuildingRepository = withRepository<Database, BuildingSchema>({
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("Building");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("Building");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("Building");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("Building");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("Building");
 	},
 	map: {
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				baseBuilding: await BaseBuildingRepository(tx).fetchOrThrow({
+				baseBuilding: await BaseBuildingSource.getOrThrow$({
 					tx,
-					query: { where: { id: entity.baseBuildingId } },
+					id: entity.baseBuildingId,
 				}),
 			};
 		},

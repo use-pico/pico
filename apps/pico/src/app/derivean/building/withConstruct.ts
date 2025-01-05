@@ -1,6 +1,6 @@
 import type { Transaction } from "kysely";
-import { BaseBuildingRepository } from "~/app/derivean/building/base/BaseBuildingRepository";
-import { BuildingResourceRepository } from "~/app/derivean/building/resource/BuildingResourceRepository";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import type { Database } from "~/app/derivean/db/Database";
 import { resourceCheckOf } from "~/app/derivean/resource/resourceCheckOf";
 import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
@@ -31,9 +31,9 @@ export const withConstruct = async ({
 	baseBuildingId,
 	bypass = false,
 }: withConstruct.Props) => {
-	const baseBuilding = await BaseBuildingRepository(tx).fetchOrThrow({
+	const baseBuilding = await BaseBuildingSource.getOrThrow$({
 		tx,
-		query: { where: { id: baseBuildingId } },
+		id: baseBuildingId,
 	});
 
 	if (!bypass) {
@@ -41,9 +41,9 @@ export const withConstruct = async ({
 			!resourceCheckOf({
 				requirements: baseBuilding.requirements,
 				resources: resourceSumOf({
-					resources: await BuildingResourceRepository(tx).list({
+					resources: await BuildingResourceSource.list$({
 						tx,
-						query: { where: { userId } },
+						where: { userId },
 					}),
 				}),
 			})

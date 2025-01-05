@@ -1,29 +1,48 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	handleOnFulltext,
-	handleOnPage,
-	handleOnSize,
-	Tx,
+    handleOnFulltext,
+    handleOnPage,
+    handleOnSize,
+    Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { BaseBuildingLimitRepository } from "~/app/derivean/building/base/limit/BaseBuildingLimitRepository";
 import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
+import { BaseBuildingLimitSource } from "~/app/derivean/building/base/limit/BaseBuildingLimitSource";
 import { BaseBuildingLimitTable } from "~/app/derivean/building/base/limit/BaseBuildingLimitTable";
-import { kysely } from "~/app/derivean/db/db";
-
-const SearchSchema = withSearchSchema({
-	filter: BaseBuildingLimitSchema.filter,
-});
-
-const loader = BaseBuildingLimitRepository(kysely).withRouteListLoader();
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/limit/list/",
 )({
+	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingLimitSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
+		return {
+			filter,
+			cursor,
+		};
+	},
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor },
+		params: { id },
+	}) {
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: BaseBuildingLimitSource,
+				filter,
+				cursor,
+				where: {
+					baseBuildingId: id,
+				},
+			});
+		});
+	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
@@ -64,7 +83,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,
@@ -76,25 +95,5 @@ export const Route = createFileRoute(
 				/>
 			</div>
 		);
-	},
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
-		return {
-			global,
-			filter,
-			cursor,
-		};
-	},
-	async loader({ context, deps: { filter, ...deps }, params: { id } }) {
-		return loader({
-			context,
-			deps: {
-				...deps,
-				filter: {
-					...filter,
-					baseBuildingId: id,
-				},
-			},
-		});
 	},
 });

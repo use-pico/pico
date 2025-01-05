@@ -5,28 +5,36 @@ import {
     handleOnPage,
     handleOnSize,
     Tx,
+    withListCountLoader,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withSearchSchema } from "@use-pico/common";
-import { kysely } from "~/app/derivean/db/db";
-import { TagRepository } from "~/app/derivean/tag/TagRepository";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
+import { TagSource } from "~/app/derivean/tag/TagSource";
 import { TagTable } from "~/app/derivean/tag/TagTable";
 
-const SearchSchema = withSearchSchema({ filter: TagSchema.filter });
-
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
-	validateSearch: zodValidator(SearchSchema),
-	loaderDeps({ search: { global, filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
 			global,
 			filter,
 			cursor,
 		};
 	},
-	loader: TagRepository(kysely).withRouteListLoader(),
+	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+		return kysely.transaction().execute(async (tx) => {
+			return withListCountLoader({
+				tx,
+				queryClient,
+				source: TagSource,
+				filter,
+				cursor,
+			});
+		});
+	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { global, filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -65,7 +73,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 					}}
 					fulltext={{
 						onFulltext: handleOnFulltext(navigate),
-						value: global?.fulltext,
+						value: filter?.fulltext,
 					}}
 					cursor={{
 						count,

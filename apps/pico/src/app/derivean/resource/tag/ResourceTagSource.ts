@@ -1,18 +1,12 @@
-import { withRepository } from "@use-pico/client";
-import type { Database } from "~/app/derivean/db/Database";
+import { withSource } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 
-export const ResourceTagRepository = withRepository<
-	Database,
-	ResourceTagSchema
->({
-	name: "ResourceTagRepository",
+export const ResourceTagSource = withSource({
+	name: "ResourceTagSource",
 	schema: ResourceTagSchema,
-	select({
-		tx,
-		query: { where, filter, cursor = { page: 0, size: 10 } },
-		use,
-	}) {
+	db: kysely,
+	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Resource_Tag as rt")
 			.selectAll("rt")
@@ -69,31 +63,13 @@ export const ResourceTagRepository = withRepository<
 
 		return $select;
 	},
-	insert({ tx }) {
+	create$({ tx }) {
 		return tx.insertInto("Resource_Tag");
 	},
-	update({ tx, filter }) {
-		let $update = tx.updateTable("Resource_Tag");
-
-		if (filter?.id) {
-			$update = $update.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$update = $update.where("id", "in", filter.idIn);
-		}
-
-		return $update;
+	patch$({ tx }) {
+		return tx.updateTable("Resource_Tag");
 	},
-	remove({ tx, filter }) {
-		let $remove = tx.deleteFrom("Resource_Tag");
-
-		if (filter?.id) {
-			$remove = $remove.where("id", "=", filter.id);
-		}
-		if (filter?.idIn && filter.idIn.length) {
-			$remove = $remove.where("id", "in", filter.idIn);
-		}
-
-		return $remove;
+	delete$({ tx }) {
+		return tx.deleteFrom("Resource_Tag");
 	},
 });

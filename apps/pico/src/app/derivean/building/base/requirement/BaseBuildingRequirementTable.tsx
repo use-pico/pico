@@ -7,15 +7,16 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingRequirementForm } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementForm";
-import { BaseBuildingRequirementRepository } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementRepository";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
-import { kysely } from "~/app/derivean/db/db";
+import { BaseBuildingRequirementSource } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSource";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 const column = withColumn<BaseBuildingRequirementSchema["~output"]>();
@@ -79,9 +80,8 @@ export const BaseBuildingRequirementTable: FC<
 								icon={ResourceIcon}
 							>
 								<BaseBuildingRequirementForm
-									mutation={BaseBuildingRequirementRepository(
-										kysely,
-									).useCreateMutation({
+									mutation={useCreateMutation({
+										source: BaseBuildingRequirementSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: (
@@ -115,34 +115,6 @@ export const BaseBuildingRequirementTable: FC<
 									}}
 								/>
 							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete resource requirements (label)"} />}
-								textTitle={
-									<Tx label={"Delete resource requirements (modal)"} />
-								}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={BaseBuildingRequirementRepository(kysely)}
-									textContent={
-										<Tx label={"Resource requirements delete (content)"} />
-									}
-									filter={{
-										idIn: table.selection?.value,
-									}}
-								/>
-							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -156,9 +128,8 @@ export const BaseBuildingRequirementTable: FC<
 							>
 								<BaseBuildingRequirementForm
 									defaultValues={data}
-									mutation={BaseBuildingRequirementRepository(
-										kysely,
-									).usePatchMutation({
+									mutation={usePatchMutation({
+										source: BaseBuildingRequirementSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: (
@@ -209,7 +180,7 @@ export const BaseBuildingRequirementTable: FC<
 								}}
 							>
 								<DeleteControl
-									repository={BaseBuildingRequirementRepository(kysely)}
+									source={BaseBuildingRequirementSource}
 									textContent={
 										<Tx label={"Resource requirement delete (content)"} />
 									}

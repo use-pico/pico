@@ -8,14 +8,17 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useCreateMutation,
+    usePatchMutation,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BuildingForm } from "~/app/derivean/building/BuildingForm";
-import { BuildingRepository } from "~/app/derivean/building/BuildingRepository";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { kysely } from "~/app/derivean/db/db";
+import {
+    BuildingSource
+} from "~/app/derivean/building/BuildingSource";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
@@ -70,7 +73,8 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								icon={ResourceIcon}
 							>
 								<BuildingForm
-									mutation={BuildingRepository(kysely).useCreateMutation({
+									mutation={useCreateMutation({
+										source: BuildingSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving building (label)"} />,
@@ -94,30 +98,6 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 									}}
 								/>
 							</ActionModal>
-
-							<ActionModal
-								icon={TrashIcon}
-								label={<Tx label={"Delete building (label)"} />}
-								textTitle={<Tx label={"Delete buildings (modal)"} />}
-								disabled={
-									!table.selection || table.selection.value.length === 0
-								}
-								css={{
-									base: [
-										"text-red-500",
-										"hover:text-red-600",
-										"hover:bg-red-50",
-									],
-								}}
-							>
-								<DeleteControl
-									repository={BuildingRepository(kysely)}
-									textContent={<Tx label={"Building delete (content)"} />}
-									filter={{
-										idIn: table.selection?.value,
-									}}
-								/>
-							</ActionModal>
 						</ActionMenu>
 					);
 				},
@@ -131,7 +111,8 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 							>
 								<BuildingForm
 									defaultValues={data}
-									mutation={BuildingRepository(kysely).usePatchMutation({
+									mutation={usePatchMutation({
+										source: BuildingSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: <Tx label={"Saving building (label)"} />,
@@ -168,7 +149,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									repository={BuildingRepository(kysely)}
+									source={BuildingSource}
 									textContent={<Tx label={"Building delete (content)"} />}
 									filter={{
 										id: data.id,
