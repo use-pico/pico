@@ -115,33 +115,23 @@ export namespace withSource {
 	}
 
 	export namespace patch$ {
-		export interface Props<
-			TDatabase,
-			TSchema extends withSourceSchema.Instance<any, any, any>,
-		> extends Query<TSchema> {
+		export interface Props<TDatabase> {
 			tx: Transaction<TDatabase>;
 		}
 
-		export type Callback<
-			TDatabase,
-			TSchema extends withSourceSchema.Instance<any, any, any>,
-		> = (
-			props: Props<TDatabase, TSchema>,
+		export type Callback<TDatabase> = (
+			props: Props<TDatabase>,
 		) => UpdateQueryBuilder<any, any, any, any>;
 	}
 
 	export namespace delete$ {
-		export interface Props<
-			TDatabase,
-			TSchema extends withSourceSchema.Instance<any, any, any>,
-		> extends Omit<Query<TSchema>, "cursor"> {
+		export interface Props<TDatabase> {
 			tx: Transaction<TDatabase>;
 		}
 
-		export type Callback<
-			TDatabase,
-			TSchema extends withSourceSchema.Instance<any, any, any>,
-		> = (props: Props<TDatabase, TSchema>) => DeleteQueryBuilder<any, any, any>;
+		export type Callback<TDatabase> = (
+			props: Props<TDatabase>,
+		) => DeleteQueryBuilder<any, any, any>;
 	}
 
 	export namespace Event {
@@ -236,12 +226,12 @@ export namespace withSource {
 		 * Just return the base query for patch; it's not necessary to understand the
 		 * query itself (filter/where) as it's handled by the repository (select$).
 		 */
-		patch$: patch$.Callback<TDatabase, TSchema>;
+		patch$: patch$.Callback<TDatabase>;
 		/**
 		 * Just return the base query for delete; it's not necessary to understand the
 		 * query itself (filter/where) as it's handled by the repository (select$).
 		 */
-		delete$: delete$.Callback<TDatabase, TSchema>;
+		delete$: delete$.Callback<TDatabase>;
 
 		event?: Event<TDatabase, TSchema>;
 	}
@@ -474,20 +464,18 @@ export const withSource = <
 				tx,
 				where,
 				filter,
+				error: "Cannot patch an unknown entity (empty query result).",
 			});
-
-			if (!$entity) {
-				throw new Error("Cannot patch an unknown entity (empty query result).");
-			}
 
 			await event?.onPrePatch?.({ tx, entity, shape });
 
-			await patch$({ tx, filter: { id: $entity.id } })
+			await patch$({ tx })
 				.set(
 					schema.entity
 						.partial()
 						.parse((await map?.toPatch?.({ entity, shape })) || entity),
 				)
+				.where("id", "=", $entity.id)
 				.execute();
 
 			const $updated = await this.getOrThrow$({
@@ -504,13 +492,10 @@ export const withSource = <
 				tx,
 				where,
 				filter,
+				error: "Cannot patch an unknown entity (empty query result).",
 			});
 
-			if (!$entity) {
-				throw new Error("Cannot patch an unknown entity (empty query result).");
-			}
-
-			await delete$({ tx, filter: { id: $entity.id } }).execute();
+			await delete$({ tx }).where("id", "=", $entity.id).execute();
 
 			return $entity;
 		},
