@@ -14,6 +14,11 @@ export namespace More {
 		render: FC<Entity.Type<TValues>>;
 		limit?: number;
 	}
+
+	export type PropsEx<TValues extends IdentitySchema.Type> = Omit<
+		Props<TValues>,
+		"items" | "render"
+	>;
 }
 
 export const More = <TValues extends IdentitySchema.Type>({

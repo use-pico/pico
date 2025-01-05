@@ -6,10 +6,9 @@ import {
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
-import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
+import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { Logo } from "~/app/derivean/logo/Logo";
-import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
@@ -34,11 +33,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		return kysely.transaction().execute(async (tx) => {
 			return {
 				session: $session,
-				resources: resourceSumOf({
-					resources: await BuildingResourceSource.list$({
-						tx,
-						where: { userId: $session.id },
-					}),
+				inventory: await InventorySource.list$({
+					tx,
+					where: { userId: $session.id },
 				}),
 			};
 		});

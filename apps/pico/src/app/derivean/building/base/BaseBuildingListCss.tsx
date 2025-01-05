@@ -15,7 +15,14 @@ export const BaseBuildingListCss = css({
 			"p-2",
 			"rounded-lg",
 		],
-		title: ["font-bold"],
+		title: [
+			"flex",
+			"flex-row",
+			"items-center",
+			"gap-2",
+			"font-bold",
+			"text-lg",
+		],
 	},
 	variant: {
 		canBuild: {

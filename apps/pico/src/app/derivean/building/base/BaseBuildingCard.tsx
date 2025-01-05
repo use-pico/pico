@@ -1,7 +1,7 @@
 import { Card, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { RequirementsInline } from "~/app/derivean/building/RequirementsInline";
+import { ResourceInline } from "~/app/derivean/resource/ResourceInline";
 
 export namespace BaseBuildingCard {
 	export interface Props extends Card.PropsEx<BaseBuildingSchema["~output"]> {
@@ -32,7 +32,7 @@ export const BaseBuildingCard: FC<BaseBuildingCard.Props> = (props) => {
 					label: <Tx label={"Base building limit (label)"} />,
 					render({ entity }) {
 						return entity.limit === 0 ?
-                            <Tx label={"Unlimited (label)"} />
+								<Tx label={"Unlimited (label)"} />
 							:	entity.limit;
 					},
 				},
@@ -40,7 +40,7 @@ export const BaseBuildingCard: FC<BaseBuildingCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Base building requirements (label)"} />,
 					render({ entity }) {
-						return <RequirementsInline requirements={entity.requirements} />;
+						return <ResourceInline resources={entity.requirements} />;
 					},
 				},
 			]}

@@ -1,10 +1,9 @@
 import type { Transaction } from "kysely";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import type { Database } from "~/app/derivean/db/Database";
-import { resourceCheckOf } from "~/app/derivean/resource/resourceCheckOf";
-import { resourceSumOf } from "~/app/derivean/resource/resourceSumOf";
+import { inventoryCheck } from "~/app/derivean/inventory/inventoryCheck";
+import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 
 export namespace withConstruct {
 	export interface Props {
@@ -39,15 +38,13 @@ export const withConstruct = async ({
 
 	if (!bypass) {
 		if (
-			!resourceCheckOf({
+			!inventoryCheck({
 				requirements: baseBuilding.requirements,
-				resources: resourceSumOf({
-					resources: await BuildingResourceSource.list$({
-						tx,
-						where: { userId },
-					}),
+				inventory: await InventorySource.list$({
+					tx,
+					where: { userId },
 				}),
-			})
+			}).check
 		) {
 			throw new Error("Not enough resources to construct the building.");
 		}
