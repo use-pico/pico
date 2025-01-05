@@ -67,7 +67,11 @@ export const DeleteControl = <
 				<Button
 					variant={{ variant: "danger", size: "md" }}
 					iconEnabled={TrashIcon}
-					onClick={() => mutation.mutate(filter)}
+					onClick={() =>
+						mutation.mutate({
+							filter,
+						})
+					}
 				>
 					<Tx label={"Delete (button)"} />
 				</Button>
