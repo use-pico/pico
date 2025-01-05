@@ -1,9 +1,8 @@
 import type { Transaction } from "kysely";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { withConstruct } from "~/app/derivean/building/withConstruct";
 import type { Database } from "~/app/derivean/db/Database";
+import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
 export namespace withDefaultKingdom {
@@ -27,18 +26,12 @@ export const withDefaultKingdom = async ({
 				await BaseBuildingSource.fetchOrThrow$({
 					tx,
 					where: { name: building },
+					error: `Cannot find building [${building}]`,
 				})
 			).id,
 			bypass: true,
 		});
 	}
-
-	const storageId = (
-		await BuildingSource.fetchOrThrow$({
-			tx,
-			where: { userId, name: "Storage" },
-		})
-	).id;
 
 	const resources = [
 		{
@@ -49,26 +42,29 @@ export const withDefaultKingdom = async ({
 			resource: "Stone",
 			amount: 10,
 		},
+		{
+			resource: "Storage - Blueprint",
+			amount: 1,
+		},
 	] as const;
 
 	for await (const resource of resources) {
 		const shape = {
+			userId,
 			resourceId: (
 				await ResourceSource.fetchOrThrow$({
 					tx,
 					where: { name: resource.resource },
+					error: `Cannot find resource [${resource}]`,
 				})
 			).id,
 			amount: resource.amount,
-		};
+		} as const;
 
-		await BuildingResourceSource.create$({
+		await InventorySource.create$({
 			tx,
 			shape,
-			entity: {
-				...shape,
-				buildingId: storageId,
-			},
+			entity: shape,
 		});
 	}
 };

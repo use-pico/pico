@@ -1,5 +1,4 @@
 import { withDatabase } from "@use-pico/client";
-import { pwd } from "@use-pico/common";
 import type { Database } from "~/app/derivean/db/Database";
 
 export const { kysely, bootstrap } = withDatabase<Database>({
@@ -50,6 +49,23 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addUniqueConstraint("Resource_Tag_resourceId_tagId", [
 					"resourceId",
 					"tagId",
+				])
+				.execute();
+
+			await kysely.schema
+				.createTable("Inventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("userId", $id, (col) =>
+					col.references("User.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("amount", "float8", (col) => col.notNull())
+				.addUniqueConstraint("Inventory_userId_resourceId", [
+					"userId",
+					"resourceId",
 				])
 				.execute();
 		};
@@ -145,21 +161,5 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 		await bootstrapResource();
 		await bootstrapBaseBuilding();
 		await bootstrapBuilding();
-
-		try {
-			await kysely
-				.insertInto("User")
-				.values([
-					{
-						id: "root",
-						login: "aaa",
-						password: pwd.hash("aaa"),
-						name: "Root",
-					},
-				])
-				.execute();
-		} catch (_) {
-			//
-		}
 	},
 });

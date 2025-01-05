@@ -34,7 +34,11 @@ export const useRegisterMutation = () => {
 					}),
 				);
 
-				await withDefaultKingdom({ tx, userId: session.id });
+				try {
+					await withDefaultKingdom({ tx, userId: session.id });
+				} catch (e) {
+					console.error(e);
+				}
 
 				return session;
 			});
