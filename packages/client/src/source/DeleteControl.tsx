@@ -18,6 +18,7 @@ export namespace DeleteControl {
 		textContent: ReactNode;
 		filter: TSchema["~filter"];
 		onCancel?(): void;
+		invalidator?(): Promise<void>;
 	}
 }
 
@@ -29,6 +30,7 @@ export const DeleteControl = <
 	textContent,
 	filter,
 	onCancel,
+	invalidator,
 	variant,
 	tva = DeleteControlCss,
 	css,
@@ -44,8 +46,11 @@ export const DeleteControl = <
 				error: <Tx label={"Items cannot be removed (label)"} />,
 			});
 		},
-		async onSuccess() {
-			modalContext?.close();
+		options: {
+			async onSuccess() {
+				await invalidator?.();
+				modalContext?.close();
+			},
 		},
 	});
 

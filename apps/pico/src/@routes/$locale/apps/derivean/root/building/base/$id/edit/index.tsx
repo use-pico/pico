@@ -1,5 +1,10 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { toast, Tx, usePatchMutation } from "@use-pico/client";
+import {
+    toast,
+    Tx,
+    usePatchMutation,
+    useSourceInvalidator,
+} from "@use-pico/client";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 
@@ -11,6 +16,9 @@ export const Route = createFileRoute(
 			from: "/$locale/apps/derivean/root/building/base/$id",
 		});
 		const navigate = Route.useNavigate();
+		const invalidator = useSourceInvalidator({
+			sources: [BaseBuildingSource],
+		});
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
@@ -36,6 +44,7 @@ export const Route = createFileRoute(
 						},
 					})}
 					onSuccess={async () => {
+						await invalidator();
 						navigate({
 							to: "/$locale/apps/derivean/root/building/base/$id/view",
 							params: { id: entity.id },

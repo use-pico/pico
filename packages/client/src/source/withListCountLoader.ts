@@ -5,8 +5,6 @@ import type {
     withSourceSchema,
 } from "@use-pico/common";
 import type { Transaction } from "kysely";
-import { withCountLoader } from "./withCountLoader";
-import { withListLoader } from "./withListLoader";
 
 export namespace withListCountLoader {
 	export interface Result<
@@ -43,21 +41,8 @@ export const withListCountLoader = async <
 		queryKey: ["withListCountLoader", source.name, { where, filter, cursor }],
 		async queryFn(): Promise<withListCountLoader.Result<TSchema>> {
 			return {
-				data: await withListLoader({
-					tx,
-					queryClient,
-					source,
-					where,
-					filter,
-					cursor,
-				}),
-				count: await withCountLoader({
-					tx,
-					queryClient,
-					source,
-					where,
-					filter,
-				}),
+				data: await source.list$({ tx, where, filter, cursor }),
+				count: await source.count$({ tx, where, filter }),
 			};
 		},
 	});

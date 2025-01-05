@@ -9,11 +9,13 @@ import {
     Tx,
     useCreateMutation,
     usePatchMutation,
+    useSourceInvalidator,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BaseBuildingRequirementForm } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementForm";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import { BaseBuildingRequirementSource } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSource";
@@ -64,6 +66,10 @@ export namespace BaseBuildingRequirementTable {
 export const BaseBuildingRequirementTable: FC<
 	BaseBuildingRequirementTable.Props
 > = ({ baseBuildingId, table, ...props }) => {
+	const invalidator = useSourceInvalidator({
+		sources: [BaseBuildingSource, BaseBuildingRequirementSource],
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -111,6 +117,7 @@ export const BaseBuildingRequirementTable: FC<
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -162,6 +169,7 @@ export const BaseBuildingRequirementTable: FC<
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -187,6 +195,7 @@ export const BaseBuildingRequirementTable: FC<
 									filter={{
 										id: data.id,
 									}}
+									invalidator={invalidator}
 								/>
 							</ActionModal>
 						</ActionMenu>

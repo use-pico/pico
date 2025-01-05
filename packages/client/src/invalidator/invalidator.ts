@@ -7,7 +7,10 @@ export namespace invalidator {
 	}
 }
 
-export const invalidator = async ({ queryClient, keys }: invalidator.Props) => {
+export const invalidator = async ({
+	queryClient,
+	keys,
+}: invalidator.Props): Promise<any> => {
 	return Promise.all(
 		keys.map((key) => {
 			return queryClient.refetchQueries({

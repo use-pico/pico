@@ -113,6 +113,7 @@ export { useCreateMutation } from "./source/useCreateMutation";
 export { useListQuery } from "./source/useListQuery";
 export { usePatchMutation } from "./source/usePatchMutation";
 export { useRemoveMutation } from "./source/useRemoveMutation";
+export { useSourceInvalidator } from "./source/useSourceInvalidator";
 export { withCountLoader } from "./source/withCountLoader";
 export { withFetchLoader } from "./source/withFetchLoader";
 export { withListCountLoader } from "./source/withListCountLoader";

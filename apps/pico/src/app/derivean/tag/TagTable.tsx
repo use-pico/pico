@@ -9,10 +9,13 @@ import {
     Tx,
     useCreateMutation,
     usePatchMutation,
+    useSourceInvalidator,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
+import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
 import { TagForm } from "~/app/derivean/tag/TagForm";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 import { TagSource } from "~/app/derivean/tag/TagSource";
@@ -65,6 +68,10 @@ export namespace TagTable {
 }
 
 export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
+	const invalidator = useSourceInvalidator({
+		sources: [TagSource, ResourceSource, ResourceTagSource],
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -97,6 +104,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -114,8 +122,8 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 							>
 								<TagForm
 									defaultValues={{
-										...data,
 										group,
+										...data,
 									}}
 									mutation={usePatchMutation({
 										source: TagSource,
@@ -138,6 +146,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -161,6 +170,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									filter={{
 										id: data.id,
 									}}
+									invalidator={invalidator}
 								/>
 							</ActionModal>
 						</ActionMenu>

@@ -11,6 +11,7 @@ import {
     Tx,
     useCreateMutation,
     usePatchMutation,
+    useSourceInvalidator,
     useTable,
     withColumn,
 } from "@use-pico/client";
@@ -19,6 +20,7 @@ import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/resource/ResourceForm";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
+import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
 
 const column = withColumn<ResourceSchema["~output"]>();
 
@@ -61,6 +63,10 @@ export namespace ResourceTable {
 }
 
 export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
+	const invalidator = useSourceInvalidator({
+		sources: [ResourceSource, ResourceTagSource],
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -90,6 +96,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -127,6 +134,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -150,6 +158,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({ table, ...props }) => {
 									filter={{
 										id: data.id,
 									}}
+									invalidator={invalidator}
 								/>
 							</ActionModal>
 						</ActionMenu>

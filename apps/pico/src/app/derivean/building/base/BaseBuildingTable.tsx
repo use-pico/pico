@@ -11,6 +11,7 @@ import {
     Tx,
     useCreateMutation,
     usePatchMutation,
+    useSourceInvalidator,
     useTable,
     withColumn,
 } from "@use-pico/client";
@@ -88,6 +89,10 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useSourceInvalidator({
+		sources: [BaseBuildingSource],
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -121,6 +126,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -162,6 +168,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -185,6 +192,7 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 									filter={{
 										id: data.id,
 									}}
+									invalidator={invalidator}
 								/>
 							</ActionModal>
 						</ActionMenu>

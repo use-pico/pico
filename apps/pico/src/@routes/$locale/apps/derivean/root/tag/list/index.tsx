@@ -16,7 +16,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
 	loaderDeps({ search: { filter, cursor } }) {
 		return {
-			global,
 			filter,
 			cursor,
 		};
