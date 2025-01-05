@@ -1,6 +1,9 @@
 0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
   ref: Building requirements (title)
   value: Building requirements (title)
+00cd785d4c7fd1cd5f0bd37522bf0854573c1d42ab65723b089c08f1:
+  ref: Building queued.
+  value: Building queued.
 00e6e34c83a40bfd64d98be8436e542b4b343930f7fbac958b4b1fd5:
   ref: Cannot save base building (label)
   value: Cannot save base building (label)
@@ -58,12 +61,18 @@
 1ad64279b3b3ff332d48e956f702f41a481b189d6e42026ed7d76fbb:
   ref: Base storage successfully saved (label)
   value: Base storage successfully saved (label)
+1d80b365c257d93fe8b5890b91c53059f713271d8ba9661048277625:
+  ref: Failed to queue building.
+  value: Failed to queue building.
 1de5ae847313e5ed22cdccb46e2d02459d865f28b372c39d4dde8c09:
   ref: Resource description (label)
   value: Resource description (label)
 1f65482f359c6137d825cfcac1ed24e41094e7764cf7cfd459b923b5:
   ref: Cannot save tag (label)
   value: Cannot save tag (label)
+213f5c3ec3eb6b20b8b26829752051ba6ce64938b7004bba477796c6:
+  ref: Building queue list (label)
+  value: Building queue list (label)
 2211366889d8254e2ebfbe94153a6c8a0e30ce2d90cd6b206fdce97c:
   ref: Saving resource (label)
   value: Saving resource (label)
@@ -235,6 +244,9 @@
 71f8352b8f5c3890c3dee8dd464f2494f4ab2ca3e946aa4c91e27b14:
   ref: Base game installed (toast)
   value: Base game installed (toast)
+7263426ecc752ca974e5bc599db4146983b0151c701a05d34a4d613b:
+  ref: Building queue - finish (label)
+  value: Building queue - finish (label)
 731189e71f976ae9844824b00ebb04451d38cf9bdd28db552e70c072:
   ref: Tag successfully saved (label)
   value: Tag successfully saved (label)
@@ -373,6 +385,9 @@ a3f7d1d14e27e3411af26e4361228fea9f4b0a2a8ca92825a7b5c05b:
 a48f72601f414bba4ce814c40b101576039791c198213cd225b97aae:
   ref: Cannot save building (label)
   value: Cannot save building (label)
+a574f379dfc719d9664fb8a5bba90f3c53bb60e2a7e4e836b2ff1d3e:
+  ref: Building queue - started (label)
+  value: Building queue - started (label)
 a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
   ref: Resource tags (label)
   value: Resource tags (label)
@@ -445,6 +460,9 @@ c833ff527fdcfb1f82e125af0d17cbf0425b9befacb64c14b4d9b729:
 ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
   ref: Passwords must match
   value: Passwords must match
+cbb893ddf23d44c775dee5e17cf18cb98f21fa5e94edf3bf2b8e5264:
+  ref: Building queue - current (label)
+  value: Building queue - current (label)
 cd6ff5b899a632aab3691a91bf31e504cb4021721bb97b56d10e27f9:
   ref: Tag code (label)
   value: Tag code (label)
@@ -508,6 +526,9 @@ e815e4586154329f3f55e8fb277eaa2a0a7594acc079f68421ceb51d:
 e89461d020af0c0ee8ff2f0ea9ae1cebe9c042d279de8e81c3ec6709:
   ref: Building successfully saved (label)
   value: Building successfully saved (label)
+e8cd9c3d71bd8b42c22aa8a7b36680b52cd357ac81ee13b2c9dfc0b4:
+  ref: Queuing building...
+  value: Queuing building...
 e9774c347a82dce48b5bee9adf2b79476ec38d3a3ed0b65d50c3391e:
   ref: Register (link)
   value: Register (link)

@@ -1,4 +1,5 @@
 import { withSource } from "@use-pico/common";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingQueueSchema } from "~/app/derivean/building/queue/BuildingQueueSchema";
 import { kysely } from "~/app/derivean/db/db";
 
@@ -33,7 +34,7 @@ export const BuildingQueueSource = withSource({
 			}
 
 			if (where?.finishGte) {
-				$select = $select.where("bq.finish", ">=", where.finishGte);
+				$select = $select.where("bq.finish", "<=", where.finishGte);
 			}
 
 			if (where?.fulltext) {
@@ -62,5 +63,17 @@ export const BuildingQueueSource = withSource({
 	},
 	delete$({ tx }) {
 		return tx.deleteFrom("BuildingQueue");
+	},
+	map: {
+		async toOutput({ tx, entity }) {
+			return {
+				...entity,
+				baseBuilding: await BaseBuildingSource.getOrThrow$({
+					tx,
+					id: entity.baseBuildingId,
+					error: "Cannot find base building for building queue",
+				}),
+			};
+		},
 	},
 });
