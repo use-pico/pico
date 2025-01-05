@@ -176,8 +176,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("userId", $id, (col) =>
 					col.references("User.id").onDelete("cascade").notNull(),
 				)
-				.addColumn("buildingId", $id, (col) =>
-					col.references("Building.id").onDelete("cascade").notNull(),
+				.addColumn("baseBuildingId", $id, (col) =>
+					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
 				)
 				/**
 				 * Starting cycle

@@ -1,7 +1,8 @@
 import { translator } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { BuildingQueueSource } from "~/app/derivean/building/queue/BuildingQueueSource";
+import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 import type { Database } from "~/app/derivean/db/Database";
 import { inventoryCheck } from "~/app/derivean/inventory/inventoryCheck";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
@@ -53,14 +54,50 @@ export const withConstruct = async ({
 		}
 	}
 
-	await BuildingSource.create$({
+	for await (const requirement of baseBuilding.requirements) {
+		if (requirement.passive) {
+			continue;
+		}
+
+		const item = await InventorySource.fetchOrThrow$({
+			tx,
+			where: {
+				userId,
+				resourceId: requirement.resourceId,
+			},
+		});
+
+		await InventorySource.patch$({
+			tx,
+			entity: {
+				amount: item.amount - requirement.amount,
+			},
+			shape: {
+				amount: item.amount - requirement.amount,
+			},
+			where: {
+				userId,
+				resourceId: requirement.resourceId,
+			},
+		});
+	}
+
+	const { filter: cycles } = await CycleSource.count$({
 		tx,
-		shape: {
-			baseBuildingId: baseBuilding.id,
-		},
-		entity: {
-			baseBuildingId: baseBuilding.id,
-			userId,
-		},
+		where: { userId },
+	});
+
+	const entity = {
+		userId,
+		baseBuildingId: baseBuilding.id,
+		start: cycles,
+		current: 0,
+		finish: cycles + baseBuilding.cycles,
+	} as const;
+
+	await BuildingQueueSource.create$({
+		tx,
+		shape: entity,
+		entity,
 	});
 };

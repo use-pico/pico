@@ -28,6 +28,7 @@ export const useSourceInvalidator = ({
 				...sources.map(({ name }) => ["withListLoader", name]),
 				...sources.map(({ name }) => ["useListQuery", name]),
 				...sources.map(({ name }) => ["withListCountLoader", name]),
+				...sources.map(({ name }) => ["useCountQuery", name]),
 			],
 		});
 

@@ -1,4 +1,4 @@
-import { withSource } from "@use-pico/common";
+import { DateTime, withSource } from "@use-pico/common";
 import { CycleSchema } from "~/app/derivean/cycle/CycleSchema";
 import { kysely } from "~/app/derivean/db/db";
 
@@ -58,5 +58,13 @@ export const CycleSource = withSource({
 	},
 	delete$({ tx }) {
 		return tx.deleteFrom("Cycle");
+	},
+	map: {
+		async toCreate({ entity }) {
+			return {
+				...entity,
+				stamp: DateTime.utc().toSQLTime(),
+			};
+		},
 	},
 });

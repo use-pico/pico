@@ -109,6 +109,7 @@ export { Select } from "./select/Select";
 export { SelectCss } from "./select/SelectCss";
 export { DeleteControl } from "./source/DeleteControl";
 export { DeleteControlCss } from "./source/DeleteControlCss";
+export { useCountQuery } from "./source/useCountQuery";
 export { useCreateMutation } from "./source/useCreateMutation";
 export { useListQuery } from "./source/useListQuery";
 export { usePatchMutation } from "./source/usePatchMutation";

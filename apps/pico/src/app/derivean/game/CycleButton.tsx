@@ -1,6 +1,7 @@
-import { Button, toast, Tx } from "@use-pico/client";
-import { translator } from "@use-pico/common";
+import { Button, toast, Tx, useCountQuery } from "@use-pico/client";
+import { toHumanNumber, translator } from "@use-pico/common";
 import type { FC } from "react";
+import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 import { useCycleMutation } from "~/app/derivean/cycle/useCycleMutation";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
@@ -12,6 +13,7 @@ export namespace CycleButton {
 
 export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
 	const mutation = useCycleMutation({ userId });
+	const data = useCountQuery({ source: CycleSource, where: { userId } });
 
 	return (
 		<Button
@@ -25,9 +27,13 @@ export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
 				});
 			}}
 			disabled={mutation.isPending}
+			loading={data.isLoading}
 			{...props}
 		>
 			<Tx label={"New cycle (label)"} />
+			{data.isSuccess ?
+				` (${toHumanNumber({ number: data.data.filter })})`
+			:	""}
 		</Button>
 	);
 };

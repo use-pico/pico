@@ -2,6 +2,7 @@ import { Button, Icon, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { useConstructMutation } from "~/app/derivean/building/useConstructMutation";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { inventoryCheck } from "~/app/derivean/inventory/inventoryCheck";
@@ -10,12 +11,14 @@ import { ResourceInline } from "~/app/derivean/resource/ResourceInline";
 
 export namespace BaseBuildingList {
 	export interface Props extends BaseBuildingListCss.Props {
+		userId: string;
 		inventory: InventorySchema["~output-array"];
 		entities: BaseBuildingSchema["~output-array"];
 	}
 }
 
 export const BaseBuildingList = ({
+	userId,
 	inventory,
 	entities,
 	variant,
@@ -23,9 +26,10 @@ export const BaseBuildingList = ({
 	css,
 }: BaseBuildingList.Props) => {
 	const tv = tva({ ...variant, css }).slots;
+	const mutation = useConstructMutation({ userId });
 
 	return (
-		<div className={tv.base()}>
+		<div className={tv.base({ loading: mutation.isPending })}>
 			{entities.map((entity) => {
 				const { check, missing } = inventoryCheck({
 					inventory,
@@ -57,6 +61,12 @@ export const BaseBuildingList = ({
 								iconDisabled={BuildingIcon}
 								variant={{ variant: "secondary" }}
 								disabled={!check}
+								onClick={() => {
+									mutation.mutate({
+										baseBuildingId: entity.id,
+									});
+								}}
+								loading={mutation.isPending}
 							>
 								<Tx label={"Build (label)"} />
 							</Button>

@@ -30,13 +30,14 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { data } = Route.useLoaderData();
-		const { inventory } = useLoaderData({
+		const { inventory, session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 
 		return (
 			<div>
 				<BaseBuildingList
+					userId={session.id}
 					inventory={inventory}
 					entities={data}
 				/>

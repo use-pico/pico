@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useSourceInvalidator } from "@use-pico/client";
 import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 
 export namespace useCycleMutation {
@@ -8,10 +9,14 @@ export namespace useCycleMutation {
 }
 
 export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
+	const invalidator = useSourceInvalidator({
+		sources: [CycleSource],
+	});
+
 	return useMutation({
 		mutationKey: ["useCycleMutation"],
 		async mutationFn() {
-			CycleSource.db.transaction().execute(async (tx) => {
+			return CycleSource.db.transaction().execute(async (tx) => {
 				await CycleSource.create$({
 					tx,
 					shape: {},
@@ -20,6 +25,9 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 					},
 				});
 			});
+		},
+		async onSuccess() {
+			await invalidator();
 		},
 	});
 };

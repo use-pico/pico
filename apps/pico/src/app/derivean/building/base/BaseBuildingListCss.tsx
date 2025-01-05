@@ -28,6 +28,9 @@ export const BaseBuildingListCss = css({
 		canBuild: {
 			true: [],
 		},
+		loading: {
+			true: [],
+		},
 	},
 	match: [
 		{
@@ -43,9 +46,18 @@ export const BaseBuildingListCss = css({
 				],
 			},
 		},
+		{
+			if: {
+				loading: true,
+			},
+			then: {
+				base: ["opacity-50", "pointer-events-none"],
+			},
+		},
 	],
 	defaults: {
 		canBuild: false,
+		loading: false,
 	},
 });
 

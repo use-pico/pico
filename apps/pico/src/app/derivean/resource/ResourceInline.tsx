@@ -45,7 +45,7 @@ export const ResourceInline: FC<ResourceInline.Props> = ({
 						{resource ?
 							<div>
 								<div className={"text-sm text-red-500"}>
-									(-x{toHumanNumber({ number: resource.amount })})
+									(-{toHumanNumber({ number: resource.amount })})
 								</div>
 							</div>
 						: diff ?
