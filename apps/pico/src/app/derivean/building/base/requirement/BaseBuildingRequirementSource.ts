@@ -32,7 +32,7 @@ export const BaseBuildingRequirementSource = withSource({
 				$select = $select.where("bbr.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("bbr.id", "in", where.idIn);
 			}
 

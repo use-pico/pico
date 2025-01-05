@@ -26,7 +26,7 @@ export const BaseBuildingSource = withSource({
 				$select = $select.where("bb.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("bb.id", "in", where.idIn);
 			}
 

@@ -26,7 +26,7 @@ export const TagSource = withSource({
 				$select = $select.where("t.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("t.id", "in", where.idIn);
 			}
 

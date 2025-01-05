@@ -1,6 +1,6 @@
 import { withDatabase } from "@use-pico/client";
+import { pwd } from "@use-pico/common";
 import type { Database } from "~/app/derivean/db/Database";
-import { seed } from "~/app/derivean/db/seed";
 
 export const { kysely, bootstrap } = withDatabase<Database>({
 	database: "derivean",
@@ -146,6 +146,20 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 		await bootstrapBaseBuilding();
 		await bootstrapBuilding();
 
-		await seed(kysely);
+		try {
+			await kysely
+				.insertInto("User")
+				.values([
+					{
+						id: "root",
+						login: "aaa",
+						password: pwd.hash("aaa"),
+						name: "Root",
+					},
+				])
+				.execute();
+		} catch (_) {
+			//
+		}
 	},
 });

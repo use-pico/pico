@@ -9,10 +9,7 @@ export const ResourceSource = withSource({
 	schema: ResourceSchema,
 	db: kysely,
 	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
-		let $select = tx
-			.selectFrom("Resource as r")
-			.selectAll("r")
-			.leftJoin("BaseBuilding_Requirement as bbr", "bbr.resourceId", "r.id");
+		let $select = tx.selectFrom("Resource as r").selectAll("r");
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -29,16 +26,12 @@ export const ResourceSource = withSource({
 				$select = $select.where("r.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("r.id", "in", where.idIn);
 			}
 
-			if (where?.baseBuildingId) {
-				$select = $select.where(
-					"bbr.baseBuildingId",
-					"=",
-					where.baseBuildingId,
-				);
+			if (where?.name) {
+				$select = $select.where("r.name", "=", where.name);
 			}
 
 			if (where?.fulltext) {

@@ -1,7 +1,5 @@
 import { withSource } from "@use-pico/common";
-import {
-    BaseBuildingSource
-} from "~/app/derivean/building/base/BaseBuildingSource";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { kysely } from "~/app/derivean/db/db";
 
@@ -31,12 +29,16 @@ export const BuildingSource = withSource({
 				$select = $select.where("b.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("b.id", "in", where.idIn);
 			}
 
 			if (where?.baseBuildingId) {
 				$select = $select.where("b.baseBuildingId", "=", where.baseBuildingId);
+			}
+
+			if (where?.name) {
+				$select = $select.where("bb.name", "=", where.name);
 			}
 
 			if (where?.fulltext) {

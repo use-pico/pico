@@ -26,7 +26,8 @@ export const ResourceSchema = withSourceSchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			baseBuildingId: z.string().optional(),
+			// baseBuildingId: z.string().optional(),
+			name: z.string().optional(),
 		}),
 	),
 });

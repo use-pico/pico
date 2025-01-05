@@ -33,7 +33,7 @@ export const ResourceTagSource = withSource({
 				$select = $select.where("rt.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("rt.id", "in", where.idIn);
 			}
 

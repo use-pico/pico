@@ -1,5 +1,6 @@
 import type { Transaction } from "kysely";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
+import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import type { Database } from "~/app/derivean/db/Database";
 import { resourceCheckOf } from "~/app/derivean/resource/resourceCheckOf";
@@ -51,4 +52,15 @@ export const withConstruct = async ({
 			throw new Error("Not enough resources to construct the building.");
 		}
 	}
+
+	await BuildingSource.create$({
+		tx,
+		shape: {
+			baseBuildingId: baseBuilding.id,
+		},
+		entity: {
+			baseBuildingId: baseBuilding.id,
+			userId,
+		},
+	});
 };

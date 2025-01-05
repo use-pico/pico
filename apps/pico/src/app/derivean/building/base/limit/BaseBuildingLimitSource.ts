@@ -1,9 +1,7 @@
 import { withSource } from "@use-pico/common";
 import { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
 import { kysely } from "~/app/derivean/db/db";
-import {
-    ResourceSource
-} from "~/app/derivean/resource/ResourceSource";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
 export const BaseBuildingLimitSource = withSource({
 	name: "BaseBuildingLimitSource",
@@ -34,7 +32,7 @@ export const BaseBuildingLimitSource = withSource({
 				$select = $select.where("bb.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("bb.id", "in", where.idIn);
 			}
 

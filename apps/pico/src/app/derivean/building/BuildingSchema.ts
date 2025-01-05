@@ -27,6 +27,7 @@ export const BuildingSchema = withSourceSchema({
 		z.object({
 			userId: z.string().optional(),
 			baseBuildingId: z.string().optional(),
+			name: z.string().optional(),
 		}),
 	),
 });

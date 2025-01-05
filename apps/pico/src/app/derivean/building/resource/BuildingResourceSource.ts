@@ -2,9 +2,7 @@ import { withSource } from "@use-pico/common";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import { kysely } from "~/app/derivean/db/db";
-import {
-    ResourceSource
-} from "~/app/derivean/resource/ResourceSource";
+import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
 export const BuildingResourceSource = withSource({
 	name: "BuildingResourceSource",
@@ -36,7 +34,7 @@ export const BuildingResourceSource = withSource({
 				$select = $select.where("br.id", "=", where.id);
 			}
 
-			if (where?.idIn && where.idIn.length) {
+			if (where?.idIn) {
 				$select = $select.where("br.id", "in", where.idIn);
 			}
 

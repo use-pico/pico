@@ -1,39 +1,34 @@
-import { id, pwd } from "@use-pico/common";
+import { id } from "@use-pico/common";
 import type { Kysely } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
 
 export const seed = async (kysely: Kysely<Database>) => {
 	const ids = {
-		user: id(),
 		castle: id(),
 		storage: id(),
 		resource: {
 			wood: id(),
+			plank: id(),
 			stone: id(),
+			sand: id(),
+			glass: id(),
+			coal: id(),
+			flour: id(),
+			dressedStone: id(),
+			gold: id(),
+			silver: id(),
+			coin: id(),
 			storageBlueprint: id(),
 			castleBlueprint: id(),
 		},
 		tag: {
 			material: id(),
+			product: id(),
+			food: id(),
+			valuables: id(),
 			blueprint: id(),
 		},
 	} as const;
-
-	try {
-		await kysely
-			.insertInto("User")
-			.values([
-				{
-					id: ids.user,
-					login: "aaa",
-					password: pwd.hash("aaa"),
-					name: "Root",
-				},
-			])
-			.execute();
-	} catch (_) {
-		//
-	}
 
 	try {
 		await kysely
@@ -71,9 +66,23 @@ export const seed = async (kysely: Kysely<Database>) => {
 					group: "resource",
 				},
 				{
+					id: ids.tag.valuables,
+					code: "valuables",
+					label: "Valuables",
+					sort: 0,
+					group: "resource",
+				},
+				{
 					id: ids.tag.blueprint,
 					code: "blueprint",
 					label: "Blueprint",
+					sort: 1,
+					group: "resource",
+				},
+				{
+					id: ids.tag.product,
+					code: "product",
+					label: "Product",
 					sort: 1,
 					group: "resource",
 				},
@@ -88,12 +97,48 @@ export const seed = async (kysely: Kysely<Database>) => {
 			.insertInto("Resource")
 			.values([
 				{
+					id: ids.resource.coal,
+					name: "Coal",
+				},
+				{
+					id: ids.resource.flour,
+					name: "Flour",
+				},
+				{
+					id: ids.resource.sand,
+					name: "Sand",
+				},
+				{
+					id: ids.resource.glass,
+					name: "Glass",
+				},
+				{
 					id: ids.resource.wood,
 					name: "Wood",
 				},
 				{
+					id: ids.resource.plank,
+					name: "Plank",
+				},
+				{
 					id: ids.resource.stone,
 					name: "Stone",
+				},
+				{
+					id: ids.resource.dressedStone,
+					name: "Dressed Stone",
+				},
+				{
+					id: ids.resource.silver,
+					name: "Silver",
+				},
+				{
+					id: ids.resource.gold,
+					name: "Gold",
+				},
+				{
+					id: ids.resource.coin,
+					name: "Coin",
 				},
 				{
 					id: ids.resource.storageBlueprint,
@@ -120,6 +165,36 @@ export const seed = async (kysely: Kysely<Database>) => {
 				},
 				{
 					id: id(),
+					resourceId: ids.resource.flour,
+					tagId: ids.tag.material,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.coal,
+					tagId: ids.tag.material,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.sand,
+					tagId: ids.tag.material,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.glass,
+					tagId: ids.tag.product,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.plank,
+					tagId: ids.tag.material,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.dressedStone,
+					tagId: ids.tag.material,
+				},
+				{
+					id: id(),
 					resourceId: ids.resource.wood,
 					tagId: ids.tag.material,
 				},
@@ -133,6 +208,21 @@ export const seed = async (kysely: Kysely<Database>) => {
 					resourceId: ids.resource.castleBlueprint,
 					tagId: ids.tag.blueprint,
 				},
+				{
+					id: id(),
+					resourceId: ids.resource.coin,
+					tagId: ids.tag.valuables,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.gold,
+					tagId: ids.tag.valuables,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.silver,
+					tagId: ids.tag.valuables,
+				},
 			])
 			.execute();
 	} catch (_) {
@@ -143,6 +233,9 @@ export const seed = async (kysely: Kysely<Database>) => {
 		await kysely
 			.insertInto("BaseBuilding_Requirement")
 			.values([
+				/**
+				 * Storage
+				 */
 				{
 					id: id(),
 					baseBuildingId: ids.storage,
@@ -157,7 +250,17 @@ export const seed = async (kysely: Kysely<Database>) => {
 					passive: false,
 					amount: 5,
 				},
+				{
+					id: id(),
+					baseBuildingId: ids.storage,
+					resourceId: ids.resource.storageBlueprint,
+					passive: true,
+					amount: 1,
+				},
 
+				/**
+				 * Castle
+				 */
 				{
 					id: id(),
 					baseBuildingId: ids.castle,
@@ -168,9 +271,44 @@ export const seed = async (kysely: Kysely<Database>) => {
 				{
 					id: id(),
 					baseBuildingId: ids.castle,
+					resourceId: ids.resource.dressedStone,
+					passive: false,
+					amount: 25,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
 					resourceId: ids.resource.wood,
 					passive: false,
 					amount: 25,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.plank,
+					passive: false,
+					amount: 50,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.coin,
+					passive: false,
+					amount: 2000,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.gold,
+					passive: false,
+					amount: 25,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.castle,
+					resourceId: ids.resource.castleBlueprint,
+					passive: true,
+					amount: 1,
 				},
 			])
 			.execute();
@@ -182,6 +320,9 @@ export const seed = async (kysely: Kysely<Database>) => {
 		await kysely
 			.insertInto("BaseBuilding_Limit")
 			.values([
+				/**
+				 * Storage
+				 */
 				{
 					id: id(),
 					baseBuildingId: ids.storage,
@@ -195,6 +336,9 @@ export const seed = async (kysely: Kysely<Database>) => {
 					limit: 150,
 				},
 
+				/**
+				 * Castle
+				 */
 				{
 					id: id(),
 					baseBuildingId: ids.castle,
