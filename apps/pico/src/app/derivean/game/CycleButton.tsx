@@ -6,12 +6,12 @@ import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace CycleButton {
 	export interface Props extends Button.Props {
-		//
+		userId: string;
 	}
 }
 
-export const CycleButton: FC<CycleButton.Props> = (props) => {
-	const mutation = useCycleMutation({});
+export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
+	const mutation = useCycleMutation({ userId });
 
 	return (
 		<Button

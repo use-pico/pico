@@ -70,7 +70,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 				menu={
 					<div className={"flex flex-row items-center gap-4"}>
 						<GameMenu />
-						<CycleButton />
+						<CycleButton userId={session.id} />
 					</div>
 				}
 				actions={
