@@ -70,10 +70,11 @@ const columns = [
 			return <Tx label={"Base building limit (label)"} />;
 		},
 		render({ value }) {
-			return toHumanNumber({
-				number: value,
-				empty: translator.text("Unlimited (label)"),
-			});
+			return value === 0 ?
+					translator.text("Unlimited (label)")
+				:	toHumanNumber({
+						number: value,
+					});
 		},
 		size: 14,
 	}),
