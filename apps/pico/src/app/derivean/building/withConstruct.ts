@@ -1,3 +1,4 @@
+import { translator } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
@@ -46,7 +47,9 @@ export const withConstruct = async ({
 				}),
 			}).check
 		) {
-			throw new Error("Not enough resources to construct the building.");
+			throw new Error(
+				translator.text("Not enough resources to construct the building."),
+			);
 		}
 	}
 

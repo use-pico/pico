@@ -1,3 +1,6 @@
+0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
+  ref: Building requirements (title)
+  value: Building requirements (title)
 00e6e34c83a40bfd64d98be8436e542b4b343930f7fbac958b4b1fd5:
   ref: Cannot save base building (label)
   value: Cannot save base building (label)
@@ -133,6 +136,9 @@
 39fa5f8a2cbd3da5b738950b563e61126e32cb7bc42dd449df5aa367:
   ref: Save resources item (submit)
   value: Uložit
+3a0e1ca1db9d23e1fd12593e8d623f0eab6f955376ea4e0c977f703d:
+  ref: Cycle failed (toast)
+  value: Běh cyklu selhal.
 3a86ad9de7c38a32214bf417031bd8198d54d10ac2634081b0596617:
   ref: Delete resource requirement (modal)
   value: Odstranit požadavek na zdroj
@@ -295,6 +301,9 @@
 8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
   ref: Limit (label)
   value: Maximum položek
+86bcc3d66c4e17594a822ea18607b7c3f78c3d284337ea2479a17ff5:
+  ref: Cycle success (toast)
+  value: Cyklus byl úspěšně dokončen.
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
@@ -337,6 +346,9 @@
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Kde nic, tu nic
+9885fcc99119de078aac69cd6ee411f650132c05dee73304eb1bc696:
+  ref: Running cycle (toast)
+  value: Probíhá cyklus.
 9a703e14f110eaffc043a977e855c593e265eac45f6f6eb4a8b3ac8a:
   ref: Install base game (label)
   value: Instalovat základní hru
@@ -403,6 +415,9 @@ b0e0f7d1a7a9f12ae804b8d2075e90919392bd537882dd6be94547be:
 b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
   ref: Building name (label)
   value: Název budovy
+b2cfc9b7e82bd352d69a5b7acbf356728d322192bb31d2e6b467d37a:
+  ref: Not enough resources to construct the building.
+  value: Pro stavbu budovy nejsou dostatečné zdroje.
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nový položka inventáře
@@ -547,6 +562,9 @@ f42ebdf3acc00f89207c70921e2b0749ab8ff93508840ac4b295ca4f:
     minimální
 
     vliv na data, pouze ovlivní hratelnost.
+f559a10414642d63ef07702a31eec356a318dc21bfeaaf2e1807cc72:
+  ref: New cycle (label)
+  value: Spustit cyklus
 f8ef90d7e5500d03f5498dd8d737430c83518775d890916f5a93269f:
   ref: Delete building (modal)
   value: Odstranit budovu

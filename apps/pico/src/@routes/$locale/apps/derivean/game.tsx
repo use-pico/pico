@@ -1,3 +1,4 @@
+import { useMutationState } from "@tanstack/react-query";
 import {
     createFileRoute,
     Outlet,
@@ -6,6 +7,7 @@ import {
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
+import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { Logo } from "~/app/derivean/logo/Logo";
@@ -45,6 +47,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
+		const mutation = useMutationState({
+			filters: {
+				status: "pending",
+				mutationKey: ["useCycleMutation"],
+			},
+			select(mutation) {
+				return mutation.state.status;
+			},
+		});
 
 		return (
 			<AppLayout
@@ -56,7 +67,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 						<Logo />
 					</LinkTo>
 				}
-				menu={<GameMenu />}
+				menu={
+					<div className={"flex flex-row items-center gap-4"}>
+						<GameMenu />
+						<CycleButton />
+					</div>
+				}
 				actions={
 					<>
 						{session.name}
@@ -74,6 +90,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 						/>
 					</>
 				}
+				css={{
+					base:
+						mutation.length ?
+							["select-none", "pointer-events-none", "opacity-50"]
+						:	undefined,
+				}}
 			>
 				<Outlet />
 			</AppLayout>

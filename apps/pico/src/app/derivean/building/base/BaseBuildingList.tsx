@@ -3,6 +3,7 @@ import { tvc } from "@use-pico/common";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { inventoryCheck } from "~/app/derivean/inventory/inventoryCheck";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { ResourceInline } from "~/app/derivean/resource/ResourceInline";
@@ -73,7 +74,7 @@ export const BaseBuildingList = ({
 									"border-emerald-300",
 								])}
 							>
-								<Icon icon={"icon-[iconamoon--clock-thin]"} />
+								<Icon icon={CycleIcon} />
 								<Tx label={"Base building cycles (label)"} />
 								<div className={"font-bold"}>{entity.cycles}</div>
 							</div>

@@ -1,4 +1,5 @@
 import { withDatabase } from "@use-pico/client";
+import { sql } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
 
 export const { kysely, bootstrap } = withDatabase<Database>({
@@ -25,6 +26,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("group", "varchar(64)")
 				.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
 				.addUniqueConstraint("Tag_code_group", ["code", "group"])
+				.execute();
+
+			await kysely.schema
+				.createTable("Cycle")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("userId", $id, (col) =>
+					col.references("User.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("stamp", "datetime", (col) =>
+					col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+				)
 				.execute();
 		};
 
@@ -154,6 +167,30 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"buildingId",
 					"resourceId",
 				])
+				.execute();
+
+			await kysely.schema
+				.createTable("BuildingQueue")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("userId", $id, (col) =>
+					col.references("User.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("buildingId", $id, (col) =>
+					col.references("Building.id").onDelete("cascade").notNull(),
+				)
+				/**
+				 * Starting cycle
+				 */
+				.addColumn("start", "float8", (col) => col.notNull())
+				/**
+				 * Current cycle
+				 */
+				.addColumn("current", "float8", (col) => col.notNull())
+				/**
+				 * Finish cycle
+				 */
+				.addColumn("finish", "float8", (col) => col.notNull())
 				.execute();
 		};
 
