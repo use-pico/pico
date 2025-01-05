@@ -586,12 +586,12 @@ export const withSource = <
 						.executeTakeFirst()
 				).count,
 				where: (
-					await select$({ tx, where, use: [] })
+					await select$({ tx, where, use: ["where"] })
 						.select([(col) => col.fn.countAll().as("count")])
 						.executeTakeFirst()
 				).count,
 				filter: (
-					await select$({ tx, where, filter, use: [] })
+					await select$({ tx, where, filter, use: ["where", "filter"] })
 						.select([(col) => col.fn.countAll().as("count")])
 						.executeTakeFirst()
 				).count,

@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, type QueryKey } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { invalidator } from "../invalidator/invalidator";
 
@@ -9,12 +9,14 @@ export namespace useSourceInvalidator {
 		 * Invalidate route?
 		 */
 		route?: boolean;
+		queries?: QueryKey[];
 	}
 }
 
 export const useSourceInvalidator = ({
 	sources,
 	route = true,
+	queries = [],
 }: useSourceInvalidator.Props) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
@@ -29,6 +31,7 @@ export const useSourceInvalidator = ({
 				...sources.map(({ name }) => ["useListQuery", name]),
 				...sources.map(({ name }) => ["withListCountLoader", name]),
 				...sources.map(({ name }) => ["useCountQuery", name]),
+				...queries,
 			],
 		});
 

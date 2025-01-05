@@ -24,6 +24,7 @@ export const useConstructMutation = ({
 			BaseBuildingList,
 			InventorySource,
 		],
+		queries: [["useBuildingCount"]],
 	});
 
 	return useMutation({

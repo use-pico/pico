@@ -1,5 +1,6 @@
-import { Button, Icon, Tx } from "@use-pico/client";
+import { Icon, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
+import { BuildButton } from "~/app/derivean/building/base/BaseBuildingList/BuildButton";
 import { BaseBuildingListCss } from "~/app/derivean/building/base/BaseBuildingListCss";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { useConstructMutation } from "~/app/derivean/building/useConstructMutation";
@@ -56,20 +57,12 @@ export const BaseBuildingList = ({
 							</div>
 						</div>
 						<div className={"flex flex-row justify-between"}>
-							<Button
-								iconEnabled={BuildingIcon}
-								iconDisabled={BuildingIcon}
-								variant={{ variant: "secondary" }}
+							<BuildButton
+								mutation={mutation}
+								baseBuilding={entity}
+								userId={userId}
 								disabled={!check}
-								onClick={() => {
-									mutation.mutate({
-										baseBuildingId: entity.id,
-									});
-								}}
-								loading={mutation.isPending}
-							>
-								<Tx label={"Build (label)"} />
-							</Button>
+							/>
 							<div
 								className={tvc([
 									"flex",
