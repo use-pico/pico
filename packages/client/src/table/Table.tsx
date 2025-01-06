@@ -41,7 +41,7 @@ export namespace Table {
 
 	export interface Fulltext {
 		value: Fulltext.Value;
-		onFulltext: Fulltext.OnFulltext;
+		set: Fulltext.OnFulltext;
 	}
 
 	export interface Props<TData extends DataType.Data, TContext = any>
@@ -86,7 +86,10 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 			<div className={"flex items-center justify-between"}>
 				<div className={"flex items-center gap-6 w-1/3"}>
 					{fulltext ?
-						<Fulltext {...fulltext} />
+						<Fulltext
+							value={fulltext.value}
+							onFulltext={fulltext.set}
+						/>
 					:	null}
 				</div>
 

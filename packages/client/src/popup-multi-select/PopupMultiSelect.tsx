@@ -144,7 +144,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 						}}
 						fulltext={{
 							value: fulltext,
-							onFulltext(value) {
+							set(value) {
 								setFulltext(value);
 							},
 						}}

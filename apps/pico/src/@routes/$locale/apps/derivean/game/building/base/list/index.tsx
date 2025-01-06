@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    handleOnFulltext,
-    handleOnPage,
-    handleOnSize,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
     Tx,
     withListCountLoader,
     withSourceSearchSchema,
@@ -56,27 +56,18 @@ export const Route = createFileRoute(
 						data,
 						filter: {
 							value: filter,
-							set(value) {
-								navigate({
-									search: ({ cursor, ...prev }) => ({
-										...prev,
-										filter: value,
-										cursor: { ...cursor, page: 0 },
-									}),
-								});
-							},
+							set: navigateOnFilter(navigate),
 						},
 					}}
 					fulltext={{
-						onFulltext: handleOnFulltext(navigate),
 						value: filter?.fulltext,
+						set: navigateOnFulltext(navigate),
 					}}
 					cursor={{
 						count,
 						cursor,
 						textTotal: <Tx label={"Number of items"} />,
-						onPage: handleOnPage(navigate),
-						onSize: handleOnSize(navigate),
+						...navigateOnCursor(navigate),
 					}}
 				/>
 			</div>

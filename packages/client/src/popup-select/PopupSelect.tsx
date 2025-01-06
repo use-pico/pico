@@ -141,7 +141,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 						}}
 						fulltext={{
 							value: fulltext,
-							onFulltext(value) {
+							set(value) {
 								setFulltext(value);
 							},
 						}}

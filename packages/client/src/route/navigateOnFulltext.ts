@@ -1,6 +1,6 @@
-import type { Fulltext } from "./Fulltext";
+import type { Fulltext } from "../fulltext/Fulltext";
 
-export namespace handleOnFulltext {
+export namespace navigateOnFulltext {
 	export namespace Navigate {
 		export interface Props {
 			search: (props: {
@@ -14,7 +14,7 @@ export namespace handleOnFulltext {
 	export type Navigate = (props: Navigate.Props) => void;
 }
 
-export const handleOnFulltext = (navigate: handleOnFulltext.Navigate) => {
+export const navigateOnFulltext = (navigate: navigateOnFulltext.Navigate) => {
 	return (text: Fulltext.Value) => {
 		navigate({
 			search: ({ cursor, filter, ...rest }) => ({

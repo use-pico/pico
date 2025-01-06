@@ -1,12 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    handleOnFulltext,
-    handleOnPage,
-    handleOnSize,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
     Tx,
     withListCountLoader,
-    withSourceSearchSchema,
+    withSourceSearchSchema
 } from "@use-pico/client";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
@@ -16,13 +17,17 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list/",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor, sort },
+	}) {
 		return kysely.transaction().execute(async (tx) => {
 			return withListCountLoader({
 				tx,
@@ -30,7 +35,7 @@ export const Route = createFileRoute(
 				source: BaseBuildingSource,
 				filter,
 				cursor,
-				sort: [{ name: "name", sort: "asc" }],
+				sort: sort || [{ name: "name", sort: "asc" }],
 			});
 		});
 	},
@@ -48,41 +53,23 @@ export const Route = createFileRoute(
 						data,
 						filter: {
 							value: filter,
-							set(value) {
-								navigate({
-									search: ({ cursor, ...prev }) => ({
-										...prev,
-										filter: value,
-										cursor: { ...cursor, page: 0 },
-									}),
-								});
-							},
+							set: navigateOnFilter(navigate),
 						},
 						selection: {
 							type: "multi",
 							value: selection,
-							set(selection) {
-								navigate({
-									search(prev) {
-										return {
-											...prev,
-											selection,
-										};
-									},
-								});
-							},
+							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
-						onFulltext: handleOnFulltext(navigate),
 						value: filter?.fulltext,
+						set: navigateOnFulltext(navigate),
 					}}
 					cursor={{
 						count,
 						cursor,
 						textTotal: <Tx label={"Number of items"} />,
-						onPage: handleOnPage(navigate),
-						onSize: handleOnSize(navigate),
+						...navigateOnCursor(navigate),
 					}}
 				/>
 			</div>

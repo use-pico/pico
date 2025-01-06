@@ -1,12 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    handleOnFulltext,
-    handleOnPage,
-    handleOnSize,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
     Tx,
     withListCountLoader,
-    withSourceSearchSchema,
+    withSourceSearchSchema
 } from "@use-pico/client";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
@@ -16,15 +17,16 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/user/$id/building/list/",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({
 		context: { queryClient, kysely },
-		deps: { filter, cursor },
+		deps: { filter, cursor, sort },
 		params: { id },
 	}) {
 		return kysely.transaction().execute((tx) => {
@@ -34,6 +36,7 @@ export const Route = createFileRoute(
 				source: BuildingSource,
 				filter,
 				cursor,
+				sort,
 				where: {
 					userId: id,
 				},
@@ -56,41 +59,23 @@ export const Route = createFileRoute(
 						data,
 						filter: {
 							value: filter,
-							set(value) {
-								navigate({
-									search: ({ cursor, ...prev }) => ({
-										...prev,
-										filter: value,
-										cursor: { ...cursor, page: 0 },
-									}),
-								});
-							},
+							set: navigateOnFilter(navigate),
 						},
 						selection: {
 							type: "multi",
 							value: selection,
-							set(selection) {
-								navigate({
-									search(prev) {
-										return {
-											...prev,
-											selection,
-										};
-									},
-								});
-							},
+							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
-						onFulltext: handleOnFulltext(navigate),
 						value: filter?.fulltext,
+						set: navigateOnFulltext(navigate),
 					}}
 					cursor={{
 						count,
 						cursor,
 						textTotal: <Tx label={"Number of items"} />,
-						onPage: handleOnPage(navigate),
-						onSize: handleOnSize(navigate),
+						...navigateOnCursor(navigate),
 					}}
 				/>
 			</div>
