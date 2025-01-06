@@ -1,5 +1,6 @@
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
+import type { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
 import type { BaseBuildingRequirementSchema } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSchema";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import type { BuildingQueueSchema } from "~/app/derivean/building/queue/BuildingQueueSchema";
@@ -21,6 +22,7 @@ export interface Database {
 	BaseBuilding: BaseBuildingSchema["~entity"];
 	BaseBuilding_Requirement: BaseBuildingRequirementSchema["~entity"];
 	BaseBuilding_Limit: BaseBuildingLimitSchema["~entity"];
+	BaseBuildingProduction: BaseBuildingProductionSchema["~entity"];
 
 	Building: BuildingSchema["~entity"];
 	Building_Resource: BuildingResourceSchema["~entity"];

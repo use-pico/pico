@@ -1,12 +1,15 @@
-0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
-  ref: Building requirements (title)
-  value: Building requirements (title)
 00cd785d4c7fd1cd5f0bd37522bf0854573c1d42ab65723b089c08f1:
   ref: Building queued.
   value: Building queued.
 00e6e34c83a40bfd64d98be8436e542b4b343930f7fbac958b4b1fd5:
   ref: Cannot save base building (label)
   value: Cannot save base building (label)
+03bd0875daeef82aba0f78f99104b182d6600b90bfa14c222108c291:
+  ref: Cannot save production resource (label)
+  value: Cannot save production resource (label)
+03c9861978f99bba122f44a2f85699064d09547b91879e5fce03dd09:
+  ref: Create production resource (modal)
+  value: Create production resource (modal)
 03dae8277440958109a9cfacf30dac1635c6af74512c307b169cf67b:
   ref: Cannot save resource item (label)
   value: Cannot save resource item (label)
@@ -118,6 +121,9 @@
 3510c892a0593d17f409392658dce6a8e79590f7d6f11becffe4bdd5:
   ref: Resource limit successfully saved (label)
   value: Resource limit successfully saved (label)
+352f23c797901df9d8acf856943012e7f38283ef1e0cd3c3aad4ce0f:
+  ref: Save resource production (submit)
+  value: Save resource production (submit)
 35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
   ref: Unlimited (label)
   value: Unlimited (label)
@@ -127,6 +133,9 @@
 3722ed3677ae0736f66653ba81e4582ea78d957333232475da6028be:
   ref: Base building edit (menu)
   value: Base building edit (menu)
+37fd4ea3596e0ca72c74c4bb2bcd1c959f0a4ddca61c45a898bb77cd:
+  ref: Cycle count (label)
+  value: Cycle count (label)
 38347572d8aa1607a788bf890a6e9f83c334d06fc92987ae1535b1f5:
   ref: Missing any token(s). (title)
   value: Missing any token(s). (title)
@@ -199,6 +208,9 @@
 54f47a22840e2e29550b8bb925fc4dcca868be0b55be5a3063b7fe69:
   ref: Total count of items (label)
   value: Total count of items (label)
+560ad1f6138142a19099f4efe01315ec4c2aaafb64e99e6e600cbc12:
+  ref: Saving production resource (label)
+  value: Saving production resource (label)
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
   value: Name (label)
@@ -232,12 +244,15 @@
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Create resource (menu)
-6a5330e6499d33af297ce5ed82e55f764967d3d18dac9e8c5b715a41:
-  ref: Build (label)
-  value: Build (label)
+69efea9afb556dce0fb1124ff05922656db365dc7c1acd6615e21e2a:
+  ref: Cycle count (hint)
+  value: Cycle count (hint)
 6e176132e3649907060961b1719c41a2df3c226b31d92e475f9d8e4b:
   ref: Create tag (modal)
   value: Create tag (modal)
+6fad694f80956f08e19e31c7bfb5760ee0c194a6213d524d3a909eb3:
+  ref: Edit production resource (modal)
+  value: Edit production resource (modal)
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Edit resource (modal)
@@ -313,6 +328,9 @@
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
+8959302a32c4fd691dba4f4d804bdba4240ea9cac51e3e0c65d188f6:
+  ref: Base building production (menu)
+  value: Base building production (menu)
 8a94c4e1d53fc6351ab1a4a016fd867e2afc2a7c7b6b39579e1ce3c8:
   ref: Resource requirement successfully saved (label)
   value: Resource requirement successfully saved (label)
@@ -334,6 +352,9 @@
 920c5e1d09f85e75b6a7b96654dcd8c04d928818a96f8c7b84343d6d:
   ref: Base building preview (hint)
   value: Base building preview (hint)
+939a13f5c8b71ab0a359b5b064e6ffec991d27156921097d8695965a:
+  ref: Delete production resource (label)
+  value: Delete production resource (label)
 9460bfee662b17cc33d01fd53e9d4940ad13ee47c683e6219f70ade8:
   ref: Edit resource requirement (menu)
   value: Edit resource requirement (menu)
@@ -355,6 +376,9 @@
 9d5c86b718be2e6691ae6c8a320acb7c044ffec7e24dd2a1177d3b89:
   ref: Select resource tags (title)
   value: Select resource tags (title)
+9f0b8a91f28ba4448cb44ee3ba152d50addfca6f12c608865cf9516c:
+  ref: Production resource delete (content)
+  value: Production resource delete (content)
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext (placeholder)
@@ -394,6 +418,15 @@ a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
 a623dd51d4b6e2a0c9d823339d5c93023913126f5914121cd68ec237:
   ref: Resource item successfully saved (label)
   value: Resource item successfully saved (label)
+a6d820e8d930c53bbfc9d5fc7e8da438722b5f515e8854b0c5a7ab6d:
+  ref: Edit production resource (menu)
+  value: Edit production resource (menu)
+a7cd283965425658d20c5a6b1b916516b0beafe1b3ffe38b1052743d:
+  ref: Create production resource (menu)
+  value: Create production resource (menu)
+a9188553d25e97ae04bbf143fded930fd038e529ec19c6b0b91a015b:
+  ref: Production resource successfully saved (label)
+  value: Production resource successfully saved (label)
 a9a6b0f6eafa52d150b9a089defb0f1604e02c87c45d40424b4588ab:
   ref: Delete base building (label)
   value: Delete base building (label)
@@ -421,6 +454,9 @@ b2cfc9b7e82bd352d69a5b7acbf356728d322192bb31d2e6b467d37a:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Create inventory item (menu)
+b6289b0c89e4268b5ea8dcf457b72735bf039ccd0907be2153d2ea79:
+  ref: Delete production resource (modal)
+  value: Delete production resource (modal)
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Tag label (label)

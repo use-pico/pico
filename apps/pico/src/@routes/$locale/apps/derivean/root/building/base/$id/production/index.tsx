@@ -1,8 +1,4 @@
-import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
-} from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
     handleOnFulltext,
@@ -12,46 +8,52 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingTable } from "~/app/derivean/game/BaseBuildingTable";
+import { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
+import { BaseBuildingProductionSource } from "~/app/derivean/building/base/production/BaseBuildingProductionSource";
+import { BaseBuildingProductionTable } from "~/app/derivean/building/base/production/BaseBuildingProductionTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/base/list/",
+	"/$locale/apps/derivean/root/building/base/$id/production/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingSchema)),
+	validateSearch: zodValidator(
+		withSourceSearchSchema(BaseBuildingProductionSchema),
+	),
 	loaderDeps({ search: { filter, cursor } }) {
 		return {
 			filter,
 			cursor,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor },
+		params: { id },
+	}) {
 		return kysely.transaction().execute(async (tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BaseBuildingSource,
+				source: BaseBuildingProductionSource,
 				filter,
 				cursor,
+				where: {
+					baseBuildingId: id,
+				},
 			});
 		});
 	},
-	component() {
+	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
-		const { inventory, session } = useLoaderData({
-			from: "/$locale/apps/derivean/game",
-		});
 
 		return (
 			<div className={tv.base()}>
-				<BaseBuildingTable
-					userId={session.id}
-					inventory={inventory}
+				<BaseBuildingProductionTable
+					baseBuildingId={id}
 					table={{
 						data,
 						filter: {
@@ -63,6 +65,20 @@ export const Route = createFileRoute(
 										filter: value,
 										cursor: { ...cursor, page: 0 },
 									}),
+								});
+							},
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set(selection) {
+								navigate({
+									search(prev) {
+										return {
+											...prev,
+											selection,
+										};
+									},
 								});
 							},
 						},

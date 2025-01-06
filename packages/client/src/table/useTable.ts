@@ -55,7 +55,7 @@ export const useTable = <TData extends DataType.Data, TContext = unknown>({
 	filter,
 	selection,
 	context,
-}: useTable.Props<TData>): UseTable<TData, TContext> => {
+}: useTable.Props<TData, TContext>): UseTable<TData, TContext> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
 	const $selection = new Set<string>(selection?.value);

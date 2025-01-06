@@ -18,25 +18,28 @@ import type { useTable } from "./useTable";
 
 export namespace Table {
 	export namespace Action {
-		export interface TableProps<TData extends DataType.Data> {
-			table: UseTable<TData>;
+		export interface TableProps<
+			TData extends DataType.Data,
+			TContext = unknown,
+		> {
+			table: UseTable<TData, TContext>;
 		}
 
-		export interface RowProps<TData extends DataType.Data> {
-			table: UseTable<TData>;
+		export interface RowProps<TData extends DataType.Data, TContext = unknown> {
+			table: UseTable<TData, TContext>;
 			data: TData;
 		}
 	}
 
-	export interface Action<TData extends DataType.Data> {
+	export interface Action<TData extends DataType.Data, TContext = unknown> {
 		/**
 		 * Table-wise action.
 		 */
-		table?: FC<Action.TableProps<TData>>;
+		table?: FC<Action.TableProps<TData, TContext>>;
 		/**
 		 * Table row action.
 		 */
-		row?: FC<Action.RowProps<TData>>;
+		row?: FC<Action.RowProps<TData, TContext>>;
 	}
 
 	export interface Fulltext {
@@ -44,12 +47,13 @@ export namespace Table {
 		onFulltext: Fulltext.OnFulltext;
 	}
 
-	export interface Props<TData extends DataType.Data> extends TableCss.Props {
-		table: UseTable<TData>;
+	export interface Props<TData extends DataType.Data, TContext = unknown>
+		extends TableCss.Props {
+		table: UseTable<TData, TContext>;
 		fulltext?: Fulltext;
 		cursor: Cursor.Props;
 		empty?: FC;
-		action?: Action<TData>;
+		action?: Action<TData, TContext>;
 	}
 
 	export type PropsEx<TData extends DataType.Data, TContext = unknown> = Omit<
@@ -60,7 +64,7 @@ export namespace Table {
 	};
 }
 
-export const Table = <TData extends DataType.Data>({
+export const Table = <TData extends DataType.Data, TContext = unknown>({
 	table,
 	fulltext,
 	cursor,
@@ -75,7 +79,7 @@ export const Table = <TData extends DataType.Data>({
 	variant,
 	tva = TableCss,
 	css,
-}: Table.Props<TData>) => {
+}: Table.Props<TData, TContext>) => {
 	const tv = tva({ ...variant, css }).slots;
 	const TableAction = action?.table;
 	const RowAction = action?.row;
