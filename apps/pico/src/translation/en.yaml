@@ -406,6 +406,9 @@ a02ddcc72d8b463c8f929bdd0f8ac1faca51ab8d6e935d8aacd75ea6:
 a0dd73f42fce16a20ec90ad689b904985c43abe22ee2d8ed98d7b1fd:
   ref: Create resource limit (modal)
   value: Create resource limit (modal)
+a1fc33aa243ae9dd9f90e67c3c280f79c155e8cdbdb6672299ea73b5:
+  ref: Resource requirements (label)
+  value: Resource requirements (label)
 a202d268d1d94f80d854aa69dbd76dfc55740ba54e0c745695e5e5fe:
   ref: Delete tag (modal)
   value: Delete tag (modal)
@@ -577,6 +580,9 @@ df3d1de7ecca1ae7b30a26f55d23849ee668c6b70e7b36d1e71940e9:
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Create tag (menu)
+e1133ecd7f96835b4c08f076199b735d09d8b191cfff623afb4250db:
+  ref: Save production requirement (submit)
+  value: Save production requirement (submit)
 e2277c1ea01772a91c416de761112379a75c51faf1a3765d4906672a:
   ref: Saving tag (label)
   value: Saving tag (label)

@@ -50,6 +50,14 @@ export const seed = async (kysely: Kysely<Database>) => {
 				blueprint: {
 					id: id(),
 				},
+				production: {
+					gold: {
+						id: id(),
+					},
+					coin: {
+						id: id(),
+					},
+				},
 			},
 			castle: {
 				id: id(),
@@ -99,6 +107,9 @@ export const seed = async (kysely: Kysely<Database>) => {
 				id: id(),
 			},
 			dressedStone: {
+				id: id(),
+			},
+			rawGold: {
 				id: id(),
 			},
 			gold: {
@@ -184,7 +195,7 @@ export const seed = async (kysely: Kysely<Database>) => {
 				},
 				{
 					id: seed.building.goldSmith.id,
-					name: "Gold mine",
+					name: "Goldsmith",
 					cycles: 50,
 				},
 			])
@@ -272,6 +283,10 @@ export const seed = async (kysely: Kysely<Database>) => {
 					name: "Silver",
 				},
 				{
+					id: seed.resource.rawGold.id,
+					name: "Raw gold",
+				},
+				{
 					id: seed.resource.gold.id,
 					name: "Gold",
 				},
@@ -310,6 +325,14 @@ export const seed = async (kysely: Kysely<Database>) => {
 				{
 					id: seed.building.coalMine.blueprint.id,
 					name: "Coal mine - Blueprint",
+				},
+				{
+					id: seed.building.goldMine.blueprint.id,
+					name: "Gold mine - Blueprint",
+				},
+				{
+					id: seed.building.goldSmith.blueprint.id,
+					name: "Goldsmith - Blueprint",
 				},
 			])
 			.execute();
@@ -353,6 +376,11 @@ export const seed = async (kysely: Kysely<Database>) => {
 				},
 				{
 					id: id(),
+					resourceId: seed.resource.rawGold.id,
+					tagId: seed.tag.material.id,
+				},
+				{
+					id: id(),
 					resourceId: seed.resource.dressedStone.id,
 					tagId: seed.tag.material.id,
 				},
@@ -384,6 +412,21 @@ export const seed = async (kysely: Kysely<Database>) => {
 				{
 					id: id(),
 					resourceId: seed.building.quarry.blueprint.id,
+					tagId: seed.tag.blueprint.id,
+				},
+				{
+					id: id(),
+					resourceId: seed.building.coalMine.blueprint.id,
+					tagId: seed.tag.blueprint.id,
+				},
+				{
+					id: id(),
+					resourceId: seed.building.goldMine.blueprint.id,
+					tagId: seed.tag.blueprint.id,
+				},
+				{
+					id: id(),
+					resourceId: seed.building.goldSmith.blueprint.id,
 					tagId: seed.tag.blueprint.id,
 				},
 				{
@@ -651,6 +694,39 @@ export const seed = async (kysely: Kysely<Database>) => {
 					passive: false,
 					amount: 1,
 				},
+
+				/**
+				 * Coal mine
+				 */
+				{
+					id: id(),
+					baseBuildingId: seed.building.coalMine.id,
+					resourceId: seed.building.coalMine.blueprint.id,
+					passive: false,
+					amount: 1,
+				},
+
+				/**
+				 * Gold mine
+				 */
+				{
+					id: id(),
+					baseBuildingId: seed.building.goldMine.id,
+					resourceId: seed.building.goldMine.blueprint.id,
+					passive: false,
+					amount: 1,
+				},
+
+				/**
+				 * Gold smith
+				 */
+				{
+					id: id(),
+					baseBuildingId: seed.building.goldSmith.id,
+					resourceId: seed.building.goldSmith.blueprint.id,
+					passive: false,
+					amount: 1,
+				},
 			])
 			.execute();
 	} catch (_) {
@@ -735,6 +811,50 @@ export const seed = async (kysely: Kysely<Database>) => {
 					resourceId: seed.resource.wood.id,
 					amount: 1,
 					cycles: 1,
+					limit: 1,
+				},
+
+				/**
+				 * Gold mine
+				 */
+				{
+					id: id(),
+					baseBuildingId: seed.building.goldMine.id,
+					resourceId: seed.resource.rawGold.id,
+					amount: 2,
+					cycles: 5,
+					limit: 1,
+				},
+
+				/**
+				 * Coal mine
+				 */
+				{
+					id: id(),
+					baseBuildingId: seed.building.coalMine.id,
+					resourceId: seed.resource.coal.id,
+					amount: 2,
+					cycles: 3,
+					limit: 1,
+				},
+
+				/**
+				 * Gold smith
+				 */
+				{
+					id: seed.building.goldSmith.production.gold.id,
+					baseBuildingId: seed.building.goldSmith.id,
+					resourceId: seed.resource.gold.id,
+					amount: 1,
+					cycles: 4,
+					limit: 1,
+				},
+				{
+					id: seed.building.goldSmith.production.coin.id,
+					baseBuildingId: seed.building.goldSmith.id,
+					resourceId: seed.resource.coin.id,
+					amount: 50,
+					cycles: 5,
 					limit: 1,
 				},
 
@@ -827,6 +947,24 @@ export const seed = async (kysely: Kysely<Database>) => {
 					baseBuildingProductionId: seed.building.sawmill.production.plank.id,
 					resourceId: seed.resource.wood.id,
 					amount: 2,
+					passive: false,
+				},
+
+				/**
+				 * Goldsmith - Gold
+				 */
+				{
+					id: id(),
+					baseBuildingProductionId: seed.building.goldSmith.production.gold.id,
+					resourceId: seed.resource.rawGold.id,
+					amount: 1,
+					passive: false,
+				},
+				{
+					id: id(),
+					baseBuildingProductionId: seed.building.goldSmith.production.coin.id,
+					resourceId: seed.resource.rawGold.id,
+					amount: 1,
 					passive: false,
 				},
 			])
