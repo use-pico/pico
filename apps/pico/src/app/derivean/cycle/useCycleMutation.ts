@@ -128,18 +128,42 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 					});
 
 					for await (const queue of finishedQueueList) {
-						await BuildingResourceSource.create$({
-							tx,
-							shape: {
-								resourceId: queue.resourceId,
-								amount: queue.amount,
-							},
-							entity: {
-								buildingId: queue.buildingId,
-								resourceId: queue.resourceId,
-								amount: queue.amount,
-							},
-						});
+						try {
+							await BuildingResourceSource.create$({
+								tx,
+								shape: {
+									resourceId: queue.resourceId,
+									amount: queue.amount,
+								},
+								entity: {
+									buildingId: queue.buildingId,
+									resourceId: queue.resourceId,
+									amount: queue.amount,
+								},
+							});
+						} catch (_) {
+							const item = await BuildingResourceSource.fetchOrThrow$({
+								tx,
+								where: {
+									buildingId: queue.buildingId,
+									resourceId: queue.resourceId,
+								},
+							});
+
+							await BuildingResourceSource.patch$({
+								tx,
+								entity: {
+									amount: item.amount + queue.amount,
+								},
+								shape: {
+									amount: item.amount + queue.amount,
+								},
+								where: {
+									buildingId: queue.buildingId,
+									resourceId: queue.resourceId,
+								},
+							});
+						}
 
 						await BuildingProductionQueueSource.delete$({
 							tx,

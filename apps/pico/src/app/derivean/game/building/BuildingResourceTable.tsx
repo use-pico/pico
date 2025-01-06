@@ -1,8 +1,10 @@
+import { useParams } from "@tanstack/react-router";
 import {
     ActionClick,
     ActionMenu,
     ActionModal,
     DeleteControl,
+    LinkTo,
     Table,
     TrashIcon,
     Tx,
@@ -19,6 +21,31 @@ import { ResourceLimitInline } from "~/app/derivean/resource/ResourceLimitInline
 const column = withColumn<BuildingResourceSchema["~output"]>();
 
 const columns = [
+	column({
+		name: "building.baseBuilding.name",
+		header() {
+			return <Tx label={"Building name (label)"} />;
+		},
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/building/$id/resource/list"}
+					params={{ locale, id: data.buildingId }}
+				>
+					{value}
+				</LinkTo>
+			);
+		},
+		filter: {
+			path: "buildingId",
+			onFilter({ data, filter }) {
+				filter.shallow("buildingId", data.buildingId);
+			},
+		},
+		size: 15,
+	}),
 	column({
 		name: "resource.name",
 		header() {
@@ -56,7 +83,7 @@ const columns = [
 export namespace BuildingResourceTable {
 	export interface Props
 		extends Table.PropsEx<BuildingResourceSchema["~output"]> {
-		buildingId: string;
+		buildingId?: string;
 	}
 }
 
@@ -69,25 +96,29 @@ export const BuildingResourceTable: FC<BuildingResourceTable.Props> = ({
 		<Table
 			table={useTable({
 				...table,
+				hidden: buildingId ? ["building.baseBuilding.name"] : [],
 				columns,
 			})}
 			action={{
-				table() {
-					const mutation = useResourcePickupMutation();
+				table:
+					buildingId ?
+						() => {
+							const mutation = useResourcePickupMutation();
 
-					return (
-						<ActionMenu>
-							<ActionClick
-								icon={ResourceIcon}
-								onClick={() => {
-									mutation.mutate({ buildingId });
-								}}
-							>
-								<Tx label={"Pickup resources (label)"} />
-							</ActionClick>
-						</ActionMenu>
-					);
-				},
+							return (
+								<ActionMenu>
+									<ActionClick
+										icon={ResourceIcon}
+										onClick={() => {
+											mutation.mutate({ buildingId });
+										}}
+									>
+										<Tx label={"Pickup resources (label)"} />
+									</ActionClick>
+								</ActionMenu>
+							);
+						}
+					:	undefined,
 				row({ data }) {
 					return (
 						<ActionMenu>

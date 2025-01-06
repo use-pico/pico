@@ -11,8 +11,8 @@ import {
 } from "@use-pico/client";
 import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
-import { BuildingResourceTable } from "~/app/derivean/building/resource/BuildingResourceTable";
 import { AmountInline } from "~/app/derivean/game/AmountInline";
+import { BuildingResourceTable } from "~/app/derivean/game/building/BuildingResourceTable";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export const Route = createFileRoute(
