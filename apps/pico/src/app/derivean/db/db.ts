@@ -137,6 +137,26 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"resourceId",
 				])
 				.execute();
+
+			await kysely.schema
+				.createTable("BaseBuildingProduction")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("baseBuildingId", $id, (col) =>
+					col.references("BaseBuilding.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("resourceId", $id, (col) =>
+					col.references("User.id").onDelete("cascade").notNull(),
+				)
+				/**
+				 * Amount of resource produced in specified cycles.
+				 */
+				.addColumn("amount", "float8", (col) => col.notNull())
+				/**
+				 * Amount of cycles to produce a thing
+				 */
+				.addColumn("cycles", "float8", (col) => col.notNull())
+				.execute();
 		};
 
 		const bootstrapBuilding = async () => {

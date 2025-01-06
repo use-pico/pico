@@ -19,7 +19,7 @@ export namespace useTable {
 		set(selection: string[]): void;
 	}
 
-	export interface Props<TData extends DataType.Data> {
+	export interface Props<TData extends DataType.Data, TContext = unknown> {
 		/**
 		 * Column definition for the table.
 		 *
@@ -37,15 +37,16 @@ export namespace useTable {
 		data: TData[];
 		filter?: Filter;
 		selection?: Selection;
+		context?: TContext;
 	}
 
-	export type PropsEx<TData extends DataType.Data> = Omit<
-		Props<TData>,
+	export type PropsEx<TData extends DataType.Data, TContext = unknown> = Omit<
+		Props<TData, TContext>,
 		"columns"
 	>;
 }
 
-export const useTable = <TData extends DataType.Data>({
+export const useTable = <TData extends DataType.Data, TContext = unknown>({
 	columns,
 	order = columns.map((column) => column.name),
 	hidden = [],
@@ -53,7 +54,8 @@ export const useTable = <TData extends DataType.Data>({
 	data,
 	filter,
 	selection,
-}: useTable.Props<TData>): UseTable<TData> => {
+	context,
+}: useTable.Props<TData>): UseTable<TData, TContext> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
 	const $selection = new Set<string>(selection?.value);
@@ -175,5 +177,6 @@ export const useTable = <TData extends DataType.Data>({
 				};
 			},
 		},
+		context: context as TContext,
 	};
 };

@@ -4,11 +4,12 @@ import type { FilterType } from "./FilterType";
 import type { RowType } from "./RowType";
 import type { SelectionType } from "./SelectionType";
 
-export interface UseTable<TData extends DataType.Data> {
+export interface UseTable<TData extends DataType.Data, TContext = unknown> {
 	columns: ColumnType.Column<TData, any>[];
 	visible: ColumnType.Column<TData, any>[];
 	rows: RowType.Row<TData>[];
 	isEmpty: boolean;
 	filter: FilterType.Filter;
 	selection: SelectionType.Selection<TData>;
+	context: TContext;
 }

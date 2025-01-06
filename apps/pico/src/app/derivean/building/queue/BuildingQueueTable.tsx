@@ -14,17 +14,7 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
-		size: 14,
-	}),
-	column({
-		name: "start",
-		header() {
-			return <Tx label={"Building queue - started (label)"} />;
-		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
-		},
-		size: 14,
+		size: 10,
 	}),
 	column({
 		name: "current",
@@ -41,7 +31,17 @@ const columns = [
 				</div>
 			);
 		},
-		size: 14,
+		size: 10,
+	}),
+	column({
+		name: "start",
+		header() {
+			return <Tx label={"Building queue - started (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 10,
 	}),
 	column({
 		name: "finish",
@@ -51,7 +51,7 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 14,
+		size: 10,
 	}),
 ];
 

@@ -61,7 +61,7 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 						cursor: { page: 0, size: 500 },
 						where: {
 							userId,
-							finishGte: cycles,
+							finishGt: cycles,
 						},
 					});
 

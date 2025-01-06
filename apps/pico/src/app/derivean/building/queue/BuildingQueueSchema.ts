@@ -34,6 +34,7 @@ export const BuildingQueueSchema = withSourceSchema({
 			userId: z.string().optional(),
 			baseBuildingId: z.string().optional(),
 			finishGte: z.number().optional(),
+			finishGt: z.number().optional(),
 		}),
 	),
 });

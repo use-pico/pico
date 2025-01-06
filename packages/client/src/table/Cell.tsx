@@ -29,6 +29,7 @@ export const Cell = <TData extends DataType.Data>({
 					table={table}
 					data={data}
 					value={value}
+					context={table.context}
 				/>
 				{column.filter && !column.filter.is() ?
 					<Icon

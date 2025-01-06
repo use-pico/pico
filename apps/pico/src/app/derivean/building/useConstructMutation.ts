@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast, useSourceInvalidator } from "@use-pico/client";
 import { translator } from "@use-pico/common";
-import { BaseBuildingList } from "~/app/derivean/building/base/BaseBuildingList";
+import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingQueueSource } from "~/app/derivean/building/queue/BuildingQueueSource";
 import { withConstruct } from "~/app/derivean/building/withConstruct";
@@ -21,7 +21,7 @@ export const useConstructMutation = ({
 		sources: [
 			BuildingQueueSource,
 			BuildingSource,
-			BaseBuildingList,
+			BaseBuildingSource,
 			InventorySource,
 		],
 		queries: [["useBuildingCount"]],

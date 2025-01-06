@@ -52,11 +52,11 @@ export namespace Table {
 		action?: Action<TData>;
 	}
 
-	export type PropsEx<TData extends DataType.Data> = Omit<
+	export type PropsEx<TData extends DataType.Data, TContext = unknown> = Omit<
 		Props<TData>,
 		"table"
 	> & {
-		table: useTable.PropsEx<TData>;
+		table: useTable.PropsEx<TData, TContext>;
 	};
 }
 

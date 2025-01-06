@@ -37,6 +37,10 @@ export const BuildingQueueSource = withSource({
 				$select = $select.where("bq.finish", "<=", where.finishGte);
 			}
 
+			if (where?.finishGt) {
+				$select = $select.where("bq.finish", "<", where.finishGt);
+			}
+
 			if (where?.fulltext) {
 				$select = fulltext(where.fulltext);
 			}
