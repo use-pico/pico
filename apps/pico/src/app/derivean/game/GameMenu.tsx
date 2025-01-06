@@ -5,6 +5,7 @@ import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace GameMenu {
@@ -36,10 +37,18 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 
 			<MenuLink
 				icon={ConstructionIcon}
-				to={"/$locale/apps/derivean/game/building/queue/list"}
+				to={"/$locale/apps/derivean/game/building/queue/construction/list"}
 				params={{ locale }}
 			>
 				<Tx label={"Building queue list (label)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={QueueIcon}
+				to={"/$locale/apps/derivean/game/building/queue/production/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Production queue (menu)"} />
 			</MenuLink>
 
 			<MenuLink

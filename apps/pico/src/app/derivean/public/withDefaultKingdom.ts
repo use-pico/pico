@@ -17,11 +17,11 @@ export const withDefaultKingdom = async ({
 	const resources = [
 		{
 			resource: "Wood",
-			amount: 25,
+			amount: 100,
 		},
 		{
 			resource: "Stone",
-			amount: 10,
+			amount: 150,
 		},
 		{
 			resource: "Storage - Blueprint",

@@ -51,8 +51,22 @@ const columns = [
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({ value }) {
-			return value;
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/inventory"}
+					params={{ locale }}
+					search={{
+						filter: {
+							resourceId: data.resourceId,
+						},
+					}}
+				>
+					{value}
+				</LinkTo>
+			);
 		},
 		filter: {
 			path: "resourceId",

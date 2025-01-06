@@ -47,7 +47,7 @@ export const useResourcePickupMutation = () => {
 									userId: building.userId,
 								},
 							});
-						} catch (e) {
+						} catch (_) {
 							const inventory = await InventorySource.fetchOrThrow$({
 								tx,
 								where: {

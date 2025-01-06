@@ -5,9 +5,13 @@ import type { Database } from "~/app/derivean/db/Database";
 export const seed = async (kysely: Kysely<Database>) => {
 	const ids = {
 		building: {
+			forester: id(),
+			sawmill: id(),
+			quarry: id(),
 			castle: id(),
 			storage: id(),
 			house: id(),
+			university: id(),
 		},
 		resource: {
 			wood: id(),
@@ -24,6 +28,10 @@ export const seed = async (kysely: Kysely<Database>) => {
 			storageBlueprint: id(),
 			castleBlueprint: id(),
 			houseBlueprint: id(),
+			universityBlueprint: id(),
+			quarryBlueprint: id(),
+			foresterBlueprint: id(),
+			sawmillBlueprint: id(),
 		},
 		tag: {
 			material: id(),
@@ -41,17 +49,37 @@ export const seed = async (kysely: Kysely<Database>) => {
 				{
 					id: ids.building.castle,
 					name: "Castle",
-					cycles: 5,
+					cycles: 30,
+				},
+				{
+					id: ids.building.forester,
+					name: "Forester",
+					cycles: 3,
+				},
+				{
+					id: ids.building.quarry,
+					name: "Quarry",
+					cycles: 3,
+				},
+				{
+					id: ids.building.sawmill,
+					name: "Sawmill",
+					cycles: 10,
 				},
 				{
 					id: ids.building.storage,
 					name: "Storage",
-					cycles: 1,
+					cycles: 5,
 				},
 				{
 					id: ids.building.house,
 					name: "House",
 					cycles: 1,
+				},
+				{
+					id: ids.building.university,
+					name: "University",
+					cycles: 75,
 				},
 			])
 			.execute();
@@ -157,6 +185,22 @@ export const seed = async (kysely: Kysely<Database>) => {
 					id: ids.resource.houseBlueprint,
 					name: "House - Blueprint",
 				},
+				{
+					id: ids.resource.universityBlueprint,
+					name: "University - Blueprint",
+				},
+				{
+					id: ids.resource.quarryBlueprint,
+					name: "Quarry - Blueprint",
+				},
+				{
+					id: ids.resource.foresterBlueprint,
+					name: "Forester - Blueprint",
+				},
+				{
+					id: ids.resource.sawmillBlueprint,
+					name: "Sawmill - Blueprint",
+				},
 			])
 			.execute();
 	} catch (_) {
@@ -220,6 +264,26 @@ export const seed = async (kysely: Kysely<Database>) => {
 				{
 					id: id(),
 					resourceId: ids.resource.houseBlueprint,
+					tagId: ids.tag.blueprint,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.universityBlueprint,
+					tagId: ids.tag.blueprint,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.quarryBlueprint,
+					tagId: ids.tag.blueprint,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.sawmillBlueprint,
+					tagId: ids.tag.blueprint,
+				},
+				{
+					id: id(),
+					resourceId: ids.resource.foresterBlueprint,
 					tagId: ids.tag.blueprint,
 				},
 				{
@@ -349,6 +413,70 @@ export const seed = async (kysely: Kysely<Database>) => {
 					passive: false,
 					amount: 1,
 				},
+
+				/**
+				 * University
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.stone,
+					passive: false,
+					amount: 100,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.dressedStone,
+					passive: false,
+					amount: 75,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.wood,
+					passive: false,
+					amount: 250,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.plank,
+					passive: false,
+					amount: 150,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.universityBlueprint,
+					passive: false,
+					amount: 3,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.university,
+					resourceId: ids.resource.coin,
+					passive: false,
+					amount: 2000,
+				},
+
+				/**
+				 * Sawmill
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.sawmill,
+					resourceId: ids.resource.wood,
+					passive: false,
+					amount: 10,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.sawmill,
+					resourceId: ids.resource.stone,
+					passive: false,
+					amount: 15,
+				},
 			])
 			.execute();
 	} catch (_) {
@@ -401,14 +529,50 @@ export const seed = async (kysely: Kysely<Database>) => {
 			.insertInto("BaseBuildingProduction")
 			.values([
 				/**
-				 * Storage
+				 * House
 				 */
 				{
 					id: id(),
-                    baseBuildingId: ids.building.house,
+					baseBuildingId: ids.building.house,
 					resourceId: ids.resource.coin,
 					amount: 3,
 					cycles: 1,
+					limit: 1,
+				},
+
+				/**
+				 * Sawmill
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.sawmill,
+					resourceId: ids.resource.plank,
+					amount: 1,
+					cycles: 1,
+					limit: 1,
+				},
+
+				/**
+				 * Forester
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.forester,
+					resourceId: ids.resource.wood,
+					amount: 1,
+					cycles: 1,
+					limit: 1,
+				},
+
+				/**
+				 * Quarry
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.quarry,
+					resourceId: ids.resource.stone,
+					amount: 1,
+					cycles: 2,
 					limit: 1,
 				},
 			])

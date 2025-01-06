@@ -4,38 +4,41 @@ import {
     navigateOnCursor,
     navigateOnFilter,
     navigateOnFulltext,
-    navigateOnSelection,
     Tx,
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingQueueSchema } from "~/app/derivean/building/queue/BuildingQueueSchema";
-import { BuildingQueueSource } from "~/app/derivean/building/queue/BuildingQueueSource";
-import { BuildingQueueTable } from "~/app/derivean/building/queue/BuildingQueueTable";
+import { BuildingProductionQueueSchema } from "~/app/derivean/building/production/BuildingProductionQueueSchema";
+import { BuildingProductionQueueSource } from "~/app/derivean/building/production/BuildingProductionQueueSource";
+import { ProductionQueueTable } from "~/app/derivean/game/building/production/ProductionQueueTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/queue/list/",
+	"/$locale/apps/derivean/game/building/queue/production/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingQueueSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(
+		withSourceSearchSchema(BuildingProductionQueueSchema),
+	),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({
 		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
+		deps: { filter, cursor, sort },
 	}) {
 		const user = await session();
 
-		return kysely.transaction().execute((tx) => {
+		return kysely.transaction().execute(async (tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BuildingQueueSource,
+				source: BuildingProductionQueueSource,
 				filter,
 				cursor,
+				sort,
 				where: {
 					userId: user.id,
 				},
@@ -44,24 +47,19 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<BuildingQueueTable
+				<ProductionQueueTable
 					table={{
 						data,
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
-						},
-						selection: {
-							type: "multi",
-							value: selection,
-							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{

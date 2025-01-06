@@ -1,10 +1,10 @@
 import {
-	Button,
-	Table,
-	Tx,
-	useCountQuery,
-	useTable,
-	withColumn,
+    Button,
+    Table,
+    Tx,
+    useCountQuery,
+    useTable,
+    withColumn,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
@@ -73,6 +73,16 @@ const columns = [
 		size: 18,
 	}),
 	column({
+		name: "amount",
+		header() {
+			return <Tx label={"Amount (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 14,
+	}),
+	column({
 		name: "cycles",
 		header() {
 			return <Tx label={"Cycle count (label)"} />;
@@ -99,7 +109,6 @@ const columns = [
 				/>
 			);
 		},
-		size: 72,
 	}),
 ];
 

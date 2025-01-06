@@ -496,6 +496,9 @@ b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
 b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
   ref: User name (label)
   value: User name (label)
+b8c443314d28c78ee34c1389a6db6f1c67303ef8588abfddebf21bad:
+  ref: Production queue (menu)
+  value: Production queue (menu)
 b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
   ref: Edit inventory item (modal)
   value: Edit inventory item (modal)

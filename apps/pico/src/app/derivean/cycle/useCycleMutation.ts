@@ -128,19 +128,28 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 					});
 
 					for await (const queue of finishedQueueList) {
+						const limit =
+							queue.building.baseBuilding.limits.find(
+								(limit) => limit.resourceId === queue.resourceId,
+							)?.limit || undefined;
+						let success = false;
+
 						try {
-							await BuildingResourceSource.create$({
-								tx,
-								shape: {
-									resourceId: queue.resourceId,
-									amount: queue.amount,
-								},
-								entity: {
-									buildingId: queue.buildingId,
-									resourceId: queue.resourceId,
-									amount: queue.amount,
-								},
-							});
+							if (!limit || queue.amount <= limit) {
+								await BuildingResourceSource.create$({
+									tx,
+									shape: {
+										resourceId: queue.resourceId,
+										amount: queue.amount,
+									},
+									entity: {
+										buildingId: queue.buildingId,
+										resourceId: queue.resourceId,
+										amount: queue.amount,
+									},
+								});
+								success = true;
+							}
 						} catch (_) {
 							const item = await BuildingResourceSource.fetchOrThrow$({
 								tx,
@@ -150,27 +159,31 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 								},
 							});
 
-							await BuildingResourceSource.patch$({
-								tx,
-								entity: {
-									amount: item.amount + queue.amount,
-								},
-								shape: {
-									amount: item.amount + queue.amount,
-								},
-								where: {
-									buildingId: queue.buildingId,
-									resourceId: queue.resourceId,
-								},
-							});
+							if (!limit || item.amount + queue.amount <= limit) {
+								await BuildingResourceSource.patch$({
+									tx,
+									entity: {
+										amount: item.amount + queue.amount,
+									},
+									shape: {
+										amount: item.amount + queue.amount,
+									},
+									where: {
+										buildingId: queue.buildingId,
+										resourceId: queue.resourceId,
+									},
+								});
+								success = true;
+							}
 						}
 
-						await BuildingProductionQueueSource.delete$({
-							tx,
-							where: {
-								id: queue.id,
-							},
-						});
+						success &&
+							(await BuildingProductionQueueSource.delete$({
+								tx,
+								where: {
+									id: queue.id,
+								},
+							}));
 					}
 				};
 

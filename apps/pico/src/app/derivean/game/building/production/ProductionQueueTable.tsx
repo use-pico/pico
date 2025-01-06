@@ -1,4 +1,5 @@
-import { Table, Tx, useTable, withColumn } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { BuildingProductionQueueSchema } from "~/app/derivean/building/production/BuildingProductionQueueSchema";
@@ -7,12 +8,45 @@ const column = withColumn<BuildingProductionQueueSchema["~output"]>();
 
 const columns = [
 	column({
+		name: "building.baseBuilding.name",
+		header() {
+			return <Tx label={"Base building name (label)"} />;
+		},
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/building/$id/production/queue"}
+					params={{ locale, id: data.buildingId }}
+				>
+					{value}
+				</LinkTo>
+			);
+		},
+		size: 14,
+	}),
+	column({
 		name: "resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({ value }) {
-			return value;
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/inventory"}
+					params={{ locale }}
+					search={{
+						filter: {
+							resourceId: data.resourceId,
+						},
+					}}
+				>
+					{value}
+				</LinkTo>
+			);
 		},
 		size: 14,
 	}),

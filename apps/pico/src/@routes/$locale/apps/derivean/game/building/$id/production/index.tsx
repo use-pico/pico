@@ -14,6 +14,7 @@ import {
 } from "@use-pico/client";
 import { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
 import { BaseBuildingProductionSource } from "~/app/derivean/building/base/production/BaseBuildingProductionSource";
+import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { ProductionTable } from "~/app/derivean/game/building/production/ProductionTable";
 
 export const Route = createFileRoute(
@@ -32,8 +33,14 @@ export const Route = createFileRoute(
 	async loader({
 		context: { queryClient, kysely },
 		deps: { filter, cursor, sort },
+		params: { id },
 	}) {
 		return kysely.transaction().execute(async (tx) => {
+			const building = await BuildingSource.getOrThrow$({
+				tx,
+				id,
+			});
+
 			return withListCountLoader({
 				tx,
 				queryClient,
@@ -41,6 +48,9 @@ export const Route = createFileRoute(
 				filter,
 				cursor,
 				sort,
+				where: {
+					baseBuildingId: building.baseBuildingId,
+				},
 			});
 		});
 	},

@@ -28,6 +28,7 @@ export const Route = createFileRoute(
 	async loader({
 		context: { queryClient, kysely, session },
 		deps: { filter, cursor, sort },
+		params: { id },
 	}) {
 		const user = await session();
 
@@ -41,6 +42,7 @@ export const Route = createFileRoute(
 				sort,
 				where: {
 					userId: user.id,
+					buildingId: id,
 				},
 			});
 		});
@@ -61,6 +63,7 @@ export const Route = createFileRoute(
 							value: filter,
 							set: navigateOnFilter(navigate),
 						},
+						hidden: ["building.baseBuilding.name"],
 					}}
 					fulltext={{
 						value: filter?.fulltext,

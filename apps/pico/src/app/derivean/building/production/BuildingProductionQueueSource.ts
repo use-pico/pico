@@ -50,8 +50,13 @@ export const BuildingProductionQueueSource = withSource({
 			if (where?.userId) {
 				$select = $select.where("b.userId", "=", where.userId);
 			}
+
 			if (where?.baseBuildingId) {
 				$select = $select.where("b.baseBuildingId", "=", where.baseBuildingId);
+			}
+
+			if (where?.buildingId) {
+				$select = $select.where("bpq.buildingId", "=", where.buildingId);
 			}
 
 			if (where?.baseBuildingProductionId) {
