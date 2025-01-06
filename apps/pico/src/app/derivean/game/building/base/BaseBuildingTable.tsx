@@ -69,7 +69,7 @@ const columns = [
 				</div>
 			);
 		},
-		size: 10,
+		size: 16,
 	}),
 	column({
 		name: "cycles",

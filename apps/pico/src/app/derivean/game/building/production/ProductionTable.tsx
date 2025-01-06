@@ -40,6 +40,7 @@ const columns = [
 				source: BuildingProductionQueueSource,
 				filter: {
 					baseBuildingProductionId: data.id,
+					buildingId,
 				},
 			});
 
