@@ -79,12 +79,14 @@ export const BaseBuildingSource = withSource({
 					where: {
 						baseBuildingId: entity.id,
 					},
+					sort: [{ name: "name", sort: "asc" }],
 				}),
 				limits: await BaseBuildingLimitSource.list$({
 					tx,
 					where: {
 						baseBuildingId: entity.id,
 					},
+					sort: [{ name: "resource", sort: "asc" }],
 				}),
 			};
 		},
