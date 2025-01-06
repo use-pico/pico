@@ -5,6 +5,7 @@ import { BaseBuildingProductionSource } from "~/app/derivean/building/base/produ
 import { BuildingProductionQueueSource } from "~/app/derivean/building/production/BuildingProductionQueueSource";
 import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 import { kysely } from "~/app/derivean/db/db";
+import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 
 export namespace useProductionMutation {
 	export interface Request {
@@ -16,7 +17,11 @@ export namespace useProductionMutation {
 
 export const useProductionMutation = () => {
 	const invalidator = useSourceInvalidator({
-		sources: [BaseBuildingProductionSource, BuildingProductionQueueSource],
+		sources: [
+			BaseBuildingProductionSource,
+			BuildingProductionQueueSource,
+			InventorySource,
+		],
 	});
 
 	return useMutation({
@@ -34,6 +39,34 @@ export const useProductionMutation = () => {
 							id: baseBuildingProductionId,
 							error: "Cannot find base building production",
 						});
+
+					for await (const requirement of baseBuildingProduction.requirements) {
+						if (requirement.passive) {
+							continue;
+						}
+
+						const item = await InventorySource.fetchOrThrow$({
+							tx,
+							where: {
+								userId,
+								resourceId: requirement.resourceId,
+							},
+						});
+
+						await InventorySource.patch$({
+							tx,
+							entity: {
+								amount: item.amount - requirement.amount,
+							},
+							shape: {
+								amount: item.amount - requirement.amount,
+							},
+							where: {
+								userId,
+								resourceId: requirement.resourceId,
+							},
+						});
+					}
 
 					const { filter: cycles } = await CycleSource.count$({
 						tx,

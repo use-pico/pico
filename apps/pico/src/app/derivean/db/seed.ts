@@ -33,6 +33,10 @@ export const seed = async (kysely: Kysely<Database>) => {
 			foresterBlueprint: id(),
 			sawmillBlueprint: id(),
 		},
+		production: {
+			dressedStone: id(),
+			plank: id(),
+		},
 		tag: {
 			material: id(),
 			product: id(),
@@ -601,7 +605,7 @@ export const seed = async (kysely: Kysely<Database>) => {
 				 * Sawmill
 				 */
 				{
-					id: id(),
+					id: ids.production.plank,
 					baseBuildingId: ids.building.sawmill,
 					resourceId: ids.resource.plank,
 					amount: 1,
@@ -631,6 +635,85 @@ export const seed = async (kysely: Kysely<Database>) => {
 					amount: 1,
 					cycles: 2,
 					limit: 1,
+				},
+				{
+					id: ids.production.dressedStone,
+					baseBuildingId: ids.building.quarry,
+					resourceId: ids.resource.dressedStone,
+					amount: 1,
+					cycles: 3,
+					limit: 1,
+				},
+			])
+			.execute();
+	} catch (_) {
+		//
+	}
+	try {
+		await kysely
+			.insertInto("BaseBuilding_Limit")
+			.values([
+				/**
+				 * Storage
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.storage,
+					resourceId: ids.resource.stone,
+					limit: 100,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.storage,
+					resourceId: ids.resource.wood,
+					limit: 150,
+				},
+
+				/**
+				 * Castle
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.castle,
+					resourceId: ids.resource.stone,
+					limit: 25,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.castle,
+					resourceId: ids.resource.wood,
+					limit: 50,
+				},
+			])
+			.execute();
+	} catch (_) {
+		//
+	}
+
+	try {
+		await kysely
+			.insertInto("BaseBuildingProductionRequirement")
+			.values([
+				/**
+				 * Quarry - Dressed Stone
+				 */
+				{
+					id: id(),
+					baseBuildingProductionId: ids.production.dressedStone,
+					resourceId: ids.resource.stone,
+					amount: 2,
+					passive: false,
+				},
+
+				/**
+				 * Sawmill - Wood
+				 */
+				{
+					id: id(),
+					baseBuildingProductionId: ids.production.plank,
+					resourceId: ids.resource.wood,
+					amount: 2,
+					passive: false,
 				},
 			])
 			.execute();

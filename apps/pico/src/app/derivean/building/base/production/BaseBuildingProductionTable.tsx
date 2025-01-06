@@ -3,6 +3,7 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    EditIcon,
     LinkTo,
     Table,
     toast,
@@ -153,7 +154,7 @@ export const BaseBuildingProductionTable: FC<
 							<ActionModal
 								label={<Tx label={"Edit production resource (menu)"} />}
 								textTitle={<Tx label={"Edit production resource (modal)"} />}
-								icon={ResourceIcon}
+								icon={EditIcon}
 							>
 								<BaseBuildingProductionForm
 									defaultValues={data}
