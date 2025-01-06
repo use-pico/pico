@@ -477,6 +477,63 @@ export const seed = async (kysely: Kysely<Database>) => {
 					passive: false,
 					amount: 15,
 				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.sawmill,
+					resourceId: ids.resource.sawmillBlueprint,
+					passive: false,
+					amount: 1,
+				},
+
+				/**
+				 * Forester
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.forester,
+					resourceId: ids.resource.wood,
+					passive: false,
+					amount: 5,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.forester,
+					resourceId: ids.resource.stone,
+					passive: false,
+					amount: 2,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.forester,
+					resourceId: ids.resource.foresterBlueprint,
+					passive: false,
+					amount: 1,
+				},
+
+				/**
+				 * Quarry
+				 */
+				{
+					id: id(),
+					baseBuildingId: ids.building.quarry,
+					resourceId: ids.resource.wood,
+					passive: false,
+					amount: 10,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.quarry,
+					resourceId: ids.resource.stone,
+					passive: false,
+					amount: 15,
+				},
+				{
+					id: id(),
+					baseBuildingId: ids.building.forester,
+					resourceId: ids.resource.quarryBlueprint,
+					passive: false,
+					amount: 1,
+				},
 			])
 			.execute();
 	} catch (_) {

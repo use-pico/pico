@@ -65,6 +65,7 @@ export const InventorySource = withSource({
 		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
+        
 		return $select;
 	},
 	create$({ tx }) {

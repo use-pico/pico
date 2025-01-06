@@ -5,11 +5,10 @@ import {
     withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		baseBuildingId: z.string().min(1),
+		baseBuildingProductionId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().nonnegative(),
 		passive: z.union([
@@ -23,11 +22,11 @@ const entity = IdentitySchema.merge(
 	}),
 );
 
-export const BaseBuildingRequirementSchema = withSourceSchema({
+export const BaseBuildingProductionRequirementSchema = withSourceSchema({
 	entity,
 	output: entity.merge(
 		z.object({
-			resource: ResourceSchema.output,
+			//
 		}),
 	),
 	shape: z.object({
@@ -45,13 +44,13 @@ export const BaseBuildingRequirementSchema = withSourceSchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			baseBuildingId: z.string().optional(),
+			baseBuildingProductionId: z.string().optional(),
 			resourceId: z.string().optional(),
 			passive: z.boolean().optional(),
 		}),
 	),
-	sort: ["name", "resource", "passive"],
+	sort: ["resource"],
 });
 
-export type BaseBuildingRequirementSchema =
-	typeof BaseBuildingRequirementSchema;
+export type BaseBuildingProductionRequirementSchema =
+	typeof BaseBuildingProductionRequirementSchema;

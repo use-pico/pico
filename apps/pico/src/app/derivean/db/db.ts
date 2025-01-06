@@ -156,6 +156,29 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("limit", "float8", (col) => col.notNull())
 				.execute();
+
+			await kysely.schema
+				.createTable("BaseBuildingProductionRequirement")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("baseBuildingProductionId", $id, (col) =>
+					col
+						.references("BaseBuildingProduction.id")
+						.onDelete("cascade")
+						.notNull(),
+				)
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				/**
+				 * Amount of resource produced in specified cycles.
+				 */
+				.addColumn("amount", "float8", (col) => col.notNull())
+				/**
+				 * Amount of cycles to produce a thing
+				 */
+				.addColumn("passive", "boolean", (col) => col.notNull())
+				.execute();
 		};
 
 		const bootstrapBuilding = async () => {
