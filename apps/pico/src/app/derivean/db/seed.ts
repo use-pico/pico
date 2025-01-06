@@ -10,6 +10,16 @@ export const seed = async (kysely: Kysely<Database>) => {
 				blueprint: {
 					id: id(),
 				},
+				production: {
+					blueprint: {
+						sawmill: {
+							id: id(),
+						},
+						house: {
+							id: id(),
+						},
+					},
+				},
 			},
 			sawmill: {
 				id: id(),
@@ -813,6 +823,22 @@ export const seed = async (kysely: Kysely<Database>) => {
 					cycles: 1,
 					limit: 1,
 				},
+				{
+					id: seed.building.forester.production.blueprint.sawmill.id,
+					baseBuildingId: seed.building.forester.id,
+					resourceId: seed.building.sawmill.blueprint.id,
+					amount: 1,
+					cycles: 15,
+					limit: 1,
+				},
+				{
+					id: seed.building.forester.production.blueprint.house.id,
+					baseBuildingId: seed.building.forester.id,
+					resourceId: seed.building.house.blueprint.id,
+					amount: 1,
+					cycles: 10,
+					limit: 1,
+				},
 
 				/**
 				 * Gold mine
@@ -936,6 +962,26 @@ export const seed = async (kysely: Kysely<Database>) => {
 						seed.building.quarry.production.dressedStone.id,
 					resourceId: seed.resource.stone.id,
 					amount: 2,
+					passive: false,
+				},
+
+				/**
+				 * Forester - Sawmill blueprint
+				 */
+				{
+					id: id(),
+					baseBuildingProductionId:
+						seed.building.forester.production.blueprint.sawmill.id,
+					resourceId: seed.resource.wood.id,
+					amount: 100,
+					passive: false,
+				},
+				{
+					id: id(),
+					baseBuildingProductionId:
+						seed.building.forester.production.blueprint.house.id,
+					resourceId: seed.resource.wood.id,
+					amount: 25,
 					passive: false,
 				},
 
