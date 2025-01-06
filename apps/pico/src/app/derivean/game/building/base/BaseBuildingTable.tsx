@@ -1,5 +1,13 @@
-import { Button, Table, Tx, useTable, withColumn } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { useParams } from "@tanstack/react-router";
+import {
+    Button,
+    LinkTo,
+    Table,
+    Tx,
+    useTable,
+    withColumn,
+} from "@use-pico/client";
+import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { useBuildingCount } from "~/app/derivean/building/base/useBuildingCount";
@@ -23,6 +31,7 @@ const columns = [
 			return <Tx label={"Base building name (label)"} />;
 		},
 		render({ data, value, context: { inventory, userId } }) {
+			const { locale } = useParams({ from: "/$locale" });
 			const mutation = useConstructMutation({ userId });
 			const count = useBuildingCount({
 				baseBuildingId: data.id,
@@ -36,25 +45,28 @@ const columns = [
 			const available = check;
 
 			return (
-				<Button
-					iconEnabled={BuildingIcon}
-					iconDisabled={BuildingIcon}
-					variant={{
-						variant: !available || count.isLoading ? "subtle" : "primary",
-					}}
-					onClick={() => {
-						mutation.mutate({
-							baseBuildingId: data.id,
-						});
-					}}
-					disabled={!available}
-					loading={mutation.isPending || count.isLoading}
-					css={{
-						base: ["w-full"],
-					}}
-				>
-					{value}
-				</Button>
+				<div className={tvc(["w-full", "flex", "gap-2", "items-center"])}>
+					<Button
+						iconEnabled={BuildingIcon}
+						iconDisabled={BuildingIcon}
+						variant={{
+							variant: !available || count.isLoading ? "subtle" : "primary",
+						}}
+						onClick={() => {
+							mutation.mutate({
+								baseBuildingId: data.id,
+							});
+						}}
+						disabled={!available}
+						loading={mutation.isPending || count.isLoading}
+					/>
+					<LinkTo
+						to={"/$locale/apps/derivean/game/building/base/$id/view"}
+						params={{ locale, id: data.id }}
+					>
+						{value}
+					</LinkTo>
+				</div>
 			);
 		},
 		size: 10,

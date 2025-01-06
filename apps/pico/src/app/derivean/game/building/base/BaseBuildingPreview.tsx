@@ -1,0 +1,39 @@
+import { useParams } from "@tanstack/react-router";
+import { LinkTo, ListIcon, Preview, TitlePreview, Tx } from "@use-pico/client";
+import type { FC } from "react";
+import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
+import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
+
+export namespace BaseBuildingPreview {
+	export interface Props
+		extends Preview.PropsEx<BaseBuildingSchema["~output"]> {
+		//
+	}
+}
+
+export const BaseBuildingPreview: FC<BaseBuildingPreview.Props> = (props) => {
+	const { locale } = useParams({ from: "/$locale" });
+
+	return (
+		<Preview
+			title={({ entity }) => (
+				<TitlePreview
+					icon={BaseBuildingIcon}
+					title={entity.name}
+				/>
+			)}
+			actions={() => {
+				return (
+					<LinkTo
+						icon={ListIcon}
+						to={"/$locale/apps/derivean/game/building/base/list"}
+						params={{ locale }}
+					>
+						<Tx label={"Base building list (label)"} />
+					</LinkTo>
+				);
+			}}
+			{...props}
+		/>
+	);
+};
