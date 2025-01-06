@@ -30,6 +30,7 @@ export const Route = createFileRoute(
 				source: ResourceSource,
 				filter,
 				cursor,
+				sort: [{ name: "name", sort: "asc" }],
 			});
 		});
 	},

@@ -28,6 +28,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 				source: TagSource,
 				filter,
 				cursor,
+				sort: [
+					{ name: "sort", sort: "asc" },
+					{ name: "group", sort: "asc" },
+					{ name: "label", sort: "asc" },
+				],
 			});
 		});
 	},

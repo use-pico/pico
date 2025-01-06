@@ -44,6 +44,7 @@ export const BuildingResourceSchema = withSourceSchema({
 			baseBuildingId: z.string().optional(),
 		}),
 	),
+	sort: ["name", "resource"],
 });
 
 export type BuildingResourceSchema = typeof BuildingResourceSchema;

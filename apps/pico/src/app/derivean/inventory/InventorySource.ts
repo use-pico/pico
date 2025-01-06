@@ -7,11 +7,20 @@ export const InventorySource = withSource({
 	name: "InventorySource",
 	db: kysely,
 	schema: InventorySchema,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Inventory as i")
 			.selectAll("i")
 			.leftJoin("Resource as r", "r.id", "i.resourceId");
+
+		const $sort = {
+			resource: "r.name",
+			amount: "i.amount",
+		} as const satisfies Record<InventorySchema["~sort-keyof"], string>;
+
+		sort?.forEach(({ name, sort }) => {
+			$select = $select.orderBy($sort[name], sort);
+		});
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;

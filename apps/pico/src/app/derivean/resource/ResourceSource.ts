@@ -8,8 +8,16 @@ export const ResourceSource = withSource({
 	name: "ResourceSource",
 	schema: ResourceSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx.selectFrom("Resource as r").selectAll("r");
+
+		const $sort = {
+			name: "r.name",
+		} as const satisfies Record<ResourceSchema["~sort-keyof"], string>;
+
+		sort?.forEach(({ name, sort }) => {
+			$select = $select.orderBy($sort[name], sort);
+		});
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;

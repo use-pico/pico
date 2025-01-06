@@ -30,6 +30,7 @@ export const BuildingSchema = withSourceSchema({
 			name: z.string().optional(),
 		}),
 	),
+	sort: ["name"],
 });
 
 export type BuildingSchema = typeof BuildingSchema;

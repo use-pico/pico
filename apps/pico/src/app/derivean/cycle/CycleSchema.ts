@@ -25,6 +25,7 @@ export const CycleSchema = withSourceSchema({
 			userId: z.string().optional(),
 		}),
 	),
+	sort: ["stamp"],
 });
 
 export type CycleSchema = typeof CycleSchema;

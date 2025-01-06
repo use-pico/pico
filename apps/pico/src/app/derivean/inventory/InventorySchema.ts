@@ -40,6 +40,7 @@ export const InventorySchema = withSourceSchema({
 			resourceId: z.string().optional(),
 		}),
 	),
+	sort: ["resource", "amount"],
 });
 
 export type InventorySchema = typeof InventorySchema;

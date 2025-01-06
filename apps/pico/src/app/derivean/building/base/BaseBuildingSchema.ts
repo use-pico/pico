@@ -60,6 +60,7 @@ export const BaseBuildingSchema = withSourceSchema({
 			preview: z.boolean().optional(),
 		}),
 	),
+	sort: ["name"],
 });
 
 export type BaseBuildingSchema = typeof BaseBuildingSchema;

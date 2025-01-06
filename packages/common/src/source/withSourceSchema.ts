@@ -1,7 +1,9 @@
-import type { z } from "zod";
+import { z } from "zod";
 import type { EntitySchema } from "../schema/EntitySchema";
 import type { FilterSchema } from "../schema/FilterSchema";
+import { OrderSchema } from "../schema/OrderSchema";
 import type { ShapeSchema } from "../schema/ShapeSchema";
+import type { SortSchema } from "../schema/SortSchema";
 import { proxyOf } from "../toolbox/proxyOf";
 
 export namespace withSourceSchema {
@@ -10,11 +12,13 @@ export namespace withSourceSchema {
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
 		TOutputSchema extends TEntitySchema = TEntitySchema,
+		TSort extends [string, ...string[]] = any,
 	> {
 		entity: TEntitySchema;
 		output?: TOutputSchema;
 		shape: TShapeSchema;
 		filter: TFilterSchema;
+		sort: TSort;
 	}
 
 	export interface Instance<
@@ -22,6 +26,7 @@ export namespace withSourceSchema {
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
 		TOutputSchema extends TEntitySchema = TEntitySchema,
+		TSort extends [string, ...string[]] = any,
 	> {
 		/**
 		 * Entity schema; required stuff stored in the database (or somewhere else).
@@ -59,6 +64,9 @@ export namespace withSourceSchema {
 		 * TSchema['~output'][] is not as readable as TSchema['~output-array']
 		 */
 		["~output-array"]: z.infer<TOutputSchema>[];
+		sort: SortSchema<TSort>;
+		["~sort"]: z.infer<SortSchema<TSort>>;
+		["~sort-keyof"]: TSort[number];
 	}
 }
 
@@ -67,21 +75,25 @@ export const withSourceSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
 	TOutputSchema extends TEntitySchema = TEntitySchema,
+	const TSort extends [string, ...string[]] = any,
 >({
 	entity,
 	output = entity as TOutputSchema,
 	shape,
 	filter,
+	sort,
 }: withSourceSchema.Props<
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,
-	TOutputSchema
+	TOutputSchema,
+	TSort
 >): withSourceSchema.Instance<
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,
-	TOutputSchema
+	TOutputSchema,
+	TSort
 > => {
 	const proxy = proxyOf();
 
@@ -98,5 +110,13 @@ export const withSourceSchema = <
 		output,
 		"~output": proxy,
 		"~output-array": [],
+		"sort": z.array(
+			z.object({
+				name: z.enum(sort),
+				sort: OrderSchema,
+			}),
+		),
+		"~sort": proxy,
+		"~sort-keyof": proxy,
 	};
 };

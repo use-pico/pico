@@ -1,7 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
-    withSourceSchema
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -22,6 +22,7 @@ export const ResourceTagSchema = withSourceSchema({
 			tagId: z.string().optional(),
 		}),
 	),
+	sort: ["name", "sort"],
 });
 
 export type ResourceTagSchema = typeof ResourceTagSchema;

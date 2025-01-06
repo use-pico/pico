@@ -2,7 +2,7 @@ import {
     FilterSchema,
     IdentitySchema,
     translator,
-    withSourceSchema
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
@@ -50,6 +50,7 @@ export const BaseBuildingRequirementSchema = withSourceSchema({
 			passive: z.boolean().optional(),
 		}),
 	),
+	sort: ["name", "resource", "passive"],
 });
 
 export type BaseBuildingRequirementSchema =

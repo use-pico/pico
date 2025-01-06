@@ -50,6 +50,7 @@ export const BaseBuildingProductionSchema = withSourceSchema({
 			resourceId: z.string().optional(),
 		}),
 	),
+	sort: ["name", "resource"],
 });
 
 export type BaseBuildingProductionSchema = typeof BaseBuildingProductionSchema;

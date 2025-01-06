@@ -22,6 +22,7 @@ export { IdentitySchema } from "./schema/IdentitySchema";
 export { OrderSchema } from "./schema/OrderSchema";
 export { type PartialSchema } from "./schema/PartialSchema";
 export { type ShapeSchema } from "./schema/ShapeSchema";
+export { type SortSchema } from "./schema/SortSchema";
 export { TagSchema } from "./schema/TagSchema";
 export { TicketSchema } from "./schema/TicketSchema";
 export { TokenSchema } from "./schema/TokenSchema";

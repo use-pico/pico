@@ -36,6 +36,8 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 	const form = useForm<BaseBuildingSchema["~shape"]>({
 		resolver: zodResolver(BaseBuildingSchema.shape),
 		defaultValues: {
+			cycles: 1,
+			limit: 0,
 			preview: true,
 			...defaultValues,
 		},

@@ -37,6 +37,10 @@ export const Route = createFileRoute(
 				where: {
 					userId: id,
 				},
+				sort: [
+					{ name: "resource", sort: "asc" },
+					{ name: "amount", sort: "desc" },
+				],
 			});
 		});
 	},

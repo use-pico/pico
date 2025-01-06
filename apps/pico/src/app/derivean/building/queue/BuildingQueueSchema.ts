@@ -37,6 +37,7 @@ export const BuildingQueueSchema = withSourceSchema({
 			finishGt: z.number().optional(),
 		}),
 	),
+	sort: ["name", "start", "current", "finish"],
 });
 
 export type BuildingQueueSchema = typeof BuildingQueueSchema;

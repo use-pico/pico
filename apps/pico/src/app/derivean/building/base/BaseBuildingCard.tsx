@@ -40,7 +40,12 @@ export const BaseBuildingCard: FC<BaseBuildingCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Base building requirements (label)"} />,
 					render({ entity }) {
-						return <ResourceInline resources={entity.requirements} />;
+						return (
+							<ResourceInline
+								resources={entity.requirements}
+								limit={5}
+							/>
+						);
 					},
 				},
 			]}

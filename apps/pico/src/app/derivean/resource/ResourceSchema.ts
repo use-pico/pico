@@ -1,7 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
-    withSourceSchema
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
@@ -26,10 +26,10 @@ export const ResourceSchema = withSourceSchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
-			// baseBuildingId: z.string().optional(),
 			name: z.string().optional(),
 		}),
 	),
+	sort: ["name"],
 });
 
 export type ResourceSchema = typeof ResourceSchema;

@@ -6,8 +6,19 @@ export const TagSource = withSource({
 	name: "TagSource",
 	schema: TagSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx.selectFrom("Tag as t").selectAll("t");
+
+		const $sort = {
+			code: "t.code",
+			group: "t.group",
+			label: "t.label",
+			sort: "t.sort",
+		} as const satisfies Record<TagSchema["~sort-keyof"], string>;
+
+		sort?.forEach(({ name, sort }) => {
+			$select = $select.orderBy($sort[name], sort);
+		});
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;

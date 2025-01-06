@@ -1,7 +1,7 @@
 import {
     FilterSchema,
     IdentitySchema,
-    withSourceSchema
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -24,6 +24,7 @@ export const UserSchema = withSourceSchema({
 			password: z.string().optional(),
 		}),
 	),
+	sort: ["name", "login"],
 });
 
 export type UserSchema = typeof UserSchema;

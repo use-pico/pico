@@ -8,8 +8,16 @@ export const BaseBuildingSource = withSource({
 	name: "BaseBuildingSource",
 	schema: BaseBuildingSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx.selectFrom("BaseBuilding as bb").selectAll("bb");
+
+		const $sort = {
+			name: "bb.name",
+		} as const satisfies Record<BaseBuildingSchema["~sort-keyof"], string>;
+
+		sort?.forEach(({ name, sort }) => {
+			$select = $select.orderBy($sort[name], sort);
+		});
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;

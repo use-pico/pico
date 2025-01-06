@@ -2,7 +2,7 @@ import {
     FilterSchema,
     IdentitySchema,
     translator,
-    withSourceSchema
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
@@ -46,6 +46,7 @@ export const BaseBuildingLimitSchema = withSourceSchema({
 			baseBuildingId: z.string().optional(),
 		}),
 	),
+	sort: ["name", "resource"],
 });
 
 export type BaseBuildingLimitSchema = typeof BaseBuildingLimitSchema;

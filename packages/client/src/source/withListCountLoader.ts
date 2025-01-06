@@ -34,14 +34,19 @@ export const withListCountLoader = async <
 	where,
 	filter,
 	cursor,
+	sort,
 }: withListCountLoader.Props<TDatabase, TSchema>): Promise<
 	withListCountLoader.Result<TSchema>
 > => {
 	return queryClient.ensureQueryData({
-		queryKey: ["withListCountLoader", source.name, { where, filter, cursor }],
+		queryKey: [
+			"withListCountLoader",
+			source.name,
+			{ where, filter, cursor, sort },
+		],
 		async queryFn(): Promise<withListCountLoader.Result<TSchema>> {
 			return {
-				data: await source.list$({ tx, where, filter, cursor }),
+				data: await source.list$({ tx, where, filter, cursor, sort }),
 				count: await source.count$({ tx, where, filter }),
 			};
 		},

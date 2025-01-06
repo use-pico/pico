@@ -28,6 +28,7 @@ export namespace withSource {
 		where?: TSchema["~filter"];
 		filter?: TSchema["~filter"];
 		cursor?: CursorSchema.Type;
+		sort?: TSchema["~sort"];
 	}
 
 	export interface List<TData> {
@@ -499,11 +500,12 @@ export const withSource = <
 
 			return $entity;
 		},
-		async fetch$({ tx, where, filter }) {
+		async fetch$({ tx, where, filter, sort }) {
 			const entity = await select$({
 				tx,
 				where,
 				filter,
+				sort,
 				cursor: { page: 0, size: 1 },
 				use: ["where", "filter", "cursor", "sort"],
 			}).executeTakeFirst();
@@ -518,13 +520,14 @@ export const withSource = <
 				(await map?.toOutput?.({ tx, entity: $entity })) || $entity,
 			);
 		},
-		async fetchOrThrow$({ tx, where, filter, error }) {
+		async fetchOrThrow$({ tx, where, filter, sort, error }) {
 			try {
 				const $entity = schema.entity.parse(
 					await select$({
 						tx,
 						where,
 						filter,
+						sort,
 						cursor: { page: 0, size: 1 },
 						use: ["where", "filter", "cursor", "sort"],
 					}).executeTakeFirstOrThrow(),
@@ -554,6 +557,7 @@ export const withSource = <
 			tx,
 			where,
 			filter,
+			sort,
 			cursor,
 		}): Promise<TSchema["~output-array"]> {
 			const $schema = schema.output ?? schema.entity;
@@ -566,6 +570,7 @@ export const withSource = <
 							tx,
 							where,
 							filter,
+							sort,
 							cursor,
 							use: ["where", "filter", "cursor", "sort"],
 						}).execute(),
