@@ -81,6 +81,16 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"resourceId",
 				])
 				.execute();
+
+			await kysely.schema
+				.createTable("DefaultInventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("amount", "float8", (col) => col.notNull())
+				.execute();
 		};
 
 		const bootstrapBaseBuilding = async () => {

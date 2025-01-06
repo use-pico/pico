@@ -8,6 +8,7 @@ import type { BuildingProductionQueueSchema } from "~/app/derivean/building/prod
 import type { BuildingQueueSchema } from "~/app/derivean/building/queue/BuildingQueueSchema";
 import type { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
 import type { CycleSchema } from "~/app/derivean/cycle/CycleSchema";
+import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
@@ -33,6 +34,7 @@ export interface Database {
 	BuildingProductionQueue: BuildingProductionQueueSchema["~entity"];
 
 	Inventory: InventorySchema["~entity"];
+	DefaultInventory: DefaultInventorySchema["~entity"];
 
 	Cycle: CycleSchema["~entity"];
 }

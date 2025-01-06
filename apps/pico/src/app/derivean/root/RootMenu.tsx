@@ -11,6 +11,7 @@ import {
 import type { FC } from "react";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace RootMenu {
@@ -89,6 +90,14 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				params={{ locale }}
 			>
 				<Tx label={"Resource list (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={InventoryIcon}
+				to={"/$locale/apps/derivean/root/inventory/default"}
+				params={{ locale }}
+			>
+				<Tx label={"Default inventory (menu)"} />
 			</MenuLink>
 
 			<MenuGroup

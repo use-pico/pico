@@ -46,9 +46,6 @@
 0f991671fd0fa0052ec549ec464c63de29866fd3f835569f74e6f3c5:
   ref: Edit resource (menu)
   value: Edit resource (menu)
-10cb9ff42c7f606e713546967bbaaa344f6d0868a8a2665aef0ce73c:
-  ref: Base game installation failed (toast)
-  value: Base game installation failed (toast)
 116128d66a1eb792b05e96a741732d6a786a2a131cb62aa713f2f07a:
   ref: Create base building (menu)
   value: Create base building (menu)
@@ -145,6 +142,9 @@
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: Tag delete (content)
+3715c70b1db1af8c12126a6646da6cb247b728857a4c2feff5fc51af:
+  ref: Exported (toast)
+  value: Exported (toast)
 3722ed3677ae0736f66653ba81e4582ea78d957333232475da6028be:
   ref: Base building edit (menu)
   value: Base building edit (menu)
@@ -229,9 +229,6 @@
 56c5f90b2fb0607209900642eec904152e947ab08750f6ef8806200d:
   ref: Save inventory item (submit)
   value: Save inventory item (submit)
-573f0458bbd2b5be0a6ba945bb710088216edbc9bf45ab8745dfc4bc:
-  ref: Installing base game (toast)
-  value: Installing base game (toast)
 587c79a8e75225fee74f3338902467eb4cc16c0047cadd5c1b8a8b4c:
   ref: Edit resource requirement (modal)
   value: Edit resource requirement (modal)
@@ -259,6 +256,9 @@
 69efea9afb556dce0fb1124ff05922656db365dc7c1acd6615e21e2a:
   ref: Cycle count (hint)
   value: Cycle count (hint)
+6c8672ae2564eebe61967c7248a860bb2a56dd206aa10c39a0e11fb7:
+  ref: Export game files (label)
+  value: Export game files (label)
 6e176132e3649907060961b1719c41a2df3c226b31d92e475f9d8e4b:
   ref: Create tag (modal)
   value: Create tag (modal)
@@ -268,9 +268,6 @@
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Edit resource (modal)
-71f8352b8f5c3890c3dee8dd464f2494f4ab2ca3e946aa4c91e27b14:
-  ref: Base game installed (toast)
-  value: Base game installed (toast)
 7263426ecc752ca974e5bc599db4146983b0151c701a05d34a4d613b:
   ref: Building queue - finish (label)
   value: Building queue - finish (label)
@@ -346,6 +343,9 @@
 8959302a32c4fd691dba4f4d804bdba4240ea9cac51e3e0c65d188f6:
   ref: Base building production (menu)
   value: Base building production (menu)
+8a8475a87d338938ab88e00caed8fcf65dc54e6c3a6848e62d9ae21e:
+  ref: Default inventory (menu)
+  value: Default inventory (menu)
 8a94c4e1d53fc6351ab1a4a016fd867e2afc2a7c7b6b39579e1ce3c8:
   ref: Resource requirement successfully saved (label)
   value: Resource requirement successfully saved (label)
@@ -364,6 +364,9 @@
 8e6bc6e89563ea6e742eeab874545ade195738fa92fc95655e8924b8:
   ref: Edit base building (menu)
   value: Edit base building (menu)
+91c38ecf07bce605c89a8d8178010f1635a1f22a59897f363bdc2626:
+  ref: Save default inventory item (submit)
+  value: Save default inventory item (submit)
 939a13f5c8b71ab0a359b5b064e6ffec991d27156921097d8695965a:
   ref: Delete production resource (label)
   value: Delete production resource (label)
@@ -379,9 +382,6 @@
 9885fcc99119de078aac69cd6ee411f650132c05dee73304eb1bc696:
   ref: Running cycle (toast)
   value: Running cycle (toast)
-9a703e14f110eaffc043a977e855c593e265eac45f6f6eb4a8b3ac8a:
-  ref: Install base game (label)
-  value: Install base game (label)
 9b851bffb2022ea9aac80752650a0f8c0ddcef3bf663ff8c0442842b:
   ref: Cannot save resource requirement (label)
   value: Cannot save resource requirement (label)
@@ -511,6 +511,9 @@ b98c56bc24058f5b06b4e0ecd5520cb8ab5ac3709da331f8fc4e301c:
 b9a0618ebd8d79f62aaf3adc5082993e19357f1812508dee85d597be:
   ref: Edit building (menu)
   value: Edit building (menu)
+bba3ed702393cdd457b034e76d2de7080953460e49e6c6c190607a54:
+  ref: Export failed (toast)
+  value: Export failed (toast)
 be211a9d3677cd07a6e2461e5399b4e5a134adf36c9eaf1a79452fd7:
   ref: Amount must be a number
   value: Amount must be a number
@@ -559,6 +562,9 @@ d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
 d34ff9b63df18d6d225d2e5e517eb5269ae4180a4de4dfbbbed952cc:
   ref: Delete resource (label)
   value: Delete resource (label)
+d3eedf2e9423e12c69bb4abd264aa6acfa16c566b42c7e371c7cada2:
+  ref: Exporting (toast)
+  value: Exporting (toast)
 d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
   ref: User login (label)
   value: User login (label)

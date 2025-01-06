@@ -1,7 +1,7 @@
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
+import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
 export namespace withDefaultKingdom {
 	export interface Props {
@@ -14,35 +14,15 @@ export const withDefaultKingdom = async ({
 	tx,
 	userId,
 }: withDefaultKingdom.Props) => {
-	const resources = [
-		{
-			resource: "Wood",
-			amount: 15,
-		},
-		{
-			resource: "Stone",
-			amount: 17,
-		},
-		{
-			resource: "Forester - Blueprint",
-			amount: 1,
-		},
-		{
-			resource: "Quarry - Blueprint",
-			amount: 1,
-		},
-	] as const;
+	const resources = await DefaultInventorySource.list$({
+		tx,
+		cursor: { page: 0, size: 5000 },
+	});
 
 	for await (const resource of resources) {
 		const shape = {
 			userId,
-			resourceId: (
-				await ResourceSource.fetchOrThrow$({
-					tx,
-					where: { name: resource.resource },
-					error: `Cannot find resource [${resource.resource}]`,
-				})
-			).id,
+			resourceId: resource.resourceId,
 			amount: resource.amount,
 		} as const;
 

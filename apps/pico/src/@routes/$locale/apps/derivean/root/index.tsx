@@ -10,6 +10,7 @@ import { BaseBuildingProductionRequirementSource } from "~/app/derivean/building
 import { BaseBuildingRequirementSource } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSource";
 import { kysely } from "~/app/derivean/db/db";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
+import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
 import { TagSource } from "~/app/derivean/tag/TagSource";
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							BaseBuildingLimitSource,
 							BaseBuildingProductionSource,
 							BaseBuildingProductionRequirementSource,
+							DefaultInventorySource,
 						] as const;
 
 						const data: any[] = [];
@@ -96,6 +98,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							[BaseBuildingProductionSource.name]: "BaseBuildingProduction",
 							[BaseBuildingProductionRequirementSource.name]:
 								"BaseBuildingProductionRequirement",
+							[DefaultInventorySource.name]: "DefaultInventory",
 						} as const;
 
 						await kysely.transaction().execute(async (tx) => {

@@ -4,20 +4,19 @@ import {
     navigateOnCursor,
     navigateOnFilter,
     navigateOnFulltext,
+    navigateOnSelection,
     Tx,
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
-import { BaseBuildingProductionSource } from "~/app/derivean/building/base/production/BaseBuildingProductionSource";
-import { BaseBuildingProductionTable } from "~/app/derivean/game/building/base/BaseBuildingProductionTable";
+import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
+import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
+import { DefaultInventoryTable } from "~/app/derivean/inventory/default/DefaultInventoryTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/base/$id/production/",
+	"/$locale/apps/derivean/root/inventory/default/",
 )({
-	validateSearch: zodValidator(
-		withSourceSearchSchema(BaseBuildingProductionSchema),
-	),
+	validateSearch: zodValidator(withSourceSearchSchema(DefaultInventorySchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -25,40 +24,37 @@ export const Route = createFileRoute(
 			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
-		params: { id },
-	}) {
-		return kysely.transaction().execute(async (tx) => {
+	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+		return kysely.transaction().execute((tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BaseBuildingProductionSource,
+				source: DefaultInventorySource,
 				filter,
 				cursor,
-				sort,
-				where: {
-					baseBuildingId: id,
-				},
 			});
 		});
 	},
-	component: () => {
+	component() {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<BaseBuildingProductionTable
+				<DefaultInventoryTable
 					table={{
 						data,
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
