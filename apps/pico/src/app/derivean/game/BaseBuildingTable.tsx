@@ -1,5 +1,5 @@
 import { Button, Table, Tx, useTable, withColumn } from "@use-pico/client";
-import { toHumanNumber, tvc } from "@use-pico/common";
+import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { useBuildingCount } from "~/app/derivean/building/base/useBuildingCount";
@@ -7,6 +7,7 @@ import { useConstructMutation } from "~/app/derivean/building/useConstructMutati
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { inventoryCheck } from "~/app/derivean/inventory/inventoryCheck";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
+import { ResourceInline } from "~/app/derivean/resource/ResourceInline";
 
 interface Context {
 	userId: string;
@@ -32,9 +33,7 @@ const columns = [
 				requirements: data.requirements,
 			});
 
-			const available =
-				check &&
-				(data.limit > 0 ? (count.data?.total || 0) < data.limit : true);
+			const available = check;
 
 			return (
 				<Button
@@ -71,29 +70,23 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "limit",
+		name: "requirements",
 		header() {
-			return <Tx label={"Base building limit (label)"} />;
+			return <Tx label={"Base building cycles (label)"} />;
 		},
-		render({ data, value, context: { userId } }) {
-			const count = useBuildingCount({
-				baseBuildingId: data.id,
-				userId,
-			});
+		render({ value, context: { inventory } }) {
+			const { missing } = inventoryCheck({ inventory, requirements: value });
 
 			return (
-				<div className={tvc(["flex", "flex-row", "gap-2", "text-sm"])}>
-					<div>{count.data?.total || 0}</div>
-					<div>/</div>
-					<div>
-						{value === 0 ?
-							<Tx label={"Unlimited (label)"} />
-						:	value}
-					</div>
-				</div>
+				<ResourceInline
+					textTitle={<Tx label={"Building requirements (title)"} />}
+					resources={value}
+					diff={missing}
+					limit={5}
+				/>
 			);
 		},
-		size: 14,
+		size: 72,
 	}),
 ];
 

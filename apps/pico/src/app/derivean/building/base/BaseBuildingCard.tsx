@@ -28,15 +28,6 @@ export const BaseBuildingCard: FC<BaseBuildingCard.Props> = (props) => {
 					},
 				},
 				{
-					id: "limit",
-					label: <Tx label={"Base building limit (label)"} />,
-					render({ entity }) {
-						return entity.limit === 0 ?
-								<Tx label={"Unlimited (label)"} />
-							:	entity.limit;
-					},
-				},
-				{
 					id: "requirement.resources",
 					label: <Tx label={"Base building requirements (label)"} />,
 					render({ entity }) {

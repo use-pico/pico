@@ -86,7 +86,12 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 					}
 				};
 
+				const cycleProduction = async () => {
+					//
+				};
+
 				await cycleBuildingQueue();
+				await cycleProduction();
 			});
 		},
 		async onSuccess() {

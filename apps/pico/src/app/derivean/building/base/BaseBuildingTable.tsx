@@ -2,7 +2,6 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
-    BoolInline,
     DeleteControl,
     LinkTo,
     Table,
@@ -15,7 +14,7 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, translator } from "@use-pico/common";
+import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
 import type { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
@@ -45,36 +44,12 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "preview",
-		header() {
-			return <Tx label={"Base building preview (label)"} />;
-		},
-		render({ value }) {
-			return <BoolInline value={value} />;
-		},
-		size: 14,
-	}),
-	column({
 		name: "cycles",
 		header() {
 			return <Tx label={"Base building cycles (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
-		},
-		size: 14,
-	}),
-	column({
-		name: "limit",
-		header() {
-			return <Tx label={"Base building limit (label)"} />;
-		},
-		render({ value }) {
-			return value === 0 ?
-					translator.text("Unlimited (label)")
-				:	toHumanNumber({
-						number: value,
-					});
 		},
 		size: 14,
 	}),

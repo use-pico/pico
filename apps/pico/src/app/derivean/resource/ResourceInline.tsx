@@ -1,4 +1,4 @@
-import { CheckIcon, Icon, More } from "@use-pico/client";
+import { Icon, More } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceInlineCss } from "~/app/derivean/resource/ResourceInlineCss";
@@ -43,13 +43,26 @@ export const ResourceInline: FC<ResourceInline.Props> = ({
 							x{toHumanNumber({ number: entity.amount })}
 						</div>
 						{resource ?
-							<div>
-								<div className={"text-sm text-red-500"}>
-									(-{toHumanNumber({ number: resource.amount })})
-								</div>
-							</div>
+							<>
+								{resource.amount > 0 ?
+									<div className={"text-sm text-red-500"}>
+										(-{toHumanNumber({ number: resource.amount })})
+									</div>
+								:	<Icon
+										icon={"icon-[charm--cross]"}
+										css={{
+											base: ["text-red-500"],
+										}}
+									/>
+								}
+							</>
 						: diff ?
-							<Icon icon={CheckIcon} />
+							<Icon
+								icon={"icon-[pajamas--check-sm]"}
+								css={{
+									base: ["text-emerald-600"],
+								}}
+							/>
 						:	null}
 					</div>
 				);

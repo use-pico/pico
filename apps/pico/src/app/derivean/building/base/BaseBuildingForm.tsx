@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    BoolInput,
     Button,
     FormCss,
     FormError,
@@ -8,10 +7,10 @@ import {
     ModalContext,
     onSubmit,
     Tx,
-    type Form,
+    type Form
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
 
@@ -37,8 +36,6 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 		resolver: zodResolver(BaseBuildingSchema.shape),
 		defaultValues: {
 			cycles: 1,
-			limit: 0,
-			preview: true,
 			...defaultValues,
 		},
 	});
@@ -85,22 +82,6 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"preview"}
-				label={<Tx label={"Base building preview (label)"} />}
-				hint={<Tx label={"Base building preview (hint)"} />}
-				required
-			>
-				<Controller
-					control={form.control}
-					name={"preview"}
-					render={({ field: { ref: _, ...field } }) => {
-						return <BoolInput {...field} />;
-					}}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
 				name={"cycles"}
 				label={<Tx label={"Base building cycles (label)"} />}
 				hint={<Tx label={"Base building cycles (hint)"} />}
@@ -110,20 +91,6 @@ export const BaseBuildingForm: FC<BaseBuildingForm.Props> = ({
 					type={"number"}
 					className={tv.input()}
 					{...form.register("cycles")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"limit"}
-				label={<Tx label={"Base building limit (label)"} />}
-				hint={<Tx label={"Base building limit (hint)"} />}
-				required
-			>
-				<input
-					type={"number"}
-					className={tv.input()}
-					{...form.register("limit")}
 				/>
 			</FormInput>
 

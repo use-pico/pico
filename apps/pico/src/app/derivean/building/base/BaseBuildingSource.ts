@@ -45,10 +45,6 @@ export const BaseBuildingSource = withSource({
 			if (where?.fulltext) {
 				$select = fulltext(where.fulltext);
 			}
-
-			if (where?.preview !== undefined) {
-				$select = $select.where("bb.preview", "=", where.preview);
-			}
 		};
 
 		if (use.includes("filter")) {

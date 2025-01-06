@@ -90,14 +90,9 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("id", $id, (col) => col.primaryKey())
 				.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
 				/**
-				 * Enable preview of the building even when the player does not have the resources to build it
-				 */
-				.addColumn("preview", "boolean", (col) => col.notNull())
-				/**
 				 * Number of cycles required to build this building
 				 */
 				.addColumn("cycles", "int2", (col) => col.notNull())
-				.addColumn("limit", "int2", (col) => col.notNull())
 				.execute();
 
 			await kysely.schema
