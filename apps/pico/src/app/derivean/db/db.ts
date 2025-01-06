@@ -151,6 +151,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Amount of cycles to produce a thing
 				 */
 				.addColumn("cycles", "float8", (col) => col.notNull())
+				/**
+				 * Queue limit
+				 */
+				.addColumn("limit", "float8", (col) => col.notNull())
 				.execute();
 		};
 
@@ -217,6 +221,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 				.addColumn("resourceId", $id, (col) =>
 					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("baseBuildingProductionId", $id, (col) =>
+					col
+						.references("BaseBuildingProduction.id")
+						.onDelete("cascade")
+						.notNull(),
 				)
 				.addColumn("amount", "float8", (col) => col.notNull())
 				/**

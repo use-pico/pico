@@ -29,11 +29,11 @@ export const BaseBuildingLimitSource = withSource({
 
 		const $where = (where?: BaseBuildingLimitSchema["~filter"]) => {
 			if (where?.id) {
-				$select = $select.where("bb.id", "=", where.id);
+				$select = $select.where("bbl.id", "=", where.id);
 			}
 
 			if (where?.idIn) {
-				$select = $select.where("bb.id", "in", where.idIn);
+				$select = $select.where("bbl.id", "in", where.idIn);
 			}
 
 			if (where?.resourceId) {
@@ -83,6 +83,7 @@ export const BaseBuildingLimitSource = withSource({
 				resource: await ResourceSource.getOrThrow$({
 					tx,
 					id: entity.resourceId,
+					error: "Cannot find resource for limit",
 				}),
 			};
 		},

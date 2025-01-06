@@ -33,6 +33,7 @@ export const BaseBuildingProductionForm: FC<
 		defaultValues: {
 			amount: 1,
 			cycles: 1,
+			limit: 1,
 			...defaultValues,
 		},
 	});
@@ -87,6 +88,18 @@ export const BaseBuildingProductionForm: FC<
 					type={"number"}
 					className={tv.input()}
 					{...form.register("amount")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Production limit (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("limit")}
 				/>
 			</FormInput>
 

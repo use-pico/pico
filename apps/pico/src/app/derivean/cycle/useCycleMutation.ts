@@ -1,7 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useSourceInvalidator } from "@use-pico/client";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { BuildingProductionQueueSource } from "~/app/derivean/building/production/BuildingProductionQueueSource";
 import { BuildingQueueSource } from "~/app/derivean/building/queue/BuildingQueueSource";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 
 export namespace useCycleMutation {
@@ -12,7 +14,13 @@ export namespace useCycleMutation {
 
 export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 	const invalidator = useSourceInvalidator({
-		sources: [CycleSource, BuildingQueueSource, BuildingSource],
+		sources: [
+			CycleSource,
+			BuildingQueueSource,
+			BuildingSource,
+			BuildingProductionQueueSource,
+			BuildingResourceSource,
+		],
 	});
 
 	return useMutation({
@@ -87,7 +95,59 @@ export const useCycleMutation = ({ userId }: useCycleMutation.Props) => {
 				};
 
 				const cycleProduction = async () => {
-					//
+					const queueList = await BuildingProductionQueueSource.list$({
+						tx,
+						cursor: { page: 0, size: 500 },
+						where: {
+							userId,
+						},
+					});
+
+					for await (const queue of queueList) {
+						await BuildingProductionQueueSource.patch$({
+							tx,
+							entity: {
+								current: queue.current + 1,
+							},
+							shape: {
+								current: queue.current + 1,
+							},
+							where: {
+								id: queue.id,
+							},
+						});
+					}
+
+					const finishedQueueList = await BuildingProductionQueueSource.list$({
+						tx,
+						cursor: { page: 0, size: 500 },
+						where: {
+							userId,
+							finishGt: cycles,
+						},
+					});
+
+					for await (const queue of finishedQueueList) {
+						await BuildingResourceSource.create$({
+							tx,
+							shape: {
+								resourceId: queue.resourceId,
+								amount: queue.amount,
+							},
+							entity: {
+								buildingId: queue.buildingId,
+								resourceId: queue.resourceId,
+								amount: queue.amount,
+							},
+						});
+
+						await BuildingProductionQueueSource.delete$({
+							tx,
+							where: {
+								id: queue.id,
+							},
+						});
+					}
 				};
 
 				await cycleBuildingQueue();

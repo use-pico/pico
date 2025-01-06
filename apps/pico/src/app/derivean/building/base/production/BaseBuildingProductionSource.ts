@@ -84,6 +84,7 @@ export const BaseBuildingProductionSource = withSource({
 					tx,
 					id: entity.resourceId,
 				}),
+				requirements: [],
 			};
 		},
 	},

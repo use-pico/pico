@@ -405,10 +405,11 @@ export const seed = async (kysely: Kysely<Database>) => {
 				 */
 				{
 					id: id(),
-					baseBuildingId: ids.building.house,
+                    baseBuildingId: ids.building.house,
 					resourceId: ids.resource.coin,
 					amount: 3,
 					cycles: 1,
+					limit: 1,
 				},
 			])
 			.execute();

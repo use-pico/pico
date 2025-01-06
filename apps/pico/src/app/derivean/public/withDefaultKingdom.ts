@@ -44,7 +44,7 @@ export const withDefaultKingdom = async ({
 				await ResourceSource.fetchOrThrow$({
 					tx,
 					where: { name: resource.resource },
-					error: `Cannot find resource [${resource}]`,
+					error: `Cannot find resource [${resource.resource}]`,
 				})
 			).id,
 			amount: resource.amount,

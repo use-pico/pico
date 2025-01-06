@@ -8,23 +8,26 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingTable } from "~/app/derivean/game/BuildingTable";
+import { BuildingProductionQueueSchema } from "~/app/derivean/building/production/BuildingProductionQueueSchema";
+import { BuildingProductionQueueSource } from "~/app/derivean/building/production/BuildingProductionQueueSource";
+import { ProductionQueueTable } from "~/app/derivean/game/building/production/ProductionQueueTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/list/",
+	"/$locale/apps/derivean/game/building/$id/production/queue",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(
+		withSourceSearchSchema(BuildingProductionQueueSchema),
+	),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({
 		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
+		deps: { filter, cursor, sort },
 	}) {
 		const user = await session();
 
@@ -32,16 +35,17 @@ export const Route = createFileRoute(
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BuildingSource,
+				source: BuildingProductionQueueSource,
+				filter,
+				cursor,
+				sort,
 				where: {
 					userId: user.id,
 				},
-				filter,
-				cursor,
 			});
 		});
 	},
-	component: () => {
+	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
@@ -50,7 +54,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingTable
+				<ProductionQueueTable
 					table={{
 						data,
 						filter: {

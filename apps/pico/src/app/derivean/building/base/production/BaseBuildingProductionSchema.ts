@@ -13,6 +13,7 @@ const entity = IdentitySchema.merge(
 		resourceId: z.string().min(1),
 		amount: z.number().nonnegative(),
 		cycles: z.number().nonnegative(),
+		limit: z.number().nonnegative(),
 	}),
 );
 
@@ -21,6 +22,7 @@ export const BaseBuildingProductionSchema = withSourceSchema({
 	output: entity.merge(
 		z.object({
 			resource: ResourceSchema.output,
+			requirements: z.array(z.any()),
 		}),
 	),
 	shape: z.object({
@@ -41,6 +43,15 @@ export const BaseBuildingProductionSchema = withSourceSchema({
 				.transform((value) => parseFloat(value))
 				.refine((value) => !isNaN(value), {
 					message: translator.text("Cycles must be a number"),
+				}),
+		]),
+		limit: z.union([
+			z.number().positive(),
+			z
+				.string()
+				.transform((value) => parseFloat(value))
+				.refine((value) => !isNaN(value), {
+					message: translator.text("Limit must be a number"),
 				}),
 		]),
 	}),

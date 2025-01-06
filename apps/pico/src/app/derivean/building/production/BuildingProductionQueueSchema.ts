@@ -9,6 +9,7 @@ import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
+		baseBuildingProductionId: z.string().min(1),
 		buildingId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().nonnegative(),
@@ -27,6 +28,7 @@ export const BuildingProductionQueueSchema = withSourceSchema({
 		}),
 	),
 	shape: z.object({
+		baseBuildingProductionId: z.string().min(1),
 		buildingId: z.string().min(1),
 		resourceId: z.string().min(1),
 		amount: z.number().nonnegative(),
@@ -36,6 +38,7 @@ export const BuildingProductionQueueSchema = withSourceSchema({
 	}),
 	filter: FilterSchema.merge(
 		z.object({
+			baseBuildingProductionId: z.string().optional(),
 			buildingId: z.string().optional(),
 			baseBuildingId: z.string().optional(),
 			resourceId: z.string().optional(),

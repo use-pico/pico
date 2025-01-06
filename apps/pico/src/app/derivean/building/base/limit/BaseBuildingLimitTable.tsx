@@ -8,15 +8,14 @@ import {
     Tx,
     useCreateMutation,
     usePatchMutation,
+    useSourceInvalidator,
     useTable,
     withColumn,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BaseBuildingLimitForm } from "~/app/derivean/building/base/limit/BaseBuildingLimitForm";
 import type { BaseBuildingLimitSchema } from "~/app/derivean/building/base/limit/BaseBuildingLimitSchema";
-import {
-    BaseBuildingLimitSource
-} from "~/app/derivean/building/base/limit/BaseBuildingLimitSource";
+import { BaseBuildingLimitSource } from "~/app/derivean/building/base/limit/BaseBuildingLimitSource";
 import { StorageIcon } from "~/app/derivean/icon/StorageIcon";
 
 const column = withColumn<BaseBuildingLimitSchema["~output"]>();
@@ -56,6 +55,10 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useSourceInvalidator({
+		sources: [BaseBuildingLimitSource],
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -97,6 +100,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -138,6 +142,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
 								/>
@@ -161,6 +166,7 @@ export const BaseBuildingLimitTable: FC<BaseBuildingLimitTable.Props> = ({
 									filter={{
 										id: data.id,
 									}}
+									invalidator={invalidator}
 								/>
 							</ActionModal>
 						</ActionMenu>

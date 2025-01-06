@@ -448,6 +448,7 @@ export const withSource = <
 			const $entity = await this.getOrThrow$({
 				tx,
 				id: $id,
+				error: "Cannot fetch created entity",
 			});
 
 			await event?.onPostCreate?.({ tx, entity: $entity, shape });
@@ -540,6 +541,8 @@ export const withSource = <
 					})) || $entity,
 				);
 			} catch (e) {
+				console.error(e);
+
 				if (error) {
 					throw new Error(error);
 				} else {

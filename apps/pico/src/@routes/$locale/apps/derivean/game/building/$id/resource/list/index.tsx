@@ -8,49 +8,52 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingTable } from "~/app/derivean/game/BuildingTable";
+import { BuildingResourceSchema } from "~/app/derivean/building/resource/BuildingResourceSchema";
+import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
+import { BuildingResourceTable } from "~/app/derivean/game/building/BuildingResourceTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/list/",
+	"/$locale/apps/derivean/game/building/$id/resource/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingResourceSchema)),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({
-		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
+		context: { queryClient, kysely },
+		deps: { filter, cursor, sort },
+		params: { id },
 	}) {
-		const user = await session();
-
-		return kysely.transaction().execute(async (tx) => {
+		return kysely.transaction().execute((tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BuildingSource,
-				where: {
-					userId: user.id,
-				},
+				source: BuildingResourceSource,
 				filter,
 				cursor,
+				sort,
+				where: {
+					buildingId: id,
+				},
 			});
 		});
 	},
-	component: () => {
+	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor } = Route.useSearch();
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<BuildingTable
+				<BuildingResourceTable
+					buildingId={id}
 					table={{
 						data,
 						filter: {

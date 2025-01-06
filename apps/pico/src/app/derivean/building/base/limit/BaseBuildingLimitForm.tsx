@@ -35,7 +35,10 @@ export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 }) => {
 	const form = useForm<BaseBuildingLimitSchema["~shape"]>({
 		resolver: zodResolver(BaseBuildingLimitSchema.shape),
-		defaultValues,
+		defaultValues: {
+			limit: 0,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -78,7 +81,6 @@ export const BaseBuildingLimitForm: FC<BaseBuildingLimitForm.Props> = ({
 							<ResourcePopupSelect
 								icon={ResourceIcon}
 								titleText={<Tx label={"Select resource (title)"} />}
-								allowEmpty
 								{...field}
 							/>
 						);

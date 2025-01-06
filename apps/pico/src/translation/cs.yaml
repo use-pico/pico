@@ -1,9 +1,15 @@
+0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
+  ref: Building requirements (title)
+  value: Požadavky na stavbu
 00cd785d4c7fd1cd5f0bd37522bf0854573c1d42ab65723b089c08f1:
   ref: Building queued.
   value: Stavba byla úspěšně zařazena do fronty.
 00e6e34c83a40bfd64d98be8436e542b4b343930f7fbac958b4b1fd5:
   ref: Cannot save base building (label)
   value: Cannot save base building (label)
+01d9c2e776ddc35008c8405a31a537385f37da4a5a1642560a60c9bb:
+  ref: Resource requirements (title)
+  value: Požadavky na zdroje
 03bd0875daeef82aba0f78f99104b182d6600b90bfa14c222108c291:
   ref: Cannot save production resource (label)
   value: Cannot save production resource (label)
@@ -34,6 +40,9 @@
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: Seznam uživatelů
+0f1392752e8ba9b431afe7a23856742913af3bfae80fb6b5c693a574:
+  ref: Resources transferred successfully (label)
+  value: Resources transferred successfully (label)
 0f991671fd0fa0052ec549ec464c63de29866fd3f835569f74e6f3c5:
   ref: Edit resource (menu)
   value: Upravit
@@ -64,6 +73,9 @@
 1ad64279b3b3ff332d48e956f702f41a481b189d6e42026ed7d76fbb:
   ref: Base storage successfully saved (label)
   value: Položka úspěšně uložena
+1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
+  ref: Production limit (label)
+  value: Limit produkce
 1d80b365c257d93fe8b5890b91c53059f713271d8ba9661048277625:
   ref: Failed to queue building.
   value: Stavbu se nepodařilo zařadit do fronty.
@@ -104,6 +116,9 @@
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: Nejsou vybrány žádné štítky
+28c96b66e0dd7b90d90fb495b3896959a9ff81b721c8919947bd69a6:
+  ref: Cycle - finish (label)
+  value: Cílový cyklus
 2a8e5d936f99ec619e7c1348373c1f3347cfe4111cf4510dccd0589e:
   ref: Settings (menu)
   value: Nastavení
@@ -113,6 +128,9 @@
 2c9c2a02911bdf0a4a47cf41d8ef9796045f30765f611476b609ed2e:
   ref: Create resource requirement (modal)
   value: Nový požadavek na zdroj
+2fa1839fef8a2819126b97f91859344c89404a10fdb61984c6f1d1d7:
+  ref: Production queued. (label)
+  value: Produkce úspěšně zařazena do fronty.
 2fddbd0882437b274ff38510d4bab21881fe36772a63d99f56030b92:
   ref: Building build list (label)
   value: Stavba
@@ -128,9 +146,6 @@
 352f23c797901df9d8acf856943012e7f38283ef1e0cd3c3aad4ce0f:
   ref: Save resource production (submit)
   value: Uložit
-35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
-  ref: Unlimited (label)
-  value: Neomezený počet
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: |
@@ -148,9 +163,6 @@
 3909c87c4b736847773096b6ead06fff8cfcab8426b86024493883bd:
   ref: Select item
   value: Vyberte položku
-39bd607bf2f0889706455c5ec1a94124f61482e92c2a802741bd33ba:
-  ref: Base building preview (label)
-  value: Náhled budovy
 39fa5f8a2cbd3da5b738950b563e61126e32cb7bc42dd449df5aa367:
   ref: Save resources item (submit)
   value: Uložit
@@ -235,6 +247,9 @@
 5cd4cffcbafbe0a40563538352c1a593909e57b10bb8d9ad5f9b3d2a:
   ref: Delete (button)
   value: Odstranit
+5d31925c7b99d9abfdc769119b43c1eb5fa70d0408454b94b83c0a55:
+  ref: Building production queue (menu)
+  value: Fronta produkce
 5d5d09aebd28116870db7932a41afd39bf94a63268acf1438241c910:
   ref: Edit base storage (modal)
   value: Editace položky
@@ -244,10 +259,6 @@
 5fcc67083db8f815d15288198b982c0583160928475107b8a402fef8:
   ref: Delete base storage (modal)
   value: Odstranění základní položky
-621a2cd8df0ce6cf3ef3ab8ccfba756a1beaec02af8d25f368a6badf:
-  ref: Base building limit (hint)
-  value: Udává maximální počet budov, které může hráč postavit. Nula znamená
-    neomezený počet budov.
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Nový zdroj
@@ -295,6 +306,9 @@
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: Vyplňte prosím toto pole
+7a6260884b3316ccd134076375fee16d49d959f90dc61a578552b622:
+  ref: Building production (menu)
+  value: Produkce
 7b1a1bcb5468d4313fb1846d39abf96dce81b4d86d6ce3162574ec39:
   ref: Saving resource limit (label)
   value: Ukládání limitu zdroje.
@@ -363,10 +377,6 @@
 8e6bc6e89563ea6e742eeab874545ade195738fa92fc95655e8924b8:
   ref: Edit base building (menu)
   value: Upravit
-920c5e1d09f85e75b6a7b96654dcd8c04d928818a96f8c7b84343d6d:
-  ref: Base building preview (hint)
-  value: Tato volba ovlivní, zda se budova nabídne hráči, přestože na ni nemá
-    aktuálně zdroje.
 939a13f5c8b71ab0a359b5b064e6ffec991d27156921097d8695965a:
   ref: Delete production resource (label)
   value: Odstranit
@@ -405,12 +415,18 @@
 9fea487dccd5ef527a475fe8c5af8a00715337e15e485415055737fb:
   ref: Cannot save inventory item (label)
   value: Položku inventáře se nepodařilo uložit.
+a02ddcc72d8b463c8f929bdd0f8ac1faca51ab8d6e935d8aacd75ea6:
+  ref: Queuing production... (label)
+  value: Řazení produkce do fronty.
 a0dd73f42fce16a20ec90ad689b904985c43abe22ee2d8ed98d7b1fd:
   ref: Create resource limit (modal)
   value: Nový limit zdroje
 a202d268d1d94f80d854aa69dbd76dfc55740ba54e0c745695e5e5fe:
   ref: Delete tag (modal)
   value: Odstranit štítek
+a28b0c372bbbcf2c41da0cc863d40871b6351f3bbfbac436b3cbac16:
+  ref: Required resources (label)
+  value: Požadované zdroje
 a2c747db295aea8c274b23cb6c8407275052f62d864f3be7a21ada3d:
   ref: Storage limit (label)
   value: Maximum položek
@@ -435,12 +451,18 @@ a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
 a623dd51d4b6e2a0c9d823339d5c93023913126f5914121cd68ec237:
   ref: Resource item successfully saved (label)
   value: Položka zdroje úspěšně uložena.
+a63214577ed2d81901f1fe4306b6f1355e765b87f858b165f54f8dad:
+  ref: Failed to queue production. (label)
+  value: Failed to queue production. (label)
 a6d820e8d930c53bbfc9d5fc7e8da438722b5f515e8854b0c5a7ab6d:
   ref: Edit production resource (menu)
   value: Upravit
 a7cd283965425658d20c5a6b1b916516b0beafe1b3ffe38b1052743d:
   ref: Create production resource (menu)
   value: Nový produkt
+a8c23f73341232932af75989b9e590bd50128bd6ce5b6b27c87bdfe8:
+  ref: Pickup resources (label)
+  value: Vybrat zdroje
 a9188553d25e97ae04bbf143fded930fd038e529ec19c6b0b91a015b:
   ref: Production resource successfully saved (label)
   value: Produkce byla úspěšně uložena.
@@ -468,12 +490,21 @@ b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
 b2cfc9b7e82bd352d69a5b7acbf356728d322192bb31d2e6b467d37a:
   ref: Not enough resources to construct the building.
   value: Pro stavbu budovy nejsou dostatečné zdroje.
+b30faa989b56d6857d5d87043daf2fd1e293ec0fb63f7346104a5b67:
+  ref: Cycle - started (label)
+  value: Počáteční cyklus
+b55de4769cde946ba7eebd61088f87e3cd96ca406ab4ff2a49bb3160:
+  ref: Sort must be a number
+  value: Index řazení musí být číslo
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nový položka inventáře
 b6289b0c89e4268b5ea8dcf457b72735bf039ccd0907be2153d2ea79:
   ref: Delete production resource (modal)
   value: Odstranit produkci produktu
+b81e70cd2923febb1045630a64df0e468bb18d2d365e97611b73ff3f:
+  ref: Cycle - current (label)
+  value: Aktuální cyklus
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Popisek
@@ -483,12 +514,13 @@ b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
 b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
   ref: Edit inventory item (modal)
   value: Editace položky inventáře
+b98c56bc24058f5b06b4e0ecd5520cb8ab5ac3709da331f8fc4e301c:
+  ref: Resource item delete user (content)
+  value: |
+    Opravdu si přejete odstranit vybraný zdroj? Tímto o něj nenávratně přijdete.
 b9a0618ebd8d79f62aaf3adc5082993e19357f1812508dee85d597be:
   ref: Edit building (menu)
   value: Editace
-bb69169a1cc5d73398b142325e04ae67efb81364bf2dcc7ee329edd0:
-  ref: Base building limit (label)
-  value: Maximální počet
 be211a9d3677cd07a6e2461e5399b4e5a134adf36c9eaf1a79452fd7:
   ref: Amount must be a number
   value: Množství musí být číslo
@@ -504,6 +536,9 @@ c6afb655b024115cd5f262e25b4994818851c34b6fe542bf91263d38:
 c719bcbfa385687173755f8dd9ec44a0149a7eb43463d3843c4c6664:
   ref: Delete resource item (label)
   value: Odstranit
+c796fa9e46825b87c643a1b796b4265a11260279198771e381ce42b3:
+  ref: Transferring resources... (label)
+  value: Transferring resources... (label)
 c7c77398a54796f9e9f78a51e7d4075f4a632e97c4112cf28dae6a7b:
   ref: Saving base storage (label)
   value: Ukládání položky
@@ -516,6 +551,9 @@ ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
 cbb893ddf23d44c775dee5e17cf18cb98f21fa5e94edf3bf2b8e5264:
   ref: Building queue - current (label)
   value: Aktuální cyklus
+cbe40cd10fdff5bd7a6e2ec87e88ad117774c74141ee14f90637927a:
+  ref: Failed to transfer resources (label)
+  value: Failed to transfer resources (label)
 cd6ff5b899a632aab3691a91bf31e504cb4021721bb97b56d10e27f9:
   ref: Tag code (label)
   value: Kód štítku
