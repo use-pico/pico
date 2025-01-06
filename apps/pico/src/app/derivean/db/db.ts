@@ -207,6 +207,31 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("finish", "float8", (col) => col.notNull())
 				.execute();
+
+			await kysely.schema
+				.createTable("BuildingProductionQueue")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+				.addColumn("buildingId", $id, (col) =>
+					col.references("Building.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("resourceId", $id, (col) =>
+					col.references("Resource.id").onDelete("cascade").notNull(),
+				)
+				.addColumn("amount", "float8", (col) => col.notNull())
+				/**
+				 * Starting cycle
+				 */
+				.addColumn("start", "float8", (col) => col.notNull())
+				/**
+				 * Current cycle
+				 */
+				.addColumn("current", "float8", (col) => col.notNull())
+				/**
+				 * Finish cycle
+				 */
+				.addColumn("finish", "float8", (col) => col.notNull())
+				.execute();
 		};
 
 		await bootstrapCommon();

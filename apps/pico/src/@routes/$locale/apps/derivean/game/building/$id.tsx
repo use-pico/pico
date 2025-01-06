@@ -3,22 +3,19 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { withFetchLoader } from "@use-pico/client";
-import { BuildingIndexMenu } from "~/app/derivean/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/building/BuildingPreview";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { BuildingIndexMenu } from "~/app/derivean/game/building/BuildingIndexMenu";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/$id",
+	"/$locale/apps/derivean/game/building/$id",
 )({
-	async loader({ context: { kysely, queryClient }, params: { id } }) {
+	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await withFetchLoader({
+				entity: await BuildingSource.getOrThrow$({
 					tx,
-					queryClient,
-					source: BuildingSource,
-					where: { id },
+					id,
+					error: "Cannot find a building",
 				}),
 			};
 		});
@@ -30,8 +27,6 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingPreview entity={entity} />
-
 				<BuildingIndexMenu entity={entity} />
 
 				<Outlet />

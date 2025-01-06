@@ -14,7 +14,7 @@ import {
 } from "@use-pico/client";
 import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingTable } from "~/app/derivean/game/BaseBuildingTable";
+import { BaseBuildingTable } from "~/app/derivean/game/building/base/BaseBuildingTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/list/",

@@ -72,7 +72,7 @@ const columns = [
 	column({
 		name: "requirements",
 		header() {
-			return <Tx label={"Base building cycles (label)"} />;
+			return <Tx label={"Required resources (label)"} />;
 		},
 		render({ value, context: { inventory } }) {
 			const { missing } = inventoryCheck({ inventory, requirements: value });
