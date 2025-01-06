@@ -34,7 +34,7 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 
 	return (
 		<div className={tv.base()}>
-			<Toaster position={"top-center"} />
+			<Toaster position={"top-right"} />
 			<div className={tv.header()}>
 				<div>{logo}</div>
 				<div className={"flex-grow"}>{menu}</div>
