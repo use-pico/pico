@@ -42,7 +42,7 @@
   value: Seznam uživatelů
 0f1392752e8ba9b431afe7a23856742913af3bfae80fb6b5c693a574:
   ref: Resources transferred successfully (label)
-  value: Resources transferred successfully (label)
+  value: Převod zdrojů byl úspěšný
 0f991671fd0fa0052ec549ec464c63de29866fd3f835569f74e6f3c5:
   ref: Edit resource (menu)
   value: Upravit
@@ -538,7 +538,7 @@ c719bcbfa385687173755f8dd9ec44a0149a7eb43463d3843c4c6664:
   value: Odstranit
 c796fa9e46825b87c643a1b796b4265a11260279198771e381ce42b3:
   ref: Transferring resources... (label)
-  value: Transferring resources... (label)
+  value: Převod zdrojů...
 c7c77398a54796f9e9f78a51e7d4075f4a632e97c4112cf28dae6a7b:
   ref: Saving base storage (label)
   value: Ukládání položky

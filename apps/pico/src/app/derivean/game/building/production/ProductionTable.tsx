@@ -1,10 +1,10 @@
 import {
-    Button,
-    Table,
-    Tx,
-    useCountQuery,
-    useTable,
-    withColumn,
+	Button,
+	Table,
+	Tx,
+	useCountQuery,
+	useTable,
+	withColumn,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
@@ -70,7 +70,7 @@ const columns = [
 				</Button>
 			);
 		},
-		size: 10,
+		size: 18,
 	}),
 	column({
 		name: "cycles",
