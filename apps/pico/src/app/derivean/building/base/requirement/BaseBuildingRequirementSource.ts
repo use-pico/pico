@@ -83,6 +83,7 @@ export const BaseBuildingRequirementSource = withSource({
 				resource: await ResourceSource.getOrThrow$({
 					tx,
 					id: entity.resourceId,
+					error: "Cannot find resource for building requirement.",
 				}),
 			};
 		},
