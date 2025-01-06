@@ -1,9 +1,8 @@
-import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    BoolInline,
     DeleteControl,
-    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -17,13 +16,13 @@ import {
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingProductionForm } from "~/app/derivean/building/base/production/BaseBuildingProductionForm";
-import type { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
 import { BaseBuildingProductionSource } from "~/app/derivean/building/base/production/BaseBuildingProductionSource";
+import { BaseBuildingProductionRequirementForm } from "~/app/derivean/building/base/production/requirement/BaseBuildingProductionRequirementForm";
+import type { BaseBuildingProductionRequirementSchema } from "~/app/derivean/building/base/production/requirement/BaseBuildingProductionRequirementSchema";
+import { BaseBuildingProductionRequirementSource } from "~/app/derivean/building/base/production/requirement/BaseBuildingProductionRequirementSource";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceInline } from "~/app/derivean/resource/ResourceInline";
 
-const column = withColumn<BaseBuildingProductionSchema["~output"]>();
+const column = withColumn<BaseBuildingProductionRequirementSchema["~output"]>();
 
 const columns = [
 	column({
@@ -31,19 +30,8 @@ const columns = [
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({ data, value }) {
-			const { locale } = useParams({ from: "/$locale" });
-
-			return (
-				<LinkTo
-					to={
-						"/$locale/apps/derivean/root/building/base/$id/production/$productionId/requirement/list"
-					}
-					params={{ locale, id: data.baseBuildingId, productionId: data.id }}
-				>
-					{value}
-				</LinkTo>
-			);
+		render({ value }) {
+			return value;
 		},
 		size: 18,
 	}),
@@ -58,38 +46,33 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "cycles",
+		name: "passive",
 		header() {
-			return <Tx label={"Cycle count (label)"} />;
+			return <Tx label={"Passive requirement (label)"} />;
 		},
 		render({ value }) {
-			return toHumanNumber({ number: value });
+			return <BoolInline value={value} />;
 		},
 		size: 14,
 	}),
-	column({
-		name: "requirements",
-		header() {
-			return <Tx label={"Resource requirements (label)"} />;
-		},
-		render({ value }) {
-			return <ResourceInline resources={value} />;
-		},
-	}),
 ];
 
-export namespace BaseBuildingProductionTable {
+export namespace BaseBuildingProductionRequirementTable {
 	export interface Props
-		extends Table.PropsEx<BaseBuildingProductionSchema["~output"]> {
-		baseBuildingId: string;
+		extends Table.PropsEx<BaseBuildingProductionRequirementSchema["~output"]> {
+		baseBuildingProductionId: string;
 	}
 }
 
-export const BaseBuildingProductionTable: FC<
-	BaseBuildingProductionTable.Props
-> = ({ baseBuildingId, table, ...props }) => {
+export const BaseBuildingProductionRequirementTable: FC<
+	BaseBuildingProductionRequirementTable.Props
+> = ({ baseBuildingProductionId, table, ...props }) => {
 	const invalidator = useSourceInvalidator({
-		sources: [BaseBuildingSource, BaseBuildingProductionSource],
+		sources: [
+			BaseBuildingSource,
+			BaseBuildingProductionSource,
+			BaseBuildingProductionRequirementSource,
+		],
 	});
 
 	return (
@@ -103,28 +86,28 @@ export const BaseBuildingProductionTable: FC<
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create production resource (menu)"} />}
-								textTitle={<Tx label={"Create production resource (modal)"} />}
+								label={<Tx label={"Create resource requirement (menu)"} />}
+								textTitle={<Tx label={"Create resource requirement (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<BaseBuildingProductionForm
+								<BaseBuildingProductionRequirementForm
 									mutation={useCreateMutation({
-										source: BaseBuildingProductionSource,
+										source: BaseBuildingProductionRequirementSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: (
-													<Tx label={"Saving production resource (label)"} />
+													<Tx label={"Saving resource requirement (label)"} />
 												),
 												success: (
 													<Tx
 														label={
-															"Production resource successfully saved (label)"
+															"Resource requirement successfully saved (label)"
 														}
 													/>
 												),
 												error: (
 													<Tx
-														label={"Cannot save production resource (label)"}
+														label={"Cannot save resource requirement (label)"}
 													/>
 												),
 											});
@@ -133,7 +116,7 @@ export const BaseBuildingProductionTable: FC<
 											return {
 												entity: {
 													...shape,
-													baseBuildingId,
+													baseBuildingProductionId,
 												},
 											};
 										},
@@ -151,39 +134,36 @@ export const BaseBuildingProductionTable: FC<
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Edit production resource (menu)"} />}
-								textTitle={<Tx label={"Edit production resource (modal)"} />}
+								label={<Tx label={"Edit resource requirement (menu)"} />}
+								textTitle={<Tx label={"Edit resource requirement (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<BaseBuildingProductionForm
+								<BaseBuildingProductionRequirementForm
 									defaultValues={data}
 									mutation={usePatchMutation({
-										source: BaseBuildingProductionSource,
+										source: BaseBuildingProductionRequirementSource,
 										async wrap(callback) {
 											return toast.promise(callback(), {
 												loading: (
-													<Tx label={"Saving production resource (label)"} />
+													<Tx label={"Saving resource requirement (label)"} />
 												),
 												success: (
 													<Tx
 														label={
-															"Production resource successfully saved (label)"
+															"Resource requirement successfully saved (label)"
 														}
 													/>
 												),
 												error: (
 													<Tx
-														label={"Cannot save production resource (label)"}
+														label={"Cannot save resource requirement (label)"}
 													/>
 												),
 											});
 										},
 										async toPatch({ shape }) {
 											return {
-												entity: {
-													...shape,
-													baseBuildingId,
-												},
+												entity: shape,
 												filter: {
 													id: data.id,
 												},
@@ -199,8 +179,8 @@ export const BaseBuildingProductionTable: FC<
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete production resource (label)"} />}
-								textTitle={<Tx label={"Delete production resource (modal)"} />}
+								label={<Tx label={"Delete resource requirement (label)"} />}
+								textTitle={<Tx label={"Delete resource requirement (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -210,9 +190,9 @@ export const BaseBuildingProductionTable: FC<
 								}}
 							>
 								<DeleteControl
-									source={BaseBuildingProductionSource}
+									source={BaseBuildingProductionRequirementSource}
 									textContent={
-										<Tx label={"Production resource delete (content)"} />
+										<Tx label={"Resource requirement delete (content)"} />
 									}
 									filter={{
 										id: data.id,

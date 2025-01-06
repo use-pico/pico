@@ -52,6 +52,11 @@ export const BaseBuildingIndexMenu: FC<BaseBuildingIndexMenu.Props> = ({
 				icon={ProductionIcon}
 				to={"/$locale/apps/derivean/root/building/base/$id/production"}
 				params={{ locale, id: entity.id }}
+				active={[
+					{
+						to: "/$locale/apps/derivean/root/building/base/$id/production/$productionId/requirement/list",
+					},
+				]}
 			>
 				<Tx label={"Base building production (menu)"} />
 			</MenuLink>

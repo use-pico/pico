@@ -1,5 +1,6 @@
 import { withSource } from "@use-pico/common";
 import { BaseBuildingProductionSchema } from "~/app/derivean/building/base/production/BaseBuildingProductionSchema";
+import { BaseBuildingProductionRequirementSource } from "~/app/derivean/building/base/production/requirement/BaseBuildingProductionRequirementSource";
 import { kysely } from "~/app/derivean/db/db";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 
@@ -84,7 +85,12 @@ export const BaseBuildingProductionSource = withSource({
 					tx,
 					id: entity.resourceId,
 				}),
-				requirements: [],
+				requirements: await BaseBuildingProductionRequirementSource.list$({
+					tx,
+					where: {
+						baseBuildingProductionId: entity.id,
+					},
+				}),
 			};
 		},
 	},
