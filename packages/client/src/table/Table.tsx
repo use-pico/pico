@@ -18,20 +18,17 @@ import type { useTable } from "./useTable";
 
 export namespace Table {
 	export namespace Action {
-		export interface TableProps<
-			TData extends DataType.Data,
-			TContext = unknown,
-		> {
+		export interface TableProps<TData extends DataType.Data, TContext = any> {
 			table: UseTable<TData, TContext>;
 		}
 
-		export interface RowProps<TData extends DataType.Data, TContext = unknown> {
+		export interface RowProps<TData extends DataType.Data, TContext = any> {
 			table: UseTable<TData, TContext>;
 			data: TData;
 		}
 	}
 
-	export interface Action<TData extends DataType.Data, TContext = unknown> {
+	export interface Action<TData extends DataType.Data, TContext = any> {
 		/**
 		 * Table-wise action.
 		 */
@@ -47,7 +44,7 @@ export namespace Table {
 		onFulltext: Fulltext.OnFulltext;
 	}
 
-	export interface Props<TData extends DataType.Data, TContext = unknown>
+	export interface Props<TData extends DataType.Data, TContext = any>
 		extends TableCss.Props {
 		table: UseTable<TData, TContext>;
 		fulltext?: Fulltext;
@@ -56,7 +53,7 @@ export namespace Table {
 		action?: Action<TData, TContext>;
 	}
 
-	export type PropsEx<TData extends DataType.Data, TContext = unknown> = Omit<
+	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
 		Props<TData>,
 		"table"
 	> & {
@@ -64,7 +61,7 @@ export namespace Table {
 	};
 }
 
-export const Table = <TData extends DataType.Data, TContext = unknown>({
+export const Table = <TData extends DataType.Data, TContext = any>({
 	table,
 	fulltext,
 	cursor,

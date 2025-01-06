@@ -112,8 +112,8 @@ export const BaseBuildingTable: FC<BaseBuildingTable.Props> = ({
 	...props
 }) => {
 	return (
-		<Table<BaseBuildingSchema["~output"], Context>
-			table={useTable<BaseBuildingSchema["~output"], Context>({
+		<Table
+			table={useTable({
 				...table,
 				columns,
 				context: {

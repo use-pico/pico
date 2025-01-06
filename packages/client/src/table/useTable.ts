@@ -19,13 +19,13 @@ export namespace useTable {
 		set(selection: string[]): void;
 	}
 
-	export interface Props<TData extends DataType.Data, TContext = unknown> {
+	export interface Props<TData extends DataType.Data, TContext = any> {
 		/**
 		 * Column definition for the table.
 		 *
 		 * This must be stable reference to prevent this hook to trigger re-renders.
 		 */
-		columns: ColumnType.Def<TData, any>[];
+		columns: ColumnType.Def<TData, any, TContext>[];
 		/**
 		 * Order of columns; by default, columns are ordered by definition order.
 		 *
@@ -40,13 +40,13 @@ export namespace useTable {
 		context?: TContext;
 	}
 
-	export type PropsEx<TData extends DataType.Data, TContext = unknown> = Omit<
+	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
 		Props<TData, TContext>,
 		"columns"
 	>;
 }
 
-export const useTable = <TData extends DataType.Data, TContext = unknown>({
+export const useTable = <TData extends DataType.Data, TContext = any>({
 	columns,
 	order = columns.map((column) => column.name),
 	hidden = [],
@@ -60,33 +60,36 @@ export const useTable = <TData extends DataType.Data, TContext = unknown>({
 	const pathOfFilter = pathOf($filter || {});
 	const $selection = new Set<string>(selection?.value);
 
-	const $columns: ColumnType.Column<TData, any>[] = columns.map((column) => {
-		return {
-			id: v4(),
-			def: column,
-			filter:
-				column.filter ?
-					({
-						is() {
-							return column.filter ?
-									pathOfFilter.get(column.filter.path) !== undefined
-								:	false;
-						},
-						reset() {
-							column.filter && pathOfFilter.set(column.filter.path, undefined);
-							filter?.set({ ...$filter });
-						},
-						shallow(path, value) {
-							column.filter && pathOfFilter.set(path, value);
-							filter?.set({ ...$filter });
-						},
-						set(value) {
-							filter?.set({ ...value });
-						},
-					} satisfies FilterType.Filter)
-				:	undefined,
-		};
-	});
+	const $columns: ColumnType.Column<TData, any, TContext>[] = columns.map(
+		(column) => {
+			return {
+				id: v4(),
+				def: column,
+				filter:
+					column.filter ?
+						({
+							is() {
+								return column.filter ?
+										pathOfFilter.get(column.filter.path) !== undefined
+									:	false;
+							},
+							reset() {
+								column.filter &&
+									pathOfFilter.set(column.filter.path, undefined);
+								filter?.set({ ...$filter });
+							},
+							shallow(path, value) {
+								column.filter && pathOfFilter.set(path, value);
+								filter?.set({ ...$filter });
+							},
+							set(value) {
+								filter?.set({ ...value });
+							},
+						} satisfies FilterType.Filter)
+					:	undefined,
+			};
+		},
+	);
 
 	const $visible = $columns
 		.filter((column) => {
@@ -115,9 +118,9 @@ export const useTable = <TData extends DataType.Data, TContext = unknown>({
 						column,
 						data,
 						value: pathOf(data).get(column.def.name),
-					} satisfies CellType.Cell<TData, any>;
+					} satisfies CellType.Cell<TData, any, TContext>;
 				}),
-			} satisfies RowType.Row<TData>;
+			} satisfies RowType.Row<TData, TContext>;
 		}),
 		isEmpty: data.length === 0,
 		filter: {

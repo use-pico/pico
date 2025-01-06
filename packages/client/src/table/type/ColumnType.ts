@@ -10,9 +10,9 @@ export namespace ColumnType {
 		export interface Props<
 			TData extends DataType.Data,
 			TKey extends DeepKeys<TData>,
-			TContext = unknown,
+			TContext = any,
 		> {
-			table: UseTable<TData>;
+			table: UseTable<TData, TContext>;
 			data: TData;
 			value: DeepValue<TData, TKey>;
 			context: TContext;
@@ -22,7 +22,7 @@ export namespace ColumnType {
 	export interface Def<
 		TData extends DataType.Data,
 		TKey extends DeepKeys<TData>,
-		TContext = unknown,
+		TContext = any,
 	> {
 		name: TKey;
 		header?: FC<HeaderType.Header.Props<TData>>;
@@ -34,9 +34,10 @@ export namespace ColumnType {
 	export interface Column<
 		TData extends DataType.Data,
 		TKey extends DeepKeys<TData>,
+		TContext = any,
 	> {
 		id: string;
-		def: Def<TData, TKey>;
+		def: Def<TData, TKey, TContext>;
 		filter?: FilterType.Filter;
 	}
 }
