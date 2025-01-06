@@ -35,6 +35,18 @@ export const withDefaultKingdom = async ({
 			resource: "Castle - Blueprint",
 			amount: 1,
 		},
+		{
+			resource: "Sawmill - Blueprint",
+			amount: 1,
+		},
+		{
+			resource: "Forester - Blueprint",
+			amount: 1,
+		},
+		{
+			resource: "Quarry - Blueprint",
+			amount: 1,
+		},
 	] as const;
 
 	for await (const resource of resources) {
