@@ -36,7 +36,8 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 	const form = useForm<DefaultInventorySchema["~shape"]>({
 		resolver: zodResolver(DefaultInventorySchema.shape),
 		defaultValues: {
-			amount: 0,
+			amount: 1,
+			limit: 0,
 			...defaultValues,
 		},
 	});
@@ -100,12 +101,25 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 				/>
 			</FormInput>
 
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Limit (label)"} />}
+				hint={<Tx label={"Inventory limit (hint)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("limit")}
+				/>
+			</FormInput>
+
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
 					iconEnabled={InventoryIcon}
 					type={"submit"}
 				>
-					<Tx label={"Save default inventory item (submit)"} />
+					<Tx label={"Save (submit)"} />
 				</Button>
 			</div>
 		</form>

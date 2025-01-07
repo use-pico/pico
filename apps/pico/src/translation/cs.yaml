@@ -1,3 +1,6 @@
+0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
+  ref: Building requirements (title)
+  value: Building requirements (title)
 00cd785d4c7fd1cd5f0bd37522bf0854573c1d42ab65723b089c08f1:
   ref: Building queued.
   value: Building queued.
@@ -34,6 +37,9 @@
 16012dbb1900d439c943c1adb1c16a4820743b7f28ab112a130ade4c:
   ref: Delete (menu)
   value: Odstranit
+1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
+  ref: Inventory limit (hint)
+  value: Limit daného zdroje, nula znamená neomezeně.
 1d80b365c257d93fe8b5890b91c53059f713271d8ba9661048277625:
   ref: Failed to queue building.
   value: Failed to queue building.
@@ -107,7 +113,7 @@
   value: Building list (label)
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
-  value: Cancel (button)
+  value: Zrušit
 431651a59f6200db184bcc2fc951e243a7b28645420be62f08abed01:
   ref: Saving inventory item (label)
   value: Saving inventory item (label)
@@ -120,9 +126,6 @@
 4973ef47b1a891b2b4d1b987e04d2d3e392aa8ebdfaf01138cfa1fbe:
   ref: Requirement (label)
   value: Požadavek
-4c30d5bab10b4768102117732dc3020d6a4f4e24db54b1461621f26a:
-  ref: Cycles (label)
-  value: Cycles (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -161,7 +164,9 @@
   value: Editace základní budovy
 74d9fe31d4acfc6825ca4e317857d48ce8755d4e575557b655da8545:
   ref: Passive requirement (hint)
-  value: Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není odebrán z inventáře.
+  value:
+    Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není
+    odebrán z inventáře.
 7769647fc513914768f9797d35365b9227954983799eda6ba31ab16d:
   ref: Building list (menu)
   value: Building list (menu)
@@ -191,6 +196,9 @@
     znatelne ovlivnit hratelnost.
 
     Použijte prosím s velkou rozvahou!
+8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
+  ref: Limit (label)
+  value: Limit
 86bcc3d66c4e17594a822ea18607b7c3f78c3d284337ea2479a17ff5:
   ref: Cycle success (toast)
   value: Cycle success (toast)
@@ -215,9 +223,6 @@
 8c10e73bdfef4ac7ff77a8272f9da6afc7163e9be69812ec70c94e1e:
   ref: Create building (menu)
   value: Create building (menu)
-91c38ecf07bce605c89a8d8178010f1635a1f22a59897f363bdc2626:
-  ref: Save default inventory item (submit)
-  value: Save default inventory item (submit)
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
@@ -274,7 +279,9 @@ acd7099faaa753c5bf27eb9148c8d4450500a324d5fb03d8cfa07770:
   value: Delete inventory item (label)
 ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   ref: Inventory item delete (content)
-  value: Inventory item delete (content)
+  value: |
+    Opravdu si přejete odstranit vybranou položku inventáře? Tato akce nebude
+    mít větší vliv na data, pouze menší vliv na hratelnost.
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Šupla hopla soubor semhle!
@@ -286,7 +293,7 @@ b55de4769cde946ba7eebd61088f87e3cd96ca406ab4ff2a49bb3160:
   value: Sort must be a number
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
-  value: Create inventory item (menu)
+  value: Nová položka inventáře
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Název
