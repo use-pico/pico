@@ -86,12 +86,4 @@ export const BuildingBaseSource = withSource({
 	delete$({ tx }) {
 		return tx.deleteFrom("Building_Base");
 	},
-	map: {
-		async toOutput({ entity }) {
-			return {
-				...entity,
-				name: "cuk?",
-			};
-		},
-	},
 });
