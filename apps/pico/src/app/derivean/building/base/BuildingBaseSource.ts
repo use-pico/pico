@@ -19,12 +19,10 @@ export const BuildingBaseSource = withSource({
 			.selectFrom("Building_Base as bb")
 			.leftJoin("Resource as r", "r.id", "bb.resourceId");
 
-		$select = $select.selectAll("bb");
+		$select = $select.selectAll("bb").select("r.name");
 		if (use.includes("id")) {
 			$select = $select.clearSelect().select("bb.id");
 		}
-
-		$select = $select.select("r.name");
 
 		const $sort = {
 			name: "r.name",
@@ -87,5 +85,13 @@ export const BuildingBaseSource = withSource({
 	},
 	delete$({ tx }) {
 		return tx.deleteFrom("Building_Base");
+	},
+	map: {
+		async toOutput({ entity }) {
+			return {
+				...entity,
+				name: "cuk?",
+			};
+		},
 	},
 });

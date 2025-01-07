@@ -2,6 +2,7 @@ import {
     useMutation,
     useQueryClient,
     type QueryClient,
+    type UseMutationOptions,
 } from "@tanstack/react-query";
 import { useRouter, type AnyRouter } from "@tanstack/react-router";
 import type {
@@ -77,6 +78,10 @@ export namespace usePatchMutation {
 		wrap?<T>(callback: () => Promise<T>): Promise<T>;
 		toPatch: toPatch.Callback<TSchema>;
 		onSuccess?: onSuccess.Callback<TSchema>;
+		options?: Omit<
+			UseMutationOptions<TSchema["~output"], Error, TSchema["~shape"]>,
+			"mutationKey" | "mutationFn"
+		>;
 	}
 }
 
@@ -92,6 +97,7 @@ export const usePatchMutation = <
 	wrap = async (callback) => callback(),
 	toPatch,
 	onSuccess,
+	options,
 }: usePatchMutation.Props<TDatabase, TSchema>) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
@@ -116,5 +122,6 @@ export const usePatchMutation = <
 				});
 			});
 		},
+		...options,
 	});
 };

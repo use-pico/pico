@@ -1,7 +1,8 @@
 import {
-	useMutation,
-	useQueryClient,
-	type QueryClient,
+    useMutation,
+    useQueryClient,
+    type QueryClient,
+    type UseMutationOptions,
 } from "@tanstack/react-query";
 import { useRouter, type AnyRouter } from "@tanstack/react-router";
 import type { withSource, withSourceSchema } from "@use-pico/common";
@@ -47,6 +48,10 @@ export namespace useCreateMutation {
 		wrap?<T>(callback: () => Promise<T>): Promise<T>;
 		toCreate?: toCreate.Callback<TSchema>;
 		onSuccess?: onSuccess.Callback<TSchema>;
+		options?: Omit<
+			UseMutationOptions<TSchema["~output"], Error, TSchema["~shape"]>,
+			"mutationKey" | "mutationFn"
+		>;
 	}
 }
 
@@ -58,6 +63,7 @@ export const useCreateMutation = <
 	wrap = async (callback) => callback(),
 	toCreate = async ({ shape }) => ({ entity: shape, shape }),
 	onSuccess,
+	options,
 }: useCreateMutation.Props<TDatabase, TSchema>) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
@@ -81,5 +87,6 @@ export const useCreateMutation = <
 				});
 			});
 		},
+		...options,
 	});
 };

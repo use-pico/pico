@@ -30,12 +30,12 @@ export const withDatabase = <TDatabase>({
 		databasePath: `${database}.sqlite3`,
 	});
 
-	const kysely = new Kysely<TDatabase>({ dialect, log: ["query"] });
+	const kysely = new Kysely<TDatabase>({ dialect });
 
 	return {
 		kysely,
 		async bootstrap() {
-			// return bootstrap({ kysely });
+			return bootstrap({ kysely });
 		},
 	};
 };

@@ -21,18 +21,22 @@ export const useSourceInvalidator = ({
 	const queryClient = useQueryClient();
 	const router = useRouter();
 
+	const keys: QueryKey[] = [
+		...sources.flatMap(({ name }) => [
+			["withCountLoader", name],
+			["withFetchLoader", name],
+			["withListLoader", name],
+			["withListCountLoader", name],
+			["useListQuery", name],
+			["useCountQuery", name],
+		]),
+		...queries,
+	];
+
 	return async () => {
 		await invalidator({
 			queryClient,
-			keys: [
-				...sources.map(({ name }) => ["withCountLoader", name]),
-				...sources.map(({ name }) => ["withFetchLoader", name]),
-				...sources.map(({ name }) => ["withListLoader", name]),
-				...sources.map(({ name }) => ["useListQuery", name]),
-				...sources.map(({ name }) => ["withListCountLoader", name]),
-				...sources.map(({ name }) => ["useCountQuery", name]),
-				...queries,
-			],
+			keys,
 		});
 
 		if (route) {

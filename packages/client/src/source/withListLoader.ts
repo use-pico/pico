@@ -29,6 +29,8 @@ export const withListLoader = async <
 	return queryClient.ensureQueryData({
 		queryKey: ["withListLoader", source.name, { where, filter, cursor }],
 		async queryFn(): Promise<TSchema["~output-array"]> {
+			console.log("Loading", source.name);
+            
 			return source.list$({ tx, where, filter, cursor });
 		},
 	});

@@ -11,13 +11,10 @@ export const invalidator = async ({
 	queryClient,
 	keys,
 }: invalidator.Props): Promise<any> => {
-	return Promise.all(
-		keys.map((key) => {
-			return queryClient.refetchQueries({
-				queryKey: key,
-			});
-		}),
-	).catch((error) => {
-		console.error(error);
-	});
+	for await (const key of keys) {
+		await queryClient.invalidateQueries({
+			queryKey: key,
+			refetchType: "all",
+		});
+	}
 };
