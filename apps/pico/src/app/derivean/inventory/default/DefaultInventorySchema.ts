@@ -11,6 +11,7 @@ const entity = IdentitySchema.merge(
 	z.object({
 		resourceId: z.string().min(1),
 		amount: z.number().nonnegative(),
+		limit: z.number().nonnegative(),
 	}),
 );
 
@@ -30,6 +31,15 @@ export const DefaultInventorySchema = withSourceSchema({
 				.transform((value) => parseFloat(value))
 				.refine((value) => !isNaN(value), {
 					message: translator.text("Amount must be a number"),
+				}),
+		]),
+		limit: z.union([
+			z.number().nonnegative(),
+			z
+				.string()
+				.transform((value) => parseFloat(value))
+				.refine((value) => !isNaN(value), {
+					message: translator.text("Limit must be a number"),
 				}),
 		]),
 	}),

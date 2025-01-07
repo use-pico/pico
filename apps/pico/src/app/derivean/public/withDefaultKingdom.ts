@@ -1,7 +1,6 @@
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
+import { withDefaultInventory } from "~/app/derivean/inventory/withDefaultInventory";
 
 export namespace withDefaultKingdom {
 	export interface Props {
@@ -14,22 +13,8 @@ export const withDefaultKingdom = async ({
 	tx,
 	userId,
 }: withDefaultKingdom.Props) => {
-	const resources = await DefaultInventorySource.list$({
+	await withDefaultInventory({
 		tx,
-		cursor: { page: 0, size: 5000 },
+		userId,
 	});
-
-	for await (const resource of resources) {
-		const shape = {
-			userId,
-			resourceId: resource.resourceId,
-			amount: resource.amount,
-		} as const;
-
-		await InventorySource.create$({
-			tx,
-			shape,
-			entity: shape,
-		});
-	}
 };

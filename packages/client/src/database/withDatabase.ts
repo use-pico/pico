@@ -30,7 +30,7 @@ export const withDatabase = <TDatabase>({
 		databasePath: `${database}.sqlite3`,
 	});
 
-	const kysely = new Kysely<TDatabase>({ dialect });
+	const kysely = new Kysely<TDatabase>({ dialect, log: ["query"] });
 
 	return {
 		kysely,

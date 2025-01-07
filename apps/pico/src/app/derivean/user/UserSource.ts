@@ -1,14 +1,18 @@
 import { pwd, withSource } from "@use-pico/common";
-import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { UserSchema } from "~/app/derivean/user/UserSchema";
 
-export const UserSource = withSource<Database, UserSchema>({
+export const UserSource = withSource({
 	name: "UserSource",
 	schema: UserSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
-		let $select = tx.selectFrom("User as u").selectAll("u");
+	select$({ tx, where, filter, link, cursor = { page: 0, size: 10 }, use }) {
+		let $select = tx.selectFrom("User as u");
+
+		$select = $select.selectAll("u");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("u.id");
+		}
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -44,6 +48,10 @@ export const UserSource = withSource<Database, UserSchema>({
 		}
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("u.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {

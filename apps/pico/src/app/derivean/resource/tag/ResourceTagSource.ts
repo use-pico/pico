@@ -6,12 +6,16 @@ export const ResourceTagSource = withSource({
 	name: "ResourceTagSource",
 	schema: ResourceTagSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, link, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Resource_Tag as rt")
-			.selectAll("rt")
 			.leftJoin("Resource as r", "r.id", "rt.resourceId")
 			.leftJoin("Tag as t", "t.id", "rt.tagId");
+
+		$select = $select.selectAll("rt");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("rt.id");
+		}
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -55,6 +59,10 @@ export const ResourceTagSource = withSource({
 		}
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("rt.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {

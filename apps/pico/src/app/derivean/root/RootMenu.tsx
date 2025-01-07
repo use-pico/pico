@@ -9,7 +9,7 @@ import {
     UserIcon,
 } from "@use-pico/client";
 import type { FC } from "react";
-import { BaseBuildingIcon } from "~/app/derivean/icon/BaseBuildingIcon";
+import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -45,33 +45,16 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 					{ to: "/$locale/apps/derivean/root/building/list" },
 					{ to: "/$locale/apps/derivean/root/building/$id/view" },
 					{ to: "/$locale/apps/derivean/root/building/base/$id/view" },
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/requirement/list",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/limit/list",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/edit",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/$id/resource/list",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/production",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/production/$productionId/requirement/list",
-					},
+					{ to: "/$locale/apps/derivean/root/building/base/$id/edit" },
 				]}
 			>
 				<MenuLink
-					icon={BaseBuildingIcon}
+					icon={BuildingBaseIcon}
 					to={"/$locale/apps/derivean/root/building/base/list"}
 					params={{ locale }}
 					variant={{ inner: true }}
 				>
-					<Tx label={"Base building list (menu)"} />
+					<Tx label={"Building base list (menu)"} />
 				</MenuLink>
 
 				<MenuLink
@@ -103,6 +86,7 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 			<MenuGroup
 				icon={SettingsIcon}
 				label={<Tx label={"Settings (menu)"} />}
+				active={[{ to: "/$locale/apps/derivean/root/tag/list" }]}
 			>
 				<MenuLink
 					icon={TagIcon}

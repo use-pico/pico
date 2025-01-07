@@ -4,8 +4,8 @@ import {
     useRouteContext,
 } from "@tanstack/react-router";
 import { withFetchLoader } from "@use-pico/client";
-import { BuildingIndexMenu } from "~/app/derivean/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/building/BuildingPreview";
+import { BuildingIndexMenu } from "~/app/derivean/root/building/BuildingIndexMenu";
+import { BuildingPreview } from "~/app/derivean/root/building/BuildingPreview";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 
 export const Route = createFileRoute(

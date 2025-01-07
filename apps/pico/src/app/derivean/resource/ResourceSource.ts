@@ -8,8 +8,21 @@ export const ResourceSource = withSource({
 	name: "ResourceSource",
 	schema: ResourceSchema,
 	db: kysely,
-	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
-		let $select = tx.selectFrom("Resource as r").selectAll("r");
+	select$({
+		tx,
+		where,
+		filter,
+		link,
+		sort,
+		cursor = { page: 0, size: 10 },
+		use,
+	}) {
+		let $select = tx.selectFrom("Resource as r");
+
+		$select = $select.selectAll("r");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("r.id");
+		}
 
 		const $sort = {
 			name: "r.name",
@@ -50,9 +63,12 @@ export const ResourceSource = withSource({
 		if (use.includes("filter")) {
 			$where(filter || {});
 		}
-
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("r.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {
@@ -96,14 +112,10 @@ export const ResourceSource = withSource({
 	event: {
 		async onPostCreate({ tx, entity, shape }) {
 			await Promise.all(
-				shape.tagIds?.forEach(async (tagId) => {
+				shape?.tagIds?.forEach(async (tagId) => {
 					return ResourceTagSource.create$({
 						tx,
 						entity: {
-							resourceId: entity.id,
-							tagId,
-						},
-						shape: {
 							resourceId: entity.id,
 							tagId,
 						},
@@ -112,7 +124,7 @@ export const ResourceSource = withSource({
 			);
 		},
 		async onPostPatch({ tx, entity, shape }) {
-			if (Array.isArray(shape.tagIds)) {
+			if (shape?.tagIds) {
 				await tx
 					.deleteFrom("Resource_Tag")
 					.where("resourceId", "=", entity.id)

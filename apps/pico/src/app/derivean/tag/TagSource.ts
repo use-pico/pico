@@ -6,8 +6,21 @@ export const TagSource = withSource({
 	name: "TagSource",
 	schema: TagSchema,
 	db: kysely,
-	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
-		let $select = tx.selectFrom("Tag as t").selectAll("t");
+	select$({
+		tx,
+		where,
+		filter,
+		link,
+		sort,
+		cursor = { page: 0, size: 10 },
+		use,
+	}) {
+		let $select = tx.selectFrom("Tag as t");
+
+		$select = $select.selectAll("t");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("t.id");
+		}
 
 		const $sort = {
 			code: "t.code",
@@ -59,6 +72,10 @@ export const TagSource = withSource({
 		}
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("t.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {

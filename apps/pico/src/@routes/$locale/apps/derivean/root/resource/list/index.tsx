@@ -11,7 +11,7 @@ import {
 } from "@use-pico/client";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
-import { ResourceTable } from "~/app/derivean/resource/ResourceTable";
+import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/list/",

@@ -1,21 +1,48 @@
 import { withSource } from "@use-pico/common";
+import type { SelectQueryBuilder, Transaction } from "kysely";
+import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
+
+const foo = (
+	tx: Transaction<Database>,
+): SelectQueryBuilder<{ src: { id: string | null } }, "src", {}> => {
+	return tx
+		.selectFrom("Inventory as src")
+		.leftJoin("Resource as r", "r.id", "src.resourceId");
+};
+
+const bla = kysely.transaction().execute(async (tx) => {
+	foo(tx).select("src.id").where("src.id", "=", "dfdf").execute();
+});
 
 export const InventorySource = withSource({
 	name: "InventorySource",
 	db: kysely,
 	schema: InventorySchema,
-	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
+	select$({
+		tx,
+		where,
+		filter,
+		sort,
+		link,
+		cursor = { page: 0, size: 10 },
+		use,
+	}) {
 		let $select = tx
 			.selectFrom("Inventory as i")
-			.selectAll("i")
 			.leftJoin("Resource as r", "r.id", "i.resourceId");
+
+		$select = $select.selectAll("i");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("i.id");
+		}
 
 		const $sort = {
 			resource: "r.name",
 			amount: "i.amount",
+			limit: "i.limit",
 		} as const satisfies Record<InventorySchema["~sort-keyof"], string>;
 
 		sort?.forEach(({ name, sort }) => {
@@ -46,10 +73,6 @@ export const InventorySource = withSource({
 				$select = $select.where("i.resourceId", "=", where.resourceId);
 			}
 
-			if (where?.userId) {
-				$select = $select.where("i.userId", "=", where.userId);
-			}
-
 			if (where?.fulltext) {
 				$select = fulltext(where.fulltext);
 			}
@@ -62,10 +85,14 @@ export const InventorySource = withSource({
 			$where(where || {});
 		}
 
+		if (link) {
+			$select = $select.where("i.id", "in", link);
+		}
+
 		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
-        
+
 		return $select;
 	},
 	create$({ tx }) {

@@ -36,9 +36,6 @@ export const Route = createFileRoute(
 				source: InventorySource,
 				filter,
 				cursor,
-				where: {
-					userId: id,
-				},
 				sort: sort || [
 					{ name: "resource", sort: "asc" },
 					{ name: "amount", sort: "desc" },

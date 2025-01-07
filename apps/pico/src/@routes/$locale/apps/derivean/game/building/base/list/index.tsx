@@ -12,28 +12,33 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingTable } from "~/app/derivean/game/building/base/BaseBuildingTable";
+import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { BuildingBaseTable } from "~/app/derivean/game/building/base/BuildingBaseTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingBaseSchema)),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({
+		context: { queryClient, kysely },
+		deps: { filter, cursor, sort },
+	}) {
 		return kysely.transaction().execute(async (tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BaseBuildingSource,
+				source: BuildingBaseSource,
 				filter,
 				cursor,
+				sort: sort || [{ name: "name", sort: "asc" }],
 			});
 		});
 	},
@@ -49,7 +54,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BaseBuildingTable
+				<BuildingBaseTable
 					userId={session.id}
 					inventory={inventory}
 					table={{

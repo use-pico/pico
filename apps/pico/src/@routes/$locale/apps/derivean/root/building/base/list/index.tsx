@@ -7,16 +7,16 @@ import {
     navigateOnSelection,
     Tx,
     withListCountLoader,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { BaseBuildingSchema } from "~/app/derivean/building/base/BaseBuildingSchema";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingTable } from "~/app/derivean/building/base/BaseBuildingTable";
+import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BaseBuildingSchema)),
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingBaseSchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -32,7 +32,7 @@ export const Route = createFileRoute(
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: BaseBuildingSource,
+				source: BuildingBaseSource,
 				filter,
 				cursor,
 				sort: sort || [{ name: "name", sort: "asc" }],
@@ -48,7 +48,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BaseBuildingTable
+				<BuildingBaseTable
 					table={{
 						data,
 						filter: {
@@ -68,7 +68,7 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of items"} />,
+						textTotal: <Tx label={"Number of building bases (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

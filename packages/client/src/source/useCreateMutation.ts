@@ -1,7 +1,7 @@
 import {
-    useMutation,
-    useQueryClient,
-    type QueryClient,
+	useMutation,
+	useQueryClient,
+	type QueryClient,
 } from "@tanstack/react-query";
 import { useRouter, type AnyRouter } from "@tanstack/react-router";
 import type { withSource, withSourceSchema } from "@use-pico/common";
@@ -69,10 +69,10 @@ export const useCreateMutation = <
 				return source.db.transaction().execute(async (tx) => {
 					const entity = await source.create$({
 						tx,
+						shape,
 						...(await toCreate({
 							shape,
 						})),
-						shape,
 					});
 
 					await onSuccess?.({ queryClient, router, entity });

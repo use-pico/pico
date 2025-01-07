@@ -132,6 +132,7 @@ export { withColumn } from "./table/withColumn";
 export { Tags } from "./tags/Tags";
 export { TitlePreview } from "./title-preview/TitlePreview";
 export { TitlePreviewCss } from "./title-preview/TitlePreviewCss";
+export { withToastPromiseTx } from "./toast/withToastPromiseTx";
 export { Token } from "./token/Token";
 export { useToken } from "./token/useToken";
 export { useTokenOf } from "./token/useTokenOf";

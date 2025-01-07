@@ -12,9 +12,8 @@ import {
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { ResourcePopupSelect } from "~/app/derivean/resource/ResourcePopupSelect";
+import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
 export namespace DefaultInventoryForm {
 	export interface Props
@@ -80,8 +79,7 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect
-								icon={ResourceIcon}
-								titleText={<Tx label={"Select resource (title)"} />}
+								textTitle={<Tx label={"Select resource (title)"} />}
 								allowEmpty
 								{...field}
 							/>

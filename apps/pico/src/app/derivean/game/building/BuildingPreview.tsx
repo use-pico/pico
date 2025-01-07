@@ -18,7 +18,7 @@ export const BuildingPreview: FC<BuildingPreview.Props> = (props) => {
 			title={({ entity }) => (
 				<TitlePreview
 					icon={BuildingIcon}
-					title={entity.baseBuilding.name}
+					title={entity.buildingBase.name}
 				/>
 			)}
 			actions={() => (

@@ -16,7 +16,7 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import type { useListQuery } from "../source/useListQuery";
+import { useListQuery as useCoolListQuery } from "../source/useListQuery";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupSelectCss } from "./PopupSelectCss";
@@ -25,13 +25,15 @@ export namespace PopupSelect {
 	export interface Props<TItem extends IdentitySchema.Type>
 		extends PopupSelectCss.Props {
 		icon?: string | ReactNode;
-		titleText?: ReactNode;
+		textTitle?: ReactNode;
+		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
 		table: FC<Table.PropsEx<any>>;
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
+
 		source: withSource.Instance<any, any>;
-		useListQuery: useListQuery<any, any>;
+		useListQuery?: useCoolListQuery<any, any>;
 
 		value: string;
 		onChange(value: string | undefined): void;
@@ -45,14 +47,15 @@ export namespace PopupSelect {
 
 export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	icon,
-	titleText,
+	textTitle,
+	textSelect,
 	modalProps,
 	table: Table,
 	render: Render,
 	allowEmpty = false,
 
 	source,
-	useListQuery,
+	useListQuery = useCoolListQuery,
 
 	value,
 	onChange,
@@ -67,7 +70,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	}).slots;
 
 	const [page, setPage] = useState(0);
-	const [size, setSize] = useState(10);
+	const [size, setSize] = useState(15);
 	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
 	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 
@@ -105,10 +108,10 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					<Icon icon={selected.data?.data?.[0] ? SelectionOn : SelectionOff} />
 					{selected.data?.data?.[0] ?
 						<Render entity={selected.data?.data?.[0]} />
-					:	<Tx label={"Select item (label)"} />}
+					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
 			}
-			title={titleText}
+			title={textTitle}
 			variant={{
 				loading: result.isLoading,
 			}}

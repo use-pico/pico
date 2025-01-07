@@ -9,9 +9,9 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { TagTable } from "~/app/derivean/root/tag/TagTable";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 import { TagSource } from "~/app/derivean/tag/TagSource";
-import { TagTable } from "~/app/derivean/tag/TagTable";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),

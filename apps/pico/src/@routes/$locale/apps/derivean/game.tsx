@@ -12,6 +12,7 @@ import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
+import { UserInventorySource } from "~/app/derivean/user/inventory/UserInventorySource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	async beforeLoad({ context, params: { locale } }) {
@@ -37,7 +38,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 				session: $session,
 				inventory: await InventorySource.list$({
 					tx,
-					where: { userId: $session.id },
+					link: UserInventorySource.select$({
+						tx,
+						where: { userId: $session.id },
+						use: ["id", "where"],
+					}),
 				}),
 			};
 		});

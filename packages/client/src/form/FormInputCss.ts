@@ -36,7 +36,7 @@ export const FormInputCss = css({
 				required: true,
 			},
 			then: {
-				base: ["text-amber-600"],
+				base: ["text-emerald-600", "font-bold"],
 			},
 		},
 	],

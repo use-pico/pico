@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { withFetchLoader } from "@use-pico/client";
 import { kysely } from "~/app/derivean/db/db";
-import { UserIndexMenu } from "~/app/derivean/user/UserIndexMenu";
-import { UserPreview } from "~/app/derivean/user/UserPreview";
+import { UserIndexMenu } from "~/app/derivean/root/user/ui/UserIndexMenu";
+import { UserPreview } from "~/app/derivean/root/user/ui/UserPreview";
 import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({

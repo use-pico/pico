@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCountLoader,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCountLoader,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
@@ -34,9 +34,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory/")({
 				source: InventorySource,
 				filter,
 				cursor,
-				where: {
-					userId: user.id,
-				},
 			});
 		});
 	},

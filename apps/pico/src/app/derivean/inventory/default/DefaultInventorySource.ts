@@ -7,11 +7,23 @@ export const DefaultInventorySource = withSource({
 	name: "DefaultInventorySource",
 	schema: DefaultInventorySchema,
 	db: kysely,
-	select$({ tx, where, filter, sort, cursor = { page: 0, size: 10 }, use }) {
+	select$({
+		tx,
+		where,
+		filter,
+		link,
+		sort,
+		cursor = { page: 0, size: 10 },
+		use,
+	}) {
 		let $select = tx
-			.selectFrom("DefaultInventory as di")
-			.selectAll("di")
+			.selectFrom("Default_Inventory as di")
 			.leftJoin("Resource as r", "r.id", "di.resourceId");
+
+		$select = $select.selectAll("di");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("di.id");
+		}
 
 		const $sort = {
 			resource: "r.name",
@@ -53,6 +65,10 @@ export const DefaultInventorySource = withSource({
 			$where(where || {});
 		}
 
+		if (link) {
+			$select = $select.where("di.id", "in", link);
+		}
+
 		if (use.includes("cursor")) {
 			$select = $select.limit(cursor.size).offset(cursor.page * cursor.size);
 		}
@@ -60,13 +76,13 @@ export const DefaultInventorySource = withSource({
 		return $select;
 	},
 	create$({ tx }) {
-		return tx.insertInto("DefaultInventory");
+		return tx.insertInto("Default_Inventory");
 	},
 	patch$({ tx }) {
-		return tx.updateTable("DefaultInventory");
+		return tx.updateTable("Default_Inventory");
 	},
 	delete$({ tx }) {
-		return tx.deleteFrom("DefaultInventory");
+		return tx.deleteFrom("Default_Inventory");
 	},
 	map: {
 		async toOutput({ tx, entity }) {

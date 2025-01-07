@@ -16,7 +16,7 @@ import { id } from "../toolbox/id";
 import type { withSourceSchema } from "./withSourceSchema";
 
 export namespace withSource {
-	export type Use = "where" | "filter" | "cursor" | "sort";
+	export type Use = "id" | "where" | "filter" | "cursor" | "sort";
 
 	export interface Query<
 		TSchema extends withSourceSchema.Instance<
@@ -57,7 +57,7 @@ export namespace withSource {
 				TSchema extends withSourceSchema.Instance<any, any, any>,
 			> {
 				entity: TSchema["~entity-partial-exclude-id"];
-				shape: TSchema["~shape"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -72,7 +72,7 @@ export namespace withSource {
 				TSchema extends withSourceSchema.Instance<any, any, any>,
 			> {
 				entity: TSchema["~entity-partial-exclude-id"];
-				shape: TSchema["~shape-partial"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -97,6 +97,10 @@ export namespace withSource {
 		> extends Query<TSchema> {
 			tx: Transaction<TDatabase>;
 			use: Use[];
+			/**
+			 * Select IN from a query
+			 */
+			link?: SelectQueryBuilder<any, any, any>;
 		}
 
 		export type Callback<
@@ -143,7 +147,7 @@ export namespace withSource {
 			> {
 				tx: Transaction<TDatabase>;
 				entity: TSchema["~entity-partial-exclude-id"];
-				shape: TSchema["~shape"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -159,7 +163,7 @@ export namespace withSource {
 			> {
 				tx: Transaction<TDatabase>;
 				entity: TSchema["~entity"];
-				shape: TSchema["~shape"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -175,7 +179,7 @@ export namespace withSource {
 			> {
 				tx: Transaction<TDatabase>;
 				entity: TSchema["~entity-partial-exclude-id"];
-				shape: TSchema["~shape-partial"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -191,7 +195,7 @@ export namespace withSource {
 			> {
 				tx: Transaction<TDatabase>;
 				entity: TSchema["~entity"];
-				shape: TSchema["~shape-partial"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -219,9 +223,8 @@ export namespace withSource {
 		schema: TSchema;
 		db: Kysely<TDatabase>;
 
-		map?: Map<TDatabase, TSchema>;
-
 		select$: select$.Callback<TDatabase, TSchema>;
+
 		create$: create$.Callback<TDatabase>;
 		/**
 		 * Just return the base query for patch; it's not necessary to understand the
@@ -234,6 +237,7 @@ export namespace withSource {
 		 */
 		delete$: delete$.Callback<TDatabase>;
 
+		map?: Map<TDatabase, TSchema>;
 		event?: Event<TDatabase, TSchema>;
 	}
 
@@ -245,13 +249,10 @@ export namespace withSource {
 			> {
 				tx: Transaction<TDatabase>;
 				/**
-				 * Shape used to construct "entity" for creation.
-				 */
-				shape: TSchema["~shape"];
-				/**
 				 * Pieces of the final entity being pushed into database.
 				 */
 				entity: TSchema["~entity-partial-exclude-id"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -267,10 +268,7 @@ export namespace withSource {
 			> extends Omit<Query<TSchema>, "cursor"> {
 				tx: Transaction<TDatabase>;
 				entity: TSchema["~entity-partial-exclude-id"];
-				/**
-				 * Shape used to construct "entity" for patch.
-				 */
-				shape: TSchema["~shape-partial"];
+				shape?: TSchema["~shape-partial"];
 			}
 
 			export type Callback<
@@ -355,6 +353,7 @@ export namespace withSource {
 				TSchema extends withSourceSchema.Instance<any, any, any>,
 			> extends Query<TSchema> {
 				tx: Transaction<TDatabase>;
+				link?: SelectQueryBuilder<any, any, any>;
 			}
 
 			export type Callback<
@@ -388,6 +387,8 @@ export namespace withSource {
 		schema: TSchema;
 		db: Kysely<TDatabase>;
 
+		select$: select$.Callback<TDatabase, TSchema>;
+
 		create$: Instance.create$.Callback<TDatabase, TSchema>;
 		patch$: Instance.patch$.Callback<TDatabase, TSchema>;
 		delete$: Instance.delete$.Callback<TDatabase, TSchema>;
@@ -416,11 +417,11 @@ export const withSource = <
 	name,
 	schema,
 	db,
-	map,
 	select$,
 	create$,
 	patch$,
 	delete$,
+	map,
 	event,
 }: withSource.Props<TDatabase, TSchema>): withSource.Instance<
 	TDatabase,
@@ -430,6 +431,8 @@ export const withSource = <
 		name,
 		schema,
 		db,
+
+		select$,
 
 		async create$({ tx, entity, shape }): Promise<TSchema["~output"]> {
 			const $id = id();
@@ -458,9 +461,9 @@ export const withSource = <
 		async patch$({
 			tx,
 			entity,
-			shape,
 			where,
 			filter,
+			shape,
 		}): Promise<TSchema["~output"]> {
 			const $entity = await this.fetchOrThrow$({
 				tx,
@@ -562,6 +565,7 @@ export const withSource = <
 			filter,
 			sort,
 			cursor,
+			link,
 		}): Promise<TSchema["~output-array"]> {
 			const $schema = schema.output ?? schema.entity;
 
@@ -575,6 +579,7 @@ export const withSource = <
 							filter,
 							sort,
 							cursor,
+							link,
 							use: ["where", "filter", "cursor", "sort"],
 						}).execute(),
 					)
@@ -590,18 +595,26 @@ export const withSource = <
 			return {
 				total: (
 					await select$({ tx, use: [] })
-						.select([(col) => col.fn.countAll().as("count")])
-						.executeTakeFirst()
+						.clearSelect()
+						.select([(col) => col.fn.countAll<number>().as("count")])
+						.executeTakeFirstOrThrow()
 				).count,
 				where: (
 					await select$({ tx, where, use: ["where"] })
-						.select([(col) => col.fn.countAll().as("count")])
-						.executeTakeFirst()
+						.clearSelect()
+						.select([(col) => col.fn.countAll<number>().as("count")])
+						.executeTakeFirstOrThrow()
 				).count,
 				filter: (
-					await select$({ tx, where, filter, use: ["where", "filter"] })
-						.select([(col) => col.fn.countAll().as("count")])
-						.executeTakeFirst()
+					await select$({
+						tx,
+						where,
+						filter,
+						use: ["where", "filter"],
+					})
+						.clearSelect()
+						.select([(col) => col.fn.countAll<number>().as("count")])
+						.executeTakeFirstOrThrow()
 				).count,
 			} satisfies CountSchema.Type;
 		},

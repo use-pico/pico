@@ -4,10 +4,10 @@ import {
     useRouteContext,
 } from "@tanstack/react-router";
 import { withFetchLoader } from "@use-pico/client";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { kysely } from "~/app/derivean/db/db";
-import { BaseBuildingIndexMenu } from "~/app/derivean/game/building/base/BaseBuildingIndexMenu";
-import { BaseBuildingPreview } from "~/app/derivean/game/building/base/BaseBuildingPreview";
+import { BuildingBaseIndexMenu } from "~/app/derivean/game/building/base/BuildingBaseIndexMenu";
+import { BuildingBasePreview } from "~/app/derivean/game/building/base/BuildingBasePreview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/$id",
@@ -18,7 +18,7 @@ export const Route = createFileRoute(
 				entity: await withFetchLoader({
 					tx,
 					queryClient,
-					source: BaseBuildingSource,
+					source: BuildingBaseSource,
 					where: { id },
 				}),
 			};
@@ -31,9 +31,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BaseBuildingPreview entity={entity} />
+				<BuildingBasePreview entity={entity} />
 
-				<BaseBuildingIndexMenu entity={entity} />
+				<BuildingBaseIndexMenu entity={entity} />
 
 				<Outlet />
 			</div>

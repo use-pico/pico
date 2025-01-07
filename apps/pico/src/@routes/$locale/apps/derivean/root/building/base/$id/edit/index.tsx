@@ -1,12 +1,12 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import {
     toast,
-    Tx,
     usePatchMutation,
     useSourceInvalidator,
+    withToastPromiseTx
 } from "@use-pico/client";
-import { BaseBuildingForm } from "~/app/derivean/building/base/BaseBuildingForm";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/edit/",
@@ -17,23 +17,20 @@ export const Route = createFileRoute(
 		});
 		const navigate = Route.useNavigate();
 		const invalidator = useSourceInvalidator({
-			sources: [BaseBuildingSource],
+			sources: [BuildingBaseSource],
 		});
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
-				<BaseBuildingForm
+				<BuildingBaseForm
 					defaultValues={entity}
 					mutation={usePatchMutation({
-						source: BaseBuildingSource,
+						source: BuildingBaseSource,
 						async wrap(callback) {
-							return toast.promise(callback(), {
-								loading: <Tx label={"Saving base building (label)"} />,
-								success: (
-									<Tx label={"Base building successfully saved (label)"} />
-								),
-								error: <Tx label={"Cannot save base building (label)"} />,
-							});
+							return toast.promise(
+								callback(),
+								withToastPromiseTx("Update building"),
+							);
 						},
 						async toPatch() {
 							return {

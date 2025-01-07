@@ -14,7 +14,7 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import type { useListQuery } from "../source/useListQuery";
+import { useListQuery as useCoolListQuery } from "../source/useListQuery";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
@@ -23,14 +23,15 @@ export namespace PopupMultiSelect {
 	export interface Props<TItem extends IdentitySchema.Type>
 		extends PopupMultiSelectCss.Props {
 		icon?: string | ReactNode;
-		titleText?: ReactNode;
+		textTitle?: ReactNode;
+		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
 		table: FC<Table.PropsEx<any>>;
 		render: FC<{ entities: TItem[] }>;
 		allowEmpty?: boolean;
 
 		source: withSource.Instance<any, any>;
-		useListQuery: useListQuery<any, any>;
+		useListQuery?: useCoolListQuery<any, any>;
 
 		value: string[] | undefined;
 		onChange(value: string[]): void;
@@ -44,14 +45,15 @@ export namespace PopupMultiSelect {
 
 export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	icon,
-	titleText,
+	textTitle,
+	textSelect,
 	modalProps,
 	table: Table,
 	render: Render,
 	allowEmpty = false,
 
 	source,
-	useListQuery,
+	useListQuery = useCoolListQuery,
 
 	value,
 	onChange,
@@ -107,10 +109,10 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 					/>
 					{selected.data && selected.data.data.length ?
 						<Render entities={selected.data.data} />
-					:	<Tx label={"Select item (label)"} />}
+					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
 			}
-			title={titleText}
+			title={textTitle}
 			variant={{
 				loading: result.isLoading,
 			}}

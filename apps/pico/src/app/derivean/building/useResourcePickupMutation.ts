@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { toast, useSourceInvalidator } from "@use-pico/client";
 import { translator } from "@use-pico/common";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingResourceSource } from "~/app/derivean/building/resource/BuildingResourceSource";
 import { kysely } from "~/app/derivean/db/db";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 
@@ -14,7 +13,7 @@ export namespace useResourcePickupMutation {
 
 export const useResourcePickupMutation = () => {
 	const invalidator = useSourceInvalidator({
-		sources: [BuildingResourceSource, InventorySource],
+		sources: [InventorySource],
 	});
 
 	return useMutation({
@@ -26,55 +25,55 @@ export const useResourcePickupMutation = () => {
 						tx,
 						id: buildingId,
 					});
-					const resources = await BuildingResourceSource.list$({
-						tx,
-						where: {
-							buildingId,
-						},
-					});
+					// const resources = await BuildingResourceSource.list$({
+					// 	tx,
+					// 	where: {
+					// 		buildingId,
+					// 	},
+					// });
 
-					for await (const resource of resources) {
-						try {
-							await InventorySource.create$({
-								tx,
-								shape: {
-									amount: resource.amount,
-									resourceId: resource.resourceId,
-								},
-								entity: {
-									amount: resource.amount,
-									resourceId: resource.resourceId,
-									userId: building.userId,
-								},
-							});
-						} catch (_) {
-							const inventory = await InventorySource.fetchOrThrow$({
-								tx,
-								where: {
-									userId: building.userId,
-									resourceId: resource.resourceId,
-								},
-							});
+					// for await (const resource of resources) {
+					// 	try {
+					// 		await InventorySource.create$({
+					// 			tx,
+					// 			shape: {
+					// 				amount: resource.amount,
+					// 				resourceId: resource.resourceId,
+					// 			},
+					// 			entity: {
+					// 				amount: resource.amount,
+					// 				resourceId: resource.resourceId,
+					// 				userId: building.userId,
+					// 			},
+					// 		});
+					// 	} catch (_) {
+					// 		const inventory = await InventorySource.fetchOrThrow$({
+					// 			tx,
+					// 			where: {
+					// 				userId: building.userId,
+					// 				resourceId: resource.resourceId,
+					// 			},
+					// 		});
 
-							await InventorySource.patch$({
-								tx,
-								filter: {
-									id: inventory.id,
-								},
-								shape: {},
-								entity: {
-									amount: inventory.amount + resource.amount,
-								},
-							});
-						}
+					// 		await InventorySource.patch$({
+					// 			tx,
+					// 			filter: {
+					// 				id: inventory.id,
+					// 			},
+					// 			shape: {},
+					// 			entity: {
+					// 				amount: inventory.amount + resource.amount,
+					// 			},
+					// 		});
+					// 	}
 
-						await BuildingResourceSource.delete$({
-							tx,
-							where: {
-								id: resource.id,
-							},
-						});
-					}
+					// 	await BuildingResourceSource.delete$({
+					// 		tx,
+					// 		where: {
+					// 			id: resource.id,
+					// 		},
+					// });
+					// }
 				}),
 				{
 					loading: translator.text("Transferring resources... (label)"),

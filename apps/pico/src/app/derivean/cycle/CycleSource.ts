@@ -6,11 +6,15 @@ export const CycleSource = withSource({
 	name: "CycleSource",
 	schema: CycleSchema,
 	db: kysely,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, link, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Cycle as c")
-			.selectAll("c")
 			.leftJoin("User as u", "u.id", "c.userId");
+
+		$select = $select.selectAll("c");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("c.id");
+		}
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -42,6 +46,10 @@ export const CycleSource = withSource({
 		}
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("c.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {

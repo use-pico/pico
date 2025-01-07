@@ -1,5 +1,5 @@
 import { withSource } from "@use-pico/common";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { kysely } from "~/app/derivean/db/db";
 
@@ -7,11 +7,15 @@ export const BuildingSource = withSource({
 	name: "BuildingSource",
 	db: kysely,
 	schema: BuildingSchema,
-	select$({ tx, where, filter, cursor = { page: 0, size: 10 }, use }) {
+	select$({ tx, where, filter, link, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Building as b")
-			.selectAll("b")
-			.leftJoin("BaseBuilding as bb", "bb.id", "b.baseBuildingId");
+			.leftJoin("Building_Base as bb", "bb.id", "b.buildingBaseId");
+
+		$select = $select.selectAll("b");
+		if (use.includes("id")) {
+			$select = $select.clearSelect().select("b.id");
+		}
 
 		const fulltext = (input: string) => {
 			const $input = `%${input}%`;
@@ -33,8 +37,8 @@ export const BuildingSource = withSource({
 				$select = $select.where("b.id", "in", where.idIn);
 			}
 
-			if (where?.baseBuildingId) {
-				$select = $select.where("b.baseBuildingId", "=", where.baseBuildingId);
+			if (where?.buildingBaseId) {
+				$select = $select.where("b.buildingBaseId", "=", where.buildingBaseId);
 			}
 
 			if (where?.name) {
@@ -51,6 +55,10 @@ export const BuildingSource = withSource({
 		}
 		if (use.includes("where")) {
 			$where(where || {});
+		}
+
+		if (link) {
+			$select = $select.where("b.id", "in", link);
 		}
 
 		if (use.includes("cursor")) {
@@ -72,9 +80,9 @@ export const BuildingSource = withSource({
 		async toOutput({ tx, entity }) {
 			return {
 				...entity,
-				baseBuilding: await BaseBuildingSource.getOrThrow$({
+				buildingBase: await BuildingBaseSource.getOrThrow$({
 					tx,
-					id: entity.baseBuildingId,
+					id: entity.buildingBaseId,
 				}),
 			};
 		},

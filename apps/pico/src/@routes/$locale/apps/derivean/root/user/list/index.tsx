@@ -9,9 +9,9 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { UserTable } from "~/app/derivean/root/user/ui/UserTable";
 import { UserSchema } from "~/app/derivean/user/UserSchema";
 import { UserSource } from "~/app/derivean/user/UserSource";
-import { UserTable } from "~/app/derivean/user/UserTable";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 	validateSearch: zodValidator(withSourceSearchSchema(UserSchema)),
@@ -61,7 +61,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of items"} />,
+						textTotal: <Tx label={"Number of users (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

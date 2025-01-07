@@ -3,11 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, JustDropZone, toast, Tx } from "@use-pico/client";
 import { translator } from "@use-pico/common";
 import FileSaver from "file-saver";
-import { BaseBuildingSource } from "~/app/derivean/building/base/BaseBuildingSource";
-import { BaseBuildingLimitSource } from "~/app/derivean/building/base/limit/BaseBuildingLimitSource";
-import { BaseBuildingProductionSource } from "~/app/derivean/building/base/production/BaseBuildingProductionSource";
-import { BaseBuildingProductionRequirementSource } from "~/app/derivean/building/base/production/requirement/BaseBuildingProductionRequirementSource";
-import { BaseBuildingRequirementSource } from "~/app/derivean/building/base/requirement/BaseBuildingRequirementSource";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { kysely } from "~/app/derivean/db/db";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
 import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
@@ -23,14 +19,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				return toast.promise(
 					(async () => {
 						const sources = [
-							BaseBuildingSource,
+							BuildingBaseSource,
 							ResourceSource,
 							TagSource,
 							ResourceTagSource,
-							BaseBuildingRequirementSource,
-							BaseBuildingLimitSource,
-							BaseBuildingProductionSource,
-							BaseBuildingProductionRequirementSource,
 							DefaultInventorySource,
 						] as const;
 
@@ -68,7 +60,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 		});
 
 		return (
-			<div className={"flex flex-col gap-4"}>
+			<div className={"flex flex-col gap-4 w-2/3 mx-auto"}>
 				<div className={"flex items-center justify-center mt-10 gap-4"}>
 					<Button
 						iconEnabled={GameIcon}
@@ -89,16 +81,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						const data = JSON.parse(await file.text());
 
 						const sources = {
-							[BaseBuildingSource.name]: "BaseBuilding",
+							[BuildingBaseSource.name]: "Building_Base",
 							[ResourceSource.name]: "Resource",
 							[TagSource.name]: "Tag",
 							[ResourceTagSource.name]: "Resource_Tag",
-							[BaseBuildingRequirementSource.name]: "BaseBuilding_Requirement",
-							[BaseBuildingLimitSource.name]: "BaseBuilding_Limit",
-							[BaseBuildingProductionSource.name]: "BaseBuildingProduction",
-							[BaseBuildingProductionRequirementSource.name]:
-								"BaseBuildingProductionRequirement",
-							[DefaultInventorySource.name]: "DefaultInventory",
+							[DefaultInventorySource.name]: "Default_Inventory",
 						} as const;
 
 						await kysely.transaction().execute(async (tx) => {
