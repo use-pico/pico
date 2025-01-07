@@ -37,6 +37,9 @@
 16012dbb1900d439c943c1adb1c16a4820743b7f28ab112a130ade4c:
   ref: Delete (menu)
   value: Odstranit
+1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
+  ref: Production limit (label)
+  value: Paralelní limit
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
@@ -78,7 +81,7 @@
   value: View detail (label)
 35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
   ref: Unlimited (label)
-  value: Unlimited (label)
+  value: Neomezené
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: Tag delete (content)
@@ -132,6 +135,18 @@
 4a58f14d1df201d663da93b9e46539e50dbd4545de4223279eb1e1e3:
   ref: Building inventory (menu)
   value: Inventář budovy
+4af588883beda19adeb713c08bf917f39e62651b957866eba39eacb0:
+  ref: Number of productions (label)
+  value: Počet produkčních linek
+4dda3cba60ccfc568601fbf69bde9dd6dd943d348b3899126a449367:
+  ref: Edit building base production (modal)
+  value: Editace produkční linky
+4f5956974017b6a4732c8969f86d870c063c083c9477673e187b8f7c:
+  ref: Create building base production (menu)
+  value: Nová produkční linka
+51615a0f75be71d80974e7057dec0168b938c0bcf2aa5fe6d52b3dc8:
+  ref: Production limit (hint)
+  value: Maximální paralelní počet produkčních linek.
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -153,6 +168,9 @@
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Nový zdroj
+6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
+  ref: Production cycles (hint)
+  value: Udává počet cyklů, než bude daná surovina vyprodukována.
 6c8672ae2564eebe61967c7248a860bb2a56dd206aa10c39a0e11fb7:
   ref: Export game files (label)
   value: Export herních souborů
@@ -200,6 +218,9 @@
 82676a065f561bc3f31900ae8b124dca48c0368d707e3c5a3ed9743f:
   ref: Items deleted (label)
   value: Items deleted (label)
+8279a438827b4dbc04d8586a61918dd72f5c0bc940918aaf07aa5d87:
+  ref: Delete building production (modal)
+  value: Odstranit produkční linku
 84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
   ref: Resource delete (content)
   value: |
@@ -217,6 +238,9 @@
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
+880d86beec0c689bdb6894a64f81e1f7326ab506c1cbf51495a67047:
+  ref: Building base production delete (content)
+  value: Building base production delete (content)
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
@@ -241,6 +265,9 @@
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Seznam štítků
+959255119640a814a0f7bbcd0d46649e20b01ffb07f9314fc9d17bbb:
+  ref: Create building base production (modal)
+  value: Nová produkční linka
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Počet cyklů nutných k dokončení stavby.
@@ -256,6 +283,9 @@
 9d5c86b718be2e6691ae6c8a320acb7c044ffec7e24dd2a1177d3b89:
   ref: Select resource tags (title)
   value: Vyberte štítky zdroje
+9e8a5688220f3d1b31643fb173c3993a965bc4df9dc486633e730bca:
+  ref: Delete building base inventory (modal)
+  value: Odstranit inventář základní budovy
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext
@@ -300,6 +330,9 @@ af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
 b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
   ref: Building name (label)
   value: Název budovy
+b301d71d87a46159e7965e82e4cbbe96ddd1892672c7ef502e0152b8:
+  ref: Building base inventory delete (content)
+  value: Building base inventory delete (content)
 b55de4769cde946ba7eebd61088f87e3cd96ca406ab4ff2a49bb3160:
   ref: Sort must be a number
   value: Sort must be a number
@@ -360,6 +393,9 @@ cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
 d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
   ref: Item kind - building
   value: Item kind - building
+d386c01040fd7bc584cb5470c1aa2ed697de3ae40361346fef1d6921:
+  ref: Production cycles (label)
+  value: Počet cyklů
 d3eedf2e9423e12c69bb4abd264aa6acfa16c566b42c7e371c7cada2:
   ref: Exporting (toast)
   value: Exporting (toast)
@@ -380,9 +416,15 @@ dc63eb323046fdd329f5fa7883ef6cc3c032730f011a38aa02186625:
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek
+e056ebc6b0db3778442b085df5246d47e73e8038a29c8f4a0443fc96:
+  ref: Resource production (label)
+  value: Produkční linky
 e3f6d977c7e959b44e1e67504d419d786031c7f563065dc1be1af291:
   ref: Resource name (label)
   value: Název zdroje
+e408028bd3cfcd6ade43c2ce1afe1bb3724ff801305960e1dc30c921:
+  ref: Resource production (menu)
+  value: Produkční linky
 e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
   ref: Password 2 (label)
   value: Password 2 (label)

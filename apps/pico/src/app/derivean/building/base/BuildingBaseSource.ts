@@ -1,7 +1,6 @@
 import { withSource } from "@use-pico/common";
 import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { kysely } from "~/app/derivean/db/db";
-import { ResourceRequirementSource } from "~/app/derivean/resource/requirement/ResourceRequirementSource";
 
 export const BuildingBaseSource = withSource({
 	name: "BuildingBaseSource",
@@ -86,18 +85,5 @@ export const BuildingBaseSource = withSource({
 	},
 	delete$({ tx }) {
 		return tx.deleteFrom("Building_Base");
-	},
-	map: {
-		async toOutput({ tx, entity }) {
-			return {
-				...entity,
-				requirements: await ResourceRequirementSource.list$({
-					tx,
-					where: {
-						resourceId: entity.resourceId,
-					},
-				}),
-			} as BuildingBaseSchema["~output"];
-		},
 	},
 });

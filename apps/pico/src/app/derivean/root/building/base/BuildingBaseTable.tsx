@@ -22,7 +22,6 @@ import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBa
 import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
-import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 
 const column = withColumn<BuildingBaseSchema["~output"]>();
 
@@ -56,22 +55,22 @@ const columns = [
 		},
 		size: 14,
 	}),
-	column({
-		name: "requirements",
-		header() {
-			return <Tx label={"Resource requirements (label)"} />;
-		},
-		render({ value }) {
-			return (
-				<RequirementsInline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					requirements={value}
-					limit={5}
-				/>
-			);
-		},
-		size: 72,
-	}),
+	// column({
+	// 	name: "requirements",
+	// 	header() {
+	// 		return <Tx label={"Resource requirements (label)"} />;
+	// 	},
+	// 	render({ value }) {
+	// 		return (
+	// 			<RequirementsInline
+	// 				textTitle={<Tx label={"Building requirements (title)"} />}
+	// 				requirements={value}
+	// 				limit={5}
+	// 			/>
+	// 		);
+	// 	},
+	// 	size: 72,
+	// }),
 ];
 
 export namespace BuildingBaseTable {

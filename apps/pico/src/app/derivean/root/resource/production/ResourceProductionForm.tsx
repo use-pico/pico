@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	ModalContext,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    ModalContext,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 		resolver: zodResolver(ResourceProductionSchema.shape),
 		defaultValues: {
 			amount: 1,
-			limit: 0,
+			limit: 1,
 			cycles: 1,
 			...defaultValues,
 		},

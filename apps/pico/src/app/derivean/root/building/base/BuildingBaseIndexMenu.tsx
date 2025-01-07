@@ -5,6 +5,7 @@ import type { FC } from "react";
 import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace BuildingBaseIndexMenu {
@@ -37,6 +38,14 @@ export const BuildingBaseIndexMenu: FC<BuildingBaseIndexMenu.Props> = ({
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Resource requirements (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ProductionIcon}
+				to={"/$locale/apps/derivean/root/building/base/$id/production"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Resource production (menu)"} />
 			</MenuLink>
 
 			<MenuLink

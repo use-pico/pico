@@ -1,5 +1,6 @@
 import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import type { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
+import type { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import type { CycleSchema } from "~/app/derivean/cycle/CycleSchema";
 import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
@@ -29,6 +30,7 @@ export interface Database {
 
 	Building_Base: BuildingBaseSchema["~entity"];
 	Building_Base_Inventory: BuildingBaseInventorySchema["~entity"];
+	Building_Base_Production: BuildingBaseProductionSchema["~entity"];
 	Building: BuildingSchema["~entity"];
 
 	// // Building_Base_: BaseBuildingRequirementSchema["~entity"];

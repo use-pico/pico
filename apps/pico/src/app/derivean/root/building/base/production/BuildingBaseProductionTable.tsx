@@ -1,32 +1,31 @@
 import {
-	ActionMenu,
-	ActionModal,
-	DeleteControl,
-	Table,
-	toast,
-	TrashIcon,
-	Tx,
-	useCreateMutation,
-	usePatchMutation,
-	useSourceInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    Table,
+    toast,
+    TrashIcon,
+    Tx,
+    useCreateMutation,
+    usePatchMutation,
+    useSourceInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
-import { BuildingBaseInventorySource } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySource";
-import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
+import type { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
+import { BuildingBaseProductionSource } from "~/app/derivean/building/base/production/BuildingBaseProductionSource";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { ResourceProductionSource } from "~/app/derivean/resource/production/ResourceProductionSource";
+import { ResourceProductionForm } from "~/app/derivean/root/resource/production/ResourceProductionForm";
 
-const column = withColumn<BuildingBaseInventorySchema["~output"]>();
+const column = withColumn<BuildingBaseProductionSchema["~output"]>();
 
 const columns = [
 	column({
-		name: "inventory.resource.name",
+		name: "resourceProduction.resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
@@ -36,7 +35,7 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "inventory.amount",
+		name: "resourceProduction.amount",
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
@@ -46,9 +45,9 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "inventory.limit",
+		name: "resourceProduction.limit",
 		header() {
-			return <Tx label={"Limit (label)"} />;
+			return <Tx label={"Production limit (label)"} />;
 		},
 		render({ value }) {
 			return value === 0 ?
@@ -57,20 +56,30 @@ const columns = [
 		},
 		size: 10,
 	}),
+	column({
+		name: "resourceProduction.cycles",
+		header() {
+			return <Tx label={"Production cycles (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 10,
+	}),
 ];
 
-export namespace BuildingBaseInventoryTable {
+export namespace BuildingBaseProductionTable {
 	export interface Props
-		extends Table.PropsEx<BuildingBaseInventorySchema["~output"]> {
+		extends Table.PropsEx<BuildingBaseProductionSchema["~output"]> {
 		buildingBaseId: string;
 	}
 }
 
-export const BuildingBaseInventoryTable: FC<
-	BuildingBaseInventoryTable.Props
+export const BuildingBaseProductionTable: FC<
+	BuildingBaseProductionTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
 	const invalidator = useSourceInvalidator({
-		sources: [BuildingBaseInventorySource, InventorySource],
+		sources: [BuildingBaseProductionSource, ResourceProductionSource],
 	});
 
 	return (
@@ -84,27 +93,27 @@ export const BuildingBaseInventoryTable: FC<
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create building base inventory (menu)"} />}
+								label={<Tx label={"Create building base production (menu)"} />}
 								textTitle={
-									<Tx label={"Create building base inventory (modal)"} />
+									<Tx label={"Create building base production (modal)"} />
 								}
-								icon={InventoryIcon}
+								icon={ProductionIcon}
 							>
-								<InventoryForm
+								<ResourceProductionForm
 									mutation={useCreateMutation({
-										source: InventorySource,
+										source: ResourceProductionSource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Create building base inventory"),
+												withToastPromiseTx("Create building base production"),
 											);
 										},
 										async onSuccess({ tx, entity }) {
-											await BuildingBaseInventorySource.create$({
+											await BuildingBaseProductionSource.create$({
 												tx,
 												entity: {
 													buildingBaseId,
-													inventoryId: entity.id,
+													resourceProductionId: entity.id,
 												},
 											});
 										},
@@ -123,23 +132,25 @@ export const BuildingBaseInventoryTable: FC<
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Edit (menu)"} />}
-								textTitle={<Tx label={"Edit building base (modal)"} />}
-								icon={BuildingBaseIcon}
+								textTitle={
+									<Tx label={"Edit building base production (modal)"} />
+								}
+								icon={ProductionIcon}
 							>
-								<InventoryForm
-									defaultValues={data.inventory}
+								<ResourceProductionForm
+									defaultValues={data.resourceProduction}
 									mutation={usePatchMutation({
-										source: InventorySource,
+										source: ResourceProductionSource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Update building base inventory"),
+												withToastPromiseTx("Update building base production"),
 											);
 										},
 										async toPatch() {
 											return {
 												filter: {
-													id: data.inventoryId,
+													id: data.resourceProductionId,
 												},
 											};
 										},
@@ -154,9 +165,7 @@ export const BuildingBaseInventoryTable: FC<
 							<ActionModal
 								icon={TrashIcon}
 								label={<Tx label={"Delete (menu)"} />}
-								textTitle={
-									<Tx label={"Delete building base inventory (modal)"} />
-								}
+								textTitle={<Tx label={"Delete building production (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -166,9 +175,9 @@ export const BuildingBaseInventoryTable: FC<
 								}}
 							>
 								<DeleteControl
-									source={BuildingBaseInventorySource}
+									source={BuildingBaseProductionSource}
 									textContent={
-										<Tx label={"Building base inventory delete (content)"} />
+										<Tx label={"Building base production delete (content)"} />
 									}
 									filter={{
 										id: data.id,
