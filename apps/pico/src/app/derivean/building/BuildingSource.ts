@@ -10,7 +10,8 @@ export const BuildingSource = withSource({
 	select$({ tx, where, filter, link, cursor = { page: 0, size: 10 }, use }) {
 		let $select = tx
 			.selectFrom("Building as b")
-			.leftJoin("Building_Base as bb", "bb.id", "b.buildingBaseId");
+			.leftJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+			.leftJoin("Resource as r", "r.id", "bb.resourceId");
 
 		$select = $select.selectAll("b");
 		if (use.includes("id")) {
@@ -23,7 +24,7 @@ export const BuildingSource = withSource({
 				return ex.or([
 					ex("b.id", "like", $input),
 					ex("bb.id", "like", $input),
-					ex("bb.name", "like", $input),
+					ex("r.name", "like", $input),
 				]);
 			});
 		};
@@ -42,7 +43,7 @@ export const BuildingSource = withSource({
 			}
 
 			if (where?.name) {
-				$select = $select.where("bb.name", "=", where.name);
+				$select = $select.where("r.name", "=", where.name);
 			}
 
 			if (where?.fulltext) {

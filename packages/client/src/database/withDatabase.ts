@@ -34,8 +34,8 @@ export const withDatabase = <TDatabase>({
 
 	return {
 		kysely,
-		bootstrap() {
-			return bootstrap({ kysely });
+		async bootstrap() {
+			// return bootstrap({ kysely });
 		},
 	};
 };

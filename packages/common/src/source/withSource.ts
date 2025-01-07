@@ -526,7 +526,7 @@ export const withSource = <
 		},
 		async fetchOrThrow$({ tx, where, filter, sort, error }) {
 			try {
-				const $entity = schema.entity.parse(
+				const $entity = schema.entity.passthrough().parse(
 					await select$({
 						tx,
 						where,
@@ -571,7 +571,7 @@ export const withSource = <
 
 			return Promise.all(
 				z
-					.array(schema.entity)
+					.array(schema.entity.passthrough())
 					.parse(
 						await select$({
 							tx,
@@ -583,7 +583,6 @@ export const withSource = <
 							use: ["where", "filter", "cursor", "sort"],
 						}).execute(),
 					)
-					.map((entity) => schema.entity.parse(entity))
 					.map(async (entity) => {
 						return $schema.parse(
 							(await map?.toOutput?.({ tx, entity })) || entity,

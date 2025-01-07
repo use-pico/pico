@@ -1,21 +1,7 @@
 import { withSource } from "@use-pico/common";
-import type { SelectQueryBuilder, Transaction } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
-
-const foo = (
-	tx: Transaction<Database>,
-): SelectQueryBuilder<{ src: { id: string | null } }, "src", {}> => {
-	return tx
-		.selectFrom("Inventory as src")
-		.leftJoin("Resource as r", "r.id", "src.resourceId");
-};
-
-const bla = kysely.transaction().execute(async (tx) => {
-	foo(tx).select("src.id").where("src.id", "=", "dfdf").execute();
-});
 
 export const InventorySource = withSource({
 	name: "InventorySource",

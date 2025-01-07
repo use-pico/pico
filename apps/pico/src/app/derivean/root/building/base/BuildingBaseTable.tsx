@@ -13,6 +13,7 @@ import {
     useSourceInvalidator,
     useTable,
     withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
@@ -89,17 +90,10 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 									mutation={useCreateMutation({
 										source: BuildingBaseSource,
 										async wrap(callback) {
-											return toast.promise(callback(), {
-												loading: <Tx label={"Saving building base (label)"} />,
-												success: (
-													<Tx
-														label={"Building base successfully saved (label)"}
-													/>
-												),
-												error: (
-													<Tx label={"Cannot save building base (label)"} />
-												),
-											});
+											return toast.promise(
+												callback(),
+												withToastPromiseTx("Create building base"),
+											);
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
@@ -124,17 +118,10 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 									mutation={usePatchMutation({
 										source: BuildingBaseSource,
 										async wrap(callback) {
-											return toast.promise(callback(), {
-												loading: <Tx label={"Saving building base (label)"} />,
-												success: (
-													<Tx
-														label={"Building base successfully saved (label)"}
-													/>
-												),
-												error: (
-													<Tx label={"Cannot save building base (label)"} />
-												),
-											});
+											return toast.promise(
+												callback(),
+												withToastPromiseTx("Update building base"),
+											);
 										},
 										async toPatch() {
 											return {

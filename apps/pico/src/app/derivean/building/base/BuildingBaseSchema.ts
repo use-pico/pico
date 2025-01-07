@@ -8,7 +8,6 @@ import { z } from "zod";
 
 const entity = IdentitySchema.merge(
 	z.object({
-		name: z.string().min(1),
 		resourceId: z.string().min(1),
 		cycles: z.number().int().nonnegative(),
 	}),
@@ -18,7 +17,7 @@ export const BuildingBaseSchema = withSourceSchema({
 	entity,
 	output: entity.merge(
 		z.object({
-			//
+			name: z.string().min(1),
 		}),
 	),
 	shape: z.object({
