@@ -53,7 +53,7 @@ namespace rich {
 }
 
 const rich = ({ index, key, fallback }: rich.Props) => {
-	return translate<ReactNode>({ index, key, fallback });
+    return translate<ReactNode>({ index, key, fallback });
 };
 
 export const translator: translator.Translator = {

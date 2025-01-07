@@ -3,13 +3,13 @@ import {
     toast,
     usePatchMutation,
     useSourceInvalidator,
-    withToastPromiseTx
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/$id/edit/",
+	"/$locale/apps/derivean/root/building/base/$id/edit",
 )({
 	component: () => {
 		const { entity } = useLoaderData({

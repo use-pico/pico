@@ -2,6 +2,7 @@ import { Card, Tx } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
+import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 
 export namespace BuildingBaseCard {
 	export interface Props extends Card.PropsEx<BuildingBaseSchema["~output"]> {
@@ -22,7 +23,7 @@ export const BuildingBaseCard: FC<BuildingBaseCard.Props> = (props) => {
 				},
 				{
 					id: "cycles",
-					label: <Tx label={"Cycles (label)"} />,
+					label: <Tx label={"Construction cycles (label)"} />,
 					render({ entity }) {
 						return toHumanNumber({ number: entity.cycles });
 					},
@@ -31,13 +32,12 @@ export const BuildingBaseCard: FC<BuildingBaseCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Resource requirements (label)"} />,
 					render({ entity }) {
-						return "not-yet";
-						// return (
-						// 	<ResourceInline
-						// 		resources={entity.requirements}
-						// 		limit={5}
-						// 	/>
-						// );
+						return (
+							<RequirementsInline
+								requirements={entity.requirements}
+								limit={5}
+							/>
+						);
 					},
 				},
 			]}

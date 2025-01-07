@@ -2,7 +2,7 @@ import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BuildingCard } from "~/app/derivean/root/building/BuildingCard";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/$id/view/",
+	"/$locale/apps/derivean/root/building/$id/view",
 )({
 	component() {
 		const { entity } = useLoaderData({

@@ -1,6 +1,7 @@
 import {
     ActionMenu,
     ActionModal,
+    BoolInline,
     DeleteControl,
     Table,
     toast,
@@ -15,29 +16,24 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { DefaultInventoryForm } from "~/app/derivean/inventory/default/DefaultInventoryForm";
-import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
+import { ResourceRequirementSource } from "~/app/derivean/resource/requirement/ResourceRequirementSource";
+import { ResourceRequirementForm } from "~/app/derivean/root/resource/requirement/ResourceRequirementForm";
 
-const column = withColumn<DefaultInventorySchema["~output"]>();
+const column = withColumn<ResourceRequirementSchema["~output"]>();
 
 const columns = [
 	column({
-		name: "resource.name",
+		name: "requirement.name",
 		header() {
-			return <Tx label={"Resource name (label)"} />;
+			return <Tx label={"Requirement name (label)"} />;
 		},
 		render({ value }) {
 			return value;
 		},
-		filter: {
-			path: "resourceId",
-			onFilter({ data, filter }) {
-				filter.shallow("resourceId", data.resourceId);
-			},
-		},
-		size: 18,
+		size: 14,
 	}),
 	column({
 		name: "amount",
@@ -47,23 +43,34 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 18,
+		size: 14,
+	}),
+	column({
+		name: "passive",
+		header() {
+			return <Tx label={"Passive requirement (label)"} />;
+		},
+		render({ value }) {
+			return <BoolInline value={value} />;
+		},
+		size: 14,
 	}),
 ];
 
-export namespace DefaultInventoryTable {
+export namespace ResourceRequirementTable {
 	export interface Props
-		extends Table.PropsEx<DefaultInventorySchema["~output"]> {
-		//
+		extends Table.PropsEx<ResourceRequirementSchema["~output"]> {
+		resourceId: string;
 	}
 }
 
-export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
+export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
+	resourceId,
 	table,
 	...props
 }) => {
 	const invalidator = useSourceInvalidator({
-		sources: [DefaultInventorySource],
+		sources: [ResourceRequirementSource, BuildingBaseSource],
 	});
 
 	return (
@@ -77,22 +84,25 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create inventory item (menu)"} />}
-								textTitle={<Tx label={"Create inventory item (modal)"} />}
-								icon={InventoryIcon}
+								label={<Tx label={"Create requirement item (menu)"} />}
+								textTitle={<Tx label={"Create requirement item (modal)"} />}
+								icon={ResourceIcon}
 							>
-								<DefaultInventoryForm
+								<ResourceRequirementForm
 									mutation={useCreateMutation({
-										source: DefaultInventorySource,
+										source: ResourceRequirementSource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Create inventory item"),
+												withToastPromiseTx("Create requirement item"),
 											);
 										},
 										async toCreate({ shape }) {
 											return {
-												entity: shape,
+												entity: {
+													...shape,
+													resourceId,
+												},
 											};
 										},
 									})}
@@ -110,17 +120,17 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Edit (menu)"} />}
-								textTitle={<Tx label={"Edit inventory item (modal)"} />}
-								icon={InventoryIcon}
+								textTitle={<Tx label={"Edit requirement item (modal)"} />}
+								icon={ResourceIcon}
 							>
-								<DefaultInventoryForm
+								<ResourceRequirementForm
 									defaultValues={data}
 									mutation={usePatchMutation({
-										source: DefaultInventorySource,
+										source: ResourceRequirementSource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Update inventory item"),
+												withToastPromiseTx("Update requirement item"),
 											);
 										},
 										async toPatch() {
@@ -141,7 +151,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 							<ActionModal
 								icon={TrashIcon}
 								label={<Tx label={"Delete (menu)"} />}
-								textTitle={<Tx label={"Delete inventory item (modal)"} />}
+								textTitle={<Tx label={"Delete requirement item (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -151,8 +161,10 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									source={DefaultInventorySource}
-									textContent={<Tx label={"Inventory item delete (content)"} />}
+									source={ResourceRequirementSource}
+									textContent={
+										<Tx label={"Requirement item delete (content)"} />
+									}
 									filter={{
 										id: data.id,
 									}}

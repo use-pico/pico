@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+    BoolInput,
     Button,
     FormCss,
     FormError,
@@ -11,18 +12,21 @@ import {
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
-export namespace InventoryForm {
+export namespace ResourceRequirementForm {
 	export interface Props
-		extends Form.Props<InventorySchema["output"], InventorySchema["shape"]> {
+		extends Form.Props<
+			ResourceRequirementSchema["output"],
+			ResourceRequirementSchema["shape"]
+		> {
 		//
 	}
 }
 
-export const InventoryForm: FC<InventoryForm.Props> = ({
+export const ResourceRequirementForm: FC<ResourceRequirementForm.Props> = ({
 	mutation,
 	defaultValues,
 	onSuccess,
@@ -30,9 +34,13 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 	tva = FormCss,
 	css,
 }) => {
-	const form = useForm<InventorySchema["~shape"]>({
-		resolver: zodResolver(InventorySchema.shape),
-		defaultValues,
+	const form = useForm<ResourceRequirementSchema["~shape"]>({
+		resolver: zodResolver(ResourceRequirementSchema.shape),
+		defaultValues: {
+			amount: 1,
+			passive: false,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -46,7 +54,10 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<InventorySchema["output"], InventorySchema["shape"]>({
+			onSubmit={onSubmit<
+				ResourceRequirementSchema["output"],
+				ResourceRequirementSchema["shape"]
+			>({
 				form,
 				mutation,
 				async onSuccess(entity) {
@@ -61,12 +72,12 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"resourceId"}
-				label={<Tx label={"Resource name (label)"} />}
+				name={"requirementId"}
+				label={<Tx label={"Requirement (label)"} />}
 			>
 				<Controller
 					control={form.control}
-					name={"resourceId"}
+					name={"requirementId"}
 					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect
@@ -91,9 +102,24 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 				/>
 			</FormInput>
 
+			<FormInput
+				formState={form.formState}
+				name={"passive"}
+				label={<Tx label={"Passive requirement (label)"} />}
+				hint={<Tx label={"Passive requirement (hint)"} />}
+			>
+				<Controller
+					control={form.control}
+					name={"passive"}
+					render={({ field: { ref: _, ...field } }) => {
+						return <BoolInput {...field} />;
+					}}
+				/>
+			</FormInput>
+
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={InventoryIcon}
+					iconEnabled={ResourceIcon}
 					type={"submit"}
 				>
 					<Tx label={"Save (submit)"} />

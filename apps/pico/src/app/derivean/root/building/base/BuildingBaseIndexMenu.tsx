@@ -4,6 +4,7 @@ import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace BuildingBaseIndexMenu {
 	export interface Props
@@ -27,6 +28,14 @@ export const BuildingBaseIndexMenu: FC<BuildingBaseIndexMenu.Props> = ({
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"View detail (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ResourceIcon}
+				to={"/$locale/apps/derivean/root/building/base/$id/requirements"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Resource requirements (menu)"} />
 			</MenuLink>
 
 			<MenuLink
