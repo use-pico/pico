@@ -9,44 +9,54 @@ import {
     withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
+import { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
+import { BuildingBaseInventorySource } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySource";
+import { BuildingBaseInventoryTable } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryTable";
 
-export const Route = createFileRoute("/$locale/apps/derivean/game/inventory/")({
-	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+export const Route = createFileRoute(
+	"/$locale/apps/derivean/root/building/base/$id/inventory",
+)({
+	validateSearch: zodValidator(
+		withSourceSearchSchema(BuildingBaseInventorySchema),
+	),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({
-		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
+		context: { queryClient, kysely },
+		deps: { filter, cursor, sort },
+		params: { id },
 	}) {
-		const user = await session();
-
-		return kysely.transaction().execute((tx) => {
+		return kysely.transaction().execute(async (tx) => {
 			return withListCountLoader({
 				tx,
 				queryClient,
-				source: InventorySource,
+				source: BuildingBaseInventorySource,
+				sort,
 				filter,
 				cursor,
+				where: {
+					buildingBaseId: id,
+				},
 			});
 		});
 	},
 	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<InventoryTable
+				<BuildingBaseInventoryTable
+					buildingBaseId={id}
 					table={{
 						data,
 						filter: {
@@ -66,7 +76,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory/")({
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of items"} />,
+						textTotal: <Tx label={"Number of requirements (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

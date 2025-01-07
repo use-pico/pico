@@ -11,7 +11,7 @@ import {
 } from "@use-pico/client";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { InventoryTable } from "~/app/derivean/inventory/InventoryTable";
+import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/user/$id/inventory/",

@@ -15,9 +15,9 @@ import {
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventoryForm } from "~/app/derivean/inventory/InventoryForm";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventorySource } from "~/app/derivean/inventory/InventorySource";
+import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
 
 const column = withColumn<InventorySchema["~output"]>();
 

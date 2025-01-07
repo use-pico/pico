@@ -32,7 +32,11 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 }) => {
 	const form = useForm<InventorySchema["~shape"]>({
 		resolver: zodResolver(InventorySchema.shape),
-		defaultValues,
+		defaultValues: {
+			amount: 1,
+			limit: 0,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -88,6 +92,18 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 					type={"number"}
 					className={tv.input()}
 					{...form.register("amount")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Inventory limit (label)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("limit")}
 				/>
 			</FormInput>
 

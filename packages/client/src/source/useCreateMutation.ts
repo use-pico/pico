@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter, type AnyRouter } from "@tanstack/react-router";
 import type { withSource, withSourceSchema } from "@use-pico/common";
+import type { Transaction } from "kysely";
 
 export namespace useCreateMutation {
 	export namespace toCreate {
@@ -28,16 +29,19 @@ export namespace useCreateMutation {
 
 	export namespace onSuccess {
 		export interface Props<
+			TDatabase,
 			TSchema extends withSourceSchema.Instance<any, any, any>,
 		> {
+			tx: Transaction<TDatabase>;
 			queryClient: QueryClient;
 			router: AnyRouter;
 			entity: TSchema["~entity"];
 		}
 
 		export type Callback<
+			TDatabase,
 			TSchema extends withSourceSchema.Instance<any, any, any>,
-		> = (props: Props<TSchema>) => Promise<void>;
+		> = (props: Props<TDatabase, TSchema>) => Promise<void>;
 	}
 
 	export interface Props<
@@ -47,7 +51,7 @@ export namespace useCreateMutation {
 		source: withSource.Instance<TDatabase, TSchema>;
 		wrap?<T>(callback: () => Promise<T>): Promise<T>;
 		toCreate?: toCreate.Callback<TSchema>;
-		onSuccess?: onSuccess.Callback<TSchema>;
+		onSuccess?: onSuccess.Callback<TDatabase, TSchema>;
 		options?: Omit<
 			UseMutationOptions<TSchema["~output"], Error, TSchema["~shape"]>,
 			"mutationKey" | "mutationFn"
@@ -81,7 +85,7 @@ export const useCreateMutation = <
 						})),
 					});
 
-					await onSuccess?.({ queryClient, router, entity });
+					await onSuccess?.({ tx, queryClient, router, entity });
 
 					return entity;
 				});

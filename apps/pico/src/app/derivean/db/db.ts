@@ -227,6 +227,25 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			)
 			.execute();
 
+		/**
+		 * Defines production of resources in a building.
+		 */
+		await kysely.schema
+			.createTable("Building_Base_Production")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+			.addColumn("buildingBaseId", $id, (col) =>
+				col.references("BuildingBase.id").onDelete("cascade").notNull(),
+			)
+			.addColumn("resourceProductionId", $id, (col) =>
+				col.references("ResourceProduction.id").onDelete("cascade").notNull(),
+			)
+			.addUniqueConstraint(
+				"[Building_Base_Production] buildingBaseId-resourceProductionId",
+				["buildingBaseId", "resourceProductionId"],
+			)
+			.execute();
+
 		await kysely.schema
 			.createTable("Building")
 			.ifNotExists()

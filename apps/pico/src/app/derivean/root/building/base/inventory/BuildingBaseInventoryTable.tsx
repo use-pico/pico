@@ -15,55 +15,63 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
+import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import type { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
+import { BuildingBaseInventorySource } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySource";
+import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { DefaultInventoryForm } from "~/app/derivean/inventory/default/DefaultInventoryForm";
-import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
+import { InventorySource } from "~/app/derivean/inventory/InventorySource";
+import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
 
-const column = withColumn<DefaultInventorySchema["~output"]>();
+const column = withColumn<BuildingBaseInventorySchema["~output"]>();
 
 const columns = [
 	column({
-		name: "resource.name",
+		name: "inventory.resource.name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
 		render({ value }) {
 			return value;
 		},
-		filter: {
-			path: "resourceId",
-			onFilter({ data, filter }) {
-				filter.shallow("resourceId", data.resourceId);
-			},
-		},
-		size: 18,
+		size: 14,
 	}),
 	column({
-		name: "amount",
+		name: "inventory.amount",
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 18,
+		size: 10,
+	}),
+	column({
+		name: "inventory.limit",
+		header() {
+			return <Tx label={"Limit (label)"} />;
+		},
+		render({ value }) {
+			return value === 0 ?
+					<Tx label={"Unlimited (label)"} />
+				:	toHumanNumber({ number: value });
+		},
+		size: 10,
 	}),
 ];
 
-export namespace DefaultInventoryTable {
+export namespace BuildingBaseInventoryTable {
 	export interface Props
-		extends Table.PropsEx<DefaultInventorySchema["~output"]> {
-		//
+		extends Table.PropsEx<BuildingBaseInventorySchema["~output"]> {
+		buildingBaseId: string;
 	}
 }
 
-export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
-	table,
-	...props
-}) => {
+export const BuildingBaseInventoryTable: FC<
+	BuildingBaseInventoryTable.Props
+> = ({ buildingBaseId, table, ...props }) => {
 	const invalidator = useSourceInvalidator({
-		sources: [DefaultInventorySource],
+		sources: [BuildingBaseInventorySource, InventorySource],
 	});
 
 	return (
@@ -77,23 +85,29 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create inventory item (menu)"} />}
-								textTitle={<Tx label={"Create inventory item (modal)"} />}
+								label={<Tx label={"Create building base inventory (menu)"} />}
+								textTitle={
+									<Tx label={"Create building base inventory (modal)"} />
+								}
 								icon={InventoryIcon}
 							>
-								<DefaultInventoryForm
+								<InventoryForm
 									mutation={useCreateMutation({
-										source: DefaultInventorySource,
+										source: InventorySource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Create inventory item"),
+												withToastPromiseTx("Create building base inventory"),
 											);
 										},
-										async toCreate({ shape }) {
-											return {
-												entity: shape,
-											};
+										async onSuccess({ tx, entity }) {
+											await BuildingBaseInventorySource.create$({
+												tx,
+												entity: {
+													buildingBaseId,
+													inventoryId: entity.id,
+												},
+											});
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
@@ -110,23 +124,23 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Edit (menu)"} />}
-								textTitle={<Tx label={"Edit inventory item (modal)"} />}
-								icon={InventoryIcon}
+								textTitle={<Tx label={"Edit building base (modal)"} />}
+								icon={BuildingBaseIcon}
 							>
-								<DefaultInventoryForm
-									defaultValues={data}
+								<InventoryForm
+									defaultValues={data.inventory}
 									mutation={usePatchMutation({
-										source: DefaultInventorySource,
+										source: InventorySource,
 										async wrap(callback) {
 											return toast.promise(
 												callback(),
-												withToastPromiseTx("Update inventory item"),
+												withToastPromiseTx("Update building base inventory"),
 											);
 										},
 										async toPatch() {
 											return {
 												filter: {
-													id: data.id,
+													id: data.inventoryId,
 												},
 											};
 										},
@@ -141,7 +155,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 							<ActionModal
 								icon={TrashIcon}
 								label={<Tx label={"Delete (menu)"} />}
-								textTitle={<Tx label={"Delete inventory item (modal)"} />}
+								textTitle={<Tx label={"Delete building (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -151,8 +165,8 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								}}
 							>
 								<DeleteControl
-									source={DefaultInventorySource}
-									textContent={<Tx label={"Inventory item delete (content)"} />}
+									source={BuildingBaseSource}
+									textContent={<Tx label={"Building base delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
