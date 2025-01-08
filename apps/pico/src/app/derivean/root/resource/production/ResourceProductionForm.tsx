@@ -18,7 +18,7 @@ import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupS
 export namespace ResourceProductionForm {
 	export interface Props
 		extends Form.Props<
-			ResourceProductionSchema["output"],
+			ResourceProductionSchema["entity"],
 			ResourceProductionSchema["shape"]
 		> {
 		//
@@ -55,7 +55,7 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				ResourceProductionSchema["output"],
+				ResourceProductionSchema["entity"],
 				ResourceProductionSchema["shape"]
 			>({
 				form,

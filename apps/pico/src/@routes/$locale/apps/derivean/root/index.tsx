@@ -3,13 +3,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, JustDropZone, toast, Tx } from "@use-pico/client";
 import { translator } from "@use-pico/common";
 import FileSaver from "file-saver";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
-import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
-import { TagSource } from "~/app/derivean/tag/TagSource";
+
+const sources: (keyof Database)[] = [
+	"Resource",
+	"Resource_Tag",
+	"Resource_Production",
+	"Resource_Requirement",
+	"Building_Base",
+	"Building_Base_Inventory",
+	"Building_Base_Production",
+] as const;
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 	component() {
@@ -18,27 +24,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 			async mutationFn() {
 				return toast.promise(
 					(async () => {
-						const sources = [
-							BuildingBaseSource,
-							ResourceSource,
-							TagSource,
-							ResourceTagSource,
-							DefaultInventorySource,
-						] as const;
-
 						const data: any[] = [];
 
 						await kysely.transaction().execute(async (tx) => {
 							for await (const source of sources) {
-								const entities: any = {};
-								(
-									await source.list$({ tx, cursor: { page: 0, size: 5000 } })
-								).forEach((entity) => {
-									entities[entity.id] = source.schema.entity.parse(entity);
-								});
 								data.push({
-									source: source.name,
-									entities,
+									source,
+									entities: await tx.selectFrom(source).selectAll().execute(),
 								});
 							}
 						});
@@ -79,14 +71,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						}
 
 						const data = JSON.parse(await file.text());
-
-						const sources = {
-							[BuildingBaseSource.name]: "Building_Base",
-							[ResourceSource.name]: "Resource",
-							[TagSource.name]: "Tag",
-							[ResourceTagSource.name]: "Resource_Tag",
-							[DefaultInventorySource.name]: "Default_Inventory",
-						} as const;
 
 						await kysely.transaction().execute(async (tx) => {
 							for await (const { source } of data) {

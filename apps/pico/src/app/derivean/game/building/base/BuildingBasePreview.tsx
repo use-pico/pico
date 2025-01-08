@@ -1,12 +1,15 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, ListIcon, Preview, TitlePreview, Tx } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 
+interface Data extends IdentitySchema.Type {
+	name: string;
+}
+
 export namespace BuildingBasePreview {
-	export interface Props
-		extends Preview.PropsEx<BuildingBaseSchema["~output"]> {
+	export interface Props extends Preview.PropsEx<Data> {
 		//
 	}
 }

@@ -15,11 +15,6 @@ const entity = IdentitySchema.merge(
 
 export const BuildingBaseSchema = withSourceSchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			name: z.string().min(1),
-		}),
-	),
 	shape: z.object({
 		resourceId: z.string().min(1),
 		cycles: z.union([

@@ -2,28 +2,23 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
-    DeleteControl,
     LinkTo,
     Table,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-
-import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
-import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
 
-const column = withColumn<BuildingBaseSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	cycles: number;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
@@ -74,7 +69,7 @@ const columns = [
 ];
 
 export namespace BuildingBaseTable {
-	export interface Props extends Table.PropsEx<BuildingBaseSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		//
 	}
 }
@@ -83,10 +78,6 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [BuildingBaseSource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -102,7 +93,7 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 								textTitle={<Tx label={"Create building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								<BuildingBaseForm
+								{/* <BuildingBaseForm
 									mutation={useCreateMutation({
 										source: BuildingBaseSource,
 										async wrap(callback) {
@@ -116,7 +107,7 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -129,7 +120,7 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 								textTitle={<Tx label={"Edit building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								<BuildingBaseForm
+								{/* <BuildingBaseForm
 									defaultValues={data}
 									mutation={usePatchMutation({
 										source: BuildingBaseSource,
@@ -151,7 +142,7 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -166,14 +157,14 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={BuildingBaseSource}
 									textContent={<Tx label={"Building base delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

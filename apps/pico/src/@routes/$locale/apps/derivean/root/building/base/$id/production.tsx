@@ -6,8 +6,10 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
 import { BuildingBaseProductionTable } from "~/app/derivean/root/building/base/production/BuildingBaseProductionTable";
 
@@ -25,21 +27,31 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
+		context: { kysely },
+		deps: { filter, cursor },
 		params: { id },
 	}) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingBaseProductionSource,
-				sort,
+			return withListCount({
+				select: tx
+					.selectFrom("Building_Base_Production as bbp")
+					.innerJoin(
+						"Resource_Production as rp",
+						"rp.id",
+						"bbp.resourceProductionId",
+					)
+					.innerJoin("Resource as r", "r.id", "rp.resourceId")
+					.select(["bbp.id", "r.name", "rp.amount", "rp.limit", "rp.cycles"])
+					.where("bbp.buildingBaseId", "=", id),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					amount: z.number().nonnegative(),
+					limit: z.number().nonnegative(),
+					cycles: z.number().nonnegative(),
+				}),
 				filter,
 				cursor,
-				where: {
-					buildingBaseId: id,
-				},
 			});
 		});
 	},

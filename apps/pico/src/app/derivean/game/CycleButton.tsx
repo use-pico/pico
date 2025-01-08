@@ -1,19 +1,25 @@
 import { Button, toast, Tx, withToastPromiseTx } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 import { useCycleMutation } from "~/app/derivean/cycle/useCycleMutation";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace CycleButton {
 	export interface Props extends Button.Props {
 		userId: string;
+		/**
+		 * Current count of cycles.
+		 */
+		cycle: number;
 	}
 }
 
-export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
+export const CycleButton: FC<CycleButton.Props> = ({
+	userId,
+	cycle,
+	...props
+}) => {
 	const mutation = useCycleMutation({ userId });
-	const data = useCountQuery({ source: CycleSource, where: { userId } });
 
 	return (
 		<Button
@@ -25,14 +31,10 @@ export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
 					withToastPromiseTx("Cycle"),
 				);
 			}}
-			disabled={mutation.isPending}
-			loading={data.isLoading}
+			loading={mutation.isPending}
 			{...props}
 		>
-			<Tx label={"New cycle (label)"} />
-			{data.isSuccess ?
-				` (${toHumanNumber({ number: data.data.filter })})`
-			:	""}
+			<Tx label={"New cycle (label)"} /> (${toHumanNumber({ number: cycle })})
 		</Button>
 	);
 };

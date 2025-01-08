@@ -2,29 +2,27 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
-    DeleteControl,
     LinkTo,
     Table,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
     useTable,
-    withColumn,
+    withColumn
 } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { BuildingForm } from "~/app/derivean/root/building/BuildingForm";
 
-const column = withColumn<BuildingSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "buildingBase.name",
+		name: "name",
 		header() {
 			return <Tx label={"Building name (label)"} />;
 		},
@@ -45,7 +43,7 @@ const columns = [
 ];
 
 export namespace BuildingTable {
-	export interface Props extends Table.PropsEx<BuildingSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		userId: string;
 	}
 }
@@ -70,7 +68,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								textTitle={<Tx label={"Create building (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<BuildingForm
+								{/* <BuildingForm
 									mutation={useCreateMutation({
 										source: BuildingSource,
 										async wrap(callback) {
@@ -94,7 +92,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -107,7 +105,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 								textTitle={<Tx label={"Edit building (modal)"} />}
 								icon={BuildingIcon}
 							>
-								<BuildingForm
+								{/* <BuildingForm
 									defaultValues={data}
 									mutation={usePatchMutation({
 										source: BuildingSource,
@@ -131,7 +129,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 									onSuccess={async ({ modalContext }) => {
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -146,13 +144,13 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={BuildingSource}
 									textContent={<Tx label={"Building delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

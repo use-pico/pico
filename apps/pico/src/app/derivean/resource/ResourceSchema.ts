@@ -4,7 +4,6 @@ import {
     withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
@@ -14,12 +13,6 @@ const entity = IdentitySchema.merge(
 
 export const ResourceSchema = withSourceSchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			tagIds: z.array(z.string()),
-			tags: z.array(TagSchema.output),
-		}),
-	),
 	shape: z.object({
 		name: z.string().min(1),
 		tagIds: z.array(z.string()).optional(),

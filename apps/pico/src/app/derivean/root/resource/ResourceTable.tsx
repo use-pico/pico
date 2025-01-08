@@ -2,28 +2,24 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
-    DeleteControl,
     LinkTo,
     Table,
     Tags,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
+import type { IdentitySchema, TagSchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
-import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
-import { ResourceForm } from "~/app/derivean/root/resource/ResourceForm";
 
-const column = withColumn<ResourceSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	tags: TagSchema.Type[];
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
@@ -58,7 +54,7 @@ const columns = [
 ];
 
 export namespace ResourceTable {
-	export interface Props extends Table.PropsEx<ResourceSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		group?: string;
 	}
 }
@@ -68,10 +64,6 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [ResourceSource, ResourceTagSource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -87,7 +79,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 								textTitle={<Tx label={"Create resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceForm
+								{/* <ResourceForm
 									group={group}
 									mutation={useCreateMutation({
 										source: ResourceSource,
@@ -102,7 +94,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -115,7 +107,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 								textTitle={<Tx label={"Edit resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceForm
+								{/* <ResourceForm
 									defaultValues={data}
 									mutation={usePatchMutation({
 										source: ResourceSource,
@@ -137,7 +129,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -152,14 +144,14 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={ResourceSource}
 									textContent={<Tx label={"Resource delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

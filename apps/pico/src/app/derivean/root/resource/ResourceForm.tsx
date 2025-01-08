@@ -17,7 +17,7 @@ import { TagPopupMultiSelect } from "~/app/derivean/root/tag/TagPopupMultiSelect
 
 export namespace ResourceForm {
 	export interface Props
-		extends Form.Props<ResourceSchema["output"], ResourceSchema["shape"]> {
+		extends Form.Props<ResourceSchema["entity"], ResourceSchema["shape"]> {
 		group?: string;
 	}
 }
@@ -47,7 +47,7 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<ResourceSchema["output"], ResourceSchema["shape"]>({
+			onSubmit={onSubmit<ResourceSchema["entity"], ResourceSchema["shape"]>({
 				form,
 				mutation,
 				async onSuccess(entity) {

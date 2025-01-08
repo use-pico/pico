@@ -6,12 +6,14 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { sql } from "kysely";
+import { z } from "zod";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/list/",
@@ -23,15 +25,40 @@ export const Route = createFileRoute(
 			cursor,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute((tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: ResourceSource,
+			return withListCount({
+				select: tx.selectFrom("Resource as r").select([
+					"r.id",
+					"r.name",
+					(eb) =>
+						tx
+							.selectFrom("Tag as t")
+							.select((eb) =>
+								sql<string>`json_group_array(json_object('id', ${eb.ref("t.id")}, 'code', ${eb.ref("t.code")}, 'label', ${eb.ref("t.label")}))`.as(
+									"tags",
+								),
+							)
+							.where(
+								"t.id",
+								"=",
+								tx
+									.selectFrom("Resource_Tag as rt")
+									.where("rt.resourceId", "=", eb.ref("r.id")),
+							)
+							.as("tags"),
+				]),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					tags: z
+						.string()
+						.transform((value) => JSON.parse(value))
+						.refine((tags) => Array.isArray(tags))
+						.transform((tags) => z.array(TagSchema.entity).parse(tags)),
+				}),
 				filter,
 				cursor,
-				sort: [{ name: "name", sort: "asc" }],
 			});
 		});
 	},

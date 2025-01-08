@@ -1,13 +1,16 @@
 import { PopupSelect, Tx } from "@use-pico/client";
+import type { IdentitySchema, TagSchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
 import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";
 
+interface Data extends IdentitySchema.Type {
+	name: string;
+	tags: TagSchema.Type[];
+}
+
 export namespace ResourcePopupSelect {
-	export interface Props
-		extends PopupSelect.PropsEx<ResourceSchema["~output"]> {
+	export interface Props extends PopupSelect.PropsEx<Data> {
 		group?: string;
 	}
 }
@@ -17,7 +20,7 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = ({
 	...props
 }) => {
 	return (
-		<PopupSelect<ResourceSchema["~output"]>
+		<PopupSelect<Data>
 			icon={ResourceIcon}
 			textTitle={<Tx label={"Select resource (title)"} />}
 			textSelect={<Tx label={"Select resource (label)"} />}
@@ -30,7 +33,7 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = ({
 			render={({ entity }) => {
 				return entity.name;
 			}}
-			source={ResourceSource}
+			useListQuery={null}
 			{...props}
 		/>
 	);

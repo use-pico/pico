@@ -6,11 +6,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
 import { DefaultInventoryTable } from "~/app/derivean/root/inventory/default/DefaultInventoryTable";
 
 export const Route = createFileRoute(
@@ -24,18 +24,28 @@ export const Route = createFileRoute(
 			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
-	}) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute((tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: DefaultInventorySource,
+			return withListCount({
+				select: tx
+					.selectFrom("Default_Inventory as di")
+					.innerJoin("Resource as r", "r.id", "di.resourceId")
+					.select([
+						"di.id",
+						"r.name",
+						"di.amount",
+						"di.limit",
+						"di.resourceId",
+					]),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					resourceId: z.string().min(1),
+					amount: z.number().nonnegative(),
+					limit: z.number().int().nonnegative(),
+				}),
 				filter,
 				cursor,
-				sort,
 			});
 		});
 	},

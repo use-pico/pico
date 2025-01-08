@@ -1,15 +1,16 @@
 import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx, UserIcon } from "@use-pico/client";
-import type { Entity } from "@use-pico/common";
+import type { Entity, IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import type { UserSchema } from "~/app/derivean/user/UserSchema";
+
+interface Data extends IdentitySchema {
+	//
+}
 
 export namespace UserIndexMenu {
-	export interface Props
-		extends Menu.Props,
-			Entity.Schema<UserSchema["output"]> {
+	export interface Props extends Menu.Props, Entity.Schema<Data> {
 		//
 	}
 }

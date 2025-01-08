@@ -19,7 +19,7 @@ import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupS
 export namespace ResourceRequirementForm {
 	export interface Props
 		extends Form.Props<
-			ResourceRequirementSchema["output"],
+			ResourceRequirementSchema["entity"],
 			ResourceRequirementSchema["shape"]
 		> {
 		//
@@ -55,7 +55,7 @@ export const ResourceRequirementForm: FC<ResourceRequirementForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				ResourceRequirementSchema["output"],
+				ResourceRequirementSchema["entity"],
 				ResourceRequirementSchema["shape"]
 			>({
 				form,

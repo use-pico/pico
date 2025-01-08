@@ -1,17 +1,16 @@
-import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
-import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
-
 export namespace inventoryCheck {
-	export interface Requirement {
-		id: string;
+	export interface Inventory {
 		resourceId: string;
-		resource: ResourceSchema["~output"];
 		amount: number;
-		passive: boolean;
+	}
+
+	export interface Requirement {
+		resourceId: string;
+		amount: number;
 	}
 
 	export interface Props {
-		inventory: InventorySchema["~output-array"];
+		inventory: Inventory[];
 		requirements: Requirement[];
 	}
 

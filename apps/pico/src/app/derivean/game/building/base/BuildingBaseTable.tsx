@@ -12,7 +12,6 @@ import type { FC } from "react";
 import { useBuildingCount } from "~/app/derivean/building/base/useBuildingCount";
 import { useConstructMutation } from "~/app/derivean/building/useConstructMutation";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
@@ -21,7 +20,6 @@ interface Data extends IdentitySchema.Type {
 
 interface Context {
 	userId: string;
-	inventory: InventorySchema["~output-array"];
 }
 
 const column = withColumn<Data, Context>();
@@ -32,7 +30,7 @@ const columns = [
 		header() {
 			return <Tx label={"Building name (label)"} />;
 		},
-		render({ data, value, context: { inventory, userId } }) {
+		render({ data, value, context: { userId } }) {
 			const { locale } = useParams({ from: "/$locale" });
 			const mutation = useConstructMutation({ userId });
 			const count = useBuildingCount({
@@ -107,13 +105,11 @@ const columns = [
 export namespace BuildingBaseTable {
 	export interface Props extends Table.PropsEx<Data, Context> {
 		userId: string;
-		inventory: InventorySchema["~entity-array"];
 	}
 }
 
 export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 	userId,
-	inventory,
 	table,
 	...props
 }) => {
@@ -124,7 +120,6 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 				columns,
 				context: {
 					userId,
-					inventory,
 				},
 			})}
 			{...props}

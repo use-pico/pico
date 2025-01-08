@@ -1,7 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "@use-pico/client";
-import { translator } from "@use-pico/common";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { toast, withToastPromiseTx } from "@use-pico/client";
 import { kysely } from "~/app/derivean/db/db";
 
 export namespace useResourcePickupMutation {
@@ -16,17 +14,16 @@ export const useResourcePickupMutation = () => {
 		async mutationFn({ buildingId }: useResourcePickupMutation.Request) {
 			return toast.promise(
 				kysely.transaction().execute(async (tx) => {
-					const building = await BuildingSource.getOrThrow$({
-						tx,
-						id: buildingId,
-					});
+					// const building = await BuildingSource.getOrThrow$({
+					// 	tx,
+					// 	id: buildingId,
+					// });
 					// const resources = await BuildingResourceSource.list$({
 					// 	tx,
 					// 	where: {
 					// 		buildingId,
 					// 	},
 					// });
-
 					// for await (const resource of resources) {
 					// 	try {
 					// 		await InventorySource.create$({
@@ -49,7 +46,6 @@ export const useResourcePickupMutation = () => {
 					// 				resourceId: resource.resourceId,
 					// 			},
 					// 		});
-
 					// 		await InventorySource.patch$({
 					// 			tx,
 					// 			filter: {
@@ -61,7 +57,6 @@ export const useResourcePickupMutation = () => {
 					// 			},
 					// 		});
 					// 	}
-
 					// 	await BuildingResourceSource.delete$({
 					// 		tx,
 					// 		where: {
@@ -70,13 +65,7 @@ export const useResourcePickupMutation = () => {
 					// });
 					// }
 				}),
-				{
-					loading: translator.text("Transferring resources... (label)"),
-					success: translator.text(
-						"Resources transferred successfully (label)",
-					),
-					error: translator.text("Failed to transfer resources (label)"),
-				},
+				withToastPromiseTx("Resource transfer"),
 			);
 		},
 	});

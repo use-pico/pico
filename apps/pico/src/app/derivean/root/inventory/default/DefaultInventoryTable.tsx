@@ -1,30 +1,28 @@
 import {
-    ActionMenu,
-    ActionModal,
-    DeleteControl,
-    Table,
-    toast,
-    TrashIcon,
-    Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	Table,
+	TrashIcon,
+	Tx,
+	useTable,
+	withColumn,
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
-import { DefaultInventoryForm } from "~/app/derivean/root/inventory/default/DefaultInventoryForm";
 
-const column = withColumn<DefaultInventorySchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	amount: number;
+	limit: number;
+	resourceId: string;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "resource.name",
+		name: "name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
@@ -49,11 +47,20 @@ const columns = [
 		},
 		size: 18,
 	}),
+	column({
+		name: "limit",
+		header() {
+			return <Tx label={"Resource limit (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 18,
+	}),
 ];
 
 export namespace DefaultInventoryTable {
-	export interface Props
-		extends Table.PropsEx<DefaultInventorySchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		//
 	}
 }
@@ -62,10 +69,6 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [DefaultInventorySource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -81,7 +84,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								textTitle={<Tx label={"Create inventory item (modal)"} />}
 								icon={InventoryIcon}
 							>
-								<DefaultInventoryForm
+								{/* <DefaultInventoryForm
 									mutation={useCreateMutation({
 										source: DefaultInventorySource,
 										async wrap(callback) {
@@ -100,7 +103,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -113,7 +116,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								textTitle={<Tx label={"Edit inventory item (modal)"} />}
 								icon={InventoryIcon}
 							>
-								<DefaultInventoryForm
+								{/* <DefaultInventoryForm
 									defaultValues={data}
 									mutation={usePatchMutation({
 										source: DefaultInventorySource,
@@ -135,7 +138,7 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -150,14 +153,14 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={DefaultInventorySource}
 									textContent={<Tx label={"Inventory item delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

@@ -1,5 +1,4 @@
 import type { Transaction } from "kysely";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import type { Database } from "~/app/derivean/db/Database";
 
 export namespace withConstruct {
@@ -28,11 +27,10 @@ export const withConstruct = async ({
 	baseBuildingId,
 	bypass = false,
 }: withConstruct.Props) => {
-	const baseBuilding = await BuildingSource.getOrThrow$({
-		tx,
-		id: baseBuildingId,
-	});
-
+	// const baseBuilding = await BuildingSource.getOrThrow$({
+	// 	tx,
+	// 	id: baseBuildingId,
+	// });
 	// if (!bypass) {
 	// 	if (
 	// 		!inventoryCheck({
@@ -48,12 +46,10 @@ export const withConstruct = async ({
 	// 		);
 	// 	}
 	// }
-
 	// for await (const requirement of baseBuilding.requirements) {
 	// 	if (requirement.passive) {
 	// 		continue;
 	// 	}
-
 	// 	const item = await InventorySource.fetchOrThrow$({
 	// 		tx,
 	// 		where: {
@@ -61,7 +57,6 @@ export const withConstruct = async ({
 	// 			resourceId: requirement.resourceId,
 	// 		},
 	// 	});
-
 	// 	await InventorySource.patch$({
 	// 		tx,
 	// 		entity: {
@@ -76,12 +71,10 @@ export const withConstruct = async ({
 	// 		},
 	// 	});
 	// }
-
 	// const { filter: cycles } = await CycleSource.count$({
 	// 	tx,
 	// 	where: { userId },
 	// });
-
 	// const entity = {
 	// 	userId,
 	// 	baseBuildingId: baseBuilding.id,
@@ -89,7 +82,6 @@ export const withConstruct = async ({
 	// 	current: 0,
 	// 	finish: cycles + baseBuilding.cycles,
 	// } as const;
-
 	// await BuildingQueueSource.create$({
 	// 	tx,
 	// 	shape: entity,

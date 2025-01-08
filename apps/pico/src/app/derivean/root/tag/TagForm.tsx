@@ -16,7 +16,7 @@ import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export namespace TagForm {
 	export interface Props
-		extends Form.Props<TagSchema["output"], TagSchema["shape"]> {
+		extends Form.Props<TagSchema["entity"], TagSchema["shape"]> {
 		//
 	}
 }
@@ -48,7 +48,7 @@ export const TagForm: FC<TagForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<TagSchema["output"], TagSchema["shape"]>({
+			onSubmit={onSubmit<TagSchema["entity"], TagSchema["shape"]>({
 				form,
 				mutation,
 				async onSuccess(entity) {

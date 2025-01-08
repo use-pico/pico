@@ -1,9 +1,14 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { UserSchema } from "~/app/derivean/user/UserSchema";
 
-const column = withColumn<UserSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	login: string;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
@@ -38,7 +43,7 @@ const columns = [
 ];
 
 export namespace UserTable {
-	export interface Props extends Table.PropsEx<UserSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		//
 	}
 }

@@ -1,11 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { toast, useSourceInvalidator } from "@use-pico/client";
-import { translator } from "@use-pico/common";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { toast, withToastPromiseTx } from "@use-pico/client";
 import { withConstruct } from "~/app/derivean/building/withConstruct";
 import { kysely } from "~/app/derivean/db/db";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 
 export namespace useConstructMutation {
 	export interface Props {
@@ -16,11 +12,6 @@ export namespace useConstructMutation {
 export const useConstructMutation = ({
 	userId,
 }: useConstructMutation.Props) => {
-	const invalidator = useSourceInvalidator({
-		sources: [BuildingSource, BuildingBaseSource, InventorySource],
-		queries: [["useBuildingCount"]],
-	});
-
 	return useMutation({
 		mutationKey: ["useConstructMutation"],
 		async mutationFn({ baseBuildingId }: { baseBuildingId: string }) {
@@ -31,16 +22,9 @@ export const useConstructMutation = ({
 						baseBuildingId,
 						userId,
 					}),
-					{
-						success: translator.text("Building queued."),
-						error: translator.text("Failed to queue building."),
-						loading: translator.text("Queuing building..."),
-					},
+					withToastPromiseTx("Construction queue"),
 				);
 			});
-		},
-		async onSuccess() {
-			await invalidator();
 		},
 	});
 };

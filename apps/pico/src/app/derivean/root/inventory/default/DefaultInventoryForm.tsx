@@ -18,7 +18,7 @@ import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupS
 export namespace DefaultInventoryForm {
 	export interface Props
 		extends Form.Props<
-			DefaultInventorySchema["output"],
+			DefaultInventorySchema["entity"],
 			DefaultInventorySchema["shape"]
 		> {
 		//
@@ -54,7 +54,7 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				DefaultInventorySchema["output"],
+				DefaultInventorySchema["entity"],
 				DefaultInventorySchema["shape"]
 			>({
 				form,

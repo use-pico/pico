@@ -5,7 +5,6 @@ import {
     withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
@@ -25,11 +24,6 @@ const entity = IdentitySchema.merge(
 
 export const ResourceRequirementSchema = withSourceSchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			requirement: ResourceSchema.output,
-		}),
-	),
 	shape: z.object({
 		requirementId: z.string().min(1),
 		amount: z.union([

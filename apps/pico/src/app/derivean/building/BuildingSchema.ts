@@ -4,7 +4,6 @@ import {
     withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
@@ -15,11 +14,6 @@ const entity = IdentitySchema.merge(
 
 export const BuildingSchema = withSourceSchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			buildingBase: BuildingBaseSchema.output,
-		}),
-	),
 	shape: z.object({
 		buildingBaseId: z.string().min(1),
 	}),

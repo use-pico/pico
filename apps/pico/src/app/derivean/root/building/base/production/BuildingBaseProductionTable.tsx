@@ -1,31 +1,28 @@
 import {
     ActionMenu,
     ActionModal,
-    DeleteControl,
     Table,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
-import { BuildingBaseProductionSource } from "~/app/derivean/building/base/production/BuildingBaseProductionSource";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { ResourceProductionSource } from "~/app/derivean/resource/production/ResourceProductionSource";
-import { ResourceProductionForm } from "~/app/derivean/root/resource/production/ResourceProductionForm";
 
-const column = withColumn<BuildingBaseProductionSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	amount: number;
+	limit: number;
+	cycles: number;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "resourceProduction.resource.name",
+		name: "name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
@@ -35,7 +32,7 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "resourceProduction.amount",
+		name: "amount",
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
@@ -45,7 +42,7 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "resourceProduction.limit",
+		name: "limit",
 		header() {
 			return <Tx label={"Production limit (label)"} />;
 		},
@@ -57,7 +54,7 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "resourceProduction.cycles",
+		name: "cycles",
 		header() {
 			return <Tx label={"Production cycles (label)"} />;
 		},
@@ -69,8 +66,7 @@ const columns = [
 ];
 
 export namespace BuildingBaseProductionTable {
-	export interface Props
-		extends Table.PropsEx<BuildingBaseProductionSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		buildingBaseId: string;
 	}
 }
@@ -78,10 +74,6 @@ export namespace BuildingBaseProductionTable {
 export const BuildingBaseProductionTable: FC<
 	BuildingBaseProductionTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [BuildingBaseProductionSource, ResourceProductionSource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -99,7 +91,7 @@ export const BuildingBaseProductionTable: FC<
 								}
 								icon={ProductionIcon}
 							>
-								<ResourceProductionForm
+								{/* <ResourceProductionForm
 									mutation={useCreateMutation({
 										source: ResourceProductionSource,
 										async wrap(callback) {
@@ -122,7 +114,7 @@ export const BuildingBaseProductionTable: FC<
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -137,7 +129,7 @@ export const BuildingBaseProductionTable: FC<
 								}
 								icon={ProductionIcon}
 							>
-								<ResourceProductionForm
+								{/* <ResourceProductionForm
 									defaultValues={data.resourceProduction}
 									mutation={usePatchMutation({
 										source: ResourceProductionSource,
@@ -159,7 +151,7 @@ export const BuildingBaseProductionTable: FC<
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -174,7 +166,7 @@ export const BuildingBaseProductionTable: FC<
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={BuildingBaseProductionSource}
 									textContent={
 										<Tx label={"Building base production delete (content)"} />
@@ -183,7 +175,7 @@ export const BuildingBaseProductionTable: FC<
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

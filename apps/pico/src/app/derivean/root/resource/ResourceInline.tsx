@@ -1,17 +1,24 @@
 import { Icon, More } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
-import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
 import { ResourceInlineCss } from "~/app/derivean/root/resource/ResourceInlineCss";
 
+interface Data extends IdentitySchema.Type {
+	name: string;
+	resourceId: string;
+	passive: boolean;
+	amount: number;
+}
+
+interface Diff extends IdentitySchema.Type {
+	resourceId: string;
+	amount: number;
+}
+
 export namespace RequirementsInline {
-	export interface Props
-		extends ResourceInlineCss.Props<
-			More.PropsEx<ResourceRequirementSchema["~output"]>
-		> {
-		requirements: ResourceRequirementSchema["~output-array"];
-		diff?: InventorySchema["~output-array"];
+	export interface Props extends ResourceInlineCss.Props<More.PropsEx<Data>> {
+		requirements: Data[];
+		diff?: Diff[];
 	}
 }
 
@@ -33,7 +40,7 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 
 				return (
 					<div className={tv.item({ passive: entity.passive })}>
-						<div>{entity.requirement.name}</div>
+						<div>{entity.name}</div>
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}
 						</div>

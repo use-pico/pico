@@ -1,7 +1,6 @@
 import { id } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
 
 export namespace withDefaultInventory {
 	export interface Props {
@@ -14,10 +13,11 @@ export const withDefaultInventory = async ({
 	tx,
 	userId,
 }: withDefaultInventory.Props) => {
-	const defaultInventoryList = await DefaultInventorySource.list$({
-		tx,
-		cursor: { page: 0, size: 5000 },
-	});
+	const defaultInventoryList = await tx
+		.selectFrom("Default_Inventory as di")
+		.select(["di.amount", "di.resourceId", "di.limit"])
+		.limit(5000)
+		.execute();
 
 	for await (const { amount, resourceId, limit } of defaultInventoryList) {
 		tx.insertInto("User_Inventory")

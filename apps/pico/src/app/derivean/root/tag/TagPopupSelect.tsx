@@ -1,11 +1,17 @@
 import { PopupSelect } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { TagTable } from "~/app/derivean/root/tag/TagTable";
-import type { TagSchema } from "~/app/derivean/tag/TagSchema";
-import { TagSource } from "~/app/derivean/tag/TagSource";
+
+interface Data extends IdentitySchema.Type {
+	code: string;
+	label: string;
+	group: string;
+	sort: number;
+}
 
 export namespace TagPopupSelect {
-	export interface Props extends PopupSelect.PropsEx<TagSchema["~output"]> {
+	export interface Props extends PopupSelect.PropsEx<Data> {
 		group?: string;
 	}
 }
@@ -15,7 +21,7 @@ export const TagPopupSelect: FC<TagPopupSelect.Props> = ({
 	...props
 }) => {
 	return (
-		<PopupSelect<TagSchema["~output"]>
+		<PopupSelect<Data>
 			table={(props) => (
 				<TagTable
 					group={group}
@@ -25,7 +31,7 @@ export const TagPopupSelect: FC<TagPopupSelect.Props> = ({
 			render={({ entity }) => {
 				return entity.label;
 			}}
-			source={TagSource}
+			useListQuery={null}
 			{...props}
 		/>
 	);

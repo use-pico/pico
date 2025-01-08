@@ -49,12 +49,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 						),
 					output: InventorySchema.entity,
 				}),
+				cycle: (
+					await tx
+						.selectFrom("Cycle as c")
+						.select((eb) => eb.fn.count<number>("c.id").as("count"))
+						.where("c.userId", "=", user.id)
+						.executeTakeFirstOrThrow()
+				).count,
 			};
 		});
 	},
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session } = useLoaderData({
+		const { session, cycle } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 		const mutation = useMutationState({
@@ -80,7 +87,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 				menu={
 					<div className={"flex flex-row items-center gap-4"}>
 						<GameMenu />
-						<CycleButton userId={session.id} />
+						<CycleButton
+							cycle={cycle}
+							userId={session.id}
+						/>
 					</div>
 				}
 				actions={

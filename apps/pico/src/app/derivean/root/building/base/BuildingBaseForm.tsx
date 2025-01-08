@@ -18,7 +18,7 @@ import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupS
 export namespace BuildingBaseForm {
 	export interface Props
 		extends Form.Props<
-			BuildingBaseSchema["output"],
+			BuildingBaseSchema["entity"],
 			BuildingBaseSchema["shape"]
 		> {
 		//
@@ -53,7 +53,7 @@ export const BuildingBaseForm: FC<BuildingBaseForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				BuildingBaseSchema["output"],
+				BuildingBaseSchema["entity"],
 				BuildingBaseSchema["shape"]
 			>({
 				form,

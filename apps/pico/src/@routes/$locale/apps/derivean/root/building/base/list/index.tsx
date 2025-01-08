@@ -6,11 +6,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
 
 export const Route = createFileRoute(
@@ -24,18 +24,20 @@ export const Route = createFileRoute(
 			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
-	}) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingBaseSource,
+			return withListCount({
+				select: tx
+					.selectFrom("Building_Base as bb")
+					.innerJoin("Resource as r", "r.id", "bb.resourceId")
+					.select(["bb.id", "r.name", "bb.cycles"]),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					cycles: z.number().nonnegative(),
+				}),
 				filter,
 				cursor,
-				sort: sort || [{ name: "name", sort: "asc" }],
 			});
 		});
 	},

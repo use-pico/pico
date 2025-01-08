@@ -1,27 +1,24 @@
 import {
     ActionMenu,
     ActionModal,
-    DeleteControl,
     Table,
     TagIcon,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx,
 } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { ResourceSource } from "~/app/derivean/resource/ResourceSource";
-import { ResourceTagSource } from "~/app/derivean/resource/tag/ResourceTagSource";
-import { TagForm } from "~/app/derivean/root/tag/TagForm";
-import { TagSchema } from "~/app/derivean/tag/TagSchema";
-import { TagSource } from "~/app/derivean/tag/TagSource";
 
-const column = withColumn<TagSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	code: string;
+	label: string;
+	group?: string | null;
+	sort: number;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
@@ -63,16 +60,12 @@ const columns = [
 ];
 
 export namespace TagTable {
-	export interface Props extends Table.PropsEx<TagSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		group?: string;
 	}
 }
 
 export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [TagSource, ResourceSource, ResourceTagSource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -88,7 +81,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								textTitle={<Tx label={"Create tag (modal)"} />}
 								icon={TagIcon}
 							>
-								<TagForm
+								{/* <TagForm
 									defaultValues={{
 										group,
 									}}
@@ -105,7 +98,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -118,7 +111,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								textTitle={<Tx label={"Edit tag (modal)"} />}
 								icon={TagIcon}
 							>
-								<TagForm
+								{/* <TagForm
 									defaultValues={{
 										group,
 										...data,
@@ -144,7 +137,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -159,14 +152,14 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={TagSource}
 									textContent={<Tx label={"Tag delete (content)"} />}
 									filter={{
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

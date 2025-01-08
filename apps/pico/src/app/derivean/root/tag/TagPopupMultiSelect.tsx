@@ -1,12 +1,21 @@
-import { PopupMultiSelect, TagIcon, Tags, useListQuery } from "@use-pico/client";
+import {
+    PopupMultiSelect,
+    TagIcon,
+    Tags
+} from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { TagTable } from "~/app/derivean/root/tag/TagTable";
-import type { TagSchema } from "~/app/derivean/tag/TagSchema";
-import { TagSource } from "~/app/derivean/tag/TagSource";
+
+interface Data extends IdentitySchema.Type {
+	code: string;
+	label: string;
+	group: string;
+	sort: number;
+}
 
 export namespace TagPopupMultiSelect {
-	export interface Props
-		extends PopupMultiSelect.PropsEx<TagSchema["~output"]> {
+	export interface Props extends PopupMultiSelect.PropsEx<Data> {
 		group?: string;
 	}
 }
@@ -16,8 +25,8 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 	...props
 }) => {
 	return (
-		<PopupMultiSelect<TagSchema["~output"]>
-            icon={TagIcon}
+		<PopupMultiSelect<Data>
+			icon={TagIcon}
 			table={(props) => (
 				<TagTable
 					group={group}
@@ -27,16 +36,7 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 			render={({ entities }) => {
 				return <Tags tags={entities} />;
 			}}
-			source={TagSource}
-			useListQuery={({ where, ...props }) =>
-				useListQuery({
-					...props,
-					where: {
-						...where,
-						group,
-					},
-				})
-			}
+			useListQuery={null}
 			{...props}
 		/>
 	);

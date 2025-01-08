@@ -10,12 +10,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { z } from "zod";
 import { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
-import { ResourceRequirementSource } from "~/app/derivean/resource/requirement/ResourceRequirementSource";
 import { ResourceRequirementTable } from "~/app/derivean/root/resource/requirement/ResourceRequirementTable";
 
 export const Route = createFileRoute(
@@ -32,26 +31,32 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
+		context: { kysely },
+		deps: { filter, cursor },
 		params: { id },
 	}) {
 		return kysely.transaction().execute(async (tx) => {
-			const buildingBase = await BuildingBaseSource.getOrThrow$({
-				tx,
-				id,
-			});
-
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: ResourceRequirementSource,
-				sort,
+			return withListCount({
+				select: tx
+					.selectFrom("Resource_Requirement as rr")
+					.innerJoin("Resource as r", "r.id", "rr.resourceId")
+					.select(["rr.id", "r.name", "rr.amount", "rr.passive"])
+					.where(
+						"rr.resourceId",
+						"=",
+						tx
+							.selectFrom("Building_Base as bb")
+							.select("bb.resourceId")
+							.where("bb.id", "=", id),
+					),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					amount: z.number().nonnegative(),
+					passive: z.boolean(),
+				}),
 				filter,
 				cursor,
-				where: {
-					resourceId: buildingBase.resourceId,
-				},
 			});
 		});
 	},

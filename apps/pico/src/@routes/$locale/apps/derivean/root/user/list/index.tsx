@@ -6,12 +6,12 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { UserTable } from "~/app/derivean/root/user/ui/UserTable";
 import { UserSchema } from "~/app/derivean/user/UserSchema";
-import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 	validateSearch: zodValidator(withSourceSearchSchema(UserSchema)),
@@ -21,12 +21,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 			cursor,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute((tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: UserSource,
+			return withListCount({
+				select: tx
+					.selectFrom("User as u")
+					.select(["u.id", "u.name", "u.login"]),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					login: z.string().min(1),
+				}),
 				filter,
 				cursor,
 			});

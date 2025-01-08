@@ -6,12 +6,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { TagTable } from "~/app/derivean/root/tag/TagTable";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
-import { TagSource } from "~/app/derivean/tag/TagSource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
@@ -21,19 +20,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 			cursor,
 		};
 	},
-	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: TagSource,
+			return withListCount({
+				select: tx
+					.selectFrom("Tag as t")
+					.select(["t.id", "t.code", "t.label", "t.group", "t.sort"]),
+				output: TagSchema.entity,
 				filter,
 				cursor,
-				sort: [
-					{ name: "sort", sort: "asc" },
-					{ name: "group", sort: "asc" },
-					{ name: "label", sort: "asc" },
-				],
 			});
 		});
 	},

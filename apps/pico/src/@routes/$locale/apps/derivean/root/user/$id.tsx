@@ -3,21 +3,24 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { withFetchLoader } from "@use-pico/client";
-import { kysely } from "~/app/derivean/db/db";
+import { withFetch } from "@use-pico/client";
+import { z } from "zod";
 import { UserIndexMenu } from "~/app/derivean/root/user/ui/UserIndexMenu";
 import { UserPreview } from "~/app/derivean/root/user/ui/UserPreview";
-import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
-	async loader({ context: { queryClient }, params: { id } }) {
+	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await withFetchLoader({
-					tx,
-					queryClient,
-					source: UserSource,
-					where: { id },
+				entity: await withFetch({
+					select: tx
+						.selectFrom("User as u")
+						.select(["u.id", "u.name"])
+						.where("u.id", "=", id),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+					}),
 				}),
 			};
 		});

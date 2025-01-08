@@ -65,7 +65,6 @@ export const Route = createFileRoute(
 			<div className={tv.base()}>
 				<BuildingBaseTable
 					userId={session.id}
-					inventory={inventory}
 					table={{
 						data,
 						filter: {

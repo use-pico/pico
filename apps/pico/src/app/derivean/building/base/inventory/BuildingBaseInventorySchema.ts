@@ -1,11 +1,9 @@
 import {
-	FilterSchema,
-	IdentitySchema,
-	withSourceSchema,
+    FilterSchema,
+    IdentitySchema,
+    withSourceSchema,
 } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 
 const entity = IdentitySchema.merge(
 	z.object({
@@ -16,12 +14,6 @@ const entity = IdentitySchema.merge(
 
 export const BuildingBaseInventorySchema = withSourceSchema({
 	entity,
-	output: entity.merge(
-		z.object({
-			buildingBase: BuildingBaseSchema.output,
-			inventory: InventorySchema.output,
-		}),
-	),
 	shape: z.object({
 		inventoryId: z.string().min(1),
 	}),
