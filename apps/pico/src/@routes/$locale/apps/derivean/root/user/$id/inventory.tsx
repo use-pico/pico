@@ -25,34 +25,39 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { kysely },
+		context: { queryClient, kysely },
 		deps: { filter, cursor },
 		params: { id },
 	}) {
-		return kysely.transaction().execute((tx) => {
-			return withListCount({
-				select: tx
-					.selectFrom("Inventory as i")
-					.innerJoin("Resource as r", "r.id", "i.resourceId")
-					.select(["i.id", "i.resourceId", "r.name", "i.amount", "i.limit"])
-					.where(
-						"i.id",
-						"in",
-						tx
-							.selectFrom("User_Inventory as ui")
-							.where("ui.userId", "=", id)
-							.select("ui.inventoryId"),
-					),
-				output: z.object({
-					id: z.string().min(1),
-					resourceId: z.string().min(1),
-					name: z.string().min(1),
-					amount: z.number().nonnegative(),
-					limit: z.number().nonnegative(),
-				}),
-				filter,
-				cursor,
-			});
+		return queryClient.ensureQueryData({
+			queryKey: ["Inventory", "list-count", id, { filter, cursor }],
+			async queryFn() {
+				return kysely.transaction().execute((tx) => {
+					return withListCount({
+						select: tx
+							.selectFrom("Inventory as i")
+							.innerJoin("Resource as r", "r.id", "i.resourceId")
+							.select(["i.id", "i.resourceId", "r.name", "i.amount", "i.limit"])
+							.where(
+								"i.id",
+								"in",
+								tx
+									.selectFrom("User_Inventory as ui")
+									.where("ui.userId", "=", id)
+									.select("ui.inventoryId"),
+							),
+						output: z.object({
+							id: z.string().min(1),
+							resourceId: z.string().min(1),
+							name: z.string().min(1),
+							amount: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
+						}),
+						filter,
+						cursor,
+					});
+				});
+			},
 		});
 	},
 	component() {
