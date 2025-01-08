@@ -1,19 +1,28 @@
+import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
     BoolInline,
+    DeleteControl,
     Table,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
-    withColumn
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourceRequirementForm } from "~/app/derivean/root/resource/requirement/ResourceRequirementForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
+	resourceId: string;
+	requirementId: string;
 	amount: number;
 	passive: boolean;
 }
@@ -64,6 +73,8 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useInvalidator([["Resource_Requirement"]]);
+
 	return (
 		<Table
 			table={useTable({
@@ -79,29 +90,30 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 								textTitle={<Tx label={"Create requirement item (modal)"} />}
 								icon={ResourceIcon}
 							>
-								{/* <ResourceRequirementForm
-									mutation={useCreateMutation({
-										source: ResourceRequirementSource,
-										async wrap(callback) {
+								<ResourceRequirementForm
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.insertInto("Resource_Requirement")
+														.values({
+															id: id(),
+															...values,
+															resourceId,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Create requirement item"),
 											);
-										},
-										async toCreate({ shape }) {
-											return {
-												entity: {
-													...shape,
-													resourceId,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -114,29 +126,28 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 								textTitle={<Tx label={"Edit requirement item (modal)"} />}
 								icon={ResourceIcon}
 							>
-								{/* <ResourceRequirementForm
+								<ResourceRequirementForm
 									defaultValues={data}
-									mutation={usePatchMutation({
-										source: ResourceRequirementSource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Resource_Requirement")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Update requirement item"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -151,16 +162,21 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={ResourceRequirementSource}
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Resource_Requirement")
+												.where("id", "=", data.id)
+												.execute();
+										});
+									}}
 									textContent={
 										<Tx label={"Requirement item delete (content)"} />
 									}
-									filter={{
-										id: data.id,
-									}}
+									textToast={"Requirement item delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

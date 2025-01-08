@@ -1,15 +1,22 @@
+import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     Table,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
-    withColumn
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { ResourceProductionForm } from "~/app/derivean/root/resource/production/ResourceProductionForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
@@ -74,6 +81,11 @@ export namespace BuildingBaseProductionTable {
 export const BuildingBaseProductionTable: FC<
 	BuildingBaseProductionTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
+	const invalidator = useInvalidator([
+		["Building_Base_Production"],
+		["Resource_Production"],
+	]);
+
 	return (
 		<Table
 			table={useTable({
@@ -91,30 +103,40 @@ export const BuildingBaseProductionTable: FC<
 								}
 								icon={ProductionIcon}
 							>
-								{/* <ResourceProductionForm
-									mutation={useCreateMutation({
-										source: ResourceProductionSource,
-										async wrap(callback) {
+								<ResourceProductionForm
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													const entity = await tx
+														.insertInto("Resource_Production")
+														.values({
+															id: id(),
+															...values,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													await tx
+														.insertInto("Building_Base_Production")
+														.values({
+															id: id(),
+															buildingBaseId,
+															resourceProductionId: entity.id,
+														})
+														.execute();
+
+													return entity;
+												}),
 												withToastPromiseTx("Create building base production"),
 											);
-										},
-										async onSuccess({ tx, entity }) {
-											await BuildingBaseProductionSource.create$({
-												tx,
-												entity: {
-													buildingBaseId,
-													resourceProductionId: entity.id,
-												},
-											});
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -129,29 +151,28 @@ export const BuildingBaseProductionTable: FC<
 								}
 								icon={ProductionIcon}
 							>
-								{/* <ResourceProductionForm
-									defaultValues={data.resourceProduction}
-									mutation={usePatchMutation({
-										source: ResourceProductionSource,
-										async wrap(callback) {
+								<ResourceProductionForm
+									defaultValues={data}
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Resource_Production")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Update building base production"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.resourceProductionId,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -166,16 +187,21 @@ export const BuildingBaseProductionTable: FC<
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={BuildingBaseProductionSource}
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Building_Base_Production")
+												.where("id", "=", data.id)
+												.execute();
+										});
+									}}
 									textContent={
 										<Tx label={"Building base production delete (content)"} />
 									}
-									filter={{
-										id: data.id,
-									}}
+									textToast={"Building base production delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
