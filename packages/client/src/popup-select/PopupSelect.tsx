@@ -118,12 +118,14 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 							},
 							onSize(size) {
 								setSize(size);
+								setPage(0);
 							},
 						}}
 						fulltext={{
 							value: fulltext,
 							set(value) {
 								setFulltext(value);
+								setPage(0);
 							},
 						}}
 						table={{

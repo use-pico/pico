@@ -1,15 +1,21 @@
+import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
     Table,
     TagIcon,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
     withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import type { IdentitySchema } from "@use-pico/common";
+import { id, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
+import { TagForm } from "~/app/derivean/root/tag/TagForm";
 
 interface Data extends IdentitySchema.Type {
 	code: string;
@@ -66,6 +72,8 @@ export namespace TagTable {
 }
 
 export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
+	const invalidator = useInvalidator([["Tag"]]);
+
 	return (
 		<Table
 			table={useTable({
@@ -81,15 +89,23 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								textTitle={<Tx label={"Create tag (modal)"} />}
 								icon={TagIcon}
 							>
-								{/* <TagForm
+								<TagForm
 									defaultValues={{
 										group,
 									}}
-									mutation={useCreateMutation({
-										source: TagSource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute((tx) => {
+													return tx
+														.insertInto("Tag")
+														.values({
+															id: id(),
+															...values,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Create tag"),
 											);
 										},
@@ -98,7 +114,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

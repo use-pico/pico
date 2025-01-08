@@ -72,6 +72,7 @@ export { UndefinedIcon } from "./icon/UndefinedIcon";
 export { UploadIcon } from "./icon/UploadIcon";
 export { UserIcon } from "./icon/UserIcon";
 export { invalidator } from "./invalidator/invalidator";
+export { useInvalidator } from "./invalidator/useInvalidator";
 export { JustDropZone } from "./just-drop-zone/JustDropZone";
 export { JustDropZoneCss } from "./just-drop-zone/JustDropZoneCss";
 export { LabelCount } from "./label-count/LabelCount";

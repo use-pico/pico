@@ -30,11 +30,18 @@ export namespace withListCount {
 		cursor?: CursorSchema.Type;
 	}
 
+	export interface Result<TData> {
+		data: TData[];
+		count: CountSchema.Type;
+	}
+
 	export type Callback<
 		TSelect extends SelectQueryBuilder<any, any, any>,
 		TFilter extends FilterSchema.Type,
 		TOutputSchema extends z.ZodSchema,
-	> = (props: Props<TSelect, TFilter, TOutputSchema>) => Promise<any>;
+	> = (
+		props: Props<TSelect, TFilter, TOutputSchema>,
+	) => Promise<Result<z.infer<TOutputSchema>>>;
 }
 
 export const withListCount = async <
@@ -48,10 +55,9 @@ export const withListCount = async <
 	filter,
 	where,
 	cursor,
-}: withListCount.Props<TSelect, TFilter, TOutputSchema>): Promise<{
-	data: z.infer<TOutputSchema>[];
-	count: CountSchema.Type;
-}> => {
+}: withListCount.Props<TSelect, TFilter, TOutputSchema>): Promise<
+	withListCount.Result<z.infer<TOutputSchema>>
+> => {
 	return {
 		data: await withList({
 			select,

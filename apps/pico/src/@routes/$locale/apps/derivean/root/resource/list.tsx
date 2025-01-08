@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -35,21 +35,13 @@ export const Route = createFileRoute(
 						eb
 							.selectFrom("Tag as t")
 							.select((eb) => {
-								const pairs = {
-									id: eb.ref("t.id"),
-									code: eb.ref("t.code"),
-									group: eb.ref("t.group"),
-									label: eb.ref("t.label"),
-									sort: eb.ref("t.sort"),
-								} as const;
-
-								return sql<string>`json_group_array(json_object(${Object.entries(
-									pairs,
-								)
-									.map(([key, value]) => {
-										return sql`'${key}', ${value}`;
-									})
-									.join(", ")}))`.as("tags");
+								return sql<string>`json_group_array(json_object(
+                                    'id', ${eb.ref("t.id")},
+                                    'code', ${eb.ref("t.code")},
+                                    'group', ${eb.ref("t.group")},
+                                    'label', ${eb.ref("t.label")},
+                                    'sort', ${eb.ref("t.sort")}
+                                ))`.as("tags");
 							})
 							.where(
 								"t.id",

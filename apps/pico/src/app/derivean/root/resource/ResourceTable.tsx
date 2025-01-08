@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
@@ -5,14 +6,19 @@ import {
     LinkTo,
     Table,
     Tags,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
-    withColumn
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import type { IdentitySchema, TagSchema } from "@use-pico/common";
+import { id, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourceForm } from "~/app/derivean/root/resource/ResourceForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
@@ -64,6 +70,8 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useInvalidator([]);
+
 	return (
 		<Table
 			table={useTable({
@@ -79,13 +87,34 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 								textTitle={<Tx label={"Create resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								{/* <ResourceForm
+								<ResourceForm
 									group={group}
-									mutation={useCreateMutation({
-										source: ResourceSource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn({ name, tagIds = [] }) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													const entity = await tx
+														.insertInto("Resource")
+														.values({
+															id: id(),
+															name,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													await tx
+														.insertInto("Resource_Tag")
+														.values(
+															tagIds.map((tagId) => ({
+																id: id(),
+																resourceId: entity.id,
+																tagId,
+															})),
+														)
+														.execute();
+
+													return entity;
+												}),
 												withToastPromiseTx("Create resource"),
 											);
 										},
@@ -94,7 +123,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -107,29 +136,51 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 								textTitle={<Tx label={"Edit resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								{/* <ResourceForm
-									defaultValues={data}
-									mutation={usePatchMutation({
-										source: ResourceSource,
-										async wrap(callback) {
+								<ResourceForm
+									defaultValues={{
+										...data,
+										tagIds: data.tags.map(({ id }) => id),
+									}}
+									mutation={useMutation({
+										async mutationFn({ tagIds, ...rest }) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													const entity = await tx
+														.updateTable("Resource")
+														.set(rest)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													await tx
+														.deleteFrom("Resource_Tag")
+														.where("resourceId", "=", entity.id)
+														.execute();
+
+													if (tagIds?.length) {
+														await tx
+															.insertInto("Resource_Tag")
+															.values(
+																tagIds.map((tagId) => ({
+																	id: id(),
+																	resourceId: entity.id,
+																	tagId,
+																})),
+															)
+															.execute();
+													}
+
+													return entity;
+												}),
 												withToastPromiseTx("Update resource"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
