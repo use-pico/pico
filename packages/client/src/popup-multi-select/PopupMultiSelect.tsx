@@ -102,7 +102,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	});
 
 	const selected = useQuery({
-		queryKey: [name, "PopupMultiSelect", "selected", { value }],
+		queryKey: [queryKey, "PopupMultiSelect", "selected", { value }],
 		async queryFn() {
 			return query({
 				filter: {

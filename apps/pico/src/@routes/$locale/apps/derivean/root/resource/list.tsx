@@ -1,19 +1,16 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withSourceSearchSchema,
 } from "@use-pico/client";
-import { sql } from "kysely";
-import { z } from "zod";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
+import { withResourceListCount } from "~/app/derivean/resource/withResourceListCount";
 import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";
-import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/list",
@@ -30,41 +27,8 @@ export const Route = createFileRoute(
 			queryKey: ["Resource", "list-count", filter, cursor],
 			async queryFn() {
 				return kysely.transaction().execute((tx) => {
-					return withListCount({
-						select: tx.selectFrom("Resource as r").select([
-							"r.id",
-							"r.name",
-							(eb) =>
-								eb
-									.selectFrom("Tag as t")
-									.select((eb) => {
-										return sql<string>`json_group_array(json_object(
-                                            'id', ${eb.ref("t.id")},
-                                            'code', ${eb.ref("t.code")},
-                                            'group', ${eb.ref("t.group")},
-                                            'label', ${eb.ref("t.label")},
-                                            'sort', ${eb.ref("t.sort")}
-                                        ))`.as("tags");
-									})
-									.where(
-										"t.id",
-										"in",
-										eb
-											.selectFrom("Resource_Tag as rt")
-											.select(["rt.tagId"])
-											.where("rt.resourceId", "=", eb.ref("r.id")),
-									)
-									.as("tags"),
-						]),
-						output: z.object({
-							id: z.string().min(1),
-							name: z.string().min(1),
-							tags: z
-								.string()
-								.transform((value) => JSON.parse(value))
-								.refine((tags) => Array.isArray(tags))
-								.transform((tags) => z.array(TagSchema.entity).parse(tags)),
-						}),
+					return withResourceListCount({
+						tx,
 						filter,
 						cursor,
 					});

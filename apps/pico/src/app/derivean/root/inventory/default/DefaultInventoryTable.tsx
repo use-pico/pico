@@ -1,15 +1,22 @@
+import { useMutation } from "@tanstack/react-query";
 import {
-	ActionMenu,
-	ActionModal,
-	Table,
-	TrashIcon,
-	Tx,
-	useTable,
-	withColumn,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    Table,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { DefaultInventoryForm } from "~/app/derivean/root/inventory/default/DefaultInventoryForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
@@ -69,6 +76,8 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useInvalidator([["Default_Inventory"]]);
+
 	return (
 		<Table
 			table={useTable({
@@ -84,26 +93,29 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								textTitle={<Tx label={"Create inventory item (modal)"} />}
 								icon={InventoryIcon}
 							>
-								{/* <DefaultInventoryForm
-									mutation={useCreateMutation({
-										source: DefaultInventorySource,
-										async wrap(callback) {
+								<DefaultInventoryForm
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.insertInto("Default_Inventory")
+														.values({
+															id: id(),
+															...values,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Create inventory item"),
 											);
-										},
-										async toCreate({ shape }) {
-											return {
-												entity: shape,
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -116,29 +128,28 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 								textTitle={<Tx label={"Edit inventory item (modal)"} />}
 								icon={InventoryIcon}
 							>
-								{/* <DefaultInventoryForm
+								<DefaultInventoryForm
 									defaultValues={data}
-									mutation={usePatchMutation({
-										source: DefaultInventorySource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Default_Inventory")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Update inventory item"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -153,14 +164,18 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={DefaultInventorySource}
-									textContent={<Tx label={"Inventory item delete (content)"} />}
-									filter={{
-										id: data.id,
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Default_Inventory")
+												.where("id", "=", data.id);
+										});
 									}}
+									textContent={<Tx label={"Inventory item delete (content)"} />}
+									textToast={"Inventory item delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

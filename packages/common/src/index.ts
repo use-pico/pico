@@ -28,6 +28,7 @@ export { TicketSchema } from "./schema/TicketSchema";
 export { TokenSchema } from "./schema/TokenSchema";
 export { TranslationListSchema } from "./schema/TranslationListSchema";
 export { TranslationSchema } from "./schema/TranslationSchema";
+export { withJsonArraySchema } from "./schema/withJsonArraySchema";
 export { withSourceSchema } from "./source/withSourceSchema";
 export { cursorOf } from "./toolbox/cursorOf";
 export { diffOf } from "./toolbox/diffOf";
