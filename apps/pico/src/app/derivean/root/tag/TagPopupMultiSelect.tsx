@@ -29,7 +29,6 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 }) => {
 	return (
 		<PopupMultiSelect<Data>
-			name={"tag"}
 			icon={TagIcon}
 			table={(props) => (
 				<TagTable
@@ -40,6 +39,7 @@ export const TagPopupMultiSelect: FC<TagPopupMultiSelect.Props> = ({
 			render={({ entities }) => {
 				return <Tags tags={entities} />;
 			}}
+			queryKey={"Tag"}
 			query={async ({ filter, cursor }) => {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({

@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     Table,
     TagIcon,
     toast,
@@ -72,7 +73,7 @@ export namespace TagTable {
 }
 
 export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
-	const invalidator = useInvalidator([["Tag"]]);
+	const invalidator = useInvalidator([["Tag"], ["Resource"]]);
 
 	return (
 		<Table
@@ -127,33 +128,31 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 								textTitle={<Tx label={"Edit tag (modal)"} />}
 								icon={TagIcon}
 							>
-								{/* <TagForm
+								<TagForm
 									defaultValues={{
 										group,
 										...data,
 									}}
-									mutation={usePatchMutation({
-										source: TagSource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
-												withToastPromiseTx("Update tag"),
+												kysely.transaction().execute((tx) => {
+													return tx
+														.updateTable("Tag")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
+												withToastPromiseTx("Edit tag"),
 											);
-										},
-										async toPatch({ shape }) {
-											return {
-												entity: shape,
-												filter: {
-													id: data.id,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -168,14 +167,19 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={TagSource}
-									textContent={<Tx label={"Tag delete (content)"} />}
-									filter={{
-										id: data.id,
+								<DeleteControl
+									callback={async () => {
+										await kysely.transaction().execute((tx) => {
+											return tx
+												.deleteFrom("Tag")
+												.where("id", "=", data.id)
+												.execute();
+										});
 									}}
+									textContent={<Tx label={"Tag delete (content)"} />}
+									textToast={"Tag delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

@@ -33,10 +33,6 @@ export namespace PopupMultiSelect {
 
 	export interface Props<TItem extends IdentitySchema.Type>
 		extends PopupMultiSelectCss.Props {
-		/**
-		 * Name used for react-query cache.
-		 */
-		name: string;
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
@@ -45,6 +41,10 @@ export namespace PopupMultiSelect {
 		render: FC<{ entities: TItem[] }>;
 		allowEmpty?: boolean;
 
+		/**
+		 * Name used for react-query cache.
+		 */
+		queryKey: string;
 		query: Query.Callback<TItem>;
 
 		value: string[] | undefined;
@@ -53,12 +53,11 @@ export namespace PopupMultiSelect {
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		"name" | "table" | "source" | "query" | "render"
+		"queryKey" | "table" | "source" | "query" | "render"
 	>;
 }
 
 export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
-	name,
 	icon,
 	textTitle,
 	textSelect,
@@ -67,6 +66,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	render: Render,
 	allowEmpty = false,
 
+	queryKey,
 	query,
 
 	value,
@@ -87,7 +87,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const [fulltext, setFulltext] = useState<string | undefined>(undefined);
 
 	const result = useQuery({
-		queryKey: [name, "PopupMultiSelect", "data", { fulltext, page, size }],
+		queryKey: [queryKey, "PopupMultiSelect", "data", { fulltext, page, size }],
 		async queryFn() {
 			return query({
 				filter: {

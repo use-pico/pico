@@ -1,18 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
-    ActionMenu,
-    ActionModal,
-    LinkTo,
-    Table,
-    Tags,
-    toast,
-    TrashIcon,
-    Tx,
-    useInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	LinkTo,
+	Table,
+	Tags,
+	toast,
+	TrashIcon,
+	Tx,
+	useInvalidator,
+	useTable,
+	withColumn,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { id, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -70,7 +70,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useInvalidator([]);
+	const invalidator = useInvalidator([["Resource"]]);
 
 	return (
 		<Table
@@ -102,16 +102,18 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 														.returningAll()
 														.executeTakeFirstOrThrow();
 
-													await tx
-														.insertInto("Resource_Tag")
-														.values(
-															tagIds.map((tagId) => ({
-																id: id(),
-																resourceId: entity.id,
-																tagId,
-															})),
-														)
-														.execute();
+													if (tagIds.length) {
+														await tx
+															.insertInto("Resource_Tag")
+															.values(
+																tagIds.map((tagId) => ({
+																	id: id(),
+																	resourceId: entity.id,
+																	tagId,
+																})),
+															)
+															.execute();
+													}
 
 													return entity;
 												}),
