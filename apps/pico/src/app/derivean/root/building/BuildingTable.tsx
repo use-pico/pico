@@ -1,21 +1,29 @@
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     LinkTo,
     Table,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
     withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import type { IdentitySchema } from "@use-pico/common";
+import { id, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { BuildingForm } from "~/app/derivean/root/building/BuildingForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
+	buildingBaseId: string;
 }
 
 const column = withColumn<Data>();
@@ -53,6 +61,8 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useInvalidator([["Building"]]);
+
 	return (
 		<Table
 			table={useTable({
@@ -70,31 +80,30 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 										textTitle={<Tx label={"Create building (modal)"} />}
 										icon={ResourceIcon}
 									>
-										{/* <BuildingForm
-									mutation={useCreateMutation({
-										source: BuildingSource,
-										async wrap(callback) {
-											return toast.promise(callback(), {
-												loading: <Tx label={"Saving building (label)"} />,
-												success: (
-													<Tx label={"Building successfully saved (label)"} />
-												),
-												error: <Tx label={"Cannot save building (label)"} />,
-											});
-										},
-										async toCreate({ shape }) {
-											return {
-												entity: {
-													...shape,
-													userId,
+										<BuildingForm
+											mutation={useMutation({
+												async mutationFn(values) {
+													return toast.promise(
+														kysely.transaction().execute((tx) => {
+															return tx
+																.insertInto("Building")
+																.values({
+																	id: id(),
+																	...values,
+																	userId,
+																})
+																.returningAll()
+																.executeTakeFirstOrThrow();
+														}),
+														withToastPromiseTx("Create building"),
+													);
 												},
-											};
-										},
-									})}
-									onSuccess={async ({ modalContext }) => {
-										modalContext?.close();
-									}}
-								/> */}
+											})}
+											onSuccess={async ({ modalContext }) => {
+												await invalidator();
+												modalContext?.close();
+											}}
+										/>
 									</ActionModal>
 								</ActionMenu>
 							);
@@ -104,40 +113,37 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Edit building (menu)"} />}
+								label={<Tx label={"Edit (menu)"} />}
 								textTitle={<Tx label={"Edit building (modal)"} />}
 								icon={BuildingIcon}
 							>
-								{/* <BuildingForm
+								<BuildingForm
 									defaultValues={data}
-									mutation={usePatchMutation({
-										source: BuildingSource,
-										async wrap(callback) {
-											return toast.promise(callback(), {
-												loading: <Tx label={"Saving building (label)"} />,
-												success: (
-													<Tx label={"Building successfully saved (label)"} />
-												),
-												error: <Tx label={"Cannot save building (label)"} />,
-											});
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
+									mutation={useMutation({
+										async mutationFn(values) {
+											return toast.promise(
+												kysely.transaction().execute((tx) => {
+													return tx
+														.updateTable("Building")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
+												withToastPromiseTx("Edit building"),
+											);
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
+										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
 								icon={TrashIcon}
-								label={<Tx label={"Delete building (label)"} />}
+								label={<Tx label={"Delete (menu)"} />}
 								textTitle={<Tx label={"Delete building (modal)"} />}
 								css={{
 									base: [
@@ -147,13 +153,19 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={BuildingSource}
-									textContent={<Tx label={"Building delete (content)"} />}
-									filter={{
-										id: data.id,
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Building")
+												.where("id", "=", data.id)
+												.execute();
+										});
 									}}
-								/> */}
+									textContent={<Tx label={"Building delete (content)"} />}
+									textToast={"Building delete"}
+									invalidator={invalidator}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

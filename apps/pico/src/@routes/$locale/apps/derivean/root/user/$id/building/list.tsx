@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
@@ -25,25 +25,31 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { kysely },
+		context: { queryClient, kysely },
 		deps: { filter, cursor },
 		params: { id },
 	}) {
-		return kysely.transaction().execute((tx) => {
-			return withListCount({
-				select: tx
-					.selectFrom("Building as b")
-					.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-					.innerJoin("Resource as r", "r.id", "bb.resourceId")
-					.select(["b.id", "r.name"])
-					.where("b.userId", "=", id),
-				output: z.object({
-					id: z.string().min(1),
-					name: z.string().min(1),
-				}),
-				filter,
-				cursor,
-			});
+		return queryClient.ensureQueryData({
+			queryKey: ["Building", "list-count", id, { filter, cursor }],
+			async queryFn() {
+				return kysely.transaction().execute((tx) => {
+					return withListCount({
+						select: tx
+							.selectFrom("Building as b")
+							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+							.innerJoin("Resource as r", "r.id", "bb.resourceId")
+							.select(["b.id", "r.name", "b.buildingBaseId"])
+							.where("b.userId", "=", id),
+						output: z.object({
+							id: z.string().min(1),
+							name: z.string().min(1),
+							buildingBaseId: z.string().min(1),
+						}),
+						filter,
+						cursor,
+					});
+				});
+			},
 		});
 	},
 	component() {

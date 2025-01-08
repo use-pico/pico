@@ -23,10 +23,11 @@ export const withBuildingListCount = async ({
 			.selectFrom("Building as b")
 			.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
 			.innerJoin("Resource as r", "r.id", "bb.resourceId")
-			.select(["b.id", "bb.resourceId", "r.name"]),
+			.select(["b.id", "bb.resourceId", "r.name", "b.buildingBaseId"]),
 		output: z.object({
 			id: z.string().min(1),
 			resourceId: z.string().min(1),
+			buildingBaseId: z.string().min(1),
 			name: z.string().min(1),
 		}),
 		filter,
