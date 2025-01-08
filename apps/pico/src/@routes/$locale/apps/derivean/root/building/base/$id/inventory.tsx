@@ -6,11 +6,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
-import { BuildingBaseInventorySource } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySource";
 import { BuildingBaseInventoryTable } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryTable";
 
 export const Route = createFileRoute(
@@ -27,21 +27,32 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
+		context: { kysely },
+		deps: { filter, cursor },
 		params: { id },
 	}) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingBaseInventorySource,
-				sort,
+			return withListCount({
+				select: tx
+					.selectFrom("Inventory as i")
+					.innerJoin("Resource as r", "r.id", "i.resourceId")
+					.select(["i.id", "i.amount", "i.limit", "r.name"])
+					.where(
+						"i.id",
+						"in",
+						tx
+							.selectFrom("Building_Base_Inventory as bbi")
+							.select("bbi.inventoryId")
+							.where("bbi.buildingBaseId", "=", id),
+					),
 				filter,
 				cursor,
-				where: {
-					buildingBaseId: id,
-				},
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					amount: z.number().nonnegative(),
+					limit: z.number().nonnegative(),
+				}),
 			});
 		});
 	},

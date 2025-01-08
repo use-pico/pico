@@ -7,20 +7,24 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, tvc } from "@use-pico/common";
+import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { useBuildingCount } from "~/app/derivean/building/base/useBuildingCount";
 import { useConstructMutation } from "~/app/derivean/building/useConstructMutation";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
+
+interface Data extends IdentitySchema.Type {
+	name: string;
+	cycles: number;
+}
 
 interface Context {
 	userId: string;
 	inventory: InventorySchema["~output-array"];
 }
 
-const column = withColumn<BuildingBaseSchema["~output"], Context>();
+const column = withColumn<Data, Context>();
 
 const columns = [
 	column({
@@ -101,10 +105,9 @@ const columns = [
 ];
 
 export namespace BuildingBaseTable {
-	export interface Props
-		extends Table.PropsEx<BuildingBaseSchema["~output"], Context> {
+	export interface Props extends Table.PropsEx<Data, Context> {
 		userId: string;
-		inventory: InventorySchema["~output-array"];
+		inventory: InventorySchema["~entity-array"];
 	}
 }
 

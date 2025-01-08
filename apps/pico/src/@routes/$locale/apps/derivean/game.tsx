@@ -6,13 +6,12 @@ import {
     useLoaderData,
     useParams,
 } from "@tanstack/react-router";
-import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
+import { AppLayout, LinkTo, LogoutIcon, ls, withList } from "@use-pico/client";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
+import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserInventorySource } from "~/app/derivean/user/inventory/UserInventorySource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	async beforeLoad({ context, params: { locale } }) {
@@ -31,18 +30,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		};
 	},
 	async loader({ context: { kysely, session } }) {
-		const $session = await session();
+		const user = await session();
 
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				session: $session,
-				inventory: await InventorySource.list$({
-					tx,
-					link: UserInventorySource.select$({
-						tx,
-						where: { userId: $session.id },
-						use: ["id", "where"],
-					}),
+				session: user,
+				inventory: await withList({
+					select: tx
+						.selectFrom("Inventory as i")
+						.selectAll("i")
+						.where(
+							"i.id",
+							"in",
+							tx
+								.selectFrom("User_Inventory as ui")
+								.select("ui.inventoryId")
+								.where("ui.userId", "=", user.id),
+						),
+					output: InventorySchema.entity,
 				}),
 			};
 		});

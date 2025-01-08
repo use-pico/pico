@@ -1,9 +1,13 @@
 import { Card, Tx } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
+
+interface Data extends IdentitySchema.Type {
+	name: string;
+}
 
 export namespace BuildingCard {
-	export interface Props extends Card.PropsEx<BuildingSchema["~output"]> {
+	export interface Props extends Card.PropsEx<Data> {
 		//
 	}
 }
@@ -16,7 +20,7 @@ export const BuildingCard: FC<BuildingCard.Props> = (props) => {
 					id: "name",
 					label: <Tx label={"Building name (label)"} />,
 					render({ entity }) {
-						return entity.buildingBase.name;
+						return entity.name;
 					},
 				},
 			]}

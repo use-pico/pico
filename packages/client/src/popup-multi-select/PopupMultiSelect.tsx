@@ -1,10 +1,5 @@
 import type { ReactNode } from "@tanstack/react-router";
-import type {
-    CursorSchema,
-    FilterSchema,
-    IdentitySchema,
-    withSource,
-} from "@use-pico/common";
+import type { IdentitySchema } from "@use-pico/common";
 import { useState, type FC } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
@@ -14,7 +9,6 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import { useListQuery as useCoolListQuery } from "../source/useListQuery";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
@@ -30,8 +24,7 @@ export namespace PopupMultiSelect {
 		render: FC<{ entities: TItem[] }>;
 		allowEmpty?: boolean;
 
-		source: withSource.Instance<any, any>;
-		useListQuery?: useCoolListQuery<any, any>;
+		useListQuery: any;
 
 		value: string[] | undefined;
 		onChange(value: string[]): void;
@@ -52,8 +45,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	render: Render,
 	allowEmpty = false,
 
-	source,
-	useListQuery = useCoolListQuery,
+	useListQuery,
 
 	value,
 	onChange,
@@ -73,22 +65,22 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const [fulltext, setFulltext] = useState<string | undefined>(undefined);
 
 	const result = useListQuery({
-		source,
-		filter: {
-			fulltext,
-		} satisfies FilterSchema.Type,
-		cursor: {
-			page,
-			size,
-		} satisfies CursorSchema.Type,
+		source: null as any,
+		// filter: {
+		// 	fulltext,
+		// } satisfies FilterSchema.Type,
+		// cursor: {
+		// 	page,
+		// 	size,
+		// } satisfies CursorSchema.Type,
 	});
 
 	const selected = useListQuery({
-		source,
+		source: null as any,
 
-		where: {
-			idIn: value,
-		},
+		// where: {
+		// 	idIn: value,
+		// },
 		options: {
 			enabled: Boolean(value),
 		},

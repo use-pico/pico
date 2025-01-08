@@ -1,11 +1,5 @@
 import type { ReactNode } from "@tanstack/react-router";
-import type {
-    CursorSchema,
-    Entity,
-    FilterSchema,
-    IdentitySchema,
-    withSource,
-} from "@use-pico/common";
+import type { Entity, IdentitySchema } from "@use-pico/common";
 import { useState, type FC } from "react";
 import { Button } from "../button/Button";
 import type { Fulltext } from "../fulltext/Fulltext";
@@ -16,7 +10,6 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import { useListQuery as useCoolListQuery } from "../source/useListQuery";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupSelectCss } from "./PopupSelectCss";
@@ -32,8 +25,7 @@ export namespace PopupSelect {
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
 
-		source: withSource.Instance<any, any>;
-		useListQuery?: useCoolListQuery<any, any>;
+		useListQuery: any;
 
 		value: string;
 		onChange(value: string | undefined): void;
@@ -54,8 +46,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	render: Render,
 	allowEmpty = false,
 
-	source,
-	useListQuery = useCoolListQuery,
+	useListQuery,
 
 	value,
 	onChange,
@@ -75,24 +66,11 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 
 	const result = useListQuery({
-		source,
-		where: {
-			fulltext,
-		} satisfies FilterSchema.Type,
-		cursor: {
-			page,
-			size,
-		} satisfies CursorSchema.Type,
+		//
 	});
 
 	const selected = useListQuery({
-		source,
-		where: {
-			id: value,
-		},
-		options: {
-			enabled: Boolean(value),
-		},
+		//
 	});
 
 	return (

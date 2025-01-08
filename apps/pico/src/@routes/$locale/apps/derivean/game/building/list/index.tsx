@@ -5,37 +5,43 @@ import {
     navigateOnFilter,
     navigateOnFulltext,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { FilterSchema } from "@use-pico/common";
+import { z } from "zod";
 import { BuildingTable } from "~/app/derivean/game/building/BuildingTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(
+		withSourceSearchSchema({
+			filter: FilterSchema,
+		}),
+	),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
-	}) {
+	async loader({ context: { kysely, session }, deps: { filter, cursor } }) {
 		const user = await session();
 
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingSource,
-				where: {
-					userId: user.id,
-				},
+			return withListCount({
+				select: tx
+					.selectFrom("Building as b")
+					.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+					.innerJoin("Resource as r", "r.id", "bb.resourceId")
+					.select(["b.id", "r.name"])
+					.where("b.userId", "=", user.id),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+				}),
 				filter,
 				cursor,
 			});

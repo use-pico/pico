@@ -5,18 +5,22 @@ import {
     Table,
     Tx,
     useTable,
-    withColumn
+    withColumn,
 } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { useResourcePickupMutation } from "~/app/derivean/building/useResourcePickupMutation";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
-const column = withColumn<BuildingSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "buildingBase.name",
+		name: "name",
 		header() {
 			return <Tx label={"Building name (label)"} />;
 		},
@@ -72,7 +76,7 @@ const columns = [
 ];
 
 export namespace BuildingTable {
-	export interface Props extends Table.PropsEx<BuildingSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		//
 	}
 }

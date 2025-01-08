@@ -1,32 +1,28 @@
 import {
-	ActionMenu,
-	ActionModal,
-	DeleteControl,
-	Table,
-	toast,
-	TrashIcon,
-	Tx,
-	useCreateMutation,
-	usePatchMutation,
-	useSourceInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    Table,
+    TrashIcon,
+    Tx,
+    useTable,
+    withColumn
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
-import { BuildingBaseInventorySource } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySource";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
 
-const column = withColumn<BuildingBaseInventorySchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	amount: number;
+	limit: number;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "inventory.resource.name",
+		name: "name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
@@ -36,7 +32,7 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "inventory.amount",
+		name: "amount",
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
@@ -46,7 +42,7 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "inventory.limit",
+		name: "limit",
 		header() {
 			return <Tx label={"Limit (label)"} />;
 		},
@@ -60,8 +56,7 @@ const columns = [
 ];
 
 export namespace BuildingBaseInventoryTable {
-	export interface Props
-		extends Table.PropsEx<BuildingBaseInventorySchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		buildingBaseId: string;
 	}
 }
@@ -69,9 +64,9 @@ export namespace BuildingBaseInventoryTable {
 export const BuildingBaseInventoryTable: FC<
 	BuildingBaseInventoryTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [BuildingBaseInventorySource, InventorySource],
-	});
+	// const invalidator = useSourceInvalidator({
+	// 	sources: [BuildingBaseInventorySource, InventorySource],
+	// });
 
 	return (
 		<Table
@@ -90,7 +85,7 @@ export const BuildingBaseInventoryTable: FC<
 								}
 								icon={InventoryIcon}
 							>
-								<InventoryForm
+								{/* <InventoryForm
 									mutation={useCreateMutation({
 										source: InventorySource,
 										async wrap(callback) {
@@ -113,7 +108,7 @@ export const BuildingBaseInventoryTable: FC<
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -126,7 +121,7 @@ export const BuildingBaseInventoryTable: FC<
 								textTitle={<Tx label={"Edit building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								<InventoryForm
+								{/* <InventoryForm
 									defaultValues={data.inventory}
 									mutation={usePatchMutation({
 										source: InventorySource,
@@ -148,7 +143,7 @@ export const BuildingBaseInventoryTable: FC<
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -165,7 +160,7 @@ export const BuildingBaseInventoryTable: FC<
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={BuildingBaseInventorySource}
 									textContent={
 										<Tx label={"Building base inventory delete (content)"} />
@@ -174,7 +169,7 @@ export const BuildingBaseInventoryTable: FC<
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

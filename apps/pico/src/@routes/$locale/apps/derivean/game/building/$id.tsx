@@ -3,7 +3,8 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { withFetch } from "@use-pico/client";
+import { z } from "zod";
 import { BuildingIndexMenu } from "~/app/derivean/game/building/BuildingIndexMenu";
 import { BuildingPreview } from "~/app/derivean/game/building/BuildingPreview";
 
@@ -13,10 +14,18 @@ export const Route = createFileRoute(
 	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await BuildingSource.getOrThrow$({
-					tx,
-					id,
-					error: "Cannot find a building",
+				entity: await withFetch({
+					select: tx
+						.selectFrom("Building as b")
+						.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+						.innerJoin("Resource as r", "r.id", "bb.resourceId")
+						.selectAll("b")
+						.select("r.name as name")
+						.where("b.id", "=", id),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+					}),
 				}),
 			};
 		});

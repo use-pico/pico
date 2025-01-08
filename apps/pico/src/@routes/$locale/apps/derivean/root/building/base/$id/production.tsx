@@ -6,11 +6,9 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
-import { BuildingBaseProductionSource } from "~/app/derivean/building/base/production/BuildingBaseProductionSource";
 import { BuildingBaseProductionTable } from "~/app/derivean/root/building/base/production/BuildingBaseProductionTable";
 
 export const Route = createFileRoute(

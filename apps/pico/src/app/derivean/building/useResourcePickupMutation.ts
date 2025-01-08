@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { toast, useSourceInvalidator } from "@use-pico/client";
+import { toast } from "@use-pico/client";
 import { translator } from "@use-pico/common";
 import { BuildingSource } from "~/app/derivean/building/BuildingSource";
 import { kysely } from "~/app/derivean/db/db";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 
 export namespace useResourcePickupMutation {
 	export interface Request {
@@ -12,10 +11,6 @@ export namespace useResourcePickupMutation {
 }
 
 export const useResourcePickupMutation = () => {
-	const invalidator = useSourceInvalidator({
-		sources: [InventorySource],
-	});
-
 	return useMutation({
 		mutationKey: ["useResourcePickupMutation"],
 		async mutationFn({ buildingId }: useResourcePickupMutation.Request) {
@@ -83,9 +78,6 @@ export const useResourcePickupMutation = () => {
 					error: translator.text("Failed to transfer resources (label)"),
 				},
 			);
-		},
-		async onSuccess() {
-			await invalidator();
 		},
 	});
 };

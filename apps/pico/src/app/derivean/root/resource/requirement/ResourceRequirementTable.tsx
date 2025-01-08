@@ -2,31 +2,27 @@ import {
     ActionMenu,
     ActionModal,
     BoolInline,
-    DeleteControl,
     Table,
-    toast,
     TrashIcon,
     Tx,
-    useCreateMutation,
-    usePatchMutation,
-    useSourceInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
-import { ResourceRequirementSource } from "~/app/derivean/resource/requirement/ResourceRequirementSource";
-import { ResourceRequirementForm } from "~/app/derivean/root/resource/requirement/ResourceRequirementForm";
 
-const column = withColumn<ResourceRequirementSchema["~output"]>();
+interface Data extends IdentitySchema.Type {
+	name: string;
+	amount: number;
+	passive: boolean;
+}
+
+const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "requirement.name",
+		name: "name",
 		header() {
 			return <Tx label={"Requirement name (label)"} />;
 		},
@@ -58,8 +54,7 @@ const columns = [
 ];
 
 export namespace ResourceRequirementTable {
-	export interface Props
-		extends Table.PropsEx<ResourceRequirementSchema["~output"]> {
+	export interface Props extends Table.PropsEx<Data> {
 		resourceId: string;
 	}
 }
@@ -69,10 +64,6 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useSourceInvalidator({
-		sources: [ResourceRequirementSource, BuildingBaseSource],
-	});
-
 	return (
 		<Table
 			table={useTable({
@@ -88,7 +79,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 								textTitle={<Tx label={"Create requirement item (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceRequirementForm
+								{/* <ResourceRequirementForm
 									mutation={useCreateMutation({
 										source: ResourceRequirementSource,
 										async wrap(callback) {
@@ -110,7 +101,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -123,7 +114,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 								textTitle={<Tx label={"Edit requirement item (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<ResourceRequirementForm
+								{/* <ResourceRequirementForm
 									defaultValues={data}
 									mutation={usePatchMutation({
 										source: ResourceRequirementSource,
@@ -145,7 +136,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/>
+								/> */}
 							</ActionModal>
 
 							<ActionModal
@@ -160,7 +151,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 									],
 								}}
 							>
-								<DeleteControl
+								{/* <DeleteControl
 									source={ResourceRequirementSource}
 									textContent={
 										<Tx label={"Requirement item delete (content)"} />
@@ -169,7 +160,7 @@ export const ResourceRequirementTable: FC<ResourceRequirementTable.Props> = ({
 										id: data.id,
 									}}
 									invalidator={invalidator}
-								/>
+								/> */}
 							</ActionModal>
 						</ActionMenu>
 					);

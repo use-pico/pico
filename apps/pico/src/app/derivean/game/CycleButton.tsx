@@ -1,5 +1,5 @@
-import { Button, toast, Tx, useCountQuery } from "@use-pico/client";
-import { toHumanNumber, translator } from "@use-pico/common";
+import { Button, toast, Tx, withToastPromiseTx } from "@use-pico/client";
+import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { CycleSource } from "~/app/derivean/cycle/CycleSource";
 import { useCycleMutation } from "~/app/derivean/cycle/useCycleMutation";
@@ -20,11 +20,10 @@ export const CycleButton: FC<CycleButton.Props> = ({ userId, ...props }) => {
 			iconEnabled={CycleIcon}
 			iconDisabled={CycleIcon}
 			onClick={async () => {
-				return toast.promise(mutation.mutateAsync(), {
-					loading: translator.text("Running cycle (toast)"),
-					success: translator.text("Cycle success (toast)"),
-					error: translator.text("Cycle failed (toast)"),
-				});
+				return toast.promise(
+					mutation.mutateAsync(),
+					withToastPromiseTx("Cycle"),
+				);
 			}}
 			disabled={mutation.isPending}
 			loading={data.isLoading}

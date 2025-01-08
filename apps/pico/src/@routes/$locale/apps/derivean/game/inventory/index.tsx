@@ -6,32 +6,47 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/inventory/")({
 	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely, session },
-		deps: { filter, cursor },
-	}) {
+	async loader({ context: { kysely, session }, deps: { filter, cursor } }) {
 		const user = await session();
 
 		return kysely.transaction().execute((tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: InventorySource,
+			return withListCount({
+				select: tx
+					.selectFrom("Inventory as i")
+					.innerJoin("Resource as r", "r.id", "i.resourceId")
+					.selectAll("i")
+					.select("r.name")
+					.where(
+						"i.id",
+						"in",
+						tx
+							.selectFrom("User_Inventory as ui")
+							.select("ui.inventoryId")
+							.where("ui.userId", "=", user.id),
+					),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					resourceId: z.string().min(1),
+					amount: z.number().nonnegative(),
+					limit: z.number().nonnegative(),
+				}),
 				filter,
 				cursor,
 			});

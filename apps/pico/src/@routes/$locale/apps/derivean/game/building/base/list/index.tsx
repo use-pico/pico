@@ -9,17 +9,21 @@ import {
     navigateOnFilter,
     navigateOnFulltext,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
+import { FilterSchema } from "@use-pico/common";
+import { z } from "zod";
 import { BuildingBaseTable } from "~/app/derivean/game/building/base/BuildingBaseTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/list/",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingBaseSchema)),
+	validateSearch: zodValidator(
+		withSourceSearchSchema({
+			filter: FilterSchema,
+		}),
+	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -27,18 +31,23 @@ export const Route = createFileRoute(
 			sort,
 		};
 	},
-	async loader({
-		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
-	}) {
+	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingBaseSource,
+			return withListCount({
+				select: tx
+					.selectFrom("Building_Base as bb")
+					.innerJoin("Resource as r", "r.id", "bb.resourceId")
+					.selectAll("bb")
+					.select("bb.resourceId")
+					.select("r.name as name"),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					cycles: z.number().nonnegative(),
+					resourceId: z.string().min(1),
+				}),
 				filter,
 				cursor,
-				sort: sort || [{ name: "name", sort: "asc" }],
 			});
 		});
 	},
