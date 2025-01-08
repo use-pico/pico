@@ -20,6 +20,7 @@ import { ResourceProductionForm } from "~/app/derivean/root/resource/production/
 
 interface Data extends IdentitySchema.Type {
 	name: string;
+	resourceId: string;
 	amount: number;
 	limit: number;
 	cycles: number;
@@ -191,7 +192,7 @@ export const BuildingBaseProductionTable: FC<
 									callback={async () => {
 										return kysely.transaction().execute(async (tx) => {
 											return tx
-												.deleteFrom("Building_Base_Production")
+												.deleteFrom("Resource_Production")
 												.where("id", "=", data.id)
 												.execute();
 										});

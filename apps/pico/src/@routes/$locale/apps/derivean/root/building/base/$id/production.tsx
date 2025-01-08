@@ -32,29 +32,43 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Building_Base_Production", "list-count", { filter, cursor }],
+			queryKey: [
+				"Building_Base_Production",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Building_Base_Production as bbp")
-							.innerJoin(
-								"Resource_Production as rp",
-								"rp.id",
-								"bbp.resourceProductionId",
-							)
+							.selectFrom("Resource_Production as rp")
 							.innerJoin("Resource as r", "r.id", "rp.resourceId")
 							.select([
-								"bbp.id",
+								"rp.id",
 								"r.name",
 								"rp.amount",
 								"rp.limit",
 								"rp.cycles",
+								"rp.resourceId",
 							])
-							.where("bbp.buildingBaseId", "=", id),
+							.where(
+								"rp.id",
+								"in",
+								tx
+									.selectFrom("Building_Base_Production as bbp")
+									.innerJoin(
+										"Building_Base as bb",
+										"bb.id",
+										"bbp.buildingBaseId",
+									)
+									.select("bbp.resourceProductionId")
+									.where("bbp.buildingBaseId", "=", id),
+							),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),

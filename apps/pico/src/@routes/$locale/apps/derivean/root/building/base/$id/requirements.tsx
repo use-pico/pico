@@ -37,7 +37,7 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Resource_Requirement", "list-count", { filter, cursor }],
+			queryKey: ["Resource_Requirement", "list-count", id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
