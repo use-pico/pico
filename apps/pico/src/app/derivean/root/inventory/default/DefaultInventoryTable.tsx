@@ -169,7 +169,8 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 										return kysely.transaction().execute(async (tx) => {
 											return tx
 												.deleteFrom("Default_Inventory")
-												.where("id", "=", data.id);
+												.where("id", "=", data.id)
+												.execute();
 										});
 									}}
 									textContent={<Tx label={"Inventory item delete (content)"} />}

@@ -21,20 +21,25 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list")({
 			cursor,
 		};
 	},
-	async loader({ context: { kysely }, deps: { filter, cursor } }) {
-		return kysely.transaction().execute((tx) => {
-			return withListCount({
-				select: tx
-					.selectFrom("User as u")
-					.select(["u.id", "u.name", "u.login"]),
-				output: z.object({
-					id: z.string().min(1),
-					name: z.string().min(1),
-					login: z.string().min(1),
-				}),
-				filter,
-				cursor,
-			});
+	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
+		return queryClient.ensureQueryData({
+			queryKey: ["User", "list-count", { filter, cursor }],
+			async queryFn() {
+				return kysely.transaction().execute((tx) => {
+					return withListCount({
+						select: tx
+							.selectFrom("User as u")
+							.select(["u.id", "u.name", "u.login"]),
+						output: z.object({
+							id: z.string().min(1),
+							name: z.string().min(1),
+							login: z.string().min(1),
+						}),
+						filter,
+						cursor,
+					});
+				});
+			},
 		});
 	},
 	component: () => {

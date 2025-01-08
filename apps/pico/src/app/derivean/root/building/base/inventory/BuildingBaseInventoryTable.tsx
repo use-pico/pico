@@ -1,16 +1,23 @@
+import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     Table,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
-    withColumn
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
@@ -64,9 +71,7 @@ export namespace BuildingBaseInventoryTable {
 export const BuildingBaseInventoryTable: FC<
 	BuildingBaseInventoryTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	// const invalidator = useSourceInvalidator({
-	// 	sources: [BuildingBaseInventorySource, InventorySource],
-	// });
+	const invalidator = useInvalidator([["Building_Base"], ["Inventory"]]);
 
 	return (
 		<Table
@@ -85,30 +90,40 @@ export const BuildingBaseInventoryTable: FC<
 								}
 								icon={InventoryIcon}
 							>
-								{/* <InventoryForm
-									mutation={useCreateMutation({
-										source: InventorySource,
-										async wrap(callback) {
+								<InventoryForm
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													const entity = await tx
+														.insertInto("Inventory")
+														.values({
+															id: id(),
+															...values,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													await tx
+														.insertInto("Building_Base_Inventory")
+														.values({
+															id: id(),
+															buildingBaseId,
+															inventoryId: entity.id,
+														})
+														.execute();
+
+													return entity;
+												}),
 												withToastPromiseTx("Create building base inventory"),
 											);
-										},
-										async onSuccess({ tx, entity }) {
-											await BuildingBaseInventorySource.create$({
-												tx,
-												entity: {
-													buildingBaseId,
-													inventoryId: entity.id,
-												},
-											});
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -121,29 +136,28 @@ export const BuildingBaseInventoryTable: FC<
 								textTitle={<Tx label={"Edit building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								{/* <InventoryForm
-									defaultValues={data.inventory}
-									mutation={usePatchMutation({
-										source: InventorySource,
-										async wrap(callback) {
+								<InventoryForm
+									defaultValues={data}
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Inventory")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Update building base inventory"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.inventoryId,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -160,16 +174,21 @@ export const BuildingBaseInventoryTable: FC<
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={BuildingBaseInventorySource}
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Inventory")
+												.where("id", "=", data.id)
+												.execute();
+										});
+									}}
 									textContent={
 										<Tx label={"Building base inventory delete (content)"} />
 									}
-									filter={{
-										id: data.id,
-									}}
+									textToast={"Building base inventory delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

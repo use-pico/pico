@@ -1,20 +1,28 @@
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    DeleteControl,
     LinkTo,
     Table,
+    toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
-    withColumn
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/db";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
+import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
+	resourceId: string;
 	cycles: number;
 }
 
@@ -78,6 +86,8 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 	table,
 	...props
 }) => {
+	const invalidator = useInvalidator([["Building_Base"], ["Inventory"]]);
+
 	return (
 		<Table
 			table={useTable({
@@ -93,12 +103,20 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 								textTitle={<Tx label={"Create building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								{/* <BuildingBaseForm
-									mutation={useCreateMutation({
-										source: BuildingBaseSource,
-										async wrap(callback) {
+								<BuildingBaseForm
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.insertInto("Building_Base")
+														.values({
+															id: id(),
+															...values,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Create building base"),
 											);
 										},
@@ -107,7 +125,7 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -120,29 +138,28 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 								textTitle={<Tx label={"Edit building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								{/* <BuildingBaseForm
+								<BuildingBaseForm
 									defaultValues={data}
-									mutation={usePatchMutation({
-										source: BuildingBaseSource,
-										async wrap(callback) {
+									mutation={useMutation({
+										async mutationFn(values) {
 											return toast.promise(
-												callback(),
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Building_Base")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
 												withToastPromiseTx("Update building base"),
 											);
-										},
-										async toPatch() {
-											return {
-												filter: {
-													id: data.id,
-												},
-											};
 										},
 									})}
 									onSuccess={async ({ modalContext }) => {
 										await invalidator();
 										modalContext?.close();
 									}}
-								/> */}
+								/>
 							</ActionModal>
 
 							<ActionModal
@@ -157,14 +174,19 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={BuildingBaseSource}
-									textContent={<Tx label={"Building base delete (content)"} />}
-									filter={{
-										id: data.id,
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Building_Base")
+												.where("id", "=", data.id)
+												.execute();
+										});
 									}}
+									textContent={<Tx label={"Building base delete (content)"} />}
+									textToast={"Building base delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

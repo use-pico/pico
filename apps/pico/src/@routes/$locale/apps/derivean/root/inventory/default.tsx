@@ -26,7 +26,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Default_Inventory", "list-count", filter, cursor],
+			queryKey: ["Default_Inventory", "list-count", { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute((tx) => {
 					return withListCount({

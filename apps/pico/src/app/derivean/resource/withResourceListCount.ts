@@ -62,6 +62,22 @@ export const withResourceListCount = async ({
 					return qb.or([
 						qb("r.id", "like", `%${fulltext}%`),
 						qb("r.name", "like", `%${fulltext}%`),
+						qb(
+							"r.id",
+							"in",
+							qb
+								.selectFrom("Resource_Tag as rt")
+								.innerJoin("Tag as t", "t.id", "rt.tagId")
+								.select("rt.resourceId")
+								.where((qb) => {
+									return qb.or([
+										qb("t.id", "like", `%${fulltext}%`),
+										qb("t.code", "like", `%${fulltext}%`),
+										qb("t.group", "like", `%${fulltext}%`),
+										qb("t.label", "like", `%${fulltext}%`),
+									]);
+								}),
+						),
 					]);
 				});
 			}

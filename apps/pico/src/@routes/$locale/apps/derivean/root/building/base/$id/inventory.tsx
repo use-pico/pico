@@ -27,33 +27,55 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { kysely },
+		context: { queryClient, kysely },
 		deps: { filter, cursor },
 		params: { id },
 	}) {
-		return kysely.transaction().execute(async (tx) => {
-			return withListCount({
-				select: tx
-					.selectFrom("Inventory as i")
-					.innerJoin("Resource as r", "r.id", "i.resourceId")
-					.select(["i.id", "i.amount", "i.limit", "r.name"])
-					.where(
-						"i.id",
-						"in",
-						tx
-							.selectFrom("Building_Base_Inventory as bbi")
-							.select("bbi.inventoryId")
-							.where("bbi.buildingBaseId", "=", id),
-					),
-				filter,
-				cursor,
-				output: z.object({
-					id: z.string().min(1),
-					name: z.string().min(1),
-					amount: z.number().nonnegative(),
-					limit: z.number().nonnegative(),
-				}),
-			});
+		return queryClient.ensureQueryData({
+			queryKey: ["Building_Base", "list-count", { filter, cursor }],
+			async queryFn() {
+				return kysely.transaction().execute(async (tx) => {
+					return withListCount({
+						select: tx
+							.selectFrom("Inventory as i")
+							.innerJoin("Resource as r", "r.id", "i.resourceId")
+							.select(["i.id", "i.amount", "i.limit", "r.name", "i.resourceId"])
+							.where(
+								"i.id",
+								"in",
+								tx
+									.selectFrom("Building_Base_Inventory as bbi")
+									.select("bbi.inventoryId")
+									.where("bbi.buildingBaseId", "=", id),
+							),
+						query({ select, where }) {
+							let $select = select;
+							if (where?.fulltext) {
+								const fulltext = `%${where.fulltext}%`.toLowerCase();
+
+								$select = $select.where((eb) => {
+									return eb.or([
+										eb("i.id", "like", `%${fulltext}%`),
+										eb("r.id", "like", `%${fulltext}%`),
+										eb("r.name", "like", `%${fulltext}%`),
+									]);
+								});
+							}
+
+							return $select;
+						},
+						output: z.object({
+							id: z.string().min(1),
+							name: z.string().min(1),
+							resourceId: z.string().min(1),
+							amount: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
+						}),
+						filter,
+						cursor,
+					});
+				});
+			},
 		});
 	},
 	component() {

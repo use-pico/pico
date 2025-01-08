@@ -1,12 +1,12 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
-	Tx,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
+    Tx,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { withResourceListCount } from "~/app/derivean/resource/withResourceListCount";
@@ -24,7 +24,7 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Resource", "list-count", filter, cursor],
+			queryKey: ["Resource", "list-count", { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute((tx) => {
 					return withResourceListCount({

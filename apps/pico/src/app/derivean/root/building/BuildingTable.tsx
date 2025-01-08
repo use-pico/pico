@@ -7,7 +7,7 @@ import {
     TrashIcon,
     Tx,
     useTable,
-    withColumn
+    withColumn,
 } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -44,7 +44,7 @@ const columns = [
 
 export namespace BuildingTable {
 	export interface Props extends Table.PropsEx<Data> {
-		userId: string;
+		userId?: string;
 	}
 }
 
@@ -60,15 +60,17 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 				columns,
 			})}
 			action={{
-				table() {
-					return (
-						<ActionMenu>
-							<ActionModal
-								label={<Tx label={"Create building (menu)"} />}
-								textTitle={<Tx label={"Create building (modal)"} />}
-								icon={ResourceIcon}
-							>
-								{/* <BuildingForm
+				table:
+					userId ?
+						() => {
+							return (
+								<ActionMenu>
+									<ActionModal
+										label={<Tx label={"Create building (menu)"} />}
+										textTitle={<Tx label={"Create building (modal)"} />}
+										icon={ResourceIcon}
+									>
+										{/* <BuildingForm
 									mutation={useCreateMutation({
 										source: BuildingSource,
 										async wrap(callback) {
@@ -93,10 +95,11 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 										modalContext?.close();
 									}}
 								/> */}
-							</ActionModal>
-						</ActionMenu>
-					);
-				},
+									</ActionModal>
+								</ActionMenu>
+							);
+						}
+					:	undefined,
 				row({ data }) {
 					return (
 						<ActionMenu>
