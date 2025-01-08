@@ -32,18 +32,31 @@ export const Route = createFileRoute(
 					"r.id",
 					"r.name",
 					(eb) =>
-						tx
+						eb
 							.selectFrom("Tag as t")
-							.select((eb) =>
-								sql<string>`json_group_array(json_object('id', ${eb.ref("t.id")}, 'code', ${eb.ref("t.code")}, 'label', ${eb.ref("t.label")}))`.as(
-									"tags",
-								),
-							)
+							.select((eb) => {
+								const pairs = {
+									id: eb.ref("t.id"),
+									code: eb.ref("t.code"),
+									group: eb.ref("t.group"),
+									label: eb.ref("t.label"),
+									sort: eb.ref("t.sort"),
+								} as const;
+
+								return sql<string>`json_group_array(json_object(${Object.entries(
+									pairs,
+								)
+									.map(([key, value]) => {
+										return sql`'${key}', ${value}`;
+									})
+									.join(", ")}))`.as("tags");
+							})
 							.where(
 								"t.id",
-								"=",
-								tx
+								"in",
+								eb
 									.selectFrom("Resource_Tag as rt")
+									.select(["rt.tagId"])
 									.where("rt.resourceId", "=", eb.ref("r.id")),
 							)
 							.as("tags"),
