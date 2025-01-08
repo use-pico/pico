@@ -1,29 +1,22 @@
-import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
-} from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
-import { FilterSchema } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingBaseTable } from "~/app/derivean/game/building/base/BuildingBaseTable";
+import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
+import { DefaultInventoryTable } from "~/app/derivean/root/inventory/default/DefaultInventoryTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/base/list/",
+	"/$locale/apps/derivean/root/inventory/default",
 )({
-	validateSearch: zodValidator(
-		withSourceSearchSchema({
-			filter: FilterSchema,
-		}),
-	),
+	validateSearch: zodValidator(withSourceSearchSchema(DefaultInventorySchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -32,19 +25,24 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
-		return kysely.transaction().execute(async (tx) => {
+		return kysely.transaction().execute((tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Building_Base as bb")
-					.innerJoin("Resource as r", "r.id", "bb.resourceId")
-					.selectAll("bb")
-					.select("bb.resourceId")
-					.select("r.name as name"),
+					.selectFrom("Default_Inventory as di")
+					.innerJoin("Resource as r", "r.id", "di.resourceId")
+					.select([
+						"di.id",
+						"r.name",
+						"di.amount",
+						"di.limit",
+						"di.resourceId",
+					]),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
-					cycles: z.number().nonnegative(),
 					resourceId: z.string().min(1),
+					amount: z.number().nonnegative(),
+					limit: z.number().int().nonnegative(),
 				}),
 				filter,
 				cursor,
@@ -53,23 +51,24 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor } = Route.useSearch();
+		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
-		const { inventory, session } = useLoaderData({
-			from: "/$locale/apps/derivean/game",
-		});
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseTable
-					userId={session.id}
+				<DefaultInventoryTable
 					table={{
 						data,
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
+						},
+						selection: {
+							type: "multi",
+							value: selection,
+							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{

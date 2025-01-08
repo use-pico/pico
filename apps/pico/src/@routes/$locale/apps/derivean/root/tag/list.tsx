@@ -1,41 +1,32 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
-import { z } from "zod";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
+import { TagTable } from "~/app/derivean/root/tag/TagTable";
+import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
-export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/list/",
-)({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingBaseSchema)),
-	loaderDeps({ search: { filter, cursor, sort } }) {
+export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
+	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
 			filter,
 			cursor,
-			sort,
 		};
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Building_Base as bb")
-					.innerJoin("Resource as r", "r.id", "bb.resourceId")
-					.select(["bb.id", "r.name", "bb.cycles"]),
-				output: z.object({
-					id: z.string().min(1),
-					name: z.string().min(1),
-					cycles: z.number().nonnegative(),
-				}),
+					.selectFrom("Tag as t")
+					.select(["t.id", "t.code", "t.label", "t.group", "t.sort"]),
+				output: TagSchema.entity,
 				filter,
 				cursor,
 			});
@@ -50,7 +41,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseTable
+				<TagTable
 					table={{
 						data,
 						filter: {
@@ -70,7 +61,7 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of building bases (label)"} />,
+						textTotal: <Tx label={"Number of items"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

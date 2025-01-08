@@ -1,55 +1,43 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
-import { DefaultInventoryTable } from "~/app/derivean/root/inventory/default/DefaultInventoryTable";
+import { UserTable } from "~/app/derivean/root/user/ui/UserTable";
+import { UserSchema } from "~/app/derivean/user/UserSchema";
 
-export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/inventory/default/",
-)({
-	validateSearch: zodValidator(withSourceSearchSchema(DefaultInventorySchema)),
-	loaderDeps({ search: { filter, cursor, sort } }) {
+export const Route = createFileRoute("/$locale/apps/derivean/root/user/list")({
+	validateSearch: zodValidator(withSourceSearchSchema(UserSchema)),
+	loaderDeps({ search: { filter, cursor } }) {
 		return {
 			filter,
 			cursor,
-			sort,
 		};
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute((tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Default_Inventory as di")
-					.innerJoin("Resource as r", "r.id", "di.resourceId")
-					.select([
-						"di.id",
-						"r.name",
-						"di.amount",
-						"di.limit",
-						"di.resourceId",
-					]),
+					.selectFrom("User as u")
+					.select(["u.id", "u.name", "u.login"]),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
-					resourceId: z.string().min(1),
-					amount: z.number().nonnegative(),
-					limit: z.number().int().nonnegative(),
+					login: z.string().min(1),
 				}),
 				filter,
 				cursor,
 			});
 		});
 	},
-	component() {
+	component: () => {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
@@ -58,7 +46,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<DefaultInventoryTable
+				<UserTable
 					table={{
 						data,
 						filter: {
@@ -78,7 +66,7 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of items"} />,
+						textTotal: <Tx label={"Number of users (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

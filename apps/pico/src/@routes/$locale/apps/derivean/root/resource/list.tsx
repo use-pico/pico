@@ -16,7 +16,7 @@ import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/resource/list/",
+	"/$locale/apps/derivean/root/resource/list",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(ResourceSchema)),
 	loaderDeps({ search: { filter, cursor } }) {

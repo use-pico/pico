@@ -14,7 +14,7 @@ import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BuildingTable } from "~/app/derivean/root/building/BuildingTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/user/$id/building/list/",
+	"/$locale/apps/derivean/root/user/$id/building/list",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {

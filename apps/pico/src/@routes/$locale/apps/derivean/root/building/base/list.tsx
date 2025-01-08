@@ -10,27 +10,31 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { UserTable } from "~/app/derivean/root/user/ui/UserTable";
-import { UserSchema } from "~/app/derivean/user/UserSchema";
+import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
+import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
 
-export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
-	validateSearch: zodValidator(withSourceSearchSchema(UserSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+export const Route = createFileRoute(
+	"/$locale/apps/derivean/root/building/base/list",
+)({
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingBaseSchema)),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
-		return kysely.transaction().execute((tx) => {
+		return kysely.transaction().execute(async (tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("User as u")
-					.select(["u.id", "u.name", "u.login"]),
+					.selectFrom("Building_Base as bb")
+					.innerJoin("Resource as r", "r.id", "bb.resourceId")
+					.select(["bb.id", "r.name", "bb.cycles"]),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
-					login: z.string().min(1),
+					cycles: z.number().nonnegative(),
 				}),
 				filter,
 				cursor,
@@ -46,7 +50,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 
 		return (
 			<div className={tv.base()}>
-				<UserTable
+				<BuildingBaseTable
 					table={{
 						data,
 						filter: {
@@ -66,7 +70,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/list/")({
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of users (label)"} />,
+						textTotal: <Tx label={"Number of building bases (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

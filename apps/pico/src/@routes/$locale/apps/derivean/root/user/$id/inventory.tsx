@@ -1,20 +1,20 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
+    Tx,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/user/$id/inventory/",
+	"/$locale/apps/derivean/root/user/$id/inventory",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {

@@ -4,29 +4,44 @@ import {
     navigateOnCursor,
     navigateOnFilter,
     navigateOnFulltext,
-    navigateOnSelection,
     Tx,
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { TagTable } from "~/app/derivean/root/tag/TagTable";
-import { TagSchema } from "~/app/derivean/tag/TagSchema";
+import { FilterSchema } from "@use-pico/common";
+import { z } from "zod";
+import { BuildingTable } from "~/app/derivean/game/building/BuildingTable";
 
-export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
-	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+export const Route = createFileRoute(
+	"/$locale/apps/derivean/game/building/list",
+)({
+	validateSearch: zodValidator(
+		withSourceSearchSchema({
+			filter: FilterSchema,
+		}),
+	),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
-	async loader({ context: { kysely }, deps: { filter, cursor } }) {
+	async loader({ context: { kysely, session }, deps: { filter, cursor } }) {
+		const user = await session();
+
 		return kysely.transaction().execute(async (tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Tag as t")
-					.select(["t.id", "t.code", "t.label", "t.group", "t.sort"]),
-				output: TagSchema.entity,
+					.selectFrom("Building as b")
+					.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+					.innerJoin("Resource as r", "r.id", "bb.resourceId")
+					.select(["b.id", "r.name"])
+					.where("b.userId", "=", user.id),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+				}),
 				filter,
 				cursor,
 			});
@@ -34,24 +49,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list/")({
 	},
 	component: () => {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<TagTable
+				<BuildingTable
 					table={{
 						data,
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
-						},
-						selection: {
-							type: "multi",
-							value: selection,
-							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
