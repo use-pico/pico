@@ -66,6 +66,28 @@ export const Route = createFileRoute(
 									.select("bb.resourceId")
 									.where("bb.id", "=", id),
 							),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.id) {
+								$select = $select.where("rpr.id", "=", where.id);
+							}
+							if (where?.idIn) {
+								$select = $select.where("rpr.id", "in", where.idIn);
+							}
+							if (where?.level) {
+								$select = $select.where("rpr.level", "=", where.level);
+							}
+							if (where?.requirementId) {
+								$select = $select.where(
+									"rpr.requirementId",
+									"=",
+									where.requirementId,
+								);
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

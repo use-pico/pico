@@ -14,6 +14,7 @@ export const ResourceProductionRequirementSchema =
 			z.object({
 				requirementId: z.string().optional(),
 				resourceId: z.string().optional(),
+				level: z.number().int().optional(),
 			}),
 		),
 	});

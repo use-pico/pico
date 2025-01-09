@@ -22,6 +22,7 @@ import { ResourceProductionRequirementForm } from "~/app/derivean/root/resource/
 interface Data extends IdentitySchema.Type {
 	name: string;
 	resourceId: string;
+	requirementId: string;
 	amount: number;
 	passive: boolean;
 	level: number;
@@ -38,6 +39,12 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
+		filter: {
+			path: "requirementId",
+			onFilter({ data, filter }) {
+				filter.shallow("requirementId", data.requirementId);
+			},
+		},
 		size: 12,
 	}),
 	column({
@@ -47,6 +54,12 @@ const columns = [
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
+		},
+		filter: {
+			path: "level",
+			onFilter({ data, filter }) {
+				filter.shallow("level", data.level);
+			},
 		},
 		size: 10,
 	}),
