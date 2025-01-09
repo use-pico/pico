@@ -17,6 +17,7 @@ import {
 import { id, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
+import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BuildingForm } from "~/app/derivean/root/building/BuildingForm";
@@ -38,12 +39,20 @@ const columns = [
 			const { locale } = useParams({ from: "/$locale" });
 
 			return (
-				<LinkTo
-					to={"/$locale/apps/derivean/root/building/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
+				<div className={"flex flex-row gap-2"}>
+					<LinkTo
+						icon={BuildingBaseIcon}
+						to={"/$locale/apps/derivean/root/building/base/$id/view"}
+						params={{ locale, id: data.buildingBaseId }}
+					/>
+
+					<LinkTo
+						to={"/$locale/apps/derivean/root/building/$id/view"}
+						params={{ locale, id: data.id }}
+					>
+						{value}
+					</LinkTo>
+				</div>
 			);
 		},
 		size: 14,

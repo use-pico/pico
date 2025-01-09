@@ -1,10 +1,15 @@
 import { Card, Tx } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
+import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
 	cycles: number;
+	requirements: (ResourceRequirementSchema["~entity"] & {
+		name: string;
+	})[];
 }
 
 export namespace BuildingBaseCard {
@@ -35,7 +40,7 @@ export const BuildingBaseCard: FC<BuildingBaseCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Resource requirements (label)"} />,
 					render({ entity }) {
-						return "select json resources";
+						return <RequirementsInline requirements={entity.requirements} />;
 					},
 				},
 				{

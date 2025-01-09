@@ -1,9 +1,3 @@
-0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
-  ref: Building requirements (title)
-  value: Building requirements (title)
-00cd785d4c7fd1cd5f0bd37522bf0854573c1d42ab65723b089c08f1:
-  ref: Building queued.
-  value: Building queued.
 03bcca249b7ce2b64dd31f06c604de65168e014f8d608bba950b92a6:
   ref: Number of building bases (label)
   value: Počet základních budov
@@ -15,22 +9,16 @@
   value: Vyberte zdroj
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
-  value: User list (label)
-0f1392752e8ba9b431afe7a23856742913af3bfae80fb6b5c693a574:
-  ref: Resources transferred successfully (label)
-  value: Resources transferred successfully (label)
+  value: Seznam uživatelů
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Edit requirement item (modal)
-11d8160a4be6d533d9b88ac59f1e30913a3b53f60b9e231ff632f953:
-  ref: Inventory (label)
-  value: Inventory (label)
 1237a51f25d85bfad4f17572f310783e5b06bc5304d24e95ead71eac:
   ref: Buildings (menu)
   value: Budovy
 1278eaff4080b7384d4ace27754c6f3d817fe386fed7d32a6c8af637:
   ref: Login (submit)
-  value: Login (submit)
+  value: Přihlásit se
 1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
   ref: Missing required token(s). (title)
   value: Missing required token(s). (title)
@@ -43,9 +31,6 @@
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
-1d80b365c257d93fe8b5890b91c53059f713271d8ba9661048277625:
-  ref: Failed to queue building.
-  value: Failed to queue building.
 225157b29854934b1159c0883808b5ce089eadbb7e379938c4b4b323:
   ref: Limit must be a number
   value: Limit must be a number
@@ -57,16 +42,13 @@
   value: Number of items
 24f33bf3bc4bb7962ce14173de71bc4f6fd2c880f292b7d119c3d7b9:
   ref: Register (submit)
-  value: Register (submit)
+  value: Zaregistrovat se
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
 2a8e5d936f99ec619e7c1348373c1f3347cfe4111cf4510dccd0589e:
   ref: Settings (menu)
   value: Nastavení
-2ae5116b88c31f35debb84c39abec6d9e369f0a39a2cd595efa28905:
-  ref: Saving building (label)
-  value: Saving building (label)
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Nový požadavek zdroje
@@ -88,6 +70,9 @@
 3715c70b1db1af8c12126a6646da6cb247b728857a4c2feff5fc51af:
   ref: Exported (toast)
   value: Exported (toast)
+3756179fee3aadf38ede7728992b4ef17aa3a9d02355853e3185759a:
+  ref: Resource limit (label)
+  value: Resource limit (label)
 37cd20916a9f8cd3cc973c4062b825c1f89c1c076d5219cd026d539a:
   ref: Building base resource (hint)
   value:
@@ -102,9 +87,6 @@
 3909c87c4b736847773096b6ead06fff8cfcab8426b86024493883bd:
   ref: Select item
   value: Select item
-3a0e1ca1db9d23e1fd12593e8d623f0eab6f955376ea4e0c977f703d:
-  ref: Cycle failed (toast)
-  value: Cycle failed (toast)
 3f6e4f37963b44a6c4d2b161863da423becf34a1bd174a0d606bb1d8:
   ref: Resource list (menu)
   value: Seznam zdrojů
@@ -113,19 +95,16 @@
   value: Without VAT
 3fa7bb033c4131d77ee98ca961d8e62e35fc4048ba0b97ea28025309:
   ref: Password 1 (label)
-  value: Password 1 (label)
+  value: Heslo
 3fb3ef2d332532c97ccd4b1bfca3dcbb6e39b79036b7f3b4057f49a0:
   ref: Building list (label)
   value: Seznam budov
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
   value: Zrušit
-431651a59f6200db184bcc2fc951e243a7b28645420be62f08abed01:
-  ref: Saving inventory item (label)
-  value: Saving inventory item (label)
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
-  value: Edit building (modal)
+  value: Editace budovy
 483e8122af4feafe4af20b8c553d711156a90c64aee0e6dd09dc23c0:
   ref: Inventory (menu)
   value: Inventář
@@ -152,10 +131,10 @@
   value: Missing any token(s). (message)
 54f47a22840e2e29550b8bb925fc4dcca868be0b55be5a3063b7fe69:
   ref: Total count of items (label)
-  value: Total count of items (label)
+  value: Počet položek
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
-  value: Name (label)
+  value: Jméno
 57c7a5c184976416381173e7bc8c4bf9b631f528e3f6e9099a6693fe:
   ref: Save (submit)
   value: Uložit
@@ -199,42 +178,31 @@
   value: Inventory limit (label)
 7769647fc513914768f9797d35365b9227954983799eda6ba31ab16d:
   ref: Building list (menu)
-  value: Building list (menu)
+  value: Seznam budov
 77b049e75c767c4ca346dd05d7a42c39c3479ac4f6dfaeaaa6efc1da:
   ref: There is nothing to see right now.
   value: Zatím tu není nic k vidění.
-78aa33d4ae371c1e156dc7e70a4f7a3444513f2573bd55244246205a:
-  ref: Edit inventory item (menu)
-  value: Edit inventory item (menu)
+77d603fc55f9966542e341dfc9389fa38a5974ae2435c964cba12919:
+  ref: Number of buildings (label)
+  value: Počet budov
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: String must contain at least 1 character(s)
 7d7a818495411842dbbc86cff3a20bff64fbc21b0b228e51ff9d885f:
   ref: Building delete (content)
-  value: Building delete (content)
+  value: |
+    Opravdu si přejete odstranit vybranou budovu? Tato akce nemá větší vliv
+    na data, nicméně se odstraní veškerá data spojená s postavenou
+    budovou.
 816c08b99b10a24bccbaf9ed3be66e93498a5ca8967792f35b425fa2:
   ref: Close (label)
   value: Zavřít
-82676a065f561bc3f31900ae8b124dca48c0368d707e3c5a3ed9743f:
-  ref: Items deleted (label)
-  value: Items deleted (label)
 8279a438827b4dbc04d8586a61918dd72f5c0bc940918aaf07aa5d87:
   ref: Delete building production (modal)
   value: Odstranit produkční linku
-84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
-  ref: Resource delete (content)
-  value: |
-    Opravdu si přejete odstranit vybraný zdroj? Tato akce může mít
-    destruktivní účinky, zejména pokud se jedná o budovu a může
-    znatelne ovlivnit hratelnost.
-
-    Použijte prosím s velkou rozvahou!
 8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
   ref: Limit (label)
   value: Limit
-86bcc3d66c4e17594a822ea18607b7c3f78c3d284337ea2479a17ff5:
-  ref: Cycle success (toast)
-  value: Cycle success (toast)
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
@@ -258,7 +226,7 @@
   value: Nová základní budova
 8c10e73bdfef4ac7ff77a8272f9da6afc7163e9be69812ec70c94e1e:
   ref: Create building (menu)
-  value: Create building (menu)
+  value: Nová budova
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
@@ -274,9 +242,6 @@
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Kde nic, tu nic.
-9885fcc99119de078aac69cd6ee411f650132c05dee73304eb1bc696:
-  ref: Running cycle (toast)
-  value: Running cycle (toast)
 9c6f28b8d6e2bbad6ff88b32c9a08618d8724af3c66f6ef8b441d9f2:
   ref: Resource requirements (menu)
   value: Požadavky na zdroje
@@ -289,9 +254,6 @@
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext
-9fea487dccd5ef527a475fe8c5af8a00715337e15e485415055737fb:
-  ref: Cannot save inventory item (label)
-  value: Cannot save inventory item (label)
 9febeccae7c993bde7fd8a69df88a09daefbc1c5e21cadca2fa9c9a0:
   ref: Building base delete (content)
   value: Building base delete (content)
@@ -307,18 +269,12 @@ a3efc3c31087e5adc27bca7b6959aa404bf7a70ab5c98b9d2d30ac82:
 a3f7d1d14e27e3411af26e4361228fea9f4b0a2a8ca92825a7b5c05b:
   ref: Base building list (label)
   value: Seznam základních budov
-a48f72601f414bba4ce814c40b101576039791c198213cd225b97aae:
-  ref: Cannot save building (label)
-  value: Cannot save building (label)
 a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
   ref: Resource tags (label)
   value: Štítky zdroje
 a620029d930ad049c3c437891300e594f387e1aeae02b599445f403a:
   ref: Building base list (label)
   value: Seznam základních budov
-acd7099faaa753c5bf27eb9148c8d4450500a324d5fb03d8cfa07770:
-  ref: Delete inventory item (label)
-  value: Delete inventory item (label)
 ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   ref: Inventory item delete (content)
   value: |
@@ -348,9 +304,6 @@ b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
 b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
   ref: Edit inventory item (modal)
   value: Edit inventory item (modal)
-b9a0618ebd8d79f62aaf3adc5082993e19357f1812508dee85d597be:
-  ref: Edit building (menu)
-  value: Edit building (menu)
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Odstranit požadavek na zdroj
@@ -369,15 +322,9 @@ c29994172dc81479e8b21517035845f7f58c1047d726f9aa3b8e3afb:
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
-c796fa9e46825b87c643a1b796b4265a11260279198771e381ce42b3:
-  ref: Transferring resources... (label)
-  value: Transferring resources... (label)
 ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
   ref: Passwords must match
   value: Passwords must match
-cbe40cd10fdff5bd7a6e2ec87e88ad117774c74141ee14f90637927a:
-  ref: Failed to transfer resources (label)
-  value: Failed to transfer resources (label)
 ccd4926af24fde9258319b46fe4f9bc700ad301560462e3431257c6e:
   ref: Number of users (label)
   value: Počet uživatelů
@@ -386,7 +333,7 @@ cd6ff5b899a632aab3691a91bf31e504cb4021721bb97b56d10e27f9:
   value: Kód
 cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
   ref: Password (label)
-  value: Password (label)
+  value: Heslo
 cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
   ref: Tag sort (label)
   value: Řazení
@@ -427,37 +374,19 @@ e408028bd3cfcd6ade43c2ce1afe1bb3724ff801305960e1dc30c921:
   value: Produkční linky
 e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
   ref: Password 2 (label)
-  value: Password 2 (label)
-e58a9629aa8f5ea5af690727e8cae832b88424e92cd747cef1ff0420:
-  ref: Delete building (label)
-  value: Delete building (label)
-e65dc40caa39ca004b60aa63a5348007f40e48eb2711eb8dac6de85c:
-  ref: Deleting... (label)
-  value: Deleting... (label)
+  value: Kontrola hesla
 e6cb9ede3821df34522a210bb6da4da53999943e32a65b4d498d2b55:
   ref: Select building base (label)
-  value: Select building base (label)
-e815e4586154329f3f55e8fb277eaa2a0a7594acc079f68421ceb51d:
-  ref: Items cannot be removed (label)
-  value: Items cannot be removed (label)
-e89461d020af0c0ee8ff2f0ea9ae1cebe9c042d279de8e81c3ec6709:
-  ref: Building successfully saved (label)
-  value: Building successfully saved (label)
-e8cd9c3d71bd8b42c22aa8a7b36680b52cd357ac81ee13b2c9dfc0b4:
-  ref: Queuing building...
-  value: Queuing building...
+  value: Vyberte základní budovu
 e9774c347a82dce48b5bee9adf2b79476ec38d3a3ed0b65d50c3391e:
   ref: Register (link)
-  value: Register (link)
+  value: Registrace
 e9c24bfbf06755877d0fa51f062bc6e0475f722e432ce78224fb77d5:
   ref: Select item (label)
-  value: Select item (label)
+  value: Vybrat
 ea8a3e02a47942d229e89647820e52080dbdcfa5a50d172255c6546b:
   ref: Select resource tags (label)
   value: Vyberte štítky zdroje
-eaefb976a13831ca1adebae7895d0fdf9c7c3f67f368b4070967be75:
-  ref: Inventory item successfully saved (label)
-  value: Inventory item successfully saved (label)
 eb007cd2c755390ff1fc52ae9fa9142998f9dee038aa79467aec86f5:
   ref: Tag group (label)
   value: Skupina
@@ -478,7 +407,7 @@ f559a10414642d63ef07702a31eec356a318dc21bfeaaf2e1807cc72:
   value: New cycle (label)
 f8ef90d7e5500d03f5498dd8d737430c83518775d890916f5a93269f:
   ref: Delete building (modal)
-  value: Delete building (modal)
+  value: Odstranit budovu
 f92c5bcd27dd6e6537d9b4eaaac63558d27e759c58675fef5f4f992c:
   ref: Confirm selection (label)
   value: Potvrdit výběr
@@ -487,7 +416,7 @@ fc36349843e430e3f33fe531a1fdbd992224c67675ef78ffb078bea6:
   value: Nový zdroj
 fc75f4c5e7abd71b96fd301570fc6f4ff8eff279a4b68b35047c5e05:
   ref: Create building (modal)
-  value: Create building (modal)
+  value: Nová budova
 fd7b501528a7241d7462c715013d57e851c997479ed6bddc1e88b4e8:
   ref: Create requirement item (modal)
   value: Nový požadavek zdroje

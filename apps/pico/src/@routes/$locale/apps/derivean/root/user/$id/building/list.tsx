@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
+    Tx,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
 import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
@@ -83,7 +83,7 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of items"} />,
+						textTotal: <Tx label={"Number of buildings (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

@@ -98,13 +98,18 @@ export const LoginForm: FC<LoginForm.Props> = ({ onSuccess }) => {
 
 			<div className={"flex flex-row justify-between gap-8"}>
 				<LinkTo
+					icon={"icon-[mdi--register-outline]"}
 					to={"/$locale/apps/derivean/public/register"}
 					params={{ locale }}
 				>
 					<Tx label={"Register (link)"} />
 				</LinkTo>
 
-				<Button type={"submit"}>
+				<Button
+					iconEnabled={"icon-[uiw--login]"}
+					iconDisabled={"icon-[uiw--login]"}
+					type={"submit"}
+				>
 					<Tx label={"Login (submit)"} />
 				</Button>
 			</div>

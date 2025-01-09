@@ -19,8 +19,7 @@ export const Route = createFileRoute(
 						.selectFrom("Building as b")
 						.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
 						.innerJoin("Resource as r", "r.id", "bb.resourceId")
-						.selectAll("b")
-						.select("r.name")
+						.select(["b.id", "r.name"])
 						.where("b.id", "=", id),
 					output: z.object({
 						id: z.string().min(1),
