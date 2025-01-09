@@ -1,3 +1,6 @@
+0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
+  ref: Building requirements (title)
+  value: Building requirements (title)
 03bcca249b7ce2b64dd31f06c604de65168e014f8d608bba950b92a6:
   ref: Number of building bases (label)
   value: Počet základních budov
@@ -67,12 +70,6 @@
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: Tag delete (content)
-3715c70b1db1af8c12126a6646da6cb247b728857a4c2feff5fc51af:
-  ref: Exported (toast)
-  value: Exported (toast)
-3756179fee3aadf38ede7728992b4ef17aa3a9d02355853e3185759a:
-  ref: Resource limit (label)
-  value: Resource limit (label)
 37cd20916a9f8cd3cc973c4062b825c1f89c1c076d5219cd026d539a:
   ref: Building base resource (hint)
   value:
@@ -90,6 +87,12 @@
 3a4a801c33fea80c20f04f91c804a94b19461c2e89b179cc5b9539b7:
   ref: No requirements (label)
   value: Žádné požadavky
+3b815dcf54d4cfd7c9e8af1ec118e37209311bdef15b0569fbc0d669:
+  ref: Resource requirement (menu)
+  value: Požadavky zdroje
+3db2c4051c2b7a73afa7ec303c3fbe50ba5258af4ec59fd4ec31b388:
+  ref: Resource list (label)
+  value: Seznam zdrojů
 3f6e4f37963b44a6c4d2b161863da423becf34a1bd174a0d606bb1d8:
   ref: Resource list (menu)
   value: Seznam zdrojů
@@ -203,6 +206,9 @@
 8279a438827b4dbc04d8586a61918dd72f5c0bc940918aaf07aa5d87:
   ref: Delete building production (modal)
   value: Odstranit produkční linku
+84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
+  ref: Resource delete (content)
+  value: Resource delete (content)
 8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
   ref: Limit (label)
   value: Limit
@@ -266,6 +272,9 @@ a1fc33aa243ae9dd9f90e67c3c280f79c155e8cdbdb6672299ea73b5:
 a202d268d1d94f80d854aa69dbd76dfc55740ba54e0c745695e5e5fe:
   ref: Delete tag (modal)
   value: Delete tag (modal)
+a28b0c372bbbcf2c41da0cc863d40871b6351f3bbfbac436b3cbac16:
+  ref: Required resources (label)
+  value: Required resources (label)
 a3efc3c31087e5adc27bca7b6959aa404bf7a70ab5c98b9d2d30ac82:
   ref: Passive requirement (label)
   value: Pasivní požadavek
@@ -310,9 +319,6 @@ b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Odstranit požadavek na zdroj
-bba3ed702393cdd457b034e76d2de7080953460e49e6c6c190607a54:
-  ref: Export failed (toast)
-  value: Export failed (toast)
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Délka stavby
@@ -346,9 +352,6 @@ d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
 d386c01040fd7bc584cb5470c1aa2ed697de3ae40361346fef1d6921:
   ref: Production cycles (label)
   value: Počet cyklů
-d3eedf2e9423e12c69bb4abd264aa6acfa16c566b42c7e371c7cada2:
-  ref: Exporting (toast)
-  value: Exporting (toast)
 d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
   ref: User login (label)
   value: Login
