@@ -39,6 +39,7 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 			amount: 1,
 			limit: 1,
 			cycles: 1,
+			level: 1,
 			...defaultValues,
 		},
 	});
@@ -125,6 +126,19 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 					type={"number"}
 					className={tv.input()}
 					{...form.register("limit")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"level"}
+				label={<Tx label={"Level (label)"} />}
+				hint={<Tx label={"REsource production level (hint)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("level")}
 				/>
 			</FormInput>
 

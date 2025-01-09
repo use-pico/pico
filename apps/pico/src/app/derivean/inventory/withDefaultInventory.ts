@@ -1,6 +1,6 @@
 import { genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 
 export namespace withDefaultInventory {
 	export interface Props {
@@ -18,6 +18,8 @@ export const withDefaultInventory = async ({
 		.select(["di.amount", "di.resourceId", "di.limit"])
 		.limit(5000)
 		.execute();
+
+	await tx.deleteFrom("User_Inventory").where("userId", "=", userId).execute();
 
 	for await (const { amount, resourceId, limit } of defaultInventoryList) {
 		tx.insertInto("User_Inventory")

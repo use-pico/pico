@@ -1,14 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    BoolInput,
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    ModalContext,
-    onSubmit,
-    Tx,
-    type Form,
+	BoolInput,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	ModalContext,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -67,12 +67,12 @@ export const ResourceProductionRequirementForm: FC<
 
 			<FormInput
 				formState={form.formState}
-				name={"resourceId"}
+				name={"requirementId"}
 				label={<Tx label={"Requirement (label)"} />}
 			>
 				<Controller
 					control={form.control}
-					name={"resourceId"}
+					name={"requirementId"}
 					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect

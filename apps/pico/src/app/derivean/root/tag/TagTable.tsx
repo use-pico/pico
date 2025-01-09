@@ -15,7 +15,7 @@ import {
 } from "@use-pico/client";
 import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { TagForm } from "~/app/derivean/root/tag/TagForm";
 
 interface Data extends IdentitySchema.Type {

@@ -1,58 +1,24 @@
 import {
     FilterSchema,
-    IdentitySchema,
-    translator,
-    withSourceSchema,
+    withFloatSchema,
+    withIntSchema
 } from "@use-pico/common";
 import { z } from "zod";
+import { withResourceProductionSchema } from "~/app/derivean/db/sdk";
 
-const entity = IdentitySchema.merge(
-	z.object({
-		resourceId: z.string().min(1),
-		amount: z.number().nonnegative(),
-		cycles: z.number().int().nonnegative(),
-		limit: z.number().int().nonnegative(),
-	}),
-);
-
-export const ResourceProductionSchema = withSourceSchema({
-	entity,
+export const ResourceProductionSchema = withResourceProductionSchema({
 	shape: z.object({
 		resourceId: z.string().min(1),
-		amount: z.union([
-			z.number().nonnegative(),
-			z
-				.string()
-				.transform((value) => parseFloat(value))
-				.refine((value) => !isNaN(value), {
-					message: translator.text("Amount must be a number"),
-				}),
-		]),
-		cycles: z.union([
-			z.number().int().nonnegative(),
-			z
-				.string()
-				.transform((value) => parseInt(value, 10))
-				.refine((value) => !isNaN(value), {
-					message: translator.text("Cycles must be a number"),
-				}),
-		]),
-		limit: z.union([
-			z.number().int().nonnegative(),
-			z
-				.string()
-				.transform((value) => parseInt(value, 10))
-				.refine((value) => !isNaN(value), {
-					message: translator.text("Limit must be a number"),
-				}),
-		]),
+		amount: withFloatSchema(),
+		cycles: withIntSchema(),
+		limit: withIntSchema(),
+		level: withIntSchema(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({
 			resourceId: z.string().optional(),
 		}),
 	),
-	sort: ["resource", "amount", "cycles", "limit"],
 });
 
 export type ResourceProductionSchema = typeof ResourceProductionSchema;

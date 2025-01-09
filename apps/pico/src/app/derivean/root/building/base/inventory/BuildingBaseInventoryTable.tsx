@@ -14,7 +14,7 @@ import {
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
@@ -110,6 +110,7 @@ export const BuildingBaseInventoryTable: FC<
 															id: genId(),
 															buildingBaseId,
 															inventoryId: entity.id,
+															level: 1,
 														})
 														.execute();
 

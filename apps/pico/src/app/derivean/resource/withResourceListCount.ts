@@ -2,7 +2,7 @@ import { withListCount } from "@use-pico/client";
 import { withJsonArraySchema, type CursorSchema } from "@use-pico/common";
 import { sql, type Transaction } from "kysely";
 import { z } from "zod";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 

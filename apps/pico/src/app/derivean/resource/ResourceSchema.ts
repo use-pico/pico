@@ -1,18 +1,10 @@
 import {
-    FilterSchema,
-    IdentitySchema,
-    withSourceSchema,
+    FilterSchema
 } from "@use-pico/common";
 import { z } from "zod";
+import { withResourceSchema } from "~/app/derivean/db/sdk";
 
-const entity = IdentitySchema.merge(
-	z.object({
-		name: z.string().min(1),
-	}),
-);
-
-export const ResourceSchema = withSourceSchema({
-	entity,
+export const ResourceSchema = withResourceSchema({
 	shape: z.object({
 		name: z.string().min(1),
 		tagIds: z.array(z.string()).optional(),
@@ -22,7 +14,6 @@ export const ResourceSchema = withSourceSchema({
 			name: z.string().optional(),
 		}),
 	),
-	sort: ["name"],
 });
 
 export type ResourceSchema = typeof ResourceSchema;

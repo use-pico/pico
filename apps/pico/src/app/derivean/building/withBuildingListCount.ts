@@ -3,7 +3,7 @@ import type { CursorSchema } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import { z } from "zod";
 import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 
 export namespace withBuildingListCount {
 	export interface Props {

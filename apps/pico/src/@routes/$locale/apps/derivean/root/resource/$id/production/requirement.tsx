@@ -15,7 +15,7 @@ import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/pro
 import { ResourceProductionRequirementTable } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/resource/$id/requirement",
+	"/$locale/apps/derivean/root/resource/$id/production/requirement",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(ResourceProductionRequirementSchema),
@@ -33,31 +33,35 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Resource_Requirement", "list-count", id, { filter, cursor }],
+			queryKey: [
+				"Resource_Production_Requirement",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
 							.selectFrom("Resource_Production_Requirement as rpr")
-							.innerJoin(
-								"Resource_Production as rp",
-								"rp.id",
-								"rpr.resourceProductionId",
-							)
-							.innerJoin("Resource as r", "r.id", "rpr.resourceId")
+							.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
 							.select([
 								"rpr.id",
-								"r.name",
+								"rq.name",
 								"rpr.amount",
 								"rpr.passive",
+								"rpr.level",
+								"rpr.requirementId",
 								"rpr.resourceId",
 							])
-							.where("rp.resourceId", "=", id),
+							.where("rpr.resourceId", "=", id),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							requirementId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
+							level: z.number().nonnegative(),
 							passive: withBoolSchema(),
 						}),
 						filter,
@@ -78,7 +82,7 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<ResourceProductionRequirementTable
-					resourceProductionId={"nope"}
+					resourceId={id}
 					table={{
 						data,
 						filter: {

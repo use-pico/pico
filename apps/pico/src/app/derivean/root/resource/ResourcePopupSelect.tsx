@@ -1,7 +1,7 @@
 import { PopupSelect, Tx } from "@use-pico/client";
 import type { IdentitySchema, TagSchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { withResourceListCount } from "~/app/derivean/resource/withResourceListCount";
 import { ResourceTable } from "~/app/derivean/root/resource/ResourceTable";

@@ -1,6 +1,6 @@
 import { withDatabase } from "@use-pico/client";
 import { sql } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 
 export const { kysely, bootstrap } = withDatabase<Database>({
 	database: "derivean",
@@ -11,30 +11,33 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("User")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
+
 			.addColumn("name", "varchar(64)", (col) => col.notNull())
 			.addColumn("login", "varchar(128)", (col) => col.notNull().unique())
 			.addColumn("password", "varchar(256)", (col) => col.notNull())
+
 			.execute();
 
 		await kysely.schema
 			.createTable("Tag")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
+
 			.addColumn("code", "varchar(64)", (col) => col.notNull())
 			.addColumn("label", "varchar(128)", (col) => col.notNull())
 			.addColumn("group", "varchar(64)")
 			.addColumn("sort", "integer", (col) => col.notNull().defaultTo(0))
+
 			.addUniqueConstraint("Tag_code_group", ["code", "group"])
+
 			.execute();
 
 		await kysely.schema
 			.createTable("Cycle")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
+
 			.addColumn("userId", $id, (col) => col.notNull())
-			.addColumn("stamp", "datetime", (col) =>
-				col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
-			)
 			.addForeignKeyConstraint(
 				"[Cycle] userId",
 				["userId"],
@@ -42,24 +45,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
+
+			.addColumn("stamp", "datetime", (col) =>
+				col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+			)
+
 			.execute();
-            
-		// await kysely.schema
-		// 	.createTable("Cycle")
-		// 	.ifNotExists()
-		// 	.addColumn("id", $id, (col) => col.primaryKey())
-		// 	.addColumn("userId", $id, (col) => col.notNull())
-		// 	.addColumn("stamp", "datetime", (col) =>
-		// 		col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
-		// 	)
-		// 	.addForeignKeyConstraint(
-		// 		"[Cycle] userId",
-		// 		["userId"],
-		// 		"User",
-		// 		["id"],
-		// 		(c) => c.onDelete("cascade").onUpdate("cascade"),
-		// 	)
-		// 	.execute();
 
 		await kysely.schema
 			.createTable("Resource")
@@ -67,6 +58,25 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.addColumn("id", $id, (col) => col.primaryKey())
 
 			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Resource_Production")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Tag] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
+
 			/**
 			 * Amount of resource produced in specified cycles.
 			 */
@@ -79,6 +89,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 * Queue limit
 			 */
 			.addColumn("limit", "integer", (col) => col.notNull())
+
+			.addUniqueConstraint("[Resource_Production] resourceId-level", [
+				"resourceId",
+				"level",
+			])
 
 			.execute();
 
@@ -226,7 +241,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
-			.addColumn("resourceId", $id, (col) => col.unique())
+			.addColumn("resourceId", $id, (col) => col.notNull().unique())
 			.addForeignKeyConstraint(
 				"[Default_Inventory] resourceId",
 				["resourceId"],
@@ -329,7 +344,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			/**
 			 * For which level this inventory is defined for.
 			 */
-			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
+			.addColumn("level", "integer", (col) => col.notNull())
 
 			.addUniqueConstraint(
 				"[Building_Base_Inventory] buildingBaseId-inventoryId",
@@ -363,11 +378,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-
-			/**
-			 * At which level a building is able to produce something.
-			 */
-			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
 
 			.addUniqueConstraint(
 				"[Building_Base_Production] buildingBaseId-resourceId",

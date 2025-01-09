@@ -29,23 +29,19 @@ export const Route = createFileRoute(
 							(eb) =>
 								eb
 									.selectFrom("Resource_Production_Requirement as rpr")
-									.innerJoin(
-										"Resource_Production as rp",
-										"rp.id",
-										"rpr.resourceProductionId",
-									)
-									.innerJoin("Resource as re", "re.id", "rpr.resourceId")
+									.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
 									.select((eb) => {
 										return sql<string>`json_group_array(json_object(
                                             'id', ${eb.ref("rpr.id")},
                                             'amount', ${eb.ref("rpr.amount")},
+                                            'level', ${eb.ref("rpr.level")},
                                             'passive', ${eb.ref("rpr.passive")},
-                                            'resourceProductionId', ${eb.ref("rpr.resourceProductionId")},
+                                            'requirementId', ${eb.ref("rpr.requirementId")},
                                             'resourceId', ${eb.ref("rpr.resourceId")},
-                                            'name', ${eb.ref("re.name")}
+                                            'name', ${eb.ref("rq.name")}
                                         ))`.as("requirements");
 									})
-									.where("rp.resourceId", "=", eb.ref("bb.resourceId"))
+									.where("rpr.resourceId", "=", eb.ref("bb.resourceId"))
 									.as("requirements"),
 						])
 						.where("bb.id", "=", id),
@@ -53,6 +49,8 @@ export const Route = createFileRoute(
 						id: z.string().min(1),
 						name: z.string().min(1),
 						resourceId: z.string().min(1),
+						requirementId: z.string().min(1),
+						level: z.number().nonnegative(),
 						cycles: z.number().nonnegative(),
 						requirements: withJsonArraySchema(
 							ResourceProductionRequirementSchema.entity.merge(

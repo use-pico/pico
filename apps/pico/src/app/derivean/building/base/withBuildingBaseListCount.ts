@@ -3,7 +3,7 @@ import { withJsonArraySchema, type CursorSchema } from "@use-pico/common";
 import { sql, type Transaction } from "kysely";
 import { z } from "zod";
 import type { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
 
 export namespace withBuildingBaseListCount {
@@ -31,23 +31,19 @@ export const withBuildingBaseListCount = async ({
 				(eb) =>
 					eb
 						.selectFrom("Resource_Production_Requirement as rpr")
-						.innerJoin(
-							"Resource_Production as rp",
-							"rp.id",
-							"rpr.resourceProductionId",
-						)
-						.innerJoin("Resource as re", "re.id", "rpr.resourceId")
+						.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
 						.select((eb) => {
 							return sql<string>`json_group_array(json_object(
                                 'id', ${eb.ref("rpr.id")},
                                 'amount', ${eb.ref("rpr.amount")},
                                 'passive', ${eb.ref("rpr.passive")},
-                                'resourceProductionId', ${eb.ref("rpr.resourceProductionId")},
+                                'level', ${eb.ref("rpr.level")},
+                                'requirementId', ${eb.ref("rpr.requirementId")},
                                 'resourceId', ${eb.ref("rpr.resourceId")},
-                                'name', ${eb.ref("re.name")}
+                                'name', ${eb.ref("rq.name")}
                             ))`.as("requirements");
 						})
-						.where("rp.resourceId", "=", eb.ref("bb.resourceId"))
+						.where("rpr.resourceId", "=", eb.ref("bb.resourceId"))
 						.as("requirements"),
 			]),
 		query({ select, where }) {

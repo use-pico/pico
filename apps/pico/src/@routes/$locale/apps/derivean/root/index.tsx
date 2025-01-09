@@ -8,8 +8,8 @@ import {
     withToastPromiseTx,
 } from "@use-pico/client";
 import FileSaver from "file-saver";
-import type { Database } from "~/app/derivean/db/Database";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
+import type { Database } from "~/app/derivean/db/sdk";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
 
 const sources: (keyof Database)[] = [

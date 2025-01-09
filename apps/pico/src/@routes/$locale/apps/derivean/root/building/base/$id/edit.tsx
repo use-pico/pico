@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { toast, useInvalidator, withToastPromiseTx } from "@use-pico/client";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
 
 export const Route = createFileRoute(

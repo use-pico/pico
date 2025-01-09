@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { withCycle } from "~/app/derivean/cycle/withCycle";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 
 export namespace useCycleMutation {
 	export interface Props {

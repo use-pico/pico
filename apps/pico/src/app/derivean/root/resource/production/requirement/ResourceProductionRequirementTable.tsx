@@ -15,7 +15,7 @@ import {
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceProductionRequirementForm } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementForm";
 
@@ -63,13 +63,13 @@ const columns = [
 
 export namespace ResourceProductionRequirementTable {
 	export interface Props extends Table.PropsEx<Data> {
-		resourceProductionId: string;
+		resourceId: string;
 	}
 }
 
 export const ResourceProductionRequirementTable: FC<
 	ResourceProductionRequirementTable.Props
-> = ({ resourceProductionId, table, ...props }) => {
+> = ({ resourceId, table, ...props }) => {
 	const invalidator = useInvalidator([["Resource_Production_Requirement"]]);
 
 	return (
@@ -97,7 +97,8 @@ export const ResourceProductionRequirementTable: FC<
 														.values({
 															id: genId(),
 															...values,
-															resourceProductionId,
+															resourceId,
+															level: 1,
 														})
 														.returningAll()
 														.executeTakeFirstOrThrow();

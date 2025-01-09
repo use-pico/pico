@@ -29,10 +29,10 @@ export const ResourceIndexMenu: FC<ResourceIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={RequirementIcon}
-				to={"/$locale/apps/derivean/root/resource/$id/requirement"}
+				to={"/$locale/apps/derivean/root/resource/$id/production/requirement"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"Resource requirement (menu)"} />
+				<Tx label={"Resource production requirement (menu)"} />
 			</MenuLink>
 		</Menu>
 	);

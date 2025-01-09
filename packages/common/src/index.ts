@@ -30,6 +30,7 @@ export { TranslationListSchema } from "./schema/TranslationListSchema";
 export { TranslationSchema } from "./schema/TranslationSchema";
 export { withBoolSchema } from "./schema/withBoolSchema";
 export { withFloatSchema } from "./schema/withFloatSchema";
+export { withIntSchema } from "./schema/withIntSchema";
 export { withJsonArraySchema } from "./schema/withJsonArraySchema";
 export { withSourceSchema } from "./source/withSourceSchema";
 export { cursorOf } from "./toolbox/cursorOf";

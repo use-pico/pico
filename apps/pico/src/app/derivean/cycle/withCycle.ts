@@ -1,6 +1,6 @@
 import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 
 export namespace withCycle {
 	export interface Props {

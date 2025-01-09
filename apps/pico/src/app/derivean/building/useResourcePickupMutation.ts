@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast, withToastPromiseTx } from "@use-pico/client";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 
 export namespace useResourcePickupMutation {
 	export interface Request {

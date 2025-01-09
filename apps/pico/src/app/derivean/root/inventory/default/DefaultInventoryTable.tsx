@@ -1,20 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-	ActionMenu,
-	ActionModal,
-	DeleteControl,
-	Table,
-	toast,
-	TrashIcon,
-	Tx,
-	useInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    Table,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { DefaultInventoryForm } from "~/app/derivean/root/inventory/default/DefaultInventoryForm";
 

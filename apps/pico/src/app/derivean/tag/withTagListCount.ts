@@ -1,7 +1,7 @@
 import { withListCount } from "@use-pico/client";
 import type { CursorSchema } from "@use-pico/common";
 import type { Transaction } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
+import type { Database } from "~/app/derivean/db/sdk";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export namespace withTagListCount {

@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	ModalContext,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    ModalContext,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -32,7 +32,10 @@ export const BuildingForm: FC<BuildingForm.Props> = ({
 }) => {
 	const form = useForm<BuildingSchema["~shape"]>({
 		resolver: zodResolver(BuildingSchema.shape),
-		defaultValues,
+		defaultValues: {
+			level: 1,
+			...defaultValues,
+		},
 	});
 	const modalContext = useContext(ModalContext);
 
@@ -75,6 +78,17 @@ export const BuildingForm: FC<BuildingForm.Props> = ({
 							/>
 						);
 					}}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"buildingBaseId"}
+				label={<Tx label={"Select building base (label)"} />}
+			>
+				<input
+					type={"number"}
+					{...form.register("level")}
 				/>
 			</FormInput>
 

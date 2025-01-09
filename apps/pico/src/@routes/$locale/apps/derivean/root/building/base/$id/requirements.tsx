@@ -48,22 +48,18 @@ export const Route = createFileRoute(
 					return withListCount({
 						select: tx
 							.selectFrom("Resource_Production_Requirement as rpr")
-							.innerJoin(
-								"Resource_Production as rp",
-								"rp.id",
-								"rpr.resourceProductionId",
-							)
-							.innerJoin("Resource as r", "r.id", "rpr.resourceId")
+							.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
 							.select([
 								"rpr.id",
-								"r.name",
+								"rq.name",
 								"rpr.amount",
+								"rpr.level",
 								"rpr.passive",
-								"rpr.resourceProductionId",
+								"rpr.requirementId",
 								"rpr.resourceId",
 							])
 							.where(
-								"rp.resourceId",
+								"rpr.resourceId",
 								"=",
 								tx
 									.selectFrom("Building_Base as bb")
@@ -73,9 +69,10 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							resourceProductionId: z.string().min(1),
+							requirementId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
+							level: z.number().nonnegative(),
 							passive: withBoolSchema(),
 						}),
 						filter,
@@ -98,7 +95,7 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<ResourceProductionRequirementTable
-					resourceProductionId={"nope"}
+					resourceId={entity.resourceId}
 					table={{
 						data,
 						filter: {

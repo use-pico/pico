@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 
 export namespace useBuildingCount {
 	export interface Props {

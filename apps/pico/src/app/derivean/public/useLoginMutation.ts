@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { pwd } from "@use-pico/common";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import type { LoginSchema } from "~/app/derivean/schema/LoginSchema";
 import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 

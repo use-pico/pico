@@ -2,7 +2,7 @@ import { PopupSelect, Tx } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { withBuildingBaseListCount } from "~/app/derivean/building/base/withBuildingBaseListCount";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
 

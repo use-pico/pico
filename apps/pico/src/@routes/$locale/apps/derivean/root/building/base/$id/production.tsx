@@ -57,44 +57,42 @@ export const Route = createFileRoute(
 								(eb) =>
 									eb
 										.selectFrom("Resource_Production_Requirement as rpr")
-										.innerJoin(
-											"Resource_Production as rp",
-											"rp.id",
-											"rpr.resourceProductionId",
-										)
-										.innerJoin("Resource as re", "re.id", "rpr.resourceId")
+										.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
 										.select((eb) => {
 											return sql<string>`json_group_array(json_object(
                                                 'id', ${eb.ref("rpr.id")},
                                                 'amount', ${eb.ref("rpr.amount")},
+                                                'level', ${eb.ref("rpr.level")},
                                                 'passive', ${eb.ref("rpr.passive")},
-                                                'resourceProductionId', ${eb.ref("rpr.resourceProductionId")},
+                                                'requirementId', ${eb.ref("rpr.requirementId")},
                                                 'resourceId', ${eb.ref("rpr.resourceId")},
-                                                'name', ${eb.ref("re.name")}
+                                                'name', ${eb.ref("rq.name")}
                                             ))`.as("requirements");
 										})
-										.where("rpr.resourceProductionId", "=", eb.ref("rp.id"))
+										.where("rpr.resourceId", "=", eb.ref("rp.resourceId"))
 										.as("requirements"),
-							])
-							.where(
-								"rp.id",
-								"in",
-								tx
-									.selectFrom("Building_Base_Production as bbp")
-									.innerJoin(
-										"Building_Base as bb",
-										"bb.id",
-										"bbp.buildingBaseId",
-									)
-									.select("bbp.resourceProductionId")
-									.where("bbp.buildingBaseId", "=", id),
-							),
+							]),
+						// .where(
+						// 	"rp.resourceId",
+						// 	"in",
+						// 	tx
+						// 		.selectFrom("Building_Base_Production as bbp")
+						// 		.innerJoin(
+						// 			"Building_Base as bb",
+						// 			"bb.id",
+						// 			"bbp.buildingBaseId",
+						// 		)
+						// 		.select("bbp.")
+						// 		.where("bbp.buildingBaseId", "=", id),
+						// ),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							requirementId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
+							level: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								ResourceProductionRequirementSchema.entity.merge(
@@ -122,13 +120,13 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<ResourceProductionTable
-					onCreate={async ({ tx, entity }) => {
+					onCreate={async ({ tx, entity: { resourceId } }) => {
 						return tx
 							.insertInto("Building_Base_Production")
 							.values({
 								id: genId(),
 								buildingBaseId: id,
-								resourceProductionId: entity.id,
+								resourceId,
 							})
 							.execute();
 					}}

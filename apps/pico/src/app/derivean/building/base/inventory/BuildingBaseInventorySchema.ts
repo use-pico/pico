@@ -1,19 +1,8 @@
-import {
-    FilterSchema,
-    IdentitySchema,
-    withSourceSchema,
-} from "@use-pico/common";
+import { FilterSchema } from "@use-pico/common";
 import { z } from "zod";
+import { withBuildingBaseInventorySchema } from "~/app/derivean/db/sdk";
 
-const entity = IdentitySchema.merge(
-	z.object({
-		buildingBaseId: z.string().min(1),
-		inventoryId: z.string().min(1),
-	}),
-);
-
-export const BuildingBaseInventorySchema = withSourceSchema({
-	entity,
+export const BuildingBaseInventorySchema = withBuildingBaseInventorySchema({
 	shape: z.object({
 		inventoryId: z.string().min(1),
 	}),
@@ -23,7 +12,6 @@ export const BuildingBaseInventorySchema = withSourceSchema({
 			inventoryId: z.string().optional(),
 		}),
 	),
-	sort: ["name"],
 });
 
 export type BuildingBaseInventorySchema = typeof BuildingBaseInventorySchema;

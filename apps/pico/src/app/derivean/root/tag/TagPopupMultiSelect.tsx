@@ -7,7 +7,7 @@ import {
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { z } from "zod";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { TagTable } from "~/app/derivean/root/tag/TagTable";
 
 interface Data extends IdentitySchema.Type {

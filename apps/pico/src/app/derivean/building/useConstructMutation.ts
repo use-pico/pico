@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast, withToastPromiseTx } from "@use-pico/client";
 import { withConstruct } from "~/app/derivean/building/withConstruct";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 
 export namespace useConstructMutation {
 	export interface Props {

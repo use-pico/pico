@@ -16,7 +16,7 @@ import {
 } from "@use-pico/client";
 import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";

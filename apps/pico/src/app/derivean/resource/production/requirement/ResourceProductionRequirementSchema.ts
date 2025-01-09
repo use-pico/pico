@@ -1,36 +1,21 @@
-import {
-    FilterSchema,
-    IdentitySchema,
-    withBoolSchema,
-    withFloatSchema,
-    withSourceSchema,
-} from "@use-pico/common";
+import { FilterSchema, withFloatSchema } from "@use-pico/common";
 import { z } from "zod";
+import { withResourceProductionRequirementSchema } from "~/app/derivean/db/sdk";
 
-const entity = IdentitySchema.merge(
-	z.object({
-		resourceProductionId: z.string().min(1),
-		resourceId: z.string().min(1),
-		amount: z.number().nonnegative(),
-		passive: withBoolSchema(),
-	}),
-);
-
-export const ResourceProductionRequirementSchema = withSourceSchema({
-	entity,
-	shape: z.object({
-		resourceId: z.string().min(1),
-		amount: withFloatSchema(),
-		passive: z.boolean(),
-	}),
-	filter: FilterSchema.merge(
-		z.object({
-			resourceProductionId: z.string().optional(),
-			resourceId: z.string().optional(),
+export const ResourceProductionRequirementSchema =
+	withResourceProductionRequirementSchema({
+		shape: z.object({
+			requirementId: z.string().min(1),
+			amount: withFloatSchema(),
+			passive: z.boolean(),
 		}),
-	),
-	sort: ["resource", "requirement", "amount", "passive"],
-});
+		filter: FilterSchema.merge(
+			z.object({
+				requirementId: z.string().optional(),
+				resourceId: z.string().optional(),
+			}),
+		),
+	});
 
 export type ResourceProductionRequirementSchema =
 	typeof ResourceProductionRequirementSchema;

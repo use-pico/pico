@@ -17,7 +17,7 @@ import {
 } from "@use-pico/client";
 import { genId, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/root/resource/ResourceForm";
 

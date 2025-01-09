@@ -22,8 +22,8 @@ import {
 } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { FC } from "react";
-import type { Database } from "~/app/derivean/db/Database";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
+import type { Database } from "~/app/derivean/db/sdk";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import type { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
 import { ResourceProductionForm } from "~/app/derivean/root/resource/production/ResourceProductionForm";
@@ -116,7 +116,7 @@ const columns = [
 export namespace ResourceProductionTable {
 	export namespace onCreate {
 		export interface Props
-			extends Entity.Type<ResourceProductionSchema["~entity"]> {
+			extends Entity.Schema<ResourceProductionSchema["entity"]> {
 			tx: Transaction<Database>;
 		}
 	}
