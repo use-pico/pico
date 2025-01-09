@@ -116,11 +116,10 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 												withToastPromiseTx("Create inventory item"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -150,11 +149,10 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 												withToastPromiseTx("Update inventory item"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

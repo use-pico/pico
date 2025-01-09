@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    ModalContext,
-    onSubmit,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	ModalContext,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -16,8 +16,7 @@ import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { BuildingBasePopupSelect } from "~/app/derivean/root/building/base/BuildingBasePopupSelect";
 
 export namespace BuildingForm {
-	export interface Props
-		extends Form.Props<BuildingSchema["entity"], BuildingSchema["shape"]> {
+	export interface Props extends Form.Props<BuildingSchema["shape"]> {
 		//
 	}
 }
@@ -25,7 +24,6 @@ export namespace BuildingForm {
 export const BuildingForm: FC<BuildingForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -49,12 +47,9 @@ export const BuildingForm: FC<BuildingForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<BuildingSchema["entity"], BuildingSchema["shape"]>({
+			onSubmit={onSubmit<BuildingSchema["shape"]>({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

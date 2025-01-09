@@ -180,11 +180,10 @@ export const ResourceProductionTable: FC<ResourceProductionTable.Props> = ({
 														),
 													);
 												},
+												async onSuccess() {
+													await invalidator();
+												},
 											})}
-											onSuccess={async ({ modalContext }) => {
-												await invalidator();
-												modalContext?.close();
-											}}
 										/>
 									</ActionModal>
 								</ActionMenu>
@@ -217,11 +216,10 @@ export const ResourceProductionTable: FC<ResourceProductionTable.Props> = ({
 												withToastPromiseTx("Update building base production"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

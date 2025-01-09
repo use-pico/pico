@@ -9,7 +9,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { genId, withJsonArraySchema } from "@use-pico/common";
+import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
@@ -52,6 +52,7 @@ export const Route = createFileRoute(
 								"r.name",
 								"rp.amount",
 								"rp.limit",
+								"rp.level",
 								"rp.cycles",
 								"rp.resourceId",
 								(eb) =>
@@ -88,7 +89,6 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							requirementId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
@@ -120,16 +120,16 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<ResourceProductionTable
-					onCreate={async ({ tx, entity: { resourceId } }) => {
-						return tx
-							.insertInto("Building_Base_Production")
-							.values({
-								id: genId(),
-								buildingBaseId: id,
-								resourceId,
-							})
-							.execute();
-					}}
+					// onCreate={async ({ tx, entity: { resourceId } }) => {
+					// 	return tx
+					// 		.insertInto("Building_Base_Production")
+					// 		.values({
+					// 			id: genId(),
+					// 			buildingBaseId: id,
+					// 			resourceId,
+					// 		})
+					// 		.execute();
+					// }}
 					table={{
 						data,
 						filter: {

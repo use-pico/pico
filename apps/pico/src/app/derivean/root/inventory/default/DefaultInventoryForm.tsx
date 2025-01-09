@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    ModalContext,
-    onSubmit,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	ModalContext,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -16,11 +16,7 @@ import { DefaultInventorySchema } from "~/app/derivean/inventory/default/Default
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
 export namespace DefaultInventoryForm {
-	export interface Props
-		extends Form.Props<
-			DefaultInventorySchema["entity"],
-			DefaultInventorySchema["shape"]
-		> {
+	export interface Props extends Form.Props<DefaultInventorySchema["shape"]> {
 		//
 	}
 }
@@ -28,7 +24,6 @@ export namespace DefaultInventoryForm {
 export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -41,7 +36,6 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 			...defaultValues,
 		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -53,15 +47,9 @@ export const DefaultInventoryForm: FC<DefaultInventoryForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<
-				DefaultInventorySchema["entity"],
-				DefaultInventorySchema["shape"]
-			>({
+			onSubmit={onSubmit<DefaultInventorySchema["shape"]>({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

@@ -129,11 +129,10 @@ export const ResourceProductionRequirementTable: FC<
 												withToastPromiseTx("Create requirement item"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -163,11 +162,10 @@ export const ResourceProductionRequirementTable: FC<
 												withToastPromiseTx("Update requirement item"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

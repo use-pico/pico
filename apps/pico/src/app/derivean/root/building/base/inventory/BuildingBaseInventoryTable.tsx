@@ -1,16 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-	ActionMenu,
-	ActionModal,
-	DeleteControl,
-	Table,
-	toast,
-	TrashIcon,
-	Tx,
-	useInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    Table,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -134,11 +134,10 @@ export const BuildingBaseInventoryTable: FC<
 												withToastPromiseTx("Create building base inventory"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -175,11 +174,10 @@ export const BuildingBaseInventoryTable: FC<
 												withToastPromiseTx("Update building base inventory"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

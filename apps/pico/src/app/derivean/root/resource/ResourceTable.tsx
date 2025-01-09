@@ -1,19 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
-    ActionMenu,
-    ActionModal,
-    DeleteControl,
-    LinkTo,
-    Table,
-    Tags,
-    toast,
-    TrashIcon,
-    Tx,
-    useInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	DeleteControl,
+	LinkTo,
+	Table,
+	Tags,
+	toast,
+	TrashIcon,
+	Tx,
+	useInvalidator,
+	useTable,
+	withColumn,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -121,11 +121,10 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 												withToastPromiseTx("Create resource"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -178,11 +177,10 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 												withToastPromiseTx("Update resource"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

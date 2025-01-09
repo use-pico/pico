@@ -15,8 +15,7 @@ import { useForm } from "react-hook-form";
 import { TagSchema } from "~/app/derivean/tag/TagSchema";
 
 export namespace TagForm {
-	export interface Props
-		extends Form.Props<TagSchema["entity"], TagSchema["shape"]> {
+	export interface Props extends Form.Props<TagSchema["shape"]> {
 		//
 	}
 }
@@ -24,7 +23,6 @@ export namespace TagForm {
 export const TagForm: FC<TagForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -48,12 +46,9 @@ export const TagForm: FC<TagForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<TagSchema["entity"], TagSchema["shape"]>({
+			onSubmit={onSubmit({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

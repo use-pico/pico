@@ -5,12 +5,11 @@ import {
     FormCss,
     FormError,
     FormInput,
-    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
@@ -18,17 +17,14 @@ import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupS
 
 export namespace ResourceProductionRequirementForm {
 	export interface Props
-		extends Form.Props<
-			ResourceProductionRequirementSchema["entity"],
-			ResourceProductionRequirementSchema["shape"]
-		> {
+		extends Form.Props<ResourceProductionRequirementSchema["shape"]> {
 		//
 	}
 }
 
 export const ResourceProductionRequirementForm: FC<
 	ResourceProductionRequirementForm.Props
-> = ({ mutation, defaultValues, onSuccess, variant, tva = FormCss, css }) => {
+> = ({ mutation, defaultValues, variant, tva = FormCss, css }) => {
 	const form = useForm<ResourceProductionRequirementSchema["~shape"]>({
 		resolver: zodResolver(ResourceProductionRequirementSchema.shape),
 		defaultValues: {
@@ -38,7 +34,6 @@ export const ResourceProductionRequirementForm: FC<
 			...defaultValues,
 		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -50,15 +45,9 @@ export const ResourceProductionRequirementForm: FC<
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<
-				ResourceProductionRequirementSchema["entity"],
-				ResourceProductionRequirementSchema["shape"]
-			>({
+			onSubmit={onSubmit<ResourceProductionRequirementSchema["shape"]>({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

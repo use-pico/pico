@@ -1,17 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-    ActionMenu,
-    ActionModal,
-    DeleteControl,
-    Table,
-    TagIcon,
-    toast,
-    TrashIcon,
-    Tx,
-    useInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	DeleteControl,
+	Table,
+	TagIcon,
+	toast,
+	TrashIcon,
+	Tx,
+	useInvalidator,
+	useTable,
+	withColumn,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -110,11 +110,10 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 												withToastPromiseTx("Create tag"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -147,11 +146,10 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 												withToastPromiseTx("Edit tag"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

@@ -123,11 +123,14 @@ export const withBuildingBaseProductionSchema = <
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				level:
+					// INTEGER / not nullable
+					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingBaseId", "resourceId"],
+		sort: ["id", "buildingBaseId", "resourceId", "level"],
 	});
 };
 

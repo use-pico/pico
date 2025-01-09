@@ -4,20 +4,18 @@ import {
     FormCss,
     FormError,
     FormInput,
-    ModalContext,
     onSubmit,
     Tx,
-    type Form,
+    type Form
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import { TagPopupMultiSelect } from "~/app/derivean/root/tag/TagPopupMultiSelect";
 
 export namespace ResourceForm {
-	export interface Props
-		extends Form.Props<ResourceSchema["entity"], ResourceSchema["shape"]> {
+	export interface Props extends Form.Props<ResourceSchema["shape"]> {
 		group?: string;
 	}
 }
@@ -26,7 +24,6 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	group = "resource",
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -35,7 +32,6 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 		resolver: zodResolver(ResourceSchema.shape),
 		defaultValues,
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -47,12 +43,9 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<ResourceSchema["entity"], ResourceSchema["shape"]>({
+			onSubmit={onSubmit({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

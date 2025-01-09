@@ -9,7 +9,7 @@ import {
     navigateOnFilter,
     navigateOnFulltext,
     Tx,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
 import { withBuildingBaseListCount } from "~/app/derivean/building/base/withBuildingBaseListCount";
@@ -45,7 +45,7 @@ export const Route = createFileRoute(
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
-		const { inventory, session } = useLoaderData({
+		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 

@@ -32,14 +32,14 @@ export const Route = createFileRoute(
 								withToastPromiseTx("Update building"),
 							);
 						},
+						async onSuccess() {
+							await invalidator();
+							navigate({
+								to: "/$locale/apps/derivean/root/building/base/$id/view",
+								params: { id: entity.id },
+							});
+						},
 					})}
-					onSuccess={async () => {
-						await invalidator();
-						navigate({
-							to: "/$locale/apps/derivean/root/building/base/$id/view",
-							params: { id: entity.id },
-						});
-					}}
 				/>
 			</div>
 		);

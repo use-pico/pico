@@ -1,41 +1,23 @@
-import type { UseMutationResult } from "@tanstack/react-query";
-import {
-    ErrorSchema,
-    type IdentitySchema,
-    onAxiosSchemaError,
-    withErrors,
-} from "@use-pico/common";
+import { ErrorSchema, onAxiosSchemaError, withErrors } from "@use-pico/common";
 import type { ShapeSchema } from "@use-pico/common/src/schema/ShapeSchema";
 import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
+import type { Form } from "./Form";
 
 export namespace onSubmit {
-	export interface Props<
-		TEntitySchema extends IdentitySchema,
-		TShapeSchema extends ShapeSchema,
-	> {
+	export interface Props<TShapeSchema extends ShapeSchema> {
 		form: UseFormReturn<z.infer<TShapeSchema>>;
-		mutation: UseMutationResult<
-			z.infer<TEntitySchema>,
-			Error,
-			z.infer<TShapeSchema>
-		>;
-		onSuccess?(entity: z.infer<TEntitySchema>): Promise<void>;
+		mutation: Form.Props.Mutation<TShapeSchema>;
 	}
 }
 
-export const onSubmit = <
-	TEntitySchema extends IdentitySchema,
-	TShapeSchema extends ShapeSchema,
->({
+export const onSubmit = <TShapeSchema extends ShapeSchema>({
 	form,
 	mutation,
-	onSuccess,
-}: onSubmit.Props<TEntitySchema, TShapeSchema>) => {
+}: onSubmit.Props<TShapeSchema>) => {
 	const submit = form.handleSubmit(async (values) => {
 		return mutation
 			.mutateAsync(values, {
-				onSuccess,
 				onError: (error) => {
 					withErrors({
 						error,

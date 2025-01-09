@@ -124,11 +124,10 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 												withToastPromiseTx("Create building base"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 						</ActionMenu>
@@ -158,11 +157,10 @@ export const BuildingBaseTable: FC<BuildingBaseTable.Props> = ({
 												withToastPromiseTx("Update building base"),
 											);
 										},
+										async onSuccess() {
+											await invalidator();
+										},
 									})}
-									onSuccess={async ({ modalContext }) => {
-										await invalidator();
-										modalContext?.close();
-									}}
 								/>
 							</ActionModal>
 

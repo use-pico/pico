@@ -4,20 +4,18 @@ import {
     FormCss,
     FormError,
     FormInput,
-    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
 export namespace InventoryForm {
-	export interface Props
-		extends Form.Props<InventorySchema["entity"], InventorySchema["shape"]> {
+	export interface Props extends Form.Props<InventorySchema["shape"]> {
 		//
 	}
 }
@@ -25,7 +23,6 @@ export namespace InventoryForm {
 export const InventoryForm: FC<InventoryForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -38,7 +35,6 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 			...defaultValues,
 		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -50,12 +46,9 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<InventorySchema["entity"], InventorySchema["shape"]>({
+			onSubmit={onSubmit<InventorySchema["shape"]>({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

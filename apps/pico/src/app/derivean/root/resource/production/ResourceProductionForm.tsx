@@ -4,23 +4,18 @@ import {
     FormCss,
     FormError,
     FormInput,
-    ModalContext,
     onSubmit,
     Tx,
     type Form,
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
 export namespace ResourceProductionForm {
-	export interface Props
-		extends Form.Props<
-			ResourceProductionSchema["entity"],
-			ResourceProductionSchema["shape"]
-		> {
+	export interface Props extends Form.Props<ResourceProductionSchema["shape"]> {
 		//
 	}
 }
@@ -28,7 +23,6 @@ export namespace ResourceProductionForm {
 export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -43,7 +37,6 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 			...defaultValues,
 		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -55,15 +48,9 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<
-				ResourceProductionSchema["entity"],
-				ResourceProductionSchema["shape"]
-			>({
+			onSubmit={onSubmit({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError

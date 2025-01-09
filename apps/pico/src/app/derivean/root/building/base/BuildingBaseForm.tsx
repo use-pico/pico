@@ -4,23 +4,18 @@ import {
     FormCss,
     FormError,
     FormInput,
-    ModalContext,
     onSubmit,
     Tx,
-    type Form,
+    type Form
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
 export namespace BuildingBaseForm {
-	export interface Props
-		extends Form.Props<
-			BuildingBaseSchema["entity"],
-			BuildingBaseSchema["shape"]
-		> {
+	export interface Props extends Form.Props<BuildingBaseSchema["shape"]> {
 		//
 	}
 }
@@ -28,7 +23,6 @@ export namespace BuildingBaseForm {
 export const BuildingBaseForm: FC<BuildingBaseForm.Props> = ({
 	mutation,
 	defaultValues,
-	onSuccess,
 	variant,
 	tva = FormCss,
 	css,
@@ -40,7 +34,6 @@ export const BuildingBaseForm: FC<BuildingBaseForm.Props> = ({
 			...defaultValues,
 		},
 	});
-	const modalContext = useContext(ModalContext);
 
 	const tv = tva({
 		...variant,
@@ -52,15 +45,9 @@ export const BuildingBaseForm: FC<BuildingBaseForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<
-				BuildingBaseSchema["entity"],
-				BuildingBaseSchema["shape"]
-			>({
+			onSubmit={onSubmit<BuildingBaseSchema["shape"]>({
 				form,
 				mutation,
-				async onSuccess(entity) {
-					onSuccess?.({ entity, modalContext });
-				},
 			})}
 		>
 			<FormError
