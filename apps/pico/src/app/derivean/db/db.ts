@@ -31,11 +31,16 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Cycle")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("userId", $id, (col) =>
-				col.references("User.id").onDelete("cascade").notNull(),
-			)
+			.addColumn("userId", $id, (col) => col.notNull())
 			.addColumn("stamp", "datetime", (col) =>
 				col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+			)
+			.addForeignKeyConstraint(
+				"[Cycle] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.execute();
 
@@ -50,11 +55,21 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Resource_Tag")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addColumn("tagId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Tag] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("tagId", $id, (col) =>
-				col.references("Tag.id").onDelete("cascade").notNull(),
+			.addForeignKeyConstraint(
+				"[Resource_Tag] tagId",
+				["tagId"],
+				"Tag",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.addUniqueConstraint("[Resource_Tag] resourceId-tagId", [
 				"resourceId",
@@ -63,29 +78,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.execute();
 
 		await kysely.schema
-			.createTable("Resource_Requirement")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("requirementId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("amount", "float4", (col) => col.notNull())
-			/**
-			 * If true, it's enough to have the resource, by it's not consumed on build.
-			 */
-			.addColumn("passive", "boolean", (col) => col.notNull())
-			.execute();
-
-		await kysely.schema
 			.createTable("Resource_Production")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
+			.addColumn("resourceId", $id, (col) => col.notNull())
 			/**
 			 * Amount of resource produced in specified cycles.
 			 */
@@ -98,21 +94,43 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 * Queue limit
 			 */
 			.addColumn("limit", "integer", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Production] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 			.execute();
 
 		await kysely.schema
 			.createTable("Resource_Production_Requirement")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceProductionId", $id, (col) =>
-				col.references("ResourceProduction.id").onDelete("cascade").notNull(),
+			.addColumn("resourceProductionId", $id, (col) => col.notNull())
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addColumn("amount", "float4", (col) => col.notNull())
+			/**
+			 * If true, it's enough to have the resource, by it's not consumed on build.
+			 */
+			.addColumn("passive", "boolean", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Production_Requirement] resourceProductionId",
+				["resourceProductionId"],
+				"Resource_Production",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("resourceRequirementId", $id, (col) =>
-				col.references("Resource_Requirement.id").onDelete("cascade").notNull(),
+			.addForeignKeyConstraint(
+				"[Resource_Production_Requirement] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.addUniqueConstraint(
-				"[Resource_Production_Requirement] resourceProductionId-resourceRequirementId",
-				["resourceProductionId", "resourceRequirementId"],
+				"[Resource_Production_Requirement] resourceProductionId-resourceId",
+				["resourceProductionId", "resourceId"],
 			)
 			.execute();
 
@@ -126,12 +144,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			/**
 			 * Owner of this queue item.
 			 */
-			.addColumn("userId", $id, (col) =>
-				col.references("User.id").onDelete("cascade").notNull(),
-			)
-			.addColumn("resourceProductionId", $id, (col) =>
-				col.references("Resource_Production.id").onDelete("cascade").notNull(),
-			)
+			.addColumn("userId", $id, (col) => col.notNull())
+			.addColumn("resourceProductionId", $id, (col) => col.notNull())
 			/**
 			 * Starting cycle
 			 */
@@ -144,17 +158,36 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 * Finish cycle
 			 */
 			.addColumn("to", "integer", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Production_Queue] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+			.addForeignKeyConstraint(
+				"[Resource_Production_Queue] resourceProductionId",
+				["resourceProductionId"],
+				"Resource_Production",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 			.execute();
 
 		await kysely.schema
 			.createTable("Inventory")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull(),
-			)
+			.addColumn("resourceId", $id, (col) => col.notNull())
 			.addColumn("amount", "float4", (col) => col.notNull())
 			.addColumn("limit", "float4", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Inventory] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 			.execute();
 
 		/**
@@ -166,23 +199,42 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Default_Inventory")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull().unique(),
-			)
+			.addColumn("resourceId", $id, (col) => col.unique())
 			.addColumn("amount", "float4", (col) => col.notNull())
 			.addColumn("limit", "float4", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Default_Inventory] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 			.execute();
 
 		await kysely.schema
 			.createTable("User_Inventory")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("userId", $id, (col) =>
-				col.references("User.id").onDelete("cascade").notNull().unique(),
+			.addColumn("userId", $id, (col) => col.notNull())
+			.addColumn("inventoryId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[User_Inventory] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("inventoryId", $id, (col) =>
-				col.references("Inventory.id").onDelete("cascade").notNull().unique(),
+			.addForeignKeyConstraint(
+				"[User_Inventory] inventoryId",
+				["inventoryId"],
+				"Inventory",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
+			.addUniqueConstraint("[User_Inventory] userId-inventoryId", [
+				"userId",
+				"inventoryId",
+			])
 			.execute();
 
 		await kysely.schema
@@ -197,13 +249,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 *
 			 * Also this resource is used to compute list of requirements.
 			 */
-			.addColumn("resourceId", $id, (col) =>
-				col.references("Resource.id").onDelete("cascade").notNull().unique(),
-			)
+			.addColumn("resourceId", $id, (col) => col.notNull().unique())
 			/**
 			 * Number of cycles required to build this building
 			 */
 			.addColumn("cycles", "integer", (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 			.execute();
 
 		/**
@@ -215,11 +272,21 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Building_Base_Inventory")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("buildingBaseId", $id, (col) =>
-				col.references("BuildingBase.id").onDelete("cascade").notNull(),
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
+			.addColumn("inventoryId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Inventory] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("inventoryId", $id, (col) =>
-				col.references("Inventory.id").onDelete("cascade").notNull(),
+			.addForeignKeyConstraint(
+				"[Building_Base_Inventory] inventoryId",
+				["inventoryId"],
+				"Inventory",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.addUniqueConstraint(
 				"[Building_Base_Inventory] buildingBaseId-inventoryId",
@@ -234,11 +301,21 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Building_Base_Production")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("buildingBaseId", $id, (col) =>
-				col.references("BuildingBase.id").onDelete("cascade").notNull(),
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
+			.addColumn("resourceProductionId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Production] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("resourceProductionId", $id, (col) =>
-				col.references("ResourceProduction.id").onDelete("cascade").notNull(),
+			.addForeignKeyConstraint(
+				"[Building_Base_Production] resourceProductionId",
+				["resourceProductionId"],
+				"Resource_Production",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.addUniqueConstraint(
 				"[Building_Base_Production] buildingBaseId-resourceProductionId",
@@ -250,11 +327,21 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.createTable("Building")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
-			.addColumn("userId", $id, (col) =>
-				col.references("User.id").onDelete("cascade").notNull(),
+			.addColumn("userId", $id, (col) => col.notNull())
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
-			.addColumn("buildingBaseId", $id, (col) =>
-				col.references("BuildingBase.id").onDelete("cascade").notNull(),
+			.addForeignKeyConstraint(
+				"[Building] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.execute();
 	},

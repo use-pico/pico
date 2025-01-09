@@ -307,6 +307,9 @@ b55de4769cde946ba7eebd61088f87e3cd96ca406ab4ff2a49bb3160:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
+b80c7aa737ea117720dd56471b4bc8b16fe40a9b85a47e05b7aaddbb:
+  ref: Resource production list (menu)
+  value: Produkční linky
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Název
@@ -325,6 +328,9 @@ bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
 be211a9d3677cd07a6e2461e5399b4e5a134adf36c9eaf1a79452fd7:
   ref: Amount must be a number
   value: Amount must be a number
+be9033b23b264710349c9f4c70a79d8dd5a9d161c746b9aaff811d4d:
+  ref: Resource (menu)
+  value: Zdroje
 c29994172dc81479e8b21517035845f7f58c1047d726f9aa3b8e3afb:
   ref: Item kind - resource
   value: Item kind - resource
@@ -366,6 +372,9 @@ da980a14e8d21ccbad06717ff68370d22a861de73e9bf1e350790bc8:
 dc63eb323046fdd329f5fa7883ef6cc3c032730f011a38aa02186625:
   ref: Create building base inventory (modal)
   value: Nová položka inventáře
+df325e1771430137023dbb8a41c06992ae9257d1f433dec784a1e0b8:
+  ref: Resource production list (label)
+  value: Seznam produkčních linek
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek

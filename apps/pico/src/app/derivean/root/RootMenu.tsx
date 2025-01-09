@@ -1,17 +1,18 @@
 import { useParams } from "@tanstack/react-router";
 import {
-    Menu,
-    MenuGroup,
-    MenuLink,
-    SettingsIcon,
-    TagIcon,
-    Tx,
-    UserIcon,
+	Menu,
+	MenuGroup,
+	MenuLink,
+	SettingsIcon,
+	TagIcon,
+	Tx,
+	UserIcon,
 } from "@use-pico/client";
 import type { FC } from "react";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace RootMenu {
@@ -69,13 +70,32 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				</MenuLink>
 			</MenuGroup>
 
-			<MenuLink
+			<MenuGroup
 				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/root/resource/list"}
-				params={{ locale }}
+				label={<Tx label={"Resource (menu)"} />}
+				active={[
+					{ to: "/$locale/apps/derivean/root/resource/list" },
+					{ to: "/$locale/apps/derivean/root/resource/production/list" },
+				]}
 			>
-				<Tx label={"Resource list (menu)"} />
-			</MenuLink>
+				<MenuLink
+					icon={ResourceIcon}
+					to={"/$locale/apps/derivean/root/resource/list"}
+					params={{ locale }}
+					variant={{ inner: true }}
+				>
+					<Tx label={"Resource list (menu)"} />
+				</MenuLink>
+
+				<MenuLink
+					icon={ProductionIcon}
+					to={"/$locale/apps/derivean/root/resource/production/list"}
+					params={{ locale }}
+					variant={{ inner: true }}
+				>
+					<Tx label={"Resource production list (menu)"} />
+				</MenuLink>
+			</MenuGroup>
 
 			<MenuLink
 				icon={InventoryIcon}

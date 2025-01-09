@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { id, pwd } from "@use-pico/common";
+import { genId, pwd } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/db";
 import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
 import type { RegisterSchema } from "~/app/derivean/schema/RegisterSchema";
@@ -22,7 +22,7 @@ export const useRegisterMutation = () => {
 					await tx
 						.insertInto("User")
 						.values({
-							id: id(),
+							id: genId(),
 							name,
 							login,
 							password: pwd.hash(password1),

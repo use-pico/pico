@@ -14,7 +14,7 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { id, type IdentitySchema } from "@use-pico/common";
+import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
@@ -97,7 +97,7 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 															return tx
 																.insertInto("Building")
 																.values({
-																	id: id(),
+																	id: genId(),
 																	...values,
 																	userId,
 																})

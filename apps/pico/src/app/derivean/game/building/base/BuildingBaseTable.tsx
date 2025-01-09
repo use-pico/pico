@@ -12,15 +12,13 @@ import type { FC } from "react";
 import { useBuildingCount } from "~/app/derivean/building/base/useBuildingCount";
 import { useConstructMutation } from "~/app/derivean/building/useConstructMutation";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
-import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
 	cycles: number;
-	requirements: (ResourceRequirementSchema["~entity"] & {
-		name: string;
-	})[];
+	// requirements: (ResourceRequirementSchema["~entity"] & {
+	// 	name: string;
+	// })[];
 }
 
 interface Context {
@@ -86,26 +84,26 @@ const columns = [
 		},
 		size: 14,
 	}),
-	column({
-		name: "requirements",
-		header() {
-			return <Tx label={"Required resources (label)"} />;
-		},
-		render({ value }) {
-			// const { missing } = inventoryCheck({ inventory, requirements: value });
+	// column({
+	// 	name: "requirements",
+	// 	header() {
+	// 		return <Tx label={"Required resources (label)"} />;
+	// 	},
+	// 	render({ value }) {
+	// 		// const { missing } = inventoryCheck({ inventory, requirements: value });
 
-			return (
-				<RequirementsInline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-					// diff={missing}
-					limit={5}
-				/>
-			);
-		},
-		size: 72,
-	}),
+	// 		return (
+	// 			<RequirementsInline
+	// 				textTitle={<Tx label={"Building requirements (title)"} />}
+	// 				textEmpty={<Tx label={"No requirements (label)"} />}
+	// 				requirements={value}
+	// 				// diff={missing}
+	// 				limit={5}
+	// 			/>
+	// 		);
+	// 	},
+	// 	size: 72,
+	// }),
 ];
 
 export namespace BuildingBaseTable {

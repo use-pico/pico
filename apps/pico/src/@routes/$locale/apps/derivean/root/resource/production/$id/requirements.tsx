@@ -1,17 +1,13 @@
-import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
-} from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
@@ -19,7 +15,7 @@ import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/pro
 import { ResourceProductionRequirementTable } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementTable";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/$id/requirements",
+	"/$locale/apps/derivean/root/resource/production/$id/requirements",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(ResourceProductionRequirementSchema),
@@ -59,22 +55,14 @@ export const Route = createFileRoute(
 								"r.name",
 								"rpr.amount",
 								"rpr.passive",
-								"rpr.resourceProductionId",
 								"rpr.resourceId",
 							])
-							.where(
-								"rp.resourceId",
-								"=",
-								tx
-									.selectFrom("Building_Base as bb")
-									.select("bb.resourceId")
-									.where("bb.id", "=", id),
-							),
+							.where("rp.resourceId", "=", id),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							resourceProductionId: z.string().min(1),
 							resourceId: z.string().min(1),
+							requirementId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							passive: withBoolSchema(),
 						}),
@@ -88,9 +76,7 @@ export const Route = createFileRoute(
 	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
-		const { entity } = useLoaderData({
-			from: "/$locale/apps/derivean/root/building/base/$id",
-		});
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;

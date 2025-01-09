@@ -7,7 +7,7 @@ import { withFetch } from "@use-pico/client";
 import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
-import { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
+import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
 import { BuildingBaseIndexMenu } from "~/app/derivean/root/building/base/BuildingBaseIndexMenu";
 import { BuildingBasePreview } from "~/app/derivean/root/building/base/BuildingBasePreview";
 
@@ -28,19 +28,24 @@ export const Route = createFileRoute(
 							"bb.cycles",
 							(eb) =>
 								eb
-									.selectFrom("Resource_Requirement as rr")
-									.innerJoin("Resource as re", "re.id", "rr.requirementId")
+									.selectFrom("Resource_Production_Requirement as rpr")
+									.innerJoin(
+										"Resource_Production as rp",
+										"rp.id",
+										"rpr.resourceProductionId",
+									)
+									.innerJoin("Resource as re", "re.id", "rpr.resourceId")
 									.select((eb) => {
 										return sql<string>`json_group_array(json_object(
-                                            'id', ${eb.ref("rr.id")},
-                                            'amount', ${eb.ref("rr.amount")},
-                                            'passive', ${eb.ref("rr.passive")},
-                                            'requirementId', ${eb.ref("rr.requirementId")},
-                                            'resourceId', ${eb.ref("rr.resourceId")},
+                                            'id', ${eb.ref("rpr.id")},
+                                            'amount', ${eb.ref("rpr.amount")},
+                                            'passive', ${eb.ref("rpr.passive")},
+                                            'resourceProductionId', ${eb.ref("rpr.resourceProductionId")},
+                                            'resourceId', ${eb.ref("rpr.resourceId")},
                                             'name', ${eb.ref("re.name")}
-                                        ))`.as("tags");
+                                        ))`.as("requirements");
 									})
-									.where("rr.resourceId", "=", eb.ref("bb.resourceId"))
+									.where("rp.resourceId", "=", eb.ref("bb.resourceId"))
 									.as("requirements"),
 						])
 						.where("bb.id", "=", id),
@@ -50,7 +55,7 @@ export const Route = createFileRoute(
 						resourceId: z.string().min(1),
 						cycles: z.number().nonnegative(),
 						requirements: withJsonArraySchema(
-							ResourceRequirementSchema.entity.merge(
+							ResourceProductionRequirementSchema.entity.merge(
 								z.object({
 									name: z.string().min(1),
 								}),

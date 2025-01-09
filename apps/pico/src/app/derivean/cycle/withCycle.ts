@@ -1,4 +1,4 @@
-import { DateTime, id } from "@use-pico/common";
+import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
 
@@ -13,7 +13,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 	await tx
 		.insertInto("Cycle")
 		.values({
-			id: id(),
+			id: genId(),
 			stamp: DateTime.now().toUTC().toSQLTime(),
 			userId,
 		})

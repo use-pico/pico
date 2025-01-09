@@ -11,14 +11,14 @@ import {
 } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
-import { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
-import { ResourceRequirementTable } from "~/app/derivean/root/resource/requirement/ResourceRequirementTable";
+import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
+import { ResourceProductionRequirementTable } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/$id/requirement",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(ResourceRequirementSchema),
+		withSourceSearchSchema(ResourceProductionRequirementSchema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -38,22 +38,25 @@ export const Route = createFileRoute(
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Resource_Requirement as rr")
-							.innerJoin("Resource as rq", "rq.id", "rr.requirementId")
+							.selectFrom("Resource_Production_Requirement as rpr")
+							.innerJoin(
+								"Resource_Production as rp",
+								"rp.id",
+								"rpr.resourceProductionId",
+							)
+							.innerJoin("Resource as r", "r.id", "rpr.resourceId")
 							.select([
-								"rr.id",
-								"rq.name",
-								"rr.amount",
-								"rr.passive",
-								"rr.resourceId",
-								"rr.requirementId",
+								"rpr.id",
+								"r.name",
+								"rpr.amount",
+								"rpr.passive",
+								"rpr.resourceId",
 							])
-							.where("rr.resourceId", "=", id),
+							.where("rp.resourceId", "=", id),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
 							resourceId: z.string().min(1),
-							requirementId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							passive: withBoolSchema(),
 						}),
@@ -74,8 +77,8 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<ResourceRequirementTable
-					resourceId={id}
+				<ResourceProductionRequirementTable
+					resourceProductionId={"nope"}
 					table={{
 						data,
 						filter: {

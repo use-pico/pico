@@ -1,4 +1,4 @@
-import { id } from "@use-pico/common";
+import { genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/Database";
 
@@ -22,13 +22,13 @@ export const withDefaultInventory = async ({
 	for await (const { amount, resourceId, limit } of defaultInventoryList) {
 		tx.insertInto("User_Inventory")
 			.values({
-				id: id(),
+				id: genId(),
 				userId,
 				inventoryId: (
 					await tx
 						.insertInto("Inventory")
 						.values({
-							id: id(),
+							id: genId(),
 							amount,
 							resourceId,
 							limit,

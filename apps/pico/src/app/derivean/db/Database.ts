@@ -5,8 +5,8 @@ import type { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import type { CycleSchema } from "~/app/derivean/cycle/CycleSchema";
 import type { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
 import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
+import type { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
 import type { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
-import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
 import type { ResourceSchema } from "~/app/derivean/resource/ResourceSchema";
 import type { ResourceTagSchema } from "~/app/derivean/resource/tag/ResourceTagSchema";
 import type { TagSchema } from "~/app/derivean/tag/TagSchema";
@@ -21,8 +21,8 @@ export interface Database {
 
 	Resource: ResourceSchema["~entity"];
 	Resource_Tag: ResourceTagSchema["~entity"];
-	Resource_Requirement: ResourceRequirementSchema["~entity"];
 	Resource_Production: ResourceProductionSchema["~entity"];
+	Resource_Production_Requirement: ResourceProductionRequirementSchema["~entity"];
 
 	Inventory: InventorySchema["~entity"];
 	Default_Inventory: DefaultInventorySchema["~entity"];
@@ -32,14 +32,4 @@ export interface Database {
 	Building_Base_Inventory: BuildingBaseInventorySchema["~entity"];
 	Building_Base_Production: BuildingBaseProductionSchema["~entity"];
 	Building: BuildingSchema["~entity"];
-
-	// // Building_Base_: BaseBuildingRequirementSchema["~entity"];
-	// ["BaseBuilding-Limit"]: BaseBuildingLimitSchema["~entity"];
-	// ["BaseBuilding-Production"]: BaseBuildingProductionSchema["~entity"];
-	// BaseBuildingProductionRequirement: BaseBuildingProductionRequirementSchema["~entity"];
-
-	// Building: BuildingSchema["~entity"];
-	// Building_Resource: BuildingResourceSchema["~entity"];
-	// BuildingQueue: BuildingQueueSchema["~entity"];
-	// BuildingProductionQueue: BuildingProductionQueueSchema["~entity"];
 }

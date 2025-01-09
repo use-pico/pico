@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
     ActionMenu,
     ActionModal,
+    BoolInline,
     DeleteControl,
     Table,
     toast,
@@ -12,18 +13,17 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
-import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { ResourceProductionForm } from "~/app/derivean/root/resource/production/ResourceProductionForm";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ResourceProductionRequirementForm } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
 	resourceId: string;
 	amount: number;
-	limit: number;
-	cycles: number;
+	passive: boolean;
 }
 
 const column = withColumn<Data>();
@@ -32,7 +32,7 @@ const columns = [
 	column({
 		name: "name",
 		header() {
-			return <Tx label={"Resource name (label)"} />;
+			return <Tx label={"Requirement name (label)"} />;
 		},
 		render({ value }) {
 			return value;
@@ -47,45 +47,30 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 10,
+		size: 14,
 	}),
 	column({
-		name: "limit",
+		name: "passive",
 		header() {
-			return <Tx label={"Production limit (label)"} />;
+			return <Tx label={"Passive requirement (label)"} />;
 		},
 		render({ value }) {
-			return value === 0 ?
-					<Tx label={"Unlimited (label)"} />
-				:	toHumanNumber({ number: value });
+			return <BoolInline value={value} />;
 		},
-		size: 10,
-	}),
-	column({
-		name: "cycles",
-		header() {
-			return <Tx label={"Production cycles (label)"} />;
-		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
-		},
-		size: 10,
+		size: 14,
 	}),
 ];
 
-export namespace BuildingBaseProductionTable {
+export namespace ResourceProductionRequirementTable {
 	export interface Props extends Table.PropsEx<Data> {
-		buildingBaseId: string;
+		resourceProductionId: string;
 	}
 }
 
-export const BuildingBaseProductionTable: FC<
-	BuildingBaseProductionTable.Props
-> = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useInvalidator([
-		["Building_Base_Production"],
-		["Resource_Production"],
-	]);
+export const ResourceProductionRequirementTable: FC<
+	ResourceProductionRequirementTable.Props
+> = ({ resourceProductionId, table, ...props }) => {
+	const invalidator = useInvalidator([["Resource_Production_Requirement"]]);
 
 	return (
 		<Table
@@ -98,38 +83,26 @@ export const BuildingBaseProductionTable: FC<
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create building base production (menu)"} />}
-								textTitle={
-									<Tx label={"Create building base production (modal)"} />
-								}
-								icon={ProductionIcon}
+								label={<Tx label={"Create requirement item (menu)"} />}
+								textTitle={<Tx label={"Create requirement item (modal)"} />}
+								icon={ResourceIcon}
 							>
-								<ResourceProductionForm
+								<ResourceProductionRequirementForm
 									mutation={useMutation({
 										async mutationFn(values) {
 											return toast.promise(
 												kysely.transaction().execute(async (tx) => {
-													const entity = await tx
-														.insertInto("Resource_Production")
+													return tx
+														.insertInto("Resource_Production_Requirement")
 														.values({
-															id: id(),
+															id: genId(),
 															...values,
+															resourceProductionId,
 														})
 														.returningAll()
 														.executeTakeFirstOrThrow();
-
-													await tx
-														.insertInto("Building_Base_Production")
-														.values({
-															id: id(),
-															buildingBaseId,
-															resourceProductionId: entity.id,
-														})
-														.execute();
-
-													return entity;
 												}),
-												withToastPromiseTx("Create building base production"),
+												withToastPromiseTx("Create requirement item"),
 											);
 										},
 									})}
@@ -147,25 +120,23 @@ export const BuildingBaseProductionTable: FC<
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Edit (menu)"} />}
-								textTitle={
-									<Tx label={"Edit building base production (modal)"} />
-								}
-								icon={ProductionIcon}
+								textTitle={<Tx label={"Edit requirement item (modal)"} />}
+								icon={ResourceIcon}
 							>
-								<ResourceProductionForm
+								<ResourceProductionRequirementForm
 									defaultValues={data}
 									mutation={useMutation({
 										async mutationFn(values) {
 											return toast.promise(
 												kysely.transaction().execute(async (tx) => {
 													return tx
-														.updateTable("Resource_Production")
+														.updateTable("Resource_Production_Requirement")
 														.set(values)
 														.where("id", "=", data.id)
 														.returningAll()
 														.executeTakeFirstOrThrow();
 												}),
-												withToastPromiseTx("Update building base production"),
+												withToastPromiseTx("Update requirement item"),
 											);
 										},
 									})}
@@ -179,7 +150,7 @@ export const BuildingBaseProductionTable: FC<
 							<ActionModal
 								icon={TrashIcon}
 								label={<Tx label={"Delete (menu)"} />}
-								textTitle={<Tx label={"Delete building production (modal)"} />}
+								textTitle={<Tx label={"Delete requirement item (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -192,15 +163,15 @@ export const BuildingBaseProductionTable: FC<
 									callback={async () => {
 										return kysely.transaction().execute(async (tx) => {
 											return tx
-												.deleteFrom("Resource_Production")
+												.deleteFrom("Resource_Production_Requirement")
 												.where("id", "=", data.id)
 												.execute();
 										});
 									}}
 									textContent={
-										<Tx label={"Building base production delete (content)"} />
+										<Tx label={"Requirement item delete (content)"} />
 									}
-									textToast={"Building base production delete"}
+									textToast={"Requirement item delete"}
 									invalidator={invalidator}
 								/>
 							</ActionModal>

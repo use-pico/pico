@@ -13,7 +13,7 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { id, type IdentitySchema } from "@use-pico/common";
+import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { TagForm } from "~/app/derivean/root/tag/TagForm";
@@ -101,7 +101,7 @@ export const TagTable: FC<TagTable.Props> = ({ group, table, ...props }) => {
 													return tx
 														.insertInto("Tag")
 														.values({
-															id: id(),
+															id: genId(),
 															...values,
 														})
 														.returningAll()

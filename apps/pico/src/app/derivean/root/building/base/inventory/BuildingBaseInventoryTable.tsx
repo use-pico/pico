@@ -12,7 +12,7 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
@@ -98,7 +98,7 @@ export const BuildingBaseInventoryTable: FC<
 													const entity = await tx
 														.insertInto("Inventory")
 														.values({
-															id: id(),
+															id: genId(),
 															...values,
 														})
 														.returningAll()
@@ -107,7 +107,7 @@ export const BuildingBaseInventoryTable: FC<
 													await tx
 														.insertInto("Building_Base_Inventory")
 														.values({
-															id: id(),
+															id: genId(),
 															buildingBaseId,
 															inventoryId: entity.id,
 														})

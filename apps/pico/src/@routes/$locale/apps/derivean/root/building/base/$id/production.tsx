@@ -9,15 +9,18 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { genId, withJsonArraySchema } from "@use-pico/common";
+import { sql } from "kysely";
 import { z } from "zod";
-import { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
-import { BuildingBaseProductionTable } from "~/app/derivean/root/building/base/production/BuildingBaseProductionTable";
+import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
+import { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
+import { ResourceProductionTable } from "~/app/derivean/root/resource/production/ResourceProductionTable";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/production",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BuildingBaseProductionSchema),
+		withSourceSearchSchema(ResourceProductionSchema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -51,6 +54,27 @@ export const Route = createFileRoute(
 								"rp.limit",
 								"rp.cycles",
 								"rp.resourceId",
+								(eb) =>
+									eb
+										.selectFrom("Resource_Production_Requirement as rpr")
+										.innerJoin(
+											"Resource_Production as rp",
+											"rp.id",
+											"rpr.resourceProductionId",
+										)
+										.innerJoin("Resource as re", "re.id", "rpr.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                'id', ${eb.ref("rpr.id")},
+                                                'amount', ${eb.ref("rpr.amount")},
+                                                'passive', ${eb.ref("rpr.passive")},
+                                                'resourceProductionId', ${eb.ref("rpr.resourceProductionId")},
+                                                'resourceId', ${eb.ref("rpr.resourceId")},
+                                                'name', ${eb.ref("re.name")}
+                                            ))`.as("requirements");
+										})
+										.where("rpr.resourceProductionId", "=", eb.ref("rp.id"))
+										.as("requirements"),
 							])
 							.where(
 								"rp.id",
@@ -72,6 +96,13 @@ export const Route = createFileRoute(
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
+							requirements: withJsonArraySchema(
+								ResourceProductionRequirementSchema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
 						}),
 						filter,
 						cursor,
@@ -90,8 +121,17 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseProductionTable
-					buildingBaseId={id}
+				<ResourceProductionTable
+					onCreate={async ({ tx, entity }) => {
+						return tx
+							.insertInto("Building_Base_Production")
+							.values({
+								id: genId(),
+								buildingBaseId: id,
+								resourceProductionId: entity.id,
+							})
+							.execute();
+					}}
 					table={{
 						data,
 						filter: {

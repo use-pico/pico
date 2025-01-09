@@ -13,29 +13,24 @@ import {
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
+import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
 
-export namespace ResourceRequirementForm {
+export namespace ResourceProductionRequirementForm {
 	export interface Props
 		extends Form.Props<
-			ResourceRequirementSchema["entity"],
-			ResourceRequirementSchema["shape"]
+			ResourceProductionRequirementSchema["entity"],
+			ResourceProductionRequirementSchema["shape"]
 		> {
 		//
 	}
 }
 
-export const ResourceRequirementForm: FC<ResourceRequirementForm.Props> = ({
-	mutation,
-	defaultValues,
-	onSuccess,
-	variant,
-	tva = FormCss,
-	css,
-}) => {
-	const form = useForm<ResourceRequirementSchema["~shape"]>({
-		resolver: zodResolver(ResourceRequirementSchema.shape),
+export const ResourceProductionRequirementForm: FC<
+	ResourceProductionRequirementForm.Props
+> = ({ mutation, defaultValues, onSuccess, variant, tva = FormCss, css }) => {
+	const form = useForm<ResourceProductionRequirementSchema["~shape"]>({
+		resolver: zodResolver(ResourceProductionRequirementSchema.shape),
 		defaultValues: {
 			amount: 1,
 			passive: false,
@@ -55,8 +50,8 @@ export const ResourceRequirementForm: FC<ResourceRequirementForm.Props> = ({
 		<form
 			className={tv.base()}
 			onSubmit={onSubmit<
-				ResourceRequirementSchema["entity"],
-				ResourceRequirementSchema["shape"]
+				ResourceProductionRequirementSchema["entity"],
+				ResourceProductionRequirementSchema["shape"]
 			>({
 				form,
 				mutation,
@@ -72,12 +67,12 @@ export const ResourceRequirementForm: FC<ResourceRequirementForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"requirementId"}
+				name={"resourceId"}
 				label={<Tx label={"Requirement (label)"} />}
 			>
 				<Controller
 					control={form.control}
-					name={"requirementId"}
+					name={"resourceId"}
 					render={({ field: { ref: _, ...field } }) => {
 						return (
 							<ResourcePopupSelect

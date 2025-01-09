@@ -15,7 +15,7 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { id, type IdentitySchema, type TagSchema } from "@use-pico/common";
+import { genId, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -97,7 +97,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 													const entity = await tx
 														.insertInto("Resource")
 														.values({
-															id: id(),
+															id: genId(),
 															name,
 														})
 														.returningAll()
@@ -108,7 +108,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 															.insertInto("Resource_Tag")
 															.values(
 																tagIds.map((tagId) => ({
-																	id: id(),
+																	id: genId(),
 																	resourceId: entity.id,
 																	tagId,
 																})),
@@ -165,7 +165,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 															.insertInto("Resource_Tag")
 															.values(
 																tagIds.map((tagId) => ({
-																	id: id(),
+																	id: genId(),
 																	resourceId: entity.id,
 																	tagId,
 																})),
