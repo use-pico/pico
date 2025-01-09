@@ -157,34 +157,39 @@ export const ResourceProductionTable: FC<ResourceProductionTable.Props> = ({
 										}
 										icon={ProductionIcon}
 									>
-										<ResourceProductionForm
-											mutation={useMutation({
-												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															const entity = await tx
-																.insertInto("Resource_Production")
-																.values({
-																	id: genId(),
-																	...values,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
+										{({ close }) => {
+											return (
+												<ResourceProductionForm
+													mutation={useMutation({
+														async mutationFn(values) {
+															return toast.promise(
+																kysely.transaction().execute(async (tx) => {
+																	const entity = await tx
+																		.insertInto("Resource_Production")
+																		.values({
+																			id: genId(),
+																			...values,
+																		})
+																		.returningAll()
+																		.executeTakeFirstOrThrow();
 
-															await onCreate({ tx, entity });
+																	await onCreate({ tx, entity });
 
-															return entity;
-														}),
-														withToastPromiseTx(
-															"Create building base production",
-														),
-													);
-												},
-												async onSuccess() {
-													await invalidator();
-												},
-											})}
-										/>
+																	return entity;
+																}),
+																withToastPromiseTx(
+																	"Create building base production",
+																),
+															);
+														},
+														async onSuccess() {
+															await invalidator();
+															close();
+														},
+													})}
+												/>
+											);
+										}}
 									</ActionModal>
 								</ActionMenu>
 							);

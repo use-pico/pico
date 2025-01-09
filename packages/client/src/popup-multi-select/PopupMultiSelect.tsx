@@ -131,7 +131,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
 			}
-			title={textTitle}
+			textTitle={textTitle}
 			variant={{
 				loading: result.isLoading,
 			}}

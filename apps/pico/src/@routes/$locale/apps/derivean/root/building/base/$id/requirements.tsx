@@ -65,7 +65,9 @@ export const Route = createFileRoute(
 									.selectFrom("Building_Base as bb")
 									.select("bb.resourceId")
 									.where("bb.id", "=", id),
-							),
+							)
+							.orderBy("rpr.level", "asc")
+							.orderBy("rq.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 

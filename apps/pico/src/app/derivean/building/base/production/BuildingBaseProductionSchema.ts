@@ -5,7 +5,6 @@ import { withBuildingBaseProductionSchema } from "~/app/derivean/db/sdk";
 export const BuildingBaseProductionSchema = withBuildingBaseProductionSchema({
 	shape: z.object({
 		resourceId: z.string().min(1),
-		level: z.string().min(1),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

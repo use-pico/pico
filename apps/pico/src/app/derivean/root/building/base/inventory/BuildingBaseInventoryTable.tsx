@@ -12,22 +12,15 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { genId, toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
+import { withBuildingBaseInventoryListCount } from "~/app/derivean/building/base/inventory/withBuildingBaseInventoryListCount";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { BuildingBaseInventoryForm } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryForm";
 
-interface Data extends IdentitySchema.Type {
-	name: string;
-	amount: number;
-	limit: number;
-	level: number;
-	inventoryId: string;
-}
-
-const column = withColumn<Data>();
+const column = withColumn<withBuildingBaseInventoryListCount.Data>();
 
 const columns = [
 	column({
@@ -75,7 +68,8 @@ const columns = [
 ];
 
 export namespace BuildingBaseInventoryTable {
-	export interface Props extends Table.PropsEx<Data> {
+	export interface Props
+		extends Table.PropsEx<withBuildingBaseInventoryListCount.Data> {
 		buildingBaseId: string;
 	}
 }

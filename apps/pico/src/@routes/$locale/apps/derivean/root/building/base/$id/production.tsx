@@ -9,7 +9,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
+import { genId, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
@@ -35,12 +35,7 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: [
-				"Building_Base_Production",
-				"list-count",
-				id,
-				{ filter, cursor },
-			],
+			queryKey: ["Resource_Production", "list-count", id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
@@ -72,20 +67,17 @@ export const Route = createFileRoute(
 										})
 										.where("rpr.resourceId", "=", eb.ref("rp.resourceId"))
 										.as("requirements"),
-							]),
-						// .where(
-						// 	"rp.resourceId",
-						// 	"in",
-						// 	tx
-						// 		.selectFrom("Building_Base_Production as bbp")
-						// 		.innerJoin(
-						// 			"Building_Base as bb",
-						// 			"bb.id",
-						// 			"bbp.buildingBaseId",
-						// 		)
-						// 		.select("bbp.")
-						// 		.where("bbp.buildingBaseId", "=", id),
-						// ),
+							])
+							.where(
+								"rp.resourceId",
+								"in",
+								tx
+									.selectFrom("Building_Base_Production as bbp")
+									.select("bbp.resourceId")
+									.where("bbp.buildingBaseId", "=", id),
+							)
+							.orderBy("rp.level", "asc")
+							.orderBy("r.name", "asc"),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
@@ -120,16 +112,16 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<ResourceProductionTable
-					// onCreate={async ({ tx, entity: { resourceId } }) => {
-					// 	return tx
-					// 		.insertInto("Building_Base_Production")
-					// 		.values({
-					// 			id: genId(),
-					// 			buildingBaseId: id,
-					// 			resourceId,
-					// 		})
-					// 		.execute();
-					// }}
+					onCreate={async ({ tx, entity: { resourceId } }) => {
+						return tx
+							.insertInto("Building_Base_Production")
+							.values({
+								id: genId(),
+								buildingBaseId: id,
+								resourceId,
+							})
+							.execute();
+					}}
 					table={{
 						data,
 						filter: {

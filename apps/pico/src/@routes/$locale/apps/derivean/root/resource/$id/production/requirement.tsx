@@ -54,7 +54,38 @@ export const Route = createFileRoute(
 								"rpr.requirementId",
 								"rpr.resourceId",
 							])
-							.where("rpr.resourceId", "=", id),
+							.where("rpr.resourceId", "=", id)
+							.orderBy("rpr.level", "asc")
+							.orderBy("rq.name", "asc"),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.resourceId) {
+								$select = $select.where(
+									"rpr.resourceId",
+									"=",
+									where.resourceId,
+								);
+							}
+							if (where?.requirementId) {
+								$select = $select.where(
+									"rpr.requirementId",
+									"=",
+									where.requirementId,
+								);
+							}
+							if (where?.id) {
+								$select = $select.where("rpr.id", "=", where.id);
+							}
+							if (where?.idIn) {
+								$select = $select.where("rpr.id", "in", where.idIn);
+							}
+							if (where?.level) {
+								$select = $select.where("rpr.level", "=", where.level);
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

@@ -379,11 +379,9 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
-			.addColumn("level", "integer", (col) => col.notNull())
-
 			.addUniqueConstraint(
 				"[Building_Base_Production] buildingBaseId-resourceId",
-				["buildingBaseId", "resourceId", "level"],
+				["buildingBaseId", "resourceId"],
 			)
 
 			.execute();

@@ -6,11 +6,10 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCount,
-    withSourceSearchSchema,
+    withSourceSearchSchema
 } from "@use-pico/client";
-import { z } from "zod";
 import { BuildingBaseInventorySchema } from "~/app/derivean/building/base/inventory/BuildingBaseInventorySchema";
+import { withBuildingBaseInventoryListCount } from "~/app/derivean/building/base/inventory/withBuildingBaseInventoryListCount";
 import { BuildingBaseInventoryTable } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryTable";
 
 export const Route = createFileRoute(
@@ -40,49 +39,8 @@ export const Route = createFileRoute(
 			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
-					return withListCount({
-						select: tx
-							.selectFrom("Building_Base_Inventory as bbi")
-							.innerJoin("Inventory as i", "i.id", "bbi.inventoryId")
-							.innerJoin("Resource as r", "r.id", "i.resourceId")
-							.select([
-								"bbi.id",
-								"bbi.level",
-								"bbi.inventoryId",
-								"i.amount",
-								"i.limit",
-								"r.name",
-								"i.resourceId",
-							])
-							.where("bbi.buildingBaseId", "=", id)
-							.orderBy("bbi.level", "asc")
-							.orderBy("r.name", "asc"),
-						query({ select, where }) {
-							let $select = select;
-							if (where?.fulltext) {
-								const fulltext = `%${where.fulltext}%`.toLowerCase();
-
-								$select = $select.where((eb) => {
-									return eb.or([
-										eb("bbi.id", "like", `%${fulltext}%`),
-										eb("i.id", "like", `%${fulltext}%`),
-										eb("r.id", "like", `%${fulltext}%`),
-										eb("r.name", "like", `%${fulltext}%`),
-									]);
-								});
-							}
-
-							return $select;
-						},
-						output: z.object({
-							id: z.string().min(1),
-							name: z.string().min(1),
-							resourceId: z.string().min(1),
-							inventoryId: z.string().min(1),
-							amount: z.number().nonnegative(),
-							limit: z.number().nonnegative(),
-							level: z.number().nonnegative(),
-						}),
+					return withBuildingBaseInventoryListCount({
+						tx,
 						filter,
 						cursor,
 					});

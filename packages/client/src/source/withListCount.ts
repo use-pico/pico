@@ -1,5 +1,5 @@
 import type { CountSchema, CursorSchema, FilterSchema } from "@use-pico/common";
-import type { SelectQueryBuilder } from "kysely";
+import { type SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 import { withCount } from "./withCount";
 import { withList } from "./withList";

@@ -1,7 +1,7 @@
 import {
     createFileRoute,
     useLoaderData,
-    useRouteContext
+    useRouteContext,
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
@@ -64,7 +64,28 @@ export const Route = createFileRoute(
 									.selectFrom("Resource_Production as rp")
 									.select("rp.resourceId")
 									.where("rp.id", "=", id),
-							),
+							)
+							.orderBy("rpr.level", "asc")
+							.orderBy("r.name", "asc"),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.resourceId) {
+								$select = $select.where(
+									"rpr.resourceId",
+									"=",
+									where.resourceId,
+								);
+							}
+							if (where?.id) {
+								$select = $select.where("rpr.id", "=", where.id);
+							}
+							if (where?.idIn) {
+								$select = $select.where("rpr.id", "in", where.idIn);
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

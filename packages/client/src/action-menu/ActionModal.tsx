@@ -1,17 +1,15 @@
 import { isString } from "@use-pico/common";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
 import { ActionModalCss } from "./ActionModalCss";
 
 export namespace ActionModal {
-	export interface Props extends ActionModalCss.Props<PropsWithChildren> {
-		icon?: string | ReactNode;
+	export interface Props
+		extends ActionModalCss.Props<Omit<Modal.Props, "target">> {
 		iconProps?: Icon.Props;
 		label: ReactNode;
-		textTitle?: ReactNode;
 		disabled?: boolean;
-		modalProps?: Omit<Modal.Props, "target">;
 		hidden?: boolean;
 	}
 }
@@ -20,14 +18,12 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	icon,
 	iconProps,
 	label,
-	textTitle,
 	disabled = false,
-	modalProps,
 	hidden = false,
 	variant,
 	tva = ActionModalCss,
 	css,
-	children,
+	...props
 }) => {
 	const tv = tva({ ...variant, disabled, css }).slots;
 
@@ -42,15 +38,12 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				<Modal
 					icon={icon}
 					target={label}
-					title={textTitle}
 					disabled={disabled}
 					css={{
 						modal: ["w-1/2"],
 					}}
-					{...modalProps}
-				>
-					{children}
-				</Modal>
+					{...props}
+				/>
 			</div>
 		);
 };
