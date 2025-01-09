@@ -43,6 +43,23 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 			.execute();
+            
+		// await kysely.schema
+		// 	.createTable("Cycle")
+		// 	.ifNotExists()
+		// 	.addColumn("id", $id, (col) => col.primaryKey())
+		// 	.addColumn("userId", $id, (col) => col.notNull())
+		// 	.addColumn("stamp", "datetime", (col) =>
+		// 		col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+		// 	)
+		// 	.addForeignKeyConstraint(
+		// 		"[Cycle] userId",
+		// 		["userId"],
+		// 		"User",
+		// 		["id"],
+		// 		(c) => c.onDelete("cascade").onUpdate("cascade"),
+		// 	)
+		// 	.execute();
 
 		await kysely.schema
 			.createTable("Resource")
@@ -309,6 +326,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
+			/**
+			 * For which level this inventory is defined for.
+			 */
+			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
+
 			.addUniqueConstraint(
 				"[Building_Base_Inventory] buildingBaseId-inventoryId",
 				["buildingBaseId", "inventoryId"],
@@ -342,6 +364,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
+			/**
+			 * At which level a building is able to produce something.
+			 */
+			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
+
 			.addUniqueConstraint(
 				"[Building_Base_Production] buildingBaseId-resourceId",
 				["buildingBaseId", "resourceId"],
@@ -371,6 +398,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
+
+			/**
+			 * Current level of the building.
+			 */
+			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
 
 			.execute();
 	},
