@@ -103,6 +103,8 @@ export { PopupSelectCss } from "./popup-select/PopupSelectCss";
 export { Preview } from "./preview/Preview";
 export { PreviewCss } from "./preview/PreviewCss";
 export { PriceInline } from "./price-inline/PriceInline";
+export { Progress } from "./progress/Progress";
+export { ProgressCss } from "./progress/ProgressCss";
 export { navigateOnCursor } from "./route/navigateOnCursor";
 export { navigateOnFilter } from "./route/navigateOnFilter";
 export { navigateOnFulltext } from "./route/navigateOnFulltext";

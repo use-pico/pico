@@ -3,6 +3,7 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    Progress,
     Table,
     toast,
     TrashIcon,
@@ -59,10 +60,15 @@ const columns = [
 		header() {
 			return <Tx label={"Inventory limit (label)"} />;
 		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
+		render({ value, data }) {
+			return (
+				<div className={"flex flex-row items-center gap-2 w-full"}>
+					<div>{toHumanNumber({ number: value })}</div>
+					<Progress value={(100 * data.amount) / data.limit} />
+				</div>
+			);
 		},
-		size: 12,
+		size: 14,
 	}),
 ];
 

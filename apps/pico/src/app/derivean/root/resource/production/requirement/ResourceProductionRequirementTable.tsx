@@ -24,6 +24,7 @@ interface Data extends IdentitySchema.Type {
 	resourceId: string;
 	amount: number;
 	passive: boolean;
+	level: number;
 }
 
 const column = withColumn<Data>();
@@ -37,7 +38,17 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
-		size: 14,
+		size: 12,
+	}),
+	column({
+		name: "level",
+		header() {
+			return <Tx label={"Level (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 10,
 	}),
 	column({
 		name: "amount",
@@ -47,7 +58,7 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 14,
+		size: 10,
 	}),
 	column({
 		name: "passive",
@@ -57,7 +68,7 @@ const columns = [
 		render({ value }) {
 			return <BoolInline value={value} />;
 		},
-		size: 14,
+		size: 10,
 	}),
 ];
 

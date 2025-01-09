@@ -133,7 +133,7 @@ export const ResourceProductionForm: FC<ResourceProductionForm.Props> = ({
 				formState={form.formState}
 				name={"level"}
 				label={<Tx label={"Level (label)"} />}
-				hint={<Tx label={"REsource production level (hint)"} />}
+				hint={<Tx label={"Resource production level (hint)"} />}
 			>
 				<input
 					type={"number"}

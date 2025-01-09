@@ -49,8 +49,6 @@ export const Route = createFileRoute(
 						id: z.string().min(1),
 						name: z.string().min(1),
 						resourceId: z.string().min(1),
-						requirementId: z.string().min(1),
-						level: z.number().nonnegative(),
 						cycles: z.number().nonnegative(),
 						requirements: withJsonArraySchema(
 							ResourceProductionRequirementSchema.entity.merge(
