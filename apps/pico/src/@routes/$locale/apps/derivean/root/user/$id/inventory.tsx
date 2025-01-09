@@ -9,6 +9,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { genId } from "@use-pico/common";
 import { z } from "zod";
 import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
@@ -71,7 +72,16 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<InventoryTable
-					userId={id}
+					onCreate={async ({ tx, entity }) => {
+						return tx
+							.insertInto("User_Inventory")
+							.values({
+								id: genId(),
+								userId: id,
+								inventoryId: entity.id,
+							})
+							.execute();
+					}}
 					table={{
 						data,
 						filter: {

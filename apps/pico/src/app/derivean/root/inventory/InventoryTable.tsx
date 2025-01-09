@@ -1,21 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-	ActionMenu,
-	ActionModal,
-	DeleteControl,
-	Table,
-	toast,
-	TrashIcon,
-	Tx,
-	useInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    Table,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    type Entity,
+    type IdentitySchema,
+} from "@use-pico/common";
+import type { Transaction } from "kysely";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
+import type { Database } from "~/app/derivean/db/sdk";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
 
 interface Data extends IdentitySchema.Type {
@@ -69,13 +77,19 @@ const columns = [
 ];
 
 export namespace InventoryTable {
+	export namespace onCreate {
+		export interface Props extends Entity.Schema<InventorySchema["entity"]> {
+			tx: Transaction<Database>;
+		}
+	}
+
 	export interface Props extends Table.PropsEx<Data> {
-		userId?: string;
+		onCreate?(props: onCreate.Props): Promise<any>;
 	}
 }
 
 export const InventoryTable: FC<InventoryTable.Props> = ({
-	userId,
+	onCreate,
 	table,
 	...props
 }) => {
@@ -89,7 +103,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 			})}
 			action={{
 				table:
-					userId ?
+					onCreate ?
 						() => {
 							return (
 								<ActionMenu>
@@ -112,14 +126,7 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 																.returningAll()
 																.executeTakeFirstOrThrow();
 
-															await tx
-																.insertInto("User_Inventory")
-																.values({
-																	id: genId(),
-																	userId,
-																	inventoryId: entity.id,
-																})
-																.execute();
+															await onCreate?.({ tx, entity });
 
 															return entity;
 														}),
@@ -139,35 +146,33 @@ export const InventoryTable: FC<InventoryTable.Props> = ({
 				row({ data }) {
 					return (
 						<ActionMenu>
-							{userId ?
-								<ActionModal
-									label={<Tx label={"Edit (menu)"} />}
-									textTitle={<Tx label={"Edit inventory item (modal)"} />}
-									icon={InventoryIcon}
-								>
-									<InventoryForm
-										defaultValues={data}
-										mutation={useMutation({
-											async mutationFn(values) {
-												return toast.promise(
-													kysely.transaction().execute(async (tx) => {
-														return tx
-															.updateTable("Inventory")
-															.set(values)
-															.where("id", "=", data.id)
-															.returningAll()
-															.executeTakeFirstOrThrow();
-													}),
-													withToastPromiseTx("Update inventory item"),
-												);
-											},
-											async onSuccess() {
-												await invalidator();
-											},
-										})}
-									/>
-								</ActionModal>
-							:	null}
+							<ActionModal
+								label={<Tx label={"Edit (menu)"} />}
+								textTitle={<Tx label={"Edit inventory item (modal)"} />}
+								icon={InventoryIcon}
+							>
+								<InventoryForm
+									defaultValues={data}
+									mutation={useMutation({
+										async mutationFn(values) {
+											return toast.promise(
+												kysely.transaction().execute(async (tx) => {
+													return tx
+														.updateTable("Inventory")
+														.set(values)
+														.where("id", "=", data.id)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+												}),
+												withToastPromiseTx("Update inventory item"),
+											);
+										},
+										async onSuccess() {
+											await invalidator();
+										},
+									})}
+								/>
+							</ActionModal>
 
 							<ActionModal
 								icon={TrashIcon}
