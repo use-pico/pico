@@ -12,7 +12,7 @@
   value: Seznam uživatelů
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
-  value: Edit requirement item (modal)
+  value: Editace požadovaného zdroje
 1237a51f25d85bfad4f17572f310783e5b06bc5304d24e95ead71eac:
   ref: Buildings (menu)
   value: Budovy
@@ -203,6 +203,9 @@
 84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
   ref: Resource delete (content)
   value: Resource delete (content)
+850304d8cac143564bd8f6fc7fd5222a09f5a4a143c42acf374d0cc0:
+  ref: Inventory level (hint)
+  value: Definuje úroveň, se kterou bude tato položka inventáře aktivní.
 8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
   ref: Limit (label)
   value: Limit
@@ -298,6 +301,9 @@ b55de4769cde946ba7eebd61088f87e3cd96ca406ab4ff2a49bb3160:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
+b79d13ea78b41eb890e22a6f6c5cbdda742372f646b83ad8340a6a1c:
+  ref: Inventory level (label)
+  value: Úroveň
 b80c7aa737ea117720dd56471b4bc8b16fe40a9b85a47e05b7aaddbb:
   ref: Resource production list (menu)
   value: Produkční linky

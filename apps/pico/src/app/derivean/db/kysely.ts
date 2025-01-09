@@ -163,8 +163,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.addColumn("passive", "boolean", (col) => col.notNull())
 
 			.addUniqueConstraint(
-				"[Resource_Production_Requirement] resourceId-requirementId",
-				["requirementId", "resourceId"],
+				"[Resource_Production_Requirement] resourceId-requirementId-level",
+				["requirementId", "resourceId", "level"],
 			)
 			.execute();
 

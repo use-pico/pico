@@ -32,22 +32,31 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Building_Base", "list-count", id, { filter, cursor }],
+			queryKey: [
+				"Building_Base_Inventory",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Inventory as i")
+							.selectFrom("Building_Base_Inventory as bbi")
+							.innerJoin("Inventory as i", "i.id", "bbi.inventoryId")
 							.innerJoin("Resource as r", "r.id", "i.resourceId")
-							.select(["i.id", "i.amount", "i.limit", "r.name", "i.resourceId"])
-							.where(
-								"i.id",
-								"in",
-								tx
-									.selectFrom("Building_Base_Inventory as bbi")
-									.select("bbi.inventoryId")
-									.where("bbi.buildingBaseId", "=", id),
-							),
+							.select([
+								"bbi.id",
+								"bbi.level",
+								"bbi.inventoryId",
+								"i.amount",
+								"i.limit",
+								"r.name",
+								"i.resourceId",
+							])
+							.where("bbi.buildingBaseId", "=", id)
+							.orderBy("bbi.level", "asc")
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 							if (where?.fulltext) {
@@ -55,6 +64,7 @@ export const Route = createFileRoute(
 
 								$select = $select.where((eb) => {
 									return eb.or([
+										eb("bbi.id", "like", `%${fulltext}%`),
 										eb("i.id", "like", `%${fulltext}%`),
 										eb("r.id", "like", `%${fulltext}%`),
 										eb("r.name", "like", `%${fulltext}%`),
@@ -68,8 +78,10 @@ export const Route = createFileRoute(
 							id: z.string().min(1),
 							name: z.string().min(1),
 							resourceId: z.string().min(1),
+							inventoryId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
+							level: z.number().nonnegative(),
 						}),
 						filter,
 						cursor,

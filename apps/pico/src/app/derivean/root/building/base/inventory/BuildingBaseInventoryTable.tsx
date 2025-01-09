@@ -1,28 +1,30 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-    ActionMenu,
-    ActionModal,
-    DeleteControl,
-    Table,
-    toast,
-    TrashIcon,
-    Tx,
-    useInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	DeleteControl,
+	Table,
+	toast,
+	TrashIcon,
+	Tx,
+	useInvalidator,
+	useTable,
+	withColumn,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
+import { BuildingBaseInventoryForm } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryForm";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
 	amount: number;
 	limit: number;
+	level: number;
+	inventoryId: string;
 }
 
 const column = withColumn<Data>();
@@ -60,6 +62,16 @@ const columns = [
 		},
 		size: 10,
 	}),
+	column({
+		name: "level",
+		header() {
+			return <Tx label={"Inventory level (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 10,
+	}),
 ];
 
 export namespace BuildingBaseInventoryTable {
@@ -71,7 +83,11 @@ export namespace BuildingBaseInventoryTable {
 export const BuildingBaseInventoryTable: FC<
 	BuildingBaseInventoryTable.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useInvalidator([["Building_Base"], ["Inventory"]]);
+	const invalidator = useInvalidator([
+		["Building_Base"],
+		["Building_Base_Inventory"],
+		["Inventory"],
+	]);
 
 	return (
 		<Table
@@ -90,9 +106,9 @@ export const BuildingBaseInventoryTable: FC<
 								}
 								icon={InventoryIcon}
 							>
-								<InventoryForm
+								<BuildingBaseInventoryForm
 									mutation={useMutation({
-										async mutationFn(values) {
+										async mutationFn({ level, ...values }) {
 											return toast.promise(
 												kysely.transaction().execute(async (tx) => {
 													const entity = await tx
@@ -104,17 +120,16 @@ export const BuildingBaseInventoryTable: FC<
 														.returningAll()
 														.executeTakeFirstOrThrow();
 
-													await tx
+													return tx
 														.insertInto("Building_Base_Inventory")
 														.values({
 															id: genId(),
 															buildingBaseId,
 															inventoryId: entity.id,
-															level: 1,
+															level,
 														})
-														.execute();
-
-													return entity;
+														.returningAll()
+														.executeTakeFirstOrThrow();
 												}),
 												withToastPromiseTx("Create building base inventory"),
 											);
@@ -137,15 +152,22 @@ export const BuildingBaseInventoryTable: FC<
 								textTitle={<Tx label={"Edit building base (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
-								<InventoryForm
+								<BuildingBaseInventoryForm
 									defaultValues={data}
 									mutation={useMutation({
-										async mutationFn(values) {
+										async mutationFn({ level, ...values }) {
 											return toast.promise(
 												kysely.transaction().execute(async (tx) => {
-													return tx
+													await tx
 														.updateTable("Inventory")
 														.set(values)
+														.where("id", "=", data.inventoryId)
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													return tx
+														.updateTable("Building_Base_Inventory")
+														.set({ level })
 														.where("id", "=", data.id)
 														.returningAll()
 														.executeTakeFirstOrThrow();
@@ -178,9 +200,15 @@ export const BuildingBaseInventoryTable: FC<
 								<DeleteControl
 									callback={async () => {
 										return kysely.transaction().execute(async (tx) => {
+											/**
+											 * Deleting from inventory, because it will also take down
+											 * the building base inventory.
+											 *
+											 * Assuming that building inventory is used only for the building.
+											 */
 											return tx
 												.deleteFrom("Inventory")
-												.where("id", "=", data.id)
+												.where("id", "=", data.inventoryId)
 												.execute();
 										});
 									}}

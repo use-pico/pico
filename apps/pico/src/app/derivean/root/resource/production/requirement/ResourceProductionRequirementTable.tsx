@@ -109,7 +109,6 @@ export const ResourceProductionRequirementTable: FC<
 															id: genId(),
 															...values,
 															resourceId,
-															level: 1,
 														})
 														.returningAll()
 														.executeTakeFirstOrThrow();
