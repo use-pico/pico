@@ -57,10 +57,12 @@ const columns = [
 	column({
 		name: "limit",
 		header() {
-			return <Tx label={"Limit (label)"} />;
+			return <Tx label={"Inventory limit (label)"} />;
 		},
 		render({ value }) {
-			return toHumanNumber({ number: value });
+			return value === 0 ?
+					<Tx label={"Unlimited (label)"} />
+				:	toHumanNumber({ number: value });
 		},
 		size: 18,
 	}),

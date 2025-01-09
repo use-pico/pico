@@ -39,7 +39,7 @@
   value: Množství
 24647fffdf06d5f8b85ae24fda203f0fbac70340bfd3167e0875b92b:
   ref: Number of items
-  value: Number of items
+  value: Počet položek
 24f33bf3bc4bb7962ce14173de71bc4f6fd2c880f292b7d119c3d7b9:
   ref: Register (submit)
   value: Zaregistrovat se
@@ -87,6 +87,9 @@
 3909c87c4b736847773096b6ead06fff8cfcab8426b86024493883bd:
   ref: Select item
   value: Select item
+3a4a801c33fea80c20f04f91c804a94b19461c2e89b179cc5b9539b7:
+  ref: No requirements (label)
+  value: Žádné požadavky
 3f6e4f37963b44a6c4d2b161863da423becf34a1bd174a0d606bb1d8:
   ref: Resource list (menu)
   value: Seznam zdrojů
@@ -143,7 +146,7 @@
   value: Smazat
 61d121fa1233ae65704f59a19f4dc1e80ccf1ce8f5b897bd8f18f8c5:
   ref: Create building base inventory (menu)
-  value: Create building base inventory (menu)
+  value: Nová položka inventáře
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Nový zdroj
@@ -175,7 +178,7 @@
     odebrán z inventáře.
 76c40f3bee67fbc832bb7731fdec758660fac52e49ce9f5bf13b21fe:
   ref: Inventory limit (label)
-  value: Inventory limit (label)
+  value: Maximum
 7769647fc513914768f9797d35365b9227954983799eda6ba31ab16d:
   ref: Building list (menu)
   value: Seznam budov
@@ -359,7 +362,7 @@ da980a14e8d21ccbad06717ff68370d22a861de73e9bf1e350790bc8:
   value: Nová základní budova
 dc63eb323046fdd329f5fa7883ef6cc3c032730f011a38aa02186625:
   ref: Create building base inventory (modal)
-  value: Create building base inventory (modal)
+  value: Nová položka inventáře
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek

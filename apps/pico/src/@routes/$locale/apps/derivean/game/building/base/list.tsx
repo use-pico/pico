@@ -9,11 +9,10 @@ import {
     navigateOnFilter,
     navigateOnFulltext,
     Tx,
-    withListCount,
-    withSourceSearchSchema,
+    withSourceSearchSchema
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
-import { z } from "zod";
+import { withBuildingBaseListCount } from "~/app/derivean/building/base/withBuildingBaseListCount";
 import { BuildingBaseTable } from "~/app/derivean/game/building/base/BuildingBaseTable";
 
 export const Route = createFileRoute(
@@ -33,19 +32,8 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
-			return withListCount({
-				select: tx
-					.selectFrom("Building_Base as bb")
-					.innerJoin("Resource as r", "r.id", "bb.resourceId")
-					.selectAll("bb")
-					.select("bb.resourceId")
-					.select("r.name as name"),
-				output: z.object({
-					id: z.string().min(1),
-					name: z.string().min(1),
-					cycles: z.number().nonnegative(),
-					resourceId: z.string().min(1),
-				}),
+			return withBuildingBaseListCount({
+				tx,
 				filter,
 				cursor,
 			});

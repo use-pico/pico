@@ -1,18 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
-	ActionMenu,
-	ActionModal,
-	LinkTo,
-	Table,
-	Tags,
-	toast,
-	TrashIcon,
-	Tx,
-	useInvalidator,
-	useTable,
-	withColumn,
-	withToastPromiseTx,
+    ActionMenu,
+    ActionModal,
+    DeleteControl,
+    LinkTo,
+    Table,
+    Tags,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { id, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -197,14 +198,19 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 									],
 								}}
 							>
-								{/* <DeleteControl
-									source={ResourceSource}
-									textContent={<Tx label={"Resource delete (content)"} />}
-									filter={{
-										id: data.id,
+								<DeleteControl
+									callback={async () => {
+										return kysely.transaction().execute(async (tx) => {
+											return tx
+												.deleteFrom("Resource")
+												.where("id", "=", data.id)
+												.execute();
+										});
 									}}
+									textContent={<Tx label={"Resource delete (content)"} />}
+									textToast={"Resource delete"}
 									invalidator={invalidator}
-								/> */}
+								/>
 							</ActionModal>
 						</ActionMenu>
 					);

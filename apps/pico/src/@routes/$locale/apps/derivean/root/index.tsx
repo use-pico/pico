@@ -1,13 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, JustDropZone, toast, Tx } from "@use-pico/client";
-import { translator } from "@use-pico/common";
+import {
+    Button,
+    JustDropZone,
+    toast,
+    Tx,
+    withToastPromiseTx,
+} from "@use-pico/client";
 import FileSaver from "file-saver";
 import type { Database } from "~/app/derivean/db/Database";
 import { kysely } from "~/app/derivean/db/db";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
 
 const sources: (keyof Database)[] = [
+	"Tag",
 	"Resource",
 	"Resource_Tag",
 	"Resource_Production",
@@ -15,6 +21,7 @@ const sources: (keyof Database)[] = [
 	"Building_Base",
 	"Building_Base_Inventory",
 	"Building_Base_Production",
+	"Default_Inventory",
 ] as const;
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/")({
@@ -36,17 +43,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						});
 
 						FileSaver.saveAs(
-							new Blob([JSON.stringify(data, null, 2)], {
+							new Blob([JSON.stringify(data)], {
 								type: "application/json;charset=utf-8",
 							}),
 							"export.json",
 						);
 					})(),
-					{
-						success: translator.text("Exported (toast)"),
-						error: translator.text("Export failed (toast)"),
-						loading: translator.text("Exporting (toast)"),
-					},
+					withToastPromiseTx("Export game files"),
 				);
 			},
 		});
@@ -72,29 +75,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 						const data = JSON.parse(await file.text());
 
-						await kysely.transaction().execute(async (tx) => {
-							for await (const { source } of data) {
-								const sourceInstance = sources[source];
-								if (!sourceInstance) {
-									throw new Error(`Unknown source [${source}]`);
-								}
-								await tx.deleteFrom(sourceInstance).execute();
-							}
-
-							for await (const { source, entities } of data) {
-								const sourceInstance = sources[source];
-								if (!sourceInstance) {
-									throw new Error(`Unknown source [${source}]`);
+						await toast.promise(
+							kysely.transaction().execute(async (tx) => {
+								for await (const { source } of data) {
+									const sourceInstance = sources.find((s) => s === source);
+									if (!sourceInstance) {
+										throw new Error(`Unknown source [${source}]`);
+									}
+									await tx.deleteFrom(sourceInstance).execute();
 								}
 
-								for await (const entity of Object.values(entities)) {
-									await tx
-										.insertInto(sourceInstance)
-										.values(entity as any)
-										.execute();
+								for await (const { source, entities } of data) {
+									const sourceInstance = sources.find((s) => s === source);
+									if (!sourceInstance) {
+										throw new Error(`Unknown source [${source}]`);
+									}
+
+									for await (const entity of Object.values(entities)) {
+										await tx
+											.insertInto(sourceInstance)
+											.values(entity as any)
+											.execute();
+									}
 								}
-							}
-						});
+							}),
+							withToastPromiseTx("Import game files"),
+						);
 					}}
 				/>
 			</div>

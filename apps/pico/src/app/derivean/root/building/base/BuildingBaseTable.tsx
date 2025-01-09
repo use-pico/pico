@@ -18,12 +18,17 @@ import { id, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/db";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
+import type { ResourceRequirementSchema } from "~/app/derivean/resource/requirement/ResourceRequirementSchema";
 import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
+import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 
 interface Data extends IdentitySchema.Type {
 	name: string;
 	resourceId: string;
 	cycles: number;
+	requirements: (ResourceRequirementSchema["~entity"] & {
+		name: string;
+	})[];
 }
 
 const column = withColumn<Data>();
@@ -58,22 +63,23 @@ const columns = [
 		},
 		size: 14,
 	}),
-	// column({
-	// 	name: "requirements",
-	// 	header() {
-	// 		return <Tx label={"Resource requirements (label)"} />;
-	// 	},
-	// 	render({ value }) {
-	// 		return (
-	// 			<RequirementsInline
-	// 				textTitle={<Tx label={"Building requirements (title)"} />}
-	// 				requirements={value}
-	// 				limit={5}
-	// 			/>
-	// 		);
-	// 	},
-	// 	size: 72,
-	// }),
+	column({
+		name: "requirements",
+		header() {
+			return <Tx label={"Resource requirements (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<RequirementsInline
+					textTitle={<Tx label={"Building requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={value}
+					limit={5}
+				/>
+			);
+		},
+		size: 72,
+	}),
 ];
 
 export namespace BuildingBaseTable {

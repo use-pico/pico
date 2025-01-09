@@ -29,9 +29,9 @@ const column = withColumn<Data>();
 
 const columns = [
 	column({
-		name: "code",
+		name: "label",
 		header() {
-			return <Tx label={"Tag code (label)"} />;
+			return <Tx label={"Tag label (label)"} />;
 		},
 		render({ value }) {
 			return value;
@@ -39,9 +39,9 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "label",
+		name: "code",
 		header() {
-			return <Tx label={"Tag label (label)"} />;
+			return <Tx label={"Tag code (label)"} />;
 		},
 		render({ value }) {
 			return value;

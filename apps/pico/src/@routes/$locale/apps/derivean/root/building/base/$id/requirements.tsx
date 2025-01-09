@@ -43,10 +43,10 @@ export const Route = createFileRoute(
 					return withListCount({
 						select: tx
 							.selectFrom("Resource_Requirement as rr")
-							.innerJoin("Resource as r", "r.id", "rr.resourceId")
+							.innerJoin("Resource as rq", "rq.id", "rr.requirementId")
 							.select([
 								"rr.id",
-								"r.name",
+								"rq.name",
 								"rr.amount",
 								"rr.passive",
 								"rr.resourceId",

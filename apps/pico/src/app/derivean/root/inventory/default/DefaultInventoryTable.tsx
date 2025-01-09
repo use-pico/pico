@@ -52,17 +52,17 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 18,
+		size: 12,
 	}),
 	column({
 		name: "limit",
 		header() {
-			return <Tx label={"Resource limit (label)"} />;
+			return <Tx label={"Inventory limit (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 18,
+		size: 12,
 	}),
 ];
 

@@ -40,7 +40,12 @@ export const BuildingBaseCard: FC<BuildingBaseCard.Props> = (props) => {
 					id: "requirement.resources",
 					label: <Tx label={"Resource requirements (label)"} />,
 					render({ entity }) {
-						return <RequirementsInline requirements={entity.requirements} />;
+						return (
+							<RequirementsInline
+								requirements={entity.requirements}
+								textEmpty={<Tx label={"No requirements (label)"} />}
+							/>
+						);
 					},
 				},
 				{

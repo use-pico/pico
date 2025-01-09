@@ -40,14 +40,7 @@ export const Route = createFileRoute(
                                             'name', ${eb.ref("re.name")}
                                         ))`.as("tags");
 									})
-									.where(
-										"rr.resourceId",
-										"in",
-										eb
-											.selectFrom("Building_Base as bb2")
-											.select(["bb2.resourceId"])
-											.where("bb2.id", "=", id),
-									)
+									.where("rr.resourceId", "=", eb.ref("bb.resourceId"))
 									.as("requirements"),
 						])
 						.where("bb.id", "=", id),

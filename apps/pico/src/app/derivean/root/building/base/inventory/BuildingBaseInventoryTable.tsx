@@ -51,7 +51,7 @@ const columns = [
 	column({
 		name: "limit",
 		header() {
-			return <Tx label={"Limit (label)"} />;
+			return <Tx label={"Inventory limit (label)"} />;
 		},
 		render({ value }) {
 			return value === 0 ?
