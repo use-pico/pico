@@ -11,12 +11,8 @@ import {
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import {
-    Resource_PopupSelect
-} from "~/app/derivean/root/resource/Resource_PopupSelect";
-import {
-    Inventory_Schema
-} from "~/app/derivean/schema/inventory/Inventory_Schema";
+import { Resource_PopupSelect } from "~/app/derivean/root/resource/Resource_PopupSelect";
+import { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export namespace Inventory_Form {
 	export interface Props extends Form.Props<Inventory_Schema["shape"]> {
@@ -34,7 +30,7 @@ export const Inventory_Form: FC<Inventory_Form.Props> = ({
 	const form = useForm<Inventory_Schema["~shape"]>({
 		resolver: zodResolver(Inventory_Schema.shape),
 		defaultValues: {
-			amount: 1,
+			amount: 0,
 			limit: 0,
 			...defaultValues,
 		},

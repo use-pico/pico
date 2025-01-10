@@ -1,4 +1,8 @@
-import { createFileRoute, useRouteContext } from "@tanstack/react-router";
+import {
+    createFileRoute,
+    useLoaderData,
+    useRouteContext,
+} from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
     navigateOnCursor,
@@ -113,11 +117,15 @@ export const Route = createFileRoute(
 		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
+		const { graph } = useLoaderData({
+			from: "/$locale/apps/derivean/root/building/base",
+		});
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
 				<Building_Base_Table
+					graph={graph}
 					table={{
 						data,
 						filter: {

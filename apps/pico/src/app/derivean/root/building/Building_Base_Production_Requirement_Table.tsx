@@ -81,6 +81,7 @@ export const Building_Base_Production_Requirement_Table: FC<
 	const invalidator = useInvalidator([
 		["Building_Base_Production_Requirement"],
 		["Building_Base_Production"],
+		["Resource"],
 	]);
 
 	return (

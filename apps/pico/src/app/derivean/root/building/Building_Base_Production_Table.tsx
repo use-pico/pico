@@ -119,7 +119,10 @@ export namespace Building_Base_Production_Table {
 export const Building_Base_Production_Table: FC<
 	Building_Base_Production_Table.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useInvalidator([["Building_Base_Production"]]);
+	const invalidator = useInvalidator([
+		["Building_Base_Production"],
+		["Resource"],
+	]);
 
 	return (
 		<Table

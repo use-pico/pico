@@ -78,7 +78,10 @@ export namespace Building_Base_Resource_Requirement_Table {
 export const Building_Base_Resource_Requirement_Table: FC<
 	Building_Base_Resource_Requirement_Table.Props
 > = ({ buildingBaseId, table, ...props }) => {
-	const invalidator = useInvalidator([["Building_Base_Resource_Requirement"]]);
+	const invalidator = useInvalidator([
+		["Building_Base_Resource_Requirement"],
+		["Resource"],
+	]);
 
 	return (
 		<Table

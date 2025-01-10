@@ -72,6 +72,26 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
 									.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
 									.as("requiredBuildings"),
 						]),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.id) {
+								$select = $select.where("bb.id", "=", where.id);
+							}
+
+							if (where?.fulltext) {
+								const fulltext = `%${where.fulltext}%`.toLowerCase();
+
+								$select = $select.where((eb) => {
+									return eb.or([
+										eb("bb.id", "=", fulltext),
+										eb("bb.name", "=", fulltext),
+									]);
+								});
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

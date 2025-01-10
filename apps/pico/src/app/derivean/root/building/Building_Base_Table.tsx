@@ -16,6 +16,7 @@ import {
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { Dependencies } from "~/app/derivean/building/Dependencies";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { Building_Base_Form } from "~/app/derivean/root/building/Building_Base_Form";
@@ -23,6 +24,7 @@ import { Building_Requirement_Inline } from "~/app/derivean/root/building/Buildi
 import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Building_Base_Table {
 	export interface Data extends IdentitySchema.Type {
@@ -34,10 +36,18 @@ export namespace Building_Base_Table {
 		requiredBuildings: (Building_Base_Building_Base_Requirement_Schema["~entity"] & {
 			name: string;
 		})[];
+		graph?: string;
+	}
+
+	export interface Context {
+		graph?: withBuildingGraph.Result;
 	}
 }
 
-const column = withColumn<Building_Base_Table.Data>();
+const column = withColumn<
+	Building_Base_Table.Data,
+	Building_Base_Table.Context
+>();
 
 const columns = [
 	column({
@@ -84,34 +94,60 @@ const columns = [
 				/>
 			);
 		},
-		size: 32,
+		size: 42,
 	}),
 	column({
 		name: "requiredBuildings",
 		header() {
 			return <Tx label={"Required buildings (label)"} />;
 		},
-		render({ value }) {
+		render({ data, value, context: { graph } }) {
 			return (
-				<Building_Requirement_Inline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-					limit={5}
-				/>
+				<div className={"flex flex-col gap-2 items-start justify-center"}>
+					<Building_Requirement_Inline
+						textTitle={<Tx label={"Building requirements (title)"} />}
+						textEmpty={<Tx label={"No requirements (label)"} />}
+						requirements={value}
+						limit={5}
+					/>
+					{graph ?
+						<Dependencies
+							graph={graph}
+							mode={"dependants"}
+							buildingBaseId={data.id}
+						/>
+					:	null}
+				</div>
 			);
 		},
-		size: 24,
+		size: 64,
+	}),
+	column({
+		name: "graph",
+		header() {
+			return <Tx label={"Building dependencies (label)"} />;
+		},
+		render({ data, context: { graph } }) {
+			return graph ?
+					<Dependencies
+						graph={graph}
+						buildingBaseId={data.id}
+					/>
+				:	"-";
+		},
+		size: 64,
 	}),
 ];
 
 export namespace Building_Base_Table {
-	export interface Props extends Table.PropsEx<Data> {
-		//
+	export interface Props
+		extends Table.PropsEx<Data, Building_Base_Table.Context> {
+		graph?: withBuildingGraph.Result;
 	}
 }
 
 export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
+	graph,
 	table,
 	...props
 }) => {
@@ -122,6 +158,9 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 			table={useTable({
 				...table,
 				columns,
+				context: {
+					graph,
+				},
 			})}
 			action={{
 				table() {

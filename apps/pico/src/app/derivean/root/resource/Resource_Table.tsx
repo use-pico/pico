@@ -3,6 +3,7 @@ import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
+    Badge,
     DeleteControl,
     LinkTo,
     Table,
@@ -15,7 +16,12 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, type IdentitySchema, type TagSchema } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    type IdentitySchema,
+    type TagSchema,
+} from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -25,6 +31,9 @@ export namespace Resource_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		tags: TagSchema.Type[];
+		countResourceRequirement?: number;
+		countProduction?: number;
+		countProductionRequirement?: number;
 	}
 }
 
@@ -46,6 +55,79 @@ const columns = [
 				>
 					{value}
 				</LinkTo>
+			);
+		},
+		size: 18,
+	}),
+	column({
+		name: "countProduction",
+		header() {
+			return <Tx label={"Resource production count (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<Badge
+					css={{
+						base:
+							value !== undefined && value === 0 ?
+								["bg-red-100", "text-red-500", "border-red-600"]
+							:	[],
+					}}
+				>
+					{toHumanNumber({ number: value })}
+				</Badge>
+			);
+		},
+		size: 12,
+	}),
+	column({
+		name: "countResourceRequirement",
+		header() {
+			return <Tx label={"Resource requirement count (label)"} />;
+		},
+		render({ data, value }) {
+			return (
+				<Badge
+					css={{
+						base:
+							(
+								data?.countResourceRequirement !== undefined &&
+								data?.countProductionRequirement !== undefined &&
+								data.countResourceRequirement === 0 &&
+								data.countProductionRequirement === 0
+							) ?
+								["bg-red-100", "text-red-500", "border-red-600"]
+							:	[],
+					}}
+				>
+					{toHumanNumber({ number: value })}
+				</Badge>
+			);
+		},
+		size: 12,
+	}),
+	column({
+		name: "countProductionRequirement",
+		header() {
+			return <Tx label={"Resource production requirement count (label)"} />;
+		},
+		render({ data, value }) {
+			return (
+				<Badge
+					css={{
+						base:
+							(
+								data?.countResourceRequirement !== undefined &&
+								data?.countProductionRequirement !== undefined &&
+								data.countResourceRequirement === 0 &&
+								data.countProductionRequirement === 0
+							) ?
+								["bg-red-100", "text-red-500", "border-red-600"]
+							:	[],
+					}}
+				>
+					{toHumanNumber({ number: value })}
+				</Badge>
 			);
 		},
 		size: 18,

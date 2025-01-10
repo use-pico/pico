@@ -1,10 +1,15 @@
 import { Card, Tx } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import {
+    toHumanNumber,
+    type IdentitySchema
+} from "@use-pico/common";
 import type { FC } from "react";
+import { Dependencies } from "~/app/derivean/building/Dependencies";
 import { Building_Requirement_Inline } from "~/app/derivean/root/building/Building_Requirement_Inline";
 import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Building_Base_Card {
 	export interface Data extends IdentitySchema.Type {
@@ -19,11 +24,14 @@ export namespace Building_Base_Card {
 	}
 
 	export interface Props extends Card.PropsEx<Data> {
-		//
+		graph: withBuildingGraph.Result;
 	}
 }
 
-export const Building_Base_Card: FC<Building_Base_Card.Props> = (props) => {
+export const Building_Base_Card: FC<Building_Base_Card.Props> = ({
+	graph,
+	...props
+}) => {
 	return (
 		<Card
 			items={[
@@ -61,6 +69,18 @@ export const Building_Base_Card: FC<Building_Base_Card.Props> = (props) => {
 							<Building_Requirement_Inline
 								requirements={entity.requiredBuildings}
 								textEmpty={<Tx label={"No requirements (label)"} />}
+							/>
+						);
+					},
+				},
+				{
+					id: "deps",
+					label: <Tx label={"Building dependencies (label)"} />,
+					render({ entity }) {
+						return (
+							<Dependencies
+								graph={graph}
+								buildingBaseId={entity.id}
 							/>
 						);
 					},

@@ -46,6 +46,9 @@
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Building base detail (label)
+19d04bf3808447ec0105094716724deda8a0e2fff20d11e44c29b952:
+  ref: Resource production count (label)
+  value: Resource production count (label)
 1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
   ref: Production limit (label)
   value: Production limit (label)
@@ -82,6 +85,9 @@
 30e826ba46adff38964bca1515417554abf372ad751e9beba9ca97fe:
   ref: View detail (label)
   value: View detail (label)
+337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
+  ref: No dependents (label)
+  value: No dependents (label)
 35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
   ref: Unlimited (label)
   value: Unlimited (label)
@@ -142,6 +148,9 @@
 51615a0f75be71d80974e7057dec0168b938c0bcf2aa5fe6d52b3dc8:
   ref: Production limit (hint)
   value: Production limit (hint)
+519158daabe66e02d9700782a349e50002f9171c46652654305f8f63:
+  ref: Building dependencies (label)
+  value: Building dependencies (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -364,6 +373,9 @@ cfeefd83a16552caefa5ed9194c0dcf26322b62a6a5190af69d92e94:
 cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
   ref: Tag sort (label)
   value: Tag sort (label)
+d0ff3066f7fcf3ea876060560982dd15ac478f66221de2ef7f01a31d:
+  ref: Resource requirement count (label)
+  value: Resource requirement count (label)
 d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
   ref: Item kind - building
   value: Item kind - building
@@ -400,6 +412,9 @@ e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
 e6cb9ede3821df34522a210bb6da4da53999943e32a65b4d498d2b55:
   ref: Select building base (label)
   value: Select building base (label)
+e7cee6b43eb371f009f5600727cdde55648cca18c708a99d39c4ac81:
+  ref: Resource production requirement count (label)
+  value: Resource production requirement count (label)
 e9774c347a82dce48b5bee9adf2b79476ec38d3a3ed0b65d50c3391e:
   ref: Register (link)
   value: Register (link)

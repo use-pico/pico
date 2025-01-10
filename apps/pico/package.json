@@ -21,12 +21,13 @@
 		"@use-pico/client": "workspace:*",
 		"@use-pico/common": "workspace:*",
 		"@use-pico/server": "workspace:*",
+		"dependency-graph": "^1.0.0",
+		"file-saver": "^2.0.5",
 		"kysely": "^0.27.5",
 		"react-dom": "^18.3.1",
 		"react-hook-form": "^7.54.1",
 		"react": "^18.3.1",
 		"sqlocal": "^0.13.0",
-		"file-saver": "^2.0.5",
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {

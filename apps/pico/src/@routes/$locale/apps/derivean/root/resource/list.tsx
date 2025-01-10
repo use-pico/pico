@@ -57,6 +57,27 @@ export const Route = createFileRoute(
 											.where("rt.resourceId", "=", eb.ref("r.id")),
 									)
 									.as("tags"),
+							(eb) => {
+								return eb
+									.selectFrom("Building_Base_Resource_Requirement")
+									.select((eb) => eb.fn.count("id").as("count"))
+									.where("resourceId", "=", eb.ref("r.id"))
+									.as("countResourceRequirement");
+							},
+							(eb) => {
+								return eb
+									.selectFrom("Building_Base_Production")
+									.select((eb) => eb.fn.count("id").as("count"))
+									.where("resourceId", "=", eb.ref("r.id"))
+									.as("countProduction");
+							},
+							(eb) => {
+								return eb
+									.selectFrom("Building_Base_Production_Requirement")
+									.select((eb) => eb.fn.count("id").as("count"))
+									.where("resourceId", "=", eb.ref("r.id"))
+									.as("countProductionRequirement");
+							},
 						]),
 						query({ select, where }) {
 							let $select = select;
@@ -92,6 +113,9 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							countResourceRequirement: z.number().nonnegative(),
+							countProduction: z.number().nonnegative(),
+							countProductionRequirement: z.number().nonnegative(),
 							tags: withJsonArraySchema(Tag_Schema.entity),
 						}),
 						filter,

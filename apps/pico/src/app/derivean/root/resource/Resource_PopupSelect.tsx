@@ -36,31 +36,34 @@ export const Resource_PopupSelect: FC<Resource_PopupSelect.Props> = ({
 			query={async ({ filter, cursor }) => {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
-						select: tx.selectFrom("Resource as r").select([
-							"r.id",
-							"r.name",
-							(eb) =>
-								eb
-									.selectFrom("Tag as t")
-									.select((eb) => {
-										return sql<string>`json_group_array(json_object(
+						select: tx
+							.selectFrom("Resource as r")
+							.select([
+								"r.id",
+								"r.name",
+								(eb) =>
+									eb
+										.selectFrom("Tag as t")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
                                             'id', ${eb.ref("t.id")},
                                             'code', ${eb.ref("t.code")},
                                             'group', ${eb.ref("t.group")},
                                             'sort', ${eb.ref("t.sort")},
                                             'label', ${eb.ref("t.label")}
                                         ))`.as("tags");
-									})
-									.where(
-										"t.id",
-										"in",
-										tx
-											.selectFrom("Resource_Tag as rt")
-											.select("rt.tagId")
-											.where("rt.resourceId", "=", eb.ref("r.id")),
-									)
-									.as("tags"),
-						]),
+										})
+										.where(
+											"t.id",
+											"in",
+											tx
+												.selectFrom("Resource_Tag as rt")
+												.select("rt.tagId")
+												.where("rt.resourceId", "=", eb.ref("r.id")),
+										)
+										.as("tags"),
+							])
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
