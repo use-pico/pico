@@ -78,7 +78,7 @@ export const Route = createFileRoute(
 										.as("requirements"),
 							])
 							.where("bbp.buildingBaseId", "=", id)
-							.orderBy("bb.name", "asc"),
+							.orderBy("r.name", "asc"),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

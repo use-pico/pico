@@ -18,11 +18,11 @@ const sources: (keyof Database)[] = [
 	"Resource_Tag",
 	"Inventory",
 	"Building_Base",
-	"Building_Base_Building_Base_Requirement",
+	"Building_Base_Production",
 	"Building_Base_Production_Requirement",
+	"Building_Base_Building_Base_Requirement",
 	"Building_Base_Resource_Requirement",
 	"Building_Base_Inventory",
-	"Building_Base_Production",
 	"Default_Inventory",
 ] as const;
 

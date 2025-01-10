@@ -52,7 +52,8 @@ export const Route = createFileRoute(
 								"i.limit",
 								"r.name",
 							])
-							.where("bbi.buildingBaseId", "=", id),
+							.where("bbi.buildingBaseId", "=", id)
+							.orderBy("r.name"),
 						output: z.object({
 							id: z.string().min(1),
 							inventoryId: z.string().min(1),
