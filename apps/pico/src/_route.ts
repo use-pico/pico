@@ -33,7 +33,9 @@ import { Route as LocaleAppsDeriveanRootInventoryDefaultImport } from './@routes
 import { Route as LocaleAppsDeriveanRootBuildingListImport } from './@routes/$locale/apps/derivean/root/building/list'
 import { Route as LocaleAppsDeriveanRootBuildingBaseImport } from './@routes/$locale/apps/derivean/root/building/base'
 import { Route as LocaleAppsDeriveanRootBuildingIdImport } from './@routes/$locale/apps/derivean/root/building/$id'
+import { Route as LocaleAppsDeriveanGameBuildingQueueImport } from './@routes/$locale/apps/derivean/game/building/queue'
 import { Route as LocaleAppsDeriveanGameBuildingListImport } from './@routes/$locale/apps/derivean/game/building/list'
+import { Route as LocaleAppsDeriveanGameBuildingBaseImport } from './@routes/$locale/apps/derivean/game/building/base'
 import { Route as LocaleAppsDeriveanGameBuildingIdImport } from './@routes/$locale/apps/derivean/game/building/$id'
 import { Route as LocaleAppsDeriveanRootUserIdViewImport } from './@routes/$locale/apps/derivean/root/user/$id/view'
 import { Route as LocaleAppsDeriveanRootUserIdInventoryImport } from './@routes/$locale/apps/derivean/root/user/$id/inventory'
@@ -207,10 +209,24 @@ const LocaleAppsDeriveanRootBuildingIdRoute =
     getParentRoute: () => LocaleAppsDeriveanRootRoute,
   } as any)
 
+const LocaleAppsDeriveanGameBuildingQueueRoute =
+  LocaleAppsDeriveanGameBuildingQueueImport.update({
+    id: '/building/queue',
+    path: '/building/queue',
+    getParentRoute: () => LocaleAppsDeriveanGameRoute,
+  } as any)
+
 const LocaleAppsDeriveanGameBuildingListRoute =
   LocaleAppsDeriveanGameBuildingListImport.update({
     id: '/building/list',
     path: '/building/list',
+    getParentRoute: () => LocaleAppsDeriveanGameRoute,
+  } as any)
+
+const LocaleAppsDeriveanGameBuildingBaseRoute =
+  LocaleAppsDeriveanGameBuildingBaseImport.update({
+    id: '/building/base',
+    path: '/building/base',
     getParentRoute: () => LocaleAppsDeriveanGameRoute,
   } as any)
 
@@ -265,16 +281,16 @@ const LocaleAppsDeriveanRootBuildingIdViewRoute =
 
 const LocaleAppsDeriveanGameBuildingBaseListRoute =
   LocaleAppsDeriveanGameBuildingBaseListImport.update({
-    id: '/building/base/list',
-    path: '/building/base/list',
-    getParentRoute: () => LocaleAppsDeriveanGameRoute,
+    id: '/list',
+    path: '/list',
+    getParentRoute: () => LocaleAppsDeriveanGameBuildingBaseRoute,
   } as any)
 
 const LocaleAppsDeriveanGameBuildingBaseIdRoute =
   LocaleAppsDeriveanGameBuildingBaseIdImport.update({
-    id: '/building/base/$id',
-    path: '/building/base/$id',
-    getParentRoute: () => LocaleAppsDeriveanGameRoute,
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => LocaleAppsDeriveanGameBuildingBaseRoute,
   } as any)
 
 const LocaleAppsDeriveanGameBuildingIdViewRoute =
@@ -463,11 +479,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingIdImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
+    '/$locale/apps/derivean/game/building/base': {
+      id: '/$locale/apps/derivean/game/building/base'
+      path: '/building/base'
+      fullPath: '/$locale/apps/derivean/game/building/base'
+      preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingBaseImport
+      parentRoute: typeof LocaleAppsDeriveanGameImport
+    }
     '/$locale/apps/derivean/game/building/list': {
       id: '/$locale/apps/derivean/game/building/list'
       path: '/building/list'
       fullPath: '/$locale/apps/derivean/game/building/list'
       preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingListImport
+      parentRoute: typeof LocaleAppsDeriveanGameImport
+    }
+    '/$locale/apps/derivean/game/building/queue': {
+      id: '/$locale/apps/derivean/game/building/queue'
+      path: '/building/queue'
+      fullPath: '/$locale/apps/derivean/game/building/queue'
+      preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingQueueImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
     '/$locale/apps/derivean/root/building/$id': {
@@ -542,17 +572,17 @@ declare module '@tanstack/react-router' {
     }
     '/$locale/apps/derivean/game/building/base/$id': {
       id: '/$locale/apps/derivean/game/building/base/$id'
-      path: '/building/base/$id'
+      path: '/$id'
       fullPath: '/$locale/apps/derivean/game/building/base/$id'
       preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingBaseIdImport
-      parentRoute: typeof LocaleAppsDeriveanGameImport
+      parentRoute: typeof LocaleAppsDeriveanGameBuildingBaseImport
     }
     '/$locale/apps/derivean/game/building/base/list': {
       id: '/$locale/apps/derivean/game/building/base/list'
-      path: '/building/base/list'
+      path: '/list'
       fullPath: '/$locale/apps/derivean/game/building/base/list'
       preLoaderRoute: typeof LocaleAppsDeriveanGameBuildingBaseListImport
-      parentRoute: typeof LocaleAppsDeriveanGameImport
+      parentRoute: typeof LocaleAppsDeriveanGameBuildingBaseImport
     }
     '/$locale/apps/derivean/root/building/$id/view': {
       id: '/$locale/apps/derivean/root/building/$id/view'
@@ -708,13 +738,31 @@ const LocaleAppsDeriveanGameBuildingBaseIdRouteWithChildren =
     LocaleAppsDeriveanGameBuildingBaseIdRouteChildren,
   )
 
+interface LocaleAppsDeriveanGameBuildingBaseRouteChildren {
+  LocaleAppsDeriveanGameBuildingBaseIdRoute: typeof LocaleAppsDeriveanGameBuildingBaseIdRouteWithChildren
+  LocaleAppsDeriveanGameBuildingBaseListRoute: typeof LocaleAppsDeriveanGameBuildingBaseListRoute
+}
+
+const LocaleAppsDeriveanGameBuildingBaseRouteChildren: LocaleAppsDeriveanGameBuildingBaseRouteChildren =
+  {
+    LocaleAppsDeriveanGameBuildingBaseIdRoute:
+      LocaleAppsDeriveanGameBuildingBaseIdRouteWithChildren,
+    LocaleAppsDeriveanGameBuildingBaseListRoute:
+      LocaleAppsDeriveanGameBuildingBaseListRoute,
+  }
+
+const LocaleAppsDeriveanGameBuildingBaseRouteWithChildren =
+  LocaleAppsDeriveanGameBuildingBaseRoute._addFileChildren(
+    LocaleAppsDeriveanGameBuildingBaseRouteChildren,
+  )
+
 interface LocaleAppsDeriveanGameRouteChildren {
   LocaleAppsDeriveanGameInventoryRoute: typeof LocaleAppsDeriveanGameInventoryRoute
   LocaleAppsDeriveanGameIndexRoute: typeof LocaleAppsDeriveanGameIndexRoute
   LocaleAppsDeriveanGameBuildingIdRoute: typeof LocaleAppsDeriveanGameBuildingIdRouteWithChildren
+  LocaleAppsDeriveanGameBuildingBaseRoute: typeof LocaleAppsDeriveanGameBuildingBaseRouteWithChildren
   LocaleAppsDeriveanGameBuildingListRoute: typeof LocaleAppsDeriveanGameBuildingListRoute
-  LocaleAppsDeriveanGameBuildingBaseIdRoute: typeof LocaleAppsDeriveanGameBuildingBaseIdRouteWithChildren
-  LocaleAppsDeriveanGameBuildingBaseListRoute: typeof LocaleAppsDeriveanGameBuildingBaseListRoute
+  LocaleAppsDeriveanGameBuildingQueueRoute: typeof LocaleAppsDeriveanGameBuildingQueueRoute
 }
 
 const LocaleAppsDeriveanGameRouteChildren: LocaleAppsDeriveanGameRouteChildren =
@@ -723,12 +771,12 @@ const LocaleAppsDeriveanGameRouteChildren: LocaleAppsDeriveanGameRouteChildren =
     LocaleAppsDeriveanGameIndexRoute: LocaleAppsDeriveanGameIndexRoute,
     LocaleAppsDeriveanGameBuildingIdRoute:
       LocaleAppsDeriveanGameBuildingIdRouteWithChildren,
+    LocaleAppsDeriveanGameBuildingBaseRoute:
+      LocaleAppsDeriveanGameBuildingBaseRouteWithChildren,
     LocaleAppsDeriveanGameBuildingListRoute:
       LocaleAppsDeriveanGameBuildingListRoute,
-    LocaleAppsDeriveanGameBuildingBaseIdRoute:
-      LocaleAppsDeriveanGameBuildingBaseIdRouteWithChildren,
-    LocaleAppsDeriveanGameBuildingBaseListRoute:
-      LocaleAppsDeriveanGameBuildingBaseListRoute,
+    LocaleAppsDeriveanGameBuildingQueueRoute:
+      LocaleAppsDeriveanGameBuildingQueueRoute,
   }
 
 const LocaleAppsDeriveanGameRouteWithChildren =
@@ -944,7 +992,9 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/building/$id': typeof LocaleAppsDeriveanGameBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/game/building/base': typeof LocaleAppsDeriveanGameBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/game/building/list': typeof LocaleAppsDeriveanGameBuildingListRoute
+  '/$locale/apps/derivean/game/building/queue': typeof LocaleAppsDeriveanGameBuildingQueueRoute
   '/$locale/apps/derivean/root/building/$id': typeof LocaleAppsDeriveanRootBuildingIdRouteWithChildren
   '/$locale/apps/derivean/root/building/base': typeof LocaleAppsDeriveanRootBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/root/building/list': typeof LocaleAppsDeriveanRootBuildingListRoute
@@ -988,7 +1038,9 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/game': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/building/$id': typeof LocaleAppsDeriveanGameBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/game/building/base': typeof LocaleAppsDeriveanGameBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/game/building/list': typeof LocaleAppsDeriveanGameBuildingListRoute
+  '/$locale/apps/derivean/game/building/queue': typeof LocaleAppsDeriveanGameBuildingQueueRoute
   '/$locale/apps/derivean/root/building/$id': typeof LocaleAppsDeriveanRootBuildingIdRouteWithChildren
   '/$locale/apps/derivean/root/building/base': typeof LocaleAppsDeriveanRootBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/root/building/list': typeof LocaleAppsDeriveanRootBuildingListRoute
@@ -1036,7 +1088,9 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/building/$id': typeof LocaleAppsDeriveanGameBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/game/building/base': typeof LocaleAppsDeriveanGameBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/game/building/list': typeof LocaleAppsDeriveanGameBuildingListRoute
+  '/$locale/apps/derivean/game/building/queue': typeof LocaleAppsDeriveanGameBuildingQueueRoute
   '/$locale/apps/derivean/root/building/$id': typeof LocaleAppsDeriveanRootBuildingIdRouteWithChildren
   '/$locale/apps/derivean/root/building/base': typeof LocaleAppsDeriveanRootBuildingBaseRouteWithChildren
   '/$locale/apps/derivean/root/building/list': typeof LocaleAppsDeriveanRootBuildingListRoute
@@ -1085,7 +1139,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/game/building/$id'
+    | '/$locale/apps/derivean/game/building/base'
     | '/$locale/apps/derivean/game/building/list'
+    | '/$locale/apps/derivean/game/building/queue'
     | '/$locale/apps/derivean/root/building/$id'
     | '/$locale/apps/derivean/root/building/base'
     | '/$locale/apps/derivean/root/building/list'
@@ -1128,7 +1184,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/game/building/$id'
+    | '/$locale/apps/derivean/game/building/base'
     | '/$locale/apps/derivean/game/building/list'
+    | '/$locale/apps/derivean/game/building/queue'
     | '/$locale/apps/derivean/root/building/$id'
     | '/$locale/apps/derivean/root/building/base'
     | '/$locale/apps/derivean/root/building/list'
@@ -1174,7 +1232,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/game/building/$id'
+    | '/$locale/apps/derivean/game/building/base'
     | '/$locale/apps/derivean/game/building/list'
+    | '/$locale/apps/derivean/game/building/queue'
     | '/$locale/apps/derivean/root/building/$id'
     | '/$locale/apps/derivean/root/building/base'
     | '/$locale/apps/derivean/root/building/list'
@@ -1264,9 +1324,9 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/game/inventory",
         "/$locale/apps/derivean/game/",
         "/$locale/apps/derivean/game/building/$id",
+        "/$locale/apps/derivean/game/building/base",
         "/$locale/apps/derivean/game/building/list",
-        "/$locale/apps/derivean/game/building/base/$id",
-        "/$locale/apps/derivean/game/building/base/list"
+        "/$locale/apps/derivean/game/building/queue"
       ]
     },
     "/$locale/apps/derivean/root": {
@@ -1320,8 +1380,20 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/game/building/$id/view"
       ]
     },
+    "/$locale/apps/derivean/game/building/base": {
+      "filePath": "$locale/apps/derivean/game/building/base.tsx",
+      "parent": "/$locale/apps/derivean/game",
+      "children": [
+        "/$locale/apps/derivean/game/building/base/$id",
+        "/$locale/apps/derivean/game/building/base/list"
+      ]
+    },
     "/$locale/apps/derivean/game/building/list": {
       "filePath": "$locale/apps/derivean/game/building/list.tsx",
+      "parent": "/$locale/apps/derivean/game"
+    },
+    "/$locale/apps/derivean/game/building/queue": {
+      "filePath": "$locale/apps/derivean/game/building/queue.tsx",
       "parent": "/$locale/apps/derivean/game"
     },
     "/$locale/apps/derivean/root/building/$id": {
@@ -1382,14 +1454,14 @@ export const routeTree = rootRoute
     },
     "/$locale/apps/derivean/game/building/base/$id": {
       "filePath": "$locale/apps/derivean/game/building/base/$id.tsx",
-      "parent": "/$locale/apps/derivean/game",
+      "parent": "/$locale/apps/derivean/game/building/base",
       "children": [
         "/$locale/apps/derivean/game/building/base/$id/view"
       ]
     },
     "/$locale/apps/derivean/game/building/base/list": {
       "filePath": "$locale/apps/derivean/game/building/base/list.tsx",
-      "parent": "/$locale/apps/derivean/game"
+      "parent": "/$locale/apps/derivean/game/building/base"
     },
     "/$locale/apps/derivean/root/building/$id/view": {
       "filePath": "$locale/apps/derivean/root/building/$id/view.tsx",

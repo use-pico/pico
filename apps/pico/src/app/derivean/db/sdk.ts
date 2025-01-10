@@ -1,9 +1,9 @@
 import {
-    IdentitySchema,
-    withBoolSchema,
-    withSourceSchema,
-    type FilterSchema,
-    type ShapeSchema,
+	IdentitySchema,
+	withSourceSchema,
+	type FilterSchema,
+	type ShapeSchema,
+	withBoolSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -293,7 +293,7 @@ export const withBuildingQueueSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				buildingId:
+				buildingBaseId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 				from:
@@ -309,7 +309,7 @@ export const withBuildingQueueSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "buildingId", "from", "to", "cycle"],
+		sort: ["id", "userId", "buildingBaseId", "from", "to", "cycle"],
 	});
 };
 

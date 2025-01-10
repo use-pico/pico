@@ -19,6 +19,9 @@
 09be0fd6bc6d65e8b844467137b2cc35d32c295d3d94cb4d2d593c21:
   ref: Select resource (label)
   value: Select resource (label)
+0a176844b3529b4c4f1e1ccce899866b54e8eb9c4811fbe9589c0366:
+  ref: Building queue - Success (label)
+  value: Building queue - Success (label)
 0b7e1a7bed13a142251b17aac3ac1a9a7265b185e54dc8be73bdedb4:
   ref: Delete production requirement (modal)
   value: Delete production requirement (modal)
@@ -76,9 +79,6 @@
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Create requirement item (menu)
-2fddbd0882437b274ff38510d4bab21881fe36772a63d99f56030b92:
-  ref: Building build list (label)
-  value: Building build list (label)
 304ee8cc29aa3d13d616997a70c3941dc300ae1a41361905ccab1d6d:
   ref: Logout in progress...
   value: Logout in progress...
@@ -106,6 +106,9 @@
 3a4a801c33fea80c20f04f91c804a94b19461c2e89b179cc5b9539b7:
   ref: No requirements (label)
   value: No requirements (label)
+3d5f3bf8f44b28c444ac3d0347b03655a510c535cb525c0649aa034d:
+  ref: Progress (label)
+  value: Progress (label)
 3db2c4051c2b7a73afa7ec303c3fbe50ba5258af4ec59fd4ec31b388:
   ref: Resource list (label)
   value: Resource list (label)
@@ -151,6 +154,12 @@
 519158daabe66e02d9700782a349e50002f9171c46652654305f8f63:
   ref: Building dependencies (label)
   value: Building dependencies (label)
+519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
+  ref: Update inventory item - Success (label)
+  value: Update inventory item - Success (label)
+51e6762bc1d182e38688d2e9dc3afbaec36347fd668ffb9805ff3e32:
+  ref: Building queue (menu)
+  value: Building queue (menu)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -169,6 +178,15 @@
 5cd4cffcbafbe0a40563538352c1a593909e57b10bb8d9ad5f9b3d2a:
   ref: Delete (button)
   value: Delete (button)
+5ed96e41f42e7332cf5e2d66d58ef51772a49a384206460338b3c393:
+  ref: Building cycle (label)
+  value: Building cycle (label)
+60903df05ec210e684a0bf3599eb1305e4f1823f8c99e1179b1f4f12:
+  ref: Cycle - Success (label)
+  value: Cycle - Success (label)
+61b2ea845d394d4a10c45d915795a2af5deed183609624389505ecc7:
+  ref: Items in building queue (label)
+  value: Items in building queue (label)
 61d121fa1233ae65704f59a19f4dc1e80ccf1ce8f5b897bd8f18f8c5:
   ref: Create building base inventory (menu)
   value: Create building base inventory (menu)
@@ -190,6 +208,9 @@
 6e176132e3649907060961b1719c41a2df3c226b31d92e475f9d8e4b:
   ref: Create tag (modal)
   value: Create tag (modal)
+6e5823a4ad3db87c2122930d22dcd648436df8c8a6b7d12a1410439b:
+  ref: Update building - Success (label)
+  value: Update building - Success (label)
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Edit resource (modal)
@@ -292,6 +313,9 @@
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext (placeholder)
+9f57866b0e637eae01b73df0d5f49f1e2107dea0635c7e4986015621:
+  ref: Building queue - Error (label)
+  value: Building queue - Error (label)
 9febeccae7c993bde7fd8a69df88a09daefbc1c5e21cadca2fa9c9a0:
   ref: Building base delete (content)
   value: Building base delete (content)
@@ -343,12 +367,18 @@ baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Construction cycles (label)
-c29994172dc81479e8b21517035845f7f58c1047d726f9aa3b8e3afb:
-  ref: Item kind - resource
-  value: Item kind - resource
+bede006a23ce0c1579572c1ebf769594a7111cfac0439aaea42d5556:
+  ref: Cycle - Loading (label)
+  value: Cycle - Loading (label)
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
+c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
+  ref: Apply default inventory - Success (label)
+  value: Apply default inventory - Success (label)
+c7f3847ef727369931a68daeb5d6f8d73db21f384b50a4ab201c58bf:
+  ref: Building build list (menu)
+  value: Building build list (menu)
 c810a66440e76540dd2b9cf76c75c3d58a8105b694f2fa0b4aa72cf6:
   ref: Apply default inventory (menu)
   value: Apply default inventory (menu)
@@ -376,9 +406,6 @@ cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
 d0ff3066f7fcf3ea876060560982dd15ac478f66221de2ef7f01a31d:
   ref: Resource requirement count (label)
   value: Resource requirement count (label)
-d2412676ccb2b232648c8f229dd9bad71c3f0fc86f33b28a8b25822a:
-  ref: Item kind - building
-  value: Item kind - building
 d386c01040fd7bc584cb5470c1aa2ed697de3ae40361346fef1d6921:
   ref: Production cycles (label)
   value: Production cycles (label)
@@ -388,6 +415,9 @@ d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
 d5f740766a431b2ebf6ace3f0c2c3c51c5e58516bcefe27c652f3323:
   ref: Requirement item delete (content)
   value: Requirement item delete (content)
+d680d34a76392ea2fea1acb22251029bc6abe766d567f7e97588b86a:
+  ref: My buildings (menu)
+  value: My buildings (menu)
 da980a14e8d21ccbad06717ff68370d22a861de73e9bf1e350790bc8:
   ref: Create building base (menu)
   value: Create building base (menu)

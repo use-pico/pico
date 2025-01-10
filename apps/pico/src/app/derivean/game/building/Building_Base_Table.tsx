@@ -1,28 +1,44 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
     Button,
     LinkTo,
     Table,
+    toast,
     Tx,
+    useInvalidator,
     useTable,
     withColumn,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { Building_Requirement_Inline } from "~/app/derivean/building/Building_Requirement_Inline";
+import { withConstructionQueue } from "~/app/derivean/building/withConstructionQueue";
+import { Dependencies } from "~/app/derivean/game/building/Dependencies";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
+import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
+import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Building_Base_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
-		// requirements: (ResourceRequirementSchema["~entity"] & {
-		// 	name: string;
-		// })[];
+		withAvailableBuildings: boolean;
+		withAvailableResources: boolean;
+		requiredResources: (Building_Base_Resource_Requirement_Schema["~entity"] & {
+			name: string;
+		})[];
+		requiredBuildings: (Building_Base_Building_Base_Requirement_Schema["~entity"] & {
+			name: string;
+		})[];
 	}
 
 	export interface Context {
 		userId: string;
+		graph: withBuildingGraph.Result;
 	}
 }
 
@@ -39,23 +55,24 @@ const columns = [
 		},
 		render({ data, value, context: { userId } }) {
 			const { locale } = useParams({ from: "/$locale" });
+			const invalidator = useInvalidator([["Building_Queue"]]);
 			const mutation = useMutation({
 				async mutationFn({ buildingBaseId }: { buildingBaseId: string }) {
-					return buildingBaseId;
+					return toast.promise(
+						withConstructionQueue({
+							buildingBaseId,
+							userId,
+						}),
+						withToastPromiseTx("Building queue"),
+					);
+				},
+				async onSuccess() {
+					await invalidator();
 				},
 			});
-			const count = useQuery({
-				queryKey: ["foo"],
-				queryFn() {
-					return { baseBuildingId: data.id, userId };
-				},
-			});
-			// const { check } = inventoryCheck({
-			// 	inventory,
-			// 	requirements: data.requirements,
-			// });
 
-			const available = false;
+			const available =
+				data.withAvailableBuildings && data.withAvailableResources;
 
 			return (
 				<div className={tvc(["w-full", "flex", "gap-2", "items-center"])}>
@@ -63,7 +80,7 @@ const columns = [
 						iconEnabled={BuildingIcon}
 						iconDisabled={BuildingIcon}
 						variant={{
-							variant: !available || count.isLoading ? "subtle" : "primary",
+							variant: available ? "primary" : "subtle",
 						}}
 						onClick={() => {
 							mutation.mutate({
@@ -71,7 +88,7 @@ const columns = [
 							});
 						}}
 						disabled={!available}
-						loading={mutation.isPending || count.isLoading}
+						loading={mutation.isPending}
 					/>
 					<LinkTo
 						to={"/$locale/apps/derivean/game/building/base/$id/view"}
@@ -92,38 +109,63 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 14,
+		size: 8,
 	}),
-	// column({
-	// 	name: "requirements",
-	// 	header() {
-	// 		return <Tx label={"Required resources (label)"} />;
-	// 	},
-	// 	render({ value }) {
-	// 		// const { missing } = inventoryCheck({ inventory, requirements: value });
-
-	// 		return (
-	// 			<RequirementsInline
-	// 				textTitle={<Tx label={"Building requirements (title)"} />}
-	// 				textEmpty={<Tx label={"No requirements (label)"} />}
-	// 				requirements={value}
-	// 				// diff={missing}
-	// 				limit={5}
-	// 			/>
-	// 		);
-	// 	},
-	// 	size: 72,
-	// }),
+	column({
+		name: "requiredResources",
+		header() {
+			return <Tx label={"Required resources (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<RequirementsInline
+					textTitle={<Tx label={"Building requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={value}
+					limit={5}
+				/>
+			);
+		},
+		size: 42,
+	}),
+	column({
+		name: "requiredBuildings",
+		header() {
+			return <Tx label={"Required buildings (label)"} />;
+		},
+		render({ data, value, context: { graph } }) {
+			return (
+				<div className={"flex flex-col gap-2 items-start justify-center"}>
+					<Building_Requirement_Inline
+						textTitle={<Tx label={"Building requirements (title)"} />}
+						textEmpty={<Tx label={"No requirements (label)"} />}
+						requirements={value}
+						limit={5}
+					/>
+					{graph ?
+						<Dependencies
+							graph={graph}
+							mode={"dependants"}
+							buildingBaseId={data.id}
+						/>
+					:	null}
+				</div>
+			);
+		},
+		size: 64,
+	}),
 ];
 
 export namespace Building_Base_Table {
 	export interface Props extends Table.PropsEx<Data, Context> {
 		userId: string;
+		graph: withBuildingGraph.Result;
 	}
 }
 
 export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 	userId,
+	graph,
 	table,
 	...props
 }) => {
@@ -134,6 +176,7 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 				columns,
 				context: {
 					userId,
+					graph,
 				},
 			})}
 			{...props}

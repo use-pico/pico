@@ -28,21 +28,26 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			},
 		};
 	},
-	async loader({ context: { kysely, session } }) {
+	async loader({ context: { queryClient, kysely, session } }) {
 		const user = await session();
 
-		return kysely.transaction().execute(async (tx) => {
-			return {
-				session: user,
-				cycle: (
-					await tx
-						.selectFrom("Cycle as c")
-						.select((eb) => eb.fn.count<number>("c.id").as("count"))
-						.where("c.userId", "=", user.id)
-						.executeTakeFirstOrThrow()
-				).count,
-			};
-		});
+		return {
+			session: user,
+			cycle: await queryClient.ensureQueryData({
+				queryKey: ["Cycle"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return (
+							await tx
+								.selectFrom("Cycle as c")
+								.select((eb) => eb.fn.count<number>("c.id").as("count"))
+								.where("c.userId", "=", user.id)
+								.executeTakeFirstOrThrow()
+						).count;
+					});
+				},
+			}),
+		};
 	},
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });

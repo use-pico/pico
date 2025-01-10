@@ -1,7 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { Button, toast, Tx, withToastPromiseTx } from "@use-pico/client";
+import {
+    Button,
+    Icon,
+    toast,
+    Tx,
+    useInvalidator,
+    withToastPromiseTx,
+} from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
+import { withCycle } from "~/app/derivean/cycle/withCycle";
+import { kysely } from "~/app/derivean/db/kysely";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace CycleButton {
@@ -19,9 +28,24 @@ export const CycleButton: FC<CycleButton.Props> = ({
 	cycle,
 	...props
 }) => {
+	const invalidator = useInvalidator([
+		["Cycle"],
+		["Resource_Queue"],
+		["Building_Queue"],
+		["Building"],
+		["User_Inventory"],
+		["Inventory"],
+	]);
+
 	const mutation = useMutation({
+		mutationKey: ["useCycleMutation"],
 		async mutationFn({ userId }: { userId: string }) {
-			return userId;
+			return kysely.transaction().execute(async (tx) => {
+				return withCycle({ userId, tx });
+			});
+		},
+		async onSuccess() {
+			await invalidator();
 		},
 	});
 
@@ -38,7 +62,16 @@ export const CycleButton: FC<CycleButton.Props> = ({
 			loading={mutation.isPending}
 			{...props}
 		>
-			<Tx label={"New cycle (label)"} /> (${toHumanNumber({ number: cycle })})
+			<Tx label={"New cycle (label)"} />
+			<div className={"flex flex-row gap-2 items-center"}>
+				<div className={"font-light text-sm"}>
+					{toHumanNumber({ number: cycle })}
+				</div>
+				<Icon icon={"icon-[solar--arrow-right-linear]"} />
+				<div className={"font-bold"}>
+					{toHumanNumber({ number: cycle + 1 })}
+				</div>
+			</div>
 		</Button>
 	);
 };
