@@ -21,7 +21,7 @@
   value: Vyberte zdroj
 0b7e1a7bed13a142251b17aac3ac1a9a7265b185e54dc8be73bdedb4:
   ref: Delete production requirement (modal)
-  value: Delete production requirement (modal)
+  value: Odstranit požadavek produkce
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: Seznam uživatelů
@@ -30,7 +30,7 @@
   value: Editace požadovaného zdroje
 122d3f7f5bf5cbb368b7f27b51e5299fddf9662632ef59fbe4d6a235:
   ref: Create production requirement (menu)
-  value: Create production requirement (menu)
+  value: Nový požadavek produkce
 1237a51f25d85bfad4f17572f310783e5b06bc5304d24e95ead71eac:
   ref: Buildings (menu)
   value: Budovy
@@ -195,7 +195,8 @@
   value: Editace základní budovy
 74d9fe31d4acfc6825ca4e317857d48ce8755d4e575557b655da8545:
   ref: Passive requirement (hint)
-  value: Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není
+  value:
+    Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není
     odebrán z inventáře.
 76c40f3bee67fbc832bb7731fdec758660fac52e49ce9f5bf13b21fe:
   ref: Inventory limit (label)
@@ -268,7 +269,9 @@
   value: Nová produkční linka
 964512ba2899bad2ad9ab2fb2900657e8d43ef8ae7c6d2e1cbd106a5:
   ref: Production requirement delete (content)
-  value: Production requirement delete (content)
+  value: |
+    Opravdu si přejete odstranit vybraný požadavek produkce? Tato akce nebude
+    mít větší vliv na hratelnost ani na data.
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Počet cyklů nutných k dokončení stavby.
@@ -280,7 +283,7 @@
   value: Vyberte štítky zdroje
 9e5e775caee655d42bfc51ed9bc7370e9904393608f887e823b3ccb4:
   ref: Edit production requirement (modal)
-  value: Edit production requirement (modal)
+  value: Editace požadavku produkce
 9e8a5688220f3d1b31643fb173c3993a965bc4df9dc486633e730bca:
   ref: Delete building base inventory (modal)
   value: Odstranit inventář základní budovy

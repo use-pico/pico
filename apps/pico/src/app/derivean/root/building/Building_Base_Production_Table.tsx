@@ -20,7 +20,7 @@ import { kysely } from "~/app/derivean/db/kysely";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { Building_Base_Production_Form } from "~/app/derivean/root/building/Building_Base_Production_Form";
 import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
-import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
 
 export namespace Building_Base_Production_Table {
 	export interface Data extends IdentitySchema.Type {
@@ -29,7 +29,7 @@ export namespace Building_Base_Production_Table {
 		amount: number;
 		limit: number;
 		cycles: number;
-		requirements: (Building_Base_Resource_Requirement_Schema["~entity"] & {
+		requirements: (Building_Base_Production_Requirement_Schema["~entity"] & {
 			name: string;
 		})[];
 	}
