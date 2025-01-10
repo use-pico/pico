@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Building_Base_Index_Menu } from "~/app/derivean/root/building/Building_Base_Index_Menu";
 import { Building_Base_Preview } from "~/app/derivean/root/building/Building_Base_Preview";
 import { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
+import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
@@ -40,6 +41,7 @@ export const Route = createFileRoute(
                                         ))`.as("requirements");
 									})
 									.where("bbrr.buildingBaseId", "=", eb.ref("bb.id"))
+									.orderBy("r.name", "asc")
 									.as("requiredResources"),
 							(eb) =>
 								eb
@@ -61,7 +63,26 @@ export const Route = createFileRoute(
                                         ))`.as("requirements");
 									})
 									.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
+									.orderBy("bb2.name", "asc")
 									.as("requiredBuildings"),
+							(eb) =>
+								eb
+									.selectFrom("Building_Base_Production as bbp")
+									.innerJoin("Resource as r", "r.id", "bbp.resourceId")
+									.select((eb) => {
+										return sql<string>`json_group_array(json_object(
+                                            'id', ${eb.ref("bbp.id")},
+                                            'amount', ${eb.ref("bbp.amount")},
+                                            'cycles', ${eb.ref("bbp.cycles")},
+                                            'limit', ${eb.ref("bbp.limit")},
+                                            'resourceId', ${eb.ref("bbp.resourceId")},
+                                            'buildingBaseId', ${eb.ref("bbp.buildingBaseId")},
+                                            'name', ${eb.ref("r.name")}
+                                        ))`.as("requirements");
+									})
+									.where("bbp.buildingBaseId", "=", eb.ref("bb.id"))
+									.orderBy("r.name", "asc")
+									.as("productions"),
 						])
 						.where("bb.id", "=", id),
 					output: z.object({
@@ -77,6 +98,13 @@ export const Route = createFileRoute(
 						),
 						requiredBuildings: withJsonArraySchema(
 							Building_Base_Building_Base_Requirement_Schema.entity.merge(
+								z.object({
+									name: z.string().min(1),
+								}),
+							),
+						),
+						productions: withJsonArraySchema(
+							Building_Base_Production_Schema.entity.merge(
 								z.object({
 									name: z.string().min(1),
 								}),

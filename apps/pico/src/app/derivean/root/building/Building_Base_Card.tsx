@@ -1,9 +1,11 @@
 import { Card, Tx } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { Building_Production_Inline } from "~/app/derivean/root/building/Building_Production_Inline";
 import { Building_Requirement_Inline } from "~/app/derivean/root/building/Building_Requirement_Inline";
 import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
+import type { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export namespace Building_Base_Card {
@@ -14,6 +16,9 @@ export namespace Building_Base_Card {
 			name: string;
 		})[];
 		requiredBuildings: (Building_Base_Building_Base_Requirement_Schema["~entity"] & {
+			name: string;
+		})[];
+		productions: (Building_Base_Production_Schema["~entity"] & {
 			name: string;
 		})[];
 	}
@@ -69,7 +74,9 @@ export const Building_Base_Card: FC<Building_Base_Card.Props> = (props) => {
 					id: "production",
 					label: <Tx label={"Resource production (label)"} />,
 					render({ entity }) {
-						return "json select resource production info";
+						return (
+							<Building_Production_Inline productions={entity.productions} />
+						);
 					},
 				},
 			]}
