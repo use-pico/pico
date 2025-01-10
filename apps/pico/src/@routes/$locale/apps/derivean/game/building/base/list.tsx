@@ -36,63 +36,66 @@ export const Route = createFileRoute(
 		const user = await session();
 
 		return kysely.transaction().execute(async (tx) => {
-			const result = await tx
-				.selectFrom("Building_Base as bb")
-				.select([
-					"bb.id",
-					sql`
-        CASE
-          WHEN NOT EXISTS (
-            SELECT 1
-            FROM Building_Base_Resource_Requirement bbrr
-            LEFT JOIN (
-              SELECT
-                i.resourceId,
-                i.amount
-              FROM
-                Inventory i
-              INNER JOIN User_Inventory ui
-                ON i.id = ui.inventoryId
-              WHERE
-                ui.userId = ${user.id}
-              GROUP BY
-                i.resourceId
-            ) resource
-            ON bbrr.resourceId = resource.resourceId
-            WHERE bbrr.buildingBaseId = bb.id
-              AND (resource.amount IS NULL OR resource.amount < bbrr.amount)
-          ) THEN true ELSE false END
-      `.as("withAvailableResources"),
-					sql`
-        CASE
-          WHEN NOT EXISTS (
-            SELECT 1
-            FROM Building_Base_Building_Base_Requirement bbbbr
-            LEFT JOIN (
-              SELECT
-                b.buildingBaseId,
-                COUNT(*) AS builtCount
-              FROM
-                Building b
-              WHERE
-                b.userId = ${user.id}
-              GROUP BY
-                b.buildingBaseId
-            ) building
-            ON bbbbr.requirementId = building.buildingBaseId
-            WHERE bbbbr.buildingBaseId = bb.id
-              AND (building.builtCount IS NULL OR building.builtCount < bbbbr.amount)
-          ) THEN true ELSE false END
-      `.as("withAvailableBuildings"),
-				])
-				.execute();
-
-			console.log("res", result);
+			const $filter = tx.selectFrom("Building_Base as bb").select([
+				"bb.id",
+				sql`
+                CASE
+                  WHEN NOT EXISTS (
+                    SELECT 1
+                    FROM Building_Base_Resource_Requirement bbrr
+                    LEFT JOIN (
+                      SELECT
+                        i.resourceId,
+                        i.amount
+                      FROM
+                        Inventory i
+                      INNER JOIN User_Inventory ui
+                        ON i.id = ui.inventoryId
+                      WHERE
+                        ui.userId = ${user.id}
+                      GROUP BY
+                        i.resourceId
+                    ) resource
+                    ON bbrr.resourceId = resource.resourceId
+                    WHERE bbrr.buildingBaseId = bb.id
+                      AND (resource.amount IS NULL OR resource.amount < bbrr.amount)
+                  ) THEN true ELSE false END
+              `.as("withAvailableResources"),
+				sql`
+                CASE
+                  WHEN NOT EXISTS (
+                    SELECT 1
+                    FROM Building_Base_Building_Base_Requirement bbbbr
+                    LEFT JOIN (
+                      SELECT
+                        b.buildingBaseId,
+                        COUNT(*) AS builtCount
+                      FROM
+                        Building b
+                      WHERE
+                        b.userId = ${user.id}
+                      GROUP BY
+                        b.buildingBaseId
+                    ) building
+                    ON bbbbr.requirementId = building.buildingBaseId
+                    WHERE bbbbr.buildingBaseId = bb.id
+                      AND (building.builtCount IS NULL OR building.builtCount < bbbbr.amount)
+                  ) THEN true ELSE false END
+              `.as("withAvailableBuildings"),
+			]);
 
 			return withListCount({
 				select: tx
 					.selectFrom("Building_Base as bb")
-					.select(["bb.id", "bb.name", "bb.cycles"])
+					.innerJoin($filter.as("filter"), "bb.id", "filter.id")
+					.select([
+						"bb.id",
+						"bb.name",
+						"bb.cycles",
+						"filter.withAvailableBuildings",
+						"filter.withAvailableResources",
+					])
+					.where("filter.withAvailableResources", "=", true)
 					.orderBy("bb.name", "asc"),
 				output: z.object({
 					id: z.string().min(1),
