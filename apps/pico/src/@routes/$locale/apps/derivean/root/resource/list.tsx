@@ -39,16 +39,23 @@ export const Route = createFileRoute(
 							(eb) =>
 								eb
 									.selectFrom("Tag as t")
-									.innerJoin("Resource_Tag as rt", "rt.resourceId", "r.id")
 									.select((eb) => {
 										return sql<string>`json_group_array(json_object(
                                             'id', ${eb.ref("t.id")},
                                             'code', ${eb.ref("t.code")},
                                             'group', ${eb.ref("t.group")},
                                             'sort', ${eb.ref("t.sort")},
-                                            'label', ${eb.ref("t.label")},
+                                            'label', ${eb.ref("t.label")}
                                         ))`.as("tags");
 									})
+									.where(
+										"t.id",
+										"in",
+										tx
+											.selectFrom("Resource_Tag as rt")
+											.select("rt.tagId")
+											.where("rt.resourceId", "=", eb.ref("r.id")),
+									)
 									.as("tags"),
 						]),
 						query({ select, where }) {
@@ -61,6 +68,21 @@ export const Route = createFileRoute(
 									return eb.or([
 										eb("r.id", "=", fulltext),
 										eb("r.name", "=", fulltext),
+										eb(
+											"r.id",
+											"in",
+											eb
+												.selectFrom("Resource_Tag as rt")
+												.innerJoin("Tag as t", "t.id", "rt.tagId")
+												.select("rt.resourceId")
+												.where((eb) => {
+													return eb.or([
+														eb("t.code", "like", fulltext),
+														eb("t.label", "like", fulltext),
+														eb("t.group", "like", fulltext),
+													]);
+												}),
+										),
 									]);
 								});
 							}

@@ -1,32 +1,34 @@
 import { Icon, More } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { ResourceInlineCss } from "~/app/derivean/root/resource/ResourceInlineCss";
+import { Building_Requirement_InlineCss } from "~/app/derivean/root/building/Building_Requirement_InlineCss";
 
-export namespace RequirementsInline {
+export namespace Building_Requirement_Inline {
 	interface Data extends IdentitySchema.Type {
 		name: string;
-		resourceId: string;
-		passive: boolean;
+		buildingBaseId: string;
 		amount: number;
 	}
 
 	interface Diff extends IdentitySchema.Type {
-		resourceId: string;
+		buildingBaseId: string;
 		amount: number;
 	}
 
-	export interface Props extends ResourceInlineCss.Props<More.PropsEx<Data>> {
+	export interface Props
+		extends Building_Requirement_InlineCss.Props<More.PropsEx<Data>> {
 		requirements: Data[];
 		diff?: Diff[];
 	}
 }
 
-export const RequirementsInline: FC<RequirementsInline.Props> = ({
+export const Building_Requirement_Inline: FC<
+	Building_Requirement_Inline.Props
+> = ({
 	requirements,
 	diff,
 	variant,
-	tva = ResourceInlineCss,
+	tva = Building_Requirement_InlineCss,
 	css,
 	...props
 }) => {
@@ -36,19 +38,21 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 		<More
 			items={requirements}
 			render={({ entity }) => {
-				const resource = diff?.find((r) => r.resourceId === entity.resourceId);
+				const baseBuilding = diff?.find(
+					(r) => r.buildingBaseId === entity.buildingBaseId,
+				);
 
 				return (
-					<div className={tv.item({ passive: entity.passive })}>
+					<div className={tv.item()}>
 						<div>{entity.name}</div>
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}
 						</div>
-						{resource ?
+						{baseBuilding ?
 							<>
-								{resource.amount > 0 ?
+								{baseBuilding.amount > 0 ?
 									<div className={"text-sm text-red-500"}>
-										(-{toHumanNumber({ number: resource.amount })})
+										(-{toHumanNumber({ number: baseBuilding.amount })})
 									</div>
 								:	<Icon
 										icon={"icon-[charm--cross]"}

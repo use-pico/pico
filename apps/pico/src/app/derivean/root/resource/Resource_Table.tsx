@@ -73,7 +73,7 @@ export const Resource_Table: FC<Resource_Table.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useInvalidator([["Resource"]]);
+	const invalidator = useInvalidator([["Resource"], ["Resource_Tag"]]);
 
 	return (
 		<Table
@@ -90,44 +90,49 @@ export const Resource_Table: FC<Resource_Table.Props> = ({
 								textTitle={<Tx label={"Create resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<Resource_Form
-									group={group}
-									mutation={useMutation({
-										async mutationFn({ name, tagIds = [] }) {
-											return toast.promise(
-												kysely.transaction().execute(async (tx) => {
-													const entity = await tx
-														.insertInto("Resource")
-														.values({
-															id: genId(),
-															name,
-														})
-														.returningAll()
-														.executeTakeFirstOrThrow();
-
-													if (tagIds.length) {
-														await tx
-															.insertInto("Resource_Tag")
-															.values(
-																tagIds.map((tagId) => ({
+								{({ close }) => {
+									return (
+										<Resource_Form
+											group={group}
+											mutation={useMutation({
+												async mutationFn({ name, tagIds = [] }) {
+													return toast.promise(
+														kysely.transaction().execute(async (tx) => {
+															const entity = await tx
+																.insertInto("Resource")
+																.values({
 																	id: genId(),
-																	resourceId: entity.id,
-																	tagId,
-																})),
-															)
-															.execute();
-													}
+																	name,
+																})
+																.returningAll()
+																.executeTakeFirstOrThrow();
 
-													return entity;
-												}),
-												withToastPromiseTx("Create resource"),
-											);
-										},
-										async onSuccess() {
-											await invalidator();
-										},
-									})}
-								/>
+															if (tagIds.length) {
+																await tx
+																	.insertInto("Resource_Tag")
+																	.values(
+																		tagIds.map((tagId) => ({
+																			id: genId(),
+																			resourceId: entity.id,
+																			tagId,
+																		})),
+																	)
+																	.execute();
+															}
+
+															return entity;
+														}),
+														withToastPromiseTx("Create resource"),
+													);
+												},
+												async onSuccess() {
+													await invalidator();
+													close();
+												},
+											})}
+										/>
+									);
+								}}
 							</ActionModal>
 						</ActionMenu>
 					);
@@ -140,50 +145,55 @@ export const Resource_Table: FC<Resource_Table.Props> = ({
 								textTitle={<Tx label={"Edit resource (modal)"} />}
 								icon={ResourceIcon}
 							>
-								<Resource_Form
-									defaultValues={{
-										...data,
-										tagIds: data.tags.map(({ id }) => id),
-									}}
-									mutation={useMutation({
-										async mutationFn({ tagIds, ...rest }) {
-											return toast.promise(
-												kysely.transaction().execute(async (tx) => {
-													const entity = await tx
-														.updateTable("Resource")
-														.set(rest)
-														.where("id", "=", data.id)
-														.returningAll()
-														.executeTakeFirstOrThrow();
+								{({ close }) => {
+									return (
+										<Resource_Form
+											defaultValues={{
+												...data,
+												tagIds: data.tags.map(({ id }) => id),
+											}}
+											mutation={useMutation({
+												async mutationFn({ tagIds, ...rest }) {
+													return toast.promise(
+														kysely.transaction().execute(async (tx) => {
+															const entity = await tx
+																.updateTable("Resource")
+																.set(rest)
+																.where("id", "=", data.id)
+																.returningAll()
+																.executeTakeFirstOrThrow();
 
-													await tx
-														.deleteFrom("Resource_Tag")
-														.where("resourceId", "=", entity.id)
-														.execute();
+															await tx
+																.deleteFrom("Resource_Tag")
+																.where("resourceId", "=", entity.id)
+																.execute();
 
-													if (tagIds?.length) {
-														await tx
-															.insertInto("Resource_Tag")
-															.values(
-																tagIds.map((tagId) => ({
-																	id: genId(),
-																	resourceId: entity.id,
-																	tagId,
-																})),
-															)
-															.execute();
-													}
+															if (tagIds?.length) {
+																await tx
+																	.insertInto("Resource_Tag")
+																	.values(
+																		tagIds.map((tagId) => ({
+																			id: genId(),
+																			resourceId: entity.id,
+																			tagId,
+																		})),
+																	)
+																	.execute();
+															}
 
-													return entity;
-												}),
-												withToastPromiseTx("Update resource"),
-											);
-										},
-										async onSuccess() {
-											await invalidator();
-										},
-									})}
-								/>
+															return entity;
+														}),
+														withToastPromiseTx("Update resource"),
+													);
+												},
+												async onSuccess() {
+													await invalidator();
+													close();
+												},
+											})}
+										/>
+									);
+								}}
 							</ActionModal>
 
 							<ActionModal

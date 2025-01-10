@@ -3,6 +3,7 @@ import { EditIcon, Menu, MenuLink, Tx } from "@use-pico/client";
 import type { Entity, IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
+import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -31,10 +32,18 @@ export const Building_Base_Index_Menu: FC<Building_Base_Index_Menu.Props> = ({
 
 			<MenuLink
 				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/root/building/base/$id/requirements"}
+				to={"/$locale/apps/derivean/root/building/base/$id/required/resources"}
 				params={{ locale, id: entity.id }}
 			>
-				<Tx label={"Resource requirements (menu)"} />
+				<Tx label={"Required resources (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={BuildingIcon}
+				to={"/$locale/apps/derivean/root/building/base/$id/required/buildings"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Required buildings (menu)"} />
 			</MenuLink>
 
 			<MenuLink

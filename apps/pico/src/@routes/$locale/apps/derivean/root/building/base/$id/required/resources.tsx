@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
@@ -15,7 +15,7 @@ import { Building_Base_Resource_Requirement_Table } from "~/app/derivean/root/bu
 import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/$id/requirements",
+	"/$locale/apps/derivean/root/building/base/$id/required/resources",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(Building_Base_Resource_Requirement_Schema),

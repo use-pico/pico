@@ -1,32 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	BoolInput,
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	onSubmit,
-	Tx,
-	type Form,
+    BoolInput,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { Resource_PopupSelect } from "~/app/derivean/root/resource/Resource_PopupSelect";
-import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
 
-export namespace Building_Base_Resource_Requirement_Form {
+export namespace Building_Base_Production_Requirement_Form {
 	export interface Props
-		extends Form.Props<Building_Base_Resource_Requirement_Schema["shape"]> {
+		extends Form.Props<Building_Base_Production_Requirement_Schema["shape"]> {
 		//
 	}
 }
 
-export const Building_Base_Resource_Requirement_Form: FC<
-	Building_Base_Resource_Requirement_Form.Props
+export const Building_Base_Production_Requirement_Form: FC<
+	Building_Base_Production_Requirement_Form.Props
 > = ({ mutation, defaultValues, variant, tva = FormCss, css }) => {
-	const form = useForm<Building_Base_Resource_Requirement_Schema["~shape"]>({
-		resolver: zodResolver(Building_Base_Resource_Requirement_Schema.shape),
+	const form = useForm<Building_Base_Production_Requirement_Schema["~shape"]>({
+		resolver: zodResolver(Building_Base_Production_Requirement_Schema.shape),
 		defaultValues: {
 			amount: 1,
 			passive: false,

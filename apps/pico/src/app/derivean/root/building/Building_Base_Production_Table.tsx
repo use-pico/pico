@@ -4,6 +4,7 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -11,7 +12,7 @@ import {
     useInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -45,7 +46,16 @@ const columns = [
 		render({ data, value }) {
 			const { locale } = useParams({ from: "/$locale" });
 
-			return value;
+			return (
+				<LinkTo
+					to={
+						"/$locale/apps/derivean/root/building/base/production/$id/requirements"
+					}
+					params={{ locale, id: data.id }}
+				>
+					{value}
+				</LinkTo>
+			);
 		},
 		size: 14,
 	}),
@@ -96,7 +106,7 @@ const columns = [
 				/>
 			);
 		},
-		size: 72,
+		size: 32,
 	}),
 ];
 

@@ -1,4 +1,4 @@
-import { FilterSchema } from "@use-pico/common";
+import { FilterSchema, withIntSchema } from "@use-pico/common";
 import { z } from "zod";
 import { withBuildingBaseBuildingBaseRequirementSchema } from "~/app/derivean/db/sdk";
 
@@ -6,6 +6,7 @@ export const Building_Base_Building_Base_Requirement_Schema =
 	withBuildingBaseBuildingBaseRequirementSchema({
 		shape: z.object({
 			requirementId: z.string().min(1),
+			amount: withIntSchema(),
 		}),
 		filter: FilterSchema.merge(
 			z.object({

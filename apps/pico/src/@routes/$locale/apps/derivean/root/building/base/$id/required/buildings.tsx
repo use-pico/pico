@@ -10,14 +10,14 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { Building_Base_Inventory_Table } from "~/app/derivean/root/building/Building_Base_Inventory_Table";
-import { Building_Base_Inventory_Schema } from "~/app/derivean/schema/building/Building_Base_Inventory_Schema";
+import { Building_Base_Building_Base_Requirement_Table } from "~/app/derivean/root/building/Building_Base_Building_Base_Requirement_Table";
+import { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/root/building/base/$id/inventory",
+	"/$locale/apps/derivean/root/building/base/$id/required/buildings",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(Building_Base_Inventory_Schema),
+		withSourceSearchSchema(Building_Base_Building_Base_Requirement_Schema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -33,7 +33,7 @@ export const Route = createFileRoute(
 	}) {
 		return queryClient.ensureQueryData({
 			queryKey: [
-				"Building_Base_Inventory",
+				"Building_Base_Building_Base_Requirement",
 				"list-count",
 				id,
 				{ filter, cursor },
@@ -42,23 +42,51 @@ export const Route = createFileRoute(
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Building_Base_Inventory as bbi")
-							.innerJoin("Inventory as i", "i.id", "bbi.inventoryId")
-							.innerJoin("Resource as r", "r.id", "i.resourceId")
+							.selectFrom("Building_Base_Building_Base_Requirement as bbbbr")
+							.innerJoin("Building_Base as bb", "bb.id", "bbbbr.requirementId")
 							.select([
-								"bbi.id",
-								"bbi.inventoryId",
-								"i.amount",
-								"i.limit",
-								"r.name",
+								"bbbbr.id",
+								"bb.name",
+								"bbbbr.buildingBaseId",
+								"bbbbr.requirementId",
+								"bbbbr.amount",
 							])
-							.where("bbi.buildingBaseId", "=", id),
+							.where("bbbbr.buildingBaseId", "=", id)
+							.orderBy("bb.name", "asc"),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.id) {
+								$select = $select.where("bbbbr.id", "=", where.id);
+							}
+							if (where?.idIn) {
+								$select = $select.where("bbbbr.id", "in", where.idIn);
+							}
+
+							if (where?.buildingBaseId) {
+								$select = $select.where(
+									"bbbbr.buildingBaseId",
+									"=",
+									where.buildingBaseId,
+								);
+							}
+
+							if (where?.requirementId) {
+								$select = $select.where(
+									"bbbbr.requirementId",
+									"=",
+									where.requirementId,
+								);
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
-							inventoryId: z.string().min(1),
 							name: z.string().min(1),
+							buildingBaseId: z.string().min(1),
+							requirementId: z.string().min(1),
 							amount: z.number().nonnegative(),
-							limit: z.number().nonnegative(),
 						}),
 						filter,
 						cursor,
@@ -77,7 +105,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Building_Base_Inventory_Table
+				<Building_Base_Building_Base_Requirement_Table
 					buildingBaseId={id}
 					table={{
 						data,

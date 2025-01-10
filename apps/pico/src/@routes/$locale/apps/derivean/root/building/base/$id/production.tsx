@@ -13,8 +13,8 @@ import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { Building_Base_Production_Table } from "~/app/derivean/root/building/Building_Base_Production_Table";
+import { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
 import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
-import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/production",
@@ -47,9 +47,10 @@ export const Route = createFileRoute(
 						select: tx
 							.selectFrom("Building_Base_Production as bbp")
 							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
+							.innerJoin("Resource as r", "r.id", "bbp.resourceId")
 							.select([
 								"bbp.id",
-								"bb.name",
+								"r.name",
 								"bbp.amount",
 								"bbp.limit",
 								"bbp.cycles",
@@ -63,6 +64,7 @@ export const Route = createFileRoute(
                                                 'id', ${eb.ref("bbpr.id")},
                                                 'amount', ${eb.ref("bbpr.amount")},
                                                 'passive', ${eb.ref("bbpr.passive")},
+                                                'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
                                                 'resourceId', ${eb.ref("bbpr.resourceId")},
                                                 'name', ${eb.ref("r.name")}
                                             ))`.as("requirements");
@@ -84,7 +86,7 @@ export const Route = createFileRoute(
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
-								Building_Base_Resource_Requirement_Schema.entity.merge(
+								Building_Base_Production_Requirement_Schema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),

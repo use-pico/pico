@@ -47,7 +47,12 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 					{ to: "/$locale/apps/derivean/root/building/base/$id/view" },
 					{ to: "/$locale/apps/derivean/root/building/base/$id/edit" },
 					{ to: "/$locale/apps/derivean/root/building/base/$id/inventory" },
-					{ to: "/$locale/apps/derivean/root/building/base/$id/requirements" },
+					{
+						to: "/$locale/apps/derivean/root/building/base/$id/required/buildings",
+					},
+					{
+						to: "/$locale/apps/derivean/root/building/base/$id/required/resources",
+					},
 				]}
 			>
 				<MenuLink

@@ -1,10 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
     DeleteControl,
-    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -18,104 +16,55 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
-import { Building_Base_Form } from "~/app/derivean/root/building/Building_Base_Form";
-import { Building_Requirement_Inline } from "~/app/derivean/root/building/Building_Requirement_Inline";
-import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
-import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
-import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import { Building_Base_Building_Base_Requirement_Form } from "~/app/derivean/root/building/Building_Base_Building_Base_Requirement_Form";
 
-export namespace Building_Base_Table {
+export namespace Building_Base_Building_Base_Requirement_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
-		cycles: number;
-		requiredResources: (Building_Base_Resource_Requirement_Schema["~entity"] & {
-			name: string;
-		})[];
-		requiredBuildings: (Building_Base_Building_Base_Requirement_Schema["~entity"] & {
-			name: string;
-		})[];
+		buildingBaseId: string;
+		requirementId: string;
+		amount: number;
 	}
 }
 
-const column = withColumn<Building_Base_Table.Data>();
+const column = withColumn<Building_Base_Building_Base_Requirement_Table.Data>();
 
 const columns = [
 	column({
 		name: "name",
 		header() {
-			return <Tx label={"Building name (label)"} />;
+			return <Tx label={"Required building (label)"} />;
 		},
-		render({ data, value }) {
-			const { locale } = useParams({ from: "/$locale" });
-
-			return (
-				<LinkTo
-					to={"/$locale/apps/derivean/root/building/base/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
-			);
+		render({ value }) {
+			return value;
 		},
-		size: 10,
+		size: 12,
 	}),
 	column({
-		name: "cycles",
+		name: "amount",
 		header() {
-			return <Tx label={"Construction cycles (label)"} />;
+			return <Tx label={"Amount (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 14,
-	}),
-	column({
-		name: "requiredResources",
-		header() {
-			return <Tx label={"Required resources (label)"} />;
-		},
-		render({ value }) {
-			return (
-				<RequirementsInline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-					limit={5}
-				/>
-			);
-		},
-		size: 24,
-	}),
-	column({
-		name: "requiredBuildings",
-		header() {
-			return <Tx label={"Required buildings (label)"} />;
-		},
-		render({ value }) {
-			return (
-				<Building_Requirement_Inline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-					limit={5}
-				/>
-			);
-		},
-		size: 24,
+		size: 10,
 	}),
 ];
 
-export namespace Building_Base_Table {
+export namespace Building_Base_Building_Base_Requirement_Table {
 	export interface Props extends Table.PropsEx<Data> {
-		//
+		buildingBaseId: string;
 	}
 }
 
-export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
-	table,
-	...props
-}) => {
-	const invalidator = useInvalidator([["Building_Base"], ["Inventory"]]);
+export const Building_Base_Building_Base_Requirement_Table: FC<
+	Building_Base_Building_Base_Requirement_Table.Props
+> = ({ buildingBaseId, table, ...props }) => {
+	const invalidator = useInvalidator([
+		["Building_Base_Building_Base_Requirement"],
+		["Building_Base"],
+	]);
 
 	return (
 		<Table
@@ -128,27 +77,30 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 					return (
 						<ActionMenu>
 							<ActionModal
-								label={<Tx label={"Create building base (menu)"} />}
-								textTitle={<Tx label={"Create building base (modal)"} />}
+								label={<Tx label={"Create required building (menu)"} />}
+								textTitle={<Tx label={"Create required building (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
 								{({ close }) => {
 									return (
-										<Building_Base_Form
+										<Building_Base_Building_Base_Requirement_Form
 											mutation={useMutation({
 												async mutationFn(values) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
 															return tx
-																.insertInto("Building_Base")
+																.insertInto(
+																	"Building_Base_Building_Base_Requirement",
+																)
 																.values({
 																	id: genId(),
 																	...values,
+																	buildingBaseId,
 																})
 																.returningAll()
 																.executeTakeFirstOrThrow();
 														}),
-														withToastPromiseTx("Create building base"),
+														withToastPromiseTx("Create required building"),
 													);
 												},
 												async onSuccess() {
@@ -168,25 +120,27 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 						<ActionMenu>
 							<ActionModal
 								label={<Tx label={"Edit (menu)"} />}
-								textTitle={<Tx label={"Edit building base (modal)"} />}
+								textTitle={<Tx label={"Edit required building (modal)"} />}
 								icon={BuildingBaseIcon}
 							>
 								{({ close }) => {
 									return (
-										<Building_Base_Form
+										<Building_Base_Building_Base_Requirement_Form
 											defaultValues={data}
 											mutation={useMutation({
 												async mutationFn(values) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
 															return tx
-																.updateTable("Building_Base")
+																.updateTable(
+																	"Building_Base_Building_Base_Requirement",
+																)
 																.set(values)
 																.where("id", "=", data.id)
 																.returningAll()
 																.executeTakeFirstOrThrow();
 														}),
-														withToastPromiseTx("Update building base"),
+														withToastPromiseTx("Update required building"),
 													);
 												},
 												async onSuccess() {
@@ -202,7 +156,7 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 							<ActionModal
 								icon={TrashIcon}
 								label={<Tx label={"Delete (menu)"} />}
-								textTitle={<Tx label={"Delete building (modal)"} />}
+								textTitle={<Tx label={"Delete required building (modal)"} />}
 								css={{
 									base: [
 										"text-red-500",
@@ -215,13 +169,15 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 									callback={async () => {
 										return kysely.transaction().execute(async (tx) => {
 											return tx
-												.deleteFrom("Building_Base")
+												.deleteFrom("Building_Base_Building_Base_Requirement")
 												.where("id", "=", data.id)
 												.execute();
 										});
 									}}
-									textContent={<Tx label={"Building base delete (content)"} />}
-									textToast={"Building base delete"}
+									textContent={
+										<Tx label={"Delete required building (content)"} />
+									}
+									textToast={"Delete required building"}
 									invalidator={invalidator}
 								/>
 							</ActionModal>

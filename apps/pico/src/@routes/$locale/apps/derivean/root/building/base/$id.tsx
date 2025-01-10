@@ -9,6 +9,7 @@ import { sql } from "kysely";
 import { z } from "zod";
 import { Building_Base_Index_Menu } from "~/app/derivean/root/building/Building_Base_Index_Menu";
 import { Building_Base_Preview } from "~/app/derivean/root/building/Building_Base_Preview";
+import { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
@@ -34,19 +35,48 @@ export const Route = createFileRoute(
                                             'amount', ${eb.ref("bbrr.amount")},
                                             'passive', ${eb.ref("bbrr.passive")},
                                             'resourceId', ${eb.ref("bbrr.resourceId")},
+                                            'buildingBaseId', ${eb.ref("bbrr.buildingBaseId")},
                                             'name', ${eb.ref("r.name")}
                                         ))`.as("requirements");
 									})
-									.where("bbrr.buildingBaseId", "=", "bb.id")
-									.as("requirements"),
+									.where("bbrr.buildingBaseId", "=", eb.ref("bb.id"))
+									.as("requiredResources"),
+							(eb) =>
+								eb
+									.selectFrom(
+										"Building_Base_Building_Base_Requirement as bbbbr",
+									)
+									.innerJoin(
+										"Building_Base as bb2",
+										"bb2.id",
+										"bbbbr.requirementId",
+									)
+									.select((eb) => {
+										return sql<string>`json_group_array(json_object(
+                                            'id', ${eb.ref("bbbbr.id")},
+                                            'amount', ${eb.ref("bbbbr.amount")},
+                                            'requirementId', ${eb.ref("bbbbr.requirementId")},
+                                            'buildingBaseId', ${eb.ref("bbbbr.buildingBaseId")},
+                                            'name', ${eb.ref("bb2.name")}
+                                        ))`.as("requirements");
+									})
+									.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
+									.as("requiredBuildings"),
 						])
 						.where("bb.id", "=", id),
 					output: z.object({
 						id: z.string().min(1),
 						name: z.string().min(1),
 						cycles: z.number().nonnegative(),
-						requirements: withJsonArraySchema(
+						requiredResources: withJsonArraySchema(
 							Building_Base_Resource_Requirement_Schema.entity.merge(
+								z.object({
+									name: z.string().min(1),
+								}),
+							),
+						),
+						requiredBuildings: withJsonArraySchema(
+							Building_Base_Building_Base_Requirement_Schema.entity.merge(
 								z.object({
 									name: z.string().min(1),
 								}),
