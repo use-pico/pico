@@ -23,8 +23,8 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import type { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { InventoryForm } from "~/app/derivean/root/inventory/InventoryForm";
+import type { InventorySchema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 interface Data extends IdentitySchema.Type {
 	name: string;

@@ -10,9 +10,9 @@ import {
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
+import { BuildingBaseSchema } from "~/app/derivean/schema/building/Building_Base_Schema";
 
 export namespace BuildingBaseForm {
 	export interface Props extends Form.Props<BuildingBaseSchema["shape"]> {

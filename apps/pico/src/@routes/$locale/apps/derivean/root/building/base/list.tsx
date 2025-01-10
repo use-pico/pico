@@ -8,9 +8,9 @@ import {
     Tx,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingBaseSchema } from "~/app/derivean/building/base/BuildingBaseSchema";
 import { withBuildingBaseListCount } from "~/app/derivean/building/base/withBuildingBaseListCount";
 import { BuildingBaseTable } from "~/app/derivean/root/building/base/BuildingBaseTable";
+import { BuildingBaseSchema } from "~/app/derivean/schema/building/Building_Base_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list",

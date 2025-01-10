@@ -11,8 +11,8 @@ import {
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
+import { InventorySchema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export namespace InventoryForm {
 	export interface Props extends Form.Props<InventorySchema["shape"]> {

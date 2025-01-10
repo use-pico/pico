@@ -6,11 +6,11 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
+import { z } from "zod";
 import { TagTable } from "~/app/derivean/root/tag/TagTable";
-import { TagSchema } from "~/app/derivean/tag/TagSchema";
-import { withTagListCount } from "~/app/derivean/tag/withTagListCount";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
 	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
@@ -25,8 +25,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
 			queryKey: ["Tag", "list-count", { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
-					return withTagListCount({
-						tx,
+					return withListCount({
+						select: tx
+							.selectFrom("Tag as t")
+							.select(["t.id", "t.code", "t.label", "t.group", "t.sort"]),
+						output: z.object({
+							id: z.string().min(1),
+							code: z.string().min(1),
+							label: z.string().min(1),
+							group: z.string().nullish(),
+							sort: z.number().int().nonnegative(),
+						}),
 						filter,
 						cursor,
 					});

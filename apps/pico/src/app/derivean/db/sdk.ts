@@ -26,14 +26,11 @@ export const withBuildingSchema = <
 				buildingBaseId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				level:
-					// INTEGER / not nullable
-					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "buildingBaseId", "level"],
+		sort: ["id", "userId", "buildingBaseId"],
 	});
 };
 
@@ -52,8 +49,8 @@ export const withBuildingBaseSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
-				resourceId:
-					// varchar(36) / not nullable
+				name:
+					// varchar(64) / not nullable
 					z.string().min(1),
 				cycles:
 					// INTEGER / not nullable
@@ -62,12 +59,46 @@ export const withBuildingBaseSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "resourceId", "cycles"],
+		sort: ["id", "name", "cycles"],
 	});
 };
 
 export type BuildingBaseEntity = ReturnType<
 	typeof withBuildingBaseSchema
+>["~entity"];
+
+export const withBuildingBaseBuildingBaseRequirementSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingBaseId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				requirementId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingBaseId", "requirementId", "amount"],
+	});
+};
+
+export type BuildingBaseBuildingBaseRequirementEntity = ReturnType<
+	typeof withBuildingBaseBuildingBaseRequirementSchema
 >["~entity"];
 
 export const withBuildingBaseInventorySchema = <
@@ -89,14 +120,11 @@ export const withBuildingBaseInventorySchema = <
 				inventoryId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				level:
-					// INTEGER / not nullable
-					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingBaseId", "inventoryId", "level"],
+		sort: ["id", "buildingBaseId", "inventoryId"],
 	});
 };
 
@@ -123,16 +151,170 @@ export const withBuildingBaseProductionSchema = <
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+				cycles:
+					// INTEGER / not nullable
+					z.number().int(),
+				limit:
+					// INTEGER / not nullable
+					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingBaseId", "resourceId"],
+		sort: ["id", "buildingBaseId", "resourceId", "amount", "cycles", "limit"],
 	});
 };
 
 export type BuildingBaseProductionEntity = ReturnType<
 	typeof withBuildingBaseProductionSchema
+>["~entity"];
+
+export const withBuildingBaseProductionRequirementSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingBaseProductionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+				passive:
+					// boolean / not nullable
+					withBoolSchema(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingBaseProductionId", "resourceId", "amount", "passive"],
+	});
+};
+
+export type BuildingBaseProductionRequirementEntity = ReturnType<
+	typeof withBuildingBaseProductionRequirementSchema
+>["~entity"];
+
+export const withBuildingBaseResourceRequirementSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingBaseId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+				passive:
+					// boolean / not nullable
+					withBoolSchema(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingBaseId", "resourceId", "amount", "passive"],
+	});
+};
+
+export type BuildingBaseResourceRequirementEntity = ReturnType<
+	typeof withBuildingBaseResourceRequirementSchema
+>["~entity"];
+
+export const withBuildingInventorySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				inventoryId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingId", "inventoryId"],
+	});
+};
+
+export type BuildingInventoryEntity = ReturnType<
+	typeof withBuildingInventorySchema
+>["~entity"];
+
+export const withBuildingQueueSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				from:
+					// INTEGER / not nullable
+					z.number().int(),
+				to:
+					// INTEGER / not nullable
+					z.number().int(),
+				cycle:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "buildingId", "from", "to", "cycle"],
+	});
+};
+
+export type BuildingQueueEntity = ReturnType<
+	typeof withBuildingQueueSchema
 >["~entity"];
 
 export const withCycleSchema = <
@@ -256,47 +438,7 @@ export const withResourceSchema = <
 
 export type ResourceEntity = ReturnType<typeof withResourceSchema>["~entity"];
 
-export const withResourceProductionSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				level:
-					// INTEGER / not nullable
-					z.number().int(),
-				amount:
-					// float4 / not nullable
-					z.number(),
-				cycles:
-					// INTEGER / not nullable
-					z.number().int(),
-				limit:
-					// INTEGER / not nullable
-					z.number().int(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "resourceId", "level", "amount", "cycles", "limit"],
-	});
-};
-
-export type ResourceProductionEntity = ReturnType<
-	typeof withResourceProductionSchema
->["~entity"];
-
-export const withResourceProductionQueueSchema = <
+export const withResourceQueueSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
 >({
@@ -332,48 +474,8 @@ export const withResourceProductionQueueSchema = <
 	});
 };
 
-export type ResourceProductionQueueEntity = ReturnType<
-	typeof withResourceProductionQueueSchema
->["~entity"];
-
-export const withResourceProductionRequirementSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				requirementId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				level:
-					// INTEGER / not nullable
-					z.number().int(),
-				amount:
-					// float4 / not nullable
-					z.number(),
-				passive:
-					// boolean / not nullable
-					withBoolSchema(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "resourceId", "requirementId", "level", "amount", "passive"],
-	});
-};
-
-export type ResourceProductionRequirementEntity = ReturnType<
-	typeof withResourceProductionRequirementSchema
+export type ResourceQueueEntity = ReturnType<
+	typeof withResourceQueueSchema
 >["~entity"];
 
 export const withResourceTagSchema = <
@@ -508,15 +610,18 @@ export type UserInventoryEntity = ReturnType<
 export interface Database {
 	Building: BuildingEntity;
 	Building_Base: BuildingBaseEntity;
+	Building_Base_Building_Base_Requirement: BuildingBaseBuildingBaseRequirementEntity;
 	Building_Base_Inventory: BuildingBaseInventoryEntity;
 	Building_Base_Production: BuildingBaseProductionEntity;
+	Building_Base_Production_Requirement: BuildingBaseProductionRequirementEntity;
+	Building_Base_Resource_Requirement: BuildingBaseResourceRequirementEntity;
+	Building_Inventory: BuildingInventoryEntity;
+	Building_Queue: BuildingQueueEntity;
 	Cycle: CycleEntity;
 	Default_Inventory: DefaultInventoryEntity;
 	Inventory: InventoryEntity;
 	Resource: ResourceEntity;
-	Resource_Production: ResourceProductionEntity;
-	Resource_Production_Queue: ResourceProductionQueueEntity;
-	Resource_Production_Requirement: ResourceProductionRequirementEntity;
+	Resource_Queue: ResourceQueueEntity;
 	Resource_Tag: ResourceTagEntity;
 	Tag: TagEntity;
 	User: UserEntity;

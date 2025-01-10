@@ -10,8 +10,8 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
 import { DefaultInventoryTable } from "~/app/derivean/root/inventory/default/DefaultInventoryTable";
+import { DefaultInventorySchema } from "~/app/derivean/schema/default/Default_Inventory_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/default",

@@ -11,7 +11,7 @@ import {
 } from "@use-pico/client";
 import { z } from "zod";
 import { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
-import { ResourceProductionTable } from "~/app/derivean/root/resource/production/ResourceProductionTable";
+import { ResourceProductionTable } from "~/app/derivean/root/building/Building_Base_Production_Table";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/production/list",

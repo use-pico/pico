@@ -13,8 +13,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.addColumn("id", $id, (col) => col.primaryKey())
 
 			.addColumn("name", "varchar(64)", (col) => col.notNull())
-			.addColumn("login", "varchar(128)", (col) => col.notNull().unique())
+			.addColumn("login", "varchar(128)", (col) => col.notNull())
 			.addColumn("password", "varchar(256)", (col) => col.notNull())
+
+			.addUniqueConstraint("[User] login", ["login"])
 
 			.execute();
 
@@ -57,43 +59,9 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
-			.addColumn("name", "varchar(64)", (col) => col.notNull().unique())
+			.addColumn("name", "varchar(64)", (col) => col.notNull())
 
-			.execute();
-
-		await kysely.schema
-			.createTable("Resource_Production")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			.addColumn("resourceId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Resource_Tag] resourceId",
-				["resourceId"],
-				"Resource",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
-
-			/**
-			 * Amount of resource produced in specified cycles.
-			 */
-			.addColumn("amount", "float4", (col) => col.notNull())
-			/**
-			 * Amount of cycles to produce a thing
-			 */
-			.addColumn("cycles", "integer", (col) => col.notNull())
-			/**
-			 * Queue limit
-			 */
-			.addColumn("limit", "integer", (col) => col.notNull())
-
-			.addUniqueConstraint("[Resource_Production] resourceId-level", [
-				"resourceId",
-				"level",
-			])
+			.addUniqueConstraint("[Resource] name", ["name"])
 
 			.execute();
 
@@ -128,91 +96,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.execute();
 
 		await kysely.schema
-			.createTable("Resource_Production_Requirement")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			.addColumn("resourceId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Resource_Production_Requirement] resourceId",
-				["resourceId"],
-				"Resource",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("requirementId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Resource_Production_Requirement] requirementId",
-				["requirementId"],
-				"Resource",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			/**
-			 * Level of the thing being produced - not a required level of the resource.
-			 *
-			 * Example: Building of level 1 would put where level = 2 to check if it could be upgraded.
-			 */
-			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
-			.addColumn("amount", "float4", (col) => col.notNull())
-			/**
-			 * If true, it's enough to have the resource, by it's not consumed on build.
-			 */
-			.addColumn("passive", "boolean", (col) => col.notNull())
-
-			.addUniqueConstraint(
-				"[Resource_Production_Requirement] resourceId-requirementId-level",
-				["requirementId", "resourceId", "level"],
-			)
-			.execute();
-
-		/**
-		 * Queue of produced things (resources, items, buildings, ...).
-		 */
-		await kysely.schema
-			.createTable("Resource_Production_Queue")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			/**
-			 * Owner of this queue item.
-			 */
-			.addColumn("userId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Resource_Production_Queue] userId",
-				["userId"],
-				"User",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("resourceId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Resource_Production_Queue] resourceId",
-				["resourceId"],
-				"Resource",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			/**
-			 * Starting cycle
-			 */
-			.addColumn("from", "integer", (col) => col.notNull())
-			/**
-			 * Finish cycle
-			 */
-			.addColumn("to", "integer", (col) => col.notNull())
-			/**
-			 * Current cycle
-			 */
-			.addColumn("cycle", "integer", (col) => col.notNull())
-
-			.execute();
-
-		await kysely.schema
 			.createTable("Inventory")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
@@ -241,7 +124,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
-			.addColumn("resourceId", $id, (col) => col.notNull().unique())
+			.addColumn("resourceId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
 				"[Default_Inventory] resourceId",
 				["resourceId"],
@@ -252,6 +135,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 			.addColumn("amount", "float4", (col) => col.notNull())
 			.addColumn("limit", "float4", (col) => col.notNull())
+
+			.addUniqueConstraint("[Default_Inventory] resourceId", ["resourceId"])
 
 			.execute();
 
@@ -289,17 +174,34 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
+			.addColumn("name", "varchar(64)", (col) => col.notNull())
+
 			/**
-			 * Building may be requirement of an another building (resource requirement).
-			 *
-			 * This must be managed by the game logic (so when a building is built, inventory
-			 * transaction of this resource must be done, same for building destruction).
-			 *
-			 * Also this resource is used to compute list of requirements.
+			 * Number of cycles required to build this building
 			 */
-			.addColumn("resourceId", $id, (col) => col.notNull().unique())
+			.addColumn("cycles", "integer", (col) => col.notNull())
+
+			.addUniqueConstraint("[Building_Base] name", ["name"])
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Base_Production")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
-				"[Building_Base] resourceId",
+				"[Building_Base_Production] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Production] resourceId",
 				["resourceId"],
 				"Resource",
 				["id"],
@@ -307,9 +209,166 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			)
 
 			/**
-			 * Number of cycles required to build this building
+			 * Amount of resource produced in specified cycles.
+			 */
+			.addColumn("amount", "float4", (col) => col.notNull())
+			/**
+			 * Amount of cycles to produce a thing
 			 */
 			.addColumn("cycles", "integer", (col) => col.notNull())
+			/**
+			 * Queue limit
+			 */
+			.addColumn("limit", "integer", (col) => col.notNull())
+
+			.addUniqueConstraint("[Building_Base_Production] resourceId", [
+				"resourceId",
+			])
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Base_Resource_Requirement")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Resource_Requirement] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Resource_Requirement] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("amount", "float4", (col) => col.notNull())
+			/**
+			 * If true, it's enough to have the resource, by it's not consumed on build.
+			 */
+			.addColumn("passive", "boolean", (col) => col.notNull())
+
+			.addUniqueConstraint(
+				"[Building_Base_Resource_Requirement] buildingBaseId-requirementId",
+				["buildingBaseId", "resourceId"],
+			)
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Base_Building_Base_Requirement")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			.addColumn("buildingBaseId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Resource_Requirement] buildingBaseId",
+				["buildingBaseId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("requirementId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Resource_Requirement] requirementId",
+				["requirementId"],
+				"Building_Base",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("amount", "float4", (col) => col.notNull())
+
+			.addUniqueConstraint(
+				"[Building_Base_Resource_Requirement] buildingBaseId-requirementId",
+				["buildingBaseId", "requirementId"],
+			)
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Base_Production_Requirement")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			.addColumn("buildingBaseProductionId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Production_Requirement] buildingBaseProductionId",
+				["buildingBaseProductionId"],
+				"Building_Base_Production",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Base_Production_Requirement] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("amount", "float4", (col) => col.notNull())
+			/**
+			 * If true, it's enough to have the resource, by it's not consumed on build.
+			 */
+			.addColumn("passive", "boolean", (col) => col.notNull())
+
+			.addUniqueConstraint(
+				"[Building_Base_Production_Requirement] buildingBaseProductionId-requirementId",
+				["buildingBaseProductionId", "resourceId"],
+			)
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Resource_Queue")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			/**
+			 * Owner of this queue item.
+			 */
+			.addColumn("userId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Queue] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Resource_Queue] resourceId",
+				["resourceId"],
+				"Resource",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			/**
+			 * Starting cycle
+			 */
+			.addColumn("from", "integer", (col) => col.notNull())
+			/**
+			 * Finish cycle
+			 */
+			.addColumn("to", "integer", (col) => col.notNull())
+			/**
+			 * Current cycle
+			 */
+			.addColumn("cycle", "integer", (col) => col.notNull())
 
 			.execute();
 
@@ -341,11 +400,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
-			/**
-			 * For which level this inventory is defined for.
-			 */
-			.addColumn("level", "integer", (col) => col.notNull())
-
 			.addUniqueConstraint(
 				"[Building_Base_Inventory] buildingBaseId-inventoryId",
 				["buildingBaseId", "inventoryId"],
@@ -354,38 +408,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.execute();
 
 		/**
-		 * Defines production of resources in a building.
+		 * This is a building instance belonging to a player.
 		 */
-		await kysely.schema
-			.createTable("Building_Base_Production")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			.addColumn("buildingBaseId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Base_Production] buildingBaseId",
-				["buildingBaseId"],
-				"Building_Base",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("resourceId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Base_Production] resourceId",
-				["resourceId"],
-				"Resource",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addUniqueConstraint(
-				"[Building_Base_Production] buildingBaseId-resourceId",
-				["buildingBaseId", "resourceId"],
-			)
-
-			.execute();
-
 		await kysely.schema
 			.createTable("Building")
 			.ifNotExists()
@@ -409,10 +433,74 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Queue")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
 			/**
-			 * Current level of the building.
+			 * Owner of this queue item.
 			 */
-			.addColumn("level", "integer", (col) => col.notNull().defaultTo(1))
+			.addColumn("userId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Queue] userId",
+				["userId"],
+				"User",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("buildingId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Queue] buildingId",
+				["buildingId"],
+				"Building",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			/**
+			 * Starting cycle
+			 */
+			.addColumn("from", "integer", (col) => col.notNull())
+			/**
+			 * Finish cycle
+			 */
+			.addColumn("to", "integer", (col) => col.notNull())
+			/**
+			 * Current cycle
+			 */
+			.addColumn("cycle", "integer", (col) => col.notNull())
+
+			.execute();
+
+		await kysely.schema
+			.createTable("Building_Inventory")
+			.ifNotExists()
+			.addColumn("id", $id, (col) => col.primaryKey())
+
+			/**
+			 * Owner of this queue item.
+			 */
+			.addColumn("buildingId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Inventory] buildingId",
+				["buildingId"],
+				"Building",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
+			.addColumn("inventoryId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Inventory] inventoryId",
+				["inventoryId"],
+				"Inventory",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
 
 			.execute();
 	},

@@ -19,7 +19,7 @@ import { genId, type IdentitySchema, type TagSchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { ResourceForm } from "~/app/derivean/root/resource/ResourceForm";
+import { ResourceForm } from "~/app/derivean/root/resource/Resource_Form";
 
 interface Data extends IdentitySchema.Type {
 	name: string;

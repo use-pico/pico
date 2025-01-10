@@ -5,12 +5,8 @@ import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
-interface Data extends IdentitySchema {
-	//
-}
-
 export namespace UserIndexMenu {
-	export interface Props extends Menu.Props, Entity.Schema<Data> {
+	export interface Props extends Menu.Props, Entity.Schema<IdentitySchema> {
 		//
 	}
 }

@@ -10,31 +10,26 @@ import {
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
-import { BuildingBaseInventorySchema } from "~/app/derivean/schema/building/Building_Base_Inventory_Schema";
+import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 
-export namespace BuildingBaseInventoryForm {
+export namespace Building_Base_Production_Form {
 	export interface Props
-		extends Form.Props<BuildingBaseInventorySchema["shape"]> {
+		extends Form.Props<Building_Base_Production_Schema["shape"]> {
 		//
 	}
 }
 
-export const BuildingBaseInventoryForm: FC<BuildingBaseInventoryForm.Props> = ({
-	mutation,
-	defaultValues,
-
-	variant,
-	tva = FormCss,
-	css,
-}) => {
-	const form = useForm<BuildingBaseInventorySchema["~shape"]>({
-		resolver: zodResolver(BuildingBaseInventorySchema.shape),
+export const Building_Base_Production_Form: FC<
+	Building_Base_Production_Form.Props
+> = ({ mutation, defaultValues, variant, tva = FormCss, css }) => {
+	const form = useForm<Building_Base_Production_Schema["~shape"]>({
+		resolver: zodResolver(Building_Base_Production_Schema.shape),
 		defaultValues: {
 			amount: 1,
-			limit: 0,
-			level: 1,
+			limit: 1,
+			cycles: 1,
 			...defaultValues,
 		},
 	});
@@ -93,8 +88,22 @@ export const BuildingBaseInventoryForm: FC<BuildingBaseInventoryForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
+				name={"cycles"}
+				label={<Tx label={"Production cycles (label)"} />}
+				hint={<Tx label={"Production cycles (hint)"} />}
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("cycles")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
 				name={"limit"}
-				label={<Tx label={"Inventory limit (label)"} />}
+				label={<Tx label={"Production limit (label)"} />}
+				hint={<Tx label={"Production limit (hint)"} />}
 			>
 				<input
 					type={"number"}
@@ -103,22 +112,9 @@ export const BuildingBaseInventoryForm: FC<BuildingBaseInventoryForm.Props> = ({
 				/>
 			</FormInput>
 
-			<FormInput
-				formState={form.formState}
-				name={"level"}
-				label={<Tx label={"Inventory level (label)"} />}
-				hint={<Tx label={"Inventory level (hint)"} />}
-			>
-				<input
-					type={"number"}
-					className={tv.input()}
-					{...form.register("level")}
-				/>
-			</FormInput>
-
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={InventoryIcon}
+					iconEnabled={ProductionIcon}
 					type={"submit"}
 				>
 					<Tx label={"Save (submit)"} />

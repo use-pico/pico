@@ -10,13 +10,13 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BuildingTable } from "~/app/derivean/root/building/BuildingTable";
+import { Building_Schema } from "~/app/derivean/schema/building/Building_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/user/$id/building/list",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
+	validateSearch: zodValidator(withSourceSearchSchema(Building_Schema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -37,8 +37,7 @@ export const Route = createFileRoute(
 						select: tx
 							.selectFrom("Building as b")
 							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-							.innerJoin("Resource as r", "r.id", "bb.resourceId")
-							.select(["b.id", "r.name", "b.buildingBaseId"])
+							.select(["b.id", "bb.name", "b.buildingBaseId"])
 							.where("b.userId", "=", id),
 						output: z.object({
 							id: z.string().min(1),

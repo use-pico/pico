@@ -10,11 +10,10 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
-import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
+import { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
-	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
+	validateSearch: zodValidator(withSourceSearchSchema(Inventory_Schema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,

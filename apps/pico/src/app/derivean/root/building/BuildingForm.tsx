@@ -1,19 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	ModalContext,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    ModalContext,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import { useContext, type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { BuildingSchema } from "~/app/derivean/building/BuildingSchema";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { BuildingBasePopupSelect } from "~/app/derivean/root/building/base/BuildingBasePopupSelect";
+import { BuildingSchema } from "~/app/derivean/schema/building/Building_Schema";
 
 export namespace BuildingForm {
 	export interface Props extends Form.Props<BuildingSchema["shape"]> {

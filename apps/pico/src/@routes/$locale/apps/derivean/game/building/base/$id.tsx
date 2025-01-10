@@ -14,9 +14,7 @@ export const Route = createFileRoute(
 			return {
 				entity: await tx
 					.selectFrom("Building_Base as bb")
-					.innerJoin("Resource as r", "r.id", "bb.resourceId")
-					.selectAll("bb")
-					.select("r.name as name")
+					.select(["bb.id", "bb.name"])
 					.where("bb.id", "=", id)
 					.executeTakeFirstOrThrow(),
 			};

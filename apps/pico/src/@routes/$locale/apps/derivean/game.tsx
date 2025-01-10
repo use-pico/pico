@@ -6,10 +6,9 @@ import {
     useLoaderData,
     useParams,
 } from "@tanstack/react-router";
-import { AppLayout, LinkTo, LogoutIcon, ls, withList } from "@use-pico/client";
+import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
-import { InventorySchema } from "~/app/derivean/inventory/InventorySchema";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
@@ -35,20 +34,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		return kysely.transaction().execute(async (tx) => {
 			return {
 				session: user,
-				inventory: await withList({
-					select: tx
-						.selectFrom("Inventory as i")
-						.selectAll("i")
-						.where(
-							"i.id",
-							"in",
-							tx
-								.selectFrom("User_Inventory as ui")
-								.select("ui.inventoryId")
-								.where("ui.userId", "=", user.id),
-						),
-					output: InventorySchema.entity,
-				}),
 				cycle: (
 					await tx
 						.selectFrom("Cycle as c")

@@ -1,19 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	ModalContext,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    onSubmit,
+    Tx,
+    type Form
 } from "@use-pico/client";
-import { useContext, type FC } from "react";
+import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { DefaultInventorySchema } from "~/app/derivean/inventory/default/DefaultInventorySchema";
 import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
+import { DefaultInventorySchema } from "~/app/derivean/schema/default/Default_Inventory_Schema";
 
 export namespace DefaultInventoryForm {
 	export interface Props extends Form.Props<DefaultInventorySchema["shape"]> {
