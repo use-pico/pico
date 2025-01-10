@@ -30,6 +30,7 @@ export namespace Building_Base_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
+		productionLimit: number;
 		requiredResources: (Building_Base_Resource_Requirement_Schema["~entity"] & {
 			name: string;
 		})[];
@@ -73,6 +74,16 @@ const columns = [
 		name: "cycles",
 		header() {
 			return <Tx label={"Construction cycles (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 8,
+	}),
+	column({
+		name: "productionLimit",
+		header() {
+			return <Tx label={"Production limit (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });

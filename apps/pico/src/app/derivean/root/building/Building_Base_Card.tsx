@@ -1,8 +1,5 @@
 import { Card, Tx } from "@use-pico/client";
-import {
-    toHumanNumber,
-    type IdentitySchema
-} from "@use-pico/common";
+import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { Building_Requirement_Inline } from "~/app/derivean/building/Building_Requirement_Inline";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
@@ -15,6 +12,7 @@ export namespace Building_Base_Card {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
+		productionLimit: number;
 		requiredResources: (Building_Base_Resource_Requirement_Schema["~entity"] & {
 			name: string;
 		})[];
@@ -47,6 +45,13 @@ export const Building_Base_Card: FC<Building_Base_Card.Props> = ({
 					label: <Tx label={"Construction cycles (label)"} />,
 					render({ entity }) {
 						return toHumanNumber({ number: entity.cycles });
+					},
+				},
+				{
+					id: "productionLimit",
+					label: <Tx label={"Production limit (label)"} />,
+					render({ entity }) {
+						return toHumanNumber({ number: entity.productionLimit });
 					},
 				},
 				{

@@ -26,6 +26,7 @@ export const Route = createFileRoute(
 							"bb.id",
 							"bb.name",
 							"bb.cycles",
+							"bb.productionLimit",
 							(eb) =>
 								eb
 									.selectFrom("Building_Base_Resource_Requirement as bbrr")
@@ -89,6 +90,7 @@ export const Route = createFileRoute(
 						id: z.string().min(1),
 						name: z.string().min(1),
 						cycles: z.number().nonnegative(),
+						productionLimit: z.number().nonnegative(),
 						requiredResources: withJsonArraySchema(
 							Building_Base_Resource_Requirement_Schema.entity.merge(
 								z.object({

@@ -69,6 +69,20 @@ export const Building_Base_Form: FC<Building_Base_Form.Props> = ({
 
 			<FormInput
 				formState={form.formState}
+				name={"productionLimit"}
+				label={<Tx label={"Production limit (label)"} />}
+				hint={<Tx label={"How many paralel production lines can run (hint)"} />}
+				required
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					{...form.register("productionLimit")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
 				name={"cycles"}
 				label={<Tx label={"Construction cycles (label)"} />}
 				hint={<Tx label={"Amount of cycles to build this building (hint)"} />}

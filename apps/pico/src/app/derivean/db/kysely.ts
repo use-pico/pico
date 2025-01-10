@@ -180,6 +180,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 * Number of cycles required to build this building
 			 */
 			.addColumn("cycles", "integer", (col) => col.notNull())
+			.addColumn("productionLimit", "integer", (col) => col.notNull())
 
 			.addUniqueConstraint("[Building_Base] name", ["name"])
 

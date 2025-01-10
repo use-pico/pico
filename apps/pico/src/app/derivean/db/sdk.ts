@@ -1,9 +1,9 @@
 import {
-	IdentitySchema,
-	withSourceSchema,
-	type FilterSchema,
-	type ShapeSchema,
-	withBoolSchema,
+    IdentitySchema,
+    withBoolSchema,
+    withSourceSchema,
+    type FilterSchema,
+    type ShapeSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -55,11 +55,14 @@ export const withBuildingBaseSchema = <
 				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
+				productionLimit:
+					// INTEGER / not nullable
+					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "cycles"],
+		sort: ["id", "name", "cycles", "productionLimit"],
 	});
 };
 

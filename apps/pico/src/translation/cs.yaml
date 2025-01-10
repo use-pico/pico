@@ -258,6 +258,9 @@
 8279a438827b4dbc04d8586a61918dd72f5c0bc940918aaf07aa5d87:
   ref: Delete building production (modal)
   value: Odstranit produkční linku
+83e4c2d1c87b26023abe6250cdacb4bb43d01575b69dfb888694f8d9:
+  ref: How many paralel production lines can run (hint)
+  value: Udává maximální počet paralelních produkčních linek.
 84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
   ref: Resource delete (content)
   value: Resource delete (content)

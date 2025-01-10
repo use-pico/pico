@@ -6,6 +6,7 @@ export const Building_Base_Schema = withBuildingBaseSchema({
 	shape: z.object({
 		name: z.string().min(1),
 		cycles: withIntSchema(),
+		productionLimit: withIntSchema(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({
