@@ -64,22 +64,21 @@ export const Route = createFileRoute(
 											"Building_Base_Building_Base_Requirement as bbbbr",
 										)
 										.innerJoin(
-											"Building_Base as bb",
-											"bb.id",
-											"bbbbr.buildingBaseId",
+											"Building_Base as bb2",
+											"bb2.id",
+											"bbbbr.requirementId",
 										)
 										.select((eb) => {
 											return sql<string>`json_group_array(json_object(
-                                                                        'id', ${eb.ref("bbbbr.id")},
-                                                                        'amount', ${eb.ref("bbbbr.amount")},
-                                                                        'requirementId', ${eb.ref("bbbbr.requirementId")},
-                                                                        'buildingBaseId', ${eb.ref("bbbbr.buildingBaseId")},
-                                                                        'name', ${eb.ref("bb.name")}
-                                                                    ))`.as(
-												"requirements",
-											);
+                                                        'id', ${eb.ref("bbbbr.id")},
+                                                        'amount', ${eb.ref("bbbbr.amount")},
+                                                        'requirementId', ${eb.ref("bbbbr.requirementId")},
+                                                        'buildingBaseId', ${eb.ref("bbbbr.buildingBaseId")},
+                                                        'name', ${eb.ref("bb2.name")}
+                                                    ))`.as("requirements");
 										})
 										.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
+										.orderBy("bb2.name", "asc")
 										.as("requiredBuildings"),
 							])
 							.orderBy("bb.name", "asc"),

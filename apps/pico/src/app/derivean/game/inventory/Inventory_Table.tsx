@@ -1,9 +1,4 @@
-import {
-    Table,
-    Tx,
-    useTable,
-    withColumn
-} from "@use-pico/client";
+import { Progress, Table, Tx, useTable, withColumn } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 
@@ -50,12 +45,15 @@ const columns = [
 		header() {
 			return <Tx label={"Inventory limit (label)"} />;
 		},
-		render({ value }) {
-			return value === 0 ?
-					<Tx label={"Unlimited (label)"} />
-				:	toHumanNumber({ number: value });
+		render({ value, data }) {
+			return (
+				<div className={"flex flex-row items-center gap-2 w-full"}>
+					<div>{toHumanNumber({ number: value })}</div>
+					<Progress value={(100 * data.amount) / data.limit} />
+				</div>
+			);
 		},
-		size: 18,
+		size: 14,
 	}),
 ];
 

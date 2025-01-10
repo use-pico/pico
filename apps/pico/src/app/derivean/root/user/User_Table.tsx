@@ -1,7 +1,21 @@
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
+import {
+    ActionClick,
+    ActionMenu,
+    LinkTo,
+    Table,
+    toast,
+    Tx,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
+} from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/kysely";
+import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { withDefaultInventory } from "~/app/derivean/inventory/withDefaultInventory";
 
 export namespace User_Table {
 	export interface Data extends IdentitySchema.Type {
@@ -51,12 +65,41 @@ export namespace User_Table {
 }
 
 export const UserTable: FC<User_Table.Props> = ({ table, ...props }) => {
+	const defaultInventoryMutation = useMutation({
+		async mutationFn({ userId }: { userId: string }) {
+			return kysely.transaction().execute((tx) => {
+				return withDefaultInventory({ tx, userId });
+			});
+		},
+	});
+
 	return (
 		<Table
 			table={useTable({
 				...table,
 				columns,
 			})}
+			action={{
+				row({ data }) {
+					return (
+						<ActionMenu>
+							<ActionClick
+								icon={InventoryIcon}
+								onClick={() => {
+									toast.promise(
+										defaultInventoryMutation.mutateAsync({
+											userId: data.id,
+										}),
+										withToastPromiseTx("Apply default inventory"),
+									);
+								}}
+							>
+								<Tx label={"Apply default inventory (menu)"} />
+							</ActionClick>
+						</ActionMenu>
+					);
+				},
+			}}
 			{...props}
 		/>
 	);

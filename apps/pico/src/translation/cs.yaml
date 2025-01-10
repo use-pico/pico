@@ -349,6 +349,9 @@ c29994172dc81479e8b21517035845f7f58c1047d726f9aa3b8e3afb:
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
+c810a66440e76540dd2b9cf76c75c3d58a8105b694f2fa0b4aa72cf6:
+  ref: Apply default inventory (menu)
+  value: Použít výchozí inventář
 c8ec20d338ed37017d5ff4701f8d7899ec262e649983f2020927c8aa:
   ref: Required building (label)
   value: Požadovaná budova
@@ -398,9 +401,6 @@ dc63eb323046fdd329f5fa7883ef6cc3c032730f011a38aa02186625:
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek
-e056ebc6b0db3778442b085df5246d47e73e8038a29c8f4a0443fc96:
-  ref: Resource production (label)
-  value: Produkční linky
 e3f6d977c7e959b44e1e67504d419d786031c7f563065dc1be1af291:
   ref: Resource name (label)
   value: Název zdroje

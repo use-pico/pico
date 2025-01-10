@@ -46,7 +46,8 @@ export const Route = createFileRoute(
 									.selectFrom("User_Inventory as ui")
 									.where("ui.userId", "=", id)
 									.select("ui.inventoryId"),
-							),
+							)
+							.orderBy("r.name", "asc"),
 						output: z.object({
 							id: z.string().min(1),
 							resourceId: z.string().min(1),

@@ -3,6 +3,7 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    Progress,
     Table,
     toast,
     TrashIcon,
@@ -22,9 +23,7 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import {
-    Inventory_Form
-} from "~/app/derivean/root/inventory/Inventory_Form";
+import { Inventory_Form } from "~/app/derivean/root/inventory/Inventory_Form";
 import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export namespace Inventory_Table {
@@ -63,19 +62,22 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 18,
+		size: 12,
 	}),
 	column({
 		name: "limit",
 		header() {
 			return <Tx label={"Inventory limit (label)"} />;
 		},
-		render({ value }) {
-			return value === 0 ?
-					<Tx label={"Unlimited (label)"} />
-				:	toHumanNumber({ number: value });
+		render({ value, data }) {
+			return (
+				<div className={"flex flex-row items-center gap-2 w-full"}>
+					<div>{toHumanNumber({ number: value })}</div>
+					<Progress value={(100 * data.amount) / data.limit} />
+				</div>
+			);
 		},
-		size: 18,
+		size: 14,
 	}),
 ];
 

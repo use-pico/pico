@@ -41,7 +41,8 @@ export const Route = createFileRoute(
 								"di.amount",
 								"di.limit",
 								"di.resourceId",
-							]),
+							])
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
@@ -60,6 +61,21 @@ export const Route = createFileRoute(
 										qb("di.id", "like", `%${fulltext}%`),
 										qb("r.id", "like", `%${fulltext}%`),
 										qb("r.name", "like", `%${fulltext}%`),
+										qb(
+											"r.id",
+											"in",
+											qb
+												.selectFrom("Resource_Tag as rt")
+												.innerJoin("Tag as t", "t.id", "rt.tagId")
+												.select("rt.resourceId")
+												.where((eb) => {
+													return eb.or([
+														eb("t.code", "like", fulltext),
+														eb("t.label", "like", fulltext),
+														eb("t.group", "like", fulltext),
+													]);
+												}),
+										),
 									]);
 								});
 							}

@@ -1,8 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -35,8 +37,17 @@ const columns = [
 		header() {
 			return <Tx label={"Required building (label)"} />;
 		},
-		render({ value }) {
-			return value;
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/root/building/base/$id/view"}
+					params={{ locale, id: data.requirementId }}
+				>
+					{value}
+				</LinkTo>
+			);
 		},
 		size: 12,
 	}),

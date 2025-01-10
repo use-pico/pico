@@ -67,7 +67,7 @@ const columns = [
 		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
-		size: 14,
+		size: 8,
 	}),
 	column({
 		name: "requiredResources",
@@ -84,7 +84,7 @@ const columns = [
 				/>
 			);
 		},
-		size: 24,
+		size: 32,
 	}),
 	column({
 		name: "requiredBuildings",
