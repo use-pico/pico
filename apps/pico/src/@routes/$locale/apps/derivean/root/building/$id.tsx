@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { z } from "zod";
-import { BuildingIndexMenu } from "~/app/derivean/root/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/root/building/BuildingPreview";
+import { Building_Index_Menu } from "~/app/derivean/root/building/Building_Index_Menu";
+import { Building_Preview } from "~/app/derivean/root/building/Building_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id",
@@ -18,8 +18,7 @@ export const Route = createFileRoute(
 					select: tx
 						.selectFrom("Building as b")
 						.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-						.innerJoin("Resource as r", "r.id", "bb.resourceId")
-						.select(["b.id", "r.name"])
+						.select(["b.id", "bb.name"])
 						.where("b.id", "=", id),
 					output: z.object({
 						id: z.string().min(1),
@@ -36,9 +35,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingPreview entity={entity} />
+				<Building_Preview entity={entity} />
 
-				<BuildingIndexMenu entity={entity} />
+				<Building_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

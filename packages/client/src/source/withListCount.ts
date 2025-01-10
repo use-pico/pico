@@ -30,6 +30,15 @@ export namespace withListCount {
 		cursor?: CursorSchema.Type;
 	}
 
+	export type PropsEx<
+		TSelect extends SelectQueryBuilder<any, any, any>,
+		TFilter extends FilterSchema.Type,
+		TOutputSchema extends z.ZodSchema,
+	> = Omit<
+		Props<TSelect, TFilter, TOutputSchema>,
+		"select" | "query" | "output"
+	>;
+
 	export interface Result<TData> {
 		data: TData[];
 		count: CountSchema.Type;

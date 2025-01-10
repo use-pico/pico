@@ -3,8 +3,8 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { BuildingBaseIndexMenu } from "~/app/derivean/game/building/base/BuildingBaseIndexMenu";
-import { BuildingBasePreview } from "~/app/derivean/game/building/base/BuildingBasePreview";
+import { Building_Base_Index_Menu } from "~/app/derivean/game/building/Building_Base_Index_Menu";
+import { Building_Base_Preview } from "~/app/derivean/game/building/Building_Base_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/$id",
@@ -27,9 +27,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBasePreview entity={entity} />
+				<Building_Base_Preview entity={entity} />
 
-				<BuildingBaseIndexMenu entity={entity} />
+				<Building_Base_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

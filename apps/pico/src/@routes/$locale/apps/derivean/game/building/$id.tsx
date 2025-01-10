@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { z } from "zod";
-import { BuildingIndexMenu } from "~/app/derivean/game/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/game/building/BuildingPreview";
+import { Building_Index_Menu } from "~/app/derivean/game/building/Building_Index_Menu";
+import { Building_Preview } from "~/app/derivean/game/building/Building_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/$id",
@@ -35,9 +35,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingPreview entity={entity} />
+				<Building_Preview entity={entity} />
 
-				<BuildingIndexMenu entity={entity} />
+				<Building_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

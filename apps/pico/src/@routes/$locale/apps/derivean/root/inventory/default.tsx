@@ -10,13 +10,15 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { DefaultInventoryTable } from "~/app/derivean/root/inventory/default/DefaultInventoryTable";
-import { DefaultInventorySchema } from "~/app/derivean/schema/default/Default_Inventory_Schema";
+import { Default_Inventory_Table } from "~/app/derivean/root/inventory/Default_Inventory_Table";
+import { Default_Inventory_Schema } from "~/app/derivean/schema/default/Default_Inventory_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/inventory/default",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(DefaultInventorySchema)),
+	validateSearch: zodValidator(
+		withSourceSearchSchema(Default_Inventory_Schema),
+	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -87,7 +89,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<DefaultInventoryTable
+				<Default_Inventory_Table
 					table={{
 						data,
 						filter: {

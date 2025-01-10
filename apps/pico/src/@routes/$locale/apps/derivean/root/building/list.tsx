@@ -6,16 +6,17 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withBuildingListCount } from "~/app/derivean/building/withBuildingListCount";
-import { BuildingTable } from "~/app/derivean/root/building/BuildingTable";
-import { BuildingSchema } from "~/app/derivean/schema/building/Building_Schema";
+import { z } from "zod";
+import { Building_Table } from "~/app/derivean/root/building/Building_Table";
+import { Building_Schema } from "~/app/derivean/schema/building/Building_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/list",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
+	validateSearch: zodValidator(withSourceSearchSchema(Building_Schema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -28,8 +29,16 @@ export const Route = createFileRoute(
 			queryKey: ["Building", "list-count", { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
-					return withBuildingListCount({
-						tx,
+					return withListCount({
+						select: tx
+							.selectFrom("Building as b")
+							.innerJoin("Building_Base as bb", "bb.id", "b.id")
+							.select(["b.id", "bb.name", "b.buildingBaseId"]),
+						output: z.object({
+							id: z.string().min(1),
+							name: z.string().min(1),
+							buildingBaseId: z.string().min(1),
+						}),
 						filter,
 						cursor,
 					});
@@ -46,7 +55,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingTable
+				<Building_Table
 					table={{
 						data,
 						filter: {

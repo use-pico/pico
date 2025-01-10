@@ -11,7 +11,7 @@ import {
 } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import { z } from "zod";
-import { InventoryTable } from "~/app/derivean/root/inventory/InventoryTable";
+import { Inventory_Table } from "~/app/derivean/root/inventory/Inventory_Table";
 import { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export const Route = createFileRoute(
@@ -71,7 +71,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<InventoryTable
+				<Inventory_Table
 					onCreate={async ({ tx, entity }) => {
 						return tx
 							.insertInto("User_Inventory")

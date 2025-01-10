@@ -10,7 +10,7 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { UserTable } from "~/app/derivean/root/user/ui/UserTable";
+import { UserTable } from "~/app/derivean/root/user/User_Table";
 import { User_Schema } from "~/app/derivean/schema/user/User_Schema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/list")({

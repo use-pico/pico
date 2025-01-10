@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { toast, useInvalidator, withToastPromiseTx } from "@use-pico/client";
 import { kysely } from "~/app/derivean/db/kysely";
-import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
+import { Building_Base_Form } from "~/app/derivean/root/building/Building_Base_Form";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/edit",
@@ -16,7 +16,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
-				<BuildingBaseForm
+				<Building_Base_Form
 					defaultValues={entity}
 					mutation={useMutation({
 						async mutationFn(values) {

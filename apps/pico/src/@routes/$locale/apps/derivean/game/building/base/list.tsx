@@ -9,11 +9,12 @@ import {
     navigateOnFilter,
     navigateOnFulltext,
     Tx,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
-import { withBuildingBaseListCount } from "~/app/derivean/building/base/withBuildingBaseListCount";
-import { BuildingBaseTable } from "~/app/derivean/game/building/base/BuildingBaseTable";
+import { z } from "zod";
+import { Building_Base_Table } from "~/app/derivean/game/building/Building_Base_Table";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/list",
@@ -32,8 +33,16 @@ export const Route = createFileRoute(
 	},
 	async loader({ context: { kysely }, deps: { filter, cursor } }) {
 		return kysely.transaction().execute(async (tx) => {
-			return withBuildingBaseListCount({
-				tx,
+			return withListCount({
+				select: tx
+					.selectFrom("Building_Base as bb")
+					.select(["bb.id", "bb.name", "bb.cycles"])
+					.orderBy("bb.name", "asc"),
+				output: z.object({
+					id: z.string().min(1),
+					name: z.string().min(1),
+					cycles: z.number().nonnegative(),
+				}),
 				filter,
 				cursor,
 			});
@@ -51,7 +60,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseTable
+				<Building_Base_Table
 					userId={session.id}
 					table={{
 						data,

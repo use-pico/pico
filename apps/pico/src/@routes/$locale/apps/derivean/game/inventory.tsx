@@ -10,6 +10,7 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
+import { Inventory_Table } from "~/app/derivean/game/inventory/Inventory_Table";
 import { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
@@ -60,7 +61,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
 
 		return (
 			<div className={tv.base()}>
-				<InventoryTable
+				<Inventory_Table
 					table={{
 						data,
 						filter: {

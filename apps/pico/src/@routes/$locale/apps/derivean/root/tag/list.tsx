@@ -10,14 +10,16 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { TagTable } from "~/app/derivean/root/tag/TagTable";
+import { Tag_Table } from "~/app/derivean/root/tag/Tag_Table";
+import { Tag_Schema } from "~/app/derivean/schema/tag/Tag_Schema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
-	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
-	loaderDeps({ search: { filter, cursor } }) {
+	validateSearch: zodValidator(withSourceSearchSchema(Tag_Schema)),
+	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
 			cursor,
+			sort,
 		};
 	},
 	async loader({ context: { queryClient, kysely }, deps: { filter, cursor } }) {
@@ -28,7 +30,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
 					return withListCount({
 						select: tx
 							.selectFrom("Tag as t")
-							.select(["t.id", "t.code", "t.label", "t.group", "t.sort"]),
+							.select(["t.id", "t.code", "t.label", "t.group", "t.sort"])
+							.orderBy("t.sort", "desc"),
 						output: z.object({
 							id: z.string().min(1),
 							code: z.string().min(1),
@@ -52,7 +55,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
 
 		return (
 			<div className={tv.base()}>
-				<TagTable
+				<Tag_Table
 					table={{
 						data,
 						filter: {

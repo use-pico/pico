@@ -10,7 +10,7 @@ import {
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
 import { z } from "zod";
-import { BuildingTable } from "~/app/derivean/game/building/BuildingTable";
+import { Building_Table } from "~/app/derivean/game/building/Building_Table";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/list",
@@ -55,7 +55,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingTable
+				<Building_Table
 					table={{
 						data,
 						filter: {

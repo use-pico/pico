@@ -6,17 +6,18 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withSourceSearchSchema
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withBuildingBaseInventoryListCount } from "~/app/derivean/building/base/inventory/withBuildingBaseInventoryListCount";
-import { BuildingBaseInventoryTable } from "~/app/derivean/root/building/base/inventory/BuildingBaseInventoryTable";
-import { BuildingBaseInventorySchema } from "~/app/derivean/schema/building/Building_Base_Inventory_Schema";
+import { z } from "zod";
+import { Building_Base_Inventory_Table } from "~/app/derivean/root/building/Building_Base_Inventory_Table";
+import { Building_Base_Inventory_Schema } from "~/app/derivean/schema/building/Building_Base_Inventory_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/inventory",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BuildingBaseInventorySchema),
+		withSourceSearchSchema(Building_Base_Inventory_Schema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -39,8 +40,25 @@ export const Route = createFileRoute(
 			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
-					return withBuildingBaseInventoryListCount({
-						tx,
+					return withListCount({
+						select: tx
+							.selectFrom("Building_Base_Inventory as bbi")
+							.innerJoin("Inventory as i", "i.id", "bbi.inventoryId")
+							.innerJoin("Resource as r", "r.id", "i.resourceId")
+							.select([
+								"bbi.id",
+								"bbi.inventoryId",
+								"i.amount",
+								"i.limit",
+								"r.name",
+							]),
+						output: z.object({
+							id: z.string().min(1),
+							inventoryId: z.string().min(1),
+							name: z.string().min(1),
+							amount: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
+						}),
 						filter,
 						cursor,
 					});
@@ -58,7 +76,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseInventoryTable
+				<Building_Base_Inventory_Table
 					buildingBaseId={id}
 					table={{
 						data,

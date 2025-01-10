@@ -4,7 +4,6 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
-    LinkTo,
     Table,
     toast,
     TrashIcon,
@@ -12,33 +11,30 @@ import {
     useInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx,
+    withToastPromiseTx
 } from "@use-pico/client";
-import {
-    genId,
-    toHumanNumber,
-    type Entity,
-    type IdentitySchema,
-} from "@use-pico/common";
+import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { Building_Base_Production_Form } from "~/app/derivean/root/building/Building_Base_Production_Form";
-import type { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
+import { RequirementsInline } from "~/app/derivean/root/resource/ResourceInline";
+import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
-interface Data extends IdentitySchema.Type {
-	name: string;
-	resourceId: string;
-	amount: number;
-	limit: number;
-	cycles: number;
-	// requirements: (ResourceProductionRequirementSchema["~entity"] & {
-	// 	name: string;
-	// })[];
+export namespace Building_Base_Production_Table {
+	export interface Data extends IdentitySchema.Type {
+		name: string;
+		resourceId: string;
+		amount: number;
+		limit: number;
+		cycles: number;
+		requirements: (Building_Base_Resource_Requirement_Schema["~entity"] & {
+			name: string;
+		})[];
+	}
 }
 
-const column = withColumn<Data>();
+const column = withColumn<Building_Base_Production_Table.Data>();
 
 const columns = [
 	column({
@@ -49,14 +45,7 @@ const columns = [
 		render({ data, value }) {
 			const { locale } = useParams({ from: "/$locale" });
 
-			return (
-				<LinkTo
-					to={"/$locale/apps/derivean/root/resource/production/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
-			);
+			return value;
 		},
 		size: 14,
 	}),
@@ -92,44 +81,34 @@ const columns = [
 		},
 		size: 10,
 	}),
-	// column({
-	// 	name: "requirements",
-	// 	header() {
-	// 		return <Tx label={"Required resources (label)"} />;
-	// 	},
-	// 	render({ value }) {
-	// 		return (
-	// 			<RequirementsInline
-	// 				textTitle={<Tx label={"Resource requirements (title)"} />}
-	// 				textEmpty={<Tx label={"No requirements (label)"} />}
-	// 				requirements={value}
-	// 				// diff={missing}
-	// 				limit={5}
-	// 			/>
-	// 		);
-	// 	},
-	// 	size: 72,
-	// }),
+	column({
+		name: "requirements",
+		header() {
+			return <Tx label={"Required resources (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<RequirementsInline
+					textTitle={<Tx label={"Resource requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={value}
+					limit={5}
+				/>
+			);
+		},
+		size: 72,
+	}),
 ];
 
 export namespace Building_Base_Production_Table {
-	export namespace onCreate {
-		export interface Props
-			extends Entity.Schema<Building_Base_Production_Schema["entity"]> {
-			tx: WithTransaction;
-		}
-	}
-
 	export interface Props extends Table.PropsEx<Data> {
 		buildingBaseId: string;
-
-		onCreate?(props: onCreate.Props): Promise<any>;
 	}
 }
 
 export const Building_Base_Production_Table: FC<
 	Building_Base_Production_Table.Props
-> = ({ buildingBaseId, onCreate, table, ...props }) => {
+> = ({ buildingBaseId, table, ...props }) => {
 	const invalidator = useInvalidator([["Building_Base_Production"]]);
 
 	return (
@@ -139,59 +118,52 @@ export const Building_Base_Production_Table: FC<
 				columns,
 			})}
 			action={{
-				table:
-					onCreate ?
-						() => {
-							return (
-								<ActionMenu>
-									<ActionModal
-										label={
-											<Tx label={"Create building base production (menu)"} />
-										}
-										textTitle={
-											<Tx label={"Create building base production (modal)"} />
-										}
-										icon={ProductionIcon}
-									>
-										{({ close }) => {
-											return (
-												<Building_Base_Production_Form
-													mutation={useMutation({
-														async mutationFn(values) {
-															return toast.promise(
-																kysely.transaction().execute(async (tx) => {
-																	const entity = await tx
-																		.insertInto("Building_Base_Production")
-																		.values({
-																			id: genId(),
-																			...values,
-																			buildingBaseId,
-																		})
-																		.returningAll()
-																		.executeTakeFirstOrThrow();
+				table() {
+					return (
+						<ActionMenu>
+							<ActionModal
+								label={<Tx label={"Create building base production (menu)"} />}
+								textTitle={
+									<Tx label={"Create building base production (modal)"} />
+								}
+								icon={ProductionIcon}
+							>
+								{({ close }) => {
+									return (
+										<Building_Base_Production_Form
+											mutation={useMutation({
+												async mutationFn(values) {
+													return toast.promise(
+														kysely.transaction().execute(async (tx) => {
+															const entity = await tx
+																.insertInto("Building_Base_Production")
+																.values({
+																	id: genId(),
+																	...values,
+																	buildingBaseId,
+																})
+																.returningAll()
+																.executeTakeFirstOrThrow();
 
-																	await onCreate({ tx, entity });
-
-																	return entity;
-																}),
-																withToastPromiseTx(
-																	"Create building base production",
-																),
-															);
-														},
-														async onSuccess() {
-															await invalidator();
-															close();
-														},
-													})}
-												/>
-											);
-										}}
-									</ActionModal>
-								</ActionMenu>
-							);
-						}
-					:	undefined,
+															return entity;
+														}),
+														withToastPromiseTx(
+															"Create building base production",
+														),
+													);
+												},
+												async onSuccess() {
+													await invalidator();
+													close();
+												},
+											})}
+										/>
+									);
+								}}
+							</ActionModal>
+						</ActionMenu>
+					);
+				},
 				row({ data }) {
 					return (
 						<ActionMenu>

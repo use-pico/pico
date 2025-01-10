@@ -1,8 +1,4 @@
-import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
-} from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
     navigateOnCursor,
@@ -15,14 +11,14 @@ import {
 } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
-import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
-import { ResourceProductionRequirementTable } from "~/app/derivean/root/resource/production/requirement/ResourceProductionRequirementTable";
+import { Building_Base_Resource_Requirement_Table } from "~/app/derivean/root/building/Building_Base_Resource_Requirement_Table";
+import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/requirements",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(ResourceProductionRequirementSchema),
+		withSourceSearchSchema(Building_Base_Resource_Requirement_Schema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -38,7 +34,7 @@ export const Route = createFileRoute(
 	}) {
 		return queryClient.ensureQueryData({
 			queryKey: [
-				"Resource_Production_Requirement",
+				"Building_Base_Resource_Requirement",
 				"list-count",
 				id,
 				{ filter, cursor },
@@ -47,44 +43,32 @@ export const Route = createFileRoute(
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Resource_Production_Requirement as rpr")
-							.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
+							.selectFrom("Building_Base_Resource_Requirement as bbrr")
+							.innerJoin("Resource as r", "r.id", "bbrr.resourceId")
 							.select([
-								"rpr.id",
-								"rq.name",
-								"rpr.amount",
-								"rpr.level",
-								"rpr.passive",
-								"rpr.requirementId",
-								"rpr.resourceId",
+								"bbrr.id",
+								"r.name",
+								"bbrr.resourceId",
+								"bbrr.amount",
+								"bbrr.passive",
 							])
-							.where(
-								"rpr.resourceId",
-								"=",
-								tx
-									.selectFrom("Building_Base as bb")
-									.select("bb.resourceId")
-									.where("bb.id", "=", id),
-							)
-							.orderBy("rpr.level", "asc")
-							.orderBy("rq.name", "asc"),
+							.where("bbrr.buildingBaseId", "=", id)
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
 							if (where?.id) {
-								$select = $select.where("rpr.id", "=", where.id);
+								$select = $select.where("bbrr.id", "=", where.id);
 							}
 							if (where?.idIn) {
-								$select = $select.where("rpr.id", "in", where.idIn);
+								$select = $select.where("bbrr.id", "in", where.idIn);
 							}
-							if (where?.level) {
-								$select = $select.where("rpr.level", "=", where.level);
-							}
-							if (where?.requirementId) {
+
+							if (where?.resourceId) {
 								$select = $select.where(
-									"rpr.requirementId",
+									"bbrr.resourceId",
 									"=",
-									where.requirementId,
+									where.resourceId,
 								);
 							}
 
@@ -93,10 +77,8 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							requirementId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
-							level: z.number().nonnegative(),
 							passive: withBoolSchema(),
 						}),
 						filter,
@@ -109,17 +91,15 @@ export const Route = createFileRoute(
 	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
-		const { entity } = useLoaderData({
-			from: "/$locale/apps/derivean/root/building/base/$id",
-		});
+		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
-				<ResourceProductionRequirementTable
-					resourceId={entity.resourceId}
+				<Building_Base_Resource_Requirement_Table
+					buildingBaseId={id}
 					table={{
 						data,
 						filter: {

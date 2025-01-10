@@ -11,7 +11,7 @@ import {
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { ResourcePopupSelect } from "~/app/derivean/root/resource/ResourcePopupSelect";
+import { Resource_PopupSelect } from "~/app/derivean/root/resource/Resource_PopupSelect";
 import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 
 export namespace Building_Base_Production_Form {
@@ -64,7 +64,7 @@ export const Building_Base_Production_Form: FC<
 					name={"resourceId"}
 					render={({ field: { ref: _, ...field } }) => {
 						return (
-							<ResourcePopupSelect
+							<Resource_PopupSelect
 								textTitle={<Tx label={"Select resource (title)"} />}
 								allowEmpty
 								{...field}

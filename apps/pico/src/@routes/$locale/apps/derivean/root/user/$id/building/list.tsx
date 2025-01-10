@@ -10,7 +10,7 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { BuildingTable } from "~/app/derivean/root/building/BuildingTable";
+import { Building_Table } from "~/app/derivean/root/building/Building_Table";
 import { Building_Schema } from "~/app/derivean/schema/building/Building_Schema";
 
 export const Route = createFileRoute(
@@ -61,7 +61,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingTable
+				<Building_Table
 					userId={id}
 					table={{
 						data,

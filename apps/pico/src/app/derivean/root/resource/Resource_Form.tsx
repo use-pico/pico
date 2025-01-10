@@ -11,7 +11,7 @@ import {
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { TagPopupMultiSelect } from "~/app/derivean/root/tag/TagPopupMultiSelect";
+import { Tag_PopupMultiSelect } from "~/app/derivean/root/tag/Tag_PopupMultiSelect";
 import { Resource_Schema } from "~/app/derivean/schema/resource/Resource_Schema";
 
 export namespace Resource_Form {
@@ -75,7 +75,7 @@ export const Resource_Form: FC<Resource_Form.Props> = ({
 					name={"tagIds"}
 					render={({ field: { ref: _, ...field } }) => {
 						return (
-							<TagPopupMultiSelect
+							<Tag_PopupMultiSelect
 								group={group}
 								textTitle={<Tx label={"Select resource tags (title)"} />}
 								textSelect={<Tx label={"Select resource tags (label)"} />}

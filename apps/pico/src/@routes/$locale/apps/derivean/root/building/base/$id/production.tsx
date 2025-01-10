@@ -9,18 +9,18 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { genId, withJsonArraySchema } from "@use-pico/common";
+import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
-import { ResourceProductionRequirementSchema } from "~/app/derivean/resource/production/requirement/ResourceProductionRequirementSchema";
-import { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
-import { ResourceProductionTable } from "~/app/derivean/root/building/Building_Base_Production_Table";
+import { Building_Base_Production_Table } from "~/app/derivean/root/building/Building_Base_Production_Table";
+import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
+import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/production",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(ResourceProductionSchema),
+		withSourceSearchSchema(Building_Base_Production_Schema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -35,59 +35,56 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Resource_Production", "list-count", id, { filter, cursor }],
+			queryKey: [
+				"Building_Base_Production",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Resource_Production as rp")
-							.innerJoin("Resource as r", "r.id", "rp.resourceId")
+							.selectFrom("Building_Base_Production as bbp")
+							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
 							.select([
-								"rp.id",
-								"r.name",
-								"rp.amount",
-								"rp.limit",
-								"rp.level",
-								"rp.cycles",
-								"rp.resourceId",
+								"bbp.id",
+								"bb.name",
+								"bbp.amount",
+								"bbp.limit",
+								"bbp.cycles",
+								"bbp.resourceId",
 								(eb) =>
 									eb
-										.selectFrom("Resource_Production_Requirement as rpr")
-										.innerJoin("Resource as rq", "rq.id", "rpr.requirementId")
+										.selectFrom("Building_Base_Production_Requirement as bbpr")
+										.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
 										.select((eb) => {
 											return sql<string>`json_group_array(json_object(
-                                                'id', ${eb.ref("rpr.id")},
-                                                'amount', ${eb.ref("rpr.amount")},
-                                                'level', ${eb.ref("rpr.level")},
-                                                'passive', ${eb.ref("rpr.passive")},
-                                                'requirementId', ${eb.ref("rpr.requirementId")},
-                                                'resourceId', ${eb.ref("rpr.resourceId")},
-                                                'name', ${eb.ref("rq.name")}
+                                                'id', ${eb.ref("bbpr.id")},
+                                                'amount', ${eb.ref("bbpr.amount")},
+                                                'passive', ${eb.ref("bbpr.passive")},
+                                                'resourceId', ${eb.ref("bbpr.resourceId")},
+                                                'name', ${eb.ref("r.name")}
                                             ))`.as("requirements");
 										})
-										.where("rpr.resourceId", "=", eb.ref("rp.resourceId"))
+										.where(
+											"bbpr.buildingBaseProductionId",
+											"=",
+											eb.ref("bbp.id"),
+										)
 										.as("requirements"),
 							])
-							.where(
-								"rp.resourceId",
-								"in",
-								tx
-									.selectFrom("Building_Base_Production as bbp")
-									.select("bbp.resourceId")
-									.where("bbp.buildingBaseId", "=", id),
-							)
-							.orderBy("rp.level", "asc")
-							.orderBy("r.name", "asc"),
+							.where("bbp.buildingBaseId", "=", id)
+							.orderBy("bb.name", "asc"),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
-							level: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
-								ResourceProductionRequirementSchema.entity.merge(
+								Building_Base_Resource_Requirement_Schema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
@@ -111,17 +108,8 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<ResourceProductionTable
-					onCreate={async ({ tx, entity: { resourceId } }) => {
-						return tx
-							.insertInto("Building_Base_Production")
-							.values({
-								id: genId(),
-								buildingBaseId: id,
-								resourceId,
-							})
-							.execute();
-					}}
+				<Building_Base_Production_Table
+					buildingBaseId={id}
 					table={{
 						data,
 						filter: {

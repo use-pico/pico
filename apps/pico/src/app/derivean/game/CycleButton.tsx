@@ -1,7 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import { Button, toast, Tx, withToastPromiseTx } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import { useCycleMutation } from "~/app/derivean/cycle/useCycleMutation";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace CycleButton {
@@ -19,7 +19,11 @@ export const CycleButton: FC<CycleButton.Props> = ({
 	cycle,
 	...props
 }) => {
-	const mutation = useCycleMutation({ userId });
+	const mutation = useMutation({
+		async mutationFn({ userId }: { userId: string }) {
+			return userId;
+		},
+	});
 
 	return (
 		<Button
@@ -27,7 +31,7 @@ export const CycleButton: FC<CycleButton.Props> = ({
 			iconDisabled={CycleIcon}
 			onClick={async () => {
 				return toast.promise(
-					mutation.mutateAsync(),
+					mutation.mutateAsync({ userId }),
 					withToastPromiseTx("Cycle"),
 				);
 			}}
