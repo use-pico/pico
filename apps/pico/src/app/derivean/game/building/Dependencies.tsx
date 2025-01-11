@@ -1,4 +1,5 @@
-import { Badge, Icon, Tx } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { Badge, Icon, LinkTo, Tx } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import { DepGraphCycleError } from "dependency-graph";
 import type { FC } from "react";
@@ -60,35 +61,45 @@ export const Dependencies: FC<Dependencies.Props> = ({
 				}
 				{dependencies.length > 0 ?
 					dependencies.map((item) => {
+						const { locale } = useParams({ from: "/$locale" });
 						const building = buildingCounts.find(
 							(dep) => item === dep.buildingBaseId,
 						);
 
-						return (building?.count || 0) > 0 ?
-								<Badge
-									key={genId()}
-									css={{
-										base: [
-											"bg-emerald-200",
-											"text-emerald-700",
-											"border-emerald-500",
-										],
-									}}
-								>
-									{graph.getNodeData(item)}
-								</Badge>
-							:	<Badge
-									key={genId()}
-									css={{
-										base: [
-											"bg-amber-200",
-											"text-amber-700",
-											"border-amber-500",
-										],
-									}}
-								>
-									{graph.getNodeData(item)}
-								</Badge>;
+						return (
+							<LinkTo
+								to={"/$locale/apps/derivean/game/building/construction/list"}
+								params={{ locale }}
+								search={{ filter: { buildingBaseId: item } }}
+							>
+								{(building?.count || 0) > 0 ?
+									<Badge
+										key={genId()}
+										css={{
+											base: [
+												"bg-emerald-200",
+												"text-emerald-700",
+												"border-emerald-500",
+											],
+										}}
+									>
+										{graph.getNodeData(item)}
+									</Badge>
+								:	<Badge
+										key={genId()}
+										css={{
+											base: [
+												"bg-amber-200",
+												"text-amber-700",
+												"border-amber-500",
+											],
+										}}
+									>
+										{graph.getNodeData(item)}
+									</Badge>
+								}
+							</LinkTo>
+						);
 					})
 				:	<Tx
 						css={{

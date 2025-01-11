@@ -1,21 +1,21 @@
 import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
+	createFileRoute,
+	useLoaderData,
+	useRouteContext,
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import {
-    FilterSchema,
-    withBoolSchema,
-    withJsonArraySchema,
+	FilterSchema,
+	withBoolSchema,
+	withJsonArraySchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -29,7 +29,11 @@ export const Route = createFileRoute(
 	validateSearch: zodValidator(
 		withSourceSearchSchema(
 			{
-				filter: FilterSchema,
+				filter: FilterSchema.merge(
+					z.object({
+						buildingBaseId: z.string().optional(),
+					}),
+				),
 			},
 			{
 				size: 30,
@@ -102,6 +106,7 @@ export const Route = createFileRoute(
 					.select([
 						"bb.id",
 						"bb.name",
+						"bb.id as buildingBaseId",
 						"bb.cycles",
 						"filter.withAvailableBuildings",
 						"filter.withAvailableResources",
@@ -151,6 +156,10 @@ export const Route = createFileRoute(
 					.orderBy("bb.name", "asc"),
 				query({ select, where }) {
 					let $select = select;
+
+					if (where?.buildingBaseId) {
+						$select = $select.where("bb.id", "=", where.buildingBaseId);
+					}
 
 					if (where?.fulltext) {
 						const fulltext = `%${where.fulltext}%`.toLowerCase();
