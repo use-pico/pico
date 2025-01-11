@@ -12,7 +12,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
+import { withBoolSchema, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { Building_Base_Production_Table } from "~/app/derivean/game/building/Building_Base_Production_Table";
@@ -48,10 +48,39 @@ export const Route = createFileRoute(
 			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
+					const $filter = tx
+						.selectFrom("Building_Base_Production as bbp")
+						.select([
+							"bbp.id",
+							sql`
+                        CASE
+        WHEN NOT EXISTS (
+            SELECT 1
+            FROM Building_Base_Production_Requirement bbpr
+            LEFT JOIN (
+                SELECT 
+                    i.resourceId,
+                    SUM(i.amount) AS totalAmount
+                FROM Inventory i
+                INNER JOIN User_Inventory ui 
+                    ON i.id = ui.inventoryId
+                WHERE ui.userId = ${user.id}
+                GROUP BY i.resourceId
+            ) resource
+                ON bbpr.resourceId = resource.resourceId
+            WHERE bbp.id = bbpr.buildingBaseProductionId AND
+             (resource.totalAmount IS NULL OR resource.totalAmount < bbpr.amount)
+        ) THEN true
+        ELSE false
+    END
+                      `.as("withAvailableResources"),
+						]);
+
 					return withListCount({
 						select: tx
 							.selectFrom("Building_Base_Production as bbp")
 							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
+							.innerJoin($filter.as("filter"), "bbp.id", "filter.id")
 							.innerJoin(
 								"Building as b",
 								"b.buildingBaseId",
@@ -66,6 +95,7 @@ export const Route = createFileRoute(
 								"bbp.limit",
 								"bbp.cycles",
 								"bbp.resourceId",
+								"filter.withAvailableResources",
 								(eb) =>
 									eb
 										.selectFrom("Building_Base_Production_Requirement as bbpr")
@@ -98,6 +128,7 @@ export const Route = createFileRoute(
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
+							withAvailableResources: withBoolSchema(),
 							requirements: withJsonArraySchema(
 								Building_Base_Production_Requirement_Schema.entity.merge(
 									z.object({

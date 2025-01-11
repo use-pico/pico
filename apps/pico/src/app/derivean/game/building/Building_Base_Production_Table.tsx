@@ -12,6 +12,7 @@ export namespace Building_Base_Production_Table {
 		amount: number;
 		limit: number;
 		cycles: number;
+		withAvailableResources: boolean;
 		requirements: (Building_Base_Production_Requirement_Schema["~entity"] & {
 			name: string;
 		})[];
@@ -34,13 +35,16 @@ const columns = [
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({ value, context: { productionLimit, queueCount } }) {
-			const available = queueCount < productionLimit;
+		render({ data, value, context: { productionLimit, queueCount } }) {
+			// const available =
+			// 	data.withAvailableResources && queueCount < productionLimit;
+			const available = data.withAvailableResources;
 
 			return (
 				<Button
 					iconEnabled={ProductionIcon}
 					iconDisabled={ProductionIcon}
+					disabled={!available}
 					css={{
 						base: ["w-full"],
 					}}

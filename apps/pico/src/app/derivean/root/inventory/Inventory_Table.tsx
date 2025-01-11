@@ -98,7 +98,11 @@ export const Inventory_Table: FC<Inventory_Table.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useInvalidator([["Inventory"], ["User_Inventory"]]);
+	const invalidator = useInvalidator([
+		["Inventory"],
+		["User_Inventory"],
+		["Building_Base_Production"],
+	]);
 
 	return (
 		<Table
