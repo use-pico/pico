@@ -50,7 +50,7 @@ export const Route = createFileRoute(
 					const $filter = tx
 						.selectFrom("Building_Base_Production as bbp")
 						.select([
-							"bbp.id",
+							"bbp.id as buildingBaseProductionId",
 							sql`
                         CASE
         WHEN NOT EXISTS (
@@ -78,7 +78,11 @@ export const Route = createFileRoute(
 						select: tx
 							.selectFrom("Building_Base_Production as bbp")
 							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
-							.innerJoin($filter.as("filter"), "bbp.id", "filter.id")
+							.innerJoin(
+								$filter.as("filter"),
+								"bbp.id",
+								"filter.buildingBaseProductionId",
+							)
 							.innerJoin(
 								"Building as b",
 								"b.buildingBaseId",
@@ -102,13 +106,13 @@ export const Route = createFileRoute(
 										.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
 										.select((eb) => {
 											return sql<string>`json_group_array(json_object(
-                                                'id', ${eb.ref("bbpr.id")},
-                                                'amount', ${eb.ref("bbpr.amount")},
-                                                'passive', ${eb.ref("bbpr.passive")},
-                                                'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
-                                                'resourceId', ${eb.ref("bbpr.resourceId")},
-                                                'name', ${eb.ref("r.name")}
-                                            ))`.as("requirements");
+                                            'id', ${eb.ref("bbpr.id")},
+                                            'amount', ${eb.ref("bbpr.amount")},
+                                            'passive', ${eb.ref("bbpr.passive")},
+                                            'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
+                                            'resourceId', ${eb.ref("bbpr.resourceId")},
+                                            'name', ${eb.ref("r.name")}
+                                        ))`.as("requirements");
 										})
 										.where(
 											"bbpr.buildingBaseProductionId",
@@ -126,17 +130,8 @@ export const Route = createFileRoute(
 										.as("queueCount");
 								},
 							])
-							.where(
-								"bbp.id",
-								"in",
-								tx
-									.selectFrom($filter.select("bbp.id").as("filter"))
-									.select("id"),
-							)
 							.where("b.userId", "=", user.id)
-							.orderBy("filter.withAvailableResources", "desc")
-							.orderBy("bb.name", "asc")
-							.orderBy("r.name", "asc"),
+							.orderBy("filter.withAvailableResources", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
@@ -145,10 +140,9 @@ export const Route = createFileRoute(
 
 								$select = $select.where((qb) => {
 									return qb.or([
-										qb("bb.name", "like", `%${fulltext}%`),
-										qb("r.name", "like", `%${fulltext}%`),
+										qb("name", "like", `%${fulltext}%`),
 										qb(
-											"r.id",
+											"resourceId",
 											"in",
 											qb
 												.selectFrom("Resource_Tag as rt")
