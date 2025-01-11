@@ -41,6 +41,45 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
 							.where("ui.userId", "=", user.id),
 					)
 					.orderBy("r.name"),
+				query({ select, where }) {
+					let $select = select;
+
+					if (where?.id) {
+						$select = $select.where("i.id", "=", where.id);
+					}
+					if (where?.idIn) {
+						$select = $select.where("i.id", "in", where.idIn);
+					}
+
+					if (where?.fulltext) {
+						const fulltext = `%${where.fulltext}%`.toLowerCase();
+
+						$select = $select.where((qb) => {
+							return qb.or([
+								qb("i.id", "like", `%${fulltext}%`),
+								qb("r.id", "like", `%${fulltext}%`),
+								qb("r.name", "like", `%${fulltext}%`),
+								qb(
+									"r.id",
+									"in",
+									qb
+										.selectFrom("Resource_Tag as rt")
+										.innerJoin("Tag as t", "t.id", "rt.tagId")
+										.select("rt.resourceId")
+										.where((eb) => {
+											return eb.or([
+												eb("t.code", "like", fulltext),
+												eb("t.label", "like", fulltext),
+												eb("t.group", "like", fulltext),
+											]);
+										}),
+								),
+							]);
+						});
+					}
+
+					return $select;
+				},
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),

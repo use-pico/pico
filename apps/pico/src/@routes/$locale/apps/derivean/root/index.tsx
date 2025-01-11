@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	Button,
-	JustDropZone,
-	toast,
-	Tx,
-	withToastPromiseTx,
+    Button,
+    JustDropZone,
+    toast,
+    Tx,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import FileSaver from "file-saver";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -22,7 +22,6 @@ const sources: (keyof Database)[] = [
 	"Building_Base_Production_Requirement",
 	"Building_Base_Building_Base_Requirement",
 	"Building_Base_Resource_Requirement",
-	"Building_Base_Inventory",
 	"Default_Inventory",
 ] as const;
 

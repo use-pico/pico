@@ -222,10 +222,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 */
 			.addColumn("limit", "integer", (col) => col.notNull())
 
-			.addUniqueConstraint("[Building_Base_Production] resourceId", [
-				"resourceId",
-			])
-
 			.execute();
 
 		await kysely.schema
@@ -383,41 +379,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.execute();
 
 		/**
-		 * Defines inventory (and it's limits) for a building.
-		 *
-		 * If a resource is not defined in a building, it cannot be stored there.
-		 */
-		await kysely.schema
-			.createTable("Building_Base_Inventory")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			.addColumn("buildingBaseId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Base_Inventory] buildingBaseId",
-				["buildingBaseId"],
-				"Building_Base",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("inventoryId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Base_Inventory] inventoryId",
-				["inventoryId"],
-				"Inventory",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addUniqueConstraint(
-				"[Building_Base_Inventory] buildingBaseId-inventoryId",
-				["buildingBaseId", "inventoryId"],
-			)
-
-			.execute();
-
-		/**
 		 * This is a building instance belonging to a player.
 		 */
 		await kysely.schema
@@ -483,34 +444,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 * Current cycle
 			 */
 			.addColumn("cycle", "integer", (col) => col.notNull())
-
-			.execute();
-
-		await kysely.schema
-			.createTable("Building_Inventory")
-			.ifNotExists()
-			.addColumn("id", $id, (col) => col.primaryKey())
-
-			/**
-			 * Owner of this queue item.
-			 */
-			.addColumn("buildingId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Inventory] buildingId",
-				["buildingId"],
-				"Building",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("inventoryId", $id, (col) => col.notNull())
-			.addForeignKeyConstraint(
-				"[Building_Inventory] inventoryId",
-				["inventoryId"],
-				"Inventory",
-				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
 
 			.execute();
 	},

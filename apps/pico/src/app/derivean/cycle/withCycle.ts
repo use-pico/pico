@@ -37,46 +37,14 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 
 			for await (const queue of buildingQueue) {
 				if (cycle > queue.to) {
-					const building = await tx
+					await tx
 						.insertInto("Building")
 						.values({
 							id: genId(),
 							buildingBaseId: queue.buildingBaseId,
 							userId,
 						})
-						.returningAll()
-						.executeTakeFirstOrThrow();
-
-					const inventory = await tx
-						.selectFrom("Inventory as i")
-						.innerJoin(
-							"Building_Base_Inventory as bbi",
-							"i.id",
-							"bbi.inventoryId",
-						)
-						.where("bbi.buildingBaseId", "=", queue.buildingBaseId)
-						.select(["i.id", "i.resourceId", "i.amount", "i.limit"])
 						.execute();
-
-					for await (const item of inventory) {
-						await tx
-							.insertInto("Building_Inventory")
-							.values({
-								id: genId(),
-								buildingId: building.id,
-								inventoryId: (
-									await tx
-										.insertInto("Inventory")
-										.values({
-											...item,
-											id: genId(),
-										})
-										.returning("id")
-										.executeTakeFirstOrThrow()
-								).id,
-							})
-							.execute();
-					}
 
 					await tx
 						.deleteFrom("Building_Queue")

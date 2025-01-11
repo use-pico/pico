@@ -104,37 +104,6 @@ export type BuildingBaseBuildingBaseRequirementEntity = ReturnType<
 	typeof withBuildingBaseBuildingBaseRequirementSchema
 >["~entity"];
 
-export const withBuildingBaseInventorySchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				buildingBaseId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				inventoryId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "buildingBaseId", "inventoryId"],
-	});
-};
-
-export type BuildingBaseInventoryEntity = ReturnType<
-	typeof withBuildingBaseInventorySchema
->["~entity"];
-
 export const withBuildingBaseProductionSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -247,37 +216,6 @@ export const withBuildingBaseResourceRequirementSchema = <
 
 export type BuildingBaseResourceRequirementEntity = ReturnType<
 	typeof withBuildingBaseResourceRequirementSchema
->["~entity"];
-
-export const withBuildingInventorySchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				buildingId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				inventoryId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "buildingId", "inventoryId"],
-	});
-};
-
-export type BuildingInventoryEntity = ReturnType<
-	typeof withBuildingInventorySchema
 >["~entity"];
 
 export const withBuildingQueueSchema = <
@@ -625,11 +563,9 @@ export interface Database {
 	Building: BuildingEntity;
 	Building_Base: BuildingBaseEntity;
 	Building_Base_Building_Base_Requirement: BuildingBaseBuildingBaseRequirementEntity;
-	Building_Base_Inventory: BuildingBaseInventoryEntity;
 	Building_Base_Production: BuildingBaseProductionEntity;
 	Building_Base_Production_Requirement: BuildingBaseProductionRequirementEntity;
 	Building_Base_Resource_Requirement: BuildingBaseResourceRequirementEntity;
-	Building_Inventory: BuildingInventoryEntity;
 	Building_Queue: BuildingQueueEntity;
 	Building_Resource_Queue: BuildingResourceQueueEntity;
 	Cycle: CycleEntity;
