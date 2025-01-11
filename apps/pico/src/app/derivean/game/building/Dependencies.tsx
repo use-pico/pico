@@ -5,9 +5,15 @@ import type { FC } from "react";
 import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Dependencies {
+	interface BuildingCount {
+		buildingBaseId: string;
+		count: number;
+	}
+
 	export interface Props {
 		graph: withBuildingGraph.Result;
 		buildingBaseId: string;
+		buildingCounts: BuildingCount[];
 		mode?: "dependants" | "dependencies";
 	}
 }
@@ -15,6 +21,7 @@ export namespace Dependencies {
 export const Dependencies: FC<Dependencies.Props> = ({
 	graph,
 	buildingBaseId,
+	buildingCounts,
 	mode = "dependencies",
 }) => {
 	try {
@@ -23,15 +30,27 @@ export const Dependencies: FC<Dependencies.Props> = ({
 				graph.dependantsOf(buildingBaseId)
 			:	graph.dependenciesOf(buildingBaseId);
 
+		const isOk = dependencies.every((item) =>
+			buildingCounts.some((dep) => item === dep.buildingBaseId),
+		);
+
 		return (
 			<div className={tvc(["flex", "flex-row", "gap-2", "items-center"])}>
 				{dependencies.length > 0 ?
-					<Icon
-						css={{
-							base: ["text-emerald-500"],
-						}}
-						icon={"icon-[charm--circle-tick]"}
-					/>
+					isOk ?
+						<Icon
+							css={{
+								base: ["text-emerald-500"],
+							}}
+							icon={"icon-[charm--circle-tick]"}
+						/>
+					:	<Icon
+							css={{
+								base: ["text-red-500"],
+							}}
+							icon={"icon-[system-uicons--cross-circle]"}
+						/>
+
 				:	<Icon
 						css={{
 							base: ["text-amber-500"],
@@ -40,20 +59,37 @@ export const Dependencies: FC<Dependencies.Props> = ({
 					/>
 				}
 				{dependencies.length > 0 ?
-					dependencies.map((item) => (
-						<Badge
-							key={genId()}
-							css={{
-								base: [
-									"bg-emerald-200",
-									"text-emerald-700",
-									"border-emerald-500",
-								],
-							}}
-						>
-							{graph.getNodeData(item)}
-						</Badge>
-					))
+					dependencies.map((item) => {
+						const building = buildingCounts.find(
+							(dep) => item === dep.buildingBaseId,
+						);
+
+						return (building?.count || 0) > 0 ?
+								<Badge
+									key={genId()}
+									css={{
+										base: [
+											"bg-emerald-200",
+											"text-emerald-700",
+											"border-emerald-500",
+										],
+									}}
+								>
+									{graph.getNodeData(item)}
+								</Badge>
+							:	<Badge
+									key={genId()}
+									css={{
+										base: [
+											"bg-amber-200",
+											"text-amber-700",
+											"border-amber-500",
+										],
+									}}
+								>
+									{graph.getNodeData(item)}
+								</Badge>;
+					})
 				:	<Tx
 						css={{
 							base: ["text-amber-500", "font-bold"],

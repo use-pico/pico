@@ -181,7 +181,7 @@ export const Route = createFileRoute(
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
-		const { inventory, session } = useLoaderData({
+		const { inventory, session, buildingCounts } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 		const { graph } = useLoaderData({
@@ -193,6 +193,7 @@ export const Route = createFileRoute(
 				<Building_Base_Table
 					userId={session.id}
 					inventory={inventory}
+					buildingCounts={buildingCounts}
 					graph={graph}
 					table={{
 						data,

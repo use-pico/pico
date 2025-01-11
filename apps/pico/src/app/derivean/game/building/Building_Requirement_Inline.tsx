@@ -7,12 +7,13 @@ export namespace Building_Requirement_Inline {
 	interface Data extends IdentitySchema.Type {
 		name: string;
 		buildingBaseId: string;
+		requirementId: string;
 		amount: number;
 	}
 
-	interface Diff extends IdentitySchema.Type {
+	interface Diff {
 		buildingBaseId: string;
-		amount: number;
+		count: number;
 	}
 
 	export interface Props
@@ -39,8 +40,12 @@ export const Building_Requirement_Inline: FC<
 			items={requirements}
 			render={({ entity }) => {
 				const baseBuilding = diff?.find(
-					(r) => r.buildingBaseId === entity.buildingBaseId,
+					(r) => r.buildingBaseId === entity.requirementId,
 				);
+				const amount =
+					baseBuilding?.count ?
+						baseBuilding.count - entity.amount
+					:	-entity.amount;
 
 				return (
 					<div className={tv.item()}>
@@ -48,27 +53,28 @@ export const Building_Requirement_Inline: FC<
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}
 						</div>
-						{baseBuilding ?
-							<>
-								{baseBuilding.amount > 0 ?
-									<div className={"text-sm text-red-500"}>
-										(-{toHumanNumber({ number: baseBuilding.amount })})
-									</div>
-								:	<Icon
+						{diff ?
+							amount >= 0 ?
+								<Icon
+									icon={"icon-[pajamas--check-sm]"}
+									css={{
+										base: ["text-emerald-600"],
+									}}
+								/>
+							:	<div
+									className={
+										"flex flex-row gao-2 items-center text-sm text-red-500"
+									}
+								>
+									<Icon
 										icon={"icon-[charm--cross]"}
 										css={{
 											base: ["text-red-500"],
 										}}
 									/>
-								}
-							</>
-						: diff ?
-							<Icon
-								icon={"icon-[pajamas--check-sm]"}
-								css={{
-									base: ["text-emerald-600"],
-								}}
-							/>
+									({toHumanNumber({ number: amount })})
+								</div>
+
 						:	null}
 					</div>
 				);

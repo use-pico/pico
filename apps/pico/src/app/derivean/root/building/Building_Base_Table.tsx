@@ -16,11 +16,11 @@ import {
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { Building_Requirement_Inline } from "~/app/derivean/building/Building_Requirement_Inline";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import { Building_Base_Form } from "~/app/derivean/root/building/Building_Base_Form";
+import { Building_Requirement_Inline } from "~/app/derivean/root/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/root/building/Dependencies";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";

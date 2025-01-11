@@ -13,8 +13,8 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { Building_Requirement_Inline } from "~/app/derivean/building/Building_Requirement_Inline";
 import { withConstructionQueue } from "~/app/derivean/building/withConstructionQueue";
+import { Building_Requirement_Inline } from "~/app/derivean/game/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/game/building/Dependencies";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
@@ -24,6 +24,12 @@ import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory
 import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Building_Base_Table {
+	export interface BuildingCount {
+		buildingBaseId: string;
+		count: number;
+		name: string;
+	}
+
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
@@ -41,6 +47,7 @@ export namespace Building_Base_Table {
 		userId: string;
 		graph: withBuildingGraph.Result;
 		inventory: Inventory_Schema["~entity-array"];
+		buildingCounts: BuildingCount[];
 	}
 }
 
@@ -136,13 +143,14 @@ const columns = [
 		header() {
 			return <Tx label={"Required buildings (label)"} />;
 		},
-		render({ data, value, context: { graph } }) {
+		render({ data, value, context: { graph, buildingCounts } }) {
 			return (
 				<div className={"flex flex-col gap-2 items-start justify-center"}>
 					<Building_Requirement_Inline
 						textTitle={<Tx label={"Building requirements (title)"} />}
 						textEmpty={<Tx label={"No requirements (label)"} />}
 						requirements={value}
+						diff={buildingCounts}
 						limit={5}
 					/>
 					{graph ?
@@ -150,6 +158,7 @@ const columns = [
 							graph={graph}
 							mode={"dependants"}
 							buildingBaseId={data.id}
+							buildingCounts={buildingCounts}
 						/>
 					:	null}
 				</div>
@@ -164,6 +173,7 @@ export namespace Building_Base_Table {
 		userId: string;
 		graph: withBuildingGraph.Result;
 		inventory: Inventory_Schema["~entity-array"];
+		buildingCounts: BuildingCount[];
 	}
 }
 
@@ -171,6 +181,7 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 	userId,
 	graph,
 	inventory,
+	buildingCounts,
 	table,
 	...props
 }) => {
@@ -183,6 +194,7 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 					userId,
 					graph,
 					inventory,
+					buildingCounts,
 				},
 			})}
 			{...props}

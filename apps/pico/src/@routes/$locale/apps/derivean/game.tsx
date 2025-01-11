@@ -1,10 +1,10 @@
 import { useMutationState } from "@tanstack/react-query";
 import {
-	createFileRoute,
-	Outlet,
-	redirect,
-	useLoaderData,
-	useParams,
+    createFileRoute,
+    Outlet,
+    redirect,
+    useLoaderData,
+    useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
@@ -46,6 +46,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					});
 				},
 			}),
+			buildingCounts: await queryClient.ensureQueryData({
+				queryKey: ["Building"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Building as b")
+							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+							.select([
+								"b.buildingBaseId",
+								"bb.name",
+								(eb) => eb.fn.count<number>("b.id").as("count"),
+							])
+							.where("b.userId", "=", user.id)
+							.groupBy("b.buildingBaseId")
+							.execute();
+					});
+				},
+			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["Cycle"],
 				async queryFn() {
@@ -67,6 +85,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 		const { session, cycle } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
+
 		const mutation = useMutationState({
 			filters: {
 				status: "pending",
