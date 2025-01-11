@@ -20,6 +20,30 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 	return (
 		<Menu {...props}>
 			<MenuLink
+				icon={ProductionIcon}
+				to={"/$locale/apps/derivean/game/building/production/resource/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Resource production (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ResourceIcon}
+				to={"/$locale/apps/derivean/game/building/production/resource/queue"}
+				params={{ locale }}
+			>
+				<Tx label={"Resources queue (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ConstructionIcon}
+				to={"/$locale/apps/derivean/game/building/construction/queue/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Building queue (menu)"} />
+			</MenuLink>
+
+			<MenuLink
 				icon={BuildingBaseIcon}
 				to={"/$locale/apps/derivean/game/building/construction/list"}
 				params={{ locale }}
@@ -39,30 +63,6 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 				]}
 			>
 				<Tx label={"My buildings (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={ConstructionIcon}
-				to={"/$locale/apps/derivean/game/building/construction/queue/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Building queue (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={ProductionIcon}
-				to={"/$locale/apps/derivean/game/building/production/resource/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Resource production (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/game/building/production/resource/queue"}
-				params={{ locale }}
-			>
-				<Tx label={"Resources queue (menu)"} />
 			</MenuLink>
 
 			<MenuLink

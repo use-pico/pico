@@ -130,15 +130,15 @@
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Editace budovy
+475c060a834b409c9bc5dd8069a5575c17f7befcd928b5a93cf3117e:
+  ref: Building resource production (menu)
+  value: Building resource production (menu)
 483e8122af4feafe4af20b8c553d711156a90c64aee0e6dd09dc23c0:
   ref: Inventory (menu)
   value: Inventář
 4973ef47b1a891b2b4d1b987e04d2d3e392aa8ebdfaf01138cfa1fbe:
   ref: Requirement (label)
   value: Požadavek
-4a58f14d1df201d663da93b9e46539e50dbd4545de4223279eb1e1e3:
-  ref: Building inventory (menu)
-  value: Inventář budovy
 4af588883beda19adeb713c08bf917f39e62651b957866eba39eacb0:
   ref: Number of productions (label)
   value: Počet produkčních linek
@@ -190,9 +190,6 @@
 61b2ea845d394d4a10c45d915795a2af5deed183609624389505ecc7:
   ref: Items in building queue (label)
   value: Počet staveb ve frontě
-61d121fa1233ae65704f59a19f4dc1e80ccf1ce8f5b897bd8f18f8c5:
-  ref: Create building base inventory (menu)
-  value: Nová položka inventáře
 664c41f0fb2310e7bcce727d85f979e697f98b50f23f3cda46b7a98b:
   ref: Number of production requirements (label)
   value: Number of production requirements (label)
@@ -228,8 +225,7 @@
   value: Editace základní budovy
 74d9fe31d4acfc6825ca4e317857d48ce8755d4e575557b655da8545:
   ref: Passive requirement (hint)
-  value:
-    Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není
+  value: Pasivní požadavek pouze vyžaduje přítomnost zdroje, při použití však není
     odebrán z inventáře.
 76c40f3bee67fbc832bb7731fdec758660fac52e49ce9f5bf13b21fe:
   ref: Inventory limit (label)
@@ -326,9 +322,6 @@
 9e5e775caee655d42bfc51ed9bc7370e9904393608f887e823b3ccb4:
   ref: Edit production requirement (modal)
   value: Editace požadavku produkce
-9e8a5688220f3d1b31643fb173c3993a965bc4df9dc486633e730bca:
-  ref: Delete building base inventory (modal)
-  value: Odstranit inventář základní budovy
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext
@@ -367,9 +360,6 @@ af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
 b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
   ref: Building name (label)
   value: Název budovy
-b301d71d87a46159e7965e82e4cbbe96ddd1892672c7ef502e0152b8:
-  ref: Building base inventory delete (content)
-  value: Building base inventory delete (content)
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
@@ -452,9 +442,6 @@ da980a14e8d21ccbad06717ff68370d22a861de73e9bf1e350790bc8:
 daf1d7d7c6cb2f3e02716fa74b6f4bf70715ae39845b2fd48ef9d1b0:
   ref: Delete required building (modal)
   value: Odstranit požadavek na budovu
-dc63eb323046fdd329f5fa7883ef6cc3c032730f011a38aa02186625:
-  ref: Create building base inventory (modal)
-  value: Nová položka inventáře
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek
