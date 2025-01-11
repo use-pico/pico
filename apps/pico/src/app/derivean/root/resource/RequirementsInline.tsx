@@ -1,7 +1,7 @@
 import { Icon, More } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { ResourceInlineCss } from "~/app/derivean/resource/ResourceInlineCss";
+import { RequirementsInlineCss } from "~/app/derivean/root/resource/RequirementsInlineCss";
 
 export namespace RequirementsInline {
 	interface Data extends IdentitySchema.Type {
@@ -16,7 +16,8 @@ export namespace RequirementsInline {
 		amount: number;
 	}
 
-	export interface Props extends ResourceInlineCss.Props<More.PropsEx<Data>> {
+	export interface Props
+		extends RequirementsInlineCss.Props<More.PropsEx<Data>> {
 		requirements: Data[];
 		diff?: Diff[];
 	}
@@ -26,7 +27,7 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 	requirements,
 	diff,
 	variant,
-	tva = ResourceInlineCss,
+	tva = RequirementsInlineCss,
 	css,
 	...props
 }) => {

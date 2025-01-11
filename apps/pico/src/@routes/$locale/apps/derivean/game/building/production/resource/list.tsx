@@ -150,6 +150,14 @@ export const Route = createFileRoute(
 						query({ select, where }) {
 							let $select = select;
 
+							if (where?.resourceId) {
+								$select = $select.where(
+									"source.resourceId",
+									"=",
+									where.resourceId,
+								);
+							}
+
 							if (where?.fulltext) {
 								const fulltext = `%${where.fulltext}%`.toLowerCase();
 

@@ -30,17 +30,19 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
 			query={async ({ filter, cursor }) => {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
-						select: tx.selectFrom("Building_Base as bb").select([
-							"bb.id",
-							"bb.name",
-							"bb.cycles",
-							"bb.productionLimit",
-							(eb) =>
-								eb
-									.selectFrom("Building_Base_Resource_Requirement as bbrr")
-									.innerJoin("Resource as r", "r.id", "bbrr.resourceId")
-									.select((eb) => {
-										return sql<string>`json_group_array(json_object(
+						select: tx
+							.selectFrom("Building_Base as bb")
+							.select([
+								"bb.id",
+								"bb.name",
+								"bb.cycles",
+								"bb.productionLimit",
+								(eb) =>
+									eb
+										.selectFrom("Building_Base_Resource_Requirement as bbrr")
+										.innerJoin("Resource as r", "r.id", "bbrr.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
                                                     'id', ${eb.ref("bbrr.id")},
                                                     'amount', ${eb.ref("bbrr.amount")},
                                                     'passive', ${eb.ref("bbrr.passive")},
@@ -48,31 +50,32 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
                                                     'buildingBaseId', ${eb.ref("bbrr.buildingBaseId")},
                                                     'name', ${eb.ref("r.name")}
                                                 ))`.as("requirements");
-									})
-									.where("bbrr.buildingBaseId", "=", eb.ref("bb.id"))
-									.as("requiredResources"),
-							(eb) =>
-								eb
-									.selectFrom(
-										"Building_Base_Building_Base_Requirement as bbbbr",
-									)
-									.innerJoin(
-										"Building_Base as bb",
-										"bb.id",
-										"bbbbr.buildingBaseId",
-									)
-									.select((eb) => {
-										return sql<string>`json_group_array(json_object(
+										})
+										.where("bbrr.buildingBaseId", "=", eb.ref("bb.id"))
+										.as("requiredResources"),
+								(eb) =>
+									eb
+										.selectFrom(
+											"Building_Base_Building_Base_Requirement as bbbbr",
+										)
+										.innerJoin(
+											"Building_Base as bb",
+											"bb.id",
+											"bbbbr.buildingBaseId",
+										)
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
                                                     'id', ${eb.ref("bbbbr.id")},
                                                     'amount', ${eb.ref("bbbbr.amount")},
                                                     'requirementId', ${eb.ref("bbbbr.requirementId")},
                                                     'buildingBaseId', ${eb.ref("bbbbr.buildingBaseId")},
                                                     'name', ${eb.ref("bb.name")}
                                                 ))`.as("requirements");
-									})
-									.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
-									.as("requiredBuildings"),
-						]),
+										})
+										.where("bbbbr.buildingBaseId", "=", eb.ref("bb.id"))
+										.as("requiredBuildings"),
+							])
+							.orderBy("bb.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 

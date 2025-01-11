@@ -18,8 +18,8 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import { Building_Base_Production_Form } from "~/app/derivean/root/building/Building_Base_Production_Form";
+import { RequirementsInline } from "~/app/derivean/root/resource/RequirementsInline";
 import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
 
 export namespace Building_Base_Production_Table {

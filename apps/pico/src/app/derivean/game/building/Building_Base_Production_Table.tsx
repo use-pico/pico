@@ -9,13 +9,13 @@ import {
     useInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { withProductionQueue } from "~/app/derivean/building/withProductionQueue";
+import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInline";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
 import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
@@ -120,6 +120,24 @@ const columns = [
 		size: 14,
 	}),
 	column({
+		name: "requirements",
+		header() {
+			return <Tx label={"Required resources (label)"} />;
+		},
+		render({ value, context: { inventory } }) {
+			return (
+				<RequirementsInline
+					textTitle={<Tx label={"Resource requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={value}
+					diff={inventory}
+					limit={5}
+				/>
+			);
+		},
+		size: 32,
+	}),
+	column({
 		name: "amount",
 		header() {
 			return <Tx label={"Amount (label)"} />;
@@ -150,24 +168,6 @@ const columns = [
 			return toHumanNumber({ number: value });
 		},
 		size: 10,
-	}),
-	column({
-		name: "requirements",
-		header() {
-			return <Tx label={"Required resources (label)"} />;
-		},
-		render({ value, context: { inventory } }) {
-			return (
-				<RequirementsInline
-					textTitle={<Tx label={"Resource requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-					diff={inventory}
-					limit={5}
-				/>
-			);
-		},
-		size: 32,
 	}),
 ];
 

@@ -1,9 +1,9 @@
 import { Card, Tx } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import { Building_Requirement_Inline } from "~/app/derivean/root/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/root/building/Dependencies";
+import { RequirementsInline } from "~/app/derivean/root/resource/RequirementsInline";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";

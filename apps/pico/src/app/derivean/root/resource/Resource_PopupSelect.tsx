@@ -76,8 +76,8 @@ export const Resource_PopupSelect: FC<Resource_PopupSelect.Props> = ({
 
 								$select = $select.where((eb) => {
 									return eb.or([
-										eb("r.id", "=", fulltext),
-										eb("r.name", "=", fulltext),
+										eb("r.id", "like", fulltext),
+										eb("r.name", "like", fulltext),
 										eb(
 											"r.id",
 											"in",

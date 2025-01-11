@@ -1,6 +1,6 @@
 import { css } from "@use-pico/common";
 
-export const ResourceInlineCss = css({
+export const RequirementsInlineCss = css({
 	slot: {
 		item: [
 			"flex",
@@ -55,6 +55,6 @@ export const ResourceInlineCss = css({
 	},
 });
 
-export namespace ResourceInlineCss {
-	export type Props<P = unknown> = css.Props<typeof ResourceInlineCss, P>;
+export namespace RequirementsInlineCss {
+	export type Props<P = unknown> = css.Props<typeof RequirementsInlineCss, P>;
 }
