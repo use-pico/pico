@@ -200,13 +200,16 @@ export const Route = createFileRoute(
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
-		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
+		const { inventory, session } = useLoaderData({
+			from: "/$locale/apps/derivean/game",
+		});
 		const tv = tva().slots;
 
 		return (
 			<div className={tv.base()}>
 				<Building_Base_Production_Table
 					userId={session.id}
+					inventory={inventory}
 					table={{
 						data,
 						filter: {

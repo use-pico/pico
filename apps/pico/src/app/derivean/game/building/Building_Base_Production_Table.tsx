@@ -15,6 +15,7 @@ import { withProductionQueue } from "~/app/derivean/building/withProductionQueue
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
+import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 
 export namespace Building_Base_Production_Table {
 	export interface Data extends IdentitySchema.Type {
@@ -34,6 +35,7 @@ export namespace Building_Base_Production_Table {
 
 	export interface Context {
 		userId: string;
+		inventory: Inventory_Schema["~entity-array"];
 	}
 }
 
@@ -126,12 +128,13 @@ const columns = [
 		header() {
 			return <Tx label={"Required resources (label)"} />;
 		},
-		render({ value }) {
+		render({ value, context: { inventory } }) {
 			return (
 				<RequirementsInline
 					textTitle={<Tx label={"Resource requirements (title)"} />}
 					textEmpty={<Tx label={"No requirements (label)"} />}
 					requirements={value}
+					diff={inventory}
 					limit={5}
 				/>
 			);
@@ -144,12 +147,13 @@ export namespace Building_Base_Production_Table {
 	export interface Props
 		extends Table.PropsEx<Data, Building_Base_Production_Table.Context> {
 		userId: string;
+		inventory: Inventory_Schema["~entity-array"];
 	}
 }
 
 export const Building_Base_Production_Table: FC<
 	Building_Base_Production_Table.Props
-> = ({ userId, table, ...props }) => {
+> = ({ userId, inventory, table, ...props }) => {
 	return (
 		<Table
 			table={useTable({
@@ -157,6 +161,7 @@ export const Building_Base_Production_Table: FC<
 				columns,
 				context: {
 					userId,
+					inventory,
 				},
 			})}
 			{...props}
