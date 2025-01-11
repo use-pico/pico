@@ -5,6 +5,7 @@ export const MoreCss = css({
 		base: [
 			"flex",
 			"flex-row",
+			"flex-wrap",
 			"items-center",
 			"gap-2",
 			"text-sm",

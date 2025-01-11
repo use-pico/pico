@@ -1,25 +1,22 @@
 import {
-	createFileRoute,
-	useLoaderData,
-	useRouteContext,
+    createFileRoute,
+    useLoaderData,
+    useRouteContext,
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnFulltext,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import {
-	FilterSchema,
-	withBoolSchema,
-	withJsonArraySchema,
+    FilterSchema,
+    withBoolSchema,
+    withJsonArraySchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
-import { Building_Base_Table } from "~/app/derivean/game/building/Building_Base_Table";
+import { Building_Construction_List } from "~/app/derivean/game/building/Building_Construction_List";
 import { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
@@ -242,27 +239,15 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Building_Base_Table
+				<Building_Construction_List
+					data={data}
 					userId={session.id}
 					inventory={inventory}
 					buildingCounts={buildingCounts}
 					graph={graph}
-					table={{
-						data,
-						filter: {
-							value: filter,
-							set: navigateOnFilter(navigate),
-						},
-					}}
 					fulltext={{
 						value: filter?.fulltext,
-						set: navigateOnFulltext(navigate),
-					}}
-					cursor={{
-						count,
-						cursor,
-						textTotal: <Tx label={"Number of items"} />,
-						...navigateOnCursor(navigate),
+						onFulltext: navigateOnFulltext(navigate),
 					}}
 				/>
 			</div>
