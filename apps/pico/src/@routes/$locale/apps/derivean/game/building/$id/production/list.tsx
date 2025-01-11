@@ -89,6 +89,7 @@ export const Route = createFileRoute(
 							.select([
 								"bbp.id",
 								"r.name",
+								"bb.name as building",
 								"bbp.amount",
 								"bb.productionLimit",
 								"b.id as buildingId",
@@ -134,6 +135,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							building: z.string().min(1),
 							buildingBaseId: z.string().min(1),
 							resourceId: z.string().min(1),
 							buildingId: z.string().min(1),

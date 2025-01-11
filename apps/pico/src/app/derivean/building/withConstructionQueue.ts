@@ -1,5 +1,6 @@
 import { genId } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/kysely";
+import { ActionBreakTimeout } from "~/app/derivean/utils/ActionBreakTimeout";
 
 export namespace withConstructionQueue {
 	export interface Props {
@@ -70,6 +71,6 @@ export const withConstructionQueue = async ({
 
 				res(undefined);
 			});
-		}, 250);
+		}, ActionBreakTimeout);
 	});
 };

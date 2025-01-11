@@ -4,7 +4,6 @@ import type { Entity, IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 

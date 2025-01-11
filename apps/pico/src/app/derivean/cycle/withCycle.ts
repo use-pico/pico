@@ -1,6 +1,7 @@
 import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/sdk";
+import { ActionBreakTimeout } from "~/app/derivean/utils/ActionBreakTimeout";
 
 export namespace withCycle {
 	export interface Props {
@@ -129,6 +130,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 			/**
 			 * I'll keep this "break" here to prevent overclicking on the cycle button.
 			 */
-		}, 250);
+		}, ActionBreakTimeout);
 	});
 };

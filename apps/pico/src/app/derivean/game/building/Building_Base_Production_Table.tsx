@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import {
     Button,
+    LinkTo,
     Table,
     toast,
     Tx,
@@ -20,6 +22,7 @@ import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory
 export namespace Building_Base_Production_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
+		building: string;
 		resourceId: string;
 		buildingId: string;
 		productionLimit: number;
@@ -45,6 +48,25 @@ const column = withColumn<
 >();
 
 const columns = [
+	column({
+		name: "building",
+		header() {
+			return <Tx label={"Building name (label)"} />;
+		},
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/building/$id/view"}
+					params={{ locale, id: data.id }}
+				>
+					{value}
+				</LinkTo>
+			);
+		},
+		size: 14,
+	}),
 	column({
 		name: "name",
 		header() {
@@ -96,7 +118,7 @@ const columns = [
 		header() {
 			return <Tx label={"Amount (label)"} />;
 		},
-		render({ data, value }) {
+		render({ value }) {
 			return toHumanNumber({ number: value });
 		},
 		size: 10,
