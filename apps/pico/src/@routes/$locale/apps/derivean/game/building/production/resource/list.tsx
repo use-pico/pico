@@ -76,36 +76,44 @@ export const Route = createFileRoute(
 
 					return withListCount({
 						select: tx
-							.selectFrom("Building_Base_Production as bbp")
-							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
-							.innerJoin(
-								$filter.as("filter"),
-								"bbp.id",
-								"filter.buildingBaseProductionId",
-							)
-							.innerJoin(
-								"Building as b",
-								"b.buildingBaseId",
-								"bbp.buildingBaseId",
-							)
-							.innerJoin("Resource as r", "r.id", "bbp.resourceId")
-							.select([
-								"bbp.id",
-								"r.name",
-								"bbp.amount",
-								"b.id as buildingId",
-								"bbp.buildingBaseId",
-								"bb.productionLimit",
-								"bbp.limit",
-								"bbp.cycles",
-								"bbp.resourceId",
-								"filter.withAvailableResources",
-								(eb) =>
-									eb
-										.selectFrom("Building_Base_Production_Requirement as bbpr")
-										.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
-										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
+							.selectFrom(
+								tx
+									.selectFrom("Building_Base_Production as bbp")
+									.innerJoin(
+										"Building_Base as bb",
+										"bb.id",
+										"bbp.buildingBaseId",
+									)
+									.innerJoin(
+										$filter.as("filter"),
+										"bbp.id",
+										"filter.buildingBaseProductionId",
+									)
+									.innerJoin(
+										"Building as b",
+										"b.buildingBaseId",
+										"bbp.buildingBaseId",
+									)
+									.innerJoin("Resource as r", "r.id", "bbp.resourceId")
+									.select([
+										"bbp.id",
+										"r.name",
+										"bbp.amount",
+										"b.id as buildingId",
+										"bbp.buildingBaseId",
+										"bb.productionLimit",
+										"bbp.limit",
+										"bbp.cycles",
+										"bbp.resourceId",
+										"filter.withAvailableResources",
+										(eb) =>
+											eb
+												.selectFrom(
+													"Building_Base_Production_Requirement as bbpr",
+												)
+												.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
+												.select((eb) => {
+													return sql<string>`json_group_array(json_object(
                                             'id', ${eb.ref("bbpr.id")},
                                             'amount', ${eb.ref("bbpr.amount")},
                                             'passive', ${eb.ref("bbpr.passive")},
@@ -113,25 +121,30 @@ export const Route = createFileRoute(
                                             'resourceId', ${eb.ref("bbpr.resourceId")},
                                             'name', ${eb.ref("r.name")}
                                         ))`.as("requirements");
-										})
-										.where(
-											"bbpr.buildingBaseProductionId",
-											"=",
-											eb.ref("bbp.id"),
-										)
-										.as("requirements"),
-								(eb) => {
-									return eb
-										.selectFrom("Building_Resource_Queue as brq")
-										.select((eb) => {
-											return eb.fn.count<number>("brq.id").as("queueCount");
-										})
-										.whereRef("brq.buildingId", "=", "b.id")
-										.as("queueCount");
-								},
-							])
-							.where("b.userId", "=", user.id)
-							.orderBy("filter.withAvailableResources", "asc"),
+												})
+												.where(
+													"bbpr.buildingBaseProductionId",
+													"=",
+													eb.ref("bbp.id"),
+												)
+												.as("requirements"),
+										(eb) => {
+											return eb
+												.selectFrom("Building_Resource_Queue as brq")
+												.select((eb) => {
+													return eb.fn.count<number>("brq.id").as("queueCount");
+												})
+												.whereRef("brq.buildingId", "=", "b.id")
+												.as("queueCount");
+										},
+									])
+									.where("b.userId", "=", user.id)
+									.as("source"),
+							)
+							.selectAll()
+							.orderBy("source.withAvailableResources", "desc")
+							.orderBy("source.queueCount", "asc")
+							.orderBy("source.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
