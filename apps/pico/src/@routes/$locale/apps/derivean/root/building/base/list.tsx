@@ -24,7 +24,11 @@ import { Building_Base_Schema } from "~/app/derivean/schema/building/Building_Ba
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/list",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(Building_Base_Schema)),
+	validateSearch: zodValidator(
+		withSourceSearchSchema(Building_Base_Schema, {
+			size: 100,
+		}),
+	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,

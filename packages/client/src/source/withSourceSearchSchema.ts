@@ -14,7 +14,7 @@ export namespace withSourceSearchSchema {
 
 export const withSourceSearchSchema = <TFilterSchema extends FilterSchema>(
 	{ filter }: withSourceSearchSchema.Props<TFilterSchema>,
-	{ size = 15 }: withSourceSearchSchema.Opts = { size: 15 },
+	{ size = 30 }: withSourceSearchSchema.Opts = { size: 30 },
 ) => {
 	return z.object({
 		filter: fallback(filter.optional(), undefined),
