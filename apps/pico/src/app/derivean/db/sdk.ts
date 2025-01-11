@@ -339,7 +339,7 @@ export const withBuildingResourceQueueSchema = <
 				buildingId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				resourceId:
+				buildingBaseProductionId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 				from:
@@ -355,7 +355,15 @@ export const withBuildingResourceQueueSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "buildingId", "resourceId", "from", "to", "cycle"],
+		sort: [
+			"id",
+			"userId",
+			"buildingId",
+			"buildingBaseProductionId",
+			"from",
+			"to",
+			"cycle",
+		],
 	});
 };
 

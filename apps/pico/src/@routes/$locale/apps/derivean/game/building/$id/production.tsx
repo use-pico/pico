@@ -149,6 +149,7 @@ export const Route = createFileRoute(
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
+		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
 		const { entity } = useLoaderData({
 			from: "/$locale/apps/derivean/game/building/$id",
 		});
@@ -159,6 +160,8 @@ export const Route = createFileRoute(
 				<Building_Base_Production_Table
 					productionLimit={entity.productionLimit}
 					queueCount={entity.queueCount}
+					userId={session.id}
+					buildingId={entity.id}
 					table={{
 						data,
 						filter: {

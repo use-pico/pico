@@ -358,11 +358,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
-			.addColumn("resourceId", $id, (col) => col.notNull())
+			.addColumn("buildingBaseProductionId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
-				"[Building_Resource_Queue] resourceId",
-				["resourceId"],
-				"Resource",
+				"[Building_Resource_Queue] buildingBaseProductionId",
+				["buildingBaseProductionId"],
+				"Building_Base_Production",
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)

@@ -148,6 +148,9 @@
 4f5956974017b6a4732c8969f86d870c063c083c9477673e187b8f7c:
   ref: Create building base production (menu)
   value: Create building base production (menu)
+4fce557aec57989a5d6c4fecd9ce35e442a31a3d9125783d60264274:
+  ref: Resource progress (label)
+  value: Resource progress (label)
 51615a0f75be71d80974e7057dec0168b938c0bcf2aa5fe6d52b3dc8:
   ref: Production limit (hint)
   value: Production limit (hint)
@@ -241,6 +244,9 @@
 7891b42bedf69b43ff00980af8f112355627b6438e13a76a722f9535:
   ref: Create required building (menu)
   value: Create required building (menu)
+7893b3ebc3d489113b94da4174d8b73504bc4c64bdd2c602b0675920:
+  ref: Resources queue (menu)
+  value: Resources queue (menu)
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: String must contain at least 1 character(s)
@@ -424,6 +430,9 @@ d5f740766a431b2ebf6ace3f0c2c3c51c5e58516bcefe27c652f3323:
 d680d34a76392ea2fea1acb22251029bc6abe766d567f7e97588b86a:
   ref: My buildings (menu)
   value: My buildings (menu)
+d8dbafb3432fbd0bce12e29a9f43d65f88b8bdb88b437a7c0f41f791:
+  ref: Resource amount (label)
+  value: Resource amount (label)
 da980a14e8d21ccbad06717ff68370d22a861de73e9bf1e350790bc8:
   ref: Create building base (menu)
   value: Create building base (menu)
@@ -496,6 +505,9 @@ fc75f4c5e7abd71b96fd301570fc6f4ff8eff279a4b68b35047c5e05:
 fd7b501528a7241d7462c715013d57e851c997479ed6bddc1e88b4e8:
   ref: Create requirement item (modal)
   value: Create requirement item (modal)
+fdcf641473a00b95e8093efe65400e3d667838bbe0b89a4b8755c9c2:
+  ref: Resource production queue - Success (label)
+  value: Resource production queue - Success (label)
 fe467ee81f0f6139dc5cb5ce65815c7268f9b512a94be7bce94b3e13:
   ref: Select resource (title)
   value: Select resource (title)

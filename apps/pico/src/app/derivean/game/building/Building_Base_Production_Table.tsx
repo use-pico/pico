@@ -1,6 +1,17 @@
-import { Button, Table, Tx, useTable, withColumn } from "@use-pico/client";
+import { useMutation } from "@tanstack/react-query";
+import {
+    Button,
+    Table,
+    toast,
+    Tx,
+    useInvalidator,
+    useTable,
+    withColumn,
+    withToastPromiseTx,
+} from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { withProductionQueue } from "~/app/derivean/building/withProductionQueue";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
@@ -21,6 +32,8 @@ export namespace Building_Base_Production_Table {
 	export interface Context {
 		queueCount: number;
 		productionLimit: number;
+		userId: string;
+		buildingId: string;
 	}
 }
 
@@ -35,10 +48,32 @@ const columns = [
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({ data, value, context: { productionLimit, queueCount } }) {
-			// const available =
-			// 	data.withAvailableResources && queueCount < productionLimit;
-			const available = data.withAvailableResources;
+		render({
+			data,
+			value,
+			context: { productionLimit, queueCount, userId, buildingId },
+		}) {
+			const invalidator = useInvalidator([]);
+
+			const available =
+				data.withAvailableResources && queueCount < productionLimit;
+
+			const production = useMutation({
+				mutationKey: ["Building_Base_Production"],
+				mutationFn: async () => {
+					return toast.promise(
+						withProductionQueue({
+							userId,
+							buildingBaseProductionId: data.id,
+							buildingId,
+						}),
+						withToastPromiseTx("Resource production queue"),
+					);
+				},
+				async onSuccess() {
+					await invalidator();
+				},
+			});
 
 			return (
 				<Button
@@ -49,6 +84,8 @@ const columns = [
 						base: ["w-full"],
 					}}
 					variant={{ variant: available ? "primary" : "subtle" }}
+					loading={production.isPending}
+					onClick={() => production.mutate()}
 				>
 					{value}
 				</Button>
@@ -112,12 +149,14 @@ export namespace Building_Base_Production_Table {
 		extends Table.PropsEx<Data, Building_Base_Production_Table.Context> {
 		queueCount: number;
 		productionLimit: number;
+		userId: string;
+		buildingId: string;
 	}
 }
 
 export const Building_Base_Production_Table: FC<
 	Building_Base_Production_Table.Props
-> = ({ queueCount, productionLimit, table, ...props }) => {
+> = ({ queueCount, productionLimit, userId, buildingId, table, ...props }) => {
 	return (
 		<Table
 			table={useTable({
@@ -126,6 +165,8 @@ export const Building_Base_Production_Table: FC<
 				context: {
 					productionLimit,
 					queueCount,
+					userId,
+					buildingId,
 				},
 			})}
 			{...props}
