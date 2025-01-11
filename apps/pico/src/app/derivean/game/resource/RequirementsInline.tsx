@@ -48,7 +48,7 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 						className={tv.item({
 							css:
 								amount >= 0 ?
-									[]
+									["bg-purple-100", "border-purple-300"]
 								:	["text-red-700", "bg-red-100", "border-red-300"],
 							passive: entity.passive,
 						})}

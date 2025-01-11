@@ -75,9 +75,11 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 				"p-4",
 				"border",
 				"border-slate-300",
+				"shadow-md",
 				available ? ["bg-emerald-50", "border-emerald-300"]
-				: entity.withAvailableBuildings ? ["bg-amber-50", "border-amber-300"]
-				: ["bg-red-50", "border-red-300"],
+				: entity.withAvailableBuildings ?
+					["bg-amber-50", "border-amber-300", "opacity-75"]
+				:	["bg-red-50", "border-red-300", "opacity-50"],
 			])}
 		>
 			<div
