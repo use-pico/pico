@@ -54,7 +54,12 @@ const columns = [
 			return <Tx label={"Resource name (label)"} />;
 		},
 		render({ data, value, context: { userId } }) {
-			const invalidator = useInvalidator([["Building_Base_Production"]]);
+			const invalidator = useInvalidator([
+				["Building_Base_Production"],
+				["Building_Resource_Queue"],
+				["Inventory"],
+				["User_Inventory"],
+			]);
 
 			const available =
 				data.withAvailableResources && data.queueCount < data.productionLimit;
