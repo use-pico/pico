@@ -28,6 +28,7 @@ export const Route = createFileRoute(
 									.select((eb) => {
 										return eb.fn.count<number>("brq.id").as("queueCount");
 									})
+									.where("brq.buildingId", "=", id)
 									.as("queueCount");
 							},
 						])

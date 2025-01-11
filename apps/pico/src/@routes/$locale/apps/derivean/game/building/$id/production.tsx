@@ -68,11 +68,10 @@ export const Route = createFileRoute(
                 GROUP BY i.resourceId
             ) resource
                 ON bbpr.resourceId = resource.resourceId
-            WHERE bbp.id = bbpr.buildingBaseProductionId AND
-             (resource.totalAmount IS NULL OR resource.totalAmount < bbpr.amount)
-        ) THEN true
-        ELSE false
-    END
+            WHERE
+                bbp.id = bbpr.buildingBaseProductionId AND
+                (resource.totalAmount IS NULL OR resource.totalAmount < bbpr.amount)
+        ) THEN true ELSE false END
                       `.as("withAvailableResources"),
 						]);
 

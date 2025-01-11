@@ -35,11 +35,24 @@ export const Route = createFileRoute(
 				select: tx
 					.selectFrom("Building as b")
 					.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-					.select(["b.id", "bb.name"])
+					.select([
+						"b.id",
+						"bb.name",
+						(eb) => {
+							return eb
+								.selectFrom("Building_Resource_Queue as brq")
+								.select((eb) => {
+									return eb.fn.count<number>("brq.id").as("queueCount");
+								})
+								.whereRef("brq.buildingId", "=", "b.id")
+								.as("queueCount");
+						},
+					])
 					.where("b.userId", "=", user.id),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
+					queueCount: z.number().int(),
 				}),
 				filter,
 				cursor,

@@ -152,6 +152,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 			/**
 			 * I'll keep this "break" here to prevent overclicking on the cycle button.
 			 */
-		}, 1000);
+		}, 500);
 	});
 };

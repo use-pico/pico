@@ -2,12 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
     Badge,
-    Button,
+    Icon,
     LinkTo,
     Table,
     Tx,
     useTable,
-    withColumn,
+    withColumn
 } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -16,6 +16,7 @@ import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 export namespace Building_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
+		queueCount: number;
 	}
 }
 
@@ -54,16 +55,27 @@ const columns = [
 					<div>
 						<Badge
 							css={{
-								base:
-									queueCount.data?.filter ?
-										["bg-emerald-200", "border-emerald-400"]
-									:	["bg-amber-200", "border-amber-400"],
+								base: [
+									"flex",
+									"flex-row",
+									"items-center",
+									"gap-1",
+									...[
+										data.queueCount > 0 ?
+											["bg-emerald-200", "border-emerald-400"]
+										:	["bg-amber-200", "border-amber-400"],
+									],
+								],
 							}}
 						>
-							{queueCount.data?.filter || 0}
+							<Icon
+								icon={ResourceIcon}
+								variant={{ size: "sm" }}
+							/>
+							{data.queueCount}
 						</Badge>
 					</div>
-					<Button
+					{/* <Button
 						iconEnabled={ResourceIcon}
 						iconDisabled={ResourceIcon}
 						disabled={!resourceCount.data?.filter}
@@ -74,7 +86,7 @@ const columns = [
 							});
 						}}
 						variant={{ variant: "subtle" }}
-					/>
+					/> */}
 					<div>
 						<LinkTo
 							to={"/$locale/apps/derivean/game/building/$id/production"}
