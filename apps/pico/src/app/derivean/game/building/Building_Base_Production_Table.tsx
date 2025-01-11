@@ -49,25 +49,6 @@ const column = withColumn<
 
 const columns = [
 	column({
-		name: "building",
-		header() {
-			return <Tx label={"Building name (label)"} />;
-		},
-		render({ data, value }) {
-			const { locale } = useParams({ from: "/$locale" });
-
-			return (
-				<LinkTo
-					to={"/$locale/apps/derivean/game/building/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
-			);
-		},
-		size: 14,
-	}),
-	column({
 		name: "name",
 		header() {
 			return <Tx label={"Resource name (label)"} />;
@@ -101,7 +82,7 @@ const columns = [
 					iconDisabled={ProductionIcon}
 					disabled={!available}
 					css={{
-						base: ["w-full"],
+						base: ["w-full", "items-start", "justify-start"],
 					}}
 					variant={{ variant: available ? "primary" : "subtle" }}
 					loading={production.isPending}
@@ -109,6 +90,25 @@ const columns = [
 				>
 					{value}
 				</Button>
+			);
+		},
+		size: 14,
+	}),
+	column({
+		name: "building",
+		header() {
+			return <Tx label={"Building name (label)"} />;
+		},
+		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
+			return (
+				<LinkTo
+					to={"/$locale/apps/derivean/game/building/$id/view"}
+					params={{ locale, id: data.id }}
+				>
+					{value}
+				</LinkTo>
 			);
 		},
 		size: 14,
