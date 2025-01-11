@@ -97,8 +97,7 @@ const columns = [
 			return <Tx label={"Amount (label)"} />;
 		},
 		render({ data, value }) {
-			// return toHumanNumber({ number: value });
-			return <>{data.withAvailableResources ? "yep" : "nope"}</>;
+			return toHumanNumber({ number: value });
 		},
 		size: 10,
 	}),
