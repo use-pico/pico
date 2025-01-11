@@ -20,9 +20,12 @@ export namespace Building_Base_Production_Table {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		resourceId: string;
+		buildingId: string;
+		productionLimit: number;
 		amount: number;
 		limit: number;
 		cycles: number;
+		queueCount: number;
 		withAvailableResources: boolean;
 		requirements: (Building_Base_Production_Requirement_Schema["~entity"] & {
 			name: string;
@@ -30,10 +33,7 @@ export namespace Building_Base_Production_Table {
 	}
 
 	export interface Context {
-		queueCount: number;
-		productionLimit: number;
 		userId: string;
-		buildingId: string;
 	}
 }
 
@@ -48,15 +48,11 @@ const columns = [
 		header() {
 			return <Tx label={"Resource name (label)"} />;
 		},
-		render({
-			data,
-			value,
-			context: { productionLimit, queueCount, userId, buildingId },
-		}) {
-			const invalidator = useInvalidator([]);
+		render({ data, value, context: { userId } }) {
+			const invalidator = useInvalidator([["Building_Base_Production"]]);
 
 			const available =
-				data.withAvailableResources && queueCount < productionLimit;
+				data.withAvailableResources && data.queueCount < data.productionLimit;
 
 			const production = useMutation({
 				mutationKey: ["Building_Base_Production"],
@@ -65,7 +61,7 @@ const columns = [
 						withProductionQueue({
 							userId,
 							buildingBaseProductionId: data.id,
-							buildingId,
+							buildingId: data.buildingId,
 						}),
 						withToastPromiseTx("Resource production queue"),
 					);
@@ -147,26 +143,20 @@ const columns = [
 export namespace Building_Base_Production_Table {
 	export interface Props
 		extends Table.PropsEx<Data, Building_Base_Production_Table.Context> {
-		queueCount: number;
-		productionLimit: number;
 		userId: string;
-		buildingId: string;
 	}
 }
 
 export const Building_Base_Production_Table: FC<
 	Building_Base_Production_Table.Props
-> = ({ queueCount, productionLimit, userId, buildingId, table, ...props }) => {
+> = ({ userId, table, ...props }) => {
 	return (
 		<Table
 			table={useTable({
 				...table,
 				columns,
 				context: {
-					productionLimit,
-					queueCount,
 					userId,
-					buildingId,
 				},
 			})}
 			{...props}

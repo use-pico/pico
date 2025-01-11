@@ -90,6 +90,8 @@ export const Route = createFileRoute(
 								"bbp.id",
 								"r.name",
 								"bbp.amount",
+								"bb.productionLimit",
+								"b.id as buildingId",
 								"bbp.buildingBaseId",
 								"bbp.limit",
 								"bbp.cycles",
@@ -115,6 +117,15 @@ export const Route = createFileRoute(
 											eb.ref("bbp.id"),
 										)
 										.as("requirements"),
+								(eb) => {
+									return eb
+										.selectFrom("Building_Resource_Queue as brq")
+										.select((eb) => {
+											return eb.fn.count<number>("brq.id").as("queueCount");
+										})
+										.whereRef("brq.buildingId", "=", "b.id")
+										.as("queueCount");
+								},
 							])
 							.where("b.userId", "=", user.id)
 							.where("b.id", "=", id)
@@ -125,9 +136,12 @@ export const Route = createFileRoute(
 							name: z.string().min(1),
 							buildingBaseId: z.string().min(1),
 							resourceId: z.string().min(1),
+							buildingId: z.string().min(1),
 							amount: z.number().nonnegative(),
+							productionLimit: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
+							queueCount: z.number().nonnegative(),
 							withAvailableResources: withBoolSchema(),
 							requirements: withJsonArraySchema(
 								Building_Base_Production_Requirement_Schema.entity.merge(
@@ -158,10 +172,7 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<Building_Base_Production_Table
-					productionLimit={entity.productionLimit}
-					queueCount={entity.queueCount}
 					userId={session.id}
-					buildingId={entity.id}
 					table={{
 						data,
 						filter: {

@@ -122,7 +122,7 @@ export const Route = createFileRoute(
 										.select((eb) => {
 											return eb.fn.count<number>("brq.id").as("queueCount");
 										})
-										.whereRef("brq.buildingBaseProductionId", "=", "bbp.id")
+										.whereRef("brq.buildingId", "=", "b.id")
 										.as("queueCount");
 								},
 							])
