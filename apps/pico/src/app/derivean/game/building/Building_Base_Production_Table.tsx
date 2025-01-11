@@ -9,7 +9,7 @@ import {
     useInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx,
+    withToastPromiseTx
 } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -78,13 +78,19 @@ const columns = [
 
 			return (
 				<Button
-					iconEnabled={ProductionIcon}
-					iconDisabled={ProductionIcon}
+					iconEnabled={
+						data.queueCount > 0 ? "icon-[bi--bag-check]" : ProductionIcon
+					}
+					iconDisabled={
+						data.queueCount > 0 ? "icon-[bi--bag-check]" : ProductionIcon
+					}
 					disabled={!available}
 					css={{
 						base: ["w-full", "items-start", "justify-start"],
 					}}
-					variant={{ variant: available ? "primary" : "subtle" }}
+					variant={{
+						variant: available || data.queueCount > 0 ? "primary" : "subtle",
+					}}
 					loading={production.isPending}
 					onClick={() => production.mutate()}
 				>

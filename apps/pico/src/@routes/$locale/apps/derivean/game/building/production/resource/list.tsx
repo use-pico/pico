@@ -115,13 +115,13 @@ export const Route = createFileRoute(
 												.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
 												.select((eb) => {
 													return sql<string>`json_group_array(json_object(
-                                            'id', ${eb.ref("bbpr.id")},
-                                            'amount', ${eb.ref("bbpr.amount")},
-                                            'passive', ${eb.ref("bbpr.passive")},
-                                            'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
-                                            'resourceId', ${eb.ref("bbpr.resourceId")},
-                                            'name', ${eb.ref("r.name")}
-                                        ))`.as("requirements");
+                                                        'id', ${eb.ref("bbpr.id")},
+                                                        'amount', ${eb.ref("bbpr.amount")},
+                                                        'passive', ${eb.ref("bbpr.passive")},
+                                                        'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
+                                                        'resourceId', ${eb.ref("bbpr.resourceId")},
+                                                        'name', ${eb.ref("r.name")}
+                                                    ))`.as("requirements");
 												})
 												.where(
 													"bbpr.buildingBaseProductionId",
@@ -135,7 +135,7 @@ export const Route = createFileRoute(
 												.select((eb) => {
 													return eb.fn.count<number>("brq.id").as("queueCount");
 												})
-												.whereRef("brq.buildingId", "=", "b.id")
+												.whereRef("brq.buildingBaseProductionId", "=", "bbp.id")
 												.as("queueCount");
 										},
 									])
