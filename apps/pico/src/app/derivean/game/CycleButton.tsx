@@ -35,6 +35,7 @@ export const CycleButton: FC<CycleButton.Props> = ({
 		["Building"],
 		["User_Inventory"],
 		["Inventory"],
+		["Building_Base_Production"],
 	]);
 
 	const mutation = useMutation({

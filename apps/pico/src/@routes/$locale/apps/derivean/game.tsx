@@ -1,10 +1,10 @@
 import { useMutationState } from "@tanstack/react-query";
 import {
-    createFileRoute,
-    Outlet,
-    redirect,
-    useLoaderData,
-    useParams,
+	createFileRoute,
+	Outlet,
+	redirect,
+	useLoaderData,
+	useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
@@ -33,6 +33,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 
 		return {
 			session: user,
+			inventory: await queryClient.ensureQueryData({
+				queryKey: ["User_Inventory"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Inventory as i")
+							.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
+							.select(["i.id", "i.amount", "i.limit", "i.resourceId"])
+							.where("ui.userId", "=", user.id)
+							.execute();
+					});
+				},
+			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["Cycle"],
 				async queryFn() {

@@ -100,11 +100,13 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 					"bbp.id",
 					"brq.buildingBaseProductionId",
 				)
+				.innerJoin("Resource as r", "r.id", "bbp.resourceId")
 				.select([
 					"brq.id",
 					"brq.cycle",
 					"brq.to",
 					"bbp.resourceId",
+					"r.name",
 					"bbp.amount",
 				])
 				.where("userId", "=", userId)
@@ -118,9 +120,16 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 						.select(["i.id", "i.amount", "i.limit"])
 						.where("ui.userId", "=", userId)
 						.where("i.resourceId", "=", queue.resourceId)
-						.executeTakeFirstOrThrow();
+						.executeTakeFirst();
 
-					if (inventory.amount + queue.amount > inventory.limit) {
+					if (!inventory) {
+						continue;
+					}
+
+					if (
+						inventory.limit > 0 &&
+						inventory.amount + queue.amount > inventory.limit
+					) {
 						continue;
 					}
 

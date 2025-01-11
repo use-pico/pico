@@ -139,7 +139,7 @@ export const Route = createFileRoute(
 								.orderBy("bb2.name", "asc")
 								.as("requiredBuildings"),
 					])
-					// .where("filter.withAvailableBuildings", "=", true)
+					.where("filter.withAvailableBuildings", "=", true)
 					.orderBy("filter.withAvailableBuildings", "desc")
 					.orderBy("filter.withAvailableResources", "desc")
 					.orderBy("bb.name", "asc"),
@@ -175,7 +175,7 @@ export const Route = createFileRoute(
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
-		const { session } = useLoaderData({
+		const { inventory, session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 		const { graph } = useLoaderData({
@@ -186,6 +186,7 @@ export const Route = createFileRoute(
 			<div className={tv.base()}>
 				<Building_Base_Table
 					userId={session.id}
+					inventory={inventory}
 					graph={graph}
 					table={{
 						data,

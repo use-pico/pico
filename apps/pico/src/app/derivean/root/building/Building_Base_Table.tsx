@@ -105,7 +105,7 @@ const columns = [
 				/>
 			);
 		},
-		size: 42,
+		size: 54,
 	}),
 	column({
 		name: "requiredBuildings",

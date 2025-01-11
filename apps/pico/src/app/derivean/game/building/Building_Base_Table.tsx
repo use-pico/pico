@@ -20,6 +20,7 @@ import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { RequirementsInline } from "~/app/derivean/resource/ResourceInline";
 import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
 import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
+import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
 import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Building_Base_Table {
@@ -39,6 +40,7 @@ export namespace Building_Base_Table {
 	export interface Context {
 		userId: string;
 		graph: withBuildingGraph.Result;
+		inventory: Inventory_Schema["~entity-array"];
 	}
 }
 
@@ -116,17 +118,18 @@ const columns = [
 		header() {
 			return <Tx label={"Required resources (label)"} />;
 		},
-		render({ value }) {
+		render({ value, context: { inventory } }) {
 			return (
 				<RequirementsInline
 					textTitle={<Tx label={"Building requirements (title)"} />}
 					textEmpty={<Tx label={"No requirements (label)"} />}
 					requirements={value}
+					diff={inventory}
 					limit={5}
 				/>
 			);
 		},
-		size: 42,
+		size: 64,
 	}),
 	column({
 		name: "requiredBuildings",
@@ -160,12 +163,14 @@ export namespace Building_Base_Table {
 	export interface Props extends Table.PropsEx<Data, Context> {
 		userId: string;
 		graph: withBuildingGraph.Result;
+		inventory: Inventory_Schema["~entity-array"];
 	}
 }
 
 export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 	userId,
 	graph,
+	inventory,
 	table,
 	...props
 }) => {
@@ -177,6 +182,7 @@ export const Building_Base_Table: FC<Building_Base_Table.Props> = ({
 				context: {
 					userId,
 					graph,
+					inventory,
 				},
 			})}
 			{...props}

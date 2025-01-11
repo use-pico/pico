@@ -37,6 +37,8 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 			items={requirements}
 			render={({ entity }) => {
 				const resource = diff?.find((r) => r.resourceId === entity.resourceId);
+				const amount =
+					resource?.amount ? resource.amount - entity.amount : -entity.amount;
 
 				return (
 					<div className={tv.item({ passive: entity.passive })}>
@@ -44,27 +46,28 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}
 						</div>
-						{resource ?
-							<>
-								{resource.amount > 0 ?
-									<div className={"text-sm text-red-500"}>
-										(-{toHumanNumber({ number: resource.amount })})
-									</div>
-								:	<Icon
+						{diff ?
+							amount >= 0 ?
+								<Icon
+									icon={"icon-[pajamas--check-sm]"}
+									css={{
+										base: ["text-emerald-600"],
+									}}
+								/>
+							:	<div
+									className={
+										"flex flex-row gao-2 items-center text-sm text-red-500"
+									}
+								>
+									<Icon
 										icon={"icon-[charm--cross]"}
 										css={{
 											base: ["text-red-500"],
 										}}
 									/>
-								}
-							</>
-						: diff ?
-							<Icon
-								icon={"icon-[pajamas--check-sm]"}
-								css={{
-									base: ["text-emerald-600"],
-								}}
-							/>
+									({toHumanNumber({ number: amount })})
+								</div>
+
 						:	null}
 					</div>
 				);

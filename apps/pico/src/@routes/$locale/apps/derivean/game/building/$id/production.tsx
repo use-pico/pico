@@ -118,6 +118,7 @@ export const Route = createFileRoute(
 							])
 							.where("b.userId", "=", user.id)
 							.where("b.id", "=", id)
+							.orderBy("filter.withAvailableResources", "desc")
 							.orderBy("r.name", "asc"),
 						output: z.object({
 							id: z.string().min(1),

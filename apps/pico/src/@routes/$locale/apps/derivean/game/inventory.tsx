@@ -39,7 +39,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
 							.selectFrom("User_Inventory as ui")
 							.select("ui.inventoryId")
 							.where("ui.userId", "=", user.id),
-					),
+					)
+					.orderBy("r.name"),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),

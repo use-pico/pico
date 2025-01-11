@@ -33,24 +33,29 @@ export const Route = createFileRoute(
 		return kysely.transaction().execute(async (tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Building as b")
-					.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-					.select([
-						"b.id",
-						"bb.name",
-						(eb) => {
-							return eb
-								.selectFrom("Building_Resource_Queue as brq")
-								.select((eb) => {
-									return eb.fn.count<number>("brq.id").as("queueCount");
-								})
-								.whereRef("brq.buildingId", "=", "b.id")
-								.as("queueCount");
-						},
-					])
-					.where("b.userId", "=", user.id)
-					// .orderBy("queueCount", "asc")
-					.orderBy("bb.name", "asc"),
+					.selectFrom(
+						tx
+							.selectFrom("Building as b")
+							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+							.select([
+								"b.id",
+								"bb.name",
+								(eb) => {
+									return eb
+										.selectFrom("Building_Resource_Queue as brq")
+										.select((eb) => {
+											return eb.fn.count<number>("brq.id").as("queueCount");
+										})
+										.whereRef("brq.buildingId", "=", "b.id")
+										.as("queueCount");
+								},
+							])
+							.where("b.userId", "=", user.id)
+							.as("queue"),
+					)
+					.selectAll()
+					.orderBy("queue.queueCount", "asc")
+					.orderBy("queue.name", "asc"),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
