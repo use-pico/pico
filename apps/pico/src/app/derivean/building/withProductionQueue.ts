@@ -70,6 +70,6 @@ export const withProductionQueue = async ({
 
 				res(undefined);
 			});
-		}, 1000);
+		}, 250);
 	});
 };

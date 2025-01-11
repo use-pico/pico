@@ -48,7 +48,9 @@ export const Route = createFileRoute(
 								.as("queueCount");
 						},
 					])
-					.where("b.userId", "=", user.id),
+					.where("b.userId", "=", user.id)
+					// .orderBy("queueCount", "asc")
+					.orderBy("bb.name", "asc"),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),

@@ -70,6 +70,6 @@ export const withConstructionQueue = async ({
 
 				res(undefined);
 			});
-		}, 500);
+		}, 250);
 	});
 };
