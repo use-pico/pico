@@ -12,7 +12,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
+import { withBoolSchema, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { Building_Base_Production_Table } from "~/app/derivean/game/building/Building_Base_Production_Table";
@@ -78,7 +78,7 @@ export const Route = createFileRoute(
 						select: tx
 							.selectFrom("Building_Base_Production as bbp")
 							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
-							// .innerJoin($filter.as("filter"), "bbp.id", "filter.id")
+							.innerJoin($filter.as("filter"), "bbp.id", "filter.id")
 							.innerJoin(
 								"Building as b",
 								"b.buildingBaseId",
@@ -95,7 +95,7 @@ export const Route = createFileRoute(
 								"bbp.limit",
 								"bbp.cycles",
 								"bbp.resourceId",
-								// "filter.withAvailableResources",
+								"filter.withAvailableResources",
 								(eb) =>
 									eb
 										.selectFrom("Building_Base_Production_Requirement as bbpr")
@@ -134,7 +134,7 @@ export const Route = createFileRoute(
 									.select("id"),
 							)
 							.where("b.userId", "=", user.id)
-							// .orderBy("filter.withAvailableResources", "desc")
+							.orderBy("filter.withAvailableResources", "desc")
 							.orderBy("bb.name", "asc")
 							.orderBy("r.name", "asc"),
 						output: z.object({
@@ -148,7 +148,7 @@ export const Route = createFileRoute(
 							queueCount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
-							// withAvailableResources: withBoolSchema(),
+							withAvailableResources: withBoolSchema(),
 							requirements: withJsonArraySchema(
 								Building_Base_Production_Requirement_Schema.entity.merge(
 									z.object({
