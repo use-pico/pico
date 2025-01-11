@@ -149,6 +149,49 @@ export const Route = createFileRoute(
 					.orderBy("filter.withAvailableBuildings", "desc")
 					.orderBy("filter.withAvailableResources", "desc")
 					.orderBy("bb.name", "asc"),
+				query({ select, where }) {
+					let $select = select;
+
+					if (where?.fulltext) {
+						const fulltext = `%${where.fulltext}%`.toLowerCase();
+						$select = $select.where((eb) => {
+							return eb.or([
+								eb("bb.id", "like", fulltext),
+								eb("bb.name", "like", fulltext),
+								eb(
+									"bb.id",
+									"in",
+									eb
+										.selectFrom("Building_Base_Resource_Requirement as bbrr")
+										.innerJoin("Resource as r", "r.id", "bbrr.resourceId")
+										.select("bbrr.buildingBaseId")
+										.where((eb) => {
+											return eb.or([eb("r.name", "like", fulltext)]);
+										}),
+								),
+								eb(
+									"bb.id",
+									"in",
+									eb
+										.selectFrom(
+											"Building_Base_Building_Base_Requirement as bbbbr",
+										)
+										.innerJoin(
+											"Building_Base as bb",
+											"bb.id",
+											"bbbbr.requirementId",
+										)
+										.select("bbbbr.buildingBaseId")
+										.where((eb) => {
+											return eb.or([eb("bb.name", "like", fulltext)]);
+										}),
+								),
+							]);
+						});
+					}
+
+					return $select;
+				},
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),

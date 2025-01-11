@@ -22,7 +22,7 @@ export const withSourceSearchSchema = <TFilterSchema extends FilterSchema>(
 			page: 0,
 			size,
 		}),
-		sort: fallback(z.any().optional(), undefined),
+		sort: fallback(z.any().optional(), []).default([]),
 		selection: fallback(z.array(z.string()), []).default([]),
 	});
 };
