@@ -64,7 +64,13 @@ const columns = [
 		},
 		render({ data, value, context: { userId } }) {
 			const { locale } = useParams({ from: "/$locale" });
-			const invalidator = useInvalidator([["Building_Queue"]]);
+
+			const invalidator = useInvalidator([
+				["Building_Queue"],
+				["Inventory"],
+				["User_Inventory"],
+			]);
+
 			const mutation = useMutation({
 				async mutationFn({ buildingBaseId }: { buildingBaseId: string }) {
 					return toast.promise(

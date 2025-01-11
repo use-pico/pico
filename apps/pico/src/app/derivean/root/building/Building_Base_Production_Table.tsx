@@ -70,18 +70,6 @@ const columns = [
 		size: 10,
 	}),
 	column({
-		name: "limit",
-		header() {
-			return <Tx label={"Production limit (label)"} />;
-		},
-		render({ value }) {
-			return value === 0 ?
-					<Tx label={"Unlimited (label)"} />
-				:	toHumanNumber({ number: value });
-		},
-		size: 10,
-	}),
-	column({
 		name: "cycles",
 		header() {
 			return <Tx label={"Production cycles (label)"} />;
@@ -107,6 +95,18 @@ const columns = [
 			);
 		},
 		size: 32,
+	}),
+	column({
+		name: "limit",
+		header() {
+			return <Tx label={"Production limit (label)"} />;
+		},
+		render({ value }) {
+			return value === 0 ?
+					<Tx label={"Unlimited (label)"} />
+				:	toHumanNumber({ number: value });
+		},
+		size: 10,
 	}),
 ];
 

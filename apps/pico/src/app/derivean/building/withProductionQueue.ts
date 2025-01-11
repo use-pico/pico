@@ -33,11 +33,11 @@ export const withProductionQueue = async ({
 				const requirements = await tx
 					.selectFrom("Building_Base_Production_Requirement as bbpr")
 					.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
-					.select(["bbpr.resourceId", "bbpr.amount"])
+					.select(["bbpr.resourceId", "bbpr.amount", "bbpr.passive"])
 					.where("bbpr.buildingBaseProductionId", "=", buildingBaseProductionId)
 					.execute();
 
-				for await (const { resourceId, amount } of requirements) {
+				for await (const { resourceId, amount, passive } of requirements) {
 					const inventory = await tx
 						.selectFrom("Inventory as i")
 						.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
@@ -47,13 +47,15 @@ export const withProductionQueue = async ({
 						.where("i.amount", ">=", amount)
 						.executeTakeFirstOrThrow();
 
-					await tx
-						.updateTable("Inventory")
-						.set({
-							amount: inventory.amount - amount,
-						})
-						.where("id", "=", inventory.id)
-						.execute();
+					if (!passive) {
+						await tx
+							.updateTable("Inventory")
+							.set({
+								amount: inventory.amount - amount,
+							})
+							.where("id", "=", inventory.id)
+							.execute();
+					}
 				}
 
 				await tx

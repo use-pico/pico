@@ -30,6 +30,7 @@ export const Building_Base_Form: FC<Building_Base_Form.Props> = ({
 		resolver: zodResolver(Building_Base_Schema.shape),
 		defaultValues: {
 			cycles: 1,
+			productionLimit: 1,
 			...defaultValues,
 		},
 	});

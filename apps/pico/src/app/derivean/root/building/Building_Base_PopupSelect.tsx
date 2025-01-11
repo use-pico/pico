@@ -88,8 +88,8 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
 
 								$select = $select.where((eb) => {
 									return eb.or([
-										eb("bb.id", "=", fulltext),
-										eb("bb.name", "=", fulltext),
+										eb("bb.id", "like", fulltext),
+										eb("bb.name", "like", fulltext),
 									]);
 								});
 							}
