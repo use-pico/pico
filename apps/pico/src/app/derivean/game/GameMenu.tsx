@@ -36,6 +36,14 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 			</MenuLink>
 
 			<MenuLink
+				icon={BuildingBaseIcon}
+				to={"/$locale/apps/derivean/game/building/construction/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Building build list (menu)"} />
+			</MenuLink>
+
+			<MenuLink
 				icon={ConstructionIcon}
 				to={"/$locale/apps/derivean/game/building/construction/queue/list"}
 				params={{ locale }}
@@ -55,14 +63,6 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 				]}
 			>
 				<Tx label={"My buildings (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={BuildingBaseIcon}
-				to={"/$locale/apps/derivean/game/building/construction/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Building build list (menu)"} />
 			</MenuLink>
 
 			<MenuLink
