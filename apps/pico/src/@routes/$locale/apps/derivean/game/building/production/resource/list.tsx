@@ -137,6 +137,37 @@ export const Route = createFileRoute(
 							.orderBy("filter.withAvailableResources", "desc")
 							.orderBy("bb.name", "asc")
 							.orderBy("r.name", "asc"),
+						query({ select, where }) {
+							let $select = select;
+
+							if (where?.fulltext) {
+								const fulltext = `%${where.fulltext}%`.toLowerCase();
+
+								$select = $select.where((qb) => {
+									return qb.or([
+										qb("bb.name", "like", `%${fulltext}%`),
+										qb("r.name", "like", `%${fulltext}%`),
+										qb(
+											"r.id",
+											"in",
+											qb
+												.selectFrom("Resource_Tag as rt")
+												.innerJoin("Tag as t", "t.id", "rt.tagId")
+												.select("rt.resourceId")
+												.where((eb) => {
+													return eb.or([
+														eb("t.code", "like", fulltext),
+														eb("t.label", "like", fulltext),
+														eb("t.group", "like", fulltext),
+													]);
+												}),
+										),
+									]);
+								});
+							}
+
+							return $select;
+						},
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),

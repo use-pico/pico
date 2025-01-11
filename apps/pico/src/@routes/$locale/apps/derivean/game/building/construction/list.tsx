@@ -1,21 +1,21 @@
 import {
-	createFileRoute,
-	useLoaderData,
-	useRouteContext,
+    createFileRoute,
+    useLoaderData,
+    useRouteContext,
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    Tx,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import {
-	FilterSchema,
-	withBoolSchema,
-	withJsonArraySchema,
+    FilterSchema,
+    withBoolSchema,
+    withJsonArraySchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -122,6 +122,7 @@ export const Route = createFileRoute(
 									);
 								})
 								.where("bbrr.buildingBaseId", "=", eb.ref("bb.id"))
+								.orderBy("r.name", "asc")
 								.as("requiredResources"),
 						(eb) =>
 							eb
