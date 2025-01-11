@@ -45,7 +45,7 @@ export const More = <TValues extends IdentitySchema.Type>({
 			))}
 			{limit && items.length > limit && (
 				<Modal
-					title={textTitle}
+					textTitle={textTitle}
 					target={<Action iconEnabled={ActionMenuIcon} />}
 					outside
 				>

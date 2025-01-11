@@ -1,5 +1,5 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { BuildingCard } from "~/app/derivean/root/building/BuildingCard";
+import { Building_Card } from "~/app/derivean/root/building/Building_Card";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id/view",
@@ -11,7 +11,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
-				<BuildingCard entity={entity} />
+				<Building_Card entity={entity} />
 			</div>
 		);
 	},

@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "@tanstack/react-router";
 import type {
     CursorSchema,
     Entity,
     FilterSchema,
     IdentitySchema,
-    withSource,
 } from "@use-pico/common";
 import { useState, type FC } from "react";
 import { Button } from "../button/Button";
@@ -16,12 +16,23 @@ import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
 import { ModalContext } from "../modal/ModalContext";
-import { useListQuery as useCoolListQuery } from "../source/useListQuery";
+import type { withListCount } from "../source/withListCount";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupSelectCss } from "./PopupSelectCss";
 
 export namespace PopupSelect {
+	export namespace Query {
+		export interface Props {
+			filter?: Omit<FilterSchema.Type, "idIn">;
+			cursor?: CursorSchema.Type;
+		}
+
+		export type Callback<TItem extends IdentitySchema.Type> = (
+			props: Props,
+		) => Promise<withListCount.Result<TItem>>;
+	}
+
 	export interface Props<TItem extends IdentitySchema.Type>
 		extends PopupSelectCss.Props {
 		icon?: string | ReactNode;
@@ -32,8 +43,11 @@ export namespace PopupSelect {
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
 
-		source: withSource.Instance<any, any>;
-		useListQuery?: useCoolListQuery<any, any>;
+		/**
+		 * Name used for react-query cache.
+		 */
+		queryKey: string;
+		query: Query.Callback<TItem>;
 
 		value: string;
 		onChange(value: string | undefined): void;
@@ -41,7 +55,7 @@ export namespace PopupSelect {
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		"table" | "source" | "useListQuery" | "render"
+		"table" | "source" | "queryKey" | "query" | "render"
 	>;
 }
 
@@ -54,8 +68,8 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	render: Render,
 	allowEmpty = false,
 
-	source,
-	useListQuery = useCoolListQuery,
+	queryKey,
+	query,
 
 	value,
 	onChange,
@@ -74,25 +88,31 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
 	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 
-	const result = useListQuery({
-		source,
-		where: {
-			fulltext,
-		} satisfies FilterSchema.Type,
-		cursor: {
-			page,
-			size,
-		} satisfies CursorSchema.Type,
+	const result = useQuery({
+		queryKey: [queryKey, "PopupSelect", "data", { fulltext, page, size }],
+		async queryFn() {
+			return query({
+				filter: {
+					fulltext,
+				},
+				cursor: {
+					page,
+					size,
+				},
+			});
+		},
 	});
 
-	const selected = useListQuery({
-		source,
-		where: {
-			id: value,
+	const selected = useQuery({
+		queryKey: [queryKey, "PopupSelect", "selected", { value }],
+		async queryFn() {
+			return query({
+				filter: {
+					id: value,
+				},
+			});
 		},
-		options: {
-			enabled: Boolean(value),
-		},
+		enabled: Boolean(value),
 	});
 
 	return (
@@ -111,7 +131,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
 			}
-			title={textTitle}
+			textTitle={textTitle}
 			variant={{
 				loading: result.isLoading,
 			}}
@@ -140,12 +160,14 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 							},
 							onSize(size) {
 								setSize(size);
+								setPage(0);
 							},
 						}}
 						fulltext={{
 							value: fulltext,
 							set(value) {
 								setFulltext(value);
+								setPage(0);
 							},
 						}}
 						table={{

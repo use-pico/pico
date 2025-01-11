@@ -107,7 +107,11 @@ export const RegisterForm: FC<RegisterForm.Props> = ({ onSuccess }) => {
 				/>
 			</FormInput>
 
-			<Button type={"submit"}>
+			<Button
+				iconEnabled={"icon-[mdi--register-outline]"}
+				iconDisabled={"icon-[mdi--register-outline]"}
+				type={"submit"}
+			>
 				<Tx label={"Register (submit)"} />
 			</Button>
 		</form>

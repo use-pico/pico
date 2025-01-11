@@ -3,7 +3,10 @@ import { Menu, MenuLink, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace GameMenu {
 	export interface Props extends Menu.Props {
@@ -17,19 +20,49 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 	return (
 		<Menu {...props}>
 			<MenuLink
-				icon={BuildingBaseIcon}
-				to={"/$locale/apps/derivean/game/building/base/list"}
+				icon={ProductionIcon}
+				to={"/$locale/apps/derivean/game/building/production/resource/list"}
 				params={{ locale }}
 			>
-				<Tx label={"Building build list (label)"} />
+				<Tx label={"Resource production (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ResourceIcon}
+				to={"/$locale/apps/derivean/game/building/production/resource/queue"}
+				params={{ locale }}
+			>
+				<Tx label={"Resources queue (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={BuildingBaseIcon}
+				to={"/$locale/apps/derivean/game/building/construction/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Building build list (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={ConstructionIcon}
+				to={"/$locale/apps/derivean/game/building/construction/queue/list"}
+				params={{ locale }}
+			>
+				<Tx label={"Building queue (menu)"} />
 			</MenuLink>
 
 			<MenuLink
 				icon={BuildingIcon}
 				to={"/$locale/apps/derivean/game/building/list"}
 				params={{ locale }}
+				active={[
+					{
+						to: "/$locale/apps/derivean/game/building/$id/production/list",
+					},
+					{ to: "/$locale/apps/derivean/game/building/$id/view" },
+				]}
 			>
-				<Tx label={"Building list (label)"} />
+				<Tx label={"My buildings (menu)"} />
 			</MenuLink>
 
 			<MenuLink

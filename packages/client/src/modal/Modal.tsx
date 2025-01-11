@@ -10,13 +10,8 @@ import {
     useInteractions,
     useTransitionStyles,
 } from "@floating-ui/react";
-import { isString } from "@use-pico/common";
-import {
-    useState,
-    type FC,
-    type PropsWithChildren,
-    type ReactNode,
-} from "react";
+import { isCallable, isString } from "@use-pico/common";
+import { useState, type FC, type ReactNode } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
@@ -24,18 +19,19 @@ import { ModalContext } from "./ModalContext";
 import { ModalCss } from "./ModalCss";
 
 export namespace Modal {
-	export interface Props extends ModalCss.Props<PropsWithChildren> {
+	export interface Props extends ModalCss.Props {
 		/**
 		 * The target element that will open the modal.
 		 */
 		target: ReactNode;
 		icon?: string | ReactNode;
-		title?: ReactNode;
+		textTitle?: ReactNode;
 		disabled?: boolean;
 		/**
 		 * Close the modal when clicking outside of it.
 		 */
 		outside?: boolean;
+		children: FC<{ close(): void }> | ReactNode;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -44,13 +40,13 @@ export namespace Modal {
 export const Modal: FC<Modal.Props> = ({
 	target,
 	icon,
-	title,
+	textTitle,
 	disabled = false,
 	outside = false,
 	variant,
 	css,
 	tva = ModalCss,
-	children,
+	children: Children,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const nodeId = useFloatingNodeId();
@@ -116,11 +112,11 @@ export const Modal: FC<Modal.Props> = ({
 															variant={{ size: "xl" }}
 														/>
 													:	icon)}
-												{title && (
+												{textTitle && (
 													<div
 														className={"text-lg font-semibold text-slate-700"}
 													>
-														{title}
+														{textTitle}
 													</div>
 												)}
 											</div>
@@ -129,7 +125,9 @@ export const Modal: FC<Modal.Props> = ({
 												onClick={() => setIsOpen(false)}
 											/>
 										</div>
-										{children}
+										{isCallable(Children) ?
+											<Children close={() => setIsOpen(false)} />
+										:	Children}
 									</div>
 								</FloatingFocusManager>
 							</FloatingOverlay>

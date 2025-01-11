@@ -9,10 +9,8 @@ import {
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { GameMenu } from "~/app/derivean/game/GameMenu";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserInventorySource } from "~/app/derivean/user/inventory/UserInventorySource";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	async beforeLoad({ context, params: { locale } }) {
@@ -30,28 +28,64 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 			},
 		};
 	},
-	async loader({ context: { kysely, session } }) {
-		const $session = await session();
+	async loader({ context: { queryClient, kysely, session } }) {
+		const user = await session();
 
-		return kysely.transaction().execute(async (tx) => {
-			return {
-				session: $session,
-				inventory: await InventorySource.list$({
-					tx,
-					link: UserInventorySource.select$({
-						tx,
-						where: { userId: $session.id },
-						use: ["id", "where"],
-					}),
-				}),
-			};
-		});
+		return {
+			session: user,
+			inventory: await queryClient.ensureQueryData({
+				queryKey: ["User_Inventory"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Inventory as i")
+							.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
+							.select(["i.id", "i.amount", "i.limit", "i.resourceId"])
+							.where("ui.userId", "=", user.id)
+							.execute();
+					});
+				},
+			}),
+			buildingCounts: await queryClient.ensureQueryData({
+				queryKey: ["Building"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Building as b")
+							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+							.select([
+								"b.buildingBaseId",
+								"bb.name",
+								(eb) => eb.fn.count<number>("b.id").as("count"),
+							])
+							.where("b.userId", "=", user.id)
+							.groupBy("b.buildingBaseId")
+							.execute();
+					});
+				},
+			}),
+			cycle: await queryClient.ensureQueryData({
+				queryKey: ["Cycle"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return (
+							await tx
+								.selectFrom("Cycle as c")
+								.select((eb) => eb.fn.count<number>("c.id").as("count"))
+								.where("c.userId", "=", user.id)
+								.executeTakeFirstOrThrow()
+						).count;
+					});
+				},
+			}),
+		};
 	},
 	component: () => {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session } = useLoaderData({
+		const { session, cycle } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
+
 		const mutation = useMutationState({
 			filters: {
 				status: "pending",
@@ -75,7 +109,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 				menu={
 					<div className={"flex flex-row items-center gap-4"}>
 						<GameMenu />
-						<CycleButton userId={session.id} />
+						<CycleButton
+							cycle={cycle}
+							userId={session.id}
+						/>
 					</div>
 				}
 				actions={

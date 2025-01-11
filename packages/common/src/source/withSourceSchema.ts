@@ -11,11 +11,9 @@ export namespace withSourceSchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
-		TOutputSchema extends TEntitySchema = TEntitySchema,
 		TSort extends [string, ...string[]] = any,
 	> {
 		entity: TEntitySchema;
-		output?: TOutputSchema;
 		shape: TShapeSchema;
 		filter: TFilterSchema;
 		sort: TSort;
@@ -25,7 +23,6 @@ export namespace withSourceSchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
-		TOutputSchema extends TEntitySchema = TEntitySchema,
 		TSort extends [string, ...string[]] = any,
 	> {
 		/**
@@ -52,18 +49,6 @@ export namespace withSourceSchema {
 		filter: TFilterSchema;
 		["~filter"]: z.infer<TFilterSchema>;
 
-		/**
-		 * The output of the queries (like fetch, list, etc.).
-		 *
-		 * Used only for the output validation.
-		 */
-		output: TOutputSchema;
-		["~output"]: z.infer<TOutputSchema>;
-		/**
-		 * May be strange as a type, but the reason is to be explicit:
-		 * TSchema['~output'][] is not as readable as TSchema['~output-array']
-		 */
-		["~output-array"]: z.infer<TOutputSchema>[];
 		sort: SortSchema<TSort>;
 		["~sort"]: z.infer<SortSchema<TSort>>;
 		["~sort-keyof"]: TSort[number];
@@ -74,11 +59,9 @@ export const withSourceSchema = <
 	TEntitySchema extends EntitySchema,
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
-	TOutputSchema extends TEntitySchema = TEntitySchema,
 	const TSort extends [string, ...string[]] = any,
 >({
 	entity,
-	output = entity as TOutputSchema,
 	shape,
 	filter,
 	sort,
@@ -86,13 +69,11 @@ export const withSourceSchema = <
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,
-	TOutputSchema,
 	TSort
 >): withSourceSchema.Instance<
 	TEntitySchema,
 	TShapeSchema,
 	TFilterSchema,
-	TOutputSchema,
 	TSort
 > => {
 	const proxy = proxyOf();
@@ -107,9 +88,6 @@ export const withSourceSchema = <
 		"~shape-partial": proxy,
 		filter,
 		"~filter": proxy,
-		output,
-		"~output": proxy,
-		"~output-array": [],
 		"sort": z.array(
 			z.object({
 				name: z.enum(sort),

@@ -1,8 +1,6 @@
+import { genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
-import type { Database } from "~/app/derivean/db/Database";
-import { DefaultInventorySource } from "~/app/derivean/inventory/default/DefaultInventorySource";
-import { InventorySource } from "~/app/derivean/inventory/InventorySource";
-import { UserInventorySource } from "~/app/derivean/user/inventory/UserInventorySource";
+import type { Database } from "~/app/derivean/db/sdk";
 
 export namespace withDefaultInventory {
 	export interface Props {
@@ -15,27 +13,32 @@ export const withDefaultInventory = async ({
 	tx,
 	userId,
 }: withDefaultInventory.Props) => {
-	const defaultInventoryList = await DefaultInventorySource.list$({
-		tx,
-		cursor: { page: 0, size: 5000 },
-	});
+	const defaultInventoryList = await tx
+		.selectFrom("Default_Inventory as di")
+		.select(["di.amount", "di.resourceId", "di.limit"])
+		.limit(5000)
+		.execute();
+
+	await tx.deleteFrom("User_Inventory").where("userId", "=", userId).execute();
 
 	for await (const { amount, resourceId, limit } of defaultInventoryList) {
-		await UserInventorySource.create$({
-			tx,
-			entity: {
+		tx.insertInto("User_Inventory")
+			.values({
+				id: genId(),
+				userId,
 				inventoryId: (
-					await InventorySource.create$({
-						tx,
-						entity: {
+					await tx
+						.insertInto("Inventory")
+						.values({
+							id: genId(),
 							amount,
 							resourceId,
 							limit,
-						},
-					})
+						})
+						.returning("id")
+						.executeTakeFirstOrThrow()
 				).id,
-				userId,
-			},
-		});
+			})
+			.execute();
 	}
 };

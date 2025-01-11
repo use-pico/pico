@@ -28,6 +28,9 @@ export const withDatabase = <TDatabase>({
 }: withDatabase.Props<TDatabase>): Database.Instance<TDatabase> => {
 	const { dialect } = new SQLocalKysely({
 		databasePath: `${database}.sqlite3`,
+		onInit(sql: any) {
+			return [sql`PRAGMA foreign_keys = ON;`];
+		},
 	});
 
 	const kysely = new Kysely<TDatabase>({ dialect });

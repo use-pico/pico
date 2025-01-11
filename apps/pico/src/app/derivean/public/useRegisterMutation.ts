@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { kysely } from "~/app/derivean/db/db";
+import { genId, pwd } from "@use-pico/common";
+import { kysely } from "~/app/derivean/db/kysely";
 import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
 import type { RegisterSchema } from "~/app/derivean/schema/RegisterSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const useRegisterMutation = () => {
 	return useMutation({
@@ -19,19 +19,16 @@ export const useRegisterMutation = () => {
 				 * get out.
 				 */
 				const session = SessionSchema.parse(
-					await UserSource.create$({
-						tx,
-						shape: {
+					await tx
+						.insertInto("User")
+						.values({
+							id: genId(),
 							name,
 							login,
-							password: password1,
-						},
-						entity: {
-							name,
-							login,
-							password: password1,
-						},
-					}),
+							password: pwd.hash(password1),
+						})
+						.returning(["User.id", "User.name", "User.login"])
+						.executeTakeFirstOrThrow(),
 				);
 
 				try {

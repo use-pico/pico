@@ -3,21 +3,24 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { withFetchLoader } from "@use-pico/client";
-import { kysely } from "~/app/derivean/db/db";
-import { UserIndexMenu } from "~/app/derivean/root/user/ui/UserIndexMenu";
-import { UserPreview } from "~/app/derivean/root/user/ui/UserPreview";
-import { UserSource } from "~/app/derivean/user/UserSource";
+import { withFetch } from "@use-pico/client";
+import { z } from "zod";
+import { User_Index_Menu } from "~/app/derivean/root/user/User_Index_Menu";
+import { User_Preview } from "~/app/derivean/root/user/User_Preview";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
-	async loader({ context: { queryClient }, params: { id } }) {
+	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await withFetchLoader({
-					tx,
-					queryClient,
-					source: UserSource,
-					where: { id },
+				entity: await withFetch({
+					select: tx
+						.selectFrom("User as u")
+						.select(["u.id", "u.name"])
+						.where("u.id", "=", id),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+					}),
 				}),
 			};
 		});
@@ -29,9 +32,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
 
 		return (
 			<div className={tv.base()}>
-				<UserPreview entity={entity} />
+				<User_Preview entity={entity} />
 
-				<UserIndexMenu entity={entity} />
+				<User_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

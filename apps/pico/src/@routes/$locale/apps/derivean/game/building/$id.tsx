@@ -3,9 +3,10 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
-import { BuildingIndexMenu } from "~/app/derivean/game/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/game/building/BuildingPreview";
+import { withFetch } from "@use-pico/client";
+import { z } from "zod";
+import { Building_Index_Menu } from "~/app/derivean/game/building/Building_Index_Menu";
+import { Building_Preview } from "~/app/derivean/game/building/Building_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/$id",
@@ -13,10 +14,31 @@ export const Route = createFileRoute(
 	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await BuildingSource.getOrThrow$({
-					tx,
-					id,
-					error: "Cannot find a building",
+				entity: await withFetch({
+					select: tx
+						.selectFrom("Building as b")
+						.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+						.select([
+							"b.id",
+							"bb.name",
+							"bb.productionLimit",
+							(eb) => {
+								return eb
+									.selectFrom("Building_Resource_Queue as brq")
+									.select((eb) => {
+										return eb.fn.count<number>("brq.id").as("queueCount");
+									})
+									.where("brq.buildingId", "=", id)
+									.as("queueCount");
+							},
+						])
+						.where("b.id", "=", id),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+						productionLimit: z.number().int(),
+						queueCount: z.number().int(),
+					}),
 				}),
 			};
 		});
@@ -28,9 +50,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingPreview entity={entity} />
+				<Building_Preview entity={entity} />
 
-				<BuildingIndexMenu entity={entity} />
+				<Building_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

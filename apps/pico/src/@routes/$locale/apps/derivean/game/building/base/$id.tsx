@@ -3,24 +3,20 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { withFetchLoader } from "@use-pico/client";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
-import { kysely } from "~/app/derivean/db/db";
-import { BuildingBaseIndexMenu } from "~/app/derivean/game/building/base/BuildingBaseIndexMenu";
-import { BuildingBasePreview } from "~/app/derivean/game/building/base/BuildingBasePreview";
+import { Building_Base_Index_Menu } from "~/app/derivean/game/building/Building_Base_Index_Menu";
+import { Building_Base_Preview } from "~/app/derivean/game/building/Building_Base_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/game/building/base/$id",
 )({
-	async loader({ context: { queryClient }, params: { id } }) {
+	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await withFetchLoader({
-					tx,
-					queryClient,
-					source: BuildingBaseSource,
-					where: { id },
-				}),
+				entity: await tx
+					.selectFrom("Building_Base as bb")
+					.select(["bb.id", "bb.name"])
+					.where("bb.id", "=", id)
+					.executeTakeFirstOrThrow(),
 			};
 		});
 	},
@@ -31,9 +27,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBasePreview entity={entity} />
+				<Building_Base_Preview entity={entity} />
 
-				<BuildingBaseIndexMenu entity={entity} />
+				<Building_Base_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

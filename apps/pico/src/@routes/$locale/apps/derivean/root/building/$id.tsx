@@ -3,22 +3,27 @@ import {
     Outlet,
     useRouteContext,
 } from "@tanstack/react-router";
-import { withFetchLoader } from "@use-pico/client";
-import { BuildingIndexMenu } from "~/app/derivean/root/building/BuildingIndexMenu";
-import { BuildingPreview } from "~/app/derivean/root/building/BuildingPreview";
-import { BuildingSource } from "~/app/derivean/building/BuildingSource";
+import { withFetch } from "@use-pico/client";
+import { z } from "zod";
+import { Building_Index_Menu } from "~/app/derivean/root/building/Building_Index_Menu";
+import { Building_Preview } from "~/app/derivean/root/building/Building_Preview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/$id",
 )({
-	async loader({ context: { kysely, queryClient }, params: { id } }) {
+	async loader({ context: { kysely }, params: { id } }) {
 		return kysely.transaction().execute(async (tx) => {
 			return {
-				entity: await withFetchLoader({
-					tx,
-					queryClient,
-					source: BuildingSource,
-					where: { id },
+				entity: await withFetch({
+					select: tx
+						.selectFrom("Building as b")
+						.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+						.select(["b.id", "bb.name"])
+						.where("b.id", "=", id),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+					}),
 				}),
 			};
 		});
@@ -30,9 +35,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingPreview entity={entity} />
+				<Building_Preview entity={entity} />
 
-				<BuildingIndexMenu entity={entity} />
+				<Building_Index_Menu entity={entity} />
 
 				<Outlet />
 			</div>

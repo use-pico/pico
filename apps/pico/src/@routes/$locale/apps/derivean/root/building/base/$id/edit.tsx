@@ -1,12 +1,8 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import {
-    toast,
-    usePatchMutation,
-    useSourceInvalidator,
-    withToastPromiseTx,
-} from "@use-pico/client";
-import { BuildingBaseSource } from "~/app/derivean/building/base/BuildingBaseSource";
-import { BuildingBaseForm } from "~/app/derivean/root/building/base/BuildingBaseForm";
+import { toast, useInvalidator, withToastPromiseTx } from "@use-pico/client";
+import { kysely } from "~/app/derivean/db/kysely";
+import { Building_Base_Form } from "~/app/derivean/root/building/Building_Base_Form";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/edit",
@@ -16,37 +12,34 @@ export const Route = createFileRoute(
 			from: "/$locale/apps/derivean/root/building/base/$id",
 		});
 		const navigate = Route.useNavigate();
-		const invalidator = useSourceInvalidator({
-			sources: [BuildingBaseSource],
-		});
+		const invalidator = useInvalidator([["Building_Base"]]);
 
 		return (
 			<div className={"w-1/2 mx-auto"}>
-				<BuildingBaseForm
+				<Building_Base_Form
 					defaultValues={entity}
-					mutation={usePatchMutation({
-						source: BuildingBaseSource,
-						async wrap(callback) {
+					mutation={useMutation({
+						async mutationFn(values) {
 							return toast.promise(
-								callback(),
+								kysely.transaction().execute(async (tx) => {
+									return tx
+										.updateTable("Building_Base")
+										.set(values)
+										.where("id", "=", entity.id)
+										.returningAll()
+										.executeTakeFirstOrThrow();
+								}),
 								withToastPromiseTx("Update building"),
 							);
 						},
-						async toPatch() {
-							return {
-								filter: {
-									id: entity.id,
-								},
-							};
+						async onSuccess() {
+							await invalidator();
+							navigate({
+								to: "/$locale/apps/derivean/root/building/base/$id/view",
+								params: { id: entity.id },
+							});
 						},
 					})}
-					onSuccess={async () => {
-						await invalidator();
-						navigate({
-							to: "/$locale/apps/derivean/root/building/base/$id/view",
-							params: { id: entity.id },
-						});
-					}}
 				/>
 			</div>
 		);

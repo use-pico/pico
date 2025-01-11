@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { pwd } from "@use-pico/common";
-import { kysely } from "~/app/derivean/db/db";
+import { kysely } from "~/app/derivean/db/kysely";
 import type { LoginSchema } from "~/app/derivean/schema/LoginSchema";
 import type { SessionSchema } from "~/app/derivean/schema/SessionSchema";
-import { UserSource } from "~/app/derivean/user/UserSource";
 
 export const useLoginMutation = () => {
 	return useMutation({
@@ -13,14 +12,12 @@ export const useLoginMutation = () => {
 			password,
 		}: LoginSchema.Type): Promise<SessionSchema.Type> {
 			return kysely.transaction().execute(async (tx) => {
-				const user = await UserSource.fetchOrThrow$({
-					tx,
-					where: {
-						login,
-						password: pwd.hash(password),
-					},
-					error: "Invalid login or password",
-				});
+				const user = await tx
+					.selectFrom("User as u")
+					.select(["u.id", "u.login", "u.name"])
+					.where("u.login", "=", login)
+					.where("u.password", "=", pwd.hash(password))
+					.executeTakeFirstOrThrow();
 
 				return {
 					id: user.id,

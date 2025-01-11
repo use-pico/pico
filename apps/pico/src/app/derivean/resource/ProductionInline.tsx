@@ -1,13 +1,19 @@
 import { Badge, Icon, More } from "@use-pico/client";
+import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import type { ResourceProductionSchema } from "~/app/derivean/resource/production/ResourceProductionSchema";
+
+interface Data extends IdentitySchema.Type {
+	name: string;
+	amount: number;
+	cycles: number;
+	limit: number;
+}
 
 export namespace ProductionInline {
-	export interface Props
-		extends More.PropsEx<ResourceProductionSchema["~output"]> {
-		production: ResourceProductionSchema["~output-array"];
+	export interface Props extends More.PropsEx<Data> {
+		production: Data[];
 	}
 }
 
@@ -28,7 +34,7 @@ export const ProductionInline: FC<ProductionInline.Props> = ({
 							}}
 						>
 							<Icon icon={ResourceIcon} />
-							{entity.resource.name}
+							{entity.name}
 						</Badge>
 						<Badge
 							css={{

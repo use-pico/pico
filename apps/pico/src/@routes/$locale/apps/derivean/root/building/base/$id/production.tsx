@@ -6,18 +6,21 @@ import {
     navigateOnFulltext,
     navigateOnSelection,
     Tx,
-    withListCountLoader,
+    withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { BuildingBaseProductionSchema } from "~/app/derivean/building/base/production/BuildingBaseProductionSchema";
-import { BuildingBaseProductionSource } from "~/app/derivean/building/base/production/BuildingBaseProductionSource";
-import { BuildingBaseProductionTable } from "~/app/derivean/root/building/base/production/BuildingBaseProductionTable";
+import { withJsonArraySchema } from "@use-pico/common";
+import { sql } from "kysely";
+import { z } from "zod";
+import { Building_Base_Production_Table } from "~/app/derivean/root/building/Building_Base_Production_Table";
+import { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
+import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/building/base/$id/production",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BuildingBaseProductionSchema),
+		withSourceSearchSchema(Building_Base_Production_Schema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -28,21 +31,75 @@ export const Route = createFileRoute(
 	},
 	async loader({
 		context: { queryClient, kysely },
-		deps: { filter, cursor, sort },
+		deps: { filter, cursor },
 		params: { id },
 	}) {
-		return kysely.transaction().execute(async (tx) => {
-			return withListCountLoader({
-				tx,
-				queryClient,
-				source: BuildingBaseProductionSource,
-				sort,
-				filter,
-				cursor,
-				where: {
-					buildingBaseId: id,
-				},
-			});
+		return queryClient.ensureQueryData({
+			queryKey: [
+				"Building_Base_Production",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
+			async queryFn() {
+				return kysely.transaction().execute(async (tx) => {
+					return withListCount({
+						select: tx
+							.selectFrom("Building_Base_Production as bbp")
+							.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
+							.innerJoin("Resource as r", "r.id", "bbp.resourceId")
+							.select([
+								"bbp.id",
+								"r.name",
+								"bbp.amount",
+								"bbp.buildingBaseId",
+								"bbp.limit",
+								"bbp.cycles",
+								"bbp.resourceId",
+								(eb) =>
+									eb
+										.selectFrom("Building_Base_Production_Requirement as bbpr")
+										.innerJoin("Resource as r", "r.id", "bbpr.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                'id', ${eb.ref("bbpr.id")},
+                                                'amount', ${eb.ref("bbpr.amount")},
+                                                'passive', ${eb.ref("bbpr.passive")},
+                                                'buildingBaseProductionId', ${eb.ref("bbpr.buildingBaseProductionId")},
+                                                'resourceId', ${eb.ref("bbpr.resourceId")},
+                                                'name', ${eb.ref("r.name")}
+                                            ))`.as("requirements");
+										})
+										.where(
+											"bbpr.buildingBaseProductionId",
+											"=",
+											eb.ref("bbp.id"),
+										)
+										.as("requirements"),
+							])
+							.where("bbp.buildingBaseId", "=", id)
+							.orderBy("r.name", "asc"),
+						output: z.object({
+							id: z.string().min(1),
+							name: z.string().min(1),
+							buildingBaseId: z.string().min(1),
+							resourceId: z.string().min(1),
+							amount: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
+							cycles: z.number().nonnegative(),
+							requirements: withJsonArraySchema(
+								Building_Base_Production_Requirement_Schema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
+						}),
+						filter,
+						cursor,
+					});
+				});
+			},
 		});
 	},
 	component() {
@@ -55,7 +112,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BuildingBaseProductionTable
+				<Building_Base_Production_Table
 					buildingBaseId={id}
 					table={{
 						data,
