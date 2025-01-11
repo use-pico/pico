@@ -1,21 +1,21 @@
 import {
-    createFileRoute,
-    useLoaderData,
-    useRouteContext,
+	createFileRoute,
+	useLoaderData,
+	useRouteContext,
 } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import {
-    FilterSchema,
-    withBoolSchema,
-    withJsonArraySchema,
+	FilterSchema,
+	withBoolSchema,
+	withJsonArraySchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -24,12 +24,17 @@ import { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/s
 import { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/base/list",
+	"/$locale/apps/derivean/game/building/construction/list",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema({
-			filter: FilterSchema,
-		}),
+		withSourceSearchSchema(
+			{
+				filter: FilterSchema,
+			},
+			{
+				size: 30,
+			},
+		),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -139,7 +144,7 @@ export const Route = createFileRoute(
 								.orderBy("bb2.name", "asc")
 								.as("requiredBuildings"),
 					])
-					.where("filter.withAvailableBuildings", "=", true)
+					// .where("filter.withAvailableBuildings", "=", true)
 					.orderBy("filter.withAvailableBuildings", "desc")
 					.orderBy("filter.withAvailableResources", "desc")
 					.orderBy("bb.name", "asc"),
@@ -179,7 +184,7 @@ export const Route = createFileRoute(
 			from: "/$locale/apps/derivean/game",
 		});
 		const { graph } = useLoaderData({
-			from: "/$locale/apps/derivean/game/building/base",
+			from: "/$locale/apps/derivean/game/building/construction",
 		});
 
 		return (

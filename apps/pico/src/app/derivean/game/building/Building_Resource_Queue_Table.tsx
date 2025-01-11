@@ -37,7 +37,7 @@ const columns = [
 
 			return (
 				<LinkTo
-					to={"/$locale/apps/derivean/game/building/$id/production"}
+					to={"/$locale/apps/derivean/game/building/$id/production/list"}
 					params={{ locale, id: data.buildingId }}
 				>
 					{value}

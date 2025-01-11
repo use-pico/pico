@@ -28,7 +28,7 @@ export const Building_Index_Menu: FC<Building_Index_Menu.Props> = ({
 
 			<MenuLink
 				icon={ProductionIcon}
-				to={"/$locale/apps/derivean/game/building/$id/production"}
+				to={"/$locale/apps/derivean/game/building/$id/production/list"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Building production (menu)"} />

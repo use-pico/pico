@@ -20,7 +20,7 @@ import { Building_Base_Production_Requirement_Schema } from "~/app/derivean/sche
 import { Building_Base_Production_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Schema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/production",
+	"/$locale/apps/derivean/game/building/production/resource/list",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(Building_Base_Production_Schema, { size: 100 }),

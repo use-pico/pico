@@ -9,11 +9,11 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { Building_Resource_Queue_Table } from "~/app/derivean/game/building/Building_Resource_Queue_Table";
+import { Building_Queue_Table } from "~/app/derivean/game/building/Building_Queue_Table";
 import { Building_Queue_Schema } from "~/app/derivean/schema/building/Building_Queue_Schema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/building/queue/resources",
+	"/$locale/apps/derivean/game/building/construction/queue/list",
 )({
 	validateSearch: zodValidator(withSourceSearchSchema(Building_Queue_Schema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
@@ -29,32 +29,14 @@ export const Route = createFileRoute(
 		return kysely.transaction().execute(async (tx) => {
 			return withListCount({
 				select: tx
-					.selectFrom("Building_Resource_Queue as brq")
-					.innerJoin(
-						"Building_Base_Production as bbp",
-						"bbp.id",
-						"brq.buildingBaseProductionId",
-					)
-					.innerJoin("Resource as r", "r.id", "bbp.resourceId")
-					.innerJoin("Building_Base as bb", "bb.id", "bbp.buildingBaseId")
-					.select([
-						"brq.id",
-						"brq.buildingId",
-						"bb.name",
-						"bbp.amount",
-						"r.name as resource",
-						"brq.cycle",
-						"brq.from",
-						"brq.to",
-					])
-					.where("brq.userId", "=", user.id),
+					.selectFrom("Building_Queue as bq")
+					.innerJoin("Building_Base as bb", "bb.id", "bq.buildingBaseId")
+					.select(["bq.id", "bb.name", "bq.cycle", "bq.from", "bq.to"])
+					.where("bq.userId", "=", user.id),
 				output: z.object({
 					id: z.string().min(1),
 					name: z.string().min(1),
-					resource: z.string().min(1),
-					buildingId: z.string().min(1),
 					cycle: z.number(),
-					amount: z.number(),
 					from: z.number(),
 					to: z.number(),
 				}),
@@ -72,7 +54,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Building_Resource_Queue_Table
+				<Building_Queue_Table
 					table={{
 						data,
 						filter: {
