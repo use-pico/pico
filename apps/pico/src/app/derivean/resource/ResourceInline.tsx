@@ -41,7 +41,15 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 					resource?.amount ? resource.amount - entity.amount : -entity.amount;
 
 				return (
-					<div className={tv.item({ passive: entity.passive })}>
+					<div
+						className={tv.item({
+							css:
+								amount >= 0 ?
+									[]
+								:	["text-red-700", "bg-red-100", "border-red-300"],
+							passive: entity.passive,
+						})}
+					>
 						<div>{entity.name}</div>
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}

@@ -48,7 +48,14 @@ export const Building_Requirement_Inline: FC<
 					:	-entity.amount;
 
 				return (
-					<div className={tv.item()}>
+					<div
+						className={tv.item({
+							css:
+								amount >= 0 ?
+									[]
+								:	["text-red-700", "bg-red-100", "border-red-300"],
+						})}
+					>
 						<div>{entity.name}</div>
 						<div className={"text-md font-bold text-slate-500"}>
 							x{toHumanNumber({ number: entity.amount })}
