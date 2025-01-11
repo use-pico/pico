@@ -333,7 +333,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.execute();
 
 		await kysely.schema
-			.createTable("Resource_Queue")
+			.createTable("Building_Resource_Queue")
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
@@ -342,16 +342,25 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			 */
 			.addColumn("userId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
-				"[Resource_Queue] userId",
+				"[Building_Resource_Queue] userId",
 				["userId"],
 				"User",
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
+			.addColumn("buildingId", $id, (col) => col.notNull())
+			.addForeignKeyConstraint(
+				"[Building_Resource_Queue] buildingId",
+				["buildingId"],
+				"Building",
+				["id"],
+				(c) => c.onDelete("cascade").onUpdate("cascade"),
+			)
+
 			.addColumn("resourceId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
-				"[Resource_Queue] resourceId",
+				"[Building_Resource_Queue] resourceId",
 				["resourceId"],
 				"Resource",
 				["id"],

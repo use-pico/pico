@@ -320,6 +320,49 @@ export type BuildingQueueEntity = ReturnType<
 	typeof withBuildingQueueSchema
 >["~entity"];
 
+export const withBuildingResourceQueueSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				from:
+					// INTEGER / not nullable
+					z.number().int(),
+				to:
+					// INTEGER / not nullable
+					z.number().int(),
+				cycle:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "buildingId", "resourceId", "from", "to", "cycle"],
+	});
+};
+
+export type BuildingResourceQueueEntity = ReturnType<
+	typeof withBuildingResourceQueueSchema
+>["~entity"];
+
 export const withCycleSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -440,46 +483,6 @@ export const withResourceSchema = <
 };
 
 export type ResourceEntity = ReturnType<typeof withResourceSchema>["~entity"];
-
-export const withResourceQueueSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				from:
-					// INTEGER / not nullable
-					z.number().int(),
-				to:
-					// INTEGER / not nullable
-					z.number().int(),
-				cycle:
-					// INTEGER / not nullable
-					z.number().int(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "userId", "resourceId", "from", "to", "cycle"],
-	});
-};
-
-export type ResourceQueueEntity = ReturnType<
-	typeof withResourceQueueSchema
->["~entity"];
 
 export const withResourceTagSchema = <
 	TShapeSchema extends ShapeSchema,
@@ -620,11 +623,11 @@ export interface Database {
 	Building_Base_Resource_Requirement: BuildingBaseResourceRequirementEntity;
 	Building_Inventory: BuildingInventoryEntity;
 	Building_Queue: BuildingQueueEntity;
+	Building_Resource_Queue: BuildingResourceQueueEntity;
 	Cycle: CycleEntity;
 	Default_Inventory: DefaultInventoryEntity;
 	Inventory: InventoryEntity;
 	Resource: ResourceEntity;
-	Resource_Queue: ResourceQueueEntity;
 	Resource_Tag: ResourceTagEntity;
 	Tag: TagEntity;
 	User: UserEntity;

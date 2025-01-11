@@ -244,6 +244,9 @@
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: String must contain at least 1 character(s)
+7a6260884b3316ccd134076375fee16d49d959f90dc61a578552b622:
+  ref: Building production (menu)
+  value: Building production (menu)
 7d7a818495411842dbbc86cff3a20bff64fbc21b0b228e51ff9d885f:
   ref: Building delete (content)
   value: Building delete (content)

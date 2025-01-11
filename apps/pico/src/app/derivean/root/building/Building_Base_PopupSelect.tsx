@@ -34,6 +34,7 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
 							"bb.id",
 							"bb.name",
 							"bb.cycles",
+							"bb.productionLimit",
 							(eb) =>
 								eb
 									.selectFrom("Building_Base_Resource_Requirement as bbrr")
@@ -95,7 +96,8 @@ export const Building_Base_PopupSelect: FC<Building_Base_PopupSelect.Props> = (
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							cycles: z.number(),
+							cycles: z.number().int(),
+							productionLimit: z.number().int(),
 							requiredResources: withJsonArraySchema(
 								Building_Base_Resource_Requirement_Schema.entity.merge(
 									z.object({

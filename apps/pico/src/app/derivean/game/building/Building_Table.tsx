@@ -3,6 +3,7 @@ import { useParams } from "@tanstack/react-router";
 import {
     Badge,
     Button,
+    LinkTo,
     Table,
     Tx,
     useTable,
@@ -74,7 +75,14 @@ const columns = [
 						}}
 						variant={{ variant: "subtle" }}
 					/>
-					<div>{value}</div>
+					<div>
+						<LinkTo
+							to={"/$locale/apps/derivean/game/building/$id/production"}
+							params={{ locale, id: data.id }}
+						>
+							{value}
+						</LinkTo>
+					</div>
 				</div>
 			);
 		},
