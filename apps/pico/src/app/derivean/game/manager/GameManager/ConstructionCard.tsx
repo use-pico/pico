@@ -210,6 +210,13 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 									inventoryItem && inventoryItem.amount >= requirement.amount
 								);
 							});
+
+							const queueSize = entity.productionQueue.filter(
+								(queue) => queue.resourceId === item.resourceId,
+							);
+
+							console.log("queueSize", queueSize);
+
 							const invalidator = useInvalidator([
 								["Blueprint_Production"],
 								["Production"],

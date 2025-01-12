@@ -156,9 +156,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 									eb
 										.selectFrom("Blueprint_Production as bp")
 										.innerJoin("Resource as r", "r.id", "bp.resourceId")
-                                        .leftJoin('Building as b', eb => {
-                                            return eb.onRef('b.blueprintId', '=', 'bp.blueprintId').on('b.userId', '=', user.id);
-                                        })
+										.leftJoin("Building as b", (eb) => {
+											return eb
+												.onRef("b.blueprintId", "=", "bp.blueprintId")
+												.on("b.userId", "=", user.id);
+										})
 										.select((eb) => {
 											return sql<string>`json_group_array(json_object(
                                                         'id', ${eb.ref("bp.id")},
@@ -191,6 +193,30 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.whereRef("bp.blueprintId", "=", "bl.id")
 										.orderBy("r.name", "asc")
 										.as("production"),
+								(eb) =>
+									eb
+										.selectFrom("Production as p")
+										.innerJoin(
+											"Blueprint_Production as bp",
+											"bp.id",
+											"p.blueprintProductionId",
+										)
+										.innerJoin("Resource as r", "r.id", "bp.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                        'id', ${eb.ref("p.id")},
+                                                        'blueprintProductionId', ${eb.ref("bp.id")},
+                                                        'resourceId', ${eb.ref("r.id")},
+                                                        'limit', ${eb.ref("bp.limit")},
+                                                        'from', ${eb.ref("p.from")},
+                                                        'to', ${eb.ref("p.to")},
+                                                        'cycle', ${eb.ref("p.cycle")}
+                                                    ))`.as("sub");
+										})
+										.whereRef("bp.blueprintId", "=", "bl.id")
+										.where("p.userId", "=", user.id)
+										.orderBy("r.name", "asc")
+										.as("productionQueue"),
 							])
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
@@ -281,6 +307,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 											name: z.string().min(1),
 										}),
 									),
+								}),
+							),
+							productionQueue: withJsonArraySchema(
+								z.object({
+									id: z.string().min(1),
+									resourceId: z.string().min(1),
+									blueprintProductionId: z.string().min(1),
+									limit: z.number().int().nonnegative(),
+									from: z.number().int().nonnegative(),
+									to: z.number().int().nonnegative(),
+									cycle: z.number().int().nonnegative(),
 								}),
 							),
 						}),

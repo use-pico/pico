@@ -32,6 +32,7 @@ export namespace GameManager {
 			cycles: number;
 			amount: number;
 			blueprintId: string;
+			resourceId: string;
 			buildingId?: string | null;
 			requirements: {
 				id: string;
@@ -40,6 +41,15 @@ export namespace GameManager {
 				name: string;
 				resourceId: string;
 			}[];
+		}[];
+		productionQueue: {
+			id: string;
+			resourceId: string;
+			blueprintProductionId: string;
+			limit: number;
+			from: number;
+			to: number;
+			cycle: number;
 		}[];
 	}
 
