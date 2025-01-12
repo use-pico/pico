@@ -83,7 +83,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 				resourceId,
 				cycle,
 				to,
-				name,
 				amount,
 			} of productionQueue) {
 				if (cycle > to) {

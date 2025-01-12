@@ -3,29 +3,26 @@ import { useParams } from "@tanstack/react-router";
 import {
     Button,
     Icon,
-    LinkTo,
     toast,
-    Tx,
     useInvalidator,
-    withToastPromiseTx,
+    withToastPromiseTx
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import { Building_Requirement_Inline } from "~/app/derivean/game/building/Building_Requirement_Inline";
-import { Dependencies } from "~/app/derivean/game/building/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
-import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInline";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
-import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
+import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
+import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace ConstructionCard {
 	export interface Props extends Entity.Type<GameManager.Data> {
 		userId: string;
-		graph: withBuildingGraph.Result;
-		inventory: Inventory_Schema["~entity-array"];
+		dependencies: withBlueprintGraph.Result;
+		upgrades: withBlueprintUpgradeGraph.Result;
+		inventory: InventorySchema["~entity-array"];
 		buildingCounts: GameManager.BuildingCount[];
 	}
 }
@@ -33,7 +30,8 @@ export namespace ConstructionCard {
 export const ConstructionCard: FC<ConstructionCard.Props> = ({
 	entity,
 	userId,
-	graph,
+	dependencies,
+	upgrades,
 	inventory,
 	buildingCounts,
 }) => {
@@ -100,13 +98,13 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 					])}
 				>
 					<div className={tvc(["flex", "gap-2", "items-center"])}>
-						<LinkTo
+						{/* <LinkTo
 							icon={BuildingIcon}
 							to={"/$locale/apps/derivean/game/building/base/$id/view"}
 							params={{ locale, id: entity.id }}
 						>
 							{entity.name}
-						</LinkTo>
+						</LinkTo> */}
 						<div
 							className={tvc([
 								"flex",
@@ -152,28 +150,28 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 			</div>
 			<div>
 				<div className={tvc(["border-b", "border-slate-300", "pb-2"])}>
-					<Dependencies
+					{/* <Dependencies
 						graph={graph}
 						mode={"dependants"}
 						buildingBaseId={entity.id}
 						buildingCounts={buildingCounts}
-					/>
+					/> */}
 				</div>
 				<div className={tvc(["border-b", "border-slate-300", "py-2"])}>
-					<Building_Requirement_Inline
+					{/* <Building_Requirement_Inline
 						textTitle={<Tx label={"Building requirements (title)"} />}
 						textEmpty={<Tx label={"No requirements (label)"} />}
 						requirements={entity.requiredBuildings}
 						diff={buildingCounts}
-					/>
+					/> */}
 				</div>
 				<div className={tvc(["pt-2"])}>
-					<RequirementsInline
+					{/* <RequirementsInline
 						textTitle={<Tx label={"Building requirements (title)"} />}
 						textEmpty={<Tx label={"No requirements (label)"} />}
 						requirements={entity.requiredResources}
 						diff={inventory}
-					/>
+					/> */}
 				</div>
 			</div>
 		</div>

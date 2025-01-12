@@ -108,7 +108,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		async queryFn() {
 			return query({
 				filter: {
-					id: value,
+					id: value || undefined,
 				},
 			});
 		},

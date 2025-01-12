@@ -2,9 +2,11 @@ import { Cursor, Fulltext, Tx, type withListCount } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ConstructionCard } from "~/app/derivean/game/manager/GameManager/ConstructionCard";
-import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/BlueprintDependencySchema";
-import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/BlueprintRequirementSchema";
-import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
+import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
+import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
+import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace GameManager {
 	export interface BuildingCount {
@@ -18,10 +20,10 @@ export namespace GameManager {
 		cycles: number;
 		withAvailableBuildings: boolean;
 		withAvailableResources: boolean;
-		requiredResources: (Building_Base_Resource_Requirement_Schema["~entity"] & {
+		requirements: (BlueprintRequirementSchema["~entity"] & {
 			name: string;
 		})[];
-		requiredBuildings: (Building_Base_Building_Base_Requirement_Schema["~entity"] & {
+		dependencies: (BlueprintDependencySchema["~entity"] & {
 			name: string;
 		})[];
 	}
@@ -29,8 +31,9 @@ export namespace GameManager {
 	export interface Props {
 		data: withListCount.Result<Data>;
 		userId: string;
-		graph: withBuildingGraph.Result;
-		inventory: Inventory_Schema["~entity-array"];
+		dependencies: withBlueprintGraph.Result;
+		upgrades: withBlueprintUpgradeGraph.Result;
+		inventory: InventorySchema["~entity-array"];
 		buildingCounts: BuildingCount[];
 		fulltext: Pick<Fulltext.Props, "value" | "onFulltext">;
 		cursor: Pick<Cursor.Props, "cursor" | "onPage" | "onSize">;
@@ -40,7 +43,8 @@ export namespace GameManager {
 export const GameManager: FC<GameManager.Props> = ({
 	data,
 	userId,
-	graph,
+	dependencies,
+	upgrades,
 	inventory,
 	buildingCounts,
 	fulltext,
@@ -61,7 +65,8 @@ export const GameManager: FC<GameManager.Props> = ({
 							key={item.id}
 							entity={item}
 							userId={userId}
-							graph={graph}
+							dependencies={dependencies}
+							upgrades={upgrades}
 							inventory={inventory}
 							buildingCounts={buildingCounts}
 						/>

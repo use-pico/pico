@@ -1,7 +1,7 @@
 import { DepGraph } from "dependency-graph";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 
-export namespace withBlueprintDependencyGraph {
+export namespace withBlueprintUpgradeGraph {
 	export type Result = DepGraph<string>;
 
 	export interface Props {
@@ -9,9 +9,9 @@ export namespace withBlueprintDependencyGraph {
 	}
 }
 
-export const withBlueprintDependencyGraph = async ({
+export const withBlueprintUpgradeGraph = async ({
 	tx,
-}: withBlueprintDependencyGraph.Props): Promise<withBlueprintDependencyGraph.Result> => {
+}: withBlueprintUpgradeGraph.Props): Promise<withBlueprintUpgradeGraph.Result> => {
 	const graph = new DepGraph<string>({ circular: false });
 
 	const blueprints = await tx

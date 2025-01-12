@@ -16,8 +16,10 @@ import { BlueprintTable } from "~/app/derivean/root/BlueprintTable";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
-import { withBlueprintDependencyGraph } from "~/app/derivean/utils/withBlueprintDependencyGraph";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import {
+    withBlueprintUpgradeGraph
+} from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/list",
@@ -149,7 +151,7 @@ export const Route = createFileRoute(
 				return withBlueprintGraph({ tx });
 			}),
 			upgrades: await kysely.transaction().execute(async (tx) => {
-				return withBlueprintDependencyGraph({ tx });
+				return withBlueprintUpgradeGraph({ tx });
 			}),
 		};
 	},

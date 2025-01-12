@@ -24,8 +24,8 @@ import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
-import type { withBlueprintDependencyGraph } from "~/app/derivean/utils/withBlueprintDependencyGraph";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace BlueprintTable {
 	export interface Data extends IdentitySchema.Type {
@@ -45,7 +45,7 @@ export namespace BlueprintTable {
 
 	export interface Context {
 		dependencies?: withBlueprintGraph.Result;
-		upgrades?: withBlueprintDependencyGraph.Result;
+		upgrades?: withBlueprintUpgradeGraph.Result;
 	}
 }
 
@@ -164,7 +164,7 @@ const columns = [
 export namespace BlueprintTable {
 	export interface Props extends Table.PropsEx<Data, BlueprintTable.Context> {
 		dependencies?: withBlueprintGraph.Result;
-		upgrades?: withBlueprintDependencyGraph.Result;
+		upgrades?: withBlueprintUpgradeGraph.Result;
 	}
 }
 

@@ -1,7 +1,7 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BlueprintCard } from "~/app/derivean/root/BlueprintCard";
-import { withBlueprintDependencyGraph } from "~/app/derivean/utils/withBlueprintDependencyGraph";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id/view",
@@ -12,7 +12,7 @@ export const Route = createFileRoute(
 				return withBlueprintGraph({ tx });
 			}),
 			upgrade: await kysely.transaction().execute(async (tx) => {
-				return withBlueprintDependencyGraph({ tx });
+				return withBlueprintUpgradeGraph({ tx });
 			}),
 		};
 	},
@@ -26,7 +26,7 @@ export const Route = createFileRoute(
 			<div className={"w-1/2 mx-auto"}>
 				<BlueprintCard
 					dependencies={dependencies}
-					upgrade={upgrade}
+					upgrades={upgrade}
 					entity={entity}
 				/>
 			</div>
