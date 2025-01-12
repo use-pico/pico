@@ -225,28 +225,29 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 					});
 				},
 			}),
-			// buildingCounts: await queryClient.ensureQueryData({
-			// 	queryKey: ["Building"],
-			// 	async queryFn() {
-			// 		return kysely.transaction().execute(async (tx) => {
-			// 			return tx
-			// 				.selectFrom("Building as b")
-			// 				.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-			// 				.select([
-			// 					"b.blueprintId",
-			// 					"bl.name",
-			// 					(eb) => eb.fn.count<number>("bl.id").as("count"),
-			// 				])
-			// 				.where("b.userId", "=", user.id)
-			// 				.groupBy("b.blueprintId")
-			// 				.execute();
-			// 		});
-			// 	},
-			// }),
+			buildingCounts: await queryClient.ensureQueryData({
+				queryKey: ["Building"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Building as b")
+							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+							.select([
+								"b.blueprintId",
+								"bl.name",
+								(eb) => eb.fn.count<number>("bl.id").as("count"),
+							])
+							.where("b.userId", "=", user.id)
+							.groupBy("b.blueprintId")
+							.execute();
+					});
+				},
+			}),
 		};
 	},
 	component() {
-		const { data, dependencies, upgrades, inventory } = Route.useLoaderData();
+		const { data, dependencies, upgrades, inventory, buildingCounts } =
+			Route.useLoaderData();
 		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
@@ -258,7 +259,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 				dependencies={dependencies}
 				upgrades={upgrades}
 				inventory={inventory}
-				buildingCounts={[]}
+				buildingCounts={buildingCounts}
 				fulltext={{
 					value: filter?.fulltext,
 					onFulltext: navigateOnFulltext(navigate),

@@ -1,4 +1,4 @@
-import { More } from "@use-pico/client";
+import { Icon, More } from "@use-pico/client";
 import { type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BlueprintDependenciesInlineCss } from "~/app/derivean/game/BlueprintDependenciesInlineCss";
@@ -11,7 +11,7 @@ export namespace BlueprintDependenciesInline {
 	}
 
 	interface Diff {
-		buildingBaseId: string;
+		blueprintId: string;
 		count: number;
 	}
 
@@ -38,11 +38,15 @@ export const BlueprintDependenciesInline: FC<
 		<More
 			items={dependencies}
 			render={({ entity }) => {
+				const amount = diff?.find(
+					(r) => r.blueprintId === entity.dependencyId,
+				)?.count;
+
 				return (
 					<div className={tv.item()}>
 						<div>{entity.name}</div>
-						{/* {diff ?
-							amount >= 0 ?
+						{diff ?
+							amount && amount > 0 ?
 								<Icon
 									icon={"icon-[pajamas--check-sm]"}
 									css={{
@@ -60,10 +64,9 @@ export const BlueprintDependenciesInline: FC<
 											base: ["text-red-500"],
 										}}
 									/>
-									({toHumanNumber({ number: amount })})
 								</div>
 
-						:	null} */}
+						:	null}
 					</div>
 				);
 			}}

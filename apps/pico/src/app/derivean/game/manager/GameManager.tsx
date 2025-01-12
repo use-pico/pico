@@ -10,7 +10,7 @@ import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBluepri
 
 export namespace GameManager {
 	export interface BuildingCount {
-		buildingBaseId: string;
+		blueprintId: string;
 		count: number;
 		name: string;
 	}

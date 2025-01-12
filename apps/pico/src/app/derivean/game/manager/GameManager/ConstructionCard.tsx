@@ -79,6 +79,8 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 				"pt-2",
 				"border",
 				"shadow-md",
+				entity.withAvailableBuildings ? ["bg-amber-50"] : [],
+				available ? ["bg-emerald-50"] : [],
 			])}
 		>
 			<div
@@ -159,6 +161,7 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 					<Dependencies
 						graph={dependencies}
 						blueprintId={entity.id}
+                        buildingCounts={buildingCounts}
 					/>
 				</div>
 

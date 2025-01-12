@@ -5,9 +5,15 @@ import type { FC } from "react";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace Dependencies {
+	interface BuildingCount {
+		blueprintId: string;
+		count: number;
+	}
+
 	export interface Props {
 		graph: withBlueprintGraph.Result;
 		blueprintId: string;
+		buildingCounts: BuildingCount[];
 		mode?: "dependants" | "dependencies";
 		reverse?: boolean;
 	}
@@ -16,6 +22,7 @@ export namespace Dependencies {
 export const Dependencies: FC<Dependencies.Props> = ({
 	graph,
 	blueprintId,
+	buildingCounts,
 	mode = "dependencies",
 	reverse = false,
 }) => {
@@ -42,20 +49,29 @@ export const Dependencies: FC<Dependencies.Props> = ({
 				])}
 			>
 				{dependencies.length > 0 ?
-					dependencies.map((item) => (
-						<Badge
-							key={genId()}
-							css={{
-								base: [
-									"bg-emerald-200",
-									"text-emerald-700",
-									"border-emerald-500",
-								],
-							}}
-						>
-							{graph.getNodeData(item)}
-						</Badge>
-					))
+					dependencies.map((item) => {
+						const count = buildingCounts.find(
+							(count) => count.blueprintId === item,
+						)?.count;
+
+						return (
+							<Badge
+								key={genId()}
+								css={{
+									base:
+										count && count > 0 ?
+											[
+												"bg-emerald-200",
+												"text-emerald-700",
+												"border-emerald-500",
+											]
+										:	["bg-slate-200", "text-slate-700", "border-slate-500"],
+								}}
+							>
+								{graph.getNodeData(item)}
+							</Badge>
+						);
+					})
 				:	<Tx
 						css={{
 							base: ["text-amber-500", "font-bold"],
