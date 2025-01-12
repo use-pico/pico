@@ -31,9 +31,9 @@ export namespace ResourceTable {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		tags: TagSchema.Type[];
-		countResourceRequirement?: number;
-		countProduction?: number;
-		countProductionRequirement?: number;
+		countRequirement: number;
+		countProduction: number;
+		countProductionRequirement: number;
 	}
 }
 
@@ -81,7 +81,7 @@ const columns = [
 		size: 12,
 	}),
 	column({
-		name: "countProductionRequirement",
+		name: "countRequirement",
 		header() {
 			return <Tx label={"Resource requirement count (label)"} />;
 		},
@@ -91,9 +91,7 @@ const columns = [
 					css={{
 						base:
 							(
-								data?.countResourceRequirement !== undefined &&
-								data?.countProductionRequirement !== undefined &&
-								data.countResourceRequirement === 0 &&
+								data.countRequirement === 0 &&
 								data.countProductionRequirement === 0
 							) ?
 								["bg-red-100", "text-red-500", "border-red-600"]
@@ -107,7 +105,7 @@ const columns = [
 		size: 12,
 	}),
 	column({
-		name: "countProduction",
+		name: "countProductionRequirement",
 		header() {
 			return <Tx label={"Resource production requirement count (label)"} />;
 		},
@@ -117,9 +115,7 @@ const columns = [
 					css={{
 						base:
 							(
-								data?.countResourceRequirement !== undefined &&
-								data?.countProductionRequirement !== undefined &&
-								data.countResourceRequirement === 0 &&
+								data.countRequirement === 0 &&
 								data.countProductionRequirement === 0
 							) ?
 								["bg-red-100", "text-red-500", "border-red-600"]
