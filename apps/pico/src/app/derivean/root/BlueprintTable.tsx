@@ -24,6 +24,7 @@ import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
@@ -202,7 +203,7 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 												async mutationFn(values) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
-															return tx
+															const entity = tx
 																.insertInto("Blueprint")
 																.values({
 																	id: genId(),
@@ -210,6 +211,12 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 																})
 																.returningAll()
 																.executeTakeFirstOrThrow();
+
+															await withBlueprintSort({
+																tx,
+															});
+
+															return entity;
 														}),
 														withToastPromiseTx("Create blueprint"),
 													);
@@ -242,12 +249,18 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 												async mutationFn(values) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
-															return tx
+															const entity = tx
 																.updateTable("Blueprint")
 																.set(values)
 																.where("id", "=", data.id)
 																.returningAll()
 																.executeTakeFirstOrThrow();
+
+															await withBlueprintSort({
+																tx,
+															});
+
+															return entity;
 														}),
 														withToastPromiseTx("Update blueprint"),
 													);

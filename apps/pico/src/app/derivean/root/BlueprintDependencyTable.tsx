@@ -18,9 +18,8 @@ import { genId, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
-import {
-    BlueprintDependencyForm
-} from "~/app/derivean/root/BlueprintDependencyForm";
+import { BlueprintDependencyForm } from "~/app/derivean/root/BlueprintDependencyForm";
+import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
 
 export namespace BlueprintDependencyTable {
 	export interface Data extends IdentitySchema.Type {
@@ -90,7 +89,7 @@ export const BlueprintDependencyTable: FC<BlueprintDependencyTable.Props> = ({
 												async mutationFn(values) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
-															return tx
+															const entity = tx
 																.insertInto("Blueprint_Dependency")
 																.values({
 																	id: genId(),
@@ -99,6 +98,12 @@ export const BlueprintDependencyTable: FC<BlueprintDependencyTable.Props> = ({
 																})
 																.returningAll()
 																.executeTakeFirstOrThrow();
+
+															await withBlueprintSort({
+																tx,
+															});
+
+															return entity;
 														}),
 														withToastPromiseTx("Create blueprint dependency"),
 													);

@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    onSubmit,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -74,6 +74,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				formState={form.formState}
 				name={"upgradeId"}
 				label={<Tx label={"Upgrade to (label)"} />}
+				hint={<Tx label={"Upgrade to (hint)"} />}
 			>
 				<Controller
 					control={form.control}
