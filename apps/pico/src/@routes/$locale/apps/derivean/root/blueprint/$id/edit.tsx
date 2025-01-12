@@ -12,7 +12,7 @@ export const Route = createFileRoute(
 			from: "/$locale/apps/derivean/root/blueprint/$id",
 		});
 		const navigate = Route.useNavigate();
-		const invalidator = useInvalidator([["Building_Base"]]);
+		const invalidator = useInvalidator([["Blueprint"]]);
 
 		return (
 			<div className={"w-1/2 mx-auto"}>

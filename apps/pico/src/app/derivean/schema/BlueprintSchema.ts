@@ -5,7 +5,7 @@ import { withBlueprintSchema } from "~/app/derivean/db/sdk";
 export const BlueprintSchema = withBlueprintSchema({
 	shape: z.object({
 		name: z.string().min(1),
-		upgradeId: z.string().optional(),
+		upgradeId: z.string().nullish(),
 		cycles: withIntSchema(),
 		productionLimit: withIntSchema(),
 		sort: withIntSchema(),

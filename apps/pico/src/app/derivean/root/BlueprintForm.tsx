@@ -9,8 +9,9 @@ import {
     type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { BlueprintPopupSelect } from "~/app/derivean/root/BlueprintPopupSelect";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
 
 export namespace BlueprintForm {
@@ -66,6 +67,25 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 					type={"text"}
 					className={tv.input()}
 					{...form.register("name")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"upgradeId"}
+				label={<Tx label={"Upgrade to (label)"} />}
+			>
+				<Controller
+					control={form.control}
+					name={"upgradeId"}
+					render={({ field: { ref: _, ...field } }) => {
+						return (
+							<BlueprintPopupSelect
+								allowEmpty
+								{...field}
+							/>
+						);
+					}}
 				/>
 			</FormInput>
 

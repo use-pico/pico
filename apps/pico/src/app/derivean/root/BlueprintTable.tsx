@@ -42,7 +42,7 @@ export namespace BlueprintTable {
 	}
 
 	export interface Context {
-		graph: withBlueprintGraph.Result;
+		graph?: withBlueprintGraph.Result;
 	}
 }
 
@@ -129,10 +129,12 @@ const columns = [
 							dependencies={value}
 						/>
 						<div className={"border-r border-slate-300"} />
-						<Dependencies
-							graph={graph}
-							blueprintId={data.id}
-						/>
+						{graph ?
+							<Dependencies
+								graph={graph}
+								blueprintId={data.id}
+							/>
+						:	null}
 					</div>
 				:	<Tx label={"No dependencies (label)"} />;
 		},
