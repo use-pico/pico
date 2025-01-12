@@ -2,10 +2,9 @@ import { Cursor, Fulltext, Tx, type withListCount } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { ConstructionCard } from "~/app/derivean/game/manager/GameManager/ConstructionCard";
-import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
-import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
-import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
-import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
+import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/BlueprintDependencySchema";
+import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
 
 export namespace GameManager {
 	export interface BuildingCount {

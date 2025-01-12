@@ -52,14 +52,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					return kysely.transaction().execute(async (tx) => {
 						return tx
 							.selectFrom("Building as b")
-							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
+							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
 							.select([
-								"b.buildingBaseId",
-								"bb.name",
+								"b.blueprintId",
+								"bl.name",
 								(eb) => eb.fn.count<number>("b.id").as("count"),
 							])
 							.where("b.userId", "=", user.id)
-							.groupBy("b.buildingBaseId")
+							.groupBy("b.blueprintId")
 							.execute();
 					});
 				},

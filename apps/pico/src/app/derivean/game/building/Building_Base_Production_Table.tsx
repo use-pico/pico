@@ -13,11 +13,11 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { withProductionQueue } from "~/app/derivean/building/withProductionQueue";
 import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInline";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Production_Requirement_Schema";
-import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
+import type { Building_Base_Production_Requirement_Schema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
+import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
+import { withProductionQueue } from "~/app/derivean/service/withProductionQueue";
 
 export namespace Building_Base_Production_Table {
 	export interface Data extends IdentitySchema.Type {
@@ -70,8 +70,8 @@ const columns = [
 					return toast.promise(
 						withProductionQueue({
 							userId,
-							buildingBaseProductionId: data.id,
-							buildingId: data.buildingId,
+							blueprintProductionId: data.id,
+							blueprintId: data.buildingId,
 						}),
 						withToastPromiseTx("Resource production queue"),
 					);

@@ -10,13 +10,13 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { Building_Table } from "~/app/derivean/root/building/Building_Table";
-import { Building_Schema } from "~/app/derivean/schema/building/Building_Schema";
+import { BuildingTable } from "~/app/derivean/root/BuildingTable";
+import { BuildingSchema } from "~/app/derivean/schema/BuildingSchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/user/$id/building/list",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(Building_Schema)),
+	validateSearch: zodValidator(withSourceSearchSchema(BuildingSchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -36,13 +36,13 @@ export const Route = createFileRoute(
 					return withListCount({
 						select: tx
 							.selectFrom("Building as b")
-							.innerJoin("Building_Base as bb", "bb.id", "b.buildingBaseId")
-							.select(["b.id", "bb.name", "b.buildingBaseId"])
+							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+							.select(["b.id", "bl.name", "b.blueprintId"])
 							.where("b.userId", "=", id),
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							buildingBaseId: z.string().min(1),
+							blueprintId: z.string().min(1),
 						}),
 						filter,
 						cursor,
@@ -61,7 +61,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Building_Table
+				<BuildingTable
 					userId={id}
 					table={{
 						data,

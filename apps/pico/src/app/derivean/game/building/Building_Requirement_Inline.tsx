@@ -1,7 +1,7 @@
 import { Icon, More } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { Building_Requirement_InlineCss } from "~/app/derivean/root/building/Building_Requirement_InlineCss";
+import { Building_Requirement_InlineCss } from "~/app/derivean/root/BlueprintDependenciesInlineCss";
 
 export namespace Building_Requirement_Inline {
 	interface Data extends IdentitySchema.Type {

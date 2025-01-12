@@ -1,7 +1,7 @@
 import { DepGraph } from "dependency-graph";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 
-export namespace withBuildingGraph {
+export namespace withBlueprintGraph {
 	export type Result = DepGraph<string>;
 
 	export interface Props {
@@ -9,23 +9,23 @@ export namespace withBuildingGraph {
 	}
 }
 
-export const withBuildingGraph = async ({
+export const withBlueprintGraph = async ({
 	tx,
-}: withBuildingGraph.Props): Promise<withBuildingGraph.Result> => {
+}: withBlueprintGraph.Props): Promise<withBlueprintGraph.Result> => {
 	const graph = new DepGraph<string>({ circular: false });
 
 	for await (const { id, name } of await tx
-		.selectFrom("Building_Base")
+		.selectFrom("Blueprint")
 		.select(["id", "name"])
 		.execute()) {
 		graph.addNode(id, name);
 	}
 
-	for await (const { buildingBaseId, requirementId } of await tx
-		.selectFrom("Building_Base_Building_Base_Requirement")
-		.select(["buildingBaseId", "requirementId"])
+	for await (const { blueprintId, dependencyId } of await tx
+		.selectFrom("Blueprint_Dependency")
+		.select(["blueprintId", "dependencyId"])
 		.execute()) {
-		graph.addDependency(requirementId, buildingBaseId);
+		graph.addDependency(dependencyId, blueprintId);
 	}
 
 	return graph;

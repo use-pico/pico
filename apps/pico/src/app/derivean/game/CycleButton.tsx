@@ -9,7 +9,7 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import { withCycle } from "~/app/derivean/cycle/withCycle";
+import { withCycle } from "~/app/derivean/service/withCycle";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 

@@ -12,14 +12,14 @@ import {
 import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
-import { Resource_Table } from "~/app/derivean/root/resource/Resource_Table";
-import { Resource_Schema } from "~/app/derivean/schema/resource/Resource_Schema";
-import { Tag_Schema } from "~/app/derivean/schema/tag/Tag_Schema";
+import { ResourceTable } from "~/app/derivean/root/ResourceTable";
+import { ResourceSchema } from "~/app/derivean/schema/ResourceSchema";
+import { TagSchema } from "~/app/derivean/schema/TagSchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/list",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(Resource_Schema)),
+	validateSearch: zodValidator(withSourceSearchSchema(ResourceSchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -51,31 +51,31 @@ export const Route = createFileRoute(
 									.where(
 										"t.id",
 										"in",
-										tx
+										eb
 											.selectFrom("Resource_Tag as rt")
 											.select("rt.tagId")
-											.where("rt.resourceId", "=", eb.ref("r.id")),
+											.whereRef("rt.resourceId", "=", "r.id"),
 									)
 									.as("tags"),
 							(eb) => {
 								return eb
-									.selectFrom("Building_Base_Resource_Requirement")
+									.selectFrom("Blueprint_Requirement")
 									.select((eb) => eb.fn.count("id").as("count"))
-									.where("resourceId", "=", eb.ref("r.id"))
-									.as("countResourceRequirement");
+									.whereRef("resourceId", "=", "r.id")
+									.as("countRequirement");
 							},
 							(eb) => {
 								return eb
-									.selectFrom("Building_Base_Production")
+									.selectFrom("Blueprint_Production")
 									.select((eb) => eb.fn.count("id").as("count"))
-									.where("resourceId", "=", eb.ref("r.id"))
+									.whereRef("resourceId", "=", "r.id")
 									.as("countProduction");
 							},
 							(eb) => {
 								return eb
-									.selectFrom("Building_Base_Production_Requirement")
+									.selectFrom("Blueprint_Production_Requirement")
 									.select((eb) => eb.fn.count("id").as("count"))
-									.where("resourceId", "=", eb.ref("r.id"))
+									.whereRef("resourceId", "=", "r.id")
 									.as("countProductionRequirement");
 							},
 						]),
@@ -87,8 +87,8 @@ export const Route = createFileRoute(
 
 								$select = $select.where((eb) => {
 									return eb.or([
-										eb("r.id", "=", fulltext),
-										eb("r.name", "=", fulltext),
+										eb("r.id", "like", fulltext),
+										eb("r.name", "like", fulltext),
 										eb(
 											"r.id",
 											"in",
@@ -113,10 +113,10 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							countResourceRequirement: z.number().nonnegative(),
+							countRequirement: z.number().nonnegative(),
 							countProduction: z.number().nonnegative(),
 							countProductionRequirement: z.number().nonnegative(),
-							tags: withJsonArraySchema(Tag_Schema.entity),
+							tags: withJsonArraySchema(TagSchema.entity),
 						}),
 						filter,
 						cursor,
@@ -134,7 +134,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Resource_Table
+				<ResourceTable
 					table={{
 						data,
 						filter: {

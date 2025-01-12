@@ -11,13 +11,13 @@ import {
 } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import { z } from "zod";
-import { Inventory_Table } from "~/app/derivean/root/inventory/Inventory_Table";
-import { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
+import { InventoryTable } from "~/app/derivean/root/InventoryTable";
+import { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/user/$id/inventory",
 )({
-	validateSearch: zodValidator(withSourceSearchSchema(Inventory_Schema)),
+	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -111,7 +111,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Inventory_Table
+				<InventoryTable
 					onCreate={async ({ tx, entity }) => {
 						return tx
 							.insertInto("User_Inventory")

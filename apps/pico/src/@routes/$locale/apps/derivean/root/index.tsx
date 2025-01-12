@@ -17,11 +17,11 @@ const sources: (keyof Database)[] = [
 	"Resource",
 	"Resource_Tag",
 	"Inventory",
-	"Building_Base",
-	"Building_Base_Production",
-	"Building_Base_Production_Requirement",
-	"Building_Base_Building_Base_Requirement",
-	"Building_Base_Resource_Requirement",
+	"Blueprint",
+	"Blueprint_Dependency",
+	"Blueprint_Requirement",
+	"Blueprint_Production",
+	"Blueprint_Production_Requirement",
 	"Default_Inventory",
 ] as const;
 
@@ -57,16 +57,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 		return (
 			<div className={"flex flex-col gap-4 w-2/3 mx-auto"}>
-				<div className={"flex items-center justify-center mt-10 gap-4"}>
-					<Button
-						iconEnabled={GameIcon}
-						loading={exportMutation.isPending}
-						onClick={() => exportMutation.mutate()}
-						variant={{ variant: "subtle" }}
-					>
-						<Tx label={"Export game files (label)"} />
-					</Button>
-				</div>
 				<JustDropZone
 					onDrop={async (files) => {
 						const [file] = files;
@@ -104,6 +94,16 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						);
 					}}
 				/>
+				<div className={"flex items-center justify-center mt-10 gap-4"}>
+					<Button
+						iconEnabled={GameIcon}
+						loading={exportMutation.isPending}
+						onClick={() => exportMutation.mutate()}
+						variant={{ variant: "subtle" }}
+					>
+						<Tx label={"Export game files (label)"} />
+					</Button>
+				</div>
 			</div>
 		);
 	},

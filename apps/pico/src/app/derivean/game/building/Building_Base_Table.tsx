@@ -13,15 +13,14 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { withConstructionQueue } from "~/app/derivean/building/withConstructionQueue";
 import { Building_Requirement_Inline } from "~/app/derivean/game/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/game/building/Dependencies";
 import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInline";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Building_Base_Requirement_Schema";
-import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/building/Building_Base_Resource_Requirement_Schema";
-import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
-import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
+import type { Building_Base_Building_Base_Requirement_Schema } from "~/app/derivean/schema/BlueprintDependencySchema";
+import type { Building_Base_Resource_Requirement_Schema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
+import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
 
 export namespace Building_Base_Table {
 	export interface BuildingCount {
@@ -75,7 +74,7 @@ const columns = [
 				async mutationFn({ buildingBaseId }: { buildingBaseId: string }) {
 					return toast.promise(
 						withConstructionQueue({
-							buildingBaseId,
+							blueprintId: buildingBaseId,
 							userId,
 						}),
 						withToastPromiseTx("Building queue"),

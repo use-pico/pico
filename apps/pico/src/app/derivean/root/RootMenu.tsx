@@ -1,15 +1,6 @@
 import { useParams } from "@tanstack/react-router";
-import {
-    Menu,
-    MenuGroup,
-    MenuLink,
-    SettingsIcon,
-    TagIcon,
-    Tx,
-    UserIcon,
-} from "@use-pico/client";
+import { Menu, MenuLink, TagIcon, Tx, UserIcon } from "@use-pico/client";
 import type { FC } from "react";
-import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -37,41 +28,23 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				<Tx label={"User list (menu)"} />
 			</MenuLink>
 
-			<MenuGroup
+			<MenuLink
 				icon={BuildingIcon}
-				label={<Tx label={"Buildings (menu)"} />}
+				to={"/$locale/apps/derivean/root/blueprint/list"}
+				params={{ locale }}
 				active={[
-					{ to: "/$locale/apps/derivean/root/building/base/list" },
-					{ to: "/$locale/apps/derivean/root/building/list" },
-					{ to: "/$locale/apps/derivean/root/building/$id/view" },
-					{ to: "/$locale/apps/derivean/root/building/base/$id/view" },
-					{ to: "/$locale/apps/derivean/root/building/base/$id/edit" },
+					{ to: "/$locale/apps/derivean/root/blueprint/$id/view" },
+					{ to: "/$locale/apps/derivean/root/blueprint/$id/dependencies" },
+					{ to: "/$locale/apps/derivean/root/blueprint/$id/production" },
+					{ to: "/$locale/apps/derivean/root/blueprint/$id/requirements" },
+					{ to: "/$locale/apps/derivean/root/blueprint/$id/edit" },
 					{
-						to: "/$locale/apps/derivean/root/building/base/$id/required/buildings",
-					},
-					{
-						to: "/$locale/apps/derivean/root/building/base/$id/required/resources",
+						to: "/$locale/apps/derivean/root/blueprint/production/$id/requirements",
 					},
 				]}
 			>
-				<MenuLink
-					icon={BuildingBaseIcon}
-					to={"/$locale/apps/derivean/root/building/base/list"}
-					params={{ locale }}
-					variant={{ inner: true }}
-				>
-					<Tx label={"Building base list (menu)"} />
-				</MenuLink>
-
-				<MenuLink
-					icon={BuildingIcon}
-					to={"/$locale/apps/derivean/root/building/list"}
-					params={{ locale }}
-					variant={{ inner: true }}
-				>
-					<Tx label={"Building list (menu)"} />
-				</MenuLink>
-			</MenuGroup>
+				<Tx label={"Blueprint list (menu)"} />
+			</MenuLink>
 
 			<MenuLink
 				icon={ResourceIcon}
@@ -83,26 +56,19 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 
 			<MenuLink
 				icon={InventoryIcon}
-				to={"/$locale/apps/derivean/root/inventory/default"}
+				to={"/$locale/apps/derivean/root/default/inventory"}
 				params={{ locale }}
 			>
 				<Tx label={"Default inventory (menu)"} />
 			</MenuLink>
 
-			<MenuGroup
-				icon={SettingsIcon}
-				label={<Tx label={"Settings (menu)"} />}
-				active={[{ to: "/$locale/apps/derivean/root/tag/list" }]}
+			<MenuLink
+				icon={TagIcon}
+				to={"/$locale/apps/derivean/root/tag/list"}
+				params={{ locale }}
 			>
-				<MenuLink
-					icon={TagIcon}
-					to={"/$locale/apps/derivean/root/tag/list"}
-					params={{ locale }}
-					variant={{ inner: true }}
-				>
-					<Tx label={"Tag list (menu)"} />
-				</MenuLink>
-			</MenuGroup>
+				<Tx label={"Tag list (menu)"} />
+			</MenuLink>
 		</Menu>
 	);
 };

@@ -199,6 +199,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.addColumn("cycles", "integer", (col) => col.notNull())
 			.addColumn("productionLimit", "integer", (col) => col.notNull())
 
+			/**
+			 * Sort blueprints by this number (so the player can see buildings in right order).
+			 */
+			.addColumn("sort", "integer", (col) => col.notNull())
+
 			.addUniqueConstraint("[Blueprint] name", ["name"])
 
 			.execute();
@@ -317,8 +322,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
-			.addColumn("amount", "float4", (col) => col.notNull())
-
 			.addUniqueConstraint("[Blueprint_Dependency] blueprintId-dependencyId", [
 				"blueprintId",
 				"dependencyId",
@@ -382,14 +385,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
-			/**
-			 * This is just a shortcut to the blueprint (the same as is in referenced Blueprint_Production).
-			 */
-			.addColumn("blueprintId", $id, (col) => col.notNull())
+			.addColumn("buildingId", $id, (col) => col.notNull())
 			.addForeignKeyConstraint(
-				"[Production] blueprintId",
-				["blueprintId"],
-				"Blueprint",
+				"[Production] buildingId",
+				["buildingId"],
+				"Building",
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)

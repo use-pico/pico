@@ -2,7 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import { LinkTo, ListIcon, Preview, TitlePreview, Tx } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
+import { BlueprintIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 
 export namespace Building_Base_Preview {
 	export interface Data extends IdentitySchema.Type {
@@ -23,7 +23,7 @@ export const Building_Base_Preview: FC<Building_Base_Preview.Props> = (
 		<Preview
 			title={({ entity }) => (
 				<TitlePreview
-					icon={BuildingBaseIcon}
+					icon={BlueprintIcon}
 					title={entity.name}
 				/>
 			)}

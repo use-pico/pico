@@ -2,7 +2,6 @@ import { Badge, Icon, Tx } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import { DepGraphCycleError } from "dependency-graph";
 import type { FC } from "react";
-import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace Dependencies {
 	interface BuildingCount {

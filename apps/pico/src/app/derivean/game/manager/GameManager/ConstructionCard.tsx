@@ -11,7 +11,6 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import { withConstructionQueue } from "~/app/derivean/building/withConstructionQueue";
 import { Building_Requirement_Inline } from "~/app/derivean/game/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/game/building/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
@@ -19,8 +18,8 @@ import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInl
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
-import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory_Schema";
-import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
+import type { Inventory_Schema } from "~/app/derivean/schema/InventorySchema";
+import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
 
 export namespace ConstructionCard {
 	export interface Props extends Entity.Type<GameManager.Data> {
@@ -50,7 +49,7 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 		async mutationFn({ buildingBaseId }: { buildingBaseId: string }) {
 			return toast.promise(
 				withConstructionQueue({
-					buildingBaseId,
+					blueprintId: buildingBaseId,
 					userId,
 				}),
 				withToastPromiseTx("Building queue"),
