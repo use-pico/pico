@@ -8,6 +8,7 @@ import {
     withToastPromiseTx,
 } from "@use-pico/client";
 import FileSaver from "file-saver";
+import { sql } from "kysely";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
@@ -66,6 +67,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 						const data = JSON.parse(await file.text());
 
+						await sql`PRAGMA foreign_keys = OFF`.execute(kysely);
+
 						await toast.promise(
 							kysely.transaction().execute(async (tx) => {
 								for await (const { source } of data) {
@@ -92,6 +95,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							}),
 							withToastPromiseTx("Import game files"),
 						);
+
+						await sql`PRAGMA foreign_keys = ON`.execute(kysely);
 					}}
 				/>
 				<div className={"flex items-center justify-center mt-10 gap-4"}>
