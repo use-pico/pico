@@ -20,7 +20,22 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 		<PopupSelect<BlueprintTable.Data>
 			icon={BlueprintIcon}
 			textTitle={<Tx label={"Select blueprint (title)"} />}
-			table={BlueprintTable}
+			table={({ table, ...props }) => {
+				return (
+					<BlueprintTable
+						table={{
+							...table,
+							hidden: [
+								"requirements",
+								"dependencies",
+								"upgrades",
+								"productionLimit",
+							],
+						}}
+						{...props}
+					/>
+				);
+			}}
 			render={({ entity }) => {
 				return entity.name;
 			}}

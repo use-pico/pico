@@ -39,7 +39,7 @@ export namespace PopupSelect {
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		table: FC<Table.PropsEx<any>>;
+		table: FC<Table.PropsEx<TItem>>;
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
 
