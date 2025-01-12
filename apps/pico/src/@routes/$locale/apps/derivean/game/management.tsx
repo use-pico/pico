@@ -1,10 +1,20 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { withListCount, withSourceSearchSchema } from "@use-pico/client";
-import { withBoolSchema } from "@use-pico/common";
+import {
+    navigateOnCursor,
+    navigateOnFulltext,
+    withListCount,
+    withSourceSearchSchema,
+} from "@use-pico/client";
+import { withBoolSchema, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
+import { GameManager } from "~/app/derivean/game/manager/GameManager";
+import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
+import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
+import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
+import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 	validateSearch: zodValidator(withSourceSearchSchema(BlueprintSchema)),
@@ -21,7 +31,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 	}) {
 		const user = await session();
 
-		const data = queryClient.ensureQueryData({
+		const data = await queryClient.ensureQueryData({
 			queryKey: ["Blueprint", "list-count", user.id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
@@ -80,8 +90,41 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							.select([
 								"bl.id",
 								"bl.name",
+								"bl.cycles",
 								"filter.withAvailableBuildings",
 								"filter.withAvailableResources",
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Requirement as br")
+										.innerJoin("Resource as r", "r.id", "br.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                'id', ${eb.ref("br.id")},
+                                                'amount', ${eb.ref("br.amount")},
+                                                'passive', ${eb.ref("br.passive")},
+                                                'resourceId', ${eb.ref("br.resourceId")},
+                                                'blueprintId', ${eb.ref("br.blueprintId")},
+                                                'name', ${eb.ref("r.name")}
+                                            ))`.as("requirements");
+										})
+										.whereRef("br.blueprintId", "=", "bl.id")
+										.orderBy("r.name", "asc")
+										.as("requirements"),
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Dependency as bd")
+										.innerJoin("Blueprint as bl2", "bl2.id", "bd.dependencyId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                        'id', ${eb.ref("bd.id")},
+                                                        'dependencyId', ${eb.ref("bd.dependencyId")},
+                                                        'blueprintId', ${eb.ref("bd.blueprintId")},
+                                                        'name', ${eb.ref("bl2.name")}
+                                                    ))`.as("requirements");
+										})
+										.whereRef("bd.blueprintId", "=", "bl.id")
+										.orderBy("bl2.name", "asc")
+										.as("dependencies"),
 							])
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
@@ -135,8 +178,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 						},
 						output: z.object({
 							id: z.string().min(1),
+							name: z.string().min(1),
+							cycles: z.number().int().nonnegative(),
 							withAvailableBuildings: withBoolSchema(),
 							withAvailableResources: withBoolSchema(),
+							requirements: withJsonArraySchema(
+								BlueprintRequirementSchema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
+							dependencies: withJsonArraySchema(
+								BlueprintDependencySchema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
 						}),
 						filter,
 						cursor,
@@ -145,12 +204,70 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 			},
 		});
 
-		return data;
+		return {
+			data,
+			dependencies: await kysely.transaction().execute(async (tx) => {
+				return withBlueprintGraph({ tx });
+			}),
+			upgrades: await kysely.transaction().execute(async (tx) => {
+				return withBlueprintUpgradeGraph({ tx });
+			}),
+			inventory: await queryClient.ensureQueryData({
+				queryKey: ["User_Inventory", "list", user.id],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return tx
+							.selectFrom("Inventory as i")
+							.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
+							.select(["i.id", "i.amount", "i.resourceId", "i.limit"])
+							.where("ui.userId", "=", user.id)
+							.execute();
+					});
+				},
+			}),
+			// buildingCounts: await queryClient.ensureQueryData({
+			// 	queryKey: ["Building"],
+			// 	async queryFn() {
+			// 		return kysely.transaction().execute(async (tx) => {
+			// 			return tx
+			// 				.selectFrom("Building as b")
+			// 				.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+			// 				.select([
+			// 					"b.blueprintId",
+			// 					"bl.name",
+			// 					(eb) => eb.fn.count<number>("bl.id").as("count"),
+			// 				])
+			// 				.where("b.userId", "=", user.id)
+			// 				.groupBy("b.blueprintId")
+			// 				.execute();
+			// 		});
+			// 	},
+			// }),
+		};
 	},
 	component() {
-		const { data } = Route.useLoaderData();
+		const { data, dependencies, upgrades, inventory } = Route.useLoaderData();
 		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
+		const { filter, cursor } = Route.useSearch();
+		const navigate = Route.useNavigate();
 
-		return "bla";
+		return (
+			<GameManager
+				data={data}
+				userId={session.id}
+				dependencies={dependencies}
+				upgrades={upgrades}
+				inventory={inventory}
+				buildingCounts={[]}
+				fulltext={{
+					value: filter?.fulltext,
+					onFulltext: navigateOnFulltext(navigate),
+				}}
+				cursor={{
+					cursor,
+					...navigateOnCursor(navigate),
+				}}
+			/>
+		);
 	},
 });

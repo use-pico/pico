@@ -1,3 +1,6 @@
+0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
+  ref: Building requirements (title)
+  value: Building requirements (title)
 01d9c2e776ddc35008c8405a31a537385f37da4a5a1642560a60c9bb:
   ref: Resource requirements (title)
   value: Požadavky na zdroje
@@ -439,6 +442,9 @@ d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek
+e37c099145da64eaee97738b4abb2146cef198db8d8e1275acd38ede:
+  ref: No upgrades (label)
+  value: Budova nemá žádné možnosti upgrade
 e3f6d977c7e959b44e1e67504d419d786031c7f563065dc1be1af291:
   ref: Resource name (label)
   value: Název zdroje
@@ -469,6 +475,9 @@ ec9fc04842ed77fb0701ee2ffc6f922b424759586c15a22ce0c2a24f:
 eecd2930a1fa4de61bc29f8080f2f452a6f21ad4a2c593d6a7e852e7:
   ref: Delete inventory item (modal)
   value: Delete inventory item (modal)
+eedf87d84873632bd1599189c81074b3b46df96d2b359ea457a1ecc1:
+  ref: Management (menu)
+  value: Správa
 f0ed1ec3d644e6971e76850f612826717d0f432d49aafb2b0eb3fc93:
   ref: Upgrade to (hint)
   value: Dobrovolná hodnota, upgrade na vybranou budovu.

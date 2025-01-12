@@ -4,12 +4,17 @@ import {
     Button,
     Icon,
     toast,
+    Tx,
     useInvalidator,
-    withToastPromiseTx
+    withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
+import { BlueprintDependenciesInline } from "~/app/derivean/game/BlueprintDependenciesInline";
+import { Dependencies } from "~/app/derivean/game/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
+import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
+import { Upgrades } from "~/app/derivean/game/Upgrades";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
@@ -91,34 +96,35 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 					className={tvc([
 						"flex",
 						"flex-row",
-						"gap-2",
+						"gap-4",
 						"items-center",
 						"font-bold",
 						"text-lg",
 					])}
 				>
-					<div className={tvc(["flex", "gap-2", "items-center"])}>
-						{/* <LinkTo
-							icon={BuildingIcon}
-							to={"/$locale/apps/derivean/game/building/base/$id/view"}
-							params={{ locale, id: entity.id }}
-						>
+					<div className={tvc(["flex", "gap-6", "items-center"])}>
+						<div className={"flex flex-row gap-2"}>
 							{entity.name}
-						</LinkTo> */}
-						<div
-							className={tvc([
-								"flex",
-								"gap-2",
-								"items-center",
-								"text-slate-500",
-							])}
-						>
-							<Icon
-								variant={{ size: "xl" }}
-								icon={CycleIcon}
-							/>
-							{toHumanNumber({ number: entity.cycles })}
+							<div
+								className={tvc([
+									"flex",
+									"gap-2",
+									"items-center",
+									"text-slate-500",
+								])}
+							>
+								<Icon
+									variant={{ size: "xl" }}
+									icon={CycleIcon}
+								/>
+								{toHumanNumber({ number: entity.cycles })}
+							</div>
 						</div>
+
+						<Upgrades
+							graph={upgrades}
+							blueprintId={entity.id}
+						/>
 					</div>
 				</div>
 				<div
@@ -148,30 +154,34 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 					/>
 				</div>
 			</div>
-			<div>
-				<div className={tvc(["border-b", "border-slate-300", "pb-2"])}>
-					{/* <Dependencies
-						graph={graph}
-						mode={"dependants"}
-						buildingBaseId={entity.id}
-						buildingCounts={buildingCounts}
-					/> */}
+			<div className={"flex flex-col gap-2"}>
+				<div>
+					<Dependencies
+						graph={dependencies}
+						blueprintId={entity.id}
+					/>
 				</div>
-				<div className={tvc(["border-b", "border-slate-300", "py-2"])}>
-					{/* <Building_Requirement_Inline
+
+				<div className={"border-b border-slate-300"} />
+
+				<div>
+					<BlueprintDependenciesInline
 						textTitle={<Tx label={"Building requirements (title)"} />}
 						textEmpty={<Tx label={"No requirements (label)"} />}
-						requirements={entity.requiredBuildings}
+						dependencies={entity.dependencies}
 						diff={buildingCounts}
-					/> */}
+					/>
 				</div>
-				<div className={tvc(["pt-2"])}>
-					{/* <RequirementsInline
+
+				<div className={"border-b border-slate-300"} />
+
+				<div>
+					<RequirementsInline
 						textTitle={<Tx label={"Building requirements (title)"} />}
 						textEmpty={<Tx label={"No requirements (label)"} />}
-						requirements={entity.requiredResources}
+						requirements={entity.requirements}
 						diff={inventory}
-					/> */}
+					/>
 				</div>
 			</div>
 		</div>
