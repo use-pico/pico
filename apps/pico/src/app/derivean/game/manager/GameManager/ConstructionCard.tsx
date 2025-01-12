@@ -211,6 +211,9 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 								);
 							});
 
+							/**
+							 * TODO This is not complete, there will be probably some more work to do
+							 */
 							const queueSize = entity.productionQueue.filter(
 								(queue) => queue.resourceId === item.resourceId,
 							);
