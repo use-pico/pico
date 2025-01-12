@@ -1,6 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx } from "@use-pico/client";
 import type { FC } from "react";
+import { GameIcon } from "~/app/derivean/icon/GameIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 export namespace GameMenu {
@@ -14,7 +15,7 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 
 	return (
 		<Menu {...props}>
-			{/* <MenuLink
+			<MenuLink
 				icon={GameIcon}
 				to={"/$locale/apps/derivean/game/management"}
 				params={{ locale }}
@@ -22,7 +23,7 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 				<Tx label={"Management (menu)"} />
 			</MenuLink>
 
-			<MenuLink
+			{/* 	<MenuLink
 				icon={ProductionIcon}
 				to={"/$locale/apps/derivean/game/building/production/resource/list"}
 				params={{ locale }}

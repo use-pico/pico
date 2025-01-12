@@ -22,6 +22,7 @@ import { Route as LocaleAppsDeriveanGameIndexImport } from './@routes/$locale/ap
 import { Route as LocaleAppsDeriveanPublicRegisterImport } from './@routes/$locale/apps/derivean/public/register'
 import { Route as LocaleAppsDeriveanPublicLogoutImport } from './@routes/$locale/apps/derivean/public/logout'
 import { Route as LocaleAppsDeriveanPublicLoginImport } from './@routes/$locale/apps/derivean/public/login'
+import { Route as LocaleAppsDeriveanGameManagementImport } from './@routes/$locale/apps/derivean/game/management'
 import { Route as LocaleAppsDeriveanGameInventoryImport } from './@routes/$locale/apps/derivean/game/inventory'
 import { Route as LocaleAppsDeriveanDbSchemaImport } from './@routes/$locale/apps/derivean/db/schema'
 import { Route as LocaleAppsDeriveanRootUserListImport } from './@routes/$locale/apps/derivean/root/user/list'
@@ -115,6 +116,13 @@ const LocaleAppsDeriveanPublicLoginRoute =
     id: '/public/login',
     path: '/public/login',
     getParentRoute: () => LocaleAppsDeriveanRoute,
+  } as any)
+
+const LocaleAppsDeriveanGameManagementRoute =
+  LocaleAppsDeriveanGameManagementImport.update({
+    id: '/management',
+    path: '/management',
+    getParentRoute: () => LocaleAppsDeriveanGameRoute,
   } as any)
 
 const LocaleAppsDeriveanGameInventoryRoute =
@@ -325,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameInventoryImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
+    '/$locale/apps/derivean/game/management': {
+      id: '/$locale/apps/derivean/game/management'
+      path: '/management'
+      fullPath: '/$locale/apps/derivean/game/management'
+      preLoaderRoute: typeof LocaleAppsDeriveanGameManagementImport
+      parentRoute: typeof LocaleAppsDeriveanGameImport
+    }
     '/$locale/apps/derivean/public/login': {
       id: '/$locale/apps/derivean/public/login'
       path: '/public/login'
@@ -500,12 +515,15 @@ declare module '@tanstack/react-router' {
 
 interface LocaleAppsDeriveanGameRouteChildren {
   LocaleAppsDeriveanGameInventoryRoute: typeof LocaleAppsDeriveanGameInventoryRoute
+  LocaleAppsDeriveanGameManagementRoute: typeof LocaleAppsDeriveanGameManagementRoute
   LocaleAppsDeriveanGameIndexRoute: typeof LocaleAppsDeriveanGameIndexRoute
 }
 
 const LocaleAppsDeriveanGameRouteChildren: LocaleAppsDeriveanGameRouteChildren =
   {
     LocaleAppsDeriveanGameInventoryRoute: LocaleAppsDeriveanGameInventoryRoute,
+    LocaleAppsDeriveanGameManagementRoute:
+      LocaleAppsDeriveanGameManagementRoute,
     LocaleAppsDeriveanGameIndexRoute: LocaleAppsDeriveanGameIndexRoute,
   }
 
@@ -674,6 +692,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/game/inventory': typeof LocaleAppsDeriveanGameInventoryRoute
+  '/$locale/apps/derivean/game/management': typeof LocaleAppsDeriveanGameManagementRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
@@ -706,6 +725,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean': typeof LocaleAppsDeriveanRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/game/inventory': typeof LocaleAppsDeriveanGameInventoryRoute
+  '/$locale/apps/derivean/game/management': typeof LocaleAppsDeriveanGameManagementRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
@@ -742,6 +762,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/game/inventory': typeof LocaleAppsDeriveanGameInventoryRoute
+  '/$locale/apps/derivean/game/management': typeof LocaleAppsDeriveanGameManagementRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
@@ -779,6 +800,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/game/inventory'
+    | '/$locale/apps/derivean/game/management'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
@@ -810,6 +832,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/game/inventory'
+    | '/$locale/apps/derivean/game/management'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
@@ -844,6 +867,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/game/inventory'
+    | '/$locale/apps/derivean/game/management'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
@@ -926,6 +950,7 @@ export const routeTree = rootRoute
       "parent": "/$locale/apps/derivean",
       "children": [
         "/$locale/apps/derivean/game/inventory",
+        "/$locale/apps/derivean/game/management",
         "/$locale/apps/derivean/game/"
       ]
     },
@@ -951,6 +976,10 @@ export const routeTree = rootRoute
     },
     "/$locale/apps/derivean/game/inventory": {
       "filePath": "$locale/apps/derivean/game/inventory.tsx",
+      "parent": "/$locale/apps/derivean/game"
+    },
+    "/$locale/apps/derivean/game/management": {
+      "filePath": "$locale/apps/derivean/game/management.tsx",
       "parent": "/$locale/apps/derivean/game"
     },
     "/$locale/apps/derivean/public/login": {

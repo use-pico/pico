@@ -188,7 +188,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				["upgradeId"],
 				"Blueprint",
 				["id"],
-				(c) => c.onDelete("cascade").onUpdate("cascade"),
+				(c) => c.onDelete("set null").onUpdate("set null"),
 			)
 
 			.addColumn("name", "varchar(64)", (col) => col.notNull())
