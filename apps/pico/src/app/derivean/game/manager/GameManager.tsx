@@ -26,6 +26,21 @@ export namespace GameManager {
 		dependencies: (BlueprintDependencySchema["~entity"] & {
 			name: string;
 		})[];
+		production: {
+			id: string;
+			name: string;
+			cycles: number;
+			amount: number;
+			blueprintId: string;
+			buildingId?: string | null;
+			requirements: {
+				id: string;
+				amount: number;
+				passive: boolean;
+				name: string;
+				resourceId: string;
+			}[];
+		}[];
 	}
 
 	export interface Props {

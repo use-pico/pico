@@ -65,7 +65,7 @@ export const Dependencies: FC<Dependencies.Props> = ({
 												"text-emerald-700",
 												"border-emerald-500",
 											]
-										:	["bg-slate-200", "text-slate-700", "border-slate-500"],
+										:	["bg-slate-100", "text-slate-500", "border-slate-300"],
 								}}
 							>
 								{graph.getNodeData(item)}

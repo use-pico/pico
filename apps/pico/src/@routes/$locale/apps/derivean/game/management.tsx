@@ -35,7 +35,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 			queryKey: ["Blueprint", "list-count", user.id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
-					const $filter = tx.selectFrom("Blueprint as bl").select([
+					const $blueprintFilter = tx.selectFrom("Blueprint as bl").select([
 						"bl.id",
 						sql`
                         CASE
@@ -83,10 +83,37 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
                       `.as("withAvailableBuildings"),
 					]);
 
+					// 			const $productionFilter = tx
+					// 				.selectFrom("Blueprint_Production as bp")
+					// 				.select([
+					// 					"bp.id as blueprintProductionId",
+					// 					sql`
+					//                 CASE
+					// WHEN NOT EXISTS (
+					//     SELECT 1
+					//     FROM Blueprint_Production_Requirement bpr
+					//     LEFT JOIN (
+					//         SELECT
+					//             i.resourceId,
+					//             SUM(i.amount) AS totalAmount
+					//         FROM Inventory i
+					//         INNER JOIN User_Inventory ui
+					//             ON i.id = ui.inventoryId
+					//         WHERE ui.userId = ${user.id}
+					//         GROUP BY i.resourceId
+					//     ) resource
+					//         ON bpr.resourceId = resource.resourceId
+					//     WHERE
+					//         bpr.blueprintProductionId = bp.id AND
+					//         (resource.totalAmount IS NULL OR resource.totalAmount < bpr.amount)
+					// ) THEN true ELSE false END
+					//               `.as("withAvailableResources"),
+					// 				]);
+
 					return withListCount({
 						select: tx
 							.selectFrom("Blueprint as bl")
-							.innerJoin($filter.as("filter"), "bl.id", "filter.id")
+							.innerJoin($blueprintFilter.as("filter"), "bl.id", "filter.id")
 							.select([
 								"bl.id",
 								"bl.name",
@@ -125,6 +152,45 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
 										.as("dependencies"),
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Production as bp")
+										.innerJoin("Resource as r", "r.id", "bp.resourceId")
+                                        .leftJoin('Building as b', eb => {
+                                            return eb.onRef('b.blueprintId', '=', 'bp.blueprintId').on('b.userId', '=', user.id);
+                                        })
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                        'id', ${eb.ref("bp.id")},
+                                                        'amount', ${eb.ref("bp.amount")},
+                                                        'cycles', ${eb.ref("bp.cycles")},
+                                                        'limit', ${eb.ref("bp.limit")},
+                                                        'blueprintId', ${eb.ref("bp.blueprintId")},
+                                                        'resourceId', ${eb.ref("bp.resourceId")},
+                                                        'buildingId', ${eb.ref("b.id")},
+                                                        'name', ${eb.ref("r.name")},
+                                                        'requirements', ${sql`(
+                                                            SELECT
+                                                                json_group_array(json_object(
+                                                                    'id', bpr.id,
+                                                                    'amount', bpr.amount,
+                                                                    'passive', bpr.passive,
+                                                                    'name', r2.name,
+                                                                    'blueprintId', bp.id,
+                                                                    'resourceId', bpr.resourceId
+                                                                ))
+                                                            FROM
+                                                                Blueprint_Production_Requirement as bpr
+                                                                INNER JOIN Resource as r2 on r2.id = bpr.resourceId
+                                                            WHERE
+                                                                bpr.blueprintProductionId = bp.id
+                                                        )
+                                                            `}
+                                                    ))`.as("sub");
+										})
+										.whereRef("bp.blueprintId", "=", "bl.id")
+										.orderBy("r.name", "asc")
+										.as("production"),
 							])
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
@@ -195,6 +261,27 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										name: z.string().min(1),
 									}),
 								),
+							),
+							production: withJsonArraySchema(
+								z.object({
+									id: z.string().min(1),
+									name: z.string().min(1),
+									amount: z.number().nonnegative(),
+									cycles: z.number().int().nonnegative(),
+									limit: z.number().int().nonnegative(),
+									blueprintId: z.string().min(1),
+									resourceId: z.string().min(1),
+									buildingId: z.string().nullish(),
+									requirements: z.array(
+										z.object({
+											id: z.string().min(1),
+											amount: z.number().nonnegative(),
+											passive: withBoolSchema(),
+											resourceId: z.string().min(1),
+											name: z.string().min(1),
+										}),
+									),
+								}),
 							),
 						}),
 						filter,
