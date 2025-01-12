@@ -1,9 +1,9 @@
 import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx } from "@use-pico/client";
 import type { FC } from "react";
-import { BuildingBaseIcon } from "~/app/derivean/icon/BuildingBaseIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
+import { GameIcon } from "~/app/derivean/icon/GameIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
@@ -20,6 +20,14 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 	return (
 		<Menu {...props}>
 			<MenuLink
+				icon={GameIcon}
+				to={"/$locale/apps/derivean/game/management"}
+				params={{ locale }}
+			>
+				<Tx label={"Management (menu)"} />
+			</MenuLink>
+
+			<MenuLink
 				icon={ProductionIcon}
 				to={"/$locale/apps/derivean/game/building/production/resource/list"}
 				params={{ locale }}
@@ -33,14 +41,6 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 				params={{ locale }}
 			>
 				<Tx label={"Resources queue (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={BuildingBaseIcon}
-				to={"/$locale/apps/derivean/game/building/construction/list"}
-				params={{ locale }}
-			>
-				<Tx label={"Building build list (menu)"} />
 			</MenuLink>
 
 			<MenuLink

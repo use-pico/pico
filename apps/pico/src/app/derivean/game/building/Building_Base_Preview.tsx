@@ -31,7 +31,7 @@ export const Building_Base_Preview: FC<Building_Base_Preview.Props> = (
 				return (
 					<LinkTo
 						icon={ListIcon}
-						to={"/$locale/apps/derivean/game/building/construction/list"}
+						to={"/$locale/apps/derivean/game/building/list"}
 						params={{ locale }}
 					>
 						<Tx label={"Building base list (label)"} />

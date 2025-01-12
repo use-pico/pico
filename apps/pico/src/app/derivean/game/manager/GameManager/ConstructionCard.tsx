@@ -12,9 +12,9 @@ import {
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { withConstructionQueue } from "~/app/derivean/building/withConstructionQueue";
-import type { Building_Construction_List } from "~/app/derivean/game/building/Building_Construction_List";
 import { Building_Requirement_Inline } from "~/app/derivean/game/building/Building_Requirement_Inline";
 import { Dependencies } from "~/app/derivean/game/building/Dependencies";
+import type { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { RequirementsInline } from "~/app/derivean/game/resource/RequirementsInline";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
@@ -23,11 +23,11 @@ import type { Inventory_Schema } from "~/app/derivean/schema/inventory/Inventory
 import type { withBuildingGraph } from "~/app/derivean/utils/withBuildingGraph";
 
 export namespace ConstructionCard {
-	export interface Props extends Entity.Type<Building_Construction_List.Data> {
+	export interface Props extends Entity.Type<GameManager.Data> {
 		userId: string;
 		graph: withBuildingGraph.Result;
 		inventory: Inventory_Schema["~entity-array"];
-		buildingCounts: Building_Construction_List.BuildingCount[];
+		buildingCounts: GameManager.BuildingCount[];
 	}
 }
 
@@ -70,16 +70,13 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 				"flex",
 				"flex-col",
 				"gap-2",
-				"bg-slate-100",
+				"bg-slate-50",
+				"border-slate-300",
 				"rounded-lg",
 				"p-4",
+				"pt-2",
 				"border",
-				"border-slate-300",
 				"shadow-md",
-				available ? ["bg-emerald-50", "border-emerald-300"]
-				: entity.withAvailableBuildings ?
-					["bg-amber-50", "border-amber-300", "opacity-75"]
-				:	["bg-red-50", "border-red-300", "opacity-50"],
 			])}
 		>
 			<div
