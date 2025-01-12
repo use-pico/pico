@@ -4,6 +4,7 @@ import {
     ActionMenu,
     ActionModal,
     DeleteControl,
+    Icon,
     LinkTo,
     Table,
     toast,
@@ -18,6 +19,7 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
 import { Dependencies } from "~/app/derivean/root/Dependencies";
@@ -71,7 +73,7 @@ const columns = [
 				</LinkTo>
 			);
 		},
-		size: 10,
+		size: 14,
 	}),
 	column({
 		name: "cycles",
@@ -79,17 +81,12 @@ const columns = [
 			return <Tx label={"Construction cycles (label)"} />;
 		},
 		render({ value }) {
-			return toHumanNumber({ number: value });
-		},
-		size: 8,
-	}),
-	column({
-		name: "sort",
-		header() {
-			return <Tx label={"Blueprint sort (label)"} />;
-		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
+			return (
+				<div className={"flex flex-row items-center gap-2"}>
+					<Icon icon={CycleIcon} />
+					{toHumanNumber({ number: value })}
+				</div>
+			);
 		},
 		size: 8,
 	}),
@@ -114,11 +111,10 @@ const columns = [
 					textTitle={<Tx label={"Blueprint requirements (title)"} />}
 					textEmpty={<Tx label={"No requirements (label)"} />}
 					requirements={value}
-					limit={5}
 				/>
 			);
 		},
-		size: 54,
+		size: 32,
 	}),
 	column({
 		name: "dependencies",
@@ -127,12 +123,12 @@ const columns = [
 		},
 		render({ data, value, context: { dependencies } }) {
 			return value.length > 0 ?
-					<div className={"flex flex-row gap-4"}>
+					<div className={"flex flex-col flex-wrap gap-2 w-full"}>
 						<BlueprintDependenciesInline
 							textTitle={<Tx label={"Blueprint dependencies (title)"} />}
 							dependencies={value}
 						/>
-						<div className={"border-r border-slate-300"} />
+						<div className={"border-b border-slate-200"} />
 						{dependencies ?
 							<Dependencies
 								graph={dependencies}
@@ -142,7 +138,7 @@ const columns = [
 					</div>
 				:	<Tx label={"No dependencies (label)"} />;
 		},
-		size: 64,
+		size: 32,
 	}),
 	column({
 		name: "upgrades",
@@ -158,7 +154,7 @@ const columns = [
 					/>
 				:	null;
 		},
-		size: 64,
+		size: 32,
 	}),
 ];
 

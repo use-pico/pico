@@ -45,7 +45,7 @@ const columns = [
 				filter.shallow("resourceID", data.resourceId);
 			},
 		},
-		size: 12,
+		size: 14,
 	}),
 	column({
 		name: "amount",

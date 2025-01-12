@@ -33,52 +33,55 @@ export const Route = createFileRoute(
 			async queryFn() {
 				return kysely.transaction().execute((tx) => {
 					return withListCount({
-						select: tx.selectFrom("Resource as r").select([
-							"r.id",
-							"r.name",
-							(eb) =>
-								eb
-									.selectFrom("Tag as t")
-									.select((eb) => {
-										return sql<string>`json_group_array(json_object(
+						select: tx
+							.selectFrom("Resource as r")
+							.select([
+								"r.id",
+								"r.name",
+								(eb) =>
+									eb
+										.selectFrom("Tag as t")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
                                             'id', ${eb.ref("t.id")},
                                             'code', ${eb.ref("t.code")},
                                             'group', ${eb.ref("t.group")},
                                             'sort', ${eb.ref("t.sort")},
                                             'label', ${eb.ref("t.label")}
                                         ))`.as("tags");
-									})
-									.where(
-										"t.id",
-										"in",
-										eb
-											.selectFrom("Resource_Tag as rt")
-											.select("rt.tagId")
-											.whereRef("rt.resourceId", "=", "r.id"),
-									)
-									.as("tags"),
-							(eb) => {
-								return eb
-									.selectFrom("Blueprint_Requirement")
-									.select((eb) => eb.fn.count("id").as("count"))
-									.whereRef("resourceId", "=", "r.id")
-									.as("countRequirement");
-							},
-							(eb) => {
-								return eb
-									.selectFrom("Blueprint_Production")
-									.select((eb) => eb.fn.count("id").as("count"))
-									.whereRef("resourceId", "=", "r.id")
-									.as("countProduction");
-							},
-							(eb) => {
-								return eb
-									.selectFrom("Blueprint_Production_Requirement")
-									.select((eb) => eb.fn.count("id").as("count"))
-									.whereRef("resourceId", "=", "r.id")
-									.as("countProductionRequirement");
-							},
-						]),
+										})
+										.where(
+											"t.id",
+											"in",
+											eb
+												.selectFrom("Resource_Tag as rt")
+												.select("rt.tagId")
+												.whereRef("rt.resourceId", "=", "r.id"),
+										)
+										.as("tags"),
+								(eb) => {
+									return eb
+										.selectFrom("Blueprint_Requirement")
+										.select((eb) => eb.fn.count("id").as("count"))
+										.whereRef("resourceId", "=", "r.id")
+										.as("countRequirement");
+								},
+								(eb) => {
+									return eb
+										.selectFrom("Blueprint_Production")
+										.select((eb) => eb.fn.count("id").as("count"))
+										.whereRef("resourceId", "=", "r.id")
+										.as("countProduction");
+								},
+								(eb) => {
+									return eb
+										.selectFrom("Blueprint_Production_Requirement")
+										.select((eb) => eb.fn.count("id").as("count"))
+										.whereRef("resourceId", "=", "r.id")
+										.as("countProductionRequirement");
+								},
+							])
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 

@@ -32,7 +32,7 @@ export const Dependencies: FC<Dependencies.Props> = ({
 		);
 
 		return (
-			<div className={tvc(["flex", "flex-row", "gap-2", "items-center"])}>
+			<div className={tvc(["flex", "flex-row", 'flex-wrap', "gap-2", "items-center"])}>
 				{dependencies.length > 0 ?
 					<Icon
 						css={{
