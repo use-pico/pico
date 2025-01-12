@@ -45,7 +45,7 @@ export const Route = createFileRoute(
                                                   'name', ${eb.ref("r.name")}
                                               ))`.as("requirements");
 										})
-										.whereRef("br.blueprintId", "=", "br.id")
+										.whereRef("br.blueprintId", "=", "bl.id")
 										.as("requirements"),
 								(eb) =>
 									eb
@@ -59,7 +59,7 @@ export const Route = createFileRoute(
                                                           'name', ${eb.ref("bl2.name")}
                                                       ))`.as("requirements");
 										})
-										.whereRef("bd.blueprintId", "=", "bl2.id")
+										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
 										.as("dependencies"),
 							])

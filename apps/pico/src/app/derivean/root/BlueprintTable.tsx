@@ -24,6 +24,7 @@ import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import type { withBlueprintDependencyGraph } from "~/app/derivean/utils/withBlueprintDependencyGraph";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintTable {
@@ -39,10 +40,12 @@ export namespace BlueprintTable {
 			name: string;
 		})[];
 		graph?: string;
+		upgrades?: string;
 	}
 
 	export interface Context {
-		graph?: withBlueprintGraph.Result;
+		dependencies?: withBlueprintGraph.Result;
+		upgrades?: withBlueprintDependencyGraph.Result;
 	}
 }
 
@@ -121,7 +124,7 @@ const columns = [
 		header() {
 			return <Tx label={"Blueprint dependencies (label)"} />;
 		},
-		render({ data, value, context: { graph } }) {
+		render({ data, value, context: { dependencies } }) {
 			return value.length > 0 ?
 					<div className={"flex flex-row gap-4"}>
 						<BlueprintDependenciesInline
@@ -129,9 +132,9 @@ const columns = [
 							dependencies={value}
 						/>
 						<div className={"border-r border-slate-300"} />
-						{graph ?
+						{dependencies ?
 							<Dependencies
-								graph={graph}
+								graph={dependencies}
 								blueprintId={data.id}
 							/>
 						:	null}
@@ -140,16 +143,34 @@ const columns = [
 		},
 		size: 64,
 	}),
+	column({
+		name: "upgrades",
+		header() {
+			return <Tx label={"Blueprint upgrade path (label)"} />;
+		},
+		render({ data, context: { upgrades } }) {
+			return upgrades ?
+					<Dependencies
+						graph={upgrades}
+						blueprintId={data.id}
+						reverse
+					/>
+				:	null;
+		},
+		size: 64,
+	}),
 ];
 
 export namespace BlueprintTable {
 	export interface Props extends Table.PropsEx<Data, BlueprintTable.Context> {
-		graph: withBlueprintGraph.Result;
+		dependencies?: withBlueprintGraph.Result;
+		upgrades?: withBlueprintDependencyGraph.Result;
 	}
 }
 
 export const BlueprintTable: FC<BlueprintTable.Props> = ({
-	graph,
+	dependencies,
+	upgrades,
 	table,
 	...props
 }) => {
@@ -161,7 +182,8 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 				...table,
 				columns,
 				context: {
-					graph,
+					dependencies,
+					upgrades,
 				},
 			})}
 			action={{

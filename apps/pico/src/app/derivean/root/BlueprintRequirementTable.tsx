@@ -17,9 +17,7 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import {
-    BlueprintRequirementForm
-} from "~/app/derivean/root/BlueprintRequirementForm";
+import { BlueprintRequirementForm } from "~/app/derivean/root/BlueprintRequirementForm";
 
 export namespace BlueprintRequirementTable {
 	export interface Data extends IdentitySchema.Type {
@@ -83,6 +81,7 @@ export const BlueprintRequirementTable: FC<BlueprintRequirementTable.Props> = ({
 	...props
 }) => {
 	const invalidator = useInvalidator([
+		["Blueprint"],
 		["Blueprint_Requirement"],
 		["Blueprint_Resource_Requirement"],
 		["Resource"],

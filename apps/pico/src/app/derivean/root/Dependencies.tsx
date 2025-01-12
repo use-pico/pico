@@ -9,6 +9,7 @@ export namespace Dependencies {
 		graph: withBlueprintGraph.Result;
 		blueprintId: string;
 		mode?: "dependants" | "dependencies";
+		reverse?: boolean;
 	}
 }
 
@@ -16,12 +17,19 @@ export const Dependencies: FC<Dependencies.Props> = ({
 	graph,
 	blueprintId,
 	mode = "dependencies",
+	reverse = false,
 }) => {
 	try {
-		const dependencies =
+		const dependencies = ((list) => {
+			if (reverse) {
+				return list.reverse();
+			}
+			return list;
+		})(
 			mode === "dependants" ?
 				graph.dependantsOf(blueprintId)
-			:	graph.dependenciesOf(blueprintId);
+			:	graph.dependenciesOf(blueprintId),
+		);
 
 		return (
 			<div className={tvc(["flex", "flex-row", "gap-2", "items-center"])}>

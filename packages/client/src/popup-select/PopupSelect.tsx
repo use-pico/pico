@@ -49,7 +49,7 @@ export namespace PopupSelect {
 		queryKey: string;
 		query: Query.Callback<TItem>;
 
-		value?: string;
+		value?: string | null;
 		onChange(value: string | undefined): void;
 	}
 

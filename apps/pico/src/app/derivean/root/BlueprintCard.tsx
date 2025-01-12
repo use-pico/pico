@@ -6,6 +6,7 @@ import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import type { withBlueprintDependencyGraph } from "~/app/derivean/utils/withBlueprintDependencyGraph";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintCard {
@@ -22,11 +23,16 @@ export namespace BlueprintCard {
 	}
 
 	export interface Props extends Card.PropsEx<Data> {
-		graph: withBlueprintGraph.Result;
+		dependencies: withBlueprintGraph.Result;
+		upgrade: withBlueprintDependencyGraph.Result;
 	}
 }
 
-export const BlueprintCard: FC<BlueprintCard.Props> = ({ graph, ...props }) => {
+export const BlueprintCard: FC<BlueprintCard.Props> = ({
+	dependencies,
+	upgrade,
+	...props
+}) => {
 	return (
 		<Card
 			items={[
@@ -81,8 +87,21 @@ export const BlueprintCard: FC<BlueprintCard.Props> = ({ graph, ...props }) => {
 					render({ entity }) {
 						return (
 							<Dependencies
-								graph={graph}
+								graph={dependencies}
 								blueprintId={entity.id}
+							/>
+						);
+					},
+				},
+				{
+					id: "upgrade",
+					label: <Tx label={"Blueprint upgrade path (label)"} />,
+					render({ entity }) {
+						return (
+							<Dependencies
+								graph={upgrade}
+								blueprintId={entity.id}
+								reverse
 							/>
 						);
 					},
