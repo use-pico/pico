@@ -16,7 +16,7 @@ import { BlueprintTable } from "~/app/derivean/root/BlueprintTable";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
-import { withBlueprintGraph } from "~/app/derivean/utils/withBuildingGraph";
+import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/list",
@@ -57,7 +57,7 @@ export const Route = createFileRoute(
                                                 'name', ${eb.ref("r.name")}
                                             ))`.as("requirements");
 										})
-										.whereRef("br.blueprintId", "=", "br.id")
+										.whereRef("br.blueprintId", "=", "bl.id")
 										.as("requirements"),
 								(eb) =>
 									eb
@@ -71,7 +71,7 @@ export const Route = createFileRoute(
                                                         'name', ${eb.ref("bl2.name")}
                                                     ))`.as("requirements");
 										})
-										.whereRef("bd.blueprintId", "=", "bl2.id")
+										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
 										.as("dependencies"),
 							])

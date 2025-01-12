@@ -25,7 +25,7 @@ export const withBlueprintGraph = async ({
 		.selectFrom("Blueprint_Dependency")
 		.select(["blueprintId", "dependencyId"])
 		.execute()) {
-		graph.addDependency(dependencyId, blueprintId);
+		graph.addDependency(blueprintId, dependencyId);
 	}
 
 	return graph;

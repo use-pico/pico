@@ -2,7 +2,7 @@ import { Badge, Icon, Tx } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import { DepGraphCycleError } from "dependency-graph";
 import type { FC } from "react";
-import type { withBlueprintGraph } from "~/app/derivean/utils/withBuildingGraph";
+import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace Dependencies {
 	export interface Props {

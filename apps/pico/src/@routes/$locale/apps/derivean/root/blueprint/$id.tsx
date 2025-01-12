@@ -11,7 +11,7 @@ import { BlueprintIndexMenu } from "~/app/derivean/root/BlueprintIndexMenu";
 import { BlueprintPreview } from "~/app/derivean/root/BlueprintPreview";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
-import { withBlueprintGraph } from "~/app/derivean/utils/withBuildingGraph";
+import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/$id",

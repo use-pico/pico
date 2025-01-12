@@ -24,7 +24,7 @@ import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
-import type { withBlueprintGraph } from "~/app/derivean/utils/withBuildingGraph";
+import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintTable {
 	export interface Data extends IdentitySchema.Type {
@@ -42,7 +42,7 @@ export namespace BlueprintTable {
 	}
 
 	export interface Context {
-		graph?: withBlueprintGraph.Result;
+		graph: withBlueprintGraph.Result;
 	}
 }
 
@@ -121,29 +121,20 @@ const columns = [
 		header() {
 			return <Tx label={"Blueprint dependencies (label)"} />;
 		},
-		render({ value }) {
-			return (
-				<BlueprintDependenciesInline
-					textTitle={<Tx label={"Blueprint dependencies (title)"} />}
-					textEmpty={<Tx label={"No dependencies (label)"} />}
-					dependencies={value}
-				/>
-			);
-		},
-		size: 64,
-	}),
-	column({
-		name: "graph",
-		header() {
-			return <Tx label={"Blueprint graph (label)"} />;
-		},
-		render({ data, context: { graph } }) {
-			return graph ?
-					<Dependencies
-						graph={graph}
-						blueprintId={data.id}
-					/>
-				:	"-";
+		render({ data, value, context: { graph } }) {
+			return value.length > 0 ?
+					<div className={"flex flex-row gap-4"}>
+						<BlueprintDependenciesInline
+							textTitle={<Tx label={"Blueprint dependencies (title)"} />}
+							dependencies={value}
+						/>
+						<div className={"border-r border-slate-300"} />
+						<Dependencies
+							graph={graph}
+							blueprintId={data.id}
+						/>
+					</div>
+				:	<Tx label={"No dependencies (label)"} />;
 		},
 		size: 64,
 	}),
@@ -151,7 +142,7 @@ const columns = [
 
 export namespace BlueprintTable {
 	export interface Props extends Table.PropsEx<Data, BlueprintTable.Context> {
-		graph?: withBlueprintGraph.Result;
+		graph: withBlueprintGraph.Result;
 	}
 }
 
