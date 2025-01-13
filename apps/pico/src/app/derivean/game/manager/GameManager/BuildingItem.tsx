@@ -7,6 +7,7 @@ import { Header } from "~/app/derivean/game/manager/GameManager/BuildingItem/Hea
 import { ProductionLine } from "~/app/derivean/game/manager/GameManager/ProductionLine";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
+import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
@@ -28,7 +29,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 	inventory,
 	buildingCounts,
 }) => {
-	const available =
+	const canBuild =
 		entity.withAvailableBuildings && entity.withAvailableResources;
 
 	const isBuilt =
@@ -41,15 +42,16 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 				"flex",
 				"flex-col",
 				"gap-2",
-				"bg-slate-50",
 				"border-slate-300",
 				"rounded-lg",
 				"p-4",
 				"pt-2",
-				"border",
-				entity.withAvailableBuildings ? ["bg-amber-50"] : [],
-				available ? ["bg-emerald-50"] : [],
-				isBuilt ? ["shadow-md"] : [],
+				"border-2",
+				entity.withAvailableBuildings ?
+					["border-amber-200", "hover:border-amber-400"]
+				:	[],
+				canBuild ? ["border-emerald-200", "hover:border-emerald-400"] : [],
+				isBuilt ? ["border-purple-200", "hover:border-purple-400"] : [],
 			])}
 		>
 			<div
@@ -69,15 +71,18 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					userId={userId}
 					blueprintId={entity.id}
 					isBuilt={isBuilt}
-					canBuild={available}
+					canBuild={canBuild}
 					upgrades={upgrades}
 				/>
-				<RequirementsInline
-					textTitle={<Tx label={"Building requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={entity.requirements}
-					diff={inventory}
-				/>
+				<div className={"flex flex-row gap-4 items-center"}>
+					<RequirementsInline
+						textTitle={<Tx label={"Building requirements (title)"} />}
+						textEmpty={<Tx label={"No requirements (label)"} />}
+						requirements={entity.requirements}
+						diff={inventory}
+					/>
+					<CyclesInline cycles={entity.cycles} />
+				</div>
 			</div>
 			<Dependencies
 				graph={dependencies}
@@ -86,15 +91,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 			/>
 			{isBuilt ?
 				<>
-					<div
-						className={tvc([
-							"border",
-							"border-slate-300",
-							"rounded-md",
-							"p-4",
-							"mt-2",
-						])}
-					>
+					<div className={tvc(["flex", "flex-col", "gap-2"])}>
 						{entity.production.map((production) => {
 							return (
 								<ProductionLine
