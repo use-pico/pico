@@ -125,11 +125,11 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 					<Badge>x{toHumanNumber({ number: production.amount })}</Badge>
 				</div>
 				<div className={"flex flex-row items-center gap-2"}>
-					<CyclesInline cycles={production.cycles} />
 					<RequirementsInline
 						requirements={production.requirements}
 						diff={inventory}
 					/>
+					<CyclesInline cycles={production.cycles} />
 				</div>
 			</div>
 			{queue ?

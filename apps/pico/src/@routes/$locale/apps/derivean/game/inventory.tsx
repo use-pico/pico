@@ -4,7 +4,6 @@ import {
     navigateOnCursor,
     navigateOnFilter,
     navigateOnFulltext,
-    navigateOnSelection,
     Tx,
     withListCount,
     withSourceSearchSchema,
@@ -94,7 +93,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
 	},
 	component() {
 		const { data, count } = Route.useLoaderData();
-		const { filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -107,11 +106,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
-						},
-						selection: {
-							type: "multi",
-							value: selection,
-							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
