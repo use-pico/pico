@@ -8,6 +8,7 @@ import {
     toast,
     TrashIcon,
     Tx,
+    useInvalidator,
     useTable,
     withColumn,
     withToastPromiseTx,
@@ -66,11 +67,16 @@ export namespace UserTable {
 }
 
 export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
+	const invalidator = useInvalidator([["Management"], ["User_Inventory"]]);
+
 	const defaultInventoryMutation = useMutation({
 		async mutationFn({ userId }: { userId: string }) {
 			return kysely.transaction().execute((tx) => {
 				return withDefaultInventory({ tx, userId });
 			});
+		},
+		async onSuccess() {
+			await invalidator();
 		},
 	});
 	const resetGameMutation = useMutation({
@@ -78,7 +84,19 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 			return kysely.transaction().execute(async (tx) => {
 				await withDefaultInventory({ tx, userId });
 				await tx.deleteFrom("Building").where("userId", "=", userId).execute();
+				await tx
+					.deleteFrom("Production")
+					.where("userId", "=", userId)
+					.execute();
+				await tx
+					.deleteFrom("Construction")
+					.where("userId", "=", userId)
+					.execute();
+				await tx.deleteFrom("Cycle").where("userId", "=", userId).execute();
 			});
+		},
+		async onSuccess() {
+			await invalidator();
 		},
 	});
 

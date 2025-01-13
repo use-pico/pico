@@ -8,6 +8,7 @@ export namespace InventoryTable {
 		amount: number;
 		limit: number;
 		resourceId: string;
+		storage?: number;
 	}
 }
 
@@ -45,15 +46,20 @@ const columns = [
 		header() {
 			return <Tx label={"Inventory limit (label)"} />;
 		},
-		render({ value, data }) {
-			return (
-				<div className={"flex flex-row items-center gap-2 w-full"}>
-					<div>{toHumanNumber({ number: value })}</div>
-					<Progress value={(100 * data.amount) / data.limit} />
-				</div>
-			);
+		render({ value }) {
+			return toHumanNumber({ number: value });
 		},
 		size: 14,
+	}),
+	column({
+		name: "storage",
+		header() {
+			return <Tx label={"Storage (label)"} />;
+		},
+		render({ data }) {
+			return <Progress value={(100 * data.amount) / data.limit} />;
+		},
+		size: 24,
 	}),
 ];
 

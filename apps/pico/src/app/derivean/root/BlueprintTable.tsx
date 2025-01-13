@@ -76,47 +76,6 @@ const columns = [
 		size: 14,
 	}),
 	column({
-		name: "cycles",
-		header() {
-			return <Tx label={"Construction cycles (label)"} />;
-		},
-		render({ value }) {
-			return (
-				<div className={"flex flex-row items-center gap-2"}>
-					<Icon icon={CycleIcon} />
-					{toHumanNumber({ number: value })}
-				</div>
-			);
-		},
-		size: 8,
-	}),
-	column({
-		name: "productionLimit",
-		header() {
-			return <Tx label={"Production limit (label)"} />;
-		},
-		render({ value }) {
-			return toHumanNumber({ number: value });
-		},
-		size: 8,
-	}),
-	column({
-		name: "requirements",
-		header() {
-			return <Tx label={"Required resources (label)"} />;
-		},
-		render({ value }) {
-			return (
-				<RequirementsInline
-					textTitle={<Tx label={"Blueprint requirements (title)"} />}
-					textEmpty={<Tx label={"No requirements (label)"} />}
-					requirements={value}
-				/>
-			);
-		},
-		size: 32,
-	}),
-	column({
 		name: "dependencies",
 		header() {
 			return <Tx label={"Blueprint dependencies (label)"} />;
@@ -141,6 +100,22 @@ const columns = [
 		size: 32,
 	}),
 	column({
+		name: "requirements",
+		header() {
+			return <Tx label={"Required resources (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<RequirementsInline
+					textTitle={<Tx label={"Blueprint requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={value}
+				/>
+			);
+		},
+		size: 32,
+	}),
+	column({
 		name: "upgrades",
 		header() {
 			return <Tx label={"Blueprint upgrade path (label)"} />;
@@ -155,6 +130,31 @@ const columns = [
 				:	null;
 		},
 		size: 32,
+	}),
+	column({
+		name: "cycles",
+		header() {
+			return <Tx label={"Construction cycles (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<div className={"flex flex-row items-center gap-2"}>
+					<Icon icon={CycleIcon} />
+					{toHumanNumber({ number: value })}
+				</div>
+			);
+		},
+		size: 8,
+	}),
+	column({
+		name: "productionLimit",
+		header() {
+			return <Tx label={"Production limit (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 8,
 	}),
 ];
 

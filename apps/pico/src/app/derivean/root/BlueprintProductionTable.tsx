@@ -18,7 +18,9 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BlueprintProductionForm } from "~/app/derivean/root/BlueprintProductionForm";
+import { MoveProductionToForm } from "~/app/derivean/root/MoveProductionToForm";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
 
@@ -205,6 +207,39 @@ export const BlueprintProductionTable: FC<BlueprintProductionTable.Props> = ({
 										},
 									})}
 								/>
+							</ActionModal>
+
+							<ActionModal
+								label={<Tx label={"Move production to (menu)"} />}
+								textTitle={<Tx label={"Move production to (modal)"} />}
+								icon={ResourceIcon}
+							>
+								{({ close }) => {
+									return (
+										<MoveProductionToForm
+											mutation={useMutation({
+												async mutationFn(values) {
+													return toast.promise(
+														kysely.transaction().execute(async (tx) => {
+															await tx
+																.updateTable("Blueprint_Production")
+																.set({
+																	blueprintId: values.blueprintId,
+																})
+																.where("id", "=", data.id)
+																.execute();
+														}),
+														withToastPromiseTx("Move production to"),
+													);
+												},
+												async onSuccess() {
+													await invalidator();
+													close();
+												},
+											})}
+										/>
+									);
+								}}
 							</ActionModal>
 
 							<ActionModal
