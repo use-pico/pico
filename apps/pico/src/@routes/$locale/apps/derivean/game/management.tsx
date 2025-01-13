@@ -314,11 +314,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 									.selectFrom("Blueprint as bl")
 									.innerJoin("Building as bg", "bg.blueprintId", "bl.id")
 									.select("upgradeId")
+									.where("upgradeId", "is not", null)
+									.where("bg.userId", "=", user.id)
 									/**
 									 * I don't like any, but necessary evil as the result is correct, but Kysely don't see it
 									 */
-									.where("upgradeId", "is not", null)
-									.where("bg.userId", "=", user.id)
 									.where("bg.isUpgraded", "=", false) as any,
 							)
 							.orderBy("bl.sort", "asc")
