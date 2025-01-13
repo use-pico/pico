@@ -132,6 +132,13 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					buildingCounts={buildingCounts}
 				/>
 			)}
+			{isBuilt && entity.upgradeTo ?
+				<Dependencies
+					graph={dependencies}
+					blueprintId={entity.upgradeTo.id}
+					buildingCounts={buildingCounts}
+				/>
+			:	null}
 			{isBuilt ?
 				<>
 					<div

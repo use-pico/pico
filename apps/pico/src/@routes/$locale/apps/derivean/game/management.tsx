@@ -308,7 +308,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 									.where("bg.userId", "=", user.id)
 									.where("bg.isUpgraded", "=", false) as any,
 							)
-							.orderBy("bl.sort", "asc"),
+							.orderBy("bl.sort", "asc")
+							.orderBy("bl.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
