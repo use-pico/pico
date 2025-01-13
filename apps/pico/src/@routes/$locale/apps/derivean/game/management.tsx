@@ -249,6 +249,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								);
 							})
 							.where("filter.withAvailableBuildings", "=", true)
+							/**
+							 * Filter out blueprints which are upgrades of another blueprints
+							 */
+							.where(
+								"bl.id",
+								"not in",
+								tx
+									.selectFrom("Blueprint")
+									.select("upgradeId")
+									/**
+									 * I don't like any, but necessary evil as the result is correct, but Kysely don't see it
+									 */
+									.where("upgradeId", "is not", null) as any,
+							)
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
 							let $select = select;
