@@ -100,6 +100,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 						select: tx
 							.selectFrom("Blueprint as bl")
 							.innerJoin($blueprintFilter.as("filter"), "bl.id", "filter.id")
+							.leftJoin("Building as bg", "bg.blueprintId", "bl.id")
 							.select([
 								"bl.id",
 								"bl.name",
@@ -284,20 +285,26 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								);
 							})
 							.where("filter.withAvailableBuildings", "=", true)
+							.where((eb) => {
+								return eb.or([
+									eb("bg.isUpgraded", "=", false),
+									eb("bg.isUpgraded", "is", null),
+								]);
+							})
 							/**
 							 * Filter out blueprints which are upgrades of another blueprints
 							 */
-							.where(
-								"bl.id",
-								"not in",
-								tx
-									.selectFrom("Blueprint")
-									.select("upgradeId")
-									/**
-									 * I don't like any, but necessary evil as the result is correct, but Kysely don't see it
-									 */
-									.where("upgradeId", "is not", null) as any,
-							)
+							// .where(
+							// 	"bl.id",
+							// 	"not in",
+							// 	tx
+							// 		.selectFrom("Blueprint")
+							// 		.select("upgradeId")
+							// 		/**
+							// 		 * I don't like any, but necessary evil as the result is correct, but Kysely don't see it
+							// 		 */
+							// 		.where("upgradeId", "is not", null) as any,
+							// )
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
 							let $select = select;
@@ -470,6 +477,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		const navigate = Route.useNavigate();
 
 		console.log("Data", data.data);
+
+		/**
+		 * TODO When filter is applied, queue count is wrong (under limit), thus it's possible to queue more resources than productionLimit allows; move this to SQL query
+		 */
 
 		return (
 			<GameManager

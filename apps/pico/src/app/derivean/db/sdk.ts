@@ -209,11 +209,14 @@ export const withBuildingSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				isUpgraded:
+					// boolean / not nullable
+					withBoolSchema(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "blueprintId"],
+		sort: ["id", "userId", "blueprintId", "isUpgraded"],
 	});
 };
 

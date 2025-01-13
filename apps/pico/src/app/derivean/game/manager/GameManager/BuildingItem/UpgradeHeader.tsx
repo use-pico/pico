@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-    Badge,
-    Button,
-    toast,
-    useInvalidator,
-    withToastPromiseTx,
+	Badge,
+	Button,
+	toast,
+	useInvalidator,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
@@ -16,6 +16,7 @@ export namespace UpgradeHeader {
 		name: string;
 		userId: string;
 		blueprintId: string;
+		upgradeId: string;
 		canBuild: boolean;
 	}
 }
@@ -24,6 +25,7 @@ export const UpgradeHeader: FC<UpgradeHeader.Props> = ({
 	name,
 	userId,
 	blueprintId,
+	upgradeId,
 	canBuild,
 }) => {
 	const invalidator = useInvalidator([
@@ -34,10 +36,17 @@ export const UpgradeHeader: FC<UpgradeHeader.Props> = ({
 	]);
 
 	const mutation = useMutation({
-		async mutationFn({ blueprintId }: { blueprintId: string }) {
+		async mutationFn({
+			blueprintId,
+			upgradeId,
+		}: {
+			blueprintId: string;
+			upgradeId: string;
+		}) {
 			return toast.promise(
 				withConstructionQueue({
 					blueprintId,
+					upgradeId,
 					userId,
 				}),
 				withToastPromiseTx("Building queue"),
@@ -73,6 +82,7 @@ export const UpgradeHeader: FC<UpgradeHeader.Props> = ({
 						onClick={() => {
 							mutation.mutate({
 								blueprintId,
+								upgradeId,
 							});
 						}}
 						css={{

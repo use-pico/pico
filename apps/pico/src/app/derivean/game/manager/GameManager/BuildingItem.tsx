@@ -81,12 +81,13 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						canBuild={canBuild}
 						upgrades={upgrades}
 					/>
-					{entity.upgradeTo ?
+					{isBuilt && entity.upgradeTo ?
 						<>
 							<UpgradeHeader
 								name={entity.upgradeTo.name}
 								userId={userId}
 								blueprintId={entity.upgradeTo.id}
+								upgradeId={entity.id}
 								canBuild={
 									entity.upgradeTo.withAvailableBuildings &&
 									entity.upgradeTo.withAvailableResources
@@ -106,7 +107,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						<CyclesInline cycles={entity.cycles} />
 					</div>
 				)}
-				{entity.upgradeTo ?
+				{isBuilt && entity.upgradeTo ?
 					<div className={"flex flex-row gap-4 items-center"}>
 						<RequirementsInline
 							textTitle={<Tx label={"Building requirements (title)"} />}

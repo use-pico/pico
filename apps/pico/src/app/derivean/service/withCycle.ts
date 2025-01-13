@@ -44,6 +44,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 							id: genId(),
 							blueprintId,
 							userId,
+							isUpgraded: false,
 						})
 						.execute();
 

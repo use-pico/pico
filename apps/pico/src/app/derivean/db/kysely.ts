@@ -499,6 +499,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
 			)
 
+			.addColumn("isUpgraded", "boolean", (col) =>
+				col.notNull().defaultTo(false),
+			)
+
 			/**
 			 * User may have only one type of building; this also checks when user upgrades to
 			 * a building which accidentally creates one already existing.
