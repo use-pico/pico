@@ -21,6 +21,7 @@ export namespace ProductionLine {
 		userId: string;
 		production: GameManager.Production;
 		inventory: InventorySchema["~entity-array"];
+		isProductionLimit: boolean;
 	}
 }
 
@@ -28,6 +29,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 	userId,
 	production,
 	inventory,
+	isProductionLimit,
 }) => {
 	const invalidator = useInvalidator([
 		["Management"],
@@ -44,7 +46,8 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 		return inventoryItem && inventoryItem.amount >= requirement.amount;
 	});
 
-	const isFull = production.queue.length >= production.limit;
+	const isFull =
+		production.queue.length >= production.limit || isProductionLimit;
 
 	const queue = production.queue.find(
 		(queue) => (queue.blueprintProductionId = production.id),

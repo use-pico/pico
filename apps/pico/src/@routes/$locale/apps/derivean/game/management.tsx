@@ -118,6 +118,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								"bl.id",
 								"bl.name",
 								"bl.cycles",
+								"bl.productionLimit",
 								"filter.withAvailableBuildings",
 								"filter.withAvailableResources",
 								(eb) =>
@@ -152,6 +153,23 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
 										.as("dependencies"),
+								(eb) =>
+									eb
+										.selectFrom("Construction as c")
+										.innerJoin("Blueprint as bl2", "bl2.id", "c.blueprintId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                        'id', ${eb.ref("c.id")},
+                                                        'cycle', ${eb.ref("c.cycle")},
+                                                        'from', ${eb.ref("c.from")},
+                                                        'to', ${eb.ref("c.to")},
+                                                        'name', ${eb.ref("bl2.name")}
+                                                    ))`.as("requirements");
+										})
+										.whereRef("c.blueprintId", "=", "bl.id")
+										.where("c.userId", "=", user.id)
+										.orderBy("bl2.name", "asc")
+										.as("construction"),
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Production as bp")
@@ -210,6 +228,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.orderBy("r.name", "asc")
 										.as("production"),
 							])
+							.where("filter.withAvailableBuildings", "=", true)
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
 							const $select = select;
@@ -264,8 +283,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							id: z.string().min(1),
 							name: z.string().min(1),
 							cycles: z.number().int().nonnegative(),
+							productionLimit: z.number().int().nonnegative(),
 							withAvailableBuildings: withBoolSchema(),
 							withAvailableResources: withBoolSchema(),
+							construction: withJsonArraySchema(
+								z.object({
+									id: z.string().min(1),
+									from: z.number().int().nonnegative(),
+									to: z.number().int().nonnegative(),
+									cycle: z.number().int().nonnegative(),
+								}),
+							),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

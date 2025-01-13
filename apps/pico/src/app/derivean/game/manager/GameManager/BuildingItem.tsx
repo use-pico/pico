@@ -1,4 +1,4 @@
-import { Tx } from "@use-pico/client";
+import { Progress, Tx } from "@use-pico/client";
 import { tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { Dependencies } from "~/app/derivean/game/Dependencies";
@@ -36,6 +36,17 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 		(buildingCounts.find((item) => item.blueprintId === entity.id)?.count ||
 			0) > 0;
 
+	/**
+	 * In general, current game rules allows only one construction at a time.
+	 */
+	const queue = entity.construction?.[0];
+
+	const isProductionLimit =
+		entity.production.reduce(
+			(sum, production) => sum + production.queue.length,
+			0,
+		) >= entity.productionLimit;
+
 	return (
 		<div
 			className={tvc([
@@ -60,8 +71,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					"flex-row",
 					"gap-2",
 					"justify-between",
-					"border-b",
-					"border-slate-300",
 					"py-2",
 				])}
 			>
@@ -84,6 +93,12 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					<CyclesInline cycles={entity.cycles} />
 				</div>
 			</div>
+			{queue ?
+				<Progress
+					variant={{ size: "md" }}
+					value={(100 * queue.cycle) / (queue.to - queue.from)}
+				/>
+			:	null}
 			<Dependencies
 				graph={dependencies}
 				blueprintId={entity.id}
@@ -91,7 +106,16 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 			/>
 			{isBuilt ?
 				<>
-					<div className={tvc(["flex", "flex-col", "gap-2"])}>
+					<div
+						className={tvc([
+							"flex",
+							"flex-col",
+							"gap-2",
+							"border-t",
+							"border-slate-300",
+							"pt-4",
+						])}
+					>
 						{entity.production.map((production) => {
 							return (
 								<ProductionLine
@@ -99,6 +123,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 									userId={userId}
 									production={production}
 									inventory={inventory}
+                                    isProductionLimit={isProductionLimit}
 								/>
 							);
 						})}

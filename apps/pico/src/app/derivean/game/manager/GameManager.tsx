@@ -46,9 +46,17 @@ export namespace GameManager {
 		queue: Production.Queue[];
 	}
 
+	export interface Construction {
+		id: string;
+		from: number;
+		to: number;
+		cycle: number;
+	}
+
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
+		productionLimit: number;
 		withAvailableBuildings: boolean;
 		withAvailableResources: boolean;
 		requirements: (BlueprintRequirementSchema["~entity"] & {
@@ -58,6 +66,7 @@ export namespace GameManager {
 			name: string;
 		})[];
 		production: Production[];
+		construction: Construction[];
 	}
 
 	export interface Props {
