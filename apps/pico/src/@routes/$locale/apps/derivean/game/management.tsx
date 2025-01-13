@@ -10,6 +10,7 @@ import {
     FilterSchema,
     withBoolSchema,
     withJsonArraySchema,
+    withJsonSchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -106,6 +107,23 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								"bl.productionLimit",
 								"filter.withAvailableBuildings",
 								"filter.withAvailableResources",
+								(eb) =>
+									eb
+										.selectFrom("Blueprint as bu")
+										.innerJoin(
+											$blueprintFilter.as("filter"),
+											"bu.id",
+											"filter.id",
+										)
+										.select((eb) => {
+											return sql<string>`json_object(
+                                                'id', ${eb.ref("bu.id")},
+                                                'withAvailableBuildings', ${eb.ref("filter.withAvailableBuildings")},
+                                                'withAvailableResources', ${eb.ref("filter.withAvailableResources")}
+                                            )`.as("requirements");
+										})
+										.whereRef("bu.id", "=", "bl.upgradeId")
+										.as("upgradeTo"),
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -269,6 +287,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							productionLimit: z.number().int().nonnegative(),
 							withAvailableBuildings: withBoolSchema(),
 							withAvailableResources: withBoolSchema(),
+							upgradeTo: withJsonSchema(
+								z.object({
+									id: z.string().min(1),
+									withAvailableBuildings: withBoolSchema(),
+									withAvailableResources: withBoolSchema(),
+								}),
+							).nullish(),
 							construction: withJsonArraySchema(
 								z.object({
 									id: z.string().min(1),
@@ -378,6 +403,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		});
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
+
+		console.log("Data", data.data);
 
 		return (
 			<GameManager
