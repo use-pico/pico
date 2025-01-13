@@ -72,14 +72,29 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					"py-2",
 				])}
 			>
-				<Header
-					name={entity.name}
-					userId={userId}
-					blueprintId={entity.id}
-					isBuilt={isBuilt}
-					canBuild={canBuild}
-					upgrades={upgrades}
-				/>
+				<div className={"flex flex-row items-center gap-4"}>
+					<Header
+						name={entity.name}
+						userId={userId}
+						blueprintId={entity.id}
+						isBuilt={isBuilt}
+						canBuild={canBuild}
+						upgrades={upgrades}
+					/>
+					{entity.upgradeTo ?
+						<>
+							<UpgradeHeader
+								name={entity.upgradeTo.name}
+								userId={userId}
+								blueprintId={entity.upgradeTo.id}
+								canBuild={
+									entity.upgradeTo.withAvailableBuildings &&
+									entity.upgradeTo.withAvailableResources
+								}
+							/>
+						</>
+					:	null}
+				</div>
 				{isBuilt || queue ? null : (
 					<div className={"flex flex-row gap-4 items-center"}>
 						<RequirementsInline
@@ -91,6 +106,17 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						<CyclesInline cycles={entity.cycles} />
 					</div>
 				)}
+				{entity.upgradeTo ?
+					<div className={"flex flex-row gap-4 items-center"}>
+						<RequirementsInline
+							textTitle={<Tx label={"Building requirements (title)"} />}
+							textEmpty={<Tx label={"No requirements (label)"} />}
+							requirements={entity.upgradeTo.requirements}
+							diff={inventory}
+						/>
+						<CyclesInline cycles={entity.upgradeTo.cycles} />
+					</div>
+				:	null}
 			</div>
 			{queue ?
 				<Progress
@@ -105,45 +131,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					buildingCounts={buildingCounts}
 				/>
 			)}
-			{entity.upgradeTo ?
-				<div
-					className={tvc([
-						"border",
-						"rounded-md",
-						"bg-purple-100",
-						"border-purple-300",
-						"p-2",
-					])}
-				>
-					<div
-						className={tvc([
-							"flex",
-							"flex-row",
-							"gap-2",
-							"justify-between",
-							"py-2",
-						])}
-					>
-						<UpgradeHeader
-							name={entity.upgradeTo.name}
-							userId={userId}
-							blueprintId={entity.upgradeTo.id}
-							isBuilt={isBuilt}
-							canBuild={canBuild}
-						/>
-
-						<div className={"flex flex-row gap-4 items-center"}>
-							<RequirementsInline
-								textTitle={<Tx label={"Building requirements (title)"} />}
-								textEmpty={<Tx label={"No requirements (label)"} />}
-								requirements={entity.upgradeTo.requirements}
-								diff={inventory}
-							/>
-							<CyclesInline cycles={entity.upgradeTo.cycles} />
-						</div>
-					</div>
-				</div>
-			:	null}
 			{isBuilt ?
 				<>
 					<div

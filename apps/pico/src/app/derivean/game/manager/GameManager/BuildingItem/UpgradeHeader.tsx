@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import {
+    Badge,
     Button,
-    Icon,
     toast,
     useInvalidator,
     withToastPromiseTx,
 } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
 
@@ -17,7 +16,6 @@ export namespace UpgradeHeader {
 		name: string;
 		userId: string;
 		blueprintId: string;
-		isBuilt: boolean;
 		canBuild: boolean;
 	}
 }
@@ -26,7 +24,6 @@ export const UpgradeHeader: FC<UpgradeHeader.Props> = ({
 	name,
 	userId,
 	blueprintId,
-	isBuilt,
 	canBuild,
 }) => {
 	const invalidator = useInvalidator([
@@ -55,40 +52,49 @@ export const UpgradeHeader: FC<UpgradeHeader.Props> = ({
 		<div
 			className={tvc(["flex", "flex-row", "gap-4", "items-center", "text-md"])}
 		>
-			<div className={tvc(["flex", "gap-2", "items-center"])}>
-				{isBuilt ?
-					<Icon icon={BuildingIcon} />
-				:	<div
-						className={tvc([
-							"flex",
-							"flex-row",
-							"gap-2",
-							"items-center",
-							"font-bold",
-							"text-sm",
-							"text-slate-500",
-						])}
-					>
-						<Button
-							iconEnabled={ConstructionIcon}
-							iconDisabled={ConstructionIcon}
-							variant={{
-								variant: !isBuilt && canBuild ? "primary" : "subtle",
-							}}
-							onClick={() => {
-								mutation.mutate({
-									blueprintId,
-								});
-							}}
-							css={{
-								base: ["px-8"],
-							}}
-							disabled={!canBuild}
-							loading={mutation.isPending}
-						/>
-					</div>
-				}
-				<div className={"flex flex-row gap-2"}>{name}</div>
+			<div className={tvc(["flex", "gap-4", "items-center"])}>
+				<div
+					className={tvc([
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"font-bold",
+						"text-sm",
+						"text-slate-500",
+					])}
+				>
+					<Button
+						iconEnabled={"icon-[gravity-ui--arrow-right]"}
+						iconDisabled={ConstructionIcon}
+						variant={{
+							variant: canBuild ? "primary" : "subtle",
+						}}
+						onClick={() => {
+							mutation.mutate({
+								blueprintId,
+							});
+						}}
+						css={{
+							base: ["px-8"],
+						}}
+						disabled={!canBuild}
+						loading={mutation.isPending}
+					/>
+				</div>
+				<Badge
+					css={{
+						base: [
+							"bg-purple-100",
+							"border-purple-300",
+							"px-4",
+							"py-1",
+							"text-md",
+						],
+					}}
+				>
+					{name}
+				</Badge>
 			</div>
 		</div>
 	);

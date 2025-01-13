@@ -8,7 +8,6 @@ import {
 } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
-import { Upgrades } from "~/app/derivean/game/Upgrades";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
@@ -100,11 +99,6 @@ export const Header: FC<Header.Props> = ({
 					</div>
 				}
 				<div className={"flex flex-row gap-2"}>{name}</div>
-
-				<Upgrades
-					graph={upgrades}
-					blueprintId={blueprintId}
-				/>
 			</div>
 		</div>
 	);
