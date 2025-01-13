@@ -1,6 +1,7 @@
 import { Cursor, Fulltext, Tx, type withListCount } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { BuildingItem } from "~/app/derivean/game/manager/GameManager/BuildingItem";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
@@ -72,6 +73,7 @@ export namespace GameManager {
 	export interface Props {
 		data: withListCount.Result<Data>;
 		userId: string;
+		cycle: number;
 		dependencies: withBlueprintGraph.Result;
 		upgrades: withBlueprintUpgradeGraph.Result;
 		inventory: InventorySchema["~entity-array"];
@@ -84,6 +86,7 @@ export namespace GameManager {
 export const GameManager: FC<GameManager.Props> = ({
 	data,
 	userId,
+	cycle,
 	dependencies,
 	upgrades,
 	inventory,
@@ -94,6 +97,14 @@ export const GameManager: FC<GameManager.Props> = ({
 	return (
 		<div className={"flex flex-col gap-2"}>
 			<Fulltext {...fulltext} />
+			<CycleButton
+				userId={userId}
+				cycle={cycle}
+				css={{
+					base: ["fixed", "bottom-4", "right-4", "z-10"],
+				}}
+				variant={{ size: "md" }}
+			/>
 			<Cursor
 				count={data.count}
 				textTotal={<Tx label={"Count of buildings"} />}

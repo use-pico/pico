@@ -76,22 +76,23 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 			>
 				<Header
 					name={entity.name}
-					cycles={entity.cycles}
 					userId={userId}
 					blueprintId={entity.id}
 					isBuilt={isBuilt}
 					canBuild={canBuild}
 					upgrades={upgrades}
 				/>
-				<div className={"flex flex-row gap-4 items-center"}>
-					<RequirementsInline
-						textTitle={<Tx label={"Building requirements (title)"} />}
-						textEmpty={<Tx label={"No requirements (label)"} />}
-						requirements={entity.requirements}
-						diff={inventory}
-					/>
-					<CyclesInline cycles={entity.cycles} />
-				</div>
+				{isBuilt || queue ? null : (
+					<div className={"flex flex-row gap-4 items-center"}>
+						<RequirementsInline
+							textTitle={<Tx label={"Building requirements (title)"} />}
+							textEmpty={<Tx label={"No requirements (label)"} />}
+							requirements={entity.requirements}
+							diff={inventory}
+						/>
+						<CyclesInline cycles={entity.cycles} />
+					</div>
+				)}
 			</div>
 			{queue ?
 				<Progress
@@ -99,11 +100,13 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					value={(100 * queue.cycle) / (queue.to - queue.from)}
 				/>
 			:	null}
-			<Dependencies
-				graph={dependencies}
-				blueprintId={entity.id}
-				buildingCounts={buildingCounts}
-			/>
+			{isBuilt || queue ? null : (
+				<Dependencies
+					graph={dependencies}
+					blueprintId={entity.id}
+					buildingCounts={buildingCounts}
+				/>
+			)}
 			{isBuilt ?
 				<>
 					<div
@@ -123,7 +126,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 									userId={userId}
 									production={production}
 									inventory={inventory}
-                                    isProductionLimit={isProductionLimit}
+									isProductionLimit={isProductionLimit}
 								/>
 							);
 						})}

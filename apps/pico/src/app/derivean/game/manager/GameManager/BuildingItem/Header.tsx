@@ -12,13 +12,11 @@ import { Upgrades } from "~/app/derivean/game/Upgrades";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
-import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace Header {
 	export interface Props {
 		name: string;
-		cycles: number;
 		userId: string;
 		blueprintId: string;
 		isBuilt: boolean;
@@ -29,7 +27,6 @@ export namespace Header {
 
 export const Header: FC<Header.Props> = ({
 	name,
-	cycles,
 	userId,
 	blueprintId,
 	isBuilt,
@@ -103,7 +100,7 @@ export const Header: FC<Header.Props> = ({
 					</div>
 				}
 				<div className={"flex flex-row gap-2"}>{name}</div>
-				
+
 				<Upgrades
 					graph={upgrades}
 					blueprintId={blueprintId}

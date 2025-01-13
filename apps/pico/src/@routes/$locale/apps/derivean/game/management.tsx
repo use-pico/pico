@@ -6,18 +6,29 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withBoolSchema, withJsonArraySchema } from "@use-pico/common";
+import {
+    FilterSchema,
+    withBoolSchema,
+    withJsonArraySchema,
+} from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
-import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
-	validateSearch: zodValidator(withSourceSearchSchema(BlueprintSchema)),
+	validateSearch: zodValidator(
+		withSourceSearchSchema({
+			filter: FilterSchema.merge(
+				z.object({
+					blueprintId: z.string().optional(),
+				}),
+			),
+		}),
+	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -82,33 +93,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
                           ) THEN true ELSE false END
                       `.as("withAvailableBuildings"),
 					]);
-
-					// 			const $productionFilter = tx
-					// 				.selectFrom("Blueprint_Production as bp")
-					// 				.select([
-					// 					"bp.id as blueprintProductionId",
-					// 					sql`
-					//                 CASE
-					// WHEN NOT EXISTS (
-					//     SELECT 1
-					//     FROM Blueprint_Production_Requirement bpr
-					//     LEFT JOIN (
-					//         SELECT
-					//             i.resourceId,
-					//             SUM(i.amount) AS totalAmount
-					//         FROM Inventory i
-					//         INNER JOIN User_Inventory ui
-					//             ON i.id = ui.inventoryId
-					//         WHERE ui.userId = ${user.id}
-					//         GROUP BY i.resourceId
-					//     ) resource
-					//         ON bpr.resourceId = resource.resourceId
-					//     WHERE
-					//         bpr.blueprintProductionId = bp.id AND
-					//         (resource.totalAmount IS NULL OR resource.totalAmount < bpr.amount)
-					// ) THEN true ELSE false END
-					//               `.as("withAvailableResources"),
-					// 				]);
 
 					return withListCount({
 						select: tx
@@ -231,51 +215,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							.where("filter.withAvailableBuildings", "=", true)
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
-							const $select = select;
+							let $select = select;
 
-							// if (where?.blueprintId) {
-							// 	$select = $select.where("bb.id", "=", where.buildingBaseId);
-							// }
+							if (where?.blueprintId) {
+								$select = $select.where("bl.id", "=", where.blueprintId);
+							}
 
-							// if (where?.fulltext) {
-							// 	const fulltext = `%${where.fulltext}%`.toLowerCase();
-							// 	$select = $select.where((eb) => {
-							// 		return eb.or([
-							// 			eb("bb.id", "like", fulltext),
-							// 			eb("bb.name", "like", fulltext),
-							// 			eb(
-							// 				"bb.id",
-							// 				"in",
-							// 				eb
-							// 					.selectFrom(
-							// 						"Building_Base_Resource_Requirement as bbrr",
-							// 					)
-							// 					.innerJoin("Resource as r", "r.id", "bbrr.resourceId")
-							// 					.select("bbrr.buildingBaseId")
-							// 					.where((eb) => {
-							// 						return eb.or([eb("r.name", "like", fulltext)]);
-							// 					}),
-							// 			),
-							// 			eb(
-							// 				"bb.id",
-							// 				"in",
-							// 				eb
-							// 					.selectFrom(
-							// 						"Building_Base_Building_Base_Requirement as bbbbr",
-							// 					)
-							// 					.innerJoin(
-							// 						"Building_Base as bb",
-							// 						"bb.id",
-							// 						"bbbbr.requirementId",
-							// 					)
-							// 					.select("bbbbr.buildingBaseId")
-							// 					.where((eb) => {
-							// 						return eb.or([eb("bb.name", "like", fulltext)]);
-							// 					}),
-							// 			),
-							// 		]);
-							// 	});
-							// }
+							if (where?.fulltext) {
+								const fulltext = `%${where.fulltext}%`.toLowerCase();
+								$select = $select.where((eb) => {
+									return eb.or([
+										eb("bl.id", "like", fulltext),
+										eb("bl.name", "like", fulltext),
+										eb(
+											"bl.id",
+											"in",
+											eb
+												.selectFrom("Blueprint_Production as bp")
+												.innerJoin("Resource as r", "r.id", "bp.resourceId")
+												.select("bp.blueprintId")
+												.where((eb) => {
+													return eb.or([eb("r.name", "like", fulltext)]);
+												}),
+										),
+									]);
+								});
+							}
 
 							return $select;
 						},
@@ -390,16 +355,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 	component() {
 		const { data, dependencies, upgrades, inventory, buildingCounts } =
 			Route.useLoaderData();
-		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
+		const { session, cycle } = useLoaderData({
+			from: "/$locale/apps/derivean/game",
+		});
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
-
-		console.log("data", data.data);
 
 		return (
 			<GameManager
 				data={data}
 				userId={session.id}
+				cycle={cycle}
 				dependencies={dependencies}
 				upgrades={upgrades}
 				inventory={inventory}
