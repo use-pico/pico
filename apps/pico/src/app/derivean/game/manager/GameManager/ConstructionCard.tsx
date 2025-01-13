@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
-    Badge,
-    Button,
-    Icon,
-    toast,
-    Tx,
-    useInvalidator,
-    withToastPromiseTx,
+	Badge,
+	Button,
+	Icon,
+	toast,
+	Tx,
+	useInvalidator,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
@@ -42,8 +42,6 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 	inventory,
 	buildingCounts,
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
-
 	const invalidator = useInvalidator([
 		["Building_Queue"],
 		["Inventory"],
