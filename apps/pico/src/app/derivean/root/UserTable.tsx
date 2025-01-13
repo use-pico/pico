@@ -6,6 +6,7 @@ import {
     LinkTo,
     Table,
     toast,
+    TrashIcon,
     Tx,
     useTable,
     withColumn,
@@ -72,6 +73,14 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 			});
 		},
 	});
+	const resetGameMutation = useMutation({
+		async mutationFn({ userId }: { userId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				await withDefaultInventory({ tx, userId });
+				await tx.deleteFrom("Building").where("userId", "=", userId).execute();
+			});
+		},
+	});
 
 	return (
 		<Table
@@ -95,6 +104,19 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 								}}
 							>
 								<Tx label={"Apply default inventory (menu)"} />
+							</ActionClick>
+							<ActionClick
+								icon={TrashIcon}
+								onClick={() => {
+									toast.promise(
+										resetGameMutation.mutateAsync({
+											userId: data.id,
+										}),
+										withToastPromiseTx("Reset game"),
+									);
+								}}
+							>
+								<Tx label={"Reset game (menu)"} />
 							</ActionClick>
 						</ActionMenu>
 					);

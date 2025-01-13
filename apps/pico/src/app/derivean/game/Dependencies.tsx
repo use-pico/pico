@@ -1,4 +1,5 @@
-import { Badge, Icon, Tx } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { Badge, Icon, LinkTo, Tx } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import { DepGraphCycleError } from "dependency-graph";
 import type { FC } from "react";
@@ -26,6 +27,7 @@ export const Dependencies: FC<Dependencies.Props> = ({
 	mode = "dependencies",
 	reverse = false,
 }) => {
+	const { locale } = useParams({ from: "/$locale" });
 	try {
 		const dependencies = ((list) => {
 			if (reverse) {
@@ -55,21 +57,27 @@ export const Dependencies: FC<Dependencies.Props> = ({
 							)?.count;
 
 							return (
-								<Badge
+								<LinkTo
 									key={genId()}
-									css={{
-										base:
-											count && count > 0 ?
-												[
-													"bg-emerald-200",
-													"text-emerald-700",
-													"border-emerald-500",
-												]
-											:	["bg-slate-100", "text-slate-500", "border-slate-300"],
-									}}
+									to={"/$locale/apps/derivean/game/management"}
+									params={{ locale }}
+									search={{ filter: { blueprintId: item } }}
 								>
-									{graph.getNodeData(item)}
-								</Badge>
+									<Badge
+										css={{
+											base:
+												count && count > 0 ?
+													[
+														"bg-emerald-200",
+														"text-emerald-700",
+														"border-emerald-500",
+													]
+												:	["bg-slate-100", "text-slate-500", "border-slate-300"],
+										}}
+									>
+										{graph.getNodeData(item)}
+									</Badge>
+								</LinkTo>
 							);
 						})
 					:	<Tx
