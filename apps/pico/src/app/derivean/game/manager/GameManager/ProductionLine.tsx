@@ -137,11 +137,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 					variant={{ size: "md" }}
 					value={(100 * queue.cycle) / (queue.to - queue.from)}
 				/>
-			:	<Progress
-					variant={{ size: "md" }}
-					value={0}
-				/>
-			}
+			:	null}
 		</div>
 	);
 };

@@ -1,4 +1,5 @@
-import { Icon, More } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { Icon, LinkTo, More } from "@use-pico/client";
 import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { RequirementsInlineCss } from "~/app/derivean/game/RequirementsInlineCss";
@@ -31,6 +32,7 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 	css,
 	...props
 }) => {
+	const { locale } = useParams({ from: "/$locale" });
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
@@ -42,43 +44,53 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 					resource?.amount ? resource.amount - entity.amount : -entity.amount;
 
 				return (
-					<div
-						className={tv.item({
-							css:
-								!diff || amount >= 0 ?
-									[]
-								:	["text-red-700", "bg-red-100", "border-red-300"],
-							passive: entity.passive,
-						})}
+					<LinkTo
+						to={"/$locale/apps/derivean/game/management"}
+						params={{ locale }}
+						search={{
+							filter: {
+								resourceId: entity.resourceId,
+							},
+						}}
 					>
-						<div>{entity.name}</div>
-						<div className={"text-md font-bold text-slate-500"}>
-							x{toHumanNumber({ number: entity.amount })}
-						</div>
-						{diff ?
-							amount >= 0 ?
-								<Icon
-									icon={"icon-[pajamas--check-sm]"}
-									css={{
-										base: ["text-emerald-600"],
-									}}
-								/>
-							:	<div
-									className={
-										"flex flex-row gao-2 items-center text-sm text-red-500"
-									}
-								>
+						<div
+							className={tv.item({
+								css:
+									!diff || amount >= 0 ?
+										[]
+									:	["text-red-700", "bg-red-100", "border-red-300"],
+								passive: entity.passive,
+							})}
+						>
+							<div>{entity.name}</div>
+							<div className={"text-md font-bold text-slate-500"}>
+								x{toHumanNumber({ number: entity.amount })}
+							</div>
+							{diff ?
+								amount >= 0 ?
 									<Icon
-										icon={"icon-[charm--cross]"}
+										icon={"icon-[pajamas--check-sm]"}
 										css={{
-											base: ["text-red-500"],
+											base: ["text-emerald-600"],
 										}}
 									/>
-									({toHumanNumber({ number: amount })})
-								</div>
+								:	<div
+										className={
+											"flex flex-row gao-2 items-center text-sm text-red-500"
+										}
+									>
+										<Icon
+											icon={"icon-[charm--cross]"}
+											css={{
+												base: ["text-red-500"],
+											}}
+										/>
+										({toHumanNumber({ number: amount })})
+									</div>
 
-						:	null}
-					</div>
+							:	null}
+						</div>
+					</LinkTo>
 				);
 			}}
 			{...props}

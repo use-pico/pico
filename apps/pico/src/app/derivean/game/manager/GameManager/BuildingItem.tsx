@@ -55,8 +55,8 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 				"gap-2",
 				"border-slate-300",
 				"rounded-lg",
-				"p-4",
-				"pt-2",
+				"p-2",
+				"px-4",
 				"border-2",
 				entity.withAvailableBuildings ?
 					["border-amber-200", "hover:border-amber-400"]
@@ -114,9 +114,9 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 							"flex",
 							"flex-col",
 							"gap-2",
-							"border-t",
-							"border-slate-300",
-							"pt-4",
+							entity.production.length > 0 ?
+								["border-t", "border-slate-300", "pt-4"]
+							:	undefined,
 						])}
 					>
 						{entity.production.map((production) => {

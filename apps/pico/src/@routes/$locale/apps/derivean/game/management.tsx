@@ -25,6 +25,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 			filter: FilterSchema.merge(
 				z.object({
 					blueprintId: z.string().optional(),
+					resourceId: z.string().optional(),
 				}),
 			),
 		}),
@@ -208,10 +209,27 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
                                                             `}
                                                     ))`.as("sub");
 										})
+										.$if(Boolean(filter?.resourceId), (eb) => {
+											return eb.where(
+												"bp.resourceId",
+												"=",
+												filter!.resourceId!,
+											);
+										})
 										.whereRef("bp.blueprintId", "=", "bl.id")
 										.orderBy("r.name", "asc")
 										.as("production"),
 							])
+							.$if(Boolean(filter?.resourceId), (eb) => {
+								return eb.where(
+									"bl.id",
+									"in",
+									tx
+										.selectFrom("Blueprint_Production")
+										.select("blueprintId")
+										.where("resourceId", "=", filter!.resourceId!),
+								);
+							})
 							.where("filter.withAvailableBuildings", "=", true)
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {

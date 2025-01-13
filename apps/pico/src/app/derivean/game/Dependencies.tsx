@@ -38,49 +38,49 @@ export const Dependencies: FC<Dependencies.Props> = ({
 			:	graph.dependenciesOf(blueprintId),
 		);
 
-		return (
-			<div
-				className={tvc([
-					"flex",
-					"flex-row",
-					"flex-wrap",
-					"gap-2",
-					"items-center",
-				])}
-			>
-				{dependencies.length > 0 ?
-					dependencies.map((item) => {
-						const count = buildingCounts.find(
-							(count) => count.blueprintId === item,
-						)?.count;
+		return dependencies.length > 0 ?
+				<div
+					className={tvc([
+						"flex",
+						"flex-row",
+						"flex-wrap",
+						"gap-2",
+						"items-center",
+					])}
+				>
+					{dependencies.length > 0 ?
+						dependencies.map((item) => {
+							const count = buildingCounts.find(
+								(count) => count.blueprintId === item,
+							)?.count;
 
-						return (
-							<Badge
-								key={genId()}
-								css={{
-									base:
-										count && count > 0 ?
-											[
-												"bg-emerald-200",
-												"text-emerald-700",
-												"border-emerald-500",
-											]
-										:	["bg-slate-100", "text-slate-500", "border-slate-300"],
-								}}
-							>
-								{graph.getNodeData(item)}
-							</Badge>
-						);
-					})
-				:	<Tx
-						css={{
-							base: ["text-amber-500", "font-bold"],
-						}}
-						label={"No dependents (label)"}
-					/>
-				}
-			</div>
-		);
+							return (
+								<Badge
+									key={genId()}
+									css={{
+										base:
+											count && count > 0 ?
+												[
+													"bg-emerald-200",
+													"text-emerald-700",
+													"border-emerald-500",
+												]
+											:	["bg-slate-100", "text-slate-500", "border-slate-300"],
+									}}
+								>
+									{graph.getNodeData(item)}
+								</Badge>
+							);
+						})
+					:	<Tx
+							css={{
+								base: ["text-amber-500", "font-bold"],
+							}}
+							label={"No dependents (label)"}
+						/>
+					}
+				</div>
+			:	null;
 	} catch (e) {
 		if (e instanceof DepGraphCycleError) {
 			return (
