@@ -11,14 +11,13 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import { BlueprintDependenciesInline } from "~/app/derivean/game/BlueprintDependenciesInline";
 import { Dependencies } from "~/app/derivean/game/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import { Upgrades } from "~/app/derivean/game/Upgrades";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
 import { withProductionQueue } from "~/app/derivean/service/withProductionQueue";
@@ -112,6 +111,37 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 					])}
 				>
 					<div className={tvc(["flex", "gap-6", "items-center"])}>
+						{isBuilt ? null : (
+							<div
+								className={tvc([
+									"flex",
+									"flex-row",
+									"gap-2",
+									"items-center",
+									"font-bold",
+									"text-sm",
+									"text-slate-500",
+								])}
+							>
+								<Button
+									iconEnabled={ConstructionIcon}
+									iconDisabled={ConstructionIcon}
+									variant={{
+										variant: available ? "primary" : "subtle",
+									}}
+									onClick={() => {
+										mutation.mutate({
+											buildingBaseId: entity.id,
+										});
+									}}
+									css={{
+										base: ["px-8"],
+									}}
+									disabled={!available}
+									loading={mutation.isPending}
+								/>
+							</div>
+						)}
 						<div className={"flex flex-row gap-2"}>
 							{entity.name}
 							<div
@@ -136,71 +166,29 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 						/>
 					</div>
 				</div>
-				{isBuilt ? null : (
-					<div
-						className={tvc([
-							"flex",
-							"flex-row",
-							"gap-2",
-							"items-center",
-							"font-bold",
-							"text-sm",
-							"text-slate-500",
-						])}
-					>
-						<Button
-							iconEnabled={ConstructionIcon}
-							iconDisabled={ConstructionIcon}
-							variant={{
-								variant: available ? "primary" : "subtle",
-							}}
-							onClick={() => {
-								mutation.mutate({
-									buildingBaseId: entity.id,
-								});
-							}}
-							disabled={!available}
-							loading={mutation.isPending}
-						/>
-					</div>
-				)}
+				<RequirementsInline
+					textTitle={<Tx label={"Building requirements (title)"} />}
+					textEmpty={<Tx label={"No requirements (label)"} />}
+					requirements={entity.requirements}
+					diff={inventory}
+				/>
 			</div>
-			<div className={"flex flex-col gap-2"}>
-				<div>
-					<Dependencies
-						graph={dependencies}
-						blueprintId={entity.id}
-						buildingCounts={buildingCounts}
-					/>
-				</div>
-
-				<div className={"border-b border-slate-300"} />
-
-				<div>
-					<BlueprintDependenciesInline
-						textTitle={<Tx label={"Building requirements (title)"} />}
-						textEmpty={<Tx label={"No requirements (label)"} />}
-						dependencies={entity.dependencies}
-						diff={buildingCounts}
-					/>
-				</div>
-
-				<div className={"border-b border-slate-300"} />
-
-				<div>
-					<RequirementsInline
-						textTitle={<Tx label={"Building requirements (title)"} />}
-						textEmpty={<Tx label={"No requirements (label)"} />}
-						requirements={entity.requirements}
-						diff={inventory}
-					/>
-				</div>
-			</div>
+			<Dependencies
+				graph={dependencies}
+				blueprintId={entity.id}
+				buildingCounts={buildingCounts}
+			/>
 			{isBuilt ?
 				<>
-					<div className={"border-b-2 border-slate-300"} />
-
-					<div>
+					<div
+						className={tvc([
+							"border",
+							"border-slate-300",
+							"rounded-md",
+							"p-4",
+							"mt-2",
+						])}
+					>
 						{entity.production.map((item) => {
 							const hasResources = item.requirements.every((requirement) => {
 								const inventoryItem = inventory.find(
@@ -211,24 +199,17 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 								);
 							});
 
-							/**
-							 * TODO This is not complete, there will be probably some more work to do
-							 */
-							const queueSize = entity.productionQueue.filter(
-								(queue) => queue.resourceId === item.resourceId,
-							);
-
-							console.log("queueSize", queueSize);
+							const isFull = item.queue.length >= item.limit;
 
 							const invalidator = useInvalidator([
+								["Management"],
 								["Blueprint_Production"],
 								["Production"],
 								["Inventory"],
 								["User_Inventory"],
 							]);
 
-							// const available =
-							//     data.withAvailableResources && data.queueCount < data.productionLimit;
+							const available = hasResources && !isFull;
 
 							const production = useMutation({
 								mutationFn: async () => {
@@ -250,28 +231,6 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 								},
 							});
 
-							// return (
-							//     <Button
-							//         iconEnabled={
-							//             data.queueCount > 0 ? "icon-[bi--bag-check]" : ProductionIcon
-							//         }
-							//         iconDisabled={
-							//             data.queueCount > 0 ? "icon-[bi--bag-check]" : ProductionIcon
-							//         }
-							//         disabled={!available}
-							//         css={{
-							//             base: ["w-full", "items-start", "justify-start"],
-							//         }}
-							//         variant={{
-							//             variant: available || data.queueCount > 0 ? "primary" : "subtle",
-							//         }}
-							//         loading={production.isPending}
-							//         onClick={() => production.mutate()}
-							//     >
-							//         {value}
-							//     </Button>
-							// );
-
 							return (
 								<div
 									key={`production-${item.id}-${item.blueprintId}`}
@@ -283,6 +242,7 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 										"justify-between",
 										"p-4",
 										"rounded-md",
+										"bg-blue-50",
 										"border",
 										"border-slate-100",
 										"hover:bg-slate-100",
@@ -297,10 +257,26 @@ export const ConstructionCard: FC<ConstructionCard.Props> = ({
 										])}
 									>
 										<Button
-											iconEnabled={ResourceIcon}
-											iconDisabled={ResourceIcon}
-											disabled={!hasResources || !item.buildingId}
-											variant={{ variant: hasResources ? "primary" : "subtle" }}
+											iconEnabled={
+												item.queue.length > 0 ?
+													"icon-[bi--bag-check]"
+												:	ProductionIcon
+											}
+											iconDisabled={
+												item.queue.length > 0 ?
+													"icon-[bi--bag-check]"
+												:	ProductionIcon
+											}
+											disabled={!available}
+											variant={{
+												variant:
+													available || item.queue.length > 0 ?
+														"primary"
+													:	"subtle",
+											}}
+											css={{
+												base: ["px-8"],
+											}}
 											loading={production.isPending}
 											onClick={() => production.mutate()}
 										/>

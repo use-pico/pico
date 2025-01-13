@@ -32,7 +32,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		const user = await session();
 
 		const data = await queryClient.ensureQueryData({
-			queryKey: ["Blueprint", "list-count", user.id, { filter, cursor }],
+			queryKey: ["Management", user.id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					const $blueprintFilter = tx.selectFrom("Blueprint as bl").select([
@@ -187,36 +187,28 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
                                                             WHERE
                                                                 bpr.blueprintProductionId = bp.id
                                                         )
+                                                            `},
+                                                        'queue', ${sql`(
+                                                            SELECT
+                                                                json_group_array(json_object(
+                                                                    'id', p.id,
+                                                                    'from', p."from",
+                                                                    'to', p."to",
+                                                                    'cycle', p."cycle",
+                                                                    'blueprintProductionId', p.blueprintProductionId
+                                                                ))
+                                                            FROM
+                                                                Production as p
+                                                            WHERE
+                                                                p.blueprintProductionId = bp.id AND
+                                                                p.id in (SELECT id FROM Production WHERE userId = ${user.id})
+                                                        )
                                                             `}
                                                     ))`.as("sub");
 										})
 										.whereRef("bp.blueprintId", "=", "bl.id")
 										.orderBy("r.name", "asc")
 										.as("production"),
-								(eb) =>
-									eb
-										.selectFrom("Production as p")
-										.innerJoin(
-											"Blueprint_Production as bp",
-											"bp.id",
-											"p.blueprintProductionId",
-										)
-										.innerJoin("Resource as r", "r.id", "bp.resourceId")
-										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                        'id', ${eb.ref("p.id")},
-                                                        'blueprintProductionId', ${eb.ref("bp.id")},
-                                                        'resourceId', ${eb.ref("r.id")},
-                                                        'limit', ${eb.ref("bp.limit")},
-                                                        'from', ${eb.ref("p.from")},
-                                                        'to', ${eb.ref("p.to")},
-                                                        'cycle', ${eb.ref("p.cycle")}
-                                                    ))`.as("sub");
-										})
-										.whereRef("bp.blueprintId", "=", "bl.id")
-										.where("p.userId", "=", user.id)
-										.orderBy("r.name", "asc")
-										.as("productionQueue"),
 							])
 							.orderBy("bl.sort", "asc"),
 						query({ select, where }) {
@@ -307,17 +299,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 											name: z.string().min(1),
 										}),
 									),
-								}),
-							),
-							productionQueue: withJsonArraySchema(
-								z.object({
-									id: z.string().min(1),
-									resourceId: z.string().min(1),
-									blueprintProductionId: z.string().min(1),
-									limit: z.number().int().nonnegative(),
-									from: z.number().int().nonnegative(),
-									to: z.number().int().nonnegative(),
-									cycle: z.number().int().nonnegative(),
+									queue: z.array(
+										z.object({
+											id: z.string().min(1),
+											blueprintProductionId: z.string().min(1),
+											from: z.number().int().nonnegative(),
+											to: z.number().int().nonnegative(),
+											cycle: z.number().int().nonnegative(),
+										}),
+									),
 								}),
 							),
 						}),
@@ -375,6 +365,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		const { session } = useLoaderData({ from: "/$locale/apps/derivean/game" });
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
+
+		console.log("data", data.data);
 
 		return (
 			<GameManager

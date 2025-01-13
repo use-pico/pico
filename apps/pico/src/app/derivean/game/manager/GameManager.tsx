@@ -29,6 +29,7 @@ export namespace GameManager {
 		production: {
 			id: string;
 			name: string;
+			limit: number;
 			cycles: number;
 			amount: number;
 			blueprintId: string;
@@ -41,15 +42,13 @@ export namespace GameManager {
 				name: string;
 				resourceId: string;
 			}[];
-		}[];
-		productionQueue: {
-			id: string;
-			resourceId: string;
-			blueprintProductionId: string;
-			limit: number;
-			from: number;
-			to: number;
-			cycle: number;
+			queue: {
+				id: string;
+				blueprintProductionId: string;
+				from: number;
+				to: number;
+				cycle: number;
+			}[];
 		}[];
 	}
 

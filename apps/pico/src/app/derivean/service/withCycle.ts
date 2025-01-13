@@ -22,7 +22,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 				})
 				.execute();
 
-			const cycle = (
+			const currentCycle = (
 				await tx
 					.selectFrom("Cycle as c")
 					.select((eb) => eb.fn.count<number>("c.id").as("count"))
@@ -37,7 +37,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 				.execute();
 
 			for await (const { id, blueprintId, cycle, to } of constructionQueue) {
-				if (cycle > to) {
+				if (currentCycle > to) {
 					await tx
 						.insertInto("Building")
 						.values({
@@ -85,7 +85,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 				to,
 				amount,
 			} of productionQueue) {
-				if (cycle > to) {
+				if (currentCycle > to) {
 					const inventory = await tx
 						.selectFrom("Inventory as i")
 						.innerJoin("User_Inventory as ui", "i.id", "ui.inventoryId")

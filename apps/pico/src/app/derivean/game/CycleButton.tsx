@@ -9,9 +9,9 @@ import {
 } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
-import { withCycle } from "~/app/derivean/service/withCycle";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
+import { withCycle } from "~/app/derivean/service/withCycle";
 
 export namespace CycleButton {
 	export interface Props extends Button.Props {
@@ -30,6 +30,7 @@ export const CycleButton: FC<CycleButton.Props> = ({
 }) => {
 	const invalidator = useInvalidator([
 		["Cycle"],
+		["Management"],
 		["Resource_Queue"],
 		["Building_Queue"],
 		["Building"],
