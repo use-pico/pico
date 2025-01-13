@@ -56,8 +56,16 @@ export namespace GameManager {
 
 	export interface UpgradeTo {
 		id: string;
+		name: string;
+		cycles: number;
 		withAvailableBuildings: boolean;
 		withAvailableResources: boolean;
+		requirements: (BlueprintRequirementSchema["~entity"] & {
+			name: string;
+		})[];
+		dependencies: (BlueprintDependencySchema["~entity"] & {
+			name: string;
+		})[];
 	}
 
 	export interface Data extends IdentitySchema.Type {

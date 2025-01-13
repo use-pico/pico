@@ -4,6 +4,7 @@ import type { FC } from "react";
 import { Dependencies } from "~/app/derivean/game/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { Header } from "~/app/derivean/game/manager/GameManager/BuildingItem/Header";
+import { UpgradeHeader } from "~/app/derivean/game/manager/GameManager/BuildingItem/UpgradeHeader";
 import { ProductionLine } from "~/app/derivean/game/manager/GameManager/ProductionLine";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
@@ -104,6 +105,45 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					buildingCounts={buildingCounts}
 				/>
 			)}
+			{entity.upgradeTo ?
+				<div
+					className={tvc([
+						"border",
+						"rounded-md",
+						"bg-purple-100",
+						"border-purple-300",
+						"p-2",
+					])}
+				>
+					<div
+						className={tvc([
+							"flex",
+							"flex-row",
+							"gap-2",
+							"justify-between",
+							"py-2",
+						])}
+					>
+						<UpgradeHeader
+							name={entity.upgradeTo.name}
+							userId={userId}
+							blueprintId={entity.upgradeTo.id}
+							isBuilt={isBuilt}
+							canBuild={canBuild}
+						/>
+
+						<div className={"flex flex-row gap-4 items-center"}>
+							<RequirementsInline
+								textTitle={<Tx label={"Building requirements (title)"} />}
+								textEmpty={<Tx label={"No requirements (label)"} />}
+								requirements={entity.upgradeTo.requirements}
+								diff={inventory}
+							/>
+							<CyclesInline cycles={entity.upgradeTo.cycles} />
+						</div>
+					</div>
+				</div>
+			:	null}
 			{isBuilt ?
 				<>
 					<div

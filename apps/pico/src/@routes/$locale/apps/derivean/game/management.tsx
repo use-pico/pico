@@ -118,9 +118,44 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.select((eb) => {
 											return sql<string>`json_object(
                                                 'id', ${eb.ref("bu.id")},
+                                                'name', ${eb.ref("bu.name")},
+                                                'cycles', ${eb.ref("bu.cycles")},
                                                 'withAvailableBuildings', ${eb.ref("filter.withAvailableBuildings")},
-                                                'withAvailableResources', ${eb.ref("filter.withAvailableResources")}
-                                            )`.as("requirements");
+                                                'withAvailableResources', ${eb.ref("filter.withAvailableResources")},
+                                                'requirements', ${sql`(
+                                                    SELECT
+                                                        json_group_array(json_object(
+                                                            'id', br.id,
+                                                            'amount', br.amount,
+                                                            'passive', br.passive,
+                                                            'name', r2.name,
+                                                            'blueprintId', bu.id,
+                                                            'resourceId', br.resourceId
+                                                        ))
+                                                    FROM
+                                                        Blueprint_Requirement as br
+                                                        INNER JOIN Resource as r2 on r2.id = br.resourceId
+                                                    WHERE
+                                                        br.blueprintId = bu.id
+                                                    ORDER BY
+                                                        r2.name
+                                                    ),
+                                                    'dependencies', ${sql`(
+                                                        SELECT
+                                                            json_group_array(json_object(
+                                                                'id', bd.id,
+                                                                'dependencyId', bd.dependencyId,
+                                                                'blueprintId', bd.blueprintId,
+                                                                'name', b2.name
+                                                            ))
+                                                        FROM
+                                                            Blueprint_Dependency as bd
+                                                            INNER JOIN Blueprint as b2 ON b2.id = bd.dependencyId
+                                                        WHERE
+                                                            bd.blueprintId = bu.id
+                                                    )`}
+                                                    `}
+                                            )`.as("upgradeTo");
 										})
 										.whereRef("bu.id", "=", "bl.upgradeId")
 										.as("upgradeTo"),
@@ -304,8 +339,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							upgradeTo: withJsonSchema(
 								z.object({
 									id: z.string().min(1),
+									name: z.string().min(1),
+									cycles: z.number().int().nonnegative(),
 									withAvailableBuildings: withBoolSchema(),
 									withAvailableResources: withBoolSchema(),
+									requirements: z.array(
+										BlueprintRequirementSchema.entity.merge(
+											z.object({
+												name: z.string().min(1),
+											}),
+										),
+									),
+									dependencies: z.array(
+										BlueprintDependencySchema.entity.merge(
+											z.object({
+												name: z.string().min(1),
+											}),
+										),
+									),
 								}),
 							).nullish(),
 							construction: withJsonArraySchema(
