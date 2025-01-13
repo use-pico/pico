@@ -1,7 +1,7 @@
 import { Cursor, Fulltext, Tx, type withListCount } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { ConstructionCard } from "~/app/derivean/game/manager/GameManager/ConstructionCard";
+import { BuildingItem } from "~/app/derivean/game/manager/GameManager/BuildingItem";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
@@ -15,6 +15,37 @@ export namespace GameManager {
 		name: string;
 	}
 
+	export namespace Production {
+		export interface Requirements {
+			id: string;
+			amount: number;
+			passive: boolean;
+			name: string;
+			resourceId: string;
+		}
+
+		export interface Queue {
+			id: string;
+			blueprintProductionId: string;
+			from: number;
+			to: number;
+			cycle: number;
+		}
+	}
+
+	export interface Production {
+		id: string;
+		name: string;
+		limit: number;
+		cycles: number;
+		amount: number;
+		blueprintId: string;
+		resourceId: string;
+		buildingId?: string | null;
+		requirements: Production.Requirements[];
+		queue: Production.Queue[];
+	}
+
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
@@ -26,30 +57,7 @@ export namespace GameManager {
 		dependencies: (BlueprintDependencySchema["~entity"] & {
 			name: string;
 		})[];
-		production: {
-			id: string;
-			name: string;
-			limit: number;
-			cycles: number;
-			amount: number;
-			blueprintId: string;
-			resourceId: string;
-			buildingId?: string | null;
-			requirements: {
-				id: string;
-				amount: number;
-				passive: boolean;
-				name: string;
-				resourceId: string;
-			}[];
-			queue: {
-				id: string;
-				blueprintProductionId: string;
-				from: number;
-				to: number;
-				cycle: number;
-			}[];
-		}[];
+		production: Production[];
 	}
 
 	export interface Props {
@@ -85,7 +93,7 @@ export const GameManager: FC<GameManager.Props> = ({
 			<div className={"grid grid-cols-1 gap-4"}>
 				{data.data.map((item) => {
 					return (
-						<ConstructionCard
+						<BuildingItem
 							key={item.id}
 							entity={item}
 							userId={userId}
