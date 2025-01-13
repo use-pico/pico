@@ -85,7 +85,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 				"rounded-md",
 				"border",
 				"border-slate-300",
-				"hover:border-slate-500",
+				available ? ["hover:bg-slate-50", "hover:border-slate-400"] : undefined,
 			])}
 		>
 			<div

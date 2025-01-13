@@ -57,12 +57,9 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 				"rounded-lg",
 				"p-2",
 				"px-4",
-				"border-2",
-				entity.withAvailableBuildings ?
-					["border-amber-200", "hover:border-amber-400"]
-				:	[],
-				canBuild ? ["border-emerald-200", "hover:border-emerald-400"] : [],
-				isBuilt ? ["border-purple-200", "hover:border-purple-400"] : [],
+				"border",
+				!isBuilt && entity.withAvailableBuildings ? ["border-purple-600"] : [],
+				canBuild ? ["border-green-600"] : [],
 			])}
 		>
 			<div
