@@ -11,7 +11,6 @@ import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
-import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace Header {
 	export interface Props {
@@ -20,7 +19,6 @@ export namespace Header {
 		blueprintId: string;
 		isBuilt: boolean;
 		canBuild: boolean;
-		upgrades: withBlueprintUpgradeGraph.Result;
 	}
 }
 
@@ -30,7 +28,6 @@ export const Header: FC<Header.Props> = ({
 	blueprintId,
 	isBuilt,
 	canBuild,
-	upgrades,
 }) => {
 	const invalidator = useInvalidator([
 		["Management"],

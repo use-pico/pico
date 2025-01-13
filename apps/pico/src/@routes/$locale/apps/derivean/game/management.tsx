@@ -108,6 +108,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								"bl.productionLimit",
 								"filter.withAvailableBuildings",
 								"filter.withAvailableResources",
+								(eb) => {
+									return eb
+										.selectFrom("Production as p")
+										.innerJoin(
+											"Blueprint_Production as bp",
+											"bp.id",
+											"p.blueprintProductionId",
+										)
+										.select((eb) => eb.fn.count("p.id").as("count"))
+										.whereRef("bp.blueprintId", "=", "bl.id")
+										.where("p.userId", "=", user.id)
+										.as("productionCount");
+								},
 								(eb) =>
 									eb
 										.selectFrom("Blueprint as bu")
@@ -345,6 +358,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							name: z.string().min(1),
 							cycles: z.number().int().nonnegative(),
 							productionLimit: z.number().int().nonnegative(),
+							productionCount: z.number().int().nonnegative(),
 							withAvailableBuildings: withBoolSchema(),
 							withAvailableResources: withBoolSchema(),
 							upgradeTo: withJsonSchema(
@@ -472,7 +486,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		};
 	},
 	component() {
-		const { data, dependencies, upgrades, inventory, buildingCounts } =
+		const { data, dependencies, inventory, buildingCounts } =
 			Route.useLoaderData();
 		const { session, cycle } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
@@ -480,11 +494,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 
-		console.log("Data", data.data);
-
-		/**
-		 * TODO When filter is applied, queue count is wrong (under limit), thus it's possible to queue more resources than productionLimit allows; move this to SQL query
-		 */
+		// console.log("Data", data.data);
 
 		return (
 			<GameManager
@@ -492,7 +502,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 				userId={session.id}
 				cycle={cycle}
 				dependencies={dependencies}
-				upgrades={upgrades}
 				inventory={inventory}
 				buildingCounts={buildingCounts}
 				fulltext={{

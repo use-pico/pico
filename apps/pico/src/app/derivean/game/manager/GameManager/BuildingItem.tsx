@@ -10,13 +10,11 @@ import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace BuildingItem {
 	export interface Props extends Entity.Type<GameManager.Data> {
 		userId: string;
 		dependencies: withBlueprintGraph.Result;
-		upgrades: withBlueprintUpgradeGraph.Result;
 		inventory: InventorySchema["~entity-array"];
 		buildingCounts: GameManager.BuildingCount[];
 	}
@@ -26,7 +24,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 	entity,
 	userId,
 	dependencies,
-	upgrades,
 	inventory,
 	buildingCounts,
 }) => {
@@ -42,11 +39,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 	 */
 	const queue = entity.construction?.[0];
 
-	const isProductionLimit =
-		entity.production.reduce(
-			(sum, production) => sum + production.queue.length,
-			0,
-		) >= entity.productionLimit;
+	const isProductionLimit = entity.productionCount >= entity.productionLimit;
 
 	return (
 		<div
@@ -79,7 +72,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						blueprintId={entity.id}
 						isBuilt={isBuilt}
 						canBuild={canBuild}
-						upgrades={upgrades}
 					/>
 					{isBuilt && entity.upgradeTo ?
 						<>

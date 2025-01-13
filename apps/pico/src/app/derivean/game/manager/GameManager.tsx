@@ -7,7 +7,6 @@ import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintD
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace GameManager {
 	export interface BuildingCount {
@@ -72,6 +71,7 @@ export namespace GameManager {
 		name: string;
 		cycles: number;
 		productionLimit: number;
+		productionCount: number;
 		withAvailableBuildings: boolean;
 		withAvailableResources: boolean;
 		upgradeTo?: UpgradeTo | null;
@@ -90,7 +90,6 @@ export namespace GameManager {
 		userId: string;
 		cycle: number;
 		dependencies: withBlueprintGraph.Result;
-		upgrades: withBlueprintUpgradeGraph.Result;
 		inventory: InventorySchema["~entity-array"];
 		buildingCounts: BuildingCount[];
 		fulltext: Pick<Fulltext.Props, "value" | "onFulltext">;
@@ -103,7 +102,6 @@ export const GameManager: FC<GameManager.Props> = ({
 	userId,
 	cycle,
 	dependencies,
-	upgrades,
 	inventory,
 	buildingCounts,
 	fulltext,
@@ -133,7 +131,6 @@ export const GameManager: FC<GameManager.Props> = ({
 							entity={item}
 							userId={userId}
 							dependencies={dependencies}
-							upgrades={upgrades}
 							inventory={inventory}
 							buildingCounts={buildingCounts}
 						/>
