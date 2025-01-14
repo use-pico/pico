@@ -6,9 +6,9 @@ import {
     ConnectionLineType,
     Controls,
     MiniMap,
-    ReactFlow
+    ReactFlow,
 } from "@xyflow/react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export namespace withLayout {
 	export interface Props {
@@ -102,6 +102,61 @@ export const Route = createFileRoute(
 		const data = Route.useLoaderData();
 		const [nodes, setNodes] = useState(data.nodes);
 		const [edges, setEdges] = useState(data.edges);
+		const [highlightedNodeIds, setHighlightedNodeIds] = useState<string[]>([]);
+		const [highlightedEdgeIds, setHighlightedEdgeIds] = useState<string[]>([]);
+
+		const findConnectedNodes = (startNodeId: string) => {
+			const visitedNodes = new Set<string>();
+			const visitedEdges = new Set<string>();
+			const queue: string[] = [startNodeId];
+
+			while (queue.length > 0) {
+				const currentNode = queue.shift();
+				if (currentNode && !visitedNodes.has(currentNode)) {
+					visitedNodes.add(currentNode);
+
+					edges.forEach((edge) => {
+						if (edge.source === currentNode) {
+							visitedEdges.add(edge.id);
+							queue.push(edge.target);
+						}
+					});
+				}
+			}
+
+			return {
+				nodes: Array.from(visitedNodes),
+				edges: Array.from(visitedEdges),
+			};
+		};
+
+		const handleNodeClick = (_: React.MouseEvent, node: any) => {
+			const { nodes: connectedNodes, edges: connectedEdges } =
+				findConnectedNodes(node.id);
+			setHighlightedNodeIds(connectedNodes);
+			setHighlightedEdgeIds(connectedEdges);
+		};
+
+		const updatedNodes = nodes.map((node) => ({
+			...node,
+			style: {
+				...node.style,
+				border:
+					highlightedNodeIds.includes(node.id) ? "2px solid #007BFF" : (
+						"1px solid #CCC"
+					),
+				backgroundColor:
+					highlightedNodeIds.includes(node.id) ? "#E8F0FE" : "white",
+			},
+		}));
+
+		const updatedEdges = edges.map((edge) => ({
+			...edge,
+			style: {
+				stroke: highlightedEdgeIds.includes(edge.id) ? "#007BFF" : "#CCC",
+				strokeWidth: highlightedEdgeIds.includes(edge.id) ? 2 : 1,
+			},
+		}));
 
 		return (
 			<div
@@ -111,8 +166,13 @@ export const Route = createFileRoute(
 			>
 				<div style={{ width: "95vw", height: "85vh" }}>
 					<ReactFlow
-						nodes={nodes}
-						edges={edges}
+						nodes={updatedNodes}
+						edges={updatedEdges}
+						onNodeClick={handleNodeClick}
+						onPaneClick={() => {
+							setHighlightedNodeIds([]);
+							setHighlightedEdgeIds([]);
+						}}
 						fitView
 						snapGrid={[16, 16]}
 						elementsSelectable
