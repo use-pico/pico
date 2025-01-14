@@ -14,6 +14,7 @@
 		"translations": "bun ./cli/translations.ts"
 	},
 	"dependencies": {
+		"@dagrejs/dagre": "^1.1.4",
 		"@hookform/resolvers": "^3.9.1",
 		"@tanstack/react-query": "^5.62.8",
 		"@tanstack/react-router": "^1.91.3",
@@ -21,6 +22,7 @@
 		"@use-pico/client": "workspace:*",
 		"@use-pico/common": "workspace:*",
 		"@use-pico/server": "workspace:*",
+		"@xyflow/react": "^12.3.6",
 		"dependency-graph": "^1.0.0",
 		"file-saver": "^2.0.5",
 		"kysely": "^0.27.5",

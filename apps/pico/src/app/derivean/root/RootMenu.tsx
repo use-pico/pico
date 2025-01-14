@@ -64,6 +64,14 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 
 			<MenuLink
 				icon={TagIcon}
+				to={"/$locale/apps/derivean/root/blueprint/graph"}
+				params={{ locale }}
+			>
+				<Tx label={"Blueprint graph (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={TagIcon}
 				to={"/$locale/apps/derivean/root/tag/list"}
 				params={{ locale }}
 			>

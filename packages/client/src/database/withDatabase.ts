@@ -33,7 +33,7 @@ export const withDatabase = <TDatabase>({
 		},
 	});
 
-	const kysely = new Kysely<TDatabase>({ dialect, log: ["query"] });
+	const kysely = new Kysely<TDatabase>({ dialect });
 
 	return {
 		kysely,

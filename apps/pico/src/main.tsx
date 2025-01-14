@@ -10,6 +10,9 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
 import { kysely } from "~/app/derivean/db/kysely";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
+
+import "@xyflow/react/dist/style.css";
+import "~/assets/graph.css";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({
