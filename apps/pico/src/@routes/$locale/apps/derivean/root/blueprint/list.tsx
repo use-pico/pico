@@ -17,9 +17,7 @@ import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDepend
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import {
-    withBlueprintUpgradeGraph
-} from "~/app/derivean/utils/withBlueprintUpgradeGraph";
+import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/list",
@@ -82,6 +80,10 @@ export const Route = createFileRoute(
 							.orderBy("bl.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
+
+							if (where?.id) {
+								$select = $select.where("bl.id", "=", where.id);
+							}
 
 							if (where?.fulltext) {
 								const fulltext = `%${where.fulltext}%`.toLowerCase();

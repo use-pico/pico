@@ -25,6 +25,12 @@
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: Seznam uživatelů
+0d720e511de49f63fc541f6e8ba15a7bbc395034c146346ec1308d42:
+  ref: Reset game (menu)
+  value: Reset game (menu)
+0fce277191f1fe8b4fc6d221f2f9476c8a9e110a24302c64ca579b2f:
+  ref: Move production to (modal)
+  value: Move production to (modal)
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Editace požadovaného zdroje
@@ -67,12 +73,21 @@
 24f33bf3bc4bb7962ce14173de71bc4f6fd2c880f292b7d119c3d7b9:
   ref: Register (submit)
   value: Zaregistrovat se
+259d2b923738f331843285d030a0e400abd045d56757373e045d6b9f:
+  ref: Blueprint graph (menu)
+  value: Graf plánků
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
+2aa75228d8fc98d48c45aa2104fc3cc45c574535bc5640ca164e1a81:
+  ref: Blueprint graph (label)
+  value: Graf plánků
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Nový požadavek zdroje
+2d4d41f2a66c240cf8c0a43d33c755c078db9aa4b82126c79c858001:
+  ref: Move production to (menu)
+  value: Move production to (menu)
 304ee8cc29aa3d13d616997a70c3941dc300ae1a41361905ccab1d6d:
   ref: Logout in progress...
   value: Logout in progress...
@@ -284,6 +299,9 @@
 8609c87d6a40bba9e8f12d15184b2778c0e4e450299af49b07664697:
   ref: Limit (label)
   value: Limit
+871a47041ad8cb2ef6d31b018ca6042c9fe3806a84519f78827370d1:
+  ref: Target blueprint (label)
+  value: Target blueprint (label)
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
@@ -304,6 +322,9 @@
 8c10e73bdfef4ac7ff77a8272f9da6afc7163e9be69812ec70c94e1e:
   ref: Create building (menu)
   value: Nová budova
+911782ed8c9ecd2598b628b6c1237938ee9fdc6564821a6d6a1fb88c:
+  ref: Storage (label)
+  value: Storage (label)
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
@@ -442,9 +463,6 @@ d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Nový štítek
-e37c099145da64eaee97738b4abb2146cef198db8d8e1275acd38ede:
-  ref: No upgrades (label)
-  value: Budova nemá žádné možnosti upgrade
 e3f6d977c7e959b44e1e67504d419d786031c7f563065dc1be1af291:
   ref: Resource name (label)
   value: Název zdroje

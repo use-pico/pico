@@ -25,15 +25,25 @@ export const BlueprintPreview: FC<BlueprintPreview.Props> = (props) => {
 					title={entity.name}
 				/>
 			)}
-			actions={() => {
+			actions={({ entity }) => {
 				return (
-					<LinkTo
-						icon={ListIcon}
-						to={"/$locale/apps/derivean/root/blueprint/list"}
-						params={{ locale }}
-					>
-						<Tx label={"Blueprint list (label)"} />
-					</LinkTo>
+					<>
+						<LinkTo
+							icon={ListIcon}
+							to={"/$locale/apps/derivean/root/blueprint/list"}
+							params={{ locale }}
+						>
+							<Tx label={"Blueprint list (label)"} />
+						</LinkTo>
+						<LinkTo
+							icon={"icon-[ph--graph-light]"}
+							to={"/$locale/apps/derivean/root/blueprint/graph"}
+							params={{ locale }}
+							search={{ selection: [entity.id] }}
+						>
+							<Tx label={"Blueprint graph (label)"} />
+						</LinkTo>
+					</>
 				);
 			}}
 			{...props}

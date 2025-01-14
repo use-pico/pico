@@ -64,13 +64,22 @@ const columns = [
 			const { locale } = useParams({ from: "/$locale" });
 
 			return (
-				<LinkTo
-					icon={BlueprintIcon}
-					to={"/$locale/apps/derivean/root/blueprint/$id/view"}
-					params={{ locale, id: data.id }}
-				>
-					{value}
-				</LinkTo>
+				<div className={"flex flex-row gap-2 items-center"}>
+					<LinkTo
+						icon={"icon-[ph--graph-light]"}
+						to={"/$locale/apps/derivean/root/blueprint/graph"}
+						params={{ locale }}
+						search={{ selection: [data.id] }}
+					/>
+
+					<LinkTo
+						icon={BlueprintIcon}
+						to={"/$locale/apps/derivean/root/blueprint/$id/view"}
+						params={{ locale, id: data.id }}
+					>
+						{value}
+					</LinkTo>
+				</div>
 			);
 		},
 		size: 14,

@@ -1,5 +1,6 @@
 import dagre from "@dagrejs/dagre";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import {
     Background,
     BackgroundVariant,
@@ -8,7 +9,8 @@ import {
     MiniMap,
     ReactFlow,
 } from "@xyflow/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { z } from "zod";
 
 export namespace withLayout {
 	export interface Props {
@@ -28,7 +30,7 @@ export const withLayout = ({
 	edges,
 	size = { width: 172, height: 36 },
 }: withLayout.Props) => {
-	graph.setGraph({ rankdir: "LR" });
+	graph.setGraph({ rankdir: "LR", nodesep: 100, edgesep: 60, ranksep: 120 });
 
 	nodes.forEach((node) => {
 		graph.setNode(node.id, { width: size.width, height: size.height });
@@ -62,6 +64,11 @@ export const withLayout = ({
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/graph",
 )({
+	validateSearch: zodValidator(
+		z.object({
+			selection: z.array(z.string()).default([]),
+		}),
+	),
 	async loader({ context: { kysely } }) {
 		const nodes = await kysely.transaction().execute(async (tx) => {
 			return (
@@ -100,10 +107,12 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const data = Route.useLoaderData();
+		const { selection } = Route.useSearch();
 		const [nodes, setNodes] = useState(data.nodes);
 		const [edges, setEdges] = useState(data.edges);
 		const [highlightedNodeIds, setHighlightedNodeIds] = useState<string[]>([]);
 		const [highlightedEdgeIds, setHighlightedEdgeIds] = useState<string[]>([]);
+		const navigate = Route.useNavigate();
 
 		const findConnectedNodes = (startNodeId: string) => {
 			const visitedNodes = new Set<string>();
@@ -139,15 +148,15 @@ export const Route = createFileRoute(
 
 		const updatedNodes = nodes.map((node) => ({
 			...node,
-			style: {
-				...node.style,
-				border:
-					highlightedNodeIds.includes(node.id) ? "2px solid #007BFF" : (
-						"1px solid #CCC"
-					),
-				backgroundColor:
-					highlightedNodeIds.includes(node.id) ? "#E8F0FE" : "white",
-			},
+			style:
+				highlightedNodeIds.includes(node.id) ?
+					{
+						...node.style,
+						border: "2px solid #007BFF",
+						backgroundColor: "#E8F0FE",
+						boxShadow: "none",
+					}
+				:	node.style,
 		}));
 
 		const updatedEdges = edges.map((edge) => ({
@@ -157,6 +166,15 @@ export const Route = createFileRoute(
 				strokeWidth: highlightedEdgeIds.includes(edge.id) ? 2 : 1,
 			},
 		}));
+
+		useEffect(() => {
+			if (selection.length > 0) {
+				const { nodes: connectedNodes, edges: connectedEdges } =
+					findConnectedNodes(selection[0]!);
+				setHighlightedNodeIds(connectedNodes);
+				setHighlightedEdgeIds(connectedEdges);
+			}
+		}, [...selection]);
 
 		return (
 			<div
@@ -175,7 +193,13 @@ export const Route = createFileRoute(
 						}}
 						fitView
 						snapGrid={[16, 16]}
-						elementsSelectable
+						elementsSelectable={false}
+						onNodeDoubleClick={(_, node) => {
+							navigate({
+								to: "/$locale/apps/derivean/root/blueprint/list",
+								search: { filter: { id: node.id } },
+							});
+						}}
 					>
 						<Controls
 							orientation={"horizontal"}
