@@ -2,14 +2,14 @@ import dagre from "@dagrejs/dagre";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    Background,
-    BackgroundVariant,
-    ConnectionLineType,
-    Controls,
-    MiniMap,
-    ReactFlow,
+	Background,
+	BackgroundVariant,
+	ConnectionLineType,
+	Controls,
+	MiniMap,
+	ReactFlow,
 } from "@xyflow/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 
 export namespace withLayout {
@@ -30,7 +30,7 @@ export const withLayout = ({
 	edges,
 	size = { width: 172, height: 36 },
 }: withLayout.Props) => {
-	graph.setGraph({ rankdir: "LR", nodesep: 100, edgesep: 60, ranksep: 120 });
+	graph.setGraph({ rankdir: "LR", nodesep: 50, edgesep: 30, ranksep: 120 });
 
 	nodes.forEach((node) => {
 		graph.setNode(node.id, { width: size.width, height: size.height });
@@ -70,39 +70,32 @@ export const Route = createFileRoute(
 		}),
 	),
 	async loader({ context: { kysely } }) {
-		const nodes = await kysely.transaction().execute(async (tx) => {
-			return (
-				await tx
-					.selectFrom("Blueprint")
-					.select(["Blueprint.id", "Blueprint.name"])
-					.execute()
-			).map(({ id, name }) => ({
-				id,
-				position: { x: 0, y: 0 },
-				data: { label: name },
-			}));
-		});
+		const blueprints = (
+			await kysely.selectFrom("Blueprint").select(["id", "name"]).execute()
+		).map(({ id, name }) => ({
+			id,
+			position: { x: 0, y: 0 },
+			data: { label: name },
+		}));
 
-		const edges = await kysely.transaction().execute(async (tx) => {
-			return (
-				await tx
-					.selectFrom("Blueprint_Dependency")
-					.select(["id", "blueprintId", "dependencyId"])
-					.execute()
-			).map(({ id, blueprintId, dependencyId }) => {
-				return {
-					id,
-					source: dependencyId,
-					target: blueprintId,
-					type: ConnectionLineType.Bezier,
-				};
-			});
+		const blueprintDependencies = (
+			await kysely
+				.selectFrom("Blueprint_Dependency")
+				.select(["id", "blueprintId", "dependencyId"])
+				.execute()
+		).map(({ id, blueprintId, dependencyId }) => {
+			return {
+				id,
+				source: dependencyId,
+				target: blueprintId,
+				type: ConnectionLineType.SmoothStep,
+			};
 		});
 
 		return withLayout({
 			graph: new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({})),
-			nodes,
-			edges,
+			nodes: [...blueprints],
+			edges: [...blueprintDependencies],
 		});
 	},
 	component() {
@@ -110,8 +103,6 @@ export const Route = createFileRoute(
 		const { selection } = Route.useSearch();
 		const [nodes, setNodes] = useState(data.nodes);
 		const [edges, setEdges] = useState(data.edges);
-		const [highlightedNodeIds, setHighlightedNodeIds] = useState<string[]>([]);
-		const [highlightedEdgeIds, setHighlightedEdgeIds] = useState<string[]>([]);
 		const navigate = Route.useNavigate();
 
 		const findConnectedNodes = (startNodeId: string) => {
@@ -139,40 +130,41 @@ export const Route = createFileRoute(
 			};
 		};
 
-		const handleNodeClick = (_: React.MouseEvent, node: any) => {
-			const { nodes: connectedNodes, edges: connectedEdges } =
-				findConnectedNodes(node.id);
-			setHighlightedNodeIds(connectedNodes);
-			setHighlightedEdgeIds(connectedEdges);
-		};
-
-		const updatedNodes = nodes.map((node) => ({
-			...node,
-			style:
-				highlightedNodeIds.includes(node.id) ?
-					{
-						...node.style,
-						border: "2px solid #007BFF",
-						backgroundColor: "#E8F0FE",
-						boxShadow: "none",
-					}
-				:	node.style,
-		}));
-
-		const updatedEdges = edges.map((edge) => ({
-			...edge,
-			style: {
-				stroke: highlightedEdgeIds.includes(edge.id) ? "#007BFF" : "#CCC",
-				strokeWidth: highlightedEdgeIds.includes(edge.id) ? 2 : 1,
+		const update = useCallback(
+			(connections: { nodes: string[]; edges: string[] }) => {
+				setNodes(
+					data.nodes.map((node) => ({
+						...node,
+						style:
+							connections.nodes.includes(node.id) ?
+								{
+									...node.style,
+									border: "2px solid #007BFF",
+									backgroundColor: "#E8F0FE",
+									boxShadow: "none",
+								}
+							:	node.style,
+					})),
+				);
+				setEdges(
+					data.edges.map((edge) => ({
+						...edge,
+						style:
+							connections.edges.includes(edge.id) ?
+								{
+									stroke: "#007BFF",
+									strokeWidth: 2,
+								}
+							:	edge.style,
+					})),
+				);
 			},
-		}));
+			[],
+		);
 
 		useEffect(() => {
 			if (selection.length > 0) {
-				const { nodes: connectedNodes, edges: connectedEdges } =
-					findConnectedNodes(selection[0]!);
-				setHighlightedNodeIds(connectedNodes);
-				setHighlightedEdgeIds(connectedEdges);
+				update(findConnectedNodes(selection[0]!));
 			}
 		}, [...selection]);
 
@@ -184,20 +176,22 @@ export const Route = createFileRoute(
 			>
 				<div style={{ width: "95vw", height: "85vh" }}>
 					<ReactFlow
-						nodes={updatedNodes}
-						edges={updatedEdges}
-						onNodeClick={handleNodeClick}
-						onPaneClick={() => {
-							setHighlightedNodeIds([]);
-							setHighlightedEdgeIds([]);
-						}}
+						nodes={nodes}
+						edges={edges}
+						onNodeClick={useCallback((_: React.MouseEvent, node: any) => {
+							update(findConnectedNodes(node.id));
+						}, [])}
+						onPaneClick={useCallback(() => {
+							setNodes(data.nodes);
+							setEdges(data.edges);
+						}, [])}
 						fitView
 						snapGrid={[16, 16]}
 						elementsSelectable={false}
 						onNodeDoubleClick={(_, node) => {
 							navigate({
-								to: "/$locale/apps/derivean/root/blueprint/list",
-								search: { filter: { id: node.id } },
+								to: "/$locale/apps/derivean/root/blueprint/$id/view",
+								params: { id: node.id },
 							});
 						}}
 					>
