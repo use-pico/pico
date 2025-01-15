@@ -22,7 +22,7 @@ export const withLayout = ({
 	edges,
 	size = { width: 344, height: 36 },
 }: withLayout.Props) => {
-	graph.setGraph({ rankdir: "LR", nodesep: 75, edgesep: 30, ranksep: 120 });
+	graph.setGraph({ rankdir: "LR", nodesep: 100, edgesep: 45, ranksep: 20 });
 
 	nodes.forEach((node) => {
 		graph.setNode(node.id, { width: size.width, height: size.height });

@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { Action, CloseIcon, useInvalidator } from "@use-pico/client";
-import { genId } from "@use-pico/common";
+import { CloseIcon, Icon, LoaderIcon, useInvalidator } from "@use-pico/client";
+import { genId, tvc } from "@use-pico/common";
 import {
     Background,
     BackgroundVariant,
     BaseEdge,
     Controls,
     EdgeLabelRenderer,
-    getSmoothStepPath,
+    getBezierPath,
     MiniMap,
     ReactFlow,
     useReactFlow,
@@ -95,7 +95,7 @@ export const Editor: FC<Editor.Props> = ({ data }) => {
 								markerEnd,
 							}) {
 								const { setEdges } = useReactFlow();
-								const [edgePath, labelX, labelY] = getSmoothStepPath({
+								const [edgePath, labelX, labelY] = getBezierPath({
 									sourceX,
 									sourceY,
 									sourcePosition,
@@ -130,7 +130,21 @@ export const Editor: FC<Editor.Props> = ({ data }) => {
 										/>
 										<EdgeLabelRenderer>
 											<div
-												className="nodrag nopan"
+												className={tvc("nodrag nopan", [
+													"flex",
+													"items-center",
+													"justify-center",
+													"cursor-pointer",
+													"bg-red-200",
+													"hover:bg-red-300",
+													"text-red-500",
+													"border",
+													"border-red-300",
+													"hover:border-red-600",
+													"rounded-full",
+													"w-4",
+													"h-4",
+												])}
 												style={{
 													position: "absolute",
 													pointerEvents: "all",
@@ -138,9 +152,8 @@ export const Editor: FC<Editor.Props> = ({ data }) => {
 													transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
 												}}
 											>
-												<Action
-													iconEnabled={CloseIcon}
-													loading={mutation.isPending}
+												<Icon
+													icon={mutation.isPending ? LoaderIcon : CloseIcon}
 													onClick={() => {
 														mutation.mutate({ id });
 													}}
