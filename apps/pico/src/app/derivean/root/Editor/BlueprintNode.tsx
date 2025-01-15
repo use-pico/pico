@@ -167,7 +167,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 						</Modal>
 						<Modal
 							target={<Action iconEnabled={ProductionIcon} />}
-							outside={false}
+							outside={true}
 							textTitle={<Tx label={"Blueprint production (modal)"} />}
 							css={{
 								modal: ["w-2/3"],
@@ -328,7 +328,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 									css={{ base: ["text-red-500"] }}
 								/>
 							}
-							outside={false}
+							outside={true}
 							textTitle={<Tx label={"Delete blueprint (modal)"} />}
 							css={{
 								modal: ["w-1/3"],
