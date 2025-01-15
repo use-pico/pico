@@ -11,12 +11,14 @@ export namespace BuildingNode {
 	export type Data = MapSchema.Type;
 
 	export interface Props extends NodeProps<Node<Data, "building">> {
+		showId?: string;
 		userId: string;
 		inventory: InventorySchema["~entity-array"];
 	}
 }
 
 export const BuildingNode: FC<BuildingNode.Props> = ({
+	showId,
 	userId,
 	inventory,
 	data,
@@ -47,6 +49,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 				>
 					<Modal
 						icon={BuildingIcon}
+						defaultOpen={showId === data.id}
 						textTitle={data.name}
 						target={<Action iconEnabled={ResourceIcon} />}
 						outside={true}

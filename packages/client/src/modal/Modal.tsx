@@ -27,6 +27,7 @@ export namespace Modal {
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
 		disabled?: boolean;
+		defaultOpen?: boolean;
 		/**
 		 * Close the modal when clicking outside of it.
 		 */
@@ -42,13 +43,14 @@ export const Modal: FC<Modal.Props> = ({
 	icon,
 	textTitle,
 	disabled = false,
+	defaultOpen = false,
 	outside = false,
 	variant,
 	css,
 	tva = ModalCss,
 	children: Children,
 }) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(defaultOpen);
 	const nodeId = useFloatingNodeId();
 	const { refs, context } = useFloating({
 		nodeId,

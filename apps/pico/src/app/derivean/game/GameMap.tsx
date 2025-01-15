@@ -23,6 +23,7 @@ export namespace GameMap {
 	export interface Props {
 		graph: Graph;
 		userId: string;
+		showResourcesOf?: string;
 		inventory: InventorySchema["~entity-array"];
 		zoomTo?: string;
 	}
@@ -30,6 +31,7 @@ export namespace GameMap {
 
 export const GameMap: FC<GameMap.Props> = ({
 	userId,
+	showResourcesOf,
 	inventory,
 	graph,
 	zoomTo,
@@ -52,6 +54,7 @@ export const GameMap: FC<GameMap.Props> = ({
 							"building"(props) {
 								return (
 									<BuildingNode
+										showId={showResourcesOf}
 										userId={userId}
 										inventory={inventory}
 										{...props}
@@ -79,7 +82,7 @@ export const GameMap: FC<GameMap.Props> = ({
 								return <BlueprintMissingBuildingsNode {...props} />;
 							},
 						}),
-						[userId, inventory],
+						[userId, inventory, showResourcesOf],
 					)}
 				>
 					<ZoomToNode nodeId={zoomTo} />

@@ -76,6 +76,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 				{isBuilt || queue ? null : (
 					<div className={"flex flex-row gap-4 items-center"}>
 						<RequirementsInline
+							blueprintId={entity.id}
 							textTitle={<Tx label={"Building requirements (title)"} />}
 							textEmpty={<Tx label={"No requirements (label)"} />}
 							requirements={entity.requirements}
@@ -113,6 +114,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						{entity.production.map((production) => {
 							return (
 								<ProductionLine
+									blueprintId={entity.id}
 									key={`production-${production.id}-${production.blueprintId}`}
 									userId={userId}
 									production={production}

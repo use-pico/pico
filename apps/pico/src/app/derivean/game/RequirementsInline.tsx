@@ -19,12 +19,14 @@ export namespace RequirementsInline {
 
 	export interface Props
 		extends RequirementsInlineCss.Props<More.PropsEx<Data>> {
+		blueprintId: string;
 		requirements: Data[];
 		diff?: Diff[];
 	}
 }
 
 export const RequirementsInline: FC<RequirementsInline.Props> = ({
+	blueprintId,
 	requirements,
 	diff,
 	variant,
@@ -45,12 +47,10 @@ export const RequirementsInline: FC<RequirementsInline.Props> = ({
 
 				return (
 					<LinkTo
-						to={"/$locale/apps/derivean/game/management"}
+						to={"/$locale/apps/derivean/game/map"}
 						params={{ locale }}
 						search={{
-							filter: {
-								resourceId: entity.resourceId,
-							},
+							showResourcesOf: blueprintId,
 						}}
 					>
 						<div

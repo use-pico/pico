@@ -12,21 +12,23 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	validateSearch: zodValidator(
 		z.object({
 			resourceId: z.string().optional(),
+			showResourcesOf: z.string().optional(),
 		}),
 	),
-	loaderDeps({ search: { resourceId } }) {
+	loaderDeps({ search: { resourceId, showResourcesOf } }) {
 		return {
 			resourceId,
+			showResourcesOf,
 		};
 	},
 	async loader({
 		context: { queryClient, kysely, session },
-		deps: { resourceId },
+		deps: { resourceId, showResourcesOf },
 	}) {
 		const user = await session();
 
 		return queryClient.ensureQueryData({
-			queryKey: ["Management", user.id],
+			queryKey: ["Management", user.id, showResourcesOf],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					const $blueprintFilter = tx.selectFrom("Blueprint as bl").select([
@@ -338,6 +340,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	},
 	component() {
 		const { graph, inventory } = Route.useLoaderData();
+		const { showResourcesOf } = Route.useSearch();
 		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
@@ -347,6 +350,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 				graph={graph}
 				userId={session.id}
 				inventory={inventory}
+				/**
+				 * This works well, but does not make sense.
+				 */
+				showResourcesOf={showResourcesOf}
 			/>
 		);
 	},

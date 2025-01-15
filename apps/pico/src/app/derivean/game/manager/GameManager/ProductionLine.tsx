@@ -19,6 +19,7 @@ import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 export namespace ProductionLine {
 	export interface Props {
 		userId: string;
+		blueprintId: string;
 		production: GameManager.Production;
 		inventory: InventorySchema["~entity-array"];
 		isProductionLimit: boolean;
@@ -27,6 +28,7 @@ export namespace ProductionLine {
 
 export const ProductionLine: FC<ProductionLine.Props> = ({
 	userId,
+	blueprintId,
 	production,
 	inventory,
 	isProductionLimit,
@@ -126,6 +128,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 				</div>
 				<div className={"flex flex-row items-center gap-2"}>
 					<RequirementsInline
+						blueprintId={blueprintId}
 						requirements={production.requirements}
 						diff={inventory}
 					/>
