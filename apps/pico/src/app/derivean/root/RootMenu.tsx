@@ -25,18 +25,6 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 			</MenuLink>
 
 			<MenuLink
-				icon={UserIcon}
-				to={"/$locale/apps/derivean/root/user/list"}
-				params={{ locale }}
-				active={[
-					{ to: "/$locale/apps/derivean/root/user/$id/view" },
-					{ to: "/$locale/apps/derivean/root/user/$id/building/list" },
-				]}
-			>
-				<Tx label={"User list (menu)"} />
-			</MenuLink>
-
-			<MenuLink
 				icon={BuildingIcon}
 				to={"/$locale/apps/derivean/root/blueprint/list"}
 				params={{ locale }}
@@ -68,6 +56,18 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				params={{ locale }}
 			>
 				<Tx label={"Default inventory (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={UserIcon}
+				to={"/$locale/apps/derivean/root/user/list"}
+				params={{ locale }}
+				active={[
+					{ to: "/$locale/apps/derivean/root/user/$id/view" },
+					{ to: "/$locale/apps/derivean/root/user/$id/building/list" },
+				]}
+			>
+				<Tx label={"User list (menu)"} />
 			</MenuLink>
 
 			<MenuLink
