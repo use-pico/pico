@@ -17,7 +17,6 @@ import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDepend
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/blueprint/list",
@@ -152,16 +151,12 @@ export const Route = createFileRoute(
 			dependencies: await kysely.transaction().execute(async (tx) => {
 				return withBlueprintGraph({ tx });
 			}),
-			upgrades: await kysely.transaction().execute(async (tx) => {
-				return withBlueprintUpgradeGraph({ tx });
-			}),
 		};
 	},
 	component() {
 		const {
 			data: { data, count },
 			dependencies,
-			upgrades,
 		} = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
@@ -171,7 +166,6 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<BlueprintTable
-					upgrades={upgrades}
 					dependencies={dependencies}
 					table={{
 						data,

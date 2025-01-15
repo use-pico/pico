@@ -63,14 +63,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 		const blueprints = (
 			await kysely
 				.selectFrom("Blueprint")
-				.select([
-					"id",
-					"name",
-					"productionLimit",
-					"cycles",
-					"upgradeId",
-					"sort",
-				])
+				.select(["id", "name", "productionLimit", "cycles", "sort"])
 				.execute()
 		).map((data) => ({
 			id: data.id,
@@ -78,25 +71,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 			data,
 			type: "blueprint",
 		}));
-
-		// const upgrades = (
-		// 	await kysely
-		// 		.selectFrom("Blueprint")
-		// 		.select(["id", "upgradeId"])
-		// 		.where("upgradeId", "is not", null)
-		// 		.execute()
-		// ).map(({ id, upgradeId }) => {
-		// 	return {
-		// 		id,
-		// 		source: id,
-		// 		target: upgradeId,
-		// 		type: "upgrade",
-		// 		style: {
-		// 			stroke: "#FF33AA",
-		// 			strokeWidth: 1,
-		// 		},
-		// 	};
-		// });
 
 		const blueprintDependencies = (
 			await kysely

@@ -6,13 +6,11 @@ export namespace withConstructionQueue {
 	export interface Props {
 		userId: string;
 		blueprintId: string;
-		upgradeId?: string;
 	}
 }
 
 export const withConstructionQueue = async ({
 	blueprintId,
-	upgradeId,
 	userId,
 }: withConstructionQueue.Props) => {
 	return new Promise((resolve) => {
@@ -72,16 +70,6 @@ export const withConstructionQueue = async ({
 						to: cycle + blueprint.cycles,
 					})
 					.execute();
-
-				if (upgradeId) {
-					await tx
-						.updateTable("Building")
-						.set({ isUpgraded: true })
-						.where("blueprintId", "=", upgradeId)
-						.where("userId", "=", userId)
-						.execute();
-				}
-
 				resolve(true);
 			});
 		}, ActionBreakTimeout);

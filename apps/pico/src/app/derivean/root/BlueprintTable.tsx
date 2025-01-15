@@ -22,13 +22,11 @@ import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
-import { Dependencies } from "~/app/derivean/root/Dependencies";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import type { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export namespace BlueprintTable {
 	export interface Data extends IdentitySchema.Type {
@@ -43,12 +41,10 @@ export namespace BlueprintTable {
 			name: string;
 		})[];
 		graph?: string;
-		upgrades?: string;
 	}
 
 	export interface Context {
 		dependencies?: withBlueprintGraph.Result;
-		upgrades?: withBlueprintUpgradeGraph.Result;
 	}
 }
 
@@ -119,22 +115,6 @@ const columns = [
 		size: 32,
 	}),
 	column({
-		name: "upgrades",
-		header() {
-			return <Tx label={"Blueprint upgrade path (label)"} />;
-		},
-		render({ data, context: { upgrades } }) {
-			return upgrades ?
-					<Dependencies
-						graph={upgrades}
-						blueprintId={data.id}
-						reverse
-					/>
-				:	null;
-		},
-		size: 32,
-	}),
-	column({
 		name: "cycles",
 		header() {
 			return <Tx label={"Construction cycles (label)"} />;
@@ -164,13 +144,11 @@ const columns = [
 export namespace BlueprintTable {
 	export interface Props extends Table.PropsEx<Data, BlueprintTable.Context> {
 		dependencies?: withBlueprintGraph.Result;
-		upgrades?: withBlueprintUpgradeGraph.Result;
 	}
 }
 
 export const BlueprintTable: FC<BlueprintTable.Props> = ({
 	dependencies,
-	upgrades,
 	table,
 	...props
 }) => {
@@ -183,7 +161,6 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 				columns,
 				context: {
 					dependencies,
-					upgrades,
 				},
 			})}
 			action={{

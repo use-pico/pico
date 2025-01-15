@@ -30,7 +30,6 @@ export const Route = createFileRoute(
 								"bl.sort",
 								"bl.cycles",
 								"bl.productionLimit",
-								"bl.upgradeId",
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -105,7 +104,6 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							upgradeId: z.string().nullish(),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							productionLimit: z.number().nonnegative(),

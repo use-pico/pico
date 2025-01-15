@@ -10,7 +10,6 @@ import {
     FilterSchema,
     withBoolSchema,
     withJsonArraySchema,
-    withJsonSchema,
 } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
@@ -18,7 +17,6 @@ import { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
-import { withBlueprintUpgradeGraph } from "~/app/derivean/utils/withBlueprintUpgradeGraph";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 	validateSearch: zodValidator(
@@ -121,58 +119,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 										.where("p.userId", "=", user.id)
 										.as("productionCount");
 								},
-								(eb) =>
-									eb
-										.selectFrom("Blueprint as bu")
-										.innerJoin(
-											$blueprintFilter.as("filter"),
-											"bu.id",
-											"filter.id",
-										)
-										.select((eb) => {
-											return sql<string>`json_object(
-                                                'id', ${eb.ref("bu.id")},
-                                                'name', ${eb.ref("bu.name")},
-                                                'cycles', ${eb.ref("bu.cycles")},
-                                                'withAvailableBuildings', ${eb.ref("filter.withAvailableBuildings")},
-                                                'withAvailableResources', ${eb.ref("filter.withAvailableResources")},
-                                                'requirements', ${sql`(
-                                                    SELECT
-                                                        json_group_array(json_object(
-                                                            'id', br.id,
-                                                            'amount', br.amount,
-                                                            'passive', br.passive,
-                                                            'name', r2.name,
-                                                            'blueprintId', bu.id,
-                                                            'resourceId', br.resourceId
-                                                        ))
-                                                    FROM
-                                                        Blueprint_Requirement as br
-                                                        INNER JOIN Resource as r2 on r2.id = br.resourceId
-                                                    WHERE
-                                                        br.blueprintId = bu.id
-                                                    ORDER BY
-                                                        r2.name
-                                                    ),
-                                                    'dependencies', ${sql`(
-                                                        SELECT
-                                                            json_group_array(json_object(
-                                                                'id', bd.id,
-                                                                'dependencyId', bd.dependencyId,
-                                                                'blueprintId', bd.blueprintId,
-                                                                'name', b2.name
-                                                            ))
-                                                        FROM
-                                                            Blueprint_Dependency as bd
-                                                            INNER JOIN Blueprint as b2 ON b2.id = bd.dependencyId
-                                                        WHERE
-                                                            bd.blueprintId = bu.id
-                                                    )`}
-                                                    `}
-                                            )`.as("upgradeTo");
-										})
-										.whereRef("bu.id", "=", "bl.upgradeId")
-										.as("upgradeTo"),
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -298,29 +244,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 								);
 							})
 							.where("filter.withAvailableBuildings", "=", true)
-							.where((eb) => {
-								return eb.or([
-									eb("bg.isUpgraded", "=", false),
-									eb("bg.isUpgraded", "is", null),
-								]);
-							})
-							/**
-							 * Filter out blueprints which are upgrades of another blueprints
-							 */
-							.where(
-								"bl.id",
-								"not in",
-								tx
-									.selectFrom("Blueprint as bl")
-									.innerJoin("Building as bg", "bg.blueprintId", "bl.id")
-									.select("upgradeId")
-									.where("upgradeId", "is not", null)
-									.where("bg.userId", "=", user.id)
-									/**
-									 * I don't like any, but necessary evil as the result is correct, but Kysely don't see it
-									 */
-									.where("bg.isUpgraded", "=", false) as any,
-							)
 							.orderBy("bl.sort", "asc")
 							.orderBy("bl.name", "asc"),
 						query({ select, where }) {
@@ -361,29 +284,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 							productionCount: z.number().int().nonnegative(),
 							withAvailableBuildings: withBoolSchema(),
 							withAvailableResources: withBoolSchema(),
-							upgradeTo: withJsonSchema(
-								z.object({
-									id: z.string().min(1),
-									name: z.string().min(1),
-									cycles: z.number().int().nonnegative(),
-									withAvailableBuildings: withBoolSchema(),
-									withAvailableResources: withBoolSchema(),
-									requirements: z.array(
-										BlueprintRequirementSchema.entity.merge(
-											z.object({
-												name: z.string().min(1),
-											}),
-										),
-									),
-									dependencies: z.array(
-										BlueprintDependencySchema.entity.merge(
-											z.object({
-												name: z.string().min(1),
-											}),
-										),
-									),
-								}),
-							).nullish(),
 							construction: withJsonArraySchema(
 								z.object({
 									id: z.string().min(1),
@@ -449,9 +349,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 			dependencies: await kysely.transaction().execute(async (tx) => {
 				return withBlueprintGraph({ tx });
 			}),
-			upgrades: await kysely.transaction().execute(async (tx) => {
-				return withBlueprintUpgradeGraph({ tx });
-			}),
 			inventory: await queryClient.ensureQueryData({
 				queryKey: ["User_Inventory", "list", user.id],
 				async queryFn() {
@@ -493,8 +390,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/management")({
 		});
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
-
-		// console.log("Data", data.data);
 
 		return (
 			<GameManager

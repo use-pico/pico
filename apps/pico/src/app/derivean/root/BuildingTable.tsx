@@ -97,7 +97,6 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 																	id: genId(),
 																	...values,
 																	userId,
-																	isUpgraded: false,
 																})
 																.returningAll()
 																.executeTakeFirstOrThrow();

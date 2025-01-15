@@ -4,7 +4,6 @@ import type { FC } from "react";
 import { Dependencies } from "~/app/derivean/game/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { Header } from "~/app/derivean/game/manager/GameManager/BuildingItem/Header";
-import { UpgradeHeader } from "~/app/derivean/game/manager/GameManager/BuildingItem/UpgradeHeader";
 import { ProductionLine } from "~/app/derivean/game/manager/GameManager/ProductionLine";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
@@ -73,20 +72,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						isBuilt={isBuilt}
 						canBuild={canBuild}
 					/>
-					{isBuilt && entity.upgradeTo ?
-						<>
-							<UpgradeHeader
-								name={entity.upgradeTo.name}
-								userId={userId}
-								blueprintId={entity.upgradeTo.id}
-								upgradeId={entity.id}
-								canBuild={
-									entity.upgradeTo.withAvailableBuildings &&
-									entity.upgradeTo.withAvailableResources
-								}
-							/>
-						</>
-					:	null}
 				</div>
 				{isBuilt || queue ? null : (
 					<div className={"flex flex-row gap-4 items-center"}>
@@ -99,17 +84,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						<CyclesInline cycles={entity.cycles} />
 					</div>
 				)}
-				{isBuilt && entity.upgradeTo ?
-					<div className={"flex flex-row gap-4 items-center"}>
-						<RequirementsInline
-							textTitle={<Tx label={"Building requirements (title)"} />}
-							textEmpty={<Tx label={"No requirements (label)"} />}
-							requirements={entity.upgradeTo.requirements}
-							diff={inventory}
-						/>
-						<CyclesInline cycles={entity.upgradeTo.cycles} />
-					</div>
-				:	null}
 			</div>
 			{queue ?
 				<Progress
@@ -124,13 +98,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					buildingCounts={buildingCounts}
 				/>
 			)}
-			{isBuilt && entity.upgradeTo ?
-				<Dependencies
-					graph={dependencies}
-					blueprintId={entity.upgradeTo.id}
-					buildingCounts={buildingCounts}
-				/>
-			:	null}
 			{isBuilt ?
 				<>
 					<div

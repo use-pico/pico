@@ -25,12 +25,7 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 					<BlueprintTable
 						table={{
 							...table,
-							hidden: [
-								"requirements",
-								"dependencies",
-								"upgrades",
-								"productionLimit",
-							],
+							hidden: ["requirements", "dependencies", "productionLimit"],
 						}}
 						{...props}
 					/>

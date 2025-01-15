@@ -20,9 +20,6 @@ export const withBlueprintSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
-				upgradeId:
-					// varchar(36) / nullable
-					z.string().nullish(),
 				name:
 					// varchar(64) / not nullable
 					z.string().min(1),
@@ -39,7 +36,7 @@ export const withBlueprintSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "upgradeId", "name", "cycles", "productionLimit", "sort"],
+		sort: ["id", "name", "cycles", "productionLimit", "sort"],
 	});
 };
 
@@ -209,14 +206,11 @@ export const withBuildingSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				isUpgraded:
-					// boolean / not nullable
-					withBoolSchema(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "blueprintId", "isUpgraded"],
+		sort: ["id", "userId", "blueprintId"],
 	});
 };
 

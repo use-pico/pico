@@ -179,18 +179,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 			.ifNotExists()
 			.addColumn("id", $id, (col) => col.primaryKey())
 
-			/**
-			 * What's the next upgrade of this blueprint.
-			 */
-			.addColumn("upgradeId", $id)
-			.addForeignKeyConstraint(
-				"[Blueprint] upgradeId",
-				["upgradeId"],
-				"Blueprint",
-				["id"],
-				(c) => c.onDelete("set null").onUpdate("set null"),
-			)
-
 			.addColumn("name", "varchar(64)", (col) => col.notNull())
 
 			/**
@@ -497,10 +485,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				"Blueprint",
 				["id"],
 				(c) => c.onDelete("cascade").onUpdate("cascade"),
-			)
-
-			.addColumn("isUpgraded", "boolean", (col) =>
-				col.notNull().defaultTo(false),
 			)
 
 			/**
