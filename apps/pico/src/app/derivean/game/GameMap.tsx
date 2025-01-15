@@ -79,7 +79,7 @@ export const GameMap: FC<GameMap.Props> = ({
 								return <BlueprintMissingBuildingsNode {...props} />;
 							},
 						}),
-						[],
+						[userId, inventory],
 					)}
 				>
 					<ZoomToNode nodeId={zoomTo} />
