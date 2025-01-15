@@ -10,7 +10,7 @@ import {
     withToastPromiseTx,
 } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
-import { Handle, NodeProps, Position } from "@xyflow/react";
+import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
@@ -18,19 +18,17 @@ import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
 
 export namespace BlueprintNode {
-	export interface Data extends IdentitySchema.Type {
+	export type Data = IdentitySchema.Type & {
 		name: string;
-	}
+	};
 
-	export interface Props extends Omit<NodeProps, "data"> {
-		data: Data;
-		update?(nodeId: string): void;
+	export interface Props extends NodeProps<Node<Data, "blueprint">> {
+		//
 	}
 }
 
 export const BlueprintNode: FC<BlueprintNode.Props> = ({
 	id,
-	update,
 	data,
 	isConnectable,
 }) => {
@@ -39,10 +37,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 
 	return (
 		<div
-			className={"min-w-[10rem]"}
-			onClick={() => {
-				update?.(id);
-			}}
+			className={"min-w-[10rem] nodrag"}
 			onDoubleClick={() => {
 				navigate({
 					to: "/$locale/apps/derivean/root/blueprint/$id/view",
@@ -53,6 +48,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 			<Handle
 				type={"target"}
 				position={Position.Left}
+				className={"w-4 h-4"}
 			/>
 			<div className={"flex flex-col gap-2 items-start"}>
 				<div className={"flex flex-row items-center gap-2"}>
@@ -121,11 +117,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 				type={"source"}
 				position={Position.Right}
 				isConnectable={isConnectable}
-			/>
-			<Handle
-				type={"source"}
-				position={Position.Right}
-				isConnectable={isConnectable}
+				className={"w-4 h-4"}
 			/>
 		</div>
 	);

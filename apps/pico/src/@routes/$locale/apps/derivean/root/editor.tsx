@@ -1,7 +1,6 @@
 import dagre from "@dagrejs/dagre";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { ConnectionLineType } from "@xyflow/react";
 import { z } from "zod";
 import { Editor } from "~/app/derivean/root/Editor";
 
@@ -90,7 +89,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 				id,
 				source: dependencyId,
 				target: blueprintId,
-				type: ConnectionLineType.SmoothStep,
+				type: "dependency",
 			};
 		});
 
@@ -102,13 +101,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 	},
 	component() {
 		const data = Route.useLoaderData();
-		const { selection } = Route.useSearch();
 
-		return (
-			<Editor
-				data={data}
-				selectionId={selection?.[0]}
-			/>
-		);
+		return <Editor data={data} />;
 	},
 });

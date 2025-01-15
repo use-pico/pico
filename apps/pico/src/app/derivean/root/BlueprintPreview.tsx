@@ -35,13 +35,14 @@ export const BlueprintPreview: FC<BlueprintPreview.Props> = (props) => {
 						>
 							<Tx label={"Blueprint list (label)"} />
 						</LinkTo>
+
 						<LinkTo
 							icon={"icon-[ph--graph-light]"}
-							to={"/$locale/apps/derivean/root/blueprint/graph"}
+							to={"/$locale/apps/derivean/root/editor"}
 							params={{ locale }}
 							search={{ selection: [entity.id] }}
 						>
-							<Tx label={"Blueprint graph (label)"} />
+							<Tx label={"Editor (label)"} />
 						</LinkTo>
 					</>
 				);

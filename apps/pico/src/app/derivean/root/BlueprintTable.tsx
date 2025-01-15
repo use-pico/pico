@@ -67,7 +67,7 @@ const columns = [
 				<div className={"flex flex-row gap-2 items-center"}>
 					<LinkTo
 						icon={"icon-[ph--graph-light]"}
-						to={"/$locale/apps/derivean/root/blueprint/graph"}
+						to={"/$locale/apps/derivean/root/editor"}
 						params={{ locale }}
 						search={{ selection: [data.id] }}
 					/>
