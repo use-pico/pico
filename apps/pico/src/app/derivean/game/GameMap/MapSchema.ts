@@ -2,6 +2,7 @@ import {
     IdentitySchema,
     withBoolSchema,
     withJsonArraySchema,
+    withJsonSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
@@ -15,6 +16,11 @@ export const MapSchema = IdentitySchema.merge(
 		productionCount: z.number().int().nonnegative(),
 		withAvailableBuildings: withBoolSchema(),
 		withAvailableResources: withBoolSchema(),
+		building: withJsonSchema(
+			z.object({
+				id: z.string().min(1),
+			}),
+		).nullish(),
 		construction: withJsonArraySchema(
 			z.object({
 				id: z.string().min(1),

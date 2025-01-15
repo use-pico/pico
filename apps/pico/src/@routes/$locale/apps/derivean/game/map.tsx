@@ -1,3 +1,4 @@
+import dagre from "@dagrejs/dagre";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
@@ -5,6 +6,7 @@ import { sql } from "kysely";
 import { z } from "zod";
 import { GameMap } from "~/app/derivean/game/GameMap";
 import { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
+import { withLayout } from "~/app/derivean/utils/withLayout";
 
 export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	validateSearch: zodValidator(
@@ -87,6 +89,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 								"bl.productionLimit",
 								"filter.withAvailableBuildings",
 								"filter.withAvailableResources",
+								(eb) =>
+									eb
+										.selectFrom("Building as bg")
+										.select((eb) => {
+											return sql<string>`json_object(
+                                                'id', ${eb.ref("bg.id")}
+                                            )`.as("building");
+										})
+										.whereRef("bg.blueprintId", "=", "bl.id")
+										.where("bg.userId", "=", user.id)
+										.as("building"),
 								(eb) => {
 									return eb
 										.selectFrom("Production as p")
@@ -220,7 +233,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										.where("resourceId", "=", resourceId!),
 								);
 							})
-							.where("filter.withAvailableBuildings", "=", true)
+							// .where("filter.withAvailableBuildings", "=", true)
 							.orderBy("bl.sort", "asc")
 							.orderBy("bl.name", "asc"),
 						query({ select, where }) {
@@ -264,6 +277,58 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 
 		return {
 			data,
+			graph: withLayout({
+				graph: new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({})),
+				nodes: data.map((data) => {
+					let type = "blueprint";
+
+					if (data.construction?.[0]) {
+						type = "construction";
+					} else if (data.building) {
+						type = "building";
+					} else if (
+						data.withAvailableResources &&
+						data.withAvailableBuildings
+					) {
+						type = "blueprint-available";
+					} else if (
+						data.withAvailableResources &&
+						!data.withAvailableBuildings
+					) {
+						type = "blueprint-missing-buildings";
+					} else if (
+						data.withAvailableBuildings &&
+						!data.withAvailableResources
+					) {
+						type = "blueprint-missing-resources";
+					} else if (
+						!data.withAvailableBuildings &&
+						!data.withAvailableResources
+					) {
+						type = "blueprint-unavailable";
+					}
+
+					return {
+						id: data.id,
+						data,
+						position: { x: 0, y: 0 },
+						type,
+					};
+				}),
+				edges: (
+					await kysely
+						.selectFrom("Blueprint_Dependency")
+						.select(["id", "blueprintId", "dependencyId"])
+						.execute()
+				).map(({ id, blueprintId, dependencyId }) => {
+					return {
+						id,
+						source: dependencyId,
+						target: blueprintId,
+						type: "dependency",
+					};
+				}),
+			}),
 			inventory: await queryClient.ensureQueryData({
 				queryKey: ["User_Inventory", "list", user.id],
 				async queryFn() {
@@ -298,7 +363,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 		};
 	},
 	component() {
-		const { data } = Route.useLoaderData();
+		const { data, graph } = Route.useLoaderData();
 		const { session, cycle } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
@@ -306,6 +371,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 		return (
 			<GameMap
 				data={data}
+				graph={graph}
 				userId={session.id}
 			/>
 		);
