@@ -11,7 +11,7 @@ import { BlueprintMissingBuildingsNode } from "~/app/derivean/game/GameMap/Bluep
 import { BlueprintMissingResourcesNode } from "~/app/derivean/game/GameMap/BlueprintMissingResourcesNode";
 import { BuildingNode } from "~/app/derivean/game/GameMap/BuildingNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap/ConstructionNode";
-import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
+import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { ZoomToNode } from "~/app/derivean/ui/ZoomToNode";
 
 export namespace GameMap {
@@ -21,14 +21,19 @@ export namespace GameMap {
 	}
 
 	export interface Props {
-		data: MapSchema.Type[];
 		graph: Graph;
 		userId: string;
+		inventory: InventorySchema["~entity-array"];
 		zoomTo?: string;
 	}
 }
 
-export const GameMap: FC<GameMap.Props> = ({ data, userId, graph, zoomTo }) => {
+export const GameMap: FC<GameMap.Props> = ({
+	userId,
+	inventory,
+	graph,
+	zoomTo,
+}) => {
 	return (
 		<div
 			className={
@@ -45,7 +50,13 @@ export const GameMap: FC<GameMap.Props> = ({ data, userId, graph, zoomTo }) => {
 					nodeTypes={useMemo(
 						() => ({
 							"building"(props) {
-								return <BuildingNode {...props} />;
+								return (
+									<BuildingNode
+										userId={userId}
+										inventory={inventory}
+										{...props}
+									/>
+								);
 							},
 							"construction"(props) {
 								return <ConstructionNode {...props} />;

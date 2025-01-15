@@ -55,9 +55,6 @@
 19d04bf3808447ec0105094716724deda8a0e2fff20d11e44c29b952:
   ref: Resource production count (label)
   value: Resource production count (label)
-1a3b3e9af39c86ba072a2038791ad2241e58c228ee415df533f55557:
-  ref: Upgrade to (label)
-  value: Upgrade to (label)
 1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
   ref: Production limit (label)
   value: Production limit (label)
@@ -100,6 +97,9 @@
 366b17fe4163bdeff4a19522b7b9da285309b94d5060f86eaa79856c:
   ref: Blueprint sort (label)
   value: Blueprint sort (label)
+3762d35519a2b937c09eb3b6030141afdde349c5320b2f5884c3dc7f:
+  ref: Map (menu)
+  value: Map (menu)
 38347572d8aa1607a788bf890a6e9f83c334d06fc92987ae1535b1f5:
   ref: Missing any token(s). (title)
   value: Missing any token(s). (title)
@@ -235,9 +235,6 @@
 74d9fe31d4acfc6825ca4e317857d48ce8755d4e575557b655da8545:
   ref: Passive requirement (hint)
   value: Passive requirement (hint)
-757d48deaa8f3ec50dfecfc5e00e9d4c592a4207198ce22aa973762b:
-  ref: Blueprint upgrade path (label)
-  value: Blueprint upgrade path (label)
 76c40f3bee67fbc832bb7731fdec758660fac52e49ce9f5bf13b21fe:
   ref: Inventory limit (label)
   value: Inventory limit (label)
@@ -322,6 +319,9 @@
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Tag list (menu)
+968fdbd787e6e7c2b0db911118d25fe4662584b245ccc8bcbfdaae66:
+  ref: Building unavailable (label)
+  value: Building unavailable (label)
 969ec54c2100603a0213d551eac7a3cee2d1cfde1329323649e4021e:
   ref: Blueprint production requirements (modal)
   value: Blueprint production requirements (modal)
@@ -487,9 +487,6 @@ eecd2930a1fa4de61bc29f8080f2f452a6f21ad4a2c593d6a7e852e7:
 eedf87d84873632bd1599189c81074b3b46df96d2b359ea457a1ecc1:
   ref: Management (menu)
   value: Management (menu)
-f0ed1ec3d644e6971e76850f612826717d0f432d49aafb2b0eb3fc93:
-  ref: Upgrade to (hint)
-  value: Upgrade to (hint)
 f0f0aadb4291cef21fc9e14f1285a968b8c552e94538ff454afa3a9d:
   ref: Editor (label)
   value: Editor (label)

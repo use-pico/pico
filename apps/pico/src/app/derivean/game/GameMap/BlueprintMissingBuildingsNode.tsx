@@ -15,7 +15,7 @@ export namespace BlueprintMissingBuildingsNode {
 
 export const BlueprintMissingBuildingsNode: FC<
 	BlueprintMissingBuildingsNode.Props
-> = ({ id, data, isConnectable }) => {
+> = ({ isConnectable }) => {
 	return (
 		<div className={"min-w-[14rem]"}>
 			<Handle

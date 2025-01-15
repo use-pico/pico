@@ -1,7 +1,4 @@
-import {
-    Icon,
-    Progress
-} from "@use-pico/client";
+import { Icon, Progress } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
@@ -16,7 +13,6 @@ export namespace ConstructionNode {
 }
 
 export const ConstructionNode: FC<ConstructionNode.Props> = ({
-	id,
 	data,
 	isConnectable,
 }) => {

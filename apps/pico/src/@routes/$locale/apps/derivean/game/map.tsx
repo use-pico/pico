@@ -25,7 +25,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	}) {
 		const user = await session();
 
-		const data = await queryClient.ensureQueryData({
+		return queryClient.ensureQueryData({
 			queryKey: ["Management", user.id],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
                       `.as("withAvailableBuildings"),
 					]);
 
-					return withList({
+					const data = await withList({
 						select: tx
 							.selectFrom("Blueprint as bl")
 							.innerJoin($blueprintFilter.as("filter"), "bl.id", "filter.id")
@@ -271,108 +271,82 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 							size: 250,
 						},
 					});
-				});
-			},
-		});
-
-		return {
-			data,
-			graph: withLayout({
-				graph: new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({})),
-				nodes: data.map((data) => {
-					let type = "blueprint";
-
-					if (data.construction?.[0]) {
-						type = "construction";
-					} else if (data.building) {
-						type = "building";
-					} else if (
-						data.withAvailableResources &&
-						data.withAvailableBuildings
-					) {
-						type = "blueprint-available";
-					} else if (
-						data.withAvailableResources &&
-						!data.withAvailableBuildings
-					) {
-						type = "blueprint-missing-buildings";
-					} else if (
-						data.withAvailableBuildings &&
-						!data.withAvailableResources
-					) {
-						type = "blueprint-missing-resources";
-					} else if (
-						!data.withAvailableBuildings &&
-						!data.withAvailableResources
-					) {
-						type = "blueprint-unavailable";
-					}
 
 					return {
-						id: data.id,
-						data,
-						position: { x: 0, y: 0 },
-						type,
-					};
-				}),
-				edges: (
-					await kysely
-						.selectFrom("Blueprint_Dependency")
-						.select(["id", "blueprintId", "dependencyId"])
-						.execute()
-				).map(({ id, blueprintId, dependencyId }) => {
-					return {
-						id,
-						source: dependencyId,
-						target: blueprintId,
-						type: "dependency",
-					};
-				}),
-			}),
-			inventory: await queryClient.ensureQueryData({
-				queryKey: ["User_Inventory", "list", user.id],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return tx
+						graph: withLayout({
+							graph: new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({})),
+							nodes: data.map((data) => {
+								let type = "blueprint";
+
+								if (data.construction?.[0]) {
+									type = "construction";
+								} else if (data.building) {
+									type = "building";
+								} else if (
+									data.withAvailableResources &&
+									data.withAvailableBuildings
+								) {
+									type = "blueprint-available";
+								} else if (
+									data.withAvailableResources &&
+									!data.withAvailableBuildings
+								) {
+									type = "blueprint-missing-buildings";
+								} else if (
+									data.withAvailableBuildings &&
+									!data.withAvailableResources
+								) {
+									type = "blueprint-missing-resources";
+								} else if (
+									!data.withAvailableBuildings &&
+									!data.withAvailableResources
+								) {
+									type = "blueprint-unavailable";
+								}
+
+								return {
+									id: data.id,
+									data,
+									position: { x: 0, y: 0 },
+									type,
+								};
+							}),
+							edges: (
+								await tx
+									.selectFrom("Blueprint_Dependency")
+									.select(["id", "blueprintId", "dependencyId"])
+									.execute()
+							).map(({ id, blueprintId, dependencyId }) => {
+								return {
+									id,
+									source: dependencyId,
+									target: blueprintId,
+									type: "dependency",
+								};
+							}),
+						}),
+						inventory: await tx
 							.selectFrom("Inventory as i")
 							.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
 							.select(["i.id", "i.amount", "i.resourceId", "i.limit"])
 							.where("ui.userId", "=", user.id)
-							.execute();
-					});
-				},
-			}),
-			buildingCounts: await queryClient.ensureQueryData({
-				queryKey: ["Building"],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return tx
-							.selectFrom("Building as b")
-							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-							.select([
-								"b.blueprintId",
-								"bl.name",
-								(eb) => eb.fn.count<number>("bl.id").as("count"),
-							])
-							.where("b.userId", "=", user.id)
-							.groupBy("b.blueprintId")
-							.execute();
-					});
-				},
-			}),
-		};
+							.execute(),
+					};
+				});
+			},
+		});
 	},
 	component() {
-		const { data, graph } = Route.useLoaderData();
-		const { session, cycle } = useLoaderData({
+		const { graph, inventory } = Route.useLoaderData();
+		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 
 		return (
 			<GameMap
-				data={data}
 				graph={graph}
 				userId={session.id}
+				inventory={inventory}
 			/>
 		);
 	},
