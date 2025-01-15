@@ -89,7 +89,7 @@ const columns = [
 		header() {
 			return <Tx label={"Blueprint dependencies (label)"} />;
 		},
-		render({ data, value, context: { dependencies } }) {
+		render({ value }) {
 			return value.length > 0 ?
 					<div className={"flex flex-col flex-wrap gap-2 w-full"}>
 						<BlueprintDependenciesInline
@@ -97,12 +97,6 @@ const columns = [
 							dependencies={value}
 						/>
 						<div className={"border-b border-slate-200"} />
-						{dependencies ?
-							<Dependencies
-								graph={dependencies}
-								blueprintId={data.id}
-							/>
-						:	null}
 					</div>
 				:	<Tx label={"No dependencies (label)"} />;
 		},
