@@ -40,7 +40,7 @@ export const BlueprintPreview: FC<BlueprintPreview.Props> = (props) => {
 							icon={"icon-[ph--graph-light]"}
 							to={"/$locale/apps/derivean/root/editor"}
 							params={{ locale }}
-							search={{ selection: [entity.id] }}
+							search={{ zoomTo: entity.id }}
 						>
 							<Tx label={"Editor (label)"} />
 						</LinkTo>

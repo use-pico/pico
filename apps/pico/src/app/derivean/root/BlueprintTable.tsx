@@ -69,7 +69,7 @@ const columns = [
 						icon={"icon-[ph--graph-light]"}
 						to={"/$locale/apps/derivean/root/editor"}
 						params={{ locale }}
-						search={{ selection: [data.id] }}
+						search={{ zoomTo: data.id }}
 					/>
 
 					<LinkTo

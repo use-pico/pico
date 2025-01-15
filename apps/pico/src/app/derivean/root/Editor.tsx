@@ -1,5 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { CloseIcon, Icon, LoaderIcon, useInvalidator } from "@use-pico/client";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import {
+    Action,
+    CloseIcon,
+    Icon,
+    LoaderIcon,
+    Modal,
+    toast,
+    Tx,
+    useInvalidator,
+    withToastPromiseTx,
+} from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import {
     Background,
@@ -14,7 +25,10 @@ import {
 } from "@xyflow/react";
 import { useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
+import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
 import { BlueprintNode } from "~/app/derivean/root/Editor/BlueprintNode";
+import { ZoomToNode } from "~/app/derivean/ui/ZoomToNode";
 
 export namespace Editor {
 	export interface Data {
@@ -24,10 +38,11 @@ export namespace Editor {
 
 	export interface Props {
 		data: Data;
+		zoomTo?: string;
 	}
 }
 
-export const Editor: FC<Editor.Props> = ({ data }) => {
+export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 	const invalidator = useInvalidator([]);
 
 	const dependencyMutation = useMutation({
@@ -168,10 +183,65 @@ export const Editor: FC<Editor.Props> = ({ data }) => {
 						[],
 					)}
 				>
+					<ZoomToNode nodeId={zoomTo} />
 					<Controls
 						orientation={"horizontal"}
 						showInteractive={false}
-					/>
+						showZoom={false}
+					>
+						<Modal
+							target={
+								<Action
+									className={"react-flow__controls-button"}
+									iconEnabled={BlueprintIcon}
+								/>
+							}
+							outside={false}
+							textTitle={<Tx label={"Create blueprint (modal)"} />}
+							css={{
+								modal: ["w-1/3"],
+							}}
+						>
+							{({ close }) => {
+								const invalidator = useInvalidator([["Editor"]]);
+								const { locale } = useParams({ from: "/$locale" });
+								const navigate = useNavigate();
+
+								return (
+									<BlueprintForm
+										mutation={useMutation({
+											async mutationFn(values) {
+												return toast.promise(
+													kysely.transaction().execute((tx) => {
+														return tx
+															.insertInto("Blueprint")
+															.values({
+																id: genId(),
+																...values,
+															})
+															.returningAll()
+															.executeTakeFirstOrThrow();
+													}),
+													withToastPromiseTx("Create blueprint"),
+												);
+											},
+											async onSuccess(data) {
+												await invalidator();
+												navigate({
+													to: "/$locale/apps/derivean/root/editor",
+													params: { locale },
+													search: {
+														zoomTo: data.id,
+													},
+												});
+												close();
+											},
+										})}
+									/>
+								);
+							}}
+						</Modal>
+					</Controls>
 					<MiniMap />
 					<Background
 						variant={BackgroundVariant.Dots}

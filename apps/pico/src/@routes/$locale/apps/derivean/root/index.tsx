@@ -109,6 +109,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						<Tx label={"Export game files (label)"} />
 					</Button>
 				</div>
+
+				<h2>TODO</h2>
+				<ul>
+					<li>Add tags to buildings (default to "neutral")</li>
+					<li>Filter out buildings based on user's tags</li>
+					<li>A building may attach (or remove?) a tag to user</li>
+				</ul>
 			</div>
 		);
 	},

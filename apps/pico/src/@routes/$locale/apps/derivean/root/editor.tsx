@@ -56,7 +56,7 @@ export const withLayout = ({
 export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 	validateSearch: zodValidator(
 		z.object({
-			selection: z.array(z.string()).default([]),
+			zoomTo: z.string().optional(),
 		}),
 	),
 	async loader({ context: { kysely } }) {
@@ -120,7 +120,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 	},
 	component() {
 		const data = Route.useLoaderData();
+		const { zoomTo } = Route.useSearch();
 
-		return <Editor data={data} />;
+		return (
+			<Editor
+				data={data}
+				zoomTo={zoomTo}
+			/>
+		);
 	},
 });
