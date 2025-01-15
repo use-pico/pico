@@ -73,15 +73,12 @@
 24f33bf3bc4bb7962ce14173de71bc4f6fd2c880f292b7d119c3d7b9:
   ref: Register (submit)
   value: Zaregistrovat se
-259d2b923738f331843285d030a0e400abd045d56757373e045d6b9f:
-  ref: Blueprint graph (menu)
-  value: Graf plánků
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
-2aa75228d8fc98d48c45aa2104fc3cc45c574535bc5640ca164e1a81:
-  ref: Blueprint graph (label)
-  value: Graf plánků
+297bbfd9bd521938566a554d7f87dac9232d8536ee14d8d1fe2128ff:
+  ref: Blueprint production (modal)
+  value: Produkce
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Nový požadavek zdroje
@@ -305,6 +302,9 @@
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
+8837569eeacc935c6e4616075dd38ab2087c34c14a381f624821375e:
+  ref: Number of production items (label)
+  value: Number of production items (label)
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
@@ -313,6 +313,9 @@
   value: |
     Opravdu si přejete odstranit vybraný požadavek na zdroj? Tato akce nebude
     mít větší vliv na data, pouze menší vliv na hratelnost.
+89738278d0650af6903a9f1357ecb1f37e89d2dc5b389926c8c3a01c:
+  ref: Number of required items (label)
+  value: Number of required items (label)
 8a8475a87d338938ab88e00caed8fcf65dc54e6c3a6848e62d9ae21e:
   ref: Default inventory (menu)
   value: Výchozí inventář
@@ -325,6 +328,9 @@
 911782ed8c9ecd2598b628b6c1237938ee9fdc6564821a6d6a1fb88c:
   ref: Storage (label)
   value: Storage (label)
+91df797398762db81a2df2427cbf3dd00a45c2d84e808354f49f5114:
+  ref: Editor (menu)
+  value: Editor
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
@@ -334,6 +340,9 @@
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Seznam štítků
+969ec54c2100603a0213d551eac7a3cee2d1cfde1329323649e4021e:
+  ref: Blueprint production requirements (modal)
+  value: Požadavky produkce
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Počet cyklů nutných k dokončení stavby.
@@ -391,6 +400,9 @@ b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
+b8156f11073d6429e85e991ff2359463030976fdba2e34833457a521:
+  ref: Required resources (modal)
+  value: Required resources (modal)
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Název
@@ -499,6 +511,9 @@ eedf87d84873632bd1599189c81074b3b46df96d2b359ea457a1ecc1:
 f0ed1ec3d644e6971e76850f612826717d0f432d49aafb2b0eb3fc93:
   ref: Upgrade to (hint)
   value: Dobrovolná hodnota, upgrade na vybranou budovu.
+f0f0aadb4291cef21fc9e14f1285a968b8c552e94538ff454afa3a9d:
+  ref: Editor (label)
+  value: Editor (label)
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Nová položka inventáře

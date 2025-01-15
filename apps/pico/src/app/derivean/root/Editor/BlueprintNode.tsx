@@ -52,7 +52,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 
 	return (
 		<div
-			className={"min-w-[10rem]"}
+			className={"min-w-[14rem]"}
 			onDoubleClick={() => {
 				navigate({
 					to: "/$locale/apps/derivean/root/blueprint/$id/view",

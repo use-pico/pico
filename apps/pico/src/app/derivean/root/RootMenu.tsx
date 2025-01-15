@@ -21,7 +21,7 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				to={"/$locale/apps/derivean/root/editor"}
 				params={{ locale }}
 			>
-				<Tx label={"Blueprint graph (menu)"} />
+				<Tx label={"Editor (menu)"} />
 			</MenuLink>
 
 			<MenuLink
