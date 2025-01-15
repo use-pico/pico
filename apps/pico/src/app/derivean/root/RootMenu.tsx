@@ -17,6 +17,14 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 	return (
 		<Menu {...props}>
 			<MenuLink
+				icon={"icon-[ph--graph-light]"}
+				to={"/$locale/apps/derivean/root/editor"}
+				params={{ locale }}
+			>
+				<Tx label={"Blueprint graph (menu)"} />
+			</MenuLink>
+
+			<MenuLink
 				icon={UserIcon}
 				to={"/$locale/apps/derivean/root/user/list"}
 				params={{ locale }}
@@ -44,14 +52,6 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				]}
 			>
 				<Tx label={"Blueprint list (menu)"} />
-			</MenuLink>
-
-			<MenuLink
-				icon={"icon-[ph--graph-light]"}
-				to={"/$locale/apps/derivean/root/blueprint/graph"}
-				params={{ locale }}
-			>
-				<Tx label={"Blueprint graph (menu)"} />
 			</MenuLink>
 
 			<MenuLink

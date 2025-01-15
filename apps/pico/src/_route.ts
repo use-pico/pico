@@ -19,6 +19,7 @@ import { Route as LocaleAppsDeriveanRootImport } from './@routes/$locale/apps/de
 import { Route as LocaleAppsDeriveanGameImport } from './@routes/$locale/apps/derivean/game'
 import { Route as LocaleAppsDeriveanRootIndexImport } from './@routes/$locale/apps/derivean/root/index'
 import { Route as LocaleAppsDeriveanGameIndexImport } from './@routes/$locale/apps/derivean/game/index'
+import { Route as LocaleAppsDeriveanRootEditorImport } from './@routes/$locale/apps/derivean/root/editor'
 import { Route as LocaleAppsDeriveanPublicRegisterImport } from './@routes/$locale/apps/derivean/public/register'
 import { Route as LocaleAppsDeriveanPublicLogoutImport } from './@routes/$locale/apps/derivean/public/logout'
 import { Route as LocaleAppsDeriveanPublicLoginImport } from './@routes/$locale/apps/derivean/public/login'
@@ -32,7 +33,6 @@ import { Route as LocaleAppsDeriveanRootResourceListImport } from './@routes/$lo
 import { Route as LocaleAppsDeriveanRootResourceIdImport } from './@routes/$locale/apps/derivean/root/resource/$id'
 import { Route as LocaleAppsDeriveanRootDefaultInventoryImport } from './@routes/$locale/apps/derivean/root/default/inventory'
 import { Route as LocaleAppsDeriveanRootBlueprintListImport } from './@routes/$locale/apps/derivean/root/blueprint/list'
-import { Route as LocaleAppsDeriveanRootBlueprintGraphImport } from './@routes/$locale/apps/derivean/root/blueprint/graph'
 import { Route as LocaleAppsDeriveanRootBlueprintIdImport } from './@routes/$locale/apps/derivean/root/blueprint/$id'
 import { Route as LocaleAppsDeriveanRootUserIdViewImport } from './@routes/$locale/apps/derivean/root/user/$id/view'
 import { Route as LocaleAppsDeriveanRootUserIdInventoryImport } from './@routes/$locale/apps/derivean/root/user/$id/inventory'
@@ -96,6 +96,13 @@ const LocaleAppsDeriveanGameIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => LocaleAppsDeriveanGameRoute,
+  } as any)
+
+const LocaleAppsDeriveanRootEditorRoute =
+  LocaleAppsDeriveanRootEditorImport.update({
+    id: '/editor',
+    path: '/editor',
+    getParentRoute: () => LocaleAppsDeriveanRootRoute,
   } as any)
 
 const LocaleAppsDeriveanPublicRegisterRoute =
@@ -187,13 +194,6 @@ const LocaleAppsDeriveanRootBlueprintListRoute =
   LocaleAppsDeriveanRootBlueprintListImport.update({
     id: '/blueprint/list',
     path: '/blueprint/list',
-    getParentRoute: () => LocaleAppsDeriveanRootRoute,
-  } as any)
-
-const LocaleAppsDeriveanRootBlueprintGraphRoute =
-  LocaleAppsDeriveanRootBlueprintGraphImport.update({
-    id: '/blueprint/graph',
-    path: '/blueprint/graph',
     getParentRoute: () => LocaleAppsDeriveanRootRoute,
   } as any)
 
@@ -369,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanPublicRegisterImport
       parentRoute: typeof LocaleAppsDeriveanImport
     }
+    '/$locale/apps/derivean/root/editor': {
+      id: '/$locale/apps/derivean/root/editor'
+      path: '/editor'
+      fullPath: '/$locale/apps/derivean/root/editor'
+      preLoaderRoute: typeof LocaleAppsDeriveanRootEditorImport
+      parentRoute: typeof LocaleAppsDeriveanRootImport
+    }
     '/$locale/apps/derivean/game/': {
       id: '/$locale/apps/derivean/game/'
       path: '/'
@@ -388,13 +395,6 @@ declare module '@tanstack/react-router' {
       path: '/blueprint/$id'
       fullPath: '/$locale/apps/derivean/root/blueprint/$id'
       preLoaderRoute: typeof LocaleAppsDeriveanRootBlueprintIdImport
-      parentRoute: typeof LocaleAppsDeriveanRootImport
-    }
-    '/$locale/apps/derivean/root/blueprint/graph': {
-      id: '/$locale/apps/derivean/root/blueprint/graph'
-      path: '/blueprint/graph'
-      fullPath: '/$locale/apps/derivean/root/blueprint/graph'
-      preLoaderRoute: typeof LocaleAppsDeriveanRootBlueprintGraphImport
       parentRoute: typeof LocaleAppsDeriveanRootImport
     }
     '/$locale/apps/derivean/root/blueprint/list': {
@@ -626,9 +626,9 @@ const LocaleAppsDeriveanRootBlueprintProductionIdRouteWithChildren =
   )
 
 interface LocaleAppsDeriveanRootRouteChildren {
+  LocaleAppsDeriveanRootEditorRoute: typeof LocaleAppsDeriveanRootEditorRoute
   LocaleAppsDeriveanRootIndexRoute: typeof LocaleAppsDeriveanRootIndexRoute
   LocaleAppsDeriveanRootBlueprintIdRoute: typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
-  LocaleAppsDeriveanRootBlueprintGraphRoute: typeof LocaleAppsDeriveanRootBlueprintGraphRoute
   LocaleAppsDeriveanRootBlueprintListRoute: typeof LocaleAppsDeriveanRootBlueprintListRoute
   LocaleAppsDeriveanRootDefaultInventoryRoute: typeof LocaleAppsDeriveanRootDefaultInventoryRoute
   LocaleAppsDeriveanRootResourceIdRoute: typeof LocaleAppsDeriveanRootResourceIdRouteWithChildren
@@ -641,11 +641,10 @@ interface LocaleAppsDeriveanRootRouteChildren {
 
 const LocaleAppsDeriveanRootRouteChildren: LocaleAppsDeriveanRootRouteChildren =
   {
+    LocaleAppsDeriveanRootEditorRoute: LocaleAppsDeriveanRootEditorRoute,
     LocaleAppsDeriveanRootIndexRoute: LocaleAppsDeriveanRootIndexRoute,
     LocaleAppsDeriveanRootBlueprintIdRoute:
       LocaleAppsDeriveanRootBlueprintIdRouteWithChildren,
-    LocaleAppsDeriveanRootBlueprintGraphRoute:
-      LocaleAppsDeriveanRootBlueprintGraphRoute,
     LocaleAppsDeriveanRootBlueprintListRoute:
       LocaleAppsDeriveanRootBlueprintListRoute,
     LocaleAppsDeriveanRootDefaultInventoryRoute:
@@ -714,10 +713,10 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
+  '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/root/blueprint/graph': typeof LocaleAppsDeriveanRootBlueprintGraphRoute
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/default/inventory': typeof LocaleAppsDeriveanRootDefaultInventoryRoute
   '/$locale/apps/derivean/root/resource/$id': typeof LocaleAppsDeriveanRootResourceIdRouteWithChildren
@@ -748,10 +747,10 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
+  '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/root/blueprint/graph': typeof LocaleAppsDeriveanRootBlueprintGraphRoute
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/default/inventory': typeof LocaleAppsDeriveanRootDefaultInventoryRoute
   '/$locale/apps/derivean/root/resource/$id': typeof LocaleAppsDeriveanRootResourceIdRouteWithChildren
@@ -786,10 +785,10 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
+  '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/root/blueprint/graph': typeof LocaleAppsDeriveanRootBlueprintGraphRoute
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/default/inventory': typeof LocaleAppsDeriveanRootDefaultInventoryRoute
   '/$locale/apps/derivean/root/resource/$id': typeof LocaleAppsDeriveanRootResourceIdRouteWithChildren
@@ -825,10 +824,10 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
+    | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/root/blueprint/$id'
-    | '/$locale/apps/derivean/root/blueprint/graph'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/default/inventory'
     | '/$locale/apps/derivean/root/resource/$id'
@@ -858,10 +857,10 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
+    | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/root/blueprint/$id'
-    | '/$locale/apps/derivean/root/blueprint/graph'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/default/inventory'
     | '/$locale/apps/derivean/root/resource/$id'
@@ -894,10 +893,10 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
+    | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/root/blueprint/$id'
-    | '/$locale/apps/derivean/root/blueprint/graph'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/default/inventory'
     | '/$locale/apps/derivean/root/resource/$id'
@@ -982,9 +981,9 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/root.tsx",
       "parent": "/$locale/apps/derivean",
       "children": [
+        "/$locale/apps/derivean/root/editor",
         "/$locale/apps/derivean/root/",
         "/$locale/apps/derivean/root/blueprint/$id",
-        "/$locale/apps/derivean/root/blueprint/graph",
         "/$locale/apps/derivean/root/blueprint/list",
         "/$locale/apps/derivean/root/default/inventory",
         "/$locale/apps/derivean/root/resource/$id",
@@ -1019,6 +1018,10 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/public/register.tsx",
       "parent": "/$locale/apps/derivean"
     },
+    "/$locale/apps/derivean/root/editor": {
+      "filePath": "$locale/apps/derivean/root/editor.tsx",
+      "parent": "/$locale/apps/derivean/root"
+    },
     "/$locale/apps/derivean/game/": {
       "filePath": "$locale/apps/derivean/game/index.tsx",
       "parent": "/$locale/apps/derivean/game"
@@ -1037,10 +1040,6 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/root/blueprint/$id/requirements",
         "/$locale/apps/derivean/root/blueprint/$id/view"
       ]
-    },
-    "/$locale/apps/derivean/root/blueprint/graph": {
-      "filePath": "$locale/apps/derivean/root/blueprint/graph.tsx",
-      "parent": "/$locale/apps/derivean/root"
     },
     "/$locale/apps/derivean/root/blueprint/list": {
       "filePath": "$locale/apps/derivean/root/blueprint/list.tsx",
