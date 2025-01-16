@@ -2,7 +2,6 @@ import { Outlet } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { AppLayoutCss } from "./AppLayoutCss";
-import { Footer } from "./Footer";
 
 export namespace AppLayout {
 	export interface Props extends AppLayoutCss.Props<PropsWithChildren> {
@@ -41,7 +40,6 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 				<div className={"flex flex-row gap-2 items-center"}>{actions}</div>
 			</div>
 			<div className={tv.content()}>{children ?? <Outlet />}</div>
-			<Footer />
 		</div>
 	);
 };

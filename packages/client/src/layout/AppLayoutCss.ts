@@ -2,7 +2,7 @@ import { css } from "@use-pico/common";
 
 export const AppLayoutCss = css({
 	slot: {
-		base: [],
+		base: ["min-h-screen", "flex", "flex-col"],
 		header: [
 			"flex",
 			"flex-row",
@@ -15,7 +15,7 @@ export const AppLayoutCss = css({
 			"gap-4",
 			"p-4",
 		],
-		content: ["min-h-screen", "border-b", "border-b-slate-200", "mb-4", "p-2"],
+		content: ["flex-grow", "h-full", "border-b", "border-b-slate-200", "p-2"],
 	},
 	variant: {},
 	defaults: {},
