@@ -1,3 +1,4 @@
+import { useNavigate, useParams } from "@tanstack/react-router";
 import {
     Background,
     BackgroundVariant,
@@ -36,6 +37,8 @@ export const GameMap: FC<GameMap.Props> = ({
 	inventory,
 	graph,
 }) => {
+	const { locale } = useParams({ from: "/$locale" });
+	const navigate = useNavigate();
 	const detail: MapSchema.Type | undefined = graph.nodes.find(
 		({ id }) => id === blueprintId,
 	)?.data;
@@ -47,6 +50,12 @@ export const GameMap: FC<GameMap.Props> = ({
 					className={"w-full h-full relative"}
 					nodes={graph.nodes}
 					edges={graph.edges}
+					onPaneClick={() => {
+						navigate({
+							to: "/$locale/apps/derivean/game/map",
+							params: { locale },
+						});
+					}}
 					fitView
 					snapGrid={[16, 16]}
 					elementsSelectable={false}
@@ -97,6 +106,7 @@ export const GameMap: FC<GameMap.Props> = ({
 						>
 							<BuildingDetail
 								detail={detail}
+								data={graph.nodes.map(({ data }) => data)}
 								userId={userId}
 								inventory={inventory}
 							/>

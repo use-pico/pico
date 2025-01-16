@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { CloseIcon, Icon, LinkTo } from "@use-pico/client";
-import { useReactFlow } from "@xyflow/react";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingItem } from "~/app/derivean/game/GameMap/BuildingItem";
@@ -13,6 +12,7 @@ import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 export namespace BuildingDetail {
 	export interface Props {
 		detail: MapSchema.Type;
+		data: MapSchema.Type[];
 		userId: string;
 		inventory: InventorySchema["~entity-array"];
 	}
@@ -20,15 +20,15 @@ export namespace BuildingDetail {
 
 export const BuildingDetail: FC<BuildingDetail.Props> = ({
 	detail,
+	data,
 	userId,
 	inventory,
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
-	const { getNode } = useReactFlow();
 
 	const query = useQuery({
-		queryKey: ["Management", "producers", detail.id],
-		async queryFn() {
+		queryKey: ["Management", "producers", detail.id, data],
+		async queryFn(): Promise<MapSchema.Type[]> {
 			return (
 				await kysely.transaction().execute((tx) => {
 					return tx
@@ -55,23 +55,19 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 								.select(["bpr.resourceId"])
 								.where("bl2.id", "=", detail.id),
 						)
+						.where("bl.id", "!=", detail.id)
 						.execute();
 				})
 			)
-				.map(({ id }) => getNode(id))
-				.filter(Boolean)
-				.map(({ data }: any) => data as MapSchema.Type);
+				.map(({ id }) => data.find((d) => d.id === id))
+				.filter(Boolean) as MapSchema.Type[];
 		},
 	});
 
 	return (
 		<div className={"flex flex-col gap-2"}>
-			<div
-				className={
-					"flex gap-2 items-center justify-between shadow-md py-4 px-2"
-				}
-			>
-				<div className={"flex items-center gap-2"}>
+			<div className={"flex gap-2 items-center justify-between shadow-md p-4"}>
+				<div className={"flex items-center gap-2 font-bold"}>
 					<Icon
 						icon={ProductionIcon}
 						css={{ base: ["text-slate-400"] }}

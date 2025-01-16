@@ -126,7 +126,6 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 				</div>
 				<div className={"flex flex-row items-center gap-2"}>
 					<RequirementsInline
-						blueprintId={production.blueprintId}
 						requirements={production.requirements}
 						diff={inventory}
 					/>
