@@ -1,18 +1,12 @@
-import {
-    createLink,
-    useMatchRoute,
-    type LinkComponent,
-    type UseMatchRouteOptions,
-} from "@tanstack/react-router";
-import { Icon } from "@use-pico/client";
+import { createLink, type LinkComponent } from "@tanstack/react-router";
+import { ActionLinkCss, Icon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
-import { forwardRef, type PropsWithChildren, type ReactNode } from "react";
-import { ActionLinkCss } from "./ActionLinkCss";
+import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 
-interface Item extends ActionLinkCss.Props<PropsWithChildren> {
+interface Item
+	extends ActionLinkCss.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
 	iconProps?: Icon.Props;
-	active?: UseMatchRouteOptions[];
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
@@ -50,26 +44,10 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 
 const Link = createLink(Item);
 
-export const ActionLink: LinkComponent<typeof Item> = ({
-	active = [],
-	variant,
-	...props
-}) => {
-	const match = useMatchRoute();
-
+export const ActionLink: LinkComponent<typeof Item> = (props) => {
 	return (
 		<Link
 			preload={"intent"}
-			variant={{
-				active:
-					Boolean(
-						match({
-							to: props.to,
-							params: props.params,
-						} as any),
-					) || active.some((options) => Boolean(match(options))),
-				...variant,
-			}}
 			{...props}
 		/>
 	);

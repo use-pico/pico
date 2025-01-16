@@ -28,7 +28,7 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				icon={BuildingIcon}
 				to={"/$locale/apps/derivean/root/blueprint/list"}
 				params={{ locale }}
-				active={[
+				match={[
 					{ to: "/$locale/apps/derivean/root/blueprint/$id/view" },
 					{ to: "/$locale/apps/derivean/root/blueprint/$id/dependencies" },
 					{ to: "/$locale/apps/derivean/root/blueprint/$id/production" },
@@ -62,9 +62,10 @@ export const RootMenu: FC<RootMenu.Props> = (props) => {
 				icon={UserIcon}
 				to={"/$locale/apps/derivean/root/user/list"}
 				params={{ locale }}
-				active={[
+				match={[
 					{ to: "/$locale/apps/derivean/root/user/$id/view" },
 					{ to: "/$locale/apps/derivean/root/user/$id/building/list" },
+					{ to: "/$locale/apps/derivean/root/user/$id/inventory" },
 				]}
 			>
 				<Tx label={"User list (menu)"} />

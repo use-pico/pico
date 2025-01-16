@@ -5,13 +5,14 @@ import {
     type UseMatchRouteOptions,
 } from "@tanstack/react-router";
 import { isString } from "@use-pico/common";
-import { forwardRef, type PropsWithChildren, type ReactNode } from "react";
+import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { MenuLinkCss } from "./MenuLinkCss";
 
-interface Item extends MenuLinkCss.Props<PropsWithChildren> {
+interface Item
+	extends MenuLinkCss.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
-	active?: UseMatchRouteOptions[];
+	match?: UseMatchRouteOptions[];
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
@@ -39,12 +40,14 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 const Link = createLink(Item);
 
 export const MenuLink: LinkComponent<typeof Item> = ({
-	active = [],
+	match = [],
 	variant,
+	tva = MenuLinkCss,
+	css,
 	...props
 }) => {
-	const match = useMatchRoute();
-	const isActive = active.some((options) => Boolean(match(options)));
+	const matchRoute = useMatchRoute();
+	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
 	return (
 		<Link
@@ -52,14 +55,19 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 			variant={{
 				active:
 					Boolean(
-						match({
-							to: props.to,
+						matchRoute({
+							to: props.to as string,
 							params: props.params,
-						} as any),
+						}),
 					) || isActive,
 				...variant,
 			}}
-			{...props}
+			tva={tva}
+			css={css}
+			/**
+			 * TODO Another fuckin' any, kill it!
+			 */
+			{...(props as any)}
 		/>
 	);
 };
