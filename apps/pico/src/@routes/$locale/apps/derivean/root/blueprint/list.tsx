@@ -90,28 +90,28 @@ export const Route = createFileRoute(
 									return eb.or([
 										eb("bl.id", "like", fulltext),
 										eb("bl.name", "like", fulltext),
-										eb(
-											"bl.id",
-											"in",
-											eb
-												.selectFrom("Blueprint_Requirement as br")
-												.innerJoin("Resource as r", "r.id", "br.resourceId")
-												.select("br.blueprintId")
-												.where((eb) => {
-													return eb.or([eb("r.name", "like", fulltext)]);
-												}),
-										),
-										eb(
-											"bl.id",
-											"in",
-											eb
-												.selectFrom("Blueprint_Dependency as bd")
-												.innerJoin("Blueprint as b", "b.id", "bd.dependencyId")
-												.select("bd.blueprintId")
-												.where((eb) => {
-													return eb.or([eb("b.name", "like", fulltext)]);
-												}),
-										),
+										// eb(
+										// 	"bl.id",
+										// 	"in",
+										// 	eb
+										// 		.selectFrom("Blueprint_Requirement as br")
+										// 		.innerJoin("Resource as r", "r.id", "br.resourceId")
+										// 		.select("br.blueprintId")
+										// 		.where((eb) => {
+										// 			return eb.or([eb("r.name", "like", fulltext)]);
+										// 		}),
+										// ),
+										// eb(
+										// 	"bl.id",
+										// 	"in",
+										// 	eb
+										// 		.selectFrom("Blueprint_Dependency as bd")
+										// 		.innerJoin("Blueprint as b", "b.id", "bd.dependencyId")
+										// 		.select("bd.blueprintId")
+										// 		.where((eb) => {
+										// 			return eb.or([eb("b.name", "like", fulltext)]);
+										// 		}),
+										// ),
 									]);
 								});
 							}

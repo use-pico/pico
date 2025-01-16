@@ -201,6 +201,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
                                                             SELECT
                                                                 json_group_array(json_object(
                                                                     'id', p.id,
+                                                                    'name', r2.name,
                                                                     'from', p."from",
                                                                     'to', p."to",
                                                                     'cycle', p."cycle",
@@ -208,6 +209,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
                                                                 ))
                                                             FROM
                                                                 Production as p
+                                                                INNER JOIN Blueprint_Production as bp2 ON p.blueprintProductionId = bp2.id
+                                                                INNER JOIN Resource as r2 ON r2.id = bp.resourceId
                                                             WHERE
                                                                 p.blueprintProductionId = bp.id AND
                                                                 p.id in (SELECT id FROM Production WHERE userId = ${user.id})

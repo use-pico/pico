@@ -3,9 +3,7 @@ import {
     Badge,
     Button,
     Progress,
-    toast,
-    useInvalidator,
-    withToastPromiseTx,
+    useInvalidator
 } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
@@ -61,14 +59,11 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 				return false;
 			}
 
-			return toast.promise(
-				withProductionQueue({
-					userId,
-					blueprintProductionId: production.id,
-					buildingId: production.buildingId,
-				}),
-				withToastPromiseTx("Resource production queue"),
-			);
+			return withProductionQueue({
+				userId,
+				blueprintProductionId: production.id,
+				buildingId: production.buildingId,
+			});
 		},
 		async onSuccess() {
 			await invalidator();

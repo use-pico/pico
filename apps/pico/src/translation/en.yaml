@@ -76,6 +76,9 @@
 297bbfd9bd521938566a554d7f87dac9232d8536ee14d8d1fe2128ff:
   ref: Blueprint production (modal)
   value: Blueprint production (modal)
+2b7c9dc2afaa3fedd71768f7f7989d7342c12488829fa5a51e34b1f8:
+  ref: Construction in progress (label)
+  value: Construction in progress (label)
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Create requirement item (menu)
@@ -136,6 +139,9 @@
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
   value: Cancel (button)
+433d37c3072f9f5b56f453d459da1cd17ab9dcb6ce36b13a0fcc0022:
+  ref: No production currently available (label)
+  value: No production currently available (label)
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Edit building (modal)
@@ -397,6 +403,9 @@ b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Delete requirement item (modal)
+bc700e51fd332acef4798b5441af4c9b672fdf169e7ecc67552e48a6:
+  ref: Construction complete (label)
+  value: Construction complete (label)
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Construction cycles (label)

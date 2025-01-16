@@ -13,7 +13,12 @@ export const ZoomToNode: FC<ZoomToNode.Props> = ({ nodeId }) => {
 	useEffect(() => {
 		nodeId &&
 			setTimeout(() => {
-				fitView({ nodes: [{ id: nodeId }], duration: 1500 });
+				fitView({
+					nodes: [{ id: nodeId }],
+					duration: 750,
+					minZoom: 1,
+					maxZoom: 1,
+				});
 			}, 250);
 	}, [nodeId]);
 

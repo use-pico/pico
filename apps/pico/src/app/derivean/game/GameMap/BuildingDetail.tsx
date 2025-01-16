@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { CloseIcon, Icon, LinkTo } from "@use-pico/client";
+import { Icon, LinkTo } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -74,6 +74,56 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 		),
 	];
 
+	const waitingResourceIds = [
+		...new Set(
+			data
+				.filter(
+					({
+						withAvailableBuildings,
+						withAvailableResources,
+						building,
+						construction,
+					}) => {
+						if (construction.length > 0) {
+							return false;
+						}
+						if (withAvailableBuildings && withAvailableResources) {
+							return false;
+						}
+						return withAvailableBuildings && !building;
+					},
+				)
+				.flatMap(({ requirements }) => {
+					return requirements
+						.filter((requirement) => {
+							const item = inventory.find(
+								({ resourceId }) => resourceId === requirement.resourceId,
+							);
+							if (!item) {
+								return true;
+							}
+							return item.amount < requirement.amount;
+						})
+						.map(({ resourceId }) => resourceId);
+				}),
+		),
+	];
+	const currentProductionRequirementIds = [
+		...new Set(
+			data
+				.filter(({ building }) => building)
+				.flatMap(({ production }) => {
+					return production.flatMap(({ requirements }) => {
+						return requirements.map((requirement) => requirement.resourceId);
+					});
+				}),
+		),
+	];
+
+	const availableResourceIds = waitingResourceIds.concat(
+		currentProductionRequirementIds,
+	);
+
 	return (
 		<div className={"flex flex-col gap-2"}>
 			<div className={"flex gap-2 items-center justify-between shadow-md p-4"}>
@@ -84,12 +134,6 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 					/>
 					{detail.name}
 				</div>
-				<LinkTo
-					icon={CloseIcon}
-					iconProps={{ variant: { size: "4xl" } }}
-					to={"/$locale/apps/derivean/game/map"}
-					params={{ locale }}
-				/>
 			</div>
 			<div
 				className={
@@ -100,6 +144,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 					userId={userId}
 					inventory={inventory}
 					entity={detail}
+					availableResourceIds={availableResourceIds}
 				/>
 				{query.isSuccess ?
 					<>
@@ -121,9 +166,10 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 											<LinkTo
 												to={"/$locale/apps/derivean/game/map"}
 												params={{ locale }}
-												search={{
+												search={({ requirementsOf }) => ({
 													blueprintId: data.id,
-												}}
+													requirementsOf,
+												})}
 											>
 												{data.name}
 											</LinkTo>

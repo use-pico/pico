@@ -31,7 +31,10 @@ export const BlueprintMissingResourcesNode: FC<
 					icon={BlueprintIcon}
 					to={"/$locale/apps/derivean/game/map"}
 					params={{ locale }}
-					search={{ requirementsOf: data.id }}
+					search={({ blueprintId }) => ({
+						blueprintId,
+						requirementsOf: data.id,
+					})}
 					css={{
 						base: ["font-bold", "text-amber-500", "hover:text-amber-600"],
 					}}

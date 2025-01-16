@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { Icon, LinkTo, LoaderIcon } from "@use-pico/client";
+import { Button, Icon, LinkTo, Progress } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
@@ -19,33 +19,55 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
+	const production = data.production
+		.flatMap(({ queue }) => queue)
+		.sort((a, b) => a.cycle - b.cycle)?.[0];
+
 	return (
-		<div className={"min-w-[14rem]"}>
+		<div className={"min-w-[18rem]"}>
 			<Handle
 				type={"target"}
 				position={Position.Left}
 				className={"w-4 h-4"}
 			/>
-			<div className={"flex flex-col gap-2 items-start"}>
-				<div className={"flex flex-row items-center gap-2"}>
-					<Icon
-						icon={BuildingIcon}
-						css={{ base: ["text-slate-400"] }}
-					/>
+			<div className={"flex flex-col gap-2 items-start w-full"}>
+				<div
+					className={"flex flex-row items-center justify-between gap-1 w-full"}
+				>
 					<LinkTo
 						to={"/$locale/apps/derivean/game/map"}
 						params={{ locale }}
-						search={{ blueprintId: data.id }}
+						search={({ requirementsOf }) => ({
+							blueprintId: data.id,
+							requirementsOf,
+						})}
 						css={{
 							base: ["font-bold"],
 						}}
 					>
-						{data.name}
+						<Button
+							variant={{ variant: "subtle" }}
+							iconEnabled={BuildingIcon}
+						>
+							{data.name}
+						</Button>
 					</LinkTo>
-					{data.productionCount > 0 ?
-						<Icon icon={LoaderIcon} />
+					{production ?
+						<div className={"flex flex-row items-center gap-1 flex-1"}>
+							<Icon
+								icon={"icon-[mingcute--arrow-right-line]"}
+								css={{ base: ["text-slate-400"] }}
+							/>
+							<div className={"text-xs text-slate-400"}>{production.name}</div>
+						</div>
 					:	null}
 				</div>
+				{production ?
+					<Progress
+						value={(100 * production.cycle) / (production.to - production.from)}
+						variant={{ size: "sm" }}
+					/>
+				:	null}
 			</div>
 			<Handle
 				type={"source"}

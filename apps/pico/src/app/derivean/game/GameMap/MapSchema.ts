@@ -66,6 +66,7 @@ export const MapSchema = IdentitySchema.merge(
 					z.object({
 						id: z.string().min(1),
 						blueprintProductionId: z.string().min(1),
+						name: z.string().min(1),
 						from: z.number().int().nonnegative(),
 						to: z.number().int().nonnegative(),
 						cycle: z.number().int().nonnegative(),

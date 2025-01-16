@@ -2,9 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
     Button,
     Icon,
-    toast,
-    useInvalidator,
-    withToastPromiseTx,
+    useInvalidator
 } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
@@ -36,13 +34,10 @@ export const BlueprintAvailableNode: FC<BlueprintAvailableNode.Props> = ({
 
 	const mutation = useMutation({
 		async mutationFn({ blueprintId }: { blueprintId: string }) {
-			return toast.promise(
-				withConstructionQueue({
-					blueprintId,
-					userId,
-				}),
-				withToastPromiseTx("Building queue"),
-			);
+			return withConstructionQueue({
+				blueprintId,
+				userId,
+			});
 		},
 		async onSuccess() {
 			await invalidator();

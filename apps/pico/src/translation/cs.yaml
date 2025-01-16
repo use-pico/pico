@@ -27,10 +27,10 @@
   value: Seznam uživatelů
 0d720e511de49f63fc541f6e8ba15a7bbc395034c146346ec1308d42:
   ref: Reset game (menu)
-  value: Reset game (menu)
+  value: Resetovat hru
 0fce277191f1fe8b4fc6d221f2f9476c8a9e110a24302c64ca579b2f:
   ref: Move production to (modal)
-  value: Move production to (modal)
+  value: Přesun produkce
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Editace požadovaného zdroje
@@ -76,6 +76,9 @@
 297bbfd9bd521938566a554d7f87dac9232d8536ee14d8d1fe2128ff:
   ref: Blueprint production (modal)
   value: Produkce
+2b7c9dc2afaa3fedd71768f7f7989d7342c12488829fa5a51e34b1f8:
+  ref: Construction in progress (label)
+  value: Ve výstavbě
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Nový požadavek zdroje
@@ -143,6 +146,9 @@
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
   value: Zrušit
+433d37c3072f9f5b56f453d459da1cd17ab9dcb6ce36b13a0fcc0022:
+  ref: No production currently available (label)
+  value: Není dostupná žádná produkce budovy.
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Editace budovy
@@ -418,6 +424,9 @@ b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Odstranit požadavek na zdroj
+bc700e51fd332acef4798b5441af4c9b672fdf169e7ecc67552e48a6:
+  ref: Construction complete (label)
+  value: Stavba dokončena
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Délka stavby
@@ -513,7 +522,7 @@ eedf87d84873632bd1599189c81074b3b46df96d2b359ea457a1ecc1:
   value: Správa
 f0f0aadb4291cef21fc9e14f1285a968b8c552e94538ff454afa3a9d:
   ref: Editor (label)
-  value: Editor (label)
+  value: Editor
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Nová položka inventáře

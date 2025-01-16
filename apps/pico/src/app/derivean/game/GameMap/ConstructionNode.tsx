@@ -43,7 +43,7 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({
 				>
 					{queue ?
 						<Progress
-							variant={{ size: "md" }}
+							variant={{ size: "lg" }}
 							value={(100 * queue.cycle) / (queue.to - queue.from)}
 						/>
 					:	null}

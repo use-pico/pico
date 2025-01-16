@@ -1,12 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-    Button,
-    Icon,
-    toast,
-    Tx,
-    useInvalidator,
-    withToastPromiseTx,
-} from "@use-pico/client";
+import { Button, Icon, Tx, useInvalidator } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -55,16 +48,16 @@ export const CycleButton: FC<CycleButton.Props> = ({
 		<Button
 			iconEnabled={CycleIcon}
 			iconDisabled={CycleIcon}
-			onClick={async () => {
-				return toast.promise(
-					mutation.mutateAsync({ userId }),
-					withToastPromiseTx("Cycle"),
-				);
+			onClick={() => {
+				mutation.mutate({ userId });
 			}}
 			loading={mutation.isPending}
 			{...props}
 		>
-			<Tx label={"New cycle (label)"} />
+			<Tx
+				css={{ base: ["font-bold"] }}
+				label={"New cycle (label)"}
+			/>
 			<div className={"flex flex-row gap-2 items-center"}>
 				<div className={"font-light text-sm"}>
 					{toHumanNumber({ number: cycle })}
