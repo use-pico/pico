@@ -323,7 +323,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 									id,
 									source: dependencyId,
 									target: blueprintId,
-									type: "dependency",
+									// type: "dependency",
 								};
 							}),
 						}),

@@ -46,7 +46,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 	return (
 		<form
 			className={tv.base()}
-			onSubmit={onSubmit<BlueprintSchema["shape"]>({
+			onSubmit={onSubmit({
 				form,
 				mutation,
 			})}

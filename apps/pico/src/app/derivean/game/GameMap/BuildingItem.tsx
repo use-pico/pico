@@ -26,7 +26,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 						<ProductionLine
 							key={`production-${production.id}-${production.blueprintId}`}
 							userId={userId}
-							blueprintId={entity.id}
 							production={production}
 							inventory={inventory}
 							isProductionLimit={isProductionLimit}
