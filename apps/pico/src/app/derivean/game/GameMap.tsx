@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
+import { Icon } from "@use-pico/client";
 import {
     Background,
     BackgroundVariant,
@@ -6,7 +7,7 @@ import {
     MiniMap,
     ReactFlow,
 } from "@xyflow/react";
-import { type FC } from "react";
+import { useMemo, type FC } from "react";
 import { BlueprintAvailableNode } from "~/app/derivean/game/GameMap/BlueprintAvailableNode";
 import { BlueprintMissingBuildingsNode } from "~/app/derivean/game/GameMap/BlueprintMissingBuildingsNode";
 import { BlueprintMissingResourcesNode } from "~/app/derivean/game/GameMap/BlueprintMissingResourcesNode";
@@ -14,6 +15,8 @@ import { BuildingDetail } from "~/app/derivean/game/GameMap/BuildingDetail";
 import { BuildingNode } from "~/app/derivean/game/GameMap/BuildingNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap/ConstructionNode";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
+import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { ZoomToNode } from "~/app/derivean/ui/ZoomToNode";
 
@@ -27,6 +30,7 @@ export namespace GameMap {
 		graph: Graph;
 		userId: string;
 		blueprintId?: string;
+		requirementsOf: string;
 		inventory: InventorySchema["~entity-array"];
 	}
 }
@@ -34,6 +38,7 @@ export namespace GameMap {
 export const GameMap: FC<GameMap.Props> = ({
 	userId,
 	blueprintId,
+	requirementsOf,
 	inventory,
 	graph,
 }) => {
@@ -41,6 +46,9 @@ export const GameMap: FC<GameMap.Props> = ({
 	const navigate = useNavigate();
 	const detail: MapSchema.Type | undefined = graph.nodes.find(
 		({ id }) => id === blueprintId,
+	)?.data;
+	const requirements: MapSchema.Type | undefined = graph.nodes.find(
+		({ id }) => id === requirementsOf,
 	)?.data;
 
 	return (
@@ -59,36 +67,34 @@ export const GameMap: FC<GameMap.Props> = ({
 					fitView
 					snapGrid={[16, 16]}
 					elementsSelectable={false}
-					nodeTypes={{
-						"building"(props) {
-							return <BuildingNode {...props} />;
-						},
-						"construction"(props) {
-							return <ConstructionNode {...props} />;
-						},
-						"blueprint-available"(props) {
-							return (
-								<BlueprintAvailableNode
-									userId={userId}
-									{...props}
-								/>
-							);
-						},
-						"blueprint-missing-resources"(props) {
-							return (
-								<BlueprintMissingResourcesNode
-									inventory={inventory}
-									{...props}
-								/>
-							);
-						},
-						"blueprint-missing-buildings"(props) {
-							return <BlueprintMissingBuildingsNode {...props} />;
-						},
-						"blueprint-unavailable"(props) {
-							return <BlueprintMissingBuildingsNode {...props} />;
-						},
-					}}
+					nodeTypes={useMemo(
+						() => ({
+							"building"(props) {
+								return <BuildingNode {...props} />;
+							},
+							"construction"(props) {
+								return <ConstructionNode {...props} />;
+							},
+							"blueprint-available"(props) {
+								return (
+									<BlueprintAvailableNode
+										userId={userId}
+										{...props}
+									/>
+								);
+							},
+							"blueprint-missing-resources"(props) {
+								return <BlueprintMissingResourcesNode {...props} />;
+							},
+							"blueprint-missing-buildings"(props) {
+								return <BlueprintMissingBuildingsNode {...props} />;
+							},
+							"blueprint-unavailable"(props) {
+								return <BlueprintMissingBuildingsNode {...props} />;
+							},
+						}),
+						[userId],
+					)}
 				>
 					<ZoomToNode nodeId={detail?.id} />
 					<Controls
@@ -114,6 +120,25 @@ export const GameMap: FC<GameMap.Props> = ({
 								data={graph.nodes.map(({ data }) => data)}
 								userId={userId}
 								inventory={inventory}
+							/>
+						</div>
+					:	null}
+					{requirements ?
+						<div
+							className={
+								"react-flow__panel w-4/10 h-100 border bg-white border-slate-300 rounded-md shadow-md p-4 absolute top-4 right-4"
+							}
+						>
+							<div className={"flex flex-row items-center gap-2"}>
+								<Icon
+									icon={BlueprintIcon}
+									css={{ base: ["text-slate-400"] }}
+								/>
+								<div className={"font-bold"}>{requirements.name}</div>
+							</div>
+							<RequirementsInline
+								requirements={requirements.requirements}
+								diff={inventory}
 							/>
 						</div>
 					:	null}

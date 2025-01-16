@@ -12,11 +12,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	validateSearch: zodValidator(
 		z.object({
 			blueprintId: z.string().optional(),
+			requirementsOf: z.string().optional(),
 		}),
 	),
-	loaderDeps({ search: { blueprintId } }) {
+	loaderDeps({ search: { blueprintId, requirementsOf } }) {
 		return {
 			blueprintId,
+			requirementsOf,
 		};
 	},
 	async loader({ context: { queryClient, kysely, session } }) {
@@ -339,7 +341,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 	},
 	component() {
 		const { graph, inventory } = Route.useLoaderData();
-		const { blueprintId } = Route.useSearch();
+		const { blueprintId, requirementsOf } = Route.useSearch();
 		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
@@ -349,10 +351,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 				graph={graph}
 				userId={session.id}
 				inventory={inventory}
-				/**
-				 * This works well, but does not make sense.
-				 */
 				blueprintId={blueprintId}
+				requirementsOf={requirementsOf}
 			/>
 		);
 	},
