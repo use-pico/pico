@@ -10,11 +10,11 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { Tag_Table } from "~/app/derivean/root/tag/Tag_Table";
-import { Tag_Schema } from "~/app/derivean/schema/tag/Tag_Schema";
+import { TagTable } from "~/app/derivean/root/TagTable";
+import { TagSchema } from "~/app/derivean/schema/TagSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
-	validateSearch: zodValidator(withSourceSearchSchema(Tag_Schema)),
+	validateSearch: zodValidator(withSourceSearchSchema(TagSchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
 			filter,
@@ -55,7 +55,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/tag/list")({
 
 		return (
 			<div className={tv.base()}>
-				<Tag_Table
+				<TagTable
 					table={{
 						data,
 						filter: {

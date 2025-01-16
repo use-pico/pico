@@ -39,7 +39,7 @@ export namespace PopupSelect {
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		table: FC<Table.PropsEx<any>>;
+		table: FC<Table.PropsEx<TItem>>;
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
 
@@ -49,7 +49,7 @@ export namespace PopupSelect {
 		queryKey: string;
 		query: Query.Callback<TItem>;
 
-		value: string;
+		value?: string | null;
 		onChange(value: string | undefined): void;
 	}
 
@@ -108,7 +108,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		async queryFn() {
 			return query({
 				filter: {
-					id: value,
+					id: value || undefined,
 				},
 			});
 		},

@@ -1,13 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
-    Button,
-    JustDropZone,
-    toast,
-    Tx,
-    withToastPromiseTx,
+	Button,
+	JustDropZone,
+	toast,
+	Tx,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import FileSaver from "file-saver";
+import { sql } from "kysely";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
@@ -17,11 +18,11 @@ const sources: (keyof Database)[] = [
 	"Resource",
 	"Resource_Tag",
 	"Inventory",
-	"Building_Base",
-	"Building_Base_Production",
-	"Building_Base_Production_Requirement",
-	"Building_Base_Building_Base_Requirement",
-	"Building_Base_Resource_Requirement",
+	"Blueprint",
+	"Blueprint_Dependency",
+	"Blueprint_Requirement",
+	"Blueprint_Production",
+	"Blueprint_Production_Requirement",
 	"Default_Inventory",
 ] as const;
 
@@ -57,16 +58,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 		return (
 			<div className={"flex flex-col gap-4 w-2/3 mx-auto"}>
-				<div className={"flex items-center justify-center mt-10 gap-4"}>
-					<Button
-						iconEnabled={GameIcon}
-						loading={exportMutation.isPending}
-						onClick={() => exportMutation.mutate()}
-						variant={{ variant: "subtle" }}
-					>
-						<Tx label={"Export game files (label)"} />
-					</Button>
-				</div>
 				<JustDropZone
 					onDrop={async (files) => {
 						const [file] = files;
@@ -75,6 +66,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						}
 
 						const data = JSON.parse(await file.text());
+
+						await sql`PRAGMA foreign_keys = OFF`.execute(kysely);
 
 						await toast.promise(
 							kysely.transaction().execute(async (tx) => {
@@ -102,8 +95,31 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							}),
 							withToastPromiseTx("Import game files"),
 						);
+
+						await sql`PRAGMA foreign_keys = ON`.execute(kysely);
 					}}
 				/>
+				<div className={"flex items-center justify-center mt-10 gap-4"}>
+					<Button
+						iconEnabled={GameIcon}
+						loading={exportMutation.isPending}
+						onClick={() => exportMutation.mutate()}
+						variant={{ variant: "subtle" }}
+					>
+						<Tx label={"Export game files (label)"} />
+					</Button>
+				</div>
+
+				<h2>TODO</h2>
+				<ul>
+					<li>Add tags to buildings (default to "neutral")</li>
+					<li>Filter out buildings based on user's tags</li>
+					<li>A building may attach (or remove?) a tag to user</li>
+					<li>
+						Jump from required resources or display list of buildings providing
+						necessary resources
+					</li>
+				</ul>
 			</div>
 		);
 	},

@@ -5,10 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { z } from "zod";
-import {
-    Resource_Index_Menu
-} from "~/app/derivean/root/resource/Resource_Index_Menu";
-import { Resource_Preview } from "~/app/derivean/root/resource/Resource_Preview";
+import { ResourceIndexMenu } from "~/app/derivean/root/ResourceIndexMenu";
+import { ResourcePreview } from "~/app/derivean/root/ResourcePreview";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/$id",
@@ -42,9 +40,9 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<Resource_Preview entity={entity} />
+				<ResourcePreview entity={entity} />
 
-				<Resource_Index_Menu entity={entity} />
+				<ResourceIndexMenu entity={entity} />
 
 				<Outlet />
 			</div>

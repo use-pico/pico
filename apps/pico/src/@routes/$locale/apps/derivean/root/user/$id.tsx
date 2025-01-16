@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { z } from "zod";
-import { User_Index_Menu } from "~/app/derivean/root/user/User_Index_Menu";
-import { User_Preview } from "~/app/derivean/root/user/User_Preview";
+import { UserIndexMenu } from "~/app/derivean/root/UserIndexMenu";
+import { UserPreview } from "~/app/derivean/root/UserPreview";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
 	async loader({ context: { kysely }, params: { id } }) {
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/user/$id")({
 
 		return (
 			<div className={tv.base()}>
-				<User_Preview entity={entity} />
+				<UserPreview entity={entity} />
 
-				<User_Index_Menu entity={entity} />
+				<UserIndexMenu entity={entity} />
 
 				<Outlet />
 			</div>

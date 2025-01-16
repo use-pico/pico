@@ -10,11 +10,11 @@ import {
     withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
-import { UserTable } from "~/app/derivean/root/user/User_Table";
-import { User_Schema } from "~/app/derivean/schema/user/User_Schema";
+import { UserTable } from "~/app/derivean/root/UserTable";
+import { UserSchema } from "~/app/derivean/schema/UserSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/user/list")({
-	validateSearch: zodValidator(withSourceSearchSchema(User_Schema)),
+	validateSearch: zodValidator(withSourceSearchSchema(UserSchema)),
 	loaderDeps({ search: { filter, cursor } }) {
 		return {
 			filter,

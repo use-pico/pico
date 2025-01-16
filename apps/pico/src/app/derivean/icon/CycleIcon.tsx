@@ -1,1 +1,1 @@
-export const CycleIcon = "icon-[iconamoon--clock-thin]";
+export const CycleIcon = "icon-[gala--clock]";

@@ -32,6 +32,7 @@ export { withBoolSchema } from "./schema/withBoolSchema";
 export { withFloatSchema } from "./schema/withFloatSchema";
 export { withIntSchema } from "./schema/withIntSchema";
 export { withJsonArraySchema } from "./schema/withJsonArraySchema";
+export { withJsonSchema } from "./schema/withJsonSchema";
 export { withSourceSchema } from "./source/withSourceSchema";
 export { cursorOf } from "./toolbox/cursorOf";
 export { diffOf } from "./toolbox/diffOf";

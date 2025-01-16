@@ -70,15 +70,8 @@ export const Action: FC<Action.Props> = ({
 			{...props}
 		>
 			{disabled ?
-				<Icon
-					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
-					variant={{ size: "xl" }}
-				/>
-			:	<Icon
-					icon={loading ? iconLoading : iconEnabled}
-					variant={{ size: "xl" }}
-				/>
-			}
+				<Icon icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)} />
+			:	<Icon icon={loading ? iconLoading : iconEnabled} />}
 			{children}
 		</div>
 	);
