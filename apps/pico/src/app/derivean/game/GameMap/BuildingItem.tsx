@@ -8,6 +8,7 @@ export namespace BuildingItem {
 	export interface Props extends Entity.Type<GameManager.Data> {
 		userId: string;
 		inventory: InventorySchema["~entity-array"];
+		productionOf?: string[];
 	}
 }
 
@@ -15,6 +16,7 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 	entity,
 	userId,
 	inventory,
+	productionOf,
 }) => {
 	const isProductionLimit = entity.productionCount >= entity.productionLimit;
 
@@ -22,6 +24,10 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 		<div className={tvc(["flex", "flex-col", "gap-2"])}>
 			<div className={tvc(["flex", "flex-col", "gap-2"])}>
 				{entity.production.map((production) => {
+					if (productionOf && !productionOf.includes(production.resourceId)) {
+						return null;
+					}
+
 					return (
 						<ProductionLine
 							key={`production-${production.id}-${production.blueprintId}`}

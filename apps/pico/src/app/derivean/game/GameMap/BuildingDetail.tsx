@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { CloseIcon, Icon, LinkTo } from "@use-pico/client";
+import { genId } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingItem } from "~/app/derivean/game/GameMap/BuildingItem";
@@ -33,6 +34,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 				await kysely.transaction().execute((tx) => {
 					return tx
 						.selectFrom("Blueprint as bl")
+						.distinct()
 						.innerJoin("Building as bg", "bl.id", "bg.blueprintId")
 						.innerJoin("Blueprint_Production as bp", "bl.id", "bp.blueprintId")
 						.select(["bl.id"])
@@ -63,6 +65,14 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 				.filter(Boolean) as MapSchema.Type[];
 		},
 	});
+
+	const requiredResourceIds = [
+		...new Set(
+			detail.production.flatMap(({ requirements }) =>
+				requirements.map((requirement) => requirement.resourceId),
+			),
+		),
+	];
 
 	return (
 		<div className={"flex flex-col gap-2"}>
@@ -99,7 +109,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 						<div className={"flex flex-col gap-4"}>
 							{query.data.map((data) => (
 								<div
-									key={`building-production-${data.id}`}
+									key={genId()}
 									className={"flex flex-col gap-1"}
 								>
 									<div className={"flex flex-row items-center gap-2"}>
@@ -122,6 +132,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 									<BuildingItem
 										userId={userId}
 										inventory={inventory}
+										productionOf={requiredResourceIds}
 										entity={data}
 									/>
 								</div>

@@ -29,7 +29,9 @@ export const BlueprintMissingBuildingsNode: FC<
 						icon={BlueprintIcon}
 						css={{ base: ["text-slate-400"] }}
 					/>
-					<div className={"font-bold text-slate-400"}>[Fog of War]</div>
+					<div className={"font-bold text-slate-400"}>
+						<Tx label={"Fog of War (label)"} />
+					</div>
 				</div>
 				<div
 					className={

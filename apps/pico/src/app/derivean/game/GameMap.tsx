@@ -75,7 +75,12 @@ export const GameMap: FC<GameMap.Props> = ({
 							);
 						},
 						"blueprint-missing-resources"(props) {
-							return <BlueprintMissingResourcesNode {...props} />;
+							return (
+								<BlueprintMissingResourcesNode
+									inventory={inventory}
+									{...props}
+								/>
+							);
 						},
 						"blueprint-missing-buildings"(props) {
 							return <BlueprintMissingBuildingsNode {...props} />;
