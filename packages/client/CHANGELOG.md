@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.16
+
+### Patch Changes
+
+- Updated MenuGroup
+
 ## 4.0.15
 
 ### Patch Changes
