@@ -148,7 +148,7 @@
   value: Zrušit
 433d37c3072f9f5b56f453d459da1cd17ab9dcb6ce36b13a0fcc0022:
   ref: No production currently available (label)
-  value: Není dostupná žádná produkce budovy.
+  value: Pro tuto budovu nejsou žádní odběratelé.
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Editace budovy

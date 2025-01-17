@@ -1,7 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import {
     Button,
     Icon,
+    LinkTo,
     toast,
     useInvalidator,
     withToastPromiseTx,
@@ -29,6 +31,7 @@ export const Header: FC<Header.Props> = ({
 	isBuilt,
 	canBuild,
 }) => {
+	const { locale } = useParams({ from: "/$locale" });
 	const invalidator = useInvalidator([
 		["Management"],
 		["Building_Queue"],
@@ -95,7 +98,15 @@ export const Header: FC<Header.Props> = ({
 						/>
 					</div>
 				}
-				<div className={"flex flex-row gap-2"}>{name}</div>
+				{isBuilt ?
+					<LinkTo
+						to={"/$locale/apps/derivean/game/map"}
+						params={{ locale }}
+						search={{ blueprintId }}
+					>
+						{name}
+					</LinkTo>
+				:	<div className={"flex flex-row gap-2"}>{name}</div>}
 			</div>
 		</div>
 	);

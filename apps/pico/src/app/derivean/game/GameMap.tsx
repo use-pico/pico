@@ -45,12 +45,13 @@ export const GameMap: FC<GameMap.Props> = ({
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 	const navigate = useNavigate();
-	const detail: MapSchema.Type | undefined = graph.nodes.find(
-		({ id }) => id === blueprintId,
-	)?.data;
-	const requirements: MapSchema.Type | undefined = graph.nodes.find(
-		({ id }) => id === requirementsOf,
-	)?.data;
+	const detail: MapSchema.Type | undefined = useMemo(() => {
+		return graph.nodes.find(({ id }) => id === blueprintId)?.data;
+	}, [graph, blueprintId]);
+	const requirements: MapSchema.Type | undefined = useMemo(() => {
+		return graph.nodes.find(({ id }) => id === requirementsOf)?.data;
+	}, [graph, requirementsOf]);
+	const data = useMemo(() => graph.nodes.map(({ data }) => data), [graph]);
 
 	return (
 		<div className={"flex flex-row gap-2"}>
@@ -118,7 +119,7 @@ export const GameMap: FC<GameMap.Props> = ({
 						>
 							<BuildingDetail
 								detail={detail}
-								data={graph.nodes.map(({ data }) => data)}
+								data={data}
 								userId={userId}
 								inventory={inventory}
 							/>

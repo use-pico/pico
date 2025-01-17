@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Icon, LinkTo } from "@use-pico/client";
 import { genId } from "@use-pico/common";
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingItem } from "~/app/derivean/game/GameMap/BuildingItem";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
@@ -66,63 +66,72 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 		},
 	});
 
-	const requiredResourceIds = [
-		...new Set(
-			detail.production.flatMap(({ requirements }) =>
-				requirements.map((requirement) => requirement.resourceId),
+	const requiredResourceIds = useMemo(
+		() => [
+			...new Set(
+				detail.production.flatMap(({ requirements }) =>
+					requirements.map((requirement) => requirement.resourceId),
+				),
 			),
-		),
-	];
-
-	const waitingResourceIds = [
-		...new Set(
-			data
-				.filter(
-					({
-						withAvailableBuildings,
-						withAvailableResources,
-						building,
-						construction,
-					}) => {
-						if (construction.length > 0) {
-							return false;
-						}
-						if (withAvailableBuildings && withAvailableResources) {
-							return false;
-						}
-						return withAvailableBuildings && !building;
-					},
-				)
-				.flatMap(({ requirements }) => {
-					return requirements
-						.filter((requirement) => {
-							const item = inventory.find(
-								({ resourceId }) => resourceId === requirement.resourceId,
-							);
-							if (!item) {
-								return true;
-							}
-							return item.amount < requirement.amount;
-						})
-						.map(({ resourceId }) => resourceId);
-				}),
-		),
-	];
-	const currentProductionRequirementIds = [
-		...new Set(
-			data
-				.filter(({ building }) => building)
-				.flatMap(({ production }) => {
-					return production.flatMap(({ requirements }) => {
-						return requirements.map((requirement) => requirement.resourceId);
-					});
-				}),
-		),
-	];
-
-	const availableResourceIds = waitingResourceIds.concat(
-		currentProductionRequirementIds,
+		],
+		[detail],
 	);
+
+	const waitingResourceIds = useMemo(
+		() => [
+			...new Set(
+				data
+					.filter(
+						({
+							withAvailableBuildings,
+							withAvailableResources,
+							building,
+							construction,
+						}) => {
+							if (construction.length > 0) {
+								return false;
+							}
+							if (withAvailableBuildings && withAvailableResources) {
+								return false;
+							}
+							return withAvailableBuildings && !building;
+						},
+					)
+					.flatMap(({ requirements }) => {
+						return requirements
+							.filter((requirement) => {
+								const item = inventory.find(
+									({ resourceId }) => resourceId === requirement.resourceId,
+								);
+								if (!item) {
+									return true;
+								}
+								return item.amount < requirement.amount;
+							})
+							.map(({ resourceId }) => resourceId);
+					}),
+			),
+		],
+		[data, inventory],
+	);
+	const currentProductionRequirementIds = useMemo(
+		() => [
+			...new Set(
+				data
+					.filter(({ building }) => building)
+					.flatMap(({ production }) => {
+						return production.flatMap(({ requirements }) => {
+							return requirements.map((requirement) => requirement.resourceId);
+						});
+					}),
+			),
+		],
+		[data],
+	);
+
+	const availableResourceIds = useMemo(() => {
+		return waitingResourceIds.concat(currentProductionRequirementIds);
+	}, [waitingResourceIds, currentProductionRequirementIds]);
 
 	return (
 		<div className={"flex flex-col gap-2"}>

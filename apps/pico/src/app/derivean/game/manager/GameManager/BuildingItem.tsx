@@ -1,7 +1,6 @@
 import { Progress, Tx } from "@use-pico/client";
 import { tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import { Dependencies } from "~/app/derivean/game/Dependencies";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
 import { Header } from "~/app/derivean/game/manager/GameManager/BuildingItem/Header";
 import { ProductionLine } from "~/app/derivean/game/manager/GameManager/ProductionLine";
@@ -91,13 +90,6 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 					value={(100 * queue.cycle) / (queue.to - queue.from)}
 				/>
 			:	null}
-			{isBuilt || queue ? null : (
-				<Dependencies
-					graph={dependencies}
-					blueprintId={entity.id}
-					buildingCounts={buildingCounts}
-				/>
-			)}
 			{isBuilt ?
 				<>
 					<div
