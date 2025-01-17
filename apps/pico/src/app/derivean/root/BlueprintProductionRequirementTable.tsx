@@ -5,21 +5,17 @@ import {
     BoolInline,
     DeleteControl,
     Table,
-    toast,
     TrashIcon,
     Tx,
     useInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import {
-    BlueprintProductionRequirementForm
-} from "~/app/derivean/root/BlueprintProductionRequirementForm";
+import { BlueprintProductionRequirementForm } from "~/app/derivean/root/BlueprintProductionRequirementForm";
 
 export namespace BlueprintProductionRequirementTable {
 	export interface Data extends IdentitySchema.Type {
@@ -108,20 +104,17 @@ export const BlueprintProductionRequirementTable: FC<
 										<BlueprintProductionRequirementForm
 											mutation={useMutation({
 												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															return tx
-																.insertInto("Blueprint_Production_Requirement")
-																.values({
-																	id: genId(),
-																	...values,
-																	blueprintProductionId,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
-														}),
-														withToastPromiseTx("Create requirement item"),
-													);
+													return kysely.transaction().execute(async (tx) => {
+														return tx
+															.insertInto("Blueprint_Production_Requirement")
+															.values({
+																id: genId(),
+																...values,
+																blueprintProductionId,
+															})
+															.returningAll()
+															.executeTakeFirstOrThrow();
+													});
 												},
 												async onSuccess() {
 													await invalidator();
@@ -149,17 +142,14 @@ export const BlueprintProductionRequirementTable: FC<
 											defaultValues={data}
 											mutation={useMutation({
 												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															return tx
-																.updateTable("Blueprint_Production_Requirement")
-																.set(values)
-																.where("id", "=", data.id)
-																.returningAll()
-																.executeTakeFirstOrThrow();
-														}),
-														withToastPromiseTx("Update production requirement"),
-													);
+													return kysely.transaction().execute(async (tx) => {
+														return tx
+															.updateTable("Blueprint_Production_Requirement")
+															.set(values)
+															.where("id", "=", data.id)
+															.returningAll()
+															.executeTakeFirstOrThrow();
+													});
 												},
 												async onSuccess() {
 													await invalidator();

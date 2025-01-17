@@ -310,7 +310,7 @@
   value: With VAT
 8837569eeacc935c6e4616075dd38ab2087c34c14a381f624821375e:
   ref: Number of production items (label)
-  value: Number of production items (label)
+  value: Počet produktů
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)

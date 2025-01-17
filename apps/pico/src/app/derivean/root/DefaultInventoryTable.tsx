@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import {
+    ActionClick,
     ActionMenu,
     ActionModal,
     DeleteControl,
@@ -17,9 +18,8 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import {
-    DefaultInventoryForm
-} from "~/app/derivean/root/DefaultInventoryForm";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { DefaultInventoryForm } from "~/app/derivean/root/DefaultInventoryForm";
 
 export namespace DefaultInventoryTable {
 	export interface Data extends IdentitySchema.Type {
@@ -88,6 +88,39 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 }) => {
 	const invalidator = useInvalidator([["Default_Inventory"]]);
 
+	const fillMissingResourcesMutation = useMutation({
+		async mutationFn() {
+			return kysely.transaction().execute(async (tx) => {
+				const resources = await tx
+					.selectFrom("Resource as r")
+					.select(["r.id"])
+					.where(
+						"r.id",
+						"not in",
+						tx.selectFrom("Default_Inventory").select("resourceId"),
+					)
+					.execute();
+
+				return tx
+					.insertInto("Default_Inventory")
+					.values(
+						resources.map(({ id }) => {
+							return {
+								id: genId(),
+								amount: 0,
+								limit: 0,
+								resourceId: id,
+							};
+						}),
+					)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+
 	return (
 		<Table
 			table={useTable({
@@ -126,6 +159,14 @@ export const DefaultInventoryTable: FC<DefaultInventoryTable.Props> = ({
 									})}
 								/>
 							</ActionModal>
+							<ActionClick
+								icon={ResourceIcon}
+								onClick={() => {
+									fillMissingResourcesMutation.mutate();
+								}}
+							>
+								<Tx label={"Fill missing resources (label)"} />
+							</ActionClick>
 						</ActionMenu>
 					);
 				},

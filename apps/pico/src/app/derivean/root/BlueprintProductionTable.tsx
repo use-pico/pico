@@ -7,14 +7,12 @@ import {
     LoadingOverlay,
     Modal,
     Table,
-    toast,
     TrashIcon,
     Tx,
     useInvalidator,
     useTable,
     withColumn,
-    withListCount,
-    withToastPromiseTx,
+    withListCount
 } from "@use-pico/client";
 import {
     genId,
@@ -246,22 +244,19 @@ export const BlueprintProductionTable: FC<BlueprintProductionTable.Props> = ({
 										<BlueprintProductionForm
 											mutation={useMutation({
 												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															const entity = await tx
-																.insertInto("Blueprint_Production")
-																.values({
-																	id: genId(),
-																	...values,
-																	blueprintId,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
+													return kysely.transaction().execute(async (tx) => {
+														const entity = await tx
+															.insertInto("Blueprint_Production")
+															.values({
+																id: genId(),
+																...values,
+																blueprintId,
+															})
+															.returningAll()
+															.executeTakeFirstOrThrow();
 
-															return entity;
-														}),
-														withToastPromiseTx("Create blueprint production"),
-													);
+														return entity;
+													});
 												},
 												async onSuccess() {
 													await invalidator();
@@ -287,17 +282,14 @@ export const BlueprintProductionTable: FC<BlueprintProductionTable.Props> = ({
 									defaultValues={data}
 									mutation={useMutation({
 										async mutationFn(values) {
-											return toast.promise(
-												kysely.transaction().execute(async (tx) => {
-													return tx
-														.updateTable("Blueprint_Production")
-														.set(values)
-														.where("id", "=", data.id)
-														.returningAll()
-														.executeTakeFirstOrThrow();
-												}),
-												withToastPromiseTx("Update blueprint production"),
-											);
+											return kysely.transaction().execute(async (tx) => {
+												return tx
+													.updateTable("Blueprint_Production")
+													.set(values)
+													.where("id", "=", data.id)
+													.returningAll()
+													.executeTakeFirstOrThrow();
+											});
 										},
 										async onSuccess() {
 											await invalidator();
@@ -316,18 +308,15 @@ export const BlueprintProductionTable: FC<BlueprintProductionTable.Props> = ({
 										<MoveProductionToForm
 											mutation={useMutation({
 												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															await tx
-																.updateTable("Blueprint_Production")
-																.set({
-																	blueprintId: values.blueprintId,
-																})
-																.where("id", "=", data.id)
-																.execute();
-														}),
-														withToastPromiseTx("Move production to"),
-													);
+													return kysely.transaction().execute(async (tx) => {
+														await tx
+															.updateTable("Blueprint_Production")
+															.set({
+																blueprintId: values.blueprintId,
+															})
+															.where("id", "=", data.id)
+															.execute();
+													});
 												},
 												async onSuccess() {
 													await invalidator();

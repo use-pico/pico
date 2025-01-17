@@ -142,7 +142,7 @@ export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 											path={edgePath}
 											markerEnd={markerEnd}
 											style={style}
-										/>
+										/> 
 										<EdgeLabelRenderer>
 											<div
 												className={tvc("nodrag nopan", [
@@ -155,11 +155,12 @@ export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 													"border",
 													"border-red-300",
 													"hover:border-red-600",
-													"hover:bg-red-300",
+													"hover:bg-red-300", 
 													"hover:text-red-700",
 													"rounded-full",
 													"w-4",
 													"h-4",
+													"z-20",
 												])}
 												style={{
 													position: "absolute",

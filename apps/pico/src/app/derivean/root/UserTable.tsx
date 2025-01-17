@@ -5,13 +5,11 @@ import {
     ActionMenu,
     LinkTo,
     Table,
-    toast,
     TrashIcon,
     Tx,
     useInvalidator,
     useTable,
-    withColumn,
-    withToastPromiseTx,
+    withColumn
 } from "@use-pico/client";
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -113,12 +111,9 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 							<ActionClick
 								icon={InventoryIcon}
 								onClick={() => {
-									toast.promise(
-										defaultInventoryMutation.mutateAsync({
-											userId: data.id,
-										}),
-										withToastPromiseTx("Apply default inventory"),
-									);
+									defaultInventoryMutation.mutateAsync({
+										userId: data.id,
+									});
 								}}
 							>
 								<Tx label={"Apply default inventory (menu)"} />
@@ -126,12 +121,9 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 							<ActionClick
 								icon={TrashIcon}
 								onClick={() => {
-									toast.promise(
-										resetGameMutation.mutateAsync({
-											userId: data.id,
-										}),
-										withToastPromiseTx("Reset game"),
-									);
+									resetGameMutation.mutateAsync({
+										userId: data.id,
+									});
 								}}
 							>
 								<Tx label={"Reset game (menu)"} />

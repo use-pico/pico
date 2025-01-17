@@ -5,13 +5,11 @@ import {
     BoolInline,
     DeleteControl,
     Table,
-    toast,
     TrashIcon,
     Tx,
     useInvalidator,
     useTable,
     withColumn,
-    withToastPromiseTx,
 } from "@use-pico/client";
 import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
@@ -105,20 +103,16 @@ export const BlueprintRequirementTable: FC<BlueprintRequirementTable.Props> = ({
 								<BlueprintRequirementForm
 									mutation={useMutation({
 										async mutationFn(values) {
-											return toast.promise(
-												kysely.transaction().execute(async (tx) => {
-													return tx
-														.insertInto("Blueprint_Requirement")
-														.values({
-															id: genId(),
-															...values,
-															blueprintId,
-														})
-														.returningAll()
-														.executeTakeFirstOrThrow();
-												}),
-												withToastPromiseTx("Create requirement item"),
-											);
+											return kysely.transaction().execute(async (tx) => {
+												return tx
+													.insertInto("Blueprint_Requirement")
+													.values({
+														id: genId(),
+														...values,
+														blueprintId,
+													})
+													.execute();
+											});
 										},
 										async onSuccess() {
 											await invalidator();
@@ -141,17 +135,14 @@ export const BlueprintRequirementTable: FC<BlueprintRequirementTable.Props> = ({
 									defaultValues={data}
 									mutation={useMutation({
 										async mutationFn(values) {
-											return toast.promise(
-												kysely.transaction().execute(async (tx) => {
-													return tx
-														.updateTable("Blueprint_Requirement")
-														.set(values)
-														.where("id", "=", data.id)
-														.returningAll()
-														.executeTakeFirstOrThrow();
-												}),
-												withToastPromiseTx("Update requirement item"),
-											);
+											return kysely.transaction().execute(async (tx) => {
+												return tx
+													.updateTable("Blueprint_Requirement")
+													.set(values)
+													.where("id", "=", data.id)
+													.returningAll()
+													.executeTakeFirstOrThrow();
+											});
 										},
 										async onSuccess() {
 											await invalidator();
