@@ -43,6 +43,9 @@
 1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
   ref: Missing required token(s). (title)
   value: Missing required token(s). (title)
+1377492fe4fe5d6181cf09ee95c842953769a7a851182f88df89dd93:
+  ref: Fill missing resources (label)
+  value: Fill missing resources (label)
 141741bd0ead5d7de8128be8628dafc3f2472de373cc86e1182f341a:
   ref: Select blueprint (title)
   value: Select blueprint (title)
@@ -397,6 +400,9 @@ b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
 b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
   ref: User name (label)
   value: User name (label)
+b8c443314d28c78ee34c1389a6db6f1c67303ef8588abfddebf21bad:
+  ref: Production queue (menu)
+  value: Production queue (menu)
 b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
   ref: Edit inventory item (modal)
   value: Edit inventory item (modal)
@@ -496,9 +502,6 @@ ec9fc04842ed77fb0701ee2ffc6f922b424759586c15a22ce0c2a24f:
 eecd2930a1fa4de61bc29f8080f2f452a6f21ad4a2c593d6a7e852e7:
   ref: Delete inventory item (modal)
   value: Delete inventory item (modal)
-eedf87d84873632bd1599189c81074b3b46df96d2b359ea457a1ecc1:
-  ref: Management (menu)
-  value: Management (menu)
 f0f0aadb4291cef21fc9e14f1285a968b8c552e94538ff454afa3a9d:
   ref: Editor (label)
   value: Editor (label)

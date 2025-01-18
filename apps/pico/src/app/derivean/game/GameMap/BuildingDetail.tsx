@@ -77,11 +77,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 					{detail.name}
 				</div>
 			</div>
-			<div
-				className={
-					"max-h-[calc(100vh-20rem)] overflow-auto p-4 flex flex-col gap-4"
-				}
-			>
+			<div className={"max-h-full overflow-auto p-4 flex flex-col gap-4"}>
 				<BuildingItem
 					userId={userId}
 					inventory={inventory}

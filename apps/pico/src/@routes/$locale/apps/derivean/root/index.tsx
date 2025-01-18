@@ -111,7 +111,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				</div>
 
 				<h2>TODO</h2>
-				<ul>
+				<ul className={"flex flex-col gap-2"}>
 					<li>
 						Add exclusive to (building "exclusiveToId" cannot be built when
 						target exists); Ok, exclusive to will be m:n.

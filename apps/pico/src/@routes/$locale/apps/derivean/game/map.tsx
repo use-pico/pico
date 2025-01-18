@@ -385,36 +385,187 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 													}).as("production");
 												})
 												.whereRef("bp.blueprintId", "=", "bl.id")
-												.where("bp.resourceId", "in", (eb) =>
-													eb
-														.selectFrom("Blueprint_Requirement as br")
-														.select("br.resourceId")
-														.where(
-															"br.blueprintId",
-															"not in",
+												.where((eb) => {
+													return eb.or([
+														eb(
+															"bp.resourceId",
+															"in",
 															eb
-																.selectFrom("Building as bg2")
-																.where("bg2.userId", "=", user.id)
-																.select("bg2.blueprintId"),
-														)
-														.where((eb) => {
-															const inventory = tx
-																.selectFrom("Inventory as i")
-																.innerJoin(
-																	"User_Inventory as ui",
-																	"ui.inventoryId",
-																	"i.id",
-																)
-																.select("i.amount")
-																.where("ui.userId", "=", user.id)
-																.where("i.resourceId", "=", "br.resourceId");
+																.selectFrom(
+																	eb
+																		.selectFrom("Blueprint_Requirement as br")
+																		.innerJoin(
+																			"Blueprint as bl2",
+																			"bl2.id",
+																			"br.blueprintId",
+																		)
+																		.select([
+																			"br.resourceId",
+																			(eb) => {
+																				return eb
+																					.case()
+																					.when(
+																						eb.not(
+																							eb.exists(
+																								eb
+																									.selectFrom(
+																										"Blueprint_Dependency as bd",
+																									)
+																									.select(eb.lit(1).as("one"))
+																									.whereRef(
+																										"bd.blueprintId",
+																										"=",
+																										"bl2.id",
+																									)
+																									.where((eb) =>
+																										eb.not(
+																											eb.exists(
+																												eb
+																													.selectFrom(
+																														"Building as b",
+																													)
+																													.select(
+																														eb.lit(1).as("one"),
+																													)
+																													.where(
+																														"b.userId",
+																														"=",
+																														user.id,
+																													)
+																													.whereRef(
+																														"b.blueprintId",
+																														"=",
+																														"bd.dependencyId",
+																													),
+																											),
+																										),
+																									),
+																							),
+																						),
+																					)
+																					.then(eb.lit(true))
+																					.else(eb.lit(false))
+																					.end()
+																					.as("withAvailableBuildings");
+																			},
+																			(eb) => {
+																				return eb
+																					.case()
+																					.when(
+																						eb.not(
+																							eb.exists(
+																								eb
+																									.selectFrom(
+																										"Blueprint_Requirement as br",
+																									)
+																									.select(eb.lit(1).as("one"))
+																									.whereRef(
+																										"br.blueprintId",
+																										"=",
+																										"bl2.id",
+																									)
+																									.where((eb) =>
+																										eb.not(
+																											eb.exists(
+																												eb
+																													.selectFrom(
+																														"Inventory as i",
+																													)
+																													.select(
+																														eb.lit(1).as("one"),
+																													)
+																													.where(
+																														"i.id",
+																														"in",
+																														eb
+																															.selectFrom(
+																																"User_Inventory",
+																															)
+																															.select(
+																																"inventoryId",
+																															)
+																															.where(
+																																"userId",
+																																"=",
+																																user.id,
+																															),
+																													)
+																													.whereRef(
+																														"i.resourceId",
+																														"=",
+																														"br.resourceId",
+																													)
+																													.whereRef(
+																														"i.amount",
+																														">=",
+																														"br.amount",
+																													),
+																											),
+																										),
+																									),
+																							),
+																						),
+																					)
+																					.then(eb.lit(true))
+																					.else(eb.lit(false))
+																					.end()
+																					.as("withAvailableResources");
+																			},
+																		])
+																		.where(
+																			"br.blueprintId",
+																			"not in",
+																			eb
+																				.selectFrom("Building as bg2")
+																				.where("bg2.userId", "=", user.id)
+																				.select("bg2.blueprintId"),
+																		)
+																		.where(
+																			"br.blueprintId",
+																			"not in",
+																			eb
+																				.selectFrom("Construction as c")
+																				.where("c.userId", "=", user.id)
+																				.select("c.blueprintId"),
+																		)
+																		.where((eb) => {
+																			const inventory = tx
+																				.selectFrom("Inventory as i")
+																				.innerJoin(
+																					"User_Inventory as ui",
+																					"ui.inventoryId",
+																					"i.id",
+																				)
+																				.select("i.amount")
+																				.where("ui.userId", "=", user.id)
+																				.where(
+																					"i.resourceId",
+																					"=",
+																					"br.resourceId",
+																				);
 
-															return eb.or([
-																eb("br.amount", ">", inventory),
-																eb(inventory, "is", null),
-															]);
-														})
-														.union(
+																			return eb.or([
+																				eb("br.amount", ">", inventory),
+																				eb(inventory, "is", null),
+																			]);
+																		})
+																		.as("resources"),
+																)
+																.select("resources.resourceId")
+																.where(
+																	"resources.withAvailableBuildings",
+																	"=",
+																	true,
+																)
+																.where(
+																	"resources.withAvailableResources",
+																	"=",
+																	false,
+																),
+														),
+														eb(
+															"bp.resourceId",
+															"in",
 															eb
 																.selectFrom(
 																	"Blueprint_Production_Requirement as bpr",
@@ -432,9 +583,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 																		.select("bg2.blueprintId")
 																		.where("bg2.userId", "=", user.id),
 																)
-																.select("bpr.resourceId"),
+																.select(["bpr.resourceId"]),
 														),
-												)
+													]);
+												})
 												.orderBy("r.name", "asc")
 												.as("production"),
 									])
