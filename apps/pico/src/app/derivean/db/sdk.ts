@@ -433,6 +433,9 @@ export const withProductionQueueSchema = <
 				priority:
 					// INTEGER / not nullable
 					z.number().int(),
+				paused:
+					// boolean / not nullable
+					withBoolSchema(),
 			}),
 		),
 		shape,
@@ -445,6 +448,7 @@ export const withProductionQueueSchema = <
 			"count",
 			"limit",
 			"priority",
+			"paused",
 		],
 	});
 };

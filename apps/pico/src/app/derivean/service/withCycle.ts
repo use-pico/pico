@@ -146,6 +146,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 					"bl.productionLimit",
 				])
 				.where("pq.userId", "=", userId)
+				.where("pq.paused", "=", false)
 				.orderBy("pq.priority", "desc")
 				.execute();
 

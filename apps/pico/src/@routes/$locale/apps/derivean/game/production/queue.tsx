@@ -12,6 +12,7 @@ import {
 import {
     Kysely,
     toHumanNumber,
+    tvc,
     withBoolSchema,
     withJsonArraySchema,
     type Entity,
@@ -33,6 +34,7 @@ const OutputSchema = z.object({
 	count: z.number().nonnegative(),
 	limit: z.number().nonnegative(),
 	priority: z.number(),
+	paused: withBoolSchema(),
 	requirements: withJsonArraySchema(
 		z.object({
 			id: z.string().min(1),
@@ -83,6 +85,20 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 			await invalidator();
 		},
 	});
+	const pauseMutation = useMutation({
+		async mutationFn({ id, paused }: { id: string; paused: boolean }) {
+			return kysely.transaction().execute(async (tx) => {
+				return tx
+					.updateTable("Production_Queue")
+					.set({ paused })
+					.where("id", "=", id)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 	const deleteMutation = useMutation({
 		async mutationFn() {
 			return kysely.transaction().execute(async (tx) => {
@@ -99,12 +115,29 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 
 	return (
 		<div
-			className={
-				"flex flex-row items-center justify-between border border-slate-300 p-2 rounded-md hover:bg-slate-50 hover:border-slate-500"
-			}
+			className={tvc(
+				"flex flex-row items-center justify-between border border-slate-300 p-2 rounded-md hover:bg-slate-50 hover:border-slate-500",
+				entity.paused ? ["bg-slate-100", "hover:bg-slate-200"] : undefined,
+			)}
 		>
 			<div className={"flex flex-row gap-6"}>
 				<div className={"flex flex-row items-center gap-2 font-bold"}>
+					<Button
+						iconEnabled={
+							entity.paused ?
+								"icon-[lucide--play]"
+							:	"icon-[solar--pause-outline]"
+						}
+						loading={limitMutation.isPending}
+						onClick={() => {
+							pauseMutation.mutate({
+								id: entity.id,
+								paused: !entity.paused,
+							});
+						}}
+						variant={{ variant: "subtle" }}
+					/>
+
 					<LinkTo
 						icon={BuildingIcon}
 						to={"/$locale/apps/derivean/game/map"}
@@ -234,6 +267,7 @@ export const Route = createFileRoute(
 							"pq.priority",
 							"pq.count",
 							"pq.limit",
+							"pq.paused",
 							(eb) =>
 								eb
 									.selectFrom("Blueprint_Production_Requirement as bpr")

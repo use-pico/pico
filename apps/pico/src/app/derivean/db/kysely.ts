@@ -463,6 +463,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Priority of the queue, higher number means higher priority.
 				 */
 				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
+				.addColumn("paused", "boolean", (col) => col.notNull().defaultTo(false))
 
 				.addUniqueConstraint(
 					"[Production_Queue] userId-blueprintProductionId",
