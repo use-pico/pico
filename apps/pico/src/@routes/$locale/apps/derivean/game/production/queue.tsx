@@ -69,6 +69,20 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 			await invalidator();
 		},
 	});
+	const limitMutation = useMutation({
+		async mutationFn({ id, limit }: { id: string; limit: number }) {
+			return kysely.transaction().execute(async (tx) => {
+				return tx
+					.updateTable("Production_Queue")
+					.set({ limit })
+					.where("id", "=", id)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 	const deleteMutation = useMutation({
 		async mutationFn() {
 			return kysely.transaction().execute(async (tx) => {
@@ -134,6 +148,41 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 			<div className={"flex flex-row gap-2 items-center"}>
 				<RequirementsInline requirements={entity.requirements} />
 				<Button
+					iconEnabled={"icon-[ph--minus-fill]"}
+					iconDisabled={"icon-[ph--minus-fill]"}
+					loading={limitMutation.isPending}
+					disabled={entity.limit === 0}
+					onClick={() => {
+						limitMutation.mutate({
+							id: entity.id,
+							limit: Math.max(0, entity.limit - 1),
+						});
+					}}
+				/>
+				<Button
+					iconEnabled={"icon-[ph--plus-fill]"}
+					loading={limitMutation.isPending}
+					onClick={() => {
+						limitMutation.mutate({
+							id: entity.id,
+							limit: entity.limit + 1,
+						});
+					}}
+				/>
+
+				<Button
+					iconEnabled={"icon-[bx--down-arrow]"}
+					iconDisabled={"icon-[bx--down-arrow]"}
+					loading={priorityMutation.isPending}
+					disabled={entity.priority === 0}
+					onClick={() => {
+						priorityMutation.mutate({
+							id: entity.id,
+							priority: entity.priority - 5,
+						});
+					}}
+				/>
+				<Button
 					iconEnabled={"icon-[bx--up-arrow]"}
 					loading={priorityMutation.isPending}
 					onClick={() => {
@@ -143,16 +192,7 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 						});
 					}}
 				/>
-				<Button
-					iconEnabled={"icon-[bx--down-arrow]"}
-					loading={priorityMutation.isPending}
-					onClick={() => {
-						priorityMutation.mutate({
-							id: entity.id,
-							priority: entity.priority - 5,
-						});
-					}}
-				/>
+
 				<Button
 					iconEnabled={TrashIcon}
 					loading={deleteMutation.isPending}
