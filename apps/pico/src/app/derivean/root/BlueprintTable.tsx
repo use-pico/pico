@@ -78,7 +78,7 @@ const columns = [
 				</div>
 			);
 		},
-		size: 14,
+		size: 18,
 	}),
 	column({
 		name: "dependencies",

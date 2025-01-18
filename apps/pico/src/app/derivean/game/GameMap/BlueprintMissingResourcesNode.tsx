@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { LinkTo } from "@use-pico/client";
+import { Button, LinkTo } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
@@ -28,7 +28,6 @@ export const BlueprintMissingResourcesNode: FC<
 			/>
 			<div className={"flex flex-row items-center gap-2"}>
 				<LinkTo
-					icon={BlueprintIcon}
 					to={"/$locale/apps/derivean/game/map"}
 					params={{ locale }}
 					search={({ blueprintId }) => ({
@@ -39,7 +38,12 @@ export const BlueprintMissingResourcesNode: FC<
 						base: ["font-bold", "text-amber-500", "hover:text-amber-600"],
 					}}
 				>
-					{data.name}
+					<Button
+						iconEnabled={BlueprintIcon}
+						variant={{ variant: "subtle" }}
+					>
+						{data.name}
+					</Button>
 				</LinkTo>
 			</div>
 			<Handle

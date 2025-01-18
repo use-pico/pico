@@ -11,6 +11,7 @@ export { isDateTime } from "./i18n/isDateTime";
 export { iso2locale } from "./i18n/iso2locale";
 export { localeOf } from "./i18n/localeOf";
 export { translator } from "./i18n/translator";
+export { Kysely } from "./kysely/Kysely";
 export { pwd } from "./pwd/pwd";
 export { CountSchema } from "./schema/CountSchema";
 export { CursorSchema } from "./schema/CursorSchema";

@@ -2,6 +2,7 @@ import dagre from "@dagrejs/dagre";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
+import { Kysely } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { GameMap } from "~/app/derivean/game/GameMap";
@@ -54,25 +55,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
                           ) THEN true ELSE false END
                       `.as("withAvailableResources"),
 						sql`
-                        CASE
-                          WHEN NOT EXISTS (
-                            SELECT 1
-                            FROM Blueprint_Dependency bd
-                            LEFT JOIN (
-                              SELECT
-                                b.blueprintId,
-                                COUNT(*) AS builtCount
-                              FROM
-                                Building b
-                              WHERE
-                                b.userId = ${user.id}
-                              GROUP BY
-                                b.blueprintId
-                            ) building
-                            ON bd.dependencyId = building.blueprintId
-                            WHERE bd.blueprintId = bl.id
-                              AND (building.builtCount IS NULL OR building.builtCount < 1)
-                          ) THEN true ELSE false END
+                            CASE
+                            WHEN NOT EXISTS (
+                                SELECT 1
+                                FROM Blueprint_Dependency bd
+                                WHERE bd.blueprintId = bl.id
+                                AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM Building b
+                                    WHERE b.userId = ${user.id}
+                                    AND b.blueprintId = bd.dependencyId
+                                )
+                            ) THEN true ELSE false END
                       `.as("withAvailableBuildings"),
 					]);
 
@@ -92,9 +86,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 									eb
 										.selectFrom("Building as bg")
 										.select((eb) => {
-											return sql<string>`json_object(
-                                                'id', ${eb.ref("bg.id")}
-                                            )`.as("building");
+											return Kysely.jsonObject({
+												id: eb.ref("bg.id"),
+											}).as("building");
 										})
 										.whereRef("bg.blueprintId", "=", "bl.id")
 										.where("bg.userId", "=", user.id)
@@ -117,14 +111,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										.selectFrom("Blueprint_Requirement as br")
 										.innerJoin("Resource as r", "r.id", "br.resourceId")
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                'id', ${eb.ref("br.id")},
-                                                'amount', ${eb.ref("br.amount")},
-                                                'passive', ${eb.ref("br.passive")},
-                                                'resourceId', ${eb.ref("br.resourceId")},
-                                                'blueprintId', ${eb.ref("br.blueprintId")},
-                                                'name', ${eb.ref("r.name")}
-                                            ))`.as("requirements");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("br.id"),
+												amount: eb.ref("br.amount"),
+												passive: eb.ref("br.passive"),
+												resourceId: eb.ref("br.resourceId"),
+												blueprintId: eb.ref("br.blueprintId"),
+												name: eb.ref("r.name"),
+											}).as("requirements");
 										})
 										.whereRef("br.blueprintId", "=", "bl.id")
 										.orderBy("r.name", "asc")
@@ -134,12 +128,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										.selectFrom("Blueprint_Dependency as bd")
 										.innerJoin("Blueprint as bl2", "bl2.id", "bd.dependencyId")
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                        'id', ${eb.ref("bd.id")},
-                                                        'dependencyId', ${eb.ref("bd.dependencyId")},
-                                                        'blueprintId', ${eb.ref("bd.blueprintId")},
-                                                        'name', ${eb.ref("bl2.name")}
-                                                    ))`.as("requirements");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("bd.id"),
+												dependencyId: eb.ref("bd.dependencyId"),
+												blueprintId: eb.ref("bd.blueprintId"),
+												name: eb.ref("bl2.name"),
+											}).as("requirements");
 										})
 										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
@@ -149,13 +143,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										.selectFrom("Construction as c")
 										.innerJoin("Blueprint as bl2", "bl2.id", "c.blueprintId")
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                        'id', ${eb.ref("c.id")},
-                                                        'cycle', ${eb.ref("c.cycle")},
-                                                        'from', ${eb.ref("c.from")},
-                                                        'to', ${eb.ref("c.to")},
-                                                        'name', ${eb.ref("bl2.name")}
-                                                    ))`.as("requirements");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("c.id"),
+												cycle: eb.ref("c.cycle"),
+												from: eb.ref("c.from"),
+												to: eb.ref("c.to"),
+												name: eb.ref("bl2.name"),
+											}).as("requirements");
 										})
 										.whereRef("c.blueprintId", "=", "bl.id")
 										.where("c.userId", "=", user.id)
@@ -171,52 +165,60 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 												.on("b.userId", "=", user.id);
 										})
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                        'id', ${eb.ref("bp.id")},
-                                                        'amount', ${eb.ref("bp.amount")},
-                                                        'cycles', ${eb.ref("bp.cycles")},
-                                                        'limit', ${eb.ref("bp.limit")},
-                                                        'blueprintId', ${eb.ref("bp.blueprintId")},
-                                                        'resourceId', ${eb.ref("bp.resourceId")},
-                                                        'buildingId', ${eb.ref("b.id")},
-                                                        'name', ${eb.ref("r.name")},
-                                                        'requirements', ${sql`(
-                                                            SELECT
-                                                                json_group_array(json_object(
-                                                                    'id', bpr.id,
-                                                                    'amount', bpr.amount,
-                                                                    'passive', bpr.passive,
-                                                                    'name', r2.name,
-                                                                    'blueprintId', bp.id,
-                                                                    'resourceId', bpr.resourceId
-                                                                ))
-                                                            FROM
-                                                                Blueprint_Production_Requirement as bpr
-                                                                INNER JOIN Resource as r2 on r2.id = bpr.resourceId
-                                                            WHERE
-                                                                bpr.blueprintProductionId = bp.id
-                                                        )
-                                                            `},
-                                                        'queue', ${sql`(
-                                                            SELECT
-                                                                json_group_array(json_object(
-                                                                    'id', p.id,
-                                                                    'name', r2.name,
-                                                                    'from', p."from",
-                                                                    'to', p."to",
-                                                                    'cycle', p."cycle",
-                                                                    'blueprintProductionId', p.blueprintProductionId
-                                                                ))
-                                                            FROM
-                                                                Production as p
-                                                                INNER JOIN Blueprint_Production as bp2 ON p.blueprintProductionId = bp2.id
-                                                                INNER JOIN Resource as r2 ON r2.id = bp.resourceId
-                                                            WHERE
-                                                                p.blueprintProductionId = bp.id AND
-                                                                p.id in (SELECT id FROM Production WHERE userId = ${user.id})
-                                                        )
-                                                            `}
-                                                    ))`.as("sub");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("bp.id"),
+												amount: eb.ref("bp.amount"),
+												cycles: eb.ref("bp.cycles"),
+												limit: eb.ref("bp.limit"),
+												blueprintId: eb.ref("bp.blueprintId"),
+												resourceId: eb.ref("bp.resourceId"),
+												name: eb.ref("r.name"),
+												requirements: eb
+													.selectFrom("Blueprint_Production_Requirement as bpr")
+													.innerJoin(
+														"Resource as r2",
+														"r2.id",
+														"bpr.resourceId",
+													)
+													.select((eb) => {
+														return Kysely.jsonGroupArray({
+															id: eb.ref("bpr.id"),
+															amount: eb.ref("bpr.amount"),
+															passive: eb.ref("bpr.passive"),
+															name: eb.ref("r2.name"),
+															blueprintId: eb.ref("bp.id"),
+															resourceId: eb.ref("bpr.resourceId"),
+														}).as("requirements");
+													})
+													.whereRef("bpr.blueprintProductionId", "=", "bp.id"),
+												queue: eb
+													.selectFrom("Production as p")
+													.innerJoin(
+														"Blueprint_Production as bp2",
+														"p.blueprintProductionId",
+														"bp2.id",
+													)
+													.innerJoin("Resource as r2", "r2.id", "bp.resourceId")
+													.select((eb) => {
+														return Kysely.jsonGroupArray({
+															id: eb.ref("p.id"),
+															name: eb.ref("r2.name"),
+															from: eb.ref("p.from"),
+															to: eb.ref("p.to"),
+															cycle: eb.ref("p.cycle"),
+															blueprintProductionId: eb.ref(
+																"p.blueprintProductionId",
+															),
+														}).as("requirements");
+													})
+													.whereRef("p.blueprintProductionId", "=", "bp.id")
+													.where("p.id", "in", (eb) => {
+														return eb
+															.selectFrom("Production")
+															.select("id")
+															.where("userId", "=", user.id);
+													}),
+											}).as("production");
 										})
 										// .$if(Boolean(resourceId), (eb) => {
 										// 	return eb.where("bp.resourceId", "=", resourceId!);
@@ -273,6 +275,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 							size: 250,
 						},
 					});
+
+					// console.log(data);
 
 					return data;
 				});

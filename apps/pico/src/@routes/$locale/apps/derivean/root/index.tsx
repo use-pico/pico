@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	Button,
-	JustDropZone,
-	toast,
-	Tx,
-	withToastPromiseTx,
+    Button,
+    JustDropZone,
+    toast,
+    Tx,
+    withToastPromiseTx,
 } from "@use-pico/client";
 import FileSaver from "file-saver";
 import { sql } from "kysely";
@@ -112,12 +112,64 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul>
-					<li>Add tags to buildings (default to "neutral")</li>
-					<li>Filter out buildings based on user's tags</li>
-					<li>A building may attach (or remove?) a tag to user</li>
 					<li>
-						Jump from required resources or display list of buildings providing
-						necessary resources
+						Add exclusive to (building "exclusiveToId" cannot be built when
+						target exists); Ok, exclusive to will be m:n.
+					</li>
+					<li>
+						Upgrades: Put everything into the building, drive upgrades by
+						passive "Research" points
+					</li>
+					<li>
+						Production Queue List - managed by the user, takes the priority of
+						the production (draggable/arrows?); this basically means production
+						automation.
+					</li>
+					<li>
+						Bundle default gameplay as exported json (put into public); add
+						button to root to load default/selected gameplay; idea is a few
+						buttons: Settler like, Fantasy, AoE and so on.
+					</li>
+					<li>
+						Define game ending rules: amount of resources in (individual
+						resourece per required cycle), required building in a cycle. When a
+						player fail, game end with the ability to reset. Each game rule may
+						have an ending message to show.
+					</li>
+					<li>
+						Define winning rules: amount of resources / building built in
+						specific cycle. When rules are not met, it's like a fail.
+					</li>
+					<li>
+						Idea: Blueprint should have display list (like present resource in
+						inventory), also production should have display list (like present
+						resource in inventory).
+					</li>
+					<li>
+						Add something like world available resources + the ability to drain
+						and add resources to the world. Something like Wolrd_Inventory where
+						0 means unlimited resources.
+					</li>
+					<li>
+						World renewal resources: a list of resources with cycles and amount
+						when they got renewed (world_renewal_queue).
+					</li>
+					<li>
+						Defines seasons: list of cyclic seasons with their length; resource
+						production may be bound to specific season(s).
+					</li>
+					<li>
+						Add maintenance cost for a building: when a cycle ends, cost is
+						deducted from the inventory. If there is not enough resources,
+						building will be marked as offline (closed for production).
+					</li>
+					<li>
+						Dispaly resources per season (some resources will be available only
+						in specific season)
+					</li>
+					<li>
+						Add resource probability drop: some resources may have not be
+						produces (like a crop). This should be thinked out.
 					</li>
 				</ul>
 			</div>
