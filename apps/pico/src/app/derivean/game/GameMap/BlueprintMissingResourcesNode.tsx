@@ -35,12 +35,18 @@ export const BlueprintMissingResourcesNode: FC<
 						requirementsOf: data.id,
 					})}
 					css={{
-						base: ["font-bold", "text-amber-500", "hover:text-amber-600"],
+						base: [
+							"font-bold",
+							"text-amber-500",
+							"hover:text-amber-600",
+							"flex-grow",
+						],
 					}}
 				>
 					<Button
 						iconEnabled={BlueprintIcon}
-						variant={{ variant: "subtle" }}
+						variant={{ variant: "secondary" }}
+						css={{ base: ["w-full"] }}
 					>
 						{data.name}
 					</Button>

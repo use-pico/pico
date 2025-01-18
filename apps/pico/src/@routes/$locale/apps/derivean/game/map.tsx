@@ -32,27 +32,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 					const $blueprintFilter = tx.selectFrom("Blueprint as bl").select([
 						"bl.id",
 						sql`
-                        CASE
-                          WHEN NOT EXISTS (
-                            SELECT 1
-                            FROM Blueprint_Requirement br
-                            LEFT JOIN (
-                              SELECT
-                                i.resourceId,
-                                i.amount
-                              FROM
-                                Inventory i
-                              INNER JOIN User_Inventory ui
-                                ON i.id = ui.inventoryId
-                              WHERE
-                                ui.userId = ${user.id}
-                              GROUP BY
-                                i.resourceId
-                            ) resource
-                            ON br.resourceId = resource.resourceId
-                            WHERE br.blueprintId = bl.id
-                              AND (resource.amount IS NULL OR resource.amount < br.amount)
-                          ) THEN true ELSE false END
+                            CASE
+                            WHEN NOT EXISTS (
+                                SELECT 1
+                                FROM Blueprint_Requirement br
+                                WHERE br.blueprintId = bl.id
+                                AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM Inventory i
+                                    INNER JOIN User_Inventory ui ON i.id = ui.inventoryId
+                                    WHERE ui.userId = ${user.id}
+                                    AND i.resourceId = br.resourceId
+                                    AND i.amount >= br.amount
+                                )
+                            ) THEN true ELSE false END
                       `.as("withAvailableResources"),
 						sql`
                             CASE
@@ -170,6 +163,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 												amount: eb.ref("bp.amount"),
 												cycles: eb.ref("bp.cycles"),
 												limit: eb.ref("bp.limit"),
+												buildingId: eb.ref("b.id"),
 												blueprintId: eb.ref("bp.blueprintId"),
 												resourceId: eb.ref("bp.resourceId"),
 												name: eb.ref("r.name"),

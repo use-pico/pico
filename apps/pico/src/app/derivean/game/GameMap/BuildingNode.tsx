@@ -42,12 +42,13 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 							requirementsOf,
 						})}
 						css={{
-							base: ["font-bold"],
+							base: ["font-bold", "flex-grow"],
 						}}
 					>
 						<Button
-							variant={{ variant: "subtle" }}
+							variant={{ variant: "primary" }}
 							iconEnabled={BuildingIcon}
+							css={{ base: ["w-full"] }}
 						>
 							{data.name}
 						</Button>

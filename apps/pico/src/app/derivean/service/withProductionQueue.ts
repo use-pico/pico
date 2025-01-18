@@ -74,5 +74,7 @@ export const withProductionQueue = async ({
 				res(undefined);
 			});
 		}, ActionBreakTimeout);
+	}).catch((error) => {
+		console.error(error);
 	});
 };

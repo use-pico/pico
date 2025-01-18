@@ -1,10 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-    Badge,
-    Button,
-    Progress,
-    useInvalidator
-} from "@use-pico/client";
+import { Badge, Button, Progress, useInvalidator } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { GameManager } from "~/app/derivean/game/manager/GameManager";
