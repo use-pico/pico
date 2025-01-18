@@ -76,6 +76,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 						count: 0,
 						limit: 0,
 						priority: 50,
+						paused: false,
 					})
 					.execute();
 			});
