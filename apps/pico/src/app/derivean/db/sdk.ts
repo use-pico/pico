@@ -421,6 +421,9 @@ export const withProductionQueueSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				count:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -438,6 +441,7 @@ export const withProductionQueueSchema = <
 			"id",
 			"blueprintProductionId",
 			"userId",
+			"buildingId",
 			"count",
 			"limit",
 			"priority",

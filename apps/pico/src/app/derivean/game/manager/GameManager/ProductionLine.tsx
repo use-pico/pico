@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { Badge, Button, Progress, useInvalidator } from "@use-pico/client";
-import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
+import { genId, toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/kysely";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
@@ -41,7 +42,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 		entity.productionAvailable;
 
 	const productionMutation = useMutation({
-		mutationFn: async () => {
+		async mutationFn() {
 			if (!production.buildingId) {
 				return false;
 			}
@@ -50,6 +51,30 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 				userId,
 				blueprintProductionId: production.id,
 				buildingId: production.buildingId,
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+	const productionQueueMutation = useMutation({
+		async mutationFn() {
+			return kysely.transaction().execute(async (tx) => {
+				if (!production.buildingId) {
+					return false;
+				}
+
+				tx.insertInto("Production_Queue")
+					.values({
+						id: genId(),
+						userId,
+						blueprintProductionId: production.id,
+						buildingId: production.buildingId,
+						count: 0,
+						limit: 0,
+						priority: 50,
+					})
+					.execute();
 			});
 		},
 		async onSuccess() {
@@ -102,6 +127,16 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 						}}
 						loading={productionMutation.isPending}
 						onClick={() => productionMutation.mutate()}
+					/>
+					<Button
+						iconEnabled={"icon-[hugeicons--queue-02]"}
+						iconDisabled={ProductionIcon}
+						onClick={() => {
+							productionQueueMutation.mutate();
+						}}
+						disabled={production.inQueue}
+						loading={productionQueueMutation.isPending}
+						variant={{ variant: "subtle" }}
 					/>
 					{production.name}
 					<Badge>x{toHumanNumber({ number: production.amount })}</Badge>

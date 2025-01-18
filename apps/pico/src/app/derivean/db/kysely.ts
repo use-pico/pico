@@ -434,9 +434,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("userId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
-					"[Construction] userId",
+					"[Blueprint_Production_Requirement] userId",
 					["userId"],
 					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Production_Requirement] buildingId",
+					["buildingId"],
+					"Building",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)

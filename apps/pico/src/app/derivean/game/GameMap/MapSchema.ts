@@ -55,6 +55,7 @@ export const MapSchema = IdentitySchema.merge(
 				resourceId: z.string().min(1),
 				buildingId: z.string().nullish(),
 				isFull: withBoolSchema(),
+				inQueue: withBoolSchema(),
 				withAvailableResources: withBoolSchema(),
 				requirements: z.array(
 					z.object({

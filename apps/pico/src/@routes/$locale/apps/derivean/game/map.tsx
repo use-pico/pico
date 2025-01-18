@@ -273,6 +273,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 															.then(eb.lit(true))
 															.else(eb.lit(false))
 															.end(),
+														inQueue: eb
+															.case()
+															.when(
+																eb.exists(
+																	eb
+																		.selectFrom("Production_Queue as pq")
+																		.select(eb.lit(1).as("one"))
+																		.whereRef(
+																			"pq.blueprintProductionId",
+																			"=",
+																			"bp.id",
+																		)
+																		.whereRef("pq.count", "<=", "pq.limit")
+																		.groupBy("pq.blueprintProductionId")
+																		.having((eb) => {
+																			return eb(
+																				eb.fn.count("pq.id"),
+																				">=",
+																				eb.ref("bp.limit"),
+																			);
+																		}),
+																),
+															)
+															.then(eb.lit(true))
+															.else(eb.lit(false))
+															.end(),
 														withAvailableResources: eb
 															.case()
 															.when(
@@ -632,7 +658,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 						},
 					});
 
-					console.log(data);
+					// console.log(data);
 
 					return data;
 				});
