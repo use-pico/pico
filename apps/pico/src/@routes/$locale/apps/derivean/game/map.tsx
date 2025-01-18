@@ -384,24 +384,61 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 															}),
 													}).as("production");
 												})
-												// .$if(Boolean(resourceId), (eb) => {
-												// 	return eb.where("bp.resourceId", "=", resourceId!);
-												// })
 												.whereRef("bp.blueprintId", "=", "bl.id")
+												.where("bp.resourceId", "in", (eb) =>
+													eb
+														.selectFrom("Blueprint_Requirement as br")
+														.select("br.resourceId")
+														.where(
+															"br.blueprintId",
+															"not in",
+															eb
+																.selectFrom("Building as bg2")
+																.where("bg2.userId", "=", user.id)
+																.select("bg2.blueprintId"),
+														)
+														.where((eb) => {
+															const inventory = tx
+																.selectFrom("Inventory as i")
+																.innerJoin(
+																	"User_Inventory as ui",
+																	"ui.inventoryId",
+																	"i.id",
+																)
+																.select("i.amount")
+																.where("ui.userId", "=", user.id)
+																.where("i.resourceId", "=", "br.resourceId");
+
+															return eb.or([
+																eb("br.amount", ">", inventory),
+																eb(inventory, "is", null),
+															]);
+														})
+														.union(
+															eb
+																.selectFrom(
+																	"Blueprint_Production_Requirement as bpr",
+																)
+																.innerJoin(
+																	"Blueprint_Production as bp",
+																	"bp.id",
+																	"bpr.blueprintProductionId",
+																)
+																.where(
+																	"bp.blueprintId",
+																	"in",
+																	eb
+																		.selectFrom("Building as bg2")
+																		.select("bg2.blueprintId")
+																		.where("bg2.userId", "=", user.id),
+																)
+																.select("bpr.resourceId"),
+														),
+												)
 												.orderBy("r.name", "asc")
 												.as("production"),
 									])
 									.as("blueprint"),
-								// .$if(Boolean(resourceId), (eb) => {
-								// 	return eb.where(
-								// 		"bl.id",
-								// 		"in",
-								// 		tx
-								// 			.selectFrom("Blueprint_Production")
-								// 			.select("blueprintId")
-								// 			.where("resourceId", "=", resourceId!),
-								// 	);
-								// })
 							)
 							.selectAll()
 							.where("withAvailableBuildings", "=", true)
