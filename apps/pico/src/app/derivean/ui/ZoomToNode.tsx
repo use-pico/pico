@@ -19,7 +19,7 @@ export const ZoomToNode: FC<ZoomToNode.Props> = ({ nodeId }) => {
 					minZoom: 1,
 					maxZoom: 1,
 				});
-			}, 250);
+			}, 50);
 	}, [nodeId]);
 
 	return null;

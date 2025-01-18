@@ -110,21 +110,6 @@ export const GameMap: FC<GameMap.Props> = ({
 						gap={12}
 						size={1}
 					/>
-
-					{detail ?
-						<div
-							className={
-								"react-flow__panel w-1/10 border bg-white border-slate-300 rounded-md shadow-md p-4 absolute top-1 right-1"
-							}
-						>
-							<BuildingDetail
-								detail={detail}
-								data={data}
-								userId={userId}
-								inventory={inventory}
-							/>
-						</div>
-					:	null}
 					{requirements ?
 						<div
 							className={
@@ -157,6 +142,20 @@ export const GameMap: FC<GameMap.Props> = ({
 					:	null}
 				</ReactFlow>
 			</div>
+			{detail ?
+				<div
+					className={
+						"w-5/12 border bg-white border-slate-300 rounded-md shadow-md p-4"
+					}
+				>
+					<BuildingDetail
+						detail={detail}
+						data={data}
+						userId={userId}
+						inventory={inventory}
+					/>
+				</div>
+			:	null}
 		</div>
 	);
 };

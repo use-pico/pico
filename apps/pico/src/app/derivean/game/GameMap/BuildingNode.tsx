@@ -53,7 +53,9 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 							{data.name}
 						</Button>
 					</LinkTo>
-					{production ?
+				</div>
+				{production ?
+					<>
 						<div className={"flex flex-row items-center gap-1 flex-1"}>
 							<Icon
 								icon={"icon-[mingcute--arrow-right-line]"}
@@ -61,13 +63,13 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 							/>
 							<div className={"text-xs text-slate-400"}>{production.name}</div>
 						</div>
-					:	null}
-				</div>
-				{production ?
-					<Progress
-						value={(100 * production.cycle) / (production.to - production.from)}
-						variant={{ size: "sm" }}
-					/>
+						<Progress
+							value={
+								(100 * production.cycle) / (production.to - production.from)
+							}
+							variant={{ size: "sm" }}
+						/>
+					</>
 				:	null}
 			</div>
 			<Handle
