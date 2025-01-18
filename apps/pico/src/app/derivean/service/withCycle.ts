@@ -1,6 +1,7 @@
 import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/sdk";
+import { withProductionQueue } from "~/app/derivean/service/withProductionQueue";
 import { ActionBreakTimeout } from "~/app/derivean/utils/ActionBreakTimeout";
 
 export namespace withCycle {
@@ -126,6 +127,70 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 					.set("cycle", cycle + 1)
 					.where("id", "=", id)
 					.execute();
+			}
+
+			const productionPlanQueue = await tx
+				.selectFrom("Production_Queue as pq")
+				.innerJoin(
+					"Blueprint_Production as bp",
+					"bp.id",
+					"pq.blueprintProductionId",
+				)
+				.innerJoin("Blueprint as bl", "bl.id", "bp.blueprintId")
+				.select([
+					"pq.id",
+					"pq.count",
+					"pq.limit",
+					"pq.blueprintProductionId",
+					"pq.buildingId",
+					"bl.productionLimit",
+				])
+				.where("pq.userId", "=", userId)
+				.orderBy("pq.priority", "desc")
+				.execute();
+
+			for await (const {
+				id,
+				count,
+				limit,
+				blueprintProductionId,
+				buildingId,
+				productionLimit,
+			} of productionPlanQueue) {
+				try {
+					const { count: queueSize } = await tx
+						.selectFrom("Production as p")
+						.where("p.blueprintProductionId", "=", blueprintProductionId)
+						.select((eb) => eb.fn.count<number>("p.id").as("count"))
+						.executeTakeFirstOrThrow();
+
+					if (queueSize >= productionLimit) {
+						console.log("Skipping production plan because of production limit");
+						continue;
+					}
+
+					await withProductionQueue({
+						tx,
+						blueprintProductionId,
+						buildingId,
+						userId,
+					});
+
+					await tx
+						.updateTable("Production_Queue")
+						.set({ count: count + 1 })
+						.where("id", "=", id)
+						.execute();
+
+					if (limit > 0 && count + 1 >= limit) {
+						await tx
+							.deleteFrom("Production_Queue")
+							.where("id", "=", id)
+							.execute();
+					}
+				} catch (_) {
+					// Probably not enough resources or something like that.
+				}
 			}
 
 			resolve(true);

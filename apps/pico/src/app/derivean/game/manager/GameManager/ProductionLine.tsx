@@ -43,14 +43,17 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 
 	const productionMutation = useMutation({
 		async mutationFn() {
-			if (!production.buildingId) {
-				return false;
-			}
+			return kysely.transaction().execute(async (tx) => {
+				if (!production.buildingId) {
+					return;
+				}
 
-			return withProductionQueue({
-				userId,
-				blueprintProductionId: production.id,
-				buildingId: production.buildingId,
+				return withProductionQueue({
+					tx,
+					userId,
+					blueprintProductionId: production.id,
+					buildingId: production.buildingId,
+				});
 			});
 		},
 		async onSuccess() {
@@ -61,7 +64,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 		async mutationFn() {
 			return kysely.transaction().execute(async (tx) => {
 				if (!production.buildingId) {
-					return false;
+					return;
 				}
 
 				tx.insertInto("Production_Queue")
