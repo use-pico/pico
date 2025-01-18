@@ -285,7 +285,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 																			"=",
 																			"bp.id",
 																		)
-																		.whereRef("pq.count", "<=", "pq.limit")
 																		.groupBy("pq.blueprintProductionId")
 																		.having((eb) => {
 																			return eb(
