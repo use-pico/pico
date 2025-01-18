@@ -59,9 +59,9 @@ export const Dependencies: FC<Dependencies.Props> = ({
 							return (
 								<LinkTo
 									key={genId()}
-									to={"/$locale/apps/derivean/game/management"}
+									to={"/$locale/apps/derivean/game/map"}
 									params={{ locale }}
-									search={{ filter: { blueprintId: item } }}
+									search={{ blueprintId: item }}
 								>
 									<Badge
 										css={{

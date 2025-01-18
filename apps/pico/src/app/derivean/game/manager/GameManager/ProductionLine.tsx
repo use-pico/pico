@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { Badge, Button, Progress, useInvalidator } from "@use-pico/client";
-import { toHumanNumber, tvc } from "@use-pico/common";
+import { toHumanNumber, tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import type { GameManager } from "~/app/derivean/game/manager/GameManager";
+import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
@@ -10,19 +10,18 @@ import { withProductionQueue } from "~/app/derivean/service/withProductionQueue"
 import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 
 export namespace ProductionLine {
-	export interface Props {
+	export interface Props extends Entity.Schema<MapSchema> {
 		userId: string;
-		production: GameManager.Production;
+		production: MapSchema.Type["production"][number];
 		inventory: InventorySchema["~entity-array"];
-		isProductionLimit: boolean;
 	}
 }
 
 export const ProductionLine: FC<ProductionLine.Props> = ({
+	entity,
 	userId,
 	production,
 	inventory,
-	isProductionLimit,
 }) => {
 	const invalidator = useInvalidator([
 		["Management"],
@@ -32,21 +31,14 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 		["User_Inventory"],
 	]);
 
-	const hasResources = production.requirements.every((requirement) => {
-		const inventoryItem = inventory.find(
-			(inv) => inv.resourceId === requirement.resourceId,
-		);
-		return inventoryItem && inventoryItem.amount >= requirement.amount;
-	});
-
-	const isFull =
-		production.queue.length >= production.limit || isProductionLimit;
-
 	const queue = production.queue.find(
 		(queue) => (queue.blueprintProductionId = production.id),
 	);
 
-	const available = hasResources && !isFull;
+	const available =
+		production.withAvailableResources &&
+		!production.isFull &&
+		entity.productionAvailable;
 
 	const productionMutation = useMutation({
 		mutationFn: async () => {

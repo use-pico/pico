@@ -16,6 +16,7 @@ export const MapSchema = IdentitySchema.merge(
 		productionCount: z.number().int().nonnegative(),
 		withAvailableBuildings: withBoolSchema(),
 		withAvailableResources: withBoolSchema(),
+		productionAvailable: withBoolSchema(),
 		building: withJsonSchema(
 			z.object({
 				id: z.string().min(1),
@@ -53,6 +54,8 @@ export const MapSchema = IdentitySchema.merge(
 				blueprintId: z.string().min(1),
 				resourceId: z.string().min(1),
 				buildingId: z.string().nullish(),
+				isFull: withBoolSchema(),
+				withAvailableResources: withBoolSchema(),
 				requirements: z.array(
 					z.object({
 						id: z.string().min(1),
@@ -74,6 +77,7 @@ export const MapSchema = IdentitySchema.merge(
 				),
 			}),
 		),
+		producers: withJsonArraySchema(z.any()).nullish(),
 	}),
 );
 

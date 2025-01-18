@@ -144,6 +144,36 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										},
 										(eb) =>
 											eb
+												.case()
+												.when(
+													eb.exists(
+														eb
+															.selectFrom("Production as p")
+															.select(eb.lit(1).as("one"))
+															.where(
+																"p.blueprintProductionId",
+																"in",
+																eb
+																	.selectFrom("Blueprint_Production")
+																	.select("id")
+																	.whereRef("blueprintId", "=", "bl.id"),
+															)
+															.groupBy("p.blueprintProductionId")
+															.having((eb) => {
+																return eb(
+																	eb.fn.count("p.id"),
+																	">=",
+																	eb.ref("bl.productionLimit"),
+																);
+															}),
+													),
+												)
+												.then(eb.lit(false))
+												.else(eb.lit(true))
+												.end()
+												.as("productionAvailable"),
+										(eb) =>
+											eb
 												.selectFrom("Blueprint_Requirement as br")
 												.innerJoin("Resource as r", "r.id", "br.resourceId")
 												.select((eb) => {
@@ -218,6 +248,83 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 														blueprintId: eb.ref("bp.blueprintId"),
 														resourceId: eb.ref("bp.resourceId"),
 														name: eb.ref("r.name"),
+														isFull: eb
+															.case()
+															.when(
+																eb.exists(
+																	eb
+																		.selectFrom("Production as p")
+																		.select(eb.lit(1).as("one"))
+																		.whereRef(
+																			"p.blueprintProductionId",
+																			"=",
+																			"bp.id",
+																		)
+																		.groupBy("p.blueprintProductionId")
+																		.having((eb) => {
+																			return eb(
+																				eb.fn.count("p.id"),
+																				">=",
+																				eb.ref("bp.limit"),
+																			);
+																		}),
+																),
+															)
+															.then(eb.lit(true))
+															.else(eb.lit(false))
+															.end(),
+														withAvailableResources: eb
+															.case()
+															.when(
+																eb.not(
+																	eb.exists(
+																		eb
+																			.selectFrom(
+																				"Blueprint_Production_Requirement as bpr",
+																			)
+																			.select(eb.lit(1).as("one"))
+																			.whereRef(
+																				"bpr.blueprintProductionId",
+																				"=",
+																				"bp.id",
+																			)
+																			.where((eb) =>
+																				eb.not(
+																					eb.exists(
+																						eb
+																							.selectFrom("Inventory as i")
+																							.select(eb.lit(1).as("one"))
+																							.where(
+																								"i.id",
+																								"in",
+																								eb
+																									.selectFrom("User_Inventory")
+																									.select("inventoryId")
+																									.where(
+																										"userId",
+																										"=",
+																										user.id,
+																									),
+																							)
+																							.whereRef(
+																								"i.resourceId",
+																								"=",
+																								"bpr.resourceId",
+																							)
+																							.whereRef(
+																								"i.amount",
+																								">=",
+																								"bpr.amount",
+																							),
+																					),
+																				),
+																			),
+																	),
+																),
+															)
+															.then(eb.lit(true))
+															.else(eb.lit(false))
+															.end(),
 														requirements: eb
 															.selectFrom(
 																"Blueprint_Production_Requirement as bpr",
@@ -227,16 +334,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 																"r2.id",
 																"bpr.resourceId",
 															)
-															.select((eb) => {
-																return Kysely.jsonGroupArray({
-																	id: eb.ref("bpr.id"),
-																	amount: eb.ref("bpr.amount"),
-																	passive: eb.ref("bpr.passive"),
-																	name: eb.ref("r2.name"),
-																	blueprintId: eb.ref("bp.id"),
-																	resourceId: eb.ref("bpr.resourceId"),
-																}).as("requirements");
-															})
+															.select([
+																(eb) => {
+																	return Kysely.jsonGroupArray({
+																		id: eb.ref("bpr.id"),
+																		amount: eb.ref("bpr.amount"),
+																		passive: eb.ref("bpr.passive"),
+																		name: eb.ref("r2.name"),
+																		blueprintId: eb.ref("bp.id"),
+																		resourceId: eb.ref("bpr.resourceId"),
+																	}).as("requirements");
+																},
+															])
 															.whereRef(
 																"bpr.blueprintProductionId",
 																"=",
@@ -334,7 +443,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 						},
 					});
 
-					// console.log(data);
+					console.log(data);
 
 					return data;
 				});

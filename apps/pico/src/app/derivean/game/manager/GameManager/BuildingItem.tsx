@@ -1,43 +1,34 @@
 import { Progress, Tx } from "@use-pico/client";
 import { tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import type { GameManager } from "~/app/derivean/game/manager/GameManager";
+import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
 import { Header } from "~/app/derivean/game/manager/GameManager/BuildingItem/Header";
 import { ProductionLine } from "~/app/derivean/game/manager/GameManager/ProductionLine";
 import { RequirementsInline } from "~/app/derivean/game/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
-import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BuildingItem {
-	export interface Props extends Entity.Type<GameManager.Data> {
+	export interface Props extends Entity.Type<MapSchema.Type> {
 		userId: string;
-		dependencies: withBlueprintGraph.Result;
 		inventory: InventorySchema["~entity-array"];
-		buildingCounts: GameManager.BuildingCount[];
 	}
 }
 
 export const BuildingItem: FC<BuildingItem.Props> = ({
 	entity,
 	userId,
-	dependencies,
 	inventory,
-	buildingCounts,
 }) => {
 	const canBuild =
 		entity.withAvailableBuildings && entity.withAvailableResources;
 
-	const isBuilt =
-		(buildingCounts.find((item) => item.blueprintId === entity.id)?.count ||
-			0) > 0;
+	const isBuilt = Boolean(entity.building);
 
 	/**
 	 * In general, current game rules allows only one construction at a time.
 	 */
 	const queue = entity.construction?.[0];
-
-	const isProductionLimit = entity.productionCount >= entity.productionLimit;
 
 	return (
 		<div
@@ -106,10 +97,10 @@ export const BuildingItem: FC<BuildingItem.Props> = ({
 							return (
 								<ProductionLine
 									key={`production-${production.id}-${production.blueprintId}`}
+									entity={entity}
 									userId={userId}
 									production={production}
 									inventory={inventory}
-									isProductionLimit={isProductionLimit}
 								/>
 							);
 						})}
