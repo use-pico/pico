@@ -17,8 +17,8 @@ import { ConstructionNode } from "~/app/derivean/game/GameMap/ConstructionNode";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
+import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 import { ZoomToNode } from "~/app/derivean/ui/ZoomToNode";
 
 export namespace GameMap {

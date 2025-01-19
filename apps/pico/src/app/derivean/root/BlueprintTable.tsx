@@ -22,10 +22,10 @@ import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
-import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
+import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintTable {

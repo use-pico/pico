@@ -25,10 +25,10 @@ import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BlueprintProductionForm } from "~/app/derivean/root/BlueprintProductionForm";
 import { MoveProductionToForm } from "~/app/derivean/root/MoveProductionToForm";
-import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintProductionDependencySchema } from "~/app/derivean/schema/BlueprintProductionDependencySchema";
 import type { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
 import type { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
+import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 
 export namespace BlueprintProductionTable {
 	export interface Data extends IdentitySchema.Type {

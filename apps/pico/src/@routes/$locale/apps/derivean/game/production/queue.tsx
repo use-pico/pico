@@ -22,7 +22,7 @@ import { z } from "zod";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
+import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 
 const OutputSchema = z.object({
 	id: z.string().min(1),

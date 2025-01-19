@@ -3,9 +3,9 @@ import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { Dependencies } from "~/app/derivean/root/Dependencies";
-import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintCard {

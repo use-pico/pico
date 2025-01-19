@@ -4,10 +4,9 @@ import {
     navigateOnCursor,
     navigateOnFilter,
     navigateOnFulltext,
-    navigateOnSelection,
     Tx,
     withListCount,
-    withSourceSearchSchema,
+    withSourceSearchSchema
 } from "@use-pico/client";
 import { z } from "zod";
 import { BlueprintTable } from "~/app/derivean/game/BlueprintTable";
@@ -109,7 +108,7 @@ export const Route = createFileRoute(
 		const {
 			data: { data, count },
 		} = Route.useLoaderData();
-		const { filter, cursor, selection } = Route.useSearch();
+		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -122,11 +121,6 @@ export const Route = createFileRoute(
 						filter: {
 							value: filter,
 							set: navigateOnFilter(navigate),
-						},
-						selection: {
-							type: "multi",
-							value: selection,
-							set: navigateOnSelection(navigate),
 						},
 					}}
 					fulltext={{
