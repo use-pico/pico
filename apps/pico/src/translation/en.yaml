@@ -52,6 +52,9 @@
 16012dbb1900d439c943c1adb1c16a4820743b7f28ab112a130ade4c:
   ref: Delete (menu)
   value: Delete (menu)
+1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
+  ref: Delete production resource requirement (modal)
+  value: Delete production resource requirement (modal)
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Building base detail (label)
@@ -76,9 +79,6 @@
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
-297bbfd9bd521938566a554d7f87dac9232d8536ee14d8d1fe2128ff:
-  ref: Blueprint production (modal)
-  value: Blueprint production (modal)
 2b7c9dc2afaa3fedd71768f7f7989d7342c12488829fa5a51e34b1f8:
   ref: Construction in progress (label)
   value: Construction in progress (label)
@@ -205,6 +205,9 @@
 5e1b34e3d77ed490047a5476ae33e8fd461754eb994ba0817262d37b:
   ref: Edit blueprint production (modal)
   value: Edit blueprint production (modal)
+5e622c354001834a85dadc7e1b1b05e7e8bbc8352a8030d72c74502e:
+  ref: Number of production resource requirements (label)
+  value: Number of production resource requirements (label)
 60903df05ec210e684a0bf3599eb1305e4f1823f8c99e1179b1f4f12:
   ref: Cycle - Success (label)
   value: Cycle - Success (label)
@@ -295,18 +298,15 @@
 877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
   ref: With VAT
   value: With VAT
-8837569eeacc935c6e4616075dd38ab2087c34c14a381f624821375e:
-  ref: Number of production items (label)
-  value: Number of production items (label)
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
 8949920784083c5583ae64cdc66f56f2ad7cdddf57ff6164a54f42a7:
   ref: Delete requirement item (content)
   value: Delete requirement item (content)
-89738278d0650af6903a9f1357ecb1f37e89d2dc5b389926c8c3a01c:
-  ref: Number of required items (label)
-  value: Number of required items (label)
+89ede3b459048e9a00e2d64b0013280dc6a3af34f62dab11706e6fae:
+  ref: Create production resource requirement (modal)
+  value: Create production resource requirement (modal)
 8a8475a87d338938ab88e00caed8fcf65dc54e6c3a6848e62d9ae21e:
   ref: Default inventory (menu)
   value: Default inventory (menu)
@@ -316,6 +316,9 @@
 8c10e73bdfef4ac7ff77a8272f9da6afc7163e9be69812ec70c94e1e:
   ref: Create building (menu)
   value: Create building (menu)
+8d1e46b351326c89a870d634b49deab1eda84e8a968f9540df536b3c:
+  ref: Create production resource requirement (menu)
+  value: Create production resource requirement (menu)
 911782ed8c9ecd2598b628b6c1237938ee9fdc6564821a6d6a1fb88c:
   ref: Storage (label)
   value: Storage (label)
@@ -334,9 +337,6 @@
 968fdbd787e6e7c2b0db911118d25fe4662584b245ccc8bcbfdaae66:
   ref: Building unavailable (label)
   value: Building unavailable (label)
-969ec54c2100603a0213d551eac7a3cee2d1cfde1329323649e4021e:
-  ref: Blueprint production requirements (modal)
-  value: Blueprint production requirements (modal)
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Amount of cycles to build this building (hint)
@@ -391,9 +391,6 @@ b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Create inventory item (menu)
-b8156f11073d6429e85e991ff2359463030976fdba2e34833457a521:
-  ref: Required resources (modal)
-  value: Required resources (modal)
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Tag label (label)
@@ -469,9 +466,18 @@ d7297a597a82430b2904feea7d794ea05b4952b34886efee710dcfe1:
 d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
   ref: Blueprint dependency (label)
   value: Blueprint dependency (label)
+da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
+  ref: Delete production resource requirement (content)
+  value: Delete production resource requirement (content)
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Create tag (menu)
+e116bf50d1ae79c061773bfa4ee272d7f5be71c36769d956e4df10fe:
+  ref: Edit production resource requirement (modal)
+  value: Edit production resource requirement (modal)
+e267da5c2f809d5d0cb0fb35d1ad7d0a2667e0d279597a50efbe56ec:
+  ref: Required production resources (label)
+  value: Required production resources (label)
 e3f6d977c7e959b44e1e67504d419d786031c7f563065dc1be1af291:
   ref: Resource name (label)
   value: Resource name (label)
@@ -514,6 +520,9 @@ f27d845ba46f7d29b2c5f9a6f847823568fdedc19966ef949fe29a07:
 f559a10414642d63ef07702a31eec356a318dc21bfeaaf2e1807cc72:
   ref: New cycle (label)
   value: New cycle (label)
+f8159f30ff1ce2474e4e5411932f7a546961f5a99ba4d9e772c1adb3:
+  ref: Production resource requirements (menu)
+  value: Production resource requirements (menu)
 f88da4a937655c2eed4bdd20b3f37de3b794b009e17e5bea1496c43b:
   ref: Required resources (menu)
   value: Required resources (menu)

@@ -14,6 +14,7 @@ import { sql } from "kysely";
 import { z } from "zod";
 import { BlueprintProductionTable } from "~/app/derivean/root/BlueprintProductionTable";
 import { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
+import { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
 import { BlueprintProductionSchema } from "~/app/derivean/schema/BlueprintProductionSchema";
 
 export const Route = createFileRoute(
@@ -67,6 +68,21 @@ export const Route = createFileRoute(
 										})
 										.whereRef("bpr.blueprintProductionId", "=", "bp.id")
 										.as("requirements"),
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Production_Resource as bpr")
+										.innerJoin("Resource as r", "r.id", "bpr.resourceId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                'id', ${eb.ref("bpr.id")},
+                                                'amount', ${eb.ref("bpr.amount")},
+                                                'blueprintProductionId', ${eb.ref("bpr.blueprintProductionId")},
+                                                'resourceId', ${eb.ref("bpr.resourceId")},
+                                                'name', ${eb.ref("r.name")}
+                                            ))`.as("requirements");
+										})
+										.whereRef("bpr.blueprintProductionId", "=", "bp.id")
+										.as("resources"),
 							])
 							.where("bp.blueprintId", "=", id)
 							.orderBy("r.name", "asc"),
@@ -80,6 +96,13 @@ export const Route = createFileRoute(
 							cycles: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintProductionRequirementSchema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
+							resources: withJsonArraySchema(
+								BlueprintProductionResourceSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),

@@ -42,6 +42,37 @@ export const withBlueprintSchema = <
 
 export type BlueprintEntity = ReturnType<typeof withBlueprintSchema>["~entity"];
 
+export const withBlueprintConflictSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				blueprintId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				conflictId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "blueprintId", "conflictId"],
+	});
+};
+
+export type BlueprintConflictEntity = ReturnType<
+	typeof withBlueprintConflictSchema
+>["~entity"];
+
 export const withBlueprintDependencySchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -113,6 +144,37 @@ export type BlueprintProductionEntity = ReturnType<
 	typeof withBlueprintProductionSchema
 >["~entity"];
 
+export const withBlueprintProductionDependencySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				blueprintProductionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				blueprintId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "blueprintProductionId", "blueprintId"],
+	});
+};
+
+export type BlueprintProductionDependencyEntity = ReturnType<
+	typeof withBlueprintProductionDependencySchema
+>["~entity"];
+
 export const withBlueprintProductionRequirementSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -148,6 +210,40 @@ export const withBlueprintProductionRequirementSchema = <
 
 export type BlueprintProductionRequirementEntity = ReturnType<
 	typeof withBlueprintProductionRequirementSchema
+>["~entity"];
+
+export const withBlueprintProductionResourceSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				blueprintProductionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "blueprintProductionId", "resourceId", "amount"],
+	});
+};
+
+export type BlueprintProductionResourceEntity = ReturnType<
+	typeof withBlueprintProductionResourceSchema
 >["~entity"];
 
 export const withBlueprintRequirementSchema = <
@@ -614,9 +710,12 @@ export type UserInventoryEntity = ReturnType<
 
 export interface Database {
 	Blueprint: BlueprintEntity;
+	Blueprint_Conflict: BlueprintConflictEntity;
 	Blueprint_Dependency: BlueprintDependencyEntity;
 	Blueprint_Production: BlueprintProductionEntity;
+	Blueprint_Production_Dependency: BlueprintProductionDependencyEntity;
 	Blueprint_Production_Requirement: BlueprintProductionRequirementEntity;
+	Blueprint_Production_Resource: BlueprintProductionResourceEntity;
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
 	Construction: ConstructionEntity;

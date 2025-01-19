@@ -326,6 +326,42 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
+			/**
+			 * List of conflicting blueprints: when any of them are built, "blueprintId" won't appear at all.
+			 */
+			await kysely.schema
+				.createTable("Blueprint_Conflict")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("blueprintId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Conflict] blueprintId",
+					["blueprintId"],
+					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("conflictId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Conflict] conflictId",
+					["conflictId"],
+					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Blueprint_Conflict] blueprintId-conflictId", [
+					"blueprintId",
+					"conflictId",
+				])
+
+				.execute();
+
+			/**
+			 * Defines resources required to produce a resource defined in production line.
+			 */
 			await kysely.schema
 				.createTable("Blueprint_Production_Requirement")
 				.ifNotExists()
@@ -357,6 +393,83 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addUniqueConstraint(
 					"[Blueprint_Production_Requirement] blueprintProductionId-resourceId",
+					["blueprintProductionId", "resourceId"],
+				)
+
+				.execute();
+
+			/**
+			 * Defines which blueprints are required to even enable (display) the production
+			 * line.
+			 */
+			await kysely.schema
+				.createTable("Blueprint_Production_Dependency")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("blueprintProductionId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Production_Dependency] blueprintProductionId",
+					["blueprintProductionId"],
+					"Blueprint_Production",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("blueprintId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Production_Dependency] blueprintId",
+					["blueprintId"],
+					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint(
+					"[Blueprint_Production_Dependency] blueprintProductionId-blueprintId",
+					["blueprintProductionId", "blueprintId"],
+				)
+
+				.execute();
+
+			/**
+			 * Defines which resources must be present to even display the production line.
+			 *
+			 * Idea is something like "do you have more than 30 research points in forestery, so you can
+			 * run improved woodcutting?"
+			 *
+			 * Those resources are "passive", thus are not deducted from the inventory.
+			 */
+			await kysely.schema
+				.createTable("Blueprint_Production_Resource")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("blueprintProductionId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Production_Dependency] blueprintProductionId",
+					["blueprintProductionId"],
+					"Blueprint_Production",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Production_Dependency] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Amount of resource required to display the production line.
+				 */
+				.addColumn("amount", "float4", (col) => col.notNull())
+
+				.addUniqueConstraint(
+					"[Blueprint_Production_Dependency] blueprintProductionId-resourceId",
 					["blueprintProductionId", "resourceId"],
 				)
 

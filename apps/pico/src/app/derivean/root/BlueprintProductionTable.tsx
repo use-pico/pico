@@ -5,6 +5,7 @@ import {
     ActionModal,
     DeleteControl,
     LinkTo,
+    More,
     Table,
     TrashIcon,
     Tx,
@@ -12,7 +13,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    tvc,
+    type IdentitySchema,
+} from "@use-pico/common";
 import { type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
@@ -21,6 +27,7 @@ import { BlueprintProductionForm } from "~/app/derivean/root/BlueprintProduction
 import { MoveProductionToForm } from "~/app/derivean/root/MoveProductionToForm";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
+import type { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
 
 export namespace BlueprintProductionTable {
 	export interface Data extends IdentitySchema.Type {
@@ -30,6 +37,9 @@ export namespace BlueprintProductionTable {
 		limit: number;
 		cycles: number;
 		requirements: (BlueprintProductionRequirementSchema["~entity"] & {
+			name: string;
+		})[];
+		resources: (BlueprintProductionResourceSchema["~entity"] & {
 			name: string;
 		})[];
 	}
@@ -103,6 +113,43 @@ const columns = [
 					textTitle={<Tx label={"Resource requirements (title)"} />}
 					textEmpty={<Tx label={"No requirements (label)"} />}
 					requirements={value}
+				/>
+			);
+		},
+		size: 32,
+	}),
+	column({
+		name: "resources",
+		header() {
+			return <Tx label={"Required production resources (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<More<BlueprintProductionTable.Data["resources"][number]>
+					items={value}
+					render={({ entity }) => {
+						return (
+							<div
+								className={tvc([
+									"flex",
+									"flex-row",
+									"gap-2",
+									"items-center",
+									"bg-sky-100",
+									"border",
+									"rounded",
+									"border-sky-300",
+									"py-1",
+									"px-2",
+								])}
+							>
+								<div>{entity.name}</div>
+								<div className={"text-md font-bold text-slate-500"}>
+									x{toHumanNumber({ number: entity.amount })}
+								</div>
+							</div>
+						);
+					}}
 				/>
 			);
 		},
