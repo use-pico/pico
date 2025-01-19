@@ -689,6 +689,36 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 												.orderBy("r.name", "asc")
 												.as("production"),
 									])
+									.where(
+										"bl.id",
+										"not in",
+										tx
+											.selectFrom("Blueprint_Conflict as bc")
+											.select("bc.conflictId")
+											.where(
+												"bc.blueprintId",
+												"in",
+												tx
+													.selectFrom("Building as bg")
+													.select("bg.blueprintId")
+													.where("bg.userId", "=", user.id),
+											),
+									)
+									.where(
+										"bl.id",
+										"not in",
+										tx
+											.selectFrom("Blueprint_Conflict as bc")
+											.select("bc.conflictId")
+											.where(
+												"bc.blueprintId",
+												"in",
+												tx
+													.selectFrom("Construction as c")
+													.select("c.blueprintId")
+													.where("c.userId", "=", user.id),
+											),
+									)
 									.as("blueprint"),
 							)
 							.selectAll()
