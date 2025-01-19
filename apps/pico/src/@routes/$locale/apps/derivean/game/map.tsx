@@ -238,6 +238,37 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 														.onRef("b.blueprintId", "=", "bp.blueprintId")
 														.on("b.userId", "=", user.id);
 												})
+												.where((eb) => {
+													return eb.not(
+														eb.exists(
+															eb
+																.selectFrom(
+																	"Blueprint_Production_Dependency as bpd",
+																)
+																.select("bpd.blueprintProductionId")
+																.whereRef(
+																	"bpd.blueprintProductionId",
+																	"=",
+																	"bp.id",
+																)
+																.where((eb) => {
+																	return eb.not(
+																		eb.exists(
+																			eb
+																				.selectFrom("Building as b")
+																				.select("b.blueprintId")
+																				.where("b.userId", "=", user.id)
+																				.whereRef(
+																					"b.blueprintId",
+																					"=",
+																					"bpd.blueprintId",
+																				),
+																		),
+																	);
+																}),
+														),
+													);
+												})
 												.select((eb) => {
 													return Kysely.jsonGroupArray({
 														id: eb.ref("bp.id"),
