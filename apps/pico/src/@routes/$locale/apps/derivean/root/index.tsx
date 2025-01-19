@@ -20,9 +20,12 @@ const sources: (keyof Database)[] = [
 	"Inventory",
 	"Blueprint",
 	"Blueprint_Dependency",
+	"Blueprint_Conflict",
 	"Blueprint_Requirement",
 	"Blueprint_Production",
 	"Blueprint_Production_Requirement",
+	"Blueprint_Production_Dependency",
+	"Blueprint_Production_Resource",
 	"Default_Inventory",
 ] as const;
 
