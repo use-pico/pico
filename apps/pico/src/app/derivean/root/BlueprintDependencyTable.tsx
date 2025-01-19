@@ -50,7 +50,7 @@ const columns = [
 				</LinkTo>
 			);
 		},
-		size: 12,
+		size: 22,
 	}),
 ];
 

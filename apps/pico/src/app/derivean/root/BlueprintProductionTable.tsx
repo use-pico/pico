@@ -1,33 +1,23 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import {
     ActionMenu,
     ActionModal,
-    Button,
     DeleteControl,
-    LoadingOverlay,
-    Modal,
+    LinkTo,
     Table,
     TrashIcon,
     Tx,
     useInvalidator,
     useTable,
     withColumn,
-    withListCount
 } from "@use-pico/client";
-import {
-    genId,
-    toHumanNumber,
-    withBoolSchema,
-    type IdentitySchema,
-} from "@use-pico/common";
-import { useState, type FC } from "react";
-import { z } from "zod";
+import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { RequirementIcon } from "~/app/derivean/icon/RequirementIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BlueprintProductionForm } from "~/app/derivean/root/BlueprintProductionForm";
-import { BlueprintProductionRequirementTable } from "~/app/derivean/root/BlueprintProductionRequirementTable";
 import { MoveProductionToForm } from "~/app/derivean/root/MoveProductionToForm";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
 import type { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
@@ -54,104 +44,18 @@ const columns = [
 			return <Tx label={"Resource name (label)"} />;
 		},
 		render({ data, value }) {
+			const { locale } = useParams({ from: "/$locale" });
+
 			return (
-				<Modal
-					target={
-						<Button
-							iconEnabled={RequirementIcon}
-							variant={{ variant: "subtle" }}
-						>
-							{value}
-						</Button>
+				<LinkTo
+					icon={ProductionIcon}
+					to={
+						"/$locale/apps/derivean/root/blueprint/production/$id/requirements"
 					}
-					outside={true}
-					textTitle={<Tx label={"Blueprint production requirements (modal)"} />}
-					css={{
-						modal: ["w-2/3"],
-					}}
+					params={{ locale, id: data.id }}
 				>
-					{() => {
-						const [page, setPage] = useState(0);
-						const [size, setSize] = useState(15);
-
-						const result = useQuery({
-							queryKey: [
-								"Blueprint_Production_Requirement",
-								data.id,
-								{ page, size },
-							],
-							async queryFn() {
-								return kysely.transaction().execute(async (tx) => {
-									return withListCount({
-										select: tx
-											.selectFrom("Blueprint_Production_Requirement as bpr")
-											.innerJoin("Resource as r", "r.id", "bpr.resourceId")
-											.select([
-												"bpr.id",
-												"r.name",
-												"bpr.resourceId",
-												"bpr.amount",
-												"bpr.passive",
-											])
-											.where("bpr.blueprintProductionId", "=", data.id)
-											.orderBy("r.name", "asc"),
-										query({ select, where }) {
-											let $select = select;
-
-											if (where?.id) {
-												$select = $select.where("bpr.id", "=", where.id);
-											}
-											if (where?.idIn) {
-												$select = $select.where("bpr.id", "in", where.idIn);
-											}
-
-											return $select;
-										},
-										output: z.object({
-											id: z.string().min(1),
-											name: z.string().min(1),
-											resourceId: z.string().min(1),
-											amount: z.number().nonnegative(),
-											passive: withBoolSchema(),
-										}),
-										cursor: {
-											page,
-											size,
-										},
-									});
-								});
-							},
-						});
-
-						return (
-							result.isLoading ? <LoadingOverlay />
-							: result.isSuccess ?
-								<BlueprintProductionRequirementTable
-									blueprintProductionId={data.id}
-									table={{
-										data: result.data.data,
-									}}
-									cursor={{
-										count: result.data.count,
-										cursor: {
-											page,
-											size,
-										},
-										textTotal: (
-											<Tx label={"Number of required items (label)"} />
-										),
-										onPage(page) {
-											setPage(page);
-										},
-										onSize(size) {
-											setSize(size);
-										},
-									}}
-								/>
-							:	"boom"
-						);
-					}}
-				</Modal>
+					{value}
+				</LinkTo>
 			);
 		},
 		size: 18,

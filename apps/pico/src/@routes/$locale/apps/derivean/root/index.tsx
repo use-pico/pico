@@ -121,11 +121,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						passive "Research" points
 					</li>
 					<li>
-						Production Queue List - managed by the user, takes the priority of
-						the production (draggable/arrows?); this basically means production
-						automation.
-					</li>
-					<li>
 						Bundle default gameplay as exported json (put into public); add
 						button to root to load default/selected gameplay; idea is a few
 						buttons: Settler like, Fantasy, AoE and so on.
@@ -170,6 +165,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 					<li>
 						Add resource probability drop: some resources may have not be
 						produces (like a crop). This should be thinked out.
+					</li>
+					<li>
+						Production line should have requirements, but also something like
+						"display requirements" required to even show the production line.
+						Same for buildings.
 					</li>
 				</ul>
 			</div>
