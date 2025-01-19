@@ -269,6 +269,49 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 														),
 													);
 												})
+												.where((eb) => {
+													return eb.not(
+														eb.exists(
+															eb
+																.selectFrom(
+																	"Blueprint_Production_Resource as bpr",
+																)
+																.select("bpr.blueprintProductionId")
+																.whereRef(
+																	"bpr.blueprintProductionId",
+																	"=",
+																	"bp.id",
+																)
+																.where((eb) => {
+																	return eb.not(
+																		eb.exists(
+																			eb
+																				.selectFrom("Inventory as i")
+																				.select("i.resourceId")
+																				.where(
+																					"i.id",
+																					"in",
+																					eb
+																						.selectFrom("User_Inventory")
+																						.select("inventoryId")
+																						.where("userId", "=", user.id),
+																				)
+																				.whereRef(
+																					"i.resourceId",
+																					"=",
+																					"bpr.resourceId",
+																				)
+																				.whereRef(
+																					"i.amount",
+																					">=",
+																					"bpr.amount",
+																				),
+																		),
+																	);
+																}),
+														),
+													);
+												})
 												.select((eb) => {
 													return Kysely.jsonGroupArray({
 														id: eb.ref("bp.id"),
