@@ -2,6 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx } from "@use-pico/client";
 import type { Entity, IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { RequirementIcon } from "~/app/derivean/icon/RequirementIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
@@ -32,6 +33,14 @@ export const BlueprintProductionIndexMenu: FC<
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Production resource requirements (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={BlueprintIcon}
+				to={"/$locale/apps/derivean/root/blueprint/production/$id/dependencies"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Production resource dependencies (menu)"} />
 			</MenuLink>
 		</Menu>
 	);

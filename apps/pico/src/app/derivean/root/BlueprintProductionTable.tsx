@@ -26,6 +26,7 @@ import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BlueprintProductionForm } from "~/app/derivean/root/BlueprintProductionForm";
 import { MoveProductionToForm } from "~/app/derivean/root/MoveProductionToForm";
 import { RequirementsInline } from "~/app/derivean/root/RequirementsInline";
+import type { BlueprintProductionDependencySchema } from "~/app/derivean/schema/BlueprintProductionDependencySchema";
 import type { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
 import type { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
 
@@ -40,6 +41,9 @@ export namespace BlueprintProductionTable {
 			name: string;
 		})[];
 		resources: (BlueprintProductionResourceSchema["~entity"] & {
+			name: string;
+		})[];
+		dependencies: (BlueprintProductionDependencySchema["~entity"] & {
 			name: string;
 		})[];
 	}
@@ -147,6 +151,40 @@ const columns = [
 								<div className={"text-md font-bold text-slate-500"}>
 									x{toHumanNumber({ number: entity.amount })}
 								</div>
+							</div>
+						);
+					}}
+				/>
+			);
+		},
+		size: 32,
+	}),
+	column({
+		name: "dependencies",
+		header() {
+			return <Tx label={"Required production dependencies (label)"} />;
+		},
+		render({ value }) {
+			return (
+				<More<BlueprintProductionTable.Data["dependencies"][number]>
+					items={value}
+					render={({ entity }) => {
+						return (
+							<div
+								className={tvc([
+									"flex",
+									"flex-row",
+									"gap-2",
+									"items-center",
+									"bg-sky-100",
+									"border",
+									"rounded",
+									"border-sky-300",
+									"py-1",
+									"px-2",
+								])}
+							>
+								<div>{entity.name}</div>
 							</div>
 						);
 					}}

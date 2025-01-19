@@ -47,6 +47,7 @@ import { Route as LocaleAppsDeriveanRootBlueprintIdDependenciesImport } from './
 import { Route as LocaleAppsDeriveanRootUserIdBuildingListImport } from './@routes/$locale/apps/derivean/root/user/$id/building/list'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdResourcesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/resources'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/requirements'
+import { Route as LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
 
 // Create/Update Routes
 
@@ -296,6 +297,13 @@ const LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute =
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintProductionIdRoute,
   } as any)
 
+const LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute =
+  LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport.update({
+    id: '/dependencies',
+    path: '/dependencies',
+    getParentRoute: () => LocaleAppsDeriveanRootBlueprintProductionIdRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -531,6 +539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanRootUserIdViewImport
       parentRoute: typeof LocaleAppsDeriveanRootUserIdImport
     }
+    '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': {
+      id: '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
+      path: '/dependencies'
+      fullPath: '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
+      preLoaderRoute: typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport
+      parentRoute: typeof LocaleAppsDeriveanRootBlueprintProductionIdImport
+    }
     '/$locale/apps/derivean/root/blueprint/production/$id/requirements': {
       id: '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
       path: '/requirements'
@@ -642,12 +657,15 @@ const LocaleAppsDeriveanRootUserIdRouteWithChildren =
   )
 
 interface LocaleAppsDeriveanRootBlueprintProductionIdRouteChildren {
+  LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute: typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute: typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute: typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
 }
 
 const LocaleAppsDeriveanRootBlueprintProductionIdRouteChildren: LocaleAppsDeriveanRootBlueprintProductionIdRouteChildren =
   {
+    LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute:
+      LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute,
     LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute:
       LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute,
     LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute:
@@ -768,6 +786,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/root/resource/$id/view': typeof LocaleAppsDeriveanRootResourceIdViewRoute
   '/$locale/apps/derivean/root/user/$id/inventory': typeof LocaleAppsDeriveanRootUserIdInventoryRoute
   '/$locale/apps/derivean/root/user/$id/view': typeof LocaleAppsDeriveanRootUserIdViewRoute
+  '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
@@ -804,6 +823,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/root/resource/$id/view': typeof LocaleAppsDeriveanRootResourceIdViewRoute
   '/$locale/apps/derivean/root/user/$id/inventory': typeof LocaleAppsDeriveanRootUserIdInventoryRoute
   '/$locale/apps/derivean/root/user/$id/view': typeof LocaleAppsDeriveanRootUserIdViewRoute
+  '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
@@ -844,6 +864,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/root/resource/$id/view': typeof LocaleAppsDeriveanRootResourceIdViewRoute
   '/$locale/apps/derivean/root/user/$id/inventory': typeof LocaleAppsDeriveanRootUserIdInventoryRoute
   '/$locale/apps/derivean/root/user/$id/view': typeof LocaleAppsDeriveanRootUserIdViewRoute
+  '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
@@ -885,6 +906,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/resource/$id/view'
     | '/$locale/apps/derivean/root/user/$id/inventory'
     | '/$locale/apps/derivean/root/user/$id/view'
+    | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
@@ -920,6 +942,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/resource/$id/view'
     | '/$locale/apps/derivean/root/user/$id/inventory'
     | '/$locale/apps/derivean/root/user/$id/view'
+    | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
@@ -958,6 +981,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root/resource/$id/view'
     | '/$locale/apps/derivean/root/user/$id/inventory'
     | '/$locale/apps/derivean/root/user/$id/view'
+    | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
@@ -1152,6 +1176,7 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/root/blueprint/production/$id.tsx",
       "parent": "/$locale/apps/derivean/root",
       "children": [
+        "/$locale/apps/derivean/root/blueprint/production/$id/dependencies",
         "/$locale/apps/derivean/root/blueprint/production/$id/requirements",
         "/$locale/apps/derivean/root/blueprint/production/$id/resources"
       ]
@@ -1167,6 +1192,10 @@ export const routeTree = rootRoute
     "/$locale/apps/derivean/root/user/$id/view": {
       "filePath": "$locale/apps/derivean/root/user/$id/view.tsx",
       "parent": "/$locale/apps/derivean/root/user/$id"
+    },
+    "/$locale/apps/derivean/root/blueprint/production/$id/dependencies": {
+      "filePath": "$locale/apps/derivean/root/blueprint/production/$id/dependencies.tsx",
+      "parent": "/$locale/apps/derivean/root/blueprint/production/$id"
     },
     "/$locale/apps/derivean/root/blueprint/production/$id/requirements": {
       "filePath": "$locale/apps/derivean/root/blueprint/production/$id/requirements.tsx",

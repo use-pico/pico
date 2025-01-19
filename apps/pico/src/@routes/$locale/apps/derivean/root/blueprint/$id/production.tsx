@@ -13,6 +13,7 @@ import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { BlueprintProductionTable } from "~/app/derivean/root/BlueprintProductionTable";
+import { BlueprintProductionDependencySchema } from "~/app/derivean/schema/BlueprintProductionDependencySchema";
 import { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
 import { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
 import { BlueprintProductionSchema } from "~/app/derivean/schema/BlueprintProductionSchema";
@@ -83,6 +84,20 @@ export const Route = createFileRoute(
 										})
 										.whereRef("bpr.blueprintProductionId", "=", "bp.id")
 										.as("resources"),
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Production_Dependency as bpd")
+										.innerJoin("Blueprint as bl2", "bl2.id", "bpd.blueprintId")
+										.select((eb) => {
+											return sql<string>`json_group_array(json_object(
+                                                'id', ${eb.ref("bpd.id")},
+                                                'blueprintProductionId', ${eb.ref("bpd.blueprintProductionId")},
+                                                'blueprintId', ${eb.ref("bpd.blueprintId")},
+                                                'name', ${eb.ref("bl2.name")}
+                                            ))`.as("requirements");
+										})
+										.whereRef("bpd.blueprintProductionId", "=", "bp.id")
+										.as("dependencies"),
 							])
 							.where("bp.blueprintId", "=", id)
 							.orderBy("r.name", "asc"),
@@ -103,6 +118,13 @@ export const Route = createFileRoute(
 							),
 							resources: withJsonArraySchema(
 								BlueprintProductionResourceSchema.entity.merge(
+									z.object({
+										name: z.string().min(1),
+									}),
+								),
+							),
+							dependencies: withJsonArraySchema(
+								BlueprintProductionDependencySchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),

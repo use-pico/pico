@@ -67,6 +67,9 @@
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Inventory limit (hint)
+227cb1bfcc1e2959f9358829fe8387b14af0c31f7a92c384c196ad72:
+  ref: Edit blueprint production dependency (modal)
+  value: Edit blueprint production dependency (modal)
 2408dec380d869f544634f264ae6e9d16dbfd9e10caca2fdcf2b1e70:
   ref: Amount (label)
   value: Amount (label)
@@ -88,6 +91,9 @@
 2d4d41f2a66c240cf8c0a43d33c755c078db9aa4b82126c79c858001:
   ref: Move production to (menu)
   value: Move production to (menu)
+2f1a1e2bad402bfc6ff079fcfef7467560b7a8c3b14c053178d0ece4:
+  ref: Required production dependencies (label)
+  value: Required production dependencies (label)
 304ee8cc29aa3d13d616997a70c3941dc300ae1a41361905ccab1d6d:
   ref: Logout in progress...
   value: Logout in progress...
@@ -187,6 +193,9 @@
 54f47a22840e2e29550b8bb925fc4dcca868be0b55be5a3063b7fe69:
   ref: Total count of items (label)
   value: Total count of items (label)
+5509186f9cae66a531c4b8a29a4028745961eb530b450e3a6aab9405:
+  ref: Create blueprint production dependency (menu)
+  value: Create blueprint production dependency (menu)
 566a0a9b29643ce9242866752ba406a935fbe5ad84a6f4246b0154d3:
   ref: Name (label)
   value: Name (label)
@@ -355,6 +364,9 @@
 9e5e775caee655d42bfc51ed9bc7370e9904393608f887e823b3ccb4:
   ref: Edit production requirement (modal)
   value: Edit production requirement (modal)
+9e6a8c1c18ea3f1077f33e28c1e2b8caabbeb7851e4c38ee3ecc1012:
+  ref: Delete blueprint production dependency (content)
+  value: Delete blueprint production dependency (content)
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext (placeholder)
@@ -376,6 +388,12 @@ a48c0b19fee5c61009ce80670a1a37c2fc8483c15cecc1ee9817b10a:
 a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
   ref: Resource tags (label)
   value: Resource tags (label)
+a7de088198a05fc3f4f525423d25d274d86a51a09fcaedea605aed99:
+  ref: Delete blueprint production dependency (modal)
+  value: Delete blueprint production dependency (modal)
+aa03a8854af88f738eb31197516c526b55cc346272bf4eb997c93443:
+  ref: Production resource dependencies (menu)
+  value: Production resource dependencies (menu)
 ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   ref: Inventory item delete (content)
   value: Inventory item delete (content)
@@ -469,6 +487,9 @@ d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
 da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
   ref: Delete production resource requirement (content)
   value: Delete production resource requirement (content)
+dcfc03272a3c4cf0b2da23da118acb0ce54f4647b6d456fedbe530e1:
+  ref: Number of dependencies (label)
+  value: Number of dependencies (label)
 e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
   ref: Create tag (menu)
   value: Create tag (menu)
@@ -511,6 +532,9 @@ eecd2930a1fa4de61bc29f8080f2f452a6f21ad4a2c593d6a7e852e7:
 f0f0aadb4291cef21fc9e14f1285a968b8c552e94538ff454afa3a9d:
   ref: Editor (label)
   value: Editor (label)
+f128c6308ef64bda9fe743d069da766c73c364a03d828d6ed589a0b2:
+  ref: Create blueprint production dependency (modal)
+  value: Create blueprint production dependency (modal)
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Create inventory item (modal)
