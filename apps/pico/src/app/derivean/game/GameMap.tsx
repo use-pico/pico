@@ -145,7 +145,7 @@ export const GameMap: FC<GameMap.Props> = ({
 			{detail ?
 				<div
 					className={
-						"w-5/12 border bg-white border-slate-300 rounded-md shadow-md p-4"
+						"w-4/12 border bg-white border-slate-300 rounded-md shadow-md p-4"
 					}
 				>
 					<BuildingDetail

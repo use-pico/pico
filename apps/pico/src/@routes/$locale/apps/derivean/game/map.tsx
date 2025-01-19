@@ -39,7 +39,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 										"bl.name",
 										"bl.cycles",
 										"bl.sort",
-										"bl.productionLimit",
 										(eb) => {
 											return eb
 												.case()
@@ -129,19 +128,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 												.whereRef("bg.blueprintId", "=", "bl.id")
 												.where("bg.userId", "=", user.id)
 												.as("building"),
-										(eb) => {
-											return eb
-												.selectFrom("Production as p")
-												.innerJoin(
-													"Blueprint_Production as bp",
-													"bp.id",
-													"p.blueprintProductionId",
-												)
-												.select((eb) => eb.fn.count("p.id").as("count"))
-												.whereRef("bp.blueprintId", "=", "bl.id")
-												.where("p.userId", "=", user.id)
-												.as("productionCount");
-										},
 										(eb) =>
 											eb
 												.case()
@@ -160,11 +146,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 															)
 															.groupBy("p.blueprintProductionId")
 															.having((eb) => {
-																return eb(
-																	eb.fn.count("p.id"),
-																	">=",
-																	eb.ref("bl.productionLimit"),
-																);
+																return eb(eb.fn.count("p.id"), ">=", 0);
 															}),
 													),
 												)
@@ -317,7 +299,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 														id: eb.ref("bp.id"),
 														amount: eb.ref("bp.amount"),
 														cycles: eb.ref("bp.cycles"),
-														limit: eb.ref("bp.limit"),
 														buildingId: eb.ref("b.id"),
 														blueprintId: eb.ref("bp.blueprintId"),
 														resourceId: eb.ref("bp.resourceId"),
@@ -336,11 +317,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 																		)
 																		.groupBy("p.blueprintProductionId")
 																		.having((eb) => {
-																			return eb(
-																				eb.fn.count("p.id"),
-																				">=",
-																				eb.ref("bp.limit"),
-																			);
+																			return eb(eb.fn.count("p.id"), ">=", 0);
 																		}),
 																),
 															)
@@ -361,11 +338,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/map")({
 																		)
 																		.groupBy("pq.blueprintProductionId")
 																		.having((eb) => {
-																			return eb(
-																				eb.fn.count("pq.id"),
-																				">=",
-																				eb.ref("bp.limit"),
-																			);
+																			return eb(eb.fn.count("pq.id"), ">=", 0);
 																		}),
 																),
 															)

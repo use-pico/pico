@@ -26,9 +26,6 @@ export const withBlueprintSchema = <
 				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
-				productionLimit:
-					// INTEGER / not nullable
-					z.number().int(),
 				sort:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -36,7 +33,7 @@ export const withBlueprintSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "cycles", "productionLimit", "sort"],
+		sort: ["id", "name", "cycles", "sort"],
 	});
 };
 
@@ -129,14 +126,11 @@ export const withBlueprintProductionSchema = <
 				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
-				limit:
-					// INTEGER / not nullable
-					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "blueprintId", "resourceId", "amount", "cycles", "limit"],
+		sort: ["id", "blueprintId", "resourceId", "amount", "cycles"],
 	});
 };
 

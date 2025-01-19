@@ -49,7 +49,6 @@ export const Route = createFileRoute(
 								"r.name",
 								"bp.amount",
 								"bp.blueprintId",
-								"bp.limit",
 								"bp.cycles",
 								"bp.resourceId",
 								(eb) =>
@@ -106,7 +105,6 @@ export const Route = createFileRoute(
 							blueprintId: z.string().min(1),
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
-							limit: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintProductionRequirementSchema.entity.merge(

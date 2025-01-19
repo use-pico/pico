@@ -15,7 +15,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/editor")({
 		const blueprints = (
 			await kysely
 				.selectFrom("Blueprint")
-				.select(["id", "name", "productionLimit", "cycles", "sort"])
+				.select(["id", "name", "cycles", "sort"])
 				.execute()
 		).map((data) => ({
 			id: data.id,

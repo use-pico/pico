@@ -35,7 +35,6 @@ export namespace BlueprintProductionTable {
 		name: string;
 		resourceId: string;
 		amount: number;
-		limit: number;
 		cycles: number;
 		requirements: (BlueprintProductionRequirementSchema["~entity"] & {
 			name: string;
@@ -91,18 +90,6 @@ const columns = [
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
-		},
-		size: 8,
-	}),
-	column({
-		name: "limit",
-		header() {
-			return <Tx label={"Production limit (label)"} />;
-		},
-		render({ value }) {
-			return value === 0 ?
-					<Tx label={"Unlimited (label)"} />
-				:	toHumanNumber({ number: value });
 		},
 		size: 8,
 	}),

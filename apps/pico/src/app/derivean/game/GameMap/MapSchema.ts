@@ -12,8 +12,6 @@ export const MapSchema = IdentitySchema.merge(
 	z.object({
 		name: z.string().min(1),
 		cycles: z.number().int().nonnegative(),
-		productionLimit: z.number().int().nonnegative(),
-		productionCount: z.number().int().nonnegative(),
 		withAvailableBuildings: withBoolSchema(),
 		withAvailableResources: withBoolSchema(),
 		productionAvailable: withBoolSchema(),
@@ -50,7 +48,6 @@ export const MapSchema = IdentitySchema.merge(
 				name: z.string().min(1),
 				amount: z.number().nonnegative(),
 				cycles: z.number().int().nonnegative(),
-				limit: z.number().int().nonnegative(),
 				blueprintId: z.string().min(1),
 				resourceId: z.string().min(1),
 				buildingId: z.string().nullish(),

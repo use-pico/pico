@@ -30,7 +30,6 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 		resolver: zodResolver(BlueprintSchema.shape),
 		defaultValues: {
 			cycles: 1,
-			productionLimit: 1,
 			sort: 0,
 			...defaultValues,
 		},
@@ -66,20 +65,6 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 					type={"text"}
 					className={tv.input()}
 					{...form.register("name")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"productionLimit"}
-				label={<Tx label={"Production limit (label)"} />}
-				hint={<Tx label={"How many paralel production lines can run (hint)"} />}
-				required
-			>
-				<input
-					type={"number"}
-					className={tv.input()}
-					{...form.register("productionLimit")}
 				/>
 			</FormInput>
 

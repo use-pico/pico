@@ -25,7 +25,7 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 					<BlueprintTable
 						table={{
 							...table,
-							hidden: ["requirements", "dependencies", "productionLimit"],
+							hidden: ["requirements", "dependencies"],
 						}}
 						{...props}
 					/>
@@ -45,7 +45,6 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 								"b.name",
 								"b.sort",
 								"b.cycles",
-								"b.productionLimit",
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -101,9 +100,8 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							cycles: z.number().int(),
-							sort: z.number().int(),
-							productionLimit: z.number().int(),
+							cycles: z.number().nonnegative(),
+							sort: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

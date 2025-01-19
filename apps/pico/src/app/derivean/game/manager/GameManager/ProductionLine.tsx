@@ -67,7 +67,14 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 					return;
 				}
 
-				tx.insertInto("Production_Queue")
+				await tx
+					.deleteFrom("Production_Queue")
+					.where("buildingId", "=", production.buildingId)
+					.where("userId", "=", userId)
+					.execute();
+
+				return tx
+					.insertInto("Production_Queue")
 					.values({
 						id: genId(),
 						userId,
@@ -75,7 +82,7 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 						buildingId: production.buildingId,
 						count: 0,
 						limit: 0,
-						priority: 50,
+						priority: 100,
 						paused: false,
 					})
 					.execute();
@@ -132,6 +139,10 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 						loading={productionMutation.isPending}
 						onClick={() => productionMutation.mutate()}
 					/>
+					{production.name}
+					<Badge>x{toHumanNumber({ number: production.amount })}</Badge>
+				</div>
+				<div className={"flex flex-row gap-2 items-center"}>
 					<Button
 						iconEnabled={"icon-[hugeicons--queue-02]"}
 						iconDisabled={ProductionIcon}
@@ -142,16 +153,14 @@ export const ProductionLine: FC<ProductionLine.Props> = ({
 						loading={productionQueueMutation.isPending}
 						variant={{ variant: "subtle" }}
 					/>
-					{production.name}
-					<Badge>x{toHumanNumber({ number: production.amount })}</Badge>
-				</div>
-				<div className={"flex flex-row items-center gap-2"}>
-					<RequirementsInline
-						requirements={production.requirements}
-						diff={inventory}
-					/>
 					<CyclesInline cycles={production.cycles} />
 				</div>
+			</div>
+			<div className={"flex flex-row items-center gap-2"}>
+				<RequirementsInline
+					requirements={production.requirements}
+					diff={inventory}
+				/>
 			</div>
 			{queue ?
 				<Progress

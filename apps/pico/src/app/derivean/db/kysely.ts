@@ -194,7 +194,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Number of cycles required to build this building
 				 */
 				.addColumn("cycles", "integer", (col) => col.notNull())
-				.addColumn("productionLimit", "integer", (col) => col.notNull())
 
 				/**
 				 * Sort blueprints by this number (so the player can see buildings in right order).
@@ -245,12 +244,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Amount of cycles to produce a thing
 				 */
 				.addColumn("cycles", "integer", (col) => col.notNull())
-				/**
-				 * Queue limit of this production (not the whole building).
-				 *
-				 * E.g. if building has limit of 3, it can run 3 productions of "this" resource (resourceId) in parallel.
-				 */
-				.addColumn("limit", "integer", (col) => col.notNull())
 
 				.execute();
 

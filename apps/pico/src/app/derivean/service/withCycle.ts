@@ -143,7 +143,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 					"pq.limit",
 					"pq.blueprintProductionId",
 					"pq.buildingId",
-					"bl.productionLimit",
 				])
 				.where("pq.userId", "=", userId)
 				.where("pq.paused", "=", false)
@@ -156,17 +155,15 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 				limit,
 				blueprintProductionId,
 				buildingId,
-				productionLimit,
 			} of productionPlanQueue) {
 				try {
 					const { count: queueSize } = await tx
 						.selectFrom("Production as p")
-						.where("p.blueprintProductionId", "=", blueprintProductionId)
+						.where("p.buildingId", "=", buildingId)
 						.select((eb) => eb.fn.count<number>("p.id").as("count"))
 						.executeTakeFirstOrThrow();
 
-					if (queueSize >= productionLimit) {
-						console.log("Skipping production plan because of production limit");
+					if (queueSize > 0) {
 						continue;
 					}
 

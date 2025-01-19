@@ -29,7 +29,6 @@ export const Route = createFileRoute(
 								"bl.name",
 								"bl.sort",
 								"bl.cycles",
-								"bl.productionLimit",
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -106,7 +105,6 @@ export const Route = createFileRoute(
 							name: z.string().min(1),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
-							productionLimit: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

@@ -7,7 +7,6 @@ export const BlueprintProductionSchema = withBlueprintProductionSchema({
 		resourceId: z.string().min(1),
 		amount: withFloatSchema(),
 		cycles: withIntSchema(),
-		limit: withIntSchema(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

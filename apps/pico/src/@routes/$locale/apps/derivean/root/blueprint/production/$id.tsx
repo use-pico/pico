@@ -1,7 +1,7 @@
 import {
-	createFileRoute,
-	Outlet,
-	useRouteContext,
+    createFileRoute,
+    Outlet,
+    useRouteContext,
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { z } from "zod";
@@ -26,7 +26,6 @@ export const Route = createFileRoute(
 									"bp.id",
 									"bp.amount",
 									"bp.cycles",
-									"bp.limit",
 									"r.name as resource",
 									"bp.blueprintId",
 									"bl.name as blueprint",
@@ -39,7 +38,6 @@ export const Route = createFileRoute(
 								blueprintId: z.string().min(1),
 								amount: z.number().nonnegative(),
 								cycles: z.number().int().nonnegative(),
-								limit: z.number().int().nonnegative(),
 							}),
 						}),
 					};

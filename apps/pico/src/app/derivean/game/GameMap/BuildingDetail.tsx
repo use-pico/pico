@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { Icon, LinkTo } from "@use-pico/client";
-import { genId } from "@use-pico/common";
+import { Icon } from "@use-pico/client";
 import { type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BuildingItem } from "~/app/derivean/game/GameMap/BuildingItem";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 
 export namespace BuildingDetail {
@@ -83,7 +81,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 					inventory={inventory}
 					entity={detail}
 				/>
-				{query.isSuccess ?
+				{/* {query.isSuccess ?
 					<>
 						{query.data.length > 0 ?
 							<div className={"border-t border-slate-300 shadow-md"} />
@@ -121,7 +119,7 @@ export const BuildingDetail: FC<BuildingDetail.Props> = ({
 							))}
 						</div>
 					</>
-				:	null}
+				:	null} */}
 			</div>
 		</div>
 	);

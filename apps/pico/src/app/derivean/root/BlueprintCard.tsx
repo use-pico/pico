@@ -12,7 +12,6 @@ export namespace BlueprintCard {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
-		productionLimit: number;
 		requirements: (BlueprintRequirementSchema["~entity"] & {
 			name: string;
 		})[];
@@ -45,13 +44,6 @@ export const BlueprintCard: FC<BlueprintCard.Props> = ({
 					label: <Tx label={"Construction cycles (label)"} />,
 					render({ entity }) {
 						return toHumanNumber({ number: entity.cycles });
-					},
-				},
-				{
-					id: "productionLimit",
-					label: <Tx label={"Production limit (label)"} />,
-					render({ entity }) {
-						return toHumanNumber({ number: entity.productionLimit });
 					},
 				},
 				{
