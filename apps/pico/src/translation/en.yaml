@@ -1,3 +1,6 @@
+0027cb868f305f5888ed42ddd63e78ab24a8dca4444d7aff7f2daf8e:
+  ref: Select blueprint conflict (title)
+  value: Select blueprint conflict (title)
 0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
   ref: Building requirements (title)
   value: Building requirements (title)
@@ -61,12 +64,18 @@
 19d04bf3808447ec0105094716724deda8a0e2fff20d11e44c29b952:
   ref: Resource production count (label)
   value: Resource production count (label)
+1a914895f2774e46fa909bc26666c56bd2956d234ee96391296ce1a3:
+  ref: Blueprint conflict (label)
+  value: Blueprint conflict (label)
 1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
   ref: Production limit (label)
   value: Production limit (label)
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Inventory limit (hint)
+20f8cc99e60a4a11f8824848a672a15244744aecc1680a7a7209561d:
+  ref: Create blueprint conflict (modal)
+  value: Create blueprint conflict (modal)
 227cb1bfcc1e2959f9358829fe8387b14af0c31f7a92c384c196ad72:
   ref: Edit blueprint production dependency (modal)
   value: Edit blueprint production dependency (modal)
@@ -82,6 +91,9 @@
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
+293f4ff52457449c36cd77f2ff4458fcdcd8db96ad515628be4a4d10:
+  ref: Blueprint conflict (hint)
+  value: Blueprint conflict (hint)
 2b7c9dc2afaa3fedd71768f7f7989d7342c12488829fa5a51e34b1f8:
   ref: Construction in progress (label)
   value: Construction in progress (label)
@@ -112,6 +124,12 @@
 3762d35519a2b937c09eb3b6030141afdde349c5320b2f5884c3dc7f:
   ref: Map (menu)
   value: Map (menu)
+377add1f320c2c3c9c44fc8986fc65c25b1ed6c21c309b1ea7c4a356:
+  ref: Blueprint conflicts (menu)
+  value: Blueprint conflicts (menu)
+38211af4adc09e641313a9d03ea312c58571633a96b1197b4632606a:
+  ref: Delete blueprint conflict (modal)
+  value: Delete blueprint conflict (modal)
 38347572d8aa1607a788bf890a6e9f83c334d06fc92987ae1535b1f5:
   ref: Missing any token(s). (title)
   value: Missing any token(s). (title)
@@ -157,6 +175,9 @@
 4541bf49cf11c92375c15f12646c231738e89eb120be84ecb7ea27cd:
   ref: Create blueprint (menu)
   value: Create blueprint (menu)
+45f09b5e1e1b45fa415e8792e6e278794fa4c605c89033edc21088ee:
+  ref: Edit blueprint conflict (modal)
+  value: Edit blueprint conflict (modal)
 4608219cb86dee319d4d3ca4aef772b4196b1f1af66fbea5296c5557:
   ref: Delete blueprint dependency (modal)
   value: Delete blueprint dependency (modal)
@@ -169,6 +190,9 @@
 4a3bc8ae27a653f91af04b870e12af00a5efe439158f3e3336aefe75:
   ref: Create blueprint production (menu)
   value: Create blueprint production (menu)
+4acfd9e77c6bd2adc6937a904f47254ba8be2289b3d7a1797d94445b:
+  ref: Delete blueprint conflict (content)
+  value: Delete blueprint conflict (content)
 4af588883beda19adeb713c08bf917f39e62651b957866eba39eacb0:
   ref: Number of productions (label)
   value: Number of productions (label)
@@ -538,6 +562,9 @@ f128c6308ef64bda9fe743d069da766c73c364a03d828d6ed589a0b2:
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Create inventory item (modal)
+f24a4b292236d6918253dac55026ab94f0393a38c03e8e4a79c98c68:
+  ref: Number of conflicts (label)
+  value: Number of conflicts (label)
 f27d845ba46f7d29b2c5f9a6f847823568fdedc19966ef949fe29a07:
   ref: Requirement name (label)
   value: Requirement name (label)
@@ -562,6 +589,9 @@ fc36349843e430e3f33fe531a1fdbd992224c67675ef78ffb078bea6:
 fc75f4c5e7abd71b96fd301570fc6f4ff8eff279a4b68b35047c5e05:
   ref: Create building (modal)
   value: Create building (modal)
+fcc9d32cfd468c9cce3f4e2b23c38b62b7af94748007a8b55d2c482e:
+  ref: Conflict building (label)
+  value: Conflict building (label)
 fd7b501528a7241d7462c715013d57e851c997479ed6bddc1e88b4e8:
   ref: Create requirement item (modal)
   value: Create requirement item (modal)
@@ -574,3 +604,6 @@ fe467ee81f0f6139dc5cb5ce65815c7268f9b512a94be7bce94b3e13:
 fe4a19d0efd91a038415bf01eb4f164514065aac383ac1c4af99bb73:
   ref: User list (menu)
   value: User list (menu)
+ffe40a72f3d8d3bd2bd43f34ebf465f28e3effd6192f81d77a9391a4:
+  ref: Create blueprint conflict (menu)
+  value: Create blueprint conflict (menu)

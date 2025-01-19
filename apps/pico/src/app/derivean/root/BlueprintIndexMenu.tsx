@@ -54,6 +54,14 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 			</MenuLink>
 
 			<MenuLink
+				icon={"icon-[solar--bomb-minimalistic-outline]"}
+				to={"/$locale/apps/derivean/root/blueprint/$id/conflicts"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Blueprint conflicts (menu)"} />
+			</MenuLink>
+
+			<MenuLink
 				icon={EditIcon}
 				to={"/$locale/apps/derivean/root/blueprint/$id/edit"}
 				params={{ locale, id: entity.id }}
