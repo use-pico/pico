@@ -412,7 +412,7 @@
   value: Delete blueprint production dependency (content)
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
-  value: Fulltext
+  value: Vyhledat
 9f57866b0e637eae01b73df0d5f49f1e2107dea0635c7e4986015621:
   ref: Building queue - Error (label)
   value: Budovu se nepodařilo zařadit do fronty staveb.

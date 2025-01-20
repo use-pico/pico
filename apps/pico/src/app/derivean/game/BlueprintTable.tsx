@@ -41,7 +41,7 @@ const columns = [
 
 					<LinkTo
 						icon={BlueprintIcon}
-						to={"/$locale/apps/derivean/game/management/blueprint/$id/view"}
+						to={"/$locale/apps/derivean/game/blueprint/$id/view"}
 						params={{ locale, id: data.id }}
 					>
 						{value}

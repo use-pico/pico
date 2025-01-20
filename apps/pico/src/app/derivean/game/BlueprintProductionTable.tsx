@@ -49,7 +49,7 @@ const columns = [
 				<LinkTo
 					icon={ProductionIcon}
 					to={
-						"/$locale/apps/derivean/game/management/blueprint/production/$id/requirements"
+						"/$locale/apps/derivean/game/blueprint/production/$id/requirements"
 					}
 					params={{ locale, id: data.id }}
 				>
@@ -160,9 +160,7 @@ const columns = [
 								])}
 							>
 								<LinkTo
-									to={
-										"/$locale/apps/derivean/game/management/blueprint/$id/requirements"
-									}
+									to={"/$locale/apps/derivean/game/blueprint/$id/requirements"}
 									params={{ locale, id: entity.blueprintId }}
 								>
 									{entity.name}

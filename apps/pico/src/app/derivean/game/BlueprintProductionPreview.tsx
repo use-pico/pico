@@ -35,9 +35,7 @@ export const BlueprintProductionPreview: FC<
 				<>
 					<LinkTo
 						icon={BlueprintIcon}
-						to={
-							"/$locale/apps/derivean/game/management/blueprint/$id/production"
-						}
+						to={"/$locale/apps/derivean/game/blueprint/$id/production"}
 						params={{ locale, id: entity.blueprintId }}
 					>
 						<Tx label={"Building base detail (label)"} />

@@ -1,1 +1,1 @@
-export const BlueprintIcon = "icon-[ph--blueprint-thin]";
+export const BlueprintIcon = "icon-[solar--home-outline]";

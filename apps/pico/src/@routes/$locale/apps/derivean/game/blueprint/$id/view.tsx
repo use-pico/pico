@@ -2,11 +2,11 @@ import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BlueprintCard } from "~/app/derivean/game/BlueprintCard";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/management/blueprint/$id/view",
+	"/$locale/apps/derivean/game/blueprint/$id/view",
 )({
 	component() {
 		const { entity } = useLoaderData({
-			from: "/$locale/apps/derivean/game/management/blueprint/$id",
+			from: "/$locale/apps/derivean/game/blueprint/$id",
 		});
 
 		return (

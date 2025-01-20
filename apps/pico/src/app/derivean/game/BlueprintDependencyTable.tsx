@@ -26,7 +26,7 @@ const columns = [
 			return (
 				<LinkTo
 					icon={BlueprintIcon}
-					to={"/$locale/apps/derivean/game/management/blueprint/$id/view"}
+					to={"/$locale/apps/derivean/game/blueprint/$id/view"}
 					params={{ locale, id: data.dependencyId }}
 				>
 					{value}

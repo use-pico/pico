@@ -26,7 +26,7 @@ const columns = [
 			return (
 				<LinkTo
 					icon={BlueprintIcon}
-					to={"/$locale/apps/derivean/game/management/blueprint/$id/conflicts"}
+					to={"/$locale/apps/derivean/game/blueprint/$id/conflicts"}
 					params={{ locale, id: data.conflictId }}
 				>
 					{value}
