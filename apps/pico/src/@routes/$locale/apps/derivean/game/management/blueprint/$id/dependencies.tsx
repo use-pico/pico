@@ -13,7 +13,7 @@ import { BlueprintDependencyTable } from "~/app/derivean/game/BlueprintDependenc
 import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/$id/dependencies",
+	"/$locale/apps/derivean/game/management/blueprint/$id/dependencies",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(BlueprintDependencySchema),

@@ -12,7 +12,9 @@ import { z } from "zod";
 import { InventoryTable } from "~/app/derivean/game/InventoryTable";
 import { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 
-export const Route = createFileRoute("/$locale/apps/derivean/game/inventory")({
+export const Route = createFileRoute(
+	"/$locale/apps/derivean/game/management/inventory",
+)({
 	validateSearch: zodValidator(withSourceSearchSchema(InventorySchema)),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {

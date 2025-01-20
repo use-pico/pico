@@ -6,14 +6,14 @@ import {
     navigateOnFulltext,
     Tx,
     withListCount,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
 import { BlueprintProductionResourceTable } from "~/app/derivean/game/BlueprintProductionResourceTable";
 import { BlueprintProductionResourceSchema } from "~/app/derivean/schema/BlueprintProductionResourceSchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/production/$id/resources",
+	"/$locale/apps/derivean/game/management/blueprint/production/$id/resources",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(BlueprintProductionResourceSchema),

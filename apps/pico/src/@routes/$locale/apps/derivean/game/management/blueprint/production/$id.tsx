@@ -9,7 +9,7 @@ import { BlueprintProductionIndexMenu } from "~/app/derivean/game/BlueprintProdu
 import { BlueprintProductionPreview } from "~/app/derivean/game/BlueprintProductionPreview";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/production/$id",
+	"/$locale/apps/derivean/game/management/blueprint/production/$id",
 )({
 	async loader({ context: { queryClient, kysely }, params: { id } }) {
 		return queryClient.ensureQueryData({

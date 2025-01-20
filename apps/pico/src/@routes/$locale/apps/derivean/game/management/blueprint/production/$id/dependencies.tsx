@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
     navigateOnCursor,
@@ -6,18 +6,17 @@ import {
     navigateOnFulltext,
     Tx,
     withListCount,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
-import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
-import { BlueprintProductionRequirementTable } from "~/app/derivean/game/BlueprintProductionRequirementTable";
-import { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
+import { BlueprintProductionDependencyTable } from "~/app/derivean/game/BlueprintProductionDependencyTable";
+import { BlueprintProductionDependencySchema } from "~/app/derivean/schema/BlueprintProductionDependencySchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/production/$id/requirements",
+	"/$locale/apps/derivean/game/management/blueprint/production/$id/dependencies",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BlueprintProductionRequirementSchema),
+		withSourceSearchSchema(BlueprintProductionDependencySchema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -33,7 +32,7 @@ export const Route = createFileRoute(
 	}) {
 		return queryClient.ensureQueryData({
 			queryKey: [
-				"Blueprint_Production_Requirement",
+				"Blueprint_Production_Dependency",
 				"list-count",
 				id,
 				{ filter, cursor },
@@ -42,33 +41,19 @@ export const Route = createFileRoute(
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Blueprint_Production_Requirement as bpr")
-							.innerJoin("Resource as r", "r.id", "bpr.resourceId")
-							.select([
-								"bpr.id",
-								"r.name",
-								"bpr.resourceId",
-								"bpr.amount",
-								"bpr.passive",
-							])
-							.where("bpr.blueprintProductionId", "=", id)
-							.orderBy("r.name", "asc"),
+							.selectFrom("Blueprint_Production_Dependency as bpd")
+							.innerJoin("Blueprint as bl", "bl.id", "bpd.blueprintId")
+							.select(["bpd.id", "bl.name", "bpd.blueprintId"])
+							.where("bpd.blueprintProductionId", "=", id)
+							.orderBy("bl.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
 							if (where?.id) {
-								$select = $select.where("bpr.id", "=", where.id);
+								$select = $select.where("bpd.id", "=", where.id);
 							}
 							if (where?.idIn) {
-								$select = $select.where("bpr.id", "in", where.idIn);
-							}
-
-							if (where?.resourceId) {
-								$select = $select.where(
-									"bpr.resourceId",
-									"=",
-									where.resourceId,
-								);
+								$select = $select.where("bpd.id", "in", where.idIn);
 							}
 
 							return $select;
@@ -76,9 +61,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							resourceId: z.string().min(1),
-							amount: z.number().nonnegative(),
-							passive: withBoolSchema(),
+							blueprintId: z.string().min(1),
 						}),
 						filter,
 						cursor,
@@ -91,10 +74,12 @@ export const Route = createFileRoute(
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
+		const { tva } = useRouteContext({ from: "__root__" });
+		const tv = tva().slots;
 
 		return (
-			<>
-				<BlueprintProductionRequirementTable
+			<div className={tv.base()}>
+				<BlueprintProductionDependencyTable
 					table={{
 						data,
 						filter: {
@@ -109,13 +94,11 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: (
-							<Tx label={"Number of production requirements (label)"} />
-						),
+						textTotal: <Tx label={"Number of dependencies (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>
-			</>
+			</div>
 		);
 	},
 });

@@ -23,7 +23,7 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 		<Menu {...props}>
 			<MenuLink
 				icon={BlueprintIcon}
-				to={"/$locale/apps/derivean/game/blueprint/$id/view"}
+				to={"/$locale/apps/derivean/game/management/blueprint/$id/view"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"View detail (menu)"} />
@@ -31,7 +31,7 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={BuildingIcon}
-				to={"/$locale/apps/derivean/game/blueprint/$id/dependencies"}
+				to={"/$locale/apps/derivean/game/management/blueprint/$id/dependencies"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Blueprint dependencies (menu)"} />
@@ -39,7 +39,7 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/game/blueprint/$id/requirements"}
+				to={"/$locale/apps/derivean/game/management/blueprint/$id/requirements"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Required resources (menu)"} />
@@ -47,7 +47,7 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={ProductionIcon}
-				to={"/$locale/apps/derivean/game/blueprint/$id/production"}
+				to={"/$locale/apps/derivean/game/management/blueprint/$id/production"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Resource production (menu)"} />
@@ -55,7 +55,7 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 
 			<MenuLink
 				icon={"icon-[solar--bomb-minimalistic-outline]"}
-				to={"/$locale/apps/derivean/game/blueprint/$id/conflicts"}
+				to={"/$locale/apps/derivean/game/management/blueprint/$id/conflicts"}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Blueprint conflicts (menu)"} />

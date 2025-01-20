@@ -51,18 +51,17 @@ export const GameMap: FC<GameMap.Props> = ({
 	const requirements: MapSchema.Type | undefined = useMemo(() => {
 		return graph.nodes.find(({ id }) => id === requirementsOf)?.data;
 	}, [graph, requirementsOf]);
-	const data = useMemo(() => graph.nodes.map(({ data }) => data), [graph]);
 
 	return (
 		<div className={"flex flex-row gap-2"}>
-			<div className="flex-grow h-[calc(100vh-6rem)] border border-slate-300 rounded-md shadow-md">
+			<div className="flex-grow h-screen">
 				<ReactFlow
 					className={"w-full h-full relative"}
 					nodes={graph.nodes}
 					edges={graph.edges}
 					onPaneClick={() => {
 						navigate({
-							to: "/$locale/apps/derivean/game/map",
+							to: "/$locale/apps/derivean/game",
 							params: { locale },
 						});
 					}}
@@ -104,7 +103,11 @@ export const GameMap: FC<GameMap.Props> = ({
 						showInteractive={false}
 						showZoom={true}
 					/>
-					<MiniMap />
+					<MiniMap
+						zoomable
+						draggable
+						pannable
+					/>
 					<Background
 						variant={BackgroundVariant.Dots}
 						gap={12}
@@ -127,7 +130,7 @@ export const GameMap: FC<GameMap.Props> = ({
 								<Tx label={"Construction in progress (label)"} />
 							: requirements.building ?
 								<LinkTo
-									to={"/$locale/apps/derivean/game/map"}
+									to={"/$locale/apps/derivean/game"}
 									params={{ locale }}
 									search={{ blueprintId: requirements.id }}
 								>
@@ -150,7 +153,6 @@ export const GameMap: FC<GameMap.Props> = ({
 				>
 					<BuildingDetail
 						detail={detail}
-						data={data}
 						userId={userId}
 						inventory={inventory}
 					/>

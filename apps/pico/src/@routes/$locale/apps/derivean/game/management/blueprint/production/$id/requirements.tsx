@@ -1,4 +1,4 @@
-import { createFileRoute, useRouteContext } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
     navigateOnCursor,
@@ -6,18 +6,18 @@ import {
     navigateOnFulltext,
     Tx,
     withListCount,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
-import { BlueprintRequirementTable } from "~/app/derivean/game/BlueprintRequirementTable";
-import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
+import { BlueprintProductionRequirementTable } from "~/app/derivean/game/BlueprintProductionRequirementTable";
+import { BlueprintProductionRequirementSchema } from "~/app/derivean/schema/BlueprintProductionRequirementSchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/$id/requirements",
+	"/$locale/apps/derivean/game/management/blueprint/production/$id/requirements",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BlueprintRequirementSchema),
+		withSourceSearchSchema(BlueprintProductionRequirementSchema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -32,34 +32,43 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Blueprint_Requirement", "list-count", id, { filter, cursor }],
+			queryKey: [
+				"Blueprint_Production_Requirement",
+				"list-count",
+				id,
+				{ filter, cursor },
+			],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Blueprint_Requirement as br")
-							.innerJoin("Resource as r", "r.id", "br.resourceId")
+							.selectFrom("Blueprint_Production_Requirement as bpr")
+							.innerJoin("Resource as r", "r.id", "bpr.resourceId")
 							.select([
-								"br.id",
+								"bpr.id",
 								"r.name",
-								"br.resourceId",
-								"br.amount",
-								"br.passive",
+								"bpr.resourceId",
+								"bpr.amount",
+								"bpr.passive",
 							])
-							.where("br.blueprintId", "=", id)
+							.where("bpr.blueprintProductionId", "=", id)
 							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
 							if (where?.id) {
-								$select = $select.where("br.id", "=", where.id);
+								$select = $select.where("bpr.id", "=", where.id);
 							}
 							if (where?.idIn) {
-								$select = $select.where("br.id", "in", where.idIn);
+								$select = $select.where("bpr.id", "in", where.idIn);
 							}
 
 							if (where?.resourceId) {
-								$select = $select.where("br.resourceId", "=", where.resourceId);
+								$select = $select.where(
+									"bpr.resourceId",
+									"=",
+									where.resourceId,
+								);
 							}
 
 							return $select;
@@ -82,12 +91,10 @@ export const Route = createFileRoute(
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor } = Route.useSearch();
 		const navigate = Route.useNavigate();
-		const { tva } = useRouteContext({ from: "__root__" });
-		const tv = tva().slots;
 
 		return (
-			<div className={tv.base()}>
-				<BlueprintRequirementTable
+			<>
+				<BlueprintProductionRequirementTable
 					table={{
 						data,
 						filter: {
@@ -102,11 +109,13 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of requirements (label)"} />,
+						textTotal: (
+							<Tx label={"Number of production requirements (label)"} />
+						),
 						...navigateOnCursor(navigate),
 					}}
 				/>
-			</div>
+			</>
 		);
 	},
 });

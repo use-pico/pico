@@ -6,17 +6,18 @@ import {
     navigateOnFulltext,
     Tx,
     withListCount,
-    withSourceSearchSchema
+    withSourceSearchSchema,
 } from "@use-pico/client";
+import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
-import { BlueprintConflictTable } from "~/app/derivean/game/BlueprintConflictTable";
-import { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
+import { BlueprintRequirementTable } from "~/app/derivean/game/BlueprintRequirementTable";
+import { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/$id/conflicts",
+	"/$locale/apps/derivean/game/management/blueprint/$id/requirements",
 )({
 	validateSearch: zodValidator(
-		withSourceSearchSchema(BlueprintDependencySchema),
+		withSourceSearchSchema(BlueprintRequirementSchema),
 	),
 	loaderDeps({ search: { filter, cursor, sort } }) {
 		return {
@@ -31,24 +32,34 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Blueprint_Conflict", "list-count", id, { filter, cursor }],
+			queryKey: ["Blueprint_Requirement", "list-count", id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute(async (tx) => {
 					return withListCount({
 						select: tx
-							.selectFrom("Blueprint_Conflict as bc")
-							.innerJoin("Blueprint as bl", "bl.id", "bc.conflictId")
-							.select(["bc.id", "bl.name", "bc.blueprintId", "bc.conflictId"])
-							.where("bc.blueprintId", "=", id)
-							.orderBy("bl.name", "asc"),
+							.selectFrom("Blueprint_Requirement as br")
+							.innerJoin("Resource as r", "r.id", "br.resourceId")
+							.select([
+								"br.id",
+								"r.name",
+								"br.resourceId",
+								"br.amount",
+								"br.passive",
+							])
+							.where("br.blueprintId", "=", id)
+							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;
 
 							if (where?.id) {
-								$select = $select.where("bc.id", "=", where.id);
+								$select = $select.where("br.id", "=", where.id);
 							}
 							if (where?.idIn) {
-								$select = $select.where("bc.id", "in", where.idIn);
+								$select = $select.where("br.id", "in", where.idIn);
+							}
+
+							if (where?.resourceId) {
+								$select = $select.where("br.resourceId", "=", where.resourceId);
 							}
 
 							return $select;
@@ -56,8 +67,9 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							blueprintId: z.string().min(1),
-							conflictId: z.string().min(1),
+							resourceId: z.string().min(1),
+							amount: z.number().nonnegative(),
+							passive: withBoolSchema(),
 						}),
 						filter,
 						cursor,
@@ -75,7 +87,7 @@ export const Route = createFileRoute(
 
 		return (
 			<div className={tv.base()}>
-				<BlueprintConflictTable
+				<BlueprintRequirementTable
 					table={{
 						data,
 						filter: {
@@ -90,7 +102,7 @@ export const Route = createFileRoute(
 					cursor={{
 						count,
 						cursor,
-						textTotal: <Tx label={"Number of conflicts (label)"} />,
+						textTotal: <Tx label={"Number of requirements (label)"} />,
 						...navigateOnCursor(navigate),
 					}}
 				/>

@@ -240,7 +240,7 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 };
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/production/queue",
+	"/$locale/apps/derivean/game/management/production/queue",
 )({
 	async loader({ context: { queryClient, kysely, session } }) {
 		const user = await session();

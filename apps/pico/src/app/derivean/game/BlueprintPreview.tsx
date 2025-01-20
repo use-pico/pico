@@ -30,7 +30,7 @@ export const BlueprintPreview: FC<BlueprintPreview.Props> = (props) => {
 					<>
 						<LinkTo
 							icon={ListIcon}
-							to={"/$locale/apps/derivean/game/blueprint/list"}
+							to={"/$locale/apps/derivean/game/management/blueprint/list"}
 							params={{ locale }}
 						>
 							<Tx label={"Blueprint list (label)"} />

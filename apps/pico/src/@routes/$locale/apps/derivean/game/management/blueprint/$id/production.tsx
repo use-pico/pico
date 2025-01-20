@@ -18,7 +18,7 @@ import { BlueprintProductionResourceSchema } from "~/app/derivean/schema/Bluepri
 import { BlueprintProductionSchema } from "~/app/derivean/schema/BlueprintProductionSchema";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/$id/production",
+	"/$locale/apps/derivean/game/management/blueprint/$id/production",
 )({
 	validateSearch: zodValidator(
 		withSourceSearchSchema(BlueprintProductionSchema),

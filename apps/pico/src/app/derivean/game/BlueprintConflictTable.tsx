@@ -1,11 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import {
-    LinkTo,
-    Table,
-    Tx,
-    useTable,
-    withColumn
-} from "@use-pico/client";
+import { LinkTo, Table, Tx, useTable, withColumn } from "@use-pico/client";
 import { type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
@@ -32,7 +26,7 @@ const columns = [
 			return (
 				<LinkTo
 					icon={BlueprintIcon}
-					to={"/$locale/apps/derivean/game/blueprint/$id/conflicts"}
+					to={"/$locale/apps/derivean/game/management/blueprint/$id/conflicts"}
 					params={{ locale, id: data.conflictId }}
 				>
 					{value}

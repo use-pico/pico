@@ -10,7 +10,7 @@ import { BlueprintPreview } from "~/app/derivean/game/BlueprintPreview";
 import { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/game/blueprint/$id",
+	"/$locale/apps/derivean/game/management/blueprint/$id",
 )({
 	async loader({ context: { queryClient, kysely }, params: { id } }) {
 		const entity = await queryClient.ensureQueryData({

@@ -21,7 +21,9 @@ export const BlueprintProductionIndexMenu: FC<
 		<Menu {...props}>
 			<MenuLink
 				icon={RequirementIcon}
-				to={"/$locale/apps/derivean/game/blueprint/production/$id/requirements"}
+				to={
+					"/$locale/apps/derivean/game/management/blueprint/production/$id/requirements"
+				}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Production requirements (menu)"} />
@@ -29,7 +31,9 @@ export const BlueprintProductionIndexMenu: FC<
 
 			<MenuLink
 				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/game/blueprint/production/$id/resources"}
+				to={
+					"/$locale/apps/derivean/game/management/blueprint/production/$id/resources"
+				}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Production resource requirements (menu)"} />
@@ -37,7 +41,9 @@ export const BlueprintProductionIndexMenu: FC<
 
 			<MenuLink
 				icon={BlueprintIcon}
-				to={"/$locale/apps/derivean/game/blueprint/production/$id/dependencies"}
+				to={
+					"/$locale/apps/derivean/game/management/blueprint/production/$id/dependencies"
+				}
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Production resource dependencies (menu)"} />
