@@ -100,7 +100,7 @@ export const Header: FC<Header.Props> = ({
 				}
 				{isBuilt ?
 					<LinkTo
-						to={"/$locale/apps/derivean/game/map"}
+						to={"/$locale/apps/derivean/game"}
 						params={{ locale }}
 						search={{ blueprintId }}
 					>

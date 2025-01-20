@@ -18,7 +18,7 @@ export const GameMenu: FC<GameMenu.Props> = (props) => {
 		<Menu {...props}>
 			<MenuLink
 				icon={"icon-[et--map]"}
-				to={"/$locale/apps/derivean/game/map"}
+				to={"/$locale/apps/derivean/game"}
 				params={{ locale }}
 			>
 				<Tx label={"Map (menu)"} />

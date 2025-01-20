@@ -28,7 +28,7 @@ export const BlueprintMissingResourcesNode: FC<
 			/>
 			<div className={"flex flex-row items-center gap-2"}>
 				<LinkTo
-					to={"/$locale/apps/derivean/game/map"}
+					to={"/$locale/apps/derivean/game"}
 					params={{ locale }}
 					search={({ blueprintId }) => ({
 						blueprintId,

@@ -140,7 +140,7 @@ const QueueItem: FC<QueueItem.Props> = ({ entity }) => {
 
 					<LinkTo
 						icon={BuildingIcon}
-						to={"/$locale/apps/derivean/game/map"}
+						to={"/$locale/apps/derivean/game"}
 						params={{ locale }}
 						search={{ blueprintId: entity.blueprintId }}
 					>

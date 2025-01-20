@@ -35,7 +35,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 					className={"flex flex-row items-center justify-between gap-1 w-full"}
 				>
 					<LinkTo
-						to={"/$locale/apps/derivean/game/map"}
+						to={"/$locale/apps/derivean/game"}
 						params={{ locale }}
 						search={({ requirementsOf }) => ({
 							blueprintId: data.id,

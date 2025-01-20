@@ -34,7 +34,7 @@ const columns = [
 				<div className={"flex flex-row gap-2 items-center"}>
 					<LinkTo
 						icon={"icon-[ph--graph-light]"}
-						to={"/$locale/apps/derivean/game/map"}
+						to={"/$locale/apps/derivean/game"}
 						params={{ locale }}
 						search={{ blueprintId: data.id }}
 					/>
