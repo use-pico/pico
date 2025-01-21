@@ -37,6 +37,9 @@
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Editace požadovaného zdroje
+11d8160a4be6d533d9b88ac59f1e30913a3b53f60b9e231ff632f953:
+  ref: Inventory (label)
+  value: Inventory (label)
 122d3f7f5bf5cbb368b7f27b51e5299fddf9662632ef59fbe4d6a235:
   ref: Create production requirement (menu)
   value: Nový požadavek produkce
@@ -67,9 +70,6 @@
 1a914895f2774e46fa909bc26666c56bd2956d234ee96391296ce1a3:
   ref: Blueprint conflict (label)
   value: Konflikt s
-1c06c7a512695330390df042cc0e666ba0af04b43f4d71eed4bcc0e2:
-  ref: Production limit (label)
-  value: Paralelní limit
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
@@ -112,9 +112,6 @@
 337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
   ref: No dependents (label)
   value: Bez závislostí
-35a0ef7ca0fb302b3fb1ff295c26a059b82f7f9dbe13696bcd44ed4c:
-  ref: Unlimited (label)
-  value: Neomezené
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: Tag delete (content)
@@ -170,12 +167,18 @@
 3fa7bb033c4131d77ee98ca961d8e62e35fc4048ba0b97ea28025309:
   ref: Password 1 (label)
   value: Heslo
+40cf538dd3c5a4330918f9bb9deab96ca06e7a515a613f631bdb0c53:
+  ref: Blueprint inventory (menu)
+  value: Inventář
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
   value: Zrušit
 433d37c3072f9f5b56f453d459da1cd17ab9dcb6ce36b13a0fcc0022:
   ref: No production currently available (label)
   value: Pro tuto budovu nejsou žádní odběratelé.
+43d65f65c72c5f9e77cf2f5108fbc033133df31cc1dc855f37235a6b:
+  ref: Building limit (label)
+  value: Building limit (label)
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Editace budovy
@@ -209,9 +212,6 @@
 50f86b62f0b22a22ba536981cfd41cef955ba13abc1f11481b5d1d7f:
   ref: Blueprint dependencies (title)
   value: Závislosti plánku
-51615a0f75be71d80974e7057dec0168b938c0bcf2aa5fe6d52b3dc8:
-  ref: Production limit (hint)
-  value: Maximální paralelní počet produkčních linek.
 519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
   ref: Update inventory item - Success (label)
   value: Inventář byl úspěšně aktualizován.
@@ -332,9 +332,6 @@
 826d414b83deff5514991b1ce808d18c32733223217c02a9491f45b1:
   ref: Blueprint list (label)
   value: Seznam plánků
-83e4c2d1c87b26023abe6250cdacb4bb43d01575b69dfb888694f8d9:
-  ref: How many paralel production lines can run (hint)
-  value: Udává maximální počet paralelních produkčních linek.
 84bc50a74733a72dad6b3309f7448c85dd3b0aa2f2b3bdead0931546:
   ref: Resource delete (content)
   value: Resource delete (content)
@@ -388,6 +385,9 @@
 968fdbd787e6e7c2b0db911118d25fe4662584b245ccc8bcbfdaae66:
   ref: Building unavailable (label)
   value: Budova je nedostupná.
+96c0374dd7aac234d421e63c9aeb950c67f801a692f3c62f35f461bd:
+  ref: Maximum number of building a player can build (hint)
+  value: Maximum number of building a player can build (hint)
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Počet cyklů nutných k dokončení stavby.
@@ -541,6 +541,9 @@ e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
 e116bf50d1ae79c061773bfa4ee272d7f5be71c36769d956e4df10fe:
   ref: Edit production resource requirement (modal)
   value: Editace požadavku na zdroj
+e26720b8986fbaa25aa36b5dbd6eb02f5ff25641a64422ecad25dd22:
+  ref: Cheat inventory (menu)
+  value: Cheat inventory (menu)
 e267da5c2f809d5d0cb0fb35d1ad7d0a2667e0d279597a50efbe56ec:
   ref: Required production resources (label)
   value: Požadavky na zdroje
@@ -568,6 +571,9 @@ ea8a3e02a47942d229e89647820e52080dbdcfa5a50d172255c6546b:
 eb007cd2c755390ff1fc52ae9fa9142998f9dee038aa79467aec86f5:
   ref: Tag group (label)
   value: Skupina
+ec63e21f25b4f23a78779bcd313de0769133458d3ed563f5a9776e54:
+  ref: Construction (label)
+  value: Construction (label)
 ec9fc04842ed77fb0701ee2ffc6f922b424759586c15a22ce0c2a24f:
   ref: View detail (menu)
   value: Detail

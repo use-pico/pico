@@ -18,6 +18,7 @@ const sources: (keyof Database)[] = [
 	"Resource",
 	"Resource_Tag",
 	"Blueprint",
+	"Blueprint_Inventory",
 	"Blueprint_Dependency",
 	"Blueprint_Conflict",
 	"Blueprint_Requirement",

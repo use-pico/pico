@@ -8,7 +8,6 @@ import {
     ReactFlow,
 } from "@xyflow/react";
 import { useMemo, type FC } from "react";
-import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { BlueprintAvailableNode } from "~/app/derivean/game/GameMap/BlueprintAvailableNode";
 import { BlueprintMissingBuildingsNode } from "~/app/derivean/game/GameMap/BlueprintMissingBuildingsNode";
 import { BlueprintMissingResourcesNode } from "~/app/derivean/game/GameMap/BlueprintMissingResourcesNode";
@@ -29,7 +28,6 @@ export namespace GameMap {
 	}
 
 	export interface Props {
-		cycle: number;
 		graph: Graph;
 		userId: string;
 		blueprintId?: string;
@@ -39,7 +37,6 @@ export namespace GameMap {
 }
 
 export const GameMap: FC<GameMap.Props> = ({
-	cycle,
 	userId,
 	blueprintId,
 	requirementsOf,
@@ -100,7 +97,6 @@ export const GameMap: FC<GameMap.Props> = ({
 						[userId],
 					)}
 				>
-			
 					<ZoomToNode nodeId={detail?.id} />
 					<Controls
 						orientation={"horizontal"}

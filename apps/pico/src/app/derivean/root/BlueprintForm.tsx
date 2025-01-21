@@ -111,7 +111,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				<input
 					type={"number"}
 					className={tv.input()}
-					min={1}
+					min={0}
 					{...form.register("sort")}
 				/>
 			</FormInput>

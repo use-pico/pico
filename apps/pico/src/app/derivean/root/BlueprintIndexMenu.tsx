@@ -4,6 +4,7 @@ import type { Entity, IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
@@ -51,6 +52,14 @@ export const BlueprintIndexMenu: FC<BlueprintIndexMenu.Props> = ({
 				params={{ locale, id: entity.id }}
 			>
 				<Tx label={"Resource production (menu)"} />
+			</MenuLink>
+
+			<MenuLink
+				icon={InventoryIcon}
+				to={"/$locale/apps/derivean/root/blueprint/$id/inventory"}
+				params={{ locale, id: entity.id }}
+			>
+				<Tx label={"Blueprint inventory (menu)"} />
 			</MenuLink>
 
 			<MenuLink
