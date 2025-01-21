@@ -5,14 +5,14 @@ import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import type { InventorySchema } from "~/app/derivean/game/GameMap2/schema/InventorySchema";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
-export namespace Inventory {
+export namespace InventoryPanel {
 	export interface Props extends Panel.PropsEx {
 		inventory: InventorySchema.Type[];
 		fulltextProps: Fulltext.Props;
 	}
 }
 
-export const Inventory: FC<Inventory.Props> = ({
+export const InventoryPanel: FC<InventoryPanel.Props> = ({
 	inventory,
 	fulltextProps,
 	...props

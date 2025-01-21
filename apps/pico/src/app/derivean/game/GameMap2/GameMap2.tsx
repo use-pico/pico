@@ -15,6 +15,7 @@ export namespace GameMap2 {
 		building: BuildingSchema.Type[];
 		route: RouteSchema.Type[];
 		zoomToId?: string;
+		routing?: boolean;
 	}
 }
 
@@ -24,8 +25,9 @@ export const GameMap2: FC<GameMap2.Props> = ({
 	construction,
 	building,
 	queue,
-    route,
+	route,
 	zoomToId,
+	routing,
 }) => {
 	return (
 		<ReactFlowProvider>
@@ -35,8 +37,9 @@ export const GameMap2: FC<GameMap2.Props> = ({
 				construction={construction}
 				queue={queue}
 				building={building}
-                route={route}
+				route={route}
 				zoomToId={zoomToId}
+				routing={routing}
 			/>
 		</ReactFlowProvider>
 	);

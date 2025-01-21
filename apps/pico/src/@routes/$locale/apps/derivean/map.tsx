@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { ls, withList } from "@use-pico/client";
+import { Kysely } from "@use-pico/common";
 import { z } from "zod";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 	validateSearch: zodValidator(
 		z.object({
 			zoomToId: z.string().optional(),
+			routing: z.boolean().optional(),
 		}),
 	),
 	async beforeLoad({ context, params: { locale } }) {
@@ -106,7 +108,33 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 						return withList({
 							select: tx
 								.selectFrom("Route as r")
-								.select(["r.id", "r.fromId", "r.toId"])
+								.innerJoin("Building as bf", "bf.id", "r.fromId")
+								.innerJoin("Blueprint as blf", "blf.id", "bf.blueprintId")
+								.innerJoin("Building as bt", "bt.id", "r.toId")
+								.innerJoin("Blueprint as blt", "blt.id", "bt.blueprintId")
+								.select([
+									"r.id",
+									"r.fromId",
+									"r.toId",
+									"blf.name as fromName",
+									"blt.name as toName",
+									(eb) => {
+										return eb
+											.selectFrom("Building_Inventory as bi")
+											.innerJoin("Inventory as i", "i.id", "bi.inventoryId")
+											.innerJoin("Resource as r", "r.id", "i.resourceId")
+											.where("bi.buildingId", "=", "r.buildingId")
+											.select((eb) => {
+												return Kysely.jsonGroupArray({
+													id: eb.ref("bi.id"),
+													amount: eb.ref("i.amount"),
+													limit: eb.ref("i.limit"),
+													name: eb.ref("r.name"),
+												}).as("inventory");
+											})
+											.as("inventory");
+									},
+								])
 								.where("r.userId", "=", user.id),
 							output: RouteSchema,
 						});
@@ -132,7 +160,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 	component() {
 		const { user, construction, queue, building, route, cycle } =
 			Route.useLoaderData();
-		const { zoomToId } = Route.useSearch();
+		const { zoomToId, routing } = Route.useSearch();
 
 		return (
 			<GameMap2
@@ -143,6 +171,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 				building={building}
 				route={route}
 				zoomToId={zoomToId}
+				routing={routing}
 			/>
 		);
 	},

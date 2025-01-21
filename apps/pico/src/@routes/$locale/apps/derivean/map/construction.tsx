@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
-import { Construction } from "~/app/derivean/game/GameMap2/Construction/Construction";
+import {
+    ConstructionPanel
+} from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
 import { BlueprintSchema } from "~/app/derivean/game/GameMap2/schema/BlueprintSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
@@ -42,7 +44,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			const { user, blueprints } = Route.useLoaderData();
 
 			return (
-				<Construction
+				<ConstructionPanel
 					userId={user.id}
 					blueprints={blueprints}
 				/>

@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
 import { z } from "zod";
-import { Inventory } from "~/app/derivean/game/GameMap2/Inventory/Inventory";
+import {
+    InventoryPanel
+} from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 import { InventorySchema } from "~/app/derivean/game/GameMap2/schema/InventorySchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/inventory")({
@@ -70,7 +72,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/inventory")({
 		const { inventory } = Route.useLoaderData();
 
 		return (
-			<Inventory
+			<InventoryPanel
 				inventory={inventory}
 				fulltextProps={{
 					value: fulltext,

@@ -24,6 +24,7 @@ import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
 import { FloatingEdge } from "~/app/derivean/game/GameMap2/Edge/FloatingEdge";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode";
+import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
@@ -56,9 +57,10 @@ const defaultEdgeOptions = {
 };
 
 const nodeTypes = {
-	construction: ConstructionNode,
-	queue: QueueNode,
-	building: BuildingNode,
+	"construction": ConstructionNode,
+	"queue": QueueNode,
+	"building": BuildingNode,
+	"building-route": BuildingRouteNode,
 } as const;
 
 const edgeTypes = {
@@ -74,6 +76,7 @@ export namespace Content {
 		building: BuildingSchema.Type[];
 		route: RouteSchema.Type[];
 		zoomToId?: string;
+		routing?: boolean;
 	}
 }
 
@@ -85,8 +88,9 @@ export const Content: FC<Content.Props> = ({
 	building,
 	route,
 	zoomToId,
+	routing,
 }) => {
-	const invalidator = useInvalidator([]);
+	const invalidator = useInvalidator([["GameMap"]]);
 	const { locale } = useParams({ from: "/$locale" });
 	const defaultNodes = useMemo(
 		() => [
@@ -113,10 +117,9 @@ export const Content: FC<Content.Props> = ({
 					y: queue.y,
 				},
 				type: "queue",
-				draggable: false,
 				width,
 				height,
-				className: tvc(NodeCss),
+				className: tvc(NodeCss, ["nodrag"]),
 			})),
 			...building.map((building) => ({
 				id: building.id,
@@ -125,14 +128,13 @@ export const Content: FC<Content.Props> = ({
 					x: building.x,
 					y: building.y,
 				},
-				type: "building",
-				draggable: false,
+				type: routing ? "building-route" : "building",
 				width,
 				height,
-				className: tvc(NodeCss),
+				className: tvc(NodeCss, ["nodrag"]),
 			})),
 		],
-		[construction, queue, building],
+		[construction, queue, building, routing],
 	);
 	const defaultEdges = useMemo(
 		() => [
@@ -328,6 +330,13 @@ export const Content: FC<Content.Props> = ({
 							icon={InventoryIcon}
 							to={"/$locale/apps/derivean/map/inventory"}
 							params={{ locale }}
+						/>
+						<LinkTo
+							icon={"icon-[gis--route-end]"}
+							to={"/$locale/apps/derivean/map"}
+							params={{ locale }}
+							search={{ routing: !routing }}
+							css={{ base: routing ? ["text-green-600"] : undefined }}
 						/>
 					</div>
 				</ReactFlow>

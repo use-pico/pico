@@ -7,6 +7,7 @@ export namespace Panel {
 	export interface Props extends PanelCss.Props<PropsWithChildren> {
 		icon: string;
 		textTitle: ReactNode;
+		textSubTitle?: ReactNode;
 	}
 
 	export type PropsEx = Omit<Props, "icon" | "textTitle">;
@@ -15,6 +16,7 @@ export namespace Panel {
 export const Panel: FC<Panel.Props> = ({
 	icon,
 	textTitle,
+	textSubTitle,
 	variant,
 	tva = PanelCss,
 	css,
@@ -26,12 +28,18 @@ export const Panel: FC<Panel.Props> = ({
 	return (
 		<div className={tv.base()}>
 			<div className={tv.title()}>
-				<div className={"flex flex-row gap-2 items-center font-bold"}>
-					<Icon
-						icon={icon}
-						css={{ base: ["text-slate-400"] }}
-					/>
-					{textTitle}
+				<div className={"flex flex-col gap-2 font-bold"}>
+					<div className={"flex flex-row gap-2 items-center"}>
+						<Icon
+							icon={icon}
+							css={{ base: ["text-slate-500"] }}
+						/>
+						{textTitle}
+					</div>
+
+					{textSubTitle ?
+						<div className={"text-sm text-slate-500"}>{textSubTitle}</div>
+					:	null}
 				</div>
 				<LinkTo
 					icon={CloseIcon}

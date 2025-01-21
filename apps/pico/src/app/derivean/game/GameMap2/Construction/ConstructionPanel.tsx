@@ -5,14 +5,14 @@ import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import type { BlueprintSchema } from "~/app/derivean/game/GameMap2/schema/BlueprintSchema";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
-export namespace Construction {
+export namespace ConstructionPanel {
 	export interface Props extends Panel.PropsEx {
 		userId: string;
 		blueprints: BlueprintSchema.Type[];
 	}
 }
 
-export const Construction: FC<Construction.Props> = ({
+export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	userId,
 	blueprints,
 	...props
