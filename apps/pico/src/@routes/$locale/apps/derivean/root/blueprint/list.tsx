@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-    navigateOnCursor,
-    navigateOnFilter,
-    navigateOnFulltext,
-    navigateOnSelection,
-    Tx,
-    withListCount,
-    withSourceSearchSchema,
+	navigateOnCursor,
+	navigateOnFilter,
+	navigateOnFulltext,
+	navigateOnSelection,
+	Tx,
+	withListCount,
+	withSourceSearchSchema,
 } from "@use-pico/client";
 import { withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
@@ -42,6 +42,7 @@ export const Route = createFileRoute(
 								"bl.name",
 								"bl.sort",
 								"bl.cycles",
+								"bl.limit",
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -122,6 +123,7 @@ export const Route = createFileRoute(
 							name: z.string().min(1),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

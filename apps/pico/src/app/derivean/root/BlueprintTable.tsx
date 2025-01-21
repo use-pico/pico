@@ -33,6 +33,7 @@ export namespace BlueprintTable {
 		name: string;
 		cycles: number;
 		sort: number;
+		limit: number;
 		requirements: (BlueprintRequirementSchema["~entity"] & {
 			name: string;
 		})[];
@@ -125,6 +126,16 @@ const columns = [
 					{toHumanNumber({ number: value })}
 				</div>
 			);
+		},
+		size: 8,
+	}),
+	column({
+		name: "limit",
+		header() {
+			return <Tx label={"Building limit (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
 		},
 		size: 8,
 	}),

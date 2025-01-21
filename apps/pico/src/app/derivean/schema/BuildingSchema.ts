@@ -1,10 +1,12 @@
-import { FilterSchema } from "@use-pico/common";
+import { FilterSchema, withFloatSchema } from "@use-pico/common";
 import { z } from "zod";
 import { withBuildingSchema } from "~/app/derivean/db/sdk";
 
 export const BuildingSchema = withBuildingSchema({
 	shape: z.object({
 		blueprintId: z.string().min(1),
+		x: withFloatSchema(),
+		y: withFloatSchema(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

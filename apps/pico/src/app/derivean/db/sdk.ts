@@ -29,11 +29,14 @@ export const withBlueprintSchema = <
 				sort:
 					// INTEGER / not nullable
 					z.number().int(),
+				limit:
+					// INTEGER / not nullable
+					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "cycles", "sort"],
+		sort: ["id", "name", "cycles", "sort", "limit"],
 	});
 };
 
@@ -296,11 +299,17 @@ export const withBuildingSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				x:
+					// float4 / not nullable
+					z.number(),
+				y:
+					// float4 / not nullable
+					z.number(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "blueprintId"],
+		sort: ["id", "userId", "blueprintId", "x", "y"],
 	});
 };
 
@@ -325,6 +334,18 @@ export const withConstructionSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				x:
+					// float4 / not nullable
+					z.number(),
+				y:
+					// float4 / not nullable
+					z.number(),
+				plan:
+					// boolean / not nullable
+					withBoolSchema(),
+				valid:
+					// boolean / not nullable
+					withBoolSchema(),
 				from:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -338,7 +359,18 @@ export const withConstructionSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "blueprintId", "from", "to", "cycle"],
+		sort: [
+			"id",
+			"userId",
+			"blueprintId",
+			"x",
+			"y",
+			"plan",
+			"valid",
+			"from",
+			"to",
+			"cycle",
+		],
 	});
 };
 

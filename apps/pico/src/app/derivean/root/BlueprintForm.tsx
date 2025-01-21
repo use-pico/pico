@@ -31,6 +31,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 		defaultValues: {
 			cycles: 1,
 			sort: 0,
+			limit: 1,
 			...defaultValues,
 		},
 	});
@@ -78,7 +79,25 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				<input
 					type={"number"}
 					className={tv.input()}
+					min={1}
 					{...form.register("cycles")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"limit"}
+				label={<Tx label={"Building limit (label)"} />}
+				hint={
+					<Tx label={"Maximum number of building a player can build (hint)"} />
+				}
+				required
+			>
+				<input
+					type={"number"}
+					className={tv.input()}
+					min={1}
+					{...form.register("limit")}
 				/>
 			</FormInput>
 
@@ -92,6 +111,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				<input
 					type={"number"}
 					className={tv.input()}
+					min={1}
 					{...form.register("sort")}
 				/>
 			</FormInput>

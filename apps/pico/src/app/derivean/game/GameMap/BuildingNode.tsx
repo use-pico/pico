@@ -1,9 +1,8 @@
 import { useParams } from "@tanstack/react-router";
-import { Button, Icon, LinkTo, Progress } from "@use-pico/client";
+import { Icon, Progress } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 
 export namespace BuildingNode {
 	export type Data = MapSchema.Type;
@@ -33,8 +32,8 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 			<div className={"flex flex-col gap-2 items-start w-full"}>
 				<div
 					className={"flex flex-row items-center justify-between gap-1 w-full"}
-				>
-					<LinkTo
+				>;
+					{/* <LinkTo
 						to={"/$locale/apps/derivean/game"}
 						params={{ locale }}
 						search={({ requirementsOf }) => ({
@@ -52,7 +51,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({
 						>
 							{data.name}
 						</Button>
-					</LinkTo>
+					</LinkTo> */}
 				</div>
 				{production ?
 					<>

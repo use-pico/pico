@@ -33,11 +33,19 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 
 			const constructionQueue = await tx
 				.selectFrom("Construction as c")
-				.select(["c.id", "c.cycle", "c.to", "c.blueprintId"])
+				.select(["c.id", "c.cycle", "c.to", "c.blueprintId", "c.x", "c.y"])
 				.where("userId", "=", userId)
+				.where("c.plan", "=", false)
 				.execute();
 
-			for await (const { id, blueprintId, cycle, to } of constructionQueue) {
+			for await (const {
+				id,
+				blueprintId,
+				cycle,
+				to,
+				x,
+				y,
+			} of constructionQueue) {
 				if (currentCycle > to) {
 					await tx
 						.insertInto("Building")
@@ -45,6 +53,8 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 							id: genId(),
 							blueprintId,
 							userId,
+							x,
+							y,
 						})
 						.execute();
 

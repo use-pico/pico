@@ -45,6 +45,7 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 								"b.name",
 								"b.sort",
 								"b.cycles",
+								"b.limit",
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -102,6 +103,7 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 							name: z.string().min(1),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
+							limit: z.number().nonnegative(),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

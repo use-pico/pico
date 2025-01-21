@@ -7,6 +7,7 @@ export const BlueprintSchema = withBlueprintSchema({
 		name: z.string().min(1),
 		cycles: withIntSchema(),
 		sort: withIntSchema(),
+		limit: withIntSchema(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

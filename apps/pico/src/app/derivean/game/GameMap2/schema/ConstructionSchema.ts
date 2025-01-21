@@ -1,9 +1,12 @@
+import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
 
 export const ConstructionSchema = z.object({
 	id: z.string().min(1),
 	name: z.string().min(1),
-	count: z.number().int().nonnegative(),
+	x: z.number(),
+	y: z.number(),
+	valid: withBoolSchema(),
 });
 
 export type ConstructionSchema = typeof ConstructionSchema;

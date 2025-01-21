@@ -45,6 +45,10 @@ export const Header: FC<Header.Props> = ({
 				withConstructionQueue({
 					blueprintId,
 					userId,
+					x: 0,
+					y: 0,
+					plan: true,
+                    valid: false,
 				}),
 				withToastPromiseTx("Building queue"),
 			);

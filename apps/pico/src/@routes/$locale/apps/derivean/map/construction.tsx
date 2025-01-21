@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { Construction } from "~/app/derivean/game/GameMap2/Construction/Construction";
-import { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
+import { BlueprintSchema } from "~/app/derivean/game/GameMap2/schema/BlueprintSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 	{
@@ -9,8 +9,26 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			const user = await session();
 
 			return {
-				construction: await queryClient.ensureQueryData({
-					queryKey: ["Blueprint", user.id],
+				user,
+				isConstruction: await queryClient.ensureQueryData({
+					queryKey: ["GameMap", "isConstruction"],
+					async queryFn() {
+						return (
+							(
+								await kysely.transaction().execute((tx) => {
+									return tx
+										.selectFrom("Construction as c")
+										.select([(eb) => eb.fn.count<number>("c.id").as("count")])
+										.where("c.userId", "=", user.id)
+										.where("c.plan", "=", true)
+										.executeTakeFirstOrThrow();
+								})
+							).count > 0
+						);
+					},
+				}),
+				blueprints: await queryClient.ensureQueryData({
+					queryKey: ["GameMap", user.id],
 					async queryFn() {
 						return kysely.transaction().execute(async (tx) => {
 							return withList({
@@ -30,7 +48,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 												.as("count"),
 									])
 									.orderBy("bl.sort", "asc"),
-								output: ConstructionSchema,
+								output: BlueprintSchema,
 							});
 						});
 					},
@@ -38,9 +56,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			};
 		},
 		component() {
-			const { construction } = Route.useLoaderData();
+			const { user, isConstruction, blueprints } = Route.useLoaderData();
 
-			return <Construction construction={construction} />;
+			return (
+				<Construction
+					userId={user.id}
+					isConstruction={isConstruction}
+					blueprints={blueprints}
+				/>
+			);
 		},
 	},
 );

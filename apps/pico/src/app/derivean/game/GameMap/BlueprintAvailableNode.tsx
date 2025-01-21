@@ -1,9 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-    Button,
-    Icon,
-    useInvalidator
-} from "@use-pico/client";
+import { Button, Icon, useInvalidator } from "@use-pico/client";
 import { Handle, NodeProps, Position, type Node } from "@xyflow/react";
 import { type FC } from "react";
 import type { MapSchema } from "~/app/derivean/game/GameMap/MapSchema";
@@ -37,6 +33,10 @@ export const BlueprintAvailableNode: FC<BlueprintAvailableNode.Props> = ({
 			return withConstructionQueue({
 				blueprintId,
 				userId,
+				x: 0,
+				y: 0,
+				plan: true,
+				valid: false,
 			});
 		},
 		async onSuccess() {

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const withIntSchema = () => {
 	return z.union([
-		z.number().int().nonnegative(),
+		z.number().int(),
 		z
 			.string()
 			.transform((value) => parseInt(value, 10))

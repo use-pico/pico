@@ -23,7 +23,7 @@ export const CycleButton: FC<CycleButton.Props> = ({
 }) => {
 	const invalidator = useInvalidator([
 		["Cycle"],
-		["Management"],
+		["GameMap"],
 		["Resource_Queue"],
 		["Building_Queue"],
 		["Building"],

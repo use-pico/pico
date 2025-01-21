@@ -19,7 +19,7 @@ export const PanelCss = css({
 			"justify-between",
 			"items-center",
 			"px-4",
-			"py-2",
+			"py-4",
 			"shadow-md",
 		],
 		content: [
@@ -29,6 +29,7 @@ export const PanelCss = css({
 			"max-h-full",
 			"overflow-y-auto",
 			"px-4",
+			"mb-4",
 		],
 	},
 	variant: {},

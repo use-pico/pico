@@ -199,6 +199,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Sort blueprints by this number (so the player can see buildings in right order).
 				 */
 				.addColumn("sort", "integer", (col) => col.notNull())
+				/**
+				 * Limit number of buildings a player can build.
+				 */
+				.addColumn("limit", "integer", (col) => col.notNull().defaultTo(1))
 
 				.addUniqueConstraint("[Blueprint] name", ["name"])
 
@@ -608,6 +612,22 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
+				 * Planned coordinates on the map
+				 */
+				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
+				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
+
+				/**
+				 * If true, this building is planned, but not in the construction queue yet; user is
+				 * allowed to move it around. Inventory is deducted in this time.
+				 */
+				.addColumn("plan", "boolean", (col) => col.notNull().defaultTo(true))
+				/**
+				 * General flag telling if construction is valid (e.g. building does not collide with the others).
+				 */
+				.addColumn("valid", "boolean", (col) => col.notNull().defaultTo(true))
+
+				/**
 				 * Starting cycle
 				 */
 				.addColumn("from", "integer", (col) => col.notNull())
@@ -619,17 +639,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Current cycle
 				 */
 				.addColumn("cycle", "integer", (col) => col.notNull())
-
-				/**
-				 * User may have only one type of building.
-				 *
-				 * This is not directly necessary, but it may help to catch some bugs when
-				 * user tries to build something that is already in the queue.
-				 */
-				.addUniqueConstraint("[Construction] userId-blueprintId", [
-					"userId",
-					"blueprintId",
-				])
 
 				.execute();
 
@@ -660,13 +669,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
-				 * User may have only one type of building; this also checks when user upgrades to
-				 * a building which accidentally creates one already existing.
+				 * Position of the building on the map.
 				 */
-				.addUniqueConstraint("[Building] userId-blueprintId", [
-					"userId",
-					"blueprintId",
-				])
+				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
+				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
 
 				.execute();
 		}
