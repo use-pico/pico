@@ -636,6 +636,72 @@ export type ResourceTagEntity = ReturnType<
 	typeof withResourceTagSchema
 >["~entity"];
 
+export const withRouteSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				fromId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				toId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "fromId", "toId"],
+	});
+};
+
+export type RouteEntity = ReturnType<typeof withRouteSchema>["~entity"];
+
+export const withRouteResourceSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				routeId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / nullable
+					z.number().nullish(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "routeId", "resourceId", "amount"],
+	});
+};
+
+export type RouteResourceEntity = ReturnType<
+	typeof withRouteResourceSchema
+>["~entity"];
+
 export const withTagSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -752,6 +818,8 @@ export interface Database {
 	Production_Queue: ProductionQueueEntity;
 	Resource: ResourceEntity;
 	Resource_Tag: ResourceTagEntity;
+	Route: RouteEntity;
+	Route_Resource: RouteResourceEntity;
 	Tag: TagEntity;
 	User: UserEntity;
 	User_Inventory: UserInventoryEntity;

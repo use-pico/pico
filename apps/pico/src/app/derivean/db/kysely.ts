@@ -675,6 +675,75 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
 
 				.execute();
+
+			await kysely.schema
+				.createTable("Route")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("fromId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route] fromId",
+					["fromId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("toId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route] toId",
+					["toId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Route] userId-fromId-toId", [
+					"userId",
+					"fromId",
+					"toId",
+				])
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Route_Resource")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("routeId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route_Resource] routeId",
+					["routeId"],
+					"Route",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route_Resource] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
+				 */
+				.addColumn("amount", "float4")
+
+				.execute();
 		}
 	},
 });

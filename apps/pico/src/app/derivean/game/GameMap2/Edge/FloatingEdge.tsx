@@ -1,7 +1,7 @@
 import {
-    getStraightPath,
+    getBezierPath,
     useInternalNode,
-    type EdgeProps,
+    type EdgeProps
 } from "@xyflow/react";
 import type { FC } from "react";
 import { getEdgeParams } from "~/app/derivean/utils/getEdgeParams";
@@ -28,7 +28,7 @@ export const FloatingEdge: FC<FloatingEdge.Props> = ({
 
 	const { sx, sy, tx, ty } = getEdgeParams(sourceNode, targetNode);
 
-	const [edgePath] = getStraightPath({
+	const [edgePath] = getBezierPath({
 		sourceX: sx,
 		sourceY: sy,
 		targetX: tx,
