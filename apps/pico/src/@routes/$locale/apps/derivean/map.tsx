@@ -3,6 +3,7 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import { ls, withList } from "@use-pico/client";
 import { z } from "zod";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
+import { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 import { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
 import { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
@@ -82,6 +83,21 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 					});
 				},
 			}),
+			building: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", "building", user.id],
+				async queryFn() {
+					return kysely.transaction().execute((tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Building as bg")
+								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
+								.select(["bg.id", "bg.blueprintId", "bl.name", "bg.x", "bg.y"])
+								.where("bg.userId", "=", user.id),
+							output: BuildingSchema,
+						});
+					});
+				},
+			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "Cycle"],
 				async queryFn() {
@@ -99,7 +115,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 		};
 	},
 	component() {
-		const { user, construction, queue, cycle } = Route.useLoaderData();
+		const { user, construction, queue, building, cycle } =
+			Route.useLoaderData();
 		const { zoomToId } = Route.useSearch();
 
 		return (
@@ -108,6 +125,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 				cycle={cycle}
 				construction={construction}
 				queue={queue}
+				building={building}
 				zoomToId={zoomToId}
 			/>
 		);

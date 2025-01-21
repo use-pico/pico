@@ -11,12 +11,16 @@ import {
     ReactFlow,
     useNodesState,
     useReactFlow,
+    type OnNodeDrag,
+    type OnNodesChange,
 } from "@xyflow/react";
-import { useEffect, useMemo, type FC } from "react";
+import { useCallback, useEffect, useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
+import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
+import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 import type { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
 import type { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
@@ -39,6 +43,7 @@ export namespace Content {
 		cycle: number;
 		construction: ConstructionSchema.Type[];
 		queue: QueueSchema.Type[];
+		building: BuildingSchema.Type[];
 		zoomToId?: string;
 	}
 }
@@ -48,13 +53,14 @@ export const Content: FC<Content.Props> = ({
 	cycle,
 	construction,
 	queue,
+	building,
 	zoomToId,
 }) => {
 	const invalidator = useInvalidator([]);
 	const { locale } = useParams({ from: "/$locale" });
-	const constructionNodes = useMemo(
-		() =>
-			construction.map((construction) => ({
+	const defaultNodes = useMemo(
+		() => [
+			...construction.map((construction) => ({
 				id: construction.id,
 				data: construction,
 				position: {
@@ -69,11 +75,7 @@ export const Content: FC<Content.Props> = ({
 					construction.valid ? ["border-green-500"] : ["border-red-500"],
 				]),
 			})),
-		[construction],
-	);
-	const queueNodes = useMemo(
-		() =>
-			queue.map((queue) => ({
+			...queue.map((queue) => ({
 				id: queue.id,
 				data: queue,
 				position: {
@@ -86,11 +88,21 @@ export const Content: FC<Content.Props> = ({
 				height,
 				className: tvc(NodeCss),
 			})),
-		[queue],
-	);
-	const defaultNodes = useMemo(
-		() => [...constructionNodes, ...queueNodes],
-		[constructionNodes, queueNodes],
+			...building.map((building) => ({
+				id: building.id,
+				data: building,
+				position: {
+					x: building.x,
+					y: building.y,
+				},
+				type: "building",
+				draggable: false,
+				width,
+				height,
+				className: tvc(NodeCss),
+			})),
+		],
+		[construction, queue, building],
 	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
 	const { updateNode, getIntersectingNodes, fitView } = useReactFlow();
@@ -146,53 +158,68 @@ export const Content: FC<Content.Props> = ({
 		},
 	});
 
+	const onNodesChange = useCallback<OnNodesChange<any>>(
+		(changes) => {
+			setNodes((nodes) => applyNodeChanges(changes, nodes));
+		},
+		[setNodes],
+	);
+	const onNodeDrag = useCallback<OnNodeDrag<any>>(
+		(_, node) => {
+			const isOverlapping = getIntersectingNodes(node).length > 0;
+
+			updateNode(node.id, {
+				...node,
+				data: {
+					...node.data,
+					valid: !isOverlapping,
+				},
+				className: tvc([
+					node.className,
+					isOverlapping ? ["border-red-500"] : ["border-green-500"],
+				]),
+			});
+		},
+		[getIntersectingNodes, updateNode],
+	);
+	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
+		(_, node) => {
+			if (node.type === "construction") {
+				const isOverlapping = getIntersectingNodes(node).length > 0;
+
+				updatePositionMutation.mutate({
+					constructionId: node.id,
+					x: node.position.x,
+					y: node.position.y,
+					valid: !isOverlapping,
+				});
+			}
+		},
+		[getIntersectingNodes, updatePositionMutation],
+	);
+	const nodeTypes = useMemo(
+		() => ({
+			construction: ConstructionNode,
+			queue: QueueNode,
+			building: BuildingNode,
+		}),
+		[],
+	);
+
 	return (
 		<>
 			<div className={"flex flex-row"}>
 				<ReactFlow
 					nodes={nodes}
-					onNodesChange={(changes) => {
-						setNodes((nodes) => applyNodeChanges(changes, nodes));
-					}}
-					onNodeDrag={(_, node) => {
-						const isOverlapping = getIntersectingNodes(node).length > 0;
-
-						updateNode(node.id, {
-							...node,
-							data: {
-								...node.data,
-								valid: !isOverlapping,
-							},
-							className: tvc([
-								node.className,
-								isOverlapping ? ["border-red-500"] : ["border-green-500"],
-							]),
-						});
-					}}
-					onNodeDragStop={(_, node) => {
-						if (node.type === "construction") {
-							const isOverlapping = getIntersectingNodes(node).length > 0;
-
-							updatePositionMutation.mutate({
-								constructionId: node.id,
-								x: node.position.x,
-								y: node.position.y,
-								valid: !isOverlapping,
-							});
-						}
-					}}
+					onNodesChange={onNodesChange}
+					onNodeDrag={onNodeDrag}
+					onNodeDragStop={onNodeDragStop}
 					className={"flex-grow h-screen"}
 					fitView
 					snapToGrid
 					snapGrid={[32, 32]}
 					elementsSelectable={false}
-					nodeTypes={useMemo(
-						() => ({
-							construction: ConstructionNode,
-							queue: QueueNode,
-						}),
-						[],
-					)}
+					nodeTypes={nodeTypes}
 				>
 					<CycleButton
 						userId={userId}

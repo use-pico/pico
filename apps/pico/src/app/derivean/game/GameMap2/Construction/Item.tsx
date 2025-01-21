@@ -37,7 +37,7 @@ export const Item: FC<Item.Props> = ({
 			});
 
 			navigate({
-				to: "/$locale/apps/derivean/map",
+				to: "/$locale/apps/derivean/map/construction",
 				params: { locale },
 				search: { zoomToId: construction.id },
 			});

@@ -10,23 +10,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 
 			return {
 				user,
-				isConstruction: await queryClient.ensureQueryData({
-					queryKey: ["GameMap", "isConstruction"],
-					async queryFn() {
-						return (
-							(
-								await kysely.transaction().execute((tx) => {
-									return tx
-										.selectFrom("Construction as c")
-										.select([(eb) => eb.fn.count<number>("c.id").as("count")])
-										.where("c.userId", "=", user.id)
-										.where("c.plan", "=", true)
-										.executeTakeFirstOrThrow();
-								})
-							).count > 0
-						);
-					},
-				}),
 				blueprints: await queryClient.ensureQueryData({
 					queryKey: ["GameMap", user.id],
 					async queryFn() {
@@ -56,12 +39,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			};
 		},
 		component() {
-			const { user, isConstruction, blueprints } = Route.useLoaderData();
+			const { user, blueprints } = Route.useLoaderData();
 
 			return (
 				<Construction
 					userId={user.id}
-					isConstruction={isConstruction}
 					blueprints={blueprints}
 				/>
 			);

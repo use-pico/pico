@@ -8,14 +8,12 @@ import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 export namespace Construction {
 	export interface Props extends Panel.PropsEx {
 		userId: string;
-		isConstruction: boolean;
 		blueprints: BlueprintSchema.Type[];
 	}
 }
 
 export const Construction: FC<Construction.Props> = ({
 	userId,
-	isConstruction,
 	blueprints,
 	...props
 }) => {
@@ -25,18 +23,15 @@ export const Construction: FC<Construction.Props> = ({
 			textTitle={<Tx label={"Construction (label)"} />}
 			{...props}
 		>
-			{isConstruction ?
-				<Tx label={"Finish planned construction first (label)"} />
-			:	blueprints.map((item) => {
-					return (
-						<Item
-							key={item.id}
-							userId={userId}
-							entity={item}
-						/>
-					);
-				})
-			}
+			{blueprints.map((item) => {
+				return (
+					<Item
+						key={item.id}
+						userId={userId}
+						entity={item}
+					/>
+				);
+			})}
 		</Panel>
 	);
 };
