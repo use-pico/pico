@@ -6,6 +6,7 @@ import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 import { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
 import { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
+import { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map")({
@@ -98,6 +99,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 					});
 				},
 			}),
+			route: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", "route", user.id],
+				async queryFn() {
+					return kysely.transaction().execute((tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Route as r")
+								.select(["r.id", "r.fromId", "r.toId"])
+								.where("r.userId", "=", user.id),
+							output: RouteSchema,
+						});
+					});
+				},
+			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "Cycle"],
 				async queryFn() {
@@ -115,7 +130,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 		};
 	},
 	component() {
-		const { user, construction, queue, building, cycle } =
+		const { user, construction, queue, building, route, cycle } =
 			Route.useLoaderData();
 		const { zoomToId } = Route.useSearch();
 
@@ -126,6 +141,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 				construction={construction}
 				queue={queue}
 				building={building}
+				route={route}
 				zoomToId={zoomToId}
 			/>
 		);

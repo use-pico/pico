@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, useParams } from "@tanstack/react-router";
 import { BackIcon, LinkTo, useInvalidator } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { genId, tvc } from "@use-pico/common";
 import {
     addEdge,
     applyNodeChanges,
@@ -29,6 +29,7 @@ import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 import type { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
 import type { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
+import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
@@ -39,7 +40,6 @@ const NodeCss = [
 	"bg-white",
 	"border-[4px]",
 	"border-slate-300",
-	"shadow-lg",
 	"shadow-slate-200",
 ];
 
@@ -72,6 +72,7 @@ export namespace Content {
 		construction: ConstructionSchema.Type[];
 		queue: QueueSchema.Type[];
 		building: BuildingSchema.Type[];
+		route: RouteSchema.Type[];
 		zoomToId?: string;
 	}
 }
@@ -82,6 +83,7 @@ export const Content: FC<Content.Props> = ({
 	construction,
 	queue,
 	building,
+	route,
 	zoomToId,
 }) => {
 	const invalidator = useInvalidator([]);
@@ -132,8 +134,23 @@ export const Content: FC<Content.Props> = ({
 		],
 		[construction, queue, building],
 	);
+	const defaultEdges = useMemo(
+		() => [
+			...route.map((route) => ({
+				id: route.id,
+				source: route.fromId,
+				target: route.toId,
+				type: "floating",
+				/**
+				 * True if there are available resources in the source (from) and free space in target (to).
+				 */
+				animated: false,
+			})),
+		],
+		[route],
+	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
-	const [edges, setEdges] = useEdgesState([]);
+	const [edges, setEdges] = useEdgesState(defaultEdges);
 	const { updateNode, getIntersectingNodes, fitView } = useReactFlow();
 
 	useEffect(() => {
@@ -226,8 +243,25 @@ export const Content: FC<Content.Props> = ({
 		},
 		[getIntersectingNodes, updatePositionMutation],
 	);
+	const routeMutation = useMutation({
+		async mutationFn({ fromId, toId }: { fromId: string; toId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				return tx
+					.insertInto("Route")
+					.values({ id: genId(), fromId, toId, userId })
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 	const onConnect = useCallback<OnConnect>(
-		(params) => setEdges((edges) => addEdge(params, edges)),
+		(params) =>
+			setEdges((edges) => {
+				routeMutation.mutate({ fromId: params.source, toId: params.target });
+				return addEdge(params, edges);
+			}),
 		[setEdges],
 	);
 
