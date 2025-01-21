@@ -104,6 +104,37 @@ export type BlueprintDependencyEntity = ReturnType<
 	typeof withBlueprintDependencySchema
 >["~entity"];
 
+export const withBlueprintInventorySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				blueprintId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				inventoryId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "blueprintId", "inventoryId"],
+	});
+};
+
+export type BlueprintInventoryEntity = ReturnType<
+	typeof withBlueprintInventorySchema
+>["~entity"];
+
 export const withBlueprintProductionSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -314,6 +345,37 @@ export const withBuildingSchema = <
 };
 
 export type BuildingEntity = ReturnType<typeof withBuildingSchema>["~entity"];
+
+export const withBuildingInventorySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				inventoryId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingId", "inventoryId"],
+	});
+};
+
+export type BuildingInventoryEntity = ReturnType<
+	typeof withBuildingInventorySchema
+>["~entity"];
 
 export const withConstructionSchema = <
 	TShapeSchema extends ShapeSchema,
@@ -804,12 +866,14 @@ export interface Database {
 	Blueprint: BlueprintEntity;
 	Blueprint_Conflict: BlueprintConflictEntity;
 	Blueprint_Dependency: BlueprintDependencyEntity;
+	Blueprint_Inventory: BlueprintInventoryEntity;
 	Blueprint_Production: BlueprintProductionEntity;
 	Blueprint_Production_Dependency: BlueprintProductionDependencyEntity;
 	Blueprint_Production_Requirement: BlueprintProductionRequirementEntity;
 	Blueprint_Production_Resource: BlueprintProductionResourceEntity;
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
+	Building_Inventory: BuildingInventoryEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
 	Default_Inventory: DefaultInventoryEntity;

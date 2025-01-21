@@ -208,6 +208,35 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
+			await kysely.schema
+				.createTable("Blueprint_Inventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("blueprintId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Inventory] blueprintId",
+					["blueprintId"],
+					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("inventoryId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Inventory] inventoryId",
+					["inventoryId"],
+					"Inventory",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Blueprint_Inventory] blueprintId-inventoryId", [
+					"blueprintId",
+					"inventoryId",
+				])
+
+				.execute();
+
 			/**
 			 * Defines resources available for production in the building (blueprint).
 			 */
@@ -673,6 +702,35 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
 				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Building_Inventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Inventory] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("inventoryId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Inventory] inventoryId",
+					["inventoryId"],
+					"Inventory",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Building_Inventory] buildingId-inventoryId", [
+					"buildingId",
+					"inventoryId",
+				])
 
 				.execute();
 
