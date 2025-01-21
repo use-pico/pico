@@ -3,20 +3,26 @@ import { Outlet, useParams } from "@tanstack/react-router";
 import { BackIcon, LinkTo, useInvalidator } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import {
+    addEdge,
     applyNodeChanges,
     Background,
     BackgroundVariant,
     Controls,
+    MarkerType,
     MiniMap,
     ReactFlow,
+    useEdgesState,
     useNodesState,
     useReactFlow,
+    type OnConnect,
     type OnNodeDrag,
     type OnNodesChange,
 } from "@xyflow/react";
 import { useCallback, useEffect, useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
+import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
+import { FloatingEdge } from "~/app/derivean/game/GameMap2/Edge/FloatingEdge";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
@@ -34,8 +40,30 @@ const NodeCss = [
 	"border-[4px]",
 	"border-slate-300",
 	"shadow-lg",
-	"shadow-slate-300",
+	"shadow-slate-200",
 ];
+
+const connectionLineStyle = {
+	stroke: "#b1b1b7",
+};
+
+const defaultEdgeOptions = {
+	type: "floating",
+	markerEnd: {
+		type: MarkerType.ArrowClosed,
+		color: "#b1b1b7",
+	},
+};
+
+const nodeTypes = {
+	construction: ConstructionNode,
+	queue: QueueNode,
+	building: BuildingNode,
+} as const;
+
+const edgeTypes = {
+	floating: FloatingEdge,
+} as const;
 
 export namespace Content {
 	export interface Props {
@@ -105,6 +133,7 @@ export const Content: FC<Content.Props> = ({
 		[construction, queue, building],
 	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
+	const [edges, setEdges] = useEdgesState([]);
 	const { updateNode, getIntersectingNodes, fitView } = useReactFlow();
 
 	useEffect(() => {
@@ -197,13 +226,9 @@ export const Content: FC<Content.Props> = ({
 		},
 		[getIntersectingNodes, updatePositionMutation],
 	);
-	const nodeTypes = useMemo(
-		() => ({
-			construction: ConstructionNode,
-			queue: QueueNode,
-			building: BuildingNode,
-		}),
-		[],
+	const onConnect = useCallback<OnConnect>(
+		(params) => setEdges((edges) => addEdge(params, edges)),
+		[setEdges],
 	);
 
 	return (
@@ -211,15 +236,21 @@ export const Content: FC<Content.Props> = ({
 			<div className={"flex flex-row"}>
 				<ReactFlow
 					nodes={nodes}
+					edges={edges}
 					onNodesChange={onNodesChange}
 					onNodeDrag={onNodeDrag}
 					onNodeDragStop={onNodeDragStop}
+					onConnect={onConnect}
 					className={"flex-grow h-screen"}
 					fitView
 					snapToGrid
 					snapGrid={[32, 32]}
 					elementsSelectable={false}
 					nodeTypes={nodeTypes}
+					edgeTypes={edgeTypes}
+					connectionLineComponent={ConnectionLine}
+					connectionLineStyle={connectionLineStyle}
+					defaultEdgeOptions={defaultEdgeOptions}
 				>
 					<CycleButton
 						userId={userId}
