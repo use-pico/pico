@@ -117,13 +117,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
+						Remove User_Inventory, deduct all inventory transactions from
+						Building_Inventory.
+					</li>
+					<li>
+						Game start: define default construction (instead of default
+						inventory); those building should be exclusive to very first
+						building: "Center" will be first, "Storage" next and "Storage" will
+						define "Center" as exclusive, so user should not be able to build
+						more centers.
+					</li>
+					<li>
 						Add notification center like inventory is full, production is full
 						and so on.
-					</li>
-
-					<li>
-						Add exclusive to (building "exclusiveToId" cannot be built when
-						target exists); Ok, exclusive to will be m:n.
 					</li>
 					<li>
 						Upgrades: Put everything into the building, drive upgrades by
@@ -143,11 +149,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 					<li>
 						Define winning rules: amount of resources / building built in
 						specific cycle. When rules are not met, it's like a fail.
-					</li>
-					<li>
-						Idea: Blueprint should have display list (like present resource in
-						inventory), also production should have display list (like present
-						resource in inventory).
 					</li>
 					<li>
 						Add something like world available resources + the ability to drain
