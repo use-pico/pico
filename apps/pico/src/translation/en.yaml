@@ -37,6 +37,9 @@
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Edit requirement item (modal)
+113136722737f2874e8a58232fe40b8e743ad5e8e51257c76775bd22:
+  ref: No outcomming routes yet (label)
+  value: No outcomming routes yet (label)
 11d8160a4be6d533d9b88ac59f1e30913a3b53f60b9e231ff632f953:
   ref: Inventory (label)
   value: Inventory (label)
@@ -220,6 +223,9 @@
 57c7a5c184976416381173e7bc8c4bf9b631f528e3f6e9099a6693fe:
   ref: Save (submit)
   value: Save (submit)
+58eef9df52681affb59a7c149276b0e5168156461598fff421966b93:
+  ref: Building inventory (label)
+  value: Building inventory (label)
 59ea2a637722c52b6c18d33ec5ff0cd8ccdb7ef1ee24a7e2ead9a30e:
   ref: Blueprint dependency graph (label)
   value: Blueprint dependency graph (label)
@@ -235,9 +241,15 @@
 60903df05ec210e684a0bf3599eb1305e4f1823f8c99e1179b1f4f12:
   ref: Cycle - Success (label)
   value: Cycle - Success (label)
+6188818172aceefe2eef563f0859150235ba1fb4f4a8b5c834d05114:
+  ref: Building routes (label)
+  value: Building routes (label)
 627b144c2c50807a987281e5ecdb4c810b593d2bec46a5dfedfc2a36:
   ref: Blueprint dependencies (menu)
   value: Blueprint dependencies (menu)
+6304c0633b8418f4b86038c89ea24e83f4665b3e0a3f8cb6000cb69c:
+  ref: Production requirements (label)
+  value: Production requirements (label)
 64d65635c0b576003b2873d9a8f8d5987adcaf6c59618758101b17fb:
   ref: Delete blueprint production (content)
   value: Delete blueprint production (content)
@@ -247,6 +259,9 @@
 66906bcb4f290b060851a432ba85f8191760b1b79b12b77d670156d4:
   ref: Delete blueprint (modal)
   value: Delete blueprint (modal)
+66923483a4905f481b778be0b15fe525c03d4614d10bd494bf6e7c75:
+  ref: Building production (label)
+  value: Building production (label)
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Create resource (menu)
@@ -370,6 +385,9 @@
 99984c7ac95337115727a14415e0e491d70be963133c116562200d62:
   ref: Select blueprint (label)
   value: Select blueprint (label)
+9cc08cf17c7bccc6e302c68297ba6ae2239c8627d16197edee9ed0e3:
+  ref: There are no requirements. (label)
+  value: There are no requirements. (label)
 9d5c86b718be2e6691ae6c8a320acb7c044ffec7e24dd2a1177d3b89:
   ref: Select resource tags (title)
   value: Select resource tags (title)
@@ -595,6 +613,9 @@ fd7b501528a7241d7462c715013d57e851c997479ed6bddc1e88b4e8:
 fdcf641473a00b95e8093efe65400e3d667838bbe0b89a4b8755c9c2:
   ref: Resource production queue - Success (label)
   value: Resource production queue - Success (label)
+fdd048d99302a69760e77235f1dc04965262a8cc8bc3b7da2573723d:
+  ref: This building does not produce anything. (label)
+  value: This building does not produce anything. (label)
 fe467ee81f0f6139dc5cb5ce65815c7268f9b512a94be7bce94b3e13:
   ref: Select resource (title)
   value: Select resource (title)

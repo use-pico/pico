@@ -1,6 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { LinkTo, withList } from "@use-pico/client";
+import { BackIcon, LinkTo, withList } from "@use-pico/client";
 import { z } from "zod";
 import { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
@@ -82,13 +82,20 @@ export const Route = createFileRoute(
 			<InventoryPanel
 				inventory={inventory}
 				textSubTitle={
-					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/inventory"}
-						params={{ locale, id: building.id }}
-						search={{ zoomToId: building.id }}
-					>
-						{building.name}
-					</LinkTo>
+					<>
+						<LinkTo
+							icon={BackIcon}
+							to={"/$locale/apps/derivean/map/building/$id/view"}
+							params={{ locale, id: building.id }}
+						/>
+						<LinkTo
+							to={"/$locale/apps/derivean/map/building/$id/inventory"}
+							params={{ locale, id: building.id }}
+							search={{ zoomToId: building.id }}
+						>
+							{building.name}
+						</LinkTo>
+					</>
 				}
 				fulltextProps={{
 					value: fulltext,

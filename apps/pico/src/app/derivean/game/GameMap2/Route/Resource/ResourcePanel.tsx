@@ -47,7 +47,7 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 			icon={ResourceIcon}
 			textTitle={<Tx label={"Route resources (label)"} />}
 			textSubTitle={
-				<div className={"flex flex-row gap-2 items-center"}>
+				<>
 					<LinkTo
 						icon={BackIcon}
 						to={"/$locale/apps/derivean/map/building/$id/routes"}
@@ -58,7 +58,7 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 						<Icon icon={"icon-[cil--arrow-right]"} />
 						<div>{route.toName}</div>
 					</div>
-				</div>
+				</>
 			}
 			{...props}
 		>

@@ -3,48 +3,48 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
+import { Item } from "~/app/derivean/game/GameMap2/Production/Requirement/Item";
+import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
-export namespace RoutePanel {
+export namespace RequirementPanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Route {
+	export interface Requirement {
 		id: string;
-		fromId: string;
-		toId: string;
-		toName: string;
-		count: number;
+		name: string;
+		amount: number;
+		passive: boolean;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
-		route: Route[];
+		requirement: Requirement[];
 	}
 }
 
-export const RoutePanel: FC<RoutePanel.Props> = ({
+export const RequirementPanel: FC<RequirementPanel.Props> = ({
 	building,
-	route,
+	requirement,
 	...props
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
 		<Panel
-			icon={"icon-[gis--route-end]"}
-			textTitle={<Tx label={"Routes (label)"} />}
+			icon={ResourceIcon}
+			textTitle={<Tx label={"Production requirements (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/view"}
+						to={"/$locale/apps/derivean/map/building/$id/production/list"}
 						params={{ locale, id: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/routes"}
+						to={"/$locale/apps/derivean/map/building/$id/production/list"}
 						params={{ locale, id: building.id }}
 						search={{ zoomToId: building.id }}
 					>
@@ -54,12 +54,12 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 			}
 			{...props}
 		>
-			{route.length > 0 ?
-				route.map((item) => {
+			{requirement.length > 0 ?
+				requirement.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							route={item}
+							requirement={item}
 						/>
 					);
 				})
@@ -70,13 +70,13 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						"justify-center",
 						"rounded",
 						"border",
-						"border-amber-400",
+						"border-green-400",
 						"p-4",
-						"bg-amber-200",
+						"bg-green-200",
 						"font-bold",
 					])}
 				>
-					<Tx label={"No outcomming routes yet (label)"} />
+					<Tx label={"There are no requirements. (label)"} />
 				</div>
 			}
 		</Panel>

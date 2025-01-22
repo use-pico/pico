@@ -34,7 +34,7 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 				return (
 					<Item
 						key={item.id}
-						entity={item}
+						inventory={item}
 					/>
 				);
 			})}

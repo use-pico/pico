@@ -1,15 +1,15 @@
 import { Progress } from "@use-pico/client";
-import { tvc, type Entity } from "@use-pico/common";
+import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
 export namespace Item {
-	export interface Props extends Entity.Type<InventoryPanel.Data> {
-		//
+	export interface Props {
+		inventory: InventoryPanel.Inventory;
 	}
 }
 
-export const Item: FC<Item.Props> = ({ entity }) => {
+export const Item: FC<Item.Props> = ({ inventory }) => {
 	return (
 		<div
 			className={tvc([
@@ -24,11 +24,11 @@ export const Item: FC<Item.Props> = ({ entity }) => {
 				"hover:bg-slate-100",
 			])}
 		>
-			<div className={"font-bold"}>{entity.name}</div>
-			{entity.limit > 0 ?
+			<div className={"font-bold"}>{inventory.name}</div>
+			{inventory.limit > 0 ?
 				<Progress
 					variant={{ size: "md" }}
-					value={(100 * entity.amount) / entity.limit}
+					value={(100 * inventory.amount) / inventory.limit}
 				/>
 			:	null}
 		</div>

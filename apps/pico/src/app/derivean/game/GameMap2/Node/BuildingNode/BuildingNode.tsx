@@ -1,9 +1,8 @@
 import { useParams } from "@tanstack/react-router";
-import { Icon, LinkTo } from "@use-pico/client";
+import { LinkTo } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 export namespace BuildingNode {
 	export interface Data {
@@ -24,29 +23,23 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	return (
 		<div className="flex flex-row gap-2 w-full items-center justify-between">
 			<div className={"flex flex-row gap-2 items-center"}>
-				<Icon
+				<LinkTo
 					icon={BuildingIcon}
-					css={{ base: ["text-slate-500"] }}
-				/>
-				<div className="font-bold">{data.name}</div>
+					to={"/$locale/apps/derivean/map/building/$id/view"}
+					params={{ locale, id }}
+					css={{
+						base: ["font-bold"],
+					}}
+				>
+					{data.name}
+				</LinkTo>
 			</div>
 			<div
 				className={"flex flex-row gap-1 items-center"}
 				onClick={(e) => e.stopPropagation()}
 				onDoubleClick={(e) => e.stopPropagation()}
 				onMouseDown={(e) => e.stopPropagation()}
-			>
-				<LinkTo
-					icon={InventoryIcon}
-					to={"/$locale/apps/derivean/map/building/$id/inventory"}
-					params={{ locale, id }}
-				/>
-				<LinkTo
-					icon={"icon-[gis--route-end]"}
-					to={"/$locale/apps/derivean/map/building/$id/routes"}
-					params={{ locale, id }}
-				/>
-			</div>
+			></div>
 
 			<Handle
 				className={"hidden"}

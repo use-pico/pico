@@ -38,7 +38,13 @@ export const Panel: FC<Panel.Props> = ({
 					</div>
 
 					{textSubTitle ?
-						<div className={"text-sm text-slate-500"}>{textSubTitle}</div>
+						<div
+							className={
+								"flex flex-row gap-2 items-center text-sm text-slate-500"
+							}
+						>
+							{textSubTitle}
+						</div>
 					:	null}
 				</div>
 				<LinkTo

@@ -3,39 +3,39 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
+import { Item } from "~/app/derivean/game/GameMap2/Production/Item";
+import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 
-export namespace RoutePanel {
+export namespace ProductionPanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Route {
+	export interface Production {
 		id: string;
-		fromId: string;
-		toId: string;
-		toName: string;
-		count: number;
+		name: string;
+		amount: number;
+		cycles: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
-		route: Route[];
+		production: Production[];
 	}
 }
 
-export const RoutePanel: FC<RoutePanel.Props> = ({
+export const ProductionPanel: FC<ProductionPanel.Props> = ({
 	building,
-	route,
+	production,
 	...props
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
 		<Panel
-			icon={"icon-[gis--route-end]"}
-			textTitle={<Tx label={"Routes (label)"} />}
+			icon={ProductionIcon}
+			textTitle={<Tx label={"Building production (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
@@ -44,7 +44,7 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						params={{ locale, id: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/routes"}
+						to={"/$locale/apps/derivean/map/building/$id/production/list"}
 						params={{ locale, id: building.id }}
 						search={{ zoomToId: building.id }}
 					>
@@ -54,12 +54,13 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 			}
 			{...props}
 		>
-			{route.length > 0 ?
-				route.map((item) => {
+			{production.length > 0 ?
+				production.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							route={item}
+							building={building}
+							production={item}
 						/>
 					);
 				})
@@ -76,7 +77,7 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						"font-bold",
 					])}
 				>
-					<Tx label={"No outcomming routes yet (label)"} />
+					<Tx label={"This building does not produce anything. (label)"} />
 				</div>
 			}
 		</Panel>
