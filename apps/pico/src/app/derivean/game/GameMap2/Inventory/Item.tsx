@@ -1,10 +1,10 @@
 import { Progress } from "@use-pico/client";
 import { tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
-import type { InventorySchema } from "~/app/derivean/game/GameMap2/schema/InventorySchema";
+import type { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
 export namespace Item {
-	export interface Props extends Entity.Schema<InventorySchema> {
+	export interface Props extends Entity.Type<InventoryPanel.Data> {
 		//
 	}
 }

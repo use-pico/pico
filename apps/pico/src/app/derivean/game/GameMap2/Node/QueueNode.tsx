@@ -1,11 +1,21 @@
 import { Icon, Progress } from "@use-pico/client";
 import type { Node, NodeProps } from "@xyflow/react";
 import type { FC } from "react";
-import type { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
 export namespace QueueNode {
-	export interface Props extends NodeProps<Node<QueueSchema.Type, "queue">> {
+	export interface Data {
+		id: string;
+		name: string;
+		x: number;
+		y: number;
+		from: number;
+		to: number;
+		cycle: number;
+		[key: string]: unknown;
+	}
+
+	export interface Props extends NodeProps<Node<Data, "queue">> {
 		//
 	}
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
-import { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
+import { z } from "zod";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/building/$id")(
 	{
@@ -14,9 +14,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/building/$id")(
 								select: tx
 									.selectFrom("Building as b")
 									.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-									.select(["b.id", "bl.name", "b.x", "b.y"])
+									.select(["b.id", "bl.name"])
 									.where("b.id", "=", id),
-								output: BuildingSchema,
+								output: z.object({
+									id: z.string().min(1),
+									name: z.string().min(1),
+								}),
 							});
 						});
 					},

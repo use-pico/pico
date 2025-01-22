@@ -5,15 +5,18 @@ import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { InventoryItem } from "~/app/derivean/game/GameMap2/Route/Resource/InventoryItem";
 import { Item } from "~/app/derivean/game/GameMap2/Route/Resource/Item";
-import type { BlueprintInventorySchema } from "~/app/derivean/game/GameMap2/schema/BlueprintInventorySchema";
-import type { RouteResourceSchema } from "~/app/derivean/game/GameMap2/schema/RouteResourceSchema";
-import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace ResourcePanel {
-	export interface Props extends Panel.PropsEx, Entity.Schema<RouteSchema> {
-		resource: RouteResourceSchema.Type[];
-		inventory: BlueprintInventorySchema.Type[];
+	export interface Data {
+		id: string;
+		fromId: string;
+		fromName: string;
+	}
+
+	export interface Props extends Panel.PropsEx, Entity.Type<Data> {
+		resource: any[];
+		inventory: any[];
 	}
 }
 

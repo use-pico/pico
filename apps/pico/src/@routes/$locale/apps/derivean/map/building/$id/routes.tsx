@@ -1,8 +1,8 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { Kysely } from "@use-pico/common";
+import { z } from "zod";
 import { RoutePanel } from "~/app/derivean/game/GameMap2/Route/RoutePanel";
-import { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/building/$id/routes",
@@ -44,7 +44,13 @@ export const Route = createFileRoute(
 									},
 								])
 								.where("r.fromId", "=", id),
-							output: RouteSchema,
+							output: z.object({
+								id: z.string().min(1),
+								fromId: z.string().min(1),
+								toId: z.string().min(1),
+								fromName: z.string().min(1),
+								toName: z.string().min(1),
+							}),
 						});
 					});
 				},
@@ -57,11 +63,6 @@ export const Route = createFileRoute(
 		});
 		const { route } = Route.useLoaderData();
 
-		return (
-			<RoutePanel
-				entity={entity}
-				route={route}
-			/>
-		);
+		return <RoutePanel entity={entity} />;
 	},
 });

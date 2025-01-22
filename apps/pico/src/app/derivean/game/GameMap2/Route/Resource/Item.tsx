@@ -1,9 +1,9 @@
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
-import type { RouteResourceSchema } from "~/app/derivean/game/GameMap2/schema/RouteResourceSchema";
+import type { ResourcePanel } from "~/app/derivean/game/GameMap2/Route/Resource/ResourcePanel";
 
 export namespace Item {
-	export interface Props extends Entity.Schema<RouteResourceSchema> {
+	export interface Props extends Entity.Type<ResourcePanel.Data> {
 		//
 	}
 }

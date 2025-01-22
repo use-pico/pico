@@ -2,12 +2,17 @@ import { useParams } from "@tanstack/react-router";
 import { Icon, LinkTo } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
-import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 
 export namespace BuildingNode {
-	export interface Props
-		extends NodeProps<Node<BuildingSchema.Type, "building">> {
+	export interface Data {
+		name: string;
+		x: number;
+		y: number;
+		[key: string]: unknown;
+	}
+
+	export interface Props extends NodeProps<Node<Data, "building">> {
 		//
 	}
 }

@@ -2,12 +2,18 @@ import { Fulltext, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import { Item } from "~/app/derivean/game/GameMap2/Inventory/Item";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import type { InventorySchema } from "~/app/derivean/game/GameMap2/schema/InventorySchema";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 export namespace InventoryPanel {
+	export interface Data {
+		id: string;
+		name: string;
+		limit: number;
+		amount: number;
+	}
+
 	export interface Props extends Panel.PropsEx {
-		inventory: InventorySchema.Type[];
+		inventory: Data[];
 		fulltextProps: Fulltext.Props;
 	}
 }

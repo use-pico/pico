@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
 import { z } from "zod";
-import {
-    InventoryPanel
-} from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
-import { InventorySchema } from "~/app/derivean/game/GameMap2/schema/InventorySchema";
+import { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/inventory")({
 	validateSearch: zodValidator(
@@ -56,7 +53,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/inventory")({
 
 								return $select;
 							},
-							output: InventorySchema,
+							output: z.object({
+								id: z.string().min(1),
+								amount: z.number().nonnegative(),
+								limit: z.number().nonnegative(),
+								name: z.string().min(1),
+							}),
 							filter: {
 								fulltext,
 							},

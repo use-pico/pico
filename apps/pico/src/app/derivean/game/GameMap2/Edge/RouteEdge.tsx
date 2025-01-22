@@ -1,18 +1,26 @@
 import {
     getSimpleBezierPath,
     useInternalNode,
+    type Edge,
     type EdgeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
 import { getEdgeParams } from "~/app/derivean/utils/getEdgeParams";
 
-export namespace FloatingEdge {
-	export interface Props extends EdgeProps {
+export namespace RouteEdge {
+	export interface Data {
+		id: string;
+		fromId: string;
+		toId: string;
+		[key: string]: unknown;
+	}
+
+	export interface Props extends EdgeProps<Edge<Data, "route">> {
 		//
 	}
 }
 
-export const FloatingEdge: FC<FloatingEdge.Props> = ({
+export const RouteEdge: FC<RouteEdge.Props> = ({
 	id,
 	source,
 	target,

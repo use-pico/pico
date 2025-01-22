@@ -1,19 +1,19 @@
 import { ReactFlowProvider } from "@xyflow/react";
 import { type FC } from "react";
 import { Content } from "~/app/derivean/game/GameMap2/Content";
-import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
-import type { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
-import type { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
-import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
+import type { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
+import type { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
+import type { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
+import type { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 
 export namespace GameMap2 {
 	export interface Props {
 		userId: string;
 		cycle: number;
-		construction: ConstructionSchema.Type[];
-		queue: QueueSchema.Type[];
-		building: BuildingSchema.Type[];
-		route: RouteSchema.Type[];
+		construction: ConstructionNode.Data[];
+		queue: QueueNode.Data[];
+		building: BuildingNode.Data[];
+		route: RouteEdge.Data[];
 		zoomToId?: string;
 		routing?: boolean;
 	}

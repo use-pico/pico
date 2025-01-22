@@ -2,11 +2,10 @@ import { useParams } from "@tanstack/react-router";
 import { LinkTo } from "@use-pico/client";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
-import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace Item {
-	export interface Props extends Entity.Schema<RouteSchema> {
+	export interface Props extends Entity.Type<any> {
 		//
 	}
 }

@@ -3,11 +3,18 @@ import { Button, CheckIcon, Icon, useInvalidator } from "@use-pico/client";
 import type { Node, NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import type { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
 
 export namespace ConstructionNode {
-	export interface Props
-		extends NodeProps<Node<ConstructionSchema.Type, "construction">> {
+	export interface Data {
+		id: string;
+		name: string;
+		x: number;
+		y: number;
+		valid: boolean;
+		[key: string]: unknown;
+	}
+
+	export interface Props extends NodeProps<Node<Data, "construction">> {
 		//
 	}
 }

@@ -3,21 +3,19 @@ import { LinkTo, Tx } from "@use-pico/client";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
-import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
-import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 
 export namespace RoutePanel {
-	export interface Props extends Panel.PropsEx, Entity.Schema<BuildingSchema> {
-		route: RouteSchema.Type[];
+	export interface Data {
+		id: string;
+		name: string;
+	}
+
+	export interface Props extends Panel.PropsEx, Entity.Type<Data> {
+		//
 	}
 }
 
-export const RoutePanel: FC<RoutePanel.Props> = ({
-	entity,
-	route,
-	...props
-}) => {
+export const RoutePanel: FC<RoutePanel.Props> = ({ entity, ...props }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
@@ -35,14 +33,14 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 			}
 			{...props}
 		>
-			{route.map((item) => {
+			{/* {route.map((item) => {
 				return (
 					<Item
 						key={item.id}
 						entity={item}
 					/>
 				);
-			})}
+			})} */}
 		</Panel>
 	);
 };

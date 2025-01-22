@@ -7,11 +7,14 @@ import {
     type NodeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
-import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
 
 export namespace BuildingRouteNode {
-	export interface Props
-		extends NodeProps<Node<BuildingSchema.Type, "building-route">> {
+	export interface Data {
+		name: string;
+		[key: string]: unknown;
+	}
+
+	export interface Props extends NodeProps<Node<Data, "building-route">> {
 		//
 	}
 }

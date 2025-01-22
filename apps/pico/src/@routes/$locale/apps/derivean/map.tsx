@@ -1,13 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { ls, withList } from "@use-pico/client";
-import { Kysely } from "@use-pico/common";
+import { Kysely, withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
-import { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
-import { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
-import { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
-import { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map")({
@@ -55,7 +51,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								])
 								.where("c.plan", "=", true)
 								.where("c.userId", "=", user.id),
-							output: ConstructionSchema,
+							output: z.object({
+								id: z.string().min(1),
+								name: z.string().min(1),
+								x: z.number(),
+								y: z.number(),
+								valid: withBoolSchema(),
+							}),
 						});
 					});
 				},
@@ -81,7 +83,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								])
 								.where("c.plan", "=", false)
 								.where("c.userId", "=", user.id),
-							output: QueueSchema,
+							output: z.object({
+								id: z.string().min(1),
+								name: z.string().min(1),
+								x: z.number(),
+								y: z.number(),
+								from: z.number().int().nonnegative(),
+								to: z.number().int().nonnegative(),
+								cycle: z.number().int().nonnegative(),
+							}),
 						});
 					});
 				},
@@ -96,7 +106,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select(["bg.id", "bg.blueprintId", "bl.name", "bg.x", "bg.y"])
 								.where("bg.userId", "=", user.id),
-							output: BuildingSchema,
+							output: z.object({
+								id: z.string().min(1),
+								name: z.string().min(1),
+								x: z.number(),
+								y: z.number(),
+							}),
 						});
 					});
 				},
@@ -136,7 +151,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									},
 								])
 								.where("r.userId", "=", user.id),
-							output: RouteSchema,
+							output: z.object({
+								id: z.string().min(1),
+								fromId: z.string().min(1),
+								toId: z.string().min(1),
+								fromName: z.string().min(1),
+								toName: z.string().min(1),
+							}),
 						});
 					});
 				},

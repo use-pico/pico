@@ -3,13 +3,14 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { Badge, Button, useInvalidator } from "@use-pico/client";
 import { type Entity } from "@use-pico/common";
 import { type FC } from "react";
+import type { ConstructionPanel } from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
 import { ItemCss } from "~/app/derivean/game/GameMap2/Construction/ItemCss";
-import type { BlueprintSchema } from "~/app/derivean/game/GameMap2/schema/BlueprintSchema";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { withConstructionQueue } from "~/app/derivean/service/withConstructionQueue";
 
 export namespace Item {
-	export interface Props extends ItemCss.Props<Entity.Schema<BlueprintSchema>> {
+	export interface Props
+		extends ItemCss.Props<Entity.Type<ConstructionPanel.Blueprint>> {
 		userId: string;
 	}
 }

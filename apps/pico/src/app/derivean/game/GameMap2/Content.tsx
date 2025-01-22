@@ -22,15 +22,11 @@ import { useCallback, useEffect, useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
-import { FloatingEdge } from "~/app/derivean/game/GameMap2/Edge/FloatingEdge";
-import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode";
-import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingRouteNode";
+import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
+import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
+import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
-import type { BuildingSchema } from "~/app/derivean/game/GameMap2/schema/BuildingSchema";
-import type { ConstructionSchema } from "~/app/derivean/game/GameMap2/schema/ConstructionSchema";
-import type { QueueSchema } from "~/app/derivean/game/GameMap2/schema/QueueSchema";
-import type { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
@@ -48,14 +44,6 @@ const connectionLineStyle = {
 	stroke: "#b1b1b7",
 };
 
-const defaultEdgeOptions = {
-	type: "floating",
-	markerEnd: {
-		type: MarkerType.ArrowClosed,
-		color: "#b1b1b7",
-	},
-};
-
 const nodeTypes = {
 	"construction": ConstructionNode,
 	"queue": QueueNode,
@@ -64,17 +52,17 @@ const nodeTypes = {
 } as const;
 
 const edgeTypes = {
-	floating: FloatingEdge,
+	route: RouteEdge,
 } as const;
 
 export namespace Content {
 	export interface Props {
 		userId: string;
 		cycle: number;
-		construction: ConstructionSchema.Type[];
-		queue: QueueSchema.Type[];
-		building: BuildingSchema.Type[];
-		route: RouteSchema.Type[];
+		construction: ConstructionNode.Data[];
+		queue: QueueNode.Data[];
+		building: BuildingNode.Data[];
+		route: RouteEdge.Data[];
 		zoomToId?: string;
 		routing?: boolean;
 	}
@@ -92,7 +80,7 @@ export const Content: FC<Content.Props> = ({
 }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
 	const { locale } = useParams({ from: "/$locale" });
-	const defaultNodes = useMemo(
+	const defaultNodes = useMemo<any>(
 		() => [
 			...construction.map((construction) => ({
 				id: construction.id,
@@ -142,11 +130,15 @@ export const Content: FC<Content.Props> = ({
 				id: route.id,
 				source: route.fromId,
 				target: route.toId,
-				type: "floating",
+				type: "route",
 				/**
 				 * True if there are available resources in the source (from) and free space in target (to).
 				 */
 				animated: false,
+				markerEnd: {
+					type: MarkerType.ArrowClosed,
+					color: "#b1b1b7",
+				},
 			})),
 		],
 		[route],
@@ -286,7 +278,6 @@ export const Content: FC<Content.Props> = ({
 					edgeTypes={edgeTypes}
 					connectionLineComponent={ConnectionLine}
 					connectionLineStyle={connectionLineStyle}
-					defaultEdgeOptions={defaultEdgeOptions}
 				>
 					<CycleButton
 						userId={userId}

@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
-import {
-    ConstructionPanel
-} from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
-import { BlueprintSchema } from "~/app/derivean/game/GameMap2/schema/BlueprintSchema";
+import { z } from "zod";
+import { ConstructionPanel } from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 	{
@@ -33,7 +31,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 												.as("count"),
 									])
 									.orderBy("bl.sort", "asc"),
-								output: BlueprintSchema,
+								output: z.object({
+									id: z.string().min(1),
+									name: z.string().min(1),
+									count: z.number().int().nonnegative(),
+								}),
 							});
 						});
 					},

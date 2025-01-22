@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
 import { Kysely } from "@use-pico/common";
-import { RouteSchema } from "~/app/derivean/game/GameMap2/schema/RouteSchema";
+import { z } from "zod";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/route/$id")({
 	async loader({ context: { queryClient, kysely }, params: { id } }) {
@@ -41,7 +41,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/route/$id")({
 									},
 								])
 								.where("r.id", "=", id),
-							output: RouteSchema,
+							output: z.object({
+								id: z.string().min(1),
+								fromId: z.string().min(1),
+								toId: z.string().min(1),
+								fromName: z.string().min(1),
+								toName: z.string().min(1),
+							}),
 						});
 					});
 				},
