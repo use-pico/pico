@@ -5,7 +5,7 @@ import { z } from "zod";
 export const Route = createFileRoute("/$locale/apps/derivean/map/route/$id")({
 	async loader({ context: { queryClient, kysely }, params: { id } }) {
 		return {
-			entity: await queryClient.ensureQueryData({
+			route: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "route", id],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {

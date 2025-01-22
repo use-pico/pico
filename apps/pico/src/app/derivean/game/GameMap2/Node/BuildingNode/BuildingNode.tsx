@@ -3,6 +3,7 @@ import { Icon, LinkTo } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 export namespace BuildingNode {
 	export interface Data {
@@ -30,11 +31,16 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				<div className="font-bold">{data.name}</div>
 			</div>
 			<div
-				className={"flex flex-row gap-2 items-center"}
+				className={"flex flex-row gap-1 items-center"}
 				onClick={(e) => e.stopPropagation()}
 				onDoubleClick={(e) => e.stopPropagation()}
 				onMouseDown={(e) => e.stopPropagation()}
 			>
+				<LinkTo
+					icon={InventoryIcon}
+					to={"/$locale/apps/derivean/map/building/$id/inventory"}
+					params={{ locale, id }}
+				/>
 				<LinkTo
 					icon={"icon-[gis--route-end]"}
 					to={"/$locale/apps/derivean/map/building/$id/routes"}

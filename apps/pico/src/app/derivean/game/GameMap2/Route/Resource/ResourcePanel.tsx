@@ -1,6 +1,6 @@
 import { useParams } from "@tanstack/react-router";
-import { BackIcon, LinkTo, Tx } from "@use-pico/client";
-import type { Entity } from "@use-pico/common";
+import { BackIcon, Icon, LinkTo, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { InventoryItem } from "~/app/derivean/game/GameMap2/Route/Resource/InventoryItem";
@@ -8,20 +8,34 @@ import { Item } from "~/app/derivean/game/GameMap2/Route/Resource/Item";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace ResourcePanel {
-	export interface Data {
+	export interface Route {
 		id: string;
 		fromId: string;
 		fromName: string;
+		toName: string;
 	}
 
-	export interface Props extends Panel.PropsEx, Entity.Type<Data> {
-		resource: any[];
-		inventory: any[];
+	export interface Resource {
+		id: string;
+		name: string;
+		amount: number;
+	}
+
+	export interface Inventory {
+		id: string;
+		name: string;
+		resourceId: string;
+	}
+
+	export interface Props extends Panel.PropsEx {
+		route: Route;
+		resource: Resource[];
+		inventory: Inventory[];
 	}
 }
 
 export const ResourcePanel: FC<ResourcePanel.Props> = ({
-	entity,
+	route,
 	resource,
 	inventory,
 	...props
@@ -37,9 +51,13 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 					<LinkTo
 						icon={BackIcon}
 						to={"/$locale/apps/derivean/map/building/$id/routes"}
-						params={{ locale, id: entity.fromId }}
+						params={{ locale, id: route.fromId }}
 					/>
-					{entity.fromName}
+					<div className={"flex flex-row items-center gap-2"}>
+						<div className={"font-light"}>{route.fromName}</div>
+						<Icon icon={"icon-[cil--arrow-right]"} />
+						<div>{route.toName}</div>
+					</div>
 				</div>
 			}
 			{...props}
@@ -50,11 +68,26 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 						return (
 							<Item
 								key={item.id}
-								entity={item}
+								resource={item}
 							/>
 						);
 					})
-				:	<Tx label={"No route resources yet (label)"} />}
+				:	<div
+						className={tvc([
+							"flex",
+							"items-center",
+							"justify-center",
+							"rounded",
+							"border",
+							"border-amber-400",
+							"p-4",
+							"bg-amber-200",
+							"font-bold",
+						])}
+					>
+						<Tx label={"No route resources yet (label)"} />
+					</div>
+				}
 			</div>
 			<div className={"border-b border-slate-300 shadow-md"} />
 			<div>
@@ -63,11 +96,27 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 						return (
 							<InventoryItem
 								key={item.id}
-								entity={item}
+								inventory={item}
+								routeId={route.id}
 							/>
 						);
 					})
-				:	<Tx label={"There are no available items for transport (label)"} />}
+				:	<div
+						className={tvc([
+							"flex",
+							"items-center",
+							"justify-center",
+							"rounded",
+							"border",
+							"border-amber-400",
+							"p-4",
+							"bg-amber-200",
+							"font-bold",
+						])}
+					>
+						<Tx label={"There are no available items for transport (label)"} />
+					</div>
+				}
 			</div>
 		</Panel>
 	);

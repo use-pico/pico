@@ -1,5 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
@@ -15,6 +16,7 @@ export namespace RoutePanel {
 		fromId: string;
 		toId: string;
 		toName: string;
+		count: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
@@ -45,14 +47,31 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 			}
 			{...props}
 		>
-			{route.map((item) => {
-				return (
-					<Item
-						key={item.id}
-						entity={item}
-					/>
-				);
-			})}
+			{route.length > 0 ?
+				route.map((item) => {
+					return (
+						<Item
+							key={item.id}
+							route={item}
+						/>
+					);
+				})
+			:	<div
+					className={tvc([
+						"flex",
+						"items-center",
+						"justify-center",
+						"rounded",
+						"border",
+						"border-amber-400",
+						"p-4",
+						"bg-amber-200",
+						"font-bold",
+					])}
+				>
+					<Tx label={"No outcomming routes yet (label)"} />
+				</div>
+			}
 		</Panel>
 	);
 };

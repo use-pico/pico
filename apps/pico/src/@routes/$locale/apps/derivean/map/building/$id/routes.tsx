@@ -18,13 +18,26 @@ export const Route = createFileRoute(
 								.innerJoin("Building as bf", "bf.id", "r.fromId")
 								.innerJoin("Building as bt", "bt.id", "r.toId")
 								.innerJoin("Blueprint as blt", "blt.id", "bt.blueprintId")
-								.select(["r.id", "r.fromId", "r.toId", "blt.name as toName"])
+								.select([
+									"r.id",
+									"r.fromId",
+									"r.toId",
+									"blt.name as toName",
+									(eb) => {
+										return eb
+											.selectFrom("Route_Resource as rr")
+											.select((eb) => eb.fn.count<number>("rr.id").as("count"))
+											.whereRef("rr.routeId", "=", "r.id")
+											.as("count");
+									},
+								])
 								.where("r.fromId", "=", id),
 							output: z.object({
 								id: z.string().min(1),
 								fromId: z.string().min(1),
 								toId: z.string().min(1),
 								toName: z.string().min(1),
+								count: z.number().nonnegative(),
 							}),
 						});
 					});

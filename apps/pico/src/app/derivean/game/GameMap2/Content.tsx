@@ -150,6 +150,9 @@ export const Content: FC<Content.Props> = ({
 	useEffect(() => {
 		setNodes(defaultNodes);
 	}, [defaultNodes]);
+	useEffect(() => {
+		setEdges(defaultEdges);
+	}, [defaultEdges]);
 
 	useEffect(() => {
 		zoomToId &&
@@ -157,8 +160,8 @@ export const Content: FC<Content.Props> = ({
 				fitView({
 					nodes: [{ id: zoomToId }],
 					duration: 750,
-					minZoom: 1,
-					maxZoom: 1,
+					minZoom: 2,
+					maxZoom: 2,
 				});
 			}, 250);
 	}, [fitView, zoomToId]);
@@ -253,7 +256,9 @@ export const Content: FC<Content.Props> = ({
 	const onConnect = useCallback<OnConnect>(
 		(params) =>
 			setEdges((edges) => {
-				routeMutation.mutate({ fromId: params.source, toId: params.target });
+				setTimeout(() => {
+					routeMutation.mutate({ fromId: params.source, toId: params.target });
+				}, 0);
 				return addEdge(params, edges);
 			}),
 		[setEdges],

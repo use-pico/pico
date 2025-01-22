@@ -36,25 +36,27 @@ export const BuildingRouteNode: FC<BuildingRouteNode.Props> = ({
 				<div className="font-bold">{data.name}</div>
 			</div>
 
-			{!connection.inProgress && (
-				<Handle
-					className={
-						"absolute top-0 left-0 transform-none border-none opacity-0 w-full h-full"
-					}
-					position={Position.Right}
-					type={"source"}
-				/>
-			)}
-			{(!connection.inProgress || isTarget) && (
-				<Handle
-					className={
-						"absolute top-0 left-0 transform-none border-none opacity-0 w-full h-full"
-					}
-					position={Position.Left}
-					type={"target"}
-					isConnectableStart={false}
-				/>
-			)}
+			<div className={"w-full h-full absolute top-0 left-0"}>
+				{!connection.inProgress && (
+					<Handle
+						className={
+							"absolute top-0 left-0 transform-none border-none opacity-0 w-full h-full"
+						}
+						position={Position.Right}
+						type={"source"}
+					/>
+				)}
+				{(!connection.inProgress || isTarget) && (
+					<Handle
+						className={
+							"absolute top-0 left-0 transform-none border-none opacity-0 w-full h-full"
+						}
+						position={Position.Left}
+						type={"target"}
+						isConnectableStart={false}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };

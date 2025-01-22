@@ -5,7 +5,7 @@ import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 export namespace InventoryPanel {
-	export interface Data {
+	export interface Inventory {
 		id: string;
 		name: string;
 		limit: number;
@@ -13,7 +13,7 @@ export namespace InventoryPanel {
 	}
 
 	export interface Props extends Panel.PropsEx {
-		inventory: Data[];
+		inventory: Inventory[];
 		fulltextProps: Fulltext.Props;
 	}
 }

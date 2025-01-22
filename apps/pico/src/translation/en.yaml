@@ -1,9 +1,6 @@
 0027cb868f305f5888ed42ddd63e78ab24a8dca4444d7aff7f2daf8e:
   ref: Select blueprint conflict (title)
   value: Select blueprint conflict (title)
-0099485d3c0b266e711f4827eed9e2095435a0ed3e70d4236d5c1c79:
-  ref: Building requirements (title)
-  value: Building requirements (title)
 01d9c2e776ddc35008c8405a31a537385f37da4a5a1642560a60c9bb:
   ref: Resource requirements (title)
   value: Resource requirements (title)
@@ -25,6 +22,9 @@
 0b7e1a7bed13a142251b17aac3ac1a9a7265b185e54dc8be73bdedb4:
   ref: Delete production requirement (modal)
   value: Delete production requirement (modal)
+0c1d43218ae4710b47af9947587594f6fe321f6374b933075405be2d:
+  ref: No route resources yet (label)
+  value: No route resources yet (label)
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: User list (label)
@@ -94,9 +94,6 @@
 293f4ff52457449c36cd77f2ff4458fcdcd8db96ad515628be4a4d10:
   ref: Blueprint conflict (hint)
   value: Blueprint conflict (hint)
-2b7c9dc2afaa3fedd71768f7f7989d7342c12488829fa5a51e34b1f8:
-  ref: Construction in progress (label)
-  value: Construction in progress (label)
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Create requirement item (menu)
@@ -142,9 +139,6 @@
 3a4a801c33fea80c20f04f91c804a94b19461c2e89b179cc5b9539b7:
   ref: No requirements (label)
   value: No requirements (label)
-3bd0546cc1f4e699c63dc9b8016ac3aad2c56a084ca88606b404f282:
-  ref: Fog of War (label)
-  value: Fog of War (label)
 3db2c4051c2b7a73afa7ec303c3fbe50ba5258af4ec59fd4ec31b388:
   ref: Resource list (label)
   value: Resource list (label)
@@ -166,9 +160,6 @@
 420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
   ref: Cancel (button)
   value: Cancel (button)
-433d37c3072f9f5b56f453d459da1cd17ab9dcb6ce36b13a0fcc0022:
-  ref: No production currently available (label)
-  value: No production currently available (label)
 43d65f65c72c5f9e77cf2f5108fbc033133df31cc1dc855f37235a6b:
   ref: Building limit (label)
   value: Building limit (label)
@@ -307,6 +298,9 @@
 7d7a818495411842dbbc86cff3a20bff64fbc21b0b228e51ff9d885f:
   ref: Building delete (content)
   value: Building delete (content)
+7e0ddae1d689fc29d357dafef048429da48a310b5982c19201430867:
+  ref: There are no available items for transport (label)
+  value: There are no available items for transport (label)
 7fad4365dd60eee13cf16b855d8132e60ffa60b1f86a59052fab6fea:
   ref: Create blueprint dependency (menu)
   value: Create blueprint dependency (menu)
@@ -358,15 +352,9 @@
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Edit (menu)
-94bb86bdb5b798914c0afdae54476de0a86ae9f7cddf6872cbea96e7:
-  ref: Count of buildings
-  value: Count of buildings
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Tag list (menu)
-968fdbd787e6e7c2b0db911118d25fe4662584b245ccc8bcbfdaae66:
-  ref: Building unavailable (label)
-  value: Building unavailable (label)
 96c0374dd7aac234d421e63c9aeb950c67f801a692f3c62f35f461bd:
   ref: Maximum number of building a player can build (hint)
   value: Maximum number of building a player can build (hint)
@@ -433,6 +421,9 @@ b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Create inventory item (menu)
+b61a758ff5ee88dbfc3ef7e946c72f844e0f8ef07c3513f76b290465:
+  ref: Route resources (label)
+  value: Route resources (label)
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Tag label (label)
@@ -448,9 +439,9 @@ b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Delete requirement item (modal)
-bc700e51fd332acef4798b5441af4c9b672fdf169e7ecc67552e48a6:
-  ref: Construction complete (label)
-  value: Construction complete (label)
+bcee5ee516f581c77fc5390940df0211d8c4265f5514715d0c881764:
+  ref: Routes (label)
+  value: Routes (label)
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Construction cycles (label)
