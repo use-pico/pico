@@ -3,42 +3,40 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Production/Item";
-import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { Item } from "~/app/derivean/game/GameMap2/Production/Queue/Item";
+import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
 
-export namespace ProductionPanel {
+export namespace QueuePanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Production {
+	export interface Queue {
 		id: string;
 		name: string;
 		amount: number;
+		limit: number;
 		cycles: number;
-		count: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
-		userId: string;
 		building: Building;
-		production: Production[];
+		queue: Queue[];
 	}
 }
 
-export const ProductionPanel: FC<ProductionPanel.Props> = ({
-	userId,
+export const QueuePanel: FC<QueuePanel.Props> = ({
 	building,
-	production,
+	queue,
 	...props
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
 		<Panel
-			icon={ProductionIcon}
-			textTitle={<Tx label={"Building production (label)"} />}
+			icon={QueueIcon}
+			textTitle={<Tx label={"Production queue (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
@@ -47,7 +45,7 @@ export const ProductionPanel: FC<ProductionPanel.Props> = ({
 						params={{ locale, id: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
+						to={"/$locale/apps/derivean/map/building/$id/view"}
 						params={{ locale, id: building.id }}
 						search={{ zoomToId: building.id }}
 					>
@@ -57,20 +55,19 @@ export const ProductionPanel: FC<ProductionPanel.Props> = ({
 			}
 			{...props}
 		>
-			{production.length > 0 ?
-				production.map((item) => {
+			{queue.length > 0 ?
+				queue.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							userId={userId}
-							building={building}
-							production={item}
+							queue={item}
 						/>
 					);
 				})
 			:	<div
 					className={tvc([
 						"flex",
+						"flex-col",
 						"items-center",
 						"justify-center",
 						"rounded",
@@ -81,7 +78,14 @@ export const ProductionPanel: FC<ProductionPanel.Props> = ({
 						"font-bold",
 					])}
 				>
-					<Tx label={"This building does not produce anything. (label)"} />
+					<Tx label={"Production queue is empty. (label)"} />
+					<LinkTo
+						icon={QueueIcon}
+						to={"/$locale/apps/derivean/map/building/$id/production/list"}
+						params={{ locale, id: building.id }}
+					>
+						<Tx label={"Plan queue (label)"} />
+					</LinkTo>
 				</div>
 			}
 		</Panel>

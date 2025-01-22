@@ -5,6 +5,7 @@ import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
+import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
 
 const linkCss = [
 	"p-4",
@@ -40,6 +41,15 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Building production (label)"} />
+			</LinkTo>
+
+			<LinkTo
+				icon={QueueIcon}
+				to={"/$locale/apps/derivean/map/building/$id/production/queue"}
+				params={{ locale, id: building.id }}
+				css={{ base: linkCss }}
+			>
+				<Tx label={"Production queue (label)"} />
 			</LinkTo>
 
 			<LinkTo

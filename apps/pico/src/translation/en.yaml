@@ -109,6 +109,9 @@
 304ee8cc29aa3d13d616997a70c3941dc300ae1a41361905ccab1d6d:
   ref: Logout in progress...
   value: Logout in progress...
+31cc285da87017fc29d6d72fdefa923980524c22ede06ed6d216e317:
+  ref: Plan queue (label)
+  value: Plan queue (label)
 337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
   ref: No dependents (label)
   value: No dependents (label)
@@ -268,6 +271,9 @@
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Production cycles (hint)
+6c4a4a353dfd5ad3017ab18cf699a000ecd646ad367ab4d316508f40:
+  ref: Infinite queue (label)
+  value: Infinite queue (label)
 6c8672ae2564eebe61967c7248a860bb2a56dd206aa10c39a0e11fb7:
   ref: Export game files (label)
   value: Export game files (label)
@@ -472,12 +478,18 @@ c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
 c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
   ref: Apply default inventory - Success (label)
   value: Apply default inventory - Success (label)
+c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
+  ref: Production queue is empty. (label)
+  value: Production queue is empty. (label)
 c74f6c5fce47cb0de3032c8bc4e27f5c9741f219d80ec09a727077d3:
   ref: No dependencies (label)
   value: No dependencies (label)
 c810a66440e76540dd2b9cf76c75c3d58a8105b694f2fa0b4aa72cf6:
   ref: Apply default inventory (menu)
   value: Apply default inventory (menu)
+c88673ec9daaa227cbd7e2b7027e310f5ad79bc843d80948137abd04:
+  ref: Production queue (label)
+  value: Production queue (label)
 c8ec20d338ed37017d5ff4701f8d7899ec262e649983f2020927c8aa:
   ref: Required building (label)
   value: Required building (label)
