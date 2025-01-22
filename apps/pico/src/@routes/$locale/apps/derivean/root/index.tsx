@@ -116,6 +116,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
+						Add notification center like inventory is full, production is full
+						and so on.
+					</li>
+
+					<li>
 						Add exclusive to (building "exclusiveToId" cannot be built when
 						target exists); Ok, exclusive to will be m:n.
 					</li>
