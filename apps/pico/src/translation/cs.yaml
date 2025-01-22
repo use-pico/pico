@@ -58,6 +58,9 @@
 141741bd0ead5d7de8128be8628dafc3f2472de373cc86e1182f341a:
   ref: Select blueprint (title)
   value: Vybrat plánek
+1583b94a419a64596eb8758d421903c1c913914d83a99ee50aab633e:
+  ref: Empty inventory. (label)
+  value: Empty inventory. (label)
 16012dbb1900d439c943c1adb1c16a4820743b7f28ab112a130ade4c:
   ref: Delete (menu)
   value: Odstranit
@@ -76,6 +79,9 @@
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
+1cafb8944012a9d43d6b3f7ea6e56c9901095948638409fcc5843772:
+  ref: Building requirements (label)
+  value: Požadavky na stavbu
 20f8cc99e60a4a11f8824848a672a15244744aecc1680a7a7209561d:
   ref: Create blueprint conflict (modal)
   value: Nový konflikt
@@ -466,6 +472,9 @@ b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
 b2a0340361b1fb6f22b3239c88fcccf8149215887dd826d2f97e3f73:
   ref: Amount of resources transported per cycle (hint)
   value: Amount of resources transported per cycle (hint)
+b41b5465adbeb7a6c853df051f999969c8549996f53cef7b4fcdab1a:
+  ref: There are no available blueprints (label)
+  value: (Zatím) nejsou dostupné žádné stavby.
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
@@ -486,7 +495,7 @@ baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   value: Odstranit požadavek na zdroj
 bcee5ee516f581c77fc5390940df0211d8c4265f5514715d0c881764:
   ref: Routes (label)
-  value: Routes (label)
+  value: Odchozí cesty
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Délka stavby

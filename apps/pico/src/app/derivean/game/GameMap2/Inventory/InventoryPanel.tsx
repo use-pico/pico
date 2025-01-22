@@ -1,4 +1,5 @@
 import { Fulltext, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Item } from "~/app/derivean/game/GameMap2/Inventory/Item";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
@@ -30,14 +31,31 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 			{...props}
 		>
 			<Fulltext {...fulltextProps} />
-			{inventory.map((item) => {
-				return (
-					<Item
-						key={item.id}
-						inventory={item}
-					/>
-				);
-			})}
+			{inventory.length > 0 ?
+				inventory.map((item) => {
+					return (
+						<Item
+							key={item.id}
+							inventory={item}
+						/>
+					);
+				})
+			:	<div
+					className={tvc([
+						"flex",
+						"items-center",
+						"justify-center",
+						"rounded",
+						"border",
+						"border-amber-400",
+						"p-4",
+						"bg-amber-200",
+						"font-bold",
+					])}
+				>
+					<Tx label={"Empty inventory. (label)"} />
+				</div>
+			}
 		</Panel>
 	);
 };

@@ -66,7 +66,11 @@ export namespace UserTable {
 }
 
 export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
-	const invalidator = useInvalidator([["Management"], ["User_Inventory"]]);
+	const invalidator = useInvalidator([
+		["GameMap"],
+		["Management"],
+		["User_Inventory"],
+	]);
 
 	const defaultInventoryMutation = useMutation({
 		async mutationFn({ userId }: { userId: string }) {
