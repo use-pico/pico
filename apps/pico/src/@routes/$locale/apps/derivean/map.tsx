@@ -151,7 +151,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 				},
 			}),
 			cycle: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "Cycle"],
+				queryKey: ["GameMap", "Cycle", user.id],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return (

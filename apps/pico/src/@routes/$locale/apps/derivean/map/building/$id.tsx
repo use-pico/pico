@@ -6,7 +6,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/building/$id")(
 	{
 		async loader({ context: { queryClient, kysely }, params: { id } }) {
 			return {
-				entity: await queryClient.ensureQueryData({
+				building: await queryClient.ensureQueryData({
 					queryKey: ["GameMap", "building", id],
 					async queryFn() {
 						return kysely.transaction().execute(async (tx) => {
