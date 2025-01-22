@@ -22,6 +22,9 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 				"p-2",
 				"cursor-default",
 				"hover:bg-slate-100",
+				inventory.amount >= inventory.limit ?
+					["border-red-400", "hover:border-red-600", "hover:bg-red-50"]
+				:	undefined,
 			])}
 		>
 			<div className={"flex flex-row items-center justify-between"}>
@@ -33,6 +36,10 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 				<Progress
 					variant={{ size: "md" }}
 					value={(100 * inventory.amount) / inventory.limit}
+					css={{
+						progress:
+							inventory.amount >= inventory.limit ? ["bg-red-500"] : undefined,
+					}}
 				/>
 			:	null}
 		</div>

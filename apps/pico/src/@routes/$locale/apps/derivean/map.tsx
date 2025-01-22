@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { ls, withList } from "@use-pico/client";
-import { withBoolSchema } from "@use-pico/common";
+import { Kysely, withBoolSchema, withJsonSchema } from "@use-pico/common";
 import { z } from "zod";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
@@ -128,6 +128,27 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 											.select("r.name")
 											.as("recurringProductionName");
 									},
+									(eb) => {
+										return eb
+											.selectFrom("Production as p")
+											.innerJoin(
+												"Blueprint_Production as bp",
+												"bp.id",
+												"p.blueprintProductionId",
+											)
+											.innerJoin("Resource as r", "r.id", "bp.resourceId")
+											.select((eb) => {
+												return Kysely.jsonObject({
+													id: eb.ref("p.id"),
+													name: eb.ref("r.name"),
+													cycle: eb.ref("p.cycle"),
+													from: eb.ref("p.from"),
+													to: eb.ref("p.to"),
+												}).as("production");
+											})
+											.whereRef("p.buildingId", "=", "bg.id")
+											.as("production");
+									},
 									"bl.name",
 									"bg.x",
 									"bg.y",
@@ -137,10 +158,23 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
 								name: z.string().min(1),
+
 								productionId: z.string().nullish(),
 								recurringProductionId: z.string().nullish(),
+
 								productionName: z.string().nullish(),
 								recurringProductionName: z.string().nullish(),
+
+								production: withJsonSchema(
+									z.object({
+										id: z.string().min(1),
+										name: z.string().min(1),
+										cycle: z.number().int().nonnegative(),
+										from: z.number().int().nonnegative(),
+										to: z.number().int().nonnegative(),
+									}),
+								).nullish(),
+
 								x: z.number(),
 								y: z.number(),
 							}),
@@ -198,8 +232,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 		const { user, construction, queue, building, route, cycle } =
 			Route.useLoaderData();
 		const { zoomToId, routing } = Route.useSearch();
-
-		console.log("b", building);
 
 		return (
 			<GameMap2
