@@ -69,6 +69,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("id", $id, (col) => col.primaryKey())
 
 				.addColumn("name", "varchar(64)", (col) => col.notNull())
+				/**
+				 * Amount of resources transported per cycle.
+				 */
+				.addColumn("transport", "float4", (col) => col.notNull().defaultTo(1))
 
 				.addUniqueConstraint("[Resource] name", ["name"])
 

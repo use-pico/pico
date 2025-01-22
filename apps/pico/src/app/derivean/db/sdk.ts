@@ -616,11 +616,14 @@ export const withResourceSchema = <
 				name:
 					// varchar(64) / not nullable
 					z.string().min(1),
+				transport:
+					// float4 / not nullable
+					z.number(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name"],
+		sort: ["id", "name", "transport"],
 	});
 };
 

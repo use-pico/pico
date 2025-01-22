@@ -205,6 +205,9 @@
 519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
   ref: Update inventory item - Success (label)
   value: Update inventory item - Success (label)
+52218bb5176b905f9f542c77b16fa937a11ed66b90cdbb28fec555fe:
+  ref: Resource transport (label)
+  value: Resource transport (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -271,9 +274,6 @@
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Production cycles (hint)
-6c4a4a353dfd5ad3017ab18cf699a000ecd646ad367ab4d316508f40:
-  ref: Infinite queue (label)
-  value: Infinite queue (label)
 6c8672ae2564eebe61967c7248a860bb2a56dd206aa10c39a0e11fb7:
   ref: Export game files (label)
   value: Export game files (label)
@@ -442,6 +442,9 @@ b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
 b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
   ref: Edit blueprint (modal)
   value: Edit blueprint (modal)
+b2a0340361b1fb6f22b3239c88fcccf8149215887dd826d2f97e3f73:
+  ref: Amount of resources transported per cycle (hint)
+  value: Amount of resources transported per cycle (hint)
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Create inventory item (menu)
@@ -454,9 +457,6 @@ b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
 b8932c8313db3c38db7d49e0e94027d68ed2181840fcd87a581f9b24:
   ref: User name (label)
   value: User name (label)
-b8c443314d28c78ee34c1389a6db6f1c67303ef8588abfddebf21bad:
-  ref: Production queue (menu)
-  value: Production queue (menu)
 b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
   ref: Edit inventory item (modal)
   value: Edit inventory item (modal)

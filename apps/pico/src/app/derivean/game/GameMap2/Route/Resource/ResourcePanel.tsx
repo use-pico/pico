@@ -25,6 +25,7 @@ export namespace ResourcePanel {
 		id: string;
 		name: string;
 		resourceId: string;
+        transport: number;
 	}
 
 	export interface Props extends Panel.PropsEx {

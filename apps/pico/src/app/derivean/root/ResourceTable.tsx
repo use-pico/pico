@@ -30,6 +30,7 @@ import { ResourceForm } from "~/app/derivean/root/ResourceForm";
 export namespace ResourceTable {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
+		transport: number;
 		tags: TagSchema.Type[];
 		countRequirement: number;
 		countProduction: number;
@@ -58,6 +59,16 @@ const columns = [
 			);
 		},
 		size: 18,
+	}),
+	column({
+		name: "transport",
+		header() {
+			return <Tx label={"Resource transport (label)"} />;
+		},
+		render({ value }) {
+			return toHumanNumber({ number: value });
+		},
+		size: 12,
 	}),
 	column({
 		name: "countProduction",
@@ -173,35 +184,33 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										<ResourceForm
 											group={group}
 											mutation={useMutation({
-												async mutationFn({ name, tagIds = [] }) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															const entity = await tx
-																.insertInto("Resource")
-																.values({
-																	id: genId(),
-																	name,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
+												async mutationFn({ name, transport, tagIds = [] }) {
+													return kysely.transaction().execute(async (tx) => {
+														const entity = await tx
+															.insertInto("Resource")
+															.values({
+																id: genId(),
+																name,
+																transport,
+															})
+															.returningAll()
+															.executeTakeFirstOrThrow();
 
-															if (tagIds.length) {
-																await tx
-																	.insertInto("Resource_Tag")
-																	.values(
-																		tagIds.map((tagId) => ({
-																			id: genId(),
-																			resourceId: entity.id,
-																			tagId,
-																		})),
-																	)
-																	.execute();
-															}
+														if (tagIds.length) {
+															await tx
+																.insertInto("Resource_Tag")
+																.values(
+																	tagIds.map((tagId) => ({
+																		id: genId(),
+																		resourceId: entity.id,
+																		tagId,
+																	})),
+																)
+																.execute();
+														}
 
-															return entity;
-														}),
-														withToastPromiseTx("Create resource"),
-													);
+														return entity;
+													});
 												},
 												async onSuccess() {
 													await invalidator();

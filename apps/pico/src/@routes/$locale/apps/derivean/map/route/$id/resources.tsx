@@ -1,5 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
+import { withFloatSchema } from "@use-pico/common";
 import { z } from "zod";
 import { ResourcePanel } from "~/app/derivean/game/GameMap2/Route/Resource/ResourcePanel";
 
@@ -43,7 +44,7 @@ export const Route = createFileRoute(
 							select: tx
 								.selectFrom("Inventory as i")
 								.innerJoin("Resource as r", "r.id", "i.resourceId")
-								.select(["i.id", "i.resourceId", "r.name"])
+								.select(["i.id", "i.resourceId", "r.name", "r.transport"])
 								.where(
 									"i.id",
 									"in",
@@ -103,6 +104,7 @@ export const Route = createFileRoute(
 								id: z.string().min(1),
 								resourceId: z.string().min(1),
 								name: z.string().min(1),
+								transport: withFloatSchema(),
 							}),
 						});
 					});

@@ -6,7 +6,7 @@ import { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/Product
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/building/$id/production/list",
 )({
-	async loader({ context: { queryClient, kysely, session }, params: { id } }) {
+	async loader({ context: { queryClient, kysely }, params: { id } }) {
 		return {
 			production: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "building", "production", id],

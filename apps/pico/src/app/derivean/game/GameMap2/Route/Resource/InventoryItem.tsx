@@ -22,9 +22,11 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 		async mutationFn({
 			routeId,
 			resourceId,
+			transport,
 		}: {
 			routeId: string;
 			resourceId: string;
+			transport: number;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
 				return tx
@@ -33,7 +35,7 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 						id: genId(),
 						resourceId,
 						routeId,
-						amount: 1,
+						amount: transport,
 					})
 					.execute();
 			});
@@ -72,6 +74,7 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 					onClick={() => {
 						routeResourceMutation.mutate({
 							resourceId: inventory.resourceId,
+							transport: inventory.transport,
 							routeId,
 						});
 					}}
