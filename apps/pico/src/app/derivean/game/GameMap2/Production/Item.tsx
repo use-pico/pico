@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Badge, Button, LinkTo, useInvalidator } from "@use-pico/client";
-import { DateTime, genId, toHumanNumber, tvc } from "@use-pico/common";
+import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/ProductionPanel";
@@ -9,38 +9,29 @@ import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 
 export namespace Item {
 	export interface Props {
-		userId: string;
 		building: ProductionPanel.Building;
 		production: ProductionPanel.Production;
 	}
 }
 
-export const Item: FC<Item.Props> = ({ userId, building, production }) => {
+export const Item: FC<Item.Props> = ({ building, production }) => {
 	const { locale } = useParams({ from: "/$locale" });
 	const invalidator = useInvalidator([["GameMap"]]);
-	const singleProductionQueueMutation = useMutation({
+	const productionMutation = useMutation({
 		async mutationFn({
-			userId,
 			blueprintProductionId,
 			buildingId,
 		}: {
-			userId: string;
 			blueprintProductionId: string;
 			buildingId: string;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
 				return tx
-					.insertInto("Production_Queue")
-					.values({
-						id: genId(),
-						userId,
-						blueprintProductionId,
-						buildingId,
-						count: 0,
-						limit: 1,
-						paused: false,
-						priority: DateTime.now().toUnixInteger(),
+					.updateTable("Building")
+					.set({
+						productionId: blueprintProductionId,
 					})
+					.where("id", "=", buildingId)
 					.execute();
 			});
 		},
@@ -48,29 +39,21 @@ export const Item: FC<Item.Props> = ({ userId, building, production }) => {
 			await invalidator();
 		},
 	});
-	const recurringProductionQueueMutation = useMutation({
+	const recurringProductionMutation = useMutation({
 		async mutationFn({
-			userId,
 			blueprintProductionId,
 			buildingId,
 		}: {
-			userId: string;
 			blueprintProductionId: string;
 			buildingId: string;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
 				return tx
-					.insertInto("Production_Queue")
-					.values({
-						id: genId(),
-						userId,
-						blueprintProductionId,
-						buildingId,
-						count: 0,
-						limit: 0,
-						paused: false,
-						priority: 0,
+					.updateTable("Building")
+					.set({
+						recurringProductionId: blueprintProductionId,
 					})
+					.where("id", "=", buildingId)
 					.execute();
 			});
 		},
@@ -98,25 +81,23 @@ export const Item: FC<Item.Props> = ({ userId, building, production }) => {
 			<div className={"flex flex-row gap-2 items-center"}>
 				<Button
 					iconEnabled={"icon-[solar--play-outline]"}
-					loading={singleProductionQueueMutation.isPending}
+					iconDisabled={"icon-[tabler--basket]"}
+					loading={productionMutation.isPending}
+					disabled={building.productionId === production.id}
 					onClick={() => {
-						singleProductionQueueMutation.mutate({
-							userId,
+						productionMutation.mutate({
 							blueprintProductionId: production.id,
 							buildingId: building.id,
 						});
 					}}
-				>
-					<Badge css={{ base: ["bg-blue-400"] }}>
-						x{toHumanNumber({ number: production.count })}
-					</Badge>
-				</Button>
+				/>
 				<Button
 					iconEnabled={"icon-[oui--refresh]"}
-					loading={recurringProductionQueueMutation.isPending}
+					iconDisabled={"icon-[tabler--basket]"}
+					loading={recurringProductionMutation.isPending}
+					disabled={building.recurringProductionId === production.id}
 					onClick={() => {
-						recurringProductionQueueMutation.mutate({
-							userId,
+						recurringProductionMutation.mutate({
 							blueprintProductionId: production.id,
 							buildingId: building.id,
 						});

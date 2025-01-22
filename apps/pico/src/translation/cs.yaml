@@ -111,7 +111,7 @@
   value: Logout in progress...
 31cc285da87017fc29d6d72fdefa923980524c22ede06ed6d216e317:
   ref: Plan queue (label)
-  value: Plan queue (label)
+  value: Zadání produkce
 337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
   ref: No dependents (label)
   value: Bez závislostí
@@ -501,7 +501,7 @@ c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
   value: Výchozí inventář byl úspěšně aplikován.
 c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
   ref: Production queue is empty. (label)
-  value: Production queue is empty. (label)
+  value: Fronta produkce je prázdná.
 c74f6c5fce47cb0de3032c8bc4e27f5c9741f219d80ec09a727077d3:
   ref: No dependencies (label)
   value: Bez závislostí

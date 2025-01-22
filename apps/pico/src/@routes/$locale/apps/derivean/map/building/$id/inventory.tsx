@@ -24,7 +24,7 @@ export const Route = createFileRoute(
 	}) {
 		return {
 			inventory: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", id, { fulltext }],
+				queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({

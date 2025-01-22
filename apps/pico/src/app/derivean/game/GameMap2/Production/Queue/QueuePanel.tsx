@@ -14,21 +14,31 @@ export namespace QueuePanel {
 
 	export interface Queue {
 		id: string;
+		resourceId: string;
 		name: string;
 		amount: number;
-		limit: number;
+		cycle: number;
 		cycles: number;
+	}
+
+	export interface Inventory {
+		id: string;
+		resourceId: string;
+		amount: number;
+		limit: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
 		queue: Queue[];
+		inventory: Inventory[];
 	}
 }
 
 export const QueuePanel: FC<QueuePanel.Props> = ({
 	building,
 	queue,
+	inventory,
 	...props
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
@@ -61,6 +71,7 @@ export const QueuePanel: FC<QueuePanel.Props> = ({
 						<Item
 							key={item.id}
 							queue={item}
+							inventory={inventory}
 						/>
 					);
 				})

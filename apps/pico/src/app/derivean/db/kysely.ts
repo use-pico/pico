@@ -554,58 +554,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createTable("Production_Queue")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("blueprintProductionId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Blueprint_Production_Requirement] blueprintProductionId",
-					["blueprintProductionId"],
-					"Blueprint_Production",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * Owner of this queue item.
-				 */
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Blueprint_Production_Requirement] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("buildingId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Blueprint_Production_Requirement] buildingId",
-					["buildingId"],
-					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * How many times this queue has been executed.
-				 */
-				.addColumn("count", "integer", (col) => col.notNull().defaultTo(0))
-				/**
-				 * Queue limit; if zero, queue is unlimited; after a limit is reached,
-				 * this queue will be deleted.
-				 */
-				.addColumn("limit", "integer", (col) => col.notNull().defaultTo(0))
-				/**
-				 * Priority of the queue, higher number means higher priority.
-				 */
-				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
-				.addColumn("paused", "boolean", (col) => col.notNull().defaultTo(false))
-
-				.execute();
-
 			/**
 			 * Defines queue of buildings to be built.
 			 */
@@ -688,6 +636,31 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"[Building] blueprintId",
 					["blueprintId"],
 					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * When set, one time production is scheduled with a cycle (and free production slot).
+				 *
+				 * One-time production take precedence over recurring production.
+				 */
+				.addColumn("productionId", $id)
+				.addForeignKeyConstraint(
+					"[Building] productionId",
+					["productionId"],
+					"Blueprint_Production",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				/**
+				 * When set, recurring production is scheduled every time a free production slot is available.
+				 */
+				.addColumn("recurringProductionId", $id)
+				.addForeignKeyConstraint(
+					"[Building] recurringProductionId",
+					["recurringProductionId"],
+					"Blueprint_Production",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)

@@ -100,17 +100,38 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 		.selectFrom("Production as p")
 		.innerJoin("Blueprint_Production as bp", "bp.id", "p.blueprintProductionId")
 		.innerJoin("Resource as r", "r.id", "bp.resourceId")
-		.select(["p.id", "p.cycle", "p.to", "bp.resourceId", "r.name", "bp.amount"])
+		.select([
+			"p.id",
+			"p.buildingId",
+			"p.cycle",
+			"p.to",
+			"bp.resourceId",
+			"r.name",
+			"bp.amount",
+		])
 		.where("userId", "=", userId)
 		.execute();
 
-	for await (const { id, resourceId, cycle, to, amount } of productionQueue) {
+	for await (const {
+		id,
+		buildingId,
+		resourceId,
+		cycle,
+		to,
+		amount,
+	} of productionQueue) {
 		if (currentCycle > to) {
 			const inventory = await tx
 				.selectFrom("Inventory as i")
-				.innerJoin("User_Inventory as ui", "i.id", "ui.inventoryId")
 				.select(["i.id", "i.amount", "i.limit"])
-				.where("ui.userId", "=", userId)
+				.where(
+					"i.id",
+					"in",
+					tx
+						.selectFrom("Building_Inventory as bi")
+						.select("bi.inventoryId")
+						.where("bi.buildingId", "=", buildingId),
+				)
 				.where("i.resourceId", "=", resourceId)
 				.executeTakeFirst();
 
@@ -143,32 +164,13 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 	}
 
 	const productionPlanQueue = await tx
-		.selectFrom("Production_Queue as pq")
-		.innerJoin(
-			"Blueprint_Production as bp",
-			"bp.id",
-			"pq.blueprintProductionId",
-		)
-		.innerJoin("Blueprint as bl", "bl.id", "bp.blueprintId")
-		.select([
-			"pq.id",
-			"pq.count",
-			"pq.limit",
-			"pq.blueprintProductionId",
-			"pq.buildingId",
-		])
-		.where("pq.userId", "=", userId)
-		.where("pq.paused", "=", false)
-		.orderBy("pq.priority", "desc")
+		.selectFrom("Building as b")
+		.select(["b.id as buildingId", "b.productionId"])
+		.where("b.userId", "=", userId)
+		.where("b.productionId", "is not", null)
 		.execute();
 
-	for await (const {
-		id,
-		count,
-		limit,
-		blueprintProductionId,
-		buildingId,
-	} of productionPlanQueue) {
+	for await (const { buildingId, productionId } of productionPlanQueue) {
 		try {
 			const { count: queueSize } = await tx
 				.selectFrom("Production as p")
@@ -182,20 +184,49 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 
 			await withProductionQueue({
 				tx,
-				blueprintProductionId,
+				blueprintProductionId: productionId!,
 				buildingId,
 				userId,
 			});
 
 			await tx
-				.updateTable("Production_Queue")
-				.set({ count: count + 1 })
-				.where("id", "=", id)
+				.updateTable("Building")
+				.set({ productionId: null })
+				.where("id", "=", buildingId)
 				.execute();
+		} catch (_) {
+			// Probably not enough resources or something like that.
+		}
+	}
 
-			if (limit > 0 && count + 1 >= limit) {
-				await tx.deleteFrom("Production_Queue").where("id", "=", id).execute();
+	const recurringProductionPlanQueue = await tx
+		.selectFrom("Building as b")
+		.select(["b.id as buildingId", "b.recurringProductionId"])
+		.where("b.userId", "=", userId)
+		.where("b.recurringProductionId", "is not", null)
+		.execute();
+
+	for await (const {
+		buildingId,
+		recurringProductionId,
+	} of recurringProductionPlanQueue) {
+		try {
+			const { count: queueSize } = await tx
+				.selectFrom("Production as p")
+				.where("p.buildingId", "=", buildingId)
+				.select((eb) => eb.fn.count<number>("p.id").as("count"))
+				.executeTakeFirstOrThrow();
+
+			if (queueSize > 0) {
+				continue;
 			}
+
+			await withProductionQueue({
+				tx,
+				blueprintProductionId: recurringProductionId!,
+				buildingId,
+				userId,
+			});
 		} catch (_) {
 			// Probably not enough resources or something like that.
 		}

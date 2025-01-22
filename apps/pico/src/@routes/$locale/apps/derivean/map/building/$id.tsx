@@ -14,11 +14,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/building/$id")(
 								select: tx
 									.selectFrom("Building as b")
 									.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-									.select(["b.id", "bl.name"])
+									.select([
+										"b.id",
+										"bl.name",
+										"b.productionId",
+										"b.recurringProductionId",
+									])
 									.where("b.id", "=", id),
 								output: z.object({
 									id: z.string().min(1),
 									name: z.string().min(1),
+									productionId: z.string().nullish(),
+									recurringProductionId: z.string().nullish(),
 								}),
 							});
 						});

@@ -330,6 +330,12 @@ export const withBuildingSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				productionId:
+					// varchar(36) / nullable
+					z.string().nullish(),
+				recurringProductionId:
+					// varchar(36) / nullable
+					z.string().nullish(),
 				x:
 					// float4 / not nullable
 					z.number(),
@@ -340,7 +346,15 @@ export const withBuildingSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "blueprintId", "x", "y"],
+		sort: [
+			"id",
+			"userId",
+			"blueprintId",
+			"productionId",
+			"recurringProductionId",
+			"x",
+			"y",
+		],
 	});
 };
 
@@ -586,61 +600,6 @@ export type ProductionEntity = ReturnType<
 	typeof withProductionSchema
 >["~entity"];
 
-export const withProductionQueueSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				blueprintProductionId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				buildingId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				count:
-					// INTEGER / not nullable
-					z.number().int(),
-				limit:
-					// INTEGER / not nullable
-					z.number().int(),
-				priority:
-					// INTEGER / not nullable
-					z.number().int(),
-				paused:
-					// boolean / not nullable
-					withBoolSchema(),
-			}),
-		),
-		shape,
-		filter,
-		sort: [
-			"id",
-			"blueprintProductionId",
-			"userId",
-			"buildingId",
-			"count",
-			"limit",
-			"priority",
-			"paused",
-		],
-	});
-};
-
-export type ProductionQueueEntity = ReturnType<
-	typeof withProductionQueueSchema
->["~entity"];
-
 export const withResourceSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -879,7 +838,6 @@ export interface Database {
 	Default_Inventory: DefaultInventoryEntity;
 	Inventory: InventoryEntity;
 	Production: ProductionEntity;
-	Production_Queue: ProductionQueueEntity;
 	Resource: ResourceEntity;
 	Resource_Tag: ResourceTagEntity;
 	Route: RouteEntity;

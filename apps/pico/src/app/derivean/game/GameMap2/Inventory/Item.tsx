@@ -1,5 +1,5 @@
 import { Progress } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
@@ -24,7 +24,11 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 				"hover:bg-slate-100",
 			])}
 		>
-			<div className={"font-bold"}>{inventory.name}</div>
+			<div className={"flex flex-row items-center justify-between"}>
+				<div className={"font-bold"}>{inventory.name}</div>
+				{toHumanNumber({ number: inventory.amount })} /{" "}
+				{toHumanNumber({ number: inventory.limit })}
+			</div>
 			{inventory.limit > 0 ?
 				<Progress
 					variant={{ size: "md" }}

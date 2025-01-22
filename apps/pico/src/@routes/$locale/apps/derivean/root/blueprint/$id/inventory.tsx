@@ -32,7 +32,7 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return queryClient.ensureQueryData({
-			queryKey: ["Blueprint_Inventory", "list-count", { filter, cursor }],
+			queryKey: ["Blueprint_Inventory", "list-count", id, { filter, cursor }],
 			async queryFn() {
 				return kysely.transaction().execute((tx) => {
 					return withListCount({

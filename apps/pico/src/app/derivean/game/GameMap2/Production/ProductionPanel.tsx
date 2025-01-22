@@ -10,6 +10,8 @@ export namespace ProductionPanel {
 	export interface Building {
 		id: string;
 		name: string;
+		productionId?: string | null;
+		recurringProductionId?: string | null;
 	}
 
 	export interface Production {
@@ -17,18 +19,15 @@ export namespace ProductionPanel {
 		name: string;
 		amount: number;
 		cycles: number;
-		count: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
-		userId: string;
 		building: Building;
 		production: Production[];
 	}
 }
 
 export const ProductionPanel: FC<ProductionPanel.Props> = ({
-	userId,
 	building,
 	production,
 	...props
@@ -62,7 +61,6 @@ export const ProductionPanel: FC<ProductionPanel.Props> = ({
 					return (
 						<Item
 							key={item.id}
-							userId={userId}
 							building={building}
 							production={item}
 						/>
