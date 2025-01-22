@@ -107,12 +107,40 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 							select: tx
 								.selectFrom("Building as bg")
 								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
-								.select(["bg.id", "bg.blueprintId", "bl.name", "bg.x", "bg.y"])
+								.select([
+									"bg.id",
+									"bg.blueprintId",
+									"bg.productionId",
+									"bg.recurringProductionId",
+									(eb) => {
+										return eb
+											.selectFrom("Blueprint_Production as bp")
+											.innerJoin("Resource as r", "r.id", "bp.resourceId")
+											.whereRef("bp.id", "=", "bg.productionId")
+											.select("r.name")
+											.as("productionName");
+									},
+									(eb) => {
+										return eb
+											.selectFrom("Blueprint_Production as bp")
+											.innerJoin("Resource as r", "r.id", "bp.resourceId")
+											.whereRef("bp.id", "=", "bg.recurringProductionId")
+											.select("r.name")
+											.as("recurringProductionName");
+									},
+									"bl.name",
+									"bg.x",
+									"bg.y",
+								])
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
 								name: z.string().min(1),
+								productionId: z.string().nullish(),
+								recurringProductionId: z.string().nullish(),
+								productionName: z.string().nullish(),
+								recurringProductionName: z.string().nullish(),
 								x: z.number(),
 								y: z.number(),
 							}),
@@ -170,6 +198,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 		const { user, construction, queue, building, route, cycle } =
 			Route.useLoaderData();
 		const { zoomToId, routing } = Route.useSearch();
+
+		console.log("b", building);
 
 		return (
 			<GameMap2

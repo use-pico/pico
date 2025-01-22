@@ -39,6 +39,21 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 			await invalidator();
 		},
 	});
+	const deleteProductionMutation = useMutation({
+		async mutationFn({ buildingId }: { buildingId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				return tx
+					.updateTable("Building")
+					.set({ productionId: null })
+					.where("id", "=", buildingId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+
 	const recurringProductionMutation = useMutation({
 		async mutationFn({
 			blueprintProductionId,
@@ -53,6 +68,20 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 					.set({
 						recurringProductionId: blueprintProductionId,
 					})
+					.where("id", "=", buildingId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+	const deleteRecurringProductionMutation = useMutation({
+		async mutationFn({ buildingId }: { buildingId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				return tx
+					.updateTable("Building")
+					.set({ recurringProductionId: null })
 					.where("id", "=", buildingId)
 					.execute();
 			});
@@ -79,30 +108,50 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 			])}
 		>
 			<div className={"flex flex-row gap-2 items-center"}>
-				<Button
-					iconEnabled={"icon-[solar--play-outline]"}
-					iconDisabled={"icon-[tabler--basket]"}
-					loading={productionMutation.isPending}
-					disabled={building.productionId === production.id}
-					onClick={() => {
-						productionMutation.mutate({
-							blueprintProductionId: production.id,
-							buildingId: building.id,
-						});
-					}}
-				/>
-				<Button
-					iconEnabled={"icon-[oui--refresh]"}
-					iconDisabled={"icon-[tabler--basket]"}
-					loading={recurringProductionMutation.isPending}
-					disabled={building.recurringProductionId === production.id}
-					onClick={() => {
-						recurringProductionMutation.mutate({
-							blueprintProductionId: production.id,
-							buildingId: building.id,
-						});
-					}}
-				/>
+				{building.productionId === production.id ?
+					<Button
+						iconEnabled={"icon-[tabler--basket]"}
+						loading={deleteProductionMutation.isPending}
+						onClick={() => {
+							deleteProductionMutation.mutate({
+								buildingId: building.id,
+							});
+						}}
+					/>
+				:	<Button
+						iconEnabled={"icon-[solar--play-outline]"}
+						iconDisabled={"icon-[tabler--basket]"}
+						loading={productionMutation.isPending}
+						onClick={() => {
+							productionMutation.mutate({
+								blueprintProductionId: production.id,
+								buildingId: building.id,
+							});
+						}}
+					/>
+				}
+
+				{building.recurringProductionId === production.id ?
+					<Button
+						iconEnabled={"icon-[tabler--basket]"}
+						loading={deleteRecurringProductionMutation.isPending}
+						onClick={() => {
+							deleteRecurringProductionMutation.mutate({
+								buildingId: building.id,
+							});
+						}}
+					/>
+				:	<Button
+						iconEnabled={"icon-[oui--refresh]"}
+						loading={recurringProductionMutation.isPending}
+						onClick={() => {
+							recurringProductionMutation.mutate({
+								blueprintProductionId: production.id,
+								buildingId: building.id,
+							});
+						}}
+					/>
+				}
 
 				<LinkTo
 					to={
