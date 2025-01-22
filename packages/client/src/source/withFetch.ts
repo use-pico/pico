@@ -1,6 +1,7 @@
 import type { FilterSchema } from "@use-pico/common";
 import type { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
+import type { EnsureOutput } from "./EnsureOutput";
 
 export namespace withFetch {
 	export namespace Query {
@@ -21,7 +22,7 @@ export namespace withFetch {
 		select: TSelect;
 		query?(props: Query.Props<TSelect, TFilter>): TSelect;
 
-		output: TOutputSchema;
+		output: EnsureOutput<TSelect, TOutputSchema>;
 
 		filter?: TFilter;
 		where?: TFilter;
@@ -47,7 +48,7 @@ export const withFetch = async <
 }: withFetch.Props<TSelect, TFilter, TOutputSchema>): Promise<
 	z.infer<TOutputSchema>
 > => {
-	return output.parse(
+	return (output as TOutputSchema).parse(
 		await query({
 			select: query({
 				select,

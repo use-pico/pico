@@ -1,6 +1,7 @@
 import type { CountSchema, CursorSchema, FilterSchema } from "@use-pico/common";
 import { type SelectQueryBuilder } from "kysely";
 import { z } from "zod";
+import type { EnsureOutput } from "./EnsureOutput";
 import { withCount } from "./withCount";
 import { withList } from "./withList";
 
@@ -23,7 +24,7 @@ export namespace withListCount {
 		select: TSelect;
 		query?(props: Query.Props<TSelect, TFilter>): TSelect;
 
-		output: TOutputSchema;
+		output: EnsureOutput<TSelect, TOutputSchema>;
 
 		filter?: TFilter;
 		where?: TFilter;

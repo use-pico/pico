@@ -54,4 +54,5 @@ export { type DeepKeys } from "./type/DeepKeys";
 export { type DeepValue } from "./type/DeepValue";
 export { type Entity } from "./type/Entity";
 export { type IDateInput } from "./type/IDateInput";
+export { type IsSame } from "./type/IsSame";
 

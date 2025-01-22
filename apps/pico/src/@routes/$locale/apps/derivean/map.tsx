@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { ls, withList } from "@use-pico/client";
-import { Kysely, withBoolSchema } from "@use-pico/common";
+import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
@@ -53,6 +53,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								.where("c.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
+								blueprintId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
@@ -85,12 +86,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								.where("c.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
+								blueprintId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
 								from: z.number().int().nonnegative(),
 								to: z.number().int().nonnegative(),
 								cycle: z.number().int().nonnegative(),
+								valid: withBoolSchema(),
 							}),
 						});
 					});
@@ -108,6 +111,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
+								blueprintId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
@@ -133,22 +137,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"r.toId",
 									"blf.name as fromName",
 									"blt.name as toName",
-									(eb) => {
-										return eb
-											.selectFrom("Building_Inventory as bi")
-											.innerJoin("Inventory as i", "i.id", "bi.inventoryId")
-											.innerJoin("Resource as r", "r.id", "i.resourceId")
-											.where("bi.buildingId", "=", "r.buildingId")
-											.select((eb) => {
-												return Kysely.jsonGroupArray({
-													id: eb.ref("bi.id"),
-													amount: eb.ref("i.amount"),
-													limit: eb.ref("i.limit"),
-													name: eb.ref("r.name"),
-												}).as("inventory");
-											})
-											.as("inventory");
-									},
 								])
 								.where("r.userId", "=", user.id),
 							output: z.object({

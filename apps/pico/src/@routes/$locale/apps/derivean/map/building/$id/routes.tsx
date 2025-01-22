@@ -1,6 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
-import { Kysely } from "@use-pico/common";
+import { Kysely, withJsonArraySchema } from "@use-pico/common";
 import { z } from "zod";
 import { RoutePanel } from "~/app/derivean/game/GameMap2/Route/RoutePanel";
 
@@ -50,6 +50,7 @@ export const Route = createFileRoute(
 								toId: z.string().min(1),
 								fromName: z.string().min(1),
 								toName: z.string().min(1),
+								inventory: withJsonArraySchema(z.any()),
 							}),
 						});
 					});

@@ -1,6 +1,7 @@
 import type { CursorSchema, FilterSchema } from "@use-pico/common";
 import type { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
+import type { EnsureOutput } from "./EnsureOutput";
 
 export namespace withList {
 	export namespace Query {
@@ -21,7 +22,10 @@ export namespace withList {
 		select: TSelect;
 		query?(props: Query.Props<TSelect, TFilter>): TSelect;
 
-		output: TOutputSchema;
+		/**
+		 * Output must match the result of the select query.
+		 */
+		output: EnsureOutput<TSelect, TOutputSchema>;
 
 		filter?: TFilter;
 		where?: TFilter;
@@ -59,7 +63,7 @@ export const withList = async <
 		return $select as TSelect;
 	};
 
-	return z.array(output).parse(
+	return z.array(output as TOutputSchema).parse(
 		await limit(
 			query({
 				select: query({
