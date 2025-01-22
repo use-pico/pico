@@ -121,11 +121,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						Building_Inventory.
 					</li>
 					<li>
-						Game start: define default construction (instead of default
-						inventory); those building should be exclusive to very first
-						building: "Center" will be first, "Storage" next and "Storage" will
-						define "Center" as exclusive, so user should not be able to build
-						more centers.
+						<p>
+							Game start: define default construction (instead of default
+							inventory); those building should be exclusive to very first
+							building: "Center" will be first, "Storage" next and "Storage"
+							will define "Center" as exclusive, so user should not be able to
+							build more centers.
+						</p>
+
+						<p>
+							Or something better; like default buildings and define default
+							inventories for those buildings; this will be quite bunch of work
+							for root UI.
+						</p>
 					</li>
 					<li>
 						Add notification center like inventory is full, production is full
