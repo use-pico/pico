@@ -34,6 +34,7 @@ export const withDefaultInventory = async ({
 							amount,
 							resourceId,
 							limit,
+							type: "construction",
 						})
 						.returning("id")
 						.executeTakeFirstOrThrow()

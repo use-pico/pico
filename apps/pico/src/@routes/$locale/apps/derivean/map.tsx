@@ -39,14 +39,16 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
-								.selectFrom("Construction as c")
-								.innerJoin("Blueprint as bl", "bl.id", "c.blueprintId")
+								.selectFrom("Building as bg")
+								.innerJoin("Construction as c", "c.id", "bg.constructionId")
+								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select([
-									"c.id",
-									"c.blueprintId",
+									"bg.id",
+									"bg.blueprintId",
+									"bg.constructionId",
 									"bl.name",
-									"c.x",
-									"c.y",
+									"bg.x",
+									"bg.y",
 									"c.valid",
 								])
 								.where("c.plan", "=", true)
@@ -54,6 +56,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
+								constructionId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
@@ -69,14 +72,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
-								.selectFrom("Construction as c")
-								.innerJoin("Blueprint as bl", "bl.id", "c.blueprintId")
+								.selectFrom("Building as bg")
+								.innerJoin("Construction as c", "c.id", "bg.constructionId")
+								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select([
-									"c.id",
-									"c.blueprintId",
+									"bg.id",
+									"bg.blueprintId",
 									"bl.name",
-									"c.x",
-									"c.y",
+									"bg.x",
+									"bg.y",
 									"c.valid",
 									"c.from",
 									"c.to",
@@ -153,6 +157,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"bg.x",
 									"bg.y",
 								])
+								.where("bg.constructionId", "is", null)
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),

@@ -124,6 +124,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addColumn("amount", "float4", (col) => col.notNull())
 				.addColumn("limit", "float4", (col) => col.notNull())
+				/**
+				 * storage (both input/output)
+				 * construction (needed for construction)
+				 * input (input only)
+				 * output (output only)
+				 */
+				.addColumn("type", "varchar(16)", (col) =>
+					col.notNull().defaultTo("storage"),
+				)
 
 				.execute();
 
@@ -578,21 +587,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				.addColumn("blueprintId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Construction] blueprintId",
-					["blueprintId"],
-					"Blueprint",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * Planned coordinates on the map
-				 */
-				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
-				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
-
 				/**
 				 * If true, this building is planned, but not in the construction queue yet; user is
 				 * allowed to move it around. Inventory is deducted in this time.
@@ -642,6 +636,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"Blueprint",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("constructionId", $id)
+				.addForeignKeyConstraint(
+					"[Building] constructionId",
+					["constructionId"],
+					"Construction",
+					["id"],
+					(c) => c.onDelete("set null").onUpdate("set null"),
 				)
 
 				/**

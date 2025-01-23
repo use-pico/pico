@@ -75,7 +75,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/inventory")({
 
 		return (
 			<InventoryPanel
-				inventory={inventory}
+				inventory={inventory as any}
 				fulltextProps={{
 					value: fulltext,
 					onFulltext(value) {

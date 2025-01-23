@@ -38,7 +38,14 @@ export const Route = createFileRoute(
 						select: tx
 							.selectFrom("Inventory as i")
 							.innerJoin("Resource as r", "r.id", "i.resourceId")
-							.select(["i.id", "i.resourceId", "r.name", "i.amount", "i.limit"])
+							.select([
+								"i.id",
+								"i.resourceId",
+								"r.name",
+								"i.amount",
+								"i.limit",
+								"i.type",
+							])
 							.where(
 								"i.id",
 								"in",
@@ -90,6 +97,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							resourceId: z.string().min(1),
+							type: z.enum(["storage", "construction", "input", "output"]),
 							name: z.string().min(1),
 							amount: z.number().nonnegative(),
 							limit: z.number().nonnegative(),

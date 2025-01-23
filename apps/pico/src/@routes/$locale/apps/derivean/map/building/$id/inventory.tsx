@@ -23,50 +23,108 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return {
-			inventory: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return withList({
-							select: tx
-								.selectFrom("Inventory as i")
-								.innerJoin("Resource as r", "r.id", "i.resourceId")
-								.select(["i.id", "i.amount", "i.limit", "r.name"])
-								.where(
-									"i.id",
-									"in",
-									tx
-										.selectFrom("Building_Inventory as bi")
-										.select("bi.inventoryId")
-										.where("bi.buildingId", "=", id),
-								)
-								.orderBy("r.name"),
-							query({ select, where }) {
-								let $select = select;
+			inventory: {
+				input: await queryClient.ensureQueryData({
+					queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
+					async queryFn() {
+						return kysely.transaction().execute(async (tx) => {
+							return withList({
+								select: tx
+									.selectFrom("Inventory as i")
+									.innerJoin("Resource as r", "r.id", "i.resourceId")
+									.select(["i.id", "i.amount", "i.limit", "r.name"])
+									.where(
+										"i.id",
+										"in",
+										tx
+											.selectFrom("Building_Inventory as bi")
+											.select("bi.inventoryId")
+											.where("bi.buildingId", "=", id),
+									)
+									.where((eb) => {
+										return eb.or([
+											eb("i.type", "=", "input"),
+											eb("i.type", "=", "storage"),
+										]);
+									})
+									.orderBy("r.name"),
+								query({ select, where }) {
+									let $select = select;
 
-								if (where?.fulltext) {
-									const fulltext = `%${where.fulltext}%`.toLowerCase();
+									if (where?.fulltext) {
+										const fulltext = `%${where.fulltext}%`.toLowerCase();
 
-									$select = $select.where((eb) => {
-										return eb.or([eb("r.name", "like", fulltext)]);
-									});
-								}
+										$select = $select.where((eb) => {
+											return eb.or([eb("r.name", "like", fulltext)]);
+										});
+									}
 
-								return $select;
-							},
-							output: z.object({
-								id: z.string().min(1),
-								amount: z.number().nonnegative(),
-								limit: z.number().nonnegative(),
-								name: z.string().min(1),
-							}),
-							filter: {
-								fulltext,
-							},
+									return $select;
+								},
+								output: z.object({
+									id: z.string().min(1),
+									amount: z.number().nonnegative(),
+									limit: z.number().nonnegative(),
+									name: z.string().min(1),
+								}),
+								filter: {
+									fulltext,
+								},
+							});
 						});
-					});
-				},
-			}),
+					},
+				}),
+				output: await queryClient.ensureQueryData({
+					queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
+					async queryFn() {
+						return kysely.transaction().execute(async (tx) => {
+							return withList({
+								select: tx
+									.selectFrom("Inventory as i")
+									.innerJoin("Resource as r", "r.id", "i.resourceId")
+									.select(["i.id", "i.amount", "i.limit", "r.name"])
+									.where(
+										"i.id",
+										"in",
+										tx
+											.selectFrom("Building_Inventory as bi")
+											.select("bi.inventoryId")
+											.where("bi.buildingId", "=", id),
+									)
+									.where((eb) => {
+										return eb.or([
+											eb("i.type", "=", "output"),
+											eb("i.type", "=", "storage"),
+										]);
+									})
+									.orderBy("r.name"),
+								query({ select, where }) {
+									let $select = select;
+
+									if (where?.fulltext) {
+										const fulltext = `%${where.fulltext}%`.toLowerCase();
+
+										$select = $select.where((eb) => {
+											return eb.or([eb("r.name", "like", fulltext)]);
+										});
+									}
+
+									return $select;
+								},
+								output: z.object({
+									id: z.string().min(1),
+									amount: z.number().nonnegative(),
+									limit: z.number().nonnegative(),
+									name: z.string().min(1),
+								}),
+								filter: {
+									fulltext,
+								},
+							});
+						});
+					},
+				}),
+			},
 		};
 	},
 	component() {

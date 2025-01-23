@@ -50,6 +50,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 																					eb
 																						.selectFrom("Building as b")
 																						.select(eb.lit(1).as("one"))
+																						.where(
+																							"b.constructionId",
+																							"is",
+																							null,
+																						)
 																						.where("b.userId", "=", user.id)
 																						.whereRef(
 																							"b.blueprintId",
@@ -81,21 +86,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 															.selectFrom("Building as bg")
 															.select("bg.blueprintId")
 															.where("bg.userId", "=", user.id),
-													),
-											)
-											.where(
-												"bl.id",
-												"not in",
-												tx
-													.selectFrom("Blueprint_Conflict as bc")
-													.select("bc.conflictId")
-													.where(
-														"bc.blueprintId",
-														"in",
-														tx
-															.selectFrom("Construction as c")
-															.select("c.blueprintId")
-															.where("c.userId", "=", user.id),
 													),
 											)
 											.as("blueprint"),

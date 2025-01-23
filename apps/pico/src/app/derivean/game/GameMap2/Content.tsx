@@ -169,30 +169,40 @@ export const Content: FC<Content.Props> = ({
 	const updatePositionMutation = useMutation({
 		mutationKey: ["Construction", "position"],
 		async mutationFn({
-			constructionId,
+			buildingId,
 			x,
 			y,
 			valid,
 		}: {
-			constructionId: string;
+			buildingId: string;
 			x: number;
 			y: number;
 			valid: boolean;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
-				await tx
-					.selectFrom("Construction as c")
-					.select(["c.id"])
+				const { constructionId } = await tx
+					.selectFrom("Building as b")
+					.innerJoin("Construction as c", "c.id", "b.constructionId")
+					.select(["b.id", "b.constructionId"])
 					.where("c.plan", "=", true)
-					.where("c.id", "=", constructionId)
-					.executeTakeFirstOrThrow(
-						() => new Error("Construction not found or not planned."),
-					);
+					.where("b.id", "=", buildingId)
+					.executeTakeFirstOrThrow(() => {
+						return new Error("Construction not found or not planned.");
+					});
 
-				return tx
+				await tx
+					.updateTable("Building")
+					.set({ x, y })
+					.where("id", "=", buildingId)
+					.execute();
+
+				await tx
 					.updateTable("Construction")
-					.set({ x, y, valid })
-					.where("id", "=", constructionId)
+					.set({ valid })
+					/**
+					 * Because of innerJoin, we are sure constructionId is present.
+					 */
+					.where("id", "=", constructionId!)
 					.execute();
 			});
 		},
@@ -231,7 +241,7 @@ export const Content: FC<Content.Props> = ({
 				const isOverlapping = getIntersectingNodes(node).length > 0;
 
 				updatePositionMutation.mutate({
-					constructionId: node.id,
+					buildingId: node.id,
 					x: node.position.x,
 					y: node.position.y,
 					valid: !isOverlapping,

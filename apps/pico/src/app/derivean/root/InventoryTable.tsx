@@ -23,9 +23,8 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import {
-    InventoryForm
-} from "~/app/derivean/root/InventoryForm";
+import { InventoryTypeInline } from "~/app/derivean/inventory/InventoryTypeInline";
+import { InventoryForm } from "~/app/derivean/root/InventoryForm";
 import type { InventorySchema } from "~/app/derivean/schema/InventorySchema";
 
 export namespace InventoryTable {
@@ -34,6 +33,7 @@ export namespace InventoryTable {
 		amount: number;
 		limit: number;
 		resourceId: string;
+		type: "storage" | "construction" | "input" | "output";
 	}
 }
 
@@ -55,6 +55,16 @@ const columns = [
 			},
 		},
 		size: 18,
+	}),
+	column({
+		name: "type",
+		header() {
+			return <Tx label={"Inventory type (label)"} />;
+		},
+		render({ value }) {
+			return <InventoryTypeInline label={value} />;
+		},
+		size: 12,
 	}),
 	column({
 		name: "amount",

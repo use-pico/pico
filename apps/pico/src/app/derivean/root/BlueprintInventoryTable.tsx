@@ -17,6 +17,7 @@ import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { InventoryTypeInline } from "~/app/derivean/inventory/InventoryTypeInline";
 import { InventoryForm } from "~/app/derivean/root/InventoryForm";
 
 export namespace BlueprintInventoryTable {
@@ -26,6 +27,7 @@ export namespace BlueprintInventoryTable {
 		limit: number;
 		resourceId: string;
 		inventoryId: string;
+		type: "storage" | "construction" | "input" | "output";
 	}
 }
 
@@ -47,6 +49,22 @@ const columns = [
 			},
 		},
 		size: 18,
+	}),
+	column({
+		name: "type",
+		header() {
+			return <Tx label={"Inventory type (label)"} />;
+		},
+		render({ value }) {
+			return <InventoryTypeInline label={value} />;
+		},
+		filter: {
+			path: "type",
+			onFilter({ data, filter }) {
+				filter.shallow("type", data.type);
+			},
+		},
+		size: 12,
 	}),
 	column({
 		name: "amount",

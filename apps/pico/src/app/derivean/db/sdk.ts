@@ -330,6 +330,9 @@ export const withBuildingSchema = <
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				constructionId:
+					// varchar(36) / nullable
+					z.string().nullish(),
 				productionId:
 					// varchar(36) / nullable
 					z.string().nullish(),
@@ -350,6 +353,7 @@ export const withBuildingSchema = <
 			"id",
 			"userId",
 			"blueprintId",
+			"constructionId",
 			"productionId",
 			"recurringProductionId",
 			"x",
@@ -407,15 +411,6 @@ export const withConstructionSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				blueprintId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				x:
-					// float4 / not nullable
-					z.number(),
-				y:
-					// float4 / not nullable
-					z.number(),
 				plan:
 					// boolean / not nullable
 					withBoolSchema(),
@@ -435,18 +430,7 @@ export const withConstructionSchema = <
 		),
 		shape,
 		filter,
-		sort: [
-			"id",
-			"userId",
-			"blueprintId",
-			"x",
-			"y",
-			"plan",
-			"valid",
-			"from",
-			"to",
-			"cycle",
-		],
+		sort: ["id", "userId", "plan", "valid", "from", "to", "cycle"],
 	});
 };
 
@@ -539,11 +523,14 @@ export const withInventorySchema = <
 				limit:
 					// float4 / not nullable
 					z.number(),
+				type:
+					// varchar(16) / not nullable
+					z.string().min(1),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "resourceId", "amount", "limit"],
+		sort: ["id", "resourceId", "amount", "limit", "type"],
 	});
 };
 

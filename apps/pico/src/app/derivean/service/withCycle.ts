@@ -13,51 +13,56 @@ export namespace withCycle {
 }
 
 export const withCycle = async ({ tx, userId }: withCycle.Props) => {
-	await tx
-		.insertInto("Cycle")
-		.values({
-			id: genId(),
-			stamp: DateTime.now().toUTC().toSQLTime(),
-			userId,
-		})
-		.execute();
-
-	const currentCycle = (
+	try {
 		await tx
-			.selectFrom("Cycle as c")
-			.select((eb) => eb.fn.count<number>("c.id").as("count"))
-			.where("c.userId", "=", userId)
-			.executeTakeFirstOrThrow()
-	).count;
+			.insertInto("Cycle")
+			.values({
+				id: genId(),
+				stamp: DateTime.now().toUTC().toSQLTime(),
+				userId,
+			})
+			.execute();
 
-	await withConstruction({
-		tx,
-		userId,
-		currentCycle,
-	});
+		const currentCycle = (
+			await tx
+				.selectFrom("Cycle as c")
+				.select((eb) => eb.fn.count<number>("c.id").as("count"))
+				.where("c.userId", "=", userId)
+				.executeTakeFirstOrThrow()
+		).count;
 
-	/**
-	 * Transport, preparing for production
-	 */
-	await withTransport({
-		tx,
-		userId,
-	});
+		await withConstruction({
+			tx,
+			userId,
+			currentCycle,
+		});
 
-	/**
-	 * Produce stuff
-	 */
-	await withProduction({
-		tx,
-		userId,
-		currentCycle,
-	});
+		/**
+		 * Transport, preparing for production
+		 */
+		await withTransport({
+			tx,
+			userId,
+		});
 
-	/**
-	 * Transport produced stuff
-	 */
-	await withTransport({
-		tx,
-		userId,
-	});
+		/**
+		 * Produce stuff
+		 */
+		await withProduction({
+			tx,
+			userId,
+			currentCycle,
+		});
+
+		/**
+		 * Transport produced stuff
+		 */
+		await withTransport({
+			tx,
+			userId,
+		});
+	} catch (e) {
+		console.error(e);
+		throw e;
+	}
 };

@@ -14,7 +14,10 @@ export namespace InventoryPanel {
 	}
 
 	export interface Props extends Panel.PropsEx {
-		inventory: Inventory[];
+		inventory: {
+			input: Inventory[];
+			output: Inventory[];
+		};
 		fulltextProps: Fulltext.Props;
 	}
 }
@@ -31,8 +34,14 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 			{...props}
 		>
 			<Fulltext {...fulltextProps} />
-			{inventory.length > 0 ?
-				inventory.map((item) => {
+			<div>
+				<Tx
+					label={"Inventory - inputs (label)"}
+					css={{ base: ["font-bold", "text-slate-500"] }}
+				/>
+			</div>
+			{inventory.input.length > 0 ?
+				inventory.input.map((item) => {
 					return (
 						<Item
 							key={item.id}
@@ -53,7 +62,41 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 						"font-bold",
 					])}
 				>
-					<Tx label={"Empty inventory. (label)"} />
+					<Tx label={"No inventory inputs. (label)"} />
+				</div>
+			}
+
+			<div className={"border-b border-slate-300"} />
+
+			<div>
+				<Tx
+					label={"Inventory - outputs (label)"}
+					css={{ base: ["font-bold", "text-slate-500"] }}
+				/>
+			</div>
+			{inventory.output.length > 0 ?
+				inventory.output.map((item) => {
+					return (
+						<Item
+							key={item.id}
+							inventory={item}
+						/>
+					);
+				})
+			:	<div
+					className={tvc([
+						"flex",
+						"items-center",
+						"justify-center",
+						"rounded",
+						"border",
+						"border-amber-400",
+						"p-4",
+						"bg-amber-200",
+						"font-bold",
+					])}
+				>
+					<Tx label={"No inventory outputs. (label)"} />
 				</div>
 			}
 		</Panel>

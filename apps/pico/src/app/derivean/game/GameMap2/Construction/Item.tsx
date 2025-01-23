@@ -29,7 +29,7 @@ export const Item: FC<Item.Props> = ({
 
 	const constructionMutation = useMutation({
 		async mutationFn({ blueprintId }: { blueprintId: string }) {
-			const construction = await withConstructionQueue({
+			const building = await withConstructionQueue({
 				userId,
 				blueprintId,
 				x: 0,
@@ -41,7 +41,7 @@ export const Item: FC<Item.Props> = ({
 			navigate({
 				to: "/$locale/apps/derivean/map/construction",
 				params: { locale },
-				search: { zoomToId: construction.id },
+				search: { zoomToId: building.id },
 			});
 		},
 		async onSuccess() {

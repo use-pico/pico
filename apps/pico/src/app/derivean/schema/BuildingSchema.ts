@@ -5,6 +5,7 @@ import { withBuildingSchema } from "~/app/derivean/db/sdk";
 export const BuildingSchema = withBuildingSchema({
 	shape: z.object({
 		blueprintId: z.string().min(1),
+		constructionId: z.string().optional(),
 		productionId: z.string().optional(),
 		recurringProductionId: z.string().optional(),
 		x: withFloatSchema(),
