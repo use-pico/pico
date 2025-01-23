@@ -34,15 +34,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 		await withConstruction({
 			tx,
 			userId,
-			currentCycle,
-		});
-
-		/**
-		 * Transport, preparing for production
-		 */
-		await withTransport({
-			tx,
-			userId,
 		});
 
 		/**
@@ -55,7 +46,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 		});
 
 		/**
-		 * Transport produced stuff
+		 * Transport, preparing for production
 		 */
 		await withTransport({
 			tx,

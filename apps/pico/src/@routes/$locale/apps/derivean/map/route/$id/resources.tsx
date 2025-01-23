@@ -74,7 +74,8 @@ export const Route = createFileRoute(
 												.selectFrom("Route as ro")
 												.select("ro.fromId")
 												.where("ro.id", "=", id),
-										),
+										)
+										.where("i.type", "in", ["storage", "output"]),
 								)
 								.where(
 									"r.id",
@@ -90,7 +91,8 @@ export const Route = createFileRoute(
 												.selectFrom("Route as ro")
 												.select("ro.toId")
 												.where("ro.id", "=", id),
-										),
+										)
+										.where("i.type", "in", ["storage", "input"]),
 								)
 								.where(
 									"r.id",

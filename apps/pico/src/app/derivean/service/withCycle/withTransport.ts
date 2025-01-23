@@ -61,6 +61,7 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 					sourceInventory.amount
 				:	amount,
 			);
+
 			if (targetInventory.amount + $amount > targetInventory.limit) {
 				console.log("Target is full");
 				continue;

@@ -16,22 +16,34 @@ export const Route = createFileRoute(
 						return withList({
 							select: tx
 								.selectFrom("Blueprint_Requirement as br")
+								.innerJoin("Building as bg", (eb) => {
+									return eb
+										.onRef("bg.blueprintId", "=", "br.blueprintId")
+										.on("bg.id", "=", id);
+								})
 								.innerJoin("Resource as r", "r.id", "br.resourceId")
-								/**
-								 * TODO Fix this query, remove distinct.
-								 */
-								.distinct()
-								.innerJoin("Building as bg", "bg.blueprintId", "br.blueprintId")
-								.leftJoin("Building_Inventory as bi", "bi.buildingId", "bg.id")
-								.leftJoin("Inventory as i", "i.id", "bi.inventoryId")
 								.select([
 									"br.id",
 									"r.name",
 									"br.amount",
 									"br.passive",
-									"i.amount as available",
+									(eb) => {
+										return eb
+											.selectFrom("Inventory as i")
+											.select(["i.amount"])
+											.where(
+												"i.id",
+												"in",
+												tx
+													.selectFrom("Building_Inventory as bi")
+													.select("bi.inventoryId")
+													.where("bi.buildingId", "=", id),
+											)
+											.whereRef("i.resourceId", "=", "br.resourceId")
+											.limit(1)
+											.as("available");
+									},
 								])
-								.where("bg.id", "=", id)
 								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
