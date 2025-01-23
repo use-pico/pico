@@ -25,7 +25,14 @@ export const Route = createFileRoute(
 		return {
 			inventory: {
 				input: await queryClient.ensureQueryData({
-					queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
+					queryKey: [
+						"GameMap",
+						"building",
+						"inventory",
+						"input",
+						id,
+						{ fulltext },
+					],
 					async queryFn() {
 						return kysely.transaction().execute(async (tx) => {
 							return withList({
@@ -41,12 +48,7 @@ export const Route = createFileRoute(
 											.select("bi.inventoryId")
 											.where("bi.buildingId", "=", id),
 									)
-									.where((eb) => {
-										return eb.or([
-											eb("i.type", "=", "input"),
-											eb("i.type", "=", "storage"),
-										]);
-									})
+									.where("i.type", "in", ["storage", "input"])
 									.orderBy("r.name"),
 								query({ select, where }) {
 									let $select = select;
@@ -75,7 +77,14 @@ export const Route = createFileRoute(
 					},
 				}),
 				output: await queryClient.ensureQueryData({
-					queryKey: ["GameMap", "building", "inventory", id, { fulltext }],
+					queryKey: [
+						"GameMap",
+						"building",
+						"inventory",
+						"output",
+						id,
+						{ fulltext },
+					],
 					async queryFn() {
 						return kysely.transaction().execute(async (tx) => {
 							return withList({
@@ -91,12 +100,7 @@ export const Route = createFileRoute(
 											.select("bi.inventoryId")
 											.where("bi.buildingId", "=", id),
 									)
-									.where((eb) => {
-										return eb.or([
-											eb("i.type", "=", "output"),
-											eb("i.type", "=", "storage"),
-										]);
-									})
+									.where("i.type", "in", ["storage", "output"])
 									.orderBy("r.name"),
 								query({ select, where }) {
 									let $select = select;

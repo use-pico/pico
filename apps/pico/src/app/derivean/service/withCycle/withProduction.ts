@@ -33,7 +33,7 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 		cycles,
 		amount,
 	} of productionQueue) {
-		if (cycle > cycles) {
+		if (cycle >= cycles) {
 			const inventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])

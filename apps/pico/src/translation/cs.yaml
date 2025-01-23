@@ -81,7 +81,7 @@
   value: Konflikt s
 1b357d8a79ec58e7f566c223be1db0f3079819f1b82de9665e0b83fd:
   ref: No inventory inputs. (label)
-  value: No inventory inputs. (label)
+  value: Žádné vstupní zdroje
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
@@ -423,7 +423,7 @@
   value: Počet cyklů nutných k dokončení stavby.
 9752d2b54d4824de52d912eb37328bdb3461748d3e29456cda5eed5e:
   ref: No inventory outputs. (label)
-  value: No inventory outputs. (label)
+  value: Žádné výstupní zdroje
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Kde nic, tu nic.
