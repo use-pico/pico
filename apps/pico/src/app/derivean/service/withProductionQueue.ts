@@ -22,12 +22,6 @@ export const withProductionQueue = async ({
 		.where("bp.id", "=", blueprintProductionId)
 		.executeTakeFirstOrThrow();
 
-	const { count: cycles } = await tx
-		.selectFrom("Cycle as c")
-		.select((eb) => eb.fn.count<number>("c.id").as("count"))
-		.where("c.userId", "=", userId)
-		.executeTakeFirstOrThrow();
-
 	const requirements = await tx
 		.selectFrom("Blueprint_Production_Requirement as bpr")
 		.innerJoin("Resource as r", "r.id", "bpr.resourceId")
@@ -64,8 +58,7 @@ export const withProductionQueue = async ({
 			blueprintProductionId,
 			userId,
 			cycle: 0,
-			from: cycles,
-			to: cycles + blueprintProduction.cycles,
+			cycles: blueprintProduction.cycles,
 		})
 		.execute();
 };

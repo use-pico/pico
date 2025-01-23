@@ -5,15 +5,10 @@ export namespace withProduction {
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
-		currentCycle: number;
 	}
 }
 
-export const withProduction = async ({
-	tx,
-	userId,
-	currentCycle,
-}: withProduction.Props) => {
+export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 	const productionQueue = await tx
 		.selectFrom("Production as p")
 		.innerJoin("Blueprint_Production as bp", "bp.id", "p.blueprintProductionId")
@@ -22,7 +17,7 @@ export const withProduction = async ({
 			"p.id",
 			"p.buildingId",
 			"p.cycle",
-			"p.to",
+			"p.cycles",
 			"bp.resourceId",
 			"r.name",
 			"bp.amount",
@@ -35,10 +30,10 @@ export const withProduction = async ({
 		buildingId,
 		resourceId,
 		cycle,
-		to,
+		cycles,
 		amount,
 	} of productionQueue) {
-		if (currentCycle > to) {
+		if (cycle > cycles) {
 			const inventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])

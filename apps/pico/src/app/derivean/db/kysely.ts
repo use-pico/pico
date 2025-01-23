@@ -552,17 +552,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				/**
-				 * Starting cycle
-				 */
-				.addColumn("from", "integer", (col) => col.notNull())
-				/**
-				 * Finish cycle
-				 */
-				.addColumn("to", "integer", (col) => col.notNull())
-				/**
-				 * Current cycle
-				 */
+				.addColumn("cycles", "integer", (col) => col.notNull())
 				.addColumn("cycle", "integer", (col) => col.notNull())
 
 				.execute();
@@ -597,17 +587,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("valid", "boolean", (col) => col.notNull().defaultTo(true))
 
-				/**
-				 * Starting cycle
-				 */
-				.addColumn("from", "integer", (col) => col.notNull())
-				/**
-				 * Finish cycle
-				 */
-				.addColumn("to", "integer", (col) => col.notNull())
-				/**
-				 * Current cycle
-				 */
+				.addColumn("cycles", "integer", (col) => col.notNull())
 				.addColumn("cycle", "integer", (col) => col.notNull())
 
 				.execute();

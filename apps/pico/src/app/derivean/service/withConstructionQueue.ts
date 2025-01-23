@@ -21,11 +21,6 @@ export const withConstructionQueue = async ({
 	valid,
 }: withConstructionQueue.Props) => {
 	return kysely.transaction().execute(async (tx) => {
-		const { count: cycle } = await tx
-			.selectFrom("Cycle as c")
-			.select((eb) => eb.fn.count<number>("c.id").as("count"))
-			.executeTakeFirstOrThrow();
-
 		const blueprint = await tx
 			.selectFrom("Blueprint as b")
 			.select(["b.cycles"])
@@ -45,8 +40,7 @@ export const withConstructionQueue = async ({
 							id: genId(),
 							userId,
 							cycle: 0,
-							from: cycle,
-							to: cycle + blueprint.cycles,
+							cycles: blueprint.cycles,
 							plan,
 							valid,
 						})

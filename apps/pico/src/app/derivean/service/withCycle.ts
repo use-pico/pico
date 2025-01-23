@@ -23,14 +23,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 			})
 			.execute();
 
-		const currentCycle = (
-			await tx
-				.selectFrom("Cycle as c")
-				.select((eb) => eb.fn.count<number>("c.id").as("count"))
-				.where("c.userId", "=", userId)
-				.executeTakeFirstOrThrow()
-		).count;
-
 		await withConstruction({
 			tx,
 			userId,
@@ -42,7 +34,6 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 		await withProduction({
 			tx,
 			userId,
-			currentCycle,
 		});
 
 		/**

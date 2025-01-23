@@ -417,10 +417,7 @@ export const withConstructionSchema = <
 				valid:
 					// boolean / not nullable
 					withBoolSchema(),
-				from:
-					// INTEGER / not nullable
-					z.number().int(),
-				to:
+				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
 				cycle:
@@ -430,7 +427,7 @@ export const withConstructionSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "plan", "valid", "from", "to", "cycle"],
+		sort: ["id", "userId", "plan", "valid", "cycles", "cycle"],
 	});
 };
 
@@ -558,10 +555,7 @@ export const withProductionSchema = <
 				blueprintProductionId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				from:
-					// INTEGER / not nullable
-					z.number().int(),
-				to:
+				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
 				cycle:
@@ -576,8 +570,7 @@ export const withProductionSchema = <
 			"userId",
 			"buildingId",
 			"blueprintProductionId",
-			"from",
-			"to",
+			"cycles",
 			"cycle",
 		],
 	});

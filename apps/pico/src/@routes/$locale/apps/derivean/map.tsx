@@ -82,8 +82,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"bg.x",
 									"bg.y",
 									"c.valid",
-									"c.from",
-									"c.to",
+									"c.cycles",
 									"c.cycle",
 								])
 								.where("c.plan", "=", false)
@@ -94,8 +93,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
-								from: z.number().int().nonnegative(),
-								to: z.number().int().nonnegative(),
+								cycles: z.number().int().nonnegative(),
 								cycle: z.number().int().nonnegative(),
 								valid: withBoolSchema(),
 							}),
@@ -146,8 +144,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 													id: eb.ref("p.id"),
 													name: eb.ref("r.name"),
 													cycle: eb.ref("p.cycle"),
-													from: eb.ref("p.from"),
-													to: eb.ref("p.to"),
+													cycles: eb.ref("p.cycles"),
 												}).as("production");
 											})
 											.whereRef("p.buildingId", "=", "bg.id")
@@ -175,8 +172,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 										id: z.string().min(1),
 										name: z.string().min(1),
 										cycle: z.number().int().nonnegative(),
-										from: z.number().int().nonnegative(),
-										to: z.number().int().nonnegative(),
+										cycles: z.number().int().nonnegative(),
 									}),
 								).nullish(),
 

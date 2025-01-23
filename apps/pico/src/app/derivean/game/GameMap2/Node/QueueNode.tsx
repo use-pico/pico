@@ -10,8 +10,7 @@ export namespace QueueNode {
 		name: string;
 		x: number;
 		y: number;
-		from: number;
-		to: number;
+		cycles: number;
 		cycle: number;
 		[key: string]: unknown;
 	}
@@ -38,7 +37,7 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 					{data.name}
 				</LinkTo>
 			</div>
-			<Progress value={(100 * data.cycle) / (data.to - data.from)} />
+			<Progress value={(100 * data.cycle) / data.cycles} />
 
 			<Handle
 				className={"hidden"}
