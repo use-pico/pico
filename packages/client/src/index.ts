@@ -1,4 +1,4 @@
-export { toast } from "react-hot-toast";
+export { toast, Toaster } from "react-hot-toast";
 export { ActionClick } from "./action-menu/ActionClick";
 export { ActionClickCss } from "./action-menu/ActionClickCss";
 export { ActionLink } from "./action-menu/ActionLink";

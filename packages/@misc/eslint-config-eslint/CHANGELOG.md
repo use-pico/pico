@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 4.0.6
+
+### Patch Changes
+
+- Version bump
+
 ## 4.0.5
 
 ### Patch Changes
