@@ -57,6 +57,7 @@ export const Route = createFileRoute(
 									"in",
 									tx
 										.selectFrom("Building_Inventory as bi")
+										.innerJoin("Inventory as i", "i.id", "bi.inventoryId")
 										.select("bi.inventoryId")
 										.where(
 											"bi.buildingId",
@@ -65,7 +66,8 @@ export const Route = createFileRoute(
 												.selectFrom("Route as ro")
 												.select("ro.toId")
 												.where("ro.id", "=", id),
-										),
+										)
+										.where("i.type", "=", "construction"),
 								)
 								.where(
 									"r.id",

@@ -40,6 +40,7 @@ export const Route = createFileRoute(
 													.where("bi.buildingId", "=", id),
 											)
 											.whereRef("i.resourceId", "=", "br.resourceId")
+											.where("i.type", "=", "construction")
 											.limit(1)
 											.as("available");
 									},
