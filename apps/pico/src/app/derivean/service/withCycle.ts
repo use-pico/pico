@@ -2,6 +2,7 @@ import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { withConstruction } from "~/app/derivean/service/withCycle/withConstruction";
+import { withConstructionCleanup } from "~/app/derivean/service/withCycle/withConstructionCleanup";
 import { withProduction } from "~/app/derivean/service/withCycle/withProduction";
 import { withTransport } from "~/app/derivean/service/withCycle/withTransport";
 
@@ -24,6 +25,15 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 			.execute();
 
 		await withConstruction({
+			tx,
+			userId,
+		});
+
+		/**
+		 * Various cleanup stuff during construction:
+		 * - remove routes with fulfilled resource
+		 */
+		await withConstructionCleanup({
 			tx,
 			userId,
 		});
