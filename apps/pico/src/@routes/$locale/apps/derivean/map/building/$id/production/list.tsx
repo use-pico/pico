@@ -98,6 +98,7 @@ export const Route = createFileRoute(
 																.selectFrom("Building as b")
 																.select("b.blueprintId")
 																.where("b.userId", "=", user.id)
+																.where("b.constructionId", "is", null)
 																.whereRef(
 																	"b.blueprintId",
 																	"=",
