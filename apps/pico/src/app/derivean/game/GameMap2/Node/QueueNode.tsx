@@ -1,6 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Progress } from "@use-pico/client";
-import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
@@ -39,6 +39,19 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 				</LinkTo>
 			</div>
 			<Progress value={(100 * data.cycle) / (data.to - data.from)} />
+
+			<Handle
+				className={"hidden"}
+				position={Position.Right}
+				type={"source"}
+				isConnectable={false}
+			/>
+			<Handle
+				className={"hidden"}
+				position={Position.Left}
+				type={"target"}
+				isConnectable={false}
+			/>
 		</div>
 	);
 };

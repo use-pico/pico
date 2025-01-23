@@ -7,6 +7,7 @@ import { kysely } from "~/app/derivean/db/kysely";
 export namespace ConstructionNode {
 	export interface Data {
 		id: string;
+		constructionId: string;
 		name: string;
 		x: number;
 		y: number;
@@ -51,7 +52,7 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({ data }) => {
 				loading={commitMutation.isPending}
 				disabled={!data.valid}
 				onClick={() => {
-					commitMutation.mutate({ constructionId: data.id });
+					commitMutation.mutate({ constructionId: data.constructionId });
 				}}
 			/>
 		</div>

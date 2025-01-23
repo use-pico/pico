@@ -104,7 +104,7 @@ export const Content: FC<Content.Props> = ({
 					x: queue.x,
 					y: queue.y,
 				},
-				type: "queue",
+				type: routing ? "building-route" : "queue",
 				width,
 				height,
 				className: tvc(NodeCss, ["nodrag"]),
@@ -266,9 +266,7 @@ export const Content: FC<Content.Props> = ({
 	const onConnect = useCallback<OnConnect>(
 		(params) =>
 			setEdges((edges) => {
-				setTimeout(() => {
-					routeMutation.mutate({ fromId: params.source, toId: params.target });
-				}, 0);
+				routeMutation.mutate({ fromId: params.source, toId: params.target });
 				return addEdge(params, edges);
 			}),
 		[setEdges],

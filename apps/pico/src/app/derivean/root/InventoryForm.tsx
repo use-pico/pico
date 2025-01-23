@@ -34,6 +34,7 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 		defaultValues: {
 			amount: 0,
 			limit: 0,
+			type: "storage",
 			...defaultValues,
 		},
 	});
