@@ -10,8 +10,10 @@ export namespace withTransport {
 export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 	const transportQueue = await tx
 		.selectFrom("Route as r")
+		.innerJoin("Route_Resource as rr", "rr.routeId", "r.id")
 		.select(["r.id", "r.toId", "r.fromId"])
 		.where("r.userId", "=", userId)
+		.orderBy("rr.priority", "desc")
 		.execute();
 
 	for await (const { id, fromId, toId } of transportQueue) {
@@ -22,7 +24,11 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 			.orderBy("rr.priority", "desc")
 			.execute();
 
-		for await (const { amount, resourceId, type } of resourceQueue) {
+		for await (const {
+			amount,
+			resourceId,
+			type,
+		} of resourceQueue) {
 			const sourceInventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])

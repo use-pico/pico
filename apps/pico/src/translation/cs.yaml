@@ -684,7 +684,7 @@ fdcf641473a00b95e8093efe65400e3d667838bbe0b89a4b8755c9c2:
   value: Výroba byla úspěšně zadána do výroby.
 fdd048d99302a69760e77235f1dc04965262a8cc8bc3b7da2573723d:
   ref: This building does not produce anything. (label)
-  value: This building does not produce anything. (label)
+  value: Tato budova nic neprodukuje.
 fe467ee81f0f6139dc5cb5ce65815c7268f9b512a94be7bce94b3e13:
   ref: Select resource (title)
   value: Vyberte zdroj
