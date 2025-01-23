@@ -28,7 +28,6 @@ import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNod
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 
 const width = 256;
 const height = width / 4;
@@ -328,11 +327,6 @@ export const Content: FC<Content.Props> = ({
 						<LinkTo
 							icon={BlueprintIcon}
 							to={"/$locale/apps/derivean/map/construction"}
-							params={{ locale }}
-						/>
-						<LinkTo
-							icon={InventoryIcon}
-							to={"/$locale/apps/derivean/map/inventory"}
 							params={{ locale }}
 						/>
 						<LinkTo

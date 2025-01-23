@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { genId, pwd } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/kysely";
-import { withDefaultKingdom } from "~/app/derivean/public/withDefaultKingdom";
 import type { RegisterSchema } from "~/app/derivean/schema/RegisterSchema";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
@@ -30,12 +29,6 @@ export const useRegisterMutation = () => {
 						.returning(["User.id", "User.name", "User.login"])
 						.executeTakeFirstOrThrow(),
 				);
-
-				try {
-					await withDefaultKingdom({ tx, userId: session.id });
-				} catch (e) {
-					console.error(e);
-				}
 
 				return session;
 			});

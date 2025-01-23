@@ -33,19 +33,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 
 		return {
 			session: user,
-			inventory: await queryClient.ensureQueryData({
-				queryKey: ["User_Inventory"],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return tx
-							.selectFrom("Inventory as i")
-							.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
-							.select(["i.id", "i.amount", "i.limit", "i.resourceId"])
-							.where("ui.userId", "=", user.id)
-							.execute();
-					});
-				},
-			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["Cycle"],
 				async queryFn() {

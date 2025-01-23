@@ -32,11 +32,12 @@ export const withProductionQueue = async ({
 	for await (const { resourceId, amount, passive } of requirements) {
 		const inventory = await tx
 			.selectFrom("Inventory as i")
-			.innerJoin("User_Inventory as ui", "ui.inventoryId", "i.id")
+			.innerJoin("Building_Inventory as bi", "bi.inventoryId", "i.id")
 			.select(["i.id", "i.amount"])
-			.where("ui.userId", "=", userId)
+			.where("bi.buildingId", "=", buildingId)
 			.where("i.resourceId", "=", resourceId)
 			.where("i.amount", ">=", amount)
+			.where("i.type", "in", ["storage", "input"])
 			.executeTakeFirstOrThrow();
 
 		if (!passive) {

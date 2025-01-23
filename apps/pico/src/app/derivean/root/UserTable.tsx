@@ -14,9 +14,6 @@ import {
 import type { IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import { GameIcon } from "~/app/derivean/icon/GameIcon";
-import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
-import { withDefaultInventory } from "~/app/derivean/inventory/withDefaultInventory";
 
 export namespace UserTable {
 	export interface Data extends IdentitySchema.Type {
@@ -72,20 +69,9 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 		["User_Inventory"],
 	]);
 
-	const defaultInventoryMutation = useMutation({
-		async mutationFn({ userId }: { userId: string }) {
-			return kysely.transaction().execute((tx) => {
-				return withDefaultInventory({ tx, userId });
-			});
-		},
-		async onSuccess() {
-			await invalidator();
-		},
-	});
 	const resetGameMutation = useMutation({
 		async mutationFn({ userId }: { userId: string }) {
 			return kysely.transaction().execute(async (tx) => {
-				await withDefaultInventory({ tx, userId });
 				await tx.deleteFrom("Building").where("userId", "=", userId).execute();
 				await tx
 					.deleteFrom("Production")
@@ -96,29 +82,6 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 					.where("userId", "=", userId)
 					.execute();
 				await tx.deleteFrom("Cycle").where("userId", "=", userId).execute();
-			});
-		},
-		async onSuccess() {
-			await invalidator();
-		},
-	});
-	const cheatInventory = useMutation({
-		async mutationFn({ userId }: { userId: string }) {
-			return kysely.transaction().execute(async (tx) => {
-				await tx
-					.updateTable("Inventory")
-					.set({
-						amount: 1000,
-					})
-					.where(
-						"id",
-						"in",
-						tx
-							.selectFrom("User_Inventory")
-							.select("inventoryId")
-							.where("userId", "=", userId),
-					)
-					.execute();
 			});
 		},
 		async onSuccess() {
@@ -136,26 +99,6 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 				row({ data }) {
 					return (
 						<ActionMenu>
-							<ActionClick
-								icon={InventoryIcon}
-								onClick={() => {
-									defaultInventoryMutation.mutateAsync({
-										userId: data.id,
-									});
-								}}
-							>
-								<Tx label={"Apply default inventory (menu)"} />
-							</ActionClick>
-							<ActionClick
-								icon={GameIcon}
-								onClick={() => {
-									cheatInventory.mutateAsync({
-										userId: data.id,
-									});
-								}}
-							>
-								<Tx label={"Cheat inventory (menu)"} />
-							</ActionClick>
 							<ActionClick
 								icon={TrashIcon}
 								onClick={() => {

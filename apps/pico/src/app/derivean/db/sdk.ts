@@ -773,37 +773,6 @@ export const withUserSchema = <
 
 export type UserEntity = ReturnType<typeof withUserSchema>["~entity"];
 
-export const withUserInventorySchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				inventoryId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "userId", "inventoryId"],
-	});
-};
-
-export type UserInventoryEntity = ReturnType<
-	typeof withUserInventorySchema
->["~entity"];
-
 export interface Database {
 	Blueprint: BlueprintEntity;
 	Blueprint_Conflict: BlueprintConflictEntity;
@@ -827,5 +796,4 @@ export interface Database {
 	Route_Resource: RouteResourceEntity;
 	Tag: TagEntity;
 	User: UserEntity;
-	User_Inventory: UserInventoryEntity;
 }

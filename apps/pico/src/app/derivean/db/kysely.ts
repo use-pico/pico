@@ -162,35 +162,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createTable("User_Inventory")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[User_Inventory] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-				.addColumn("inventoryId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[User_Inventory] inventoryId",
-					["inventoryId"],
-					"Inventory",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addUniqueConstraint("[User_Inventory] userId-inventoryId", [
-					"userId",
-					"inventoryId",
-				])
-
-				.execute();
-
 			/**
 			 * Blueprint is a definition for the building; all the buildings are pointing to it's blueprint.
 			 *
