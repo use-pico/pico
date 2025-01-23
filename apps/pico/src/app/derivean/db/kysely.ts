@@ -723,6 +723,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
+				 * Define target inventory type.
+				 */
+				.addColumn("type", "varchar(16)", (col) =>
+					col.notNull().defaultTo("input"),
+				)
+
+				/**
 				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
 				 */
 				.addColumn("amount", "float4")

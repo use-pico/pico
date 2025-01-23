@@ -19,6 +19,7 @@ export namespace ResourcePanel {
 		id: string;
 		name: string;
 		amount: number;
+		type: string;
 	}
 
 	export interface Inventory {
@@ -26,6 +27,7 @@ export namespace ResourcePanel {
 		name: string;
 		resourceId: string;
 		transport: number;
+		type: string;
 	}
 
 	export interface Props extends Panel.PropsEx {

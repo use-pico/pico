@@ -27,7 +27,9 @@ export const Route = createFileRoute(
 									"bpr.amount",
 									"bpr.passive",
 									"i.amount as available",
+									"i.type",
 								])
+								.where("i.type", "in", ["storage", "input"])
 								.where("bpr.blueprintProductionId", "=", productionId)
 								.where(
 									"i.id",
@@ -43,6 +45,7 @@ export const Route = createFileRoute(
 								amount: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
 								passive: withBoolSchema(),
+								type: z.enum(["storage", "construction", "input", "output"]),
 							}),
 						});
 					});

@@ -203,7 +203,7 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 										id: genId(),
 										resourceId,
 										amount: 0,
-										limit: amount,
+										limit: amount * 5,
 										type: "input",
 									})
 									.returning("id")
@@ -242,7 +242,7 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 										id: genId(),
 										resourceId,
 										amount: 0,
-										limit: amount,
+										limit: amount * 5,
 										type: "input",
 									})
 									.returning("id")

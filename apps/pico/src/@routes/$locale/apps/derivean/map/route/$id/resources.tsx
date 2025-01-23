@@ -23,6 +23,7 @@ export const Route = createFileRoute(
 									"rr.amount",
 									"rr.routeId",
 									"rr.resourceId",
+									"rr.type",
 								])
 								.where("rr.routeId", "=", id),
 							output: z.object({
@@ -31,6 +32,7 @@ export const Route = createFileRoute(
 								resourceId: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
+								type: z.enum(["storage", "construction", "input", "output"]),
 							}),
 						});
 					});
@@ -44,12 +46,19 @@ export const Route = createFileRoute(
 							select: tx
 								.selectFrom("Inventory as i")
 								.innerJoin("Resource as r", "r.id", "i.resourceId")
-								.select(["i.id", "i.resourceId", "r.name", "r.transport"])
+								.select([
+									"i.id",
+									"i.resourceId",
+									"r.name",
+									"r.transport",
+									"i.type",
+								])
 								.where(
 									"i.id",
 									"in",
 									tx
 										.selectFrom("Building_Inventory as bi")
+										.innerJoin("Inventory as i", "i.id", "bi.inventoryId")
 										.select("bi.inventoryId")
 										.where(
 											"bi.buildingId",
@@ -58,7 +67,8 @@ export const Route = createFileRoute(
 												.selectFrom("Route as ro")
 												.select("ro.toId")
 												.where("ro.id", "=", id),
-										),
+										)
+										.where("i.type", "in", ["storage", "input"]),
 								)
 								.where(
 									"r.id",
@@ -79,23 +89,6 @@ export const Route = createFileRoute(
 								)
 								.where(
 									"r.id",
-									"in",
-									tx
-										.selectFrom("Building_Inventory as bi")
-										.innerJoin("Inventory as i", "i.id", "bi.inventoryId")
-										.select("i.resourceId")
-										.where(
-											"bi.buildingId",
-											"=",
-											tx
-												.selectFrom("Route as ro")
-												.select("ro.toId")
-												.where("ro.id", "=", id),
-										)
-										.where("i.type", "in", ["storage", "input"]),
-								)
-								.where(
-									"r.id",
 									"not in",
 									tx
 										.selectFrom("Route_Resource as rr")
@@ -107,6 +100,7 @@ export const Route = createFileRoute(
 								resourceId: z.string().min(1),
 								name: z.string().min(1),
 								transport: withFloatSchema(),
+								type: z.enum(["storage", "construction", "input", "output"]),
 							}),
 						});
 					});

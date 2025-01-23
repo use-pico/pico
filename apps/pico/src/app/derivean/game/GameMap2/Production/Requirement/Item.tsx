@@ -35,7 +35,12 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				:	undefined,
 				requirement.available === undefined || available ?
 					undefined
-				:	["border-red-500", "hover:border-red-600", "hover:bg-red-50"],
+				:	[
+						"border-red-500",
+						"bg-red-50",
+						"hover:bg-red-50",
+						"hover:border-red-600",
+					],
 			])}
 		>
 			<div className={"font-bold"}>{requirement.name}</div>

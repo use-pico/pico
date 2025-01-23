@@ -17,11 +17,11 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 	for await (const { id, fromId, toId } of transportQueue) {
 		const resourceQueue = await tx
 			.selectFrom("Route_Resource as rr")
-			.select(["rr.amount", "rr.resourceId"])
+			.select(["rr.amount", "rr.resourceId", "rr.type"])
 			.where("rr.routeId", "=", id)
 			.execute();
 
-		for await (const { amount, resourceId } of resourceQueue) {
+		for await (const { amount, resourceId, type } of resourceQueue) {
 			const sourceInventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])
@@ -34,6 +34,8 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 						.where("bi.buildingId", "=", fromId),
 				)
 				.where("i.resourceId", "=", resourceId)
+				.where("i.type", "in", ["storage", "output"])
+				.orderBy("i.amount", "desc")
 				.executeTakeFirst();
 
 			const targetInventory = await tx
@@ -48,6 +50,8 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 						.where("bi.buildingId", "=", toId),
 				)
 				.where("i.resourceId", "=", resourceId)
+				.where("i.type", "=", type)
+				.orderBy("i.amount", "asc")
 				.executeTakeFirst();
 
 			if (!sourceInventory || !targetInventory) {
@@ -55,33 +59,27 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 				continue;
 			}
 
-			const $amount = Math.min(
-				sourceInventory.amount,
-				amount === null || amount === undefined ?
-					sourceInventory.amount
-				:	amount,
+			const transferableAmount = Math.max(
+				0,
+				Math.min(
+					Math.min(sourceInventory.amount, amount ?? sourceInventory.amount),
+					targetInventory.limit - targetInventory.amount,
+				),
 			);
 
-			if (targetInventory.amount + $amount > targetInventory.limit) {
-				console.log("Target is full");
-				continue;
+			if (transferableAmount > 0) {
+				await tx
+					.updateTable("Inventory")
+					.set({ amount: sourceInventory.amount - transferableAmount })
+					.where("id", "=", sourceInventory.id)
+					.execute();
+
+				await tx
+					.updateTable("Inventory")
+					.set({ amount: targetInventory.amount + transferableAmount })
+					.where("id", "=", targetInventory.id)
+					.execute();
 			}
-
-			await tx
-				.updateTable("Inventory")
-				.set({
-					amount: sourceInventory.amount - $amount,
-				})
-				.where("id", "=", sourceInventory.id)
-				.execute();
-
-			await tx
-				.updateTable("Inventory")
-				.set({
-					amount: targetInventory.amount + $amount,
-				})
-				.where("id", "=", targetInventory.id)
-				.execute();
 		}
 	}
 };

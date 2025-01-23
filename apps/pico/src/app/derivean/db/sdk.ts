@@ -691,6 +691,9 @@ export const withRouteResourceSchema = <
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				type:
+					// varchar(16) / not nullable
+					z.string().min(1),
 				amount:
 					// float4 / nullable
 					z.number().nullish(),
@@ -698,7 +701,7 @@ export const withRouteResourceSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "routeId", "resourceId", "amount"],
+		sort: ["id", "routeId", "resourceId", "type", "amount"],
 	});
 };
 

@@ -5,6 +5,7 @@ import { withRouteResourceSchema } from "~/app/derivean/db/sdk";
 export const RouteResourceSchema = withRouteResourceSchema({
 	shape: z.object({
 		resourceId: z.string().min(1),
+		type: z.enum(["storage", "construction", "input", "output"]),
 		amount: z.number().nonnegative(),
 	}),
 	filter: FilterSchema.merge(

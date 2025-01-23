@@ -23,6 +23,7 @@ export namespace RequirementPanel {
 		amount: number;
 		available?: number | null;
 		passive: boolean;
+		type: string;
 	}
 
 	export interface Props extends Panel.PropsEx {
