@@ -115,6 +115,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
+					<li>Multi-type inventory stuff is quite crazy and buggy.</li>
 					<li>
 						Routes does not account target inventory type, so transport goes
 						randomly. Bug, ugly one.

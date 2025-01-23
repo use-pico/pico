@@ -1,6 +1,7 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
+import { sql } from "kysely";
 import { z } from "zod";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Production/Requirement/RequirementPanel";
 
@@ -20,32 +21,38 @@ export const Route = createFileRoute(
 							select: tx
 								.selectFrom("Blueprint_Production_Requirement as bpr")
 								.innerJoin("Resource as r", "r.id", "bpr.resourceId")
-								.leftJoin("Inventory as i", "i.resourceId", "bpr.resourceId")
 								.select([
 									"bpr.id",
 									"r.name",
 									"bpr.amount",
 									"bpr.passive",
-									"i.amount as available",
-									"i.type",
+									sql.lit("input").as("type"),
+									(eb) => {
+										return eb
+											.selectFrom("Inventory as i")
+											.select(["i.amount"])
+											.where(
+												"i.id",
+												"in",
+												tx
+													.selectFrom("Building_Inventory as bi")
+													.select("bi.inventoryId")
+													.where("bi.buildingId", "=", id),
+											)
+											.whereRef("i.resourceId", "=", "bpr.resourceId")
+											.orderBy("i.amount", "desc")
+											.limit(1)
+											.as("available");
+									},
 								])
-								.where("i.type", "in", ["storage", "input"])
-								.where("bpr.blueprintProductionId", "=", productionId)
-								.where(
-									"i.id",
-									"in",
-									tx
-										.selectFrom("Building_Inventory as bi")
-										.select("bi.inventoryId")
-										.where("bi.buildingId", "=", id),
-								),
+								.where("bpr.blueprintProductionId", "=", productionId),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
 								passive: withBoolSchema(),
-								type: z.enum(["storage", "construction", "input", "output"]),
+								type: z.enum(["input"]),
 							}),
 						});
 					});
