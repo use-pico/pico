@@ -116,25 +116,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
-						Remove User_Inventory, deduct all inventory transactions from
-						Building_Inventory.
-					</li>
-					<li>
-						<p>
-							Game start: define default construction (instead of default
-							inventory); those building should be exclusive to very first
-							building: "Center" will be first, "Storage" next and "Storage"
-							will define "Center" as exclusive, so user should not be able to
-							build more centers.
-						</p>
-
-						<p>
-							Or something better; like default buildings and define default
-							inventories for those buildings; this will be quite bunch of work
-							for root UI.
-						</p>
-					</li>
-					<li>
 						Add notification center like inventory is full, production is full
 						and so on.
 					</li>
@@ -182,11 +163,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 					<li>
 						Add resource probability drop: some resources may have not be
 						produces (like a crop). This should be thinked out.
-					</li>
-					<li>
-						Production line should have requirements, but also something like
-						"display requirements" required to even show the production line.
-						Same for buildings.
 					</li>
 				</ul>
 			</div>
