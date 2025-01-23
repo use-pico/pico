@@ -522,7 +522,7 @@ bede006a23ce0c1579572c1ebf769594a7111cfac0439aaea42d5556:
   value: Probíhá cyklus
 c19d73b27d07e0d75cdb22df7339033a3ea479d2123dc66d1eb286f9:
   ref: No inventory storage. (label)
-  value: No inventory storage. (label)
+  value: Skladiště není dostupné.
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)

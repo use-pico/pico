@@ -2,6 +2,7 @@ import { Badge, Progress } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { QueuePanel } from "~/app/derivean/game/GameMap2/Production/Queue/QueuePanel";
+import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 
 export namespace Item {
 	export interface Props {
@@ -30,12 +31,15 @@ export const Item: FC<Item.Props> = ({ queue, inventory }) => {
 				isFull ? ["border-red-400", "hover:border-red-600"] : undefined,
 			])}
 		>
-			<div className={"flex flex-row gap-2 items-center"}>
+			<div
+				className={"flex flex-row gap-2 items-center justify-between w-full"}
+			>
 				<div className={"font-bold"}>{queue.name}</div>
 
 				<div className={"flex flex-row gap-2 items-center"}>
 					<Badge>x{toHumanNumber({ number: queue.amount })}</Badge>
 				</div>
+				<CyclesInline cycles={queue.cycles} />
 			</div>
 
 			<Progress

@@ -9,8 +9,7 @@ export namespace BuildingNode {
 	export interface Production {
 		id: string;
 		name: string;
-		from: number;
-		to: number;
+		cycles: number;
 		cycle: number;
 	}
 
@@ -76,10 +75,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 			</div>
 			{data.production ?
 				<Progress
-					value={
-						(100 * data.production.cycle) /
-						(data.production.to - data.production.from)
-					}
+					value={(100 * data.production.cycle) / data.production.cycles}
 				/>
 			:	null}
 

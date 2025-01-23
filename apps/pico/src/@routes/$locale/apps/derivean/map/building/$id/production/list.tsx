@@ -1,5 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
+import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
 import { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/ProductionPanel";
 
@@ -18,7 +19,63 @@ export const Route = createFileRoute(
 							select: tx
 								.selectFrom("Blueprint_Production as bp")
 								.innerJoin("Resource as r", "r.id", "bp.resourceId")
-								.select(["bp.id", "r.name", "bp.amount", "bp.cycles"])
+								.select([
+									"bp.id",
+									"r.name",
+									"bp.amount",
+									"bp.cycles",
+									(eb) => {
+										return eb
+											.case()
+											.when(
+												eb.not(
+													eb.exists(
+														eb
+															.selectFrom(
+																"Blueprint_Production_Requirement as bpr",
+															)
+															.select(eb.lit(1).as("one"))
+															.whereRef(
+																"bpr.blueprintProductionId",
+																"=",
+																"bp.id",
+															)
+															.where((eb) =>
+																eb.not(
+																	eb.exists(
+																		eb
+																			.selectFrom("Inventory as i")
+																			.select(eb.lit(1).as("one"))
+																			.where(
+																				"i.id",
+																				"in",
+																				eb
+																					.selectFrom("Building_Inventory")
+																					.select("inventoryId")
+																					.where("buildingId", "=", id),
+																			)
+																			.where("i.type", "in", [
+																				"storage",
+																				"input",
+																			])
+																			.whereRef(
+																				"i.resourceId",
+																				"=",
+																				"bpr.resourceId",
+																			)
+																			.whereRef("i.amount", ">=", "bpr.amount"),
+																	),
+																),
+															),
+													),
+												),
+											)
+											.then(eb.lit(true))
+											.else(eb.lit(false))
+											.end()
+											.as("withAvailableResources");
+									},
+								])
 								.where(
 									"bp.blueprintId",
 									"=",
@@ -86,6 +143,7 @@ export const Route = createFileRoute(
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
 								cycles: z.number().int().nonnegative(),
+								withAvailableResources: withBoolSchema(),
 							}),
 						});
 					});

@@ -50,7 +50,12 @@ export const Item: FC<Item.Props> = ({ route }) => {
 				"hover:bg-slate-100",
 				route.count > 0 ?
 					undefined
-				:	["border-amber-400", "hover:border-amber-600", "hover:bg-amber-100"],
+				:	[
+						"border-amber-400",
+						"bg-amber-50",
+						"hover:bg-amber-50",
+						"hover:border-amber-600",
+					],
 			])}
 		>
 			{route.toConstructionId ?

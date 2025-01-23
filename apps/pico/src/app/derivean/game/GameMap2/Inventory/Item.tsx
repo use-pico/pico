@@ -22,8 +22,13 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 				"p-2",
 				"cursor-default",
 				"hover:bg-slate-100",
-				inventory.amount >= inventory.limit ?
-					["border-red-400", "hover:border-red-600", "hover:bg-red-50"]
+				inventory.limit > 0 && inventory.amount >= inventory.limit ?
+					[
+						"border-red-400",
+						"bg-red-50",
+						"hover:bg-red-50",
+						"hover:border-red-600",
+					]
 				:	undefined,
 			])}
 		>

@@ -34,7 +34,7 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 		amount,
 	} of productionQueue) {
 		if (cycle >= cycles) {
-			const inventory = await tx
+			const outputInventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])
 				.where(
@@ -46,34 +46,70 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 						.where("bi.buildingId", "=", buildingId),
 				)
 				.where("i.resourceId", "=", resourceId)
+				.where("i.type", "=", "output")
 				.executeTakeFirst();
 
-			if (!inventory) {
+			if (
+				outputInventory &&
+				(outputInventory.limit > 0 ?
+					outputInventory.amount + amount <= outputInventory.limit
+				:	true)
+			) {
+				await tx
+					.updateTable("Inventory")
+					.set({
+						amount: outputInventory.amount + amount,
+					})
+					.where("id", "=", outputInventory.id)
+					.execute();
+
+				await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
+
 				continue;
 			}
 
-			if (inventory.limit > 0 && inventory.amount + amount > inventory.limit) {
+			const storageInventory = await tx
+				.selectFrom("Inventory as i")
+				.select(["i.id", "i.amount", "i.limit"])
+				.where(
+					"i.id",
+					"in",
+					tx
+						.selectFrom("Building_Inventory as bi")
+						.select("bi.inventoryId")
+						.where("bi.buildingId", "=", buildingId),
+				)
+				.where("i.resourceId", "=", resourceId)
+				.where("i.type", "=", "storage")
+				.executeTakeFirst();
+
+			if (
+				storageInventory &&
+				(storageInventory.limit > 0 ?
+					storageInventory.amount + amount <= storageInventory.limit
+				:	true)
+			) {
+				console.log("storage OK");
+
+				await tx
+					.updateTable("Inventory")
+					.set({
+						amount: storageInventory.amount + amount,
+					})
+					.where("id", "=", storageInventory.id)
+					.execute();
+
+				await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
+
 				continue;
 			}
-
+		} else {
 			await tx
-				.updateTable("Inventory")
-				.set({
-					amount: inventory.amount + amount,
-				})
-				.where("id", "=", inventory.id)
+				.updateTable("Production")
+				.set("cycle", cycle + 1)
+				.where("id", "=", id)
 				.execute();
-
-			await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
-
-			continue;
 		}
-
-		await tx
-			.updateTable("Production")
-			.set("cycle", cycle + 1)
-			.where("id", "=", id)
-			.execute();
 	}
 
 	const productionPlanQueue = await tx

@@ -19,6 +19,7 @@ export namespace ProductionPanel {
 		name: string;
 		amount: number;
 		cycles: number;
+		withAvailableResources: boolean;
 	}
 
 	export interface Props extends Panel.PropsEx {
