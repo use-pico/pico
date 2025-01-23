@@ -200,6 +200,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"r.toId",
 									"blf.name as fromName",
 									"blt.name as toName",
+									(eb) => {
+										return eb
+											.selectFrom("Route_Resource as rr")
+											.whereRef("rr.routeId", "=", "r.id")
+											.select((eb) =>
+												eb.fn.count<number>("rr.id").as("resourceCount"),
+											)
+											.as("resourceCount");
+									},
 								])
 								.where("r.userId", "=", user.id),
 							output: z.object({
@@ -208,6 +217,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 								toId: z.string().min(1),
 								fromName: z.string().min(1),
 								toName: z.string().min(1),
+								resourceCount: z.number().int().nonnegative(),
 							}),
 						});
 					});

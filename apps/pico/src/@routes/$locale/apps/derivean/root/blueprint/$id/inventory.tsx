@@ -51,6 +51,7 @@ export const Route = createFileRoute(
 								"bi.inventoryId",
 							])
 							.where("bi.blueprintId", "=", id)
+							.orderBy("i.type", "asc")
 							.orderBy("r.name", "asc"),
 						query({ select, where }) {
 							let $select = select;

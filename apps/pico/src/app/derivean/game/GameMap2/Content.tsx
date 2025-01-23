@@ -106,7 +106,7 @@ export const Content: FC<Content.Props> = ({
 				type: routing ? "building-route" : "queue",
 				width,
 				height,
-				className: tvc(NodeCss, ["nodrag"]),
+				className: tvc(NodeCss, ["border-amber-400", "bg-amber-50", "nodrag"]),
 			})),
 			...building.map((building) => ({
 				id: building.id,
@@ -136,7 +136,10 @@ export const Content: FC<Content.Props> = ({
 				animated: false,
 				markerEnd: {
 					type: MarkerType.ArrowClosed,
-					color: "#b1b1b7",
+					color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
+				},
+				style: {
+					stroke: route.resourceCount > 0 ? undefined : "#FF0000",
 				},
 			})),
 		],

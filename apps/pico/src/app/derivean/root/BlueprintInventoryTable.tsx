@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import {
+    ActionClick,
     ActionMenu,
     ActionModal,
     DeleteControl,
@@ -105,6 +106,160 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 	...props
 }) => {
 	const invalidator = useInvalidator([["Blueprint_Inventory"]]);
+	const fillInventoryMutation = useMutation({
+		async mutationFn() {
+			return kysely.transaction().execute(async (tx) => {
+				await tx
+					.deleteFrom("Blueprint_Inventory")
+					.where("blueprintId", "=", blueprintId)
+					.execute();
+
+				const requirements = await tx
+					.selectFrom("Blueprint_Requirement")
+					.select(["resourceId", "amount"])
+					.where("blueprintId", "=", blueprintId)
+					.execute();
+
+				for await (const { resourceId, amount } of requirements) {
+					await tx
+						.insertInto("Blueprint_Inventory")
+						.values({
+							id: genId(),
+							blueprintId,
+							inventoryId: (
+								await tx
+									.insertInto("Inventory")
+									.values({
+										id: genId(),
+										resourceId,
+										amount: 0,
+										limit: amount,
+										type: "construction",
+									})
+									.returning("id")
+									.executeTakeFirstOrThrow()
+							).id,
+						})
+						.execute();
+				}
+
+				const production = await tx
+					.selectFrom("Blueprint_Production")
+					.select(["resourceId", (eb) => eb.fn.max("amount").as("amount")])
+					.where("blueprintId", "=", blueprintId)
+					.orderBy("amount", "desc")
+					.groupBy("resourceId")
+					.execute();
+
+				for await (const { resourceId, amount } of production) {
+					await tx
+						.insertInto("Blueprint_Inventory")
+						.values({
+							id: genId(),
+							blueprintId,
+							inventoryId: (
+								await tx
+									.insertInto("Inventory")
+									.values({
+										id: genId(),
+										resourceId,
+										amount: 0,
+										limit: amount * 5,
+										type: "output",
+									})
+									.returning("id")
+									.executeTakeFirstOrThrow()
+							).id,
+						})
+						.execute();
+				}
+
+				const inputs = await tx
+					.selectFrom("Blueprint_Production_Resource as bpr")
+					.innerJoin(
+						"Blueprint_Production as bp",
+						"bp.id",
+						"bpr.blueprintProductionId",
+					)
+					.select([
+						"bpr.resourceId",
+						(eb) => eb.fn.max("bpr.amount").as("amount"),
+					])
+					.where("bp.blueprintId", "=", blueprintId)
+					.orderBy("bpr.amount", "desc")
+					.groupBy("bpr.resourceId")
+					.execute();
+
+				for await (const { resourceId, amount } of inputs) {
+					await tx
+						.insertInto("Blueprint_Inventory")
+						.values({
+							id: genId(),
+							blueprintId,
+							inventoryId: (
+								await tx
+									.insertInto("Inventory")
+									.values({
+										id: genId(),
+										resourceId,
+										amount: 0,
+										limit: amount,
+										type: "input",
+									})
+									.returning("id")
+									.executeTakeFirstOrThrow()
+							).id,
+						})
+						.execute();
+				}
+
+				const productionRequirements = await tx
+					.selectFrom("Blueprint_Production_Requirement as bpr")
+					.innerJoin(
+						"Blueprint_Production as bp",
+						"bp.id",
+						"bpr.blueprintProductionId",
+					)
+					.select([
+						"bpr.resourceId",
+						(eb) => eb.fn.max("bpr.amount").as("amount"),
+					])
+					.where("bp.blueprintId", "=", blueprintId)
+					.orderBy("bpr.amount", "desc")
+					.groupBy("bpr.resourceId")
+					.execute();
+
+				for await (const { resourceId, amount } of productionRequirements) {
+					await tx
+						.insertInto("Blueprint_Inventory")
+						.values({
+							id: genId(),
+							blueprintId,
+							inventoryId: (
+								await tx
+									.insertInto("Inventory")
+									.values({
+										id: genId(),
+										resourceId,
+										amount: 0,
+										limit: amount,
+										type: "input",
+									})
+									.returning("id")
+									.executeTakeFirstOrThrow()
+							).id,
+						})
+						.execute();
+				}
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+		onError(error) {
+			console.error(error);
+		},
+	});
 
 	return (
 		<Table
@@ -116,6 +271,15 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 				table() {
 					return (
 						<ActionMenu>
+							<ActionClick
+								icon={InventoryIcon}
+								onClick={() => {
+									fillInventoryMutation.mutate();
+								}}
+							>
+								<Tx label={"Fill inventory (label)"} />
+							</ActionClick>
+
 							<ActionModal
 								label={<Tx label={"Create inventory item (menu)"} />}
 								textTitle={<Tx label={"Create inventory item (modal)"} />}

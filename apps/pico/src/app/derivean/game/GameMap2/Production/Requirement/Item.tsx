@@ -33,28 +33,31 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"hover:bg-purple-100",
 					]
 				:	undefined,
-				available ? undefined : (
-					["border-red-500", "hover:border-red-600", "hover:bg-red-50"]
-				),
+				requirement.available === undefined || available ?
+					undefined
+				:	["border-red-500", "hover:border-red-600", "hover:bg-red-50"],
 			])}
 		>
 			<div className={"font-bold"}>{requirement.name}</div>
-			<Badge
-				css={{
-					base:
-						available ?
-							["bg-green-200", "border-green-500"]
-						:	["bg-red-200", "border-red-500"],
-				}}
-			>
-				<div className={"font-bold"}>
-					{toHumanNumber({ number: requirement.available })}
-				</div>
-				<div>/</div>
-				<div className={"font-light"}>
-					{toHumanNumber({ number: requirement.amount })}
-				</div>
-			</Badge>
+			{requirement.available === undefined ?
+				<Badge>x{toHumanNumber({ number: requirement.amount })}</Badge>
+			:	<Badge
+					css={{
+						base:
+							available ?
+								["bg-green-200", "border-green-500"]
+							:	["bg-red-200", "border-red-500"],
+					}}
+				>
+					<div className={"font-bold"}>
+						{toHumanNumber({ number: requirement.available })}
+					</div>
+					<div>/</div>
+					<div className={"font-light"}>
+						{toHumanNumber({ number: requirement.amount })}
+					</div>
+				</Badge>
+			}
 		</div>
 	);
 };
