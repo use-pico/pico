@@ -33,82 +33,81 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 		cycles,
 		amount,
 	} of productionQueue) {
-		if (cycle >= cycles) {
-			const outputInventory = await tx
-				.selectFrom("Inventory as i")
-				.select(["i.id", "i.amount", "i.limit"])
-				.where(
-					"i.id",
-					"in",
-					tx
-						.selectFrom("Building_Inventory as bi")
-						.select("bi.inventoryId")
-						.where("bi.buildingId", "=", buildingId),
-				)
-				.where("i.resourceId", "=", resourceId)
-				.where("i.type", "=", "output")
-				.executeTakeFirst();
-
-			if (
-				outputInventory &&
-				(outputInventory.limit > 0 ?
-					outputInventory.amount + amount <= outputInventory.limit
-				:	true)
-			) {
-				await tx
-					.updateTable("Inventory")
-					.set({
-						amount: outputInventory.amount + amount,
-					})
-					.where("id", "=", outputInventory.id)
-					.execute();
-
-				await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
-
-				continue;
-			}
-
-			const storageInventory = await tx
-				.selectFrom("Inventory as i")
-				.select(["i.id", "i.amount", "i.limit"])
-				.where(
-					"i.id",
-					"in",
-					tx
-						.selectFrom("Building_Inventory as bi")
-						.select("bi.inventoryId")
-						.where("bi.buildingId", "=", buildingId),
-				)
-				.where("i.resourceId", "=", resourceId)
-				.where("i.type", "=", "storage")
-				.executeTakeFirst();
-
-			if (
-				storageInventory &&
-				(storageInventory.limit > 0 ?
-					storageInventory.amount + amount <= storageInventory.limit
-				:	true)
-			) {
-				console.log("storage OK");
-
-				await tx
-					.updateTable("Inventory")
-					.set({
-						amount: storageInventory.amount + amount,
-					})
-					.where("id", "=", storageInventory.id)
-					.execute();
-
-				await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
-
-				continue;
-			}
-		} else {
+		if (cycle < cycles) {
 			await tx
 				.updateTable("Production")
 				.set("cycle", cycle + 1)
 				.where("id", "=", id)
 				.execute();
+			continue;
+		}
+
+		const outputInventory = await tx
+			.selectFrom("Inventory as i")
+			.select(["i.id", "i.amount", "i.limit"])
+			.where(
+				"i.id",
+				"in",
+				tx
+					.selectFrom("Building_Inventory as bi")
+					.select("bi.inventoryId")
+					.where("bi.buildingId", "=", buildingId),
+			)
+			.where("i.resourceId", "=", resourceId)
+			.where("i.type", "=", "output")
+			.executeTakeFirst();
+
+		if (
+			outputInventory &&
+			(outputInventory.limit > 0 ?
+				outputInventory.amount + amount <= outputInventory.limit
+			:	true)
+		) {
+			await tx
+				.updateTable("Inventory")
+				.set({
+					amount: outputInventory.amount + amount,
+				})
+				.where("id", "=", outputInventory.id)
+				.execute();
+
+			await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
+
+			continue;
+		}
+
+		const storageInventory = await tx
+			.selectFrom("Inventory as i")
+			.select(["i.id", "i.amount", "i.limit"])
+			.where(
+				"i.id",
+				"in",
+				tx
+					.selectFrom("Building_Inventory as bi")
+					.select("bi.inventoryId")
+					.where("bi.buildingId", "=", buildingId),
+			)
+			.where("i.resourceId", "=", resourceId)
+			.where("i.type", "=", "storage")
+			.executeTakeFirst();
+
+		if (
+			storageInventory &&
+			(storageInventory.limit > 0 ?
+				storageInventory.amount + amount <= storageInventory.limit
+			:	true)
+		) {
+			await tx
+				.updateTable("Inventory")
+				.set({
+					amount: storageInventory.amount + amount,
+				})
+				.where("id", "=", storageInventory.id)
+				.execute();
+
+			await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
+
+			continue;
 		}
 	}
 
