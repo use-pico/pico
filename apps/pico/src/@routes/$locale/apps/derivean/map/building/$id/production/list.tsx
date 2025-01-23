@@ -6,7 +6,9 @@ import { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/Product
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/building/$id/production/list",
 )({
-	async loader({ context: { queryClient, kysely }, params: { id } }) {
+	async loader({ context: { queryClient, kysely, session }, params: { id } }) {
+		const user = await session();
+
 		return {
 			production: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "building", "production", id],
@@ -24,7 +26,61 @@ export const Route = createFileRoute(
 										.selectFrom("Building as b")
 										.select("b.blueprintId")
 										.where("b.id", "=", id),
-								),
+								)
+								.where((eb) => {
+									return eb.not(
+										eb.exists(
+											eb
+												.selectFrom("Blueprint_Production_Dependency as bpd")
+												.select("bpd.blueprintProductionId")
+												.whereRef("bpd.blueprintProductionId", "=", "bp.id")
+												.where((eb) => {
+													return eb.not(
+														eb.exists(
+															eb
+																.selectFrom("Building as b")
+																.select("b.blueprintId")
+																.where("b.userId", "=", user.id)
+																.whereRef(
+																	"b.blueprintId",
+																	"=",
+																	"bpd.blueprintId",
+																),
+														),
+													);
+												}),
+										),
+									);
+								})
+								.where((eb) => {
+									return eb.not(
+										eb.exists(
+											eb
+												.selectFrom("Blueprint_Production_Resource as bpr")
+												.select("bpr.blueprintProductionId")
+												.whereRef("bpr.blueprintProductionId", "=", "bp.id")
+												.where((eb) => {
+													return eb.not(
+														eb.exists(
+															eb
+																.selectFrom("Inventory as i")
+																.select("i.resourceId")
+																.where(
+																	"i.id",
+																	"in",
+																	eb
+																		.selectFrom("Building_Inventory")
+																		.select("inventoryId")
+																		.where("buildingId", "=", id),
+																)
+																.whereRef("i.resourceId", "=", "bpr.resourceId")
+																.whereRef("i.amount", ">=", "bpr.amount"),
+														),
+													);
+												}),
+										),
+									);
+								}),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
