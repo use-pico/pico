@@ -16,6 +16,7 @@ export namespace RoutePanel {
 		fromId: string;
 		toId: string;
 		toName: string;
+		toConstructionId?: string | null;
 		count: number;
 	}
 

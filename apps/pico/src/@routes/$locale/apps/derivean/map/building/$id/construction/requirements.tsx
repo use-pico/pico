@@ -16,8 +16,12 @@ export const Route = createFileRoute(
 						return withList({
 							select: tx
 								.selectFrom("Blueprint_Requirement as br")
-								.innerJoin("Building as bg", "bg.blueprintId", "br.blueprintId")
 								.innerJoin("Resource as r", "r.id", "br.resourceId")
+								/**
+								 * TODO Fix this query, remove distinct.
+								 */
+								.distinct()
+								.innerJoin("Building as bg", "bg.blueprintId", "br.blueprintId")
 								.leftJoin("Building_Inventory as bi", "bi.buildingId", "bg.id")
 								.leftJoin("Inventory as i", "i.id", "bi.inventoryId")
 								.select([

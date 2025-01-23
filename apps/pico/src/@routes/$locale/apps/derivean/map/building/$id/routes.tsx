@@ -23,6 +23,7 @@ export const Route = createFileRoute(
 									"r.fromId",
 									"r.toId",
 									"blt.name as toName",
+									"bt.constructionId as toConstructionId",
 									(eb) => {
 										return eb
 											.selectFrom("Route_Resource as rr")
@@ -37,6 +38,7 @@ export const Route = createFileRoute(
 								fromId: z.string().min(1),
 								toId: z.string().min(1),
 								toName: z.string().min(1),
+								toConstructionId: z.string().nullish(),
 								count: z.number().nonnegative(),
 							}),
 						});

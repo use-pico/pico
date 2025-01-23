@@ -11,6 +11,7 @@ import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { RoutePanel } from "~/app/derivean/game/GameMap2/Route/RoutePanel";
+import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 
 export namespace Item {
@@ -52,13 +53,22 @@ export const Item: FC<Item.Props> = ({ route }) => {
 				:	["border-amber-400", "hover:border-amber-600", "hover:bg-amber-100"],
 			])}
 		>
-			<LinkTo
-				icon={ResourceIcon}
-				to={"/$locale/apps/derivean/map/route/$id/resources"}
-				params={{ locale, id: route.id }}
-			>
-				{route.toName}
-			</LinkTo>
+			{route.toConstructionId ?
+				<LinkTo
+					icon={ConstructionIcon}
+					to={"/$locale/apps/derivean/map/route/$id/construction"}
+					params={{ locale, id: route.id }}
+				>
+					{route.toName}
+				</LinkTo>
+			:	<LinkTo
+					icon={ResourceIcon}
+					to={"/$locale/apps/derivean/map/route/$id/resources"}
+					params={{ locale, id: route.id }}
+				>
+					{route.toName}
+				</LinkTo>
+			}
 
 			<div className={"flex flex-row gap-2 items-center"}>
 				<LinkTo

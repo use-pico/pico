@@ -31,6 +31,9 @@
 0d720e511de49f63fc541f6e8ba15a7bbc395034c146346ec1308d42:
   ref: Reset game (menu)
   value: Reset game (menu)
+0dc313ad06d215a95fe40edc19ecfde5547cd1562e821e27085cbd66:
+  ref: Available resources (label)
+  value: Available resources (label)
 0fce277191f1fe8b4fc6d221f2f9476c8a9e110a24302c64ca579b2f:
   ref: Move production to (modal)
   value: Move production to (modal)
@@ -67,6 +70,9 @@
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Building base detail (label)
+1813cfb4d3f1082c992e71c135540c4512736cf138bdb0903f643108:
+  ref: Transported resources (label)
+  value: Transported resources (label)
 19d04bf3808447ec0105094716724deda8a0e2fff20d11e44c29b952:
   ref: Resource production count (label)
   value: Resource production count (label)
@@ -502,6 +508,9 @@ c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
 c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
   ref: Apply default inventory - Success (label)
   value: Apply default inventory - Success (label)
+c6b3e2eabcfa247ff9fe9b15f3a01ae1d50ed39885ea6a637f26ee1a:
+  ref: Construction resources (label)
+  value: Construction resources (label)
 c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
   ref: Production queue is empty. (label)
   value: Production queue is empty. (label)

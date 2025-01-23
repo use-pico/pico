@@ -3,11 +3,11 @@ import { BackIcon, Icon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { InventoryItem } from "~/app/derivean/game/GameMap2/Route/Resource/InventoryItem";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Resource/Item";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { InventoryItem } from "~/app/derivean/game/GameMap2/Route/Construction/InventoryItem";
+import { Item } from "~/app/derivean/game/GameMap2/Route/Construction/Item";
+import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
-export namespace ResourcePanel {
+export namespace ConstructionPanel {
 	export interface Route {
 		id: string;
 		fromId: string;
@@ -35,7 +35,7 @@ export namespace ResourcePanel {
 	}
 }
 
-export const ResourcePanel: FC<ResourcePanel.Props> = ({
+export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	route,
 	resource,
 	inventory,
@@ -45,8 +45,8 @@ export const ResourcePanel: FC<ResourcePanel.Props> = ({
 
 	return (
 		<Panel
-			icon={ResourceIcon}
-			textTitle={<Tx label={"Route resources (label)"} />}
+			icon={ConstructionIcon}
+			textTitle={<Tx label={"Construction resources (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
