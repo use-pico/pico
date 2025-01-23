@@ -108,7 +108,8 @@ export const Route = createFileRoute(
 										.selectFrom("Route_Resource as rr")
 										.where("rr.routeId", "=", id)
 										.select("rr.resourceId"),
-								),
+								)
+								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								resourceId: z.string().min(1),

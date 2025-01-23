@@ -17,6 +17,7 @@ export namespace InventoryPanel {
 		inventory: {
 			input: Inventory[];
 			output: Inventory[];
+			storage: Inventory[];
 		};
 		fulltextProps: Fulltext.Props;
 	}
@@ -34,6 +35,41 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 			{...props}
 		>
 			<Fulltext {...fulltextProps} />
+
+			<div>
+				<Tx
+					label={"Inventory - storage (label)"}
+					css={{ base: ["font-bold", "text-slate-500"] }}
+				/>
+			</div>
+			{inventory.storage.length > 0 ?
+				inventory.storage.map((item) => {
+					return (
+						<Item
+							key={item.id}
+							inventory={item}
+						/>
+					);
+				})
+			:	<div
+					className={tvc([
+						"flex",
+						"items-center",
+						"justify-center",
+						"rounded",
+						"border",
+						"border-amber-400",
+						"p-4",
+						"bg-amber-200",
+						"font-bold",
+					])}
+				>
+					<Tx label={"No inventory storage. (label)"} />
+				</div>
+			}
+
+			<div className={"border-b border-slate-300"} />
+
 			<div>
 				<Tx
 					label={"Inventory - inputs (label)"}

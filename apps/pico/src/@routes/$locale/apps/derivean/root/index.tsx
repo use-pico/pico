@@ -27,7 +27,6 @@ const sources: (keyof Database)[] = [
 	"Blueprint_Production_Requirement",
 	"Blueprint_Production_Dependency",
 	"Blueprint_Production_Resource",
-	"Default_Inventory",
 ] as const;
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/")({
@@ -78,7 +77,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 								for await (const { source } of data) {
 									const sourceInstance = sources.find((s) => s === source);
 									if (!sourceInstance) {
-										throw new Error(`Unknown source [${source}]`);
+										continue;
 									}
 									await tx.deleteFrom(sourceInstance).execute();
 								}
@@ -86,7 +85,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 								for await (const { source, entities } of data) {
 									const sourceInstance = sources.find((s) => s === source);
 									if (!sourceInstance) {
-										throw new Error(`Unknown source [${source}]`);
+										continue;
 									}
 
 									for await (const entity of Object.values(entities)) {

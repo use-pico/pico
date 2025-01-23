@@ -88,6 +88,9 @@
 1cafb8944012a9d43d6b3f7ea6e56c9901095948638409fcc5843772:
   ref: Building requirements (label)
   value: Požadavky na stavbu
+1fe0ac549cd38b5bbbebc687cf5562fd1760c7827ab467679e10db84:
+  ref: Inventory - storage (label)
+  value: Skladiště
 20f8cc99e60a4a11f8824848a672a15244744aecc1680a7a7209561d:
   ref: Create blueprint conflict (modal)
   value: Nový konflikt
@@ -203,9 +206,6 @@
 4608219cb86dee319d4d3ca4aef772b4196b1f1af66fbea5296c5557:
   ref: Delete blueprint dependency (modal)
   value: Odstranit závislost
-483e8122af4feafe4af20b8c553d711156a90c64aee0e6dd09dc23c0:
-  ref: Inventory (menu)
-  value: Inventář
 4973ef47b1a891b2b4d1b987e04d2d3e392aa8ebdfaf01138cfa1fbe:
   ref: Requirement (label)
   value: Požadavek
@@ -388,9 +388,6 @@
 89ede3b459048e9a00e2d64b0013280dc6a3af34f62dab11706e6fae:
   ref: Create production resource requirement (modal)
   value: Nový požadavek na zdroj
-8a8475a87d338938ab88e00caed8fcf65dc54e6c3a6848e62d9ae21e:
-  ref: Default inventory (menu)
-  value: Výchozí inventář
 8b985e2253754c8df9f67dd2a97585cdd6337700925581624b014352:
   ref: Login (label)
   value: Přihlašovací jméno
@@ -523,6 +520,9 @@ bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
 bede006a23ce0c1579572c1ebf769594a7111cfac0439aaea42d5556:
   ref: Cycle - Loading (label)
   value: Probíhá cyklus
+c19d73b27d07e0d75cdb22df7339033a3ea479d2123dc66d1eb286f9:
+  ref: No inventory storage. (label)
+  value: No inventory storage. (label)
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
@@ -538,9 +538,6 @@ c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
 c74f6c5fce47cb0de3032c8bc4e27f5c9741f219d80ec09a727077d3:
   ref: No dependencies (label)
   value: Bez závislostí
-c810a66440e76540dd2b9cf76c75c3d58a8105b694f2fa0b4aa72cf6:
-  ref: Apply default inventory (menu)
-  value: Použít výchozí inventář
 c88673ec9daaa227cbd7e2b7027e310f5ad79bc843d80948137abd04:
   ref: Production queue (label)
   value: Fronta produkce
@@ -601,9 +598,6 @@ e0497e630afaf1f3048d963126337fbe92c13dcc489413b61d0152b9:
 e116bf50d1ae79c061773bfa4ee272d7f5be71c36769d956e4df10fe:
   ref: Edit production resource requirement (modal)
   value: Editace požadavku na zdroj
-e26720b8986fbaa25aa36b5dbd6eb02f5ff25641a64422ecad25dd22:
-  ref: Cheat inventory (menu)
-  value: Cheat inventory (menu)
 e267da5c2f809d5d0cb0fb35d1ad7d0a2667e0d279597a50efbe56ec:
   ref: Required production resources (label)
   value: Požadavky na zdroje
