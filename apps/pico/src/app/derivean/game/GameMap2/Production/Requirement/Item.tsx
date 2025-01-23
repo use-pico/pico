@@ -10,6 +10,8 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ requirement }) => {
+	const available = (requirement.available || 0) >= requirement.amount;
+
 	return (
 		<div
 			className={tvc([
@@ -31,10 +33,28 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"hover:bg-purple-100",
 					]
 				:	undefined,
+				available ? undefined : (
+					["border-red-500", "hover:border-red-600", "hover:bg-red-50"]
+				),
 			])}
 		>
 			<div className={"font-bold"}>{requirement.name}</div>
-			<Badge>x{toHumanNumber({ number: requirement.amount })}</Badge>
+			<Badge
+				css={{
+					base:
+						available ?
+							["bg-green-200", "border-green-500"]
+						:	["bg-red-200", "border-red-500"],
+				}}
+			>
+				<div className={"font-bold"}>
+					{toHumanNumber({ number: requirement.available })}
+				</div>
+				<div>/</div>
+				<div className={"font-light"}>
+					{toHumanNumber({ number: requirement.amount })}
+				</div>
+			</Badge>
 		</div>
 	);
 };

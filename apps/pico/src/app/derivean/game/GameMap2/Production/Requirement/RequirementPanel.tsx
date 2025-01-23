@@ -12,21 +12,29 @@ export namespace RequirementPanel {
 		name: string;
 	}
 
+	export interface Production {
+		id: string;
+		name: string;
+	}
+
 	export interface Requirement {
 		id: string;
 		name: string;
 		amount: number;
+		available?: number | null;
 		passive: boolean;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
+		production: Production;
 		requirement: Requirement[];
 	}
 }
 
 export const RequirementPanel: FC<RequirementPanel.Props> = ({
 	building,
+	production,
 	requirement,
 	...props
 }) => {
@@ -50,6 +58,7 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 					>
 						{building.name}
 					</LinkTo>
+					<div>{production.name}</div>
 				</>
 			}
 			{...props}
