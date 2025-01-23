@@ -54,7 +54,7 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 					.where("bi.buildingId", "=", buildingId),
 			)
 			.where("i.resourceId", "=", resourceId)
-			.where("i.type", "=", "output")
+			.where("i.type", "=", "storage")
 			.executeTakeFirst();
 
 		if (

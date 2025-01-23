@@ -1,23 +1,23 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-    ActionMenu,
-    ActionModal,
-    DeleteControl,
-    Progress,
-    Table,
-    toast,
-    TrashIcon,
-    Tx,
-    useInvalidator,
-    useTable,
-    withColumn,
-    withToastPromiseTx,
+	ActionMenu,
+	ActionModal,
+	DeleteControl,
+	Progress,
+	Table,
+	toast,
+	TrashIcon,
+	Tx,
+	useInvalidator,
+	useTable,
+	withColumn,
+	withToastPromiseTx,
 } from "@use-pico/client";
 import {
-    genId,
-    toHumanNumber,
-    type Entity,
-    type IdentitySchema,
+	genId,
+	toHumanNumber,
+	type Entity,
+	type IdentitySchema,
 } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -33,7 +33,7 @@ export namespace InventoryTable {
 		amount: number;
 		limit: number;
 		resourceId: string;
-		type: "storage" | "construction" | "input" | "output";
+		type: "storage" | "construction";
 	}
 }
 

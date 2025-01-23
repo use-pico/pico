@@ -65,6 +65,7 @@ import { Route as LocaleAppsDeriveanRootUserIdBuildingListImport } from './@rout
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdResourcesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/resources'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/requirements'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
+import { Route as LocaleAppsDeriveanMapBuildingIdRoutePriorityImport } from './@routes/$locale/apps/derivean/map/building/$id/route/priority'
 import { Route as LocaleAppsDeriveanMapBuildingIdProductionQueueImport } from './@routes/$locale/apps/derivean/map/building/$id/production/queue'
 import { Route as LocaleAppsDeriveanMapBuildingIdProductionListImport } from './@routes/$locale/apps/derivean/map/building/$id/production/list'
 import { Route as LocaleAppsDeriveanMapBuildingIdProductionProductionIdImport } from './@routes/$locale/apps/derivean/map/building/$id/production/$productionId'
@@ -447,6 +448,13 @@ const LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute =
     id: '/dependencies',
     path: '/dependencies',
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintProductionIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute =
+  LocaleAppsDeriveanMapBuildingIdRoutePriorityImport.update({
+    id: '/route/priority',
+    path: '/route/priority',
+    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
   } as any)
 
 const LocaleAppsDeriveanMapBuildingIdProductionQueueRoute =
@@ -911,6 +919,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionQueueImport
       parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
     }
+    '/$locale/apps/derivean/map/building/$id/route/priority': {
+      id: '/$locale/apps/derivean/map/building/$id/route/priority'
+      path: '/route/priority'
+      fullPath: '/$locale/apps/derivean/map/building/$id/route/priority'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityImport
+      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    }
     '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': {
       id: '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
       path: '/dependencies'
@@ -1060,6 +1075,7 @@ interface LocaleAppsDeriveanMapBuildingIdRouteChildren {
   LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
   LocaleAppsDeriveanMapBuildingIdProductionListRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
   LocaleAppsDeriveanMapBuildingIdProductionQueueRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
+  LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
 }
 
 const LocaleAppsDeriveanMapBuildingIdRouteChildren: LocaleAppsDeriveanMapBuildingIdRouteChildren =
@@ -1078,6 +1094,8 @@ const LocaleAppsDeriveanMapBuildingIdRouteChildren: LocaleAppsDeriveanMapBuildin
       LocaleAppsDeriveanMapBuildingIdProductionListRoute,
     LocaleAppsDeriveanMapBuildingIdProductionQueueRoute:
       LocaleAppsDeriveanMapBuildingIdProductionQueueRoute,
+    LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute:
+      LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute,
   }
 
 const LocaleAppsDeriveanMapBuildingIdRouteWithChildren =
@@ -1347,6 +1365,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
   '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
   '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1408,6 +1427,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
   '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
   '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1474,6 +1494,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
   '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
   '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1541,6 +1562,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/building/$id/production/$productionId'
     | '/$locale/apps/derivean/map/building/$id/production/list'
     | '/$locale/apps/derivean/map/building/$id/production/queue'
+    | '/$locale/apps/derivean/map/building/$id/route/priority'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1601,6 +1623,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/building/$id/production/$productionId'
     | '/$locale/apps/derivean/map/building/$id/production/list'
     | '/$locale/apps/derivean/map/building/$id/production/queue'
+    | '/$locale/apps/derivean/map/building/$id/route/priority'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1665,6 +1688,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/building/$id/production/$productionId'
     | '/$locale/apps/derivean/map/building/$id/production/list'
     | '/$locale/apps/derivean/map/building/$id/production/queue'
+    | '/$locale/apps/derivean/map/building/$id/route/priority'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1829,7 +1853,8 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/map/building/$id/construction/requirements",
         "/$locale/apps/derivean/map/building/$id/production/$productionId",
         "/$locale/apps/derivean/map/building/$id/production/list",
-        "/$locale/apps/derivean/map/building/$id/production/queue"
+        "/$locale/apps/derivean/map/building/$id/production/queue",
+        "/$locale/apps/derivean/map/building/$id/route/priority"
       ]
     },
     "/$locale/apps/derivean/map/route/$id": {
@@ -2011,6 +2036,10 @@ export const routeTree = rootRoute
     },
     "/$locale/apps/derivean/map/building/$id/production/queue": {
       "filePath": "$locale/apps/derivean/map/building/$id/production/queue.tsx",
+      "parent": "/$locale/apps/derivean/map/building/$id"
+    },
+    "/$locale/apps/derivean/map/building/$id/route/priority": {
+      "filePath": "$locale/apps/derivean/map/building/$id/route/priority.tsx",
       "parent": "/$locale/apps/derivean/map/building/$id"
     },
     "/$locale/apps/derivean/root/blueprint/production/$id/dependencies": {

@@ -1,22 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
-import { Outlet, useParams } from "@tanstack/react-router";
-import { BackIcon, LinkTo, useInvalidator } from "@use-pico/client";
+import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
+import { BackIcon, Button, LinkTo, useInvalidator } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import {
-    addEdge,
-    applyNodeChanges,
-    Background,
-    BackgroundVariant,
-    Controls,
-    MarkerType,
-    MiniMap,
-    ReactFlow,
-    useEdgesState,
-    useNodesState,
-    useReactFlow,
-    type OnConnect,
-    type OnNodeDrag,
-    type OnNodesChange,
+	addEdge,
+	applyNodeChanges,
+	Background,
+	BackgroundVariant,
+	Controls,
+	MarkerType,
+	MiniMap,
+	ReactFlow,
+	useEdgesState,
+	useNodesState,
+	useReactFlow,
+	type OnConnect,
+	type OnNodeDrag,
+	type OnNodesChange,
 } from "@xyflow/react";
 import { useCallback, useEffect, useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -79,6 +79,7 @@ export const Content: FC<Content.Props> = ({
 }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
 	const { locale } = useParams({ from: "/$locale" });
+	const navigate = useNavigate({ from: "/$locale/apps/derivean/map" });
 	const defaultNodes = useMemo<any>(
 		() => [
 			...construction.map((construction) => ({
@@ -293,12 +294,24 @@ export const Content: FC<Content.Props> = ({
 					edgeTypes={edgeTypes}
 					connectionLineComponent={ConnectionLine}
 					connectionLineStyle={connectionLineStyle}
+					onDoubleClick={() => {
+						navigate({
+							search: {
+								routing: !routing,
+							},
+						});
+					}}
+					zoomOnDoubleClick={false}
 				>
 					<CycleButton
 						userId={userId}
 						cycle={cycle}
 						css={{
 							base: ["react-flow__panel", "absolute", "top-1", "right-1"],
+						}}
+						onDoubleClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
 						}}
 					/>
 					<Controls
@@ -323,22 +336,23 @@ export const Content: FC<Content.Props> = ({
 						}
 					>
 						<LinkTo
-							icon={BackIcon}
 							to={"/$locale/apps/derivean/game"}
 							params={{ locale }}
-						/>
+						>
+							<Button
+								iconEnabled={BackIcon}
+								variant={{ variant: "subtle" }}
+							/>
+						</LinkTo>
 						<LinkTo
-							icon={BlueprintIcon}
 							to={"/$locale/apps/derivean/map/construction"}
 							params={{ locale }}
-						/>
-						<LinkTo
-							icon={"icon-[gis--route-end]"}
-							to={"/$locale/apps/derivean/map"}
-							params={{ locale }}
-							search={{ routing: !routing }}
-							css={{ base: routing ? ["text-green-600"] : undefined }}
-						/>
+						>
+							<Button
+								iconEnabled={BlueprintIcon}
+								variant={{ variant: "subtle" }}
+							/>
+						</LinkTo>
 					</div>
 				</ReactFlow>
 				<Outlet />

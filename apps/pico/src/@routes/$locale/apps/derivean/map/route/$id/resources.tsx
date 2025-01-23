@@ -25,7 +25,8 @@ export const Route = createFileRoute(
 									"rr.resourceId",
 									"rr.type",
 								])
-								.where("rr.routeId", "=", id),
+								.where("rr.routeId", "=", id)
+								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								routeId: z.string().min(1),
@@ -68,7 +69,7 @@ export const Route = createFileRoute(
 												.select("ro.toId")
 												.where("ro.id", "=", id),
 										)
-										.where("i.type", "in", ["storage", "input"]),
+										.where("i.type", "in", ["storage"]),
 								)
 								.where(
 									"r.id",
@@ -85,7 +86,7 @@ export const Route = createFileRoute(
 												.select("ro.fromId")
 												.where("ro.id", "=", id),
 										)
-										.where("i.type", "in", ["storage", "output"]),
+										.where("i.type", "in", ["storage"]),
 								)
 								.where(
 									"r.id",
@@ -94,7 +95,8 @@ export const Route = createFileRoute(
 										.selectFrom("Route_Resource as rr")
 										.where("rr.routeId", "=", id)
 										.select("rr.resourceId"),
-								),
+								)
+								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								resourceId: z.string().min(1),

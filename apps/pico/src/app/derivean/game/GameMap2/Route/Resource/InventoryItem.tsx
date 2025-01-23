@@ -5,7 +5,6 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { ResourcePanel } from "~/app/derivean/game/GameMap2/Route/Resource/ResourcePanel";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { InventoryTypeInline } from "~/app/derivean/inventory/InventoryTypeInline";
 
 export namespace InventoryItem {
 	export interface Props {
@@ -40,6 +39,7 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 						routeId,
 						amount: transport,
 						type,
+						priority: 0,
 					})
 					.execute();
 			});
@@ -63,18 +63,12 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 				"hover:bg-slate-100",
 			])}
 		>
-			<div className={"flex flex-col gap-2"}>
-				<div className={"flex flex-row gap-2 items-center"}>
-					<Icon
-						icon={ResourceIcon}
-						css={{ base: ["text-slate-500"] }}
-					/>
-					<div className={"font-bold"}>{inventory.name}</div>
-				</div>
-				<InventoryTypeInline
-					label={inventory.type}
-					css={{ base: ["text-xs", "text-slate-500"] }}
+			<div className={"flex flex-row gap-2 items-center"}>
+				<Icon
+					icon={ResourceIcon}
+					css={{ base: ["text-slate-500"] }}
 				/>
+				<div className={"font-bold"}>{inventory.name}</div>
 			</div>
 			<div>
 				<Button
@@ -85,7 +79,7 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 						routeResourceMutation.mutate({
 							resourceId: inventory.resourceId,
 							transport: inventory.transport,
-							type: inventory.type,
+							type: "storage",
 							routeId,
 						});
 					}}

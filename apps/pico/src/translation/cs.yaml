@@ -67,6 +67,9 @@
 1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
   ref: Delete production resource requirement (modal)
   value: Delete production resource requirement (modal)
+17326faa0f9f66b616e041900da3c1e6ff28958b0baec1ff9d1ab041:
+  ref: Fill inventories (label)
+  value: Fill inventories (label)
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Detail základní budovy
@@ -79,9 +82,6 @@
 1a914895f2774e46fa909bc26666c56bd2956d234ee96391296ce1a3:
   ref: Blueprint conflict (label)
   value: Konflikt s
-1b357d8a79ec58e7f566c223be1db0f3079819f1b82de9665e0b83fd:
-  ref: No inventory inputs. (label)
-  value: Žádné vstupní zdroje
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Limit daného zdroje, nula znamená neomezeně.
@@ -94,9 +94,6 @@
 20f8cc99e60a4a11f8824848a672a15244744aecc1680a7a7209561d:
   ref: Create blueprint conflict (modal)
   value: Nový konflikt
-211c9e84808dab11f8effa0600436a410709a8adc03b815daff3b8a8:
-  ref: Inventory type - input
-  value: Vstup
 227cb1bfcc1e2959f9358829fe8387b14af0c31f7a92c384c196ad72:
   ref: Edit blueprint production dependency (modal)
   value: Editace závislosti produkce
@@ -193,7 +190,7 @@
   value: Zrušit
 43d65f65c72c5f9e77cf2f5108fbc033133df31cc1dc855f37235a6b:
   ref: Building limit (label)
-  value: Building limit (label)
+  value: Maximum
 442aea3dc6b7002644ae5029ef7d754ce63373be85039f715baa14c5:
   ref: Edit building (modal)
   value: Editace budovy
@@ -295,6 +292,9 @@
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Nový zdroj
+695913e209582025c633c8740b786f8d2489a912d559fc85a6337616:
+  ref: There are no resources on the road. (label)
+  value: Zatím nejsou nastavené žádné cesty.
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Udává počet cyklů, než bude daná surovina vyprodukována.
@@ -313,9 +313,6 @@
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Editace zdroje
-70a7744320deb891dbdb0deda3a3774c096249c5f96ecd518eca7e1c:
-  ref: Inventory - outputs (label)
-  value: Výstupy
 7442cafd166830778e28bb5d4065e04018aaa7fadf5da9547c83c850:
   ref: Delete resource (modal)
   value: Odstranit zdroj
@@ -406,9 +403,6 @@
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
-93940cb564d167ead190253960fcc740677097ca08209dbad9772f0e:
-  ref: Inventory type - output
-  value: Výstup
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Seznam štítků
@@ -418,9 +412,6 @@
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Počet cyklů nutných k dokončení stavby.
-9752d2b54d4824de52d912eb37328bdb3461748d3e29456cda5eed5e:
-  ref: No inventory outputs. (label)
-  value: Žádné výstupní zdroje
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Kde nic, tu nic.
@@ -478,6 +469,9 @@ ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   value: |
     Opravdu si přejete odstranit vybranou položku inventáře? Tato akce nebude
     mít větší vliv na data, pouze menší vliv na hratelnost.
+ae450d8d43bda3390389a4350d2a4fd2101a76e4a303c4465215cfb2:
+  ref: Route priority (label)
+  value: Priorita cest
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Šupla hopla soubor semhle!
@@ -565,9 +559,6 @@ cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
 d0ff3066f7fcf3ea876060560982dd15ac478f66221de2ef7f01a31d:
   ref: Resource requirement count (label)
   value: "Počet: V požadavcích"
-d2bd078a32415e0eb9e70c9998415a5530e5d9770944aa62ba0dfa5d:
-  ref: Inventory - inputs (label)
-  value: Vstupy
 d386c01040fd7bc584cb5470c1aa2ed697de3ae40361346fef1d6921:
   ref: Production cycles (label)
   value: Počet cyklů
@@ -624,7 +615,7 @@ ea8a3e02a47942d229e89647820e52080dbdcfa5a50d172255c6546b:
   value: Vyberte štítky zdroje
 ea94f6c7694ee13424a852a33ae8dcd16cd73eeda85864576467c24b:
   ref: Inventory type - storage
-  value: Vstup/výstup
+  value: Sklad
 eb007cd2c755390ff1fc52ae9fa9142998f9dee038aa79467aec86f5:
   ref: Tag group (label)
   value: Skupina
@@ -649,6 +640,9 @@ f128c6308ef64bda9fe743d069da766c73c364a03d828d6ed589a0b2:
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Nová položka inventáře
+f187d865cdda1dcbb2100bbd0434cf02020699ae012ced72785073dd:
+  ref: Fill inventory (label)
+  value: Fill inventory (label)
 f1fb4cf2b5710bdf87187f8213db152a747926a312321e0b51e41496:
   ref: Inventory type - construction
   value: Požadavky stavby

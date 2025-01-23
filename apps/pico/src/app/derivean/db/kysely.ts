@@ -137,32 +137,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			/**
-			 * This should define all resources that are available in the game as default
-			 * inventory is copied to the user (on registration), so if something is missing,
-			 * user will not be able to store it.
-			 */
-			await kysely.schema
-				.createTable("Default_Inventory")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("resourceId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Default_Inventory] resourceId",
-					["resourceId"],
-					"Resource",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("amount", "float4", (col) => col.notNull())
-				.addColumn("limit", "float4", (col) => col.notNull())
-
-				.addUniqueConstraint("[Default_Inventory] resourceId", ["resourceId"])
-
-				.execute();
-
-			/**
 			 * Blueprint is a definition for the building; all the buildings are pointing to it's blueprint.
 			 *
 			 * Idea is when blueprint is changed, all buildings are changed as well.
@@ -726,13 +700,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Define target inventory type.
 				 */
 				.addColumn("type", "varchar(16)", (col) =>
-					col.notNull().defaultTo("input"),
+					col.notNull().defaultTo("storage"),
 				)
 
 				/**
 				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
 				 */
 				.addColumn("amount", "float4")
+
+				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
 
 				.execute();
 		}

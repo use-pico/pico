@@ -67,6 +67,9 @@
 1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
   ref: Delete production resource requirement (modal)
   value: Delete production resource requirement (modal)
+17326faa0f9f66b616e041900da3c1e6ff28958b0baec1ff9d1ab041:
+  ref: Fill inventories (label)
+  value: Fill inventories (label)
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Building base detail (label)
@@ -79,9 +82,6 @@
 1a914895f2774e46fa909bc26666c56bd2956d234ee96391296ce1a3:
   ref: Blueprint conflict (label)
   value: Blueprint conflict (label)
-1b357d8a79ec58e7f566c223be1db0f3079819f1b82de9665e0b83fd:
-  ref: No inventory inputs. (label)
-  value: No inventory inputs. (label)
 1c09d24d93f5874edd046f8a13b56f8262741ad0d066095daec615f4:
   ref: Inventory limit (hint)
   value: Inventory limit (hint)
@@ -94,9 +94,6 @@
 20f8cc99e60a4a11f8824848a672a15244744aecc1680a7a7209561d:
   ref: Create blueprint conflict (modal)
   value: Create blueprint conflict (modal)
-211c9e84808dab11f8effa0600436a410709a8adc03b815daff3b8a8:
-  ref: Inventory type - input
-  value: Inventory type - input
 227cb1bfcc1e2959f9358829fe8387b14af0c31f7a92c384c196ad72:
   ref: Edit blueprint production dependency (modal)
   value: Edit blueprint production dependency (modal)
@@ -286,6 +283,9 @@
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Create resource (menu)
+695913e209582025c633c8740b786f8d2489a912d559fc85a6337616:
+  ref: There are no resources on the road. (label)
+  value: There are no resources on the road. (label)
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Production cycles (hint)
@@ -304,9 +304,6 @@
 7075af0db8494aa655ce5605bf1f3bcb118f09663937f97f647f26b1:
   ref: Edit resource (modal)
   value: Edit resource (modal)
-70a7744320deb891dbdb0deda3a3774c096249c5f96ecd518eca7e1c:
-  ref: Inventory - outputs (label)
-  value: Inventory - outputs (label)
 7442cafd166830778e28bb5d4065e04018aaa7fadf5da9547c83c850:
   ref: Delete resource (modal)
   value: Delete resource (modal)
@@ -388,9 +385,6 @@
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Edit (menu)
-93940cb564d167ead190253960fcc740677097ca08209dbad9772f0e:
-  ref: Inventory type - output
-  value: Inventory type - output
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Tag list (menu)
@@ -400,9 +394,6 @@
 96defad7c4cbde251a7dc793cad6b44d431ef73ac9ee5c6a985c1479:
   ref: Amount of cycles to build this building (hint)
   value: Amount of cycles to build this building (hint)
-9752d2b54d4824de52d912eb37328bdb3461748d3e29456cda5eed5e:
-  ref: No inventory outputs. (label)
-  value: No inventory outputs. (label)
 9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
   ref: Nothing here
   value: Nothing here
@@ -457,6 +448,9 @@ aa03a8854af88f738eb31197516c526b55cc346272bf4eb997c93443:
 ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   ref: Inventory item delete (content)
   value: Inventory item delete (content)
+ae450d8d43bda3390389a4350d2a4fd2101a76e4a303c4465215cfb2:
+  ref: Route priority (label)
+  value: Route priority (label)
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Drag 'n' drop a file here
@@ -544,9 +538,6 @@ cff63321cb2953e875d97106921fb93bc791263def6b2b93363d5b91:
 d0ff3066f7fcf3ea876060560982dd15ac478f66221de2ef7f01a31d:
   ref: Resource requirement count (label)
   value: Resource requirement count (label)
-d2bd078a32415e0eb9e70c9998415a5530e5d9770944aa62ba0dfa5d:
-  ref: Inventory - inputs (label)
-  value: Inventory - inputs (label)
 d386c01040fd7bc584cb5470c1aa2ed697de3ae40361346fef1d6921:
   ref: Production cycles (label)
   value: Production cycles (label)
@@ -628,6 +619,9 @@ f128c6308ef64bda9fe743d069da766c73c364a03d828d6ed589a0b2:
 f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
   ref: Create inventory item (modal)
   value: Create inventory item (modal)
+f187d865cdda1dcbb2100bbd0434cf02020699ae012ced72785073dd:
+  ref: Fill inventory (label)
+  value: Fill inventory (label)
 f1fb4cf2b5710bdf87187f8213db152a747926a312321e0b51e41496:
   ref: Inventory type - construction
   value: Inventory type - construction

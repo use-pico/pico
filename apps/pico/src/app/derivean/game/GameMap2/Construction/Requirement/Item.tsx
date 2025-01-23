@@ -25,7 +25,12 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				"cursor-default",
 				"hover:bg-slate-100",
 				requirement.amount > available ?
-					["border-red-400", "hover:border-red-600", "hover:bg-red-50"]
+					[
+						"border-red-400",
+						"bg-red-50",
+						"hover:border-red-600",
+						"hover:bg-red-50",
+					]
 				:	undefined,
 			])}
 		>

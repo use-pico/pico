@@ -19,6 +19,7 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 			.selectFrom("Route_Resource as rr")
 			.select(["rr.amount", "rr.resourceId", "rr.type"])
 			.where("rr.routeId", "=", id)
+			.orderBy("rr.priority", "desc")
 			.execute();
 
 		for await (const { amount, resourceId, type } of resourceQueue) {
@@ -34,7 +35,7 @@ export const withTransport = async ({ tx, userId }: withTransport.Props) => {
 						.where("bi.buildingId", "=", fromId),
 				)
 				.where("i.resourceId", "=", resourceId)
-				.where("i.type", "in", ["storage", "output"])
+				.where("i.type", "=", "storage")
 				.orderBy("i.amount", "desc")
 				.executeTakeFirst();
 

@@ -3,72 +3,63 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Production/Requirement/Item";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { Item } from "~/app/derivean/game/GameMap2/Route/Priority/Item";
 
-export namespace RequirementPanel {
+export namespace PriorityPanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Production {
+	export interface Priority {
 		id: string;
 		name: string;
-	}
-
-	export interface Requirement {
-		id: string;
-		name: string;
+		toName: string;
 		amount: number;
-		available?: number | null;
-		passive: boolean;
+		priority: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
-		production: Production;
-		requirement: Requirement[];
+		priority: Priority[];
 	}
 }
 
-export const RequirementPanel: FC<RequirementPanel.Props> = ({
+export const PriorityPanel: FC<PriorityPanel.Props> = ({
 	building,
-	production,
-	requirement,
+	priority,
 	...props
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
 		<Panel
-			icon={ResourceIcon}
-			textTitle={<Tx label={"Production requirements (label)"} />}
+			icon={"icon-[ph--queue-thin]"}
+			textTitle={<Tx label={"Route priority (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
+						to={"/$locale/apps/derivean/map/building/$id/view"}
 						params={{ locale, id: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
+						to={"/$locale/apps/derivean/map/building/$id/route/priority"}
 						params={{ locale, id: building.id }}
 						search={{ zoomToId: building.id }}
 					>
 						{building.name}
 					</LinkTo>
-					<div>{production.name}</div>
 				</>
 			}
 			{...props}
 		>
-			{requirement.length > 0 ?
-				requirement.map((item) => {
+			{priority.length > 0 ?
+				priority.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							requirement={item}
+							priority={item}
 						/>
 					);
 				})
@@ -79,13 +70,13 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 						"justify-center",
 						"rounded",
 						"border",
-						"border-green-400",
+						"border-amber-400",
 						"p-4",
-						"bg-green-200",
+						"bg-amber-200",
 						"font-bold",
 					])}
 				>
-					<Tx label={"There are no requirements. (label)"} />
+					<Tx label={"There are no resources on the road. (label)"} />
 				</div>
 			}
 		</Panel>

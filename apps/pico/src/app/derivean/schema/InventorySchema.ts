@@ -7,12 +7,12 @@ export const InventorySchema = withInventorySchema({
 		resourceId: z.string().min(1),
 		amount: withFloatSchema(),
 		limit: withFloatSchema(),
-		type: z.enum(["storage", "construction", "input", "output"]),
+		type: z.enum(["storage", "construction"]),
 	}),
 	filter: FilterSchema.merge(
 		z.object({
 			resourceId: z.string().optional(),
-			type: z.enum(["storage", "construction", "input", "output"]).optional(),
+			type: z.enum(["storage", "construction"]).optional(),
 		}),
 	),
 });

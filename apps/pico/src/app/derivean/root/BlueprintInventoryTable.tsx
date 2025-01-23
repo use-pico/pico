@@ -20,6 +20,7 @@ import { kysely } from "~/app/derivean/db/kysely";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { InventoryTypeInline } from "~/app/derivean/inventory/InventoryTypeInline";
 import { InventoryForm } from "~/app/derivean/root/InventoryForm";
+import { withFillInventory } from "~/app/derivean/service/withFillInventory";
 
 export namespace BlueprintInventoryTable {
 	export interface Data extends IdentitySchema.Type {
@@ -28,7 +29,7 @@ export namespace BlueprintInventoryTable {
 		limit: number;
 		resourceId: string;
 		inventoryId: string;
-		type: "storage" | "construction" | "input" | "output";
+		type: "storage" | "construction";
 	}
 }
 
@@ -109,148 +110,7 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 	const fillInventoryMutation = useMutation({
 		async mutationFn() {
 			return kysely.transaction().execute(async (tx) => {
-				await tx
-					.deleteFrom("Blueprint_Inventory")
-					.where("blueprintId", "=", blueprintId)
-					.execute();
-
-				const requirements = await tx
-					.selectFrom("Blueprint_Requirement")
-					.select(["resourceId", "amount"])
-					.where("blueprintId", "=", blueprintId)
-					.execute();
-
-				for await (const { resourceId, amount } of requirements) {
-					await tx
-						.insertInto("Blueprint_Inventory")
-						.values({
-							id: genId(),
-							blueprintId,
-							inventoryId: (
-								await tx
-									.insertInto("Inventory")
-									.values({
-										id: genId(),
-										resourceId,
-										amount: 0,
-										limit: amount,
-										type: "construction",
-									})
-									.returning("id")
-									.executeTakeFirstOrThrow()
-							).id,
-						})
-						.execute();
-				}
-
-				const production = await tx
-					.selectFrom("Blueprint_Production")
-					.select(["resourceId", (eb) => eb.fn.max("amount").as("amount")])
-					.where("blueprintId", "=", blueprintId)
-					.orderBy("amount", "desc")
-					.groupBy("resourceId")
-					.execute();
-
-				for await (const { resourceId, amount } of production) {
-					await tx
-						.insertInto("Blueprint_Inventory")
-						.values({
-							id: genId(),
-							blueprintId,
-							inventoryId: (
-								await tx
-									.insertInto("Inventory")
-									.values({
-										id: genId(),
-										resourceId,
-										amount: 0,
-										limit: amount * 5,
-										type: "output",
-									})
-									.returning("id")
-									.executeTakeFirstOrThrow()
-							).id,
-						})
-						.execute();
-				}
-
-				const inputs = await tx
-					.selectFrom("Blueprint_Production_Resource as bpr")
-					.innerJoin(
-						"Blueprint_Production as bp",
-						"bp.id",
-						"bpr.blueprintProductionId",
-					)
-					.select([
-						"bpr.resourceId",
-						(eb) => eb.fn.max("bpr.amount").as("amount"),
-					])
-					.where("bp.blueprintId", "=", blueprintId)
-					.orderBy("bpr.amount", "desc")
-					.groupBy("bpr.resourceId")
-					.execute();
-
-				for await (const { resourceId, amount } of inputs) {
-					await tx
-						.insertInto("Blueprint_Inventory")
-						.values({
-							id: genId(),
-							blueprintId,
-							inventoryId: (
-								await tx
-									.insertInto("Inventory")
-									.values({
-										id: genId(),
-										resourceId,
-										amount: 0,
-										limit: amount * 5,
-										type: "input",
-									})
-									.returning("id")
-									.executeTakeFirstOrThrow()
-							).id,
-						})
-						.execute();
-				}
-
-				const productionRequirements = await tx
-					.selectFrom("Blueprint_Production_Requirement as bpr")
-					.innerJoin(
-						"Blueprint_Production as bp",
-						"bp.id",
-						"bpr.blueprintProductionId",
-					)
-					.select([
-						"bpr.resourceId",
-						(eb) => eb.fn.max("bpr.amount").as("amount"),
-					])
-					.where("bp.blueprintId", "=", blueprintId)
-					.orderBy("bpr.amount", "desc")
-					.groupBy("bpr.resourceId")
-					.execute();
-
-				for await (const { resourceId, amount } of productionRequirements) {
-					await tx
-						.insertInto("Blueprint_Inventory")
-						.values({
-							id: genId(),
-							blueprintId,
-							inventoryId: (
-								await tx
-									.insertInto("Inventory")
-									.values({
-										id: genId(),
-										resourceId,
-										amount: 0,
-										limit: amount * 5,
-										type: "input",
-									})
-									.returning("id")
-									.executeTakeFirstOrThrow()
-							).id,
-						})
-						.execute();
-				}
+				return withFillInventory({ tx, blueprintId });
 			});
 		},
 		async onSuccess() {
@@ -271,15 +131,6 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 				table() {
 					return (
 						<ActionMenu>
-							<ActionClick
-								icon={InventoryIcon}
-								onClick={() => {
-									fillInventoryMutation.mutate();
-								}}
-							>
-								<Tx label={"Fill inventory (label)"} />
-							</ActionClick>
-
 							<ActionModal
 								label={<Tx label={"Create inventory item (menu)"} />}
 								textTitle={<Tx label={"Create inventory item (modal)"} />}
@@ -318,6 +169,14 @@ export const BlueprintInventoryTable: FC<BlueprintInventoryTable.Props> = ({
 									})}
 								/>
 							</ActionModal>
+							<ActionClick
+								icon={InventoryIcon}
+								onClick={() => {
+									fillInventoryMutation.mutate();
+								}}
+							>
+								<Tx label={"Fill inventory (label)"} />
+							</ActionClick>
 						</ActionMenu>
 					);
 				},

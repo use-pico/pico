@@ -37,7 +37,7 @@ export const withProductionQueue = async ({
 			.where("bi.buildingId", "=", buildingId)
 			.where("i.resourceId", "=", resourceId)
 			.where("i.amount", ">=", amount)
-			.where("i.type", "in", ["storage", "input"])
+			.where("i.type", "in", ["storage"])
 			.executeTakeFirstOrThrow();
 
 		if (!passive) {

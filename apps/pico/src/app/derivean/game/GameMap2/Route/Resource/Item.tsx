@@ -11,7 +11,6 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { ResourcePanel } from "~/app/derivean/game/GameMap2/Route/Resource/ResourcePanel";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
-import { InventoryTypeInline } from "~/app/derivean/inventory/InventoryTypeInline";
 
 export namespace Item {
 	export interface Props {
@@ -49,19 +48,13 @@ export const Item: FC<Item.Props> = ({ resource }) => {
 				"hover:bg-slate-100",
 			])}
 		>
-			<div className={"flex flex-col gap-2"}>
-				<div className={"flex flex-row gap-2 items-center"}>
-					<Icon
-						icon={ResourceIcon}
-						css={{ base: ["text-slate-500"] }}
-					/>
-					<div className={"font-bold"}>{resource.name}</div>
-					<Badge>x{toHumanNumber({ number: resource.amount })}</Badge>
-				</div>
-				<InventoryTypeInline
-					label={resource.type}
-					css={{ base: ["text-xs", "text-slate-500"] }}
+			<div className={"flex flex-row gap-2 items-center"}>
+				<Icon
+					icon={ResourceIcon}
+					css={{ base: ["text-slate-500"] }}
 				/>
+				<div className={"font-bold"}>{resource.name}</div>
+				<Badge>x{toHumanNumber({ number: resource.amount })}</Badge>
 			</div>
 
 			<div>

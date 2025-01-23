@@ -95,7 +95,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							type: z.enum(["storage", "construction", "input", "output"]),
+							type: z.enum(["storage", "construction"]),
 							resourceId: z.string().min(1),
 							blueprintId: z.string().min(1),
 							inventoryId: z.string().min(1),

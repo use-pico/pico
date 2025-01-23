@@ -23,164 +23,58 @@ export const Route = createFileRoute(
 		params: { id },
 	}) {
 		return {
-			inventory: {
-				input: await queryClient.ensureQueryData({
-					queryKey: [
-						"GameMap",
-						"building",
-						"inventory",
-						"input",
-						id,
-						{ fulltext },
-					],
-					async queryFn() {
-						return kysely.transaction().execute(async (tx) => {
-							return withList({
-								select: tx
-									.selectFrom("Inventory as i")
-									.innerJoin("Resource as r", "r.id", "i.resourceId")
-									.select(["i.id", "i.amount", "i.limit", "r.name"])
-									.where(
-										"i.id",
-										"in",
-										tx
-											.selectFrom("Building_Inventory as bi")
-											.select("bi.inventoryId")
-											.where("bi.buildingId", "=", id),
-									)
-									.where("i.type", "in", ["input"])
-									.orderBy("r.name"),
-								query({ select, where }) {
-									let $select = select;
+			inventory: await queryClient.ensureQueryData({
+				queryKey: [
+					"GameMap",
+					"building",
+					"inventory",
+					"input",
+					id,
+					{ fulltext },
+				],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Inventory as i")
+								.innerJoin("Resource as r", "r.id", "i.resourceId")
+								.select(["i.id", "i.amount", "i.limit", "r.name"])
+								.where(
+									"i.id",
+									"in",
+									tx
+										.selectFrom("Building_Inventory as bi")
+										.select("bi.inventoryId")
+										.where("bi.buildingId", "=", id),
+								)
+								.where("i.type", "in", ["storage"])
+								.orderBy("r.name"),
+							query({ select, where }) {
+								let $select = select;
 
-									if (where?.fulltext) {
-										const fulltext = `%${where.fulltext}%`.toLowerCase();
+								if (where?.fulltext) {
+									const fulltext = `%${where.fulltext}%`.toLowerCase();
 
-										$select = $select.where((eb) => {
-											return eb.or([eb("r.name", "like", fulltext)]);
-										});
-									}
+									$select = $select.where((eb) => {
+										return eb.or([eb("r.name", "like", fulltext)]);
+									});
+								}
 
-									return $select;
-								},
-								output: z.object({
-									id: z.string().min(1),
-									amount: z.number().nonnegative(),
-									limit: z.number().nonnegative(),
-									name: z.string().min(1),
-								}),
-								filter: {
-									fulltext,
-								},
-							});
+								return $select;
+							},
+							output: z.object({
+								id: z.string().min(1),
+								amount: z.number().nonnegative(),
+								limit: z.number().nonnegative(),
+								name: z.string().min(1),
+							}),
+							filter: {
+								fulltext,
+							},
 						});
-					},
-				}),
-				output: await queryClient.ensureQueryData({
-					queryKey: [
-						"GameMap",
-						"building",
-						"inventory",
-						"output",
-						id,
-						{ fulltext },
-					],
-					async queryFn() {
-						return kysely.transaction().execute(async (tx) => {
-							return withList({
-								select: tx
-									.selectFrom("Inventory as i")
-									.innerJoin("Resource as r", "r.id", "i.resourceId")
-									.select(["i.id", "i.amount", "i.limit", "r.name"])
-									.where(
-										"i.id",
-										"in",
-										tx
-											.selectFrom("Building_Inventory as bi")
-											.select("bi.inventoryId")
-											.where("bi.buildingId", "=", id),
-									)
-									.where("i.type", "in", ["output"])
-									.orderBy("r.name"),
-								query({ select, where }) {
-									let $select = select;
-
-									if (where?.fulltext) {
-										const fulltext = `%${where.fulltext}%`.toLowerCase();
-
-										$select = $select.where((eb) => {
-											return eb.or([eb("r.name", "like", fulltext)]);
-										});
-									}
-
-									return $select;
-								},
-								output: z.object({
-									id: z.string().min(1),
-									amount: z.number().nonnegative(),
-									limit: z.number().nonnegative(),
-									name: z.string().min(1),
-								}),
-								filter: {
-									fulltext,
-								},
-							});
-						});
-					},
-				}),
-				storage: await queryClient.ensureQueryData({
-					queryKey: [
-						"GameMap",
-						"building",
-						"inventory",
-						"storage",
-						id,
-						{ fulltext },
-					],
-					async queryFn() {
-						return kysely.transaction().execute(async (tx) => {
-							return withList({
-								select: tx
-									.selectFrom("Inventory as i")
-									.innerJoin("Resource as r", "r.id", "i.resourceId")
-									.select(["i.id", "i.amount", "i.limit", "r.name"])
-									.where(
-										"i.id",
-										"in",
-										tx
-											.selectFrom("Building_Inventory as bi")
-											.select("bi.inventoryId")
-											.where("bi.buildingId", "=", id),
-									)
-									.where("i.type", "in", ["storage"])
-									.orderBy("r.name"),
-								query({ select, where }) {
-									let $select = select;
-
-									if (where?.fulltext) {
-										const fulltext = `%${where.fulltext}%`.toLowerCase();
-
-										$select = $select.where((eb) => {
-											return eb.or([eb("r.name", "like", fulltext)]);
-										});
-									}
-
-									return $select;
-								},
-								output: z.object({
-									id: z.string().min(1),
-									amount: z.number().nonnegative(),
-									limit: z.number().nonnegative(),
-									name: z.string().min(1),
-								}),
-								filter: {
-									fulltext,
-								},
-							});
-						});
-					},
-				}),
-			},
+					});
+				},
+			}),
 		};
 	},
 	component() {

@@ -7,6 +7,7 @@ export const RouteResourceSchema = withRouteResourceSchema({
 		resourceId: z.string().min(1),
 		type: z.enum(["storage", "construction", "input", "output"]),
 		amount: z.number().nonnegative(),
+		priority: z.number().nonnegative(),
 	}),
 	filter: FilterSchema.merge(
 		z.object({

@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    onSubmit,
-    Select,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	onSubmit,
+	Select,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { translator } from "@use-pico/common";
 import { type FC } from "react";
@@ -98,14 +98,6 @@ export const InventoryForm: FC<InventoryForm.Props> = ({
 									{
 										id: "construction",
 										value: translator.text("Inventory type - construction"),
-									},
-									{
-										id: "input",
-										value: translator.text("Inventory type - input"),
-									},
-									{
-										id: "output",
-										value: translator.text("Inventory type - output"),
 									},
 								]}
 								render={({ entity }) => entity.value}

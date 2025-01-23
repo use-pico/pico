@@ -1,7 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
-import { sql } from "kysely";
 import { z } from "zod";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Production/Requirement/RequirementPanel";
 
@@ -26,7 +25,6 @@ export const Route = createFileRoute(
 									"r.name",
 									"bpr.amount",
 									"bpr.passive",
-									sql.lit("input").as("type"),
 									(eb) => {
 										return eb
 											.selectFrom("Inventory as i")
@@ -40,19 +38,20 @@ export const Route = createFileRoute(
 													.where("bi.buildingId", "=", id),
 											)
 											.whereRef("i.resourceId", "=", "bpr.resourceId")
+											.where("i.type", "=", "storage")
 											.orderBy("i.amount", "desc")
 											.limit(1)
 											.as("available");
 									},
 								])
-								.where("bpr.blueprintProductionId", "=", productionId),
+								.where("bpr.blueprintProductionId", "=", productionId)
+								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
 								passive: withBoolSchema(),
-								type: z.enum(["input"]),
 							}),
 						});
 					});

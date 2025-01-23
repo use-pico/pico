@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import {
+    ActionClick,
     ActionMenu,
     ActionModal,
     DeleteControl,
@@ -20,11 +21,13 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
+import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { BlueprintForm } from "~/app/derivean/root/BlueprintForm";
 import type { BlueprintDependencySchema } from "~/app/derivean/schema/BlueprintDependencySchema";
 import type { BlueprintRequirementSchema } from "~/app/derivean/schema/BlueprintRequirementSchema";
 import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
+import { withFillInventory } from "~/app/derivean/service/withFillInventory";
 import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
@@ -152,7 +155,32 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 	table,
 	...props
 }) => {
-	const invalidator = useInvalidator([["Blueprint"], ["Inventory"]]);
+	const invalidator = useInvalidator([
+		["Blueprint_Inventory"],
+		["Blueprint"],
+		["Inventory"],
+	]);
+
+	const fillInventoryMutation = useMutation({
+		async mutationFn() {
+			return kysely.transaction().execute(async (tx) => {
+				const blueprints = await tx
+					.selectFrom("Blueprint")
+					.select(["id"])
+					.execute();
+
+				for await (const { id: blueprintId } of blueprints) {
+					await withFillInventory({ tx, blueprintId });
+				}
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+		onError(error) {
+			console.error(error);
+		},
+	});
 
 	return (
 		<Table
@@ -167,6 +195,17 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 				table() {
 					return (
 						<ActionMenu>
+							<ActionClick
+								icon={InventoryIcon}
+								onClick={() => {
+									toast.promise(
+										fillInventoryMutation.mutateAsync(),
+										withToastPromiseTx("Fill inventories"),
+									);
+								}}
+							>
+								<Tx label={"Fill inventories (label)"} />
+							</ActionClick>
 							<ActionModal
 								label={<Tx label={"Create blueprint (menu)"} />}
 								textTitle={<Tx label={"Create blueprint (modal)"} />}

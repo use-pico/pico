@@ -54,10 +54,7 @@ export const Route = createFileRoute(
 																					.select("inventoryId")
 																					.where("buildingId", "=", id),
 																			)
-																			.where("i.type", "in", [
-																				"storage",
-																				"input",
-																			])
+																			.where("i.type", "in", ["storage"])
 																			.whereRef(
 																				"i.resourceId",
 																				"=",

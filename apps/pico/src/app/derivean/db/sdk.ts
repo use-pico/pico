@@ -464,40 +464,6 @@ export const withCycleSchema = <
 
 export type CycleEntity = ReturnType<typeof withCycleSchema>["~entity"];
 
-export const withDefaultInventorySchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				amount:
-					// float4 / not nullable
-					z.number(),
-				limit:
-					// float4 / not nullable
-					z.number(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "resourceId", "amount", "limit"],
-	});
-};
-
-export type DefaultInventoryEntity = ReturnType<
-	typeof withDefaultInventorySchema
->["~entity"];
-
 export const withInventorySchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -697,11 +663,14 @@ export const withRouteResourceSchema = <
 				amount:
 					// float4 / nullable
 					z.number().nullish(),
+				priority:
+					// INTEGER / not nullable
+					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "routeId", "resourceId", "type", "amount"],
+		sort: ["id", "routeId", "resourceId", "type", "amount", "priority"],
 	});
 };
 
@@ -790,7 +759,6 @@ export interface Database {
 	Building_Inventory: BuildingInventoryEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
-	Default_Inventory: DefaultInventoryEntity;
 	Inventory: InventoryEntity;
 	Production: ProductionEntity;
 	Resource: ResourceEntity;

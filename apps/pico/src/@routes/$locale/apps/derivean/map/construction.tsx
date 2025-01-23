@@ -12,7 +12,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			return {
 				user,
 				blueprints: await queryClient.ensureQueryData({
-					queryKey: ["GameMap", user.id],
+					queryKey: ["GameMap", "construction", "list", user.id],
 					async queryFn() {
 						return kysely.transaction().execute(async (tx) => {
 							return withList({
