@@ -7,8 +7,6 @@ import {
     useParams,
 } from "@tanstack/react-router";
 import { AppLayout, LinkTo, LogoutIcon, ls } from "@use-pico/client";
-import { CycleButton } from "~/app/derivean/game/CycleButton";
-import { GameMenu } from "~/app/derivean/game/GameMenu";
 import { Logo } from "~/app/derivean/logo/Logo";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
@@ -51,7 +49,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 	},
 	component() {
 		const { locale } = useParams({ from: "/$locale" });
-		const { session, cycle } = useLoaderData({
+		const { session } = useLoaderData({
 			from: "/$locale/apps/derivean/game",
 		});
 
@@ -74,15 +72,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/game")({
 					>
 						<Logo />
 					</LinkTo>
-				}
-				menu={
-					<div className={"flex flex-row items-center gap-4"}>
-						<GameMenu />
-						<CycleButton
-							cycle={cycle}
-							userId={session.id}
-						/>
-					</div>
 				}
 				actions={
 					<>

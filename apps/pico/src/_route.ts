@@ -19,13 +19,11 @@ import { Route as LocaleAppsDeriveanRootImport } from './@routes/$locale/apps/de
 import { Route as LocaleAppsDeriveanMapImport } from './@routes/$locale/apps/derivean/map'
 import { Route as LocaleAppsDeriveanGameImport } from './@routes/$locale/apps/derivean/game'
 import { Route as LocaleAppsDeriveanRootIndexImport } from './@routes/$locale/apps/derivean/root/index'
-import { Route as LocaleAppsDeriveanMapIndexImport } from './@routes/$locale/apps/derivean/map/index'
 import { Route as LocaleAppsDeriveanGameIndexImport } from './@routes/$locale/apps/derivean/game/index'
 import { Route as LocaleAppsDeriveanRootEditorImport } from './@routes/$locale/apps/derivean/root/editor'
 import { Route as LocaleAppsDeriveanPublicRegisterImport } from './@routes/$locale/apps/derivean/public/register'
 import { Route as LocaleAppsDeriveanPublicLogoutImport } from './@routes/$locale/apps/derivean/public/logout'
 import { Route as LocaleAppsDeriveanPublicLoginImport } from './@routes/$locale/apps/derivean/public/login'
-import { Route as LocaleAppsDeriveanMapConstructionImport } from './@routes/$locale/apps/derivean/map/construction'
 import { Route as LocaleAppsDeriveanMapIdImport } from './@routes/$locale/apps/derivean/map/$id'
 import { Route as LocaleAppsDeriveanDbSchemaImport } from './@routes/$locale/apps/derivean/db/schema'
 import { Route as LocaleAppsDeriveanRootUserListImport } from './@routes/$locale/apps/derivean/root/user/list'
@@ -36,10 +34,8 @@ import { Route as LocaleAppsDeriveanRootResourceIdImport } from './@routes/$loca
 import { Route as LocaleAppsDeriveanRootRegionListImport } from './@routes/$locale/apps/derivean/root/region/list'
 import { Route as LocaleAppsDeriveanRootBlueprintListImport } from './@routes/$locale/apps/derivean/root/blueprint/list'
 import { Route as LocaleAppsDeriveanRootBlueprintIdImport } from './@routes/$locale/apps/derivean/root/blueprint/$id'
-import { Route as LocaleAppsDeriveanMapRouteIdImport } from './@routes/$locale/apps/derivean/map/route/$id'
-import { Route as LocaleAppsDeriveanMapBuildingIdImport } from './@routes/$locale/apps/derivean/map/building/$id'
-import { Route as LocaleAppsDeriveanMapBlueprintIdImport } from './@routes/$locale/apps/derivean/map/blueprint/$id'
 import { Route as LocaleAppsDeriveanMapIdViewImport } from './@routes/$locale/apps/derivean/map/$id/view'
+import { Route as LocaleAppsDeriveanMapIdConstructionImport } from './@routes/$locale/apps/derivean/map/$id/construction'
 import { Route as LocaleAppsDeriveanGameBlueprintListImport } from './@routes/$locale/apps/derivean/game/blueprint/list'
 import { Route as LocaleAppsDeriveanGameBlueprintIdImport } from './@routes/$locale/apps/derivean/game/blueprint/$id'
 import { Route as LocaleAppsDeriveanRootUserIdViewImport } from './@routes/$locale/apps/derivean/root/user/$id/view'
@@ -53,12 +49,9 @@ import { Route as LocaleAppsDeriveanRootBlueprintIdInventoryImport } from './@ro
 import { Route as LocaleAppsDeriveanRootBlueprintIdEditImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/edit'
 import { Route as LocaleAppsDeriveanRootBlueprintIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/dependencies'
 import { Route as LocaleAppsDeriveanRootBlueprintIdConflictsImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/conflicts'
-import { Route as LocaleAppsDeriveanMapRouteIdResourcesImport } from './@routes/$locale/apps/derivean/map/route/$id/resources'
-import { Route as LocaleAppsDeriveanMapRouteIdConstructionImport } from './@routes/$locale/apps/derivean/map/route/$id/construction'
-import { Route as LocaleAppsDeriveanMapBuildingIdViewImport } from './@routes/$locale/apps/derivean/map/building/$id/view'
-import { Route as LocaleAppsDeriveanMapBuildingIdRoutesImport } from './@routes/$locale/apps/derivean/map/building/$id/routes'
-import { Route as LocaleAppsDeriveanMapBuildingIdInventoryImport } from './@routes/$locale/apps/derivean/map/building/$id/inventory'
-import { Route as LocaleAppsDeriveanMapBlueprintIdRequirementsImport } from './@routes/$locale/apps/derivean/map/blueprint/$id/requirements'
+import { Route as LocaleAppsDeriveanMapIdRouteRouteIdImport } from './@routes/$locale/apps/derivean/map/$id/route/$routeId'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId'
+import { Route as LocaleAppsDeriveanMapIdBlueprintBlueprintIdImport } from './@routes/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
 import { Route as LocaleAppsDeriveanGameBlueprintProductionIdImport } from './@routes/$locale/apps/derivean/game/blueprint/production/$id'
 import { Route as LocaleAppsDeriveanGameBlueprintIdViewImport } from './@routes/$locale/apps/derivean/game/blueprint/$id/view'
 import { Route as LocaleAppsDeriveanGameBlueprintIdRequirementsImport } from './@routes/$locale/apps/derivean/game/blueprint/$id/requirements'
@@ -69,15 +62,21 @@ import { Route as LocaleAppsDeriveanRootUserIdBuildingListImport } from './@rout
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdResourcesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/resources'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/requirements'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
-import { Route as LocaleAppsDeriveanMapBuildingIdRoutePriorityImport } from './@routes/$locale/apps/derivean/map/building/$id/route/priority'
-import { Route as LocaleAppsDeriveanMapBuildingIdProductionQueueImport } from './@routes/$locale/apps/derivean/map/building/$id/production/queue'
-import { Route as LocaleAppsDeriveanMapBuildingIdProductionListImport } from './@routes/$locale/apps/derivean/map/building/$id/production/list'
-import { Route as LocaleAppsDeriveanMapBuildingIdProductionProductionIdImport } from './@routes/$locale/apps/derivean/map/building/$id/production/$productionId'
-import { Route as LocaleAppsDeriveanMapBuildingIdConstructionRequirementsImport } from './@routes/$locale/apps/derivean/map/building/$id/construction/requirements'
+import { Route as LocaleAppsDeriveanMapIdRouteRouteIdResourcesImport } from './@routes/$locale/apps/derivean/map/$id/route/$routeId/resources'
+import { Route as LocaleAppsDeriveanMapIdRouteRouteIdConstructionImport } from './@routes/$locale/apps/derivean/map/$id/route/$routeId/construction'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdViewImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/view'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+import { Route as LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsImport } from './@routes/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
 import { Route as LocaleAppsDeriveanGameBlueprintProductionIdResourcesImport } from './@routes/$locale/apps/derivean/game/blueprint/production/$id/resources'
 import { Route as LocaleAppsDeriveanGameBlueprintProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/game/blueprint/production/$id/requirements'
 import { Route as LocaleAppsDeriveanGameBlueprintProductionIdDependenciesImport } from './@routes/$locale/apps/derivean/game/blueprint/production/$id/dependencies'
-import { Route as LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+import { Route as LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
 
 // Create/Update Routes
 
@@ -130,14 +129,6 @@ const LocaleAppsDeriveanRootIndexRoute =
     getParentRoute: () => LocaleAppsDeriveanRootRoute,
   } as any)
 
-const LocaleAppsDeriveanMapIndexRoute = LocaleAppsDeriveanMapIndexImport.update(
-  {
-    id: '/',
-    path: '/',
-    getParentRoute: () => LocaleAppsDeriveanMapRoute,
-  } as any,
-)
-
 const LocaleAppsDeriveanGameIndexRoute =
   LocaleAppsDeriveanGameIndexImport.update({
     id: '/',
@@ -171,13 +162,6 @@ const LocaleAppsDeriveanPublicLoginRoute =
     id: '/public/login',
     path: '/public/login',
     getParentRoute: () => LocaleAppsDeriveanRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapConstructionRoute =
-  LocaleAppsDeriveanMapConstructionImport.update({
-    id: '/construction',
-    path: '/construction',
-    getParentRoute: () => LocaleAppsDeriveanMapRoute,
   } as any)
 
 const LocaleAppsDeriveanMapIdRoute = LocaleAppsDeriveanMapIdImport.update({
@@ -250,31 +234,17 @@ const LocaleAppsDeriveanRootBlueprintIdRoute =
     getParentRoute: () => LocaleAppsDeriveanRootRoute,
   } as any)
 
-const LocaleAppsDeriveanMapRouteIdRoute =
-  LocaleAppsDeriveanMapRouteIdImport.update({
-    id: '/route/$id',
-    path: '/route/$id',
-    getParentRoute: () => LocaleAppsDeriveanMapRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapBuildingIdRoute =
-  LocaleAppsDeriveanMapBuildingIdImport.update({
-    id: '/building/$id',
-    path: '/building/$id',
-    getParentRoute: () => LocaleAppsDeriveanMapRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapBlueprintIdRoute =
-  LocaleAppsDeriveanMapBlueprintIdImport.update({
-    id: '/blueprint/$id',
-    path: '/blueprint/$id',
-    getParentRoute: () => LocaleAppsDeriveanMapRoute,
-  } as any)
-
 const LocaleAppsDeriveanMapIdViewRoute =
   LocaleAppsDeriveanMapIdViewImport.update({
     id: '/view',
     path: '/view',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdConstructionRoute =
+  LocaleAppsDeriveanMapIdConstructionImport.update({
+    id: '/construction',
+    path: '/construction',
     getParentRoute: () => LocaleAppsDeriveanMapIdRoute,
   } as any)
 
@@ -369,46 +339,25 @@ const LocaleAppsDeriveanRootBlueprintIdConflictsRoute =
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapRouteIdResourcesRoute =
-  LocaleAppsDeriveanMapRouteIdResourcesImport.update({
-    id: '/resources',
-    path: '/resources',
-    getParentRoute: () => LocaleAppsDeriveanMapRouteIdRoute,
+const LocaleAppsDeriveanMapIdRouteRouteIdRoute =
+  LocaleAppsDeriveanMapIdRouteRouteIdImport.update({
+    id: '/route/$routeId',
+    path: '/route/$routeId',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapRouteIdConstructionRoute =
-  LocaleAppsDeriveanMapRouteIdConstructionImport.update({
-    id: '/construction',
-    path: '/construction',
-    getParentRoute: () => LocaleAppsDeriveanMapRouteIdRoute,
+const LocaleAppsDeriveanMapIdBuildingBuildingIdRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdImport.update({
+    id: '/building/$buildingId',
+    path: '/building/$buildingId',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdViewRoute =
-  LocaleAppsDeriveanMapBuildingIdViewImport.update({
-    id: '/view',
-    path: '/view',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapBuildingIdRoutesRoute =
-  LocaleAppsDeriveanMapBuildingIdRoutesImport.update({
-    id: '/routes',
-    path: '/routes',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapBuildingIdInventoryRoute =
-  LocaleAppsDeriveanMapBuildingIdInventoryImport.update({
-    id: '/inventory',
-    path: '/inventory',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapBlueprintIdRequirementsRoute =
-  LocaleAppsDeriveanMapBlueprintIdRequirementsImport.update({
-    id: '/requirements',
-    path: '/requirements',
-    getParentRoute: () => LocaleAppsDeriveanMapBlueprintIdRoute,
+const LocaleAppsDeriveanMapIdBlueprintBlueprintIdRoute =
+  LocaleAppsDeriveanMapIdBlueprintBlueprintIdImport.update({
+    id: '/blueprint/$blueprintId',
+    path: '/blueprint/$blueprintId',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRoute,
   } as any)
 
 const LocaleAppsDeriveanGameBlueprintProductionIdRoute =
@@ -481,39 +430,46 @@ const LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute =
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintProductionIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute =
-  LocaleAppsDeriveanMapBuildingIdRoutePriorityImport.update({
-    id: '/route/priority',
-    path: '/route/priority',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
+const LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute =
+  LocaleAppsDeriveanMapIdRouteRouteIdResourcesImport.update({
+    id: '/resources',
+    path: '/resources',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRouteRouteIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdProductionQueueRoute =
-  LocaleAppsDeriveanMapBuildingIdProductionQueueImport.update({
-    id: '/production/queue',
-    path: '/production/queue',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
+const LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute =
+  LocaleAppsDeriveanMapIdRouteRouteIdConstructionImport.update({
+    id: '/construction',
+    path: '/construction',
+    getParentRoute: () => LocaleAppsDeriveanMapIdRouteRouteIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdProductionListRoute =
-  LocaleAppsDeriveanMapBuildingIdProductionListImport.update({
-    id: '/production/list',
-    path: '/production/list',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
+const LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdViewImport.update({
+    id: '/view',
+    path: '/view',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute =
-  LocaleAppsDeriveanMapBuildingIdProductionProductionIdImport.update({
-    id: '/production/$productionId',
-    path: '/production/$productionId',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
+const LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesImport.update({
+    id: '/routes',
+    path: '/routes',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute =
-  LocaleAppsDeriveanMapBuildingIdConstructionRequirementsImport.update({
-    id: '/construction/requirements',
-    path: '/construction/requirements',
-    getParentRoute: () => LocaleAppsDeriveanMapBuildingIdRoute,
+const LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute =
+  LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsImport.update({
+    id: '/requirements',
+    path: '/requirements',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBlueprintBlueprintIdRoute,
   } as any)
 
 const LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute =
@@ -537,13 +493,50 @@ const LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute =
     getParentRoute: () => LocaleAppsDeriveanGameBlueprintProductionIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute =
-  LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsImport.update(
+const LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityImport.update({
+    id: '/route/priority',
+    path: '/route/priority',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueImport.update({
+    id: '/production/queue',
+    path: '/production/queue',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListImport.update({
+    id: '/production/list',
+    path: '/production/list',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdImport.update({
+    id: '/production/$productionId',
+    path: '/production/$productionId',
+    getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+  } as any)
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsImport.update(
+    {
+      id: '/construction/requirements',
+      path: '/construction/requirements',
+      getParentRoute: () => LocaleAppsDeriveanMapIdBuildingBuildingIdRoute,
+    } as any,
+  )
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsImport.update(
     {
       id: '/requirements',
       path: '/requirements',
       getParentRoute: () =>
-        LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute,
+        LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRoute,
     } as any,
   )
 
@@ -614,13 +607,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanMapIdImport
       parentRoute: typeof LocaleAppsDeriveanMapImport
     }
-    '/$locale/apps/derivean/map/construction': {
-      id: '/$locale/apps/derivean/map/construction'
-      path: '/construction'
-      fullPath: '/$locale/apps/derivean/map/construction'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapConstructionImport
-      parentRoute: typeof LocaleAppsDeriveanMapImport
-    }
     '/$locale/apps/derivean/public/login': {
       id: '/$locale/apps/derivean/public/login'
       path: '/public/login'
@@ -656,13 +642,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameIndexImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
-    '/$locale/apps/derivean/map/': {
-      id: '/$locale/apps/derivean/map/'
-      path: '/'
-      fullPath: '/$locale/apps/derivean/map/'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapIndexImport
-      parentRoute: typeof LocaleAppsDeriveanMapImport
-    }
     '/$locale/apps/derivean/root/': {
       id: '/$locale/apps/derivean/root/'
       path: '/'
@@ -684,33 +663,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameBlueprintListImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
+    '/$locale/apps/derivean/map/$id/construction': {
+      id: '/$locale/apps/derivean/map/$id/construction'
+      path: '/construction'
+      fullPath: '/$locale/apps/derivean/map/$id/construction'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdConstructionImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdImport
+    }
     '/$locale/apps/derivean/map/$id/view': {
       id: '/$locale/apps/derivean/map/$id/view'
       path: '/view'
       fullPath: '/$locale/apps/derivean/map/$id/view'
       preLoaderRoute: typeof LocaleAppsDeriveanMapIdViewImport
       parentRoute: typeof LocaleAppsDeriveanMapIdImport
-    }
-    '/$locale/apps/derivean/map/blueprint/$id': {
-      id: '/$locale/apps/derivean/map/blueprint/$id'
-      path: '/blueprint/$id'
-      fullPath: '/$locale/apps/derivean/map/blueprint/$id'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBlueprintIdImport
-      parentRoute: typeof LocaleAppsDeriveanMapImport
-    }
-    '/$locale/apps/derivean/map/building/$id': {
-      id: '/$locale/apps/derivean/map/building/$id'
-      path: '/building/$id'
-      fullPath: '/$locale/apps/derivean/map/building/$id'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
-      parentRoute: typeof LocaleAppsDeriveanMapImport
-    }
-    '/$locale/apps/derivean/map/route/$id': {
-      id: '/$locale/apps/derivean/map/route/$id'
-      path: '/route/$id'
-      fullPath: '/$locale/apps/derivean/map/route/$id'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapRouteIdImport
-      parentRoute: typeof LocaleAppsDeriveanMapImport
     }
     '/$locale/apps/derivean/root/blueprint/$id': {
       id: '/$locale/apps/derivean/root/blueprint/$id'
@@ -810,47 +775,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameBlueprintProductionIdImport
       parentRoute: typeof LocaleAppsDeriveanGameImport
     }
-    '/$locale/apps/derivean/map/blueprint/$id/requirements': {
-      id: '/$locale/apps/derivean/map/blueprint/$id/requirements'
-      path: '/requirements'
-      fullPath: '/$locale/apps/derivean/map/blueprint/$id/requirements'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBlueprintIdRequirementsImport
-      parentRoute: typeof LocaleAppsDeriveanMapBlueprintIdImport
+    '/$locale/apps/derivean/map/$id/blueprint/$blueprintId': {
+      id: '/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
+      path: '/blueprint/$blueprintId'
+      fullPath: '/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/inventory': {
-      id: '/$locale/apps/derivean/map/building/$id/inventory'
-      path: '/inventory'
-      fullPath: '/$locale/apps/derivean/map/building/$id/inventory'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdInventoryImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/building/$buildingId': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId'
+      path: '/building/$buildingId'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/routes': {
-      id: '/$locale/apps/derivean/map/building/$id/routes'
-      path: '/routes'
-      fullPath: '/$locale/apps/derivean/map/building/$id/routes'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutesImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
-    }
-    '/$locale/apps/derivean/map/building/$id/view': {
-      id: '/$locale/apps/derivean/map/building/$id/view'
-      path: '/view'
-      fullPath: '/$locale/apps/derivean/map/building/$id/view'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdViewImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
-    }
-    '/$locale/apps/derivean/map/route/$id/construction': {
-      id: '/$locale/apps/derivean/map/route/$id/construction'
-      path: '/construction'
-      fullPath: '/$locale/apps/derivean/map/route/$id/construction'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapRouteIdConstructionImport
-      parentRoute: typeof LocaleAppsDeriveanMapRouteIdImport
-    }
-    '/$locale/apps/derivean/map/route/$id/resources': {
-      id: '/$locale/apps/derivean/map/route/$id/resources'
-      path: '/resources'
-      fullPath: '/$locale/apps/derivean/map/route/$id/resources'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapRouteIdResourcesImport
-      parentRoute: typeof LocaleAppsDeriveanMapRouteIdImport
+    '/$locale/apps/derivean/map/$id/route/$routeId': {
+      id: '/$locale/apps/derivean/map/$id/route/$routeId'
+      path: '/route/$routeId'
+      fullPath: '/$locale/apps/derivean/map/$id/route/$routeId'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdImport
     }
     '/$locale/apps/derivean/root/blueprint/$id/conflicts': {
       id: '/$locale/apps/derivean/root/blueprint/$id/conflicts'
@@ -950,40 +894,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanGameBlueprintProductionIdResourcesImport
       parentRoute: typeof LocaleAppsDeriveanGameBlueprintProductionIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/construction/requirements': {
-      id: '/$locale/apps/derivean/map/building/$id/construction/requirements'
-      path: '/construction/requirements'
-      fullPath: '/$locale/apps/derivean/map/building/$id/construction/requirements'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdConstructionRequirementsImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements': {
+      id: '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
+      path: '/requirements'
+      fullPath: '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/production/$productionId': {
-      id: '/$locale/apps/derivean/map/building/$id/production/$productionId'
-      path: '/production/$productionId'
-      fullPath: '/$locale/apps/derivean/map/building/$id/production/$productionId'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/building/$buildingId/inventory': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+      path: '/inventory'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/production/list': {
-      id: '/$locale/apps/derivean/map/building/$id/production/list'
-      path: '/production/list'
-      fullPath: '/$locale/apps/derivean/map/building/$id/production/list'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionListImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/building/$buildingId/routes': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+      path: '/routes'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/production/queue': {
-      id: '/$locale/apps/derivean/map/building/$id/production/queue'
-      path: '/production/queue'
-      fullPath: '/$locale/apps/derivean/map/building/$id/production/queue'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionQueueImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/building/$buildingId/view': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/view'
+      path: '/view'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/view'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdViewImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/route/priority': {
-      id: '/$locale/apps/derivean/map/building/$id/route/priority'
-      path: '/route/priority'
-      fullPath: '/$locale/apps/derivean/map/building/$id/route/priority'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdImport
+    '/$locale/apps/derivean/map/$id/route/$routeId/construction': {
+      id: '/$locale/apps/derivean/map/$id/route/$routeId/construction'
+      path: '/construction'
+      fullPath: '/$locale/apps/derivean/map/$id/route/$routeId/construction'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdConstructionImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdImport
+    }
+    '/$locale/apps/derivean/map/$id/route/$routeId/resources': {
+      id: '/$locale/apps/derivean/map/$id/route/$routeId/resources'
+      path: '/resources'
+      fullPath: '/$locale/apps/derivean/map/$id/route/$routeId/resources'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdResourcesImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdImport
     }
     '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': {
       id: '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
@@ -1013,12 +964,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanRootUserIdBuildingListImport
       parentRoute: typeof LocaleAppsDeriveanRootUserIdImport
     }
-    '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements': {
-      id: '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
+    '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+      path: '/construction/requirements'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+    }
+    '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+      path: '/production/$productionId'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+    }
+    '/$locale/apps/derivean/map/$id/building/$buildingId/production/list': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+      path: '/production/list'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+    }
+    '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+      path: '/production/queue'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+    }
+    '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+      path: '/route/priority'
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdImport
+    }
+    '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements': {
+      id: '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
       path: '/requirements'
-      fullPath: '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsImport
-      parentRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdImport
+      fullPath: '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsImport
+      parentRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdImport
     }
   }
 }
@@ -1096,13 +1082,109 @@ const LocaleAppsDeriveanGameRouteWithChildren =
     LocaleAppsDeriveanGameRouteChildren,
   )
 
+interface LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteChildren {
+  LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute: typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute
+}
+
+const LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteChildren: LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteChildren =
+  {
+    LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute:
+      LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute,
+  }
+
+const LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren =
+  LocaleAppsDeriveanMapIdBlueprintBlueprintIdRoute._addFileChildren(
+    LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteChildren,
+  )
+
+interface LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteChildren {
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute
+}
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteChildren: LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteChildren =
+  {
+    LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute,
+  }
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRoute._addFileChildren(
+    LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteChildren,
+  )
+
+interface LocaleAppsDeriveanMapIdBuildingBuildingIdRouteChildren {
+  LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute
+}
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdRouteChildren: LocaleAppsDeriveanMapIdBuildingBuildingIdRouteChildren =
+  {
+    LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute,
+  }
+
+const LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren =
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoute._addFileChildren(
+    LocaleAppsDeriveanMapIdBuildingBuildingIdRouteChildren,
+  )
+
+interface LocaleAppsDeriveanMapIdRouteRouteIdRouteChildren {
+  LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute
+  LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute
+}
+
+const LocaleAppsDeriveanMapIdRouteRouteIdRouteChildren: LocaleAppsDeriveanMapIdRouteRouteIdRouteChildren =
+  {
+    LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute:
+      LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute,
+    LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute:
+      LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute,
+  }
+
+const LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren =
+  LocaleAppsDeriveanMapIdRouteRouteIdRoute._addFileChildren(
+    LocaleAppsDeriveanMapIdRouteRouteIdRouteChildren,
+  )
+
 interface LocaleAppsDeriveanMapIdRouteChildren {
+  LocaleAppsDeriveanMapIdConstructionRoute: typeof LocaleAppsDeriveanMapIdConstructionRoute
   LocaleAppsDeriveanMapIdViewRoute: typeof LocaleAppsDeriveanMapIdViewRoute
+  LocaleAppsDeriveanMapIdBlueprintBlueprintIdRoute: typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren
+  LocaleAppsDeriveanMapIdBuildingBuildingIdRoute: typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren
+  LocaleAppsDeriveanMapIdRouteRouteIdRoute: typeof LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren
 }
 
 const LocaleAppsDeriveanMapIdRouteChildren: LocaleAppsDeriveanMapIdRouteChildren =
   {
+    LocaleAppsDeriveanMapIdConstructionRoute:
+      LocaleAppsDeriveanMapIdConstructionRoute,
     LocaleAppsDeriveanMapIdViewRoute: LocaleAppsDeriveanMapIdViewRoute,
+    LocaleAppsDeriveanMapIdBlueprintBlueprintIdRoute:
+      LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren,
+    LocaleAppsDeriveanMapIdBuildingBuildingIdRoute:
+      LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren,
+    LocaleAppsDeriveanMapIdRouteRouteIdRoute:
+      LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren,
   }
 
 const LocaleAppsDeriveanMapIdRouteWithChildren =
@@ -1110,110 +1192,12 @@ const LocaleAppsDeriveanMapIdRouteWithChildren =
     LocaleAppsDeriveanMapIdRouteChildren,
   )
 
-interface LocaleAppsDeriveanMapBlueprintIdRouteChildren {
-  LocaleAppsDeriveanMapBlueprintIdRequirementsRoute: typeof LocaleAppsDeriveanMapBlueprintIdRequirementsRoute
-}
-
-const LocaleAppsDeriveanMapBlueprintIdRouteChildren: LocaleAppsDeriveanMapBlueprintIdRouteChildren =
-  {
-    LocaleAppsDeriveanMapBlueprintIdRequirementsRoute:
-      LocaleAppsDeriveanMapBlueprintIdRequirementsRoute,
-  }
-
-const LocaleAppsDeriveanMapBlueprintIdRouteWithChildren =
-  LocaleAppsDeriveanMapBlueprintIdRoute._addFileChildren(
-    LocaleAppsDeriveanMapBlueprintIdRouteChildren,
-  )
-
-interface LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteChildren {
-  LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute
-}
-
-const LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteChildren: LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteChildren =
-  {
-    LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute:
-      LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute,
-  }
-
-const LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren =
-  LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute._addFileChildren(
-    LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteChildren,
-  )
-
-interface LocaleAppsDeriveanMapBuildingIdRouteChildren {
-  LocaleAppsDeriveanMapBuildingIdInventoryRoute: typeof LocaleAppsDeriveanMapBuildingIdInventoryRoute
-  LocaleAppsDeriveanMapBuildingIdRoutesRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutesRoute
-  LocaleAppsDeriveanMapBuildingIdViewRoute: typeof LocaleAppsDeriveanMapBuildingIdViewRoute
-  LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute: typeof LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute
-  LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
-  LocaleAppsDeriveanMapBuildingIdProductionListRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
-  LocaleAppsDeriveanMapBuildingIdProductionQueueRoute: typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
-  LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute: typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
-}
-
-const LocaleAppsDeriveanMapBuildingIdRouteChildren: LocaleAppsDeriveanMapBuildingIdRouteChildren =
-  {
-    LocaleAppsDeriveanMapBuildingIdInventoryRoute:
-      LocaleAppsDeriveanMapBuildingIdInventoryRoute,
-    LocaleAppsDeriveanMapBuildingIdRoutesRoute:
-      LocaleAppsDeriveanMapBuildingIdRoutesRoute,
-    LocaleAppsDeriveanMapBuildingIdViewRoute:
-      LocaleAppsDeriveanMapBuildingIdViewRoute,
-    LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute:
-      LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute,
-    LocaleAppsDeriveanMapBuildingIdProductionProductionIdRoute:
-      LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren,
-    LocaleAppsDeriveanMapBuildingIdProductionListRoute:
-      LocaleAppsDeriveanMapBuildingIdProductionListRoute,
-    LocaleAppsDeriveanMapBuildingIdProductionQueueRoute:
-      LocaleAppsDeriveanMapBuildingIdProductionQueueRoute,
-    LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute:
-      LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute,
-  }
-
-const LocaleAppsDeriveanMapBuildingIdRouteWithChildren =
-  LocaleAppsDeriveanMapBuildingIdRoute._addFileChildren(
-    LocaleAppsDeriveanMapBuildingIdRouteChildren,
-  )
-
-interface LocaleAppsDeriveanMapRouteIdRouteChildren {
-  LocaleAppsDeriveanMapRouteIdConstructionRoute: typeof LocaleAppsDeriveanMapRouteIdConstructionRoute
-  LocaleAppsDeriveanMapRouteIdResourcesRoute: typeof LocaleAppsDeriveanMapRouteIdResourcesRoute
-}
-
-const LocaleAppsDeriveanMapRouteIdRouteChildren: LocaleAppsDeriveanMapRouteIdRouteChildren =
-  {
-    LocaleAppsDeriveanMapRouteIdConstructionRoute:
-      LocaleAppsDeriveanMapRouteIdConstructionRoute,
-    LocaleAppsDeriveanMapRouteIdResourcesRoute:
-      LocaleAppsDeriveanMapRouteIdResourcesRoute,
-  }
-
-const LocaleAppsDeriveanMapRouteIdRouteWithChildren =
-  LocaleAppsDeriveanMapRouteIdRoute._addFileChildren(
-    LocaleAppsDeriveanMapRouteIdRouteChildren,
-  )
-
 interface LocaleAppsDeriveanMapRouteChildren {
   LocaleAppsDeriveanMapIdRoute: typeof LocaleAppsDeriveanMapIdRouteWithChildren
-  LocaleAppsDeriveanMapConstructionRoute: typeof LocaleAppsDeriveanMapConstructionRoute
-  LocaleAppsDeriveanMapIndexRoute: typeof LocaleAppsDeriveanMapIndexRoute
-  LocaleAppsDeriveanMapBlueprintIdRoute: typeof LocaleAppsDeriveanMapBlueprintIdRouteWithChildren
-  LocaleAppsDeriveanMapBuildingIdRoute: typeof LocaleAppsDeriveanMapBuildingIdRouteWithChildren
-  LocaleAppsDeriveanMapRouteIdRoute: typeof LocaleAppsDeriveanMapRouteIdRouteWithChildren
 }
 
 const LocaleAppsDeriveanMapRouteChildren: LocaleAppsDeriveanMapRouteChildren = {
   LocaleAppsDeriveanMapIdRoute: LocaleAppsDeriveanMapIdRouteWithChildren,
-  LocaleAppsDeriveanMapConstructionRoute:
-    LocaleAppsDeriveanMapConstructionRoute,
-  LocaleAppsDeriveanMapIndexRoute: LocaleAppsDeriveanMapIndexRoute,
-  LocaleAppsDeriveanMapBlueprintIdRoute:
-    LocaleAppsDeriveanMapBlueprintIdRouteWithChildren,
-  LocaleAppsDeriveanMapBuildingIdRoute:
-    LocaleAppsDeriveanMapBuildingIdRouteWithChildren,
-  LocaleAppsDeriveanMapRouteIdRoute:
-    LocaleAppsDeriveanMapRouteIdRouteWithChildren,
 }
 
 const LocaleAppsDeriveanMapRouteWithChildren =
@@ -1398,20 +1382,16 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/map/$id': typeof LocaleAppsDeriveanMapIdRouteWithChildren
-  '/$locale/apps/derivean/map/construction': typeof LocaleAppsDeriveanMapConstructionRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
   '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
-  '/$locale/apps/derivean/map/': typeof LocaleAppsDeriveanMapIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/blueprint/$id': typeof LocaleAppsDeriveanGameBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/game/blueprint/list': typeof LocaleAppsDeriveanGameBlueprintListRoute
+  '/$locale/apps/derivean/map/$id/construction': typeof LocaleAppsDeriveanMapIdConstructionRoute
   '/$locale/apps/derivean/map/$id/view': typeof LocaleAppsDeriveanMapIdViewRoute
-  '/$locale/apps/derivean/map/blueprint/$id': typeof LocaleAppsDeriveanMapBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id': typeof LocaleAppsDeriveanMapBuildingIdRouteWithChildren
-  '/$locale/apps/derivean/map/route/$id': typeof LocaleAppsDeriveanMapRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/region/list': typeof LocaleAppsDeriveanRootRegionListRoute
@@ -1426,12 +1406,9 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/game/blueprint/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/$id/view': typeof LocaleAppsDeriveanGameBlueprintIdViewRoute
   '/$locale/apps/derivean/game/blueprint/production/$id': typeof LocaleAppsDeriveanGameBlueprintProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/blueprint/$id/requirements': typeof LocaleAppsDeriveanMapBlueprintIdRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/inventory': typeof LocaleAppsDeriveanMapBuildingIdInventoryRoute
-  '/$locale/apps/derivean/map/building/$id/routes': typeof LocaleAppsDeriveanMapBuildingIdRoutesRoute
-  '/$locale/apps/derivean/map/building/$id/view': typeof LocaleAppsDeriveanMapBuildingIdViewRoute
-  '/$locale/apps/derivean/map/route/$id/construction': typeof LocaleAppsDeriveanMapRouteIdConstructionRoute
-  '/$locale/apps/derivean/map/route/$id/resources': typeof LocaleAppsDeriveanMapRouteIdResourcesRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/route/$routeId': typeof LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1446,38 +1423,41 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/game/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/resources': typeof LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute
-  '/$locale/apps/derivean/map/building/$id/construction/requirements': typeof LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
-  '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
-  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/inventory': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/routes': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/view': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/construction': typeof LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/resources': typeof LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/list': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/apps/derivean': typeof LocaleAppsDeriveanRouteWithChildren
+  '/$locale/apps/derivean/map': typeof LocaleAppsDeriveanMapRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/map/$id': typeof LocaleAppsDeriveanMapIdRouteWithChildren
-  '/$locale/apps/derivean/map/construction': typeof LocaleAppsDeriveanMapConstructionRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
   '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game': typeof LocaleAppsDeriveanGameIndexRoute
-  '/$locale/apps/derivean/map': typeof LocaleAppsDeriveanMapIndexRoute
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/blueprint/$id': typeof LocaleAppsDeriveanGameBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/game/blueprint/list': typeof LocaleAppsDeriveanGameBlueprintListRoute
+  '/$locale/apps/derivean/map/$id/construction': typeof LocaleAppsDeriveanMapIdConstructionRoute
   '/$locale/apps/derivean/map/$id/view': typeof LocaleAppsDeriveanMapIdViewRoute
-  '/$locale/apps/derivean/map/blueprint/$id': typeof LocaleAppsDeriveanMapBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id': typeof LocaleAppsDeriveanMapBuildingIdRouteWithChildren
-  '/$locale/apps/derivean/map/route/$id': typeof LocaleAppsDeriveanMapRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/region/list': typeof LocaleAppsDeriveanRootRegionListRoute
@@ -1492,12 +1472,9 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/game/blueprint/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/$id/view': typeof LocaleAppsDeriveanGameBlueprintIdViewRoute
   '/$locale/apps/derivean/game/blueprint/production/$id': typeof LocaleAppsDeriveanGameBlueprintProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/blueprint/$id/requirements': typeof LocaleAppsDeriveanMapBlueprintIdRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/inventory': typeof LocaleAppsDeriveanMapBuildingIdInventoryRoute
-  '/$locale/apps/derivean/map/building/$id/routes': typeof LocaleAppsDeriveanMapBuildingIdRoutesRoute
-  '/$locale/apps/derivean/map/building/$id/view': typeof LocaleAppsDeriveanMapBuildingIdViewRoute
-  '/$locale/apps/derivean/map/route/$id/construction': typeof LocaleAppsDeriveanMapRouteIdConstructionRoute
-  '/$locale/apps/derivean/map/route/$id/resources': typeof LocaleAppsDeriveanMapRouteIdResourcesRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/route/$routeId': typeof LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1512,16 +1489,22 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/game/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/resources': typeof LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute
-  '/$locale/apps/derivean/map/building/$id/construction/requirements': typeof LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
-  '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
-  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/inventory': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/routes': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/view': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/construction': typeof LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/resources': typeof LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/list': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute
 }
 
 export interface FileRoutesById {
@@ -1535,20 +1518,16 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/root': typeof LocaleAppsDeriveanRootRouteWithChildren
   '/$locale/apps/derivean/db/schema': typeof LocaleAppsDeriveanDbSchemaRoute
   '/$locale/apps/derivean/map/$id': typeof LocaleAppsDeriveanMapIdRouteWithChildren
-  '/$locale/apps/derivean/map/construction': typeof LocaleAppsDeriveanMapConstructionRoute
   '/$locale/apps/derivean/public/login': typeof LocaleAppsDeriveanPublicLoginRoute
   '/$locale/apps/derivean/public/logout': typeof LocaleAppsDeriveanPublicLogoutRoute
   '/$locale/apps/derivean/public/register': typeof LocaleAppsDeriveanPublicRegisterRoute
   '/$locale/apps/derivean/root/editor': typeof LocaleAppsDeriveanRootEditorRoute
   '/$locale/apps/derivean/game/': typeof LocaleAppsDeriveanGameIndexRoute
-  '/$locale/apps/derivean/map/': typeof LocaleAppsDeriveanMapIndexRoute
   '/$locale/apps/derivean/root/': typeof LocaleAppsDeriveanRootIndexRoute
   '/$locale/apps/derivean/game/blueprint/$id': typeof LocaleAppsDeriveanGameBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/game/blueprint/list': typeof LocaleAppsDeriveanGameBlueprintListRoute
+  '/$locale/apps/derivean/map/$id/construction': typeof LocaleAppsDeriveanMapIdConstructionRoute
   '/$locale/apps/derivean/map/$id/view': typeof LocaleAppsDeriveanMapIdViewRoute
-  '/$locale/apps/derivean/map/blueprint/$id': typeof LocaleAppsDeriveanMapBlueprintIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id': typeof LocaleAppsDeriveanMapBuildingIdRouteWithChildren
-  '/$locale/apps/derivean/map/route/$id': typeof LocaleAppsDeriveanMapRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id': typeof LocaleAppsDeriveanRootBlueprintIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/list': typeof LocaleAppsDeriveanRootBlueprintListRoute
   '/$locale/apps/derivean/root/region/list': typeof LocaleAppsDeriveanRootRegionListRoute
@@ -1563,12 +1542,9 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/game/blueprint/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/$id/view': typeof LocaleAppsDeriveanGameBlueprintIdViewRoute
   '/$locale/apps/derivean/game/blueprint/production/$id': typeof LocaleAppsDeriveanGameBlueprintProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/blueprint/$id/requirements': typeof LocaleAppsDeriveanMapBlueprintIdRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/inventory': typeof LocaleAppsDeriveanMapBuildingIdInventoryRoute
-  '/$locale/apps/derivean/map/building/$id/routes': typeof LocaleAppsDeriveanMapBuildingIdRoutesRoute
-  '/$locale/apps/derivean/map/building/$id/view': typeof LocaleAppsDeriveanMapBuildingIdViewRoute
-  '/$locale/apps/derivean/map/route/$id/construction': typeof LocaleAppsDeriveanMapRouteIdConstructionRoute
-  '/$locale/apps/derivean/map/route/$id/resources': typeof LocaleAppsDeriveanMapRouteIdResourcesRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/route/$routeId': typeof LocaleAppsDeriveanMapIdRouteRouteIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1583,16 +1559,22 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/game/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanGameBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/game/blueprint/production/$id/resources': typeof LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute
-  '/$locale/apps/derivean/map/building/$id/construction/requirements': typeof LocaleAppsDeriveanMapBuildingIdConstructionRequirementsRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRouteWithChildren
-  '/$locale/apps/derivean/map/building/$id/production/list': typeof LocaleAppsDeriveanMapBuildingIdProductionListRoute
-  '/$locale/apps/derivean/map/building/$id/production/queue': typeof LocaleAppsDeriveanMapBuildingIdProductionQueueRoute
-  '/$locale/apps/derivean/map/building/$id/route/priority': typeof LocaleAppsDeriveanMapBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements': typeof LocaleAppsDeriveanMapIdBlueprintBlueprintIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/inventory': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdInventoryRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/routes': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutesRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/view': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdViewRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/construction': typeof LocaleAppsDeriveanMapIdRouteRouteIdConstructionRoute
+  '/$locale/apps/derivean/map/$id/route/$routeId/resources': typeof LocaleAppsDeriveanMapIdRouteRouteIdResourcesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
   '/$locale/apps/derivean/root/user/$id/building/list': typeof LocaleAppsDeriveanRootUserIdBuildingListRoute
-  '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements': typeof LocaleAppsDeriveanMapBuildingIdProductionProductionIdRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdConstructionRequirementsRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRouteWithChildren
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/list': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionListRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionQueueRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdRoutePriorityRoute
+  '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements': typeof LocaleAppsDeriveanMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute
 }
 
 export interface FileRouteTypes {
@@ -1607,20 +1589,16 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/map/$id'
-    | '/$locale/apps/derivean/map/construction'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
     | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game/'
-    | '/$locale/apps/derivean/map/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/game/blueprint/$id'
     | '/$locale/apps/derivean/game/blueprint/list'
+    | '/$locale/apps/derivean/map/$id/construction'
     | '/$locale/apps/derivean/map/$id/view'
-    | '/$locale/apps/derivean/map/blueprint/$id'
-    | '/$locale/apps/derivean/map/building/$id'
-    | '/$locale/apps/derivean/map/route/$id'
     | '/$locale/apps/derivean/root/blueprint/$id'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/region/list'
@@ -1635,12 +1613,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/$id/view'
     | '/$locale/apps/derivean/game/blueprint/production/$id'
-    | '/$locale/apps/derivean/map/blueprint/$id/requirements'
-    | '/$locale/apps/derivean/map/building/$id/inventory'
-    | '/$locale/apps/derivean/map/building/$id/routes'
-    | '/$locale/apps/derivean/map/building/$id/view'
-    | '/$locale/apps/derivean/map/route/$id/construction'
-    | '/$locale/apps/derivean/map/route/$id/resources'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId'
+    | '/$locale/apps/derivean/map/$id/route/$routeId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1655,37 +1630,40 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/game/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/production/$id/resources'
-    | '/$locale/apps/derivean/map/building/$id/construction/requirements'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId'
-    | '/$locale/apps/derivean/map/building/$id/production/list'
-    | '/$locale/apps/derivean/map/building/$id/production/queue'
-    | '/$locale/apps/derivean/map/building/$id/route/priority'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/view'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/construction'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/resources'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$locale'
     | '/$locale/apps/derivean'
+    | '/$locale/apps/derivean/map'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/map/$id'
-    | '/$locale/apps/derivean/map/construction'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
     | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game'
-    | '/$locale/apps/derivean/map'
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/game/blueprint/$id'
     | '/$locale/apps/derivean/game/blueprint/list'
+    | '/$locale/apps/derivean/map/$id/construction'
     | '/$locale/apps/derivean/map/$id/view'
-    | '/$locale/apps/derivean/map/blueprint/$id'
-    | '/$locale/apps/derivean/map/building/$id'
-    | '/$locale/apps/derivean/map/route/$id'
     | '/$locale/apps/derivean/root/blueprint/$id'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/region/list'
@@ -1700,12 +1678,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/$id/view'
     | '/$locale/apps/derivean/game/blueprint/production/$id'
-    | '/$locale/apps/derivean/map/blueprint/$id/requirements'
-    | '/$locale/apps/derivean/map/building/$id/inventory'
-    | '/$locale/apps/derivean/map/building/$id/routes'
-    | '/$locale/apps/derivean/map/building/$id/view'
-    | '/$locale/apps/derivean/map/route/$id/construction'
-    | '/$locale/apps/derivean/map/route/$id/resources'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId'
+    | '/$locale/apps/derivean/map/$id/route/$routeId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1720,16 +1695,22 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/game/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/production/$id/resources'
-    | '/$locale/apps/derivean/map/building/$id/construction/requirements'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId'
-    | '/$locale/apps/derivean/map/building/$id/production/list'
-    | '/$locale/apps/derivean/map/building/$id/production/queue'
-    | '/$locale/apps/derivean/map/building/$id/route/priority'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/view'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/construction'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/resources'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
   id:
     | '__root__'
     | '/'
@@ -1741,20 +1722,16 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/root'
     | '/$locale/apps/derivean/db/schema'
     | '/$locale/apps/derivean/map/$id'
-    | '/$locale/apps/derivean/map/construction'
     | '/$locale/apps/derivean/public/login'
     | '/$locale/apps/derivean/public/logout'
     | '/$locale/apps/derivean/public/register'
     | '/$locale/apps/derivean/root/editor'
     | '/$locale/apps/derivean/game/'
-    | '/$locale/apps/derivean/map/'
     | '/$locale/apps/derivean/root/'
     | '/$locale/apps/derivean/game/blueprint/$id'
     | '/$locale/apps/derivean/game/blueprint/list'
+    | '/$locale/apps/derivean/map/$id/construction'
     | '/$locale/apps/derivean/map/$id/view'
-    | '/$locale/apps/derivean/map/blueprint/$id'
-    | '/$locale/apps/derivean/map/building/$id'
-    | '/$locale/apps/derivean/map/route/$id'
     | '/$locale/apps/derivean/root/blueprint/$id'
     | '/$locale/apps/derivean/root/blueprint/list'
     | '/$locale/apps/derivean/root/region/list'
@@ -1769,12 +1746,9 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/$id/view'
     | '/$locale/apps/derivean/game/blueprint/production/$id'
-    | '/$locale/apps/derivean/map/blueprint/$id/requirements'
-    | '/$locale/apps/derivean/map/building/$id/inventory'
-    | '/$locale/apps/derivean/map/building/$id/routes'
-    | '/$locale/apps/derivean/map/building/$id/view'
-    | '/$locale/apps/derivean/map/route/$id/construction'
-    | '/$locale/apps/derivean/map/route/$id/resources'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId'
+    | '/$locale/apps/derivean/map/$id/route/$routeId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1789,16 +1763,22 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/game/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/game/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/game/blueprint/production/$id/resources'
-    | '/$locale/apps/derivean/map/building/$id/construction/requirements'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId'
-    | '/$locale/apps/derivean/map/building/$id/production/list'
-    | '/$locale/apps/derivean/map/building/$id/production/queue'
-    | '/$locale/apps/derivean/map/building/$id/route/priority'
+    | '/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/inventory'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/routes'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/view'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/construction'
+    | '/$locale/apps/derivean/map/$id/route/$routeId/resources'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
     | '/$locale/apps/derivean/root/user/$id/building/list'
-    | '/$locale/apps/derivean/map/building/$id/production/$productionId/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/list'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/queue'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/route/priority'
+    | '/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements'
   fileRoutesById: FileRoutesById
 }
 
@@ -1867,12 +1847,7 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/map.tsx",
       "parent": "/$locale/apps/derivean",
       "children": [
-        "/$locale/apps/derivean/map/$id",
-        "/$locale/apps/derivean/map/construction",
-        "/$locale/apps/derivean/map/",
-        "/$locale/apps/derivean/map/blueprint/$id",
-        "/$locale/apps/derivean/map/building/$id",
-        "/$locale/apps/derivean/map/route/$id"
+        "/$locale/apps/derivean/map/$id"
       ]
     },
     "/$locale/apps/derivean/root": {
@@ -1901,12 +1876,12 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/map/$id.tsx",
       "parent": "/$locale/apps/derivean/map",
       "children": [
-        "/$locale/apps/derivean/map/$id/view"
+        "/$locale/apps/derivean/map/$id/construction",
+        "/$locale/apps/derivean/map/$id/view",
+        "/$locale/apps/derivean/map/$id/blueprint/$blueprintId",
+        "/$locale/apps/derivean/map/$id/building/$buildingId",
+        "/$locale/apps/derivean/map/$id/route/$routeId"
       ]
-    },
-    "/$locale/apps/derivean/map/construction": {
-      "filePath": "$locale/apps/derivean/map/construction.tsx",
-      "parent": "/$locale/apps/derivean/map"
     },
     "/$locale/apps/derivean/public/login": {
       "filePath": "$locale/apps/derivean/public/login.tsx",
@@ -1928,10 +1903,6 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/game/index.tsx",
       "parent": "/$locale/apps/derivean/game"
     },
-    "/$locale/apps/derivean/map/": {
-      "filePath": "$locale/apps/derivean/map/index.tsx",
-      "parent": "/$locale/apps/derivean/map"
-    },
     "/$locale/apps/derivean/root/": {
       "filePath": "$locale/apps/derivean/root/index.tsx",
       "parent": "/$locale/apps/derivean/root"
@@ -1951,38 +1922,13 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/game/blueprint/list.tsx",
       "parent": "/$locale/apps/derivean/game"
     },
+    "/$locale/apps/derivean/map/$id/construction": {
+      "filePath": "$locale/apps/derivean/map/$id/construction.tsx",
+      "parent": "/$locale/apps/derivean/map/$id"
+    },
     "/$locale/apps/derivean/map/$id/view": {
       "filePath": "$locale/apps/derivean/map/$id/view.tsx",
       "parent": "/$locale/apps/derivean/map/$id"
-    },
-    "/$locale/apps/derivean/map/blueprint/$id": {
-      "filePath": "$locale/apps/derivean/map/blueprint/$id.tsx",
-      "parent": "/$locale/apps/derivean/map",
-      "children": [
-        "/$locale/apps/derivean/map/blueprint/$id/requirements"
-      ]
-    },
-    "/$locale/apps/derivean/map/building/$id": {
-      "filePath": "$locale/apps/derivean/map/building/$id.tsx",
-      "parent": "/$locale/apps/derivean/map",
-      "children": [
-        "/$locale/apps/derivean/map/building/$id/inventory",
-        "/$locale/apps/derivean/map/building/$id/routes",
-        "/$locale/apps/derivean/map/building/$id/view",
-        "/$locale/apps/derivean/map/building/$id/construction/requirements",
-        "/$locale/apps/derivean/map/building/$id/production/$productionId",
-        "/$locale/apps/derivean/map/building/$id/production/list",
-        "/$locale/apps/derivean/map/building/$id/production/queue",
-        "/$locale/apps/derivean/map/building/$id/route/priority"
-      ]
-    },
-    "/$locale/apps/derivean/map/route/$id": {
-      "filePath": "$locale/apps/derivean/map/route/$id.tsx",
-      "parent": "/$locale/apps/derivean/map",
-      "children": [
-        "/$locale/apps/derivean/map/route/$id/construction",
-        "/$locale/apps/derivean/map/route/$id/resources"
-      ]
     },
     "/$locale/apps/derivean/root/blueprint/$id": {
       "filePath": "$locale/apps/derivean/root/blueprint/$id.tsx",
@@ -2061,29 +2007,34 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/game/blueprint/production/$id/resources"
       ]
     },
-    "/$locale/apps/derivean/map/blueprint/$id/requirements": {
-      "filePath": "$locale/apps/derivean/map/blueprint/$id/requirements.tsx",
-      "parent": "/$locale/apps/derivean/map/blueprint/$id"
+    "/$locale/apps/derivean/map/$id/blueprint/$blueprintId": {
+      "filePath": "$locale/apps/derivean/map/$id/blueprint/$blueprintId.tsx",
+      "parent": "/$locale/apps/derivean/map/$id",
+      "children": [
+        "/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements"
+      ]
     },
-    "/$locale/apps/derivean/map/building/$id/inventory": {
-      "filePath": "$locale/apps/derivean/map/building/$id/inventory.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
+    "/$locale/apps/derivean/map/$id/building/$buildingId": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId.tsx",
+      "parent": "/$locale/apps/derivean/map/$id",
+      "children": [
+        "/$locale/apps/derivean/map/$id/building/$buildingId/inventory",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/routes",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/view",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/production/list",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/production/queue",
+        "/$locale/apps/derivean/map/$id/building/$buildingId/route/priority"
+      ]
     },
-    "/$locale/apps/derivean/map/building/$id/routes": {
-      "filePath": "$locale/apps/derivean/map/building/$id/routes.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
-    },
-    "/$locale/apps/derivean/map/building/$id/view": {
-      "filePath": "$locale/apps/derivean/map/building/$id/view.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
-    },
-    "/$locale/apps/derivean/map/route/$id/construction": {
-      "filePath": "$locale/apps/derivean/map/route/$id/construction.tsx",
-      "parent": "/$locale/apps/derivean/map/route/$id"
-    },
-    "/$locale/apps/derivean/map/route/$id/resources": {
-      "filePath": "$locale/apps/derivean/map/route/$id/resources.tsx",
-      "parent": "/$locale/apps/derivean/map/route/$id"
+    "/$locale/apps/derivean/map/$id/route/$routeId": {
+      "filePath": "$locale/apps/derivean/map/$id/route/$routeId.tsx",
+      "parent": "/$locale/apps/derivean/map/$id",
+      "children": [
+        "/$locale/apps/derivean/map/$id/route/$routeId/construction",
+        "/$locale/apps/derivean/map/$id/route/$routeId/resources"
+      ]
     },
     "/$locale/apps/derivean/root/blueprint/$id/conflicts": {
       "filePath": "$locale/apps/derivean/root/blueprint/$id/conflicts.tsx",
@@ -2146,28 +2097,29 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/game/blueprint/production/$id/resources.tsx",
       "parent": "/$locale/apps/derivean/game/blueprint/production/$id"
     },
-    "/$locale/apps/derivean/map/building/$id/construction/requirements": {
-      "filePath": "$locale/apps/derivean/map/building/$id/construction/requirements.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
+    "/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements": {
+      "filePath": "$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/blueprint/$blueprintId"
     },
-    "/$locale/apps/derivean/map/building/$id/production/$productionId": {
-      "filePath": "$locale/apps/derivean/map/building/$id/production/$productionId.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id",
-      "children": [
-        "/$locale/apps/derivean/map/building/$id/production/$productionId/requirements"
-      ]
+    "/$locale/apps/derivean/map/$id/building/$buildingId/inventory": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/inventory.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
     },
-    "/$locale/apps/derivean/map/building/$id/production/list": {
-      "filePath": "$locale/apps/derivean/map/building/$id/production/list.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
+    "/$locale/apps/derivean/map/$id/building/$buildingId/routes": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/routes.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
     },
-    "/$locale/apps/derivean/map/building/$id/production/queue": {
-      "filePath": "$locale/apps/derivean/map/building/$id/production/queue.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
+    "/$locale/apps/derivean/map/$id/building/$buildingId/view": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/view.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
     },
-    "/$locale/apps/derivean/map/building/$id/route/priority": {
-      "filePath": "$locale/apps/derivean/map/building/$id/route/priority.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id"
+    "/$locale/apps/derivean/map/$id/route/$routeId/construction": {
+      "filePath": "$locale/apps/derivean/map/$id/route/$routeId/construction.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/route/$routeId"
+    },
+    "/$locale/apps/derivean/map/$id/route/$routeId/resources": {
+      "filePath": "$locale/apps/derivean/map/$id/route/$routeId/resources.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/route/$routeId"
     },
     "/$locale/apps/derivean/root/blueprint/production/$id/dependencies": {
       "filePath": "$locale/apps/derivean/root/blueprint/production/$id/dependencies.tsx",
@@ -2185,9 +2137,32 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/root/user/$id/building/list.tsx",
       "parent": "/$locale/apps/derivean/root/user/$id"
     },
-    "/$locale/apps/derivean/map/building/$id/production/$productionId/requirements": {
-      "filePath": "$locale/apps/derivean/map/building/$id/production/$productionId/requirements.tsx",
-      "parent": "/$locale/apps/derivean/map/building/$id/production/$productionId"
+    "/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
+    },
+    "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId",
+      "children": [
+        "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements"
+      ]
+    },
+    "/$locale/apps/derivean/map/$id/building/$buildingId/production/list": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/production/list.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
+    },
+    "/$locale/apps/derivean/map/$id/building/$buildingId/production/queue": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/production/queue.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
+    },
+    "/$locale/apps/derivean/map/$id/building/$buildingId/route/priority": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/route/priority.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId"
+    },
+    "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements": {
+      "filePath": "$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements.tsx",
+      "parent": "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId"
     }
   }
 }

@@ -62,6 +62,7 @@ const edgeTypes = {
 export namespace Content {
 	export interface Props {
 		userId: string;
+		mapId: string;
 		cycle: number;
 		construction: ConstructionNode.Data[];
 		queue: QueueNode.Data[];
@@ -74,6 +75,7 @@ export namespace Content {
 
 export const Content: FC<Content.Props> = ({
 	userId,
+	mapId,
 	cycle,
 	construction,
 	queue,
@@ -421,8 +423,8 @@ export const Content: FC<Content.Props> = ({
 							/>
 						</LinkTo>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/construction"}
-							params={{ locale }}
+							to={"/$locale/apps/derivean/map/$id/construction"}
+							params={{ locale, id: mapId }}
 						>
 							<Button
 								iconEnabled={BlueprintIcon}

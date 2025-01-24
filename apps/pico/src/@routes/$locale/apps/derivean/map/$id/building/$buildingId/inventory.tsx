@@ -5,7 +5,7 @@ import { z } from "zod";
 import { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/inventory",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/inventory",
 )({
 	validateSearch: zodValidator(
 		z.object({
@@ -20,16 +20,16 @@ export const Route = createFileRoute(
 	async loader({
 		context: { queryClient, kysely },
 		deps: { fulltext },
-		params: { id },
+		params: { buildingId },
 	}) {
 		return {
 			inventory: await queryClient.ensureQueryData({
 				queryKey: [
 					"GameMap",
 					"building",
+					buildingId,
 					"inventory",
-					"input",
-					id,
+					"storage",
 					{ fulltext },
 				],
 				async queryFn() {
@@ -45,7 +45,7 @@ export const Route = createFileRoute(
 									tx
 										.selectFrom("Building_Inventory as bi")
 										.select("bi.inventoryId")
-										.where("bi.buildingId", "=", id),
+										.where("bi.buildingId", "=", buildingId),
 								)
 								.where("i.type", "in", ["storage"])
 								.orderBy("r.name"),
@@ -79,7 +79,7 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { building } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId",
 		});
 		const { fulltext } = Route.useSearch();
 		const { locale } = Route.useParams();
@@ -93,12 +93,14 @@ export const Route = createFileRoute(
 					<>
 						<LinkTo
 							icon={BackIcon}
-							to={"/$locale/apps/derivean/map/building/$id/view"}
-							params={{ locale, id: building.id }}
+							to={"/$locale/apps/derivean/map/$id/building/$buildingId/view"}
+							params={{ locale, id: building.mapId, buildingId: building.id }}
 						/>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/building/$id/inventory"}
-							params={{ locale, id: building.id }}
+							to={
+								"/$locale/apps/derivean/map/$id/building/$buildingId/inventory"
+							}
+							params={{ locale, id: building.mapId, buildingId: building.id }}
 							search={{ zoomToId: building.id }}
 						>
 							{building.name}

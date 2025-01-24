@@ -6,12 +6,15 @@ import { z } from "zod";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Blueprint/Requirement/RequirementPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/blueprint/$id/requirements",
+	"/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements",
 )({
-	async loader({ context: { queryClient, kysely }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely },
+		params: { id, blueprintId },
+	}) {
 		return {
 			requirement: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "requirements", id],
+				queryKey: ["GameMap", id, "building", "requirements", blueprintId],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -25,7 +28,7 @@ export const Route = createFileRoute(
 									"br.passive",
 									sql.lit("construction").as("type"),
 								])
-								.where("br.blueprintId", "=", id),
+								.where("br.blueprintId", "=", blueprintId),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
@@ -41,7 +44,7 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { blueprint } = useLoaderData({
-			from: "/$locale/apps/derivean/map/blueprint/$id",
+			from: "/$locale/apps/derivean/map/$id/blueprint/$blueprintId",
 		});
 		const { requirement } = Route.useLoaderData();
 

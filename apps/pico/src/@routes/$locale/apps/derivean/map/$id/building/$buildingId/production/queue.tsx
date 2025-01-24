@@ -4,12 +4,22 @@ import { z } from "zod";
 import { QueuePanel } from "~/app/derivean/game/GameMap2/Production/Queue/QueuePanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/production/queue",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/production/queue",
 )({
-	async loader({ context: { queryClient, kysely }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely },
+		params: { id, buildingId },
+	}) {
 		return {
 			queue: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "production", "queue", id],
+				queryKey: [
+					"GameMap",
+					id,
+					"building",
+					buildingId,
+					"production",
+					"queue",
+				],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -29,7 +39,7 @@ export const Route = createFileRoute(
 									"bp.amount",
 									"bp.cycles",
 								])
-								.where("p.buildingId", "=", id),
+								.where("p.buildingId", "=", buildingId),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
@@ -43,7 +53,7 @@ export const Route = createFileRoute(
 				},
 			}),
 			inventory: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "inventory", id],
+				queryKey: ["GameMap", id, "building", buildingId, "inventory"],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -63,7 +73,7 @@ export const Route = createFileRoute(
 									tx
 										.selectFrom("Building_Inventory as bi")
 										.select("bi.inventoryId")
-										.where("bi.buildingId", "=", id),
+										.where("bi.buildingId", "=", buildingId),
 								)
 								.orderBy("r.name"),
 							query({ select, where }) {
@@ -94,7 +104,7 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { building } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId",
 		});
 		const { queue, inventory } = Route.useLoaderData();
 

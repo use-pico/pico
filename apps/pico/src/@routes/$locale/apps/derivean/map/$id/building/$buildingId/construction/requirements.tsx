@@ -5,12 +5,22 @@ import { z } from "zod";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/construction/requirements",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/construction/requirements",
 )({
-	async loader({ context: { queryClient, kysely }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely },
+		params: { id, buildingId },
+	}) {
 		return {
 			requirement: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "construction", "requirement", id],
+				queryKey: [
+					"GameMap",
+					id,
+					"building",
+					"construction",
+					"requirement",
+					buildingId,
+				],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -19,7 +29,7 @@ export const Route = createFileRoute(
 								.innerJoin("Building as bg", (eb) => {
 									return eb
 										.onRef("bg.blueprintId", "=", "br.blueprintId")
-										.on("bg.id", "=", id);
+										.on("bg.id", "=", buildingId);
 								})
 								.innerJoin("Resource as r", "r.id", "br.resourceId")
 								.select([
@@ -37,7 +47,7 @@ export const Route = createFileRoute(
 												tx
 													.selectFrom("Building_Inventory as bi")
 													.select("bi.inventoryId")
-													.where("bi.buildingId", "=", id),
+													.where("bi.buildingId", "=", buildingId),
 											)
 											.whereRef("i.resourceId", "=", "br.resourceId")
 											.where("i.type", "=", "construction")

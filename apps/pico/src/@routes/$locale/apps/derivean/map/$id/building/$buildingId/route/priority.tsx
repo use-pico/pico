@@ -4,12 +4,15 @@ import { z } from "zod";
 import { PriorityPanel } from "~/app/derivean/game/GameMap2/Route/Priority/PriorityPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/route/priority",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/route/priority",
 )({
-	async loader({ context: { queryClient, kysely }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely },
+		params: { id, buildingId },
+	}) {
 		return {
 			priority: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "route", "priority", id],
+				queryKey: ["GameMap", id, "building", buildingId, "route", "priority"],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -26,7 +29,7 @@ export const Route = createFileRoute(
 									"rr.priority",
 									"blt.name as toName",
 								])
-								.where("r.fromId", "=", id)
+								.where("r.fromId", "=", buildingId)
 								.orderBy("rr.priority", "desc"),
 							output: z.object({
 								id: z.string().min(1),
@@ -43,7 +46,7 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { building } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId",
 		});
 		const { priority } = Route.useLoaderData();
 

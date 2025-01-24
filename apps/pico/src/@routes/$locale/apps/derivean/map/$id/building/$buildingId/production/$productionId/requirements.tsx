@@ -5,15 +5,22 @@ import { z } from "zod";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Production/Requirement/RequirementPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/production/$productionId/requirements",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId/requirements",
 )({
 	async loader({
 		context: { queryClient, kysely },
-		params: { id, productionId },
+		params: { id, buildingId, productionId },
 	}) {
 		return {
 			requirement: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "production", productionId],
+				queryKey: [
+					"GameMap",
+					id,
+					"building",
+					buildingId,
+					"production",
+					productionId,
+				],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -35,7 +42,7 @@ export const Route = createFileRoute(
 												tx
 													.selectFrom("Building_Inventory as bi")
 													.select("bi.inventoryId")
-													.where("bi.buildingId", "=", id),
+													.where("bi.buildingId", "=", buildingId),
 											)
 											.whereRef("i.resourceId", "=", "bpr.resourceId")
 											.where("i.type", "=", "storage")
@@ -61,10 +68,10 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { building } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId",
 		});
 		const { production } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id/production/$productionId",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId/production/$productionId",
 		});
 		const { requirement } = Route.useLoaderData();
 

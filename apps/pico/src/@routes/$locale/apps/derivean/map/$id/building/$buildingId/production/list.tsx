@@ -5,14 +5,17 @@ import { z } from "zod";
 import { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/ProductionPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/building/$id/production/list",
+	"/$locale/apps/derivean/map/$id/building/$buildingId/production/list",
 )({
-	async loader({ context: { queryClient, kysely, session }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely, session },
+		params: { id, buildingId },
+	}) {
 		const user = await session();
 
 		return {
 			production: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", "production", id],
+				queryKey: ["GameMap", id, "building", "production", buildingId],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -52,7 +55,7 @@ export const Route = createFileRoute(
 																				eb
 																					.selectFrom("Building_Inventory")
 																					.select("inventoryId")
-																					.where("buildingId", "=", id),
+																					.where("buildingId", "=", buildingId),
 																			)
 																			.where("i.type", "in", ["storage"])
 																			.whereRef(
@@ -79,7 +82,7 @@ export const Route = createFileRoute(
 									tx
 										.selectFrom("Building as b")
 										.select("b.blueprintId")
-										.where("b.id", "=", id),
+										.where("b.id", "=", buildingId),
 								)
 								.where((eb) => {
 									return eb.not(
@@ -126,7 +129,7 @@ export const Route = createFileRoute(
 																	eb
 																		.selectFrom("Building_Inventory")
 																		.select("inventoryId")
-																		.where("buildingId", "=", id),
+																		.where("buildingId", "=", buildingId),
 																)
 																.whereRef("i.resourceId", "=", "bpr.resourceId")
 																.whereRef("i.amount", ">=", "bpr.amount"),
@@ -151,7 +154,7 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { building } = useLoaderData({
-			from: "/$locale/apps/derivean/map/building/$id",
+			from: "/$locale/apps/derivean/map/$id/building/$buildingId",
 		});
 		const { production } = Route.useLoaderData();
 
