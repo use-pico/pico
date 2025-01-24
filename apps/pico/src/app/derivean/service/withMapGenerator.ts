@@ -62,8 +62,8 @@ export const withMapGenerator = async ({
 	userId,
 	name,
 	size = {
-		world: 16,
-		land: 1024,
+		world: 4,
+		land: 384 * 2,
 	},
 }: withMapGenerator.Props) => {
 	const map = await tx
@@ -96,8 +96,8 @@ export const withMapGenerator = async ({
 			const maxAttempts = 10;
 
 			while (attempts < maxAttempts) {
-				const width = getRandomSize(minWidth, maxWidth) * size.land;
-				const height = getRandomSize(minHeight, maxHeight) * size.land;
+				const width = getRandomSize(minWidth, maxWidth) * size.land + 64;
+				const height = getRandomSize(minHeight, maxHeight) * size.land + 64;
 				/**
 				 * 1024 * 1024 defines basically overall map size.
 				 *

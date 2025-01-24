@@ -18,17 +18,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 		return {
 			user,
 			construction: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "construction", id, user.id],
+				queryKey: ["GameMap", id, "construction", user.id],
 				async queryFn() {
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
 								.selectFrom("Building as bg")
+								.innerJoin("Land as l", "l.id", "bg.landId")
 								.innerJoin("Construction as c", "c.id", "bg.constructionId")
 								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select([
 									"bg.id",
 									"bg.blueprintId",
+									"bg.landId",
 									"bg.constructionId",
 									"bl.name",
 									"bg.x",
@@ -36,10 +38,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 									"bg.valid",
 								])
 								.where("c.plan", "=", true)
+								.where("l.mapId", "=", id)
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
+								landId: z.string().min(1),
 								constructionId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
@@ -51,17 +55,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 				},
 			}),
 			queue: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "queue", user.id],
+				queryKey: ["GameMap", id, "queue", user.id],
 				async queryFn() {
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
 								.selectFrom("Building as bg")
+								.innerJoin("Land as l", "l.id", "bg.landId")
 								.innerJoin("Construction as c", "c.id", "bg.constructionId")
 								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select([
 									"bg.id",
 									"bg.blueprintId",
+									"bg.landId",
 									"bl.name",
 									"bg.x",
 									"bg.y",
@@ -70,10 +76,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 									"c.cycle",
 								])
 								.where("c.plan", "=", false)
+								.where("l.mapId", "=", id)
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
+								landId: z.string().min(1),
 								name: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
@@ -86,16 +94,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 				},
 			}),
 			building: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "building", user.id],
+				queryKey: ["GameMap", id, "building", user.id],
 				async queryFn() {
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
 								.selectFrom("Building as bg")
+								.innerJoin("Land as l", "l.id", "bg.landId")
 								.innerJoin("Blueprint as bl", "bl.id", "bg.blueprintId")
 								.select([
 									"bg.id",
 									"bg.blueprintId",
+									"bg.landId",
 									"bg.productionId",
 									"bg.recurringProductionId",
 									(eb) => {
@@ -139,10 +149,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 									"bg.y",
 								])
 								.where("bg.constructionId", "is", null)
+								.where("l.mapId", "=", id)
 								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
+								landId: z.string().min(1),
 								name: z.string().min(1),
 
 								productionId: z.string().nullish(),
@@ -168,7 +180,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 				},
 			}),
 			route: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "route", user.id],
+				queryKey: ["GameMap", id, "route", user.id],
 				async queryFn() {
 					return kysely.transaction().execute((tx) => {
 						return withList({

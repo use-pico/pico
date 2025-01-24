@@ -7,6 +7,7 @@ import { kysely } from "~/app/derivean/db/kysely";
 export namespace ConstructionNode {
 	export interface Data {
 		id: string;
+		landId: string;
 		constructionId: string;
 		name: string;
 		x: number;

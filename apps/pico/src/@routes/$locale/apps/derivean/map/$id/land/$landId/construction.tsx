@@ -1,19 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { withBoolSchema } from "@use-pico/common";
 import { z } from "zod";
 import { ConstructionPanel } from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/$id/construction",
+	"/$locale/apps/derivean/map/$id/land/$landId/construction",
 )({
-	async loader({ context: { queryClient, kysely, session }, params: { id } }) {
+	async loader({
+		context: { queryClient, kysely, session },
+		params: { id, landId },
+	}) {
 		const user = await session();
 
 		return {
 			user,
 			blueprints: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", "construction", "list", id, user.id],
+				queryKey: ["GameMap", id, "construction", "list", landId, user.id],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
@@ -34,6 +37,7 @@ export const Route = createFileRoute(
 													)
 													.whereRef("bg.blueprintId", "=", "bl.id")
 													.where("bg.userId", "=", user.id)
+													.where("bg.landId", "is", landId)
 													.as("count"),
 											(eb) => {
 												return eb
@@ -50,9 +54,15 @@ export const Route = createFileRoute(
 																			eb.exists(
 																				eb
 																					.selectFrom("Building as b")
+																					.innerJoin(
+																						"Land as l",
+																						"l.id",
+																						"b.landId",
+																					)
 																					.select(eb.lit(1).as("one"))
 																					.where("b.constructionId", "is", null)
 																					.where("b.userId", "=", user.id)
+																					.where("l.mapId", "=", id)
 																					.whereRef(
 																						"b.blueprintId",
 																						"=",
@@ -81,8 +91,10 @@ export const Route = createFileRoute(
 													"in",
 													tx
 														.selectFrom("Building as bg")
+														.innerJoin("Land as l", "l.id", "bg.landId")
 														.select("bg.blueprintId")
-														.where("bg.userId", "=", user.id),
+														.where("bg.userId", "=", user.id)
+														.where("l.mapId", "=", id),
 												),
 										)
 										.as("blueprint"),
@@ -106,11 +118,16 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { user, blueprints } = Route.useLoaderData();
+		const { land } = useLoaderData({
+			from: "/$locale/apps/derivean/map/$id/land/$landId",
+		});
+		const { id } = Route.useParams();
 
 		return (
 			<ConstructionPanel
 				userId={user.id}
-				landId={"landId"}
+				mapId={id}
+				land={land}
 				blueprints={blueprints}
 			/>
 		);

@@ -8,6 +8,7 @@ export namespace QueueNode {
 	export interface Data {
 		id: string;
 		name: string;
+		landId: string;
 		x: number;
 		y: number;
 		cycles: number;

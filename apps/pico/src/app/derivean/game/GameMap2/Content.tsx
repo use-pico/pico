@@ -32,11 +32,13 @@ import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { LandIcon } from "~/app/derivean/icon/LandIcon";
 
-const width = 256 + 64;
+const width = 384;
 const height = 128;
 
 const NodeCss = [
+	"p-2",
 	"bg-white",
+	"rounded-md",
 	"border-[4px]",
 	"border-slate-300",
 	"shadow-slate-200",
@@ -101,14 +103,13 @@ export const Content: FC<Content.Props> = ({
 						},
 						width: land.width,
 						height: land.height,
-						selectable: false,
+						selectable: true,
 						draggable: false,
 						data: land,
 						type: "land",
-						className: tvc([
-							"bg-green-300",
-							"border-8",
-							"border-green-800",
+						className: tvc(NodeCss, [
+							"bg-green-200",
+							"border-green-600",
 							"opacity-25",
 						]),
 						zIndex: -1,
@@ -131,6 +132,8 @@ export const Content: FC<Content.Props> = ({
 							"z-10",
 							construction.valid ? ["border-green-500"] : ["border-red-500"],
 						]),
+						extent: "parent",
+						parentId: construction.landId,
 					}) satisfies ConstructionNode.ConstructionNode,
 			),
 			...queue.map((queue) =>
@@ -146,11 +149,9 @@ export const Content: FC<Content.Props> = ({
 						width,
 						height,
 						selectable: false,
-						className: tvc(NodeCss, [
-							"border-amber-400",
-							"bg-amber-50",
-							"nodrag",
-						]),
+						className: tvc(NodeCss, ["border-amber-400", "bg-amber-50"]),
+						extent: "parent",
+						parentId: queue.landId,
 					} satisfies BuildingRouteNode.BuildingRouteNode)
 				:	({
 						id: queue.id,
@@ -163,11 +164,9 @@ export const Content: FC<Content.Props> = ({
 						width,
 						height,
 						selectable: false,
-						className: tvc(NodeCss, [
-							"border-amber-400",
-							"bg-amber-50",
-							"nodrag",
-						]),
+						className: tvc(NodeCss, ["border-amber-400", "bg-amber-50"]),
+						extent: "parent",
+						parentId: queue.landId,
 					} satisfies QueueNode.QueueNode),
 			),
 			...building.map((building) =>
@@ -182,10 +181,9 @@ export const Content: FC<Content.Props> = ({
 						type: "building-route",
 						width,
 						height,
-						selectable: false,
 						className: tvc(NodeCss),
 						extent: "parent",
-						parentId: "land",
+						parentId: building.landId,
 					} satisfies BuildingRouteNode.BuildingRouteNode)
 				:	({
 						id: building.id,
@@ -197,10 +195,10 @@ export const Content: FC<Content.Props> = ({
 						type: "building",
 						width,
 						height,
-						selectable: false,
+						selectable: true,
 						className: tvc(NodeCss),
 						extent: "parent",
-						parentId: "land",
+						parentId: building.landId,
 					} satisfies BuildingNode.BuildingNode),
 			),
 		],
@@ -288,6 +286,11 @@ export const Content: FC<Content.Props> = ({
 		},
 		[setNodes],
 	);
+	const onNodeDragStart = useCallback<OnNodeDrag>((_, node) => {
+		setNodes((nodes) =>
+			nodes.map((n) => (n.id === node.id ? { ...n, selected: false } : n)),
+		);
+	}, []);
 	const onNodeDrag = useCallback<OnNodeDrag<any>>(
 		(_, __) => {
 			// const isOverlapping = getIntersectingNodes(node).length > 0;
@@ -348,6 +351,7 @@ export const Content: FC<Content.Props> = ({
 					nodes={nodes}
 					edges={edges}
 					onNodesChange={onNodesChange}
+					onNodeDragStart={onNodeDragStart}
 					onNodeDrag={onNodeDrag}
 					onNodeDragStop={onNodeDragStop}
 					onConnect={onConnect}

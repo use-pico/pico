@@ -1,9 +1,20 @@
-import type { Node, NodeProps } from "@xyflow/react";
+import { useParams } from "@tanstack/react-router";
+import { Button, LinkTo, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
+import {
+    NodeToolbar,
+    Position,
+    type Node,
+    type NodeProps,
+} from "@xyflow/react";
 import type { FC } from "react";
+import { ToolbarCss } from "~/app/derivean/game/GameMap2/Node/ToolbarCss";
+import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
 export namespace LandNode {
 	export interface Data {
 		id: string;
+		mapId: string;
 		name: string;
 		x: number;
 		y: number;
@@ -20,9 +31,29 @@ export namespace LandNode {
 }
 
 export const LandNode: FC<LandNode.Props> = ({ data }) => {
+	const { locale } = useParams({ from: "/$locale" });
+
 	return (
-		<div>
-			<div className={"text-9xl font-bold font-slate-800"}>{data.name}</div>
-		</div>
+		<>
+			<NodeToolbar
+				position={Position.Top}
+				className={tvc(ToolbarCss)}
+			>
+				<LinkTo
+					to={"/$locale/apps/derivean/map/$id/land/$landId/construction"}
+					params={{ locale, id: data.mapId, landId: data.id }}
+				>
+					<Button
+						iconEnabled={ConstructionIcon}
+						variant={{ variant: "subtle" }}
+					>
+						<Tx label={"Construction (label)"} />
+					</Button>
+				</LinkTo>
+			</NodeToolbar>
+			<div>
+				<div className={"text-9xl font-bold font-slate-800"}>{data.name}</div>
+			</div>
+		</>
 	);
 };

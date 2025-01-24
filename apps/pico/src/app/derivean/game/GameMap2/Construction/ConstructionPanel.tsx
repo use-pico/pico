@@ -13,16 +13,22 @@ export namespace ConstructionPanel {
 		cycles: number;
 	}
 
+	export interface Land {
+		id: string;
+		name: string;
+		mapId: string;
+	}
+
 	export interface Props extends Panel.PropsEx {
 		userId: string;
-		landId: string;
+		land: Land;
 		blueprints: Blueprint[];
 	}
 }
 
 export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	userId,
-	landId,
+	land,
 	blueprints,
 	...props
 }) => {
@@ -30,6 +36,7 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 		<Panel
 			icon={ConstructionIcon}
 			textTitle={<Tx label={"Construction (label)"} />}
+			textSubTitle={land.name}
 			{...props}
 		>
 			{blueprints.length > 0 ?
@@ -39,7 +46,7 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 							key={item.id}
 							blueprint={item}
 							userId={userId}
-							landId={landId}
+							land={land}
 						/>
 					);
 				})

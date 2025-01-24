@@ -11,15 +11,15 @@ import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 export namespace Item {
 	export interface Props extends ItemCss.Props {
 		blueprint: ConstructionPanel.Blueprint;
+		land: ConstructionPanel.Land;
 		userId: string;
-		landId: string;
 	}
 }
 
 export const Item: FC<Item.Props> = ({
 	blueprint,
+	land,
 	userId,
-	landId,
 	variant,
 	tva = ItemCss,
 	css,
@@ -29,7 +29,13 @@ export const Item: FC<Item.Props> = ({
 	const invalidator = useInvalidator([["GameMap"]]);
 
 	const constructionMutation = useMutation({
-		async mutationFn({ blueprintId }: { blueprintId: string }) {
+		async mutationFn({
+			blueprintId,
+			landId,
+		}: {
+			blueprintId: string;
+			landId: string;
+		}) {
 			const building = await withConstructionQueue({
 				userId,
 				blueprintId,
@@ -41,8 +47,8 @@ export const Item: FC<Item.Props> = ({
 			});
 
 			navigate({
-				to: "/$locale/apps/derivean/map/construction",
-				params: { locale },
+				to: "/$locale/apps/derivean/map/$id/land/$landId/construction",
+				params: { locale, id: land.mapId, landId: land.id },
 				search: { zoomToId: building.id },
 			});
 		},
@@ -61,8 +67,10 @@ export const Item: FC<Item.Props> = ({
 				<div className={"flex flex-row gap-2"}>
 					<Badge>x{blueprint.count}</Badge>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/blueprint/$id/requirements"}
-						params={{ locale, id: blueprint.id }}
+						to={
+							"/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements"
+						}
+						params={{ locale, id: land.mapId, blueprintId: blueprint.id }}
 						css={{ base: ["font-bold"] }}
 					>
 						{blueprint.name}
@@ -75,7 +83,10 @@ export const Item: FC<Item.Props> = ({
 						iconDisabled={ConstructionIcon}
 						loading={constructionMutation.isPending}
 						onClick={() => {
-							constructionMutation.mutate({ blueprintId: blueprint.id });
+							constructionMutation.mutate({
+								blueprintId: blueprint.id,
+								landId: land.id,
+							});
 						}}
 					/>
 				</div>

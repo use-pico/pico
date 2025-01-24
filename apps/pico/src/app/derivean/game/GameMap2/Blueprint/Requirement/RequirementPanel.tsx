@@ -1,5 +1,4 @@
-import { useParams } from "@tanstack/react-router";
-import { BackIcon, LinkTo, Tx } from "@use-pico/client";
+import { Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
@@ -17,7 +16,6 @@ export namespace RequirementPanel {
 		name: string;
 		amount: number;
 		passive: boolean;
-		type: string;
 	}
 
 	export interface Props extends Panel.PropsEx {
@@ -31,29 +29,11 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 	requirement,
 	...props
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
-
 	return (
 		<Panel
 			icon={ResourceIcon}
 			textTitle={<Tx label={"Building requirements (label)"} />}
-			textSubTitle={
-				<>
-					<LinkTo
-						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/construction"}
-						params={{ locale }}
-						css={{ base: ["font-bold"] }}
-					/>
-					<LinkTo
-						to={"/$locale/apps/derivean/map/blueprint/$id/requirements"}
-						params={{ locale, id: blueprint.id }}
-						search={{ zoomToId: blueprint.id }}
-					>
-						{blueprint.name}
-					</LinkTo>
-				</>
-			}
+			textSubTitle={blueprint.name}
 			{...props}
 		>
 			{requirement.length > 0 ?
