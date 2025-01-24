@@ -3,23 +3,23 @@ import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
 import { BackIcon, Button, LinkTo, useInvalidator } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
 import {
-	addEdge,
-	applyNodeChanges,
-	Background,
-	BackgroundVariant,
-	Controls,
-	MarkerType,
-	MiniMap,
-	ReactFlow,
-	useEdgesState,
-	useNodesState,
-	useReactFlow,
-	type OnConnect,
-	type OnNodeDrag,
-	type OnNodesChange,
+    applyNodeChanges,
+    Background,
+    BackgroundVariant,
+    Controls,
+    MarkerType,
+    MiniMap,
+    ReactFlow,
+    useEdgesState,
+    useNodesState,
+    useReactFlow,
+    type OnConnect,
+    type OnNodeDrag,
+    type OnNodesChange,
 } from "@xyflow/react";
 import { useCallback, useEffect, useMemo, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
+import { AutoCycleButton } from "~/app/derivean/game/AutoCycleButton";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
@@ -29,8 +29,8 @@ import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/Construction
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
-const width = 256;
-const height = width / 4;
+const width = 256 + 32;
+const height = 96;
 
 const NodeCss = [
 	"bg-white",
@@ -267,12 +267,9 @@ export const Content: FC<Content.Props> = ({
 		},
 	});
 	const onConnect = useCallback<OnConnect>(
-		(params) =>
-			setEdges((edges) => {
-				routeMutation.mutate({ fromId: params.source, toId: params.target });
-				return addEdge(params, edges);
-			}),
-		[setEdges],
+		({ source, target }) =>
+			routeMutation.mutate({ fromId: source, toId: target }),
+		[routeMutation],
 	);
 
 	return (
@@ -307,11 +304,17 @@ export const Content: FC<Content.Props> = ({
 						userId={userId}
 						cycle={cycle}
 						css={{
-							base: ["react-flow__panel", "absolute", "top-1", "right-1"],
+							base: ["react-flow__panel", "absolute", "top-1", "right-16"],
 						}}
 						onDoubleClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
+						}}
+					/>
+					<AutoCycleButton
+						userId={userId}
+						css={{
+							base: ["react-flow__panel", "absolute", "top-1", "right-1"],
 						}}
 					/>
 					<Controls

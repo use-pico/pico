@@ -115,6 +115,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
+					<li>
+						Fetch production on building from production next to prod* ids on
+						the building.
+					</li>
 					<li>Multi-type inventory stuff is quite crazy and buggy.</li>
 					<li>
 						Routes does not account target inventory type, so transport goes

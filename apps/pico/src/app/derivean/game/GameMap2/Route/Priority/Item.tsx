@@ -49,6 +49,9 @@ export const Item: FC<Item.Props> = ({ priority }) => {
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",
+				priorityMutation.isPending ?
+					["pointer-events-none", "opacity-50"]
+				:	undefined,
 			])}
 		>
 			<div className={"flex flex-col gap-2"}>
@@ -68,25 +71,24 @@ export const Item: FC<Item.Props> = ({ priority }) => {
 			</div>
 			<div className={"flex flex-row gap-2 items-center"}>
 				<Badge>{toHumanNumber({ number: priority.priority })}</Badge>
+
 				<Button
 					variant={{ variant: "secondary" }}
-					iconEnabled={"icon-[mingcute--plus-line]"}
-					loading={priorityMutation.isPending}
+					iconEnabled={"icon-[typcn--minus-outline]"}
 					onClick={() => {
 						priorityMutation.mutate({
 							routeResourceId: priority.id,
-							priority: priority.priority + 1,
+							priority: priority.priority - 1,
 						});
 					}}
 				/>
 				<Button
 					variant={{ variant: "secondary" }}
-					iconEnabled={"icon-[typcn--minus-outline]"}
-					loading={priorityMutation.isPending}
+					iconEnabled={"icon-[mingcute--plus-line]"}
 					onClick={() => {
 						priorityMutation.mutate({
 							routeResourceId: priority.id,
-							priority: priority.priority - 1,
+							priority: priority.priority + 1,
 						});
 					}}
 				/>
