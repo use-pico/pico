@@ -43,7 +43,8 @@ const NodeCss = [
 ];
 
 const connectionLineStyle = {
-	stroke: "#b1b1b7",
+	stroke: "#DD44AA",
+	strokeWidth: 3,
 };
 
 const nodeTypes = {
@@ -165,7 +166,7 @@ export const Content: FC<Content.Props> = ({
 					} satisfies QueueNode.QueueNode),
 			),
 			...building.map((building) =>
-				route ?
+				routing ?
 					({
 						id: building.id,
 						data: building,
@@ -318,7 +319,9 @@ export const Content: FC<Content.Props> = ({
 	);
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
-			const isOverlapping = getIntersectingNodes(node).length > 0;
+			const isOverlapping =
+				getIntersectingNodes(node).filter((node) => node.type !== "land")
+					.length > 0;
 
 			updatePositionMutation.mutate({
 				buildingId: node.id,

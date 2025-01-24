@@ -29,8 +29,10 @@ export const BuildingRouteNode: FC<BuildingRouteNode.Props> = ({
 	const isTarget = connection.inProgress && connection.fromNode.id !== id;
 
 	return (
-		<div className="flex flex-row gap-2 w-full">
-			<div className={"flex flex-row gap-2 items-center"}>
+		<div className="flex flex-row gap-2 w-full h-full items-center justify-center ">
+			<div
+				className={"flex flex-row gap-2 items-center justify-center text-xl"}
+			>
 				<Icon
 					icon={"icon-[gis--route-end]"}
 					css={{ base: ["text-slate-500"] }}
