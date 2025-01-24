@@ -42,6 +42,7 @@ export default tseslint.config(
 			"no-unused-vars": "off",
 			"no-useless-assignment": "off",
 			"no-warning-comments": "off",
+			"no-await-in-loop": "off",
 			"one-var": "off",
 			"require-await": "off",
 			"sort-imports": "off",
