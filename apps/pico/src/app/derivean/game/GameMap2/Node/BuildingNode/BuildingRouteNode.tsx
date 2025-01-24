@@ -14,7 +14,9 @@ export namespace BuildingRouteNode {
 		[key: string]: unknown;
 	}
 
-	export interface Props extends NodeProps<Node<Data, "building-route">> {
+	export type BuildingRouteNode = Node<Data, "building-route">;
+
+	export interface Props extends NodeProps<BuildingRouteNode> {
 		//
 	}
 }

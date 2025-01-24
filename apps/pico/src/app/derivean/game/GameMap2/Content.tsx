@@ -13,6 +13,8 @@ import {
     useEdgesState,
     useNodesState,
     useReactFlow,
+    type Edge,
+    type Node,
     type OnConnect,
     type OnNodeDrag,
     type OnNodesChange,
@@ -26,11 +28,12 @@ import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
 import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
+import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
 const width = 256 + 64;
-const height = 112;
+const height = 128;
 
 const NodeCss = [
 	"bg-white",
@@ -44,6 +47,7 @@ const connectionLineStyle = {
 };
 
 const nodeTypes = {
+	"land": LandNode,
 	"construction": ConstructionNode,
 	"queue": QueueNode,
 	"building": BuildingNode,
@@ -80,69 +84,146 @@ export const Content: FC<Content.Props> = ({
 	const invalidator = useInvalidator([["GameMap"]]);
 	const { locale } = useParams({ from: "/$locale" });
 	const navigate = useNavigate({ from: "/$locale/apps/derivean/map" });
-	const defaultNodes = useMemo<any>(
+	const defaultNodes = useMemo<Node[]>(
 		() => [
-			...construction.map((construction) => ({
-				id: construction.id,
-				data: construction,
+			{
+				id: "land",
 				position: {
-					x: construction.x,
-					y: construction.y,
+					x: 0,
+					y: 0,
 				},
-				type: "construction",
-				width,
-				height,
-				className: tvc(NodeCss, [
-					"z-10",
-					construction.valid ? ["border-green-500"] : ["border-red-500"],
+				width: 1024 * 4,
+				height: 1024 * 4,
+				selectable: false,
+				data: {
+					id: "1",
+					name: "Land",
+				},
+				type: "land",
+				className: tvc([
+					"bg-green-200",
+					"border-8",
+					"border-green-800",
+					"opacity-25",
+					"z-[-1]",
 				]),
-			})),
-			...queue.map((queue) => ({
-				id: queue.id,
-				data: queue,
-				position: {
-					x: queue.x,
-					y: queue.y,
-				},
-				type: routing ? "building-route" : "queue",
-				width,
-				height,
-				className: tvc(NodeCss, ["border-amber-400", "bg-amber-50", "nodrag"]),
-			})),
-			...building.map((building) => ({
-				id: building.id,
-				data: building,
-				position: {
-					x: building.x,
-					y: building.y,
-				},
-				type: routing ? "building-route" : "building",
-				width,
-				height,
-				className: tvc(NodeCss),
-			})),
+			} satisfies LandNode.LandNode,
+			...construction.map(
+				(construction) =>
+					({
+						id: construction.id,
+						data: construction,
+						position: {
+							x: construction.x,
+							y: construction.y,
+						},
+						type: "construction",
+						width,
+						height,
+						selectable: false,
+						className: tvc(NodeCss, [
+							"z-10",
+							construction.valid ? ["border-green-500"] : ["border-red-500"],
+						]),
+					}) satisfies ConstructionNode.ConstructionNode,
+			),
+			...queue.map((queue) =>
+				routing ?
+					({
+						id: queue.id,
+						data: queue,
+						position: {
+							x: queue.x,
+							y: queue.y,
+						},
+						type: "building-route",
+						width,
+						height,
+						selectable: false,
+						className: tvc(NodeCss, [
+							"border-amber-400",
+							"bg-amber-50",
+							"nodrag",
+						]),
+					} satisfies BuildingRouteNode.BuildingRouteNode)
+				:	({
+						id: queue.id,
+						data: queue,
+						position: {
+							x: queue.x,
+							y: queue.y,
+						},
+						type: "queue",
+						width,
+						height,
+						selectable: false,
+						className: tvc(NodeCss, [
+							"border-amber-400",
+							"bg-amber-50",
+							"nodrag",
+						]),
+					} satisfies QueueNode.QueueNode),
+			),
+			...building.map((building) =>
+				route ?
+					({
+						id: building.id,
+						data: building,
+						position: {
+							x: building.x,
+							y: building.y,
+						},
+						type: "building-route",
+						width,
+						height,
+						selectable: false,
+						className: tvc(NodeCss),
+						extent: "parent",
+						parentId: "land",
+					} satisfies BuildingRouteNode.BuildingRouteNode)
+				:	({
+						id: building.id,
+						data: building,
+						position: {
+							x: building.x,
+							y: building.y,
+						},
+						type: "building",
+						width,
+						height,
+						selectable: false,
+						className: tvc(NodeCss),
+						extent: "parent",
+						parentId: "land",
+					} satisfies BuildingNode.BuildingNode),
+			),
 		],
 		[construction, queue, building, routing],
 	);
-	const defaultEdges = useMemo(
+	const defaultEdges = useMemo<Edge[]>(
 		() => [
-			...route.map((route) => ({
-				id: route.id,
-				source: route.fromId,
-				target: route.toId,
-				type: "route",
-				/**
-				 * True if there are available resources in the source (from) and free space in target (to).
-				 */
-				animated: false,
-				markerEnd: {
-					type: MarkerType.ArrowClosed,
-					color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
-				},
-				style: {
-					stroke: route.resourceCount > 0 ? undefined : "#FF0000",
-				},
-			})),
+			...route.map(
+				(route) =>
+					({
+						id: route.id,
+						source: route.fromId,
+						target: route.toId,
+						type: "route",
+						/**
+						 * True if there are available resources in the source (from) and free space in target (to).
+						 */
+						animated: route.resourceCount > 0,
+						markerEnd: {
+							type: MarkerType.ArrowClosed,
+							color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
+						},
+						style: {
+							stroke: route.resourceCount > 0 ? undefined : "#FF0000",
+							strokeWidth: 2,
+							pointerEvents: "all",
+						},
+					}) satisfies RouteEdge.RouteEdge,
+			),
 		],
 		[route],
 	);
@@ -217,20 +298,21 @@ export const Content: FC<Content.Props> = ({
 		[setNodes],
 	);
 	const onNodeDrag = useCallback<OnNodeDrag<any>>(
-		(_, node) => {
-			const isOverlapping = getIntersectingNodes(node).length > 0;
-
-			updateNode(node.id, {
-				...node,
-				data: {
-					...node.data,
-					valid: !isOverlapping,
-				},
-				className: tvc([
-					node.className,
-					isOverlapping ? ["border-red-500"] : ["border-green-500"],
-				]),
-			});
+		(_, __) => {
+			// const isOverlapping = getIntersectingNodes(node).length > 0;
+			// updateNode(node.id, {
+			// 	...node,
+			// 	data: {
+			// 		...node.data,
+			// 		valid: !isOverlapping,
+			// 	},
+			// 	className: tvc([
+			// 		node.className,
+			// 		node.type === "land" ? undefined
+			// 		: isOverlapping ? ["border-red-500"]
+			// 		: ["border-green-500"],
+			// 	]),
+			// });
 		},
 		[getIntersectingNodes, updateNode],
 	);
@@ -285,11 +367,19 @@ export const Content: FC<Content.Props> = ({
 					edgeTypes={edgeTypes}
 					connectionLineComponent={ConnectionLine}
 					connectionLineStyle={connectionLineStyle}
+					maxZoom={2}
+					minZoom={0.1}
 					onDoubleClick={() => {
 						navigate({
 							search: {
 								routing: !routing,
 							},
+						});
+					}}
+					onEdgeClick={(_, edge) => {
+						navigate({
+							to: "/$locale/apps/derivean/map/building/$id/routes",
+							params: { locale, id: edge.source },
 						});
 					}}
 					zoomOnDoubleClick={false}
@@ -313,8 +403,8 @@ export const Content: FC<Content.Props> = ({
 					/>
 					<Controls
 						orientation={"horizontal"}
-						showInteractive={false}
-						showZoom={true}
+						showZoom={false}
+						showFitView={false}
 					/>
 					<MiniMap
 						zoomable
@@ -322,7 +412,8 @@ export const Content: FC<Content.Props> = ({
 						pannable
 					/>
 					<Background
-						variant={BackgroundVariant.Dots}
+						variant={BackgroundVariant.Lines}
+						className={"bg-slate-50"}
 						gap={32}
 						size={1}
 					/>

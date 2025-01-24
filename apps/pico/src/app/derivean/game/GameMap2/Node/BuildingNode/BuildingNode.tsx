@@ -16,6 +16,7 @@ export namespace BuildingNode {
 	}
 
 	export interface Data {
+		id: string;
 		name: string;
 		x: number;
 		y: number;
@@ -25,7 +26,9 @@ export namespace BuildingNode {
 		[key: string]: unknown;
 	}
 
-	export interface Props extends NodeProps<Node<Data, "building">> {
+	export type BuildingNode = Node<Data, "building">;
+
+	export interface Props extends NodeProps<BuildingNode> {
 		//
 	}
 }

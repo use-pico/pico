@@ -15,7 +15,9 @@ export namespace QueueNode {
 		[key: string]: unknown;
 	}
 
-	export interface Props extends NodeProps<Node<Data, "queue">> {
+	export type QueueNode = Node<Data, "queue">;
+
+	export interface Props extends NodeProps<QueueNode> {
 		//
 	}
 }
