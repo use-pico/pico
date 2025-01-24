@@ -4,6 +4,7 @@ import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
+import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
 
 export namespace RoutePanel {
 	export interface Building {
@@ -35,7 +36,7 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 
 	return (
 		<Panel
-			icon={"icon-[gis--route-end]"}
+			icon={RouteIcon}
 			textTitle={<Tx label={"Routes (label)"} />}
 			textSubTitle={
 				<>

@@ -158,7 +158,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("maxWidth", "integer", (col) => col.notNull())
 
 				.addColumn("minHeight", "integer", (col) => col.notNull())
-				.addColumn("masHeight", "integer", (col) => col.notNull())
+				.addColumn("maxHeight", "integer", (col) => col.notNull())
 
 				/**
 				 * 0-100% drop probability so a region will be placed on the map.

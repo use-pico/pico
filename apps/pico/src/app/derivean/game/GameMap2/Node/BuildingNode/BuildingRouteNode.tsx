@@ -7,6 +7,7 @@ import {
     type NodeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
+import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
 
 export namespace BuildingRouteNode {
 	export interface Data {
@@ -34,7 +35,7 @@ export const BuildingRouteNode: FC<BuildingRouteNode.Props> = ({
 				className={"flex flex-row gap-2 items-center justify-center text-xl"}
 			>
 				<Icon
-					icon={"icon-[gis--route-end]"}
+					icon={RouteIcon}
 					css={{ base: ["text-slate-500"] }}
 				/>
 				<div className="font-bold">{data.name}</div>

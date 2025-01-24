@@ -2,10 +2,13 @@ import { useParams } from "@tanstack/react-router";
 import { Button, Icon, LinkTo, Progress } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
+import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
+import { OrderIcon } from "~/app/derivean/icon/OrderIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { RecurringIcon } from "~/app/derivean/icon/RecurringIcon";
+import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
 
 export namespace BuildingNode {
 	export interface Production {
@@ -76,7 +79,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 						params={{ locale, id }}
 					>
 						<Button
-							iconEnabled={"icon-[gis--route-end]"}
+							iconEnabled={RouteIcon}
 							variant={{ variant: "subtle", size: "sm" }}
 						/>
 					</LinkTo>
@@ -88,7 +91,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 					{data.productionName ?
 						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
 							<Icon
-								icon={ResourceIcon}
+								icon={OrderIcon}
 								variant={{ size: "xs" }}
 							/>
 							<div>{data.productionName}</div>
@@ -96,7 +99,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 					: data.recurringProductionName ?
 						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
 							<Icon
-								icon={"icon-[oui--refresh]"}
+								icon={RecurringIcon}
 								variant={{ size: "xs" }}
 							/>
 							<div>{data.recurringProductionName}</div>
@@ -108,7 +111,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 					<div
 						className={"flex flex-row gap-2 text-xs text-slate-400 font-bold"}
 					>
-						<Icon icon={"icon-[cil--arrow-right]"} />
+						<Icon icon={ArrowRightIcon} />
 						<div>{data.production.name}</div>
 					</div>
 				:	null}

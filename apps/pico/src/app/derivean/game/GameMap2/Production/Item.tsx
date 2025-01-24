@@ -5,6 +5,8 @@ import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { ProductionPanel } from "~/app/derivean/game/GameMap2/Production/ProductionPanel";
+import { OrderIcon } from "~/app/derivean/icon/OrderIcon";
+import { RecurringIcon } from "~/app/derivean/icon/RecurringIcon";
 import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 
 export namespace Item {
@@ -118,7 +120,7 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 			<div className={"flex flex-row gap-2 items-center"}>
 				{building.productionId === production.id ?
 					<Button
-						iconEnabled={"icon-[tabler--basket]"}
+						iconEnabled={OrderIcon}
 						loading={deleteProductionMutation.isPending}
 						onClick={() => {
 							deleteProductionMutation.mutate({
@@ -128,7 +130,6 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 					/>
 				:	<Button
 						iconEnabled={"icon-[solar--play-outline]"}
-						iconDisabled={"icon-[tabler--basket]"}
 						loading={productionMutation.isPending}
 						onClick={() => {
 							productionMutation.mutate({
@@ -141,7 +142,7 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 
 				{building.recurringProductionId === production.id ?
 					<Button
-						iconEnabled={"icon-[tabler--basket]"}
+						iconEnabled={OrderIcon}
 						loading={deleteRecurringProductionMutation.isPending}
 						onClick={() => {
 							deleteRecurringProductionMutation.mutate({
@@ -150,7 +151,7 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 						}}
 					/>
 				:	<Button
-						iconEnabled={"icon-[oui--refresh]"}
+						iconEnabled={RecurringIcon}
 						loading={recurringProductionMutation.isPending}
 						onClick={() => {
 							recurringProductionMutation.mutate({

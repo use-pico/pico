@@ -749,7 +749,7 @@ export const withRegionSchema = <
 				minHeight:
 					// INTEGER / not nullable
 					z.number().int(),
-				masHeight:
+				maxHeight:
 					// INTEGER / not nullable
 					z.number().int(),
 				probability:
@@ -768,7 +768,7 @@ export const withRegionSchema = <
 			"minWidth",
 			"maxWidth",
 			"minHeight",
-			"masHeight",
+			"maxHeight",
 			"probability",
 			"limit",
 		],

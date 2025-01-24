@@ -6,6 +6,7 @@ import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
+import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
 
 const linkCss = [
 	"p-4",
@@ -62,7 +63,7 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 			</LinkTo>
 
 			<LinkTo
-				icon={"icon-[gis--route-end]"}
+				icon={RouteIcon}
 				to={"/$locale/apps/derivean/map/building/$id/routes"}
 				params={{ locale, id: building.id }}
 				css={{ base: linkCss }}
