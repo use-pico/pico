@@ -73,6 +73,9 @@
 1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
   ref: Delete production resource requirement (modal)
   value: Delete production resource requirement (modal)
+172c65eb48db263526010a13313fbbb7ad64f978db3b1d89d81a40b2:
+  ref: Land list (label)
+  value: Seznam území
 17326faa0f9f66b616e041900da3c1e6ff28958b0baec1ff9d1ab041:
   ref: Fill inventories (label)
   value: Fill inventories (label)
