@@ -22,7 +22,7 @@ export namespace LandNode {
 export const LandNode: FC<LandNode.Props> = ({ data }) => {
 	return (
 		<div>
-			<div>{data.name}</div>
+			<div className={"text-9xl font-bold font-slate-800"}>{data.name}</div>
 		</div>
 	);
 };

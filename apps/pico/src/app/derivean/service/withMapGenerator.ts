@@ -62,8 +62,8 @@ export const withMapGenerator = async ({
 	userId,
 	name,
 	size = {
-		world: 32,
-		land: 2048,
+		world: 16,
+		land: 1024,
 	},
 }: withMapGenerator.Props) => {
 	const map = await tx
