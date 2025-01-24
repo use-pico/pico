@@ -30,9 +30,9 @@ export const RegionForm: FC<RegionForm.Props> = ({
 		resolver: zodResolver(RegionSchema.shape),
 		defaultValues: {
 			name: "",
-			minWidth: 512,
+			minWidth: 2048,
 			maxWidth: 2048,
-			minHeight: 512,
+			minHeight: 2048,
 			maxHeight: 2048,
 			limit: 10,
 			probability: 100,

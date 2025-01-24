@@ -5,7 +5,15 @@ function changeOf(percentage: number) {
 	return Math.random() < percentage / 100;
 }
 
-function getCoordinates(maxValue = 20480, step = 512) {
+function getRandomSize(min: number, max: number, step = 512) {
+	const minSteps = Math.ceil(min / step);
+	const maxSteps = Math.floor(max / step);
+	const randomSteps =
+		Math.floor(Math.random() * (maxSteps - minSteps + 1)) + minSteps;
+	return randomSteps * step;
+}
+
+function getCoordinates(maxValue = 20480 * 5, step = 512) {
 	const randomStep = () => Math.floor(Math.random() * (maxValue / step)) * step;
 
 	return {
@@ -53,17 +61,12 @@ export const withMapGenerator = async ({
 				continue;
 			}
 
-			const width =
-				Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
-			const height =
-				Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
-
 			await tx
 				.insertInto("Land")
 				.values({
 					id: genId(),
-					height,
-					width,
+					height: getRandomSize(minHeight, maxHeight),
+					width: getRandomSize(minWidth, maxWidth),
 					regionId: id,
 					mapId: map.id,
 					...getCoordinates(),

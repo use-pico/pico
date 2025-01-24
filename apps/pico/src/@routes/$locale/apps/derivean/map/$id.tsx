@@ -207,6 +207,33 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 					});
 				},
 			}),
+			land: await kysely.transaction().execute(async (tx) => {
+				return withList({
+					select: tx
+						.selectFrom("Land as l")
+						.innerJoin("Region as r", "r.id", "l.regionId")
+						.select([
+							"l.id",
+							"r.name",
+							"l.x",
+							"l.y",
+							"l.width",
+							"l.height",
+							"l.mapId",
+						])
+						.where("l.mapId", "=", id)
+						.orderBy("r.name"),
+					output: z.object({
+						id: z.string().min(1),
+						name: z.string().min(1),
+						mapId: z.string().min(1),
+						x: z.number().int(),
+						y: z.number().int(),
+						width: z.number().int(),
+						height: z.number().int(),
+					}),
+				});
+			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", "Cycle", user.id],
 				async queryFn() {
@@ -224,7 +251,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 		};
 	},
 	component() {
-		const { user, construction, queue, building, route, cycle } =
+		const { user, construction, queue, building, route, land, cycle } =
 			Route.useLoaderData();
 		const { id } = Route.useParams();
 		const { zoomToId, routing } = Route.useSearch();
@@ -238,6 +265,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$id")({
 				queue={queue}
 				building={building}
 				route={route}
+				land={land}
 				zoomToId={zoomToId}
 				routing={routing}
 			/>

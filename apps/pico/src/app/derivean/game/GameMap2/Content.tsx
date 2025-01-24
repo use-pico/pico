@@ -68,6 +68,7 @@ export namespace Content {
 		queue: QueueNode.Data[];
 		building: BuildingNode.Data[];
 		route: RouteEdge.Data[];
+		land: LandNode.Data[];
 		zoomToId?: string;
 		routing?: boolean;
 	}
@@ -81,6 +82,7 @@ export const Content: FC<Content.Props> = ({
 	queue,
 	building,
 	route,
+	land,
 	zoomToId,
 	routing,
 }) => {
@@ -89,28 +91,29 @@ export const Content: FC<Content.Props> = ({
 	const navigate = useNavigate({ from: "/$locale/apps/derivean/map" });
 	const defaultNodes = useMemo<Node[]>(
 		() => [
-			{
-				id: "land",
-				position: {
-					x: 0,
-					y: 0,
-				},
-				width: 1024 * 4,
-				height: 1024 * 4,
-				selectable: false,
-				data: {
-					id: "1",
-					name: "Land",
-				},
-				type: "land",
-				className: tvc([
-					"bg-green-200",
-					"border-8",
-					"border-green-800",
-					"opacity-25",
-					"z-[-1]",
-				]),
-			} satisfies LandNode.LandNode,
+			...land.map(
+				(land) =>
+					({
+						id: land.id,
+						position: {
+							x: land.x,
+							y: land.y,
+						},
+						width: land.width,
+						height: land.height,
+						selectable: false,
+						draggable: false,
+						data: land,
+						type: "land",
+						className: tvc([
+							"bg-green-200",
+							"border-8",
+							"border-green-800",
+							"opacity-25",
+						]),
+						zIndex: -1,
+					}) satisfies LandNode.LandNode,
+			),
 			...construction.map(
 				(construction) =>
 					({

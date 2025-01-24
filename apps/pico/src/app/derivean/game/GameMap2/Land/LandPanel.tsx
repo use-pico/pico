@@ -8,6 +8,7 @@ export namespace LandPanel {
 	export interface Land {
 		id: string;
 		name: string;
+		mapId: string;
 	}
 
 	export interface Props extends Panel.PropsEx {

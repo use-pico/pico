@@ -16,11 +16,25 @@ export const Route = createFileRoute(
 							select: tx
 								.selectFrom("Land as l")
 								.innerJoin("Region as r", "r.id", "l.regionId")
-								.select(["l.id", "r.name"])
+								.select([
+									"l.id",
+									"r.name",
+									"l.mapId",
+									"l.x",
+									"l.y",
+									"l.width",
+									"l.height",
+								])
+								.where("l.mapId", "=", id)
 								.orderBy("r.name"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								mapId: z.string().min(1),
+								x: z.number(),
+								y: z.number(),
+								width: z.number(),
+								height: z.number(),
 							}),
 						});
 					});

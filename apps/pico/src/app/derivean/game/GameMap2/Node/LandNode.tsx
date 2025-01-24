@@ -5,6 +5,10 @@ export namespace LandNode {
 	export interface Data {
 		id: string;
 		name: string;
+		x: number;
+		y: number;
+		width: number;
+		height: number;
 		[key: string]: unknown;
 	}
 
