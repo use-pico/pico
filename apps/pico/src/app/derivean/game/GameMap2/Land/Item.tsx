@@ -35,12 +35,6 @@ export const Item: FC<Item.Props> = ({ land }) => {
 				>
 					{land.name}
 				</LinkTo>
-				<div>
-					[{land.x} : {land.y}]
-				</div>
-				<div>
-					{land.width} x {land.height}
-				</div>
 			</div>
 		</div>
 	);

@@ -106,7 +106,7 @@ export const Content: FC<Content.Props> = ({
 						data: land,
 						type: "land",
 						className: tvc([
-							"bg-green-200",
+							"bg-green-300",
 							"border-8",
 							"border-green-800",
 							"opacity-25",
@@ -403,6 +403,7 @@ export const Content: FC<Content.Props> = ({
 						zoomable
 						draggable
 						pannable
+						maskColor={"rgba(0,0,0,0.2)"}
 					/>
 					<Background
 						variant={BackgroundVariant.Lines}

@@ -30,11 +30,11 @@ export const RegionForm: FC<RegionForm.Props> = ({
 		resolver: zodResolver(RegionSchema.shape),
 		defaultValues: {
 			name: "",
-			minWidth: 2048,
-			maxWidth: 2048,
-			minHeight: 2048,
-			maxHeight: 2048,
-			limit: 10,
+			minWidth: 1,
+			maxWidth: 4,
+			minHeight: 1,
+			maxHeight: 4,
+			limit: 32,
 			probability: 100,
 			...defaultValues,
 		},
@@ -82,8 +82,8 @@ export const RegionForm: FC<RegionForm.Props> = ({
 					<input
 						type={"number"}
 						className={tv.input()}
-						min={512}
-						step={128}
+						min={1}
+						step={1}
 						{...form.register("minWidth")}
 					/>
 				</FormInput>
@@ -97,8 +97,8 @@ export const RegionForm: FC<RegionForm.Props> = ({
 					<input
 						type={"number"}
 						className={tv.input()}
-						min={512}
-						step={128}
+						min={1}
+						step={1}
 						{...form.register("maxWidth")}
 					/>
 				</FormInput>
@@ -114,8 +114,8 @@ export const RegionForm: FC<RegionForm.Props> = ({
 					<input
 						type={"number"}
 						className={tv.input()}
-						min={512}
-						step={128}
+						min={1}
+						step={1}
 						{...form.register("minHeight")}
 					/>
 				</FormInput>
@@ -129,8 +129,8 @@ export const RegionForm: FC<RegionForm.Props> = ({
 					<input
 						type={"number"}
 						className={tv.input()}
-						min={512}
-						step={128}
+						min={1}
+						step={1}
 						{...form.register("maxHeight")}
 					/>
 				</FormInput>
