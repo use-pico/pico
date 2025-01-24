@@ -250,8 +250,8 @@ export const Content: FC<Content.Props> = ({
 				fitView({
 					nodes: [{ id: zoomToId }],
 					duration: 750,
-					minZoom: 2,
-					maxZoom: 2,
+					// minZoom: 2,
+					// maxZoom: 2,
 				});
 			}, 250);
 	}, [fitView, zoomToId]);

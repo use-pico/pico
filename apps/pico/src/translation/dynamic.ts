@@ -15,3 +15,5 @@ translator.rich("String must contain at least 1 character(s)");
 translator.rich("Update inventory item - Success (label)");
 translator.rich("Update building - Success (label)");
 translator.rich("Resource production queue - Success (label)");
+translator.rich("Map generator - Success (label)");
+translator.rich("Map generator - Loading (label)");

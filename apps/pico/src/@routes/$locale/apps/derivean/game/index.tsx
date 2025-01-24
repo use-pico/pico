@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
     createFileRoute,
+    useNavigate,
     useParams,
     useRouteContext,
 } from "@tanstack/react-router";
@@ -127,6 +128,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 		const tv = tva().slots;
 		const invalidator = useInvalidator([["GameMap"]]);
 		const { locale } = useParams({ from: "/$locale" });
+		const navigate = useNavigate();
 
 		const deleteMapMutation = useMutation({
 			async mutationFn({ id }: { id: string }) {
@@ -223,7 +225,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 									withToastPromiseTx("Map generator"),
 								);
 							},
-							async onSuccess() {
+							async onSuccess(map) {
+								navigate({
+									to: "/$locale/apps/derivean/map/$id/view",
+									params: { locale, id: map.id },
+								});
 								await invalidator();
 							},
 						})}

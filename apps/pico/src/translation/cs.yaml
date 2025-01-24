@@ -614,6 +614,9 @@ d40de222fdc009fdfe5f0f7be8f122ec6218a35b84ec85f94b327488:
 d4665f2be9db759a71a2442d578b2b61a275ec9ea2231a2122c85080:
   ref: User login (label)
   value: Login
+d564fc0dd9b28108021ee53aee7e7767a9d21e9bdc17803a7f0db7ca:
+  ref: Map generator - Loading (label)
+  value: Probíhá generování mapy...
 d5cd370ee5de0ebefbd001093ce3ae5499451762e49d0387a6915028:
   ref: Construction requirements (label)
   value: Požadavky stavby
@@ -623,6 +626,9 @@ d7297a597a82430b2904feea7d794ea05b4952b34886efee710dcfe1:
 d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
   ref: Blueprint dependency (label)
   value: Závislost
+d8d2f35d16bd2d5e746464b13ad667e6572be16ad5bd33a71dd192e1:
+  ref: Map generator - Success (label)
+  value: Mapa byla úspěšně vygenerována.
 da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
   ref: Delete production resource requirement (content)
   value: Delete production resource requirement (content)

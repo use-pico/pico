@@ -10,7 +10,7 @@ function getRandomSize(min: number, max: number) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getCoordinates(maxValue = 20480, step = 512) {
+function getCoordinates(maxValue = 20480, step = 32) {
 	const randomStep = () => Math.floor(Math.random() * (maxValue / step)) * step;
 
 	return {
@@ -129,4 +129,6 @@ export const withMapGenerator = async ({
 			}
 		}
 	}
+
+	return map;
 };
