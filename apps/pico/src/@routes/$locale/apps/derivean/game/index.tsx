@@ -1,19 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	Icon,
-	onSubmit,
-	toast,
-	Tx,
-	useInvalidator,
-	withList,
-	withToastPromiseTx,
-	type Form,
+    createFileRoute,
+    useParams,
+    useRouteContext,
+} from "@tanstack/react-router";
+import {
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    LinkTo,
+    onSubmit,
+    toast,
+    TrashIcon,
+    Tx,
+    useInvalidator,
+    withList,
+    withToastPromiseTx,
+    type Form,
 } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
@@ -121,6 +126,22 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
 		const invalidator = useInvalidator([["GameMap"]]);
+		const { locale } = useParams({ from: "/$locale" });
+
+		const deleteMapMutation = useMutation({
+			async mutationFn({ id }: { id: string }) {
+				return kysely.transaction().execute(async (tx) => {
+					return tx
+						.deleteFrom("Map")
+						.where("id", "=", id)
+						.where("userId", "=", user.id)
+						.execute();
+				});
+			},
+			async onSuccess() {
+				await invalidator();
+			},
+		});
 
 		return (
 			<div
@@ -141,6 +162,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 									"flex-row",
 									"gap-2",
 									"items-center",
+									"justify-between",
 									"p-4",
 									"border",
 									"rounded",
@@ -149,8 +171,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 									"hover:bg-slate-100",
 								])}
 							>
-								<Icon icon={ArrowRightIcon} />
-								<div>{map.name}</div>
+								<LinkTo
+									icon={ArrowRightIcon}
+									to={"/$locale/apps/derivean/map/$id/view"}
+									params={{ locale, id: map.id }}
+								>
+									{map.name}
+								</LinkTo>
+
+								<div>
+									<Button
+										iconEnabled={TrashIcon}
+										variant={{ variant: "danger" }}
+										loading={deleteMapMutation.isPending}
+										onClick={() => {
+											deleteMapMutation.mutate({ id: map.id });
+										}}
+									/>
+								</div>
 							</div>
 						);
 					})
