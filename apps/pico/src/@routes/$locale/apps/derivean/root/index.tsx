@@ -130,6 +130,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							Generate land into a map (so there will be Land as definition and
 							Land as an instance).
 						</p>
+
+						<p>For start, list all lands + zoom to land.</p>
 					</li>
 					<li>
 						Fetch production on building from production next to prod* ids on

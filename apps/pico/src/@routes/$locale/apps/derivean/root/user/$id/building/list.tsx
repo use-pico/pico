@@ -54,7 +54,6 @@ export const Route = createFileRoute(
 	component() {
 		const { data, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
-		const { id } = Route.useParams();
 		const navigate = Route.useNavigate();
 		const { tva } = useRouteContext({ from: "__root__" });
 		const tv = tva().slots;
@@ -62,7 +61,6 @@ export const Route = createFileRoute(
 		return (
 			<div className={tv.base()}>
 				<BuildingTable
-					userId={id}
 					table={{
 						data,
 						filter: {

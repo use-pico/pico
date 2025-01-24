@@ -333,6 +333,9 @@ export const withBuildingSchema = <
 				constructionId:
 					// varchar(36) / nullable
 					z.string().nullish(),
+				landId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				productionId:
 					// varchar(36) / nullable
 					z.string().nullish(),
@@ -345,6 +348,9 @@ export const withBuildingSchema = <
 				y:
 					// float4 / not nullable
 					z.number(),
+				valid:
+					// boolean / not nullable
+					withBoolSchema(),
 			}),
 		),
 		shape,
@@ -354,10 +360,12 @@ export const withBuildingSchema = <
 			"userId",
 			"blueprintId",
 			"constructionId",
+			"landId",
 			"productionId",
 			"recurringProductionId",
 			"x",
 			"y",
+			"valid",
 		],
 	});
 };
@@ -414,9 +422,6 @@ export const withConstructionSchema = <
 				plan:
 					// boolean / not nullable
 					withBoolSchema(),
-				valid:
-					// boolean / not nullable
-					withBoolSchema(),
 				cycles:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -427,7 +432,7 @@ export const withConstructionSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "plan", "valid", "cycles", "cycle"],
+		sort: ["id", "userId", "plan", "cycles", "cycle"],
 	});
 };
 
@@ -499,6 +504,179 @@ export const withInventorySchema = <
 
 export type InventoryEntity = ReturnType<typeof withInventorySchema>["~entity"];
 
+export const withLandSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				regionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				x:
+					// INTEGER / not nullable
+					z.number().int(),
+				y:
+					// INTEGER / not nullable
+					z.number().int(),
+				width:
+					// INTEGER / not nullable
+					z.number().int(),
+				height:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "mapId", "regionId", "x", "y", "width", "height"],
+	});
+};
+
+export type LandEntity = ReturnType<typeof withLandSchema>["~entity"];
+
+export const withLandInventorySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				landId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				inventoryId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "landId", "inventoryId"],
+	});
+};
+
+export type LandInventoryEntity = ReturnType<
+	typeof withLandInventorySchema
+>["~entity"];
+
+export const withLandRouteSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				fromId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				toId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "fromId", "toId"],
+	});
+};
+
+export type LandRouteEntity = ReturnType<typeof withLandRouteSchema>["~entity"];
+
+export const withLandRouteResourceSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				landRouteId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				type:
+					// varchar(16) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / nullable
+					z.number().nullish(),
+				priority:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "landRouteId", "resourceId", "type", "amount", "priority"],
+	});
+};
+
+export type LandRouteResourceEntity = ReturnType<
+	typeof withLandRouteResourceSchema
+>["~entity"];
+
+export const withMapSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				name:
+					// varchar(128) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "name"],
+	});
+};
+
+export type MapEntity = ReturnType<typeof withMapSchema>["~entity"];
+
 export const withProductionSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -544,6 +722,110 @@ export const withProductionSchema = <
 
 export type ProductionEntity = ReturnType<
 	typeof withProductionSchema
+>["~entity"];
+
+export const withRegionSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				name:
+					// varchar(128) / not nullable
+					z.string().min(1),
+				minWidth:
+					// INTEGER / not nullable
+					z.number().int(),
+				maxWidth:
+					// INTEGER / not nullable
+					z.number().int(),
+				minHeight:
+					// INTEGER / not nullable
+					z.number().int(),
+				masHeight:
+					// INTEGER / not nullable
+					z.number().int(),
+				probability:
+					// INTEGER / not nullable
+					z.number().int(),
+				limit:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: [
+			"id",
+			"name",
+			"minWidth",
+			"maxWidth",
+			"minHeight",
+			"masHeight",
+			"probability",
+			"limit",
+		],
+	});
+};
+
+export type RegionEntity = ReturnType<typeof withRegionSchema>["~entity"];
+
+export const withRegionInventorySchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				regionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				minAmount:
+					// float4 / not nullable
+					z.number(),
+				maxAmount:
+					// float4 / not nullable
+					z.number(),
+				minLimit:
+					// float4 / not nullable
+					z.number(),
+				maxLimit:
+					// float4 / not nullable
+					z.number(),
+			}),
+		),
+		shape,
+		filter,
+		sort: [
+			"id",
+			"regionId",
+			"resourceId",
+			"minAmount",
+			"maxAmount",
+			"minLimit",
+			"maxLimit",
+		],
+	});
+};
+
+export type RegionInventoryEntity = ReturnType<
+	typeof withRegionInventorySchema
 >["~entity"];
 
 export const withResourceSchema = <
@@ -760,7 +1042,14 @@ export interface Database {
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
 	Inventory: InventoryEntity;
+	Land: LandEntity;
+	Land_Inventory: LandInventoryEntity;
+	Land_Route: LandRouteEntity;
+	Land_Route_Resource: LandRouteResourceEntity;
+	Map: MapEntity;
 	Production: ProductionEntity;
+	Region: RegionEntity;
+	Region_Inventory: RegionInventoryEntity;
 	Resource: ResourceEntity;
 	Resource_Tag: ResourceTagEntity;
 	Route: RouteEntity;

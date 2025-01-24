@@ -265,26 +265,11 @@ export const Content: FC<Content.Props> = ({
 			valid: boolean;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
-				const building = await tx
-					.selectFrom("Building as b")
-					.innerJoin("Construction as c", "c.id", "b.constructionId")
-					.select(["b.id", "b.constructionId"])
-					.where("c.plan", "=", true)
-					.where("b.id", "=", buildingId)
-					.executeTakeFirst();
-
 				await tx
 					.updateTable("Building")
-					.set({ x, y })
+					.set({ x, y, valid })
 					.where("id", "=", buildingId)
 					.execute();
-
-				building?.constructionId &&
-					(await tx
-						.updateTable("Construction")
-						.set({ valid })
-						.where("id", "=", building.constructionId)
-						.execute());
 			});
 		},
 		async onSuccess() {

@@ -49,10 +49,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"bl.name",
 									"bg.x",
 									"bg.y",
-									"c.valid",
+									"bg.valid",
 								])
 								.where("c.plan", "=", true)
-								.where("c.userId", "=", user.id),
+								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
@@ -81,12 +81,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 									"bl.name",
 									"bg.x",
 									"bg.y",
-									"c.valid",
+									"bg.valid",
 									"c.cycles",
 									"c.cycle",
 								])
 								.where("c.plan", "=", false)
-								.where("c.userId", "=", user.id),
+								.where("bg.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),

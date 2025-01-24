@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Badge, Button, LinkTo, useInvalidator } from "@use-pico/client";
-import { type Entity } from "@use-pico/common";
 import { type FC } from "react";
 import type { ConstructionPanel } from "~/app/derivean/game/GameMap2/Construction/ConstructionPanel";
 import { ItemCss } from "~/app/derivean/game/GameMap2/Construction/ItemCss";
@@ -10,15 +9,17 @@ import { withConstructionQueue } from "~/app/derivean/service/withConstructionQu
 import { CyclesInline } from "~/app/derivean/ui/CyclesInline";
 
 export namespace Item {
-	export interface Props
-		extends ItemCss.Props<Entity.Type<ConstructionPanel.Blueprint>> {
+	export interface Props extends ItemCss.Props {
+		blueprint: ConstructionPanel.Blueprint;
 		userId: string;
+		landId: string;
 	}
 }
 
 export const Item: FC<Item.Props> = ({
+	blueprint,
 	userId,
-	entity,
+	landId,
 	variant,
 	tva = ItemCss,
 	css,
@@ -32,6 +33,7 @@ export const Item: FC<Item.Props> = ({
 			const building = await withConstructionQueue({
 				userId,
 				blueprintId,
+				landId,
 				x: 0,
 				y: 0,
 				plan: true,
@@ -57,23 +59,23 @@ export const Item: FC<Item.Props> = ({
 		<div className={tv.base()}>
 			<div className={"flex flex-row gap-2 items-center justify-between"}>
 				<div className={"flex flex-row gap-2"}>
-					<Badge>x{entity.count}</Badge>
+					<Badge>x{blueprint.count}</Badge>
 					<LinkTo
 						to={"/$locale/apps/derivean/map/blueprint/$id/requirements"}
-						params={{ locale, id: entity.id }}
+						params={{ locale, id: blueprint.id }}
 						css={{ base: ["font-bold"] }}
 					>
-						{entity.name}
+						{blueprint.name}
 					</LinkTo>
 				</div>
 				<div className={"flex flex-row gap-2"}>
-					<CyclesInline cycles={entity.cycles} />
+					<CyclesInline cycles={blueprint.cycles} />
 					<Button
 						iconEnabled={ConstructionIcon}
 						iconDisabled={ConstructionIcon}
 						loading={constructionMutation.isPending}
 						onClick={() => {
-							constructionMutation.mutate({ blueprintId: entity.id });
+							constructionMutation.mutate({ blueprintId: blueprint.id });
 						}}
 					/>
 				</div>

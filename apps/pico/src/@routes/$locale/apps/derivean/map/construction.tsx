@@ -113,6 +113,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/construction")(
 			return (
 				<ConstructionPanel
 					userId={user.id}
+					landId={"landId"}
 					blueprints={blueprints}
 				/>
 			);

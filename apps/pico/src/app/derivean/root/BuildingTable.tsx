@@ -14,12 +14,11 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, type IdentitySchema } from "@use-pico/common";
+import { type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { BuildingForm } from "~/app/derivean/root/BuildingForm";
 
 export namespace BuildingTable {
@@ -58,15 +57,11 @@ const columns = [
 
 export namespace BuildingTable {
 	export interface Props extends Table.PropsEx<Data> {
-		userId?: string;
+		//
 	}
 }
 
-export const BuildingTable: FC<BuildingTable.Props> = ({
-	userId,
-	table,
-	...props
-}) => {
+export const BuildingTable: FC<BuildingTable.Props> = ({ table, ...props }) => {
 	const invalidator = useInvalidator([["Building"]]);
 
 	return (
@@ -76,44 +71,6 @@ export const BuildingTable: FC<BuildingTable.Props> = ({
 				columns,
 			})}
 			action={{
-				table:
-					userId ?
-						() => {
-							return (
-								<ActionMenu>
-									<ActionModal
-										label={<Tx label={"Create building (menu)"} />}
-										textTitle={<Tx label={"Create building (modal)"} />}
-										icon={ResourceIcon}
-									>
-										<BuildingForm
-											mutation={useMutation({
-												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute((tx) => {
-															return tx
-																.insertInto("Building")
-																.values({
-																	id: genId(),
-																	...values,
-																	userId,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
-														}),
-														withToastPromiseTx("Create building"),
-													);
-												},
-												async onSuccess() {
-													await invalidator();
-												},
-											})}
-										/>
-									</ActionModal>
-								</ActionMenu>
-							);
-						}
-					:	undefined,
 				row({ data }) {
 					return (
 						<ActionMenu>

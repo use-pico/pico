@@ -15,12 +15,14 @@ export namespace ConstructionPanel {
 
 	export interface Props extends Panel.PropsEx {
 		userId: string;
+		landId: string;
 		blueprints: Blueprint[];
 	}
 }
 
 export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	userId,
+	landId,
 	blueprints,
 	...props
 }) => {
@@ -35,8 +37,9 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 					return (
 						<Item
 							key={item.id}
+							blueprint={item}
 							userId={userId}
-							entity={item}
+							landId={landId}
 						/>
 					);
 				})

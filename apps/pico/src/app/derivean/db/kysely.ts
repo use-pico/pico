@@ -137,6 +137,177 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			/**
+			 * Region is a definition for the land (as an instance of Region).
+			 *
+			 * It defines size limits, available resources, also blueprints (alias buildings) can be built
+			 * in specific regions.
+			 *
+			 * A region itself may have additional properties for later gameplay.
+			 */
+			await kysely.schema
+				.createTable("Region")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("name", "varchar(128)", (col) => col.notNull())
+
+				/**
+				 * Ideal numbers are 256 * x based.
+				 */
+				.addColumn("minWidth", "integer", (col) => col.notNull())
+				.addColumn("maxWidth", "integer", (col) => col.notNull())
+
+				.addColumn("minHeight", "integer", (col) => col.notNull())
+				.addColumn("masHeight", "integer", (col) => col.notNull())
+
+				/**
+				 * 0-100% drop probability so a region will be placed on the map.
+				 */
+				.addColumn("probability", "integer", (col) => col.notNull())
+
+				/**
+				 * Absolute maximum of regions on the map (so there may be <= limit regions).
+				 */
+				.addColumn("limit", "integer", (col) => col.notNull())
+
+				.execute();
+
+			/**
+			 * Definition of available resources in the region; land resources (inventory) are generated
+			 * based on this definition.
+			 */
+			await kysely.schema
+				.createTable("Region_Inventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("regionId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Region_Inventory] regionId",
+					["regionId"],
+					"Region",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Region_Inventory] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Generated amount of resource in the region.
+				 */
+				.addColumn("minAmount", "float4", (col) => col.notNull())
+				.addColumn("maxAmount", "float4", (col) => col.notNull())
+
+				/**
+				 * If a resource is renewable, this limit defines how much of the resource can be
+				 * stored in region's "inventory" (like amount of grown trees and so on).
+				 */
+				.addColumn("minLimit", "float4", (col) => col.notNull())
+				.addColumn("maxLimit", "float4", (col) => col.notNull())
+
+				.addUniqueConstraint("[Region_Inventory] regionId-resourceId", [
+					"regionId",
+					"resourceId",
+				])
+
+				.execute();
+
+			/**
+			 * Map is generated list of Lands for a player.
+			 *
+			 * When user starts a game, map name is taken and generated.
+			 */
+			await kysely.schema
+				.createTable("Map")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Map] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("name", "varchar(128)", (col) => col.notNull())
+
+				.addUniqueConstraint("[Map] userId-name", ["userId", "name"])
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Land")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("regionId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land] regionId",
+					["regionId"],
+					"Region",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("x", "integer", (col) => col.notNull())
+				.addColumn("y", "integer", (col) => col.notNull())
+				.addColumn("width", "integer", (col) => col.notNull())
+				.addColumn("height", "integer", (col) => col.notNull())
+
+				.execute();
+
+			/**
+			 * Each land have it's own generated inventory.
+			 */
+			await kysely.schema
+				.createTable("Land_Inventory")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("landId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Inventory] landId",
+					["landId"],
+					"Land",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("inventoryId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Inventory] inventoryId",
+					["inventoryId"],
+					"Inventory",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Land_Inventory] landId-inventoryId", [
+					"landId",
+					"inventoryId",
+				])
+
+				.execute();
+
+			/**
 			 * Blueprint is a definition for the building; all the buildings are pointing to it's blueprint.
 			 *
 			 * Idea is when blueprint is changed, all buildings are changed as well.
@@ -527,10 +698,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * allowed to move it around. Inventory is deducted in this time.
 				 */
 				.addColumn("plan", "boolean", (col) => col.notNull().defaultTo(true))
-				/**
-				 * General flag telling if construction is valid (e.g. building does not collide with the others).
-				 */
-				.addColumn("valid", "boolean", (col) => col.notNull().defaultTo(true))
 
 				.addColumn("cycles", "integer", (col) => col.notNull())
 				.addColumn("cycle", "integer", (col) => col.notNull())
@@ -572,6 +739,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("set null").onUpdate("set null"),
 				)
 
+				.addColumn("landId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building] landId",
+					["landId"],
+					"Land",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				/**
 				 * When set, one time production is scheduled with a cycle (and free production slot).
 				 *
@@ -602,6 +778,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
 				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
+
+				/**
+				 * Flag telling if building conditions are valid: this is used to control if a building
+				 * can produce resources (so e.g. when there are overlapping buildings, production is disabled).
+				 */
+				.addColumn("valid", "boolean", (col) => col.notNull().defaultTo(true))
 
 				.execute();
 
@@ -690,6 +872,87 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("resourceId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Route_Resource] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Define target inventory type.
+				 */
+				.addColumn("type", "varchar(16)", (col) =>
+					col.notNull().defaultTo("storage"),
+				)
+
+				/**
+				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
+				 */
+				.addColumn("amount", "float4")
+
+				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
+
+				.execute();
+
+			/**
+			 * Buildings can transport stuff only inside
+			 */
+			await kysely.schema
+				.createTable("Land_Route")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Route] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("fromId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Route] fromId",
+					["fromId"],
+					"Land",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("toId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Route] toId",
+					["toId"],
+					"Land",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Land_Route] userId-fromId-toId", [
+					"userId",
+					"fromId",
+					"toId",
+				])
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Land_Route_Resource")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("landRouteId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Route_Resource] landRouteId",
+					["landRouteId"],
+					"Land_Route",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Land_Route_Resource] resourceId",
 					["resourceId"],
 					"Resource",
 					["id"],

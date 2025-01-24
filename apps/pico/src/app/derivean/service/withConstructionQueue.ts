@@ -5,6 +5,7 @@ export namespace withConstructionQueue {
 	export interface Props {
 		userId: string;
 		blueprintId: string;
+		landId: string;
 		x: number;
 		y: number;
 		plan: boolean;
@@ -13,8 +14,9 @@ export namespace withConstructionQueue {
 }
 
 export const withConstructionQueue = async ({
-	blueprintId,
 	userId,
+	blueprintId,
+	landId,
 	x,
 	y,
 	plan,
@@ -33,6 +35,7 @@ export const withConstructionQueue = async ({
 				id: genId(),
 				userId,
 				blueprintId,
+				landId,
 				constructionId: (
 					await tx
 						.insertInto("Construction")
@@ -42,13 +45,13 @@ export const withConstructionQueue = async ({
 							cycle: 0,
 							cycles: blueprint.cycles,
 							plan,
-							valid,
 						})
 						.returning("id")
 						.executeTakeFirstOrThrow()
 				).id,
 				x,
 				y,
+				valid,
 			})
 			.returningAll()
 			.executeTakeFirstOrThrow();
