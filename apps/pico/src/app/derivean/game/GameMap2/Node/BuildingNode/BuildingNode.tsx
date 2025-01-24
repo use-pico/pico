@@ -37,7 +37,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
-		<div className="flex flex-col gap-2 w-full h-full justify-between items-start">
+		<div className="flex flex-col gap-1 w-full h-full justify-between items-start">
 			<div
 				className={"flex flex-row gap-2 items-center justify-between w-full"}
 			>
@@ -83,23 +83,36 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				</div>
 			</div>
 
-			{data.productionName ?
-				<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
-					<Icon
-						icon={ResourceIcon}
-						variant={{ size: "xs" }}
-					/>{" "}
-					<div>{data.productionName}</div>
+			<div className={"flex flex-row items-center justify-between w-full"}>
+				<div>
+					{data.productionName ?
+						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
+							<Icon
+								icon={ResourceIcon}
+								variant={{ size: "xs" }}
+							/>
+							<div>{data.productionName}</div>
+						</div>
+					: data.recurringProductionName ?
+						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
+							<Icon
+								icon={"icon-[oui--refresh]"}
+								variant={{ size: "xs" }}
+							/>
+							<div>{data.recurringProductionName}</div>
+						</div>
+					:	null}
 				</div>
-			: data.recurringProductionName ?
-				<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
-					<Icon
-						icon={"icon-[oui--refresh]"}
-						variant={{ size: "xs" }}
-					/>
-					<div>{data.recurringProductionName}</div>
-				</div>
-			:	null}
+
+				{data.production ?
+					<div
+						className={"flex flex-row gap-2 text-xs text-slate-400 font-bold"}
+					>
+						<Icon icon={"icon-[cil--arrow-right]"} />
+						<div>{data.production.name}</div>
+					</div>
+				:	null}
+			</div>
 
 			{data.production ?
 				<Progress

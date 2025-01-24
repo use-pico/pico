@@ -116,13 +116,24 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
+						<p>
+							Idea of lands; define lands in root, their size boundaries (will
+							be randomized), available resources (may be randomized).
+						</p>
+
+						<p>
+							Here may be time for citizens, like geologist who will investigate
+							a land to find, what's in there.
+						</p>
+
+						<p>
+							Generate land into a map (so there will be Land as definition and
+							Land as an instance).
+						</p>
+					</li>
+					<li>
 						Fetch production on building from production next to prod* ids on
 						the building.
-					</li>
-					<li>Multi-type inventory stuff is quite crazy and buggy.</li>
-					<li>
-						Routes does not account target inventory type, so transport goes
-						randomly. Bug, ugly one.
 					</li>
 					<li>
 						Add notification center like inventory is full, production is full
