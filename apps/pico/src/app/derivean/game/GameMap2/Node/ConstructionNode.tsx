@@ -40,7 +40,7 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({ data }) => {
 	});
 
 	return (
-		<div className="flex flex-row gap-2 items-center justify-between w-full">
+		<div className="flex flex-row gap-2 items-start justify-between w-full h-full">
 			<div className={"flex flex-row gap-2 items-center"}>
 				<Icon
 					icon={"icon-[carbon--floorplan]"}
