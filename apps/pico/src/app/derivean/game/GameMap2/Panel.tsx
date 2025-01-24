@@ -5,6 +5,7 @@ import { PanelCss } from "~/app/derivean/game/GameMap2/PanelCss";
 
 export namespace Panel {
 	export interface Props extends PanelCss.Props<PropsWithChildren> {
+		mapId: string;
 		icon: string;
 		textTitle: ReactNode;
 		textSubTitle?: ReactNode;
@@ -14,6 +15,7 @@ export namespace Panel {
 }
 
 export const Panel: FC<Panel.Props> = ({
+	mapId,
 	icon,
 	textTitle,
 	textSubTitle,
@@ -49,9 +51,9 @@ export const Panel: FC<Panel.Props> = ({
 				</div>
 				<LinkTo
 					icon={CloseIcon}
-					to={"/$locale/apps/derivean/map"}
-					params={{ locale }}
-				></LinkTo>
+					to={"/$locale/apps/derivean/map/$id/view"}
+					params={{ locale, id: mapId }}
+				/>
 			</div>
 			<div className={tv.content()}>{children}</div>
 		</div>

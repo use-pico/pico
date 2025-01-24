@@ -30,7 +30,7 @@ import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNod
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
-import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { LandIcon } from "~/app/derivean/icon/LandIcon";
 
 const width = 256 + 64;
 const height = 128;
@@ -423,11 +423,11 @@ export const Content: FC<Content.Props> = ({
 							/>
 						</LinkTo>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/$id/construction"}
+							to={"/$locale/apps/derivean/map/$id/land/list"}
 							params={{ locale, id: mapId }}
 						>
 							<Button
-								iconEnabled={BlueprintIcon}
+								iconEnabled={LandIcon}
 								variant={{ variant: "subtle" }}
 							/>
 						</LinkTo>
