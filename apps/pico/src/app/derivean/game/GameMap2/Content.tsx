@@ -29,8 +29,8 @@ import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/Construction
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 
-const width = 256 + 32;
-const height = 96;
+const width = 256 + 64;
+const height = 112;
 
 const NodeCss = [
 	"bg-white",
@@ -119,7 +119,7 @@ export const Content: FC<Content.Props> = ({
 				type: routing ? "building-route" : "building",
 				width,
 				height,
-				className: tvc(NodeCss, ["nodrag"]),
+				className: tvc(NodeCss),
 			})),
 		],
 		[construction, queue, building, routing],
@@ -183,15 +183,13 @@ export const Content: FC<Content.Props> = ({
 			valid: boolean;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
-				const { constructionId } = await tx
+				const building = await tx
 					.selectFrom("Building as b")
 					.innerJoin("Construction as c", "c.id", "b.constructionId")
 					.select(["b.id", "b.constructionId"])
 					.where("c.plan", "=", true)
 					.where("b.id", "=", buildingId)
-					.executeTakeFirstOrThrow(() => {
-						return new Error("Construction not found or not planned.");
-					});
+					.executeTakeFirst();
 
 				await tx
 					.updateTable("Building")
@@ -199,14 +197,12 @@ export const Content: FC<Content.Props> = ({
 					.where("id", "=", buildingId)
 					.execute();
 
-				await tx
-					.updateTable("Construction")
-					.set({ valid })
-					/**
-					 * Because of innerJoin, we are sure constructionId is present.
-					 */
-					.where("id", "=", constructionId!)
-					.execute();
+				building?.constructionId &&
+					(await tx
+						.updateTable("Construction")
+						.set({ valid })
+						.where("id", "=", building.constructionId)
+						.execute());
 			});
 		},
 		async onSuccess() {
@@ -240,16 +236,14 @@ export const Content: FC<Content.Props> = ({
 	);
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
-			if (node.type === "construction") {
-				const isOverlapping = getIntersectingNodes(node).length > 0;
+			const isOverlapping = getIntersectingNodes(node).length > 0;
 
-				updatePositionMutation.mutate({
-					buildingId: node.id,
-					x: node.position.x,
-					y: node.position.y,
-					valid: !isOverlapping,
-				});
-			}
+			updatePositionMutation.mutate({
+				buildingId: node.id,
+				x: node.position.x,
+				y: node.position.y,
+				valid: !isOverlapping,
+			});
 		},
 		[getIntersectingNodes, updatePositionMutation],
 	);

@@ -34,7 +34,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	const { locale } = useParams({ from: "/$locale" });
 
 	return (
-		<div className="flex flex-col gap-2 w-full justify-between items-start h-full">
+		<div className="flex flex-col gap-2 w-full h-full justify-between items-start">
 			<div
 				className={"flex flex-row gap-2 items-center justify-between w-full"}
 			>
