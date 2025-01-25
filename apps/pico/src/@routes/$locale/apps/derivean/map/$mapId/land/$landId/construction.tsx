@@ -97,6 +97,15 @@ export const Route = createFileRoute(
 														.where("l.mapId", "=", mapId),
 												),
 										)
+										.where(
+											"bl.id",
+											"in",
+											tx
+												.selectFrom("Blueprint_Region as br")
+												.innerJoin("Land as l", "l.regionId", "br.regionId")
+												.select("br.blueprintId")
+												.where("l.id", "=", landId),
+										)
 										.as("blueprint"),
 								)
 								.selectAll()
