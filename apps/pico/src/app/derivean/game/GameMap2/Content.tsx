@@ -149,7 +149,11 @@ export const Content: FC<Content.Props> = ({
 						width,
 						height,
 						selectable: false,
-						className: tvc(NodeCss, ["border-amber-400", "bg-amber-50"]),
+						className: tvc(
+							NodeCss,
+							["border-amber-400", "bg-amber-50"],
+							queue.valid ? undefined : ["border-red-500"],
+						),
 						extent: "parent",
 						parentId: queue.landId,
 					} satisfies BuildingRouteNode.BuildingRouteNode)
@@ -164,7 +168,11 @@ export const Content: FC<Content.Props> = ({
 						width,
 						height,
 						selectable: false,
-						className: tvc(NodeCss, ["border-amber-400", "bg-amber-50"]),
+						className: tvc(
+							NodeCss,
+							["border-amber-400", "bg-amber-50"],
+							queue.valid ? undefined : ["border-red-500"],
+						),
 						extent: "parent",
 						parentId: queue.landId,
 					} satisfies QueueNode.QueueNode),
@@ -181,7 +189,10 @@ export const Content: FC<Content.Props> = ({
 						type: "building-route",
 						width,
 						height,
-						className: tvc(NodeCss),
+						className: tvc(
+							NodeCss,
+							building.valid ? undefined : ["border-red-500"],
+						),
 						extent: "parent",
 						parentId: building.landId,
 					} satisfies BuildingRouteNode.BuildingRouteNode)
@@ -196,7 +207,10 @@ export const Content: FC<Content.Props> = ({
 						width,
 						height,
 						selectable: true,
-						className: tvc(NodeCss),
+						className: tvc(
+							NodeCss,
+							building.valid ? undefined : ["border-red-500"],
+						),
 						extent: "parent",
 						parentId: building.landId,
 					} satisfies BuildingNode.BuildingNode),
@@ -292,21 +306,22 @@ export const Content: FC<Content.Props> = ({
 		);
 	}, []);
 	const onNodeDrag = useCallback<OnNodeDrag<any>>(
-		(_, __) => {
-			// const isOverlapping = getIntersectingNodes(node).length > 0;
-			// updateNode(node.id, {
-			// 	...node,
-			// 	data: {
-			// 		...node.data,
-			// 		valid: !isOverlapping,
-			// 	},
-			// 	className: tvc([
-			// 		node.className,
-			// 		node.type === "land" ? undefined
-			// 		: isOverlapping ? ["border-red-500"]
-			// 		: ["border-green-500"],
-			// 	]),
-			// });
+		(_, node) => {
+			const isOverlapping =
+				getIntersectingNodes(node).filter((node) => node.type !== "land")
+					.length > 0;
+
+			updateNode(node.id, {
+				...node,
+				data: {
+					...node.data,
+					valid: !isOverlapping,
+				},
+				className: tvc([
+					node.className,
+					isOverlapping ? ["border-red-500"] : ["border-slate-300"],
+				]),
+			});
 		},
 		[getIntersectingNodes, updateNode],
 	);

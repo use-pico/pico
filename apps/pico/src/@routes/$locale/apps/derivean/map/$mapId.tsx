@@ -111,6 +111,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									"bg.landId",
 									"bg.productionId",
 									"bg.recurringProductionId",
+									"bg.valid",
 									(eb) => {
 										return eb
 											.selectFrom("Blueprint_Production as bp")
@@ -177,6 +178,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 								x: z.number(),
 								y: z.number(),
+
+								valid: withBoolSchema(),
 							}),
 						});
 					});

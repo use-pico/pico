@@ -53,7 +53,17 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	return (
 		<>
 			<NodeToolbar className={tvc(ToolbarCss)}>Blah</NodeToolbar>
-			<div className="flex flex-col gap-1 w-full h-full justify-between items-start">
+			<div
+				className={tvc([
+					"flex",
+					"flex-col",
+					"gap-1",
+					"w-full",
+					"h-full",
+					"justify-between",
+					"items-start",
+				])}
+			>
 				<div
 					className={"flex flex-row gap-2 items-center justify-between w-full"}
 				>
