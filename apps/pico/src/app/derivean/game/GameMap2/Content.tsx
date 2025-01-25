@@ -38,7 +38,7 @@ const height = 128;
 const NodeCss = [
 	"p-2",
 	"bg-white",
-	"rounded-md",
+	"rounded-lg",
 	"border-[4px]",
 	"border-slate-300",
 	"shadow-slate-200",
