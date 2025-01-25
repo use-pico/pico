@@ -215,7 +215,7 @@ export const Content: FC<Content.Props> = ({
 					} satisfies BuildingNode.BuildingNode),
 			),
 		],
-		[construction, queue, building, routing],
+		[construction, queue, building, land, routing],
 	);
 	const defaultEdges = useMemo<Edge[]>(
 		() => [
@@ -300,9 +300,7 @@ export const Content: FC<Content.Props> = ({
 								.length > 0
 						);
 					})
-					.map((node) => {
-						return node.id;
-					});
+					.map((node) => node.id);
 
 				await tx
 					.updateTable("Building")

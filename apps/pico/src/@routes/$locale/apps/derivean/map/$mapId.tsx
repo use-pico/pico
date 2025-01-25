@@ -225,32 +225,37 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 					});
 				},
 			}),
-			land: await kysely.transaction().execute(async (tx) => {
-				return withList({
-					select: tx
-						.selectFrom("Land as l")
-						.innerJoin("Region as r", "r.id", "l.regionId")
-						.select([
-							"l.id",
-							"r.name",
-							"l.x",
-							"l.y",
-							"l.width",
-							"l.height",
-							"l.mapId",
-						])
-						.where("l.mapId", "=", mapId)
-						.orderBy("r.name"),
-					output: z.object({
-						id: z.string().min(1),
-						name: z.string().min(1),
-						mapId: z.string().min(1),
-						x: z.number().int(),
-						y: z.number().int(),
-						width: z.number().int(),
-						height: z.number().int(),
-					}),
-				});
+			land: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "land", "list"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Land as l")
+								.innerJoin("Region as r", "r.id", "l.regionId")
+								.select([
+									"l.id",
+									"r.name",
+									"l.x",
+									"l.y",
+									"l.width",
+									"l.height",
+									"l.mapId",
+								])
+								.where("l.mapId", "=", mapId)
+								.orderBy("r.name"),
+							output: z.object({
+								id: z.string().min(1),
+								name: z.string().min(1),
+								mapId: z.string().min(1),
+								x: z.number().int(),
+								y: z.number().int(),
+								width: z.number().int(),
+								height: z.number().int(),
+							}),
+						});
+					});
+				},
 			}),
 			cycle: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "cycle"],
