@@ -129,7 +129,6 @@ export const Content: FC<Content.Props> = ({
 						height,
 						selectable: false,
 						className: tvc(NodeCss, [
-							"z-10",
 							construction.valid ? ["border-green-500"] : ["border-red-500"],
 						]),
 						extent: "parent",
@@ -247,7 +246,8 @@ export const Content: FC<Content.Props> = ({
 	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
 	const [edges, setEdges] = useEdgesState(defaultEdges);
-	const { updateNode, getIntersectingNodes, fitView } = useReactFlow();
+	const { updateNode, getIntersectingNodes, fitView, getNodes } =
+		useReactFlow();
 
 	useEffect(() => {
 		setNodes(defaultNodes);
@@ -269,23 +269,59 @@ export const Content: FC<Content.Props> = ({
 	}, [fitView, zoomToId]);
 
 	const updatePositionMutation = useMutation({
-		mutationKey: ["Construction", "position"],
 		async mutationFn({
 			buildingId,
 			x,
 			y,
-			valid,
 		}: {
 			buildingId: string;
 			x: number;
 			y: number;
-			valid: boolean;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
 				await tx
 					.updateTable("Building")
-					.set({ x, y, valid })
+					.set({ x, y })
 					.where("id", "=", buildingId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+	const updateIsValidMutation = useMutation({
+		async mutationFn() {
+			return kysely.transaction().execute(async (tx) => {
+				const invalid = getNodes()
+					.filter((node) => {
+						return (
+							getIntersectingNodes(node).filter((node) => node.type !== "land")
+								.length > 0
+						);
+					})
+					.map((node) => {
+						return node.id;
+					});
+
+				await tx
+					.updateTable("Building")
+					.where(
+						"id",
+						"in",
+						tx
+							.selectFrom("Building as b")
+							.innerJoin("Land as l", "l.id", "b.landId")
+							.where("l.mapId", "=", mapId)
+							.select("b.id"),
+					)
+					.set({ valid: true })
+					.execute();
+
+				await tx
+					.updateTable("Building")
+					.set({ valid: false })
+					.where("id", "in", invalid)
 					.execute();
 			});
 		},
@@ -306,37 +342,25 @@ export const Content: FC<Content.Props> = ({
 		);
 	}, []);
 	const onNodeDrag = useCallback<OnNodeDrag<any>>(
-		(_, node) => {
-			const isOverlapping =
-				getIntersectingNodes(node).filter((node) => node.type !== "land")
-					.length > 0;
-
-			updateNode(node.id, {
-				...node,
-				data: {
-					...node.data,
-					valid: !isOverlapping,
-				},
-				className: tvc([
-					node.className,
-					isOverlapping ? ["border-red-500"] : ["border-slate-300"],
-				]),
-			});
+		(_, __) => {
+			//
 		},
 		[getIntersectingNodes, updateNode],
 	);
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
-			const isOverlapping =
-				getIntersectingNodes(node).filter((node) => node.type !== "land")
-					.length > 0;
-
-			updatePositionMutation.mutate({
-				buildingId: node.id,
-				x: node.position.x,
-				y: node.position.y,
-				valid: !isOverlapping,
-			});
+			updatePositionMutation.mutate(
+				{
+					buildingId: node.id,
+					x: node.position.x,
+					y: node.position.y,
+				},
+				{
+					onSuccess() {
+						updateIsValidMutation.mutate();
+					},
+				},
+			);
 		},
 		[getIntersectingNodes, updatePositionMutation],
 	);
