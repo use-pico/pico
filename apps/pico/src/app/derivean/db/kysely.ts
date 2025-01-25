@@ -150,6 +150,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("id", $id, (col) => col.primaryKey())
 
 				.addColumn("name", "varchar(128)", (col) => col.notNull())
+				/**
+				 * Color code (provided by the client) to be used in the map.
+				 */
+				.addColumn("color", "varchar(128)", (col) =>
+					col.notNull().defaultTo("slate"),
+				)
 
 				/**
 				 * Ideal numbers are 256 * x based.

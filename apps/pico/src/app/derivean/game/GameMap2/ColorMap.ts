@@ -1,0 +1,15 @@
+export const ColorMap = [
+	"bg-blue-200",
+	"bg-blue-400",
+	"bg-blue-600",
+	"bg-green-200",
+	"bg-green-400",
+	"bg-green-600",
+	"bg-orange-200",
+	"bg-orange-400",
+	"bg-orange-600",
+	"bg-slate-200",
+	"bg-slate-400",
+	"bg-gray-200",
+	"bg-gray-400",
+] as const;

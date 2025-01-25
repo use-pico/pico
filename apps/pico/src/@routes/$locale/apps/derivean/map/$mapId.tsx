@@ -236,18 +236,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								.select([
 									"l.id",
 									"r.name",
+									"r.color",
 									"l.x",
 									"l.y",
 									"l.width",
 									"l.height",
-									"l.mapId",
 								])
 								.where("l.mapId", "=", mapId)
 								.orderBy("r.name"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
-								mapId: z.string().min(1),
+								color: z.string().min(1),
 								x: z.number().int(),
 								y: z.number().int(),
 								width: z.number().int(),

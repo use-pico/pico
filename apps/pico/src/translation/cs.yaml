@@ -197,6 +197,9 @@
 3fa7bb033c4131d77ee98ca961d8e62e35fc4048ba0b97ea28025309:
   ref: Password 1 (label)
   value: Heslo
+3fb3ef2d332532c97ccd4b1bfca3dcbb6e39b79036b7f3b4057f49a0:
+  ref: Building list (label)
+  value: Seznam budov
 40cf538dd3c5a4330918f9bb9deab96ca06e7a515a613f631bdb0c53:
   ref: Blueprint inventory (menu)
   value: Inventář
@@ -452,6 +455,9 @@
 99984c7ac95337115727a14415e0e491d70be963133c116562200d62:
   ref: Select blueprint (label)
   value: Vyberte plánek
+9a5c6f990d7ceadbea03280ab90ed625d4a28f1643c32e71c004b002:
+  ref: Color (label)
+  value: Color (label)
 9cc08cf17c7bccc6e302c68297ba6ae2239c8627d16197edee9ed0e3:
   ref: There are no requirements. (label)
   value: Nic není třeba 😊
@@ -517,6 +523,9 @@ b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
 b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
   ref: Edit blueprint (modal)
   value: Editace plánku
+b28be2abf28e5f6d9b9c09d9a96a296aa88333245e6e4a362737349d:
+  ref: No buildings yet. (label)
+  value: Zatím nemáte postavené žádné budovy
 b2a0340361b1fb6f22b3239c88fcccf8149215887dd826d2f97e3f73:
   ref: Amount of resources transported per cycle (hint)
   value: Amount of resources transported per cycle (hint)

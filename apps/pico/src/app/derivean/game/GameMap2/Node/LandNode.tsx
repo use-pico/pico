@@ -15,6 +15,7 @@ export namespace LandNode {
 	export interface Data {
 		id: string;
 		name: string;
+		color: string;
 		x: number;
 		y: number;
 		width: number;

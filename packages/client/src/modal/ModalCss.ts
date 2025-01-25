@@ -3,8 +3,7 @@ import { css } from "@use-pico/common";
 export const ModalCss = css({
 	slot: {
 		base: [
-			"bg-slate-500",
-			"bg-opacity-75",
+			"bg-slate-300/75",
 			"backdrop-blur-xs",
 			"flex",
 			"justify-center",
@@ -13,7 +12,7 @@ export const ModalCss = css({
 		target: [],
 		modal: [
 			"bg-white",
-			"rounded-sm",
+			"rounded-lg",
 			"shadow-lg",
 			"p-4",
 			"w-fit",

@@ -30,6 +30,7 @@ import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNod
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
+import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { LandIcon } from "~/app/derivean/icon/LandIcon";
 
 const width = 384;
@@ -41,7 +42,6 @@ const NodeCss = [
 	"rounded-lg",
 	"border-[4px]",
 	"border-slate-300",
-	"shadow-slate-200",
 ];
 
 const connectionLineStyle = {
@@ -108,8 +108,8 @@ export const Content: FC<Content.Props> = ({
 						data: land,
 						type: "land",
 						className: tvc(NodeCss, [
-							"bg-green-200",
-							"border-green-600",
+							land.color,
+							"border-slate-600",
 							"opacity-25",
 						]),
 						zIndex: -1,
@@ -464,6 +464,15 @@ export const Content: FC<Content.Props> = ({
 						>
 							<Button
 								iconEnabled={BackIcon}
+								variant={{ variant: "subtle" }}
+							/>
+						</LinkTo>
+						<LinkTo
+							to={"/$locale/apps/derivean/map/$mapId/building/list"}
+							params={{ locale, mapId }}
+						>
+							<Button
+								iconEnabled={BuildingIcon}
 								variant={{ variant: "subtle" }}
 							/>
 						</LinkTo>

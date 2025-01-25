@@ -37,6 +37,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/region/list")(
 								.select([
 									"r.id",
 									"r.name",
+									"r.color",
 									"r.minWidth",
 									"r.maxWidth",
 									"r.minHeight",
@@ -64,6 +65,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/region/list")(
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								color: z.string().min(1),
 								minWidth: z.number().int().min(0),
 								maxWidth: z.number().int().min(0),
 								minHeight: z.number().int().min(0),

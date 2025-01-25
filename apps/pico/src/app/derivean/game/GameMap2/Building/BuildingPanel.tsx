@@ -20,6 +20,7 @@ export namespace BuildingPanel {
 	export interface Building {
 		id: string;
 		name: string;
+		land: string;
 	}
 
 	export interface Props extends Panel.PropsEx {
@@ -36,6 +37,7 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 		<Panel
 			icon={BuildingIcon}
 			textTitle={building.name}
+			textSubTitle={building.land}
 		>
 			<LinkTo
 				icon={ProductionIcon}

@@ -31,7 +31,7 @@ export const Item: FC<Item.Props> = ({ land }) => {
 		>
 			<div className={"flex flex-row items-center justify-between"}>
 				<LinkTo
-					to={"/$locale/apps/derivean/map/$mapId/view"}
+					to={"/$locale/apps/derivean/map/$mapId/land/list"}
 					params={{ locale, mapId }}
 					search={{ zoomToId: land.id }}
 				>

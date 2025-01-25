@@ -5,12 +5,15 @@ import {
     FormError,
     FormInput,
     onSubmit,
+    Select,
     Tx,
     type Form,
 } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import { type FC } from "react";
-import { useForm } from "react-hook-form";
-import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
+import { Controller, useForm } from "react-hook-form";
+import { ColorMap } from "~/app/derivean/game/GameMap2/ColorMap";
+import { MapIcon } from "~/app/derivean/icon/MapIcon";
 import { RegionSchema } from "~/app/derivean/schema/RegionSchema";
 
 export namespace RegionForm {
@@ -30,6 +33,7 @@ export const RegionForm: FC<RegionForm.Props> = ({
 		resolver: zodResolver(RegionSchema.shape),
 		defaultValues: {
 			name: "",
+			color: "slate",
 			minWidth: 1,
 			maxWidth: 4,
 			minHeight: 1,
@@ -169,9 +173,37 @@ export const RegionForm: FC<RegionForm.Props> = ({
 				/>
 			</FormInput>
 
+			<FormInput
+				formState={form.formState}
+				name={"color"}
+				label={<Tx label={"Color (label)"} />}
+			>
+				<Controller
+					control={form.control}
+					name={"color"}
+					render={({ field: { ref: _, ...field } }) => {
+						return (
+							<Select<{ id: string; color: string }>
+								items={ColorMap.map((color) => ({
+									id: color,
+									color,
+								}))}
+								render={({ entity }) => (
+									<div className={"flex flex-row items-center gap-2"}>
+										<div className={tvc("w-4", "h-4", entity.color)} />
+										{entity.color}
+									</div>
+								)}
+								{...field}
+							/>
+						);
+					}}
+				/>
+			</FormInput>
+
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
-					iconEnabled={ResourceIcon}
+					iconEnabled={MapIcon}
 					type={"submit"}
 				>
 					<Tx label={"Save (submit)"} />

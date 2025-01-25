@@ -740,6 +740,9 @@ export const withRegionSchema = <
 				name:
 					// varchar(128) / not nullable
 					z.string().min(1),
+				color:
+					// varchar(128) / not nullable
+					z.string().min(1),
 				minWidth:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -765,6 +768,7 @@ export const withRegionSchema = <
 		sort: [
 			"id",
 			"name",
+			"color",
 			"minWidth",
 			"maxWidth",
 			"minHeight",

@@ -26,7 +26,9 @@ export const Route = createFileRoute(
 									"l.height",
 								])
 								.where("l.mapId", "=", mapId)
-								.orderBy("r.name"),
+								.orderBy("r.name")
+								.orderBy("l.width", "desc")
+								.orderBy("l.height", "desc"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),

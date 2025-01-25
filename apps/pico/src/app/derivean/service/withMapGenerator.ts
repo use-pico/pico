@@ -62,7 +62,7 @@ export const withMapGenerator = async ({
 	userId,
 	name,
 	size = {
-		world: 4,
+		world: 32,
 		land: 384 * 2,
 	},
 }: withMapGenerator.Props) => {
