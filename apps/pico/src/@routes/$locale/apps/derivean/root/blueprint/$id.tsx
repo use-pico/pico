@@ -4,8 +4,7 @@ import {
     useRouteContext,
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
-import { sql } from "kysely";
+import { Kysely, withJsonArraySchema } from "@use-pico/common";
 import { z } from "zod";
 import { BlueprintIndexMenu } from "~/app/derivean/root/BlueprintIndexMenu";
 import { BlueprintPreview } from "~/app/derivean/root/BlueprintPreview";
@@ -31,17 +30,29 @@ export const Route = createFileRoute(
 								"bl.cycles",
 								(eb) =>
 									eb
+										.selectFrom("Blueprint_Region as br")
+										.innerJoin("Region as r", "r.id", "br.regionId")
+										.select((eb) => {
+											return Kysely.jsonGroupArray({
+												id: eb.ref("r.id"),
+												name: eb.ref("r.name"),
+											}).as("regions");
+										})
+										.whereRef("br.blueprintId", "=", "bl.id")
+										.as("regions"),
+								(eb) =>
+									eb
 										.selectFrom("Blueprint_Requirement as br")
 										.innerJoin("Resource as r", "r.id", "br.resourceId")
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                  'id', ${eb.ref("br.id")},
-                                                  'amount', ${eb.ref("br.amount")},
-                                                  'passive', ${eb.ref("br.passive")},
-                                                  'resourceId', ${eb.ref("br.resourceId")},
-                                                  'blueprintId', ${eb.ref("br.blueprintId")},
-                                                  'name', ${eb.ref("r.name")}
-                                              ))`.as("requirements");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("br.id"),
+												amount: eb.ref("br.amount"),
+												passive: eb.ref("br.passive"),
+												resourceId: eb.ref("br.resourceId"),
+												blueprintId: eb.ref("br.blueprintId"),
+												name: eb.ref("r.name"),
+											}).as("requirements");
 										})
 										.whereRef("br.blueprintId", "=", "bl.id")
 										.as("requirements"),
@@ -50,12 +61,12 @@ export const Route = createFileRoute(
 										.selectFrom("Blueprint_Dependency as bd")
 										.innerJoin("Blueprint as bl2", "bl2.id", "bd.dependencyId")
 										.select((eb) => {
-											return sql<string>`json_group_array(json_object(
-                                                          'id', ${eb.ref("bd.id")},
-                                                          'dependencyId', ${eb.ref("bd.dependencyId")},
-                                                          'blueprintId', ${eb.ref("bd.blueprintId")},
-                                                          'name', ${eb.ref("bl2.name")}
-                                                      ))`.as("requirements");
+											return Kysely.jsonGroupArray({
+												id: eb.ref("bd.id"),
+												dependencyId: eb.ref("bd.dependencyId"),
+												blueprintId: eb.ref("bd.blueprintId"),
+												name: eb.ref("bl2.name"),
+											}).as("requirements");
 										})
 										.whereRef("bd.blueprintId", "=", "bl.id")
 										.orderBy("bl2.name", "asc")
@@ -105,6 +116,12 @@ export const Route = createFileRoute(
 							name: z.string().min(1),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
+							regions: withJsonArraySchema(
+								z.object({
+									id: z.string().min(1),
+									name: z.string().min(1),
+								}),
+							),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

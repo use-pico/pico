@@ -1,5 +1,5 @@
-import { Card, Tx } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { Card, More, Tx } from "@use-pico/client";
+import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { BlueprintDependenciesInline } from "~/app/derivean/root/BlueprintDependenciesInline";
 import { Dependencies } from "~/app/derivean/root/Dependencies";
@@ -12,6 +12,10 @@ export namespace BlueprintCard {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
 		cycles: number;
+		regions: {
+			id: string;
+			name: string;
+		}[];
 		requirements: (BlueprintRequirementSchema["~entity"] & {
 			name: string;
 		})[];
@@ -44,6 +48,32 @@ export const BlueprintCard: FC<BlueprintCard.Props> = ({
 					label: <Tx label={"Construction cycles (label)"} />,
 					render({ entity }) {
 						return toHumanNumber({ number: entity.cycles });
+					},
+				},
+				{
+					id: "regions",
+					label: <Tx label={"Regions (label)"} />,
+					render({ entity }) {
+						return (
+							<More
+								items={entity.regions}
+								css={{ base: ["flex", "flex-row", "gap-2"] }}
+								textEmpty={<Tx label={"No regions (label)"} />}
+								render={({ entity }) => (
+									<div
+										className={tvc([
+											"p-2",
+											"border",
+											"border-blue-300",
+											"bg-blue-50",
+											"rounded-sm",
+										])}
+									>
+										{entity.name}
+									</div>
+								)}
+							/>
+						);
 					},
 				},
 				{

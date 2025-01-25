@@ -1,5 +1,5 @@
 import { PopupSelect, Tx, withListCount } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
+import { Kysely, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import type { FC } from "react";
 import { z } from "zod";
@@ -46,6 +46,18 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 								"b.sort",
 								"b.cycles",
 								"b.limit",
+								(eb) =>
+									eb
+										.selectFrom("Blueprint_Region as br")
+										.innerJoin("Region as r", "r.id", "br.regionId")
+										.select((eb) => {
+											return Kysely.jsonGroupArray({
+												id: eb.ref("r.id"),
+												name: eb.ref("r.name"),
+											}).as("regions");
+										})
+										.whereRef("br.blueprintId", "=", "b.id")
+										.as("regions"),
 								(eb) =>
 									eb
 										.selectFrom("Blueprint_Requirement as br")
@@ -104,6 +116,12 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
+							regions: withJsonArraySchema(
+								z.object({
+									id: z.string().min(1),
+									name: z.string().min(1),
+								}),
+							),
 							requirements: withJsonArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({

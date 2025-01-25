@@ -344,6 +344,36 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createTable("Blueprint_Region")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("blueprintId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Region] blueprintId",
+					["blueprintId"],
+					"Blueprint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("regionId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Blueprint_Region] regionId",
+					["regionId"],
+					"Region",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Blueprint_Region] blueprintId-regionId", [
+					"blueprintId",
+					"regionId",
+				])
+
+				.execute();
+
+			await kysely.schema
 				.createTable("Blueprint_Inventory")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -878,87 +908,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("resourceId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Route_Resource] resourceId",
-					["resourceId"],
-					"Resource",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * Define target inventory type.
-				 */
-				.addColumn("type", "varchar(16)", (col) =>
-					col.notNull().defaultTo("storage"),
-				)
-
-				/**
-				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
-				 */
-				.addColumn("amount", "float4")
-
-				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
-
-				.execute();
-
-			/**
-			 * Buildings can transport stuff only inside
-			 */
-			await kysely.schema
-				.createTable("Land_Route")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Land_Route] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("fromId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Land_Route] fromId",
-					["fromId"],
-					"Land",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-				.addColumn("toId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Land_Route] toId",
-					["toId"],
-					"Land",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addUniqueConstraint("[Land_Route] userId-fromId-toId", [
-					"userId",
-					"fromId",
-					"toId",
-				])
-
-				.execute();
-
-			await kysely.schema
-				.createTable("Land_Route_Resource")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("landRouteId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Land_Route_Resource] landRouteId",
-					["landRouteId"],
-					"Land_Route",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("resourceId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Land_Route_Resource] resourceId",
 					["resourceId"],
 					"Resource",
 					["id"],

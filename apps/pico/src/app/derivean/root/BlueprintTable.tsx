@@ -37,6 +37,10 @@ export namespace BlueprintTable {
 		cycles: number;
 		sort: number;
 		limit: number;
+		regions: {
+			id: string;
+			name: string;
+		}[];
 		requirements: (BlueprintRequirementSchema["~entity"] & {
 			name: string;
 		})[];
@@ -215,26 +219,36 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 									return (
 										<BlueprintForm
 											mutation={useMutation({
-												async mutationFn(values) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															const entity = tx
-																.insertInto("Blueprint")
-																.values({
-																	id: genId(),
-																	...values,
-																})
-																.returningAll()
-																.executeTakeFirstOrThrow();
+												async mutationFn({ regionIds, ...values }) {
+													kysely.transaction().execute(async (tx) => {
+														const entity = await tx
+															.insertInto("Blueprint")
+															.values({
+																id: genId(),
+																...values,
+															})
+															.returningAll()
+															.executeTakeFirstOrThrow();
 
-															await withBlueprintSort({
-																tx,
-															});
+														if (regionIds?.length) {
+															await tx
+																.insertInto("Blueprint_Region")
+																.values(
+																	regionIds.map((regionId) => ({
+																		id: genId(),
+																		blueprintId: entity.id,
+																		regionId,
+																	})),
+																)
+																.execute();
+														}
 
-															return entity;
-														}),
-														withToastPromiseTx("Create blueprint"),
-													);
+														await withBlueprintSort({
+															tx,
+														});
+
+														return entity;
+													});
 												},
 												async onSuccess() {
 													await invalidator();
@@ -259,17 +273,38 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 								{({ close }) => {
 									return (
 										<BlueprintForm
-											defaultValues={data}
+											defaultValues={{
+												...data,
+												regionIds: data.regions.map((region) => region.id),
+											}}
 											mutation={useMutation({
-												async mutationFn(values) {
+												async mutationFn({ regionIds, ...values }) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
-															const entity = tx
+															const entity = await tx
 																.updateTable("Blueprint")
 																.set(values)
 																.where("id", "=", data.id)
 																.returningAll()
 																.executeTakeFirstOrThrow();
+
+															await tx
+																.deleteFrom("Blueprint_Region")
+																.where("blueprintId", "=", entity.id)
+																.execute();
+
+															if (regionIds?.length) {
+																await tx
+																	.insertInto("Blueprint_Region")
+																	.values(
+																		regionIds.map((regionId) => ({
+																			id: genId(),
+																			blueprintId: entity.id,
+																			regionId,
+																		})),
+																	)
+																	.execute();
+															}
 
 															await withBlueprintSort({
 																tx,

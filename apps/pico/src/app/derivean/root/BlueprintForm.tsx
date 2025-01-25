@@ -9,8 +9,9 @@ import {
     type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
+import { RegionPopupMultiSelect } from "~/app/derivean/root/RegionPopupMultiSelect";
 import { BlueprintSchema } from "~/app/derivean/schema/BlueprintSchema";
 
 export namespace BlueprintForm {
@@ -32,6 +33,7 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 			cycles: 1,
 			sort: 0,
 			limit: 1,
+			regionIds: [],
 			...defaultValues,
 		},
 	});
@@ -113,6 +115,20 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 					className={tv.input()}
 					min={0}
 					{...form.register("sort")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"regionIds"}
+				label={<Tx label={"Regions (label)"} />}
+			>
+				<Controller
+					control={form.control}
+					name={"regionIds"}
+					render={({ field: { ref: _, ...field } }) => {
+						return <RegionPopupMultiSelect {...field} />;
+					}}
 				/>
 			</FormInput>
 

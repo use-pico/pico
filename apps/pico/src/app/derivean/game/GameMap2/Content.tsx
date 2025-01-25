@@ -235,8 +235,8 @@ export const Content: FC<Content.Props> = ({
 							color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
 						},
 						style: {
-							stroke: route.resourceCount > 0 ? undefined : "#FF0000",
-							strokeWidth: 2,
+							stroke: route.resourceCount > 0 ? "#777777" : "#FF0000",
+							strokeWidth: 4,
 							pointerEvents: "all",
 						},
 					}) satisfies RouteEdge.RouteEdge,

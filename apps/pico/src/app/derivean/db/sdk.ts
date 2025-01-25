@@ -274,6 +274,37 @@ export type BlueprintProductionResourceEntity = ReturnType<
 	typeof withBlueprintProductionResourceSchema
 >["~entity"];
 
+export const withBlueprintRegionSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				blueprintId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				regionId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "blueprintId", "regionId"],
+	});
+};
+
+export type BlueprintRegionEntity = ReturnType<
+	typeof withBlueprintRegionSchema
+>["~entity"];
+
 export const withBlueprintRequirementSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -574,78 +605,6 @@ export const withLandInventorySchema = <
 
 export type LandInventoryEntity = ReturnType<
 	typeof withLandInventorySchema
->["~entity"];
-
-export const withLandRouteSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				fromId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				toId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "userId", "fromId", "toId"],
-	});
-};
-
-export type LandRouteEntity = ReturnType<typeof withLandRouteSchema>["~entity"];
-
-export const withLandRouteResourceSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				landRouteId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				type:
-					// varchar(16) / not nullable
-					z.string().min(1),
-				amount:
-					// float4 / nullable
-					z.number().nullish(),
-				priority:
-					// INTEGER / not nullable
-					z.number().int(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "landRouteId", "resourceId", "type", "amount", "priority"],
-	});
-};
-
-export type LandRouteResourceEntity = ReturnType<
-	typeof withLandRouteResourceSchema
 >["~entity"];
 
 export const withMapSchema = <
@@ -1040,6 +999,7 @@ export interface Database {
 	Blueprint_Production_Dependency: BlueprintProductionDependencyEntity;
 	Blueprint_Production_Requirement: BlueprintProductionRequirementEntity;
 	Blueprint_Production_Resource: BlueprintProductionResourceEntity;
+	Blueprint_Region: BlueprintRegionEntity;
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
 	Building_Inventory: BuildingInventoryEntity;
@@ -1048,8 +1008,6 @@ export interface Database {
 	Inventory: InventoryEntity;
 	Land: LandEntity;
 	Land_Inventory: LandInventoryEntity;
-	Land_Route: LandRouteEntity;
-	Land_Route_Resource: LandRouteResourceEntity;
 	Map: MapEntity;
 	Production: ProductionEntity;
 	Region: RegionEntity;
