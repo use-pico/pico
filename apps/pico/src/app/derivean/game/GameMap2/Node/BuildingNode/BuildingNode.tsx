@@ -46,7 +46,9 @@ export namespace BuildingNode {
 }
 
 export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<>
@@ -57,8 +59,8 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				>
 					<LinkTo
 						icon={BuildingIcon}
-						to={"/$locale/apps/derivean/map/building/$id/view"}
-						params={{ locale, id }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: id }}
 						css={{
 							base: ["font-bold"],
 						}}
@@ -68,8 +70,10 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 
 					<div className={"flex flex-row gap-1 items-end"}>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/building/$id/inventory"}
-							params={{ locale, id }}
+							to={
+								"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"
+							}
+							params={{ locale, mapId, buildingId: id }}
 						>
 							<Button
 								iconEnabled={InventoryIcon}
@@ -77,8 +81,10 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 							/>
 						</LinkTo>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/building/$id/production/list"}
-							params={{ locale, id }}
+							to={
+								"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
+							}
+							params={{ locale, mapId, buildingId: id }}
 						>
 							<Button
 								iconEnabled={ProductionIcon}
@@ -86,8 +92,10 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 							/>
 						</LinkTo>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/building/$id/routes"}
-							params={{ locale, id }}
+							to={
+								"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"
+							}
+							params={{ locale, mapId, buildingId: id }}
 						>
 							<Button
 								iconEnabled={RouteIcon}

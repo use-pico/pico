@@ -24,7 +24,9 @@ export namespace QueueNode {
 }
 
 export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<div className="flex flex-col gap-2 w-full">
@@ -32,9 +34,9 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 				<LinkTo
 					icon={ConstructionIcon}
 					to={
-						"/$locale/apps/derivean/map/building/$id/construction/requirements"
+						"/$locale/apps/derivean/map/$mapId/building/$buildingId/construction/requirements"
 					}
-					params={{ locale, id: data.id }}
+					params={{ locale, mapId, buildingId: data.id }}
 					css={{ base: ["font-bold"] }}
 				>
 					{data.name}

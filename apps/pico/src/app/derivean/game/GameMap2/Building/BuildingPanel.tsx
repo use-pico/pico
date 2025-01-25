@@ -28,7 +28,9 @@ export namespace BuildingPanel {
 }
 
 export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<Panel
@@ -37,8 +39,10 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 		>
 			<LinkTo
 				icon={ProductionIcon}
-				to={"/$locale/apps/derivean/map/building/$id/production/list"}
-				params={{ locale, id: building.id }}
+				to={
+					"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
+				}
+				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Building production (label)"} />
@@ -46,8 +50,10 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 
 			<LinkTo
 				icon={QueueIcon}
-				to={"/$locale/apps/derivean/map/building/$id/production/queue"}
-				params={{ locale, id: building.id }}
+				to={
+					"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/queue"
+				}
+				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Production queue (label)"} />
@@ -55,8 +61,8 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 
 			<LinkTo
 				icon={InventoryIcon}
-				to={"/$locale/apps/derivean/map/building/$id/inventory"}
-				params={{ locale, id: building.id }}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"}
+				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Building inventory (label)"} />
@@ -64,8 +70,8 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 
 			<LinkTo
 				icon={RouteIcon}
-				to={"/$locale/apps/derivean/map/building/$id/routes"}
-				params={{ locale, id: building.id }}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Building routes (label)"} />
@@ -73,8 +79,10 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 
 			<LinkTo
 				icon={"icon-[ph--queue-thin]"}
-				to={"/$locale/apps/derivean/map/building/$id/route/priority"}
-				params={{ locale, id: building.id }}
+				to={
+					"/$locale/apps/derivean/map/$mapId/building/$buildingId/route/priority"
+				}
+				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Route priority (label)"} />

@@ -24,7 +24,9 @@ export const Item: FC<Item.Props> = ({
 	tva = ItemCss,
 	css,
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 	const navigate = useNavigate();
 	const invalidator = useInvalidator([["GameMap"]]);
 
@@ -47,8 +49,8 @@ export const Item: FC<Item.Props> = ({
 			});
 
 			navigate({
-				to: "/$locale/apps/derivean/map/$id/land/$landId/construction",
-				params: { locale, id: land.mapId, landId: land.id },
+				to: "/$locale/apps/derivean/map/$mapId/land/$landId/construction",
+				params: { locale, mapId, landId: land.id },
 				search: { zoomToId: building.id },
 			});
 		},
@@ -68,9 +70,9 @@ export const Item: FC<Item.Props> = ({
 					<Badge>x{blueprint.count}</Badge>
 					<LinkTo
 						to={
-							"/$locale/apps/derivean/map/$id/blueprint/$blueprintId/requirements"
+							"/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId/requirements"
 						}
-						params={{ locale, id: land.mapId, blueprintId: blueprint.id }}
+						params={{ locale, mapId, blueprintId: blueprint.id }}
 						css={{ base: ["font-bold"] }}
 					>
 						{blueprint.name}

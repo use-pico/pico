@@ -41,7 +41,9 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	inventory,
 	...props
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<Panel
@@ -51,8 +53,8 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/routes"}
-						params={{ locale, id: route.fromId }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+						params={{ locale, mapId, buildingId: route.fromId }}
 					/>
 					<div className={"flex flex-row items-center gap-2"}>
 						<div className={"font-light"}>{route.fromName}</div>
@@ -83,7 +85,7 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 							"flex",
 							"items-center",
 							"justify-center",
-							"rounded",
+							"rounded-sm",
 							"border",
 							"border-amber-400",
 							"p-4",
@@ -117,7 +119,7 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 							"flex",
 							"items-center",
 							"justify-center",
-							"rounded",
+							"rounded-sm",
 							"border",
 							"border-amber-400",
 							"p-4",

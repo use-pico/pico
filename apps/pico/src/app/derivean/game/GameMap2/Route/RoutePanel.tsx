@@ -32,7 +32,9 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 	route,
 	...props
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<Panel
@@ -42,12 +44,12 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/view"}
-						params={{ locale, id: building.id }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/routes"}
-						params={{ locale, id: building.id }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+						params={{ locale, mapId, buildingId: building.id }}
 						search={{ zoomToId: building.id }}
 					>
 						{building.name}
@@ -70,7 +72,7 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						"flex",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-amber-400",
 						"p-4",

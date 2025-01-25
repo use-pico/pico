@@ -25,7 +25,7 @@ export const Item: FC<Item.Props> = ({ queue, inventory }) => {
 				"justify-between",
 				"border",
 				"p-4",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				isFull ? ["border-red-400", "hover:border-red-600"] : undefined,

@@ -42,7 +42,7 @@ export const Item: FC<Item.Props> = ({ resource }) => {
 				"justify-between",
 				"p-4",
 				"border",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",

@@ -167,7 +167,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 									"justify-between",
 									"p-4",
 									"border",
-									"rounded",
+									"rounded-sm",
 									"border-slate-200",
 									"hover:border-slate-300",
 									"hover:bg-slate-100",
@@ -175,8 +175,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 							>
 								<LinkTo
 									icon={ArrowRightIcon}
-									to={"/$locale/apps/derivean/map/$id/view"}
-									params={{ locale, id: map.id }}
+									to={"/$locale/apps/derivean/map/$mapId/view"}
+									params={{ locale, mapId: map.id }}
 								>
 									{map.name}
 								</LinkTo>
@@ -199,7 +199,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 							"flex",
 							"items-center",
 							"justify-center",
-							"rounded",
+							"rounded-sm",
 							"border",
 							"border-amber-400",
 							"p-4",
@@ -227,8 +227,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 							},
 							async onSuccess(map) {
 								navigate({
-									to: "/$locale/apps/derivean/map/$id/view",
-									params: { locale, id: map.id },
+									to: "/$locale/apps/derivean/map/$mapId/view",
+									params: { locale, mapId: map.id },
 								});
 								await invalidator();
 							},

@@ -11,7 +11,9 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ land }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<div
@@ -29,8 +31,8 @@ export const Item: FC<Item.Props> = ({ land }) => {
 		>
 			<div className={"flex flex-row items-center justify-between"}>
 				<LinkTo
-					to={"/$locale/apps/derivean/map/$id/view"}
-					params={{ locale, id: land.mapId }}
+					to={"/$locale/apps/derivean/map/$mapId/view"}
+					params={{ locale, mapId }}
 					search={{ zoomToId: land.id }}
 				>
 					{land.name}

@@ -14,7 +14,6 @@ import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 export namespace LandNode {
 	export interface Data {
 		id: string;
-		mapId: string;
 		name: string;
 		x: number;
 		y: number;
@@ -31,7 +30,9 @@ export namespace LandNode {
 }
 
 export const LandNode: FC<LandNode.Props> = ({ data }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<>
@@ -40,8 +41,8 @@ export const LandNode: FC<LandNode.Props> = ({ data }) => {
 				className={tvc(ToolbarCss)}
 			>
 				<LinkTo
-					to={"/$locale/apps/derivean/map/$id/land/$landId/construction"}
-					params={{ locale, id: data.mapId, landId: data.id }}
+					to={"/$locale/apps/derivean/map/$mapId/land/$landId/construction"}
+					params={{ locale, mapId, landId: data.id }}
 				>
 					<Button
 						iconEnabled={ConstructionIcon}

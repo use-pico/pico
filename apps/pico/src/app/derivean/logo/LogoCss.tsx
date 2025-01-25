@@ -9,7 +9,7 @@ export const LogoCss = css({
 			"shadow-md",
 			"hover:shadow-lg",
 			"hover:text-orange-600",
-			"rounded",
+			"rounded-sm",
 			"px-2",
 			"py-1",
 			"bg-slate-100",

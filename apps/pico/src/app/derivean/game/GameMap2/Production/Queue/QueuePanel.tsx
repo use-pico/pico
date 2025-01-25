@@ -41,7 +41,9 @@ export const QueuePanel: FC<QueuePanel.Props> = ({
 	inventory,
 	...props
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<Panel
@@ -51,12 +53,12 @@ export const QueuePanel: FC<QueuePanel.Props> = ({
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/view"}
-						params={{ locale, id: building.id }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/view"}
-						params={{ locale, id: building.id }}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: building.id }}
 						search={{ zoomToId: building.id }}
 					>
 						{building.name}
@@ -81,7 +83,7 @@ export const QueuePanel: FC<QueuePanel.Props> = ({
 						"flex-col",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-amber-400",
 						"p-4",
@@ -92,8 +94,10 @@ export const QueuePanel: FC<QueuePanel.Props> = ({
 					<Tx label={"Production queue is empty. (label)"} />
 					<LinkTo
 						icon={QueueIcon}
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
-						params={{ locale, id: building.id }}
+						to={
+							"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
+						}
+						params={{ locale, mapId, buildingId: building.id }}
 					>
 						<Tx label={"Plan queue (label)"} />
 					</LinkTo>

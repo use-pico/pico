@@ -52,7 +52,7 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 						"flex",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-amber-400",
 						"p-4",

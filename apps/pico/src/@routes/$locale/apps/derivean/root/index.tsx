@@ -117,6 +117,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
+					<li>Fix Cycles as it's not bound to the Map.</li>
 					<li>
 						<p>
 							Idea of lands; define lands in root, their size boundaries (will

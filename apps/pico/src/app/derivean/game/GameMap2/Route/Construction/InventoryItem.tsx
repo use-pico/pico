@@ -55,7 +55,7 @@ export const InventoryItem: FC<InventoryItem.Props> = ({
 				"justify-between",
 				"p-4",
 				"border",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",

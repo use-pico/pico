@@ -15,7 +15,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/public/register")({
 					"flex",
 					"justify-center",
 					"h-screen",
-					"bg-gradient-to-tr",
+					"bg-linear-to-tr",
 					"from-blue-700",
 					"to-blue-400",
 				])}

@@ -64,7 +64,6 @@ const edgeTypes = {
 export namespace Content {
 	export interface Props {
 		userId: string;
-		mapId: string;
 		cycle: number;
 		construction: ConstructionNode.Data[];
 		queue: QueueNode.Data[];
@@ -78,7 +77,6 @@ export namespace Content {
 
 export const Content: FC<Content.Props> = ({
 	userId,
-	mapId,
 	cycle,
 	construction,
 	queue,
@@ -89,8 +87,10 @@ export const Content: FC<Content.Props> = ({
 	routing,
 }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
-	const { locale } = useParams({ from: "/$locale" });
-	const navigate = useNavigate({ from: "/$locale/apps/derivean/map" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
+	const navigate = useNavigate({ from: "/$locale/apps/derivean/map/$mapId" });
 	const defaultNodes = useMemo<Node[]>(
 		() => [
 			...land.map(
@@ -355,7 +355,7 @@ export const Content: FC<Content.Props> = ({
 					onNodeDrag={onNodeDrag}
 					onNodeDragStop={onNodeDragStop}
 					onConnect={onConnect}
-					className={"flex-grow h-screen"}
+					className={"grow h-screen"}
 					fitView
 					snapToGrid
 					snapGrid={[32, 32]}
@@ -375,8 +375,8 @@ export const Content: FC<Content.Props> = ({
 					}}
 					onEdgeClick={(_, edge) => {
 						navigate({
-							to: "/$locale/apps/derivean/map/building/$id/routes",
-							params: { locale, id: edge.source },
+							to: "/$locale/apps/derivean/map/$mapId/building/$buildingId/routes",
+							params: { locale, buildingId: edge.source },
 						});
 					}}
 					zoomOnDoubleClick={false}
@@ -418,7 +418,7 @@ export const Content: FC<Content.Props> = ({
 
 					<div
 						className={
-							"react-flow__panel flex flex-row p-2 border bg-white border-slate-300 shadow-sm"
+							"react-flow__panel flex flex-row p-2 border bg-white border-slate-300 shadow-xs"
 						}
 					>
 						<LinkTo
@@ -431,8 +431,8 @@ export const Content: FC<Content.Props> = ({
 							/>
 						</LinkTo>
 						<LinkTo
-							to={"/$locale/apps/derivean/map/$id/land/list"}
-							params={{ locale, id: mapId }}
+							to={"/$locale/apps/derivean/map/$mapId/land/list"}
+							params={{ locale, mapId }}
 						>
 							<Button
 								iconEnabled={LandIcon}

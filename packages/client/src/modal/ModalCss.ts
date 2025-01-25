@@ -5,7 +5,7 @@ export const ModalCss = css({
 		base: [
 			"bg-slate-500",
 			"bg-opacity-75",
-			"backdrop-blur-sm",
+			"backdrop-blur-xs",
 			"flex",
 			"justify-center",
 			"py-12",
@@ -13,7 +13,7 @@ export const ModalCss = css({
 		target: [],
 		modal: [
 			"bg-white",
-			"rounded",
+			"rounded-sm",
 			"shadow-lg",
 			"p-4",
 			"w-fit",

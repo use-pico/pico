@@ -1,11 +1,10 @@
 import { useParams } from "@tanstack/react-router";
-import { CloseIcon, Icon, LinkTo } from "@use-pico/client";
+import { Button, CloseIcon, Icon, LinkTo } from "@use-pico/client";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { PanelCss } from "~/app/derivean/game/GameMap2/PanelCss";
 
 export namespace Panel {
 	export interface Props extends PanelCss.Props<PropsWithChildren> {
-		mapId: string;
 		icon: string;
 		textTitle: ReactNode;
 		textSubTitle?: ReactNode;
@@ -15,7 +14,6 @@ export namespace Panel {
 }
 
 export const Panel: FC<Panel.Props> = ({
-	mapId,
 	icon,
 	textTitle,
 	textSubTitle,
@@ -24,7 +22,9 @@ export const Panel: FC<Panel.Props> = ({
 	css,
 	children,
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
@@ -50,10 +50,14 @@ export const Panel: FC<Panel.Props> = ({
 					:	null}
 				</div>
 				<LinkTo
-					icon={CloseIcon}
-					to={"/$locale/apps/derivean/map/$id/view"}
-					params={{ locale, id: mapId }}
-				/>
+					to={"/$locale/apps/derivean/map/$mapId/view"}
+					params={{ locale, mapId }}
+				>
+					<Button
+						iconEnabled={CloseIcon}
+						variant={{ variant: "subtle" }}
+					/>
+				</LinkTo>
 			</div>
 			<div className={tv.content()}>{children}</div>
 		</div>

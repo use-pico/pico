@@ -8,7 +8,6 @@ export namespace LandPanel {
 	export interface Land {
 		id: string;
 		name: string;
-		mapId: string;
 		x: number;
 		y: number;
 		width: number;

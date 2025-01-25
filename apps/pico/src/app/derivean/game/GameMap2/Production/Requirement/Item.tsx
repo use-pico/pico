@@ -22,7 +22,7 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				"justify-between",
 				"border",
 				"p-4",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",

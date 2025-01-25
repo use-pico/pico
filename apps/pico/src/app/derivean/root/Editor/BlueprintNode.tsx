@@ -74,7 +74,7 @@ export const BlueprintNode: FC<BlueprintNode.Props> = ({
 				</div>
 				<div
 					className={
-						"flex flex-row items-center justify-between gap-2 border bg-slate-50 border-slate-200 rounded w-full p-1"
+						"flex flex-row items-center justify-between gap-2 border bg-slate-50 border-slate-200 rounded-sm w-full p-1"
 					}
 					onClick={(e) => e.stopPropagation()}
 					onDoubleClick={(e) => e.stopPropagation()}

@@ -16,7 +16,6 @@ export namespace ConstructionPanel {
 	export interface Land {
 		id: string;
 		name: string;
-		mapId: string;
 	}
 
 	export interface Props extends Panel.PropsEx {
@@ -55,7 +54,7 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 						"flex",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-amber-400",
 						"p-4",

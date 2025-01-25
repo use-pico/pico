@@ -12,7 +12,7 @@ export const LoadingOverlayCss = css({
 			"flex",
 			"transition-all",
 			"duration-200",
-			"z-[10]",
+			"z-10",
 			"pointer-events-none",
 			"bg-opacity-0",
 			"backdrop-blur-none",
@@ -20,7 +20,7 @@ export const LoadingOverlayCss = css({
 	},
 	variant: {
 		show: {
-			true: ["bg-opacity-50", "backdrop-blur-sm", "pointer-events-auto"],
+			true: ["bg-opacity-50", "backdrop-blur-xs", "pointer-events-auto"],
 		},
 	},
 	defaults: {

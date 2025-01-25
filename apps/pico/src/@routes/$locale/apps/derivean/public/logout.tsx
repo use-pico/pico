@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/public/logout")({
 			<div
 				className={tvc([
 					"flex items-center justify-center h-screen",
-					"bg-gradient-to-tr",
+					"bg-linear-to-tr",
 					"from-blue-700",
 					"to-blue-400",
 				])}
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/public/logout")({
 					textTitle={<Tx label={"Logout (label)"} />}
 					textMessage={<Tx label={"Logout in progress..."} />}
 					css={{
-						base: ["p-4", "bg-slate-200", "rounded"],
+						base: ["p-4", "bg-slate-200", "rounded-sm"],
 					}}
 				/>
 			</div>

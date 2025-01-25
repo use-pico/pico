@@ -10,7 +10,7 @@ export const ActionCss = css({
 			"group",
 			"w-fit",
 			"h-fit",
-			"rounded",
+			"rounded-sm",
 			"cursor-pointer",
 			"hover:shadow-md",
 			"hover:shadow-slate-200",

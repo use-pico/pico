@@ -21,9 +21,9 @@ export const FulltextCss = css({
 			"text-sm",
 			"border",
 			"border-slate-300",
-			"rounded",
+			"rounded-sm",
 			"focus:border-sky-400",
-			"focus:outline-none",
+			"focus:outline-hidden",
 			"block",
 		],
 		clear: [

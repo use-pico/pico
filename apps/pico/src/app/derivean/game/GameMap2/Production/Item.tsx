@@ -17,7 +17,9 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ building, production }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 	const invalidator = useInvalidator([["GameMap"]]);
 	const productionMutation = useMutation({
 		async mutationFn({
@@ -103,7 +105,7 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 				"justify-between",
 				"border",
 				"p-4",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",
@@ -164,9 +166,14 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 
 				<LinkTo
 					to={
-						"/$locale/apps/derivean/map/building/$id/production/$productionId/requirements"
+						"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId/requirements"
 					}
-					params={{ locale, id: building.id, productionId: production.id }}
+					params={{
+						locale,
+						mapId,
+						buildingId: building.id,
+						productionId: production.id,
+					}}
 				>
 					{production.name}
 					<Badge>x{toHumanNumber({ number: production.amount })}</Badge>

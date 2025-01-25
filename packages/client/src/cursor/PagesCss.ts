@@ -11,7 +11,7 @@ export const PagesCss = css({
 			"w-12",
 			"px-2",
 			"py-1",
-			"rounded",
+			"rounded-sm",
 			"border",
 			"border-slate-200",
 			"hover:bg-slate-200",

@@ -9,7 +9,7 @@ export const BlueprintDependenciesInlineCss = css({
 			"items-center",
 			"bg-sky-100",
 			"border",
-			"rounded",
+			"rounded-sm",
 			"border-sky-300",
 			"py-1",
 			"px-2",

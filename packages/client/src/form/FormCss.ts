@@ -18,7 +18,7 @@ export const FormCss = css({
 			"border-gray-300",
 			"rounded-md",
 			"p-2",
-			"focus:outline-none",
+			"focus:outline-hidden",
 			"focus:ring-2",
 			"focus:ring-blue-500",
 			"focus:border-transparent",

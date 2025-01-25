@@ -9,7 +9,7 @@ export const PanelCss = css({
 			"w-4/12",
 			"border-l-2",
 			"border-slate-200",
-			"shadow-sm",
+			"shadow-xs",
 			"relative",
 			"max-h-screen",
 		],

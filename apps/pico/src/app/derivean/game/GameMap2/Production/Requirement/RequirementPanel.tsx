@@ -38,7 +38,9 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 	requirement,
 	...props
 }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 
 	return (
 		<Panel
@@ -48,12 +50,16 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 				<>
 					<LinkTo
 						icon={BackIcon}
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
-						params={{ locale, id: building.id }}
+						to={
+							"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
+						}
+						params={{ locale, mapId, buildingId: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/building/$id/production/list"}
-						params={{ locale, id: building.id }}
+						to={
+							"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
+						}
+						params={{ locale, mapId, buildingId: building.id }}
 						search={{ zoomToId: building.id }}
 					>
 						{building.name}
@@ -77,7 +83,7 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 						"flex",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-green-400",
 						"p-4",

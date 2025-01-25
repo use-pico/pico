@@ -10,7 +10,6 @@ import type { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 export namespace GameMap2 {
 	export interface Props {
 		userId: string;
-		mapId: string;
 		cycle: number;
 		construction: ConstructionNode.Data[];
 		queue: QueueNode.Data[];
@@ -25,12 +24,11 @@ export namespace GameMap2 {
 export const GameMap2: FC<GameMap2.Props> = ({
 	cycle,
 	userId,
-	mapId,
 	construction,
 	building,
 	queue,
 	route,
-    land,
+	land,
 	zoomToId,
 	routing,
 }) => {
@@ -38,13 +36,12 @@ export const GameMap2: FC<GameMap2.Props> = ({
 		<ReactFlowProvider>
 			<Content
 				userId={userId}
-				mapId={mapId}
 				cycle={cycle}
 				construction={construction}
 				queue={queue}
 				building={building}
 				route={route}
-                land={land}
+				land={land}
 				zoomToId={zoomToId}
 				routing={routing}
 			/>

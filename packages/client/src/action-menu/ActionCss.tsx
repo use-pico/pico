@@ -7,7 +7,7 @@ export const ActionCss = css({
 			"flex-row",
 			"gap-2",
 			"items-center",
-			"rounded",
+			"rounded-sm",
 			"px-2",
 			"py-0.5",
 			"hover:bg-slate-100",

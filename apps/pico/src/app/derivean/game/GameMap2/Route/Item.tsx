@@ -21,7 +21,9 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ route }) => {
-	const { locale } = useParams({ from: "/$locale" });
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 	const invalidator = useInvalidator([["GameMap"]]);
 	const deleteRouteMutation = useMutation({
 		async mutationFn({ routeId }: { routeId: string }) {
@@ -44,7 +46,7 @@ export const Item: FC<Item.Props> = ({ route }) => {
 				"justify-between",
 				"border",
 				"p-4",
-				"rounded",
+				"rounded-sm",
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",
@@ -61,15 +63,15 @@ export const Item: FC<Item.Props> = ({ route }) => {
 			{route.toConstructionId ?
 				<LinkTo
 					icon={ConstructionIcon}
-					to={"/$locale/apps/derivean/map/route/$id/construction"}
-					params={{ locale, id: route.id }}
+					to={"/$locale/apps/derivean/map/$mapId/route/$routeId/construction"}
+					params={{ locale, mapId, routeId: route.id }}
 				>
 					{route.toName}
 				</LinkTo>
 			:	<LinkTo
 					icon={ResourceIcon}
-					to={"/$locale/apps/derivean/map/route/$id/resources"}
-					params={{ locale, id: route.id }}
+					to={"/$locale/apps/derivean/map/$mapId/route/$routeId/resources"}
+					params={{ locale, mapId, routeId: route.id }}
 				>
 					{route.toName}
 				</LinkTo>
@@ -78,8 +80,8 @@ export const Item: FC<Item.Props> = ({ route }) => {
 			<div className={"flex flex-row gap-2 items-center"}>
 				<LinkTo
 					icon={"icon-[cil--arrow-right]"}
-					to={"/$locale/apps/derivean/map/building/$id/routes"}
-					params={{ locale, id: route.fromId }}
+					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+					params={{ locale, mapId, buildingId: route.fromId }}
 					search={{ zoomToId: route.toId }}
 				>
 					<Badge>{toHumanNumber({ number: route.count })}</Badge>

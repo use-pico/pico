@@ -13,7 +13,7 @@ export const Route = createFileRoute("/$locale/")({
 			>
 				<div
 					className={
-						"rounded bg-slate-50 p-4 shadow-md border border-slate-300"
+						"rounded-sm bg-slate-50 p-4 shadow-md border border-slate-300"
 					}
 				>
 					<h1 className={"text-3xl text-center"}>Apps</h1>

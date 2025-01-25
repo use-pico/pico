@@ -7,7 +7,7 @@ export const ActionMenuCss = css({
 			"bg-slate-50",
 			"border",
 			"border-slate-300",
-			"rounded",
+			"rounded-sm",
 			"shadow-md",
 			"text-slate-500",
 			"flex",

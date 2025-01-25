@@ -7,7 +7,7 @@ export const MenuLinkCss = css({
 			"flex-row",
 			"gap-2",
 			"items-center",
-			"rounded",
+			"rounded-sm",
 			"px-2",
 			"py-1",
 			"border",

@@ -50,7 +50,7 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 						"flex",
 						"items-center",
 						"justify-center",
-						"rounded",
+						"rounded-sm",
 						"border",
 						"border-green-400",
 						"p-4",

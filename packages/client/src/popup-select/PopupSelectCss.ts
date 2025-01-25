@@ -17,7 +17,7 @@ export const PopupSelectCss = css({
 			"rounded-md",
 			"text-slate-400",
 			"hover:text-slate-700",
-			"focus:outline-none",
+			"focus:outline-hidden",
 			"focus:ring-2",
 			"focus:ring-blue-500",
 			"focus:border-transparent",

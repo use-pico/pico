@@ -9,8 +9,9 @@ export const ButtonCss = css({
 			"justify-center",
 			"gap-2",
 			"group",
-			"rounded",
+			"rounded-sm",
 			"transition-all",
+			"cursor-pointer",
 		],
 	},
 	variant: {

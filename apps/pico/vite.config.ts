@@ -1,11 +1,12 @@
 import ViteYaml from "@modyfi/vite-plugin-yaml";
+import tailwindcss from "@tailwindcss/vite";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 import tla from "vite-plugin-top-level-await";
-import paths from "vite-tsconfig-paths";
 import wasm from "vite-plugin-wasm";
+import paths from "vite-tsconfig-paths";
 
 export default defineConfig({
 	plugins: [
@@ -18,7 +19,8 @@ export default defineConfig({
 		react(),
 		ViteYaml() as any,
 		dynamicImport(),
-        wasm(),
+		wasm(),
+		tailwindcss(),
 	],
 	server: {
 		port: 4000,
