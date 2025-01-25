@@ -62,7 +62,7 @@ export const withMapGenerator = async ({
 	userId,
 	name,
 	size = {
-		world: 32,
+		world: 8,
 		land: 384 * 2,
 	},
 }: withMapGenerator.Props) => {
@@ -93,17 +93,21 @@ export const withMapGenerator = async ({
 			}
 
 			let attempts = 0;
-			const maxAttempts = 10;
+			const maxAttempts = 3;
 
 			while (attempts < maxAttempts) {
-				const width = getRandomSize(minWidth, maxWidth) * size.land + 64;
-				const height = getRandomSize(minHeight, maxHeight) * size.land + 64;
+				// const width = getRandomSize(minWidth, maxWidth) * size.land + 64;
+				// const height = getRandomSize(minHeight, maxHeight) * size.land + 64;
+
+				const width = 2048;
+				const height = width;
+
 				/**
 				 * 1024 * 1024 defines basically overall map size.
 				 *
 				 * It's not precise as land size will overflow, but it's good enough for now.
 				 */
-				const coord = getCoordinates(4096 * size.world);
+				const coord = getCoordinates(4096 * size.world, width);
 
 				const overlapping = await isOverlapping(tx, map.id, coord, {
 					width,
