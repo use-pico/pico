@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
 import { Kysely, tvc, withBoolSchema, withJsonSchema } from "@use-pico/common";
-import { MarkerType } from "@xyflow/react";
 import { useMemo } from "react";
 import { z } from "zod";
 import type { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
@@ -369,9 +368,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									selectable: true,
 									className: tvc([
 										"rounded-md",
-										"bg-slate-200",
+										"bg-sky-100",
 										"border",
-										"border-slate-400",
+										"border-sky-400",
 										"p-2",
 									]),
 								}) satisfies
@@ -404,14 +403,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									source: route.fromId,
 									target: route.toId,
 									type: "route",
-									// markerEnd: {
-									// 	type: MarkerType.ArrowClosed,
-									// 	color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
-									// },
 									style: {
-										stroke: "#777777",
-										strokeWidth: 6,
-										pointerEvents: "all",
+										stroke: "#b1b1b7",
+										strokeWidth: 5,
 									},
 								}) satisfies RouteEdge.RouteEdge,
 						);
@@ -444,12 +438,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									source: buildingWaypoint.buildingId,
 									target: buildingWaypoint.waypointId,
 									type: "building-waypoint",
-									markerEnd: {
-										type: MarkerType.ArrowClosed,
-										color: "#b1b1b7",
-									},
 									style: {
-										stroke: "#777777",
+										stroke: "#b1b1b7",
 										strokeWidth: 2,
 										pointerEvents: "all",
 									},

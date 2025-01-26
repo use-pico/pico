@@ -169,6 +169,8 @@ export const Content: FC<Content.Props> = ({
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
 			switch (node.type) {
+				case "construction":
+				case "queue":
 				case "building":
 					buildingMutation.mutate(
 						{
@@ -183,16 +185,7 @@ export const Content: FC<Content.Props> = ({
 						},
 					);
 					break;
-				case "construction":
-					break;
-				case "queue":
-					break;
 				case "waypoint":
-					waypointMutation.mutate({
-						id: node.id,
-						x: node.position.x,
-						y: node.position.y,
-					});
 					break;
 				default:
 					break;

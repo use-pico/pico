@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useInvalidator } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/kysely";
 
@@ -10,6 +11,8 @@ export namespace useCreateBuildingWaypointMutation {
 }
 
 export const useCreateBuildingWaypointMutation = () => {
+	const invalidator = useInvalidator([["GameMap"]]);
+
 	return useMutation({
 		async mutationFn({
 			buildingId,
@@ -25,6 +28,9 @@ export const useCreateBuildingWaypointMutation = () => {
 					})
 					.execute();
 			});
+		},
+		async onSuccess() {
+			await invalidator();
 		},
 	});
 };
