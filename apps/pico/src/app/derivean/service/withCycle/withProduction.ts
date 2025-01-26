@@ -19,6 +19,7 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 			"p.cycle",
 			"p.cycles",
 			"bp.resourceId",
+			"p.blueprintProductionId",
 			"r.name",
 			"bp.amount",
 		])

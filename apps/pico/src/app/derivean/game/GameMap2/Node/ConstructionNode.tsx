@@ -58,6 +58,7 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({ data }) => {
 							buildingId,
 							resourceId,
 							priority: 0,
+							type: "construction",
 						})
 						.execute();
 				}

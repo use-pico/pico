@@ -232,8 +232,6 @@ export const Content: FC<Content.Props> = ({
 					console.warn(`Unknown connection: ${source.type}:${target.type}`);
 					break;
 			}
-
-			// setEdges((edges) => addEdge(params, edges));
 		},
 		[createRouteMutation],
 	);
@@ -262,7 +260,10 @@ export const Content: FC<Content.Props> = ({
 						async onSuccess({ id }) {
 							switch (type) {
 								case "building-route":
-									console.log("connecting building");
+									createBuildingWaypointMutation.mutate({
+										buildingId: fromId,
+										waypointId: id,
+									});
 									break;
 
 								case "waypoint-route":

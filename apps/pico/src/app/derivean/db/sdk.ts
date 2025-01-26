@@ -556,11 +556,14 @@ export const withDemandSchema = <
 				priority:
 					// INTEGER / not nullable
 					z.number().int(),
+				type:
+					// varchar(16) / not nullable
+					z.string().min(1),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingId", "resourceId", "amount", "priority"],
+		sort: ["id", "buildingId", "resourceId", "amount", "priority", "type"],
 	});
 };
 

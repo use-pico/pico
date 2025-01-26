@@ -78,6 +78,11 @@ export const withConstruction = async ({
 		if (cycle >= cycles) {
 			await tx.deleteFrom("Construction").where("id", "=", id).execute();
 
+			await tx
+				.deleteFrom("Demand")
+				.where("buildingId", "=", buildingId)
+				.execute();
+
 			continue;
 		}
 

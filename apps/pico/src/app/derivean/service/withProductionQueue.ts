@@ -36,9 +36,23 @@ export const withProductionQueue = async ({
 			.select(["i.id", "i.amount"])
 			.where("bi.buildingId", "=", buildingId)
 			.where("i.resourceId", "=", resourceId)
-			.where("i.amount", ">=", amount)
-			.where("i.type", "in", ["storage"])
+			.where("i.type", "=", "storage")
 			.executeTakeFirstOrThrow();
+
+		if (inventory.amount < amount) {
+			await tx
+				.insertInto("Demand")
+				.values({
+					id: genId(),
+					amount: amount - inventory.amount,
+					buildingId,
+					priority: 10,
+					resourceId,
+					type: "storage",
+				})
+				.execute();
+			continue;
+		}
 
 		if (!passive) {
 			await tx

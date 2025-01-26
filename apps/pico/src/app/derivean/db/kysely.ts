@@ -124,12 +124,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addColumn("amount", "float4", (col) => col.notNull())
 				.addColumn("limit", "float4", (col) => col.notNull())
-				/**
-				 * storage (both input/output)
-				 * construction (needed for construction)
-				 * input (input only)
-				 * output (output only)
-				 */
+
 				.addColumn("type", "varchar(16)", (col) =>
 					col.notNull().defaultTo("storage"),
 				)
@@ -1010,6 +1005,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Priority of this demand. Higher number, higher priority.
 				 */
 				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
+
+				.addColumn("type", "varchar(16)", (col) =>
+					col.notNull().defaultTo("storage"),
+				)
 
 				.addUniqueConstraint("[Demand] buildingId-resourceId", [
 					"buildingId",
