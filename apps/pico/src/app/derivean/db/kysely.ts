@@ -987,6 +987,75 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
 
 				.execute();
+
+			await kysely.schema
+				.createTable("Supply")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Supply] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Supply] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Supply] buildingId-resourceId", [
+					"buildingId",
+					"resourceId",
+				])
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Demand")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Demand] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Demand] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Requested amount of resources.
+				 */
+				.addColumn("amount", "float4", (col) => col.notNull())
+				/**
+				 * Priority of this demand. Higher number, higher priority.
+				 */
+				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
+
+				.addUniqueConstraint("[Demand] buildingId-resourceId", [
+					"buildingId",
+					"resourceId",
+				])
+
+				.execute();
 		}
 	},
 });

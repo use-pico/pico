@@ -119,6 +119,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
+						<h2>Supply/Demand</h2>
+						<p>Each building may set supply resources</p>
+						<p>Each building may set demanded resources</p>
+						<p>
+							The point is to automatically distribute resources between between
+							buildings, so it's enough to mark resource as a supply, so others
+							in the chain may take it.
+						</p>
+						<p>
+							Automate construction - when confirmed (plan == false), generate
+							demand orders.
+						</p>
+					</li>
+					<li>
 						<p>
 							Rework roads: there will be waypoint (as a resource distribution
 							node). Building may be connected only to waypoints, so minimum of
