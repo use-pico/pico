@@ -39,6 +39,46 @@ export const Route = createFileRoute(
 									"br.passive",
 									(eb) => {
 										return eb
+											.selectFrom("Supply as s")
+											.select((eb) => eb.fn.count<number>("s.id").as("supply"))
+											.whereRef("s.resourceId", "=", "br.resourceId")
+											.where(
+												"s.buildingId",
+												"in",
+												tx
+													.withRecursive("ConnectedWaypoints", (qb) =>
+														qb
+															.selectFrom("Building_Waypoint as bw")
+															.where("bw.buildingId", "=", buildingId)
+															.select(["bw.waypointId"])
+															.unionAll(
+																qb
+																	.selectFrom("Route as r")
+																	.innerJoin(
+																		"ConnectedWaypoints as cw",
+																		"cw.waypointId",
+																		"r.fromId",
+																	)
+																	.select(["r.toId as waypointId"]),
+															),
+													)
+													.selectFrom("ConnectedWaypoints as cw")
+													.innerJoin(
+														"Building_Waypoint as bw",
+														"bw.waypointId",
+														"cw.waypointId",
+													)
+													.innerJoin("Building as b", "b.id", "bw.buildingId")
+													.innerJoin("Land as l", "l.id", "b.landId")
+													.where("b.id", "!=", buildingId)
+													.where("l.mapId", "=", mapId)
+													.select(["b.id as buildingId"])
+													.distinct(),
+											)
+											.as("supply");
+									},
+									(eb) => {
+										return eb
 											.selectFrom("Inventory as i")
 											.select(["i.amount"])
 											.where(
@@ -61,6 +101,7 @@ export const Route = createFileRoute(
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
+								supply: z.number().nonnegative(),
 								passive: withBoolSchema(),
 							}),
 						});

@@ -10,6 +10,7 @@ export namespace RequirementPanel {
 		id: string;
 		name: string;
 		amount: number;
+		supply: number;
 		available?: number | null;
 		passive: boolean;
 	}

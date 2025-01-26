@@ -1,7 +1,9 @@
-import { Progress } from "@use-pico/client";
+import { Icon, Progress } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
+import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
+import { PackageIcon } from "~/app/derivean/icon/PackageIcon";
 
 export namespace Item {
 	export interface Props {
@@ -24,7 +26,15 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				"p-2",
 				"cursor-default",
 				"hover:bg-slate-100",
-				requirement.amount > available ?
+				requirement.supply > 0 && requirement.amount > available ?
+					[
+						"border-amber-400",
+						"bg-amber-50",
+						"hover:border-amber-600",
+						"hover:bg-amber-50",
+					]
+				:	undefined,
+				requirement.supply <= 0 && requirement.amount > available ?
 					[
 						"border-red-400",
 						"bg-red-50",
@@ -35,6 +45,9 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 			])}
 		>
 			<div className={"flex flex-row items-center justify-between"}>
+				{requirement.supply ?
+					<Icon icon={DemandIcon} />
+				:	<Icon icon={PackageIcon} />}
 				<div className={"font-bold"}>{requirement.name}</div>
 
 				<div className={"flex flex-row gap-1 items-center"}>
