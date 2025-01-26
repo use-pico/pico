@@ -118,6 +118,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
+					<li>
+						<p>
+							Rework roads: there will be waypoint (as a resource distribution
+							node). Building may be connected only to waypoints, so minimum of
+							1 waypoint between two buildings is required.
+						</p>
+						<p>Resource distribution weight will be done on Road size.</p>
+					</li>
 					<li>Fix Cycles as it's not bound to the Map.</li>
 					<li>
 						<p>

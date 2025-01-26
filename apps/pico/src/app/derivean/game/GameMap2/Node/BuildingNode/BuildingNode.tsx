@@ -1,6 +1,13 @@
-import { useParams } from "@tanstack/react-router";
-import { Button, Icon, LinkTo, Progress } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { useMutation } from "@tanstack/react-query";
+import { useParams, useSearch } from "@tanstack/react-router";
+import {
+    Button,
+    Icon,
+    LinkTo,
+    Progress,
+    useInvalidator,
+} from "@use-pico/client";
+import { genId, tvc } from "@use-pico/common";
 import {
     Handle,
     NodeToolbar,
@@ -9,6 +16,7 @@ import {
     type NodeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/kysely";
 import { ToolbarCss } from "~/app/derivean/game/GameMap2/Node/ToolbarCss";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
@@ -30,6 +38,7 @@ export namespace BuildingNode {
 		id: string;
 		name: string;
 		landId: string;
+		userId: string;
 		x: number;
 		y: number;
 		productionName?: string | null;
@@ -49,21 +58,34 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	const { mapId, locale } = useParams({
 		from: "/$locale/apps/derivean/map/$mapId",
 	});
+	const { fromId } = useSearch({ from: "/$locale/apps/derivean/map/$mapId" });
+	const invalidator = useInvalidator([["GameMap"]]);
+	const routeMutation = useMutation({
+		async mutationFn() {
+			if (!fromId) {
+				return;
+			}
+
+			return kysely.transaction().execute((tx) => {
+				return tx
+					.insertInto("Route")
+					.values({
+						id: genId(),
+						userId: data.userId,
+						fromId,
+						toId: id,
+					})
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 
 	return (
 		<>
-			<NodeToolbar className={tvc(ToolbarCss)}>Blah</NodeToolbar>
-			<div
-				className={tvc([
-					"flex",
-					"flex-col",
-					"gap-1",
-					"w-full",
-					"h-full",
-					"justify-between",
-					"items-start",
-				])}
-			>
+			<NodeToolbar className={tvc(ToolbarCss)}>
 				<div
 					className={"flex flex-row gap-2 items-center justify-between w-full"}
 				>
@@ -106,13 +128,48 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 								"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"
 							}
 							params={{ locale, mapId, buildingId: id }}
+							search={{ fromId: id }}
 						>
 							<Button
 								iconEnabled={RouteIcon}
 								variant={{ variant: "subtle", size: "sm" }}
 							/>
 						</LinkTo>
+						{!fromId || fromId === id ? null : (
+							<Button
+								iconEnabled={"icon-[lets-icons--pin-alt-light]"}
+								variant={{ variant: "subtle", size: "sm" }}
+								loading={routeMutation.isPending}
+								onClick={() => routeMutation.mutate()}
+							/>
+						)}
 					</div>
+				</div>
+			</NodeToolbar>
+			<div
+				className={tvc([
+					"flex",
+					"flex-col",
+					"gap-1",
+					"w-full",
+					"h-full",
+					"justify-between",
+					"items-start",
+				])}
+			>
+				<div
+					className={"flex flex-row gap-2 items-center justify-between w-full"}
+				>
+					<LinkTo
+						icon={BuildingIcon}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: id }}
+						css={{
+							base: ["font-bold"],
+						}}
+					>
+						{data.name}
+					</LinkTo>
 				</div>
 
 				<div className={"flex flex-row items-center justify-between w-full"}>

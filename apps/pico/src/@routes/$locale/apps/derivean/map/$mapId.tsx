@@ -9,6 +9,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	validateSearch: zodValidator(
 		z.object({
 			zoomToId: z.string().optional(),
+			fromId: z.string().optional(),
 			routing: z.boolean().optional(),
 		}),
 	),
@@ -112,6 +113,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									"bg.productionId",
 									"bg.recurringProductionId",
 									"bg.valid",
+									"bg.userId",
 									(eb) => {
 										return eb
 											.selectFrom("Blueprint_Production as bp")
@@ -159,6 +161,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								id: z.string().min(1),
 								blueprintId: z.string().min(1),
 								landId: z.string().min(1),
+								userId: z.string().min(1),
 								name: z.string().min(1),
 
 								productionId: z.string().nullish(),
