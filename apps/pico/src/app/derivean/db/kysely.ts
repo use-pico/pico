@@ -953,6 +953,57 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
+			/**
+			 * Cache table for routes (building -> waypoint -> route -> ...).
+			 *
+			 * Because routes are recursive, it's easier to cache them.
+			 */
+			await kysely.schema
+				.createTable("Building_Route_Building")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Route_Building] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Route_Building] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Route_Building] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+				.addColumn("linkId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Route_Building] linkId",
+					["linkId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Building_Route_Building] buildingId-linkId", [
+					"buildingId",
+					"linkId",
+				])
+
+				.execute();
+
 			await kysely.schema
 				.createTable("Supply")
 				.ifNotExists()

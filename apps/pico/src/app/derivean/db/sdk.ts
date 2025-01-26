@@ -434,6 +434,43 @@ export type BuildingInventoryEntity = ReturnType<
 	typeof withBuildingInventorySchema
 >["~entity"];
 
+export const withBuildingRouteBuildingSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				linkId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "mapId", "buildingId", "linkId"],
+	});
+};
+
+export type BuildingRouteBuildingEntity = ReturnType<
+	typeof withBuildingRouteBuildingSchema
+>["~entity"];
+
 export const withBuildingWaypointSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -1099,6 +1136,7 @@ export interface Database {
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
 	Building_Inventory: BuildingInventoryEntity;
+	Building_Route_Building: BuildingRouteBuildingEntity;
 	Building_Waypoint: BuildingWaypointEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;

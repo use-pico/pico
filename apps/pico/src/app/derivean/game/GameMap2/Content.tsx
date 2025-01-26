@@ -210,12 +210,16 @@ export const Content: FC<Content.Props> = ({
 			switch (`${source.type}:${target.type}`) {
 				case "building-route:waypoint-route":
 					createBuildingWaypointMutation.mutate({
+						userId,
+						mapId,
 						buildingId: source.id,
 						waypointId: target.id,
 					});
 					break;
 				case "waypoint-route:building-route":
 					createBuildingWaypointMutation.mutate({
+						userId,
+						mapId,
 						buildingId: target.id,
 						waypointId: source.id,
 					});
@@ -223,6 +227,7 @@ export const Content: FC<Content.Props> = ({
 				case "waypoint-route:waypoint-route":
 					createRouteMutation.mutate({
 						userId,
+						mapId,
 						fromId: source.id,
 						toId: target.id,
 					});
@@ -261,6 +266,8 @@ export const Content: FC<Content.Props> = ({
 							switch (type) {
 								case "building-route":
 									createBuildingWaypointMutation.mutate({
+										userId,
+										mapId,
 										buildingId: fromId,
 										waypointId: id,
 									});
@@ -269,6 +276,7 @@ export const Content: FC<Content.Props> = ({
 								case "waypoint-route":
 									createRouteMutation.mutate({
 										userId,
+										mapId,
 										fromId,
 										toId: id,
 									});

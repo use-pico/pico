@@ -45,35 +45,10 @@ export const Route = createFileRoute(
 											.where(
 												"s.buildingId",
 												"in",
-												tx
-													.withRecursive("ConnectedWaypoints", (qb) =>
-														qb
-															.selectFrom("Building_Waypoint as bw")
-															.where("bw.buildingId", "=", buildingId)
-															.select(["bw.waypointId"])
-															.unionAll(
-																qb
-																	.selectFrom("Route as r")
-																	.innerJoin(
-																		"ConnectedWaypoints as cw",
-																		"cw.waypointId",
-																		"r.fromId",
-																	)
-																	.select(["r.toId as waypointId"]),
-															),
-													)
-													.selectFrom("ConnectedWaypoints as cw")
-													.innerJoin(
-														"Building_Waypoint as bw",
-														"bw.waypointId",
-														"cw.waypointId",
-													)
-													.innerJoin("Building as b", "b.id", "bw.buildingId")
-													.innerJoin("Land as l", "l.id", "b.landId")
-													.where("b.id", "!=", buildingId)
-													.where("l.mapId", "=", mapId)
-													.select(["b.id as buildingId"])
-													.distinct(),
+												eb
+													.selectFrom("Building_Route_Building as brb")
+													.select("brb.linkId")
+													.where("brb.buildingId", "=", buildingId),
 											)
 											.as("supply");
 									},
