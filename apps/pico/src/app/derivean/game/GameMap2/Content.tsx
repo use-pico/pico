@@ -78,7 +78,7 @@ export const Content: FC<Content.Props> = ({
 	routing,
 }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
-	const { mapId, locale } = useParams({
+	const { mapId } = useParams({
 		from: "/$locale/apps/derivean/map/$mapId",
 	});
 	const navigate = useNavigate({ from: "/$locale/apps/derivean/map/$mapId" });
@@ -186,6 +186,11 @@ export const Content: FC<Content.Props> = ({
 					);
 					break;
 				case "waypoint":
+					waypointMutation.mutate({
+						id: node.id,
+						x: node.position.x,
+						y: node.position.y,
+					});
 					break;
 				default:
 					break;
@@ -309,6 +314,7 @@ export const Content: FC<Content.Props> = ({
 				>
 					<CycleButton
 						userId={userId}
+						mapId={mapId}
 						cycle={cycle}
 						css={{
 							base: ["react-flow__panel", "absolute", "top-1", "right-16"],
@@ -320,6 +326,7 @@ export const Content: FC<Content.Props> = ({
 					/>
 					<AutoCycleButton
 						userId={userId}
+						mapId={mapId}
 						css={{
 							base: ["react-flow__panel", "absolute", "top-1", "right-1"],
 						}}

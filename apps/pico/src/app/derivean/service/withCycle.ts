@@ -9,10 +9,11 @@ export namespace withCycle {
 	export interface Props {
 		tx: Transaction<Database>;
 		userId: string;
+		mapId: string;
 	}
 }
 
-export const withCycle = async ({ tx, userId }: withCycle.Props) => {
+export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 	try {
 		await tx
 			.insertInto("Cycle")
@@ -42,6 +43,7 @@ export const withCycle = async ({ tx, userId }: withCycle.Props) => {
 		await withTransport({
 			tx,
 			userId,
+			mapId,
 		});
 	} catch (e) {
 		console.error(e);

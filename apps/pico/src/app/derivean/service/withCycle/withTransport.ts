@@ -4,10 +4,26 @@ export namespace withTransport {
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
+		mapId: string;
 	}
 }
 
-export const withTransport = async ({ tx, userId }: withTransport.Props) => {
+export const withTransport = async ({
+	tx,
+	userId,
+	mapId,
+}: withTransport.Props) => {
+	const demands = await tx
+		.selectFrom("Demand as d")
+		.innerJoin("Building as b", "b.id", "d.buildingId")
+		.innerJoin("Land as l", "l.id", "b.landId")
+		.select(["d.id"])
+		.where("b.userId", "=", userId)
+		.where("l.mapId", "=", mapId)
+		.execute();
+
+	console.log("Demands", demands);
+
 	// const transportQueue = await tx
 	// 	.selectFrom("Route as r")
 	// 	.innerJoin("Route_Resource as rr", "rr.routeId", "r.id")

@@ -9,6 +9,7 @@ import { withCycle } from "~/app/derivean/service/withCycle";
 export namespace CycleButton {
 	export interface Props extends Button.Props {
 		userId: string;
+		mapId: string;
 		/**
 		 * Current count of cycles.
 		 */
@@ -18,25 +19,17 @@ export namespace CycleButton {
 
 export const CycleButton: FC<CycleButton.Props> = ({
 	userId,
+	mapId,
 	cycle,
 	...props
 }) => {
-	const invalidator = useInvalidator([
-		["Cycle"],
-		["GameMap"],
-		["Resource_Queue"],
-		["Building_Queue"],
-		["Building"],
-		["User_Inventory"],
-		["Inventory"],
-		["Building_Base_Production"],
-	]);
+	const invalidator = useInvalidator([["Cycle"], ["GameMap"]]);
 
 	const mutation = useMutation({
 		mutationKey: ["useCycleMutation"],
 		async mutationFn({ userId }: { userId: string }) {
 			return kysely.transaction().execute(async (tx) => {
-				return withCycle({ userId, tx });
+				return withCycle({ tx, userId, mapId });
 			});
 		},
 		async onSuccess() {

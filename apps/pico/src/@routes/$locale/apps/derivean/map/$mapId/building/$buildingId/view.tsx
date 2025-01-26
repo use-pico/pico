@@ -4,12 +4,6 @@ import { BuildingPanel } from "~/app/derivean/game/GameMap2/Building/BuildingPan
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/$mapId/building/$buildingId/view",
 )({
-	async loader({
-		context: { queryClient, kysely },
-		params: { mapId, buildingId },
-	}) {
-		//
-	},
 	component() {
 		const { building } = useLoaderData({
 			from: "/$locale/apps/derivean/map/$mapId/building/$buildingId",

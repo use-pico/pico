@@ -7,11 +7,13 @@ import { withCycle } from "~/app/derivean/service/withCycle";
 export namespace AutoCycleButton {
 	export interface Props extends Button.Props {
 		userId: string;
+		mapId: string;
 	}
 }
 
 export const AutoCycleButton: FC<AutoCycleButton.Props> = ({
 	userId,
+	mapId,
 	...props
 }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
@@ -20,7 +22,7 @@ export const AutoCycleButton: FC<AutoCycleButton.Props> = ({
 		mutationKey: ["useCycleMutation"],
 		async mutationFn({ userId }: { userId: string }) {
 			return kysely.transaction().execute(async (tx) => {
-				return withCycle({ userId, tx });
+				return withCycle({ tx, userId, mapId });
 			});
 		},
 		async onSuccess() {
