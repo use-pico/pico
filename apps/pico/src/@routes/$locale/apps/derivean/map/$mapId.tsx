@@ -1,9 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
-import { Kysely, withBoolSchema, withJsonSchema } from "@use-pico/common";
+import { Kysely, tvc, withBoolSchema, withJsonSchema } from "@use-pico/common";
+import { MarkerType } from "@xyflow/react";
+import { useMemo } from "react";
 import { z } from "zod";
+import type { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
+import type { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
 import { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
+import type { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
+import type { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
+import type { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
+import type { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
+import type { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
+import type { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
+import type { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
+
+const width = 384;
+const height = 128;
+
+const NodeCss = [
+	"p-2",
+	"bg-white",
+	"rounded-lg",
+	"border-[4px]",
+	"border-slate-300",
+];
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	validateSearch: zodValidator(
@@ -13,19 +35,76 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 			routing: z.boolean().optional(),
 		}),
 	),
+	loaderDeps: ({ search: { routing } }) => ({ routing }),
 	async loader({
 		context: { queryClient, kysely, session },
 		params: { mapId },
+		deps: { routing },
 	}) {
 		const user = await session();
 
 		return {
 			user,
+			land: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "land", "list"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
+							select: tx
+								.selectFrom("Land as l")
+								.innerJoin("Region as r", "r.id", "l.regionId")
+								.select([
+									"l.id",
+									"r.name",
+									"r.color",
+									"l.x",
+									"l.y",
+									"l.width",
+									"l.height",
+								])
+								.where("l.mapId", "=", mapId)
+								.orderBy("r.name"),
+							output: z.object({
+								id: z.string().min(1),
+								name: z.string().min(1),
+								color: z.string().min(1),
+								x: z.number().int(),
+								y: z.number().int(),
+								width: z.number().int(),
+								height: z.number().int(),
+							}),
+						});
+
+						return source.map(
+							(land) =>
+								({
+									id: land.id,
+									position: {
+										x: land.x,
+										y: land.y,
+									},
+									width: land.width,
+									height: land.height,
+									selectable: true,
+									draggable: false,
+									data: land,
+									type: "land",
+									className: tvc(NodeCss, [
+										land.color,
+										"border-slate-600",
+										"opacity-25",
+									]),
+									zIndex: -1,
+								}) satisfies LandNode.LandNode,
+						);
+					});
+				},
+			}),
 			construction: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "construction"],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Building as bg")
 								.innerJoin("Land as l", "l.id", "bg.landId")
@@ -55,14 +134,37 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								valid: withBoolSchema(),
 							}),
 						});
+
+						return source.map(
+							(construction) =>
+								({
+									id: construction.id,
+									data: construction,
+									position: {
+										x: construction.x,
+										y: construction.y,
+									},
+									type: "construction",
+									width,
+									height,
+									selectable: false,
+									className: tvc(NodeCss, [
+										construction.valid ?
+											["border-green-500"]
+										:	["border-red-500"],
+									]),
+									extent: "parent",
+									parentId: construction.landId,
+								}) satisfies ConstructionNode.ConstructionNode,
+						);
 					});
 				},
 			}),
 			queue: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "queue"],
+				queryKey: ["GameMap", mapId, "queue", { routing }],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Building as bg")
 								.innerJoin("Land as l", "l.id", "bg.landId")
@@ -94,14 +196,39 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								valid: withBoolSchema(),
 							}),
 						});
+
+						return source.map(
+							(queue) =>
+								({
+									id: queue.id,
+									data: queue,
+									position: {
+										x: queue.x,
+										y: queue.y,
+									},
+									type: routing ? "building-route" : "queue",
+									width,
+									height,
+									selectable: false,
+									className: tvc(
+										NodeCss,
+										["border-amber-400", "bg-amber-50"],
+										queue.valid ? undefined : ["border-red-500"],
+									),
+									extent: "parent",
+									parentId: queue.landId,
+								}) satisfies
+									| BuildingRouteNode.BuildingRouteNode
+									| QueueNode.QueueNode,
+						);
 					});
 				},
 			}),
 			building: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "building"],
+				queryKey: ["GameMap", mapId, "building", { routing }],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Building as bg")
 								.innerJoin("Land as l", "l.id", "bg.landId")
@@ -185,14 +312,37 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								valid: withBoolSchema(),
 							}),
 						});
+
+						return source.map(
+							(building) =>
+								({
+									id: building.id,
+									data: building,
+									position: {
+										x: building.x,
+										y: building.y,
+									},
+									type: routing ? "building-route" : "building",
+									width,
+									height,
+									className: tvc(
+										NodeCss,
+										building.valid ? undefined : ["border-red-500"],
+									),
+									extent: "parent",
+									parentId: building.landId,
+								}) satisfies
+									| BuildingRouteNode.BuildingRouteNode
+									| BuildingNode.BuildingNode,
+						);
 					});
 				},
 			}),
 			waypoint: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "waypoint", "list"],
+				queryKey: ["GameMap", mapId, "waypoint", "list", { routing }],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Waypoint as wp")
 								.select(["wp.id", "wp.x", "wp.y"])
@@ -203,14 +353,39 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								y: z.number(),
 							}),
 						});
+
+						return source.map(
+							(waypoint) =>
+								({
+									id: waypoint.id,
+									data: waypoint,
+									position: {
+										x: waypoint.x,
+										y: waypoint.y,
+									},
+									type: routing ? "waypoint-route" : "waypoint",
+									width: 64,
+									height: 64,
+									selectable: true,
+									className: tvc([
+										"rounded-md",
+										"bg-slate-200",
+										"border",
+										"border-slate-400",
+										"p-2",
+									]),
+								}) satisfies
+									| WaypointRouteNode.WaypointRouteNode
+									| WaypointNode.WaypointNode,
+						);
 					});
 				},
 			}),
 			route: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "route", "list"],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Route as r")
 								.select(["r.id", "r.fromId", "r.toId"])
@@ -221,14 +396,33 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								toId: z.string().min(1),
 							}),
 						});
+
+						return source.map(
+							(route) =>
+								({
+									id: route.id,
+									source: route.fromId,
+									target: route.toId,
+									type: "route",
+									// markerEnd: {
+									// 	type: MarkerType.ArrowClosed,
+									// 	color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
+									// },
+									style: {
+										stroke: "#777777",
+										strokeWidth: 6,
+										pointerEvents: "all",
+									},
+								}) satisfies RouteEdge.RouteEdge,
+						);
 					});
 				},
 			}),
 			buildingWaypoint: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "buildingWaypoint", "list"],
 				async queryFn() {
-					return kysely.transaction().execute((tx) => {
-						return withList({
+					return kysely.transaction().execute(async (tx) => {
+						const source = await withList({
 							select: tx
 								.selectFrom("Building_Waypoint as bw")
 								.select(["bw.id", "bw.buildingId", "bw.waypointId"])
@@ -242,38 +436,25 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								waypointId: z.string().min(1),
 							}),
 						});
-					});
-				},
-			}),
-			land: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "land", "list"],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return withList({
-							select: tx
-								.selectFrom("Land as l")
-								.innerJoin("Region as r", "r.id", "l.regionId")
-								.select([
-									"l.id",
-									"r.name",
-									"r.color",
-									"l.x",
-									"l.y",
-									"l.width",
-									"l.height",
-								])
-								.where("l.mapId", "=", mapId)
-								.orderBy("r.name"),
-							output: z.object({
-								id: z.string().min(1),
-								name: z.string().min(1),
-								color: z.string().min(1),
-								x: z.number().int(),
-								y: z.number().int(),
-								width: z.number().int(),
-								height: z.number().int(),
-							}),
-						});
+
+						return source.map(
+							(buildingWaypoint) =>
+								({
+									id: buildingWaypoint.id,
+									source: buildingWaypoint.buildingId,
+									target: buildingWaypoint.waypointId,
+									type: "building-waypoint",
+									markerEnd: {
+										type: MarkerType.ArrowClosed,
+										color: "#b1b1b7",
+									},
+									style: {
+										stroke: "#777777",
+										strokeWidth: 2,
+										pointerEvents: "all",
+									},
+								}) satisfies BuildingWaypointEdge.BuildingWaypointEdge,
+						);
 					});
 				},
 			}),
@@ -296,28 +477,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	component() {
 		const {
 			user,
+			land,
 			construction,
 			queue,
 			building,
 			waypoint,
 			route,
 			buildingWaypoint,
-			land,
 			cycle,
 		} = Route.useLoaderData();
 		const { zoomToId, routing } = Route.useSearch();
+
+		const nodes = useMemo(
+			() => [...land, ...construction, ...queue, ...building, ...waypoint],
+			[construction, queue, building, waypoint, land],
+		);
+		const edges = useMemo(
+			() => [...route, ...buildingWaypoint],
+			[route, buildingWaypoint],
+		);
 
 		return (
 			<GameMap2
 				userId={user.id}
 				cycle={cycle}
-				construction={construction}
-				queue={queue}
-				building={building}
-				waypoint={waypoint}
-				route={route}
-				buildingWaypoint={buildingWaypoint}
-				land={land}
+				nodes={nodes}
+				edges={edges}
 				zoomToId={zoomToId}
 				routing={routing}
 			/>

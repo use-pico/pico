@@ -1,32 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
 import { useInvalidator } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
 import {
     applyNodeChanges,
     Background,
     BackgroundVariant,
     Controls,
-    MarkerType,
     MiniMap,
     ReactFlow,
     useEdgesState,
     useNodesState,
     useReactFlow,
-    type Edge,
-    type Node,
     type OnConnect,
     type OnConnectEnd,
     type OnNodeDrag,
     type OnNodesChange,
 } from "@xyflow/react";
-import { useCallback, useEffect, useMemo, type FC } from "react";
+import { useCallback, useEffect, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { AutoCycleButton } from "~/app/derivean/game/AutoCycleButton";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
 import { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
+import type { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { MapToolbar } from "~/app/derivean/game/GameMap2/MapToolbar";
 import { useBuildingMutation } from "~/app/derivean/game/GameMap2/mutation/useBuildingMutation";
 import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateBuildingWaypointMutation";
@@ -40,17 +37,6 @@ import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
 import { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
-
-const width = 384;
-const height = 128;
-
-const NodeCss = [
-	"p-2",
-	"bg-white",
-	"rounded-lg",
-	"border-[4px]",
-	"border-slate-300",
-];
 
 const connectionLineStyle = {
 	stroke: "#DD44AA",
@@ -76,13 +62,8 @@ export namespace Content {
 	export interface Props {
 		userId: string;
 		cycle: number;
-		construction: ConstructionNode.Data[];
-		queue: QueueNode.Data[];
-		building: BuildingNode.Data[];
-		waypoint: WaypointNode.Data[];
-		route: RouteEdge.Data[];
-		buildingWaypoint: BuildingWaypointEdge.Data[];
-		land: LandNode.Data[];
+		defaultNodes: GameMap2.NodeType[];
+		defaultEdges: GameMap2.EdgeType[];
 		zoomToId?: string;
 		routing?: boolean;
 	}
@@ -91,13 +72,8 @@ export namespace Content {
 export const Content: FC<Content.Props> = ({
 	userId,
 	cycle,
-	construction,
-	queue,
-	building,
-	waypoint,
-	route,
-	buildingWaypoint,
-	land,
+	defaultNodes,
+	defaultEdges,
 	zoomToId,
 	routing,
 }) => {
@@ -106,164 +82,6 @@ export const Content: FC<Content.Props> = ({
 		from: "/$locale/apps/derivean/map/$mapId",
 	});
 	const navigate = useNavigate({ from: "/$locale/apps/derivean/map/$mapId" });
-	const defaultNodes = useMemo<Node[]>(
-		() => [
-			...land.map(
-				(land) =>
-					({
-						id: land.id,
-						position: {
-							x: land.x,
-							y: land.y,
-						},
-						width: land.width,
-						height: land.height,
-						selectable: true,
-						draggable: false,
-						data: land,
-						type: "land",
-						className: tvc(NodeCss, [
-							land.color,
-							"border-slate-600",
-							"opacity-25",
-						]),
-						zIndex: -1,
-					}) satisfies LandNode.LandNode,
-			),
-			...construction.map(
-				(construction) =>
-					({
-						id: construction.id,
-						data: construction,
-						position: {
-							x: construction.x,
-							y: construction.y,
-						},
-						type: "construction",
-						width,
-						height,
-						selectable: false,
-						className: tvc(NodeCss, [
-							construction.valid ? ["border-green-500"] : ["border-red-500"],
-						]),
-						extent: "parent",
-						parentId: construction.landId,
-					}) satisfies ConstructionNode.ConstructionNode,
-			),
-			...queue.map(
-				(queue) =>
-					({
-						id: queue.id,
-						data: queue,
-						position: {
-							x: queue.x,
-							y: queue.y,
-						},
-						type: routing ? "building-route" : "queue",
-						width,
-						height,
-						selectable: false,
-						className: tvc(
-							NodeCss,
-							["border-amber-400", "bg-amber-50"],
-							queue.valid ? undefined : ["border-red-500"],
-						),
-						extent: "parent",
-						parentId: queue.landId,
-					}) satisfies
-						| BuildingRouteNode.BuildingRouteNode
-						| QueueNode.QueueNode,
-			),
-			...building.map(
-				(building) =>
-					({
-						id: building.id,
-						data: building,
-						position: {
-							x: building.x,
-							y: building.y,
-						},
-						type: routing ? "building-route" : "building",
-						width,
-						height,
-						className: tvc(
-							NodeCss,
-							building.valid ? undefined : ["border-red-500"],
-						),
-						extent: "parent",
-						parentId: building.landId,
-					}) satisfies
-						| BuildingRouteNode.BuildingRouteNode
-						| BuildingNode.BuildingNode,
-			),
-			...waypoint.map(
-				(waypoint) =>
-					({
-						id: waypoint.id,
-						data: waypoint,
-						position: {
-							x: waypoint.x,
-							y: waypoint.y,
-						},
-						type: routing ? "waypoint-route" : "waypoint",
-						width: 64,
-						height: 64,
-						selectable: true,
-						className: tvc([
-							"rounded-md",
-							"bg-slate-200",
-							"border",
-							"border-slate-400",
-							"p-2",
-						]),
-					}) satisfies
-						| WaypointRouteNode.WaypointRouteNode
-						| WaypointNode.WaypointNode,
-			),
-		],
-		[construction, queue, building, waypoint, land, routing],
-	);
-	const defaultEdges = useMemo<Edge[]>(
-		() => [
-			...route.map(
-				(route) =>
-					({
-						id: route.id,
-						source: route.fromId,
-						target: route.toId,
-						type: "route",
-						// markerEnd: {
-						// 	type: MarkerType.ArrowClosed,
-						// 	color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
-						// },
-						style: {
-							stroke: "#777777",
-							strokeWidth: 6,
-							pointerEvents: "all",
-						},
-					}) satisfies RouteEdge.RouteEdge,
-			),
-			...buildingWaypoint.map(
-				(buildingWaypoint) =>
-					({
-						id: buildingWaypoint.id,
-						source: buildingWaypoint.buildingId,
-						target: buildingWaypoint.waypointId,
-						type: "building-waypoint",
-						markerEnd: {
-							type: MarkerType.ArrowClosed,
-							color: "#b1b1b7",
-						},
-						style: {
-							stroke: "#777777",
-							strokeWidth: 2,
-							pointerEvents: "all",
-						},
-					}) satisfies BuildingWaypointEdge.BuildingWaypointEdge,
-			),
-		],
-		[route, buildingWaypoint],
-	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
 	const [edges, setEdges] = useEdgesState(defaultEdges);
 	const {
