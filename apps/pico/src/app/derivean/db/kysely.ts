@@ -853,6 +853,64 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createTable("Waypoint")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Waypoint] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Waypoint] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
+				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Building_Waypoint")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Waypoint] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("waypointId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building_Waypoint] waypointId",
+					["waypointId"],
+					"Waypoint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addUniqueConstraint("[Building_Waypoint] buildingId-waypointId", [
+					"buildingId",
+					"waypointId",
+				])
+
+				.execute();
+
+			await kysely.schema
 				.createTable("Route")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -870,7 +928,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addForeignKeyConstraint(
 					"[Route] fromId",
 					["fromId"],
-					"Building",
+					"Waypoint",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
@@ -878,7 +936,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addForeignKeyConstraint(
 					"[Route] toId",
 					["toId"],
-					"Building",
+					"Waypoint",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)

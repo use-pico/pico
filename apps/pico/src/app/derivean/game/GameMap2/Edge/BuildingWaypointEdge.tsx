@@ -7,22 +7,22 @@ import {
 import type { FC } from "react";
 import { getEdgeParams } from "~/app/derivean/utils/getEdgeParams";
 
-export namespace RouteEdge {
+export namespace BuildingWaypointEdge {
 	export interface Data {
 		id: string;
-		fromId: string;
-		toId: string;
+		buildingId: string;
+		waypointId: string;
 		[key: string]: unknown;
 	}
 
-	export type RouteEdge = Edge<Data, "route">;
+	export type BuildingWaypointEdge = Edge<Data, "building-waypoint">;
 
-	export interface Props extends EdgeProps<RouteEdge> {
+	export interface Props extends EdgeProps<BuildingWaypointEdge> {
 		//
 	}
 }
 
-export const RouteEdge: FC<RouteEdge.Props> = ({
+export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 	id,
 	source,
 	target,

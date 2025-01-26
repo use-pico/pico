@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
-import { BackIcon, Button, LinkTo, useInvalidator } from "@use-pico/client";
-import { genId, tvc } from "@use-pico/common";
+import { useInvalidator } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import {
     applyNodeChanges,
     Background,
@@ -16,6 +16,7 @@ import {
     type Edge,
     type Node,
     type OnConnect,
+    type OnConnectEnd,
     type OnNodeDrag,
     type OnNodesChange,
 } from "@xyflow/react";
@@ -24,14 +25,21 @@ import { kysely } from "~/app/derivean/db/kysely";
 import { AutoCycleButton } from "~/app/derivean/game/AutoCycleButton";
 import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
+import { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
+import { MapToolbar } from "~/app/derivean/game/GameMap2/MapToolbar";
+import { useBuildingMutation } from "~/app/derivean/game/GameMap2/mutation/useBuildingMutation";
+import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateBuildingWaypointMutation";
+import { useCreateRouteMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateRouteMutation";
+import { useCreateWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateWaypointMutation";
+import { useWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useWaypointMutation";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
 import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
 import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
-import { LandIcon } from "~/app/derivean/icon/LandIcon";
+import { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
+import { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
 
 const width = 384;
 const height = 128;
@@ -55,10 +63,13 @@ const nodeTypes = {
 	"queue": QueueNode,
 	"building": BuildingNode,
 	"building-route": BuildingRouteNode,
+	"waypoint": WaypointNode,
+	"waypoint-route": WaypointRouteNode,
 } as const;
 
 const edgeTypes = {
-	route: RouteEdge,
+	"route": RouteEdge,
+	"building-waypoint": BuildingWaypointEdge,
 } as const;
 
 export namespace Content {
@@ -68,7 +79,9 @@ export namespace Content {
 		construction: ConstructionNode.Data[];
 		queue: QueueNode.Data[];
 		building: BuildingNode.Data[];
+		waypoint: WaypointNode.Data[];
 		route: RouteEdge.Data[];
+		buildingWaypoint: BuildingWaypointEdge.Data[];
 		land: LandNode.Data[];
 		zoomToId?: string;
 		routing?: boolean;
@@ -81,7 +94,9 @@ export const Content: FC<Content.Props> = ({
 	construction,
 	queue,
 	building,
+	waypoint,
 	route,
+	buildingWaypoint,
 	land,
 	zoomToId,
 	routing,
@@ -135,8 +150,8 @@ export const Content: FC<Content.Props> = ({
 						parentId: construction.landId,
 					}) satisfies ConstructionNode.ConstructionNode,
 			),
-			...queue.map((queue) =>
-				routing ?
+			...queue.map(
+				(queue) =>
 					({
 						id: queue.id,
 						data: queue,
@@ -144,7 +159,7 @@ export const Content: FC<Content.Props> = ({
 							x: queue.x,
 							y: queue.y,
 						},
-						type: "building-route",
+						type: routing ? "building-route" : "queue",
 						width,
 						height,
 						selectable: false,
@@ -155,29 +170,12 @@ export const Content: FC<Content.Props> = ({
 						),
 						extent: "parent",
 						parentId: queue.landId,
-					} satisfies BuildingRouteNode.BuildingRouteNode)
-				:	({
-						id: queue.id,
-						data: queue,
-						position: {
-							x: queue.x,
-							y: queue.y,
-						},
-						type: "queue",
-						width,
-						height,
-						selectable: false,
-						className: tvc(
-							NodeCss,
-							["border-amber-400", "bg-amber-50"],
-							queue.valid ? undefined : ["border-red-500"],
-						),
-						extent: "parent",
-						parentId: queue.landId,
-					} satisfies QueueNode.QueueNode),
+					}) satisfies
+						| BuildingRouteNode.BuildingRouteNode
+						| QueueNode.QueueNode,
 			),
-			...building.map((building) =>
-				routing ?
+			...building.map(
+				(building) =>
 					({
 						id: building.id,
 						data: building,
@@ -185,7 +183,7 @@ export const Content: FC<Content.Props> = ({
 							x: building.x,
 							y: building.y,
 						},
-						type: "building-route",
+						type: routing ? "building-route" : "building",
 						width,
 						height,
 						className: tvc(
@@ -194,28 +192,36 @@ export const Content: FC<Content.Props> = ({
 						),
 						extent: "parent",
 						parentId: building.landId,
-					} satisfies BuildingRouteNode.BuildingRouteNode)
-				:	({
-						id: building.id,
-						data: building,
+					}) satisfies
+						| BuildingRouteNode.BuildingRouteNode
+						| BuildingNode.BuildingNode,
+			),
+			...waypoint.map(
+				(waypoint) =>
+					({
+						id: waypoint.id,
+						data: waypoint,
 						position: {
-							x: building.x,
-							y: building.y,
+							x: waypoint.x,
+							y: waypoint.y,
 						},
-						type: "building",
-						width,
-						height,
+						type: routing ? "waypoint-route" : "waypoint",
+						width: 64,
+						height: 64,
 						selectable: true,
-						className: tvc(
-							NodeCss,
-							building.valid ? undefined : ["border-red-500"],
-						),
-						extent: "parent",
-						parentId: building.landId,
-					} satisfies BuildingNode.BuildingNode),
+						className: tvc([
+							"rounded-md",
+							"bg-slate-200",
+							"border",
+							"border-slate-400",
+							"p-2",
+						]),
+					}) satisfies
+						| WaypointRouteNode.WaypointRouteNode
+						| WaypointNode.WaypointNode,
 			),
 		],
-		[construction, queue, building, land, routing],
+		[construction, queue, building, waypoint, land, routing],
 	);
 	const defaultEdges = useMemo<Edge[]>(
 		() => [
@@ -226,28 +232,47 @@ export const Content: FC<Content.Props> = ({
 						source: route.fromId,
 						target: route.toId,
 						type: "route",
-						/**
-						 * True if there are available resources in the source (from) and free space in target (to).
-						 */
-						animated: route.resourceCount > 0,
-						markerEnd: {
-							type: MarkerType.ArrowClosed,
-							color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
-						},
+						// markerEnd: {
+						// 	type: MarkerType.ArrowClosed,
+						// 	color: route.resourceCount > 0 ? "#b1b1b7" : "#FF0000",
+						// },
 						style: {
-							stroke: route.resourceCount > 0 ? "#777777" : "#FF0000",
-							strokeWidth: 4,
+							stroke: "#777777",
+							strokeWidth: 6,
 							pointerEvents: "all",
 						},
 					}) satisfies RouteEdge.RouteEdge,
 			),
+			...buildingWaypoint.map(
+				(buildingWaypoint) =>
+					({
+						id: buildingWaypoint.id,
+						source: buildingWaypoint.buildingId,
+						target: buildingWaypoint.waypointId,
+						type: "building-waypoint",
+						markerEnd: {
+							type: MarkerType.ArrowClosed,
+							color: "#b1b1b7",
+						},
+						style: {
+							stroke: "#777777",
+							strokeWidth: 2,
+							pointerEvents: "all",
+						},
+					}) satisfies BuildingWaypointEdge.BuildingWaypointEdge,
+			),
 		],
-		[route],
+		[route, buildingWaypoint],
 	);
 	const [nodes, setNodes] = useNodesState(defaultNodes);
 	const [edges, setEdges] = useEdgesState(defaultEdges);
-	const { updateNode, getIntersectingNodes, fitView, getNodes } =
-		useReactFlow();
+	const {
+		getIntersectingNodes,
+		fitView,
+		getNode,
+		getNodes,
+		screenToFlowPosition,
+	} = useReactFlow();
 
 	useEffect(() => {
 		setNodes(defaultNodes);
@@ -268,28 +293,8 @@ export const Content: FC<Content.Props> = ({
 			}, 250);
 	}, [fitView, zoomToId]);
 
-	const updatePositionMutation = useMutation({
-		async mutationFn({
-			buildingId,
-			x,
-			y,
-		}: {
-			buildingId: string;
-			x: number;
-			y: number;
-		}) {
-			return kysely.transaction().execute(async (tx) => {
-				await tx
-					.updateTable("Building")
-					.set({ x, y })
-					.where("id", "=", buildingId)
-					.execute();
-			});
-		},
-		async onSuccess() {
-			await invalidator();
-		},
-	});
+	const buildingMutation = useBuildingMutation();
+
 	const updateIsValidMutation = useMutation({
 		async mutationFn() {
 			return kysely.transaction().execute(async (tx) => {
@@ -327,6 +332,10 @@ export const Content: FC<Content.Props> = ({
 			await invalidator();
 		},
 	});
+	const createWaypointMutation = useCreateWaypointMutation();
+	const waypointMutation = useWaypointMutation();
+	const createRouteMutation = useCreateRouteMutation();
+	const createBuildingWaypointMutation = useCreateBuildingWaypointMutation();
 
 	const onNodesChange = useCallback<OnNodesChange<any>>(
 		(changes) => {
@@ -339,46 +348,121 @@ export const Content: FC<Content.Props> = ({
 			nodes.map((n) => (n.id === node.id ? { ...n, selected: false } : n)),
 		);
 	}, []);
-	const onNodeDrag = useCallback<OnNodeDrag<any>>(
-		(_, __) => {
-			//
-		},
-		[getIntersectingNodes, updateNode],
-	);
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
-			updatePositionMutation.mutate(
-				{
-					buildingId: node.id,
-					x: node.position.x,
-					y: node.position.y,
-				},
-				{
-					onSuccess() {
-						updateIsValidMutation.mutate();
-					},
-				},
-			);
+			switch (node.type) {
+				case "building":
+					buildingMutation.mutate(
+						{
+							id: node.id,
+							x: node.position.x,
+							y: node.position.y,
+						},
+						{
+							onSuccess() {
+								updateIsValidMutation.mutate();
+							},
+						},
+					);
+					break;
+				case "construction":
+					break;
+				case "queue":
+					break;
+				case "waypoint":
+					waypointMutation.mutate({
+						id: node.id,
+						x: node.position.x,
+						y: node.position.y,
+					});
+					break;
+				default:
+					break;
+			}
 		},
-		[getIntersectingNodes, updatePositionMutation],
+		[getIntersectingNodes, buildingMutation],
 	);
-	const routeMutation = useMutation({
-		async mutationFn({ fromId, toId }: { fromId: string; toId: string }) {
-			return kysely.transaction().execute(async (tx) => {
-				return tx
-					.insertInto("Route")
-					.values({ id: genId(), fromId, toId, userId })
-					.execute();
-			});
-		},
-		async onSuccess() {
-			await invalidator();
-		},
-	});
 	const onConnect = useCallback<OnConnect>(
-		({ source, target }) =>
-			routeMutation.mutate({ fromId: source, toId: target }),
-		[routeMutation],
+		(params) => {
+			const source = getNode(params.source);
+			const target = getNode(params.target);
+
+			if (!source || !target) {
+				return;
+			}
+
+			switch (`${source.type}:${target.type}`) {
+				case "building-route:waypoint-route":
+					createBuildingWaypointMutation.mutate({
+						buildingId: source.id,
+						waypointId: target.id,
+					});
+					break;
+				case "waypoint-route:building-route":
+					createBuildingWaypointMutation.mutate({
+						buildingId: target.id,
+						waypointId: source.id,
+					});
+					break;
+				case "waypoint-route:waypoint-route":
+					createRouteMutation.mutate({
+						userId,
+						fromId: source.id,
+						toId: target.id,
+					});
+					break;
+
+				default:
+					console.warn(`Unknown connection: ${source.type}:${target.type}`);
+					break;
+			}
+
+			// setEdges((edges) => addEdge(params, edges));
+		},
+		[createRouteMutation],
+	);
+	const onConnectEnd = useCallback<OnConnectEnd>(
+		(event, connectionState) => {
+			if (!connectionState.isValid && connectionState.fromNode) {
+				const { clientX, clientY } = (
+					"changedTouches" in event ?
+						event.changedTouches[0]
+					:	event) as any;
+
+				const coord = screenToFlowPosition({
+					x: clientX - 32,
+					y: clientY - 32,
+				});
+				const fromId = connectionState.fromNode.id;
+				const { type } = connectionState.fromNode;
+
+				createWaypointMutation.mutate(
+					{
+						userId,
+						mapId,
+						...coord,
+					},
+					{
+						async onSuccess({ id }) {
+							switch (type) {
+								case "building-route":
+									console.log("connecting building");
+									break;
+
+								case "waypoint-route":
+									createRouteMutation.mutate({
+										userId,
+										fromId,
+										toId: id,
+									});
+									break;
+							}
+						},
+					},
+				);
+			}
+		},
+		[screenToFlowPosition, createWaypointMutation, createRouteMutation],
 	);
 
 	return (
@@ -389,9 +473,9 @@ export const Content: FC<Content.Props> = ({
 					edges={edges}
 					onNodesChange={onNodesChange}
 					onNodeDragStart={onNodeDragStart}
-					onNodeDrag={onNodeDrag}
 					onNodeDragStop={onNodeDragStop}
 					onConnect={onConnect}
+					onConnectEnd={onConnectEnd}
 					className={"grow h-screen"}
 					fitView
 					snapToGrid
@@ -403,13 +487,13 @@ export const Content: FC<Content.Props> = ({
 					connectionLineStyle={connectionLineStyle}
 					maxZoom={2}
 					minZoom={0.1}
-					onDoubleClick={() => {
+					onDoubleClick={useCallback(() => {
 						navigate({
 							search: {
 								routing: !routing,
 							},
 						});
-					}}
+					}, [navigate, routing])}
 					onEdgeClick={(_, edge) => {
 						navigate({
 							to: "/$locale/apps/derivean/map/$mapId/building/$buildingId/routes",
@@ -453,39 +537,7 @@ export const Content: FC<Content.Props> = ({
 						size={1}
 					/>
 
-					<div
-						className={
-							"react-flow__panel flex flex-row p-2 border bg-white border-slate-300 shadow-xs"
-						}
-					>
-						<LinkTo
-							to={"/$locale/apps/derivean/game"}
-							params={{ locale }}
-						>
-							<Button
-								iconEnabled={BackIcon}
-								variant={{ variant: "subtle" }}
-							/>
-						</LinkTo>
-						<LinkTo
-							to={"/$locale/apps/derivean/map/$mapId/building/list"}
-							params={{ locale, mapId }}
-						>
-							<Button
-								iconEnabled={BuildingIcon}
-								variant={{ variant: "subtle" }}
-							/>
-						</LinkTo>
-						<LinkTo
-							to={"/$locale/apps/derivean/map/$mapId/land/list"}
-							params={{ locale, mapId }}
-						>
-							<Button
-								iconEnabled={LandIcon}
-								variant={{ variant: "subtle" }}
-							/>
-						</LinkTo>
-					</div>
+					<MapToolbar />
 				</ReactFlow>
 				<Outlet />
 			</div>

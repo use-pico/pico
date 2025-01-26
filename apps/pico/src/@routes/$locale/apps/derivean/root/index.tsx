@@ -125,6 +125,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 							1 waypoint between two buildings is required.
 						</p>
 						<p>Resource distribution weight will be done on Road size.</p>
+						<p>
+							Subscribe (or demand) resources from the waypoint. There could be
+							a list of subscribed buildings per resource, so priority could be
+							simply changed.
+						</p>
 					</li>
 					<li>Fix Cycles as it's not bound to the Map.</li>
 					<li>

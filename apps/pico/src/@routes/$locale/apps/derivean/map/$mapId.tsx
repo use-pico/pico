@@ -188,41 +188,58 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 					});
 				},
 			}),
+			waypoint: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "waypoint", "list"],
+				async queryFn() {
+					return kysely.transaction().execute((tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Waypoint as wp")
+								.select(["wp.id", "wp.x", "wp.y"])
+								.where("wp.mapId", "=", mapId),
+							output: z.object({
+								id: z.string().min(1),
+								x: z.number(),
+								y: z.number(),
+							}),
+						});
+					});
+				},
+			}),
 			route: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "route"],
+				queryKey: ["GameMap", mapId, "route", "list"],
 				async queryFn() {
 					return kysely.transaction().execute((tx) => {
 						return withList({
 							select: tx
 								.selectFrom("Route as r")
-								.innerJoin("Building as bf", "bf.id", "r.fromId")
-								.innerJoin("Blueprint as blf", "blf.id", "bf.blueprintId")
-								.innerJoin("Building as bt", "bt.id", "r.toId")
-								.innerJoin("Blueprint as blt", "blt.id", "bt.blueprintId")
-								.select([
-									"r.id",
-									"r.fromId",
-									"r.toId",
-									"blf.name as fromName",
-									"blt.name as toName",
-									(eb) => {
-										return eb
-											.selectFrom("Route_Resource as rr")
-											.whereRef("rr.routeId", "=", "r.id")
-											.select((eb) =>
-												eb.fn.count<number>("rr.id").as("resourceCount"),
-											)
-											.as("resourceCount");
-									},
-								])
+								.select(["r.id", "r.fromId", "r.toId"])
 								.where("r.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								fromId: z.string().min(1),
 								toId: z.string().min(1),
-								fromName: z.string().min(1),
-								toName: z.string().min(1),
-								resourceCount: z.number().int().nonnegative(),
+							}),
+						});
+					});
+				},
+			}),
+			buildingWaypoint: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "buildingWaypoint", "list"],
+				async queryFn() {
+					return kysely.transaction().execute((tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Building_Waypoint as bw")
+								.select(["bw.id", "bw.buildingId", "bw.waypointId"])
+								.leftJoin("Building as b", "b.id", "bw.buildingId")
+								.leftJoin("Land as l", "l.id", "b.landId")
+								.where("b.userId", "=", user.id)
+								.where("l.mapId", "=", mapId),
+							output: z.object({
+								id: z.string().min(1),
+								buildingId: z.string().min(1),
+								waypointId: z.string().min(1),
 							}),
 						});
 					});
@@ -277,8 +294,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		};
 	},
 	component() {
-		const { user, construction, queue, building, route, land, cycle } =
-			Route.useLoaderData();
+		const {
+			user,
+			construction,
+			queue,
+			building,
+			waypoint,
+			route,
+			buildingWaypoint,
+			land,
+			cycle,
+		} = Route.useLoaderData();
 		const { zoomToId, routing } = Route.useSearch();
 
 		return (
@@ -288,7 +314,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 				construction={construction}
 				queue={queue}
 				building={building}
+				waypoint={waypoint}
 				route={route}
+				buildingWaypoint={buildingWaypoint}
 				land={land}
 				zoomToId={zoomToId}
 				routing={routing}

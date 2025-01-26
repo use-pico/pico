@@ -25,6 +25,7 @@ import { OrderIcon } from "~/app/derivean/icon/OrderIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { RecurringIcon } from "~/app/derivean/icon/RecurringIcon";
 import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
+import { WaypointIcon } from "~/app/derivean/icon/WaypointIcon";
 
 export namespace BuildingNode {
 	export interface Production {
@@ -137,7 +138,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 						</LinkTo>
 						{!fromId || fromId === id ? null : (
 							<Button
-								iconEnabled={"icon-[lets-icons--pin-alt-light]"}
+								iconEnabled={WaypointIcon}
 								variant={{ variant: "subtle", size: "sm" }}
 								loading={routeMutation.isPending}
 								onClick={() => routeMutation.mutate()}

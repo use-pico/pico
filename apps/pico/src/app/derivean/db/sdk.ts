@@ -434,6 +434,37 @@ export type BuildingInventoryEntity = ReturnType<
 	typeof withBuildingInventorySchema
 >["~entity"];
 
+export const withBuildingWaypointSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				waypointId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingId", "waypointId"],
+	});
+};
+
+export type BuildingWaypointEntity = ReturnType<
+	typeof withBuildingWaypointSchema
+>["~entity"];
+
 export const withConstructionSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -990,6 +1021,41 @@ export const withUserSchema = <
 
 export type UserEntity = ReturnType<typeof withUserSchema>["~entity"];
 
+export const withWaypointSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				x:
+					// float4 / not nullable
+					z.number(),
+				y:
+					// float4 / not nullable
+					z.number(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "mapId", "x", "y"],
+	});
+};
+
+export type WaypointEntity = ReturnType<typeof withWaypointSchema>["~entity"];
+
 export interface Database {
 	Blueprint: BlueprintEntity;
 	Blueprint_Conflict: BlueprintConflictEntity;
@@ -1003,6 +1069,7 @@ export interface Database {
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
 	Building_Inventory: BuildingInventoryEntity;
+	Building_Waypoint: BuildingWaypointEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
 	Inventory: InventoryEntity;
@@ -1018,4 +1085,5 @@ export interface Database {
 	Route_Resource: RouteResourceEntity;
 	Tag: TagEntity;
 	User: UserEntity;
+	Waypoint: WaypointEntity;
 }
