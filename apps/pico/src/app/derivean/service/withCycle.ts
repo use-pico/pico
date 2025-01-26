@@ -21,21 +21,9 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 				id: genId(),
 				stamp: DateTime.now().toUTC().toSQLTime(),
 				userId,
+				mapId,
 			})
 			.execute();
-
-		await withConstruction({
-			tx,
-			userId,
-		});
-
-		/**
-		 * Produce stuff
-		 */
-		await withProduction({
-			tx,
-			userId,
-		});
 
 		/**
 		 * Transport, preparing for production
@@ -44,6 +32,20 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 			tx,
 			userId,
 			mapId,
+		});
+
+		await withConstruction({
+			tx,
+			userId,
+			mapId,
+		});
+
+		/**
+		 * Produce stuff
+		 */
+		await withProduction({
+			tx,
+			userId,
 		});
 	} catch (e) {
 		console.error(e);

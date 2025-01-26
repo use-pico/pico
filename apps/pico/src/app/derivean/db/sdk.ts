@@ -518,6 +518,9 @@ export const withCycleSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				stamp:
 					// datetime / not nullable
 					z.string(),
@@ -525,7 +528,7 @@ export const withCycleSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "stamp"],
+		sort: ["id", "userId", "mapId", "stamp"],
 	});
 };
 

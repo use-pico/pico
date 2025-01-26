@@ -44,26 +44,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("Cycle")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Cycle] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("stamp", "datetime", (col) =>
-					col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
-				)
-
-				.execute();
-
-			await kysely.schema
 				.createTable("Resource")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -242,6 +222,35 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("name", "varchar(128)", (col) => col.notNull())
 
 				.addUniqueConstraint("[Map] userId-name", ["userId", "name"])
+
+				.execute();
+
+			await kysely.schema
+				.createTable("Cycle")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Cycle] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Cycle] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("stamp", "datetime", (col) =>
+					col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+				)
 
 				.execute();
 
