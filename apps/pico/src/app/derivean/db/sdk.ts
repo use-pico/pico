@@ -531,6 +531,41 @@ export const withCycleSchema = <
 
 export type CycleEntity = ReturnType<typeof withCycleSchema>["~entity"];
 
+export const withDemandSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				buildingId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				resourceId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				amount:
+					// float4 / not nullable
+					z.number(),
+				priority:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "buildingId", "resourceId", "amount", "priority"],
+	});
+};
+
+export type DemandEntity = ReturnType<typeof withDemandSchema>["~entity"];
+
 export const withInventorySchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -914,7 +949,7 @@ export const withRouteSchema = <
 
 export type RouteEntity = ReturnType<typeof withRouteSchema>["~entity"];
 
-export const withRouteResourceSchema = <
+export const withSupplySchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
 >({
@@ -927,32 +962,21 @@ export const withRouteResourceSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
-				routeId:
+				buildingId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				type:
-					// varchar(16) / not nullable
-					z.string().min(1),
-				amount:
-					// float4 / nullable
-					z.number().nullish(),
-				priority:
-					// INTEGER / not nullable
-					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "routeId", "resourceId", "type", "amount", "priority"],
+		sort: ["id", "buildingId", "resourceId"],
 	});
 };
 
-export type RouteResourceEntity = ReturnType<
-	typeof withRouteResourceSchema
->["~entity"];
+export type SupplyEntity = ReturnType<typeof withSupplySchema>["~entity"];
 
 export const withTagSchema = <
 	TShapeSchema extends ShapeSchema,
@@ -1072,6 +1096,7 @@ export interface Database {
 	Building_Waypoint: BuildingWaypointEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
+	Demand: DemandEntity;
 	Inventory: InventoryEntity;
 	Land: LandEntity;
 	Land_Inventory: LandInventoryEntity;
@@ -1082,7 +1107,7 @@ export interface Database {
 	Resource: ResourceEntity;
 	Resource_Tag: ResourceTagEntity;
 	Route: RouteEntity;
-	Route_Resource: RouteResourceEntity;
+	Supply: SupplyEntity;
 	Tag: TagEntity;
 	User: UserEntity;
 	Waypoint: WaypointEntity;

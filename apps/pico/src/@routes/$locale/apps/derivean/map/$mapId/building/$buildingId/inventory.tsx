@@ -38,16 +38,26 @@ export const Route = createFileRoute(
 						return withList({
 							select: tx
 								.selectFrom("Inventory as i")
+								.innerJoin("Building_Inventory as bi", (eb) => {
+									return eb
+										.on("bi.buildingId", "=", buildingId)
+										.onRef("bi.inventoryId", "=", "i.id");
+								})
 								.innerJoin("Resource as r", "r.id", "i.resourceId")
-								.select(["i.id", "i.amount", "i.limit", "r.name"])
-								.where(
+								.leftJoin("Supply as s", (eb) => {
+									return eb
+										.onRef("s.resourceId", "=", "i.resourceId")
+										.on("s.buildingId", "=", buildingId);
+								})
+								.select([
 									"i.id",
-									"in",
-									tx
-										.selectFrom("Building_Inventory as bi")
-										.select("bi.inventoryId")
-										.where("bi.buildingId", "=", buildingId),
-								)
+									"i.amount",
+									"i.limit",
+									"r.name",
+									"bi.buildingId",
+									"i.resourceId",
+									"s.id as supplyId",
+								])
 								.where("i.type", "in", ["storage"])
 								.orderBy("r.name"),
 							query({ select, where }) {
@@ -65,9 +75,12 @@ export const Route = createFileRoute(
 							},
 							output: z.object({
 								id: z.string().min(1),
+								buildingId: z.string().min(1),
+								resourceId: z.string().min(1),
 								amount: z.number().nonnegative(),
 								limit: z.number().nonnegative(),
 								name: z.string().min(1),
+								supplyId: z.string().nullish(),
 							}),
 							filter: {
 								fulltext,

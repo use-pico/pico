@@ -305,12 +305,6 @@ export const Content: FC<Content.Props> = ({
 							},
 						});
 					}, [navigate, routing])}
-					onEdgeClick={(_, edge) => {
-						navigate({
-							to: "/$locale/apps/derivean/map/$mapId/building/$buildingId/routes",
-							params: { locale, buildingId: edge.source },
-						});
-					}}
 					zoomOnDoubleClick={false}
 				>
 					<CycleButton

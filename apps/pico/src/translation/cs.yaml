@@ -7,6 +7,9 @@
 026c58ea2da6ced1bb88ccfd06806a181c6f8d7829901c9967b8cdc3:
   ref: Region min height (label)
   value: Minimální výška
+04eccec0929d7843f81d5db1478ee82361c893ed2be33cf8bff4b764:
+  ref: Demand list (label)
+  value: Seznam požadavků
 05c76e6ae9508a0daf56319048fe4c01ecb66329432d756a6d42e27a:
   ref: Create blueprint (modal)
   value: Nový plánek
@@ -25,18 +28,12 @@
 0b7e1a7bed13a142251b17aac3ac1a9a7265b185e54dc8be73bdedb4:
   ref: Delete production requirement (modal)
   value: Odstranit požadavek produkce
-0c1d43218ae4710b47af9947587594f6fe321f6374b933075405be2d:
-  ref: No route resources yet (label)
-  value: Na této cestě nejsou přepravovány žádné zdroje.
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: Seznam uživatelů
 0d720e511de49f63fc541f6e8ba15a7bbc395034c146346ec1308d42:
   ref: Reset game (menu)
   value: Resetovat hru
-0dc313ad06d215a95fe40edc19ecfde5547cd1562e821e27085cbd66:
-  ref: Available resources (label)
-  value: Dostupné zdroje
 0ece63dca2b354df29a4abe7f1ed9e9bdfd915c8cce9697ddb9a8714:
   ref: Map list (label)
   value: Seznam map
@@ -46,9 +43,6 @@
 111e91fb69453ce86bace40096fe77440ab1e0b4731f962ec28e5d2f:
   ref: Edit requirement item (modal)
   value: Editace požadovaného zdroje
-113136722737f2874e8a58232fe40b8e743ad5e8e51257c76775bd22:
-  ref: No outcomming routes yet (label)
-  value: Nejsou nastavené žádné odchozí cesty.
 11d8160a4be6d533d9b88ac59f1e30913a3b53f60b9e231ff632f953:
   ref: Inventory (label)
   value: Inventář
@@ -70,6 +64,9 @@
 16012dbb1900d439c943c1adb1c16a4820743b7f28ab112a130ade4c:
   ref: Delete (menu)
   value: Odstranit
+1695019a56747d163680ff0c195c453a00a7cb6e94a8ae5781416df4:
+  ref: Regions (label)
+  value: Regiony
 1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
   ref: Delete production resource requirement (modal)
   value: Delete production resource requirement (modal)
@@ -82,9 +79,6 @@
 17ef950910db98e80fa2d28daf7df5417442447674da059bfd1ce679:
   ref: Building base detail (label)
   value: Detail základní budovy
-1813cfb4d3f1082c992e71c135540c4512736cf138bdb0903f643108:
-  ref: Transported resources (label)
-  value: Zdroje v přepravě
 19d04bf3808447ec0105094716724deda8a0e2fff20d11e44c29b952:
   ref: Resource production count (label)
   value: "Počet: V produkci"
@@ -109,6 +103,9 @@
 227cb1bfcc1e2959f9358829fe8387b14af0c31f7a92c384c196ad72:
   ref: Edit blueprint production dependency (modal)
   value: Editace závislosti produkce
+229a39084683544d6268b7821f6b110224124a85585c60a6e6146896:
+  ref: Supply list (label)
+  value: Seznam dodávek
 2408dec380d869f544634f264ae6e9d16dbfd9e10caca2fdcf2b1e70:
   ref: Amount (label)
   value: Množství
@@ -130,6 +127,9 @@
 2d4d41f2a66c240cf8c0a43d33c755c078db9aa4b82126c79c858001:
   ref: Move production to (menu)
   value: Přesunou do jiného plánku
+2ed3003fd29876e4fb9a336541cac1bf54468818b8ae3a8f642fb709:
+  ref: No regions (label)
+  value: Nejsou vybrány žádné regiony
 2f1a1e2bad402bfc6ff079fcfef7467560b7a8c3b14c053178d0ece4:
   ref: Required production dependencies (label)
   value: Požadované budovy
@@ -296,9 +296,6 @@
 60903df05ec210e684a0bf3599eb1305e4f1823f8c99e1179b1f4f12:
   ref: Cycle - Success (label)
   value: Cyklus byl úspěšný
-6188818172aceefe2eef563f0859150235ba1fb4f4a8b5c834d05114:
-  ref: Building routes (label)
-  value: Odchozí cesty
 627b144c2c50807a987281e5ecdb4c810b593d2bec46a5dfedfc2a36:
   ref: Blueprint dependencies (menu)
   value: Závislosti
@@ -322,12 +319,15 @@
 67515209c797b07cb004d53fc1fd416265d3ce38bbb127209dbc0b84:
   ref: Create resource (menu)
   value: Nový zdroj
-695913e209582025c633c8740b786f8d2489a912d559fc85a6337616:
-  ref: There are no resources on the road. (label)
-  value: Zatím nejsou nastavené žádné cesty.
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Udává počet cyklů, než bude daná surovina vyprodukována.
+6a47bf50d0987a831d15342c8beb87b5990150235459bcd7000a0fec:
+  ref: This building does not demand anything. (label)
+  value: Tato budova nic nevyžaduje.
+6c06a03249a9ba15c8bea0564fc7200be3204325bee1afc43b736531:
+  ref: Supply of (label)
+  value: Dodávky
 6c8672ae2564eebe61967c7248a860bb2a56dd206aa10c39a0e11fb7:
   ref: Export game files (label)
   value: Export herních souborů
@@ -374,6 +374,9 @@
 79482438f45f64dbf3cd157b5c80931303d45acf3b50b08a8d8f046e:
   ref: String must contain at least 1 character(s)
   value: String must contain at least 1 character(s)
+7a0530620a195262d31e709d4965b96723f6c9f02acde707a89bf18e:
+  ref: Demand (label)
+  value: Požadavky
 7cbede4b14f5c02b7b13109345556356866e692a69c83ba2a6ec9d7b:
   ref: Create blueprint production (modal)
   value: Nová produkční linka
@@ -383,9 +386,6 @@
     Opravdu si přejete odstranit vybranou budovu? Tato akce nemá větší vliv
     na data, nicméně se odstraní veškerá data spojená s postavenou
     budovou.
-7e0ddae1d689fc29d357dafef048429da48a310b5982c19201430867:
-  ref: There are no available items for transport (label)
-  value: Nejsou dostupné žádné položky k přepravě.
 7ee8e4d28039c83bcdc06965f8989afb436a9ac1b0dcb31f87fb7ff2:
   ref: Region limit (hint)
   value: Udává maximální počet výskytů regionu na mapě.
@@ -508,9 +508,6 @@ ace113f1cae998b1cc7d6379874de4aa85d81ce612aa690e73b1bae1:
   value: |
     Opravdu si přejete odstranit vybranou položku inventáře? Tato akce nebude
     mít větší vliv na data, pouze menší vliv na hratelnost.
-ae450d8d43bda3390389a4350d2a4fd2101a76e4a303c4465215cfb2:
-  ref: Route priority (label)
-  value: Priorita cest
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Šupla hopla soubor semhle!
@@ -535,9 +532,6 @@ b41b5465adbeb7a6c853df051f999969c8549996f53cef7b4fcdab1a:
 b5c98918cf2805ab8f0a93ec82d5e4aab64e496321a10181e5aaa6fe:
   ref: Create inventory item (menu)
   value: Nová položka inventáře
-b61a758ff5ee88dbfc3ef7e946c72f844e0f8ef07c3513f76b290465:
-  ref: Route resources (label)
-  value: Transport zdrojů
 b83e6b41ef65f352d6ddb6b39913de8a48b2ffc5dcb60057141ef850:
   ref: Tag label (label)
   value: Název
@@ -550,9 +544,6 @@ b90487d6c57d06789be6f2b11c445c0b5eb4b15374ab9ec6cd7bad16:
 baa5636da13745ca6bded18beae47c01dfe02d3d35e2321066cb21bb:
   ref: Delete requirement item (modal)
   value: Odstranit požadavek na zdroj
-bcee5ee516f581c77fc5390940df0211d8c4265f5514715d0c881764:
-  ref: Routes (label)
-  value: Odchozí cesty
 bd5aab47a21200304c192679d94761dec0cd696f3f9c77f6eba35a92:
   ref: Construction cycles (label)
   value: Délka stavby
@@ -574,9 +565,6 @@ c4c460295c1978851ece4a45639f30252dcc4ca8a301a86c6ed2041b:
 c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
   ref: Apply default inventory - Success (label)
   value: Výchozí inventář byl úspěšně aplikován.
-c6b3e2eabcfa247ff9fe9b15f3a01ae1d50ed39885ea6a637f26ee1a:
-  ref: Construction resources (label)
-  value: Zdroje pro stavbu
 c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
   ref: Production queue is empty. (label)
   value: Fronta produkce je prázdná.
@@ -641,6 +629,9 @@ d8d2f35d16bd2d5e746464b13ad667e6572be16ad5bd33a71dd192e1:
 da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
   ref: Delete production resource requirement (content)
   value: Delete production resource requirement (content)
+dbab91056182f8007440fa2547868c0f15634d3154747a02843ec5b0:
+  ref: This building does not supply anything. (label)
+  value: Tato budova nemá žádné dodávky.
 dcfc03272a3c4cf0b2da23da118acb0ce54f4647b6d456fedbe530e1:
   ref: Number of dependencies (label)
   value: Počet závislostí
@@ -719,6 +710,9 @@ f24a4b292236d6918253dac55026ab94f0393a38c03e8e4a79c98c68:
 f27d845ba46f7d29b2c5f9a6f847823568fdedc19966ef949fe29a07:
   ref: Requirement name (label)
   value: Požadovaný zdroj
+f2e4f9f8b5c01c61e2c44a6dca1e42bbf4f75865fbae80bb7b2e0611:
+  ref: Select regions (title)
+  value: Vyberte regiony
 f559a10414642d63ef07702a31eec356a318dc21bfeaaf2e1807cc72:
   ref: New cycle (label)
   value: Další cyklus

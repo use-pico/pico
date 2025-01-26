@@ -2,34 +2,31 @@ import { useParams } from "@tanstack/react-router";
 import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
+import { Item } from "~/app/derivean/game/GameMap2/Demand/Item";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Item";
-import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
+import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
 
-export namespace RoutePanel {
+export namespace DemandPanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Route {
+	export interface Demand {
 		id: string;
-		fromId: string;
-		toId: string;
-		toName: string;
-		toConstructionId?: string | null;
-		count: number;
+		name: string;
+		amount: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
-		route: Route[];
+		demand: Demand[];
 	}
 }
 
-export const RoutePanel: FC<RoutePanel.Props> = ({
+export const DemandPanel: FC<DemandPanel.Props> = ({
 	building,
-	route,
+	demand,
 	...props
 }) => {
 	const { mapId, locale } = useParams({
@@ -38,8 +35,8 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 
 	return (
 		<Panel
-			icon={RouteIcon}
-			textTitle={<Tx label={"Routes (label)"} />}
+			icon={DemandIcon}
+			textTitle={<Tx label={"Demand (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
@@ -48,7 +45,7 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						params={{ locale, mapId, buildingId: building.id }}
 					/>
 					<LinkTo
-						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/demand"}
 						params={{ locale, mapId, buildingId: building.id }}
 						search={{ zoomToId: building.id }}
 					>
@@ -58,12 +55,12 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 			}
 			{...props}
 		>
-			{route.length > 0 ?
-				route.map((item) => {
+			{demand.length > 0 ?
+				demand.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							route={item}
+							demand={item}
 						/>
 					);
 				})
@@ -74,13 +71,13 @@ export const RoutePanel: FC<RoutePanel.Props> = ({
 						"justify-center",
 						"rounded-sm",
 						"border",
-						"border-amber-400",
+						"border-green-400",
 						"p-4",
-						"bg-amber-200",
+						"bg-green-200",
 						"font-bold",
 					])}
 				>
-					<Tx label={"No outcomming routes yet (label)"} />
+					<Tx label={"This building does not demand anything. (label)"} />
 				</div>
 			}
 		</Panel>

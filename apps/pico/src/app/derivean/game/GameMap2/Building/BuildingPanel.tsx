@@ -3,10 +3,11 @@ import { LinkTo, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
+import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
 import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
-import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
+import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
 
 const linkCss = [
 	"p-4",
@@ -71,23 +72,21 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 			</LinkTo>
 
 			<LinkTo
-				icon={RouteIcon}
-				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"}
+				icon={SupplyIcon}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/supply"}
 				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
-				<Tx label={"Building routes (label)"} />
+				<Tx label={"Supply list (label)"} />
 			</LinkTo>
 
 			<LinkTo
-				icon={"icon-[ph--queue-thin]"}
-				to={
-					"/$locale/apps/derivean/map/$mapId/building/$buildingId/route/priority"
-				}
+				icon={DemandIcon}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/demand"}
 				params={{ locale, mapId, buildingId: building.id }}
 				css={{ base: linkCss }}
 			>
-				<Tx label={"Route priority (label)"} />
+				<Tx label={"Demand list (label)"} />
 			</LinkTo>
 		</Panel>
 	);

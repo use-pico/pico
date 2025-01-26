@@ -118,7 +118,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
-					<li>
+                    <li>
 						<h2>Supply/Demand</h2>
 						<p>Each building may set supply resources</p>
 						<p>Each building may set demanded resources</p>

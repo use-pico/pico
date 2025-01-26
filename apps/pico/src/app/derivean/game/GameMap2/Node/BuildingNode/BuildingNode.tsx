@@ -1,13 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { useParams, useSearch } from "@tanstack/react-router";
-import {
-    Button,
-    Icon,
-    LinkTo,
-    Progress,
-    useInvalidator,
-} from "@use-pico/client";
-import { genId, tvc } from "@use-pico/common";
+import { useParams } from "@tanstack/react-router";
+import { Button, Icon, LinkTo, Progress } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import {
     Handle,
     NodeToolbar,
@@ -16,7 +9,6 @@ import {
     type NodeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
-import { kysely } from "~/app/derivean/db/kysely";
 import { ToolbarCss } from "~/app/derivean/game/GameMap2/Node/ToolbarCss";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
@@ -24,8 +16,7 @@ import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { OrderIcon } from "~/app/derivean/icon/OrderIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { RecurringIcon } from "~/app/derivean/icon/RecurringIcon";
-import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
-import { WaypointIcon } from "~/app/derivean/icon/WaypointIcon";
+import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
 
 export namespace BuildingNode {
 	export interface Production {
@@ -58,30 +49,6 @@ export namespace BuildingNode {
 export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 	const { mapId, locale } = useParams({
 		from: "/$locale/apps/derivean/map/$mapId",
-	});
-	const { fromId } = useSearch({ from: "/$locale/apps/derivean/map/$mapId" });
-	const invalidator = useInvalidator([["GameMap"]]);
-	const routeMutation = useMutation({
-		async mutationFn() {
-			if (!fromId) {
-				return;
-			}
-
-			return kysely.transaction().execute((tx) => {
-				return tx
-					.insertInto("Route")
-					.values({
-						id: genId(),
-						userId: data.userId,
-						fromId,
-						toId: id,
-					})
-					.execute();
-			});
-		},
-		async onSuccess() {
-			await invalidator();
-		},
 	});
 
 	return (
@@ -126,24 +93,15 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 						</LinkTo>
 						<LinkTo
 							to={
-								"/$locale/apps/derivean/map/$mapId/building/$buildingId/routes"
+								"/$locale/apps/derivean/map/$mapId/building/$buildingId/supply"
 							}
 							params={{ locale, mapId, buildingId: id }}
-							search={{ fromId: id }}
 						>
 							<Button
-								iconEnabled={RouteIcon}
+								iconEnabled={SupplyIcon}
 								variant={{ variant: "subtle", size: "sm" }}
 							/>
 						</LinkTo>
-						{!fromId || fromId === id ? null : (
-							<Button
-								iconEnabled={WaypointIcon}
-								variant={{ variant: "subtle", size: "sm" }}
-								loading={routeMutation.isPending}
-								onClick={() => routeMutation.mutate()}
-							/>
-						)}
 					</div>
 				</div>
 			</NodeToolbar>

@@ -30,7 +30,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	validateSearch: zodValidator(
 		z.object({
 			zoomToId: z.string().optional(),
-			fromId: z.string().optional(),
 			routing: z.boolean().optional(),
 		}),
 	),

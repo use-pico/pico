@@ -3,31 +3,29 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Route/Priority/Item";
+import { Item } from "~/app/derivean/game/GameMap2/Supply/Item";
+import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
 
-export namespace PriorityPanel {
+export namespace SupplyPanel {
 	export interface Building {
 		id: string;
 		name: string;
 	}
 
-	export interface Priority {
+	export interface Supply {
 		id: string;
 		name: string;
-		toName: string;
-		amount: number;
-		priority: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
 		building: Building;
-		priority: Priority[];
+		supply: Supply[];
 	}
 }
 
-export const PriorityPanel: FC<PriorityPanel.Props> = ({
+export const SupplyPanel: FC<SupplyPanel.Props> = ({
 	building,
-	priority,
+	supply,
 	...props
 }) => {
 	const { mapId, locale } = useParams({
@@ -36,8 +34,8 @@ export const PriorityPanel: FC<PriorityPanel.Props> = ({
 
 	return (
 		<Panel
-			icon={"icon-[ph--queue-thin]"}
-			textTitle={<Tx label={"Route priority (label)"} />}
+			icon={SupplyIcon}
+			textTitle={<Tx label={"Supply of (label)"} />}
 			textSubTitle={
 				<>
 					<LinkTo
@@ -46,9 +44,7 @@ export const PriorityPanel: FC<PriorityPanel.Props> = ({
 						params={{ locale, mapId, buildingId: building.id }}
 					/>
 					<LinkTo
-						to={
-							"/$locale/apps/derivean/map/$mapId/building/$buildingId/route/priority"
-						}
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/supply"}
 						params={{ locale, mapId, buildingId: building.id }}
 						search={{ zoomToId: building.id }}
 					>
@@ -58,12 +54,12 @@ export const PriorityPanel: FC<PriorityPanel.Props> = ({
 			}
 			{...props}
 		>
-			{priority.length > 0 ?
-				priority.map((item) => {
+			{supply.length > 0 ?
+				supply.map((item) => {
 					return (
 						<Item
 							key={item.id}
-							priority={item}
+							supply={item}
 						/>
 					);
 				})
@@ -80,7 +76,7 @@ export const PriorityPanel: FC<PriorityPanel.Props> = ({
 						"font-bold",
 					])}
 				>
-					<Tx label={"There are no resources on the road. (label)"} />
+					<Tx label={"This building does not supply anything. (label)"} />
 				</div>
 			}
 		</Panel>

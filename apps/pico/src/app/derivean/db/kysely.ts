@@ -950,45 +950,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
-				.createTable("Route_Resource")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("routeId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route_Resource] routeId",
-					["routeId"],
-					"Route",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("resourceId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route_Resource] resourceId",
-					["resourceId"],
-					"Resource",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * Define target inventory type.
-				 */
-				.addColumn("type", "varchar(16)", (col) =>
-					col.notNull().defaultTo("storage"),
-				)
-
-				/**
-				 * Amount transferred: null -> all, 0 -> disabled (none), >0 -> amount
-				 */
-				.addColumn("amount", "float4")
-
-				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
-
-				.execute();
-
-			await kysely.schema
 				.createTable("Supply")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())

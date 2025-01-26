@@ -8,6 +8,9 @@ import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 export namespace InventoryPanel {
 	export interface Inventory {
 		id: string;
+		buildingId: string;
+		resourceId: string;
+		supplyId?: string | null;
 		name: string;
 		limit: number;
 		amount: number;
