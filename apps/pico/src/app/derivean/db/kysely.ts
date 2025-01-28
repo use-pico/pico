@@ -1220,6 +1220,82 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				])
 
 				.execute();
+
+			/**
+			 * Resource transport between waypoints.
+			 *
+			 * If waypoint is removed, transport is cancelled (resource is lost).
+			 */
+			await kysely.schema
+				.createTable("Transport")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Which resource
+				 */
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Next waypoint (if null, resource will get to the building).
+				 *
+				 * If waypoint is set, resource is transferred to next waypoint.
+				 */
+				.addColumn("waypointId", $id)
+				.addForeignKeyConstraint(
+					"[Transport] waypointId",
+					["waypointId"],
+					"Waypoint",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Target building
+				 */
+				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] buildingId",
+					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Amount of transferred resources.
+				 */
+				.addColumn("amount", "float4", (col) => col.notNull())
+
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Transport] userId")
+				.on("Transport")
+				.columns(["userId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Transport] resourceId")
+				.on("Transport")
+				.columns(["resourceId"])
+				.execute();
 		}
 	},
 });

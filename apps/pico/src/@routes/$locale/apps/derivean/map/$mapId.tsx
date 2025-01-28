@@ -372,7 +372,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										"rounded-md",
 										"bg-slate-100",
 										"border",
-										"border-slate-400",
+										"border-slate-300",
 										"text-slate-700",
 										"p-2",
 									]),
