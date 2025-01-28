@@ -33,11 +33,14 @@ export const useCreateBuildingWaypointMutation = () => {
 					})
 					.execute();
 
-				return withBuildingRouteBuilding({
-					tx,
-					mapId,
-					userId,
-				});
+				setTimeout(async () => {
+					await withBuildingRouteBuilding({
+						tx,
+						mapId,
+						userId,
+					});
+					await invalidator();
+				}, 0);
 			});
 		},
 		async onSuccess() {

@@ -255,6 +255,66 @@ export const Content: FC<Content.Props> = ({
 				const fromId = connectionState.fromNode.id;
 				const { type } = connectionState.fromNode;
 
+				// const fakeId = genId();
+
+				// setNodes((nodes) =>
+				// 	nodes.concat({
+				// 		id: fakeId,
+				// 		data: {
+				// 			id: fakeId,
+				// 			...coord,
+				// 		},
+				// 		position: coord,
+				// 		type: routing ? "waypoint-route" : "waypoint",
+				// 		width: 64,
+				// 		height: 64,
+				// 		selectable: true,
+				// 		className: tvc([
+				// 			"rounded-md",
+				// 			"bg-sky-100",
+				// 			"border",
+				// 			"border-sky-400",
+				// 			"p-2",
+				// 		]),
+				// 	} satisfies
+				// 		| WaypointRouteNode.WaypointRouteNode
+				// 		| WaypointNode.WaypointNode),
+				// );
+
+				// console.log("type?", type);
+
+				// switch (type) {
+				// 	case "building-route":
+				// 		setEdges((edges) =>
+				// 			edges.concat({
+				// 				id: genId(),
+				// 				source: fromId,
+				// 				target: fakeId,
+				// 				type: "building-waypoint",
+				// 				style: {
+				// 					stroke: "#b1b1b7",
+				// 					strokeWidth: 2,
+				// 					pointerEvents: "all",
+				// 				},
+				// 			} satisfies BuildingWaypointEdge.BuildingWaypointEdge),
+				// 		);
+				// 		break;
+				// 	case "waypoint-route":
+				// 		setEdges((edges) =>
+				// 			edges.concat({
+				// 				id: genId(),
+				// 				source: fromId,
+				// 				target: fakeId,
+				// 				type: "route",
+				// 				style: {
+				// 					stroke: "#b1b1b7",
+				// 					strokeWidth: 5,
+				// 				},
+				// 			} satisfies RouteEdge.RouteEdge),
+				// 		);
+				// 		break;
+				// }
+
 				createWaypointMutation.mutate(
 					{
 						userId,

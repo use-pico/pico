@@ -44,6 +44,7 @@ export const withBuildingRouteBuilding = async ({
 		.where("w.mapId", "=", mapId)
 		.where("w.userId", "=", userId)
 		.execute();
+
 	const buildingWaypoints = await tx
 		.selectFrom("Building_Waypoint as bw")
 		.select(["bw.buildingId", "bw.waypointId"])

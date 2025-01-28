@@ -29,11 +29,14 @@ export const useCreateRouteMutation = () => {
 					.values({ id: genId(), fromId, toId, userId })
 					.execute();
 
-				return withBuildingRouteBuilding({
-					tx,
-					mapId,
-					userId,
-				});
+				setTimeout(async () => {
+					await withBuildingRouteBuilding({
+						tx,
+						mapId,
+						userId,
+					});
+					await invalidator();
+				}, 0);
 			});
 		},
 		async onSuccess() {
