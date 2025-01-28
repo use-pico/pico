@@ -323,6 +323,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									type: routing ? "building-route" : "building",
 									width,
 									height,
+									selectable: true,
 									className: tvc(
 										NodeCss,
 										building.valid ? undefined : ["border-red-500"],

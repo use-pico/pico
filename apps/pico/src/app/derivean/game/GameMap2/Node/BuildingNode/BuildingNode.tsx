@@ -71,23 +71,23 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 					<div className={"flex flex-row gap-1 items-end"}>
 						<LinkTo
 							to={
-								"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"
-							}
-							params={{ locale, mapId, buildingId: id }}
-						>
-							<Button
-								iconEnabled={InventoryIcon}
-								variant={{ variant: "subtle", size: "sm" }}
-							/>
-						</LinkTo>
-						<LinkTo
-							to={
 								"/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list"
 							}
 							params={{ locale, mapId, buildingId: id }}
 						>
 							<Button
 								iconEnabled={ProductionIcon}
+								variant={{ variant: "subtle", size: "sm" }}
+							/>
+						</LinkTo>
+						<LinkTo
+							to={
+								"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"
+							}
+							params={{ locale, mapId, buildingId: id }}
+						>
+							<Button
+								iconEnabled={InventoryIcon}
 								variant={{ variant: "subtle", size: "sm" }}
 							/>
 						</LinkTo>

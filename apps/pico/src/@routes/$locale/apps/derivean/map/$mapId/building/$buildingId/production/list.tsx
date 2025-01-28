@@ -145,7 +145,8 @@ export const Route = createFileRoute(
 												}),
 										),
 									);
-								}),
+								})
+								.orderBy("r.name"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
