@@ -127,54 +127,11 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
-						<h2>Supply/Demand</h2>
-						<p>Each building may set supply resources</p>
-						<p>Each building may set demanded resources</p>
+						<p>New transportation: each waypoint should have it's inventory.</p>
 						<p>
-							The point is to automatically distribute resources between between
-							buildings, so it's enough to mark resource as a supply, so others
-							in the chain may take it.
+							Compile Transportation list (waypoints); this will require
+							shortest path (we got it!)
 						</p>
-						<p>
-							Automate construction - when confirmed (plan == false), generate
-							demand orders.
-						</p>
-					</li>
-					<li>
-						<p>
-							Rework roads: there will be waypoint (as a resource distribution
-							node). Building may be connected only to waypoints, so minimum of
-							1 waypoint between two buildings is required.
-						</p>
-						<p>Resource distribution weight will be done on Road size.</p>
-						<p>
-							Subscribe (or demand) resources from the waypoint. There could be
-							a list of subscribed buildings per resource, so priority could be
-							simply changed.
-						</p>
-					</li>
-					<li>Fix Cycles as it's not bound to the Map.</li>
-					<li>
-						<p>
-							Idea of lands; define lands in root, their size boundaries (will
-							be randomized), available resources (may be randomized).
-						</p>
-
-						<p>
-							Here may be time for citizens, like geologist who will investigate
-							a land to find, what's in there.
-						</p>
-
-						<p>
-							Generate land into a map (so there will be Land as definition and
-							Land as an instance).
-						</p>
-
-						<p>For start, list all lands + zoom to land.</p>
-					</li>
-					<li>
-						Fetch production on building from production next to prod* ids on
-						the building.
 					</li>
 					<li>
 						Add notification center like inventory is full, production is full

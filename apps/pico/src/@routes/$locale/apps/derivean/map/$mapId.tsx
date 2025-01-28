@@ -370,9 +370,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									selectable: true,
 									className: tvc([
 										"rounded-md",
-										"bg-sky-100",
+										"bg-slate-100",
 										"border",
-										"border-sky-400",
+										"border-slate-400",
+										"text-slate-700",
 										"p-2",
 									]),
 								}) satisfies

@@ -83,7 +83,6 @@ export const WaypointNode: FC<WaypointNode.Props> = ({
 			<div className="w-full h-full flex items-center justify-center">
 				<Icon
 					icon={WaypointIcon}
-					css={{ base: ["text-amber-600"] }}
 					variant={{ size: "5xl" }}
 				/>
 
