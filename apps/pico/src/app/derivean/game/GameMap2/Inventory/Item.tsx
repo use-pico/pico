@@ -64,10 +64,26 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 						"hover:border-amber-600",
 					]
 				:	undefined,
+				inventory.supplyId ?
+					[
+						"bg-purple-50",
+						"border-purple-400",
+						"hover:bg-purple-50",
+						"hover:border-purple-400",
+					]
+				:	undefined,
 			])}
 		>
 			<div className={"flex flex-row items-center justify-between"}>
-				<div className={"flex flex-row gap-2 items-center"}>
+				<div
+					className={tvc([
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						inventory.supplyId ? ["text-purple-600"] : undefined,
+					])}
+				>
 					<Button
 						iconEnabled={inventory.supplyId ? SupplyIcon : PackageIcon}
 						loading={toggleDemandMutation.isPending}

@@ -26,10 +26,31 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				"p-2",
 				"cursor-default",
 				"hover:bg-slate-100",
+				requirement.supply ?
+					[
+						"bg-purple-50",
+						"border-purple-400",
+						"hover:bg-purple-50",
+						"hover:border-purple-400",
+					]
+				:	[
+						"bg-amber-50",
+						"border-amber-400",
+						"hover:bg-amber-50",
+						"hover:border-amber-400",
+					],
 			])}
 		>
 			<div className={"flex flex-row items-center justify-between"}>
-				<div className={"flex flex-row gap-2 items-center"}>
+				<div
+					className={tvc([
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						requirement.supply ? ["text-purple-600"] : ["text-slate-900"],
+					])}
+				>
 					{requirement.supply ?
 						<Icon icon={DemandIcon} />
 					:	<Icon icon={PackageIcon} />}

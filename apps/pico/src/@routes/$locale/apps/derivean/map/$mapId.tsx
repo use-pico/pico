@@ -343,10 +343,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						const source = await withList({
 							select: tx
 								.selectFrom("Waypoint as wp")
-								.select(["wp.id", "wp.x", "wp.y"])
+								.select(["wp.id", "wp.x", "wp.y", "wp.mapId", "wp.userId"])
 								.where("wp.mapId", "=", mapId),
 							output: z.object({
 								id: z.string().min(1),
+								mapId: z.string().min(1),
+								userId: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
 							}),
