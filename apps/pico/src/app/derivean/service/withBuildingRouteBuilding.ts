@@ -1,4 +1,4 @@
-import { genId } from "@use-pico/common";
+import { genId, Timer } from "@use-pico/common";
 import Graph from "graphology";
 import { dfsFromNode } from "graphology-traversal/dfs";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
@@ -16,6 +16,16 @@ export const withBuildingRouteBuilding = async ({
 	userId,
 	mapId,
 }: withBuildingRouteBuilding.Props) => {
+	const timer = new Timer({ label: "pathfinder" });
+	timer.start();
+
+	console.info("Staring pathfinding...");
+	const queryTimer = new Timer({
+		label: "query",
+	});
+
+	queryTimer.start();
+
 	await tx
 		.deleteFrom("Building_Route_Building as brb")
 		.where("brb.userId", "=", userId)
@@ -53,6 +63,13 @@ export const withBuildingRouteBuilding = async ({
 		.select(["r.fromId", "r.toId"])
 		.execute();
 
+	console.info(`-- Queries [${queryTimer.stop().ms()} ms]`);
+
+	const graphTimer = new Timer({
+		label: "graph",
+	});
+
+	graphTimer.start();
 	const graph = new Graph<
 		{
 			type: "building" | "waypoint" | "route";
@@ -87,8 +104,14 @@ export const withBuildingRouteBuilding = async ({
 		});
 	});
 
-	const related = new Map<string, { buildingId: string; linkId: string }>();
+	console.info(`-- Graph [${graphTimer.stop().ms()} ms]`);
 
+	const relatedTimer = new Timer({
+		label: "related",
+	});
+
+	relatedTimer.start();
+	const related = new Map<string, { buildingId: string; linkId: string }>();
 	for (const { id } of buildings) {
 		dfsFromNode(graph, id, (node, attr, depth) => {
 			if (attr.type === "building") {
@@ -99,7 +122,13 @@ export const withBuildingRouteBuilding = async ({
 		});
 	}
 
-	return tx
+	console.info(`-- Related search [${relatedTimer.stop().ms()} ms]`);
+
+	const insertTimer = new Timer({
+		label: "insert",
+	});
+	insertTimer.start();
+	await tx
 		.insertInto("Building_Route_Building")
 		.values(
 			[...related.values()].map((item) => ({
@@ -110,4 +139,8 @@ export const withBuildingRouteBuilding = async ({
 			})),
 		)
 		.execute();
+
+	console.info(`-- Insert in [${insertTimer.stop().ms()} ms]`);
+
+	console.info(`Done [${timer.stop().ms()} ms]`);
 };
