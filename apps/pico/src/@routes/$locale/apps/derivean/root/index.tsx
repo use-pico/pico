@@ -98,6 +98,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 											.execute();
 									}
 								}
+
+								await sql`
+                                    DELETE FROM Inventory
+                                    WHERE NOT EXISTS (
+                                        SELECT 1 FROM Blueprint_Inventory 
+                                        WHERE Blueprint_Inventory.inventoryId = Inventory.id
+                                    )
+                                `.execute(tx);
 							}),
 							withToastPromiseTx("Import game files"),
 						);
@@ -118,7 +126,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
-                    <li>
+					<li>
 						<h2>Supply/Demand</h2>
 						<p>Each building may set supply resources</p>
 						<p>Each building may set demanded resources</p>

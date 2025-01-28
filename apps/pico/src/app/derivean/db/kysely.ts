@@ -89,6 +89,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createIndex("[Resource_Tag] resourceId")
+				.on("Resource_Tag")
+				.columns(["resourceId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Resource_Tag] tagId")
+				.on("Resource_Tag")
+				.columns(["tagId"])
+				.execute();
+
+			await kysely.schema
 				.createTable("Inventory")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -109,6 +121,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					col.notNull().defaultTo("storage"),
 				)
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Inventory] resourceId")
+				.on("Inventory")
+				.columns(["resourceId"])
 				.execute();
 
 			/**
@@ -200,6 +218,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
+			await kysely.schema
+				.createIndex("[Region_Inventory] regionId")
+				.on("Region_Inventory")
+				.columns(["regionId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Region_Inventory] resourceId")
+				.on("Region_Inventory")
+				.columns(["resourceId"])
+				.execute();
+
 			/**
 			 * Map is generated list of Lands for a player.
 			 *
@@ -223,6 +253,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addUniqueConstraint("[Map] userId-name", ["userId", "name"])
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Map] userId")
+				.on("Map")
+				.columns(["userId"])
 				.execute();
 
 			await kysely.schema
@@ -255,6 +291,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createIndex("[Cycle] userId-mapId")
+				.on("Cycle")
+				.columns(["userId", "mapId"])
+				.execute();
+
+			await kysely.schema
 				.createTable("Land")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -282,6 +324,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("width", "integer", (col) => col.notNull())
 				.addColumn("height", "integer", (col) => col.notNull())
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Land] mapId")
+				.on("Land")
+				.columns(["mapId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Land] regionId")
+				.on("Land")
+				.columns(["regionId"])
 				.execute();
 
 			/**
@@ -315,6 +369,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"inventoryId",
 				])
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Land_Inventory] landId-inventoryId")
+				.on("Land_Inventory")
+				.columns(["landId", "inventoryId"])
 				.execute();
 
 			/**
@@ -828,6 +888,24 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createIndex("[Building] userId")
+				.on("Building")
+				.columns(["userId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building] blueprintId")
+				.on("Building")
+				.columns(["blueprintId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building] landId")
+				.on("Building")
+				.columns(["landId"])
+				.execute();
+
+			await kysely.schema
 				.createTable("Building_Inventory")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -885,6 +963,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			await kysely.schema
+				.createIndex("[Waypoint] userId")
+				.on("Waypoint")
+				.columns(["userId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Waypoint] mapId")
+				.on("Waypoint")
+				.columns(["mapId"])
+				.execute();
+
+			await kysely.schema
 				.createTable("Building_Waypoint")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
@@ -912,6 +1002,18 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"waypointId",
 				])
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Waypoint] buildingId")
+				.on("Building_Waypoint")
+				.columns(["buildingId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Waypoint] waypointId")
+				.on("Building_Waypoint")
+				.columns(["waypointId"])
 				.execute();
 
 			await kysely.schema
@@ -951,6 +1053,24 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"toId",
 				])
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Route] userId")
+				.on("Route")
+				.columns(["userId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Route] fromId")
+				.on("Route")
+				.columns(["fromId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Route] toId")
+				.on("Route")
+				.columns(["toId"])
 				.execute();
 
 			/**
@@ -1002,6 +1122,30 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"linkId",
 				])
 
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Route_Building] userId")
+				.on("Building_Route_Building")
+				.columns(["userId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Route_Building] mapId")
+				.on("Building_Route_Building")
+				.columns(["mapId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Route_Building] buildingId")
+				.on("Building_Route_Building")
+				.columns(["buildingId"])
+				.execute();
+
+			await kysely.schema
+				.createIndex("[Building_Route_Building] linkId")
+				.on("Building_Route_Building")
+				.columns(["linkId"])
 				.execute();
 
 			await kysely.schema

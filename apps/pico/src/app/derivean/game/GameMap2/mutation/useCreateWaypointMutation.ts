@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useInvalidator } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import { kysely } from "~/app/derivean/db/kysely";
-import { withBuildingRouteBuilding } from "~/app/derivean/service/withBuildingRouteBuilding";
 
 export namespace useCreateWaypointMutation {
 	export interface Props {
@@ -30,12 +29,6 @@ export const useCreateWaypointMutation = () => {
 					})
 					.returning("id")
 					.executeTakeFirstOrThrow();
-
-				await withBuildingRouteBuilding({
-					tx,
-					mapId,
-					userId,
-				});
 
 				return waypoint;
 			});
