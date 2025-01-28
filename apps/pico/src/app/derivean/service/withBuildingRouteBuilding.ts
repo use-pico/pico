@@ -1,5 +1,6 @@
 import { genId } from "@use-pico/common";
-import { sql } from "kysely";
+import Graph from "graphology";
+import { dfsFromNode } from "graphology-traversal/dfs";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 
 export namespace withBuildingRouteBuilding {
@@ -15,91 +16,98 @@ export const withBuildingRouteBuilding = async ({
 	userId,
 	mapId,
 }: withBuildingRouteBuilding.Props) => {
-	const buildings = await tx.selectFrom("Building").select(["id"]).execute();
+	await tx
+		.deleteFrom("Building_Route_Building as brb")
+		.where("brb.userId", "=", userId)
+		.execute();
 
-	await tx.deleteFrom("Building_Route_Building").execute();
+	const buildings = await tx
+		.selectFrom("Building as b")
+		.innerJoin("Land as l", "l.id", "b.landId")
+		.select(["b.id"])
+		.where("b.userId", "=", userId)
+		.where("l.mapId", "=", mapId)
+		.execute();
+	const waypoints = await tx
+		.selectFrom("Waypoint as w")
+		.select("w.id")
+		.where("w.mapId", "=", mapId)
+		.where("w.userId", "=", userId)
+		.execute();
+	const buildingWaypoints = await tx
+		.selectFrom("Building_Waypoint as bw")
+		.select(["bw.buildingId", "bw.waypointId"])
+		.where(
+			"bw.buildingId",
+			"in",
+			tx
+				.selectFrom("Building as b")
+				.innerJoin("Land as l", "l.id", "b.landId")
+				.select(["b.id"])
+				.where("b.userId", "=", userId)
+				.where("l.mapId", "=", mapId),
+		)
+		.execute();
+	const routes = await tx
+		.selectFrom("Route as r")
+		.select(["r.fromId", "r.toId"])
+		.execute();
 
-	console.log(`Finding paths between [${buildings.length}] buildings`);
-
-	const skip: string[] = [];
-	const inserts: any[] = [];
-
-	for await (const { id } of buildings) {
-		if (skip.includes(id)) {
-			console.log(`Skipping [${id}]`);
-			continue;
+	const graph = new Graph<
+		{
+			type: "building" | "waypoint" | "route";
+		},
+		{
+			type: "route" | "waypoint";
 		}
+	>({
+		allowSelfLoops: true,
+		multi: false,
+		type: "undirected",
+	});
 
-		console.log("skips", skip);
+	buildings.forEach(({ id }) =>
+		graph.addNode(id, {
+			type: "building",
+		}),
+	);
+	waypoints.forEach(({ id }) => {
+		graph.addNode(id, {
+			type: "waypoint",
+		});
+	});
+	buildingWaypoints.forEach(({ buildingId, waypointId }) => {
+		graph.addEdge(buildingId, waypointId, {
+			type: "waypoint",
+		});
+	});
+	routes.forEach(({ fromId, toId }) => {
+		graph.addEdge(fromId, toId, {
+			type: "route",
+		});
+	});
 
-		const { rows: related } = (await sql`
-            WITH RECURSIVE ConnectedWaypoints(waypointId, path, depth) AS (
-                -- Step 1: Start with waypoints directly linked to the given building
-                SELECT bw.waypointId, CAST(bw.waypointId AS TEXT), 1
-                FROM Building_Waypoint AS bw
-                WHERE bw.buildingId = ${id}
-            
-                UNION ALL
-            
-                -- Step 2: Traverse waypoints through routes in both directions (single recursion step)
-                SELECT r.toId, path || '->' || r.toId, depth + 1
-                FROM Route AS r
-                INNER JOIN ConnectedWaypoints AS cw ON cw.waypointId = r.fromId
-                WHERE INSTR(path, r.toId) = 0 -- Prevent cycles
-                AND depth < 50 -- Prevent excessive recursion
-            
-                UNION ALL
-            
-                -- Step 3: Traverse in the reverse direction (toId -> fromId)
-                SELECT r.fromId, path || '->' || r.fromId, depth + 1
-                FROM Route AS r
-                INNER JOIN ConnectedWaypoints AS cw ON cw.waypointId = r.toId
-                WHERE INSTR(path, r.fromId) = 0 -- Prevent cycles
-                AND depth < 50 -- Prevent excessive recursion
-            )
-            
-            -- Step 4: Retrieve all connected buildings linked to waypoints
-            SELECT DISTINCT b.id AS buildingId
-            FROM ConnectedWaypoints AS cw
-            INNER JOIN Building_Waypoint AS bw ON bw.waypointId = cw.waypointId
-            INNER JOIN Building AS b ON b.id = bw.buildingId
-            INNER JOIN Land AS l ON l.id = b.landId
-            WHERE b.id != ${id} -- Exclude original building
-            AND l.mapId = ${mapId};
-            `.execute(tx)) as { rows: { buildingId: string }[] };
+	const related = new Map<string, { buildingId: string; linkId: string }>();
 
-		console.log(`-- Found [${related.length}] related paths`);
+	for (const { id } of buildings) {
+		dfsFromNode(graph, id, (node, attr, depth) => {
+			if (attr.type === "building") {
+				related.set(`${id}-${node}`, { buildingId: id, linkId: node });
+			}
 
-		skip.push(id);
-		skip.push(...related.map(({ buildingId }) => buildingId));
+			return depth >= 50;
+		});
+	}
 
-		inserts.push(
-			...related.map(({ buildingId }) => ({
+	return tx
+		.insertInto("Building_Route_Building")
+		.values(
+			[...related.values()].map((item) => ({
 				id: genId(),
 				mapId,
 				userId,
-				buildingId: id,
-				linkId: buildingId,
+				...item,
 			})),
-		);
-		inserts.push(
-			...related.map(({ buildingId }) => ({
-				id: genId(),
-				mapId,
-				userId,
-				buildingId,
-				linkId: id,
-			})),
-		);
-	}
-
-	console.log("inserts", inserts);
-
-	if (inserts.length > 0) {
-		console.log(`-- Paths [${inserts.length}]`);
-
-		await tx.insertInto("Building_Route_Building").values(inserts).execute();
-	}
-
-	console.log("Done");
+		)
+		.execute();
 };
