@@ -1,16 +1,22 @@
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
-import { withProductionQueue } from "~/app/derivean/service/withProductionQueue";
 
 export namespace withProduction {
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
+		mapId: string;
 	}
 }
 
-export const withProduction = async ({ tx, userId }: withProduction.Props) => {
+export const withProduction = async ({
+	tx,
+	userId,
+	mapId,
+}: withProduction.Props) => {
 	const productionQueue = await tx
 		.selectFrom("Production as p")
+		.innerJoin("Building as b", "b.id", "p.buildingId")
+		.innerJoin("Land as l", "l.id", "b.landId")
 		.innerJoin("Blueprint_Production as bp", "bp.id", "p.blueprintProductionId")
 		.innerJoin("Resource as r", "r.id", "bp.resourceId")
 		.select([
@@ -23,7 +29,8 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 			"r.name",
 			"bp.amount",
 		])
-		.where("userId", "=", userId)
+		.where("p.userId", "=", userId)
+		.where("l.mapId", "=", mapId)
 		.execute();
 
 	for await (const {
@@ -109,75 +116,6 @@ export const withProduction = async ({ tx, userId }: withProduction.Props) => {
 			await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
 
 			continue;
-		}
-	}
-
-	const productionPlanQueue = await tx
-		.selectFrom("Building as b")
-		.select(["b.id as buildingId", "b.productionId"])
-		.where("b.userId", "=", userId)
-		.where("b.productionId", "is not", null)
-		.execute();
-
-	for await (const { buildingId, productionId } of productionPlanQueue) {
-		try {
-			const { count: queueSize } = await tx
-				.selectFrom("Production as p")
-				.where("p.buildingId", "=", buildingId)
-				.select((eb) => eb.fn.count<number>("p.id").as("count"))
-				.executeTakeFirstOrThrow();
-
-			if (queueSize > 0) {
-				continue;
-			}
-
-			await withProductionQueue({
-				tx,
-				blueprintProductionId: productionId!,
-				buildingId,
-				userId,
-			});
-
-			await tx
-				.updateTable("Building")
-				.set({ productionId: null })
-				.where("id", "=", buildingId)
-				.execute();
-		} catch (_) {
-			// Probably not enough resources or something like that.
-		}
-	}
-
-	const recurringProductionPlanQueue = await tx
-		.selectFrom("Building as b")
-		.select(["b.id as buildingId", "b.recurringProductionId"])
-		.where("b.userId", "=", userId)
-		.where("b.recurringProductionId", "is not", null)
-		.execute();
-
-	for await (const {
-		buildingId,
-		recurringProductionId,
-	} of recurringProductionPlanQueue) {
-		try {
-			const { count: queueSize } = await tx
-				.selectFrom("Production as p")
-				.where("p.buildingId", "=", buildingId)
-				.select((eb) => eb.fn.count<number>("p.id").as("count"))
-				.executeTakeFirstOrThrow();
-
-			if (queueSize > 0) {
-				continue;
-			}
-
-			await withProductionQueue({
-				tx,
-				blueprintProductionId: recurringProductionId!,
-				buildingId,
-				userId,
-			});
-		} catch (_) {
-			// Probably not enough resources or something like that.
 		}
 	}
 };

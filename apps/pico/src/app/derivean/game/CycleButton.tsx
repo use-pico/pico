@@ -4,7 +4,7 @@ import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
-import { withCycle } from "~/app/derivean/service/withCycle";
+import { withCycle } from "~/app/derivean/service/withCycle/withCycle";
 
 export namespace CycleButton {
 	export interface Props extends Button.Props {

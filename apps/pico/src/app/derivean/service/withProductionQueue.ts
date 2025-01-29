@@ -5,6 +5,7 @@ export namespace withProductionQueue {
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
+		mapId: string;
 		buildingId: string;
 		blueprintProductionId: string;
 	}
@@ -13,6 +14,7 @@ export namespace withProductionQueue {
 export const withProductionQueue = async ({
 	tx,
 	userId,
+	mapId,
 	buildingId,
 	blueprintProductionId,
 }: withProductionQueue.Props) => {
@@ -45,10 +47,17 @@ export const withProductionQueue = async ({
 				.values({
 					id: genId(),
 					amount: amount - inventory.amount,
+					userId,
+					mapId,
 					buildingId,
 					priority: 10,
 					resourceId,
 					type: "storage",
+				})
+				.onConflict((oc) => {
+					return oc.columns(["buildingId", "resourceId"]).doUpdateSet({
+						amount: amount - inventory.amount,
+					});
 				})
 				.execute();
 			continue;

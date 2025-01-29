@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button, useInvalidator } from "@use-pico/client";
 import { useEffect, useState, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import { withCycle } from "~/app/derivean/service/withCycle";
+import { withCycle } from "~/app/derivean/service/withCycle/withCycle";
 
 export namespace AutoCycleButton {
 	export interface Props extends Button.Props {

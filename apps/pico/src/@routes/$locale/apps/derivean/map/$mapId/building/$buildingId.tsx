@@ -24,6 +24,7 @@ export const Route = createFileRoute(
 									"b.id",
 									"bl.name",
 									"r.name as land",
+									"b.constructionId",
 									"b.productionId",
 									"b.recurringProductionId",
 								])
@@ -32,6 +33,7 @@ export const Route = createFileRoute(
 								id: z.string().min(1),
 								name: z.string().min(1),
 								land: z.string().min(1),
+								constructionId: z.string().nullish(),
 								productionId: z.string().nullish(),
 								recurringProductionId: z.string().nullish(),
 							}),

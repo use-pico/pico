@@ -2,7 +2,6 @@ import { useParams } from "@tanstack/react-router";
 import { LinkTo, Progress } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
 export namespace QueueNode {
@@ -34,19 +33,12 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 			<div className={"flex flex-row gap-2 items-center"}>
 				<LinkTo
 					icon={ConstructionIcon}
-					to={
-						"/$locale/apps/derivean/map/$mapId/building/$buildingId/construction/requirements"
-					}
+					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
 					params={{ locale, mapId, buildingId: data.id }}
 					css={{ base: ["font-bold"] }}
 				>
 					{data.name}
 				</LinkTo>
-				<LinkTo
-					icon={BuildingIcon}
-					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
-					params={{ locale, mapId, buildingId: data.id }}
-				/>
 			</div>
 			<Progress value={(100 * data.cycle) / data.cycles} />
 

@@ -4,6 +4,8 @@ import type { Database } from "~/app/derivean/db/sdk";
 import { withBuildingRouteBuilding } from "~/app/derivean/service/withBuildingRouteBuilding";
 import { withConstruction } from "~/app/derivean/service/withCycle/withConstruction";
 import { withDemand } from "~/app/derivean/service/withCycle/withDemand";
+import { withProduction } from "~/app/derivean/service/withCycle/withProduction";
+import { withProductionPlan } from "~/app/derivean/service/withCycle/withProductionPlan";
 import { withTransport } from "~/app/derivean/service/withCycle/withTransport";
 
 export namespace withCycle {
@@ -66,10 +68,17 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 		/**
 		 * Produce stuff
 		 */
-		// await withProduction({
-		// 	tx,
-		// 	userId,
-		// });
+		await withProduction({
+			tx,
+			userId,
+			mapId,
+		});
+
+		await withProductionPlan({
+			tx,
+			userId,
+			mapId,
+		});
 	} catch (e) {
 		console.error(e);
 		throw e;
