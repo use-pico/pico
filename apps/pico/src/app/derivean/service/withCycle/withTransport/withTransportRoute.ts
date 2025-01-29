@@ -192,7 +192,8 @@ export const withTransportRoute = async ({
 
 		const inventory = await tx
 			.selectFrom("Inventory as i")
-			.select(["i.id", "i.amount"])
+			.innerJoin("Resource as r", "r.id", "i.resourceId")
+			.select(["i.id", "i.amount", "r.name"])
 			.where(
 				"i.id",
 				"in",
@@ -220,6 +221,27 @@ export const withTransportRoute = async ({
 			/**
 			 * We're sure we have enough resources, so we can load them to the transport.
 			 */
+
+			console.info("Planning transport", {
+				resource: inventory.name,
+				amount,
+				source: (
+					await tx
+						.selectFrom("Building as b")
+						.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+						.select("bl.name")
+						.where("b.id", "=", sourceId)
+						.executeTakeFirstOrThrow()
+				).name,
+				target: (
+					await tx
+						.selectFrom("Building as b")
+						.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+						.select("bl.name")
+						.where("b.id", "=", targetId)
+						.executeTakeFirstOrThrow()
+				).name,
+			});
 
 			await tx
 				.insertInto("Transport")

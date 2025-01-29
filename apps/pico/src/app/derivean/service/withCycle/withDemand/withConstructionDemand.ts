@@ -31,6 +31,21 @@ export const withConstructionDemand = async ({
 			.innerJoin("Resource as r", "r.id", "br.resourceId")
 			.select(["br.resourceId", "br.amount", "r.name"])
 			.where("br.blueprintId", "=", blueprintId)
+			.where((eb) => {
+				/**
+				 * Ignore resources already on the way (because they're transported, they already
+				 * fulfilled original requirement).
+				 */
+				return eb.not(
+					eb.exists(
+						eb
+							.selectFrom("Transport as t")
+							.select(["t.id"])
+							.where("t.targetId", "=", id)
+							.whereRef("t.resourceId", "=", "br.resourceId"),
+					),
+				);
+			})
 			.execute();
 
 		for await (const {
@@ -60,6 +75,19 @@ export const withConstructionDemand = async ({
 			}
 
 			if (inventory.amount < amount) {
+				console.info("Demanding resource", {
+					resource: resourceName,
+					building: (
+						await tx
+							.selectFrom("Building as b")
+							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
+							.select("bl.name")
+							.where("b.id", "=", id)
+							.executeTakeFirstOrThrow()
+					).name,
+					amount,
+				});
+
 				await tx
 					.insertInto("Demand")
 					.values({

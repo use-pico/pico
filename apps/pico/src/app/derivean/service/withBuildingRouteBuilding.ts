@@ -34,8 +34,6 @@ export const withBuildingRouteBuilding = async ({
 		});
 	}
 
-	console.log("Related buildings", { related });
-
 	await tx
 		.insertInto("Building_Route_Building")
 		.values(
