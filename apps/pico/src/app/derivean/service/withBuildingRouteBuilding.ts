@@ -1,4 +1,5 @@
 import { genId } from "@use-pico/common";
+import { bidirectional } from "graphology-shortest-path/unweighted";
 import { dfsFromNode } from "graphology-traversal/dfs";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
@@ -37,12 +38,30 @@ export const withBuildingRouteBuilding = async ({
 	await tx
 		.insertInto("Building_Route_Building")
 		.values(
-			[...related.values()].map((item) => ({
-				id: genId(),
-				mapId,
-				userId,
-				...item,
-			})),
+			[...related.values()]
+				.filter(({ buildingId, linkId }) => {
+					const path = bidirectional(graph, buildingId, linkId);
+					if (!path) {
+						return false;
+					}
+					/**
+					 * Omit buildings from both sides.
+					 */
+					path.shift();
+					path.pop();
+					/**
+					 * Buildings can be connected only by buildings.
+					 */
+					return path.every((node) => {
+						return graph.getNodeAttribute(node, "type") === "waypoint";
+					});
+				})
+				.map((item) => ({
+					id: genId(),
+					mapId,
+					userId,
+					...item,
+				})),
 		)
 		.execute();
 };

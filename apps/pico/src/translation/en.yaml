@@ -559,6 +559,9 @@ c8ec20d338ed37017d5ff4701f8d7899ec262e649983f2020927c8aa:
 ca577dd0c7cbe14678a7b1bfd9777f7a2b1111337765cef2bccb1ad8:
   ref: Passwords must match
   value: Passwords must match
+cc4e9a053372abac12d1df6771e0b993ec5c1ebb8c362e1ad9d076ef:
+  ref: Transport (label)
+  value: Transport (label)
 ccd4926af24fde9258319b46fe4f9bc700ad301560462e3431257c6e:
   ref: Number of users (label)
   value: Number of users (label)
@@ -613,6 +616,9 @@ dbab91056182f8007440fa2547868c0f15634d3154747a02843ec5b0:
 dcfc03272a3c4cf0b2da23da118acb0ce54f4647b6d456fedbe530e1:
   ref: Number of dependencies (label)
   value: Number of dependencies (label)
+de1b467b2e94b305c832e61d316c81a03befe7f75e1593556e5641c0:
+  ref: There are no resources transported on this waypoint. (label)
+  value: There are no resources transported on this waypoint. (label)
 de37c1d5429a7e3c21ab4e63723fab6a06f40ee1fed35aa5cbce6243:
   ref: Region name (label)
   value: Region name (label)

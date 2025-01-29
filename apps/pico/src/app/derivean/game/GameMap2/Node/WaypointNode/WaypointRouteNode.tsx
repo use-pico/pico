@@ -14,6 +14,7 @@ export namespace WaypointRouteNode {
 		id: string;
 		x: number;
 		y: number;
+		transport: number;
 		[key: string]: unknown;
 	}
 

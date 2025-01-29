@@ -1,5 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import { Button, Icon, TrashIcon, useInvalidator } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import {
+    Button,
+    Icon,
+    LinkTo,
+    TrashIcon,
+    useInvalidator,
+} from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import {
     Handle,
@@ -11,6 +18,7 @@ import {
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ToolbarCss } from "~/app/derivean/game/GameMap2/Node/ToolbarCss";
+import { TransportIcon } from "~/app/derivean/icon/TransportIcon";
 import { WaypointIcon } from "~/app/derivean/icon/WaypointIcon";
 import { withBuildingRouteBuilding } from "~/app/derivean/service/withBuildingRouteBuilding";
 
@@ -21,6 +29,7 @@ export namespace WaypointNode {
 		y: number;
 		userId: string;
 		mapId: string;
+		transport: number;
 		[key: string]: unknown;
 	}
 
@@ -33,8 +42,9 @@ export namespace WaypointNode {
 
 export const WaypointNode: FC<WaypointNode.Props> = ({
 	id,
-	data: { mapId, userId },
+	data: { mapId, userId, transport },
 }) => {
+	const { locale } = useParams({ from: "/$locale" });
 	const invalidator = useInvalidator([["GameMap"]]);
 	const deleteWaypointMutation = useMutation({
 		async mutationFn({
@@ -70,6 +80,19 @@ export const WaypointNode: FC<WaypointNode.Props> = ({
 				<div
 					className={"flex flex-row gap-2 items-center justify-between w-full"}
 				>
+					{transport > 0 ?
+						<LinkTo
+							to={
+								"/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport"
+							}
+							params={{ locale, mapId, waypointId: id }}
+						>
+							<Button
+								iconEnabled={TransportIcon}
+								variant={{ variant: "subtle" }}
+							/>
+						</LinkTo>
+					:	null}
 					<Button
 						iconEnabled={TrashIcon}
 						variant={{ variant: "danger" }}
