@@ -2,6 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import { LinkTo, Progress } from "@use-pico/client";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
+import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { ConstructionIcon } from "~/app/derivean/icon/ConstructionIcon";
 
 export namespace QueueNode {
@@ -41,6 +42,11 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 				>
 					{data.name}
 				</LinkTo>
+				<LinkTo
+					icon={BuildingIcon}
+					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+					params={{ locale, mapId, buildingId: data.id }}
+				/>
 			</div>
 			<Progress value={(100 * data.cycle) / data.cycles} />
 

@@ -1133,10 +1133,40 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				.addColumn("buildingId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Demand] buildingId",
 					["buildingId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * If supplier is NULL, there is nobody to supply the resource.
+				 */
+				.addColumn("supplierId", $id)
+				.addForeignKeyConstraint(
+					"[Resource_Queue] supplierId",
+					["supplierId"],
 					"Building",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
@@ -1172,87 +1202,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			/**
-			 * Resource queue used to prioritize transport; if there is a demand for a resource,
-			 * it must be also in this queue or it will not get into the transport.
-			 */
-			await kysely.schema
-				.createTable("Resource_Queue")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Resource_Queue] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("mapId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Resource_Queue] mapId",
-					["mapId"],
-					"Map",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("resourceId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Resource_Queue] resourceId",
-					["resourceId"],
-					"Resource",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("supplierId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Resource_Queue] supplierId",
-					["supplierId"],
-					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("consumerId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Resource_Queue] consumerId",
-					["consumerId"],
-					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
-
-				/**
-				 * User & map is missing, because they're already in the building.
-				 */
-				.addUniqueConstraint(
-					"[Resource_Queue] resourceId-supplierId-consumerId",
-					["resourceId", "supplierId", "consumerId"],
-				)
-
-				.execute();
-
-			for await (const index of [
-				"userId",
-				"resourceId",
-				"mapId",
-				"supplierId",
-				"consumerId",
-				"priority",
-			]) {
-				await kysely.schema
-					.createIndex(`[Resource_Queue] ${index}`)
-					.on("Resource_Queue")
-					.columns([index])
-					.execute();
-			}
-
-			/**
 			 * Resource transport between waypoints.
 			 *
 			 * If waypoint is removed, transport is cancelled (resource is lost).
@@ -1276,6 +1225,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				/**
 				 * Which resource
 				 */
@@ -1288,11 +1246,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				/**
-				 * Source building; if not null, there is initial transfer from building
-				 * to the first waypoint.
-				 */
-				.addColumn("sourceId", $id)
+				.addColumn("sourceId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Transport] sourceId",
 					["sourceId"],
@@ -1301,12 +1255,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				/**
-				 * Next waypoint (if null, resource will get to the building).
-				 *
-				 * If waypoint is set, resource is transferred to next waypoint.
-				 */
-				.addColumn("waypointId", $id)
+				.addColumn("waypointId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Transport] waypointId",
 					["waypointId"],
@@ -1315,10 +1264,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				/**
-				 * Target building (if not null, resource is transferred to the building).
-				 */
-				.addColumn("targetId", $id)
+				.addColumn("targetId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Transport] targetId",
 					["targetId"],
@@ -1336,6 +1282,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 			for await (const index of [
 				"userId",
+				"mapId",
 				"resourceId",
 				"sourceId",
 				"waypointId",

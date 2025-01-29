@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { Button, CheckIcon, Icon, useInvalidator } from "@use-pico/client";
-import { genId } from "@use-pico/common";
 import type { Node, NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -33,35 +32,6 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({ data }) => {
 					.set({ plan: false })
 					.where("id", "=", constructionId)
 					.execute();
-
-				const requirements = await tx
-					.selectFrom("Building as b")
-					.innerJoin(
-						"Blueprint_Requirement as br",
-						"br.blueprintId",
-						"b.blueprintId",
-					)
-					.select(["b.id as buildingId", "br.amount", "br.resourceId"])
-					.where("b.constructionId", "=", constructionId)
-					.execute();
-
-				/**
-				 * Order required resources; if a building is connected to Waypoints, it may
-				 * get what it requires.
-				 */
-				for await (const { amount, buildingId, resourceId } of requirements) {
-					await tx
-						.insertInto("Demand")
-						.values({
-							id: genId(),
-							amount,
-							buildingId,
-							resourceId,
-							priority: 0,
-							type: "construction",
-						})
-						.execute();
-				}
 			});
 		},
 		async onSuccess() {

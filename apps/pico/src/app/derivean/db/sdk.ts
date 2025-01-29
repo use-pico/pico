@@ -584,9 +584,18 @@ export const withDemandSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				buildingId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				supplierId:
+					// varchar(36) / nullable
+					z.string().nullish(),
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
@@ -603,7 +612,17 @@ export const withDemandSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingId", "resourceId", "amount", "priority", "type"],
+		sort: [
+			"id",
+			"userId",
+			"mapId",
+			"buildingId",
+			"supplierId",
+			"resourceId",
+			"amount",
+			"priority",
+			"type",
+		],
 	});
 };
 
@@ -929,57 +948,6 @@ export const withResourceSchema = <
 
 export type ResourceEntity = ReturnType<typeof withResourceSchema>["~entity"];
 
-export const withResourceQueueSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				mapId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				resourceId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				supplierId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				consumerId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				priority:
-					// INTEGER / not nullable
-					z.number().int(),
-			}),
-		),
-		shape,
-		filter,
-		sort: [
-			"id",
-			"userId",
-			"mapId",
-			"resourceId",
-			"supplierId",
-			"consumerId",
-			"priority",
-		],
-	});
-};
-
-export type ResourceQueueEntity = ReturnType<
-	typeof withResourceQueueSchema
->["~entity"];
-
 export const withResourceTagSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -1123,18 +1091,21 @@ export const withTransportSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 				sourceId:
-					// varchar(36) / nullable
-					z.string().nullish(),
+					// varchar(36) / not nullable
+					z.string().min(1),
 				waypointId:
-					// varchar(36) / nullable
-					z.string().nullish(),
+					// varchar(36) / not nullable
+					z.string().min(1),
 				targetId:
-					// varchar(36) / nullable
-					z.string().nullish(),
+					// varchar(36) / not nullable
+					z.string().min(1),
 				amount:
 					// float4 / not nullable
 					z.number(),
@@ -1145,6 +1116,7 @@ export const withTransportSchema = <
 		sort: [
 			"id",
 			"userId",
+			"mapId",
 			"resourceId",
 			"sourceId",
 			"waypointId",
@@ -1249,7 +1221,6 @@ export interface Database {
 	Region: RegionEntity;
 	Region_Inventory: RegionInventoryEntity;
 	Resource: ResourceEntity;
-	Resource_Queue: ResourceQueueEntity;
 	Resource_Tag: ResourceTagEntity;
 	Route: RouteEntity;
 	Supply: SupplyEntity;

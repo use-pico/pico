@@ -1,7 +1,7 @@
-import { genId, Timer } from "@use-pico/common";
-import Graph from "graphology";
+import { genId } from "@use-pico/common";
 import { dfsFromNode } from "graphology-traversal/dfs";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
+import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 
 export namespace withBuildingRouteBuilding {
 	export interface Props {
@@ -16,106 +16,17 @@ export const withBuildingRouteBuilding = async ({
 	userId,
 	mapId,
 }: withBuildingRouteBuilding.Props) => {
-	const timer = new Timer({ label: "pathfinder" });
-	timer.start();
-
-	console.info("Staring pathfinding...");
-	const queryTimer = new Timer({
-		label: "query",
-	});
-
-	queryTimer.start();
-
 	await tx
 		.deleteFrom("Building_Route_Building as brb")
 		.where("brb.userId", "=", userId)
 		.execute();
 
-	const buildings = await tx
-		.selectFrom("Building as b")
-		.innerJoin("Land as l", "l.id", "b.landId")
-		.select(["b.id"])
-		.where("b.userId", "=", userId)
-		.where("l.mapId", "=", mapId)
-		.execute();
-	const waypoints = await tx
-		.selectFrom("Waypoint as w")
-		.select("w.id")
-		.where("w.mapId", "=", mapId)
-		.where("w.userId", "=", userId)
-		.execute();
+	const { buildings, graph } = await withBuildingGraph({ tx, userId, mapId });
 
-	const buildingWaypoints = await tx
-		.selectFrom("Building_Waypoint as bw")
-		.select(["bw.buildingId", "bw.waypointId"])
-		.where(
-			"bw.buildingId",
-			"in",
-			tx
-				.selectFrom("Building as b")
-				.innerJoin("Land as l", "l.id", "b.landId")
-				.select(["b.id"])
-				.where("b.userId", "=", userId)
-				.where("l.mapId", "=", mapId),
-		)
-		.execute();
-	const routes = await tx
-		.selectFrom("Route as r")
-		.select(["r.fromId", "r.toId"])
-		.execute();
-
-	console.info(`-- Queries [${queryTimer.stop().ms()} ms]`);
-
-	const graphTimer = new Timer({
-		label: "graph",
-	});
-
-	graphTimer.start();
-	const graph = new Graph<
-		{
-			type: "building" | "waypoint" | "route";
-		},
-		{
-			type: "route" | "waypoint";
-		}
-	>({
-		allowSelfLoops: true,
-		multi: false,
-		type: "undirected",
-	});
-
-	buildings.forEach(({ id }) =>
-		graph.addNode(id, {
-			type: "building",
-		}),
-	);
-	waypoints.forEach(({ id }) => {
-		graph.addNode(id, {
-			type: "waypoint",
-		});
-	});
-	buildingWaypoints.forEach(({ buildingId, waypointId }) => {
-		graph.addEdge(buildingId, waypointId, {
-			type: "waypoint",
-		});
-	});
-	routes.forEach(({ fromId, toId }) => {
-		graph.addEdge(fromId, toId, {
-			type: "route",
-		});
-	});
-
-	console.info(`-- Graph [${graphTimer.stop().ms()} ms]`);
-
-	const relatedTimer = new Timer({
-		label: "related",
-	});
-
-	relatedTimer.start();
 	const related = new Map<string, { buildingId: string; linkId: string }>();
 	for (const { id } of buildings) {
 		dfsFromNode(graph, id, (node, attr, depth) => {
-			if (attr.type === "building") {
+			if (attr.type === "building" && id !== node) {
 				related.set(`${id}-${node}`, { buildingId: id, linkId: node });
 			}
 
@@ -123,12 +34,8 @@ export const withBuildingRouteBuilding = async ({
 		});
 	}
 
-	console.info(`-- Related search [${relatedTimer.stop().ms()} ms]`);
+	console.log("Related buildings", { related });
 
-	const insertTimer = new Timer({
-		label: "insert",
-	});
-	insertTimer.start();
 	await tx
 		.insertInto("Building_Route_Building")
 		.values(
@@ -140,8 +47,4 @@ export const withBuildingRouteBuilding = async ({
 			})),
 		)
 		.execute();
-
-	console.info(`-- Insert in [${insertTimer.stop().ms()} ms]`);
-
-	console.info(`Done [${timer.stop().ms()} ms]`);
 };
