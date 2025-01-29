@@ -344,7 +344,22 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						const source = await withList({
 							select: tx
 								.selectFrom("Waypoint as wp")
-								.select(["wp.id", "wp.x", "wp.y", "wp.mapId", "wp.userId"])
+								.select([
+									"wp.id",
+									"wp.x",
+									"wp.y",
+									"wp.mapId",
+									"wp.userId",
+									(eb) => {
+										return eb
+											.selectFrom("Transport as t")
+											.whereRef("t.waypointId", "=", "wp.id")
+											.select((eb) =>
+												eb.fn.count<number>("t.id").as("transport"),
+											)
+											.as("transport");
+									},
+								])
 								.where("wp.mapId", "=", mapId),
 							output: z.object({
 								id: z.string().min(1),
@@ -352,6 +367,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								userId: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
+								transport: z.number().int().nonnegative(),
 							}),
 						});
 
@@ -370,11 +386,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									selectable: true,
 									className: tvc([
 										"rounded-md",
-										"bg-slate-100",
+										"bg-slate-50",
 										"border",
 										"border-slate-300",
-										"text-slate-700",
+										"text-slate-300",
 										"p-2",
+										waypoint.transport > 0 ?
+											["text-green-600", "border-green-600", "border-2"]
+										:	undefined,
 									]),
 								}) satisfies
 									| WaypointRouteNode.WaypointRouteNode

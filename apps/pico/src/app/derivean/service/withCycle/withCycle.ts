@@ -48,17 +48,6 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 			mapId,
 		});
 
-		/**
-		 * Resolve transportation:
-		 * - looks into demands
-		 * - if there is enough resources, create transport path
-		 */
-		await withTransport({
-			tx,
-			userId,
-			mapId,
-		});
-
 		await withConstruction({
 			tx,
 			userId,
@@ -75,6 +64,17 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 		});
 
 		await withProductionPlan({
+			tx,
+			userId,
+			mapId,
+		});
+
+		/**
+		 * Resolve transportation:
+		 * - looks into demands
+		 * - if there is enough resources, create transport path
+		 */
+		await withTransport({
 			tx,
 			userId,
 			mapId,
