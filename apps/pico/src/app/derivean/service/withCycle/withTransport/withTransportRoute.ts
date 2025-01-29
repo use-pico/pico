@@ -25,7 +25,14 @@ export const withTransportRoute = async ({
 	 */
 	const transportList = await tx
 		.selectFrom("Transport as t")
-		.select(["t.id", "t.waypointId", "t.amount", "t.targetId", "t.resourceId"])
+		.select([
+			"t.id",
+			"t.waypointId",
+			"t.amount",
+			"t.targetId",
+			"t.resourceId",
+			"t.type",
+		])
 		.where("t.userId", "=", userId)
 		.where("t.mapId", "=", mapId)
 		.execute();
@@ -36,6 +43,7 @@ export const withTransportRoute = async ({
 		targetId,
 		resourceId,
 		amount,
+		type,
 	} of transportList) {
 		const pathId = `${waypointId}-${targetId}`;
 		if (!paths.has(pathId)) {
@@ -78,6 +86,7 @@ export const withTransportRoute = async ({
 						.select("bi.inventoryId")
 						.where("bi.buildingId", "=", targetId),
 				)
+				.where("i.type", "=", type)
 				.executeTakeFirst();
 
 			if (!inventory) {
@@ -138,6 +147,7 @@ export const withTransportRoute = async ({
 			"d.supplierId",
 			"d.amount",
 			"d.resourceId",
+			"d.type",
 		])
 		.where("d.userId", "=", userId)
 		.where("d.mapId", "=", mapId)
@@ -150,6 +160,7 @@ export const withTransportRoute = async ({
 		supplierId,
 		amount,
 		resourceId,
+		type,
 	} of demandList) {
 		/**
 		 * This is not necessary, but kysely cannot infer right type when "is not null" is used.
@@ -222,27 +233,6 @@ export const withTransportRoute = async ({
 			 * We're sure we have enough resources, so we can load them to the transport.
 			 */
 
-			console.info("Planning transport", {
-				resource: inventory.name,
-				amount,
-				source: (
-					await tx
-						.selectFrom("Building as b")
-						.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-						.select("bl.name")
-						.where("b.id", "=", sourceId)
-						.executeTakeFirstOrThrow()
-				).name,
-				target: (
-					await tx
-						.selectFrom("Building as b")
-						.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-						.select("bl.name")
-						.where("b.id", "=", targetId)
-						.executeTakeFirstOrThrow()
-				).name,
-			});
-
 			await tx
 				.insertInto("Transport")
 				.values({
@@ -254,6 +244,7 @@ export const withTransportRoute = async ({
 					targetId,
 					resourceId,
 					amount,
+					type,
 				})
 				.execute();
 		}

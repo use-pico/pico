@@ -1278,6 +1278,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 */
 				.addColumn("amount", "float4", (col) => col.notNull())
 
+				.addColumn("type", "varchar(16)", (col) =>
+					col.notNull().defaultTo("storage"),
+				)
+
 				.execute();
 
 			for await (const index of [

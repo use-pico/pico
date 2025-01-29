@@ -65,6 +65,7 @@ export const withConstructionDemand = async ({
 						.where("buildingId", "=", id),
 				)
 				.where("i.resourceId", "=", resourceId)
+				.where("i.type", "=", "construction")
 				.executeTakeFirst();
 
 			if (!inventory) {

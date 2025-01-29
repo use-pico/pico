@@ -35,33 +35,31 @@ export const withBuildingRouteBuilding = async ({
 		});
 	}
 
-	await tx
-		.insertInto("Building_Route_Building")
-		.values(
-			[...related.values()]
-				.filter(({ buildingId, linkId }) => {
-					const path = bidirectional(graph, buildingId, linkId);
-					if (!path) {
-						return false;
-					}
-					/**
-					 * Omit buildings from both sides.
-					 */
-					path.shift();
-					path.pop();
-					/**
-					 * Buildings can be connected only by buildings.
-					 */
-					return path.every((node) => {
-						return graph.getNodeAttribute(node, "type") === "waypoint";
-					});
-				})
-				.map((item) => ({
-					id: genId(),
-					mapId,
-					userId,
-					...item,
-				})),
-		)
-		.execute();
+	const inserts = [...related.values()]
+		.filter(({ buildingId, linkId }) => {
+			const path = bidirectional(graph, buildingId, linkId);
+			if (!path) {
+				return false;
+			}
+			/**
+			 * Omit buildings from both sides.
+			 */
+			path.shift();
+			path.pop();
+			/**
+			 * Buildings can be connected only by buildings.
+			 */
+			return path.every((node) => {
+				return graph.getNodeAttribute(node, "type") === "waypoint";
+			});
+		})
+		.map((item) => ({
+			id: genId(),
+			mapId,
+			userId,
+			...item,
+		}));
+
+	inserts.length > 0 &&
+		(await tx.insertInto("Building_Route_Building").values(inserts).execute());
 };

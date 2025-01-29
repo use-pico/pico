@@ -1109,6 +1109,9 @@ export const withTransportSchema = <
 				amount:
 					// float4 / not nullable
 					z.number(),
+				type:
+					// varchar(16) / not nullable
+					z.string().min(1),
 			}),
 		),
 		shape,
@@ -1122,6 +1125,7 @@ export const withTransportSchema = <
 			"waypointId",
 			"targetId",
 			"amount",
+			"type",
 		],
 	});
 };

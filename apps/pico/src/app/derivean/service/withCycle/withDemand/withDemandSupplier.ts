@@ -62,6 +62,7 @@ export const withDemandSupplier = async ({
 							.selectFrom("Inventory as i")
 							.select("i.id")
 							.where("i.resourceId", "=", resourceId)
+							.where("i.type", "=", "storage")
 							.where("i.amount", ">", 0),
 					),
 			)
