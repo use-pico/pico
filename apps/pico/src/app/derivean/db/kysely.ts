@@ -88,17 +88,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Resource_Tag] resourceId")
-				.on("Resource_Tag")
-				.columns(["resourceId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Resource_Tag] tagId")
-				.on("Resource_Tag")
-				.columns(["tagId"])
-				.execute();
+			for await (const index of ["resourceId", "tagId"]) {
+				await kysely.schema
+					.createIndex(`[Resource_Tag] ${index}`)
+					.on("Resource_Tag")
+					.columns([index])
+					.execute();
+			}
 
 			await kysely.schema
 				.createTable("Inventory")
@@ -218,17 +214,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Region_Inventory] regionId")
-				.on("Region_Inventory")
-				.columns(["regionId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Region_Inventory] resourceId")
-				.on("Region_Inventory")
-				.columns(["resourceId"])
-				.execute();
+			for await (const index of ["regionId", "resourceId"]) {
+				await kysely.schema
+					.createIndex(`[Region_Inventory] ${index}`)
+					.on("Region_Inventory")
+					.columns([index])
+					.execute();
+			}
 
 			/**
 			 * Map is generated list of Lands for a player.
@@ -290,11 +282,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Cycle] userId-mapId")
-				.on("Cycle")
-				.columns(["userId", "mapId"])
-				.execute();
+			for await (const index of ["userId", "mapId"]) {
+				await kysely.schema
+					.createIndex(`[Cycle] ${index}`)
+					.on("Cycle")
+					.columns([index])
+					.execute();
+			}
 
 			await kysely.schema
 				.createTable("Land")
@@ -326,17 +320,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Land] mapId")
-				.on("Land")
-				.columns(["mapId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Land] regionId")
-				.on("Land")
-				.columns(["regionId"])
-				.execute();
+			for await (const index of ["mapId", "regionId"]) {
+				await kysely.schema
+					.createIndex(`[Land] ${index}`)
+					.on("Land")
+					.columns([index])
+					.execute();
+			}
 
 			/**
 			 * Each land have it's own generated inventory.
@@ -371,11 +361,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Land_Inventory] landId-inventoryId")
-				.on("Land_Inventory")
-				.columns(["landId", "inventoryId"])
-				.execute();
+			for await (const index of ["landId", "inventoryId"]) {
+				await kysely.schema
+					.createIndex(`[Land_Inventory] ${index}`)
+					.on("Land_Inventory")
+					.columns([index])
+					.execute();
+			}
 
 			/**
 			 * Blueprint is a definition for the building; all the buildings are pointing to it's blueprint.
@@ -887,23 +879,20 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Building] userId")
-				.on("Building")
-				.columns(["userId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building] blueprintId")
-				.on("Building")
-				.columns(["blueprintId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building] landId")
-				.on("Building")
-				.columns(["landId"])
-				.execute();
+			for await (const index of [
+				"userId",
+				"blueprintId",
+				"constructionId",
+				"landId",
+				"productionId",
+				"recurringProductionId",
+			]) {
+				await kysely.schema
+					.createIndex(`[Building] ${index}`)
+					.on("Building")
+					.columns([index])
+					.execute();
+			}
 
 			await kysely.schema
 				.createTable("Building_Inventory")
@@ -962,18 +951,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Waypoint] userId")
-				.on("Waypoint")
-				.columns(["userId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Waypoint] mapId")
-				.on("Waypoint")
-				.columns(["mapId"])
-				.execute();
-
+			for await (const index of ["userId", "mapId"]) {
+				await kysely.schema
+					.createIndex(`[Waypoint] ${index}`)
+					.on("Waypoint")
+					.columns([index])
+					.execute();
+			}
 			await kysely.schema
 				.createTable("Building_Waypoint")
 				.ifNotExists()
@@ -1004,17 +988,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Building_Waypoint] buildingId")
-				.on("Building_Waypoint")
-				.columns(["buildingId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building_Waypoint] waypointId")
-				.on("Building_Waypoint")
-				.columns(["waypointId"])
-				.execute();
+			for await (const index of ["buildingId", "waypointId"]) {
+				await kysely.schema
+					.createIndex(`[Building_Waypoint] ${index}`)
+					.on("Building_Waypoint")
+					.columns([index])
+					.execute();
+			}
 
 			await kysely.schema
 				.createTable("Route")
@@ -1047,31 +1027,17 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				.addUniqueConstraint("[Route] userId-fromId-toId", [
-					"userId",
-					"fromId",
-					"toId",
-				])
+				.addUniqueConstraint("[Route] fromId-toId", ["fromId", "toId"])
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Route] userId")
-				.on("Route")
-				.columns(["userId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Route] fromId")
-				.on("Route")
-				.columns(["fromId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Route] toId")
-				.on("Route")
-				.columns(["toId"])
-				.execute();
+			for await (const index of ["userId", "fromId", "toId"]) {
+				await kysely.schema
+					.createIndex(`[Route] ${index}`)
+					.on("Route")
+					.columns([index])
+					.execute();
+			}
 
 			/**
 			 * Cache table for routes (building -> waypoint -> route -> ...).
@@ -1124,29 +1090,13 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Building_Route_Building] userId")
-				.on("Building_Route_Building")
-				.columns(["userId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building_Route_Building] mapId")
-				.on("Building_Route_Building")
-				.columns(["mapId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building_Route_Building] buildingId")
-				.on("Building_Route_Building")
-				.columns(["buildingId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Building_Route_Building] linkId")
-				.on("Building_Route_Building")
-				.columns(["linkId"])
-				.execute();
+			for await (const index of ["userId", "mapId", "buildingId", "linkId"]) {
+				await kysely.schema
+					.createIndex(`[Building_Route_Building] ${index}`)
+					.on("Building_Route_Building")
+					.columns([index])
+					.execute();
+			}
 
 			await kysely.schema
 				.createTable("Supply")
@@ -1222,9 +1172,95 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			/**
+			 * Resource queue used to prioritize transport; if there is a demand for a resource,
+			 * it must be also in this queue or it will not get into the transport.
+			 */
+			await kysely.schema
+				.createTable("Resource_Queue")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Resource_Queue] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Resource_Queue] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("resourceId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Resource_Queue] resourceId",
+					["resourceId"],
+					"Resource",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("supplierId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Resource_Queue] supplierId",
+					["supplierId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("consumerId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Resource_Queue] consumerId",
+					["consumerId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("priority", "integer", (col) => col.notNull().defaultTo(0))
+
+				/**
+				 * User & map is missing, because they're already in the building.
+				 */
+				.addUniqueConstraint(
+					"[Resource_Queue] resourceId-supplierId-consumerId",
+					["resourceId", "supplierId", "consumerId"],
+				)
+
+				.execute();
+
+			for await (const index of [
+				"userId",
+				"resourceId",
+				"mapId",
+				"supplierId",
+				"consumerId",
+				"priority",
+			]) {
+				await kysely.schema
+					.createIndex(`[Resource_Queue] ${index}`)
+					.on("Resource_Queue")
+					.columns([index])
+					.execute();
+			}
+
+			/**
 			 * Resource transport between waypoints.
 			 *
 			 * If waypoint is removed, transport is cancelled (resource is lost).
+			 *
+			 * This may be seen as a transport route.
+			 *
+			 * When a resource is successfully moved, it gets deleted from the transport
+			 * (so only current transport list stays for next cycle).
 			 */
 			await kysely.schema
 				.createTable("Transport")
@@ -1253,6 +1289,19 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
+				 * Source building; if not null, there is initial transfer from building
+				 * to the first waypoint.
+				 */
+				.addColumn("sourceId", $id)
+				.addForeignKeyConstraint(
+					"[Transport] sourceId",
+					["sourceId"],
+					"Building",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
 				 * Next waypoint (if null, resource will get to the building).
 				 *
 				 * If waypoint is set, resource is transferred to next waypoint.
@@ -1267,12 +1316,12 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
-				 * Target building
+				 * Target building (if not null, resource is transferred to the building).
 				 */
-				.addColumn("buildingId", $id, (col) => col.notNull())
+				.addColumn("targetId", $id)
 				.addForeignKeyConstraint(
-					"[Transport] buildingId",
-					["buildingId"],
+					"[Transport] targetId",
+					["targetId"],
 					"Building",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
@@ -1285,17 +1334,19 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createIndex("[Transport] userId")
-				.on("Transport")
-				.columns(["userId"])
-				.execute();
-
-			await kysely.schema
-				.createIndex("[Transport] resourceId")
-				.on("Transport")
-				.columns(["resourceId"])
-				.execute();
+			for await (const index of [
+				"userId",
+				"resourceId",
+				"sourceId",
+				"waypointId",
+				"targetId",
+			]) {
+				await kysely.schema
+					.createIndex(`[Transport] ${index}`)
+					.on("Transport")
+					.columns([index])
+					.execute();
+			}
 		}
 	},
 });
