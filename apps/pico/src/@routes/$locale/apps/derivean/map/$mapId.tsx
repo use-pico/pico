@@ -399,15 +399,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										y: waypoint.y,
 									},
 									type: routing ? "waypoint-route" : "waypoint",
-									width: 64,
-									height: 64,
+									width: 96,
+									height: 96,
 									selectable: true,
 									className: tvc([
 										"rounded-md",
 										"bg-slate-50",
 										"border",
-										"border-slate-300",
-										"text-slate-300",
+										"border-slate-500",
+										"text-slate-500",
 										"p-2",
 										waypoint.transport > 0 ?
 											["text-green-600", "border-green-600", "border-2"]
