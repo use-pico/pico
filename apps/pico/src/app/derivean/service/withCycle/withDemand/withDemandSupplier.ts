@@ -22,6 +22,7 @@ export const withDemandSupplier = async ({
 		.innerJoin("Resource as r", "r.id", "d.resourceId")
 		.where("d.userId", "=", userId)
 		.where("d.mapId", "=", mapId)
+		.where("d.amount", ">", 0)
 		.select([
 			"d.id",
 			"d.buildingId",

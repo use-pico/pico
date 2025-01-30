@@ -82,6 +82,16 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 			mapId,
 		});
 
+		/**
+		 * Cleanup fulfilled demands.
+		 */
+		await tx.deleteFrom("Demand").where("amount", "<=", 0).execute();
+
+		/**
+		 * Delete finished transports.
+		 */
+		await tx.deleteFrom("Transport").where("amount", "<=", 0).execute();
+
 		console.info("\t-- Cycle finished");
 	} catch (e) {
 		console.error(e);

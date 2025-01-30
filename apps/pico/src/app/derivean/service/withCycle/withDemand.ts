@@ -16,11 +16,6 @@ export const withDemand = async ({ tx, userId, mapId }: withDemand.Props) => {
 	await withConstructionDemand({ tx, userId, mapId });
 
 	/**
-	 * Cleanup fulfilled demands.
-	 */
-	await tx.deleteFrom("Demand").where("amount", "<=", 0).execute();
-
-	/**
 	 * Demands are prepared, now resolve suppliers for demands.
 	 */
 	await withDemandSupplier({ tx, userId, mapId });

@@ -289,6 +289,8 @@ export const withTransportRoute = async ({
 			.where("i.amount", ">=", amount)
 			.executeTakeFirst();
 
+		let transfer = 0;
+
 		/**
 		 * Everything is fine, we can move the goods.
 		 */
@@ -297,10 +299,12 @@ export const withTransportRoute = async ({
 				amount,
 			});
 
+			transfer = inventory.amount - amount;
+
 			await tx
 				.updateTable("Inventory")
 				.set({
-					amount: inventory.amount - amount,
+					amount: transfer,
 				})
 				.where("id", "=", inventory.id)
 				.execute();
@@ -327,16 +331,14 @@ export const withTransportRoute = async ({
 			console.info("\t\t\t\t-- Not enough resources, planning again");
 		}
 
-		/**
-		 * Either way, remove demand (both cases: it's already satisfied or it should be planned again).
-		 */
-		await tx.deleteFrom("Demand").where("id", "=", id).execute();
+		await tx
+			.updateTable("Demand")
+			.set({
+				amount: amount - transfer,
+			})
+			.where("id", "=", id)
+			.execute();
 	}
-
-	/**
-	 * Delete finished transports.
-	 */
-	await tx.deleteFrom("Transport").where("amount", "<=", 0).execute();
 
 	console.info("\t\t-- Done");
 };
