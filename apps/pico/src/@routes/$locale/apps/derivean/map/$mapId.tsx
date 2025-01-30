@@ -1,7 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { withList } from "@use-pico/client";
-import { Kysely, tvc, withBoolSchema, withJsonSchema } from "@use-pico/common";
+import {
+    Kysely,
+    tvc,
+    withBoolSchema,
+    withJsonArraySchema,
+    withJsonSchema,
+} from "@use-pico/common";
+import { MarkerType } from "@xyflow/react";
+import { bidirectional } from "graphology-shortest-path/unweighted";
 import { useMemo } from "react";
 import { z } from "zod";
 import type { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
@@ -14,6 +22,7 @@ import type { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import type { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import type { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
 import type { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
+import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 
 const width = 384;
 const height = 128;
@@ -40,6 +49,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		deps: { routing },
 	}) {
 		const user = await session();
+
+		const { graph } = await queryClient.ensureQueryData({
+			queryKey: ["GameMap", mapId, "graph"],
+			async queryFn() {
+				return kysely.transaction().execute(async (tx) => {
+					return withBuildingGraph({ tx, userId: user.id, mapId });
+				});
+			},
+		});
 
 		return {
 			user,
@@ -409,28 +427,122 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						const source = await withList({
 							select: tx
 								.selectFrom("Route as r")
-								.select(["r.id", "r.fromId", "r.toId"])
+								.select([
+									"r.id",
+									"r.fromId",
+									"r.toId",
+									(eb) => {
+										return eb
+											.selectFrom("Transport as t")
+											.where((eb) => {
+												return eb.or([
+													eb("t.waypointId", "=", eb.ref("r.fromId")),
+													eb("t.waypointId", "=", eb.ref("r.toId")),
+												]);
+											})
+											.select((eb) => {
+												return Kysely.jsonGroupArray({
+													id: eb.ref("t.id"),
+													sourceId: eb.ref("t.sourceId"),
+													waypointId: eb.ref("t.waypointId"),
+													targetId: eb.ref("t.targetId"),
+												}).as("transports");
+											})
+											.as("transports");
+									},
+								])
 								.where("r.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
 								fromId: z.string().min(1),
 								toId: z.string().min(1),
+								transports: withJsonArraySchema(
+									z.object({
+										id: z.string().min(1),
+										sourceId: z.string().min(1),
+										waypointId: z.string().min(1),
+										targetId: z.string().min(1),
+									}),
+								),
 							}),
 						});
 
-						return source.map(
-							(route) =>
-								({
-									id: route.id,
-									source: route.fromId,
-									target: route.toId,
-									type: "route",
-									style: {
-										stroke: "#b1b1b7",
-										strokeWidth: 5,
-									},
-								}) satisfies RouteEdge.RouteEdge,
-						);
+						return source.map((route) => {
+							const transports = route.transports
+								.map((transport) => {
+									const path = bidirectional(
+										graph,
+										transport.waypointId,
+										transport.targetId,
+									);
+
+									if (!path) {
+										return {
+											path: undefined,
+											mark: false,
+											fromIndex: 0,
+											toIndex: 0,
+										};
+									}
+
+									return {
+										transport,
+										path,
+										mark:
+											path.includes(route.fromId) && path.includes(route.toId),
+										fromIndex:
+											path.indexOf(transport.targetId) -
+											path.indexOf(route.fromId),
+										toIndex:
+											path.indexOf(transport.targetId) -
+											path.indexOf(route.toId),
+									};
+								})
+								.filter(({ path }) => {
+									return Boolean(path);
+								});
+
+							return {
+								id: route.id,
+								source: route.fromId,
+								target: route.toId,
+								type: "route",
+								markerStart:
+									(
+										transports.some(
+											({ mark, fromIndex, toIndex }) =>
+												mark && fromIndex < toIndex,
+										)
+									) ?
+										{
+											type: MarkerType.ArrowClosed,
+											color: "#23BC43",
+										}
+									:	undefined,
+								markerEnd:
+									(
+										transports.some(
+											({ mark, fromIndex, toIndex }) =>
+												mark && fromIndex > toIndex,
+										)
+									) ?
+										{
+											type: MarkerType.ArrowClosed,
+											color: "#23BC43",
+										}
+									:	undefined,
+								style:
+									transports.some(({ mark }) => mark) ?
+										{
+											stroke: "#23BC43",
+											strokeWidth: 5,
+										}
+									:	{
+											stroke: "#b1b1b7",
+											strokeWidth: 3,
+										},
+							} satisfies RouteEdge.RouteEdge;
+						});
 					});
 				},
 			}),
@@ -441,7 +553,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						const source = await withList({
 							select: tx
 								.selectFrom("Building_Waypoint as bw")
-								.select(["bw.id", "bw.buildingId", "bw.waypointId"])
+								.select([
+									"bw.id",
+									"bw.buildingId",
+									"bw.waypointId",
+									(eb) => {
+										return eb
+											.selectFrom("Transport as t")
+											.whereRef("t.waypointId", "=", "bw.waypointId")
+											.select((eb) =>
+												eb.fn.count<number>("t.id").as("transport"),
+											)
+											.as("transport");
+									},
+								])
 								.leftJoin("Building as b", "b.id", "bw.buildingId")
 								.leftJoin("Land as l", "l.id", "b.landId")
 								.where("b.userId", "=", user.id)
@@ -450,6 +575,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								id: z.string().min(1),
 								buildingId: z.string().min(1),
 								waypointId: z.string().min(1),
+								transport: z.number(),
 							}),
 						});
 
@@ -460,11 +586,16 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									source: buildingWaypoint.buildingId,
 									target: buildingWaypoint.waypointId,
 									type: "building-waypoint",
-									style: {
-										stroke: "#b1b1b7",
-										strokeWidth: 2,
-										pointerEvents: "all",
-									},
+									style:
+										buildingWaypoint.transport ?
+											{
+												stroke: "#23BC43",
+												strokeWidth: 5,
+											}
+										:	{
+												stroke: "#b1b1b7",
+												strokeWidth: 3,
+											},
 								}) satisfies BuildingWaypointEdge.BuildingWaypointEdge,
 						);
 					});

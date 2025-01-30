@@ -119,16 +119,10 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				<div
 					className={"flex flex-row gap-2 items-center justify-between w-full"}
 				>
-					<LinkTo
-						icon={BuildingIcon}
-						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
-						params={{ locale, mapId, buildingId: id }}
-						css={{
-							base: ["font-bold"],
-						}}
-					>
-						{data.name}
-					</LinkTo>
+					<div className={"flex flex-row gap-2 items-center"}>
+						<Icon icon={BuildingIcon} />
+						<div>{data.name}</div>
+					</div>
 				</div>
 
 				<div className={"flex flex-row items-center justify-between w-full"}>

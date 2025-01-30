@@ -37,7 +37,15 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 	return (
 		<Panel
 			icon={BuildingIcon}
-			textTitle={building.name}
+			textTitle={
+				<LinkTo
+					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+					params={{ locale, mapId, buildingId: building.id }}
+					search={{ zoomToId: building.id }}
+				>
+					{building.name}
+				</LinkTo>
+			}
 			textSubTitle={building.land}
 		>
 			<LinkTo

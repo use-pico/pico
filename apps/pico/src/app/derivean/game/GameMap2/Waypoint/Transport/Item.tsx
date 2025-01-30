@@ -1,7 +1,9 @@
-import { Badge } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { Badge, Icon, LinkTo } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { TransportPanel } from "~/app/derivean/game/GameMap2/Waypoint/Transport/TransportPanel";
+import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 
 export namespace Item {
 	export interface Props {
@@ -10,6 +12,10 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ transport }) => {
+	const { locale, mapId } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
+
 	return (
 		<div
 			className={tvc([
@@ -27,6 +33,30 @@ export const Item: FC<Item.Props> = ({ transport }) => {
 			<div className={"flex flex-row items-center justify-between"}>
 				<div className={tvc(["flex", "flex-row", "gap-2", "items-center"])}>
 					<div className={"font-bold"}>{transport.name}</div>
+				</div>
+				<div className={"flex flex-row items-center gap-2"}>
+					<LinkTo
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: transport.sourceId }}
+						css={{
+							base: ["text-slate-500", "font-light"],
+						}}
+					>
+						{transport.source}
+					</LinkTo>
+					<Icon
+						icon={ArrowRightIcon}
+						css={{ base: ["text-slate-500"] }}
+					/>
+					<LinkTo
+						to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
+						params={{ locale, mapId, buildingId: transport.targetId }}
+						css={{
+							base: ["text-slate-500", "font-bold"],
+						}}
+					>
+						{transport.target}
+					</LinkTo>
 				</div>
 				<Badge>x{toHumanNumber({ number: transport.amount })}</Badge>
 			</div>

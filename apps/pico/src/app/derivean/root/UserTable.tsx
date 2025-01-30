@@ -72,16 +72,15 @@ export const UserTable: FC<UserTable.Props> = ({ table, ...props }) => {
 	const resetGameMutation = useMutation({
 		async mutationFn({ userId }: { userId: string }) {
 			return kysely.transaction().execute(async (tx) => {
-				await tx.deleteFrom("Building").where("userId", "=", userId).execute();
-				await tx
-					.deleteFrom("Production")
-					.where("userId", "=", userId)
-					.execute();
-				await tx
-					.deleteFrom("Construction")
-					.where("userId", "=", userId)
-					.execute();
-				await tx.deleteFrom("Cycle").where("userId", "=", userId).execute();
+				await tx.deleteFrom("Map").where("userId", "=", userId).execute();
+				// await tx
+				// 	.deleteFrom("Production")
+				// 	.where("userId", "=", userId)
+				// 	.execute();
+				// await tx
+				// 	.deleteFrom("Construction")
+				// 	.where("userId", "=", userId)
+				// 	.execute();
 			});
 		},
 		async onSuccess() {

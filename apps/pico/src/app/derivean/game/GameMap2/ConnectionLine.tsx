@@ -1,5 +1,5 @@
 import {
-    getSimpleBezierPath,
+    getStraightPath,
     type ConnectionLineComponentProps
 } from "@xyflow/react";
 import type { FC } from "react";
@@ -17,7 +17,7 @@ export const ConnectionLine: FC<ConnectionLine.Props> = ({
 	toY,
 	connectionLineStyle,
 }) => {
-	const [edgePath] = getSimpleBezierPath({
+	const [edgePath] = getStraightPath({
 		sourceX: fromX,
 		sourceY: fromY,
 		targetX: toX,

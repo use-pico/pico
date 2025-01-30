@@ -1,8 +1,8 @@
 import {
-    getSimpleBezierPath,
+    getStraightPath,
     useInternalNode,
     type Edge,
-    type EdgeProps,
+    type EdgeProps
 } from "@xyflow/react";
 import type { FC } from "react";
 import { getEdgeParams } from "~/app/derivean/utils/getEdgeParams";
@@ -38,7 +38,7 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 
 	const { sx, sy, tx, ty } = getEdgeParams(sourceNode, targetNode);
 
-	const [edgePath] = getSimpleBezierPath({
+	const [edgePath] = getStraightPath({
 		sourceX: sx,
 		sourceY: sy,
 		targetX: tx,

@@ -9,6 +9,10 @@ export namespace TransportPanel {
 	export interface Transport {
 		id: string;
 		name: string;
+		source: string;
+		sourceId: string;
+		target: string;
+		targetId: string;
 		amount: number;
 	}
 

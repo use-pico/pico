@@ -1,5 +1,5 @@
 import {
-    getSimpleBezierPath,
+    getStraightPath,
     useInternalNode,
     type Edge,
     type EdgeProps,
@@ -27,6 +27,7 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 	source,
 	target,
 	markerEnd,
+	markerStart,
 	style,
 }) => {
 	const sourceNode = useInternalNode(source);
@@ -38,7 +39,7 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 
 	const { sx, sy, tx, ty } = getEdgeParams(sourceNode, targetNode);
 
-	const [edgePath] = getSimpleBezierPath({
+	const [edgePath] = getStraightPath({
 		sourceX: sx,
 		sourceY: sy,
 		targetX: tx,
@@ -50,6 +51,7 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 			id={id}
 			className={"react-flow__edge-path"}
 			d={edgePath}
+			markerStart={markerStart}
 			markerEnd={markerEnd}
 			style={style}
 		/>

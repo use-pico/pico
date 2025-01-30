@@ -42,7 +42,7 @@ export namespace WaypointNode {
 
 export const WaypointNode: FC<WaypointNode.Props> = ({
 	id,
-	data: { mapId, userId, transport },
+	data: { mapId, userId },
 }) => {
 	const { locale } = useParams({ from: "/$locale" });
 	const invalidator = useInvalidator([["GameMap"]]);
@@ -80,19 +80,17 @@ export const WaypointNode: FC<WaypointNode.Props> = ({
 				<div
 					className={"flex flex-row gap-2 items-center justify-between w-full"}
 				>
-					{transport > 0 ?
-						<LinkTo
-							to={
-								"/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport"
-							}
-							params={{ locale, mapId, waypointId: id }}
-						>
-							<Button
-								iconEnabled={TransportIcon}
-								variant={{ variant: "subtle" }}
-							/>
-						</LinkTo>
-					:	null}
+					<LinkTo
+						to={
+							"/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport"
+						}
+						params={{ locale, mapId, waypointId: id }}
+					>
+						<Button
+							iconEnabled={TransportIcon}
+							variant={{ variant: "subtle" }}
+						/>
+					</LinkTo>
 					<Button
 						iconEnabled={TrashIcon}
 						variant={{ variant: "danger" }}

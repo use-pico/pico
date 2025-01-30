@@ -93,7 +93,10 @@ export const Route = createFileRoute(
 		const { requirement } = Route.useLoaderData();
 
 		return building.constructionId ?
-				<RequirementPanel requirement={requirement} />
+				<RequirementPanel
+					building={building}
+					requirement={requirement}
+				/>
 			:	<BuildingPanel building={building} />;
 	},
 });
