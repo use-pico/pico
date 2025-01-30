@@ -14,6 +14,8 @@ export const withConstructionDemand = async ({
 	userId,
 	mapId,
 }: withConstructionDemand.Props) => {
+	console.info("=== Construction demand");
+
 	const construction = await tx
 		.selectFrom("Building as b")
 		.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
@@ -26,6 +28,8 @@ export const withConstructionDemand = async ({
 		.execute();
 
 	for await (const { id, name, blueprintId } of construction) {
+		console.info("\t-- Resolving construction demand", { name });
+
 		const requirements = await tx
 			.selectFrom("Blueprint_Requirement as br")
 			.innerJoin("Resource as r", "r.id", "br.resourceId")
@@ -55,7 +59,8 @@ export const withConstructionDemand = async ({
 		} of requirements) {
 			const inventory = await tx
 				.selectFrom("Inventory as i")
-				.select(["i.resourceId", "i.amount"])
+				.innerJoin("Resource as r", "r.id", "i.resourceId")
+				.select(["i.resourceId", "i.amount", "r.name"])
 				.where(
 					"i.id",
 					"in",
@@ -75,7 +80,17 @@ export const withConstructionDemand = async ({
 				continue;
 			}
 
+			console.log("\t\t-- Inventory", {
+				resource: inventory.name,
+				amount: inventory.amount,
+			});
+
 			if (inventory.amount < amount) {
+				console.info("\t\t\t-- Demanding resource", {
+					resource: resourceName,
+					amount: Math.max(0, amount - inventory.amount),
+				});
+
 				await tx
 					.insertInto("Demand")
 					.values({
