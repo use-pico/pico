@@ -50,7 +50,8 @@ export const withConstructionDemand = async ({
 							.selectFrom("Transport as t")
 							.select(["t.id"])
 							.where("t.targetId", "=", id)
-							.whereRef("t.resourceId", "=", "br.resourceId"),
+							.whereRef("t.resourceId", "=", "br.resourceId")
+							.whereRef("t.amount", ">=", "br.amount"),
 					),
 				);
 			})
