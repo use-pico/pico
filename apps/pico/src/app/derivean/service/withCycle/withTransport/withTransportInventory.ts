@@ -103,6 +103,4 @@ export const withTransportInventory = async ({
 			}
 		}
 	}
-
-	await tx.deleteFrom("Demand").where("amount", "<=", 0).execute();
 };
