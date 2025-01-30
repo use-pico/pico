@@ -22,6 +22,7 @@ export namespace RequirementPanel {
 		id: string;
 		name: string;
 		amount: number;
+		transport: number;
 		supply?: Supply | null;
 		available?: number | null;
 		passive: boolean;

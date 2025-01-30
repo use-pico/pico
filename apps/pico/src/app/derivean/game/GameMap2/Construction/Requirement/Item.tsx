@@ -44,6 +44,14 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"hover:bg-amber-50",
 						"hover:border-amber-400",
 					],
+				requirement.transport ?
+					[
+						"bg-green-50",
+						"border-green-400",
+						"hover:bg-green-50",
+						"hover:border-green-400",
+					]
+				:	undefined,
 			])}
 		>
 			<div className={"flex flex-row items-center justify-between"}>
@@ -54,6 +62,7 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"gap-2",
 						"items-center",
 						requirement.supply ? ["text-purple-600"] : ["text-slate-900"],
+						requirement.transport ? ["text-green-600"] : undefined,
 					])}
 				>
 					{requirement.supply ?

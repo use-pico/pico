@@ -40,6 +40,16 @@ export const Route = createFileRoute(
 									"br.passive",
 									(eb) => {
 										return eb
+											.selectFrom("Transport as t")
+											.select((eb) =>
+												eb.fn.count<number>("t.id").as("transport"),
+											)
+											.whereRef("t.targetId", "=", "bg.id")
+											.whereRef("t.resourceId", "=", "br.resourceId")
+											.as("transport");
+									},
+									(eb) => {
+										return eb
 											.selectFrom("Supply as s")
 											.innerJoin("Building as b", "b.id", "s.buildingId")
 											.innerJoin("Blueprint as bp", "bp.id", "b.blueprintId")
@@ -84,6 +94,7 @@ export const Route = createFileRoute(
 								id: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
+								transport: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
 								supply: withJsonSchema(
 									z.object({
