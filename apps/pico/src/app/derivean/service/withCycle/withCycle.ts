@@ -18,6 +18,8 @@ export namespace withCycle {
 
 export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 	try {
+		console.info("=== Starting a new Cycle");
+
 		await tx
 			.insertInto("Cycle")
 			.values({
@@ -79,6 +81,8 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 			userId,
 			mapId,
 		});
+
+		console.info("\t-- Cycle finished");
 	} catch (e) {
 		console.error(e);
 		throw e;
