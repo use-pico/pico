@@ -50,12 +50,48 @@ export const withConstructionDemand = async ({
 							.selectFrom("Transport as t")
 							.select(["t.id"])
 							.where("t.targetId", "=", id)
-							.whereRef("t.resourceId", "=", "br.resourceId")
-							.whereRef("t.amount", ">=", "br.amount"),
+							.whereRef("t.resourceId", "=", "br.resourceId"),
+					),
+				);
+			})
+			.where((eb) => {
+				/**
+				 * Ignore already demanded resources
+				 */
+				return eb.not(
+					eb.exists(
+						eb
+							.selectFrom("Demand as d")
+							.select(["d.id"])
+							.where("d.buildingId", "=", id)
+							.whereRef("d.resourceId", "=", "br.resourceId"),
+					),
+				);
+			})
+			.where((eb) => {
+				return eb.not(
+					eb.exists(
+						eb
+							.selectFrom("Inventory as i")
+							.select(["i.id"])
+							.innerJoin("Building_Inventory as bi", (eb) => {
+								return eb
+									.on("bi.buildingId", "=", id)
+									.onRef("bi.inventoryId", "=", "i.id");
+							})
+							.whereRef("i.resourceId", "=", "br.resourceId")
+							.whereRef("i.amount", ">=", "br.amount")
+							.where("i.type", "=", "construction"),
 					),
 				);
 			})
 			.execute();
+
+		if (!requirements.length) {
+			console.info(
+				"\t\t\t\t-- No required resources or resources already demanded/on the way.",
+			);
+		}
 
 		for await (const {
 			resourceId,
