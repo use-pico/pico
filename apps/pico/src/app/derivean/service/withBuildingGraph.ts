@@ -2,6 +2,16 @@ import Graph from "graphology";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 
 export namespace withBuildingGraph {
+	export interface Node {
+		type: "building" | "waypoint" | "route";
+	}
+
+	export interface Edge {
+		type: "route" | "building-waypoint";
+	}
+
+	export type BuildingGraph = Graph<Node, Edge>;
+
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
@@ -47,14 +57,7 @@ export const withBuildingGraph = async ({
 		.select(["r.fromId", "r.toId"])
 		.execute();
 
-	const graph = new Graph<
-		{
-			type: "building" | "waypoint" | "route";
-		},
-		{
-			type: "route" | "building-waypoint";
-		}
-	>({
+	const graph = new Graph<withBuildingGraph.Node, withBuildingGraph.Edge>({
 		allowSelfLoops: true,
 		multi: false,
 		type: "undirected",

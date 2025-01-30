@@ -59,21 +59,14 @@ export const withTransportRoute = async ({
 		 */
 		const path = [...(paths.get(pathId) || [])];
 
-		/**
-		 * Remove current waypoint from the path.
-		 */
-		path.shift();
-		/**
-		 * Remove target from the path;
-		 */
-		path.pop();
+		const route = path.slice(1, -1);
 
 		/**
 		 * We're at the end, move the goods to target inventory.
 		 *
 		 * No more waypoints, just move the goods to the target building.
 		 */
-		if (!path.length) {
+		if (!route.length) {
 			const inventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])
