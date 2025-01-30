@@ -13,6 +13,8 @@ export const withDemandSupplier = async ({
 	userId,
 	mapId,
 }: withDemandSupplier.Props) => {
+	console.info("\t\t=== Demand supplier");
+
 	const demandList = await tx
 		.selectFrom("Demand as d")
 		.innerJoin("Building as b", "b.id", "d.buildingId")
@@ -27,10 +29,26 @@ export const withDemandSupplier = async ({
 			"r.name as resource",
 			"d.resourceId",
 			"d.type",
+			"d.amount",
 		])
 		.execute();
 
-	for await (const { id, buildingId, resourceId } of demandList) {
+	for await (const {
+		id,
+		buildingId,
+		resourceId,
+		name,
+		resource,
+		type,
+		amount,
+	} of demandList) {
+		console.info("\t\t\t-- Resolving demand supplier", {
+			name,
+			resource,
+			type,
+			amount,
+		});
+
 		/**
 		 * Fetch any building....
 		 */
@@ -74,12 +92,18 @@ export const withDemandSupplier = async ({
 							.select("i.id")
 							.where("i.resourceId", "=", resourceId)
 							.where("i.type", "=", "storage")
-							.where("i.amount", ">", 0),
+							.where("i.amount", ">=", amount),
 					),
 			)
 			.where("b.userId", "=", userId)
 			.where("l.mapId", "=", mapId)
 			.executeTakeFirst();
+
+		if (building) {
+			console.info("\t\t\t\t-- Found supplier", building.name);
+		} else {
+			console.info("\t\t\t\t-- No suppliers or not enough resources");
+		}
 
 		await tx
 			.updateTable("Demand")
@@ -89,4 +113,6 @@ export const withDemandSupplier = async ({
 			.where("id", "=", id)
 			.execute();
 	}
+
+	console.info("\t\t-- Done");
 };

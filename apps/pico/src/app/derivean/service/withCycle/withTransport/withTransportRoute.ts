@@ -16,6 +16,8 @@ export const withTransportRoute = async ({
 	userId,
 	mapId,
 }: withTransportRoute.Props) => {
+	console.info("\t\t=== Planning transports");
+
 	const paths = new Map<string, string[]>();
 	const { graph } = await withBuildingGraph({ tx, userId, mapId });
 
@@ -25,17 +27,29 @@ export const withTransportRoute = async ({
 	 */
 	const transportList = await tx
 		.selectFrom("Transport as t")
+		.innerJoin("Resource as r", "r.id", "t.resourceId")
+		.innerJoin("Building as bt", "bt.id", "t.targetId")
+		.innerJoin("Blueprint as blt", "blt.id", "bt.blueprintId")
+		.innerJoin("Building as bs", "bs.id", "t.sourceId")
+		.innerJoin("Blueprint as bls", "bls.id", "bs.blueprintId")
 		.select([
 			"t.id",
 			"t.waypointId",
 			"t.amount",
 			"t.targetId",
+			"blt.name as target",
+			"bls.name as source",
 			"t.resourceId",
 			"t.type",
+			"r.name as resource",
 		])
 		.where("t.userId", "=", userId)
 		.where("t.mapId", "=", mapId)
 		.execute();
+
+	if (!transportList.length) {
+		console.info("\t\t\t-- No current transports");
+	}
 
 	for await (const {
 		id,
@@ -44,20 +58,37 @@ export const withTransportRoute = async ({
 		resourceId,
 		amount,
 		type,
+		resource,
+		source,
+		target,
 	} of transportList) {
+		console.info("\t\t\t-- Resolving transport", {
+			source,
+			target,
+			resource,
+			type,
+			amount,
+		});
+
 		const pathId = `${waypointId}-${targetId}`;
 		if (!paths.has(pathId)) {
 			const path = withShortestPath({
-				mode: "route",
+				mode: "waypoint",
 				graph,
 				from: waypointId,
 				to: targetId,
 			});
+
 			if (!path) {
+				console.info(
+					"\t\t\t\t-- There is no available path (through waypoints)",
+				);
 				continue;
 			}
 
 			paths.set(pathId, path);
+
+			console.info("\t\t\t\t-- Path found", path);
 		}
 
 		/**
@@ -101,6 +132,10 @@ export const withTransportRoute = async ({
 				inventory.limit - inventory.amount,
 			);
 
+			console.info("\t\t\t\t-- Moving goods to target building", {
+				amount: transferableAmount,
+			});
+
 			await tx
 				.updateTable("Inventory")
 				.set({
@@ -121,6 +156,10 @@ export const withTransportRoute = async ({
 			continue;
 		}
 
+		console.info("\t\t\t\t-- Moving to next waypoint", {
+			waypointId: route[0],
+		});
+
 		/**
 		 * Move the goods to the next waypoint.
 		 */
@@ -138,20 +177,34 @@ export const withTransportRoute = async ({
 	 */
 	paths.clear();
 
+	console.info("\t\t\t-- Processing demands");
+
 	const demandList = await tx
 		.selectFrom("Demand as d")
+		.innerJoin("Building as bb", "bb.id", "d.buildingId")
+		.innerJoin("Blueprint as bpb", "bpb.id", "bb.blueprintId")
+		.innerJoin("Building as bs", "bs.id", "d.supplierId")
+		.innerJoin("Blueprint as bps", "bps.id", "bs.blueprintId")
+		.innerJoin("Resource as r", "r.id", "d.resourceId")
 		.select([
 			"d.id",
 			"d.buildingId",
+			"bpb.name as building",
+			"bps.name as supplier",
 			"d.supplierId",
 			"d.amount",
 			"d.resourceId",
 			"d.type",
+			"r.name as resource",
 		])
 		.where("d.userId", "=", userId)
 		.where("d.mapId", "=", mapId)
 		.where("d.supplierId", "is not", null)
 		.execute();
+
+	if (!demandList.length) {
+		console.info("\t\t\t\t-- There are no current demands");
+	}
 
 	for await (const {
 		id,
@@ -160,6 +213,9 @@ export const withTransportRoute = async ({
 		amount,
 		resourceId,
 		type,
+		supplier,
+		building,
+		resource,
 	} of demandList) {
 		/**
 		 * This is not necessary, but kysely cannot infer right type when "is not null" is used.
@@ -168,15 +224,26 @@ export const withTransportRoute = async ({
 			continue;
 		}
 
+		console.info("\t\t\t-- Resolving demand", {
+			building,
+			supplier,
+			resource,
+			amount,
+			type,
+		});
+
 		const pathId = `${buildingId}-${supplierId}`;
 		if (!paths.has(pathId)) {
 			const path = withShortestPath({
-				mode: "route",
+				mode: "waypoint",
 				graph,
 				from: supplierId,
 				to: buildingId,
 			});
 			if (!path) {
+				console.info(
+					"\t\t\t\t-- There is no available path (through waypoints)",
+				);
 				continue;
 			}
 			paths.set(pathId, path);
@@ -185,6 +252,7 @@ export const withTransportRoute = async ({
 		const path = [...(paths.get(pathId) || [])];
 		if (path.length < 2) {
 			console.warn("Path too short, skipping", path);
+			continue;
 		}
 
 		/**
@@ -225,6 +293,10 @@ export const withTransportRoute = async ({
 		 * Everything is fine, we can move the goods.
 		 */
 		if (inventory) {
+			console.info("\t\t\t\t-- Moving goods from source to waypoint", {
+				amount: inventory.amount - amount,
+			});
+
 			await tx
 				.updateTable("Inventory")
 				.set({
@@ -251,6 +323,8 @@ export const withTransportRoute = async ({
 					type,
 				})
 				.execute();
+		} else {
+			console.info("\t\t\t\t-- Not enough resources, planning again");
 		}
 
 		/**
@@ -263,4 +337,6 @@ export const withTransportRoute = async ({
 	 * Delete finished transports.
 	 */
 	await tx.deleteFrom("Transport").where("amount", "<=", 0).execute();
+
+	console.info("\t\t-- Done");
 };

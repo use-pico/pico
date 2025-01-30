@@ -14,6 +14,8 @@ export const withTransport = async ({
 	userId,
 	mapId,
 }: withTransport.Props) => {
+	console.info("\t=== Transport");
+
 	/**
 	 * Plan transport routes.
 	 *
@@ -21,4 +23,6 @@ export const withTransport = async ({
 	 * searches for shortest path.
 	 */
 	await withTransportRoute({ tx, userId, mapId });
+
+	console.info("\t-- Done");
 };

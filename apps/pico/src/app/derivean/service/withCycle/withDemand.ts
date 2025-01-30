@@ -11,6 +11,8 @@ export namespace withDemand {
 }
 
 export const withDemand = async ({ tx, userId, mapId }: withDemand.Props) => {
+	console.info("\t=== Demand");
+
 	await withConstructionDemand({ tx, userId, mapId });
 
 	/**
@@ -22,4 +24,6 @@ export const withDemand = async ({ tx, userId, mapId }: withDemand.Props) => {
 	 * Demands are prepared, now resolve suppliers for demands.
 	 */
 	await withDemandSupplier({ tx, userId, mapId });
+
+	console.info("\t-- Done");
 };

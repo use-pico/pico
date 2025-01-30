@@ -69,4 +69,6 @@ export const withBuildingRouteBuilding = async ({
 
 	inserts.length > 0 &&
 		(await tx.insertInto("Building_Route_Building").values(inserts).execute());
+
+	console.info("\t-- Done");
 };

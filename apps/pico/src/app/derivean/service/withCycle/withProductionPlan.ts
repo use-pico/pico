@@ -14,12 +14,18 @@ export const withProductionPlan = async ({
 	userId,
 	mapId,
 }: withProductionPlan.Props) => {
+	console.info("\t=== Production Plan");
+
 	const productionPlanQueue = await tx
 		.selectFrom("Building as b")
 		.select(["b.id as buildingId", "b.productionId"])
 		.where("b.userId", "=", userId)
 		.where("b.productionId", "is not", null)
 		.execute();
+
+	if (!productionPlanQueue.length) {
+		console.info("\t\t-- Production queue is empty");
+	}
 
 	for await (const { buildingId, productionId } of productionPlanQueue) {
 		try {
@@ -59,6 +65,10 @@ export const withProductionPlan = async ({
 		.where("b.recurringProductionId", "is not", null)
 		.execute();
 
+	if (!recurringProductionPlanQueue.length) {
+		console.info("\t\t-- Recurring production queue is empty");
+	}
+
 	for await (const {
 		buildingId,
 		recurringProductionId,
@@ -86,4 +96,6 @@ export const withProductionPlan = async ({
 			// Probably not enough resources or something like that.
 		}
 	}
+
+	console.info("\t-- Done");
 };

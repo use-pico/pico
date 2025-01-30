@@ -14,7 +14,7 @@ export const withConstructionDemand = async ({
 	userId,
 	mapId,
 }: withConstructionDemand.Props) => {
-	console.info("\t=== Construction demand");
+	console.info("\t\t=== Construction demand");
 
 	const construction = await tx
 		.selectFrom("Building as b")
@@ -28,7 +28,7 @@ export const withConstructionDemand = async ({
 		.execute();
 
 	for await (const { id, name, blueprintId } of construction) {
-		console.info("\t\t-- Resolving construction demand", { name });
+		console.info("\t\t\t-- Resolving construction demand", { name });
 
 		const requirements = await tx
 			.selectFrom("Blueprint_Requirement as br")
@@ -80,13 +80,13 @@ export const withConstructionDemand = async ({
 				continue;
 			}
 
-			console.log("\t\t\t-- Inventory", {
+			console.log("\t\t\t\t-- Inventory", {
 				resource: inventory.name,
 				amount: inventory.amount,
 			});
 
 			if (inventory.amount < amount) {
-				console.info("\t\t\t\t-- Demanding resource", {
+				console.info("\t\t\t\t\t-- Demanding resource", {
 					resource: resourceName,
 					amount: Math.max(0, amount - inventory.amount),
 				});
@@ -112,4 +112,6 @@ export const withConstructionDemand = async ({
 			}
 		}
 	}
+
+	console.info("\t\t-- Done");
 };

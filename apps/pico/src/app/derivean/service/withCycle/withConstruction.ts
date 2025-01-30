@@ -14,6 +14,8 @@ export const withConstruction = async ({
 	userId,
 	mapId,
 }: withConstruction.Props) => {
+	console.info("\t=== Construction");
+
 	const constructionQueue = await tx
 		.selectFrom(
 			tx
@@ -25,6 +27,7 @@ export const withConstruction = async ({
 					"b.id as buildingId",
 					"c.id",
 					"b.blueprintId",
+					"bl.name",
 					"c.cycle",
 					"bl.cycles",
 					(eb) => {
@@ -75,17 +78,21 @@ export const withConstruction = async ({
 		.selectAll()
 		.execute();
 
+	if (!constructionQueue.length) {
+		console.info(
+			"\t\t-- No construction in queue or not enough resource to proceed",
+		);
+	}
+
 	for await (const {
 		id,
 		cycle,
 		cycles,
 		buildingId,
 		blueprintId,
+		name,
 	} of constructionQueue) {
-		/**
-		 * Drop all construction routes as we're sure all requirements are met
-		 */
-		await tx.deleteFrom("Route").where("toId", "=", buildingId).execute();
+		console.info("\t\t\t-- Resolving construction", { name });
 
 		if (cycle >= cycles) {
 			await tx.deleteFrom("Construction").where("id", "=", id).execute();
@@ -120,4 +127,6 @@ export const withConstruction = async ({
 			.where("id", "=", id)
 			.execute();
 	}
+
+	console.info("\t-- Done");
 };

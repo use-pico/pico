@@ -13,6 +13,8 @@ export const withProduction = async ({
 	userId,
 	mapId,
 }: withProduction.Props) => {
+	console.info("\t=== Production");
+
 	const productionQueue = await tx
 		.selectFrom("Production as p")
 		.innerJoin("Building as b", "b.id", "p.buildingId")
@@ -32,6 +34,10 @@ export const withProduction = async ({
 		.where("p.userId", "=", userId)
 		.where("l.mapId", "=", mapId)
 		.execute();
+
+	if (!productionQueue.length) {
+		console.info("\t\t-- Production queue is empty");
+	}
 
 	for await (const {
 		id,
@@ -118,4 +124,6 @@ export const withProduction = async ({
 			continue;
 		}
 	}
+
+	console.info("\t-- Done");
 };
