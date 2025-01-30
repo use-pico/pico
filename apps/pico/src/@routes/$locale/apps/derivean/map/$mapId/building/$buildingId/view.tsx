@@ -91,7 +91,7 @@ export const Route = createFileRoute(
 										buildingId: z.string().min(1),
 										name: z.string().min(1),
 									}),
-								),
+								).nullish(),
 								passive: withBoolSchema(),
 							}),
 						});

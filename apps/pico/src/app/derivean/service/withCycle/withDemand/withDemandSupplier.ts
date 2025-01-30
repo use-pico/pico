@@ -15,9 +15,19 @@ export const withDemandSupplier = async ({
 }: withDemandSupplier.Props) => {
 	const demandList = await tx
 		.selectFrom("Demand as d")
+		.innerJoin("Building as b", "b.id", "d.buildingId")
+		.innerJoin("Blueprint as bp", "bp.id", "b.blueprintId")
+		.innerJoin("Resource as r", "r.id", "d.resourceId")
 		.where("d.userId", "=", userId)
 		.where("d.mapId", "=", mapId)
-		.select(["d.id", "d.buildingId", "d.resourceId"])
+		.select([
+			"d.id",
+			"d.buildingId",
+			"bp.name",
+			"r.name as resource",
+			"d.resourceId",
+			"d.type",
+		])
 		.execute();
 
 	for await (const { id, buildingId, resourceId } of demandList) {
@@ -26,8 +36,9 @@ export const withDemandSupplier = async ({
 		 */
 		const building = await tx
 			.selectFrom("Building as b")
+			.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
 			.innerJoin("Land as l", "l.id", "b.landId")
-			.select("b.id")
+			.select(["b.id", "bl.name"])
 			.where((eb) =>
 				/**
 				 * ...that supplies requested resource....
