@@ -52,7 +52,7 @@ export const withBuildingGraph = async ({
 			type: "building" | "waypoint" | "route";
 		},
 		{
-			type: "route" | "waypoint";
+			type: "route" | "building-waypoint";
 		}
 	>({
 		allowSelfLoops: true,
@@ -72,7 +72,7 @@ export const withBuildingGraph = async ({
 	});
 	buildingWaypoints.forEach(({ buildingId, waypointId }) => {
 		graph.addEdge(buildingId, waypointId, {
-			type: "waypoint",
+			type: "building-waypoint",
 		});
 	});
 	routes.forEach(({ fromId, toId }) => {
