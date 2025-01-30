@@ -20,9 +20,24 @@ export const withProductionQueue = async ({
 }: withProductionQueue.Props) => {
 	const blueprintProduction = await tx
 		.selectFrom("Blueprint_Production as bp")
-		.select(["bp.cycles"])
+		.innerJoin("Blueprint as b", "b.id", "bp.blueprintId")
+		.innerJoin("Resource as r", "r.id", "bp.resourceId")
+		.select([
+			"bp.cycles",
+			"r.name as resource",
+			"bp.amount",
+			"bp.cycles",
+			"b.name as blueprint",
+		])
 		.where("bp.id", "=", blueprintProductionId)
 		.executeTakeFirstOrThrow();
+
+	console.info("\t=== Production Queue", {
+		building: blueprintProduction.blueprint,
+		resource: blueprintProduction.resource,
+		amount: blueprintProduction.amount,
+		cycles: blueprintProduction.cycles,
+	});
 
 	const requirements = await tx
 		.selectFrom("Blueprint_Production_Requirement as bpr")
@@ -31,17 +46,38 @@ export const withProductionQueue = async ({
 		.where("bpr.blueprintProductionId", "=", blueprintProductionId)
 		.execute();
 
+	if (!requirements.length) {
+		console.info("\t\t-- No production requirements");
+	}
+
+	let proceed = true;
+
 	for await (const { resourceId, amount, passive } of requirements) {
 		const inventory = await tx
 			.selectFrom("Inventory as i")
 			.innerJoin("Building_Inventory as bi", "bi.inventoryId", "i.id")
-			.select(["i.id", "i.amount"])
+			.innerJoin("Resource as r", "r.id", "i.resourceId")
+			.select(["i.id", "i.amount", "r.name"])
 			.where("bi.buildingId", "=", buildingId)
 			.where("i.resourceId", "=", resourceId)
 			.where("i.type", "=", "storage")
 			.executeTakeFirstOrThrow();
 
+		console.info("\t\t-- Checking inventory", {
+			resource: inventory.name,
+			amount: inventory.amount,
+		});
+
 		if (inventory.amount < amount) {
+			console.info(
+				"\t\t\t-- Not enough resources in inventory, creating demand",
+				{
+					amount: amount - inventory.amount,
+				},
+			);
+
+			proceed = false;
+
 			await tx
 				.insertInto("Demand")
 				.values({
@@ -64,6 +100,10 @@ export const withProductionQueue = async ({
 		}
 
 		if (!passive) {
+			console.info("\t\t\t-- Consuming resources", {
+				amount,
+			});
+
 			await tx
 				.updateTable("Inventory")
 				.set({
@@ -74,15 +114,23 @@ export const withProductionQueue = async ({
 		}
 	}
 
-	await tx
-		.insertInto("Production")
-		.values({
-			id: genId(),
-			buildingId,
-			blueprintProductionId,
-			userId,
-			cycle: 0,
-			cycles: blueprintProduction.cycles,
-		})
-		.execute();
+	if (proceed) {
+		console.info("\t\t-- Adding production to queue");
+
+		await tx
+			.insertInto("Production")
+			.values({
+				id: genId(),
+				buildingId,
+				blueprintProductionId,
+				userId,
+				cycle: 0,
+				cycles: blueprintProduction.cycles,
+			})
+			.execute();
+	} else {
+		console.info("\t\t-- Not enough resources to proceed");
+	}
+
+	console.info("\t-- Done");
 };

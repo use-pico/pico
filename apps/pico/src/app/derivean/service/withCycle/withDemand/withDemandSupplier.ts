@@ -33,6 +33,10 @@ export const withDemandSupplier = async ({
 		])
 		.execute();
 
+	if (!demandList.length) {
+		console.info("\t\t\t-- No demands");
+	}
+
 	for await (const {
 		id,
 		buildingId,

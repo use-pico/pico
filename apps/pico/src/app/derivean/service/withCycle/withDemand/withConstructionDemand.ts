@@ -27,6 +27,10 @@ export const withConstructionDemand = async ({
 		.select(["b.id", "b.blueprintId", "bl.name"])
 		.execute();
 
+	if (!construction.length) {
+		console.info("\t\t\t-- Construction queue is empty");
+	}
+
 	for await (const { id, name, blueprintId } of construction) {
 		console.info("\t\t\t-- Resolving construction demand", { name });
 

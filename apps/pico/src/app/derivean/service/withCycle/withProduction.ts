@@ -18,17 +18,19 @@ export const withProduction = async ({
 	const productionQueue = await tx
 		.selectFrom("Production as p")
 		.innerJoin("Building as b", "b.id", "p.buildingId")
+		.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
 		.innerJoin("Land as l", "l.id", "b.landId")
 		.innerJoin("Blueprint_Production as bp", "bp.id", "p.blueprintProductionId")
 		.innerJoin("Resource as r", "r.id", "bp.resourceId")
 		.select([
 			"p.id",
 			"p.buildingId",
+			"bl.name as building",
 			"p.cycle",
 			"p.cycles",
 			"bp.resourceId",
 			"p.blueprintProductionId",
-			"r.name",
+			"r.name as resource",
 			"bp.amount",
 		])
 		.where("p.userId", "=", userId)
@@ -46,47 +48,25 @@ export const withProduction = async ({
 		cycle,
 		cycles,
 		amount,
+		building,
+		resource,
 	} of productionQueue) {
+		console.info("\t\t-- Resolving production", {
+			building,
+			cycle,
+			cycles,
+			amount,
+			resource,
+		});
+
 		if (cycle < cycles) {
+			console.info("\t\t\t-- Not ready yet");
+
 			await tx
 				.updateTable("Production")
 				.set("cycle", cycle + 1)
 				.where("id", "=", id)
 				.execute();
-			continue;
-		}
-
-		const outputInventory = await tx
-			.selectFrom("Inventory as i")
-			.select(["i.id", "i.amount", "i.limit"])
-			.where(
-				"i.id",
-				"in",
-				tx
-					.selectFrom("Building_Inventory as bi")
-					.select("bi.inventoryId")
-					.where("bi.buildingId", "=", buildingId),
-			)
-			.where("i.resourceId", "=", resourceId)
-			.where("i.type", "=", "storage")
-			.executeTakeFirst();
-
-		if (
-			outputInventory &&
-			(outputInventory.limit > 0 ?
-				outputInventory.amount + amount <= outputInventory.limit
-			:	true)
-		) {
-			await tx
-				.updateTable("Inventory")
-				.set({
-					amount: outputInventory.amount + amount,
-				})
-				.where("id", "=", outputInventory.id)
-				.execute();
-
-			await tx.deleteFrom("Production as p").where("p.id", "=", id).execute();
-
 			continue;
 		}
 
@@ -111,6 +91,10 @@ export const withProduction = async ({
 				storageInventory.amount + amount <= storageInventory.limit
 			:	true)
 		) {
+			console.info("\t\t\t-- Resources produced, moving to inventory", {
+				amount,
+			});
+
 			await tx
 				.updateTable("Inventory")
 				.set({
@@ -123,6 +107,8 @@ export const withProduction = async ({
 
 			continue;
 		}
+
+		console.info("\t\t\t-- Not enough storage capacity");
 	}
 
 	console.info("\t-- Done");

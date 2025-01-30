@@ -410,7 +410,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										"text-slate-500",
 										"p-2",
 										waypoint.transport > 0 ?
-											["text-green-600", "border-green-600", "border-2"]
+											[
+												"text-green-600",
+												"bg-green-100",
+												"border-green-600",
+												"border-2",
+											]
 										:	undefined,
 									]),
 								}) satisfies

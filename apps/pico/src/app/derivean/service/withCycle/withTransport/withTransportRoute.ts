@@ -294,7 +294,7 @@ export const withTransportRoute = async ({
 		 */
 		if (inventory) {
 			console.info("\t\t\t\t-- Moving goods from source to waypoint", {
-				amount: inventory.amount - amount,
+				amount,
 			});
 
 			await tx
