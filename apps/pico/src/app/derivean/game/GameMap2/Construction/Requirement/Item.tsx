@@ -1,7 +1,9 @@
-import { Icon, Progress } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { Icon, LinkTo, Progress } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import type { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
+import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
 import { PackageIcon } from "~/app/derivean/icon/PackageIcon";
 
@@ -12,6 +14,9 @@ export namespace Item {
 }
 
 export const Item: FC<Item.Props> = ({ requirement }) => {
+	const { locale, mapId } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
 	const available = requirement.available || 0;
 
 	return (
@@ -54,6 +59,23 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 					{requirement.supply ?
 						<Icon icon={DemandIcon} />
 					:	<Icon icon={PackageIcon} />}
+					{requirement.supply ?
+						<div className={"flex flex-row gap-2 items-center"}>
+							<LinkTo
+								to={
+									"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"
+								}
+								params={{
+									locale,
+									mapId,
+									buildingId: requirement.supply.buildingId,
+								}}
+							>
+								{requirement.supply.name}
+							</LinkTo>
+							<Icon icon={ArrowRightIcon} />
+						</div>
+					:	null}
 					<div className={"font-bold"}>{requirement.name}</div>
 				</div>
 

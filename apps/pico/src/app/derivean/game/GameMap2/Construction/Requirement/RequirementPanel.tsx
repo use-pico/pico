@@ -12,11 +12,17 @@ export namespace RequirementPanel {
 		name: string;
 	}
 
+	export interface Supply {
+		id: string;
+        buildingId: string;
+		name: string;
+	}
+
 	export interface Requirement {
 		id: string;
 		name: string;
 		amount: number;
-		supply: number;
+		supply?: Supply | null;
 		available?: number | null;
 		passive: boolean;
 	}

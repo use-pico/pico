@@ -1,6 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
-import { withBoolSchema } from "@use-pico/common";
+import { Kysely, withBoolSchema, withJsonSchema } from "@use-pico/common";
 import { z } from "zod";
 import { BuildingPanel } from "~/app/derivean/game/GameMap2/Building/BuildingPanel";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
@@ -41,7 +41,15 @@ export const Route = createFileRoute(
 									(eb) => {
 										return eb
 											.selectFrom("Supply as s")
-											.select((eb) => eb.fn.count<number>("s.id").as("supply"))
+											.innerJoin("Building as b", "b.id", "s.buildingId")
+											.innerJoin("Blueprint as bp", "bp.id", "b.blueprintId")
+											.select((eb) => {
+												return Kysely.jsonObject({
+													id: eb.ref("s.id"),
+													buildingId: eb.ref("s.buildingId"),
+													name: eb.ref("bp.name"),
+												}).as("supply");
+											})
 											.whereRef("s.resourceId", "=", "br.resourceId")
 											.where(
 												"s.buildingId",
@@ -77,7 +85,13 @@ export const Route = createFileRoute(
 								name: z.string().min(1),
 								amount: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
-								supply: z.number().nonnegative(),
+								supply: withJsonSchema(
+									z.object({
+										id: z.string().min(1),
+										buildingId: z.string().min(1),
+										name: z.string().min(1),
+									}),
+								),
 								passive: withBoolSchema(),
 							}),
 						});
