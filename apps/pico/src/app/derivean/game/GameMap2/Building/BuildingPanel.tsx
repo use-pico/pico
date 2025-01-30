@@ -96,6 +96,15 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 			>
 				<Tx label={"Demand list (label)"} />
 			</LinkTo>
+
+			<LinkTo
+				icon={BuildingIcon}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/link"}
+				params={{ locale, mapId, buildingId: building.id }}
+				css={{ base: linkCss }}
+			>
+				<Tx label={"Building links (label)"} />
+			</LinkTo>
 		</Panel>
 	);
 };

@@ -6,7 +6,7 @@ export namespace withShortestPath {
 		graph: withBuildingGraph.BuildingGraph;
 		from: string;
 		to: string;
-		mode: "path" | "route";
+		mode: "path" | "waypoint";
 	}
 }
 
@@ -27,7 +27,7 @@ export const withShortestPath = ({
 			return path;
 		}
 
-		case "route": {
+		case "waypoint": {
 			/**
 			 * Omit buildings from both sides.
 			 */
