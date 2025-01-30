@@ -31,7 +31,7 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				"p-2",
 				"cursor-default",
 				"hover:bg-slate-100",
-				requirement.supply ?
+				requirement.supplier ?
 					[
 						"bg-purple-50",
 						"border-purple-400",
@@ -39,12 +39,12 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"hover:border-purple-400",
 					]
 				:	[
-						"bg-amber-50",
-						"border-amber-400",
-						"hover:bg-amber-50",
-						"hover:border-amber-400",
+						"bg-red-50",
+						"border-red-400",
+						"hover:bg-red-50",
+						"hover:border-red-400",
 					],
-				requirement.transport ?
+				requirement.transport || available >= requirement.amount ?
 					[
 						"bg-green-50",
 						"border-green-400",
@@ -61,14 +61,16 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						"flex-row",
 						"gap-2",
 						"items-center",
-						requirement.supply ? ["text-purple-600"] : ["text-slate-900"],
-						requirement.transport ? ["text-green-600"] : undefined,
+						requirement.supplier ? ["text-purple-600"] : ["text-red-600"],
+						requirement.transport || available >= requirement.amount ?
+							["text-green-600"]
+						:	undefined,
 					])}
 				>
-					{requirement.supply ?
+					{requirement.supplier || available >= requirement.amount ?
 						<Icon icon={DemandIcon} />
 					:	<Icon icon={PackageIcon} />}
-					{requirement.supply ?
+					{requirement.supplier ?
 						<div className={"flex flex-row gap-2 items-center"}>
 							<LinkTo
 								to={
@@ -77,10 +79,10 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 								params={{
 									locale,
 									mapId,
-									buildingId: requirement.supply.buildingId,
+									buildingId: requirement.supplier.id,
 								}}
 							>
-								{requirement.supply.name}
+								{requirement.supplier.name}
 							</LinkTo>
 							<Icon icon={ArrowRightIcon} />
 						</div>
@@ -97,7 +99,13 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 				</div>
 			</div>
 
-			<Progress value={(100 * available) / requirement.amount} />
+			<Progress
+				value={(100 * available) / requirement.amount}
+				css={{
+					progress:
+						available >= requirement.amount ? ["bg-green-500"] : undefined,
+				}}
+			/>
 		</div>
 	);
 };
