@@ -562,11 +562,20 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									(eb) => {
 										return eb
 											.selectFrom("Transport as t")
-											.whereRef("t.waypointId", "=", "bw.waypointId")
-											.select((eb) =>
-												eb.fn.count<number>("t.id").as("transport"),
-											)
-											.as("transport");
+											.where((eb) => {
+												return eb.or([
+													eb("t.waypointId", "=", eb.ref("bw.waypointId")),
+												]);
+											})
+											.select((eb) => {
+												return Kysely.jsonGroupArray({
+													id: eb.ref("t.id"),
+													sourceId: eb.ref("t.sourceId"),
+													waypointId: eb.ref("t.waypointId"),
+													targetId: eb.ref("t.targetId"),
+												}).as("transports");
+											})
+											.as("transports");
 									},
 								])
 								.leftJoin("Building as b", "b.id", "bw.buildingId")
@@ -577,26 +586,70 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								id: z.string().min(1),
 								buildingId: z.string().min(1),
 								waypointId: z.string().min(1),
-								transport: z.number(),
+								transports: withJsonArraySchema(
+									z.object({
+										id: z.string().min(1),
+										sourceId: z.string().min(1),
+										waypointId: z.string().min(1),
+										targetId: z.string().min(1),
+									}),
+								),
 							}),
 						});
 
 						return source.map((buildingWaypoint) => {
+							const transports = buildingWaypoint.transports
+								.map((transport) => {
+									const path = bidirectional(
+										graph,
+										transport.sourceId,
+										transport.targetId,
+									);
+
+									if (!path) {
+										return {
+											path: undefined,
+											mark: false,
+											fromIndex: 0,
+											toIndex: 0,
+										};
+									}
+
+									return {
+										transport,
+										path,
+										mark: path.includes(buildingWaypoint.buildingId),
+										outbound:
+											path.indexOf(transport.waypointId) >
+											path.indexOf(buildingWaypoint.buildingId),
+									};
+								})
+								.filter(({ path, mark }) => {
+									return Boolean(path) && mark;
+								});
+
 							return {
 								id: buildingWaypoint.id,
 								source: buildingWaypoint.buildingId,
 								target: buildingWaypoint.waypointId,
 								type: "building-waypoint",
-								animated: buildingWaypoint.transport > 0,
+								animated: transports.length > 0,
 								markerStart:
-									buildingWaypoint.transport > 0 ?
+									transports.some(({ outbound }) => !outbound) ?
+										{
+											type: MarkerType.ArrowClosed,
+											color: "#23BC43",
+										}
+									:	undefined,
+								markerEnd:
+									transports.some(({ outbound }) => outbound) ?
 										{
 											type: MarkerType.ArrowClosed,
 											color: "#23BC43",
 										}
 									:	undefined,
 								style:
-									buildingWaypoint.transport ?
+									transports.length > 0 ?
 										{
 											stroke: "#23BC43",
 											strokeWidth: 5,
