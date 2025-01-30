@@ -8,6 +8,7 @@ export namespace withBuildingGraph {
 
 	export interface Edge {
 		type: "route" | "building-waypoint";
+		weight: number;
 	}
 
 	export type BuildingGraph = Graph<Node, Edge>;
@@ -55,6 +56,8 @@ export const withBuildingGraph = async ({
 	const routes = await tx
 		.selectFrom("Route as r")
 		.select(["r.fromId", "r.toId"])
+		.where("r.userId", "=", userId)
+		.where("r.mapId", "=", mapId)
 		.execute();
 
 	const graph = new Graph<withBuildingGraph.Node, withBuildingGraph.Edge>({
@@ -76,11 +79,13 @@ export const withBuildingGraph = async ({
 	buildingWaypoints.forEach(({ buildingId, waypointId }) => {
 		graph.addEdge(buildingId, waypointId, {
 			type: "building-waypoint",
+			weight: 100,
 		});
 	});
 	routes.forEach(({ fromId, toId }) => {
 		graph.addEdge(fromId, toId, {
 			type: "route",
+			weight: 0,
 		});
 	});
 

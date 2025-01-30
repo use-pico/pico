@@ -26,7 +26,7 @@ export const useCreateRouteMutation = () => {
 			return kysely.transaction().execute(async (tx) => {
 				await tx
 					.insertInto("Route")
-					.values({ id: genId(), fromId, toId, userId })
+					.values({ id: genId(), fromId, toId, userId, mapId })
 					.execute();
 
 				setTimeout(async () => {

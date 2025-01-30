@@ -1001,6 +1001,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Route] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				.addColumn("userId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Route] userId",
@@ -1031,7 +1040,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			for await (const index of ["userId", "fromId", "toId"]) {
+			for await (const index of ["userId", "mapId", "fromId", "toId"]) {
 				await kysely.schema
 					.createIndex(`[Route] ${index}`)
 					.on("Route")

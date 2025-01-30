@@ -1,6 +1,6 @@
-import { bidirectional } from "graphology-shortest-path/unweighted";
 import { dfsFromNode } from "graphology-traversal/dfs";
 import type { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
+import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
 export namespace withPathOf {
 	export interface Building {
@@ -26,19 +26,17 @@ export const withPathOf = ({ graph, buildings }: withPathOf.Props) => {
 	}
 
 	return [...related.values()].filter(({ buildingId, linkId }) => {
-		const path = bidirectional(graph, buildingId, linkId);
+		const path = withShortestPath({
+			mode: "path",
+			graph,
+			from: buildingId,
+			to: linkId,
+		});
+
 		if (!path) {
 			return false;
 		}
-		/**
-		 * Omit buildings from both sides.
-		 */
-		const route = path.slice(1, -1);
-		/**
-		 * Buildings can be connected only by buildings.
-		 */
-		return route.every((node) => {
-			return graph.getNodeAttribute(node, "type") === "waypoint";
-		});
+
+		return true;
 	});
 };

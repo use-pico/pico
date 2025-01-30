@@ -992,6 +992,9 @@ export const withRouteSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
@@ -1005,7 +1008,7 @@ export const withRouteSchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "userId", "fromId", "toId"],
+		sort: ["id", "mapId", "userId", "fromId", "toId"],
 	});
 };
 

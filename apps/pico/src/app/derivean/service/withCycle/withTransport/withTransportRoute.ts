@@ -1,7 +1,7 @@
 import { genId } from "@use-pico/common";
-import { bidirectional } from "graphology-shortest-path/unweighted";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
+import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
 export namespace withTransportRoute {
 	export interface Props {
@@ -47,10 +47,16 @@ export const withTransportRoute = async ({
 	} of transportList) {
 		const pathId = `${waypointId}-${targetId}`;
 		if (!paths.has(pathId)) {
-			const path = bidirectional(graph, waypointId, targetId);
+			const path = withShortestPath({
+				mode: "route",
+				graph,
+				from: waypointId,
+				to: targetId,
+			});
 			if (!path) {
 				continue;
 			}
+
 			paths.set(pathId, path);
 		}
 
@@ -121,7 +127,7 @@ export const withTransportRoute = async ({
 		await tx
 			.updateTable("Transport")
 			.set({
-				waypointId: path.shift(),
+				waypointId: route.shift(),
 			})
 			.where("id", "=", id)
 			.execute();
@@ -164,7 +170,12 @@ export const withTransportRoute = async ({
 
 		const pathId = `${buildingId}-${supplierId}`;
 		if (!paths.has(pathId)) {
-			const path = bidirectional(graph, supplierId, buildingId);
+			const path = withShortestPath({
+				mode: "route",
+				graph,
+				from: supplierId,
+				to: buildingId,
+			});
 			if (!path) {
 				continue;
 			}

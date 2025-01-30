@@ -9,7 +9,6 @@ import {
     withJsonSchema,
 } from "@use-pico/common";
 import { MarkerType } from "@xyflow/react";
-import { bidirectional } from "graphology-shortest-path/unweighted";
 import { useMemo } from "react";
 import { z } from "zod";
 import type { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
@@ -23,6 +22,7 @@ import type { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import type { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
 import type { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
+import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
 const width = 384;
 const height = 128;
@@ -451,6 +451,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											.as("transports");
 									},
 								])
+								.where("r.mapId", "=", mapId)
 								.where("r.userId", "=", user.id),
 							output: z.object({
 								id: z.string().min(1),
@@ -470,11 +471,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						return source.map((route) => {
 							const transports = route.transports
 								.map((transport) => {
-									const path = bidirectional(
+									const path = withShortestPath({
+										mode: "path",
 										graph,
-										transport.waypointId,
-										transport.targetId,
-									);
+										from: transport.waypointId,
+										to: transport.targetId,
+									});
 
 									if (!path) {
 										return {
@@ -600,11 +602,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						return source.map((buildingWaypoint) => {
 							const transports = buildingWaypoint.transports
 								.map((transport) => {
-									const path = bidirectional(
+									const path = withShortestPath({
+										mode: "path",
 										graph,
-										transport.sourceId,
-										transport.targetId,
-									);
+										from: transport.sourceId,
+										to: transport.targetId,
+									});
 
 									if (!path) {
 										return {

@@ -76,19 +76,6 @@ export const withConstructionDemand = async ({
 			}
 
 			if (inventory.amount < amount) {
-				console.info("Demanding resource", {
-					resource: resourceName,
-					building: (
-						await tx
-							.selectFrom("Building as b")
-							.innerJoin("Blueprint as bl", "bl.id", "b.blueprintId")
-							.select("bl.name")
-							.where("b.id", "=", id)
-							.executeTakeFirstOrThrow()
-					).name,
-					amount,
-				});
-
 				await tx
 					.insertInto("Demand")
 					.values({
