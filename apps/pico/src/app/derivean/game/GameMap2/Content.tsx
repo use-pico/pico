@@ -25,11 +25,6 @@ import { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/Building
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
 import type { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { MapToolbar } from "~/app/derivean/game/GameMap2/MapToolbar";
-import { useBuildingMutation } from "~/app/derivean/game/mutation/useBuildingMutation";
-import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/mutation/useCreateBuildingWaypointMutation";
-import { useCreateRouteMutation } from "~/app/derivean/game/mutation/useCreateRouteMutation";
-import { useCreateWaypointMutation } from "~/app/derivean/game/mutation/useCreateWaypointMutation";
-import { useWaypointMutation } from "~/app/derivean/game/mutation/useWaypointMutation";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
 import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
@@ -37,6 +32,11 @@ import { LandNode } from "~/app/derivean/game/GameMap2/Node/LandNode";
 import { QueueNode } from "~/app/derivean/game/GameMap2/Node/QueueNode";
 import { WaypointNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointNode";
 import { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/WaypointNode/WaypointRouteNode";
+import { useBuildingMutation } from "~/app/derivean/game/mutation/useBuildingMutation";
+import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/mutation/useCreateBuildingWaypointMutation";
+import { useCreateRouteMutation } from "~/app/derivean/game/mutation/useCreateRouteMutation";
+import { useCreateWaypointMutation } from "~/app/derivean/game/mutation/useCreateWaypointMutation";
+import { useWaypointMutation } from "~/app/derivean/game/mutation/useWaypointMutation";
 
 const connectionLineStyle = {
 	stroke: "#DD44AA",
@@ -249,8 +249,8 @@ export const Content: FC<Content.Props> = ({
 					:	event) as any;
 
 				const coord = screenToFlowPosition({
-					x: clientX - 32,
-					y: clientY - 32,
+					x: clientX - 48,
+					y: clientY - 48,
 				});
 				const fromId = connectionState.fromNode.id;
 				const { type } = connectionState.fromNode;

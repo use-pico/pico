@@ -50,15 +50,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	}) {
 		const user = await session();
 
-		const { graph } = await queryClient.ensureQueryData({
-			queryKey: ["GameMap", mapId, "graph"],
-			async queryFn() {
-				return kysely.transaction().execute(async (tx) => {
-					return withBuildingGraph({ tx, userId: user.id, mapId });
-				});
-			},
-		});
-
 		return {
 			user,
 			land: await queryClient.ensureQueryData({
@@ -473,6 +464,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							}),
 						});
 
+						const { graph } = await withBuildingGraph({
+							tx,
+							userId: user.id,
+							mapId,
+						});
+
 						return source.map((route) => {
 							const transports = route.transports
 								.map((transport) => {
@@ -602,6 +599,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									}),
 								),
 							}),
+						});
+
+						const { graph } = await withBuildingGraph({
+							tx,
+							userId: user.id,
+							mapId,
 						});
 
 						return source.map((buildingWaypoint) => {

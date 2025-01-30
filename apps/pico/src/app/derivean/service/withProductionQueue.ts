@@ -51,6 +51,7 @@ export const withProductionQueue = async ({
 	}
 
 	let proceed = true;
+	const update = new Map<string, number>();
 
 	for await (const { resourceId, amount, passive } of requirements) {
 		const inventory = await tx
@@ -100,22 +101,20 @@ export const withProductionQueue = async ({
 		}
 
 		if (!passive) {
-			console.info("\t\t\t-- Consuming resources", {
-				amount,
-			});
-
-			await tx
-				.updateTable("Inventory")
-				.set({
-					amount: inventory.amount - amount,
-				})
-				.where("id", "=", inventory.id)
-				.execute();
+			update.set(inventory.id, inventory.amount - amount);
 		}
 	}
 
 	if (proceed) {
 		console.info("\t\t-- Adding production to queue");
+
+		for await (const [id, amount] of update) {
+			await tx
+				.updateTable("Inventory")
+				.set("amount", amount)
+				.where("id", "=", id)
+				.execute();
+		}
 
 		await tx
 			.insertInto("Production")
