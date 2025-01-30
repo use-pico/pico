@@ -1,6 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { BackIcon, LinkTo, withList } from "@use-pico/client";
+import { withList } from "@use-pico/client";
 import { z } from "zod";
 import { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 
@@ -18,11 +18,14 @@ export const Route = createFileRoute(
 		};
 	},
 	async loader({
-		context: { queryClient, kysely },
+		context: { queryClient, kysely, session },
 		deps: { fulltext },
 		params: { mapId, buildingId },
 	}) {
+		const user = await session();
+
 		return {
+			user,
 			inventory: await queryClient.ensureQueryData({
 				queryKey: [
 					"GameMap",
@@ -96,31 +99,14 @@ export const Route = createFileRoute(
 			from: "/$locale/apps/derivean/map/$mapId/building/$buildingId",
 		});
 		const { fulltext } = Route.useSearch();
-		const { mapId, locale } = Route.useParams();
 		const navigate = Route.useNavigate();
-		const { inventory } = Route.useLoaderData();
+		const { user, inventory } = Route.useLoaderData();
 
 		return (
 			<InventoryPanel
+				building={building}
+				userId={user.id}
 				inventory={inventory}
-				textSubTitle={
-					<>
-						<LinkTo
-							icon={BackIcon}
-							to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
-							params={{ locale, mapId, buildingId: building.id }}
-						/>
-						<LinkTo
-							to={
-								"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"
-							}
-							params={{ locale, mapId, buildingId: building.id }}
-							search={{ zoomToId: building.id }}
-						>
-							{building.name}
-						</LinkTo>
-					</>
-				}
 				fulltextProps={{
 					value: fulltext,
 					onFulltext(value) {

@@ -3,10 +3,10 @@ import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { withBuildingRouteBuilding } from "~/app/derivean/service/withBuildingRouteBuilding";
 import { withConstruction } from "~/app/derivean/service/withCycle/withConstruction";
-import { withDemand } from "~/app/derivean/service/withCycle/withDemand";
+import { withDemand } from "~/app/derivean/service/withCycle/withDemand/withDemand";
 import { withProduction } from "~/app/derivean/service/withCycle/withProduction";
 import { withProductionPlan } from "~/app/derivean/service/withCycle/withProductionPlan";
-import { withTransport } from "~/app/derivean/service/withCycle/withTransport";
+import { withTransport } from "~/app/derivean/service/withCycle/withTransport/withTransport";
 
 export namespace withCycle {
 	export interface Props {
@@ -71,11 +71,6 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 			mapId,
 		});
 
-		/**
-		 * Resolve transportation:
-		 * - looks into demands
-		 * - if there is enough resources, create transport path
-		 */
 		await withTransport({
 			tx,
 			userId,

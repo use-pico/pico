@@ -1,4 +1,5 @@
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
+import { withTransportDemand } from "~/app/derivean/service/withCycle/withTransport/withTransportDemand";
 import { withTransportRoute } from "~/app/derivean/service/withCycle/withTransport/withTransportRoute";
 
 export namespace withTransport {
@@ -14,15 +15,6 @@ export const withTransport = async ({
 	userId,
 	mapId,
 }: withTransport.Props) => {
-	console.info("\t=== Transport");
-
-	/**
-	 * Plan transport routes.
-	 *
-	 * This may be quite complex as it recalculates current state of routes and
-	 * searches for shortest path.
-	 */
 	await withTransportRoute({ tx, userId, mapId });
-
-	console.info("\t-- Done");
+	await withTransportDemand({ tx, userId, mapId });
 };

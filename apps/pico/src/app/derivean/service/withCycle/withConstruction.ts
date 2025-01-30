@@ -109,6 +109,8 @@ export const withConstruction = async ({
 						.insertInto("Supply")
 						.values({
 							id: genId(),
+							mapId,
+							userId,
 							buildingId,
 							resourceId,
 						})

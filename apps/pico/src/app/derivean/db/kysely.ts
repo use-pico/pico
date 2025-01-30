@@ -1112,6 +1112,24 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Supply] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Supply] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				.addColumn("buildingId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Supply] buildingId",
@@ -1164,18 +1182,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addForeignKeyConstraint(
 					"[Demand] buildingId",
 					["buildingId"],
-					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				/**
-				 * If supplier is NULL, there is nobody to supply the resource.
-				 */
-				.addColumn("supplierId", $id)
-				.addForeignKeyConstraint(
-					"[Resource_Queue] supplierId",
-					["supplierId"],
 					"Building",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),

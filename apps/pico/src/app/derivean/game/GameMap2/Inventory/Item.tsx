@@ -9,20 +9,26 @@ import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
 
 export namespace Item {
 	export interface Props {
+		mapId: string;
+		userId: string;
 		inventory: InventoryPanel.Inventory;
 	}
 }
 
-export const Item: FC<Item.Props> = ({ inventory }) => {
+export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 	const invalidator = useInvalidator([["GameMap"]]);
 	const toggleDemandMutation = useMutation({
 		async mutationFn({
 			buildingId,
 			resourceId,
 			supplyId,
+			mapId,
+			userId,
 		}: {
 			buildingId: string;
 			resourceId: string;
+			mapId: string;
+			userId: string;
 			supplyId?: string | null;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
@@ -35,6 +41,8 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 						id: genId(),
 						buildingId,
 						resourceId,
+						mapId,
+						userId,
 					})
 					.execute();
 			});
@@ -89,6 +97,8 @@ export const Item: FC<Item.Props> = ({ inventory }) => {
 						loading={toggleDemandMutation.isPending}
 						onClick={() => {
 							toggleDemandMutation.mutate({
+								mapId,
+								userId,
 								buildingId: inventory.buildingId,
 								resourceId: inventory.resourceId,
 								supplyId: inventory.supplyId,

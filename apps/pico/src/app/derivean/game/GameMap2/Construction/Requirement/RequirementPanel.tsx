@@ -14,13 +14,6 @@ export namespace RequirementPanel {
 
 	export interface Supply {
 		id: string;
-		buildingId: string;
-		name: string;
-	}
-
-	export interface Supplier {
-		id: string;
-		name: string;
 	}
 
 	export interface Requirement {
@@ -29,7 +22,6 @@ export namespace RequirementPanel {
 		amount: number;
 		transport: number;
 		supply?: Supply | null;
-		supplier?: Supplier | null;
 		available?: number | null;
 		passive: boolean;
 	}

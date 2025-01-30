@@ -541,7 +541,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									transports.some(({ mark }) => mark) ?
 										{
 											stroke: "#23BC43",
-											strokeWidth: 5,
+											strokeWidth: 8,
 										}
 									:	{
 											stroke: "#b1b1b7",
@@ -663,7 +663,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									transports.length > 0 ?
 										{
 											stroke: "#23BC43",
-											strokeWidth: 5,
+											strokeWidth: 8,
 										}
 									:	{
 											stroke: "#b1b1b7",

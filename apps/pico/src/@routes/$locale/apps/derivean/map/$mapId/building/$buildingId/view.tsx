@@ -73,21 +73,6 @@ export const Route = createFileRoute(
 									},
 									(eb) => {
 										return eb
-											.selectFrom("Demand as d")
-											.innerJoin("Building as b", "b.id", "d.supplierId")
-											.innerJoin("Blueprint as bp", "bp.id", "b.blueprintId")
-											.select((eb) => {
-												return Kysely.jsonObject({
-													id: eb.ref("b.id"),
-													name: eb.ref("bp.name"),
-												}).as("supplier");
-											})
-											.whereRef("d.resourceId", "=", "br.resourceId")
-											.whereRef("d.buildingId", "=", "bg.id")
-											.as("supplier");
-									},
-									(eb) => {
-										return eb
 											.selectFrom("Inventory as i")
 											.select(["i.amount"])
 											.where(
@@ -117,14 +102,6 @@ export const Route = createFileRoute(
 										buildingId: z.string().min(1),
 										name: z.string().min(1),
 									}),
-								).nullish(),
-								supplier: withJsonSchema(
-									z
-										.object({
-											id: z.string().min(1),
-											name: z.string().min(1),
-										})
-										.nullish(),
 								).nullish(),
 								passive: withBoolSchema(),
 							}),

@@ -1,9 +1,9 @@
 import {
-    IdentitySchema,
-    withBoolSchema,
-    withSourceSchema,
-    type FilterSchema,
-    type ShapeSchema,
+	IdentitySchema,
+	withSourceSchema,
+	type FilterSchema,
+	type ShapeSchema,
+	withBoolSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -593,9 +593,6 @@ export const withDemandSchema = <
 				buildingId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				supplierId:
-					// varchar(36) / nullable
-					z.string().nullish(),
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
@@ -617,7 +614,6 @@ export const withDemandSchema = <
 			"userId",
 			"mapId",
 			"buildingId",
-			"supplierId",
 			"resourceId",
 			"amount",
 			"priority",
@@ -1027,6 +1023,12 @@ export const withSupplySchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				buildingId:
 					// varchar(36) / not nullable
 					z.string().min(1),
@@ -1037,7 +1039,7 @@ export const withSupplySchema = <
 		),
 		shape,
 		filter,
-		sort: ["id", "buildingId", "resourceId"],
+		sort: ["id", "userId", "mapId", "buildingId", "resourceId"],
 	});
 };
 
