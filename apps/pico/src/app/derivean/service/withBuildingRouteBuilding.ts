@@ -44,12 +44,11 @@ export const withBuildingRouteBuilding = async ({
 			/**
 			 * Omit buildings from both sides.
 			 */
-			path.shift();
-			path.pop();
+			const route = path.slice(1, -1);
 			/**
 			 * Buildings can be connected only by buildings.
 			 */
-			return path.every((node) => {
+			return route.every((node) => {
 				return graph.getNodeAttribute(node, "type") === "waypoint";
 			});
 		})
