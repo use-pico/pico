@@ -1,26 +1,33 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { z } from "zod";
-import { DemandPanel } from "~/app/derivean/game/GameMap2/Building/Demand/DemandPanel";
+import { TransportPanel } from "~/app/derivean/game/GameMap2/Building/Transport/TransportPanel";
 
 export const Route = createFileRoute(
-	"/$locale/apps/derivean/map/$mapId/building/$buildingId/demand",
+	"/$locale/apps/derivean/map/$mapId/building/$buildingId/transport",
 )({
 	async loader({
 		context: { queryClient, kysely },
 		params: { mapId, buildingId },
 	}) {
 		return {
-			demand: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "building", buildingId, "demand", "list"],
+			transport: await queryClient.ensureQueryData({
+				queryKey: [
+					"GameMap",
+					mapId,
+					"building",
+					buildingId,
+					"transport",
+					"list",
+				],
 				queryFn: async () => {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
 							select: tx
-								.selectFrom("Demand as d")
-								.innerJoin("Resource as r", "r.id", "d.resourceId")
-								.select(["d.id", "r.name", "d.amount"])
-								.where("d.buildingId", "=", buildingId)
+								.selectFrom("Transport as t")
+								.innerJoin("Resource as r", "r.id", "t.resourceId")
+								.select(["t.id", "r.name", "t.amount"])
+								.where("t.targetId", "=", buildingId)
 								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
@@ -37,12 +44,12 @@ export const Route = createFileRoute(
 		const { building } = useLoaderData({
 			from: "/$locale/apps/derivean/map/$mapId/building/$buildingId",
 		});
-		const { demand } = Route.useLoaderData();
+		const { transport } = Route.useLoaderData();
 
 		return (
-			<DemandPanel
+			<TransportPanel
 				building={building}
-				demand={demand}
+				transport={transport}
 			/>
 		);
 	},

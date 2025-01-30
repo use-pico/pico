@@ -3,7 +3,7 @@ import { Badge, Button, TrashIcon, useInvalidator } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import type { DemandPanel } from "~/app/derivean/game/GameMap2/Demand/DemandPanel";
+import type { DemandPanel } from "~/app/derivean/game/GameMap2/Building/Demand/DemandPanel";
 
 export namespace Item {
 	export interface Props {

@@ -8,6 +8,7 @@ import { InventoryIcon } from "~/app/derivean/icon/InventoryIcon";
 import { ProductionIcon } from "~/app/derivean/icon/ProductionIcon";
 import { QueueIcon } from "~/app/derivean/icon/QueueIcon";
 import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
+import { TransportIcon } from "~/app/derivean/icon/TransportIcon";
 
 const linkCss = [
 	"p-4",
@@ -95,6 +96,15 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 				css={{ base: linkCss }}
 			>
 				<Tx label={"Demand list (label)"} />
+			</LinkTo>
+
+			<LinkTo
+				icon={TransportIcon}
+				to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/transport"}
+				params={{ locale, mapId, buildingId: building.id }}
+				css={{ base: linkCss }}
+			>
+				<Tx label={"Transport list (label)"} />
 			</LinkTo>
 
 			<LinkTo
