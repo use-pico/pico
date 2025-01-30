@@ -2,7 +2,7 @@ import {
     getStraightPath,
     useInternalNode,
     type Edge,
-    type EdgeProps
+    type EdgeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
 import { getEdgeParams } from "~/app/derivean/utils/getEdgeParams";
@@ -26,6 +26,7 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 	id,
 	source,
 	target,
+	markerStart,
 	markerEnd,
 	style,
 }) => {
@@ -50,6 +51,7 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 			id={id}
 			className={"react-flow__edge-path"}
 			d={edgePath}
+			markerStart={markerStart}
 			markerEnd={markerEnd}
 			style={style}
 		/>

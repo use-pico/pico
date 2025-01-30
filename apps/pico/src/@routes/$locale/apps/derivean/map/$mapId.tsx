@@ -502,30 +502,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									return Boolean(path);
 								});
 
+							const withStart = transports.some(
+								({ mark, fromIndex, toIndex }) => {
+									return mark && fromIndex < toIndex;
+								},
+							);
+							const withEnd = transports.some(
+								({ mark, fromIndex, toIndex }) => {
+									return mark && fromIndex > toIndex;
+								},
+							);
+
 							return {
 								id: route.id,
 								source: route.fromId,
 								target: route.toId,
 								type: "route",
+								animated: withStart || withEnd,
 								markerStart:
-									(
-										transports.some(
-											({ mark, fromIndex, toIndex }) =>
-												mark && fromIndex < toIndex,
-										)
-									) ?
+									withStart ?
 										{
 											type: MarkerType.ArrowClosed,
 											color: "#23BC43",
 										}
 									:	undefined,
 								markerEnd:
-									(
-										transports.some(
-											({ mark, fromIndex, toIndex }) =>
-												mark && fromIndex > toIndex,
-										)
-									) ?
+									withEnd ?
 										{
 											type: MarkerType.ArrowClosed,
 											color: "#23BC43",
@@ -579,25 +581,32 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							}),
 						});
 
-						return source.map(
-							(buildingWaypoint) =>
-								({
-									id: buildingWaypoint.id,
-									source: buildingWaypoint.buildingId,
-									target: buildingWaypoint.waypointId,
-									type: "building-waypoint",
-									style:
-										buildingWaypoint.transport ?
-											{
-												stroke: "#23BC43",
-												strokeWidth: 5,
-											}
-										:	{
-												stroke: "#b1b1b7",
-												strokeWidth: 3,
-											},
-								}) satisfies BuildingWaypointEdge.BuildingWaypointEdge,
-						);
+						return source.map((buildingWaypoint) => {
+							return {
+								id: buildingWaypoint.id,
+								source: buildingWaypoint.buildingId,
+								target: buildingWaypoint.waypointId,
+								type: "building-waypoint",
+								animated: buildingWaypoint.transport > 0,
+								markerStart:
+									buildingWaypoint.transport > 0 ?
+										{
+											type: MarkerType.ArrowClosed,
+											color: "#23BC43",
+										}
+									:	undefined,
+								style:
+									buildingWaypoint.transport ?
+										{
+											stroke: "#23BC43",
+											strokeWidth: 5,
+										}
+									:	{
+											stroke: "#b1b1b7",
+											strokeWidth: 3,
+										},
+							} satisfies BuildingWaypointEdge.BuildingWaypointEdge;
+						});
 					});
 				},
 			}),
