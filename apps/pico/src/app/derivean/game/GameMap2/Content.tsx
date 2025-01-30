@@ -25,11 +25,11 @@ import { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/Building
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
 import type { GameMap2 } from "~/app/derivean/game/GameMap2/GameMap2";
 import { MapToolbar } from "~/app/derivean/game/GameMap2/MapToolbar";
-import { useBuildingMutation } from "~/app/derivean/game/GameMap2/mutation/useBuildingMutation";
-import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateBuildingWaypointMutation";
-import { useCreateRouteMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateRouteMutation";
-import { useCreateWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useCreateWaypointMutation";
-import { useWaypointMutation } from "~/app/derivean/game/GameMap2/mutation/useWaypointMutation";
+import { useBuildingMutation } from "~/app/derivean/game/mutation/useBuildingMutation";
+import { useCreateBuildingWaypointMutation } from "~/app/derivean/game/mutation/useCreateBuildingWaypointMutation";
+import { useCreateRouteMutation } from "~/app/derivean/game/mutation/useCreateRouteMutation";
+import { useCreateWaypointMutation } from "~/app/derivean/game/mutation/useCreateWaypointMutation";
+import { useWaypointMutation } from "~/app/derivean/game/mutation/useWaypointMutation";
 import { BuildingNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingNode";
 import { BuildingRouteNode } from "~/app/derivean/game/GameMap2/Node/BuildingNode/BuildingRouteNode";
 import { ConstructionNode } from "~/app/derivean/game/GameMap2/Node/ConstructionNode";
