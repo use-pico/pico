@@ -79,6 +79,21 @@ export const withProductionQueue = async ({
 
 			proceed = false;
 
+			const transport = await tx
+				.selectFrom("Transport as t")
+				.select(["t.amount"])
+				.where("t.resourceId", "=", resourceId)
+				.where("t.targetId", "=", buildingId)
+				.where("t.amount", ">=", amount - inventory.amount)
+				.executeTakeFirst();
+
+			if (transport) {
+				console.info(
+					"\t\t\t-- Transport already on the way, waiting for it to arrive",
+				);
+				continue;
+			}
+
 			await tx
 				.insertInto("Demand")
 				.values({
@@ -97,6 +112,7 @@ export const withProductionQueue = async ({
 					});
 				})
 				.execute();
+
 			continue;
 		}
 
