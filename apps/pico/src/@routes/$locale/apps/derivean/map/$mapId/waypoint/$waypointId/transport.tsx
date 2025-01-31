@@ -29,6 +29,7 @@ export const Route = createFileRoute(
 									"r.name",
 									"t.sourceId",
 									"t.targetId",
+									"t.progress",
 									"bl1.name as source",
 									"bl2.name as target",
 								])
@@ -42,6 +43,7 @@ export const Route = createFileRoute(
 								target: z.string().min(1),
 								targetId: z.string().min(1),
 								amount: z.number(),
+								progress: z.number(),
 							}),
 						});
 					});

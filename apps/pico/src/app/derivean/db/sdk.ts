@@ -1,9 +1,9 @@
 import {
-	IdentitySchema,
-	withSourceSchema,
-	type FilterSchema,
-	type ShapeSchema,
-	withBoolSchema,
+    IdentitySchema,
+    withBoolSchema,
+    withSourceSchema,
+    type FilterSchema,
+    type ShapeSchema,
 } from "@use-pico/common";
 import { z } from "zod";
 
@@ -1114,6 +1114,9 @@ export const withTransportSchema = <
 				amount:
 					// float4 / not nullable
 					z.number(),
+				progress:
+					// float4 / not nullable
+					z.number(),
 				type:
 					// varchar(16) / not nullable
 					z.string().min(1),
@@ -1130,6 +1133,7 @@ export const withTransportSchema = <
 			"waypointId",
 			"targetId",
 			"amount",
+			"progress",
 			"type",
 		],
 	});

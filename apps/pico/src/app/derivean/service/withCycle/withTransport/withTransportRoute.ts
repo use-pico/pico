@@ -2,6 +2,27 @@ import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
+namespace withProgressPerTick {
+	export interface Props {
+		weight: number;
+		road: number;
+		speed: number;
+		modifier?: number;
+	}
+}
+
+const withProgressPerTick = ({
+	weight,
+	road,
+	speed,
+	modifier = 1,
+}: withProgressPerTick.Props) => {
+	if (weight <= 0 || road <= 0) {
+		return 0;
+	}
+	return (speed / (weight * road)) * 1024 * modifier;
+};
+
 export namespace withTransportRoute {
 	export interface Props {
 		tx: WithTransaction;
@@ -40,6 +61,8 @@ export const withTransportRoute = async ({
 			"bls.name as source",
 			"t.resourceId",
 			"t.type",
+			"t.progress",
+			"r.transport as weight",
 			"r.name as resource",
 		])
 		.where("t.userId", "=", userId)
@@ -58,15 +81,20 @@ export const withTransportRoute = async ({
 		amount,
 		type,
 		resource,
+		weight,
 		source,
+		progress,
 		target,
 	} of transportList) {
 		console.info("\t\t\t-- Resolving transport", {
+			waypointId,
 			source,
 			target,
 			resource,
 			type,
 			amount,
+			progress,
+			weight,
 		});
 
 		const pathId = `${waypointId}-${targetId}`;
@@ -159,17 +187,41 @@ export const withTransportRoute = async ({
 			continue;
 		}
 
-		console.info("\t\t\t\t-- Moving to next waypoint", {
-			waypointId: route[0],
+		const length = graph.getEdgeAttribute(waypointId, route[0], "length");
+		const move = withProgressPerTick({
+			road: length,
+			weight: weight * amount,
+			speed: 32,
 		});
 
-		/**
-		 * Move the goods to the next waypoint.
-		 */
+		console.info("\t\t\t\t-- Resolved movement", {
+			waypointId: route[0],
+			length,
+			progress: move,
+		});
+
+		if (progress + move >= 100) {
+			/**
+			 * Move the goods to the next waypoint.
+			 */
+			console.info("\t\t\t\t-- Transport at the end of the waypoint");
+			await tx
+				.updateTable("Transport")
+				.set({
+					waypointId: route[0],
+					progress: 0,
+				})
+				.where("id", "=", id)
+				.execute();
+			continue;
+		}
+
+		console.info("\t\t\t\t-- Transport in progress");
+
 		await tx
 			.updateTable("Transport")
 			.set({
-				waypointId: route.shift(),
+				progress: Math.min(100, progress + move),
 			})
 			.where("id", "=", id)
 			.execute();

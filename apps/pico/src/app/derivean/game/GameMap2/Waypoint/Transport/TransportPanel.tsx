@@ -14,6 +14,7 @@ export namespace TransportPanel {
 		target: string;
 		targetId: string;
 		amount: number;
+		progress: number;
 	}
 
 	export interface Props extends Panel.PropsEx {

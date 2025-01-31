@@ -154,6 +154,7 @@ export const withTransportDemand = async ({
 					amount: transfer,
 					type,
 					waypointId,
+					progress: 0,
 				})
 				.execute();
 		}

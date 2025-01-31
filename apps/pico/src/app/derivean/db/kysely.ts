@@ -1292,6 +1292,10 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Amount of transferred resources.
 				 */
 				.addColumn("amount", "float4", (col) => col.notNull())
+				/**
+				 * Transportation progress, 0-100%, when 100%, transport is done.
+				 */
+				.addColumn("progress", "float4", (col) => col.notNull())
 
 				.addColumn("type", "varchar(16)", (col) =>
 					col.notNull().defaultTo("storage"),
