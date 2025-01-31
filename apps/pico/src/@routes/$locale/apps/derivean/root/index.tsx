@@ -127,11 +127,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
-						Add supply/demand buttons; demand will set Demand with the current
-						inventory limit until fullfilled (if the user don't want more, it
-						could be simply removed from demands).
+						Resolve loading resources on the road: it's instant, regardless of
+						initial road length.
 					</li>
-					<li>Resolve transport priority?</li>
 					<li>
 						Add notification center like inventory is full, production is full
 						and so on.
