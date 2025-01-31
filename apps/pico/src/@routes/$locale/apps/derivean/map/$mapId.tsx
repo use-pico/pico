@@ -522,7 +522,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								source: route.fromId,
 								target: route.toId,
 								type: "route",
-								animated: withStart || withEnd,
 								markerStart:
 									withStart ?
 										{
@@ -644,7 +643,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								source: buildingWaypoint.buildingId,
 								target: buildingWaypoint.waypointId,
 								type: "building-waypoint",
-								animated: transports.length > 0,
 								markerStart:
 									transports.some(({ outbound }) => !outbound) ?
 										{
