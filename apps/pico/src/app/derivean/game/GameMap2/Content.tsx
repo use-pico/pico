@@ -171,7 +171,7 @@ export const Content: FC<Content.Props> = ({
 			switch (node.type) {
 				case "construction":
 				case "queue":
-				case "building":
+				case "building": {
 					buildingMutation.mutate(
 						{
 							id: node.id,
@@ -185,13 +185,15 @@ export const Content: FC<Content.Props> = ({
 						},
 					);
 					break;
-				case "waypoint":
+				}
+				case "waypoint": {
 					waypointMutation.mutate({
 						id: node.id,
 						x: node.position.x,
 						y: node.position.y,
 					});
 					break;
+				}
 				default:
 					break;
 			}
