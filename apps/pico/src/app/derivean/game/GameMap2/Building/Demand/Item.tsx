@@ -1,9 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { Badge, Button, TrashIcon, useInvalidator } from "@use-pico/client";
+import {
+    Badge,
+    Button,
+    Icon,
+    TrashIcon,
+    useInvalidator,
+} from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { DemandPanel } from "~/app/derivean/game/GameMap2/Building/Demand/DemandPanel";
+import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
 
 export namespace Item {
 	export interface Props {
@@ -49,32 +56,39 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 				:	undefined,
 			])}
 		>
-			<div className={"font-bold"}>{demand.name}</div>
+			<div className={"flex flex-row gap-2 items-center"}>
+				{demand.transport > 0 ?
+					<Icon icon={DemandIcon} />
+				:	null}
+				<div className={"font-bold"}>{demand.name}</div>
+			</div>
 
-			<Badge
-				css={{
-					base:
-						demand.transport ?
-							[
-								"bg-green-50",
-								"border-green-400",
-								"hover:bg-green-50",
-								"hover:border-green-400",
-							]
-						:	undefined,
-				}}
-			>
-				x{toHumanNumber({ number: demand.amount })}
-			</Badge>
+			<div className={"flex flex-row gap-2 items-center"}>
+				<Badge
+					css={{
+						base:
+							demand.transport ?
+								[
+									"bg-green-50",
+									"border-green-400",
+									"hover:bg-green-50",
+									"hover:border-green-400",
+								]
+							:	undefined,
+					}}
+				>
+					x{toHumanNumber({ number: demand.amount })}
+				</Badge>
 
-			<Button
-				iconEnabled={TrashIcon}
-				loading={deleteDemandMutation.isPending}
-				onClick={() => {
-					deleteDemandMutation.mutate({ demandId: demand.id });
-				}}
-				variant={{ variant: "danger" }}
-			/>
+				<Button
+					iconEnabled={TrashIcon}
+					loading={deleteDemandMutation.isPending}
+					onClick={() => {
+						deleteDemandMutation.mutate({ demandId: demand.id });
+					}}
+					variant={{ variant: "danger" }}
+				/>
+			</div>
 		</div>
 	);
 };
