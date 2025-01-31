@@ -9,10 +9,13 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/$mapId/building/$buildingId/view",
 )({
 	async loader({
-		context: { queryClient, kysely },
+		context: { queryClient, kysely, session },
 		params: { mapId, buildingId },
 	}) {
+		const user = await session();
+
 		return {
+			user,
 			requirement: await queryClient.ensureQueryData({
 				queryKey: [
 					"GameMap",
@@ -88,6 +91,19 @@ export const Route = createFileRoute(
 											.limit(1)
 											.as("available");
 									},
+									(eb) => {
+										return eb
+											.selectFrom("Demand as d")
+											.select((eb) => {
+												return Kysely.jsonObject({
+													id: eb.ref("d.id"),
+													priority: eb.ref("d.priority"),
+												}).as("demand");
+											})
+											.whereRef("d.resourceId", "=", "br.resourceId")
+											.where("d.buildingId", "=", buildingId)
+											.as("demand");
+									},
 								])
 								.orderBy("r.name", "asc"),
 							output: z.object({
@@ -103,6 +119,12 @@ export const Route = createFileRoute(
 										name: z.string().min(1),
 									}),
 								).nullish(),
+								demand: withJsonSchema(
+									z.object({
+										id: z.string().min(1),
+										priority: z.number(),
+									}),
+								).nullish(),
 								passive: withBoolSchema(),
 							}),
 						});
@@ -115,10 +137,11 @@ export const Route = createFileRoute(
 		const { building } = useLoaderData({
 			from: "/$locale/apps/derivean/map/$mapId/building/$buildingId",
 		});
-		const { requirement } = Route.useLoaderData();
+		const { user, requirement } = Route.useLoaderData();
 
 		return building.constructionId ?
 				<RequirementPanel
+					userId={user.id}
 					building={building}
 					requirement={requirement}
 				/>

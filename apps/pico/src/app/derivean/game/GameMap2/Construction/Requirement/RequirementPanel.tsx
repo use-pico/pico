@@ -16,6 +16,11 @@ export namespace RequirementPanel {
 		id: string;
 	}
 
+	export interface Demand {
+		id: string;
+		priority: number;
+	}
+
 	export interface Requirement {
 		id: string;
 		name: string;
@@ -23,16 +28,19 @@ export namespace RequirementPanel {
 		transport: number;
 		supply?: Supply | null;
 		available?: number | null;
+		demand?: Demand | null;
 		passive: boolean;
 	}
 
 	export interface Props extends Panel.PropsEx {
+		userId: string;
 		building: Building;
 		requirement: Requirement[];
 	}
 }
 
 export const RequirementPanel: FC<RequirementPanel.Props> = ({
+	userId,
 	building,
 	requirement,
 	...props
@@ -61,6 +69,8 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 					return (
 						<Item
 							key={item.id}
+							mapId={mapId}
+							userId={userId}
 							requirement={item}
 						/>
 					);

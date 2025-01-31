@@ -1,18 +1,76 @@
-import { Icon, Progress } from "@use-pico/client";
+import { useMutation } from "@tanstack/react-query";
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    Badge,
+    Button,
+    Icon,
+    Progress,
+    Tx,
+    useInvalidator,
+} from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
+import { kysely } from "~/app/derivean/db/kysely";
 import type { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
 import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
 import { PackageIcon } from "~/app/derivean/icon/PackageIcon";
 
 export namespace Item {
 	export interface Props {
+		mapId: string;
+		userId: string;
 		requirement: RequirementPanel.Requirement;
 	}
 }
 
-export const Item: FC<Item.Props> = ({ requirement }) => {
+export const Item: FC<Item.Props> = ({ mapId, userId, requirement }) => {
+	const invalidator = useInvalidator([["GameMap"]]);
 	const available = requirement.available || 0;
+	const priorityUpMutation = useMutation({
+		async mutationFn({ demandId }: { demandId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				const { priority } = await tx
+					.selectFrom("Demand as d")
+					.select((eb) => eb.fn.max("d.priority").as("priority"))
+					.where("d.mapId", "=", mapId)
+					.where("d.userId", "=", userId)
+					.where("d.id", "!=", demandId)
+					.executeTakeFirstOrThrow();
+
+				return tx
+					.updateTable("Demand")
+					.set({ priority: priority + 1 })
+					.where("id", "=", demandId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
+	const priorityDownMutation = useMutation({
+		async mutationFn({ demandId }: { demandId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				const { priority } = await tx
+					.selectFrom("Demand as d")
+					.select((eb) => eb.fn.min("d.priority").as("priority"))
+					.where("d.mapId", "=", mapId)
+					.where("d.userId", "=", userId)
+					.where("d.id", "!=", demandId)
+					.executeTakeFirstOrThrow();
+
+				return tx
+					.updateTable("Demand")
+					.set({ priority: priority - 1 })
+					.where("id", "=", demandId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 
 	return (
 		<div
@@ -84,6 +142,48 @@ export const Item: FC<Item.Props> = ({ requirement }) => {
 						available >= requirement.amount ? ["bg-green-500"] : undefined,
 				}}
 			/>
+
+			{requirement.demand ?
+				<div
+					className={"flex flex-row gap-2 items-center justify-between w-full"}
+				>
+					<Button
+						iconEnabled={ArrowUpIcon}
+						variant={{ variant: "subtle" }}
+						loading={
+							priorityUpMutation.isPending || priorityDownMutation.isPending
+						}
+						onClick={() => {
+							requirement.demand &&
+								priorityUpMutation.mutate({ demandId: requirement.demand.id });
+						}}
+					>
+						<Tx label={"Priority up (label)"} />
+					</Button>
+					<Badge
+						css={{
+							base: ["bg-purple-50", "border-purple-400", "text-purple-600"],
+						}}
+					>
+						{requirement.demand.priority}
+					</Badge>
+					<Button
+						iconEnabled={ArrowDownIcon}
+						variant={{ variant: "subtle" }}
+						loading={
+							priorityUpMutation.isPending || priorityDownMutation.isPending
+						}
+						onClick={() => {
+							requirement.demand &&
+								priorityDownMutation.mutate({
+									demandId: requirement.demand.id,
+								});
+						}}
+					>
+						<Tx label={"Priority down (label)"} />
+					</Button>
+				</div>
+			:	null}
 		</div>
 	);
 };
