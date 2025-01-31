@@ -39,6 +39,8 @@ export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCss } from "./fulltext/FulltextCss";
 export { useDebounce } from "./hook/useDebounce";
 export { ActionMenuIcon } from "./icon/ActionMenuIcon";
+export { ArrowDownIcon } from "./icon/ArrowDownIcon";
+export { ArrowUpIcon } from "./icon/ArrowUpIcon";
 export { BackIcon } from "./icon/BackIcon";
 export { CheckIcon } from "./icon/CheckIcon";
 export { CloseIcon } from "./icon/CloseIcon";

@@ -17,17 +17,20 @@ export namespace DemandPanel {
 		name: string;
 		amount: number;
 		available: number;
+		priority: number;
 		limit: number;
 		transport?: number | null;
 	}
 
 	export interface Props extends Panel.PropsEx {
+		userId: string;
 		building: Building;
 		demand: Demand[];
 	}
 }
 
 export const DemandPanel: FC<DemandPanel.Props> = ({
+	userId,
 	building,
 	demand,
 	...props
@@ -63,6 +66,8 @@ export const DemandPanel: FC<DemandPanel.Props> = ({
 					return (
 						<Item
 							key={item.id}
+							mapId={mapId}
+							userId={userId}
 							demand={item}
 						/>
 					);

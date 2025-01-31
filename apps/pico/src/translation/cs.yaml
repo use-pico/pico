@@ -124,9 +124,15 @@
 282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
   ref: No tags (label)
   value: No tags (label)
+29261126b2796afece1903e8358f353d0e5c6f36d96886a45ce223f6:
+  ref: Submit demand (submit)
+  value: Uložit požadavek
 293f4ff52457449c36cd77f2ff4458fcdcd8db96ad515628be4a4d10:
   ref: Blueprint conflict (hint)
   value: Pokud bude vybraná budova postavena, "tuto" budovu nebude možné postavit.
+2a006ba6e2e260f2c60c8c3b2ee3cc26547ea6720981066968928fda:
+  ref: Demand resource (title)
+  value: Zadání požadavku na zdroj
 2cd153399b8229188aa110c4f15461c5d6db1bd65aa84d8c477a1c9e:
   ref: Create requirement item (menu)
   value: Nový požadavek zdroje
@@ -263,8 +269,9 @@
 5160844f3bf988623380083cff7115f07339d7410f0a5a91a1c03670:
   ref: Not enough space (inventory is full/all resources are already on the way)
     (toast)
-  value: Tento zdroj nelze vyžádat, jelikož inventář je plný nebo zbytek zdrojů
-    je již na cestě.
+  value:
+    Tento zdroj nelze vyžádat, jelikož inventář je plný nebo zbytek zdrojů je
+    již na cestě.
 519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
   ref: Update inventory item - Success (label)
   value: Inventář byl úspěšně aktualizován.
@@ -537,6 +544,9 @@ af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
 b0153746a23ed62e2d9a29b8f11b3fb87a6d4122e60e418cc90355ba:
   ref: Region limit (label)
   value: Limit výskytů
+b0d055aab431a584fc9279434f1643671ff0c6fc5c8d3afc97e13ea9:
+  ref: Priority up (label)
+  value: Zvýšit prioritu
 b1eab5f194131f445609e3ceccf07fac5adf5924b6cde6daed300ecb:
   ref: Building name (label)
   value: Název budovy
@@ -549,6 +559,9 @@ b28be2abf28e5f6d9b9c09d9a96a296aa88333245e6e4a362737349d:
 b2a0340361b1fb6f22b3239c88fcccf8149215887dd826d2f97e3f73:
   ref: Amount of resources transported per cycle (hint)
   value: Amount of resources transported per cycle (hint)
+b3ca777a84a5364e70e878ebfba825cb7fdc7db04b21f6b88fe89ae1:
+  ref: Priority down (label)
+  value: Snížit prioritu
 b41b5465adbeb7a6c853df051f999969c8549996f53cef7b4fcdab1a:
   ref: There are no available blueprints (label)
   value: (Zatím) nejsou dostupné žádné stavby.
@@ -582,6 +595,9 @@ c19d73b27d07e0d75cdb22df7339033a3ea479d2123dc66d1eb286f9:
 c2b41375c2627229c3694a6f150e0795bf3799a2dd2fb8a6f0ec23af:
   ref: Logout (label)
   value: Logout (label)
+c39172960527bcdd1e4bdc385af302fec6c702e943ed09ca75072109:
+  ref: Demanded amount (label)
+  value: Požadované množství
 c4c460295c1978851ece4a45639f30252dcc4ca8a301a86c6ed2041b:
   ref: Region min width (label)
   value: Minimální šířka

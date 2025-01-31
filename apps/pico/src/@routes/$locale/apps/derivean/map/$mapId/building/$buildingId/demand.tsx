@@ -7,10 +7,13 @@ export const Route = createFileRoute(
 	"/$locale/apps/derivean/map/$mapId/building/$buildingId/demand",
 )({
 	async loader({
-		context: { queryClient, kysely },
+		context: { queryClient, kysely, session },
 		params: { mapId, buildingId },
 	}) {
+		const user = await session();
+
 		return {
+			user,
 			demand: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "building", buildingId, "demand", "list"],
 				queryFn: async () => {
@@ -34,6 +37,7 @@ export const Route = createFileRoute(
 									"r.name",
 									"d.amount",
 									"i.limit",
+									"d.priority",
 									"i.amount as available",
 									(eb) => {
 										return eb
@@ -48,12 +52,14 @@ export const Route = createFileRoute(
 								])
 								.where("d.buildingId", "=", buildingId)
 								.where("i.type", "=", "storage")
+								.where("d.type", "=", "storage")
 								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number(),
 								available: z.number(),
+								priority: z.number(),
 								limit: z.number(),
 								transport: z.number().nullish(),
 							}),
@@ -67,10 +73,11 @@ export const Route = createFileRoute(
 		const { building } = useLoaderData({
 			from: "/$locale/apps/derivean/map/$mapId/building/$buildingId",
 		});
-		const { demand } = Route.useLoaderData();
+		const { user, demand } = Route.useLoaderData();
 
 		return (
 			<DemandPanel
+				userId={user.id}
 				building={building}
 				demand={demand}
 			/>
