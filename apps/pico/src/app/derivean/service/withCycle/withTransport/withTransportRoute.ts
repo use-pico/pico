@@ -170,6 +170,22 @@ export const withTransportRoute = async ({
 				continue;
 			}
 
+			if (jumps === 0) {
+				/**
+				 * Move the goods to the next waypoint.
+				 */
+				console.info("\t\t\t\t-- Transport reached the first waypoint");
+				await tx
+					.updateTable("Transport")
+					.set({
+						progress: 0,
+						jumps: jumps + 1,
+					})
+					.where("id", "=", id)
+					.execute();
+				continue;
+			}
+
 			const inventory = await tx
 				.selectFrom("Inventory as i")
 				.select(["i.id", "i.amount", "i.limit"])

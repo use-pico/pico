@@ -25,13 +25,23 @@ export const Route = createFileRoute(
 						return withList({
 							select: tx
 								.selectFrom("Transport as t")
+								.innerJoin("Building as source", "source.id", "t.sourceId")
+								.innerJoin("Blueprint as bl", "bl.id", "source.blueprintId")
 								.innerJoin("Resource as r", "r.id", "t.resourceId")
-								.select(["t.id", "r.name", "t.amount"])
+								.select([
+									"t.id",
+									"r.name as resource",
+									"source.id as sourceId",
+									"bl.name as source",
+									"t.amount",
+								])
 								.where("t.targetId", "=", buildingId)
 								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
-								name: z.string().min(1),
+								resource: z.string().min(1),
+								source: z.string().min(1),
+								sourceId: z.string().min(1),
 								amount: z.number(),
 							}),
 						});

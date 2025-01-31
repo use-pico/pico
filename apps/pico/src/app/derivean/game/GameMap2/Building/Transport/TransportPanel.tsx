@@ -14,7 +14,9 @@ export namespace TransportPanel {
 
 	export interface Transport {
 		id: string;
-		name: string;
+		resource: string;
+		source: string;
+		sourceId: string;
 		amount: number;
 	}
 
