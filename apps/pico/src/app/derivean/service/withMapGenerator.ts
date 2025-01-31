@@ -62,7 +62,7 @@ export const withMapGenerator = async ({
 	userId,
 	name,
 	size = {
-		world: 24,
+		world: 26,
 		land: 384 * 2,
 	},
 }: withMapGenerator.Props) => {
@@ -78,28 +78,20 @@ export const withMapGenerator = async ({
 
 	const regions = await tx.selectFrom("Region").selectAll().execute();
 
-	for await (const {
-		id,
-		probability,
-		limit,
-		minWidth,
-		maxWidth,
-		minHeight,
-		maxHeight,
-	} of regions) {
+	for await (const { id, probability, limit } of regions) {
 		for (let i = 0; i < limit; i++) {
 			if (!changeOf(probability)) {
 				continue;
 			}
 
 			let attempts = 0;
-			const maxAttempts = 6;
+			const maxAttempts = 10;
 
 			while (attempts < maxAttempts) {
 				// const width = getRandomSize(minWidth, maxWidth) * size.land;
 				// const height = getRandomSize(minHeight, maxHeight) * size.land;
 
-				const width = 2048;
+				const width = 4096;
 				const height = width;
 
 				/**
