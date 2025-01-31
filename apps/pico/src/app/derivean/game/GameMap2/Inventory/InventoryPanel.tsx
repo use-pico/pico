@@ -17,6 +17,7 @@ export namespace InventoryPanel {
 		buildingId: string;
 		resourceId: string;
 		supplyId?: string | null;
+		demandId?: string | null;
 		name: string;
 		limit: number;
 		amount: number;

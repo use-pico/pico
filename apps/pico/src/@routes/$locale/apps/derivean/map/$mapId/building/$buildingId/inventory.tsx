@@ -52,6 +52,11 @@ export const Route = createFileRoute(
 										.onRef("s.resourceId", "=", "i.resourceId")
 										.on("s.buildingId", "=", buildingId);
 								})
+								.leftJoin("Demand as d", (eb) => {
+									return eb
+										.onRef("d.resourceId", "=", "i.resourceId")
+										.on("d.buildingId", "=", buildingId);
+								})
 								.select([
 									"i.id",
 									"i.amount",
@@ -60,6 +65,7 @@ export const Route = createFileRoute(
 									"bi.buildingId",
 									"i.resourceId",
 									"s.id as supplyId",
+									"d.id as demandId",
 								])
 								.where("i.type", "in", ["storage"])
 								.orderBy("r.name"),
@@ -84,6 +90,7 @@ export const Route = createFileRoute(
 								limit: z.number().nonnegative(),
 								name: z.string().min(1),
 								supplyId: z.string().nullish(),
+								demandId: z.string().nullish(),
 							}),
 							filter: {
 								fulltext,

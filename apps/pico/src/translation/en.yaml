@@ -31,6 +31,9 @@
 0cfdda9ea1522f87832d7c44e4c5c914713fc29e5a79abd605122d05:
   ref: User list (label)
   value: User list (label)
+0d362a5a6e1c1b2b11c3300bd72ae1da4cf77f9ce9e2f4f014470843:
+  ref: Demand resource (label)
+  value: Demand resource (label)
 0d720e511de49f63fc541f6e8ba15a7bbc395034c146346ec1308d42:
   ref: Reset game (menu)
   value: Reset game (menu)
@@ -67,6 +70,9 @@
 1695019a56747d163680ff0c195c453a00a7cb6e94a8ae5781416df4:
   ref: Regions (label)
   value: Regions (label)
+170be2672a6885c4e1ec3558395f53202c872a92d7bf855a723e083e:
+  ref: Building links (label)
+  value: Building links (label)
 1726aa71ae1674211abbdc34eb715370c1fc6462ad10f1118cdb761b:
   ref: Delete production resource requirement (modal)
   value: Delete production resource requirement (modal)
@@ -142,6 +148,9 @@
 31cc285da87017fc29d6d72fdefa923980524c22ede06ed6d216e317:
   ref: Plan queue (label)
   value: Plan queue (label)
+3244688ca1c8ca28fc633ed8b0f306665a88a700a38808615f83d51e:
+  ref: No linked buildings. (label)
+  value: No linked buildings. (label)
 337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
   ref: No dependents (label)
   value: No dependents (label)
@@ -316,6 +325,9 @@
 6a47bf50d0987a831d15342c8beb87b5990150235459bcd7000a0fec:
   ref: This building does not demand anything. (label)
   value: This building does not demand anything. (label)
+6b6182901aaefe35b5d654a638ea05a0ceafcfcf00396547a35e05d4:
+  ref: There is nothing on the way to this building. (label)
+  value: There is nothing on the way to this building. (label)
 6c06a03249a9ba15c8bea0564fc7200be3204325bee1afc43b736531:
   ref: Supply of (label)
   value: Supply of (label)
@@ -382,6 +394,9 @@
 826d414b83deff5514991b1ce808d18c32733223217c02a9491f45b1:
   ref: Blueprint list (label)
   value: Blueprint list (label)
+83b73087353b1ccb9789169047568095df52054628d09f641048823a:
+  ref: Transport list (label)
+  value: Transport list (label)
 8450ea2d3f38d5c87e2105b4f07de8dfd7136d5c7b8bb77c45b895c3:
   ref: There are no maps (label)
   value: There are no maps (label)
@@ -481,6 +496,9 @@ a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
 a7de088198a05fc3f4f525423d25d274d86a51a09fcaedea605aed99:
   ref: Delete blueprint production dependency (modal)
   value: Delete blueprint production dependency (modal)
+a947ece5613972ef407d26be58ff0d6d1af883dc193c49d03ff56762:
+  ref: Cancel demand (label)
+  value: Cancel demand (label)
 aa03a8854af88f738eb31197516c526b55cc346272bf4eb997c93443:
   ref: Production resource dependencies (menu)
   value: Production resource dependencies (menu)
@@ -544,6 +562,9 @@ c4c460295c1978851ece4a45639f30252dcc4ca8a301a86c6ed2041b:
 c539b03b3d32f04b5a0164aff9bc6acef3868eb18434cf24fd5cafd2:
   ref: Apply default inventory - Success (label)
   value: Apply default inventory - Success (label)
+c70a1cb3abec1b84384f60abc84f7650767a4da20d38ac314ff09020:
+  ref: Supply resource (label)
+  value: Supply resource (label)
 c74defa3d41c6d3c5925d9915462e026ec2b1bef543a2dcf58c42af7:
   ref: Production queue is empty. (label)
   value: Production queue is empty. (label)
@@ -640,6 +661,9 @@ e408028bd3cfcd6ade43c2ce1afe1bb3724ff801305960e1dc30c921:
 e4bf1ca80176ed78aa436f07a182f4b3ac7efc70b40dafd1be15f57b:
   ref: Password 2 (label)
   value: Password 2 (label)
+e613899d12464ff42b6a5f382530d23a63fde408a6f1b9c8828ae6a8:
+  ref: Cancel supply (label)
+  value: Cancel supply (label)
 e7cee6b43eb371f009f5600727cdde55648cca18c708a99d39c4ac81:
   ref: Resource production requirement count (label)
   value: Resource production requirement count (label)
