@@ -24,15 +24,23 @@ import type { WaypointRouteNode } from "~/app/derivean/game/GameMap2/Node/Waypoi
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
-const width = 384;
-const height = 128;
+const width = 256;
+const height = 256;
+
+const waypointSize = 128;
 
 const NodeCss = [
-	"p-2",
+	"p-4",
 	"bg-white",
 	"rounded-lg",
 	"border-[4px]",
 	"border-slate-300",
+];
+const RoutingNodeCss = [
+	"border-4",
+	"bg-slate-100",
+	"border-slate-500",
+	"text-slate-600",
 ];
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
@@ -108,7 +116,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 				},
 			}),
 			construction: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "construction"],
+				queryKey: ["GameMap", mapId, "construction", { routing }],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						const source = await withList({
@@ -155,11 +163,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									width,
 									height,
 									selectable: false,
-									className: tvc(NodeCss, [
-										construction.valid ?
-											["border-green-500"]
-										:	["border-red-500"],
-									]),
+									className: tvc(
+										NodeCss,
+										[
+											construction.valid ?
+												["border-green-500"]
+											:	["border-red-500"],
+										],
+										routing ? RoutingNodeCss : undefined,
+									),
 									extent: "parent",
 									parentId: construction.landId,
 								}) satisfies ConstructionNode.ConstructionNode,
@@ -221,6 +233,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										NodeCss,
 										["border-amber-400", "bg-amber-50"],
 										queue.valid ? undefined : ["border-red-500"],
+										routing ? RoutingNodeCss : undefined,
 									),
 									extent: "parent",
 									parentId: queue.landId,
@@ -349,6 +362,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										building.valid ? undefined : ["border-red-500"],
 										building.production ? ["border-purple-500"] : undefined,
 										building.transport > 0 ? ["border-green-500"] : undefined,
+										routing ? RoutingNodeCss : undefined,
 									),
 									extent: "parent",
 									parentId: building.landId,
@@ -403,8 +417,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										y: waypoint.y,
 									},
 									type: routing ? "waypoint-route" : "waypoint",
-									width: 96,
-									height: 96,
+									width: waypointSize,
+									height: waypointSize,
 									selectable: true,
 									className: tvc([
 										"rounded-md",
@@ -421,6 +435,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 												"border-2",
 											]
 										:	undefined,
+										routing ? RoutingNodeCss : undefined,
 									]),
 								}) satisfies
 									| WaypointRouteNode.WaypointRouteNode

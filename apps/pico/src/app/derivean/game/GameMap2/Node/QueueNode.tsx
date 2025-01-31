@@ -29,18 +29,18 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 	});
 
 	return (
-		<div className="flex flex-col gap-2 w-full">
-			<div className={"flex flex-row gap-2 items-center"}>
+		<div className="flex flex-col gap-2 w-full h-full">
+			<div className={"flex flex-col gap-2 items-center justify-center h-full"}>
 				<LinkTo
 					icon={ConstructionIcon}
 					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
 					params={{ locale, mapId, buildingId: data.id }}
-					css={{ base: ["font-bold"] }}
+					css={{ base: ["font-bold", "text-2xl"] }}
 				>
 					{data.name}
 				</LinkTo>
+				<Progress value={(100 * data.cycle) / data.cycles} />
 			</div>
-			<Progress value={(100 * data.cycle) / data.cycles} />
 
 			<Handle
 				className={"hidden"}
