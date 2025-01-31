@@ -260,6 +260,11 @@
 50f86b62f0b22a22ba536981cfd41cef955ba13abc1f11481b5d1d7f:
   ref: Blueprint dependencies (title)
   value: Závislosti plánku
+5160844f3bf988623380083cff7115f07339d7410f0a5a91a1c03670:
+  ref: Not enough space (inventory is full/all resources are already on the way)
+    (toast)
+  value: Tento zdroj nelze vyžádat, jelikož inventář je plný nebo zbytek zdrojů
+    je již na cestě.
 519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
   ref: Update inventory item - Success (label)
   value: Inventář byl úspěšně aktualizován.

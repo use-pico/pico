@@ -1,5 +1,5 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { ls } from "@use-pico/client";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { ls, Toaster } from "@use-pico/client";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map")({
@@ -17,5 +17,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map")({
 				}
 			},
 		};
+	},
+	component() {
+		return (
+			<>
+				<Toaster position={"top-right"} />
+				<Outlet />
+			</>
+		);
 	},
 });

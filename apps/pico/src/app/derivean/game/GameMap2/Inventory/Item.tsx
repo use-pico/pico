@@ -3,11 +3,12 @@ import {
     Button,
     Icon,
     Progress,
+    toast,
     TrashIcon,
     Tx,
     useInvalidator,
 } from "@use-pico/client";
-import { genId, toHumanNumber, tvc } from "@use-pico/common";
+import { genId, toHumanNumber, translator, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
@@ -76,6 +77,25 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 				if (demandId) {
 					return tx.deleteFrom("Demand").where("id", "=", demandId).execute();
 				}
+
+				const { sum } = await tx
+					.selectFrom("Transport as t")
+					.select((eb) => eb.fn.sum<number>("t.amount").as("sum"))
+					.where("t.resourceId", "=", resourceId)
+					.where("t.targetId", "=", buildingId)
+					.executeTakeFirstOrThrow();
+
+				const request = inventory.limit - inventory.amount - sum;
+
+				if (inventory.limit > 0 && request <= 0) {
+					toast.error(
+						translator.text(
+							"Not enough space (inventory is full/all resources are already on the way) (toast)",
+						),
+					);
+					return;
+				}
+
 				return tx
 					.insertInto("Demand")
 					.values({
@@ -84,8 +104,7 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 						resourceId,
 						mapId,
 						userId,
-						amount:
-							inventory.limit > 0 ? inventory.limit - inventory.amount : 1,
+						amount: inventory.limit > 0 ? request : 1,
 						priority: 0,
 						type: "storage",
 					})

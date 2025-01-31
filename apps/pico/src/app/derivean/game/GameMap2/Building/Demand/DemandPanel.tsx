@@ -16,6 +16,8 @@ export namespace DemandPanel {
 		id: string;
 		name: string;
 		amount: number;
+		available: number;
+		limit: number;
 		transport: number;
 	}
 

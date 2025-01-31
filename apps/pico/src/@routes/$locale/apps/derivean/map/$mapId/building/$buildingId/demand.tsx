@@ -18,16 +18,28 @@ export const Route = createFileRoute(
 						return withList({
 							select: tx
 								.selectFrom("Demand as d")
+								.innerJoin(
+									"Building_Inventory as bi",
+									"bi.buildingId",
+									"d.buildingId",
+								)
+								.innerJoin("Inventory as i", (eb) => {
+									return eb
+										.onRef("i.id", "=", "bi.inventoryId")
+										.onRef("i.resourceId", "=", "d.resourceId");
+								})
 								.innerJoin("Resource as r", "r.id", "d.resourceId")
 								.select([
 									"d.id",
 									"r.name",
 									"d.amount",
+									"i.limit",
+									"i.amount as available",
 									(eb) => {
 										return eb
 											.selectFrom("Transport as t")
 											.select((eb) =>
-												eb.fn.count<number>("t.id").as("transport"),
+												eb.fn.sum<number>("t.amount").as("transport"),
 											)
 											.whereRef("t.targetId", "=", "d.buildingId")
 											.whereRef("t.resourceId", "=", "d.resourceId")
@@ -35,11 +47,14 @@ export const Route = createFileRoute(
 									},
 								])
 								.where("d.buildingId", "=", buildingId)
+								.where("i.type", "=", "storage")
 								.orderBy("r.name", "asc"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
 								amount: z.number(),
+								available: z.number(),
+								limit: z.number(),
 								transport: z.number(),
 							}),
 						});

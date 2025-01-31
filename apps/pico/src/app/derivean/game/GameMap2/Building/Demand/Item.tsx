@@ -31,6 +31,8 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 		},
 	});
 
+	const limit = demand.limit - demand.transport - demand.available;
+
 	return (
 		<div
 			className={tvc([
@@ -79,6 +81,28 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 				>
 					x{toHumanNumber({ number: demand.amount })}
 				</Badge>
+				{demand.limit > 0 ?
+					<>
+						<div>/</div>
+						<Badge
+							css={{
+								base:
+									demand.transport ?
+										[
+											"bg-green-50",
+											"border-green-400",
+											"hover:bg-green-50",
+											"hover:border-green-400",
+										]
+									:	undefined,
+							}}
+						>
+							{toHumanNumber({
+								number: limit,
+							})}
+						</Badge>
+					</>
+				:	null}
 
 				<Button
 					iconEnabled={TrashIcon}
