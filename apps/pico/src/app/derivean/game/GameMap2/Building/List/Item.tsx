@@ -36,7 +36,6 @@ export const Item: FC<Item.Props> = ({ building }) => {
 					icon={BuildingIcon}
 					to={"/$locale/apps/derivean/map/$mapId/building/$buildingId/view"}
 					params={{ locale, mapId, buildingId: building.id }}
-					search={{ zoomToId: building.id }}
 				>
 					{building.name}
 				</LinkTo>

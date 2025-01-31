@@ -17,7 +17,7 @@ export default defineConfig({
 		tla(),
 		paths(),
 		react(),
-		ViteYaml() as any,
+		ViteYaml(),
 		dynamicImport(),
 		wasm(),
 		tailwindcss(),
