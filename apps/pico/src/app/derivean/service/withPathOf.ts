@@ -21,7 +21,7 @@ export const withPathOf = ({ graph, buildings }: withPathOf.Props) => {
 				related.set(`${id}-${node}`, { buildingId: id, linkId: node });
 			}
 
-			return depth >= 50;
+			return depth >= 250;
 		});
 	}
 

@@ -1,4 +1,5 @@
 import {
+    BaseEdge,
     getStraightPath,
     useInternalNode,
     type Edge,
@@ -12,6 +13,7 @@ export namespace RouteEdge {
 		id: string;
 		fromId: string;
 		toId: string;
+		length: number;
 		[key: string]: unknown;
 	}
 
@@ -23,7 +25,6 @@ export namespace RouteEdge {
 }
 
 export const RouteEdge: FC<RouteEdge.Props> = ({
-	id,
 	source,
 	target,
 	markerEnd,
@@ -47,13 +48,13 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 	});
 
 	return (
-		<path
-			id={id}
-			className={"react-flow__edge-path"}
-			d={edgePath}
-			markerStart={markerStart}
-			markerEnd={markerEnd}
-			style={style}
-		/>
+		<>
+			<BaseEdge
+				path={edgePath}
+				markerStart={markerStart}
+				markerEnd={markerEnd}
+				style={style}
+			/>
+		</>
 	);
 };

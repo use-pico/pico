@@ -1,4 +1,5 @@
 import {
+    BaseEdge,
     getStraightPath,
     useInternalNode,
     type Edge,
@@ -23,7 +24,6 @@ export namespace BuildingWaypointEdge {
 }
 
 export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
-	id,
 	source,
 	target,
 	markerStart,
@@ -47,13 +47,13 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 	});
 
 	return (
-		<path
-			id={id}
-			className={"react-flow__edge-path"}
-			d={edgePath}
-			markerStart={markerStart}
-			markerEnd={markerEnd}
-			style={style}
-		/>
+		<>
+			<BaseEdge
+				path={edgePath}
+				markerStart={markerStart}
+				markerEnd={markerEnd}
+				style={style}
+			/>
+		</>
 	);
 };

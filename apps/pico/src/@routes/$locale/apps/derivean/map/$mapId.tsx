@@ -535,6 +535,10 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								source: route.fromId,
 								target: route.toId,
 								type: "route",
+								data: {
+									...route,
+									length: graph.getEdgeAttribute(route.id, "length"),
+								},
 								markerStart:
 									withStart ?
 										{

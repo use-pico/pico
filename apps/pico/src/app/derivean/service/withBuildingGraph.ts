@@ -70,6 +70,7 @@ export const withBuildingGraph = async ({
 		.innerJoin("Waypoint as from", "from.id", "r.fromId")
 		.innerJoin("Waypoint as to", "to.id", "r.toId")
 		.select([
+			"r.id",
 			"r.fromId",
 			"r.toId",
 			"from.x as fromX",
@@ -117,20 +118,20 @@ export const withBuildingGraph = async ({
 			graph.addEdge(buildingId, waypointId, {
 				type: "building-waypoint",
 				length,
-				weight: length * 10,
+				weight: length * 100,
 			});
 		},
 	);
-	routes.forEach(({ fromId, toId, fromX, fromY, toX, toY }) => {
+	routes.forEach(({ id, fromId, toId, fromX, fromY, toX, toY }) => {
 		const length = Math.sqrt((toX - fromX) ** 2 + (toY - fromY) ** 2);
 
-		graph.addEdge(fromId, toId, {
+		graph.addEdgeWithKey(id, fromId, toId, {
 			type: "route",
 			length,
 			/**
 			 * Lower values has higher priority
 			 */
-			weight: length * -10,
+			weight: length,
 		});
 	});
 
