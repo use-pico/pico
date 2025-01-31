@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Badge, Button, TrashIcon, useInvalidator } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { DemandPanel } from "~/app/derivean/game/GameMap2/Building/Demand/DemandPanel";
@@ -40,10 +40,9 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 				"hover:bg-slate-100",
 			])}
 		>
-			<div className={"flex flex-row gap-2 items-center"}>
-				<div>{demand.name}</div>
-				<Badge>x{demand.amount}</Badge>
-			</div>
+			<div className={"font-bold"}>{demand.name}</div>
+
+			<Badge>x{toHumanNumber({ number: demand.amount })}</Badge>
 
 			<Button
 				iconEnabled={TrashIcon}

@@ -138,6 +138,10 @@ export const withTransportDemand = async ({
 
 			remaining -= transfer;
 
+			console.info("\t\t\t\t-- Transporting", {
+				transfer,
+			});
+
 			await tx
 				.insertInto("Transport")
 				.values({
