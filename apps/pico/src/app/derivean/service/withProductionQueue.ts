@@ -148,4 +148,6 @@ export const withProductionQueue = async ({
 	}
 
 	console.info("\t-- Done");
+
+	return proceed;
 };

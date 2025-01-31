@@ -39,7 +39,7 @@ export const withProductionPlan = async ({
 				continue;
 			}
 
-			await withProductionQueue({
+			const inQueue = await withProductionQueue({
 				tx,
 				userId,
 				mapId,
@@ -47,11 +47,13 @@ export const withProductionPlan = async ({
 				buildingId,
 			});
 
-			await tx
-				.updateTable("Building")
-				.set({ productionId: null })
-				.where("id", "=", buildingId)
-				.execute();
+			if (inQueue) {
+				await tx
+					.updateTable("Building")
+					.set({ productionId: null })
+					.where("id", "=", buildingId)
+					.execute();
+			}
 		} catch (e) {
 			console.error(e);
 			// Probably not enough resources or something like that.

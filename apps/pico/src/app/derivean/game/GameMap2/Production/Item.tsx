@@ -107,8 +107,9 @@ export const Item: FC<Item.Props> = ({ building, production }) => {
 				"p-4",
 				"rounded-sm",
 				"border-slate-200",
-				"hover:border-slate-300",
-				"hover:bg-slate-100",
+				production.withAvailableResources ?
+					["bg-green-50", "border-green-500"]
+				:	["bg-red-50", "border-red-500"],
 			])}
 		>
 			<div className={"flex flex-row gap-2 items-center"}>
