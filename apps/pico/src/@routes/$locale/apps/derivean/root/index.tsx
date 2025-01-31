@@ -127,10 +127,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
 					<li>
-						Resolve loading resources on the road: it's instant, regardless of
-						initial road length.
-					</li>
-					<li>
 						Add notification center like inventory is full, production is full
 						and so on.
 					</li>
