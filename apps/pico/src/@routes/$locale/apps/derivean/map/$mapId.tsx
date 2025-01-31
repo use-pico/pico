@@ -420,6 +420,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									width: waypointSize,
 									height: waypointSize,
 									selectable: true,
+									zIndex: 1000,
 									className: tvc([
 										"rounded-md",
 										"bg-slate-50",
