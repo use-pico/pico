@@ -38,11 +38,34 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 				"border-slate-200",
 				"hover:border-slate-300",
 				"hover:bg-slate-100",
+				demand.transport ?
+					[
+						"text-green-600",
+						"bg-green-50",
+						"border-green-400",
+						"hover:bg-green-50",
+						"hover:border-green-400",
+					]
+				:	undefined,
 			])}
 		>
 			<div className={"font-bold"}>{demand.name}</div>
 
-			<Badge>x{toHumanNumber({ number: demand.amount })}</Badge>
+			<Badge
+				css={{
+					base:
+						demand.transport ?
+							[
+								"bg-green-50",
+								"border-green-400",
+								"hover:bg-green-50",
+								"hover:border-green-400",
+							]
+						:	undefined,
+				}}
+			>
+				x{toHumanNumber({ number: demand.amount })}
+			</Badge>
 
 			<Button
 				iconEnabled={TrashIcon}

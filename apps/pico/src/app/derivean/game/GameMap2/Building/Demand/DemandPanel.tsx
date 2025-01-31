@@ -16,6 +16,7 @@ export namespace DemandPanel {
 		id: string;
 		name: string;
 		amount: number;
+		transport: number;
 	}
 
 	export interface Props extends Panel.PropsEx {
