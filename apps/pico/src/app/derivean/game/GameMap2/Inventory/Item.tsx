@@ -1,19 +1,43 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
     Button,
+    FormCss,
+    FormError,
+    FormInput,
     Icon,
+    Modal,
+    onSubmit,
     Progress,
     toast,
     TrashIcon,
     Tx,
     useInvalidator,
 } from "@use-pico/client";
-import { genId, toHumanNumber, translator, tvc } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    translator,
+    tvc,
+    withFloatSchema,
+} from "@use-pico/common";
 import type { FC } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { InventoryPanel } from "~/app/derivean/game/GameMap2/Inventory/InventoryPanel";
 import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
+import { PackageIcon } from "~/app/derivean/icon/PackageIcon";
 import { SupplyIcon } from "~/app/derivean/icon/SupplyIcon";
+
+const DemandSchema = z.object({
+	buildingId: z.string().min(1),
+	resourceId: z.string().min(1),
+	mapId: z.string().min(1),
+	userId: z.string().min(1),
+	amount: withFloatSchema(),
+});
+type DemandSchema = typeof DemandSchema;
 
 export namespace Item {
 	export interface Props {
@@ -66,12 +90,14 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 			demandId,
 			mapId,
 			userId,
+			amount,
 		}: {
 			buildingId: string;
 			resourceId: string;
 			demandId?: string | null;
 			mapId: string;
 			userId: string;
+			amount: number;
 		}) {
 			return kysely.transaction().execute(async (tx) => {
 				if (demandId) {
@@ -85,7 +111,7 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 					.where("t.targetId", "=", buildingId)
 					.executeTakeFirstOrThrow();
 
-				const request = inventory.limit - inventory.amount - sum;
+				const request = amount + (sum || 0);
 
 				if (inventory.limit > 0 && request <= 0) {
 					toast.error(
@@ -115,6 +141,21 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 			await invalidator();
 		},
 	});
+
+	const form = useForm<z.infer<DemandSchema>>({
+		resolver: zodResolver(DemandSchema),
+		defaultValues: {
+			mapId,
+			userId,
+			buildingId: inventory.buildingId,
+			resourceId: inventory.resourceId,
+			amount: inventory.limit > 0 ? inventory.limit - inventory.amount : 1,
+		},
+	});
+	const formTva = FormCss({
+		isLoading: form.formState.isLoading,
+		isSubmitting: form.formState.isSubmitting,
+	}).slots;
 
 	return (
 		<div
@@ -189,24 +230,77 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 					:	<Tx label={"Supply resource (label)"} />}
 				</Button>
 
-				<Button
-					iconEnabled={inventory.demandId ? TrashIcon : DemandIcon}
-					loading={toggleDemandMutation.isPending}
-					onClick={() => {
-						toggleDemandMutation.mutate({
-							mapId,
-							userId,
-							buildingId: inventory.buildingId,
-							resourceId: inventory.resourceId,
-							demandId: inventory.demandId,
-						});
-					}}
-					variant={{ variant: "subtle" }}
-				>
-					{inventory.demandId ?
+				{inventory.demandId ?
+					<Button
+						iconEnabled={TrashIcon}
+						loading={toggleDemandMutation.isPending}
+						onClick={() => {
+							toggleDemandMutation.mutate({
+								mapId,
+								userId,
+								buildingId: inventory.buildingId,
+								resourceId: inventory.resourceId,
+								amount: 0,
+								/**
+								 * Providing demandId will do the removal.
+								 */
+								demandId: inventory.demandId,
+							});
+						}}
+						variant={{ variant: "subtle" }}
+					>
 						<Tx label={"Cancel demand (label)"} />
-					:	<Tx label={"Demand resource (label)"} />}
-				</Button>
+					</Button>
+				:	<Modal
+						textTitle={<Tx label={"Demand resource (title)"} />}
+						target={
+							<Button
+								iconEnabled={DemandIcon}
+								variant={{ variant: "subtle" }}
+							>
+								<Tx label={"Demand resource (label)"} />
+							</Button>
+						}
+						css={{
+							modal: ["w-1/3"],
+						}}
+					>
+						<form
+							className={formTva.base()}
+							onSubmit={onSubmit<DemandSchema>({
+								form,
+								mutation: toggleDemandMutation,
+							})}
+						>
+							<FormError
+								variant={{ highlight: true }}
+								error={form.formState.errors.root}
+							/>
+
+							<FormInput
+								formState={form.formState}
+								name={"amount"}
+								label={<Tx label={"Demanded amount (label)"} />}
+							>
+								<input
+									type={"number"}
+									min={1}
+									max={inventory.limit - inventory.amount}
+									className={formTva.input()}
+									{...form.register("amount")}
+								/>
+							</FormInput>
+
+							<Button
+								iconEnabled={DemandIcon}
+								iconDisabled={PackageIcon}
+								type={"submit"}
+							>
+								<Tx label={"Submit demand (submit)"} />
+							</Button>
+						</form>
+					</Modal>
+				}
 			</div>
 			{inventory.limit > 0 ?
 				<Progress

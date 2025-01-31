@@ -11,6 +11,7 @@ import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { DemandPanel } from "~/app/derivean/game/GameMap2/Building/Demand/DemandPanel";
 import { DemandIcon } from "~/app/derivean/icon/DemandIcon";
+import { PackageIcon } from "~/app/derivean/icon/PackageIcon";
 
 export namespace Item {
 	export interface Props {
@@ -31,7 +32,7 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 		},
 	});
 
-	const limit = demand.limit - demand.transport - demand.available;
+	const limit = demand.limit - (demand.transport || 0) - demand.available;
 
 	return (
 		<div
@@ -59,9 +60,9 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 			])}
 		>
 			<div className={"flex flex-row gap-2 items-center"}>
-				{demand.transport > 0 ?
+				{(demand.transport || 0) > 0 ?
 					<Icon icon={DemandIcon} />
-				:	null}
+				:	<Icon icon={PackageIcon} />}
 				<div className={"font-bold"}>{demand.name}</div>
 			</div>
 
@@ -81,28 +82,6 @@ export const Item: FC<Item.Props> = ({ demand }) => {
 				>
 					x{toHumanNumber({ number: demand.amount })}
 				</Badge>
-				{demand.limit > 0 ?
-					<>
-						<div>/</div>
-						<Badge
-							css={{
-								base:
-									demand.transport ?
-										[
-											"bg-green-50",
-											"border-green-400",
-											"hover:bg-green-50",
-											"hover:border-green-400",
-										]
-									:	undefined,
-							}}
-						>
-							{toHumanNumber({
-								number: limit,
-							})}
-						</Badge>
-					</>
-				:	null}
 
 				<Button
 					iconEnabled={TrashIcon}

@@ -55,7 +55,7 @@ export const Route = createFileRoute(
 								amount: z.number(),
 								available: z.number(),
 								limit: z.number(),
-								transport: z.number(),
+								transport: z.number().nullish(),
 							}),
 						});
 					});

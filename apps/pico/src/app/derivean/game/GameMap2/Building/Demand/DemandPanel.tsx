@@ -18,7 +18,7 @@ export namespace DemandPanel {
 		amount: number;
 		available: number;
 		limit: number;
-		transport: number;
+		transport?: number | null;
 	}
 
 	export interface Props extends Panel.PropsEx {
