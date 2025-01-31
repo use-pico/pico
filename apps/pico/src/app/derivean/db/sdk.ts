@@ -1117,6 +1117,9 @@ export const withTransportSchema = <
 				progress:
 					// float4 / not nullable
 					z.number(),
+				jumps:
+					// INTEGER / not nullable
+					z.number().int(),
 				type:
 					// varchar(16) / not nullable
 					z.string().min(1),
@@ -1134,6 +1137,7 @@ export const withTransportSchema = <
 			"targetId",
 			"amount",
 			"progress",
+			"jumps",
 			"type",
 		],
 	});

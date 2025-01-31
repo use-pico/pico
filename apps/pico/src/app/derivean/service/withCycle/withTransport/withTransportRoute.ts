@@ -56,6 +56,7 @@ export const withTransportRoute = async ({
 			"t.id",
 			"t.waypointId",
 			"t.amount",
+			"t.jumps",
 			"t.targetId",
 			"blt.name as target",
 			"bls.name as source",
@@ -76,6 +77,7 @@ export const withTransportRoute = async ({
 	for await (const {
 		id,
 		waypointId,
+		jumps,
 		targetId,
 		resourceId,
 		amount,
@@ -95,6 +97,7 @@ export const withTransportRoute = async ({
 			amount,
 			progress,
 			weight,
+			jumps,
 		});
 
 		const pathId = `${waypointId}-${targetId}`;
@@ -220,15 +223,31 @@ export const withTransportRoute = async ({
 		}
 
 		if (progress + move >= 100) {
+			if (jumps === 0) {
+				/**
+				 * Move the goods to the next waypoint.
+				 */
+				console.info("\t\t\t\t-- Transport reached the first waypoint");
+				await tx
+					.updateTable("Transport")
+					.set({
+						progress: 0,
+						jumps: jumps + 1,
+					})
+					.where("id", "=", id)
+					.execute();
+				continue;
+			}
 			/**
 			 * Move the goods to the next waypoint.
 			 */
-			console.info("\t\t\t\t-- Transport at the end of the waypoint");
+			console.info("\t\t\t\t-- Transport reached next waypoint");
 			await tx
 				.updateTable("Transport")
 				.set({
 					waypointId: route[0],
 					progress: 0,
+					jumps: jumps + 1,
 				})
 				.where("id", "=", id)
 				.execute();
