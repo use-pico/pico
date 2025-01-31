@@ -1,4 +1,5 @@
 import Graph from "graphology";
+import { sql } from "kysely";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 
 export namespace withBuildingGraph {
@@ -31,7 +32,11 @@ export const withBuildingGraph = async ({
 	const buildings = await tx
 		.selectFrom("Building as b")
 		.innerJoin("Land as l", "l.id", "b.landId")
-		.select(["b.id", "b.x", "b.y"])
+		.select([
+			"b.id",
+			(eb) => sql<number>`${eb.ref("b.x")} + ${eb.ref("l.x")}`.as("x"),
+			(eb) => sql<number>`${eb.ref("b.y")} + ${eb.ref("l.y")}`.as("y"),
+		])
 		.where("b.userId", "=", userId)
 		.where("l.mapId", "=", mapId)
 		.execute();
@@ -45,12 +50,13 @@ export const withBuildingGraph = async ({
 	const buildingWaypoints = await tx
 		.selectFrom("Building_Waypoint as bw")
 		.innerJoin("Building as b", "b.id", "bw.buildingId")
+		.innerJoin("Land as l", "l.id", "b.landId")
 		.innerJoin("Waypoint as w", "w.id", "bw.waypointId")
 		.select([
 			"bw.buildingId",
 			"bw.waypointId",
-			"b.x as buildingX",
-			"b.y as buildingY",
+			(eb) => sql<number>`${eb.ref("b.x")} + ${eb.ref("l.x")}`.as("buildingX"),
+			(eb) => sql<number>`${eb.ref("b.y")} + ${eb.ref("l.y")}`.as("buildingY"),
 			"w.x as waypointX",
 			"w.y as waypointY",
 		])
@@ -114,12 +120,6 @@ export const withBuildingGraph = async ({
 			const length = Math.sqrt(
 				(waypointX - buildingX) ** 2 + (waypointY - buildingY) ** 2,
 			);
-
-			/**
-			 * TODO Building and waypoints are in different spaces, thus lengths are not correct:
-			 * - Building lives inside a land (so it has relative coordinates)
-			 * - Waypoints lives in a map (so it has absolute coordinates)
-			 */
 
 			graph.addEdge(buildingId, waypointId, {
 				type: "building-waypoint",
