@@ -102,7 +102,17 @@ export const withTransportDemand = async ({
 				if (!a.path || !b.path) {
 					return -1;
 				}
-				return a.path.length - b.path.length;
+				const lengthA = a.path.slice(0, -1).reduce((acc, cur, i) => {
+					const next = a.path?.[i + 1];
+					return acc + (next ? graph.getEdgeAttribute(cur, next, "length") : 0);
+				}, 0);
+
+				const lengthB = b.path.slice(0, -1).reduce((acc, cur, i) => {
+					const next = b.path?.[i + 1];
+					return acc + (next ? graph.getEdgeAttribute(cur, next, "length") : 0);
+				}, 0);
+
+				return lengthA - lengthB;
 			});
 
 		for await (const {
