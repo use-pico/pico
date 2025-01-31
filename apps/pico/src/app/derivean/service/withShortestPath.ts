@@ -19,7 +19,7 @@ export const withShortestPath = ({
 	const path = dijkstra.bidirectional(graph, from, to, "weight");
 
 	if (!path) {
-		return false;
+		return undefined;
 	}
 
 	switch (mode) {

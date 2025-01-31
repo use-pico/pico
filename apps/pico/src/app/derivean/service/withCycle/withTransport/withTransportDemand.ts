@@ -86,12 +86,32 @@ export const withTransportDemand = async ({
 
 		let remaining = amount;
 
+		const suppliers = supplies
+			.map((supply) => {
+				return {
+					...supply,
+					path: withShortestPath({
+						mode: "waypoint",
+						graph,
+						from: supply.buildingId,
+						to: targetId,
+					}),
+				};
+			})
+			.sort((a, b) => {
+				if (!a.path || !b.path) {
+					return -1;
+				}
+				return a.path.length - b.path.length;
+			});
+
 		for await (const {
 			inventoryId,
 			building,
 			buildingId: sourceId,
 			available,
-		} of supplies) {
+			path,
+		} of suppliers) {
 			console.info("\t\t\t-- Resolving supply from", {
 				building,
 				available,
@@ -102,16 +122,6 @@ export const withTransportDemand = async ({
 				console.info("\t\t\t\t-- Demand fulfilled");
 				break;
 			}
-
-			/**
-			 * Ensure there is a path between the target building and the source building
-			 */
-			const path = withShortestPath({
-				mode: "waypoint",
-				graph,
-				from: sourceId,
-				to: targetId,
-			});
 
 			if (!path) {
 				console.info("\t\t\t\t-- No path available for this transport");
