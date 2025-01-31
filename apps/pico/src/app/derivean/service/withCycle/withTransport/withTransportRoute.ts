@@ -125,6 +125,24 @@ export const withTransportRoute = async ({
 
 		const route = path.slice(1, -1);
 
+		const length = graph.getEdgeAttribute(
+			waypointId,
+			route.length ? route[0] : targetId,
+			"length",
+		);
+		const move = withProgressPerTick({
+			road: length,
+			weight: weight * amount,
+			speed: 32,
+		});
+
+		console.info("\t\t\t\t-- Resolved movement", {
+			waypointId,
+			target: route.length ? route[0] : targetId,
+			length,
+			progress: Math.min(100, progress + move),
+		});
+
 		/**
 		 * We're at the end, move the goods to target inventory.
 		 *
@@ -134,6 +152,20 @@ export const withTransportRoute = async ({
 			console.log(
 				"\t\t\t\t-- Resolving inventory transaction (transport at destination)",
 			);
+
+			if (progress + move < 100) {
+				console.info("\t\t\t\t-- Last waypoint, transport in progress", {
+					progress: progress + move,
+				});
+				await tx
+					.updateTable("Transport")
+					.set({
+						progress: Math.min(100, progress + move),
+					})
+					.where("id", "=", id)
+					.execute();
+				continue;
+			}
 
 			const inventory = await tx
 				.selectFrom("Inventory as i")
@@ -186,19 +218,6 @@ export const withTransportRoute = async ({
 
 			continue;
 		}
-
-		const length = graph.getEdgeAttribute(waypointId, route[0], "length");
-		const move = withProgressPerTick({
-			road: length,
-			weight: weight * amount,
-			speed: 32,
-		});
-
-		console.info("\t\t\t\t-- Resolved movement", {
-			waypointId: route[0],
-			length,
-			progress: move,
-		});
 
 		if (progress + move >= 100) {
 			/**

@@ -115,6 +115,12 @@ export const withBuildingGraph = async ({
 				(waypointX - buildingX) ** 2 + (waypointY - buildingY) ** 2,
 			);
 
+			/**
+			 * TODO Building and waypoints are in different spaces, thus lengths are not correct:
+			 * - Building lives inside a land (so it has relative coordinates)
+			 * - Waypoints lives in a map (so it has absolute coordinates)
+			 */
+
 			graph.addEdge(buildingId, waypointId, {
 				type: "building-waypoint",
 				length,
