@@ -284,6 +284,15 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											.whereRef("p.buildingId", "=", "bg.id")
 											.as("production");
 									},
+									(eb) => {
+										return eb
+											.selectFrom("Transport as t")
+											.select((eb) =>
+												eb.fn.count<number>("t.id").as("transport"),
+											)
+											.whereRef("t.targetId", "=", "bg.id")
+											.as("transport");
+									},
 									"bl.name",
 									"bg.x",
 									"bg.y",
@@ -316,6 +325,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								x: z.number(),
 								y: z.number(),
 
+								transport: z.number(),
+
 								valid: withBoolSchema(),
 							}),
 						});
@@ -336,6 +347,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									className: tvc(
 										NodeCss,
 										building.valid ? undefined : ["border-red-500"],
+										building.production ? ["border-purple-500"] : undefined,
+										building.transport > 0 ? ["border-green-500"] : undefined,
 									),
 									extent: "parent",
 									parentId: building.landId,
