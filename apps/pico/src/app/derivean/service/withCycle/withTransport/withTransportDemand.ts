@@ -140,7 +140,14 @@ export const withTransportDemand = async ({
 
 			console.info("\t\t\t\t-- Transporting", {
 				transfer,
+				remaining,
 			});
+
+			/**
+			 * TODO Resolve distance between building and it's waypoint.
+			 *
+			 * Currently, transport gets instantly to the target waypoint regardless of the distance.
+			 */
 
 			await tx
 				.insertInto("Transport")
