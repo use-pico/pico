@@ -185,12 +185,16 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									selectable: false,
 									className: tvc(
 										NodeCss,
+										"opacity-50",
+										"hover:opacity-100",
+										"cursor-grab",
 										[
 											construction.valid ?
 												["border-green-500"]
 											:	["border-red-500"],
 										],
 										routing ? RoutingNodeCss : undefined,
+										`bg-${construction.blueprintId}`,
 									),
 									extent: "parent",
 									parentId: construction.landId,

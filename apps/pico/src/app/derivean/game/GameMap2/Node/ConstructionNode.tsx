@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { Button, CheckIcon, Icon, useInvalidator } from "@use-pico/client";
+import { Button, CheckIcon, TrashIcon, useInvalidator } from "@use-pico/client";
 import type { Node, NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -38,25 +38,53 @@ export const ConstructionNode: FC<ConstructionNode.Props> = ({ data }) => {
 			await invalidator();
 		},
 	});
+	const deleteMutation = useMutation({
+		async mutationFn({ constructionId }: { constructionId: string }) {
+			return kysely.transaction().execute(async (tx) => {
+				tx.deleteFrom("Building")
+					.where("constructionId", "=", constructionId)
+					.execute();
+			});
+		},
+		async onSuccess() {
+			await invalidator();
+		},
+	});
 
 	return (
-		<div className="flex flex-row gap-2 items-start justify-between w-full h-full">
-			<div className={"flex flex-row gap-2 items-center"}>
-				<Icon
-					icon={"icon-[carbon--floorplan]"}
-					css={{ base: ["text-slate-500"] }}
-				/>
-				<div className="font-bold">{data.name}</div>
+		<div className="flex flex-col gap-2 items-start justify-between w-full h-full group">
+			<div
+				className={
+					"hidden group-hover:flex justify-center w-full rounded-sm bg-slate-50 text-slate-600"
+				}
+			>
+				<div>{data.name}</div>
 			</div>
-			<Button
-				iconEnabled={CheckIcon}
-				iconDisabled={CheckIcon}
-				loading={commitMutation.isPending}
-				disabled={!data.valid}
-				onClick={() => {
-					commitMutation.mutate({ constructionId: data.constructionId });
-				}}
-			/>
+
+			<div
+				className={
+					"hidden group-hover:flex absolute bottom-0 left-0 flex-row justify-between items-center w-full p-2"
+				}
+			>
+				<Button
+					iconEnabled={TrashIcon}
+					loading={deleteMutation.isPending}
+					onClick={() => {
+						deleteMutation.mutate({ constructionId: data.constructionId });
+					}}
+					variant={{ variant: "danger" }}
+				/>
+
+				<Button
+					iconEnabled={CheckIcon}
+					iconDisabled={CheckIcon}
+					loading={commitMutation.isPending}
+					disabled={!data.valid}
+					onClick={() => {
+						commitMutation.mutate({ constructionId: data.constructionId });
+					}}
+				/>
+			</div>
 		</div>
 	);
 };
