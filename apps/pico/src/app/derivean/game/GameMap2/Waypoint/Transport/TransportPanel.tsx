@@ -1,4 +1,5 @@
-import { Tx } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
@@ -6,6 +7,10 @@ import { Item } from "~/app/derivean/game/GameMap2/Waypoint/Transport/Item";
 import { TransportIcon } from "~/app/derivean/icon/TransportIcon";
 
 export namespace TransportPanel {
+	export interface Waypoint {
+		id: string;
+	}
+
 	export interface Transport {
 		id: string;
 		name: string;
@@ -18,18 +23,33 @@ export namespace TransportPanel {
 	}
 
 	export interface Props extends Panel.PropsEx {
+		waypoint: Waypoint;
 		transport: Transport[];
 	}
 }
 
 export const TransportPanel: FC<TransportPanel.Props> = ({
+	waypoint,
 	transport,
 	...props
 }) => {
+	const { mapId, locale } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
+
 	return (
 		<Panel
 			icon={TransportIcon}
 			textTitle={<Tx label={"Transport (label)"} />}
+			textSubTitle={
+				<LinkTo
+					icon={BackIcon}
+					to={"/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view"}
+					params={{ locale, mapId, waypointId: waypoint.id }}
+				>
+					<Tx label={"Waypoint (label)"} />
+				</LinkTo>
+			}
 			{...props}
 		>
 			{transport.length > 0 ?

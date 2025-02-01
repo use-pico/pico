@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { z } from "zod";
 import { TransportPanel } from "~/app/derivean/game/GameMap2/Waypoint/Transport/TransportPanel";
@@ -53,7 +53,15 @@ export const Route = createFileRoute(
 	},
 	component() {
 		const { transport } = Route.useLoaderData();
+		const { waypoint } = useLoaderData({
+			from: "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId",
+		});
 
-		return <TransportPanel transport={transport} />;
+		return (
+			<TransportPanel
+				waypoint={waypoint}
+				transport={transport}
+			/>
+		);
 	},
 });

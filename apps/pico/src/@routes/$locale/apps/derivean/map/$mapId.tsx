@@ -35,6 +35,9 @@ const NodeCss = [
 	"rounded-lg",
 	"border-[4px]",
 	"border-slate-400",
+	"opacity-75",
+	"hover:opacity-100",
+	"cursor-pointer",
 ];
 const RoutingNodeCss = [
 	"border-4",
@@ -117,7 +120,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									},
 									width: land.width,
 									height: land.height,
-									selectable: true,
+									selectable: false,
 									draggable: false,
 									data: land,
 									type: "land",
@@ -125,6 +128,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										land.color,
 										"border-slate-600",
 										"opacity-25",
+										"hover:opacity-30",
 									]),
 									zIndex: -1,
 								}) satisfies LandNode.LandNode,
@@ -362,8 +366,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 						});
 
 						return source.map((building) => {
-							console.log(building);
-
 							return {
 								id: building.id,
 								data: building,
@@ -374,7 +376,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								type: routing ? "building-route" : "building",
 								width,
 								height,
-								selectable: true,
+								selectable: false,
 								className: tvc(
 									NodeCss,
 									building.valid ? undefined : ["border-red-500"],
@@ -404,7 +406,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									"wp.x",
 									"wp.y",
 									"wp.mapId",
-									"wp.userId",
 									(eb) => {
 										return eb
 											.selectFrom("Transport as t")
@@ -419,7 +420,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							output: z.object({
 								id: z.string().min(1),
 								mapId: z.string().min(1),
-								userId: z.string().min(1),
 								x: z.number(),
 								y: z.number(),
 								transport: z.number().int().nonnegative(),
@@ -438,7 +438,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									type: routing ? "waypoint-route" : "waypoint",
 									width: waypointSize,
 									height: waypointSize,
-									selectable: true,
+									selectable: false,
 									zIndex: 1000,
 									className: tvc([
 										"rounded-md",
@@ -447,6 +447,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										"border-slate-500",
 										"text-slate-500",
 										"p-2",
+										"opacity-75",
+										"hover:opacity-100",
+										"cursor-pointer",
 										waypoint.transport > 0 ?
 											[
 												"text-green-600",

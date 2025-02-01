@@ -1,4 +1,5 @@
-import { Tx } from "@use-pico/client";
+import { useParams } from "@tanstack/react-router";
+import { LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Item } from "~/app/derivean/game/GameMap2/Construction/Item";
@@ -31,11 +32,23 @@ export const ConstructionPanel: FC<ConstructionPanel.Props> = ({
 	blueprints,
 	...props
 }) => {
+	const { locale, mapId } = useParams({
+		from: "/$locale/apps/derivean/map/$mapId",
+	});
+
 	return (
 		<Panel
 			icon={ConstructionIcon}
-			textTitle={<Tx label={"Construction (label)"} />}
-			textSubTitle={land.name}
+			textTitle={
+				<LinkTo
+					to={"/$locale/apps/derivean/map/$mapId/land/$landId/construction"}
+					params={{ locale, mapId, landId: land.id }}
+					search={{ zoomToId: land.id }}
+				>
+					{land.name}
+				</LinkTo>
+			}
+			textSubTitle={<Tx label={"Construction (label)"} />}
 			{...props}
 		>
 			{blueprints.length > 0 ?

@@ -13,12 +13,11 @@ import {
     type OnConnect,
     type OnConnectEnd,
     type OnNodeDrag,
-    type OnNodesChange
+    type OnNodesChange,
 } from "@xyflow/react";
 import { useCallback, useEffect, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { AutoCycleButton } from "~/app/derivean/game/AutoCycleButton";
-import { CycleButton } from "~/app/derivean/game/CycleButton";
 import { ConnectionLine } from "~/app/derivean/game/GameMap2/ConnectionLine";
 import { BuildingWaypointEdge } from "~/app/derivean/game/GameMap2/Edge/BuildingWaypointEdge";
 import { RouteEdge } from "~/app/derivean/game/GameMap2/Edge/RouteEdge";
@@ -160,11 +159,6 @@ export const Content: FC<Content.Props> = ({
 		},
 		[setNodes],
 	);
-	const onNodeDragStart = useCallback<OnNodeDrag>((_, node) => {
-		setNodes((nodes) =>
-			nodes.map((n) => (n.id === node.id ? { ...n, selected: false } : n)),
-		);
-	}, []);
 	const onNodeDragStop = useCallback<OnNodeDrag<any>>(
 		(_, node) => {
 			switch (node.type) {
@@ -256,66 +250,6 @@ export const Content: FC<Content.Props> = ({
 				const fromId = connectionState.fromNode.id;
 				const { type } = connectionState.fromNode;
 
-				// const fakeId = genId();
-
-				// setNodes((nodes) =>
-				// 	nodes.concat({
-				// 		id: fakeId,
-				// 		data: {
-				// 			id: fakeId,
-				// 			...coord,
-				// 		},
-				// 		position: coord,
-				// 		type: routing ? "waypoint-route" : "waypoint",
-				// 		width: 64,
-				// 		height: 64,
-				// 		selectable: true,
-				// 		className: tvc([
-				// 			"rounded-md",
-				// 			"bg-sky-100",
-				// 			"border",
-				// 			"border-sky-400",
-				// 			"p-2",
-				// 		]),
-				// 	} satisfies
-				// 		| WaypointRouteNode.WaypointRouteNode
-				// 		| WaypointNode.WaypointNode),
-				// );
-
-				// console.log("type?", type);
-
-				// switch (type) {
-				// 	case "building-route":
-				// 		setEdges((edges) =>
-				// 			edges.concat({
-				// 				id: genId(),
-				// 				source: fromId,
-				// 				target: fakeId,
-				// 				type: "building-waypoint",
-				// 				style: {
-				// 					stroke: "#b1b1b7",
-				// 					strokeWidth: 2,
-				// 					pointerEvents: "all",
-				// 				},
-				// 			} satisfies BuildingWaypointEdge.BuildingWaypointEdge),
-				// 		);
-				// 		break;
-				// 	case "waypoint-route":
-				// 		setEdges((edges) =>
-				// 			edges.concat({
-				// 				id: genId(),
-				// 				source: fromId,
-				// 				target: fakeId,
-				// 				type: "route",
-				// 				style: {
-				// 					stroke: "#b1b1b7",
-				// 					strokeWidth: 5,
-				// 				},
-				// 			} satisfies RouteEdge.RouteEdge),
-				// 		);
-				// 		break;
-				// }
-
 				createWaypointMutation.mutate(
 					{
 						userId,
@@ -358,7 +292,6 @@ export const Content: FC<Content.Props> = ({
 					nodes={nodes}
 					edges={edges}
 					onNodesChange={onNodesChange}
-					onNodeDragStart={onNodeDragStart}
 					onNodeDragStop={onNodeDragStop}
 					onConnect={onConnect}
 					onConnectEnd={onConnectEnd}
@@ -382,18 +315,6 @@ export const Content: FC<Content.Props> = ({
 					}, [navigate, routing])}
 					zoomOnDoubleClick={false}
 				>
-					<CycleButton
-						userId={userId}
-						mapId={mapId}
-						cycle={cycle}
-						css={{
-							base: ["react-flow__panel", "absolute", "top-1", "right-16"],
-						}}
-						onDoubleClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}
-					/>
 					<AutoCycleButton
 						userId={userId}
 						mapId={mapId}
@@ -418,7 +339,10 @@ export const Content: FC<Content.Props> = ({
 						size={1}
 					/>
 
-					<MapToolbar />
+					<MapToolbar
+						userId={userId}
+						cycle={cycle}
+					/>
 				</ReactFlow>
 				<Outlet />
 			</div>

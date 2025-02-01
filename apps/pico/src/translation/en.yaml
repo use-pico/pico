@@ -160,6 +160,9 @@
 337010c03bde4bb26c57d9dc91e7e62524b0a229f7025663b077c926:
   ref: No dependents (label)
   value: No dependents (label)
+359d2bb6a25837b153a99afe963a817eeca647f6400a0041e507bdae:
+  ref: Delete waypoint (label)
+  value: Delete waypoint (label)
 3628dcecbf3ea03099356e34c17a819e561ccba50792b0e9f479d564:
   ref: Tag delete (content)
   value: Tag delete (content)
@@ -190,6 +193,9 @@
 3d40952e4e5d4fd183fd39b48ab7df521f9d1e401bdb02ef510c399d:
   ref: Create map (submit)
   value: Create map (submit)
+3d8d608ee1bc3aad56b68249bb3a3223eb916c81c0adf8f7ac14ae2a:
+  ref: Waypoint transports (label)
+  value: Waypoint transports (label)
 3db2c4051c2b7a73afa7ec303c3fbe50ba5258af4ec59fd4ec31b388:
   ref: Resource list (label)
   value: Resource list (label)
@@ -267,9 +273,6 @@
 519c07031df43b317f56b864c9c77eb2696cef28f7ce0c0f639a1c9e:
   ref: Update inventory item - Success (label)
   value: Update inventory item - Success (label)
-52218bb5176b905f9f542c77b16fa937a11ed66b90cdbb28fec555fe:
-  ref: Resource transport (label)
-  value: Resource transport (label)
 52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
   ref: Missing any token(s). (message)
   value: Missing any token(s). (message)
@@ -309,6 +312,9 @@
 60903df05ec210e684a0bf3599eb1305e4f1823f8c99e1179b1f4f12:
   ref: Cycle - Success (label)
   value: Cycle - Success (label)
+611e00a47e71735b6e48a15972c736e9fdc523c85cf89d087bb7f724:
+  ref: Resource weight (label)
+  value: Resource weight (label)
 627b144c2c50807a987281e5ecdb4c810b593d2bec46a5dfedfc2a36:
   ref: Blueprint dependencies (menu)
   value: Blueprint dependencies (menu)
@@ -402,6 +408,9 @@
 816c08b99b10a24bccbaf9ed3be66e93498a5ca8967792f35b425fa2:
   ref: Close (label)
   value: Close (label)
+823b7dc18749c3740c62446a617002ccfcfae93787407f1e28fb3f27:
+  ref: Waypoint (label)
+  value: Waypoint (label)
 826d414b83deff5514991b1ce808d18c32733223217c02a9491f45b1:
   ref: Blueprint list (label)
   value: Blueprint list (label)
@@ -435,6 +444,9 @@
 8d1e46b351326c89a870d634b49deab1eda84e8a968f9540df536b3c:
   ref: Create production resource requirement (menu)
   value: Create production resource requirement (menu)
+8fac144faf2e7268198639ab6166f55dac0f0f955d45fa679cb34c7a:
+  ref: Weight is used to compute, how fast a resource moves on the road (hint)
+  value: Weight is used to compute, how fast a resource moves on the road (hint)
 911782ed8c9ecd2598b628b6c1237938ee9fdc6564821a6d6a1fb88c:
   ref: Storage (label)
   value: Storage (label)
@@ -444,6 +456,9 @@
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Edit (menu)
+948247576bd5a554308b0aac653913dade365f68eb29084481b31f70:
+  ref: Building background (hint)
+  value: Building background (hint)
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Tag list (menu)
@@ -534,9 +549,6 @@ b228019adb93696dd45101289eea31baf98c20b687ec6a17f1d04942:
 b28be2abf28e5f6d9b9c09d9a96a296aa88333245e6e4a362737349d:
   ref: No buildings yet. (label)
   value: No buildings yet. (label)
-b2a0340361b1fb6f22b3239c88fcccf8149215887dd826d2f97e3f73:
-  ref: Amount of resources transported per cycle (hint)
-  value: Amount of resources transported per cycle (hint)
 b3ca777a84a5364e70e878ebfba825cb7fdc7db04b21f6b88fe89ae1:
   ref: Priority down (label)
   value: Priority down (label)
@@ -654,6 +666,9 @@ da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
 dbab91056182f8007440fa2547868c0f15634d3154747a02843ec5b0:
   ref: This building does not supply anything. (label)
   value: This building does not supply anything. (label)
+dbebf1757e8a7792ca3fa3363b84c1715323b9c3de48ef948588d289:
+  ref: Building background (label)
+  value: Building background (label)
 dcfc03272a3c4cf0b2da23da118acb0ce54f4647b6d456fedbe530e1:
   ref: Number of dependencies (label)
   value: Number of dependencies (label)
@@ -729,9 +744,15 @@ f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
 f187d865cdda1dcbb2100bbd0434cf02020699ae012ced72785073dd:
   ref: Fill inventory (label)
   value: Fill inventory (label)
+f1e76fada3f4310556327ea2f38e4eeeeb7d6fb219877bf91cf89d2e:
+  ref: Resource icon (hint)
+  value: Resource icon (hint)
 f1fb4cf2b5710bdf87187f8213db152a747926a312321e0b51e41496:
   ref: Inventory type - construction
   value: Inventory type - construction
+f23fe3fde50e9e4b2c02f30acd05fc8d29004e40248e8139095a1b9b:
+  ref: Resource icon (label)
+  value: Resource icon (label)
 f24a4b292236d6918253dac55026ab94f0393a38c03e8e4a79c98c68:
   ref: Number of conflicts (label)
   value: Number of conflicts (label)
@@ -741,9 +762,6 @@ f27d845ba46f7d29b2c5f9a6f847823568fdedc19966ef949fe29a07:
 f2e4f9f8b5c01c61e2c44a6dca1e42bbf4f75865fbae80bb7b2e0611:
   ref: Select regions (title)
   value: Select regions (title)
-f559a10414642d63ef07702a31eec356a318dc21bfeaaf2e1807cc72:
-  ref: New cycle (label)
-  value: New cycle (label)
 f70aa2e3fe0e7b7f49f8207feeaad15bda830686aabb2bc9655dbbe1:
   ref: Map name (label)
   value: Map name (label)
