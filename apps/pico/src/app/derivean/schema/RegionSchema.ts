@@ -12,6 +12,7 @@ export const RegionSchema = withRegionSchema({
 		maxHeight: withIntSchema(),
 		probability: withIntSchema(),
 		limit: withIntSchema(),
+		image: z.string().optional(),
 	}),
 	filter: FilterSchema,
 });

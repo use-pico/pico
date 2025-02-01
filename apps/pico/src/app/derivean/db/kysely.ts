@@ -57,7 +57,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				/**
 				 * Resource icon (base64 encoded).
 				 */
-				.addColumn("icon", "text")
+				.addColumn("image", "text")
 
 				.addUniqueConstraint("[Resource] name", ["name"])
 
@@ -169,6 +169,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Absolute maximum of regions on the map (so there may be <= limit regions).
 				 */
 				.addColumn("limit", "integer", (col) => col.notNull())
+
+				/**
+				 * Image (base64 encoded).
+				 */
+				.addColumn("image", "text")
 
 				.execute();
 
@@ -401,9 +406,9 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("limit", "integer", (col) => col.notNull().defaultTo(1))
 
 				/**
-				 * Background image for the building (base64 encoded).
+				 * Image (base64 encoded).
 				 */
-				.addColumn("background", "text")
+				.addColumn("image", "text")
 
 				.addUniqueConstraint("[Blueprint] name", ["name"])
 

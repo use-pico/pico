@@ -26,6 +26,7 @@ export const Route = createFileRoute(
 							.select([
 								"bl.id",
 								"bl.name",
+								"bl.image",
 								"bl.sort",
 								"bl.cycles",
 								(eb) =>
@@ -114,6 +115,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							image: z.string().nullish(),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							regions: withJsonArraySchema(

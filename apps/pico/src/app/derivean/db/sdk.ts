@@ -32,14 +32,14 @@ export const withBlueprintSchema = <
 				limit:
 					// INTEGER / not nullable
 					z.number().int(),
-				background:
+				image:
 					// TEXT / nullable
 					z.string().nullish(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "cycles", "sort", "limit", "background"],
+		sort: ["id", "name", "cycles", "sort", "limit", "image"],
 	});
 };
 
@@ -847,6 +847,9 @@ export const withRegionSchema = <
 				limit:
 					// INTEGER / not nullable
 					z.number().int(),
+				image:
+					// TEXT / nullable
+					z.string().nullish(),
 			}),
 		),
 		shape,
@@ -861,6 +864,7 @@ export const withRegionSchema = <
 			"maxHeight",
 			"probability",
 			"limit",
+			"image",
 		],
 	});
 };
@@ -937,14 +941,14 @@ export const withResourceSchema = <
 				weight:
 					// INTEGER / not nullable
 					z.number().int(),
-				icon:
+				image:
 					// TEXT / nullable
 					z.string().nullish(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "weight", "icon"],
+		sort: ["id", "name", "weight", "image"],
 	});
 };
 

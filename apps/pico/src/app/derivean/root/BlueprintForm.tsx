@@ -134,14 +134,13 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"background"}
-				label={<Tx label={"Building background (label)"} />}
-				hint={<Tx label={"Building background (hint)"} />}
+				name={"image"}
+				label={<Tx label={"Building image (label)"} />}
+				hint={<Tx label={"Building image (hint)"} />}
 			>
-				<input
-					type={"text"}
+				<textarea
 					className={tv.input()}
-					{...form.register("background")}
+					{...form.register("image")}
 				/>
 			</FormInput>
 

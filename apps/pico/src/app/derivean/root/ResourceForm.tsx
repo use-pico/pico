@@ -31,6 +31,8 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	const form = useForm<ResourceSchema["~shape"]>({
 		resolver: zodResolver(ResourceSchema.shape),
 		defaultValues: {
+			name: "",
+			image: "",
 			weight: 1,
 			...defaultValues,
 		},
@@ -70,14 +72,13 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"icon"}
-				label={<Tx label={"Resource icon (label)"} />}
-				hint={<Tx label={"Resource icon (hint)"} />}
+				name={"image"}
+				label={<Tx label={"Resource image (label)"} />}
+				hint={<Tx label={"Resource image (hint)"} />}
 			>
-				<input
-					type={"text"}
+				<textarea
 					className={tv.input()}
-					{...form.register("icon")}
+					{...form.register("image")}
 				/>
 			</FormInput>
 

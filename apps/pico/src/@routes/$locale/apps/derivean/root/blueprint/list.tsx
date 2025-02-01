@@ -39,7 +39,7 @@ export const Route = createFileRoute(
 							.selectFrom("Blueprint as bl")
 							.select([
 								"bl.id",
-								"bl.background",
+								"bl.image",
 								"bl.name",
 								"bl.sort",
 								"bl.cycles",
@@ -134,7 +134,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							background: z.string().nullish(),
+							image: z.string().nullish(),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							limit: z.number().nonnegative(),

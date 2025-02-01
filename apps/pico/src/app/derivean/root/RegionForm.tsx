@@ -33,6 +33,7 @@ export const RegionForm: FC<RegionForm.Props> = ({
 		resolver: zodResolver(RegionSchema.shape),
 		defaultValues: {
 			name: "",
+			image: "",
 			color: "slate",
 			minWidth: 1,
 			maxWidth: 4,
@@ -73,6 +74,18 @@ export const RegionForm: FC<RegionForm.Props> = ({
 					type={"text"}
 					className={tv.input()}
 					{...form.register("name")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"image"}
+				label={<Tx label={"Region image (label)"} />}
+				hint={<Tx label={"Region image (hint)"} />}
+			>
+				<textarea
+					className={tv.input()}
+					{...form.register("image")}
 				/>
 			</FormInput>
 

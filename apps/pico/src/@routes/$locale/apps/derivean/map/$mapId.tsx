@@ -62,18 +62,30 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 		return {
 			user,
-			background: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "background"],
+			image: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "image"],
 				async queryFn() {
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
 							select: tx
 								.selectFrom("Blueprint as b")
-								.select(["b.id", "b.background"])
-								.where("b.background", "is not", null),
+								.select(["b.id", "b.image"])
+								.where("b.image", "is not", null)
+								.union(
+									tx
+										.selectFrom("Region as r")
+										.select(["r.id", "r.image"])
+										.where("r.image", "is not", null),
+								)
+								.union(
+									tx
+										.selectFrom("Resource as r")
+										.select(["r.id", "r.image"])
+										.where("r.image", "is not", null),
+								),
 							output: z.object({
 								id: z.string().min(1),
-								background: z.string(),
+								image: z.string(),
 							}),
 						});
 					});
@@ -749,7 +761,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const {
-			background,
+			image,
 			user,
 			land,
 			construction,
@@ -774,12 +786,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		return (
 			<>
 				<style>
-					{background
-						.filter(({ background }) => background.length > 0)
+					{image
+						.filter(({ image }) => image.length > 0)
 						.map((bg) => {
 							return `
                         .bg-${bg.id} {
-                            background-image: url(${bg.background});
+                            background-image: url(${bg.image});
                             background-size: cover;
                             background-repeat: no-repeat;
                             background-position: center;
