@@ -6,12 +6,10 @@ import {
     Icon,
     LoaderIcon,
     Modal,
-    toast,
     Tx,
     useInvalidator,
-    withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, tvc } from "@use-pico/common";
+import { genId, tvc, withBase64 } from "@use-pico/common";
 import {
     Background,
     BackgroundVariant,
@@ -142,7 +140,7 @@ export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 											path={edgePath}
 											markerEnd={markerEnd}
 											style={style}
-										/> 
+										/>
 										<EdgeLabelRenderer>
 											<div
 												className={tvc("nodrag nopan", [
@@ -155,7 +153,7 @@ export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 													"border",
 													"border-red-300",
 													"hover:border-red-600",
-													"hover:bg-red-300", 
+													"hover:bg-red-300",
 													"hover:text-red-700",
 													"rounded-full",
 													"w-4",
@@ -211,20 +209,33 @@ export const Editor: FC<Editor.Props> = ({ data, zoomTo }) => {
 								return (
 									<BlueprintForm
 										mutation={useMutation({
-											async mutationFn(values) {
-												return toast.promise(
-													kysely.transaction().execute((tx) => {
-														return tx
-															.insertInto("Blueprint")
-															.values({
-																id: genId(),
-																...values,
-															})
-															.returningAll()
-															.executeTakeFirstOrThrow();
-													}),
-													withToastPromiseTx("Create blueprint"),
-												);
+											async mutationFn({ image, regionIds, ...values }) {
+												return kysely.transaction().execute(async (tx) => {
+													const blueprint = await tx
+														.insertInto("Blueprint")
+														.values({
+															id: genId(),
+															...values,
+															image: image ? await withBase64(image) : null,
+														})
+														.returningAll()
+														.executeTakeFirstOrThrow();
+
+													if (regionIds?.length) {
+														await tx
+															.insertInto("Blueprint_Region")
+															.values(
+																regionIds.map((regionId) => ({
+																	id: genId(),
+																	blueprintId: blueprint.id,
+																	regionId,
+																})),
+															)
+															.execute();
+													}
+
+													return blueprint;
+												});
 											},
 											async onSuccess(data) {
 												await invalidator();

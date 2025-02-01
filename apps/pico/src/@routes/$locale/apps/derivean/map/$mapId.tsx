@@ -34,8 +34,7 @@ const NodeCss = [
 	"rounded-lg",
 	"border-[4px]",
 	"border-slate-400",
-	"opacity-75",
-	"hover:opacity-100",
+	"hover:border-slate-600",
 	"cursor-pointer",
 ];
 const RoutingNodeCss = [
@@ -139,7 +138,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										land.color,
 										"border-slate-600",
 										"opacity-25",
-										"hover:opacity-30",
+										"hover:border-blue-200",
 									]),
 									zIndex: -1,
 								}) satisfies LandNode.LandNode,

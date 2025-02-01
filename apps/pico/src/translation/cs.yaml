@@ -352,6 +352,9 @@
 6981ebef04559ea4f1df3950d67f1f7ec1be1cb51a971185a4220d2f:
   ref: Production cycles (hint)
   value: Udává počet cyklů, než bude daná surovina vyprodukována.
+6a452f145d313c2b3985d5e21b2b88b4ad0f0b918ce67a549e3d9d6d:
+  ref: File size must be less than 5MB
+  value: Velikost obrázku musí být menší než 5MB
 6a47bf50d0987a831d15342c8beb87b5990150235459bcd7000a0fec:
   ref: This building does not demand anything. (label)
   value: Tato budova nic nevyžaduje.
@@ -452,6 +455,9 @@
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
+89232eb9f880bf0db600eafa02548297b7bb3b8020cfbf78a73b6785:
+  ref: Building image (label)
+  value: Obrázek budovy
 8949920784083c5583ae64cdc66f56f2ad7cdddf57ff6164a54f42a7:
   ref: Delete requirement item (content)
   value: |
@@ -478,9 +484,6 @@
 9240a8f2e38c271c544d0d08ed889246cf0c4267311523b87bb087a5:
   ref: Edit (menu)
   value: Upravit
-948247576bd5a554308b0aac653913dade365f68eb29084481b31f70:
-  ref: Building background (hint)
-  value: Obrázek budovy kódovaný jako Base64 URI (data:image/png;base64,...)
 94eaa5f588735b78eb4f3521f2d3999c88e3a24749a332321cc973a5:
   ref: Tag list (menu)
   value: Seznam štítků
@@ -527,6 +530,9 @@ a202d268d1d94f80d854aa69dbd76dfc55740ba54e0c745695e5e5fe:
 a28b0c372bbbcf2c41da0cc863d40871b6351f3bbfbac436b3cbac16:
   ref: Required resources (label)
   value: Požadované zdroje
+a28ccd3739a12741ad42c411d5614a07aa36c3b44ea01767e47f65c9:
+  ref: Building image (hint)
+  value: Vybráním souboru nahradíte stávající obrázek budovy
 a3238ddedec62a6e2abdd66cef815e7887df0408b3ec61412caad338:
   ref: Region probability (label)
   value: Pravděpodobnost výskytu
@@ -545,6 +551,9 @@ a5798ac71ad93fe32447a495e6d0eb75d13b3973818615d6e534c6e1:
 a7de088198a05fc3f4f525423d25d274d86a51a09fcaedea605aed99:
   ref: Delete blueprint production dependency (modal)
   value: Odstranit závislost produkce
+a852ae0a39b1b8b7b02414a8b09a193d025f15452206804a92ec6e08:
+  ref: Resource image (hint)
+  value: Resource image (hint)
 a947ece5613972ef407d26be58ff0d6d1af883dc193c49d03ff56762:
   ref: Cancel demand (label)
   value: Zrušit požadavek
@@ -562,6 +571,9 @@ af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
 b0153746a23ed62e2d9a29b8f11b3fb87a6d4122e60e418cc90355ba:
   ref: Region limit (label)
   value: Limit výskytů
+b0cfda3ee001f0431b3acdc338f9e4eabbf087710923c99060fb3dae:
+  ref: Region image (label)
+  value: Obrázek regionu
 b0d055aab431a584fc9279434f1643671ff0c6fc5c8d3afc97e13ea9:
   ref: Priority up (label)
   value: Zvýšit prioritu
@@ -686,15 +698,15 @@ d85b3b5d948668984120eacedde0dfcaec6ae51aebbdaaea9fb8c2b2:
 d8d2f35d16bd2d5e746464b13ad667e6572be16ad5bd33a71dd192e1:
   ref: Map generator - Success (label)
   value: Mapa byla úspěšně vygenerována.
+da207ece21a96729f06b6b5f57eaee69b2ef7fb4ef28668d0ef4b88f:
+  ref: Region image (hint)
+  value: Nahráním obrázku nahradíte stávající obrázek regionu
 da6158f0ec2b724ecd8df5e94ad30bba5f7a8e009cbae8bbfb7e0531:
   ref: Delete production resource requirement (content)
   value: Delete production resource requirement (content)
 dbab91056182f8007440fa2547868c0f15634d3154747a02843ec5b0:
   ref: This building does not supply anything. (label)
   value: Tato budova nemá žádné dodávky.
-dbebf1757e8a7792ca3fa3363b84c1715323b9c3de48ef948588d289:
-  ref: Building background (label)
-  value: Obrázek budovy
 dcfc03272a3c4cf0b2da23da118acb0ce54f4647b6d456fedbe530e1:
   ref: Number of dependencies (label)
   value: Počet závislostí
@@ -770,15 +782,9 @@ f165b141cf3cf9c827d3cc3aae4805b776041028645be2f046492294:
 f187d865cdda1dcbb2100bbd0434cf02020699ae012ced72785073dd:
   ref: Fill inventory (label)
   value: Fill inventory (label)
-f1e76fada3f4310556327ea2f38e4eeeeb7d6fb219877bf91cf89d2e:
-  ref: Resource icon (hint)
-  value: Ikonka zdroje kódovaná jako Base64 URI (data:image/png;base64,...)
 f1fb4cf2b5710bdf87187f8213db152a747926a312321e0b51e41496:
   ref: Inventory type - construction
   value: Požadavky stavby
-f23fe3fde50e9e4b2c02f30acd05fc8d29004e40248e8139095a1b9b:
-  ref: Resource icon (label)
-  value: Ikonka zdroje
 f24a4b292236d6918253dac55026ab94f0393a38c03e8e4a79c98c68:
   ref: Number of conflicts (label)
   value: Počet konfliktů
@@ -794,6 +800,9 @@ f70aa2e3fe0e7b7f49f8207feeaad15bda830686aabb2bc9655dbbe1:
 f8159f30ff1ce2474e4e5411932f7a546961f5a99ba4d9e772c1adb3:
   ref: Production resource requirements (menu)
   value: Požadavky na zdroje
+f87f8903df4f8ebf6f1d9c6bb0017ee7f030da5dd4f37a98f47d934a:
+  ref: Resource image (label)
+  value: Obrázek zdroje
 f88da4a937655c2eed4bdd20b3f37de3b794b009e17e5bea1496c43b:
   ref: Required resources (menu)
   value: Požadované zdroje

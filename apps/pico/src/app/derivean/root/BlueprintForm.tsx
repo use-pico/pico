@@ -138,7 +138,8 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				label={<Tx label={"Building image (label)"} />}
 				hint={<Tx label={"Building image (hint)"} />}
 			>
-				<textarea
+				<input
+					type={"file"}
 					className={tv.input()}
 					{...form.register("image")}
 				/>

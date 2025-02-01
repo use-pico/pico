@@ -16,7 +16,12 @@ import {
     withColumn,
     withToastPromiseTx,
 } from "@use-pico/client";
-import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    withBase64,
+    type IdentitySchema,
+} from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
@@ -219,13 +224,14 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 									return (
 										<BlueprintForm
 											mutation={useMutation({
-												async mutationFn({ regionIds, ...values }) {
+												async mutationFn({ image, regionIds, ...values }) {
 													kysely.transaction().execute(async (tx) => {
 														const entity = await tx
 															.insertInto("Blueprint")
 															.values({
 																id: genId(),
 																...values,
+																image: image ? await withBase64(image) : null,
 															})
 															.returningAll()
 															.executeTakeFirstOrThrow();
@@ -278,42 +284,42 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 												regionIds: data.regions.map((region) => region.id),
 											}}
 											mutation={useMutation({
-												async mutationFn({ regionIds, ...values }) {
-													return toast.promise(
-														kysely.transaction().execute(async (tx) => {
-															const entity = await tx
-																.updateTable("Blueprint")
-																.set(values)
-																.where("id", "=", data.id)
-																.returningAll()
-																.executeTakeFirstOrThrow();
+												async mutationFn({ image, regionIds, ...values }) {
+													return kysely.transaction().execute(async (tx) => {
+														const entity = await tx
+															.updateTable("Blueprint")
+															.set({
+																...values,
+																image: image ? await withBase64(image) : null,
+															})
+															.where("id", "=", data.id)
+															.returningAll()
+															.executeTakeFirstOrThrow();
 
+														await tx
+															.deleteFrom("Blueprint_Region")
+															.where("blueprintId", "=", entity.id)
+															.execute();
+
+														if (regionIds?.length) {
 															await tx
-																.deleteFrom("Blueprint_Region")
-																.where("blueprintId", "=", entity.id)
+																.insertInto("Blueprint_Region")
+																.values(
+																	regionIds.map((regionId) => ({
+																		id: genId(),
+																		blueprintId: entity.id,
+																		regionId,
+																	})),
+																)
 																.execute();
+														}
 
-															if (regionIds?.length) {
-																await tx
-																	.insertInto("Blueprint_Region")
-																	.values(
-																		regionIds.map((regionId) => ({
-																			id: genId(),
-																			blueprintId: entity.id,
-																			regionId,
-																		})),
-																	)
-																	.execute();
-															}
+														await withBlueprintSort({
+															tx,
+														});
 
-															await withBlueprintSort({
-																tx,
-															});
-
-															return entity;
-														}),
-														withToastPromiseTx("Update blueprint"),
-													);
+														return entity;
+													});
 												},
 												async onSuccess() {
 													await invalidator();
