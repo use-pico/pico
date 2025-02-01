@@ -132,6 +132,19 @@ export const BlueprintForm: FC<BlueprintForm.Props> = ({
 				/>
 			</FormInput>
 
+			<FormInput
+				formState={form.formState}
+				name={"background"}
+				label={<Tx label={"Building background (label)"} />}
+				hint={<Tx label={"Building background (hint)"} />}
+			>
+				<input
+					type={"text"}
+					className={tv.input()}
+					{...form.register("background")}
+				/>
+			</FormInput>
+
 			<div className={"flex flex-row justify-between gap-8"}>
 				<Button
 					iconEnabled={BlueprintIcon}

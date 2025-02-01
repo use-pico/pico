@@ -9,7 +9,10 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withFloatSchema, withJsonArraySchema } from "@use-pico/common";
+import {
+    withIntSchema,
+    withJsonArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { ResourceTable } from "~/app/derivean/root/ResourceTable";
@@ -38,7 +41,7 @@ export const Route = createFileRoute(
 							.select([
 								"r.id",
 								"r.name",
-								"r.transport",
+								"r.weight",
 								(eb) =>
 									eb
 										.selectFrom("Tag as t")
@@ -117,7 +120,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							transport: withFloatSchema(),
+							weight: withIntSchema(),
 							countRequirement: z.number().nonnegative(),
 							countProduction: z.number().nonnegative(),
 							countProductionRequirement: z.number().nonnegative(),

@@ -1,5 +1,8 @@
 import { PopupSelect, Tx, withListCount } from "@use-pico/client";
-import { withFloatSchema, withJsonArraySchema } from "@use-pico/common";
+import {
+    withIntSchema,
+    withJsonArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import type { FC } from "react";
 import { z } from "zod";
@@ -41,7 +44,7 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = ({
 							.select([
 								"r.id",
 								"r.name",
-								"r.transport",
+								"r.weight",
 								(eb) =>
 									eb
 										.selectFrom("Tag as t")
@@ -124,7 +127,7 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = ({
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
-							transport: withFloatSchema(),
+							weight: withIntSchema(),
 							tags: withJsonArraySchema(TagSchema.entity),
 							countRequirement: z.number().nonnegative(),
 							countProduction: z.number().nonnegative(),

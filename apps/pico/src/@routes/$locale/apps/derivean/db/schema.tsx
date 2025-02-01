@@ -32,6 +32,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/db/schema")({
 					zod = "withBoolSchema()";
 					break;
 				}
+				case "text": {
+					zod = "z.string()";
+				}
 			}
 			if (type.startsWith("varchar")) {
 				zod = `z.string()${isNullable ? "" : ".min(1)"}`;

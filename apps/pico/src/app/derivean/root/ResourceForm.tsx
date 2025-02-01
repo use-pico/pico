@@ -31,7 +31,7 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 	const form = useForm<ResourceSchema["~shape"]>({
 		resolver: zodResolver(ResourceSchema.shape),
 		defaultValues: {
-			transport: 1,
+			weight: 1,
 			...defaultValues,
 		},
 	});
@@ -70,17 +70,35 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 
 			<FormInput
 				formState={form.formState}
-				name={"transport"}
-				label={<Tx label={"Resource transport (label)"} />}
-				hint={<Tx label={"Amount of resources transported per cycle (hint)"} />}
+				name={"icon"}
+				label={<Tx label={"Resource icon (label)"} />}
+				hint={<Tx label={"Resource icon (hint)"} />}
+			>
+				<input
+					type={"text"}
+					className={tv.input()}
+					{...form.register("icon")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"weight"}
+				label={<Tx label={"Resource weight (label)"} />}
+				hint={
+					<Tx
+						label={
+							"Weight is used to compute, how fast a resource moves on the road (hint)"
+						}
+					/>
+				}
 				required
 			>
 				<input
 					type={"number"}
 					className={tv.input()}
-					min={0.5}
-					step={0.5}
-					{...form.register("transport")}
+					min={1}
+					{...form.register("weight")}
 				/>
 			</FormInput>
 

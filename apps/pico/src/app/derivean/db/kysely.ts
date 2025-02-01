@@ -50,9 +50,14 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addColumn("name", "varchar(64)", (col) => col.notNull())
 				/**
-				 * Amount of resources transported per cycle.
+				 * Weight of a resource used in transport.
 				 */
-				.addColumn("transport", "float4", (col) => col.notNull().defaultTo(1))
+				.addColumn("weight", "integer", (col) => col.notNull().defaultTo(1))
+
+				/**
+				 * Resource icon (base64 encoded).
+				 */
+				.addColumn("icon", "text")
 
 				.addUniqueConstraint("[Resource] name", ["name"])
 
@@ -394,6 +399,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Limit number of buildings a player can build.
 				 */
 				.addColumn("limit", "integer", (col) => col.notNull().defaultTo(1))
+
+				/**
+				 * Background image for the building (base64 encoded).
+				 */
+				.addColumn("background", "text")
 
 				.addUniqueConstraint("[Blueprint] name", ["name"])
 

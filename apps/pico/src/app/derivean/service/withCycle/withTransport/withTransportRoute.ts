@@ -63,7 +63,7 @@ export const withTransportRoute = async ({
 			"t.resourceId",
 			"t.type",
 			"t.progress",
-			"r.transport as weight",
+			"r.weight",
 			"r.name as resource",
 		])
 		.where("t.userId", "=", userId)

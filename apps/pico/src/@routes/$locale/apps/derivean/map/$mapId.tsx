@@ -34,7 +34,7 @@ const NodeCss = [
 	"bg-white",
 	"rounded-lg",
 	"border-[4px]",
-	"border-slate-300",
+	"border-slate-400",
 ];
 const RoutingNodeCss = [
 	"border-4",
@@ -256,6 +256,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								.select([
 									"bg.id",
 									"bg.blueprintId",
+									"bl.background",
 									"bg.landId",
 									"bg.productionId",
 									"bg.recurringProductionId",
@@ -319,6 +320,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								landId: z.string().min(1),
 								userId: z.string().min(1),
 								name: z.string().min(1),
+								background: z.string().nullish(),
 
 								productionId: z.string().nullish(),
 								recurringProductionId: z.string().nullish(),
@@ -344,32 +346,42 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							}),
 						});
 
-						return source.map(
-							(building) =>
-								({
-									id: building.id,
-									data: building,
-									position: {
-										x: building.x,
-										y: building.y,
-									},
-									type: routing ? "building-route" : "building",
-									width,
-									height,
-									selectable: true,
-									className: tvc(
-										NodeCss,
-										building.valid ? undefined : ["border-red-500"],
-										building.production ? ["border-purple-500"] : undefined,
-										building.transport > 0 ? ["border-green-500"] : undefined,
-										routing ? RoutingNodeCss : undefined,
-									),
-									extent: "parent",
-									parentId: building.landId,
-								}) satisfies
-									| BuildingRouteNode.BuildingRouteNode
-									| BuildingNode.BuildingNode,
-						);
+						return source.map((building) => {
+							console.log(building);
+
+							return {
+								id: building.id,
+								data: building,
+								position: {
+									x: building.x,
+									y: building.y,
+								},
+								type: routing ? "building-route" : "building",
+								width,
+								height,
+								selectable: true,
+								className: tvc(
+									NodeCss,
+									building.valid ? undefined : ["border-red-500"],
+									building.production ? ["border-purple-500"] : undefined,
+									building.transport > 0 ? ["border-green-500"] : undefined,
+									routing ? RoutingNodeCss : undefined,
+								),
+								style:
+									building.background ?
+										{
+											backgroundPosition: "center",
+											backgroundRepeat: "no-repeat",
+											backgroundSize: "cover",
+											backgroundImage: `url(${building.background})`,
+										}
+									:	undefined,
+								extent: "parent",
+								parentId: building.landId,
+							} satisfies
+								| BuildingRouteNode.BuildingRouteNode
+								| BuildingNode.BuildingNode;
+						});
 					});
 				},
 			}),

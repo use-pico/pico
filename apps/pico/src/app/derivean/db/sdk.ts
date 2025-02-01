@@ -32,11 +32,14 @@ export const withBlueprintSchema = <
 				limit:
 					// INTEGER / not nullable
 					z.number().int(),
+				background:
+					// TEXT / nullable
+					z.string().nullish(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "cycles", "sort", "limit"],
+		sort: ["id", "name", "cycles", "sort", "limit", "background"],
 	});
 };
 
@@ -931,14 +934,17 @@ export const withResourceSchema = <
 				name:
 					// varchar(64) / not nullable
 					z.string().min(1),
-				transport:
-					// float4 / not nullable
-					z.number(),
+				weight:
+					// INTEGER / not nullable
+					z.number().int(),
+				icon:
+					// TEXT / nullable
+					z.string().nullish(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "name", "transport"],
+		sort: ["id", "name", "weight", "icon"],
 	});
 };
 

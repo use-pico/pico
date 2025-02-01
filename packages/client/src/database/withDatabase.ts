@@ -29,7 +29,7 @@ export const withDatabase = <TDatabase>({
 	const { dialect } = new SQLocalKysely({
 		databasePath: `${database}.sqlite3`,
 		onInit(sql: any) {
-			return [sql`PRAGMA foreign_keys = ON;`];
+			return [sql`PRAGMA foreign_keys = ON;`, sql`PRAGMA journal_mode = WAL;`];
 		},
 	});
 

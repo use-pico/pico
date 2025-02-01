@@ -30,7 +30,7 @@ import { ResourceForm } from "~/app/derivean/root/ResourceForm";
 export namespace ResourceTable {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
-		transport: number;
+		weight: number;
 		tags: TagSchema.Type[];
 		countRequirement: number;
 		countProduction: number;
@@ -61,9 +61,9 @@ const columns = [
 		size: 18,
 	}),
 	column({
-		name: "transport",
+		name: "weight",
 		header() {
-			return <Tx label={"Resource transport (label)"} />;
+			return <Tx label={"Resource weight (label)"} />;
 		},
 		render({ value }) {
 			return toHumanNumber({ number: value });
@@ -184,14 +184,13 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										<ResourceForm
 											group={group}
 											mutation={useMutation({
-												async mutationFn({ name, transport, tagIds = [] }) {
+												async mutationFn({ tagIds = [], ...values }) {
 													return kysely.transaction().execute(async (tx) => {
 														const entity = await tx
 															.insertInto("Resource")
 															.values({
 																id: genId(),
-																name,
-																transport,
+																...values,
 															})
 															.returningAll()
 															.executeTakeFirstOrThrow();

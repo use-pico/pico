@@ -1,11 +1,12 @@
-import { FilterSchema, withFloatSchema } from "@use-pico/common";
+import { FilterSchema, withIntSchema } from "@use-pico/common";
 import { z } from "zod";
 import { withResourceSchema } from "~/app/derivean/db/sdk";
 
 export const ResourceSchema = withResourceSchema({
 	shape: z.object({
 		name: z.string().min(1),
-		transport: withFloatSchema(),
+		weight: withIntSchema(),
+		icon: z.string().optional(),
 		tagIds: z.array(z.string()).optional(),
 	}),
 	filter: FilterSchema.merge(

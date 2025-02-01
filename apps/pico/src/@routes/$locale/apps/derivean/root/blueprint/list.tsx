@@ -1,13 +1,13 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    navigateOnSelection,
+    Tx,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { Kysely, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
@@ -39,6 +39,7 @@ export const Route = createFileRoute(
 							.selectFrom("Blueprint as bl")
 							.select([
 								"bl.id",
+								"bl.background",
 								"bl.name",
 								"bl.sort",
 								"bl.cycles",
@@ -133,6 +134,7 @@ export const Route = createFileRoute(
 						output: z.object({
 							id: z.string().min(1),
 							name: z.string().min(1),
+							background: z.string().nullish(),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
