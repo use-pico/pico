@@ -120,7 +120,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									},
 									width: land.width,
 									height: land.height,
-									selectable: false,
+									selectable: true,
 									draggable: false,
 									data: land,
 									type: "land",
