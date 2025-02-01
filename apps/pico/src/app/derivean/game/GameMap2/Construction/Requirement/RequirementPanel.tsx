@@ -10,6 +10,7 @@ export namespace RequirementPanel {
 	export interface Building {
 		id: string;
 		name: string;
+		blueprintId: string;
 	}
 
 	export interface Supply {

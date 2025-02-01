@@ -61,35 +61,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 		return {
 			user,
-			image: await queryClient.ensureQueryData({
-				queryKey: ["GameMap", mapId, "image"],
-				async queryFn() {
-					return kysely.transaction().execute(async (tx) => {
-						return withList({
-							select: tx
-								.selectFrom("Blueprint as b")
-								.select(["b.id", "b.image"])
-								.where("b.image", "is not", null)
-								.union(
-									tx
-										.selectFrom("Region as r")
-										.select(["r.id", "r.image"])
-										.where("r.image", "is not", null),
-								)
-								.union(
-									tx
-										.selectFrom("Resource as r")
-										.select(["r.id", "r.image"])
-										.where("r.image", "is not", null),
-								),
-							output: z.object({
-								id: z.string().min(1),
-								image: z.string(),
-							}),
-						});
-					});
-				},
-			}),
 			land: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "land", "list"],
 				async queryFn() {
@@ -760,7 +731,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const {
-			image,
 			user,
 			land,
 			construction,
@@ -783,30 +753,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		);
 
 		return (
-			<>
-				<style>
-					{image
-						.filter(({ image }) => image.length > 0)
-						.map((bg) => {
-							return `
-                        .bg-${bg.id} {
-                            background-image: url(${bg.image});
-                            background-size: cover;
-                            background-repeat: no-repeat;
-                            background-position: center;
-                        }
-                    `;
-						})}
-				</style>
-				<GameMap2
-					userId={user.id}
-					cycle={cycle}
-					nodes={nodes}
-					edges={edges}
-					zoomToId={zoomToId}
-					routing={routing}
-				/>
-			</>
+			<GameMap2
+				userId={user.id}
+				cycle={cycle}
+				nodes={nodes}
+				edges={edges}
+				zoomToId={zoomToId}
+				routing={routing}
+			/>
 		);
 	},
 });

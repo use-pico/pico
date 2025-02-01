@@ -1,5 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { LinkTo, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { LinkCss } from "~/app/derivean/game/GameMap2/LinkCss";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
@@ -16,6 +17,7 @@ export namespace BuildingPanel {
 		id: string;
 		name: string;
 		land: string;
+		blueprintId: string;
 	}
 
 	export interface Props extends Panel.PropsEx {
@@ -108,6 +110,18 @@ export const BuildingPanel: FC<BuildingPanel.Props> = ({ building }) => {
 			>
 				<Tx label={"Building links (label)"} />
 			</LinkTo>
+
+			<div className={"border-b border-slate-300"} />
+
+			<div
+				className={tvc([
+					"w-full",
+					"h-96",
+					"bg-contain",
+					"p-2",
+					`bg-${building.blueprintId}`,
+				])}
+			/>
 		</Panel>
 	);
 };

@@ -61,6 +61,18 @@ export const RequirementPanel: FC<RequirementPanel.Props> = ({
 					<Tx label={"There are no requirements. (label)"} />
 				</div>
 			}
+
+			<div className={"border-b border-slate-300"} />
+
+			<div
+				className={tvc([
+					"w-full",
+					"h-96",
+					"bg-contain",
+					"p-2",
+					`bg-${blueprint.id}`,
+				])}
+			/>
 		</Panel>
 	);
 };

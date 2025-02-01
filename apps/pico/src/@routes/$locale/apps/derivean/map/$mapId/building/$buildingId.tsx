@@ -23,6 +23,7 @@ export const Route = createFileRoute(
 								.select([
 									"b.id",
 									"bl.name",
+									"b.blueprintId",
 									"r.name as land",
 									"b.constructionId",
 									"b.productionId",
@@ -32,6 +33,7 @@ export const Route = createFileRoute(
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								blueprintId: z.string().min(1),
 								land: z.string().min(1),
 								constructionId: z.string().nullish(),
 								productionId: z.string().nullish(),
