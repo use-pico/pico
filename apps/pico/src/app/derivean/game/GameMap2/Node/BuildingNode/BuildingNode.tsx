@@ -68,10 +68,38 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				<div>{data.name}</div>
 			</div>
 
-			<div className={"flex flex-row items-center justify-between w-full"}>
-				<div>
+			<div
+				className={tvc([
+					data.production ? "flex" : "hidden",
+					"group-hover:flex",
+					"flex-col",
+					"items-center",
+					"justify-between",
+					"gap-2",
+					"w-full",
+					"bg-slate-50",
+					"absolute",
+					"bottom-0",
+					"left-0",
+					"rounded-sm",
+					"p-2",
+				])}
+			>
+				<div
+					className={tvc([
+						"flex",
+						"flex-row",
+						"justify-between",
+						"items-center",
+						"w-full",
+					])}
+				>
 					{data.productionName ?
-						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
+						<div
+							className={
+								"flex flex-row gap-2 text-xs text-slate-600 items-center"
+							}
+						>
 							<Icon
 								icon={OrderIcon}
 								variant={{ size: "xs" }}
@@ -79,7 +107,11 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 							<div>{data.productionName}</div>
 						</div>
 					: data.recurringProductionName ?
-						<div className={"flex flex-row gap-2 text-xs text-slate-400"}>
+						<div
+							className={
+								"flex flex-row gap-2 text-xs text-slate-600 items-center"
+							}
+						>
 							<Icon
 								icon={RecurringIcon}
 								variant={{ size: "xs" }}
@@ -87,23 +119,27 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 							<div>{data.recurringProductionName}</div>
 						</div>
 					:	null}
+
+					{data.production ?
+						<div
+							className={
+								"flex flex-row gap-2 text-xs text-slate-600 font-bold items-center"
+							}
+						>
+							<Icon icon={ArrowRightIcon} />
+							<div>{data.production.name}</div>
+						</div>
+					:	null}
 				</div>
 
 				{data.production ?
-					<div
-						className={"flex flex-row gap-2 text-xs text-slate-400 font-bold"}
-					>
-						<Icon icon={ArrowRightIcon} />
-						<div>{data.production.name}</div>
+					<div className={tvc(["flex", "flex-col", "gap-1", "w-full"])}>
+						<Progress
+							value={(100 * data.production.cycle) / data.production.cycles}
+						/>
 					</div>
 				:	null}
 			</div>
-
-			{data.production ?
-				<Progress
-					value={(100 * data.production.cycle) / data.production.cycles}
-				/>
-			:	null}
 
 			<Handle
 				className={"hidden"}

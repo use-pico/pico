@@ -23,6 +23,10 @@ export const MapToolbar: FC<MapToolbar.Props> = ({ userId, cycle }) => {
 			className={
 				"react-flow__panel flex flex-row gap-4 items-center p-2 border bg-white border-slate-300 shadow-xs"
 			}
+			onDoubleClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+			}}
 		>
 			<div className={"flex flex-row items-center"}>
 				<LinkTo
