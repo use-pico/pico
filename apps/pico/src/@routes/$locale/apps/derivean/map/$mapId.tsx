@@ -30,7 +30,6 @@ const height = 256;
 const waypointSize = 128;
 
 const NodeCss = [
-	"p-4",
 	"bg-white",
 	"rounded-lg",
 	"border-[4px]",

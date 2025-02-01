@@ -1,15 +1,9 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Icon, Progress } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
-import {
-    Handle,
-    Position,
-    type Node,
-    type NodeProps
-} from "@xyflow/react";
+import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
-import { BuildingIcon } from "~/app/derivean/icon/BuildingIcon";
 import { OrderIcon } from "~/app/derivean/icon/OrderIcon";
 import { RecurringIcon } from "~/app/derivean/icon/RecurringIcon";
 
@@ -57,6 +51,7 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 				"h-full",
 				"justify-between",
 				"items-start",
+				"group",
 			])}
 			onClick={() => {
 				navigate({
@@ -66,12 +61,11 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 			}}
 		>
 			<div
-				className={"flex flex-row gap-2 items-center justify-between w-full"}
+				className={
+					"hidden group-hover:flex justify-center w-full rounded-sm bg-slate-50 text-slate-600"
+				}
 			>
-				<div className={"flex flex-row gap-2 items-center"}>
-					<Icon icon={BuildingIcon} />
-					<div>{data.name}</div>
-				</div>
+				<div>{data.name}</div>
 			</div>
 
 			<div className={"flex flex-row items-center justify-between w-full"}>
