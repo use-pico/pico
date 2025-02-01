@@ -266,6 +266,9 @@
 4c7e7ccff1e46b1cc4da505371cf8589519f00ddde42e51328c8e504:
   ref: Delete region (modal)
   value: Odstranit region
+4ee20e029c2e8deaf55afb8ea51f695ea51de2bd9fbe4afe43c0dd2a:
+  ref: This building does not have any planned production (label)
+  value: Není naplánovaná žádná produkce.
 4f720bbbc2c03a63f9cf396df70d933ed2bf5c649869b5ccc08edcd3:
   ref: Delete blueprint production (modal)
   value: Odstranit produkci

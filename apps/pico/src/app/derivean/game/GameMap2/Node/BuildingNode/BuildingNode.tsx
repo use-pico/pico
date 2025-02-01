@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { Icon, Progress } from "@use-pico/client";
+import { Icon, Progress, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
@@ -94,6 +94,23 @@ export const BuildingNode: FC<BuildingNode.Props> = ({ id, data }) => {
 						"w-full",
 					])}
 				>
+					{(
+						!data.production &&
+						!data.productionName &&
+						!data.recurringProductionName
+					) ?
+						<div className={"flex flex-row items-center justify-center w-full"}>
+							<Tx
+								css={{
+									base: ["text-bold", "text-xs"],
+								}}
+								label={
+									"This building does not have any planned production (label)"
+								}
+							/>
+						</div>
+					:	null}
+
 					{data.productionName ?
 						<div
 							className={
