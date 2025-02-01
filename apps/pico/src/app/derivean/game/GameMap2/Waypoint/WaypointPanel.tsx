@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import {
     Button,
     LinkTo,
@@ -34,6 +34,7 @@ export const WaypointPanel: FC<WaypointPanel.Props> = ({
 		from: "/$locale/apps/derivean/map/$mapId",
 	});
 	const invalidator = useInvalidator([["GameMap"]]);
+	const navigate = useNavigate();
 	const deleteWaypointMutation = useMutation({
 		async mutationFn({
 			id,
@@ -59,6 +60,10 @@ export const WaypointPanel: FC<WaypointPanel.Props> = ({
 		},
 		async onSuccess() {
 			await invalidator();
+			navigate({
+				to: "/$locale/apps/derivean/map/$mapId/view",
+				params: { locale, mapId },
+			});
 		},
 	});
 

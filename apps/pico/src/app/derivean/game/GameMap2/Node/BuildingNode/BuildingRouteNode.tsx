@@ -1,13 +1,11 @@
-import { Icon } from "@use-pico/client";
 import {
-    Handle,
-    Position,
-    useConnection,
-    type Node,
-    type NodeProps,
+	Handle,
+	Position,
+	useConnection,
+	type Node,
+	type NodeProps,
 } from "@xyflow/react";
 import type { FC } from "react";
-import { RouteIcon } from "~/app/derivean/icon/RouteIcon";
 
 export namespace BuildingRouteNode {
 	export interface Data {
@@ -22,25 +20,12 @@ export namespace BuildingRouteNode {
 	}
 }
 
-export const BuildingRouteNode: FC<BuildingRouteNode.Props> = ({
-	id,
-	data,
-}) => {
+export const BuildingRouteNode: FC<BuildingRouteNode.Props> = ({ id }) => {
 	const connection = useConnection();
 	const isTarget = connection.inProgress && connection.fromNode.id !== id;
 
 	return (
 		<div className="flex flex-row gap-2 w-full h-full items-center justify-center ">
-			<div
-				className={"flex flex-row gap-2 items-center justify-center text-xl"}
-			>
-				<Icon
-					icon={RouteIcon}
-					css={{ base: ["text-slate-500"] }}
-				/>
-				<div className="font-bold">{data.name}</div>
-			</div>
-
 			<div className={"w-full h-full absolute top-0 left-0"}>
 				{!connection.inProgress && (
 					<Handle

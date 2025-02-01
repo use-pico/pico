@@ -258,6 +258,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										["border-amber-400", "bg-amber-50"],
 										queue.valid ? undefined : ["border-red-500"],
 										routing ? RoutingNodeCss : undefined,
+										`bg-${queue.blueprintId}`,
 									),
 									extent: "parent",
 									parentId: queue.landId,
