@@ -4,7 +4,6 @@ import { useInvalidator } from "@use-pico/client";
 import {
     applyNodeChanges,
     Background,
-    BackgroundVariant,
     Controls,
     MiniMap,
     ReactFlow,
@@ -14,7 +13,7 @@ import {
     type OnConnect,
     type OnConnectEnd,
     type OnNodeDrag,
-    type OnNodesChange,
+    type OnNodesChange
 } from "@xyflow/react";
 import { useCallback, useEffect, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -414,8 +413,7 @@ export const Content: FC<Content.Props> = ({
 						maskColor={"rgba(0,0,0,0.2)"}
 					/>
 					<Background
-						variant={BackgroundVariant.Lines}
-						className={"bg-slate-50"}
+						className={"bg-black"}
 						gap={32}
 						size={1}
 					/>

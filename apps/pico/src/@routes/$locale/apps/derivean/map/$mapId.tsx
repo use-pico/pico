@@ -60,6 +60,23 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 		return {
 			user,
+			background: await queryClient.ensureQueryData({
+				queryKey: ["GameMap", mapId, "background"],
+				async queryFn() {
+					return kysely.transaction().execute(async (tx) => {
+						return withList({
+							select: tx
+								.selectFrom("Blueprint as b")
+								.select(["b.id", "b.background"])
+								.where("b.background", "is not", null),
+							output: z.object({
+								id: z.string().min(1),
+								background: z.string(),
+							}),
+						});
+					});
+				},
+			}),
 			land: await queryClient.ensureQueryData({
 				queryKey: ["GameMap", mapId, "land", "list"],
 				async queryFn() {
@@ -256,7 +273,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								.select([
 									"bg.id",
 									"bg.blueprintId",
-									"bl.background",
 									"bg.landId",
 									"bg.productionId",
 									"bg.recurringProductionId",
@@ -320,7 +336,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								landId: z.string().min(1),
 								userId: z.string().min(1),
 								name: z.string().min(1),
-								background: z.string().nullish(),
 
 								productionId: z.string().nullish(),
 								recurringProductionId: z.string().nullish(),
@@ -366,16 +381,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									building.production ? ["border-purple-500"] : undefined,
 									building.transport > 0 ? ["border-green-500"] : undefined,
 									routing ? RoutingNodeCss : undefined,
+									`bg-${building.blueprintId}`,
 								),
-								style:
-									building.background ?
-										{
-											backgroundPosition: "center",
-											backgroundRepeat: "no-repeat",
-											backgroundSize: "cover",
-											backgroundImage: `url(${building.background})`,
-										}
-									:	undefined,
 								extent: "parent",
 								parentId: building.landId,
 							} satisfies
@@ -735,6 +742,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const {
+			background,
 			user,
 			land,
 			construction,
@@ -757,14 +765,30 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		);
 
 		return (
-			<GameMap2
-				userId={user.id}
-				cycle={cycle}
-				nodes={nodes}
-				edges={edges}
-				zoomToId={zoomToId}
-				routing={routing}
-			/>
+			<>
+				<style>
+					{background
+						.filter(({ background }) => background.length > 0)
+						.map((bg) => {
+							return `
+                        .bg-${bg.id} {
+                            background-image: url(${bg.background});
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                        }
+                    `;
+						})}
+				</style>
+				<GameMap2
+					userId={user.id}
+					cycle={cycle}
+					nodes={nodes}
+					edges={edges}
+					zoomToId={zoomToId}
+					routing={routing}
+				/>
+			</>
 		);
 	},
 });
