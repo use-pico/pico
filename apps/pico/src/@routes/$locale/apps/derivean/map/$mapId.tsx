@@ -484,6 +484,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 													waypointId: eb.ref("t.waypointId"),
 													targetId: eb.ref("t.targetId"),
 													progress: eb.ref("t.progress"),
+													jumps: eb.ref("t.jumps"),
 												}).as("transports");
 											})
 											.as("transports");
@@ -502,6 +503,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										waypointId: z.string().min(1),
 										targetId: z.string().min(1),
 										progress: z.number().nonnegative(),
+										jumps: z.number().nonnegative(),
 									}),
 								),
 							}),
@@ -525,6 +527,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 									if (!path) {
 										return {
+											...transport,
 											path: undefined,
 											mark: false,
 											fromIndex: 0,
@@ -533,7 +536,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									}
 
 									return {
-										transport,
+										...transport,
 										path,
 										mark:
 											path.includes(route.fromId) && path.includes(route.toId),
@@ -567,6 +570,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								type: "route",
 								data: {
 									...route,
+									transports,
+									mark: transports.some(({ mark }) => mark),
 									length: graph.getEdgeAttribute(route.id, "length"),
 								},
 								markerStart:

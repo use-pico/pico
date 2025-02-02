@@ -12,6 +12,10 @@ export namespace RouteEdge {
 	export interface Transport {
 		id: string;
 		progress: number;
+		fromIndex: number;
+		toIndex: number;
+		jumps: number;
+		mark: boolean;
 	}
 
 	export interface Data {
@@ -19,6 +23,7 @@ export namespace RouteEdge {
 		fromId: string;
 		toId: string;
 		length: number;
+		mark: boolean;
 		transports: Transport[];
 		[key: string]: unknown;
 	}
@@ -58,31 +63,36 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 				markerEnd={markerEnd}
 				style={style}
 			/>
-			{data?.transports.map((transport) => {
-				const t = transport.progress / 100;
-				const labelX = sx + (tx - sx) * t;
-				const labelY = sy + (ty - sy) * t;
+			{data?.transports
+				.filter(({ jumps }) => jumps > 0)
+				.filter(({ mark }) => mark)
+				.map((transport) => {
+					const t =
+						(transport.fromIndex > transport.toIndex ?
+							transport.progress
+						:	100 - transport.progress) / 100;
+					const labelX = sx + (tx - sx) * t;
+					const labelY = sy + (ty - sy) * t;
 
-				return (
-					<EdgeLabelRenderer>
-						<div
-							style={{
-								position: "absolute",
-								transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-								background: "white",
-								width: "32px",
-								height: "32px",
-								borderRadius: "4px",
-								border: "1px solid black",
-								pointerEvents: "all",
-							}}
-							className="nodrag nopan"
-						>
-							bla
-						</div>
-					</EdgeLabelRenderer>
-				);
-			})}
+					return (
+						<EdgeLabelRenderer>
+							<div
+								style={{
+									position: "absolute",
+									// transition: "transform 0.3s ease-in-out",
+									transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+									background: "white",
+									width: "64px",
+									height: "64px",
+									borderRadius: "4px",
+									border: "1px solid black",
+									pointerEvents: "all",
+								}}
+								className="nodrag nopan"
+							/>
+						</EdgeLabelRenderer>
+					);
+				})}
 		</>
 	);
 };
