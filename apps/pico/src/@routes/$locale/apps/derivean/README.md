@@ -45,3 +45,12 @@ The reason I'm using client-only code is simple invalidation, application itself
 - Transport queue priority, construction priority
 - Clever UI, so you can see, what's going on (like resource transportation, goods production and so on)
 - Language independent - you create a game for your language, only base of the app is translated into supported languages
+
+## Last note
+
+Just keep in mind that it takes huge amount of time to develop your own game and rules. To think out building tree, prices of everything,
+dependencies, this is the true game development, the application itself is only "simple shell".
+
+So if you want to mess with the game, even default file is in Czech, I recommend to you translate and use it.
+
+As a bonus, it contains nice default graphics :).
