@@ -53,6 +53,7 @@ export const withBuildingGraph = async ({
 		.innerJoin("Land as l", "l.id", "b.landId")
 		.innerJoin("Waypoint as w", "w.id", "bw.waypointId")
 		.select([
+			"bw.id",
 			"bw.buildingId",
 			"bw.waypointId",
 			(eb) => sql<number>`${eb.ref("b.x")} + ${eb.ref("l.x")}`.as("buildingX"),
@@ -110,6 +111,7 @@ export const withBuildingGraph = async ({
 	});
 	buildingWaypoints.forEach(
 		({
+			id,
 			buildingId,
 			waypointId,
 			buildingX,
@@ -121,7 +123,7 @@ export const withBuildingGraph = async ({
 				(waypointX - buildingX) ** 2 + (waypointY - buildingY) ** 2,
 			);
 
-			graph.addEdge(buildingId, waypointId, {
+			graph.addEdgeWithKey(id, buildingId, waypointId, {
 				type: "building-waypoint",
 				length,
 				weight: length * 100,

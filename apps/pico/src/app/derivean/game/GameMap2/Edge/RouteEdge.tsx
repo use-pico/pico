@@ -79,7 +79,7 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 							<div
 								style={{
 									position: "absolute",
-									// transition: "transform 0.3s ease-in-out",
+									transition: "transform 0.3s ease-in-out",
 									transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
 									background: "white",
 									width: "64px",

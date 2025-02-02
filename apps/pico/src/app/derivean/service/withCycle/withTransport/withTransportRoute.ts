@@ -20,7 +20,7 @@ const withProgressPerTick = ({
 	if (weight <= 0 || road <= 0) {
 		return 0;
 	}
-	return (speed / (weight * road)) * 1024 * modifier;
+	return (speed / (weight * road)) * 4096 * modifier;
 };
 
 export namespace withTransportRoute {

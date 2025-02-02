@@ -628,6 +628,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 													sourceId: eb.ref("t.sourceId"),
 													waypointId: eb.ref("t.waypointId"),
 													targetId: eb.ref("t.targetId"),
+													jumps: eb.ref("t.jumps"),
+													progress: eb.ref("t.progress"),
 												}).as("transports");
 											})
 											.as("transports");
@@ -647,6 +649,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										sourceId: z.string().min(1),
 										waypointId: z.string().min(1),
 										targetId: z.string().min(1),
+										jumps: z.number().nonnegative(),
+										progress: z.number().nonnegative(),
 									}),
 								),
 							}),
@@ -670,15 +674,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 
 									if (!path) {
 										return {
+											...transport,
 											path: undefined,
 											mark: false,
 											fromIndex: 0,
 											toIndex: 0,
+											outbound: undefined,
 										};
 									}
 
 									return {
-										transport,
+										...transport,
 										path,
 										mark: path.includes(buildingWaypoint.buildingId),
 										outbound:
@@ -695,6 +701,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								source: buildingWaypoint.buildingId,
 								target: buildingWaypoint.waypointId,
 								type: "building-waypoint",
+								data: {
+									...buildingWaypoint,
+									transports,
+									mark: transports.some(({ mark }) => mark),
+									length: graph.getEdgeAttribute(buildingWaypoint.id, "length"),
+								},
 								markerStart:
 									transports.some(({ outbound }) => !outbound) ?
 										{
@@ -710,7 +722,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										}
 									:	undefined,
 								style:
-									transports.length > 0 ?
+									(
+										transports.some(({ outbound, jumps }) => {
+											if (!outbound) {
+												return true;
+											}
+											return outbound && jumps === 0;
+										})
+									) ?
 										{
 											stroke: "#23BC43",
 											strokeWidth: 8,
