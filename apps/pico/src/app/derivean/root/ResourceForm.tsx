@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Button,
-    FormCss,
-    FormError,
-    FormInput,
-    onSubmit,
-    Tx,
-    type Form,
+	Button,
+	FormCss,
+	FormError,
+	FormInput,
+	onSubmit,
+	Tx,
+	type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -32,7 +32,6 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 		resolver: zodResolver(ResourceSchema.shape),
 		defaultValues: {
 			name: "",
-			image: "",
 			weight: 1,
 			...defaultValues,
 		},
@@ -100,6 +99,19 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 					className={tv.input()}
 					min={1}
 					{...form.register("weight")}
+				/>
+			</FormInput>
+
+			<FormInput
+				formState={form.formState}
+				name={"image"}
+				label={<Tx label={"Resource image (label)"} />}
+				hint={<Tx label={"Resource image (hint)"} />}
+			>
+				<input
+					type={"file"}
+					className={tv.input()}
+					{...form.register("image")}
 				/>
 			</FormInput>
 

@@ -19,6 +19,7 @@ import {
 import {
     genId,
     toHumanNumber,
+    withBase64,
     type IdentitySchema,
     type TagSchema,
 } from "@use-pico/common";
@@ -184,13 +185,14 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 										<ResourceForm
 											group={group}
 											mutation={useMutation({
-												async mutationFn({ tagIds = [], ...values }) {
+												async mutationFn({ image, tagIds = [], ...values }) {
 													return kysely.transaction().execute(async (tx) => {
 														const entity = await tx
 															.insertInto("Resource")
 															.values({
 																id: genId(),
 																...values,
+																image: image ? await withBase64(image) : null,
 															})
 															.returningAll()
 															.executeTakeFirstOrThrow();
@@ -239,12 +241,15 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 												tagIds: data.tags.map(({ id }) => id),
 											}}
 											mutation={useMutation({
-												async mutationFn({ tagIds, ...rest }) {
+												async mutationFn({ image, tagIds, ...rest }) {
 													return toast.promise(
 														kysely.transaction().execute(async (tx) => {
 															const entity = await tx
 																.updateTable("Resource")
-																.set(rest)
+																.set({
+																	...rest,
+																	image: image ? await withBase64(image) : null,
+																})
 																.where("id", "=", data.id)
 																.returningAll()
 																.executeTakeFirstOrThrow();
