@@ -483,6 +483,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 													sourceId: eb.ref("t.sourceId"),
 													waypointId: eb.ref("t.waypointId"),
 													targetId: eb.ref("t.targetId"),
+													progress: eb.ref("t.progress"),
 												}).as("transports");
 											})
 											.as("transports");
@@ -500,6 +501,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										sourceId: z.string().min(1),
 										waypointId: z.string().min(1),
 										targetId: z.string().min(1),
+										progress: z.number().nonnegative(),
 									}),
 								),
 							}),
