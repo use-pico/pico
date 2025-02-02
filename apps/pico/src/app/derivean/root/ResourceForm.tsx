@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-	Button,
-	FormCss,
-	FormError,
-	FormInput,
-	onSubmit,
-	Tx,
-	type Form,
+    Button,
+    FormCss,
+    FormError,
+    FormInput,
+    onSubmit,
+    Tx,
+    type Form,
 } from "@use-pico/client";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -66,18 +66,6 @@ export const ResourceForm: FC<ResourceForm.Props> = ({
 					type={"text"}
 					className={tv.input()}
 					{...form.register("name")}
-				/>
-			</FormInput>
-
-			<FormInput
-				formState={form.formState}
-				name={"image"}
-				label={<Tx label={"Resource image (label)"} />}
-				hint={<Tx label={"Resource image (hint)"} />}
-			>
-				<textarea
-					className={tv.input()}
-					{...form.register("image")}
 				/>
 			</FormInput>
 

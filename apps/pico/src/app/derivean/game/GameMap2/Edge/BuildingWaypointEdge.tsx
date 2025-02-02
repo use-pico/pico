@@ -1,3 +1,4 @@
+import { tvc } from "@use-pico/common";
 import {
     EdgeLabelRenderer,
     StraightEdge,
@@ -15,6 +16,7 @@ export namespace BuildingWaypointEdge {
 		jumps: number;
 		mark: boolean;
 		outbound?: boolean | undefined;
+		resourceId: string;
 	}
 
 	export interface Data {
@@ -77,18 +79,23 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 					return (
 						<EdgeLabelRenderer>
 							<div
+								className={tvc([
+									"nodrag",
+									"nopan",
+									"w-[128px]",
+									"h-[128px]",
+									"rounded-md",
+									"border-2",
+									"border-purple-400",
+									"pointer-events-all",
+									`bg-${transport.resourceId}`,
+								])}
 								style={{
 									position: "absolute",
 									transition: "transform 0.3s ease-in-out",
 									transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-									background: "white",
-									width: "64px",
-									height: "64px",
-									borderRadius: "4px",
-									border: "1px solid black",
 									pointerEvents: "all",
 								}}
-								className="nodrag nopan"
 							/>
 						</EdgeLabelRenderer>
 					);

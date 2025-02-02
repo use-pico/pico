@@ -480,6 +480,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											.select((eb) => {
 												return Kysely.jsonGroupArray({
 													id: eb.ref("t.id"),
+													resourceId: eb.ref("t.resourceId"),
+													amount: eb.ref("t.amount"),
 													sourceId: eb.ref("t.sourceId"),
 													waypointId: eb.ref("t.waypointId"),
 													targetId: eb.ref("t.targetId"),
@@ -499,10 +501,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								transports: withJsonArraySchema(
 									z.object({
 										id: z.string().min(1),
+										resourceId: z.string().min(1),
 										sourceId: z.string().min(1),
 										waypointId: z.string().min(1),
 										targetId: z.string().min(1),
 										progress: z.number().nonnegative(),
+										amount: z.number().nonnegative(),
 										jumps: z.number().nonnegative(),
 									}),
 								),
@@ -625,11 +629,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											.select((eb) => {
 												return Kysely.jsonGroupArray({
 													id: eb.ref("t.id"),
+													resourceId: eb.ref("t.resourceId"),
 													sourceId: eb.ref("t.sourceId"),
 													waypointId: eb.ref("t.waypointId"),
 													targetId: eb.ref("t.targetId"),
 													jumps: eb.ref("t.jumps"),
 													progress: eb.ref("t.progress"),
+													amount: eb.ref("t.amount"),
 												}).as("transports");
 											})
 											.as("transports");
@@ -646,10 +652,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								transports: withJsonArraySchema(
 									z.object({
 										id: z.string().min(1),
+										resourceId: z.string().min(1),
 										sourceId: z.string().min(1),
 										waypointId: z.string().min(1),
 										targetId: z.string().min(1),
 										jumps: z.number().nonnegative(),
+										amount: z.number().nonnegative(),
 										progress: z.number().nonnegative(),
 									}),
 								),
