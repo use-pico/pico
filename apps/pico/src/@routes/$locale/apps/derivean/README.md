@@ -34,6 +34,7 @@ The reason I'm using client-only code is simple invalidation, application itself
 - You may provide even images, so a game could look nice
 - There are exclusive buildings, so when you have A, you may not be able to build B
 - There are hidden production lines unless you have enough resources/built required buildings
+- Simple map generator - with land drop rates, so every play (you can create more maps) is a bit more unique
 - Also complex editor is available, so you can see dependency graph of you buildings (technology tree)
 - Transportation is clever - buildings are looking for closest resources, accounting even for the road length
 - Nice UI, I'm proud of it
