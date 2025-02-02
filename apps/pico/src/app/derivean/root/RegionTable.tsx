@@ -14,7 +14,12 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import {
+    genId,
+    toHumanNumber,
+    withBase64,
+    type IdentitySchema,
+} from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
@@ -149,13 +154,14 @@ export const RegionTable: FC<RegionTable.Props> = ({ table, ...props }) => {
 									return (
 										<RegionForm
 											mutation={useMutation({
-												async mutationFn(values) {
+												async mutationFn({ image, ...values }) {
 													return kysely.transaction().execute(async (tx) => {
 														return tx
 															.insertInto("Region")
 															.values({
 																id: genId(),
 																...values,
+																image: image ? await withBase64(image) : null,
 															})
 															.execute();
 													});
@@ -185,11 +191,14 @@ export const RegionTable: FC<RegionTable.Props> = ({ table, ...props }) => {
 										<RegionForm
 											defaultValues={data}
 											mutation={useMutation({
-												async mutationFn(values) {
+												async mutationFn({image,...values}) {
 													return kysely.transaction().execute(async (tx) => {
 														return tx
 															.updateTable("Region")
-															.set(values)
+															.set({
+                                                                ...values,
+                                                                image: image ? await withBase64(image) : null,
+                                                            })
 															.where("id", "=", data.id)
 															.execute();
 													});

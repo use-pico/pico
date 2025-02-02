@@ -71,6 +71,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								.innerJoin("Region as r", "r.id", "l.regionId")
 								.select([
 									"l.id",
+									"l.regionId",
 									"r.name",
 									"r.color",
 									"l.x",
@@ -83,6 +84,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								regionId: z.string().min(1),
 								color: z.string().min(1),
 								x: z.number().int(),
 								y: z.number().int(),
@@ -110,6 +112,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 										"border-slate-600",
 										"opacity-25",
 										"hover:border-blue-200",
+										"bg-cover",
+										`bg-${land.regionId}`,
 									]),
 									zIndex: -1,
 								}) satisfies LandNode.LandNode,
