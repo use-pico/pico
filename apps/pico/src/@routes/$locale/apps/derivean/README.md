@@ -27,3 +27,21 @@ Where you see usage of kysely and direct access to SQL, in "real world" in those
 may look very similar.
 
 The reason I'm using client-only code is simple invalidation, application itself is not such heavy (it mainly depends on your game).
+
+## Some interesting features
+
+- It's up to you to define resource, buildings, regions (lands)
+- You may provide even images, so a game could look nice
+- There are exclusive buildings, so when you have A, you may not be able to build B
+- There are hidden production lines unless you have enough resources/built required buildings
+- Also complex editor is available, so you can see dependency graph of you buildings (technology tree)
+- Transportation is clever - buildings are looking for closest resources, accounting even for the road length
+- Nice UI, I'm proud of it
+- Root management and editor is quite usable
+- React Flow powers the main rendering
+- Client-side only, so there is no need for server
+- You can create and choose fractions, so the gameplay may vary on what you build
+- Nice default graphics
+- Transport queue priority, construction priority
+- Clever UI, so you can see, what's going on (like resource transportation, goods production and so on)
+- Language independent - you create a game for your language, only base of the app is translated into supported languages
