@@ -19,3 +19,17 @@
 		border-color: var(--color-gray-200, currentColor);
 	}
 }
+
+.bg-road-sign {
+	background-image: url("../app/derivean/@assets/misc/signpost.webp");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.bg-construction {
+	background-image: url("../app/derivean/@assets/misc/construction.webp");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}

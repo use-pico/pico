@@ -30,7 +30,7 @@ export const QueueNode: FC<QueueNode.Props> = ({ data }) => {
 
 	return (
 		<div
-			className="flex flex-col gap-2 w-full h-full group"
+			className={"flex flex-col gap-2 w-full h-full group"}
 			onClick={() => {
 				navigate({
 					to: "/$locale/apps/derivean/map/$mapId/building/$buildingId/view",

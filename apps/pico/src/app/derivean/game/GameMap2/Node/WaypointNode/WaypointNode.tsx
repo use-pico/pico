@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { Icon } from "@use-pico/client";
+import { tvc } from "@use-pico/common";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { FC } from "react";
-import { WaypointIcon } from "~/app/derivean/icon/WaypointIcon";
 
 export namespace WaypointNode {
 	export interface Data {
@@ -30,7 +29,14 @@ export const WaypointNode: FC<WaypointNode.Props> = ({
 
 	return (
 		<div
-			className="w-full h-full flex items-center justify-center"
+			className={tvc([
+				"w-full",
+				"h-full",
+				"flex",
+				"items-center",
+				"justify-center",
+				"bg-road-sign",
+			])}
 			onClick={() => {
 				navigate({
 					to: "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view",
@@ -38,11 +44,6 @@ export const WaypointNode: FC<WaypointNode.Props> = ({
 				});
 			}}
 		>
-			<Icon
-				icon={WaypointIcon}
-				variant={{ size: "5xl" }}
-			/>
-
 			<Handle
 				className={"hidden"}
 				position={Position.Right}
