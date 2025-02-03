@@ -19,6 +19,7 @@ import {
 import {
     genId,
     toHumanNumber,
+    tvc,
     withBase64,
     type IdentitySchema,
 } from "@use-pico/common";
@@ -74,19 +75,30 @@ const columns = [
 			return (
 				<div className={"flex flex-row gap-2 items-center"}>
 					<LinkTo
-						icon={"icon-[ph--graph-light]"}
-						to={"/$locale/apps/derivean/root/editor"}
-						params={{ locale }}
-						search={{ zoomTo: data.id }}
-					/>
-
-					<LinkTo
-						icon={BlueprintIcon}
+						icon={
+							<div
+								className={tvc([
+									"border-2",
+									"border-purple-400",
+									"rounded-md",
+									"w-[64px]",
+									"h-[64px]",
+									"bg-contain",
+									`bg-${data.id}`,
+								])}
+							/>
+						}
 						to={"/$locale/apps/derivean/root/blueprint/$id/view"}
 						params={{ locale, id: data.id }}
 					>
 						{value}
 					</LinkTo>
+					<LinkTo
+						icon={"icon-[ph--graph-light]"}
+						to={"/$locale/apps/derivean/root/editor"}
+						params={{ locale }}
+						search={{ zoomTo: data.id }}
+					/>
 				</div>
 			);
 		},

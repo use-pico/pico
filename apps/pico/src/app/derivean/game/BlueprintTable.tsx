@@ -7,9 +7,8 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import { toHumanNumber, type IdentitySchema } from "@use-pico/common";
+import { toHumanNumber, tvc, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { BlueprintIcon } from "~/app/derivean/icon/BlueprintIcon";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace BlueprintTable {
@@ -40,7 +39,19 @@ const columns = [
 					/>
 
 					<LinkTo
-						icon={BlueprintIcon}
+						icon={
+							<div
+								className={tvc([
+									"border-2",
+									"border-purple-400",
+									"rounded-md",
+									"w-[64px]",
+									"h-[64px]",
+									"bg-contain",
+									`bg-${data.id}`,
+								])}
+							/>
+						}
 						to={"/$locale/apps/derivean/game/blueprint/$id/view"}
 						params={{ locale, id: data.id }}
 					>

@@ -19,6 +19,7 @@ import {
 import {
     genId,
     toHumanNumber,
+    tvc,
     withBase64,
     type IdentitySchema,
     type TagSchema,
@@ -52,6 +53,19 @@ const columns = [
 
 			return (
 				<LinkTo
+					icon={
+						<div
+							className={tvc([
+								"border-2",
+								"border-purple-400",
+								"rounded-md",
+								"w-[64px]",
+								"h-[64px]",
+								"bg-contain",
+								`bg-${data.id}`,
+							])}
+						/>
+					}
 					to={"/$locale/apps/derivean/root/resource/$id/view"}
 					params={{ locale, id: data.id }}
 				>

@@ -229,7 +229,17 @@ export const Item: FC<Item.Props> = ({ mapId, userId, inventory }) => {
 						<Tx label={"Cancel supply (label)"} />
 					:	<Tx label={"Supply resource (label)"} />}
 				</Button>
-
+				<div
+					className={tvc([
+						"border-2",
+						"border-purple-400",
+						"rounded-md",
+						"w-[64px]",
+						"h-[64px]",
+						"bg-contain",
+						`bg-${inventory.resourceId}`,
+					])}
+				/>
 				{inventory.demandId ?
 					<Button
 						iconEnabled={TrashIcon}

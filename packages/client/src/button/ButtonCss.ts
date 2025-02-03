@@ -83,7 +83,15 @@ export const ButtonCss = css({
 				variant: "subtle",
 			},
 			then: {
-				base: ["text-slate-600", "hover:text-slate-800", "hover:bg-blue-50"],
+				base: [
+					"border",
+					"bg-slate-50",
+					"border-slate-300",
+					"hover:border-slate-400",
+					"text-slate-600",
+					"hover:text-slate-800",
+					"hover:bg-slate-100",
+				],
 			},
 		},
 		{

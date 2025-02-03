@@ -1,10 +1,16 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { forwardRef, type ComponentProps, type PropsWithChildren } from "react";
+import { isString } from "@use-pico/common";
+import {
+    forwardRef,
+    type ComponentProps,
+    type PropsWithChildren,
+    type ReactNode,
+} from "react";
 import { Icon } from "../icon/Icon";
 import { LinkToCss } from "./LinkToCss";
 
 interface $LinkTo extends LinkToCss.Props<PropsWithChildren> {
-	icon?: string;
+	icon?: string | ReactNode;
 	iconProps?: Icon.PropsEx;
 }
 
@@ -21,12 +27,12 @@ const $LinkTo = forwardRef<HTMLAnchorElement, $LinkTo>(
 				ref={ref}
 				className={tv.base()}
 			>
-				{icon && (
+				{isString(icon) ?
 					<Icon
 						icon={icon}
 						{...iconProps}
 					/>
-				)}
+				:	icon}
 				{children}
 			</a>
 		);

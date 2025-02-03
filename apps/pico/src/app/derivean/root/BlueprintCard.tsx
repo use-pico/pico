@@ -112,6 +112,25 @@ export const BlueprintCard: FC<BlueprintCard.Props> = ({
 						);
 					},
 				},
+				{
+					id: "preview",
+					render({ entity }) {
+						return (
+							<div
+								className={tvc([
+									"mx-auto",
+									"border-2",
+									"border-purple-400",
+									"rounded-md",
+									"w-[256px]",
+									"h-[256px]",
+									"bg-contain",
+									`bg-${entity.id}`,
+								])}
+							/>
+						);
+					},
+				},
 			]}
 			{...props}
 		/>
