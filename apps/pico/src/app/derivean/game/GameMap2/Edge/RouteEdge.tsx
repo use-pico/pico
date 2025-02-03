@@ -77,7 +77,7 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 					const labelY = sy + (ty - sy) * t;
 
 					return (
-						<EdgeLabelRenderer>
+						<EdgeLabelRenderer key={`transport-${transport.id}`}>
 							<div
 								className={tvc([
 									"nodrag",
@@ -92,7 +92,8 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 								])}
 								style={{
 									position: "absolute",
-									transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+									left: labelX - 64,
+									top: labelY - 64,
 									pointerEvents: "all",
 								}}
 							/>

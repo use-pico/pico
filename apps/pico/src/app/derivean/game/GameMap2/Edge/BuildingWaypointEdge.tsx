@@ -77,7 +77,7 @@ export const BuildingWaypointEdge: FC<BuildingWaypointEdge.Props> = ({
 					const labelY = sy + (ty - sy) * t;
 
 					return (
-						<EdgeLabelRenderer>
+						<EdgeLabelRenderer key={`transport-${transport.id}`}>
 							<div
 								className={tvc([
 									"nodrag",
