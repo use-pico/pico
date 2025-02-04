@@ -92,9 +92,8 @@ export const RouteEdge: FC<RouteEdge.Props> = ({
 								])}
 								style={{
 									position: "absolute",
-									left: labelX - 64,
-									top: labelY - 64,
-									pointerEvents: "all",
+									// transition: "transform 0.3s ease-in-out",
+									transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
 								}}
 							/>
 						</EdgeLabelRenderer>

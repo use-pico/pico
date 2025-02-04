@@ -16,7 +16,19 @@ export default defineConfig({
 		}),
 		tla(),
 		paths(),
-		react(),
+		react({
+            babel: {
+				plugins: [
+					[
+						"babel-plugin-react-compiler",
+						{
+							target: "18",
+							runtimeModule: "react-compiler-runtime",
+						},
+					],
+				],
+			},
+		}),
 		ViteYaml(),
 		dynamicImport(),
 		wasm(),

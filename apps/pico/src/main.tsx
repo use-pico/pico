@@ -12,6 +12,7 @@ import { kysely } from "~/app/derivean/db/kysely";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 import "@xyflow/react/dist/style.css";
+import { StrictMode } from "react";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ const router = createRouter({
 		},
 		kysely,
 	},
+	scrollRestoration: true,
 	defaultPendingComponent: LoadingOverlay,
 	defaultPreload: "intent",
 	defaultPreloadStaleTime: 0,
@@ -58,8 +60,10 @@ withAxios({
 
 if (!rootElement.innerHTML) {
 	ReactDOM.createRoot(rootElement).render(
-		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
-		</QueryClientProvider>,
+		<StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</StrictMode>,
 	);
 }

@@ -1,8 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import {
-    Outlet,
-    ScrollRestoration,
-    createRootRouteWithContext,
+    createRootRouteWithContext
 } from "@tanstack/react-router";
 import type { PageCss } from "@use-pico/client";
 import type { Kysely } from "kysely";
@@ -15,12 +13,5 @@ export const Route = createRootRouteWithContext<{
 	session(): Promise<SessionSchema.Type>;
 	kysely: Kysely<Database>;
 }>()({
-	component: () => {
-		return (
-			<>
-				<ScrollRestoration />
-				<Outlet />
-			</>
-		);
-	},
+    //
 });
