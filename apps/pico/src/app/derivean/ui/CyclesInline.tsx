@@ -1,6 +1,6 @@
 import { Icon } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
-import type { FC } from "react";
+import { memo, type FC } from "react";
 import { CycleIcon } from "~/app/derivean/icon/CycleIcon";
 
 export namespace CyclesInline {
@@ -9,7 +9,7 @@ export namespace CyclesInline {
 	}
 }
 
-export const CyclesInline: FC<CyclesInline.Props> = ({ cycles }) => {
+export const CyclesInline: FC<CyclesInline.Props> = memo(({ cycles }) => {
 	return (
 		<div className={tvc(["flex", "flex-row", "items-center", "gap-2"])}>
 			<Icon
@@ -21,4 +21,4 @@ export const CyclesInline: FC<CyclesInline.Props> = ({ cycles }) => {
 			</div>
 		</div>
 	);
-};
+});

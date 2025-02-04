@@ -1,4 +1,4 @@
-import { type FC, type HTMLAttributes } from "react";
+import { type FC, type HTMLAttributes, memo } from "react";
 import { IconCss } from "./IconCss";
 
 /**
@@ -24,7 +24,7 @@ export namespace Icon {
 	export type PropsEx = Omit<Props, "icon"> & Partial<Pick<Props, "icon">>;
 }
 
-export const Icon: FC<Icon.Props> = ({
+export const Icon: FC<Icon.Props> = memo(({
 	icon,
 	variant,
 	tva = IconCss,
@@ -38,4 +38,4 @@ export const Icon: FC<Icon.Props> = ({
 				{...props}
 			/>
 		:	null;
-};
+});

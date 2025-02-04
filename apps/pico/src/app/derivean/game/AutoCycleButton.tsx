@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Button, useInvalidator } from "@use-pico/client";
-import { useEffect, useState, type FC } from "react";
+import { useCallback, useEffect, useState, type FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { withCycle } from "~/app/derivean/service/withCycle/withCycle";
 
@@ -44,9 +44,9 @@ export const AutoCycleButton: FC<AutoCycleButton.Props> = ({
 			iconEnabled={
 				enabled ? "icon-[fluent--pause-24-regular]" : "icon-[hugeicons--play]"
 			}
-			onClick={() => {
+			onClick={useCallback(() => {
 				setEnabled((enabled) => !enabled);
-			}}
+			}, [setEnabled])}
 			loading={mutation.isPending}
 			{...props}
 		/>

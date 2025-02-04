@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type FC } from "react";
+import { type ButtonHTMLAttributes, type FC, memo, useMemo } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { ButtonCss } from "./ButtonCss";
@@ -14,43 +14,47 @@ export namespace Button {
 	}
 }
 
-export const Button: FC<Button.Props> = ({
-	iconEnabled,
-	iconDisabled,
-	iconLoading = SpinnerIcon,
-	iconProps,
-	loading,
-	variant,
-	tva = ButtonCss,
-	css,
-	children,
-	...props
-}) => {
-	const tv = tva({
-		disabled: props.disabled,
-		...variant,
+export const Button: FC<Button.Props> = memo(
+	({
+		iconEnabled,
+		iconDisabled,
+		iconLoading = SpinnerIcon,
+		iconProps,
+		loading,
+		variant,
+		tva = ButtonCss,
 		css,
-	}).slots;
+		children,
+		...props
+	}) => {
+		const tv = tva({
+			disabled: props.disabled,
+			...variant,
+			css,
+		}).slots;
 
-	return (
-		<button
-			type={"button"}
-			className={tv.base({ disabled: props.disabled })}
-			{...props}
-		>
-			{props.disabled ?
-				<Icon
-					icon={loading === true ? iconLoading : iconDisabled}
-					variant={{ size: "xl" }}
-					{...iconProps}
-				/>
-			:	<Icon
-					icon={loading === true ? iconLoading : iconEnabled}
-					variant={{ size: "xl" }}
-					{...iconProps}
-				/>
-			}
-			{children}
-		</button>
-	);
-};
+		const iconVariant = useMemo(() => ({ size: "xl" }) as const, []);
+
+		return (
+			<button
+				type={"button"}
+				className={tv.base({ disabled: props.disabled })}
+				{...props}
+			>
+				{props.disabled ?
+					<Icon
+						icon={loading === true ? iconLoading : iconDisabled}
+						variant={iconVariant}
+						{...iconProps}
+					/>
+				:	<Icon
+						icon={loading === true ? iconLoading : iconEnabled}
+						variant={iconVariant}
+						{...iconProps}
+					/>
+				}
+				{children}
+			</button>
+		);
+	},
+);

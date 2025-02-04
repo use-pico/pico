@@ -7,3 +7,6 @@ node_modules
 temp
 tsconfig.tsbuildinfo
 .vscode/chrome-debug-profile
+
+# Million Lint
+.million
