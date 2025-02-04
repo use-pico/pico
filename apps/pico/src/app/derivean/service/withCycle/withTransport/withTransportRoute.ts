@@ -2,27 +2,6 @@ import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 import { withShortestPath } from "~/app/derivean/service/withShortestPath";
 
-namespace withProgressPerTick {
-	export interface Props {
-		weight: number;
-		road: number;
-		speed: number;
-		modifier?: number;
-	}
-}
-
-const withProgressPerTick = ({
-	weight,
-	road,
-	speed,
-	modifier = 1,
-}: withProgressPerTick.Props) => {
-	if (weight <= 0 || road <= 0) {
-		return 0;
-	}
-	return (speed / (weight * road)) * 4096 * modifier;
-};
-
 export namespace withTransportRoute {
 	export interface Props {
 		tx: WithTransaction;
@@ -54,15 +33,13 @@ export const withTransportRoute = async ({
 		.innerJoin("Blueprint as bls", "bls.id", "bs.blueprintId")
 		.select([
 			"t.id",
-			"t.waypointId",
+			"t.roadId",
 			"t.amount",
-			"t.jumps",
 			"t.targetId",
 			"blt.name as target",
 			"bls.name as source",
 			"t.resourceId",
 			"t.type",
-			"t.progress",
 			"r.weight",
 			"r.name as resource",
 		])
@@ -76,8 +53,7 @@ export const withTransportRoute = async ({
 
 	for await (const {
 		id,
-		waypointId,
-		jumps,
+		roadId,
 		targetId,
 		resourceId,
 		amount,
@@ -85,27 +61,24 @@ export const withTransportRoute = async ({
 		resource,
 		weight,
 		source,
-		progress,
 		target,
 	} of transportList) {
 		console.info("\t\t\t-- Resolving transport", {
-			waypointId,
+			roadId,
 			source,
 			target,
 			resource,
 			type,
 			amount,
-			progress,
 			weight,
-			jumps,
 		});
 
-		const pathId = `${waypointId}-${targetId}`;
+		const pathId = `${roadId}-${targetId}`;
 		if (!paths.has(pathId)) {
 			const path = withShortestPath({
-				mode: "waypoint",
+				mode: "full",
 				graph,
-				from: waypointId,
+				from: roadId,
 				to: targetId,
 			});
 
@@ -129,21 +102,15 @@ export const withTransportRoute = async ({
 		const route = path.slice(1, -1);
 
 		const length = graph.getEdgeAttribute(
-			waypointId,
+			roadId,
 			route.length ? route[0] : targetId,
 			"length",
 		);
-		const move = withProgressPerTick({
-			road: length,
-			weight: weight * amount,
-			speed: 32,
-		});
 
 		console.info("\t\t\t\t-- Resolved movement", {
-			waypointId,
+			roadId,
 			target: route.length ? route[0] : targetId,
 			length,
-			progress: Math.min(100, progress + move),
 		});
 
 		/**
@@ -155,36 +122,6 @@ export const withTransportRoute = async ({
 			console.log(
 				"\t\t\t\t-- Resolving inventory transaction (transport at destination)",
 			);
-
-			if (progress + move < 100) {
-				console.info("\t\t\t\t-- Last waypoint, transport in progress", {
-					progress: progress + move,
-				});
-				await tx
-					.updateTable("Transport")
-					.set({
-						progress: Math.min(100, progress + move),
-					})
-					.where("id", "=", id)
-					.execute();
-				continue;
-			}
-
-			if (jumps === 0) {
-				/**
-				 * Move the goods to the next waypoint.
-				 */
-				console.info("\t\t\t\t-- Transport reached the first waypoint");
-				await tx
-					.updateTable("Transport")
-					.set({
-						progress: 0,
-						jumps: jumps + 1,
-					})
-					.where("id", "=", id)
-					.execute();
-				continue;
-			}
 
 			const inventory = await tx
 				.selectFrom("Inventory as i")
@@ -238,44 +175,14 @@ export const withTransportRoute = async ({
 			continue;
 		}
 
-		if (progress + move >= 100) {
-			if (jumps === 0) {
-				/**
-				 * Move the goods to the next waypoint.
-				 */
-				console.info("\t\t\t\t-- Transport reached the first waypoint");
-				await tx
-					.updateTable("Transport")
-					.set({
-						progress: 0,
-						jumps: jumps + 1,
-					})
-					.where("id", "=", id)
-					.execute();
-				continue;
-			}
-			/**
-			 * Move the goods to the next waypoint.
-			 */
-			console.info("\t\t\t\t-- Transport reached next waypoint");
-			await tx
-				.updateTable("Transport")
-				.set({
-					waypointId: route[0],
-					progress: 0,
-					jumps: jumps + 1,
-				})
-				.where("id", "=", id)
-				.execute();
-			continue;
-		}
-
-		console.info("\t\t\t\t-- Transport in progress");
-
+		/**
+		 * Move the goods to the next waypoint.
+		 */
+		console.info("\t\t\t\t-- Transport reached next waypoint");
 		await tx
 			.updateTable("Transport")
 			.set({
-				progress: Math.min(100, progress + move),
+				roadId: route[0],
 			})
 			.where("id", "=", id)
 			.execute();

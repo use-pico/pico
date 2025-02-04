@@ -1,7 +1,7 @@
 import { DateTime, genId } from "@use-pico/common";
 import type { Transaction } from "kysely";
 import type { Database } from "~/app/derivean/db/sdk";
-import { withBuildingRouteBuilding } from "~/app/derivean/service/withBuildingRouteBuilding";
+import { withBuildingToBuilding } from "~/app/derivean/service/withBuildingToBuilding";
 import { withConstruction } from "~/app/derivean/service/withCycle/withConstruction";
 import { withDemand } from "~/app/derivean/service/withCycle/withDemand/withDemand";
 import { withProduction } from "~/app/derivean/service/withCycle/withProduction";
@@ -33,7 +33,7 @@ export const withCycle = async ({ tx, userId, mapId }: withCycle.Props) => {
 		/**
 		 * Ensure all paths are computed even it should be OK in this stage.
 		 */
-		await withBuildingRouteBuilding({
+		await withBuildingToBuilding({
 			tx,
 			userId,
 			mapId,

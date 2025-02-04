@@ -17,13 +17,13 @@ export const Route = createFileRoute(
 					return kysely.transaction().execute(async (tx) => {
 						return withList({
 							select: tx
-								.selectFrom("Building_Route_Building as brb")
-								.innerJoin("Building as b", "b.id", "brb.linkId")
+								.selectFrom("Building_To_Building as btb")
+								.innerJoin("Building as b", "b.id", "btb.linkId")
 								.innerJoin("Land as l", "l.id", "b.landId")
 								.innerJoin("Region as r", "r.id", "l.regionId")
 								.innerJoin("Blueprint as bp", "bp.id", "b.blueprintId")
-								.select(["brb.id", "bp.name", "b.landId", "r.name as land"])
-								.where("brb.buildingId", "=", buildingId)
+								.select(["btb.id", "bp.name", "b.landId", "r.name as land"])
+								.where("btb.buildingId", "=", buildingId)
 								.orderBy("bp.name"),
 							output: z.object({
 								id: z.string().min(1),

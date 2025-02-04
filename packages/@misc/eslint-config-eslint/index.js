@@ -1,4 +1,5 @@
 import eslint from "@eslint/js";
+import reactCompiler from "eslint-plugin-react-compiler";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -6,6 +7,9 @@ export default tseslint.config(
 	...tseslint.configs.strict,
 	...tseslint.configs.stylistic,
 	{
+		plugins: {
+			"react-compiler": reactCompiler,
+		},
 		rules: {
 			"@typescript-eslint/ban-ts-comment": "off",
 			"@typescript-eslint/no-dynamic-delete": "off",
@@ -48,6 +52,7 @@ export default tseslint.config(
 			"sort-imports": "off",
 			"sort-keys": "off",
 			"sort-vars": "off",
+			"max-depth": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
@@ -56,6 +61,7 @@ export default tseslint.config(
 					caughtErrorsIgnorePattern: "^_",
 				},
 			],
+			"react-compiler/react-compiler": "warn",
 		},
 	},
 );

@@ -68,9 +68,9 @@ export const Route = createFileRoute(
 												"s.buildingId",
 												"in",
 												eb
-													.selectFrom("Building_Route_Building as brb")
-													.select("brb.linkId")
-													.where("brb.buildingId", "=", buildingId),
+													.selectFrom("Building_To_Building as btb")
+													.select("btb.linkId")
+													.where("btb.buildingId", "=", buildingId),
 											)
 											.as("supply");
 									},

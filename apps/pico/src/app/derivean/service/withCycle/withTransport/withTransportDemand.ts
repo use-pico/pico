@@ -91,7 +91,7 @@ export const withTransportDemand = async ({
 				return {
 					...supply,
 					path: withShortestPath({
-						mode: "waypoint",
+						mode: "full",
 						graph,
 						from: supply.buildingId,
 						to: targetId,
@@ -140,8 +140,8 @@ export const withTransportDemand = async ({
 
 			const route = path.slice(1, -1);
 
-			const waypointId = route.shift();
-			if (!waypointId) {
+			const roadId = route.shift();
+			if (!roadId) {
 				console.info(
 					"\t\t\t\t-- No waypoint available for this transport (path too short?)",
 				);
@@ -174,9 +174,7 @@ export const withTransportDemand = async ({
 					resourceId,
 					amount: transfer,
 					type,
-					waypointId,
-					progress: 0,
-					jumps: 0,
+					roadId,
 				})
 				.execute();
 		}

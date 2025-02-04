@@ -3,7 +3,7 @@ import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
 import { withBuildingGraph } from "~/app/derivean/service/withBuildingGraph";
 import { withPathOf } from "~/app/derivean/service/withPathOf";
 
-export namespace withBuildingRouteBuilding {
+export namespace withBuildingToBuilding {
 	export interface Props {
 		tx: WithTransaction;
 		userId: string;
@@ -11,16 +11,16 @@ export namespace withBuildingRouteBuilding {
 	}
 }
 
-export const withBuildingRouteBuilding = async ({
+export const withBuildingToBuilding = async ({
 	tx,
 	userId,
 	mapId,
-}: withBuildingRouteBuilding.Props) => {
-	console.info("\t=== Building Route Building");
+}: withBuildingToBuilding.Props) => {
+	console.info("\t=== Building To Building");
 
 	await tx
-		.deleteFrom("Building_Route_Building as brb")
-		.where("brb.userId", "=", userId)
+		.deleteFrom("Building_To_Building as btb")
+		.where("btb.userId", "=", userId)
 		.execute();
 
 	const related = withPathOf(await withBuildingGraph({ tx, userId, mapId }));
@@ -68,7 +68,7 @@ export const withBuildingRouteBuilding = async ({
 	);
 
 	inserts.length > 0 &&
-		(await tx.insertInto("Building_Route_Building").values(inserts).execute());
+		(await tx.insertInto("Building_To_Building").values(inserts).execute());
 
 	console.info("\t-- Done");
 };

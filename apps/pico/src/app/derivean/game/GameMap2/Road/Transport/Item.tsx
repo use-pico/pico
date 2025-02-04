@@ -2,7 +2,7 @@ import { useParams } from "@tanstack/react-router";
 import { Badge, Icon, LinkTo, Progress } from "@use-pico/client";
 import { toHumanNumber, tvc } from "@use-pico/common";
 import type { FC } from "react";
-import type { TransportPanel } from "~/app/derivean/game/GameMap2/Waypoint/Transport/TransportPanel";
+import type { TransportPanel } from "~/app/derivean/game/GameMap2/Road/Transport/TransportPanel";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 
 export namespace Item {

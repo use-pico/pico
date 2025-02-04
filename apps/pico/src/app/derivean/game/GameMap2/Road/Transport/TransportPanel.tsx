@@ -3,11 +3,11 @@ import { BackIcon, LinkTo, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { Panel } from "~/app/derivean/game/GameMap2/Panel";
-import { Item } from "~/app/derivean/game/GameMap2/Waypoint/Transport/Item";
+import { Item } from "~/app/derivean/game/GameMap2/Road/Transport/Item";
 import { TransportIcon } from "~/app/derivean/icon/TransportIcon";
 
 export namespace TransportPanel {
-	export interface Waypoint {
+	export interface Road {
 		id: string;
 	}
 
@@ -23,13 +23,13 @@ export namespace TransportPanel {
 	}
 
 	export interface Props extends Panel.PropsEx {
-		waypoint: Waypoint;
+		road: Road;
 		transport: Transport[];
 	}
 }
 
 export const TransportPanel: FC<TransportPanel.Props> = ({
-	waypoint,
+	road,
 	transport,
 	...props
 }) => {
@@ -44,10 +44,10 @@ export const TransportPanel: FC<TransportPanel.Props> = ({
 			textSubTitle={
 				<LinkTo
 					icon={BackIcon}
-					to={"/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view"}
-					params={{ locale, mapId, waypointId: waypoint.id }}
+					to={"/$locale/apps/derivean/map/$mapId/road/$roadId/view"}
+					params={{ locale, mapId, roadId: road.id }}
 				>
-					<Tx label={"Waypoint (label)"} />
+					<Tx label={"Road (label)"} />
 				</LinkTo>
 			}
 			{...props}

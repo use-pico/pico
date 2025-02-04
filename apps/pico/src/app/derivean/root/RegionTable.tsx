@@ -5,7 +5,6 @@ import {
     ActionModal,
     Badge,
     DeleteControl,
-    Icon,
     LinkTo,
     Table,
     TrashIcon,
@@ -14,14 +13,9 @@ import {
     useTable,
     withColumn,
 } from "@use-pico/client";
-import {
-    genId,
-    toHumanNumber,
-    type IdentitySchema
-} from "@use-pico/common";
+import { genId, toHumanNumber, type IdentitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
-import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { RegionIcon } from "~/app/derivean/icon/RegionIcon";
 import { RegionForm } from "~/app/derivean/root/RegionForm";
 import { toWebp64 } from "~/app/derivean/utils/toWebp64";
@@ -29,12 +23,6 @@ import { toWebp64 } from "~/app/derivean/utils/toWebp64";
 export namespace RegionTable {
 	export interface Data extends IdentitySchema.Type {
 		name: string;
-		minWidth: number;
-		maxWidth: number;
-		minHeight: number;
-		maxHeight: number;
-		width?: number;
-		height?: number;
 		probability: number;
 		limit: number;
 	}
@@ -61,48 +49,6 @@ const columns = [
 			);
 		},
 		size: 18,
-	}),
-	column({
-		name: "width",
-		header() {
-			return <Tx label={"Region width (label)"} />;
-		},
-		render({ data }) {
-			return (
-				<div className={"flex flex-row gap-2 items-center"}>
-					<div>{toHumanNumber({ number: data.minWidth })}</div>
-					<div>
-						<Icon
-							icon={ArrowRightIcon}
-							variant={{ size: "xs" }}
-						/>
-					</div>
-					<div>{toHumanNumber({ number: data.maxWidth })}</div>
-				</div>
-			);
-		},
-		size: 16,
-	}),
-	column({
-		name: "height",
-		header() {
-			return <Tx label={"Region height (label)"} />;
-		},
-		render({ data }) {
-			return (
-				<div className={"flex flex-row gap-2 items-center"}>
-					<div>{toHumanNumber({ number: data.minHeight })}</div>
-					<div>
-						<Icon
-							icon={ArrowRightIcon}
-							variant={{ size: "xs" }}
-						/>
-					</div>
-					<div>{toHumanNumber({ number: data.maxHeight })}</div>
-				</div>
-			);
-		},
-		size: 12,
 	}),
 	column({
 		name: "probability",

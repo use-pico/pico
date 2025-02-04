@@ -34,17 +34,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/region/list")(
 						return withListCount({
 							select: tx
 								.selectFrom("Region as r")
-								.select([
-									"r.id",
-									"r.name",
-									"r.color",
-									"r.minWidth",
-									"r.maxWidth",
-									"r.minHeight",
-									"r.maxHeight",
-									"r.probability",
-									"r.limit",
-								])
+								.select(["r.id", "r.name", "r.probability", "r.limit"])
 								.orderBy("r.name", "asc"),
 							query({ select, where }) {
 								let $select = select;
@@ -65,11 +55,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/region/list")(
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
-								color: z.string().min(1),
-								minWidth: z.number().int().min(0),
-								maxWidth: z.number().int().min(0),
-								minHeight: z.number().int().min(0),
-								maxHeight: z.number().int().min(0),
 								probability: z.number().int().min(0),
 								limit: z.number().int().min(0),
 							}),

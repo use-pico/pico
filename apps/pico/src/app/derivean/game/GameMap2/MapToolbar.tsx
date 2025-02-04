@@ -56,14 +56,14 @@ export const MapToolbar: FC<MapToolbar.Props> = ({ userId, cycle }) => {
 						variant={{ variant: "subtle" }}
 					/>
 				</LinkTo>
+
+				<CycleButton
+					userId={userId}
+					mapId={mapId}
+				/>
 			</div>
 
 			<CyclesInline cycles={cycle} />
-
-			<CycleButton
-				userId={userId}
-				mapId={mapId}
-			/>
 		</div>
 	);
 };

@@ -144,21 +144,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.addColumn("id", $id, (col) => col.primaryKey())
 
 				.addColumn("name", "varchar(128)", (col) => col.notNull())
-				/**
-				 * Color code (provided by the client) to be used in the map.
-				 */
-				.addColumn("color", "varchar(128)", (col) =>
-					col.notNull().defaultTo("slate"),
-				)
-
-				/**
-				 * Ideal numbers are 256 * x based.
-				 */
-				.addColumn("minWidth", "integer", (col) => col.notNull())
-				.addColumn("maxWidth", "integer", (col) => col.notNull())
-
-				.addColumn("minHeight", "integer", (col) => col.notNull())
-				.addColumn("maxHeight", "integer", (col) => col.notNull())
 
 				/**
 				 * 0-100% drop probability so a region will be placed on the map.
@@ -323,10 +308,11 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				.addColumn("x", "integer", (col) => col.notNull())
-				.addColumn("y", "integer", (col) => col.notNull())
-				.addColumn("width", "integer", (col) => col.notNull())
-				.addColumn("height", "integer", (col) => col.notNull())
+				/**
+				 * Game is rendered in a grid, so the position only tells an order
+				 * of lands, rest of computations are done by the browser.
+				 */
+				.addColumn("position", "integer", (col) => col.notNull())
 
 				.execute();
 
@@ -811,6 +797,46 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
+			await kysely.schema
+				.createTable("Plot")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("userId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Plot] userId",
+					["userId"],
+					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("mapId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Plot] mapId",
+					["mapId"],
+					"Map",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("landId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Plot] landId",
+					["landId"],
+					"Land",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				/**
+				 * Game is rendered in a grid, so the position only tells an order
+				 * of plots, rest of computations are done by the browser.
+				 */
+				.addColumn("position", "integer", (col) => col.notNull())
+
+				.execute();
+
 			/**
 			 * This is a building instance belonging to a player.
 			 */
@@ -824,6 +850,15 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					"[Building] userId",
 					["userId"],
 					"User",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.addColumn("plotId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Building] plotId",
+					["plotId"],
+					"Plot",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
@@ -881,12 +916,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 
 				/**
-				 * Position of the building on the map.
-				 */
-				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
-				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
-
-				/**
 				 * Flag telling if building conditions are valid: this is used to control if a building
 				 * can produce resources (so e.g. when there are overlapping buildings, production is disabled).
 				 */
@@ -938,144 +967,19 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.execute();
 
-			await kysely.schema
-				.createTable("Waypoint")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Waypoint] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("mapId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Waypoint] mapId",
-					["mapId"],
-					"Map",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("x", "float4", (col) => col.notNull().defaultTo(0))
-				.addColumn("y", "float4", (col) => col.notNull().defaultTo(0))
-
-				.execute();
-
-			for await (const index of ["userId", "mapId"]) {
-				await kysely.schema
-					.createIndex(`[Waypoint] ${index}`)
-					.on("Waypoint")
-					.columns([index])
-					.execute();
-			}
-			await kysely.schema
-				.createTable("Building_Waypoint")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("buildingId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Building_Waypoint] buildingId",
-					["buildingId"],
-					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("waypointId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Building_Waypoint] waypointId",
-					["waypointId"],
-					"Waypoint",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addUniqueConstraint("[Building_Waypoint] buildingId-waypointId", [
-					"buildingId",
-					"waypointId",
-				])
-
-				.execute();
-
-			for await (const index of ["buildingId", "waypointId"]) {
-				await kysely.schema
-					.createIndex(`[Building_Waypoint] ${index}`)
-					.on("Building_Waypoint")
-					.columns([index])
-					.execute();
-			}
-
-			await kysely.schema
-				.createTable("Route")
-				.ifNotExists()
-				.addColumn("id", $id, (col) => col.primaryKey())
-
-				.addColumn("mapId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route] mapId",
-					["mapId"],
-					"Map",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("userId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route] userId",
-					["userId"],
-					"User",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("fromId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route] fromId",
-					["fromId"],
-					"Waypoint",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-				.addColumn("toId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Route] toId",
-					["toId"],
-					"Waypoint",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addUniqueConstraint("[Route] fromId-toId", ["fromId", "toId"])
-
-				.execute();
-
-			for await (const index of ["userId", "mapId", "fromId", "toId"]) {
-				await kysely.schema
-					.createIndex(`[Route] ${index}`)
-					.on("Route")
-					.columns([index])
-					.execute();
-			}
-
 			/**
-			 * Cache table for routes (building -> waypoint -> route -> ...).
+			 * Cache table for pre-computed connected buildings.
 			 *
 			 * Because routes are recursive, it's easier to cache them.
 			 */
 			await kysely.schema
-				.createTable("Building_Route_Building")
+				.createTable("Building_To_Building")
 				.ifNotExists()
 				.addColumn("id", $id, (col) => col.primaryKey())
 
 				.addColumn("userId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
-					"[Building_Route_Building] userId",
+					"[Building_To_Building] userId",
 					["userId"],
 					"User",
 					["id"],
@@ -1083,7 +987,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 				.addColumn("mapId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
-					"[Building_Route_Building] mapId",
+					"[Building_To_Building] mapId",
 					["mapId"],
 					"Map",
 					["id"],
@@ -1092,7 +996,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 				.addColumn("buildingId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
-					"[Building_Route_Building] buildingId",
+					"[Building_To_Building] buildingId",
 					["buildingId"],
 					"Building",
 					["id"],
@@ -1100,14 +1004,14 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				)
 				.addColumn("linkId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
-					"[Building_Route_Building] linkId",
+					"[Building_To_Building] linkId",
 					["linkId"],
 					"Building",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
-				.addUniqueConstraint("[Building_Route_Building] buildingId-linkId", [
+				.addUniqueConstraint("[Building_To_Building] buildingId-linkId", [
 					"buildingId",
 					"linkId",
 				])
@@ -1116,11 +1020,30 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 
 			for await (const index of ["userId", "mapId", "buildingId", "linkId"]) {
 				await kysely.schema
-					.createIndex(`[Building_Route_Building] ${index}`)
-					.on("Building_Route_Building")
+					.createIndex(`[Building_To_Building] ${index}`)
+					.on("Building_To_Building")
 					.columns([index])
 					.execute();
 			}
+
+			/**
+			 * Just piece of road (so it could get rendered).
+			 */
+			await kysely.schema
+				.createTable("Road")
+				.ifNotExists()
+				.addColumn("id", $id, (col) => col.primaryKey())
+
+				.addColumn("plotId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Road] plotId",
+					["plotId"],
+					"Plot",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
+				.execute();
 
 			await kysely.schema
 				.createTable("Supply")
@@ -1232,9 +1155,7 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				.execute();
 
 			/**
-			 * Resource transport between waypoints.
-			 *
-			 * If waypoint is removed, transport is cancelled (resource is lost).
+			 * Resource transport between buildings.
 			 *
 			 * This may be seen as a transport route.
 			 *
@@ -1276,20 +1197,23 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
 
+				/**
+				 * Where a resource currently is
+				 */
+				.addColumn("roadId", $id, (col) => col.notNull())
+				.addForeignKeyConstraint(
+					"[Transport] roadId",
+					["roadId"],
+					"Road",
+					["id"],
+					(c) => c.onDelete("cascade").onUpdate("cascade"),
+				)
+
 				.addColumn("sourceId", $id, (col) => col.notNull())
 				.addForeignKeyConstraint(
 					"[Transport] sourceId",
 					["sourceId"],
 					"Building",
-					["id"],
-					(c) => c.onDelete("cascade").onUpdate("cascade"),
-				)
-
-				.addColumn("waypointId", $id, (col) => col.notNull())
-				.addForeignKeyConstraint(
-					"[Transport] waypointId",
-					["waypointId"],
-					"Waypoint",
 					["id"],
 					(c) => c.onDelete("cascade").onUpdate("cascade"),
 				)
@@ -1307,14 +1231,6 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				 * Amount of transferred resources.
 				 */
 				.addColumn("amount", "float4", (col) => col.notNull())
-				/**
-				 * Transportation progress, 0-100%, when 100%, transport is done.
-				 */
-				.addColumn("progress", "float4", (col) => col.notNull())
-				/**
-				 * Number of jumps this transport has made.
-				 */
-				.addColumn("jumps", "integer", (col) => col.notNull())
 
 				.addColumn("type", "varchar(16)", (col) =>
 					col.notNull().defaultTo("storage"),
@@ -1326,8 +1242,8 @@ export const { kysely, bootstrap } = withDatabase<Database>({
 				"userId",
 				"mapId",
 				"resourceId",
+				"roadId",
 				"sourceId",
-				"waypointId",
 				"targetId",
 			]) {
 				await kysely.schema

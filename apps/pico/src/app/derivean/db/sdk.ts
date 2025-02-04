@@ -361,6 +361,9 @@ export const withBuildingSchema = <
 				userId:
 					// varchar(36) / not nullable
 					z.string().min(1),
+				plotId:
+					// varchar(36) / not nullable
+					z.string().min(1),
 				blueprintId:
 					// varchar(36) / not nullable
 					z.string().min(1),
@@ -376,12 +379,6 @@ export const withBuildingSchema = <
 				recurringProductionId:
 					// varchar(36) / nullable
 					z.string().nullish(),
-				x:
-					// float4 / not nullable
-					z.number(),
-				y:
-					// float4 / not nullable
-					z.number(),
 				valid:
 					// boolean / not nullable
 					withBoolSchema(),
@@ -392,13 +389,12 @@ export const withBuildingSchema = <
 		sort: [
 			"id",
 			"userId",
+			"plotId",
 			"blueprintId",
 			"constructionId",
 			"landId",
 			"productionId",
 			"recurringProductionId",
-			"x",
-			"y",
 			"valid",
 		],
 	});
@@ -437,7 +433,7 @@ export type BuildingInventoryEntity = ReturnType<
 	typeof withBuildingInventorySchema
 >["~entity"];
 
-export const withBuildingRouteBuildingSchema = <
+export const withBuildingToBuildingSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
 >({
@@ -470,39 +466,8 @@ export const withBuildingRouteBuildingSchema = <
 	});
 };
 
-export type BuildingRouteBuildingEntity = ReturnType<
-	typeof withBuildingRouteBuildingSchema
->["~entity"];
-
-export const withBuildingWaypointSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				buildingId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				waypointId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "buildingId", "waypointId"],
-	});
-};
-
-export type BuildingWaypointEntity = ReturnType<
-	typeof withBuildingWaypointSchema
+export type BuildingToBuildingEntity = ReturnType<
+	typeof withBuildingToBuildingSchema
 >["~entity"];
 
 export const withConstructionSchema = <
@@ -681,23 +646,14 @@ export const withLandSchema = <
 				regionId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				x:
-					// INTEGER / not nullable
-					z.number().int(),
-				y:
-					// INTEGER / not nullable
-					z.number().int(),
-				width:
-					// INTEGER / not nullable
-					z.number().int(),
-				height:
+				position:
 					// INTEGER / not nullable
 					z.number().int(),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "mapId", "regionId", "x", "y", "width", "height"],
+		sort: ["id", "mapId", "regionId", "position"],
 	});
 };
 
@@ -763,6 +719,41 @@ export const withMapSchema = <
 
 export type MapEntity = ReturnType<typeof withMapSchema>["~entity"];
 
+export const withPlotSchema = <
+	TShapeSchema extends ShapeSchema,
+	TFilterSchema extends FilterSchema,
+>({
+	shape,
+	filter,
+}: {
+	shape: TShapeSchema;
+	filter: TFilterSchema;
+}) => {
+	return withSourceSchema({
+		entity: IdentitySchema.merge(
+			z.object({
+				userId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				mapId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				landId:
+					// varchar(36) / not nullable
+					z.string().min(1),
+				position:
+					// INTEGER / not nullable
+					z.number().int(),
+			}),
+		),
+		shape,
+		filter,
+		sort: ["id", "userId", "mapId", "landId", "position"],
+	});
+};
+
+export type PlotEntity = ReturnType<typeof withPlotSchema>["~entity"];
+
 export const withProductionSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
@@ -826,21 +817,6 @@ export const withRegionSchema = <
 				name:
 					// varchar(128) / not nullable
 					z.string().min(1),
-				color:
-					// varchar(128) / not nullable
-					z.string().min(1),
-				minWidth:
-					// INTEGER / not nullable
-					z.number().int(),
-				maxWidth:
-					// INTEGER / not nullable
-					z.number().int(),
-				minHeight:
-					// INTEGER / not nullable
-					z.number().int(),
-				maxHeight:
-					// INTEGER / not nullable
-					z.number().int(),
 				probability:
 					// INTEGER / not nullable
 					z.number().int(),
@@ -854,18 +830,7 @@ export const withRegionSchema = <
 		),
 		shape,
 		filter,
-		sort: [
-			"id",
-			"name",
-			"color",
-			"minWidth",
-			"maxWidth",
-			"minHeight",
-			"maxHeight",
-			"probability",
-			"limit",
-			"image",
-		],
+		sort: ["id", "name", "probability", "limit", "image"],
 	});
 };
 
@@ -985,7 +950,7 @@ export type ResourceTagEntity = ReturnType<
 	typeof withResourceTagSchema
 >["~entity"];
 
-export const withRouteSchema = <
+export const withRoadSchema = <
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
 >({
@@ -998,27 +963,18 @@ export const withRouteSchema = <
 	return withSourceSchema({
 		entity: IdentitySchema.merge(
 			z.object({
-				mapId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				fromId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				toId:
+				plotId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 			}),
 		),
 		shape,
 		filter,
-		sort: ["id", "mapId", "userId", "fromId", "toId"],
+		sort: ["id", "plotId"],
 	});
 };
 
-export type RouteEntity = ReturnType<typeof withRouteSchema>["~entity"];
+export type RoadEntity = ReturnType<typeof withRoadSchema>["~entity"];
 
 export const withSupplySchema = <
 	TShapeSchema extends ShapeSchema,
@@ -1112,10 +1068,10 @@ export const withTransportSchema = <
 				resourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				sourceId:
+				roadId:
 					// varchar(36) / not nullable
 					z.string().min(1),
-				waypointId:
+				sourceId:
 					// varchar(36) / not nullable
 					z.string().min(1),
 				targetId:
@@ -1124,12 +1080,6 @@ export const withTransportSchema = <
 				amount:
 					// float4 / not nullable
 					z.number(),
-				progress:
-					// float4 / not nullable
-					z.number(),
-				jumps:
-					// INTEGER / not nullable
-					z.number().int(),
 				type:
 					// varchar(16) / not nullable
 					z.string().min(1),
@@ -1142,12 +1092,10 @@ export const withTransportSchema = <
 			"userId",
 			"mapId",
 			"resourceId",
+			"roadId",
 			"sourceId",
-			"waypointId",
 			"targetId",
 			"amount",
-			"progress",
-			"jumps",
 			"type",
 		],
 	});
@@ -1187,41 +1135,6 @@ export const withUserSchema = <
 
 export type UserEntity = ReturnType<typeof withUserSchema>["~entity"];
 
-export const withWaypointSchema = <
-	TShapeSchema extends ShapeSchema,
-	TFilterSchema extends FilterSchema,
->({
-	shape,
-	filter,
-}: {
-	shape: TShapeSchema;
-	filter: TFilterSchema;
-}) => {
-	return withSourceSchema({
-		entity: IdentitySchema.merge(
-			z.object({
-				userId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				mapId:
-					// varchar(36) / not nullable
-					z.string().min(1),
-				x:
-					// float4 / not nullable
-					z.number(),
-				y:
-					// float4 / not nullable
-					z.number(),
-			}),
-		),
-		shape,
-		filter,
-		sort: ["id", "userId", "mapId", "x", "y"],
-	});
-};
-
-export type WaypointEntity = ReturnType<typeof withWaypointSchema>["~entity"];
-
 export interface Database {
 	Blueprint: BlueprintEntity;
 	Blueprint_Conflict: BlueprintConflictEntity;
@@ -1235,8 +1148,7 @@ export interface Database {
 	Blueprint_Requirement: BlueprintRequirementEntity;
 	Building: BuildingEntity;
 	Building_Inventory: BuildingInventoryEntity;
-	Building_Route_Building: BuildingRouteBuildingEntity;
-	Building_Waypoint: BuildingWaypointEntity;
+	Building_To_Building: BuildingToBuildingEntity;
 	Construction: ConstructionEntity;
 	Cycle: CycleEntity;
 	Demand: DemandEntity;
@@ -1244,15 +1156,15 @@ export interface Database {
 	Land: LandEntity;
 	Land_Inventory: LandInventoryEntity;
 	Map: MapEntity;
+	Plot: PlotEntity;
 	Production: ProductionEntity;
 	Region: RegionEntity;
 	Region_Inventory: RegionInventoryEntity;
 	Resource: ResourceEntity;
 	Resource_Tag: ResourceTagEntity;
-	Route: RouteEntity;
+	Road: RoadEntity;
 	Supply: SupplyEntity;
 	Tag: TagEntity;
 	Transport: TransportEntity;
 	User: UserEntity;
-	Waypoint: WaypointEntity;
 }

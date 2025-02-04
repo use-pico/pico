@@ -6,8 +6,7 @@ export namespace withConstructionQueue {
 		userId: string;
 		blueprintId: string;
 		landId: string;
-		x: number;
-		y: number;
+		plotId: string;
 		plan: boolean;
 		valid: boolean;
 	}
@@ -17,8 +16,7 @@ export const withConstructionQueue = async ({
 	userId,
 	blueprintId,
 	landId,
-	x,
-	y,
+	plotId,
 	plan,
 	valid,
 }: withConstructionQueue.Props) => {
@@ -28,6 +26,10 @@ export const withConstructionQueue = async ({
 			.select(["b.cycles"])
 			.where("b.id", "=", blueprintId)
 			.executeTakeFirstOrThrow();
+
+		/**
+		 * TODO Check if a plot is free, so nothing else is built there (building/road/...)
+		 */
 
 		const building = await tx
 			.insertInto("Building")
@@ -49,8 +51,7 @@ export const withConstructionQueue = async ({
 						.returning("id")
 						.executeTakeFirstOrThrow()
 				).id,
-				x,
-				y,
+				plotId,
 				valid,
 			})
 			.returningAll()

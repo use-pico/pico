@@ -1,48 +1,10 @@
 import { genId } from "@use-pico/common";
-import { sql } from "kysely";
+import { convertToObject } from "typescript";
 import type { WithTransaction } from "~/app/derivean/db/WithTransaction";
+import { Game } from "~/app/derivean/Game";
 
 function changeOf(percentage: number) {
 	return Math.random() < percentage / 100;
-}
-
-function getRandomSize(min: number, max: number) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getCoordinates(maxValue = 20480, step = 32) {
-	const randomStep = () => Math.floor(Math.random() * (maxValue / step)) * step;
-
-	return {
-		x: randomStep(),
-		y: randomStep(),
-	};
-}
-
-// eslint-disable-next-line max-params
-async function isOverlapping(
-	tx: WithTransaction,
-	mapId: string,
-	coord: { x: number; y: number },
-	size: { width: number; height: number },
-) {
-	const land = await tx
-		.selectFrom("Land as l")
-		.where("l.mapId", "=", mapId)
-		.where((eb) =>
-			eb.not(
-				eb.or([
-					eb("l.x", ">=", coord.x + size.width),
-					eb(sql`l.x + l.width`, "<=", coord.x),
-					eb("l.y", ">=", coord.y + size.height),
-					eb(sql`l.y + l.height`, "<=", coord.y),
-				]),
-			),
-		)
-		.select("id")
-		.executeTakeFirst();
-
-	return Boolean(land);
 }
 
 export namespace withMapGenerator {
@@ -50,10 +12,6 @@ export namespace withMapGenerator {
 		tx: WithTransaction;
 		userId: string;
 		name: string;
-		size?: {
-			world: number;
-			land: number;
-		};
 	}
 }
 
@@ -61,10 +19,6 @@ export const withMapGenerator = async ({
 	tx,
 	userId,
 	name,
-	size = {
-		world: 26,
-		land: 384 * 2,
-	},
 }: withMapGenerator.Props) => {
 	const map = await tx
 		.insertInto("Map")
@@ -78,51 +32,64 @@ export const withMapGenerator = async ({
 
 	const regions = await tx.selectFrom("Region").selectAll().execute();
 
-	for await (const { id, probability, limit } of regions) {
-		for (let i = 0; i < limit; i++) {
+	const limits = new Map<string, number>();
+
+	const world = Game.world.lands ** 2;
+	const handbrake = 4096 * 4;
+	let landId = 0;
+
+	while (landId < world && landId <= handbrake) {
+		for await (const { id, probability, name, limit } of regions) {
+			console.log("\t\t-- Region", { id, probability, limit, landId, world });
+
+			if (landId >= world) {
+				console.log("\t\t-- Finished");
+				break;
+			}
+
 			if (!changeOf(probability)) {
+				console.log("\t\t\t-- Won't generate");
 				continue;
 			}
 
-			let attempts = 0;
-			const maxAttempts = 10;
+			console.log("\t\t\t-- Generating");
 
-			while (attempts < maxAttempts) {
-				// const width = getRandomSize(minWidth, maxWidth) * size.land;
-				// const height = getRandomSize(minHeight, maxHeight) * size.land;
-
-				const width = 4096;
-				const height = width;
-
-				/**
-				 * 1024 * 1024 defines basically overall map size.
-				 *
-				 * It's not precise as land size will overflow, but it's good enough for now.
-				 */
-				const coord = getCoordinates(width * size.world, width);
-
-				const overlapping = await isOverlapping(tx, map.id, coord, {
-					width,
-					height,
-				});
-
-				if (!overlapping) {
-					await tx
-						.insertInto("Land")
-						.values({
-							id: genId(),
-							height,
-							width,
-							regionId: id,
-							mapId: map.id,
-							...coord,
-						})
-						.execute();
-					break;
-				}
-
-				attempts++;
+			limits.set(id, (limits.get(id) ?? 0) + 1);
+			if ((limits.get(id) || 0) >= limit) {
+				console.log("\t\t\t-- Limit reached");
+				continue;
 			}
+
+			console.log("\t\t-- New land", {
+				name,
+				landId,
+			});
+
+			const land = await tx
+				.insertInto("Land")
+				.values({
+					id: genId(),
+					regionId: id,
+					mapId: map.id,
+					position: landId,
+				})
+				.returningAll()
+				.executeTakeFirstOrThrow();
+
+			for (let plotId = 0; plotId < Game.land.plots ** 2; plotId++) {
+				await tx
+					.insertInto("Plot")
+					.values({
+						id: genId(),
+						mapId: map.id,
+						userId,
+						landId: land.id,
+						position: plotId,
+					})
+					.execute();
+			}
+
+			landId += 1;
 		}
 	}
 

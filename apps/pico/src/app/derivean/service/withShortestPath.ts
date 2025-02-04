@@ -6,7 +6,7 @@ export namespace withShortestPath {
 		graph: withBuildingGraph.BuildingGraph;
 		from: string;
 		to: string;
-		mode: "path" | "waypoint";
+		mode: "full" | "road";
 	}
 }
 
@@ -23,11 +23,15 @@ export const withShortestPath = ({
 	}
 
 	switch (mode) {
-		case "path": {
+		case "full": {
 			return path;
 		}
 
-		case "waypoint": {
+		case "road": {
+			/**
+			 * TODO Check if start/end nodes are buildings.
+			 */
+
 			/**
 			 * Omit buildings from both sides.
 			 */
@@ -37,7 +41,7 @@ export const withShortestPath = ({
 			 */
 			return (
 					route.every((node) => {
-						return graph.getNodeAttribute(node, "type") === "waypoint";
+						return graph.getNodeAttribute(node, "type") === "route";
 					})
 				) ?
 					path

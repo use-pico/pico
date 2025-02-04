@@ -41,21 +41,7 @@ export const Item: FC<Item.Props> = ({ land }) => {
 				<div className={"flex flex-col items-end text-xs"}>
 					<div className={"flex flex-row gap-1 items-center"}>
 						<div className={"font-bold"}>
-							{toHumanNumber({ number: land.x })}
-						</div>
-						<div>:</div>
-						<div className={"font-bold"}>
-							{toHumanNumber({ number: land.y })}
-						</div>
-					</div>
-
-					<div className={"flex flex-row gap-1 items-center"}>
-						<div className={"font-bold"}>
-							{toHumanNumber({ number: land.width })}
-						</div>
-						<div>x</div>
-						<div className={"font-bold"}>
-							{toHumanNumber({ number: land.height })}
+							{toHumanNumber({ number: land.position })}
 						</div>
 					</div>
 				</div>

@@ -34,16 +34,17 @@ export const Item: FC<Item.Props> = ({
 		async mutationFn({
 			blueprintId,
 			landId,
+			plotId,
 		}: {
 			blueprintId: string;
 			landId: string;
+			plotId: string;
 		}) {
 			const building = await withConstructionQueue({
 				userId,
 				blueprintId,
 				landId,
-				x: 0,
-				y: 0,
+				plotId,
 				plan: true,
 				valid: false,
 			});
@@ -88,6 +89,7 @@ export const Item: FC<Item.Props> = ({
 							constructionMutation.mutate({
 								blueprintId: blueprint.id,
 								landId: land.id,
+								plotId: "unknown`",
 							});
 						}}
 					/>

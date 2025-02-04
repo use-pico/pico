@@ -48,7 +48,6 @@ import { Route as LocaleAppsDeriveanRootBlueprintIdInventoryImport } from './@ro
 import { Route as LocaleAppsDeriveanRootBlueprintIdEditImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/edit'
 import { Route as LocaleAppsDeriveanRootBlueprintIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/dependencies'
 import { Route as LocaleAppsDeriveanRootBlueprintIdConflictsImport } from './@routes/$locale/apps/derivean/root/blueprint/$id/conflicts'
-import { Route as LocaleAppsDeriveanMapMapIdWaypointWaypointIdImport } from './@routes/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
 import { Route as LocaleAppsDeriveanMapMapIdLandListImport } from './@routes/$locale/apps/derivean/map/$mapId/land/list'
 import { Route as LocaleAppsDeriveanMapMapIdLandLandIdImport } from './@routes/$locale/apps/derivean/map/$mapId/land/$landId'
 import { Route as LocaleAppsDeriveanMapMapIdBuildingListImport } from './@routes/$locale/apps/derivean/map/$mapId/building/list'
@@ -64,8 +63,7 @@ import { Route as LocaleAppsDeriveanRootUserIdBuildingListImport } from './@rout
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdResourcesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/resources'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdRequirementsImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/requirements'
 import { Route as LocaleAppsDeriveanRootBlueprintProductionIdDependenciesImport } from './@routes/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
-import { Route as LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewImport } from './@routes/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
-import { Route as LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportImport } from './@routes/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
+import { Route as LocaleAppsDeriveanMapMapIdRoadRoadIdViewImport } from './@routes/$locale/apps/derivean/map/$mapId/road/$roadId/view'
 import { Route as LocaleAppsDeriveanMapMapIdLandLandIdConstructionImport } from './@routes/$locale/apps/derivean/map/$mapId/land/$landId/construction'
 import { Route as LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewImport } from './@routes/$locale/apps/derivean/map/$mapId/building/$buildingId/view'
 import { Route as LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportImport } from './@routes/$locale/apps/derivean/map/$mapId/building/$buildingId/transport'
@@ -338,13 +336,6 @@ const LocaleAppsDeriveanRootBlueprintIdConflictsRoute =
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute =
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdImport.update({
-    id: '/waypoint/$waypointId',
-    path: '/waypoint/$waypointId',
-    getParentRoute: () => LocaleAppsDeriveanMapMapIdRoute,
-  } as any)
-
 const LocaleAppsDeriveanMapMapIdLandListRoute =
   LocaleAppsDeriveanMapMapIdLandListImport.update({
     id: '/land/list',
@@ -450,18 +441,11 @@ const LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute =
     getParentRoute: () => LocaleAppsDeriveanRootBlueprintProductionIdRoute,
   } as any)
 
-const LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute =
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewImport.update({
-    id: '/view',
-    path: '/view',
-    getParentRoute: () => LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute,
-  } as any)
-
-const LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute =
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportImport.update({
-    id: '/transport',
-    path: '/transport',
-    getParentRoute: () => LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute,
+const LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute =
+  LocaleAppsDeriveanMapMapIdRoadRoadIdViewImport.update({
+    id: '/road/$roadId/view',
+    path: '/road/$roadId/view',
+    getParentRoute: () => LocaleAppsDeriveanMapMapIdRoute,
   } as any)
 
 const LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute =
@@ -837,13 +821,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdLandListImport
       parentRoute: typeof LocaleAppsDeriveanMapMapIdImport
     }
-    '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId': {
-      id: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
-      path: '/waypoint/$waypointId'
-      fullPath: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdImport
-      parentRoute: typeof LocaleAppsDeriveanMapMapIdImport
-    }
     '/$locale/apps/derivean/root/blueprint/$id/conflicts': {
       id: '/$locale/apps/derivean/root/blueprint/$id/conflicts'
       path: '/conflicts'
@@ -998,19 +975,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdLandLandIdConstructionImport
       parentRoute: typeof LocaleAppsDeriveanMapMapIdLandLandIdImport
     }
-    '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport': {
-      id: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
-      path: '/transport'
-      fullPath: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportImport
-      parentRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdImport
-    }
-    '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view': {
-      id: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
-      path: '/view'
-      fullPath: '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
-      preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewImport
-      parentRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdImport
+    '/$locale/apps/derivean/map/$mapId/road/$roadId/view': {
+      id: '/$locale/apps/derivean/map/$mapId/road/$roadId/view'
+      path: '/road/$roadId/view'
+      fullPath: '/$locale/apps/derivean/map/$mapId/road/$roadId/view'
+      preLoaderRoute: typeof LocaleAppsDeriveanMapMapIdRoadRoadIdViewImport
+      parentRoute: typeof LocaleAppsDeriveanMapMapIdImport
     }
     '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': {
       id: '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
@@ -1228,24 +1198,6 @@ const LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren =
     LocaleAppsDeriveanMapMapIdLandLandIdRouteChildren,
   )
 
-interface LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteChildren {
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute
-}
-
-const LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteChildren: LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteChildren =
-  {
-    LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute:
-      LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute,
-    LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute:
-      LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute,
-  }
-
-const LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren =
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute._addFileChildren(
-    LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteChildren,
-  )
-
 interface LocaleAppsDeriveanMapMapIdRouteChildren {
   LocaleAppsDeriveanMapMapIdViewRoute: typeof LocaleAppsDeriveanMapMapIdViewRoute
   LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRoute: typeof LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRouteWithChildren
@@ -1253,7 +1205,7 @@ interface LocaleAppsDeriveanMapMapIdRouteChildren {
   LocaleAppsDeriveanMapMapIdBuildingListRoute: typeof LocaleAppsDeriveanMapMapIdBuildingListRoute
   LocaleAppsDeriveanMapMapIdLandLandIdRoute: typeof LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren
   LocaleAppsDeriveanMapMapIdLandListRoute: typeof LocaleAppsDeriveanMapMapIdLandListRoute
-  LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute: typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren
+  LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute: typeof LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute
 }
 
 const LocaleAppsDeriveanMapMapIdRouteChildren: LocaleAppsDeriveanMapMapIdRouteChildren =
@@ -1269,8 +1221,8 @@ const LocaleAppsDeriveanMapMapIdRouteChildren: LocaleAppsDeriveanMapMapIdRouteCh
       LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren,
     LocaleAppsDeriveanMapMapIdLandListRoute:
       LocaleAppsDeriveanMapMapIdLandListRoute,
-    LocaleAppsDeriveanMapMapIdWaypointWaypointIdRoute:
-      LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren,
+    LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute:
+      LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute,
   }
 
 const LocaleAppsDeriveanMapMapIdRouteWithChildren =
@@ -1496,7 +1448,6 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/map/$mapId/building/list': typeof LocaleAppsDeriveanMapMapIdBuildingListRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId': typeof LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren
   '/$locale/apps/derivean/map/$mapId/land/list': typeof LocaleAppsDeriveanMapMapIdLandListRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1519,8 +1470,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportRoute
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/view': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId/construction': typeof LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute
+  '/$locale/apps/derivean/map/$mapId/road/$roadId/view': typeof LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1566,7 +1516,6 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/map/$mapId/building/list': typeof LocaleAppsDeriveanMapMapIdBuildingListRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId': typeof LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren
   '/$locale/apps/derivean/map/$mapId/land/list': typeof LocaleAppsDeriveanMapMapIdLandListRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1589,8 +1538,7 @@ export interface FileRoutesByTo {
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportRoute
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/view': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId/construction': typeof LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute
+  '/$locale/apps/derivean/map/$mapId/road/$roadId/view': typeof LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1640,7 +1588,6 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/map/$mapId/building/list': typeof LocaleAppsDeriveanMapMapIdBuildingListRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId': typeof LocaleAppsDeriveanMapMapIdLandLandIdRouteWithChildren
   '/$locale/apps/derivean/map/$mapId/land/list': typeof LocaleAppsDeriveanMapMapIdLandListRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdRouteWithChildren
   '/$locale/apps/derivean/root/blueprint/$id/conflicts': typeof LocaleAppsDeriveanRootBlueprintIdConflictsRoute
   '/$locale/apps/derivean/root/blueprint/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/$id/edit': typeof LocaleAppsDeriveanRootBlueprintIdEditRoute
@@ -1663,8 +1610,7 @@ export interface FileRoutesById {
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportRoute
   '/$locale/apps/derivean/map/$mapId/building/$buildingId/view': typeof LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewRoute
   '/$locale/apps/derivean/map/$mapId/land/$landId/construction': typeof LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdTransportRoute
-  '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view': typeof LocaleAppsDeriveanMapMapIdWaypointWaypointIdViewRoute
+  '/$locale/apps/derivean/map/$mapId/road/$roadId/view': typeof LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/dependencies': typeof LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/requirements': typeof LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute
   '/$locale/apps/derivean/root/blueprint/production/$id/resources': typeof LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute
@@ -1715,7 +1661,6 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/list'
     | '/$locale/apps/derivean/map/$mapId/land/$landId'
     | '/$locale/apps/derivean/map/$mapId/land/list'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1738,8 +1683,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport'
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/view'
     | '/$locale/apps/derivean/map/$mapId/land/$landId/construction'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
+    | '/$locale/apps/derivean/map/$mapId/road/$roadId/view'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1784,7 +1728,6 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/list'
     | '/$locale/apps/derivean/map/$mapId/land/$landId'
     | '/$locale/apps/derivean/map/$mapId/land/list'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1807,8 +1750,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport'
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/view'
     | '/$locale/apps/derivean/map/$mapId/land/$landId/construction'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
+    | '/$locale/apps/derivean/map/$mapId/road/$roadId/view'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1856,7 +1798,6 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/list'
     | '/$locale/apps/derivean/map/$mapId/land/$landId'
     | '/$locale/apps/derivean/map/$mapId/land/list'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId'
     | '/$locale/apps/derivean/root/blueprint/$id/conflicts'
     | '/$locale/apps/derivean/root/blueprint/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/$id/edit'
@@ -1879,8 +1820,7 @@ export interface FileRouteTypes {
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/transport'
     | '/$locale/apps/derivean/map/$mapId/building/$buildingId/view'
     | '/$locale/apps/derivean/map/$mapId/land/$landId/construction'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport'
-    | '/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view'
+    | '/$locale/apps/derivean/map/$mapId/road/$roadId/view'
     | '/$locale/apps/derivean/root/blueprint/production/$id/dependencies'
     | '/$locale/apps/derivean/root/blueprint/production/$id/requirements'
     | '/$locale/apps/derivean/root/blueprint/production/$id/resources'
@@ -1992,7 +1932,7 @@ export const routeTree = rootRoute
         "/$locale/apps/derivean/map/$mapId/building/list",
         "/$locale/apps/derivean/map/$mapId/land/$landId",
         "/$locale/apps/derivean/map/$mapId/land/list",
-        "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId"
+        "/$locale/apps/derivean/map/$mapId/road/$roadId/view"
       ]
     },
     "/$locale/apps/derivean/public/login": {
@@ -2152,14 +2092,6 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/map/$mapId/land/list.tsx",
       "parent": "/$locale/apps/derivean/map/$mapId"
     },
-    "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId": {
-      "filePath": "$locale/apps/derivean/map/$mapId/waypoint/$waypointId.tsx",
-      "parent": "/$locale/apps/derivean/map/$mapId",
-      "children": [
-        "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport",
-        "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view"
-      ]
-    },
     "/$locale/apps/derivean/root/blueprint/$id/conflicts": {
       "filePath": "$locale/apps/derivean/root/blueprint/$id/conflicts.tsx",
       "parent": "/$locale/apps/derivean/root/blueprint/$id"
@@ -2253,13 +2185,9 @@ export const routeTree = rootRoute
       "filePath": "$locale/apps/derivean/map/$mapId/land/$landId/construction.tsx",
       "parent": "/$locale/apps/derivean/map/$mapId/land/$landId"
     },
-    "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport": {
-      "filePath": "$locale/apps/derivean/map/$mapId/waypoint/$waypointId/transport.tsx",
-      "parent": "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId"
-    },
-    "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view": {
-      "filePath": "$locale/apps/derivean/map/$mapId/waypoint/$waypointId/view.tsx",
-      "parent": "/$locale/apps/derivean/map/$mapId/waypoint/$waypointId"
+    "/$locale/apps/derivean/map/$mapId/road/$roadId/view": {
+      "filePath": "$locale/apps/derivean/map/$mapId/road/$roadId/view.tsx",
+      "parent": "/$locale/apps/derivean/map/$mapId"
     },
     "/$locale/apps/derivean/root/blueprint/production/$id/dependencies": {
       "filePath": "$locale/apps/derivean/root/blueprint/production/$id/dependencies.tsx",
