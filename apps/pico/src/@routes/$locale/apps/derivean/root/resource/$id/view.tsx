@@ -1,14 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { tvc } from "@use-pico/common";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
 	"/$locale/apps/derivean/root/resource/$id/view",
 )({
 	component() {
-		const { id } = Route.useParams();
+		const {
+			entity: { image },
+		} = useLoaderData({
+			from: "/$locale/apps/derivean/root/resource/$id",
+		});
 
 		return (
-			<div className={tvc(["w-1/3 h-92 mx-auto bg-contain", `bg-${id}`])} />
+			<>
+				<img src={image || undefined} />
+			</>
 		);
 	},
 });

@@ -20,14 +20,14 @@ import {
     genId,
     toHumanNumber,
     tvc,
-    withBase64,
     type IdentitySchema,
-    type TagSchema,
+    type TagSchema
 } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ResourceIcon } from "~/app/derivean/icon/ResourceIcon";
 import { ResourceForm } from "~/app/derivean/root/ResourceForm";
+import { toWebp64 } from "~/app/derivean/utils/toWebp64";
 
 export namespace ResourceTable {
 	export interface Data extends IdentitySchema.Type {
@@ -206,7 +206,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 															.values({
 																id: genId(),
 																...values,
-																image: image ? await withBase64(image) : null,
+																image: image ? await toWebp64(image) : null,
 															})
 															.returningAll()
 															.executeTakeFirstOrThrow();
@@ -262,7 +262,7 @@ export const ResourceTable: FC<ResourceTable.Props> = ({
 																.updateTable("Resource")
 																.set({
 																	...rest,
-																	image: image ? await withBase64(image) : null,
+																	image: image ? await toWebp64(image) : null,
 																})
 																.where("id", "=", data.id)
 																.returningAll()

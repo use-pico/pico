@@ -20,11 +20,12 @@ export const Route = createFileRoute(
 						entity: await withFetch({
 							select: tx
 								.selectFrom("Resource as r")
-								.select(["r.id", "r.name"])
+								.select(["r.id", "r.name", "r.image"])
 								.where("r.id", "=", id),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								image: z.string().nullish(),
 							}),
 						}),
 					};

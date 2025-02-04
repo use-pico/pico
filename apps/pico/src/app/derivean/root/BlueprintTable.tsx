@@ -20,8 +20,7 @@ import {
     genId,
     toHumanNumber,
     tvc,
-    withBase64,
-    type IdentitySchema,
+    type IdentitySchema
 } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
@@ -35,6 +34,7 @@ import type { BlueprintRequirementSchema } from "~/app/derivean/schema/Blueprint
 import { withBlueprintSort } from "~/app/derivean/service/withBlueprintSort";
 import { withFillInventory } from "~/app/derivean/service/withFillInventory";
 import { RequirementsInline } from "~/app/derivean/ui/RequirementsInline";
+import { toWebp64 } from "~/app/derivean/utils/toWebp64";
 import type { withBlueprintGraph } from "~/app/derivean/utils/withBlueprintGraph";
 
 export namespace BlueprintTable {
@@ -243,7 +243,7 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 															.values({
 																id: genId(),
 																...values,
-																image: image ? await withBase64(image) : null,
+																image: image ? await toWebp64(image) : null,
 															})
 															.returningAll()
 															.executeTakeFirstOrThrow();
@@ -302,7 +302,7 @@ export const BlueprintTable: FC<BlueprintTable.Props> = ({
 															.updateTable("Blueprint")
 															.set({
 																...values,
-																image: image ? await withBase64(image) : null,
+																image: image ? await toWebp64(image) : null,
 															})
 															.where("id", "=", data.id)
 															.returningAll()

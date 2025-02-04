@@ -17,14 +17,14 @@ import {
 import {
     genId,
     toHumanNumber,
-    withBase64,
-    type IdentitySchema,
+    type IdentitySchema
 } from "@use-pico/common";
 import type { FC } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { RegionIcon } from "~/app/derivean/icon/RegionIcon";
 import { RegionForm } from "~/app/derivean/root/RegionForm";
+import { toWebp64 } from "~/app/derivean/utils/toWebp64";
 
 export namespace RegionTable {
 	export interface Data extends IdentitySchema.Type {
@@ -161,7 +161,7 @@ export const RegionTable: FC<RegionTable.Props> = ({ table, ...props }) => {
 															.values({
 																id: genId(),
 																...values,
-																image: image ? await withBase64(image) : null,
+																image: image ? await toWebp64(image) : null,
 															})
 															.execute();
 													});
@@ -191,14 +191,14 @@ export const RegionTable: FC<RegionTable.Props> = ({ table, ...props }) => {
 										<RegionForm
 											defaultValues={data}
 											mutation={useMutation({
-												async mutationFn({image,...values}) {
+												async mutationFn({ image, ...values }) {
 													return kysely.transaction().execute(async (tx) => {
 														return tx
 															.updateTable("Region")
 															.set({
-                                                                ...values,
-                                                                image: image ? await withBase64(image) : null,
-                                                            })
+																...values,
+																image: image ? await toWebp64(image) : null,
+															})
 															.where("id", "=", data.id)
 															.execute();
 													});

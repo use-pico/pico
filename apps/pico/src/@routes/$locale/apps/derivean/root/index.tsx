@@ -9,6 +9,7 @@ import {
 } from "@use-pico/client";
 import FileSaver from "file-saver";
 import { sql } from "kysely";
+import { useState } from "react";
 import { kysely } from "~/app/derivean/db/kysely";
 import type { Database } from "~/app/derivean/db/sdk";
 import { GameIcon } from "~/app/derivean/icon/GameIcon";
@@ -31,6 +32,74 @@ const sources: (keyof Database)[] = [
 	"Blueprint_Production_Dependency",
 	"Blueprint_Production_Resource",
 ] as const;
+
+const ImageConverter = () => {
+	const [image, setImage] = useState<File | null>(null);
+	const [webpUrl, setWebpUrl] = useState<string | null>(null);
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			setImage(file);
+			setWebpUrl(null);
+		}
+	};
+
+	const convertToWebP = () => {
+		if (!image) {
+			return;
+		}
+
+		const img = new Image();
+		img.src = URL.createObjectURL(image);
+		img.onload = () => {
+			const canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			const ctx = canvas.getContext("2d");
+			if (ctx) {
+				ctx.drawImage(img, 0, 0);
+
+				canvas.toDataURL("image/webp", 0.0);
+			}
+		};
+	};
+
+	return (
+		<div style={{ textAlign: "center", padding: "20px" }}>
+			<input
+				type="file"
+				accept="image/png, image/jpeg"
+				onChange={handleFileChange}
+			/>
+			<button
+				onClick={convertToWebP}
+				disabled={!image}
+				style={{ marginLeft: "10px" }}
+			>
+				Convert to WebP
+			</button>
+
+			{webpUrl && (
+				<div style={{ marginTop: "20px" }}>
+					<p>Download your WebP image:</p>
+					<a
+						href={webpUrl}
+						download="converted.webp"
+					>
+						<button>Download WebP</button>
+					</a>
+					<br />
+					<img
+						src={webpUrl}
+						alt="Converted WebP"
+						style={{ maxWidth: "100%", marginTop: "10px" }}
+					/>
+				</div>
+			)}
+		</div>
+	);
+};
 
 export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 	component() {
@@ -123,6 +192,8 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/")({
 						<Tx label={"Export game files (label)"} />
 					</Button>
 				</div>
+
+				<ImageConverter />
 
 				<h2>TODO</h2>
 				<ul className={"flex flex-col gap-2"}>
