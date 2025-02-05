@@ -44,7 +44,8 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 
 				<OrthographicCamera
 					makeDefault
-					position={[0, 16, 0]}
+					zoom={5}
+					position={[0, 5, 0]}
 				/>
 
 				<Controls />
