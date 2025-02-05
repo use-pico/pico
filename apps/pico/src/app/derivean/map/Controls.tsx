@@ -17,8 +17,8 @@ export const Controls: FC<Controls.Props> = () => {
 			enableDamping
 			screenSpacePanning={false}
 			zoomToCursor
-			minZoom={5}
-			maxZoom={50}
+			minZoom={0.5}
+			maxZoom={4096}
 			mouseButtons={{
 				LEFT: MOUSE.PAN,
 			}}

@@ -1,7 +1,7 @@
 /**
  * Plot size in pixels.
  */
-const plot = 256;
+const plot = 10;
 /**
  * Number of plots in one row; a land is plots x plots in size.
  */

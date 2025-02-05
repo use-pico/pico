@@ -29,12 +29,19 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							select: tx
 								.selectFrom("Land as l")
 								.innerJoin("Region as r", "r.id", "l.regionId")
-								.select(["l.id", "l.regionId", "r.name", "l.position"])
+								.select([
+									"l.id",
+									"l.regionId",
+									"r.name",
+									"l.position",
+									"r.image",
+								])
 								.where("l.mapId", "=", mapId)
 								.orderBy("l.position"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
+								image: z.string().nullish(),
 								regionId: z.string().min(1),
 								position: z.number().int(),
 							}),

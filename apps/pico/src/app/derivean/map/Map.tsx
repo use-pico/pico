@@ -1,16 +1,18 @@
-import { OrthographicCamera, Stats } from "@react-three/drei";
+import { Bvh, OrthographicCamera, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { tvc } from "@use-pico/common";
 import { FC } from "react";
 import { ACESFilmicToneMapping } from "three";
 import { Game } from "~/app/derivean/Game";
 import { Controls } from "~/app/derivean/map/Controls";
+import { Lands } from "~/app/derivean/map/Lands";
 
 export namespace Map {
 	export interface Land {
 		id: string;
 		regionId: string;
 		position: number;
+		image?: string | null;
 	}
 
 	export interface Props {
@@ -22,8 +24,6 @@ export namespace Map {
 }
 
 export const Map: FC<Map.Props> = ({ mapId, land }) => {
-	const { size } = Game.world;
-
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<Canvas
@@ -35,12 +35,11 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 					toneMappingExposure: 1.0,
 				}}
 			>
-				<Stats />
-
 				<color
 					attach={"background"}
 					args={[0x101510]}
 				/>
+				<Stats />
 
 				<OrthographicCamera
 					makeDefault
@@ -50,7 +49,9 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 
 				<Controls />
 
-				<gridHelper args={[128, 128]} />
+				<gridHelper
+					args={[Game.world.size * 2, Game.world.lands, 0xff0000, 0xaaaaaa]}
+				/>
 
 				<ambientLight intensity={0.1} />
 				<directionalLight
@@ -58,12 +59,9 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 					position={[0, 100, 0]}
 				/>
 
-				<instancedMesh matrixAutoUpdate={false}>
-					<mesh>
-						<boxGeometry args={[10, 0.5, 10]} />
-						<meshLambertMaterial color={0x00ff00} />
-					</mesh>
-				</instancedMesh>
+				<Bvh firstHitOnly>
+					<Lands land={land} />
+				</Bvh>
 			</Canvas>
 		</div>
 	);
