@@ -1,16 +1,13 @@
 import { tvc } from "@use-pico/common";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { Game } from "~/app/derivean/Game";
+import { Land } from "~/app/derivean/map/Land";
 
 export namespace Map {
-	export interface Plot {
-		id: string;
-		position: number;
-	}
-
 	export interface Land {
 		id: string;
+		regionId: string;
 		position: number;
 	}
 
@@ -24,54 +21,33 @@ export namespace Map {
 
 export const Map: FC<Map.Props> = ({ mapId, land }) => {
 	const { size } = Game.world;
+	const landRefs = useRef<HTMLDivElement[]>([]);
+	const [landIds, setLandIds] = useState(new Set<string>());
 
-	const mapRef = useRef<HTMLDivElement>(null);
-	const containerRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				setLandIds((prev) => {
+					const set = new Set<string>(prev);
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							set.add(entry.target.id);
+						} else {
+							set.delete(entry.target.id);
+						}
+					});
+					return set;
+				});
+			},
+			{ root: null, threshold: 0.0 },
+		);
 
-	const [landIds, setLandIds] = useState<string[]>([]);
-
-	const updateVisibleLands = () => {
-		if (!containerRef.current || !mapRef.current) {
-			return;
-		}
-
-		const container = containerRef.current.getBoundingClientRect();
-		const map = mapRef.current.getBoundingClientRect();
-
-		const scaleFactor = scale;
-
-		const viewportLeft = (container.left - map.left) / scaleFactor;
-		const viewportTop = (container.top - map.top) / scaleFactor;
-		const viewportRight = viewportLeft + container.width / scaleFactor;
-		const viewportBottom = viewportTop + container.height / scaleFactor;
-
-		const landsInView = land.filter((land) => {
-			const x = (land.position % Game.world.lands) * Game.land.size;
-			const y = Math.floor(land.position / Game.world.lands) * Game.land.size;
-
-			return (
-				x + Game.land.size >= viewportLeft &&
-				x <= viewportRight &&
-				y + Game.land.size >= viewportTop &&
-				y <= viewportBottom
-			);
+		landRefs.current.forEach((div) => {
+			div && observer.observe(div);
 		});
 
-		setLandIds(landsInView.map((l) => l.id));
-	};
-
-	// useEffect(() => {
-	// 	updateVisibleLands();
-	// }, [land, position.x, position.y, scale, updateVisibleLands]);
-
-	// const plots = useQuery({
-	// 	queryKey: ["map", mapId, "plots", { landIds }],
-	// 	async queryFn() {
-	// 		console.log("Lands", landIds);
-	// 		return "nope";
-	// 	},
-	// 	enabled: landIds.length > 0,
-	// });
+		return () => observer.disconnect();
+	}, [landRefs]);
 
 	return (
 		<TransformWrapper
@@ -79,42 +55,29 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 			minScale={0.1}
 			limitToBounds
 			disablePadding
-			onTransformed={(e) => {
-				console.log(e);
-			}}
 		>
-			{({ instance }) => {
-				return (
-					<TransformComponent
-						wrapperClass={tvc(["w-screen", "h-screen", "overflow-hidden"])}
-					>
-						<div
-							className={tvc(["grid", "grid-cols-24"])}
-							style={{ width: size, height: size }}
-						>
-							{land.map((land) => {
-								return (
-									<div
-										key={`land-${land.id}`}
-										className={tvc([
-											"border-2",
-											"bg-purple-50",
-											"border-purple-600",
-											// landIds.includes(land.id) ?
-											// 	["bg-green-500"]
-											// :	["bg-purple-500"],
-										])}
-										style={{
-											width: Game.land.size,
-											height: Game.land.size,
-										}}
-									/>
-								);
-							})}
-						</div>
-					</TransformComponent>
-				);
-			}}
+			<TransformComponent
+				wrapperClass={tvc(["w-screen", "h-screen", "overflow-hidden"])}
+			>
+				<div
+					className={tvc(["grid"])}
+					style={{
+						width: size,
+						height: size,
+						gridTemplateColumns: `repeat(${Game.world.lands}, minmax(0, 1fr))`,
+					}}
+				>
+					{land.map((land) => (
+						<Land
+							key={`land-${land.id}`}
+							ref={(ref) => ref && landRefs.current.push(ref)}
+							mapId={mapId}
+							land={land}
+							visible={landIds.has(land.id)}
+						/>
+					))}
+				</div>
+			</TransformComponent>
 		</TransformWrapper>
 	);
 };

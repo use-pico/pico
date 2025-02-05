@@ -15,7 +15,7 @@ const land = plot * plots;
  *
  * Be careful as this number may significantly affect performance and database size.
  */
-const world = 24;
+const world = 32;
 
 /**
  * Because game is sensitive to various pre-defined sizes, they must be shared.
