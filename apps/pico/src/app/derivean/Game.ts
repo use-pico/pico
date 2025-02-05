@@ -1,7 +1,7 @@
 /**
  * Plot size in pixels.
  */
-const plot = 10;
+const plot = 16;
 /**
  * Number of plots in one row; a land is plots x plots in size.
  */
@@ -15,7 +15,7 @@ const land = plot * plots;
  *
  * Be careful as this number may significantly affect performance and database size.
  */
-const world = 32;
+const lands = 32;
 
 /**
  * Because game is sensitive to various pre-defined sizes, they must be shared.
@@ -32,12 +32,12 @@ export const Game = {
 		/**
 		 * Size of the land in pixels.
 		 *
-		 * x16 basically means number of plots in one row.
+		 * Basically means number of plots in one row.
 		 */
 		size: land,
 	},
 	world: {
-		lands: world,
-		size: world * land,
+		lands,
+		size: lands * land,
 	},
 } as const;

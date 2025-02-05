@@ -34,15 +34,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 									"l.regionId",
 									"r.name",
 									"l.position",
-									"r.image",
+									// "r.image",
+									"l.mapId",
 								])
 								.where("l.mapId", "=", mapId)
 								.orderBy("l.position"),
 							output: z.object({
 								id: z.string().min(1),
 								name: z.string().min(1),
-								image: z.string().nullish(),
+								// image: z.string().nullish(),
 								regionId: z.string().min(1),
+								mapId: z.string().min(1),
 								position: z.number().int(),
 							}),
 						});
@@ -67,12 +69,9 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const { user, land, cycle } = Route.useLoaderData();
-		const { zoomToId, routing } = Route.useSearch();
-		const { mapId } = Route.useParams();
 
 		return (
 			<Map
-				mapId={mapId}
 				userId={user.id}
 				cycle={cycle}
 				land={land}

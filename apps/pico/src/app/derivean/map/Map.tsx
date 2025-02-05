@@ -5,25 +5,18 @@ import { FC } from "react";
 import { ACESFilmicToneMapping } from "three";
 import { Game } from "~/app/derivean/Game";
 import { Controls } from "~/app/derivean/map/Controls";
+import type { Land } from "~/app/derivean/map/Land";
 import { Lands } from "~/app/derivean/map/Lands";
 
 export namespace Map {
-	export interface Land {
-		id: string;
-		regionId: string;
-		position: number;
-		image?: string | null;
-	}
-
 	export interface Props {
-		mapId: string;
 		userId: string;
 		cycle: number;
-		land: Land[];
+		land: Land.Land[];
 	}
 }
 
-export const Map: FC<Map.Props> = ({ mapId, land }) => {
+export const Map: FC<Map.Props> = ({ land }) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<Canvas
@@ -50,7 +43,7 @@ export const Map: FC<Map.Props> = ({ mapId, land }) => {
 				<Controls />
 
 				<gridHelper
-					args={[Game.world.size * 2, Game.world.lands, 0xff0000, 0xaaaaaa]}
+					args={[Game.world.size * 2, Game.world.lands * 2, 0xff0000, 0xaaaaaa]}
 				/>
 
 				<ambientLight intensity={0.1} />
