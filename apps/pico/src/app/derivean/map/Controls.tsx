@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useCallback, useEffect, useRef, type FC } from "react";
-import { OrthographicCamera, Vector3 } from "three";
+import { MOUSE, OrthographicCamera, Vector3 } from "three";
 
 export namespace Controls {
 	export interface Config {
@@ -66,7 +66,7 @@ export const Controls: FC<Controls.Props> = ({ config }) => {
 			enableDamping={false}
 			screenSpacePanning={false}
 			zoomToCursor
-			mouseButtons={{ LEFT: 2 }}
+			mouseButtons={{ LEFT: MOUSE.PAN }}
 			onChange={onChange}
 		/>
 	);
