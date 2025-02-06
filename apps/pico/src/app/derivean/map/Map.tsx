@@ -29,13 +29,14 @@ export const Map: FC<Map.Props> = ({
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<Canvas
-				// frameloop={"demand"}
+				frameloop={"demand"}
 				gl={{
 					preserveDrawingBuffer: false,
 					powerPreference: "high-performance",
 					toneMapping: ACESFilmicToneMapping,
 					toneMappingExposure: 1.0,
 				}}
+				orthographic
 			>
 				<color
 					attach={"background"}
@@ -63,6 +64,10 @@ export const Map: FC<Map.Props> = ({
 						0xaaaaaa,
 					]}
 				/>
+
+				<mesh>
+					<boxGeometry args={[100, 1, 100]} />
+				</mesh>
 
 				<ambientLight intensity={0.1} />
 				<directionalLight
