@@ -4,6 +4,15 @@ import { XORWow } from "random-seedable";
 import { useCallback, useRef } from "react";
 import { createNoise2D } from "simplex-noise";
 
+const hashStringToSeed = (str: string): number => {
+	let hash = 0;
+	for (let i = 0; i < str.length; i++) {
+		hash = (hash << 5) - hash + str.charCodeAt(i);
+		hash |= 0;
+	}
+	return Math.abs(hash);
+};
+
 export namespace useGenerator {
 	export namespace Config {
 		export interface Tile {
@@ -15,9 +24,10 @@ export namespace useGenerator {
 		}
 
 		export interface Config {
-			seed: number;
+			seed: string;
 			tiles: Record<string, Tile>;
 			plotCount: number;
+			scale: number;
 		}
 	}
 
@@ -40,7 +50,7 @@ export namespace useGenerator {
 }
 
 export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
-	const seedRef = useRef(new XORWow(config.seed));
+	const seedRef = useRef(new XORWow(hashStringToSeed(config.seed)));
 	const cacheRef = useRef(
 		new LRUCache<string, any>({
 			max: cache,
@@ -53,7 +63,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 		}),
 	);
 	const { plotCount } = config;
-	const baseScale = 1 / (plotCount * 12);
+	const baseScale = 1 / (plotCount * config.scale);
 
 	/**
 	 * Generate a Noise Map Per Chunk

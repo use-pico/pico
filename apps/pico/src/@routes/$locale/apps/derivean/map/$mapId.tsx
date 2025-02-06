@@ -28,6 +28,13 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		};
 	},
 	component() {
-		return <Map config={Game} />;
+		const { mapId } = Route.useParams();
+
+		return (
+			<Map
+				mapId={mapId}
+				config={Game}
+			/>
+		);
 	},
 });

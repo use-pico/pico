@@ -17,15 +17,19 @@ export namespace Map {
 	}
 
 	export interface Props {
+		mapId: string;
 		config: Config;
 	}
 }
 
-export const Map: FC<Map.Props> = ({ config }) => {
+export const Map: FC<Map.Props> = ({ mapId, config }) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<MapCanvas config={config}>
-				<Loop config={config} />
+				<Loop
+					mapId={mapId}
+					config={config}
+				/>
 			</MapCanvas>
 		</div>
 	);

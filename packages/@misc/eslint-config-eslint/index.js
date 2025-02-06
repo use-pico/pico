@@ -49,6 +49,7 @@ export default tseslint.config(
 			"no-warning-comments": "off",
 			"no-await-in-loop": "off",
 			"one-var": "off",
+			"no-bitwise": "off",
 			"require-await": "off",
 			"sort-imports": "off",
 			"sort-keys": "off",

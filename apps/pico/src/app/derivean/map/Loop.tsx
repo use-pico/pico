@@ -12,12 +12,26 @@ import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
 
 const tiles: Record<string, useGenerator.Config.Tile> = {
-	water: {
-		id: "water",
+	deepwater: {
+		id: "deepwater",
 		level: "terrain",
 		noise: 0.0,
 		chance: 50,
+		color: 0x0000cc,
+	},
+	water: {
+		id: "water",
+		level: "terrain",
+		noise: 0.15,
+		chance: 50,
 		color: 0x0000ff,
+	},
+	beach: {
+		id: "beach",
+		level: "terrain",
+		noise: 0.2,
+		chance: 100,
+		color: 0xffcc00,
 	},
 	sand: {
 		id: "sand",
@@ -29,9 +43,16 @@ const tiles: Record<string, useGenerator.Config.Tile> = {
 	mountain: {
 		id: "mountain",
 		level: "terrain",
-		noise: 0.9,
+		noise: 0.875,
 		chance: 100,
 		color: 0x999999,
+	},
+	snow: {
+		id: "snow",
+		level: "terrain",
+		noise: 0.95,
+		chance: 100,
+		color: 0xffffff,
 	},
 	rock: {
 		id: "rock",
@@ -43,74 +64,24 @@ const tiles: Record<string, useGenerator.Config.Tile> = {
 	hill: {
 		id: "hill",
 		level: "terrain",
-		noise: 0.65,
+		noise: 0.7,
 		chance: 100,
-		color: 0x00cc23,
+		color: 0x20cc45,
 	},
 	grass: {
 		id: "grass",
 		level: "terrain",
-		noise: 0.55,
+		noise: 0.4,
 		chance: 100,
 		color: 0x00ff00,
 	},
-	// grass: {
-	// 	id: "grass",
-	// 	chance: 85,
-	// 	color: 0x00ff00,
-	// 	link: {
-	// 		tree: {
-	// 			id: "tree",
-	// 			chance: 10,
-	// 		},
-	// 		rock: {
-	// 			id: "rock",
-	// 			chance: 5,
-	// 		},
-	// 		sand: {
-	// 			id: "sand",
-	// 			chance: 35,
-	// 		},
-	// 	},
-	// },
-	// tree: {
-	// 	id: "tree",
-	// 	chance: 75,
-	// 	color: 0x00aa33,
-	// 	link: {
-	// 		tree: {
-	// 			id: "tree",
-	// 			chance: 75,
-	// 		},
-	// 		grass: {
-	// 			id: "grass",
-	// 			chance: 65,
-	// 		},
-	// 		rock: {
-	// 			id: "rock",
-	// 			chance: 5,
-	// 		},
-	// 	},
-	// },
-	// mountain: {
-	// 	id: "mountain",
-	// 	chance: 60,
-	// 	color: 0x999999,
-	// 	link: {
-	// 		mountain: {
-	// 			id: "mountain",
-	// 			chance: 30,
-	// 		},
-	// 		tree: {
-	// 			id: "tree",
-	// 			chance: 20,
-	// 		},
-	// 		rock: {
-	// 			id: "rock",
-	// 			chance: 10,
-	// 		},
-	// 	},
-	// },
+	forest: {
+		id: "forest",
+		level: "terrain",
+		noise: 0.45,
+		chance: 100,
+		color: 0x15dd33,
+	},
 } as const;
 
 export namespace Loop {
@@ -127,11 +98,12 @@ export namespace Loop {
 	}
 
 	export interface Props {
+		mapId: string;
 		config: Config;
 	}
 }
 
-export const Loop: FC<Loop.Props> = ({ config }) => {
+export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 	const { invalidate } = useThree(({ invalidate }) => ({ invalidate }));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
@@ -139,8 +111,9 @@ export const Loop: FC<Loop.Props> = ({ config }) => {
 	const generator = useGenerator({
 		config: {
 			tiles,
-			seed: 1111,
+			seed: mapId,
 			plotCount: config.plotCount,
+			scale: 5,
 		},
 	});
 	const [chunks, setChunks] = useState(
