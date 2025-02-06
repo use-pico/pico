@@ -3,24 +3,33 @@ import { Canvas } from "@react-three/fiber";
 import { tvc } from "@use-pico/common";
 import { FC } from "react";
 import { ACESFilmicToneMapping } from "three";
-import { Game } from "~/app/derivean/Game";
+import { Chunks } from "~/app/derivean/map/Chunks";
 import { Controls } from "~/app/derivean/map/Controls";
-import type { Land } from "~/app/derivean/map/Land";
-import { Lands } from "~/app/derivean/map/Lands";
 
 export namespace Map {
+	export interface Config {
+		/**
+		 * Number of plots in a chunk
+		 */
+		chunkSize: number;
+		/**
+		 * Size of a plot
+		 */
+		plotSize: number;
+	}
+
 	export interface Props {
-		userId: string;
-		cycle: number;
-		land: Land.Land[];
+		config?: Config;
 	}
 }
 
-export const Map: FC<Map.Props> = ({ land }) => {
+export const Map: FC<Map.Props> = ({
+	config = { chunkSize: 32, plotSize: 16 },
+}) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<Canvas
-				frameloop={"demand"}
+				// frameloop={"demand"}
 				gl={{
 					preserveDrawingBuffer: false,
 					powerPreference: "high-performance",
@@ -40,10 +49,19 @@ export const Map: FC<Map.Props> = ({ land }) => {
 					position={[0, 5, 0]}
 				/>
 
-				<Controls />
+				<Controls
+					config={{
+						chunkSize: config.chunkSize,
+					}}
+				/>
 
 				<gridHelper
-					args={[Game.world.size * 2, Game.world.lands * 2, 0xff0000, 0xaaaaaa]}
+					args={[
+						config.chunkSize * config.plotSize,
+						config.plotSize,
+						0xff0000,
+						0xaaaaaa,
+					]}
 				/>
 
 				<ambientLight intensity={0.1} />
@@ -53,7 +71,7 @@ export const Map: FC<Map.Props> = ({ land }) => {
 				/>
 
 				<Bvh firstHitOnly>
-					<Lands land={land} />
+					<Chunks config={config} />
 				</Bvh>
 			</Canvas>
 		</div>
