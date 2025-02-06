@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
 import { z } from "zod";
 import { bootstrap } from "~/app/derivean/db/kysely";
@@ -38,27 +38,27 @@ export const Route = createFileRoute("/$locale/apps/derivean")({
 			}),
 		};
 	},
-	component() {
-		const { image } = Route.useLoaderData();
+	// component() {
+	// 	const { image } = Route.useLoaderData();
 
-		return (
-			<>
-				<style>
-					{image
-						.filter(({ image }) => image.length > 0)
-						.map((bg) => {
-							return `
-                        .bg-${bg.id} {
-                            background-image: url(${bg.image});
-                            background-size: cover;
-                            background-repeat: no-repeat;
-                            background-position: center;
-                        }
-                    `;
-						})}
-				</style>
-				<Outlet />
-			</>
-		);
-	},
+	// 	return (
+	// 		<>
+	// 			<style>
+	// 				{image
+	// 					.filter(({ image }) => image.length > 0)
+	// 					.map((bg) => {
+	// 						return `
+	//                     .bg-${bg.id} {
+	//                         background-image: url(${bg.image});
+	//                         background-size: cover;
+	//                         background-repeat: no-repeat;
+	//                         background-position: center;
+	//                     }
+	//                 `;
+	// 					})}
+	// 			</style>
+	// 			<Outlet />
+	// 		</>
+	// 	);
+	// },
 });

@@ -48,6 +48,7 @@
         "rankdir",
         "ranksep",
         "raycaster",
+        "seedable",
         "sonner",
         "sqlocal",
         "tabler",
