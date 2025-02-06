@@ -1,4 +1,5 @@
 import eslint from "@eslint/js";
+// @ts-ignore
 import reactCompiler from "eslint-plugin-react-compiler";
 import tseslint from "typescript-eslint";
 

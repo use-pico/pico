@@ -27,7 +27,7 @@ export const withPathOf = ({ graph, buildings }: withPathOf.Props) => {
 
 	return [...related.values()].filter(({ buildingId, linkId }) => {
 		const path = withShortestPath({
-			mode: "waypoint",
+			mode: "full",
 			graph,
 			from: buildingId,
 			to: linkId,

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Game } from "~/app/derivean/Game";
 import { Map } from "~/app/derivean/map/Map";
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
@@ -27,6 +28,6 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 		};
 	},
 	component() {
-		return <Map />;
+		return <Map config={Game} />;
 	},
 });

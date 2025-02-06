@@ -31,7 +31,7 @@ export const withMapGenerator = async ({
 
 	const regions = await tx.selectFrom("Region").selectAll().execute();
 
-	const world = Game.world.lands ** 2;
+	const world = 1;
 	const handbrake = 4096 * 4;
 	let landId = 0;
 
@@ -68,7 +68,7 @@ export const withMapGenerator = async ({
 			await tx
 				.insertInto("Plot")
 				.values(
-					Array.from({ length: Game.land.plots ** 2 }, (_, position) => ({
+					Array.from({ length: 1 }, (_, position) => ({
 						id: genId(),
 						mapId: map.id,
 						userId,

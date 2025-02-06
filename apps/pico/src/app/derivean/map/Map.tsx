@@ -1,6 +1,5 @@
 import { tvc } from "@use-pico/common";
 import { FC } from "react";
-import { Game } from "~/app/derivean/Game";
 import { Loop } from "~/app/derivean/map/Loop";
 import { MapCanvas } from "~/app/derivean/map/MapCanvas";
 
@@ -14,16 +13,15 @@ export namespace Map {
 		 * Size of a plot
 		 */
 		plotSize: number;
+		plotCount: number;
 	}
 
 	export interface Props {
-		config?: Config;
+		config: Config;
 	}
 }
 
-export const Map: FC<Map.Props> = ({
-	config = { chunkSize: Game.world.lands, plotSize: Game.plot.size },
-}) => {
+export const Map: FC<Map.Props> = ({ config }) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
 			<MapCanvas config={config}>

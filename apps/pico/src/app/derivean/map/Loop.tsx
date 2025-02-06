@@ -8,39 +8,51 @@ import {
     type FC,
 } from "react";
 import { MOUSE } from "three";
-import { useGenerator } from "~/app/derivean/map/useGenerator";
-import { useVisibleChunks } from "~/app/derivean/map/useVisibleChunks";
+import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
+import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
 
-const tiles = {
+const tiles: Record<string, useGenerator.Config.Tile> = {
 	water: {
 		id: "water",
+		level: "terrain",
+		noise: 0.0,
 		chance: 50,
 		color: 0x0000ff,
-		link: {
-			water: {
-				id: "water",
-				chance: 100,
-			},
-			sand: {
-				id: "sand",
-				chance: 15,
-			},
-		},
 	},
 	sand: {
 		id: "sand",
+		level: "terrain",
+		noise: 0.25,
 		chance: 40,
 		color: 0xffff00,
-		link: {
-			sand: {
-				id: "sand",
-				chance: 40,
-			},
-			grass: {
-				id: "water",
-				chance: 100,
-			},
-		},
+	},
+	mountain: {
+		id: "mountain",
+		level: "terrain",
+		noise: 0.9,
+		chance: 100,
+		color: 0x999999,
+	},
+	rock: {
+		id: "rock",
+		level: "terrain",
+		noise: 0.8,
+		chance: 100,
+		color: 0xaaaaaa,
+	},
+	hill: {
+		id: "hill",
+		level: "terrain",
+		noise: 0.65,
+		chance: 100,
+		color: 0x00cc23,
+	},
+	grass: {
+		id: "grass",
+		level: "terrain",
+		noise: 0.55,
+		chance: 100,
+		color: 0x00ff00,
 	},
 	// grass: {
 	// 	id: "grass",
@@ -107,6 +119,7 @@ export namespace Loop {
 		 * Number of plots in a chunk
 		 */
 		chunkSize: number;
+		plotCount: number;
 		/**
 		 * Size of a plot
 		 */
@@ -121,13 +134,13 @@ export namespace Loop {
 export const Loop: FC<Loop.Props> = ({ config }) => {
 	const { invalidate } = useThree(({ invalidate }) => ({ invalidate }));
 	const visibleChunks = useVisibleChunks({
-		chunkSize: config.chunkSize * config.plotSize,
+		chunkSize: config.chunkSize,
 	});
 	const generator = useGenerator({
 		config: {
 			tiles,
-			seed: 1234,
-			size: config.chunkSize,
+			seed: 54356,
+			plotCount: config.plotCount,
 		},
 	});
 	const [chunks, setChunks] = useState(
@@ -185,13 +198,12 @@ export const Loop: FC<Loop.Props> = ({ config }) => {
 			/>
 
 			{[...chunks.values()].map((chunk) => {
-				const chunkSize = config.chunkSize * config.plotSize;
 				return chunk.tiles.map((tile) => {
-					const tileX = tile.id % config.chunkSize;
-					const tileZ = Math.floor(tile.id / config.chunkSize);
+					const tileX = tile.id % config.plotCount;
+					const tileZ = Math.floor(tile.id / config.plotCount);
 
-					const x = chunk.x * chunkSize + tileX * config.plotSize;
-					const z = chunk.z * chunkSize + tileZ * config.plotSize;
+					const x = chunk.x * config.chunkSize + tileX * config.plotSize;
+					const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
 
 					return (
 						<mesh
@@ -200,7 +212,7 @@ export const Loop: FC<Loop.Props> = ({ config }) => {
 						>
 							<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
 							<meshLambertMaterial
-								color={tiles[tile.tileId as keyof typeof tiles].color}
+								color={tiles[tile.tileId as keyof typeof tiles]!.color}
 							/>
 						</mesh>
 					);

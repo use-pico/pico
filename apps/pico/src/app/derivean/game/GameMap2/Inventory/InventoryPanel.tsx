@@ -58,7 +58,7 @@ export const InventoryPanel: FC<InventoryPanel.Props> = ({
 							"/$locale/apps/derivean/map/$mapId/building/$buildingId/inventory"
 						}
 						params={{ locale, mapId, buildingId: building.id }}
-						search={{ zoomToId: building.id }}
+						// search={{ zoomToId: building.id }}
 					>
 						{building.name}
 					</LinkTo>
