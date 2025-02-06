@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { genId } from "@use-pico/common";
-import { useCallback, useEffect, useState, type FC } from "react";
+import { useCallback, useEffect, useRef, useState, type FC } from "react";
 import { OrthographicCamera, Vector3 } from "three";
 
 export namespace Controls {
@@ -15,14 +15,19 @@ export namespace Controls {
 
 export const Controls: FC<Controls.Props> = ({ config }) => {
 	const { camera, size } = useThree(({ camera, size }) => ({ camera, size }));
+	const cornersRef = useRef([
+		new Vector3(),
+		new Vector3(),
+		new Vector3(),
+		new Vector3(),
+	] as const);
+	const [groundCorners, setGroundCorners] = useState<readonly Vector3[]>([]);
 
 	useEffect(() => {
 		if (!(camera instanceof OrthographicCamera)) {
 			console.error("This computation is designed for an orthographic camera.");
 		}
 	}, [camera]);
-
-	const [groundCorners, setGroundCorners] = useState<Vector3[]>([]);
 
 	const onChange = useCallback(() => {
 		const {
@@ -35,15 +40,13 @@ export const Controls: FC<Controls.Props> = ({ config }) => {
 		const viewHeight = (top - bottom) / zoom;
 		const viewWidth = viewHeight * (size.width / size.height);
 
-		const projectedCorners = [
-			new Vector3(x - viewWidth / 2, 0, z - viewHeight / 2),
-			new Vector3(x + viewWidth / 2, 0, z - viewHeight / 2),
-			new Vector3(x - viewWidth / 2, 0, z + viewHeight / 2),
-			new Vector3(x + viewWidth / 2, 0, z + viewHeight / 2),
-		];
+		cornersRef.current[0].set(x - viewWidth / 2, 0, z - viewHeight / 2);
+		cornersRef.current[1].set(x + viewWidth / 2, 0, z - viewHeight / 2);
+		cornersRef.current[2].set(x - viewWidth / 2, 0, z + viewHeight / 2);
+		cornersRef.current[3].set(x + viewWidth / 2, 0, z + viewHeight / 2);
 
-		setGroundCorners(projectedCorners);
-	}, [camera, setGroundCorners]);
+		setGroundCorners([...cornersRef.current]);
+	}, [camera, cornersRef, setGroundCorners]);
 
 	return (
 		<>
