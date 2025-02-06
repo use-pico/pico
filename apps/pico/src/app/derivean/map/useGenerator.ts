@@ -69,7 +69,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 			current: useGenerator.Config.Tile;
 			neighbors: (string | undefined)[];
 		}) => {
-			if (!current.link.length) {
+			if (!Object.values(current.link).length) {
 				return current.id;
 			}
 
@@ -87,11 +87,9 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 				return current.id;
 			}
 
-			const weight = available.reduce((sum, { chance }) => sum + chance, 0);
-			let random = seedRef.current.randRange(0, weight);
-
 			for (const link of available) {
-				if (random < link.chance) {
+				let random = seedRef.current.randRange(link.chance, 100);
+				if (link.chance >= 100 || random >= link.chance) {
 					return link.id;
 				}
 				random -= link.chance;

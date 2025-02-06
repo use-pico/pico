@@ -19,7 +19,7 @@ const tiles = {
 		link: {
 			water: {
 				id: "water",
-				chance: 50,
+				chance: 100,
 			},
 			sand: {
 				id: "sand",
@@ -37,68 +37,68 @@ const tiles = {
 				chance: 40,
 			},
 			grass: {
-				id: "grass",
-				chance: 35,
+				id: "water",
+				chance: 100,
 			},
 		},
 	},
-	grass: {
-		id: "grass",
-		chance: 85,
-		color: 0x00ff00,
-		link: {
-			tree: {
-				id: "tree",
-				chance: 10,
-			},
-			rock: {
-				id: "rock",
-				chance: 5,
-			},
-			sand: {
-				id: "sand",
-				chance: 35,
-			},
-		},
-	},
-	tree: {
-		id: "tree",
-		chance: 75,
-		color: 0x00aa33,
-		link: {
-			tree: {
-				id: "tree",
-				chance: 75,
-			},
-			grass: {
-				id: "grass",
-				chance: 65,
-			},
-			rock: {
-				id: "rock",
-				chance: 5,
-			},
-		},
-	},
-	mountain: {
-		id: "mountain",
-		chance: 60,
-		color: 0x999999,
-		link: {
-			mountain: {
-				id: "mountain",
-				chance: 30,
-			},
-			tree: {
-				id: "tree",
-				chance: 20,
-			},
-			rock: {
-				id: "rock",
-				chance: 10,
-			},
-		},
-	},
+	// grass: {
+	// 	id: "grass",
+	// 	chance: 85,
+	// 	color: 0x00ff00,
+	// 	link: {
+	// 		tree: {
+	// 			id: "tree",
+	// 			chance: 10,
+	// 		},
+	// 		rock: {
+	// 			id: "rock",
+	// 			chance: 5,
+	// 		},
+	// 		sand: {
+	// 			id: "sand",
+	// 			chance: 35,
+	// 		},
+	// 	},
+	// },
+	// tree: {
+	// 	id: "tree",
+	// 	chance: 75,
+	// 	color: 0x00aa33,
+	// 	link: {
+	// 		tree: {
+	// 			id: "tree",
+	// 			chance: 75,
+	// 		},
+	// 		grass: {
+	// 			id: "grass",
+	// 			chance: 65,
+	// 		},
+	// 		rock: {
+	// 			id: "rock",
+	// 			chance: 5,
+	// 		},
+	// 	},
+	// },
+	// mountain: {
+	// 	id: "mountain",
+	// 	chance: 60,
+	// 	color: 0x999999,
+	// 	link: {
+	// 		mountain: {
+	// 			id: "mountain",
+	// 			chance: 30,
+	// 		},
+	// 		tree: {
+	// 			id: "tree",
+	// 			chance: 20,
+	// 		},
+	// 		rock: {
+	// 			id: "rock",
+	// 			chance: 10,
+	// 		},
+	// 	},
+	// },
 } as const;
 
 export namespace Loop {
