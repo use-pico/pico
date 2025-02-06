@@ -139,7 +139,7 @@ export const Loop: FC<Loop.Props> = ({ config }) => {
 	const generator = useGenerator({
 		config: {
 			tiles,
-			seed: 54356,
+			seed: 1111,
 			plotCount: config.plotCount,
 		},
 	});

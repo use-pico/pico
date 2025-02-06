@@ -43,7 +43,6 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	const cacheRef = useRef(
 		new LRUCache<string, any>({
 			max: cache,
-			ttl: 1000 * 60 * 5,
 		}),
 	);
 	const noiseRef = useRef(
@@ -52,49 +51,34 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 		}),
 	);
 	const { plotCount } = config;
+	const baseScale = 1 / (plotCount * 2); // Ensuring consistent scaling
 
 	/**
-	 * Fractal Brownian Motion (FBM) for smoother noise transitions.
+	 * Generate a Noise Map Per Chunk
 	 */
-	const fbm = useCallback(
-		({
-			x,
-			z,
-			scale,
-			octaves = 4,
-			persistence = 0.4,
-		}: {
-			x: number;
-			z: number;
-			scale: number;
-			octaves?: number;
-			persistence?: number;
-		}) => {
-			let total = 0;
-			let frequency = scale;
-			let amplitude = 1;
-			let maxValue = 0;
+	const generateNoiseMap = useCallback((chunkX, chunkZ) => {
+		const noiseGrid = new Array(plotCount ** 2);
 
-			for (let i = 0; i < octaves; i++) {
-				total += noiseRef.current(x * frequency, z * frequency) * amplitude;
-				maxValue += amplitude;
-				amplitude *= persistence;
-				frequency *= 2;
+		for (let row = 0; row < plotCount; row++) {
+			for (let col = 0; col < plotCount; col++) {
+				const worldX = (chunkX * plotCount + col) * baseScale;
+				const worldZ = (chunkZ * plotCount + (plotCount - row - 1)) * baseScale;
+
+				const noiseValue = noiseRef.current(worldX, worldZ);
+				noiseGrid[row * plotCount + col] = (noiseValue + 1) / 2;
 			}
+		}
+		return noiseGrid;
+	}, []);
 
-			return (total / maxValue + 1) / 2;
-		},
-		[],
-	);
+	const sortedTiles = useRef(
+		Object.values(config.tiles).sort((a, b) => b.noise - a.noise),
+	).current;
 
 	/**
-	 * Determine tile type based on noise value.
+	 * Get tile type based on noise value
 	 */
 	const getTileByNoise = useCallback((noiseValue: number) => {
-		const sortedTiles = Object.values(config.tiles).sort(
-			(a, b) => b.noise - a.noise,
-		);
-
 		for (const tile of sortedTiles) {
 			if (noiseValue >= tile.noise) {
 				return tile.id;
@@ -105,53 +89,30 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	}, []);
 
 	/**
-	 * Generate tile based on globally-consistent FBM noise function.
+	 * Generate a chunk using precomputed noise map
 	 */
-	const tile = useCallback(
-		({ worldX, worldZ }: { worldX: number; worldZ: number }) => {
-			const baseScale = 1 / (plotCount * 4);
-			const noiseValue = fbm({
-				x: worldX,
-				z: worldZ,
-				scale: baseScale,
-				octaves: 4,
-				persistence: 0.5,
-			});
-
-			return getTileByNoise(noiseValue);
-		},
-		[getTileByNoise],
-	);
-
 	return ({ x, z }: useGenerator.Generator.Props) => {
 		const cacheId = `${x}:${z}`;
+		const cached = cacheRef.current.get(cacheId);
 
-		if (cacheRef.current.has(cacheId)) {
-			return cacheRef.current.get(cacheId);
+		if (cached) {
+			return cached;
 		}
 
-		const chunk: useGenerator.Generator.Tile[] = [];
+		// Generate noise grid for this chunk
+		const noiseGrid = generateNoiseMap(x, z);
+		const chunk: useGenerator.Generator.Tile[] = new Array(plotCount ** 2);
 
-		for (let id = 0; id < plotCount ** 2; id++) {
-			const row = id % plotCount;
-			const col = Math.floor(id / plotCount);
+		for (let row = 0; row < plotCount; row++) {
+			for (let col = 0; col < plotCount; col++) {
+				const noiseValue = noiseGrid[row * plotCount + col];
+				const tileId = getTileByNoise(noiseValue);
 
-			const worldX = x * plotCount + col;
-			const worldZ = z * plotCount + row;
+				// Corrected: Keep bottom-left indexing
+				const id = (plotCount - row - 1) * plotCount + col; // Corrected flip
 
-			console.log("sizes", {
-				plotCount,
-				x,
-				z,
-				worldX,
-				worldZ,
-				row,
-				col,
-			});
-
-			const finalTileId = tile({ worldX, worldZ });
-
-			chunk.push({ id, tileId: finalTileId });
+				chunk.push({ id, tileId });
+			}
 		}
 
 		cacheRef.current.set(cacheId, chunk);
