@@ -1,3 +1,4 @@
+import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
 import { XORWow } from "random-seedable";
 import { useCallback, useRef } from "react";
@@ -43,6 +44,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	const cacheRef = useRef(
 		new LRUCache<string, any>({
 			max: cache,
+			ttl: 1000 * 60 * 30,
 		}),
 	);
 	const noiseRef = useRef(
@@ -51,12 +53,12 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 		}),
 	);
 	const { plotCount } = config;
-	const baseScale = 1 / (plotCount * 2); // Ensuring consistent scaling
+	const baseScale = 1 / (plotCount * 12);
 
 	/**
 	 * Generate a Noise Map Per Chunk
 	 */
-	const generateNoiseMap = useCallback((chunkX, chunkZ) => {
+	const generateNoiseMap = useCallback((chunkX: number, chunkZ: number) => {
 		const noiseGrid = new Array(plotCount ** 2);
 
 		for (let row = 0; row < plotCount; row++) {
@@ -92,6 +94,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	 * Generate a chunk using precomputed noise map
 	 */
 	return ({ x, z }: useGenerator.Generator.Props) => {
+		const timer = new Timer();
 		const cacheId = `${x}:${z}`;
 		const cached = cacheRef.current.get(cacheId);
 
@@ -99,7 +102,9 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 			return cached;
 		}
 
-		// Generate noise grid for this chunk
+		timer.start();
+		console.log("Generating chunk", { x, z });
+
 		const noiseGrid = generateNoiseMap(x, z);
 		const chunk: useGenerator.Generator.Tile[] = new Array(plotCount ** 2);
 
@@ -108,14 +113,14 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 				const noiseValue = noiseGrid[row * plotCount + col];
 				const tileId = getTileByNoise(noiseValue);
 
-				// Corrected: Keep bottom-left indexing
-				const id = (plotCount - row - 1) * plotCount + col; // Corrected flip
+				const id = (plotCount - row - 1) * plotCount + col;
 
-				chunk.push({ id, tileId });
+				chunk[id] = { id, tileId };
 			}
 		}
 
 		cacheRef.current.set(cacheId, chunk);
+		console.log(`\t-- Generated in [${timer.stop().ms()}ms]`);
 		return chunk;
 	};
 };
