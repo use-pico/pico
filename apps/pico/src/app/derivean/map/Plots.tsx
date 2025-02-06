@@ -81,6 +81,7 @@ export const Plots: FC<Plots.Props> = ({ land, landX, landZ }) => {
 		if (plots.isSuccess && meshRef.current.instanceColor) {
 			meshRef.current.instanceColor.needsUpdate = true;
 		}
+		plots.isSuccess && meshRef.current!.computeBoundingBox();
 		plots.isSuccess && invalidate();
 	}, [meshRef, dummyRef, colorRef, land.id, plots.isSuccess]);
 

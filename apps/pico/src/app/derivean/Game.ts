@@ -1,11 +1,11 @@
 /**
- * Plot size in pixels.
+ * Plot size.
  */
-const plot = 16;
+const plot = 32;
 /**
  * Number of plots in one row; a land is plots x plots in size.
  */
-const plots = 16;
+const plots = 32;
 /**
  * Size of the land in pixels.
  */
@@ -15,7 +15,7 @@ const land = plot * plots;
  *
  * Be careful as this number may significantly affect performance and database size.
  */
-const lands = 32;
+const lands = 64;
 
 /**
  * Because game is sensitive to various pre-defined sizes, they must be shared.

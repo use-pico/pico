@@ -47,6 +47,7 @@ export const Lands: FC<Lands.Props> = ({ land }) => {
 		if (land.length > 0 && meshRef.current.instanceColor) {
 			meshRef.current.instanceColor.needsUpdate = true;
 		}
+		land.length > 0 && meshRef.current!.computeBoundingBox();
 		land.length > 0 && invalidate();
 	}, [meshRef, dummyRef, colorRef, land]);
 
