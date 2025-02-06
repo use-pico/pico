@@ -5,9 +5,10 @@ import {
     useEffect,
     useState,
     useTransition,
-    type FC,
+    type FC
 } from "react";
 import { MOUSE } from "three";
+import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
 
@@ -116,6 +117,9 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			scale: 5,
 		},
 	});
+    /**
+     * LRU*& cache
+     */
 	const [chunks, setChunks] = useState(
 		new Map<
 			string,
@@ -125,23 +129,21 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 	const [, startTransition] = useTransition();
 
 	const update = useCallback(() => {
-		setTimeout(() => {
-			startTransition(() => {
-				chunks.clear();
-				visibleChunks().forEach((chunk) => {
-					setChunks((prev) => {
-						const key = `${chunk.x}:${chunk.z}`;
-						prev.set(key, {
-							x: chunk.x,
-							z: chunk.z,
-							tiles: generator(chunk),
-						});
-						return new Map(prev);
+		startTransition(() => {
+			chunks.clear();
+			visibleChunks().forEach((chunk) => {
+				setChunks((prev) => {
+					const key = `${chunk.x}:${chunk.z}`;
+					prev.set(key, {
+						x: chunk.x,
+						z: chunk.z,
+						tiles: generator(chunk),
 					});
+					return new Map(prev);
 				});
-				invalidate();
 			});
-		}, 0);
+			invalidate();
+		});
 	}, [
 		chunks,
 		visibleChunks,
@@ -170,27 +172,11 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				}}
 			/>
 
-			{[...chunks.values()].map((chunk) => {
-				return chunk.tiles.map((tile) => {
-					const tileX = tile.id % config.plotCount;
-					const tileZ = Math.floor(tile.id / config.plotCount);
-
-					const x = chunk.x * config.chunkSize + tileX * config.plotSize;
-					const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
-
-					return (
-						<mesh
-							key={`chunk-${chunk.x}:${chunk.z}-tile-${x}:${z}`}
-							position={[x, 0, z]}
-						>
-							<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
-							<meshLambertMaterial
-								color={tiles[tile.tileId as keyof typeof tiles]!.color}
-							/>
-						</mesh>
-					);
-				});
-			})}
+			<Chunks
+				config={config}
+				tiles={tiles}
+				chunks={chunks}
+			/>
 		</>
 	);
 };
