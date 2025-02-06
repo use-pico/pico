@@ -1,5 +1,5 @@
 import { invalidate } from "@react-three/fiber";
-import { useEffect, useRef, type FC } from "react";
+import { useEffect, useRef, type FC, type MutableRefObject } from "react";
 import { Color, Object3D, type InstancedMesh } from "three";
 import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 
@@ -19,14 +19,20 @@ export namespace Chunks {
 	export interface Props {
 		config: Config;
 		tiles: Record<string, { color: number }>;
-		chunks: Map<
-			string,
-			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
+		chunksRef: MutableRefObject<
+			Map<
+				string,
+				{
+					x: number;
+					z: number;
+					tiles: useGenerator.Generator.Tile[];
+				}
+			>
 		>;
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunks }) => {
+export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 	const meshRef = useRef<InstancedMesh>(null);
 	const colorRef = useRef<Color>(new Color());
 	const objectRef = useRef<Object3D>(new Object3D());
@@ -38,7 +44,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunks }) => {
 
 		let i = 0;
 
-		chunks.forEach((chunk) => {
+		chunksRef.current.forEach((chunk) => {
 			chunk.tiles.forEach((tile) => {
 				const tileX = tile.id % config.plotCount;
 				const tileZ = Math.floor(tile.id / config.plotCount);
@@ -65,13 +71,17 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunks }) => {
 		meshRef.current!.computeBoundingBox();
 
 		invalidate();
-	}, [chunks]);
+	});
 
 	return (
 		<instancedMesh
 			frustumCulled={false}
 			ref={meshRef}
-			args={[undefined, undefined, chunks.size * config.plotCount ** 2]}
+			args={[
+				undefined,
+				undefined,
+				chunksRef.current.size * config.plotCount ** 2,
+			]}
 		>
 			<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
 			<meshLambertMaterial color={0xffffff} />

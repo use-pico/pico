@@ -1,12 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import {
-    useCallback,
-    useEffect,
-    useState,
-    useTransition,
-    type FC
-} from "react";
+import { useCallback, useEffect, useReducer, useRef, type FC } from "react";
 import { MOUSE } from "three";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
@@ -117,41 +111,27 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			scale: 5,
 		},
 	});
-    /**
-     * LRU*& cache
-     */
-	const [chunks, setChunks] = useState(
+	const chunks = useRef(
 		new Map<
 			string,
 			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
 		>(),
 	);
-	const [, startTransition] = useTransition();
+
+	const [, render] = useReducer((x) => x + 1, 0);
 
 	const update = useCallback(() => {
-		startTransition(() => {
-			chunks.clear();
-			visibleChunks().forEach((chunk) => {
-				setChunks((prev) => {
-					const key = `${chunk.x}:${chunk.z}`;
-					prev.set(key, {
-						x: chunk.x,
-						z: chunk.z,
-						tiles: generator(chunk),
-					});
-					return new Map(prev);
-				});
+		chunks.current.clear();
+		visibleChunks().forEach((chunk) => {
+			chunks.current.set(`${chunk.x}:${chunk.z}`, {
+				x: chunk.x,
+				z: chunk.z,
+				tiles: generator(chunk),
 			});
-			invalidate();
 		});
-	}, [
-		chunks,
-		visibleChunks,
-		setChunks,
-		generator,
-		invalidate,
-		startTransition,
-	]);
+		invalidate();
+		render();
+	}, [chunks, visibleChunks, generator, invalidate]);
 
 	useEffect(() => {
 		update();
@@ -175,7 +155,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			<Chunks
 				config={config}
 				tiles={tiles}
-				chunks={chunks}
+				chunksRef={chunks}
 			/>
 		</>
 	);
