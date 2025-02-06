@@ -1,7 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { genId } from "@use-pico/common";
-import { useCallback, useEffect, useRef, useState, type FC } from "react";
+import { useCallback, useEffect, useRef, type FC } from "react";
 import { OrthographicCamera, Vector3 } from "three";
 
 export namespace Controls {
@@ -21,7 +20,7 @@ export const Controls: FC<Controls.Props> = ({ config }) => {
 		new Vector3(),
 		new Vector3(),
 	] as const);
-	const [groundCorners, setGroundCorners] = useState<readonly Vector3[]>([]);
+	const chunksRef = useRef(new Set<string>());
 
 	useEffect(() => {
 		if (!(camera instanceof OrthographicCamera)) {
@@ -45,31 +44,30 @@ export const Controls: FC<Controls.Props> = ({ config }) => {
 		cornersRef.current[2].set(x - viewWidth / 2, 0, z + viewHeight / 2);
 		cornersRef.current[3].set(x + viewWidth / 2, 0, z + viewHeight / 2);
 
-		setGroundCorners([...cornersRef.current]);
-	}, [camera, cornersRef, setGroundCorners]);
+		const minChunkX = Math.floor(cornersRef.current[0].x / config.chunkSize);
+		const maxChunkX = Math.floor(cornersRef.current[1].x / config.chunkSize);
+		const minChunkZ = Math.floor(cornersRef.current[0].z / config.chunkSize);
+		const maxChunkZ = Math.floor(cornersRef.current[2].z / config.chunkSize);
+
+		chunksRef.current.clear();
+
+		for (let chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
+			for (let chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
+				chunksRef.current.add(`${chunkX},${chunkZ}`);
+			}
+		}
+	}, [camera, size, cornersRef, chunksRef]);
 
 	return (
-		<>
-			<OrbitControls
-				enableRotate={false}
-				enablePan={true}
-				enableZoom={true}
-				enableDamping={false}
-				screenSpacePanning={false}
-				zoomToCursor
-				mouseButtons={{ LEFT: 2 }}
-				onChange={onChange}
-			/>
-
-			{groundCorners.map((corner, i) => (
-				<mesh
-					position={corner}
-					key={genId()}
-				>
-					<sphereGeometry args={[10 * camera.zoom]} />
-					<meshBasicMaterial color={0xaa00ff} />
-				</mesh>
-			))}
-		</>
+		<OrbitControls
+			enableRotate={false}
+			enablePan={true}
+			enableZoom={true}
+			enableDamping={false}
+			screenSpacePanning={false}
+			zoomToCursor
+			mouseButtons={{ LEFT: 2 }}
+			onChange={onChange}
+		/>
 	);
 };

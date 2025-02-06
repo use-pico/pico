@@ -65,10 +65,6 @@ export const Map: FC<Map.Props> = ({
 					]}
 				/>
 
-				<mesh>
-					<boxGeometry args={[100, 1, 100]} />
-				</mesh>
-
 				<ambientLight intensity={0.1} />
 				<directionalLight
 					color={0xffffff}
