@@ -40,8 +40,8 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ config, children }) => {
 
 			<OrthographicCamera
 				makeDefault
-				zoom={5}
-				position={[0, 500, 0]}
+				zoom={1}
+				position={[0, 10, 0]}
 			/>
 
 			{/* <gridHelper

@@ -1,4 +1,3 @@
-import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
 import { XORWow } from "random-seedable";
 import { useCallback, useRef } from "react";
@@ -27,6 +26,7 @@ export namespace useGenerator {
 			seed: string;
 			tiles: Record<string, Tile>;
 			plotCount: number;
+			plotSize: number;
 			scale: number;
 		}
 	}
@@ -40,6 +40,8 @@ export namespace useGenerator {
 		export interface Tile {
 			id: number;
 			tileId: string;
+			x: number;
+			z: number;
 		}
 
 		export interface Props {
@@ -104,16 +106,12 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	 * Generate a chunk using precomputed noise map
 	 */
 	return ({ x, z }: useGenerator.Generator.Props) => {
-		const timer = new Timer();
 		const cacheId = `${x}:${z}`;
 		const cached = cacheRef.current.get(cacheId);
 
 		if (cached) {
 			return cached;
 		}
-
-		timer.start();
-		console.log("Generating chunk", { x, z });
 
 		const noiseGrid = generateNoiseMap(x, z);
 		const chunk: useGenerator.Generator.Tile[] = new Array(plotCount ** 2);
@@ -125,12 +123,19 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 
 				const id = (plotCount - row - 1) * plotCount + col;
 
-				chunk[id] = { id, tileId };
+				const tileX = id % config.plotCount;
+				const tileZ = Math.floor(id / config.plotCount);
+
+				chunk[id] = {
+					id,
+					tileId,
+					x: tileX * config.plotSize,
+					z: tileZ * config.plotSize,
+				};
 			}
 		}
 
 		cacheRef.current.set(cacheId, chunk);
-		console.log(`\t-- Generated in [${timer.stop().ms()}ms]`);
 		return chunk;
 	};
 };

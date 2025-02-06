@@ -108,10 +108,11 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			tiles,
 			seed: mapId,
 			plotCount: config.plotCount,
+			plotSize: config.plotSize,
 			scale: 5,
 		},
 	});
-	const chunks = useRef(
+	const chunkRef = useRef(
 		new Map<
 			string,
 			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
@@ -121,9 +122,9 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 	const [, render] = useReducer((x) => x + 1, 0);
 
 	const update = useCallback(() => {
-		chunks.current.clear();
+		chunkRef.current.clear();
 		visibleChunks().forEach((chunk) => {
-			chunks.current.set(`${chunk.x}:${chunk.z}`, {
+			chunkRef.current.set(`${chunk.x}:${chunk.z}`, {
 				x: chunk.x,
 				z: chunk.z,
 				tiles: generator(chunk),
@@ -131,7 +132,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		});
 		invalidate();
 		render();
-	}, [chunks, visibleChunks, generator, invalidate]);
+	}, [chunkRef, visibleChunks, generator, invalidate]);
 
 	useEffect(() => {
 		update();
@@ -146,16 +147,22 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				enableDamping={false}
 				screenSpacePanning={false}
 				zoomToCursor
+				/**
+				 * How far
+				 */
+				minZoom={0.5}
+				/**
+				 * How close
+				 */
+				maxZoom={15}
 				mouseButtons={{ LEFT: MOUSE.PAN }}
-				onChange={() => {
-					update();
-				}}
+				onChange={update}
 			/>
 
 			<Chunks
 				config={config}
 				tiles={tiles}
-				chunksRef={chunks}
+				chunksRef={chunkRef}
 			/>
 		</>
 	);

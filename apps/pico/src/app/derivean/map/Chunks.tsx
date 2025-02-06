@@ -75,7 +75,6 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 
 	return (
 		<instancedMesh
-			frustumCulled={false}
 			ref={meshRef}
 			args={[
 				undefined,

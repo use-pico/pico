@@ -53,6 +53,6 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 			}
 		}
 
-		return [...chunksRef.current];
+		return chunksRef.current;
 	};
 };
