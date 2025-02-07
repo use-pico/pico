@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useCallback, useEffect, useReducer, useRef, type FC } from "react";
-import { MOUSE } from "three";
+import { MOUSE, type DirectionalLight } from "three";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
@@ -99,7 +99,10 @@ export namespace Loop {
 }
 
 export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
-	const { invalidate } = useThree(({ invalidate }) => ({ invalidate }));
+	const { camera, invalidate } = useThree(({ camera, invalidate }) => ({
+		camera,
+		invalidate,
+	}));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
 	});
@@ -118,10 +121,25 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
 		>(),
 	);
+	const lightRef = useRef<DirectionalLight>(null);
 
 	const [, render] = useReducer((x) => x + 1, 0);
 
 	const update = useCallback(() => {
+		if (lightRef.current) {
+			lightRef.current.position.set(
+				camera.position.x + 256,
+				camera.position.y + 256,
+				camera.position.z + 256,
+			);
+			lightRef.current.target.position.set(
+				camera.position.x,
+				0,
+				camera.position.z,
+			);
+			lightRef.current.target.updateMatrixWorld();
+		}
+
 		chunkRef.current.clear();
 		visibleChunks().forEach((chunk) => {
 			chunkRef.current.set(`${chunk.x}:${chunk.z}`, {
@@ -140,6 +158,22 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 
 	return (
 		<>
+			<directionalLight
+				ref={lightRef}
+				castShadow
+				color={0xffffff}
+				intensity={8}
+				position={[0, 256, 256]}
+				shadow-mapSize={[4096, 4096]}
+				shadow-camera-left={-1000}
+				shadow-camera-right={1000}
+				shadow-camera-top={1000}
+				shadow-camera-bottom={-1000}
+				shadow-bias={-0.0001}
+				shadow-normalBias={0.1}
+				shadow-radius={15}
+			/>
+
 			<OrbitControls
 				enableRotate={false}
 				enablePan={true}

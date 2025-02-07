@@ -41,6 +41,7 @@ export namespace useGenerator {
 			id: number;
 			tileId: string;
 			x: number;
+			y: number;
 			z: number;
 		}
 
@@ -130,6 +131,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 					id,
 					tileId,
 					x: tileX * config.plotSize,
+					y: noiseValue,
 					z: tileZ * config.plotSize,
 				};
 			}
