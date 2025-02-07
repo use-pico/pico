@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.24
+
+### Patch Changes
+
+- Improved upload
+
 ## 4.0.23
 
 ### Patch Changes

@@ -17,7 +17,7 @@ export namespace useUpload {
 		}
 	}
 
-	export interface Props extends Pick<useChunk.Props, "onStart" | "onError"> {
+	export interface Props extends Pick<useChunk.Props, "onError"> {
 		/**
 		 * Where to upload chunk of the file.
 		 *
@@ -41,12 +41,18 @@ export namespace useUpload {
 		path: string;
 		replace?: boolean;
 
+		onStart?(props: { file: File }): Promise<void>;
+
 		onFinish?(
 			props: useLoop.onFinish.Props & {
-				file: File.Type;
+				file: File;
+				data: File.Type;
 			},
 		): Promise<void>;
 	}
+
+	export type onStart = Props["onStart"];
+	export type onFinish = Props["onFinish"];
 }
 
 export const useUpload = ({
@@ -80,8 +86,10 @@ export const useUpload = ({
 				},
 			);
 		},
-		onStart,
-		onFinish: async (props) => {
+		async onStart() {
+			return onStart?.({ file });
+		},
+		async onFinish(props) {
 			return axios
 				.post<
 					unknown,
@@ -107,7 +115,8 @@ export const useUpload = ({
 				.then(({ data }) =>
 					onFinish?.({
 						...props,
-						file: data,
+						file,
+						data,
 					}),
 				);
 		},
