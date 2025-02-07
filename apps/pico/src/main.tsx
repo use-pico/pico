@@ -6,13 +6,13 @@ import {
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { LoadingOverlay, PageCss } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
 import { kysely } from "~/app/derivean/db/kysely";
 import { SessionSchema } from "~/app/derivean/schema/SessionSchema";
 
 import "@xyflow/react/dist/style.css";
-import { StrictMode } from "react";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({

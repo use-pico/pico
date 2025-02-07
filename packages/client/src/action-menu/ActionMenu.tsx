@@ -9,7 +9,7 @@ import { ActionMenuCss } from "./ActionMenuCss";
 export namespace ActionMenu {
 	export interface Props extends ActionMenuCss.Props<PropsWithChildren> {
 		icon?: string | ReactNode;
-		iconProps?: Icon.Props;
+		iconProps?: Omit<Icon.Props, "icon">;
 	}
 }
 
@@ -31,6 +31,9 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				target={
 					<Icon
 						icon={icon}
+						css={{
+							base: ["cursor-pointer"],
+						}}
 						{...iconProps}
 					/>
 				}

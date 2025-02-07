@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.20
+
+### Patch Changes
+
+- Fixed action menu style
+
 ## 4.0.19
 
 ### Patch Changes
