@@ -10,6 +10,7 @@ const defaultChunkSize = 1048576 * 4;
 export namespace useUpload {
 	export namespace File {
 		export interface Type {
+			id: string;
 			name: string;
 			path: string;
 			mime: string;

@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.25
+
+### Patch Changes
+
+- Added missing property
+
 ## 4.0.24
 
 ### Patch Changes
