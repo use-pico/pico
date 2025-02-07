@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.21
+
+### Patch Changes
+
+- Added download icon
+
 ## 4.0.20
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import buildUrl from "build-url-ts";
+import { buildUrl } from "build-url-ts";
 import { compile, match } from "path-to-regexp";
 import { diffOf } from "../toolbox/diffOf";
 import { isEmpty } from "../toolbox/isEmpty";
