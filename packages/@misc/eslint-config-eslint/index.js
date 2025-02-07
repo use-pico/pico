@@ -7,6 +7,7 @@ export default tseslint.config(
 	eslint.configs.all,
 	...tseslint.configs.strict,
 	...tseslint.configs.stylistic,
+	// ...reactCompiler.configs.recommended,
 	{
 		plugins: {
 			"react-compiler": reactCompiler,
@@ -63,7 +64,7 @@ export default tseslint.config(
 					caughtErrorsIgnorePattern: "^_",
 				},
 			],
-			"react-compiler/react-compiler": "warn",
+			"react-compiler/react-compiler": "off",
 		},
 	},
 );

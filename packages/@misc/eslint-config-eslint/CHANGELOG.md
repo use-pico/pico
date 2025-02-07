@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 5.0.0
+
+### Major Changes
+
+- Disabled eslint for react-compiler
+
 ## 4.0.8
 
 ### Patch Changes

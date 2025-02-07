@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.2",
-		"@use-pico/eslint-config-eslint": "^4.0.8",
+		"@use-pico/eslint-config-eslint": "^5.0.0",
 		"@use-pico/tsconfig": "^4.0.7",
 		"eslint": "^9.17.0",
 		"typescript": "^5.7.2"
