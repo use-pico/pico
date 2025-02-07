@@ -14,17 +14,16 @@ export namespace JustDropZone {
 	export interface Props
 		extends JustDropZoneCss.Props<dropzone.DropzoneOptions> {
 		id?: string;
-		text?: {
-			title?: ReactNode;
-			message?: ReactNode;
-		};
+		textTile?: ReactNode;
+		textMessage?: ReactNode;
 	}
 }
 
 export const JustDropZone: FC<JustDropZone.Props> = ({
 	id,
 	accept,
-	text,
+	textTile,
+	textMessage,
 	variant,
 	tva = JustDropZoneCss,
 	css,
@@ -63,10 +62,10 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 						variant={{ size: "4xl" }}
 					/>
 					<p className={"mb-2 text-sm font-semibold"}>
-						{text?.title || translator.rich("Drag 'n' drop a file here")}
+						{textTile || translator.rich("Drag 'n' drop a file here")}
 					</p>
-					{text?.message ?
-						<p className={"text-xs"}>{text.message}</p>
+					{textMessage ?
+						<p className={"text-xs"}>{textMessage}</p>
 					:	null}
 				</div>
 				<input

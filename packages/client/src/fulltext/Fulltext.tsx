@@ -1,6 +1,6 @@
 import { translator } from "@use-pico/common";
 import type { FC } from "react";
-import { useDebounce } from "../hook/useDebounce";
+import { useDebounce } from "../debounce/useDebounce";
 import { Icon } from "../icon/Icon";
 import { FulltextCss } from "./FulltextCss";
 
