@@ -128,9 +128,9 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 	const update = useCallback(() => {
 		if (lightRef.current) {
 			lightRef.current.position.set(
-				camera.position.x + 256,
-				camera.position.y - 256,
-				camera.position.z + 256,
+				camera.position.x - 256,
+				256,
+				camera.position.z - 256,
 			);
 			lightRef.current.target.position.set(
 				camera.position.x,
@@ -165,22 +165,22 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				intensity={4}
 				position={[0, 256, 256]}
 				shadow-mapSize={[4096, 4096]}
-				shadow-camera-left={-1000}
-				shadow-camera-right={1000}
-				shadow-camera-top={1000}
-				shadow-camera-bottom={-1000}
 				shadow-bias={-0.0001}
 				shadow-normalBias={0.1}
 				shadow-radius={15}
 			/>
 
 			<OrbitControls
-				enableRotate={false}
+				enableRotate={true}
 				enablePan={true}
 				enableZoom={true}
-				enableDamping={false}
+				enableDamping={true}
 				screenSpacePanning={false}
 				zoomToCursor
+				minPolarAngle={Math.PI / 8}
+				maxPolarAngle={Math.PI / 3}
+				minDistance={2048}
+				maxDistance={4096}
 				/**
 				 * How far
 				 */
@@ -189,7 +189,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				 * How close
 				 */
 				maxZoom={15}
-				mouseButtons={{ LEFT: MOUSE.PAN }}
+				mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
 				onChange={update}
 			/>
 

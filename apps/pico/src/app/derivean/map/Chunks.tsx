@@ -51,7 +51,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 				const x = chunk.x * config.chunkSize + tileX * config.plotSize;
 				const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
 
-				objectRef.current!.position.set(x, tile.y * 128, z);
+				objectRef.current!.position.set(x, tile.y * 512, z);
 				objectRef.current!.updateMatrix();
 
 				meshRef.current!.setMatrixAt(i, objectRef.current!.matrix);
@@ -73,7 +73,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 		invalidate();
 	});
 
-	const hoverY = 5;
+	const hoverY = 32;
 	const hoverScale = 1.5;
 
 	const handlePointerEnter = (event: ThreeEvent<PointerEvent>) => {
@@ -124,15 +124,14 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 				undefined,
 				chunksRef.current.size * config.plotCount ** 2,
 			]}
-			onPointerEnter={handlePointerEnter}
-			onPointerLeave={handlePointerLeave}
+			// onPointerEnter={handlePointerEnter}
+			// onPointerLeave={handlePointerLeave}
 			castShadow
 			receiveShadow
 		>
-			<boxGeometry args={[config.plotSize, 5, config.plotSize]} />
+			<boxGeometry args={[config.plotSize, 128, config.plotSize]} />
 			<meshStandardMaterial
 				color={0xffffff}
-				metalness={0.1}
 				roughness={0.5}
 			/>
 		</instancedMesh>

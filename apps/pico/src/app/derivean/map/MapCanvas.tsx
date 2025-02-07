@@ -30,15 +30,15 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ config, children }) => {
 				powerPreference: "high-performance",
 				toneMapping: ACESFilmicToneMapping,
 				toneMappingExposure: 1.0,
-				antialias: true,
+				// antialias: true,
 			}}
-			orthographic
 			camera={{
 				zoom: 1,
-				position: [0, 1024, 0],
-				// rotation: [-Math.atan(Math.sqrt(2)), Math.PI / 4, 0],
+				position: [64, 512, 64],
+				rotation: [-Math.atan(Math.sqrt(2)), Math.PI / 4, 0],
 				near: 0.1,
-				far: 2048,
+				far: 4096,
+				castShadow: false,
 			}}
 			shadows
 			dpr={[1, 2]}
