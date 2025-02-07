@@ -129,7 +129,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		if (lightRef.current) {
 			lightRef.current.position.set(
 				camera.position.x + 256,
-				camera.position.y + 256,
+				camera.position.y - 256,
 				camera.position.z + 256,
 			);
 			lightRef.current.target.position.set(
@@ -162,7 +162,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				ref={lightRef}
 				castShadow
 				color={0xffffff}
-				intensity={8}
+				intensity={4}
 				position={[0, 256, 256]}
 				shadow-mapSize={[4096, 4096]}
 				shadow-camera-left={-1000}

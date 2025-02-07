@@ -1,4 +1,4 @@
-import { OrthographicCamera, Stats } from "@react-three/drei";
+import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { EffectComposer, SSAO } from "@react-three/postprocessing";
 import type { FC, PropsWithChildren } from "react";
@@ -33,6 +33,13 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ config, children }) => {
 				antialias: true,
 			}}
 			orthographic
+			camera={{
+				zoom: 1,
+				position: [0, 1024, 0],
+				// rotation: [-Math.atan(Math.sqrt(2)), Math.PI / 4, 0],
+				near: 0.1,
+				far: 2048,
+			}}
 			shadows
 			dpr={[1, 2]}
 		>
@@ -41,14 +48,6 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ config, children }) => {
 				args={[0x101510]}
 			/>
 			<Stats />
-
-			<OrthographicCamera
-				makeDefault
-				zoom={1}
-				position={[0, 100, 0]}
-				near={0.1}
-				far={2000}
-			/>
 
 			{/* <gridHelper
 				args={[config.chunkSize, config.plotSize, 0xff0000, 0xaaaaaa]}

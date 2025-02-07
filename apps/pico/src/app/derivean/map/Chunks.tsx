@@ -51,7 +51,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 				const x = chunk.x * config.chunkSize + tileX * config.plotSize;
 				const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
 
-				objectRef.current!.position.set(x, tile.y * 96, z);
+				objectRef.current!.position.set(x, tile.y * 128, z);
 				objectRef.current!.updateMatrix();
 
 				meshRef.current!.setMatrixAt(i, objectRef.current!.matrix);
