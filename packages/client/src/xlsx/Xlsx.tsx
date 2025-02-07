@@ -11,7 +11,7 @@ export namespace Xlsx {
 		data: Record<string | number, any[] | undefined>;
 	}
 
-	export interface Props extends JustDropZone.Props {
+	export interface Props extends Omit<JustDropZone.Props, "children"> {
 		load?: (string | number)[];
 		map?(result: Result): Promise<Result>;
 		onSuccess?(result: Result): Promise<void>;
@@ -19,7 +19,13 @@ export namespace Xlsx {
 	}
 }
 
-export const Xlsx: FC<Xlsx.Props> = ({ load = [], map = (result) => result, onSuccess = () => null, children = () => null, ...props }) => {
+export const Xlsx: FC<Xlsx.Props> = ({
+	load = [],
+	map = (result) => result,
+	onSuccess = () => null,
+	children = () => null,
+	...props
+}) => {
 	const [file, setFile] = useState<File | null>(null);
 	const [sheet, setSheet] = useState<string | null>(null);
 
@@ -48,31 +54,31 @@ export const Xlsx: FC<Xlsx.Props> = ({ load = [], map = (result) => result, onSu
 		return children(data.data);
 	}
 
-	return file ? (
-		<>
-			<SheetSelect
-				file={file}
-				onItem={({ name }) => {
-					setSheet(name);
+	return file ?
+			<>
+				<SheetSelect
+					file={file}
+					onItem={({ name }) => {
+						setSheet(name);
+					}}
+				/>
+			</>
+		:	<JustDropZone
+				accept={{
+					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+						".xlsx",
+					],
+					"application/x-excel": [".xlsx"],
+					"application/vnd.ms-excel": [".xlsx"],
 				}}
-			/>
-		</>
-	) : (
-		<JustDropZone
-			accept={{
-				"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
-				"application/x-excel": [".xlsx"],
-				"application/vnd.ms-excel": [".xlsx"],
-			}}
-			onDropAccepted={async (files) => {
-				const [file] = files;
-				if (!file) {
-					return;
-				}
+				onDropAccepted={async (files) => {
+					const [file] = files;
+					if (!file) {
+						return;
+					}
 
-				setFile(file);
-			}}
-			{...props}
-		/>
-	);
+					setFile(file);
+				}}
+				{...props}
+			/>;
 };

@@ -1,5 +1,5 @@
 import { translator } from "@use-pico/common";
-import { type FC, type ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import * as dropzone from "react-dropzone";
 import { Icon } from "../icon/Icon";
 import { UploadIcon } from "../icon/UploadIcon";
@@ -16,6 +16,10 @@ export namespace JustDropZone {
 		id?: string;
 		textTile?: ReactNode;
 		textMessage?: ReactNode;
+		/**
+		 * Renders, when file(s) is dropped.
+		 */
+		children?: FC<{ files: File[]; clear(): void }>;
 	}
 }
 
@@ -27,8 +31,11 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	variant,
 	tva = JustDropZoneCss,
 	css,
+	children: Children,
+	onDropAccepted,
 	...props
 }) => {
+	const [files, setFiles] = useState<File[]>();
 	const { getRootProps, getInputProps, isDragActive, isDragReject } =
 		useDropzone({
 			noClick: true,
@@ -37,6 +44,13 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			maxFiles: 1,
 			minSize: 0,
 			maxSize: 8 * 1024 ** 2,
+			onDropAccepted(files, e) {
+				setFiles(files);
+				onDropAccepted?.(files, e);
+			},
+			onError(e) {
+				console.error(e);
+			},
 			...props,
 		});
 
@@ -75,6 +89,17 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 					{...getInputProps()}
 				/>
 			</label>
+
+			{Children && files && files.length > 0 ?
+				<div className={tv.content()}>
+					<Children
+						files={files}
+						clear={() => {
+							setFiles(undefined);
+						}}
+					/>
+				</div>
+			:	null}
 		</div>
 	);
 };

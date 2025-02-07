@@ -27,6 +27,9 @@ export const JustDropZoneCss = css({
 			"pb-6",
 			"text-slate-500",
 		],
+		content: [
+			//
+		],
 	},
 	variant: {
 		active: {
