@@ -1,5 +1,7 @@
 import type { linkTo } from "@use-pico/common";
-import { type FC } from "react";
+import { useCallback, type FC } from "react";
+import { Button } from "../button/Button";
+import { Tx } from "../tx/Tx";
 import { Upload } from "../upload/Upload";
 import type { useUpload } from "../upload/useUpload";
 import { JustDropZone } from "./JustDropZone";
@@ -28,26 +30,48 @@ export const DropZone: FC<DropZone.Props> = ({
 	return (
 		<JustDropZone {...props}>
 			{({ files, clear }) => {
+				/**
+				 * TODO Track uploaded files, fire an event when all of them are uploaded (prevent re-renders/re-mounts).
+				 */
+
+				const $onStart = useCallback<NonNullable<useUpload.onStart>>(
+					async (event) => {
+						return onStart?.(event);
+					},
+					[onStart],
+				);
+				const $onFinish = useCallback<NonNullable<useUpload.onFinish>>(
+					async (event) => {
+						return onFinish?.(event);
+					},
+					[onFinish],
+				);
+
 				return (
 					<div className={"flex flex-col items-center justify-center h-full"}>
-						{files.map((file) => {
-							return (
-								<Upload
-									key={file.name}
-									file={file}
-									path={path}
-									onStart={async (event) => {
-										onStart?.(event);
-									}}
-									onFinish={async (event) => {
-										clear();
-										onFinish?.(event);
-									}}
-									chunkHref={chunkHref}
-									commitHref={commitHref}
-								/>
-							);
-						})}
+						<div className={"flex flex-col items-center justify-center h-full"}>
+							{files.map((file) => {
+								return (
+									<Upload
+										key={file.name}
+										file={file}
+										path={path}
+										onStart={$onStart}
+										onFinish={$onFinish}
+										chunkHref={chunkHref}
+										commitHref={commitHref}
+									/>
+								);
+							})}
+						</div>
+						<Button
+							variant={{ variant: "subtle" }}
+							onClick={() => {
+								clear();
+							}}
+						>
+							<Tx label={"Clear files"} />
+						</Button>
 					</div>
 				);
 			}}

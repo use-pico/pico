@@ -1,5 +1,17 @@
 # @use-pico/client
 
+## 4.0.27
+
+### Patch Changes
+
+- Updated DropZone
+
+## 4.0.26
+
+### Patch Changes
+
+- Fixed markup
+
 ## 4.0.25
 
 ### Patch Changes

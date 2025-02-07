@@ -75,11 +75,11 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 						icon={UploadIcon}
 						variant={{ size: "4xl" }}
 					/>
-					<p className={"mb-2 text-sm font-semibold"}>
+					<div className={"mb-2 text-sm font-semibold"}>
 						{textTile || translator.rich("Drag 'n' drop a file here")}
-					</p>
+					</div>
 					{textMessage ?
-						<p className={"text-xs"}>{textMessage}</p>
+						<div className={"text-xs"}>{textMessage}</div>
 					:	null}
 				</div>
 				<input
