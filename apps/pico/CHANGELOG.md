@@ -1,5 +1,23 @@
 # pico
 
+## 0.5.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.0.19
+  - @use-pico/common@4.0.10
+  - @use-pico/server@4.0.7
+
+## 0.5.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.0.18
+  - @use-pico/common@4.0.9
+  - @use-pico/server@4.0.6
+
 ## 0.5.7
 
 ### Patch Changes
