@@ -64,14 +64,17 @@ export const DropZone: FC<DropZone.Props> = ({
 								);
 							})}
 						</div>
-						<Button
-							variant={{ variant: "subtle" }}
-							onClick={() => {
-								clear();
-							}}
-						>
-							<Tx label={"Clear files"} />
-						</Button>
+
+						<div>
+							<Button
+								variant={{ variant: "subtle" }}
+								onClick={() => {
+									clear();
+								}}
+							>
+								<Tx label={"Clear files"} />
+							</Button>
+						</div>
 					</div>
 				);
 			}}
