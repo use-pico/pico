@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.11
+
+### Patch Changes
+
+- Added linkTo
+
 ## 4.0.10
 
 ### Patch Changes
