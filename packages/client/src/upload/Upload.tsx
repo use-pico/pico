@@ -18,16 +18,18 @@ export namespace Upload {
 export const Upload: FC<Upload.Props> = ({ progressProps, ...props }) => {
 	const { isRunning, isSuccess, isError, percent } = useUpload(props);
 	return (
-		<Progress
-			{...progressProps}
-			css={{
-				progress: [
-					isSuccess && "bg-green-400",
-					isRunning && "bg-blue-400",
-					isError && "bg-red-400",
-				],
-			}}
-			value={percent()}
-		/>
+		<div className={"w-full"}>
+			<Progress
+				{...progressProps}
+				css={{
+					progress: [
+						isSuccess && "bg-green-400",
+						isRunning && "bg-blue-400",
+						isError && "bg-red-400",
+					],
+				}}
+				value={percent()}
+			/>
+		</div>
 	);
 };

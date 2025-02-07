@@ -19,7 +19,7 @@ export namespace JustDropZone {
 		/**
 		 * Renders, when file(s) is dropped.
 		 */
-		children?: FC<{ files: File[]; clear(): void }>;
+		children?: FC<{ files: File[]; clear(): void; remove(file: File): void }>;
 	}
 }
 
@@ -35,7 +35,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	onDropAccepted,
 	...props
 }) => {
-	const [files, setFiles] = useState<File[]>();
+	const [files, setFiles] = useState<File[]>([]);
 	const { getRootProps, getInputProps, isDragActive, isDragReject } =
 		useDropzone({
 			noClick: true,
@@ -95,7 +95,10 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 					<Children
 						files={files}
 						clear={() => {
-							setFiles(undefined);
+							setFiles([]);
+						}}
+						remove={(file) => {
+							setFiles(files.filter((f) => f !== file));
 						}}
 					/>
 				</div>

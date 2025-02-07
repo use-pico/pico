@@ -2,7 +2,14 @@ import { css } from "@use-pico/common";
 
 export const JustDropZoneCss = css({
 	slot: {
-		base: ["flex", "items-center", "justify-center", "w-full"],
+		base: [
+			"flex",
+			"flex-col",
+			"gap-2",
+			"items-center",
+			"justify-center",
+			"w-full",
+		],
 		label: [
 			"flex",
 			"flex-col",
