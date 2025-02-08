@@ -1,5 +1,5 @@
 {
-	"version": "4.0.12",
+	"version": "4.0.13",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",
@@ -32,6 +32,7 @@
 		"axios-rate-limit": "^1.4.0",
 		"axios": "^1.7.9",
 		"build-url-ts": "^6.1.8",
+		"fast-clean": "^1.4.0",
 		"flattie": "^1.1.1",
 		"is-callable": "^1.2.7",
 		"is-empty": "^1.2.0",

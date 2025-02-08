@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.13
+
+### Patch Changes
+
+- Added new utility functions
+
 ## 4.0.12
 
 ### Patch Changes
