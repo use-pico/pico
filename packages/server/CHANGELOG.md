@@ -1,5 +1,11 @@
 # @use-pico/server
 
+## 4.0.8
+
+### Patch Changes
+
+- Improved SDK
+
 ## 4.0.7
 
 ### Patch Changes

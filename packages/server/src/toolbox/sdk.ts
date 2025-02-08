@@ -269,19 +269,21 @@ export const with${$name}Query$ = ({request}: with${$name}Query$.Props) => {
 			writeFileSync(
 				`${mutationDir}/use${$name}Mutation.ts`,
 				`
-import { useMutation, useQueryClient, type QueryKey } from "@tanstack/react-query";
+import { useMutation, useQueryClient, type UseMutationOptions, type QueryKey } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
+import { invalidator } from "@use-pico/client";
 import axios from "axios";
 ${imports.filter(Boolean).join("\n")}
 
 export namespace use${$name}Mutation {
 	export interface Props {
 		invalidate?: QueryKey[];
+		options?: UseMutationOptions<${responseSchema ? `${responseSchema.name}.Type` : "any"}, Error, ${requestSchema ? `${requestSchema.name}.Type` : "any"}>;
 	}
 }
 
 export const use${$name}Mutation = (
-	{ invalidate }: use${$name}Mutation.Props = { invalidate: [] }
+	{ invalidate, options }: use${$name}Mutation.Props = { invalidate: [] }
 ) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
@@ -290,16 +292,18 @@ export const use${$name}Mutation = (
 		mutationKey: ["${name.replaceAll("\\", "\\\\")}"],
 		mutationFn: async (${requestSchema ? `request: ${requestSchema.name}.Type` : "request?: any"}): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
 			const { data } = await axios.post("${ref}", ${requestSchema ? `${requestSchema.name}.parse(request)` : "request"});
-			await Promise.all(
-				invalidate?.map(key => {
-					return queryClient.refetchQueries({
-						queryKey: key,
-					});
-				}) ?? []
-			);
+			await invalidator({
+				queryClient,
+				keys: ${mutation.invalidators ? JSON.stringify(mutation.invalidators.map((i) => [i])) : "[]"},
+			});
+			invalidate && await invalidator({
+				queryClient,
+				keys: invalidate,
+			});
 			await router.invalidate();
 			return ${responseSchema ? `${responseSchema.name}.parse(data);` : "data"};
 		},
+		...options,
 	});
 }
 `.trim(),
