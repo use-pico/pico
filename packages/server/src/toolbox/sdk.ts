@@ -203,20 +203,26 @@ export const with${$name}Api = async ({ request }: with${$name}Api.Props): Promi
 			writeFileSync(
 				`${queryDir}/with${$name}Query.ts`,
 				`
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, type UseQueryOptions } from "@tanstack/react-query";
 import { with${$name}Api } from "../api/with${$name}Api";
 ${imports.filter(Boolean).join("\n")}
 
 export namespace with${$name}Query {
-	export interface Props extends with${$name}Api.Props {}
+	export interface Props extends with${$name}Api.Props {
+        options?: Omit<
+            UseQueryOptions<${responseSchema ? `${responseSchema.name}.Type` : "any"}>,
+			"queryKey" | "queryFn"
+		>;
+    }
 }
 
-export const with${$name}Query = ({request}: with${$name}Query.Props) => {
+export const with${$name}Query = ({request, options}: with${$name}Query.Props) => {
 	return queryOptions({
 		queryKey: ["${name.replaceAll("\\", "\\\\")}", request],
 		queryFn: async (): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
 			return with${$name}Api({ request });
 		},
+        ...options,
 	});
 }
 `.trim(),
@@ -225,15 +231,20 @@ export const with${$name}Query = ({request}: with${$name}Query.Props) => {
 			writeFileSync(
 				`${queryDir}/with${$name}Query$.ts`,
 				`
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, type UseQueryOptions } from "@tanstack/react-query";
 import { with${$name}Api } from "../api/with${$name}Api";
 ${imports.filter(Boolean).join("\n")}
 
 export namespace with${$name}Query$ {
-	export interface Props extends with${$name}Api.Props {}
+	export interface Props extends with${$name}Api.Props {
+        options?: Omit<
+            UseQueryOptions<${responseSchema ? `${responseSchema.name}.Type | null` : "any"}>,
+			"queryKey" | "queryFn"
+		>;
+    }
 }
 
-export const with${$name}Query$ = ({request}: with${$name}Query$.Props) => {
+export const with${$name}Query$ = ({request, options}: with${$name}Query$.Props) => {
 	return queryOptions({
 		queryKey: ["${name.replaceAll("\\", "\\\\")}", request],
 		queryFn: async (): Promise<${responseSchema ? `${responseSchema.name}.Type | null` : "any"}> => {
@@ -243,6 +254,7 @@ export const with${$name}Query$ = ({request}: with${$name}Query$.Props) => {
 				return null;
 			}
 		},
+        ...options,
 	});
 }
 `.trim(),
