@@ -1,5 +1,11 @@
 # @use-pico/server
 
+## 4.0.10
+
+### Patch Changes
+
+- Added tool to exported schema
+
 ## 4.0.9
 
 ### Patch Changes

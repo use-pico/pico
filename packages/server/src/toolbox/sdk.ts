@@ -105,6 +105,8 @@ export async function sdk({ source, target, replace }: sdk.Props) {
 				writeFileSync(
 					`${schemaDir}/${schema.name}.ts`,
 					`import { z } from "zod";
+import { DateTime } from "@use-pico/common";
+
 ${Array.from(
 	new Set(
 		Object.values(schema.object)
