@@ -17,7 +17,7 @@ export namespace useGenerator {
 			id: string;
 			chance: number;
 			noise: number;
-			color: number;
+			color: string;
 			level: "terrain" | "feature";
 		}
 
@@ -32,7 +32,6 @@ export namespace useGenerator {
 
 	export interface Props {
 		config: Config.Config;
-		cache?: number;
 	}
 
 	export namespace Generator {
@@ -50,7 +49,7 @@ export namespace useGenerator {
 	}
 }
 
-export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
+export const useGenerator = ({ config }: useGenerator.Props) => {
 	const seedRef = useRef(new XORWow(hashStringToSeed(config.seed)));
 	const noiseRef = useRef(
 		createNoise2D(() => {
@@ -121,6 +120,6 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 			}
 		}
 
-        return chunk;
+		return chunk;
 	};
 };

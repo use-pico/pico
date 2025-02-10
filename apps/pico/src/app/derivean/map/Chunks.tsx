@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, type MutableRefObject } from "react";
+import { FC, useMemo, type MutableRefObject } from "react";
 import { CanvasTexture } from "three";
 import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 
@@ -29,66 +29,68 @@ export namespace Chunks {
 }
 
 export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
-	const hexToCssColor = (hex: number): string => {
-		return `#${hex.toString(16).padStart(6, "0")}`;
-	};
+	const canvasPool = useMemo(() => new Map<string, HTMLCanvasElement>(), []);
 
 	const { data: textures } = useQuery({
 		queryKey: ["chunkTextures", chunkHash],
 		async queryFn() {
 			console.log("Generating textures for chunkHash:", chunkHash);
-			const textures = new Map<string, CanvasTexture>();
+
+			const texturesPool = new Map<string, CanvasTexture>();
 
 			for (const chunk of chunksRef.current) {
-				const canvas = document.createElement("canvas");
-				canvas.width = config.chunkSize;
-				canvas.height = config.chunkSize;
+				let canvas = canvasPool.get(chunk.id);
+				if (!canvas) {
+					canvas = document.createElement("canvas");
+					canvas.width = config.chunkSize;
+					canvas.height = config.chunkSize;
+					canvasPool.set(chunk.id, canvas);
+				}
 				const ctx = canvas.getContext("2d")!;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 				chunk.tiles.forEach((tile) => {
-					ctx.fillStyle = hexToCssColor(tile.tile.color);
-					ctx.fillRect(
-						tile.x,
-						tile.z,
-						canvas.width / config.plotCount,
-						canvas.height / config.plotCount,
-					);
+					ctx.fillStyle = tile.tile.color;
+					ctx.fillRect(tile.x, tile.z, config.plotSize, config.plotSize);
 				});
 
 				const texture = new CanvasTexture(canvas);
 				texture.needsUpdate = true;
-				textures.set(chunk.id, texture);
+				texturesPool.set(chunk.id, texture);
+
+				console.log("Tex for", chunk.id);
 			}
 
-			return textures;
+			return texturesPool;
 		},
 		staleTime: Infinity,
 		gcTime: 1000 * 60 * 5,
 		refetchOnWindowFocus: false,
 	});
 
-	return (
-		<>
-			{textures &&
-				chunksRef.current.map((chunk) => (
-					<mesh
-						key={`chunk-${chunk.id}`}
-						position={[
-							chunk.x * config.chunkSize,
-							0,
-							chunk.z * config.chunkSize,
-						]}
-						rotation={[-Math.PI / 2, 0, 0]}
-						receiveShadow
-					>
-						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
-						<meshStandardMaterial
-							color={0xffffff}
-							map={textures.get(chunk.id)}
-							roughness={0.5}
-						/>
-					</mesh>
-				))}
-		</>
-	);
+	const map = useMemo(() => {
+		if (!textures) {
+			return null;
+		}
+
+		return chunksRef.current.map((chunk) => {
+			return (
+				<mesh
+					key={`chunk-${chunk.id}`}
+					position={[chunk.x * config.chunkSize, 0, chunk.z * config.chunkSize]}
+					rotation={[-Math.PI / 2, 0, 0]}
+					receiveShadow
+				>
+					<planeGeometry args={[config.chunkSize, config.chunkSize]} />
+					<meshStandardMaterial
+						color={0xffffff}
+						map={textures.get(chunk.id)}
+						roughness={0.5}
+					/>
+				</mesh>
+			);
+		});
+	}, [textures]);
+
+	return map;
 };
