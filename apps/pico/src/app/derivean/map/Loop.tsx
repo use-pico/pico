@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useCallback, useEffect, useReducer, useRef, type FC } from "react";
+import { useEffect, useReducer, useRef, type FC } from "react";
 import { MOUSE, type DirectionalLight } from "three";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
@@ -123,7 +123,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 
 	const [, render] = useReducer((x) => x + 1, 0);
 
-	const update = useCallback(() => {
+	const update = () => {
 		if (lightRef.current) {
 			lightRef.current.position.set(
 				camera.position.x - 256,
@@ -148,7 +148,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		});
 		invalidate();
 		render();
-	}, [chunkRef, visibleChunks, generator, invalidate]);
+	};
 
 	useEffect(() => {
 		update();
@@ -193,7 +193,6 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 
 			<Chunks
 				config={config}
-				tiles={tiles}
 				chunksRef={chunkRef}
 			/>
 		</>

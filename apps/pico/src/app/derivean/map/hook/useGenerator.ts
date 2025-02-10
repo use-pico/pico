@@ -1,4 +1,3 @@
-import { LRUCache } from "lru-cache";
 import { XORWow } from "random-seedable";
 import { useCallback, useRef } from "react";
 import { createNoise2D } from "simplex-noise";
@@ -20,7 +19,6 @@ export namespace useGenerator {
 			noise: number;
 			color: number;
 			level: "terrain" | "feature";
-			height?: number;
 		}
 
 		export interface Config {
@@ -40,11 +38,9 @@ export namespace useGenerator {
 	export namespace Generator {
 		export interface Tile {
 			id: number;
-			tileId: string;
+			tile: Config.Tile;
 			x: number;
-			y: number;
 			z: number;
-			height: number;
 		}
 
 		export interface Props {
@@ -56,9 +52,6 @@ export namespace useGenerator {
 
 export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	const seedRef = useRef(new XORWow(hashStringToSeed(config.seed)));
-	const cacheRef = useRef(
-		new LRUCache<string, any>({ max: cache, ttl: 1000 * 60 * 30 }),
-	);
 	const noiseRef = useRef(
 		createNoise2D(() => {
 			return seedRef.current.float();
@@ -106,13 +99,6 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	 * Generate a chunk using precomputed noise map
 	 */
 	return ({ x, z }: useGenerator.Generator.Props) => {
-		const cacheId = `${x}:${z}`;
-		const cached = cacheRef.current.get(cacheId);
-
-		if (cached) {
-			return cached;
-		}
-
 		const noiseGrid = generateNoiseMap(x, z);
 		const chunk: useGenerator.Generator.Tile[] = new Array(plotCount ** 2);
 
@@ -128,16 +114,13 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 
 				chunk[id] = {
 					id,
-					tileId,
+					tile: config.tiles[tileId]!,
 					x: tileX * config.plotSize,
-					y: noiseValue,
 					z: tileZ * config.plotSize,
-					height: config.tiles[tileId]!.height || 0,
 				};
 			}
 		}
 
-		cacheRef.current.set(cacheId, chunk);
-		return chunk;
+        return chunk;
 	};
 };

@@ -1,90 +1,91 @@
-import { invalidate } from "@react-three/fiber";
-import { useEffect, useRef, type FC, type MutableRefObject } from "react";
-import { Color, Object3D, type InstancedMesh } from "three";
+import { FC, type MutableRefObject } from "react";
+import { CanvasTexture } from "three";
 import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 
 export namespace Chunks {
 	export interface Config {
-		/**
-		 * Number of plots in a chunk
-		 */
 		chunkSize: number;
 		plotCount: number;
-		/**
-		 * Size of a plot
-		 */
 		plotSize: number;
 	}
 
 	export interface Props {
 		config: Config;
-		tiles: Record<string, { color: number }>;
 		chunksRef: MutableRefObject<
 			Map<
 				string,
-				{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
+				{
+					x: number;
+					z: number;
+					tiles: {
+						tile: useGenerator.Config.Tile;
+						x: number;
+						z: number;
+					}[];
+				}
 			>
 		>;
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
-	const meshRef = useRef<InstancedMesh>(null);
-	const colorRef = useRef<Color>(new Color());
-	const objectRef = useRef<Object3D>(new Object3D());
+export const Chunks: FC<Chunks.Props> = ({ config, chunksRef }) => {
+	const hexToCssColor = (hex: number): string => {
+		return `#${hex.toString(16).padStart(6, "0")}`;
+	};
 
-	useEffect(() => {
-		if (!meshRef.current) {
-			return;
-		}
+	const generateChunkTexture = (chunk: {
+		tiles: {
+			tile: useGenerator.Config.Tile;
+			x: number;
+			z: number;
+		}[];
+	}) => {
+		const canvas = document.createElement("canvas");
+		canvas.width = config.chunkSize;
+		canvas.height = config.chunkSize;
+		const ctx = canvas.getContext("2d")!;
 
-		let i = 0;
-
-		chunksRef.current.forEach((chunk) => {
-			chunk.tiles.forEach((tile) => {
-				const tileX = tile.id % config.plotCount;
-				const tileZ = Math.floor(tile.id / config.plotCount);
-				const x = chunk.x * config.chunkSize + tileX * config.plotSize;
-				const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
-
-				objectRef.current!.position.set(x, tile.y, z);
-				objectRef.current!.updateMatrix();
-
-				meshRef.current!.setMatrixAt(i, objectRef.current!.matrix);
-				meshRef.current?.setColorAt(
-					i,
-					colorRef.current.set(tiles[tile.tileId]!.color),
-				);
-
-				i++;
-			});
+		chunk.tiles.forEach((tile) => {
+			ctx.fillStyle = hexToCssColor(tile.tile.color);
+			ctx.fillRect(
+				tile.x,
+				tile.z,
+				canvas.width / config.plotCount,
+				canvas.height / config.plotCount,
+			);
 		});
 
-		meshRef.current.instanceMatrix.needsUpdate = true;
-		if (meshRef.current.instanceColor) {
-			meshRef.current.instanceColor.needsUpdate = true;
-		}
-		meshRef.current!.computeBoundingBox();
-
-		invalidate();
-	});
+		const texture = new CanvasTexture(canvas);
+		texture.needsUpdate = true;
+		return texture;
+	};
 
 	return (
-		<instancedMesh
-			ref={meshRef}
-			args={[
-				undefined,
-				undefined,
-				chunksRef.current.size * config.plotCount ** 2,
-			]}
-			castShadow
-			receiveShadow
-		>
-			<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
-			<meshStandardMaterial
-				color={0xffffff}
-				roughness={0.5}
-			/>
-		</instancedMesh>
+		<>
+			{Array.from(chunksRef.current.values()).map((chunk) => {
+				const texture = generateChunkTexture(chunk);
+				console.log("generating", { x: chunk.x, z: chunk.z });
+
+				return (
+					<mesh
+						key={`chunk-${chunk.x}:${chunk.z}`}
+						position={[
+							chunk.x * config.chunkSize,
+							0,
+							chunk.z * config.chunkSize,
+						]}
+						rotation={[-Math.PI / 2, 0, 0]}
+						receiveShadow
+					>
+						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
+						<meshStandardMaterial
+							color={0xffffff}
+							map={texture}
+							roughness={0.5}
+						/>
+					</mesh>
+				);
+			})}
+		</>
 	);
 };
