@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
-import { OrthographicCamera, Vector3 } from "three";
+import { useEffect } from "react";
+import { OrthographicCamera } from "three";
 
 export namespace useVisibleChunks {
 	export interface Props {
@@ -10,13 +10,6 @@ export namespace useVisibleChunks {
 
 export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 	const { camera, size } = useThree(({ camera, size }) => ({ camera, size }));
-	const cornersRef = useRef([
-		new Vector3(),
-		new Vector3(),
-		new Vector3(),
-		new Vector3(),
-	] as const);
-	const chunksRef = useRef(new Set<{ x: number; z: number }>());
 
 	useEffect(() => {
 		if (!(camera instanceof OrthographicCamera)) {
@@ -25,43 +18,26 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 	}, [camera]);
 
 	return () => {
-		const {
-			top,
-			bottom,
-			zoom,
-			position: { x, z },
-		} = camera as OrthographicCamera;
-
-		const viewHeight = (top - bottom) / zoom;
+		const cam = camera as OrthographicCamera;
+		const viewHeight = (cam.top - cam.bottom) / cam.zoom;
 		const viewWidth = viewHeight * (size.width / size.height);
+		const halfW = viewWidth * 0.5;
+		const halfH = viewHeight * 0.5;
 
-		cornersRef.current[0].set(x - viewWidth / 2, 0, z - viewHeight / 2);
-		cornersRef.current[1].set(x + viewWidth / 2, 0, z - viewHeight / 2);
-		cornersRef.current[2].set(x - viewWidth / 2, 0, z + viewHeight / 2);
-		cornersRef.current[3].set(x + viewWidth / 2, 0, z + viewHeight / 2);
+		const minChunkX = Math.floor((cam.position.x - halfW) / chunkSize);
+		const maxChunkX = Math.floor((cam.position.x + halfW) / chunkSize);
+		const minChunkZ = Math.floor((cam.position.z - halfH) / chunkSize);
+		const maxChunkZ = Math.floor((cam.position.z + halfH) / chunkSize);
 
-		const minChunkX = Math.floor(cornersRef.current[0].x / chunkSize);
-		const maxChunkX = Math.floor(cornersRef.current[1].x / chunkSize);
-		const minChunkZ = Math.floor(cornersRef.current[0].z / chunkSize);
-		const maxChunkZ = Math.floor(cornersRef.current[2].z / chunkSize);
-
-		chunksRef.current.clear();
-
+		const chunks: { x: number; z: number }[] = [];
 		for (let chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
 			for (let chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
-				chunksRef.current.add({ x: chunkX, z: chunkZ });
+				chunks.push({ x: chunkX, z: chunkZ });
 			}
 		}
-		// return Array.from({ length: 17 }, (_, x) => x - 8).flatMap((chunkX) =>
-		// 	Array.from({ length: 17 }, (_, z) => z - 8).map((chunkZ) => ({
-		// 		x: chunkX,
-		// 		z: chunkZ,
-		// 	})),
-		// );
-		// console.log("chunks", chunksRef.current);
 
 		return {
-			chunks: chunksRef.current,
+			chunks,
 			hash: `[${minChunkX} → ${maxChunkX}]:[${minChunkZ} → ${maxChunkZ}]`,
 		};
 	};
