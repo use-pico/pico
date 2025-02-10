@@ -2,6 +2,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, type DirectionalLight } from "three";
+import { useDebouncedCallback } from "use-debounce";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
@@ -117,7 +118,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
 
-	const update = () => {
+	const update = useDebouncedCallback(() => {
 		if (lightRef.current) {
 			lightRef.current.position.set(
 				camera.position.x - 256,
@@ -133,34 +134,34 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		}
 
 		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
-		if ($hash !== hash) {
-			const chunks = new Array(count);
-			let index = 0;
 
-			for (let x = minX; x <= maxX; x++) {
-				for (let z = minZ; z <= maxZ; z++) {
-					chunks[index++] = {
-						id: `${x}:${z}`,
-						x,
-						z,
-						tiles: generator({ x, z }),
-					};
-				}
-			}
-
-			chunkRef.current = chunks;
-
-			setHash($hash);
-			invalidate();
+		if ($hash === hash) {
+			return;
 		}
-	};
+
+		const chunks = new Array(count);
+		let index = 0;
+		for (let x = minX; x <= maxX; x++) {
+			for (let z = minZ; z <= maxZ; z++) {
+				chunks[index++] = {
+					id: `${x}:${z}`,
+					x,
+					z,
+					tiles: generator({ x, z }),
+				};
+			}
+		}
+
+		chunkRef.current = chunks;
+		setHash($hash);
+		invalidate();
+	}, 50);
 
 	useEffect(() => {
 		update();
 	}, []);
 
 	const chunks = useMemo(() => {
-		console.log("re-rendering chunks");
 		return hash ?
 				<Chunks
 					config={config}
