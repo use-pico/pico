@@ -11,6 +11,7 @@ export namespace Chunks {
 	}
 
 	export interface Chunk {
+		id: string;
 		x: number;
 		z: number;
 		tiles: {
@@ -23,7 +24,7 @@ export namespace Chunks {
 	export interface Props {
 		config: Config;
 		chunkHash: string;
-		chunksRef: MutableRefObject<Map<string, Chunk>>;
+		chunksRef: MutableRefObject<Chunk[]>;
 	}
 }
 
@@ -38,7 +39,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 			console.log("Generating textures for chunkHash:", chunkHash);
 			const textures = new Map<string, CanvasTexture>();
 
-			for (const [key, chunk] of chunksRef.current.entries()) {
+			for (const chunk of chunksRef.current) {
 				const canvas = document.createElement("canvas");
 				canvas.width = config.chunkSize;
 				canvas.height = config.chunkSize;
@@ -56,7 +57,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 
 				const texture = new CanvasTexture(canvas);
 				texture.needsUpdate = true;
-				textures.set(key, texture);
+				textures.set(chunk.id, texture);
 			}
 
 			return textures;
@@ -69,9 +70,9 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 	return (
 		<>
 			{textures &&
-				Array.from(chunksRef.current.entries()).map(([key, chunk]) => (
+				chunksRef.current.map((chunk) => (
 					<mesh
-						key={`chunk-${chunk.x}:${chunk.z}`}
+						key={`chunk-${chunk.id}`}
 						position={[
 							chunk.x * config.chunkSize,
 							0,
@@ -83,7 +84,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
 						<meshStandardMaterial
 							color={0xffffff}
-							map={textures.get(key)}
+							map={textures.get(chunk.id)}
 							roughness={0.5}
 						/>
 					</mesh>

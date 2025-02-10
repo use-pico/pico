@@ -113,12 +113,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			scale: 5,
 		},
 	});
-	const chunkRef = useRef(
-		new Map<
-			string,
-			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
-		>(),
-	);
+	const chunkRef = useRef<Chunks.Chunk[]>([]);
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
 
@@ -139,14 +134,13 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 
 		const { chunks, hash: $hash } = visibleChunks();
 		if ($hash !== hash) {
-			console.log("New hash", $hash);
-			chunkRef.current.clear();
-			chunks.forEach((chunk) => {
-				chunkRef.current.set(`${chunk.x}:${chunk.z}`, {
+			chunkRef.current = chunks.map((chunk) => {
+				return {
+					id: `${chunk.x}:${chunk.z}`,
 					x: chunk.x,
 					z: chunk.z,
 					tiles: generator(chunk),
-				});
+				};
 			});
 			setHash($hash);
 			invalidate();
@@ -194,7 +188,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				onChange={update}
 			/>
 
-			{hash && chunkRef.current.size > 0 ?
+			{hash && chunkRef.current.length > 0 ?
 				<Chunks
 					config={config}
 					chunksRef={chunkRef}
