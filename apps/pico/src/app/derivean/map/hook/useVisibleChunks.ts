@@ -24,15 +24,10 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 		const halfW = viewWidth * 0.5;
 		const halfH = viewHeight * 0.5;
 
-		const minX = (cam.position.x - halfW) / chunkSize;
-		const maxX = (cam.position.x + halfW) / chunkSize;
-		const minZ = (cam.position.z - halfH) / chunkSize;
-		const maxZ = (cam.position.z + halfH) / chunkSize;
-
-		const minChunkX = Math.floor(minX);
-		const maxChunkX = Math.ceil(maxX);
-		const minChunkZ = Math.floor(minZ);
-		const maxChunkZ = Math.ceil(maxZ);
+		const minChunkX = Math.floor((cam.position.x - halfW) / chunkSize);
+		const maxChunkX = Math.ceil((cam.position.x + halfW) / chunkSize);
+		const minChunkZ = Math.floor((cam.position.z - halfH) / chunkSize);
+		const maxChunkZ = Math.ceil((cam.position.z + halfH) / chunkSize);
 
 		const width = maxChunkX - minChunkX + 1;
 		const height = maxChunkZ - minChunkZ + 1;
