@@ -3,7 +3,7 @@ import { ProgressCss } from "./ProgressCss";
 
 export namespace Progress {
 	export interface Props extends ProgressCss.Props {
-		value?: number;
+		value: number;
 	}
 }
 
@@ -14,7 +14,7 @@ export const Progress: FC<Progress.Props> = memo(
 		return (
 			<div className={tv.base()}>
 				<div
-					style={{ width: `${value}%` }}
+					style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
 					className={tv.progress()}
 				></div>
 			</div>

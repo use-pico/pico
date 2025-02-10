@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "@tanstack/react-router";
 import type {
-    CursorSchema,
-    FilterSchema,
-    IdentitySchema,
+	CursorSchema,
+	FilterSchema,
+	IdentitySchema,
 } from "@use-pico/common";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { Button } from "../button/Button";
+import type { Fulltext } from "../fulltext/Fulltext";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
+import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
@@ -37,7 +39,7 @@ export namespace PopupMultiSelect {
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		table: FC<Table.PropsEx<any>>;
+		table: FC<Table.PropsEx<TItem>>;
 		render: FC<{ entities: TItem[] }>;
 		allowEmpty?: boolean;
 
@@ -45,15 +47,20 @@ export namespace PopupMultiSelect {
 		 * Name used for react-query cache.
 		 */
 		queryKey: string;
+		queryHash?: Record<any, any>;
 		query: Query.Callback<TItem>;
 
 		value: string[] | undefined;
 		onChange(value: string[]): void;
+		/**
+		 * When selection is submitted, here is a list of selected items.
+		 */
+		onSelect?(items: TItem[]): void;
 	}
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		"queryKey" | "table" | "source" | "query" | "render"
+		 "table" | "queryKey" | "queryHash" | "query" | "render"
 	>;
 }
 
@@ -67,10 +74,12 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	allowEmpty = false,
 
 	queryKey,
+	queryHash,
 	query,
 
 	value,
 	onChange,
+	onSelect,
 
 	variant,
 	tva = PopupMultiSelectCss,
@@ -84,10 +93,15 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(15);
 	const [selection, setSelection] = useState<string[]>(value || []);
-	const [fulltext, setFulltext] = useState<string | undefined>(undefined);
+	const [fulltext, setFulltext] = useState<Fulltext.Value>("");
 
 	const result = useQuery({
-		queryKey: [queryKey, "PopupMultiSelect", "data", { fulltext, page, size }],
+		queryKey: [
+			queryKey,
+			"PopupMultiSelect",
+			"data",
+			{ fulltext, page, size, ...queryHash },
+		],
 		async queryFn() {
 			return query({
 				filter: {
@@ -101,8 +115,10 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 		},
 	});
 
+	const withValue = (value?.length || 0) > 0;
+
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupMultiSelect", "selected", { value }],
+		queryKey: [queryKey, "PopupMultiSelect", "selected", { value, ...queryHash }],
 		async queryFn() {
 			return query({
 				filter: {
@@ -110,8 +126,12 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 				},
 			});
 		},
-		enabled: Boolean(value),
+		enabled: withValue,
 	});
+
+	useEffect(() => {
+		setSelection(value || []);
+	}, [value]);
 
 	return (
 		<Modal
@@ -124,9 +144,14 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 					})}
 				>
 					<Icon
-						icon={selected.data?.data?.length ? SelectionOn : SelectionOff}
+						icon={
+							selected.isLoading ? LoaderIcon
+							: withValue && selected.data?.data?.[0] ?
+								SelectionOn
+							:	SelectionOff
+						}
 					/>
-					{selected.data && selected.data.data.length ?
+					{withValue && selected.data && selected.data.data.length ?
 						<Render entities={selected.data.data} />
 					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
@@ -136,6 +161,9 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 				loading: result.isLoading,
 			}}
 			disabled={result.isLoading}
+			css={{
+				modal: ["w-2/3"],
+			}}
 			{...modalProps}
 		>
 			<div className={tv.base()}>
@@ -191,6 +219,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 								iconDisabled={BackIcon}
 								onClick={() => {
 									modalContext?.close();
+									setSelection(value || []);
 								}}
 								variant={{
 									variant: "subtle",
@@ -205,6 +234,11 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 								disabled={!selection.length && !allowEmpty}
 								onClick={() => {
 									onChange(selection);
+									onSelect?.(
+										result.data?.data?.filter((item) =>
+											selection.includes(item.id),
+										) || [],
+									);
 									modalContext?.close();
 								}}
 							>

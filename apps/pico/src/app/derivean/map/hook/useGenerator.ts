@@ -20,6 +20,7 @@ export namespace useGenerator {
 			noise: number;
 			color: number;
 			level: "terrain" | "feature";
+			height?: number;
 		}
 
 		export interface Config {
@@ -43,6 +44,7 @@ export namespace useGenerator {
 			x: number;
 			y: number;
 			z: number;
+			height: number;
 		}
 
 		export interface Props {
@@ -55,10 +57,7 @@ export namespace useGenerator {
 export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 	const seedRef = useRef(new XORWow(hashStringToSeed(config.seed)));
 	const cacheRef = useRef(
-		new LRUCache<string, any>({
-			max: cache,
-			ttl: 1000 * 60 * 30,
-		}),
+		new LRUCache<string, any>({ max: cache, ttl: 1000 * 60 * 30 }),
 	);
 	const noiseRef = useRef(
 		createNoise2D(() => {
@@ -133,6 +132,7 @@ export const useGenerator = ({ config, cache = 1024 }: useGenerator.Props) => {
 					x: tileX * config.plotSize,
 					y: noiseValue,
 					z: tileZ * config.plotSize,
+					height: config.tiles[tileId]!.height || 0,
 				};
 			}
 		}

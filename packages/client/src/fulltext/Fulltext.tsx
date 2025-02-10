@@ -24,13 +24,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	css,
 }) => {
 	const tv = tva({ ...variant, css }).slots;
-	const [search, setSearch] = useDebounce(
-		value,
-		(value) => {
-			onFulltext(value || "");
-		},
-		500,
-	);
+	const [search, setSearch] = useDebounce(value, onFulltext, 500);
 
 	return (
 		<div className={tv.base()}>

@@ -12,6 +12,7 @@ export namespace FormInput {
 		required?: boolean;
 		formState: TFormState;
 		name: keyof TFormState["errors"];
+		disabled?: boolean;
 	}
 }
 
@@ -21,6 +22,7 @@ export const FormInput = <TFormState extends FormState<any>>({
 	required = false,
 	formState,
 	name,
+	disabled,
 	children,
 	variant,
 	tva = FormInputCss,
@@ -31,6 +33,7 @@ export const FormInput = <TFormState extends FormState<any>>({
 		isLoading: formState.isLoading,
 		isError: Boolean(formState.errors[name]),
 		required,
+		disabled,
 		...variant,
 		css,
 	}).slots;

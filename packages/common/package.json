@@ -1,5 +1,5 @@
 {
-	"version": "4.0.13",
+	"version": "4.0.15",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",
@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "^2.2.2",
-		"@tanstack/zod-adapter": "^1.91.2",
+		"@tanstack/zod-adapter": "^1.102.1",
 		"@types/is-callable": "^1.1.2",
 		"@types/is-empty": "^1.2.3",
 		"@types/is-string": "^1.0.2",
@@ -44,21 +44,19 @@
 		"path-to-regexp": "^8.2.0",
 		"preferred-locale": "^2.0.2",
 		"read-excel-file": "^5.8.6",
-		"tailwind-merge": "^2.5.5",
-		"timer-node": "^5.0.7"
+		"tailwind-merge": "^3.0.1",
+		"timer-node": "^5.0.9"
 	},
 	"peerDependencies": {
-		"react": "^18.3.1",
-		"zod": "^3.24.1",
-		"vite": "^6.0.3"
+		"zod": "^3.24.1"
 	},
 	"devDependencies": {
-		"@types/react": "^18.3.12",
-		"@use-pico/eslint-config-eslint": "^5.0.0",
+		"@types/react": "^19.0.8",
+		"@use-pico/eslint-config-eslint": "^5.0.1",
 		"@use-pico/tsconfig": "^4.0.7",
-		"eslint": "^9.17.0",
-		"typescript": "^5.7.2",
-		"vitest": "^2.1.8"
+		"eslint": "^9.20.0",
+		"typescript": "^5.7.3",
+		"vitest": "^3.0.5"
 	},
 	"bugs": {
 		"url": "https://github.com/use-pico/pico/issues"

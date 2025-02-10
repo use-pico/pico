@@ -2,7 +2,7 @@ import { css } from "@use-pico/common";
 
 export const ProgressCss = css({
 	slot: {
-		base: ["w-full", "bg-slate-200", "rounded-sm", "transition-all"],
+		base: ["h-full", "w-full", "bg-slate-200", "rounded-sm", "transition-all"],
 		progress: [
 			"h-full",
 			"bg-blue-400",

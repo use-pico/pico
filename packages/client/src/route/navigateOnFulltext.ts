@@ -14,8 +14,15 @@ export namespace navigateOnFulltext {
 	export type Navigate = (props: Navigate.Props) => void;
 }
 
-export const navigateOnFulltext = (navigate: navigateOnFulltext.Navigate) => {
+export const navigateOnFulltext = (
+	current: Fulltext.Value,
+	navigate: navigateOnFulltext.Navigate,
+) => {
 	return (text: Fulltext.Value) => {
+		if ((text ?? "") === (current ?? "")) {
+			return;
+		}
+
 		navigate({
 			search: ({ cursor, filter, ...rest }) => ({
 				...rest,
@@ -25,7 +32,7 @@ export const navigateOnFulltext = (navigate: navigateOnFulltext.Navigate) => {
 				},
 				cursor: { ...cursor, page: text ? 0 : cursor.page },
 			}),
-			replace: Boolean(text),
+			replace: false,
 		});
 	};
 };

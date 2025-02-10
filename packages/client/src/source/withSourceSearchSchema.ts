@@ -17,12 +17,14 @@ export const withSourceSearchSchema = <TFilterSchema extends FilterSchema>(
 	{ size = 30 }: withSourceSearchSchema.Opts = { size: 30 },
 ) => {
 	return z.object({
-		filter: fallback(filter.optional(), undefined),
+		filter: fallback(filter.default({ fulltext: "" }), {
+			fulltext: "",
+		}),
 		cursor: fallback(CursorSchema, { page: 0, size }).default({
 			page: 0,
 			size,
 		}),
-		sort: fallback(z.any().optional(), []).default([]),
-		selection: fallback(z.array(z.string()), []).default([]),
+		sort: fallback(z.array(z.any()).default([]), []),
+		selection: fallback(z.array(z.string()).default([]), []),
 	});
 };

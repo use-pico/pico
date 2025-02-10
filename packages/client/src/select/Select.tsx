@@ -1,16 +1,16 @@
 import {
-    autoUpdate,
-    flip,
-    FloatingFocusManager,
-    FloatingPortal,
-    offset,
-    size,
-    useClick,
-    useDismiss,
-    useFloating,
-    useInteractions,
-    useListNavigation,
-    useTransitionStyles,
+	autoUpdate,
+	flip,
+	FloatingFocusManager,
+	FloatingPortal,
+	offset,
+	size,
+	useClick,
+	useDismiss,
+	useFloating,
+	useInteractions,
+	useListNavigation,
+	useTransitionStyles,
 } from "@floating-ui/react";
 import { translator, type Entity, type IdentitySchema } from "@use-pico/common";
 import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
@@ -23,7 +23,7 @@ export namespace Select {
 		items: TItem[];
 		icon?: string;
 		defaultValue?: string;
-		value?: string;
+		value?: string | null;
 		render: FC<Entity.Type<TItem>>;
 		textSelect?: ReactNode;
 		disabled?: boolean;

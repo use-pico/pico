@@ -103,9 +103,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		camera,
 		invalidate,
 	}));
-	const visibleChunks = useVisibleChunks({
-		chunkSize: config.chunkSize,
-	});
+	const visibleChunks = useVisibleChunks({ chunkSize: config.chunkSize });
 	const generator = useGenerator({
 		config: {
 			tiles,
@@ -160,9 +158,9 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		<>
 			<directionalLight
 				ref={lightRef}
-				castShadow
+				// castShadow
 				color={0xffffff}
-				intensity={4}
+				intensity={2}
 				position={[0, 256, 256]}
 				shadow-mapSize={[4096, 4096]}
 				shadow-bias={-0.0001}
@@ -177,21 +175,29 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				enableDamping={true}
 				screenSpacePanning={false}
 				zoomToCursor
-				minPolarAngle={Math.PI / 8}
-				maxPolarAngle={Math.PI / 3}
-				minDistance={2048}
-				maxDistance={4096}
+				// minPolarAngle={Math.PI / 8}
+				// maxPolarAngle={Math.PI / 3}
+				// minDistance={2048}
+				// maxDistance={256}
 				/**
 				 * How far
 				 */
-				minZoom={0.5}
+				// minZoom={1.5}
 				/**
 				 * How close
 				 */
-				maxZoom={15}
+				maxZoom={32}
 				mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
 				onChange={update}
 			/>
+
+			{/* 
+
+                TODO Instead of generating chunks, create texture with colors representing the terrain with connected data (tile?).
+
+                This will speed things up in current iteration of development.
+
+             */}
 
 			<Chunks
 				config={config}

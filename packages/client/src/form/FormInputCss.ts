@@ -39,6 +39,15 @@ export const FormInputCss = css({
 				base: ["text-emerald-600", "font-bold"],
 			},
 		},
+		{
+			if: {
+				disabled: true,
+			},
+			then: {
+				base: ["opacity-75", "cursor-not-allowed"],
+				input: ["pointer-events-none"],
+			},
+		},
 	],
 	defaults: {
 		required: false,

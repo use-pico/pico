@@ -16,7 +16,7 @@ export namespace Tags {
 
 export const Tags: FC<Tags.Props> = ({
 	tags = [],
-	render = ({ tag }) => tag.label,
+	render: Render = ({ tag }) => tag.label,
 	onClick,
 	textEmpty,
 }) => {
@@ -32,7 +32,7 @@ export const Tags: FC<Tags.Props> = ({
 						key={tag.id}
 						onClick={() => onClick?.(tag)}
 					>
-						{render({ tag })}
+						<Render tag={tag} />
 					</Badge>
 				))
 			:	textEmpty || <Tx label={"No tags (label)"} />}

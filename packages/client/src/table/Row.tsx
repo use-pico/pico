@@ -47,6 +47,9 @@ export const Row = <TData extends DataType.Data>({
 										selected: table.selection.isSelected(row),
 									}),
 								}}
+								variant={{
+									size: "2xl",
+								}}
 								onClick={table.selection.withRowHandler(row)}
 							/>
 						:	null}

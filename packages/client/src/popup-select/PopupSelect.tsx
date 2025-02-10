@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "@tanstack/react-router";
 import type {
-    CursorSchema,
-    Entity,
-    FilterSchema,
-    IdentitySchema,
+	CursorSchema,
+	Entity,
+	FilterSchema,
+	IdentitySchema,
 } from "@use-pico/common";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { Button } from "../button/Button";
 import type { Fulltext } from "../fulltext/Fulltext";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
+import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
@@ -47,15 +48,20 @@ export namespace PopupSelect {
 		 * Name used for react-query cache.
 		 */
 		queryKey: string;
+		queryHash?: Record<any, any>;
 		query: Query.Callback<TItem>;
 
 		value?: string | null;
-		onChange(value: string | undefined): void;
+		onChange(value: string | null): void;
+		/**
+		 * Selected (submitted) value/null.
+		 */
+		onSelect?(item: TItem | null): void;
 	}
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		"table" | "source" | "queryKey" | "query" | "render"
+		"table" | "queryKey" | "queryHash" | "query" | "render"
 	>;
 }
 
@@ -69,10 +75,12 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	allowEmpty = false,
 
 	queryKey,
+	queryHash,
 	query,
 
 	value,
 	onChange,
+	onSelect,
 
 	variant,
 	tva = PopupSelectCss,
@@ -86,10 +94,15 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(15);
 	const [selection, setSelection] = useState<string[]>(value ? [value] : []);
-	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
+	const [fulltext, setFulltext] = useState<Fulltext.Value>("");
 
 	const result = useQuery({
-		queryKey: [queryKey, "PopupSelect", "data", { fulltext, page, size }],
+		queryKey: [
+			queryKey,
+			"PopupSelect",
+			"data",
+			{ fulltext, page, size, ...queryHash },
+		],
 		async queryFn() {
 			return query({
 				filter: {
@@ -103,17 +116,23 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		},
 	});
 
+	const withValue = Boolean(value);
+
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupSelect", "selected", { value }],
+		queryKey: [queryKey, "PopupSelect", "selected", { value, ...queryHash }],
 		async queryFn() {
 			return query({
 				filter: {
-					id: value || undefined,
+					id: value ?? undefined,
 				},
 			});
 		},
-		enabled: Boolean(value),
+		enabled: withValue,
 	});
+
+	useEffect(() => {
+		setSelection(value ? [value] : []);
+	}, [value]);
 
 	return (
 		<Modal
@@ -122,11 +141,18 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 				<label
 					className={tv.input({
 						loading: selected.isLoading,
-						selected: Boolean(selected.data?.data?.length),
+						selected: Boolean(selected.data?.data.length),
 					})}
 				>
-					<Icon icon={selected.data?.data?.[0] ? SelectionOn : SelectionOff} />
-					{selected.data?.data?.[0] ?
+					<Icon
+						icon={
+							selected.isLoading ? LoaderIcon
+							: withValue && selected.data?.data?.[0] ?
+								SelectionOn
+							:	SelectionOff
+						}
+					/>
+					{withValue && selected.data?.data?.[0] ?
 						<Render entity={selected.data?.data?.[0]} />
 					:	textSelect || <Tx label={"Select item (label)"} />}
 				</label>
@@ -136,6 +162,9 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 				loading: result.isLoading,
 			}}
 			disabled={result.isLoading}
+			css={{
+				modal: ["w-2/3"],
+			}}
 			{...modalProps}
 		>
 			<div className={tv.base()}>
@@ -191,6 +220,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 								iconDisabled={BackIcon}
 								onClick={() => {
 									modalContext?.close();
+									setSelection(value ? [value] : []);
 								}}
 								variant={{
 									variant: "subtle",
@@ -204,7 +234,12 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 								iconDisabled={ConfirmIcon}
 								disabled={!selection.length && !allowEmpty}
 								onClick={() => {
-									onChange(selection?.[0]);
+									onChange(selection?.[0] || null);
+									onSelect?.(
+										result.data?.data?.find(
+											(item) => item.id === selection?.[0],
+										) ?? null,
+									);
 									modalContext?.close();
 								}}
 							>

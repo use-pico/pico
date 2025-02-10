@@ -123,6 +123,7 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 												}
 												variant={{
 													disabled: table.selection.isSingle,
+													size: "2xl",
 												}}
 												css={{
 													base: tv.select({

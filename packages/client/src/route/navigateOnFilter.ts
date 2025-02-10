@@ -2,6 +2,7 @@ export namespace navigateOnFilter {
 	export namespace Navigate {
 		export interface Props {
 			search: (props: { cursor: { page: number } }) => any;
+			replace?: boolean;
 		}
 	}
 

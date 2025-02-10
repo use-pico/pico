@@ -12,6 +12,15 @@ export const FormCss = css({
 			"gap-2",
 			"items-center",
 		],
+		fieldset: ["flex", "flex-col", "gap-4", "w-full", "p-4"],
+		legend: [
+			"font-bold",
+			"text-lg",
+			"p-1",
+			"border-b",
+			"border-slate-400",
+			"w-full",
+		],
 		input: [
 			"w-full",
 			"border",

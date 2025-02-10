@@ -22,11 +22,7 @@ export namespace Chunks {
 		chunksRef: MutableRefObject<
 			Map<
 				string,
-				{
-					x: number;
-					z: number;
-					tiles: useGenerator.Generator.Tile[];
-				}
+				{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
 			>
 		>;
 	}
@@ -51,7 +47,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 				const x = chunk.x * config.chunkSize + tileX * config.plotSize;
 				const z = chunk.z * config.chunkSize + tileZ * config.plotSize;
 
-				objectRef.current!.position.set(x, tile.y * 512, z);
+				objectRef.current!.position.set(x, tile.y, z);
 				objectRef.current!.updateMatrix();
 
 				meshRef.current!.setMatrixAt(i, objectRef.current!.matrix);
@@ -129,7 +125,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, tiles, chunksRef }) => {
 			castShadow
 			receiveShadow
 		>
-			<boxGeometry args={[config.plotSize, 128, config.plotSize]} />
+			<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
 			<meshStandardMaterial
 				color={0xffffff}
 				roughness={0.5}

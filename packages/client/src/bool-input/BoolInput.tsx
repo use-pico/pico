@@ -6,7 +6,7 @@ export namespace BoolInput {
 		extends BoolInputCss.Props<
 			Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">
 		> {
-		value: boolean;
+		value: boolean | undefined | null;
 		onChange(value: boolean): void;
 	}
 }
@@ -26,7 +26,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			<label>
 				<input
 					type={"checkbox"}
-					checked={value}
+					checked={Boolean(value)}
 					className={"sr-only peer"}
 					onChange={(e) => {
 						onChange(e.target.checked);

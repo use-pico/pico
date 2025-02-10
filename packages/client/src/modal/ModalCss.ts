@@ -21,7 +21,6 @@ export const ModalCss = css({
 			"overflow-y-auto",
 			"relative",
 			"w-2/3",
-			"max-w-1/2",
 		],
 	},
 	variant: {
