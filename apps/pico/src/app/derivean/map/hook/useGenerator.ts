@@ -2,15 +2,6 @@ import { XORWow } from "random-seedable";
 import { useCallback, useMemo } from "react";
 import { createNoise2D } from "simplex-noise";
 
-const hashStringToSeed = (str: string): number => {
-	let hash = 0;
-	for (let i = 0; i < str.length; i++) {
-		hash = (hash << 5) - hash + str.charCodeAt(i);
-		hash |= 0;
-	}
-	return Math.abs(hash);
-};
-
 export namespace useGenerator {
 	export namespace Config {
 		export interface Tile {
@@ -49,72 +40,62 @@ export namespace useGenerator {
 	}
 }
 
+const hashStringToSeed = (str: string): number => {
+	let hash = 0;
+	for (let i = 0; i < str.length; i++) {
+		hash = (hash << 5) - hash + str.charCodeAt(i);
+		hash |= 0;
+	}
+	return Math.abs(hash);
+};
+
 export const useGenerator = ({ config }: useGenerator.Props) => {
+	// Seeded RNG ensures consistent terrain generation
 	const seed = useMemo(
 		() => new XORWow(hashStringToSeed(config.seed)),
 		[config.seed],
 	);
+
+	// Noise function using the same seeded RNG
 	const noise = useMemo(() => createNoise2D(() => seed.float()), [seed]);
-	const { plotCount, plotSize } = config;
+
+	const { plotCount } = config;
 	const baseScale = 1 / (plotCount * config.scale);
 
-	/**
-	 * Generate a Noise Map Per Chunk
-	 */
-	const generateNoiseMap = useCallback(
-		(chunkX: number, chunkZ: number) => {
-			const noiseGrid = new Float32Array(plotCount ** 2);
-			for (let i = 0; i < noiseGrid.length; i++) {
-				const col = i % plotCount;
-				const row = Math.floor(i / plotCount);
-
-				const worldX = (chunkX * plotCount + col) * baseScale;
-				const worldZ = (chunkZ * plotCount + (plotCount - row - 1)) * baseScale;
-
-				noiseGrid[i] = (noise(worldX, worldZ) + 1) / 2;
-			}
-			return noiseGrid;
-		},
-		[plotCount, baseScale, noise],
-	);
+	// Pre-sort tiles to optimize biome selection
+	const sortedTiles = useMemo(() => {
+		return Object.values(config.tiles).sort((a, b) => b.noise - a.noise);
+	}, [config.tiles]);
 
 	/**
-	 * Sort tiles by noise threshold (descending order)
+	 * Get tile type based on noise value + seeded RNG for `chance`
 	 */
-	const sortedTiles = useMemo(
-		() => Object.values(config.tiles).sort((a, b) => b.noise - a.noise),
-		[config.tiles],
-	);
-
-	/**
-	 * Get tile type based on noise value
-	 */
-	const getTileByNoise = useCallback(
-		(noiseValue: number) => {
-			for (const tile of sortedTiles) {
-				if (noiseValue >= tile.noise) {
+	const getTileByNoise = useCallback((noiseValue: number, rng: XORWow) => {
+		for (const tile of sortedTiles) {
+			if (noiseValue >= tile.noise) {
+				if (rng.float() < tile.chance / 100) {
 					return tile.id;
 				}
 			}
-			return sortedTiles[sortedTiles.length - 1]!.id;
-		},
-		[sortedTiles],
-	);
+		}
+		return sortedTiles[sortedTiles.length - 1]!.id;
+	}, []);
 
 	/**
 	 * Generate a chunk using precomputed noise map
 	 */
 	return ({ x, z }: useGenerator.Generator.Props) => {
-		const noiseGrid = generateNoiseMap(x, z);
 		const chunk = new Array<useGenerator.Generator.Tile>(plotCount ** 2);
 
-		for (let i = 0; i < chunk.length; i++) {
-			const col = i % plotCount;
-			const row = Math.floor(i / plotCount);
-			const tileId = getTileByNoise(noiseGrid[i]!);
+		const chunkRng = new XORWow(hashStringToSeed(`${config.seed}:${x}:${z}`));
 
-			const tileX = col * plotSize;
-			const tileZ = (plotCount - row - 1) * plotSize;
+		for (let i = 0; i < chunk.length; i++) {
+			const tileX = (i % plotCount) * config.plotSize;
+			const tileZ = Math.floor(i / plotCount) * config.plotSize;
+			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
+			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
+
+			const tileId = getTileByNoise((noise(worldX, worldZ) + 1) / 2, chunkRng);
 
 			chunk[i] = {
 				id: i,
