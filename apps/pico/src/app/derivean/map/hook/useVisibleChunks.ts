@@ -52,12 +52,7 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 				chunksRef.current.add({ x: chunkX, z: chunkZ });
 			}
 		}
-		// return Array.from({ length: 17 }, (_, x) => x - 8).flatMap((chunkX) =>
-		// 	Array.from({ length: 17 }, (_, z) => z - 8).map((chunkZ) => ({
-		// 		x: chunkX,
-		// 		z: chunkZ,
-		// 	})),
-		// );
+
 		return chunksRef.current;
 	};
 };
