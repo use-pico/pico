@@ -10,6 +10,7 @@ export namespace useGenerator {
 			noise: number;
 			color: string;
 			level: "terrain" | "feature";
+			elevation?: number;
 		}
 
 		export interface Config {
@@ -18,6 +19,10 @@ export namespace useGenerator {
 			plotCount: number;
 			plotSize: number;
 			scale: number;
+			river?: {
+				factor: number;
+				width: number;
+			};
 		}
 	}
 
@@ -31,6 +36,7 @@ export namespace useGenerator {
 			tile: Config.Tile;
 			x: number;
 			z: number;
+			elevation: number;
 		}
 
 		export interface Props {
@@ -50,43 +56,43 @@ const hashStringToSeed = (str: string): number => {
 };
 
 export const useGenerator = ({ config }: useGenerator.Props) => {
-	// Seeded RNG ensures consistent terrain generation
 	const seed = useMemo(
 		() => new XORWow(hashStringToSeed(config.seed)),
 		[config.seed],
 	);
-
-	// Noise function using the same seeded RNG
 	const noise = useMemo(() => createNoise2D(() => seed.float()), [seed]);
+	const elevationNoise = useMemo(
+		() => createNoise2D(() => seed.float()),
+		[seed],
+	);
+	const riverNoise = useMemo(() => createNoise2D(() => seed.float()), [seed]);
 
-	const { plotCount } = config;
+	const { plotCount, river = { factor: 0.02, width: 0.002 } } = config;
 	const baseScale = 1 / (plotCount * config.scale);
 
-	// Pre-sort tiles to optimize biome selection
 	const sortedTiles = useMemo(() => {
 		return Object.values(config.tiles).sort((a, b) => b.noise - a.noise);
 	}, [config.tiles]);
 
-	/**
-	 * Get tile type based on noise value + seeded RNG for `chance`
-	 */
-	const getTileByNoise = useCallback((noiseValue: number, rng: XORWow) => {
-		for (const tile of sortedTiles) {
-			if (noiseValue >= tile.noise) {
-				if (rng.float() < tile.chance / 100) {
-					return tile.id;
+	const getTileByNoise = useCallback(
+		(noiseValue: number, elevation: number, rng: XORWow) => {
+			for (const tile of sortedTiles) {
+				if (noiseValue >= tile.noise) {
+					if (tile.elevation !== undefined && elevation < tile.elevation) {
+						continue;
+					}
+					if (rng.float() < tile.chance / 100) {
+						return tile.id;
+					}
 				}
 			}
-		}
-		return sortedTiles[sortedTiles.length - 1]!.id;
-	}, []);
+			return sortedTiles[sortedTiles.length - 1]!.id;
+		},
+		[],
+	);
 
-	/**
-	 * Generate a chunk using precomputed noise map
-	 */
 	return ({ x, z }: useGenerator.Generator.Props) => {
 		const chunk = new Array<useGenerator.Generator.Tile>(plotCount ** 2);
-
 		const chunkRng = new XORWow(hashStringToSeed(`${config.seed}:${x}:${z}`));
 
 		for (let i = 0; i < chunk.length; i++) {
@@ -95,13 +101,23 @@ export const useGenerator = ({ config }: useGenerator.Props) => {
 			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
 			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
 
-			const tileId = getTileByNoise((noise(worldX, worldZ) + 1) / 2, chunkRng);
+			const noiseValue = (noise(worldX, worldZ) + 1) / 2;
+			const elevationValue = (elevationNoise(worldX, worldZ) + 1) / 2;
+			const riverValue = Math.abs(
+				riverNoise(worldX * river.factor, worldZ * river.factor),
+			);
+
+			const tileId =
+				riverValue < river.width ?
+					"river"
+				:	getTileByNoise(noiseValue, elevationValue, chunkRng);
 
 			chunk[i] = {
 				id: i,
 				tile: config.tiles[tileId]!,
 				x: tileX,
 				z: tileZ,
+				elevation: elevationValue,
 			};
 		}
 
