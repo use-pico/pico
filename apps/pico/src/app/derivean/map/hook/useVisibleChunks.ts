@@ -1,10 +1,11 @@
 import { useThree } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { OrthographicCamera } from "three";
 
 export namespace useVisibleChunks {
 	export interface Props {
 		chunkSize: number;
+		offset?: number;
 	}
 
 	export interface View {
@@ -17,7 +18,10 @@ export namespace useVisibleChunks {
 	}
 }
 
-export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
+export const useVisibleChunks = ({
+	chunkSize,
+	offset = 1,
+}: useVisibleChunks.Props) => {
 	const { camera, size } = useThree(({ camera, size }) => ({
 		camera: camera as OrthographicCamera,
 		size,
@@ -29,24 +33,26 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 		}
 	}, [camera]);
 
-	return (): useVisibleChunks.View => {
-		const viewHeight = (camera.top - camera.bottom) / camera.zoom;
-		const viewWidth = viewHeight * (size.width / size.height);
-		const halfW = viewWidth * 0.5;
-		const halfH = viewHeight * 0.5;
+	return useMemo(() => {
+		return (): useVisibleChunks.View => {
+			const viewHeight = (camera.top - camera.bottom) / camera.zoom;
+			const viewWidth = viewHeight * (size.width / size.height);
+			const halfW = viewWidth * 0.5;
+			const halfH = viewHeight * 0.5;
 
-		const minX = Math.floor((camera.position.x - halfW) / chunkSize);
-		const maxX = Math.ceil((camera.position.x + halfW) / chunkSize);
-		const minZ = Math.floor((camera.position.z - halfH) / chunkSize);
-		const maxZ = Math.ceil((camera.position.z + halfH) / chunkSize);
+			const minX = Math.floor((camera.position.x - halfW) / chunkSize) - offset;
+			const maxX = Math.ceil((camera.position.x + halfW) / chunkSize) + offset;
+			const minZ = Math.floor((camera.position.z - halfH) / chunkSize) - offset;
+			const maxZ = Math.ceil((camera.position.z + halfH) / chunkSize) + offset;
 
-		return {
-			hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]`,
-			minX,
-			maxX,
-			minZ,
-			maxZ,
-			count: (maxX - minX + 1) * (maxZ - minZ + 1),
+			return {
+				hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]`,
+				count: (maxX - minX + 1) * (maxZ - minZ + 1),
+				minX,
+				maxX,
+				minZ,
+				maxZ,
+			};
 		};
-	};
+	}, [camera, size, chunkSize, offset]);
 };
