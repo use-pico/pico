@@ -42,9 +42,9 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ config, children }) => {
 			/>
 			<Stats />
 
-			{/* <gridHelper
+			<gridHelper
 				args={[config.chunkSize, config.plotSize, 0xff0000, 0xaaaaaa]}
-			/> */}
+			/>
 
 			<ambientLight intensity={0.5} />
 			{/* 

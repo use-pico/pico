@@ -191,14 +191,6 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				onChange={update}
 			/>
 
-			{/* 
-
-                TODO Instead of generating chunks, create texture with colors representing the terrain with connected data (tile?).
-
-                This will speed things up in current iteration of development.
-
-             */}
-
 			<Chunks
 				config={config}
 				tiles={tiles}
