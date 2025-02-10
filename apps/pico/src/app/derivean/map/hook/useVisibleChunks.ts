@@ -6,10 +6,22 @@ export namespace useVisibleChunks {
 	export interface Props {
 		chunkSize: number;
 	}
+
+	export interface View {
+		hash: string;
+		minX: number;
+		maxX: number;
+		minZ: number;
+		maxZ: number;
+		count: number;
+	}
 }
 
 export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
-	const { camera, size } = useThree(({ camera, size }) => ({ camera, size }));
+	const { camera, size } = useThree(({ camera, size }) => ({
+		camera: camera as OrthographicCamera,
+		size,
+	}));
 
 	useEffect(() => {
 		if (!(camera instanceof OrthographicCamera)) {
@@ -17,33 +29,24 @@ export const useVisibleChunks = ({ chunkSize }: useVisibleChunks.Props) => {
 		}
 	}, [camera]);
 
-	return () => {
-		const cam = camera as OrthographicCamera;
-		const viewHeight = (cam.top - cam.bottom) / cam.zoom;
+	return (): useVisibleChunks.View => {
+		const viewHeight = (camera.top - camera.bottom) / camera.zoom;
 		const viewWidth = viewHeight * (size.width / size.height);
 		const halfW = viewWidth * 0.5;
 		const halfH = viewHeight * 0.5;
 
-		const minChunkX = Math.floor((cam.position.x - halfW) / chunkSize);
-		const maxChunkX = Math.ceil((cam.position.x + halfW) / chunkSize);
-		const minChunkZ = Math.floor((cam.position.z - halfH) / chunkSize);
-		const maxChunkZ = Math.ceil((cam.position.z + halfH) / chunkSize);
-
-		const width = maxChunkX - minChunkX + 1;
-		const height = maxChunkZ - minChunkZ + 1;
-		const chunkCount = width * height;
-
-		const chunks = new Array(chunkCount);
-		for (let i = 0; i < chunkCount; i++) {
-			chunks[i] = {
-				x: minChunkX + (i % width),
-				z: minChunkZ + Math.floor(i / width),
-			};
-		}
+		const minX = Math.floor((camera.position.x - halfW) / chunkSize);
+		const maxX = Math.ceil((camera.position.x + halfW) / chunkSize);
+		const minZ = Math.floor((camera.position.z - halfH) / chunkSize);
+		const maxZ = Math.ceil((camera.position.z + halfH) / chunkSize);
 
 		return {
-			chunks,
-			hash: `[${minChunkX} → ${maxChunkX}]:[${minChunkZ} → ${maxChunkZ}]`,
+			hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]`,
+			minX,
+			maxX,
+			minZ,
+			maxZ,
+			count: (maxX - minX + 1) * (maxZ - minZ + 1),
 		};
 	};
 };

@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, type DirectionalLight } from "three";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
@@ -132,16 +132,24 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			lightRef.current.target.updateMatrixWorld();
 		}
 
-		const { chunks, hash: $hash } = visibleChunks();
+		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
 		if ($hash !== hash) {
-			chunkRef.current = chunks.map((chunk) => {
-				return {
-					id: `${chunk.x}:${chunk.z}`,
-					x: chunk.x,
-					z: chunk.z,
-					tiles: generator(chunk),
-				};
-			});
+			const chunks = new Array(count);
+			let index = 0;
+
+			for (let x = minX; x <= maxX; x++) {
+				for (let z = minZ; z <= maxZ; z++) {
+					chunks[index++] = {
+						id: `${x}:${z}`,
+						x,
+						z,
+						tiles: generator({ x, z }),
+					};
+				}
+			}
+
+			chunkRef.current = chunks;
+
 			setHash($hash);
 			invalidate();
 		}
@@ -151,11 +159,22 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		update();
 	}, []);
 
+	const chunks = useMemo(() => {
+		console.log("re-rendering chunks");
+		return hash ?
+				<Chunks
+					config={config}
+					chunksRef={chunkRef}
+					chunkHash={hash}
+				/>
+			:	null;
+	}, [hash]);
+
 	return (
 		<>
 			<directionalLight
 				ref={lightRef}
-				// castShadow
+				castShadow
 				color={0xffffff}
 				intensity={2}
 				position={[0, 256, 256]}
@@ -172,10 +191,6 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				enableDamping={true}
 				screenSpacePanning={false}
 				zoomToCursor
-				// minPolarAngle={Math.PI / 8}
-				// maxPolarAngle={Math.PI / 3}
-				// minDistance={2048}
-				// maxDistance={256}
 				/**
 				 * How far
 				 */
@@ -183,18 +198,12 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				/**
 				 * How close
 				 */
-				maxZoom={32}
+				// maxZoom={32}
 				mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
 				onChange={update}
 			/>
 
-			{hash && chunkRef.current.length > 0 ?
-				<Chunks
-					config={config}
-					chunksRef={chunkRef}
-					chunkHash={hash}
-				/>
-			:	null}
+			{chunks}
 		</>
 	);
 };
