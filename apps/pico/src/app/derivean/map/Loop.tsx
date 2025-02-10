@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useEffect, useReducer, useRef, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { MOUSE, type DirectionalLight } from "three";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
@@ -119,9 +119,8 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			{ x: number; z: number; tiles: useGenerator.Generator.Tile[] }
 		>(),
 	);
+	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
-
-	const [, render] = useReducer((x) => x + 1, 0);
 
 	const update = () => {
 		if (lightRef.current) {
@@ -138,16 +137,20 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			lightRef.current.target.updateMatrixWorld();
 		}
 
-		chunkRef.current.clear();
-		visibleChunks().forEach((chunk) => {
-			chunkRef.current.set(`${chunk.x}:${chunk.z}`, {
-				x: chunk.x,
-				z: chunk.z,
-				tiles: generator(chunk),
+		const { chunks, hash: $hash } = visibleChunks();
+		if ($hash !== hash) {
+			console.log("New hash", $hash);
+			chunkRef.current.clear();
+			chunks.forEach((chunk) => {
+				chunkRef.current.set(`${chunk.x}:${chunk.z}`, {
+					x: chunk.x,
+					z: chunk.z,
+					tiles: generator(chunk),
+				});
 			});
-		});
-		invalidate();
-		render();
+			setHash($hash);
+			invalidate();
+		}
 	};
 
 	useEffect(() => {
@@ -191,10 +194,13 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				onChange={update}
 			/>
 
-			<Chunks
-				config={config}
-				chunksRef={chunkRef}
-			/>
+			{hash && chunkRef.current.size > 0 ?
+				<Chunks
+					config={config}
+					chunksRef={chunkRef}
+					chunkHash={hash}
+				/>
+			:	null}
 		</>
 	);
 };
