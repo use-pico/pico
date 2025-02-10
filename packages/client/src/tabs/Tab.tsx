@@ -1,4 +1,4 @@
-import { use, type FC, type PropsWithChildren } from "react";
+import { useContext, type FC, type PropsWithChildren } from "react";
 import { TabCss } from "./TabCss";
 import { TabsContext } from "./TabsContext";
 
@@ -15,7 +15,7 @@ export const Tab: FC<Tab.Props> = ({
 	css,
 	children,
 }) => {
-	const useStore = use(TabsContext);
+	const useStore = useContext(TabsContext);
 	const store = useStore();
 
 	const tv = tva({ active: tab === store.tab, ...variant, css }).slots;

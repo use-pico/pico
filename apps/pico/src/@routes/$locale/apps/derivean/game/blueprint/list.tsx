@@ -1,12 +1,12 @@
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	Tx,
-	withListCount,
-	withSourceSearchSchema,
+    navigateOnCursor,
+    navigateOnFilter,
+    navigateOnFulltext,
+    Tx,
+    withListCount,
+    withSourceSearchSchema,
 } from "@use-pico/client";
 import { z } from "zod";
 import { BlueprintTable } from "~/app/derivean/game/BlueprintTable";
@@ -36,7 +36,7 @@ export const Route = createFileRoute(
 					return withListCount({
 						select: tx
 							.selectFrom("Blueprint as bl")
-							.select(["bl.id", "bl.name", "bl.cycles",])
+							.select(["bl.id", "bl.name", "bl.cycles"])
 							.where(
 								"bl.id",
 								"in",
@@ -125,7 +125,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						value: filter?.fulltext,
-						set: navigateOnFulltext(navigate),
+						set: navigateOnFulltext(filter?.fulltext, navigate),
 					}}
 					cursor={{
 						count,

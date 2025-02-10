@@ -162,7 +162,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						value: filter?.fulltext,
-						set: navigateOnFulltext(navigate),
+						set: navigateOnFulltext(filter?.fulltext, navigate),
 					}}
 					cursor={{
 						count,

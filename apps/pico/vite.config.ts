@@ -16,24 +16,15 @@ export default defineConfig({
 		}),
 		tla(),
 		paths(),
-		react({
-            babel: {
-				plugins: [
-					[
-						"babel-plugin-react-compiler",
-						{
-							target: "18",
-							runtimeModule: "react-compiler-runtime",
-						},
-					],
-				],
-			},
-		}),
+		react({}),
 		ViteYaml(),
 		dynamicImport(),
 		wasm(),
 		tailwindcss(),
 	],
+	worker: {
+		format: "es",
+	},
 	server: {
 		port: 4000,
 		headers: {

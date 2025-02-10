@@ -51,7 +51,7 @@
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {
-		"@types/react": "^19.0.8",
+		"@types/react": "^18.0.0",
 		"@use-pico/eslint-config-eslint": "^5.0.1",
 		"@use-pico/tsconfig": "^4.0.7",
 		"eslint": "^9.20.0",

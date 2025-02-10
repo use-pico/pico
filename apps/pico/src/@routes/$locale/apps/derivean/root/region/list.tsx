@@ -89,7 +89,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/root/region/list")(
 						}}
 						fulltext={{
 							value: filter?.fulltext,
-							set: navigateOnFulltext(navigate),
+							set: navigateOnFulltext(filter?.fulltext, navigate),
 						}}
 						cursor={{
 							count,

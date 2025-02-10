@@ -9,10 +9,7 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import {
-    withIntSchema,
-    withJsonArraySchema
-} from "@use-pico/common";
+import { withIntSchema, withJsonArraySchema } from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { ResourceTable } from "~/app/derivean/root/ResourceTable";
@@ -157,7 +154,7 @@ export const Route = createFileRoute(
 					}}
 					fulltext={{
 						value: filter?.fulltext,
-						set: navigateOnFulltext(navigate),
+						set: navigateOnFulltext(filter?.fulltext, navigate),
 					}}
 					cursor={{
 						count,
