@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, useMemo, type MutableRefObject } from "react";
+import { FC, useEffect, useMemo, type MutableRefObject } from "react";
 import { CanvasTexture } from "three";
 import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 
@@ -57,8 +57,6 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 				const texture = new CanvasTexture(canvas);
 				texture.needsUpdate = true;
 				texturesPool.set(chunk.id, texture);
-
-				console.log("Tex for", chunk.id);
 			}
 
 			return texturesPool;
