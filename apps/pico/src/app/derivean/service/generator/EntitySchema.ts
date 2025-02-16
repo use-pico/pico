@@ -13,6 +13,7 @@ export const EntitySchema = z.object({
 		x: z.number(),
 		z: z.number(),
 	}),
+	noise: z.number(),
 	tile: TileSchema,
 });
 

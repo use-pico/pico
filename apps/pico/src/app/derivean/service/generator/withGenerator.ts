@@ -2,13 +2,10 @@ import { toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
 import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
+import type { Noise } from "~/app/derivean/service/noise/Noise";
+import type { Random } from "~/app/derivean/service/noise/Random";
 
 export namespace withGenerator {
-	export type Noise = (x: number, z: number) => number;
-	export interface Random {
-		float(): number;
-	}
-
 	export namespace Layer {
 		export namespace Factory {
 			export interface Props {
@@ -53,6 +50,9 @@ export namespace withGenerator {
 		plotSize: number;
 		plotCount: number;
 		scale?: number;
+		noise: (props: { seed: string }) => {
+			land: Noise;
+		};
 		/**
 		 * Default tile when nothing is generated.
 		 */
@@ -70,11 +70,20 @@ export const withGenerator = ({
 	plotCount,
 	tile,
 	scale = 1,
+	noise,
 	layers,
 }: withGenerator.Props): withGenerator.Generator => {
 	const random = new XORWow(toSeed(seed));
 	const baseScale = 1 / (plotCount * scale);
-	const $layers = layers({ random }).sort((a, b) => a.level - b.level);
+	const $layers = layers({
+		random() {
+			return random.float();
+		},
+	}).sort((a, b) => a.level - b.level);
+
+	const { land } = noise({
+		seed,
+	});
 
 	return ({ x, z }) => {
 		const chunk = new Array<EntitySchema.Type>(plotCount ** 2);
@@ -97,6 +106,7 @@ export const withGenerator = ({
 					x: tileX + x * plotCount * plotSize,
 					z: tileZ + z * plotCount * plotSize,
 				},
+				noise: land(worldX, worldZ),
 				tile,
 			};
 		}
