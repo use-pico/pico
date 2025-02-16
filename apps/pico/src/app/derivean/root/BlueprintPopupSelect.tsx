@@ -1,5 +1,8 @@
 import { PopupSelect, Tx, withListCount } from "@use-pico/client";
-import { Kysely, withJsonArraySchema } from "@use-pico/common";
+import {
+    Kysely,
+    withJsonOutputArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import type { FC } from "react";
 import { z } from "zod";
@@ -116,20 +119,20 @@ export const BlueprintPopupSelect: FC<BlueprintPopupSelect.Props> = (props) => {
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
-							regions: withJsonArraySchema(
+							regions: withJsonOutputArraySchema(
 								z.object({
 									id: z.string().min(1),
 									name: z.string().min(1),
 								}),
 							),
-							requirements: withJsonArraySchema(
+							requirements: withJsonOutputArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
 								),
 							),
-							dependencies: withJsonArraySchema(
+							dependencies: withJsonOutputArraySchema(
 								BlueprintDependencySchema.entity.merge(
 									z.object({
 										name: z.string().min(1),

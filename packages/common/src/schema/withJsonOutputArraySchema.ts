@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-export const withJsonArraySchema = <TSchema extends z.ZodSchema>(
+export const withJsonOutputArraySchema = <TSchema extends z.ZodSchema>(
 	schema: TSchema,
 ) => {
 	return z
 		.string()
 		.transform((value) => JSON.parse(value))
 		.refine((values) => Array.isArray(values))
-		.transform((values) => z.array(schema).parse(values));
+		.pipe(z.array(schema));
 };

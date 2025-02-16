@@ -1,7 +1,7 @@
 import { PopupSelect, Tx, withListCount } from "@use-pico/client";
 import {
     withIntSchema,
-    withJsonArraySchema
+    withJsonOutputArraySchema
 } from "@use-pico/common";
 import { sql } from "kysely";
 import type { FC } from "react";
@@ -128,7 +128,7 @@ export const ResourcePopupSelect: FC<ResourcePopupSelect.Props> = ({
 							id: z.string().min(1),
 							name: z.string().min(1),
 							weight: withIntSchema(),
-							tags: withJsonArraySchema(TagSchema.entity),
+							tags: withJsonOutputArraySchema(TagSchema.entity),
 							countRequirement: z.number().nonnegative(),
 							countProduction: z.number().nonnegative(),
 							countProductionRequirement: z.number().nonnegative(),

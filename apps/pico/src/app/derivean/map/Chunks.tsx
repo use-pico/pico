@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, useEffect, useMemo, type MutableRefObject } from "react";
+import { FC, useMemo, type MutableRefObject } from "react";
 import { CanvasTexture } from "three";
 import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 

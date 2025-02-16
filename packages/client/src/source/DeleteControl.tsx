@@ -30,7 +30,8 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	css,
 }) => {
 	const tv = tva({ ...variant, css }).slots;
-	const modalContext = useContext(ModalContext);
+	const useModalStore = useContext(ModalContext);
+	const close = useModalStore((state) => state.close);
 	const mutation = useMutation({
 		async mutationFn() {
 			return toast.promise(callback(), withToastPromiseTx(textToast));
@@ -38,7 +39,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 
 		async onSuccess() {
 			await invalidator?.();
-			modalContext?.close();
+			close();
 		},
 	});
 
@@ -50,7 +51,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 					variant={{ variant: "subtle", size: "sm" }}
 					iconEnabled={BackIcon}
 					onClick={() => {
-						modalContext?.close();
+						close();
 						onCancel?.();
 					}}
 				>

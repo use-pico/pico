@@ -31,6 +31,7 @@ export const Row = <TData extends DataType.Data>({
 	return (
 		<tr
 			className={tv.tr({
+				css: table.rowCss?.({ data: row.data }),
 				selected: table.selection.isSelected(row),
 			})}
 		>

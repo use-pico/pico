@@ -9,7 +9,10 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withIntSchema, withJsonArraySchema } from "@use-pico/common";
+import {
+    withIntSchema,
+    withJsonOutputArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { ResourceTable } from "~/app/derivean/root/ResourceTable";
@@ -121,7 +124,7 @@ export const Route = createFileRoute(
 							countRequirement: z.number().nonnegative(),
 							countProduction: z.number().nonnegative(),
 							countProductionRequirement: z.number().nonnegative(),
-							tags: withJsonArraySchema(TagSchema.entity),
+							tags: withJsonOutputArraySchema(TagSchema.entity),
 						}),
 						filter,
 						cursor,

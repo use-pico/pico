@@ -1,22 +1,23 @@
 import {
-    FloatingFocusManager,
-    FloatingNode,
-    FloatingOverlay,
-    FloatingPortal,
-    useClick,
-    useDismiss,
-    useFloating,
-    useFloatingNodeId,
-    useInteractions,
-    useTransitionStyles,
+	FloatingFocusManager,
+	FloatingNode,
+	FloatingOverlay,
+	FloatingPortal,
+	useClick,
+	useDismiss,
+	useFloating,
+	useFloatingNodeId,
+	useInteractions,
+	useTransitionStyles,
 } from "@floating-ui/react";
 import { isCallable, isString } from "@use-pico/common";
-import { useState, type FC, type ReactNode } from "react";
+import { useMemo, type FC, type ReactNode } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
 import { ModalContext } from "./ModalContext";
 import { ModalCss } from "./ModalCss";
+import { createModalStore } from "./createModalStore";
 
 export namespace Modal {
 	export interface Props extends ModalCss.Props {
@@ -50,12 +51,13 @@ export const Modal: FC<Modal.Props> = ({
 	tva = ModalCss,
 	children: Children,
 }) => {
-	const [isOpen, setIsOpen] = useState(defaultOpen);
+	const useModalStore = useMemo(() => createModalStore({ defaultOpen }), []);
+	const close = useModalStore((state) => state.close);
 	const nodeId = useFloatingNodeId();
 	const { refs, context } = useFloating({
 		nodeId,
-		open: isOpen,
-		onOpenChange: setIsOpen,
+		open: useModalStore((state) => state.isOpen),
+		onOpenChange: useModalStore((state) => state.toggle),
 	});
 	const click = useClick(context);
 	const dismiss = useDismiss(context, {
@@ -70,13 +72,7 @@ export const Modal: FC<Modal.Props> = ({
 	const tv = tva({ disabled, ...variant, css }).slots;
 
 	return (
-		<ModalContext.Provider
-			value={{
-				close() {
-					setIsOpen(false);
-				},
-			}}
-		>
+		<ModalContext.Provider value={useModalStore}>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps({
@@ -124,11 +120,11 @@ export const Modal: FC<Modal.Props> = ({
 											</div>
 											<Action
 												iconEnabled={CloseIcon}
-												onClick={() => setIsOpen(false)}
+												onClick={() => close()}
 											/>
 										</div>
 										{isCallable(Children) ?
-											<Children close={() => setIsOpen(false)} />
+											<Children close={close} />
 										:	Children}
 									</div>
 								</FloatingFocusManager>

@@ -19,7 +19,11 @@ export namespace JustDropZone {
 		/**
 		 * Renders, when file(s) is dropped.
 		 */
-		children?: FC<{ files: File[]; clear(): void; remove(file: File): void }>;
+		children?: FC<{
+			files: [File, ...File[]];
+			clear(): void;
+			remove(file: File): void;
+		}>;
 	}
 }
 
@@ -66,34 +70,13 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			{...getRootProps()}
 			className={tv.base()}
 		>
-			<label
-				htmlFor={id}
-				className={tv.label()}
-			>
-				<div className={tv.zone()}>
-					<Icon
-						icon={UploadIcon}
-						variant={{ size: "4xl" }}
-					/>
-					<div className={"mb-2 text-sm font-semibold"}>
-						{textTile || translator.rich("Drag 'n' drop a file here")}
-					</div>
-					{textMessage ?
-						<div className={"text-xs"}>{textMessage}</div>
-					:	null}
-				</div>
-				<input
-					id={id}
-					type={"file"}
-					className={"hidden"}
-					{...getInputProps()}
-				/>
-			</label>
-
 			{Children && files && files.length > 0 ?
 				<div className={tv.content()}>
 					<Children
-						files={files}
+						/**
+						 * Cast to array of files, we're sure at least one file is selected.
+						 */
+						files={files as [File, ...File[]]}
 						clear={() => {
 							setFiles([]);
 						}}
@@ -102,7 +85,30 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 						}}
 					/>
 				</div>
-			:	null}
+			:	<label
+					htmlFor={id}
+					className={tv.label()}
+				>
+					<div className={tv.zone()}>
+						<Icon
+							icon={UploadIcon}
+							variant={{ size: "4xl" }}
+						/>
+						<div className={"mb-2 text-sm font-semibold"}>
+							{textTile || translator.rich("Drag 'n' drop a file here")}
+						</div>
+						{textMessage ?
+							<div className={"text-xs"}>{textMessage}</div>
+						:	null}
+					</div>
+					<input
+						id={id}
+						type={"file"}
+						className={"hidden"}
+						{...getInputProps()}
+					/>
+				</label>
+			}
 		</div>
 	);
 };

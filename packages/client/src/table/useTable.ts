@@ -38,6 +38,7 @@ export namespace useTable {
 		filter?: Filter;
 		selection?: Selection;
 		context?: TContext;
+		rowCss?: UseTable.RowCssCallback<TData>;
 	}
 
 	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
@@ -55,6 +56,7 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 	filter,
 	selection,
 	context,
+	rowCss,
 }: useTable.Props<TData, TContext>): UseTable<TData, TContext> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
@@ -107,8 +109,10 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 		});
 
 	return {
+		data,
 		columns: $columns,
 		visible: $visible,
+		rowCss,
 		rows: data?.map((data) => {
 			return {
 				id: v4(),

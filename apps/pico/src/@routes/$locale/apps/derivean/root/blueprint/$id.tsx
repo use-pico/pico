@@ -4,7 +4,10 @@ import {
     useRouteContext,
 } from "@tanstack/react-router";
 import { withFetch } from "@use-pico/client";
-import { Kysely, withJsonArraySchema } from "@use-pico/common";
+import {
+    Kysely,
+    withJsonOutputArraySchema
+} from "@use-pico/common";
 import { z } from "zod";
 import { BlueprintIndexMenu } from "~/app/derivean/root/BlueprintIndexMenu";
 import { BlueprintPreview } from "~/app/derivean/root/BlueprintPreview";
@@ -116,20 +119,20 @@ export const Route = createFileRoute(
 							name: z.string().min(1),
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
-							regions: withJsonArraySchema(
+							regions: withJsonOutputArraySchema(
 								z.object({
 									id: z.string().min(1),
 									name: z.string().min(1),
 								}),
 							),
-							requirements: withJsonArraySchema(
+							requirements: withJsonOutputArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
 								),
 							),
-							dependencies: withJsonArraySchema(
+							dependencies: withJsonOutputArraySchema(
 								BlueprintDependencySchema.entity.merge(
 									z.object({
 										name: z.string().min(1),

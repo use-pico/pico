@@ -9,7 +9,10 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { Kysely, withJsonArraySchema } from "@use-pico/common";
+import {
+    Kysely,
+    withJsonOutputArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { BlueprintTable } from "~/app/derivean/root/BlueprintTable";
@@ -138,20 +141,20 @@ export const Route = createFileRoute(
 							cycles: z.number().nonnegative(),
 							sort: z.number().nonnegative(),
 							limit: z.number().nonnegative(),
-							regions: withJsonArraySchema(
+							regions: withJsonOutputArraySchema(
 								z.object({
 									id: z.string().min(1),
 									name: z.string().min(1),
 								}),
 							),
-							requirements: withJsonArraySchema(
+							requirements: withJsonOutputArraySchema(
 								BlueprintRequirementSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
 								),
 							),
-							dependencies: withJsonArraySchema(
+							dependencies: withJsonOutputArraySchema(
 								BlueprintDependencySchema.entity.merge(
 									z.object({
 										name: z.string().min(1),

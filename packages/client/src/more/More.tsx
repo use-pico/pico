@@ -31,7 +31,7 @@ export const More = <TValues extends IdentitySchema.Type>({
 	tva = MoreCss,
 	css,
 }: More.Props<TValues>) => {
-	const $items = limit ? items.slice(0, limit) : items;
+	const $items = limit === undefined ? items : items.slice(0, limit);
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
@@ -43,7 +43,7 @@ export const More = <TValues extends IdentitySchema.Type>({
 					entity={item}
 				/>
 			))}
-			{limit && items.length > limit && (
+			{limit !== undefined && items.length > limit && (
 				<Modal
 					textTitle={textTitle}
 					target={<Action iconEnabled={ActionMenuIcon} />}

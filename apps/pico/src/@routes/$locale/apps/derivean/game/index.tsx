@@ -13,15 +13,13 @@ import {
     FormInput,
     LinkTo,
     onSubmit,
-    toast,
     TrashIcon,
     Tx,
     useInvalidator,
     withList,
-    withToastPromiseTx,
     type Form,
 } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { genId, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,7 +27,6 @@ import { kysely } from "~/app/derivean/db/kysely";
 import { ArrowRightIcon } from "~/app/derivean/icon/ArrowRightIcon";
 import { MapIcon } from "~/app/derivean/icon/MapIcon";
 import { MapSchema } from "~/app/derivean/schema/MapSchema";
-import { withMapGenerator } from "~/app/derivean/service/withMapGenerator";
 
 namespace MapForm {
 	export interface Props extends Form.Props<MapSchema["shape"]> {
@@ -218,12 +215,17 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 					<MapForm
 						mutation={useMutation({
 							async mutationFn(values) {
-								return toast.promise(
-									kysely.transaction().execute((tx) => {
-										return withMapGenerator({ tx, userId: user.id, ...values });
-									}),
-									withToastPromiseTx("Map generator"),
-								);
+								return kysely.transaction().execute((tx) => {
+									return tx
+										.insertInto("Map")
+										.values({
+											id: genId(),
+											userId: user.id,
+											...values,
+										})
+										.returning("id")
+										.executeTakeFirstOrThrow();
+								});
 							},
 							async onSuccess(map) {
 								navigate({

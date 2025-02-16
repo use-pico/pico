@@ -2,7 +2,7 @@ import { create, type StoreApi, type UseBoundStore } from "zustand";
 
 export namespace createTabsStore {
 	export interface Props {
-		defaultTab: string | undefined;
+		tab: string | undefined;
 		hidden: string[];
 	}
 
@@ -16,11 +16,11 @@ export namespace createTabsStore {
 }
 
 export const createTabsStore = ({
-	defaultTab,
+	tab,
 	hidden,
 }: createTabsStore.Props): createTabsStore.Store => {
 	return create((set) => ({
-		tab: defaultTab,
+		tab,
 		hidden,
 		setCurrent: (tab: string) => {
 			set({ tab });

@@ -1,4 +1,4 @@
-import { PropsWithChildren, type FC } from "react";
+import { PropsWithChildren, useMemo, type FC } from "react";
 import { TabsContext } from "./TabsContext";
 import { createTabsStore } from "./createTabsStore";
 
@@ -16,13 +16,22 @@ export namespace Tabs {
 		 * Initial tab value.
 		 */
 		defaultTab: string;
-		hidden?: string[];
+		defaultHidden?: string[];
 	}
 }
 
-export const Tabs: FC<Tabs.Props> = ({ defaultTab, hidden = [], children }) => {
+export const Tabs: FC<Tabs.Props> = ({
+	defaultTab,
+	defaultHidden = [],
+	children,
+}) => {
 	return (
-		<TabsContext.Provider value={createTabsStore({ defaultTab, hidden })}>
+		<TabsContext.Provider
+			value={useMemo(
+				() => createTabsStore({ tab: defaultTab, hidden: defaultHidden }),
+				[],
+			)}
+		>
 			{children}
 		</TabsContext.Provider>
 	);

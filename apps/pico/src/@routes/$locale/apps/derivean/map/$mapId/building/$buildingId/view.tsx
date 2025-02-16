@@ -1,6 +1,10 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { withList } from "@use-pico/client";
-import { Kysely, withBoolSchema, withJsonSchema } from "@use-pico/common";
+import {
+    Kysely,
+    withBoolSchema,
+    withJsonOutputSchema
+} from "@use-pico/common";
 import { z } from "zod";
 import { BuildingPanel } from "~/app/derivean/game/GameMap2/Building/BuildingPanel";
 import { RequirementPanel } from "~/app/derivean/game/GameMap2/Construction/Requirement/RequirementPanel";
@@ -112,14 +116,14 @@ export const Route = createFileRoute(
 								amount: z.number().nonnegative(),
 								transport: z.number().nonnegative(),
 								available: z.number().nonnegative().nullish(),
-								supply: withJsonSchema(
+								supply: withJsonOutputSchema(
 									z.object({
 										id: z.string().min(1),
 										buildingId: z.string().min(1),
 										name: z.string().min(1),
 									}),
 								).nullish(),
-								demand: withJsonSchema(
+								demand: withJsonOutputSchema(
 									z.object({
 										id: z.string().min(1),
 										priority: z.number(),

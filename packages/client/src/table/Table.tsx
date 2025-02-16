@@ -44,10 +44,26 @@ export namespace Table {
 		set: Fulltext.OnFulltext;
 	}
 
+	export namespace Toolbar {
+		export interface Props<TData extends DataType.Data, TContext = any> {
+			table: UseTable<TData, TContext>;
+		}
+
+		export type Toolbar<TData extends DataType.Data, TContext = any> = FC<
+			Props<TData, TContext>
+		>;
+	}
+
 	export interface Props<TData extends DataType.Data, TContext = any>
 		extends TableCss.Props {
 		table: UseTable<TData, TContext>;
 		fulltext?: Fulltext;
+		/**
+		 * Toolbar, displayed next to the fulltext.
+		 *
+		 * Good UI may be just icons to be used.
+		 */
+		toolbar?: Toolbar.Toolbar<TData, TContext>;
 		cursor: Cursor.Props;
 		empty?: FC;
 		action?: Action<TData, TContext>;
@@ -64,6 +80,7 @@ export namespace Table {
 export const Table = <TData extends DataType.Data, TContext = any>({
 	table,
 	fulltext,
+	toolbar: Toolbar = () => null,
 	cursor,
 	empty: Empty = () => (
 		<Status
@@ -84,13 +101,18 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	return (
 		<div className={tv.base()}>
 			<div className={"flex items-center justify-between"}>
-				<div className={"flex items-center gap-6 w-1/3"}>
-					{fulltext ?
-						<Fulltext
-							value={fulltext.value}
-							onFulltext={fulltext.set}
-						/>
-					:	null}
+				<div className={"flex flex-row items-center gap-2 w-1/3"}>
+					<div className={"flex items-center gap-6 flex-grow"}>
+						{fulltext ?
+							<Fulltext
+								value={fulltext.value}
+								onFulltext={fulltext.set}
+							/>
+						:	null}
+					</div>
+					<div className={"flex flex-row items-center gap-2"}>
+						<Toolbar table={table} />
+					</div>
 				</div>
 
 				<div className={"flex flex-row items-center justify-center gap-2"}>

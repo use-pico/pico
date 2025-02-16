@@ -1,84 +1,88 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ReactNode } from "@tanstack/react-router";
 import { xlsxOf } from "@use-pico/common";
-import { useState, type FC } from "react";
+import { useMemo, type FC } from "react";
+import { z } from "zod";
 import { JustDropZone } from "../just-drop-zone/JustDropZone";
-import { SheetSelect } from "./SheetSelect";
+import { LoadingOverlay } from "../loading-overlay/LoadingOverlay";
 
 export namespace Xlsx {
-	export interface Result {
-		sheet: any[] | undefined;
-		data: Record<string | number, any[] | undefined>;
-	}
-
-	export interface Props extends Omit<JustDropZone.Props, "children"> {
-		load?: (string | number)[];
-		map?(result: Result): Promise<Result>;
-		onSuccess?(result: Result): Promise<void>;
-		children?(result: Result): ReactNode;
+	export interface Props<TSchema extends z.ZodObject<any, any, any, any, any>>
+		extends Omit<JustDropZone.Props, "children"> {
+		sheet?: string;
+		schema: TSchema;
+		onSuccess?(result: xlsxOf.Result<TSchema>): Promise<any>;
+		children?: FC<{ result: xlsxOf.Result<TSchema> }>;
 	}
 }
 
-export const Xlsx: FC<Xlsx.Props> = ({
-	load = [],
-	map = (result) => result,
-	onSuccess = () => null,
-	children = () => null,
+export const Xlsx = <TSchema extends z.ZodObject<any, any, any, any, any>>({
+	sheet,
+	schema,
+	onSuccess = async () => null,
+	children: Children = () => null,
 	...props
-}) => {
-	const [file, setFile] = useState<File | null>(null);
-	const [sheet, setSheet] = useState<string | null>(null);
+}: Xlsx.Props<TSchema>) => {
+	return (
+		<JustDropZone
+			accept={{
+				"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+					".xlsx",
+				],
+				"application/x-excel": [".xlsx"],
+				"application/vnd.ms-excel": [".xlsx"],
+			}}
+			{...props}
+		>
+			{({ files: [file] }) => {
+				const data = useQuery({
+					queryKey: ["xlsx", { file: file?.name, sheet }],
+					queryFn: async () => {
+						const translations = (
+							await xlsxOf({
+								file: file!,
+								sheet: `${sheet} - translations`,
+								schema: z.object({ from: z.string(), to: z.string() }),
+							})
+						)?.reduce(
+							(acc, { from, to }) => {
+								acc[from] = to;
+								return acc;
+							},
+							{} as Record<string, string>,
+						);
 
-	const data = useQuery({
-		queryKey: ["xlsx", file?.name],
-		queryFn: async () => {
-			const result: Record<string | number, any[] | undefined> = {};
+						const data = await xlsxOf({
+							file: file!,
+							sheet: sheet!,
+							schema,
+							map({ header, value }) {
+								return translations?.[header] ?
+										{ header: translations[header], value }
+									:	{ header, value };
+							},
+						});
 
-			for await (const item of load) {
-				result[item] = await xlsxOf({ file: file!, sheet: item });
-			}
+						await onSuccess(data);
 
-			const data = await map({
-				sheet: await xlsxOf({ file: file!, sheet: sheet! }),
-				data: result,
-			} satisfies Xlsx.Result);
+						return data;
+					},
+					enabled: Boolean(file) && Boolean(sheet),
+				});
 
-			await onSuccess(data);
+				const memo = useMemo(
+					() =>
+						data.isSuccess ? <Children result={data.data} /> : "err, (not yet)",
+					[data.data],
+				);
 
-			return data;
-		},
-		enabled: Boolean(file) && Boolean(sheet),
-	});
+				if (data.isLoading) {
+					return <LoadingOverlay />;
+				} else if (data.isSuccess) {
+					return memo;
+				}
 
-	if (data.isSuccess) {
-		return children(data.data);
-	}
-
-	return file ?
-			<>
-				<SheetSelect
-					file={file}
-					onItem={({ name }) => {
-						setSheet(name);
-					}}
-				/>
-			</>
-		:	<JustDropZone
-				accept={{
-					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-						".xlsx",
-					],
-					"application/x-excel": [".xlsx"],
-					"application/vnd.ms-excel": [".xlsx"],
-				}}
-				onDropAccepted={async (files) => {
-					const [file] = files;
-					if (!file) {
-						return;
-					}
-
-					setFile(file);
-				}}
-				{...props}
-			/>;
+				return "???";
+			}}
+		</JustDropZone>
+	);
 };

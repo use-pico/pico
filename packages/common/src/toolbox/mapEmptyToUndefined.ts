@@ -1,13 +1,22 @@
-import {isObject} from "./isObject";
+import { isObject } from "./isObject";
 
-export const mapEmptyToUndefined = <TObject extends object>(object: TObject): TObject => {
-	return Object
-		.keys(object)
-		.reduce<any>(
-			(acc, key) => {
-				acc[key] = object[key as keyof TObject] === "" ? undefined : (isObject(object[key as keyof TObject]) ? mapEmptyToUndefined(object[key as keyof TObject] as object) : object[key as keyof TObject]);
-				return acc;
-			},
-			{}
-		);
+export const mapEmptyToUndefined = <T extends Record<string, any>>(
+	object: T,
+): T => {
+	return Object.keys(object).reduce(
+		(acc, key) => {
+			const value = object[key];
+
+			if (value === "") {
+				(acc as Record<string, any>)[key] = undefined;
+			} else if (isObject(value)) {
+				(acc as Record<string, any>)[key] = mapEmptyToUndefined(value);
+			} else {
+				(acc as Record<string, any>)[key] = value;
+			}
+
+			return acc;
+		},
+		{ ...object } as T,
+	);
 };

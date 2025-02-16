@@ -15,7 +15,6 @@ import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOff } from "../icon/SelectionOff";
 import { SelectionOn } from "../icon/SelectionOn";
 import { Modal } from "../modal/Modal";
-import { ModalContext } from "../modal/ModalContext";
 import type { withListCount } from "../source/withListCount";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
@@ -50,7 +49,7 @@ export namespace PopupMultiSelect {
 		queryHash?: Record<any, any>;
 		query: Query.Callback<TItem>;
 
-		value: string[] | undefined;
+		value: string[] | undefined | null;
 		onChange(value: string[]): void;
 		/**
 		 * When selection is submitted, here is a list of selected items.
@@ -60,7 +59,7 @@ export namespace PopupMultiSelect {
 
 	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
 		Props<TItem>,
-		 "table" | "queryKey" | "queryHash" | "query" | "render"
+		"table" | "queryKey" | "queryHash" | "query" | "render"
 	>;
 }
 
@@ -118,11 +117,16 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const withValue = (value?.length || 0) > 0;
 
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupMultiSelect", "selected", { value, ...queryHash }],
+		queryKey: [
+			queryKey,
+			"PopupMultiSelect",
+			"selected",
+			{ value, ...queryHash },
+		],
 		async queryFn() {
 			return query({
 				filter: {
-					idIn: value,
+					idIn: value || undefined,
 				},
 			});
 		},
@@ -166,59 +170,59 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			}}
 			{...modalProps}
 		>
-			<div className={tv.base()}>
-				<div className={tv.content()}>
-					<Table
-						cursor={{
-							cursor: {
-								page,
-								size,
-							},
-							count:
-								result.data?.count ?
-									result.data.count
-								:	{
-										filter: -1,
-										total: -1,
-										where: -1,
+			{({ close }) => {
+				return (
+					<div className={tv.base()}>
+						<div className={tv.content()}>
+							<Table
+								cursor={{
+									cursor: {
+										page,
+										size,
 									},
-							textTotal: <Tx label={"Total count of items (label)"} />,
-							onPage(page) {
-								setPage(page);
-							},
-							onSize(size) {
-								setSize(size);
-								setPage(0);
-							},
-						}}
-						fulltext={{
-							value: fulltext,
-							set(value) {
-								setFulltext(value);
-								setPage(0);
-							},
-						}}
-						table={{
-							data: result.data?.data ?? [],
-							selection: {
-								type: "multi",
-								value: selection,
-								set(selection) {
-									setSelection(selection);
-								},
-							},
-						}}
-					/>
-				</div>
+									count:
+										result.data?.count ?
+											result.data.count
+										:	{
+												filter: -1,
+												total: -1,
+												where: -1,
+											},
+									textTotal: <Tx label={"Total count of items (label)"} />,
+									onPage(page) {
+										setPage(page);
+									},
+									onSize(size) {
+										setSize(size);
+										setPage(0);
+									},
+								}}
+								fulltext={{
+									value: fulltext,
+									set(value) {
+										setFulltext(value);
+										setPage(0);
+									},
+								}}
+								table={{
+									data: result.data?.data ?? [],
+									selection: {
+										type: "multi",
+										value: selection,
+										set(selection) {
+											setSelection(selection);
+										},
+									},
+								}}
+							/>
+						</div>
 
-				<ModalContext.Consumer>
-					{(modalContext) => (
 						<div className={tv.footer()}>
 							<Button
 								iconEnabled={BackIcon}
 								iconDisabled={BackIcon}
 								onClick={() => {
-									modalContext?.close();
+									close();
 									setSelection(value || []);
 								}}
 								variant={{
@@ -239,15 +243,15 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 											selection.includes(item.id),
 										) || [],
 									);
-									modalContext?.close();
+									close();
 								}}
 							>
 								<Tx label={"Confirm selection (label)"} />
 							</Button>
 						</div>
-					)}
-				</ModalContext.Consumer>
-			</div>
+					</div>
+				);
+			}}
 		</Modal>
 	);
 };

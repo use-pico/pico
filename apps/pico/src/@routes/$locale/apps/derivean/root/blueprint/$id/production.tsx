@@ -9,7 +9,9 @@ import {
     withListCount,
     withSourceSearchSchema,
 } from "@use-pico/client";
-import { withJsonArraySchema } from "@use-pico/common";
+import {
+    withJsonOutputArraySchema
+} from "@use-pico/common";
 import { sql } from "kysely";
 import { z } from "zod";
 import { BlueprintProductionTable } from "~/app/derivean/root/BlueprintProductionTable";
@@ -107,21 +109,21 @@ export const Route = createFileRoute(
 							resourceId: z.string().min(1),
 							amount: z.number().nonnegative(),
 							cycles: z.number().nonnegative(),
-							requirements: withJsonArraySchema(
+							requirements: withJsonOutputArraySchema(
 								BlueprintProductionRequirementSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
 								),
 							),
-							resources: withJsonArraySchema(
+							resources: withJsonOutputArraySchema(
 								BlueprintProductionResourceSchema.entity.merge(
 									z.object({
 										name: z.string().min(1),
 									}),
 								),
 							),
-							dependencies: withJsonArraySchema(
+							dependencies: withJsonOutputArraySchema(
 								BlueprintProductionDependencySchema.entity.merge(
 									z.object({
 										name: z.string().min(1),

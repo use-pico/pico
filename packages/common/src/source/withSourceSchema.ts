@@ -34,6 +34,8 @@ export namespace withSourceSchema {
 		["~entity"]: z.infer<TEntitySchema>;
 		["~entity-array"]: z.infer<TEntitySchema>[];
 		["~entity-partial-exclude-id"]: Partial<Omit<z.infer<TEntitySchema>, "id">>;
+		["~entity-input"]: z.input<TEntitySchema>;
+		["~entity-input-array"]: z.input<TEntitySchema>[];
 
 		/**
 		 * Shape schema defines fields required to create an entity in the database;
@@ -42,6 +44,8 @@ export namespace withSourceSchema {
 		shape: TShapeSchema;
 		["~shape"]: z.infer<TShapeSchema>;
 		["~shape-partial"]: Partial<z.infer<TShapeSchema>>;
+		["~shape-input"]: z.input<TShapeSchema>;
+		["~shape-input-partial"]: Partial<z.input<TShapeSchema>>;
 
 		/**
 		 * Filter schema defines client-side (userland) fields available for filtering.
@@ -83,9 +87,13 @@ export const withSourceSchema = <
 		"~entity": proxy,
 		"~entity-array": [],
 		"~entity-partial-exclude-id": proxy,
+		"~entity-input": proxy,
+		"~entity-input-array": proxy,
 		shape,
 		"~shape": proxy,
 		"~shape-partial": proxy,
+		"~shape-input": proxy,
+		"~shape-input-partial": proxy,
 		filter,
 		"~filter": proxy,
 		"sort": z.array(

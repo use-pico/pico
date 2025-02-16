@@ -1,11 +1,6 @@
 import { createContext } from "react";
+import { createModalStore } from "./createModalStore";
 
-export namespace ModalContext {
-	export interface Instance {
-		close(): void;
-	}
-}
-
-export const ModalContext = createContext<ModalContext.Instance | undefined>(
-	undefined,
+export const ModalContext = createContext<createModalStore.Store>(
+	createModalStore({ defaultOpen: false }),
 );
