@@ -1,0 +1,106 @@
+import { toSeed } from "@use-pico/common";
+import { XORWow } from "random-seedable";
+import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
+import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
+
+export namespace withGenerator {
+	export type Noise = (x: number, z: number) => number;
+	export interface Random {
+		float(): number;
+	}
+
+	export namespace Layer {
+		export namespace Factory {
+			export interface Props {
+				random: Random;
+			}
+		}
+
+		export type Factory = (props: Factory.Props) => Layer[];
+	}
+
+	export interface Layer {
+		/**
+		 * Layer level is used to determine the order of layers.
+		 *
+		 * Lower levels are drawn first, higher levels are drawn last.
+		 *
+		 * If a layer won't generate a tile, generator picks next layer.
+		 */
+		level: number;
+		/**
+		 * Noise provider.
+		 */
+		noise: Noise;
+		biome: Noise;
+		/**
+		 * Tiles on this layer.
+		 */
+		tiles: TileSchema.Type[];
+	}
+
+	export namespace Generator {
+		export interface Props {
+			x: number;
+			z: number;
+		}
+	}
+
+	export type Generator = (props: Generator.Props) => EntitySchema.Type[];
+
+	export interface Props {
+		seed: string;
+		plotSize: number;
+		plotCount: number;
+		scale?: number;
+		/**
+		 * Default tile when nothing is generated.
+		 */
+		tile: TileSchema.Type;
+		/**
+		 * Layers to generate tiles.
+		 */
+		layers: Layer.Factory;
+	}
+}
+
+export const withGenerator = ({
+	seed,
+	plotSize,
+	plotCount,
+	tile,
+	scale = 1,
+	layers,
+}: withGenerator.Props): withGenerator.Generator => {
+	const random = new XORWow(toSeed(seed));
+	const baseScale = 1 / (plotCount * scale);
+	const $layers = layers({ random }).sort((a, b) => a.level - b.level);
+
+	return ({ x, z }) => {
+		const chunk = new Array<EntitySchema.Type>(plotCount ** 2);
+
+		for (let i = 0; i < chunk.length; i++) {
+			const tileX = (i % plotCount) * plotSize;
+			const tileZ = Math.floor(i / plotCount) * plotSize;
+			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
+			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
+
+			// const layer =
+
+			chunk[i] = {
+				// tile: config.tiles[tileId]!,
+				pos: {
+					x: tileX,
+					z: tileX,
+				},
+				abs: {
+					x: tileX + x * plotCount * plotSize,
+					z: tileZ + z * plotCount * plotSize,
+				},
+				tile,
+			};
+		}
+
+		return chunk;
+	};
+};
