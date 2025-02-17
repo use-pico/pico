@@ -68,7 +68,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											name: "base",
 											scale: 0.05,
 											weight: 1,
-											inverse: true,
+											subtract: true,
 											// limit: { min: 0, max: 0.55 },
 										},
 										{
@@ -102,7 +102,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 								{
 									name: "inverse-detail-01",
 									crop: { min: 0, max: 0.5 },
-									inverse: true,
+									subtract: true,
 									layers: [
 										{
 											name: "base",

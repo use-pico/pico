@@ -13,7 +13,6 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 			{
 				name: "base",
 				weight: 1,
-				// limit: { min: 0, max: 0.5 },
 				layers: [
 					{
 						name: "base-simplex",
@@ -32,14 +31,14 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 						noise: "cellular",
 						scale: 0.5,
 						weight: 0.75,
-						inverse: true,
+						subtract: true,
 					},
 					{
 						name: "base-simplex2",
 						noise: "simplex",
 						scale: 0.75,
 						weight: 0.25,
-						inverse: true,
+						subtract: true,
 					},
 					{
 						disabled: true,
@@ -47,7 +46,7 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 						noise: "perlinFractal",
 						scale: 0.75,
 						weight: 0.75,
-						inverse: true,
+						subtract: true,
 					},
 					{
 						disabled: true,
@@ -59,27 +58,23 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 				],
 			},
 			{
-				disabled: true,
+				// disabled: true,
 				name: "base-reducer",
 				weight: 1,
-				// limit: { min: 0.5, max: 0.75 },
-				inverse: true,
 				layers: [
 					{
 						name: "base-warp-x",
 						noise: "cubic",
 						scale: 4,
-						weight: 0.75,
-						crop: { min: 0.25, max: 0.275 },
+						weight: 0.25,
 					},
-					// {
-					// 	name: "base-warp-z",
-					// 	noise: "simplexFractalWarpX",
-					// 	scale: 1,
-					// 	weight: 1,
-					// 	inverse: true,
-					// 	limit: { min: 0, max: 0.35 },
-					// },
+					{
+						name: "base-warp-z",
+						noise: "simplexFractalWarpX",
+						scale: 1,
+						weight: 0.15,
+						subtract: true,
+					},
 				],
 			},
 			{

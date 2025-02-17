@@ -90,36 +90,9 @@ export namespace withNoise {
 		 */
 		boost?: number;
 		/**
-		 * Inverts the result.
+		 * Subtracts the value from the overall sum.
 		 */
-		inverse?: boolean;
-		/**
-		 * Limit cuts off values outside of it's range.
-		 */
-		crop?: {
-			min?: number;
-			max?: number;
-			/**
-			 * Value to use when crop is active.
-			 */
-			value?: number;
-		};
-		/**
-		 * Soft limit (uses min/max as a range). Always generates a value.
-		 */
-		limit?: {
-			min: number;
-			max: number;
-		};
-		/**
-		 * If specified, previous value must be in this range.
-		 *
-		 * If not, this layer produces no output.
-		 */
-		required?: {
-			min?: number;
-			max?: number;
-		};
+		subtract?: boolean;
 	}
 
 	export interface Layers {
@@ -131,20 +104,7 @@ export namespace withNoise {
 		layers: Layer[];
 		weight: number;
 		boost?: number;
-		inverse?: boolean;
-		crop?: {
-			min?: number;
-			max?: number;
-			value?: number;
-		};
-		limit?: {
-			min: number;
-			max: number;
-		};
-		required?: {
-			min?: number;
-			max?: number;
-		};
+		subtract?: boolean;
 	}
 
 	export interface Props {
@@ -174,74 +134,28 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 
 						value = (value + 1) / 2;
 
-						if (layer.limit) {
-							value = Math.min(
-								layer.limit.max,
-								Math.max(layer.limit.min, value),
-							);
-						}
-
-						if (layer.crop) {
-							if (layer.crop.min && value < layer.crop.min) {
-								value = layer.crop.value || 0;
-							}
-							if (layer.crop.max && value > layer.crop.max) {
-								value = layer.crop.value || 0;
-							}
-						}
-
 						if (layer.boost) {
 							value *= layer.boost;
 						}
 
-						if (layer.inverse) {
+						if (layer.subtract) {
 							value *= -1;
 						}
 
 						value = layerSum + value * layer.weight;
 
-						if (layer.required) {
-							if (layer.required.min && value < layer.required.min) {
-								value = layerSum;
-							}
-							if (layer.required.max && value > layer.required.max) {
-								value = layerSum;
-							}
-						}
-
 						return value;
 					}, 0);
-
-				if (group.limit) {
-					value = Math.min(group.limit.max, Math.max(group.limit.min, value));
-				}
-				if (group.crop) {
-					if (group.crop.min && value < group.crop.min) {
-						value = group.crop.value || 0;
-					}
-					if (group.crop.max && value > group.crop.max) {
-						value = group.crop.value || 0;
-					}
-				}
 
 				if (group.boost) {
 					value *= group.boost;
 				}
 
-				if (group.inverse) {
+				if (group.subtract) {
 					value *= -1;
 				}
 
 				value = sum + value * group.weight;
-
-				if (group.required) {
-					if (group.required.min && value < group.required.min) {
-						value = sum;
-					}
-					if (group.required.max && value > group.required.max) {
-						value = sum;
-					}
-				}
 
 				return value;
 			}, 0);
