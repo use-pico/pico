@@ -2,12 +2,67 @@ import { toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
 import { createNoise2D } from "simplex-noise";
 
+namespace NoiseFactory {
+	export type Type = keyof typeof NoiseFactory;
+}
+
+const NoiseFactory = {
+	simplex(seed: string) {
+		const rng = new XORWow(toSeed(seed));
+		return createNoise2D(() => rng.float());
+	},
+	fractal(seed: string) {
+		const rng = new XORWow(toSeed(seed));
+		const noise = createNoise2D(() => rng.float());
+
+		const octaves = 4;
+		const persistence = 0.5;
+		const lacunarity = 2.0;
+
+		return (x: number, z: number) => {
+			let total = 0;
+			let amplitude = 1;
+			let frequency = 1;
+			let maxValue = 0;
+
+			for (let i = 0; i < octaves; i++) {
+				total += noise(x * frequency, z * frequency) * amplitude;
+				maxValue += amplitude;
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+			return total / maxValue;
+		};
+	},
+	warpX(seed: string) {
+		const rng = new XORWow(toSeed(seed));
+		const noise = createNoise2D(() => rng.float());
+
+		return (x: number, z: number) => {
+			const warpX = noise(x * 0.1 + 100, z * 0.1 + 100) * 2.0;
+			const warpZ = noise(x * 0.1, z * 0.1) * 2.0;
+			return noise(x + warpX, z + warpZ);
+		};
+	},
+	warpZ(seed: string) {
+		const rng = new XORWow(toSeed(seed));
+		const noise = createNoise2D(() => rng.float());
+
+		return (x: number, z: number) => {
+			const warpX = noise(x * 0.1, z * 0.1) * 2.0;
+			const warpZ = noise(x * 0.1 + 100, z * 0.1 + 100) * 2.0;
+			return noise(x + warpX, z + warpZ);
+		};
+	},
+} as const;
+
 export namespace withNoise {
 	export interface Layer {
 		/**
 		 * Just for finetuning the layer.
 		 */
 		disabled?: boolean;
+		noise?: NoiseFactory.Type;
 		name: string;
 		/**
 		 * Scale of the noise.
@@ -74,9 +129,8 @@ export namespace withNoise {
 
 export const withNoise = ({ seed, layers }: withNoise.Props) => {
 	const noiseGroups = layers.map(({ layers, name: group }) =>
-		layers.map(({ name }) => {
-			const random = new XORWow(toSeed(`${seed}-${group}-${name}`));
-			return createNoise2D(() => random.float());
+		layers.map(({ noise, name }) => {
+			return NoiseFactory[noise || "simplex"](`${seed}-${group}-${name}`);
 		}),
 	);
 

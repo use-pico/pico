@@ -13,15 +13,35 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 			{
 				name: "continent",
 				weight: 1,
-				limit: { min: 0, max: 0.5 },
+				// limit: { min: 0, max: 0.5 },
 				layers: [
 					{
 						name: "base",
-						scale: 0.15,
+						noise: "fractal",
+						scale: 1,
 						weight: 1,
-						boost: 1,
 					},
 					{
+						// disabled: true,
+						name: "base",
+						noise: "warpX",
+						scale: 2.85,
+						weight: 1,
+						boost: 1,
+						limit: { min: 0.2, max: 0.8 },
+					},
+					{
+						disabled: true,
+						name: "base",
+						noise: "warpZ",
+						scale: 2.15,
+						weight: 1,
+						boost: 1,
+						inverse: true,
+						limit: { min: 0.6, max: 0.75 },
+					},
+					{
+						disabled: true,
 						name: "base",
 						scale: 0.25,
 						weight: 1,
@@ -30,13 +50,14 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 						crop: { min: 0.2 },
 					},
 					{
+						disabled: true,
 						name: "base",
 						scale: 0.2,
 						weight: 1,
 						boost: 1,
 					},
 					{
-						// disabled: true,
+						disabled: true,
 						name: "variation",
 						scale: 0.125,
 						weight: 0.75,
@@ -44,6 +65,7 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 						limit: { min: 0.35, max: 0.45 },
 					},
 					{
+						disabled: true,
 						name: "landmass",
 						scale: 0.5,
 						weight: 1,
@@ -54,6 +76,7 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 				],
 			},
 			{
+				disabled: true,
 				name: "detail",
 				weight: 0.75,
 				limit: { min: 0.5, max: 0.75 },
@@ -74,6 +97,7 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 				],
 			},
 			{
+				disabled: true,
 				name: "mountain",
 				weight: 0.25,
 				layers: [
