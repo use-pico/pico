@@ -67,16 +67,56 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 											name: "base",
 											scale: 0.05,
 											weight: 1,
+											inverse: true,
 											// limit: { min: 0, max: 0.55 },
 										},
 										{
 											name: "variation",
-											scale: -1 * 0.05,
-											weight: 1,
+											scale: 0.5,
+											weight: 0.5,
 											// limit: { min: 0, max: 0.15 },
 										},
 									],
 									weight: 1,
+								},
+								{
+									name: "detail-01",
+									limit: { min: 0, max: 0.5 },
+									layers: [
+										{
+											name: "base",
+											scale: 0.05,
+											weight: 1,
+											// limit: { min: 0, max: 0.55 },
+										},
+										{
+											name: "variation",
+											scale: 0.5,
+											weight: 0.5,
+											// limit: { min: 0, max: 0.15 },
+										},
+									],
+									weight: 0.025,
+								},
+								{
+									name: "inverse-detail-01",
+									limit: { min: 0, max: 0.5 },
+									inverse: true,
+									layers: [
+										{
+											name: "base",
+											scale: 0.5,
+											weight: 1,
+											// limit: { min: 0, max: 0.55 },
+										},
+										{
+											name: "variation",
+											scale: 0.5,
+											weight: 0.5,
+											// limit: { min: 0, max: 0.15 },
+										},
+									],
+									weight: 0.025,
 								},
 								// {
 								// 	name: "biomes",

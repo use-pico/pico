@@ -7,6 +7,7 @@ export namespace withNoise {
 		name: string;
 		scale: number;
 		weight: number;
+		inverse?: boolean;
 		limit?: {
 			min: number;
 			max: number;
@@ -17,6 +18,7 @@ export namespace withNoise {
 		name: string;
 		layers: Layer[];
 		weight: number;
+		inverse?: boolean;
 		limit?: {
 			min: number;
 			max: number;
@@ -38,29 +40,44 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 	);
 
 	return (x: number, z: number) => {
-		const combinedNoise = layers.reduce((sum, group, groupIndex) => {
-			const groupNoise = group.layers.reduce((layerSum, layer, layerIndex) => {
-				const generator = noiseGroups[groupIndex]![layerIndex]!;
-				const $noise = generator(x * layer.scale, z * layer.scale);
-				const value = ($noise + 1) / 2;
-				const $sum = (layerSum + value * layer.weight) * group.weight;
+		const value = layers.reduce((sum, group, groupIndex) => {
+			let value = group.layers.reduce((layerSum, layer, layerIndex) => {
+				let value = noiseGroups[groupIndex]![layerIndex]!(
+					x * layer.scale,
+					z * layer.scale,
+				);
+
+				value = (value + 1) / 2;
 
 				if (layer.limit) {
-					return Math.min(layer.limit.max, Math.max(layer.limit.min, $sum));
+					value = Math.min(layer.limit.max, Math.max(layer.limit.min, value));
 				}
 
-				return $sum;
+				value = layerSum + value * layer.weight;
+
+				if (layer.inverse) {
+					value = 1 - value;
+				}
+
+				return value;
 			}, 0);
 
-			const $sum = (sum + groupNoise) * group.weight;
-
 			if (group.limit) {
-				return Math.min(group.limit.max, Math.max(group.limit.min, $sum));
+				value = Math.min(group.limit.max, Math.max(group.limit.min, value));
 			}
 
-			return $sum;
+			value = sum + value * group.weight;
+
+			if (group.inverse) {
+				/**
+				 * Value here is normalized value (0-1), so the subtraction.
+				 */
+				value = 1 - value;
+			}
+
+			return value;
 		}, 0);
 
-		return Math.min(1, combinedNoise);
+		return Math.min(1, Math.max(0, value));
 	};
 };
