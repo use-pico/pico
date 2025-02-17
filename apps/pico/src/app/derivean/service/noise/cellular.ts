@@ -7,7 +7,7 @@ export const cellular = (seed: string) => {
 	noise.SetCellularDistanceFunction(
 		FastNoiseLite.CellularDistanceFunction.EuclideanSq,
 	);
-	noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2Add);
+	noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2);
 	noise.SetFractalType(FastNoiseLite.FractalType.DomainWarpIndependent);
 
 	return (x: number, z: number) => {
