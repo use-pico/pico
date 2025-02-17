@@ -1,58 +1,67 @@
-import { toSeed } from "@use-pico/common";
-import { XORWow } from "random-seedable";
-import { createNoise2D } from "simplex-noise";
+import { fractal } from "~/app/derivean/service/noise/fractal";
+import { perlin } from "~/app/derivean/service/noise/perlin";
+import { simplex } from "~/app/derivean/service/noise/simplex";
+import { simplexPerlin } from "~/app/derivean/service/noise/simplexPerlin";
+import { warp } from "~/app/derivean/service/noise/warp";
+
+const defaultOffset = 15;
 
 namespace NoiseFactory {
 	export type Type = keyof typeof NoiseFactory;
 }
 
 const NoiseFactory = {
-	simplex(seed: string) {
-		const rng = new XORWow(toSeed(seed));
-		return createNoise2D(() => rng.float());
+	simplex,
+	perlin,
+	simplexPerlin,
+	simplexPerlinFractal(seed: string) {
+		return fractal({ noise: simplexPerlin(seed) });
 	},
-	fractal(seed: string) {
-		const rng = new XORWow(toSeed(seed));
-		const noise = createNoise2D(() => rng.float());
-
-		const octaves = 4;
-		const persistence = 0.5;
-		const lacunarity = 2.0;
-
-		return (x: number, z: number) => {
-			let total = 0;
-			let amplitude = 1;
-			let frequency = 1;
-			let maxValue = 0;
-
-			for (let i = 0; i < octaves; i++) {
-				total += noise(x * frequency, z * frequency) * amplitude;
-				maxValue += amplitude;
-				amplitude *= persistence;
-				frequency *= lacunarity;
-			}
-			return total / maxValue;
-		};
+	simplexFractal(seed: string) {
+		return fractal({ noise: simplex(seed) });
 	},
-	warpX(seed: string) {
-		const rng = new XORWow(toSeed(seed));
-		const noise = createNoise2D(() => rng.float());
-
-		return (x: number, z: number) => {
-			const warpX = noise(x * 0.1 + 100, z * 0.1 + 100) * 2.0;
-			const warpZ = noise(x * 0.1, z * 0.1) * 2.0;
-			return noise(x + warpX, z + warpZ);
-		};
+	perlinFractal(seed: string) {
+		return fractal({ noise: perlin(seed) });
 	},
-	warpZ(seed: string) {
-		const rng = new XORWow(toSeed(seed));
-		const noise = createNoise2D(() => rng.float());
 
-		return (x: number, z: number) => {
-			const warpX = noise(x * 0.1, z * 0.1) * 2.0;
-			const warpZ = noise(x * 0.1 + 100, z * 0.1 + 100) * 2.0;
-			return noise(x + warpX, z + warpZ);
-		};
+	simplexWarpX(seed: string) {
+		return warp({ noise: simplex(seed), offsetX: defaultOffset });
+	},
+	simplexWarpZ(seed: string) {
+		return warp({ noise: simplex(seed), offsetZ: defaultOffset });
+	},
+
+	simplexFractalWarpX(seed: string) {
+		return warp({
+			noise: fractal({ noise: simplex(seed) }),
+			offsetX: defaultOffset,
+		});
+	},
+	simplexFractalWarpZ(seed: string) {
+		return warp({
+			noise: fractal({ noise: simplex(seed) }),
+			offsetZ: defaultOffset,
+		});
+	},
+
+	perlinWarpX(seed: string) {
+		return warp({ noise: perlin(seed), offsetX: defaultOffset });
+	},
+	perlinWarpZ(seed: string) {
+		return warp({ noise: perlin(seed), offsetZ: defaultOffset });
+	},
+
+	perlinFractalWarpX(seed: string) {
+		return warp({
+			noise: fractal({ noise: perlin(seed) }),
+			offsetX: defaultOffset,
+		});
+	},
+	perlinFractalWarpZ(seed: string) {
+		return warp({
+			noise: fractal({ noise: perlin(seed) }),
+			offsetZ: defaultOffset,
+		});
 	},
 } as const;
 

@@ -35,10 +35,10 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ children }) => {
 
 			{/* <gridHelper args={[Game.chunkSize, Game.plotCount, 0xff0000, 0xaaaaaa]} /> */}
 
-			<Grid
+			{/* <Grid
 				size={Game.chunkSize}
 				divisions={Game.plotCount}
-			/>
+			/> */}
 
 			<ambientLight intensity={0.5} />
 			{/* 

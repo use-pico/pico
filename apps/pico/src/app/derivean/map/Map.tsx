@@ -25,7 +25,7 @@ export namespace Map {
 export const Map: FC<Map.Props> = ({ mapId, config }) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
-			<MapCanvas config={config}>
+			<MapCanvas>
 				<Loop
 					mapId={mapId}
 					config={config}

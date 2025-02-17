@@ -25,13 +25,11 @@ export namespace Chunks {
 	}
 }
 
-const floatToGrayscaleHex = (value: number): string => {
+const floatToGrayscaleHex = (value: number, step = 16): string => {
 	const $value = Math.max(0, Math.min(1, value));
 
-	// Convert to 8-bit grayscale (0-255 range)
-	const gray = Math.round($value * 255);
+	const gray = Math.round(Math.round(($value * 255) / step) * step);
 
-	// Format as hexadecimal color
 	const hex = gray.toString(16).padStart(2, "0");
 	return `#${hex}${hex}${hex}`;
 };
