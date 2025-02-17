@@ -25,19 +25,19 @@ export namespace Chunks {
 	}
 }
 
+const floatToGrayscaleHex = (value: number): string => {
+	const $value = Math.max(0, Math.min(1, value));
+
+	// Convert to 8-bit grayscale (0-255 range)
+	const gray = Math.round($value * 255);
+
+	// Format as hexadecimal color
+	const hex = gray.toString(16).padStart(2, "0");
+	return `#${hex}${hex}${hex}`;
+};
+
 export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 	const canvasPool = useMemo(() => new Map<string, HTMLCanvasElement>(), []);
-
-	const floatToGrayscaleHex = (value: number): string => {
-		const $value = Math.max(0, Math.min(1, value));
-
-		// Convert to 8-bit grayscale (0-255 range)
-		const gray = Math.round($value * 255);
-
-		// Format as hexadecimal color
-		const hex = gray.toString(16).padStart(2, "0");
-		return `#${hex}${hex}${hex}`;
-	};
 
 	const { data: textures } = useQuery({
 		queryKey: ["chunkTextures", chunkHash],
