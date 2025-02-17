@@ -106,5 +106,12 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 		});
 	}, [textures]);
 
-	return map;
+	return (
+		<>
+			<mesh position={[config.plotSize / 2, 0, config.plotSize / 2]}>
+				<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
+			</mesh>
+			{map}
+		</>
+	);
 };
