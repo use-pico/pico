@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { Game } from "~/app/derivean/Game";
+import { Map } from "~/app/derivean/map/Map";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
@@ -187,18 +188,18 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 			}
 		}, []);
 
-		return (
-			<div className={"w-screen h-screen overflow-auto"}>
-				<canvas
-					ref={canvasRef}
-					style={{ display: "block" }}
-				/>
-			</div>
+		// <div className={"w-screen h-screen overflow-auto"}>
+		// 	<canvas
+		// 		ref={canvasRef}
+		// 		style={{ display: "block" }}
+		// 	/>
+		// </div>
 
-			// <Map
-			// 	mapId={mapId}
-			// 	config={Game}
-			// />
+		return (
+			<Map
+				mapId={mapId}
+				config={Game}
+			/>
 		);
 	},
 });

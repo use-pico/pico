@@ -100,7 +100,7 @@ export const withGenerator = ({
 				// tile: config.tiles[tileId]!,
 				pos: {
 					x: tileX,
-					z: tileX,
+					z: tileZ,
 				},
 				abs: {
 					x: tileX + x * plotCount * plotSize,

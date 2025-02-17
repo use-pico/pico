@@ -5,8 +5,21 @@ import { createNoise2D } from "simplex-noise";
 export namespace withNoise {
 	export interface Layer {
 		name: string;
+		/**
+		 * Scale of the noise.
+		 */
 		scale: number;
+		/**
+		 * Weight of the noise (applied directly on noise value).
+		 */
 		weight: number;
+		/**
+		 * Boosts the overall sum from the layer.
+		 */
+		boost?: number;
+		/**
+		 * Inverts the result.
+		 */
 		inverse?: boolean;
 		limit?: {
 			min: number;
@@ -18,6 +31,7 @@ export namespace withNoise {
 		name: string;
 		layers: Layer[];
 		weight: number;
+		boost?: number;
 		inverse?: boolean;
 		limit?: {
 			min: number;
@@ -55,6 +69,10 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 
 				value = layerSum + value * layer.weight;
 
+				if (layer.boost) {
+					value *= layer.boost;
+				}
+
 				if (layer.inverse) {
 					value = 1 - value;
 				}
@@ -67,6 +85,10 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 			}
 
 			value = sum + value * group.weight;
+
+			if (group.boost) {
+				value *= group.boost;
+			}
 
 			if (group.inverse) {
 				/**

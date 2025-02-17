@@ -3,10 +3,11 @@ import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
+import { Game } from "~/app/derivean/Game";
 import { Chunks } from "~/app/derivean/map/Chunks";
-import { useGenerator } from "~/app/derivean/map/hook/useGenerator";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { tiles } from "~/app/derivean/map/tiles";
+import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
+import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 
 export namespace Loop {
 	export interface Config {
@@ -33,15 +34,27 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 		invalidate,
 	}));
 	const visibleChunks = useVisibleChunks({ chunkSize: config.chunkSize });
-	const generator = useGenerator({
-		config: {
-			tiles,
-			seed: mapId,
-			plotCount: config.plotCount,
-			plotSize: config.plotSize,
-			scale: 5,
+	const generator = withGenerator({
+		plotCount: Game.plotCount,
+		plotSize: Game.plotSize,
+		seed: mapId,
+		scale: 1,
+		noise({ seed }) {
+			return {
+				land: withLandNoise({ seed }),
+			};
+		},
+		tile: {
+			id: "grass",
+			chance: 100,
+			color: "#00FF00",
+			noise: 1,
+		},
+		layers() {
+			return [];
 		},
 	});
+
 	const chunkRef = useRef<Chunks.Chunk[]>([]);
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
@@ -69,8 +82,8 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 
 		const chunks = new Array(count);
 		let index = 0;
-		for (let x = minX; x <= maxX; x++) {
-			for (let z = minZ; z <= maxZ; z++) {
+		for (let x = minX; x < maxX; x++) {
+			for (let z = minZ; z < maxZ; z++) {
 				chunks[index++] = {
 					id: `${x}:${z}`,
 					x,

@@ -1,5 +1,5 @@
 const plotSize = 16;
-const plotCount = 16;
+const plotCount = 256;
 const chunkSize = plotCount * plotSize;
 
 /**

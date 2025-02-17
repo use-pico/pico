@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { FC, useMemo, type MutableRefObject } from "react";
 import { CanvasTexture } from "three";
-import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
+import { Game } from "~/app/derivean/Game";
+import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
 
 export namespace Chunks {
 	export interface Config {
@@ -14,11 +15,7 @@ export namespace Chunks {
 		id: string;
 		x: number;
 		z: number;
-		tiles: {
-			tile: useGenerator.Config.Tile;
-			x: number;
-			z: number;
-		}[];
+		tiles: EntitySchema.Type[];
 	}
 
 	export interface Props {
@@ -31,10 +28,25 @@ export namespace Chunks {
 export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 	const canvasPool = useMemo(() => new Map<string, HTMLCanvasElement>(), []);
 
+	const floatToGrayscaleHex = (value: number): string => {
+		const $value = Math.max(0, Math.min(1, value));
+
+		// Convert to 8-bit grayscale (0-255 range)
+		const gray = Math.round($value * 255);
+
+		// Format as hexadecimal color
+		const hex = gray.toString(16).padStart(2, "0");
+		return `#${hex}${hex}${hex}`;
+	};
+
 	const { data: textures } = useQuery({
 		queryKey: ["chunkTextures", chunkHash],
 		async queryFn() {
-			console.log("Generating textures for chunkHash:", chunkHash);
+			console.log("Generating textures for chunkHash:", {
+				chunkHash,
+				count: chunksRef.current.length,
+				size: config.chunkSize,
+			});
 
 			const texturesPool = new Map<string, CanvasTexture>();
 
@@ -50,8 +62,8 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 				chunk.tiles.forEach((tile) => {
-					ctx.fillStyle = tile.tile.color;
-					ctx.fillRect(tile.x, tile.z, config.plotSize, config.plotSize);
+					ctx.fillStyle = floatToGrayscaleHex(tile.noise);
+					ctx.fillRect(tile.pos.x, tile.pos.z, Game.plotSize, Game.plotSize);
 				});
 
 				const texture = new CanvasTexture(canvas);
@@ -75,7 +87,11 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 			return (
 				<mesh
 					key={`chunk-${chunk.id}`}
-					position={[chunk.x * config.chunkSize, 0, chunk.z * config.chunkSize]}
+					position={[
+						chunk.x * config.chunkSize,
+						-1,
+						chunk.z * config.chunkSize,
+					]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					receiveShadow
 				>

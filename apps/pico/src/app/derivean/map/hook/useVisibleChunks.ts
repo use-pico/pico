@@ -20,7 +20,7 @@ export namespace useVisibleChunks {
 
 export const useVisibleChunks = ({
 	chunkSize,
-	offset = 1,
+	offset = 0,
 }: useVisibleChunks.Props) => {
 	const { camera, size } = useThree(({ camera, size }) => ({
 		camera: camera as OrthographicCamera,
@@ -36,18 +36,24 @@ export const useVisibleChunks = ({
 	return useMemo(() => {
 		return (): useVisibleChunks.View => {
 			const viewHeight = (camera.top - camera.bottom) / camera.zoom;
-			const viewWidth = viewHeight * (size.width / size.height);
+			const viewWidth = (camera.right - camera.left) / camera.zoom;
+
 			const halfW = viewWidth * 0.5;
 			const halfH = viewHeight * 0.5;
+			const size = chunkSize / 2;
 
-			const minX = Math.floor((camera.position.x - halfW) / chunkSize) - offset;
-			const maxX = Math.ceil((camera.position.x + halfW) / chunkSize) + offset;
-			const minZ = Math.floor((camera.position.z - halfH) / chunkSize) - offset;
-			const maxZ = Math.ceil((camera.position.z + halfH) / chunkSize) + offset;
+			const minX =
+				Math.floor((camera.position.x - halfW + size) / chunkSize) - offset;
+			const maxX =
+				Math.ceil((camera.position.x + halfW + size) / chunkSize) + offset;
+			const minZ =
+				Math.floor((camera.position.z - halfH + size) / chunkSize) - offset;
+			const maxZ =
+				Math.ceil((camera.position.z + halfH + size) / chunkSize) + offset;
 
 			return {
 				hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]`,
-				count: (maxX - minX + 1) * (maxZ - minZ + 1),
+				count: (maxX - minX) * (maxZ - minZ),
 				minX,
 				maxX,
 				minZ,
