@@ -1,7 +1,6 @@
 import { toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
 import { useCallback, useMemo } from "react";
-import { createNoise2D } from "simplex-noise";
 
 export namespace useGenerator {
 	export namespace Config {

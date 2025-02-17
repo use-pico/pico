@@ -31,41 +31,65 @@ const floatToGrayscaleHex = (value: number, step = 64): string => {
 	const color = Math.round(Math.round(($value * 255) / step) * step);
 
 	const map = [
-		{
-			level: 0,
-			color: "#0000aa",
-		},
-		{
-			level: 16,
-			color: "#1133aa",
-		},
-		{
-			level: 32,
-			color: "#aa8800",
-		},
-		{
-			level: 96,
-			color: "#006600",
-		},
-		{
-			level: 128,
-			color: "#555555",
-		},
-		{
-			level: 160,
-			color: "#888888",
-		},
-		{
-			level: 192,
-			color: "#cccccc",
-		},
-		{
-			level: 240,
-			color: "#ffffff",
-		},
+		/**
+		 * Deep Water
+		 */
+		{ level: 0.0, color: "#000066" },
+		{ level: 0.025, color: "#000077" },
+		{ level: 0.05, color: "#000088" },
+		{ level: 0.075, color: "#000099" },
+		{ level: 0.1, color: "#0000aa" },
+		{ level: 0.125, color: "#0000bb" },
+		{ level: 0.15, color: "#0000cc" },
+		{ level: 0.175, color: "#0000dd" },
+		{ level: 0.18, color: "#0000ee" },
+		/**
+		 * Beach
+		 */
+		{ level: 0.2, color: "#ccaa00" },
+		{ level: 0.225, color: "#ddbb00" },
+		{ level: 0.25, color: "#eedd00" },
+		{ level: 0.275, color: "#aa8800" },
+		/**
+		 * Grasslands
+		 */
+		{ level: 0.3, color: "#009900" },
+		{ level: 0.325, color: "#00aa00" },
+		{ level: 0.35, color: "#00bb00" },
+		{ level: 0.375, color: "#00cc00" },
+		{ level: 0.4, color: "#00dd00" },
+		{ level: 0.425, color: "#00aa44" },
+		/**
+		 * Forest
+		 */
+		{ level: 0.45, color: "#008800" },
+		{ level: 0.475, color: "#007700" },
+		{ level: 0.5, color: "#006600" },
+		{ level: 0.55, color: "#005500" },
+		{ level: 0.6, color: "#004400" },
+		{ level: 0.65, color: "#003300" },
+		/**
+		 * Hills
+		 */
+		{ level: 0.7, color: "#666600" },
+		{ level: 0.75, color: "#777700" },
+		{ level: 0.775, color: "#888800" },
+		/**
+		 * Mountains
+		 */
+		{ level: 0.8, color: "#555555" },
+		{ level: 0.825, color: "#666666" },
+		{ level: 0.85, color: "#777777" },
+		{ level: 0.875, color: "#888888" },
+		{ level: 0.9, color: "#999999" },
+		{ level: 0.925, color: "#aaaaaa" },
+		{ level: 0.95, color: "#bbbbbb" },
+		{ level: 0.975, color: "#cccccc" },
+		{ level: 0.99, color: "#eeeeee" },
+		{ level: 1.0, color: "#ffffff" },
 	].sort((a, b) => b.level - a.level);
 
-	return map.filter(({ level }) => color >= level)[0]?.color || "#ff0000";
+	return map.filter(({ level }) => value >= level)[0]?.color || "#ff0000";
 
 	// const hex = color.toString(16).padStart(2, "0");
 	// return `#${hex}${hex}${hex}`;

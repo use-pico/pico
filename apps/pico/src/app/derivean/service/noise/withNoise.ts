@@ -1,3 +1,5 @@
+import { cellular } from "~/app/derivean/service/noise/cellular";
+import { cubic } from "~/app/derivean/service/noise/cubic";
 import { fractal } from "~/app/derivean/service/noise/fractal";
 import { perlin } from "~/app/derivean/service/noise/perlin";
 import { simplex } from "~/app/derivean/service/noise/simplex";
@@ -13,6 +15,8 @@ namespace NoiseFactory {
 const NoiseFactory = {
 	simplex,
 	perlin,
+	cellular,
+	cubic,
 	simplexPerlin,
 	simplexPerlinFractal(seed: string) {
 		return fractal({ noise: simplexPerlin(seed) });
@@ -137,6 +141,10 @@ export namespace withNoise {
 			min: number;
 			max: number;
 		};
+		required?: {
+			min?: number;
+			max?: number;
+		};
 	}
 
 	export interface Props {
@@ -192,6 +200,15 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 
 						value = layerSum + value * layer.weight;
 
+						if (layer.required) {
+							if (layer.required.min && value < layer.required.min) {
+								value = layerSum;
+							}
+							if (layer.required.max && value > layer.required.max) {
+								value = layerSum;
+							}
+						}
+
 						return value;
 					}, 0);
 
@@ -216,6 +233,15 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 				}
 
 				value = sum + value * group.weight;
+
+				if (group.required) {
+					if (group.required.min && value < group.required.min) {
+						value = sum;
+					}
+					if (group.required.max && value > group.required.max) {
+						value = sum;
+					}
+				}
 
 				return value;
 			}, 0);

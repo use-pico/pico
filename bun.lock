@@ -42,6 +42,7 @@
         "sqlocal": "^0.14.0",
         "three": "^0.173.0",
         "use-debounce": "^10.0.4",
+        "worleyjs": "^1.5.2",
         "zod": "^3.24.1",
       },
       "devDependencies": {
@@ -1370,6 +1371,8 @@
     "why-is-node-running": ["why-is-node-running@2.3.0", "", { "dependencies": { "siginfo": "^2.0.0", "stackback": "0.0.2" }, "bin": { "why-is-node-running": "cli.js" } }, "sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w=="],
 
     "word-wrap": ["word-wrap@1.2.5", "", {}, "sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA=="],
+
+    "worleyjs": ["worleyjs@1.5.2", "", {}, "sha512-lexnm31BNEilB5lG0YiSTm5m4YxzSG6hkVF5top4bKtQ0MoMaRAsJhDlHnq2yFMyIi0KJPIQ1yQDInb71OqfsQ=="],
 
     "ws": ["ws@8.18.0", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw=="],
 

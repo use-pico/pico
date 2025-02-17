@@ -1,10 +1,5 @@
-import { toSeed } from "@use-pico/common";
-import CoolNoise from "noisejs";
+import { FastNoiseLite, toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
-
-const { Noise } = CoolNoise as unknown as {
-	Noise: new (seed: number) => CoolNoise;
-};
 
 export namespace createNoise {
 	export interface Props {
@@ -14,5 +9,9 @@ export namespace createNoise {
 
 export const createNoise = ({ seed }: createNoise.Props) => {
 	const rng = new XORWow(toSeed(seed));
-	return new Noise(rng.float());
+	const noise = new FastNoiseLite(rng.float());
+
+	noise.SetFrequency(1);
+    
+	return noise;
 };

@@ -6,7 +6,6 @@ import {
     type SetStateAction,
 } from "react";
 
-// eslint-disable-next-line max-params
 export function useDebounce<T = any>(
 	defaultValue: T,
 	callback: (value: T) => void,
