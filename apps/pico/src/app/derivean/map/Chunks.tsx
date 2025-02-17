@@ -65,27 +65,32 @@ const floatToGrayscaleHex = (value: number, step = 64): string => {
 		{ level: 0.45, color: "#007700" },
 		{ level: 0.475, color: "#006600" },
 		{ level: 0.5, color: "#005500" },
-		{ level: 0.55, color: "#004400" },
+		{ level: 0.55, color: "#004c00" },
+		{ level: 0.575, color: "#004400" },
 		{ level: 0.6, color: "#003b00" },
-		{ level: 0.65, color: "#003300" },
+		{ level: 0.625, color: "#003300" },
 		/**
-		 * Hills (Yellowish-Green Transitions)
+		 * Hills (Extended Range for Smoother Transition)
 		 */
+		{ level: 0.65, color: "#778822" },
+		{ level: 0.675, color: "#889933" },
 		{ level: 0.7, color: "#99aa22" },
-		{ level: 0.75, color: "#aaa833" },
-		{ level: 0.775, color: "#bbbb44" },
+		{ level: 0.725, color: "#aaa833" },
+		{ level: 0.75, color: "#bbb844" },
+		{ level: 0.775, color: "#cccc55" },
+		{ level: 0.79, color: "#dddd66" },
 		/**
 		 * Mountains (Vibrant Rocky Shades)
 		 */
-		{ level: 0.8, color: "#555577" },
-		{ level: 0.825, color: "#666688" },
-		{ level: 0.85, color: "#777799" },
-		{ level: 0.875, color: "#8888aa" },
-		{ level: 0.9, color: "#9999bb" },
-		{ level: 0.925, color: "#aaaacc" },
-		{ level: 0.95, color: "#bbbbdd" },
-		{ level: 0.975, color: "#ccccff" },
-		{ level: 0.99, color: "#eeeeff" },
+		{ level: 0.8, color: "#666677" },
+		{ level: 0.825, color: "#777788" },
+		{ level: 0.85, color: "#888899" },
+		{ level: 0.875, color: "#9999aa" },
+		{ level: 0.9, color: "#aaaaaa" },
+		{ level: 0.925, color: "#bbbbbb" },
+		{ level: 0.95, color: "#cccccc" },
+		{ level: 0.975, color: "#dddddd" },
+		{ level: 0.99, color: "#eeeeee" },
 		{ level: 1.0, color: "#ffffff" },
 	].sort((a, b) => b.level - a.level);
 
