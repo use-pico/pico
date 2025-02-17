@@ -60,101 +60,44 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 							seed,
 							layers: [
 								{
-									name: "land",
-									limit: {
-										min: 0,
-										max: 0.15,
-									},
-									layers: [
-										{
-											name: "land-mass",
-											scale: 0.05,
-											weight: 0.5,
-											limit: {
-												min: 0,
-												max: 0.25,
-											},
-										},
-										{
-											name: "detail1",
-											scale: 0.1,
-											weight: 0.25,
-											limit: {
-												min: 0,
-												max: 0.25,
-											},
-										},
-										{
-											name: "detail2",
-											scale: 0.2,
-											weight: 0.25,
-											limit: {
-												min: 0,
-												max: 0.25,
-											},
-										},
-										{
-											name: "detail3",
-											scale: 0.4,
-											weight: 0.125,
-											limit: {
-												min: 0,
-												max: 0.25,
-											},
-										},
-										{
-											name: "detail4",
-											scale: 0.6,
-											weight: 0.01,
-											limit: {
-												min: 0,
-												max: 0.25,
-											},
-										},
-									],
-									weight: 0.5,
-								},
-								{
-									name: "biome",
-									limit: {
-										min: 0.15,
-										max: 0.4,
-									},
+									name: "landmass",
+									// limit: { min: 0, max: 0.5 },
 									layers: [
 										{
 											name: "base",
-											scale: 0.1,
-											weight: 0.5,
-											limit: {
-												min: 0.2,
-												max: 0.4,
-											},
-										},
-
-										{
-											name: "detail1",
-											scale: 0.2,
+											scale: 0.05,
 											weight: 1,
+											// limit: { min: 0, max: 0.55 },
 										},
 										{
-											name: "detail2",
-											scale: 0.65,
-											weight: 0.15,
-										},
-									],
-									weight: 0.75,
-								},
-								{
-									name: "details",
-									layers: [
-										{
-											name: "detail1",
-											scale: 0.02,
-											weight: 0.75,
+											name: "variation",
+											scale: -1 * 0.05,
+											weight: 1,
+											// limit: { min: 0, max: 0.15 },
 										},
 									],
 									weight: 1,
 								},
+								// {
+								// 	name: "biomes",
+								// 	limit: { min: 0.25, max: 0.5 },
+								// 	layers: [
+								// 		{ name: "forest", scale: 0.05, weight: 1 },
+								// 		{ name: "desert", scale: 0.08, weight: 1 },
+								// 		{ name: "tundra", scale: 0.12, weight: 1 },
+								// 	],
+								// 	weight: 1,
+								// },
+								// {
+								// 	name: "features",
+								// 	limit: { min: 0.5, max: 1.0 },
+								// 	layers: [
+								// 		{ name: "mountains", scale: 0.02, weight: 0.9 },
+								// 		{ name: "rivers", scale: 0.15, weight: 0.4 },
+								// 		{ name: "lakes", scale: 0.2, weight: 0.2 },
+								// 	],
+								// 	weight: 1.0,
+								// },
 							],
 						}),
 					};

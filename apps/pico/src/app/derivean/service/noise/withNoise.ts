@@ -40,21 +40,16 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 	return (x: number, z: number) => {
 		const combinedNoise = layers.reduce((sum, group, groupIndex) => {
 			const groupNoise = group.layers.reduce((layerSum, layer, layerIndex) => {
-				const sum =
-					layerSum +
-					((noiseGroups[groupIndex]![layerIndex]!(
-						x * layer.scale,
-						z * layer.scale,
-					) +
-						1) /
-						2) *
-						layer.weight;
+				const generator = noiseGroups[groupIndex]![layerIndex]!;
+				const $noise = generator(x * layer.scale, z * layer.scale);
+				const value = ($noise + 1) / 2;
+				const $sum = (layerSum + value * layer.weight) * group.weight;
 
 				if (layer.limit) {
-					return Math.min(layer.limit.max, Math.max(layer.limit.min, sum));
+					return Math.min(layer.limit.max, Math.max(layer.limit.min, $sum));
 				}
 
-				return sum;
+				return $sum;
 			}, 0);
 
 			const $sum = (sum + groupNoise) * group.weight;
