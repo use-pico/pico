@@ -1,4 +1,4 @@
-import { seed } from "@use-pico/common";
+import { toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
 import { useCallback, useMemo } from "react";
 import { createNoise2D } from "simplex-noise";
@@ -48,7 +48,7 @@ export namespace useGenerator {
 }
 
 export const useGenerator = ({ config }: useGenerator.Props) => {
-	const rng = useMemo(() => new XORWow(seed(config.seed)), [config.seed]);
+	const rng = useMemo(() => new XORWow(toSeed(config.seed)), [config.seed]);
 	const noise = useMemo(() => createNoise2D(() => rng.float()), [rng]);
 	const elevationNoise = useMemo(() => createNoise2D(() => rng.float()), [rng]);
 	const riverNoise = useMemo(() => createNoise2D(() => rng.float()), [rng]);
@@ -79,7 +79,7 @@ export const useGenerator = ({ config }: useGenerator.Props) => {
 
 	return ({ x, z }: useGenerator.Generator.Props) => {
 		const chunk = new Array<useGenerator.Generator.Tile>(plotCount ** 2);
-		const chunkRng = new XORWow(seed(`${config.seed}:${x}:${z}`));
+		const chunkRng = new XORWow(toSeed(`${config.seed}:${x}:${z}`));
 
 		for (let i = 0; i < chunk.length; i++) {
 			const tileX = (i % plotCount) * config.plotSize;
