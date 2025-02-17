@@ -107,6 +107,15 @@ export namespace withNoise {
 			min: number;
 			max: number;
 		};
+		/**
+		 * If specified, previous value must be in this range.
+		 *
+		 * If not, this layer produces no output.
+		 */
+		required?: {
+			min?: number;
+			max?: number;
+		};
 	}
 
 	export interface Layers {

@@ -2,8 +2,6 @@ import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import type { FC, PropsWithChildren } from "react";
 import { ACESFilmicToneMapping } from "three";
-import { Game } from "~/app/derivean/Game";
-import { Grid } from "~/app/derivean/utils/Grid";
 
 export namespace MapCanvas {
 	export interface Props extends PropsWithChildren {
@@ -40,7 +38,7 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ children }) => {
 				divisions={Game.plotCount}
 			/> */}
 
-			<ambientLight intensity={0.5} />
+			<ambientLight intensity={1} />
 			{/* 
 			<EffectComposer enableNormalPass>
 				<SSAO

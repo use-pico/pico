@@ -118,7 +118,7 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				ref={lightRef}
 				castShadow
 				color={0xffffff}
-				intensity={2}
+				intensity={4}
 				position={[0, 256, 256]}
 				shadow-mapSize={[4096, 4096]}
 				shadow-bias={-0.0001}

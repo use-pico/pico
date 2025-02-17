@@ -25,13 +25,50 @@ export namespace Chunks {
 	}
 }
 
-const floatToGrayscaleHex = (value: number, step = 16): string => {
+const floatToGrayscaleHex = (value: number, step = 64): string => {
 	const $value = Math.max(0, Math.min(1, value));
 
-	const gray = Math.round(Math.round(($value * 255) / step) * step);
+	const color = Math.round(Math.round(($value * 255) / step) * step);
 
-	const hex = gray.toString(16).padStart(2, "0");
-	return `#${hex}${hex}${hex}`;
+	const map = [
+		{
+			level: 0,
+			color: "#0000aa",
+		},
+		{
+			level: 16,
+			color: "#1133aa",
+		},
+		{
+			level: 32,
+			color: "#aa8800",
+		},
+		{
+			level: 96,
+			color: "#006600",
+		},
+		{
+			level: 128,
+			color: "#555555",
+		},
+		{
+			level: 160,
+			color: "#888888",
+		},
+		{
+			level: 192,
+			color: "#cccccc",
+		},
+		{
+			level: 240,
+			color: "#ffffff",
+		},
+	].sort((a, b) => b.level - a.level);
+
+	return map.filter(({ level }) => color >= level)[0]?.color || "#ff0000";
+
+	// const hex = color.toString(16).padStart(2, "0");
+	// return `#${hex}${hex}${hex}`;
 };
 
 export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
