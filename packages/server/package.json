@@ -1,5 +1,5 @@
 {
-	"version": "4.0.12",
+	"version": "4.0.13",
 	"name": "@use-pico/server",
 	"description": "Node/bun/whatever/server-side stuff.",
 	"license": "MIT",
@@ -28,8 +28,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.2",
-		"@use-pico/eslint-config-eslint": "^5.0.1",
-		"@use-pico/tsconfig": "^4.0.7",
+		"@use-pico/eslint-config-eslint": "^5.0.2",
+		"@use-pico/tsconfig": "^4.0.8",
 		"eslint": "^9.20.0",
 		"typescript": "^5.7.3"
 	},
