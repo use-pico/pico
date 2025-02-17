@@ -4,6 +4,10 @@ import { createNoise2D } from "simplex-noise";
 
 export namespace withNoise {
 	export interface Layer {
+		/**
+		 * Just for finetuning the layer.
+		 */
+		disabled?: boolean;
 		name: string;
 		/**
 		 * Scale of the noise.
@@ -21,6 +25,20 @@ export namespace withNoise {
 		 * Inverts the result.
 		 */
 		inverse?: boolean;
+		/**
+		 * Limit cuts off values outside of it's range.
+		 */
+		crop?: {
+			min?: number;
+			max?: number;
+			/**
+			 * Value to use when crop is active.
+			 */
+			value?: number;
+		};
+		/**
+		 * Soft limit (uses min/max as a range). Always generates a value.
+		 */
 		limit?: {
 			min: number;
 			max: number;
@@ -28,11 +46,20 @@ export namespace withNoise {
 	}
 
 	export interface Layers {
+		/**
+		 * Just for finetuning the layer.
+		 */
+		disabled?: boolean;
 		name: string;
 		layers: Layer[];
 		weight: number;
 		boost?: number;
 		inverse?: boolean;
+		crop?: {
+			min?: number;
+			max?: number;
+			value?: number;
+		};
 		limit?: {
 			min: number;
 			max: number;
@@ -54,51 +81,72 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 	);
 
 	return (x: number, z: number) => {
-		const value = layers.reduce((sum, group, groupIndex) => {
-			let value = group.layers.reduce((layerSum, layer, layerIndex) => {
-				let value = noiseGroups[groupIndex]![layerIndex]!(
-					x * layer.scale,
-					z * layer.scale,
-				);
+		const value = layers
+			.filter((layer) => !layer.disabled)
+			.reduce((sum, group, groupIndex) => {
+				let value = group.layers
+					.filter((layer) => !layer.disabled)
+					.reduce((layerSum, layer, layerIndex) => {
+						let value = noiseGroups[groupIndex]![layerIndex]!(
+							x * layer.scale,
+							z * layer.scale,
+						);
 
-				value = (value + 1) / 2;
+						value = (value + 1) / 2;
 
-				if (layer.limit) {
-					value = Math.min(layer.limit.max, Math.max(layer.limit.min, value));
+						if (layer.limit) {
+							value = Math.min(
+								layer.limit.max,
+								Math.max(layer.limit.min, value),
+							);
+						}
+
+						if (layer.crop) {
+							if (layer.crop.min && value < layer.crop.min) {
+								value = layer.crop.value || 0;
+							}
+							if (layer.crop.max && value > layer.crop.max) {
+								value = layer.crop.value || 0;
+							}
+						}
+
+						if (layer.boost) {
+							value *= layer.boost;
+						}
+
+						if (layer.inverse) {
+							value *= -1;
+						}
+
+						value = layerSum + value * layer.weight;
+
+						return value;
+					}, 0);
+
+				if (group.limit) {
+					value = Math.min(group.limit.max, Math.max(group.limit.min, value));
+				}
+				if (group.crop) {
+					if (group.crop.min && value < group.crop.min) {
+						value = group.crop.value || 0;
+					}
+					if (group.crop.max && value > group.crop.max) {
+						value = group.crop.value || 0;
+					}
 				}
 
-				value = layerSum + value * layer.weight;
-
-				if (layer.boost) {
-					value *= layer.boost;
+				if (group.boost) {
+					value *= group.boost;
 				}
 
-				if (layer.inverse) {
-					value = 1 - value;
+				if (group.inverse) {
+					value *= -1;
 				}
+
+				value = sum + value * group.weight;
 
 				return value;
 			}, 0);
-
-			if (group.limit) {
-				value = Math.min(group.limit.max, Math.max(group.limit.min, value));
-			}
-
-			value = sum + value * group.weight;
-
-			if (group.boost) {
-				value *= group.boost;
-			}
-
-			if (group.inverse) {
-				/**
-				 * Value here is normalized value (0-1), so the subtraction.
-				 */
-				value = 1 - value;
-			}
-
-			return value;
-		}, 0);
 
 		return Math.min(1, Math.max(0, value));
 	};
