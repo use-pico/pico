@@ -81,7 +81,6 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 				disabled: true,
 				name: "detail",
 				weight: 0.75,
-				limit: { min: 0.25, max: 0.5 },
 				layers: [
 					{
 						name: "base-warp-x",
