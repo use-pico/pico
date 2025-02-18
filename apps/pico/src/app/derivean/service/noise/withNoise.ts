@@ -6,7 +6,7 @@ import { simplex } from "~/app/derivean/service/noise/simplex";
 import { simplexPerlin } from "~/app/derivean/service/noise/simplexPerlin";
 import { warp } from "~/app/derivean/service/noise/warp";
 
-const defaultOffset = 15;
+const defaultOffset = 10;
 
 namespace NoiseFactory {
 	export type Type = keyof typeof NoiseFactory;
@@ -84,7 +84,7 @@ export namespace withNoise {
 		/**
 		 * Weight of the noise (applied directly on noise value).
 		 */
-		weight: number;
+		weight?: number;
 		/**
 		 * Boosts the overall sum from the layer.
 		 */
@@ -95,67 +95,35 @@ export namespace withNoise {
 		subtract?: boolean;
 	}
 
-	export interface Layers {
-		/**
-		 * Just for finetuning the layer.
-		 */
-		disabled?: boolean;
-		name: string;
-		layers: Layer[];
-		weight: number;
-		boost?: number;
-		subtract?: boolean;
-	}
-
 	export interface Props {
 		seed: string;
-		layers: Layers[];
+		layers: Layer[];
 	}
 }
 
 export const withNoise = ({ seed, layers }: withNoise.Props) => {
-	const noiseGroups = layers.map(({ layers, name: group }) =>
-		layers.map(({ noise, name }) => {
-			return NoiseFactory[noise || "simplex"](`${seed}-${group}-${name}`);
-		}),
-	);
+	const noiseGroups = layers.map(({ noise, name }) => {
+		return NoiseFactory[noise || "simplex"](`${seed}-${name}`);
+	});
 
 	return (x: number, z: number) => {
 		const value = layers
 			.filter((layer) => !layer.disabled)
-			.reduce((sum, group, groupIndex) => {
-				let value = group.layers
-					.filter((layer) => !layer.disabled)
-					.reduce((layerSum, layer, layerIndex) => {
-						let value = noiseGroups[groupIndex]![layerIndex]!(
-							x * layer.scale,
-							z * layer.scale,
-						);
+			.reduce((sum, { scale, boost, subtract, weight }, index) => {
+				let value = noiseGroups[index]!(x * scale, z * scale);
 
-						value = (value + 1) / 2;
+				value = (value + 1) / 2;
 
-						if (layer.boost) {
-							value *= layer.boost;
-						}
-
-						if (layer.subtract) {
-							value *= -1;
-						}
-
-						value = layerSum + value * layer.weight;
-
-						return value;
-					}, 0);
-
-				if (group.boost) {
-					value *= group.boost;
+				if (boost) {
+					value *= boost;
 				}
 
-				if (group.subtract) {
+				if (subtract) {
 					value *= -1;
 				}
 
-				value = sum + value * group.weight;
+				value = sum + value;
+				value += value * (weight || 0);
 
 				return value;
 			}, 0);

@@ -58,6 +58,7 @@ export class FastNoiseLite {
 	static FractalType = FractalType;
 	static CellularDistanceFunction = CellularDistanceFunction;
 	static CellularReturnType = CellularReturnType;
+	static DomainWarpType = DomainWarpType;
 
 	/**
 	 * @description Create new FastNoiseLite object with optional seed
