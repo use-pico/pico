@@ -5,7 +5,7 @@ import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { WorkerGeneratorLoader } from "~/app/derivean/worker/WorkerGeneratorLoader";
+import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
 
 export namespace Loop {
 	export interface Config {
@@ -83,20 +83,18 @@ export const Loop: FC<Loop.Props> = ({
 			return;
 		}
 
-		const chunks = new Array(count);
-		let index = 0;
-		for (let x = minX; x < maxX; x++) {
-			for (let z = minZ; z < maxZ; z++) {
-				chunks[index++] = {
-					id: `${x}:${z}`,
-					x,
-					z,
-					tiles: await WorkerGeneratorLoader.generator(mapId, x, z),
-				};
-			}
-		}
+		console.log("Requested generator", { $hash, hash });
 
-		chunkRef.current = chunks;
+		chunkRef.current = await GameWorkerLoader.chunks(
+			mapId,
+			minX,
+			maxX,
+			minZ,
+			maxZ,
+			count,
+			$hash,
+		);
+
 		setHash($hash);
 		invalidate();
 	}, 50);
