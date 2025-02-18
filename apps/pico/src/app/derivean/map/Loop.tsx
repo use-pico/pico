@@ -66,6 +66,10 @@ export const Loop: FC<Loop.Props> = ({
 			 */
 			const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
 
+			/**
+			 * TODO Add Chunk component here?
+			 */
+
 			return GameWorkerLoader.chunks(
 				mapId,
 				minX,
@@ -76,6 +80,9 @@ export const Loop: FC<Loop.Props> = ({
 				$hash,
 			);
 		},
+		staleTime: 0,
+		gcTime: 0,
+		refetchOnWindowFocus: false,
 	});
 
 	const update = useDebouncedCallback(async () => {
