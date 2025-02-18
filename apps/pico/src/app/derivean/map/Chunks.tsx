@@ -32,65 +32,67 @@ const floatToGrayscaleHex = (value: number, step = 64): string => {
 
 	const map = [
 		/**
-		 * Deep Water (Dark to Vibrant Blues)
+		 * Deep Ocean (Dark to Vibrant Blues)
 		 */
-		{ level: 0.0, color: "#001f7f" },
-		{ level: 0.025, color: "#002b9f" },
-		{ level: 0.05, color: "#0037bf" },
-		{ level: 0.075, color: "#0043df" },
-		{ level: 0.1, color: "#0050ff" },
-		{ level: 0.125, color: "#0062ff" },
-		{ level: 0.15, color: "#0074ff" },
-		{ level: 0.175, color: "#0086ff" },
-		{ level: 0.18, color: "#0098ff" },
+		{ level: -1.0, color: "#000022" },
+		{ level: -0.95, color: "#000044" },
+		{ level: -0.9, color: "#001f7f" },
+		{ level: -0.85, color: "#002b9f" },
+		{ level: -0.8, color: "#0037bf" },
+		{ level: -0.75, color: "#0043df" },
+		{ level: -0.7, color: "#0050ff" },
+		{ level: -0.65, color: "#0062ff" },
+		{ level: -0.6, color: "#0074ff" },
+		{ level: -0.55, color: "#0086ff" },
+		{ level: -0.5, color: "#0098ff" },
 		/**
-		 * Beach (Warm Sand Tones)
+		 * Shallow Waters & Beaches (Yellowish Transition)
 		 */
-		{ level: 0.2, color: "#ffd700" },
-		{ level: 0.225, color: "#ffcc33" },
-		{ level: 0.25, color: "#ffbb44" },
-		{ level: 0.275, color: "#ffaa22" },
+		{ level: -0.45, color: "#00aaff" },
+		{ level: -0.4, color: "#11ccff" },
+		{ level: -0.35, color: "#33ddff" },
+		{ level: -0.3, color: "#55eeff" },
+		{ level: -0.25, color: "#77ffff" },
+		{ level: -0.2, color: "#ccdd77" },
+		{ level: -0.15, color: "#eedd66" },
+		{ level: -0.1, color: "#ffcc44" },
+		{ level: -0.05, color: "#ffaa22" },
 		/**
-		 * Grasslands (More Uniform Vibrant Greens)
+		 * Grasslands (Vibrant Greens)
 		 */
-		{ level: 0.3, color: "#44dd44" },
-		{ level: 0.325, color: "#33cc33" },
-		{ level: 0.35, color: "#22bb22" },
-		{ level: 0.375, color: "#22aa22" },
-		{ level: 0.4, color: "#119911" },
-		{ level: 0.425, color: "#008800" },
+		{ level: 0.0, color: "#44dd44" },
+		{ level: 0.05, color: "#33cc33" },
+		{ level: 0.1, color: "#22bb22" },
+		{ level: 0.15, color: "#22aa22" },
+		{ level: 0.2, color: "#119911" },
+		{ level: 0.25, color: "#008800" },
 		/**
-		 * Forest (Consistent Deep Greens)
+		 * Forests (Dense and Deep Greens)
 		 */
-		{ level: 0.45, color: "#007700" },
-		{ level: 0.475, color: "#006600" },
-		{ level: 0.5, color: "#005500" },
-		{ level: 0.55, color: "#004c00" },
-		{ level: 0.575, color: "#004400" },
-		{ level: 0.6, color: "#003b00" },
-		{ level: 0.625, color: "#003300" },
+		{ level: 0.3, color: "#007700" },
+		{ level: 0.35, color: "#006600" },
+		{ level: 0.4, color: "#005500" },
+		{ level: 0.45, color: "#004c00" },
+		{ level: 0.5, color: "#004400" },
+		{ level: 0.55, color: "#003b00" },
+		{ level: 0.6, color: "#003300" },
 		/**
-		 * Hills (Extended Range for Smoother Transition)
+		 * Hills (Extended Transition)
 		 */
 		{ level: 0.65, color: "#778822" },
-		{ level: 0.675, color: "#889933" },
-		{ level: 0.7, color: "#99aa22" },
-		{ level: 0.725, color: "#aaa833" },
-		{ level: 0.75, color: "#bbb844" },
-		{ level: 0.775, color: "#cccc55" },
-		{ level: 0.79, color: "#dddd66" },
+		{ level: 0.7, color: "#889933" },
+		{ level: 0.75, color: "#99aa22" },
+		{ level: 0.8, color: "#aaa833" },
+		{ level: 0.85, color: "#bbb844" },
+		{ level: 0.875, color: "#cccc55" },
+		{ level: 0.9, color: "#dddd66" },
 		/**
 		 * Mountains (Vibrant Rocky Shades)
 		 */
-		{ level: 0.8, color: "#666677" },
-		{ level: 0.825, color: "#777788" },
-		{ level: 0.85, color: "#888899" },
-		{ level: 0.875, color: "#9999aa" },
-		{ level: 0.9, color: "#aaaaaa" },
-		{ level: 0.925, color: "#bbbbbb" },
-		{ level: 0.95, color: "#cccccc" },
-		{ level: 0.975, color: "#dddddd" },
-		{ level: 0.99, color: "#eeeeee" },
+		{ level: 0.925, color: "#666677" },
+		{ level: 0.95, color: "#777788" },
+		{ level: 0.975, color: "#888899" },
+		{ level: 0.99, color: "#aaaaaa" },
 		{ level: 1.0, color: "#ffffff" },
 	].sort((a, b) => b.level - a.level);
 

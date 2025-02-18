@@ -72,7 +72,7 @@ const NoiseFactory = {
 export namespace withNoise {
 	export interface Layer {
 		/**
-		 * Just for finetuning the layer.
+		 * Just for fine-tuning the layer.
 		 */
 		disabled?: boolean;
 		noise?: NoiseFactory.Type;
@@ -86,13 +86,9 @@ export namespace withNoise {
 		 */
 		weight?: number;
 		/**
-		 * Boosts the overall sum from the layer.
-		 */
-		boost?: number;
-		/**
 		 * Subtracts the value from the overall sum.
 		 */
-		subtract?: boolean;
+		inverse?: boolean;
 	}
 
 	export interface Props {
@@ -102,32 +98,27 @@ export namespace withNoise {
 }
 
 export const withNoise = ({ seed, layers }: withNoise.Props) => {
-	const noiseGroups = layers.map(({ noise, name }) => {
+	const noise = layers.map(({ noise, name }) => {
 		return NoiseFactory[noise || "simplex"](`${seed}-${name}`);
 	});
 
 	return (x: number, z: number) => {
 		const value = layers
 			.filter((layer) => !layer.disabled)
-			.reduce((sum, { scale, boost, subtract, weight }, index) => {
-				let value = noiseGroups[index]!(x * scale, z * scale);
+			.reduce((sum, { scale, inverse, weight }, index) => {
+				let value = noise[index]!(x * scale, z * scale);
 
-				value = (value + 1) / 2;
-
-				if (boost) {
-					value *= boost;
+				if (weight) {
+					value *= weight;
 				}
 
-				if (subtract) {
+				if (inverse) {
 					value *= -1;
 				}
 
-				value = sum + value;
-				value += value * (weight || 0);
-
-				return value;
+				return sum + value;
 			}, 0);
 
-		return Math.min(1, Math.max(0, value));
+		return Math.max(-1, Math.min(1, value));
 	};
 };
