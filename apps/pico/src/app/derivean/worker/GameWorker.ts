@@ -49,44 +49,45 @@ const chunks = async (
 
 	await dir(`/chunk/${id}`).create();
 
-	const chunks = new Array<Chunks.Chunk>(count);
+	const chunks = new Array<Promise<Chunks.Chunk>>(count);
 
-	let hit = 0;
+	const hit = 0;
 
 	try {
 		let index = 0;
 		for (let x = minX; x < maxX; x++) {
 			for (let z = minZ; z < maxZ; z++) {
-				const chunkId = `${x}:${z}`;
-				const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
+				chunks[index++] = (async (): Promise<Chunks.Chunk> => {
+					const chunkId = `${x}:${z}`;
+					const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
 
-				if (await file(chunkFile).exists()) {
-					chunks[index++] = deserialize(
-						ChunkBorshSchema,
-						decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
-					) as Chunks.Chunk;
+					try {
+						return deserialize(
+							ChunkBorshSchema,
+							decompressSync(
+								new Uint8Array(await file(chunkFile).arrayBuffer()),
+							),
+						) as Chunks.Chunk;
+					} catch (_) {
+						//
+					}
 
-					hit++;
-					continue;
-				}
+					const data = {
+						id: chunkId,
+						x,
+						z,
+						tiles: generator({ x, z }),
+					} as const;
 
-				const data = {
-					id: chunkId,
-					x,
-					z,
-					tiles: generator({ x, z }),
-				} as const;
-
-				chunks[index++] = data;
-
-				try {
-					await write(
+					write(
 						chunkFile,
 						deflateSync(serialize(ChunkBorshSchema, data), { level: 9 }),
-					);
-				} catch (e) {
-					console.error(e);
-				}
+					).then(() => {
+						console.log("Written chunk", chunkFile);
+					});
+
+					return data;
+				})();
 			}
 		}
 	} catch (e) {
@@ -94,9 +95,16 @@ const chunks = async (
 		throw e;
 	}
 
-	console.log(`\t- Chunks finished [hit ${hit}/${count}] [${timer.format()}]`);
-
-	return chunks;
+	return Promise.all<Chunks.Chunk>(chunks)
+		.catch((e) => {
+			console.error(e);
+		})
+		.then((data) => {
+			console.log(
+				`\t- Chunks finished [hit ${hit}/${count}] [${timer.format()}]`,
+			);
+			return data as Chunks.Chunk[];
+		});
 };
 
 export const textures = async (
