@@ -70,12 +70,15 @@ const NoiseFactory = {
 } as const;
 
 export namespace withNoise {
-	export interface Layer {
+	export type NoiseFactory = (seed: string) => (x: number, z: number) => number;
+	export type Noise<TNoise extends string> = Record<TNoise, NoiseFactory>;
+
+	export interface Layer<TNoise extends string> {
 		/**
 		 * Just for fine-tuning the layer.
 		 */
 		disabled?: boolean;
-		noise?: NoiseFactory.Type;
+		noise: TNoise;
 		name: string;
 		/**
 		 * Scale of the noise.
@@ -95,22 +98,27 @@ export namespace withNoise {
 		};
 	}
 
-	export interface Props {
+	export interface Props<TNoise extends string> {
 		seed: string;
-		layers: Layer[];
+		noise: Noise<TNoise>;
+		layers: NoInfer<Layer<TNoise>[]>;
 	}
 }
 
-export const withNoise = ({ seed, layers }: withNoise.Props) => {
-	const noise = layers.map(({ noise, name }) => {
-		return NoiseFactory[noise || "simplex"](`${seed}-${name}`);
+export const withNoise = <const TNoise extends string>({
+	seed,
+	noise,
+	layers,
+}: withNoise.Props<TNoise>) => {
+	const generator = layers.map(({ noise: type, name }) => {
+		return noise[type](`${seed}-${name}`);
 	});
 
 	return (x: number, z: number) => {
 		const value = layers
 			.filter((layer) => !layer.disabled)
 			.reduce((sum, { scale, inverse, weight, limit }, index) => {
-				let value = noise[index]!(x * scale, z * scale);
+				let value = generator[index]!(x * scale, z * scale);
 
 				if (weight) {
 					value *= weight;

@@ -5,11 +5,12 @@ import { ACESFilmicToneMapping } from "three";
 
 export namespace MapCanvas {
 	export interface Props extends PropsWithChildren {
-		//
+		pos: { x: number; z: number };
+		zoom: number;
 	}
 }
 
-export const MapCanvas: FC<MapCanvas.Props> = ({ children }) => {
+export const MapCanvas: FC<MapCanvas.Props> = ({ pos, zoom, children }) => {
 	return (
 		<Canvas
 			frameloop={"demand"}
@@ -20,7 +21,13 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ children }) => {
 				toneMappingExposure: 1.0,
 				antialias: true,
 			}}
-			camera={{ zoom: 8, position: [0, 16, 0], near: 0.1, far: 4096 }}
+			camera={{
+				zoom,
+				position: [pos.x, 16, pos.z],
+				up: [0, 0, -1],
+				near: 0.1,
+				far: 4096,
+			}}
 			shadows
 			dpr={[1, 2]}
 			orthographic

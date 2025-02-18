@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { MOUSE, type DirectionalLight } from "three";
+import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { Game } from "~/app/derivean/Game";
 import { Chunks } from "~/app/derivean/map/Chunks";
@@ -22,13 +22,32 @@ export namespace Loop {
 		plotSize: number;
 	}
 
+	export namespace OnCamera {
+		export interface Props {
+			x: number;
+			z: number;
+			zoom: number;
+		}
+
+		export type Callback = (props: Props) => void;
+	}
+
 	export interface Props {
 		mapId: string;
 		config: Config;
+		pos: { x: number; z: number };
+		zoom: number;
+		onCamera?: OnCamera.Callback;
 	}
 }
 
-export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
+export const Loop: FC<Loop.Props> = ({
+	mapId,
+	config,
+	pos,
+	zoom,
+	onCamera,
+}) => {
 	const { camera, invalidate } = useThree(({ camera, invalidate }) => ({
 		camera,
 		invalidate,
@@ -73,6 +92,12 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			);
 			lightRef.current.target.updateMatrixWorld();
 		}
+
+		onCamera?.({
+			x: camera.position.x,
+			z: camera.position.z,
+			zoom: camera.zoom,
+		});
 
 		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
 
@@ -127,12 +152,13 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 			/>
 
 			<OrbitControls
-				enableRotate={true}
+				enableRotate={false}
 				enablePan={true}
 				enableZoom={true}
 				enableDamping={true}
-				screenSpacePanning={false}
+				screenSpacePanning={true}
 				zoomToCursor
+				zoom0={zoom}
 				/**
 				 * How far
 				 */
@@ -141,8 +167,10 @@ export const Loop: FC<Loop.Props> = ({ mapId, config }) => {
 				 * How close
 				 */
 				// maxZoom={32}
-				mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
+				target={new Vector3(pos.x, 0, pos.z)}
+				mouseButtons={{ LEFT: MOUSE.PAN }}
 				onChange={update}
+				makeDefault
 			/>
 
 			{chunks}

@@ -1,3 +1,4 @@
+import { LandNoise } from "~/app/derivean/map/noise/withLandNoise/LandNoise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
 export namespace withLandNoise {
@@ -9,76 +10,27 @@ export namespace withLandNoise {
 export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 	return withNoise({
 		seed,
+		noise: LandNoise,
 		layers: [
 			{
-				name: "base-simplex",
-				noise: "cellular",
-				scale: 0.75,
-				weight: 1.5,
+				name: "continents",
+				noise: "pingPongCellular",
+				scale: 0.05,
+				weight: 2,
 			},
 			{
-				disabled: true,
-				name: "base-simplex2",
-				noise: "cellular",
-				scale: 1,
-				weight: 0.25,
-				// limit: {
-				// 	min: 0.25,
-				// 	max: 0.75,
-				// },
-			},
-			{
-				disabled: true,
-				name: "base-simplex3",
-				noise: "cellular",
-				scale: 0.5,
-				weight: 0.25,
-				inverse: true,
-				// limit: {
-				// 	min: -0.5,
-				// 	max: -0.15,
-				// },
-			},
-			{
-				disabled: true,
-				name: "base-simplex2",
-				noise: "cellular",
-				scale: 0.75,
-				limit: {
-					max: 0.25,
-				},
-			},
-			{
-				disabled: true,
-				name: "fractal",
-				noise: "perlinFractal",
-				scale: 0.75,
-				limit: {
-					min: 0.35,
-				},
-				// subtract: true,
-			},
-			{
-				disabled: true,
-				name: "base-simplex2",
+				// disabled: true,
+				name: "continent-level-01",
 				noise: "simplex",
-				scale: 1,
-				weight: 0.25,
+				scale: 0.25,
+				weight: 0.35,
 			},
 			{
 				disabled: true,
-				name: "base-warp-x",
-				noise: "cubic",
-				scale: 4,
-				weight: 0.25,
-			},
-			{
-				disabled: true,
-				name: "base-warp-z",
-				noise: "simplexFractalWarpX",
+				name: "continent-level-01",
+				noise: "perlin",
 				scale: 1,
-				weight: 0.15,
-				inverse: true,
+				weight: 0.75,
 			},
 		],
 	});
