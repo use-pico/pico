@@ -3,11 +3,9 @@ import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
-import { Game } from "~/app/derivean/Game";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
-import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
+import { WorkerGeneratorLoader } from "~/app/derivean/worker/WorkerGeneratorLoader";
 
 export namespace Loop {
 	export interface Config {
@@ -53,32 +51,12 @@ export const Loop: FC<Loop.Props> = ({
 		invalidate,
 	}));
 	const visibleChunks = useVisibleChunks({ chunkSize: config.chunkSize });
-	const generator = withGenerator({
-		plotCount: Game.plotCount,
-		plotSize: Game.plotSize,
-		seed: mapId,
-		scale: 1,
-		noise({ seed }) {
-			return {
-				land: withLandNoise({ seed }),
-			};
-		},
-		tile: {
-			id: "grass",
-			chance: 100,
-			color: "#00FF00",
-			noise: 1,
-		},
-		layers() {
-			return [];
-		},
-	});
 
 	const chunkRef = useRef<Chunks.Chunk[]>([]);
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
 
-	const update = useDebouncedCallback(() => {
+	const update = useDebouncedCallback(async () => {
 		if (lightRef.current) {
 			lightRef.current.position.set(
 				camera.position.x - 256,
@@ -113,7 +91,7 @@ export const Loop: FC<Loop.Props> = ({
 					id: `${x}:${z}`,
 					x,
 					z,
-					tiles: generator({ x, z }),
+					tiles: await WorkerGeneratorLoader.generator(mapId, x, z),
 				};
 			}
 		}

@@ -111,7 +111,6 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 			console.log("Generating textures for chunkHash:", {
 				chunkHash,
 				count: chunksRef.current.length,
-				size: config.chunkSize,
 			});
 
 			const texturesPool = new Map<string, CanvasTexture>();

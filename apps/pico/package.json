@@ -26,6 +26,7 @@
 		"@use-pico/common": "workspace:*",
 		"@use-pico/server": "workspace:*",
 		"@xyflow/react": "^12.4.2",
+		"comlink": "^4.4.2",
 		"dependency-graph": "^1.0.0",
 		"file-saver": "^2.0.5",
 		"graphology-shortest-path": "^2.1.0",
