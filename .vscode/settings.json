@@ -74,6 +74,7 @@
 		"rankdir",
 		"ranksep",
 		"raycaster",
+		"RRGGBB",
 		"seedable",
 		"sonner",
 		"sqlocal",

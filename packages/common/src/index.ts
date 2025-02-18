@@ -43,6 +43,7 @@ export { cursorOf } from "./toolbox/cursorOf";
 export { diffOf } from "./toolbox/diffOf";
 export { flatOf } from "./toolbox/flatOf";
 export { genId } from "./toolbox/genId";
+export { hexToRGB } from "./toolbox/hexToRGB";
 export { isCallable } from "./toolbox/isCallable";
 export { isEmpty } from "./toolbox/isEmpty";
 export { isObject } from "./toolbox/isObject";

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { FC, useMemo } from "react";
-import { CanvasTexture } from "three";
+import { DataTexture } from "three";
 import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
 
@@ -44,12 +44,12 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 				const texturesPool = new Map();
 
 				for (const [chunkId, bitmap] of Object.entries(textures)) {
-					const image = new ImageData(
-						new Uint8ClampedArray(bitmap.data),
+					const texture = new DataTexture(
+						new Uint8Array(bitmap.data),
 						bitmap.width,
 						bitmap.height,
 					);
-					const texture = new CanvasTexture(image);
+					texture.flipY = true;
 					texture.needsUpdate = true;
 					texturesPool.set(chunkId, texture);
 				}
