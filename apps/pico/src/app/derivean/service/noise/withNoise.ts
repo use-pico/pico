@@ -101,11 +101,7 @@ export namespace withNoise {
 
 	export interface Variation<TNoise extends string> {
 		name: string;
-		/**
-		 * Noise used for a variation
-		 */
-		noise: TNoise;
-		scale: number;
+		layers: Layer<TNoise>[];
 		weight: number;
 		/**
 		 * Minimum range when a variation noise runs
@@ -178,10 +174,10 @@ export const withNoise = <const TNoise extends string>({
 
 		const mix = variation.find(({ min, max }) => min <= value && value <= max);
 		if (mix) {
-			const adjust = noise[mix.noise]!(`${seed}-${mix.name}`)(
-				x * mix.scale,
-				z * mix.scale,
-			);
+			/**
+			 * Even variations supports individual layers for nicer results.
+			 */
+			const adjust = noiseOf(x, z, seed, mix.layers, noise);
 
 			/**
 			 * A little magic:
