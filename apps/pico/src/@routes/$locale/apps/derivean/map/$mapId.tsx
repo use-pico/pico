@@ -7,6 +7,7 @@ import { Map } from "~/app/derivean/map/Map";
 const SearchSchema = z.object({
 	x: z.number().optional().default(0),
 	z: z.number().optional().default(0),
+	zoomToId: z.string().optional(),
 });
 
 export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({

@@ -1,6 +1,7 @@
 import { Timer } from "@use-pico/common";
 import { expose, transfer } from "comlink";
-import { LRUCache } from "lru-cache";
+import { decompressSync, deflateSync, strFromU8, strToU8 } from "fflate";
+import { dir, file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
 import type { Chunks } from "~/app/derivean/map/Chunks";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
@@ -8,16 +9,8 @@ import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Texture } from "~/app/derivean/Texture";
 
-const chunkCache = new LRUCache<string, Chunks.Chunk>({
-	max: 32,
-	ttl: 1000 * 60 * 60,
-});
-const textureCache = new LRUCache<string, ImageData>({
-	max: 16,
-	ttl: 1000 * 60 * 60,
-});
-
 const chunks = async (
+	id: string,
 	seed: string,
 	minX: number,
 	maxX: number,
@@ -52,30 +45,54 @@ const chunks = async (
 		},
 	});
 
+	await dir(`/chunk/${id}`).create();
+
 	const chunks = new Array(count);
 
 	let hit = 0;
 
-	let index = 0;
-	for (let x = minX; x < maxX; x++) {
-		for (let z = minZ; z < maxZ; z++) {
-			const cacheId = `${x}:${z}`;
-			const chunk = chunkCache.get(cacheId);
-			if (chunk) {
-				chunks[index++] = chunk;
-				hit++;
-				continue;
-			}
-			chunkCache.set(
-				cacheId,
-				(chunks[index++] = {
+	try {
+		let index = 0;
+		for (let x = minX; x < maxX; x++) {
+			for (let z = minZ; z < maxZ; z++) {
+				const cacheId = `${x}:${z}`;
+				const chunkFile = `/chunk/${id}/${cacheId}.json.deflate`;
+
+				if (await file(chunkFile).exists()) {
+					chunks[index++] = JSON.parse(
+						strFromU8(
+							decompressSync(
+								new Uint8Array(await file(chunkFile).arrayBuffer()),
+							),
+						),
+					);
+
+					hit++;
+					continue;
+				}
+
+				const data = {
 					id: cacheId,
 					x,
 					z,
 					tiles: generator({ x, z }),
-				}),
-			);
+				} as const;
+
+				chunks[index++] = data;
+
+				try {
+					await write(
+						chunkFile,
+						deflateSync(strToU8(JSON.stringify(data)), { level: 9 }),
+					);
+				} catch (e) {
+					console.error(e);
+				}
+			}
 		}
+	} catch (e) {
+		console.error(e);
+		throw e;
 	}
 
 	console.log(`\t- Finished [hit ${hit}/${count}] [${timer.format()}]`);
@@ -84,6 +101,7 @@ const chunks = async (
 };
 
 export const textures = async (
+	id: string,
 	chunks: Chunks.Chunk[],
 	chunkSize: number,
 	hash: string,
@@ -92,6 +110,8 @@ export const textures = async (
 	timer.start();
 
 	console.log(`Generating textures ${hash}`);
+
+	await dir(`/texture/${id}`).create();
 
 	const textures: Record<string, Texture> = {};
 
@@ -108,26 +128,21 @@ export const textures = async (
 	let hit = 0;
 
 	for (const chunk of chunks) {
-		const bitmap = textureCache.get(chunk.id);
-		if (bitmap) {
-			textures[chunk.id] = {
-				width: bitmap.width,
-				height: bitmap.height,
-				data: bitmap.data.buffer,
-			};
-			transfers.push(bitmap.data.buffer);
+		const textureFile = `/texture/${id}/${chunk.id}.bin.deflate`;
 
-			/**
-			 * Clone image data, so it won't be lost on transfer.
-			 */
-			textureCache.set(
-				chunk.id,
-				new ImageData(
-					new Uint8ClampedArray(bitmap.data),
-					bitmap.width,
-					bitmap.height,
-				),
+		if (await file(textureFile).exists()) {
+			const data = new Uint8ClampedArray(
+				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
 			);
+			const image = new ImageData(data, chunkSize, chunkSize);
+
+			textures[chunk.id] = {
+				width: image.width,
+				height: image.height,
+				data: image.data.buffer,
+			};
+			transfers.push(image.data.buffer);
+
 			hit++;
 			continue;
 		}
@@ -151,13 +166,9 @@ export const textures = async (
 		};
 		transfers.push(image.data.buffer);
 
-		textureCache.set(
-			chunk.id,
-			new ImageData(
-				new Uint8ClampedArray(image.data),
-				image.width,
-				image.height,
-			),
+		await write(
+			textureFile,
+			deflateSync(new Uint8Array(image.data), { level: 9 }),
 		);
 	}
 

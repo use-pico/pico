@@ -19,6 +19,7 @@ export namespace Chunks {
 	}
 
 	export interface Props {
+		mapId: string;
 		config: Config;
 		/**
 		 * **Stable** reference to chunks
@@ -28,12 +29,13 @@ export namespace Chunks {
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ config, chunks, hash }) => {
+export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 	const { data: textures } = useQuery({
-		queryKey: ["textures", hash],
+		queryKey: ["textures", mapId, hash],
 		async queryFn() {
 			try {
 				const textures = await GameWorkerLoader.textures(
+					mapId,
 					chunks,
 					config.chunkSize,
 					hash,

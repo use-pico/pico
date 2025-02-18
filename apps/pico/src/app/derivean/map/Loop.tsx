@@ -56,7 +56,7 @@ export const Loop: FC<Loop.Props> = ({
 	const lightRef = useRef<DirectionalLight>(null);
 
 	const chunks = useQuery({
-		queryKey: ["chunks", hash],
+		queryKey: ["chunks", mapId, hash],
 		queryFn: async () => {
 			if (!hash) {
 				return [];
@@ -71,6 +71,7 @@ export const Loop: FC<Loop.Props> = ({
 			 */
 
 			return GameWorkerLoader.chunks(
+				mapId,
 				mapId,
 				minX,
 				maxX,
@@ -122,6 +123,7 @@ export const Loop: FC<Loop.Props> = ({
 	const render = useMemo(() => {
 		return hash ?
 				<Chunks
+					mapId={mapId}
 					config={config}
 					chunks={chunks.data ?? []}
 					hash={hash}

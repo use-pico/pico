@@ -1,6 +1,4 @@
-import type { useGenerator } from "~/app/derivean/map/hook/useGenerator";
-
-export const tiles: Record<string, useGenerator.Config.Tile> = {
+export const tiles: Record<string, any> = {
 	// 🏔️ High Altitude
 	snow: {
 		id: "snow",

@@ -9,10 +9,6 @@ import { warp } from "~/app/derivean/service/noise/warp";
 
 const defaultOffset = 10;
 
-namespace NoiseFactory {
-	export type Type = keyof typeof NoiseFactory;
-}
-
 const NoiseFactory = {
 	simplex,
 	perlin,
