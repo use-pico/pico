@@ -136,23 +136,23 @@ export const textures = async (
 	for (const chunk of chunks) {
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
-		// if (await file(textureFile).exists()) {
-		// 	const data = new Uint8ClampedArray(
-		// 		decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
-		// 	);
+		if (await file(textureFile).exists()) {
+			const data = new Uint8ClampedArray(
+				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
+			);
 
-		// 	textures[chunk.id] = {
-		// 		width: chunkSize,
-		// 		height: chunkSize,
-		// 		data: data.buffer,
-		// 	};
-		// 	transfers.push(data.buffer);
+			textures[chunk.id] = {
+				width: chunkSize,
+				height: chunkSize,
+				data: data.buffer,
+			};
+			transfers.push(data.buffer);
 
-		// 	Atomics.add(textureHits, 0, 1);
-		// 	continue;
-		// }
+			Atomics.add(textureHits, 0, 1);
+			continue;
+		}
 
-		const buffer = new Uint8Array(chunkSize * chunkSize * 4);
+		const buffer = new Uint8Array(chunkSize * chunkSize * 3);
 
 		for (const tile of chunk.tiles) {
 			const color = hexToRGB(
@@ -164,12 +164,11 @@ export const textures = async (
 					const x = tile.pos.x + dx;
 					const z = tile.pos.z + dz;
 
-					const index = (z * chunkSize + x) * 4;
+					const index = (z * chunkSize + x) * 3;
 
 					buffer[index] = color.r;
 					buffer[index + 1] = color.g;
 					buffer[index + 2] = color.b;
-					buffer[index + 3] = 255;
 				}
 			}
 		}

@@ -45,7 +45,7 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ pos, zoom, children }) => {
 				divisions={Game.plotCount}
 			/> */}
 
-			<ambientLight intensity={1} />
+			<ambientLight intensity={0.25} />
 			{/* 
 			<EffectComposer enableNormalPass>
 				<SSAO
