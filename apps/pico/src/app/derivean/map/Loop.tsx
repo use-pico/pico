@@ -1,5 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
@@ -46,15 +47,36 @@ export const Loop: FC<Loop.Props> = ({
 	zoom,
 	onCamera,
 }) => {
-	const { camera, invalidate } = useThree(({ camera, invalidate }) => ({
+	const { camera } = useThree(({ camera }) => ({
 		camera,
-		invalidate,
 	}));
 	const visibleChunks = useVisibleChunks({ chunkSize: config.chunkSize });
 
-	const chunkRef = useRef<Chunks.Chunk[]>([]);
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
+
+	const chunks = useQuery({
+		queryKey: ["chunks", hash],
+		queryFn: async () => {
+			if (!hash) {
+				return [];
+			}
+			/**
+			 * Maybe a duplicate call, but is fast enough to not concern about it.
+			 */
+			const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
+
+			return GameWorkerLoader.chunks(
+				mapId,
+				minX,
+				maxX,
+				minZ,
+				maxZ,
+				count,
+				$hash,
+			);
+		},
+	});
 
 	const update = useDebouncedCallback(async () => {
 		if (lightRef.current) {
@@ -77,41 +99,28 @@ export const Loop: FC<Loop.Props> = ({
 			zoom: camera.zoom,
 		});
 
-		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
+		const { hash: $hash } = visibleChunks();
 
 		if ($hash === hash) {
 			return;
 		}
 
-		console.log("Requested generator", { $hash, hash });
-
-		chunkRef.current = await GameWorkerLoader.chunks(
-			mapId,
-			minX,
-			maxX,
-			minZ,
-			maxZ,
-			count,
-			$hash,
-		);
-
 		setHash($hash);
-		invalidate();
 	}, 50);
 
 	useEffect(() => {
 		update();
 	}, []);
 
-	const chunks = useMemo(() => {
+	const render = useMemo(() => {
 		return hash ?
 				<Chunks
 					config={config}
-					chunksRef={chunkRef}
-					chunkHash={hash}
+					chunks={chunks.data ?? []}
+					hash={hash}
 				/>
 			:	null;
-	}, [hash]);
+	}, [chunks.data]);
 
 	return (
 		<>
@@ -149,7 +158,7 @@ export const Loop: FC<Loop.Props> = ({
 				makeDefault
 			/>
 
-			{chunks}
+			{render}
 		</>
 	);
 };

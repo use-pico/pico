@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, useMemo, type MutableRefObject } from "react";
+import { FC, useMemo } from "react";
 import { CanvasTexture } from "three";
 import { Game } from "~/app/derivean/Game";
 import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
@@ -20,8 +20,11 @@ export namespace Chunks {
 
 	export interface Props {
 		config: Config;
-		chunkHash: string;
-		chunksRef: MutableRefObject<Chunk[]>;
+		/**
+		 * **Stable** reference to chunks
+		 */
+		chunks: Chunk[];
+		hash: string;
 	}
 }
 
@@ -102,20 +105,20 @@ const floatToGrayscaleHex = (value: number, step = 64): string => {
 	// return `#${hex}${hex}${hex}`;
 };
 
-export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
+export const Chunks: FC<Chunks.Props> = ({ config, chunks, hash }) => {
 	const canvasPool = useMemo(() => new Map<string, HTMLCanvasElement>(), []);
 
 	const { data: textures } = useQuery({
-		queryKey: ["chunkTextures", chunkHash],
+		queryKey: ["chunkTextures", hash],
 		async queryFn() {
 			console.log("Generating textures for chunkHash:", {
-				chunkHash,
-				count: chunksRef.current.length,
+				hash,
+				count: chunks.length,
 			});
 
 			const texturesPool = new Map<string, CanvasTexture>();
 
-			for (const chunk of chunksRef.current) {
+			for (const chunk of chunks) {
 				let canvas = canvasPool.get(chunk.id);
 				if (!canvas) {
 					canvas = document.createElement("canvas");
@@ -148,7 +151,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunksRef, chunkHash }) => {
 			return null;
 		}
 
-		return chunksRef.current.map((chunk) => {
+		return chunks.map((chunk) => {
 			return (
 				<mesh
 					key={`chunk-${chunk.id}`}
