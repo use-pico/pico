@@ -125,46 +125,56 @@ export namespace withNoise {
 	}
 }
 
+const noiseOf = <TNoise extends string>(
+	x: number,
+	z: number,
+	seed: string,
+	layers: withNoise.Layer<TNoise>[],
+	noise: withNoise.Noise<TNoise>,
+) => {
+	const generator = layers.map(({ noise: type, name }) => {
+		return noise[type](`${seed}-${name}`);
+	});
+
+	const value = layers
+		.filter((layer) => !layer.disabled)
+		.reduce((sum, { scale, inverse, weight, limit }, index) => {
+			let value = generator[index]!(x * scale, z * scale);
+
+			if (weight) {
+				value *= weight;
+			}
+
+			if (inverse) {
+				value *= -1;
+			}
+
+			if (limit) {
+				if (limit.min !== undefined) {
+					value = Math.max(limit.min, value);
+				}
+
+				if (limit.max !== undefined) {
+					value = Math.min(limit.max, value);
+				}
+			}
+
+			value = sum + value;
+
+			return value;
+		}, 0);
+
+	return Math.max(-1, Math.min(1, value));
+};
+
 export const withNoise = <const TNoise extends string>({
 	seed,
 	noise,
 	layers,
 	variation = [],
 }: withNoise.Props<TNoise>) => {
-	const generator = layers.map(({ noise: type, name }) => {
-		return noise[type](`${seed}-${name}`);
-	});
-
 	return (x: number, z: number) => {
-		let value = layers
-			.filter((layer) => !layer.disabled)
-			.reduce((sum, { scale, inverse, weight, limit }, index) => {
-				let value = generator[index]!(x * scale, z * scale);
-
-				if (weight) {
-					value *= weight;
-				}
-
-				if (inverse) {
-					value *= -1;
-				}
-
-				if (limit) {
-					if (limit.min !== undefined) {
-						value = Math.max(limit.min, value);
-					}
-
-					if (limit.max !== undefined) {
-						value = Math.min(limit.max, value);
-					}
-				}
-
-				value = sum + value;
-
-				return value;
-			}, 0);
-
-		value = Math.max(-1, Math.min(1, value));
+		let value = noiseOf(x, z, seed, layers, noise);
 
 		const mix = variation.find(({ min, max }) => min <= value && value <= max);
 		if (mix) {
