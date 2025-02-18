@@ -12,38 +12,50 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 		layers: [
 			{
 				name: "base-simplex",
-				noise: "perlin",
+				noise: "cellular",
 				scale: 0.75,
-				// weight: -0.05,
+				weight: 1.5,
 			},
 			{
-				// disabled: true,
+				disabled: true,
 				name: "base-simplex2",
-				noise: "cubic",
+				noise: "cellular",
 				scale: 1,
-				weight: 0.35,
+				weight: 0.25,
+				// limit: {
+				// 	min: 0.25,
+				// 	max: 0.75,
+				// },
 			},
 			{
-				// disabled: true,
+				disabled: true,
 				name: "base-simplex3",
 				noise: "cellular",
 				scale: 0.5,
 				weight: 0.25,
 				inverse: true,
+				// limit: {
+				// 	min: -0.5,
+				// 	max: -0.15,
+				// },
 			},
 			{
 				disabled: true,
 				name: "base-simplex2",
-				noise: "simplex",
+				noise: "cellular",
 				scale: 0.75,
-				inverse: true,
+				limit: {
+					max: 0.25,
+				},
 			},
 			{
 				disabled: true,
 				name: "fractal",
 				noise: "perlinFractal",
 				scale: 0.75,
-				weight: -0.005,
+				limit: {
+					min: 0.35,
+				},
 				// subtract: true,
 			},
 			{

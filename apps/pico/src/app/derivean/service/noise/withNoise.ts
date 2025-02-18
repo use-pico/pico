@@ -89,6 +89,10 @@ export namespace withNoise {
 		 * Subtracts the value from the overall sum.
 		 */
 		inverse?: boolean;
+		limit?: {
+			min?: number;
+			max?: number;
+		};
 	}
 
 	export interface Props {
@@ -105,7 +109,7 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 	return (x: number, z: number) => {
 		const value = layers
 			.filter((layer) => !layer.disabled)
-			.reduce((sum, { scale, inverse, weight }, index) => {
+			.reduce((sum, { scale, inverse, weight, limit }, index) => {
 				let value = noise[index]!(x * scale, z * scale);
 
 				if (weight) {
@@ -114,6 +118,16 @@ export const withNoise = ({ seed, layers }: withNoise.Props) => {
 
 				if (inverse) {
 					value *= -1;
+				}
+
+				if (limit) {
+					if (limit.min !== undefined) {
+						value = Math.max(limit.min, value);
+					}
+
+					if (limit.max !== undefined) {
+						value = Math.min(limit.max, value);
+					}
 				}
 
 				return sum + value;
