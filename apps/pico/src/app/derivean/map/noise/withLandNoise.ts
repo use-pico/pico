@@ -13,9 +13,17 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 		noise: LandNoise,
 		variation: [
 			{
-				name: "top-level",
-				noise: "perlin",
-				scale: 1,
+				name: "water",
+				noise: "perlinWarpX",
+				scale: 1.5,
+				min: -1,
+				max: -0.9,
+				weight: 1,
+			},
+			{
+				name: "mountain",
+				noise: "cubicWarpX",
+				scale: 1.5,
 				min: 0.95,
 				max: 1,
 				weight: 1,

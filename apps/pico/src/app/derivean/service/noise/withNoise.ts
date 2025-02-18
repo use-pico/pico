@@ -166,7 +166,7 @@ export const withNoise = <const TNoise extends string>({
 
 		value = Math.max(-1, Math.min(1, value));
 
-		const mix = variation.find(({ min, max }) => value >= min && value <= max);
+		const mix = variation.find(({ min, max }) => min <= value && value <= max);
 		if (mix) {
 			const adjust = noise[mix.noise]!(`${seed}-${mix.name}`)(
 				x * mix.scale,

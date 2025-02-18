@@ -1,5 +1,8 @@
 import { FastNoiseLite } from "@use-pico/common";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
+import { cubic } from "~/app/derivean/service/noise/cubic";
+import { perlin } from "~/app/derivean/service/noise/perlin";
+import { warp } from "~/app/derivean/service/noise/warp";
 import type { withNoise } from "~/app/derivean/service/noise/withNoise";
 
 export const LandNoise = {
@@ -38,6 +41,12 @@ export const LandNoise = {
 		return (x: number, z: number) => {
 			return noise.GetNoise(x, z);
 		};
+	}) satisfies withNoise.NoiseFactory,
+	perlinWarpX: ((seed) => {
+		return warp({ noise: perlin(seed), offsetX: 5 });
+	}) satisfies withNoise.NoiseFactory,
+	cubicWarpX: ((seed) => {
+		return warp({ noise: cubic(seed), offsetX: 5 });
 	}) satisfies withNoise.NoiseFactory,
 	cellular: ((seed) => {
 		const noise = createNoise({ seed });
