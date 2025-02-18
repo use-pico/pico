@@ -30,7 +30,7 @@ export namespace Chunks {
 
 export const Chunks: FC<Chunks.Props> = ({ config, chunks, hash }) => {
 	const { data: textures } = useQuery({
-		queryKey: ["chunkTextures", hash],
+		queryKey: ["textures", hash],
 		async queryFn() {
 			try {
 				const textures = await GameWorkerLoader.textures(
@@ -57,8 +57,8 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunks, hash }) => {
 				console.error(e);
 			}
 		},
-		staleTime: Infinity,
-		gcTime: 1000 * 60 * 5,
+		staleTime: 0,
+		gcTime: 0,
 		refetchOnWindowFocus: false,
 	});
 

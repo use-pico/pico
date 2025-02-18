@@ -1,5 +1,15 @@
+/**
+ * Plot size is the size of a single "pixel", that's a building, road or other entity on a map.
+ */
 const plotSize = 16;
+/**
+ * Number of plots in a single chunk. Also defines overall texture size, so **be very careful** when changing this value as
+ * higher ones may fry your GPU and memory.
+ */
 const plotCount = 256;
+/**
+ * Just pre-computed chunk size for easier usage. This is a real texture size generated from noise.
+ */
 const chunkSize = plotCount * plotSize;
 
 /**

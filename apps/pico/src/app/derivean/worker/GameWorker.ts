@@ -9,11 +9,11 @@ import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Texture } from "~/app/derivean/Texture";
 
 const chunkCache = new LRUCache<string, Chunks.Chunk>({
-	max: 256,
+	max: 32,
 	ttl: 1000 * 60 * 60,
 });
 const textureCache = new LRUCache<string, ImageData>({
-	max: 64,
+	max: 16,
 	ttl: 1000 * 60 * 60,
 });
 
