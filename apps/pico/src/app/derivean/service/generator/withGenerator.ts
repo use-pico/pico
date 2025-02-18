@@ -107,7 +107,7 @@ export const withGenerator = ({
 					z: tileZ + z * plotCount * plotSize,
 				},
 				noise: land(worldX, worldZ),
-				tile,
+				tile: tile.id,
 			};
 		}
 

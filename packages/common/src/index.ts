@@ -2,7 +2,6 @@ export { DateTime } from "luxon";
 export { onAxiosError } from "./axios/onAxiosError";
 export { onAxiosSchemaError } from "./axios/onAxiosSchemaError";
 export { withAxios } from "./axios/withAxios";
-export { Binary } from "./binary/Binary";
 export { css } from "./css/css";
 export { tvc } from "./css/tvc";
 export { type Database } from "./database/Database";

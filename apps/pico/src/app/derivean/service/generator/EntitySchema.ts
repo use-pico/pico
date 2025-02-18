@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 
 /**
  * Generated entity on a map.
@@ -14,7 +13,7 @@ export const EntitySchema = z.object({
 		z: z.number(),
 	}),
 	noise: z.number(),
-	tile: TileSchema,
+	tile: z.string().min(1),
 });
 
 export type EntitySchema = typeof EntitySchema;

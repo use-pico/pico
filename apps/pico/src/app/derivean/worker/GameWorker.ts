@@ -1,10 +1,12 @@
 import { Timer } from "@use-pico/common";
+import { deserialize, serialize } from "borsh";
 import { expose, transfer } from "comlink";
-import { decompressSync, deflateSync, strFromU8, strToU8 } from "fflate";
+import { decompressSync, deflateSync } from "fflate";
 import { dir, file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
 import type { Chunks } from "~/app/derivean/map/Chunks";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
+import { ChunkBorshSchema } from "~/app/derivean/service/generator/ChunkBorshSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Texture } from "~/app/derivean/Texture";
@@ -22,7 +24,7 @@ const chunks = async (
 	const timer = new Timer();
 	timer.start();
 
-	console.log(`Generating chunks ${hash}`);
+	console.log(`Generating ${count} chunks, ${hash}`);
 
 	const generator = withGenerator({
 		plotCount: Game.plotCount,
@@ -47,7 +49,7 @@ const chunks = async (
 
 	await dir(`/chunk/${id}`).create();
 
-	const chunks = new Array(count);
+	const chunks = new Array<Chunks.Chunk>(count);
 
 	let hit = 0;
 
@@ -55,24 +57,21 @@ const chunks = async (
 		let index = 0;
 		for (let x = minX; x < maxX; x++) {
 			for (let z = minZ; z < maxZ; z++) {
-				const cacheId = `${x}:${z}`;
-				const chunkFile = `/chunk/${id}/${cacheId}.json.deflate`;
+				const chunkId = `${x}:${z}`;
+				const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
 
 				if (await file(chunkFile).exists()) {
-					chunks[index++] = JSON.parse(
-						strFromU8(
-							decompressSync(
-								new Uint8Array(await file(chunkFile).arrayBuffer()),
-							),
-						),
-					);
+					chunks[index++] = deserialize(
+						ChunkBorshSchema,
+						decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
+					) as Chunks.Chunk;
 
 					hit++;
 					continue;
 				}
 
 				const data = {
-					id: cacheId,
+					id: chunkId,
 					x,
 					z,
 					tiles: generator({ x, z }),
@@ -83,7 +82,7 @@ const chunks = async (
 				try {
 					await write(
 						chunkFile,
-						deflateSync(strToU8(JSON.stringify(data)), { level: 9 }),
+						deflateSync(serialize(ChunkBorshSchema, data), { level: 9 }),
 					);
 				} catch (e) {
 					console.error(e);
@@ -95,7 +94,7 @@ const chunks = async (
 		throw e;
 	}
 
-	console.log(`\t- Finished [hit ${hit}/${count}] [${timer.format()}]`);
+	console.log(`\t- Chunks finished [hit ${hit}/${count}] [${timer.format()}]`);
 
 	return chunks;
 };
@@ -109,7 +108,7 @@ export const textures = async (
 	const timer = new Timer();
 	timer.start();
 
-	console.log(`Generating textures ${hash}`);
+	console.log(`Generating ${chunks.length} textures, ${hash}`);
 
 	await dir(`/texture/${id}`).create();
 
@@ -128,7 +127,7 @@ export const textures = async (
 	let hit = 0;
 
 	for (const chunk of chunks) {
-		const textureFile = `/texture/${id}/${chunk.id}.bin.deflate`;
+		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
 		if (await file(textureFile).exists()) {
 			const data = new Uint8ClampedArray(
@@ -172,7 +171,9 @@ export const textures = async (
 		);
 	}
 
-	console.log(`\t- Finished [hit ${hit}/${chunks.length}] [${timer.format()}]`);
+	console.log(
+		`\t- Textures finished [hit ${hit}/${chunks.length}] [${timer.format()}]`,
+	);
 
 	return transfer(textures, transfers);
 };
