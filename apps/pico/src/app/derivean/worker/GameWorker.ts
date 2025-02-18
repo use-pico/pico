@@ -1,4 +1,4 @@
-import { Timer } from "@use-pico/common";
+import { hexToRGB, Timer } from "@use-pico/common";
 import { deserialize, serialize } from "borsh";
 import { expose, transfer } from "comlink";
 import { decompressSync, deflateSync } from "fflate";
@@ -129,15 +129,6 @@ export const textures = async (
 	await dir(`/texture/${id}`).create();
 
 	const textures: Record<string, Texture> = {};
-
-	const canvas = new OffscreenCanvas(chunkSize, chunkSize);
-	const ctx = canvas.getContext("2d", { willReadFrequently: true });
-
-	if (!ctx) {
-		console.error("Cannot use OffscreenCanvas");
-		return textures;
-	}
-
 	const transfers: ArrayBufferLike[] = [];
 
 	Atomics.store(textureHits, 0, 0);
@@ -145,47 +136,52 @@ export const textures = async (
 	for (const chunk of chunks) {
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
-		if (await file(textureFile).exists()) {
-			const data = new Uint8ClampedArray(
-				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
+		// if (await file(textureFile).exists()) {
+		// 	const data = new Uint8ClampedArray(
+		// 		decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
+		// 	);
+
+		// 	textures[chunk.id] = {
+		// 		width: chunkSize,
+		// 		height: chunkSize,
+		// 		data: data.buffer,
+		// 	};
+		// 	transfers.push(data.buffer);
+
+		// 	Atomics.add(textureHits, 0, 1);
+		// 	continue;
+		// }
+
+		const buffer = new Uint8Array(chunkSize * chunkSize * 4);
+
+		for (const tile of chunk.tiles) {
+			const color = hexToRGB(
+				withColorMap({ value: tile.noise, levels: Game.colorMap }),
 			);
-			const image = new ImageData(data, chunkSize, chunkSize);
 
-			textures[chunk.id] = {
-				width: image.width,
-				height: image.height,
-				data: image.data.buffer,
-			};
-			transfers.push(image.data.buffer);
+			for (let dx = 0; dx < Game.plotSize; dx++) {
+				for (let dz = 0; dz < Game.plotSize; dz++) {
+					const x = tile.pos.x + dx;
+					const z = tile.pos.z + dz;
 
-			Atomics.add(textureHits, 0, 1);
+					const index = (z * chunkSize + x) * 4;
 
-			continue;
+					buffer[index] = color.r;
+					buffer[index + 1] = color.g;
+					buffer[index + 2] = color.b;
+					buffer[index + 3] = 255;
+				}
+			}
 		}
 
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-		chunk.tiles.forEach((tile) => {
-			ctx.fillStyle = withColorMap({
-				value: tile.noise,
-				levels: Game.colorMap,
-			});
-			ctx.fillRect(tile.pos.x, tile.pos.z, Game.plotSize, Game.plotSize);
-		});
-
-		const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
 		textures[chunk.id] = {
-			width: canvas.width,
-			height: canvas.height,
-			data: image.data.buffer,
+			width: chunkSize,
+			height: chunkSize,
+			data: buffer.buffer,
 		};
-		transfers.push(image.data.buffer);
+		transfers.push(buffer.buffer);
 
-		await write(
-			textureFile,
-			deflateSync(new Uint8Array(image.data), { level: 9 }),
-		);
+		write(textureFile, deflateSync(new Uint8Array(buffer), { level: 9 }));
 	}
 
 	console.log(
