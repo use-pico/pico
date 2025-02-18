@@ -1,5 +1,7 @@
 /**
  * Plot size is the size of a single "pixel", that's a building, road or other entity on a map.
+ *
+ * Be careful, plot size is part of a texture size generated from noise, so making this value bigger is not recommended.
  */
 const plotSize = 16;
 /**
