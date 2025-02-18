@@ -11,6 +11,16 @@ export const withLandNoise = ({ seed }: withLandNoise.Props) => {
 	return withNoise({
 		seed,
 		noise: LandNoise,
+		variation: [
+			{
+				name: "top-level",
+				noise: "perlin",
+				scale: 1,
+				min: 0.95,
+				max: 1,
+				weight: 1,
+			},
+		],
 		layers: [
 			{
 				name: "continents",

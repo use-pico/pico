@@ -1,3 +1,4 @@
+import { rangeOf } from "@use-pico/common";
 import { cellular } from "~/app/derivean/service/noise/cellular";
 import { cubic } from "~/app/derivean/service/noise/cubic";
 import { fractal } from "~/app/derivean/service/noise/fractal";
@@ -98,10 +99,29 @@ export namespace withNoise {
 		};
 	}
 
+	export interface Variation<TNoise extends string> {
+		name: string;
+		/**
+		 * Noise used for a variation
+		 */
+		noise: TNoise;
+		scale: number;
+		weight: number;
+		/**
+		 * Minimum range when a variation noise runs
+		 */
+		min: number;
+		/**
+		 * Maximum range when a variation noise runs
+		 */
+		max: number;
+	}
+
 	export interface Props<TNoise extends string> {
 		seed: string;
 		noise: Noise<TNoise>;
 		layers: NoInfer<Layer<TNoise>[]>;
+		variation?: NoInfer<Variation<TNoise>[]>;
 	}
 }
 
@@ -109,13 +129,14 @@ export const withNoise = <const TNoise extends string>({
 	seed,
 	noise,
 	layers,
+	variation = [],
 }: withNoise.Props<TNoise>) => {
 	const generator = layers.map(({ noise: type, name }) => {
 		return noise[type](`${seed}-${name}`);
 	});
 
 	return (x: number, z: number) => {
-		const value = layers
+		let value = layers
 			.filter((layer) => !layer.disabled)
 			.reduce((sum, { scale, inverse, weight, limit }, index) => {
 				let value = generator[index]!(x * scale, z * scale);
@@ -138,8 +159,31 @@ export const withNoise = <const TNoise extends string>({
 					}
 				}
 
-				return sum + value;
+				value = sum + value;
+
+				return value;
 			}, 0);
+
+		value = Math.max(-1, Math.min(1, value));
+
+		const mix = variation.find(({ min, max }) => value >= min && value <= max);
+		if (mix) {
+			const adjust = noise[mix.noise]!(`${seed}-${mix.name}`)(
+				x * mix.scale,
+				z * mix.scale,
+			);
+
+			/**
+			 * A little magic:
+			 * rangeOf takes noise value (-1 to 1) and converts it to a value in the available range from the
+			 * variation (e.g 0.95 to 1).
+			 *
+			 * If a number should be subtracted, a negative weight should be provided.
+			 */
+			value =
+				rangeOf({ value: adjust, input: { min: -1, max: 1 }, output: mix }) *
+				mix.weight;
+		}
 
 		return Math.max(-1, Math.min(1, value));
 	};
