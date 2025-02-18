@@ -67,7 +67,11 @@ const chunks = async (
 					const chunkId = `${x}:${z}`;
 					const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
 
-					try {
+					/**
+					 * File reading does not throw an error, so it's necessary to check
+					 * for existence.
+					 */
+					if (await file(chunkFile).exists()) {
 						const data = deserialize(
 							ChunkBorshSchema,
 							decompressSync(
@@ -78,8 +82,6 @@ const chunks = async (
 						Atomics.add(chunkHits, 0, 1);
 
 						return data;
-					} catch (_) {
-						//
 					}
 
 					const data = {
