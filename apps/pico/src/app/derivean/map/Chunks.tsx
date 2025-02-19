@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Timer } from "@use-pico/common";
+import { decompressSync } from "fflate";
 import { FC, useMemo } from "react";
 import { DataTexture, RGBFormat } from "three";
 import { Game } from "~/app/derivean/Game";
@@ -51,7 +52,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 
 				for (const [chunkId, bitmap] of Object.entries(textures)) {
 					const texture = new DataTexture(
-						new Uint8Array(bitmap.data),
+						decompressSync(new Uint8Array(bitmap.data)),
 						bitmap.width,
 						bitmap.height,
 						RGBFormat,

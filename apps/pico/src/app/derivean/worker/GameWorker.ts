@@ -195,16 +195,14 @@ const textures = async ({
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
 		if (await file(textureFile).exists()) {
-			const data = new Uint8ClampedArray(
-				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
-			);
+			const data = await file(textureFile).arrayBuffer();
 
 			textures[chunk.id] = {
 				width: size,
 				height: size,
-				data: data.buffer,
+				data,
 			};
-			transfers.push(data.buffer);
+			transfers.push(data);
 
 			Atomics.add(textureHits, 0, 1);
 			continue;
@@ -232,14 +230,16 @@ const textures = async ({
 			}
 		}
 
+		const compressed = deflateSync(new Uint8Array(buffer), { level: 9 });
+
 		textures[chunk.id] = {
 			width: size,
 			height: size,
-			data: buffer.buffer,
+			data: compressed.buffer,
 		};
-		transfers.push(buffer.buffer);
+		transfers.push(compressed.buffer);
 
-		write(textureFile, deflateSync(new Uint8Array(buffer), { level: 9 }));
+		write(textureFile, new Uint8Array(compressed));
 	}
 
 	console.log(
