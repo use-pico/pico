@@ -35,13 +35,13 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 		queryKey: ["textures", mapId, hash],
 		async queryFn() {
 			try {
-				const textures = await GameWorkerLoader.textures(
-					mapId,
+				const textures = await GameWorkerLoader.textures({
+					id: mapId,
 					chunks,
-					config.chunkSize,
 					hash,
-                    Game.colorMap,
-				);
+					size: Game.plotCount,
+					colorMap: Game.colorMap,
+				});
 
 				const texturesPool = new Map();
 
@@ -52,7 +52,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 						bitmap.height,
 						RGBFormat,
 					);
-                    texture.internalFormat = "RGB8";
+					texture.internalFormat = "RGB8";
 					texture.flipY = true;
 					texture.needsUpdate = true;
 					texturesPool.set(chunkId, texture);

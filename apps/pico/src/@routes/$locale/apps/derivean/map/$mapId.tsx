@@ -48,7 +48,7 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 				pos={{ x, z }}
 				zoom={0.1}
 				onCamera={({ x, z }) => {
-					navigate({ to: ".", search: { x, z } });
+					navigate({ to: ".", search: { x, z }, replace: true });
 				}}
 			/>
 		);

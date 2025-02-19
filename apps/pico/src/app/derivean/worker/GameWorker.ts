@@ -124,7 +124,7 @@ const chunks = async (
 		})
 		.then((data) => {
 			console.log(
-				`\t- Chunks finished [hit ${Atomics.load(chunkHits, 0)}/${count}] [${timer.format()}]`,
+				`\t- Chunks finished [cache ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
 			);
 			return data as Chunks.Chunk[];
 		});
@@ -138,13 +138,23 @@ const cancelTextures = () => {
 	texturesAbortController.abort();
 };
 
-const textures = async (
-	id: string,
-	chunks: Chunks.Chunk[],
-	chunkSize: number,
-	hash: string,
-	colorMap: readonly { color: string }[],
-) => {
+export namespace textures {
+	export interface Props {
+		id: string;
+		chunks: Chunks.Chunk[];
+		hash: string;
+		size: number;
+		colorMap: readonly { color: string }[];
+	}
+}
+
+const textures = async ({
+	id,
+	chunks,
+	hash,
+	size,
+	colorMap,
+}: textures.Props) => {
 	const timer = new Timer();
 	timer.start();
 
@@ -158,12 +168,14 @@ const textures = async (
 	const transfers: ArrayBufferLike[] = [];
 	const colorBuffers = new Map<string, Uint8Array>();
 
+	const plot = 1;
+
 	Atomics.store(textureHits, 0, 0);
 
 	for (const { color } of colorMap.values()) {
 		const { r, g, b } = hexToRGB(color);
 
-		const length = Game.plotSize * 3;
+		const length = plot * 3;
 		const buffer = new Uint8Array(length);
 		for (let i = 0; i < length; i += 3) {
 			buffer[i] = r;
@@ -182,23 +194,23 @@ const textures = async (
 
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
-		// if (await file(textureFile).exists()) {
-		// 	const data = new Uint8ClampedArray(
-		// 		decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
-		// 	);
+		if (await file(textureFile).exists()) {
+			const data = new Uint8ClampedArray(
+				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
+			);
 
-		// 	textures[chunk.id] = {
-		// 		width: chunkSize,
-		// 		height: chunkSize,
-		// 		data: data.buffer,
-		// 	};
-		// 	transfers.push(data.buffer);
+			textures[chunk.id] = {
+				width: size,
+				height: size,
+				data: data.buffer,
+			};
+			transfers.push(data.buffer);
 
-		// 	Atomics.add(textureHits, 0, 1);
-		// 	continue;
-		// }
+			Atomics.add(textureHits, 0, 1);
+			continue;
+		}
 
-		const buffer = new Uint8Array(chunkSize * chunkSize * 3);
+		const buffer = new Uint8Array(size * size * 3);
 
 		for (const tile of chunk.tiles) {
 			if (texturesAbortController.signal.aborted) {
@@ -210,19 +222,19 @@ const textures = async (
 				withColorMap({ value: tile.noise, levels: Game.colorMap }),
 			)!;
 
-			const startX = tile.pos.x;
-			const startZ = tile.pos.z;
+			const startX = tile.pos.x / Game.plotSize;
+			const startZ = tile.pos.z / Game.plotSize;
 
-			const destIndex = (startZ * chunkSize + startX) * 3;
+			const destIndex = (startZ * size + startX) * 3;
 
-			for (let row = 0; row < Game.plotSize; row++) {
-				buffer.set(color, destIndex + row * chunkSize * 3);
+			for (let row = 0; row < plot; row++) {
+				buffer.set(color, destIndex + row * size * 3);
 			}
 		}
 
 		textures[chunk.id] = {
-			width: chunkSize,
-			height: chunkSize,
+			width: size,
+			height: size,
 			data: buffer.buffer,
 		};
 		transfers.push(buffer.buffer);
@@ -231,7 +243,7 @@ const textures = async (
 	}
 
 	console.log(
-		`\t- Textures finished [hit ${Atomics.load(textureHits, 0)}/${chunks.length}] [${timer.format()}]`,
+		`\t- Textures finished [cache ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
 	);
 
 	return transfer(textures, transfers);
