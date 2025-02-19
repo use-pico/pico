@@ -89,6 +89,11 @@ export const withGenerator = ({
 		const chunk = new Array<EntitySchema.Type>(plotCount ** 2);
 
 		for (let i = 0; i < chunk.length; i++) {
+			/**
+			 * TODO Throw this stuff into async blocks, so all tiles are generated in parallel
+			 * TODO Instead of generating noise per plotSize, generate only a pixel of noise
+			 */
+
 			const tileX = (i % plotCount) * plotSize;
 			const tileZ = Math.floor(i / plotCount) * plotSize;
 			const worldX = (x * plotCount + (i % plotCount)) * baseScale;

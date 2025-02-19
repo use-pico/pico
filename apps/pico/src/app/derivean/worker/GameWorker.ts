@@ -1,8 +1,8 @@
 import { hexToRGB, Timer } from "@use-pico/common";
 import { deserialize, serialize } from "borsh";
-import { expose, transfer } from "comlink";
+import { expose } from "comlink";
 import { decompressSync, deflateSync } from "fflate";
-import { dir, file, write } from "opfs-tools";
+import { file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
 import { ChunkBorshSchema } from "~/app/derivean/service/generator/ChunkBorshSchema";
@@ -12,38 +12,150 @@ import type { Texture } from "~/app/derivean/Texture";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
-/**
- * Complicated, because of async functions.
- */
-const chunkHits = new Int32Array(new SharedArrayBuffer(4));
-let chunksAbortController = new AbortController();
+export namespace generateChunk {
+	export interface Props {
+		generator: withGenerator.Generator;
+		mapId: string;
+		x: number;
+		z: number;
+	}
+}
 
-const cancelChunks = () => {
-	console.log("Canceling chunks");
-	chunksAbortController.abort();
+const generateChunk = async ({
+	generator,
+	mapId,
+	x,
+	z,
+}: generateChunk.Props): Promise<{ hit: boolean; chunk: Chunk }> => {
+	const chunkId = `${x}:${z}`;
+	const chunkFile = `/chunk/${mapId}/${chunkId}.borsh`;
+
+	console.log(`Chunk [${x}:${z}]`);
+
+	/**
+	 * File reading does not throw an error, so it's necessary to check
+	 * for existence.
+	 */
+	if (await file(chunkFile).exists()) {
+		const data = deserialize(
+			ChunkBorshSchema,
+			decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
+		) as Chunk;
+
+		return {
+			hit: true,
+			chunk: data,
+		};
+	}
+
+	const data = {
+		id: chunkId,
+		x,
+		z,
+		tiles: generator({ x, z }),
+	} as const;
+
+	await write(
+		chunkFile,
+		deflateSync(serialize(ChunkBorshSchema, data), { level: 9 }),
+	);
+
+	console.log(`Chunk done [${x}:${z}]`);
+
+	return {
+		hit: false,
+		chunk: data,
+	};
 };
 
-export namespace chunks {
+export namespace generateTexture {
+	export interface Props {
+		mapId: string;
+		chunk: Chunk;
+		size: number;
+		colorBuffers: Map<string, Uint8Array>;
+	}
+}
+
+export const generateTexture = async ({
+	mapId,
+	chunk,
+	size,
+	colorBuffers,
+}: generateTexture.Props): Promise<{ hit: boolean; texture: Texture }> => {
+	const textureFile = `/texture/${mapId}/${chunk.id}.bin`;
+
+	console.log(`Texture [${chunk.id}]`);
+
+	if (await file(textureFile).exists()) {
+		return {
+			hit: true,
+			texture: {
+				width: size,
+				height: size,
+				data: await file(textureFile).arrayBuffer(),
+			},
+		};
+	}
+
+	const buffer = new Uint8Array(size * size * 3);
+
+	for (const tile of chunk.tiles) {
+		const color = colorBuffers.get(
+			withColorMap({ value: tile.noise, levels: Game.colorMap }),
+		)!;
+
+		const startX = tile.pos.x / Game.plotSize;
+		const startZ = tile.pos.z / Game.plotSize;
+
+		buffer.set(color, (startZ * size + startX) * 3);
+	}
+
+	const data = deflateSync(new Uint8Array(buffer), { level: 9 });
+
+	await write(textureFile, new Uint8Array(data));
+
+	console.log(`Texture done [${chunk.id}]`);
+
+	return {
+		hit: false,
+		texture: {
+			width: size,
+			height: size,
+			data: data.buffer,
+		},
+	};
+};
+
+export namespace generator {
 	export interface Props {
 		mapId: string;
 		seed: string;
 		hash: ChunkHash;
+		size: number;
+		colorMap: readonly { color: string }[];
 	}
 }
 
-const chunks = async ({
+const generator = async ({
 	mapId,
 	seed,
-	hash: { minX, maxX, minZ, maxZ, count, hash },
-}: chunks.Props) => {
+	hash,
+	size,
+	colorMap,
+}: generator.Props) => {
 	const timer = new Timer();
 	timer.start();
 
-	chunksAbortController = new AbortController();
+	console.log(`[Worker] Started generator ${hash.hash}`);
 
-	console.log(`Generating ${count} chunks, ${hash}`);
+	const awaitChunks: Promise<any>[] = [];
+	const awaitTextures: Promise<any>[] = [];
+	const chunks: Chunk[] = [];
+	const textures: Record<string, Texture> = {};
 
-	Atomics.store(chunkHits, 0, 0);
+	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
+	const textureHits = new Int32Array(new SharedArrayBuffer(4));
 
 	const generator = withGenerator({
 		plotCount: Game.plotCount,
@@ -66,227 +178,53 @@ const chunks = async ({
 		},
 	});
 
-	await dir(`/chunk/${mapId}`).create();
-
-	const chunks = new Array<Promise<Chunk>>(count);
-
-	try {
-		let index = 0;
-		for (let x = minX; x < maxX; x++) {
-			for (let z = minZ; z < maxZ; z++) {
-				if (chunksAbortController.signal.aborted) {
-					console.warn("\t - Chunks aborted");
-					chunksAbortController = new AbortController();
-					return [];
-				}
-
-				chunks[index++] = (async (): Promise<Chunk> => {
-					const chunkId = `${x}:${z}`;
-					const chunkFile = `/chunk/${mapId}/${chunkId}.borsh`;
-
-					/**
-					 * File reading does not throw an error, so it's necessary to check
-					 * for existence.
-					 */
-					if (await file(chunkFile).exists()) {
-						const data = deserialize(
-							ChunkBorshSchema,
-							decompressSync(
-								new Uint8Array(await file(chunkFile).arrayBuffer()),
-							),
-						) as Chunk;
-
-						Atomics.add(chunkHits, 0, 1);
-
-						return data;
-					}
-
-					const data = {
-						id: chunkId,
-						x,
-						z,
-						tiles: generator({ x, z }),
-					} as const;
-
-					write(
-						chunkFile,
-						deflateSync(serialize(ChunkBorshSchema, data), { level: 9 }),
-					);
-
-					return data;
-				})();
-			}
-		}
-	} catch (e) {
-		console.error(e);
-		throw e;
-	}
-
-	return Promise.all<Chunk>(chunks)
-		.catch((e) => {
-			console.error(e);
-		})
-		.then((data) => {
-			console.log(
-				`\t- Chunks finished [cache ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
-			);
-			return data as Chunk[];
-		});
-};
-
-const textureHits = new Int32Array(new SharedArrayBuffer(4));
-let texturesAbortController = new AbortController();
-
-const cancelTextures = () => {
-	console.log("Canceling textures");
-	texturesAbortController.abort();
-};
-
-export namespace textures {
-	export interface Props {
-		mapId: string;
-		chunks: Chunk[];
-		hash: ChunkHash;
-		size: number;
-		colorMap: readonly { color: string }[];
-	}
-}
-
-const textures = async ({
-	mapId,
-	chunks,
-	hash: { hash },
-	size,
-	colorMap,
-}: textures.Props) => {
-	const timer = new Timer();
-	timer.start();
-
-	texturesAbortController = new AbortController();
-
-	console.log(`Generating ${chunks.length} textures, ${hash}`);
-
-	await dir(`/texture/${mapId}`).create();
-
-	const textures: Record<string, Texture> = {};
-	const transfers: ArrayBufferLike[] = [];
 	const colorBuffers = new Map<string, Uint8Array>();
-
-	const plot = 1;
-
-	Atomics.store(textureHits, 0, 0);
-
 	for (const { color } of colorMap.values()) {
 		const { r, g, b } = hexToRGB(color);
-
-		const length = plot * 3;
-		const buffer = new Uint8Array(length);
-		for (let i = 0; i < length; i += 3) {
-			buffer[i] = r;
-			buffer[i + 1] = g;
-			buffer[i + 2] = b;
-		}
-		colorBuffers.set(color, buffer);
+		colorBuffers.set(color, new Uint8Array([r, g, b]));
 	}
 
-	for (const chunk of chunks) {
-		if (texturesAbortController.signal.aborted) {
-			console.warn("\t - Textures aborted");
-			texturesAbortController = new AbortController();
-			return [];
+	for (let x = hash.minX; x < hash.maxX; x++) {
+		for (let z = hash.minZ; z < hash.maxZ; z++) {
+			awaitChunks.push(
+				generateChunk({
+					generator,
+					mapId,
+					x,
+					z,
+				}).then(({ hit, chunk }) => {
+					hit && Atomics.add(chunkHits, 0, 1);
+					chunks.push(chunk);
+					awaitTextures.push(
+						generateTexture({ mapId, chunk, colorBuffers, size }).then(
+							({ hit, texture }) => {
+								hit && Atomics.add(textureHits, 0, 1);
+								textures[chunk.id] = texture;
+							},
+						),
+					);
+				}),
+			);
 		}
-
-		const textureFile = `/texture/${mapId}/${chunk.id}.bin`;
-
-		if (await file(textureFile).exists()) {
-			const data = await file(textureFile).arrayBuffer();
-
-			textures[chunk.id] = {
-				width: size,
-				height: size,
-				data,
-			};
-			transfers.push(data);
-
-			Atomics.add(textureHits, 0, 1);
-			continue;
-		}
-
-		const buffer = new Uint8Array(size * size * 3);
-
-		for (const tile of chunk.tiles) {
-			if (texturesAbortController.signal.aborted) {
-				console.warn("\t - Textures aborted");
-				break;
-			}
-
-			const color = colorBuffers.get(
-				withColorMap({ value: tile.noise, levels: Game.colorMap }),
-			)!;
-
-			const startX = tile.pos.x / Game.plotSize;
-			const startZ = tile.pos.z / Game.plotSize;
-
-			const destIndex = (startZ * size + startX) * 3;
-
-			for (let row = 0; row < plot; row++) {
-				buffer.set(color, destIndex + row * size * 3);
-			}
-		}
-
-		const compressed = deflateSync(new Uint8Array(buffer), { level: 9 });
-
-		textures[chunk.id] = {
-			width: size,
-			height: size,
-			data: compressed.buffer,
-		};
-		transfers.push(compressed.buffer);
-
-		write(textureFile, new Uint8Array(compressed));
 	}
+
+	await Promise.all(awaitChunks);
+	await Promise.all(awaitTextures);
 
 	console.log(
-		`\t- Textures finished [cache ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
+		`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
 	);
 
-	return transfer(textures, transfers);
-};
-
-export namespace generator {
-	export interface Props {
-		mapId: string;
-		seed: string;
-		hash: ChunkHash;
-		size: number;
-		colorMap: readonly { color: string }[];
-	}
-}
-
-const generator = async (props: generator.Props) => {
-	const $chunks = await chunks(props);
 	return {
-		chunks: $chunks,
-		textures: await textures({ ...props, chunks: $chunks }),
+		chunks,
+		textures,
 	} as const;
 };
 
 export interface GameWorker {
-	chunks: typeof chunks;
-	cancelChunks: typeof cancelChunks;
-
-	textures: typeof textures;
-	cancelTextures: typeof cancelTextures;
-
 	generator: typeof generator;
 }
 
 expose({
-	chunks,
-	cancelChunks,
-
-	textures,
-	cancelTextures,
-
 	generator,
 });
