@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Timer } from "@use-pico/common";
 import { FC, useMemo } from "react";
 import { DataTexture, RGBFormat } from "three";
 import { Game } from "~/app/derivean/Game";
@@ -35,6 +36,9 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 		queryKey: ["textures", mapId, hash],
 		async queryFn() {
 			try {
+				const timer = new Timer();
+				timer.start();
+
 				const textures = await GameWorkerLoader.textures({
 					id: mapId,
 					chunks,
@@ -57,6 +61,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 					texture.needsUpdate = true;
 					texturesPool.set(chunkId, texture);
 				}
+
+				console.log(`\t - Textures finished [${timer.format()}]`);
 
 				return texturesPool;
 			} catch (e) {
