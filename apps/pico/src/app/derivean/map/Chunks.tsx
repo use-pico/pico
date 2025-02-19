@@ -30,6 +30,9 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	 * - when a chunk is generated, it could be rendered and updated later on when a texture is available
 	 * - useState may be useful for this case?
 	 *      - throttle updates, like useDebounce or something similar
+	 *
+	 * TODO Because texture size is now somehow limited, it's possible to use texture atlas (just text the performance)
+	 *      - Maybe generate a bigger texture in a generator?
 	 */
 
 	const { data } = useQuery({
