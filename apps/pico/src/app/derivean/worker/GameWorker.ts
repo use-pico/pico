@@ -149,11 +149,6 @@ const generator = async ({
 
 	console.log(`[Worker] Started generator ${hash.hash}`);
 
-	const awaitChunks: Promise<any>[] = [];
-	const awaitTextures: Promise<any>[] = [];
-	const chunks: Chunk[] = [];
-	const textures: Record<string, Texture> = {};
-
 	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
 	const textureHits = new Int32Array(new SharedArrayBuffer(4));
 
@@ -162,63 +157,62 @@ const generator = async ({
 		plotSize: Game.plotSize,
 		seed,
 		scale: 1,
-		noise({ seed }) {
-			return {
-				land: withLandNoise({ seed }),
-			};
-		},
+		noise: ({ seed }) => ({
+			land: withLandNoise({ seed }),
+		}),
 		tile: {
 			id: "grass",
 			chance: 100,
 			color: "#00FF00",
 			noise: 1,
 		},
-		layers() {
-			return [];
-		},
+		layers: () => [],
 	});
 
-	const colorBuffers = new Map<string, Uint8Array>();
-	for (const { color } of colorMap.values()) {
-		const { r, g, b } = hexToRGB(color);
-		colorBuffers.set(color, new Uint8Array([r, g, b]));
-	}
+	// Precompute color buffers
+	const colorBuffers = new Map<string, Uint8Array>(
+		Array.from(colorMap.values(), ({ color }) => {
+			const { r, g, b } = hexToRGB(color);
+			return [color, new Uint8Array([r, g, b])];
+		}),
+	);
 
-	for (let x = hash.minX; x < hash.maxX; x++) {
-		for (let z = hash.minZ; z < hash.maxZ; z++) {
-			awaitChunks.push(
-				generateChunk({
-					generator,
-					mapId,
-					x,
-					z,
-				}).then(({ hit, chunk }) => {
+	const awaitJobs = Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
+		Array.from({ length: hash.maxZ - hash.minZ }, (_, j) => {
+			const x = hash.minX + i;
+			const z = hash.minZ + j;
+			return generateChunk({ generator, mapId, x, z }).then(
+				({ hit, chunk }) => {
 					hit && Atomics.add(chunkHits, 0, 1);
-					chunks.push(chunk);
-					awaitTextures.push(
-						generateTexture({ mapId, chunk, colorBuffers, size }).then(
-							({ hit, texture }) => {
-								hit && Atomics.add(textureHits, 0, 1);
-								textures[chunk.id] = texture;
-							},
-						),
+					return generateTexture({ mapId, chunk, colorBuffers, size }).then(
+						({ hit, texture }) => {
+							hit && Atomics.add(textureHits, 0, 1);
+							return { chunk, texture };
+						},
 					);
-				}),
+				},
 			);
+		}),
+	).flat();
+
+	const results = await Promise.allSettled(awaitJobs);
+
+	const chunks: Chunk[] = [];
+	const textures: Record<string, Texture> = {};
+
+	for (const result of results) {
+		if (result.status === "fulfilled") {
+			const { chunk, texture } = result.value;
+			chunks.push(chunk);
+			textures[chunk.id] = texture;
 		}
 	}
-
-	await Promise.all(awaitChunks);
-	await Promise.all(awaitTextures);
 
 	console.log(
 		`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
 	);
 
-	return {
-		chunks,
-		textures,
-	} as const;
+	return { chunks, textures } as const;
 };
 
 export interface GameWorker {
