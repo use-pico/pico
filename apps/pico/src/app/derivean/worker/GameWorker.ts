@@ -15,7 +15,12 @@ import type { Texture } from "~/app/derivean/Texture";
  * Complicated, because of async functions.
  */
 const chunkHits = new Int32Array(new SharedArrayBuffer(4));
-const textureHits = new Int32Array(new SharedArrayBuffer(4));
+let chunksAbortController = new AbortController();
+
+const cancelChunks = () => {
+	console.log("Canceling chunks");
+	chunksAbortController.abort();
+};
 
 const chunks = async (
 	id: string,
@@ -29,6 +34,8 @@ const chunks = async (
 ) => {
 	const timer = new Timer();
 	timer.start();
+
+	chunksAbortController = new AbortController();
 
 	console.log(`Generating ${count} chunks, ${hash}`);
 
@@ -63,6 +70,12 @@ const chunks = async (
 		let index = 0;
 		for (let x = minX; x < maxX; x++) {
 			for (let z = minZ; z < maxZ; z++) {
+				if (chunksAbortController.signal.aborted) {
+					console.warn("\t - Chunks aborted");
+					chunksAbortController = new AbortController();
+					return [];
+				}
+
 				chunks[index++] = (async (): Promise<Chunks.Chunk> => {
 					const chunkId = `${x}:${z}`;
 					const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
@@ -117,7 +130,15 @@ const chunks = async (
 		});
 };
 
-export const textures = async (
+const textureHits = new Int32Array(new SharedArrayBuffer(4));
+let texturesAbortController = new AbortController();
+
+const cancelTextures = () => {
+	console.log("Canceling textures");
+	texturesAbortController.abort();
+};
+
+const textures = async (
 	id: string,
 	chunks: Chunks.Chunk[],
 	chunkSize: number,
@@ -125,6 +146,8 @@ export const textures = async (
 ) => {
 	const timer = new Timer();
 	timer.start();
+
+	texturesAbortController = new AbortController();
 
 	console.log(`Generating ${chunks.length} textures, ${hash}`);
 
@@ -136,6 +159,12 @@ export const textures = async (
 	Atomics.store(textureHits, 0, 0);
 
 	for (const chunk of chunks) {
+		if (texturesAbortController.signal.aborted) {
+			console.warn("\t - Textures aborted");
+			texturesAbortController = new AbortController();
+			return [];
+		}
+
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
 		if (await file(textureFile).exists()) {
@@ -157,6 +186,11 @@ export const textures = async (
 		const buffer = new Uint8Array(chunkSize * chunkSize * 3);
 
 		for (const tile of chunk.tiles) {
+			if (texturesAbortController.signal.aborted) {
+				console.warn("\t - Textures aborted");
+				break;
+			}
+
 			const color = hexToRGB(
 				withColorMap({ value: tile.noise, levels: Game.colorMap }),
 			);
@@ -194,12 +228,16 @@ export const textures = async (
 
 export interface GameWorker {
 	chunks: typeof chunks;
+	cancelChunks: typeof cancelChunks;
+
 	textures: typeof textures;
+	cancelTextures: typeof cancelTextures;
 }
 
-const api = {
+expose({
 	chunks,
-	textures,
-};
+	cancelChunks,
 
-expose(api);
+	textures,
+	cancelTextures,
+});

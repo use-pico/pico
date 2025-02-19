@@ -50,7 +50,10 @@ export const Loop: FC<Loop.Props> = ({
 	const { camera } = useThree(({ camera }) => ({
 		camera,
 	}));
-	const visibleChunks = useVisibleChunks({ chunkSize: config.chunkSize });
+	const visibleChunks = useVisibleChunks({
+		chunkSize: config.chunkSize,
+		offset: 2,
+	});
 
 	const [hash, setHash] = useState<string | undefined>();
 	const lightRef = useRef<DirectionalLight>(null);
@@ -61,6 +64,12 @@ export const Loop: FC<Loop.Props> = ({
 			if (!hash) {
 				return [];
 			}
+
+			// await Promise.all([
+			// 	GameWorkerLoader.cancelChunks(),
+			// 	GameWorkerLoader.cancelTextures(),
+			// ]);
+
 			/**
 			 * Maybe a duplicate call, but is fast enough to not concern about it.
 			 */
