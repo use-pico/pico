@@ -213,14 +213,15 @@ const textures = async (
 			const startX = tile.pos.x;
 			const startZ = tile.pos.z;
 
-			// ✅ Copy the entire 16x16 tile buffer into the correct place
-			for (let dz = 0; dz < Game.plotSize; dz++) {
-				const destRow = (startZ + dz) * chunkSize * 3;
-				const srcRow = dz * Game.plotSize * 3;
+			const destIndex = (startZ * chunkSize + startX) * 3;
 
+			for (let row = 0; row < Game.plotSize; row++) {
 				buffer.set(
-					color.slice(srcRow, srcRow + Game.plotSize * 3),
-					destRow + startX * 3,
+					color.subarray(
+						row * Game.plotSize * 3,
+						(row + 1) * Game.plotSize * 3,
+					),
+					destIndex + row * chunkSize * 3,
 				);
 			}
 		}
