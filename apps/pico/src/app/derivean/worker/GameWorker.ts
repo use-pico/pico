@@ -139,7 +139,9 @@ const generator = async ({
 	const timer = new Timer();
 	timer.start();
 
-	console.log(`[Worker] Started generator ${hash.hash}`);
+	console.log(
+		`[Worker] Started generator for [${hash.count} chunks] ${hash.hash}`,
+	);
 
 	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
 	const textureHits = new Int32Array(new SharedArrayBuffer(4));
@@ -161,7 +163,6 @@ const generator = async ({
 		layers: () => [],
 	});
 
-	// Precompute color buffers
 	const colorBuffers = new Map<string, Uint8Array>(
 		Array.from(colorMap.values(), ({ color }) => {
 			const { r, g, b } = hexToRGB(color);
@@ -169,7 +170,7 @@ const generator = async ({
 		}),
 	);
 
-	const chunks: Chunk[] = [];
+	const chunks: Chunk.SmallChunk[] = [];
 	const textures: Record<string, Texture> = {};
 
 	const awaitJobs = Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
@@ -180,7 +181,12 @@ const generator = async ({
 			return new Promise<void>((resolve) => {
 				setTimeout(() => {
 					generateChunk({ generator, mapId, x, z }).then(({ hit, chunk }) => {
-						chunks.push(chunk);
+						chunks.push({
+							id: chunk.id,
+							x: chunk.x,
+							z: chunk.z,
+						});
+
 						if (hit) {
 							Atomics.add(chunkHits, 0, 1);
 						}
@@ -204,7 +210,6 @@ const generator = async ({
 		}),
 	).flat();
 
-	// Wait for all jobs (chunks & textures)
 	await Promise.allSettled(awaitJobs);
 
 	console.log(

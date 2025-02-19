@@ -49,18 +49,26 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 				const texturesPool = new Map<string, DataTexture>();
 
-				for (const [chunkId, bitmap] of Object.entries(textures)) {
-					const texture = new DataTexture(
-						decompressSync(new Uint8Array(bitmap.data)),
-						bitmap.width,
-						bitmap.height,
-						RGBFormat,
-					);
-					texture.internalFormat = "RGB8";
-					texture.flipY = true;
-					texture.needsUpdate = true;
-					texturesPool.set(chunkId, texture);
-				}
+				const awaitJobs = Object.entries(textures).map(([chunkId, bitmap]) => {
+					return new Promise<void>((resolve) => {
+						setTimeout(() => {
+							const texture = new DataTexture(
+								decompressSync(new Uint8Array(bitmap.data)),
+								bitmap.width,
+								bitmap.height,
+								RGBFormat,
+							);
+							texture.internalFormat = "RGB8";
+							texture.flipY = true;
+							texture.needsUpdate = true;
+
+							texturesPool.set(chunkId, texture);
+							resolve();
+						}, 0);
+					});
+				});
+
+				await Promise.all(awaitJobs);
 
 				console.info(`- Generator finished [${timer.format()}]`);
 

@@ -51,44 +51,11 @@ export const Loop: FC<Loop.Props> = ({
 	}));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
-		offset: 0,
+		offset: 5,
 	});
 
 	const [hash, setHash] = useState<ChunkHash>();
 	const lightRef = useRef<DirectionalLight>(null);
-
-	// const chunks = useQuery({
-	// 	queryKey: ["chunks", mapId, hash],
-	// 	queryFn: async () => {
-	// 		if (!hash) {
-	// 			return [];
-	// 		}
-
-	// 		// await Promise.all([
-	// 		// 	GameWorkerLoader.cancelChunks(),
-	// 		// 	GameWorkerLoader.cancelTextures(),
-	// 		// ]);
-
-	// 		/**
-	// 		 * Maybe a duplicate call, but is fast enough to not concern about it.
-	// 		 */
-	// 		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
-
-	// 		return GameWorkerLoader.chunks(
-	// 			mapId,
-	// 			mapId,
-	// 			minX,
-	// 			maxX,
-	// 			minZ,
-	// 			maxZ,
-	// 			count,
-	// 			$hash,
-	// 		);
-	// 	},
-	// 	staleTime: 0,
-	// 	gcTime: 0,
-	// 	refetchOnWindowFocus: false,
-	// });
 
 	const update = useDebouncedCallback(async () => {
 		if (lightRef.current) {
