@@ -143,6 +143,7 @@ const textures = async (
 	chunks: Chunks.Chunk[],
 	chunkSize: number,
 	hash: string,
+	colorMap: readonly { color: string }[],
 ) => {
 	const timer = new Timer();
 	timer.start();
@@ -155,8 +156,22 @@ const textures = async (
 
 	const textures: Record<string, Texture> = {};
 	const transfers: ArrayBufferLike[] = [];
+	const colorBuffers = new Map<string, Uint8Array>();
 
 	Atomics.store(textureHits, 0, 0);
+
+	for (const { color } of colorMap.values()) {
+		const { r, g, b } = hexToRGB(color);
+
+		const length = Game.plotSize ** 2 * 3;
+		const buffer = new Uint8Array(length);
+		for (let i = 0; i < length; i += 3) {
+			buffer[i] = r;
+			buffer[i + 1] = g;
+			buffer[i + 2] = b;
+		}
+		colorBuffers.set(color, buffer);
+	}
 
 	for (const chunk of chunks) {
 		if (texturesAbortController.signal.aborted) {
@@ -167,21 +182,21 @@ const textures = async (
 
 		const textureFile = `/texture/${id}/${chunk.id}.bin`;
 
-		if (await file(textureFile).exists()) {
-			const data = new Uint8ClampedArray(
-				decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
-			);
+		// if (await file(textureFile).exists()) {
+		// 	const data = new Uint8ClampedArray(
+		// 		decompressSync(new Uint8Array(await file(textureFile).arrayBuffer())),
+		// 	);
 
-			textures[chunk.id] = {
-				width: chunkSize,
-				height: chunkSize,
-				data: data.buffer,
-			};
-			transfers.push(data.buffer);
+		// 	textures[chunk.id] = {
+		// 		width: chunkSize,
+		// 		height: chunkSize,
+		// 		data: data.buffer,
+		// 	};
+		// 	transfers.push(data.buffer);
 
-			Atomics.add(textureHits, 0, 1);
-			continue;
-		}
+		// 	Atomics.add(textureHits, 0, 1);
+		// 	continue;
+		// }
 
 		const buffer = new Uint8Array(chunkSize * chunkSize * 3);
 
@@ -191,21 +206,22 @@ const textures = async (
 				break;
 			}
 
-			const color = hexToRGB(
+			const color = colorBuffers.get(
 				withColorMap({ value: tile.noise, levels: Game.colorMap }),
-			);
+			)!;
 
-			for (let dx = 0; dx < Game.plotSize; dx++) {
-				for (let dz = 0; dz < Game.plotSize; dz++) {
-					const x = tile.pos.x + dx;
-					const z = tile.pos.z + dz;
+			const startX = tile.pos.x;
+			const startZ = tile.pos.z;
 
-					const index = (z * chunkSize + x) * 3;
+			// ✅ Copy the entire 16x16 tile buffer into the correct place
+			for (let dz = 0; dz < Game.plotSize; dz++) {
+				const destRow = (startZ + dz) * chunkSize * 3;
+				const srcRow = dz * Game.plotSize * 3;
 
-					buffer[index] = color.r;
-					buffer[index + 1] = color.g;
-					buffer[index + 2] = color.b;
-				}
+				buffer.set(
+					color.slice(srcRow, srcRow + Game.plotSize * 3),
+					destRow + startX * 3,
+				);
 			}
 		}
 

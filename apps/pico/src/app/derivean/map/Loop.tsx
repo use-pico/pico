@@ -33,7 +33,7 @@ export namespace Loop {
 
 	export interface Props {
 		mapId: string;
-		config: Config;
+        config: Config;
 		pos: { x: number; z: number };
 		zoom: number;
 		onCamera?: OnCamera.Callback;
@@ -52,7 +52,7 @@ export const Loop: FC<Loop.Props> = ({
 	}));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
-		offset: 2,
+		offset: 0,
 	});
 
 	const [hash, setHash] = useState<string | undefined>();
@@ -74,10 +74,6 @@ export const Loop: FC<Loop.Props> = ({
 			 * Maybe a duplicate call, but is fast enough to not concern about it.
 			 */
 			const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
-
-			/**
-			 * TODO Add Chunk component here?
-			 */
 
 			return GameWorkerLoader.chunks(
 				mapId,

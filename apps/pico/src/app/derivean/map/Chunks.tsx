@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FC, useMemo } from "react";
 import { DataTexture, RGBFormat } from "three";
+import { Game } from "~/app/derivean/Game";
 import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
 
@@ -39,6 +40,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 					chunks,
 					config.chunkSize,
 					hash,
+                    Game.colorMap,
 				);
 
 				const texturesPool = new Map();
