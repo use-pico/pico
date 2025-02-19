@@ -177,36 +177,43 @@ const generator = async ({
 		}),
 	);
 
+	const chunks: Chunk[] = [];
+	const textures: Record<string, Texture> = {};
+
 	const awaitJobs = Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
 		Array.from({ length: hash.maxZ - hash.minZ }, (_, j) => {
 			const x = hash.minX + i;
 			const z = hash.minZ + j;
-			return generateChunk({ generator, mapId, x, z }).then(
-				({ hit, chunk }) => {
-					hit && Atomics.add(chunkHits, 0, 1);
-					return generateTexture({ mapId, chunk, colorBuffers, size }).then(
-						({ hit, texture }) => {
-							hit && Atomics.add(textureHits, 0, 1);
-							return { chunk, texture };
-						},
-					);
-				},
-			);
+
+			return new Promise<void>((resolve) => {
+				setTimeout(() => {
+					generateChunk({ generator, mapId, x, z }).then(({ hit, chunk }) => {
+						chunks.push(chunk);
+						if (hit) {
+							Atomics.add(chunkHits, 0, 1);
+						}
+
+						new Promise<void>((resolveTexture) => {
+							setTimeout(() => {
+								generateTexture({ mapId, chunk, colorBuffers, size }).then(
+									({ hit, texture }) => {
+										textures[chunk.id] = texture;
+										if (hit) {
+											Atomics.add(textureHits, 0, 1);
+										}
+										resolveTexture();
+									},
+								);
+							}, 0);
+						}).then(resolve);
+					});
+				}, 0);
+			});
 		}),
 	).flat();
 
-	const results = await Promise.allSettled(awaitJobs);
-
-	const chunks: Chunk[] = [];
-	const textures: Record<string, Texture> = {};
-
-	for (const result of results) {
-		if (result.status === "fulfilled") {
-			const { chunk, texture } = result.value;
-			chunks.push(chunk);
-			textures[chunk.id] = texture;
-		}
-	}
+	// Wait for all jobs (chunks & textures)
+	await Promise.allSettled(awaitJobs);
 
 	console.log(
 		`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
