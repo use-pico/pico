@@ -23,6 +23,15 @@ export namespace Chunks {
 }
 
 export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
+	/**
+	 * TODO Use stream instead of query
+	 * Comlink.proxy can be used to create a callback for a stream
+	 * - onChunk & onTexture
+	 * - when a chunk is generated, it could be rendered and updated later on when a texture is available
+	 * - useState may be useful for this case?
+	 *      - throttle updates, like useDebounce or something similar
+	 */
+
 	const { data } = useQuery({
 		queryKey: ["chunks", mapId, hash],
 		async queryFn() {
