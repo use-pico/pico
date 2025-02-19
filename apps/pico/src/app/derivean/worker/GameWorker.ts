@@ -4,12 +4,13 @@ import { expose, transfer } from "comlink";
 import { decompressSync, deflateSync } from "fflate";
 import { dir, file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
-import type { Chunks } from "~/app/derivean/map/Chunks";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
 import { ChunkBorshSchema } from "~/app/derivean/service/generator/ChunkBorshSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Texture } from "~/app/derivean/Texture";
+import type { Chunk } from "~/app/derivean/type/Chunk";
+import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
 /**
  * Complicated, because of async functions.
@@ -22,16 +23,19 @@ const cancelChunks = () => {
 	chunksAbortController.abort();
 };
 
-const chunks = async (
-	id: string,
-	seed: string,
-	minX: number,
-	maxX: number,
-	minZ: number,
-	maxZ: number,
-	count: number,
-	hash: string,
-) => {
+export namespace chunks {
+	export interface Props {
+		mapId: string;
+		seed: string;
+		hash: ChunkHash;
+	}
+}
+
+const chunks = async ({
+	mapId,
+	seed,
+	hash: { minX, maxX, minZ, maxZ, count, hash },
+}: chunks.Props) => {
 	const timer = new Timer();
 	timer.start();
 
@@ -62,9 +66,9 @@ const chunks = async (
 		},
 	});
 
-	await dir(`/chunk/${id}`).create();
+	await dir(`/chunk/${mapId}`).create();
 
-	const chunks = new Array<Promise<Chunks.Chunk>>(count);
+	const chunks = new Array<Promise<Chunk>>(count);
 
 	try {
 		let index = 0;
@@ -76,9 +80,9 @@ const chunks = async (
 					return [];
 				}
 
-				chunks[index++] = (async (): Promise<Chunks.Chunk> => {
+				chunks[index++] = (async (): Promise<Chunk> => {
 					const chunkId = `${x}:${z}`;
-					const chunkFile = `/chunk/${id}/${chunkId}.borsh`;
+					const chunkFile = `/chunk/${mapId}/${chunkId}.borsh`;
 
 					/**
 					 * File reading does not throw an error, so it's necessary to check
@@ -90,7 +94,7 @@ const chunks = async (
 							decompressSync(
 								new Uint8Array(await file(chunkFile).arrayBuffer()),
 							),
-						) as Chunks.Chunk;
+						) as Chunk;
 
 						Atomics.add(chunkHits, 0, 1);
 
@@ -118,7 +122,7 @@ const chunks = async (
 		throw e;
 	}
 
-	return Promise.all<Chunks.Chunk>(chunks)
+	return Promise.all<Chunk>(chunks)
 		.catch((e) => {
 			console.error(e);
 		})
@@ -126,7 +130,7 @@ const chunks = async (
 			console.log(
 				`\t- Chunks finished [cache ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
 			);
-			return data as Chunks.Chunk[];
+			return data as Chunk[];
 		});
 };
 
@@ -140,18 +144,18 @@ const cancelTextures = () => {
 
 export namespace textures {
 	export interface Props {
-		id: string;
-		chunks: Chunks.Chunk[];
-		hash: string;
+		mapId: string;
+		chunks: Chunk[];
+		hash: ChunkHash;
 		size: number;
 		colorMap: readonly { color: string }[];
 	}
 }
 
 const textures = async ({
-	id,
+	mapId,
 	chunks,
-	hash,
+	hash: { hash },
 	size,
 	colorMap,
 }: textures.Props) => {
@@ -162,7 +166,7 @@ const textures = async ({
 
 	console.log(`Generating ${chunks.length} textures, ${hash}`);
 
-	await dir(`/texture/${id}`).create();
+	await dir(`/texture/${mapId}`).create();
 
 	const textures: Record<string, Texture> = {};
 	const transfers: ArrayBufferLike[] = [];
@@ -192,7 +196,7 @@ const textures = async ({
 			return [];
 		}
 
-		const textureFile = `/texture/${id}/${chunk.id}.bin`;
+		const textureFile = `/texture/${mapId}/${chunk.id}.bin`;
 
 		if (await file(textureFile).exists()) {
 			const data = await file(textureFile).arrayBuffer();
@@ -249,12 +253,32 @@ const textures = async ({
 	return transfer(textures, transfers);
 };
 
+export namespace generator {
+	export interface Props {
+		mapId: string;
+		seed: string;
+		hash: ChunkHash;
+		size: number;
+		colorMap: readonly { color: string }[];
+	}
+}
+
+const generator = async (props: generator.Props) => {
+	const $chunks = await chunks(props);
+	return {
+		chunks: $chunks,
+		textures: await textures({ ...props, chunks: $chunks }),
+	} as const;
+};
+
 export interface GameWorker {
 	chunks: typeof chunks;
 	cancelChunks: typeof cancelChunks;
 
 	textures: typeof textures;
 	cancelTextures: typeof cancelTextures;
+
+	generator: typeof generator;
 }
 
 expose({
@@ -263,4 +287,6 @@ expose({
 
 	textures,
 	cancelTextures,
+
+	generator,
 });

@@ -4,7 +4,8 @@ import { decompressSync } from "fflate";
 import { FC, useMemo } from "react";
 import { DataTexture, RGBFormat } from "three";
 import { Game } from "~/app/derivean/Game";
-import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
+import type { Chunk } from "~/app/derivean/type/Chunk";
+import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
 
 export namespace Chunks {
@@ -14,41 +15,39 @@ export namespace Chunks {
 		plotSize: number;
 	}
 
-	export interface Chunk {
-		id: string;
-		x: number;
-		z: number;
-		tiles: EntitySchema.Type[];
-	}
-
 	export interface Props {
 		mapId: string;
 		config: Config;
-		/**
-		 * **Stable** reference to chunks
-		 */
-		chunks: Chunk[];
-		hash: string;
+		hash?: ChunkHash;
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
-	const { data: textures } = useQuery({
-		queryKey: ["textures", mapId, hash],
+export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
+	const { data } = useQuery({
+		queryKey: ["chunks", mapId, hash],
 		async queryFn() {
+			if (!hash) {
+				return {
+					chunks: [] as Chunk[],
+					textures: new Map<string, DataTexture>(),
+				} as const;
+			}
+
 			try {
 				const timer = new Timer();
 				timer.start();
 
-				const textures = await GameWorkerLoader.textures({
-					id: mapId,
-					chunks,
+				console.info(`Started map generator ${hash.hash}`);
+
+				const { textures, chunks } = await GameWorkerLoader.generator({
+					mapId,
+					seed: mapId,
 					hash,
 					size: Game.plotCount,
 					colorMap: Game.colorMap,
 				});
 
-				const texturesPool = new Map();
+				const texturesPool = new Map<string, DataTexture>();
 
 				for (const [chunkId, bitmap] of Object.entries(textures)) {
 					const texture = new DataTexture(
@@ -63,11 +62,15 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 					texturesPool.set(chunkId, texture);
 				}
 
-				console.log(`\t - Textures finished [${timer.format()}]`);
+				console.info(`- Generator finished [${timer.format()}]`);
 
-				return texturesPool;
+				return {
+					chunks,
+					textures: texturesPool,
+				} as const;
 			} catch (e) {
 				console.error(e);
+				throw e;
 			}
 		},
 		staleTime: 0,
@@ -76,11 +79,11 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 	});
 
 	const map = useMemo(() => {
-		if (!textures) {
+		if (!data) {
 			return null;
 		}
 
-		return chunks.map((chunk) => {
+		return data.chunks.map((chunk) => {
 			return (
 				<mesh
 					key={`chunk-${chunk.id}`}
@@ -95,13 +98,13 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, chunks, hash }) => {
 					<planeGeometry args={[config.chunkSize, config.chunkSize]} />
 					<meshStandardMaterial
 						color={0xffffff}
-						map={textures.get(chunk.id)}
+						map={data.textures.get(chunk.id)}
 						roughness={0.5}
 					/>
 				</mesh>
 			);
 		});
-	}, [textures]);
+	}, [data]);
 
 	return (
 		<>

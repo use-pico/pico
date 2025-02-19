@@ -1,12 +1,11 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
+import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
 export namespace Loop {
 	export interface Config {
@@ -33,7 +32,7 @@ export namespace Loop {
 
 	export interface Props {
 		mapId: string;
-        config: Config;
+		config: Config;
 		pos: { x: number; z: number };
 		zoom: number;
 		onCamera?: OnCamera.Callback;
@@ -55,41 +54,41 @@ export const Loop: FC<Loop.Props> = ({
 		offset: 0,
 	});
 
-	const [hash, setHash] = useState<string | undefined>();
+	const [hash, setHash] = useState<ChunkHash>();
 	const lightRef = useRef<DirectionalLight>(null);
 
-	const chunks = useQuery({
-		queryKey: ["chunks", mapId, hash],
-		queryFn: async () => {
-			if (!hash) {
-				return [];
-			}
+	// const chunks = useQuery({
+	// 	queryKey: ["chunks", mapId, hash],
+	// 	queryFn: async () => {
+	// 		if (!hash) {
+	// 			return [];
+	// 		}
 
-			// await Promise.all([
-			// 	GameWorkerLoader.cancelChunks(),
-			// 	GameWorkerLoader.cancelTextures(),
-			// ]);
+	// 		// await Promise.all([
+	// 		// 	GameWorkerLoader.cancelChunks(),
+	// 		// 	GameWorkerLoader.cancelTextures(),
+	// 		// ]);
 
-			/**
-			 * Maybe a duplicate call, but is fast enough to not concern about it.
-			 */
-			const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
+	// 		/**
+	// 		 * Maybe a duplicate call, but is fast enough to not concern about it.
+	// 		 */
+	// 		const { minX, maxX, minZ, maxZ, count, hash: $hash } = visibleChunks();
 
-			return GameWorkerLoader.chunks(
-				mapId,
-				mapId,
-				minX,
-				maxX,
-				minZ,
-				maxZ,
-				count,
-				$hash,
-			);
-		},
-		staleTime: 0,
-		gcTime: 0,
-		refetchOnWindowFocus: false,
-	});
+	// 		return GameWorkerLoader.chunks(
+	// 			mapId,
+	// 			mapId,
+	// 			minX,
+	// 			maxX,
+	// 			minZ,
+	// 			maxZ,
+	// 			count,
+	// 			$hash,
+	// 		);
+	// 	},
+	// 	staleTime: 0,
+	// 	gcTime: 0,
+	// 	refetchOnWindowFocus: false,
+	// });
 
 	const update = useDebouncedCallback(async () => {
 		if (lightRef.current) {
@@ -112,29 +111,18 @@ export const Loop: FC<Loop.Props> = ({
 			zoom: camera.zoom,
 		});
 
-		const { hash: $hash } = visibleChunks();
+		const chunkHash = visibleChunks();
 
-		if ($hash === hash) {
+		if (chunkHash.hash === hash?.hash) {
 			return;
 		}
 
-		setHash($hash);
+		setHash(chunkHash);
 	}, 50);
 
 	useEffect(() => {
 		update();
 	}, []);
-
-	const render = useMemo(() => {
-		return hash ?
-				<Chunks
-					mapId={mapId}
-					config={config}
-					chunks={chunks.data ?? []}
-					hash={hash}
-				/>
-			:	null;
-	}, [chunks.data]);
 
 	return (
 		<>
@@ -172,7 +160,11 @@ export const Loop: FC<Loop.Props> = ({
 				makeDefault
 			/>
 
-			{render}
+			<Chunks
+				mapId={mapId}
+				config={config}
+				hash={hash}
+			/>
 		</>
 	);
 };
