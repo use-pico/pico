@@ -33,6 +33,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	 *
 	 * TODO Because texture size is now somehow limited, it's possible to use texture atlas (just text the performance)
 	 *      - Maybe generate a bigger texture in a generator?
+	 *
+	 * TODO Buildings & structures may occupy at least 4x4 pixels as one plot?
 	 */
 
 	const { data } = useQuery({
