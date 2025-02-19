@@ -163,7 +163,7 @@ const textures = async (
 	for (const { color } of colorMap.values()) {
 		const { r, g, b } = hexToRGB(color);
 
-		const length = Game.plotSize ** 2 * 3;
+		const length = Game.plotSize * 3;
 		const buffer = new Uint8Array(length);
 		for (let i = 0; i < length; i += 3) {
 			buffer[i] = r;
@@ -216,13 +216,7 @@ const textures = async (
 			const destIndex = (startZ * chunkSize + startX) * 3;
 
 			for (let row = 0; row < Game.plotSize; row++) {
-				buffer.set(
-					color.subarray(
-						row * Game.plotSize * 3,
-						(row + 1) * Game.plotSize * 3,
-					),
-					destIndex + row * chunkSize * 3,
-				);
+				buffer.set(color, destIndex + row * chunkSize * 3);
 			}
 		}
 
