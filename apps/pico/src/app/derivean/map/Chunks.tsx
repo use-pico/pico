@@ -35,6 +35,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	 *      - Maybe generate a bigger texture in a generator?
 	 *
 	 * TODO Buildings & structures may occupy at least 4x4 pixels as one plot?
+	 * TODO Generator cancellation is now possible (cancel promises?)
 	 */
 
 	const { data } = useQuery({
