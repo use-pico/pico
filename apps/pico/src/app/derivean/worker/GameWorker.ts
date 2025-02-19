@@ -30,8 +30,6 @@ const generateChunk = async ({
 	const chunkId = `${x}:${z}`;
 	const chunkFile = `/chunk/${mapId}/${chunkId}.borsh`;
 
-	console.log(`Chunk [${x}:${z}]`);
-
 	/**
 	 * File reading does not throw an error, so it's necessary to check
 	 * for existence.
@@ -60,8 +58,6 @@ const generateChunk = async ({
 		deflateSync(serialize(ChunkBorshSchema, data), { level: 9 }),
 	);
 
-	console.log(`Chunk done [${x}:${z}]`);
-
 	return {
 		hit: false,
 		chunk: data,
@@ -84,8 +80,6 @@ export const generateTexture = async ({
 	colorBuffers,
 }: generateTexture.Props): Promise<{ hit: boolean; texture: Texture }> => {
 	const textureFile = `/texture/${mapId}/${chunk.id}.bin`;
-
-	console.log(`Texture [${chunk.id}]`);
 
 	if (await file(textureFile).exists()) {
 		return {
@@ -114,8 +108,6 @@ export const generateTexture = async ({
 	const data = deflateSync(new Uint8Array(buffer), { level: 9 });
 
 	await write(textureFile, new Uint8Array(data));
-
-	console.log(`Texture done [${chunk.id}]`);
 
 	return {
 		hit: false,
@@ -193,7 +185,7 @@ const generator = async ({
 							Atomics.add(chunkHits, 0, 1);
 						}
 
-						new Promise<void>((resolveTexture) => {
+						new Promise<void>((resolve) => {
 							setTimeout(() => {
 								generateTexture({ mapId, chunk, colorBuffers, size }).then(
 									({ hit, texture }) => {
@@ -201,7 +193,7 @@ const generator = async ({
 										if (hit) {
 											Atomics.add(textureHits, 0, 1);
 										}
-										resolveTexture();
+										resolve();
 									},
 								);
 							}, 0);
