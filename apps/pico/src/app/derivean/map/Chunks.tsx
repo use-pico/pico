@@ -1,9 +1,7 @@
-import { proxy } from "comlink";
 import { decompressSync } from "fflate";
 import { FC, useEffect, useState } from "react";
 import { DataTexture, RGBFormat } from "three";
 import { Game } from "~/app/derivean/Game";
-import type { Texture } from "~/app/derivean/Texture";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
@@ -32,8 +30,15 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			return;
 		}
 
-		const onTexture = proxy(
-			({ texture, chunk }: { chunk: Chunk.SmallChunk; texture: Texture }) => {
+		GameWorkerLoader.generator({
+			mapId,
+			seed: mapId,
+			hash,
+			size: config.plotCount,
+			colorMap: Game.colorMap,
+		}).then((chunks) => {
+			const map = new Array(chunks.length);
+			chunks.forEach(({ chunk, texture }, index) => {
 				const decompressed = decompressSync(new Uint8Array(texture.data));
 				const dataTexture = new DataTexture(
 					decompressed,
@@ -44,28 +49,10 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				dataTexture.internalFormat = "RGB8";
 				dataTexture.flipY = true;
 				dataTexture.needsUpdate = true;
-
-				setChunks((prev) => {
-					return [...prev, { chunk, texture: dataTexture }];
-				});
-			},
-		);
-
-		GameWorkerLoader.generator(
-			{
-				mapId,
-				seed: mapId,
-				hash,
-				size: config.plotCount,
-				colorMap: Game.colorMap,
-			},
-			undefined,
-			onTexture,
-		);
-
-		return () => {
-			setChunks([]);
-		};
+				map[index] = { chunk, texture: dataTexture };
+			});
+			setChunks(map);
+		});
 	}, [hash]);
 
 	return (

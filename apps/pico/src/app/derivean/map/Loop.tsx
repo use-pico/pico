@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { MOUSE, Vector3, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { Chunks } from "~/app/derivean/map/Chunks";
@@ -91,6 +91,16 @@ export const Loop: FC<Loop.Props> = ({
 		update();
 	}, []);
 
+	const chunks = useMemo(() => {
+		return (
+			<Chunks
+				mapId={mapId}
+				config={config}
+				hash={hash}
+			/>
+		);
+	}, [mapId, hash?.hash]);
+
 	return (
 		<>
 			<directionalLight
@@ -127,11 +137,7 @@ export const Loop: FC<Loop.Props> = ({
 				makeDefault
 			/>
 
-			<Chunks
-				mapId={mapId}
-				config={config}
-				hash={hash}
-			/>
+			{chunks}
 		</>
 	);
 };

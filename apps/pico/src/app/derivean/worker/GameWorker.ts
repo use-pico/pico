@@ -138,12 +138,7 @@ export namespace generator {
 
 const generator = async (
 	{ mapId, seed, hash, size, colorMap }: generator.Props,
-	onChunk?: (props: { hit: boolean; chunk: Chunk }) => void,
-	onTexture?: (props: {
-		hit: boolean;
-		chunk: Chunk.SmallChunk;
-		texture: Texture;
-	}) => void,
+	onChunk?: (props: { chunk: Chunk.SmallChunk; texture: Texture }) => void,
 ) => {
 	const timer = new Timer();
 	timer.start();
@@ -154,6 +149,12 @@ const generator = async (
 
 	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
 	const textureHits = new Int32Array(new SharedArrayBuffer(4));
+	const colorBuffers = new Map<string, Uint8Array>(
+		Array.from(colorMap, ({ color }) => {
+			const { r, g, b } = hexToRGB(color);
+			return [color, new Uint8Array([r, g, b])];
+		}),
+	);
 
 	const generator = withGenerator({
 		plotCount: Game.plotCount,
@@ -176,60 +177,79 @@ const generator = async (
 	const textures: Record<string, Texture> = {};
 
 	const awaitJobs = Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
-		Array.from({ length: hash.maxZ - hash.minZ }, (_, j) => {
+		Array.from({ length: hash.maxZ - hash.minZ }, async (_, j) => {
 			const x = hash.minX + i;
 			const z = hash.minZ + j;
 
-			return new Promise<void>((resolve) => {
-				setTimeout(() => {
-					generateChunk({ generator, mapId, x, z }).then(({ hit, chunk }) => {
-						chunks.push({
-							id: chunk.id,
-							x: chunk.x,
-							z: chunk.z,
-						});
+			const chunkId = `${x}:${z}`;
+			const chunkFile = `/chunk/${mapId}/${chunkId}.borsh`;
+			const textureFile = `/texture/${mapId}/${chunkId}.bin`;
 
-						if (hit) {
-							Atomics.add(chunkHits, 0, 1);
-						}
+			let chunk: Chunk;
+			let texture: Texture;
 
-						onChunk?.({ hit, chunk });
+			if (await file(chunkFile).exists()) {
+				chunk = deserialize(
+					ChunkBorshSchema,
+					decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
+				) as Chunk;
+			} else {
+				chunk = {
+					id: chunkId,
+					x,
+					z,
+					tiles: generator({ x, z }),
+				} as const;
+				await write(
+					chunkFile,
+					deflateSync(serialize(ChunkBorshSchema, chunk), { level: 9 }),
+				);
+			}
 
-						new Promise<void>((resolve) => {
-							setTimeout(() => {
-								generateTexture({ mapId, chunk, colorMap, size }).then(
-									({ hit, texture }) => {
-										textures[chunk.id] = texture;
-										if (hit) {
-											Atomics.add(textureHits, 0, 1);
-										}
-										onTexture?.({
-											hit,
-											chunk: {
-												id: chunk.id,
-												x: chunk.x,
-												z: chunk.z,
-											},
-											texture,
-										});
-										resolve();
-									},
-								);
-							}, 0);
-						}).then(resolve);
-					});
-				}, 0);
-			});
+			if (await file(textureFile).exists()) {
+				texture = {
+					width: size,
+					height: size,
+					data: await file(textureFile).arrayBuffer(),
+				};
+			} else {
+				const buffer = new Uint8Array(size * size * 3);
+
+				for (const tile of chunk.tiles) {
+					const color = colorBuffers.get(
+						withColorMap({ value: tile.noise, levels: Game.colorMap }),
+					)!;
+
+					const startX = tile.pos.x / Game.plotSize;
+					const startZ = tile.pos.z / Game.plotSize;
+
+					buffer.set(color, (startZ * size + startX) * 3);
+				}
+
+				const data = deflateSync(new Uint8Array(buffer), { level: 9 });
+
+				texture = {
+					width: size,
+					height: size,
+					data: data.buffer,
+				};
+
+				await write(textureFile, new Uint8Array(data));
+			}
+
+			onChunk?.({ chunk, texture });
+
+			return { chunk, texture };
 		}),
 	).flat();
 
-	await Promise.allSettled(awaitJobs);
+	return Promise.all(awaitJobs).then((data) => {
+		console.log(
+			`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
+		);
 
-	console.log(
-		`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
-	);
-
-	return { chunks, textures } as const;
+		return data;
+	});
 };
 
 export interface GameWorker {
