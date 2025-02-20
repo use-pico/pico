@@ -65,14 +65,14 @@ export const withGenerator = ({
 	const colorBuffers = new Map<string, Uint8Array>(
 		Array.from(Game.colorMap, ({ color }) => {
 			const { r, g, b } = hexToRGB(color);
-			return [color, new Uint8Array([r, g, b])];
+			return [color, new Uint8Array([r, g, b, 255])];
 		}),
 	);
 
 	return ({ x, z }) => {
 		const size = plotCount ** 2;
 		const tiles = new Array<Chunk.Tile>(size);
-		const buffer = new Uint8Array(size * 3);
+		const buffer = new Uint8Array(size * 4);
 
 		for (let i = 0; i < tiles.length; i++) {
 			const tileX = i % plotCount;
@@ -86,7 +86,7 @@ export const withGenerator = ({
 				colorBuffers.get(
 					withColorMap({ value: noise, levels: Game.colorMap }),
 				)!,
-				i * 3,
+				i * 4,
 			);
 
 			tiles[i] = {

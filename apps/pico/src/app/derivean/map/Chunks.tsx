@@ -1,6 +1,6 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
-import { DataTexture, RGBFormat } from "three";
+import { DataTexture } from "three";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
@@ -53,9 +53,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 						new Uint8Array($chunk.texture.data),
 						$chunk.texture.size,
 						$chunk.texture.size,
-						RGBFormat,
 					);
-					dataTexture.internalFormat = "RGB8";
 					dataTexture.flipY = true;
 					dataTexture.generateMipmaps = false;
 					dataTexture.needsUpdate = true;
