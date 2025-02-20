@@ -1,6 +1,13 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
-import { DataTexture, type Texture } from "three";
+import {
+    DataArrayTexture,
+    GLSL3,
+    RGBAFormat,
+    ShaderMaterial,
+    UnsignedByteType,
+} from "three";
+import { Game } from "~/app/derivean/Game";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
@@ -21,9 +28,8 @@ export namespace Chunks {
 }
 
 export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
-	const [chunks, setChunks] = useState<
-		{ chunk: Chunk.Lightweight; texture: Texture }[]
-	>([]);
+	const [chunks, setChunks] = useState<{ chunk: Chunk.Lightweight }[]>([]);
+	const [textures, setTextures] = useState<DataArrayTexture>();
 
 	useEffect(() => {
 		if (!hash) {
@@ -32,7 +38,6 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 		const timer = new Timer();
 		timer.start();
-
 		console.log(`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`);
 
 		GameWorkerLoader.generator({
@@ -40,7 +45,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			seed: mapId,
 			hash,
 		}).then((chunks) => {
-			console.log(`[Chunks]\t- Received chunks ${timer.format()}`);
+			console.log(`[Chunks] - Received chunks ${timer.format()}`);
 
 			const chunkTimer = new Timer();
 			chunkTimer.start();
@@ -48,26 +53,41 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			Promise.all(
 				chunks.map(async (chunk) => {
 					const { tiles: _, ...$chunk } = decompressChunk(chunk);
-
-					const texture = new DataTexture(
-						new Uint8Array($chunk.texture.data),
-						$chunk.texture.size,
-						$chunk.texture.size,
-					);
-
-					texture.generateMipmaps = false;
-					texture.needsUpdate = true;
-
-					return { chunk: $chunk, texture };
+					return {
+						chunk: $chunk,
+						texture: new Uint8Array($chunk.texture.data),
+					};
 				}),
 			).then((chunks) => {
-				console.log(
-					`[Chunks]\t- done ${timer.format()};\tchunk processing ${chunkTimer.format()}`,
+				const layerCount = chunks.length;
+				const texSize = Game.plotCount;
+				const layerPixels = texSize * texSize * 4;
+				const totalSize = layerPixels * layerCount;
+				const textureArrayBuffer = new Uint8Array(totalSize);
+
+				chunks.forEach((chunk, index) => {
+					textureArrayBuffer.set(chunk.texture, index * layerPixels);
+				});
+
+				const texture = new DataArrayTexture(
+					textureArrayBuffer,
+					texSize,
+					texSize,
+					layerCount,
 				);
+				texture.format = RGBAFormat;
+				texture.type = UnsignedByteType;
+				texture.needsUpdate = true;
+
+				console.log(
+					`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+				);
+
+				setTextures(texture);
 				setChunks(chunks);
 			});
 		});
-	}, [hash]);
+	}, [hash, mapId]);
 
 	return (
 		<>
@@ -75,8 +95,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				<boxGeometry args={[config.plotSize, 1, config.plotSize]} />
 			</mesh>
 
-			{chunks.map(({ chunk, texture }) => {
-				return (
+			{textures &&
+				chunks.map(({ chunk }, index) => (
 					<mesh
 						key={`chunk-${chunk.id}`}
 						position={[
@@ -88,14 +108,37 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 						receiveShadow
 					>
 						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
-						<meshStandardMaterial
-							color={0xffffff}
-							map={texture}
-							roughness={0.5}
+						<primitive
+							object={
+								new ShaderMaterial({
+									glslVersion: GLSL3,
+									uniforms: {
+										uTextureArray: { value: textures },
+										uLayer: { value: index },
+									},
+									vertexShader: `
+									    varying vec2 vUv;
+									    void main() {
+									        vUv = uv;
+									        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+									    }
+									`,
+									fragmentShader: `
+                                        precision highp float;
+                                        uniform sampler2DArray uTextureArray;
+                                        uniform float uLayer;
+                                        varying vec2 vUv;
+                                        out vec4 fragColor;
+                                        void main() {
+                                            fragColor = texture(uTextureArray, vec3(vUv, uLayer));
+                                        }
+                                    `,
+								})
+							}
+							attach={"material"}
 						/>
 					</mesh>
-				);
-			})}
+				))}
 		</>
 	);
 };

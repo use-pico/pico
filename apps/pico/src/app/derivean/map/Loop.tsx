@@ -51,7 +51,7 @@ export const Loop: FC<Loop.Props> = ({
 	}));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
-		offset: 1,
+		offset: 0,
 	});
 
 	const [hash, setHash] = useState<ChunkHash>();
