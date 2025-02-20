@@ -42,35 +42,32 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 		}).then((chunks) => {
 			console.log(`[Chunks]\t- Received chunks ${timer.format()}`);
 
-			const map = new Array<{ chunk: Chunk.Lightweight; texture: DataTexture }>(
-				chunks.length,
-			);
-
 			const chunkTimer = new Timer();
 			chunkTimer.start();
 
-			chunks.forEach((chunk, index) => {
-				const { tiles: _, ...$chunk } = decompressChunk(chunk);
+			Promise.all(
+				chunks.map(async (chunk) => {
+					const { tiles: _, ...$chunk } = decompressChunk(chunk);
 
-				const dataTexture = new DataTexture(
-					new Uint8Array($chunk.texture.data),
-					$chunk.texture.size,
-					$chunk.texture.size,
-					RGBFormat,
+					const dataTexture = new DataTexture(
+						new Uint8Array($chunk.texture.data),
+						$chunk.texture.size,
+						$chunk.texture.size,
+						RGBFormat,
+					);
+					dataTexture.internalFormat = "RGB8";
+					dataTexture.flipY = true;
+					dataTexture.generateMipmaps = false;
+					dataTexture.needsUpdate = true;
+
+					return { chunk: $chunk, texture: dataTexture };
+				}),
+			).then((chunks) => {
+				console.log(
+					`[Chunks]\t- done ${timer.format()};\tchunk processing ${chunkTimer.format()}`,
 				);
-
-				dataTexture.internalFormat = "RGB8";
-				dataTexture.flipY = true;
-				dataTexture.needsUpdate = true;
-
-				map[index] = { chunk: $chunk, texture: dataTexture };
+				setChunks(chunks);
 			});
-
-			setChunks(map);
-
-			console.log(
-				`[Chunks]\t- done ${timer.format()};\tchunk processing ${chunkTimer.format()}`,
-			);
 		});
 	}, [hash]);
 
