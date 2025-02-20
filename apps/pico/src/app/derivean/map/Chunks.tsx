@@ -45,6 +45,10 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			const map = new Array<{ chunk: Chunk.Lightweight; texture: DataTexture }>(
 				chunks.length,
 			);
+
+			const chunkTimer = new Timer();
+			chunkTimer.start();
+
 			chunks.forEach((chunk, index) => {
 				const { tiles: _, ...$chunk } = decompressChunk(chunk);
 
@@ -64,7 +68,9 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 			setChunks(map);
 
-			console.log(`[Chunks]\t- done ${timer.format()}`);
+			console.log(
+				`[Chunks]\t- done ${timer.format()};\tchunk processing ${chunkTimer.format()}`,
+			);
 		});
 	}, [hash]);
 
