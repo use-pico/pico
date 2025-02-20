@@ -149,6 +149,7 @@ const generator = async (
 
 	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
 	const textureHits = new Int32Array(new SharedArrayBuffer(4));
+
 	const colorBuffers = new Map<string, Uint8Array>(
 		Array.from(colorMap, ({ color }) => {
 			const { r, g, b } = hexToRGB(color);
@@ -173,9 +174,6 @@ const generator = async (
 		layers: () => [],
 	});
 
-	const chunks: Chunk.SmallChunk[] = [];
-	const textures: Record<string, Texture> = {};
-
 	const awaitJobs = Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
 		Array.from({ length: hash.maxZ - hash.minZ }, async (_, j) => {
 			const x = hash.minX + i;
@@ -189,6 +187,7 @@ const generator = async (
 			let texture: Texture;
 
 			if (await file(chunkFile).exists()) {
+				Atomics.add(chunkHits, 0, 1);
 				chunk = deserialize(
 					ChunkBorshSchema,
 					decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
@@ -207,6 +206,7 @@ const generator = async (
 			}
 
 			if (await file(textureFile).exists()) {
+				Atomics.add(textureHits, 0, 1);
 				texture = {
 					width: size,
 					height: size,
@@ -245,7 +245,7 @@ const generator = async (
 
 	return Promise.all(awaitJobs).then((data) => {
 		console.log(
-			`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / chunks.length).toFixed(0)}%] [${timer.format()}]`,
+			`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / data.length).toFixed(0)}%, texture hits ${((100 * Atomics.load(textureHits, 0)) / data.length).toFixed(0)}%] [${timer.format()}]`,
 		);
 
 		return data;
