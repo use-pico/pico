@@ -60,7 +60,7 @@ const generator = async ({ mapId, seed, hash }: generator.Props) => {
 		).flat(),
 	).then((data) => {
 		console.log(
-			`[Worker]\t - Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / data.length).toFixed(0)}%] [${timer.format()}]`,
+			`[Worker]\t- Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / data.length).toFixed(0)}%] [${timer.format()}]`,
 		);
 
 		return data;

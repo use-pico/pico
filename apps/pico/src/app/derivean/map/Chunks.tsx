@@ -40,6 +40,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			seed: mapId,
 			hash,
 		}).then((chunks) => {
+			console.log(`[Chunks]\t- Received chunks ${timer.format()}`);
+
 			const map = new Array<{ chunk: Chunk.Lightweight; texture: DataTexture }>(
 				chunks.length,
 			);
@@ -52,15 +54,17 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 					$chunk.texture.size,
 					RGBFormat,
 				);
+
 				dataTexture.internalFormat = "RGB8";
 				dataTexture.flipY = true;
 				dataTexture.needsUpdate = true;
 
 				map[index] = { chunk: $chunk, texture: dataTexture };
 			});
+
 			setChunks(map);
 
-			console.log(`[Chunks] \t- done ${timer.format()}`);
+			console.log(`[Chunks]\t- done ${timer.format()}`);
 		});
 	}, [hash]);
 
