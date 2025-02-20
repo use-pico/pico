@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Timer } from "@use-pico/common";
+import { proxy } from "comlink";
 import { decompressSync } from "fflate";
 import { FC, useMemo } from "react";
 import { DataTexture, RGBFormat } from "three";
 import { Game } from "~/app/derivean/Game";
+import type { Texture } from "~/app/derivean/Texture";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
@@ -54,13 +56,21 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 				console.info(`Started map generator ${hash.hash}`);
 
-				const { textures, chunks } = await GameWorkerLoader.generator({
-					mapId,
-					seed: mapId,
-					hash,
-					size: Game.plotCount,
-					colorMap: Game.colorMap,
-				});
+				const { textures, chunks } = await GameWorkerLoader.generator(
+					{
+						mapId,
+						seed: mapId,
+						hash,
+						size: Game.plotCount,
+						colorMap: Game.colorMap,
+					},
+					proxy(({ hit }: { hit: boolean; chunk: Chunk }) => {
+						console.log("chunk", hit);
+					}),
+					proxy(({ hit }: { hit: boolean; texture: Texture }) => {
+						console.log("texture", hit);
+					}),
+				);
 
 				const texturesPool = new Map<string, DataTexture>();
 

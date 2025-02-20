@@ -129,13 +129,11 @@ export namespace generator {
 	}
 }
 
-const generator = async ({
-	mapId,
-	seed,
-	hash,
-	size,
-	colorMap,
-}: generator.Props) => {
+const generator = async (
+	{ mapId, seed, hash, size, colorMap }: generator.Props,
+	onChunk?: (props: { hit: boolean; chunk: Chunk }) => void,
+	onTexture?: (props: { hit: boolean; texture: Texture }) => void,
+) => {
 	const timer = new Timer();
 	timer.start();
 
@@ -191,6 +189,8 @@ const generator = async ({
 							Atomics.add(chunkHits, 0, 1);
 						}
 
+						onChunk?.({ hit, chunk });
+
 						new Promise<void>((resolve) => {
 							setTimeout(() => {
 								generateTexture({ mapId, chunk, colorBuffers, size }).then(
@@ -199,6 +199,7 @@ const generator = async ({
 										if (hit) {
 											Atomics.add(textureHits, 0, 1);
 										}
+										onTexture?.({ hit, texture });
 										resolve();
 									},
 								);
