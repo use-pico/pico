@@ -1,9 +1,6 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
-import {
-    DataTexture,
-    type Texture
-} from "three";
+import { DataTexture, type Texture } from "three";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";

@@ -23,6 +23,10 @@ const generator = async ({ mapId, seed, hash }: generator.Props) => {
 		`[Worker] Started generator for [${hash.count} chunks] ${hash.hash}`,
 	);
 
+	if (hash.count >= 256) {
+		throw new Error(`\t- Too much chunks ${hash.count} of 256`);
+	}
+
 	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
 
 	const generator = withGenerator({
