@@ -69,7 +69,7 @@ export namespace generateTexture {
 		mapId: string;
 		chunk: Chunk;
 		size: number;
-		colorBuffers: Map<string, Uint8Array>;
+		colorMap: readonly { color: string }[];
 	}
 }
 
@@ -77,7 +77,7 @@ export const generateTexture = async ({
 	mapId,
 	chunk,
 	size,
-	colorBuffers,
+	colorMap,
 }: generateTexture.Props): Promise<{ hit: boolean; texture: Texture }> => {
 	const textureFile = `/texture/${mapId}/${chunk.id}.bin`;
 
@@ -91,6 +91,13 @@ export const generateTexture = async ({
 			},
 		};
 	}
+
+	const colorBuffers = new Map<string, Uint8Array>(
+		Array.from(colorMap, ({ color }) => {
+			const { r, g, b } = hexToRGB(color);
+			return [color, new Uint8Array([r, g, b])];
+		}),
+	);
 
 	const buffer = new Uint8Array(size * size * 3);
 
@@ -132,7 +139,11 @@ export namespace generator {
 const generator = async (
 	{ mapId, seed, hash, size, colorMap }: generator.Props,
 	onChunk?: (props: { hit: boolean; chunk: Chunk }) => void,
-	onTexture?: (props: { hit: boolean; texture: Texture }) => void,
+	onTexture?: (props: {
+		hit: boolean;
+		chunk: Chunk.SmallChunk;
+		texture: Texture;
+	}) => void,
 ) => {
 	const timer = new Timer();
 	timer.start();
@@ -161,13 +172,6 @@ const generator = async (
 		layers: () => [],
 	});
 
-	const colorBuffers = new Map<string, Uint8Array>(
-		Array.from(colorMap.values(), ({ color }) => {
-			const { r, g, b } = hexToRGB(color);
-			return [color, new Uint8Array([r, g, b])];
-		}),
-	);
-
 	const chunks: Chunk.SmallChunk[] = [];
 	const textures: Record<string, Texture> = {};
 
@@ -193,13 +197,21 @@ const generator = async (
 
 						new Promise<void>((resolve) => {
 							setTimeout(() => {
-								generateTexture({ mapId, chunk, colorBuffers, size }).then(
+								generateTexture({ mapId, chunk, colorMap, size }).then(
 									({ hit, texture }) => {
 										textures[chunk.id] = texture;
 										if (hit) {
 											Atomics.add(textureHits, 0, 1);
 										}
-										onTexture?.({ hit, texture });
+										onTexture?.({
+											hit,
+											chunk: {
+												id: chunk.id,
+												x: chunk.x,
+												z: chunk.z,
+											},
+											texture,
+										});
 										resolve();
 									},
 								);
