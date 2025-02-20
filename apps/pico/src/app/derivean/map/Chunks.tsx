@@ -66,9 +66,9 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 					<mesh
 						key={`chunk-${chunk.id}`}
 						position={[
-							chunk.x * config.chunkSize,
+							chunk.x * config.chunkSize * 1.001,
 							-1,
-							chunk.z * config.chunkSize,
+							chunk.z * config.chunkSize * 1.001,
 						]}
 						rotation={[-Math.PI / 2, 0, 0]}
 						receiveShadow
