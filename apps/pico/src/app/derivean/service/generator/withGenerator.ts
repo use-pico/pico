@@ -82,11 +82,13 @@ export const withGenerator = ({
 
 			const noise = land(worldX, worldZ);
 
+			const reversedRow = plotCount - 1 - tileZ;
+
 			buffer.set(
 				colorBuffers.get(
 					withColorMap({ value: noise, levels: Game.colorMap }),
 				)!,
-				i * 4,
+				(reversedRow * plotCount + tileX) * 4,
 			);
 
 			tiles[i] = {

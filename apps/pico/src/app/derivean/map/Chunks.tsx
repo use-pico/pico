@@ -54,7 +54,6 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 						$chunk.texture.size,
 						$chunk.texture.size,
 					);
-					dataTexture.flipY = true;
 					dataTexture.generateMipmaps = false;
 					dataTexture.needsUpdate = true;
 
