@@ -45,7 +45,6 @@ const generator = async (
 
 	const generator = withGenerator({
 		plotCount: Game.plotCount,
-		plotSize: Game.plotSize,
 		seed,
 		scale: 1,
 		noise: ({ seed }) => ({
@@ -108,8 +107,8 @@ const generator = async (
 							withColorMap({ value: tile.noise, levels: Game.colorMap }),
 						)!;
 
-						const startX = tile.pos.x / Game.plotSize;
-						const startZ = tile.pos.z / Game.plotSize;
+						const startX = tile.pos.x;
+						const startZ = tile.pos.z;
 
 						buffer.set(color, (startZ * size + startX) * 3);
 					}
