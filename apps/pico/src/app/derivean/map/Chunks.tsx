@@ -1,6 +1,9 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
-import { DataTexture } from "three";
+import {
+    DataTexture,
+    type Texture
+} from "three";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
@@ -22,7 +25,7 @@ export namespace Chunks {
 
 export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	const [chunks, setChunks] = useState<
-		{ chunk: Chunk.Lightweight; texture: DataTexture }[]
+		{ chunk: Chunk.Lightweight; texture: Texture }[]
 	>([]);
 
 	useEffect(() => {
@@ -49,15 +52,16 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				chunks.map(async (chunk) => {
 					const { tiles: _, ...$chunk } = decompressChunk(chunk);
 
-					const dataTexture = new DataTexture(
+					const texture = new DataTexture(
 						new Uint8Array($chunk.texture.data),
 						$chunk.texture.size,
 						$chunk.texture.size,
 					);
-					dataTexture.generateMipmaps = false;
-					dataTexture.needsUpdate = true;
 
-					return { chunk: $chunk, texture: dataTexture };
+					texture.generateMipmaps = false;
+					texture.needsUpdate = true;
+
+					return { chunk: $chunk, texture };
 				}),
 			).then((chunks) => {
 				console.log(

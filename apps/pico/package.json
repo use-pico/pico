@@ -29,7 +29,6 @@
 		"borsh": "^2.0.0",
 		"comlink": "^4.4.2",
 		"dependency-graph": "^1.0.0",
-		"dxtn": "^1.0.0",
 		"fflate": "^0.8.2",
 		"file-saver": "^2.0.5",
 		"graphology-shortest-path": "^2.1.0",
