@@ -45,7 +45,6 @@ const generator = async ({
 			color: "#00FF00",
 			noise: 1,
 		},
-		layers: () => [],
 	});
 
 	return Promise.all(

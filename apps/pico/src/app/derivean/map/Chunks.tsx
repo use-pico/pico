@@ -1,3 +1,4 @@
+import { Timer } from "@use-pico/common";
 import { decompressSync } from "fflate";
 import { FC, useEffect, useState } from "react";
 import { DataTexture, RGBFormat } from "three";
@@ -30,6 +31,11 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			return;
 		}
 
+		const timer = new Timer();
+		timer.start();
+
+		console.log(`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`);
+
 		GameWorkerLoader.generator({
 			mapId,
 			seed: mapId,
@@ -39,9 +45,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 		}).then((chunks) => {
 			const map = new Array(chunks.length);
 			chunks.forEach((chunk, index) => {
-				const decompressed = decompressSync(new Uint8Array(chunk.texture.data));
 				const dataTexture = new DataTexture(
-					decompressed,
+					decompressSync(chunk.texture.data),
 					chunk.texture.size,
 					chunk.texture.size,
 					RGBFormat,
@@ -52,6 +57,8 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				map[index] = { chunk, texture: dataTexture };
 			});
 			setChunks(map);
+
+			console.log(`[Chunks] \t- done ${timer.format()}`);
 		});
 	}, [hash]);
 
