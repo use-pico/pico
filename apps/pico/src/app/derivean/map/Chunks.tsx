@@ -1,8 +1,7 @@
 import { Timer } from "@use-pico/common";
-import { decompressSync } from "fflate";
 import { FC, useEffect, useState } from "react";
 import { DataTexture, RGBFormat } from "three";
-import { Game } from "~/app/derivean/Game";
+import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
@@ -40,21 +39,24 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			mapId,
 			seed: mapId,
 			hash,
-			size: config.plotCount,
-			colorMap: Game.colorMap,
 		}).then((chunks) => {
-			const map = new Array(chunks.length);
+			const map = new Array<{ chunk: Chunk.Lightweight; texture: DataTexture }>(
+				chunks.length,
+			);
 			chunks.forEach((chunk, index) => {
+				const { tiles: _, ...$chunk } = decompressChunk(chunk);
+
 				const dataTexture = new DataTexture(
-					decompressSync(chunk.texture.data),
-					chunk.texture.size,
-					chunk.texture.size,
+					new Uint8Array($chunk.texture.data),
+					$chunk.texture.size,
+					$chunk.texture.size,
 					RGBFormat,
 				);
 				dataTexture.internalFormat = "RGB8";
 				dataTexture.flipY = true;
 				dataTexture.needsUpdate = true;
-				map[index] = { chunk, texture: dataTexture };
+
+				map[index] = { chunk: $chunk, texture: dataTexture };
 			});
 			setChunks(map);
 

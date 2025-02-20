@@ -1,5 +1,4 @@
 import { hexToRGB } from "@use-pico/common";
-import { deflateSync } from "fflate";
 import { Game } from "~/app/derivean/Game";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
@@ -111,7 +110,7 @@ export const withGenerator = ({
 			tiles,
 			texture: {
 				size: plotCount,
-				data: deflateSync(buffer, { level: 9 }),
+				data: buffer,
 			},
 		};
 	};

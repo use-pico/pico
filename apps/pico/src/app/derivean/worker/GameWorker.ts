@@ -1,9 +1,10 @@
 import { Timer } from "@use-pico/common";
 import { expose } from "comlink";
+import { file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
+import { compressChunk } from "~/app/derivean/service/compressChunk";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
-import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
 export namespace generator {
@@ -11,18 +12,10 @@ export namespace generator {
 		mapId: string;
 		seed: string;
 		hash: ChunkHash;
-		size: number;
-		colorMap: readonly { color: string }[];
 	}
 }
 
-const generator = async ({
-	mapId,
-	seed,
-	hash,
-	size,
-	colorMap,
-}: generator.Props) => {
+const generator = async ({ mapId, seed, hash }: generator.Props) => {
 	const timer = new Timer();
 	timer.start();
 
@@ -56,24 +49,13 @@ const generator = async ({
 				const chunkId = `${x}:${z}`;
 				const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
 
-				let chunk: Chunk;
+				if (await file(chunkFile).exists()) {
+					Atomics.add(chunkHits, 0, 1);
+				} else {
+					await write(chunkFile, compressChunk(generator({ x, z })));
+				}
 
-				// if (await file(chunkFile).exists()) {
-				// 	Atomics.add(chunkHits, 0, 1);
-				// 	chunk = deserialize(
-				// 		ChunkBorshSchema,
-				// 		decompressSync(new Uint8Array(await file(chunkFile).arrayBuffer())),
-				// 	) as Chunk;
-				// } else {
-				chunk = generator({ x, z });
-
-				// await write(
-				// 	chunkFile,
-				// 	deflateSync(serialize(ChunkBorshSchema, chunk), { level: 9 }),
-				// );
-				// }
-
-				return chunk;
+				return new Uint8Array(await file(chunkFile).arrayBuffer());
 			}),
 		).flat(),
 	).then((data) => {
