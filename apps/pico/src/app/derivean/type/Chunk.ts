@@ -1,12 +1,27 @@
-import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
-
 export namespace Chunk {
-	export type SmallChunk = Omit<Chunk, "tiles">;
+	export type Lightweight = Omit<Chunk, "tiles">;
+
+	export interface Tile {
+		pos: {
+			x: number;
+			z: number;
+		};
+		abs: {
+			x: number;
+			z: number;
+		};
+		noise: number;
+		tile: string;
+	}
 }
 
 export interface Chunk {
 	id: string;
 	x: number;
 	z: number;
-	tiles: EntitySchema.Type[];
+	tiles: Chunk.Tile[];
+	texture: {
+		size: number;
+		data: Uint8Array;
+	};
 }

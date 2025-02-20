@@ -1,21 +1,12 @@
-import { toSeed } from "@use-pico/common";
-import { XORWow } from "random-seedable";
-import type { EntitySchema } from "~/app/derivean/service/generator/EntitySchema";
+import { hexToRGB } from "@use-pico/common";
+import { deflateSync } from "fflate";
+import { Game } from "~/app/derivean/Game";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
+import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import type { Noise } from "~/app/derivean/service/noise/Noise";
-import type { Random } from "~/app/derivean/service/noise/Random";
+import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace withGenerator {
-	export namespace Layer {
-		export namespace Factory {
-			export interface Props {
-				random: Random;
-			}
-		}
-
-		export type Factory = (props: Factory.Props) => Layer[];
-	}
-
 	export interface Layer {
 		/**
 		 * Layer level is used to determine the order of layers.
@@ -43,7 +34,7 @@ export namespace withGenerator {
 		}
 	}
 
-	export type Generator = (props: Generator.Props) => EntitySchema.Type[];
+	export type Generator = (props: Generator.Props) => Chunk;
 
 	export interface Props {
 		seed: string;
@@ -56,10 +47,6 @@ export namespace withGenerator {
 		 * Default tile when nothing is generated.
 		 */
 		tile: TileSchema.Type;
-		/**
-		 * Layers to generate tiles.
-		 */
-		layers: Layer.Factory;
 	}
 }
 
@@ -69,33 +56,41 @@ export const withGenerator = ({
 	tile,
 	scale = 1,
 	noise,
-	layers,
 }: withGenerator.Props): withGenerator.Generator => {
-	const random = new XORWow(toSeed(seed));
 	const baseScale = 1 / (plotCount * scale);
-	const $layers = layers({
-		random() {
-			return random.float();
-		},
-	}).sort((a, b) => a.level - b.level);
 
 	const { land } = noise({
 		seed,
 	});
 
-	return ({ x, z }) => {
-		const chunk = new Array<EntitySchema.Type>(plotCount ** 2);
+	const colorBuffers = new Map<string, Uint8Array>(
+		Array.from(Game.colorMap, ({ color }) => {
+			const { r, g, b } = hexToRGB(color);
+			return [color, new Uint8Array([r, g, b])];
+		}),
+	);
 
-		for (let i = 0; i < chunk.length; i++) {
+	return ({ x, z }) => {
+		const size = plotCount ** 2;
+		const tiles = new Array<Chunk.Tile>(size);
+		const buffer = new Uint8Array(size * 3);
+
+		for (let i = 0; i < tiles.length; i++) {
 			const tileX = i % plotCount;
 			const tileZ = Math.floor(i / plotCount);
 			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
 			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
 
-			// const layer =
+			const noise = land(worldX, worldZ);
 
-			chunk[i] = {
-				// tile: config.tiles[tileId]!,
+			buffer.set(
+				colorBuffers.get(
+					withColorMap({ value: noise, levels: Game.colorMap }),
+				)!,
+				i * 3,
+			);
+
+			tiles[i] = {
 				pos: {
 					x: tileX,
 					z: tileZ,
@@ -104,11 +99,20 @@ export const withGenerator = ({
 					x: tileX + x * plotCount,
 					z: tileZ + z * plotCount,
 				},
-				noise: land(worldX, worldZ),
+				noise,
 				tile: tile.id,
 			};
 		}
 
-		return chunk;
+		return {
+			id: `${x}:${z}`,
+			x,
+			z,
+			tiles,
+			texture: {
+				size: plotCount,
+				data: deflateSync(buffer, { level: 9 }),
+			},
+		};
 	};
 };

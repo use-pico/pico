@@ -22,7 +22,7 @@ export namespace Chunks {
 
 export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	const [chunks, setChunks] = useState<
-		{ chunk: Chunk.SmallChunk; texture: DataTexture }[]
+		{ chunk: Chunk.Lightweight; texture: DataTexture }[]
 	>([]);
 
 	useEffect(() => {
@@ -38,12 +38,12 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 			colorMap: Game.colorMap,
 		}).then((chunks) => {
 			const map = new Array(chunks.length);
-			chunks.forEach(({ chunk, texture }, index) => {
-				const decompressed = decompressSync(new Uint8Array(texture.data));
+			chunks.forEach((chunk, index) => {
+				const decompressed = decompressSync(new Uint8Array(chunk.texture.data));
 				const dataTexture = new DataTexture(
 					decompressed,
-					texture.width,
-					texture.height,
+					chunk.texture.size,
+					chunk.texture.size,
 					RGBFormat,
 				);
 				dataTexture.internalFormat = "RGB8";
