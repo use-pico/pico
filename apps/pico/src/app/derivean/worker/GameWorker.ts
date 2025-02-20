@@ -84,7 +84,7 @@ const generator = async (
 						id: chunkId,
 						x,
 						z,
-						tiles: generator({ x, z }),
+						tiles: await generator({ x, z }),
 					} as const;
 
 					await write(

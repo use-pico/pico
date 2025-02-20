@@ -43,7 +43,9 @@ export namespace withGenerator {
 		}
 	}
 
-	export type Generator = (props: Generator.Props) => EntitySchema.Type[];
+	export type Generator = (
+		props: Generator.Props,
+	) => Promise<EntitySchema.Type[]>;
 
 	export interface Props {
 		seed: string;
@@ -85,37 +87,26 @@ export const withGenerator = ({
 		seed,
 	});
 
-	return ({ x, z }) => {
-		const chunk = new Array<EntitySchema.Type>(plotCount ** 2);
+	return async ({ x, z }) => {
+		const chunkSize = plotCount ** 2;
 
-		for (let i = 0; i < chunk.length; i++) {
-			/**
-			 * TODO Throw this stuff into async blocks, so all tiles are generated in parallel
-			 * TODO Instead of generating noise per plotSize, generate only a pixel of noise
-			 */
+		return Promise.all(
+			Array.from({ length: chunkSize }, async (_, i) => {
+				const tileX = (i % plotCount) * plotSize;
+				const tileZ = Math.floor(i / plotCount) * plotSize;
+				const worldX = (x * plotCount + (i % plotCount)) * baseScale;
+				const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
 
-			const tileX = (i % plotCount) * plotSize;
-			const tileZ = Math.floor(i / plotCount) * plotSize;
-			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
-			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
-
-			// const layer =
-
-			chunk[i] = {
-				// tile: config.tiles[tileId]!,
-				pos: {
-					x: tileX,
-					z: tileZ,
-				},
-				abs: {
-					x: tileX + x * plotCount * plotSize,
-					z: tileZ + z * plotCount * plotSize,
-				},
-				noise: land(worldX, worldZ),
-				tile: tile.id,
-			};
-		}
-
-		return chunk;
+				return {
+					pos: { x: tileX, z: tileZ },
+					abs: {
+						x: tileX + x * plotCount * plotSize,
+						z: tileZ + z * plotCount * plotSize,
+					},
+					noise: land(worldX, worldZ),
+					tile: tile.id,
+				};
+			}),
+		);
 	};
 };
