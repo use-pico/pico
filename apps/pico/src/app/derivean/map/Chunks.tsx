@@ -1,12 +1,6 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
-import {
-    DataArrayTexture,
-    GLSL3,
-    RGBAFormat,
-    ShaderMaterial,
-    UnsignedByteType,
-} from "three";
+import { DataArrayTexture, GLSL3, ShaderMaterial } from "three";
 import { Game } from "~/app/derivean/Game";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
@@ -66,24 +60,19 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				}),
 			).then((chunks) => {
 				setTimeout(() => {
-					const layerCount = chunks.length;
-					const texSize = Game.plotCount;
-					const layerPixels = texSize * texSize * 4;
-					const totalSize = layerPixels * layerCount;
-					const textureArrayBuffer = new Uint8Array(totalSize);
+					const size = Game.plotCount ** 2 * 4;
+					const textureArrayBuffer = new Uint8Array(size * chunks.length);
 
 					chunks.forEach((chunk, index) => {
-						textureArrayBuffer.set(chunk.texture, index * layerPixels);
+						textureArrayBuffer.set(chunk.texture, index * size);
 					});
 
 					const texture = new DataArrayTexture(
 						textureArrayBuffer,
-						texSize,
-						texSize,
-						layerCount,
+						Game.plotCount,
+						Game.plotCount,
+						chunks.length,
 					);
-					texture.format = RGBAFormat;
-					texture.type = UnsignedByteType;
 					texture.needsUpdate = true;
 
 					console.log(
