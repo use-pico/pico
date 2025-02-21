@@ -47,8 +47,8 @@ export const Loop: FC<Loop.Props> = ({
 	mapId,
 	config,
 	zoom,
-	offset = 5,
-	limit = 1024,
+	offset = 2,
+	limit = 512,
 	onCamera,
 }) => {
 	const { camera } = useThree(({ camera }) => ({
@@ -194,7 +194,7 @@ export const Loop: FC<Loop.Props> = ({
 				/**
 				 * How far
 				 */
-				minZoom={0.1}
+				minZoom={0.05}
 				/**
 				 * How close
 				 */
