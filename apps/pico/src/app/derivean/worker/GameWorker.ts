@@ -33,8 +33,6 @@ const generator = async ({ mapId, seed, hash, skip }: generator.Props) => {
 		throw new Error(`\t- Too much chunks ${hash.count} of 256`);
 	}
 
-	const chunkHits = new Int32Array(new SharedArrayBuffer(4));
-
 	const generator = withGenerator({
 		plotCount: Game.plotCount,
 		seed,
@@ -64,23 +62,36 @@ const generator = async ({ mapId, seed, hash, skip }: generator.Props) => {
 				}
 
 				if (await file(chunkFile).exists()) {
-					Atomics.add(chunkHits, 0, 1);
+					//
 				} else {
 					await write(chunkFile, compressChunk(generator({ x, z })));
 				}
 
-				return file(chunkFile)
-					.arrayBuffer()
-					.then((buffer) => {
-						return decompressChunk(new Uint8Array(buffer));
-					});
+				return new Promise<Chunk>((resolve) => {
+					file(chunkFile)
+						.exists()
+						.then((exists) => {
+							(exists ?
+								new Promise((resolve) => {
+									resolve(undefined);
+								})
+							:	write(chunkFile, compressChunk(generator({ x, z })))
+							).then(() => {
+								file(chunkFile)
+									.arrayBuffer()
+									.then((buffer) => {
+										resolve(decompressChunk(new Uint8Array(buffer)));
+									});
+							});
+						});
+				});
 			}),
 		).flat(),
 	).then((data) => {
 		const chunks = data.filter((chunk) => Boolean(chunk)) as Chunk[];
 
 		console.log(
-			`[Worker]\t- Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%; generated ${((100 * chunks.length) / data.length).toFixed(0)}%] [${timer.format()}]`,
+			`[Worker]\t- Finished [generated ${((100 * chunks.length) / data.length).toFixed(0)}%] [${timer.format()}]`,
 		);
 
 		return chunks;
