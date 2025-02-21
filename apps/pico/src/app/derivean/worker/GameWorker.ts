@@ -9,6 +9,60 @@ import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
+namespace chunkOf {
+	export interface Props {
+		seed: string;
+		mapId: string;
+		x: number;
+		z: number;
+	}
+}
+
+const chunkOf = async ({ seed, mapId, x, z }: chunkOf.Props) => {
+	const generator = withGenerator({
+		plotCount: Game.plotCount,
+		seed,
+		scale: 1,
+		noise: ({ seed }) => ({
+			land: withLandNoise({ seed }),
+		}),
+		tile: {
+			id: "grass",
+			chance: 100,
+			color: "#00FF00",
+			noise: 1,
+		},
+	});
+
+	const chunkId = `${x}:${z}`;
+	const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
+
+	if (await file(chunkFile).exists()) {
+		//
+	} else {
+		await write(chunkFile, compressChunk(generator({ x, z })));
+	}
+
+	return new Promise<Chunk>((resolve) => {
+		file(chunkFile)
+			.exists()
+			.then((exists) => {
+				(exists ?
+					new Promise((resolve) => {
+						resolve(undefined);
+					})
+				:	write(chunkFile, compressChunk(generator({ x, z })))
+				).then(() => {
+					file(chunkFile)
+						.arrayBuffer()
+						.then((buffer) => {
+							resolve(decompressChunk(new Uint8Array(buffer)));
+						});
+				});
+			});
+	});
+};
+
 export namespace generator {
 	export interface Props {
 		mapId: string;
@@ -29,62 +83,17 @@ const generator = async ({ mapId, seed, hash, skip }: generator.Props) => {
 		`[Worker] Started generator for [${hash.count} chunks] ${hash.hash}`,
 	);
 
-	if (hash.count >= 256) {
-		throw new Error(`\t- Too much chunks ${hash.count} of 256`);
-	}
-
-	const generator = withGenerator({
-		plotCount: Game.plotCount,
-		seed,
-		scale: 1,
-		noise: ({ seed }) => ({
-			land: withLandNoise({ seed }),
-		}),
-		tile: {
-			id: "grass",
-			chance: 100,
-			color: "#00FF00",
-			noise: 1,
-		},
-	});
-
 	return Promise.all(
 		Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
 			Array.from({ length: hash.maxZ - hash.minZ }, async (_, j) => {
 				const x = hash.minX + i;
 				const z = hash.minZ + j;
 
-				const chunkId = `${x}:${z}`;
-				const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
-
-				if (skip.includes(chunkId)) {
+				if (skip.includes(`${x}:${z}`)) {
 					return undefined;
 				}
 
-				if (await file(chunkFile).exists()) {
-					//
-				} else {
-					await write(chunkFile, compressChunk(generator({ x, z })));
-				}
-
-				return new Promise<Chunk>((resolve) => {
-					file(chunkFile)
-						.exists()
-						.then((exists) => {
-							(exists ?
-								new Promise((resolve) => {
-									resolve(undefined);
-								})
-							:	write(chunkFile, compressChunk(generator({ x, z })))
-							).then(() => {
-								file(chunkFile)
-									.arrayBuffer()
-									.then((buffer) => {
-										resolve(decompressChunk(new Uint8Array(buffer)));
-									});
-							});
-						});
-				});
+				return chunkOf({ seed, mapId, x, z });
 			}),
 		).flat(),
 	).then((data) => {

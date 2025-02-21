@@ -29,7 +29,6 @@
         "borsh": "^2.0.0",
         "comlink": "^4.4.2",
         "dependency-graph": "^1.0.0",
-        "dxtn": "^1.0.0",
         "fflate": "^0.8.2",
         "file-saver": "^2.0.5",
         "graphology": "^0.26.0",
@@ -46,6 +45,7 @@
         "sqlocal": "^0.14.0",
         "three": "^0.173.0",
         "use-debounce": "^10.0.4",
+        "workerpool": "^9.2.0",
         "worleyjs": "^1.5.2",
         "zod": "^3.24.1",
       },
@@ -797,8 +797,6 @@
 
     "duplexer2": ["duplexer2@0.1.4", "", { "dependencies": { "readable-stream": "^2.0.2" } }, "sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA=="],
 
-    "dxtn": ["dxtn@1.0.0", "", {}, "sha512-5xFvTYbuNBbnYK4kc3/J9wdahxHc44xf1fr4gUNx+fTM6rYItuMJeLKc7N03fbj2hZgzdDC1NkV0AW95GxZ1IQ=="],
-
     "electron-to-chromium": ["electron-to-chromium@1.5.102", "", {}, "sha512-eHhqaja8tE/FNpIiBrvBjFV/SSKpyWHLvxuR9dPTdo+3V9ppdLmFB7ZZQ98qNovcngPLYIz0oOBF9P0FfZef5Q=="],
 
     "enhanced-resolve": ["enhanced-resolve@5.18.1", "", { "dependencies": { "graceful-fs": "^4.2.4", "tapable": "^2.2.0" } }, "sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg=="],
@@ -1378,6 +1376,8 @@
     "why-is-node-running": ["why-is-node-running@2.3.0", "", { "dependencies": { "siginfo": "^2.0.0", "stackback": "0.0.2" }, "bin": { "why-is-node-running": "cli.js" } }, "sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w=="],
 
     "word-wrap": ["word-wrap@1.2.5", "", {}, "sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA=="],
+
+    "workerpool": ["workerpool@9.2.0", "", {}, "sha512-PKZqBOCo6CYkVOwAxWxQaSF2Fvb5Iv2fCeTP7buyWI2GiynWr46NcXSgK/idoV6e60dgCBfgYc+Un3HMvmqP8w=="],
 
     "worleyjs": ["worleyjs@1.5.2", "", {}, "sha512-lexnm31BNEilB5lG0YiSTm5m4YxzSG6hkVF5top4bKtQ0MoMaRAsJhDlHnq2yFMyIi0KJPIQ1yQDInb71OqfsQ=="],
 
