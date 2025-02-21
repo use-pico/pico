@@ -1,10 +1,11 @@
 import { Timer } from "@use-pico/common";
 import { FC, useEffect, useMemo, useState } from "react";
 import { DataTexture, type Texture } from "three";
+import { pool } from "workerpool";
 import { Game } from "~/app/derivean/Game";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
-import { createGameWorker } from "~/app/derivean/worker/createGameWorker";
+import { generator } from "~/app/derivean/worker/generator";
 
 export namespace Chunks {
 	export interface Config {
@@ -24,15 +25,12 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	const [chunks, setChunks] = useState<
 		{ chunk: Chunk.Lightweight; texture: Texture }[]
 	>([]);
-	const gameWorker = useMemo(() => {
-		return createGameWorker();
-	}, [hash]);
-
-	useEffect(() => {
-		return () => {
-			console.warn("Terminating worker");
-			gameWorker.worker.terminate();
-		};
+	const jobs = useMemo(() => {
+		return pool(new URL("../worker/chunkOf.js", import.meta.url).href, {
+			workerOpts: {
+				type: "module",
+			},
+		});
 	}, []);
 
 	useEffect(() => {
@@ -42,16 +40,19 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 		const timer = new Timer();
 		timer.start();
-		console.log(`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`);
+		console.log(
+			`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`,
+			jobs.stats(),
+		);
 
-		gameWorker.proxy
-			.generator({
+		jobs.terminate(true).then(() => {
+			generator({
+				pool: jobs,
 				mapId,
 				seed: mapId,
 				hash,
 				skip: chunks.map(({ chunk: { id } }) => id),
-			})
-			.then((chunks) => {
+			}).then((chunks) => {
 				console.log(`[Chunks] - Received chunks ${timer.format()}`);
 
 				const chunkTimer = new Timer();
@@ -89,6 +90,11 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 					}, 50);
 				});
 			});
+		});
+
+		return () => {
+			jobs.terminate();
+		};
 	}, [hash, mapId]);
 
 	console.log("chunks", chunks.length);
