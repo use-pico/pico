@@ -54,55 +54,45 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 				chunks.map(async (chunk) => {
 					return new Promise<{ chunk: Chunk.Lightweight; texture: Uint8Array }>(
 						(resolve) => {
-							requestIdleCallback(
-								() => {
-									const { tiles: _, ...$chunk } = decompressChunk(chunk);
-									resolve({
-										chunk: $chunk,
-										texture: new Uint8Array($chunk.texture.data),
-									});
-								},
-								{
-									timeout: 1000,
-								},
-							);
+							setTimeout(() => {
+								const { tiles: _, ...$chunk } = decompressChunk(chunk);
+								resolve({
+									chunk: $chunk,
+									texture: new Uint8Array($chunk.texture.data),
+								});
+							}, 0);
 						},
 					);
 				}),
 			).then((chunks) => {
-				requestIdleCallback(
-					() => {
-						const layerCount = chunks.length;
-						const texSize = Game.plotCount;
-						const layerPixels = texSize * texSize * 4;
-						const totalSize = layerPixels * layerCount;
-						const textureArrayBuffer = new Uint8Array(totalSize);
+				setTimeout(() => {
+					const layerCount = chunks.length;
+					const texSize = Game.plotCount;
+					const layerPixels = texSize * texSize * 4;
+					const totalSize = layerPixels * layerCount;
+					const textureArrayBuffer = new Uint8Array(totalSize);
 
-						chunks.forEach((chunk, index) => {
-							textureArrayBuffer.set(chunk.texture, index * layerPixels);
-						});
+					chunks.forEach((chunk, index) => {
+						textureArrayBuffer.set(chunk.texture, index * layerPixels);
+					});
 
-						const texture = new DataArrayTexture(
-							textureArrayBuffer,
-							texSize,
-							texSize,
-							layerCount,
-						);
-						texture.format = RGBAFormat;
-						texture.type = UnsignedByteType;
-						texture.needsUpdate = true;
+					const texture = new DataArrayTexture(
+						textureArrayBuffer,
+						texSize,
+						texSize,
+						layerCount,
+					);
+					texture.format = RGBAFormat;
+					texture.type = UnsignedByteType;
+					texture.needsUpdate = true;
 
-						console.log(
-							`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
-						);
+					console.log(
+						`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+					);
 
-						setTextures(texture);
-						setChunks(chunks);
-					},
-					{
-						timeout: 1000,
-					},
-				);
+					setTextures(texture);
+					setChunks(chunks);
+				}, 0);
 			});
 		});
 	}, [hash, mapId]);
