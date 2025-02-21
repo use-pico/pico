@@ -4,7 +4,9 @@ import { file, write } from "opfs-tools";
 import { Game } from "~/app/derivean/Game";
 import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
 import { compressChunk } from "~/app/derivean/service/compressChunk";
+import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
+import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 
 export namespace generator {
@@ -67,11 +69,15 @@ const generator = async ({ mapId, seed, hash, skip }: generator.Props) => {
 					await write(chunkFile, compressChunk(generator({ x, z })));
 				}
 
-				return new Uint8Array(await file(chunkFile).arrayBuffer());
+				return file(chunkFile)
+					.arrayBuffer()
+					.then((buffer) => {
+						return decompressChunk(new Uint8Array(buffer));
+					});
 			}),
 		).flat(),
 	).then((data) => {
-		const chunks = data.filter((chunk) => Boolean(chunk)) as Uint8Array[];
+		const chunks = data.filter((chunk) => Boolean(chunk)) as Chunk[];
 
 		console.log(
 			`[Worker]\t- Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%; generated ${((100 * chunks.length) / data.length).toFixed(0)}%] [${timer.format()}]`,

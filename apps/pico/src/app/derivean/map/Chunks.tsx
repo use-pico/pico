@@ -2,7 +2,6 @@ import { Timer } from "@use-pico/common";
 import { FC, useEffect, useState } from "react";
 import { DataTexture, type Texture } from "three";
 import { Game } from "~/app/derivean/Game";
-import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { GameWorkerLoader } from "~/app/derivean/worker/GameWorkerLoader";
@@ -51,7 +50,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 					return new Promise<{ chunk: Chunk.Lightweight; texture: Texture }>(
 						(resolve) => {
 							setTimeout(() => {
-								const { tiles: _, ...$chunk } = decompressChunk(chunk);
+								const { tiles: _, ...$chunk } = chunk;
 
 								const texture = new DataTexture(
 									new Uint8Array($chunk.texture.data),
