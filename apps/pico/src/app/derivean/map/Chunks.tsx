@@ -25,8 +25,14 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 	const [chunks, setChunks] = useState<
 		{ chunk: Chunk.Lightweight; texture: Texture }[]
 	>([]);
+
+	/**
+	 * Move this to the parent, so it can react on real update
+	 */
+
 	const jobs = useMemo(() => {
 		return pool(new URL("../worker/chunkOf.js", import.meta.url).href, {
+			maxWorkers: 2,
 			workerOpts: {
 				type: "module",
 			},
@@ -40,10 +46,7 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 		const timer = new Timer();
 		timer.start();
-		console.log(
-			`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`,
-			jobs.stats(),
-		);
+		console.log(`[Chunks] Requesting chunks [${hash.count}] ${hash.hash}`);
 
 		jobs.terminate(true).then(() => {
 			generator({
