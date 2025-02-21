@@ -1,11 +1,14 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+import { Timer } from "@use-pico/common";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { MOUSE, Vector3, type DirectionalLight } from "three";
+import { DataTexture, MOUSE, type DirectionalLight, type Texture } from "three";
 import { useDebouncedCallback } from "use-debounce";
+import { pool } from "workerpool";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
+import type { Chunk } from "~/app/derivean/type/Chunk";
+import { generator } from "~/app/derivean/worker/generator";
 
 export namespace Loop {
 	export interface Config {
@@ -33,8 +36,9 @@ export namespace Loop {
 	export interface Props {
 		mapId: string;
 		config: Config;
-		pos: { x: number; z: number };
 		zoom: number;
+		limit?: number;
+		offset?: number;
 		onCamera?: OnCamera.Callback;
 	}
 }
@@ -42,19 +46,28 @@ export namespace Loop {
 export const Loop: FC<Loop.Props> = ({
 	mapId,
 	config,
-	pos,
 	zoom,
+	offset = 5,
+	limit = 1024,
 	onCamera,
 }) => {
 	const { camera } = useThree(({ camera }) => ({
 		camera,
 	}));
+	const jobs = useMemo(() => {
+		return pool(new URL("../worker/chunkOf.js", import.meta.url).href, {
+			workerOpts: {
+				type: "module",
+			},
+		});
+	}, []);
+	const [chunks, setChunks] = useState<Map<string, Chunk.Texture>>(new Map());
+	const [hash, setHash] = useState<Chunk.Hash | undefined>(undefined);
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
-		offset: 1,
+		offset,
 	});
 
-	const [hash, setHash] = useState<ChunkHash>();
 	const lightRef = useRef<DirectionalLight>(null);
 
 	const update = useDebouncedCallback(async () => {
@@ -84,22 +97,77 @@ export const Loop: FC<Loop.Props> = ({
 			return;
 		}
 
+		const timer = new Timer();
+		timer.start();
+		console.log(
+			`[Chunks] Requesting chunks [${chunkHash.count}] ${chunkHash.hash}`,
+		);
+
 		setHash(chunkHash);
-	}, 500);
+
+		jobs.terminate(true).then(() => {
+			generator({
+				pool: jobs,
+				mapId,
+				seed: mapId,
+				hash: chunkHash,
+				skip: [...chunks.keys()],
+			}).then((chunks) => {
+				console.log(`[Chunks] - Received chunks ${timer.format()}`);
+
+				const chunkTimer = new Timer();
+				chunkTimer.start();
+
+				Promise.all(
+					chunks.map(async (chunk) => {
+						return new Promise<{ chunk: Chunk.Lightweight; texture: Texture }>(
+							(resolve) => {
+								setTimeout(() => {
+									const { tiles: _, ...$chunk } = chunk;
+
+									const texture = new DataTexture(
+										new Uint8Array($chunk.texture.data),
+										$chunk.texture.size,
+										$chunk.texture.size,
+									);
+									texture.needsUpdate = true;
+
+									resolve({
+										chunk: $chunk,
+										texture,
+									});
+								}, 50);
+							},
+						);
+					}),
+				).then((chunks) => {
+					setTimeout(() => {
+						console.log(
+							`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+						);
+
+						setChunks((prev) => {
+							const next = new Map(
+								Array.from(prev.values())
+									.slice(-Math.abs(limit))
+									.concat(chunks)
+									.map((chunk) => [chunk.chunk.id, chunk]),
+							);
+							return next;
+						});
+					}, 50);
+				});
+			});
+		});
+	}, 1000);
 
 	useEffect(() => {
 		update();
-	}, []);
 
-	const chunks = useMemo(() => {
-		return (
-			<Chunks
-				mapId={mapId}
-				config={config}
-				hash={hash}
-			/>
-		);
-	}, [mapId, hash?.hash]);
+		return () => {
+			jobs.terminate();
+		};
+	}, []);
 
 	return (
 		<>
@@ -131,13 +199,16 @@ export const Loop: FC<Loop.Props> = ({
 				 * How close
 				 */
 				maxZoom={1}
-				target={new Vector3(pos.x, 0, pos.z)}
+				// target={new Vector3(pos.x, 0, pos.z)}
 				mouseButtons={{ LEFT: MOUSE.PAN }}
-				onChange={update}
+				onEnd={update}
 				makeDefault
 			/>
 
-			{chunks}
+			<Chunks
+				config={config}
+				chunks={chunks}
+			/>
 		</>
 	);
 };

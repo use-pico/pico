@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import { OrthographicCamera } from "three";
-import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
+import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace useVisibleChunks {
 	export interface Props {
@@ -26,7 +26,7 @@ export const useVisibleChunks = ({
 	}, [camera]);
 
 	return useMemo(() => {
-		return (): ChunkHash => {
+		return (): Chunk.Hash => {
 			const viewHeight = (camera.top - camera.bottom) / camera.zoom;
 			const viewWidth = (camera.right - camera.left) / camera.zoom;
 

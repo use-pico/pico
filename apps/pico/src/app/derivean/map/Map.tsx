@@ -19,28 +19,19 @@ export namespace Map {
 	export interface Props {
 		mapId: string;
 		config: Config;
-		pos: { x: number; z: number };
 		zoom?: number;
 		onCamera?: Loop.OnCamera.Callback;
 	}
 }
 
-export const Map: FC<Map.Props> = ({
-	mapId,
-	config,
-	pos,
-	zoom = 8,
-	onCamera,
-}) => {
+export const Map: FC<Map.Props> = ({ mapId, config, zoom = 8 }) => {
 	return (
 		<div className={tvc(["w-screen", "h-screen", "overflow-hidden"])}>
-			<MapCanvas zoom={zoom} pos={pos}>
+			<MapCanvas zoom={zoom}>
 				<Loop
 					mapId={mapId}
 					config={config}
-					pos={pos}
 					zoom={zoom}
-					onCamera={onCamera}
 				/>
 			</MapCanvas>
 		</div>

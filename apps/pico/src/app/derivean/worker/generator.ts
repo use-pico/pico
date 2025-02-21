@@ -2,7 +2,6 @@ import { Timer } from "@use-pico/common";
 import { type Pool } from "workerpool";
 import { Game } from "~/app/derivean/Game";
 import type { Chunk } from "~/app/derivean/type/Chunk";
-import type { ChunkHash } from "~/app/derivean/type/ChunkHash";
 import { chunkOf } from "~/app/derivean/worker/chunkOf";
 
 export namespace generator {
@@ -10,7 +9,7 @@ export namespace generator {
 		pool: Pool;
 		mapId: string;
 		seed: string;
-		hash: ChunkHash;
+		hash: Chunk.Hash;
 		/**
 		 * List of chunk IDs to skip (e.g. they're still visible)
 		 */

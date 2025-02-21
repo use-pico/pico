@@ -5,8 +5,8 @@ import { Game } from "~/app/derivean/Game";
 import { Map } from "~/app/derivean/map/Map";
 
 const SearchSchema = z.object({
-	x: z.number().optional().default(0),
-	z: z.number().optional().default(0),
+	x: z.number().optional(),
+	z: z.number().optional(),
 	zoomToId: z.string().optional(),
 });
 
@@ -38,18 +38,12 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const { mapId } = Route.useParams();
-		const { x, z } = Route.useSearch();
-		const navigate = Route.useNavigate();
 
 		return (
 			<Map
 				mapId={mapId}
 				config={Game}
-				pos={{ x, z }}
 				zoom={0.1}
-				onCamera={({ x, z }) => {
-					navigate({ to: ".", search: { x, z }, replace: true });
-				}}
 			/>
 		);
 	},
