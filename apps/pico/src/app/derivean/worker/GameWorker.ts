@@ -12,10 +12,14 @@ export namespace generator {
 		mapId: string;
 		seed: string;
 		hash: ChunkHash;
+		/**
+		 * List of chunk IDs to skip (e.g. they're still visible)
+		 */
+		skip: string[];
 	}
 }
 
-const generator = async ({ mapId, seed, hash }: generator.Props) => {
+const generator = async ({ mapId, seed, hash, skip }: generator.Props) => {
 	const timer = new Timer();
 	timer.start();
 
@@ -53,6 +57,10 @@ const generator = async ({ mapId, seed, hash }: generator.Props) => {
 				const chunkId = `${x}:${z}`;
 				const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
 
+				if (skip.includes(chunkId)) {
+					return undefined;
+				}
+
 				if (await file(chunkFile).exists()) {
 					Atomics.add(chunkHits, 0, 1);
 				} else {
@@ -63,11 +71,13 @@ const generator = async ({ mapId, seed, hash }: generator.Props) => {
 			}),
 		).flat(),
 	).then((data) => {
+		const chunks = data.filter((chunk) => Boolean(chunk)) as Uint8Array[];
+
 		console.log(
-			`[Worker]\t- Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / data.length).toFixed(0)}%] [${timer.format()}]`,
+			`[Worker]\t- Finished [chunk hits ${((100 * Atomics.load(chunkHits, 0)) / chunks.length).toFixed(0)}%; generated ${((100 * chunks.length) / data.length).toFixed(0)}%] [${timer.format()}]`,
 		);
 
-		return data;
+		return chunks;
 	});
 };
 
