@@ -52,39 +52,57 @@ export const Chunks: FC<Chunks.Props> = ({ mapId, config, hash }) => {
 
 			Promise.all(
 				chunks.map(async (chunk) => {
-					const { tiles: _, ...$chunk } = decompressChunk(chunk);
-					return {
-						chunk: $chunk,
-						texture: new Uint8Array($chunk.texture.data),
-					};
+					return new Promise<{ chunk: Chunk.Lightweight; texture: Uint8Array }>(
+						(resolve) => {
+							requestIdleCallback(
+								() => {
+									const { tiles: _, ...$chunk } = decompressChunk(chunk);
+									resolve({
+										chunk: $chunk,
+										texture: new Uint8Array($chunk.texture.data),
+									});
+								},
+								{
+									timeout: 1000,
+								},
+							);
+						},
+					);
 				}),
 			).then((chunks) => {
-				const layerCount = chunks.length;
-				const texSize = Game.plotCount;
-				const layerPixels = texSize * texSize * 4;
-				const totalSize = layerPixels * layerCount;
-				const textureArrayBuffer = new Uint8Array(totalSize);
+				requestIdleCallback(
+					() => {
+						const layerCount = chunks.length;
+						const texSize = Game.plotCount;
+						const layerPixels = texSize * texSize * 4;
+						const totalSize = layerPixels * layerCount;
+						const textureArrayBuffer = new Uint8Array(totalSize);
 
-				chunks.forEach((chunk, index) => {
-					textureArrayBuffer.set(chunk.texture, index * layerPixels);
-				});
+						chunks.forEach((chunk, index) => {
+							textureArrayBuffer.set(chunk.texture, index * layerPixels);
+						});
 
-				const texture = new DataArrayTexture(
-					textureArrayBuffer,
-					texSize,
-					texSize,
-					layerCount,
+						const texture = new DataArrayTexture(
+							textureArrayBuffer,
+							texSize,
+							texSize,
+							layerCount,
+						);
+						texture.format = RGBAFormat;
+						texture.type = UnsignedByteType;
+						texture.needsUpdate = true;
+
+						console.log(
+							`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+						);
+
+						setTextures(texture);
+						setChunks(chunks);
+					},
+					{
+						timeout: 1000,
+					},
 				);
-				texture.format = RGBAFormat;
-				texture.type = UnsignedByteType;
-				texture.needsUpdate = true;
-
-				console.log(
-					`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
-				);
-
-				setTextures(texture);
-				setChunks(chunks);
 			});
 		});
 	}, [hash, mapId]);

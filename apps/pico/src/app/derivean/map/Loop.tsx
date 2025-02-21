@@ -51,7 +51,7 @@ export const Loop: FC<Loop.Props> = ({
 	}));
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
-		offset: 0,
+		offset: 2,
 	});
 
 	const [hash, setHash] = useState<ChunkHash>();
@@ -85,7 +85,7 @@ export const Loop: FC<Loop.Props> = ({
 		}
 
 		setHash(chunkHash);
-	}, 50);
+	}, 500);
 
 	useEffect(() => {
 		update();
@@ -126,11 +126,11 @@ export const Loop: FC<Loop.Props> = ({
 				/**
 				 * How far
 				 */
-				// minZoom={1.5}
+				minZoom={0.1}
 				/**
 				 * How close
 				 */
-				// maxZoom={32}
+				maxZoom={1}
 				target={new Vector3(pos.x, 0, pos.z)}
 				mouseButtons={{ LEFT: MOUSE.PAN }}
 				onChange={update}
