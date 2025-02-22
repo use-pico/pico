@@ -2,7 +2,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Timer } from "@use-pico/common";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { DataTexture, MOUSE, type DirectionalLight, type Texture } from "three";
+import { DataTexture, MOUSE, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { pool } from "workerpool";
 import { Chunks } from "~/app/derivean/map/Chunks";
@@ -48,7 +48,7 @@ export const Loop: FC<Loop.Props> = ({
 	config,
 	zoom,
 	offset = 2,
-	limit = 512,
+	limit = 1024,
 	onCamera,
 }) => {
 	const { camera } = useThree(({ camera }) => ({
@@ -118,11 +118,12 @@ export const Loop: FC<Loop.Props> = ({
 				const chunkTimer = new Timer();
 				chunkTimer.start();
 
-				Promise.all(
-					chunks.map(async (chunk) => {
-						return new Promise<{ chunk: Chunk.Lightweight; texture: Texture }>(
-							(resolve) => {
-								setTimeout(() => {
+				setChunks((prev) => {
+					const next = new Map(
+						Array.from(prev.values())
+							.slice(-Math.abs(limit))
+							.concat(
+								chunks.map((chunk) => {
 									const { tiles: _, ...$chunk } = chunk;
 
 									const texture = new DataTexture(
@@ -132,30 +133,18 @@ export const Loop: FC<Loop.Props> = ({
 									);
 									texture.needsUpdate = true;
 
-									resolve({
+									return {
 										chunk: $chunk,
 										texture,
-									});
-								}, 50);
-							},
-						);
-					}),
-				).then((chunks) => {
-					setTimeout(() => {
-						console.log(
-							`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
-						);
-
-						setChunks((prev) => {
-							const next = new Map(
-								Array.from(prev.values())
-									.slice(-Math.abs(limit))
-									.concat(chunks)
-									.map((chunk) => [chunk.chunk.id, chunk]),
-							);
-							return next;
-						});
-					}, 50);
+									};
+								}),
+							)
+							.map((chunk) => [chunk.chunk.id, chunk]),
+					);
+					console.log(
+						`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+					);
+					return next;
 				});
 			});
 		});
