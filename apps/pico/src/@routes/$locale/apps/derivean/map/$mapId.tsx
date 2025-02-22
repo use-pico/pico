@@ -5,8 +5,6 @@ import { Game } from "~/app/derivean/Game";
 import { Map } from "~/app/derivean/map/Map";
 
 const SearchSchema = z.object({
-	x: z.number().optional(),
-	z: z.number().optional(),
 	zoomToId: z.string().optional(),
 });
 

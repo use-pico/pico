@@ -20,7 +20,6 @@ export namespace Map {
 		mapId: string;
 		config: Config;
 		zoom?: number;
-		onCamera?: Loop.OnCamera.Callback;
 	}
 }
 

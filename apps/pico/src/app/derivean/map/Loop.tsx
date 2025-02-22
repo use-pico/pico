@@ -50,7 +50,7 @@ export const Loop: FC<Loop.Props> = ({
 	mapId,
 	config,
 	zoom,
-	offset = 0,
+	offset = 2,
 	limit = 1024,
 	onCamera,
 }) => {
@@ -86,7 +86,9 @@ export const Loop: FC<Loop.Props> = ({
 	 */
 	const [hash, setHash] = useState<string | undefined>(undefined);
 	const isLoading = useRef(false);
-	useCursor(isLoading.current, "progress", "default");
+	const isPointerDown = useRef(false);
+
+	useCursor(isLoading.current, "wait", "auto");
 
 	/**
 	 * List of requested chunk hashes to prevent multiple generator requests.
@@ -217,7 +219,11 @@ export const Loop: FC<Loop.Props> = ({
 				 * How close
 				 */
 				maxZoom={1}
-				// target={new Vector3(pos.x, 0, pos.z)}
+				/**
+				 * For my future me: this is used as a center point and must be set with
+				 * camera coordinates else the view will break up.
+				 */
+				// target={target}
 				mouseButtons={
 					isLoading.current ? { LEFT: MOUSE.PAN } : { LEFT: MOUSE.PAN }
 				}
@@ -226,7 +232,13 @@ export const Loop: FC<Loop.Props> = ({
 						{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
 					:	{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
 				}
-				onEnd={update}
+				onStart={() => {
+					isPointerDown.current = true;
+				}}
+				onEnd={() => {
+					update();
+					isPointerDown.current = false;
+				}}
 				makeDefault
 			/>
 
