@@ -20,6 +20,10 @@ export namespace Chunks {
 		 * Stable reference to a chunk map
 		 */
 		chunks: LRUCache<string, Chunk.Texture>;
+		/**
+		 * Controlled opacity of this layer of chunks.
+		 */
+		opacity?: number;
 	}
 }
 
@@ -28,6 +32,7 @@ export const Chunks: FC<Chunks.Props> = ({
 	currentHash,
 	hash,
 	chunks,
+	opacity = 1,
 }) => {
 	const map = useMemo(() => {
 		return Array.from(chunks.values()).map(({ chunk, texture }) => (
@@ -45,10 +50,12 @@ export const Chunks: FC<Chunks.Props> = ({
 				<meshStandardMaterial
 					color={0xffffff}
 					map={texture}
+					transparent
+					opacity={opacity}
 				/>
 			</mesh>
 		));
-	}, [hash]);
+	}, [hash, opacity]);
 
 	return (
 		<>
@@ -71,7 +78,7 @@ export const Chunks: FC<Chunks.Props> = ({
 						receiveShadow
 					>
 						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
-						<meshStandardMaterial color={0x344556} />
+						<meshStandardMaterial color={0x455667} />
 					</mesh>
 				);
 			})}

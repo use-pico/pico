@@ -239,6 +239,12 @@ export const Loop: FC<Loop.Props> = ({
 					update();
 					isPointerDown.current = false;
 				}}
+				onChange={() => {
+					/**
+					 * Resolve opacity dynamically based on zoom level.
+					 */
+					console.log("Change", camera.zoom);
+				}}
 				makeDefault
 			/>
 
@@ -247,6 +253,7 @@ export const Loop: FC<Loop.Props> = ({
 				chunks={chunkCache}
 				hash={hash}
 				currentHash={currentHash}
+				opacity={camera.zoom <= 0.5 ? 0.15 : 1}
 			/>
 		</>
 	);
