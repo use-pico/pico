@@ -4,16 +4,22 @@ import { OrthographicCamera } from "three";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace useVisibleChunks {
+	export namespace VisibleChunks {
+		export interface Props {
+			chunkSize: number;
+		}
+
+		export type Callback = (props: Props) => Chunk.Hash;
+	}
+
 	export interface Props {
-		chunkSize: number;
 		offset?: number;
 	}
 }
 
 export const useVisibleChunks = ({
-	chunkSize,
 	offset = 0,
-}: useVisibleChunks.Props) => {
+}: useVisibleChunks.Props): useVisibleChunks.VisibleChunks.Callback => {
 	const { camera, size } = useThree(({ camera, size }) => ({
 		camera: camera as OrthographicCamera,
 		size,
@@ -26,7 +32,7 @@ export const useVisibleChunks = ({
 	}, [camera]);
 
 	return useMemo(() => {
-		return (): Chunk.Hash => {
+		return ({ chunkSize }) => {
 			const viewHeight = (camera.top - camera.bottom) / camera.zoom;
 			const viewWidth = (camera.right - camera.left) / camera.zoom;
 
@@ -52,5 +58,5 @@ export const useVisibleChunks = ({
 				maxZ,
 			};
 		};
-	}, [camera, size, chunkSize, offset]);
+	}, [camera, size, offset]);
 };
