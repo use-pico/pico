@@ -209,7 +209,7 @@ export const Loop: FC<Loop.Props> = ({
 				/**
 				 * How far
 				 */
-				minZoom={0.025}
+				minZoom={0.05}
 				/**
 				 * How close
 				 */
