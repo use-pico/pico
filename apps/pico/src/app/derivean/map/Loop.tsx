@@ -224,14 +224,8 @@ export const Loop: FC<Loop.Props> = ({
 				 * camera coordinates else the view will break up.
 				 */
 				// target={target}
-				mouseButtons={
-					isLoading.current ? { LEFT: MOUSE.PAN } : { LEFT: MOUSE.PAN }
-				}
-				touches={
-					isLoading.current ?
-						{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
-					:	{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
-				}
+				mouseButtons={{ LEFT: MOUSE.PAN }}
+				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
 				onStart={() => {
 					isPointerDown.current = true;
 				}}
