@@ -89,6 +89,7 @@ export const Loop: FC<Loop.Props> = ({
 	 * This is used internally by update method, so it won't trigger more generator requests.
 	 */
 	const requests = useRef<Chunk.Hash[]>([]);
+	const abort = useRef(new AbortController());
 
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
@@ -135,40 +136,41 @@ export const Loop: FC<Loop.Props> = ({
 
 		const timer = new Timer();
 		timer.start();
-		console.log(
+		console.info(
 			`[Chunks] Requesting chunks [${chunkHash.count}] ${chunkHash.hash}`,
 		);
 
-		workerPool.terminate(true).then(() => {
-			generator({
-				pool: workerPool,
-				mapId,
-				seed: mapId,
-				hash: chunkHash,
-				skip: [...chunkCache.keys()],
-				async onChunk(awaitChunk) {
-					const { tiles: _, ...$chunk } = await awaitChunk;
+		abort.current.abort(`New generator request [${chunkHash.hash}]`);
 
-					const texture = new DataTexture(
-						new Uint8Array($chunk.texture.data),
-						$chunk.texture.size,
-						$chunk.texture.size,
-					);
-					texture.needsUpdate = true;
+		generator({
+			pool: workerPool,
+			mapId,
+			seed: mapId,
+			hash: chunkHash,
+			skip: [...chunkCache.keys()],
+			async onChunk(awaitChunk) {
+				const { tiles: _, ...$chunk } = await awaitChunk;
 
-					chunkCache.set($chunk.id, {
-						chunk: $chunk,
-						texture,
-					});
-				},
-				onComplete() {
-					requests.current = [];
-					/**
-					 * This triggers re-render of chunks
-					 */
-					setHash(chunkHash.hash);
-				},
-			});
+				const texture = new DataTexture(
+					new Uint8Array($chunk.texture.data),
+					$chunk.texture.size,
+					$chunk.texture.size,
+				);
+				texture.needsUpdate = true;
+
+				chunkCache.set($chunk.id, {
+					chunk: $chunk,
+					texture,
+				});
+			},
+			onComplete() {
+				requests.current = [];
+				/**
+				 * This triggers re-render of chunks
+				 */
+				setHash(chunkHash.hash);
+			},
+			abort: (abort.current = new AbortController()),
 		});
 	}, 1000);
 
@@ -177,6 +179,7 @@ export const Loop: FC<Loop.Props> = ({
 
 		return () => {
 			chunkCache.clear();
+			abort.current.abort("Unmounted");
 			workerPool.terminate();
 		};
 	}, []);
