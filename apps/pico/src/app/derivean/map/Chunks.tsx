@@ -1,5 +1,6 @@
 import type { LRUCache } from "lru-cache";
 import { FC, useMemo } from "react";
+import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace Chunks {
@@ -14,6 +15,7 @@ export namespace Chunks {
 		 * Controls a re-render of chunks.
 		 */
 		hash: string | undefined;
+		currentHash: Chunk.Hash;
 		/**
 		 * Stable reference to a chunk map
 		 */
@@ -21,10 +23,13 @@ export namespace Chunks {
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ config, hash, chunks }) => {
+export const Chunks: FC<Chunks.Props> = ({
+	config,
+	currentHash,
+	hash,
+	chunks,
+}) => {
 	const map = useMemo(() => {
-		console.log("Chunks changed", chunks.size);
-
 		return Array.from(chunks.values()).map(({ chunk, texture }) => (
 			<mesh
 				key={`chunk-${chunk.id}`}
@@ -52,6 +57,24 @@ export const Chunks: FC<Chunks.Props> = ({ config, hash, chunks }) => {
 			</mesh>
 
 			{map}
+
+			{chunkIdOf(currentHash).map(({ id, x, z }) => {
+				return (
+					<mesh
+						key={`placeholder-chunk-${id}`}
+						position={[
+							x * config.chunkSize * 1.001,
+							-2,
+							z * config.chunkSize * 1.001,
+						]}
+						rotation={[-Math.PI / 2, 0, 0]}
+						receiveShadow
+					>
+						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
+						<meshStandardMaterial color={0x344556} />
+					</mesh>
+				);
+			})}
 		</>
 	);
 };

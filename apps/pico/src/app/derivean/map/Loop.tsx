@@ -3,7 +3,7 @@ import { useThree } from "@react-three/fiber";
 import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { DataTexture, MOUSE, type DirectionalLight } from "three";
+import { DataTexture, MOUSE, TOUCH } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { pool } from "workerpool";
 import { Chunks } from "~/app/derivean/map/Chunks";
@@ -98,23 +98,9 @@ export const Loop: FC<Loop.Props> = ({
 		offset,
 	});
 
-	const lightRef = useRef<DirectionalLight>(null);
+	const [currentHash, setCurrentHash] = useState<Chunk.Hash>(visibleChunks());
 
 	const update = useDebouncedCallback(async () => {
-		if (lightRef.current) {
-			lightRef.current.position.set(
-				camera.position.x - 256,
-				256,
-				camera.position.z - 256,
-			);
-			lightRef.current.target.position.set(
-				camera.position.x,
-				0,
-				camera.position.z,
-			);
-			lightRef.current.target.updateMatrixWorld();
-		}
-
 		onCamera?.({
 			x: camera.position.x,
 			z: camera.position.z,
@@ -122,6 +108,7 @@ export const Loop: FC<Loop.Props> = ({
 		});
 
 		const chunkHash = visibleChunks();
+		setCurrentHash(chunkHash);
 
 		/**
 		 * Refresh chunks in the current view.
@@ -198,7 +185,6 @@ export const Loop: FC<Loop.Props> = ({
 	return (
 		<>
 			<directionalLight
-				ref={lightRef}
 				castShadow
 				color={0xffffff}
 				intensity={2.5}
@@ -227,6 +213,7 @@ export const Loop: FC<Loop.Props> = ({
 				maxZoom={1}
 				// target={new Vector3(pos.x, 0, pos.z)}
 				mouseButtons={{ LEFT: MOUSE.PAN }}
+				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
 				onEnd={update}
 				makeDefault
 			/>
@@ -235,6 +222,7 @@ export const Loop: FC<Loop.Props> = ({
 				config={config}
 				chunks={chunkCache}
 				hash={hash}
+				currentHash={currentHash}
 			/>
 		</>
 	);
