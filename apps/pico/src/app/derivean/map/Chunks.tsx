@@ -1,3 +1,4 @@
+import type { LRUCache } from "lru-cache";
 import { FC, useMemo } from "react";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
@@ -10,13 +11,17 @@ export namespace Chunks {
 	export interface Props {
 		config: Config;
 		/**
+		 * Controls a re-render of chunks.
+		 */
+		hash: string | undefined;
+		/**
 		 * Stable reference to a chunk map
 		 */
-		chunks: Map<string, Chunk.Texture>;
+		chunks: LRUCache<string, Chunk.Texture>;
 	}
 }
 
-export const Chunks: FC<Chunks.Props> = ({ config, chunks }) => {
+export const Chunks: FC<Chunks.Props> = ({ config, hash, chunks }) => {
 	const map = useMemo(() => {
 		console.log("Chunks changed", chunks.size);
 
@@ -38,7 +43,7 @@ export const Chunks: FC<Chunks.Props> = ({ config, chunks }) => {
 				/>
 			</mesh>
 		));
-	}, [chunks]);
+	}, [hash]);
 
 	return (
 		<>

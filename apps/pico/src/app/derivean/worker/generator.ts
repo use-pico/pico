@@ -1,6 +1,7 @@
 import { Timer } from "@use-pico/common";
 import { type Pool } from "workerpool";
 import { Game } from "~/app/derivean/Game";
+import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { chunkOf } from "~/app/derivean/worker/chunkOf";
 
@@ -32,26 +33,21 @@ export const generator = async ({
 	);
 
 	return Promise.all(
-		Array.from({ length: hash.maxX - hash.minX }, (_, i) =>
-			Array.from({ length: hash.maxZ - hash.minZ }, async (_, j) => {
-				const x = hash.minX + i;
-				const z = hash.minZ + j;
+		chunkIdOf(hash).map(({ id, z, x }) => {
+			if (skip.includes(id)) {
+				return undefined;
+			}
 
-				if (skip.includes(`${x}:${z}`)) {
-					return undefined;
-				}
-
-				return pool.exec("chunkOf", [
-					{
-						seed,
-						mapId,
-						plotCount: Game.plotCount,
-						x,
-						z,
-					} satisfies chunkOf.Props,
-				]);
-			}),
-		).flat(),
+			return pool.exec("chunkOf", [
+				{
+					seed,
+					mapId,
+					plotCount: Game.plotCount,
+					x,
+					z,
+				} satisfies chunkOf.Props,
+			]);
+		}),
 	).then((data) => {
 		const chunks = data.filter((chunk) => Boolean(chunk)) as Chunk[];
 

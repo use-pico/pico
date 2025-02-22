@@ -1,12 +1,14 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Timer } from "@use-pico/common";
+import { LRUCache } from "lru-cache";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { DataTexture, MOUSE, type DirectionalLight } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { pool } from "workerpool";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
+import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { generator } from "~/app/derivean/worker/generator";
 
@@ -48,21 +50,46 @@ export const Loop: FC<Loop.Props> = ({
 	config,
 	zoom,
 	offset = 2,
-	limit = 128,
+	limit = 1024,
 	onCamera,
 }) => {
 	const { camera } = useThree(({ camera }) => ({
 		camera,
 	}));
-	const jobs = useMemo(() => {
+	/**
+	 * Chunk generator worker pool.
+	 */
+	const workerPool = useMemo(() => {
 		return pool(new URL("../worker/chunkOf.js", import.meta.url).href, {
 			workerOpts: {
 				type: "module",
 			},
 		});
 	}, []);
-	const [chunks, setChunks] = useState<Map<string, Chunk.Texture>>(new Map());
-	const [hash, setHash] = useState<Chunk.Hash | undefined>(undefined);
+	/**
+	 * Chunk LRU cache which controls, how many of them are available to the user.
+	 */
+	const chunkCache = useMemo(() => {
+		return new LRUCache<string, Chunk.Texture>({
+			max: limit,
+			ttl: 0,
+		});
+	}, []);
+
+	/**
+	 * Current chunk hash; when updated, triggers chunk re-render.
+	 *
+	 * Works with chunkCache in cooperation; chunkCache is a stable reference, so
+	 * this values is needed to trigger re-render of chunks.
+	 */
+	const [hash, setHash] = useState<string | undefined>(undefined);
+	/**
+	 * List of requested chunk hashes to prevent multiple generator requests.
+	 *
+	 * This is used internally by update method, so it won't trigger more generator requests.
+	 */
+	const requests = useRef<Chunk.Hash[]>([]);
+
 	const visibleChunks = useVisibleChunks({
 		chunkSize: config.chunkSize,
 		offset,
@@ -93,9 +120,18 @@ export const Loop: FC<Loop.Props> = ({
 
 		const chunkHash = visibleChunks();
 
-		if (chunkHash.hash === hash?.hash) {
+		/**
+		 * Refresh chunks in the current view.
+		 */
+		chunkIdOf(chunkHash).forEach(({ id }) => {
+			chunkCache.get(id);
+		});
+
+		if (requests.current.includes(chunkHash)) {
 			return;
 		}
+
+		requests.current.push(chunkHash);
 
 		const timer = new Timer();
 		timer.start();
@@ -103,49 +139,51 @@ export const Loop: FC<Loop.Props> = ({
 			`[Chunks] Requesting chunks [${chunkHash.count}] ${chunkHash.hash}`,
 		);
 
-		setHash(chunkHash);
-
-		jobs.terminate(true).then(() => {
+		workerPool.terminate(true).then(() => {
 			generator({
-				pool: jobs,
+				pool: workerPool,
 				mapId,
 				seed: mapId,
 				hash: chunkHash,
-				skip: [...chunks.keys()],
+				skip: [...chunkCache.keys()],
 			}).then((chunks) => {
 				console.log(`[Chunks] - Received chunks ${timer.format()}`);
 
 				const chunkTimer = new Timer();
 				chunkTimer.start();
 
-				setChunks((prev) => {
-					const next = new Map(
-						Array.from(prev.values())
-							.slice(-Math.abs(limit))
-							.concat(
-								chunks.map((chunk) => {
-									const { tiles: _, ...$chunk } = chunk;
-
-									const texture = new DataTexture(
-										new Uint8Array($chunk.texture.data),
-										$chunk.texture.size,
-										$chunk.texture.size,
-									);
-									texture.needsUpdate = true;
-
-									return {
-										chunk: $chunk,
-										texture,
-									};
-								}),
-							)
-							.map((chunk) => [chunk.chunk.id, chunk]),
-					);
-					console.log(
-						`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
-					);
-					return next;
+				/**
+				 * Refresh chunks in the current view.
+				 */
+				chunkIdOf(chunkHash).forEach(({ id }) => {
+					chunkCache.get(id);
 				});
+
+				chunks.forEach((chunk) => {
+					const { tiles: _, ...$chunk } = chunk;
+
+					const texture = new DataTexture(
+						new Uint8Array($chunk.texture.data),
+						$chunk.texture.size,
+						$chunk.texture.size,
+					);
+					texture.needsUpdate = true;
+
+					chunkCache.set($chunk.id, {
+						chunk: $chunk,
+						texture,
+					});
+				});
+
+				requests.current = [];
+				/**
+				 * This triggers re-render of chunks
+				 */
+				setHash(chunkHash.hash);
+
+				console.log(
+					`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
+				);
 			});
 		});
 	}, 1000);
@@ -154,7 +192,8 @@ export const Loop: FC<Loop.Props> = ({
 		update();
 
 		return () => {
-			jobs.terminate();
+			chunkCache.clear();
+			workerPool.terminate();
 		};
 	}, []);
 
@@ -196,7 +235,8 @@ export const Loop: FC<Loop.Props> = ({
 
 			<Chunks
 				config={config}
-				chunks={chunks}
+				chunks={chunkCache}
+				hash={hash}
 			/>
 		</>
 	);
