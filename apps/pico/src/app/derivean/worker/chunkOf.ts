@@ -11,16 +11,24 @@ export namespace chunkOf {
 		seed: string;
 		mapId: string;
 		plotCount: number;
+		level: number;
 		x: number;
 		z: number;
 	}
 }
 
-export async function chunkOf({ seed, mapId, plotCount, x, z }: chunkOf.Props) {
+export async function chunkOf({
+	seed,
+	mapId,
+	plotCount,
+	level,
+	x,
+	z,
+}: chunkOf.Props) {
 	const generator = withGenerator({
 		plotCount,
 		seed,
-		scale: 1,
+		scale: level,
 		noise: ({ seed }) => ({
 			land: withLandNoise({ seed }),
 		}),
@@ -32,9 +40,10 @@ export async function chunkOf({ seed, mapId, plotCount, x, z }: chunkOf.Props) {
 		},
 	});
 
-	const chunkFile = `/chunk/${mapId}/${x}:${z}.bin`;
+	const chunkId = `${x}:${z}-${level}`;
+	const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
 
-	performance.mark(`chunkOf-${x}:${z}-start`);
+	performance.mark(`chunkOf-${chunkId}-start`);
 
 	return new Promise<Chunk>((resolve) => {
 		file(chunkFile)
@@ -50,11 +59,11 @@ export async function chunkOf({ seed, mapId, plotCount, x, z }: chunkOf.Props) {
 						.arrayBuffer()
 						.then((buffer) => {
 							resolve(decompressChunk(new Uint8Array(buffer)));
-							performance.mark(`chunkOf-${x}:${z}-end`);
+							performance.mark(`chunkOf-${chunkId}-end`);
 							performance.measure(
-								`chunkOf-${x}:${z}`,
-								`chunkOf-${x}:${z}-start`,
-								`chunkOf-${x}:${z}-end`,
+								`chunkOf-${chunkId}`,
+								`chunkOf-${chunkId}-start`,
+								`chunkOf-${chunkId}-end`,
 							);
 						});
 				});

@@ -1,6 +1,6 @@
 import { OrbitControls, useCursor } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { Timer } from "@use-pico/common";
+import { rangeOf, Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 import { DataTexture, MOUSE, TOUCH } from "three";
@@ -104,6 +104,7 @@ export const Loop: FC<Loop.Props> = ({
 	});
 
 	const [currentHash, setCurrentHash] = useState<Chunk.Hash>(visibleChunks());
+	const [level, setLevel] = useState(camera.zoom);
 
 	const update = useDebouncedCallback(async () => {
 		onCamera?.({
@@ -143,6 +144,7 @@ export const Loop: FC<Loop.Props> = ({
 			mapId,
 			seed: mapId,
 			hash: chunkHash,
+			level: 1,
 			skip: [...chunkCache.keys()],
 			abort: (abort.current = new AbortController()),
 			onComplete(chunks) {
@@ -179,6 +181,8 @@ export const Loop: FC<Loop.Props> = ({
 			},
 		});
 	}, 1000);
+
+	console.log("zm", level);
 
 	useEffect(() => {
 		update();
@@ -234,10 +238,7 @@ export const Loop: FC<Loop.Props> = ({
 					isPointerDown.current = false;
 				}}
 				onChange={() => {
-					/**
-					 * Resolve opacity dynamically based on zoom level.
-					 */
-					console.log("Change", camera.zoom);
+					setLevel(camera.zoom);
 				}}
 				makeDefault
 			/>
@@ -247,7 +248,15 @@ export const Loop: FC<Loop.Props> = ({
 				chunks={chunkCache}
 				hash={hash}
 				currentHash={currentHash}
-				opacity={camera.zoom <= 0.5 ? 0.15 : 1}
+				opacity={
+					camera.zoom <= 0.5 ?
+						rangeOf({
+							value: level,
+							input: { min: 0.05, max: 0.5 },
+							output: { min: 0, max: 1 },
+						})
+					:	1
+				}
 			/>
 		</>
 	);

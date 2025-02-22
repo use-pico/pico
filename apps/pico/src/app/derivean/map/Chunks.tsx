@@ -57,6 +57,10 @@ export const Chunks: FC<Chunks.Props> = ({
 		));
 	}, [hash, opacity]);
 
+	if (opacity <= 0) {
+		return null;
+	}
+
 	return (
 		<>
 			<mesh position={[config.plotSize / 2, 0, config.plotSize / 2]}>
@@ -78,7 +82,11 @@ export const Chunks: FC<Chunks.Props> = ({
 						receiveShadow
 					>
 						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
-						<meshStandardMaterial color={0x455667} />
+						<meshStandardMaterial
+							color={0x455667}
+							transparent
+							opacity={opacity}
+						/>
 					</mesh>
 				);
 			})}

@@ -12,6 +12,7 @@ export namespace generator {
 		mapId: string;
 		seed: string;
 		hash: Chunk.Hash;
+		level: number;
 		/**
 		 * List of chunk IDs to skip (e.g. they're still visible)
 		 */
@@ -31,6 +32,7 @@ export const generator = async ({
 	mapId,
 	seed,
 	hash,
+	level,
 	skip,
 	concurrency = Infinity,
 	onChunk,
@@ -41,10 +43,10 @@ export const generator = async ({
 	timer.start();
 
 	console.info(
-		`\t[generator] Started generator for [${hash.count} chunks] ${hash.hash}`,
+		`\t[generator] Started generator for [${hash.count} chunks] ${hash.hash}; level ${level}`,
 	);
 
-	performance.mark(`generator-${hash.hash}-start`);
+	performance.mark(`generator-${hash.hash}-${level}-start`);
 
 	return pMap(
 		chunkIdOf(hash).filter(({ id }) => !skip.includes(id)),
@@ -56,6 +58,7 @@ export const generator = async ({
 					plotCount: Game.plotCount,
 					x,
 					z,
+					level: 1 / level,
 				} satisfies chunkOf.Props,
 			]) as unknown as Promise<Chunk>;
 
@@ -76,21 +79,21 @@ export const generator = async ({
 				`\t[generator]\t- Finished [generated ${((100 * data.length) / hash.count).toFixed(0)}%] [${timer.format()}]`,
 			);
 
-			performance.mark(`generator-${hash.hash}-end`);
+			performance.mark(`generator-${hash.hash}-${level}-end`);
 			performance.measure(
-				`generator-${hash.hash}`,
-				`generator-${hash.hash}-start`,
-				`generator-${hash.hash}-end`,
+				`generator-${hash.hash}-${level}`,
+				`generator-${hash.hash}-${level}-start`,
+				`generator-${hash.hash}-${level}-end`,
 			);
 
 			return data;
 		})
 		.catch((e) => {
-			performance.mark(`generator-${hash.hash}-end`);
+			performance.mark(`generator-${hash.hash}-${level}-end`);
 			performance.measure(
-				`generator-${hash.hash}`,
-				`generator-${hash.hash}-start`,
-				`generator-${hash.hash}-end`,
+				`generator-${hash.hash}-${level}`,
+				`generator-${hash.hash}-${level}-start`,
+				`generator-${hash.hash}-${level}-end`,
 			);
 			console.warn(e);
 		});
