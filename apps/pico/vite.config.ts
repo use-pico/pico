@@ -39,9 +39,6 @@ export default defineConfig({
 		},
 	},
 	build: {
-		rollupOptions: {
-			external: ["worker_threads", "os", "child_process"],
-		},
 		target: "esnext",
 		// target:
 		// 	process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
