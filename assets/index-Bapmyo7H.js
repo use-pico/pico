@@ -87713,9 +87713,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }).then((u)=>(a?.(u), console.info(`	[generator]	- Finished [generated ${(100 * u.length / r.count).toFixed(0)}%] [${c.format()}]`), performance.mark(`generator-${r.hash}-end`), performance.measure(`generator-${r.hash}`, `generator-${r.hash}-start`, `generator-${r.hash}-end`), u)).catch((u)=>{
             performance.mark(`generator-${r.hash}-end`), performance.measure(`generator-${r.hash}`, `generator-${r.hash}-start`, `generator-${r.hash}-end`), console.warn(u);
         });
-    }, ISe = "/assets/chunkOf-DxorOsXE.js", RSe = ({ mapId: t, config: e, zoom: n, offset: r = 0, limit: i = 1024, onCamera: s })=>{
-        const { camera: o } = Ac(({ camera: M })=>({
-                camera: M
+    }, ISe = "/assets/chunkOf-DxorOsXE.js", RSe = ({ mapId: t, config: e, zoom: n, offset: r = 2, limit: i = 1024, onCamera: s })=>{
+        const { camera: o } = Ac(({ camera: E })=>({
+                camera: E
             })), a = X.useMemo(()=>SSe.pool(ISe, {
                 workerOpts: {
                     type: "module"
@@ -87723,45 +87723,45 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }), []), l = X.useMemo(()=>new H2({
                 max: i,
                 ttl: 0
-            }), []), [c, u] = X.useState(void 0), f = X.useRef(!1);
-        rSe(f.current, "progress", "default");
-        const p = X.useRef([]), g = X.useRef(new AbortController), x = MSe({
+            }), []), [c, u] = X.useState(void 0), f = X.useRef(!1), p = X.useRef(!1);
+        rSe(f.current, "wait", "auto");
+        const g = X.useRef([]), x = X.useRef(new AbortController), S = MSe({
             chunkSize: e.chunkSize,
             offset: r
-        }), [S, _] = X.useState(x()), b = bSe(async ()=>{
+        }), [_, b] = X.useState(S()), M = bSe(async ()=>{
             s?.({
                 x: o.position.x,
                 z: o.position.z,
                 zoom: o.zoom
             });
-            const M = x();
-            if (_(M), $2(M).forEach(({ id: T })=>{
-                l.get(T);
-            }), p.current.includes(M)) return;
-            p.current.push(M), new KW.Timer().start(), console.info(`[Chunks] Requesting chunks [${M.count}] ${M.hash}`), g.current.abort(`New generator request [${M.hash}]`), f.current = !0, CSe({
+            const E = S();
+            if (b(E), $2(E).forEach(({ id: k })=>{
+                l.get(k);
+            }), g.current.includes(E)) return;
+            g.current.push(E), new KW.Timer().start(), console.info(`[Chunks] Requesting chunks [${E.count}] ${E.hash}`), x.current.abort(`New generator request [${E.hash}]`), f.current = !0, CSe({
                 pool: a,
                 mapId: t,
                 seed: t,
-                hash: M,
+                hash: E,
                 skip: [
                     ...l.keys()
                 ],
-                abort: g.current = new AbortController,
-                onComplete (T) {
-                    f.current = !1, p.current = [], performance.mark("generator-onComplete-start");
-                    for (const { tiles: k, ...N } of T){
-                        const D = new tc(new Uint8Array(N.texture.data), N.texture.size, N.texture.size);
-                        D.needsUpdate = !0, l.set(N.id, {
-                            chunk: N,
-                            texture: D
+                abort: x.current = new AbortController,
+                onComplete (k) {
+                    f.current = !1, g.current = [], performance.mark("generator-onComplete-start");
+                    for (const { tiles: N, ...D } of k){
+                        const L = new tc(new Uint8Array(D.texture.data), D.texture.size, D.texture.size);
+                        L.needsUpdate = !0, l.set(D.id, {
+                            chunk: D,
+                            texture: L
                         });
                     }
-                    performance.mark("generator-onComplete-end"), performance.measure("generator-onComplete", "generator-onComplete-start", "generator-onComplete-end"), u(M.hash);
+                    performance.mark("generator-onComplete-end"), performance.measure("generator-onComplete", "generator-onComplete-start", "generator-onComplete-end"), u(E.hash);
                 }
             });
         }, 1e3);
-        return X.useEffect(()=>(b(), ()=>{
-                l.clear(), g.current.abort("Unmounted"), a.terminate();
+        return X.useEffect(()=>(M(), ()=>{
+                l.clear(), x.current.abort("Unmounted"), a.terminate();
             }), []), v.jsxs(v.Fragment, {
             children: [
                 v.jsx("directionalLight", {
@@ -87803,14 +87803,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         ONE: $l.PAN,
                         TWO: $l.DOLLY_PAN
                     },
-                    onEnd: b,
+                    onStart: ()=>{
+                        p.current = !0;
+                    },
+                    onEnd: ()=>{
+                        M(), p.current = !1;
+                    },
                     makeDefault: !0
                 }),
                 v.jsx(ESe, {
                     config: e,
                     chunks: l,
                     hash: c,
-                    currentHash: S
+                    currentHash: _
                 })
             ]
         });
@@ -87872,8 +87877,6 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
             })
         }), PSe = G.object({
-        x: G.number().optional(),
-        z: G.number().optional(),
         zoomToId: G.string().optional()
     }), c8 = jt("/$locale/apps/derivean/map/$mapId")({
         validateSearch: Vr(PSe),
