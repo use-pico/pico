@@ -71,7 +71,13 @@ export const Loop: FC<Loop.Props> = ({
 	/**
 	 * Chunk LRU cache which controls, how many of them are available to the user.
 	 */
-	const chunkCache = useMemo(() => {
+	const chunkCache0 = useMemo(() => {
+		return new LRUCache<string, Chunk.Texture>({
+			max: limit,
+			ttl: 0,
+		});
+	}, []);
+	const chunkCache1 = useMemo(() => {
 		return new LRUCache<string, Chunk.Texture>({
 			max: limit,
 			ttl: 0,
@@ -84,7 +90,8 @@ export const Loop: FC<Loop.Props> = ({
 	 * Works with chunkCache in cooperation; chunkCache is a stable reference, so
 	 * this values is needed to trigger re-render of chunks.
 	 */
-	const [hash, setHash] = useState<string | undefined>(undefined);
+	const [hash0, setHash0] = useState<string | undefined>(undefined);
+	const [hash1, setHash1] = useState<string | undefined>(undefined);
 	const isLoading = useRef(false);
 	const isPointerDown = useRef(false);
 
@@ -95,15 +102,25 @@ export const Loop: FC<Loop.Props> = ({
 	 *
 	 * This is used internally by update method, so it won't trigger more generator requests.
 	 */
-	const requests = useRef<Chunk.Hash[]>([]);
-	const abort = useRef(new AbortController());
+	const requests0 = useRef<Chunk.Hash[]>([]);
+	const requests1 = useRef<Chunk.Hash[]>([]);
+	const abort0 = useRef(new AbortController());
+	const abort1 = useRef(new AbortController());
 
-	const visibleChunks = useVisibleChunks({
+	const visibleChunks0 = useVisibleChunks({
+		chunkSize: config.chunkSize,
+		offset,
+	});
+	const visibleChunks1 = useVisibleChunks({
 		chunkSize: config.chunkSize,
 		offset,
 	});
 
-	const [currentHash, setCurrentHash] = useState<Chunk.Hash>(visibleChunks());
+	const [currentHash0, setCurrentHash0] =
+		useState<Chunk.Hash>(visibleChunks0());
+	const [currentHash1, setCurrentHash1] =
+		useState<Chunk.Hash>(visibleChunks1());
+
 	const [level, setLevel] = useState(camera.zoom);
 
 	const update = useDebouncedCallback(async () => {
@@ -113,73 +130,132 @@ export const Loop: FC<Loop.Props> = ({
 			zoom: camera.zoom,
 		});
 
-		const chunkHash = visibleChunks();
-		setCurrentHash(chunkHash);
+		const chunkHash0 = visibleChunks0();
+		setCurrentHash0(chunkHash0);
+		const chunkHash1 = visibleChunks1();
+		setCurrentHash1(chunkHash1);
 
 		/**
 		 * Refresh chunks in the current view.
 		 */
-		chunkIdOf(chunkHash).forEach(({ id }) => {
-			chunkCache.get(id);
+		chunkIdOf(chunkHash0).forEach(({ id }) => {
+			chunkCache0.get(id);
+		});
+		chunkIdOf(chunkHash1).forEach(({ id }) => {
+			chunkCache1.get(id);
 		});
 
-		if (requests.current.includes(chunkHash)) {
-			return;
+		if (!requests0.current.includes(chunkHash0)) {
+			requests0.current.push(chunkHash0);
+
+			const timer = new Timer();
+			timer.start();
+			console.info(
+				`[Chunks] Requesting chunks [${chunkHash0.count}] ${chunkHash0.hash}`,
+			);
+
+			abort0.current.abort(`New generator request [${chunkHash0.hash}]`);
+
+			isLoading.current = true;
+
+			generator({
+				pool: workerPool,
+				mapId,
+				seed: mapId,
+				hash: chunkHash0,
+				level: 1,
+				skip: [...chunkCache0.keys()],
+				abort: (abort0.current = new AbortController()),
+				onComplete(chunks) {
+					isLoading.current = false;
+					requests0.current = [];
+
+					performance.mark("generator-onComplete-start");
+
+					for (const { tiles: _, ...chunk } of chunks) {
+						const texture = new DataTexture(
+							new Uint8Array(chunk.texture.data),
+							chunk.texture.size,
+							chunk.texture.size,
+						);
+						texture.needsUpdate = true;
+
+						chunkCache0.set(chunk.id, {
+							chunk,
+							texture,
+						});
+					}
+
+					performance.mark("generator-onComplete-end");
+					performance.measure(
+						"generator-onComplete",
+						"generator-onComplete-start",
+						"generator-onComplete-end",
+					);
+
+					/**
+					 * This triggers re-render of chunks
+					 */
+					setHash0(chunkHash0.hash);
+				},
+			});
 		}
 
-		requests.current.push(chunkHash);
+		if (!requests1.current.includes(chunkHash1)) {
+			requests1.current.push(chunkHash1);
 
-		const timer = new Timer();
-		timer.start();
-		console.info(
-			`[Chunks] Requesting chunks [${chunkHash.count}] ${chunkHash.hash}`,
-		);
+			const timer = new Timer();
+			timer.start();
+			console.info(
+				`[Chunks] Requesting chunks [${chunkHash0.count}] ${chunkHash0.hash}`,
+			);
 
-		abort.current.abort(`New generator request [${chunkHash.hash}]`);
+			abort1.current.abort(`New generator request [${chunkHash0.hash}]`);
 
-		isLoading.current = true;
+			isLoading.current = true;
 
-		generator({
-			pool: workerPool,
-			mapId,
-			seed: mapId,
-			hash: chunkHash,
-			level: 1,
-			skip: [...chunkCache.keys()],
-			abort: (abort.current = new AbortController()),
-			onComplete(chunks) {
-				isLoading.current = false;
-				requests.current = [];
+			generator({
+				pool: workerPool,
+				mapId,
+				seed: mapId,
+				hash: chunkHash1,
+				level: 2,
+				skip: [...chunkCache1.keys()],
+				abort: (abort1.current = new AbortController()),
+				onComplete(chunks) {
+					isLoading.current = false;
+					requests0.current = [];
 
-				performance.mark("generator-onComplete-start");
+					performance.mark("generator-onComplete-start");
 
-				for (const { tiles: _, ...chunk } of chunks) {
-					const texture = new DataTexture(
-						new Uint8Array(chunk.texture.data),
-						chunk.texture.size,
-						chunk.texture.size,
+					for (const { tiles: _, ...chunk } of chunks) {
+						const texture = new DataTexture(
+							new Uint8Array(chunk.texture.data),
+							chunk.texture.size,
+							chunk.texture.size,
+						);
+						texture.needsUpdate = true;
+
+						chunkCache1.set(chunk.id, {
+							chunk,
+							texture,
+						});
+					}
+
+					performance.mark("generator-onComplete-end");
+					performance.measure(
+						"generator-onComplete",
+						"generator-onComplete-start",
+						"generator-onComplete-end",
 					);
-					texture.needsUpdate = true;
 
-					chunkCache.set(chunk.id, {
-						chunk,
-						texture,
-					});
-				}
-
-				performance.mark("generator-onComplete-end");
-				performance.measure(
-					"generator-onComplete",
-					"generator-onComplete-start",
-					"generator-onComplete-end",
-				);
-
-				/**
-				 * This triggers re-render of chunks
-				 */
-				setHash(chunkHash.hash);
-			},
-		});
+					/**
+					 * This triggers re-render of chunks
+					 */
+					setHash1(chunkHash1.hash);
+				},
+			});
+		}
 	}, 1000);
 
 	console.log("zm", level);
@@ -188,8 +264,8 @@ export const Loop: FC<Loop.Props> = ({
 		update();
 
 		return () => {
-			chunkCache.clear();
-			abort.current.abort("Unmounted");
+			chunkCache0.clear();
+			abort0.current.abort("Unmounted");
 			workerPool.terminate();
 		};
 	}, []);
@@ -245,9 +321,10 @@ export const Loop: FC<Loop.Props> = ({
 
 			<Chunks
 				config={config}
-				chunks={chunkCache}
-				hash={hash}
-				currentHash={currentHash}
+				chunks={chunkCache0}
+				hash={hash0}
+				currentHash={currentHash0}
+				level={1}
 				opacity={
 					camera.zoom <= 0.5 ?
 						rangeOf({
@@ -256,6 +333,24 @@ export const Loop: FC<Loop.Props> = ({
 							output: { min: 0, max: 1 },
 						})
 					:	1
+				}
+			/>
+
+			<Chunks
+				config={config}
+				chunks={chunkCache1}
+				hash={hash1}
+				currentHash={currentHash1}
+				level={2}
+				opacity={
+					camera.zoom <= 0.2 ?
+						1 -
+						rangeOf({
+							value: level,
+							input: { min: 0.0, max: 0.2 },
+							output: { min: 0, max: 1 },
+						})
+					:	0
 				}
 			/>
 		</>

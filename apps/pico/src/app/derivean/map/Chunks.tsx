@@ -20,6 +20,7 @@ export namespace Chunks {
 		 * Stable reference to a chunk map
 		 */
 		chunks: LRUCache<string, Chunk.Texture>;
+		level: number;
 		/**
 		 * Controlled opacity of this layer of chunks.
 		 */
@@ -32,21 +33,26 @@ export const Chunks: FC<Chunks.Props> = ({
 	currentHash,
 	hash,
 	chunks,
+	level,
 	opacity = 1,
 }) => {
+	const offset = level > 1 ? config.chunkSize / 2 : 0;
+
 	const map = useMemo(() => {
 		return Array.from(chunks.values()).map(({ chunk, texture }) => (
 			<mesh
 				key={`chunk-${chunk.id}`}
 				position={[
-					chunk.x * config.chunkSize * 1.001,
+					chunk.x * config.chunkSize * level * 1.001 + offset,
 					-1,
-					chunk.z * config.chunkSize * 1.001,
+					chunk.z * config.chunkSize * level * 1.001 + offset,
 				]}
 				rotation={[-Math.PI / 2, 0, 0]}
 				receiveShadow
 			>
-				<planeGeometry args={[config.chunkSize, config.chunkSize]} />
+				<planeGeometry
+					args={[config.chunkSize * level, config.chunkSize * level]}
+				/>
 				<meshStandardMaterial
 					color={0xffffff}
 					map={texture}
@@ -55,7 +61,7 @@ export const Chunks: FC<Chunks.Props> = ({
 				/>
 			</mesh>
 		));
-	}, [hash, opacity]);
+	}, [hash, level, opacity]);
 
 	if (opacity <= 0) {
 		return null;
@@ -74,14 +80,16 @@ export const Chunks: FC<Chunks.Props> = ({
 					<mesh
 						key={`placeholder-chunk-${id}`}
 						position={[
-							x * config.chunkSize * 1.001,
+							x * config.chunkSize * level * 1.001 + offset,
 							-2,
-							z * config.chunkSize * 1.001,
+							z * config.chunkSize * level * 1.001 + offset,
 						]}
 						rotation={[-Math.PI / 2, 0, 0]}
 						receiveShadow
 					>
-						<planeGeometry args={[config.chunkSize, config.chunkSize]} />
+						<planeGeometry
+							args={[config.chunkSize * level, config.chunkSize * level]}
+						/>
 						<meshStandardMaterial
 							color={0x455667}
 							transparent
