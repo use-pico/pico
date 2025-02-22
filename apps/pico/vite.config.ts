@@ -27,6 +27,7 @@ export default defineConfig({
 	],
 	worker: {
 		format: "es",
+		plugins: () => [paths()],
 	},
 	envPrefix: ["VITE_", "TAURI_ENV_*"],
 	server: {

@@ -11,6 +11,7 @@ import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
 import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { generator } from "~/app/derivean/worker/generator";
+import chunkOfUrl from "../worker/chunkOf?worker&url";
 
 export namespace Loop {
 	export interface Config {
@@ -56,11 +57,12 @@ export const Loop: FC<Loop.Props> = ({
 	const { camera } = useThree(({ camera }) => ({
 		camera,
 	}));
+
 	/**
 	 * Chunk generator worker pool.
 	 */
 	const workerPool = useMemo(() => {
-		return pool(new URL("../worker/chunkOf.js", import.meta.url).href, {
+		return pool(chunkOfUrl, {
 			workerOpts: {
 				type: "module",
 			},
