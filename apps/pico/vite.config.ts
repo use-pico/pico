@@ -46,6 +46,6 @@ export default defineConfig({
 		// sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
 	},
 	optimizeDeps: {
-		exclude: ["sqlocal"],
+		exclude: ["sqlocal", "lru-cache"],
 	},
 });
