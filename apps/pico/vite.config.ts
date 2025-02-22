@@ -39,10 +39,11 @@ export default defineConfig({
 		},
 	},
 	build: {
-		target:
-			process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
-		minify: process.env.TAURI_ENV_DEBUG ? false : "esbuild",
-		sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
+		target: "esnext",
+		// target:
+		// 	process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
+		// minify: process.env.TAURI_ENV_DEBUG ? false : "esbuild",
+		// sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
 	},
 	optimizeDeps: {
 		exclude: ["sqlocal"],
