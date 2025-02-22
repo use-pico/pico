@@ -15,6 +15,11 @@ export namespace generator {
 		 * List of chunk IDs to skip (e.g. they're still visible)
 		 */
 		skip: string[];
+		/**
+		 * Called when a chunk arrives
+		 */
+		onChunk?(awaitChunk: Promise<Chunk>): Promise<any>;
+		onComplete?(chunks: Chunk[]): void;
 	}
 }
 
@@ -24,6 +29,8 @@ export const generator = async ({
 	seed,
 	hash,
 	skip,
+	onChunk,
+	onComplete,
 }: generator.Props) => {
 	const timer = new Timer();
 	timer.start();
@@ -33,29 +40,31 @@ export const generator = async ({
 	);
 
 	return Promise.all(
-		chunkIdOf(hash).map(({ id, z, x }) => {
-			if (skip.includes(id)) {
-				return undefined;
-			}
+		chunkIdOf(hash)
+			.filter(({ id }) => !skip.includes(id))
+			.map(({ z, x }) => {
+				const promise = pool.exec("chunkOf", [
+					{
+						seed,
+						mapId,
+						plotCount: Game.plotCount,
+						x,
+						z,
+					} satisfies chunkOf.Props,
+				]) as unknown as Promise<Chunk>;
 
-			return pool.exec("chunkOf", [
-				{
-					seed,
-					mapId,
-					plotCount: Game.plotCount,
-					x,
-					z,
-				} satisfies chunkOf.Props,
-			]);
-		}),
+				onChunk?.(promise);
+
+				return promise;
+			}),
 	).then((data) => {
-		const chunks = data.filter((chunk) => Boolean(chunk)) as Chunk[];
+		onComplete?.(data);
 
 		console.log(
-			`[Worker]\t- Finished [generated ${((100 * chunks.length) / data.length).toFixed(0)}%] [${timer.format()}]`,
+			`[Worker]\t- Finished [generated ${((100 * data.length) / hash.count).toFixed(0)}%] [${timer.format()}]`,
 		);
 
-		return chunks;
+		return data;
 	});
 };
 

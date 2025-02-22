@@ -146,21 +146,8 @@ export const Loop: FC<Loop.Props> = ({
 				seed: mapId,
 				hash: chunkHash,
 				skip: [...chunkCache.keys()],
-			}).then((chunks) => {
-				console.log(`[Chunks] - Received chunks ${timer.format()}`);
-
-				const chunkTimer = new Timer();
-				chunkTimer.start();
-
-				/**
-				 * Refresh chunks in the current view.
-				 */
-				chunkIdOf(chunkHash).forEach(({ id }) => {
-					chunkCache.get(id);
-				});
-
-				chunks.forEach((chunk) => {
-					const { tiles: _, ...$chunk } = chunk;
+				async onChunk(awaitChunk) {
+					const { tiles: _, ...$chunk } = await awaitChunk;
 
 					const texture = new DataTexture(
 						new Uint8Array($chunk.texture.data),
@@ -173,17 +160,14 @@ export const Loop: FC<Loop.Props> = ({
 						chunk: $chunk,
 						texture,
 					});
-				});
-
-				requests.current = [];
-				/**
-				 * This triggers re-render of chunks
-				 */
-				setHash(chunkHash.hash);
-
-				console.log(
-					`[Chunks] - done ${timer.format()}; chunk processing ${chunkTimer.format()}`,
-				);
+				},
+				onComplete() {
+					requests.current = [];
+					/**
+					 * This triggers re-render of chunks
+					 */
+					setHash(chunkHash.hash);
+				},
 			});
 		});
 	}, 1000);
@@ -222,7 +206,7 @@ export const Loop: FC<Loop.Props> = ({
 				/**
 				 * How far
 				 */
-				minZoom={0.05}
+				minZoom={0.025}
 				/**
 				 * How close
 				 */
