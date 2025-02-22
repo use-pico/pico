@@ -32,7 +32,7 @@ export const generator = async ({
 	seed,
 	hash,
 	skip,
-	concurrency = 6,
+	concurrency = Infinity,
 	onChunk,
 	onComplete,
 	abort: { signal } = new AbortController(),

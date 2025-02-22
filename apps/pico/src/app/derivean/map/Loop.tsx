@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useCursor } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
@@ -85,6 +85,9 @@ export const Loop: FC<Loop.Props> = ({
 	 * this values is needed to trigger re-render of chunks.
 	 */
 	const [hash, setHash] = useState<string | undefined>(undefined);
+	const isLoading = useRef(false);
+	useCursor(isLoading.current, "progress", "default");
+
 	/**
 	 * List of requested chunk hashes to prevent multiple generator requests.
 	 *
@@ -131,6 +134,8 @@ export const Loop: FC<Loop.Props> = ({
 
 		abort.current.abort(`New generator request [${chunkHash.hash}]`);
 
+		isLoading.current = true;
+
 		generator({
 			pool: workerPool,
 			mapId,
@@ -139,6 +144,7 @@ export const Loop: FC<Loop.Props> = ({
 			skip: [...chunkCache.keys()],
 			abort: (abort.current = new AbortController()),
 			onComplete(chunks) {
+				isLoading.current = false;
 				requests.current = [];
 
 				performance.mark("generator-onComplete-start");
@@ -212,8 +218,14 @@ export const Loop: FC<Loop.Props> = ({
 				 */
 				maxZoom={1}
 				// target={new Vector3(pos.x, 0, pos.z)}
-				mouseButtons={{ LEFT: MOUSE.PAN }}
-				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
+				mouseButtons={
+					isLoading.current ? { LEFT: MOUSE.PAN } : { LEFT: MOUSE.PAN }
+				}
+				touches={
+					isLoading.current ?
+						{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
+					:	{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }
+				}
 				onEnd={update}
 				makeDefault
 			/>
