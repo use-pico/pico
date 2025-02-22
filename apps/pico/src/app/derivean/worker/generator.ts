@@ -42,7 +42,7 @@ export const generator = async ({
 	return Promise.all(
 		chunkIdOf(hash)
 			.filter(({ id }) => !skip.includes(id))
-			.map(({ z, x }) => {
+			.map(async ({ z, x }) => {
 				const promise = pool.exec("chunkOf", [
 					{
 						seed,
