@@ -55,6 +55,7 @@
 		"@modyfi/vite-plugin-yaml": "^1.1.0",
 		"@tailwindcss/vite": "^4.0.6",
 		"@tanstack/router-plugin": "^1.102.1",
+		"@tauri-apps/cli": "^2.2.7",
 		"@types/file-saver": "^2.0.7",
 		"@types/react-dom": "^18.0.0",
 		"@types/react": "^18.0.0",

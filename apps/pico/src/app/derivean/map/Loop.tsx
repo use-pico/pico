@@ -47,7 +47,7 @@ export const Loop: FC<Loop.Props> = ({
 	mapId,
 	config,
 	zoom,
-	offset = 2,
+	offset = 4,
 	limit = 1024,
 	onCamera,
 }) => {

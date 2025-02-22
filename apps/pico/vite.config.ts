@@ -8,7 +8,10 @@ import tla from "vite-plugin-top-level-await";
 import wasm from "vite-plugin-wasm";
 import paths from "vite-tsconfig-paths";
 
+const host = process.env.TAURI_DEV_HOST;
+
 export default defineConfig({
+	clearScreen: false,
 	plugins: [
 		TanStackRouterVite({
 			generatedRouteTree: "./src/_route.ts",
@@ -25,7 +28,10 @@ export default defineConfig({
 	worker: {
 		format: "es",
 	},
+	envPrefix: ["VITE_", "TAURI_ENV_*"],
 	server: {
+		strictPort: true,
+		host: host || false,
 		port: 4000,
 		headers: {
 			"Cross-Origin-Opener-Policy": "same-origin",
@@ -33,7 +39,10 @@ export default defineConfig({
 		},
 	},
 	build: {
-		target: "esnext",
+		target:
+			process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
+		minify: process.env.TAURI_ENV_DEBUG ? false : "esbuild",
+		sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
 	},
 	optimizeDeps: {
 		exclude: ["sqlocal"],
