@@ -34,6 +34,8 @@ export async function chunkOf({ seed, mapId, plotCount, x, z }: chunkOf.Props) {
 
 	const chunkFile = `/chunk/${mapId}/${x}:${z}.bin`;
 
+	performance.mark(`chunkOf-${x}:${z}-start`);
+
 	return new Promise<Chunk>((resolve) => {
 		file(chunkFile)
 			.exists()
@@ -48,6 +50,12 @@ export async function chunkOf({ seed, mapId, plotCount, x, z }: chunkOf.Props) {
 						.arrayBuffer()
 						.then((buffer) => {
 							resolve(decompressChunk(new Uint8Array(buffer)));
+							performance.mark(`chunkOf-${x}:${z}-end`);
+							performance.measure(
+								`chunkOf-${x}:${z}`,
+								`chunkOf-${x}:${z}-start`,
+								`chunkOf-${x}:${z}-end`,
+							);
 						});
 				});
 			});

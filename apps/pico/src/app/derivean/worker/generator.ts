@@ -44,6 +44,8 @@ export const generator = async ({
 		`\t[generator] Started generator for [${hash.count} chunks] ${hash.hash}`,
 	);
 
+	performance.mark(`generator-${hash.hash}-start`);
+
 	return pMap(
 		chunkIdOf(hash).filter(({ id }) => !skip.includes(id)),
 		async ({ z, x }) => {
@@ -74,9 +76,22 @@ export const generator = async ({
 				`\t[generator]\t- Finished [generated ${((100 * data.length) / hash.count).toFixed(0)}%] [${timer.format()}]`,
 			);
 
+			performance.mark(`generator-${hash.hash}-end`);
+			performance.measure(
+				`generator-${hash.hash}`,
+				`generator-${hash.hash}-start`,
+				`generator-${hash.hash}-end`,
+			);
+
 			return data;
 		})
 		.catch((e) => {
+			performance.mark(`generator-${hash.hash}-end`);
+			performance.measure(
+				`generator-${hash.hash}`,
+				`generator-${hash.hash}-start`,
+				`generator-${hash.hash}-end`,
+			);
 			console.warn(e);
 		});
 };

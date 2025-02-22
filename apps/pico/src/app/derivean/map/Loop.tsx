@@ -150,29 +150,38 @@ export const Loop: FC<Loop.Props> = ({
 			seed: mapId,
 			hash: chunkHash,
 			skip: [...chunkCache.keys()],
-			async onChunk(awaitChunk) {
-				const { tiles: _, ...$chunk } = await awaitChunk;
-
-				const texture = new DataTexture(
-					new Uint8Array($chunk.texture.data),
-					$chunk.texture.size,
-					$chunk.texture.size,
-				);
-				texture.needsUpdate = true;
-
-				chunkCache.set($chunk.id, {
-					chunk: $chunk,
-					texture,
-				});
-			},
-			onComplete() {
+			abort: (abort.current = new AbortController()),
+			onComplete(chunks) {
 				requests.current = [];
+
+				performance.mark("generator-onComplete-start");
+
+				for (const { tiles: _, ...chunk } of chunks) {
+					const texture = new DataTexture(
+						new Uint8Array(chunk.texture.data),
+						chunk.texture.size,
+						chunk.texture.size,
+					);
+					texture.needsUpdate = true;
+
+					chunkCache.set(chunk.id, {
+						chunk,
+						texture,
+					});
+				}
+
+				performance.mark("generator-onComplete-end");
+				performance.measure(
+					"generator-onComplete",
+					"generator-onComplete-start",
+					"generator-onComplete-end",
+				);
+
 				/**
 				 * This triggers re-render of chunks
 				 */
 				setHash(chunkHash.hash);
 			},
-			abort: (abort.current = new AbortController()),
 		});
 	}, 1000);
 

@@ -20,6 +20,7 @@ import {
     type Form,
 } from "@use-pico/client";
 import { genId, tvc } from "@use-pico/common";
+import { dir } from "opfs-tools";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -130,11 +131,14 @@ export const Route = createFileRoute("/$locale/apps/derivean/game/")({
 		const deleteMapMutation = useMutation({
 			async mutationFn({ id }: { id: string }) {
 				return kysely.transaction().execute(async (tx) => {
-					return tx
-						.deleteFrom("Map")
-						.where("id", "=", id)
-						.where("userId", "=", user.id)
-						.execute();
+					return Promise.all([
+						tx
+							.deleteFrom("Map")
+							.where("id", "=", id)
+							.where("userId", "=", user.id)
+							.execute(),
+						dir(`/chunk/${id}`).remove(),
+					]);
 				});
 			},
 			async onSuccess() {
