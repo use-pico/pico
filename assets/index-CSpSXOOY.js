@@ -13349,7 +13349,7 @@ to {
     Ci.getAdapter = RV.getAdapter;
     Ci.HttpStatusCode = oP;
     Ci.default = Ci;
-    const { Axios: ETe, AxiosError: NY, CanceledError: MTe, isCancel: TTe, CancelToken: CTe, VERSION: ITe, all: RTe, Cancel: ATe, isAxiosError: NTe, spread: PTe, toFormData: kTe, AxiosHeaders: OTe, HttpStatusCode: LTe, formToJSON: DTe, getAdapter: FTe, mergeConfig: jTe } = Ci, Uk = ({ error: t, schema: e, onError: n })=>{
+    const { Axios: MTe, AxiosError: NY, CanceledError: TTe, isCancel: CTe, CancelToken: ITe, VERSION: RTe, all: ATe, Cancel: NTe, isAxiosError: PTe, spread: kTe, toFormData: OTe, AxiosHeaders: LTe, HttpStatusCode: DTe, formToJSON: FTe, getAdapter: jTe, mergeConfig: BTe } = Ci, Uk = ({ error: t, schema: e, onError: n })=>{
         if (t instanceof NY) {
             const i = e.safeParse(t.response?.data);
             return i.success && n({
@@ -85457,15 +85457,22 @@ No matching component was found for:
             })
         });
     });
-    var rSe = Object.defineProperty, iSe = (t, e, n)=>e in t ? rSe(t, e, {
+    function rSe(t, e = "pointer", n = "auto", r = document.body) {
+        X.useEffect(()=>{
+            if (t) return r.style.cursor = e, ()=>void (r.style.cursor = n);
+        }, [
+            t
+        ]);
+    }
+    var iSe = Object.defineProperty, sSe = (t, e, n)=>e in t ? iSe(t, e, {
             enumerable: !0,
             configurable: !0,
             writable: !0,
             value: n
-        }) : t[e] = n, sSe = (t, e, n)=>(iSe(t, e + "", n), n);
-    class oSe {
+        }) : t[e] = n, oSe = (t, e, n)=>(sSe(t, e + "", n), n);
+    class aSe {
         constructor(){
-            sSe(this, "_listeners");
+            oSe(this, "_listeners");
         }
         addEventListener(e, n) {
             this._listeners === void 0 && (this._listeners = {});
@@ -85496,14 +85503,14 @@ No matching component was found for:
             }
         }
     }
-    var aSe = Object.defineProperty, lSe = (t, e, n)=>e in t ? aSe(t, e, {
+    var lSe = Object.defineProperty, cSe = (t, e, n)=>e in t ? lSe(t, e, {
             enumerable: !0,
             configurable: !0,
             writable: !0,
             value: n
-        }) : t[e] = n, on = (t, e, n)=>(lSe(t, typeof e != "symbol" ? e + "" : e, n), n);
-    const qS = new ym, d4 = new Ku, cSe = Math.cos(70 * (Math.PI / 180)), f4 = (t, e)=>(t % e + e) % e;
-    let uSe = class extends oSe {
+        }) : t[e] = n, on = (t, e, n)=>(cSe(t, typeof e != "symbol" ? e + "" : e, n), n);
+    const qS = new ym, d4 = new Ku, uSe = Math.cos(70 * (Math.PI / 180)), f4 = (t, e)=>(t % e + e) % e;
+    let dSe = class extends aSe {
         constructor(e, n){
             super(), on(this, "object"), on(this, "domElement"), on(this, "enabled", !0), on(this, "target", new ye), on(this, "minDistance", 0), on(this, "maxDistance", 1 / 0), on(this, "minZoom", 0), on(this, "maxZoom", 1 / 0), on(this, "minPolarAngle", 0), on(this, "maxPolarAngle", Math.PI), on(this, "minAzimuthAngle", -1 / 0), on(this, "maxAzimuthAngle", 1 / 0), on(this, "enableDamping", !1), on(this, "dampingFactor", .05), on(this, "enableZoom", !0), on(this, "zoomSpeed", 1), on(this, "enableRotate", !0), on(this, "rotateSpeed", 1), on(this, "enablePan", !0), on(this, "panSpeed", 1), on(this, "screenSpacePanning", !0), on(this, "keyPanSpeed", 7), on(this, "zoomToCursor", !1), on(this, "autoRotate", !1), on(this, "autoRotateSpeed", 2), on(this, "reverseOrbit", !1), on(this, "reverseHorizontalOrbit", !1), on(this, "reverseVerticalOrbit", !1), on(this, "keys", {
                 LEFT: "ArrowLeft",
@@ -85556,7 +85563,7 @@ No matching component was found for:
                             const pn = new ye(L.x, L.y, 0);
                             pn.unproject(r.object), r.object.position.sub(pn).add(Nn), r.object.updateMatrixWorld(), wt = _e.length();
                         } else console.warn("WARNING: OrbitControls.js encountered an unknown camera type - zoom to cursor disabled."), r.zoomToCursor = !1;
-                        wt !== null && (r.screenSpacePanning ? r.target.set(0, 0, -1).transformDirection(r.object.matrix).multiplyScalar(wt).add(r.object.position) : (qS.origin.copy(r.object.position), qS.direction.set(0, 0, -1).transformDirection(r.object.matrix), Math.abs(r.object.up.dot(qS.direction)) < cSe ? e.lookAt(r.target) : (d4.setFromNormalAndCoplanarPoint(r.object.up, r.target), qS.intersectPlane(d4, r.target))));
+                        wt !== null && (r.screenSpacePanning ? r.target.set(0, 0, -1).transformDirection(r.object.matrix).multiplyScalar(wt).add(r.object.position) : (qS.origin.copy(r.object.position), qS.direction.set(0, 0, -1).transformDirection(r.object.matrix), Math.abs(r.object.up.dot(qS.direction)) < uSe ? e.lookAt(r.target) : (d4.setFromNormalAndCoplanarPoint(r.object.up, r.target), qS.intersectPlane(d4, r.target))));
                     } else r.object instanceof Uf && r.object.isOrthographicCamera && (Zt = p !== 1, Zt && (r.object.zoom = Math.max(r.minZoom, Math.min(r.maxZoom, r.object.zoom / p)), r.object.updateProjectionMatrix()));
                     return p = 1, R = !1, Zt || lt.distanceToSquared(r.object.position) > c || 8 * (1 - Re.dot(r.object.quaternion)) > c ? (r.dispatchEvent(i), lt.copy(r.object.position), Re.copy(r.object.quaternion), Zt = !1, !0) : !1;
                 };
@@ -85896,8 +85903,8 @@ No matching component was found for:
             }, this.getZoomScale = ()=>U(), n !== void 0 && this.connect(n), this.update();
         }
     };
-    const dSe = X.forwardRef(({ makeDefault: t, camera: e, regress: n, domElement: r, enableDamping: i = !0, keyEvents: s = !1, onChange: o, onStart: a, onEnd: l, ...c }, u)=>{
-        const f = Hu((N)=>N.invalidate), p = Hu((N)=>N.camera), g = Hu((N)=>N.gl), x = Hu((N)=>N.events), S = Hu((N)=>N.setEvents), _ = Hu((N)=>N.set), b = Hu((N)=>N.get), M = Hu((N)=>N.performance), E = e || p, T = r || x.connected || g.domElement, k = X.useMemo(()=>new uSe(E), [
+    const fSe = X.forwardRef(({ makeDefault: t, camera: e, regress: n, domElement: r, enableDamping: i = !0, keyEvents: s = !1, onChange: o, onStart: a, onEnd: l, ...c }, u)=>{
+        const f = Hu((N)=>N.invalidate), p = Hu((N)=>N.camera), g = Hu((N)=>N.gl), x = Hu((N)=>N.events), S = Hu((N)=>N.setEvents), _ = Hu((N)=>N.set), b = Hu((N)=>N.get), M = Hu((N)=>N.performance), E = e || p, T = r || x.connected || g.domElement, k = X.useMemo(()=>new dSe(E), [
             E
         ]);
         return L_e(()=>{
@@ -85946,12 +85953,12 @@ No matching component was found for:
     });
     var S1 = {
         exports: {}
-    }, fSe = S1.exports, h4;
-    function hSe() {
+    }, hSe = S1.exports, h4;
+    function pSe() {
         return h4 || (h4 = 1, function(t, e) {
             (function(n, r) {
                 t.exports = r();
-            })(fSe, function() {
+            })(hSe, function() {
                 var n = function() {
                     function r(g) {
                         return o.appendChild(g.dom), g;
@@ -86004,17 +86011,17 @@ No matching component was found for:
             });
         }(S1)), S1.exports;
     }
-    var pSe = hSe();
-    const mSe = Ao(pSe);
-    function gSe(t, e = [], n) {
+    var mSe = pSe();
+    const gSe = Ao(mSe);
+    function ySe(t, e = [], n) {
         const [r, i] = X.useState();
         return X.useLayoutEffect(()=>{
             const s = t();
             return i(s), ()=>void 0;
         }, e), r;
     }
-    function ySe({ showPanel: t = 0, className: e, parent: n }) {
-        const r = gSe(()=>new mSe, []);
+    function vSe({ showPanel: t = 0, className: e, parent: n }) {
+        const r = ySe(()=>new gSe, []);
         return X.useEffect(()=>{
             if (r) {
                 const i = n && n.current || document.body;
@@ -86033,7 +86040,7 @@ No matching component was found for:
             t
         ]), null;
     }
-    function vSe(t, e, n) {
+    function xSe(t, e, n) {
         var r = this, i = X.useRef(null), s = X.useRef(0), o = X.useRef(null), a = X.useRef([]), l = X.useRef(), c = X.useRef(), u = X.useRef(t), f = X.useRef(!0);
         u.current = t;
         var p = typeof window < "u", g = !e && e !== 0 && p;
@@ -86124,7 +86131,7 @@ No matching component was found for:
             t && (t = !1, rG("AbortController is not defined. If using lru-cache in node 14, load an AbortController polyfill from the `node-abort-controller` package. A minimal polyfill is provided for use by LRUCache.fetch(), but it should not be relied upon in other contexts (eg, passing it to other APIs that use AbortController/AbortSignal might have undesirable effects). You may disable this with LRU_CACHE_IGNORE_AC_WARNING=1 in the env.", "NO_ABORT_CONTROLLER", "ENOTSUP", e));
         };
     }
-    const xSe = (t)=>!nG.has(t), vf = (t)=>t && t === Math.floor(t) && t > 0 && isFinite(t), iG = (t)=>vf(t) ? t <= Math.pow(2, 8) ? Uint8Array : t <= Math.pow(2, 16) ? Uint16Array : t <= Math.pow(2, 32) ? Uint32Array : t <= Number.MAX_SAFE_INTEGER ? E1 : null : null;
+    const bSe = (t)=>!nG.has(t), vf = (t)=>t && t === Math.floor(t) && t > 0 && isFinite(t), iG = (t)=>vf(t) ? t <= Math.pow(2, 8) ? Uint8Array : t <= Math.pow(2, 16) ? Uint16Array : t <= Math.pow(2, 32) ? Uint32Array : t <= Number.MAX_SAFE_INTEGER ? E1 : null : null;
     class E1 extends Array {
         constructor(e){
             super(e), this.fill(0);
@@ -86263,7 +86270,7 @@ No matching component was found for:
             if (this.#e === 0 && this.ttl === 0 && this.#t === 0) throw new TypeError("At least one of max, maxSize, or ttl is required");
             if (!this.ttlAutopurge && !this.#e && !this.#t) {
                 const L = "LRU_CACHE_UNBOUNDED";
-                xSe(L) && (nG.add(L), rG("TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.", "UnboundedCacheWarning", L, H2));
+                bSe(L) && (nG.add(L), rG("TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.", "UnboundedCacheWarning", L, H2));
             }
         }
         getRemainingTTL(e) {
@@ -86709,12 +86716,12 @@ No matching component was found for:
     var Qx = {
         exports: {}
     };
-    var bSe = Qx.exports, m4;
-    function wSe() {
+    var wSe = Qx.exports, m4;
+    function _Se() {
         return m4 || (m4 = 1, function(t, e) {
             (function(n, r) {
                 r(e);
-            })(bSe, function(n) {
+            })(wSe, function(n) {
                 var r = {}, i = {
                     exports: {}
                 };
@@ -87583,8 +87590,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             });
         }(Qx, Qx.exports)), Qx.exports;
     }
-    var _Se = wSe();
-    const SSe = ({ chunks: t, opacity: e = 1 })=>e <= 0 ? null : Array.from(t.values()).map((n)=>v.jsxs("mesh", {
+    var SSe = _Se();
+    const ESe = ({ chunks: t, opacity: e = 1 })=>e <= 0 ? null : Array.from(t.values()).map((n)=>v.jsxs("mesh", {
                 position: [
                     n.x * 1.001,
                     -1,
@@ -87610,7 +87617,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         opacity: e
                     })
                 ]
-            }, `chunk-${n.id}`)), ESe = ({ gameConfig: { chunkSize: t, layers: e } })=>({ x: n, z: r, bottom: i, top: s, left: o, right: a, zoom: l })=>{
+            }, `chunk-${n.id}`)), MSe = ({ gameConfig: { chunkSize: t, layers: e } })=>({ x: n, z: r, bottom: i, top: s, left: o, right: a, zoom: l })=>{
             const c = [];
             for (const { min: u, max: f, level: p, offset: g = 0 } of e)if (l >= u && l <= f) {
                 const x = t * p, S = (s - i) / l, b = (a - o) / l * .5, M = S * .5, E = x / 2, T = Math.floor((n - b + E) / x) - g, k = Math.ceil((n + b + E) / x) + g, N = Math.floor((r - M + E) / x) - g, D = Math.ceil((r + M + E) / x) + g;
@@ -87643,7 +87650,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     z: l
                 };
             })).flat();
-    async function MSe(t, e, { concurrency: n = Number.POSITIVE_INFINITY, stopOnError: r = !0, signal: i } = {}) {
+    async function TSe(t, e, { concurrency: n = Number.POSITIVE_INFINITY, stopOnError: r = !0, signal: i } = {}) {
         return new Promise((s, o)=>{
             if (t[Symbol.iterator] === void 0 && t[Symbol.asyncIterator] === void 0) throw new TypeError(`Expected \`input\` to be either an \`Iterable\` or \`AsyncIterable\`, got (${typeof t})`);
             if (typeof e != "function") throw new TypeError("Mapper function is required");
@@ -87713,9 +87720,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })();
         });
     }
-    const g4 = Symbol("skip"), TSe = async ({ pool: t, mapId: e, gameConfig: n, level: r, skip: i, concurrency: s = 1 / 0, onChunk: o, onComplete: a, abort: { signal: l } = new AbortController })=>{
+    const g4 = Symbol("skip"), CSe = async ({ pool: t, mapId: e, gameConfig: n, level: r, skip: i, concurrency: s = 1 / 0, onChunk: o, onComplete: a, abort: { signal: l } = new AbortController })=>{
         const c = new XW.Timer;
-        return c.start(), console.info(`	[generator] Started generator for [${r.count} chunks] ${r.hash}`), MSe(sG(r).filter(({ id: u })=>!i.includes(u)), async ({ z: u, x: f, id: p })=>{
+        return c.start(), console.info(`	[generator] Started generator for [${r.count} chunks] ${r.hash}`), TSe(sG(r).filter(({ id: u })=>!i.includes(u)), async ({ z: u, x: f, id: p })=>{
             const g = t.exec("chunkOf", [
                 {
                     id: p,
@@ -87734,64 +87741,65 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }).then((u)=>(a?.(u), console.info(`	[generator]	- Finished [cache hit ${u.length > 0 ? (100 * u.filter((f)=>f.hit).length / r.count).toFixed(0) : "100"}%; generated ${(100 * u.length / r.count).toFixed(0)}%] [${c.format()}]`), u)).catch((u)=>{
             console.warn(u);
         });
-    }, CSe = "/assets/chunkOf-DmqNF-kq.js", ISe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
-        const r = X.useMemo(()=>_Se.pool(CSe, {
+    }, ISe = "/assets/chunkOf-DmqNF-kq.js", RSe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
+        const r = X.useMemo(()=>SSe.pool(ISe, {
                 workerOpts: {
                     type: "module"
                 }
             }), []), i = X.useMemo(()=>{
-            const u = new Map;
-            return e.layers.forEach((f)=>{
-                u.set(f.level, new H2({
+            const f = new Map;
+            return e.layers.forEach((p)=>{
+                f.set(p.level, new H2({
                     max: e.chunkLimit,
                     ttl: 0
                 }));
-            }), u;
-        }, []), [s, o] = X.useState([]), a = X.useRef(new AbortController), l = ESe({
+            }), f;
+        }, []), [s, o] = X.useState([]), a = MSe({
             gameConfig: e
-        });
+        }), [l, c] = X.useState(!1);
         cie({
             eventBus: n,
             event: "onCamera",
-            callback (u) {
-                const { levels: f } = l(u);
-                Promise.all(f.map((p)=>new Promise((g)=>{
-                        console.info("[ChunkManager]	Processing level", p);
-                        const x = i.get(p.level);
-                        if (!x) throw console.warn(`[ChunkManager]		Chunk cache for level ${p.level} not found; that's quite strange. Doctor Strange.`), new Error("Chunk cache not found");
-                        sG(p).forEach(({ id: _ })=>{
-                            x.get(_);
-                        }), new XW.Timer().start(), console.info(`[ChunkManager]	Requesting chunks [${p.count}] ${p.hash}`), TSe({
+            callback (f) {
+                const { levels: p } = a(f);
+                c(!0), Promise.all(p.map((g)=>new Promise((x)=>{
+                        console.info("[ChunkManager]	Processing level", g);
+                        const S = i.get(g.level);
+                        if (!S) throw console.warn(`[ChunkManager]		Chunk cache for level ${g.level} not found; that's quite strange. Doctor Strange.`), new Error("Chunk cache not found");
+                        sG(g).forEach(({ id: b })=>{
+                            S.get(b);
+                        }), new XW.Timer().start(), console.info(`[ChunkManager]	Requesting chunks [${g.count}] ${g.hash}`), CSe({
                             pool: r,
                             mapId: t,
                             gameConfig: e,
-                            level: p,
+                            level: g,
                             skip: [
-                                ...x.keys()
+                                ...S.keys()
                             ],
-                            abort: a.current = new AbortController,
-                            onComplete (_) {
-                                for (const { chunk: { texture: b, ...M } } of _){
-                                    const E = new ec(new Uint8Array(b.data), b.size, b.size);
-                                    E.needsUpdate = !0, x.set(M.id, {
-                                        ...M,
+                            onComplete (b) {
+                                for (const { chunk: { texture: M, ...E } } of b){
+                                    const T = new ec(new Uint8Array(M.data), M.size, M.size);
+                                    T.needsUpdate = !0, S.set(E.id, {
+                                        ...E,
                                         texture: {
-                                            size: b.size,
-                                            data: E
+                                            size: M.size,
+                                            data: T
                                         }
                                     });
                                 }
-                                g(p);
+                                x(g);
                             }
                         });
-                    }))).then(o);
+                    }))).then((g)=>{
+                    c(!1), o(g);
+                });
             }
-        });
-        const c = X.useMemo(()=>s.map((u)=>{
-                const f = i.get(u.level);
-                return f ? v.jsx(SSe, {
-                    chunks: f
-                }, `chunks-${u.level}`) : null;
+        }), rSe(l, "wait", "auto");
+        const u = X.useMemo(()=>s.map((f)=>{
+                const p = i.get(f.level);
+                return p ? v.jsx(ESe, {
+                    chunks: p
+                }, `chunks-${f.level}`) : null;
             }), [
             s
         ]);
@@ -87811,12 +87819,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         ]
                     })
                 }),
-                c
+                u
             ]
         });
-    }, RSe = ({ mapId: t, gameConfig: e, gameEventBus: n, zoom: r })=>{
+    }, ASe = ({ mapId: t, gameConfig: e, gameEventBus: n, zoom: r })=>{
         console.log("Loop re-render");
-        const i = Hu(({ camera: o })=>o), s = vSe(()=>{
+        const i = Hu(({ camera: o })=>o), s = xSe(()=>{
             n.emit("onCamera", {
                 x: i.position.x,
                 z: i.position.z,
@@ -87846,7 +87854,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     "shadow-normalBias": .1,
                     "shadow-radius": 15
                 }),
-                v.jsx(dSe, {
+                v.jsx(fSe, {
                     enableRotate: !1,
                     enablePan: !0,
                     enableZoom: !0,
@@ -87866,14 +87874,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     makeDefault: !0,
                     onEnd: s
                 }),
-                v.jsx(ISe, {
+                v.jsx(RSe, {
                     mapId: t,
                     gameConfig: e,
                     gameEventBus: n
                 })
             ]
         });
-    }, ASe = ({ zoom: t, children: e })=>(console.log("MapCanvas re-render"), v.jsxs(nSe, {
+    }, NSe = ({ zoom: t, children: e })=>(console.log("MapCanvas re-render"), v.jsxs(nSe, {
             frameloop: "demand",
             gl: {
                 preserveDrawingBuffer: !1,
@@ -87910,31 +87918,31 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         1053968
                     ]
                 }),
-                v.jsx(ySe, {}),
+                v.jsx(vSe, {}),
                 v.jsx("ambientLight", {
                     intensity: .25
                 }),
                 e
             ]
-        })), NSe = ({ mapId: t, gameConfig: e, gameEventBus: n, zoom: r = 8 })=>(console.log("Map re-render"), v.jsx("div", {
+        })), PSe = ({ mapId: t, gameConfig: e, gameEventBus: n, zoom: r = 8 })=>(console.log("Map re-render"), v.jsx("div", {
             className: dn([
                 "w-screen",
                 "h-screen",
                 "overflow-hidden"
             ]),
-            children: v.jsx(ASe, {
+            children: v.jsx(NSe, {
                 zoom: r,
-                children: v.jsx(RSe, {
+                children: v.jsx(ASe, {
                     mapId: t,
                     gameConfig: e,
                     gameEventBus: n,
                     zoom: r
                 })
             })
-        })), PSe = G.object({
+        })), kSe = G.object({
         zoomToId: G.string().optional()
     }), oG = jt("/$locale/apps/derivean/map/$mapId")({
-        validateSearch: Vr(PSe),
+        validateSearch: Vr(kSe),
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r } }) {
             const i = await n();
             return {
@@ -87953,7 +87961,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         component () {
             const { mapId: t } = oG.useParams(), e = Jpe();
-            return v.jsx(NSe, {
+            return v.jsx(PSe, {
                 mapId: t,
                 gameConfig: Zpe,
                 gameEventBus: e,
@@ -88057,7 +88065,7 @@ export interface Database {
                 ]
             });
         }
-    }), y4 = vi(), kSe = [
+    }), y4 = vi(), OSe = [
         y4({
             name: "name",
             header () {
@@ -88092,7 +88100,7 @@ export interface Database {
             },
             size: 14
         })
-    ], OSe = ({ table: t, ...e })=>{
+    ], LSe = ({ table: t, ...e })=>{
         const n = kr([
             [
                 "GameMap"
@@ -88116,7 +88124,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: kSe
+                columns: OSe
             }),
             action: {
                 row ({ data: i }) {
@@ -88137,7 +88145,7 @@ export interface Database {
             },
             ...e
         });
-    }, LSe = aae({
+    }, DSe = aae({
         shape: G.object({
             name: G.string().min(1),
             login: G.string().min(1),
@@ -88148,7 +88156,7 @@ export interface Database {
             password: G.string().optional()
         }))
     }), M1 = jt("/$locale/apps/derivean/root/user/list")({
-        validateSearch: Vr(mi(LSe)),
+        validateSearch: Vr(mi(DSe)),
         loaderDeps ({ search: { filter: t, cursor: e } }) {
             return {
                 filter: t,
@@ -88189,7 +88197,7 @@ export interface Database {
             }), a = o().slots;
             return v.jsx("div", {
                 className: a.base(),
-                children: v.jsx(OSe, {
+                children: v.jsx(LSe, {
                     table: {
                         data: t,
                         filter: {
@@ -88217,7 +88225,7 @@ export interface Database {
                 })
             });
         }
-    }), DSe = ({ entity: t, ...e })=>{
+    }), FSe = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -88248,7 +88256,7 @@ export interface Database {
                 })
             ]
         });
-    }, FSe = (t)=>{
+    }, jSe = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -88293,10 +88301,10 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(FSe, {
+                    v.jsx(jSe, {
                         entity: e
                     }),
-                    v.jsx(DSe, {
+                    v.jsx(FSe, {
                         entity: e
                     }),
                     v.jsx(fl, {})
@@ -88402,7 +88410,7 @@ export interface Database {
                 })
             ]
         });
-    }, jN = vi(), jSe = [
+    }, jN = vi(), BSe = [
         jN({
             name: "label",
             header () {
@@ -88457,7 +88465,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: jSe
+                columns: BSe
             }),
             action: {
                 table () {
@@ -88622,7 +88630,7 @@ export interface Database {
                 })
             });
         }
-    }), BSe = ({ group: t, ...e })=>v.jsx(dq, {
+    }), USe = ({ group: t, ...e })=>v.jsx(dq, {
             icon: sb,
             table: (n)=>v.jsx(cG, {
                     group: t,
@@ -88758,7 +88766,7 @@ export interface Database {
                     children: v.jsx(Ro, {
                         control: o.control,
                         name: "tagIds",
-                        render: ({ field: { ref: l, ...c } })=>v.jsx(BSe, {
+                        render: ({ field: { ref: l, ...c } })=>v.jsx(USe, {
                                 group: t,
                                 textTitle: v.jsx(ne, {
                                     label: "Select resource tags (title)"
@@ -88783,7 +88791,7 @@ export interface Database {
                 })
             ]
         });
-    }, Hg = vi(), USe = [
+    }, Hg = vi(), zSe = [
         Hg({
             name: "name",
             header () {
@@ -88926,7 +88934,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: USe
+                columns: zSe
             }),
             action: {
                 table () {
@@ -89131,7 +89139,7 @@ export interface Database {
                 })
             });
         }
-    }), zSe = ({ entity: t, ...e })=>{
+    }), VSe = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -89149,7 +89157,7 @@ export interface Database {
                 })
             })
         });
-    }, VSe = (t)=>{
+    }, WSe = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -89204,10 +89212,10 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(VSe, {
+                    v.jsx(WSe, {
                         entity: e
                     }),
-                    v.jsx(zSe, {
+                    v.jsx(VSe, {
                         entity: e
                     }),
                     v.jsx(fl, {})
@@ -89298,7 +89306,7 @@ export interface Database {
                 })
             });
         }
-    }), WSe = jt("/$locale/apps/derivean/root/region/$id")({
+    }), qSe = jt("/$locale/apps/derivean/root/region/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return t.ensureQueryData({
                 queryKey: [
@@ -89332,7 +89340,7 @@ export interface Database {
                 children: v.jsx(fl, {})
             });
         }
-    }), $2 = "icon-[gala--clock]", zf = "icon-[mingcute--inventory-line]", qSe = Tn({
+    }), $2 = "icon-[gala--clock]", zf = "icon-[mingcute--inventory-line]", HSe = Tn({
         slot: {
             item: [
                 "flex",
@@ -89371,7 +89379,7 @@ export interface Database {
         defaults: {
             missing: !1
         }
-    }), hG = ({ dependencies: t, variant: e, tva: n = qSe, css: r, ...i })=>{
+    }), hG = ({ dependencies: t, variant: e, tva: n = HSe, css: r, ...i })=>{
         const s = n({
             ...e,
             css: r
@@ -89388,7 +89396,7 @@ export interface Database {
         });
     };
     var HS = {}, b4;
-    function HSe() {
+    function $Se() {
         if (b4) return HS;
         b4 = 1;
         function t(r, i, s, o) {
@@ -89535,7 +89543,7 @@ export interface Database {
             }
         }), Object.setPrototypeOf(n, Error), HS;
     }
-    var pG = HSe();
+    var pG = $Se();
     const Sw = async ({ tx: t })=>{
         const e = new pG.DepGraph({
             circular: !1
@@ -89602,7 +89610,7 @@ export interface Database {
                 type: "storage"
             }).returning("id").executeTakeFirstOrThrow()).id
         }).execute();
-    }, $Se = Tn({
+    }, GSe = Tn({
         slot: {
             item: [
                 "flex",
@@ -89666,7 +89674,7 @@ export interface Database {
             passive: !1,
             missing: !1
         }
-    }), gC = ({ requirements: t, diff: e, variant: n, tva: r = $Se, css: i, ...s })=>{
+    }), gC = ({ requirements: t, diff: e, variant: n, tva: r = GSe, css: i, ...s })=>{
         const o = r({
             ...n,
             css: i
@@ -89727,7 +89735,7 @@ export interface Database {
             },
             ...s
         });
-    }, Bx = vi(), GSe = [
+    }, Bx = vi(), XSe = [
         Bx({
             name: "name",
             header () {
@@ -89892,7 +89900,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: GSe,
+                columns: XSe,
                 context: {
                     dependencies: t
                 }
@@ -90153,7 +90161,7 @@ export interface Database {
                 })
             });
         }
-    }), XSe = ({ entity: t, ...e })=>{
+    }), KSe = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -90239,7 +90247,7 @@ export interface Database {
                 })
             ]
         });
-    }, KSe = (t)=>{
+    }, YSe = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -90360,17 +90368,17 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(KSe, {
+                    v.jsx(YSe, {
                         entity: e
                     }),
-                    v.jsx(XSe, {
+                    v.jsx(KSe, {
                         entity: e
                     }),
                     v.jsx(fl, {})
                 ]
             });
         }
-    }), YSe = jt("/$locale/apps/derivean/map/$mapId/view")({}), w4 = vi(), ZSe = [
+    }), ZSe = jt("/$locale/apps/derivean/map/$mapId/view")({}), w4 = vi(), JSe = [
         w4({
             name: "name",
             header () {
@@ -90441,10 +90449,10 @@ export interface Database {
             },
             size: 8
         })
-    ], JSe = ({ table: t, ...e })=>v.jsx(gi, {
+    ], QSe = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: ZSe
+                columns: JSe
             }),
             ...e
         }), A1 = jt("/$locale/apps/derivean/game/blueprint/list")({
@@ -90504,7 +90512,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(JSe, {
+                children: v.jsx(QSe, {
                     table: {
                         data: t,
                         filter: {
@@ -90527,7 +90535,7 @@ export interface Database {
                 })
             });
         }
-    }), QSe = ({ entity: t, ...e })=>{
+    }), e1e = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -90591,7 +90599,7 @@ export interface Database {
                 })
             ]
         });
-    }, e1e = (t)=>{
+    }, t1e = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -90667,21 +90675,21 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(e1e, {
+                    v.jsx(t1e, {
                         entity: e
                     }),
-                    v.jsx(QSe, {
+                    v.jsx(e1e, {
                         entity: e
                     }),
                     v.jsx(fl, {})
                 ]
             });
         }
-    }), t1e = jt("/$locale/apps/derivean/root/user/$id/view")({
+    }), n1e = jt("/$locale/apps/derivean/root/user/$id/view")({
         component () {
             return "yep";
         }
-    }), n1e = jt("/$locale/apps/derivean/root/resource/$id/view")({
+    }), r1e = jt("/$locale/apps/derivean/root/resource/$id/view")({
         component () {
             const { entity: { image: t } } = Wi({
                 from: "/$locale/apps/derivean/root/resource/$id"
@@ -90692,7 +90700,7 @@ export interface Database {
                 })
             });
         }
-    }), r1e = jt("/$locale/apps/derivean/root/region/$id/view")({
+    }), i1e = jt("/$locale/apps/derivean/root/region/$id/view")({
         component () {
             const { entity: { image: t } } = Wi({
                 from: "/$locale/apps/derivean/root/region/$id"
@@ -90703,7 +90711,7 @@ export interface Database {
                 }) : "no image"
             });
         }
-    }), G2 = "icon-[carbon--document-requirements]", i1e = ({ entity: t, ...e })=>{
+    }), G2 = "icon-[carbon--document-requirements]", s1e = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -90745,7 +90753,7 @@ export interface Database {
                 })
             ]
         });
-    }, s1e = (t)=>{
+    }, o1e = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -90808,17 +90816,17 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(s1e, {
+                    v.jsx(o1e, {
                         entity: t
                     }),
-                    v.jsx(i1e, {
+                    v.jsx(s1e, {
                         entity: t
                     }),
                     v.jsx(fl, {})
                 ]
             });
         }
-    }), o1e = ({ graph: t, blueprintId: e, mode: n = "dependencies", reverse: r = !1 })=>{
+    }), a1e = ({ graph: t, blueprintId: e, mode: n = "dependencies", reverse: r = !1 })=>{
         try {
             const i = ((s)=>r ? s.reverse() : s)(n === "dependants" ? t.dependantsOf(e) : t.dependenciesOf(e));
             return v.jsxs("div", {
@@ -90895,7 +90903,7 @@ export interface Database {
                 ]
             }) : "kaboom";
         }
-    }, a1e = ({ dependencies: t, ...e })=>v.jsx(F5, {
+    }, l1e = ({ dependencies: t, ...e })=>v.jsx(F5, {
             items: [
                 {
                     id: "name",
@@ -90982,7 +90990,7 @@ export interface Database {
                         label: "Blueprint dependency graph (label)"
                     }),
                     render ({ entity: n }) {
-                        return v.jsx(o1e, {
+                        return v.jsx(a1e, {
                             graph: t,
                             blueprintId: n.id
                         });
@@ -91021,7 +91029,7 @@ export interface Database {
             });
             return v.jsx("div", {
                 className: "w-1/2 mx-auto",
-                children: v.jsx(a1e, {
+                children: v.jsx(l1e, {
                     dependencies: t,
                     entity: e
                 })
@@ -91169,7 +91177,7 @@ export interface Database {
                 })
             ]
         });
-    }, BN = vi(), l1e = [
+    }, BN = vi(), c1e = [
         BN({
             name: "name",
             header () {
@@ -91216,7 +91224,7 @@ export interface Database {
             },
             size: 10
         })
-    ], c1e = ({ blueprintId: t, table: e, ...n })=>{
+    ], u1e = ({ blueprintId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint"
@@ -91234,7 +91242,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: l1e
+                columns: c1e
             }),
             action: {
                 table () {
@@ -91369,7 +91377,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(c1e, {
+                children: v.jsx(u1e, {
                     blueprintId: s,
                     table: {
                         data: t,
@@ -91567,11 +91575,11 @@ export interface Database {
                         cursor: n
                     })),
             ...t
-        }), u1e = G.object({
+        }), d1e = G.object({
         blueprintId: G.string().min(1)
-    }), d1e = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
+    }), f1e = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
         const s = hs({
-            resolver: ps(u1e),
+            resolver: ps(d1e),
             defaultValues: e
         }), o = r({
             ...n,
@@ -91619,7 +91627,7 @@ export interface Database {
                 })
             ]
         });
-    }, $g = vi(), f1e = [
+    }, $g = vi(), h1e = [
         $g({
             name: "name",
             header () {
@@ -91764,7 +91772,7 @@ export interface Database {
             },
             size: 32
         })
-    ], h1e = ({ blueprintId: t, table: e, ...n })=>{
+    ], p1e = ({ blueprintId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint"
@@ -91782,7 +91790,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: f1e
+                columns: h1e
             }),
             action: {
                 table () {
@@ -91843,7 +91851,7 @@ export interface Database {
                                     label: "Move production to (modal)"
                                 }),
                                 icon: Kr,
-                                children: ({ close: s })=>v.jsx(d1e, {
+                                children: ({ close: s })=>v.jsx(f1e, {
                                         mutation: an({
                                             async mutationFn (o) {
                                                 return At.transaction().execute(async (a)=>{
@@ -91991,7 +91999,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(h1e, {
+                children: v.jsx(p1e, {
                     blueprintId: s,
                     table: {
                         data: t,
@@ -92020,10 +92028,10 @@ export interface Database {
                 })
             });
         }
-    }), p1e = ({ label: t, ...e })=>v.jsx(ne, {
+    }), m1e = ({ label: t, ...e })=>v.jsx(ne, {
             label: `Inventory type - ${t}`,
             ...e
-        }), m1e = nae({
+        }), g1e = nae({
         shape: G.object({
             resourceId: G.string().min(1),
             amount: ud(),
@@ -92042,7 +92050,7 @@ export interface Database {
         }))
     }), E4 = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
         const s = hs({
-            resolver: ps(m1e.shape),
+            resolver: ps(g1e.shape),
             defaultValues: {
                 amount: 0,
                 limit: 0,
@@ -92147,7 +92155,7 @@ export interface Database {
                 })
             ]
         });
-    }, $S = vi(), g1e = [
+    }, $S = vi(), y1e = [
         $S({
             name: "name",
             header () {
@@ -92174,7 +92182,7 @@ export interface Database {
                 });
             },
             render ({ value: t }) {
-                return v.jsx(p1e, {
+                return v.jsx(m1e, {
                     label: t
                 });
             },
@@ -92224,7 +92232,7 @@ export interface Database {
             },
             size: 14
         })
-    ], y1e = ({ blueprintId: t, table: e, ...n })=>{
+    ], v1e = ({ blueprintId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Inventory"
@@ -92246,7 +92254,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: g1e
+                columns: y1e
             }),
             action: {
                 table () {
@@ -92343,7 +92351,7 @@ export interface Database {
             },
             ...n
         });
-    }, v1e = Koe({
+    }, x1e = Koe({
         shape: G.object({
             blueprintId: G.string().min(1),
             inventoryId: G.string().min(1)
@@ -92353,7 +92361,7 @@ export interface Database {
             inventoryId: G.string().optional()
         }))
     }), n0 = jt("/$locale/apps/derivean/root/blueprint/$id/inventory")({
-        validateSearch: Vr(mi(v1e)),
+        validateSearch: Vr(mi(x1e)),
         loaderDeps ({ search: { filter: t, cursor: e, sort: n } }) {
             return {
                 filter: t,
@@ -92426,7 +92434,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(y1e, {
+                children: v.jsx(v1e, {
                     blueprintId: s,
                     table: {
                         data: t,
@@ -92546,8 +92554,8 @@ export interface Database {
                 })
             ]
         });
-    }, x1e = vi(), b1e = [
-        x1e({
+    }, b1e = vi(), w1e = [
+        b1e({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -92570,7 +92578,7 @@ export interface Database {
             },
             size: 22
         })
-    ], w1e = ({ blueprintId: t, table: e, ...n })=>{
+    ], _1e = ({ blueprintId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Dependency"
@@ -92582,7 +92590,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: b1e
+                columns: w1e
             }),
             action: {
                 table () {
@@ -92720,7 +92728,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(w1e, {
+                children: v.jsx(_1e, {
                     blueprintId: s,
                     table: {
                         data: t,
@@ -92749,14 +92757,14 @@ export interface Database {
                 })
             });
         }
-    }), _1e = Goe({
+    }), S1e = Goe({
         shape: G.object({
             conflictId: G.string().min(1)
         }),
         filter: Qs
     }), T4 = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
         const s = hs({
-            resolver: ps(_1e.shape),
+            resolver: ps(S1e.shape),
             defaultValues: e
         }), o = r({
             ...n,
@@ -92810,8 +92818,8 @@ export interface Database {
                 })
             ]
         });
-    }, S1e = vi(), E1e = [
-        S1e({
+    }, E1e = vi(), M1e = [
+        E1e({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -92834,7 +92842,7 @@ export interface Database {
             },
             size: 22
         })
-    ], M1e = ({ blueprintId: t, table: e, ...n })=>{
+    ], T1e = ({ blueprintId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Conflict"
@@ -92846,7 +92854,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: E1e
+                columns: M1e
             }),
             action: {
                 table () {
@@ -92984,7 +92992,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(M1e, {
+                children: v.jsx(T1e, {
                     blueprintId: s,
                     table: {
                         data: t,
@@ -93013,7 +93021,7 @@ export interface Database {
                 })
             });
         }
-    }), T1e = ({ land: t })=>{
+    }), C1e = ({ land: t })=>{
         const { mapId: e, locale: n } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -93058,7 +93066,7 @@ export interface Database {
                 ]
             })
         });
-    }, C1e = Tn({
+    }, I1e = Tn({
         slot: {
             base: [
                 "flex",
@@ -93092,7 +93100,7 @@ export interface Database {
         },
         variant: {},
         defaults: {}
-    }), ua = ({ icon: t, textTitle: e, textSubTitle: n, variant: r, tva: i = C1e, css: s, children: o })=>{
+    }), ua = ({ icon: t, textTitle: e, textSubTitle: n, variant: r, tva: i = I1e, css: s, children: o })=>{
         const { mapId: a, locale: l } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         }), c = i({
@@ -93149,13 +93157,13 @@ export interface Database {
                 })
             ]
         });
-    }, K2 = "icon-[lucide--land-plot]", I1e = ({ land: t, ...e })=>v.jsx(ua, {
+    }, K2 = "icon-[lucide--land-plot]", R1e = ({ land: t, ...e })=>v.jsx(ua, {
             icon: K2,
             textTitle: v.jsx(ne, {
                 label: "Land list (label)"
             }),
             ...e,
-            children: t.map((n)=>v.jsx(T1e, {
+            children: t.map((n)=>v.jsx(C1e, {
                     land: n
                 }, n.id))
         }), _G = jt("/$locale/apps/derivean/map/$mapId/land/list")({
@@ -93189,11 +93197,11 @@ export interface Database {
         },
         component () {
             const { land: t } = _G.useLoaderData();
-            return v.jsx(I1e, {
+            return v.jsx(R1e, {
                 land: t
             });
         }
-    }), R1e = jt("/$locale/apps/derivean/map/$mapId/land/$landId")({
+    }), A1e = jt("/$locale/apps/derivean/map/$mapId/land/$landId")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, landId: r } }) {
             return {
                 land: await t.ensureQueryData({
@@ -93221,7 +93229,7 @@ export interface Database {
                 })
             };
         }
-    }), A1e = ({ building: t })=>{
+    }), N1e = ({ building: t })=>{
         const { mapId: e, locale: n } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -93265,13 +93273,13 @@ export interface Database {
                 ]
             })
         });
-    }, N1e = ({ building: t, ...e })=>v.jsx(ua, {
+    }, P1e = ({ building: t, ...e })=>v.jsx(ua, {
             icon: Da,
             textTitle: v.jsx(ne, {
                 label: "Building list (label)"
             }),
             ...e,
-            children: t.length > 0 ? t.map((n)=>v.jsx(A1e, {
+            children: t.length > 0 ? t.map((n)=>v.jsx(N1e, {
                     building: n
                 }, n.id)) : v.jsx("div", {
                 className: dn([
@@ -93320,11 +93328,11 @@ export interface Database {
         },
         component () {
             const { building: t } = SG.useLoaderData();
-            return v.jsx(N1e, {
+            return v.jsx(P1e, {
                 building: t
             });
         }
-    }), P1e = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId")({
+    }), k1e = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r } }) {
             return {
                 building: await t.ensureQueryData({
@@ -93360,7 +93368,7 @@ export interface Database {
                 })
             };
         }
-    }), k1e = jt("/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId")({
+    }), O1e = jt("/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { blueprintId: n } }) {
             return {
                 blueprint: await t.ensureQueryData({
@@ -93385,7 +93393,7 @@ export interface Database {
                 })
             };
         }
-    }), O1e = ({ entity: t, ...e })=>{
+    }), L1e = ({ entity: t, ...e })=>{
         const { locale: n } = tn({
             from: "/$locale"
         });
@@ -93427,7 +93435,7 @@ export interface Database {
                 })
             ]
         });
-    }, L1e = (t)=>{
+    }, D1e = (t)=>{
         const { locale: e } = tn({
             from: "/$locale"
         });
@@ -93490,17 +93498,17 @@ export interface Database {
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
-                    v.jsx(L1e, {
+                    v.jsx(D1e, {
                         entity: t
                     }),
-                    v.jsx(O1e, {
+                    v.jsx(L1e, {
                         entity: t
                     }),
                     v.jsx(fl, {})
                 ]
             });
         }
-    }), D1e = (t)=>v.jsx(F5, {
+    }), F1e = (t)=>v.jsx(F5, {
             items: [
                 {
                     id: "name",
@@ -93524,19 +93532,19 @@ export interface Database {
                 }
             ],
             ...t
-        }), F1e = jt("/$locale/apps/derivean/game/blueprint/$id/view")({
+        }), j1e = jt("/$locale/apps/derivean/game/blueprint/$id/view")({
         component () {
             const { entity: t } = Wi({
                 from: "/$locale/apps/derivean/game/blueprint/$id"
             });
             return v.jsx("div", {
                 className: "w-1/2 mx-auto",
-                children: v.jsx(D1e, {
+                children: v.jsx(F1e, {
                     entity: t
                 })
             });
         }
-    }), UN = vi(), j1e = [
+    }), UN = vi(), B1e = [
         UN({
             name: "name",
             header () {
@@ -93583,10 +93591,10 @@ export interface Database {
             },
             size: 10
         })
-    ], B1e = ({ table: t, ...e })=>v.jsx(gi, {
+    ], U1e = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: j1e
+                columns: B1e
             }),
             ...e
         }), N1 = jt("/$locale/apps/derivean/game/blueprint/$id/requirements")({
@@ -93641,7 +93649,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(B1e, {
+                children: v.jsx(U1e, {
                     table: {
                         data: t,
                         filter: {
@@ -93664,7 +93672,7 @@ export interface Database {
                 })
             });
         }
-    }), Gg = vi(), U1e = [
+    }), Gg = vi(), z1e = [
         Gg({
             name: "name",
             header () {
@@ -93817,10 +93825,10 @@ export interface Database {
             },
             size: 32
         })
-    ], z1e = ({ table: t, ...e })=>v.jsx(gi, {
+    ], V1e = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: U1e
+                columns: z1e
             }),
             ...e
         }), P1 = jt("/$locale/apps/derivean/game/blueprint/$id/production")({
@@ -93903,7 +93911,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(z1e, {
+                children: v.jsx(V1e, {
                     table: {
                         data: t,
                         filter: {
@@ -93926,8 +93934,8 @@ export interface Database {
                 })
             });
         }
-    }), V1e = vi(), W1e = [
-        V1e({
+    }), W1e = vi(), q1e = [
+        W1e({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -93950,10 +93958,10 @@ export interface Database {
             },
             size: 22
         })
-    ], q1e = ({ table: t, ...e })=>v.jsx(gi, {
+    ], H1e = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: W1e
+                columns: q1e
             }),
             ...e
         }), k1 = jt("/$locale/apps/derivean/game/blueprint/$id/dependencies")({
@@ -94006,7 +94014,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(q1e, {
+                children: v.jsx(H1e, {
                     table: {
                         data: t,
                         filter: {
@@ -94029,8 +94037,8 @@ export interface Database {
                 })
             });
         }
-    }), H1e = vi(), $1e = [
-        H1e({
+    }), $1e = vi(), G1e = [
+        $1e({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -94053,10 +94061,10 @@ export interface Database {
             },
             size: 22
         })
-    ], G1e = ({ table: t, ...e })=>v.jsx(gi, {
+    ], X1e = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: $1e
+                columns: G1e
             }),
             ...e
         }), O1 = jt("/$locale/apps/derivean/game/blueprint/$id/conflicts")({
@@ -94109,7 +94117,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(G1e, {
+                children: v.jsx(X1e, {
                     table: {
                         data: t,
                         filter: {
@@ -94146,7 +94154,7 @@ export interface Database {
             blueprintId: G.string().optional(),
             name: G.string().optional()
         }))
-    }), X1e = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
+    }), K1e = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
         const s = hs({
             resolver: ps(MG.shape),
             defaultValues: e
@@ -94196,8 +94204,8 @@ export interface Database {
                 })
             ]
         });
-    }, K1e = vi(), Y1e = [
-        K1e({
+    }, Y1e = vi(), Z1e = [
+        Y1e({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -94225,7 +94233,7 @@ export interface Database {
             },
             size: 14
         })
-    ], Z1e = ({ table: t, ...e })=>{
+    ], J1e = ({ table: t, ...e })=>{
         const n = kr([
             [
                 "Building"
@@ -94234,7 +94242,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: Y1e
+                columns: Z1e
             }),
             action: {
                 row ({ data: r }) {
@@ -94248,7 +94256,7 @@ export interface Database {
                                     label: "Edit building (modal)"
                                 }),
                                 icon: Da,
-                                children: v.jsx(X1e, {
+                                children: v.jsx(K1e, {
                                     defaultValues: r,
                                     mutation: an({
                                         async mutationFn (i) {
@@ -94334,7 +94342,7 @@ export interface Database {
             }), a = o().slots;
             return v.jsx("div", {
                 className: a.base(),
-                children: v.jsx(Z1e, {
+                children: v.jsx(J1e, {
                     table: {
                         data: t,
                         filter: {
@@ -94427,7 +94435,7 @@ export interface Database {
                 })
             ]
         });
-    }, I4 = vi(), J1e = [
+    }, I4 = vi(), Q1e = [
         I4({
             name: "name",
             header () {
@@ -94460,7 +94468,7 @@ export interface Database {
             },
             size: 10
         })
-    ], Q1e = ({ blueprintProductionId: t, table: e, ...n })=>{
+    ], eEe = ({ blueprintProductionId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Production_Resource"
@@ -94475,7 +94483,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: J1e
+                columns: Q1e
             }),
             action: {
                 table () {
@@ -94605,7 +94613,7 @@ export interface Database {
         component () {
             const { data: t, count: e } = s0.useLoaderData(), { filter: n, cursor: r, selection: i } = s0.useSearch(), { id: s } = s0.useParams(), o = s0.useNavigate();
             return v.jsx(v.Fragment, {
-                children: v.jsx(Q1e, {
+                children: v.jsx(eEe, {
                     blueprintProductionId: s,
                     table: {
                         data: t,
@@ -94717,7 +94725,7 @@ export interface Database {
                 })
             ]
         });
-    }, zN = vi(), eEe = [
+    }, zN = vi(), tEe = [
         zN({
             name: "name",
             header () {
@@ -94764,7 +94772,7 @@ export interface Database {
             },
             size: 10
         })
-    ], tEe = ({ blueprintProductionId: t, table: e, ...n })=>{
+    ], nEe = ({ blueprintProductionId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Production_Requirement"
@@ -94779,7 +94787,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: eEe
+                columns: tEe
             }),
             action: {
                 table () {
@@ -94911,7 +94919,7 @@ export interface Database {
         component () {
             const { data: t, count: e } = o0.useLoaderData(), { filter: n, cursor: r, selection: i } = o0.useSearch(), { id: s } = o0.useParams(), o = o0.useNavigate();
             return v.jsx(v.Fragment, {
-                children: v.jsx(tEe, {
+                children: v.jsx(nEe, {
                     blueprintProductionId: s,
                     table: {
                         data: t,
@@ -94993,8 +95001,8 @@ export interface Database {
                 })
             ]
         });
-    }, nEe = vi(), rEe = [
-        nEe({
+    }, rEe = vi(), iEe = [
+        rEe({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -95017,7 +95025,7 @@ export interface Database {
             },
             size: 22
         })
-    ], iEe = ({ blueprintProductionId: t, table: e, ...n })=>{
+    ], sEe = ({ blueprintProductionId: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Production_Dependency"
@@ -95029,7 +95037,7 @@ export interface Database {
         return v.jsx(gi, {
             table: yi({
                 ...e,
-                columns: rEe
+                columns: iEe
             }),
             action: {
                 table () {
@@ -95165,7 +95173,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(iEe, {
+                children: v.jsx(sEe, {
                     blueprintProductionId: s,
                     table: {
                         data: t,
@@ -95194,11 +95202,11 @@ export interface Database {
                 })
             });
         }
-    }), sEe = jt("/$locale/apps/derivean/map/$mapId/road/$roadId/view")({
+    }), oEe = jt("/$locale/apps/derivean/map/$mapId/road/$roadId/view")({
         component () {
             return "mrdka";
         }
-    }), oEe = Tn({
+    }), aEe = Tn({
         slot: {
             base: [
                 "flex",
@@ -95234,7 +95242,7 @@ export interface Database {
         defaults: {
             isDragging: !1
         }
-    }), Ck = "icon-[emojione-monotone--construction]", aEe = async ({ userId: t, blueprintId: e, landId: n, plotId: r, plan: i, valid: s })=>At.transaction().execute(async (o)=>{
+    }), Ck = "icon-[emojione-monotone--construction]", lEe = async ({ userId: t, blueprintId: e, landId: n, plotId: r, plan: i, valid: s })=>At.transaction().execute(async (o)=>{
             const a = await o.selectFrom("Blueprint as b").select([
                 "b.cycles"
             ]).where("b.id", "=", e).executeTakeFirstOrThrow(), l = await o.insertInto("Building").values({
@@ -95292,7 +95300,7 @@ export interface Database {
                     })
                 })
             ]
-        })), lEe = ({ blueprint: t, land: e, userId: n, variant: r, tva: i = oEe, css: s })=>{
+        })), cEe = ({ blueprint: t, land: e, userId: n, variant: r, tva: i = aEe, css: s })=>{
         const { mapId: o, locale: a } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         }), l = dm(), c = kr([
@@ -95301,7 +95309,7 @@ export interface Database {
             ]
         ]), u = an({
             async mutationFn ({ blueprintId: p, landId: g, plotId: x }) {
-                const S = await aEe({
+                const S = await lEe({
                     userId: n,
                     blueprintId: p,
                     landId: g,
@@ -95384,7 +95392,7 @@ export interface Database {
                 ]
             })
         });
-    }, cEe = ({ userId: t, land: e, blueprints: n, ...r })=>{
+    }, uEe = ({ userId: t, land: e, blueprints: n, ...r })=>{
         const { locale: i, mapId: s } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95406,7 +95414,7 @@ export interface Database {
                 label: "Construction (label)"
             }),
             ...r,
-            children: n.length > 0 ? n.map((o)=>v.jsx(lEe, {
+            children: n.length > 0 ? n.map((o)=>v.jsx(cEe, {
                     blueprint: o,
                     userId: t,
                     land: e
@@ -95468,7 +95476,7 @@ export interface Database {
             const { user: t, blueprints: e } = TG.useLoaderData(), { land: n } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/land/$landId"
             });
-            return v.jsx(cEe, {
+            return v.jsx(uEe, {
                 userId: t.id,
                 land: n,
                 blueprints: e
@@ -95480,7 +95488,7 @@ export interface Database {
         "border-slate-300",
         "w-full",
         "justify-start"
-    ], $p = "icon-[hugeicons--package-receive]", Ik = "icon-[heroicons--queue-list]", jM = "icon-[hugeicons--package-sent]", CG = "icon-[icon-park-outline--transport]", uEe = ({ building: t })=>{
+    ], $p = "icon-[hugeicons--package-receive]", Ik = "icon-[heroicons--queue-list]", jM = "icon-[hugeicons--package-sent]", CG = "icon-[icon-park-outline--transport]", dEe = ({ building: t })=>{
         const { mapId: e, locale: n } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95619,7 +95627,7 @@ export interface Database {
                 })
             ]
         });
-    }, Z2 = "icon-[hugeicons--package]", dEe = ({ mapId: t, userId: e, requirement: n })=>{
+    }, Z2 = "icon-[hugeicons--package]", fEe = ({ mapId: t, userId: e, requirement: n })=>{
         const r = kr([
             [
                 "GameMap"
@@ -95785,7 +95793,7 @@ export interface Database {
                 }) : null
             ]
         });
-    }, fEe = ({ userId: t, building: e, requirement: n, ...r })=>{
+    }, hEe = ({ userId: t, building: e, requirement: n, ...r })=>{
         const { locale: i, mapId: s } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95807,7 +95815,7 @@ export interface Database {
                 children: e.name
             }),
             ...r,
-            children: n.length > 0 ? n.map((o)=>v.jsx(dEe, {
+            children: n.length > 0 ? n.map((o)=>v.jsx(fEe, {
                     mapId: s,
                     userId: t,
                     requirement: o
@@ -95888,15 +95896,15 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { user: e, requirement: n } = IG.useLoaderData();
-            return t.constructionId ? v.jsx(fEe, {
+            return t.constructionId ? v.jsx(hEe, {
                 userId: e.id,
                 building: t,
                 requirement: n
-            }) : v.jsx(uEe, {
+            }) : v.jsx(dEe, {
                 building: t
             });
         }
-    }), hEe = ({ transport: t })=>{
+    }), pEe = ({ transport: t })=>{
         const { mapId: e, locale: n } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95940,7 +95948,7 @@ export interface Database {
                 })
             ]
         });
-    }, pEe = ({ building: t, transport: e, ...n })=>{
+    }, mEe = ({ building: t, transport: e, ...n })=>{
         const { mapId: r, locale: i } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95975,7 +95983,7 @@ export interface Database {
                 ]
             }),
             ...n,
-            children: e.length > 0 ? e.map((s)=>v.jsx(hEe, {
+            children: e.length > 0 ? e.map((s)=>v.jsx(pEe, {
                     transport: s
                 }, s.id)) : v.jsx("div", {
                 className: dn([
@@ -96029,12 +96037,12 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { transport: e } = RG.useLoaderData();
-            return v.jsx(pEe, {
+            return v.jsx(mEe, {
                 building: t,
                 transport: e
             });
         }
-    }), mEe = ({ supply: t })=>{
+    }), gEe = ({ supply: t })=>{
         const e = kr([
             [
                 "GameMap"
@@ -96080,7 +96088,7 @@ export interface Database {
                 })
             ]
         });
-    }, gEe = ({ building: t, supply: e, ...n })=>{
+    }, yEe = ({ building: t, supply: e, ...n })=>{
         const { mapId: r, locale: i } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -96115,7 +96123,7 @@ export interface Database {
                 ]
             }),
             ...n,
-            children: e.length > 0 ? e.map((s)=>v.jsx(mEe, {
+            children: e.length > 0 ? e.map((s)=>v.jsx(gEe, {
                     supply: s
                 }, s.id)) : v.jsx("div", {
                 className: dn([
@@ -96163,12 +96171,12 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { supply: e } = AG.useLoaderData();
-            return v.jsx(gEe, {
+            return v.jsx(yEe, {
                 building: t,
                 supply: e
             });
         }
-    }), yEe = ({ building: t, link: e })=>{
+    }), vEe = ({ building: t, link: e })=>{
         const { mapId: n, locale: r } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -96216,7 +96224,7 @@ export interface Database {
                 ]
             })
         });
-    }, vEe = ({ building: t, link: e, ...n })=>{
+    }, xEe = ({ building: t, link: e, ...n })=>{
         const { locale: r, mapId: i } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -96251,7 +96259,7 @@ export interface Database {
                 ]
             }),
             ...n,
-            children: e.length > 0 ? e.map((s)=>v.jsx(yEe, {
+            children: e.length > 0 ? e.map((s)=>v.jsx(vEe, {
                     building: t,
                     link: s
                 }, s.id)) : v.jsx("div", {
@@ -96305,18 +96313,18 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { link: e } = NG.useLoaderData();
-            return v.jsx(vEe, {
+            return v.jsx(xEe, {
                 link: e,
                 building: t
             });
         }
-    }), xEe = G.object({
+    }), bEe = G.object({
         buildingId: G.string().min(1),
         resourceId: G.string().min(1),
         mapId: G.string().min(1),
         userId: G.string().min(1),
         amount: ud()
-    }), bEe = ({ mapId: t, userId: e, inventory: n })=>{
+    }), wEe = ({ mapId: t, userId: e, inventory: n })=>{
         const r = kr([
             [
                 "GameMap"
@@ -96359,7 +96367,7 @@ export interface Database {
                 await r();
             }
         }), o = hs({
-            resolver: ps(xEe),
+            resolver: ps(bEe),
             defaultValues: {
                 mapId: t,
                 userId: e,
@@ -96557,7 +96565,7 @@ export interface Database {
                 }) : null
             ]
         });
-    }, wEe = ({ building: t, userId: e, inventory: n, fulltextProps: r, ...i })=>{
+    }, _Ee = ({ building: t, userId: e, inventory: n, fulltextProps: r, ...i })=>{
         const { locale: s, mapId: o } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -96604,7 +96612,7 @@ export interface Database {
                         }
                     })
                 }),
-                n.length > 0 ? n.map((a)=>v.jsx(bEe, {
+                n.length > 0 ? n.map((a)=>v.jsx(wEe, {
                         mapId: o,
                         userId: e,
                         inventory: a
@@ -96696,7 +96704,7 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { fulltext: e } = D1.useSearch(), n = D1.useNavigate(), { user: r, inventory: i } = D1.useLoaderData();
-            return v.jsx(wEe, {
+            return v.jsx(_Ee, {
                 building: t,
                 userId: r.id,
                 inventory: i,
@@ -96712,7 +96720,7 @@ export interface Database {
                 }
             });
         }
-    }), _Ee = ({ mapId: t, userId: e, demand: n })=>{
+    }), SEe = ({ mapId: t, userId: e, demand: n })=>{
         const r = kr([
             [
                 "GameMap"
@@ -96866,7 +96874,7 @@ export interface Database {
                 })
             ]
         });
-    }, SEe = ({ userId: t, building: e, demand: n, ...r })=>{
+    }, EEe = ({ userId: t, building: e, demand: n, ...r })=>{
         const { mapId: i, locale: s } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -96901,7 +96909,7 @@ export interface Database {
                 ]
             }),
             ...r,
-            children: n.length > 0 ? n.map((o)=>v.jsx(_Ee, {
+            children: n.length > 0 ? n.map((o)=>v.jsx(SEe, {
                     mapId: i,
                     userId: t,
                     demand: o
@@ -96962,7 +96970,7 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { user: e, demand: n } = PG.useLoaderData();
-            return v.jsx(SEe, {
+            return v.jsx(EEe, {
                 userId: e.id,
                 building: t,
                 demand: n
@@ -97037,7 +97045,7 @@ export interface Database {
                 })
             ]
         });
-    }, EEe = ({ blueprint: t, requirement: e, ...n })=>v.jsxs(ua, {
+    }, MEe = ({ blueprint: t, requirement: e, ...n })=>v.jsxs(ua, {
             icon: Kr,
             textTitle: v.jsx(ne, {
                 label: "Building requirements (label)"
@@ -97109,12 +97117,12 @@ export interface Database {
             const { blueprint: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId"
             }), { requirement: e } = OG.useLoaderData();
-            return v.jsx(EEe, {
+            return v.jsx(MEe, {
                 blueprint: t,
                 requirement: e
             });
         }
-    }), N4 = vi(), MEe = [
+    }), N4 = vi(), TEe = [
         N4({
             name: "name",
             header () {
@@ -97147,10 +97155,10 @@ export interface Database {
             },
             size: 10
         })
-    ], TEe = ({ table: t, ...e })=>v.jsx(gi, {
+    ], CEe = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: MEe
+                columns: TEe
             }),
             ...e
         }), F1 = jt("/$locale/apps/derivean/game/blueprint/production/$id/resources")({
@@ -97200,7 +97208,7 @@ export interface Database {
         component () {
             const { data: t, count: e } = F1.useLoaderData(), { filter: n, cursor: r } = F1.useSearch(), i = F1.useNavigate();
             return v.jsx(v.Fragment, {
-                children: v.jsx(TEe, {
+                children: v.jsx(CEe, {
                     table: {
                         data: t,
                         filter: {
@@ -97223,7 +97231,7 @@ export interface Database {
                 })
             });
         }
-    }), VN = vi(), CEe = [
+    }), VN = vi(), IEe = [
         VN({
             name: "name",
             header () {
@@ -97270,10 +97278,10 @@ export interface Database {
             },
             size: 10
         })
-    ], IEe = ({ table: t, ...e })=>v.jsx(gi, {
+    ], REe = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: CEe
+                columns: IEe
             }),
             ...e
         }), j1 = jt("/$locale/apps/derivean/game/blueprint/production/$id/requirements")({
@@ -97325,7 +97333,7 @@ export interface Database {
         component () {
             const { data: t, count: e } = j1.useLoaderData(), { filter: n, cursor: r } = j1.useSearch(), i = j1.useNavigate();
             return v.jsx(v.Fragment, {
-                children: v.jsx(IEe, {
+                children: v.jsx(REe, {
                     table: {
                         data: t,
                         filter: {
@@ -97348,8 +97356,8 @@ export interface Database {
                 })
             });
         }
-    }), REe = vi(), AEe = [
-        REe({
+    }), AEe = vi(), NEe = [
+        AEe({
             name: "name",
             header () {
                 return v.jsx(ne, {
@@ -97372,10 +97380,10 @@ export interface Database {
             },
             size: 22
         })
-    ], NEe = ({ table: t, ...e })=>v.jsx(gi, {
+    ], PEe = ({ table: t, ...e })=>v.jsx(gi, {
             table: yi({
                 ...t,
-                columns: AEe
+                columns: NEe
             }),
             ...e
         }), B1 = jt("/$locale/apps/derivean/game/blueprint/production/$id/dependencies")({
@@ -97426,7 +97434,7 @@ export interface Database {
             }), o = s().slots;
             return v.jsx("div", {
                 className: o.base(),
-                children: v.jsx(NEe, {
+                children: v.jsx(PEe, {
                     table: {
                         data: t,
                         filter: {
@@ -97449,7 +97457,7 @@ export interface Database {
                 })
             });
         }
-    }), PEe = ({ queue: t, inventory: e })=>{
+    }), kEe = ({ queue: t, inventory: e })=>{
         const n = e.find((i)=>i.resourceId === t.resourceId), r = n && n.amount + t.amount > n.limit;
         return v.jsxs("div", {
             className: dn([
@@ -97502,7 +97510,7 @@ export interface Database {
                 })
             ]
         });
-    }, kEe = ({ building: t, queue: e, inventory: n, ...r })=>{
+    }, OEe = ({ building: t, queue: e, inventory: n, ...r })=>{
         const { mapId: i, locale: s } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -97537,7 +97545,7 @@ export interface Database {
                 ]
             }),
             ...r,
-            children: e.length > 0 ? e.map((o)=>v.jsx(PEe, {
+            children: e.length > 0 ? e.map((o)=>v.jsx(kEe, {
                     queue: o,
                     inventory: n
                 }, o.id)) : v.jsxs("div", {
@@ -97649,13 +97657,13 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { queue: e, inventory: n } = LG.useLoaderData();
-            return v.jsx(kEe, {
+            return v.jsx(OEe, {
                 building: t,
                 queue: e,
                 inventory: n
             });
         }
-    }), P4 = "icon-[tabler--basket]", OEe = "icon-[oui--refresh]", LEe = ({ building: t, production: e })=>{
+    }), P4 = "icon-[tabler--basket]", LEe = "icon-[oui--refresh]", DEe = ({ building: t, production: e })=>{
         const { mapId: n, locale: r } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         }), i = kr([
@@ -97749,7 +97757,7 @@ export interface Database {
                                 });
                             }
                         }) : v.jsx(Dn, {
-                            iconEnabled: OEe,
+                            iconEnabled: LEe,
                             loading: a.isPending,
                             onClick: ()=>{
                                 a.mutate({
@@ -97785,7 +97793,7 @@ export interface Database {
                 })
             ]
         });
-    }, DEe = ({ building: t, production: e, ...n })=>{
+    }, FEe = ({ building: t, production: e, ...n })=>{
         const { mapId: r, locale: i } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -97820,7 +97828,7 @@ export interface Database {
                 ]
             }),
             ...n,
-            children: e.length > 0 ? e.map((s)=>v.jsx(LEe, {
+            children: e.length > 0 ? e.map((s)=>v.jsx(DEe, {
                     building: t,
                     production: s
                 }, s.id)) : v.jsx("div", {
@@ -97880,12 +97888,12 @@ export interface Database {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { production: e } = DG.useLoaderData();
-            return v.jsx(DEe, {
+            return v.jsx(FEe, {
                 building: t,
                 production: e
             });
         }
-    }), FEe = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId")({
+    }), jEe = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r, productionId: i } }) {
             return {
                 production: await t.ensureQueryData({
@@ -97915,7 +97923,7 @@ export interface Database {
                 })
             };
         }
-    }), jEe = ({ building: t, production: e, requirement: n, ...r })=>{
+    }), BEe = ({ building: t, production: e, requirement: n, ...r })=>{
         const { mapId: i, locale: s } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -98015,7 +98023,7 @@ export interface Database {
             }), { production: e } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId"
             }), { requirement: n } = FG.useLoaderData();
-            return v.jsx(jEe, {
+            return v.jsx(BEe, {
                 building: t,
                 production: e,
                 requirement: n
@@ -98025,11 +98033,11 @@ export interface Database {
         id: "/$locale",
         path: "/$locale",
         getParentRoute: ()=>PO
-    }), BEe = toe.update({
+    }), UEe = toe.update({
         id: "/",
         path: "/",
         getParentRoute: ()=>PO
-    }), UEe = noe.update({
+    }), zEe = noe.update({
         id: "/",
         path: "/",
         getParentRoute: ()=>J2
@@ -98049,27 +98057,27 @@ export interface Database {
         id: "/game",
         path: "/game",
         getParentRoute: ()=>ch
-    }), zEe = poe.update({
+    }), VEe = poe.update({
         id: "/",
         path: "/",
         getParentRoute: ()=>Ua
-    }), VEe = Hq.update({
+    }), WEe = Hq.update({
         id: "/",
         path: "/",
         getParentRoute: ()=>Rw
-    }), WEe = sk.update({
+    }), qEe = sk.update({
         id: "/editor",
         path: "/editor",
         getParentRoute: ()=>Ua
-    }), qEe = Hpe.update({
+    }), HEe = Hpe.update({
         id: "/public/register",
         path: "/public/register",
         getParentRoute: ()=>ch
-    }), HEe = $pe.update({
+    }), $Ee = $pe.update({
         id: "/public/logout",
         path: "/public/logout",
         getParentRoute: ()=>ch
-    }), $Ee = Ype.update({
+    }), GEe = Ype.update({
         id: "/public/login",
         path: "/public/login",
         getParentRoute: ()=>ch
@@ -98077,11 +98085,11 @@ export interface Database {
         id: "/$mapId",
         path: "/$mapId",
         getParentRoute: ()=>jG
-    }), GEe = aG.update({
+    }), XEe = aG.update({
         id: "/db/schema",
         path: "/db/schema",
         getParentRoute: ()=>ch
-    }), XEe = M1.update({
+    }), KEe = M1.update({
         id: "/user/list",
         path: "/user/list",
         getParentRoute: ()=>Ua
@@ -98089,11 +98097,11 @@ export interface Database {
         id: "/user/$id",
         path: "/user/$id",
         getParentRoute: ()=>Ua
-    }), KEe = T1.update({
+    }), YEe = T1.update({
         id: "/tag/list",
         path: "/tag/list",
         getParentRoute: ()=>Ua
-    }), YEe = C1.update({
+    }), ZEe = C1.update({
         id: "/resource/list",
         path: "/resource/list",
         getParentRoute: ()=>Ua
@@ -98101,15 +98109,15 @@ export interface Database {
         id: "/resource/$id",
         path: "/resource/$id",
         getParentRoute: ()=>Ua
-    }), ZEe = I1.update({
+    }), JEe = I1.update({
         id: "/region/list",
         path: "/region/list",
         getParentRoute: ()=>Ua
-    }), UG = WSe.update({
+    }), UG = qSe.update({
         id: "/region/$id",
         path: "/region/$id",
         getParentRoute: ()=>Ua
-    }), JEe = R1.update({
+    }), QEe = R1.update({
         id: "/blueprint/list",
         path: "/blueprint/list",
         getParentRoute: ()=>Ua
@@ -98117,11 +98125,11 @@ export interface Database {
         id: "/blueprint/$id",
         path: "/blueprint/$id",
         getParentRoute: ()=>Ua
-    }), QEe = YSe.update({
+    }), eMe = ZSe.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>uh
-    }), eMe = A1.update({
+    }), tMe = A1.update({
         id: "/blueprint/list",
         path: "/blueprint/list",
         getParentRoute: ()=>Rw
@@ -98129,15 +98137,15 @@ export interface Database {
         id: "/blueprint/$id",
         path: "/blueprint/$id",
         getParentRoute: ()=>Rw
-    }), tMe = t1e.update({
-        id: "/view",
-        path: "/view",
-        getParentRoute: ()=>Q2
     }), nMe = n1e.update({
         id: "/view",
         path: "/view",
-        getParentRoute: ()=>BG
+        getParentRoute: ()=>Q2
     }), rMe = r1e.update({
+        id: "/view",
+        path: "/view",
+        getParentRoute: ()=>BG
+    }), iMe = i1e.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>UG
@@ -98145,51 +98153,51 @@ export interface Database {
         id: "/blueprint/production/$id",
         path: "/blueprint/production/$id",
         getParentRoute: ()=>Ua
-    }), iMe = bG.update({
+    }), sMe = bG.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>dh
-    }), sMe = e0.update({
+    }), oMe = e0.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>dh
-    }), oMe = t0.update({
+    }), aMe = t0.update({
         id: "/production",
         path: "/production",
         getParentRoute: ()=>dh
-    }), aMe = n0.update({
+    }), lMe = n0.update({
         id: "/inventory",
         path: "/inventory",
         getParentRoute: ()=>dh
-    }), lMe = wG.update({
+    }), cMe = wG.update({
         id: "/edit",
         path: "/edit",
         getParentRoute: ()=>dh
-    }), cMe = r0.update({
+    }), uMe = r0.update({
         id: "/dependencies",
         path: "/dependencies",
         getParentRoute: ()=>dh
-    }), uMe = i0.update({
+    }), dMe = i0.update({
         id: "/conflicts",
         path: "/conflicts",
         getParentRoute: ()=>dh
-    }), dMe = _G.update({
+    }), fMe = _G.update({
         id: "/land/list",
         path: "/land/list",
         getParentRoute: ()=>uh
-    }), zG = R1e.update({
+    }), zG = A1e.update({
         id: "/land/$landId",
         path: "/land/$landId",
         getParentRoute: ()=>uh
-    }), fMe = SG.update({
+    }), hMe = SG.update({
         id: "/building/list",
         path: "/building/list",
         getParentRoute: ()=>uh
-    }), Jc = P1e.update({
+    }), Jc = k1e.update({
         id: "/building/$buildingId",
         path: "/building/$buildingId",
         getParentRoute: ()=>uh
-    }), VG = k1e.update({
+    }), VG = O1e.update({
         id: "/blueprint/$blueprintId",
         path: "/blueprint/$blueprintId",
         getParentRoute: ()=>uh
@@ -98197,201 +98205,201 @@ export interface Database {
         id: "/blueprint/production/$id",
         path: "/blueprint/production/$id",
         getParentRoute: ()=>Rw
-    }), hMe = F1e.update({
+    }), pMe = j1e.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>_v
-    }), pMe = N1.update({
+    }), mMe = N1.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>_v
-    }), mMe = P1.update({
+    }), gMe = P1.update({
         id: "/production",
         path: "/production",
         getParentRoute: ()=>_v
-    }), gMe = k1.update({
+    }), yMe = k1.update({
         id: "/dependencies",
         path: "/dependencies",
         getParentRoute: ()=>_v
-    }), yMe = O1.update({
+    }), vMe = O1.update({
         id: "/conflicts",
         path: "/conflicts",
         getParentRoute: ()=>_v
-    }), vMe = L1.update({
+    }), xMe = L1.update({
         id: "/building/list",
         path: "/building/list",
         getParentRoute: ()=>Q2
-    }), xMe = s0.update({
+    }), bMe = s0.update({
         id: "/resources",
         path: "/resources",
         getParentRoute: ()=>yC
-    }), bMe = o0.update({
+    }), wMe = o0.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>yC
-    }), wMe = a0.update({
+    }), _Me = a0.update({
         id: "/dependencies",
         path: "/dependencies",
         getParentRoute: ()=>yC
-    }), _Me = sEe.update({
+    }), SMe = oEe.update({
         id: "/road/$roadId/view",
         path: "/road/$roadId/view",
         getParentRoute: ()=>uh
-    }), SMe = TG.update({
+    }), EMe = TG.update({
         id: "/construction",
         path: "/construction",
         getParentRoute: ()=>zG
-    }), EMe = IG.update({
+    }), MMe = IG.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>Jc
-    }), MMe = RG.update({
+    }), TMe = RG.update({
         id: "/transport",
         path: "/transport",
         getParentRoute: ()=>Jc
-    }), TMe = AG.update({
+    }), CMe = AG.update({
         id: "/supply",
         path: "/supply",
         getParentRoute: ()=>Jc
-    }), CMe = NG.update({
+    }), IMe = NG.update({
         id: "/link",
         path: "/link",
         getParentRoute: ()=>Jc
-    }), IMe = D1.update({
+    }), RMe = D1.update({
         id: "/inventory",
         path: "/inventory",
         getParentRoute: ()=>Jc
-    }), RMe = PG.update({
+    }), AMe = PG.update({
         id: "/demand",
         path: "/demand",
         getParentRoute: ()=>Jc
-    }), AMe = OG.update({
+    }), NMe = OG.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>VG
-    }), NMe = F1.update({
+    }), PMe = F1.update({
         id: "/resources",
         path: "/resources",
         getParentRoute: ()=>vC
-    }), PMe = j1.update({
+    }), kMe = j1.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>vC
-    }), kMe = B1.update({
+    }), OMe = B1.update({
         id: "/dependencies",
         path: "/dependencies",
         getParentRoute: ()=>vC
-    }), OMe = LG.update({
+    }), LMe = LG.update({
         id: "/production/queue",
         path: "/production/queue",
         getParentRoute: ()=>Jc
-    }), LMe = DG.update({
+    }), DMe = DG.update({
         id: "/production/list",
         path: "/production/list",
         getParentRoute: ()=>Jc
-    }), WG = FEe.update({
+    }), WG = jEe.update({
         id: "/production/$productionId",
         path: "/production/$productionId",
         getParentRoute: ()=>Jc
-    }), DMe = FG.update({
+    }), FMe = FG.update({
         id: "/requirements",
         path: "/requirements",
         getParentRoute: ()=>WG
-    }), FMe = {
-        LocaleAppsDeriveanGameBlueprintIdConflictsRoute: yMe,
-        LocaleAppsDeriveanGameBlueprintIdDependenciesRoute: gMe,
-        LocaleAppsDeriveanGameBlueprintIdProductionRoute: mMe,
-        LocaleAppsDeriveanGameBlueprintIdRequirementsRoute: pMe,
-        LocaleAppsDeriveanGameBlueprintIdViewRoute: hMe
-    }, jMe = _v._addFileChildren(FMe), BMe = {
-        LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute: kMe,
-        LocaleAppsDeriveanGameBlueprintProductionIdRequirementsRoute: PMe,
-        LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute: NMe
-    }, UMe = vC._addFileChildren(BMe), zMe = {
-        LocaleAppsDeriveanGameIndexRoute: VEe,
-        LocaleAppsDeriveanGameBlueprintIdRoute: jMe,
-        LocaleAppsDeriveanGameBlueprintListRoute: eMe,
-        LocaleAppsDeriveanGameBlueprintProductionIdRoute: UMe
-    }, VMe = Rw._addFileChildren(zMe), WMe = {
-        LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRequirementsRoute: AMe
-    }, qMe = VG._addFileChildren(WMe), HMe = {
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute: DMe
-    }, $Me = WG._addFileChildren(HMe), GMe = {
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdDemandRoute: RMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdInventoryRoute: IMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdLinkRoute: CMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdSupplyRoute: TMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportRoute: MMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewRoute: EMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionProductionIdRoute: $Me,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionListRoute: LMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionQueueRoute: OMe
-    }, XMe = Jc._addFileChildren(GMe), KMe = {
-        LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute: SMe
-    }, YMe = zG._addFileChildren(KMe), ZMe = {
-        LocaleAppsDeriveanMapMapIdViewRoute: QEe,
-        LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRoute: qMe,
-        LocaleAppsDeriveanMapMapIdBuildingBuildingIdRoute: XMe,
-        LocaleAppsDeriveanMapMapIdBuildingListRoute: fMe,
-        LocaleAppsDeriveanMapMapIdLandLandIdRoute: YMe,
-        LocaleAppsDeriveanMapMapIdLandListRoute: dMe,
-        LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute: _Me
-    }, JMe = uh._addFileChildren(ZMe), QMe = {
-        LocaleAppsDeriveanMapMapIdRoute: JMe
-    }, eTe = jG._addFileChildren(QMe), tTe = {
-        LocaleAppsDeriveanRootBlueprintIdConflictsRoute: uMe,
-        LocaleAppsDeriveanRootBlueprintIdDependenciesRoute: cMe,
-        LocaleAppsDeriveanRootBlueprintIdEditRoute: lMe,
-        LocaleAppsDeriveanRootBlueprintIdInventoryRoute: aMe,
-        LocaleAppsDeriveanRootBlueprintIdProductionRoute: oMe,
-        LocaleAppsDeriveanRootBlueprintIdRequirementsRoute: sMe,
-        LocaleAppsDeriveanRootBlueprintIdViewRoute: iMe
-    }, nTe = dh._addFileChildren(tTe), rTe = {
-        LocaleAppsDeriveanRootRegionIdViewRoute: rMe
-    }, iTe = UG._addFileChildren(rTe), sTe = {
-        LocaleAppsDeriveanRootResourceIdViewRoute: nMe
-    }, oTe = BG._addFileChildren(sTe), aTe = {
-        LocaleAppsDeriveanRootUserIdViewRoute: tMe,
-        LocaleAppsDeriveanRootUserIdBuildingListRoute: vMe
-    }, lTe = Q2._addFileChildren(aTe), cTe = {
-        LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute: wMe,
-        LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute: bMe,
-        LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute: xMe
-    }, uTe = yC._addFileChildren(cTe), dTe = {
-        LocaleAppsDeriveanRootEditorRoute: WEe,
-        LocaleAppsDeriveanRootIndexRoute: zEe,
-        LocaleAppsDeriveanRootBlueprintIdRoute: nTe,
-        LocaleAppsDeriveanRootBlueprintListRoute: JEe,
-        LocaleAppsDeriveanRootRegionIdRoute: iTe,
-        LocaleAppsDeriveanRootRegionListRoute: ZEe,
-        LocaleAppsDeriveanRootResourceIdRoute: oTe,
-        LocaleAppsDeriveanRootResourceListRoute: YEe,
-        LocaleAppsDeriveanRootTagListRoute: KEe,
-        LocaleAppsDeriveanRootUserIdRoute: lTe,
-        LocaleAppsDeriveanRootUserListRoute: XEe,
-        LocaleAppsDeriveanRootBlueprintProductionIdRoute: uTe
-    }, fTe = Ua._addFileChildren(dTe), hTe = {
-        LocaleAppsDeriveanGameRoute: VMe,
-        LocaleAppsDeriveanMapRoute: eTe,
-        LocaleAppsDeriveanRootRoute: fTe,
-        LocaleAppsDeriveanDbSchemaRoute: GEe,
-        LocaleAppsDeriveanPublicLoginRoute: $Ee,
-        LocaleAppsDeriveanPublicLogoutRoute: HEe,
-        LocaleAppsDeriveanPublicRegisterRoute: qEe
-    }, pTe = ch._addFileChildren(hTe), mTe = {
-        LocaleIndexRoute: UEe,
-        LocaleAppsDeriveanRoute: pTe
-    }, gTe = J2._addFileChildren(mTe), yTe = {
-        IndexRoute: BEe,
-        LocaleRoute: gTe
-    }, vTe = PO._addFileChildren(yTe)._addFileTypes(), qG = new L9({
+    }), jMe = {
+        LocaleAppsDeriveanGameBlueprintIdConflictsRoute: vMe,
+        LocaleAppsDeriveanGameBlueprintIdDependenciesRoute: yMe,
+        LocaleAppsDeriveanGameBlueprintIdProductionRoute: gMe,
+        LocaleAppsDeriveanGameBlueprintIdRequirementsRoute: mMe,
+        LocaleAppsDeriveanGameBlueprintIdViewRoute: pMe
+    }, BMe = _v._addFileChildren(jMe), UMe = {
+        LocaleAppsDeriveanGameBlueprintProductionIdDependenciesRoute: OMe,
+        LocaleAppsDeriveanGameBlueprintProductionIdRequirementsRoute: kMe,
+        LocaleAppsDeriveanGameBlueprintProductionIdResourcesRoute: PMe
+    }, zMe = vC._addFileChildren(UMe), VMe = {
+        LocaleAppsDeriveanGameIndexRoute: WEe,
+        LocaleAppsDeriveanGameBlueprintIdRoute: BMe,
+        LocaleAppsDeriveanGameBlueprintListRoute: tMe,
+        LocaleAppsDeriveanGameBlueprintProductionIdRoute: zMe
+    }, WMe = Rw._addFileChildren(VMe), qMe = {
+        LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRequirementsRoute: NMe
+    }, HMe = VG._addFileChildren(qMe), $Me = {
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute: FMe
+    }, GMe = WG._addFileChildren($Me), XMe = {
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdDemandRoute: AMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdInventoryRoute: RMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdLinkRoute: IMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdSupplyRoute: CMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdTransportRoute: TMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdViewRoute: MMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionProductionIdRoute: GMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionListRoute: DMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionQueueRoute: LMe
+    }, KMe = Jc._addFileChildren(XMe), YMe = {
+        LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute: EMe
+    }, ZMe = zG._addFileChildren(YMe), JMe = {
+        LocaleAppsDeriveanMapMapIdViewRoute: eMe,
+        LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRoute: HMe,
+        LocaleAppsDeriveanMapMapIdBuildingBuildingIdRoute: KMe,
+        LocaleAppsDeriveanMapMapIdBuildingListRoute: hMe,
+        LocaleAppsDeriveanMapMapIdLandLandIdRoute: ZMe,
+        LocaleAppsDeriveanMapMapIdLandListRoute: fMe,
+        LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute: SMe
+    }, QMe = uh._addFileChildren(JMe), eTe = {
+        LocaleAppsDeriveanMapMapIdRoute: QMe
+    }, tTe = jG._addFileChildren(eTe), nTe = {
+        LocaleAppsDeriveanRootBlueprintIdConflictsRoute: dMe,
+        LocaleAppsDeriveanRootBlueprintIdDependenciesRoute: uMe,
+        LocaleAppsDeriveanRootBlueprintIdEditRoute: cMe,
+        LocaleAppsDeriveanRootBlueprintIdInventoryRoute: lMe,
+        LocaleAppsDeriveanRootBlueprintIdProductionRoute: aMe,
+        LocaleAppsDeriveanRootBlueprintIdRequirementsRoute: oMe,
+        LocaleAppsDeriveanRootBlueprintIdViewRoute: sMe
+    }, rTe = dh._addFileChildren(nTe), iTe = {
+        LocaleAppsDeriveanRootRegionIdViewRoute: iMe
+    }, sTe = UG._addFileChildren(iTe), oTe = {
+        LocaleAppsDeriveanRootResourceIdViewRoute: rMe
+    }, aTe = BG._addFileChildren(oTe), lTe = {
+        LocaleAppsDeriveanRootUserIdViewRoute: nMe,
+        LocaleAppsDeriveanRootUserIdBuildingListRoute: xMe
+    }, cTe = Q2._addFileChildren(lTe), uTe = {
+        LocaleAppsDeriveanRootBlueprintProductionIdDependenciesRoute: _Me,
+        LocaleAppsDeriveanRootBlueprintProductionIdRequirementsRoute: wMe,
+        LocaleAppsDeriveanRootBlueprintProductionIdResourcesRoute: bMe
+    }, dTe = yC._addFileChildren(uTe), fTe = {
+        LocaleAppsDeriveanRootEditorRoute: qEe,
+        LocaleAppsDeriveanRootIndexRoute: VEe,
+        LocaleAppsDeriveanRootBlueprintIdRoute: rTe,
+        LocaleAppsDeriveanRootBlueprintListRoute: QEe,
+        LocaleAppsDeriveanRootRegionIdRoute: sTe,
+        LocaleAppsDeriveanRootRegionListRoute: JEe,
+        LocaleAppsDeriveanRootResourceIdRoute: aTe,
+        LocaleAppsDeriveanRootResourceListRoute: ZEe,
+        LocaleAppsDeriveanRootTagListRoute: YEe,
+        LocaleAppsDeriveanRootUserIdRoute: cTe,
+        LocaleAppsDeriveanRootUserListRoute: KEe,
+        LocaleAppsDeriveanRootBlueprintProductionIdRoute: dTe
+    }, hTe = Ua._addFileChildren(fTe), pTe = {
+        LocaleAppsDeriveanGameRoute: WMe,
+        LocaleAppsDeriveanMapRoute: tTe,
+        LocaleAppsDeriveanRootRoute: hTe,
+        LocaleAppsDeriveanDbSchemaRoute: XEe,
+        LocaleAppsDeriveanPublicLoginRoute: GEe,
+        LocaleAppsDeriveanPublicLogoutRoute: $Ee,
+        LocaleAppsDeriveanPublicRegisterRoute: HEe
+    }, mTe = ch._addFileChildren(pTe), gTe = {
+        LocaleIndexRoute: zEe,
+        LocaleAppsDeriveanRoute: mTe
+    }, yTe = J2._addFileChildren(gTe), vTe = {
+        IndexRoute: UEe,
+        LocaleRoute: yTe
+    }, xTe = PO._addFileChildren(vTe)._addFileTypes(), qG = new L9({
         defaultOptions: {
             queries: {
                 placeholderData: _9
             }
         }
-    }), xTe = sX({
-        routeTree: vTe,
+    }), bTe = sX({
+        routeTree: xTe,
         context: {
             queryClient: qG,
             tva: jre,
@@ -98416,7 +98424,7 @@ export interface Database {
         children: v.jsx(z9, {
             client: qG,
             children: v.jsx(uX, {
-                router: xTe
+                router: bTe
             })
         })
     }));
