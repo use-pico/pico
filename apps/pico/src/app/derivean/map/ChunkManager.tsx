@@ -82,7 +82,11 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 				levels.map(
 					(level) =>
 						new Promise<Chunk.View.Level>((resolve) => {
-							console.info("[ChunkManager]\tProcessing level", level);
+							console.info(
+								"[ChunkManager]\tProcessing level",
+								level,
+								props.zoom,
+							);
 
 							const cache = chunkCache.get(level.layer.level);
 							if (!cache) {
