@@ -95,7 +95,7 @@ export interface GameConfig {
 
 export const GameConfig: GameConfig = {
 	maxZoom: 1,
-	minZoom: 0.005,
+	minZoom: 0.001,
 	plotSize: 16,
 	plotCount: 256,
 	chunkSize: 16 * 256,
@@ -188,6 +188,12 @@ export const GameConfig: GameConfig = {
 			min: 0.005,
 			max: 0.01,
 			level: 16,
+			offset: 4,
+		},
+		{
+			min: 0.001,
+			max: 0.005,
+			level: 128,
 			offset: 4,
 		},
 	],

@@ -1,7 +1,7 @@
 import { type Texture as CoolTexture } from "three";
 
 export namespace Chunk {
-	export type Level = 1 | 2 | 4 | 8 | 16 | 32;
+	export type Level = 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128;
 
 	/**
 	 * Defines where the given level should be drawn.
