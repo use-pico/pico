@@ -34946,10 +34946,10 @@ to {
             f
         ];
     }
-    const cie = ({ eventBus: t, event: e, callback: n })=>{
+    const cie = ({ eventBus: t, event: e, callback: n, deps: r = [] })=>{
         X.useEffect(()=>(console.info(`[useEvent]	Subscribing event [${e}]`), t.on(e, n), ()=>{
                 console.info(`[useEvent]	Unsubscribing from event [${e}]`), t.off(e, n);
-            }), []);
+            }), r);
     }, fs = Tn({
         slot: {
             base: [
@@ -87591,10 +87591,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }(Qx, Qx.exports)), Qx.exports;
     }
     var SSe = _Se();
-    const ESe = ({ chunks: t, opacity: e = 1 })=>e <= 0 ? null : Array.from(t.values()).map((n)=>v.jsxs("mesh", {
+    const ESe = ({ chunks: t, opacity: e = 1 })=>(console.log("Chunks re-render"), e <= 0 ? null : Array.from(t.values()).map((n)=>v.jsxs("mesh", {
                 position: [
                     n.x * 1.001,
-                    -1,
+                    0,
                     n.z * 1.001
                 ],
                 rotation: [
@@ -87617,28 +87617,28 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         opacity: e
                     })
                 ]
-            }, `chunk-${n.id}`)), MSe = ({ gameConfig: { chunkSize: t, layers: e } })=>({ x: n, z: r, bottom: i, top: s, left: o, right: a, zoom: l })=>{
+            }, `chunk-${n.id}`))), MSe = ({ gameConfig: { chunkSize: t, layers: e } })=>({ x: n, z: r, bottom: i, top: s, left: o, right: a, zoom: l })=>{
             const c = [];
-            for (const { min: u, max: f, level: p, offset: g = 0 } of e)if (l >= u && l <= f) {
-                const x = t * p, S = (s - i) / l, b = (a - o) / l * .5, M = S * .5, E = x / 2, T = Math.floor((n - b + E) / x) - g, k = Math.ceil((n + b + E) / x) + g, N = Math.floor((r - M + E) / x) - g, D = Math.ceil((r + M + E) / x) + g;
+            for (const u of e)if (l >= u.min && l <= u.max) {
+                const f = t * u.level, p = (s - i) / l, x = (a - o) / l * .5, S = p * .5, _ = f / 2, b = Math.floor((n - x + _) / f) - u.offset, M = Math.ceil((n + x + _) / f) + u.offset, E = Math.floor((r - S + _) / f) - u.offset, T = Math.ceil((r + S + _) / f) + u.offset;
                 c.push({
-                    hash: `[${T} → ${k}]:[${N} → ${D}]:${p}`,
-                    count: (k - T) * (D - N),
+                    hash: `[${b} → ${M}]:[${E} → ${T}]:${u.level}`,
+                    count: (M - b) * (T - E),
                     x: {
-                        min: T,
-                        max: k
+                        min: b,
+                        max: M
                     },
                     z: {
-                        min: N,
-                        max: D
+                        min: E,
+                        max: T
                     },
-                    level: p
+                    layer: u
                 });
             }
             return {
                 levels: c
             };
-        }, sG = ({ x: t, z: e, level: n })=>Array.from({
+        }, sG = ({ x: t, z: e, layer: { level: n } })=>Array.from({
             length: t.max - t.min
         }, (r, i)=>Array.from({
                 length: e.max - e.min
@@ -87750,7 +87750,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }).catch((u)=>{
             console.warn(u);
         });
-    }, ISe = "/assets/chunkOf-DmqNF-kq.js", RSe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
+    }, ISe = "/assets/chunkOf-9WkVTZhd.js", RSe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
         const r = X.useMemo(()=>SSe.pool(ISe, {
                 workerOpts: {
                     type: "module"
@@ -87779,8 +87779,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 const { levels: p } = a(f);
                 c(!0), Promise.all(p.map((g)=>new Promise((x)=>{
                         console.info("[ChunkManager]	Processing level", g);
-                        const S = i.get(g.level);
-                        if (!S) throw console.warn(`[ChunkManager]		Chunk cache for level ${g.level} not found; that's quite strange. Doctor Strange.`), new Error("Chunk cache not found");
+                        const S = i.get(g.layer.level);
+                        if (!S) throw console.warn(`[ChunkManager]		Chunk cache for level ${g.layer.level} not found; that's quite strange. Doctor Strange.`), new Error("Chunk cache not found");
                         sG(g).forEach(({ id: b })=>{
                             S.get(b);
                         }), new XW.Timer().start(), console.info(`[ChunkManager]	Requesting chunks [${g.count}] ${g.hash}`), CSe({
@@ -87811,10 +87811,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }), rSe(l, "wait", "auto");
         const u = X.useMemo(()=>s.map((f)=>{
-                const p = i.get(f.level);
+                const p = i.get(f.layer.level);
                 return p ? v.jsx(ESe, {
                     chunks: p
-                }, `chunks-${f.level}`) : null;
+                }, `chunks-${f.layer.level}`) : null;
             }), [
             s
         ]);
@@ -87897,6 +87897,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         TWO: Xu.DOLLY_PAN
                     },
                     makeDefault: !0,
+                    onChange: ()=>{
+                        n.emit("onRealtimeCamera", {
+                            x: i.position.x,
+                            z: i.position.z,
+                            bottom: i.bottom,
+                            top: i.top,
+                            left: i.left,
+                            right: i.right,
+                            zoom: i.zoom
+                        });
+                    },
                     onEnd: s
                 }),
                 v.jsx(RSe, {
