@@ -84,7 +84,7 @@ export function EventBus<TEvents extends object>(
 		},
 
 		off<Key extends keyof TEvents>(type: Key, handler?: GenericEventHandler) {
-			const handlers = all.get(type);
+			const handlers: GenericEventHandler[] | undefined = all.get(type);
 			if (handlers) {
 				if (handler) {
 					handlers.splice(handlers.indexOf(handler) >>> 0, 1);

@@ -1,7 +1,7 @@
 import { Timer } from "@use-pico/common";
 import pMap from "p-map";
 import { type Pool } from "workerpool";
-import { Game } from "~/app/derivean/Game";
+import { GameConfig } from "~/app/derivean/GameConfig";
 import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { chunkOf } from "~/app/derivean/worker/chunkOf";
@@ -10,9 +10,8 @@ export namespace generator {
 	export interface Props {
 		pool: Pool;
 		mapId: string;
-		seed: string;
-		hash: Chunk.Hash;
-		level: number;
+		gameConfig: GameConfig;
+		level: Chunk.View.Level;
 		/**
 		 * List of chunk IDs to skip (e.g. they're still visible)
 		 */
@@ -21,8 +20,8 @@ export namespace generator {
 		/**
 		 * Called when a chunk arrives
 		 */
-		onChunk?(awaitChunk: Promise<Chunk>): Promise<any>;
-		onComplete?(chunks: Chunk[]): void;
+		onChunk?(awaitChunk: Promise<Chunk.Data>): Promise<any>;
+		onComplete?(chunks: Chunk.Data[]): void;
 		abort?: AbortController;
 	}
 }
@@ -30,8 +29,7 @@ export namespace generator {
 export const generator = async ({
 	pool,
 	mapId,
-	seed,
-	hash,
+	gameConfig,
 	level,
 	skip,
 	concurrency = Infinity,
@@ -43,25 +41,22 @@ export const generator = async ({
 	timer.start();
 
 	console.info(
-		`\t[generator] Started generator for [${hash.count} chunks] ${hash.hash}; level ${level}`,
+		`\t[generator] Started generator for [${level.count} chunks] ${level.hash}`,
 	);
 
-	performance.mark(`generator-${hash.hash}-${level}-start`);
-
 	return pMap(
-		chunkIdOf(hash).filter(({ id }) => !skip.includes(id)),
+		chunkIdOf(level).filter(({ id }) => !skip.includes(id)),
 		async ({ z, x, id }) => {
 			const promise = pool.exec("chunkOf", [
 				{
 					id,
-					seed,
 					mapId,
-					plotCount: Game.plotCount,
+					gameConfig,
+					level,
 					x,
 					z,
-					level: 1 / level,
 				} satisfies chunkOf.Props,
-			]) as unknown as Promise<Chunk>;
+			]) as unknown as Promise<Chunk.Data>;
 
 			onChunk?.(promise);
 
@@ -77,25 +72,12 @@ export const generator = async ({
 			onComplete?.(data);
 
 			console.info(
-				`\t[generator]\t- Finished [generated ${((100 * data.length) / hash.count).toFixed(0)}%] [${timer.format()}]`,
-			);
-
-			performance.mark(`generator-${hash.hash}-${level}-end`);
-			performance.measure(
-				`generator-${hash.hash}-${level}`,
-				`generator-${hash.hash}-${level}-start`,
-				`generator-${hash.hash}-${level}-end`,
+				`\t[generator]\t- Finished [generated ${((100 * data.length) / level.count).toFixed(0)}%] [${timer.format()}]`,
 			);
 
 			return data;
 		})
 		.catch((e) => {
-			performance.mark(`generator-${hash.hash}-${level}-end`);
-			performance.measure(
-				`generator-${hash.hash}-${level}`,
-				`generator-${hash.hash}-${level}-start`,
-				`generator-${hash.hash}-${level}-end`,
-			);
 			console.warn(e);
 		});
 };

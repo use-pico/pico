@@ -1,22 +1,19 @@
-export namespace withColorMap {
-	export interface Level {
-		level: number;
-		color: string;
-	}
+import { GameConfig } from "~/app/derivean/GameConfig";
 
+export namespace withColorMap {
 	export interface Props {
 		value: number;
+		gameConfig: GameConfig;
 		defaultColor?: string;
-		levels: readonly Level[];
 	}
 }
 
 export const withColorMap = ({
 	value,
+	gameConfig,
 	defaultColor = "#ff0000",
-	levels,
 }: withColorMap.Props) => {
-	const map = [...levels].sort((a, b) => b.level - a.level);
+	const map = [...gameConfig.colorMap].sort((a, b) => b.noise - a.noise);
 
-	return map.find(({ level }) => value >= level)?.color || defaultColor;
+	return map.find(({ noise }) => value >= noise)?.color || defaultColor;
 };

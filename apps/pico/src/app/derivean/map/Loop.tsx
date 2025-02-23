@@ -1,29 +1,43 @@
 import { OrbitControls } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import { type FC } from "react";
-import { MOUSE, TOUCH } from "three";
+import { MOUSE, TOUCH, type OrthographicCamera } from "three";
+import { useDebouncedCallback } from "use-debounce";
+import { GameConfig } from "~/app/derivean/GameConfig";
+import type { GameEventBus } from "~/app/derivean/createGameEventBus";
 import { ChunkManager } from "~/app/derivean/map/ChunkManager";
 
 export namespace Loop {
-	export interface Config {
-		/**
-		 * Number of plots in a chunk
-		 */
-		chunkSize: number;
-		plotCount: number;
-		/**
-		 * Size of a plot
-		 */
-		plotSize: number;
-	}
-
 	export interface Props {
 		mapId: string;
-		config: Config;
+		gameConfig: GameConfig;
+		gameEventBus: GameEventBus;
 		zoom: number;
 	}
 }
 
-export const Loop: FC<Loop.Props> = ({ mapId, config, zoom }) => {
+export const Loop: FC<Loop.Props> = ({
+	mapId,
+	gameConfig,
+	gameEventBus,
+	zoom,
+}) => {
+	console.log("Loop re-render");
+
+	const camera = useThree(({ camera }) => camera) as OrthographicCamera;
+
+	const onCamera = useDebouncedCallback(() => {
+		gameEventBus.emit("onCamera", {
+			x: camera.position.x,
+			z: camera.position.z,
+			bottom: camera.bottom,
+			top: camera.top,
+			left: camera.left,
+			right: camera.right,
+			zoom: camera.zoom,
+		});
+	}, 500);
+
 	return (
 		<>
 			<directionalLight
@@ -48,11 +62,11 @@ export const Loop: FC<Loop.Props> = ({ mapId, config, zoom }) => {
 				/**
 				 * How far
 				 */
-				minZoom={0.005}
+				minZoom={gameConfig.minZoom}
 				/**
 				 * How close
 				 */
-				maxZoom={1}
+				maxZoom={gameConfig.maxZoom}
 				/**
 				 * For my future me: this is used as a center point and must be set with
 				 * camera coordinates else the view will break up.
@@ -61,34 +75,13 @@ export const Loop: FC<Loop.Props> = ({ mapId, config, zoom }) => {
 				mouseButtons={{ LEFT: MOUSE.PAN }}
 				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
 				makeDefault
+				onEnd={onCamera}
 			/>
 
 			<ChunkManager
 				mapId={mapId}
-				chunkSize={config.chunkSize}
-				chunkLimit={1024}
-				levels={[
-					{
-						min: 0.065,
-						max: 1,
-						scale: 1,
-					},
-					{
-						min: 0.035,
-						max: 0.065,
-						scale: 2,
-					},
-					{
-						min: 0.01,
-						max: 0.035,
-						scale: 4,
-					},
-					{
-						min: 0.005,
-						max: 0.01,
-						scale: 16,
-					},
-				]}
+				gameConfig={gameConfig}
+				gameEventBus={gameEventBus}
 			/>
 		</>
 	);

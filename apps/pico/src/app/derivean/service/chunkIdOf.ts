@@ -1,15 +1,15 @@
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
-export const chunkIdOf = ({ minX, maxX, minZ, maxZ, level }: Chunk.Hash) => {
-	return Array.from({ length: maxX - minX }, (_, i) =>
-		Array.from({ length: maxZ - minZ }, (_, j) => {
-			const x = minX + i;
-			const z = minZ + j;
+export const chunkIdOf = ({ x, z, level }: Chunk.View.Level) => {
+	return Array.from({ length: x.max - x.min }, (_, i) =>
+		Array.from({ length: z.max - z.min }, (_, j) => {
+			const xx = x.min + i;
+			const zz = z.min + j;
 
 			return {
-				id: `${x}:${z}:${level}`,
-				x,
-				z,
+				id: `${xx}:${zz}:${level}`,
+				x: xx,
+				z: zz,
 			};
 		}),
 	).flat();

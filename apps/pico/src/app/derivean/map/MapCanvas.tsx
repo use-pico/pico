@@ -2,6 +2,7 @@ import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import type { FC, PropsWithChildren } from "react";
 import { ACESFilmicToneMapping } from "three";
+import { GameConfig } from "~/app/derivean/GameConfig";
 
 export namespace MapCanvas {
 	export interface Props extends PropsWithChildren {
@@ -10,6 +11,8 @@ export namespace MapCanvas {
 }
 
 export const MapCanvas: FC<MapCanvas.Props> = ({ zoom, children }) => {
+	console.log("MapCanvas re-render");
+
 	return (
 		<Canvas
 			frameloop={"demand"}
@@ -37,12 +40,9 @@ export const MapCanvas: FC<MapCanvas.Props> = ({ zoom, children }) => {
 			/>
 			<Stats />
 
-			{/* <gridHelper args={[Game.chunkSize, Game.plotCount, 0xff0000, 0xaaaaaa]} /> */}
-
-			{/* <Grid
-				size={Game.chunkSize}
-				divisions={Game.plotCount}
-			/> */}
+			<gridHelper
+				args={[GameConfig.chunkSize, GameConfig.plotCount, 0xff0000, 0xaaaaaa]}
+			/>
 
 			<ambientLight intensity={0.25} />
 			{/* 

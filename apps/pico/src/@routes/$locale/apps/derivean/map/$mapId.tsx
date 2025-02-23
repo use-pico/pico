@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { Game } from "~/app/derivean/Game";
+import { GameConfig } from "~/app/derivean/GameConfig";
+import { createGameEventBus } from "~/app/derivean/createGameEventBus";
 import { Map } from "~/app/derivean/map/Map";
 
 const SearchSchema = z.object({
@@ -36,11 +37,16 @@ export const Route = createFileRoute("/$locale/apps/derivean/map/$mapId")({
 	},
 	component() {
 		const { mapId } = Route.useParams();
+		/**
+		 * Basic assumption is the whole page won't re-render, so it's (quite) safe to create the event bus here.
+		 */
+		const gameEventBus = createGameEventBus();
 
 		return (
 			<Map
 				mapId={mapId}
-				config={Game}
+				gameConfig={GameConfig}
+				gameEventBus={gameEventBus}
 				zoom={0.1}
 			/>
 		);

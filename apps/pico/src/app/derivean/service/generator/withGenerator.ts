@@ -1,5 +1,5 @@
 import { hexToRGB } from "@use-pico/common";
-import { Game } from "~/app/derivean/Game";
+import { GameConfig } from "~/app/derivean/GameConfig";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import type { Noise } from "~/app/derivean/service/noise/Noise";
@@ -33,12 +33,12 @@ export namespace withGenerator {
 		}
 	}
 
-	export type Generator = (props: Generator.Props) => Chunk;
+	export type Generator = (props: Generator.Props) => Chunk.Data;
 
 	export interface Props {
 		seed: string;
-		plotCount: number;
-		scale?: number;
+		gameConfig: GameConfig;
+		level: Chunk.View.Level;
 		noise: (props: { seed: string }) => {
 			land: Noise;
 		};
@@ -51,53 +51,58 @@ export namespace withGenerator {
 
 export const withGenerator = ({
 	seed,
-	plotCount,
-	scale = 1,
+	gameConfig,
+	level,
 	noise,
 }: withGenerator.Props): withGenerator.Generator => {
-	const baseScale = 1 / (plotCount * scale);
+	const baseScale = 1 / (gameConfig.plotCount * (1 / level.level));
 
 	const { land } = noise({
 		seed,
 	});
 
 	const colorBuffers = new Map<string, Uint8Array>(
-		Array.from(Game.colorMap, ({ color }) => {
+		Array.from(GameConfig.colorMap, ({ color }) => {
 			const { r, g, b } = hexToRGB(color);
 			return [color, new Uint8Array([r, g, b, 255])];
 		}),
 	);
 
 	return ({ x, z }) => {
-		const size = plotCount ** 2;
+		const size = gameConfig.plotCount ** 2;
 		const buffer = new Uint8Array(size * 4);
 
 		for (let i = 0; i < size; i++) {
-			const tileX = i % plotCount;
-			const tileZ = Math.floor(i / plotCount);
-			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
-			const worldZ = (z * plotCount + Math.floor(i / plotCount)) * baseScale;
+			const tileX = i % gameConfig.plotCount;
+			const tileZ = Math.floor(i / gameConfig.plotCount);
+			const worldX =
+				(x * gameConfig.plotCount + (i % gameConfig.plotCount)) * baseScale;
+			const worldZ =
+				(z * gameConfig.plotCount + Math.floor(i / gameConfig.plotCount)) *
+				baseScale;
 
 			const noise = land(worldX, worldZ);
 
-			const reversedRow = plotCount - 1 - tileZ;
+			const reversedRow = gameConfig.plotCount - 1 - tileZ;
 
 			buffer.set(
-				colorBuffers.get(
-					withColorMap({ value: noise, levels: Game.colorMap }),
-				)!,
-				(reversedRow * plotCount + tileX) * 4,
+				colorBuffers.get(withColorMap({ value: noise, gameConfig }))!,
+				(reversedRow * gameConfig.plotCount + tileX) * 4,
 			);
 		}
 
+		const levelSize = gameConfig.chunkSize * level.level;
+
 		return {
-			id: `${x}:${z}`,
-			x,
-			z,
+			id: `${x}:${z}:${level.level}`,
+			x: x * levelSize,
+			z: z * levelSize,
+			size: levelSize,
+			level: level.level,
 			texture: {
-				size: plotCount,
+				size: gameConfig.plotCount,
 				data: buffer,
 			},
-		};
+		} satisfies Chunk.Data;
 	};
 };

@@ -1,12 +1,11 @@
-import { useCursor } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useEvent } from "@use-pico/client";
 import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
-import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { DataTexture, type OrthographicCamera } from "three";
+import { useMemo, useRef, useState, type FC } from "react";
+import { DataTexture } from "three";
 import { pool } from "workerpool";
-import { Game } from "~/app/derivean/Game";
-import { useCamera } from "~/app/derivean/hook/useCamera";
+import { GameConfig } from "~/app/derivean/GameConfig";
+import type { GameEventBus } from "~/app/derivean/createGameEventBus";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
 import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
@@ -15,37 +14,17 @@ import { generator } from "~/app/derivean/worker/generator";
 import chunkOfUrl from "../worker/chunkOf?worker&url";
 
 export namespace ChunkManager {
-	export interface Level {
-		/**
-		 * Where to draw this layer (zoom)
-		 */
-		min: number;
-		/**
-		 * Where to stop drawing this layer (zoom)
-		 */
-		max: number;
-		/**
-		 * Scale of this layer (1 = 1x1, 2 = 2x2, 3 = 3:3)
-		 */
-		scale: number;
-	}
-
 	export interface Props {
 		mapId: string;
-		chunkSize: number;
-		chunkLimit?: number;
-		/**
-		 * Level and scale of each level.
-		 */
-		levels: Level[];
+		gameConfig: GameConfig;
+		gameEventBus: GameEventBus;
 	}
 }
 
 export const ChunkManager: FC<ChunkManager.Props> = ({
 	mapId,
-	chunkSize,
-	chunkLimit = 1024,
-	levels,
+	gameConfig,
+	gameEventBus,
 }) => {
 	/**
 	 * Chunk generator worker pool.
@@ -58,152 +37,123 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 		});
 	}, []);
 
-	const camera = useThree(({ camera }) => camera);
-	const [level, setLevel] = useState<ChunkManager.Level>(
-		levels.find(
-			(level) => camera.zoom >= level.min && camera.zoom <= level.max,
-		) || { min: 0, max: 0, scale: 1 },
-	);
-	const visibleChunks = useVisibleChunks({
-		offset: 0,
-	});
-	/**
-	 * Current chunk hash; when updated, triggers chunk re-render.
-	 *
-	 * Works with chunkCache in cooperation; chunkCache is a stable reference, so
-	 * this values is needed to trigger re-render of chunks.
-	 */
-	const [hash, setHash] = useState<string | undefined>(undefined);
-	const [currentHash, setCurrentHash] = useState<Chunk.Hash>(
-		visibleChunks({ chunkSize, level: level.scale }),
-	);
-	/**
-	 * List of requested chunk hashes to prevent multiple generator requests.
-	 *
-	 * This is used internally by update method, so it won't trigger more generator requests.
-	 */
-	const requests = useRef<string[]>([]);
-	const abort = useRef(new AbortController());
-
-	const isLoading = useRef(false);
-
 	/**
 	 * Chunk LRU cache which controls, how many of them are available to the user.
 	 */
 	const chunkCache = useMemo(() => {
-		return new LRUCache<string, Chunk.Texture>({
-			max: chunkLimit,
-			ttl: 0,
+		const map = new Map<Chunk.Level, LRUCache<string, Chunk.Runtime>>();
+		gameConfig.layers.forEach((layer) => {
+			map.set(
+				layer.level,
+				new LRUCache<string, Chunk.Runtime>({
+					max: gameConfig.chunkLimit,
+					ttl: 0,
+				}),
+			);
 		});
+		return map;
 	}, []);
+	const [levels, setLevels] = useState<Chunk.View.Level[]>([]);
+	const abort = useRef(new AbortController());
 
-	useCamera<OrthographicCamera>({
-		callback(camera) {
-			const currentLevel: ChunkManager.Level = levels.find(
-				(level) => camera.zoom >= level.min && camera.zoom <= level.max,
-			) || { min: 0, max: 0, scale: 1 };
+	const visibleChunks = useVisibleChunks({
+		gameConfig,
+	});
 
-			if (currentLevel.scale !== level.scale) {
-				chunkCache.clear();
-			}
+	useEvent({
+		eventBus: gameEventBus,
+		event: "onCamera",
+		callback(props) {
+			const { levels } = visibleChunks(props);
 
-			setLevel(currentLevel);
+			Promise.all<Chunk.View.Level>(
+				levels.map(
+					(level) =>
+						new Promise<Chunk.View.Level>((resolve) => {
+							console.info("[ChunkManager]\tProcessing level", level);
 
-			const chunkHash = visibleChunks({
-				chunkSize,
-				level: currentLevel.scale,
-			});
-			setCurrentHash(chunkHash);
+							const cache = chunkCache.get(level.level);
+							if (!cache) {
+								console.warn(
+									`[ChunkManager]\t\tChunk cache for level ${level.level} not found; that's quite strange. Doctor Strange.`,
+								);
+								throw new Error("Chunk cache not found");
+							}
 
-			/**
-			 * Refresh chunks in the current view.
-			 */
-			chunkIdOf(chunkHash).forEach(({ id }) => {
-				chunkCache.get(id);
-			});
-
-			if (!requests.current.includes(chunkHash.hash)) {
-				requests.current.push(chunkHash.hash);
-
-				const timer = new Timer();
-				timer.start();
-				console.info(
-					`[Chunks] Requesting chunks [${chunkHash.count}] ${chunkHash.hash}; scale ${currentLevel.scale}`,
-				);
-
-				abort.current.abort(
-					`New generator request [${chunkHash.hash}]; scale ${currentLevel.scale}`,
-				);
-
-				isLoading.current = true;
-
-				generator({
-					pool: workerPool,
-					mapId,
-					seed: mapId,
-					hash: chunkHash,
-					level: currentLevel.scale,
-					skip: [...chunkCache.keys()],
-					abort: (abort.current = new AbortController()),
-					onComplete(chunks) {
-						isLoading.current = false;
-						requests.current = [];
-
-						performance.mark("generator-onComplete-start");
-
-						for (const chunk of chunks) {
-							const texture = new DataTexture(
-								new Uint8Array(chunk.texture.data),
-								chunk.texture.size,
-								chunk.texture.size,
-							);
-							texture.needsUpdate = true;
-
-							chunkCache.set(chunk.id, {
-								chunk,
-								texture,
+							/**
+							 * Refresh chunks in the current view.
+							 */
+							chunkIdOf(level).forEach(({ id }) => {
+								cache.get(id);
 							});
-						}
 
-						performance.mark("generator-onComplete-end");
-						performance.measure(
-							"generator-onComplete",
-							"generator-onComplete-start",
-							"generator-onComplete-end",
-						);
+							const timer = new Timer();
+							timer.start();
+							console.info(
+								`[ChunkManager]\tRequesting chunks [${level.count}] ${level.hash}`,
+							);
 
-						/**
-						 * This triggers re-render of chunks
-						 */
-						setHash(chunkHash.hash);
-					},
-				});
-			}
+							generator({
+								pool: workerPool,
+								mapId,
+								gameConfig,
+								level,
+								skip: [...cache.keys()],
+								abort: (abort.current = new AbortController()),
+								onComplete(chunks) {
+									// requests.current = [];
+
+									for (const { texture, ...chunk } of chunks) {
+										const txt = new DataTexture(
+											new Uint8Array(texture.data),
+											texture.size,
+											texture.size,
+										);
+										txt.needsUpdate = true;
+
+										cache.set(chunk.id, {
+											...chunk,
+											texture: {
+												size: texture.size,
+												data: txt,
+											},
+										});
+									}
+
+									resolve(level);
+								},
+							});
+						}),
+				),
+			).then(setLevels);
 		},
 	});
 
-	useEffect(() => {
-		return () => {
-			chunkCache.clear();
-			abort.current.abort("Unmounted");
-			workerPool.terminate();
-		};
-	}, []);
-
-	useCursor(isLoading.current, "wait", "auto");
+	// useCursor(isLoading.current, "wait", "auto");
 
 	const chunks = useMemo(() => {
-		return (
-			<Chunks
-				chunkSize={chunkSize * level.scale}
-				plotSize={Game.plotSize}
-				offset={(chunkSize * (level.scale - 1)) / 2}
-				chunks={chunkCache}
-				hash={hash}
-				currentHash={currentHash}
-			/>
-		);
-	}, [hash]);
+		return levels.map((level) => {
+			const cache = chunkCache.get(level.level);
+			if (!cache) {
+				return null;
+			}
 
-	return chunks;
+			return (
+				<Chunks
+					key={`chunks-${level.level}`}
+					chunks={cache}
+				/>
+			);
+		});
+	}, [levels]);
+
+	return (
+		<>
+			<mesh position={[gameConfig.plotSize / 2, 0, gameConfig.plotSize / 2]}>
+				<boxGeometry args={[gameConfig.plotSize, 1, gameConfig.plotSize]} />
+			</mesh>
+
+			{chunks}
+		</>
+	);
 };
