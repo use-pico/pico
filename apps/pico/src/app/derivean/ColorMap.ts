@@ -77,8 +77,25 @@ function interpolateColor(hex1: string, hex2: string, t: number): string {
 	return rgbToHex(r, g, b);
 }
 
+// Easing function to modify t based on transition type
+function ease(
+	t: number,
+	mode: "linear" | "smooth" | "hard" = "linear",
+): number {
+	switch (mode) {
+		case "smooth":
+			// Smooth (easeInOut) transition: cubic Hermite interpolation.
+			return t * t * (3 - 2 * t);
+		case "hard":
+			// Harder (more abrupt) transition: quadratic easing in.
+			return t * t;
+		default:
+			return t;
+	}
+}
+
 const stops: GameConfig.ColorMap[] = [];
-const totalStops = 500;
+const totalStops = 1000;
 for (let i = 0; i < totalStops; i++) {
 	const noiseValue = -1 + (2 * i) / (totalStops - 1);
 	const noise = parseFloat(noiseValue.toFixed(6));
@@ -90,9 +107,22 @@ for (let i = 0; i < totalStops; i++) {
 			break;
 		}
 	}
-	const t =
+
+	let t =
 		(noise - baseStops[seg]!.noise) /
 		(baseStops[seg + 1]!.noise - baseStops[seg]!.noise);
+
+	// Determine easing mode based on major transition boundaries:
+	// - Water-Beach: between deep ocean (index 10) and shallow waters (index 11) -> smoother.
+	// - Grasslands to Forests: index 25 to 26 -> harder.
+	// - Hills to Mountains: index 39 to 40 -> harder.
+	let mode: "linear" | "smooth" | "hard" = "linear";
+	if (seg === 10) {
+		mode = "smooth";
+	} else if (seg === 25 || seg === 39) {
+		mode = "hard";
+	}
+	t = ease(t, mode);
 
 	let color = interpolateColor(
 		baseStops[seg]!.color,
@@ -100,6 +130,7 @@ for (let i = 0; i < totalStops; i++) {
 		t,
 	);
 
+	// Avoid duplicate colors by nudging the blue channel if necessary.
 	if (stops.length > 0 && stops[stops.length - 1]!.color === color) {
 		const { r, g, b } = hexToRgb(color);
 		const newB = b < 255 ? b + 1 : b;
