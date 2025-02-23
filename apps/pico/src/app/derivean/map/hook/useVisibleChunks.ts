@@ -7,6 +7,7 @@ export namespace useVisibleChunks {
 	export namespace VisibleChunks {
 		export interface Props {
 			chunkSize: number;
+			level: number;
 		}
 
 		export type Callback = (props: Props) => Chunk.Hash;
@@ -32,30 +33,32 @@ export const useVisibleChunks = ({
 	}, [camera]);
 
 	return useMemo(() => {
-		return ({ chunkSize }) => {
+		return ({ chunkSize, level }) => {
+			const $chunkSize = chunkSize * level;
 			const viewHeight = (camera.top - camera.bottom) / camera.zoom;
 			const viewWidth = (camera.right - camera.left) / camera.zoom;
 
 			const halfW = viewWidth * 0.5;
 			const halfH = viewHeight * 0.5;
-			const size = chunkSize / 2;
+			const size = $chunkSize / 2;
 
 			const minX =
-				Math.floor((camera.position.x - halfW + size) / chunkSize) - offset;
+				Math.floor((camera.position.x - halfW + size) / $chunkSize) - offset;
 			const maxX =
-				Math.ceil((camera.position.x + halfW + size) / chunkSize) + offset;
+				Math.ceil((camera.position.x + halfW + size) / $chunkSize) + offset;
 			const minZ =
-				Math.floor((camera.position.z - halfH + size) / chunkSize) - offset;
+				Math.floor((camera.position.z - halfH + size) / $chunkSize) - offset;
 			const maxZ =
-				Math.ceil((camera.position.z + halfH + size) / chunkSize) + offset;
+				Math.ceil((camera.position.z + halfH + size) / $chunkSize) + offset;
 
 			return {
-				hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]`,
+				hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]:${level}`,
 				count: (maxX - minX) * (maxZ - minZ),
 				minX,
 				maxX,
 				minZ,
 				maxZ,
+				level,
 			};
 		};
 	}, [camera, size, offset]);

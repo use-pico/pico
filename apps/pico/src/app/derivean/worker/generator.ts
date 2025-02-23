@@ -50,9 +50,10 @@ export const generator = async ({
 
 	return pMap(
 		chunkIdOf(hash).filter(({ id }) => !skip.includes(id)),
-		async ({ z, x }) => {
+		async ({ z, x, id }) => {
 			const promise = pool.exec("chunkOf", [
 				{
+					id,
 					seed,
 					mapId,
 					plotCount: Game.plotCount,

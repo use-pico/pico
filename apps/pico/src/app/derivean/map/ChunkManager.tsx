@@ -75,14 +75,14 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 	 */
 	const [hash, setHash] = useState<string | undefined>(undefined);
 	const [currentHash, setCurrentHash] = useState<Chunk.Hash>(
-		visibleChunks({ chunkSize: chunkSize * level.scale }),
+		visibleChunks({ chunkSize, level: level.scale }),
 	);
 	/**
 	 * List of requested chunk hashes to prevent multiple generator requests.
 	 *
 	 * This is used internally by update method, so it won't trigger more generator requests.
 	 */
-	const requests = useRef<Chunk.Hash[]>([]);
+	const requests = useRef<string[]>([]);
 	const abort = useRef(new AbortController());
 
 	const isLoading = useRef(false);
@@ -102,12 +102,16 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 			const currentLevel: ChunkManager.Level = levels.find(
 				(level) => camera.zoom >= level.min && camera.zoom <= level.max,
 			) || { min: 0, max: 0, scale: 1 };
+
+			if (currentLevel.scale !== level.scale) {
+				chunkCache.clear();
+			}
+
 			setLevel(currentLevel);
 
-			console.log("zoom", camera.zoom);
-
 			const chunkHash = visibleChunks({
-				chunkSize: chunkSize * currentLevel.scale,
+				chunkSize,
+				level: currentLevel.scale,
 			});
 			setCurrentHash(chunkHash);
 
@@ -118,8 +122,8 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 				chunkCache.get(id);
 			});
 
-			if (!requests.current.includes(chunkHash)) {
-				requests.current.push(chunkHash);
+			if (!requests.current.includes(chunkHash.hash)) {
+				requests.current.push(chunkHash.hash);
 
 				const timer = new Timer();
 				timer.start();
@@ -188,14 +192,18 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 
 	useCursor(isLoading.current, "wait", "auto");
 
-	return (
-		<Chunks
-			chunkSize={chunkSize * level.scale}
-			plotSize={Game.plotSize}
-			offset={level.scale > 1 ? chunkSize * 0.5 : 0}
-			chunks={chunkCache}
-			hash={hash}
-			currentHash={currentHash}
-		/>
-	);
+	const chunks = useMemo(() => {
+		return (
+			<Chunks
+				chunkSize={chunkSize * level.scale}
+				plotSize={Game.plotSize}
+				offset={(chunkSize * (level.scale - 1)) / 2}
+				chunks={chunkCache}
+				hash={hash}
+				currentHash={currentHash}
+			/>
+		);
+	}, [hash]);
+
+	return chunks;
 };

@@ -15,6 +15,7 @@ export namespace Chunk {
 		minZ: number;
 		maxZ: number;
 		count: number;
+		level: number;
 	}
 
 	export interface Tile {

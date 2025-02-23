@@ -1,17 +1,7 @@
-import { OrbitControls, useCursor } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
-import { rangeOf, Timer } from "@use-pico/common";
-import { LRUCache } from "lru-cache";
-import { useEffect, useMemo, useRef, useState, type FC } from "react";
-import { DataTexture, MOUSE, TOUCH } from "three";
-import { useDebouncedCallback } from "use-debounce";
-import { pool } from "workerpool";
-import { Chunks } from "~/app/derivean/map/Chunks";
-import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
-import type { Chunk } from "~/app/derivean/type/Chunk";
-import { generator } from "~/app/derivean/worker/generator";
-import chunkOfUrl from "../worker/chunkOf?worker&url";
+import { OrbitControls } from "@react-three/drei";
+import { type FC } from "react";
+import { MOUSE, TOUCH } from "three";
+import { ChunkManager } from "~/app/derivean/map/ChunkManager";
 
 export namespace Loop {
 	export interface Config {
@@ -26,250 +16,14 @@ export namespace Loop {
 		plotSize: number;
 	}
 
-	export namespace OnCamera {
-		export interface Props {
-			x: number;
-			z: number;
-			zoom: number;
-		}
-
-		export type Callback = (props: Props) => void;
-	}
-
 	export interface Props {
 		mapId: string;
 		config: Config;
 		zoom: number;
-		limit?: number;
-		offset?: number;
-		onCamera?: OnCamera.Callback;
 	}
 }
 
-export const Loop: FC<Loop.Props> = ({
-	mapId,
-	config,
-	zoom,
-	offset = 2,
-	limit = 1024,
-	onCamera,
-}) => {
-	const { camera } = useThree(({ camera }) => ({
-		camera,
-	}));
-
-	/**
-	 * Chunk generator worker pool.
-	 */
-	const workerPool = useMemo(() => {
-		return pool(chunkOfUrl, {
-			workerOpts: {
-				type: "module",
-			},
-		});
-	}, []);
-	/**
-	 * Chunk LRU cache which controls, how many of them are available to the user.
-	 */
-	const chunkCache0 = useMemo(() => {
-		return new LRUCache<string, Chunk.Texture>({
-			max: limit,
-			ttl: 0,
-		});
-	}, []);
-	const chunkCache1 = useMemo(() => {
-		return new LRUCache<string, Chunk.Texture>({
-			max: limit,
-			ttl: 0,
-		});
-	}, []);
-
-	/**
-	 * Current chunk hash; when updated, triggers chunk re-render.
-	 *
-	 * Works with chunkCache in cooperation; chunkCache is a stable reference, so
-	 * this values is needed to trigger re-render of chunks.
-	 */
-	const [hash0, setHash0] = useState<string | undefined>(undefined);
-	const [hash1, setHash1] = useState<string | undefined>(undefined);
-	const isLoading = useRef(false);
-	const isPointerDown = useRef(false);
-
-	useCursor(isLoading.current, "wait", "auto");
-
-	/**
-	 * List of requested chunk hashes to prevent multiple generator requests.
-	 *
-	 * This is used internally by update method, so it won't trigger more generator requests.
-	 */
-	const requests0 = useRef<Chunk.Hash[]>([]);
-	const requests1 = useRef<Chunk.Hash[]>([]);
-	const abort0 = useRef(new AbortController());
-	const abort1 = useRef(new AbortController());
-
-	const visibleChunks0 = useVisibleChunks({
-		chunkSize: config.chunkSize,
-		offset,
-	});
-	const visibleChunks1 = useVisibleChunks({
-		chunkSize: config.chunkSize,
-		offset,
-	});
-
-	const [currentHash0, setCurrentHash0] =
-		useState<Chunk.Hash>(visibleChunks0());
-	const [currentHash1, setCurrentHash1] =
-		useState<Chunk.Hash>(visibleChunks1());
-
-	const [level, setLevel] = useState(camera.zoom);
-
-	const update = useDebouncedCallback(async () => {
-		onCamera?.({
-			x: camera.position.x,
-			z: camera.position.z,
-			zoom: camera.zoom,
-		});
-
-		const chunkHash0 = visibleChunks0();
-		setCurrentHash0(chunkHash0);
-		const chunkHash1 = visibleChunks1();
-		setCurrentHash1(chunkHash1);
-
-		/**
-		 * Refresh chunks in the current view.
-		 */
-		chunkIdOf(chunkHash0).forEach(({ id }) => {
-			chunkCache0.get(id);
-		});
-		chunkIdOf(chunkHash1).forEach(({ id }) => {
-			chunkCache1.get(id);
-		});
-
-		if (!requests0.current.includes(chunkHash0)) {
-			requests0.current.push(chunkHash0);
-
-			const timer = new Timer();
-			timer.start();
-			console.info(
-				`[Chunks] Requesting chunks [${chunkHash0.count}] ${chunkHash0.hash}`,
-			);
-
-			abort0.current.abort(`New generator request [${chunkHash0.hash}]`);
-
-			isLoading.current = true;
-
-			generator({
-				pool: workerPool,
-				mapId,
-				seed: mapId,
-				hash: chunkHash0,
-				level: 1,
-				skip: [...chunkCache0.keys()],
-				abort: (abort0.current = new AbortController()),
-				onComplete(chunks) {
-					isLoading.current = false;
-					requests0.current = [];
-
-					performance.mark("generator-onComplete-start");
-
-					for (const { tiles: _, ...chunk } of chunks) {
-						const texture = new DataTexture(
-							new Uint8Array(chunk.texture.data),
-							chunk.texture.size,
-							chunk.texture.size,
-						);
-						texture.needsUpdate = true;
-
-						chunkCache0.set(chunk.id, {
-							chunk,
-							texture,
-						});
-					}
-
-					performance.mark("generator-onComplete-end");
-					performance.measure(
-						"generator-onComplete",
-						"generator-onComplete-start",
-						"generator-onComplete-end",
-					);
-
-					/**
-					 * This triggers re-render of chunks
-					 */
-					setHash0(chunkHash0.hash);
-				},
-			});
-		}
-
-		if (!requests1.current.includes(chunkHash1)) {
-			requests1.current.push(chunkHash1);
-
-			const timer = new Timer();
-			timer.start();
-			console.info(
-				`[Chunks] Requesting chunks [${chunkHash0.count}] ${chunkHash0.hash}`,
-			);
-
-			abort1.current.abort(`New generator request [${chunkHash0.hash}]`);
-
-			isLoading.current = true;
-
-			generator({
-				pool: workerPool,
-				mapId,
-				seed: mapId,
-				hash: chunkHash1,
-				level: 2,
-				skip: [...chunkCache1.keys()],
-				abort: (abort1.current = new AbortController()),
-				onComplete(chunks) {
-					isLoading.current = false;
-					requests0.current = [];
-
-					performance.mark("generator-onComplete-start");
-
-					for (const { tiles: _, ...chunk } of chunks) {
-						const texture = new DataTexture(
-							new Uint8Array(chunk.texture.data),
-							chunk.texture.size,
-							chunk.texture.size,
-						);
-						texture.needsUpdate = true;
-
-						chunkCache1.set(chunk.id, {
-							chunk,
-							texture,
-						});
-					}
-
-					performance.mark("generator-onComplete-end");
-					performance.measure(
-						"generator-onComplete",
-						"generator-onComplete-start",
-						"generator-onComplete-end",
-					);
-
-					/**
-					 * This triggers re-render of chunks
-					 */
-					setHash1(chunkHash1.hash);
-				},
-			});
-		}
-	}, 1000);
-
-	console.log("zm", level);
-
-	useEffect(() => {
-		update();
-
-		return () => {
-			chunkCache0.clear();
-			abort0.current.abort("Unmounted");
-			workerPool.terminate();
-		};
-	}, []);
-
+export const Loop: FC<Loop.Props> = ({ mapId, config, zoom }) => {
 	return (
 		<>
 			<directionalLight
@@ -294,7 +48,7 @@ export const Loop: FC<Loop.Props> = ({
 				/**
 				 * How far
 				 */
-				minZoom={0.05}
+				minZoom={0.005}
 				/**
 				 * How close
 				 */
@@ -306,52 +60,35 @@ export const Loop: FC<Loop.Props> = ({
 				// target={target}
 				mouseButtons={{ LEFT: MOUSE.PAN }}
 				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
-				onStart={() => {
-					isPointerDown.current = true;
-				}}
-				onEnd={() => {
-					update();
-					isPointerDown.current = false;
-				}}
-				onChange={() => {
-					setLevel(camera.zoom);
-				}}
 				makeDefault
 			/>
 
-			<Chunks
-				config={config}
-				chunks={chunkCache0}
-				hash={hash0}
-				currentHash={currentHash0}
-				level={1}
-				opacity={
-					camera.zoom <= 0.5 ?
-						rangeOf({
-							value: level,
-							input: { min: 0.05, max: 0.5 },
-							output: { min: 0, max: 1 },
-						})
-					:	1
-				}
-			/>
-
-			<Chunks
-				config={config}
-				chunks={chunkCache1}
-				hash={hash1}
-				currentHash={currentHash1}
-				level={2}
-				opacity={
-					camera.zoom <= 0.2 ?
-						1 -
-						rangeOf({
-							value: level,
-							input: { min: 0.0, max: 0.2 },
-							output: { min: 0, max: 1 },
-						})
-					:	0
-				}
+			<ChunkManager
+				mapId={mapId}
+				chunkSize={config.chunkSize}
+				chunkLimit={1024}
+				levels={[
+					{
+						min: 0.065,
+						max: 1,
+						scale: 1,
+					},
+					{
+						min: 0.035,
+						max: 0.065,
+						scale: 2,
+					},
+					{
+						min: 0.01,
+						max: 0.035,
+						scale: 4,
+					},
+					{
+						min: 0.005,
+						max: 0.01,
+						scale: 16,
+					},
+				]}
 			/>
 		</>
 	);

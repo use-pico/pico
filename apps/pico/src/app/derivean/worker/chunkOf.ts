@@ -8,6 +8,7 @@ import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace chunkOf {
 	export interface Props {
+		id: string;
 		seed: string;
 		mapId: string;
 		plotCount: number;
@@ -18,6 +19,7 @@ export namespace chunkOf {
 }
 
 export async function chunkOf({
+	id,
 	seed,
 	mapId,
 	plotCount,
@@ -40,10 +42,9 @@ export async function chunkOf({
 		},
 	});
 
-	const chunkId = `${x}:${z}-${level}`;
-	const chunkFile = `/chunk/${mapId}/${chunkId}.bin`;
+	const chunkFile = `/chunk/${mapId}/${id}.bin`;
 
-	performance.mark(`chunkOf-${chunkId}-start`);
+	performance.mark(`chunkOf-${id}-start`);
 
 	return new Promise<Chunk>((resolve) => {
 		file(chunkFile)
@@ -59,11 +60,11 @@ export async function chunkOf({
 						.arrayBuffer()
 						.then((buffer) => {
 							resolve(decompressChunk(new Uint8Array(buffer)));
-							performance.mark(`chunkOf-${chunkId}-end`);
+							performance.mark(`chunkOf-${id}-end`);
 							performance.measure(
-								`chunkOf-${chunkId}`,
-								`chunkOf-${chunkId}-start`,
-								`chunkOf-${chunkId}-end`,
+								`chunkOf-${id}`,
+								`chunkOf-${id}-start`,
+								`chunkOf-${id}-end`,
 							);
 						});
 				});
