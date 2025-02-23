@@ -2,7 +2,7 @@ import { useCursor } from "@react-three/drei";
 import { useEvent } from "@use-pico/client";
 import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
-import { useMemo, useState, type FC } from "react";
+import { useEffect, useMemo, useState, type FC } from "react";
 import { DataTexture } from "three";
 import { pool } from "workerpool";
 import { GameConfig } from "~/app/derivean/GameConfig";
@@ -55,6 +55,16 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 		return map;
 	}, []);
 	const [levels, setLevels] = useState<Chunk.View.Level[]>([]);
+
+	useEffect(() => {
+		return () => {
+			console.info("[ChunkManager]\tCleaning up");
+			workerPool.terminate();
+			chunkCache.forEach((cache) => {
+				cache.clear();
+			});
+		};
+	}, []);
 
 	const visibleChunks = useVisibleChunks({
 		gameConfig,

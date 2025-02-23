@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import { MOUSE, TOUCH, type OrthographicCamera } from "three";
 import { useDebouncedCallback } from "use-debounce";
 import { GameConfig } from "~/app/derivean/GameConfig";
@@ -37,6 +37,18 @@ export const Loop: FC<Loop.Props> = ({
 			zoom: camera.zoom,
 		});
 	}, 500);
+
+	useEffect(() => {
+		gameEventBus.emit("onCamera", {
+			x: camera.position.x,
+			z: camera.position.z,
+			bottom: camera.bottom,
+			top: camera.top,
+			left: camera.left,
+			right: camera.right,
+			zoom: camera.zoom,
+		});
+	}, []);
 
 	return (
 		<>

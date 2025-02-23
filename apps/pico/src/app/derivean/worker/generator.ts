@@ -1,4 +1,4 @@
-import { Timer } from "@use-pico/common";
+import { Timer, toHumanNumber } from "@use-pico/common";
 import pMap from "p-map";
 import { type Pool } from "workerpool";
 import { GameConfig } from "~/app/derivean/GameConfig";
@@ -70,9 +70,13 @@ export const generator = async ({
 	)
 		.then((data) => {
 			onComplete?.(data);
+			const hit = data.filter((chunk) => chunk.hit).length;
 
 			console.info(
-				`\t[generator]\t- Finished [cache hit ${data.length > 0 ? ((100 * data.filter((chunk) => chunk.hit).length) / level.count).toFixed(0) : "100"}%; generated ${((100 * data.length) / level.count).toFixed(0)}%] [${timer.format()}]`,
+				`\t[generator]\tFinished ${toHumanNumber({ number: timer.ms() })}ms
+\t\tRequested ${level.count}, cached ${hit}, generated ${data.length - hit}, skips ${skip.length}
+\t\tcache hit ${data.length > 0 ? `${((100 * hit) / level.count).toFixed(0)}%` : "100% (external cache)"}
+\t\tgenerated ${((100 * data.length) / level.count).toFixed(0)}%`,
 			);
 
 			return data;
