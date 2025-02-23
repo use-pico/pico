@@ -7319,7 +7319,7 @@ Error generating stack: ` + V.message + `
                 mode: "hidden",
                 children: re
             }, !(I & 1) && V !== null ? (V.childLanes = 0, V.pendingProps = re) : V = m_(re, I, 0, null), d = Yh(d, I, w, null), V.return = h, d.return = h, V.sibling = d, h.child = V, h.child.memoizedState = $n(w), h.memoizedState = oi, d) : ux(h, re));
-            if (F = d.memoizedState, F !== null && (be = F.dehydrated, be !== null)) return H8(d, h, re, I, be, F, w);
+            if (F = d.memoizedState, F !== null && (be = F.dehydrated, be !== null)) return HG(d, h, re, I, be, F, w);
             if (V) {
                 V = I.fallback, re = h.mode, F = d.child, be = F.sibling;
                 var Te = {
@@ -7348,7 +7348,7 @@ Error generating stack: ` + V.message + `
         function n_(d, h, w, I) {
             return I !== null && Wd(I), bu(h, d.child, null, w), d = ux(h, h.pendingProps.children), d.flags |= 2, h.memoizedState = null, d;
         }
-        function H8(d, h, w, I, F, V, re) {
+        function HG(d, h, w, I, F, V, re) {
             if (w) return h.flags & 256 ? (h.flags &= -257, I = z(Error(n(422))), n_(d, h, re, I)) : h.memoizedState !== null ? (h.child = d.child, h.flags |= 128, null) : (V = I.fallback, F = h.mode, I = m_({
                 mode: "visible",
                 children: I.children
@@ -7474,7 +7474,7 @@ Error generating stack: ` + V.message + `
             }
             return h.child;
         }
-        function $8(d, h, w) {
+        function $G(d, h, w) {
             switch(h.tag){
                 case 3:
                     gn(h), bc();
@@ -7587,7 +7587,7 @@ Error generating stack: ` + V.message + `
             else for(F = d.child; F !== null;)w |= F.lanes | F.childLanes, I |= F.subtreeFlags, I |= F.flags, F.return = d, F = F.sibling;
             return d.subtreeFlags |= I, d.childLanes = w, h;
         }
-        function G8(d, h, w) {
+        function GG(d, h, w) {
             var I = h.pendingProps;
             switch(Cl(h), h.tag){
                 case 2:
@@ -7835,7 +7835,7 @@ Error generating stack: ` + V.message + `
             }
             throw Error(n(156, h.tag));
         }
-        function X8(d, h) {
+        function XG(d, h) {
             switch(Cl(h), h.tag){
                 case 1:
                     return ss(h.type) && Ih(), d = h.flags, d & 65536 ? (h.flags = d & -65537 | 128, h) : null;
@@ -7864,7 +7864,7 @@ Error generating stack: ` + V.message + `
                     return null;
             }
         }
-        var i_ = !1, js = !1, K8 = typeof WeakSet == "function" ? WeakSet : Set, Vt = null;
+        var i_ = !1, js = !1, KG = typeof WeakSet == "function" ? WeakSet : Set, Vt = null;
         function pg(d, h) {
             var w = d.ref;
             if (w !== null) if (typeof w == "function") try {
@@ -7882,7 +7882,7 @@ Error generating stack: ` + V.message + `
             }
         }
         var sL = !1;
-        function Y8(d, h) {
+        function YG(d, h) {
             if (Ud = ko, d = Br(), Ni(d)) {
                 if ("selectionStart" in d) var w = {
                     start: d.selectionStart,
@@ -8090,7 +8090,7 @@ Error generating stack: ` + V.message + `
             if (h !== null) {
                 d.updateQueue = null;
                 var w = d.stateNode;
-                w === null && (w = d.stateNode = new K8), h.forEach(function(I) {
+                w === null && (w = d.stateNode = new KG), h.forEach(function(I) {
                     var F = s9.bind(null, d, I);
                     w.has(I) || (w.add(I), I.then(F, F));
                 });
@@ -8320,7 +8320,7 @@ Error generating stack: ` + V.message + `
             }
             h & 4096 && (d.flags &= -4097);
         }
-        function Z8(d, h, w) {
+        function ZG(d, h, w) {
             Vt = d, fL(d);
         }
         function fL(d, h, w) {
@@ -8506,7 +8506,7 @@ Error generating stack: ` + V.message + `
                 Vt = h.return;
             }
         }
-        var J8 = Math.ceil, o_ = T.ReactCurrentDispatcher, NC = T.ReactCurrentOwner, Za = T.ReactCurrentBatchConfig, er = 0, ls = null, Di = null, Ss = 0, wa = 0, mg = Wr(0), Ji = 0, hx = null, $h = 0, a_ = 0, PC = 0, px = null, Vo = null, kC = 0, gg = 1 / 0, Nu = null, l_ = !1, OC = null, Yd = null, c_ = !1, Zd = null, u_ = 0, mx = 0, LC = null, d_ = -1, f_ = 0;
+        var JG = Math.ceil, o_ = T.ReactCurrentDispatcher, NC = T.ReactCurrentOwner, Za = T.ReactCurrentBatchConfig, er = 0, ls = null, Di = null, Ss = 0, wa = 0, mg = Wr(0), Ji = 0, hx = null, $h = 0, a_ = 0, PC = 0, px = null, Vo = null, kC = 0, gg = 1 / 0, Nu = null, l_ = !1, OC = null, Yd = null, c_ = !1, Zd = null, u_ = 0, mx = 0, LC = null, d_ = -1, f_ = 0;
         function yo() {
             return er & 6 ? je() : d_ !== -1 ? d_ : d_ = je();
         }
@@ -8574,7 +8574,7 @@ Error generating stack: ` + V.message + `
                 if (h === 2 && (F = oo(d), F !== 0 && (I = F, h = DC(d, F))), h === 1) throw w = hx, Xh(d, 0), Qd(d, I), Wo(d, je()), w;
                 if (h === 6) Qd(d, I);
                 else {
-                    if (F = d.current.alternate, !(I & 30) && !Q8(F) && (h = h_(d, I), h === 2 && (V = oo(d), V !== 0 && (I = V, h = DC(d, V))), h === 1)) throw w = hx, Xh(d, 0), Qd(d, I), Wo(d, je()), w;
+                    if (F = d.current.alternate, !(I & 30) && !QG(F) && (h = h_(d, I), h === 2 && (V = oo(d), V !== 0 && (I = V, h = DC(d, V))), h === 1)) throw w = hx, Xh(d, 0), Qd(d, I), Wo(d, je()), w;
                     switch(d.finishedWork = F, d.finishedLanes = I, h){
                         case 0:
                         case 1:
@@ -8600,7 +8600,7 @@ Error generating stack: ` + V.message + `
                                 var re = 31 - nn(I);
                                 V = 1 << re, re = h[re], re > F && (F = re), I &= ~V;
                             }
-                            if (I = F, I = je() - I, I = (120 > I ? 120 : 480 > I ? 480 : 1080 > I ? 1080 : 1920 > I ? 1920 : 3e3 > I ? 3e3 : 4320 > I ? 4320 : 1960 * J8(I / 1960)) - I, 10 < I) {
+                            if (I = F, I = je() - I, I = (120 > I ? 120 : 480 > I ? 480 : 1080 > I ? 1080 : 1920 > I ? 1920 : 3e3 > I ? 3e3 : 4320 > I ? 4320 : 1960 * JG(I / 1960)) - I, 10 < I) {
                                 d.timeoutHandle = Vv(Kh.bind(null, d, Vo, Nu), I);
                                 break;
                             }
@@ -8623,7 +8623,7 @@ Error generating stack: ` + V.message + `
         function FC(d) {
             Vo === null ? Vo = d : Vo.push.apply(Vo, d);
         }
-        function Q8(d) {
+        function QG(d) {
             for(var h = d;;){
                 if (h.flags & 16384) {
                     var w = h.updateQueue;
@@ -8853,7 +8853,7 @@ Error generating stack: ` + V.message + `
             do {
                 var w = h.alternate;
                 if (d = h.return, h.flags & 32768) {
-                    if (w = X8(w, h), w !== null) {
+                    if (w = XG(w, h), w !== null) {
                         w.flags &= 32767, Di = w;
                         return;
                     }
@@ -8862,7 +8862,7 @@ Error generating stack: ` + V.message + `
                         Ji = 6, Di = null;
                         return;
                     }
-                } else if (w = G8(w, h, wa), w !== null) {
+                } else if (w = GG(w, h, wa), w !== null) {
                     Di = w;
                     return;
                 }
@@ -8900,7 +8900,7 @@ Error generating stack: ` + V.message + `
                 var re = qn;
                 qn = 1;
                 var be = er;
-                er |= 4, NC.current = null, Y8(d, w), dL(w, d), Pi(Uv), ko = !!Ud, Uv = Ud = null, d.current = w, Z8(w), Ge(), er = be, qn = re, Za.transition = V;
+                er |= 4, NC.current = null, YG(d, w), dL(w, d), Pi(Uv), ko = !!Ud, Uv = Ud = null, d.current = w, ZG(w), Ge(), er = be, qn = re, Za.transition = V;
             } else d.current = w;
             if (c_ && (c_ = !1, Zd = d, u_ = F), V = d.pendingLanes, V === 0 && (Yd = null), Wt(w.stateNode), Wo(d, je()), h !== null) for(I = d.onRecoverableError, w = 0; w < h.length; w++)F = h[w], I(F.value, {
                 componentStack: F.stack,
@@ -9070,7 +9070,7 @@ Error generating stack: ` + V.message + `
         EL = function(d, h, w) {
             if (d !== null) if (d.memoizedProps !== h.pendingProps || vs.current) Cn = !0;
             else {
-                if (!(d.lanes & w) && !(h.flags & 128)) return Cn = !1, $8(d, h, w);
+                if (!(d.lanes & w) && !(h.flags & 128)) return Cn = !1, $G(d, h, w);
                 Cn = !!(d.flags & 131072);
             }
             else Cn = !1, _r && h.flags & 1048576 && Xv(h, ng, h.index);
@@ -57490,7 +57490,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
     }), Zpe = {
         maxZoom: 1,
-        minZoom: .005,
+        minZoom: .001,
         plotSize: 16,
         plotCount: 256,
         chunkSize: 16 * 256,
@@ -57679,27 +57679,51 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ].sort((t, e)=>e.noise - t.noise),
         layers: [
             {
-                min: .065,
+                min: .4217,
                 max: 1,
                 level: 1,
                 offset: 4
             },
             {
-                min: .035,
-                max: .065,
+                min: .1778,
+                max: .4217,
                 level: 2,
                 offset: 4
             },
             {
-                min: .01,
-                max: .035,
+                min: .075,
+                max: .1778,
                 level: 4,
                 offset: 4
             },
             {
-                min: .005,
-                max: .01,
+                min: .0316,
+                max: .075,
+                level: 8,
+                offset: 4
+            },
+            {
+                min: .01333,
+                max: .0316,
                 level: 16,
+                offset: 4
+            },
+            {
+                min: .00562,
+                max: .01333,
+                level: 32,
+                offset: 4
+            },
+            {
+                min: .00237,
+                max: .00562,
+                level: 64,
+                offset: 4
+            },
+            {
+                min: .001,
+                max: .00237,
+                level: 128,
                 offset: 4
             }
         ]
@@ -65598,7 +65622,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }, this.color.copy(e.color), this.roughness = e.roughness, this.metalness = e.metalness, this.map = e.map, this.lightMap = e.lightMap, this.lightMapIntensity = e.lightMapIntensity, this.aoMap = e.aoMap, this.aoMapIntensity = e.aoMapIntensity, this.emissive.copy(e.emissive), this.emissiveMap = e.emissiveMap, this.emissiveIntensity = e.emissiveIntensity, this.bumpMap = e.bumpMap, this.bumpScale = e.bumpScale, this.normalMap = e.normalMap, this.normalMapType = e.normalMapType, this.normalScale.copy(e.normalScale), this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this.roughnessMap = e.roughnessMap, this.metalnessMap = e.metalnessMap, this.alphaMap = e.alphaMap, this.envMap = e.envMap, this.envMapRotation.copy(e.envMapRotation), this.envMapIntensity = e.envMapIntensity, this.wireframe = e.wireframe, this.wireframeLinewidth = e.wireframeLinewidth, this.wireframeLinecap = e.wireframeLinecap, this.wireframeLinejoin = e.wireframeLinejoin, this.flatShading = e.flatShading, this.fog = e.fog, this;
         }
     }
-    class eG extends I2 {
+    class e8 extends I2 {
         constructor(e){
             super(), this.isMeshPhysicalMaterial = !0, this.defines = {
                 STANDARD: "",
@@ -65660,7 +65684,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ], this.iridescenceThicknessMap = e.iridescenceThicknessMap, this.sheen = e.sheen, this.sheenColor.copy(e.sheenColor), this.sheenColorMap = e.sheenColorMap, this.sheenRoughness = e.sheenRoughness, this.sheenRoughnessMap = e.sheenRoughnessMap, this.transmission = e.transmission, this.transmissionMap = e.transmissionMap, this.thickness = e.thickness, this.thicknessMap = e.thicknessMap, this.attenuationDistance = e.attenuationDistance, this.attenuationColor.copy(e.attenuationColor), this.specularIntensity = e.specularIntensity, this.specularIntensityMap = e.specularIntensityMap, this.specularColor.copy(e.specularColor), this.specularColorMap = e.specularColorMap, this;
         }
     }
-    class tG extends no {
+    class t8 extends no {
         constructor(e){
             super(), this.isMeshPhongMaterial = !0, this.type = "MeshPhongMaterial", this.color = new Ft(16777215), this.specular = new Ft(1118481), this.shininess = 30, this.map = null, this.lightMap = null, this.lightMapIntensity = 1, this.aoMap = null, this.aoMapIntensity = 1, this.emissive = new Ft(0), this.emissiveIntensity = 1, this.emissiveMap = null, this.bumpMap = null, this.bumpScale = 1, this.normalMap = null, this.normalMapType = ih, this.normalScale = new ot(1, 1), this.displacementMap = null, this.displacementScale = 1, this.displacementBias = 0, this.specularMap = null, this.alphaMap = null, this.envMap = null, this.envMapRotation = new ja, this.combine = uw, this.reflectivity = 1, this.refractionRatio = .98, this.wireframe = !1, this.wireframeLinewidth = 1, this.wireframeLinecap = "round", this.wireframeLinejoin = "round", this.flatShading = !1, this.fog = !0, this.setValues(e);
         }
@@ -65668,7 +65692,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.color.copy(e.color), this.specular.copy(e.specular), this.shininess = e.shininess, this.map = e.map, this.lightMap = e.lightMap, this.lightMapIntensity = e.lightMapIntensity, this.aoMap = e.aoMap, this.aoMapIntensity = e.aoMapIntensity, this.emissive.copy(e.emissive), this.emissiveMap = e.emissiveMap, this.emissiveIntensity = e.emissiveIntensity, this.bumpMap = e.bumpMap, this.bumpScale = e.bumpScale, this.normalMap = e.normalMap, this.normalMapType = e.normalMapType, this.normalScale.copy(e.normalScale), this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this.specularMap = e.specularMap, this.alphaMap = e.alphaMap, this.envMap = e.envMap, this.envMapRotation.copy(e.envMapRotation), this.combine = e.combine, this.reflectivity = e.reflectivity, this.refractionRatio = e.refractionRatio, this.wireframe = e.wireframe, this.wireframeLinewidth = e.wireframeLinewidth, this.wireframeLinecap = e.wireframeLinecap, this.wireframeLinejoin = e.wireframeLinejoin, this.flatShading = e.flatShading, this.fog = e.fog, this;
         }
     }
-    class nG extends no {
+    class n8 extends no {
         constructor(e){
             super(), this.isMeshToonMaterial = !0, this.defines = {
                 TOON: ""
@@ -65678,7 +65702,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.color.copy(e.color), this.map = e.map, this.gradientMap = e.gradientMap, this.lightMap = e.lightMap, this.lightMapIntensity = e.lightMapIntensity, this.aoMap = e.aoMap, this.aoMapIntensity = e.aoMapIntensity, this.emissive.copy(e.emissive), this.emissiveMap = e.emissiveMap, this.emissiveIntensity = e.emissiveIntensity, this.bumpMap = e.bumpMap, this.bumpScale = e.bumpScale, this.normalMap = e.normalMap, this.normalMapType = e.normalMapType, this.normalScale.copy(e.normalScale), this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this.alphaMap = e.alphaMap, this.wireframe = e.wireframe, this.wireframeLinewidth = e.wireframeLinewidth, this.wireframeLinecap = e.wireframeLinecap, this.wireframeLinejoin = e.wireframeLinejoin, this.fog = e.fog, this;
         }
     }
-    class rG extends no {
+    class r8 extends no {
         constructor(e){
             super(), this.isMeshNormalMaterial = !0, this.type = "MeshNormalMaterial", this.bumpMap = null, this.bumpScale = 1, this.normalMap = null, this.normalMapType = ih, this.normalScale = new ot(1, 1), this.displacementMap = null, this.displacementScale = 1, this.displacementBias = 0, this.wireframe = !1, this.wireframeLinewidth = 1, this.flatShading = !1, this.setValues(e);
         }
@@ -65686,7 +65710,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.bumpMap = e.bumpMap, this.bumpScale = e.bumpScale, this.normalMap = e.normalMap, this.normalMapType = e.normalMapType, this.normalScale.copy(e.normalScale), this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this.wireframe = e.wireframe, this.wireframeLinewidth = e.wireframeLinewidth, this.flatShading = e.flatShading, this;
         }
     }
-    class iG extends no {
+    class i8 extends no {
         constructor(e){
             super(), this.isMeshLambertMaterial = !0, this.type = "MeshLambertMaterial", this.color = new Ft(16777215), this.map = null, this.lightMap = null, this.lightMapIntensity = 1, this.aoMap = null, this.aoMapIntensity = 1, this.emissive = new Ft(0), this.emissiveIntensity = 1, this.emissiveMap = null, this.bumpMap = null, this.bumpScale = 1, this.normalMap = null, this.normalMapType = ih, this.normalScale = new ot(1, 1), this.displacementMap = null, this.displacementScale = 1, this.displacementBias = 0, this.specularMap = null, this.alphaMap = null, this.envMap = null, this.envMapRotation = new ja, this.combine = uw, this.reflectivity = 1, this.refractionRatio = .98, this.wireframe = !1, this.wireframeLinewidth = 1, this.wireframeLinecap = "round", this.wireframeLinejoin = "round", this.flatShading = !1, this.fog = !0, this.setValues(e);
         }
@@ -65710,7 +65734,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.map = e.map, this.alphaMap = e.alphaMap, this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this;
         }
     }
-    class sG extends no {
+    class s8 extends no {
         constructor(e){
             super(), this.isMeshMatcapMaterial = !0, this.defines = {
                 MATCAP: ""
@@ -65722,7 +65746,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }, this.color.copy(e.color), this.matcap = e.matcap, this.map = e.map, this.bumpMap = e.bumpMap, this.bumpScale = e.bumpScale, this.normalMap = e.normalMap, this.normalMapType = e.normalMapType, this.normalScale.copy(e.normalScale), this.displacementMap = e.displacementMap, this.displacementScale = e.displacementScale, this.displacementBias = e.displacementBias, this.alphaMap = e.alphaMap, this.flatShading = e.flatShading, this.fog = e.fog, this;
         }
     }
-    class oG extends No {
+    class o8 extends No {
         constructor(e){
             super(), this.isLineDashedMaterial = !0, this.type = "LineDashedMaterial", this.scale = 1, this.dashSize = 3, this.gapSize = 1, this.setValues(e);
         }
@@ -65733,10 +65757,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function Dp(t, e, n) {
         return !t || !n && t.constructor === e ? t : typeof e.BYTES_PER_ELEMENT == "number" ? new e(t) : Array.prototype.slice.call(t);
     }
-    function aG(t) {
+    function a8(t) {
         return ArrayBuffer.isView(t) && !(t instanceof DataView);
     }
-    function lG(t) {
+    function l8(t) {
         function e(i, s) {
             return t[i] - t[s];
         }
@@ -65828,8 +65852,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     const bye = {
         convertArray: Dp,
-        isTypedArray: aG,
-        getKeyframeOrder: lG,
+        isTypedArray: a8,
+        getKeyframeOrder: l8,
         sortedArray: yk,
         flattenJSON: N2,
         subclip: vye,
@@ -65895,7 +65919,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         intervalChanged_() {}
     }
-    class cG extends xw {
+    class c8 extends xw {
         constructor(e, n, r, i){
             super(e, n, r, i), this._weightPrev = -0, this._offsetPrev = -0, this._weightNext = -0, this._offsetNext = -0, this.DefaultSettings_ = {
                 endingStart: kp,
@@ -65944,7 +65968,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return s;
         }
     }
-    class uG extends xw {
+    class u8 extends xw {
         constructor(e, n, r, i){
             super(e, n, r, i);
         }
@@ -65974,13 +65998,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return r.type = e.ValueTypeName, r;
         }
         InterpolantFactoryMethodDiscrete(e) {
-            return new uG(this.times, this.values, this.getValueSize(), e);
+            return new u8(this.times, this.values, this.getValueSize(), e);
         }
         InterpolantFactoryMethodLinear(e) {
             return new P2(this.times, this.values, this.getValueSize(), e);
         }
         InterpolantFactoryMethodSmooth(e) {
-            return new cG(this.times, this.values, this.getValueSize(), e);
+            return new c8(this.times, this.values, this.getValueSize(), e);
         }
         setInterpolation(e) {
             let n;
@@ -66061,7 +66085,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 }
                 o = l;
             }
-            if (i !== void 0 && aG(i)) for(let a = 0, l = i.length; a !== l; ++a){
+            if (i !== void 0 && a8(i)) for(let a = 0, l = i.length; a !== l; ++a){
                 const c = i[a];
                 if (isNaN(c)) {
                     console.error("THREE.KeyframeTrack: Value is not a valid number.", this, a, c), e = !1;
@@ -66127,7 +66151,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     class Nb extends uc {
     }
     Nb.prototype.ValueTypeName = "number";
-    class dG extends xw {
+    class d8 extends xw {
         constructor(e, n, r, i){
             super(e, n, r, i);
         }
@@ -66140,7 +66164,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     class bw extends uc {
         InterpolantFactoryMethodLinear(e) {
-            return new dG(this.times, this.values, this.getValueSize(), e);
+            return new d8(this.times, this.values, this.getValueSize(), e);
         }
     }
     bw.prototype.ValueTypeName = "quaternion";
@@ -66184,7 +66208,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             for(let a = 0; a < s; a++){
                 let l = [], c = [];
                 l.push((a + s - 1) % s, a, (a + 1) % s), c.push(0, 1, 0);
-                const u = lG(l);
+                const u = l8(l);
                 l = yk(l, 1, u), c = yk(c, 1, u), !i && l[0] === 0 && (l.push(s), c.push(c[0])), o.push(new Nb(".morphTargetInfluences[" + n[a].name + "]", l, c).scale(1 / r));
             }
             return new this(e, -1, o);
@@ -66354,10 +66378,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }
     }
-    const fG = new O2;
+    const f8 = new O2;
     class ca {
         constructor(e){
-            this.manager = e !== void 0 ? e : fG, this.crossOrigin = "anonymous", this.withCredentials = !1, this.path = "", this.resourcePath = "", this.requestHeader = {};
+            this.manager = e !== void 0 ? e : f8, this.crossOrigin = "anonymous", this.withCredentials = !1, this.path = "", this.resourcePath = "", this.requestHeader = {};
         }
         load() {}
         loadAsync(e, n) {
@@ -66641,7 +66665,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return n.object.color = this.color.getHex(), n.object.intensity = this.intensity, this.groundColor !== void 0 && (n.object.groundColor = this.groundColor.getHex()), this.distance !== void 0 && (n.object.distance = this.distance), this.angle !== void 0 && (n.object.angle = this.angle), this.decay !== void 0 && (n.object.decay = this.decay), this.penumbra !== void 0 && (n.object.penumbra = this.penumbra), this.shadow !== void 0 && (n.object.shadow = this.shadow.toJSON()), this.target !== void 0 && (n.object.target = this.target.uuid), n;
         }
     }
-    class hG extends ah {
+    class h8 extends ah {
         constructor(e, n, r){
             super(e, r), this.isHemisphereLight = !0, this.type = "HemisphereLight", this.position.copy(ir.DEFAULT_UP), this.updateMatrix(), this.groundColor = new Ft(n);
         }
@@ -66698,7 +66722,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.focus = e.focus, this;
         }
     }
-    class pG extends ah {
+    class p8 extends ah {
         constructor(e, n, r = 0, i = Math.PI / 3, s = 0, o = 2){
             super(e, n), this.isSpotLight = !0, this.type = "SpotLight", this.position.copy(ir.DEFAULT_UP), this.updateMatrix(), this.target = new ir, this.distance = r, this.angle = i, this.penumbra = s, this.decay = o, this.map = null, this.shadow = new Rye;
         }
@@ -66746,7 +66770,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             s !== r.far && (r.far = s, r.updateProjectionMatrix()), Dx.setFromMatrixPosition(e.matrixWorld), r.position.copy(Dx), gN.copy(r.position), gN.add(this._cubeDirections[n]), r.up.copy(this._cubeUps[n]), r.lookAt(gN), r.updateMatrixWorld(), i.makeTranslation(-Dx.x, -Dx.y, -Dx.z), nz.multiplyMatrices(r.projectionMatrix, r.matrixWorldInverse), this._frustum.setFromProjectionMatrix(nz);
         }
     }
-    class mG extends ah {
+    class m8 extends ah {
         constructor(e, n, r = 0, i = 2){
             super(e, n), this.isPointLight = !0, this.type = "PointLight", this.distance = r, this.decay = i, this.shadow = new Aye;
         }
@@ -66803,7 +66827,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             super(new Uf(-5, 5, 5, -5, .5, 500)), this.isDirectionalLightShadow = !0;
         }
     }
-    class gG extends ah {
+    class g8 extends ah {
         constructor(e, n){
             super(e, n), this.isDirectionalLight = !0, this.type = "DirectionalLight", this.position.copy(ir.DEFAULT_UP), this.updateMatrix(), this.target = new ir, this.shadow = new Nye;
         }
@@ -66814,12 +66838,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return super.copy(e), this.target = e.target.clone(), this.shadow = e.shadow.clone(), this;
         }
     }
-    class yG extends ah {
+    class y8 extends ah {
         constructor(e, n){
             super(e, n), this.isAmbientLight = !0, this.type = "AmbientLight";
         }
     }
-    class vG extends ah {
+    class v8 extends ah {
         constructor(e, n, r = 10, i = 10){
             super(e, n), this.isRectAreaLight = !0, this.type = "RectAreaLight", this.width = r, this.height = i;
         }
@@ -66837,7 +66861,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return n.object.width = this.width, n.object.height = this.height, n;
         }
     }
-    class xG {
+    class x8 {
         constructor(){
             this.isSphericalHarmonics3 = !0, this.coefficients = [];
             for(let e = 0; e < 9; e++)this.coefficients.push(new ye);
@@ -66899,8 +66923,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n[0] = .282095, n[1] = .488603 * i, n[2] = .488603 * s, n[3] = .488603 * r, n[4] = 1.092548 * r * i, n[5] = 1.092548 * i * s, n[6] = .315392 * (3 * s * s - 1), n[7] = 1.092548 * r * s, n[8] = .546274 * (r * r - i * i);
         }
     }
-    class bG extends ah {
-        constructor(e = new xG, n = 1){
+    class b8 extends ah {
+        constructor(e = new x8, n = 1){
             super(void 0, n), this.isLightProbe = !0, this.sh = e;
         }
         copy(e) {
@@ -66985,17 +67009,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 RawShaderMaterial: Q6,
                 ShaderMaterial: sc,
                 PointsMaterial: b2,
-                MeshPhysicalMaterial: eG,
+                MeshPhysicalMaterial: e8,
                 MeshStandardMaterial: I2,
-                MeshPhongMaterial: tG,
-                MeshToonMaterial: nG,
-                MeshNormalMaterial: rG,
-                MeshLambertMaterial: iG,
+                MeshPhongMaterial: t8,
+                MeshToonMaterial: n8,
+                MeshNormalMaterial: r8,
+                MeshLambertMaterial: i8,
                 MeshDepthMaterial: R2,
                 MeshDistanceMaterial: A2,
                 MeshBasicMaterial: sh,
-                MeshMatcapMaterial: sG,
-                LineDashedMaterial: oG,
+                MeshMatcapMaterial: s8,
+                LineDashedMaterial: o8,
                 LineBasicMaterial: No,
                 Material: no
             };
@@ -67021,7 +67045,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return typeof e != "string" || e === "" ? "" : (/^https?:\/\//i.test(n) && /^\//.test(e) && (n = n.replace(/(^https?:\/\/[^\/]+).*/i, "$1")), /^(https?:)?\/\//i.test(e) || /^data:.*,.*$/i.test(e) || /^blob:.*$/i.test(e) ? e : n + e);
         }
     }
-    class wG extends Fn {
+    class w8 extends Fn {
         constructor(){
             super(), this.isInstancedBufferGeometry = !0, this.type = "InstancedBufferGeometry", this.instanceCount = 1 / 0;
         }
@@ -67033,7 +67057,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return e.instanceCount = this.instanceCount, e.isInstancedBufferGeometry = !0, e;
         }
     }
-    class _G extends ca {
+    class _8 extends ca {
         constructor(e){
             super(e);
         }
@@ -67059,7 +67083,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 const _ = g.arrayBuffers[x], b = new Uint32Array(_).buffer;
                 return r[x] = b, b;
             }
-            const o = e.isInstancedBufferGeometry ? new wG : new Fn, a = e.data.index;
+            const o = e.isInstancedBufferGeometry ? new w8 : new Fn, a = e.data.index;
             if (a !== void 0) {
                 const g = uy(a.type, a.array);
                 o.setIndex(new wr(g, 1));
@@ -67180,7 +67204,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         parseGeometries(e, n) {
             const r = {};
             if (e !== void 0) {
-                const i = new _G;
+                const i = new _8;
                 for(let s = 0, o = e.length; s < o; s++){
                     let a;
                     const l = e[s];
@@ -67336,25 +67360,25 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     o = new Uf(e.left, e.right, e.top, e.bottom, e.near, e.far), e.zoom !== void 0 && (o.zoom = e.zoom), e.view !== void 0 && (o.view = Object.assign({}, e.view));
                     break;
                 case "AmbientLight":
-                    o = new yG(e.color, e.intensity);
+                    o = new y8(e.color, e.intensity);
                     break;
                 case "DirectionalLight":
-                    o = new gG(e.color, e.intensity), o.target = e.target || "";
+                    o = new g8(e.color, e.intensity), o.target = e.target || "";
                     break;
                 case "PointLight":
-                    o = new mG(e.color, e.intensity, e.distance, e.decay);
+                    o = new m8(e.color, e.intensity, e.distance, e.decay);
                     break;
                 case "RectAreaLight":
-                    o = new vG(e.color, e.intensity, e.width, e.height);
+                    o = new v8(e.color, e.intensity, e.width, e.height);
                     break;
                 case "SpotLight":
-                    o = new pG(e.color, e.intensity, e.distance, e.angle, e.penumbra, e.decay), o.target = e.target || "";
+                    o = new p8(e.color, e.intensity, e.distance, e.angle, e.penumbra, e.decay), o.target = e.target || "";
                     break;
                 case "HemisphereLight":
-                    o = new hG(e.color, e.groundColor, e.intensity);
+                    o = new h8(e.color, e.groundColor, e.intensity);
                     break;
                 case "LightProbe":
-                    o = new bG().fromJSON(e);
+                    o = new b8().fromJSON(e);
                     break;
                 case "SkinnedMesh":
                     u = a(e.geometry), f = l(e.material), o = new D6(u, f), e.bindMode !== void 0 && (o.bindMode = e.bindMode), e.bindMatrix !== void 0 && o.bindMatrix.fromArray(e.bindMatrix), e.skeleton !== void 0 && (o.skeleton = e.skeleton);
@@ -67560,7 +67584,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.cameraL.matrixWorld.copy(e.matrixWorld).multiply(oz), this.cameraR.matrixWorld.copy(e.matrixWorld).multiply(sz);
         }
     }
-    class SG extends Ei {
+    class S8 extends Ei {
         constructor(e = []){
             super(), this.isArrayCamera = !0, this.cameras = e, this.index = 0;
         }
@@ -67623,7 +67647,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             } else n.setPosition(op.x, op.y, op.z), n.setOrientation(ap.x, ap.y, ap.z, r.x, r.y, r.z);
         }
     }
-    class EG extends ir {
+    class E8 extends ir {
         constructor(e){
             super(), this.type = "Audio", this.listener = e, this.context = e.context, this.gain = this.context.createGain(), this.gain.connect(e.getInput()), this.autoplay = !1, this.buffer = null, this.detune = 0, this.loop = !1, this.loopStart = 0, this.loopEnd = 0, this.offset = 0, this.duration = void 0, this.playbackRate = 1, this.isPlaying = !1, this.hasPlaybackControl = !0, this.source = null, this.sourceType = "empty", this._startedAt = 0, this._progress = 0, this._connected = !1, this.filters = [];
         }
@@ -67750,7 +67774,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
     }
     const lp = new ye, cz = new Xs, Bye = new ye, cp = new ye;
-    class Uye extends EG {
+    class Uye extends E8 {
         constructor(e){
             super(e), this.panner = this.context.createPanner(), this.panner.panningModel = "HRTF", this.panner.connect(this.gain);
         }
@@ -67814,7 +67838,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return e / n.length;
         }
     }
-    class MG {
+    class M8 {
         constructor(e, n, r){
             this.binding = e, this.valueSize = r;
             let i, s, o;
@@ -68279,7 +68303,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }
     }
-    class TG {
+    class T8 {
         constructor(e, n, r = null, i = n.blendMode){
             this._mixer = e, this._clip = n, this._localRoot = r, this.blendMode = i;
             const s = n.tracks, o = s.length, a = new Array(o), l = {
@@ -68499,7 +68523,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         continue;
                     }
                     const S = n && n._propertyBindings[f].binding.parsedPath;
-                    x = new MG(tr.create(r, g, S), p.ValueTypeName, p.getValueSize()), ++x.referenceCount, this._addInactiveBinding(x, l, g), o[f] = x;
+                    x = new M8(tr.create(r, g, S), p.ValueTypeName, p.getValueSize()), ++x.referenceCount, this._addInactiveBinding(x, l, g), o[f] = x;
                 }
                 a[f].resultBuffer = x.buffer;
             }
@@ -68637,7 +68661,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 c = l.knownActions[0], o === null && (o = c._clip);
             }
             if (o === null) return null;
-            const u = new TG(this, o, n, r);
+            const u = new T8(this, o, n, r);
             return this._bindAction(u, c), this._addInactiveAction(u, a, s), u;
         }
         existingAction(e, n) {
@@ -68791,7 +68815,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
     }
     const uz = new fn;
-    class CG {
+    class C8 {
         constructor(e, n, r = 0, i = 1 / 0){
             this.ray = new ym(e, n), this.near = r, this.far = i, this.camera = null, this.layers = new qp, this.params = {
                 Mesh: {},
@@ -69076,7 +69100,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     const mf = new ye, OS = new fn, yN = new fn;
     class uve extends Zc {
         constructor(e){
-            const n = IG(e), r = new Fn, i = [], s = [], o = new Ft(0, 0, 1), a = new Ft(0, 1, 0);
+            const n = I8(e), r = new Fn, i = [], s = [], o = new Ft(0, 0, 1), a = new Ft(0, 1, 0);
             for(let c = 0; c < n.length; c++){
                 const u = n[c];
                 u.parent && u.parent.isBone && (i.push(0, 0, 0), i.push(0, 0, 0), s.push(o.r, o.g, o.b), s.push(a.r, a.g, a.b));
@@ -69104,10 +69128,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.geometry.dispose(), this.material.dispose();
         }
     }
-    function IG(t) {
+    function I8(t) {
         const e = [];
         t.isBone === !0 && e.push(t);
-        for(let n = 0; n < t.children.length; n++)e.push.apply(e, IG(t.children[n]));
+        for(let n = 0; n < t.children.length; n++)e.push.apply(e, I8(t.children[n]));
         return e;
     }
     class dve extends zi {
@@ -69815,7 +69839,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
     }));
     typeof window < "u" && (window.__THREE__ ? console.warn("WARNING: Multiple instances of Three.js being imported.") : window.__THREE__ = DT);
-    function RG() {
+    function R8() {
         let t = null, e = !1, n = null, r = null;
         function i(s, o) {
             n(s, o), r = t.requestAnimationFrame(i);
@@ -75468,7 +75492,7 @@ void main() {
             dispose: o
         };
     }
-    const AG = new ui, Tz = new w2(1, 1), NG = new fw, PG = new XT, kG = new pw, Cz = [], Iz = [], Rz = new Float32Array(16), Az = new Float32Array(9), Nz = new Float32Array(4);
+    const A8 = new ui, Tz = new w2(1, 1), N8 = new fw, P8 = new XT, k8 = new pw, Cz = [], Iz = [], Rz = new Float32Array(16), Az = new Float32Array(9), Nz = new Float32Array(4);
     function bv(t, e, n) {
         const r = t[0];
         if (r <= 0 || r > 0) return t;
@@ -75613,19 +75637,19 @@ void main() {
         const r = this.cache, i = n.allocateTextureUnit();
         r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i);
         let s;
-        this.type === t.SAMPLER_2D_SHADOW ? (Tz.compareFunction = h2, s = Tz) : s = AG, n.setTexture2D(e || s, i);
+        this.type === t.SAMPLER_2D_SHADOW ? (Tz.compareFunction = h2, s = Tz) : s = A8, n.setTexture2D(e || s, i);
     }
     function Vbe(t, e, n) {
         const r = this.cache, i = n.allocateTextureUnit();
-        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTexture3D(e || PG, i);
+        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTexture3D(e || P8, i);
     }
     function Wbe(t, e, n) {
         const r = this.cache, i = n.allocateTextureUnit();
-        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTextureCube(e || kG, i);
+        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTextureCube(e || k8, i);
     }
     function qbe(t, e, n) {
         const r = this.cache, i = n.allocateTextureUnit();
-        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTexture2DArray(e || NG, i);
+        r[0] !== i && (t.uniform1i(this.addr, i), r[0] = i), n.setTexture2DArray(e || N8, i);
     }
     function Hbe(t) {
         switch(t){
@@ -75739,22 +75763,22 @@ void main() {
     function awe(t, e, n) {
         const r = this.cache, i = e.length, s = mC(n, i);
         ts(r, s) || (t.uniform1iv(this.addr, s), ns(r, s));
-        for(let o = 0; o !== i; ++o)n.setTexture2D(e[o] || AG, s[o]);
+        for(let o = 0; o !== i; ++o)n.setTexture2D(e[o] || A8, s[o]);
     }
     function lwe(t, e, n) {
         const r = this.cache, i = e.length, s = mC(n, i);
         ts(r, s) || (t.uniform1iv(this.addr, s), ns(r, s));
-        for(let o = 0; o !== i; ++o)n.setTexture3D(e[o] || PG, s[o]);
+        for(let o = 0; o !== i; ++o)n.setTexture3D(e[o] || P8, s[o]);
     }
     function cwe(t, e, n) {
         const r = this.cache, i = e.length, s = mC(n, i);
         ts(r, s) || (t.uniform1iv(this.addr, s), ns(r, s));
-        for(let o = 0; o !== i; ++o)n.setTextureCube(e[o] || kG, s[o]);
+        for(let o = 0; o !== i; ++o)n.setTextureCube(e[o] || k8, s[o]);
     }
     function uwe(t, e, n) {
         const r = this.cache, i = e.length, s = mC(n, i);
         ts(r, s) || (t.uniform1iv(this.addr, s), ns(r, s));
-        for(let o = 0; o !== i; ++o)n.setTexture2DArray(e[o] || NG, s[o]);
+        for(let o = 0; o !== i; ++o)n.setTexture2DArray(e[o] || N8, s[o]);
     }
     function dwe(t) {
         switch(t){
@@ -78092,7 +78116,7 @@ void main() {
         }
         this.allocateTextureUnit = U, this.resetTextureUnits = B, this.setTexture2D = K, this.setTexture2DArray = q, this.setTexture3D = te, this.setTextureCube = W, this.rebindTextures = Ne, this.setupRenderTarget = Ve, this.updateRenderTargetMipmap = we, this.updateMultisampleRenderTarget = Ye, this.setupDepthRenderbuffer = Ce, this.setupFrameBufferTexture = ge, this.useMultisampledRTT = it;
     }
-    function OG(t, e) {
+    function O8(t, e) {
         function n(r, i = Yu) {
             let s;
             const o = Zn.getTransfer(i);
@@ -78253,7 +78277,7 @@ void main() {
             const R = [
                 D,
                 L
-            ], A = new SG;
+            ], A = new S8;
             let P = null, B = null;
             this.cameraAutoUpdate = !0, this.enabled = !1, this.isPresenting = !1, this.getController = function(ie) {
                 let he = E[ie];
@@ -78443,7 +78467,7 @@ void main() {
                     data: he
                 }), x = null;
             }
-            const ue = new RG;
+            const ue = new R8;
             ue.setAnimationLoop(le), this.setAnimationLoop = function(ie) {
                 Y = ie;
             }, this.dispose = function() {};
@@ -78605,7 +78629,7 @@ void main() {
             dispose: b
         };
     }
-    class LG {
+    class L8 {
         constructor(e = {}){
             const { canvas: n = T6(), context: r = null, depth: i = !0, stencil: s = !1, alpha: o = !1, antialias: a = !1, premultipliedAlpha: l = !0, preserveDrawingBuffer: c = !1, powerPreference: u = "default", failIfMajorPerformanceCaveat: f = !1, reverseDepthBuffer: p = !1 } = e;
             this.isWebGLRenderer = !0;
@@ -78667,7 +78691,7 @@ void main() {
             }
             let Be, it, de, ae, oe, $, H, fe, pe, me, Ie, Xe, Ze, at, Je, Pe, Fe, nt, ct, st, _e, $e, ht, Se;
             function lt() {
-                Be = new bbe(se), Be.init(), $e = new OG(se, Be), it = new pbe(se, Be, e, $e), de = new e_e(se, Be), it.reverseDepthBuffer && p && de.buffers.depth.setReversed(!0), ae = new Sbe(se), oe = new zwe, $ = new t_e(se, Be, de, oe, it, $e, ae), H = new gbe(T), fe = new xbe(T), pe = new Ave(se), ht = new fbe(se, pe), me = new wbe(se, pe, ae, ht), Ie = new Mbe(se, me, pe, ae), ct = new Ebe(se, it, $), Pe = new mbe(oe), Xe = new Uwe(T, H, fe, Be, it, ht, Pe), Ze = new a_e(T, oe), at = new Wwe, Je = new Kwe(Be), nt = new dbe(T, H, fe, de, Ie, g, l), Fe = new Jwe(T, Ie, it), Se = new l_e(se, ae, it, de), st = new hbe(se, Be, ae), _e = new _be(se, Be, ae), ae.programs = Xe.programs, T.capabilities = it, T.extensions = Be, T.properties = oe, T.renderLists = at, T.shadowMap = Fe, T.state = de, T.info = ae;
+                Be = new bbe(se), Be.init(), $e = new O8(se, Be), it = new pbe(se, Be, e, $e), de = new e_e(se, Be), it.reverseDepthBuffer && p && de.buffers.depth.setReversed(!0), ae = new Sbe(se), oe = new zwe, $ = new t_e(se, Be, de, oe, it, $e, ae), H = new gbe(T), fe = new xbe(T), pe = new Ave(se), ht = new fbe(se, pe), me = new wbe(se, pe, ae, ht), Ie = new Mbe(se, me, pe, ae), ct = new Ebe(se, it, $), Pe = new mbe(oe), Xe = new Uwe(T, H, fe, Be, it, ht, Pe), Ze = new a_e(T, oe), at = new Wwe, Je = new Kwe(Be), nt = new dbe(T, H, fe, de, Ie, g, l), Fe = new Jwe(T, Ie, it), Se = new l_e(se, ae, it, de), st = new hbe(se, Be, ae), _e = new _be(se, Be, ae), ae.programs = Xe.programs, T.capabilities = it, T.extensions = Be, T.properties = oe, T.renderLists = at, T.shadowMap = Fe, T.state = de, T.info = ae;
             }
             lt();
             const Re = new s_e(T, se);
@@ -78847,7 +78871,7 @@ void main() {
             function za() {
                 Po.start();
             }
-            const Po = new RG;
+            const Po = new R8;
             Po.setAnimationLoop(pn), typeof self < "u" && Po.setContext(self), this.setAnimationLoop = function(ce) {
                 Nn = ce, Re.setAnimationLoop(ce), ce === null ? Po.stop() : Po.start();
             }, Re.addEventListener("sessionstart", Fr), Re.addEventListener("sessionend", za), this.render = function(ce, Oe) {
@@ -79173,18 +79197,18 @@ void main() {
         AlwaysCompare: E6,
         AlwaysDepth: eM,
         AlwaysStencilFunc: fk,
-        AmbientLight: yG,
-        AnimationAction: TG,
+        AmbientLight: y8,
+        AnimationAction: T8,
         AnimationClip: kb,
         AnimationLoader: Eye,
         AnimationMixer: Qye,
         AnimationObjectGroup: Zye,
         AnimationUtils: bye,
         ArcCurve: V6,
-        ArrayCamera: SG,
+        ArrayCamera: S8,
         ArrowHelper: wve,
         AttachedBindMode: dk,
-        Audio: EG,
+        Audio: E8,
         AudioAnalyser: zye,
         AudioContext: D2,
         AudioListener: jye,
@@ -79203,7 +79227,7 @@ void main() {
         BoxHelper: vve,
         BufferAttribute: wr,
         BufferGeometry: Fn,
-        BufferGeometryLoader: _G,
+        BufferGeometryLoader: _8,
         ByteType: r2,
         Cache: Qu,
         Camera: hw,
@@ -79234,7 +79258,7 @@ void main() {
         CubeUVReflectionMapping: gv,
         CubicBezierCurve: S2,
         CubicBezierCurve3: q6,
-        CubicInterpolant: cG,
+        CubicInterpolant: c8,
         CullFaceBack: ak,
         CullFaceFront: F$,
         CullFaceFrontBack: Qpe,
@@ -79252,14 +79276,14 @@ void main() {
         DataUtils: mge,
         DecrementStencilOp: hme,
         DecrementWrapStencilOp: mme,
-        DefaultLoadingManager: fG,
+        DefaultLoadingManager: f8,
         DepthFormat: Vp,
         DepthStencilFormat: am,
         DepthTexture: w2,
         DetachedBindMode: d6,
-        DirectionalLight: gG,
+        DirectionalLight: g8,
         DirectionalLightHelper: gve,
-        DiscreteInterpolant: uG,
+        DiscreteInterpolant: u8,
         DodecahedronGeometry: iC,
         DoubleSide: Pc,
         DstAlphaFactor: X$,
@@ -79298,7 +79322,7 @@ void main() {
         GridHelper: pve,
         Group: dy,
         HalfFloatType: yv,
-        HemisphereLight: hG,
+        HemisphereLight: h8,
         HemisphereLightHelper: hve,
         IcosahedronGeometry: aC,
         ImageBitmapLoader: Oye,
@@ -79307,7 +79331,7 @@ void main() {
         IncrementStencilOp: fme,
         IncrementWrapStencilOp: pme,
         InstancedBufferAttribute: tv,
-        InstancedBufferGeometry: wG,
+        InstancedBufferGeometry: w8,
         InstancedInterleavedBuffer: ive,
         InstancedMesh: F6,
         Int16BufferAttribute: bge,
@@ -79333,13 +79357,13 @@ void main() {
         LessEqualStencilFunc: bme,
         LessStencilFunc: vme,
         Light: ah,
-        LightProbe: bG,
+        LightProbe: b8,
         Line: eh,
         Line3: lve,
         LineBasicMaterial: No,
         LineCurve: E2,
         LineCurve3: H6,
-        LineDashedMaterial: oG,
+        LineDashedMaterial: o8,
         LineLoop: B6,
         LineSegments: Zc,
         LinearFilter: es,
@@ -79371,13 +79395,13 @@ void main() {
         MeshBasicMaterial: sh,
         MeshDepthMaterial: R2,
         MeshDistanceMaterial: A2,
-        MeshLambertMaterial: iG,
-        MeshMatcapMaterial: sG,
-        MeshNormalMaterial: rG,
-        MeshPhongMaterial: tG,
-        MeshPhysicalMaterial: eG,
+        MeshLambertMaterial: i8,
+        MeshMatcapMaterial: s8,
+        MeshNormalMaterial: r8,
+        MeshPhongMaterial: t8,
+        MeshPhysicalMaterial: e8,
         MeshStandardMaterial: I2,
-        MeshToonMaterial: nG,
+        MeshToonMaterial: n8,
         MinEquation: V$,
         MirroredRepeatWrapping: bb,
         MixOperation: r6,
@@ -79421,7 +79445,7 @@ void main() {
         Plane: Ku,
         PlaneGeometry: xv,
         PlaneHelper: bve,
-        PointLight: mG,
+        PointLight: m8,
         PointLightHelper: dve,
         Points: U6,
         PointsMaterial: b2,
@@ -79429,12 +79453,12 @@ void main() {
         PolyhedronGeometry: oh,
         PositionalAudio: Uye,
         PropertyBinding: tr,
-        PropertyMixer: MG,
+        PropertyMixer: M8,
         QuadraticBezierCurve: M2,
         QuadraticBezierCurve3: T2,
         Quaternion: Xs,
         QuaternionKeyframeTrack: bw,
-        QuaternionLinearInterpolant: dG,
+        QuaternionLinearInterpolant: d8,
         RED_GREEN_RGTC2_Format: AM,
         RED_RGTC1_Format: d2,
         REVISION: DT,
@@ -79477,8 +79501,8 @@ void main() {
         RGIntegerFormat: qT,
         RawShaderMaterial: Q6,
         Ray: ym,
-        Raycaster: CG,
-        RectAreaLight: vG,
+        Raycaster: C8,
+        RectAreaLight: v8,
         RedFormat: WT,
         RedIntegerFormat: dw,
         ReinhardToneMapping: o6,
@@ -79510,9 +79534,9 @@ void main() {
         Sphere: Ks,
         SphereGeometry: vw,
         Spherical: bk,
-        SphericalHarmonics3: xG,
+        SphericalHarmonics3: x8,
         SplineCurve: C2,
-        SpotLight: pG,
+        SpotLight: p8,
         SpotLightHelper: cve,
         Sprite: O6,
         SpriteMaterial: v2,
@@ -79571,8 +79595,8 @@ void main() {
         WebGLCoordinateSystem: Jl,
         WebGLCubeRenderTarget: P6,
         WebGLRenderTarget: Gc,
-        WebGLRenderer: LG,
-        WebGLUtils: OG,
+        WebGLRenderer: L8,
+        WebGLUtils: O8,
         WebGPUCoordinateSystem: Mb,
         WebXRController: b1,
         WireframeGeometry: Z6,
@@ -79876,13 +79900,13 @@ void main() {
         }(IN)), IN;
     }
     var Gz;
-    function DG() {
+    function D8() {
         return Gz || (Gz = 1, CN.exports = m_e()), CN.exports;
     }
     var RN, Xz;
     function g_e() {
         return Xz || (Xz = 1, RN = function(e) {
-            var n = {}, r = rv(), i = DG(), s = Object.assign;
+            var n = {}, r = rv(), i = D8(), s = Object.assign;
             function o(m) {
                 for(var y = "https://reactjs.org/docs/error-decoder.html?invariant=" + m, C = 1; C < arguments.length; C++)y += "&args[]=" + encodeURIComponent(arguments[C]);
                 return "Minified React error #" + m + "; visit " + y + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
@@ -83941,7 +83965,7 @@ No matching component was found for:
     }
     var v_e = y_e();
     const x_e = Ao(v_e);
-    var Yz = DG();
+    var Yz = D8();
     const W2 = {}, b_e = (t)=>void Object.assign(W2, t);
     function w_e(t, e) {
         function n(u, { args: f = [], attach: p, ...g }, x) {
@@ -84087,7 +84111,7 @@ No matching component was found for:
                         if (_.some((D, L)=>D !== E[L])) return [
                             !0
                         ];
-                        const N = WG(u, M, k, !0);
+                        const N = W8(u, M, k, !0);
                         return N.changes.length ? [
                             !1,
                             N
@@ -84133,11 +84157,11 @@ No matching component was found for:
         };
     }
     var Zz, Jz;
-    const AN = (t)=>"colorSpace" in t || "outputColorSpace" in t, FG = ()=>{
+    const AN = (t)=>"colorSpace" in t || "outputColorSpace" in t, F8 = ()=>{
         var t;
         return (t = W2.ColorManagement) != null ? t : null;
-    }, jG = (t)=>t && t.isOrthographicCamera, __e = (t)=>t && t.hasOwnProperty("current"), ww = typeof window < "u" && ((Zz = window.document) != null && Zz.createElement || ((Jz = window.navigator) == null ? void 0 : Jz.product) === "ReactNative") ? X.useLayoutEffect : X.useEffect;
-    function BG(t) {
+    }, j8 = (t)=>t && t.isOrthographicCamera, __e = (t)=>t && t.hasOwnProperty("current"), ww = typeof window < "u" && ((Zz = window.document) != null && Zz.createElement || ((Jz = window.navigator) == null ? void 0 : Jz.product) === "ReactNative") ? X.useLayoutEffect : X.useEffect;
+    function B8(t) {
         const e = X.useRef(t);
         return ww(()=>void (e.current = t), [
             t
@@ -84148,7 +84172,7 @@ No matching component was found for:
             t
         ]), null;
     }
-    class UG extends X.Component {
+    class U8 extends X.Component {
         constructor(...e){
             super(...e), this.state = {
                 error: !1
@@ -84161,11 +84185,11 @@ No matching component was found for:
             return this.state.error ? null : this.props.children;
         }
     }
-    UG.getDerivedStateFromError = ()=>({
+    U8.getDerivedStateFromError = ()=>({
             error: !0
         });
-    const zG = "__default", Qz = new Map, E_e = (t)=>t && !!t.memoized && !!t.changes;
-    function VG(t) {
+    const z8 = "__default", Qz = new Map, E_e = (t)=>t && !!t.memoized && !!t.changes;
+    function V8(t) {
         var e;
         const n = typeof window < "u" ? (e = window.devicePixelRatio) != null ? e : 2 : 1;
         return Array.isArray(t) ? Math.min(Math.max(t[0], n), t[1]) : t;
@@ -84260,13 +84284,13 @@ No matching component was found for:
         } else (r = e.__r3f) == null || r.previousAttach == null || r.previousAttach(t, e);
         (i = e.__r3f) == null || delete i.previousAttach;
     }
-    function WG(t, { children: e, key: n, ref: r, ...i }, { children: s, key: o, ref: a, ...l } = {}, c = !1) {
+    function W8(t, { children: e, key: n, ref: r, ...i }, { children: s, key: o, ref: a, ...l } = {}, c = !1) {
         const u = t.__r3f, f = Object.entries(i), p = [];
         if (c) {
             const x = Object.keys(l);
             for(let S = 0; S < x.length; S++)i.hasOwnProperty(x[S]) || f.unshift([
                 x[S],
-                zG + "remove"
+                z8 + "remove"
             ]);
         }
         f.forEach(([x, S])=>{
@@ -84305,7 +84329,7 @@ No matching component was found for:
     }
     function PN(t, e) {
         var n;
-        const r = t.__r3f, i = r?.root, s = i == null || i.getState == null ? void 0 : i.getState(), { memoized: o, changes: a } = E_e(e) ? e : WG(t, e), l = r?.eventCount;
+        const r = t.__r3f, i = r?.root, s = i == null || i.getState == null ? void 0 : i.getState(), { memoized: o, changes: a } = E_e(e) ? e : W8(t, e), l = r?.eventCount;
         t.__r3f && (t.__r3f.memoizedProps = o);
         for(let p = 0; p < a.length; p++){
             let [g, x, S, _] = a[p];
@@ -84318,7 +84342,7 @@ No matching component was found for:
                 const [E, ...T] = _.reverse();
                 b = T.reverse().reduce((k, N)=>k[N], t), g = E;
             }
-            if (x === zG + "remove") if (b.constructor) {
+            if (x === z8 + "remove") if (b.constructor) {
                 let E = Qz.get(b.constructor);
                 E || (E = new b.constructor, Qz.set(b.constructor, E)), x = E[g];
             } else x = 0;
@@ -84329,7 +84353,7 @@ No matching component was found for:
                 else if (x !== void 0) {
                     var c;
                     const E = (c = M) == null ? void 0 : c.isColor;
-                    !E && M.setScalar ? M.setScalar(x) : M instanceof qp && x instanceof qp ? M.mask = x.mask : M.set(x), !FG() && s && !s.linear && E && M.convertSRGBToLinear();
+                    !E && M.setScalar ? M.setScalar(x) : M instanceof qp && x instanceof qp ? M.mask = x.mask : M.set(x), !F8() && s && !s.linear && E && M.convertSRGBToLinear();
                 }
             } else {
                 var u;
@@ -84355,7 +84379,7 @@ No matching component was found for:
         t.onUpdate == null || t.onUpdate(t);
     }
     function T_e(t, e) {
-        t.manual || (jG(t) ? (t.left = e.width / -2, t.right = e.width / 2, t.top = e.height / 2, t.bottom = e.height / -2) : t.aspect = e.width / e.height, t.updateProjectionMatrix(), t.updateMatrixWorld());
+        t.manual || (j8(t) ? (t.left = e.width / -2, t.right = e.width / 2, t.top = e.height / 2, t.bottom = e.height / -2) : t.aspect = e.width / e.height, t.updateProjectionMatrix(), t.updateMatrixWorld());
     }
     function VS(t) {
         return (t.eventObject || t.object).uuid + "/" + t.index + t.instanceId;
@@ -84383,7 +84407,7 @@ No matching component was found for:
                 return py.DefaultEventPriority;
         }
     }
-    function qG(t, e, n, r) {
+    function q8(t, e, n, r) {
         const i = n.get(e);
         i && (n.delete(e), n.size === 0 && (t.delete(r), i.target.releasePointerCapture(r)));
     }
@@ -84392,7 +84416,7 @@ No matching component was found for:
         n.interaction = n.interaction.filter((r)=>r !== e), n.initialHits = n.initialHits.filter((r)=>r !== e), n.hovered.forEach((r, i)=>{
             (r.eventObject === e || r.object === e) && n.hovered.delete(i);
         }), n.capturedMap.forEach((r, i)=>{
-            qG(n.capturedMap, e, r, i);
+            q8(n.capturedMap, e, r, i);
         });
     }
     function R_e(t) {
@@ -84472,7 +84496,7 @@ No matching component was found for:
                         ])), c.target.setPointerCapture(A);
                     }, D = (A)=>{
                         const P = E.capturedMap.get(A);
-                        P && qG(E.capturedMap, x.eventObject, P, A);
+                        P && q8(E.capturedMap, x.eventObject, P, A);
                     };
                     let L = {};
                     for(let A in c){
@@ -84576,14 +84600,14 @@ No matching component was found for:
             handlePointer: a
         };
     }
-    const HG = (t)=>!!(t != null && t.render), $G = X.createContext(null), A_e = (t, e)=>{
+    const H8 = (t)=>!!(t != null && t.render), $8 = X.createContext(null), A_e = (t, e)=>{
         const n = p_e((a, l)=>{
             const c = new ye, u = new ye, f = new ye;
             function p(b = l().camera, M = u, E = l().size) {
                 const { width: T, height: k, top: N, left: D } = E, L = T / k;
                 M.isVector3 ? f.copy(M) : f.set(...M);
                 const R = b.getWorldPosition(c).distanceTo(f);
-                if (jG(b)) return {
+                if (j8(b)) return {
                     width: T / b.zoom,
                     height: k / b.zoom,
                     top: N,
@@ -84689,7 +84713,7 @@ No matching component was found for:
                         }));
                 },
                 setDpr: (b)=>a((M)=>{
-                        const E = VG(b);
+                        const E = V8(b);
                         return {
                             viewport: {
                                 ...M.viewport,
@@ -84750,23 +84774,23 @@ No matching component was found for:
                 })));
         }), n.subscribe((a)=>t(a)), n;
     };
-    function GG(t, e) {
+    function G8(t, e) {
         const n = {
             callback: t
         };
         return e.add(n), ()=>void e.delete(n);
     }
-    let WS, XG = new Set, KG = new Set, N_e = new Set;
-    const P_e = (t)=>GG(t, XG), k_e = (t)=>GG(t, KG);
+    let WS, X8 = new Set, K8 = new Set, N_e = new Set;
+    const P_e = (t)=>G8(t, X8), k_e = (t)=>G8(t, K8);
     function kN(t, e) {
         if (t.size) for (const { callback: n } of t.values())n(e);
     }
     function jx(t, e) {
         switch(t){
             case "before":
-                return kN(XG, e);
+                return kN(X8, e);
             case "after":
-                return kN(KG, e);
+                return kN(K8, e);
             case "tail":
                 return kN(N_e, e);
         }
@@ -84803,16 +84827,16 @@ No matching component was found for:
             advance: l
         };
     }
-    function YG() {
-        const t = X.useContext($G);
+    function Y8() {
+        const t = X.useContext($8);
         if (!t) throw new Error("R3F: Hooks can only be used within the Canvas component!");
         return t;
     }
     function Hu(t = (n)=>n, e) {
-        return YG()(t, e);
+        return Y8()(t, e);
     }
     function L_e(t, e = 0) {
-        const n = YG(), r = n.getState().internal.subscribe, i = BG(t);
+        const n = Y8(), r = n.getState().internal.subscribe, i = B8(t);
         return ww(()=>r(i, e, n), [
             e,
             r,
@@ -84824,7 +84848,7 @@ No matching component was found for:
         strict: !1
     }, D_e = (t, e)=>{
         const n = typeof t == "function" ? t(e) : t;
-        return HG(n) ? n : new LG({
+        return H8(n) ? n : new L8({
             powerPreference: "high-performance",
             canvas: e,
             antialias: !0,
@@ -84886,7 +84910,7 @@ No matching component was found for:
                 });
                 let U = P.raycaster;
                 U || P.set({
-                    raycaster: U = new CG
+                    raycaster: U = new C8
                 });
                 const { params: j, ...K } = L || {};
                 if (Ur.equ(K, U, Wg) || Vg(U, {
@@ -84946,7 +84970,7 @@ No matching component was found for:
                     } else Ur.obj(_) && Object.assign(B.shadowMap, _);
                     (Q !== B.shadowMap.enabled || Y !== B.shadowMap.type) && (B.shadowMap.needsUpdate = !0);
                 }
-                const W = FG();
+                const W = F8();
                 W && ("enabled" in W ? W.enabled = !E : "legacyMode" in W && (W.legacyMode = E)), l || Vg(B, {
                     outputEncoding: b ? 3e3 : 3001,
                     toneMapping: M ? Uc : jT
@@ -84956,11 +84980,11 @@ No matching component was found for:
                         linear: b
                     })), P.flat !== M && P.set(()=>({
                         flat: M
-                    })), f && !Ur.fun(f) && !HG(f) && !Ur.equ(f, B, Wg) && Vg(B, f), x && !P.events.handlers && P.set({
+                    })), f && !Ur.fun(f) && !H8(f) && !Ur.equ(f, B, Wg) && Vg(B, f), x && !P.events.handlers && P.set({
                     events: x(s)
                 });
                 const J = F_e(t, p);
-                return Ur.equ(J, P.size, Wg) || P.setSize(J.width, J.height, J.updateStyle, J.top, J.left), N && P.viewport.dpr !== VG(N) && P.setDpr(N), P.frameloop !== k && P.setFrameloop(k), P.onPointerMissed || P.set({
+                return Ur.equ(J, P.size, Wg) || P.setSize(J.width, J.height, J.updateStyle, J.top, J.left), N && P.viewport.dpr !== V8(N) && P.setDpr(N), P.frameloop !== k && P.setFrameloop(k), P.onPointerMissed || P.set({
                     onPointerMissed: A
                 }), D && !Ur.equ(D, P.performance, Wg) && P.set((Q)=>({
                         performance: {
@@ -84978,7 +85002,7 @@ No matching component was found for:
                 }), o, null, ()=>{}), s;
             },
             unmount () {
-                ZG(t);
+                Z8(t);
             }
         };
     }
@@ -84991,12 +85015,12 @@ No matching component was found for:
                         active: !0
                     }
                 })), n && n(i), t.getState().events.connected || i.events.connect == null || i.events.connect(r);
-        }, []), v.jsx($G.Provider, {
+        }, []), v.jsx($8.Provider, {
             value: t,
             children: e
         });
     }
-    function ZG(t, e) {
+    function Z8(t, e) {
         const n = nv.get(t), r = n?.fiber;
         if (r) {
             const i = n?.store.getState();
@@ -85178,7 +85202,7 @@ No matching component was found for:
             }, "orientation" in screen && "addEventListener" in screen.orientation ? screen.orientation.addEventListener("change", a.current.orientationHandler) : "onorientationchange" in window && window.addEventListener("orientationchange", a.current.orientationHandler));
         }
         const _ = (b)=>{
-            !b || b === a.current.element || (x(), a.current.element = b, a.current.scrollContainers = JG(b), S());
+            !b || b === a.current.element || (x(), a.current.element = b, a.current.scrollContainers = J8(b), S());
         };
         return W_e(g, !!e), V_e(p), X.useEffect(()=>{
             x(), S();
@@ -85214,7 +85238,7 @@ No matching component was found for:
             e
         ]);
     }
-    function JG(t) {
+    function J8(t) {
         const e = [];
         if (!t || t === document.body) return e;
         const { overflow: n, overflowX: r, overflowY: i } = window.getComputedStyle(t);
@@ -85224,7 +85248,7 @@ No matching component was found for:
             i
         ].some((s)=>s === "auto" || s === "scroll") && e.push(t), [
             ...e,
-            ...JG(t.parentElement)
+            ...J8(t.parentElement)
         ];
     }
     const q_e = [
@@ -85248,17 +85272,17 @@ No matching component was found for:
         return t;
     }, Z_e = (t, e)=>G_e(t, X_e(e)), l4, c4;
     typeof window < "u" && ((l4 = window.document) != null && l4.createElement || ((c4 = window.navigator) == null ? void 0 : c4.product) === "ReactNative") ? X.useLayoutEffect : X.useEffect;
-    function QG(t, e, n) {
+    function Q8(t, e, n) {
         if (!t) return;
         if (n(t) === !0) return t;
         let r = t.child;
         for(; r;){
-            const i = QG(r, e, n);
+            const i = Q8(r, e, n);
             if (i) return i;
             r = r.sibling;
         }
     }
-    function e8(t) {
+    function eG(t) {
         try {
             return Object.defineProperties(t, {
                 _currentRenderer: {
@@ -85289,8 +85313,8 @@ No matching component was found for:
         }
         return u4.apply(this, arguments);
     };
-    const q2 = e8(X.createContext(null));
-    class t8 extends X.Component {
+    const q2 = eG(X.createContext(null));
+    class tG extends X.Component {
         render() {
             return X.createElement(q2.Provider, {
                 value: this._reactInternals
@@ -85307,7 +85331,7 @@ No matching component was found for:
                 t?.alternate
             ]){
                 if (!r) continue;
-                const i = QG(r, !1, (s)=>{
+                const i = Q8(r, !1, (s)=>{
                     let o = s.memoizedState;
                     for(; o;){
                         if (o.memoizedState === e) return !0;
@@ -85328,7 +85352,7 @@ No matching component was found for:
         for(; n;){
             if (n.type && typeof n.type == "object") {
                 const i = n.type._context === void 0 && n.type.Provider === n.type ? n.type : n.type._context;
-                i && i !== q2 && !e.has(i) && e.set(i, X.useContext(e8(i)));
+                i && i !== q2 && !e.has(i) && e.set(i, X.useContext(eG(i)));
             }
             n = n.return;
         }
@@ -85338,7 +85362,7 @@ No matching component was found for:
         const t = Q_e();
         return X.useMemo(()=>Array.from(t.keys()).reduce((e, n)=>(r)=>X.createElement(e, null, X.createElement(n.Provider, Z_e(a4({}, r), {
                         value: t.get(n)
-                    }))), (e)=>X.createElement(t8, a4({}, e))), [
+                    }))), (e)=>X.createElement(tG, a4({}, e))), [
             t
         ]);
     }
@@ -85353,7 +85377,7 @@ No matching component was found for:
             ...r
         }), P = X.useRef(null), B = X.useRef(null);
         X.useImperativeHandle(D, ()=>P.current);
-        const U = BG(T), [j, K] = X.useState(!1), [q, te] = X.useState(!1);
+        const U = B8(T), [j, K] = X.useState(!1), [q, te] = X.useState(!1);
         if (j) throw j;
         if (q) throw q;
         const W = X.useRef(null);
@@ -85384,7 +85408,7 @@ No matching component was found for:
                     }), k?.(Y);
                 }
             }), W.current.render(v.jsx(L, {
-                children: v.jsx(UG, {
+                children: v.jsx(U8, {
                     set: te,
                     children: v.jsx(X.Suspense, {
                         fallback: v.jsx(S_e, {
@@ -85396,7 +85420,7 @@ No matching component was found for:
             })));
         }), X.useEffect(()=>{
             const Q = P.current;
-            if (Q) return ()=>ZG(Q);
+            if (Q) return ()=>Z8(Q);
         }, []);
         const J = a ? "none" : "auto";
         return v.jsx("div", {
@@ -85426,7 +85450,7 @@ No matching component was found for:
             })
         });
     }), nSe = X.forwardRef(function(e, n) {
-        return v.jsx(t8, {
+        return v.jsx(tG, {
             children: v.jsx(tSe, {
                 ...e,
                 ref: n
@@ -86069,7 +86093,7 @@ No matching component was found for:
         ]);
         return E;
     }
-    const qg = typeof performance == "object" && performance && typeof performance.now == "function" ? performance : Date, n8 = new Set, Tk = typeof process == "object" && process ? process : {}, r8 = (t, e, n, r)=>{
+    const qg = typeof performance == "object" && performance && typeof performance.now == "function" ? performance : Date, nG = new Set, Tk = typeof process == "object" && process ? process : {}, rG = (t, e, n, r)=>{
         typeof Tk.emitWarning == "function" ? Tk.emitWarning(t, e, n, r) : console.error(`[${n}] ${e}: ${t}`);
     };
     let FM = globalThis.AbortController, p4 = globalThis.AbortSignal;
@@ -86097,10 +86121,10 @@ No matching component was found for:
         };
         let t = Tk.env?.LRU_CACHE_IGNORE_AC_WARNING !== "1";
         const e = ()=>{
-            t && (t = !1, r8("AbortController is not defined. If using lru-cache in node 14, load an AbortController polyfill from the `node-abort-controller` package. A minimal polyfill is provided for use by LRUCache.fetch(), but it should not be relied upon in other contexts (eg, passing it to other APIs that use AbortController/AbortSignal might have undesirable effects). You may disable this with LRU_CACHE_IGNORE_AC_WARNING=1 in the env.", "NO_ABORT_CONTROLLER", "ENOTSUP", e));
+            t && (t = !1, rG("AbortController is not defined. If using lru-cache in node 14, load an AbortController polyfill from the `node-abort-controller` package. A minimal polyfill is provided for use by LRUCache.fetch(), but it should not be relied upon in other contexts (eg, passing it to other APIs that use AbortController/AbortSignal might have undesirable effects). You may disable this with LRU_CACHE_IGNORE_AC_WARNING=1 in the env.", "NO_ABORT_CONTROLLER", "ENOTSUP", e));
         };
     }
-    const xSe = (t)=>!n8.has(t), vf = (t)=>t && t === Math.floor(t) && t > 0 && isFinite(t), i8 = (t)=>vf(t) ? t <= Math.pow(2, 8) ? Uint8Array : t <= Math.pow(2, 16) ? Uint16Array : t <= Math.pow(2, 32) ? Uint32Array : t <= Number.MAX_SAFE_INTEGER ? E1 : null : null;
+    const xSe = (t)=>!nG.has(t), vf = (t)=>t && t === Math.floor(t) && t > 0 && isFinite(t), iG = (t)=>vf(t) ? t <= Math.pow(2, 8) ? Uint8Array : t <= Math.pow(2, 16) ? Uint16Array : t <= Math.pow(2, 32) ? Uint32Array : t <= Number.MAX_SAFE_INTEGER ? E1 : null : null;
     class E1 extends Array {
         constructor(e){
             super(e), this.fill(0);
@@ -86111,7 +86135,7 @@ No matching component was found for:
         length;
         static #e = !1;
         static create(e) {
-            const n = i8(e);
+            const n = iG(e);
             if (!n) return [];
             my.#e = !0;
             const r = new my(e, n);
@@ -86219,7 +86243,7 @@ No matching component was found for:
         constructor(e){
             const { max: n = 0, ttl: r, ttlResolution: i = 1, ttlAutopurge: s, updateAgeOnGet: o, updateAgeOnHas: a, allowStale: l, dispose: c, disposeAfter: u, noDisposeOnSet: f, noUpdateTTL: p, maxSize: g = 0, maxEntrySize: x = 0, sizeCalculation: S, fetchMethod: _, memoMethod: b, noDeleteOnFetchRejection: M, noDeleteOnStaleGet: E, allowStaleOnFetchRejection: T, allowStaleOnFetchAbort: k, ignoreFetchAbort: N } = e;
             if (n !== 0 && !vf(n)) throw new TypeError("max option must be a nonnegative integer");
-            const D = n ? i8(n) : Array;
+            const D = n ? iG(n) : Array;
             if (!D) throw new Error("invalid max value: " + n);
             if (this.#e = n, this.#t = g, this.maxEntrySize = x || this.#t, this.sizeCalculation = S, this.sizeCalculation) {
                 if (!this.#t && !this.maxEntrySize) throw new TypeError("cannot set sizeCalculation without setting maxSize or maxEntrySize");
@@ -86239,7 +86263,7 @@ No matching component was found for:
             if (this.#e === 0 && this.ttl === 0 && this.#t === 0) throw new TypeError("At least one of max, maxSize, or ttl is required");
             if (!this.ttlAutopurge && !this.#e && !this.#t) {
                 const L = "LRU_CACHE_UNBOUNDED";
-                xSe(L) && (n8.add(L), r8("TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.", "UnboundedCacheWarning", L, H2));
+                xSe(L) && (nG.add(L), rG("TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.", "UnboundedCacheWarning", L, H2));
             }
         }
         getRemainingTTL(e) {
@@ -87607,7 +87631,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return {
                 levels: c
             };
-        }, s8 = ({ x: t, z: e, level: n })=>Array.from({
+        }, sG = ({ x: t, z: e, level: n })=>Array.from({
             length: t.max - t.min
         }, (r, i)=>Array.from({
                 length: e.max - e.min
@@ -87691,7 +87715,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     const g4 = Symbol("skip"), TSe = async ({ pool: t, mapId: e, gameConfig: n, level: r, skip: i, concurrency: s = 1 / 0, onChunk: o, onComplete: a, abort: { signal: l } = new AbortController })=>{
         const c = new XW.Timer;
-        return c.start(), console.info(`	[generator] Started generator for [${r.count} chunks] ${r.hash}`), MSe(s8(r).filter(({ id: u })=>!i.includes(u)), async ({ z: u, x: f, id: p })=>{
+        return c.start(), console.info(`	[generator] Started generator for [${r.count} chunks] ${r.hash}`), MSe(sG(r).filter(({ id: u })=>!i.includes(u)), async ({ z: u, x: f, id: p })=>{
             const g = t.exec("chunkOf", [
                 {
                     id: p,
@@ -87735,7 +87759,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         console.info("[ChunkManager]	Processing level", p);
                         const x = i.get(p.level);
                         if (!x) throw console.warn(`[ChunkManager]		Chunk cache for level ${p.level} not found; that's quite strange. Doctor Strange.`), new Error("Chunk cache not found");
-                        s8(p).forEach(({ id: _ })=>{
+                        sG(p).forEach(({ id: _ })=>{
                             x.get(_);
                         }), new XW.Timer().start(), console.info(`[ChunkManager]	Requesting chunks [${p.count}] ${p.hash}`), TSe({
                             pool: r,
@@ -87909,7 +87933,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         })), PSe = G.object({
         zoomToId: G.string().optional()
-    }), o8 = jt("/$locale/apps/derivean/map/$mapId")({
+    }), oG = jt("/$locale/apps/derivean/map/$mapId")({
         validateSearch: Vr(PSe),
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r } }) {
             const i = await n();
@@ -87928,7 +87952,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         },
         component () {
-            const { mapId: t } = o8.useParams(), e = Jpe();
+            const { mapId: t } = oG.useParams(), e = Jpe();
             return v.jsx(NSe, {
                 mapId: t,
                 gameConfig: Zpe,
@@ -87936,14 +87960,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 zoom: .1
             });
         }
-    }), a8 = jt("/$locale/apps/derivean/db/schema")({
+    }), aG = jt("/$locale/apps/derivean/db/schema")({
         async loader ({ context: { kysely: t } }) {
             return {
                 tables: await t.introspection.getTables()
             };
         },
         component () {
-            const { tables: t } = a8.useLoaderData(), e = ({ dataType: i, isNullable: s })=>{
+            const { tables: t } = aG.useLoaderData(), e = ({ dataType: i, isNullable: s })=>{
                 const o = i.toLowerCase();
                 let a = `z.never({message: '${i}'})`;
                 switch(o){
@@ -88247,7 +88271,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, l8 = jt("/$locale/apps/derivean/root/user/$id")({
+    }, lG = jt("/$locale/apps/derivean/root/user/$id")({
         async loader ({ context: { kysely: t }, params: { id: e } }) {
             return t.transaction().execute(async (n)=>({
                     entity: await ac({
@@ -88265,7 +88289,7 @@ export interface Database {
         component () {
             const { tva: t } = Lr({
                 from: "__root__"
-            }), { entity: e } = l8.useLoaderData(), n = t().slots;
+            }), { entity: e } = lG.useLoaderData(), n = t().slots;
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
@@ -88421,7 +88445,7 @@ export interface Database {
             },
             size: 24
         })
-    ], c8 = ({ group: t, table: e, ...n })=>{
+    ], cG = ({ group: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Tag"
@@ -88570,7 +88594,7 @@ export interface Database {
             }), a = o().slots;
             return v.jsx("div", {
                 className: a.base(),
-                children: v.jsx(c8, {
+                children: v.jsx(cG, {
                     table: {
                         data: t,
                         filter: {
@@ -88600,7 +88624,7 @@ export interface Database {
         }
     }), BSe = ({ group: t, ...e })=>v.jsx(dq, {
             icon: sb,
-            table: (n)=>v.jsx(c8, {
+            table: (n)=>v.jsx(cG, {
                     group: t,
                     ...n
                 }),
@@ -88634,7 +88658,7 @@ export interface Database {
                         cursor: r
                     })),
             ...e
-        }), u8 = sae({
+        }), uG = sae({
         shape: G.object({
             name: G.string().min(1),
             weight: Fc(),
@@ -88656,7 +88680,7 @@ export interface Database {
         }))
     }), x4 = ({ group: t = "resource", mutation: e, defaultValues: n, variant: r, tva: i = fs, css: s })=>{
         const o = hs({
-            resolver: ps(u8.shape),
+            resolver: ps(uG.shape),
             defaultValues: {
                 name: "",
                 weight: 1,
@@ -88890,7 +88914,7 @@ export interface Database {
             },
             size: 32
         })
-    ], d8 = ({ group: t, table: e, ...n })=>{
+    ], dG = ({ group: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Resource"
@@ -89007,7 +89031,7 @@ export interface Database {
             ...n
         });
     }, C1 = jt("/$locale/apps/derivean/root/resource/list")({
-        validateSearch: Vr(mi(u8)),
+        validateSearch: Vr(mi(uG)),
         loaderDeps ({ search: { filter: t, cursor: e, sort: n } }) {
             return {
                 filter: t,
@@ -89079,7 +89103,7 @@ export interface Database {
             }), a = o().slots;
             return v.jsx("div", {
                 className: a.base(),
-                children: v.jsx(d8, {
+                children: v.jsx(dG, {
                     table: {
                         data: t,
                         filter: {
@@ -89148,7 +89172,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, f8 = jt("/$locale/apps/derivean/root/resource/$id")({
+    }, fG = jt("/$locale/apps/derivean/root/resource/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return t.ensureQueryData({
                 queryKey: [
@@ -89176,7 +89200,7 @@ export interface Database {
         component: ()=>{
             const { tva: t } = Lr({
                 from: "__root__"
-            }), { entity: e } = f8.useLoaderData(), n = t().slots;
+            }), { entity: e } = fG.useLoaderData(), n = t().slots;
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
@@ -89347,7 +89371,7 @@ export interface Database {
         defaults: {
             missing: !1
         }
-    }), h8 = ({ dependencies: t, variant: e, tva: n = qSe, css: r, ...i })=>{
+    }), hG = ({ dependencies: t, variant: e, tva: n = qSe, css: r, ...i })=>{
         const s = n({
             ...e,
             css: r
@@ -89511,9 +89535,9 @@ export interface Database {
             }
         }), Object.setPrototypeOf(n, Error), HS;
     }
-    var p8 = HSe();
+    var pG = HSe();
     const Sw = async ({ tx: t })=>{
-        const e = new p8.DepGraph({
+        const e = new pG.DepGraph({
             circular: !1
         });
         for await (const { id: n, name: r } of await t.selectFrom("Blueprint").select([
@@ -89537,7 +89561,7 @@ export interface Database {
                 sort: i.length
             }).where("id", "=", r.id).execute();
         }
-    }, m8 = async ({ tx: t, blueprintId: e })=>{
+    }, mG = async ({ tx: t, blueprintId: e })=>{
         await t.deleteFrom("Blueprint_Inventory").where("blueprintId", "=", e).execute();
         const n = await t.selectFrom("Blueprint_Requirement").select([
             "resourceId",
@@ -89763,7 +89787,7 @@ export interface Database {
                 return t.length > 0 ? v.jsxs("div", {
                     className: "flex flex-col flex-wrap gap-2 w-full",
                     children: [
-                        v.jsx(h8, {
+                        v.jsx(hG, {
                             textTitle: v.jsx(ne, {
                                 label: "Blueprint dependencies (title)"
                             }),
@@ -89835,7 +89859,7 @@ export interface Database {
             },
             size: 8
         })
-    ], g8 = ({ dependencies: t, table: e, ...n })=>{
+    ], gG = ({ dependencies: t, table: e, ...n })=>{
         const r = kr([
             [
                 "Blueprint_Inventory"
@@ -89852,7 +89876,7 @@ export interface Database {
                     const o = await s.selectFrom("Blueprint").select([
                         "id"
                     ]).execute();
-                    for await (const { id: a } of o)await m8({
+                    for await (const { id: a } of o)await mG({
                         tx: s,
                         blueprintId: a
                     });
@@ -90100,7 +90124,7 @@ export interface Database {
             }), l = a().slots;
             return v.jsx("div", {
                 className: l.base(),
-                children: v.jsx(g8, {
+                children: v.jsx(gG, {
                     dependencies: n,
                     table: {
                         data: t,
@@ -90253,7 +90277,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, y8 = jt("/$locale/apps/derivean/root/blueprint/$id")({
+    }, yG = jt("/$locale/apps/derivean/root/blueprint/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return {
                 entity: await t.ensureQueryData({
@@ -90332,7 +90356,7 @@ export interface Database {
         component () {
             const { tva: t } = Lr({
                 from: "__root__"
-            }), { entity: e } = y8.useLoaderData(), n = t().slots;
+            }), { entity: e } = yG.useLoaderData(), n = t().slots;
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
@@ -90590,7 +90614,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, v8 = jt("/$locale/apps/derivean/game/blueprint/$id")({
+    }, vG = jt("/$locale/apps/derivean/game/blueprint/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return {
                 entity: await t.ensureQueryData({
@@ -90639,7 +90663,7 @@ export interface Database {
         component () {
             const { tva: t } = Lr({
                 from: "__root__"
-            }), { entity: e } = v8.useLoaderData(), n = t().slots;
+            }), { entity: e } = vG.useLoaderData(), n = t().slots;
             return v.jsxs("div", {
                 className: n.base(),
                 children: [
@@ -90746,7 +90770,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, x8 = jt("/$locale/apps/derivean/root/blueprint/production/$id")({
+    }, xG = jt("/$locale/apps/derivean/root/blueprint/production/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return t.ensureQueryData({
                 queryKey: [
@@ -90778,7 +90802,7 @@ export interface Database {
             });
         },
         component () {
-            const { entity: t } = x8.useLoaderData(), { tva: e } = Lr({
+            const { entity: t } = xG.useLoaderData(), { tva: e } = Lr({
                 from: "__root__"
             }), n = e().slots;
             return v.jsxs("div", {
@@ -90842,7 +90866,7 @@ export interface Database {
                 ]
             });
         } catch (i) {
-            return i instanceof p8.DepGraphCycleError ? v.jsxs("div", {
+            return i instanceof pG.DepGraphCycleError ? v.jsxs("div", {
                 className: dn([
                     "flex",
                     "flex-row",
@@ -90944,7 +90968,7 @@ export interface Database {
                         label: "Blueprint dependencies (label)"
                     }),
                     render ({ entity: n }) {
-                        return v.jsx(h8, {
+                        return v.jsx(hG, {
                             dependencies: n.dependencies,
                             textEmpty: v.jsx(ne, {
                                 label: "No dependencies (label)"
@@ -90983,7 +91007,7 @@ export interface Database {
                 }
             ],
             ...e
-        }), b8 = jt("/$locale/apps/derivean/root/blueprint/$id/view")({
+        }), bG = jt("/$locale/apps/derivean/root/blueprint/$id/view")({
         async loader ({ context: { kysely: t } }) {
             return {
                 dependencies: await t.transaction().execute(async (e)=>Sw({
@@ -90992,7 +91016,7 @@ export interface Database {
             };
         },
         component () {
-            const { dependencies: t } = b8.useLoaderData(), { entity: e } = Wi({
+            const { dependencies: t } = bG.useLoaderData(), { entity: e } = Wi({
                 from: "/$locale/apps/derivean/root/blueprint/$id"
             });
             return v.jsx("div", {
@@ -91011,7 +91035,7 @@ export interface Database {
             textSelect: v.jsx(ne, {
                 label: "Select resource (label)"
             }),
-            table: (n)=>v.jsx(d8, {
+            table: (n)=>v.jsx(dG, {
                     group: t,
                     ...n
                 }),
@@ -91473,7 +91497,7 @@ export interface Database {
             textTitle: v.jsx(ne, {
                 label: "Select blueprint (title)"
             }),
-            table: ({ table: e, ...n })=>v.jsx(g8, {
+            table: ({ table: e, ...n })=>v.jsx(gG, {
                     table: {
                         ...e,
                         hidden: [
@@ -92207,7 +92231,7 @@ export interface Database {
             ]
         ]), i = an({
             async mutationFn () {
-                return At.transaction().execute(async (s)=>m8({
+                return At.transaction().execute(async (s)=>mG({
                         tx: s,
                         blueprintId: t
                     }));
@@ -92431,11 +92455,11 @@ export interface Database {
                 })
             });
         }
-    }), w8 = jt("/$locale/apps/derivean/root/blueprint/$id/edit")({
+    }), wG = jt("/$locale/apps/derivean/root/blueprint/$id/edit")({
         component: ()=>{
             const { entity: t } = Wi({
                 from: "/$locale/apps/derivean/root/blueprint/$id"
-            }), e = w8.useNavigate(), n = kr([
+            }), e = wG.useNavigate(), n = kr([
                 [
                     "Blueprint"
                 ]
@@ -93134,7 +93158,7 @@ export interface Database {
             children: t.map((n)=>v.jsx(T1e, {
                     land: n
                 }, n.id))
-        }), _8 = jt("/$locale/apps/derivean/map/$mapId/land/list")({
+        }), _G = jt("/$locale/apps/derivean/map/$mapId/land/list")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n } }) {
             return {
                 land: await t.ensureQueryData({
@@ -93164,7 +93188,7 @@ export interface Database {
             };
         },
         component () {
-            const { land: t } = _8.useLoaderData();
+            const { land: t } = _G.useLoaderData();
             return v.jsx(I1e, {
                 land: t
             });
@@ -93265,7 +93289,7 @@ export interface Database {
                     label: "No buildings yet. (label)"
                 })
             })
-        }), S8 = jt("/$locale/apps/derivean/map/$mapId/building/list")({
+        }), SG = jt("/$locale/apps/derivean/map/$mapId/building/list")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n } }) {
             return {
                 building: await t.ensureQueryData({
@@ -93295,7 +93319,7 @@ export interface Database {
             };
         },
         component () {
-            const { building: t } = S8.useLoaderData();
+            const { building: t } = SG.useLoaderData();
             return v.jsx(N1e, {
                 building: t
             });
@@ -93428,7 +93452,7 @@ export interface Database {
                 }),
             ...t
         });
-    }, E8 = jt("/$locale/apps/derivean/game/blueprint/production/$id")({
+    }, EG = jt("/$locale/apps/derivean/game/blueprint/production/$id")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { id: n } }) {
             return t.ensureQueryData({
                 queryKey: [
@@ -93460,7 +93484,7 @@ export interface Database {
             });
         },
         component () {
-            const { entity: t } = E8.useLoaderData(), { tva: e } = Lr({
+            const { entity: t } = EG.useLoaderData(), { tva: e } = Lr({
                 from: "__root__"
             }), n = e().slots;
             return v.jsxs("div", {
@@ -94108,7 +94132,7 @@ export interface Database {
                 })
             });
         }
-    }), M8 = tae({
+    }), MG = tae({
         shape: G.object({
             blueprintId: G.string().min(1),
             constructionId: G.string().optional(),
@@ -94124,7 +94148,7 @@ export interface Database {
         }))
     }), X1e = ({ mutation: t, defaultValues: e, variant: n, tva: r = fs, css: i })=>{
         const s = hs({
-            resolver: ps(M8.shape),
+            resolver: ps(MG.shape),
             defaultValues: e
         }), o = r({
             ...n,
@@ -94267,7 +94291,7 @@ export interface Database {
             ...e
         });
     }, L1 = jt("/$locale/apps/derivean/root/user/$id/building/list")({
-        validateSearch: Vr(mi(M8)),
+        validateSearch: Vr(mi(MG)),
         loaderDeps ({ search: { filter: t, cursor: e, sort: n } }) {
             return {
                 filter: t,
@@ -95403,7 +95427,7 @@ export interface Database {
                 })
             })
         });
-    }, T8 = jt("/$locale/apps/derivean/map/$mapId/land/$landId/construction")({
+    }, TG = jt("/$locale/apps/derivean/map/$mapId/land/$landId/construction")({
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r, landId: i } }) {
             const s = await n();
             return {
@@ -95441,7 +95465,7 @@ export interface Database {
             };
         },
         component () {
-            const { user: t, blueprints: e } = T8.useLoaderData(), { land: n } = Wi({
+            const { user: t, blueprints: e } = TG.useLoaderData(), { land: n } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/land/$landId"
             });
             return v.jsx(cEe, {
@@ -95456,7 +95480,7 @@ export interface Database {
         "border-slate-300",
         "w-full",
         "justify-start"
-    ], $p = "icon-[hugeicons--package-receive]", Ik = "icon-[heroicons--queue-list]", jM = "icon-[hugeicons--package-sent]", C8 = "icon-[icon-park-outline--transport]", uEe = ({ building: t })=>{
+    ], $p = "icon-[hugeicons--package-receive]", Ik = "icon-[heroicons--queue-list]", jM = "icon-[hugeicons--package-sent]", CG = "icon-[icon-park-outline--transport]", uEe = ({ building: t })=>{
         const { mapId: e, locale: n } = tn({
             from: "/$locale/apps/derivean/map/$mapId"
         });
@@ -95552,7 +95576,7 @@ export interface Database {
                     })
                 }),
                 v.jsx(Rt, {
-                    icon: C8,
+                    icon: CG,
                     to: "/$locale/apps/derivean/map/$mapId/building/$buildingId/transport",
                     params: {
                         locale: n,
@@ -95804,7 +95828,7 @@ export interface Database {
                 })
             })
         });
-    }, I8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/view")({
+    }, IG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/view")({
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r, buildingId: i } }) {
             return {
                 user: await n(),
@@ -95863,7 +95887,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { user: e, requirement: n } = I8.useLoaderData();
+            }), { user: e, requirement: n } = IG.useLoaderData();
             return t.constructionId ? v.jsx(fEe, {
                 userId: e.id,
                 building: t,
@@ -95921,7 +95945,7 @@ export interface Database {
             from: "/$locale/apps/derivean/map/$mapId"
         });
         return v.jsx(ua, {
-            icon: C8,
+            icon: CG,
             textTitle: v.jsx(ne, {
                 label: "Transport list (label)"
             }),
@@ -95970,7 +95994,7 @@ export interface Database {
                 })
             })
         });
-    }, R8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/transport")({
+    }, RG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/transport")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r } }) {
             return {
                 transport: await t.ensureQueryData({
@@ -96004,7 +96028,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { transport: e } = R8.useLoaderData();
+            }), { transport: e } = RG.useLoaderData();
             return v.jsx(pEe, {
                 building: t,
                 transport: e
@@ -96110,7 +96134,7 @@ export interface Database {
                 })
             })
         });
-    }, A8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/supply")({
+    }, AG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/supply")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r } }) {
             return {
                 supply: await t.ensureQueryData({
@@ -96138,7 +96162,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { supply: e } = A8.useLoaderData();
+            }), { supply: e } = AG.useLoaderData();
             return v.jsx(gEe, {
                 building: t,
                 supply: e
@@ -96247,7 +96271,7 @@ export interface Database {
                 })
             })
         });
-    }, N8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/link")({
+    }, NG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/link")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r } }) {
             return {
                 link: await t.ensureQueryData({
@@ -96280,7 +96304,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { link: e } = N8.useLoaderData();
+            }), { link: e } = NG.useLoaderData();
             return v.jsx(vEe, {
                 link: e,
                 building: t
@@ -96898,7 +96922,7 @@ export interface Database {
                 })
             })
         });
-    }, P8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/demand")({
+    }, PG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/demand")({
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r, buildingId: i } }) {
             return {
                 user: await n(),
@@ -96937,14 +96961,14 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { user: e, demand: n } = P8.useLoaderData();
+            }), { user: e, demand: n } = PG.useLoaderData();
             return v.jsx(SEe, {
                 userId: e.id,
                 building: t,
                 demand: n
             });
         }
-    }), k8 = ({ requirement: t })=>{
+    }), kG = ({ requirement: t })=>{
         const e = (t.available || 0) >= t.amount;
         return v.jsxs("div", {
             className: dn([
@@ -97021,7 +97045,7 @@ export interface Database {
             textSubTitle: t.name,
             ...n,
             children: [
-                e.length > 0 ? e.map((r)=>v.jsx(k8, {
+                e.length > 0 ? e.map((r)=>v.jsx(kG, {
                         requirement: r
                     }, r.id)) : v.jsx("div", {
                     className: dn([
@@ -97052,7 +97076,7 @@ export interface Database {
                     ])
                 })
             ]
-        }), O8 = jt("/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId/requirements")({
+        }), OG = jt("/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId/requirements")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { blueprintId: n } }) {
             return {
                 requirement: await t.ensureQueryData({
@@ -97084,7 +97108,7 @@ export interface Database {
         component () {
             const { blueprint: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/blueprint/$blueprintId"
-            }), { requirement: e } = O8.useLoaderData();
+            }), { requirement: e } = OG.useLoaderData();
             return v.jsx(EEe, {
                 blueprint: t,
                 requirement: e
@@ -97548,7 +97572,7 @@ export interface Database {
                 ]
             })
         });
-    }, L8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/queue")({
+    }, LG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/queue")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r } }) {
             return {
                 queue: await t.ensureQueryData({
@@ -97624,7 +97648,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { queue: e, inventory: n } = L8.useLoaderData();
+            }), { queue: e, inventory: n } = LG.useLoaderData();
             return v.jsx(kEe, {
                 building: t,
                 queue: e,
@@ -97816,7 +97840,7 @@ export interface Database {
                 })
             })
         });
-    }, D8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list")({
+    }, DG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/list")({
         async loader ({ context: { queryClient: t, kysely: e, session: n }, params: { mapId: r, buildingId: i } }) {
             const s = await n();
             return {
@@ -97855,7 +97879,7 @@ export interface Database {
         component () {
             const { building: t } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
-            }), { production: e } = D8.useLoaderData();
+            }), { production: e } = DG.useLoaderData();
             return v.jsx(DEe, {
                 building: t,
                 production: e
@@ -97929,7 +97953,7 @@ export interface Database {
                 ]
             }),
             ...r,
-            children: n.length > 0 ? n.map((o)=>v.jsx(k8, {
+            children: n.length > 0 ? n.map((o)=>v.jsx(kG, {
                     requirement: o
                 }, o.id)) : v.jsx("div", {
                 className: dn([
@@ -97948,7 +97972,7 @@ export interface Database {
                 })
             })
         });
-    }, F8 = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId/requirements")({
+    }, FG = jt("/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId/requirements")({
         async loader ({ context: { queryClient: t, kysely: e }, params: { mapId: n, buildingId: r, productionId: i } }) {
             return {
                 requirement: await t.ensureQueryData({
@@ -97990,7 +98014,7 @@ export interface Database {
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId"
             }), { production: e } = Wi({
                 from: "/$locale/apps/derivean/map/$mapId/building/$buildingId/production/$productionId"
-            }), { requirement: n } = F8.useLoaderData();
+            }), { requirement: n } = FG.useLoaderData();
             return v.jsx(jEe, {
                 building: t,
                 production: e,
@@ -98017,7 +98041,7 @@ export interface Database {
         id: "/root",
         path: "/root",
         getParentRoute: ()=>ch
-    }), j8 = loe.update({
+    }), jG = loe.update({
         id: "/map",
         path: "/map",
         getParentRoute: ()=>ch
@@ -98049,11 +98073,11 @@ export interface Database {
         id: "/public/login",
         path: "/public/login",
         getParentRoute: ()=>ch
-    }), uh = o8.update({
+    }), uh = oG.update({
         id: "/$mapId",
         path: "/$mapId",
-        getParentRoute: ()=>j8
-    }), GEe = a8.update({
+        getParentRoute: ()=>jG
+    }), GEe = aG.update({
         id: "/db/schema",
         path: "/db/schema",
         getParentRoute: ()=>ch
@@ -98061,7 +98085,7 @@ export interface Database {
         id: "/user/list",
         path: "/user/list",
         getParentRoute: ()=>Ua
-    }), Q2 = l8.update({
+    }), Q2 = lG.update({
         id: "/user/$id",
         path: "/user/$id",
         getParentRoute: ()=>Ua
@@ -98073,7 +98097,7 @@ export interface Database {
         id: "/resource/list",
         path: "/resource/list",
         getParentRoute: ()=>Ua
-    }), B8 = f8.update({
+    }), BG = fG.update({
         id: "/resource/$id",
         path: "/resource/$id",
         getParentRoute: ()=>Ua
@@ -98081,7 +98105,7 @@ export interface Database {
         id: "/region/list",
         path: "/region/list",
         getParentRoute: ()=>Ua
-    }), U8 = WSe.update({
+    }), UG = WSe.update({
         id: "/region/$id",
         path: "/region/$id",
         getParentRoute: ()=>Ua
@@ -98089,7 +98113,7 @@ export interface Database {
         id: "/blueprint/list",
         path: "/blueprint/list",
         getParentRoute: ()=>Ua
-    }), dh = y8.update({
+    }), dh = yG.update({
         id: "/blueprint/$id",
         path: "/blueprint/$id",
         getParentRoute: ()=>Ua
@@ -98101,7 +98125,7 @@ export interface Database {
         id: "/blueprint/list",
         path: "/blueprint/list",
         getParentRoute: ()=>Rw
-    }), _v = v8.update({
+    }), _v = vG.update({
         id: "/blueprint/$id",
         path: "/blueprint/$id",
         getParentRoute: ()=>Rw
@@ -98112,16 +98136,16 @@ export interface Database {
     }), nMe = n1e.update({
         id: "/view",
         path: "/view",
-        getParentRoute: ()=>B8
+        getParentRoute: ()=>BG
     }), rMe = r1e.update({
         id: "/view",
         path: "/view",
-        getParentRoute: ()=>U8
-    }), yC = x8.update({
+        getParentRoute: ()=>UG
+    }), yC = xG.update({
         id: "/blueprint/production/$id",
         path: "/blueprint/production/$id",
         getParentRoute: ()=>Ua
-    }), iMe = b8.update({
+    }), iMe = bG.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>dh
@@ -98137,7 +98161,7 @@ export interface Database {
         id: "/inventory",
         path: "/inventory",
         getParentRoute: ()=>dh
-    }), lMe = w8.update({
+    }), lMe = wG.update({
         id: "/edit",
         path: "/edit",
         getParentRoute: ()=>dh
@@ -98149,15 +98173,15 @@ export interface Database {
         id: "/conflicts",
         path: "/conflicts",
         getParentRoute: ()=>dh
-    }), dMe = _8.update({
+    }), dMe = _G.update({
         id: "/land/list",
         path: "/land/list",
         getParentRoute: ()=>uh
-    }), z8 = R1e.update({
+    }), zG = R1e.update({
         id: "/land/$landId",
         path: "/land/$landId",
         getParentRoute: ()=>uh
-    }), fMe = S8.update({
+    }), fMe = SG.update({
         id: "/building/list",
         path: "/building/list",
         getParentRoute: ()=>uh
@@ -98165,11 +98189,11 @@ export interface Database {
         id: "/building/$buildingId",
         path: "/building/$buildingId",
         getParentRoute: ()=>uh
-    }), V8 = k1e.update({
+    }), VG = k1e.update({
         id: "/blueprint/$blueprintId",
         path: "/blueprint/$blueprintId",
         getParentRoute: ()=>uh
-    }), vC = E8.update({
+    }), vC = EG.update({
         id: "/blueprint/production/$id",
         path: "/blueprint/production/$id",
         getParentRoute: ()=>Rw
@@ -98213,23 +98237,23 @@ export interface Database {
         id: "/road/$roadId/view",
         path: "/road/$roadId/view",
         getParentRoute: ()=>uh
-    }), SMe = T8.update({
+    }), SMe = TG.update({
         id: "/construction",
         path: "/construction",
-        getParentRoute: ()=>z8
-    }), EMe = I8.update({
+        getParentRoute: ()=>zG
+    }), EMe = IG.update({
         id: "/view",
         path: "/view",
         getParentRoute: ()=>Jc
-    }), MMe = R8.update({
+    }), MMe = RG.update({
         id: "/transport",
         path: "/transport",
         getParentRoute: ()=>Jc
-    }), TMe = A8.update({
+    }), TMe = AG.update({
         id: "/supply",
         path: "/supply",
         getParentRoute: ()=>Jc
-    }), CMe = N8.update({
+    }), CMe = NG.update({
         id: "/link",
         path: "/link",
         getParentRoute: ()=>Jc
@@ -98237,14 +98261,14 @@ export interface Database {
         id: "/inventory",
         path: "/inventory",
         getParentRoute: ()=>Jc
-    }), RMe = P8.update({
+    }), RMe = PG.update({
         id: "/demand",
         path: "/demand",
         getParentRoute: ()=>Jc
-    }), AMe = O8.update({
+    }), AMe = OG.update({
         id: "/requirements",
         path: "/requirements",
-        getParentRoute: ()=>V8
+        getParentRoute: ()=>VG
     }), NMe = F1.update({
         id: "/resources",
         path: "/resources",
@@ -98257,22 +98281,22 @@ export interface Database {
         id: "/dependencies",
         path: "/dependencies",
         getParentRoute: ()=>vC
-    }), OMe = L8.update({
+    }), OMe = LG.update({
         id: "/production/queue",
         path: "/production/queue",
         getParentRoute: ()=>Jc
-    }), LMe = D8.update({
+    }), LMe = DG.update({
         id: "/production/list",
         path: "/production/list",
         getParentRoute: ()=>Jc
-    }), W8 = FEe.update({
+    }), WG = FEe.update({
         id: "/production/$productionId",
         path: "/production/$productionId",
         getParentRoute: ()=>Jc
-    }), DMe = F8.update({
+    }), DMe = FG.update({
         id: "/requirements",
         path: "/requirements",
-        getParentRoute: ()=>W8
+        getParentRoute: ()=>WG
     }), FMe = {
         LocaleAppsDeriveanGameBlueprintIdConflictsRoute: yMe,
         LocaleAppsDeriveanGameBlueprintIdDependenciesRoute: gMe,
@@ -98290,9 +98314,9 @@ export interface Database {
         LocaleAppsDeriveanGameBlueprintProductionIdRoute: UMe
     }, VMe = Rw._addFileChildren(zMe), WMe = {
         LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRequirementsRoute: AMe
-    }, qMe = V8._addFileChildren(WMe), HMe = {
+    }, qMe = VG._addFileChildren(WMe), HMe = {
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionProductionIdRequirementsRoute: DMe
-    }, $Me = W8._addFileChildren(HMe), GMe = {
+    }, $Me = WG._addFileChildren(HMe), GMe = {
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdDemandRoute: RMe,
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdInventoryRoute: IMe,
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdLinkRoute: CMe,
@@ -98304,7 +98328,7 @@ export interface Database {
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdProductionQueueRoute: OMe
     }, XMe = Jc._addFileChildren(GMe), KMe = {
         LocaleAppsDeriveanMapMapIdLandLandIdConstructionRoute: SMe
-    }, YMe = z8._addFileChildren(KMe), ZMe = {
+    }, YMe = zG._addFileChildren(KMe), ZMe = {
         LocaleAppsDeriveanMapMapIdViewRoute: QEe,
         LocaleAppsDeriveanMapMapIdBlueprintBlueprintIdRoute: qMe,
         LocaleAppsDeriveanMapMapIdBuildingBuildingIdRoute: XMe,
@@ -98314,7 +98338,7 @@ export interface Database {
         LocaleAppsDeriveanMapMapIdRoadRoadIdViewRoute: _Me
     }, JMe = uh._addFileChildren(ZMe), QMe = {
         LocaleAppsDeriveanMapMapIdRoute: JMe
-    }, eTe = j8._addFileChildren(QMe), tTe = {
+    }, eTe = jG._addFileChildren(QMe), tTe = {
         LocaleAppsDeriveanRootBlueprintIdConflictsRoute: uMe,
         LocaleAppsDeriveanRootBlueprintIdDependenciesRoute: cMe,
         LocaleAppsDeriveanRootBlueprintIdEditRoute: lMe,
@@ -98324,9 +98348,9 @@ export interface Database {
         LocaleAppsDeriveanRootBlueprintIdViewRoute: iMe
     }, nTe = dh._addFileChildren(tTe), rTe = {
         LocaleAppsDeriveanRootRegionIdViewRoute: rMe
-    }, iTe = U8._addFileChildren(rTe), sTe = {
+    }, iTe = UG._addFileChildren(rTe), sTe = {
         LocaleAppsDeriveanRootResourceIdViewRoute: nMe
-    }, oTe = B8._addFileChildren(sTe), aTe = {
+    }, oTe = BG._addFileChildren(sTe), aTe = {
         LocaleAppsDeriveanRootUserIdViewRoute: tMe,
         LocaleAppsDeriveanRootUserIdBuildingListRoute: vMe
     }, lTe = Q2._addFileChildren(aTe), cTe = {
@@ -98360,7 +98384,7 @@ export interface Database {
     }, gTe = J2._addFileChildren(mTe), yTe = {
         IndexRoute: BEe,
         LocaleRoute: gTe
-    }, vTe = PO._addFileChildren(yTe)._addFileTypes(), q8 = new L9({
+    }, vTe = PO._addFileChildren(yTe)._addFileTypes(), qG = new L9({
         defaultOptions: {
             queries: {
                 placeholderData: _9
@@ -98369,7 +98393,7 @@ export interface Database {
     }), xTe = sX({
         routeTree: vTe,
         context: {
-            queryClient: q8,
+            queryClient: qG,
             tva: jre,
             async session () {
                 return tw.parse(null);
@@ -98390,7 +98414,7 @@ export interface Database {
     });
     k4.innerHTML || Zse.createRoot(k4).render(v.jsx(X.StrictMode, {
         children: v.jsx(z9, {
-            client: q8,
+            client: qG,
             children: v.jsx(uX, {
                 router: xTe
             })
