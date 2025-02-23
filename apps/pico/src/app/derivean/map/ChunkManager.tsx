@@ -1,7 +1,8 @@
+import { useCursor } from "@react-three/drei";
 import { useEvent } from "@use-pico/client";
 import { Timer } from "@use-pico/common";
 import { LRUCache } from "lru-cache";
-import { useMemo, useRef, useState, type FC } from "react";
+import { useMemo, useState, type FC } from "react";
 import { DataTexture } from "three";
 import { pool } from "workerpool";
 import { GameConfig } from "~/app/derivean/GameConfig";
@@ -54,17 +55,18 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 		return map;
 	}, []);
 	const [levels, setLevels] = useState<Chunk.View.Level[]>([]);
-	const abort = useRef(new AbortController());
 
 	const visibleChunks = useVisibleChunks({
 		gameConfig,
 	});
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEvent({
 		eventBus: gameEventBus,
 		event: "onCamera",
 		callback(props) {
 			const { levels } = visibleChunks(props);
+			setIsLoading(true);
 
 			Promise.all<Chunk.View.Level>(
 				levels.map(
@@ -99,10 +101,7 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 								gameConfig,
 								level,
 								skip: [...cache.keys()],
-								abort: (abort.current = new AbortController()),
 								onComplete(chunks) {
-									// requests.current = [];
-
 									for (const {
 										chunk: { texture, ...chunk },
 									} of chunks) {
@@ -127,11 +126,14 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 							});
 						}),
 				),
-			).then(setLevels);
+			).then((levels) => {
+				setIsLoading(false);
+				setLevels(levels);
+			});
 		},
 	});
 
-	// useCursor(isLoading.current, "wait", "auto");
+	useCursor(isLoading, "wait", "auto");
 
 	const chunks = useMemo(() => {
 		return levels.map((level) => {
