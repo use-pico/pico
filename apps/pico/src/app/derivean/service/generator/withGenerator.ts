@@ -55,7 +55,7 @@ export const withGenerator = ({
 	level,
 	noise,
 }: withGenerator.Props): withGenerator.Generator => {
-	const baseScale = 1 / (gameConfig.plotCount * (1 / level.level));
+	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
 	const { land } = noise({
 		seed,
@@ -91,15 +91,15 @@ export const withGenerator = ({
 			);
 		}
 
-		const levelSize = gameConfig.chunkSize * level.level;
-		const offset = (gameConfig.chunkSize * (level.level - 1)) / 2;
+		const levelSize = gameConfig.chunkSize * level.layer.level;
+		const offset = (gameConfig.chunkSize * (level.layer.level - 1)) / 2;
 
 		return {
-			id: `${x}:${z}:${level.level}`,
+			id: `${x}:${z}:${level.layer.level}`,
 			x: x * levelSize + offset,
 			z: z * levelSize + offset,
 			size: levelSize,
-			level: level.level,
+			level: level.layer.level,
 			texture: {
 				size: gameConfig.plotCount,
 				data: buffer,

@@ -20,6 +20,8 @@ export namespace Chunks {
  * optimization, so this component won't re-render.
  */
 export const Chunks: FC<Chunks.Props> = ({ chunks, opacity = 1 }) => {
+	console.log("Chunks re-render");
+
 	if (opacity <= 0) {
 		return null;
 	}
@@ -28,7 +30,7 @@ export const Chunks: FC<Chunks.Props> = ({ chunks, opacity = 1 }) => {
 		return (
 			<mesh
 				key={`chunk-${chunk.id}`}
-				position={[chunk.x * 1.001, -1, chunk.z * 1.001]}
+				position={[chunk.x * 1.001, 0, chunk.z * 1.001]}
 				rotation={[-Math.PI / 2, 0, 0]}
 				receiveShadow
 			>

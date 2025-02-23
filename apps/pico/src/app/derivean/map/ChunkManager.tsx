@@ -84,10 +84,10 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 						new Promise<Chunk.View.Level>((resolve) => {
 							console.info("[ChunkManager]\tProcessing level", level);
 
-							const cache = chunkCache.get(level.level);
+							const cache = chunkCache.get(level.layer.level);
 							if (!cache) {
 								console.warn(
-									`[ChunkManager]\t\tChunk cache for level ${level.level} not found; that's quite strange. Doctor Strange.`,
+									`[ChunkManager]\t\tChunk cache for level ${level.layer.level} not found; that's quite strange. Doctor Strange.`,
 								);
 								throw new Error("Chunk cache not found");
 							}
@@ -147,14 +147,14 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 
 	const chunks = useMemo(() => {
 		return levels.map((level) => {
-			const cache = chunkCache.get(level.level);
+			const cache = chunkCache.get(level.layer.level);
 			if (!cache) {
 				return null;
 			}
 
 			return (
 				<Chunks
-					key={`chunks-${level.level}`}
+					key={`chunks-${level.layer.level}`}
 					chunks={cache}
 				/>
 			);

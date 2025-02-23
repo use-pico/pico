@@ -87,6 +87,17 @@ export const Loop: FC<Loop.Props> = ({
 				mouseButtons={{ LEFT: MOUSE.PAN }}
 				touches={{ ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
 				makeDefault
+				onChange={() => {
+					gameEventBus.emit("onRealtimeCamera", {
+						x: camera.position.x,
+						z: camera.position.z,
+						bottom: camera.bottom,
+						top: camera.top,
+						left: camera.left,
+						right: camera.right,
+						zoom: camera.zoom,
+					});
+				}}
 				onEnd={onCamera}
 			/>
 

@@ -1,11 +1,12 @@
 import type { EventBus } from "@use-pico/common";
-import { useEffect } from "react";
+import { useEffect, type DependencyList } from "react";
 
 export namespace useEvent {
 	export interface Props<TEvents extends object> {
 		eventBus: EventBus<TEvents>;
 		event: keyof TEvents;
 		callback(event: TEvents[keyof TEvents]): void;
+		deps?: DependencyList[];
 	}
 }
 
@@ -13,6 +14,7 @@ export const useEvent = <TEvents extends object>({
 	eventBus,
 	event,
 	callback,
+	deps = [],
 }: useEvent.Props<TEvents>) => {
 	useEffect(() => {
 		console.info(`[useEvent]\tSubscribing event [${event as string}]`);
@@ -22,5 +24,5 @@ export const useEvent = <TEvents extends object>({
 			console.info(`[useEvent]\tUnsubscribing from event [${event as string}]`);
 			eventBus.off(event, callback);
 		};
-	}, []);
+	}, deps);
 };

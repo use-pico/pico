@@ -33,7 +33,7 @@ export namespace Chunk {
 		 *
 		 * List are quite "reasonable" values; you can can over, but you may expect big kaboom.
 		 */
-		offset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+		offset: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 	}
 
 	/**
@@ -99,9 +99,9 @@ export namespace Chunk {
 			 */
 			hash: string;
 			/**
-			 * Level of this view.
+			 * Layer (level) this level belongs to.
 			 */
-			level: Chunk.Level;
+			layer: Chunk.Layer;
 			/**
 			 * Chunk positions in X axis.
 			 */

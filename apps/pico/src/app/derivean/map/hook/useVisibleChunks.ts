@@ -27,9 +27,9 @@ export const useVisibleChunks = ({
 	return ({ x, z, bottom, top, left, right, zoom }) => {
 		const levels: Chunk.View.Level[] = [];
 
-		for (const { min, max, level, offset = 0 } of layers) {
-			if (zoom >= min && zoom <= max) {
-				const $chunkSize = chunkSize * level;
+		for (const layer of layers) {
+			if (zoom >= layer.min && zoom <= layer.max) {
+				const $chunkSize = chunkSize * layer.level;
 				const viewHeight = (top - bottom) / zoom;
 				const viewWidth = (right - left) / zoom;
 
@@ -37,13 +37,13 @@ export const useVisibleChunks = ({
 				const halfH = viewHeight * 0.5;
 				const size = $chunkSize / 2;
 
-				const minX = Math.floor((x - halfW + size) / $chunkSize) - offset;
-				const maxX = Math.ceil((x + halfW + size) / $chunkSize) + offset;
-				const minZ = Math.floor((z - halfH + size) / $chunkSize) - offset;
-				const maxZ = Math.ceil((z + halfH + size) / $chunkSize) + offset;
+				const minX = Math.floor((x - halfW + size) / $chunkSize) - layer.offset;
+				const maxX = Math.ceil((x + halfW + size) / $chunkSize) + layer.offset;
+				const minZ = Math.floor((z - halfH + size) / $chunkSize) - layer.offset;
+				const maxZ = Math.ceil((z + halfH + size) / $chunkSize) + layer.offset;
 
 				levels.push({
-					hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]:${level}`,
+					hash: `[${minX} → ${maxX}]:[${minZ} → ${maxZ}]:${layer.level}`,
 					count: (maxX - minX) * (maxZ - minZ),
 					x: {
 						min: minX,
@@ -53,7 +53,7 @@ export const useVisibleChunks = ({
 						min: minZ,
 						max: maxZ,
 					},
-					level,
+					layer,
 				});
 			}
 		}
