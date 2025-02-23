@@ -151,7 +151,7 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 
 						performance.mark("generator-onComplete-start");
 
-						for (const { tiles: _, ...chunk } of chunks) {
+						for (const chunk of chunks) {
 							const texture = new DataTexture(
 								new Uint8Array(chunk.texture.data),
 								chunk.texture.size,

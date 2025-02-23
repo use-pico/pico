@@ -52,7 +52,6 @@ export namespace withGenerator {
 export const withGenerator = ({
 	seed,
 	plotCount,
-	tile,
 	scale = 1,
 	noise,
 }: withGenerator.Props): withGenerator.Generator => {
@@ -71,10 +70,9 @@ export const withGenerator = ({
 
 	return ({ x, z }) => {
 		const size = plotCount ** 2;
-		const tiles = new Array<Chunk.Tile>(size);
 		const buffer = new Uint8Array(size * 4);
 
-		for (let i = 0; i < tiles.length; i++) {
+		for (let i = 0; i < size; i++) {
 			const tileX = i % plotCount;
 			const tileZ = Math.floor(i / plotCount);
 			const worldX = (x * plotCount + (i % plotCount)) * baseScale;
@@ -90,26 +88,12 @@ export const withGenerator = ({
 				)!,
 				(reversedRow * plotCount + tileX) * 4,
 			);
-
-			tiles[i] = {
-				pos: {
-					x: tileX,
-					z: tileZ,
-				},
-				abs: {
-					x: tileX + x * plotCount,
-					z: tileZ + z * plotCount,
-				},
-				noise,
-				tile: tile.id,
-			};
 		}
 
 		return {
 			id: `${x}:${z}`,
 			x,
 			z,
-			tiles,
 			texture: {
 				size: plotCount,
 				data: buffer,
