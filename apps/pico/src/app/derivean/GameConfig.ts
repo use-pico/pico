@@ -167,32 +167,58 @@ export const GameConfig: GameConfig = {
 	].sort((a, b) => b.noise - a.noise),
 	layers: [
 		{
-			min: 0.065,
+			// Level 1: zoom range ≈ [0.4217, 1]
+			min: 0.4217,
 			max: 1,
 			level: 1,
 			offset: 4,
 		},
 		{
-			min: 0.035,
-			max: 0.065,
+			// Level 2: zoom range ≈ [0.1778, 0.4217]
+			min: 0.1778,
+			max: 0.4217,
 			level: 2,
 			offset: 4,
 		},
 		{
-			min: 0.01,
-			max: 0.035,
+			// Level 4: zoom range ≈ [0.0750, 0.1778]
+			min: 0.075,
+			max: 0.1778,
 			level: 4,
 			offset: 4,
 		},
 		{
-			min: 0.005,
-			max: 0.01,
+			// Level 8: zoom range ≈ [0.0316, 0.0750]
+			min: 0.0316,
+			max: 0.075,
+			level: 8,
+			offset: 4,
+		},
+		{
+			// Level 16: zoom range ≈ [0.01333, 0.0316]
+			min: 0.01333,
+			max: 0.0316,
 			level: 16,
 			offset: 4,
 		},
 		{
+			// Level 32: zoom range ≈ [0.00562, 0.01333]
+			min: 0.00562,
+			max: 0.01333,
+			level: 32,
+			offset: 4,
+		},
+		{
+			// Level 64: zoom range ≈ [0.00237, 0.00562]
+			min: 0.00237,
+			max: 0.00562,
+			level: 64,
+			offset: 4,
+		},
+		{
+			// Level 128: zoom range ≈ [0.001, 0.00237]
 			min: 0.001,
-			max: 0.005,
+			max: 0.00237,
 			level: 128,
 			offset: 4,
 		},
