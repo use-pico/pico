@@ -1,5 +1,4 @@
 export namespace EventBus {
-	export type EventType = string | symbol;
 	export type Handler<T = unknown> = (event: T) => void;
 	export type WildcardHandler<T = Record<string, unknown>> = (
 		type: keyof T,
@@ -10,29 +9,28 @@ export namespace EventBus {
 	export type WildCardEventHandlerList<T = Record<string, unknown>> =
 		WildcardHandler<T>[];
 
-	export type EventHandlerMap<Events extends Record<EventType, unknown>> = Map<
-		keyof Events | "*",
-		EventHandlerList<Events[keyof Events]> | WildCardEventHandlerList<Events>
+	export type EventHandlerMap<TEvents extends object> = Map<
+		keyof TEvents | "*",
+		EventHandlerList<TEvents[keyof TEvents]> | WildCardEventHandlerList<TEvents>
 	>;
 }
 
-export interface EventBus<Events extends Record<EventBus.EventType, unknown>> {
+export interface EventBus<TEvents extends object> {
 	/**
 	 * A Map of event names to registered handler functions.
 	 */
-	all: EventBus.EventHandlerMap<Events>;
-
+	all: EventBus.EventHandlerMap<TEvents>;
 	/**
 	 * Register an event handler for the given type.
 	 * @param {string|symbol} type Type of event to listen for, or `'*'` for all events
 	 * @param {Function} handler Function to call in response to given event
 	 * @memberOf mitt
 	 */
-	on<Key extends keyof Events>(
+	on<Key extends keyof TEvents>(
 		type: Key,
-		handler: EventBus.Handler<Events[Key]>,
+		handler: EventBus.Handler<TEvents[Key]>,
 	): void;
-	on(type: "*", handler: EventBus.WildcardHandler<Events>): void;
+	on(type: "*", handler: EventBus.WildcardHandler<TEvents>): void;
 
 	/**
 	 * Remove an event handler for the given type.
@@ -41,11 +39,11 @@ export interface EventBus<Events extends Record<EventBus.EventType, unknown>> {
 	 * @param {Function} [handler] Handler function to remove
 	 * @memberOf mitt
 	 */
-	off<Key extends keyof Events>(
+	off<Key extends keyof TEvents>(
 		type: Key,
-		handler?: EventBus.Handler<Events[Key]>,
+		handler?: EventBus.Handler<TEvents[Key]>,
 	): void;
-	off(type: "*", handler: EventBus.WildcardHandler<Events>): void;
+	off(type: "*", handler: EventBus.WildcardHandler<TEvents>): void;
 
 	/**
 	 * Invoke all handlers for the given type.
@@ -57,61 +55,57 @@ export interface EventBus<Events extends Record<EventBus.EventType, unknown>> {
 	 * @param {Any} [evt] Any value (object is recommended and powerful), passed to each handler
 	 * @memberOf mitt
 	 */
-	emit<Key extends keyof Events>(type: Key, event: Events[Key]): void;
-	emit<Key extends keyof Events>(
-		type: undefined extends Events[Key] ? Key : never,
+	emit<Key extends keyof TEvents>(type: Key, event: TEvents[Key]): void;
+	emit<Key extends keyof TEvents>(
+		type: undefined extends TEvents[Key] ? Key : never,
 	): void;
 }
 
-export default function EventBus<
-	Events extends Record<EventBus.EventType, unknown>,
->(all?: EventBus.EventHandlerMap<Events>): EventBus<Events> {
+export function EventBus<TEvents extends object>(
+	all?: EventBus.EventHandlerMap<TEvents>,
+): EventBus<TEvents> {
 	type GenericEventHandler =
-		| EventBus.Handler<Events[keyof Events]>
-		| EventBus.WildcardHandler<Events>;
+		| EventBus.Handler<TEvents[keyof TEvents]>
+		| EventBus.WildcardHandler<TEvents>;
+
 	all ||= new Map();
 
 	return {
 		all,
-		on<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
-			const handlers: GenericEventHandler[] | undefined = all!.get(type);
+		on<Key extends keyof TEvents>(type: Key, handler: GenericEventHandler) {
+			const handlers: GenericEventHandler[] | undefined = all.get(type);
 			if (handlers) {
 				handlers.push(handler);
 			} else {
-				all!.set(type, [handler] as EventBus.EventHandlerList<
-					Events[keyof Events]
+				all.set(type, [handler] as EventBus.EventHandlerList<
+					TEvents[keyof TEvents]
 				>);
 			}
 		},
 
-		off<Key extends keyof Events>(type: Key, handler?: GenericEventHandler) {
-			const handlers: GenericEventHandler[] | undefined = all!.get(type);
+		off<Key extends keyof TEvents>(type: Key, handler?: GenericEventHandler) {
+			const handlers = all.get(type);
 			if (handlers) {
 				if (handler) {
 					handlers.splice(handlers.indexOf(handler) >>> 0, 1);
 				} else {
-					all!.set(type, []);
+					all.set(type, []);
 				}
 			}
 		},
 
-		emit<Key extends keyof Events>(type: Key, evt?: Events[Key]) {
-			let handlers = all!.get(type);
+		emit<Key extends keyof TEvents>(type: Key, event?: TEvents[Key]) {
+			let handlers = all.get(type);
 			if (handlers) {
-				(handlers as EventBus.EventHandlerList<Events[keyof Events]>)
+				(handlers as EventBus.EventHandlerList<TEvents[keyof TEvents]>)
 					.slice()
-					.forEach((handler) => {
-						handler(evt!);
-					});
+					.forEach((h) => h(event!));
 			}
-
-			handlers = all!.get("*");
+			handlers = all.get("*");
 			if (handlers) {
-				(handlers as EventBus.WildCardEventHandlerList<Events>)
+				(handlers as EventBus.WildCardEventHandlerList<TEvents>)
 					.slice()
-					.forEach((handler) => {
-						handler(type, evt!);
-					});
+					.forEach((h) => h(type, event!));
 			}
 		},
 	};
