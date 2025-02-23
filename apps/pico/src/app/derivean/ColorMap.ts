@@ -1,21 +1,28 @@
 import type { GameConfig } from "~/app/derivean/GameConfig";
 
 export const baseStops: GameConfig.ColorMap[] = [
-	// Deep Ocean (Pure Deep Blue; no turquoise)
-	{ noise: -1.0, color: "#000033" },
-	{ noise: -0.95, color: "#000047" },
-	{ noise: -0.9, color: "#00005b" },
-	{ noise: -0.85, color: "#00006f" },
-	{ noise: -0.8, color: "#000083" },
-	{ noise: -0.75, color: "#000097" },
-	{ noise: -0.7, color: "#0000ab" },
-	{ noise: -0.65, color: "#0000bf" },
-	{ noise: -0.6, color: "#0000d3" },
-	{ noise: -0.55, color: "#0000e7" },
-	{ noise: -0.5, color: "#0000fb" },
+	// Deep Ocean (Lighter Deep Blue; no turquoise)
+	{ noise: -1.0, color: "#000073" },
+	{ noise: -0.95, color: "#000081" },
+	{ noise: -0.9, color: "#00008F" },
+	{ noise: -0.85, color: "#00009D" },
+	{ noise: -0.8, color: "#0000AB" },
+	{ noise: -0.75, color: "#0000B9" },
+	{ noise: -0.7, color: "#0000C7" },
+	{ noise: -0.65, color: "#0000D5" },
+	{ noise: -0.6, color: "#0000E3" },
+	{ noise: -0.55, color: "#0000F1" },
+	{ noise: -0.5, color: "#0000FF" },
+
+	// Foam (Enhanced White-ish Wave Foam Effect)
+	{ noise: -0.48, color: "#e6f7ff" },
+	{ noise: -0.47, color: "#ebf9ff" },
+	{ noise: -0.46, color: "#f0fbff" },
+	{ noise: -0.455, color: "#f3fcff" },
+	{ noise: -0.45, color: "#f7fdff" },
 
 	// Beaches (Warm Yellow/Orange/Gold)
-	{ noise: -0.45, color: "#ffecb3" },
+	{ noise: -0.44, color: "#ffecb3" },
 	{ noise: -0.4, color: "#ffe099" },
 	{ noise: -0.35, color: "#ffda80" },
 	{ noise: -0.3, color: "#ffd066" },
@@ -25,6 +32,9 @@ export const baseStops: GameConfig.ColorMap[] = [
 	{ noise: -0.1, color: "#ffa700" },
 	{ noise: -0.05, color: "#ff9a00" },
 
+	// Transitional Shade (Orangish-Greenish)
+	{ noise: -0.01, color: "#b59015" },
+
 	// Grasslands (Darker, More Contrasted Green Shades)
 	{ noise: 0.0, color: "#2b7d3c" },
 	{ noise: 0.05, color: "#2a7736" },
@@ -32,6 +42,10 @@ export const baseStops: GameConfig.ColorMap[] = [
 	{ noise: 0.15, color: "#27682a" },
 	{ noise: 0.2, color: "#256224" },
 	{ noise: 0.25, color: "#245b1e" },
+
+	// Forest Edge Contrast (Extra Dark Green Shade)
+	{ noise: 0.27, color: "#1a4e32" },
+	{ noise: 0.28, color: "#1a4e32" },
 
 	// Forests (Deep, Vibrant Greens)
 	{ noise: 0.3, color: "#1e8449" },
@@ -41,6 +55,9 @@ export const baseStops: GameConfig.ColorMap[] = [
 	{ noise: 0.5, color: "#135f31" },
 	{ noise: 0.55, color: "#11582b" },
 	{ noise: 0.6, color: "#0f5025" },
+
+	// Hill Edge Contrast (Extra Dark Green Shade)
+	{ noise: 0.63, color: "#1a4e32" },
 
 	// Hills (Natural, Lush Greens)
 	{ noise: 0.65, color: "#688e26" },
