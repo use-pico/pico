@@ -92,11 +92,12 @@ export const withGenerator = ({
 		}
 
 		const levelSize = gameConfig.chunkSize * level.level;
+		const offset = (gameConfig.chunkSize * (level.level - 1)) / 2;
 
 		return {
 			id: `${x}:${z}:${level.level}`,
-			x: x * levelSize,
-			z: z * levelSize,
+			x: x * levelSize + offset,
+			z: z * levelSize + offset,
 			size: levelSize,
 			level: level.level,
 			texture: {

@@ -20,8 +20,8 @@ export namespace generator {
 		/**
 		 * Called when a chunk arrives
 		 */
-		onChunk?(awaitChunk: Promise<Chunk.Data>): Promise<any>;
-		onComplete?(chunks: Chunk.Data[]): void;
+		onChunk?(awaitChunk: Promise<chunkOf.Result>): Promise<any>;
+		onComplete?(chunks: chunkOf.Result[]): void;
 		abort?: AbortController;
 	}
 }
@@ -56,7 +56,7 @@ export const generator = async ({
 					x,
 					z,
 				} satisfies chunkOf.Props,
-			]) as unknown as Promise<Chunk.Data>;
+			]) as unknown as Promise<chunkOf.Result>;
 
 			onChunk?.(promise);
 
@@ -72,7 +72,7 @@ export const generator = async ({
 			onComplete?.(data);
 
 			console.info(
-				`\t[generator]\t- Finished [generated ${((100 * data.length) / level.count).toFixed(0)}%] [${timer.format()}]`,
+				`\t[generator]\t- Finished [cache hit ${data.length > 0 ? ((100 * data.filter((chunk) => chunk.hit).length) / level.count).toFixed(0) : "100"}%; generated ${((100 * data.length) / level.count).toFixed(0)}%] [${timer.format()}]`,
 			);
 
 			return data;

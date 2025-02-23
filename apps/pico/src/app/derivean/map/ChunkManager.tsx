@@ -103,7 +103,9 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 								onComplete(chunks) {
 									// requests.current = [];
 
-									for (const { texture, ...chunk } of chunks) {
+									for (const {
+										chunk: { texture, ...chunk },
+									} of chunks) {
 										const txt = new DataTexture(
 											new Uint8Array(texture.data),
 											texture.size,

@@ -30,8 +30,10 @@ export namespace Chunk {
 		 *
 		 * Keep this number quite low, like 1, 2 or 3. Higher numbers may cause
 		 * performance and memory issues.
+		 *
+		 * List are quite "reasonable" values; you can can over, but you may expect big kaboom.
 		 */
-		offset?: 0 | 1 | 2 | 3 | 4;
+		offset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 	}
 
 	/**

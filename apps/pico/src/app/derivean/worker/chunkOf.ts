@@ -16,6 +16,11 @@ export namespace chunkOf {
 		x: number;
 		z: number;
 	}
+
+	export interface Result {
+		hit: boolean;
+		chunk: Chunk.Data;
+	}
 }
 
 export async function chunkOf({
@@ -25,7 +30,7 @@ export async function chunkOf({
 	level,
 	x,
 	z,
-}: chunkOf.Props) {
+}: chunkOf.Props): Promise<chunkOf.Result> {
 	const generator = withGenerator({
 		gameConfig,
 		seed: mapId,
@@ -43,20 +48,23 @@ export async function chunkOf({
 
 	const chunkFile = `/chunk/${mapId}/${id}.bin`;
 
-	return new Promise<Chunk.Data>((resolve) => {
+	return new Promise<chunkOf.Result>((resolve) => {
 		file(chunkFile)
 			.exists()
 			.then((exists) => {
 				(exists ?
-					new Promise<void>((resolve) => {
-						resolve();
+					new Promise<boolean>((resolve) => {
+						resolve(true);
 					})
-				:	write(chunkFile, compressChunk(generator({ x, z })))
-				).then(() => {
+				:	write(chunkFile, compressChunk(generator({ x, z }))).then(() => false)
+				).then((hit) => {
 					file(chunkFile)
 						.arrayBuffer()
 						.then((buffer) => {
-							resolve(decompressChunk(new Uint8Array(buffer)));
+							resolve({
+								hit,
+								chunk: decompressChunk(new Uint8Array(buffer)),
+							});
 						});
 				});
 			});

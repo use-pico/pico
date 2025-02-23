@@ -13,7 +13,8 @@ export const withColorMap = ({
 	gameConfig,
 	defaultColor = "#ff0000",
 }: withColorMap.Props) => {
-	const map = [...gameConfig.colorMap].sort((a, b) => b.noise - a.noise);
-
-	return map.find(({ noise }) => value >= noise)?.color || defaultColor;
+	return (
+		gameConfig.colorMap.find(({ noise }) => value >= noise)?.color ||
+		defaultColor
+	);
 };

@@ -81,6 +81,10 @@ export interface GameConfig {
 	chunkLimit: number;
 	/**
 	 * Defines colors used to generate chunk texture from noise.
+	 *
+	 * Color map must be in the right order or it will break.
+	 *
+	 * `colorMap.sort((a, b) => b.noise - a.noise)`
 	 */
 	colorMap: GameConfig.ColorMap[];
 	/**
@@ -95,7 +99,7 @@ export const GameConfig: GameConfig = {
 	plotSize: 16,
 	plotCount: 256,
 	chunkSize: 16 * 256,
-	chunkLimit: 1024,
+	chunkLimit: 2048,
 	colorMap: [
 		/**
 		 * Deep Ocean (Dark to Vibrant Blues)
@@ -160,30 +164,31 @@ export const GameConfig: GameConfig = {
 		{ noise: 0.975, color: "#888899" },
 		{ noise: 0.99, color: "#aaaaaa" },
 		{ noise: 1.0, color: "#ffffff" },
-	],
+	].sort((a, b) => b.noise - a.noise),
 	layers: [
 		{
 			min: 0.065,
 			max: 1,
 			level: 1,
+			offset: 4,
 		},
 		{
 			min: 0.035,
 			max: 0.065,
 			level: 2,
-			offset: 1,
+			offset: 4,
 		},
 		{
 			min: 0.01,
 			max: 0.035,
 			level: 4,
-			offset: 2,
+			offset: 4,
 		},
 		{
 			min: 0.005,
 			max: 0.01,
 			level: 16,
-			offset: 3,
+			offset: 4,
 		},
 	],
 };
