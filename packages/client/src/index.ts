@@ -29,6 +29,7 @@ export { CursorCss } from "./cursor/CursorCss";
 export { withDatabase } from "./database/withDatabase";
 export { DateInline } from "./date-inline/DateInline";
 export { useDebounce } from "./debounce/useDebounce";
+export { useEvent } from "./event/useEvent";
 export { Float } from "./float/Float";
 export { FloatContext } from "./float/FloatContext";
 export { FloatCss } from "./float/FloatCss";
