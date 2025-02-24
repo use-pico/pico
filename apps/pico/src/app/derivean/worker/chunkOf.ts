@@ -59,9 +59,10 @@ export async function chunkOf({
 			.exists()
 			.then((exists) => {
 				(exists ?
-					new Promise<boolean>((resolve) => {
-						resolve(true);
-					})
+					// new Promise<boolean>((resolve) => {
+					// 	resolve(true);
+					// })
+					write(chunkFile, compressChunk(generator({ x, z }))).then(() => false)
 				:	write(chunkFile, compressChunk(generator({ x, z }))).then(() => false)
 				).then((hit) => {
 					file(chunkFile)

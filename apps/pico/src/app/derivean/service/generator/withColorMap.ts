@@ -1,6 +1,20 @@
 import { hslaToRgba } from "@use-pico/common";
 import { GameConfig } from "~/app/derivean/GameConfig";
 
+export function grayscaleFromNoise(
+	noise: number,
+): [number, number, number, number] {
+	// 1. Clamp the noise to the range [-1, 1]
+	const clamped = Math.max(-1, Math.min(1, noise));
+
+	// 2. Map from [-1, 1] to [0, 255]
+	//    -1 -> 0, 1 -> 255
+	const gray = Math.floor(((clamped + 1) / 2) * 255);
+
+	// 3. Return as [R, G, B, A] with full opacity
+	return [gray, gray, gray, 255];
+}
+
 export namespace withColorMap {
 	export interface Props {
 		heightmap: number;
@@ -38,6 +52,8 @@ export const withColorMap = ({
 	const biomeMod = biomeStop?.color || [0, 0, 0, 0];
 	const temperatureMod = temperatureStop?.color || [0, 0, 0, 0];
 	const moistureMod = moistureStop?.color || [0, 0, 0, 0];
+
+	// return grayscaleFromNoise(biome);
 
 	return hslaToRgba([
 		Math.max(

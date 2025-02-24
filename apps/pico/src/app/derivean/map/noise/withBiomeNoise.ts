@@ -15,22 +15,22 @@ export const withBiomeNoise = ({ seed }: withHeightmapNoise.Props) => {
 		layers: [
 			{
 				name: "continents",
-				noise: "pingPongCellular",
-				scale: 0.1,
-				weight: 2,
+				noise: "perlin",
+				scale: 0.5,
+				weight: 1,
 			},
 			{
-				// disabled: true,
+				disabled: true,
 				name: "continent-level-01",
 				noise: "simplex",
 				scale: 0.5,
-				weight: 0.35,
+				weight: 0.5,
 			},
 			{
 				disabled: true,
 				name: "continent-level-01",
 				noise: "perlin",
-				scale: 2,
+				scale: 0.025,
 				weight: 0.75,
 			},
 		],

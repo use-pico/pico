@@ -35,7 +35,6 @@ export const HeightmapNoise = {
 		noise.SetDomainWarpAmp(25);
 		noise.SetFractalType(FastNoiseLite.FractalType.PingPong);
 		noise.SetFractalOctaves(4);
-		noise.SetFractalLacunarity(2.75);
 		noise.SetFractalPingPongStrength(2.25);
 
 		return (x: number, z: number) => {
@@ -54,7 +53,7 @@ export const HeightmapNoise = {
 		noise.SetCellularDistanceFunction(
 			FastNoiseLite.CellularDistanceFunction.EuclideanSq,
 		);
-		noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance);
+		noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2);
 
 		return (x: number, z: number) => {
 			return noise.GetNoise(x, z);

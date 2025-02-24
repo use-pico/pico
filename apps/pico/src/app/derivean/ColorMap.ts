@@ -1,149 +1,86 @@
 import type { GameConfig } from "~/app/derivean/GameConfig";
 
 /**
- * Extended HSLA color map with a richer heightmap and extended temperature and moisture stops.
+ * Revised color map:
+ *  - Highest noise stop explicitly white [0, 0, 100, 1]
+ *  - Reduced negative saturations in moisture
+ *  - Reduced negative lightness in temperature
+ *  - Slightly higher saturations in forests/grasslands
  */
 export const ColorMap: GameConfig.ColorMap = {
-	// Heightmap: Rich, extended stops for deep water, foam, transitional shade, beaches, grasslands, forests, hills, and mountains.
 	heightmap: [
 		// Deep Water
 		{ noise: -1.0, color: [210, 70, 15, 1] },
-		{ noise: -0.99, color: [210, 70, 16, 1] },
 		{ noise: -0.98, color: [210, 70, 17, 1] },
-		{ noise: -0.97, color: [210, 70, 18, 0.98] },
 		{ noise: -0.96, color: [210, 70, 19, 0.98] },
-		{ noise: -0.95, color: [210, 70, 20, 0.98] },
 		{ noise: -0.94, color: [210, 65, 21, 0.96] },
-		{ noise: -0.93, color: [210, 65, 22, 0.96] },
 		{ noise: -0.92, color: [210, 60, 23, 0.94] },
-		{ noise: -0.91, color: [210, 60, 24, 0.94] },
 		{ noise: -0.9, color: [210, 55, 25, 0.92] },
-		{ noise: -0.89, color: [210, 55, 26, 0.92] },
-		{ noise: -0.88, color: [210, 50, 27, 0.9] },
-		{ noise: -0.87, color: [210, 50, 28, 0.9] },
-		{ noise: -0.86, color: [210, 50, 29, 0.88] },
-		{ noise: -0.85, color: [210, 50, 30, 0.88] },
-		{ noise: -0.84, color: [210, 45, 31, 0.86] },
-		{ noise: -0.83, color: [210, 45, 32, 0.86] },
-		{ noise: -0.82, color: [210, 45, 33, 0.84] },
-		{ noise: -0.81, color: [210, 45, 34, 0.84] },
-		{ noise: -0.8, color: [210, 40, 35, 0.82] },
-		{ noise: -0.79, color: [210, 40, 36, 0.82] },
-		{ noise: -0.78, color: [210, 40, 37, 0.8] },
-		{ noise: -0.77, color: [210, 40, 38, 0.8] },
-		{ noise: -0.76, color: [210, 40, 39, 0.78] },
-		{ noise: -0.75, color: [210, 40, 40, 0.78] },
-		{ noise: -0.74, color: [210, 40, 41, 0.75] },
+		{ noise: -0.85, color: [210, 50, 27, 0.9] },
+		{ noise: -0.8, color: [210, 50, 29, 0.88] },
+		{ noise: -0.75, color: [210, 45, 31, 0.86] },
+		{ noise: -0.7, color: [210, 45, 33, 0.84] },
+		{ noise: -0.65, color: [210, 40, 35, 0.82] },
+		{ noise: -0.6, color: [210, 40, 37, 0.8] },
+		{ noise: -0.55, color: [210, 40, 39, 0.78] },
+		{ noise: -0.5, color: [210, 40, 41, 0.75] },
 
 		// Foam
-		{ noise: -0.72, color: [195, 40, 92, 0.73] },
-		{ noise: -0.71, color: [195, 40, 93, 0.72] },
-		{ noise: -0.7, color: [195, 40, 94, 0.71] },
-		{ noise: -0.69, color: [195, 40, 95, 0.7] },
-		{ noise: -0.68, color: [195, 40, 96, 0.69] },
-		{ noise: -0.67, color: [195, 40, 97, 0.68] },
-		{ noise: -0.66, color: [195, 40, 98, 0.67] },
-		{ noise: -0.65, color: [195, 40, 99, 0.66] },
-		{ noise: -0.64, color: [195, 40, 100, 0.65] },
+		{ noise: -0.48, color: [195, 40, 90, 0.72] },
+		{ noise: -0.47, color: [195, 40, 92, 0.7] },
+		{ noise: -0.46, color: [195, 40, 94, 0.68] },
+		{ noise: -0.455, color: [195, 40, 96, 0.66] },
+		{ noise: -0.45, color: [195, 40, 98, 0.64] },
 
 		// Transitional Shade (Turquoise → Beach)
-		{ noise: -0.62, color: [170, 35, 85, 0.8] },
+		{ noise: -0.445, color: [170, 35, 85, 0.8] },
 
-		// Beaches
-		{ noise: -0.6, color: [45, 80, 85, 0.9] },
-		{ noise: -0.58, color: [45, 80, 83, 0.9] },
-		{ noise: -0.56, color: [45, 80, 81, 0.9] },
-		{ noise: -0.54, color: [45, 80, 79, 0.9] },
-		{ noise: -0.52, color: [45, 80, 77, 0.9] },
-		{ noise: -0.5, color: [45, 80, 75, 0.9] },
-		{ noise: -0.48, color: [45, 80, 73, 0.9] },
-		{ noise: -0.46, color: [45, 80, 71, 0.9] },
-		{ noise: -0.44, color: [45, 80, 69, 0.9] },
-		{ noise: -0.42, color: [45, 80, 67, 0.9] },
+		// Beaches (slightly higher saturation)
+		{ noise: -0.44, color: [45, 85, 70, 0.9] },
+		{ noise: -0.4, color: [45, 85, 68, 0.9] },
+		{ noise: -0.35, color: [45, 85, 66, 0.9] },
+		{ noise: -0.3, color: [45, 85, 64, 0.9] },
+		{ noise: -0.25, color: [45, 85, 62, 0.9] },
+		{ noise: -0.2, color: [45, 85, 60, 0.9] },
 
-		// Grasslands
-		{ noise: -0.4, color: [120, 50, 65, 0.85] },
-		{ noise: -0.38, color: [120, 50, 63, 0.85] },
-		{ noise: -0.36, color: [120, 50, 61, 0.85] },
-		{ noise: -0.34, color: [120, 50, 59, 0.85] },
-		{ noise: -0.32, color: [120, 50, 57, 0.85] },
-		{ noise: -0.3, color: [120, 50, 55, 0.85] },
-		{ noise: -0.28, color: [120, 50, 53, 0.85] },
-		{ noise: -0.26, color: [120, 50, 51, 0.85] },
-		{ noise: -0.24, color: [120, 50, 49, 0.85] },
-		{ noise: -0.22, color: [120, 50, 47, 0.85] },
-		{ noise: -0.2, color: [120, 50, 45, 0.85] },
+		// Grasslands (increased saturation to ~55)
+		{ noise: -0.15, color: [120, 55, 46, 0.85] },
+		{ noise: -0.1, color: [120, 55, 43, 0.85] },
+		{ noise: -0.05, color: [120, 55, 40, 0.85] },
+		{ noise: -0.01, color: [120, 55, 37, 0.85] },
+		{ noise: 0.01, color: [120, 55, 35, 0.85] },
+		{ noise: 0.03, color: [120, 55, 33, 0.85] },
 
-		// Forest Edge Contrast
-		{ noise: -0.18, color: [120, 45, 43, 0.9] },
-		{ noise: -0.16, color: [120, 45, 41, 0.9] },
+		// Forest Edge
+		{ noise: 0.05, color: [120, 50, 31, 0.9] },
+		{ noise: 0.07, color: [120, 50, 29, 0.9] },
 
-		// Forests
-		{ noise: -0.14, color: [120, 55, 39, 0.9] },
-		{ noise: -0.12, color: [120, 55, 37, 0.9] },
-		{ noise: -0.1, color: [120, 55, 35, 0.9] },
-		{ noise: -0.08, color: [120, 55, 33, 0.9] },
-		{ noise: -0.06, color: [120, 55, 31, 0.9] },
-		{ noise: -0.04, color: [120, 55, 29, 0.9] },
-		{ noise: -0.02, color: [120, 55, 27, 0.9] },
-		{ noise: 0.0, color: [120, 55, 25, 0.9] },
-		{ noise: 0.02, color: [120, 55, 23, 0.9] },
-		{ noise: 0.04, color: [120, 55, 21, 0.9] },
-		{ noise: 0.06, color: [120, 55, 19, 0.9] },
-		{ noise: 0.08, color: [120, 55, 17, 0.9] },
+		// Forests (slightly more saturated)
+		{ noise: 0.09, color: [120, 60, 27, 0.9] },
+		{ noise: 0.15, color: [120, 60, 25, 0.9] },
+		{ noise: 0.2, color: [120, 60, 23, 0.9] },
+		{ noise: 0.25, color: [120, 60, 21, 0.9] },
+		{ noise: 0.3, color: [120, 60, 19, 0.9] },
 
 		// Hills
-		{ noise: 0.1, color: [120, 50, 15, 0.9] },
-		{ noise: 0.12, color: [120, 50, 17, 0.9] },
-		{ noise: 0.14, color: [120, 50, 19, 0.9] },
-		{ noise: 0.16, color: [120, 50, 21, 0.9] },
-		{ noise: 0.18, color: [120, 50, 23, 0.9] },
-		{ noise: 0.2, color: [120, 50, 25, 0.9] },
-		{ noise: 0.22, color: [120, 50, 27, 0.9] },
-		{ noise: 0.24, color: [120, 50, 29, 0.9] },
-		{ noise: 0.26, color: [120, 50, 31, 0.9] },
-		{ noise: 0.28, color: [120, 50, 33, 0.9] },
-		{ noise: 0.3, color: [120, 50, 35, 0.9] },
+		{ noise: 0.35, color: [120, 50, 17, 0.9] },
+		{ noise: 0.4, color: [120, 50, 19, 0.9] },
+		{ noise: 0.45, color: [120, 50, 21, 0.9] },
+		{ noise: 0.5, color: [120, 50, 23, 0.9] },
+		{ noise: 0.55, color: [120, 50, 25, 0.9] },
+		{ noise: 0.6, color: [120, 50, 27, 0.9] },
 
-		// Mountains – extended stops for a rich, gradual transition
-		{ noise: 0.32, color: [210, 10, 35, 1] },
-		{ noise: 0.34, color: [210, 10, 37, 1] },
-		{ noise: 0.36, color: [210, 10, 39, 1] },
-		{ noise: 0.38, color: [210, 10, 41, 1] },
-		{ noise: 0.4, color: [210, 10, 43, 1] },
-		{ noise: 0.42, color: [210, 10, 45, 1] },
-		{ noise: 0.44, color: [210, 10, 47, 1] },
-		{ noise: 0.46, color: [210, 10, 49, 1] },
-		{ noise: 0.48, color: [210, 10, 51, 1] },
-		{ noise: 0.5, color: [210, 10, 53, 1] },
-		{ noise: 0.52, color: [210, 10, 55, 1] },
-		{ noise: 0.54, color: [210, 10, 57, 1] },
-		{ noise: 0.56, color: [210, 10, 59, 1] },
-		{ noise: 0.58, color: [210, 10, 61, 1] },
-		{ noise: 0.6, color: [210, 10, 63, 1] },
-		{ noise: 0.62, color: [210, 10, 65, 1] },
-		{ noise: 0.64, color: [210, 10, 67, 1] },
-		{ noise: 0.66, color: [210, 10, 69, 1] },
-		{ noise: 0.68, color: [210, 10, 71, 1] },
-		{ noise: 0.7, color: [210, 10, 73, 1] },
-		{ noise: 0.72, color: [210, 10, 75, 1] },
-		{ noise: 0.74, color: [210, 10, 77, 1] },
-		{ noise: 0.76, color: [210, 10, 79, 1] },
-		{ noise: 0.78, color: [210, 10, 81, 1] },
-		{ noise: 0.8, color: [210, 10, 83, 1] },
-		{ noise: 0.82, color: [210, 10, 85, 1] },
-		{ noise: 0.84, color: [210, 10, 87, 1] },
-		{ noise: 0.86, color: [210, 10, 89, 1] },
-		{ noise: 0.88, color: [210, 10, 91, 1] },
-		{ noise: 0.9, color: [210, 10, 93, 1] },
-		{ noise: 0.92, color: [210, 10, 95, 1] },
-		{ noise: 0.94, color: [210, 10, 97, 1] },
-		{ noise: 0.96, color: [210, 10, 99, 1] },
-		{ noise: 0.98, color: [210, 10, 100, 1] },
+		// Mountains – ensure the top is white
+		{ noise: 0.8, color: [210, 10, 65, 1] },
+		{ noise: 0.85, color: [210, 5, 80, 1] },
+		{ noise: 0.88, color: [210, 3, 88, 1] },
+		{ noise: 0.92, color: [210, 2, 92, 1] },
+		{ noise: 0.95, color: [210, 1, 96, 1] },
+		{ noise: 0.97, color: [210, 1, 98, 1] },
 		{ noise: 1.0, color: [0, 0, 100, 1] },
 	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
 
-	// Biome stops (unchanged)
+	// Biome: unchanged for now
 	biome: [
 		{ noise: -1.0, color: [0, 0, 0, 0] },
 		{ noise: -0.8, color: [-8, 0, 0, 0] },
@@ -159,35 +96,23 @@ export const ColorMap: GameConfig.ColorMap = {
 		{ noise: 1.0, color: [10, 0, 0, 0] },
 	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
 
-	// Extended temperature stops: 11 stops from -1.0 (cold) to 1.0 (warm),
-	// affecting lightness offset.
+	// Temperature: limit negative offsets so we don't get too dull
 	temperature: [
-		{ noise: 1.0, color: [0, 0, 10, 0] },
-		{ noise: 0.8, color: [0, 0, 8, 0] },
-		{ noise: 0.6, color: [0, 0, 6, 0] },
-		{ noise: 0.4, color: [0, 0, 4, 0] },
-		{ noise: 0.2, color: [0, 0, 2, 0] },
+		{ noise: 1.0, color: [0, 0, 22.5, 0] },
+		{ noise: 0.75, color: [0, 0, 20, 0] },
+		{ noise: 0.5, color: [0, 0, 10, 0] },
 		{ noise: 0.0, color: [0, 0, 0, 0] },
-		{ noise: -0.2, color: [0, 0, -2, 0] },
-		{ noise: -0.4, color: [0, 0, -4, 0] },
-		{ noise: -0.6, color: [0, 0, -6, 0] },
-		{ noise: -0.8, color: [0, 0, -8, 0] },
-		{ noise: -1.0, color: [0, 0, -10, 0] },
+		{ noise: -0.5, color: [0, 0, -8, 0] },
+		{ noise: -0.75, color: [0, 0, -12, 0] },
+		{ noise: -1.0, color: [0, 0, -16, 0] },
 	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
 
-	// Extended moisture stops: 11 stops from -1.0 (drier) to 1.0 (moister),
-	// affecting saturation offset.
+	// Moisture: smaller negative offsets to avoid overshooting black
 	moisture: [
 		{ noise: 1.0, color: [0, 10, 0, 0] },
-		{ noise: 0.8, color: [0, 8, 0, 0] },
-		{ noise: 0.6, color: [0, 6, 0, 0] },
-		{ noise: 0.4, color: [0, 4, 0, 0] },
-		{ noise: 0.2, color: [0, 2, 0, 0] },
+		{ noise: 0.5, color: [0, 5, 0, 0] },
 		{ noise: 0.0, color: [0, 0, 0, 0] },
-		{ noise: -0.2, color: [0, -2, 0, 0] },
-		{ noise: -0.4, color: [0, -4, 0, 0] },
-		{ noise: -0.6, color: [0, -6, 0, 0] },
-		{ noise: -0.8, color: [0, -8, 0, 0] },
-		{ noise: -1.0, color: [0, -10, 0, 0] },
+		{ noise: -0.5, color: [0, -3, 0, 0] },
+		{ noise: -1.0, color: [0, -6, 0, 0] },
 	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
 } as const;
