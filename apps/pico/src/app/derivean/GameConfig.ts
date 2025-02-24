@@ -26,7 +26,7 @@ export namespace GameConfig {
 		 */
 		noise: number;
 		/**
-		 * ...this color value (HSL, alpha).
+		 * ...this color value (HSLA).
 		 */
 		color: [number, number, number, number];
 	}
