@@ -1,18 +1,18 @@
 import type { GameConfig } from "~/app/derivean/GameConfig";
 
 export const baseStops: GameConfig.ColorMap[] = [
-	// Water (Reduced, Smoother Transition)
+	// Water (Darker Turquoise)
 	{ noise: -1.0, color: [0, 0, 96, 255] },
-	{ noise: -0.95, color: [0, 0, 110, 250] },
-	{ noise: -0.9, color: [0, 40, 120, 245] },
-	{ noise: -0.85, color: [0, 80, 130, 240] },
-	{ noise: -0.8, color: [0, 120, 140, 235] },
-	{ noise: -0.75, color: [0, 140, 150, 230] },
-	{ noise: -0.7, color: [0, 160, 160, 225] },
-	{ noise: -0.65, color: [0, 180, 170, 220] },
-	{ noise: -0.6, color: [0, 200, 180, 215] },
-	{ noise: -0.55, color: [0, 220, 190, 210] },
-	{ noise: -0.5, color: [0, 240, 200, 200] },
+	{ noise: -0.95, color: [0, 20, 100, 250] },
+	{ noise: -0.9, color: [0, 40, 105, 245] },
+	{ noise: -0.85, color: [0, 60, 110, 240] },
+	{ noise: -0.8, color: [0, 80, 115, 235] },
+	{ noise: -0.75, color: [0, 100, 120, 230] },
+	{ noise: -0.7, color: [0, 120, 125, 225] },
+	{ noise: -0.65, color: [0, 140, 130, 220] },
+	{ noise: -0.6, color: [0, 160, 135, 215] },
+	{ noise: -0.55, color: [0, 180, 140, 210] },
+	{ noise: -0.5, color: [0, 200, 145, 200] },
 
 	// Foam
 	{ noise: -0.48, color: [230, 247, 255, 180] },
@@ -20,6 +20,9 @@ export const baseStops: GameConfig.ColorMap[] = [
 	{ noise: -0.46, color: [240, 251, 255, 170] },
 	{ noise: -0.455, color: [243, 252, 255, 165] },
 	{ noise: -0.45, color: [247, 253, 255, 160] },
+
+	// Transitional Shade (Turquoise → Beach)
+	{ noise: -0.445, color: [190, 225, 190, 210] },
 
 	// Beaches
 	{ noise: -0.44, color: [255, 236, 179, 240] },
@@ -36,7 +39,7 @@ export const baseStops: GameConfig.ColorMap[] = [
 	{ noise: 0.01, color: [154, 124, 32, 240] },
 	{ noise: 0.03, color: [122, 94, 45, 240] },
 
-	// Grasslands (some partial transparency for subtle blending)
+	// Grasslands
 	{ noise: 0.05, color: [43, 125, 60, 230] },
 	{ noise: 0.1, color: [42, 119, 54, 230] },
 	{ noise: 0.15, color: [40, 111, 48, 230] },
@@ -110,6 +113,7 @@ const totalStops = 256;
 for (let i = 0; i < totalStops; i++) {
 	const noiseValue = -1 + (2 * i) / (totalStops - 1);
 	const noise = parseFloat(noiseValue.toFixed(6));
+
 	let seg = 0;
 	for (let j = 0; j < baseStops.length - 1; j++) {
 		if (noise <= baseStops[j + 1].noise) {
@@ -117,13 +121,15 @@ for (let i = 0; i < totalStops; i++) {
 			break;
 		}
 	}
+
 	let t =
 		(noise - baseStops[seg].noise) /
 		(baseStops[seg + 1].noise - baseStops[seg].noise);
 
-	// Example: "smooth" easing near water-to-foam transitions, "hard" near forests/hills
+	// Example easing logic:
 	let mode: "linear" | "smooth" | "hard" = "linear";
 	if (seg === 10) {
+		// water-to-foam
 		mode = "smooth";
 	} else if (seg === 25 || seg === 39) {
 		mode = "hard";
