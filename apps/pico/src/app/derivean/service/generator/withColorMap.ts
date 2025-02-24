@@ -17,10 +17,20 @@ export const withColorMap = ({
 	temperature,
 	moisture,
 	gameConfig,
-	defaultColor = [255, 0, 0, 255],
+	defaultColor = [255, 255, 255, 255],
 }: withColorMap.Props) => {
-	return (
-		gameConfig.colorMap.heightmap.find(({ noise }) => heightmap >= noise)
-			?.color || defaultColor
+	const heightmapColor = gameConfig.colorMap.heightmap.find(
+		({ noise }) => heightmap >= noise,
 	);
+	const biomeColor = gameConfig.colorMap.biome.find(
+		({ noise }) => biome >= noise,
+	);
+	const temperatureColor = gameConfig.colorMap.temperature.find(
+		({ noise }) => temperature >= noise,
+	);
+	const moistureColor = gameConfig.colorMap.moisture.find(
+		({ noise }) => moisture >= noise,
+	);
+
+	return heightmapColor || defaultColor;
 };
