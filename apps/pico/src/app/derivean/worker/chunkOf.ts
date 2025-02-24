@@ -1,7 +1,10 @@
 import { file, write } from "opfs-tools";
 import { worker } from "workerpool";
 import type { GameConfig } from "~/app/derivean/GameConfig";
-import { withLandNoise } from "~/app/derivean/map/noise/withLandNoise";
+import { withBiomeNoise } from "~/app/derivean/map/noise/withBiomeNoise";
+import { withHeightmapNoise } from "~/app/derivean/map/noise/withHeightmapNoise";
+import { withMoistureNoise } from "~/app/derivean/map/noise/withMoistureNoise";
+import { withTemperatureNoise } from "~/app/derivean/map/noise/withTemperatureNoise";
 import { compressChunk } from "~/app/derivean/service/compressChunk";
 import { decompressChunk } from "~/app/derivean/service/decompressChunk";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
@@ -36,7 +39,10 @@ export async function chunkOf({
 		seed: mapId,
 		level,
 		noise: ({ seed }) => ({
-			land: withLandNoise({ seed }),
+			heightmap: withHeightmapNoise({ seed }),
+			biome: withBiomeNoise({ seed }),
+			temperature: withTemperatureNoise({ seed }),
+			moisture: withMoistureNoise({ seed }),
 		}),
 		tile: {
 			id: "grass",

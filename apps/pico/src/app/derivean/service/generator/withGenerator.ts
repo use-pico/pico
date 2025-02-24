@@ -39,7 +39,22 @@ export namespace withGenerator {
 		gameConfig: GameConfig;
 		level: Chunk.View.Level;
 		noise: (props: { seed: string }) => {
-			land: Noise;
+			/**
+			 * Overall heightmap noise.
+			 */
+			heightmap: Noise;
+			/**
+			 * Generates biomes over the map.
+			 */
+			biome: Noise;
+			/**
+			 * Temperature map.
+			 */
+			temperature: Noise;
+			/**
+			 * Moisture map.
+			 */
+			moisture: Noise;
 		};
 		/**
 		 * Default tile when nothing is generated.
@@ -56,7 +71,7 @@ export const withGenerator = ({
 }: withGenerator.Props): withGenerator.Generator => {
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
-	const { land } = noise({
+	const { heightmap, biome, temperature, moisture } = noise({
 		seed,
 	});
 
@@ -73,24 +88,29 @@ export const withGenerator = ({
 				(z * gameConfig.plotCount + Math.floor(i / gameConfig.plotCount)) *
 				baseScale;
 
-			const noise = land(worldX, worldZ);
+			const [heightmapNoise, biomeNoise, temperatureNoise, moistureNoise] = [
+				heightmap(worldX, worldZ),
+				biome(worldX, worldZ),
+				temperature(worldX, worldZ),
+				moisture(worldX, worldZ),
+			];
 
-			const reversedRow = gameConfig.plotCount - 1 - tileZ;
+			const inverse = gameConfig.plotCount - 1 - tileZ;
 
 			buffer.set(
-				withColorMap({ value: noise, gameConfig }),
-				(reversedRow * gameConfig.plotCount + tileX) * 4,
+				withColorMap({ value: heightmapNoise, gameConfig }),
+				(inverse * gameConfig.plotCount + tileX) * 4,
 			);
 		}
 
-		const levelSize = gameConfig.chunkSize * level.layer.level;
+		const chunkSize = gameConfig.chunkSize * level.layer.level;
 		const offset = (gameConfig.chunkSize * (level.layer.level - 1)) / 2;
 
 		return {
 			id: `${x}:${z}:${level.layer.level}`,
-			x: x * levelSize + offset,
-			z: z * levelSize + offset,
-			size: levelSize,
+			x: x * chunkSize + offset,
+			z: z * chunkSize + offset,
+			size: chunkSize,
 			level: level.layer.level,
 			texture: {
 				size: gameConfig.plotCount,

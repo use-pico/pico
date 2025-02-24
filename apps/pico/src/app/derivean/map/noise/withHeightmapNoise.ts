@@ -1,16 +1,16 @@
-import { LandNoise } from "~/app/derivean/map/noise/withLandNoise/LandNoise";
+import { HeightmapNoise } from "~/app/derivean/map/noise/withHeightmapNoise/HeightmapNoise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
-export namespace withLandNoise {
+export namespace withHeightmapNoise {
 	export interface Props {
 		seed: string;
 	}
 }
 
-export const withLandNoise = ({ seed }: withLandNoise.Props) => {
+export const withHeightmapNoise = ({ seed }: withHeightmapNoise.Props) => {
 	return withNoise({
 		seed,
-		noise: LandNoise,
+		noise: HeightmapNoise,
 		variation: [
 			{
 				name: "water",

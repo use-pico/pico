@@ -5,7 +5,7 @@ import { perlin } from "~/app/derivean/service/noise/perlin";
 import { warp } from "~/app/derivean/service/noise/warp";
 import type { withNoise } from "~/app/derivean/service/noise/withNoise";
 
-export const LandNoise = {
+export const HeightmapNoise = {
 	cubic: ((seed) => {
 		const noise = createNoise({ seed });
 		noise.SetNoiseType(FastNoiseLite.NoiseType.ValueCubic);

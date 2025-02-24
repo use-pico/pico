@@ -75,7 +75,13 @@ export namespace withNoise {
 		 * Just for fine-tuning the layer.
 		 */
 		disabled?: boolean;
+		/**
+		 * Which noise to use in this layer.
+		 */
 		noise: TNoise;
+		/**
+		 * Name of the layer, modifies seed.
+		 */
 		name: string;
 		/**
 		 * Scale of the noise.
@@ -96,8 +102,20 @@ export namespace withNoise {
 	}
 
 	export interface Variation<TNoise extends string> {
+		/**
+		 * Name of this variation, used also as a seed modifier
+		 */
 		name: string;
+		/**
+		 * Layers of this variation, those layers are used generate final
+		 * noise value.
+		 */
 		layers: Layer<TNoise>[];
+		/**
+		 * Weight of this variation (applied directly on noise value).
+		 *
+		 * This is useful when there are more variations.
+		 */
 		weight: number;
 		/**
 		 * Minimum range when a variation noise runs
@@ -110,9 +128,24 @@ export namespace withNoise {
 	}
 
 	export interface Props<TNoise extends string> {
+		/**
+		 * Define random seed for this noise.
+		 */
 		seed: string;
+		/**
+		 * Individual noises available for this generator.
+		 */
 		noise: Noise<TNoise>;
+		/**
+		 * Define individual layers this noise is composed of.
+		 *
+		 * This is the main magick used to generate noise.
+		 */
 		layers: NoInfer<Layer<TNoise>[]>;
+		/**
+		 * Defines variation on different levels, so e.g. mountain tops or deep water levels could
+		 * get processed more to look more natural, or at least, more interesting.
+		 */
 		variation?: NoInfer<Variation<TNoise>[]>;
 	}
 }
