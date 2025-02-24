@@ -1,18 +1,18 @@
 import type { GameConfig } from "~/app/derivean/GameConfig";
 
 export const baseStops: GameConfig.ColorMap[] = [
-	// Deep Ocean (Lighter Deep Blue; no turquoise)
-	{ noise: -1.0, color: "#000073" },
-	{ noise: -0.95, color: "#000081" },
-	{ noise: -0.9, color: "#00008F" },
-	{ noise: -0.85, color: "#00009D" },
-	{ noise: -0.8, color: "#0000AB" },
-	{ noise: -0.75, color: "#0000B9" },
-	{ noise: -0.7, color: "#0000C7" },
-	{ noise: -0.65, color: "#0000D5" },
-	{ noise: -0.6, color: "#0000E3" },
-	{ noise: -0.55, color: "#0000F1" },
-	{ noise: -0.5, color: "#0000FF" },
+	// Deep Water (Subtle gradient from deep to shallow)
+	{ noise: -1.0, color: "#000083" },
+	{ noise: -0.95, color: "#000087" },
+	{ noise: -0.9,  color: "#00008B" },
+	{ noise: -0.85, color: "#00008F" },
+	{ noise: -0.8,  color: "#000093" },
+	{ noise: -0.75, color: "#000097" },
+	{ noise: -0.7,  color: "#00009B" },
+	{ noise: -0.65, color: "#00009F" },
+	{ noise: -0.6,  color: "#0000A3" },
+	{ noise: -0.55, color: "#0000A7" },
+	{ noise: -0.5,  color: "#0000AB" },
 
 	// Foam (Enhanced White-ish Wave Foam Effect)
 	{ noise: -0.48, color: "#e6f7ff" },
@@ -23,57 +23,60 @@ export const baseStops: GameConfig.ColorMap[] = [
 
 	// Beaches (Warm Yellow/Orange/Gold)
 	{ noise: -0.44, color: "#ffecb3" },
-	{ noise: -0.4, color: "#ffe099" },
+	{ noise: -0.4,  color: "#ffe099" },
 	{ noise: -0.35, color: "#ffda80" },
-	{ noise: -0.3, color: "#ffd066" },
+	{ noise: -0.3,  color: "#ffd066" },
 	{ noise: -0.25, color: "#ffc84c" },
-	{ noise: -0.2, color: "#ffbf33" },
+	{ noise: -0.2,  color: "#ffbf33" },
 	{ noise: -0.15, color: "#ffb31a" },
-	{ noise: -0.1, color: "#ffa700" },
+	{ noise: -0.1,  color: "#ffa700" },
 	{ noise: -0.05, color: "#ff9a00" },
 
-	// Transitional Shade (Orangish-Greenish)
+	// Transitional Zone between Beach and Grassland (wider & smoother)
+	{ noise: -0.03, color: "#d29d12" },
 	{ noise: -0.01, color: "#b59015" },
+	{ noise:  0.01, color: "#9a7c20" },
+	{ noise:  0.03, color: "#7a5e2d" },
 
-	// Grasslands (Darker, More Contrasted Green Shades)
-	{ noise: 0.0, color: "#2b7d3c" },
-	{ noise: 0.05, color: "#2a7736" },
-	{ noise: 0.1, color: "#286f30" },
-	{ noise: 0.15, color: "#27682a" },
-	{ noise: 0.2, color: "#256224" },
-	{ noise: 0.25, color: "#245b1e" },
+	// Grasslands (Darker, more contrasted green shades)
+	{ noise: 0.05, color: "#5e7f3a" },
+	{ noise: 0.1,  color: "#537735" },
+	{ noise: 0.15, color: "#496f30" },
+	{ noise: 0.2,  color: "#40692b" },
+	{ noise: 0.25, color: "#376326" },
+	{ noise: 0.3,  color: "#2e5d21" },
 
 	// Forest Edge Contrast (Extra Dark Green Shade)
-	{ noise: 0.27, color: "#1a4e32" },
-	{ noise: 0.28, color: "#1a4e32" },
+	{ noise: 0.32, color: "#1a4e32" },
+	{ noise: 0.33, color: "#1a4e32" },
 
 	// Forests (Deep, Vibrant Greens)
-	{ noise: 0.3, color: "#1e8449" },
-	{ noise: 0.35, color: "#1b7a43" },
-	{ noise: 0.4, color: "#18713d" },
-	{ noise: 0.45, color: "#156a37" },
-	{ noise: 0.5, color: "#135f31" },
-	{ noise: 0.55, color: "#11582b" },
-	{ noise: 0.6, color: "#0f5025" },
+	{ noise: 0.35, color: "#1e8449" },
+	{ noise: 0.4,  color: "#1b7a43" },
+	{ noise: 0.45, color: "#18713d" },
+	{ noise: 0.5,  color: "#156a37" },
+	{ noise: 0.55, color: "#135f31" },
+	{ noise: 0.6,  color: "#11582b" },
+	{ noise: 0.65, color: "#0f5025" },
 
 	// Hill Edge Contrast (Extra Dark Green Shade)
-	{ noise: 0.63, color: "#1a4e32" },
+	{ noise: 0.68, color: "#1a4e32" },
 
 	// Hills (Natural, Lush Greens)
-	{ noise: 0.65, color: "#688e26" },
-	{ noise: 0.7, color: "#7aa032" },
-	{ noise: 0.75, color: "#8baa3e" },
-	{ noise: 0.8, color: "#9cb84a" },
-	{ noise: 0.85, color: "#aec556" },
-	{ noise: 0.875, color: "#bfd362" },
-	{ noise: 0.9, color: "#d1e06e" },
+	{ noise: 0.7,  color: "#688e26" },
+	{ noise: 0.75, color: "#7aa032" },
+	{ noise: 0.8,  color: "#8baa3e" },
+	{ noise: 0.85, color: "#9cb84a" },
+	{ noise: 0.9,  color: "#aec556" },
+	{ noise: 0.92, color: "#bfd362" },
+
+	// Mountain Edge (Noticeable dark contrast between hills and mountains)
+	{ noise: 0.94, color: "#575f67" },
 
 	// Mountains (Rich Gray with Enhanced Snow Caps)
-	{ noise: 0.925, color: "#575f67" },
-	{ noise: 0.95, color: "#75858b" },
-	{ noise: 0.975, color: "#c0c8d0" },
-	{ noise: 0.99, color: "#e8ebee" },
-	{ noise: 1.0, color: "#ffffff" },
+	{ noise: 0.96, color: "#75858b" },
+	{ noise: 0.98, color: "#c0c8d0" },
+	{ noise: 1.0,  color: "#ffffff" },
 ];
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -99,17 +102,15 @@ function interpolateColor(hex1: string, hex2: string, t: number): string {
 	return rgbToHex(r, g, b);
 }
 
-// Easing function to modify t based on transition type
+// Easing function to adjust t for smooth/hard transitions
 function ease(
 	t: number,
 	mode: "linear" | "smooth" | "hard" = "linear",
 ): number {
 	switch (mode) {
 		case "smooth":
-			// Smooth (easeInOut) transition: cubic Hermite interpolation.
 			return t * t * (3 - 2 * t);
 		case "hard":
-			// Harder (more abrupt) transition: quadratic easing in.
 			return t * t;
 		default:
 			return t;
@@ -134,12 +135,11 @@ for (let i = 0; i < totalStops; i++) {
 		(noise - baseStops[seg]!.noise) /
 		(baseStops[seg + 1]!.noise - baseStops[seg]!.noise);
 
-	// Determine easing mode based on major transition boundaries:
-	// - Water-Beach: between deep ocean (index 10) and shallow waters (index 11) -> smoother.
-	// - Grasslands to Forests: index 25 to 26 -> harder.
-	// - Hills to Mountains: index 39 to 40 -> harder.
+	// Adjust easing based on major boundaries:
+	// - Water-to-Beach transitions get smooth easing.
+	// - Transitions from grasslands to forests or hills to mountains get a harder easing.
 	let mode: "linear" | "smooth" | "hard" = "linear";
-	if (seg === 10) {
+	if (seg === 10) { // water-to-foam/beach
 		mode = "smooth";
 	} else if (seg === 25 || seg === 39) {
 		mode = "hard";
@@ -152,7 +152,7 @@ for (let i = 0; i < totalStops; i++) {
 		t,
 	);
 
-	// Avoid duplicate colors by nudging the blue channel if necessary.
+	// Slight nudge if duplicate
 	if (stops.length > 0 && stops[stops.length - 1]!.color === color) {
 		const { r, g, b } = hexToRgb(color);
 		const newB = b < 255 ? b + 1 : b;
