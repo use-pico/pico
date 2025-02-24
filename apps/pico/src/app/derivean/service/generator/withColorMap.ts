@@ -32,5 +32,5 @@ export const withColorMap = ({
 		({ noise }) => moisture >= noise,
 	);
 
-	return heightmapColor || defaultColor;
+	return heightmapColor?.color || defaultColor;
 };
