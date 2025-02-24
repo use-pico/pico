@@ -2,19 +2,25 @@ import { GameConfig } from "~/app/derivean/GameConfig";
 
 export namespace withColorMap {
 	export interface Props {
-		value: number;
+		heightmap: number;
+		biome: number;
+		temperature: number;
+		moisture: number;
 		gameConfig: GameConfig;
 		defaultColor?: [number, number, number, number];
 	}
 }
 
 export const withColorMap = ({
-	value,
+	heightmap,
+	biome,
+	temperature,
+	moisture,
 	gameConfig,
 	defaultColor = [255, 0, 0, 255],
 }: withColorMap.Props) => {
 	return (
-		gameConfig.colorMap.find(({ noise }) => value >= noise)?.color ||
+		gameConfig.colorMap.find(({ noise }) => heightmap >= noise)?.color ||
 		defaultColor
 	);
 };

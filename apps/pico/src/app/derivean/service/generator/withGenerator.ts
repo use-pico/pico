@@ -126,7 +126,13 @@ export const withGenerator = ({
 			 * Output the RGBA color to the final texture.
 			 */
 			buffer.set(
-				withColorMap({ value: heightmapNoise, gameConfig }),
+				withColorMap({
+					heightmap: heightmapNoise,
+					biome: biomeNoise,
+					temperature: temperatureNoise,
+					moisture: moistureNoise,
+					gameConfig,
+				}),
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);
 		}
