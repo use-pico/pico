@@ -4,14 +4,14 @@ export namespace withColorMap {
 	export interface Props {
 		value: number;
 		gameConfig: GameConfig;
-		defaultColor?: string;
+		defaultColor?: [number, number, number, number];
 	}
 }
 
 export const withColorMap = ({
 	value,
 	gameConfig,
-	defaultColor = "#ff0000",
+	defaultColor = [255, 0, 0, 255],
 }: withColorMap.Props) => {
 	return (
 		gameConfig.colorMap.find(({ noise }) => value >= noise)?.color ||

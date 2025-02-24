@@ -1,4 +1,3 @@
-import { hexToRGB } from "@use-pico/common";
 import { GameConfig } from "~/app/derivean/GameConfig";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
@@ -61,13 +60,6 @@ export const withGenerator = ({
 		seed,
 	});
 
-	const colorBuffers = new Map<string, Uint8Array>(
-		Array.from(GameConfig.colorMap, ({ color }) => {
-			const { r, g, b } = hexToRGB(color);
-			return [color, new Uint8Array([r, g, b, 255])];
-		}),
-	);
-
 	return ({ x, z }) => {
 		const size = gameConfig.plotCount ** 2;
 		const buffer = new Uint8Array(size * 4);
@@ -86,7 +78,7 @@ export const withGenerator = ({
 			const reversedRow = gameConfig.plotCount - 1 - tileZ;
 
 			buffer.set(
-				colorBuffers.get(withColorMap({ value: noise, gameConfig }))!,
+				withColorMap({ value: noise, gameConfig }),
 				(reversedRow * gameConfig.plotCount + tileX) * 4,
 			);
 		}

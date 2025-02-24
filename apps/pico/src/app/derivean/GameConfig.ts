@@ -29,9 +29,9 @@ export namespace GameConfig {
 		 */
 		noise: number;
 		/**
-		 * ...this color value (CSS hex color).
+		 * ...this color value (0-255)
 		 */
-		color: string;
+		color: [number, number, number, number];
 	}
 }
 
