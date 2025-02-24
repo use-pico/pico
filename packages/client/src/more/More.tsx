@@ -2,12 +2,15 @@ import type { Entity, IdentitySchema } from "@use-pico/common";
 import { type FC, type ReactNode } from "react";
 import { Action } from "../action/Action";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
+import type { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
 import { MoreCss } from "./MoreCss";
 
 export namespace More {
 	export interface Props<TValues extends IdentitySchema.Type>
 		extends MoreCss.Props {
+		icon?: string;
+		iconProps?: Icon.PropsEx;
 		textTitle?: ReactNode;
 		textEmpty?: ReactNode;
 		items: TValues[];
@@ -22,6 +25,8 @@ export namespace More {
 }
 
 export const More = <TValues extends IdentitySchema.Type>({
+	icon = ActionMenuIcon,
+	iconProps,
 	textTitle,
 	textEmpty,
 	items,
@@ -46,7 +51,12 @@ export const More = <TValues extends IdentitySchema.Type>({
 			{limit !== undefined && items.length > limit && (
 				<Modal
 					textTitle={textTitle}
-					target={<Action iconEnabled={ActionMenuIcon} />}
+					target={
+						<Action
+							iconEnabled={icon}
+							iconProps={iconProps}
+						/>
+					}
 					outside
 				>
 					<div className={"flex flex-col gap-2"}>

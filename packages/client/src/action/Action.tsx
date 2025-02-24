@@ -37,6 +37,7 @@ export namespace Action {
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
+		iconProps?: Icon.PropsEx;
 		/**
 		 * Controls loading state of an action.
 		 */
@@ -52,6 +53,7 @@ export const Action: FC<Action.Props> = ({
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
+	iconProps,
 	disabled = false,
 	loading = false,
 	onClick,
@@ -70,8 +72,15 @@ export const Action: FC<Action.Props> = ({
 			{...props}
 		>
 			{disabled ?
-				<Icon icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)} />
-			:	<Icon icon={loading ? iconLoading : iconEnabled} />}
+				<Icon
+					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
+					{...iconProps}
+				/>
+			:	<Icon
+					icon={loading ? iconLoading : iconEnabled}
+					{...iconProps}
+				/>
+			}
 			{children}
 		</div>
 	);
