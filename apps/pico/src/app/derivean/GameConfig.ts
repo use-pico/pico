@@ -20,18 +20,25 @@ export namespace GameConfig {
 	 */
 	export type ChunkLimit = 128 | 256 | 512 | 1024 | 2048;
 
-	/**
-	 * Defines structure of a color map used to generate chunk texture.
-	 */
-	export interface ColorMap {
+	export interface NoiseColor {
 		/**
 		 * Noise value input will generate...
 		 */
 		noise: number;
 		/**
-		 * ...this color value (0-255)
+		 * ...this color value (HSL, alpha).
 		 */
 		color: [number, number, number, number];
+	}
+
+	/**
+	 * Defines structure of a color map used to generate chunk texture.
+	 */
+	export interface ColorMap {
+		heightmap: NoiseColor[];
+		biome: NoiseColor[];
+		temperature: NoiseColor[];
+		moisture: NoiseColor[];
 	}
 }
 
@@ -87,7 +94,7 @@ export interface GameConfig {
 	 *
 	 * `colorMap.sort((a, b) => b.noise - a.noise)`
 	 */
-	colorMap: GameConfig.ColorMap[];
+	colorMap: GameConfig.ColorMap;
 	/**
 	 * Defines which layer is rendered in which zoom level.
 	 */
@@ -101,7 +108,7 @@ export const GameConfig: GameConfig = {
 	plotCount: 256,
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
-	colorMap: ColorMap.sort((a, b) => b.noise - a.noise),
+	colorMap: ColorMap,
 	layers: [
 		{
 			min: 0.001,

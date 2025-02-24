@@ -20,7 +20,7 @@ export const withColorMap = ({
 	defaultColor = [255, 0, 0, 255],
 }: withColorMap.Props) => {
 	return (
-		gameConfig.colorMap.find(({ noise }) => heightmap >= noise)?.color ||
-		defaultColor
+		gameConfig.colorMap.heightmap.find(({ noise }) => heightmap >= noise)
+			?.color || defaultColor
 	);
 };
