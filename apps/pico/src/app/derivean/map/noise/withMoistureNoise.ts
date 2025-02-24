@@ -1,4 +1,5 @@
-import { MoistureNoise } from "~/app/derivean/map/noise/withMoistureNoise/MoistureNoise";
+import { withHeightmapNoise } from "~/app/derivean/map/noise/withHeightmapNoise";
+import { HeightmapNoise } from "~/app/derivean/map/noise/withHeightmapNoise/HeightmapNoise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
 export namespace withMoistureNoise {
@@ -7,17 +8,30 @@ export namespace withMoistureNoise {
 	}
 }
 
-export const withMoistureNoise = ({ seed }: withMoistureNoise.Props) => {
+export const withMoistureNoise = ({ seed }: withHeightmapNoise.Props) => {
 	return withNoise({
 		seed,
-		noise: MoistureNoise,
-		variation: [],
+		noise: HeightmapNoise,
 		layers: [
 			{
-				name: "base-moisture",
-				noise: "cubic",
-				scale: 0.05,
+				name: "continents",
+				noise: "pingPongCellular",
+				scale: 0.1,
 				weight: 2,
+			},
+			{
+				// disabled: true,
+				name: "continent-level-01",
+				noise: "simplex",
+				scale: 0.5,
+				weight: 0.35,
+			},
+			{
+				disabled: true,
+				name: "continent-level-01",
+				noise: "perlin",
+				scale: 2,
+				weight: 0.75,
 			},
 		],
 	});

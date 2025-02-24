@@ -84,7 +84,32 @@ export const ColorMap: GameConfig.ColorMap = {
 		{ noise: 0.995, color: [240, 1, 90, 1] },
 		{ noise: 1.0, color: [0, 0, 100, 1] },
 	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
-	biome: [],
-	temperature: [],
-	moisture: [],
+
+	// Biome stops: these values (HSLA) are intended to adjust the base heightmap color.
+	// For example, they might shift the hue (first component) by a certain amount.
+	biome: [
+		{ noise: -1.0, color: [0, 0, 0, 0] },
+		{ noise: -0.5, color: [-5, 0, 0, 0] },
+		{ noise: 0.0, color: [0, 0, 0, 0] },
+		{ noise: 0.5, color: [5, 0, 0, 0] },
+		{ noise: 1.0, color: [10, 0, 0, 0] },
+	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
+
+	// Temperature stops: these values modify the lightness component of the output.
+	temperature: [
+		{ noise: -1.0, color: [0, 0, -10, 0] },
+		{ noise: -0.5, color: [0, 0, -5, 0] },
+		{ noise: 0.0, color: [0, 0, 0, 0] },
+		{ noise: 0.5, color: [0, 0, 5, 0] },
+		{ noise: 1.0, color: [0, 0, 10, 0] },
+	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
+
+	// Moisture stops: these values modify the saturation component.
+	moisture: [
+		{ noise: -1.0, color: [0, -10, 0, 0] },
+		{ noise: -0.5, color: [0, -5, 0, 0] },
+		{ noise: 0.0, color: [0, 0, 0, 0] },
+		{ noise: 0.5, color: [0, 5, 0, 0] },
+		{ noise: 1.0, color: [0, 10, 0, 0] },
+	].sort((a, b) => b.noise - a.noise) as GameConfig.NoiseColor[],
 } as const;

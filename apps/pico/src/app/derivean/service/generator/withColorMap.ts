@@ -20,20 +20,29 @@ export const withColorMap = ({
 	gameConfig,
 	defaultColor = [0, 0, 100, 1],
 }: withColorMap.Props) => {
-	const heightmapColor = gameConfig.colorMap.heightmap.find(
+	const heightmapStop = gameConfig.colorMap.heightmap.find(
 		({ noise }) => heightmap >= noise,
 	);
-	const biomeColor = gameConfig.colorMap.biome.find(
+
+	const biomeStop = gameConfig.colorMap.biome.find(
 		({ noise }) => biome >= noise,
 	);
-	const temperatureColor = gameConfig.colorMap.temperature.find(
+	const temperatureStop = gameConfig.colorMap.temperature.find(
 		({ noise }) => temperature >= noise,
 	);
-	const moistureColor = gameConfig.colorMap.moisture.find(
+	const moistureStop = gameConfig.colorMap.moisture.find(
 		({ noise }) => moisture >= noise,
 	);
 
-	const color = heightmapColor?.color || defaultColor;
+	const baseColor = heightmapStop?.color || defaultColor;
+	const biomeMod = biomeStop?.color || [0, 0, 0, 0];
+	const temperatureMod = temperatureStop?.color || [0, 0, 0, 0];
+	const moistureMod = moistureStop?.color || [0, 0, 0, 0];
 
-	return hslaToRgba(color);
+	return hslaToRgba([
+		baseColor[0] + biomeMod[0] + temperatureMod[0] + moistureMod[0],
+		baseColor[1] + biomeMod[1] + temperatureMod[1] + moistureMod[1],
+		baseColor[2] + biomeMod[2] + temperatureMod[2] + moistureMod[2],
+		baseColor[3] + biomeMod[3] + temperatureMod[3] + moistureMod[3],
+	]);
 };
