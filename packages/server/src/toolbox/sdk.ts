@@ -291,7 +291,7 @@ ${imports.filter(Boolean).join("\n")}
 
 export namespace use${$name}Mutation {
 	export interface Props {
-		invalidate?: QueryKey[];
+		invalidate?: QueryKey[] | false;
 		options?: UseMutationOptions<${responseSchema ? `${responseSchema.name}.Type` : "any"}, Error, ${requestSchema ? `${requestSchema.name}.Type` : "any"}>;
 	}
 }
@@ -306,7 +306,7 @@ export const use${$name}Mutation = (
 		mutationKey: ["${name.replaceAll("\\", "\\\\")}"],
 		mutationFn: async (${requestSchema ? `request: ${requestSchema.name}.Type` : "request?: any"}): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
 			const { data } = await axios.post("${ref}", ${requestSchema ? `${requestSchema.name}.parse(request)` : "request"});
-			await invalidator({
+			invalidate !== false && await invalidator({
 				queryClient,
 				keys: ${mutation.invalidators ? JSON.stringify(mutation.invalidators.map((i) => [i])) : "[]"},
 			});
