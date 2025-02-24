@@ -1,4 +1,6 @@
-import { ColorMap } from "~/app/derivean/ColorMap";
+import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
+import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
+import type { Noise as CoolNoise } from "~/app/derivean/service/noise/Noise";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace GameConfig {
@@ -20,7 +22,7 @@ export namespace GameConfig {
 	 */
 	export type ChunkLimit = 128 | 256 | 512 | 1024 | 2048;
 
-	export interface NoiseColor {
+	export interface Color {
 		/**
 		 * Noise value input will generate...
 		 */
@@ -32,13 +34,32 @@ export namespace GameConfig {
 	}
 
 	/**
+	 * Defines required noise sources for a single biome.
+	 */
+	export type NoiseSource = "heightmap" | "biome" | "temperature" | "moisture";
+
+	/**
+	 * Define individual noises to make up a biome.
+	 */
+	export type Noise = ({
+		seed,
+	}: {
+		seed: string;
+	}) => Record<NoiseSource, CoolNoise>;
+
+	/**
 	 * Defines structure of a color map used to generate chunk texture.
 	 */
-	export interface ColorMap {
-		heightmap: NoiseColor[];
-		biome: NoiseColor[];
-		temperature: NoiseColor[];
-		moisture: NoiseColor[];
+	export type ColorMap = Record<NoiseSource, Color[]>;
+
+	/**
+	 * Each biome has it's own colormap and noise sources.
+	 */
+	export interface Biome {
+		name: string;
+		colorMap: ColorMap;
+		noise: Noise;
+		weight: number;
 	}
 }
 
@@ -87,14 +108,7 @@ export interface GameConfig {
 	 * or even kill the browser tab.
 	 */
 	chunkLimit: number;
-	/**
-	 * Defines colors used to generate chunk texture from noise.
-	 *
-	 * Color map must be in the right order or it will break.
-	 *
-	 * `colorMap.sort((a, b) => b.noise - a.noise)`
-	 */
-	colorMap: GameConfig.ColorMap;
+	biome: GameConfig.Biome[];
 	/**
 	 * Defines which layer is rendered in which zoom level.
 	 */
@@ -108,7 +122,7 @@ export const GameConfig: GameConfig = {
 	plotCount: 256,
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
-	colorMap: ColorMap,
+	biome: [OceanBiome, GreenlandBiome],
 	layers: [
 		{
 			min: 0.001,

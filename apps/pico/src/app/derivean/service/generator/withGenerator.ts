@@ -38,24 +38,6 @@ export namespace withGenerator {
 		seed: string;
 		gameConfig: GameConfig;
 		level: Chunk.View.Level;
-		noise: (props: { seed: string }) => {
-			/**
-			 * Overall heightmap noise.
-			 */
-			heightmap: Noise;
-			/**
-			 * Generates biomes over the map.
-			 */
-			biome: Noise;
-			/**
-			 * Temperature map.
-			 */
-			temperature: Noise;
-			/**
-			 * Moisture map.
-			 */
-			moisture: Noise;
-		};
 		/**
 		 * Default tile when nothing is generated.
 		 */
@@ -67,18 +49,14 @@ export const withGenerator = ({
 	seed,
 	gameConfig,
 	level,
-	noise,
 }: withGenerator.Props): withGenerator.Generator => {
 	/**
 	 * Define base scale for all noises.
 	 */
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
-	/**
-	 * Factory for creating individual noise generators.
-	 */
-	const { heightmap, biome, temperature, moisture } = noise({
-		seed,
+	const biomes = gameConfig.biome.map((biome) => {
+		return biome.noise({ seed });
 	});
 
 	/**
@@ -113,25 +91,20 @@ export const withGenerator = ({
 				baseScale;
 
 			/**
-			 * Generate all noise values, used to construct a tile color (and other information).
-			 */
-			const [heightmapNoise, biomeNoise, temperatureNoise, moistureNoise] = [
-				heightmap(worldX, worldZ),
-				biome(worldX, worldZ),
-				temperature(worldX, worldZ),
-				moisture(worldX, worldZ),
-			];
-
-			/**
 			 * Output the RGBA color to the final texture.
 			 */
 			buffer.set(
 				withColorMap({
-					heightmap: heightmapNoise,
-					biome: biomeNoise,
-					temperature: temperatureNoise,
-					moisture: moistureNoise,
-					gameConfig,
+					biomes: biomes.map((biome, i) => {
+						return {
+							map: gameConfig.biome[i]!.colorMap!,
+							weight: gameConfig.biome[i]!.weight,
+							heightmap: biome.heightmap(worldX, worldZ),
+							biome: biome.biome(worldX, worldZ),
+							temperature: biome.temperature(worldX, worldZ),
+							moisture: biome.moisture(worldX, worldZ),
+						} as const;
+					}),
 				}),
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);

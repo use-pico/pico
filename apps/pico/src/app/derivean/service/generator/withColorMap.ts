@@ -15,74 +15,104 @@ export function grayscaleFromNoise(
 	return [gray, gray, gray, 255];
 }
 
+export const clampToRange = (value: number, min: number, max: number) => {
+	return Math.max(min, Math.min(max, value));
+};
+
 export namespace withColorMap {
+	export type Biome = Record<GameConfig.NoiseSource, number> & {
+		map: GameConfig.ColorMap;
+		weight: number;
+	};
+
 	export interface Props {
-		heightmap: number;
-		biome: number;
-		temperature: number;
-		moisture: number;
-		gameConfig: GameConfig;
+		biomes: Biome[];
 		defaultColor?: [number, number, number, number];
 	}
 }
 
 export const withColorMap = ({
-	heightmap,
-	biome,
-	temperature,
-	moisture,
-	gameConfig,
-	defaultColor = [0, 0, 100, 1],
+	biomes,
+	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
-	const heightmapStop = gameConfig.colorMap.heightmap.find(
-		({ noise }) => heightmap >= noise,
+	const colors = biomes.map(
+		({ map, heightmap, biome, temperature, moisture, weight }) => {
+			const heightmapColor =
+				map.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
+				defaultColor;
+			const biomeColor =
+				map.biome.find(({ noise }) => biome >= noise)?.color || defaultColor;
+			const temperatureColor =
+				map.temperature.find(({ noise }) => temperature >= noise)?.color ||
+				defaultColor;
+			const moistureColor =
+				map.moisture.find(({ noise }) => moisture >= noise)?.color ||
+				defaultColor;
+
+			return {
+				color: hslaToRgba([
+					Math.max(
+						0,
+						Math.min(
+							360,
+							heightmapColor[0] +
+								biomeColor[0] +
+								temperatureColor[0] +
+								moistureColor[0],
+						),
+					),
+					Math.max(
+						0,
+						Math.min(
+							100,
+							heightmapColor[1] +
+								biomeColor[1] +
+								temperatureColor[1] +
+								moistureColor[1],
+						),
+					),
+					Math.max(
+						0,
+						Math.min(
+							100,
+							heightmapColor[2] +
+								biomeColor[2] +
+								temperatureColor[2] +
+								moistureColor[2],
+						),
+					),
+					Math.max(
+						0,
+						Math.min(
+							1,
+							heightmapColor[3] +
+								biomeColor[3] +
+								temperatureColor[3] +
+								moistureColor[3],
+						),
+					),
+				]),
+				weight,
+			};
+		},
 	);
 
-	const biomeStop = gameConfig.colorMap.biome.find(
-		({ noise }) => biome >= noise,
-	);
-	const temperatureStop = gameConfig.colorMap.temperature.find(
-		({ noise }) => temperature >= noise,
-	);
-	const moistureStop = gameConfig.colorMap.moisture.find(
-		({ noise }) => moisture >= noise,
-	);
+	let totalWeight = 0;
+	let [r, g, b, a] = [0, 0, 0, 0];
+	for (const { color, weight } of colors) {
+		r += color[0] * weight;
+		g += color[1] * weight;
+		b += color[2] * weight;
+		a += color[3] * weight;
+		totalWeight += weight;
+	}
 
-	const baseColor = heightmapStop?.color || defaultColor;
-	const biomeMod = biomeStop?.color || [0, 0, 0, 0];
-	const temperatureMod = temperatureStop?.color || [0, 0, 0, 0];
-	const moistureMod = moistureStop?.color || [0, 0, 0, 0];
+	if (totalWeight > 0) {
+		r /= totalWeight;
+		g /= totalWeight;
+		b /= totalWeight;
+		a /= totalWeight;
+	}
 
-	// return grayscaleFromNoise(biome);
-
-	return hslaToRgba([
-		Math.max(
-			0,
-			Math.min(
-				360,
-				baseColor[0] + biomeMod[0] + temperatureMod[0] + moistureMod[0],
-			),
-		),
-		Math.max(
-			0,
-			Math.min(
-				100,
-				baseColor[1] + biomeMod[1] + temperatureMod[1] + moistureMod[1],
-			),
-		),
-		Math.max(
-			0,
-			Math.min(
-				100,
-				baseColor[2] + biomeMod[2] + temperatureMod[2] + moistureMod[2],
-			),
-		),
-		Math.max(
-			0,
-			Math.min(
-				1,
-				baseColor[3] + biomeMod[3] + temperatureMod[3] + moistureMod[3],
-			),
-		),
-	]);
+	return [r, g, b, 255];
 };

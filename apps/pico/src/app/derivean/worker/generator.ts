@@ -51,7 +51,6 @@ export const generator = async ({
 				{
 					id,
 					mapId,
-					gameConfig,
 					level,
 					x,
 					z,
