@@ -40,9 +40,33 @@ export const withColorMap = ({
 	const moistureMod = moistureStop?.color || [0, 0, 0, 0];
 
 	return hslaToRgba([
-		baseColor[0] + biomeMod[0] + temperatureMod[0] + moistureMod[0],
-		baseColor[1] + biomeMod[1] + temperatureMod[1] + moistureMod[1],
-		baseColor[2] + biomeMod[2] + temperatureMod[2] + moistureMod[2],
-		baseColor[3] + biomeMod[3] + temperatureMod[3] + moistureMod[3],
+		Math.max(
+			0,
+			Math.min(
+				360,
+				baseColor[0] + biomeMod[0] + temperatureMod[0] + moistureMod[0],
+			),
+		),
+		Math.max(
+			0,
+			Math.min(
+				100,
+				baseColor[1] + biomeMod[1] + temperatureMod[1] + moistureMod[1],
+			),
+		),
+		Math.max(
+			0,
+			Math.min(
+				100,
+				baseColor[2] + biomeMod[2] + temperatureMod[2] + moistureMod[2],
+			),
+		),
+		Math.max(
+			0,
+			Math.min(
+				1,
+				baseColor[3] + biomeMod[3] + temperatureMod[3] + moistureMod[3],
+			),
+		),
 	]);
 };
