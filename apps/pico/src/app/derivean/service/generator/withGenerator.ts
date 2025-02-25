@@ -1,13 +1,14 @@
 import { GameConfig } from "~/app/derivean/GameConfig";
 import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
-import type { Noise } from "~/app/derivean/service/noise/Noise";
+import type { Biome } from "~/app/derivean/type/Biome";
 import type { Chunk } from "~/app/derivean/type/Chunk";
+import type { Noise } from "~/app/derivean/type/Noise";
 
 export namespace withBiome {
 	export interface Props {
 		noise: number;
-		biomes: GameConfig.Biome[];
+		biomes: Biome[];
 	}
 }
 

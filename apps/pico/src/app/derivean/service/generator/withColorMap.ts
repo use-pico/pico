@@ -1,19 +1,5 @@
-// export function grayscaleFromNoise(
-// 	noise: number,
-// ): [number, number, number, number] {
-// 	// 1. Clamp the noise to the range [-1, 1]
-// 	const clamped = Math.max(-1, Math.min(1, noise));
-
 import { hslaToRgba } from "@use-pico/common";
-import type { GameConfig } from "~/app/derivean/GameConfig";
-
-// 	// 2. Map from [-1, 1] to [0, 255]
-// 	//    -1 -> 0, 1 -> 255
-// 	const gray = Math.floor(((clamped + 1) / 2) * 255);
-
-// 	// 3. Return as [R, G, B, A] with full opacity
-// 	return [gray, gray, gray, 255];
-// }
+import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 
 export const clampToRange = (value: number, min: number, max: number) => {
 	return Math.max(min, Math.min(max, value));
@@ -25,7 +11,7 @@ export namespace withColorMap {
 		 * Noise from the main biome noise map.
 		 */
 		noise: number;
-		colorMap: GameConfig.ColorMap;
+		colorMap: NoiseColorMap;
 		heightmap: number;
 		temperature: number;
 		moisture: number;
@@ -42,13 +28,14 @@ export const withColorMap = ({
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
 	const heightmapColor =
-    colorMap.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
+		colorMap.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
 		defaultColor;
 	const temperatureColor =
-    colorMap.temperature.find(({ noise }) => temperature >= noise)?.color ||
+		colorMap.temperature.find(({ noise }) => temperature >= noise)?.color ||
 		defaultColor;
 	const moistureColor =
-    colorMap.moisture.find(({ noise }) => moisture >= noise)?.color || defaultColor;
+		colorMap.moisture.find(({ noise }) => moisture >= noise)?.color ||
+		defaultColor;
 
 	return hslaToRgba([
 		clampToRange(

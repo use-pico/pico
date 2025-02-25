@@ -1,69 +1,11 @@
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
 import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
 import { TestNoise } from "~/app/derivean/service/config/TestNoise";
-import type { Noise as CoolNoise } from "~/app/derivean/service/noise/Noise";
-import { withNoise } from "~/app/derivean/service/noise/withNoise";
+import type { Biome } from "~/app/derivean/type/Biome";
 import type { Chunk } from "~/app/derivean/type/Chunk";
-
-export namespace GameConfig {
-	/**
-	 * Pre-defined chunk sizes, so you have some idea what to fill in.
-	 */
-	export type PlotSize = 4 | 8 | 16 | 32 | 64;
-	/**
-	 * Pre-defined plot counts (per chunk), so you have some idea what to fill in.
-	 */
-	export type PlotCount = 64 | 128 | 256 | 512 | 1024;
-	/**
-	 * Some predefined chunk cache limits.
-	 *
-	 * Also keep in mind that low numbers may kill some chunks required on the screen, e.g.
-	 * renderer needs 64 chunks, but you have only 32 set on the cache.
-	 *
-	 * Be *extremely careful* with this value, as this has direct impact on (huge) memory usage.
-	 */
-	export type ChunkLimit = 128 | 256 | 512 | 1024 | 2048;
-
-	export interface Color {
-		/**
-		 * Noise value input will generate...
-		 */
-		noise: number;
-		/**
-		 * ...this color value (HSLA).
-		 */
-		color: [number, number, number, number];
-	}
-
-	/**
-	 * Defines required noise sources for a single biome.
-	 */
-	export type NoiseSource = "heightmap" | "temperature" | "moisture";
-
-	/**
-	 * Define individual noises to make up a biome.
-	 */
-	export type Noise = ({
-		seed,
-	}: {
-		seed: string;
-	}) => Record<NoiseSource, CoolNoise>;
-
-	/**
-	 * Defines structure of a color map used to generate chunk texture.
-	 */
-	export type ColorMap = Record<NoiseSource, Color[]>;
-
-	/**
-	 * Each biome has it's own colormap and noise sources.
-	 */
-	export interface Biome {
-		name: string;
-		colorMap: ColorMap;
-		noise: Noise;
-		weight: number;
-	}
-}
+import type { NoiseFactory } from "~/app/derivean/type/NoiseFactory";
+import type { PlotCount } from "~/app/derivean/type/PlotCount";
+import type { PlotSize } from "~/app/derivean/type/PlotSize";
 
 /**
  * General game configuration used to setup all the internals of the game.
@@ -91,12 +33,12 @@ export interface GameConfig {
 	 *
 	 * Be careful, plot size is part of a texture size generated from noise, so making this value bigger is not recommended.
 	 */
-	plotSize: GameConfig.PlotSize;
+	plotSize: PlotSize;
 	/**
 	 * Number of plots in a single chunk. Also defines overall texture size, so **be very careful** when changing this value as
 	 * higher ones may fry your GPU and memory.
 	 */
-	plotCount: GameConfig.PlotCount;
+	plotCount: PlotCount;
 	/**
 	 * Pre-computed chunks size (must be plotSize * plotCount).
 	 *
@@ -117,7 +59,7 @@ export interface GameConfig {
 	 *
 	 * You can think of this function as a "biome selector".
 	 */
-	noise: withNoise.NoiseFactory;
+	noise: NoiseFactory;
 	/**
 	 * Individual biomes used to generate final terrain; each biome get's it's part from noise generator.
 	 *
@@ -125,7 +67,7 @@ export interface GameConfig {
 	 *
 	 * Biomes may *not* be ordered logically, you have to finetune an order to fit your desired map.
 	 */
-	biome: GameConfig.Biome[];
+	biome: Biome[];
 	/**
 	 * Defines which layer is rendered in which zoom level.
 	 */
@@ -143,14 +85,7 @@ export const GameConfig: GameConfig = {
 	/**
 	 * Biomes can use hack to interpolate each other, even when already used.
 	 */
-	biome: [
-		OceanBiome,
-		GreenlandBiome,
-		GreenlandBiome,
-		GreenlandBiome,
-		OceanBiome,
-		GreenlandBiome,
-	],
+	biome: [OceanBiome, GreenlandBiome],
 	// biome: [GreenlandBiome],
 	layers: [
 		{

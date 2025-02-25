@@ -1,4 +1,4 @@
-import type { GameConfig } from "~/app/derivean/GameConfig";
+import type { NoiseColor } from "~/app/derivean/type/NoiseColor";
 
 export namespace createStops {
 	export interface Props {
@@ -29,7 +29,7 @@ export function createStops({
 	hueRange,
 	saturationRange,
 	lightnessRange,
-}: createStops.Props): GameConfig.Color[] {
+}: createStops.Props): NoiseColor[] {
 	const [minNoise, maxNoise] = limit;
 	return Array.from({ length: steps }, (_, i) => {
 		// Linearly interpolate noise value between minNoise and maxNoise.
@@ -47,6 +47,6 @@ export function createStops({
 		return {
 			noise,
 			color: [hue, saturation, lightness, 1],
-		} as GameConfig.Color;
+		} as NoiseColor;
 	}).sort((a, b) => b.noise - a.noise);
 }

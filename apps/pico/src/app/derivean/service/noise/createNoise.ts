@@ -1,6 +1,6 @@
 import { FastNoiseLite, toSeed } from "@use-pico/common";
 import { XORWow } from "random-seedable";
-import type { Noise } from "~/app/derivean/service/noise/Noise";
+import type { Noise } from "~/app/derivean/type/Noise";
 
 export namespace createNoise {
 	export interface Props {

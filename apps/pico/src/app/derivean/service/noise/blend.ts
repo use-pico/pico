@@ -1,5 +1,5 @@
-import type { Noise } from "~/app/derivean/service/noise/Noise";
 import { smoothstep } from "~/app/derivean/service/noise/smoothstep";
+import type { Noise } from "~/app/derivean/type/Noise";
 
 export namespace blend {
 	export interface Props {

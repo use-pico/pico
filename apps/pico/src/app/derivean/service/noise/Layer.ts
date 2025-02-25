@@ -1,4 +1,4 @@
-import type { Noise } from "~/app/derivean/service/noise/Noise";
+import type { Noise } from "~/app/derivean/type/Noise";
 
 export interface Layer {
 	noise: Noise;

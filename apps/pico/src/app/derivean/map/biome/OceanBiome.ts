@@ -1,12 +1,13 @@
-import type { GameConfig } from "~/app/derivean/GameConfig";
 import { createStops } from "~/app/derivean/service/createStops";
 import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
+import type { Biome } from "~/app/derivean/type/Biome";
 
-export const OceanBiome: GameConfig.Biome = {
+export const OceanBiome: Biome = {
 	name: "Ocean",
 	weight: 1.25,
+	color: [210, 50, 50, 1],
 	colorMap: {
 		// Water Heightmap: A gradient from deep water to shallow water.
 		// Here noise=-1 corresponds to deep water and noise=1 to shallow water.
@@ -17,41 +18,8 @@ export const OceanBiome: GameConfig.Biome = {
 			saturationRange: [80, 50],
 			lightnessRange: [20, 80],
 		}),
-
-		// Temperature: 51 stops of subtle HSLA offsets.
-		// For noise > 0 (warmer water) we subtract a few degrees (nudging the hue slightly lower),
-		// while for noise < 0 (colder water) we add a few degrees.
-		temperature: Array.from({ length: 51 }, (_, i) => {
-			const noise = 1 - (i * 2) / 50;
-			let deltaHue: number, deltaSat: number, deltaLight: number, alpha: number;
-			if (noise > 0) {
-				deltaHue = -5 * noise;
-				deltaSat = noise;
-				deltaLight = 0;
-				alpha = 0.05 * noise;
-			} else if (noise < 0) {
-				const absNoise = Math.abs(noise);
-				deltaHue = 5 * absNoise;
-				deltaSat = absNoise;
-				deltaLight = 0;
-				alpha = 0.05 * absNoise;
-			} else {
-				deltaHue = deltaSat = deltaLight = alpha = 0;
-			}
-			return {
-				noise,
-				color: [deltaHue, deltaSat, deltaLight, alpha],
-			} as GameConfig.Color;
-		}).sort((a, b) => b.noise - a.noise),
-
-		// Moisture: Subtle mod offsets to simulate differences in water clarity or turbidity.
-		moisture: [
-			{ noise: -1.0, color: [0, 2, -2, 0.05] },
-			{ noise: -0.5, color: [0, 1, -1, 0.05] },
-			{ noise: 0.0, color: [0, 0, 0, 0] },
-			{ noise: 0.5, color: [0, -1, 1, 0.05] },
-			{ noise: 1.0, color: [0, -2, 2, 0.05] },
-		].sort((a, b) => b.noise - a.noise) as GameConfig.Color[],
+		temperature: [],
+		moisture: [],
 	},
 	noise({ seed }) {
 		return {

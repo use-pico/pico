@@ -1,4 +1,5 @@
-import type { GameConfig } from "~/app/derivean/GameConfig";
+import type { NoiseColor } from "~/app/derivean/type/NoiseColor";
+import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 
 /**
  * Revised color map:
@@ -7,7 +8,7 @@ import type { GameConfig } from "~/app/derivean/GameConfig";
  *  - Reduced negative lightness in temperature
  *  - Slightly higher saturations in forests/grasslands
  */
-export const ColorMap: GameConfig.ColorMap = {
+export const ColorMap: NoiseColorMap = {
 	heightmap: [
 		// Deep Water
 		{ noise: -1.0, color: [210, 70, 15, 1] },
@@ -78,7 +79,7 @@ export const ColorMap: GameConfig.ColorMap = {
 		{ noise: 0.95, color: [210, 1, 96, 1] },
 		{ noise: 0.97, color: [210, 1, 98, 1] },
 		{ noise: 1.0, color: [0, 0, 100, 1] },
-	].sort((a, b) => b.noise - a.noise) as GameConfig.Color[],
+	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
 
 	// Temperature: limit negative offsets so we don't get too dull
 	temperature: [
@@ -89,7 +90,7 @@ export const ColorMap: GameConfig.ColorMap = {
 		{ noise: -0.5, color: [0, 0, -8, 0] },
 		{ noise: -0.75, color: [0, 0, -12, 0] },
 		{ noise: -1.0, color: [0, 0, -16, 0] },
-	].sort((a, b) => b.noise - a.noise) as GameConfig.Color[],
+	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
 
 	// Moisture: smaller negative offsets to avoid overshooting black
 	moisture: [
@@ -98,5 +99,5 @@ export const ColorMap: GameConfig.ColorMap = {
 		{ noise: 0.0, color: [0, 0, 0, 0] },
 		{ noise: -0.5, color: [0, -3, 0, 0] },
 		{ noise: -1.0, color: [0, -6, 0, 0] },
-	].sort((a, b) => b.noise - a.noise) as GameConfig.Color[],
+	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
 } as const;

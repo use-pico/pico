@@ -1,8 +1,7 @@
 import { rangeOf } from "@use-pico/common";
+import type { NoiseFactory } from "~/app/derivean/type/NoiseFactory";
 
 export namespace withNoise {
-	export type NoiseFactory = (seed: string) => (x: number, z: number) => number;
-
 	export interface Layer {
 		/**
 		 * Just for fine-tuning the layer.

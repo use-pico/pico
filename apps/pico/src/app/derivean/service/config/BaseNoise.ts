@@ -1,8 +1,9 @@
 import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
+import type { NoiseFactory } from "~/app/derivean/type/NoiseFactory";
 
-export const BaseNoise: withNoise.NoiseFactory = (seed) => {
+export const BaseNoise: NoiseFactory = (seed) => {
 	return withNoise({
 		seed,
 		layers: [
