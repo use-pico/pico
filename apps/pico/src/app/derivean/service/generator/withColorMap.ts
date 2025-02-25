@@ -1,19 +1,19 @@
 import { hslaToRgba } from "@use-pico/common";
 import { GameConfig } from "~/app/derivean/GameConfig";
 
-export function grayscaleFromNoise(
-	noise: number,
-): [number, number, number, number] {
-	// 1. Clamp the noise to the range [-1, 1]
-	const clamped = Math.max(-1, Math.min(1, noise));
+// export function grayscaleFromNoise(
+// 	noise: number,
+// ): [number, number, number, number] {
+// 	// 1. Clamp the noise to the range [-1, 1]
+// 	const clamped = Math.max(-1, Math.min(1, noise));
 
-	// 2. Map from [-1, 1] to [0, 255]
-	//    -1 -> 0, 1 -> 255
-	const gray = Math.floor(((clamped + 1) / 2) * 255);
+// 	// 2. Map from [-1, 1] to [0, 255]
+// 	//    -1 -> 0, 1 -> 255
+// 	const gray = Math.floor(((clamped + 1) / 2) * 255);
 
-	// 3. Return as [R, G, B, A] with full opacity
-	return [gray, gray, gray, 255];
-}
+// 	// 3. Return as [R, G, B, A] with full opacity
+// 	return [gray, gray, gray, 255];
+// }
 
 export const clampToRange = (value: number, min: number, max: number) => {
 	return Math.max(min, Math.min(max, value));
@@ -97,14 +97,17 @@ export const withColorMap = ({
 		},
 	);
 
+	const exponent = 2;
 	let totalWeight = 0;
 	let [r, g, b, a] = [0, 0, 0, 0];
+
 	for (const { color, weight } of colors) {
-		r += color[0] * weight;
-		g += color[1] * weight;
-		b += color[2] * weight;
-		a += color[3] * weight;
-		totalWeight += weight;
+		const adjustedWeight = weight ** exponent;
+		r += color[0] * adjustedWeight;
+		g += color[1] * adjustedWeight;
+		b += color[2] * adjustedWeight;
+		a += color[3] * adjustedWeight;
+		totalWeight += adjustedWeight;
 	}
 
 	if (totalWeight > 0) {
@@ -114,5 +117,5 @@ export const withColorMap = ({
 		a /= totalWeight;
 	}
 
-	return [r, g, b, 255];
+	return [r, g, b, a];
 };
