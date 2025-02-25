@@ -6,12 +6,6 @@ import type { Biome } from "~/app/derivean/type/Biome";
 
 export const GreenlandBiome: Biome = {
 	name: "Greenland",
-	weight: 100,
-	color: [120, 50, 50, 1],
-	neighbors: {
-		Greenland: 60,
-		Beach: 10,
-	},
 	colorMap: {
 		heightmap: createStops({
 			limit: [-1, 1],

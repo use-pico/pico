@@ -63,6 +63,8 @@ export const withGenerator = ({
 	 */
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
+	const base = gameConfig.noise(seed);
+
 	/**
 	 * Returns prepared generator for generating chunk data at given position.
 	 */
@@ -75,8 +77,6 @@ export const withGenerator = ({
 		 * Texture buffer (RGBA) used to store chunk's texture.
 		 */
 		const buffer = new Uint8Array(size * 4);
-
-		const base = gameConfig.noise(seed);
 
 		/**
 		 * Go over all tiles in the chunk and generate their color based on various noises.

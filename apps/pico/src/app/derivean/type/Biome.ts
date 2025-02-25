@@ -1,4 +1,3 @@
-import type { Color } from "~/app/derivean/type/Color";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseSource } from "~/app/derivean/type/NoiseSource";
 
@@ -15,21 +14,7 @@ export interface Biome {
 	 */
 	colorMap: NoiseColorMap;
 	/**
-	 * Marker color for this biome, it's more used for debugging purposes.
-	 *
-	 * HSLA color.
-	 */
-	color: Color;
-	/**
 	 * Source noise for this biome.
 	 */
 	noise: NoiseSource;
-	/**
-	 * Weight of this biome in the biome list.
-	 */
-	weight: number;
-	/**
-	 * List of neighbors and their probability (weight).
-	 */
-	neighbors: Record<string, number>;
 }
