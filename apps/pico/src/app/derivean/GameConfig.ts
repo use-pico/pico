@@ -1,5 +1,7 @@
 import { BeachBiome } from "~/app/derivean/map/biome/BeachBiome";
+import { DeepOceanBiome } from "~/app/derivean/map/biome/DeepOceanBiome";
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
+import { HillBiome } from "~/app/derivean/map/biome/HillBiome";
 import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
 import { TestNoise } from "~/app/derivean/service/config/TestNoise";
 import type { Biome } from "~/app/derivean/type/Biome";
@@ -86,7 +88,7 @@ export const GameConfig: GameConfig = {
 	/**
 	 * Define all available biomes in the world generator.
 	 */
-	biome: [OceanBiome, GreenlandBiome, BeachBiome],
+	biome: [DeepOceanBiome, OceanBiome, BeachBiome, GreenlandBiome, HillBiome],
 	layers: [
 		{
 			min: 0.001,
@@ -124,20 +126,5 @@ export const GameConfig: GameConfig = {
 			level: 1,
 			offset: 4,
 		},
-
-		// {
-		// 	// Level 64: zoom range ≈ [0.00237, 0.00562]
-		// 	min: 0.00237,
-		// 	max: 0.00562,
-		// 	level: 64,
-		// 	offset: 4,
-		// },
-		// {
-		// 	// Level 128: zoom range ≈ [0.001, 0.00237]
-		// 	min: 0.001,
-		// 	max: 0.00237,
-		// 	level: 128,
-		// 	offset: 4,
-		// },
 	],
 };
