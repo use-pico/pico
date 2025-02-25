@@ -1,6 +1,8 @@
 import { FastNoiseLite } from "@use-pico/common";
 import type { GameConfig } from "~/app/derivean/GameConfig";
+import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
+import { perlin } from "~/app/derivean/service/noise/perlin";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
 export const GreenlandBiome: GameConfig.Biome = {
@@ -80,6 +82,21 @@ export const GreenlandBiome: GameConfig.Biome = {
 					return noise.GetNoise(x, z);
 				};
 			}) satisfies withNoise.NoiseFactory,
+			blend: ((seed) => {
+				const sourceNoise = perlin(`${seed}-source`);
+				const controlNoise = perlin(`${seed}-control`);
+
+				return (x: number, z: number) => {
+					return blend({
+						x,
+						z,
+						scale: [0.25, 0.6],
+						limit: [0.45, 0.55],
+						sourceNoise,
+						controlNoise,
+					});
+				};
+			}) satisfies withNoise.NoiseFactory,
 		} as const;
 
 		return {
@@ -90,7 +107,7 @@ export const GreenlandBiome: GameConfig.Biome = {
 					{
 						// disabled: true,
 						name: "base",
-						noise: "cubic",
+						noise: "blend",
 						scale: 0.025,
 					},
 				],

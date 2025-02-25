@@ -123,6 +123,7 @@ export const GameConfig: GameConfig = {
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
 	biome: [OceanBiome, GreenlandBiome],
+	// biome: [GreenlandBiome],
 	layers: [
 		{
 			min: 0.001,

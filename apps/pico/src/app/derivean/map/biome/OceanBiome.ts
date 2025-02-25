@@ -1,11 +1,13 @@
 import { FastNoiseLite } from "@use-pico/common";
 import type { GameConfig } from "~/app/derivean/GameConfig";
+import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
+import { perlin } from "~/app/derivean/service/noise/perlin";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 
 export const OceanBiome: GameConfig.Biome = {
 	name: "Ocean",
-	weight: 0.75,
+	weight: 1.25,
 	colorMap: {
 		// Water Heightmap: A gradient from deep water to shallow water.
 		// Here noise=-1 corresponds to deep water and noise=1 to shallow water.
@@ -81,6 +83,21 @@ export const OceanBiome: GameConfig.Biome = {
 					return noise.GetNoise(x, z);
 				};
 			}) satisfies withNoise.NoiseFactory,
+			blend: ((seed) => {
+				const sourceNoise = perlin(`${seed}-source`);
+				const controlNoise = perlin(`${seed}-control`);
+
+				return (x: number, z: number) => {
+					return blend({
+						x,
+						z,
+						scale: [0.125, 0.3],
+						limit: [0.35, 0.75],
+						sourceNoise,
+						controlNoise,
+					});
+				};
+			}) satisfies withNoise.NoiseFactory,
 		} as const;
 
 		return {
@@ -93,6 +110,12 @@ export const OceanBiome: GameConfig.Biome = {
 						name: "base",
 						noise: "cubic",
 						scale: 0.025,
+					},
+					{
+						// disabled: true,
+						name: "base",
+						noise: "blend",
+						scale: 0.5,
 					},
 				],
 			}),
