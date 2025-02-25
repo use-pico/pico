@@ -1,13 +1,17 @@
-import { createStops } from "~/app/derivean/service/createStops";
-import { blend } from "~/app/derivean/service/noise/blend";
-import { createNoise } from "~/app/derivean/service/noise/createNoise";
-import { withNoise } from "~/app/derivean/service/noise/withNoise";
+import { createStops } from "~/app/derivean/service/generator/createStops";
+import { blend } from "~/app/derivean/service/generator/noise/blend";
+import { createNoise } from "~/app/derivean/service/generator/noise/createNoise";
+import { withNoise } from "~/app/derivean/service/generator/noise/withNoise";
 import type { Biome } from "~/app/derivean/type/Biome";
 
 export const OceanBiome: Biome = {
 	name: "Ocean",
-	weight: 1.25,
-	color: [210, 50, 50, 1],
+	weight: 100,
+	neighbors: {
+		Ocean: 70,
+		Beach: 20,
+	},
+	color: [200, 70, 35, 1],
 	colorMap: {
 		// Water Heightmap: A gradient from deep water to shallow water.
 		// Here noise=-1 corresponds to deep water and noise=1 to shallow water.

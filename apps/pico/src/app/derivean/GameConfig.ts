@@ -1,3 +1,4 @@
+import { BeachBiome } from "~/app/derivean/map/biome/BeachBiome";
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
 import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
 import { TestNoise } from "~/app/derivean/service/config/TestNoise";
@@ -83,10 +84,9 @@ export const GameConfig: GameConfig = {
 	chunkLimit: 2048,
 	noise: TestNoise,
 	/**
-	 * Biomes can use hack to interpolate each other, even when already used.
+	 * Define all available biomes in the world generator.
 	 */
-	biome: [OceanBiome, GreenlandBiome],
-	// biome: [GreenlandBiome],
+	biome: [OceanBiome, GreenlandBiome, BeachBiome],
 	layers: [
 		{
 			min: 0.001,

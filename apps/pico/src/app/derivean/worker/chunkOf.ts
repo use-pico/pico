@@ -1,8 +1,8 @@
 import { file, write } from "opfs-tools";
 import { worker } from "workerpool";
 import { GameConfig } from "~/app/derivean/GameConfig";
-import { compressChunk } from "~/app/derivean/service/compressChunk";
-import { decompressChunk } from "~/app/derivean/service/decompressChunk";
+import { compressChunk } from "~/app/derivean/service/generator/chunk/compressChunk";
+import { decompressChunk } from "~/app/derivean/service/generator/chunk/decompressChunk";
 import { withGenerator } from "~/app/derivean/service/generator/withGenerator";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
@@ -32,12 +32,6 @@ export async function chunkOf({
 		gameConfig: GameConfig,
 		seed: mapId,
 		level,
-		tile: {
-			id: "grass",
-			chance: 100,
-			color: "#00FF00",
-			noise: 1,
-		},
 	});
 
 	const chunkFile = `/chunk/${mapId}/${id}.bin`;

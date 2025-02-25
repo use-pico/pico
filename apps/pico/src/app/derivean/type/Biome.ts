@@ -28,4 +28,8 @@ export interface Biome {
 	 * Weight of this biome in the biome list.
 	 */
 	weight: number;
+	/**
+	 * List of neighbors and their probability (weight).
+	 */
+	neighbors: Record<string, number>;
 }

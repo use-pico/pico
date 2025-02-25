@@ -1,4 +1,4 @@
-import { smoothstep } from "~/app/derivean/service/noise/smoothstep";
+import { smoothstep } from "~/app/derivean/service/generator/noise/smoothstep";
 import type { Noise } from "~/app/derivean/type/Noise";
 
 export namespace blend {

@@ -1,7 +1,7 @@
 import { Timer, toHumanNumber } from "@use-pico/common";
 import pMap from "p-map";
 import { type Pool } from "workerpool";
-import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
+import { chunkIdOf } from "~/app/derivean/service/generator/chunk/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { chunkOf } from "~/app/derivean/worker/chunkOf";
 

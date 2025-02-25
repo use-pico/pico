@@ -1,5 +1,4 @@
 import { GameConfig } from "~/app/derivean/GameConfig";
-import type { TileSchema } from "~/app/derivean/service/generator/TileSchema";
 import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import type { Biome } from "~/app/derivean/type/Biome";
 import type { Chunk } from "~/app/derivean/type/Chunk";
@@ -36,10 +35,6 @@ export namespace withGenerator {
 		 */
 		noise: Noise;
 		biome: Noise;
-		/**
-		 * Tiles on this layer.
-		 */
-		tiles: TileSchema.Type[];
 	}
 
 	export namespace Generator {
@@ -55,10 +50,6 @@ export namespace withGenerator {
 		seed: string;
 		gameConfig: GameConfig;
 		level: Chunk.View.Level;
-		/**
-		 * Default tile when nothing is generated.
-		 */
-		tile: TileSchema.Type;
 	}
 }
 
@@ -72,8 +63,6 @@ export const withGenerator = ({
 	 */
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
-	const base = gameConfig.noise(seed);
-
 	/**
 	 * Returns prepared generator for generating chunk data at given position.
 	 */
@@ -86,6 +75,8 @@ export const withGenerator = ({
 		 * Texture buffer (RGBA) used to store chunk's texture.
 		 */
 		const buffer = new Uint8Array(size * 4);
+
+		const base = gameConfig.noise(seed);
 
 		/**
 		 * Go over all tiles in the chunk and generate their color based on various noises.
@@ -117,17 +108,6 @@ export const withGenerator = ({
 			/**
 			 * Output the RGBA color to the final texture.
 			 */
-			// buffer.set(
-			// 	withColorMap({
-			// 		noise,
-			// 		colorMap: ColorMap,
-			// 		heightmap: noise,
-			// 		temperature: noise,
-			// 		moisture: noise,
-			// 	}),
-			// 	((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
-			// );
-
 			buffer.set(
 				withColorMap({
 					noise,

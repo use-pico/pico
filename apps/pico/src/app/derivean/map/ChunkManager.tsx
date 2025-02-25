@@ -9,7 +9,7 @@ import { GameConfig } from "~/app/derivean/GameConfig";
 import type { GameEventBus } from "~/app/derivean/createGameEventBus";
 import { Chunks } from "~/app/derivean/map/Chunks";
 import { useVisibleChunks } from "~/app/derivean/map/hook/useVisibleChunks";
-import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
+import { chunkIdOf } from "~/app/derivean/service/generator/chunk/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { generator } from "~/app/derivean/worker/generator";
 import chunkOfUrl from "../worker/chunkOf?worker&url";
