@@ -91145,7 +91145,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }).catch((u)=>{
             console.warn(u);
         });
-    }, gSe = "/assets/chunkOf-CE-nBaop.js", ySe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
+    }, gSe = "/assets/chunkOf-B827qSq3.js", ySe = ({ mapId: t, gameConfig: e, gameEventBus: n })=>{
         const r = J.useMemo(()=>dSe.pool(gSe, {
                 workerOpts: {
                     type: "module"
