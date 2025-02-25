@@ -5,7 +5,7 @@
 // 	const clamped = Math.max(-1, Math.min(1, noise));
 
 import { hslaToRgba } from "@use-pico/common";
-import { ColorMap } from "~/app/derivean/ColorMap";
+import type { GameConfig } from "~/app/derivean/GameConfig";
 
 // 	// 2. Map from [-1, 1] to [0, 255]
 // 	//    -1 -> 0, 1 -> 255
@@ -25,6 +25,7 @@ export namespace withColorMap {
 		 * Noise from the main biome noise map.
 		 */
 		noise: number;
+		colorMap: GameConfig.ColorMap;
 		heightmap: number;
 		temperature: number;
 		moisture: number;
@@ -34,21 +35,20 @@ export namespace withColorMap {
 
 export const withColorMap = ({
 	noise,
+	colorMap,
 	heightmap,
 	temperature,
 	moisture,
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
-	const map = ColorMap;
-
 	const heightmapColor =
-		map.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
+    colorMap.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
 		defaultColor;
 	const temperatureColor =
-		map.temperature.find(({ noise }) => temperature >= noise)?.color ||
+    colorMap.temperature.find(({ noise }) => temperature >= noise)?.color ||
 		defaultColor;
 	const moistureColor =
-		map.moisture.find(({ noise }) => moisture >= noise)?.color || defaultColor;
+    colorMap.moisture.find(({ noise }) => moisture >= noise)?.color || defaultColor;
 
 	return hslaToRgba([
 		clampToRange(

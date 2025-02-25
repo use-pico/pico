@@ -90,7 +90,9 @@ const noiseOf = (
 	 *
 	 * Note that variations needs generators too
 	 */
-	const generator = layers.map(({ noise, name }) => noise(`${seed}-${name}`));
+	const generator = layers
+		.filter((layer) => !layer.disabled)
+		.map(({ noise, name }) => noise(`${seed}-${name}`));
 
 	const value = layers
 		.filter((layer) => !layer.disabled)

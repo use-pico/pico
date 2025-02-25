@@ -78,12 +78,13 @@ export const GreenlandBiome: GameConfig.Biome = {
 						noise(seed) {
 							const sourceNoise = createNoise({
 								seed: `${seed}-source`,
-								cellular: {
-									distanceFunction: "Hybrid",
-									returnType: "Distance2",
-								},
+								type: "Perlin",
+								// cellular: {
+								// 	distanceFunction: "Hybrid",
+								// 	returnType: "Distance2",
+								// },
 								fractal: {
-									type: "Ridged",
+									type: "PingPong",
 									octaves: 3,
 									lacunarity: 2,
 									gain: 0.5,

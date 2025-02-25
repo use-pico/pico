@@ -116,15 +116,24 @@ export const withGenerator = ({
 			/**
 			 * Output the RGBA color to the final texture.
 			 */
+			// buffer.set(
+			// 	withColorMap({
+			// 		noise,
+			// 		colorMap: ColorMap,
+			// 		heightmap: noise,
+			// 		temperature: noise,
+			// 		moisture: noise,
+			// 	}),
+			// 	((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
+			// );
+
 			buffer.set(
 				withColorMap({
 					noise,
-					heightmap: noise,
-					temperature: noise,
-					moisture: noise,
-					// heightmap: biomeNoise.heightmap(worldX, worldZ),
-					// temperature: biomeNoise.temperature(worldX, worldZ),
-					// moisture: biomeNoise.moisture(worldX, worldZ),
+					colorMap: biome.colorMap,
+					heightmap: biomeNoise.heightmap(worldX, worldZ),
+					temperature: biomeNoise.temperature(worldX, worldZ),
+					moisture: biomeNoise.moisture(worldX, worldZ),
 				}),
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);

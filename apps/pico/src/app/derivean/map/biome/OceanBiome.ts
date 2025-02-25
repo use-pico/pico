@@ -12,7 +12,7 @@ export const OceanBiome: GameConfig.Biome = {
 		// Here noise=-1 corresponds to deep water and noise=1 to shallow water.
 		heightmap: createStops({
 			steps: 21,
-			limit: [-1, -0.75],
+			limit: [-1, 1],
 			hueRange: [210, 200],
 			saturationRange: [80, 50],
 			lightnessRange: [20, 80],

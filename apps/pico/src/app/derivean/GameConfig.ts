@@ -1,5 +1,6 @@
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
-import { createNoise } from "~/app/derivean/service/noise/createNoise";
+import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
+import { TestNoise } from "~/app/derivean/service/config/TestNoise";
 import type { Noise as CoolNoise } from "~/app/derivean/service/noise/Noise";
 import { withNoise } from "~/app/derivean/service/noise/withNoise";
 import type { Chunk } from "~/app/derivean/type/Chunk";
@@ -138,28 +139,19 @@ export const GameConfig: GameConfig = {
 	plotCount: 256,
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
-	noise(seed) {
-		return withNoise({
-			seed,
-			layers: [
-				{
-					name: "base",
-					scale: 1,
-					noise(seed) {
-						return createNoise({
-							seed,
-							cellular: {
-								distanceFunction: "Hybrid",
-								returnType: "CellValue",
-							},
-						});
-					},
-				},
-			],
-		});
-	},
-	// biome: [OceanBiome, GreenlandBiome],
-	biome: [GreenlandBiome],
+	noise: TestNoise,
+	/**
+	 * Biomes can use hack to interpolate each other, even when already used.
+	 */
+	biome: [
+		OceanBiome,
+		GreenlandBiome,
+		GreenlandBiome,
+		GreenlandBiome,
+		OceanBiome,
+		GreenlandBiome,
+	],
+	// biome: [GreenlandBiome],
 	layers: [
 		{
 			min: 0.001,
