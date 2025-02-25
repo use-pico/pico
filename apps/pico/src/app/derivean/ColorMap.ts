@@ -9,7 +9,9 @@ import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
  *  - Slightly higher saturations in forests/grasslands
  */
 export const ColorMap: NoiseColorMap = {
-	heightmap: [
+	heightmap: [{ noise: 0.0, color: [0, 0, 5, 1] }],
+
+	biome: [
 		// Deep Water
 		{ noise: -1.0, color: [210, 70, 15, 1] },
 		{ noise: -0.98, color: [210, 70, 17, 1] },
@@ -81,23 +83,7 @@ export const ColorMap: NoiseColorMap = {
 		{ noise: 1.0, color: [0, 0, 100, 1] },
 	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
 
-	// Temperature: limit negative offsets so we don't get too dull
-	temperature: [
-		{ noise: 1.0, color: [0, 0, 22.5, 0] },
-		{ noise: 0.75, color: [0, 0, 20, 0] },
-		{ noise: 0.5, color: [0, 0, 10, 0] },
-		{ noise: 0.0, color: [0, 0, 0, 0] },
-		{ noise: -0.5, color: [0, 0, -8, 0] },
-		{ noise: -0.75, color: [0, 0, -12, 0] },
-		{ noise: -1.0, color: [0, 0, -16, 0] },
-	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
-
-	// Moisture: smaller negative offsets to avoid overshooting black
-	moisture: [
-		{ noise: 1.0, color: [0, 10, 0, 0] },
-		{ noise: 0.5, color: [0, 5, 0, 0] },
-		{ noise: 0.0, color: [0, 0, 0, 0] },
-		{ noise: -0.5, color: [0, -3, 0, 0] },
-		{ noise: -1.0, color: [0, -6, 0, 0] },
-	].sort((a, b) => b.noise - a.noise) as NoiseColor[],
+	temperature: [],
+	moisture: [],
+	shade: [],
 } as const;
