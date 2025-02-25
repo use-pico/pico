@@ -19,11 +19,11 @@ export const withColorMap = ({
 	source,
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
-	const heightmapColor =
-		colorMap.heightmap.find(({ noise }) => source.heightmap >= noise)?.color ||
-		defaultColor;
 	const biomeColor =
 		colorMap.biome.find(({ noise }) => source.biome >= noise)?.color ||
+		defaultColor;
+	const heightmapColor =
+		colorMap.heightmap.find(({ noise }) => source.heightmap >= noise)?.color ||
 		defaultColor;
 	const temperatureColor =
 		colorMap.temperature.find(({ noise }) => source.temperature >= noise)
@@ -37,8 +37,8 @@ export const withColorMap = ({
 
 	return hslaToRgba([
 		clampToRange(
-			heightmapColor[0] +
-				biomeColor[0] +
+			biomeColor[0] +
+				heightmapColor[0] +
 				temperatureColor[0] +
 				moistureColor[0] +
 				shadeColor[0],
@@ -46,8 +46,8 @@ export const withColorMap = ({
 			360,
 		),
 		clampToRange(
-			heightmapColor[1] +
-				biomeColor[1] +
+			biomeColor[1] +
+				heightmapColor[1] +
 				temperatureColor[1] +
 				moistureColor[1] +
 				shadeColor[1],
@@ -55,8 +55,8 @@ export const withColorMap = ({
 			100,
 		),
 		clampToRange(
-			heightmapColor[2] +
-				biomeColor[2] +
+			biomeColor[2] +
+				heightmapColor[2] +
 				temperatureColor[2] +
 				moistureColor[2] +
 				shadeColor[2],
@@ -64,8 +64,8 @@ export const withColorMap = ({
 			100,
 		),
 		clampToRange(
-			heightmapColor[3] +
-				biomeColor[3] +
+			biomeColor[3] +
+				heightmapColor[3] +
 				temperatureColor[3] +
 				moistureColor[3] +
 				shadeColor[3],

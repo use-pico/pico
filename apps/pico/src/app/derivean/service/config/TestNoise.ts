@@ -30,19 +30,21 @@ export const TestNoise: NoiseSource = ({ seed }) => {
 								lacunarity: 2.125,
 							},
 						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.0125,
-							type: "OpenSimplex2S",
-						});
+						// const controlNoise = createNoise({
+						// 	seed,
+						// 	frequency: 0.0125,
+						// 	type: "OpenSimplex2S",
+						// });
 
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								sourceNoise,
-								controlNoise,
-							});
+						return (x, z) => sourceNoise(x, z);
+
+						// return (x, z) =>
+						// 	blend({
+						// 		x,
+						// 		z,
+						// 		sourceNoise,
+						// 		controlNoise,
+						// 	});
 					},
 				},
 				{

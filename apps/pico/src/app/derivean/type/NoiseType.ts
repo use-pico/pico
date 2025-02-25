@@ -10,8 +10,8 @@
  * - Shade: When provided, it may alter everything (H,S,L)
  */
 export type NoiseType =
-	| "heightmap"
 	| "biome"
+	| "heightmap"
 	| "temperature"
 	| "moisture"
 	| "shade";
