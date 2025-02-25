@@ -1,5 +1,7 @@
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
+import { createNoise } from "~/app/derivean/service/noise/createNoise";
 import type { Noise as CoolNoise } from "~/app/derivean/service/noise/Noise";
+import { withNoise } from "~/app/derivean/service/noise/withNoise";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
 export namespace GameConfig {
@@ -35,7 +37,7 @@ export namespace GameConfig {
 	/**
 	 * Defines required noise sources for a single biome.
 	 */
-	export type NoiseSource = "heightmap" | "biome" | "temperature" | "moisture";
+	export type NoiseSource = "heightmap" | "temperature" | "moisture";
 
 	/**
 	 * Define individual noises to make up a biome.
@@ -107,6 +109,21 @@ export interface GameConfig {
 	 * or even kill the browser tab.
 	 */
 	chunkLimit: number;
+	/**
+	 * Noise factory is used to generate biomes; each biome "eats" it's own part of the noise range (-1, 1).
+	 *
+	 * Usually good idea is to use Voronoi or something like that, so biomes looks a bit more natural.
+	 *
+	 * You can think of this function as a "biome selector".
+	 */
+	noise: withNoise.NoiseFactory;
+	/**
+	 * Individual biomes used to generate final terrain; each biome get's it's part from noise generator.
+	 *
+	 * You can also change an order of biomes as noise may like some values more (e.g. more zero centric values).
+	 *
+	 * Biomes may *not* be ordered logically, you have to finetune an order to fit your desired map.
+	 */
 	biome: GameConfig.Biome[];
 	/**
 	 * Defines which layer is rendered in which zoom level.
@@ -121,6 +138,26 @@ export const GameConfig: GameConfig = {
 	plotCount: 256,
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
+	noise(seed) {
+		return withNoise({
+			seed,
+			layers: [
+				{
+					name: "base",
+					scale: 1,
+					noise(seed) {
+						return createNoise({
+							seed,
+							cellular: {
+								distanceFunction: "Hybrid",
+								returnType: "CellValue",
+							},
+						});
+					},
+				},
+			],
+		});
+	},
 	// biome: [OceanBiome, GreenlandBiome],
 	biome: [GreenlandBiome],
 	layers: [

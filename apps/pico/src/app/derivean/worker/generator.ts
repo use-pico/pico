@@ -1,7 +1,6 @@
 import { Timer, toHumanNumber } from "@use-pico/common";
 import pMap from "p-map";
 import { type Pool } from "workerpool";
-import { GameConfig } from "~/app/derivean/GameConfig";
 import { chunkIdOf } from "~/app/derivean/service/chunkIdOf";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import { chunkOf } from "~/app/derivean/worker/chunkOf";
@@ -10,7 +9,6 @@ export namespace generator {
 	export interface Props {
 		pool: Pool;
 		mapId: string;
-		gameConfig: GameConfig;
 		level: Chunk.View.Level;
 		/**
 		 * List of chunk IDs to skip (e.g. they're still visible)
@@ -29,7 +27,6 @@ export namespace generator {
 export const generator = async ({
 	pool,
 	mapId,
-	gameConfig,
 	level,
 	skip,
 	concurrency = Infinity,

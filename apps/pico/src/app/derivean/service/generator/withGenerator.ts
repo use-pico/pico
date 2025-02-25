@@ -55,6 +55,7 @@ export const withGenerator = ({
 	 */
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
+	const base = gameConfig.noise(seed);
 	const biomes = gameConfig.biome.map((biome) => {
 		return biome.noise({ seed });
 	});
@@ -100,7 +101,6 @@ export const withGenerator = ({
 							map: gameConfig.biome[i]!.colorMap!,
 							weight: gameConfig.biome[i]!.weight,
 							heightmap: biome.heightmap(worldX, worldZ),
-							biome: biome.biome(worldX, worldZ),
 							temperature: biome.temperature(worldX, worldZ),
 							moisture: biome.moisture(worldX, worldZ),
 						} as const;

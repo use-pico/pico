@@ -112,7 +112,6 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 							generator({
 								pool: workerPool,
 								mapId,
-								gameConfig,
 								level,
 								skip: [...cache.keys()],
 								onComplete(chunks) {

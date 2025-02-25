@@ -36,12 +36,10 @@ export const withColorMap = ({
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
 	const colors = biomes.map(
-		({ map, heightmap, biome, temperature, moisture, weight }) => {
+		({ map, heightmap, temperature, moisture, weight }) => {
 			const heightmapColor =
 				map.heightmap.find(({ noise }) => heightmap >= noise)?.color ||
 				defaultColor;
-			const biomeColor =
-				map.biome.find(({ noise }) => biome >= noise)?.color || defaultColor;
 			const temperatureColor =
 				map.temperature.find(({ noise }) => temperature >= noise)?.color ||
 				defaultColor;
@@ -51,45 +49,25 @@ export const withColorMap = ({
 
 			return {
 				color: hslaToRgba([
-					Math.max(
+					clampToRange(
+						heightmapColor[0] + temperatureColor[0] + moistureColor[0],
 						0,
-						Math.min(
-							360,
-							heightmapColor[0] +
-								biomeColor[0] +
-								temperatureColor[0] +
-								moistureColor[0],
-						),
+						360,
 					),
-					Math.max(
+					clampToRange(
+						heightmapColor[1] + temperatureColor[1] + moistureColor[1],
 						0,
-						Math.min(
-							100,
-							heightmapColor[1] +
-								biomeColor[1] +
-								temperatureColor[1] +
-								moistureColor[1],
-						),
+						100,
 					),
-					Math.max(
+					clampToRange(
+						heightmapColor[2] + temperatureColor[2] + moistureColor[2],
 						0,
-						Math.min(
-							100,
-							heightmapColor[2] +
-								biomeColor[2] +
-								temperatureColor[2] +
-								moistureColor[2],
-						),
+						100,
 					),
-					Math.max(
+					clampToRange(
+						heightmapColor[3] + temperatureColor[3] + moistureColor[3],
 						0,
-						Math.min(
-							1,
-							heightmapColor[3] +
-								biomeColor[3] +
-								temperatureColor[3] +
-								moistureColor[3],
-						),
+						1,
 					),
 				]),
 				weight,
@@ -97,7 +75,7 @@ export const withColorMap = ({
 		},
 	);
 
-	const exponent = 2;
+	const exponent = 4;
 	let totalWeight = 0;
 	let [r, g, b, a] = [0, 0, 0, 0];
 
@@ -117,5 +95,5 @@ export const withColorMap = ({
 		a /= totalWeight;
 	}
 
-	return [r, g, b, 255];
+	return [r, g, b, a];
 };
