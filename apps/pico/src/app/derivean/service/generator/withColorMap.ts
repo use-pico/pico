@@ -117,5 +117,5 @@ export const withColorMap = ({
 		a /= totalWeight;
 	}
 
-	return [r, g, b, a];
+	return [r, g, b, 255];
 };

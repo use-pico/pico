@@ -1,5 +1,6 @@
 import { FastNoiseLite } from "@use-pico/common";
 import type { GameConfig } from "~/app/derivean/GameConfig";
+import { createStops } from "~/app/derivean/service/createStops";
 import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
 import { perlin } from "~/app/derivean/service/noise/perlin";
@@ -11,20 +12,13 @@ export const OceanBiome: GameConfig.Biome = {
 	colorMap: {
 		// Water Heightmap: A gradient from deep water to shallow water.
 		// Here noise=-1 corresponds to deep water and noise=1 to shallow water.
-		heightmap: Array.from({ length: 21 }, (_, i) => {
-			const noise = -1 + (i * 2) / 20;
-			const t = (noise + 1) / 2;
-			// Interpolate hue from 210° (deep) to 200° (shallow)
-			const hue = 210 + (200 - 210) * t;
-			// Interpolate saturation from 80% (deep) to 50% (shallow)
-			const saturation = 80 + (50 - 80) * t;
-			// Interpolate lightness from 20% (deep) to 80% (shallow)
-			const lightness = 20 + (80 - 20) * t;
-			return {
-				noise,
-				color: [hue, saturation, lightness, 1],
-			} as GameConfig.Color;
-		}).sort((a, b) => b.noise - a.noise),
+		heightmap: createStops({
+			steps: 21,
+			limit: [-1, -0.75],
+			hueRange: [210, 200],
+			saturationRange: [80, 50],
+			lightnessRange: [20, 80],
+		}),
 
 		// Biome: Subtle mod offsets to simulate variations (e.g. open ocean vs. coastal water)
 		biome: [

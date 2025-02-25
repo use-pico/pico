@@ -1,5 +1,6 @@
 import { FastNoiseLite } from "@use-pico/common";
 import type { GameConfig } from "~/app/derivean/GameConfig";
+import { createStops } from "~/app/derivean/service/createStops";
 import { blend } from "~/app/derivean/service/noise/blend";
 import { createNoise } from "~/app/derivean/service/noise/createNoise";
 import { perlin } from "~/app/derivean/service/noise/perlin";
@@ -9,17 +10,13 @@ export const GreenlandBiome: GameConfig.Biome = {
 	name: "Greenland",
 	weight: 1,
 	colorMap: {
-		// Heightmap: A refined green gradient.
-		// Base HSLA is defined with a constant hue (120°) while saturation and lightness ramp from low to high.
-		heightmap: Array.from({ length: 21 }, (_, i) => {
-			const noise = -1 + (i * 2) / 20;
-			const saturation = 40 + (i * (80 - 40)) / 20;
-			const lightness = 20 + (i * (70 - 20)) / 20;
-			return {
-				noise,
-				color: [120, saturation, lightness, 1],
-			} as GameConfig.Color;
-		}).sort((a, b) => b.noise - a.noise),
+		heightmap: createStops({
+			limit: [-1, 1],
+			steps: 50,
+			hueRange: [90, 150],
+			saturationRange: [40, 85],
+			lightnessRange: [35, 75],
+		}),
 
 		// Biome: Subtle mod offsets to adjust the intrinsic grass tone.
 		// These values (delta saturation/lightness) are low so that when added they tweak the base green ever so slightly.

@@ -1,5 +1,4 @@
 import { GreenlandBiome } from "~/app/derivean/map/biome/GreenlandBiome";
-import { OceanBiome } from "~/app/derivean/map/biome/OceanBiome";
 import type { Noise as CoolNoise } from "~/app/derivean/service/noise/Noise";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 
@@ -122,8 +121,8 @@ export const GameConfig: GameConfig = {
 	plotCount: 256,
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
-	biome: [OceanBiome, GreenlandBiome],
-	// biome: [GreenlandBiome],
+	// biome: [OceanBiome, GreenlandBiome],
+	biome: [GreenlandBiome],
 	layers: [
 		{
 			min: 0.001,
