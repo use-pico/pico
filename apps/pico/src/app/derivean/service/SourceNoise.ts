@@ -7,6 +7,177 @@ import type { NoiseSource } from "~/app/derivean/type/NoiseSource";
 export const SourceNoise: NoiseSource = ({ seed }) => {
 	return {
 		/**
+		 * Heightmap - focused on realistic terrain formation
+		 * Designed for multi-scale viewing with varied continent and island sizes
+		 */
+		heightmap: withNoise({
+			seed: `${seed}-heightmap`,
+			layers: [
+				{
+					name: "continents",
+					scale: 0.8,
+					weight: 1,
+					noise(seed) {
+						// Create large-scale continent shapes
+						const continentNoise = createNoise({
+							seed,
+							frequency: 0.008,
+							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							fractal: {
+								type: FastNoiseLite.FractalType.FBm,
+								octaves: 6,
+								lacunarity: 2.2,
+								gain: 0.4,
+							},
+						});
+
+						// Create a warped version to make the continents less blobby
+						return warp({
+							noise: continentNoise,
+							offsetX: 1000,
+							offsetZ: 2000,
+						});
+					},
+				},
+				{
+					disabled: true,
+					name: "landmasses",
+					scale: 0.8,
+					weight: 0.7,
+					noise(seed) {
+						// Create medium-scale landmasses and large islands
+						return createNoise({
+							seed,
+							frequency: 0.02,
+							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							fractal: {
+								type: FastNoiseLite.FractalType.FBm,
+								octaves: 5,
+								lacunarity: 2.0,
+								gain: 0.5,
+							},
+						});
+					},
+				},
+				{
+					disabled: true,
+					name: "hills",
+					scale: 2.0,
+					weight: 0.3,
+					noise(seed) {
+						// Create terrain undulations and hills
+						return createNoise({
+							seed: `${seed}-hills`,
+							frequency: 0.04,
+							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							fractal: {
+								type: FastNoiseLite.FractalType.FBm,
+								octaves: 4,
+								lacunarity: 2.0,
+								gain: 0.5,
+							},
+						});
+					},
+				},
+				{
+					disabled: true,
+					name: "mountains",
+					scale: 2.5,
+					weight: 0.25,
+					noise(seed) {
+						// Create ridged mountain ranges
+						const ridgeNoise = createNoise({
+							seed: `${seed}-mountains`,
+							frequency: 0.05,
+							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							fractal: {
+								type: FastNoiseLite.FractalType.Ridged,
+								octaves: 4,
+								gain: 0.6,
+								lacunarity: 2.1,
+							},
+						});
+
+						return (x, z) => {
+							const v = ridgeNoise(x, z);
+							// Amplify positive values to create sharper mountain peaks
+							return v > 0 ? v * v * 1.5 : v;
+						};
+					},
+				},
+				{
+					disabled: true,
+					name: "terrain-detail",
+					scale: 6.0,
+					weight: 0.15,
+					noise(seed) {
+						// Add small-scale terrain details
+						return createNoise({
+							seed,
+							frequency: 0.1,
+							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							fractal: {
+								type: FastNoiseLite.FractalType.FBm,
+								octaves: 3,
+								gain: 0.4,
+							},
+						});
+					},
+				},
+			],
+			// variation: [
+			// 	{
+			//         name: "coastal-variation",
+			// 		weight: 0.4,
+			// 		min: -0.2,
+			// 		max: 0.2,
+			// 		layers: [
+			// 			{
+			// 				name: "coast-detail",
+			// 				scale: 5,
+			// 				noise(seed) {
+			// 					return createNoise({
+			// 						seed,
+			// 						frequency: 0.15,
+			// 						type: FastNoiseLite.NoiseType.OpenSimplex2,
+			// 						fractal: {
+			// 							type: FastNoiseLite.FractalType.FBm,
+			// 							octaves: 3,
+			// 							gain: 0.4,
+			// 						},
+			// 					});
+			// 				},
+			// 			},
+			// 		],
+			// 	},
+			// 	{
+			// 		name: "mountain-peaks",
+			// 		weight: 0.7,
+			// 		min: 0.7,
+			// 		max: 1.0,
+			// 		layers: [
+			// 			{
+			// 				name: "peak-detail",
+			// 				scale: 10,
+			// 				noise(seed) {
+			// 					return createNoise({
+			// 						seed,
+			// 						frequency: 0.3,
+			// 						type: FastNoiseLite.NoiseType.OpenSimplex2,
+			// 						fractal: {
+			// 							type: FastNoiseLite.FractalType.Ridged,
+			// 							octaves: 3,
+			// 							gain: 0.7,
+			// 						},
+			// 					});
+			// 				},
+			// 			},
+			// 		],
+			// 	},
+			// ],
+		}),
+
+		/**
 		 * Biome noise - larger-scale pattern to identify major regions
 		 * This noise defines the broader biome distribution pattern
 		 * Less variation than before, more gradual transitions
@@ -47,173 +218,6 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 							},
 						});
 					},
-				},
-			],
-		}),
-
-		/**
-		 * Heightmap - focused on realistic terrain formation
-		 * Designed for multi-scale viewing with varied continent and island sizes
-		 */
-		heightmap: withNoise({
-			seed: `${seed}-heightmap`,
-			layers: [
-				{
-					name: "continents",
-					scale: 0.3,
-					weight: 1.5,
-					noise(seed) {
-						// Create large-scale continent shapes
-						const continentNoise = createNoise({
-							seed,
-							frequency: 0.008,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 6,
-								lacunarity: 2.2,
-								gain: 0.4,
-							},
-						});
-
-						// Create a warped version to make the continents less blobby
-						return warp({
-							noise: continentNoise,
-							offsetX: 1000,
-							offsetZ: 2000,
-						});
-					},
-				},
-				{
-					name: "landmasses",
-					scale: 0.8,
-					weight: 0.7,
-					noise(seed) {
-						// Create medium-scale landmasses and large islands
-						return createNoise({
-							seed,
-							frequency: 0.02,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 5,
-								lacunarity: 2.0,
-								gain: 0.5,
-							},
-						});
-					},
-				},
-				{
-					name: "hills",
-					scale: 2.0,
-					weight: 0.3,
-					noise(seed) {
-						// Create terrain undulations and hills
-						return createNoise({
-							seed: `${seed}-hills`,
-							frequency: 0.04,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 4,
-								lacunarity: 2.0,
-								gain: 0.5,
-							},
-						});
-					},
-				},
-				{
-					name: "mountains",
-					scale: 2.5,
-					weight: 0.25,
-					noise(seed) {
-						// Create ridged mountain ranges
-						const ridgeNoise = createNoise({
-							seed: `${seed}-mountains`,
-							frequency: 0.05,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.Ridged,
-								octaves: 4,
-								gain: 0.6,
-								lacunarity: 2.1,
-							},
-						});
-
-						return (x, z) => {
-							const v = ridgeNoise(x, z);
-							// Amplify positive values to create sharper mountain peaks
-							return v > 0 ? v * v * 1.5 : v;
-						};
-					},
-				},
-				{
-					name: "terrain-detail",
-					scale: 6.0,
-					weight: 0.15,
-					noise(seed) {
-						// Add small-scale terrain details
-						return createNoise({
-							seed,
-							frequency: 0.1,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 3,
-								gain: 0.4,
-							},
-						});
-					},
-				},
-			],
-			variation: [
-				{
-					name: "coastal-variation",
-					weight: 0.4,
-					min: -0.2,
-					max: 0.2,
-					layers: [
-						{
-							name: "coast-detail",
-							scale: 5,
-							noise(seed) {
-								return createNoise({
-									seed,
-									frequency: 0.15,
-									type: FastNoiseLite.NoiseType.OpenSimplex2,
-									fractal: {
-										type: FastNoiseLite.FractalType.FBm,
-										octaves: 3,
-										gain: 0.4,
-									},
-								});
-							},
-						},
-					],
-				},
-				{
-					name: "mountain-peaks",
-					weight: 0.7,
-					min: 0.7,
-					max: 1.0,
-					layers: [
-						{
-							name: "peak-detail",
-							scale: 10,
-							noise(seed) {
-								return createNoise({
-									seed,
-									frequency: 0.3,
-									type: FastNoiseLite.NoiseType.OpenSimplex2,
-									fractal: {
-										type: FastNoiseLite.FractalType.Ridged,
-										octaves: 3,
-										gain: 0.7,
-									},
-								});
-							},
-						},
-					],
 				},
 			],
 		}),
