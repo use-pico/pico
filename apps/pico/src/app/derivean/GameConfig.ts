@@ -5,7 +5,6 @@ import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseSource } from "~/app/derivean/type/NoiseSource";
 import type { PlotCount } from "~/app/derivean/type/PlotCount";
 import type { PlotSize } from "~/app/derivean/type/PlotSize";
-import { withColorMapSort } from "~/app/derivean/utils/withColorMapSort";
 
 /**
  * General game configuration used to setup all the internals of the game.
@@ -71,7 +70,7 @@ export const GameConfig: GameConfig = {
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
 	source: SourceNoise,
-	colorMap: withColorMapSort(DefaultColorMap),
+	colorMap: DefaultColorMap,
 	layers: [
 		{
 			min: 0.001,
