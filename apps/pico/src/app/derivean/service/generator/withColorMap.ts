@@ -1,4 +1,3 @@
-import { labToRgba } from "~/app/derivean/service/labToRgba";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
 
@@ -8,7 +7,7 @@ export const clampToRange = (value: number, min: number, max: number) => {
 
 export namespace withColorMap {
 	export interface Props {
-		colorMap: NoiseColorMap;
+        colorMap: NoiseColorMap;
 		source: Record<NoiseType, number>;
 		defaultColor?: [number, number, number, number];
 	}
@@ -19,7 +18,7 @@ export const withColorMap = ({
 	source,
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
-	return labToRgba(
+	return (
 		colorMap.find((color) => {
 			/**
 			 * That edge case when there is just a first color. This does not make a lot of sense.
@@ -41,6 +40,6 @@ export const withColorMap = ({
 				(color.moisture ? source.moisture >= color.moisture : true) &&
 				(color.shade ? source.shade >= color.shade : true)
 			);
-		})?.color || defaultColor,
+		})?.color || defaultColor
 	);
 };

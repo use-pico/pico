@@ -1,7 +1,13 @@
 import { GameConfig } from "~/app/derivean/GameConfig";
-import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { Noise } from "~/app/derivean/type/Noise";
+
+export function noiseToRgba(noise: number): [number, number, number, number] {
+	const clamped = Math.max(-1, Math.min(1, noise));
+	const normalized = (clamped + 1) / 2;
+	const brightness = Math.round(normalized * 255);
+	return [brightness, brightness, brightness, 255];
+}
 
 export namespace withGenerator {
 	export interface Layer {
@@ -46,9 +52,14 @@ export const withGenerator = ({
 	 */
 	const baseScale = 1 / (gameConfig.plotCount * (1 / level.layer.level));
 
-	const { heightmap, biome, temperature, moisture, shade } = gameConfig.source({
+	const noise = gameConfig.source({
 		seed,
 	});
+
+	// const debug: keyof typeof noise | undefined = "biome";
+	const debug: keyof typeof noise | undefined = undefined;
+
+	const defaultColor = [0, 0, 0, 0];
 
 	/**
 	 * Returns prepared generator for generating chunk data at given position.
@@ -81,22 +92,58 @@ export const withGenerator = ({
 				(z * gameConfig.plotCount + Math.floor(i / gameConfig.plotCount)) *
 				baseScale;
 
+			const biome = noise.biome(worldX, worldZ);
+			const heightmap = noise.heightmap(worldX, worldZ);
+			const temperature = noise.temperature(worldX, worldZ);
+			const moisture = noise.moisture(worldX, worldZ);
+			const shade = noise.shade(worldX, worldZ);
+
+			const color =
+				debug ?
+					noiseToRgba(noise[debug](worldX, worldZ))
+				:	gameConfig.colorMap.find((color) => {
+						/**
+						 * That edge case when there is just a first color. This does not make a lot of sense.
+						 */
+						if (
+							!color.biome &&
+							!color.heightmap &&
+							!color.temperature &&
+							!color.moisture &&
+							!color.shade
+						) {
+							return color.color;
+						}
+
+						return (
+							(color.biome ? biome >= color.biome : true) &&
+							(color.heightmap ? heightmap >= color.heightmap : true) &&
+							(color.temperature ? temperature >= color.temperature : true) &&
+							(color.moisture ? moisture >= color.moisture : true) &&
+							(color.shade ? shade >= color.shade : true)
+						);
+					})?.color || defaultColor;
+
 			/**
 			 * Output the RGBA color to the final texture.
 			 */
 			buffer.set(
-				withColorMap({
-					colorMap: gameConfig.colorMap,
-					source: {
-						heightmap: heightmap(worldX, worldZ),
-						biome: biome(worldX, worldZ),
-						temperature: temperature(worldX, worldZ),
-						moisture: moisture(worldX, worldZ),
-						shade: shade(worldX, worldZ),
-					},
-				}),
+				color,
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);
+			// buffer.set(
+			// 	withColorMap({
+			// 		colorMap: gameConfig.colorMap,
+			// 		source: {
+			// 			heightmap: heightmap(worldX, worldZ),
+			// 			biome: biome(worldX, worldZ),
+			// 			temperature: temperature(worldX, worldZ),
+			// 			moisture: moisture(worldX, worldZ),
+			// 			shade: shade(worldX, worldZ),
+			// 		},
+			// 	}),
+			// 	((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
+			// );
 		}
 
 		/**

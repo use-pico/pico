@@ -57,6 +57,7 @@ export { omit } from "./toolbox/omit";
 export { pathOf } from "./toolbox/pathOf";
 export { proxyOf } from "./toolbox/proxyOf";
 export { rangeOf } from "./toolbox/rangeOf";
+export { rgbaToHsla } from "./toolbox/rgbaToHsla";
 export { Timer } from "./toolbox/Timer";
 export { toHumanNumber } from "./toolbox/toHumanNumber";
 export { toSeed } from "./toolbox/toSeed";
