@@ -1,14 +1,7 @@
 import { GameConfig } from "~/app/derivean/GameConfig";
+import { withColorMap } from "~/app/derivean/service/generator/withColorMap";
 import type { Chunk } from "~/app/derivean/type/Chunk";
-import { RGBA, type Color } from "~/app/derivean/type/Color";
 import type { Noise } from "~/app/derivean/type/Noise";
-
-export function noiseToRgba(noise: number): [number, number, number, number] {
-	const clamped = Math.max(-1, Math.min(1, noise));
-	const normalized = (clamped + 1) / 2;
-	const brightness = Math.round(normalized * 255);
-	return [brightness, brightness, brightness, 255];
-}
 
 export namespace withGenerator {
 	export interface Layer {
@@ -57,9 +50,6 @@ export const withGenerator = ({
 		seed,
 	});
 
-	// const debug: keyof typeof noise | undefined = "biome";
-	const debug: keyof typeof noise | undefined = undefined;
-
 	/**
 	 * Returns prepared generator for generating chunk data at given position.
 	 */
@@ -91,7 +81,12 @@ export const withGenerator = ({
 				(z * gameConfig.plotCount + Math.floor(i / gameConfig.plotCount)) *
 				baseScale;
 
-			const color: Color.RGBA = RGBA([0, 0, 0, 255]);
+			const color = withColorMap({
+				colorMap: gameConfig.colorMap,
+				source: {
+					heightmap: noise.heightmap(worldX, worldZ),
+				},
+			});
 
 			/**
 			 * Output the RGBA color to the final texture.
@@ -100,19 +95,6 @@ export const withGenerator = ({
 				color.color,
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);
-			// buffer.set(
-			// 	withColorMap({
-			// 		colorMap: gameConfig.colorMap,
-			// 		source: {
-			// 			heightmap: heightmap(worldX, worldZ),
-			// 			biome: biome(worldX, worldZ),
-			// 			temperature: temperature(worldX, worldZ),
-			// 			moisture: moisture(worldX, worldZ),
-			// 			shade: shade(worldX, worldZ),
-			// 		},
-			// 	}),
-			// 	((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
-			// );
 		}
 
 		/**
