@@ -1,12 +1,9 @@
 import type { Color } from "~/app/derivean/type/Color";
+import type { NoiseType } from "~/app/derivean/type/NoiseType";
 
-export interface NoiseColor {
-	/**
-	 * Noise value input will generate...
-	 */
-	noise: number;
-	/**
-	 * ...this color value (HSLA).
-	 */
+/**
+ * Defines noise input for a color output.
+ */
+export interface NoiseColor extends Partial<Record<NoiseType, number>> {
 	color: Color;
 }

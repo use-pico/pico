@@ -3,11 +3,11 @@
  *
  * Idea is to have various noise generators providing various values to generate biome color.
  *
- * - Heightmap: Defines the height of the terrain. This defines shade of target color (only L)
- * - Biome: Defines color itself (only H), should not hold any other information (S,L)
- * - Temperature: Defines the temperature of the biome. This defines color shift (H)
- * - Moisture: Defines the moisture of the biome. This defines saturation shift (S)
- * - Shade: When provided, it may alter everything (H,S,L)
+ * - Biome: Used to determine base biome color
+ * - Heightmap: Use to determine biome color based on height
+ * - Temperature: Modifies biome color based on temperature
+ * - Moisture: Modifies biome color based on moisture
+ * - Shade: Optional, just for some shade variation so the same biome doesn't look the same
  */
 export type NoiseType =
 	| "biome"

@@ -1,4 +1,4 @@
-import { hslaToRgba } from "@use-pico/common";
+import { labToRgba } from "~/app/derivean/service/labToRgba";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
 
@@ -19,58 +19,28 @@ export const withColorMap = ({
 	source,
 	defaultColor = [0, 0, 0, 0],
 }: withColorMap.Props) => {
-	const biomeColor =
-		colorMap.biome.find(({ noise }) => source.biome >= noise)?.color ||
-		defaultColor;
-	const heightmapColor =
-		colorMap.heightmap.find(({ noise }) => source.heightmap >= noise)?.color ||
-		defaultColor;
-	const temperatureColor =
-		colorMap.temperature.find(({ noise }) => source.temperature >= noise)
-			?.color || defaultColor;
-	const moistureColor =
-		colorMap.moisture.find(({ noise }) => source.moisture >= noise)?.color ||
-		defaultColor;
-	const shadeColor =
-		colorMap.shade.find(({ noise }) => source.shade >= noise)?.color ||
-		defaultColor;
+	return labToRgba(
+		colorMap.find((color) => {
+			/**
+			 * That edge case when there is just a first color. This does not make a lot of sense.
+			 */
+			if (
+				!color.biome &&
+				!color.heightmap &&
+				!color.temperature &&
+				!color.moisture &&
+				!color.shade
+			) {
+				return color.color;
+			}
 
-	return hslaToRgba([
-		clampToRange(
-			biomeColor[0] +
-				heightmapColor[0] +
-				temperatureColor[0] +
-				moistureColor[0] +
-				shadeColor[0],
-			0,
-			360,
-		),
-		clampToRange(
-			biomeColor[1] +
-				heightmapColor[1] +
-				temperatureColor[1] +
-				moistureColor[1] +
-				shadeColor[1],
-			0,
-			100,
-		),
-		clampToRange(
-			biomeColor[2] +
-				heightmapColor[2] +
-				temperatureColor[2] +
-				moistureColor[2] +
-				shadeColor[2],
-			0,
-			100,
-		),
-		clampToRange(
-			biomeColor[3] +
-				heightmapColor[3] +
-				temperatureColor[3] +
-				moistureColor[3] +
-				shadeColor[3],
-			0,
-			1,
-		),
-	]);
+			return (
+				(color.biome ? source.biome >= color.biome : true) &&
+				(color.heightmap ? source.heightmap >= color.heightmap : true) &&
+				(color.temperature ? source.temperature >= color.temperature : true) &&
+				(color.moisture ? source.moisture >= color.moisture : true) &&
+				(color.shade ? source.shade >= color.shade : true)
+			);
+		})?.color || defaultColor,
+	);
 };
