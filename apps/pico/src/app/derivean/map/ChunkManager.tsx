@@ -168,6 +168,7 @@ export const ChunkManager: FC<ChunkManager.Props> = ({
 		<>
 			<mesh position={[gameConfig.plotSize / 2, 0, gameConfig.plotSize / 2]}>
 				<boxGeometry args={[gameConfig.plotSize, 1, gameConfig.plotSize]} />
+				<meshStandardMaterial color={0xff0000} />
 			</mesh>
 
 			{chunks}
