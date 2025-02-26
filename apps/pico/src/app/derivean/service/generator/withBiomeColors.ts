@@ -3,6 +3,10 @@ import type { Color } from "~/app/derivean/type/Color";
 import type { NoiseColor } from "~/app/derivean/type/NoiseColor";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
 
+const interpolate = ([min, max]: [number, number], t: number) => {
+	return min + t * (max - min);
+};
+
 export namespace withBiomeColors {
 	export interface Props {
 		color: Color;
@@ -20,36 +24,32 @@ export const withBiomeColors = ({
 }: withBiomeColors.Props): NoiseColor[] => {
 	const colors: NoiseColor[] = [];
 
-	const [baseH, baseS, baseL] = rgbaToHsla(color);
+	const [H, S, L] = rgbaToHsla(color);
 
 	for (let i = 0; i < stops; i++) {
 		const t = i / (stops - 1);
 
-		const biome = ranges.biome[0] + t * (ranges.biome[1] - ranges.biome[0]);
-		const heightmap =
-			ranges.heightmap[0] + t * (ranges.heightmap[1] - ranges.heightmap[0]);
-		const temperature =
-			ranges.temperature[0] +
-			t * (ranges.temperature[1] - ranges.temperature[0]);
-		const moisture =
-			ranges.moisture[0] + t * (ranges.moisture[1] - ranges.moisture[0]);
-		const shade = ranges.shade[0] + t * (ranges.shade[1] - ranges.shade[0]);
+		const biome = interpolate(ranges.biome, t);
+		const heightmap = interpolate(ranges.heightmap, t);
+		const temperature = interpolate(ranges.temperature, t);
+		const moisture = interpolate(ranges.moisture, t);
+		const shade = interpolate(ranges.shade, t);
 
 		// Modify the base HSL color:
 		// - Adjust hue using biome and temperature.
 		// - Adjust saturation using moisture.
 		// - Adjust lightness using heightmap and shade.
-		const newH =
-			baseH +
+		const hue =
+			H +
 			biome * (factors?.biome || 0) +
 			temperature * (factors?.temperature || 0);
-		const newS = Math.min(
-			Math.max(baseS + moisture * (factors?.moisture || 0), 0),
+		const saturation = Math.min(
+			Math.max(S + moisture * (factors?.moisture || 0), 0),
 			100,
 		);
-		const newL = Math.min(
+		const lightness = Math.min(
 			Math.max(
-				baseL +
+				L +
 					heightmap * (factors?.heightmap || 0) -
 					shade * (factors?.shade || 0),
 				0,
@@ -58,10 +58,10 @@ export const withBiomeColors = ({
 		);
 
 		// Convert the modified HSL color back to RGB.
-		const [r, g, b, a] = hslaToRgba([newH, newS, newL, 1]);
+		const [r, g, b, a] = hslaToRgba([hue, saturation, lightness, 1]);
 
 		colors.push({
-			color: [Math.round(r), Math.round(g), Math.round(b), a],
+			color: [Math.round(r), Math.round(g), Math.round(b), Math.round(a)],
 			biome,
 			heightmap,
 			temperature,

@@ -9,100 +9,36 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 			seed: `${seed}-biome`,
 			layers: [
 				{
-					name: "base-large-scale",
-					scale: 0.65,
+					name: "base-cellular",
+					scale: 1,
+					weight: 2,
 					noise(seed) {
-						const sourceNoise1 = createNoise({
+						return createNoise({
 							seed,
-							frequency: 0.025,
+							frequency: 0.125,
 							type: "Cellular",
 							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance2Sub",
-							},
-							fractal: {
-								type: "PingPong",
-								octaves: 4,
+								distanceFunction: "Euclidean",
+								returnType: "CellValue",
 							},
 						});
-						const sourceNoise2 = createNoise({
-							seed,
-							frequency: 0.05,
-							type: "OpenSimplex2S",
-							fractal: {
-								type: "FBm",
-								octaves: 2,
-							},
-						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.05,
-							type: "ValueCubic",
-							fractal: {
-								type: "PingPong",
-								octaves: 8,
-								gain: 0.75,
-							},
-						});
-
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.45, 0.55],
-								limit: [0.35, 0.65],
-								sourceNoise: (x, z) =>
-									blend({
-										x,
-										z,
-										scale: [0.45, 0.55],
-										limit: [0.25, 0.75],
-										sourceNoise: sourceNoise2,
-										controlNoise: sourceNoise1,
-									}),
-								controlNoise,
-							});
 					},
 				},
 				{
-					// disabled: true,
-					name: "detail",
-					scale: 0.25,
+					name: "base-cellular",
+					scale: 1,
 					weight: 1,
 					inverse: true,
 					noise(seed) {
-						const sourceNoise = createNoise({
+						return createNoise({
 							seed,
-							frequency: 0.05,
-							type: "OpenSimplex2S",
-							fractal: {
-								type: "PingPong",
-								octaves: 8,
-							},
-						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.075,
+							frequency: 0.125,
 							type: "Cellular",
 							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance",
-							},
-							fractal: {
-								type: "Ridged",
-								octaves: 2,
+								distanceFunction: "Euclidean",
+								returnType: "CellValue",
 							},
 						});
-
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.4, 0.6],
-								limit: [0.25, 0.75],
-								sourceNoise,
-								controlNoise,
-							});
 					},
 				},
 			],

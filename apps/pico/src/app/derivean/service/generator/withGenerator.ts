@@ -93,10 +93,10 @@ export const withGenerator = ({
 				baseScale;
 
 			const biome = noise.biome(worldX, worldZ);
-			const heightmap = noise.heightmap(worldX, worldZ);
-			const temperature = noise.temperature(worldX, worldZ);
-			const moisture = noise.moisture(worldX, worldZ);
-			const shade = noise.shade(worldX, worldZ);
+			// const heightmap = noise.heightmap(worldX, worldZ);
+			// const temperature = noise.temperature(worldX, worldZ);
+			// const moisture = noise.moisture(worldX, worldZ);
+			// const shade = noise.shade(worldX, worldZ);
 
 			const color =
 				debug ?
@@ -115,13 +115,11 @@ export const withGenerator = ({
 							return color.color;
 						}
 
-						return (
-							(color.biome ? biome >= color.biome : true) &&
-							(color.heightmap ? heightmap >= color.heightmap : true) &&
-							(color.temperature ? temperature >= color.temperature : true) &&
-							(color.moisture ? moisture >= color.moisture : true) &&
-							(color.shade ? shade >= color.shade : true)
-						);
+						return color.biome ? biome >= color.biome : true;
+						// (color.heightmap ? heightmap >= color.heightmap : true) &&
+						// (color.temperature ? temperature >= color.temperature : true) &&
+						// (color.moisture ? moisture >= color.moisture : true) &&
+						// (color.shade ? shade >= color.shade : true)
 					})?.color || defaultColor;
 
 			/**
