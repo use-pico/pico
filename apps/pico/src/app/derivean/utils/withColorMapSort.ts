@@ -12,10 +12,12 @@ export const withColorMapSort = (colorMap: NoiseColorMap): NoiseColorMap => {
 		];
 
 		for (const key of keys) {
-			const bVal = b[key] === undefined ? -Infinity : b[key]!;
-			const aVal = a[key] === undefined ? -Infinity : a[key]!;
+			const bVal =
+				b[key] === undefined ? ([-Infinity, Infinity] as const) : b[key]!;
+			const aVal =
+				a[key] === undefined ? ([-Infinity, Infinity] as const) : a[key]!;
 			if (aVal !== bVal) {
-				return bVal - aVal;
+				return bVal[0] - aVal[0];
 			}
 		}
 

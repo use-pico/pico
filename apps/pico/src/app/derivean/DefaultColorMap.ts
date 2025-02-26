@@ -18,22 +18,22 @@ export const DefaultColorMap: NoiseColorMap = [
 	 * Ocean
 	 */
 	...withBiomeColors({
-		color: [0, 40, 190, 255],
-		stops: 20,
+		color: [210, 100, 50, 1],
+		stops: 100,
 		ranges: {
-			biome: [-1, -0.75],
-			heightmap: [-1, 1],
-			moisture: [-1, 1],
+			biome: [-1, -0.8],
+			heightmap: [-1, -0.75],
+			moisture: [-1, -0.5],
 			temperature: [-1, 1],
 			shade: [-1, 1],
 		},
-		// factors: {
-		// 	biome: 25,
-		// 	heightmap: 10,
-		// 	temperature: 50,
-		// 	moisture: 50,
-		// 	shade: 15,
-		// },
+		factors: {
+			biome: 10,
+			heightmap: 25,
+			temperature: 0,
+			moisture: 0,
+			shade: 0,
+		},
 	}),
 	/**
 	 * Beach
@@ -59,45 +59,45 @@ export const DefaultColorMap: NoiseColorMap = [
 	/**
 	 * Grassland
 	 */
-	...withBiomeColors({
-		color: [34, 139, 34, 255],
-		stops: 20,
-		ranges: {
-			biome: [0, 0.5],
-			heightmap: [-1, 1],
-			moisture: [-1, 1],
-			temperature: [-1, 1],
-			shade: [-1, 1],
-		},
-		// factors: {
-		// 	biome: 10,
-		// 	heightmap: 25,
-		// 	temperature: 25,
-		// 	moisture: 25,
-		// 	shade: 15,
-		// },
-	}),
-	/**
-	 * Mountains
-	 */
-	...withBiomeColors({
-		color: [90, 80, 80, 255],
-		stops: 100,
-		ranges: {
-			biome: [0.5, 0.75],
-			heightmap: [-1, 1],
-			moisture: [-1, 1],
-			temperature: [-1, 1],
-			shade: [-1, 1],
-		},
-		// factors: {
-		// 	biome: 10,
-		// 	heightmap: 25,
-		// 	temperature: 25,
-		// 	moisture: 25,
-		// 	shade: 25,
-		// },
-	}),
+	// ...withBiomeColors({
+	// 	color: rgbaToHsla([34, 139, 34, 255]),
+	// 	stops: 20,
+	// 	ranges: {
+	// 		biome: [0, 0.5],
+	// 		heightmap: [-1, 1],
+	// 		moisture: [-1, 1],
+	// 		temperature: [-1, 1],
+	// 		shade: [-1, 1],
+	// 	},
+	// 	// factors: {
+	// 	// 	biome: 10,
+	// 	// 	heightmap: 25,
+	// 	// 	temperature: 25,
+	// 	// 	moisture: 25,
+	// 	// 	shade: 15,
+	// 	// },
+	// }),
+	// /**
+	//  * Mountains
+	//  */
+	// ...withBiomeColors({
+	// 	color: rgbaToHsla([90, 80, 80, 255]),
+	// 	stops: 100,
+	// 	ranges: {
+	// 		biome: [0.5, 0.75],
+	// 		heightmap: [-1, 1],
+	// 		moisture: [-1, 1],
+	// 		temperature: [-1, 1],
+	// 		shade: [-1, 1],
+	// 	},
+	// 	// factors: {
+	// 	// 	biome: 10,
+	// 	// 	heightmap: 25,
+	// 	// 	temperature: 25,
+	// 	// 	moisture: 25,
+	// 	// 	shade: 25,
+	// 	// },
+	// }),
 ] as NoiseColorMap;
 
-console.log("colors", DefaultColorMap);
+console.log(DefaultColorMap);

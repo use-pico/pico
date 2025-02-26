@@ -1,4 +1,4 @@
-import { hslaToRgba, rgbaToHsla } from "@use-pico/common";
+import { hslaToRgba } from "@use-pico/common";
 import type { Color } from "~/app/derivean/type/Color";
 import type { NoiseColor } from "~/app/derivean/type/NoiseColor";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
@@ -42,7 +42,7 @@ export const withBiomeColors = ({
 	};
 
 	// Convert base color to HSLA for easier manipulation
-	const [baseH, baseS, baseL, baseA] = rgbaToHsla(color);
+	const [baseH, baseS, baseL, baseA] = color;
 
 	// Calculate the width of each sub-range for each noise type
 	const rangeWidths = {
@@ -128,7 +128,7 @@ export const withBiomeColors = ({
 		const [r, g, b, a] = hslaToRgba([hue, saturation, lightness, baseA]);
 
 		colorStops.push({
-			color: [Math.round(r), Math.round(g), Math.round(b), Math.round(a * 255)],
+			color: [Math.round(r), Math.round(g), Math.round(b), 255],
 			biome: biomeRange,
 			heightmap: heightmapRange,
 			temperature: temperatureRange,

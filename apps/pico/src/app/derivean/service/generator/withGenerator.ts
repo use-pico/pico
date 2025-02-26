@@ -115,7 +115,9 @@ export const withGenerator = ({
 							return color.color;
 						}
 
-						return color.biome ? biome >= color.biome : true;
+						return color.biome ?
+								biome >= color.biome[0] && biome <= color.biome[1]
+							:	true;
 						// (color.heightmap ? heightmap >= color.heightmap : true) &&
 						// (color.temperature ? temperature >= color.temperature : true) &&
 						// (color.moisture ? moisture >= color.moisture : true) &&
