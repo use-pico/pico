@@ -1,277 +1,233 @@
-import { blend } from "~/app/derivean/service/generator/noise/blend";
 import { createNoise } from "~/app/derivean/service/generator/noise/createNoise";
 import { withNoise } from "~/app/derivean/service/generator/noise/withNoise";
 import type { NoiseSource } from "~/app/derivean/type/NoiseSource";
 
 export const SourceNoise: NoiseSource = ({ seed }) => {
 	return {
+		/**
+		 * Biome noise - larger-scale pattern to identify major regions
+		 * This noise defines the broader biome distribution pattern
+		 * Less variation than before, more gradual transitions
+		 */
 		biome: withNoise({
 			seed: `${seed}-biome`,
 			layers: [
 				{
-					name: "base-cellular",
-					scale: 1,
-					weight: 2,
+					name: "base-continental",
+					scale: 0.5,
+					weight: 1,
 					noise(seed) {
 						return createNoise({
 							seed,
-							frequency: 0.125,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "Euclidean",
-								returnType: "CellValue",
+							frequency: 0.05,
+							type: "OpenSimplex2",
+							fractal: {
+								type: "FBm",
+								octaves: 3,
+								lacunarity: 2.0,
+								gain: 0.5,
 							},
 						});
 					},
 				},
 				{
-					name: "base-cellular",
-					scale: 1,
-					weight: 1,
-					inverse: true,
+					name: "detail",
+					scale: 2,
+					weight: 0.3,
 					noise(seed) {
 						return createNoise({
 							seed,
-							frequency: 0.125,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "Euclidean",
-								returnType: "CellValue",
+							frequency: 0.1,
+							type: "OpenSimplex2",
+							fractal: {
+								type: "FBm",
+								octaves: 2,
 							},
 						});
 					},
 				},
 			],
-			variation: [],
 		}),
+
+		/**
+		 * Heightmap - focused on realistic terrain formation
+		 * Enhanced with multiple layers to create varied terrain
+		 */
 		heightmap: withNoise({
 			seed: `${seed}-heightmap`,
 			layers: [
 				{
-					name: "base-large-scale",
-					scale: 0.65,
+					name: "base-terrain",
+					scale: 1,
 					noise(seed) {
-						const sourceNoise1 = createNoise({
+						const baseNoise = createNoise({
 							seed,
-							frequency: 0.025,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance2Sub",
-							},
+							frequency: 0.03,
+							type: "OpenSimplex2",
 							fractal: {
-								type: "PingPong",
+								type: "FBm",
 								octaves: 4,
+								lacunarity: 2.0,
+								gain: 0.5,
 							},
 						});
-						const sourceNoise2 = createNoise({
+
+						// Add ridged noise for mountain ranges
+						const ridgeNoise = createNoise({
+							seed: `${seed}-ridge`,
+							frequency: 0.06,
+							type: "OpenSimplex2",
+							fractal: {
+								type: "Ridged",
+								octaves: 3,
+								gain: 0.6,
+							},
+						});
+
+						// Blend for natural terrain
+						return (x, z) => {
+							const base = baseNoise(x, z) * 0.7;
+							const ridge = ridgeNoise(x, z) * 0.5;
+
+							// Add more extreme height to create mountains
+							return base + ridge * ridge * Math.sign(ridge);
+						};
+					},
+				},
+				{
+					name: "erosion",
+					scale: 3,
+					weight: 0.2,
+					noise(seed) {
+						return createNoise({
 							seed,
-							frequency: 0.05,
-							type: "OpenSimplex2S",
+							frequency: 0.1,
+							type: "OpenSimplex2",
 							fractal: {
 								type: "FBm",
 								octaves: 2,
 							},
 						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.05,
-							type: "ValueCubic",
-							fractal: {
-								type: "PingPong",
-								octaves: 8,
-								gain: 0.75,
-							},
-						});
-
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.45, 0.55],
-								limit: [0.35, 0.65],
-								sourceNoise: (x, z) =>
-									blend({
-										x,
-										z,
-										scale: [0.45, 0.55],
-										limit: [0.25, 0.75],
-										sourceNoise: sourceNoise2,
-										controlNoise: sourceNoise1,
-									}),
-								controlNoise,
-							});
-					},
-				},
-				{
-					// disabled: true,
-					name: "detail",
-					scale: 0.25,
-					weight: 1,
-					inverse: true,
-					noise(seed) {
-						const sourceNoise = createNoise({
-							seed,
-							frequency: 0.05,
-							type: "OpenSimplex2S",
-							fractal: {
-								type: "PingPong",
-								octaves: 8,
-							},
-						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.075,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance",
-							},
-							fractal: {
-								type: "Ridged",
-								octaves: 2,
-							},
-						});
-
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.4, 0.6],
-								limit: [0.25, 0.75],
-								sourceNoise,
-								controlNoise,
-							});
 					},
 				},
 			],
 		}),
+
+		/**
+		 * Temperature - gradual from poles to equator with local variation
+		 */
 		temperature: withNoise({
 			seed: `${seed}-temperature`,
 			layers: [
 				{
-					name: "base-large-scale",
-					scale: 0.25,
+					name: "latitude",
+					scale: 0.2,
+					weight: 1,
 					noise(seed) {
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.075,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance2Sub",
-							},
-							fractal: {
-								type: "PingPong",
-								octaves: 4,
-							},
-						});
-						const sourceNoise = createNoise({
-							seed,
-							frequency: 0.25,
-							type: "ValueCubic",
-							fractal: {
-								type: "PingPong",
-								octaves: 4,
-								gain: 0.75,
-							},
-						});
+						// Create a simple gradient primarily influenced by z coordinate
+						// This simulates latitude temperature variation
+						return (x, z) => {
+							// Start with basic latitude gradient (north-south)
+							const temp = Math.sin(z * 0.02) * 0.8;
 
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.45, 0.55],
-								limit: [0.4, 0.6],
-								sourceNoise,
-								controlNoise,
-							});
+							// Add some east-west variation
+							const eastWestVariation =
+								createNoise({
+									seed,
+									frequency: 0.01,
+									type: "OpenSimplex2",
+								})(x, z) * 0.2;
+
+							return temp + eastWestVariation;
+						};
 					},
 				},
 				{
-					disabled: true,
-					name: "detail",
-					scale: 0.25,
-					weight: 1,
-					inverse: true,
+					name: "local-variation",
+					scale: 2,
+					weight: 0.25,
 					noise(seed) {
-						const sourceNoise = createNoise({
+						return createNoise({
 							seed,
-							frequency: 0.05,
-							type: "OpenSimplex2S",
+							frequency: 0.07,
+							type: "OpenSimplex2",
 							fractal: {
-								type: "PingPong",
-								octaves: 8,
-							},
-						});
-						const controlNoise = createNoise({
-							seed,
-							frequency: 0.075,
-							type: "Cellular",
-							cellular: {
-								distanceFunction: "EuclideanSq",
-								returnType: "Distance",
-							},
-							fractal: {
-								type: "Ridged",
+								type: "FBm",
 								octaves: 2,
 							},
 						});
-
-						return (x, z) =>
-							blend({
-								x,
-								z,
-								scale: [0.4, 0.6],
-								limit: [0.25, 0.75],
-								sourceNoise,
-								controlNoise,
-							});
 					},
 				},
 			],
 		}),
+
+		/**
+		 * Moisture - simulates rainfall patterns with coastal effects
+		 */
 		moisture: withNoise({
 			seed: `${seed}-moisture`,
 			layers: [
 				{
-					name: "default",
-					scale: 1,
+					name: "base-moisture",
+					scale: 0.8,
+					weight: 1,
 					noise(seed) {
 						return createNoise({
 							seed,
-							type: "OpenSimplex2S",
-							frequency: 0.025,
+							frequency: 0.05,
+							type: "OpenSimplex2",
 							fractal: {
 								type: "FBm",
-								octaves: 4,
+								octaves: 3,
+								lacunarity: 2.0,
+								gain: 0.6,
+							},
+						});
+					},
+				},
+				{
+					name: "local-humidity",
+					scale: 2,
+					weight: 0.4,
+					noise(seed) {
+						return createNoise({
+							seed,
+							frequency: 0.08,
+							type: "OpenSimplex2",
+							fractal: {
+								type: "FBm",
+								octaves: 2,
 							},
 						});
 					},
 				},
 			],
-			variation: [],
 		}),
+
+		/**
+		 * Shade - subtle local variations to break up uniformity
+		 */
 		shade: withNoise({
 			seed: `${seed}-shade`,
 			layers: [
 				{
-					name: "default",
-					scale: 1,
+					name: "microvariation",
+					scale: 5,
+					weight: 1,
 					noise(seed) {
 						return createNoise({
 							seed,
-							type: "OpenSimplex2S",
-							frequency: 0.05,
+							frequency: 0.2,
+							type: "OpenSimplex2",
 							fractal: {
 								type: "FBm",
-								octaves: 8,
+								octaves: 2,
+								gain: 0.4,
 							},
 						});
 					},
 				},
 			],
-			variation: [],
 		}),
 	};
 };

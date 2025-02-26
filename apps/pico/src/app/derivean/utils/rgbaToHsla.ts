@@ -1,9 +1,6 @@
-export const rgbaToHsla = ([r, g, b, a]: [number, number, number, number]): [
-	number,
-	number,
-	number,
-	number,
-] => {
+import { HSLA, type Color } from "~/app/derivean/type/Color";
+
+export const rgbaToHsla = ({ color: [r, g, b, a] }: Color.RGBA): Color.HSLA => {
 	r /= 255;
 	g /= 255;
 	b /= 255;
@@ -27,5 +24,5 @@ export const rgbaToHsla = ([r, g, b, a]: [number, number, number, number]): [
 		h *= 60;
 	}
 
-	return [h, s * 100, l * 100, a / 255];
+	return HSLA([h, s * 100, l * 100, a / 255]);
 };

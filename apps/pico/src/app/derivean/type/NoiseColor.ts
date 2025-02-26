@@ -6,5 +6,5 @@ import type { NoiseType } from "~/app/derivean/type/NoiseType";
  */
 export interface NoiseColor
 	extends Partial<Record<NoiseType, [number, number]>> {
-	color: Color;
+	color: Color.HSLA;
 }

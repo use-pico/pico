@@ -1,5 +1,6 @@
 import { GameConfig } from "~/app/derivean/GameConfig";
 import type { Chunk } from "~/app/derivean/type/Chunk";
+import { RGBA, type Color } from "~/app/derivean/type/Color";
 import type { Noise } from "~/app/derivean/type/Noise";
 
 export function noiseToRgba(noise: number): [number, number, number, number] {
@@ -59,8 +60,6 @@ export const withGenerator = ({
 	// const debug: keyof typeof noise | undefined = "biome";
 	const debug: keyof typeof noise | undefined = undefined;
 
-	const defaultColor = [0, 0, 0, 0];
-
 	/**
 	 * Returns prepared generator for generating chunk data at given position.
 	 */
@@ -92,43 +91,13 @@ export const withGenerator = ({
 				(z * gameConfig.plotCount + Math.floor(i / gameConfig.plotCount)) *
 				baseScale;
 
-			const biome = noise.biome(worldX, worldZ);
-			// const heightmap = noise.heightmap(worldX, worldZ);
-			// const temperature = noise.temperature(worldX, worldZ);
-			// const moisture = noise.moisture(worldX, worldZ);
-			// const shade = noise.shade(worldX, worldZ);
-
-			const color =
-				debug ?
-					noiseToRgba(noise[debug](worldX, worldZ))
-				:	gameConfig.colorMap.find((color) => {
-						/**
-						 * That edge case when there is just a first color. This does not make a lot of sense.
-						 */
-						if (
-							!color.biome &&
-							!color.heightmap &&
-							!color.temperature &&
-							!color.moisture &&
-							!color.shade
-						) {
-							return color.color;
-						}
-
-						return color.biome ?
-								biome >= color.biome[0] && biome <= color.biome[1]
-							:	true;
-						// (color.heightmap ? heightmap >= color.heightmap : true) &&
-						// (color.temperature ? temperature >= color.temperature : true) &&
-						// (color.moisture ? moisture >= color.moisture : true) &&
-						// (color.shade ? shade >= color.shade : true)
-					})?.color || defaultColor;
+			const color: Color.RGBA = RGBA([0, 0, 0, 255]);
 
 			/**
 			 * Output the RGBA color to the final texture.
 			 */
 			buffer.set(
-				color,
+				color.color,
 				((gameConfig.plotCount - 1 - tileZ) * gameConfig.plotCount + tileX) * 4,
 			);
 			// buffer.set(
