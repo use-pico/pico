@@ -99,3 +99,5 @@ export const DefaultColorMap: NoiseColorMap = [
 		// },
 	}),
 ] as NoiseColorMap;
+
+console.log("colors", DefaultColorMap);
