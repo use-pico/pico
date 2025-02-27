@@ -13,11 +13,11 @@ export const TemperatureBiome: Biome = {
 			return undefined;
 		}
 
-		// Get the current HSLA values
+		// Destructure the color values
 		let [h, s, l] = color.color;
 
-		// Reduce the intensity factor to make effects more subtle
-		const intensityFactor = Math.sqrt(Math.abs(temperature)) * 1.5;
+		// Increase the intensity factor for more pronounced temperature effects
+		const intensityFactor = Math.sqrt(Math.abs(temperature)) * 2.0;
 
 		// Apply temperature effects based on terrain type from base.type
 		switch (base.type) {
@@ -57,7 +57,7 @@ export const TemperatureBiome: Biome = {
 					// Warm beaches: more yellow
 					// Shift towards yellow (around 60) instead of red
 					const targetHue = 60;
-					const blendFactor = temperature * 0.2 * intensityFactor;
+					const blendFactor = temperature * 0.25 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 4 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * 2 * intensityFactor));
@@ -76,7 +76,7 @@ export const TemperatureBiome: Biome = {
 				} else {
 					// Warm mountains: shift towards orange rather than red
 					const targetHue = 35;
-					const blendFactor = temperature * 0.15 * intensityFactor;
+					const blendFactor = temperature * 0.2 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 2 * intensityFactor));
 				}
@@ -93,7 +93,7 @@ export const TemperatureBiome: Biome = {
 					// Warm wetlands: more vibrant green
 					// Mix in some yellow-green instead of pure green
 					const targetHue = 95;
-					const blendFactor = temperature * 0.1 * intensityFactor;
+					const blendFactor = temperature * 0.15 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + 5));
 				}
@@ -111,7 +111,7 @@ export const TemperatureBiome: Biome = {
 				} else {
 					// Warm grasslands: more yellow/gold
 					const targetHue = 55;
-					const blendFactor = temperature * 0.2 * intensityFactor;
+					const blendFactor = temperature * 0.25 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 5 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
@@ -130,7 +130,7 @@ export const TemperatureBiome: Biome = {
 				} else {
 					// Warm highlands: shift towards yellow-orange instead of red
 					const targetHue = 40;
-					const blendFactor = temperature * 0.25 * intensityFactor;
+					const blendFactor = temperature * 0.3 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 6 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
@@ -147,7 +147,7 @@ export const TemperatureBiome: Biome = {
 				} else {
 					// Warm areas: yellow-orange shift instead of red
 					const targetHue = 45;
-					const blendFactor = temperature * 0.2 * intensityFactor;
+					const blendFactor = temperature * 0.25 * intensityFactor;
 					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 6 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
@@ -157,18 +157,19 @@ export const TemperatureBiome: Biome = {
 
 		// Use moisture data to modify colors
 		if (source.moisture > 0.3) {
-			const moistureFactor = Math.min(0.6, (source.moisture - 0.3) * 1.2);
+			const moistureFactor = Math.min(0.8, (source.moisture - 0.3) * 1.5);
 
 			// Check if we're dealing with water terrain types
-			const isWaterType =
-				base.type === DefaultTerrainLayers.DeepOcean.name ||
-				base.type === DefaultTerrainLayers.Ocean.name ||
-				base.type === DefaultTerrainLayers.ShallowWater.name;
+			const isWaterType = [
+				DefaultTerrainLayers.DeepOcean.name,
+				DefaultTerrainLayers.Ocean.name,
+				DefaultTerrainLayers.ShallowWater.name,
+			].includes(base.type);
 
 			if (temperature > 0 && !isWaterType) {
 				// Humid warm areas: more yellow-green instead of pure green
 				const targetHue = 95;
-				const greenInfluence = moistureFactor * 0.15;
+				const greenInfluence = moistureFactor * 0.2;
 				h = h * (1 - greenInfluence) + targetHue * greenInfluence;
 				s = Math.min(100, s + moistureFactor * 5);
 			} else if (temperature < 0 && !isWaterType) {
@@ -183,9 +184,9 @@ export const TemperatureBiome: Biome = {
 		const hDiff = Math.abs(h - originalH);
 
 		// If the hue has changed too much, limit it
-		if (hDiff > 30) {
+		if (hDiff > 35) {
 			const hueDirection = h > originalH ? 1 : -1;
-			h = originalH + 30 * hueDirection;
+			h = originalH + 35 * hueDirection;
 		}
 
 		// Ensure values stay in valid ranges
