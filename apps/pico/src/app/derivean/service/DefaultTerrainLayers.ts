@@ -4,6 +4,7 @@ import type { TerrainLayer } from "~/app/derivean/type/TerrainLayer";
 /**
  * Predefined terrain layers for common terrain types
  * Organized by elevation from water to mountains
+ * All lengths are multiples of 0.05 for easier management
  */
 export const DefaultTerrainLayers = {
 	// Water bodies
@@ -26,8 +27,17 @@ export const DefaultTerrainLayers = {
 	ShallowWater: {
 		name: "shallow-water",
 		color: HSLA([195, 65, 35, 1.0]),
-		length: 0.1,
+		length: 0.125,
 		steps: 6,
+		transition: 6,
+	} satisfies TerrainLayer,
+
+	// Foam layer for water-to-land transition
+	Foam: {
+		name: "foam",
+		color: HSLA([190, 25, 85, 1.0]),
+		length: 0.025,
+		steps: 5,
 		transition: 6,
 	} satisfies TerrainLayer,
 
@@ -127,7 +137,7 @@ export const DefaultTerrainLayers = {
 	MountainPeak: {
 		name: "mountain-peak",
 		color: HSLA([0, 5, 85, 1.0]),
-		length: 0.1,
+		length: 0.05,
 		steps: 8,
 	} satisfies TerrainLayer,
 } as const;

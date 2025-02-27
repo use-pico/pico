@@ -76,6 +76,7 @@ export const GameConfig: GameConfig = {
 		DefaultTerrainLayers.Ocean,
 		DefaultTerrainLayers.ShallowWater,
 		DefaultTerrainLayers.Coast,
+		DefaultTerrainLayers.Foam,
 		DefaultTerrainLayers.Beach,
 		DefaultTerrainLayers.Wetland,
 		DefaultTerrainLayers.Lowland,
