@@ -14,7 +14,7 @@ export namespace withColorMap {
 		/**
 		 * Various noise sources that can be used for coloring
 		 */
-		source: Partial<Record<NoiseType, number>>;
+		source: Record<NoiseType, number>;
 	}
 }
 
@@ -27,13 +27,6 @@ export const withColorMap = ({
 	biomes = [],
 	source,
 }: withColorMap.Props): Color.RGBA => {
-	/**
-	 * No heightmap, no story.
-	 */
-	if (!source.heightmap) {
-		return RGBA([128, 128, 128, 255]);
-	}
-
 	const baseColor = colorMap.find(({ level: [min, max] }) => {
 		return source.heightmap! >= min && source.heightmap! <= max;
 	});

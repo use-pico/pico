@@ -19,7 +19,7 @@ export namespace Biome {
 			/**
 			 * All available noise values a new color may be calculated from.
 			 */
-			source: Partial<Record<NoiseType, number>>;
+			source: Record<NoiseType, number>;
 		}
 
 		export interface Result {
