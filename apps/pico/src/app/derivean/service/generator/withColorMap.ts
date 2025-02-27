@@ -24,19 +24,25 @@ export const withColorMap = ({
 	colorMap,
 	source,
 }: withColorMap.Props): Color.RGBA => {
-	// Use heightmap noise as the primary source for terrain color
-	const noiseValue = source.heightmap ?? 0;
-
-	// Find the appropriate color stop for the current noise value
-	for (const { level, color } of colorMap) {
-		const [min, max] = level;
-
-		if (noiseValue >= min && noiseValue <= max) {
-			// Convert HSLA to RGBA for the texture
-			return hslaToRgba(color);
-		}
+	/**
+	 * No heightmap, no story.
+	 */
+	if (!source.heightmap) {
+		return RGBA([128, 128, 128, 255]);
 	}
 
-	// Fallback color (should not happen with proper color map coverage)
-	return RGBA([128, 128, 128, 255]);
+	const baseColor = colorMap.find(({ color, level: [min, max] }) => {
+		if (source.heightmap! >= min && source.heightmap! <= max) {
+			return color;
+		}
+	});
+
+	/**
+	 * No base color, nothing to do, sorry.
+	 */
+	if (!baseColor) {
+		return RGBA([128, 128, 128, 255]);
+	}
+
+	return hslaToRgba(baseColor?.color);
 };
