@@ -31,10 +31,8 @@ export const withColorMap = ({
 		return RGBA([128, 128, 128, 255]);
 	}
 
-	const baseColor = colorMap.find(({ color, level: [min, max] }) => {
-		if (source.heightmap! >= min && source.heightmap! <= max) {
-			return color;
-		}
+	const baseColor = colorMap.find(({ level: [min, max] }) => {
+		return source.heightmap! >= min && source.heightmap! <= max;
 	});
 
 	/**
