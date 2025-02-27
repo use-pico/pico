@@ -3,6 +3,7 @@ import type { TerrainLayer } from "~/app/derivean/type/TerrainLayer";
 
 /**
  * Predefined terrain layers for common terrain types
+ * Organized by elevation from water to mountains
  */
 export const DefaultTerrainLayers = {
 	// Water bodies
@@ -11,6 +12,7 @@ export const DefaultTerrainLayers = {
 		color: HSLA([220, 85, 18, 1.0]),
 		length: 0.15,
 		steps: 5,
+		transition: 6,
 	} satisfies TerrainLayer,
 
 	Ocean: {
@@ -18,28 +20,32 @@ export const DefaultTerrainLayers = {
 		color: HSLA([215, 75, 25, 1.0]),
 		length: 0.15,
 		steps: 5,
+		transition: 4,
 	} satisfies TerrainLayer,
 
 	ShallowWater: {
 		name: "shallow-water",
 		color: HSLA([195, 65, 35, 1.0]),
 		length: 0.1,
-		steps: 4,
+		steps: 6,
+		transition: 6,
 	} satisfies TerrainLayer,
 
-	// Coastal areas
+	// Transition zone
 	Coast: {
 		name: "coast",
 		color: HSLA([180, 40, 45, 1.0]),
 		length: 0.05,
-		steps: 3,
+		steps: 6,
+		transition: 8,
 	} satisfies TerrainLayer,
 
 	Beach: {
 		name: "beach",
 		color: HSLA([45, 65, 70, 1.0]),
 		length: 0.05,
-		steps: 3,
+		steps: 6,
+		transition: 5,
 	} satisfies TerrainLayer,
 
 	// Low elevation areas
@@ -47,14 +53,16 @@ export const DefaultTerrainLayers = {
 		name: "wetland",
 		color: HSLA([85, 45, 40, 1.0]),
 		length: 0.1,
-		steps: 4,
+		steps: 6,
+		transition: 5,
 	} satisfies TerrainLayer,
 
 	Lowland: {
 		name: "lowland",
 		color: HSLA([65, 55, 45, 1.0]),
 		length: 0.15,
-		steps: 5,
+		steps: 8,
+		transition: 4,
 	} satisfies TerrainLayer,
 
 	// Mid elevation areas
@@ -62,21 +70,24 @@ export const DefaultTerrainLayers = {
 		name: "valley",
 		color: HSLA([35, 50, 40, 1.0]),
 		length: 0.15,
-		steps: 6,
+		steps: 8,
+		transition: 6,
 	} satisfies TerrainLayer,
 
 	Grassland: {
 		name: "grassland",
 		color: HSLA([90, 40, 35, 1.0]),
 		length: 0.2,
-		steps: 6,
+		steps: 8,
+		transition: 6,
 	} satisfies TerrainLayer,
 
 	Midland: {
 		name: "midland",
 		color: HSLA([25, 40, 32, 1.0]),
 		length: 0.2,
-		steps: 8,
+		steps: 10,
+		transition: 6,
 	} satisfies TerrainLayer,
 
 	// High elevation areas
@@ -85,13 +96,15 @@ export const DefaultTerrainLayers = {
 		color: HSLA([15, 35, 28, 1.0]),
 		length: 0.2,
 		steps: 10,
+		transition: 4,
 	} satisfies TerrainLayer,
 
 	Foothills: {
 		name: "foothills",
 		color: HSLA([10, 30, 25, 1.0]),
 		length: 0.15,
-		steps: 8,
+		steps: 10,
+		transition: 6,
 	} satisfies TerrainLayer,
 
 	// Mountain areas
@@ -100,6 +113,7 @@ export const DefaultTerrainLayers = {
 		color: HSLA([5, 20, 35, 1.0]),
 		length: 0.15,
 		steps: 10,
+		transition: 4,
 	} satisfies TerrainLayer,
 
 	HighMountain: {
@@ -107,12 +121,13 @@ export const DefaultTerrainLayers = {
 		color: HSLA([0, 10, 45, 1.0]),
 		length: 0.1,
 		steps: 8,
+		transition: 5,
 	} satisfies TerrainLayer,
 
 	MountainPeak: {
 		name: "mountain-peak",
 		color: HSLA([0, 5, 85, 1.0]),
 		length: 0.1,
-		steps: 5,
+		steps: 8,
 	} satisfies TerrainLayer,
 } as const;

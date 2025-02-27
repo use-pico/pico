@@ -24,4 +24,11 @@ export interface TerrainLayer {
 	 * Higher values create smoother gradients
 	 */
 	steps: number;
+
+	/**
+	 * Optional number of interpolation steps to add between this layer and the next
+	 * Higher values create smoother transitions between different terrain types
+	 * Default is 4 if not specified
+	 */
+	transition?: number;
 }

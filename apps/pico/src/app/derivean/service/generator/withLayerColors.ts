@@ -3,10 +3,32 @@ import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { TerrainLayer } from "~/app/derivean/type/TerrainLayer";
 
 /**
- * Internal representation of a terrain layer with computed level
+ * Interpolates between two HSLA colors
  */
-interface TerrainLevelLayer extends TerrainLayer {
-	level: number;
+function interpolateHSLA(
+	startColor: Color.HSLA,
+	endColor: Color.HSLA,
+	t: number,
+): Color.HSLA {
+	// Special handling for hue to avoid the long way around the color wheel
+	let [h1] = startColor.color;
+	let [h2] = endColor.color;
+
+	// Adjust hue to take the shortest path around the color wheel
+	if (Math.abs(h2 - h1) > 180) {
+		if (h1 < h2) {
+			h1 += 360;
+		} else {
+			h2 += 360;
+		}
+	}
+
+	const h = (h1 + t * (h2 - h1)) % 360;
+	const s = startColor.color[1] + t * (endColor.color[1] - startColor.color[1]);
+	const l = startColor.color[2] + t * (endColor.color[2] - startColor.color[2]);
+	const a = startColor.color[3] + t * (endColor.color[3] - startColor.color[3]);
+
+	return HSLA([h, s, l, a]);
 }
 
 /**
@@ -35,77 +57,109 @@ function createColorVariation(
 /**
  * Assigns levels to terrain layers starting from -1
  */
-function assignLevelsToLayers(layers: TerrainLayer[]): TerrainLevelLayer[] {
+function assignLevelsToLayers(
+	layers: TerrainLayer[],
+): (TerrainLayer & { level: number })[] {
 	let currentLevel = -1;
 	return layers.map((layer) => {
-		const levelLayer: TerrainLevelLayer = {
+		const levelLayer = {
 			...layer,
 			level: currentLevel,
-		};
+		} as const;
 		currentLevel += layer.length;
 		return levelLayer;
 	});
 }
 
 /**
- * Generates a color map from a sequence of terrain layers
+ * Creates the terrain color map using provided terrain layers
+ * with enhanced smooth transitions between layers
  */
-function generateColorMap(layers: TerrainLevelLayer[]): {
-	colorMap: NoiseColorMap;
-	errors: string[];
-	warnings: string[];
-} {
+export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
+	const levelLayers = assignLevelsToLayers(layers);
 	const colorMap: NoiseColorMap = [];
-	const errors: string[] = [];
-	const warnings: string[] = [];
 
-	// Check only the total noise range coverage
+	// Check total noise range coverage
 	const totalLength = layers.reduce((sum, layer) => sum + layer.length, 0);
 	if (totalLength < 2) {
-		warnings.push(
+		console.warn(
 			`Warning: Total layer coverage (${totalLength.toFixed(3)}) is less than the full range of 2 (-1 to 1). Some noise values will not be mapped.`,
 		);
 	}
 
 	if (totalLength > 2) {
-		errors.push(
+		console.error(
 			`Total layer coverage (${totalLength.toFixed(3)}) exceeds maximum range of 2 (-1 to 1).`,
 		);
-		return { colorMap, errors, warnings };
+		return colorMap;
 	}
 
-	// Generate color stops for each layer
-	layers.forEach((layer) => {
+	// Generate color stops for each layer with enhanced transitions
+	for (let i = 0; i < levelLayers.length; i++) {
+		const layer = levelLayers[i]!;
 		const { color: baseColor, level, length, steps } = layer;
+		const nextLayer = i < levelLayers.length - 1 ? levelLayers[i + 1] : null;
 
-		for (let i = 0; i < steps; i++) {
-			const stepStart = level + (length * i) / steps;
-			const stepEnd = level + (length * (i + 1)) / steps;
+		// Default values for transitions
+		const createTransition = nextLayer !== null;
+		const transitionSteps = layer.transition ?? 4;
+
+		// Calculate the actual steps for this layer (excluding transition)
+		const layerSteps =
+			createTransition ? Math.max(8, steps) : Math.max(8, steps);
+
+		// Generate the main color stops for this layer
+		for (let j = 0; j < layerSteps - 1; j++) {
+			const stepStart = level + (length * j) / layerSteps;
+			const stepEnd = level + (length * (j + 1)) / layerSteps;
 
 			colorMap.push({
 				level: [stepStart, stepEnd],
-				color: createColorVariation(baseColor, i, steps),
+				color: createColorVariation(baseColor, j, layerSteps),
 			});
 		}
-	});
 
-	return { colorMap, errors, warnings };
-}
+		// If we're creating a transition to the next layer
+		if (createTransition && nextLayer) {
+			const lastStepStart = level + (length * (layerSteps - 1)) / layerSteps;
+			const lastStepEnd = level + length;
 
-/**
- * Creates the terrain color map using provided terrain layers
- * Automatically assigns levels starting from -1
- */
-export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
-	const levelLayers = assignLevelsToLayers(layers);
-	const { colorMap, errors, warnings } = generateColorMap(levelLayers);
+			// The last color from this layer
+			const lastColor = createColorVariation(
+				baseColor,
+				layerSteps - 1,
+				layerSteps,
+			);
+			// The first color from the next layer
+			const nextColor = createColorVariation(
+				nextLayer.color,
+				0,
+				Math.max(8, nextLayer.steps),
+			);
 
-	if (errors.length > 0) {
-		console.error("Errors in terrain color map:", errors);
-	}
+			// Create transition steps between the two layers
+			const segmentLength =
+				(lastStepEnd - lastStepStart) / (transitionSteps + 1);
 
-	if (warnings.length > 0) {
-		console.warn("Warnings in terrain color map:", warnings);
+			for (let k = 0; k <= transitionSteps; k++) {
+				const t = (k + 1) / (transitionSteps + 2);
+				const transitionStart = lastStepStart + k * segmentLength;
+				const transitionEnd = lastStepStart + (k + 1) * segmentLength;
+
+				colorMap.push({
+					level: [transitionStart, transitionEnd],
+					color: interpolateHSLA(lastColor, nextColor, t),
+				});
+			}
+		} else if (!createTransition) {
+			// Add the final segment for the last layer
+			const lastStepStart = level + (length * (layerSteps - 1)) / layerSteps;
+			const lastStepEnd = level + length;
+			colorMap.push({
+				level: [lastStepStart, lastStepEnd],
+				color: createColorVariation(baseColor, layerSteps - 1, layerSteps),
+			});
+		}
 	}
 
 	return colorMap;
