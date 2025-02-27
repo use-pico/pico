@@ -96,8 +96,12 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 		temperature: flow(
 			createNoise({
 				seed: `${seed}-temperature`,
-				type: "ValueCubic",
-				frequency: 0.075,
+				type: "Cellular",
+				cellular: {
+					distanceFunction: "EuclideanSq",
+					returnType: "CellValue",
+				},
+				frequency: 0.05,
 			}),
 			fpWeight({ weight: 2 }),
 		),
@@ -105,45 +109,14 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 		/**
 		 * Moisture - simulates rainfall patterns with coastal effects
 		 */
-		moisture: withNoise({
-			seed: `${seed}-moisture`,
-			layers: [
-				{
-					name: "base-moisture",
-					scale: 0.8,
-					weight: 1,
-					noise(seed) {
-						return createNoise({
-							seed,
-							frequency: 0.05,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 3,
-								lacunarity: 2.0,
-								gain: 0.6,
-							},
-						});
-					},
-				},
-				{
-					name: "local-humidity",
-					scale: 2,
-					weight: 0.4,
-					noise(seed) {
-						return createNoise({
-							seed,
-							frequency: 0.08,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 2,
-							},
-						});
-					},
-				},
-			],
-		}),
+		moisture: flow(
+			createNoise({
+				seed: `${seed}-moisture`,
+				type: "ValueCubic",
+				frequency: 0.05,
+			}),
+			fpWeight({ weight: 2 }),
+		),
 
 		/**
 		 * Shade - subtle local variations to break up uniformity
