@@ -99,7 +99,7 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 				type: "ValueCubic",
 				frequency: 0.075,
 			}),
-			fpWeight({ weight: 1.5 }),
+			fpWeight({ weight: 2 }),
 		),
 
 		/**

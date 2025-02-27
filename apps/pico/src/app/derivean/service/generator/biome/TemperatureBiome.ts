@@ -18,7 +18,7 @@ export const TemperatureBiome: Biome = {
 
 		// Calculate a temperature intensity factor
 		// Using a power function to make extreme temperatures have a stronger effect
-		const intensityFactor = Math.abs(temperature) ** 4;
+		const intensityFactor = Math.abs(temperature) ** 6;
 
 		// Apply temperature effects based on terrain type
 		if (isDeepWater) {
