@@ -97,7 +97,7 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 			createNoise({
 				seed: `${seed}-temperature`,
 				type: "ValueCubic",
-				frequency: 2,
+				frequency: 0.075,
 			}),
 			fpWeight({ weight: 1.5 }),
 		),

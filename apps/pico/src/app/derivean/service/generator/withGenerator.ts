@@ -83,6 +83,7 @@ export const withGenerator = ({
 
 			const color = withColorMap({
 				colorMap: gameConfig.colorMap,
+				biomes: gameConfig.biomes,
 				source: {
 					heightmap: noise.heightmap([worldX, worldZ]),
 					biome: noise.biome([worldX, worldZ]),

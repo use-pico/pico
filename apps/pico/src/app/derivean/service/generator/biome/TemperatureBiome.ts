@@ -18,8 +18,7 @@ export const TemperatureBiome: Biome = {
 
 		// Calculate a temperature intensity factor
 		// Using a power function to make extreme temperatures have a stronger effect
-		// const intensityFactor = Math.abs(temperature) ** 4;
-		const intensityFactor = Math.abs(temperature) * 3;
+		const intensityFactor = Math.abs(temperature) ** 4;
 
 		// Apply temperature effects based on terrain type
 		if (isDeepWater) {
@@ -75,19 +74,19 @@ export const TemperatureBiome: Biome = {
 		}
 
 		// Use moisture data if available to simulate humid areas
-		// if (source.moisture > 0.3) {
-		// 	const moistureFactor = Math.min(1, (source.moisture - 0.3) * 2);
+		if (source.moisture > 0.3) {
+			const moistureFactor = Math.min(1, (source.moisture - 0.3) * 2);
 
-		// 	if (temperature > 0 && !isWater) {
-		// 		// Humid warm areas: greener (shifted towards hue 120)
-		// 		h = h * (1 - moistureFactor * 0.3) + 120 * moistureFactor * 0.3;
-		// 		s = Math.min(100, s + moistureFactor * 10);
-		// 	} else if (temperature < 0 && !isWater) {
-		// 		// Humid cold areas: darker blue
-		// 		s = Math.min(100, s + moistureFactor * 15);
-		// 		l = Math.max(0, l - moistureFactor * 10);
-		// 	}
-		// }
+			if (temperature > 0 && !isWater) {
+				// Humid warm areas: greener (shifted towards hue 120)
+				h = h * (1 - moistureFactor * 0.3) + 120 * moistureFactor * 0.3;
+				s = Math.min(100, s + moistureFactor * 10);
+			} else if (temperature < 0 && !isWater) {
+				// Humid cold areas: darker blue
+				s = Math.min(100, s + moistureFactor * 15);
+				l = Math.max(0, l - moistureFactor * 10);
+			}
+		}
 
 		// Ensure values stay in valid ranges
 		h = ((h % 360) + 360) % 360;
