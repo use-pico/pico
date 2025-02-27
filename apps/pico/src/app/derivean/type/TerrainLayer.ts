@@ -15,11 +15,6 @@ export interface TerrainLayer {
 	color: Color.HSLA;
 
 	/**
-	 * Starting noise level for this layer (should be between -1 and 1)
-	 */
-	level: number;
-
-	/**
 	 * Length/range of noise values this layer covers (e.g., 0.25)
 	 */
 	length: number;
