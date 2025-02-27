@@ -75,11 +75,18 @@ export const GameConfig: GameConfig = {
 		DefaultTerrainLayers.DeepOcean,
 		DefaultTerrainLayers.Ocean,
 		DefaultTerrainLayers.ShallowWater,
+		DefaultTerrainLayers.Coast,
 		DefaultTerrainLayers.Beach,
+		DefaultTerrainLayers.Wetland,
 		DefaultTerrainLayers.Lowland,
+		DefaultTerrainLayers.Valley,
+		DefaultTerrainLayers.Grassland,
 		DefaultTerrainLayers.Midland,
 		DefaultTerrainLayers.Highland,
+		DefaultTerrainLayers.Foothills,
 		DefaultTerrainLayers.Mountain,
+		DefaultTerrainLayers.HighMountain,
+		DefaultTerrainLayers.MountainPeak,
 	]),
 	layers: [
 		{
