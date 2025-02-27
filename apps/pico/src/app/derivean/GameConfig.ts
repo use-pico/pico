@@ -1,4 +1,5 @@
-import { DefaultColorMap } from "~/app/derivean/DefaultColorMap";
+import { DefaultTerrainLayers } from "~/app/derivean/service/DefaultTerrainLayers";
+import { withLayerColors } from "~/app/derivean/service/generator/withLayerColors";
 import { SourceNoise } from "~/app/derivean/service/SourceNoise";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
@@ -70,7 +71,16 @@ export const GameConfig: GameConfig = {
 	chunkSize: 16 * 256,
 	chunkLimit: 2048,
 	source: SourceNoise,
-	colorMap: DefaultColorMap,
+	colorMap: withLayerColors([
+		DefaultTerrainLayers.DeepOcean,
+		DefaultTerrainLayers.Ocean,
+		DefaultTerrainLayers.ShallowWater,
+		DefaultTerrainLayers.Beach,
+		DefaultTerrainLayers.Lowland,
+		DefaultTerrainLayers.Midland,
+		DefaultTerrainLayers.Highland,
+		DefaultTerrainLayers.Mountain,
+	]),
 	layers: [
 		{
 			min: 0.001,
