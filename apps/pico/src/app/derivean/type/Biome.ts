@@ -21,6 +21,17 @@ export namespace Biome {
 			 */
 			source: Partial<Record<NoiseType, number>>;
 		}
+
+		export interface Result {
+			/**
+			 * Resolved color
+			 */
+			color: Color.HSLA;
+			/**
+			 * Exclusive flag; if true, this is the last biome to resolve color.
+			 */
+			exclusive: boolean;
+		}
 	}
 
 	/**
@@ -28,7 +39,7 @@ export namespace Biome {
 	 *
 	 * Input color is the color from the previous biome (or heightmap color).
 	 */
-	export type Resolve = (props: Resolve.Props) => Color.HSLA | undefined;
+	export type Resolve = (props: Resolve.Props) => Resolve.Result | undefined;
 }
 
 export interface Biome {

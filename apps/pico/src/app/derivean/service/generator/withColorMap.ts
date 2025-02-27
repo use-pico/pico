@@ -51,13 +51,17 @@ export const withColorMap = ({
 	for (const biome of biomes) {
 		const resolved = biome.resolve({
 			type,
+			base: baseColor.color,
 			color,
 			source,
 		});
 
 		if (resolved) {
-			color = resolved;
+			({ color } = resolved);
 			type.push(biome.type);
+			if (resolved.exclusive) {
+				break;
+			}
 		}
 	}
 
