@@ -65,5 +65,5 @@ export const createNoise = ({
 		cellular.returnType && noise.SetCellularReturnType(cellular.returnType);
 	}
 
-	return (x, z) => noise.GetNoise(x, z);
+	return ([x, z]) => noise.GetNoise(x, z);
 };

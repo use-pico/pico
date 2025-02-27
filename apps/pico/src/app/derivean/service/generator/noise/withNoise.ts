@@ -1,4 +1,5 @@
 import { rangeOf } from "@use-pico/common";
+import type { Noise } from "~/app/derivean/type/Noise";
 import type { NoiseFactory } from "~/app/derivean/type/NoiseFactory";
 
 export namespace withNoise {
@@ -96,7 +97,7 @@ const noiseOf = (
 	const value = layers
 		.filter((layer) => !layer.disabled)
 		.reduce((sum, { scale, inverse, weight, limit }, index) => {
-			let value = generator[index]!(x * scale, z * scale);
+			let value = generator[index]!([x * scale, z * scale]);
 
 			if (weight) {
 				value *= weight;
@@ -128,8 +129,8 @@ export const withNoise = ({
 	seed,
 	layers,
 	variation = [],
-}: withNoise.Props) => {
-	return (x: number, z: number) => {
+}: withNoise.Props): Noise => {
+	return ([x, z]) => {
 		let value = noiseOf(x, z, seed, layers);
 
 		const mix = variation.find(({ min, max }) => min <= value && value <= max);

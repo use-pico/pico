@@ -1,1 +1,3 @@
-export type NoiseFactory = (seed: string) => (x: number, z: number) => number;
+import type { Noise } from "~/app/derivean/type/Noise";
+
+export type NoiseFactory = (seed: string) => Noise;

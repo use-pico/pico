@@ -84,7 +84,7 @@ export const withGenerator = ({
 			const color = withColorMap({
 				colorMap: gameConfig.colorMap,
 				source: {
-					heightmap: noise.heightmap(worldX, worldZ),
+					heightmap: noise.heightmap([worldX, worldZ]),
 				},
 			});
 
