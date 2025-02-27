@@ -1,3 +1,4 @@
+import type { Biome } from "~/app/derivean/type/Biome";
 import { RGBA, type Color } from "~/app/derivean/type/Color";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
@@ -9,6 +10,7 @@ export namespace withColorMap {
 		 * Color map used to convert noise values to colors
 		 */
 		colorMap: NoiseColorMap;
+		biomes?: Biome[];
 		/**
 		 * Various noise sources that can be used for coloring
 		 */
@@ -22,6 +24,7 @@ export namespace withColorMap {
  */
 export const withColorMap = ({
 	colorMap,
+	biomes = [],
 	source,
 }: withColorMap.Props): Color.RGBA => {
 	/**
@@ -42,5 +45,21 @@ export const withColorMap = ({
 		return RGBA([128, 128, 128, 255]);
 	}
 
-	return hslaToRgba(baseColor?.color);
+	let { color } = baseColor;
+	const type: string[] = ["heightmap"];
+
+	for (const biome of biomes) {
+		const resolved = biome.resolve({
+			type,
+			color,
+			source,
+		});
+
+		if (resolved) {
+			color = resolved;
+			type.push(biome.type);
+		}
+	}
+
+	return hslaToRgba(color);
 };

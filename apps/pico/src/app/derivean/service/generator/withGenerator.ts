@@ -85,6 +85,9 @@ export const withGenerator = ({
 				colorMap: gameConfig.colorMap,
 				source: {
 					heightmap: noise.heightmap([worldX, worldZ]),
+					temperature: noise.temperature([worldX, worldZ]),
+					moisture: noise.moisture([worldX, worldZ]),
+					shade: noise.shade([worldX, worldZ]),
 				},
 			});
 

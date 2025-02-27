@@ -1,6 +1,8 @@
 import { DefaultTerrainLayers } from "~/app/derivean/service/DefaultTerrainLayers";
+import { TemperatureBiome } from "~/app/derivean/service/generator/biome/TemperatureBiome";
 import { withLayerColors } from "~/app/derivean/service/generator/withLayerColors";
 import { SourceNoise } from "~/app/derivean/service/SourceNoise";
+import type { Biome } from "~/app/derivean/type/Biome";
 import type { Chunk } from "~/app/derivean/type/Chunk";
 import type { NoiseColorMap } from "~/app/derivean/type/NoiseColorMap";
 import type { NoiseSource } from "~/app/derivean/type/NoiseSource";
@@ -57,6 +59,7 @@ export interface GameConfig {
 	 */
 	source: NoiseSource;
 	colorMap: NoiseColorMap;
+	biomes?: Biome[];
 	/**
 	 * Defines which layer is rendered in which zoom level.
 	 */
@@ -89,6 +92,9 @@ export const GameConfig: GameConfig = {
 		DefaultTerrainLayers.HighMountain,
 		DefaultTerrainLayers.MountainPeak,
 	]),
+	biomes: [
+		TemperatureBiome,
+	],
 	layers: [
 		{
 			min: 0.001,
