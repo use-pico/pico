@@ -8,7 +8,17 @@ export namespace Biome {
 			 * List of types contributed to this color.
 			 */
 			type: string[];
+			/**
+			 * Access to a base color (from heightmap).
+			 */
+			base: Color.HSLA;
+			/**
+			 * Access to a current color (may be already modified by previous biomes).
+			 */
 			color: Color.HSLA;
+			/**
+			 * All available noise values a new color may be calculated from.
+			 */
 			source: Partial<Record<NoiseType, number>>;
 		}
 	}
@@ -22,6 +32,9 @@ export namespace Biome {
 }
 
 export interface Biome {
+	/**
+	 * Biome type, may be used in resolve to check for conflicting/exclusive biomes.
+	 */
 	type: string;
 	/**
 	 * Resolve biome color
