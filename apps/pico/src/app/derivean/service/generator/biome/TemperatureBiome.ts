@@ -17,7 +17,6 @@ export const TemperatureBiome: Biome = {
 		let [h, s, l] = color.color;
 
 		// Reduce the intensity factor to make effects more subtle
-		// Square root function makes extreme values less extreme
 		const intensityFactor = Math.sqrt(Math.abs(temperature)) * 1.5;
 
 		// Apply temperature effects based on terrain type from base.type
@@ -56,7 +55,10 @@ export const TemperatureBiome: Biome = {
 					s = Math.max(0, Math.min(100, s + temperature * 2 * intensityFactor));
 				} else {
 					// Warm beaches: more yellow
-					h -= temperature * 3 * intensityFactor;
+					// Shift towards yellow (around 60) instead of red
+					const targetHue = 60;
+					const blendFactor = temperature * 0.2 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 4 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * 2 * intensityFactor));
 				}
@@ -72,8 +74,10 @@ export const TemperatureBiome: Biome = {
 					s = Math.max(0, Math.min(100, s + temperature * 6 * intensityFactor));
 					l = Math.max(0, Math.min(100, l - temperature * 4 * intensityFactor));
 				} else {
-					// Warm mountains: subtle reddish effect
-					h -= temperature * 2 * intensityFactor;
+					// Warm mountains: shift towards orange rather than red
+					const targetHue = 35;
+					const blendFactor = temperature * 0.15 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 2 * intensityFactor));
 				}
 				break;
@@ -87,8 +91,10 @@ export const TemperatureBiome: Biome = {
 					l = Math.max(0, Math.min(100, l - 2));
 				} else {
 					// Warm wetlands: more vibrant green
-					// Less dramatic mixing with green
-					h = h * 0.9 + 120 * 0.1;
+					// Mix in some yellow-green instead of pure green
+					const targetHue = 95;
+					const blendFactor = temperature * 0.1 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + 5));
 				}
 				break;
@@ -104,7 +110,9 @@ export const TemperatureBiome: Biome = {
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
 				} else {
 					// Warm grasslands: more yellow/gold
-					h -= temperature * 4 * intensityFactor;
+					const targetHue = 55;
+					const blendFactor = temperature * 0.2 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 5 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
 				}
@@ -120,8 +128,10 @@ export const TemperatureBiome: Biome = {
 					s = Math.max(0, Math.min(100, s + temperature * 4 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * 2 * intensityFactor));
 				} else {
-					// Warm highlands: shift towards orange/brown
-					h -= temperature * 5 * intensityFactor;
+					// Warm highlands: shift towards yellow-orange instead of red
+					const targetHue = 40;
+					const blendFactor = temperature * 0.25 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 6 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
 				}
@@ -135,15 +145,17 @@ export const TemperatureBiome: Biome = {
 					s = Math.max(0, Math.min(100, s + temperature * 4 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * 2 * intensityFactor));
 				} else {
-					// Warm areas: red/yellow shift (more subtle)
-					h -= temperature * 5 * intensityFactor;
+					// Warm areas: yellow-orange shift instead of red
+					const targetHue = 45;
+					const blendFactor = temperature * 0.2 * intensityFactor;
+					h = h * (1 - blendFactor) + targetHue * blendFactor;
 					s = Math.max(0, Math.min(100, s + temperature * 6 * intensityFactor));
 					l = Math.max(0, Math.min(100, l + temperature * intensityFactor));
 				}
 				break;
 		}
 
-		// Use moisture data to modify colors - make this more subtle too
+		// Use moisture data to modify colors
 		if (source.moisture > 0.3) {
 			const moistureFactor = Math.min(0.6, (source.moisture - 0.3) * 1.2);
 
@@ -154,25 +166,24 @@ export const TemperatureBiome: Biome = {
 				base.type === DefaultTerrainLayers.ShallowWater.name;
 
 			if (temperature > 0 && !isWaterType) {
-				// Humid warm areas: greener (shifted towards hue 120) - more subtle
+				// Humid warm areas: more yellow-green instead of pure green
+				const targetHue = 95;
 				const greenInfluence = moistureFactor * 0.15;
-				h = h * (1 - greenInfluence) + 120 * greenInfluence;
+				h = h * (1 - greenInfluence) + targetHue * greenInfluence;
 				s = Math.min(100, s + moistureFactor * 5);
 			} else if (temperature < 0 && !isWaterType) {
-				// Humid cold areas: darker blue - more subtle
+				// Humid cold areas: darker blue
 				s = Math.min(100, s + moistureFactor * 7);
 				l = Math.max(0, l - moistureFactor * 5);
 			}
 		}
 
 		// Prevent extreme color shifts by limiting the total amount of change
-		// Calculate the difference between original and new values
 		const [originalH] = color.color;
 		const hDiff = Math.abs(h - originalH);
 
 		// If the hue has changed too much, limit it
 		if (hDiff > 30) {
-			// Limit how far the hue can shift
 			const hueDirection = h > originalH ? 1 : -1;
 			h = originalH + 30 * hueDirection;
 		}
