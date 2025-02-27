@@ -93,50 +93,14 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 		/**
 		 * Temperature - gradual from poles to equator with local variation
 		 */
-		temperature: withNoise({
-			seed: `${seed}-temperature`,
-			layers: [
-				{
-					name: "latitude",
-					scale: 0.2,
-					weight: 1,
-					noise(seed) {
-						// Create a simple gradient primarily influenced by z coordinate
-						// This simulates latitude temperature variation
-						return ([x, z]) => {
-							// Start with basic latitude gradient (north-south)
-							const temp = Math.sin(z * 0.02) * 0.8;
-
-							// Add some east-west variation
-							const eastWestVariation =
-								createNoise({
-									seed,
-									frequency: 0.01,
-									type: FastNoiseLite.NoiseType.OpenSimplex2,
-								})([x, z]) * 0.2;
-
-							return temp + eastWestVariation;
-						};
-					},
-				},
-				{
-					name: "local-variation",
-					scale: 2,
-					weight: 0.25,
-					noise(seed) {
-						return createNoise({
-							seed,
-							frequency: 0.07,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
-							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
-								octaves: 2,
-							},
-						});
-					},
-				},
-			],
-		}),
+		temperature: flow(
+			createNoise({
+				seed: `${seed}-temperature`,
+				type: "ValueCubic",
+				frequency: 2,
+			}),
+			fpWeight({ weight: 1.5 }),
+		),
 
 		/**
 		 * Moisture - simulates rainfall patterns with coastal effects

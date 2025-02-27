@@ -27,24 +27,24 @@ export const withColorMap = ({
 	biomes = [],
 	source,
 }: withColorMap.Props): Color.RGBA => {
-	const baseColor = colorMap.find(({ level: [min, max] }) => {
+	const base = colorMap.find(({ level: [min, max] }) => {
 		return source.heightmap! >= min && source.heightmap! <= max;
 	});
 
 	/**
 	 * No base color, nothing to do, sorry.
 	 */
-	if (!baseColor) {
+	if (!base) {
 		return RGBA([128, 128, 128, 255]);
 	}
 
-	let { color } = baseColor;
+	let { color } = base;
 	const type: string[] = ["heightmap"];
 
 	for (const biome of biomes) {
 		const resolved = biome.resolve({
 			type,
-			base: baseColor.color,
+			base,
 			color,
 			source,
 		});

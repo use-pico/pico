@@ -12,4 +12,8 @@ export interface NoiseColor {
 	 * Color used as output for this noise level.
 	 */
 	color: Color.HSLA;
+	/**
+	 * Type of noise color (e.g. deep ocean).
+	 */
+	type: string;
 }

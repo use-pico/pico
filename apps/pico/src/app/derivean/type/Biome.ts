@@ -1,4 +1,5 @@
 import type { Color } from "~/app/derivean/type/Color";
+import type { NoiseColor } from "~/app/derivean/type/NoiseColor";
 import type { NoiseType } from "~/app/derivean/type/NoiseType";
 
 export namespace Biome {
@@ -11,7 +12,7 @@ export namespace Biome {
 			/**
 			 * Access to a base color (from heightmap).
 			 */
-			base: Color.HSLA;
+			base: NoiseColor;
 			/**
 			 * Access to a current color (may be already modified by previous biomes).
 			 */

@@ -97,7 +97,7 @@ export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
 	// Generate color stops for each layer with enhanced transitions
 	for (let i = 0; i < levelLayers.length; i++) {
 		const layer = levelLayers[i]!;
-		const { color: baseColor, level, length, steps } = layer;
+		const { color: baseColor, level, length, steps, name } = layer;
 		const nextLayer = i < levelLayers.length - 1 ? levelLayers[i + 1] : null;
 
 		// Default values for transitions
@@ -116,6 +116,7 @@ export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
 			colorMap.push({
 				level: [stepStart, stepEnd],
 				color: createColorVariation(baseColor, j, layerSteps),
+				type: name,
 			});
 		}
 
@@ -146,9 +147,13 @@ export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
 				const transitionStart = lastStepStart + k * segmentLength;
 				const transitionEnd = lastStepStart + (k + 1) * segmentLength;
 
+				// For transitions, use a blended terrain type
+				const transitionTerrainType = `${layer.name}-to-${nextLayer.name}`;
+
 				colorMap.push({
 					level: [transitionStart, transitionEnd],
 					color: interpolateHSLA(lastColor, nextColor, t),
+					type: transitionTerrainType,
 				});
 			}
 		} else if (!createTransition) {
@@ -158,6 +163,7 @@ export function withLayerColors(layers: TerrainLayer[]): NoiseColorMap {
 			colorMap.push({
 				level: [lastStepStart, lastStepEnd],
 				color: createColorVariation(baseColor, layerSteps - 1, layerSteps),
+				type: name,
 			});
 		}
 	}

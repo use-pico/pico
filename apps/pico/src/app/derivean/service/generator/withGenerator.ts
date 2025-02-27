@@ -91,6 +91,7 @@ export const withGenerator = ({
 					shade: noise.shade([worldX, worldZ]),
 				},
 			});
+			// const color = noiseToRGBA(noise.temperature([worldX, worldZ]));
 
 			/**
 			 * Output the RGBA color to the final texture.
