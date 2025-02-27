@@ -15,19 +15,21 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 			layers: [
 				{
 					name: "continents",
-					scale: 0.8,
+					// scale: 0.65,
+					scale: 8,
 					weight: 1,
 					noise(seed) {
 						// Create large-scale continent shapes
 						const continentNoise = createNoise({
 							seed,
-							frequency: 0.008,
-							type: FastNoiseLite.NoiseType.OpenSimplex2,
+							frequency: 0.0015,
+							type: FastNoiseLite.NoiseType.ValueCubic,
 							fractal: {
-								type: FastNoiseLite.FractalType.FBm,
+								type: FastNoiseLite.FractalType.PingPong,
 								octaves: 6,
 								lacunarity: 2.2,
 								gain: 0.4,
+								pingPongStrength: 0.75,
 							},
 						});
 
@@ -40,10 +42,40 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 					},
 				},
 				{
+					name: "continents-inverse",
+					// scale: 0.65,
+					scale: 4,
+					weight: 0.5,
+					inverse: true,
+					noise(seed) {
+						// Create large-scale continent shapes
+						const continentNoise = createNoise({
+							seed,
+							frequency: 0.0015,
+							type: FastNoiseLite.NoiseType.ValueCubic,
+							fractal: {
+								type: FastNoiseLite.FractalType.PingPong,
+								octaves: 6,
+								lacunarity: 2.2,
+								gain: 0.4,
+								pingPongStrength: 0.75,
+							},
+						});
+
+						// Create a warped version to make the continents less blobby
+						return warp({
+							noise: continentNoise,
+							offsetX: 2000,
+							offsetZ: 1000,
+						});
+					},
+				},
+				{
 					disabled: true,
 					name: "landmasses",
 					scale: 0.8,
 					weight: 0.7,
+					inverse: true,
 					noise(seed) {
 						// Create medium-scale landmasses and large islands
 						return createNoise({
@@ -64,15 +96,16 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 					name: "hills",
 					scale: 2.0,
 					weight: 0.3,
+					inverse: true,
 					noise(seed) {
 						// Create terrain undulations and hills
 						return createNoise({
 							seed: `${seed}-hills`,
-							frequency: 0.04,
+							frequency: 0.02,
 							type: FastNoiseLite.NoiseType.OpenSimplex2,
 							fractal: {
 								type: FastNoiseLite.FractalType.FBm,
-								octaves: 4,
+								octaves: 2,
 								lacunarity: 2.0,
 								gain: 0.5,
 							},
@@ -88,12 +121,12 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 						// Create ridged mountain ranges
 						const ridgeNoise = createNoise({
 							seed: `${seed}-mountains`,
-							frequency: 0.05,
+							frequency: 0.025,
 							type: FastNoiseLite.NoiseType.OpenSimplex2,
 							fractal: {
-								type: FastNoiseLite.FractalType.Ridged,
+								type: FastNoiseLite.FractalType.FBm,
 								octaves: 4,
-								gain: 0.6,
+								gain: 0.25,
 								lacunarity: 2.1,
 							},
 						});
@@ -125,56 +158,6 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 					},
 				},
 			],
-			// variation: [
-			// 	{
-			//         name: "coastal-variation",
-			// 		weight: 0.4,
-			// 		min: -0.2,
-			// 		max: 0.2,
-			// 		layers: [
-			// 			{
-			// 				name: "coast-detail",
-			// 				scale: 5,
-			// 				noise(seed) {
-			// 					return createNoise({
-			// 						seed,
-			// 						frequency: 0.15,
-			// 						type: FastNoiseLite.NoiseType.OpenSimplex2,
-			// 						fractal: {
-			// 							type: FastNoiseLite.FractalType.FBm,
-			// 							octaves: 3,
-			// 							gain: 0.4,
-			// 						},
-			// 					});
-			// 				},
-			// 			},
-			// 		],
-			// 	},
-			// 	{
-			// 		name: "mountain-peaks",
-			// 		weight: 0.7,
-			// 		min: 0.7,
-			// 		max: 1.0,
-			// 		layers: [
-			// 			{
-			// 				name: "peak-detail",
-			// 				scale: 10,
-			// 				noise(seed) {
-			// 					return createNoise({
-			// 						seed,
-			// 						frequency: 0.3,
-			// 						type: FastNoiseLite.NoiseType.OpenSimplex2,
-			// 						fractal: {
-			// 							type: FastNoiseLite.FractalType.Ridged,
-			// 							octaves: 3,
-			// 							gain: 0.7,
-			// 						},
-			// 					});
-			// 				},
-			// 			},
-			// 		],
-			// 	},
-			// ],
 		}),
 
 		/**
