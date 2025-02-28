@@ -112,7 +112,11 @@ export const SourceNoise: NoiseSource = ({ seed }) => {
 		moisture: flow(
 			createNoise({
 				seed: `${seed}-moisture`,
-				type: "ValueCubic",
+				type: "Cellular",
+				cellular: {
+					distanceFunction: "EuclideanSq",
+					returnType: "CellValue",
+				},
 				frequency: 0.05,
 			}),
 			fpWeight({ weight: 2 }),

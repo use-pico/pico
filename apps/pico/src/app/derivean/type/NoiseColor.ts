@@ -15,5 +15,5 @@ export interface NoiseColor {
 	/**
 	 * Type of noise color (e.g. deep ocean).
 	 */
-	type: string;
+	type: string | string[];
 }

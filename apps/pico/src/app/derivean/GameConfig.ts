@@ -1,5 +1,5 @@
 import { DefaultTerrainLayers } from "~/app/derivean/service/DefaultTerrainLayers";
-import { TemperatureBiome } from "~/app/derivean/service/generator/biome/TemperatureBiome";
+import { MoistureBiome } from "~/app/derivean/service/generator/biome/MoistureBiome";
 import { withLayerColors } from "~/app/derivean/service/generator/withLayerColors";
 import { SourceNoise } from "~/app/derivean/service/SourceNoise";
 import type { Biome } from "~/app/derivean/type/Biome";
@@ -92,9 +92,7 @@ export const GameConfig: GameConfig = {
 		DefaultTerrainLayers.HighMountain,
 		DefaultTerrainLayers.MountainPeak,
 	]),
-	biomes: [
-		TemperatureBiome,
-	],
+	biomes: [MoistureBiome],
 	layers: [
 		{
 			min: 0.001,
