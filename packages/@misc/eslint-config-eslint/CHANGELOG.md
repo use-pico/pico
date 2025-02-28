@@ -1,5 +1,11 @@
 # @use-pico/eslint-config-eslint
 
+## 5.0.5
+
+### Patch Changes
+
+- Suppresed another comment shit
+
 ## 5.0.4
 
 ### Patch Changes

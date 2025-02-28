@@ -21,6 +21,7 @@ export default tseslint.config(
 			"class-methods-use-this": "off",
 			"complexity": "off",
 			"consistent-return": "off",
+			"default-case-last": "off",
 			"default-case": "off",
 			"func-style": "off",
 			"id-length": "off",
@@ -35,6 +36,7 @@ export default tseslint.config(
 			"no-bitwise": "off",
 			"no-console": "off",
 			"no-continue": "off",
+			"no-inline-comments": "off",
 			"no-loss-of-precision": "off",
 			"no-magic-numbers": "off",
 			"no-multi-assign": "off",
@@ -55,7 +57,6 @@ export default tseslint.config(
 			"sort-imports": "off",
 			"sort-keys": "off",
 			"sort-vars": "off",
-			"default-case-last": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
