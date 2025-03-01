@@ -9,6 +9,17 @@ export namespace UseTable {
 	export type RowCssCallback<TData extends DataType.Data> = (props: {
 		data: TData;
 	}) => css.Class;
+
+	export namespace OnRowDoubleClick {
+		export interface Props<TData extends DataType.Data> {
+			row: RowType.Row<TData>;
+			data: TData;
+		}
+	}
+
+	export type OnRowDoubleClick<TData extends DataType.Data> = (
+		props: OnRowDoubleClick.Props<TData>,
+	) => void;
 }
 
 export interface UseTable<TData extends DataType.Data, TContext = unknown> {
@@ -48,4 +59,8 @@ export interface UseTable<TData extends DataType.Data, TContext = unknown> {
 	 * Context for the table.
 	 */
 	context: TContext;
+	/**
+	 * If you need to do something when a row is double-clicked.
+	 */
+	onRowDoubleClick?: UseTable.OnRowDoubleClick<TData>;
 }

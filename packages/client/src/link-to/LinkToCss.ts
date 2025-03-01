@@ -15,6 +15,7 @@ export const LinkToCss = css({
 			"hover:text-blue-700",
 			"focus:outline-hidden",
 			"w-fit",
+			"truncate",
 		],
 	},
 	variant: {},

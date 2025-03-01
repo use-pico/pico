@@ -10,7 +10,7 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { isCallable, isString } from "@use-pico/common";
+import { isCallable, isString, tvc } from "@use-pico/common";
 import { useMemo, type FC, type ReactNode } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -34,6 +34,7 @@ export namespace Modal {
 		 */
 		outside?: boolean;
 		children: FC<{ close(): void }> | ReactNode;
+		footer?: FC<{ close(): void }> | ReactNode;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -50,6 +51,7 @@ export const Modal: FC<Modal.Props> = ({
 	css,
 	tva = ModalCss,
 	children: Children,
+	footer: Footer,
 }) => {
 	const useModalStore = useMemo(() => createModalStore({ defaultOpen }), []);
 	const close = useModalStore((state) => state.close);
@@ -78,7 +80,9 @@ export const Modal: FC<Modal.Props> = ({
 				{...getReferenceProps({
 					disabled,
 				})}
-				className={tv.target()}
+				className={tv.target({
+					disabled,
+				})}
 			>
 				{target}
 			</div>
@@ -98,9 +102,17 @@ export const Modal: FC<Modal.Props> = ({
 										className={tv.modal()}
 									>
 										<div
-											className={
-												"border-b border-slate-200 mb-2 py-1.5 flex flex-row items-center justify-between select-none"
-											}
+											className={tvc([
+												"border-b",
+												"border-slate-200",
+												"mb-2",
+												"py-1.5",
+												"flex",
+												"flex-row",
+												"items-center",
+												"justify-between",
+												"select-none",
+											])}
 										>
 											<div className={"flex flex-row items-center gap-2 pr-4"}>
 												{icon &&
@@ -123,9 +135,18 @@ export const Modal: FC<Modal.Props> = ({
 												onClick={() => close()}
 											/>
 										</div>
-										{isCallable(Children) ?
-											<Children close={close} />
-										:	Children}
+										<div className={"flex-grow overflow-y-auto"}>
+											{isCallable(Children) ?
+												<Children close={close} />
+											:	Children}
+										</div>
+										{Footer ?
+											<div>
+												{isCallable(Footer) ?
+													<Footer close={close} />
+												:	Footer}
+											</div>
+										:	null}
 									</div>
 								</FloatingFocusManager>
 							</FloatingOverlay>

@@ -1,6 +1,6 @@
 import { Icon } from "../icon/Icon";
-import { SelectionOff } from "../icon/SelectionOff";
-import { SelectionOn } from "../icon/SelectionOn";
+import { SelectionOffIcon } from "../icon/SelectionOffIcon";
+import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Cell } from "./Cell";
 import type { Table } from "./Table";
 import { TableCss } from "./TableCss";
@@ -34,6 +34,16 @@ export const Row = <TData extends DataType.Data>({
 				css: table.rowCss?.({ data: row.data }),
 				selected: table.selection.isSelected(row),
 			})}
+			onDoubleClick={(e) => {
+				if (table.onRowDoubleClick) {
+					table.onRowDoubleClick({ row, data: row.data });
+					return;
+				}
+
+				if (table.selection.enabled) {
+					table.selection.withRowHandler(row)(e);
+				}
+			}}
 		>
 			{TableAction || RowAction || table.selection.enabled ?
 				<td className={"w-0"}>
@@ -41,7 +51,7 @@ export const Row = <TData extends DataType.Data>({
 						{table.selection.enabled ?
 							<Icon
 								icon={
-									table.selection.isSelected(row) ? SelectionOn : SelectionOff
+									table.selection.isSelected(row) ? SelectionOnIcon : SelectionOffIcon
 								}
 								css={{
 									base: tv.select({

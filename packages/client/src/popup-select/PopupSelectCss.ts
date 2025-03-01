@@ -48,7 +48,7 @@ export const PopupSelectCss = css({
 				loading: true,
 			},
 			then: {
-				input: ["text-slate-300"],
+				input: ["text-slate-300", "cursor-progress"],
 			},
 		},
 		{

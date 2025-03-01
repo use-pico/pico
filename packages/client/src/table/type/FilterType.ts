@@ -1,7 +1,9 @@
+import type { FC } from "react";
 import type { DataType } from "./DataType";
 
 export namespace FilterType {
 	export interface Filter {
+		value: Record<string, any>;
 		is(): boolean;
 		reset(): void;
 		shallow(path: string, value: any): void;
@@ -22,7 +24,8 @@ export namespace FilterType {
 	}
 
 	export interface Def<TData extends DataType.Data> {
-		path: string;
-		onFilter: Def.OnFilter<TData>;
+		clear(props: { filter: Filter }): void;
+		component: FC<{ filter: Filter; data: TData }>;
+		is(props: { value: Record<string, any> }): boolean;
 	}
 }

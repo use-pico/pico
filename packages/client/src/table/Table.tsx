@@ -5,9 +5,9 @@ import { Fulltext } from "../fulltext/Fulltext";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
 import { Icon } from "../icon/Icon";
-import { SelectionAny } from "../icon/SelectionAny";
-import { SelectionOff } from "../icon/SelectionOff";
-import { SelectionOn } from "../icon/SelectionOn";
+import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
+import { SelectionOffIcon } from "../icon/SelectionOffIcon";
+import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 import { Row } from "./Row";
@@ -138,10 +138,10 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 										{table.selection.enabled ?
 											<Icon
 												icon={
-													table.selection.isAll() ? SelectionOn
+													table.selection.isAll() ? SelectionOnIcon
 													: table.selection.isAny() ?
-														SelectionAny
-													:	SelectionOff
+														SelectionAnyIcon
+													:	SelectionOffIcon
 												}
 												variant={{
 													disabled: table.selection.isSingle,
@@ -171,7 +171,10 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 										className={tv.th()}
 										style={
 											column.def.size ?
-												{ width: `${column.def.size}rem` }
+												{
+													maxWidth: `${column.def.size}rem`,
+													width: `${column.def.size}rem`,
+												}
 											:	undefined
 										}
 									>

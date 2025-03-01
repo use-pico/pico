@@ -1,5 +1,4 @@
-import { FilterApplyIcon } from "../icon/FilterApplyIcon";
-import { Icon } from "../icon/Icon";
+import { tvc } from "@use-pico/common";
 import { TableCss } from "./TableCss";
 import type { CellType } from "./type/CellType";
 import type { DataType } from "./type/DataType";
@@ -20,10 +19,21 @@ export const Cell = <TData extends DataType.Data>({
 	css,
 }: Cell.Props<TData>) => {
 	const Render = column.def.render;
+	const Filter = column.def.filter?.component;
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
-		<td className={tv.td()}>
+		<td
+			className={tv.td()}
+			style={
+				column.def.size ?
+					{
+						maxWidth: `${column.def.size}rem`,
+						width: `${column.def.size}rem`,
+					}
+				:	undefined
+			}
+		>
 			<div className={"group flex flex-row items-center gap-2 justify-between"}>
 				<Render
 					table={table}
@@ -31,31 +41,20 @@ export const Cell = <TData extends DataType.Data>({
 					value={value}
 					context={table.context}
 				/>
-				{column.filter && !column.filter.is() ?
-					<Icon
-						icon={FilterApplyIcon}
-						css={{
-							base: [
-								"group-hover:visible",
-								"invisible",
-								"opacity-50 hover:opacity-100",
-								"cursor-pointer",
-							],
-						}}
-						variant={{ size: "xl" }}
-						onClick={() => {
-							if (column.filter) {
-								column.def.filter?.onFilter({
-									data,
-									filter: column.filter,
-								});
-								window.scrollTo({
-									top: 0,
-									behavior: "smooth",
-								});
-							}
-						}}
-					/>
+				{Filter && column.filter ?
+					<div
+						className={tvc([
+							"group-hover:visible",
+							"invisible",
+							"opacity-50 hover:opacity-100",
+							"cursor-pointer",
+						])}
+					>
+						<Filter
+							filter={column.filter}
+							data={data}
+						/>
+					</div>
 				:	null}
 			</div>
 		</td>

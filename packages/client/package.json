@@ -1,5 +1,5 @@
 {
-	"version": "4.0.33",
+	"version": "4.0.34",
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
 	"license": "MIT",
@@ -36,7 +36,7 @@
 	},
 	"peerDependencies": {
 		"@tanstack/react-query": "^5.66.11",
-		"@use-pico/common": "^4.0.18",
+		"@use-pico/common": "^4.0.19",
 		"axios": "^1.8.1",
 		"react": "^18.0.0",
 		"zod": "^3.24.2",

@@ -1,5 +1,5 @@
 {
-	"version": "4.0.18",
+	"version": "4.0.19",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",

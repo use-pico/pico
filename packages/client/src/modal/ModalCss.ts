@@ -15,17 +15,16 @@ export const ModalCss = css({
 			"rounded-lg",
 			"shadow-lg",
 			"p-4",
-			"w-fit",
-			"h-fit",
 			"max-h-full",
-			"overflow-y-auto",
-			"relative",
+			"h-fit",
+			"flex",
+			"flex-col",
 			"w-2/3",
 		],
 	},
 	variant: {
 		disabled: {
-			true: ["pointer-events-none"],
+			true: ["pointer-events-none", "cursor-not-allowed"],
 		},
 		loading: {
 			true: [],

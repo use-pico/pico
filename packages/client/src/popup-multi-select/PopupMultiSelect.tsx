@@ -5,19 +5,20 @@ import type {
 	FilterSchema,
 	IdentitySchema,
 } from "@use-pico/common";
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useMemo, type FC } from "react";
 import { Button } from "../button/Button";
-import type { Fulltext } from "../fulltext/Fulltext";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
-import { SelectionOff } from "../icon/SelectionOff";
-import { SelectionOn } from "../icon/SelectionOn";
+import { SelectionOffIcon } from "../icon/SelectionOffIcon";
+import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
 import type { withListCount } from "../source/withListCount";
+import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
+import { PopupMultiContent } from "./PopupMultiContent";
 import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
 
 export namespace PopupMultiSelect {
@@ -68,7 +69,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	textTitle,
 	textSelect,
 	modalProps,
-	table: Table,
+	table,
 	render: Render,
 	allowEmpty = false,
 
@@ -89,10 +90,12 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 		css,
 	}).slots;
 
-	const [page, setPage] = useState(0);
-	const [size, setSize] = useState(15);
-	const [selection, setSelection] = useState<string[]>(value || []);
-	const [fulltext, setFulltext] = useState<Fulltext.Value>("");
+	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
+	const fulltext = useLocalStore((state) => state.fulltext);
+	const page = useLocalStore((state) => state.page);
+	const size = useLocalStore((state) => state.size);
+	const selection = useLocalStore((state) => state.selection);
+	const setSelection = useLocalStore((state) => state.setSelection);
 
 	const result = useQuery({
 		queryKey: [
@@ -151,8 +154,8 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 						icon={
 							selected.isLoading ? LoaderIcon
 							: withValue && selected.data?.data?.[0] ?
-								SelectionOn
-							:	SelectionOff
+								SelectionOnIcon
+							:	SelectionOffIcon
 						}
 					/>
 					{withValue && selected.data && selected.data.data.length ?
@@ -168,90 +171,49 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			css={{
 				modal: ["w-2/3"],
 			}}
-			{...modalProps}
-		>
-			{({ close }) => {
+			footer={({ close }) => {
 				return (
-					<div className={tv.base()}>
-						<div className={tv.content()}>
-							<Table
-								cursor={{
-									cursor: {
-										page,
-										size,
-									},
-									count:
-										result.data?.count ?
-											result.data.count
-										:	{
-												filter: -1,
-												total: -1,
-												where: -1,
-											},
-									textTotal: <Tx label={"Total count of items (label)"} />,
-									onPage(page) {
-										setPage(page);
-									},
-									onSize(size) {
-										setSize(size);
-										setPage(0);
-									},
-								}}
-								fulltext={{
-									value: fulltext,
-									set(value) {
-										setFulltext(value);
-										setPage(0);
-									},
-								}}
-								table={{
-									data: result.data?.data ?? [],
-									selection: {
-										type: "multi",
-										value: selection,
-										set(selection) {
-											setSelection(selection);
-										},
-									},
-								}}
-							/>
-						</div>
+					<div className={tv.footer()}>
+						<Button
+							iconEnabled={BackIcon}
+							iconDisabled={BackIcon}
+							onClick={() => {
+								close();
+								setSelection(value || []);
+							}}
+							variant={{
+								variant: "subtle",
+							}}
+						>
+							<Tx label={"Close (label)"} />
+						</Button>
 
-						<div className={tv.footer()}>
-							<Button
-								iconEnabled={BackIcon}
-								iconDisabled={BackIcon}
-								onClick={() => {
-									close();
-									setSelection(value || []);
-								}}
-								variant={{
-									variant: "subtle",
-								}}
-							>
-								<Tx label={"Close (label)"} />
-							</Button>
-
-							<Button
-								iconEnabled={ConfirmIcon}
-								iconDisabled={ConfirmIcon}
-								disabled={!selection.length && !allowEmpty}
-								onClick={() => {
-									onChange(selection);
-									onSelect?.(
-										result.data?.data?.filter((item) =>
-											selection.includes(item.id),
-										) || [],
-									);
-									close();
-								}}
-							>
-								<Tx label={"Confirm selection (label)"} />
-							</Button>
-						</div>
+						<Button
+							iconEnabled={ConfirmIcon}
+							iconDisabled={ConfirmIcon}
+							disabled={!selection.length && !allowEmpty}
+							onClick={() => {
+								onChange(selection);
+								onSelect?.(
+									result.data?.data?.filter((item) =>
+										selection.includes(item.id),
+									) || [],
+								);
+								close();
+							}}
+						>
+							<Tx label={"Confirm selection (label)"} />
+						</Button>
 					</div>
 				);
 			}}
+			{...modalProps}
+		>
+			<PopupMultiContent
+				table={table}
+				useLocalStore={useLocalStore}
+				result={result}
+			/>
 		</Modal>
 	);
 };

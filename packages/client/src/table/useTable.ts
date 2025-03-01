@@ -39,6 +39,10 @@ export namespace useTable {
 		selection?: Selection;
 		context?: TContext;
 		rowCss?: UseTable.RowCssCallback<TData>;
+		/**
+		 * If you need to do something when a row is double-clicked.
+		 */
+		onRowDoubleClick?: UseTable.OnRowDoubleClick<TData>;
 	}
 
 	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
@@ -57,6 +61,7 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 	selection,
 	context,
 	rowCss,
+	onRowDoubleClick,
 }: useTable.Props<TData, TContext>): UseTable<TData, TContext> => {
 	const $filter = { ...(filter?.value || {}) };
 	const pathOfFilter = pathOf($filter || {});
@@ -70,14 +75,14 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 				filter:
 					column.filter ?
 						({
+							value: $filter,
 							is() {
-								return column.filter ?
-										pathOfFilter.get(column.filter.path) !== undefined
+								return column.filter?.is ?
+										column.filter.is({ value: $filter })
 									:	false;
 							},
 							reset() {
-								column.filter &&
-									pathOfFilter.set(column.filter.path, undefined);
+								column.filter?.clear({ filter: this });
 								filter?.set({ ...$filter });
 							},
 							shallow(path, value) {
@@ -128,6 +133,7 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 		}),
 		isEmpty: data.length === 0,
 		filter: {
+			value: $filter,
 			is() {
 				return $columns.some((column) => {
 					return column.filter?.is();
@@ -185,5 +191,6 @@ export const useTable = <TData extends DataType.Data, TContext = any>({
 			},
 		},
 		context: context as TContext,
+		onRowDoubleClick,
 	};
 };

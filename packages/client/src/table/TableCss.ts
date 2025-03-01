@@ -12,6 +12,7 @@ export const TableCss = css({
 			"border-t",
 			"border-b",
 			"border-slate-300",
+			"truncate",
 		],
 		tbody: [],
 		tr: [
@@ -21,7 +22,7 @@ export const TableCss = css({
 			"hover:bg-purple-100",
 			"hover:border-purple-300",
 		],
-		td: ["px-2", "py-1"],
+		td: ["px-2", "py-1", "truncate"],
 		tfoot: [],
 		select: ["cursor-pointer", "text-slate-400", "hover:text-slate-600"],
 	},

@@ -27,14 +27,6 @@ import { withSinglePerlinR2 } from "./withSinglePerlinR2";
 import { withValCoordR2 } from "./withValCoordR2";
 import { withValCoordR3 } from "./withValCoordR3";
 
-export namespace FastNoiseLite {
-	export type $NoiseType = NoiseType;
-	export type $DomainWarpType = DomainWarpType;
-	export type $FractalType = FractalType;
-	export type $CellularDistanceFunction = CellularDistanceFunction;
-	export type $CellularReturnType = CellularReturnType;
-}
-
 export class FastNoiseLite {
 	/* Private */
 	_Seed: number;
