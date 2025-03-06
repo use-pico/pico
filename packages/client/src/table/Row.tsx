@@ -2,24 +2,32 @@ import { Icon } from "../icon/Icon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Cell } from "./Cell";
-import type { Table } from "./Table";
 import { TableCss } from "./TableCss";
+import type { ActionType } from "./type/ActionType";
 import type { DataType } from "./type/DataType";
+import type { FilterType } from "./type/FilterType";
 import type { RowType } from "./type/RowType";
-import type { UseTable } from "./type/UseTable";
+import type { SelectionType } from "./type/SelectionType";
 
 export namespace Row {
-	export interface Props<TData extends DataType.Data> extends TableCss.Props {
-		table: UseTable<TData>;
+	export interface Props<TData extends DataType.Data, TContext = any>
+		extends TableCss.Props {
+		props?: RowType.Props<TData>;
+		filter?: FilterType.Filter;
+		selection?: SelectionType.Selection;
 		row: RowType.Row<TData>;
-		action?: Table.Action<TData>;
+		action?: ActionType.Props<TData>;
+		context?: TContext;
 	}
 }
 
 export const Row = <TData extends DataType.Data>({
-	table,
+	props,
+	filter,
+	selection,
 	row,
 	action,
+	context,
 	variant,
 	tva = TableCss,
 	css,
@@ -31,44 +39,39 @@ export const Row = <TData extends DataType.Data>({
 	return (
 		<tr
 			className={tv.tr({
-				css: table.rowCss?.({ data: row.data }),
-				selected: table.selection.isSelected(row),
+				css: props?.css?.(row),
+				selected: selection?.isSelected(row),
 			})}
-			onDoubleClick={(e) => {
-				if (table.onRowDoubleClick) {
-					table.onRowDoubleClick({ row, data: row.data });
+			onDoubleClick={() => {
+				if (props?.onDoubleClick) {
+					props.onDoubleClick({ row, data: row.data });
 					return;
 				}
 
-				if (table.selection.enabled) {
-					table.selection.withRowHandler(row)(e);
-				}
+				selection?.event.onSelect(row);
 			}}
 		>
-			{TableAction || RowAction || table.selection.enabled ?
+			{TableAction || RowAction || selection ?
 				<td className={"w-0"}>
 					<div className={"flex flex-row items-center gap-2"}>
-						{table.selection.enabled ?
+						{selection ?
 							<Icon
 								icon={
-									table.selection.isSelected(row) ? SelectionOnIcon : SelectionOffIcon
+									selection.isSelected(row) ? SelectionOnIcon : SelectionOffIcon
 								}
 								css={{
 									base: tv.select({
-										selected: table.selection.isSelected(row),
+										selected: selection.isSelected(row),
 									}),
 								}}
 								variant={{
 									size: "2xl",
 								}}
-								onClick={table.selection.withRowHandler(row)}
+								onClick={() => selection.event.onSelect(row)}
 							/>
 						:	null}
 						{RowAction ?
-							<RowAction
-								table={table}
-								data={row.data}
-							/>
+							<RowAction data={row.data} />
 						:	null}
 					</div>
 				</td>
@@ -77,12 +80,13 @@ export const Row = <TData extends DataType.Data>({
 			{row.cells.map((cell) => {
 				return (
 					<Cell
-						key={`${row.id}-${cell.column.id}`}
-						table={table}
+						key={`${row.id}-${cell.column.name}`}
 						cell={cell}
 						variant={variant}
 						tva={tva}
 						css={css}
+						filter={filter}
+						context={context}
 					/>
 				);
 			})}

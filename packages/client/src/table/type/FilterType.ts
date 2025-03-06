@@ -1,31 +1,78 @@
 import type { FC } from "react";
 import type { DataType } from "./DataType";
+import type { StateType } from "./StateType";
 
+/**
+ * Overall table filter configuration.
+ */
 export namespace FilterType {
-	export interface Filter {
-		value: Record<string, any>;
-		is(): boolean;
-		reset(): void;
-		shallow(path: string, value: any): void;
-		set(value: Record<string, any>): void;
+	export type Value = Record<string, any>;
+	export type State = StateType<Value | undefined>;
+
+	/**
+	 * Props defines on the whole table
+	 */
+	export interface Table {
+		state: State;
 	}
 
-	export namespace Def {
-		export namespace OnFilter {
-			export interface Props<TData extends DataType.Data> {
-				data: TData;
-				filter: Filter;
+	export namespace Column {
+		export namespace is {
+			export interface Props {
+				filter: FilterType.Filter;
 			}
+
+			export type Callback = (props: Props) => boolean;
 		}
 
-		export type OnFilter<TData extends DataType.Data> = (
-			props: OnFilter.Props<TData>,
-		) => void;
+		export namespace reset {
+			export interface Props {
+				filter: FilterType.Filter;
+			}
+
+			export type Callback = (props: Props) => void;
+		}
+
+		export namespace Component {
+			export interface Props<TData extends DataType.Data> {
+				filter: FilterType.Filter;
+				data: TData;
+			}
+
+			export type Callback<TData extends DataType.Data> = FC<Props<TData>>;
+		}
 	}
 
-	export interface Def<TData extends DataType.Data> {
-		clear(props: { filter: Filter }): void;
-		component: FC<{ filter: Filter; data: TData }>;
-		is(props: { value: Record<string, any> }): boolean;
+	/**
+	 * Props defined on a column.
+	 */
+	export interface Column<TData extends DataType.Data> {
+		is: Column.is.Callback;
+		reset: Column.reset.Callback;
+		component: Column.Component.Callback<TData>;
+	}
+
+	export namespace Filter {
+		export namespace is {
+			export type Callback = () => boolean;
+		}
+
+		export namespace shallow {
+			export interface Props {
+				path: string;
+				value: any;
+			}
+
+			export type Callback = (props: Props) => void;
+		}
+	}
+
+	/**
+	 * Filter instance created by a table.
+	 */
+	export interface Filter extends Table {
+		is: Filter.is.Callback;
+		shallow: Filter.shallow.Callback;
+		reset(): void;
 	}
 }

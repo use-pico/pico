@@ -6,14 +6,14 @@ export const useInvalidator = (keys: QueryKey[]) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 
-	return async () => {
+	return async ({ route = true }: { route?: boolean }) => {
 		try {
 			await invalidator({
 				keys,
 				queryClient,
 			});
 		} finally {
-			await router.invalidate({ sync: true });
+			route && (await router.invalidate({ sync: true }));
 		}
 	};
 };

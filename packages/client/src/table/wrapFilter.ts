@@ -1,0 +1,53 @@
+import { pathOf, type DeepKeys } from "@use-pico/common";
+import type { ColumnType } from "./type/ColumnType";
+import type { DataType } from "./type/DataType";
+import type { FilterType } from "./type/FilterType";
+
+export namespace wrapFilter {
+	export interface Props<
+		TData extends DataType.Data,
+		TKey extends DeepKeys<TData>,
+		TContext = any,
+	> {
+		props?: FilterType.Table;
+		columns: ColumnType.Props<TData, TKey, TContext>[];
+	}
+}
+
+export const wrapFilter = <
+	TData extends DataType.Data,
+	TKey extends DeepKeys<TData>,
+	TContext = any,
+>({
+	props,
+	columns,
+}: wrapFilter.Props<TData, TKey, TContext>):
+	| FilterType.Filter
+	| undefined => {
+	if (!props) {
+		return undefined;
+	}
+
+	const $filter = { ...(props.state?.value || {}) };
+	const pathOfFilter = pathOf($filter);
+
+	return {
+		...props,
+		is() {
+			return columns.some((column) =>
+				column.filter?.is({
+					filter: this,
+				}),
+			);
+		},
+		reset() {
+			columns.forEach((column) =>
+				column.filter?.reset({ filter: this }),
+			);
+		},
+		shallow({ path, value }) {
+			pathOfFilter.set(path, value);
+			props.state.set({ ...$filter });
+		},
+	};
+};

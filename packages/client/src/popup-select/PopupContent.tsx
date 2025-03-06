@@ -90,16 +90,18 @@ export const PopupContent: FC<PopupContent.Props> = ({
 							setPage(0);
 						},
 					}}
-					table={{
-						data: result.data?.data ?? [],
-						selection: {
-							type: "single",
+					data={result.data?.data}
+					selection={{
+						type: "single",
+						state: {
 							value: selection,
 							set(selection) {
 								setSelection(selection);
 							},
 						},
-						onRowDoubleClick({ data }) {
+					}}
+					row={{
+						onDoubleClick({ data }) {
 							onChange(data.id);
 							onSelect?.(data);
 							close();

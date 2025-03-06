@@ -75,16 +75,18 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 							setPage(0);
 						},
 					}}
-					table={{
-						data: result.data?.data ?? [],
-						selection: {
-							type: "multi",
+					data={result.data?.data}
+					selection={{
+						type: "multi",
+						state: {
 							value: selection,
 							set(selection) {
 								setSelection(selection);
 							},
 						},
-						onRowDoubleClick({ data }) {
+					}}
+					row={{
+						onDoubleClick({ data }) {
 							setSelection(
 								selection.includes(data.id) ?
 									selection.filter((item) => item !== data.id)

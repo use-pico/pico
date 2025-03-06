@@ -17,24 +17,24 @@ export const withRangeFilter = ({
 	path,
 	lte,
 	gte,
-}: withRangeFilter.Props): FilterType.Def<any> => {
+}: withRangeFilter.Props): FilterType.Column<any> => {
 	return {
-		clear({ filter }) {
-			filter.shallow(lte, undefined);
-			filter.shallow(gte, undefined);
+		reset({ filter: filterInstance }) {
+			filterInstance.shallow({ path: lte, value: undefined });
+			filterInstance.shallow({ path: gte, value: undefined });
 		},
-		is({ value }) {
+		is({ filter: filterInstance }) {
 			return (
-				pathOf(value).get(lte) !== undefined ||
-				pathOf(value).get(gte) !== undefined
+				pathOf(filterInstance.state.value || {}).get(lte) !== undefined ||
+				pathOf(filterInstance.state.value || {}).get(gte) !== undefined
 			);
 		},
-		component({ data, filter }) {
+		component({ data, filter: filterInstance }) {
 			return (
 				<RangeFilter
 					lte={lte}
 					gte={gte}
-					filter={filter}
+					filterInstance={filterInstance}
 					value={pathOf(data).get(path)}
 				/>
 			);

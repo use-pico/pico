@@ -11,6 +11,7 @@ export { fulltextOf } from "./fulltext/fulltextOf";
 export { fromUtc } from "./i18n/fromUtc";
 export { isDateTime } from "./i18n/isDateTime";
 export { iso2locale } from "./i18n/iso2locale";
+export { isSameDay } from "./i18n/isSameDay";
 export { localeOf } from "./i18n/localeOf";
 export { translator } from "./i18n/translator";
 export { Kysely } from "./kysely/Kysely";

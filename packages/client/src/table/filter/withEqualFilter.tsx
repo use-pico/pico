@@ -20,21 +20,22 @@ export namespace withEqualFilter {
 export const withEqualFilter = ({
 	path,
 	from = path,
-}: withEqualFilter.Props): FilterType.Def<any> => {
+}: withEqualFilter.Props): FilterType.Column<any> => {
 	return {
-		clear({ filter }) {
-			filter.shallow(path, undefined);
+		reset({ filter: filterInstance }) {
+			filterInstance.shallow({ path, value: undefined });
 		},
-		is({ value }) {
-			return pathOf(value).get(path) !== undefined;
+		is({ filter: filterInstance }) {
+			return pathOf(filterInstance.state.value || {}).get(path) !== undefined;
 		},
-		component({ data, filter }) {
-			const isFilter = pathOf(filter.value).get(path) === undefined;
+		component({ data, filter: filterInstance }) {
+			const isFilter =
+				pathOf(filterInstance.state.value || {}).get(path) === undefined;
 
 			return isFilter ?
 					<EqualFilter
 						path={path}
-						filter={filter}
+						filterInstance={filterInstance}
 						value={pathOf(data).get(from)}
 					/>
 				:	null;

@@ -2,46 +2,48 @@ import { tvc } from "@use-pico/common";
 import { TableCss } from "./TableCss";
 import type { CellType } from "./type/CellType";
 import type { DataType } from "./type/DataType";
-import type { UseTable } from "./type/UseTable";
+import type { FilterType } from "./type/FilterType";
 
 export namespace Cell {
-	export interface Props<TData extends DataType.Data> extends TableCss.Props {
-		table: UseTable<TData>;
+	export interface Props<TData extends DataType.Data, TContext = any>
+		extends TableCss.Props {
 		cell: CellType.Cell<TData, any>;
+		filter?: FilterType.Filter;
+		context?: TContext;
 	}
 }
 
-export const Cell = <TData extends DataType.Data>({
-	table,
+export const Cell = <TData extends DataType.Data, TContext = any>({
 	cell: { column, data, value },
+	filter,
+	context,
 	variant,
 	tva = TableCss,
 	css,
-}: Cell.Props<TData>) => {
-	const Render = column.def.render;
-	const Filter = column.def.filter?.component;
+}: Cell.Props<TData, TContext>) => {
+	const { render: Render } = column;
+	const Filter = column?.filter?.component;
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
 		<td
 			className={tv.td()}
 			style={
-				column.def.size ?
+				column.size ?
 					{
-						maxWidth: `${column.def.size}rem`,
-						width: `${column.def.size}rem`,
+						maxWidth: `${column.size}rem`,
+						width: `${column.size}rem`,
 					}
 				:	undefined
 			}
 		>
 			<div className={"group flex flex-row items-center gap-2 justify-between"}>
 				<Render
-					table={table}
 					data={data}
 					value={value}
-					context={table.context}
+					context={context}
 				/>
-				{Filter && column.filter ?
+				{Filter && filter && column.filter ?
 					<div
 						className={tvc([
 							"group-hover:visible",
@@ -51,7 +53,7 @@ export const Cell = <TData extends DataType.Data>({
 						])}
 					>
 						<Filter
-							filter={column.filter}
+							filter={filter}
 							data={data}
 						/>
 					</div>

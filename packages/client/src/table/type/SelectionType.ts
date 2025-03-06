@@ -1,26 +1,54 @@
-import { type MouseEvent } from "react";
 import type { DataType } from "./DataType";
-import type { RowType } from "./RowType";
+import type { StateType } from "./StateType";
 
 export namespace SelectionType {
-	export interface Selection<TData extends DataType.Data> {
-		enabled: boolean;
-		/**
-		 * Selected IDs.
-		 */
-		selection: string[];
-		/**
-		 * Single-selection mode.
-		 */
-		isSingle: boolean;
-		/**
-		 * Multi-selection mode.
-		 */
-		isMulti: boolean;
-		/**
-		 * Check if the given row is selected.
-		 */
-		isSelected(row: RowType.Row<TData>): boolean;
+	export type State = StateType<string[]>;
+
+	/**
+	 * Configuration props for selection, on a table.
+	 */
+	export interface Table {
+		type: "single" | "multi";
+		state: State;
+	}
+
+	export namespace Selection {
+		export namespace isSelect {
+			export interface Props<TData extends DataType.Data> {
+				data: TData;
+			}
+
+			export type Callback<TData extends DataType.Data> = (
+				props: Props<TData>,
+			) => boolean;
+		}
+
+		export namespace Event {
+			export namespace onSelect {
+				export interface Props<TData extends DataType.Data> {
+					data: TData;
+				}
+
+				export type Callback<TData extends DataType.Data> = (
+					props: Props<TData>,
+				) => void;
+			}
+
+			export namespace onSelectAll {
+				export type Callback = () => void;
+			}
+
+			export interface Instance<TData extends DataType.Data> {
+				onSelect: onSelect.Callback<TData>;
+				onSelectAll: onSelectAll.Callback;
+			}
+		}
+	}
+
+	/**
+	 * Internal instance of selection.
+	 */
+	export interface Selection extends Table {
 		/**
 		 * Are the all (visible) rows selected?
 		 */
@@ -29,9 +57,10 @@ export namespace SelectionType {
 		 * Are any (visible) rows selected?
 		 */
 		isAny(): boolean;
-		withRowHandler(
-			row: RowType.Row<TData>,
-		): (event: MouseEvent<HTMLElement>) => void;
-		withAllHandler(): (event: MouseEvent<HTMLElement>) => void;
+		/**
+		 * Check if the given row is selected.
+		 */
+		isSelected: Selection.isSelect.Callback<DataType.Data>;
+		event: Selection.Event.Instance<DataType.Data>;
 	}
 }

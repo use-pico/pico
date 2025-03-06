@@ -7,7 +7,7 @@ export const withColumn = <
 	TContext = unknown,
 >() => {
 	return <TKey extends DeepKeys<TData>>(
-		props: ColumnType.Def<TData, TKey, TContext>,
+		props: ColumnType.Props<TData, TKey, TContext>,
 	) => {
 		return props;
 	};

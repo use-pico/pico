@@ -10,7 +10,7 @@ export namespace RangeFilter {
 	export interface Props {
 		lte: string;
 		gte: string;
-		filter: FilterType.Filter;
+		filterInstance: FilterType.Filter;
 		value: any;
 	}
 }
@@ -18,11 +18,11 @@ export namespace RangeFilter {
 export const RangeFilter: FC<RangeFilter.Props> = ({
 	lte,
 	gte,
-	filter,
+	filterInstance,
 	value,
 }) => {
-	const isLte = pathOf(filter.value).get(lte) !== undefined;
-	const isGte = pathOf(filter.value).get(gte) !== undefined;
+	const isLte = pathOf(filterInstance.state.value || {}).get(lte) !== undefined;
+	const isGte = pathOf(filterInstance.state.value || {}).get(gte) !== undefined;
 
 	return (
 		<div className={"flex flex-row gap-1"}>
@@ -30,7 +30,10 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
-						filter.shallow(lte, undefined);
+						filterInstance.shallow({
+							path: lte,
+							value: undefined,
+						});
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
@@ -40,7 +43,7 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 			:	<Action
 					iconEnabled={LteIcon}
 					onClick={() => {
-						filter.shallow(lte, value);
+						filterInstance.shallow({ path: lte, value });
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
@@ -52,7 +55,7 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
-						filter.shallow(gte, undefined);
+						filterInstance.shallow({ path: gte, value: undefined });
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
@@ -62,7 +65,7 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 			:	<Action
 					iconEnabled={GteIcon}
 					onClick={() => {
-						filter.shallow(gte, value);
+						filterInstance.shallow({ path: gte, value });
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
