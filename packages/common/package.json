@@ -52,7 +52,7 @@
 	},
 	"devDependencies": {
 		"@types/react": "19.0.10",
-		"@use-pico/eslint-config-eslint": "5.0.7",
+		"@use-pico/eslint-config-eslint": "5.0.8",
 		"@use-pico/tsconfig": "4.0.10",
 		"eslint": "9.21.0",
 		"typescript": "5.8.2",
