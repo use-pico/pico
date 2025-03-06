@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.37
+
+### Patch Changes
+
+- Updated invalidator
+
 ## 4.0.36
 
 ### Patch Changes

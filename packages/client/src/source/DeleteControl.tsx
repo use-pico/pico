@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { TrashIcon } from "../icon/TrashIcon";
+import type { useInvalidator } from "../invalidator/useInvalidator";
 import { ModalContext } from "../modal/ModalContext";
 import { withToastPromiseTx } from "../toast/withToastPromiseTx";
 import { Tx } from "../tx/Tx";
@@ -15,7 +16,7 @@ export namespace DeleteControl {
 		textToast: string;
 		callback(): Promise<any>;
 		onCancel?(): void;
-		invalidator?(): Promise<void>;
+		invalidator?: useInvalidator.Invalidator.Callback;
 	}
 }
 
