@@ -1,14 +1,14 @@
 import {
-	FloatingFocusManager,
-	FloatingNode,
-	FloatingOverlay,
-	FloatingPortal,
-	useClick,
-	useDismiss,
-	useFloating,
-	useFloatingNodeId,
-	useInteractions,
-	useTransitionStyles,
+    FloatingFocusManager,
+    FloatingNode,
+    FloatingOverlay,
+    FloatingPortal,
+    useClick,
+    useDismiss,
+    useFloating,
+    useFloatingNodeId,
+    useInteractions,
+    useTransitionStyles,
 } from "@floating-ui/react";
 import { isCallable, isString, tvc } from "@use-pico/common";
 import { useMemo, type FC, type ReactNode } from "react";
@@ -94,6 +94,10 @@ export const Modal: FC<Modal.Props> = ({
 								lockScroll
 								style={styles}
 								className={tv.base()}
+								onDoubleClick={(e) => {
+									e.stopPropagation();
+									e.preventDefault();
+								}}
 							>
 								<FloatingFocusManager context={context}>
 									<div

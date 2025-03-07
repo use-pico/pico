@@ -12,7 +12,7 @@
     },
     "packages/@misc/eslint-config-eslint": {
       "name": "@use-pico/eslint-config-eslint",
-      "version": "5.0.5",
+      "version": "5.0.8",
       "devDependencies": {
         "eslint": "9.21.0",
         "typescript": "5.8.2",
@@ -24,17 +24,17 @@
     },
     "packages/@misc/tsconfig": {
       "name": "@use-pico/tsconfig",
-      "version": "4.0.9",
+      "version": "4.0.10",
       "peerDependencies": {
         "@total-typescript/ts-reset": "0.6.1",
       },
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "4.0.34",
+      "version": "4.0.37",
       "dependencies": {
         "@floating-ui/react": "0.27.5",
-        "@tanstack/react-router": "1.112.13",
+        "@tanstack/react-router": "1.112.17",
         "@types/luxon": "3.4.2",
         "kysely": "0.27.6",
         "localstorage-slim": "2.7.1",
@@ -47,14 +47,14 @@
         "uuid": "11.1.0",
       },
       "devDependencies": {
-        "@use-pico/eslint-config-eslint": "5.0.5",
-        "@use-pico/tsconfig": "4.0.9",
+        "@use-pico/eslint-config-eslint": "5.0.8",
+        "@use-pico/tsconfig": "4.0.10",
         "eslint": "9.21.0",
         "typescript": "5.8.2",
       },
       "peerDependencies": {
         "@tanstack/react-query": "5.67.1",
-        "@use-pico/common": "4.0.19",
+        "@use-pico/common": "4.0.21",
         "axios": "1.8.1",
         "react": "19.0.0",
         "zod": "3.24.2",
@@ -63,10 +63,10 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "4.0.19",
+      "version": "4.0.21",
       "dependencies": {
         "@paralleldrive/cuid2": "2.2.2",
-        "@tanstack/zod-adapter": "1.112.13",
+        "@tanstack/zod-adapter": "1.112.17",
         "@types/is-callable": "1.1.2",
         "@types/is-empty": "1.2.3",
         "@types/is-string": "1.0.2",
@@ -92,8 +92,8 @@
       },
       "devDependencies": {
         "@types/react": "19.0.10",
-        "@use-pico/eslint-config-eslint": "5.0.5",
-        "@use-pico/tsconfig": "4.0.9",
+        "@use-pico/eslint-config-eslint": "5.0.8",
+        "@use-pico/tsconfig": "4.0.10",
         "eslint": "9.21.0",
         "typescript": "5.8.2",
         "vitest": "3.0.7",
@@ -104,17 +104,17 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "4.0.15",
+      "version": "4.0.17",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "4.0.19",
+        "@use-pico/common": "4.0.21",
         "axios": "1.8.1",
         "yaml": "2.7.0",
       },
       "devDependencies": {
         "@types/node": "22.13.9",
-        "@use-pico/eslint-config-eslint": "5.0.5",
-        "@use-pico/tsconfig": "4.0.9",
+        "@use-pico/eslint-config-eslint": "5.0.8",
+        "@use-pico/tsconfig": "4.0.10",
         "eslint": "9.21.0",
         "typescript": "5.8.2",
       },
@@ -305,7 +305,7 @@
 
     "@tanstack/react-query": ["@tanstack/react-query@5.67.1", "", { "dependencies": { "@tanstack/query-core": "5.67.1" }, "peerDependencies": { "react": "^18 || ^19" } }, "sha512-fH5u4JLwB6A+wLFdi8wWBWAYoJV5deYif2OveJ26ktAWjU499uvVFS1wPWnyEyq5LvZX1MZInvv9QRaIZANRaQ=="],
 
-    "@tanstack/react-router": ["@tanstack/react-router@1.112.13", "", { "dependencies": { "@tanstack/history": "1.112.8", "@tanstack/react-store": "^0.7.0", "@tanstack/router-core": "^1.112.12", "jsesc": "^3.1.0", "tiny-invariant": "^1.3.3", "tiny-warning": "^1.0.3" }, "peerDependencies": { "react": ">=18.0.0 || >=19.0.0", "react-dom": ">=18.0.0 || >=19.0.0" } }, "sha512-F/ILuPWqs51Rc8plD4hhxOIKXExbWaba80usO4+Rh2qZZ8eMM/hNwgGvNrtzca0Dltf8PkFr9si3RljO1PYs1Q=="],
+    "@tanstack/react-router": ["@tanstack/react-router@1.112.17", "", { "dependencies": { "@tanstack/history": "1.112.8", "@tanstack/react-store": "^0.7.0", "@tanstack/router-core": "^1.112.12", "jsesc": "^3.1.0", "tiny-invariant": "^1.3.3", "tiny-warning": "^1.0.3" }, "peerDependencies": { "react": ">=18.0.0 || >=19.0.0", "react-dom": ">=18.0.0 || >=19.0.0" } }, "sha512-UYd9FspQAFs9uxSwHBWQ7LIO1M7FcKVCpYm+vdYJABj6RRMelWuBOOIXgYhMJaGBPazQO3wZVytkW+RW+iwA1A=="],
 
     "@tanstack/react-store": ["@tanstack/react-store@0.7.0", "", { "dependencies": { "@tanstack/store": "0.7.0", "use-sync-external-store": "^1.4.0" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-S/Rq17HaGOk+tQHV/yrePMnG1xbsKZIl/VsNWnNXt4XW+tTY8dTlvpJH2ZQ3GRALsusG5K6Q3unAGJ2pd9W/Ng=="],
 
@@ -313,7 +313,7 @@
 
     "@tanstack/store": ["@tanstack/store@0.7.0", "", {}, "sha512-CNIhdoUsmD2NolYuaIs8VfWM467RK6oIBAW4nPEKZhg1smZ+/CwtCdpURgp7nxSqOaV9oKkzdWD80+bC66F/Jg=="],
 
-    "@tanstack/zod-adapter": ["@tanstack/zod-adapter@1.112.13", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "zod": "^3.23.8" } }, "sha512-JNORAHkm0g+O1+Q8KOk+rF/6YWgN99hRyb//MYcfTDnh68KnF0zBxBlE1DhX18xuPIytt6ynLy0ym1gXeqpRpg=="],
+    "@tanstack/zod-adapter": ["@tanstack/zod-adapter@1.112.17", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "zod": "^3.23.8" } }, "sha512-A9fv0iXhEBk3Ru0jmn2dwJ8ocMbJq7I0HZxA0aINiL2TSFXg2nOJAX3bi16UJe7GFTfgdfgJbxKY0qDuV9GiXQ=="],
 
     "@total-typescript/ts-reset": ["@total-typescript/ts-reset@0.6.1", "", {}, "sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg=="],
 

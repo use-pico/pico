@@ -4,9 +4,12 @@ import { InlineContext } from "../context/InlineContext";
 import { PreviewCss } from "./PreviewCss";
 
 export namespace Preview {
-	export type RenderProps<TValues extends Record<string, any>> = FC<Entity.Type<TValues>>;
+	export type RenderProps<TValues extends Record<string, any>> = FC<
+		Entity.Type<TValues>
+	>;
 
-	export interface Props<TValues extends Record<string, any>> extends PreviewCss.Props<Entity.Type<TValues>> {
+	export interface Props<TValues extends Record<string, any>>
+		extends PreviewCss.Props<Entity.Type<TValues>> {
 		/**
 		 * Title section (left-top)
 		 */
@@ -52,6 +55,8 @@ export const Preview = <TValues extends Record<string, any>>({
 					<div className={tv.links()}>
 						<Links entity={entity} />
 					</div>
+				</div>
+				<div className={tv.container()}>
 					<div className={tv.actions()}>
 						<Actions entity={entity} />
 					</div>

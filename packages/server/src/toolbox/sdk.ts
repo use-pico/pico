@@ -306,15 +306,18 @@ export const use${$name}Mutation = (
 		mutationKey: ["${name.replaceAll("\\", "\\\\")}"],
 		mutationFn: async (${requestSchema ? `request: ${requestSchema.name}.Type` : "request?: any"}): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
 			const { data } = await axios.post("${ref}", ${requestSchema ? `${requestSchema.name}.parse(request)` : "request"});
-			invalidate !== false && await invalidator({
-				queryClient,
-				keys: ${mutation.invalidators ? JSON.stringify(mutation.invalidators.map((i) => [i])) : "[]"},
-			});
-			invalidate && await invalidator({
-				queryClient,
-				keys: invalidate,
-			});
-			await router.invalidate();
+			if (invalidate !== false) {
+				await invalidator({
+					queryClient,
+					keys: ${mutation.invalidators ? JSON.stringify(mutation.invalidators.map((i) => [i])) : "[]"},
+				});
+				invalidate && await invalidator({
+					queryClient,
+					keys: invalidate,
+				});
+				await router.invalidate();
+			}
+			
 			return ${responseSchema ? `${responseSchema.name}.parse(data);` : "data"};
 		},
 		...options,

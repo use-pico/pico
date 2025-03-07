@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.38
+
+### Patch Changes
+
+- Version bump
+
 ## 4.0.37
 
 ### Patch Changes

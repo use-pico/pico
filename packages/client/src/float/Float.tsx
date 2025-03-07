@@ -11,7 +11,7 @@ import {
     useHover,
     useInteractions,
     useTransitionStyles,
-    type UseFloatingOptions
+    type UseFloatingOptions,
 } from "@floating-ui/react";
 import {
     useState,
@@ -68,11 +68,11 @@ export const Float: FC<Float.Props> = ({
 	});
 	const { getReferenceProps, getFloatingProps } = useInteractions([
 		useHover(context, {
-			enabled: action === "hover",
+			enabled: disabled ? false : action === "hover",
 			delay,
 		}),
 		useClick(context, {
-			enabled: action === "click",
+			enabled: disabled ? false : action === "click",
 		}),
 		useFocus(context),
 		useDismiss(context),
@@ -82,15 +82,13 @@ export const Float: FC<Float.Props> = ({
 
 	return (
 		<>
-			<button
-				type={"button"}
+			<div
 				ref={refs.setReference}
 				{...getReferenceProps()}
-				disabled={disabled}
 				className={tv.target()}
 			>
 				{target}
-			</button>
+			</div>
 			<FloatingPortal>
 				<div
 					ref={refs.setFloating}
