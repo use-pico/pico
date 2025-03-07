@@ -22,8 +22,15 @@ export const wrapSort = ({
 		order({ column: { path } }) {
 			return $sortPath.get(path);
 		},
-		toggle({ column: { path } }) {
+		toggle({ column: { path, exclusive = false } }) {
 			const current = $sortPath.get(path);
+
+			if (exclusive) {
+				Object.keys($sort).forEach((key) => {
+					delete $sort[key];
+				});
+			}
+
 			$sortPath.set(
 				path,
 				current === "asc" ? "desc"
@@ -31,6 +38,7 @@ export const wrapSort = ({
 				: current === undefined ? "asc"
 				: undefined,
 			);
+
 			props.state.set({ ...$sort });
 		},
 	};

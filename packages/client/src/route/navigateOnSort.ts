@@ -14,12 +14,9 @@ export namespace navigateOnSort {
 export const navigateOnSort = (navigate: navigateOnSort.Navigate) => {
 	return (sort: Record<string, "asc" | "desc" | undefined>) =>
 		navigate({
-			search: ({ sort: { ...prev }, ...search }) => ({
+			search: (search) => ({
 				...search,
-				sort: {
-					...prev,
-					...sort,
-				},
+				sort,
 			}),
 		});
 };
