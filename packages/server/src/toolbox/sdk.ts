@@ -182,6 +182,7 @@ export namespace ${schema.name} {
 			writeFileSync(
 				`${apiDir}/with${$name}Api.ts`,
 				`
+import { cleanOf } from "@use-pico/common";
 import axios from "axios";
 ${imports.filter(Boolean).join("\n")}
 
@@ -193,7 +194,7 @@ export namespace with${$name}Api {
 
 export const with${$name}Api = async ({ request }: with${$name}Api.Props): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
 	const { data } = await axios.get("${ref}", {
-		params: ${requestSchema ? `${requestSchema.name}.parse(request)` : "request"},
+		params: ${requestSchema ? `${requestSchema.name}.parse(cleanOf(request))` : "request"},
 	});
 	const result = ${responseSchema ? `${responseSchema.name}.parse(data);` : "data"};
 

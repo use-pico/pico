@@ -102,7 +102,8 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			queryKey,
 			"PopupMultiSelect",
 			"data",
-			{ fulltext, page, size, ...queryHash },
+			queryHash,
+			{ fulltext, page, size },
 		],
 		async queryFn() {
 			return query({
@@ -120,12 +121,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const withValue = (value?.length || 0) > 0;
 
 	const selected = useQuery({
-		queryKey: [
-			queryKey,
-			"PopupMultiSelect",
-			"selected",
-			{ value, ...queryHash },
-		],
+		queryKey: [queryKey, "PopupMultiSelect", "selected", queryHash, { value }],
 		async queryFn() {
 			return query({
 				filter: {
@@ -146,13 +142,13 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			target={
 				<label
 					className={tv.input({
-						loading: selected.isLoading,
+						loading: selected.isFetching || result.isFetching,
 						selected: Boolean(selected.data?.data.length),
 					})}
 				>
 					<Icon
 						icon={
-							selected.isLoading ? LoaderIcon
+							result.isFetching || selected.isFetching ? LoaderIcon
 							: withValue && selected.data?.data?.[0] ?
 								SelectionOnIcon
 							:	SelectionOffIcon
@@ -165,9 +161,9 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			}
 			textTitle={textTitle}
 			variant={{
-				loading: result.isLoading,
+				loading: result.isFetching,
 			}}
-			disabled={result.isLoading}
+			disabled={result.isFetching}
 			css={{
 				modal: ["w-2/3"],
 			}}

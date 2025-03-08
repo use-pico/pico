@@ -75,13 +75,13 @@ export const Xlsx = <TSchema extends z.ZodObject<any, any, any, any, any>>({
 					[data.data],
 				);
 
-				if (data.isLoading) {
+				if (data.isFetching) {
 					return <LoadingOverlay />;
 				} else if (data.isSuccess) {
 					return memo;
 				}
 
-				return "???";
+				return <LoadingOverlay />;
 			}}
 		</JustDropZone>
 	);

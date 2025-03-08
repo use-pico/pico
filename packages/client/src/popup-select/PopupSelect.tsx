@@ -95,19 +95,24 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	 * Dependency-free meme, because... store does not have any dependencies (defaultOpen
 	 * values are not used).
 	 */
-	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
-	const fulltext = useLocalStore((state) => state.fulltext);
-	const page = useLocalStore((state) => state.page);
-	const size = useLocalStore((state) => state.size);
-	const selection = useLocalStore((state) => state.selection);
-	const setSelection = useLocalStore((state) => state.setSelection);
+	const useLocalTableStore = useMemo(() => createLocalTableStore({}), []);
+	const fulltext = useLocalTableStore((state) => state.fulltext);
+	const page = useLocalTableStore((state) => state.page);
+	const size = useLocalTableStore((state) => state.size);
+	const selection = useLocalTableStore((state) => state.selection);
+	const setSelection = useLocalTableStore((state) => state.setSelection);
+
+	useEffect(() => {
+		setSelection(value ? [value] : []);
+	}, [value]);
 
 	const result = useQuery({
 		queryKey: [
 			queryKey,
 			"PopupSelect",
 			"data",
-			{ fulltext, page, size, ...queryHash },
+			queryHash,
+			{ fulltext, page, size },
 		],
 		async queryFn() {
 			return query({
@@ -125,7 +130,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const withValue = Boolean(value);
 
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupSelect", "selected", { value, ...queryHash }],
+		queryKey: [queryKey, "PopupSelect", "selected", queryHash, { value }],
 		async queryFn() {
 			return query({
 				filter: {
@@ -136,23 +141,19 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		enabled: withValue,
 	});
 
-	useEffect(() => {
-		setSelection(value ? [value] : []);
-	}, [value]);
-
 	return (
 		<Modal
 			icon={icon}
 			target={
 				<label
 					className={tv.input({
-						loading: selected.isLoading || result.isLoading,
+						loading: selected.isFetching || result.isFetching,
 						selected: Boolean(selected.data?.data.length),
 					})}
 				>
 					<Icon
 						icon={
-							selected.isLoading ? LoaderIcon
+							result.isFetching || selected.isFetching ? LoaderIcon
 							: withValue && selected.data?.data?.[0] ?
 								SelectionOnIcon
 							:	SelectionOffIcon
@@ -165,9 +166,9 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 			}
 			textTitle={textTitle}
 			variant={{
-				loading: result.isLoading,
+				loading: result.isFetching,
 			}}
-			disabled={result.isLoading}
+			disabled={result.isFetching}
 			css={{
 				modal: ["w-2/3"],
 			}}
@@ -208,7 +209,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		>
 			<PopupContent
 				table={table}
-				useLocalStore={useLocalStore}
+				useLocalStore={useLocalTableStore}
 				result={result}
 				onChange={onChange}
 				onSelect={onSelect}
