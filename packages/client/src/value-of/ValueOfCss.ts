@@ -2,8 +2,15 @@ import { css } from "@use-pico/common";
 
 export const ValueOfCss = css({
 	slot: {
-		base: ["border", "border-slate-100", "px-2", "py-1", "rounded-md"],
-		label: ["text-sm", "font-semibold", "text-slate-600", "border-b", "mb-2"],
+		base: ["border", "border-blue-100", "px-2", "py-1", "rounded-md"],
+		label: [
+			"text-sm",
+			"font-semibold",
+			"text-slate-600",
+			"border-b",
+			"border-blue-200",
+			"mb-2",
+		],
 		value: [],
 	},
 	variant: {
@@ -21,7 +28,13 @@ export const ValueOfCss = css({
 			},
 			then: {
 				base: ["border-none", "flex", "flex-row", "items-center", "gap-2"],
-				label: ["mb-0", "font-light", "text-md", "text-slate-600", "border-none"],
+				label: [
+					"mb-0",
+					"font-light",
+					"text-md",
+					"text-slate-600",
+					"border-none",
+				],
 				value: ["text-md", "text-slate-800"],
 			},
 		},
@@ -30,7 +43,7 @@ export const ValueOfCss = css({
 				withBackground: true,
 			},
 			then: {
-				base: ["bg-slate-50", "hover:bg-slate-100"],
+				base: ["bg-blue-50", "hover:bg-blue-100", "hover:border-blue-300"],
 			},
 		},
 	],

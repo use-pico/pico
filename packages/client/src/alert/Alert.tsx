@@ -36,7 +36,7 @@ export const Alert: FC<Alert.Props> = ({
 			className={tv.base()}
 			onClick={onClick}
 		>
-			<div className={"flex items-center gap-2"}>
+			<div className={"flex items-center gap-2 w-full"}>
 				{icon && (
 					<Icon
 						icon={icon}

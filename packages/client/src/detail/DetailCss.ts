@@ -16,6 +16,7 @@ export const DetailCss = css({
 			"border",
 			"border-slate-300",
 			"rounded-sm",
+			"bg-blue-50",
 			"p-4",
 		],
 		/**
@@ -45,7 +46,7 @@ export const DetailCss = css({
 		/**
 		 * Field holding the final value.
 		 */
-		field: ["text-lg", "hover:bg-slate-100", "rounded-sm", "px-2", "py-1"],
+		field: ["text-lg", "hover:bg-blue-100", "rounded-sm", "px-2", "py-1"],
 	},
 	variant: {
 		borderless: {
