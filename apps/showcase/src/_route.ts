@@ -16,6 +16,7 @@ import { Route as IndexImport } from './@routes/index'
 import { Route as LocaleIndexImport } from './@routes/$locale/index'
 import { Route as LocaleComponentsImport } from './@routes/$locale/components'
 import { Route as LocaleComponentsIndexImport } from './@routes/$locale/components/index'
+import { Route as LocaleComponentsTableImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsPopupSelectImport } from './@routes/$locale/components/popup-select'
 import { Route as LocaleComponentsButtonImport } from './@routes/$locale/components/button'
 
@@ -48,6 +49,12 @@ const LocaleComponentsRoute = LocaleComponentsImport.update({
 const LocaleComponentsIndexRoute = LocaleComponentsIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
+
+const LocaleComponentsTableRoute = LocaleComponentsTableImport.update({
+  id: '/table',
+  path: '/table',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
 
@@ -110,6 +117,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsPopupSelectImport
       parentRoute: typeof LocaleComponentsImport
     }
+    '/$locale/components/table': {
+      id: '/$locale/components/table'
+      path: '/table'
+      fullPath: '/$locale/components/table'
+      preLoaderRoute: typeof LocaleComponentsTableImport
+      parentRoute: typeof LocaleComponentsImport
+    }
     '/$locale/components/': {
       id: '/$locale/components/'
       path: '/'
@@ -125,12 +139,14 @@ declare module '@tanstack/react-router' {
 interface LocaleComponentsRouteChildren {
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
+  LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
 }
 
 const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
+  LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
 }
 
@@ -157,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
 }
 
@@ -165,6 +182,7 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
 }
 
@@ -176,6 +194,7 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
 }
 
@@ -188,6 +207,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
+    | '/$locale/components/table'
     | '/$locale/components/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -195,6 +215,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
+    | '/$locale/components/table'
     | '/$locale/components'
   id:
     | '__root__'
@@ -204,6 +225,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
+    | '/$locale/components/table'
     | '/$locale/components/'
   fileRoutesById: FileRoutesById
 }
@@ -248,6 +270,7 @@ export const routeTree = rootRoute
       "children": [
         "/$locale/components/button",
         "/$locale/components/popup-select",
+        "/$locale/components/table",
         "/$locale/components/"
       ]
     },
@@ -261,6 +284,10 @@ export const routeTree = rootRoute
     },
     "/$locale/components/popup-select": {
       "filePath": "$locale/components/popup-select.tsx",
+      "parent": "/$locale/components"
+    },
+    "/$locale/components/table": {
+      "filePath": "$locale/components/table.tsx",
       "parent": "/$locale/components"
     },
     "/$locale/components/": {

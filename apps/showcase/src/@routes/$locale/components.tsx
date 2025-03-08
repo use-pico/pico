@@ -43,6 +43,13 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							to={"/$locale/components/table"}
+							params={{ locale }}
+						>
+							<Tx label={"Table"} />
+						</MenuLink>
+
+						<MenuLink
 							to={"/$locale/components/popup-select"}
 							params={{ locale }}
 						>
