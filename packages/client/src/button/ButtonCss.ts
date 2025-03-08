@@ -17,7 +17,14 @@ export const ButtonCss = css({
 	variant: {
 		variant: {
 			primary: ["text-white", "bg-blue-400", "hover:bg-blue-500"],
-			secondary: ["text-slate-700", "bg-amber-400", "hover:bg-amber-500"],
+			secondary: [
+				"text-slate-700",
+				"text-amber-800",
+				"border",
+				"border-amber-600",
+				"bg-amber-400",
+				"hover:bg-amber-500",
+			],
 			subtle: [
 				"text-slate-600",
 				"border",
@@ -35,7 +42,14 @@ export const ButtonCss = css({
 				"hover:border-blue-600",
 				"hover:bg-blue-50",
 			],
-			danger: ["text-slate-50"],
+			danger: [
+				"bg-red-100",
+				"text-red-600",
+				"border",
+				"border-red-400",
+				"hover:bg-red-500",
+				"hover:text-white",
+			],
 		},
 		disabled: {
 			true: ["cursor-not-allowed"],
@@ -70,7 +84,12 @@ export const ButtonCss = css({
 				disabled: true,
 			},
 			then: {
-				base: ["opacity-50", "bg-amber-600", "hover:bg-amber-600"],
+				base: [
+					"opacity-50",
+					"text-white",
+					"bg-amber-600",
+					"hover:bg-amber-600",
+				],
 			},
 		},
 		{
@@ -79,15 +98,27 @@ export const ButtonCss = css({
 				disabled: true,
 			},
 			then: {
-				base: ["opacity-50", "bg-blue-50", "hover:bg-blue-50"],
+				base: [
+					"opacity-50",
+					"bg-blue-50",
+					"hover:border-slate-300",
+					"hover:bg-blue-50",
+				],
 			},
 		},
 		{
 			if: {
 				variant: "danger",
+				disabled: true,
 			},
 			then: {
-				base: ["bg-red-400", "hover:bg-red-500", "hover:text-white"],
+				base: [
+					"opacity-50",
+					"bg-red-50",
+					"border-red-300",
+					"hover:bg-red-50",
+					"hover:text-red-600",
+				],
 			},
 		},
 		{

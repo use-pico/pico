@@ -8,7 +8,6 @@ import {
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { LoadingOverlay, PageCss } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
-import "@xyflow/react/dist/style.css";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
