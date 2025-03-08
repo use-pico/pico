@@ -1,13 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
 import {
-	PopupSelect,
-	Table,
-	Tx,
-	withColumn,
-	withSourceSearchSchema,
+    PopupSelect,
+    Table,
+    Tx,
+    withColumn
 } from "@use-pico/client";
-import { FilterSchema } from "@use-pico/common";
 import type { FC } from "react";
 
 interface SomeData {
