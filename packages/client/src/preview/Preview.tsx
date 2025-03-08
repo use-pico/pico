@@ -33,10 +33,10 @@ export namespace Preview {
 
 export const Preview = <TValues extends Record<string, any>>({
 	entity,
-	title: Title = () => null,
-	links: Links = () => null,
-	actions: Actions = () => null,
-	extra: Extra = () => null,
+	title: Title,
+	links: Links,
+	actions: Actions,
+	extra: Extra,
 	variant,
 	tva = PreviewCss,
 	css,
@@ -48,22 +48,39 @@ export const Preview = <TValues extends Record<string, any>>({
 	return (
 		<InlineContext.Provider value={{ inline: true }}>
 			<div className={tv.base()}>
-				<div className={tv.container()}>
-					<div className={tv.title()}>
-						<Title entity={entity} />
+				{Title || Links ?
+					<div className={tv.container()}>
+						<div className={tv.title()}>
+							{Title ?
+								<Title entity={entity} />
+							:	null}
+						</div>
+						<div className={tv.links()}>
+							{Links ?
+								<Links entity={entity} />
+							:	null}
+						</div>
 					</div>
-					<div className={tv.links()}>
-						<Links entity={entity} />
+				:	null}
+
+				{(Title || Links) && (Actions || Extra) ?
+					<div className={"w-full border-b border-slate-400"} />
+				:	null}
+
+				{Actions || Extra ?
+					<div className={tv.container()}>
+						<div className={tv.actions()}>
+							{Actions ?
+								<Actions entity={entity} />
+							:	null}
+						</div>
+						<div className={tv.extra()}>
+							{Extra ?
+								<Extra entity={entity} />
+							:	null}
+						</div>
 					</div>
-				</div>
-				<div className={tv.container()}>
-					<div className={tv.actions()}>
-						<Actions entity={entity} />
-					</div>
-					<div className={tv.extra()}>
-						<Extra entity={entity} />
-					</div>
-				</div>
+				:	null}
 			</div>
 		</InlineContext.Provider>
 	);

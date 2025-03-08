@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.41
+
+### Patch Changes
+
+- Improved Preview component
+
 ## 4.0.40
 
 ### Patch Changes
