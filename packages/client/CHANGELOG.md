@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.40
+
+### Patch Changes
+
+- Improved table stuff, breaking change
+
 ## 4.0.39
 
 ### Patch Changes

@@ -20,15 +20,4 @@ export namespace ActionType {
 			Props<TData, TContext>
 		>;
 	}
-
-	export interface Props<TData extends DataType.Data, TContext = any> {
-		/**
-		 * Table-wise action.
-		 */
-		table?: Table.Component<TContext>;
-		/**
-		 * Table row action.
-		 */
-		row?: Row.Component<TData, TContext>;
-	}
 }

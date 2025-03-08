@@ -89,9 +89,28 @@ export namespace Table {
 		 * Good UI may be just icons to be used.
 		 */
 		toolbar?: ToolbarType.Component<TContext>;
+		/**
+		 * Control if a toolbar provided is shown/hidden.
+		 */
+		toolbarHidden?: boolean;
 		cursor: Cursor.Props;
 		empty?: FC;
-		action?: ActionType.Props<TData, TContext>;
+		/**
+		 * Table-wise action.
+		 */
+		actionTable?: ActionType.Table.Component<TContext>;
+		/**
+		 * Explicit control over the table action visibility.
+		 */
+		actionTableHidden?: boolean;
+		/**
+		 * Row-wise action.
+		 */
+		actionRow?: ActionType.Row.Component<TData, TContext>;
+		/**
+		 * Explicit control over the row action visibility.
+		 */
+		actionRowHidden?: boolean;
 	}
 
 	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
@@ -111,9 +130,13 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	row: rowProps,
 	filter,
 	sort,
-	action,
+	actionTable: TableAction,
+	actionTableHidden = false,
+	actionRow: RowAction,
+	actionRowHidden = false,
 	fulltext,
 	toolbar: Toolbar = () => null,
+	toolbarHidden = false,
 	cursor,
 	empty: Empty = () => (
 		<Status
@@ -127,8 +150,6 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	css,
 }: Table.Props<TData, TContext>) => {
 	const tv = tva({ ...variant, css }).slots;
-	const TableAction = action?.table;
-	const RowAction = action?.row;
 
 	const $selection = wrapSelection({
 		props: selection,
@@ -185,10 +206,12 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 						:	null}
 					</div>
 					<div className={"flex flex-row items-center gap-2"}>
-						<Toolbar
-							selection={$selection}
-							context={context}
-						/>
+						{toolbarHidden ? null : (
+							<Toolbar
+								selection={$selection}
+								context={context}
+							/>
+						)}
 					</div>
 				</div>
 
@@ -211,7 +234,11 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 				<table className={tv.table()}>
 					<thead className={tv.thead()}>
 						<tr>
-							{TableAction || RowAction || $selection ?
+							{(
+								(TableAction && !actionTableHidden) ||
+								(RowAction && !actionRowHidden) ||
+								$selection
+							) ?
 								<th className={"w-0"}>
 									<div className={"flex flex-row items-center gap-2"}>
 										{$selection ?
@@ -345,7 +372,10 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 									props={rowProps}
 									key={row.id}
 									row={row}
-									action={action}
+									actionTable={TableAction}
+									actionTableHidden={actionTableHidden}
+									actionRow={RowAction}
+									actionRowHidden={actionRowHidden}
 									context={context}
 									variant={variant}
 									filter={$filter}

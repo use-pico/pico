@@ -16,7 +16,22 @@ export namespace Row {
 		filter?: FilterType.Filter;
 		selection?: SelectionType.Selection;
 		row: RowType.Row<TData>;
-		action?: ActionType.Props<TData>;
+		/**
+		 * Table-wise action.
+		 */
+		actionTable?: ActionType.Table.Component<TContext>;
+		/**
+		 * Explicit control over the table action visibility.
+		 */
+		actionTableHidden: boolean;
+		/**
+		 * Row-wise action.
+		 */
+		actionRow?: ActionType.Row.Component<TData, TContext>;
+		/**
+		 * Explicit control over the row action visibility.
+		 */
+		actionRowHidden: boolean;
 		context?: TContext;
 	}
 }
@@ -26,15 +41,16 @@ export const Row = <TData extends DataType.Data>({
 	filter,
 	selection,
 	row,
-	action,
+	actionTable: TableAction,
+	actionTableHidden,
+	actionRow: RowAction,
+	actionRowHidden,
 	context,
 	variant,
 	tva = TableCss,
 	css,
 }: Row.Props<TData>) => {
 	const tv = tva({ ...variant, css }).slots;
-	const TableAction = action?.table;
-	const RowAction = action?.row;
 
 	return (
 		<tr
@@ -51,7 +67,11 @@ export const Row = <TData extends DataType.Data>({
 				selection?.event.onSelect(row);
 			}}
 		>
-			{TableAction || RowAction || selection ?
+			{(
+				(TableAction && !actionTableHidden) ||
+				(RowAction && !actionRowHidden) ||
+				selection
+			) ?
 				<td className={"w-0"}>
 					<div className={"flex flex-row items-center gap-2"}>
 						{selection ?
@@ -70,7 +90,7 @@ export const Row = <TData extends DataType.Data>({
 								onClick={() => selection.event.onSelect(row)}
 							/>
 						:	null}
-						{RowAction ?
+						{RowAction && !actionRowHidden ?
 							<RowAction data={row.data} />
 						:	null}
 					</div>
