@@ -45,6 +45,8 @@ export const Cursor: FC<Cursor.Props> = ({
 		[cursor.page, count.filter, cursor.size],
 	);
 
+	console.log("output", $cursor);
+
 	const tv = tva({ ...variant, css }).slots;
 
 	return (
@@ -71,7 +73,7 @@ export const Cursor: FC<Cursor.Props> = ({
 						/>
 					:	null}
 
-					{$cursor.pages && $cursor.end ?
+					{($cursor.pages && $cursor.end) || ($cursor.start && $cursor.end) ?
 						<Icon icon={DotsIcon} />
 					:	null}
 
