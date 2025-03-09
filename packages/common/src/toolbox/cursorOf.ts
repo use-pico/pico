@@ -56,75 +56,71 @@ export namespace cursorOf {
 export function cursorOf({
 	page, // 0-based current page
 	total, // total number of pages (0..total-1 are valid)
-	siblings = 1,
-	boundary = 1,
+	siblings = 2,
+	boundary = 2,
 }: cursorOf.Props): cursorOf.Pages {
-	// Early return if no pages
-	if (total <= 0) {
-		return { page, total };
+	// Handle edge cases
+	const validTotal = Math.max(0, total);
+	const clampedPage = Math.max(0, Math.min(page, validTotal - 1));
+
+	// Calculate the threshold for simplified display
+	const fullPaginationThreshold = boundary * 2 + siblings * 2 + 1;
+
+	// If total pages is small, return only the middle block
+	if (validTotal <= fullPaginationThreshold) {
+		return {
+			page: clampedPage,
+			total: validTotal,
+			pages: validTotal > 0 ? range(1, validTotal) : [],
+		};
 	}
-
-	// Convert the 0-based current page to 1-based.
-	const oneBasedPage = page + 1;
-
-	// Calculate the raw window around the current (1-based) page.
-	let windowStart = oneBasedPage - siblings;
-	let windowEnd = oneBasedPage + siblings;
-
-	// Shift right if off the left edge.
-	if (windowStart < 1) {
-		const shift = 1 - windowStart;
-		windowStart += shift;
-		windowEnd += shift;
-	}
-
-	// Shift left if off the right edge.
-	if (windowEnd > total) {
-		const shift = windowEnd - total;
-		windowStart -= shift;
-		windowEnd -= shift;
-	}
-
-	// Final clamp for safety.
-	windowStart = Math.max(windowStart, 1);
-	windowEnd = Math.min(windowEnd, total);
 
 	// Calculate the boundary ranges
-	const leftBoundaryEnd = Math.min(boundary, total);
-	const rightBoundaryStart = Math.max(1, total - boundary + 1);
+	const leftBoundaryEnd = boundary;
+	const rightBoundaryStart = validTotal - boundary + 1;
 
-	// Determine if sections are adjacent (no gap between them)
-	const leftAdjacent = windowStart <= leftBoundaryEnd + 1;
-	const rightAdjacent = windowEnd >= rightBoundaryStart - 1;
-
+	// Initialize result with boundaries
 	const result: cursorOf.Pages = {
-		page,
-		total,
+		page: clampedPage,
+		total: validTotal,
+		start: range(1, leftBoundaryEnd),
+		end: range(rightBoundaryStart, validTotal),
 	};
 
-	// Case 1: Both sides are adjacent (all connected)
-	if (leftAdjacent && rightAdjacent) {
-		result.start = range(1, total);
-		return result;
+	// Convert the 0-based current page to 1-based
+	const oneBasedPage = clampedPage + 1;
+
+	// Calculate the ideal middle section size
+	const middleSectionSize = siblings * 2 + 1;
+
+	// Calculate the ideal centered window
+	let idealWindowStart = oneBasedPage - siblings;
+	let idealWindowEnd = oneBasedPage + siblings;
+
+	// Shift right if off the left boundary
+	if (idealWindowStart <= leftBoundaryEnd) {
+		const shift = leftBoundaryEnd + 1 - idealWindowStart;
+		idealWindowStart += shift;
+		idealWindowEnd = Math.min(
+			rightBoundaryStart - 1,
+			idealWindowStart + middleSectionSize - 1,
+		);
 	}
 
-	// Case 2: Left adjacent only
-	if (leftAdjacent) {
-		result.start = range(1, windowEnd);
-		result.end = range(rightBoundaryStart, total);
-		return result;
+	// Shift left if off the right boundary
+	if (idealWindowEnd >= rightBoundaryStart) {
+		const shift = idealWindowEnd - (rightBoundaryStart - 1);
+		idealWindowEnd -= shift;
+		idealWindowStart = Math.max(
+			leftBoundaryEnd + 1,
+			idealWindowEnd - middleSectionSize + 1,
+		);
 	}
 
-	// Case 3: Right adjacent only
-	if (rightAdjacent) {
-		result.start = range(1, leftBoundaryEnd);
-		result.end = range(windowStart, total);
-		return result;
+	// Create the middle section if needed
+	if (idealWindowStart <= idealWindowEnd) {
+		result.pages = range(idealWindowStart, idealWindowEnd);
 	}
 
-	// Case 4: No adjacency (three separate sections)
-	result.start = range(1, leftBoundaryEnd);
-	result.pages = range(windowStart, windowEnd);
-	result.end = range(rightBoundaryStart, total);
 	return result;
 }

@@ -1,8 +1,8 @@
 import type { ReactNode } from "@tanstack/react-router";
 import {
-    cursorOf,
-    type CountSchema,
-    type CursorSchema,
+	cursorOf,
+	type CountSchema,
+	type CursorSchema,
 } from "@use-pico/common";
 import { useMemo, type FC } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
@@ -39,13 +39,11 @@ export const Cursor: FC<Cursor.Props> = ({
 			cursorOf({
 				page: cursor.page,
 				total: Math.ceil(count.filter / cursor.size),
-				// siblings: 1,
-				// boundaries: 1,
+				siblings: 1,
+				boundary: 1,
 			}),
 		[cursor.page, count.filter, cursor.size],
 	);
-
-	console.log("output", $cursor);
 
 	const tv = tva({ ...variant, css }).slots;
 

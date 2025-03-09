@@ -60,7 +60,7 @@ const SomeTable: FC<SomeTable.Props> = (props) => {
 	);
 };
 
-const someData: SomeData[] = Array.from({ length: 30 * 5 }, (_, i) => ({
+const someData: SomeData[] = Array.from({ length: 30 * 10 }, (_, i) => ({
 	id: i.toString(),
 	foo: `Foo ${i}`,
 	bar: `Bar ${i}`,
