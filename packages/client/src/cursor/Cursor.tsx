@@ -1,8 +1,8 @@
 import type { ReactNode } from "@tanstack/react-router";
 import {
-	cursorOf,
-	type CountSchema,
-	type CursorSchema,
+    cursorOf,
+    type CountSchema,
+    type CursorSchema,
 } from "@use-pico/common";
 import { useMemo, type FC } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
@@ -39,8 +39,8 @@ export const Cursor: FC<Cursor.Props> = ({
 			cursorOf({
 				page: cursor.page,
 				total: Math.ceil(count.filter / cursor.size),
-				siblings: 0,
-				boundaries: 1,
+				// siblings: 1,
+				// boundaries: 1,
 			}),
 		[cursor.page, count.filter, cursor.size],
 	);
@@ -51,31 +51,37 @@ export const Cursor: FC<Cursor.Props> = ({
 		<div className={tv.base()}>
 			{$cursor.total > 1 ?
 				<div className={"flex items-center justify-center gap-2 text-sm"}>
-					{["both", "start"].includes($cursor.type) && (
-						<>
-							<Pages
-								page={cursor.page}
-								pages={$cursor.start}
-								onPage={onPage}
-							/>
-							<Icon icon={DotsIcon} />
-						</>
-					)}
-					<Pages
-						page={cursor.page}
-						pages={$cursor.pages}
-						onPage={onPage}
-					/>
-					{["both", "end"].includes($cursor.type) && (
-						<>
-							<Icon icon={DotsIcon} />
-							<Pages
-								page={cursor.page}
-								pages={$cursor.end}
-								onPage={onPage}
-							/>
-						</>
-					)}
+					{$cursor.start ?
+						<Pages
+							page={cursor.page}
+							pages={$cursor.start}
+							onPage={onPage}
+						/>
+					:	null}
+
+					{$cursor.start && $cursor.pages ?
+						<Icon icon={DotsIcon} />
+					:	null}
+
+					{$cursor.pages ?
+						<Pages
+							page={cursor.page}
+							pages={$cursor.pages}
+							onPage={onPage}
+						/>
+					:	null}
+
+					{$cursor.pages && $cursor.end ?
+						<Icon icon={DotsIcon} />
+					:	null}
+
+					{$cursor.end ?
+						<Pages
+							page={cursor.page}
+							pages={$cursor.end}
+							onPage={onPage}
+						/>
+					:	null}
 				</div>
 			:	null}
 			<div className={tv.sums()}>

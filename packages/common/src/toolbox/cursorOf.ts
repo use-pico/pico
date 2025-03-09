@@ -1,118 +1,91 @@
 /**
- * Helper method to generate a list of page numbers (for pagination).
- *
- * @group toolbox
+ * Returns an array of consecutive integers [start..end].
  */
+function range(start: number, end: number): number[] {
+	return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
 export namespace cursorOf {
-	/**
-	 * Properties of the `pagesOf` method.
-	 */
 	export interface Props {
 		/**
-		 * Zero-indexed current page.
+		 * 0-based current page (0 means the 1st page).
 		 */
 		page: number;
 		/**
-		 * Total count of pages.
+		 * Total number of pages (e.g. 10 means valid pages are [0..9]).
 		 */
 		total: number;
 		/**
-		 * How many pages to show around the current one.
+		 * How many pages to show around the current page.
 		 */
 		siblings?: number;
-		/**
-		 * How many pages to show at the beginning and end.
-		 */
-		boundaries?: number;
 	}
 
-	/**
-	 * Result of the `pagesOf` method.
-	 */
 	export interface Pages {
 		/**
-		 * Type of pagination.
-		 */
-		type: "simple" | "start" | "end" | "both";
-		/**
-		 * Current page from input.
+		 * 0-based current page from input.
 		 */
 		page: number;
 		/**
-		 * Total count of pages.
+		 * Total number of pages.
 		 */
 		total: number;
 		/**
-		 * Initial set of pages (when there are a lot of pages).
-		 */
-		start: number[];
-		/**
-		 * Middle pages (when there are a lot of pages).
+		 * A 1-based list of pages, centered on `page` if possible.
 		 */
 		pages: number[];
-		/**
-		 * Last pages.
-		 */
-		end: number[];
 	}
 }
 
-const range = (start: number, end: number) =>
-	Array.from({ length: end - start + 1 }, (_, index) => index + start);
+/**
+ * Generates a middle block of pages in 1-based numbering,
+ * ensuring (2 * siblings + 1) pages around the current page whenever possible.
+ */
+export function cursorOf({
+	page, // 0-based current page
+	total, // total number of pages (0..total-1 are valid)
+	siblings = 2,
+}: cursorOf.Props): cursorOf.Pages {
+	// Convert the 0-based current page to 1-based.
+	const oneBasedPage = page + 1;
 
-export const cursorOf = ({
-	page,
-	total,
-	siblings = 1,
-	boundaries = 1,
-}: cursorOf.Props): cursorOf.Pages => {
-	const $total = Math.max(Math.trunc(total), 0);
-	const $pages = siblings * 2 + 3 + boundaries * 2;
-	if ($pages >= $total) {
+	// Desired number of pages in the middle block.
+	const blockSize = 2 * siblings + 1;
+
+	// If total pages <= blockSize, show all pages (1..total).
+	if (total <= blockSize) {
 		return {
-			type: "simple",
 			page,
 			total,
-			pages: range(1, $total),
-			start: [],
-			end: [],
+			pages: range(1, total),
 		};
 	}
 
-	const leftIndex = Math.max(page - siblings, boundaries);
-	const rightIndex = Math.min(page + siblings, $total - boundaries);
+	// Calculate the raw window around the current (1-based) page.
+	let windowStart = oneBasedPage - siblings;
+	let windowEnd = oneBasedPage + siblings;
 
-	const shouldShowLeftDots = leftIndex > boundaries + 2;
-	const shouldShowRightDots = rightIndex < $total - (boundaries + 1);
-
-	if (!shouldShowLeftDots && shouldShowRightDots) {
-		return {
-			type: "end",
-			page,
-			total,
-			start: [],
-			pages: range(1, siblings * 2 + boundaries + 2),
-			end: range(total - (boundaries - 1), $total),
-		};
+	// Shift right if off the left edge.
+	if (windowStart < 1) {
+		const shift = 1 - windowStart;
+		windowStart += shift;
+		windowEnd += shift;
 	}
 
-	if (shouldShowLeftDots && !shouldShowRightDots) {
-		return {
-			type: "start",
-			page,
-			total,
-			start: range(1, boundaries),
-			pages: range(total - (boundaries + 1 + 2 * siblings), $total),
-			end: [],
-		};
+	// Shift left if off the right edge.
+	if (windowEnd > total) {
+		const shift = windowEnd - total;
+		windowStart -= shift;
+		windowEnd -= shift;
 	}
+
+	// Final clamp for safety.
+	windowStart = Math.max(windowStart, 1);
+	windowEnd = Math.min(windowEnd, total);
 
 	return {
-		type: "both",
 		page,
 		total,
-		start: range(1, boundaries),
-		pages: range(leftIndex, rightIndex),
-		end: range($total - boundaries + 1, $total),
+		pages: range(windowStart, windowEnd),
 	};
-};
+}
