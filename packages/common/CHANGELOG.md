@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.23
+
+### Patch Changes
+
+- Version bump
+
 ## 4.0.22
 
 ### Patch Changes

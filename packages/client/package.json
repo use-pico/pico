@@ -1,5 +1,5 @@
 {
-	"version": "4.0.41",
+	"version": "4.0.42",
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
 	"license": "MIT",
@@ -36,15 +36,15 @@
 	},
 	"peerDependencies": {
 		"@tanstack/react-query": "5.67.2",
-		"@use-pico/common": "4.0.22",
+		"@use-pico/common": "4.0.23",
 		"axios": "1.8.2",
 		"react": "19.0.0",
 		"zod": "3.24.2",
 		"zustand": "5.0.3"
 	},
 	"devDependencies": {
-		"@use-pico/eslint-config-eslint": "5.0.9",
-		"@use-pico/tsconfig": "4.0.10",
+		"@use-pico/eslint-config-eslint": "5.0.10",
+		"@use-pico/tsconfig": "4.0.11",
 		"eslint": "9.22.0",
 		"typescript": "5.8.2"
 	},

@@ -1,5 +1,5 @@
 {
-	"version": "5.0.9",
+	"version": "5.0.10",
 	"name": "@use-pico/eslint-config-eslint",
 	"main": "index.js",
 	"type": "module",
