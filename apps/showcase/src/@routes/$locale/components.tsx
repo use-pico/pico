@@ -36,22 +36,28 @@ export const Route = createFileRoute("/$locale/components")({
 
 					<Menu variant={{ vertical: true }}>
 						<MenuLink
+							icon={"icon-[teenyicons--button-outline]"}
 							to={"/$locale/components/button"}
 							params={{ locale }}
+							variant={{ vertical: true }}
 						>
 							<Tx label={"Buttons"} />
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[lsicon--table-outline]"}
 							to={"/$locale/components/table"}
 							params={{ locale }}
+							variant={{ vertical: true }}
 						>
 							<Tx label={"Table"} />
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[vaadin--area-select]"}
 							to={"/$locale/components/popup-select"}
 							params={{ locale }}
+							variant={{ vertical: true }}
 						>
 							<Tx label={"Popup Select"} />
 						</MenuLink>

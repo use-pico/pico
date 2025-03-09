@@ -26,6 +26,9 @@ export const MenuLinkCss = css({
 		subtle: {
 			true: [],
 		},
+		vertical: {
+			true: [],
+		},
 	},
 	match: [
 		{
@@ -75,11 +78,20 @@ export const MenuLinkCss = css({
 				base: ["bg-slate-100", "border-slate-400"],
 			},
 		},
+		{
+			if: {
+				vertical: true,
+			},
+			then: {
+				base: ["w-full"],
+			},
+		},
 	],
 	defaults: {
 		active: false,
 		inner: false,
 		subtle: false,
+		vertical: false,
 	},
 });
 
