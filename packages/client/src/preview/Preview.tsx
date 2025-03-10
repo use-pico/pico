@@ -1,4 +1,4 @@
-import type { Entity } from "@use-pico/common";
+import { tvc, type Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { PreviewCss } from "./PreviewCss";
@@ -64,7 +64,13 @@ export const Preview = <TValues extends Record<string, any>>({
 				:	null}
 
 				{(Title || Links) && (Actions || Extra) ?
-					<div className={"w-full border-b border-slate-400"} />
+					<div
+						className={tvc([
+							"w-full",
+							"border-b",
+							"border-[var(--preview-color-separator)]",
+						])}
+					/>
 				:	null}
 
 				{Actions || Extra ?

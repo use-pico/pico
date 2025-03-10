@@ -1,0 +1,10 @@
+:root {
+	--detail-section-color-border: var(--color-slate-300);
+	--detail-section-color-bg: var(--color-slate-50);
+
+	--detail-value-color-border: var(--color-slate-200);
+
+	--detail-label-color-text: var(--color-slate-500);
+
+	--detail-field-color-hover-bg: var(--color-slate-200);
+}

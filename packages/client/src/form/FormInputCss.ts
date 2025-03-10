@@ -28,7 +28,7 @@ export const FormInputCss = css({
 				isError: true,
 			},
 			then: {
-				base: ["text-red-600"],
+				base: ["text-(--input-error-color-text)"],
 			},
 		},
 		{
@@ -36,7 +36,7 @@ export const FormInputCss = css({
 				required: true,
 			},
 			then: {
-				base: ["text-emerald-600", "font-bold"],
+				base: ["text-(--input-required-color-text)", "font-bold"],
 			},
 		},
 		{

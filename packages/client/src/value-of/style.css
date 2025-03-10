@@ -1,0 +1,13 @@
+:root {
+	--value-of-color-bg: var(--color-blue-50);
+	--value-of-color-border: var(--color-blue-100);
+	--value-of-color-hover-bg: var(--color-blue-100);
+	--value-of-color-hover-border: var(--color-blue-300);
+
+	--value-of-label-color-text: var(--color-slate-600);
+	--value-of-label-color-border: var(--color-blue-200);
+	--value-of-label-color-hover-border: var(--color-blue-200);
+
+	--value-of-inline-label-color-text: var(--color-slate-600);
+	--value-of-inline-value-color-text: var(--color-slate-800);
+}

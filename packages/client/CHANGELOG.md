@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.43
+
+### Patch Changes
+
+- Initial experimental support for theming
+
 ## 4.0.42
 
 ### Patch Changes

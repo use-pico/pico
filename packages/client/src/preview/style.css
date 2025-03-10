@@ -1,0 +1,5 @@
+:root {
+	--preview-color-bg: var(--color-blue-50);
+	--preview-color-border: var(--color-blue-200);
+	--preview-color-separator: var(--color-slate-400);
+}

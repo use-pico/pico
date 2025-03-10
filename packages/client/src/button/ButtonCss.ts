@@ -8,7 +8,7 @@ export const ButtonCss = css({
 			"items-center",
 			"justify-center",
 			"gap-2",
-			"group",
+			"group", 
 			"rounded-sm",
 			"transition-all",
 			"cursor-pointer",
@@ -16,7 +16,12 @@ export const ButtonCss = css({
 	},
 	variant: {
 		variant: {
-			primary: ["text-white", "bg-blue-400", "hover:bg-blue-500"],
+			primary: [
+				"text-(--button-primary-color-text)",
+				"bg-(--button-primary-color-bg)",
+				"hover:text-(--button-primary-color-hover-text)",
+				"hover:bg-(--button-primary-color-hover-bg)",
+			],
 			secondary: [
 				"text-slate-700",
 				"text-amber-800",

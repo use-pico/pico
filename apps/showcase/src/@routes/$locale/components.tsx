@@ -32,7 +32,7 @@ export const Route = createFileRoute("/$locale/components")({
 						])}
 					>
 						<Tx label={"@use-pico - Components"} />
-					</h1>
+					</h1>k
 
 					<Menu variant={{ vertical: true }}>
 						<MenuLink

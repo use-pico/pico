@@ -14,9 +14,9 @@ export const DetailCss = css({
 			"flex-col",
 			"gap-4",
 			"border",
-			"border-slate-300",
+			"border-(--detail-section-color-border)",
 			"rounded-sm",
-			"bg-blue-50",
+			"bg-(--detail-section-color-bg)",
 			"p-4",
 		],
 		/**
@@ -35,18 +35,24 @@ export const DetailCss = css({
 			"flex-col",
 			"gap-2",
 			"border",
-			"border-slate-200",
+			"border-(--detail-value-color-border)",
 			"rounded-sm",
 			"p-2",
 		],
 		/**
 		 * Value label styles.
 		 */
-		label: ["font-bold", "text-slate-500", "text-sm", "pb-1"],
+		label: ["font-bold", "text-(--detail-label-color-text)", "text-sm", "pb-1"],
 		/**
 		 * Field holding the final value.
 		 */
-		field: ["text-lg", "hover:bg-blue-100", "rounded-sm", "px-2", "py-1"],
+		field: [
+			"text-lg",
+			"hover:bg-(--detail-field-color-hover-bg)",
+			"rounded-sm",
+			"px-2",
+			"py-1",
+		],
 	},
 	variant: {
 		borderless: {

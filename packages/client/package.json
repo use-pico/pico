@@ -1,5 +1,5 @@
 {
-	"version": "4.0.42",
+	"version": "4.0.43",
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
 	"license": "MIT",
@@ -15,6 +15,12 @@
 	"files": [
 		"src"
 	],
+	"exports": {
+		".": {
+			"import": "./src/index.ts"
+		},
+		"./style/pico.css": "./src/pico.css"
+	},
 	"scripts": {
 		"lint": "eslint src",
 		"lint:fix": "eslint src --fix",
@@ -22,7 +28,7 @@
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.5",
-		"@tanstack/react-router": "1.114.3",
+		"@tanstack/react-router": "1.114.7",
 		"@types/luxon": "3.4.2",
 		"kysely": "0.27.6",
 		"localstorage-slim": "2.7.1",
