@@ -1,6 +1,6 @@
 {
 	"name": "@use-pico/showcase",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -15,11 +15,11 @@
 	},
 	"dependencies": {
 		"@tanstack/react-query": "5.67.2",
-		"@tanstack/react-router": "1.114.3",
-		"@tanstack/zod-adapter": "1.114.3",
-		"@use-pico/client": "4.0.43",
-		"@use-pico/common": "4.0.23",
-		"@use-pico/server": "4.0.20",
+		"@tanstack/react-router": "1.114.13",
+		"@tanstack/zod-adapter": "1.114.13",
+		"@use-pico/client": "4.0.44",
+		"@use-pico/common": "4.0.24",
+		"@use-pico/server": "4.0.21",
 		"fuse.js": "7.1.0",
 		"kysely": "0.27.6",
 		"react-dom": "19.0.0",
@@ -29,14 +29,14 @@
 		"zod": "3.24.2"
 	},
 	"devDependencies": {
-		"@iconify/json": "2.2.314",
+		"@iconify/json": "2.2.315",
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.0.12",
-		"@tanstack/router-plugin": "1.114.3",
+		"@tanstack/router-plugin": "1.114.13",
 		"@types/react-dom": "19.0.4",
 		"@types/react": "19.0.10",
-		"@use-pico/eslint-config-eslint": "5.0.10",
+		"@use-pico/eslint-config-eslint": "5.0.11",
 		"@vitejs/plugin-react": "4.3.4",
 		"eslint": "9.22.0",
 		"tailwindcss": "4.0.12",

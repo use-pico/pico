@@ -1,5 +1,5 @@
 {
-	"version": "4.0.23",
+	"version": "4.0.24",
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
 	"license": "MIT",
@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.114.3",
+		"@tanstack/zod-adapter": "1.114.13",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/is-string": "1.0.2",
@@ -52,8 +52,8 @@
 	},
 	"devDependencies": {
 		"@types/react": "19.0.10",
-		"@use-pico/eslint-config-eslint": "5.0.10",
-		"@use-pico/tsconfig": "4.0.11",
+		"@use-pico/eslint-config-eslint": "5.0.11",
+		"@use-pico/tsconfig": "4.0.12",
 		"eslint": "9.22.0",
 		"typescript": "5.8.2",
 		"vitest": "3.0.8"
