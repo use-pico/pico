@@ -2,34 +2,39 @@ import { css } from "@use-pico/common";
 
 export const ActionCss = css({
 	slot: {
-		base: [
-			"pico--action",
-			"pico--color-subtle",
+		base: ["pico--action", "w-fit", "h-fit"],
+		action: [
+			"bg-(--color-bg)",
+			"border-(--color-border)",
+			"border",
+			"cursor-pointer",
 			"flex",
-			"items-center",
-			"justify-center",
 			"gap-2",
 			"group",
-			"w-fit",
 			"h-fit",
-			"rounded-sm",
-			"cursor-pointer",
-			"shadow-(--color-shadow)",
-			"hover:shadow-md",
-			"hover:shadow-(--color-shadow-hover)",
-			"transition-all",
 			"hover:bg-(--color-bg-hover)",
+			"hover:border-(--color-border-hover)",
+			"hover:shadow-(--color-shadow-hover)",
+			"hover:shadow-md",
+			"hover:text-(--color-text-hover)",
+			"items-center",
+			"justify-center",
+			"p-1",
+			"rounded-sm",
+			"rounded",
+			"shadow-(--color-shadow)",
 			"text-(--color-text)",
 			"text-2xl",
-			"p-1",
+			"transition-all",
+			"w-fit",
 		],
 	},
 	variant: {
 		disabled: {
-			true: ["cursor-not-allowed", "pointer-events-none"],
+			true: ["cursor-not-allowed"],
 		},
 		loading: {
-			true: ["cursor-not-allowed", "pointer-events-none"],
+			true: ["cursor-not-allowed"],
 		},
 		active: {
 			true: [],
@@ -41,7 +46,16 @@ export const ActionCss = css({
 				disabled: true,
 			},
 			then: {
-				base: ["opacity-50", "hover:bg-(--color-disabled-hover-bg)"],
+				base: ["opacity-50", "cursor-not-allowed"],
+				action: ["pointer-events-none"],
+			},
+		},
+		{
+			if: {
+				loading: true,
+			},
+			then: {
+				action: ["pointer-events-none"],
 			},
 		},
 		{
@@ -49,7 +63,16 @@ export const ActionCss = css({
 				active: true,
 			},
 			then: {
-				base: ["bg-(--color-active-bg)", "hover:bg-(--color-active-hover-bg)"],
+				action: [
+					"bg-(--color-active-bg)",
+					"border-(--color-active-border)",
+					"hover:bg-(--color-active-bg-hover)",
+					"hover:border-(--color-active-border-hover)",
+					"hover:shadow-(--color-active-shadow-hover)",
+					"hover:text-(--color-active-text-hover)",
+					"shadow-(--color-active-shadow)",
+					"shadow-md",
+				],
 			},
 		},
 	],

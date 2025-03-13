@@ -1,2 +1,19 @@
 .pico--action {
+	--color-bg-hover: var(--pico--color-subtle-bg-hover);
+	--color-bg: var(--pico--color-subtle-bg);
+	--color-border-hover: var(--pico--color-subtle-border-hover);
+	--color-border: var(--pico--color-subtle-border);
+	--color-shadow-hover: var(--pico--color-subtle-shadow-hover);
+	--color-shadow: var(--pico--color-subtle-shadow);
+	--color-text-hover: var(--pico--color-subtle-text-hover);
+	--color-text: var(--pico--color-subtle-text);
+
+	--color-active-bg-hover: var(--pico--color-subtle-variant-bg-hover);
+	--color-active-bg: var(--pico--color-subtle-variant-bg);
+	--color-active-border-hover: var(--pico--color-subtle-variant-border-hover);
+	--color-active-border: var(--pico--color-subtle-variant-border);
+	--color-active-shadow-hover: var(--pico--color-subtle-variant-shadow-hover);
+	--color-active-shadow: var(--pico--color-subtle-variant-shadow);
+	--color-active-text-hover: var(--pico--color-subtle-variant-text-hover);
+	--color-active-text: var(--pico--color-subtle-variant-text);
 }

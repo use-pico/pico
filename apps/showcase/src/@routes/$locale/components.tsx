@@ -32,9 +32,18 @@ export const Route = createFileRoute("/$locale/components")({
 						])}
 					>
 						<Tx label={"@use-pico - Components"} />
-					</h1>k
+					</h1>
 
 					<Menu variant={{ vertical: true }}>
+						<MenuLink
+							icon={"icon-[material-symbols-light--flash-on-outline-rounded]"}
+							to={"/$locale/components/action"}
+							params={{ locale }}
+							variant={{ vertical: true }}
+						>
+							<Tx label={"Action"} />
+						</MenuLink>
+
 						<MenuLink
 							icon={"icon-[teenyicons--button-outline]"}
 							to={"/$locale/components/button"}

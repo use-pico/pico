@@ -66,22 +66,24 @@ export const Action: FC<Action.Props> = ({
 	const tv = tva({ disabled, loading, ...variant, css }).slots;
 
 	return (
-		<div
-			className={tv.base()}
-			onClick={disabled ? undefined : onClick}
-			{...props}
-		>
-			{disabled ?
-				<Icon
-					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
-					{...iconProps}
-				/>
-			:	<Icon
-					icon={loading ? iconLoading : iconEnabled}
-					{...iconProps}
-				/>
-			}
-			{children}
+		<div className={tv.base()}>
+			<div
+				className={tv.action()}
+				onClick={disabled ? undefined : onClick}
+				{...props}
+			>
+				{disabled ?
+					<Icon
+						icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
+						{...iconProps}
+					/>
+				:	<Icon
+						icon={loading ? iconLoading : iconEnabled}
+						{...iconProps}
+					/>
+				}
+				{children}
+			</div>
 		</div>
 	);
 };
