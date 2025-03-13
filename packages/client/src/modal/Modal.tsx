@@ -137,6 +137,7 @@ export const Modal: FC<Modal.Props> = ({
 											<Action
 												iconEnabled={CloseIcon}
 												onClick={() => close()}
+												variant={{ variant: "light", borderless: true }}
 											/>
 										</div>
 										<div className={"flex-grow overflow-y-auto"}>

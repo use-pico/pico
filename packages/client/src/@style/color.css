@@ -2,21 +2,103 @@
  * Here is a color definition so it's easy to swap out colors.
  */
 :root {
-	--pico--color-subtle-bg: var(--color-sky-100);
-	--pico--color-subtle-bg-hover: var(--color-sky-200);
-	--pico--color-subtle-border: var(--color-sky-300);
-	--pico--color-subtle-border-hover: var(--color-sky-400);
-	--pico--color-subtle-text: var(--color-sky-500);
-	--pico--color-subtle-text-hover: var(--color-sky-600);
-	--pico--color-subtle-shadow: var(--color-sky-200);
-	--pico--color-subtle-shadow-hover: var(--color-sky-400);
+	--pico--color-primary-bg-hover: var(--color-blue-500);
+	--pico--color-primary-bg: var(--color-blue-600);
+	--pico--color-primary-border-hover: var(--color-blue-600);
+	--pico--color-primary-border: var(--color-blue-700);
+	--pico--color-primary-shadow-hover: var(--color-sky-400);
+	--pico--color-primary-shadow: var(--color-sky-200);
+	--pico--color-primary-text-hover: var(--color-blue-100);
+	--pico--color-primary-text: var(--color-blue-100);
 
-	--pico--color-subtle-variant-bg: var(--color-sky-200);
-	--pico--color-subtle-variant-bg-hover: var(--color-sky-300);
-	--pico--color-subtle-variant-border: var(--color-sky-400);
-	--pico--color-subtle-variant-border-hover: var(--color-sky-500);
-	--pico--color-subtle-variant-text: var(--color-sky-600);
-	--pico--color-subtle-variant-text-hover: var(--color-sky-700);
-	--pico--color-subtle-variant-shadow: var(--color-sky-300);
-	--pico--color-subtle-variant-shadow-hover: var(--color-sky-500);
+	--pico--color-secondary-bg-hover: var(--color-green-500);
+	--pico--color-secondary-bg: var(--color-green-600);
+	--pico--color-secondary-border-hover: var(--color-green-600);
+	--pico--color-secondary-border: var(--color-green-700);
+	--pico--color-secondary-shadow-hover: var(--color-sky-400);
+	--pico--color-secondary-shadow: var(--color-sky-200);
+	--pico--color-secondary-text-hover: var(--color-green-100);
+	--pico--color-secondary-text: var(--color-green-100);
+
+	--pico--color-danger-bg-hover: var(--color-red-400);
+	--pico--color-danger-bg: var(--color-red-500);
+	--pico--color-danger-border-hover: var(--color-red-500);
+	--pico--color-danger-border: var(--color-red-600);
+	--pico--color-danger-shadow-hover: var(--color-sky-400);
+	--pico--color-danger-shadow: var(--color-sky-200);
+	--pico--color-danger-text-hover: var(--color-red-100);
+	--pico--color-danger-text: var(--color-red-100);
+
+	--pico--color-subtle-bg-hover: var(--color-blue-200);
+	--pico--color-subtle-bg: var(--color-blue-100);
+	--pico--color-subtle-border-hover: var(--color-blue-400);
+	--pico--color-subtle-border: var(--color-blue-300);
+	--pico--color-subtle-shadow-hover: var(--color-blue-400);
+	--pico--color-subtle-shadow: var(--color-blue-200);
+	--pico--color-subtle-text-hover: var(--color-blue-600);
+	--pico--color-subtle-text: var(--color-blue-500);
+
+	--pico--color-light-bg-hover: var(--color-blue-50);
+	--pico--color-light-bg: var(--color-white);
+	--pico--color-light-border-hover: var(--color-blue-300);
+	--pico--color-light-border: var(--color-blue-500);
+	--pico--color-light-shadow-hover: var(--color-blue-400);
+	--pico--color-light-shadow: var(--color-blue-200);
+	--pico--color-light-text-hover: var(--color-blue-600);
+	--pico--color-light-text: var(--color-blue-500);
+}
+
+.color-primary {
+	--color-bg-hover: var(--pico--color-primary-bg-hover);
+	--color-bg: var(--pico--color-primary-bg);
+	--color-border-hover: var(--pico--color-primary-border-hover);
+	--color-border: var(--pico--color-primary-border);
+	--color-shadow-hover: var(--pico--color-primary-shadow-hover);
+	--color-shadow: var(--pico--color-primary-shadow);
+	--color-text-hover: var(--pico--color-primary-text-hover);
+	--color-text: var(--pico--color-primary-text);
+}
+
+.color-secondary {
+	--color-bg-hover: var(--pico--color-secondary-bg-hover);
+	--color-bg: var(--pico--color-secondary-bg);
+	--color-border-hover: var(--pico--color-secondary-border-hover);
+	--color-border: var(--pico--color-secondary-border);
+	--color-shadow-hover: var(--pico--color-secondary-shadow-hover);
+	--color-shadow: var(--pico--color-secondary-shadow);
+	--color-text-hover: var(--pico--color-secondary-text-hover);
+	--color-text: var(--pico--color-secondary-text);
+}
+
+.color-danger {
+	--color-bg-hover: var(--pico--color-danger-bg-hover);
+	--color-bg: var(--pico--color-danger-bg);
+	--color-border-hover: var(--pico--color-danger-border-hover);
+	--color-border: var(--pico--color-danger-border);
+	--color-shadow-hover: var(--pico--color-danger-shadow-hover);
+	--color-shadow: var(--pico--color-danger-shadow);
+	--color-text-hover: var(--pico--color-danger-text-hover);
+	--color-text: var(--pico--color-danger-text);
+}
+
+.color-light {
+	--color-bg-hover: var(--pico--color-light-bg-hover);
+	--color-bg: var(--pico--color-light-bg);
+	--color-border-hover: var(--pico--color-light-border-hover);
+	--color-border: var(--pico--color-light-border);
+	--color-shadow-hover: var(--pico--color-light-shadow-hover);
+	--color-shadow: var(--pico--color-light-shadow);
+	--color-text-hover: var(--pico--color-light-text-hover);
+	--color-text: var(--pico--color-light-text);
+}
+
+.color-subtle {
+	--color-bg-hover: var(--pico--color-subtle-bg-hover);
+	--color-bg: var(--pico--color-subtle-bg);
+	--color-border-hover: var(--pico--color-subtle-border-hover);
+	--color-border: var(--pico--color-subtle-border);
+	--color-shadow-hover: var(--pico--color-subtle-shadow-hover);
+	--color-shadow: var(--pico--color-subtle-shadow);
+	--color-text-hover: var(--pico--color-subtle-text-hover);
+	--color-text: var(--pico--color-subtle-text);
 }

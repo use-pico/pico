@@ -9,6 +9,9 @@ export const Route = createFileRoute("/$locale/components/badge")({
 					<Icon icon={AscIcon} /> <div>Foo bar</div>
 				</Badge>
 				<Badge variant={{ active: true }}>Bar foo</Badge>
+				<Badge variant={{ variant: "primary" }}>Bar foo</Badge>
+				<Badge variant={{ variant: "secondary", active: true }}>Bar foo</Badge>
+				<Badge variant={{ variant: "subtle", active: true }}>Bar foo</Badge>
 			</div>
 		);
 	},

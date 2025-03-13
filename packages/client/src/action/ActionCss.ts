@@ -37,7 +37,17 @@ export const ActionCss = css({
 			true: ["cursor-not-allowed"],
 		},
 		active: {
-			true: [],
+			true: ["active", "shadow-md"],
+		},
+		variant: {
+			primary: ["color-primary"],
+			secondary: ["color-secondary"],
+			danger: ["color-danger"],
+			subtle: ["color-subtle"],
+			light: ["color-light"],
+		},
+		borderless: {
+			true: ["border-none"],
 		},
 	},
 	match: [
@@ -58,28 +68,13 @@ export const ActionCss = css({
 				action: ["pointer-events-none"],
 			},
 		},
-		{
-			if: {
-				active: true,
-			},
-			then: {
-				action: [
-					"bg-(--color-active-bg)",
-					"border-(--color-active-border)",
-					"hover:bg-(--color-active-bg-hover)",
-					"hover:border-(--color-active-border-hover)",
-					"hover:shadow-(--color-active-shadow-hover)",
-					"hover:text-(--color-active-text-hover)",
-					"shadow-(--color-active-shadow)",
-					"shadow-md",
-				],
-			},
-		},
 	],
 	defaults: {
 		disabled: false,
 		loading: false,
 		active: false,
+		variant: "subtle",
+		borderless: false,
 	},
 });
 

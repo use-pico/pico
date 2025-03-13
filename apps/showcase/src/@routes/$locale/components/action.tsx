@@ -7,6 +7,19 @@ export const Route = createFileRoute("/$locale/components/action")({
 			<div className={"flex flex-row gap-2"}>
 				<Action iconEnabled={TrashIcon} />
 				<Action
+					iconEnabled={TrashIcon}
+					variant={{ borderless: true }}
+				/>
+				<Action
+					iconEnabled={TrashIcon}
+					variant={{ variant: "light", borderless: true }}
+				/>
+				<Action
+					iconDisabled={TrashIcon}
+					disabled
+					variant={{ variant: "light", borderless: true }}
+				/>
+				<Action
 					variant={{ active: true }}
 					iconEnabled={TrashIcon}
 				/>

@@ -25,13 +25,7 @@ export const BadgeCss = css({
 				active: true,
 			},
 			then: {
-				base: [
-					"bg-(--color-active-bg)",
-					"border-(--color-active-border)",
-					"text-(--color-active-text)",
-					"shadow-md",
-					"shadow-(--color-active-shadow)",
-				],
+				base: ["shadow-md"],
 			},
 		},
 	],
@@ -39,9 +33,17 @@ export const BadgeCss = css({
 		active: {
 			true: [],
 		},
+		variant: {
+			primary: ["color-primary"],
+			secondary: ["color-secondary"],
+			danger: ["color-danger"],
+			light: ["color-light"],
+			subtle: ["color-subtle"],
+		},
 	},
 	defaults: {
 		active: false,
+		variant: "light",
 	},
 });
 

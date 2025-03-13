@@ -1,6 +1,0 @@
-:root {
-	--button-primary-color-text: var(--color-white);
-	--button-primary-color-bg: var(--color-blue-400);
-	--button-primary-color-hover-text: var(--color-white);
-	--button-primary-color-hover-bg: var(--color-blue-500);
-}

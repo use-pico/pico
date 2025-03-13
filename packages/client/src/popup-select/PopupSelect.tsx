@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "@tanstack/react-router";
 import type {
-	CursorSchema,
-	Entity,
-	FilterSchema,
-	IdentitySchema,
+    CursorSchema,
+    Entity,
+    FilterSchema,
+    IdentitySchema,
 } from "@use-pico/common";
 import { useEffect, useMemo, type FC } from "react";
 import { Button } from "../button/Button";
@@ -182,7 +182,8 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 							setSelection(value ? [value] : []);
 						}}
 						variant={{
-							variant: "subtle",
+							variant: "light",
+							borderless: true,
 						}}
 					>
 						<Tx label={"Close (label)"} />
