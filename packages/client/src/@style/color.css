@@ -1,0 +1,28 @@
+/**
+ * Here is a color definition so it's easy to swap out colors.
+ */
+
+.pico--color-blue {
+	--color-bg: var(--color-blue-100);
+	--color-border: var(--color-blue-300);
+	--color-text: var(--color-blue-500);
+	--color-shadow: var(--color-blue-200);
+	--color-shadow-hover: var(--color-blue-400);
+}
+
+.pico--color-purple {
+	--color-bg: var(--color-purple-100);
+	--color-border: var(--color-purple-300);
+	--color-text: var(--color-purple-500);
+	--color-shadow: var(--color-purple-200);
+	--color-shadow-hover: var(--color-purple-400);
+}
+
+.pico--color-subtle {
+	--color-bg: var(--color-sky-100);
+	--color-bg-hover: var(--color-sky-200);
+	--color-border: var(--color-sky-300);
+	--color-text: var(--color-sky-500);
+	--color-shadow: var(--color-sky-200);
+	--color-shadow-hover: var(--color-sky-400);
+}

@@ -1,6 +1,6 @@
 /** @format */
 
 @import "tailwindcss";
-@import "@use-pico/client/style/pico.css";
+@import "@use-pico/client/pico.css";
 
 @config '../../tailwind.config.ts';

@@ -1,6 +1,12 @@
+@import "./@style/color.css";
+
+@import "./action/style.css";
+@import "./alert/style.css";
+@import "./badge/style.css";
 @import "./button/style.css";
 @import "./detail/style.css";
 @import "./form/style.css";
+@import "./menu/style.css";
 @import "./preview/style.css";
 @import "./table/style.css";
 @import "./value-of/style.css";

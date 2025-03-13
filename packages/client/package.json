@@ -19,7 +19,7 @@
 		".": {
 			"import": "./src/index.ts"
 		},
-		"./style/pico.css": "./src/pico.css"
+		"./pico.css": "./src/pico.css"
 	},
 	"scripts": {
 		"lint": "eslint src",
@@ -28,22 +28,25 @@
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.5",
-		"@tanstack/react-router": "1.114.13",
+		"@lexical/react": "0.27.2",
+		"@lexical/utils": "0.27.2",
+		"@tanstack/react-router": "1.114.17",
 		"@types/luxon": "3.4.2",
 		"kysely": "0.27.6",
+		"lexical": "0.27.2",
 		"localstorage-slim": "2.7.1",
 		"luxon": "3.5.0",
 		"react-dropzone": "14.3.8",
 		"react-hook-form": "7.54.2",
 		"react-hot-toast": "2.5.2",
-		"read-excel-file": "5.8.6",
+		"read-excel-file": "5.8.7",
 		"sqlocal": "0.14.0",
 		"uuid": "11.1.0"
 	},
 	"peerDependencies": {
-		"@tanstack/react-query": "5.67.2",
+		"@tanstack/react-query": "5.67.3",
 		"@use-pico/common": "4.0.24",
-		"axios": "1.8.2",
+		"axios": "1.8.3",
 		"react": "19.0.0",
 		"zod": "3.24.2",
 		"zustand": "5.0.3"

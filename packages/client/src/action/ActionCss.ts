@@ -3,6 +3,8 @@ import { css } from "@use-pico/common";
 export const ActionCss = css({
 	slot: {
 		base: [
+			"pico--action",
+			"pico--color-subtle",
 			"flex",
 			"items-center",
 			"justify-center",
@@ -12,11 +14,12 @@ export const ActionCss = css({
 			"h-fit",
 			"rounded-sm",
 			"cursor-pointer",
+			"shadow-(--color-shadow)",
 			"hover:shadow-md",
-			"hover:shadow-slate-200",
+			"hover:shadow-(--color-shadow-hover)",
 			"transition-all",
-			"hover:bg-slate-200",
-			"text-slate-600",
+			"hover:bg-(--color-bg-hover)",
+			"text-(--color-text)",
 			"text-2xl",
 			"p-1",
 		],
@@ -28,6 +31,9 @@ export const ActionCss = css({
 		loading: {
 			true: ["cursor-not-allowed", "pointer-events-none"],
 		},
+		active: {
+			true: [],
+		},
 	},
 	match: [
 		{
@@ -35,13 +41,22 @@ export const ActionCss = css({
 				disabled: true,
 			},
 			then: {
-				base: ["opacity-50", "hover:bg-blue-400"],
+				base: ["opacity-50", "hover:bg-(--color-disabled-hover-bg)"],
+			},
+		},
+		{
+			if: {
+				active: true,
+			},
+			then: {
+				base: ["bg-(--color-active-bg)", "hover:bg-(--color-active-hover-bg)"],
 			},
 		},
 	],
 	defaults: {
 		disabled: false,
 		loading: false,
+		active: false,
 	},
 });
 

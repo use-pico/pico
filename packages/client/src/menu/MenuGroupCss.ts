@@ -2,7 +2,7 @@ import { css } from "@use-pico/common";
 
 export const MenuGroupCss = css({
 	slot: {
-		base: ["group", "relative", "cursor-pointer"],
+		base: ["pico--menu-group", "group", "relative", "cursor-pointer"],
 		label: [
 			"flex",
 			"flex-row",
@@ -14,11 +14,15 @@ export const MenuGroupCss = css({
 			"border",
 			"border-b-2",
 			"border-transparent",
-			"hover:text-slate-500",
+			"hover:text-(--color-hover-text)",
 		],
 		items: [
-			"flex flex-col w-max gap-2",
-			"invisible absolute",
+			"flex",
+			"flex-col",
+			"w-max",
+			"gap-2",
+			"invisible",
+			"absolute",
 			"group-hover:visible",
 			"shadow-md",
 			"z-20",
@@ -41,11 +45,11 @@ export const MenuGroupCss = css({
 				label: [
 					"border",
 					"border-b-2",
-					"border-blue-400",
+					"border-(--color-active-border)",
 					"bg-blue-50",
-					"hover:border-blue-500",
-					"text-slate-800",
-					"hover:text-blue-800",
+					"hover:border-(--color-active-hover-border)",
+					"text-(--color-active-text)",
+					"hover:text-(--color-active-hover-text)",
 				],
 			},
 		},

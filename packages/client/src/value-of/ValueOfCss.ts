@@ -3,8 +3,9 @@ import { css } from "@use-pico/common";
 export const ValueOfCss = css({
 	slot: {
 		base: [
+			"pico--value-of",
 			"border",
-			"border-(--value-of-color-border)",
+			"border-(--color-border)",
 			"px-2",
 			"py-1",
 			"rounded-md",
@@ -13,10 +14,10 @@ export const ValueOfCss = css({
 		label: [
 			"text-sm",
 			"font-semibold",
-			"text-(--value-of-label-color-text)",
+			"text-(--label-color-text)",
 			"border-b",
-			"border-(--value-of-label-color-border)",
-			"group-hover:border-(--value-of-label-color-hover-border)",
+			"border-(--label-color-border)",
+			"group-hover:border-(--label-color-hover-border)",
 			"mb-2",
 		],
 		value: [],
@@ -40,10 +41,10 @@ export const ValueOfCss = css({
 					"mb-0",
 					"font-light",
 					"text-md",
-					"text-(--value-of-inline-label-color-text)",
+					"text-(--inline-label-color-text)",
 					"border-none",
 				],
-				value: ["text-md", "text-(--value-of-inline-value-color-text)"],
+				value: ["text-md", "text-(--inline-value-color-text)"],
 			},
 		},
 		{
@@ -52,9 +53,9 @@ export const ValueOfCss = css({
 			},
 			then: {
 				base: [
-					"bg-(--value-of-color-bg)",
-					"hover:bg-(--value-of-color-hover-bg)",
-					"hover:border-(--value-of-color-hover-border)",
+					"bg-(--color-bg)",
+					"hover:bg-(--color-hover-bg)",
+					"hover:border-(--color-hover-border)",
 				],
 			},
 		},

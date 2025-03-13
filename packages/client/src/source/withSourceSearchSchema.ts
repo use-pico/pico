@@ -1,5 +1,9 @@
 import { fallback } from "@tanstack/zod-adapter";
-import { CursorSchema, type FilterSchema } from "@use-pico/common";
+import {
+	CursorSchema,
+	type FilterSchema,
+	type OrderSchema,
+} from "@use-pico/common";
 import { z } from "zod";
 
 export namespace withSourceSearchSchema {
@@ -7,13 +11,23 @@ export namespace withSourceSearchSchema {
 		size?: number;
 	}
 
-	export interface Props<TFilterSchema extends FilterSchema> {
+	export interface Props<
+		TFilterSchema extends FilterSchema,
+		TSort extends Record<string, OrderSchema.Type>,
+	> {
 		filter: TFilterSchema;
+		defaultSort?: TSort;
 	}
 }
 
-export const withSourceSearchSchema = <TFilterSchema extends FilterSchema>(
-	{ filter }: withSourceSearchSchema.Props<TFilterSchema>,
+export const withSourceSearchSchema = <
+	TFilterSchema extends FilterSchema,
+	TSort extends Record<string, OrderSchema.Type>,
+>(
+	{
+		filter,
+		defaultSort = {} as TSort,
+	}: withSourceSearchSchema.Props<TFilterSchema, TSort>,
 	{ size = 30 }: withSourceSearchSchema.Opts = { size: 30 },
 ) => {
 	return z.object({
@@ -25,8 +39,8 @@ export const withSourceSearchSchema = <TFilterSchema extends FilterSchema>(
 			size,
 		}),
 		sort: fallback(
-			z.record(z.enum(["asc", "desc"]).optional()).default({}),
-			{},
+			z.record(z.enum(["asc", "desc"]).optional()).default(defaultSort),
+			defaultSort,
 		),
 		selection: fallback(z.array(z.string()).default([]), []),
 	});

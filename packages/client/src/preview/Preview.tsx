@@ -68,7 +68,7 @@ export const Preview = <TValues extends Record<string, any>>({
 						className={tvc([
 							"w-full",
 							"border-b",
-							"border-[var(--preview-color-separator)]",
+							"border-(--color-separator)",
 						])}
 					/>
 				:	null}

@@ -1,0 +1,20 @@
+.pico--menu-group {
+	--color-hover-text: var(--color-slate-500);
+
+	--color-active-border: var(--color-blue-400);
+	--color-active-text: var(--color-slate-800);
+
+	--color-active-hover-border: var(--color-blue-500);
+	--color-active-hover-text: var(--color-blue-800);
+}
+
+.pico--menu-link {
+	--color-hover-text: var(--color-slate-500);
+
+	--color-active-border: var(--color-blue-400);
+	--color-active-bg: var(--color-blue-50);
+	--color-active-text: var(--color-slate-800);
+
+	--color-active-hover-border: var(--color-blue-500);
+	--color-active-hover-text: var(--color-blue-800);
+}

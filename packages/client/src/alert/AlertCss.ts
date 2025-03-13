@@ -2,19 +2,51 @@ import { css } from "@use-pico/common";
 
 export const AlertCss = css({
 	slot: {
-		base: ["border", "rounded", "py-2", "px-3", "flex", "flex-col"],
+		base: [
+			"pico--alert",
+			"border",
+			"rounded",
+			"py-2",
+			"px-3",
+			"flex",
+			"flex-col",
+		],
 		title: ["font-semibold", "w-full"],
 		message: ["opacity-85", "text-sm", "w-full"],
-		body: ["border-t", "border-slate-300", "w-full"],
+		body: ["border-t", "border-(--color-body-border)", "w-full"],
 	},
 	variant: {
 		variant: {
-			info: ["border-blue-200", "bg-blue-50", "text-blue-900"],
-			success: ["border-green-500", "bg-green-100", "text-green-900"],
-			warning: ["border-amber-500", "bg-amber-100", "text-amber-900"],
-			error: ["border-red-500", "bg-red-100", "text-red-900"],
-			neutral: ["border-slate-300", "bg-slate-100", "text-slate-600"],
-			subtle: ["border-slate-100", "bg-slate-50", "text-slate-400"],
+			info: [
+				"border-(--color-info-border)",
+				"bg-(--color-info-bg)",
+				"text-(--color-info-text)",
+			],
+			success: [
+				"border-(--color-success-border)",
+				"bg-(--color-success-bg)",
+				"text-(--color-success-text)",
+			],
+			warning: [
+				"border-(--color-warning-border)",
+				"bg-(--color-warning-bg)",
+				"text-(--color-warning-text)",
+			],
+			error: [
+				"border-(--color-error-border)",
+				"bg-(--color-error-bg)",
+				"text-(--color-error-text)",
+			],
+			neutral: [
+				"border-(--color-neutral-border)",
+				"bg-(--color-neutral-bg)",
+				"text-(--color-neutral-text)",
+			],
+			subtle: [
+				"border-(--color-subtle-border)",
+				"bg-(--color-subtle-bg)",
+				"text---color-subtle-text",
+			],
 		},
 		clickable: {
 			true: ["cursor-pointer"],
@@ -27,7 +59,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-sky-200",
+				base: "hover:bg-(--color-info-clickable-hover-bg)",
 			},
 		},
 		{
@@ -36,7 +68,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-green-200",
+				base: "hover:bg-(--color-success-clickable-hover-bg)",
 			},
 		},
 		{
@@ -45,7 +77,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-amber-200",
+				base: "hover:bg-(--color-warning-clickable-hover-bg)",
 			},
 		},
 		{
@@ -54,7 +86,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-red-200",
+				base: "hover:bg-(--color-error-clickable-hover-bg)",
 			},
 		},
 		{
@@ -63,7 +95,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-slate-200",
+				base: "hover:bg-(--color-neutral-clickable-hover-bg)",
 			},
 		},
 		{
@@ -72,7 +104,7 @@ export const AlertCss = css({
 				clickable: true,
 			},
 			then: {
-				base: "hover:bg-slate-100",
+				base: "hover:bg-(--color-subtle-clickable-hover-bg)",
 			},
 		},
 	],

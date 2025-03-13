@@ -3,6 +3,7 @@ import { css } from "@use-pico/common";
 export const MenuLinkCss = css({
 	slot: {
 		base: [
+			"pico--menu-link",
 			"flex",
 			"flex-row",
 			"gap-2",
@@ -13,7 +14,7 @@ export const MenuLinkCss = css({
 			"border",
 			"border-b-2",
 			"border-transparent",
-			"hover:text-slate-500",
+			"hover:text-(--color-hover-text)",
 		],
 	},
 	variant: {
@@ -40,11 +41,11 @@ export const MenuLinkCss = css({
 				base: [
 					"border",
 					"border-b-2",
-					"border-blue-400",
-					"bg-blue-50",
-					"hover:border-blue-500",
-					"text-slate-800",
-					"hover:text-blue-800",
+					"border-(--color-active-border)",
+					"bg-(--color-active-bg)",
+					"hover:border-(--color-active-hover-border)",
+					"text-(--color-active-text)",
+					"hover:text-(--color-active-hover-text)",
 				],
 			},
 		},

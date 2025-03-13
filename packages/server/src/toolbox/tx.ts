@@ -1,5 +1,5 @@
 import { match, print, project, query } from "@phenomnomnominal/tsquery";
-import { diffOf, keyOf, Timer } from "@use-pico/common";
+import { diffOf, keyOf, Timer, type TranslationSchema } from "@use-pico/common";
 import fs from "node:fs";
 import { parse, stringify } from "yaml";
 
@@ -70,13 +70,12 @@ export const tx = ({ packages, output, locales }: tx.Props) => {
 
 			console.log(`Writing locale [${locale}] to [${target}]`);
 
-			let current: Record<string, any> = {};
+			let current: Record<string, TranslationSchema.Type> = {};
 			try {
 				current = parse(
 					fs.readFileSync(target, { encoding: "utf-8" }),
 				) as Record<string, any>;
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			} catch (e) {
+			} catch (_) {
 				// Noop
 			}
 
@@ -87,6 +86,9 @@ export const tx = ({ packages, output, locales }: tx.Props) => {
 				Object.keys(current),
 				Object.keys(translations),
 			)) {
+				if (current[key]?.static) {
+					continue;
+				}
 				delete current[key];
 			}
 

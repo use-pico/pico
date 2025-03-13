@@ -1,7 +1,7 @@
 import {
-    useMatchRoute,
-    type ReactNode,
-    type UseMatchRouteOptions,
+	useMatchRoute,
+	type ReactNode,
+	type UseMatchRouteOptions,
 } from "@tanstack/react-router";
 import type { FC, PropsWithChildren } from "react";
 import { Icon } from "../icon/Icon";
