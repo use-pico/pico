@@ -45,6 +45,15 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[proicons--badge]"}
+							to={"/$locale/components/badge"}
+							params={{ locale }}
+							variant={{ vertical: true }}
+						>
+							<Tx label={"Badge"} />
+						</MenuLink>
+
+						<MenuLink
 							icon={"icon-[teenyicons--button-outline]"}
 							to={"/$locale/components/button"}
 							params={{ locale }}

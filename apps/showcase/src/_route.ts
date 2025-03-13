@@ -19,6 +19,7 @@ import { Route as LocaleComponentsIndexImport } from './@routes/$locale/componen
 import { Route as LocaleComponentsTableImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsPopupSelectImport } from './@routes/$locale/components/popup-select'
 import { Route as LocaleComponentsButtonImport } from './@routes/$locale/components/button'
+import { Route as LocaleComponentsBadgeImport } from './@routes/$locale/components/badge'
 import { Route as LocaleComponentsActionImport } from './@routes/$locale/components/action'
 
 // Create/Update Routes
@@ -72,6 +73,12 @@ const LocaleComponentsButtonRoute = LocaleComponentsButtonImport.update({
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
 
+const LocaleComponentsBadgeRoute = LocaleComponentsBadgeImport.update({
+  id: '/badge',
+  path: '/badge',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
+
 const LocaleComponentsActionRoute = LocaleComponentsActionImport.update({
   id: '/action',
   path: '/action',
@@ -117,6 +124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsActionImport
       parentRoute: typeof LocaleComponentsImport
     }
+    '/$locale/components/badge': {
+      id: '/$locale/components/badge'
+      path: '/badge'
+      fullPath: '/$locale/components/badge'
+      preLoaderRoute: typeof LocaleComponentsBadgeImport
+      parentRoute: typeof LocaleComponentsImport
+    }
     '/$locale/components/button': {
       id: '/$locale/components/button'
       path: '/button'
@@ -152,6 +166,7 @@ declare module '@tanstack/react-router' {
 
 interface LocaleComponentsRouteChildren {
   LocaleComponentsActionRoute: typeof LocaleComponentsActionRoute
+  LocaleComponentsBadgeRoute: typeof LocaleComponentsBadgeRoute
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
@@ -160,6 +175,7 @@ interface LocaleComponentsRouteChildren {
 
 const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsActionRoute: LocaleComponentsActionRoute,
+  LocaleComponentsBadgeRoute: LocaleComponentsBadgeRoute,
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
@@ -188,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components': typeof LocaleComponentsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -198,6 +215,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -211,6 +229,7 @@ export interface FileRoutesById {
   '/$locale/components': typeof LocaleComponentsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -225,6 +244,7 @@ export interface FileRouteTypes {
     | '/$locale/components'
     | '/$locale/'
     | '/$locale/components/action'
+    | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
@@ -234,6 +254,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/$locale/components/action'
+    | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
@@ -245,6 +266,7 @@ export interface FileRouteTypes {
     | '/$locale/components'
     | '/$locale/'
     | '/$locale/components/action'
+    | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
@@ -291,6 +313,7 @@ export const routeTree = rootRoute
       "parent": "/$locale",
       "children": [
         "/$locale/components/action",
+        "/$locale/components/badge",
         "/$locale/components/button",
         "/$locale/components/popup-select",
         "/$locale/components/table",
@@ -303,6 +326,10 @@ export const routeTree = rootRoute
     },
     "/$locale/components/action": {
       "filePath": "$locale/components/action.tsx",
+      "parent": "/$locale/components"
+    },
+    "/$locale/components/badge": {
+      "filePath": "$locale/components/badge.tsx",
       "parent": "/$locale/components"
     },
     "/$locale/components/button": {
