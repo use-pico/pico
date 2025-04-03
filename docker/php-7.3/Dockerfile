@@ -14,6 +14,7 @@ RUN \
     npm install -g npm && \
     npm install -g pnpm && \
     npm install -g yarn && \
+    npm install -g bun && \
     mkdir -p /etc/supervisor/conf.d
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]

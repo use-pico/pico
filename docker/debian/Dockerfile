@@ -12,6 +12,7 @@ RUN \
     apt-get install -y --no-install-recommends --no-install-suggests \
         nodejs && \
     npm install -g npm && \
+    npm install -g bun && \
     mkdir -p /etc/supervisor/conf.d
 
 ADD rootfs /
