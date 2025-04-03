@@ -1,4 +1,4 @@
-FROM usepico/php:base as base
+FROM usepico/php:base AS base
 
 RUN \
     apt-get update && \
@@ -7,7 +7,7 @@ RUN \
         libjpeg-dev libxpm-dev libonig-dev libsodium-dev libargon2-dev \
         libxslt-dev libzip-dev libmemcached-dev
 
-FROM base as build
+FROM base AS build
 
 ENV \
     PHP_INI_DIR=/usr/local/etc/php \
@@ -90,7 +90,7 @@ RUN \
     chmod +x -R /usr/local/bin
 
 # start a new, clean stage (without any heavy dependency)
-FROM base as runtime
+FROM base AS runtime
 
 # take built binaries from build
 COPY --from=build /usr/local/bin/php /usr/local/bin/php
@@ -111,5 +111,5 @@ RUN \
 
 # Creates one commonly used app folder
 WORKDIR /opt/app
-# defualt work directory for an application
+# default work directory for an application
 WORKDIR /var/www

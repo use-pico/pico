@@ -7,7 +7,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         openssh-server ca-certificates curl supervisor bash cron sendmail zip unzip xz-utils openssl && \
-    curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         nodejs && \

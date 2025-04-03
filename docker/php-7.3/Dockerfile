@@ -7,7 +7,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates curl git supervisor bash && \
-    curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
         nodejs && \
@@ -129,5 +129,5 @@ RUN \
 
 # Creates one commonly used app folder
 WORKDIR /opt/app
-# defualt work directory for an application
+# default work directory for an application
 WORKDIR /var/www
