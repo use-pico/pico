@@ -32,13 +32,13 @@ type SlotEx<
 	TSlot extends SlotDef<any>,
 	TUse extends
 		| (() => {
-				type: {
+				"~type": {
 					slot?: SlotDef<any>;
 				};
 		  })
 		| unknown = unknown,
 > = TUse extends () => {
-	type: {
+	"~type": {
 		slot?: infer S;
 	};
 }
@@ -52,13 +52,13 @@ type VariantEx<
 	TVariant extends VariantDef<any>,
 	TUse extends
 		| (() => {
-				type: {
+				"~type": {
 					variant?: VariantDef<any>;
 				};
 		  })
 		| unknown = unknown,
 > = TUse extends () => {
-	type: {
+	"~type": {
 		variant?: infer V;
 	};
 }
@@ -74,14 +74,14 @@ type DefaultsEx<
 	TVariant extends VariantDef<any>,
 	TUse extends
 		| (() => {
-				type: {
+				"~type": {
 					variant?: VariantDef<any>;
 				};
 		  })
 		| unknown = unknown,
 > = Required<ValuesDef<TVariant>> &
 	(TUse extends () => {
-		type: {
+		"~type": {
 			variant?: infer V;
 		};
 	}
@@ -146,7 +146,7 @@ type Variants<
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	type: {
+	"~type": {
 		/**
 		 * Extension type for this variant.
 		 */
@@ -243,12 +243,12 @@ export namespace cls {
 		P = unknown,
 	> = {
 		variant?: ValuesDef<
-			VariantEx<ReturnType<TVariants>["type"]["variant"], TVariants>
+			VariantEx<ReturnType<TVariants>["~type"]["variant"], TVariants>
 		>;
 		tva?: TVariants;
 		css?: {
 			[K in keyof SlotEx<
-				ReturnType<TVariants>["type"]["slot"],
+				ReturnType<TVariants>["~type"]["slot"],
 				TVariants
 			>]?: Class;
 		};
@@ -386,6 +386,6 @@ export function cls<
 		/**
 		 * Used for inheritance and type checking.
 		 */
-		type: proxyOf(),
+		"~type": proxyOf(),
 	});
 }
