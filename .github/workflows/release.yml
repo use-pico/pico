@@ -74,6 +74,7 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     needs:
+      - lint
       - typecheck
     steps:
       - uses: actions/checkout@v4
