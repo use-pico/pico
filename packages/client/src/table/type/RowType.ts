@@ -16,7 +16,7 @@ export namespace RowType {
 
 		export type Callback<TData extends DataType.Data> = (
 			props: Props<TData>,
-		) => cls.Class;
+		) => cls.Cls;
 	}
 
 	export namespace Event {

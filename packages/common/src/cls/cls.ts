@@ -7,31 +7,89 @@ const proxyOf: any = new Proxy(() => proxyOf, {
 	get: () => proxyOf,
 });
 
-export namespace cls {
-	/**
-	 * Just forward class name type to prevent direct dependency on providing package.
-	 */
-	export type Class = ClassNameValue;
+/**
+ * Just forward class name type to prevent direct dependency on providing package.
+ */
+type Class = ClassNameValue;
 
-	/**
-	 * Types for the "definition" part of variants.
-	 *
-	 * Those types should not be used in "public".
-	 */
-	export namespace Definition {
-		export type Slot<TSlotKeys extends string> = Record<TSlotKeys, Class>;
+type SlotDef<TSlotKeys extends string> = Record<TSlotKeys, Class>;
 
-		export type Variant<TVariantKeys extends string> = Record<
-			TVariantKeys,
-			Record<string, Class>
-		>;
+type VariantDef<TVariantKeys extends string> = Record<
+	TVariantKeys,
+	Record<string, Class>
+>;
 
-		export type Values<TVariant> = {
-			[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
-				? boolean
-				: keyof TVariant[K];
+type ValuesDef<TVariant> = {
+	[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
+		? boolean
+		: keyof TVariant[K];
+};
+
+/**
+ * Compute slot from all slots (including uses - extensions).
+ */
+type SlotEx<
+	TSlot extends SlotDef<any>,
+	TUse extends
+		| (() => {
+				type: {
+					slot?: SlotDef<any>;
+				};
+		  })
+		| unknown = unknown,
+> = TUse extends () => {
+	type: {
+		slot?: infer S;
+	};
+}
+	? TSlot & S
+	: TSlot;
+
+/**
+ * Compute variant from all variants (including uses - extensions).
+ */
+export type VariantEx<
+	TVariant extends VariantDef<any>,
+	TUse extends
+		| (() => {
+				type: {
+					variant?: VariantDef<any>;
+				};
+		  })
+		| unknown = unknown,
+> = TUse extends () => {
+	type: {
+		variant?: infer V;
+	};
+}
+	? TVariant & V
+	: TVariant;
+
+/**
+ * Compute default values from all variants (including uses - extensions).
+ *
+ * Current defaults are required, extensions are marked as optional.
+ */
+export type DefaultsEx<
+	TVariant extends VariantDef<any>,
+	TUse extends
+		| (() => {
+				type: {
+					variant?: VariantDef<any>;
+				};
+		  })
+		| unknown = unknown,
+> = Required<ValuesDef<TVariant>> &
+	(TUse extends () => {
+		type: {
+			variant?: infer V;
 		};
 	}
+		? ValuesDef<V>
+		: {});
+
+export namespace cls {
+	export type Cls = Class;
 
 	/**
 	 * Types for the "runtime" part of variants.
@@ -40,77 +98,11 @@ export namespace cls {
 	 */
 	export namespace Use {
 		/**
-		 * Compute slot from all slots (including uses - extensions).
-		 */
-		export type SlotEx<
-			TSlot extends Definition.Slot<any>,
-			TUse extends
-				| (() => {
-						type: {
-							slot?: Definition.Slot<any>;
-						};
-				  })
-				| unknown = unknown,
-		> = TUse extends () => {
-			type: {
-				slot?: infer S;
-			};
-		}
-			? TSlot & S
-			: TSlot;
-
-		/**
-		 * Compute variant from all variants (including uses - extensions).
-		 */
-		export type VariantEx<
-			TVariant extends Definition.Variant<any>,
-			TUse extends
-				| (() => {
-						type: {
-							variant?: Definition.Variant<any>;
-						};
-				  })
-				| unknown = unknown,
-		> = TUse extends () => {
-			type: {
-				variant?: infer V;
-			};
-		}
-			? TVariant & V
-			: TVariant;
-
-		/**
-		 * Compute default values from all variants (including uses - extensions).
-		 *
-		 * Current defaults are required, extensions are marked as optional.
-		 */
-		export type DefaultsEx<
-			TVariant extends Definition.Variant<any>,
-			TUse extends
-				| (() => {
-						type: {
-							variant?: Definition.Variant<any>;
-						};
-				  })
-				| unknown = unknown,
-		> = Required<Definition.Values<TVariant>> &
-			(TUse extends () => {
-				type: {
-					variant?: infer V;
-				};
-			}
-				? Definition.Values<V>
-				: {});
-
-		/**
 		 * CSS property.
 		 *
 		 * Computes keys based on all slots (including extensions).
 		 */
-		export interface CssEx<
-			TSlot extends Definition.Slot<string>,
-			TUse = unknown,
-		> {
+		export interface CssEx<TSlot extends SlotDef<string>, TUse = unknown> {
 			/**
 			 * Individual slot classes.
 			 *
@@ -125,13 +117,12 @@ export namespace cls {
 		 * Output of the factory method.
 		 */
 		export type Variants<
-			TSlot extends Definition.Slot<any>,
-			TVariant extends Definition.Variant<any>,
+			TSlot extends SlotDef<any>,
+			TVariant extends VariantDef<any>,
 			TUse extends Variants<any, any, any> | unknown = unknown,
 		> = (
 			// TODO Change for an input object {variant, css, ...}
-			variant?: Definition.Values<VariantEx<TVariant, TUse>> &
-				CssEx<TSlot, TUse>,
+			variant?: ValuesDef<VariantEx<TVariant, TUse>> & CssEx<TSlot, TUse>,
 		) => {
 			/**
 			 * Individual slots for a component. Those slots are then
@@ -139,7 +130,7 @@ export namespace cls {
 			 */
 			slots: {
 				[K in keyof SlotEx<TSlot, TUse>]: (
-					values?: Definition.Values<VariantEx<TVariant, TUse>> & {
+					values?: ValuesDef<VariantEx<TVariant, TUse>> & {
 						css?: Class;
 					},
 				) => string;
@@ -153,11 +144,11 @@ export namespace cls {
 				/**
 				 * Cumulated default values from all variants (including uses - extensions).
 				 */
-				defaults: Definition.Values<VariantEx<TVariant, TUse>>;
+				defaults: ValuesDef<VariantEx<TVariant, TUse>>;
 				/**
 				 * Combined cumulated defaults & current values provided to `tva()`.
 				 */
-				values: Definition.Values<VariantEx<TVariant, TUse>>;
+				values: ValuesDef<VariantEx<TVariant, TUse>>;
 			};
 			/**
 			 * Used for inheritance and type checking.
@@ -185,8 +176,8 @@ export namespace cls {
 	 * Matching rules.
 	 */
 	export interface Match<
-		TSlot extends Definition.Slot<any>,
-		TVariant extends Definition.Variant<any>,
+		TSlot extends SlotDef<any>,
+		TVariant extends VariantDef<any>,
 		TUse extends Use.Variants<any, any, any> | unknown = unknown,
 	> {
 		/**
@@ -194,14 +185,14 @@ export namespace cls {
 		 *
 		 * All the provided values must match to apply the rule.
 		 */
-		if: Definition.Values<Use.VariantEx<TVariant, TUse>>;
+		if: ValuesDef<VariantEx<TVariant, TUse>>;
 		/**
 		 * Classes to apply when all conditions are met.
 		 *
 		 * Keys are slot names.
 		 */
 		do: {
-			[K in keyof Use.SlotEx<TSlot, TUse>]?: Class;
+			[K in keyof SlotEx<TSlot, TUse>]?: Class;
 		};
 	}
 
@@ -209,8 +200,8 @@ export namespace cls {
 	 * Variants configuration.
 	 */
 	export interface Config<
-		TSlot extends Definition.Slot<any>,
-		TVariant extends Definition.Variant<any>,
+		TSlot extends SlotDef<any>,
+		TVariant extends VariantDef<any>,
 		TUse extends Use.Variants<any, any, any> | unknown = unknown,
 	> {
 		/**
@@ -246,7 +237,7 @@ export namespace cls {
 		 *
 		 * They're (cleverly) required to prevent surprises when using variants.
 		 */
-		defaults: Use.DefaultsEx<TVariant, TUse>;
+		defaults: DefaultsEx<TVariant, TUse>;
 	}
 
 	/**
@@ -258,12 +249,12 @@ export namespace cls {
 		TVariants extends Use.Variants<any, any, any>,
 		P = unknown,
 	> = {
-		variant?: Definition.Values<
-			Use.VariantEx<ReturnType<TVariants>["type"]["variant"], TVariants>
+		variant?: ValuesDef<
+			VariantEx<ReturnType<TVariants>["type"]["variant"], TVariants>
 		>;
 		tva?: TVariants;
 		css?: {
-			[K in keyof Use.SlotEx<
+			[K in keyof SlotEx<
 				ReturnType<TVariants>["type"]["slot"],
 				TVariants
 			>]?: Class;
@@ -286,8 +277,8 @@ export namespace cls {
  * API, but powerful type checking, including inheritance.
  */
 export function cls<
-	TSlot extends cls.Definition.Slot<any>,
-	TVariant extends cls.Definition.Variant<any>,
+	TSlot extends SlotDef<any>,
+	TVariant extends VariantDef<any>,
 	TUse extends cls.Use.Variants<any, any, any> | unknown = unknown,
 >({
 	use,
@@ -314,7 +305,7 @@ export function cls<
 						/**
 						 * Output classes,
 						 */
-						const $classes: cls.Class[] = [];
+						const $classes: Class[] = [];
 
 						/**
 						 * Type "use" (extension) for later use.
