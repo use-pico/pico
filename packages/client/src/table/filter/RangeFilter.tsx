@@ -21,12 +21,14 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 	filterInstance,
 	value,
 }) => {
-	const isLte = pathOf(filterInstance.state.value || {}).get(lte) !== undefined;
-	const isGte = pathOf(filterInstance.state.value || {}).get(gte) !== undefined;
+	const isLte =
+		pathOf(filterInstance.state.value || {}).get(lte) !== undefined;
+	const isGte =
+		pathOf(filterInstance.state.value || {}).get(gte) !== undefined;
 
 	return (
 		<div className={"flex flex-row gap-1"}>
-			{isLte ?
+			{isLte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
@@ -40,39 +42,50 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 						});
 					}}
 				/>
-			:	<Action
+			) : (
+				<Action
 					iconEnabled={LteIcon}
 					onClick={() => {
-						filterInstance.shallow({ path: lte, value });
+						filterInstance.shallow({
+							path: lte,
+							value,
+						});
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
 						});
 					}}
 				/>
-			}
-			{isGte ?
+			)}
+			{isGte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
-						filterInstance.shallow({ path: gte, value: undefined });
+						filterInstance.shallow({
+							path: gte,
+							value: undefined,
+						});
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
 						});
 					}}
 				/>
-			:	<Action
+			) : (
+				<Action
 					iconEnabled={GteIcon}
 					onClick={() => {
-						filterInstance.shallow({ path: gte, value });
+						filterInstance.shallow({
+							path: gte,
+							value,
+						});
 						window.scrollTo({
 							top: 0,
 							behavior: "smooth",
 						});
 					}}
 				/>
-			}
+			)}
 		</div>
 	);
 };

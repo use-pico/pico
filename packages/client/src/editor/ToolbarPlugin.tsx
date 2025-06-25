@@ -8,12 +8,12 @@ import {
 	CAN_UNDO_COMMAND,
 	FORMAT_ELEMENT_COMMAND,
 	FORMAT_TEXT_COMMAND,
+	type LexicalEditor,
 	REDO_COMMAND,
 	SELECTION_CHANGE_COMMAND,
 	UNDO_COMMAND,
-	type LexicalEditor,
 } from "lexical";
-import { useCallback, useEffect, useRef, useState, type FC } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import { Action } from "../action/Action";
 
 const LowPriority = 1;
@@ -88,14 +88,29 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 				LowPriority,
 			),
 		);
-	}, [editor, $updateToolbar]);
+	}, [
+		editor,
+		$updateToolbar,
+	]);
 
 	return (
 		<div
-			className={tvc(["flex", "flex-row", "items-center", "gap-2"])}
+			className={tvc([
+				"flex",
+				"flex-row",
+				"items-center",
+				"gap-2",
+			])}
 			ref={toolbarRef}
 		>
-			<div className={tvc(["flex", "flex-row", "items-center", "gap-1"])}>
+			<div
+				className={tvc([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+				])}
+			>
 				<Action
 					iconEnabled={"icon-[material-symbols-light--undo]"}
 					iconDisabled={"icon-[material-symbols-light--undo]"}
@@ -114,14 +129,23 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 				/>
 			</div>
 			<Divider />
-			<div className={tvc(["flex", "flex-row", "items-center", "gap-1"])}>
+			<div
+				className={tvc([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+				])}
+			>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-bold]"}
 					iconDisabled={"icon-[material-symbols--format-bold]"}
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					variant={{ active: isBold }}
+					variant={{
+						active: isBold,
+					}}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-italic]"}
@@ -129,27 +153,50 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					variant={{ active: isItalic }}
+					variant={{
+						active: isItalic,
+					}}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-underlined]"}
 					iconDisabled={"icon-[material-symbols--format-underlined]"}
 					onClick={() => {
-						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+						editor.dispatchCommand(
+							FORMAT_TEXT_COMMAND,
+							"underline",
+						);
 					}}
-					variant={{ active: isUnderline }}
+					variant={{
+						active: isUnderline,
+					}}
 				/>
 				<Action
-					iconEnabled={"icon-[material-symbols--format-strikethrough]"}
-					iconDisabled={"icon-[material-symbols--format-strikethrough]"}
+					iconEnabled={
+						"icon-[material-symbols--format-strikethrough]"
+					}
+					iconDisabled={
+						"icon-[material-symbols--format-strikethrough]"
+					}
 					onClick={() => {
-						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+						editor.dispatchCommand(
+							FORMAT_TEXT_COMMAND,
+							"strikethrough",
+						);
 					}}
-					variant={{ active: isStrikethrough }}
+					variant={{
+						active: isStrikethrough,
+					}}
 				/>
 			</div>
 			<Divider />
-			<div className={tvc(["flex", "flex-row", "items-center", "gap-1"])}>
+			<div
+				className={tvc([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+				])}
+			>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-align-left]"}
 					onClick={() => {
@@ -159,7 +206,10 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 				<Action
 					iconEnabled={"icon-[material-symbols--format-align-center]"}
 					onClick={() => {
-						editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+						editor.dispatchCommand(
+							FORMAT_ELEMENT_COMMAND,
+							"center",
+						);
 					}}
 				/>
 				<Action
@@ -169,18 +219,32 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					}}
 				/>
 				<Action
-					iconEnabled={"icon-[material-symbols--format-align-justify]"}
+					iconEnabled={
+						"icon-[material-symbols--format-align-justify]"
+					}
 					onClick={() => {
-						editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+						editor.dispatchCommand(
+							FORMAT_ELEMENT_COMMAND,
+							"justify",
+						);
 					}}
 				/>
 			</div>
 			<Divider />
-			<div className={tvc(["flex", "flex-row", "items-center", "gap-1"])}>
+			<div
+				className={tvc([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+				])}
+			>
 				<Action
 					iconEnabled={"icon-[foundation--save]"}
 					onClick={() => {
-						onSave?.({ editor });
+						onSave?.({
+							editor,
+						});
 					}}
 				/>
 			</div>

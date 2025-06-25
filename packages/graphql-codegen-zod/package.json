@@ -1,0 +1,33 @@
+{
+	"name": "@use-pico/graphql-codegen-zod",
+	"description": "Simple Zod generator for graphql schemas.",
+	"version": "4.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"scripts": {
+		"lint": "eslint src",
+		"lint:fix": "eslint src --fix",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@graphql-codegen/plugin-helpers": "5.1.1",
+		"graphql": "16.11.0"
+	},
+	"devDependencies": {
+		"@types/node": "24.0.4",
+		"@use-pico/eslint-config-eslint": "5.0.11",
+		"@use-pico/tsconfig": "4.0.12",
+		"eslint": "9.29.0",
+		"typescript": "5.8.3"
+	},
+	"main": "src/index.ts",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"files": [
+		"src"
+	],
+	"license": "MIT",
+	"repository": "use-pico/pico",
+	"homepage": "https://github.com/use-pico/pico#readme",
+	"bugs": "https://github.com/use-pico/pico/issues"
+}

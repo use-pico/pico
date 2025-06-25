@@ -1,12 +1,12 @@
 /** @format */
 
 import {
-    keepPreviousData,
-    QueryClient,
-    QueryClientProvider,
+	keepPreviousData,
+	QueryClient,
+	QueryClientProvider,
 } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { LoadingOverlay, PageCss } from "@use-pico/client";
+import { LoadingOverlay, PageCls } from "@use-pico/client";
 import { withAxios } from "@use-pico/common";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
@@ -14,14 +14,18 @@ import { routeTree } from "~/_route";
 import "~/assets/style.css";
 
 const queryClient = new QueryClient({
-	defaultOptions: { queries: { placeholderData: keepPreviousData } },
+	defaultOptions: {
+		queries: {
+			placeholderData: keepPreviousData,
+		},
+	},
 });
 
 const router = createRouter({
 	routeTree,
 	context: {
 		queryClient,
-		tva: PageCss,
+		tva: PageCls,
 	},
 	scrollRestoration: true,
 	defaultPendingComponent: LoadingOverlay,
@@ -36,14 +40,19 @@ declare module "@tanstack/react-router" {
 	}
 }
 
-const rootElement = document.getElementById("app")!;
+const rootElement = document.getElementById("app");
 
 /**
  * Setup default Axios instance to be rate-limited.
  */
-withAxios({ limit: { maxRequests: 10, perMilliseconds: 100 } });
+withAxios({
+	limit: {
+		maxRequests: 10,
+		perMilliseconds: 100,
+	},
+});
 
-if (!rootElement.innerHTML) {
+if (rootElement && !rootElement?.innerHTML) {
 	ReactDOM.createRoot(rootElement).render(
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>

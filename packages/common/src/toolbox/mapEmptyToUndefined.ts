@@ -17,6 +17,8 @@ export const mapEmptyToUndefined = <T extends Record<string, any>>(
 
 			return acc;
 		},
-		{ ...object } as T,
+		{
+			...object,
+		} as T,
 	);
 };

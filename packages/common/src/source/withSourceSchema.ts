@@ -11,7 +11,10 @@ export namespace withSourceSchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
-		TSort extends [string, ...string[]] = any,
+		TSort extends [
+			string,
+			...string[],
+		] = any,
 	> {
 		entity: TEntitySchema;
 		shape: TShapeSchema;
@@ -23,7 +26,10 @@ export namespace withSourceSchema {
 		TEntitySchema extends EntitySchema,
 		TShapeSchema extends ShapeSchema,
 		TFilterSchema extends FilterSchema,
-		TSort extends [string, ...string[]] = any,
+		TSort extends [
+			string,
+			...string[],
+		] = any,
 	> {
 		/**
 		 * Entity schema; required stuff stored in the database (or somewhere else).
@@ -31,31 +37,33 @@ export namespace withSourceSchema {
 		 * Creating an entity requires this schema being valid.
 		 */
 		entity: TEntitySchema;
-		["~entity"]: z.infer<TEntitySchema>;
-		["~entity-array"]: z.infer<TEntitySchema>[];
-		["~entity-partial-exclude-id"]: Partial<Omit<z.infer<TEntitySchema>, "id">>;
-		["~entity-input"]: z.input<TEntitySchema>;
-		["~entity-input-array"]: z.input<TEntitySchema>[];
+		"~entity": z.infer<TEntitySchema>;
+		"~entity-array": z.infer<TEntitySchema>[];
+		"~entity-partial-exclude-id": Partial<
+			Omit<z.infer<TEntitySchema>, "id">
+		>;
+		"~entity-input": z.input<TEntitySchema>;
+		"~entity-input-array": z.input<TEntitySchema>[];
 
 		/**
 		 * Shape schema defines fields required to create an entity in the database;
 		 * repository usually provides rest of the required fields (like userId or created timestamp and so on).
 		 */
 		shape: TShapeSchema;
-		["~shape"]: z.infer<TShapeSchema>;
-		["~shape-partial"]: Partial<z.infer<TShapeSchema>>;
-		["~shape-input"]: z.input<TShapeSchema>;
-		["~shape-input-partial"]: Partial<z.input<TShapeSchema>>;
+		"~shape": z.infer<TShapeSchema>;
+		"~shape-partial": Partial<z.infer<TShapeSchema>>;
+		"~shape-input": z.input<TShapeSchema>;
+		"~shape-input-partial": Partial<z.input<TShapeSchema>>;
 
 		/**
 		 * Filter schema defines client-side (userland) fields available for filtering.
 		 */
 		filter: TFilterSchema;
-		["~filter"]: z.infer<TFilterSchema>;
+		"~filter": z.infer<TFilterSchema>;
 
 		sort: SortSchema<TSort>;
-		["~sort"]: z.infer<SortSchema<TSort>>;
-		["~sort-keyof"]: TSort[number];
+		"~sort": z.infer<SortSchema<TSort>>;
+		"~sort-keyof": TSort[number];
 	}
 }
 
@@ -63,7 +71,10 @@ export const withSourceSchema = <
 	TEntitySchema extends EntitySchema,
 	TShapeSchema extends ShapeSchema,
 	TFilterSchema extends FilterSchema,
-	const TSort extends [string, ...string[]] = any,
+	const TSort extends [
+		string,
+		...string[],
+	] = any,
 >({
 	entity,
 	shape,
@@ -96,7 +107,7 @@ export const withSourceSchema = <
 		"~shape-input-partial": proxy,
 		filter,
 		"~filter": proxy,
-		"sort": z.array(
+		sort: z.array(
 			z.object({
 				name: z.enum(sort),
 				sort: OrderSchema,

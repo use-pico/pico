@@ -2,10 +2,10 @@ import type { ReactNode } from "@tanstack/react-router";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
-import { LabelCountCss } from "./LabelCountCss";
+import { LabelCountCls } from "./LabelCountCls";
 
 export namespace LabelCount {
-	export interface Props extends LabelCountCss.Props {
+	export interface Props extends LabelCountCls.Props {
 		label?: ReactNode;
 		count?: number | null;
 		badgeProps?: Badge.Props;
@@ -17,15 +17,29 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	count,
 	badgeProps,
 	variant,
-	tva = LabelCountCss,
+	tva = LabelCountCls,
 	css,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.label()}>{label}</div>
-			<Badge {...badgeProps}>{toHumanNumber({ number: count })}</Badge>
+		<div className={slots.base()}>
+			<div className={slots.label()}>{label}</div>
+			<Badge
+				{...badgeProps}
+				variant={{
+					size: "xs",
+					variant: "light",
+					borderless: true,
+				}}
+			>
+				{toHumanNumber({
+					number: count,
+				})}
+			</Badge>
 		</div>
 	);
 };

@@ -8,19 +8,29 @@ export const Route = createFileRoute("/$locale/components/action")({
 				<Action iconEnabled={TrashIcon} />
 				<Action
 					iconEnabled={TrashIcon}
-					variant={{ borderless: true }}
+					variant={{
+						borderless: true,
+					}}
 				/>
 				<Action
 					iconEnabled={TrashIcon}
-					variant={{ variant: "light", borderless: true }}
+					variant={{
+						variant: "light",
+						borderless: true,
+					}}
 				/>
 				<Action
 					iconDisabled={TrashIcon}
 					disabled
-					variant={{ variant: "light", borderless: true }}
+					variant={{
+						variant: "light",
+						borderless: true,
+					}}
 				/>
 				<Action
-					variant={{ active: true }}
+					variant={{
+						active: true,
+					}}
 					iconEnabled={TrashIcon}
 				/>
 				<Action

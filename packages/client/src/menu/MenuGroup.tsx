@@ -1,14 +1,14 @@
 import {
-	useMatchRoute,
 	type ReactNode,
 	type UseMatchRouteOptions,
+	useMatchRoute,
 } from "@tanstack/react-router";
 import type { FC, PropsWithChildren } from "react";
 import { Icon } from "../icon/Icon";
-import { MenuGroupCss } from "./MenuGroupCss";
+import { MenuGroupCls } from "./MenuGroupCls";
 
 export namespace MenuGroup {
-	export interface Props extends MenuGroupCss.Props<PropsWithChildren> {
+	export interface Props extends MenuGroupCls.Props<PropsWithChildren> {
 		icon?: string;
 		label: ReactNode;
 		match?: UseMatchRouteOptions[];
@@ -20,25 +20,27 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	label,
 	match = [],
 	variant,
-	tva = MenuGroupCss,
+	tva = MenuGroupCls,
 	css,
 	children,
 }) => {
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const tv = tva({ active: isActive, ...variant, css }).slots;
+	const { slots } = tva({
+		active: isActive,
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.label()}>
-				{icon ?
-					<Icon icon={icon} />
-				:	null}
+		<div className={slots.base()}>
+			<div className={slots.label()}>
+				{icon ? <Icon icon={icon} /> : null}
 				{label}
 			</div>
 
-			<div className={tv.items()}>{children}</div>
+			<div className={slots.items()}>{children}</div>
 		</div>
 	);
 };

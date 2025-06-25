@@ -1,38 +1,43 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import { isString } from "@use-pico/common";
 import {
-    forwardRef,
-    type ComponentProps,
-    type PropsWithChildren,
-    type ReactNode,
+	type ComponentProps,
+	forwardRef,
+	type PropsWithChildren,
+	type ReactNode,
 } from "react";
 import { Icon } from "../icon/Icon";
-import { LinkToCss } from "./LinkToCss";
+import { LinkToCls } from "./LinkToCls";
 
-interface $LinkTo extends LinkToCss.Props<PropsWithChildren> {
+interface $LinkTo extends LinkToCls.Props<PropsWithChildren> {
 	icon?: string | ReactNode;
 	iconProps?: Icon.PropsEx;
 }
 
 const $LinkTo = forwardRef<HTMLAnchorElement, $LinkTo>(
 	(
-		{ icon, iconProps, variant, tva = LinkToCss, css, children, ...props },
+		{ icon, iconProps, variant, tva = LinkToCls, css, children, ...props },
 		ref,
 	) => {
-		const tv = tva({ ...variant, css }).slots;
+		const { slots } = tva({
+			...variant,
+			css,
+		});
 
 		return (
 			<a
 				{...props}
 				ref={ref}
-				className={tv.base()}
+				className={slots.base()}
 			>
-				{isString(icon) ?
+				{isString(icon) ? (
 					<Icon
 						icon={icon}
 						{...iconProps}
 					/>
-				:	icon}
+				) : (
+					icon
+				)}
 				{children}
 			</a>
 		);

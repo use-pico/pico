@@ -1,9 +1,9 @@
-import { type FC, type PropsWithChildren, type ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
-import { StatusCss } from "./StatusCss";
+import { StatusCls } from "./StatusCls";
 
 export namespace Status {
-	export interface Props extends StatusCss.Props<PropsWithChildren> {
+	export interface Props extends StatusCls.Props<PropsWithChildren> {
 		textTitle: ReactNode;
 		textMessage: ReactNode;
 		icon?: Icon.Props["icon"];
@@ -17,25 +17,35 @@ export const Status: FC<Status.Props> = ({
 	icon,
 	iconProps,
 	variant,
-	tva = StatusCss,
+	tva = StatusCls,
 	css,
 	children,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			{icon ?
+		<div className={slots.base()}>
+			{icon ? (
 				<Icon
 					icon={icon}
-					variant={{ size: "6xl" }}
-					css={{ base: ["text-slate-500", "opacity-50"] }}
+					variant={{
+						size: "6xl",
+					}}
+					css={{
+						base: [
+							"text-slate-500",
+							"opacity-50",
+						],
+					}}
 					{...iconProps}
 				/>
-			:	null}
-			<div className={tv.title()}>{textTitle}</div>
-			<div className={tv.message()}>{textMessage}</div>
-			<div className={tv.body()}>{children}</div>
+			) : null}
+			<div className={slots.title()}>{textTitle}</div>
+			<div className={slots.message()}>{textMessage}</div>
+			<div className={slots.body()}>{children}</div>
 		</div>
 	);
 };

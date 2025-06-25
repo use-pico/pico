@@ -1,1 +1,1 @@
-export const FavouriteOffIcon = 'icon-[clarity--favorite-line]';
+export const FavouriteOffIcon = "icon-[clarity--favorite-line]";

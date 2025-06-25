@@ -10,15 +10,27 @@ export namespace PriceInline {
 	}
 }
 
-export const PriceInline: FC<PriceInline.Props> = ({ value: { price, withVat } }) => {
+export const PriceInline: FC<PriceInline.Props> = ({
+	value: { price, withVat },
+}) => {
 	if (withVat !== undefined) {
 		return (
 			<div className={"flex flex-row gap-2 items-center"}>
-				<div>{toHumanNumber({ number: price })}</div>
-				<div>{withVat ? translator.rich("With VAT") : translator.rich("Without VAT")}</div>
+				<div>
+					{toHumanNumber({
+						number: price,
+					})}
+				</div>
+				<div>
+					{withVat
+						? translator.rich("With VAT")
+						: translator.rich("Without VAT")}
+				</div>
 			</div>
 		);
 	}
 
-	return toHumanNumber({ number: price });
+	return toHumanNumber({
+		number: price,
+	});
 };

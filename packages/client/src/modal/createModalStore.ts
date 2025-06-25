@@ -21,13 +21,19 @@ export const createModalStore = ({
 	return create<createModalStore.Instance>((set) => ({
 		isOpen: defaultOpen,
 		open() {
-			set({ isOpen: true });
+			set({
+				isOpen: true,
+			});
 		},
 		close() {
-			set({ isOpen: false });
+			set({
+				isOpen: false,
+			});
 		},
 		toggle(isOpen: boolean) {
-			set({ isOpen });
+			set({
+				isOpen,
+			});
 		},
 	}));
 };

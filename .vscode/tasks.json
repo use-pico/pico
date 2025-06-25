@@ -22,7 +22,9 @@
 			"type": "npm",
 			"script": "changeset:version",
 			"problemMatcher": [],
-			"dependsOn": ["changeset"],
+			"dependsOn": [
+				"changeset"
+			],
 			"label": "changeset:version",
 			"runOptions": {
 				"instanceLimit": 1
@@ -40,7 +42,9 @@
 			"type": "npm",
 			"script": "changeset:publish",
 			"problemMatcher": [],
-			"dependsOn": ["changeset:version"],
+			"dependsOn": [
+				"changeset:version"
+			],
 			"label": "changeset:publish",
 			"runOptions": {
 				"instanceLimit": 1
@@ -60,6 +64,24 @@
 			"problemMatcher": [],
 			"label": "dev",
 			"detail": "Starts a development server of the client.",
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": true
+			}
+		},
+		{
+			"type": "npm",
+			"script": "format",
+			"problemMatcher": [],
+			"label": "format",
+			"detail": "Format whole codebase.",
 			"runOptions": {
 				"instanceLimit": 1
 			},
@@ -94,7 +116,9 @@
 			"type": "npm",
 			"script": "typecheck",
 			"problemMatcher": [],
-			"dependsOn": ["lint"],
+			"dependsOn": [
+				"lint"
+			],
 			"label": "typecheck",
 			"detail": "Typescript Time!",
 			"runOptions": {

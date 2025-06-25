@@ -1,9 +1,9 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { Icon } from "../icon/Icon";
-import { LoadingOverlayCss } from "./LoadingOverlayCss";
+import { LoadingOverlayCls } from "./LoadingOverlayCls";
 
 export namespace LoadingOverlay {
-	export interface Props extends LoadingOverlayCss.Props {
+	export interface Props extends LoadingOverlayCls.Props {
 		show?: boolean;
 	}
 }
@@ -11,20 +11,28 @@ export namespace LoadingOverlay {
 export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	show = true,
 	variant,
-	tva = LoadingOverlayCss,
+	tva = LoadingOverlayCls,
 	css,
 }) => {
-	const tv = tva({ show, ...variant, css }).slots;
+	const { slots } = tva({
+		show,
+		...variant,
+		css,
+	});
 
-	return show ?
-			<div className={tv.base()}>
-				<Icon
-					icon={"icon-[svg-spinners--pulse-rings-multiple]"}
-					variant={{ size: "8xl" }}
-					css={{
-						base: ["text-sky-400"],
-					}}
-				/>
-			</div>
-		:	null;
+	return show ? (
+		<div className={slots.base()}>
+			<Icon
+				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
+				variant={{
+					size: "8xl",
+				}}
+				css={{
+					base: [
+						"text-sky-400",
+					],
+				}}
+			/>
+		</div>
+	) : null;
 };

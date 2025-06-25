@@ -1,30 +1,31 @@
 import type { FC } from "react";
-import { DetailCss } from "./DetailCss";
+import { DetailCls } from "./DetailCls";
 import { Section } from "./Section";
 
 export namespace Detail {
-	export interface Props extends DetailCss.Props {
-		section: Section.Props[];
+	export interface Props extends DetailCls.Props {
+		section: Omit<Section.Props, "slots">[];
 	}
 }
 
 export const Detail: FC<Detail.Props> = ({
 	section,
 	variant,
-	tva = DetailCss,
+	tva = DetailCls,
 	css,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			{section.map(({ id, ...props }) => (
 				<Section
 					key={`detail-section-${id}`}
 					id={id}
-					variant={variant}
-					tva={tva}
-					css={css}
+					slots={slots}
 					{...props}
 				/>
 			))}

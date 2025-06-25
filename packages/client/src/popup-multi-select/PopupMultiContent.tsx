@@ -1,20 +1,23 @@
-import { type UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import type { IdentitySchema } from "@use-pico/common";
-import { type FC } from "react";
+import type { FC } from "react";
 import type { withListCount } from "../source/withListCount";
-import type { Table } from "../table/Table";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
+import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
-import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
+import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
 
 export namespace PopupMultiContent {
-	export interface Props extends PopupMultiSelectCss.Props {
+	export interface Props extends PopupMultiSelectCls.Props {
 		table: FC<Table.PropsEx<any>>;
 		/**
 		 * Stable reference to the table store.
 		 */
 		useLocalStore: createLocalTableStore.Store;
-		result: UseQueryResult<withListCount.Result<IdentitySchema.Type>, Error>;
+		result: UseQueryResult<
+			withListCount.Result<IdentitySchema.Type>,
+			Error
+		>;
 	}
 }
 
@@ -25,7 +28,7 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 	result,
 
 	variant,
-	tva = PopupMultiSelectCss,
+	tva = PopupMultiSelectCls,
 	css,
 }) => {
 	const page = useLocalStore((state) => state.page);
@@ -37,29 +40,30 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 	const fulltext = useLocalStore((state) => state.fulltext);
 	const setFulltext = useLocalStore((state) => state.setFulltext);
 
-	const tv = tva({
+	const { slots } = tva({
 		...variant,
 		css,
-	}).slots;
+	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.content()}>
+		<div className={slots.base()}>
+			<div className={slots.content()}>
 				<Table
 					cursor={{
 						cursor: {
 							page,
 							size,
 						},
-						count:
-							result.data?.count ?
-								result.data.count
-							:	{
+						count: result.data?.count
+							? result.data.count
+							: {
 									filter: -1,
 									total: -1,
 									where: -1,
 								},
-						textTotal: <Tx label={"Total count of items (label)"} />,
+						textTotal: (
+							<Tx label={"Total count of items (label)"} />
+						),
 						onPage(page) {
 							setPage(page);
 						},
@@ -75,7 +79,7 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 							setPage(0);
 						},
 					}}
-					data={result.data?.data}
+					data={result.data?.list}
 					selection={{
 						type: "multi",
 						state: {
@@ -88,9 +92,14 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 					row={{
 						onDoubleClick({ data }) {
 							setSelection(
-								selection.includes(data.id) ?
-									selection.filter((item) => item !== data.id)
-								:	[...selection, data.id],
+								selection.includes(data.id)
+									? selection.filter(
+											(item) => item !== data.id,
+										)
+									: [
+											...selection,
+											data.id,
+										],
 							);
 						},
 					}}

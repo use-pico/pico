@@ -7,7 +7,10 @@ import { useTokensOf } from "./useTokensOf";
  * @group hooks
  */
 export namespace useToken {
-	export type Tokens = [string, ...string[]];
+	export type Tokens = [
+		string,
+		...string[],
+	];
 	export type Mode = "required" | "any";
 	export type Result =
 		| {

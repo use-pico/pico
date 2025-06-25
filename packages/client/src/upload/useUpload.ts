@@ -60,8 +60,12 @@ export const useUpload = ({
 	file,
 	name,
 	path,
-	chunkHref = { href: "/api/file/chunk/{chunkId}/upload" },
-	commitHref = { href: "/api/file/chunk/{chunkId}/commit" },
+	chunkHref = {
+		href: "/api/file/chunk/{chunkId}/upload",
+	},
+	commitHref = {
+		href: "/api/file/chunk/{chunkId}/commit",
+	},
 	onStart,
 	onFinish,
 	onError,
@@ -76,7 +80,9 @@ export const useUpload = ({
 			return axios.post(
 				linkTo({
 					...chunkHref,
-					query: { chunkId: uuid.current },
+					query: {
+						chunkId: uuid.current,
+					},
 				}),
 				file.slice(start, end),
 				{
@@ -88,7 +94,9 @@ export const useUpload = ({
 			);
 		},
 		async onStart() {
-			return onStart?.({ file });
+			return onStart?.({
+				file,
+			});
 		},
 		async onFinish(props) {
 			return axios
@@ -100,7 +108,9 @@ export const useUpload = ({
 				>(
 					linkTo({
 						...commitHref,
-						query: { chunkId: uuid.current },
+						query: {
+							chunkId: uuid.current,
+						},
 					}),
 					{
 						name: name || file.name,

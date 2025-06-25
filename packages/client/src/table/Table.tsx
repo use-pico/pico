@@ -1,25 +1,16 @@
-import { pathOf, type DeepKeys } from "@use-pico/common";
+import type { DeepKeys } from "@use-pico/common";
 import type { FC } from "react";
-import { v4 } from "uuid";
-import { Action } from "../action/Action";
 import { Cursor } from "../cursor/Cursor";
-import { Fulltext } from "../fulltext/Fulltext";
-import { AscIcon } from "../icon/AscIcon";
-import { DescIcon } from "../icon/DescIcon";
+import type { Fulltext } from "../fulltext/Fulltext";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
-import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
-import { Icon } from "../icon/Icon";
-import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
-import { SelectionOffIcon } from "../icon/SelectionOffIcon";
-import { SelectionOnIcon } from "../icon/SelectionOnIcon";
-import { SortIcon } from "../icon/SortIcon";
 import { Status } from "../status/Status";
-import { Tooltip } from "../tooltip/Tooltip";
 import { Tx } from "../tx/Tx";
+import { useTableInit } from "./hook/useTableInit";
 import { Row } from "./Row";
-import { TableCss } from "./TableCss";
+import { TableCls } from "./TableCls";
+import { TableHeader } from "./TableHeader";
+import { TableTools } from "./TableTools";
 import type { ActionType } from "./type/ActionType";
-import type { CellType } from "./type/CellType";
 import type { ColumnType } from "./type/ColumnType";
 import type { DataType } from "./type/DataType";
 import type { FilterType } from "./type/FilterType";
@@ -28,15 +19,12 @@ import type { SelectionType } from "./type/SelectionType";
 import type { SortType } from "./type/SortType";
 import type { StateType } from "./type/StateType";
 import type { ToolbarType } from "./type/ToolbarType";
-import { wrapFilter } from "./wrapFilter";
-import { wrapSelection } from "./wrapSelection";
-import { wrapSort } from "./wrapSort";
 
 export namespace Table {
 	export type Fulltext = StateType<Fulltext.Value>;
 
 	export interface Props<TData extends DataType.Data, TContext = any>
-		extends TableCss.Props {
+		extends TableCls.Props {
 		/**
 		 * Data for the table.
 		 */
@@ -44,7 +32,7 @@ export namespace Table {
 		/**
 		 * All the columns defined in the table.
 		 */
-		columns: ColumnType.Props<TData, any>[];
+		columns: ColumnType.Props<TData, any, TContext>[];
 		/**
 		 * Only visible columns in the table.
 		 */
@@ -130,12 +118,12 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	row: rowProps,
 	filter,
 	sort,
-	actionTable: TableAction,
+	actionTable,
 	actionTableHidden = false,
-	actionRow: RowAction,
+	actionRow,
 	actionRowHidden = false,
 	fulltext,
-	toolbar: Toolbar = () => null,
+	toolbar = () => null,
 	toolbarHidden = false,
 	cursor,
 	empty: Empty = () => (
@@ -146,251 +134,83 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 		/>
 	),
 	variant,
-	tva = TableCss,
+	tva = TableCls,
 	css,
 }: Table.Props<TData, TContext>) => {
-	const tv = tva({ ...variant, css }).slots;
+	const withActions = Boolean(
+		(actionTable && !actionTableHidden) ||
+			(actionRow && !actionRowHidden) ||
+			selection,
+	);
 
-	const $selection = wrapSelection({
-		props: selection,
+	const {
+		slots,
+		selection: $selection,
+		filter: $filter,
+		rows: $rows,
+		sort: $sort,
+		visible: $visible,
+		grid,
+	} = useTableInit<TData, TContext>({
 		data,
-	});
-	const $filter = wrapFilter({
-		props: filter,
 		columns,
-	});
-	const $sort = wrapSort({
-		props: sort,
-	});
-
-	const $visible = columns
-		.filter((column) => {
-			if (!visible) {
-				return !hidden.includes(column.name);
-			}
-			return visible.includes(column.name) && !hidden.includes(column.name);
-		})
-		.sort((a, b) => {
-			const indexA = order.indexOf(a.name);
-			const indexB = order.indexOf(b.name);
-			return (
-				(indexA === -1 ? Infinity : indexA) -
-				(indexB === -1 ? Infinity : indexB)
-			);
-		});
-
-	const $rows = data?.map((data) => {
-		return {
-			id: v4(),
-			data,
-			cells: $visible.map((column) => {
-				return {
-					column,
-					data,
-					value: pathOf(data).get(column.name),
-				} satisfies CellType.Cell<TData, any, TContext>;
-			}),
-		} satisfies RowType.Row<TData, TContext>;
+		visible,
+		hidden,
+		order,
+		filter,
+		selection,
+		sort,
+		variant,
+		tva,
+		css,
+		withActions,
 	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={"flex items-center justify-between gap-4"}>
-				<div className={"flex flex-row items-center gap-2 flex-grow"}>
-					<div className={"flex items-center gap-6 w-2/6 max-w-2/6"}>
-						{fulltext ?
-							<Fulltext
-								value={fulltext.value}
-								onFulltext={fulltext.set}
-							/>
-						:	null}
-					</div>
-					<div className={"flex flex-row items-center gap-2"}>
-						{toolbarHidden ? null : (
-							<Toolbar
-								selection={$selection}
-								context={context}
-							/>
-						)}
-					</div>
-				</div>
+		<div className={slots.base()}>
+			<TableTools
+				cursor={cursor}
+				fulltext={fulltext}
+				toolbar={toolbar}
+				toolbarHidden={toolbarHidden}
+				context={context}
+				selection={$selection}
+				filter={$filter}
+			/>
 
-				<div className={"flex flex-row items-center justify-center gap-2"}>
-					<Cursor {...cursor} />
-					{$filter ?
-						$filter?.is() && (
-							<Action
-								iconEnabled={FilterRemoveIcon}
-								css={{
-									base: ["text-amber-500"],
-								}}
-								onClick={() => $filter.reset()}
-							/>
-						)
-					:	null}
+			<div className={"overflow-x-auto"}>
+				<div className={slots.table()}>
+					<TableHeader
+						withActions={withActions}
+						visible={$visible}
+						context={context}
+						selection={$selection}
+						sort={$sort}
+						filter={$filter}
+						actionTable={actionTable}
+						slots={slots}
+						grid={grid}
+					/>
+
+					{$rows.map((row) => (
+						<Row<TData>
+							props={rowProps}
+							withActions={withActions}
+							key={row.id}
+							row={row}
+							actionRow={actionRow}
+							actionRowHidden={actionRowHidden}
+							context={context}
+							filter={$filter}
+							selection={$selection}
+							grid={grid}
+							slots={slots}
+						/>
+					))}
 				</div>
 			</div>
-			<div className={"relative overflow-x-auto"}>
-				<table className={tv.table()}>
-					<thead className={tv.thead()}>
-						<tr>
-							{(
-								(TableAction && !actionTableHidden) ||
-								(RowAction && !actionRowHidden) ||
-								$selection
-							) ?
-								<th className={"w-0"}>
-									<div className={"flex flex-row items-center gap-2"}>
-										{$selection ?
-											<Icon
-												icon={
-													$selection.isAll() ? SelectionOnIcon
-													: $selection.isAny() ?
-														SelectionAnyIcon
-													:	SelectionOffIcon
-												}
-												variant={{
-													disabled: $selection.type === "single",
-													size: "2xl",
-												}}
-												css={{
-													base: tv.select({
-														selected: $selection.isAny(),
-													}),
-												}}
-												onClick={() => {
-													$selection.event.onSelectAll();
-												}}
-											/>
-										:	null}
-										{TableAction ?
-											<TableAction />
-										:	null}
-									</div>
-								</th>
-							:	null}
 
-							{$visible.map((column) => {
-								const Header = column.header || (() => null);
-
-								return (
-									<th
-										key={`header-${column.name}`}
-										className={tv.th()}
-										style={
-											column.size ?
-												{
-													maxWidth: `${column.size}rem`,
-													width: `${column.size}rem`,
-												}
-											:	undefined
-										}
-									>
-										<div
-											className={"flex flex-row items-center justify-between"}
-										>
-											<Header />
-											<div className={"flex flex-row items-center gap-2"}>
-												{$sort && column.sort ?
-													<>
-														{(
-															$sort.order({ column: column.sort }) === undefined
-														) ?
-															<Tooltip
-																target={
-																	<Action
-																		iconEnabled={AscIcon}
-																		onClick={() => {
-																			$sort.toggle({ column: column.sort! });
-																		}}
-																	/>
-																}
-															>
-																<Tx label={"Unsorted, sort by asc"} />
-															</Tooltip>
-														:	null}
-														{$sort.order({ column: column.sort }) === "asc" ?
-															<Tooltip
-																target={
-																	<Action
-																		iconEnabled={DescIcon}
-																		onClick={() => {
-																			$sort.toggle({ column: column.sort! });
-																		}}
-																	/>
-																}
-															>
-																<Tx label={"Sorted by asc, sort by desc"} />
-															</Tooltip>
-														:	null}
-														{$sort.order({ column: column.sort }) === "desc" ?
-															<Tooltip
-																target={
-																	<Action
-																		iconEnabled={SortIcon}
-																		onClick={() => {
-																			$sort.toggle({ column: column.sort! });
-																		}}
-																	/>
-																}
-															>
-																<Tx label={"Sorted by desc, remove sort"} />
-															</Tooltip>
-														:	null}
-													</>
-												:	null}
-												{$filter && column.filter?.is({ filter: $filter }) && (
-													<Icon
-														icon={FilterRemoveIcon}
-														variant={{
-															size: "md",
-														}}
-														css={{
-															base: [
-																"opacity-50",
-																"hover:opacity-100",
-																"cursor-pointer",
-															],
-														}}
-														onClick={() => {
-															column.filter?.reset({ filter: $filter });
-														}}
-													/>
-												)}
-											</div>
-										</div>
-									</th>
-								);
-							})}
-							<th></th>
-						</tr>
-					</thead>
-					{data.length === 0 ? null : (
-						<tbody className={tv.tbody()}>
-							{$rows.map((row) => (
-								<Row<TData>
-									props={rowProps}
-									key={row.id}
-									row={row}
-									actionTable={TableAction}
-									actionTableHidden={actionTableHidden}
-									actionRow={RowAction}
-									actionRowHidden={actionRowHidden}
-									context={context}
-									variant={variant}
-									filter={$filter}
-									selection={$selection}
-									tva={tva}
-									css={css}
-								/>
-							))}
-						</tbody>
-					)}
-				</table>
-			</div>
-			{data.length === 0 ?
-				<Empty />
-			:	null}
+			{data.length === 0 ? <Empty /> : null}
 			<div className={"flex flex-row items-center justify-end gap-2"}>
 				<div></div>
 				<Cursor {...cursor} />

@@ -1,29 +1,29 @@
 import {
-    FloatingPortal,
-    autoUpdate,
-    flip,
-    offset,
-    shift,
-    useClick,
-    useDismiss,
-    useFloating,
-    useFocus,
-    useHover,
-    useInteractions,
-    useTransitionStyles,
-    type UseFloatingOptions,
+	autoUpdate,
+	FloatingPortal,
+	flip,
+	offset,
+	shift,
+	type UseFloatingOptions,
+	useClick,
+	useDismiss,
+	useFloating,
+	useFocus,
+	useHover,
+	useInteractions,
+	useTransitionStyles,
 } from "@floating-ui/react";
 import {
-    useState,
-    type FC,
-    type PropsWithChildren,
-    type ReactNode,
+	type FC,
+	type PropsWithChildren,
+	type ReactNode,
+	useState,
 } from "react";
+import { FloatCls } from "./FloatCls";
 import { FloatContext } from "./FloatContext";
-import { FloatCss } from "./FloatCss";
 
 export namespace Float {
-	export interface Props extends FloatCss.Props<PropsWithChildren> {
+	export interface Props extends FloatCls.Props<PropsWithChildren> {
 		target: ReactNode;
 		action?: "hover" | "click";
 		disabled?: boolean;
@@ -47,7 +47,7 @@ export const Float: FC<Float.Props> = ({
 	delay = 100,
 	float,
 	variant,
-	tva = FloatCss,
+	tva = FloatCls,
 	css,
 	children,
 }) => {
@@ -78,7 +78,11 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const tv = tva({ mounted: isMounted, ...variant, css }).slots;
+	const tv = tva({
+		mounted: isMounted,
+		...variant,
+		css,
+	}).slots;
 
 	return (
 		<>
@@ -99,11 +103,11 @@ export const Float: FC<Float.Props> = ({
 					className={tv.portal()}
 					{...getFloatingProps()}
 					onClick={
-						closeOnClick ?
-							() => {
-								setIsOpen(false);
-							}
-						:	undefined
+						closeOnClick
+							? () => {
+									setIsOpen(false);
+								}
+							: undefined
 					}
 				>
 					<FloatContext.Provider

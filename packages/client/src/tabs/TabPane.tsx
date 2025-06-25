@@ -1,9 +1,9 @@
-import { useContext, type FC, type PropsWithChildren } from "react";
-import { TabPaneCss } from "./TabPaneCss";
+import { type FC, type PropsWithChildren, useContext } from "react";
+import { TabPaneCls } from "./TabPaneCls";
 import { TabsContext } from "./TabsContext";
 
 export namespace TabPane {
-	export interface Props extends TabPaneCss.Props<PropsWithChildren> {
+	export interface Props extends TabPaneCls.Props<PropsWithChildren> {
 		tab: string;
 	}
 }
@@ -11,7 +11,7 @@ export namespace TabPane {
 export const TabPane: FC<TabPane.Props> = ({
 	tab,
 	variant,
-	tva = TabPaneCss,
+	tva = TabPaneCls,
 	css,
 	children,
 }) => {
@@ -19,9 +19,13 @@ export const TabPane: FC<TabPane.Props> = ({
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const tv = tva({ hidden: tab !== currentTab, ...variant, css }).slots;
+	const { slots } = tva({
+		hidden: tab !== currentTab,
+		...variant,
+		css,
+	});
 
 	return hidden.includes(tab) ? null : (
-			<div className={tv.base()}>{children}</div>
-		);
+		<div className={slots.base()}>{children}</div>
+	);
 };

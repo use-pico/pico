@@ -2,11 +2,11 @@ import type { ReactNode } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import type { FormState } from "react-hook-form";
 import { FormError } from "./FormError";
-import { FormInputCss } from "./FormInputCss";
+import { FormInputCls } from "./FormInputCls";
 
 export namespace FormInput {
 	export interface Props<TFormState extends FormState<any>>
-		extends FormInputCss.Props<PropsWithChildren> {
+		extends FormInputCls.Props<PropsWithChildren> {
 		label?: ReactNode;
 		hint?: ReactNode;
 		required?: boolean;
@@ -25,10 +25,10 @@ export const FormInput = <TFormState extends FormState<any>>({
 	disabled,
 	children,
 	variant,
-	tva = FormInputCss,
+	tva = FormInputCls,
 	css,
 }: FormInput.Props<TFormState>) => {
-	const tv = tva({
+	const { slots } = tva({
 		isSubmitting: formState.isSubmitting,
 		isLoading: formState.isLoading,
 		isError: Boolean(formState.errors[name]),
@@ -36,23 +36,21 @@ export const FormInput = <TFormState extends FormState<any>>({
 		disabled,
 		...variant,
 		css,
-	}).slots;
+	});
 
 	return (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			<div className={"flex flex-row justify-between"}>
-				{label ?
-					<label htmlFor={name as string}>{label}</label>
-				:	null}
+				{label ? <label htmlFor={name as string}>{label}</label> : null}
 				<FormError
-					variant={{ compact: true }}
+					variant={{
+						compact: true,
+					}}
 					error={formState.errors[name]}
 				/>
 			</div>
-			{hint ?
-				<div className={"text-sm italic"}>{hint}</div>
-			:	null}
-			<div className={tv.input()}>{children}</div>
+			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
+			<div className={slots.input()}>{children}</div>
 		</div>
 	);
 };

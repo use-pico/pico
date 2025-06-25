@@ -6,5 +6,7 @@ export default {
 		"../../packages/**/*.{ts,tsx}",
 	],
 	important: true,
-	plugins: [addDynamicIconSelectors()],
+	plugins: [
+		addDynamicIconSelectors(),
+	],
 };

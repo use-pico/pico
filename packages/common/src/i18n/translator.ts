@@ -4,7 +4,10 @@ import { keyOf } from "../toolbox/keyOf";
 
 export namespace translator {
 	export type TranslateText = (key: string, fallback?: string) => string;
-	export type TranslateRich = (key: string, fallback?: ReactNode) => ReactNode;
+	export type TranslateRich = (
+		key: string,
+		fallback?: ReactNode,
+	) => ReactNode;
 
 	export interface Translator {
 		index: TranslationListSchema.Type;
@@ -16,7 +19,7 @@ export namespace translator {
 	}
 }
 
-namespace translate {
+export namespace translate {
 	export interface Props<TFallback = string | ReactNode> {
 		index: TranslationListSchema.Type;
 		key: string;
@@ -32,7 +35,7 @@ const translate = <TFallback = string | ReactNode>({
 	return index[keyOf(key)]?.value ?? index[key]?.value ?? fallback ?? key;
 };
 
-namespace text {
+export namespace text {
 	export interface Props {
 		index: TranslationListSchema.Type;
 		key: string;
@@ -41,10 +44,14 @@ namespace text {
 }
 
 const text = ({ index, key, fallback }: text.Props) => {
-	return translate<string>({ index, key, fallback });
+	return translate<string>({
+		index,
+		key,
+		fallback,
+	});
 };
 
-namespace rich {
+export namespace rich {
 	export interface Props {
 		index: TranslationListSchema.Type;
 		key: string;
@@ -53,7 +60,11 @@ namespace rich {
 }
 
 const rich = ({ index, key, fallback }: rich.Props) => {
-    return translate<ReactNode>({ index, key, fallback });
+	return translate<ReactNode>({
+		index,
+		key,
+		fallback,
+	});
 };
 
 export const translator: translator.Translator = {
@@ -64,6 +75,16 @@ export const translator: translator.Translator = {
 			...translations,
 		};
 	},
-	text: (key, fallback) => text({ index: translator.index, key, fallback }),
-	rich: (key, fallback) => rich({ index: translator.index, key, fallback }),
+	text: (key, fallback) =>
+		text({
+			index: translator.index,
+			key,
+			fallback,
+		}),
+	rich: (key, fallback) =>
+		rich({
+			index: translator.index,
+			key,
+			fallback,
+		}),
 };

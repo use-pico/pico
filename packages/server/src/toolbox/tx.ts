@@ -1,6 +1,6 @@
+import fs from "node:fs";
 import { match, print, project, query } from "@phenomnomnominal/tsquery";
 import { diffOf, keyOf, Timer, type TranslationSchema } from "@use-pico/common";
-import fs from "node:fs";
 import { parse, stringify } from "yaml";
 
 export namespace tx {
@@ -26,43 +26,58 @@ export const tx = ({ packages, output, locales }: tx.Props) => {
 			project(`${path}/tsconfig.json`)
 				.filter((source) => !source.fileName.endsWith(".d.ts"))
 				.forEach((source) => {
-					query(source, "JsxSelfClosingElement > Identifier[name=Tx]").forEach(
-						(node) => {
-							match(
-								node.parent,
-								"JsxAttribute > Identifier[name=label]",
-							).forEach((node) => {
-								match(node.parent, "StringLiteral").forEach((node) => {
+					query(
+						source,
+						"JsxSelfClosingElement > Identifier[name=Tx]",
+					).forEach((node) => {
+						match(
+							node.parent,
+							"JsxAttribute > Identifier[name=label]",
+						).forEach((node) => {
+							match(node.parent, "StringLiteral").forEach(
+								(node) => {
 									const source = print(node);
-									const text = source.substring(1, source.length - 1);
+									const text = source.substring(
+										1,
+										source.length - 1,
+									);
 									translations[keyOf(text)] = {
 										ref: text,
 										value: text,
 									};
-								});
-							});
-						},
-					);
+								},
+							);
+						});
+					});
 
 					query(
 						source,
 						"CallExpression > PropertyAccessExpression > Identifier[name=translator]",
 					).forEach((node) => {
-						match(node.parent.parent, "StringLiteral").forEach((node) => {
-							const source = print(node);
-							const text = source.substring(1, source.length - 1);
-							translations[keyOf(text)] = {
-								ref: text,
-								value: text,
-							};
-						});
+						match(node.parent.parent, "StringLiteral").forEach(
+							(node) => {
+								const source = print(node);
+								const text = source.substring(
+									1,
+									source.length - 1,
+								);
+								translations[keyOf(text)] = {
+									ref: text,
+									value: text,
+								};
+							},
+						);
 					});
 				});
 		});
-		console.log(benchmark.format(`Package [${packages}] search time %s.%ms s`));
+		console.log(
+			benchmark.format(`Package [${packages}] search time %s.%ms s`),
+		);
 	});
 
-	fs.mkdirSync(output, { recursive: true });
+	fs.mkdirSync(output, {
+		recursive: true,
+	});
 
 	const benchmark = Timer.benchmark(() => {
 		locales.forEach((locale) => {
@@ -73,7 +88,9 @@ export const tx = ({ packages, output, locales }: tx.Props) => {
 			let current: Record<string, TranslationSchema.Type> = {};
 			try {
 				current = parse(
-					fs.readFileSync(target, { encoding: "utf-8" }),
+					fs.readFileSync(target, {
+						encoding: "utf-8",
+					}),
 				) as Record<string, any>;
 			} catch (_) {
 				// Noop

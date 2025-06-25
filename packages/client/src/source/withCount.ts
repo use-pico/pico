@@ -58,7 +58,10 @@ export const withCount = async <
 				.executeTakeFirstOrThrow()
 		).count,
 		where: (
-			await query({ select, where })
+			await query({
+				select,
+				where,
+			})
 				.clearSelect()
 				.select((eb) => eb.fn.countAll<number>().as("count"))
 				.executeTakeFirstOrThrow()

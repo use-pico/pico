@@ -27,12 +27,13 @@ export const linkTo = ({ query = {}, href }: linkTo.Props) => {
 	const queryParams = diffOf(
 		Object.keys(query),
 		Object.keys(matched ? matched.params : {}),
-	).reduce((prev, current) => {
-		return {
-			...prev,
-			[current]: (query as any)[current],
-		};
-	}, {});
+	).reduce(
+		(prev, current) => {
+			prev[current] = query[current];
+			return prev;
+		},
+		{} as Record<string, any>,
+	);
 
 	return buildUrl({
 		path: `${import.meta.env.BASE_URL}${compiled}`.replace(/\/+/gu, "/"),

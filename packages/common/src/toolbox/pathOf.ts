@@ -1,1 +1,1 @@
-export {default as pathOf} from "object-path";
+export { default as pathOf } from "object-path";

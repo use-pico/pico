@@ -1,1 +1,1 @@
-export {Timer} from "timer-node";
+export { Timer } from "timer-node";

@@ -7,13 +7,11 @@ export namespace toHumanNumber {
 	}
 }
 
-export function toHumanNumber(
-	{
-		number,
-		empty = "-",
-		fraction = 2
-	}: toHumanNumber.Props
-): string {
+export function toHumanNumber({
+	number,
+	empty = "-",
+	fraction = 2,
+}: toHumanNumber.Props): string {
 	if (number === null || number === undefined) {
 		return empty;
 	}

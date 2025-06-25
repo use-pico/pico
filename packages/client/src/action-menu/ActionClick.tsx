@@ -1,39 +1,48 @@
 import type { ReactNode } from "@tanstack/react-router";
-import { Icon } from "@use-pico/client";
+import { Icon, LoaderIcon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
 import type { FC, HTMLAttributes } from "react";
-import { ActionClickCss } from "./ActionClickCss";
+import { ActionClickCls } from "./ActionClickCls";
 
 export namespace ActionClick {
 	export interface Props
-		extends ActionClickCss.Props<HTMLAttributes<HTMLDivElement>> {
+		extends ActionClickCls.Props<HTMLAttributes<HTMLDivElement>> {
 		icon?: string | ReactNode;
 		iconProps?: Icon.Props;
+		loading?: boolean;
 	}
 }
 
 export const ActionClick: FC<ActionClick.Props> = ({
 	icon,
 	iconProps,
+	loading = false,
 	variant,
-	tva = ActionClickCss,
+	tva = ActionClickCls,
 	css,
 	children,
 	...props
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
 		<div
-			className={tv.base()}
+			className={slots.base({
+				loading,
+			})}
 			{...props}
 		>
-			{isString(icon) ?
+			{isString(icon) ? (
 				<Icon
-					icon={icon}
+					icon={loading ? LoaderIcon : icon}
 					{...iconProps}
 				/>
-			:	icon}
+			) : (
+				icon
+			)}
 			{children}
 		</div>
 	);

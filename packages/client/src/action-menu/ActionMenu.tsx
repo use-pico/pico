@@ -1,41 +1,56 @@
 import { FloatingTree } from "@floating-ui/react";
 import type { ReactNode } from "@tanstack/react-router";
 import type { FC, PropsWithChildren } from "react";
+import { Action } from "../action/Action";
 import { Float } from "../float/Float";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
-import { Icon } from "../icon/Icon";
-import { ActionMenuCss } from "./ActionMenuCss";
+import type { Icon } from "../icon/Icon";
+import { ActionMenuCls } from "./ActionMenuCls";
 
 export namespace ActionMenu {
-	export interface Props extends ActionMenuCss.Props<PropsWithChildren> {
+	export interface Props extends ActionMenuCls.Props<PropsWithChildren> {
 		icon?: string | ReactNode;
 		iconProps?: Omit<Icon.Props, "icon">;
+		/**
+		 * Override the default target element for the menu
+		 */
+		target?: ReactNode;
+		actionProps?: Action.Props;
 	}
 }
 
 export const ActionMenu: FC<ActionMenu.Props> = ({
 	icon = ActionMenuIcon,
 	iconProps,
+	target,
+	actionProps,
 	children,
 	variant,
-	tva = ActionMenuCss,
+	tva = ActionMenuCls,
 	css,
 	...props
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
 		<FloatingTree>
 			<Float
 				action={"click"}
 				target={
-					<Icon
-						icon={icon}
-						css={{
-							base: ["cursor-pointer"],
-						}}
-						{...iconProps}
-					/>
+					target ?? (
+						<Action
+							iconEnabled={icon}
+							iconProps={iconProps}
+							variant={{
+								borderless: true,
+								variant: "light",
+							}}
+							{...actionProps}
+						/>
+					)
 				}
 				delay={100}
 				float={{
@@ -44,7 +59,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<div className={tv.base()}>{children}</div>
+				<div className={slots.base()}>{children}</div>
 			</Float>
 		</FloatingTree>
 	);

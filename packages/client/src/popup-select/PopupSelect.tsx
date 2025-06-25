@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "@tanstack/react-router";
 import type {
-    CursorSchema,
-    Entity,
-    FilterSchema,
-    IdentitySchema,
+	CursorSchema,
+	Entity,
+	FilterSchema,
+	IdentitySchema,
 } from "@use-pico/common";
-import { useEffect, useMemo, type FC } from "react";
+import { type FC, useEffect, useId, useMemo } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
@@ -20,7 +20,7 @@ import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupContent } from "./PopupContent";
-import { PopupSelectCss } from "./PopupSelectCss";
+import { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace PopupSelect {
 	export namespace Query {
@@ -35,7 +35,7 @@ export namespace PopupSelect {
 	}
 
 	export interface Props<TItem extends IdentitySchema.Type>
-		extends PopupSelectCss.Props {
+		extends PopupSelectCls.Props {
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
@@ -83,13 +83,13 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	onSelect,
 
 	variant,
-	tva = PopupSelectCss,
+	tva = PopupSelectCls,
 	css,
 }: PopupSelect.Props<TItem>) => {
-	const tv = tva({
+	const { slots } = tva({
 		...variant,
 		css,
-	}).slots;
+	});
 
 	/**
 	 * Dependency-free meme, because... store does not have any dependencies (defaultOpen
@@ -103,8 +103,17 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const setSelection = useLocalTableStore((state) => state.setSelection);
 
 	useEffect(() => {
-		setSelection(value ? [value] : []);
-	}, [value]);
+		setSelection(
+			value
+				? [
+						value,
+					]
+				: [],
+		);
+	}, [
+		setSelection,
+		value,
+	]);
 
 	const result = useQuery({
 		queryKey: [
@@ -112,7 +121,11 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 			"PopupSelect",
 			"data",
 			queryHash,
-			{ fulltext, page, size },
+			{
+				fulltext,
+				page,
+				size,
+			},
 		],
 		async queryFn() {
 			return query({
@@ -130,7 +143,15 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	const withValue = Boolean(value);
 
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupSelect", "selected", queryHash, { value }],
+		queryKey: [
+			queryKey,
+			"PopupSelect",
+			"selected",
+			queryHash,
+			{
+				value,
+			},
+		],
 		async queryFn() {
 			return query({
 				filter: {
@@ -141,27 +162,34 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 		enabled: withValue,
 	});
 
+	const modalId = useId();
+
 	return (
 		<Modal
+			key={modalId}
 			icon={icon}
 			target={
 				<label
-					className={tv.input({
+					htmlFor={modalId}
+					className={slots.input({
 						loading: selected.isFetching || result.isFetching,
-						selected: Boolean(selected.data?.data.length),
+						selected: Boolean(selected.data?.list.length),
 					})}
 				>
 					<Icon
 						icon={
-							result.isFetching || selected.isFetching ? LoaderIcon
-							: withValue && selected.data?.data?.[0] ?
-								SelectionOnIcon
-							:	SelectionOffIcon
+							result.isFetching || selected.isFetching
+								? LoaderIcon
+								: withValue && selected.data?.list?.[0]
+									? SelectionOnIcon
+									: SelectionOffIcon
 						}
 					/>
-					{withValue && selected.data?.data?.[0] ?
-						<Render entity={selected.data?.data?.[0]} />
-					:	textSelect || <Tx label={"Select item (label)"} />}
+					{withValue && selected.data?.list?.[0] ? (
+						<Render entity={selected.data?.list?.[0]} />
+					) : (
+						textSelect || <Tx label={"Select item (label)"} />
+					)}
 				</label>
 			}
 			textTitle={textTitle}
@@ -170,16 +198,24 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 			}}
 			disabled={result.isFetching}
 			css={{
-				modal: ["w-2/3"],
+				modal: [
+					"w-2/3",
+				],
 			}}
 			footer={({ close }) => (
-				<div className={tv.footer()}>
+				<div className={slots.footer()}>
 					<Button
 						iconEnabled={BackIcon}
 						iconDisabled={BackIcon}
 						onClick={() => {
 							close();
-							setSelection(value ? [value] : []);
+							setSelection(
+								value
+									? [
+											value,
+										]
+									: [],
+							);
 						}}
 						variant={{
 							variant: "light",
@@ -196,8 +232,9 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 						onClick={() => {
 							onChange(selection?.[0] || null);
 							onSelect?.(
-								result.data?.data?.find((item) => item.id === selection?.[0]) ??
-									null,
+								result.data?.list?.find(
+									(item) => item.id === selection?.[0],
+								) ?? null,
 							);
 							close();
 						}}

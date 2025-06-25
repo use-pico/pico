@@ -11,7 +11,8 @@ export namespace EventBus {
 
 	export type EventHandlerMap<TEvents extends object> = Map<
 		keyof TEvents | "*",
-		EventHandlerList<TEvents[keyof TEvents]> | WildCardEventHandlerList<TEvents>
+		| EventHandlerList<TEvents[keyof TEvents]>
+		| WildCardEventHandlerList<TEvents>
 	>;
 }
 
@@ -77,13 +78,16 @@ export function EventBus<TEvents extends object>(
 			if (handlers) {
 				handlers.push(handler);
 			} else {
-				all.set(type, [handler] as EventBus.EventHandlerList<
-					TEvents[keyof TEvents]
-				>);
+				all.set(type, [
+					handler,
+				] as EventBus.EventHandlerList<TEvents[keyof TEvents]>);
 			}
 		},
 
-		off<Key extends keyof TEvents>(type: Key, handler?: GenericEventHandler) {
+		off<Key extends keyof TEvents>(
+			type: Key,
+			handler?: GenericEventHandler,
+		) {
 			const handlers: GenericEventHandler[] | undefined = all.get(type);
 			if (handlers) {
 				if (handler) {
@@ -96,16 +100,16 @@ export function EventBus<TEvents extends object>(
 
 		emit<Key extends keyof TEvents>(type: Key, event?: TEvents[Key]) {
 			let handlers = all.get(type);
-			if (handlers) {
+			if (handlers && event) {
 				(handlers as EventBus.EventHandlerList<TEvents[keyof TEvents]>)
 					.slice()
-					.forEach((h) => h(event!));
+					.forEach((h) => h(event));
 			}
 			handlers = all.get("*");
-			if (handlers) {
+			if (handlers && event) {
 				(handlers as EventBus.WildCardEventHandlerList<TEvents>)
 					.slice()
-					.forEach((h) => h(type, event!));
+					.forEach((h) => h(type, event));
 			}
 		},
 	};

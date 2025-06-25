@@ -1,34 +1,31 @@
 import type { ReactNode } from "@tanstack/react-router";
 import type { FC } from "react";
-import { DetailCss } from "./DetailCss";
+import type { DetailCls } from "./DetailCls";
 
 export namespace Value {
-	export interface Props extends DetailCss.Props {
+	export interface Props {
 		id: string;
 		label?: ReactNode;
 		value: ReactNode;
+		slots: DetailCls.Slots;
 	}
 }
 
-export const Value: FC<Value.Props> = ({
-	id,
-	label,
-	value,
-	variant,
-	tva = DetailCss,
-	css,
-}) => {
-	const tv = tva({ ...variant, css }).slots;
-
+export const Value: FC<Value.Props> = ({ id, label, value, slots }) => {
 	return (
 		<div
 			key={`detail-section-item-value-${id}`}
-			className={tv.value()}
+			className={slots.value()}
 		>
-			{label ?
-				<label className={tv.label()}>{label}</label>
-			:	null}
-			<div className={tv.field()}>{value}</div>
+			{label ? (
+				<label
+					htmlFor={`detail-section-item-value-${id}`}
+					className={slots.label()}
+				>
+					{label}
+				</label>
+			) : null}
+			<div className={slots.field()}>{value}</div>
 		</div>
 	);
 };

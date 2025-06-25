@@ -5,7 +5,12 @@ function range(start: number, end: number): number[] {
 	if (start > end) {
 		return [];
 	}
-	return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+	return Array.from(
+		{
+			length: end - start + 1,
+		},
+		(_, i) => start + i,
+	);
 }
 
 export namespace cursorOf {
@@ -69,7 +74,10 @@ export function cursorOf({
 	);
 
 	if (validTotal === 0) {
-		return { page: 0, total: 0 };
+		return {
+			page: 0,
+			total: 0,
+		};
 	}
 
 	const simpleThreshold = boundary * 2 + siblings * 2 + 1;

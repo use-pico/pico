@@ -29,16 +29,26 @@ export const withDatabase = <TDatabase>({
 	const { dialect } = new SQLocalKysely({
 		databasePath: `${database}.sqlite3`,
 		onInit(sql: any) {
-			return [sql`PRAGMA foreign_keys = ON;`, sql`PRAGMA journal_mode = WAL;`];
+			return [
+				sql`PRAGMA foreign_keys = ON;`,
+				sql`PRAGMA journal_mode = WAL;`,
+			];
 		},
 	});
 
-	const kysely = new Kysely<TDatabase>({ dialect, log: ["error"] });
+	const kysely = new Kysely<TDatabase>({
+		dialect,
+		log: [
+			"error",
+		],
+	});
 
 	return {
 		kysely,
 		async bootstrap() {
-			return bootstrap({ kysely });
+			return bootstrap({
+				kysely,
+			});
 		},
 	};
 };

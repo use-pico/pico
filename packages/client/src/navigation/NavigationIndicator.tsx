@@ -1,11 +1,9 @@
 import { useRouterState } from "@tanstack/react-router";
 import { tvc } from "@use-pico/common";
-import { useEffect, useState, type FC } from "react";
+import { type FC, useEffect, useState } from "react";
 
 export namespace NavigationIndicator {
-	export interface Props {
-		//
-	}
+	export type Props = {};
 }
 
 export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
@@ -13,7 +11,7 @@ export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
-		let timeout = undefined;
+		let timeout: NodeJS.Timeout | undefined;
 
 		if (status === "pending") {
 			timeout = setTimeout(() => {
@@ -25,21 +23,23 @@ export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
 		}
 
 		return () => clearTimeout(timeout);
-	}, [status]);
+	}, [
+		status,
+	]);
 
-	return visible ?
-			<div
-				className={tvc([
-					"fixed",
-					"top-0",
-					"left-0",
-					"right-0",
-					"w-full",
-					"h-1",
-					"bg-sky-500",
-					"z-[500]",
-					"animate-pulse",
-				])}
-			/>
-		:	null;
+	return visible ? (
+		<div
+			className={tvc([
+				"fixed",
+				"top-0",
+				"left-0",
+				"right-0",
+				"w-full",
+				"h-1",
+				"bg-sky-500",
+				"z-[500]",
+				"animate-pulse",
+			])}
+		/>
+	) : null;
 };

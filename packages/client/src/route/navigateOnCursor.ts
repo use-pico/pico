@@ -4,7 +4,11 @@ import { navigateOnSize } from "./navigateOnSize";
 export namespace navigateOnCursor {
 	export namespace Navigate {
 		export interface Props {
-			search: (props: { cursor: { page: number } }) => any;
+			search: (props: {
+				cursor: {
+					page: number;
+				};
+			}) => any;
 		}
 	}
 

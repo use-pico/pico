@@ -1,20 +1,25 @@
 import { translator } from "@use-pico/common";
-import { FC, ReactNode, memo } from "react";
-import { TxCss } from "./TxCss";
+import { type FC, memo, type ReactNode } from "react";
+import { TxCls } from "./TxCls";
 
 export namespace Tx {
-	export interface Props extends TxCss.Props {
+	export interface Props extends TxCls.Props {
 		label: string;
 		fallback?: ReactNode;
 	}
 }
 
 export const Tx: FC<Tx.Props> = memo(
-	({ label, fallback, variant, tva = TxCss, css }) => {
-		const tv = tva({
+	({ label, fallback, variant, tva = TxCls, css }) => {
+		const { slots } = tva({
 			...variant,
 			css,
-		}).slots;
-		return <div className={tv.base()}>{translator.rich(label, fallback)}</div>;
+		});
+
+		return (
+			<div className={slots.base()}>
+				{translator.rich(label, fallback)}
+			</div>
+		);
 	},
 );

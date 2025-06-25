@@ -1,9 +1,12 @@
 import type { Entity } from "@use-pico/common";
-import { type FC } from "react";
+import type { FC } from "react";
 import { Tx } from "../tx/Tx";
 
 export namespace TokenInline {
-	export interface Props extends Entity.Type<{ token: string }> {}
+	export interface Props
+		extends Entity.Type<{
+			token: string;
+		}> {}
 }
 
 export const TokenInline: FC<TokenInline.Props> = ({ entity }) => {

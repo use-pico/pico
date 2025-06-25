@@ -5,7 +5,7 @@ import type {
 	FilterSchema,
 	IdentitySchema,
 } from "@use-pico/common";
-import { useEffect, useMemo, type FC } from "react";
+import { type FC, useEffect, useId, useMemo } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
@@ -19,7 +19,7 @@ import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupMultiContent } from "./PopupMultiContent";
-import { PopupMultiSelectCss } from "./PopupMultiSelectCss";
+import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
 
 export namespace PopupMultiSelect {
 	export namespace Query {
@@ -34,13 +34,15 @@ export namespace PopupMultiSelect {
 	}
 
 	export interface Props<TItem extends IdentitySchema.Type>
-		extends PopupMultiSelectCss.Props {
+		extends PopupMultiSelectCls.Props {
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
 		table: FC<Table.PropsEx<TItem>>;
-		render: FC<{ entities: TItem[] }>;
+		render: FC<{
+			entities: TItem[];
+		}>;
 		allowEmpty?: boolean;
 
 		/**
@@ -82,13 +84,13 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	onSelect,
 
 	variant,
-	tva = PopupMultiSelectCss,
+	tva = PopupMultiSelectCls,
 	css,
 }: PopupMultiSelect.Props<TItem>) => {
-	const tv = tva({
+	const { slots } = tva({
 		...variant,
 		css,
-	}).slots;
+	});
 
 	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
 	const fulltext = useLocalStore((state) => state.fulltext);
@@ -103,7 +105,11 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			"PopupMultiSelect",
 			"data",
 			queryHash,
-			{ fulltext, page, size },
+			{
+				fulltext,
+				page,
+				size,
+			},
 		],
 		async queryFn() {
 			return query({
@@ -121,7 +127,15 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 	const withValue = (value?.length || 0) > 0;
 
 	const selected = useQuery({
-		queryKey: [queryKey, "PopupMultiSelect", "selected", queryHash, { value }],
+		queryKey: [
+			queryKey,
+			"PopupMultiSelect",
+			"selected",
+			queryHash,
+			{
+				value,
+			},
+		],
 		async queryFn() {
 			return query({
 				filter: {
@@ -134,29 +148,39 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 
 	useEffect(() => {
 		setSelection(value || []);
-	}, [value]);
+	}, [
+		setSelection,
+		value,
+	]);
+
+	const modalId = useId();
 
 	return (
 		<Modal
+			key={modalId}
 			icon={icon}
 			target={
 				<label
-					className={tv.input({
+					htmlFor={modalId}
+					className={slots.input({
 						loading: selected.isFetching || result.isFetching,
-						selected: Boolean(selected.data?.data.length),
+						selected: Boolean(selected.data?.list.length),
 					})}
 				>
 					<Icon
 						icon={
-							result.isFetching || selected.isFetching ? LoaderIcon
-							: withValue && selected.data?.data?.[0] ?
-								SelectionOnIcon
-							:	SelectionOffIcon
+							result.isFetching || selected.isFetching
+								? LoaderIcon
+								: withValue && selected.data?.list?.[0]
+									? SelectionOnIcon
+									: SelectionOffIcon
 						}
 					/>
-					{withValue && selected.data && selected.data.data.length ?
-						<Render entities={selected.data.data} />
-					:	textSelect || <Tx label={"Select item (label)"} />}
+					{withValue && selected.data && selected.data.list.length ? (
+						<Render entities={selected.data.list} />
+					) : (
+						textSelect || <Tx label={"Select item (label)"} />
+					)}
 				</label>
 			}
 			textTitle={textTitle}
@@ -165,11 +189,13 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 			}}
 			disabled={result.isFetching}
 			css={{
-				modal: ["w-2/3"],
+				modal: [
+					"w-2/3",
+				],
 			}}
 			footer={({ close }) => {
 				return (
-					<div className={tv.footer()}>
+					<div className={slots.footer()}>
 						<Button
 							iconEnabled={BackIcon}
 							iconDisabled={BackIcon}
@@ -191,7 +217,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 							onClick={() => {
 								onChange(selection);
 								onSelect?.(
-									result.data?.data?.filter((item) =>
+									result.data?.list?.filter((item) =>
 										selection.includes(item.id),
 									) || [],
 								);

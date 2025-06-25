@@ -2,10 +2,10 @@ import { translator } from "@use-pico/common";
 import type { FC } from "react";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { Icon } from "../icon/Icon";
-import { FormErrorCss } from "./FormErrorCss";
+import { FormErrorCls } from "./FormErrorCls";
 
 export namespace FormError {
-	export interface Props extends FormErrorCss.Props {
+	export interface Props extends FormErrorCls.Props {
 		error?: {
 			message?: string;
 		};
@@ -15,15 +15,18 @@ export namespace FormError {
 export const FormError: FC<FormError.Props> = ({
 	error,
 	variant,
-	tva = FormErrorCss,
+	tva = FormErrorCls,
 	css,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
-	return error?.message ?
-			<div className={tv.base()}>
-				<Icon icon={ErrorIcon} />
-				<span>{translator.rich(error.message)}</span>
-			</div>
-		:	null;
+	return error?.message ? (
+		<div className={slots.base()}>
+			<Icon icon={ErrorIcon} />
+			<span>{translator.rich(error.message)}</span>
+		</div>
+	) : null;
 };

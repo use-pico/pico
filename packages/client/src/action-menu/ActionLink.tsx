@@ -1,10 +1,11 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { ActionLinkCss, Icon } from "@use-pico/client";
+import { Icon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
-import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
+import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
+import { ActionLinkCls } from "./ActionLinkCls";
 
 interface Item
-	extends ActionLinkCss.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
+	extends ActionLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
 	iconProps?: Icon.Props;
 }
@@ -15,14 +16,17 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 			icon = null,
 			iconProps,
 			variant,
-			tva = ActionLinkCss,
+			tva = ActionLinkCls,
 			css,
 			children,
 			...props
 		},
 		ref,
 	) => {
-		const tv = tva({ ...variant, css }).slots;
+		const tv = tva({
+			...variant,
+			css,
+		}).slots;
 
 		return (
 			<a
@@ -30,12 +34,14 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 				className={tv.base()}
 				ref={ref}
 			>
-				{isString(icon) ?
+				{isString(icon) ? (
 					<Icon
 						icon={icon}
 						{...iconProps}
 					/>
-				:	icon}
+				) : (
+					icon
+				)}
 				{children}
 			</a>
 		);

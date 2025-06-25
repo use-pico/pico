@@ -1,5 +1,5 @@
-import { type FC, type HTMLAttributes } from "react";
-import { BadgeCss } from "./BadgeCss";
+import type { FC, HTMLAttributes } from "react";
+import { BadgeCls } from "./BadgeCls";
 
 /**
  * Simple badge icon; just rounded background with children.
@@ -8,22 +8,25 @@ import { BadgeCss } from "./BadgeCss";
  */
 export namespace Badge {
 	export interface Props
-		extends BadgeCss.Props<HTMLAttributes<HTMLDivElement>> {
+		extends BadgeCls.Props<HTMLAttributes<HTMLDivElement>> {
 		//
 	}
 }
 
 export const Badge: FC<Badge.Props> = ({
 	variant,
-	tva = BadgeCss,
+	tva = BadgeCls,
 	css,
 	...props
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
 		<div
-			className={tv.base()}
+			className={slots.base()}
 			{...props}
 		/>
 	);

@@ -1,9 +1,9 @@
 import type { FC, InputHTMLAttributes } from "react";
-import { BoolInputCss } from "./BoolInputCss";
+import { BoolInputCls } from "./BoolInputCls";
 
 export namespace BoolInput {
 	export interface Props
-		extends BoolInputCss.Props<
+		extends BoolInputCls.Props<
 			Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">
 		> {
 		value: boolean | undefined | null;
@@ -15,14 +15,17 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	value,
 	onChange,
 	variant,
-	tva = BoolInputCss,
+	tva = BoolInputCls,
 	css,
 	...props
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			<label>
 				<input
 					type={"checkbox"}
@@ -33,7 +36,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					}}
 					{...props}
 				/>
-				<div className={tv.switch()}></div>
+				<div className={slots.switch()}></div>
 			</label>
 		</div>
 	);

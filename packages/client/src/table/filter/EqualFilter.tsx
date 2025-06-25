@@ -19,9 +19,14 @@ export const EqualFilter: FC<EqualFilter.Props> = ({
 	return (
 		<Icon
 			icon={FilterApplyIcon}
-			variant={{ size: "xl" }}
+			variant={{
+				size: "xl",
+			}}
 			onClick={() => {
-				filterInstance.shallow({ path, value });
+				filterInstance.shallow({
+					path,
+					value,
+				});
 			}}
 		/>
 	);

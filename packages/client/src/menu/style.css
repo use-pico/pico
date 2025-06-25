@@ -1,20 +1,25 @@
 .pico--menu-group {
-	--color-hover-text: var(--color-slate-500);
+	--color-bg-hover: var(--pico--color-light-bg-hover);
+	--color-border-hover: var(--pico--color-light-border-hover);
+	--color-text-hover: var(--pico--color-light-text-hover);
 
-	--color-active-border: var(--color-blue-400);
-	--color-active-text: var(--color-slate-800);
+	--color-active-bg: var(--pico--color-light-bg-hover);
+	--color-active-border: var(--pico--color-light-border-hover);
+	--color-active-text: var(--pico--color-light-text-hover);
 
-	--color-active-hover-border: var(--color-blue-500);
-	--color-active-hover-text: var(--color-blue-800);
+	--color-active-border-hover: var(--pico--color-light-border-hover);
+	--color-active-text-hover: var(--pico--color-light-text-hover);
 }
 
 .pico--menu-link {
-	--color-hover-text: var(--color-slate-500);
+	--color-bg-hover: var(--pico--color-light-bg-hover);
+	--color-border-hover: var(--pico--color-light-border-hover);
+	--color-text-hover: var(--pico--color-light-text-hover);
 
-	--color-active-border: var(--color-blue-400);
-	--color-active-bg: var(--color-blue-50);
-	--color-active-text: var(--color-slate-800);
+	--color-active-bg: var(--pico--color-light-bg-hover);
+	--color-active-border: var(--pico--color-light-border-hover);
+	--color-active-text: var(--pico--color-light-text-hover);
 
-	--color-active-hover-border: var(--color-blue-500);
-	--color-active-hover-text: var(--color-blue-800);
+	--color-active-border-hover: var(--pico--color-light-border-hover);
+	--color-active-text-hover: var(--pico--color-light-text-hover);
 }

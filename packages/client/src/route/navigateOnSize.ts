@@ -1,7 +1,11 @@
 export namespace navigateOnSize {
 	export namespace Navigate {
 		export interface Props {
-			search: (props: { cursor: { page: number } }) => any;
+			search: (props: {
+				cursor: {
+					page: number;
+				};
+			}) => any;
 		}
 	}
 
@@ -13,7 +17,11 @@ export const navigateOnSize = (navigate: navigateOnSize.Navigate) => {
 		navigate({
 			search: ({ cursor, ...rest }) => ({
 				...rest,
-				cursor: { ...cursor, size, page: 0 },
+				cursor: {
+					...cursor,
+					size,
+					page: 0,
+				},
 			}),
 		});
 	};

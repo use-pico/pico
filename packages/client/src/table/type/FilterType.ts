@@ -39,7 +39,9 @@ export namespace FilterType {
 				data: TData;
 			}
 
-			export type Callback<TData extends DataType.Data> = FC<Props<TData>>;
+			export type Callback<TData extends DataType.Data> = FC<
+				Props<TData>
+			>;
 		}
 	}
 

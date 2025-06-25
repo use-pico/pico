@@ -21,6 +21,7 @@
 		"borsh",
 		"buildable",
 		"CIELAB",
+		"codegen",
 		"colormap",
 		"comlink",
 		"conv",
@@ -98,7 +99,9 @@
 		"noninteractive",
 		"nopan",
 		"npkill",
+		"officedocument",
 		"opcache",
+		"openxmlformats",
 		"opfs",
 		"outcomming",
 		"overclicking",
@@ -124,9 +127,11 @@
 		"shmop",
 		"shtool",
 		"sonner",
+		"spreadsheetml",
 		"sqlocal",
 		"SSAO",
 		"supervisord",
+		"syncpack",
 		"tabler",
 		"TAURI",
 		"teenyicons",
@@ -148,5 +153,17 @@
 		"zondicons",
 		"zoomable"
 	],
-	"todo-tree.tree.scanMode": "open files"
+	"todo-tree.tree.scanMode": "open files",
+	"editor.codeActionsOnSave": {
+		"source.organizeImports.biome": "always",
+		"source.fixAll.biome": "explicit",
+		"source.removeUnusedImports": "always"
+	},
+	"editor.defaultFormatter": "biomejs.biome",
+	"files.trimFinalNewlines": true,
+	"editor.formatOnSave": true,
+	"biome.requireConfiguration": true,
+	"[yaml]": {
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	}
 }

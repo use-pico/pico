@@ -1,8 +1,8 @@
 import {
 	autoUpdate,
-	flip,
 	FloatingFocusManager,
 	FloatingPortal,
+	flip,
 	offset,
 	size,
 	useClick,
@@ -12,14 +12,16 @@ import {
 	useListNavigation,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { translator, type Entity, type IdentitySchema } from "@use-pico/common";
-import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
+import { type Entity, type IdentitySchema, translator } from "@use-pico/common";
+import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
+import { Action } from "../action/Action";
+import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
-import { SelectCss } from "./SelectCss";
+import { SelectCls } from "./SelectCls";
 
 export namespace Select {
 	export interface Props<TItem extends IdentitySchema.Type>
-		extends SelectCss.Props {
+		extends SelectCls.Props {
 		items: TItem[];
 		icon?: string;
 		defaultValue?: string;
@@ -27,6 +29,7 @@ export namespace Select {
 		render: FC<Entity.Type<TItem>>;
 		textSelect?: ReactNode;
 		disabled?: boolean;
+		allowClear?: boolean;
 		/**
 		 * Called only when an item is actually selected
 		 */
@@ -56,12 +59,13 @@ export const Select = <TItem extends IdentitySchema.Type>({
 	render: Render,
 	textSelect,
 	disabled = false,
+	allowClear = false,
 	onItem,
 	onSelect,
 	onChange,
 	value,
 	variant,
-	tva = SelectCss,
+	tva = SelectCls,
 	css,
 }: Select.Props<TItem>) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -72,7 +76,10 @@ export const Select = <TItem extends IdentitySchema.Type>({
 
 	useEffect(() => {
 		setSelectedIndex(items.findIndex((item) => item.id === value));
-	}, [value]);
+	}, [
+		items,
+		value,
+	]);
 
 	const { refs, floatingStyles, context } = useFloating<HTMLElement>({
 		placement: "bottom-start",
@@ -81,7 +88,9 @@ export const Select = <TItem extends IdentitySchema.Type>({
 		whileElementsMounted: autoUpdate,
 		middleware: [
 			offset(5),
-			flip({ padding: 10 }),
+			flip({
+				padding: 10,
+			}),
 			size({
 				apply({ rects, elements, availableHeight }) {
 					Object.assign(elements.floating.style, {
@@ -97,7 +106,9 @@ export const Select = <TItem extends IdentitySchema.Type>({
 	const listRef = useRef<(HTMLElement | null)[]>([]);
 	const isTypingRef = useRef(false);
 
-	const click = useClick(context, { event: "mousedown" });
+	const click = useClick(context, {
+		event: "mousedown",
+	});
 	const dismiss = useDismiss(context);
 	const listNav = useListNavigation(context, {
 		listRef,
@@ -107,9 +118,12 @@ export const Select = <TItem extends IdentitySchema.Type>({
 		loop: true,
 	});
 
-	const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-		[dismiss, listNav, click],
-	);
+	const { getReferenceProps, getFloatingProps, getItemProps } =
+		useInteractions([
+			dismiss,
+			listNav,
+			click,
+		]);
 	const { isMounted, styles } = useTransitionStyles(context);
 
 	const handleSelect = (index: number) => {
@@ -125,44 +139,73 @@ export const Select = <TItem extends IdentitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const tv = tva({ disabled, ...variant, css }).slots;
+	const tv = tva({
+		disabled,
+		...variant,
+		css,
+	}).slots;
 
 	return (
 		<>
 			<div
 				tabIndex={disabled ? -1 : 0}
 				ref={disabled ? undefined : refs.setReference}
-				aria-labelledby={"select-label"}
-				aria-autocomplete={"none"}
 				{...(disabled ? {} : getReferenceProps())}
 				className={tv.base()}
 			>
 				<div className={tv.input()}>
-					{icon ?
+					{icon ? (
 						<Icon
 							icon={icon}
 							variant={{
 								size: "xl",
 							}}
 							css={{
-								base: ["text-slate-400", "group-hover:text-slate-600"],
+								base: [
+									"text-slate-400",
+									"group-hover:text-slate-600",
+								],
 							}}
 						/>
-					:	null}
-					{item ?
+					) : null}
+					{item ? (
 						<Render entity={item} />
-					:	textSelect || translator.rich("Select item")}
-					<Icon
-						icon={"icon-[gg--select]"}
-						variant={{ size: "xl" }}
-						css={{
-							base: [
-								!isOpen && "text-slate-400",
-								isOpen && "text-slate-600",
-								"group-hover:text-slate-600",
-							],
-						}}
-					/>
+					) : (
+						textSelect || translator.rich("Select item")
+					)}
+					<div className={"flex flex-row gap-2 items-center"}>
+						{allowClear ? (
+							<Action
+								iconEnabled={CloseIcon}
+								onClick={(e) => {
+									e.stopPropagation();
+									e.preventDefault();
+									handleSelect(-1);
+								}}
+								onMouseDown={(e) => {
+									e.stopPropagation();
+									e.preventDefault();
+								}}
+								variant={{
+									borderless: true,
+									variant: "light",
+								}}
+							/>
+						) : null}
+						<Icon
+							icon={"icon-[gg--select]"}
+							variant={{
+								size: "xl",
+							}}
+							css={{
+								base: [
+									!isOpen && "text-slate-400",
+									isOpen && "text-slate-600",
+									"group-hover:text-slate-600",
+								],
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 			{isMounted && (
@@ -186,9 +229,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 									ref={(node) => {
 										listRef.current[i] = node;
 									}}
-									role={"option"}
 									tabIndex={i === activeIndex ? 0 : -1}
-									aria-selected={i === selectedIndex && i === activeIndex}
 									className={tv.item({
 										selected: i === selectedIndex,
 										active: i === activeIndex,
@@ -203,7 +244,10 @@ export const Select = <TItem extends IdentitySchema.Type>({
 												handleSelect(i);
 											}
 
-											if (event.key === " " && !isTypingRef.current) {
+											if (
+												event.key === " " &&
+												!isTypingRef.current
+											) {
 												event.preventDefault();
 												handleSelect(i);
 											}
@@ -214,7 +258,9 @@ export const Select = <TItem extends IdentitySchema.Type>({
 									{i === selectedIndex && (
 										<Icon
 											icon={"icon-[basil--check-outline]"}
-											variant={{ size: "xl" }}
+											variant={{
+												size: "xl",
+											}}
 										/>
 									)}
 								</div>

@@ -1,5 +1,5 @@
 import type { linkTo } from "@use-pico/common";
-import { useCallback, useEffect, useState, type FC } from "react";
+import { type FC, useCallback, useEffect, useState } from "react";
 import { Button } from "../button/Button";
 import { TrashIcon } from "../icon/TrashIcon";
 import { Tx } from "../tx/Tx";
@@ -35,36 +35,60 @@ export const DropZone: FC<DropZone.Props> = ({
 }) => {
 	const children = useCallback<NonNullable<JustDropZone.Props["children"]>>(
 		({ files, clear, remove }) => {
+			// biome-ignore lint/correctness/useHookAtTopLevel: Inside a component
 			const [count, setCount] = useState(files.length);
 
+			// biome-ignore lint/correctness/useHookAtTopLevel: Inside a component
 			const $onStart = useCallback<NonNullable<useUpload.onStart>>(
 				async (event) => {
 					return onStart?.(event);
 				},
-				[onStart],
+				[
+					onStart,
+				],
 			);
+
+			// biome-ignore lint/correctness/useHookAtTopLevel: Inside a component
 			const $onFinish = useCallback<NonNullable<useUpload.onFinish>>(
 				async (event) => {
 					remove(event.file);
 					setCount((prev) => prev - 1);
 					return onFinish?.(event);
 				},
-				[onFinish],
+				[
+					remove,
+					onFinish,
+				],
 			);
+
+			// biome-ignore lint/correctness/useHookAtTopLevel: Inside a component
 			const $onError = useCallback<() => void>(() => {
 				setCount((prev) => prev - 1);
 			}, []);
 
+			// biome-ignore lint/correctness/useHookAtTopLevel: Inside a component
 			useEffect(() => {
 				if (count <= 0) {
 					clear();
 					onCompleted?.();
 				}
-			}, [count]);
+			}, [
+				onCompleted,
+				clear,
+				count,
+			]);
 
 			return (
-				<div className={"flex flex-col items-center justify-center h-full"}>
-					<div className={"flex flex-col items-center justify-center h-full"}>
+				<div
+					className={
+						"flex flex-col items-center justify-center h-full"
+					}
+				>
+					<div
+						className={
+							"flex flex-col items-center justify-center h-full"
+						}
+					>
 						{files.map((file) => {
 							return (
 								<Upload
@@ -83,7 +107,9 @@ export const DropZone: FC<DropZone.Props> = ({
 					<div>
 						<Button
 							iconEnabled={TrashIcon}
-							variant={{ variant: "subtle" }}
+							variant={{
+								variant: "subtle",
+							}}
 							onClick={() => {
 								clear();
 							}}
@@ -94,13 +120,15 @@ export const DropZone: FC<DropZone.Props> = ({
 				</div>
 			);
 		},
-		[path, chunkHref, commitHref],
+		[
+			onStart,
+			onCompleted,
+			onFinish,
+			path,
+			chunkHref,
+			commitHref,
+		],
 	);
 
-	return (
-		<JustDropZone
-			{...props}
-			children={children}
-		/>
-	);
+	return <JustDropZone {...props}>{children}</JustDropZone>;
 };

@@ -1,6 +1,6 @@
 import type { CountSchema, CursorSchema, FilterSchema } from "@use-pico/common";
-import { type SelectQueryBuilder } from "kysely";
-import { z } from "zod";
+import type { SelectQueryBuilder } from "kysely";
+import type { z } from "zod";
 import type { EnsureOutput } from "./EnsureOutput";
 import { withCount } from "./withCount";
 import { withList } from "./withList";
@@ -41,7 +41,7 @@ export namespace withListCount {
 	>;
 
 	export interface Result<TData> {
-		data: TData[];
+		list: TData[];
 		count: CountSchema.Type;
 	}
 
@@ -69,7 +69,7 @@ export const withListCount = async <
 	withListCount.Result<z.infer<TOutputSchema>>
 > => {
 	return {
-		data: await withList({
+		list: await withList({
 			select,
 			output,
 			where,

@@ -57,7 +57,9 @@ export const withList = async <
 		let $select = select;
 
 		if (cursor) {
-			$select = select.limit(cursor.size).offset(cursor.page * cursor.size);
+			$select = select
+				.limit(cursor.size)
+				.offset(cursor.page * cursor.size);
 		}
 
 		return $select as TSelect;

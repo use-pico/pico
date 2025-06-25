@@ -1,4 +1,8 @@
-export function hexToRGB(hex: string): { r: number; g: number; b: number } {
+export function hexToRGB(hex: string): {
+	r: number;
+	g: number;
+	b: number;
+} {
 	if (!/^#[0-9A-Fa-f]{6}$/gu.test(hex)) {
 		throw new Error("Invalid hex format. Expected format: #RRGGBB");
 	}

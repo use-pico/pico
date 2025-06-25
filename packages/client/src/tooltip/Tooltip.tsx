@@ -1,9 +1,9 @@
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Float } from "../float/Float";
-import { TooltipCss } from "./TooltipCss";
+import { TooltipCls } from "./TooltipCls";
 
 export namespace Tooltip {
-	export interface Props extends TooltipCss.Props<PropsWithChildren> {
+	export interface Props extends TooltipCls.Props<PropsWithChildren> {
 		target: ReactNode;
 	}
 }
@@ -13,9 +13,12 @@ export const Tooltip: FC<Tooltip.Props> = ({
 	children,
 	variant,
 	css,
-	tva = TooltipCss,
+	tva = TooltipCls,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const tv = tva({
+		...variant,
+		css,
+	}).slots;
 
 	return (
 		<Float

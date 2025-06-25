@@ -1,4 +1,4 @@
-import {preferredLocale} from "preferred-locale";
+import { preferredLocale } from "preferred-locale";
 
 /**
  * Extract preferred locale from the available locales and fallback locale.
@@ -21,12 +21,7 @@ export namespace localeOf {
 	}
 }
 
-export const localeOf = (
-	{
-		available,
-		fallback
-	}: localeOf.Props
-) => {
+export const localeOf = ({ available, fallback }: localeOf.Props) => {
 	return preferredLocale(fallback, available, {
 		languageOnly: true,
 	});

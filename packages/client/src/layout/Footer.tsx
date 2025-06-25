@@ -1,7 +1,7 @@
-import { type FC } from "react";
+import type { FC } from "react";
 
 export namespace Footer {
-	export interface Props {}
+	export type Props = {};
 }
 
 export const Footer: FC<Footer.Props> = () => {

@@ -16,7 +16,7 @@ export namespace useLoop {
 	}
 
 	export namespace onFinish {
-		export interface Props {}
+		export type Props = {};
 	}
 
 	export interface Props {
@@ -68,12 +68,18 @@ export const useLoop = ({
 		});
 		(async () => {
 			try {
-				await onStart({ total });
+				await onStart({
+					total,
+				});
 			} catch (e) {
 				console.error(e);
 			}
 		})();
-	}, []);
+	}, [
+		onStart,
+		isRunning,
+		total,
+	]);
 
 	useEffect(() => {
 		if (!isRunning) {
@@ -121,7 +127,15 @@ export const useLoop = ({
 					onError(e);
 				});
 		}, throttle);
-	}, [isRunning, current]);
+	}, [
+		onTick,
+		onFinish,
+		onError,
+		isRunning,
+		current,
+		throttle,
+		total,
+	]);
 
 	return {
 		isDone,

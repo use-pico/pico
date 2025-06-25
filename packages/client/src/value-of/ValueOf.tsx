@@ -1,9 +1,9 @@
-import { useContext, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode, useContext } from "react";
 import { InlineContext } from "../context/InlineContext";
-import { ValueOfCss } from "./ValueOfCss";
+import { ValueOfCls } from "./ValueOfCls";
 
 export namespace ValueOf {
-	export interface Props extends ValueOfCss.Props {
+	export interface Props extends ValueOfCls.Props {
 		inline?: boolean;
 		label?: ReactNode;
 		value: ReactNode;
@@ -15,19 +15,21 @@ export const ValueOf: FC<ValueOf.Props> = ({
 	label,
 	value,
 	variant,
-	tva = ValueOfCss,
+	tva = ValueOfCls,
 	css,
 }) => {
 	const inlineStore = useContext(InlineContext);
 	const isInline = inline ?? inlineStore?.inline;
-	const tv = tva({ inline: isInline, ...variant, css }).slots;
+	const { slots } = tva({
+		inline: isInline,
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			{label ?
-				<div className={tv.label()}>{label}</div>
-			:	null}
-			<div className={tv.value()}>{value}</div>
+		<div className={slots.base()}>
+			{label ? <div className={slots.label()}>{label}</div> : null}
+			<div className={slots.value()}>{value}</div>
 		</div>
 	);
 };

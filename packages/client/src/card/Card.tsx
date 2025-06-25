@@ -1,8 +1,8 @@
-import type { Entity, css } from "@use-pico/common";
+import type { cls, Entity } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { ValueOf } from "../value-of/ValueOf";
-import { CardCss } from "./CardCss";
+import { CardCls } from "./CardCls";
 
 /**
  * Renders details of a given entity.
@@ -30,7 +30,7 @@ import { CardCss } from "./CardCss";
  */
 export namespace Card {
 	export interface Item<TValues extends Record<string, any>>
-		extends css.Extract<ValueOf.Props> {
+		extends cls.Extract<ValueOf.Props> {
 		id: string;
 		label?: ReactNode;
 		render: FC<Entity.Type<TValues>>;
@@ -42,7 +42,7 @@ export namespace Card {
 	 * @template TSchema Entity schema used to render the card.
 	 */
 	export interface Props<TValues extends Record<string, any>>
-		extends CardCss.Props<Entity.Type<TValues>> {
+		extends CardCls.Props<Entity.Type<TValues>> {
 		/**
 		 * Items to render in the card using specified schema.
 		 */
@@ -69,15 +69,23 @@ export const Card = <TValues extends Record<string, any>>({
 	valueOfProps,
 	entity,
 	variant,
-	tva = CardCss,
+	tva = CardCls,
 	css,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const tv = tva({ inline, ...variant, css }).slots;
+	const { slots } = tva({
+		inline,
+		...variant,
+		css,
+	});
 
 	return (
-		<InlineContext.Provider value={{ inline }}>
-			<div className={tv.base()}>
+		<InlineContext.Provider
+			value={{
+				inline,
+			}}
+		>
+			<div className={slots.base()}>
 				{items
 					.filter(({ id }) => !hidden.includes(id))
 					.map(({ id, render: Render, ...props }) => {

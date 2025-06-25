@@ -25,7 +25,13 @@ export default defineConfig({
 		wasm(),
 		tailwindcss(),
 	],
-	worker: { format: "es", plugins: () => [paths(), wasm()] },
+	worker: {
+		format: "es",
+		plugins: () => [
+			paths(),
+			wasm(),
+		],
+	},
 	server: {
 		strictPort: true,
 		port: 4044,
@@ -34,6 +40,12 @@ export default defineConfig({
 			"Cross-Origin-Embedder-Policy": "require-corp",
 		},
 	},
-	build: { target: "esnext" },
-	optimizeDeps: { exclude: ["sqlocal"] },
+	build: {
+		target: "esnext",
+	},
+	optimizeDeps: {
+		exclude: [
+			"sqlocal",
+		],
+	},
 });

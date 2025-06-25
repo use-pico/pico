@@ -1,3 +1,4 @@
+import { useRouter } from "@tanstack/react-router";
 import {
 	cleanOf,
 	ErrorSchema,
@@ -43,6 +44,7 @@ export const onSubmit = <TShapeSchema extends ShapeSchema>({
 		return cleanup();
 	},
 }: onSubmit.Props<TShapeSchema>) => {
+	const router = useRouter();
 	const submit = form.handleSubmit(async (values) => {
 		return mutation
 			.mutateAsync(
@@ -53,7 +55,10 @@ export const onSubmit = <TShapeSchema extends ShapeSchema>({
 					},
 				}),
 				{
-					onError: (error) => {
+					onSuccess() {
+						router.invalidate();
+					},
+					onError(error) {
 						withErrors({
 							error,
 							errors: [
@@ -67,7 +72,8 @@ export const onSubmit = <TShapeSchema extends ShapeSchema>({
 									},
 								}),
 							],
-							onError: (error) => {
+							onError(error) {
+								console.log("Error", error);
 								form.setError("root", {
 									message: error.message,
 								});

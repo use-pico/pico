@@ -6,6 +6,6 @@ export const withFloatSchema = () => {
 		z
 			.string()
 			.transform((value) => parseFloat(value))
-			.refine((value) => !isNaN(value)),
+			.refine((value) => !Number.isNaN(value)),
 	]);
 };

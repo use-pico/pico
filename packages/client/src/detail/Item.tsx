@@ -1,35 +1,26 @@
 import type { FC } from "react";
-import { DetailCss } from "./DetailCss";
+import type { DetailCls } from "./DetailCls";
 import { Value } from "./Value";
 
 export namespace Item {
-	export interface Props extends DetailCss.Props {
+	export interface Props {
 		id: string;
-		value: Value.Props[];
+		value: Omit<Value.Props, "slots">[];
+		slots: DetailCls.Slots;
 	}
 }
 
-export const Item: FC<Item.Props> = ({
-	id: itemId,
-	value,
-	variant,
-	tva = DetailCss,
-	css,
-}) => {
-	const tv = tva({ ...variant, css }).slots;
-
+export const Item: FC<Item.Props> = ({ id: itemId, value, slots }) => {
 	return (
 		<div
 			key={`detail-section-item-${itemId}`}
-			className={tv.item()}
+			className={slots.item()}
 		>
 			{value.map(({ id, ...props }) => (
 				<Value
 					key={`item-value-${itemId}-${id}`}
 					id={`${itemId}-${id}`}
-					variant={variant}
-					tva={tva}
-					css={css}
+					slots={slots}
 					{...props}
 				/>
 			))}

@@ -1,16 +1,17 @@
 import type { ReactNode } from "@tanstack/react-router";
 import type { FC } from "react";
 import { Icon } from "../icon/Icon";
-import { DetailCss } from "./DetailCss";
+import type { DetailCls } from "./DetailCls";
 import { Item } from "./Item";
 
 export namespace Section {
-	export interface Props extends DetailCss.Props {
+	export interface Props {
 		id: string;
 		icon?: string;
 		title: ReactNode;
 		hidden?: boolean;
-		item: Item.Props[];
+		item: Omit<Item.Props, "slots">[];
+		slots: DetailCls.Slots;
 	}
 }
 
@@ -20,32 +21,26 @@ export const Section: FC<Section.Props> = ({
 	title,
 	hidden = false,
 	item,
-	variant,
-	tva = DetailCss,
-	css,
+	slots,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
-
 	return hidden ? null : (
-			<fieldset
-				key={`section-${sectionId}`}
-				className={tv.section()}
-			>
-				<legend className={tv.legend()}>
-					{icon && <Icon icon={icon} />}
-					{title}
-				</legend>
+		<fieldset
+			key={`section-${sectionId}`}
+			className={slots.section()}
+		>
+			<legend className={slots.legend()}>
+				{icon && <Icon icon={icon} />}
+				{title}
+			</legend>
 
-				{item.map(({ id, ...props }) => (
-					<Item
-						key={`section-${sectionId}-item-${id}`}
-						id={`${sectionId}-${id}`}
-						variant={variant}
-						tva={tva}
-						css={css}
-						{...props}
-					/>
-				))}
-			</fieldset>
-		);
+			{item.map(({ id, ...props }) => (
+				<Item
+					key={`section-${sectionId}-item-${id}`}
+					id={`${sectionId}-${id}`}
+					slots={slots}
+					{...props}
+				/>
+			))}
+		</fieldset>
+	);
 };

@@ -2,11 +2,11 @@ import { isString } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
-import { ActionModalCss } from "./ActionModalCss";
+import { ActionModalCls } from "./ActionModalCls";
 
 export namespace ActionModal {
 	export interface Props
-		extends ActionModalCss.Props<Omit<Modal.Props, "target">> {
+		extends ActionModalCls.Props<Omit<Modal.Props, "target">> {
 		iconProps?: Icon.Props;
 		label: ReactNode;
 		disabled?: boolean;
@@ -21,29 +21,41 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	disabled = false,
 	hidden = false,
 	variant,
-	tva = ActionModalCss,
+	tva = ActionModalCls,
 	css,
 	...props
 }) => {
-	const tv = tva({ ...variant, disabled, css }).slots;
+	const tv = tva({
+		...variant,
+		disabled,
+		css,
+	}).slots;
 
 	return hidden ? null : (
-			<div className={tv.base()}>
-				{isString(icon) ?
-					<Icon
-						icon={icon}
-						{...iconProps}
-					/>
-				:	icon}
-				<Modal
-					icon={icon}
-					target={label}
-					disabled={disabled}
-					css={{
-						modal: ["w-1/2"],
-					}}
-					{...props}
-				/>
-			</div>
-		);
+		<div className={tv.base()}>
+			<Modal
+				icon={icon}
+				target={
+					<div className={"flex flex-row gap-2 items-center"}>
+						{isString(icon) ? (
+							<Icon
+								icon={icon}
+								{...iconProps}
+							/>
+						) : (
+							icon
+						)}
+						{label}
+					</div>
+				}
+				disabled={disabled}
+				css={{
+					modal: [
+						"w-2/3",
+					],
+				}}
+				{...props}
+			/>
+		</div>
+	);
 };

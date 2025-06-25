@@ -1,33 +1,47 @@
 import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-    type SetStateAction,
+	type SetStateAction,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
 } from "react";
 
 export function useDebounce<T = any>(
 	defaultValue: T,
 	callback: (value: T) => void,
 	wait: number,
-	options = { leading: false },
+	options = {
+		leading: false,
+	},
 ) {
 	const [debounced, setDebounced] = useState(defaultValue);
 	const [value, setValue] = useState(defaultValue);
 	const timeoutRef = useRef<number | null>(null);
 	const leadingRef = useRef(true);
 
-	const clearTimeout = () =>
-		window.clearTimeout(timeoutRef.current || undefined);
-	useEffect(() => clearTimeout, []);
+	const clearTimeout = useCallback(
+		() => window.clearTimeout(timeoutRef.current || undefined),
+		[],
+	);
+	useEffect(
+		() => clearTimeout,
+		[
+			clearTimeout,
+		],
+	);
 
 	useEffect(() => {
 		callback(debounced);
-	}, [debounced]);
+	}, [
+		callback,
+		debounced,
+	]);
 	useEffect(() => {
 		setValue(defaultValue);
 		setDebounced(defaultValue);
-	}, [defaultValue]);
+	}, [
+		defaultValue,
+	]);
 
 	const debouncedSetValue = useCallback(
 		(newValue: SetStateAction<T>) => {
@@ -43,8 +57,15 @@ export function useDebounce<T = any>(
 			}
 			leadingRef.current = false;
 		},
-		[options.leading],
+		[
+			wait,
+			clearTimeout,
+			options.leading,
+		],
 	);
 
-	return [value, debouncedSetValue] as const;
+	return [
+		value,
+		debouncedSetValue,
+	] as const;
 }

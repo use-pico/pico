@@ -1,23 +1,18 @@
 {
-	"version": "5.0.11",
 	"name": "@use-pico/eslint-config-eslint",
-	"main": "index.js",
+	"version": "5.0.11",
 	"type": "module",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/use-pico/pico.git"
-	},
 	"peerDependencies": {
-		"@eslint/js": "9.22.0",
-		"typescript-eslint": "8.26.1"
+		"@eslint/js": "9.29.0",
+		"typescript-eslint": "8.35.0"
 	},
 	"devDependencies": {
-		"eslint": "9.22.0",
-		"typescript": "5.8.2"
+		"eslint": "9.29.0",
+		"typescript": "5.8.3"
 	},
-	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
-	},
-	"homepage": "https://github.com/use-pico/pico#readme"
+	"main": "index.js",
+	"license": "MIT",
+	"repository": "use-pico/pico.git",
+	"homepage": "https://github.com/use-pico/pico#readme",
+	"bugs": "https://github.com/use-pico/pico/issues"
 }

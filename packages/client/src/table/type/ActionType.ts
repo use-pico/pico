@@ -1,9 +1,11 @@
 import type { FC } from "react";
 import type { DataType } from "./DataType";
+import type { SelectionType } from "./SelectionType";
 
 export namespace ActionType {
 	export namespace Table {
 		export interface Props<TContext = any> {
+			selection?: SelectionType.Selection;
 			context?: TContext;
 		}
 

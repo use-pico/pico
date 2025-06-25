@@ -2,7 +2,12 @@
  * Converts HSLA color values to RGBA
  * @returns RGBA array [r, g, b, a] where RGB and alpha are 0-255
  */
-export const hslaToRgba = ([h, s, l, a]: [number, number, number, number]): [
+export const hslaToRgba = ([h, s, l, a]: [
+	number,
+	number,
+	number,
+	number,
+]): [
 	number,
 	number,
 	number,

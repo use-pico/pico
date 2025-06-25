@@ -1,4 +1,4 @@
-import { useQueryClient, type QueryKey } from "@tanstack/react-query";
+import { type QueryKey, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { invalidator } from "./invalidator";
 
@@ -25,7 +25,10 @@ export const useInvalidator = (
 				queryClient,
 			});
 		} finally {
-			route && (await router.invalidate({ sync: true }));
+			route &&
+				(await router.invalidate({
+					sync: true,
+				}));
 		}
 	};
 };

@@ -1,1 +1,1 @@
-export const UnCheckIcon = "icon-[material-symbols-light--close-small]";
+export const UnCheckIcon = "icon-[ei--close-o]";

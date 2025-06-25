@@ -1,6 +1,6 @@
 import type { FilterSchema } from "@use-pico/common";
 import type { SelectQueryBuilder } from "kysely";
-import { z } from "zod";
+import type { z } from "zod";
 import type { EnsureOutput } from "./EnsureOutput";
 
 export namespace withFetch {

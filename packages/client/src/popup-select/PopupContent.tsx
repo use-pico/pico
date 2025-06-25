@@ -1,15 +1,15 @@
-import { type UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import type { IdentitySchema } from "@use-pico/common";
-import { useContext, type FC } from "react";
+import { type FC, useContext } from "react";
 import { ModalContext } from "../modal/ModalContext";
 import type { withListCount } from "../source/withListCount";
-import type { Table } from "../table/Table";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
+import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
-import { PopupSelectCss } from "./PopupSelectCss";
+import { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace PopupContent {
-	export interface Props extends PopupSelectCss.Props {
+	export interface Props extends PopupSelectCls.Props {
 		table: FC<Table.PropsEx<any>>;
 
 		/**
@@ -17,7 +17,10 @@ export namespace PopupContent {
 		 */
 		useLocalStore: createLocalTableStore.Store;
 
-		result: UseQueryResult<withListCount.Result<IdentitySchema.Type>, Error>;
+		result: UseQueryResult<
+			withListCount.Result<IdentitySchema.Type>,
+			Error
+		>;
 
 		onChange(value: string | null): void;
 		/**
@@ -37,7 +40,7 @@ export const PopupContent: FC<PopupContent.Props> = ({
 	onSelect,
 
 	variant,
-	tva = PopupSelectCss,
+	tva = PopupSelectCls,
 	css,
 }) => {
 	const page = useLocalStore((state) => state.page);
@@ -52,29 +55,30 @@ export const PopupContent: FC<PopupContent.Props> = ({
 	const useModal = useContext(ModalContext);
 	const close = useModal((state) => state.close);
 
-	const tv = tva({
+	const { slots } = tva({
 		...variant,
 		css,
-	}).slots;
+	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.content()}>
+		<div className={slots.base()}>
+			<div className={slots.content()}>
 				<Table
 					cursor={{
 						cursor: {
 							page,
 							size,
 						},
-						count:
-							result.data?.count ?
-								result.data.count
-							:	{
+						count: result.data?.count
+							? result.data.count
+							: {
 									filter: -1,
 									total: -1,
 									where: -1,
 								},
-						textTotal: <Tx label={"Total count of items (label)"} />,
+						textTotal: (
+							<Tx label={"Total count of items (label)"} />
+						),
 						onPage(page) {
 							setPage(page);
 						},
@@ -90,7 +94,7 @@ export const PopupContent: FC<PopupContent.Props> = ({
 							setPage(0);
 						},
 					}}
-					data={result.data?.data}
+					data={result.data?.list}
 					selection={{
 						type: "single",
 						state: {

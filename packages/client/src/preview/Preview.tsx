@@ -1,7 +1,7 @@
-import { tvc, type Entity } from "@use-pico/common";
+import { type Entity, tvc } from "@use-pico/common";
 import type { FC } from "react";
 import { InlineContext } from "../context/InlineContext";
-import { PreviewCss } from "./PreviewCss";
+import { PreviewCls } from "./PreviewCls";
 
 export namespace Preview {
 	export type RenderProps<TValues extends Record<string, any>> = FC<
@@ -9,7 +9,7 @@ export namespace Preview {
 	>;
 
 	export interface Props<TValues extends Record<string, any>>
-		extends PreviewCss.Props<Entity.Type<TValues>> {
+		extends PreviewCls.Props<Entity.Type<TValues>> {
 		/**
 		 * Title section (left-top)
 		 */
@@ -38,32 +38,32 @@ export const Preview = <TValues extends Record<string, any>>({
 	actions: Actions,
 	extra: Extra,
 	variant,
-	tva = PreviewCss,
+	tva = PreviewCls,
 	css,
 }: Preview.Props<TValues>) => {
-	const tv = tva({
+	const { slots } = tva({
 		...variant,
 		css,
-	}).slots;
+	});
 	return (
-		<InlineContext.Provider value={{ inline: true }}>
-			<div className={tv.base()}>
-				{Title || Links ?
-					<div className={tv.container()}>
-						<div className={tv.title()}>
-							{Title ?
-								<Title entity={entity} />
-							:	null}
+		<InlineContext.Provider
+			value={{
+				inline: true,
+			}}
+		>
+			<div className={slots.base()}>
+				{Title || Links ? (
+					<div className={slots.container()}>
+						<div className={slots.title()}>
+							{Title ? <Title entity={entity} /> : null}
 						</div>
-						<div className={tv.links()}>
-							{Links ?
-								<Links entity={entity} />
-							:	null}
+						<div className={slots.links()}>
+							{Links ? <Links entity={entity} /> : null}
 						</div>
 					</div>
-				:	null}
+				) : null}
 
-				{(Title || Links) && (Actions || Extra) ?
+				{(Title || Links) && (Actions || Extra) ? (
 					<div
 						className={tvc([
 							"w-full",
@@ -71,22 +71,18 @@ export const Preview = <TValues extends Record<string, any>>({
 							"border-(--color-separator)",
 						])}
 					/>
-				:	null}
+				) : null}
 
-				{Actions || Extra ?
-					<div className={tv.container()}>
-						<div className={tv.actions()}>
-							{Actions ?
-								<Actions entity={entity} />
-							:	null}
+				{Actions || Extra ? (
+					<div className={slots.container()}>
+						<div className={slots.actions()}>
+							{Actions ? <Actions entity={entity} /> : null}
 						</div>
-						<div className={tv.extra()}>
-							{Extra ?
-								<Extra entity={entity} />
-							:	null}
+						<div className={slots.extra()}>
+							{Extra ? <Extra entity={entity} /> : null}
 						</div>
 					</div>
-				:	null}
+				) : null}
 			</div>
 		</InlineContext.Provider>
 	);

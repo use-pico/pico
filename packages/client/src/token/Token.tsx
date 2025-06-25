@@ -1,4 +1,4 @@
-import { type FC, type PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 import { TokenInline } from "./TokenInline";
@@ -14,7 +14,10 @@ export namespace Token {
 		/**
 		 * Required token(s).
 		 */
-		tokens: [string, ...string[]];
+		tokens: [
+			string,
+			...string[],
+		];
 		source: string[];
 		mode?: useToken.Mode;
 		error?:
@@ -32,53 +35,67 @@ export const Token: FC<Token.Props> = ({
 	error = true,
 	children,
 }) => {
-	const result = useToken({ tokens, source, mode });
+	const result = useToken({
+		tokens,
+		source,
+		mode,
+	});
 
-	const Error: Token.Props["error"] =
-		error === true ?
-			({ result }) => (
-				<Status
-					icon={"icon-[ph--lock]"}
-					textTitle={
-						mode === "any" ?
-							<Tx label={"Missing any token(s). (title)"} />
-						:	<Tx label={"Missing required token(s). (title)"} />
-					}
-					textMessage={
-						mode === "any" ?
-							<Tx label={"Missing any token(s). (message)"} />
-						:	<Tx label={"Missing required token(s). (message)"} />
-					}
-				>
-					{!result.success && (
-						<div
-							className={
-								"flex flex-col items-center gap-2 border-t border-slate-200 p-4 mt-4"
-							}
-						>
-							{result.missing.map((token) => (
-								<div
-									key={`missing-token-${token}`}
-									className={
-										"rounded-2xl bg-amber-300 border border-amber-400 text-amber-900 px-2 py-1 my-1"
+	const ErrorComponent: Token.Props["error"] =
+		error === true
+			? ({ result }) => (
+					<Status
+						icon={"icon-[ph--lock]"}
+						textTitle={
+							mode === "any" ? (
+								<Tx label={"Missing any token(s). (title)"} />
+							) : (
+								<Tx
+									label={"Missing required token(s). (title)"}
+								/>
+							)
+						}
+						textMessage={
+							mode === "any" ? (
+								<Tx label={"Missing any token(s). (message)"} />
+							) : (
+								<Tx
+									label={
+										"Missing required token(s). (message)"
 									}
-								>
-									<TokenInline
-										entity={{
-											token,
-										}}
-									/>
-								</div>
-							))}
-						</div>
-					)}
-				</Status>
-			)
-		:	error;
+								/>
+							)
+						}
+					>
+						{!result.success && (
+							<div
+								className={
+									"flex flex-col items-center gap-2 border-t border-slate-200 p-4 mt-4"
+								}
+							>
+								{result.missing.map((token) => (
+									<div
+										key={`missing-token-${token}`}
+										className={
+											"rounded-2xl bg-amber-300 border border-amber-400 text-amber-900 px-2 py-1 my-1"
+										}
+									>
+										<TokenInline
+											entity={{
+												token,
+											}}
+										/>
+									</div>
+								))}
+							</div>
+						)}
+					</Status>
+				)
+			: error;
 
-	return (
-		result.success ? <>{children}</>
-		: Error ? <Error result={result} />
-		: null
-	);
+	return result.success ? (
+		children
+	) : ErrorComponent ? (
+		<ErrorComponent result={result} />
+	) : null;
 };

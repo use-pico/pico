@@ -3,7 +3,7 @@ import { CheckIcon } from "../icon/CheckIcon";
 import { Icon } from "../icon/Icon";
 import { UnCheckIcon } from "../icon/UnCheckIcon";
 import { UndefinedIcon } from "../icon/UndefinedIcon";
-import { BoolInlineCss } from "./BoolInlineCss";
+import { BoolInlineCls } from "./BoolInlineCls";
 
 /**
  * Renders icon based on a boolean value.
@@ -25,7 +25,7 @@ export namespace BoolInline {
 	/**
 	 * Props for BoolInline component.
 	 */
-	export interface Props extends BoolInlineCss.Props<Icon.PropsEx> {
+	export interface Props extends BoolInlineCls.Props<Icon.PropsEx> {
 		/**
 		 * Input boolean value.
 		 */
@@ -50,7 +50,8 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	checkIcon = CheckIcon,
 	unCheckIcon = UnCheckIcon,
 	undefinedIcon = UndefinedIcon,
-	tva = BoolInlineCss,
+	tva = BoolInlineCls,
+	css,
 	...props
 }) => {
 	if (value === null || value === undefined) {
@@ -65,7 +66,13 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	return (
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
-			tva={(values) => tva({ ...values, value })}
+			tva={(values) =>
+				tva({
+					...values,
+					value,
+					css,
+				})
+			}
 			{...props}
 		/>
 	);

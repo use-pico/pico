@@ -1,9 +1,9 @@
-import { useContext, type FC, type PropsWithChildren } from "react";
-import { TabCss } from "./TabCss";
+import { type FC, type PropsWithChildren, useContext } from "react";
+import { TabCls } from "./TabCls";
 import { TabsContext } from "./TabsContext";
 
 export namespace Tab {
-	export interface Props extends TabCss.Props<PropsWithChildren> {
+	export interface Props extends TabCls.Props<PropsWithChildren> {
 		tab: string;
 	}
 }
@@ -11,20 +11,25 @@ export namespace Tab {
 export const Tab: FC<Tab.Props> = ({
 	tab,
 	variant,
-	tva = TabCss,
+	tva = TabCls,
 	css,
 	children,
 }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const tv = tva({ active: tab === store.tab, ...variant, css }).slots;
-	return store.hidden.includes(tab) ?
-			null
-		:	<div
-				className={tv.base()}
-				onClick={() => store.setCurrent(tab)}
-			>
-				{children}
-			</div>;
+	const { slots } = tva({
+		active: tab === store.tab,
+		...variant,
+		css,
+	});
+
+	return store.hidden.includes(tab) ? null : (
+		<div
+			className={slots.base()}
+			onClick={() => store.setCurrent(tab)}
+		>
+			{children}
+		</div>
+	);
 };

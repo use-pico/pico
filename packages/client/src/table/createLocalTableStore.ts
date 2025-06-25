@@ -38,19 +38,27 @@ export const createLocalTableStore = ({
 	return create<createLocalTableStore.Instance>((set) => ({
 		page: defaultPage,
 		setPage(page) {
-			set({ page });
+			set({
+				page,
+			});
 		},
 		size: defaultSize,
 		setSize(size) {
-			set({ size });
+			set({
+				size,
+			});
 		},
 		selection: defaultSelection,
 		setSelection(selection) {
-			set({ selection });
+			set({
+				selection,
+			});
 		},
 		fulltext: defaultFulltext,
 		setFulltext(fulltext) {
-			set({ fulltext });
+			set({
+				fulltext,
+			});
 		},
 	}));
 };

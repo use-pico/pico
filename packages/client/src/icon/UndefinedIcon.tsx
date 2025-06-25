@@ -1,1 +1,1 @@
-export const UndefinedIcon = "icon-[material-symbols-light--check-indeterminate-small]";
+export const UndefinedIcon = "icon-[ei--minus]";

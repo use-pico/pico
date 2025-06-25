@@ -1,9 +1,9 @@
 import { translator } from "@use-pico/common";
-import { useState, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode, useState } from "react";
 import * as dropzone from "react-dropzone";
 import { Icon } from "../icon/Icon";
 import { UploadIcon } from "../icon/UploadIcon";
-import { JustDropZoneCss } from "./JustDropZoneCss";
+import { JustDropZoneCls } from "./JustDropZoneCls";
 
 const { useDropzone } = dropzone;
 
@@ -12,7 +12,7 @@ export namespace JustDropZone {
 	export type OnError = (error: Error) => void;
 
 	export interface Props
-		extends JustDropZoneCss.Props<dropzone.DropzoneOptions> {
+		extends JustDropZoneCls.Props<dropzone.DropzoneOptions> {
 		id?: string;
 		textTile?: ReactNode;
 		textMessage?: ReactNode;
@@ -20,7 +20,10 @@ export namespace JustDropZone {
 		 * Renders, when file(s) is dropped.
 		 */
 		children?: FC<{
-			files: [File, ...File[]];
+			files: [
+				File,
+				...File[],
+			];
 			clear(): void;
 			remove(file: File): void;
 		}>;
@@ -33,7 +36,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	textTile,
 	textMessage,
 	variant,
-	tva = JustDropZoneCss,
+	tva = JustDropZoneCls,
 	css,
 	children: Children,
 	onDropAccepted,
@@ -58,48 +61,55 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const tv = tva({
+	const { slots } = tva({
 		active: isDragActive,
 		rejected: isDragReject,
 		...variant,
 		css,
-	}).slots;
+	});
 
 	return (
 		<div
 			{...getRootProps()}
-			className={tv.base()}
+			className={slots.base()}
 		>
-			{Children && files && files.length > 0 ?
-				<div className={tv.content()}>
-					<Children
-						/**
-						 * Cast to array of files, we're sure at least one file is selected.
-						 */
-						files={files as [File, ...File[]]}
-						clear={() => {
-							setFiles([]);
-						}}
-						remove={(file) => {
-							setFiles(files.filter((f) => f !== file));
-						}}
-					/>
-				</div>
-			:	<label
+			{Children && files && files.length > 0 ? (
+				<Children
+					/**
+					 * Cast to array of files, we're sure at least one file is selected.
+					 */
+					files={
+						files as [
+							File,
+							...File[],
+						]
+					}
+					clear={() => {
+						setFiles([]);
+					}}
+					remove={(file) => {
+						setFiles(files.filter((f) => f !== file));
+					}}
+				/>
+			) : (
+				<label
 					htmlFor={id}
-					className={tv.label()}
+					className={slots.label()}
 				>
-					<div className={tv.zone()}>
+					<div className={slots.zone()}>
 						<Icon
 							icon={UploadIcon}
-							variant={{ size: "4xl" }}
+							variant={{
+								size: "4xl",
+							}}
 						/>
 						<div className={"mb-2 text-sm font-semibold"}>
-							{textTile || translator.rich("Drag 'n' drop a file here")}
+							{textTile ||
+								translator.rich("Drag 'n' drop a file here")}
 						</div>
-						{textMessage ?
+						{textMessage ? (
 							<div className={"text-xs"}>{textMessage}</div>
-						:	null}
+						) : null}
 					</div>
 					<input
 						id={id}
@@ -108,7 +118,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 						{...getInputProps()}
 					/>
 				</label>
-			}
+			)}
 		</div>
 	);
 };

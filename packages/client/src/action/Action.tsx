@@ -1,7 +1,7 @@
-import { type FC, type HTMLAttributes } from "react";
+import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
-import { ActionCss } from "./ActionCss";
+import { ActionCls } from "./ActionCls";
 
 /**
  * Action, useful for creating simple actions like toolbar buttons.
@@ -33,7 +33,7 @@ export namespace Action {
 	 * All the properties used in the Action icon.
 	 */
 	export interface Props
-		extends ActionCss.Props<HTMLAttributes<HTMLDivElement>> {
+		extends ActionCls.Props<HTMLAttributes<HTMLDivElement>> {
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
@@ -58,12 +58,17 @@ export const Action: FC<Action.Props> = ({
 	loading = false,
 	onClick,
 	variant,
-	tva = ActionCss,
+	tva = ActionCls,
 	css,
 	children,
 	...props
 }) => {
-	const tv = tva({ disabled, loading, ...variant, css }).slots;
+	const tv = tva({
+		disabled,
+		loading,
+		...variant,
+		css,
+	}).slots;
 
 	return (
 		<div className={tv.base()}>
@@ -72,16 +77,21 @@ export const Action: FC<Action.Props> = ({
 				onClick={disabled ? undefined : onClick}
 				{...props}
 			>
-				{disabled ?
+				{disabled ? (
 					<Icon
-						icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
+						icon={
+							loading
+								? iconLoading
+								: (iconDisabled ?? iconEnabled)
+						}
 						{...iconProps}
 					/>
-				:	<Icon
+				) : (
+					<Icon
 						icon={loading ? iconLoading : iconEnabled}
 						{...iconProps}
 					/>
-				}
+				)}
 				{children}
 			</div>
 		</div>

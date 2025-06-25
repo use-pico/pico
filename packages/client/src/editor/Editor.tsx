@@ -1,8 +1,8 @@
 import { ListItemNode, ListNode } from "@lexical/list";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import {
-	LexicalComposer,
 	type InitialConfigType,
+	LexicalComposer,
 } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
@@ -11,7 +11,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import { tvc } from "@use-pico/common";
-import { type SerializedEditor } from "lexical";
+import type { SerializedEditor } from "lexical";
 import type { FC } from "react";
 import { ToolbarPlugin } from "./ToolbarPlugin";
 
@@ -39,20 +39,34 @@ export const Editor: FC<Editor.Props> = ({
 		editable,
 		editorState(editor) {
 			content &&
-				editor.setEditorState(editor.parseEditorState(content.editorState));
+				editor.setEditorState(
+					editor.parseEditorState(content.editorState),
+				);
 		},
 		onError() {
 			//
 		},
-		nodes: [ListNode, ListItemNode],
+		nodes: [
+			ListNode,
+			ListItemNode,
+		],
 		theme: {
 			list: {
-				ul: tvc(["list-disc", "pl-8"]),
+				ul: tvc([
+					"list-disc",
+					"pl-8",
+				]),
 			},
 			text: {
-				underline: tvc(["underline"]),
-				strikethrough: tvc(["line-through"]),
-				underlineStrikethrough: tvc(["line-through"]),
+				underline: tvc([
+					"underline",
+				]),
+				strikethrough: tvc([
+					"line-through",
+				]),
+				underlineStrikethrough: tvc([
+					"line-through",
+				]),
 			},
 		},
 	};
@@ -68,7 +82,7 @@ export const Editor: FC<Editor.Props> = ({
 					"rounded-md",
 				])}
 			>
-				{withToolbar ?
+				{withToolbar ? (
 					<div
 						className={tvc([
 							"border-b",
@@ -79,8 +93,12 @@ export const Editor: FC<Editor.Props> = ({
 					>
 						<ToolbarPlugin onSave={onSave} />
 					</div>
-				:	null}
-				<div className={tvc(["relative"])}>
+				) : null}
+				<div
+					className={tvc([
+						"relative",
+					])}
+				>
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable
@@ -92,7 +110,13 @@ export const Editor: FC<Editor.Props> = ({
 								])}
 								aria-placeholder={placeholder}
 								placeholder={
-									<div className={tvc(["absolute", "top-4", "left-4"])}>
+									<div
+										className={tvc([
+											"absolute",
+											"top-4",
+											"left-4",
+										])}
+									>
 										{placeholder}
 									</div>
 								}

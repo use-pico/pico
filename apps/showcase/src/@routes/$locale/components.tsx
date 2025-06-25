@@ -4,10 +4,17 @@ import { tvc } from "@use-pico/common";
 
 export const Route = createFileRoute("/$locale/components")({
 	component() {
-		const { locale } = useParams({ from: "/$locale" });
+		const { locale } = useParams({
+			from: "/$locale",
+		});
 
 		return (
-			<div className={tvc(["flex", "h-full"])}>
+			<div
+				className={tvc([
+					"flex",
+					"h-full",
+				])}
+			>
 				<div
 					className={tvc([
 						"flex",
@@ -34,12 +41,22 @@ export const Route = createFileRoute("/$locale/components")({
 						<Tx label={"@use-pico - Components"} />
 					</h1>
 
-					<Menu variant={{ vertical: true }}>
+					<Menu
+						variant={{
+							vertical: true,
+						}}
+					>
 						<MenuLink
-							icon={"icon-[material-symbols-light--flash-on-outline-rounded]"}
+							icon={
+								"icon-[material-symbols-light--flash-on-outline-rounded]"
+							}
 							to={"/$locale/components/action"}
-							params={{ locale }}
-							variant={{ vertical: true }}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
 						>
 							<Tx label={"Action"} />
 						</MenuLink>
@@ -47,8 +64,12 @@ export const Route = createFileRoute("/$locale/components")({
 						<MenuLink
 							icon={"icon-[proicons--badge]"}
 							to={"/$locale/components/badge"}
-							params={{ locale }}
-							variant={{ vertical: true }}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
 						>
 							<Tx label={"Badge"} />
 						</MenuLink>
@@ -56,8 +77,12 @@ export const Route = createFileRoute("/$locale/components")({
 						<MenuLink
 							icon={"icon-[teenyicons--button-outline]"}
 							to={"/$locale/components/button"}
-							params={{ locale }}
-							variant={{ vertical: true }}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
 						>
 							<Tx label={"Buttons"} />
 						</MenuLink>
@@ -65,8 +90,12 @@ export const Route = createFileRoute("/$locale/components")({
 						<MenuLink
 							icon={"icon-[lsicon--table-outline]"}
 							to={"/$locale/components/table"}
-							params={{ locale }}
-							variant={{ vertical: true }}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
 						>
 							<Tx label={"Table"} />
 						</MenuLink>
@@ -74,14 +103,24 @@ export const Route = createFileRoute("/$locale/components")({
 						<MenuLink
 							icon={"icon-[vaadin--area-select]"}
 							to={"/$locale/components/popup-select"}
-							params={{ locale }}
-							variant={{ vertical: true }}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
 						>
 							<Tx label={"Popup Select"} />
 						</MenuLink>
 					</Menu>
 				</div>
-				<div className={tvc(["flex", "flex-1", "p-4"])}>
+				<div
+					className={tvc([
+						"flex",
+						"flex-1",
+						"p-4",
+					])}
+				>
 					<Outlet />
 				</div>
 			</div>

@@ -23,22 +23,28 @@ export const withEqualFilter = ({
 }: withEqualFilter.Props): FilterType.Column<any> => {
 	return {
 		reset({ filter: filterInstance }) {
-			filterInstance.shallow({ path, value: undefined });
+			filterInstance.shallow({
+				path,
+				value: undefined,
+			});
 		},
 		is({ filter: filterInstance }) {
-			return pathOf(filterInstance.state.value || {}).get(path) !== undefined;
+			return (
+				pathOf(filterInstance.state.value || {}).get(path) !== undefined
+			);
 		},
 		component({ data, filter: filterInstance }) {
 			const isFilter =
-				pathOf(filterInstance.state.value || {}).get(path) === undefined;
+				pathOf(filterInstance.state.value || {}).get(path) ===
+				undefined;
 
-			return isFilter ?
-					<EqualFilter
-						path={path}
-						filterInstance={filterInstance}
-						value={pathOf(data).get(from)}
-					/>
-				:	null;
+			return isFilter ? (
+				<EqualFilter
+					path={path}
+					filterInstance={filterInstance}
+					value={pathOf(data).get(from)}
+				/>
+			) : null;
 		},
 	};
 };

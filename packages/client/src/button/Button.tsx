@@ -1,11 +1,11 @@
 import { type ButtonHTMLAttributes, type FC, memo, useMemo } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
-import { ButtonCss } from "./ButtonCss";
+import { ButtonCls } from "./ButtonCls";
 
 export namespace Button {
 	export interface Props
-		extends ButtonCss.Props<ButtonHTMLAttributes<HTMLButtonElement>> {
+		extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonElement>> {
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
@@ -22,7 +22,7 @@ export const Button: FC<Button.Props> = memo(
 		iconProps,
 		loading,
 		variant,
-		tva = ButtonCss,
+		tva = ButtonCls,
 		css,
 		children,
 		...props
@@ -33,26 +33,35 @@ export const Button: FC<Button.Props> = memo(
 			css,
 		}).slots;
 
-		const iconVariant = useMemo(() => ({ size: "xl" }) as const, []);
+		const iconVariant = useMemo(
+			() =>
+				({
+					size: "xl",
+				}) as const,
+			[],
+		);
 
 		return (
 			<button
 				type={"button"}
-				className={tv.base({ disabled: props.disabled })}
+				className={tv.base({
+					disabled: props.disabled,
+				})}
 				{...props}
 			>
-				{props.disabled ?
+				{props.disabled ? (
 					<Icon
 						icon={loading === true ? iconLoading : iconDisabled}
 						variant={iconVariant}
 						{...iconProps}
 					/>
-				:	<Icon
+				) : (
+					<Icon
 						icon={loading === true ? iconLoading : iconEnabled}
 						variant={iconVariant}
 						{...iconProps}
 					/>
-				}
+				)}
 				{children}
 			</button>
 		);

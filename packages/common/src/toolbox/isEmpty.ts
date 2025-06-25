@@ -1,1 +1,1 @@
-export {default as isEmpty} from "is-empty";
+export { default as isEmpty } from "is-empty";

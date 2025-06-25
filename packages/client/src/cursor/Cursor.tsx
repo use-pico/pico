@@ -1,13 +1,13 @@
 import type { ReactNode } from "@tanstack/react-router";
 import {
-	cursorOf,
 	type CountSchema,
 	type CursorSchema,
+	cursorOf,
 } from "@use-pico/common";
-import { useMemo, type FC } from "react";
+import { type FC, useMemo } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
-import { CursorCss } from "./CursorCss";
+import { CursorCls } from "./CursorCls";
 import { Pages } from "./Pages";
 import { SizeSelect } from "./SizeSelect";
 
@@ -15,7 +15,7 @@ export namespace Cursor {
 	export type OnPage = Pages.Props["onPage"];
 	export type OnSize = SizeSelect.Props["onSize"];
 
-	export interface Props extends CursorCss.Props {
+	export interface Props extends CursorCls.Props {
 		cursor: CursorSchema.Type;
 		count: CountSchema.Type;
 		textTotal: ReactNode;
@@ -31,7 +31,7 @@ export const Cursor: FC<Cursor.Props> = ({
 	onPage,
 	onSize,
 	variant,
-	tva = CursorCss,
+	tva = CursorCls,
 	css,
 }) => {
 	const $cursor = useMemo(
@@ -42,49 +42,59 @@ export const Cursor: FC<Cursor.Props> = ({
 				siblings: 1,
 				boundary: 1,
 			}),
-		[cursor.page, count.filter, cursor.size],
+		[
+			cursor.page,
+			count.filter,
+			cursor.size,
+		],
 	);
 
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			{$cursor.total > 1 ?
-				<div className={"flex items-center justify-center gap-2 text-sm"}>
-					{$cursor.start ?
+		<div className={slots.base()}>
+			{$cursor.total > 1 ? (
+				<div
+					className={"flex items-center justify-center gap-2 text-sm"}
+				>
+					{$cursor.start ? (
 						<Pages
 							page={cursor.page}
 							pages={$cursor.start}
 							onPage={onPage}
 						/>
-					:	null}
+					) : null}
 
-					{$cursor.start && $cursor.pages ?
+					{$cursor.start && $cursor.pages ? (
 						<Icon icon={DotsIcon} />
-					:	null}
+					) : null}
 
-					{$cursor.pages ?
+					{$cursor.pages ? (
 						<Pages
 							page={cursor.page}
 							pages={$cursor.pages}
 							onPage={onPage}
 						/>
-					:	null}
+					) : null}
 
-					{($cursor.pages && $cursor.end) || ($cursor.start && $cursor.end) ?
+					{($cursor.pages && $cursor.end) ||
+					($cursor.start && $cursor.end) ? (
 						<Icon icon={DotsIcon} />
-					:	null}
+					) : null}
 
-					{$cursor.end ?
+					{$cursor.end ? (
 						<Pages
 							page={cursor.page}
 							pages={$cursor.end}
 							onPage={onPage}
 						/>
-					:	null}
+					) : null}
 				</div>
-			:	null}
-			<div className={tv.sums()}>
+			) : null}
+			<div className={slots.sums()}>
 				<div>{textTotal}</div>
 				<div className={"font-bold"}>{count.filter}</div>
 				{count.filter !== count.where && (

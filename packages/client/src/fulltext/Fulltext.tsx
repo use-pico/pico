@@ -2,13 +2,13 @@ import { translator } from "@use-pico/common";
 import type { FC } from "react";
 import { useDebounce } from "../debounce/useDebounce";
 import { Icon } from "../icon/Icon";
-import { FulltextCss } from "./FulltextCss";
+import { FulltextCls } from "./FulltextCls";
 
 export namespace Fulltext {
-	export type Value = string | undefined;
+	export type Value = string | undefined | null;
 	export type OnFulltext = (text: Value) => void;
 
-	export interface Props extends FulltextCss.Props {
+	export interface Props extends FulltextCls.Props {
 		value?: Value;
 		onFulltext: OnFulltext;
 		textPlaceholder?: string;
@@ -20,23 +20,28 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	onFulltext,
 	textPlaceholder,
 	variant,
-	tva = FulltextCss,
+	tva = FulltextCls,
 	css,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 	const [search, setSearch] = useDebounce(value, onFulltext, 500);
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.search()}>
+		<div className={slots.base()}>
+			<div className={slots.search()}>
 				<Icon
 					icon={"icon-[material-symbols-light--search]"}
-					variant={{ size: "xl" }}
+					variant={{
+						size: "xl",
+					}}
 				/>
 			</div>
 			<input
 				value={search || ""}
-				className={tv.input()}
+				className={slots.input()}
 				type={"text"}
 				placeholder={
 					textPlaceholder || translator.text("Fulltext (placeholder)")
@@ -47,14 +52,16 @@ export const Fulltext: FC<Fulltext.Props> = ({
 			/>
 			{value && (
 				<div
-					className={tv.clear()}
+					className={slots.clear()}
 					onClick={() => {
 						onFulltext("");
 					}}
 				>
 					<Icon
 						icon={"icon-[gridicons--cross]"}
-						variant={{ size: "md" }}
+						variant={{
+							size: "md",
+						}}
 					/>
 				</div>
 			)}

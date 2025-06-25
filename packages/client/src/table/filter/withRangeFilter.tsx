@@ -20,12 +20,19 @@ export const withRangeFilter = ({
 }: withRangeFilter.Props): FilterType.Column<any> => {
 	return {
 		reset({ filter: filterInstance }) {
-			filterInstance.shallow({ path: lte, value: undefined });
-			filterInstance.shallow({ path: gte, value: undefined });
+			filterInstance.shallow({
+				path: lte,
+				value: undefined,
+			});
+			filterInstance.shallow({
+				path: gte,
+				value: undefined,
+			});
 		},
 		is({ filter: filterInstance }) {
 			return (
-				pathOf(filterInstance.state.value || {}).get(lte) !== undefined ||
+				pathOf(filterInstance.state.value || {}).get(lte) !==
+					undefined ||
 				pathOf(filterInstance.state.value || {}).get(gte) !== undefined
 			);
 		},

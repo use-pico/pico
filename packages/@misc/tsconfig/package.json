@@ -1,20 +1,15 @@
 {
-	"version": "4.0.12",
 	"name": "@use-pico/tsconfig",
 	"description": "Common tsconfig used within @use-pico namespace.",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/use-pico/pico.git"
+	"version": "4.0.12",
+	"peerDependencies": {
+		"@total-typescript/ts-reset": "0.6.1"
 	},
 	"files": [
 		"common.json"
 	],
-	"bugs": {
-		"url": "https://github.com/use-pico/pico/issues"
-	},
+	"license": "MIT",
+	"repository": "use-pico/pico.git",
 	"homepage": "https://github.com/use-pico/pico#readme",
-	"peerDependencies": {
-		"@total-typescript/ts-reset": "0.6.1"
-	}
+	"bugs": "https://github.com/use-pico/pico/issues"
 }

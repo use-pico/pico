@@ -9,7 +9,9 @@ export const omit = <
 		return undefined;
 	}
 
-	const result = { ...value };
+	const result = {
+		...value,
+	};
 
 	omit.forEach((key) => {
 		delete result[key];

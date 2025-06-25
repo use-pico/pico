@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
-import { TitlePreviewCss } from "./TitlePreviewCss";
+import { TitlePreviewCls } from "./TitlePreviewCls";
 
 export namespace TitlePreview {
-	export interface Props extends TitlePreviewCss.Props {
+	export interface Props extends TitlePreviewCls.Props {
 		icon?: string;
 		title: ReactNode;
 		subtitle?: ReactNode;
@@ -15,22 +15,24 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	title,
 	subtitle,
 	variant,
-	tva = TitlePreviewCss,
+	tva = TitlePreviewCls,
 	css,
 }) => {
-	const tv = tva({ withSubtitle: Boolean(subtitle), ...variant, css }).slots;
+	const { slots } = tva({
+		withSubtitle: Boolean(subtitle),
+		...variant,
+		css,
+	});
 
 	return (
-		<div className={tv.base()}>
-			<div className={tv.title()}>
-				{icon ?
-					<Icon icon={icon} />
-				:	null}
+		<div className={slots.base()}>
+			<div className={slots.title()}>
+				{icon ? <Icon icon={icon} /> : null}
 				{title}
 			</div>
-			{subtitle ?
-				<div className={tv.subtitle()}>{subtitle}</div>
-			:	null}
+			{subtitle ? (
+				<div className={slots.subtitle()}>{subtitle}</div>
+			) : null}
 		</div>
 	);
 };

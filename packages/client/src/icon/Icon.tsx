@@ -1,5 +1,5 @@
-import { type FC, type HTMLAttributes, memo } from "react";
-import { IconCss } from "./IconCss";
+import type { FC, HTMLAttributes } from "react";
+import { IconCls } from "./IconCls";
 
 /**
  * Simple styled icon (span); uses Tailwind CSS classes.
@@ -11,7 +11,9 @@ export namespace Icon {
 	 * Props for `Icon` component.
 	 */
 	export interface Props
-		extends IconCss.Props<Omit<HTMLAttributes<HTMLDivElement>, "className">> {
+		extends IconCls.Props<
+			Omit<HTMLAttributes<HTMLDivElement>, "className">
+		> {
 		/**
 		 * `Iconify` icon name.
 		 */
@@ -24,18 +26,26 @@ export namespace Icon {
 	export type PropsEx = Omit<Props, "icon"> & Partial<Pick<Props, "icon">>;
 }
 
-export const Icon: FC<Icon.Props> = memo(({
+export const Icon: FC<Icon.Props> = ({
 	icon,
 	variant,
-	tva = IconCss,
+	tva = IconCls,
 	css,
 	...props
 }) => {
-	const tv = tva({ ...variant, css }).slots;
-	return icon ?
-			<div
-				className={tv.base({ css: [icon] })}
-				{...props}
-			/>
-		:	null;
-});
+	const { slots } = tva({
+		...variant,
+		css,
+	});
+
+	return icon ? (
+		<div
+			className={slots.base({
+				css: [
+					icon,
+				],
+			})}
+			{...props}
+		/>
+	) : null;
+};

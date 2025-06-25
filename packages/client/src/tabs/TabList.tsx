@@ -1,8 +1,8 @@
-import { type FC, type PropsWithChildren, type ReactNode } from "react";
-import { TabListCss } from "./TabListCss";
+import type { FC, PropsWithChildren, ReactNode } from "react";
+import { TabListCls } from "./TabListCls";
 
 export namespace TabList {
-	export interface Props extends TabListCss.Props<PropsWithChildren> {
+	export interface Props extends TabListCls.Props<PropsWithChildren> {
 		right?: ReactNode;
 	}
 }
@@ -10,11 +10,14 @@ export namespace TabList {
 export const TabList: FC<TabList.Props> = ({
 	right,
 	variant,
-	tva = TabListCss,
+	tva = TabListCls,
 	css,
 	children,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const tv = tva({
+		...variant,
+		css,
+	}).slots;
 	return (
 		<div className={tv.base()}>
 			<div className={tv.tabs()}>{children}</div>

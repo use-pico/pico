@@ -15,7 +15,13 @@ export namespace SizeSelect {
 }
 
 export const SizeSelect: FC<SizeSelect.Props> = ({
-	sizes = [5, 15, 30, 50, 100],
+	sizes = [
+		5,
+		15,
+		30,
+		50,
+		100,
+	],
 	size,
 	onSize,
 	...props
@@ -31,8 +37,14 @@ export const SizeSelect: FC<SizeSelect.Props> = ({
 			onItem={({ size }) => onSize(size)}
 			render={({ entity: { size } }) => size}
 			css={{
-				base: ["px-8", "py-1"],
-				item: ["px-8", "py-1"],
+				base: [
+					"px-4",
+					"py-1",
+				],
+				item: [
+					"px-4",
+					"py-1",
+				],
 			}}
 			{...props}
 		/>

@@ -1,4 +1,4 @@
-import { sql, type Expression, type RawBuilder } from "kysely";
+import { type Expression, type RawBuilder, sql } from "kysely";
 
 export const Kysely = {
 	jsonObject(fields: Record<string, Expression<any>>): RawBuilder<string> {
@@ -8,7 +8,9 @@ export const Kysely = {
 
 		return sql<string>`json_object(${jsonParts})`;
 	},
-	jsonGroupArray(fields: Record<string, Expression<any>>): RawBuilder<string> {
+	jsonGroupArray(
+		fields: Record<string, Expression<any>>,
+	): RawBuilder<string> {
 		return sql<string>`json_group_array(${Kysely.jsonObject(fields)})`;
 	},
 } as const;

@@ -1,23 +1,31 @@
-import { type FC, memo } from "react";
-import { ProgressCss } from "./ProgressCss";
+import type { FC } from "react";
+import { ProgressCls } from "./ProgressCls";
 
 export namespace Progress {
-	export interface Props extends ProgressCss.Props {
+	export interface Props extends ProgressCls.Props {
 		value: number;
 	}
 }
 
-export const Progress: FC<Progress.Props> = memo(
-	({ value, variant, tva = ProgressCss, css }) => {
-		const tv = tva({ ...variant, css }).slots;
+export const Progress: FC<Progress.Props> = ({
+	value,
+	variant,
+	tva = ProgressCls,
+	css,
+}) => {
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
-		return (
-			<div className={tv.base()}>
-				<div
-					style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
-					className={tv.progress()}
-				></div>
-			</div>
-		);
-	},
-);
+	return (
+		<div className={slots.base()}>
+			<div
+				style={{
+					width: `${Math.max(0, Math.min(100, value))}%`,
+				}}
+				className={slots.progress()}
+			></div>
+		</div>
+	);
+};

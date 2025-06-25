@@ -1,36 +1,37 @@
 import {
 	createLink,
-	useMatchRoute,
 	type LinkComponent,
 	type UseMatchRouteOptions,
+	useMatchRoute,
 } from "@tanstack/react-router";
 import { isString } from "@use-pico/common";
-import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
+import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
-import { MenuLinkCss } from "./MenuLinkCss";
+import { MenuLinkCls } from "./MenuLinkCls";
 
 interface Item
-	extends MenuLinkCss.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
+	extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
 	match?: UseMatchRouteOptions[];
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
 	(
-		{ icon = null, variant, tva = MenuLinkCss, css, children, ...props },
+		{ icon = null, variant, tva = MenuLinkCls, css, children, ...props },
 		ref,
 	) => {
-		const tv = tva({ ...variant, css }).slots;
+		const { slots } = tva({
+			...variant,
+			css,
+		});
 
 		return (
 			<a
 				{...props}
-				className={tv.base()}
+				className={slots.base()}
 				ref={ref}
 			>
-				{isString(icon) ?
-					<Icon icon={icon} />
-				:	icon}
+				{isString(icon) ? <Icon icon={icon} /> : icon}
 				{children}
 			</a>
 		);
@@ -42,7 +43,7 @@ const Link = createLink(Item);
 export const MenuLink: LinkComponent<typeof Item> = ({
 	match = [],
 	variant,
-	tva = MenuLinkCss,
+	tva = MenuLinkCls,
 	css,
 	...props
 }) => {

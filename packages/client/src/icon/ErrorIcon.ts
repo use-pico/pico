@@ -1,1 +1,1 @@
-export const ErrorIcon = 'icon-[material-symbols--error-outline]';
+export const ErrorIcon = "icon-[material-symbols--error-outline]";

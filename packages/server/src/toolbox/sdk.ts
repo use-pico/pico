@@ -1,5 +1,5 @@
-import axios from "axios";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import axios from "axios";
 
 namespace sdk {
 	export interface Props {
@@ -69,17 +69,28 @@ ${"\t".repeat(tabs)}${props.join(`\n${"\t".repeat(tabs)}`)}
 export async function sdk({ source, target, replace }: sdk.Props) {
 	const { data: reflection } = await axios.get<sdk.Reflection>(source);
 
-	rmSync(target, { recursive: true, force: true });
+	rmSync(target, {
+		recursive: true,
+		force: true,
+	});
 
 	const schemaDir = `${target}/schema`;
 	const mutationDir = `${target}/mutation`;
 	const queryDir = `${target}/query`;
 	const apiDir = `${target}/api`;
 
-	mkdirSync(queryDir, { recursive: true });
-	mkdirSync(mutationDir, { recursive: true });
-	mkdirSync(schemaDir, { recursive: true });
-	mkdirSync(apiDir, { recursive: true });
+	mkdirSync(queryDir, {
+		recursive: true,
+	});
+	mkdirSync(mutationDir, {
+		recursive: true,
+	});
+	mkdirSync(schemaDir, {
+		recursive: true,
+	});
+	mkdirSync(apiDir, {
+		recursive: true,
+	});
 
 	const apiIndex = Object.values(reflection.api).map((def) => ({
 		...def,
@@ -111,9 +122,9 @@ ${Array.from(
 	new Set(
 		Object.values(schema.object)
 			.map((def) => {
-				return def.ref ?
-						`import { ${def.ref} } from "./${def.ref}";`
-					:	undefined;
+				return def.ref
+					? `import { ${def.ref} } from "./${def.ref}";`
+					: undefined;
 			})
 			.filter(Boolean),
 	),
@@ -161,18 +172,20 @@ export namespace ${schema.name} {
 		}, id);
 
 		if (query) {
-			const requestSchema =
-				query.request ? reflection.schema[query.request] : null;
-			const responseSchema =
-				query.response ? reflection.schema[query.response] : null;
+			const requestSchema = query.request
+				? reflection.schema[query.request]
+				: null;
+			const responseSchema = query.response
+				? reflection.schema[query.response]
+				: null;
 
 			const imports: (string | undefined)[] = [
-				requestSchema ?
-					`import { ${requestSchema.name} } from "../schema/${requestSchema.name}";`
-				:	undefined,
-				responseSchema ?
-					`import { ${responseSchema.name} } from "../schema/${responseSchema.name}";`
-				:	undefined,
+				requestSchema
+					? `import { ${requestSchema.name} } from "../schema/${requestSchema.name}";`
+					: undefined,
+				responseSchema
+					? `import { ${responseSchema.name} } from "../schema/${responseSchema.name}";`
+					: undefined,
 			];
 
 			exports.add(`api/with${$name}Api`);
@@ -222,7 +235,7 @@ export namespace with${$name}Query {
 export const with${$name}Query = ({request, options}: with${$name}Query.Props) => {
 	return queryOptions({
 		queryKey: ["${name.replaceAll("\\", "\\\\")}", request],
-		queryFn: async (): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
+		async queryFn(): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> {
 			return with${$name}Api({ request });
 		},
         ...options,
@@ -250,7 +263,7 @@ export namespace with${$name}Query$ {
 export const with${$name}Query$ = ({request, options}: with${$name}Query$.Props) => {
 	return queryOptions({
 		queryKey: ["${name.replaceAll("\\", "\\\\")}", request],
-		queryFn: async (): Promise<${responseSchema ? `${responseSchema.name}.Type | null` : "any"}> => {
+		async queryFn(): Promise<${responseSchema ? `${responseSchema.name}.Type | null` : "any"}> {
 			try {
 				return await with${$name}Api({ request });
 			} catch(e) {
@@ -265,18 +278,20 @@ export const with${$name}Query$ = ({request, options}: with${$name}Query$.Props)
 		}
 
 		if (mutation) {
-			const requestSchema =
-				mutation.request ? reflection.schema[mutation.request] : null;
-			const responseSchema =
-				mutation.response ? reflection.schema[mutation.response] : null;
+			const requestSchema = mutation.request
+				? reflection.schema[mutation.request]
+				: null;
+			const responseSchema = mutation.response
+				? reflection.schema[mutation.response]
+				: null;
 
 			const imports: (string | undefined)[] = [
-				requestSchema ?
-					`import { ${requestSchema.name} } from "../schema/${requestSchema.name}";`
-				:	undefined,
-				responseSchema ?
-					`import { ${responseSchema.name} } from "../schema/${responseSchema.name}";`
-				:	undefined,
+				requestSchema
+					? `import { ${requestSchema.name} } from "../schema/${requestSchema.name}";`
+					: undefined,
+				responseSchema
+					? `import { ${responseSchema.name} } from "../schema/${responseSchema.name}";`
+					: undefined,
 			];
 
 			exports.add(`mutation/use${$name}Mutation`);
@@ -305,12 +320,20 @@ export const use${$name}Mutation = (
 
 	return useMutation({
 		mutationKey: ["${name.replaceAll("\\", "\\\\")}"],
-		mutationFn: async (${requestSchema ? `request: ${requestSchema.name}.Type` : "request?: any"}): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> => {
+		async mutationFn(${requestSchema ? `request: ${requestSchema.name}.Type` : "request?: any"}): Promise<${responseSchema ? `${responseSchema.name}.Type` : "any"}> {
 			const { data } = await axios.post("${ref}", ${requestSchema ? `${requestSchema.name}.parse(request)` : "request"});
 			if (invalidate !== false) {
 				await invalidator({
 					queryClient,
-					keys: ${mutation.invalidators ? JSON.stringify(mutation.invalidators.map((i) => [i])) : "[]"},
+					keys: ${
+						mutation.invalidators
+							? JSON.stringify(
+									mutation.invalidators.map((i) => [
+										i,
+									]),
+								)
+							: "[]"
+					},
 				});
 				invalidate && await invalidator({
 					queryClient,

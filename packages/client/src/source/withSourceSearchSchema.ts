@@ -1,4 +1,4 @@
-import { fallback } from "@tanstack/zod-adapter";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import {
 	CursorSchema,
 	type FilterSchema,
@@ -28,20 +28,44 @@ export const withSourceSearchSchema = <
 		filter,
 		defaultSort = {} as TSort,
 	}: withSourceSearchSchema.Props<TFilterSchema, TSort>,
-	{ size = 30 }: withSourceSearchSchema.Opts = { size: 30 },
+	{ size = 30 }: withSourceSearchSchema.Opts = {
+		size: 30,
+	},
 ) => {
-	return z.object({
-		filter: fallback(filter.default({ fulltext: "" }), {
-			fulltext: "",
-		}),
-		cursor: fallback(CursorSchema, { page: 0, size }).default({
+	const schema = z.object({
+		filter: fallback(
+			filter.default({
+				fulltext: "",
+			}),
+			{
+				fulltext: "",
+			},
+		),
+		cursor: fallback(CursorSchema, {
+			page: 0,
+			size,
+		}).default({
 			page: 0,
 			size,
 		}),
 		sort: fallback(
-			z.record(z.enum(["asc", "desc"]).optional()).default(defaultSort),
+			z
+				.record(
+					z
+						.enum([
+							"asc",
+							"desc",
+						])
+						.optional(),
+				)
+				.default(defaultSort),
 			defaultSort,
 		),
 		selection: fallback(z.array(z.string()).default([]), []),
 	});
+
+	return {
+		schema,
+		validateSearch: zodValidator(schema),
+	} as const;
 };

@@ -22,7 +22,11 @@ export const onAxiosSchemaError = <TSchema extends z.ZodSchema>({
 	const isError = error instanceof AxiosError;
 	if (isError) {
 		const result = schema.safeParse(error.response?.data);
-		result.success && onError({ error, data: result.data });
+		result.success &&
+			onError({
+				error,
+				data: result.data,
+			});
 		return result.success;
 	}
 	return false;

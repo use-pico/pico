@@ -1,4 +1,4 @@
-import type { css } from "@use-pico/common";
+import type { cls } from "@use-pico/common";
 import type { CellType } from "./CellType";
 import type { DataType } from "./DataType";
 
@@ -16,7 +16,7 @@ export namespace RowType {
 
 		export type Callback<TData extends DataType.Data> = (
 			props: Props<TData>,
-		) => css.Class;
+		) => cls.Class;
 	}
 
 	export namespace Event {

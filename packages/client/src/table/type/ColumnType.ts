@@ -33,6 +33,8 @@ export namespace ColumnType {
 		}
 	}
 
+	export type Size = number | "auto";
+
 	/**
 	 * Column definition provided by the user.
 	 */
@@ -56,7 +58,7 @@ export namespace ColumnType {
 		/**
 		 * Size of the column.
 		 */
-		size?: number;
+		size: Size;
 		/**
 		 * Filter definition for the column.
 		 */

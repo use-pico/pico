@@ -6,6 +6,6 @@ export const withIntSchema = () => {
 		z
 			.string()
 			.transform((value) => parseInt(value, 10))
-			.refine((value) => !isNaN(value)),
+			.refine((value) => !Number.isNaN(value)),
 	]);
 };

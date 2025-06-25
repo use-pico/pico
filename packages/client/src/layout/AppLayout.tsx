@@ -1,10 +1,10 @@
 import { Outlet } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-import { AppLayoutCss } from "./AppLayoutCss";
+import { AppLayoutCls } from "./AppLayoutCls";
 
 export namespace AppLayout {
-	export interface Props extends AppLayoutCss.Props<PropsWithChildren> {
+	export interface Props extends AppLayoutCls.Props<PropsWithChildren> {
 		/**
 		 * Left side in the bar, usually a logo.
 		 */
@@ -25,11 +25,14 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	menu,
 	actions,
 	variant,
-	tva = AppLayoutCss,
+	tva = AppLayoutCls,
 	css,
 	children,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const tv = tva({
+		...variant,
+		css,
+	}).slots;
 
 	return (
 		<div className={tv.base()}>
@@ -37,7 +40,9 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 			<div className={tv.header()}>
 				<div>{logo}</div>
 				<div className={"grow"}>{menu}</div>
-				<div className={"flex flex-row gap-2 items-center"}>{actions}</div>
+				<div className={"flex flex-row gap-2 items-center"}>
+					{actions}
+				</div>
 			</div>
 			<div className={tv.content()}>{children ?? <Outlet />}</div>
 		</div>

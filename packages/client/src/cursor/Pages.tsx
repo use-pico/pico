@@ -1,8 +1,8 @@
-import { type FC } from "react";
-import { PagesCss } from "./PagesCss";
+import type { FC } from "react";
+import { PagesCls } from "./PagesCls";
 
 export namespace Pages {
-	export interface Props extends PagesCss.Props {
+	export interface Props extends PagesCls.Props {
 		pages: number[];
 		page: number;
 
@@ -15,19 +15,22 @@ export const Pages: FC<Pages.Props> = ({
 	page,
 	onPage,
 	variant,
-	tva = PagesCss,
+	tva = PagesCls,
 	css,
 }) => {
-	const tv = tva({ ...variant, css }).slots;
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
 	return (
-		<nav className={tv.base()}>
-			<ul className={tv.list()}>
-				{pages.map((current, index) => {
+		<nav className={slots.base()}>
+			<ul className={slots.list()}>
+				{pages.map((current) => {
 					return (
 						<li
-							key={`page-${current}-${index}`}
-							className={tv.page({
+							key={`page-${current}`}
+							className={slots.page({
 								current: page === current - 1,
 							})}
 							onClick={() => onPage(current - 1)}

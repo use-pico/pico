@@ -1,26 +1,26 @@
 import {
-    FloatingFocusManager,
-    FloatingNode,
-    FloatingOverlay,
-    FloatingPortal,
-    useClick,
-    useDismiss,
-    useFloating,
-    useFloatingNodeId,
-    useInteractions,
-    useTransitionStyles,
+	FloatingFocusManager,
+	FloatingNode,
+	FloatingOverlay,
+	FloatingPortal,
+	useClick,
+	useDismiss,
+	useFloating,
+	useFloatingNodeId,
+	useInteractions,
+	useTransitionStyles,
 } from "@floating-ui/react";
 import { isCallable, isString, tvc } from "@use-pico/common";
-import { useMemo, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
-import { ModalContext } from "./ModalContext";
-import { ModalCss } from "./ModalCss";
 import { createModalStore } from "./createModalStore";
+import { ModalCls } from "./ModalCls";
+import { ModalContext } from "./ModalContext";
 
 export namespace Modal {
-	export interface Props extends ModalCss.Props {
+	export interface Props extends ModalCls.Props {
 		/**
 		 * The target element that will open the modal.
 		 */
@@ -33,8 +33,16 @@ export namespace Modal {
 		 * Close the modal when clicking outside of it.
 		 */
 		outside?: boolean;
-		children: FC<{ close(): void }> | ReactNode;
-		footer?: FC<{ close(): void }> | ReactNode;
+		children?:
+			| FC<{
+					close(): void;
+			  }>
+			| ReactNode;
+		footer?:
+			| FC<{
+					close(): void;
+			  }>
+			| ReactNode;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -49,11 +57,19 @@ export const Modal: FC<Modal.Props> = ({
 	outside = false,
 	variant,
 	css,
-	tva = ModalCss,
+	tva = ModalCls,
 	children: Children,
 	footer: Footer,
 }) => {
-	const useModalStore = useMemo(() => createModalStore({ defaultOpen }), []);
+	const useModalStore = useMemo(
+		() =>
+			createModalStore({
+				defaultOpen,
+			}),
+		[
+			defaultOpen,
+		],
+	);
 	const close = useModalStore((state) => state.close);
 	const nodeId = useFloatingNodeId();
 	const { refs, context } = useFloating({
@@ -71,7 +87,11 @@ export const Modal: FC<Modal.Props> = ({
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
 
-	const tv = tva({ disabled, ...variant, css }).slots;
+	const { slots } = tva({
+		disabled,
+		...variant,
+		css,
+	});
 
 	return (
 		<ModalContext.Provider value={useModalStore}>
@@ -80,7 +100,7 @@ export const Modal: FC<Modal.Props> = ({
 				{...getReferenceProps({
 					disabled,
 				})}
-				className={tv.target({
+				className={slots.target({
 					disabled,
 				})}
 			>
@@ -88,75 +108,92 @@ export const Modal: FC<Modal.Props> = ({
 			</div>
 			<FloatingNode id={nodeId}>
 				{isMounted && (
-					<>
-						<FloatingPortal>
-							<FloatingOverlay
-								lockScroll
-								style={styles}
-								className={tv.base()}
-								onDoubleClick={(e) => {
-									e.stopPropagation();
-									e.preventDefault();
-								}}
-							>
-								<FloatingFocusManager context={context}>
+					<FloatingPortal>
+						<FloatingOverlay
+							lockScroll
+							style={styles}
+							className={slots.base()}
+							onDoubleClick={(e) => {
+								e.stopPropagation();
+								e.preventDefault();
+							}}
+						>
+							<FloatingFocusManager context={context}>
+								<div
+									ref={refs.setFloating}
+									{...getFloatingProps()}
+									className={slots.modal()}
+								>
 									<div
-										ref={refs.setFloating}
-										{...getFloatingProps()}
-										className={tv.modal()}
+										className={tvc([
+											"border-b",
+											"border-slate-200",
+											"mb-2",
+											"py-1.5",
+											"flex",
+											"flex-row",
+											"items-center",
+											"justify-between",
+											"select-none",
+										])}
 									>
 										<div
-											className={tvc([
-												"border-b",
-												"border-slate-200",
-												"mb-2",
-												"py-1.5",
-												"flex",
-												"flex-row",
-												"items-center",
-												"justify-between",
-												"select-none",
-											])}
+											className={
+												"flex flex-row items-center gap-2 pr-4"
+											}
 										>
-											<div className={"flex flex-row items-center gap-2 pr-4"}>
-												{icon &&
-													(isString(icon) ?
-														<Icon
-															icon={icon}
-															variant={{ size: "xl" }}
-														/>
-													:	icon)}
-												{textTitle && (
-													<div
-														className={"text-lg font-semibold text-slate-700"}
-													>
-														{textTitle}
-													</div>
-												)}
-											</div>
-											<Action
-												iconEnabled={CloseIcon}
-												onClick={() => close()}
-												variant={{ variant: "light", borderless: true }}
-											/>
+											{icon &&
+												(isString(icon) ? (
+													<Icon
+														icon={icon}
+														variant={{
+															size: "xl",
+														}}
+													/>
+												) : (
+													icon
+												))}
+											{textTitle && (
+												<div
+													className={
+														"text-lg font-semibold text-slate-700"
+													}
+												>
+													{textTitle}
+												</div>
+											)}
 										</div>
-										<div className={"flex-grow overflow-y-auto"}>
-											{isCallable(Children) ?
-												<Children close={close} />
-											:	Children}
-										</div>
-										{Footer ?
-											<div>
-												{isCallable(Footer) ?
-													<Footer close={close} />
-												:	Footer}
-											</div>
-										:	null}
+										<Action
+											iconEnabled={CloseIcon}
+											onClick={() => close()}
+											variant={{
+												variant: "light",
+												borderless: true,
+											}}
+										/>
 									</div>
-								</FloatingFocusManager>
-							</FloatingOverlay>
-						</FloatingPortal>
-					</>
+									<div
+										className={"flex-grow overflow-y-auto"}
+									>
+										{isCallable(Children) ? (
+											<Children close={close} />
+										) : (
+											Children
+										)}
+									</div>
+									{Footer ? (
+										<div>
+											{isCallable(Footer) ? (
+												<Footer close={close} />
+											) : (
+												Footer
+											)}
+										</div>
+									) : null}
+								</div>
+							</FloatingFocusManager>
+						</FloatingOverlay>
+					</FloatingPortal>
 				)}
 			</FloatingNode>
 		</ModalContext.Provider>

@@ -23,7 +23,9 @@ export const createTabsStore = ({
 		tab,
 		hidden,
 		setCurrent: (tab: string) => {
-			set({ tab });
+			set({
+				tab,
+			});
 		},
 	}));
 };

@@ -4,8 +4,12 @@ export namespace navigateOnFulltext {
 	export namespace Navigate {
 		export interface Props {
 			search: (props: {
-				cursor: { page: number };
-				filter?: { fulltext?: string | null };
+				cursor: {
+					page: number;
+				};
+				filter?: {
+					fulltext?: string | null;
+				};
 			}) => any;
 			replace?: boolean;
 		}
@@ -30,7 +34,10 @@ export const navigateOnFulltext = (
 					...filter,
 					fulltext: text,
 				},
-				cursor: { ...cursor, page: text ? 0 : cursor.page },
+				cursor: {
+					...cursor,
+					page: text ? 0 : cursor.page,
+				},
 			}),
 			replace: false,
 		});

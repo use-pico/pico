@@ -1,16 +1,22 @@
-import { memo, PropsWithChildren, type FC } from "react";
-import { MenuCss } from "./MenuCss";
+import type { FC, PropsWithChildren } from "react";
+import { MenuCls } from "./MenuCls";
 
 export namespace Menu {
-	export interface Props extends MenuCss.Props<PropsWithChildren> {
+	export interface Props extends MenuCls.Props<PropsWithChildren> {
 		//
 	}
 }
 
-export const Menu: FC<Menu.Props> = memo(
-	({ variant, tva = MenuCss, css, children }) => {
-		const tv = tva({ ...variant, css }).slots;
+export const Menu: FC<Menu.Props> = ({
+	variant,
+	tva = MenuCls,
+	css,
+	children,
+}) => {
+	const { slots } = tva({
+		...variant,
+		css,
+	});
 
-		return <div className={tv.base()}>{children}</div>;
-	},
-);
+	return <div className={slots.base()}>{children}</div>;
+};
