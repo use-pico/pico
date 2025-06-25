@@ -92,7 +92,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	});
 
 	/**
-	 * Dependency-free meme, because... store does not have any dependencies (defaultOpen
+	 * Dependency-free memo, because... store does not have any dependencies (defaultOpen
 	 * values are not used).
 	 */
 	const useLocalTableStore = useMemo(() => createLocalTableStore({}), []);

@@ -23,6 +23,7 @@ export function useDebounce<T = any>(
 		() => window.clearTimeout(timeoutRef.current || undefined),
 		[],
 	);
+
 	useEffect(
 		() => clearTimeout,
 		[
@@ -36,6 +37,7 @@ export function useDebounce<T = any>(
 		callback,
 		debounced,
 	]);
+
 	useEffect(() => {
 		setValue(defaultValue);
 		setDebounced(defaultValue);

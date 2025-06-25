@@ -1,6 +1,6 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { IdentitySchema } from "@use-pico/common";
-import { type FC, useContext } from "react";
+import { type FC, useContext, useMemo } from "react";
 import { ModalContext } from "../modal/ModalContext";
 import type { withListCount } from "../source/withListCount";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
@@ -64,46 +64,68 @@ export const PopupContent: FC<PopupContent.Props> = ({
 		<div className={slots.base()}>
 			<div className={slots.content()}>
 				<Table
-					cursor={{
-						cursor: {
+					cursor={useMemo(
+						() => ({
+							cursor: {
+								page,
+								size,
+							},
+							count: result.data?.count
+								? result.data.count
+								: {
+										filter: -1,
+										total: -1,
+										where: -1,
+									},
+							textTotal: (
+								<Tx label={"Total count of items (label)"} />
+							),
+							onPage(page) {
+								setPage(page);
+							},
+							onSize(size) {
+								setSize(size);
+								setPage(0);
+							},
+						}),
+						[
 							page,
 							size,
-						},
-						count: result.data?.count
-							? result.data.count
-							: {
-									filter: -1,
-									total: -1,
-									where: -1,
-								},
-						textTotal: (
-							<Tx label={"Total count of items (label)"} />
-						),
-						onPage(page) {
-							setPage(page);
-						},
-						onSize(size) {
-							setSize(size);
-							setPage(0);
-						},
-					}}
-					fulltext={{
-						value: fulltext,
-						set(value) {
-							setFulltext(value);
-							setPage(0);
-						},
-					}}
-					data={result.data?.list}
-					selection={{
-						type: "single",
-						state: {
-							value: selection,
-							set(selection) {
-								setSelection(selection);
+							result.data,
+							setPage,
+							setSize,
+						],
+					)}
+					fulltext={useMemo(
+						() => ({
+							value: fulltext,
+							set(value) {
+								setFulltext(value);
+								setPage(0);
 							},
-						},
-					}}
+						}),
+						[
+							fulltext,
+							setFulltext,
+							setPage,
+						],
+					)}
+					data={result.data?.list}
+					selection={useMemo(
+						() => ({
+							type: "single",
+							state: {
+								value: selection,
+								set(selection) {
+									setSelection(selection);
+								},
+							},
+						}),
+						[
+							selection,
+							setSelection,
+						],
+					)}
 					row={{
 						onDoubleClick({ data }) {
 							onChange(data.id);
