@@ -93,6 +93,14 @@ type SlotFn<
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (values?: ValuesDef<VariantEx<TVariant, TUse>>, cls?: ClassName) => string;
 
+type Slots<
+	TSlot extends SlotDef<any>,
+	TVariant extends VariantDef<any>,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
+> = {
+	[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
+};
+
 /**
  * Output of the factory method.
  */
@@ -110,9 +118,7 @@ type ClsFn<
 	 * Individual slots for a component. Those slots are then
 	 * used to compute individual class names.
 	 */
-	slots: {
-		[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
-	};
+	slots: Slots<TSlot, TVariant, TUse>;
 	/**
 	 * Configuration used internally.
 	 *
