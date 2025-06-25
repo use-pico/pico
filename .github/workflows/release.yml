@@ -23,11 +23,32 @@ jobs:
           path: |
             node_modules
             **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
       - name: install
         run: |
           bun install
+
+  lint:
+    runs-on: ubuntu-22.04
+    needs:
+      - install
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+
+      - name: lint
+        run: |
+          bun run lint
 
   typecheck:
     runs-on: ubuntu-22.04
@@ -44,7 +65,7 @@ jobs:
           path: |
             node_modules
             **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
       - name: typecheck
         run: |
@@ -65,7 +86,7 @@ jobs:
           path: |
             node_modules
             **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lockb', 'package.json') }}
+          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
       - name: build
         run: |

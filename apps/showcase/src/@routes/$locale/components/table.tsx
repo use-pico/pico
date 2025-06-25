@@ -12,7 +12,7 @@ import {
 	withSourceSearchSchema,
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
-import { type FC } from "react";
+import type { FC } from "react";
 
 const SearchSchema = withSourceSearchSchema({
 	filter: FilterSchema,
