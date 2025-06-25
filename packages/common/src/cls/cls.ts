@@ -131,7 +131,7 @@ type Variants<
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	config: {
+	"~config": {
 		/**
 		 * Cumulated default values from all variants (including uses - extensions).
 		 */
@@ -314,7 +314,7 @@ export function cls<
 						 * - override provided at the class name computation
 						 */
 						const $values = {
-							...$use?.()?.config.defaults,
+							...$use?.()?.["~config"].defaults,
 							...defaults,
 							...values,
 							...override,
@@ -372,13 +372,13 @@ export function cls<
 		/**
 		 * This is a configuration used internally
 		 */
-		config: {
+		"~config": {
 			defaults: {
-				...(use as Variants<any, any, any>)?.()?.config.defaults,
+				...(use as Variants<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 			},
 			values: {
-				...(use as Variants<any, any, any>)?.()?.config.defaults,
+				...(use as Variants<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 				...values,
 			},
