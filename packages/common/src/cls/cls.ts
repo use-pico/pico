@@ -101,6 +101,43 @@ type Slots<
 	[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
 };
 
+interface Config<TVariantEx extends VariantEx<any, any>> {
+	/**
+	 * Cumulated default values from all variants (including uses - extensions).
+	 */
+	defaults: ValuesDef<TVariantEx>;
+	/**
+	 * Combined cumulated defaults & current values provided to `tva()`.
+	 */
+	values: ValuesDef<TVariantEx>;
+}
+
+type Type<
+	TSlotEx extends SlotEx<any, TUse>,
+	TVariantEx extends VariantEx<any, TUse>,
+	TUse extends ClsFn<any, any, any> | unknown,
+> = {
+	/**
+	 * Extension type for this variant.
+	 */
+	use?: TUse;
+	/**
+	 * Cumulated slots from all extensions.
+	 */
+	slot?: TSlotEx;
+	/**
+	 * Cumulated variants from all extensions.
+	 */
+	variant?: TVariantEx;
+};
+
+type SlotCls<
+	TSlot extends SlotDef<any>,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
+> = {
+	[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
+};
+
 /**
  * Output of the factory method.
  */
@@ -110,9 +147,7 @@ type ClsFn<
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (
 	variant?: ValuesDef<VariantEx<TVariant, TUse>>,
-	cls?: {
-		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
-	},
+	cls?: SlotCls<TSlot, TUse>,
 ) => {
 	/**
 	 * Individual slots for a component. Those slots are then
@@ -124,35 +159,13 @@ type ClsFn<
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	"~config": {
-		/**
-		 * Cumulated default values from all variants (including uses - extensions).
-		 */
-		defaults: ValuesDef<VariantEx<TVariant, TUse>>;
-		/**
-		 * Combined cumulated defaults & current values provided to `tva()`.
-		 */
-		values: ValuesDef<VariantEx<TVariant, TUse>>;
-	};
+	"~config": Config<VariantEx<TVariant, TUse>>;
 	/**
 	 * Used for inheritance and type checking.
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	"~type": {
-		/**
-		 * Extension type for this variant.
-		 */
-		use?: TUse;
-		/**
-		 * Cumulated slots from all extensions.
-		 */
-		slot?: SlotEx<TSlot, TUse>;
-		/**
-		 * Cumulated variants from all extensions.
-		 */
-		variant?: VariantEx<TVariant, TUse>;
-	};
+	"~type": Type<SlotEx<TSlot, TUse>, VariantEx<TVariant, TUse>, TUse>;
 };
 
 /**
@@ -174,9 +187,7 @@ interface Match<
 	 *
 	 * Keys are slot names.
 	 */
-	do: {
-		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
-	};
+	do: SlotCls<TSlot, TUse>;
 }
 
 export namespace cls {
