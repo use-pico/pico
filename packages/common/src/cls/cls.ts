@@ -10,13 +10,13 @@ const proxyOf: any = new Proxy(() => proxyOf, {
 /**
  * Just forward class name type to prevent direct dependency on providing package.
  */
-type Cls = ClassNameValue;
+type ClassName = ClassNameValue;
 
-type SlotDef<TSlotKeys extends string> = Record<TSlotKeys, Cls>;
+type SlotDef<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;
 
 type VariantDef<TVariantKeys extends string> = Record<
 	TVariantKeys,
-	Record<string, Cls>
+	Record<string, ClassName>
 >;
 
 type ValuesDef<TVariant> = {
@@ -100,17 +100,17 @@ interface CssEx<TSlot extends SlotDef<string>, TUse = unknown> {
 	 * Keys are slot names.
 	 */
 	css?: {
-		[K in keyof SlotEx<TSlot, TUse>]?: Cls;
+		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
 	};
 }
 
 /**
  * Output of the factory method.
  */
-type Variants<
+type Cls<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Variants<any, any, any> | unknown = unknown,
+	TUse extends Cls<any, any, any> | unknown = unknown,
 > = (
 	// TODO Change for an input object {variant, css, ...}
 	variant?: ValuesDef<VariantEx<TVariant, TUse>> & CssEx<TSlot, TUse>,
@@ -122,7 +122,7 @@ type Variants<
 	slots: {
 		[K in keyof SlotEx<TSlot, TUse>]: (
 			values?: ValuesDef<VariantEx<TVariant, TUse>> & {
-				css?: Cls;
+				css?: ClassName;
 			},
 		) => string;
 	};
@@ -168,7 +168,7 @@ type Variants<
 interface Match<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Variants<any, any, any> | unknown = unknown,
+	TUse extends Cls<any, any, any> | unknown = unknown,
 > {
 	/**
 	 * Conditions to match.
@@ -182,12 +182,12 @@ interface Match<
 	 * Keys are slot names.
 	 */
 	do: {
-		[K in keyof SlotEx<TSlot, TUse>]?: Cls;
+		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
 	};
 }
 
 export namespace cls {
-	export type Class = Cls;
+	export type Class = ClassName;
 
 	/**
 	 * Variants configuration.
@@ -195,7 +195,7 @@ export namespace cls {
 	export interface Config<
 		TSlot extends SlotDef<any>,
 		TVariant extends VariantDef<any>,
-		TUse extends Variants<any, any, any> | unknown = unknown,
+		TUse extends Cls<any, any, any> | unknown = unknown,
 	> {
 		/**
 		 * Extension of the component.
@@ -238,18 +238,15 @@ export namespace cls {
 	 *
 	 * It omits `variant`, `tva`, and `css` props from the parent props.
 	 */
-	export type Props<
-		TVariants extends Variants<any, any, any>,
-		P = unknown,
-	> = {
+	export type Props<TCls extends Cls<any, any, any>, P = unknown> = {
 		variant?: ValuesDef<
-			VariantEx<ReturnType<TVariants>["~type"]["variant"], TVariants>
+			VariantEx<ReturnType<TCls>["~type"]["variant"], TCls>
 		>;
-		tva?: TVariants;
+		tva?: TCls;
 		css?: {
 			[K in keyof SlotEx<
-				ReturnType<TVariants>["~type"]["slot"],
-				TVariants
+				ReturnType<TCls>["~type"]["slot"],
+				TCls
 			>]?: Class;
 		};
 	} & Omit<P, "variant" | "tva" | "css">;
@@ -259,8 +256,8 @@ export namespace cls {
 		"variant" | "tva" | "css"
 	>;
 
-	export type Slots<TUse extends Variants<any, any, any>> =
-		ReturnType<TUse>["slots"];
+	export type Slots<TCls extends Cls<any, any, any>> =
+		ReturnType<TCls>["slots"];
 }
 
 /**
@@ -272,14 +269,14 @@ export namespace cls {
 export function cls<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Variants<any, any, any> | unknown = unknown,
+	TUse extends Cls<any, any, any> | unknown = unknown,
 >({
 	use,
 	slot,
 	variant,
 	match = [],
 	defaults,
-}: cls.Config<TSlot, TVariant, TUse>): Variants<TSlot, TVariant, TUse> {
+}: cls.Config<TSlot, TVariant, TUse>): Cls<TSlot, TVariant, TUse> {
 	/**
 	 * Output is a factory method used to call at a component level (or whatever place you want).
 	 */
@@ -291,20 +288,23 @@ export function cls<
 		 * this may fail at runtime.
 		 */
 		slots: new Proxy(
-			{} as ReturnType<Variants<TSlot, TVariant, TUse>>["slots"],
+			{} as ReturnType<Cls<TSlot, TVariant, TUse>>["slots"],
 			{
 				get: (_, key: string) => {
 					return ({ css: $css, ...override } = {} as any) => {
 						/**
 						 * Output classes,
 						 */
-						const $classes: Cls[] = [];
+						const $classes: ClassName[] = [];
 
 						/**
 						 * Type "use" (extension) for later use.
 						 */
-						const $use: Variants<any, any, any> | undefined =
-							use as Variants<any, any, any>;
+						const $use: Cls<any, any, any> | undefined = use as Cls<
+							any,
+							any,
+							any
+						>;
 
 						/**
 						 * Compute current variants from:
@@ -374,11 +374,11 @@ export function cls<
 		 */
 		"~config": {
 			defaults: {
-				...(use as Variants<any, any, any>)?.()?.["~config"].defaults,
+				...(use as Cls<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 			},
 			values: {
-				...(use as Variants<any, any, any>)?.()?.["~config"].defaults,
+				...(use as Cls<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 				...values,
 			},
