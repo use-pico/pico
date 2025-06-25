@@ -10,11 +10,8 @@ export namespace Tx {
 }
 
 export const Tx: FC<Tx.Props> = memo(
-	({ label, fallback, variant, tva = TxCls, css }) => {
-		const { slots } = tva({
-			...variant,
-			css,
-		});
+	({ label, fallback, variant, tva = TxCls, cls }) => {
+		const { slots } = tva(variant, cls);
 
 		return (
 			<div className={slots.base()}>

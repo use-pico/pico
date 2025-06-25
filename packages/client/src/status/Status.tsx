@@ -18,13 +18,10 @@ export const Status: FC<Status.Props> = ({
 	iconProps,
 	variant,
 	tva = StatusCls,
-	css,
+	cls,
 	children,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>
@@ -34,7 +31,7 @@ export const Status: FC<Status.Props> = ({
 					variant={{
 						size: "6xl",
 					}}
-					css={{
+					cls={{
 						base: [
 							"text-slate-500",
 							"opacity-50",

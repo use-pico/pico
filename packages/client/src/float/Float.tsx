@@ -48,7 +48,7 @@ export const Float: FC<Float.Props> = ({
 	float,
 	variant,
 	tva = FloatCls,
-	css,
+	cls,
 	children,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -78,18 +78,20 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const tv = tva({
-		mounted: isMounted,
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(
+		{
+			mounted: isMounted,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps()}
-				className={tv.target()}
+				className={slots.target()}
 			>
 				{target}
 			</div>
@@ -100,7 +102,7 @@ export const Float: FC<Float.Props> = ({
 						...floatingStyles,
 						...styles,
 					}}
-					className={tv.portal()}
+					className={slots.portal()}
 					{...getFloatingProps()}
 					onClick={
 						closeOnClick

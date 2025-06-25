@@ -88,43 +88,30 @@ type DefaultsEx<
 		? ValuesDef<V>
 		: {});
 
-/**
- * CSS property.
- *
- * Computes keys based on all slots (including extensions).
- */
-interface CssEx<TSlot extends SlotDef<string>, TUse = unknown> {
-	/**
-	 * Individual slot classes.
-	 *
-	 * Keys are slot names.
-	 */
-	css?: {
-		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
-	};
-}
+type SlotFn<
+	TVariant extends VariantDef<any>,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
+> = (values?: ValuesDef<VariantEx<TVariant, TUse>>, cls?: ClassName) => string;
 
 /**
  * Output of the factory method.
  */
-type Cls<
+type ClsFn<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Cls<any, any, any> | unknown = unknown,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (
-	// TODO Change for an input object {variant, css, ...}
-	variant?: ValuesDef<VariantEx<TVariant, TUse>> & CssEx<TSlot, TUse>,
+	variant?: ValuesDef<VariantEx<TVariant, TUse>>,
+	cls?: {
+		[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
+	},
 ) => {
 	/**
 	 * Individual slots for a component. Those slots are then
 	 * used to compute individual class names.
 	 */
 	slots: {
-		[K in keyof SlotEx<TSlot, TUse>]: (
-			values?: ValuesDef<VariantEx<TVariant, TUse>> & {
-				css?: ClassName;
-			},
-		) => string;
+		[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
 	};
 	/**
 	 * Configuration used internally.
@@ -168,7 +155,7 @@ type Cls<
 interface Match<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Cls<any, any, any> | unknown = unknown,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
 	/**
 	 * Conditions to match.
@@ -195,7 +182,7 @@ export namespace cls {
 	export interface Config<
 		TSlot extends SlotDef<any>,
 		TVariant extends VariantDef<any>,
-		TUse extends Cls<any, any, any> | unknown = unknown,
+		TUse extends ClsFn<any, any, any> | unknown = unknown,
 	> {
 		/**
 		 * Extension of the component.
@@ -236,27 +223,27 @@ export namespace cls {
 	/**
 	 * When used in components, this is a safe way how to extend component props.
 	 *
-	 * It omits `variant`, `tva`, and `css` props from the parent props.
+	 * It omits `variant`, `tva`, and `cls` props from the parent props.
 	 */
-	export type Props<TCls extends Cls<any, any, any>, P = unknown> = {
+	export type Props<TCls extends ClsFn<any, any, any>, P = unknown> = {
 		variant?: ValuesDef<
 			VariantEx<ReturnType<TCls>["~type"]["variant"], TCls>
 		>;
 		tva?: TCls;
-		css?: {
+		cls?: {
 			[K in keyof SlotEx<
 				ReturnType<TCls>["~type"]["slot"],
 				TCls
 			>]?: Class;
 		};
-	} & Omit<P, "variant" | "tva" | "css">;
+	} & Omit<P, "variant" | "tva" | "cls">;
 
 	export type Extract<TProps extends Props<any>> = Pick<
 		TProps,
-		"variant" | "tva" | "css"
+		"variant" | "tva" | "cls"
 	>;
 
-	export type Slots<TCls extends Cls<any, any, any>> =
+	export type Slots<TCls extends ClsFn<any, any, any>> =
 		ReturnType<TCls>["slots"];
 }
 
@@ -269,18 +256,18 @@ export namespace cls {
 export function cls<
 	TSlot extends SlotDef<any>,
 	TVariant extends VariantDef<any>,
-	TUse extends Cls<any, any, any> | unknown = unknown,
+	TUse extends ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,
 	slot,
 	variant,
 	match = [],
 	defaults,
-}: cls.Config<TSlot, TVariant, TUse>): Cls<TSlot, TVariant, TUse> {
+}: cls.Config<TSlot, TVariant, TUse>): ClsFn<TSlot, TVariant, TUse> {
 	/**
 	 * Output is a factory method used to call at a component level (or whatever place you want).
 	 */
-	return ({ css, ...values } = {}) => ({
+	return (values, cls) => ({
 		/**
 		 * Proxy all calls to the slots to compute class names.
 		 *
@@ -288,10 +275,10 @@ export function cls<
 		 * this may fail at runtime.
 		 */
 		slots: new Proxy(
-			{} as ReturnType<Cls<TSlot, TVariant, TUse>>["slots"],
+			{} as ReturnType<ClsFn<TSlot, TVariant, TUse>>["slots"],
 			{
-				get: (_, key: string) => {
-					return ({ css: $css, ...override } = {} as any) => {
+				get(_, key: string): SlotFn<TVariant, TUse> {
+					return (override, $cls) => {
 						/**
 						 * Output classes,
 						 */
@@ -300,11 +287,8 @@ export function cls<
 						/**
 						 * Type "use" (extension) for later use.
 						 */
-						const $use: Cls<any, any, any> | undefined = use as Cls<
-							any,
-							any,
-							any
-						>;
+						const $use: ClsFn<any, any, any> | undefined =
+							use as ClsFn<any, any, any>;
 
 						/**
 						 * Compute current variants from:
@@ -358,11 +342,11 @@ export function cls<
 						/**
 						 * Push all overriding classes from the component call.
 						 */
-						$classes.push(css?.[key]);
+						$classes.push(cls?.[key]);
 						/**
 						 * Push all overriding classes from the class name computation.
 						 */
-						$classes.push($css);
+						$classes.push($cls);
 
 						return twMerge($classes);
 					};
@@ -374,11 +358,11 @@ export function cls<
 		 */
 		"~config": {
 			defaults: {
-				...(use as Cls<any, any, any>)?.()?.["~config"].defaults,
+				...(use as ClsFn<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 			},
 			values: {
-				...(use as Cls<any, any, any>)?.()?.["~config"].defaults,
+				...(use as ClsFn<any, any, any>)?.()?.["~config"].defaults,
 				...defaults,
 				...values,
 			},

@@ -37,7 +37,7 @@ export const TableActionWrapper: FC<TableActionWrapper.Props> = ({
 						disabled: selection.type === "single",
 						size: "2xl",
 					}}
-					css={{
+					cls={{
 						base: slots.select({
 							selected: selection.isAny(),
 						}),

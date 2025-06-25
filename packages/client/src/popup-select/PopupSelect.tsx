@@ -84,12 +84,9 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 
 	variant,
 	tva = PopupSelectCls,
-	css,
+	cls,
 }: PopupSelect.Props<TItem>) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	/**
 	 * Dependency-free memo, because... store does not have any dependencies (defaultOpen
@@ -197,7 +194,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 				loading: result.isFetching,
 			}}
 			disabled={result.isFetching}
-			css={{
+			cls={{
 				modal: [
 					"w-2/3",
 				],

@@ -16,12 +16,9 @@ export const FormError: FC<FormError.Props> = ({
 	error,
 	variant,
 	tva = FormErrorCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return error?.message ? (
 		<div className={slots.base()}>

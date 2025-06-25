@@ -66,7 +66,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 	value,
 	variant,
 	tva = SelectCls,
-	css,
+	cls,
 }: Select.Props<TItem>) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -139,11 +139,13 @@ export const Select = <TItem extends IdentitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const tv = tva({
-		disabled,
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(
+		{
+			disabled,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<>
@@ -151,16 +153,16 @@ export const Select = <TItem extends IdentitySchema.Type>({
 				tabIndex={disabled ? -1 : 0}
 				ref={disabled ? undefined : refs.setReference}
 				{...(disabled ? {} : getReferenceProps())}
-				className={tv.base()}
+				className={slots.base()}
 			>
-				<div className={tv.input()}>
+				<div className={slots.input()}>
 					{icon ? (
 						<Icon
 							icon={icon}
 							variant={{
 								size: "xl",
 							}}
-							css={{
+							cls={{
 								base: [
 									"text-slate-400",
 									"group-hover:text-slate-600",
@@ -197,7 +199,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 							variant={{
 								size: "xl",
 							}}
-							css={{
+							cls={{
 								base: [
 									!isOpen && "text-slate-400",
 									isOpen && "text-slate-600",
@@ -220,7 +222,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 								...floatingStyles,
 								...styles,
 							}}
-							className={tv.popup()}
+							className={slots.popup()}
 							{...getFloatingProps()}
 						>
 							{items.map((value, i) => (
@@ -230,7 +232,7 @@ export const Select = <TItem extends IdentitySchema.Type>({
 										listRef.current[i] = node;
 									}}
 									tabIndex={i === activeIndex ? 0 : -1}
-									className={tv.item({
+									className={slots.item({
 										selected: i === selectedIndex,
 										active: i === activeIndex,
 									})}

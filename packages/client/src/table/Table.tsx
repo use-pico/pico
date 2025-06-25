@@ -135,7 +135,7 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	),
 	variant,
 	tva = TableCls,
-	css,
+	cls,
 }: Table.Props<TData, TContext>) => {
 	const withActions = Boolean(
 		(actionTable && !actionTableHidden) ||
@@ -162,7 +162,7 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 		sort,
 		variant,
 		tva,
-		css,
+		cls,
 		withActions,
 	});
 

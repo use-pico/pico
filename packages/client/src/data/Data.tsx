@@ -49,7 +49,7 @@ export const Data = <TSchema extends StandardSchemaV1>({
 		<Status
 			icon={ErrorIcon}
 			iconProps={{
-				css: {
+				cls: {
 					base: [
 						"text-red-500",
 					],

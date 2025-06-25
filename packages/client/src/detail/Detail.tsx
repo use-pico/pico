@@ -12,12 +12,9 @@ export const Detail: FC<Detail.Props> = ({
 	section,
 	variant,
 	tva = DetailCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

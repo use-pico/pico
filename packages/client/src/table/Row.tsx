@@ -44,10 +44,12 @@ export const Row = <TData extends DataType.Data>({
 }: Row.Props<TData>) => {
 	return (
 		<div
-			className={slots.tr({
-				css: props?.css?.(row),
-				selected: selection?.isSelected(row),
-			})}
+			className={slots.tr(
+				{
+					selected: selection?.isSelected(row),
+				},
+				props?.css?.(row),
+			)}
 			style={{
 				gridTemplateColumns: grid,
 			}}
@@ -73,7 +75,7 @@ export const Row = <TData extends DataType.Data>({
 									? SelectionOnIcon
 									: SelectionOffIcon
 							}
-							css={{
+							cls={{
 								base: slots.select({
 									selected: selection.isSelected(row),
 								}),

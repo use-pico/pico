@@ -18,12 +18,9 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	badgeProps,
 	variant,
 	tva = LabelCountCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

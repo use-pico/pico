@@ -16,13 +16,10 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	onChange,
 	variant,
 	tva = BoolInputCls,
-	css,
+	cls,
 	...props
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

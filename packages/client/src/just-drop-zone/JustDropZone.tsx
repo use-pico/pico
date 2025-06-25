@@ -37,7 +37,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	textMessage,
 	variant,
 	tva = JustDropZoneCls,
-	css,
+	cls,
 	children: Children,
 	onDropAccepted,
 	...props
@@ -61,12 +61,14 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const { slots } = tva({
-		active: isDragActive,
-		rejected: isDragReject,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			active: isDragActive,
+			rejected: isDragReject,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<div

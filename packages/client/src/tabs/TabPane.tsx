@@ -12,18 +12,20 @@ export const TabPane: FC<TabPane.Props> = ({
 	tab,
 	variant,
 	tva = TabPaneCls,
-	css,
+	cls,
 	children,
 }) => {
 	const useStore = useContext(TabsContext);
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const { slots } = tva({
-		hidden: tab !== currentTab,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			hidden: tab !== currentTab,
+			...variant,
+		},
+		cls,
+	);
 
 	return hidden.includes(tab) ? null : (
 		<div className={slots.base()}>{children}</div>

@@ -59,21 +59,23 @@ export const Action: FC<Action.Props> = ({
 	onClick,
 	variant,
 	tva = ActionCls,
-	css,
+	cls,
 	children,
 	...props
 }) => {
-	const tv = tva({
-		disabled,
-		loading,
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(
+		{
+			disabled,
+			loading,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			<div
-				className={tv.action()}
+				className={slots.action()}
 				onClick={disabled ? undefined : onClick}
 				{...props}
 			>

@@ -30,21 +30,14 @@ export const Icon: FC<Icon.Props> = ({
 	icon,
 	variant,
 	tva = IconCls,
-	css,
+	cls,
 	...props
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return icon ? (
 		<div
-			className={slots.base({
-				css: [
-					icon,
-				],
-			})}
+			className={slots.base({}, icon)}
 			{...props}
 		/>
 	) : null;

@@ -29,7 +29,7 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 
 	variant,
 	tva = PopupMultiSelectCls,
-	css,
+	cls,
 }) => {
 	const page = useLocalStore((state) => state.page);
 	const setPage = useLocalStore((state) => state.setPage);
@@ -40,10 +40,7 @@ export const PopupMultiContent: FC<PopupMultiContent.Props> = ({
 	const fulltext = useLocalStore((state) => state.fulltext);
 	const setFulltext = useLocalStore((state) => state.setFulltext);
 
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

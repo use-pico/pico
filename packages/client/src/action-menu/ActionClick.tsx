@@ -19,14 +19,11 @@ export const ActionClick: FC<ActionClick.Props> = ({
 	loading = false,
 	variant,
 	tva = ActionClickCls,
-	css,
+	cls,
 	children,
 	...props
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div

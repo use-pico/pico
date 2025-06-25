@@ -10,13 +10,10 @@ export namespace Menu {
 export const Menu: FC<Menu.Props> = ({
 	variant,
 	tva = MenuCls,
-	css,
+	cls,
 	children,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return <div className={slots.base()}>{children}</div>;
 };

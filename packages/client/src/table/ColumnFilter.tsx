@@ -27,7 +27,7 @@ export const ColumnFilter: FC<ColumnFilter.Props> = ({ filter, column }) => {
 			variant={{
 				size: "md",
 			}}
-			css={{
+			cls={{
 				base: [
 					"opacity-50",
 					"hover:opacity-100",

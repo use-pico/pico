@@ -29,13 +29,10 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	invalidator,
 	variant,
 	tva = DeleteControlCls,
-	css,
+	cls,
 }) => {
 	const router = useRouter();
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const mutation = useMutation({

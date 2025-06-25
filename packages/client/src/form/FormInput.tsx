@@ -26,17 +26,19 @@ export const FormInput = <TFormState extends FormState<any>>({
 	children,
 	variant,
 	tva = FormInputCls,
-	css,
+	cls,
 }: FormInput.Props<TFormState>) => {
-	const { slots } = tva({
-		isSubmitting: formState.isSubmitting,
-		isLoading: formState.isLoading,
-		isError: Boolean(formState.errors[name]),
-		required,
-		disabled,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			isSubmitting: formState.isSubmitting,
+			isLoading: formState.isLoading,
+			isError: Boolean(formState.errors[name]),
+			required,
+			disabled,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<div className={slots.base()}>

@@ -17,21 +17,18 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 			iconProps,
 			variant,
 			tva = ActionLinkCls,
-			css,
+			cls,
 			children,
 			...props
 		},
 		ref,
 	) => {
-		const tv = tva({
-			...variant,
-			css,
-		}).slots;
+		const { slots } = tva(variant, cls);
 
 		return (
 			<a
 				{...props}
-				className={tv.base()}
+				className={slots.base()}
 				ref={ref}
 			>
 				{isString(icon) ? (

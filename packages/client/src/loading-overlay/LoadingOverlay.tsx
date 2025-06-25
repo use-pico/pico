@@ -12,13 +12,15 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	show = true,
 	variant,
 	tva = LoadingOverlayCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		show,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			show,
+			...variant,
+		},
+		cls,
+	);
 
 	return show ? (
 		<div className={slots.base()}>
@@ -27,7 +29,7 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 				variant={{
 					size: "8xl",
 				}}
-				css={{
+				cls={{
 					base: [
 						"text-sky-400",
 					],

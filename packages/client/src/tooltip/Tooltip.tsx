@@ -12,20 +12,17 @@ export const Tooltip: FC<Tooltip.Props> = ({
 	target,
 	children,
 	variant,
-	css,
 	tva = TooltipCls,
+	cls,
 }) => {
-	const tv = tva({
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(variant, cls);
 
 	return (
 		<Float
 			action={"hover"}
 			target={target}
 		>
-			<div className={tv.base()}>{children}</div>
+			<div className={slots.base()}>{children}</div>
 		</Float>
 	);
 };

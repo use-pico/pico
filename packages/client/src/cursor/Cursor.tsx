@@ -32,7 +32,7 @@ export const Cursor: FC<Cursor.Props> = ({
 	onSize,
 	variant,
 	tva = CursorCls,
-	css,
+	cls,
 }) => {
 	const $cursor = useMemo(
 		() =>
@@ -49,10 +49,7 @@ export const Cursor: FC<Cursor.Props> = ({
 		],
 	);
 
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

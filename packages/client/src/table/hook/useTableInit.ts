@@ -39,12 +39,9 @@ export const useTableInit = <TData extends DataType.Data, TContext = any>({
 	withActions,
 	variant,
 	tva = TableCls,
-	css,
+	cls,
 }: useTableInit.Props<TData, TContext>) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	const $selection = wrapSelection<TData>({
 		props: selection,

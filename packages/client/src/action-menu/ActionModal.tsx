@@ -22,17 +22,19 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	hidden = false,
 	variant,
 	tva = ActionModalCls,
-	css,
+	cls,
 	...props
 }) => {
-	const tv = tva({
-		...variant,
-		disabled,
-		css,
-	}).slots;
+	const { slots } = tva(
+		{
+			...variant,
+			disabled,
+		},
+		cls,
+	);
 
 	return hidden ? null : (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			<Modal
 				icon={icon}
 				target={
@@ -49,7 +51,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 					</div>
 				}
 				disabled={disabled}
-				css={{
+				cls={{
 					modal: [
 						"w-2/3",
 					],

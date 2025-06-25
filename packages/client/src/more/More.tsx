@@ -38,13 +38,10 @@ export const More = <TValues extends IdentitySchema.Type>({
 	limit,
 	variant,
 	tva = MoreCls,
-	css,
+	cls,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

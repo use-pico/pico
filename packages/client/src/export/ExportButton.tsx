@@ -159,7 +159,7 @@ export const ExportButton = <TItem extends IdentitySchema.Type>({
 					</div>
 				);
 			}}
-			css={{
+			cls={{
 				modal: [
 					"w-1/2",
 				],

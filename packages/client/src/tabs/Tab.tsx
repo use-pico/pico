@@ -12,17 +12,19 @@ export const Tab: FC<Tab.Props> = ({
 	tab,
 	variant,
 	tva = TabCls,
-	css,
+	cls,
 	children,
 }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const { slots } = tva({
-		active: tab === store.tab,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			active: tab === store.tab,
+			...variant,
+		},
+		cls,
+	);
 
 	return store.hidden.includes(tab) ? null : (
 		<div

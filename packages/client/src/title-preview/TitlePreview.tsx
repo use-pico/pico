@@ -16,13 +16,15 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	subtitle,
 	variant,
 	tva = TitlePreviewCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		withSubtitle: Boolean(subtitle),
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			withSubtitle: Boolean(subtitle),
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<div className={slots.base()}>

@@ -27,13 +27,10 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 	children,
 	variant,
 	tva = ActionMenuCls,
-	css,
+	cls,
 	...props
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<FloatingTree>

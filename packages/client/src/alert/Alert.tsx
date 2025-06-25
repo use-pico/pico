@@ -27,17 +27,19 @@ export const Alert: FC<Alert.Props> = ({
 	onClick,
 	variant,
 	tva = AlertCls,
-	css,
+	cls,
 	children,
 }) => {
-	const tv = tva({
-		clickable: Boolean(onClick),
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(
+		{
+			clickable: Boolean(onClick),
+			...variant,
+		},
+		cls,
+	);
 	return (
 		<div
-			className={tv.base()}
+			className={slots.base()}
 			onClick={onClick}
 			role={"alert"}
 		>
@@ -51,10 +53,10 @@ export const Alert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<div className={tv.title()}>{title}</div>
+				<div className={slots.title()}>{title}</div>
 			</div>
-			{message && <div className={tv.message()}>{message}</div>}
-			{children && <div className={tv.body()}>{children}</div>}
+			{message && <div className={slots.message()}>{message}</div>}
+			{children && <div className={slots.body()}>{children}</div>}
 		</div>
 	);
 };

@@ -23,15 +23,17 @@ export const Button: FC<Button.Props> = memo(
 		loading,
 		variant,
 		tva = ButtonCls,
-		css,
+		cls,
 		children,
 		...props
 	}) => {
-		const tv = tva({
-			disabled: props.disabled,
-			...variant,
-			css,
-		}).slots;
+		const { slots } = tva(
+			{
+				disabled: props.disabled,
+				...variant,
+			},
+			cls,
+		);
 
 		const iconVariant = useMemo(
 			() =>
@@ -44,7 +46,7 @@ export const Button: FC<Button.Props> = memo(
 		return (
 			<button
 				type={"button"}
-				className={tv.base({
+				className={slots.base({
 					disabled: props.disabled,
 				})}
 				{...props}

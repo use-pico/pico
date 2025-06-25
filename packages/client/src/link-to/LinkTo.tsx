@@ -16,13 +16,10 @@ interface $LinkTo extends LinkToCls.Props<PropsWithChildren> {
 
 const $LinkTo = forwardRef<HTMLAnchorElement, $LinkTo>(
 	(
-		{ icon, iconProps, variant, tva = LinkToCls, css, children, ...props },
+		{ icon, iconProps, variant, tva = LinkToCls, cls, children, ...props },
 		ref,
 	) => {
-		const { slots } = tva({
-			...variant,
-			css,
-		});
+		const { slots } = tva(variant, cls);
 
 		return (
 			<a

@@ -36,7 +36,7 @@ export const TableTools = <TContext = any>({
 						<Fulltext
 							value={fulltext.value}
 							onFulltext={fulltext.set}
-							css={{
+							cls={{
 								base: [
 									"w-96",
 								],
@@ -60,7 +60,7 @@ export const TableTools = <TContext = any>({
 					? filter.is() && (
 							<Action
 								iconEnabled={FilterRemoveIcon}
-								css={{
+								cls={{
 									base: [
 										"text-amber-500",
 									],

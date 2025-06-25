@@ -85,12 +85,9 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 
 	variant,
 	tva = PopupMultiSelectCls,
-	css,
+	cls,
 }: PopupMultiSelect.Props<TItem>) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
 	const fulltext = useLocalStore((state) => state.fulltext);
@@ -188,7 +185,7 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 				loading: result.isFetching,
 			}}
 			disabled={result.isFetching}
-			css={{
+			cls={{
 				modal: [
 					"w-2/3",
 				],

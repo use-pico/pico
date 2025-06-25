@@ -11,16 +11,14 @@ export const TabList: FC<TabList.Props> = ({
 	right,
 	variant,
 	tva = TabListCls,
-	css,
+	cls,
 	children,
 }) => {
-	const tv = tva({
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(variant, cls);
+
 	return (
-		<div className={tv.base()}>
-			<div className={tv.tabs()}>{children}</div>
+		<div className={slots.base()}>
+			<div className={slots.tabs()}>{children}</div>
 			{right}
 		</div>
 	);

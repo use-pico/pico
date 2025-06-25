@@ -17,13 +17,10 @@ interface Item
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
 	(
-		{ icon = null, variant, tva = MenuLinkCls, css, children, ...props },
+		{ icon = null, variant, tva = MenuLinkCls, cls, children, ...props },
 		ref,
 	) => {
-		const { slots } = tva({
-			...variant,
-			css,
-		});
+		const { slots } = tva(variant, cls);
 
 		return (
 			<a
@@ -44,7 +41,7 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 	match = [],
 	variant,
 	tva = MenuLinkCls,
-	css,
+	cls,
 	...props
 }) => {
 	const matchRoute = useMatchRoute();
@@ -64,7 +61,7 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 				...variant,
 			}}
 			tva={tva}
-			css={css}
+			cls={cls}
 			/**
 			 * TODO Another fuckin' any, kill it!
 			 */

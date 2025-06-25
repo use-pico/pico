@@ -41,7 +41,7 @@ export const PopupContent: FC<PopupContent.Props> = ({
 
 	variant,
 	tva = PopupSelectCls,
-	css,
+	cls,
 }) => {
 	const page = useLocalStore((state) => state.page);
 	const setPage = useLocalStore((state) => state.setPage);
@@ -55,10 +55,7 @@ export const PopupContent: FC<PopupContent.Props> = ({
 	const useModal = useContext(ModalContext);
 	const close = useModal((state) => state.close);
 
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

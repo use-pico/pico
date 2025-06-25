@@ -32,7 +32,7 @@ export const Transfer = <TItem extends IdentitySchema.Type>({
 	onChange,
 	variant,
 	tva = TransferCls,
-	css,
+	cls,
 }: Transfer.Props<TItem>) => {
 	const itemMap = new Map<
 		string,
@@ -70,10 +70,7 @@ export const Transfer = <TItem extends IdentitySchema.Type>({
 		};
 	});
 
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	const withHandleSelect = (group: ReactNode, item: TItem) => () => {
 		onChange?.(
@@ -125,7 +122,7 @@ export const Transfer = <TItem extends IdentitySchema.Type>({
 									>
 										<Render item={item} />
 										<Action
-											css={{
+											cls={{
 												base: [
 													"invisible",
 													"group-hover:visible",
@@ -186,7 +183,7 @@ export const Transfer = <TItem extends IdentitySchema.Type>({
 								<Render item={item} />
 							</div>
 							<Action
-								css={{
+								cls={{
 									base: [
 										"invisible",
 										"group-hover:visible",

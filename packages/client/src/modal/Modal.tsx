@@ -56,7 +56,7 @@ export const Modal: FC<Modal.Props> = ({
 	defaultOpen = false,
 	outside = false,
 	variant,
-	css,
+	cls,
 	tva = ModalCls,
 	children: Children,
 	footer: Footer,
@@ -87,11 +87,13 @@ export const Modal: FC<Modal.Props> = ({
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
 
-	const { slots } = tva({
-		disabled,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			disabled,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<ModalContext.Provider value={useModalStore}>

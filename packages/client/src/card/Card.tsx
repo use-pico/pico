@@ -70,14 +70,16 @@ export const Card = <TValues extends Record<string, any>>({
 	entity,
 	variant,
 	tva = CardCls,
-	css,
+	cls,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const { slots } = tva({
-		inline,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			inline,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<InlineContext.Provider

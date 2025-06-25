@@ -16,13 +16,10 @@ export namespace Badge {
 export const Badge: FC<Badge.Props> = ({
 	variant,
 	tva = BadgeCls,
-	css,
+	cls,
 	...props
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div

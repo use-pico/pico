@@ -26,25 +26,22 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	actions,
 	variant,
 	tva = AppLayoutCls,
-	css,
+	cls,
 	children,
 }) => {
-	const tv = tva({
-		...variant,
-		css,
-	}).slots;
+	const { slots } = tva(variant, cls);
 
 	return (
-		<div className={tv.base()}>
+		<div className={slots.base()}>
 			<Toaster position={"top-right"} />
-			<div className={tv.header()}>
+			<div className={slots.header()}>
 				<div>{logo}</div>
 				<div className={"grow"}>{menu}</div>
 				<div className={"flex flex-row gap-2 items-center"}>
 					{actions}
 				</div>
 			</div>
-			<div className={tv.content()}>{children ?? <Outlet />}</div>
+			<div className={slots.content()}>{children ?? <Outlet />}</div>
 		</div>
 	);
 };

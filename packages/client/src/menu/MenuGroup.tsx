@@ -21,17 +21,19 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	match = [],
 	variant,
 	tva = MenuGroupCls,
-	css,
+	cls,
 	children,
 }) => {
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const { slots } = tva({
-		active: isActive,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			active: isActive,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<div className={slots.base()}>

@@ -16,15 +16,17 @@ export const ValueOf: FC<ValueOf.Props> = ({
 	value,
 	variant,
 	tva = ValueOfCls,
-	css,
+	cls,
 }) => {
 	const inlineStore = useContext(InlineContext);
 	const isInline = inline ?? inlineStore?.inline;
-	const { slots } = tva({
-		inline: isInline,
-		...variant,
-		css,
-	});
+	const { slots } = tva(
+		{
+			inline: isInline,
+			...variant,
+		},
+		cls,
+	);
 
 	return (
 		<div className={slots.base()}>

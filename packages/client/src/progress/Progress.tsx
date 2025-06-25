@@ -11,12 +11,9 @@ export const Progress: FC<Progress.Props> = ({
 	value,
 	variant,
 	tva = ProgressCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>

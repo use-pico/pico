@@ -21,12 +21,9 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	textPlaceholder,
 	variant,
 	tva = FulltextCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 	const [search, setSearch] = useDebounce(value, onFulltext, 500);
 
 	return (

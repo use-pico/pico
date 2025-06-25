@@ -39,12 +39,10 @@ export const Preview = <TValues extends Record<string, any>>({
 	extra: Extra,
 	variant,
 	tva = PreviewCls,
-	css,
+	cls,
 }: Preview.Props<TValues>) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
+
 	return (
 		<InlineContext.Provider
 			value={{

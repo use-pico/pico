@@ -21,7 +21,7 @@ export const Upload: FC<Upload.Props> = ({ progressProps, ...props }) => {
 		<div className={"w-full"}>
 			<Progress
 				{...progressProps}
-				css={{
+				cls={{
 					progress: [
 						isSuccess && "bg-green-400",
 						isRunning && "bg-blue-400",

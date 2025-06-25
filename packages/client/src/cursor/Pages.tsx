@@ -16,12 +16,9 @@ export const Pages: FC<Pages.Props> = ({
 	onPage,
 	variant,
 	tva = PagesCls,
-	css,
+	cls,
 }) => {
-	const { slots } = tva({
-		...variant,
-		css,
-	});
+	const { slots } = tva(variant, cls);
 
 	return (
 		<nav className={slots.base()}>
