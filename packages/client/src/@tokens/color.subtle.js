@@ -15,21 +15,21 @@ export default {
 			},
 			bg: {
 				default: {
-					value: "var(--color-blue-100)",
+					value: "var(--color-blue-50)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-200)",
+					value: "var(--color-blue-100)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-blue-300)",
+					value: "var(--color-blue-100)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-400)",
+					value: "var(--color-blue-200)",
 					attributes,
 				},
 			},

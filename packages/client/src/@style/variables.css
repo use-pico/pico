@@ -53,10 +53,10 @@
   --pico-color-secondary-shadow-hover: var(--color-sky-400);
   --pico-color-subtle-text-default: var(--color-blue-500);
   --pico-color-subtle-text-hover: var(--color-blue-600);
-  --pico-color-subtle-bg-default: var(--color-blue-100);
-  --pico-color-subtle-bg-hover: var(--color-blue-200);
-  --pico-color-subtle-border-default: var(--color-blue-300);
-  --pico-color-subtle-border-hover: var(--color-blue-400);
+  --pico-color-subtle-bg-default: var(--color-blue-50);
+  --pico-color-subtle-bg-hover: var(--color-blue-100);
+  --pico-color-subtle-border-default: var(--color-blue-100);
+  --pico-color-subtle-border-hover: var(--color-blue-200);
   --pico-color-subtle-shadow-default: var(--color-blue-200);
   --pico-color-subtle-shadow-hover: var(--color-blue-400);
 }

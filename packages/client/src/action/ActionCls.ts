@@ -3,34 +3,37 @@ import { cls } from "@use-pico/common";
 export const ActionCls = cls({
 	slot: {
 		base: [
-			"pico--action",
 			"w-fit",
 			"h-fit",
 		],
 		action: [
-			"bg-(--color-bg)",
-			"border-(--color-border)",
 			"border",
 			"cursor-pointer",
 			"flex",
 			"gap-2",
 			"group",
 			"h-fit",
-			"hover:bg-(--color-bg-hover)",
-			"hover:border-(--color-border-hover)",
-			"hover:shadow-(--color-shadow-hover)",
 			"hover:shadow-md",
-			"hover:text-(--color-text-hover)",
 			"items-center",
 			"justify-center",
 			"p-1",
 			"rounded-sm",
 			"rounded",
-			"shadow-(--color-shadow)",
-			"text-(--color-text)",
 			"text-2xl",
 			"transition-all",
 			"w-fit",
+			// CSS Variables
+			"bg-(--pico-color-bg-default)",
+			"hover:bg-(--pico-color-bg-hover)",
+			//
+			"border-(--pico-color-border-default)",
+			"hover:border-(--pico-color-border-hover)",
+			//
+			"shadow-(--pico-color-shadow-default)",
+			"hover:shadow-(--pico-color-shadow-hover)",
+			//
+			"text-(--pico-color-text-default)",
+			"hover:text-(--pico-color-text-hover)",
 		],
 	},
 	variant: {
@@ -52,19 +55,25 @@ export const ActionCls = cls({
 		},
 		variant: {
 			primary: [
-				"color-primary",
+				"pico--action-color-danger",
 			],
 			secondary: [
-				"color-secondary",
+				"pico--action-color-secondary",
 			],
 			danger: [
-				"color-danger",
+				"pico--action-color-danger",
+			],
+			"danger-light": [
+				"pico--action-color-danger-light",
 			],
 			subtle: [
-				"color-subtle",
+				"pico--action-color-subtle",
 			],
 			light: [
-				"color-light",
+				"pico--action-color-light",
+			],
+			neutral: [
+				"pico--action-color-neutral",
 			],
 		},
 		borderless: {

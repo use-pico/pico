@@ -2,7 +2,6 @@
 @import "./@style/contract.css";
 @import "./@style/variables.css";
 
-@import "./action/style.css";
 @import "./alert/style.css";
 @import "./detail/style.css";
 @import "./form/style.css";
