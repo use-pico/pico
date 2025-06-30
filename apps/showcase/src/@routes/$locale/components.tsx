@@ -47,9 +47,7 @@ export const Route = createFileRoute("/$locale/components")({
 						}}
 					>
 						<MenuLink
-							icon={
-								"icon-[material-symbols-light--flash-on-outline-rounded]"
-							}
+							icon={"icon-[bx--color-fill]"}
 							to={"/$locale/components/colors"}
 							params={{
 								locale,
@@ -59,6 +57,19 @@ export const Route = createFileRoute("/$locale/components")({
 							}}
 						>
 							<Tx label={"Colors"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[mdi-light--alert]"}
+							to={"/$locale/components/alert"}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
+						>
+							<Tx label={"Alert"} />
 						</MenuLink>
 
 						<MenuLink
