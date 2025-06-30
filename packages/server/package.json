@@ -15,11 +15,11 @@
 		"yaml": "2.8.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.5",
-		"@types/node": "24.0.4",
+		"@biomejs/biome": "2.0.6",
+		"@types/node": "24.0.7",
 		"@use-pico/eslint-config-eslint": "5.0.11",
 		"@use-pico/tsconfig": "4.0.12",
-		"eslint": "9.29.0",
+		"eslint": "9.30.0",
 		"typescript": "5.8.3"
 	},
 	"main": "src/index.ts",

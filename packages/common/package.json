@@ -12,7 +12,7 @@
 		"@apollo/client": "3.13.8",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.121.34",
+		"@tanstack/zod-adapter": "1.123.0",
 		"axios": "1.10.0",
 		"axios-rate-limit": "1.4.0",
 		"build-url-ts": "6.1.8",
@@ -33,7 +33,7 @@
 		"zod": "3.25.67"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.5",
+		"@biomejs/biome": "2.0.6",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
@@ -42,7 +42,7 @@
 		"@types/react": "19.1.8",
 		"@use-pico/eslint-config-eslint": "5.0.11",
 		"@use-pico/tsconfig": "4.0.12",
-		"eslint": "9.29.0",
+		"eslint": "9.30.0",
 		"typescript": "5.8.3"
 	},
 	"main": "src/index.ts",
