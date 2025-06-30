@@ -1,7 +1,6 @@
-import type { ReactNode } from "@tanstack/react-router";
 import { Icon, LoaderIcon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
-import type { FC, HTMLAttributes } from "react";
+import type { FC, HTMLAttributes, ReactNode } from "react";
 import { ActionClickCls } from "./ActionClickCls";
 
 export namespace ActionClick {

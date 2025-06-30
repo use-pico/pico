@@ -1,5 +1,4 @@
-import type { ReactNode } from "@tanstack/react-router";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import type { DetailCls } from "./DetailCls";
 
 export namespace Value {

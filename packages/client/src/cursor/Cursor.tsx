@@ -1,10 +1,9 @@
-import type { ReactNode } from "@tanstack/react-router";
 import {
 	type CountSchema,
 	type CursorSchema,
 	cursorOf,
 } from "@use-pico/common";
-import { type FC, useMemo } from "react";
+import { type FC, type ReactNode, useMemo } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
 import { CursorCls } from "./CursorCls";

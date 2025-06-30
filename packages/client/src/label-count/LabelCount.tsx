@@ -1,6 +1,5 @@
-import type { ReactNode } from "@tanstack/react-router";
 import { toHumanNumber } from "@use-pico/common";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { Badge } from "../badge/Badge";
 import { LabelCountCls } from "./LabelCountCls";
 

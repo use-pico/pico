@@ -1,5 +1,4 @@
-import type { ReactNode } from "@tanstack/react-router";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import type { FormState } from "react-hook-form";
 import { FormError } from "./FormError";
 import { FormInputCls } from "./FormInputCls";

@@ -1,6 +1,5 @@
 import { FloatingTree } from "@floating-ui/react";
-import type { ReactNode } from "@tanstack/react-router";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
@@ -9,7 +8,7 @@ import { ActionMenuCls } from "./ActionMenuCls";
 
 export namespace ActionMenu {
 	export interface Props extends ActionMenuCls.Props<PropsWithChildren> {
-		icon?: string | ReactNode;
+		icon?: string;
 		iconProps?: Omit<Icon.Props, "icon">;
 		/**
 		 * Override the default target element for the menu

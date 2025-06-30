@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ReactNode } from "@tanstack/react-router";
 import type {
 	CursorSchema,
 	FilterSchema,
 	IdentitySchema,
 } from "@use-pico/common";
-import { type FC, useEffect, useId, useMemo } from "react";
+import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
