@@ -7,7 +7,7 @@ StyleDictionary.registerFormat({
 		const platformPrefix = platform.prefix ? `${platform.prefix}-` : "";
 
 		dictionary.allTokens.forEach((token) => {
-			const selector = `.${token.attributes?.type ?? "unknown"}`;
+			const selector = `.${token.path[0]}`;
 			if (!groups[selector]) {
 				groups[selector] = [];
 			}
@@ -20,10 +20,7 @@ StyleDictionary.registerFormat({
 				typeof value === "string" ? value.match(/^\{(.+)\}$/u) : null;
 
 			if (match) {
-				const referencedTokenPath = match[1]
-					.split(".")
-					.slice(1)
-					.join("-");
+				const referencedTokenPath = match[1].split(".").join("-");
 				value = `var(--${platformPrefix}${referencedTokenPath})`;
 			}
 
@@ -82,6 +79,25 @@ export default {
 		verbosity: "verbose",
 	},
 	platforms: {
+		contract: {
+			transformGroup: "pico/css",
+			buildPath: "src/@style",
+			prefix: "pico",
+			files: [
+				{
+					destination: "contract.css",
+					format: "pico/contract",
+					filter: {
+						attributes: {
+							category: "contract",
+						},
+					},
+					options: {
+						outputReferences: true,
+					},
+				},
+			],
+		},
 		variables: {
 			transformGroup: "css",
 			buildPath: "src/@style",
@@ -90,6 +106,11 @@ export default {
 				{
 					destination: "variables.css",
 					format: "css/variables",
+					filter: {
+						attributes: {
+							category: "variable",
+						},
+					},
 					options: {
 						outputReferences: true,
 					},

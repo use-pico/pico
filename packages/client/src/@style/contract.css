@@ -1,0 +1,5 @@
+.button-color-primary {
+  /* color */
+  --pico-color-bg-default: var(--pico-color-primary-bg-default);
+  --pico-color-bg-hover: var(--pico-color-primary-bg-hover);
+}
