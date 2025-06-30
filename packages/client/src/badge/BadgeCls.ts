@@ -3,9 +3,6 @@ import { cls } from "@use-pico/common";
 export const BadgeCls = cls({
 	slot: {
 		base: [
-			"pico--badge",
-			"bg-(--color-bg)",
-			"border-(--color-border)",
 			"border",
 			"flex-row",
 			"flex",
@@ -15,7 +12,6 @@ export const BadgeCls = cls({
 			"px-4",
 			"py-1",
 			"rounded-2xl",
-			"text-(--color-text)",
 			"text-sm",
 		],
 	},
@@ -25,19 +21,39 @@ export const BadgeCls = cls({
 		},
 		variant: {
 			primary: [
-				"color-primary",
+				"bg-(--pico-color-primary-bg-default)",
+				"border-(--pico-color-primary-border-default)",
+				"text-(--pico-color-primary-text-default)",
 			],
 			secondary: [
-				"color-secondary",
+				"bg-(--pico-color-secondary-bg-default)",
+				"border-(--pico-color-secondary-border-default)",
+				"text-(--pico-color-secondary-text-default)",
 			],
 			danger: [
-				"color-danger",
+				"bg-(--pico-color-danger-bg-default)",
+				"border-(--pico-color-danger-border-default)",
+				"text-(--pico-color-danger-text-default)",
+			],
+			"danger-light": [
+				"bg-(--pico-color-danger-light-bg-default)",
+				"border-(--pico-color-danger-light-border-default)",
+				"text-(--pico-color-danger-light-text-default)",
 			],
 			light: [
-				"color-light",
+				"bg-(--pico-color-light-bg-default)",
+				"border-(--pico-color-light-border-default)",
+				"text-(--pico-color-light-text-default)",
 			],
 			subtle: [
-				"color-subtle",
+				"bg-(--pico-color-subtle-bg-default)",
+				"border-(--pico-color-subtle-border-default)",
+				"text-(--pico-color-subtle-text-default)",
+			],
+			neutral: [
+				"bg-(--pico-color-neutral-bg-default)",
+				"border-(--pico-color-neutral-border-default)",
+				"text-(--pico-color-neutral-text-default)",
 			],
 		},
 		borderless: {

@@ -1,8 +1,8 @@
 @import "./@style/color.css";
+@import "./@style/variables.css";
 
 @import "./action/style.css";
 @import "./alert/style.css";
-@import "./badge/style.css";
 @import "./button/style.css";
 @import "./detail/style.css";
 @import "./form/style.css";

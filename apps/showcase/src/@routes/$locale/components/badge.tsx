@@ -6,21 +6,21 @@ export const Route = createFileRoute("/$locale/components/badge")({
 		return (
 			<div className={"flex flex-row items-center h-fit gap-2"}>
 				<Badge>
-					<Icon icon={AscIcon} /> <div>Foo bar</div>
+					<Icon icon={AscIcon} /> <div>Default</div>
 				</Badge>
 				<Badge
 					variant={{
 						active: true,
 					}}
 				>
-					Bar foo
+					Default [active]
 				</Badge>
 				<Badge
 					variant={{
 						variant: "primary",
 					}}
 				>
-					Bar foo
+					Primary
 				</Badge>
 				<Badge
 					variant={{
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/$locale/components/badge")({
 						active: true,
 					}}
 				>
-					Bar foo
+					Secondary
 				</Badge>
 				<Badge
 					variant={{
@@ -36,7 +36,28 @@ export const Route = createFileRoute("/$locale/components/badge")({
 						active: true,
 					}}
 				>
-					Bar foo
+					Subtle
+				</Badge>
+				<Badge
+					variant={{
+						variant: "neutral",
+					}}
+				>
+					Neutral
+				</Badge>
+				<Badge
+					variant={{
+						variant: "danger",
+					}}
+				>
+					Danger
+				</Badge>
+				<Badge
+					variant={{
+						variant: "danger-light",
+					}}
+				>
+					Danger light
 				</Badge>
 			</div>
 		);

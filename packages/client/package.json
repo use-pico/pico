@@ -6,7 +6,8 @@
 	"sideEffects": false,
 	"scripts": {
 		"lint": "biome check .",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+        "build": "bun x style-dictionary build --config style-dictionary.config.js"
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.13",
