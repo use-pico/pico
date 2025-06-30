@@ -10,6 +10,10 @@ export const AlertCls = cls({
 			"px-3",
 			"flex",
 			"flex-col",
+			// CSS Variables
+			"border-(--pico-color-border-default)",
+			"bg-(--pico-color-bg-default)",
+			"text-(--pico-color-text-default)",
 		],
 		title: [
 			"font-semibold",
@@ -22,41 +26,30 @@ export const AlertCls = cls({
 		],
 		body: [
 			"border-t",
-			"border-(--color-body-border)",
 			"w-full",
+			// CSS Variables
+			"border-(--pico-color-border-default)",
 		],
 	},
 	variant: {
 		variant: {
 			info: [
-				"border-(--color-info-border)",
-				"bg-(--color-info-bg)",
-				"text-(--color-info-text)",
+				"pico--alert-color-info",
 			],
 			success: [
-				"border-(--color-success-border)",
-				"bg-(--color-success-bg)",
-				"text-(--color-success-text)",
+				"pico--alert-color-success",
 			],
 			warning: [
-				"border-(--color-warning-border)",
-				"bg-(--color-warning-bg)",
-				"text-(--color-warning-text)",
+				"pico--alert-color-warning",
 			],
 			error: [
-				"border-(--color-error-border)",
-				"bg-(--color-error-bg)",
-				"text-(--color-error-text)",
+				"pico--alert-color-error",
 			],
 			neutral: [
-				"border-(--color-neutral-border)",
-				"bg-(--color-neutral-bg)",
-				"text-(--color-neutral-text)",
+				"pico--alert-color-neutral",
 			],
 			subtle: [
-				"border-(--color-subtle-border)",
-				"bg-(--color-subtle-bg)",
-				"text---color-subtle-text",
+				"pico--alert-color-subtle",
 			],
 		},
 		clickable: {

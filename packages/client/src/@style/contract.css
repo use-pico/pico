@@ -89,6 +89,84 @@
 }
 
 
+.pico--alert-color-error {
+  /* color */
+  --pico-color-text-default: var(--pico-color-error-text-default);
+  --pico-color-text-hover: var(--pico-color-error-text-hover);
+  --pico-color-bg-default: var(--pico-color-error-bg-default);
+  --pico-color-bg-hover: var(--pico-color-error-bg-hover);
+  --pico-color-border-default: var(--pico-color-error-border-default);
+  --pico-color-border-hover: var(--pico-color-error-border-hover);
+  --pico-color-shadow-default: var(--pico-color-error-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-error-shadow-hover);
+}
+
+
+.pico--alert-color-info {
+  /* color */
+  --pico-color-text-default: var(--pico-color-light-text-default);
+  --pico-color-text-hover: var(--pico-color-light-text-hover);
+  --pico-color-bg-default: var(--pico-color-light-bg-default);
+  --pico-color-bg-hover: var(--pico-color-light-bg-hover);
+  --pico-color-border-default: var(--pico-color-light-border-default);
+  --pico-color-border-hover: var(--pico-color-light-border-hover);
+  --pico-color-shadow-default: var(--pico-color-light-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-light-shadow-hover);
+}
+
+
+.pico--alert-color-neutral {
+  /* color */
+  --pico-color-text-default: var(--pico-color-neutral-text-default);
+  --pico-color-text-hover: var(--pico-color-neutral-text-hover);
+  --pico-color-bg-default: var(--pico-color-neutral-bg-default);
+  --pico-color-bg-hover: var(--pico-color-neutral-bg-hover);
+  --pico-color-border-default: var(--pico-color-neutral-border-default);
+  --pico-color-border-hover: var(--pico-color-neutral-border-hover);
+  --pico-color-shadow-default: var(--pico-color-neutral-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-neutral-shadow-hover);
+}
+
+
+.pico--alert-color-subtle {
+  /* color */
+  --pico-color-text-default: var(--pico-color-subtle-text-default);
+  --pico-color-text-hover: var(--pico-color-subtle-text-hover);
+  --pico-color-bg-default: var(--pico-color-subtle-bg-default);
+  --pico-color-bg-hover: var(--pico-color-subtle-bg-hover);
+  --pico-color-border-default: var(--pico-color-subtle-border-default);
+  --pico-color-border-hover: var(--pico-color-subtle-border-hover);
+  --pico-color-shadow-default: var(--pico-color-subtle-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-subtle-shadow-hover);
+}
+
+
+.pico--alert-color-success {
+  /* color */
+  --pico-color-text-default: var(--pico-color-success-text-default);
+  --pico-color-text-hover: var(--pico-color-success-text-hover);
+  --pico-color-bg-default: var(--pico-color-success-bg-default);
+  --pico-color-bg-hover: var(--pico-color-success-bg-hover);
+  --pico-color-border-default: var(--pico-color-success-border-default);
+  --pico-color-border-hover: var(--pico-color-success-border-hover);
+  --pico-color-shadow-default: var(--pico-color-success-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-success-shadow-hover);
+}
+
+
+.pico--alert-color-warning {
+  /* color */
+  --pico-color-text-default: var(--pico-color-warning-text-default);
+  --pico-color-text-hover: var(--pico-color-warning-text-hover);
+  --pico-color-bg-default: var(--pico-color-warning-bg-default);
+  --pico-color-bg-hover: var(--pico-color-warning-bg-hover);
+  --pico-color-border-default: var(--pico-color-warning-border-default);
+  --pico-color-border-hover: var(--pico-color-warning-border-hover);
+  --pico-color-shadow-default: var(--pico-color-warning-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-warning-shadow-hover);
+}
+
+
 .pico--button-color-danger-light {
   /* color */
   --pico-color-text-default: var(--pico-color-danger-light-text-default);
