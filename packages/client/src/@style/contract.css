@@ -1,5 +1,89 @@
-.button-color-primary {
+.pico--button-color-danger-light {
   /* color */
+  --pico-color-text-default: var(--pico-color-danger-light-text-default);
+  --pico-color-text-hover: var(--pico-color-danger-light-text-hover);
+  --pico-color-bg-default: var(--pico-color-danger-light-bg-default);
+  --pico-color-bg-hover: var(--pico-color-danger-light-bg-hover);
+  --pico-color-border-default: var(--pico-color-danger-light-border-default);
+  --pico-color-border-hover: var(--pico-color-danger-light-border-hover);
+  --pico-color-shadow-default: var(--pico-color-danger-light-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-danger-light-shadow-hover);
+}
+
+
+.pico--button-color-danger {
+  /* color */
+  --pico-color-text-default: var(--pico-color-danger-text-default);
+  --pico-color-text-hover: var(--pico-color-danger-text-hover);
+  --pico-color-bg-default: var(--pico-color-danger-bg-default);
+  --pico-color-bg-hover: var(--pico-color-danger-bg-hover);
+  --pico-color-border-default: var(--pico-color-danger-border-default);
+  --pico-color-border-hover: var(--pico-color-danger-border-hover);
+  --pico-color-shadow-default: var(--pico-color-danger-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-danger-shadow-hover);
+}
+
+
+.pico--button-color-light {
+  /* color */
+  --pico-color-text-default: var(--pico-color-light-text-default);
+  --pico-color-text-hover: var(--pico-color-light-text-hover);
+  --pico-color-bg-default: var(--pico-color-light-bg-default);
+  --pico-color-bg-hover: var(--pico-color-light-bg-hover);
+  --pico-color-border-default: var(--pico-color-light-border-default);
+  --pico-color-border-hover: var(--pico-color-light-border-hover);
+  --pico-color-shadow-default: var(--pico-color-light-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-light-shadow-hover);
+}
+
+
+.pico--button-color-neutral {
+  /* color */
+  --pico-color-text-default: var(--pico-color-neutral-text-default);
+  --pico-color-text-hover: var(--pico-color-neutral-text-hover);
+  --pico-color-bg-default: var(--pico-color-neutral-bg-default);
+  --pico-color-bg-hover: var(--pico-color-neutral-bg-hover);
+  --pico-color-border-default: var(--pico-color-neutral-border-default);
+  --pico-color-border-hover: var(--pico-color-neutral-border-hover);
+  --pico-color-shadow-default: var(--pico-color-neutral-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-neutral-shadow-hover);
+}
+
+
+.pico--button-color-primary {
+  /* color */
+  --pico-color-text-default: var(--pico-color-primary-text-default);
+  --pico-color-text-hover: var(--pico-color-primary-text-hover);
   --pico-color-bg-default: var(--pico-color-primary-bg-default);
   --pico-color-bg-hover: var(--pico-color-primary-bg-hover);
+  --pico-color-border-default: var(--pico-color-primary-border-default);
+  --pico-color-border-hover: var(--pico-color-primary-border-hover);
+  --pico-color-shadow-default: var(--pico-color-primary-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-primary-shadow-hover);
+}
+
+
+.pico--button-color-secondary {
+  /* color */
+  --pico-color-text-default: var(--pico-color-secondary-text-default);
+  --pico-color-text-hover: var(--pico-color-secondary-text-hover);
+  --pico-color-bg-default: var(--pico-color-secondary-bg-default);
+  --pico-color-bg-hover: var(--pico-color-secondary-bg-hover);
+  --pico-color-border-default: var(--pico-color-secondary-border-default);
+  --pico-color-border-hover: var(--pico-color-secondary-border-hover);
+  --pico-color-shadow-default: var(--pico-color-secondary-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-secondary-shadow-hover);
+}
+
+
+.pico--button-color-subtle {
+  /* color */
+  --pico-color-text-default: var(--pico-color-subtle-text-default);
+  --pico-color-text-hover: var(--pico-color-subtle-text-hover);
+  --pico-color-bg-default: var(--pico-color-subtle-bg-default);
+  --pico-color-bg-hover: var(--pico-color-subtle-bg-hover);
+  --pico-color-border-default: var(--pico-color-subtle-border-default);
+  --pico-color-border-hover: var(--pico-color-subtle-border-hover);
+  --pico-color-shadow-default: var(--pico-color-subtle-shadow-default);
+  --pico-color-shadow-hover: var(--pico-color-subtle-shadow-hover);
 }

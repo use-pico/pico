@@ -142,6 +142,39 @@ export const Route = createFileRoute("/$locale/components/button")({
 				>
 					<Button
 						variant={{
+							variant: "neutral",
+						}}
+					>
+						<Tx label={"This is neutral button"} />
+					</Button>
+
+					<Button
+						variant={{
+							variant: "neutral",
+							borderless: true,
+						}}
+					>
+						<Tx label={"This is neutral borderless button"} />
+					</Button>
+
+					<Button
+						variant={{
+							variant: "neutral",
+						}}
+						disabled
+					>
+						<Tx label={"This is disabled neutral button"} />
+					</Button>
+				</div>
+
+				<div
+					className={tvc([
+						"flex",
+						"space-x-4",
+					])}
+				>
+					<Button
+						variant={{
 							variant: "danger",
 						}}
 					>
@@ -160,6 +193,39 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						variant={{
 							variant: "danger",
+						}}
+						disabled
+					>
+						<Tx label={"This is disabled danger button"} />
+					</Button>
+				</div>
+
+				<div
+					className={tvc([
+						"flex",
+						"space-x-4",
+					])}
+				>
+					<Button
+						variant={{
+							variant: "danger-light",
+						}}
+					>
+						<Tx label={"This is danger light button"} />
+					</Button>
+
+					<Button
+						variant={{
+							variant: "danger-light",
+							borderless: true,
+						}}
+					>
+						<Tx label={"This is danger borderless button"} />
+					</Button>
+
+					<Button
+						variant={{
+							variant: "danger-light",
 						}}
 						disabled
 					>
