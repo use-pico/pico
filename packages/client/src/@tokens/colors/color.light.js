@@ -1,45 +1,45 @@
-import { attributes } from "./attributes/variable.js";
+import { attributes } from "../attributes/variable.js";
 
 export default {
 	color: {
-		secondary: {
+		light: {
 			text: {
 				default: {
-					value: "var(--color-green-100)",
+					value: "var(--color-blue-500)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-green-100)",
+					value: "var(--color-blue-600)",
 					attributes,
 				},
 			},
 			bg: {
 				default: {
-					value: "var(--color-green-600)",
+					value: "transparent",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-green-500)",
+					value: "var(--color-blue-50)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-green-700)",
+					value: "var(--color-blue-500)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-green-600)",
+					value: "var(--color-blue-300)",
 					attributes,
 				},
 			},
 			shadow: {
 				default: {
-					value: "var(--color-sky-200)",
+					value: "var(--color-blue-200)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-sky-400)",
+					value: "var(--color-blue-400)",
 					attributes,
 				},
 			},

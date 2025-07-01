@@ -1,3 +1,16 @@
+.pico--action-menu-base {
+  /* text */
+  --pico-text-default: var(--pico-color-ui-text-default);
+  --pico-text-hover: var(--pico-color-ui-text-hover);
+
+  /* bg */
+  --pico-bg-default: var(--pico-color-ui-bg-default);
+
+  /* border */
+  --pico-border-default: var(--pico-color-ui-border-default);
+}
+
+
 .pico--action-color-danger-light {
   /* color */
   --pico-color-text-default: var(--pico-color-danger-light-text-default);

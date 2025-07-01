@@ -20,6 +20,7 @@ import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/co
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
 import { Route as LocaleComponentsBadgeRouteImport } from './@routes/$locale/components/badge'
 import { Route as LocaleComponentsAlertRouteImport } from './@routes/$locale/components/alert'
+import { Route as LocaleComponentsActionMenuRouteImport } from './@routes/$locale/components/action-menu'
 import { Route as LocaleComponentsActionRouteImport } from './@routes/$locale/components/action'
 
 const LocaleRoute = LocaleRouteImport.update({
@@ -78,6 +79,12 @@ const LocaleComponentsAlertRoute = LocaleComponentsAlertRouteImport.update({
   path: '/alert',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsActionMenuRoute =
+  LocaleComponentsActionMenuRouteImport.update({
+    id: '/action-menu',
+    path: '/action-menu',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsActionRoute = LocaleComponentsActionRouteImport.update({
   id: '/action',
   path: '/action',
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components': typeof LocaleComponentsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
@@ -102,6 +110,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
@@ -117,6 +126,7 @@ export interface FileRoutesById {
   '/$locale/components': typeof LocaleComponentsRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/components/action': typeof LocaleComponentsActionRoute
+  '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/$locale/components'
     | '/$locale/'
     | '/$locale/components/action'
+    | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
     | '/$locale/components/button'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/$locale/components/action'
+    | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
     | '/$locale/components/button'
@@ -159,6 +171,7 @@ export interface FileRouteTypes {
     | '/$locale/components'
     | '/$locale/'
     | '/$locale/components/action'
+    | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
     | '/$locale/components/button'
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsAlertRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/action-menu': {
+      id: '/$locale/components/action-menu'
+      path: '/action-menu'
+      fullPath: '/$locale/components/action-menu'
+      preLoaderRoute: typeof LocaleComponentsActionMenuRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/action': {
       id: '/$locale/components/action'
       path: '/action'
@@ -264,6 +284,7 @@ declare module '@tanstack/react-router' {
 
 interface LocaleComponentsRouteChildren {
   LocaleComponentsActionRoute: typeof LocaleComponentsActionRoute
+  LocaleComponentsActionMenuRoute: typeof LocaleComponentsActionMenuRoute
   LocaleComponentsAlertRoute: typeof LocaleComponentsAlertRoute
   LocaleComponentsBadgeRoute: typeof LocaleComponentsBadgeRoute
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
@@ -275,6 +296,7 @@ interface LocaleComponentsRouteChildren {
 
 const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsActionRoute: LocaleComponentsActionRoute,
+  LocaleComponentsActionMenuRoute: LocaleComponentsActionMenuRoute,
   LocaleComponentsAlertRoute: LocaleComponentsAlertRoute,
   LocaleComponentsBadgeRoute: LocaleComponentsBadgeRoute,
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,

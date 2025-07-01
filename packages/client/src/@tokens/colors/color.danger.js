@@ -1,45 +1,45 @@
-import { attributes } from "./attributes/variable.js";
+import { attributes } from "../attributes/variable.js";
 
 export default {
 	color: {
-		primary: {
+		danger: {
 			text: {
 				default: {
-					value: "var(--color-blue-100)",
+					value: "var(--color-red-100)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-100)",
+					value: "var(--color-red-100)",
 					attributes,
 				},
 			},
 			bg: {
 				default: {
-					value: "var(--color-blue-600)",
+					value: "var(--color-red-500)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-500)",
+					value: "var(--color-red-400)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-blue-700)",
+					value: "var(--color-red-600)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-600)",
+					value: "var(--color-red-500)",
 					attributes,
 				},
 			},
 			shadow: {
 				default: {
-					value: "var(--color-sky-200)",
+					value: "var(--color-red-200)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-sky-400)",
+					value: "var(--color-red-400)",
 					attributes,
 				},
 			},

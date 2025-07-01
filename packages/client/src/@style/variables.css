@@ -3,6 +3,10 @@
  */
 
 :root {
+  --pico-color-ui-text-default: var(--color-slate-500);
+  --pico-color-ui-text-hover: var(--color-slate-700);
+  --pico-color-ui-bg-default: var(--color-slate-50);
+  --pico-color-ui-border-default: var(--color-slate-300);
   --pico-color-danger-light-text-default: var(--color-red-500);
   --pico-color-danger-light-text-hover: var(--color-red-800);
   --pico-color-danger-light-bg-default: transparent;

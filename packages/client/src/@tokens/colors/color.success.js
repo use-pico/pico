@@ -1,45 +1,45 @@
-import { attributes } from "./attributes/variable.js";
+import { attributes } from "../attributes/variable.js";
 
 export default {
 	color: {
-		warning: {
+		success: {
 			text: {
 				default: {
-					value: "var(--color-amber-600)",
+					value: "var(--color-emerald-100)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-amber-700)",
+					value: "var(--color-emerald-100)",
 					attributes,
 				},
 			},
 			bg: {
 				default: {
-					value: "var(--color-amber-100)",
+					value: "var(--color-emerald-500)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-amber-200)",
+					value: "var(--color-emerald-400)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-amber-600)",
+					value: "var(--color-emerald-600)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-amber-500)",
+					value: "var(--color-emerald-500)",
 					attributes,
 				},
 			},
 			shadow: {
 				default: {
-					value: "var(--color-amber-200)",
+					value: "var(--color-emerald-200)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-amber-400)",
+					value: "var(--color-emerald-400)",
 					attributes,
 				},
 			},

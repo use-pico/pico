@@ -1,8 +1,8 @@
-import { attributes } from "./attributes/variable.js";
+import { attributes } from "../attributes/variable.js";
 
 export default {
 	color: {
-		light: {
+		subtle: {
 			text: {
 				default: {
 					value: "var(--color-blue-500)",
@@ -15,21 +15,21 @@ export default {
 			},
 			bg: {
 				default: {
-					value: "transparent",
+					value: "var(--color-blue-50)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-50)",
+					value: "var(--color-blue-100)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-blue-500)",
+					value: "var(--color-blue-100)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-300)",
+					value: "var(--color-blue-200)",
 					attributes,
 				},
 			},

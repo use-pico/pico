@@ -60,6 +60,19 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[ic--baseline-menu]"}
+							to={"/$locale/components/action-menu"}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
+						>
+							<Tx label={"Action menu"} />
+						</MenuLink>
+
+						<MenuLink
 							icon={"icon-[mdi-light--alert]"}
 							to={"/$locale/components/alert"}
 							params={{

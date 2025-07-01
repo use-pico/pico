@@ -3,16 +3,18 @@ import { cls } from "@use-pico/common";
 export const ActionMenuCls = cls({
 	slot: {
 		base: [
+			"pico--action-menu-base",
 			"p-1",
-			"bg-slate-50",
 			"border",
-			"border-slate-300",
 			"rounded-sm",
 			"shadow-md",
-			"text-slate-500",
 			"flex",
 			"flex-col",
 			"gap-2",
+			// CSS Variables
+			"bg-(--pico-bg-default)",
+			"text-(--pico-text-default)",
+			"border-(--pico-border-default)",
 		],
 	},
 	variant: {},
