@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "4.0.44",
+	"version": "4.0.45",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -17,7 +17,7 @@
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-query": "5.81.5",
 		"@tanstack/react-router": "1.123.0",
-		"@use-pico/common": "4.0.24",
+		"@use-pico/common": "4.0.25",
 		"axios": "1.10.0",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.2",
@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6",
-		"@use-pico/tsconfig": "4.0.12",
+		"@use-pico/tsconfig": "4.0.13",
 		"style-dictionary": "5.0.0",
 		"typescript": "5.8.3"
 	},
