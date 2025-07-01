@@ -1,7 +1,36 @@
-.pico--action-menu-base {
+.pico--action-menu-item-common {
   /* text */
   --pico-text-default: var(--pico-color-ui-text-default);
   --pico-text-hover: var(--pico-color-ui-text-hover);
+
+  /* bg */
+  --pico-bg-hover: var(--pico-color-ui-bg-hover);
+}
+
+
+.pico--action-menu-item-danger {
+  /* text */
+  --pico-text-default: var(--pico-color-danger-light-text-default);
+  --pico-text-hover: var(--pico-color-danger-light-text-hover);
+
+  /* bg */
+  --pico-bg-hover: var(--pico-color-danger-light-bg-hover);
+}
+
+
+.pico--action-menu-item-warning {
+  /* text */
+  --pico-text-default: var(--pico-color-warning-text-default);
+  --pico-text-hover: var(--pico-color-warning-text-hover);
+
+  /* bg */
+  --pico-bg-hover: var(--pico-color-warning-bg-hover);
+}
+
+
+.pico--action-menu-base {
+  /* text */
+  --pico-text-default: var(--pico-color-ui-text-default);
 
   /* bg */
   --pico-bg-default: var(--pico-color-ui-bg-default);

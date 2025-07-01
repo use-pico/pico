@@ -9,13 +9,17 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-slate-700)",
+					value: "var(--color-blue-500)",
 					attributes,
 				},
 			},
 			bg: {
 				default: {
 					value: "var(--color-slate-50)",
+					attributes,
+				},
+				hover: {
+					value: "var(--color-slate-100)",
 					attributes,
 				},
 			},

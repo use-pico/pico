@@ -10,32 +10,29 @@ export const ActionCls = cls({
 			"rounded-sm",
 			"px-2",
 			"py-0.5",
-			"hover:bg-slate-100",
-			"text-slate-500",
-			"hover:text-blue-500",
 			"cursor-pointer",
+			"text-(--pico-text-default)",
+			"hover:bg-(--pico-bg-hover)",
+			"hover:text-(--pico-text-hover)",
 		],
 	},
 	variant: {
 		variant: {
-			common: [],
+			common: [
+				"pico--action-menu-item-common",
+			],
 			warning: [
-				"text-amber-500",
-				"hover:text-amber-600",
-				"hover:bg-amber-100",
+				"pico--action-menu-item-warning",
 			],
 			danger: [
-				"text-red-500",
-				"hover:text-red-600",
-				"hover:bg-red-100",
+				"pico--action-menu-item-danger",
 			],
 		},
 		disabled: {
 			true: [
 				"cursor-not-allowed",
-				"text-slate-300",
-				"bg-slate-100",
-				"hover:bg-slate-100",
+				"hover:text-(--pico-text-default)",
+				"hover:bg-(--pico-bg-default)",
 			],
 		},
 	},

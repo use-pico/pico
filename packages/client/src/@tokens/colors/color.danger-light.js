@@ -9,7 +9,7 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-red-800)",
+					value: "var(--color-red-700)",
 					attributes,
 				},
 			},
@@ -19,7 +19,7 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "transparent",
+					value: "var(--color-red-100)",
 					attributes,
 				},
 			},
