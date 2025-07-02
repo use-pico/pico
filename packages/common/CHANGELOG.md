@@ -1,5 +1,17 @@
 # @use-pico/common
 
+## 4.0.27
+
+### Patch Changes
+
+- Another dependencies moved
+
+## 4.0.26
+
+### Patch Changes
+
+- Just moved types, so other libs can build
+
 ## 4.0.25
 
 ### Patch Changes
