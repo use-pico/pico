@@ -1,5 +1,13 @@
 # @use-pico/server
 
+## 4.0.26
+
+### Patch Changes
+
+- Fuck builds, pure source is still much better solution; keeping rollup here to show the pain I went through
+- Updated dependencies
+  - @use-pico/common@4.0.29
+
 ## 4.0.25
 
 ### Patch Changes

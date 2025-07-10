@@ -15,6 +15,7 @@
 		"inlineSources": false,
 		"isolatedModules": false,
 		"jsx": "react-jsx",
+		"jsxImportSource": "react",
 		"lib": [
 			"dom",
 			"dom.iterable",

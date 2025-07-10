@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.29
+
+### Patch Changes
+
+- Fuck builds, pure source is still much better solution; keeping rollup here to show the pain I went through
+
 ## 4.0.28
 
 ### Patch Changes

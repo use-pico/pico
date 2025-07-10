@@ -1,5 +1,11 @@
 # @use-pico/tsconfig
 
+## 4.0.15
+
+### Patch Changes
+
+- Fuck builds, pure source is still much better solution; keeping rollup here to show the pain I went through
+
 ## 4.0.14
 
 ### Patch Changes
