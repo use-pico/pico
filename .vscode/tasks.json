@@ -43,6 +43,7 @@
 			"script": "changeset:publish",
 			"problemMatcher": [],
 			"dependsOn": [
+				"build",
 				"changeset:version"
 			],
 			"label": "changeset:publish",

@@ -20,8 +20,8 @@
 			"dom.iterable",
 			"esnext"
 		],
-		"module": "ES2022",
-		"moduleResolution": "node",
+		"module": "esnext",
+		"moduleResolution": "bundler",
 		"noErrorTruncation": false,
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,

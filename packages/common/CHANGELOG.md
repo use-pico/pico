@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.28
+
+### Patch Changes
+
+- Added experimental rollup-bundled version, yaaay!
+
 ## 4.0.27
 
 ### Patch Changes

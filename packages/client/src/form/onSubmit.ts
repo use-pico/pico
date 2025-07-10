@@ -1,4 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
+import type { ShapeSchema } from "@use-pico/common";
 import {
 	cleanOf,
 	ErrorSchema,
@@ -6,7 +7,6 @@ import {
 	onAxiosSchemaError,
 	withErrors,
 } from "@use-pico/common";
-import type { ShapeSchema } from "@use-pico/common/src/schema/ShapeSchema";
 import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
 import type { Form } from "./Form";

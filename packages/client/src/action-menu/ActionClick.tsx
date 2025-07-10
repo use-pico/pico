@@ -1,6 +1,7 @@
-import { Icon, LoaderIcon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
 import type { FC, HTMLAttributes, ReactNode } from "react";
+import { Icon } from "../icon/Icon";
+import { LoaderIcon } from "../icon/LoaderIcon";
 import { ActionClickCls } from "./ActionClickCls";
 
 export namespace ActionClick {

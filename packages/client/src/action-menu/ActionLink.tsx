@@ -1,7 +1,7 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { Icon } from "@use-pico/client";
 import { isString } from "@use-pico/common";
 import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
+import { Icon } from "../icon/Icon";
 import { ActionLinkCls } from "./ActionLinkCls";
 
 interface Item

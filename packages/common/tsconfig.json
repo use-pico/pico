@@ -5,8 +5,7 @@
 	},
 	"include": [
 		"src/**/*",
-		"src/**/*.json",
-		"../client/src/source/withSourceRoute.ts"
+		"src/**/*.json"
 	],
 	"exclude": [
 		"node_modules"

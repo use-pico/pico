@@ -7,199 +7,209 @@ const proxyOf: any = new Proxy(() => proxyOf, {
 	get: () => proxyOf,
 });
 
-/**
- * Just forward class name type to prevent direct dependency on providing package.
- */
-type ClassName = ClassNameValue;
+export namespace cls {
+	export namespace Internal {
+		/**
+		 * Just forward class name type to prevent direct dependency on providing package.
+		 */
+		export type ClassName = ClassNameValue;
 
-type SlotDef<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;
+		export type SlotDef<TSlotKeys extends string> = Record<
+			TSlotKeys,
+			ClassName
+		>;
 
-type VariantDef<TVariantKeys extends string> = Record<
-	TVariantKeys,
-	Record<string, ClassName>
->;
+		export type VariantDef<TVariantKeys extends string> = Record<
+			TVariantKeys,
+			Record<string, ClassName>
+		>;
 
-type ValuesDef<TVariant> = {
-	[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
-		? boolean
-		: keyof TVariant[K];
-};
-
-/**
- * Compute slot from all slots (including uses - extensions).
- */
-type SlotEx<
-	TSlot extends SlotDef<any>,
-	TUse extends
-		| (() => {
-				"~type": {
-					slot?: SlotDef<any>;
-				};
-		  })
-		| unknown = unknown,
-> = TUse extends () => {
-	"~type": {
-		slot?: infer S;
-	};
-}
-	? TSlot & S
-	: TSlot;
-
-/**
- * Compute variant from all variants (including uses - extensions).
- */
-type VariantEx<
-	TVariant extends VariantDef<any>,
-	TUse extends
-		| (() => {
-				"~type": {
-					variant?: VariantDef<any>;
-				};
-		  })
-		| unknown = unknown,
-> = TUse extends () => {
-	"~type": {
-		variant?: infer V;
-	};
-}
-	? TVariant & V
-	: TVariant;
-
-/**
- * Compute default values from all variants (including uses - extensions).
- *
- * Current defaults are required, extensions are marked as optional.
- */
-type DefaultsEx<
-	TVariant extends VariantDef<any>,
-	TUse extends
-		| (() => {
-				"~type": {
-					variant?: VariantDef<any>;
-				};
-		  })
-		| unknown = unknown,
-> = Required<ValuesDef<TVariant>> &
-	(TUse extends () => {
-		"~type": {
-			variant?: infer V;
+		export type ValuesDef<TVariant> = {
+			[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
+				? boolean
+				: keyof TVariant[K];
 		};
+
+		/**
+		 * Compute slot from all slots (including uses - extensions).
+		 */
+		export type SlotEx<
+			TSlot extends SlotDef<any>,
+			TUse extends
+				| (() => {
+						"~type": {
+							slot?: SlotDef<any>;
+						};
+				  })
+				| unknown = unknown,
+		> = TUse extends () => {
+			"~type": {
+				slot?: infer S;
+			};
+		}
+			? TSlot & S
+			: TSlot;
+
+		/**
+		 * Compute variant from all variants (including uses - extensions).
+		 */
+		export type VariantEx<
+			TVariant extends VariantDef<any>,
+			TUse extends
+				| (() => {
+						"~type": {
+							variant?: VariantDef<any>;
+						};
+				  })
+				| unknown = unknown,
+		> = TUse extends () => {
+			"~type": {
+				variant?: infer V;
+			};
+		}
+			? TVariant & V
+			: TVariant;
+
+		/**
+		 * Compute default values from all variants (including uses - extensions).
+		 *
+		 * Current defaults are required, extensions are marked as optional.
+		 */
+		export type DefaultsEx<
+			TVariant extends VariantDef<any>,
+			TUse extends
+				| (() => {
+						"~type": {
+							variant?: VariantDef<any>;
+						};
+				  })
+				| unknown = unknown,
+		> = Required<ValuesDef<TVariant>> &
+			(TUse extends () => {
+				"~type": {
+					variant?: infer V;
+				};
+			}
+				? ValuesDef<V>
+				: {});
+
+		export type SlotFn<
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = (
+			values?: ValuesDef<VariantEx<TVariant, TUse>>,
+			cls?: ClassName,
+		) => string;
+
+		export type Slots<
+			TSlot extends SlotDef<any>,
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = {
+			[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
+		};
+
+		export interface Config<TVariantEx extends VariantEx<any, any>> {
+			/**
+			 * Cumulated default values from all variants (including uses - extensions).
+			 */
+			defaults: ValuesDef<TVariantEx>;
+			/**
+			 * Combined cumulated defaults & current values provided to `tva()`.
+			 */
+			values: ValuesDef<TVariantEx>;
+		}
+
+		export type Type<
+			TSlotEx extends SlotEx<any, TUse>,
+			TVariantEx extends VariantEx<any, TUse>,
+			TUse extends ClsFn<any, any, any> | unknown,
+		> = {
+			/**
+			 * Extension type for this variant.
+			 */
+			use?: TUse;
+			/**
+			 * Cumulated slots from all extensions.
+			 */
+			slot?: TSlotEx;
+			/**
+			 * Cumulated variants from all extensions.
+			 */
+			variant?: TVariantEx;
+		};
+
+		export type SlotCls<
+			TSlot extends SlotDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = {
+			[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
+		};
+
+		/**
+		 * Output of the factory method.
+		 */
+		export type ClsFn<
+			TSlot extends SlotDef<any>,
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = (
+			variant?: ValuesDef<VariantEx<TVariant, TUse>>,
+			cls?: SlotCls<TSlot, TUse>,
+		) => {
+			/**
+			 * Individual slots for a component. Those slots are then
+			 * used to compute individual class names.
+			 */
+			slots: Slots<TSlot, TVariant, TUse>;
+			/**
+			 * Configuration used internally.
+			 *
+			 * This property does not havy any practical use in runtime.
+			 */
+			"~config": Config<VariantEx<TVariant, TUse>>;
+			/**
+			 * Used for inheritance and type checking.
+			 *
+			 * This property does not havy any practical use in runtime.
+			 */
+			"~type": Type<SlotEx<TSlot, TUse>, VariantEx<TVariant, TUse>, TUse>;
+		};
+
+		/**
+		 * Matching rules.
+		 */
+		export interface Match<
+			TSlot extends SlotDef<any>,
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> {
+			/**
+			 * Conditions to match.
+			 *
+			 * All the provided values must match to apply the rule.
+			 */
+			if: ValuesDef<VariantEx<TVariant, TUse>>;
+			/**
+			 * Classes to apply when all conditions are met.
+			 *
+			 * Keys are slot names.
+			 */
+			do: SlotCls<TSlot, TUse>;
+		}
 	}
-		? ValuesDef<V>
-		: {});
-
-type SlotFn<
-	TVariant extends VariantDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> = (values?: ValuesDef<VariantEx<TVariant, TUse>>, cls?: ClassName) => string;
-
-type Slots<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> = {
-	[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
-};
-
-interface Config<TVariantEx extends VariantEx<any, any>> {
-	/**
-	 * Cumulated default values from all variants (including uses - extensions).
-	 */
-	defaults: ValuesDef<TVariantEx>;
-	/**
-	 * Combined cumulated defaults & current values provided to `tva()`.
-	 */
-	values: ValuesDef<TVariantEx>;
-}
-
-type Type<
-	TSlotEx extends SlotEx<any, TUse>,
-	TVariantEx extends VariantEx<any, TUse>,
-	TUse extends ClsFn<any, any, any> | unknown,
-> = {
-	/**
-	 * Extension type for this variant.
-	 */
-	use?: TUse;
-	/**
-	 * Cumulated slots from all extensions.
-	 */
-	slot?: TSlotEx;
-	/**
-	 * Cumulated variants from all extensions.
-	 */
-	variant?: TVariantEx;
-};
-
-type SlotCls<
-	TSlot extends SlotDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> = {
-	[K in keyof SlotEx<TSlot, TUse>]?: ClassName;
-};
-
-/**
- * Output of the factory method.
- */
-type ClsFn<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> = (
-	variant?: ValuesDef<VariantEx<TVariant, TUse>>,
-	cls?: SlotCls<TSlot, TUse>,
-) => {
-	/**
-	 * Individual slots for a component. Those slots are then
-	 * used to compute individual class names.
-	 */
-	slots: Slots<TSlot, TVariant, TUse>;
-	/**
-	 * Configuration used internally.
-	 *
-	 * This property does not havy any practical use in runtime.
-	 */
-	"~config": Config<VariantEx<TVariant, TUse>>;
-	/**
-	 * Used for inheritance and type checking.
-	 *
-	 * This property does not havy any practical use in runtime.
-	 */
-	"~type": Type<SlotEx<TSlot, TUse>, VariantEx<TVariant, TUse>, TUse>;
-};
-
-/**
- * Matching rules.
- */
-interface Match<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> {
-	/**
-	 * Conditions to match.
-	 *
-	 * All the provided values must match to apply the rule.
-	 */
-	if: ValuesDef<VariantEx<TVariant, TUse>>;
-	/**
-	 * Classes to apply when all conditions are met.
-	 *
-	 * Keys are slot names.
-	 */
-	do: SlotCls<TSlot, TUse>;
 }
 
 export namespace cls {
-	export type Class = ClassName;
+	export type Class = Internal.ClassName;
 
 	/**
 	 * Variants configuration.
 	 */
 	export interface Config<
-		TSlot extends SlotDef<any>,
-		TVariant extends VariantDef<any>,
-		TUse extends ClsFn<any, any, any> | unknown = unknown,
+		TSlot extends Internal.SlotDef<any>,
+		TVariant extends Internal.VariantDef<any>,
+		TUse extends Internal.ClsFn<any, any, any> | unknown = unknown,
 	> {
 		/**
 		 * Extension of the component.
@@ -228,13 +238,13 @@ export namespace cls {
 		 *
 		 * Those are used to compute dynamic class names based on the current state (input values).
 		 */
-		match?: Match<TSlot, TVariant, TUse>[];
+		match?: Internal.Match<TSlot, TVariant, TUse>[];
 		/**
 		 * Default values.
 		 *
 		 * They're (cleverly) required to prevent surprises when using variants.
 		 */
-		defaults: DefaultsEx<TVariant, TUse>;
+		defaults: Internal.DefaultsEx<TVariant, TUse>;
 	}
 
 	/**
@@ -242,13 +252,16 @@ export namespace cls {
 	 *
 	 * It omits `variant`, `tva`, and `cls` props from the parent props.
 	 */
-	export type Props<TCls extends ClsFn<any, any, any>, P = unknown> = {
-		variant?: ValuesDef<
-			VariantEx<ReturnType<TCls>["~type"]["variant"], TCls>
+	export type Props<
+		TCls extends Internal.ClsFn<any, any, any>,
+		P = unknown,
+	> = {
+		variant?: Internal.ValuesDef<
+			Internal.VariantEx<ReturnType<TCls>["~type"]["variant"], TCls>
 		>;
 		tva?: TCls;
 		cls?: {
-			[K in keyof SlotEx<
+			[K in keyof Internal.SlotEx<
 				ReturnType<TCls>["~type"]["slot"],
 				TCls
 			>]?: Class;
@@ -260,7 +273,7 @@ export namespace cls {
 		"variant" | "tva" | "cls"
 	>;
 
-	export type Slots<TCls extends ClsFn<any, any, any>> =
+	export type Slots<TCls extends Internal.ClsFn<any, any, any>> =
 		ReturnType<TCls>["slots"];
 }
 
@@ -271,16 +284,20 @@ export namespace cls {
  * API, but powerful type checking, including inheritance.
  */
 export function cls<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
-	TUse extends ClsFn<any, any, any> | unknown = unknown,
+	TSlot extends cls.Internal.SlotDef<any>,
+	TVariant extends cls.Internal.VariantDef<any>,
+	TUse extends cls.Internal.ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,
 	slot,
 	variant,
 	match = [],
 	defaults,
-}: cls.Config<TSlot, TVariant, TUse>): ClsFn<TSlot, TVariant, TUse> {
+}: cls.Config<TSlot, TVariant, TUse>): cls.Internal.ClsFn<
+	TSlot,
+	TVariant,
+	TUse
+> {
 	/**
 	 * Output is a factory method used to call at a component level (or whatever place you want).
 	 */
@@ -292,20 +309,27 @@ export function cls<
 		 * this may fail at runtime.
 		 */
 		slots: new Proxy(
-			{} as ReturnType<ClsFn<TSlot, TVariant, TUse>>["slots"],
+			{} as ReturnType<
+				cls.Internal.ClsFn<TSlot, TVariant, TUse>
+			>["slots"],
 			{
-				get(_, key: string): SlotFn<TVariant, TUse> {
+				get(_, key: string): cls.Internal.SlotFn<TVariant, TUse> {
 					return (override, $cls) => {
 						/**
 						 * Output classes,
 						 */
-						const $classes: ClassName[] = [];
+						const $classes: cls.Internal.ClassName[] = [];
 
 						/**
 						 * Type "use" (extension) for later use.
 						 */
-						const $use: ClsFn<any, any, any> | undefined =
-							use as ClsFn<any, any, any>;
+						const $use:
+							| cls.Internal.ClsFn<any, any, any>
+							| undefined = use as cls.Internal.ClsFn<
+							any,
+							any,
+							any
+						>;
 
 						/**
 						 * Compute current variants from:
@@ -375,11 +399,13 @@ export function cls<
 		 */
 		"~config": {
 			defaults: {
-				...(use as ClsFn<any, any, any>)?.()?.["~config"].defaults,
+				...(use as cls.Internal.ClsFn<any, any, any>)?.()?.["~config"]
+					.defaults,
 				...defaults,
 			},
 			values: {
-				...(use as ClsFn<any, any, any>)?.()?.["~config"].defaults,
+				...(use as cls.Internal.ClsFn<any, any, any>)?.()?.["~config"]
+					.defaults,
 				...defaults,
 				...values,
 			},

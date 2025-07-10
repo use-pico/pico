@@ -1,5 +1,13 @@
 # @use-pico/server
 
+## 4.0.25
+
+### Patch Changes
+
+- Added experimental rollup-bundled version, yaaay!
+- Updated dependencies
+  - @use-pico/common@4.0.28
+
 ## 4.0.24
 
 ### Patch Changes

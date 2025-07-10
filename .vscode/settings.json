@@ -168,5 +168,8 @@
 	"biome.requireConfiguration": true,
 	"[yaml]": {
 		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"[toml]": {
+		"editor.defaultFormatter": "tamasfe.even-better-toml"
 	}
 }
