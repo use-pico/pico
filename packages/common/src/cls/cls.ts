@@ -268,7 +268,19 @@ export namespace cls {
 		};
 	} & Omit<P, "variant" | "tva" | "cls">;
 
+	/**
+	 * Extract `variant`, `tva`, and `cls` types from the given props.
+	 */
 	export type Extract<TProps extends Props<any>> = Pick<
+		TProps,
+		"variant" | "tva" | "cls"
+	>;
+
+	/**
+	 * Drop `cls` types from the given props. Useful, if you extend props
+	 * and you want to provide your own `cls` type.
+	 */
+	export type Clear<TProps extends Props<any>> = Omit<
 		TProps,
 		"variant" | "tva" | "cls"
 	>;

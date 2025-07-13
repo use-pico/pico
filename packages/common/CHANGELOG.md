@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.30
+
+### Patch Changes
+
+- Docs + new cls.Clear type
+
 ## 4.0.29
 
 ### Patch Changes
