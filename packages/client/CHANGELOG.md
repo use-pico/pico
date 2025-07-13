@@ -1,5 +1,12 @@
 # @use-pico/client
 
+## 4.0.52
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/common@4.0.32
+
 ## 4.0.51
 
 ### Patch Changes

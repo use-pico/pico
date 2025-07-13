@@ -1,4 +1,9 @@
-import type { FC, HTMLAttributes, LabelHTMLAttributes } from "react";
+import type {
+	ButtonHTMLAttributes,
+	FC,
+	HTMLAttributes,
+	LabelHTMLAttributes,
+} from "react";
 import { type ClassNameValue, twMerge } from "tailwind-merge";
 
 /**
@@ -154,7 +159,10 @@ export namespace cls {
 			export interface ButtonProps<
 				TVariant extends VariantDef<any>,
 				TUse extends ClsFn<any, any, any> | unknown = unknown,
-			> extends Omit<HTMLAttributes<HTMLButtonElement>, "className">,
+			> extends Omit<
+						ButtonHTMLAttributes<HTMLButtonElement>,
+						"className"
+					>,
 					ElementProps<TVariant, TUse> {
 				//
 			}

@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.32
+
+### Patch Changes
+
+- Fixed Button attributes in cls
+
 ## 4.0.31
 
 ### Patch Changes

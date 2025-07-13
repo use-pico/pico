@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "4.0.51",
+	"version": "4.0.52",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -17,7 +17,7 @@
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-query": "5.81.5",
 		"@tanstack/react-router": "1.123.0",
-		"@use-pico/common": "4.0.31",
+		"@use-pico/common": "4.0.32",
 		"axios": "1.10.0",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.2",
