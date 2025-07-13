@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.0.31
+
+### Patch Changes
+
+- Improved cls with quite cool feature
+
 ## 4.0.30
 
 ### Patch Changes

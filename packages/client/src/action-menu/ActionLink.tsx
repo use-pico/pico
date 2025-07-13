@@ -23,6 +23,9 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		},
 		ref,
 	) => {
+		/**
+		 * Slots, because we're using `ref` here and `tva` does not support `ref`s.
+		 */
 		const { slots } = tva(variant, cls);
 
 		return (

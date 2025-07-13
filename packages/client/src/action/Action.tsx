@@ -63,7 +63,7 @@ export const Action: FC<Action.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots } = tva(
+	const { el } = tva(
 		{
 			disabled,
 			loading,
@@ -73,9 +73,8 @@ export const Action: FC<Action.Props> = ({
 	);
 
 	return (
-		<div className={slots.base()}>
-			<div
-				className={slots.action()}
+		<el.base.Div>
+			<el.action.Div
 				onClick={disabled ? undefined : onClick}
 				{...props}
 			>
@@ -95,7 +94,7 @@ export const Action: FC<Action.Props> = ({
 					/>
 				)}
 				{children}
-			</div>
-		</div>
+			</el.action.Div>
+		</el.base.Div>
 	);
 };

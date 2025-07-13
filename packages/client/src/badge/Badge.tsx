@@ -19,12 +19,7 @@ export const Badge: FC<Badge.Props> = ({
 	cls,
 	...props
 }) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
-	return (
-		<div
-			className={slots.base()}
-			{...props}
-		/>
-	);
+	return <el.base.Div {...props} />;
 };

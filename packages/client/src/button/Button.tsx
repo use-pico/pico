@@ -27,7 +27,7 @@ export const Button: FC<Button.Props> = memo(
 		children,
 		...props
 	}) => {
-		const { slots } = tva(
+		const { el } = tva(
 			{
 				disabled: props.disabled,
 				...variant,
@@ -44,11 +44,11 @@ export const Button: FC<Button.Props> = memo(
 		);
 
 		return (
-			<button
+			<el.base.Button
 				type={"button"}
-				className={slots.base({
+				variant={{
 					disabled: props.disabled,
-				})}
+				}}
 				{...props}
 			>
 				{props.disabled ? (
@@ -65,7 +65,7 @@ export const Button: FC<Button.Props> = memo(
 					/>
 				)}
 				{children}
-			</button>
+			</el.base.Button>
 		);
 	},
 );

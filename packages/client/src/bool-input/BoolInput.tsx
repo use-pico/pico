@@ -19,10 +19,10 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	cls,
 	...props
 }) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
 	return (
-		<div className={slots.base()}>
+		<el.base.Div>
 			<label>
 				<input
 					type={"checkbox"}
@@ -33,8 +33,8 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					}}
 					{...props}
 				/>
-				<div className={slots.switch()}></div>
+				<el.switch.Div />
 			</label>
-		</div>
+		</el.base.Div>
 	);
 };

@@ -33,11 +33,11 @@ export const Icon: FC<Icon.Props> = ({
 	cls,
 	...props
 }) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
 	return icon ? (
-		<div
-			className={slots.base({}, icon)}
+		<el.base.Div
+			cls={icon}
 			{...props}
 		/>
 	) : null;

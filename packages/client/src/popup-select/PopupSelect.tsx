@@ -85,7 +85,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TItem>) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
 	/**
 	 * Dependency-free memo, because... store does not have any dependencies (defaultOpen
@@ -165,12 +165,12 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 			key={modalId}
 			icon={icon}
 			target={
-				<label
+				<el.input.Label
 					htmlFor={modalId}
-					className={slots.input({
+					variant={{
 						loading: selected.isFetching || result.isFetching,
 						selected: Boolean(selected.data?.list.length),
-					})}
+					}}
 				>
 					<Icon
 						icon={
@@ -186,7 +186,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					) : (
 						textSelect || <Tx label={"Select item (label)"} />
 					)}
-				</label>
+				</el.input.Label>
 			}
 			textTitle={textTitle}
 			variant={{
@@ -199,7 +199,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 				],
 			}}
 			footer={({ close }) => (
-				<div className={slots.footer()}>
+				<el.footer.Div>
 					<Button
 						iconEnabled={BackIcon}
 						iconDisabled={BackIcon}
@@ -237,7 +237,7 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					>
 						<Tx label={"Confirm selection (label)"} />
 					</Button>
-				</div>
+				</el.footer.Div>
 			)}
 			{...modalProps}
 		>

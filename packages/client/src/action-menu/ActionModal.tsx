@@ -25,7 +25,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	cls,
 	...props
 }) => {
-	const { slots } = tva(
+	const { el } = tva(
 		{
 			...variant,
 			disabled,
@@ -34,7 +34,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	);
 
 	return hidden ? null : (
-		<div className={slots.base()}>
+		<el.base.Div>
 			<Modal
 				icon={icon}
 				target={
@@ -58,6 +58,6 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				}}
 				{...props}
 			/>
-		</div>
+		</el.base.Div>
 	);
 };

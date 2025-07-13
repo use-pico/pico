@@ -26,7 +26,7 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const { slots } = tva(
+	const { el } = tva(
 		{
 			active: isActive,
 			...variant,
@@ -35,13 +35,13 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	);
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.label()}>
+		<el.base.Div>
+			<el.label.Div>
 				{icon ? <Icon icon={icon} /> : null}
 				{label}
-			</div>
+			</el.label.Div>
 
-			<div className={slots.items()}>{children}</div>
-		</div>
+			<el.items.Div>{children}</el.items.Div>
+		</el.base.Div>
 	);
 };

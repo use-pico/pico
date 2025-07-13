@@ -1,3 +1,4 @@
+import type { FC, HTMLAttributes, LabelHTMLAttributes } from "react";
 import { type ClassNameValue, twMerge } from "tailwind-merge";
 
 /**
@@ -109,6 +110,84 @@ export namespace cls {
 			[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
 		};
 
+		export namespace Elements {
+			export interface ElementProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> {
+				variant?: ValuesDef<VariantEx<TVariant, TUse>>;
+				cls?: ClassName;
+			}
+
+			export interface DivProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<HTMLAttributes<HTMLDivElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+
+			export interface SpanProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<HTMLAttributes<HTMLSpanElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+
+			export interface ParagraphProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<HTMLAttributes<HTMLParagraphElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+
+			export interface LabelProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<LabelHTMLAttributes<HTMLLabelElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+
+			export interface ButtonProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<HTMLAttributes<HTMLButtonElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+
+			export interface AnchorProps<
+				TVariant extends VariantDef<any>,
+				TUse extends ClsFn<any, any, any> | unknown = unknown,
+			> extends Omit<HTMLAttributes<HTMLAnchorElement>, "className">,
+					ElementProps<TVariant, TUse> {
+				//
+			}
+		}
+
+		export interface Elements<
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> {
+			Div: FC<Elements.DivProps<TVariant, TUse>>;
+			Span: FC<Elements.SpanProps<TVariant, TUse>>;
+			Paragraph: FC<Elements.ParagraphProps<TVariant, TUse>>;
+			Label: FC<Elements.LabelProps<TVariant, TUse>>;
+			Button: FC<Elements.ButtonProps<TVariant, TUse>>;
+			Anchor: FC<Elements.AnchorProps<TVariant, TUse>>;
+		}
+
+		export type ElementFn<
+			TSlot extends SlotDef<any>,
+			TVariant extends VariantDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = {
+			[K in keyof SlotEx<TSlot, TUse>]: Elements<TVariant, TUse>;
+		};
+
 		export interface Config<TVariantEx extends VariantEx<any, any>> {
 			/**
 			 * Cumulated default values from all variants (including uses - extensions).
@@ -162,6 +241,12 @@ export namespace cls {
 			 * used to compute individual class names.
 			 */
 			slots: Slots<TSlot, TVariant, TUse>;
+			/**
+			 * Access predefined slots as an elements (e.g. div, span, ...).
+			 *
+			 * This is shortcut for <div className={slots.base()} /> etc.
+			 */
+			el: ElementFn<TSlot, TVariant, TUse>;
 			/**
 			 * Configuration used internally.
 			 *
@@ -313,14 +398,8 @@ export function cls<
 	/**
 	 * Output is a factory method used to call at a component level (or whatever place you want).
 	 */
-	return (values, cls) => ({
-		/**
-		 * Proxy all calls to the slots to compute class names.
-		 *
-		 * Because there is a strict type checking, this should be safe to use; if you break types,
-		 * this may fail at runtime.
-		 */
-		slots: new Proxy(
+	return (values, cls) => {
+		const slots = new Proxy(
 			{} as ReturnType<
 				cls.Internal.ClsFn<TSlot, TVariant, TUse>
 			>["slots"],
@@ -405,26 +484,92 @@ export function cls<
 					};
 				},
 			},
-		),
-		/**
-		 * This is a configuration used internally
-		 */
-		"~config": {
-			defaults: {
-				...(use as cls.Internal.ClsFn<any, any, any>)?.()?.["~config"]
-					.defaults,
-				...defaults,
+		);
+
+		return {
+			/**
+			 * Proxy all calls to the slots to compute class names.
+			 *
+			 * Because there is a strict type checking, this should be safe to use; if you break types,
+			 * this may fail at runtime.
+			 */
+			slots,
+			el: new Proxy({} as cls.Internal.ElementFn<TSlot, TVariant, TUse>, {
+				get(_, key: string): cls.Internal.Elements<TVariant, TUse> {
+					return {
+						Div({ variant, cls, ...props }) {
+							return (
+								<div
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+						Span({ variant, cls, ...props }) {
+							return (
+								<span
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+						Paragraph({ variant, cls, ...props }) {
+							return (
+								<p
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+						Label({ variant, cls, ...props }) {
+							return (
+								<label
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+						Button({ variant, cls, ...props }) {
+							return (
+								<button
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+						Anchor({ variant, cls, ...props }) {
+							return (
+								<a
+									className={slots[key]?.(variant, cls)}
+									{...props}
+								/>
+							);
+						},
+					};
+				},
+			}),
+			/**
+			 * This is a configuration used internally
+			 */
+			"~config": {
+				defaults: {
+					...(use as cls.Internal.ClsFn<any, any, any>)?.()?.[
+						"~config"
+					].defaults,
+					...defaults,
+				},
+				values: {
+					...(use as cls.Internal.ClsFn<any, any, any>)?.()?.[
+						"~config"
+					].defaults,
+					...defaults,
+					...values,
+				},
 			},
-			values: {
-				...(use as cls.Internal.ClsFn<any, any, any>)?.()?.["~config"]
-					.defaults,
-				...defaults,
-				...values,
-			},
-		},
-		/**
-		 * Used for inheritance and type checking.
-		 */
-		"~type": proxyOf(),
-	});
+			/**
+			 * Used for inheritance and type checking.
+			 */
+			"~type": proxyOf(),
+		};
+	};
 }

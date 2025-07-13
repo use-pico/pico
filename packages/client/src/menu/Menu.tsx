@@ -13,7 +13,7 @@ export const Menu: FC<Menu.Props> = ({
 	cls,
 	children,
 }) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
-	return <div className={slots.base()}>{children}</div>;
+	return <el.base.Div>{children}</el.base.Div>;
 };

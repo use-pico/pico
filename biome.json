@@ -32,6 +32,7 @@
 		"rules": {
 			"recommended": true,
 			"a11y": {
+				"noLabelWithoutControl": "off",
 				"useKeyWithClickEvents": "off",
 				"noStaticElementInteractions": "off"
 			},

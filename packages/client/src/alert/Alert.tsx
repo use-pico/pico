@@ -30,7 +30,7 @@ export const Alert: FC<Alert.Props> = ({
 	cls,
 	children,
 }) => {
-	const { slots } = tva(
+	const { el } = tva(
 		{
 			clickable: Boolean(onClick),
 			...variant,
@@ -38,8 +38,7 @@ export const Alert: FC<Alert.Props> = ({
 		cls,
 	);
 	return (
-		<div
-			className={slots.base()}
+		<el.base.Div
 			onClick={onClick}
 			role={"alert"}
 		>
@@ -53,10 +52,10 @@ export const Alert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<div className={slots.title()}>{title}</div>
+				<el.title.Div>{title}</el.title.Div>
 			</div>
-			{message && <div className={slots.message()}>{message}</div>}
-			{children && <div className={slots.body()}>{children}</div>}
-		</div>
+			{message && <el.message.Div>{message}</el.message.Div>}
+			{children && <el.body.Div>{children}</el.body.Div>}
+		</el.base.Div>
 	);
 };

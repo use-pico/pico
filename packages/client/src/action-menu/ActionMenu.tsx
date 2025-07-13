@@ -29,7 +29,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 	cls,
 	...props
 }) => {
-	const { slots } = tva(variant, cls);
+	const { el } = tva(variant, cls);
 
 	return (
 		<FloatingTree>
@@ -55,7 +55,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<div className={slots.base()}>{children}</div>
+				<el.base.Div>{children}</el.base.Div>
 			</Float>
 		</FloatingTree>
 	);
