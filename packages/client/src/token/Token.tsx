@@ -2,6 +2,7 @@ import type { FC, PropsWithChildren } from "react";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 import { TokenInline } from "./TokenInline";
+import type { TokenType } from "./TokenType";
 import { useToken } from "./useToken";
 
 /**
@@ -14,15 +15,12 @@ export namespace Token {
 		/**
 		 * Required token(s).
 		 */
-		tokens: [
-			string,
-			...string[],
-		];
+		tokens: TokenType.Tokens;
 		source: string[];
-		mode?: useToken.Mode;
+		mode?: TokenType.Mode;
 		error?:
 			| FC<{
-					result: useToken.Result;
+					result: TokenType.Result;
 			  }>
 			| boolean;
 	}

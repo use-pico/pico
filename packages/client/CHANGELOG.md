@@ -1,5 +1,11 @@
 # @use-pico/client
 
+## 4.0.56
+
+### Patch Changes
+
+- Fixed circular dependency
+
 ## 4.0.55
 
 ### Patch Changes

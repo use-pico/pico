@@ -1,9 +1,9 @@
 import { diffOf } from "@use-pico/common";
-import type { useToken } from "./useToken";
+import type { TokenType } from "./TokenType";
 
 export namespace useTokenOf {
 	export interface Props {
-		tokens: useToken.Tokens;
+		tokens: TokenType.Tokens;
 		source: string[];
 	}
 }
@@ -16,7 +16,7 @@ export namespace useTokenOf {
 export const useTokenOf = ({
 	tokens,
 	source,
-}: useTokenOf.Props): useToken.Result => {
+}: useTokenOf.Props): TokenType.Result => {
 	const diff = diffOf(
 		/**
 		 * Required tokens.

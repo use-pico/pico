@@ -1,3 +1,4 @@
+import type { TokenType } from "./TokenType";
 import { useTokenOf } from "./useTokenOf";
 import { useTokensOf } from "./useTokensOf";
 
@@ -7,24 +8,10 @@ import { useTokensOf } from "./useTokensOf";
  * @group hooks
  */
 export namespace useToken {
-	export type Tokens = [
-		string,
-		...string[],
-	];
-	export type Mode = "required" | "any";
-	export type Result =
-		| {
-				success: true;
-		  }
-		| {
-				success: false;
-				missing: string[];
-		  };
-
 	export interface Props {
-		tokens: useToken.Tokens;
+		tokens: TokenType.Tokens;
 		source: string[];
-		mode: useToken.Mode;
+		mode: TokenType.Mode;
 	}
 }
 
@@ -32,7 +19,7 @@ export const useToken = ({
 	tokens,
 	source,
 	mode = "any",
-}: useToken.Props): useToken.Result => {
+}: useToken.Props): TokenType.Result => {
 	const required = useTokensOf({
 		tokens,
 		source,
