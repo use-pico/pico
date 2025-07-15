@@ -1,5 +1,29 @@
 # @use-pico/server
 
+## 4.0.32
+
+### Patch Changes
+
+- Bump !?
+- Updated dependencies
+  - @use-pico/common@4.0.35
+
+## 4.0.31
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.0.34
+
+## 4.0.30
+
+### Patch Changes
+
+- Reverted Zod stuff
+- Updated dependencies
+  - @use-pico/common@4.0.33
+
 ## 4.0.29
 
 ### Patch Changes
