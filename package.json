@@ -16,7 +16,7 @@
 		"typecheck": "turbo run typecheck --no-daemon"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.6",
+		"@biomejs/biome": "2.1.1",
 		"@changesets/cli": "2.29.5",
 		"syncpack": "13.0.4",
 		"turbo": "2.5.4",

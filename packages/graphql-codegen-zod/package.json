@@ -14,10 +14,10 @@
 		"graphql": "16.11.0"
 	},
 	"devDependencies": {
-		"@types/node": "24.0.7",
+		"@types/node": "24.0.14",
 		"@use-pico/eslint-config-eslint": "5.0.12",
 		"@use-pico/tsconfig": "4.0.15",
-		"eslint": "9.30.0",
+		"eslint": "9.31.0",
 		"typescript": "5.8.3"
 	},
 	"main": "src/index.ts",

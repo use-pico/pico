@@ -16,13 +16,13 @@
 		"yaml": "2.8.0"
 	},
 	"devDependencies": {
-		"rollup": "4.44.2",
+		"rollup": "4.45.1",
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
 		"rollup-plugin-dts": "6.2.1",
-		"@biomejs/biome": "2.0.6",
-		"@types/node": "24.0.7",
+		"@biomejs/biome": "2.1.1",
+		"@types/node": "24.0.14",
 		"@use-pico/tsconfig": "4.0.15",
 		"typescript": "5.8.3"
 	},
