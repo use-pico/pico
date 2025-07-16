@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.1",
+	"version": "4.1.2",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -13,7 +13,7 @@
 		"@apollo/client": "3.13.8",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.127.8",
+		"@tanstack/zod-adapter": "1.127.9",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.6.2",
@@ -35,7 +35,7 @@
 		"read-excel-file": "5.8.8",
 		"tailwind-merge": "3.3.1",
 		"timer-node": "5.0.9",
-		"zod": "3.25.67"
+		"zod": "4.0.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.1",

@@ -6,9 +6,7 @@ import { JustDropZone } from "../just-drop-zone/JustDropZone";
 import { LoadingOverlay } from "../loading-overlay/LoadingOverlay";
 
 export namespace Xlsx {
-	export interface Sheet<
-		TSchema extends z.ZodObject<any, any, any, any, any>,
-	> {
+	export interface Sheet<TSchema extends z.core.$ZodObject> {
 		sheet: string;
 		schema: TSchema;
 	}

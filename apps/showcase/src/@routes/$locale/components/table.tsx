@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
 import {
+	Button,
 	navigateOnCursor,
 	navigateOnFilter,
 	navigateOnFulltext,
@@ -14,7 +14,7 @@ import {
 import { FilterSchema } from "@use-pico/common";
 import type { FC } from "react";
 
-const SearchSchema = withSourceSearchSchema({
+const { validateSearch } = withSourceSearchSchema({
 	filter: FilterSchema,
 });
 
@@ -76,7 +76,7 @@ const someData: SomeData[] = Array.from(
 );
 
 export const Route = createFileRoute("/$locale/components/table")({
-	validateSearch: zodValidator(SearchSchema),
+	validateSearch,
 	loaderDeps: ({ search: { filter, cursor } }) => ({
 		filter,
 		cursor,
@@ -111,32 +111,50 @@ export const Route = createFileRoute("/$locale/components/table")({
 		const navigate = Route.useNavigate();
 
 		return (
-			<SomeTable
-				data={list}
-				filter={{
-					state: {
-						value: filter,
-						set: navigateOnFilter(navigate),
-					},
-				}}
-				selection={{
-					type: "multi",
-					state: {
-						value: selection,
-						set: navigateOnSelection(navigate),
-					},
-				}}
-				fulltext={{
-					value: filter?.fulltext,
-					set: navigateOnFulltext(filter?.fulltext, navigate),
-				}}
-				cursor={{
-					count,
-					cursor,
-					textTotal: <Tx label={"Number of items"} />,
-					...navigateOnCursor(navigate),
-				}}
-			/>
+			<div className={"flex flex-col"}>
+				<SomeTable
+					data={list}
+					filter={{
+						state: {
+							value: filter,
+							set: navigateOnFilter(navigate),
+						},
+					}}
+					selection={{
+						type: "multi",
+						state: {
+							value: selection,
+							set: navigateOnSelection(navigate),
+						},
+					}}
+					fulltext={{
+						value: filter?.fulltext,
+						set: navigateOnFulltext(filter?.fulltext, navigate),
+					}}
+					cursor={{
+						count,
+						cursor,
+						textTotal: <Tx label={"Number of items"} />,
+						...navigateOnCursor(navigate),
+					}}
+				/>
+
+				<div>
+					<Button
+						onClick={() => {
+							navigate({
+								search: {
+									filter: {
+										fulltext: "aaa",
+									},
+								},
+							});
+						}}
+					>
+						klyl
+					</Button>
+				</div>
+			</div>
 		);
 	},
 });

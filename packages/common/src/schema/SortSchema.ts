@@ -1,17 +1,12 @@
 import type { z } from "zod";
 import type { OrderSchema } from "./OrderSchema";
 
-export type SortSchema<
-	T extends [
-		string,
-		...string[],
-	],
-> = z.ZodArray<
-	z.ZodObject<
+export type SortSchema<T extends z.core.util.EnumLike> = z.core.$ZodArray<
+	z.core.$ZodObject<
 		{
-			name: z.ZodEnum<T>;
+			name: z.core.$ZodEnum<T>;
 			sort: OrderSchema;
 		},
-		"strip"
+		z.core.$strip
 	>
 >;

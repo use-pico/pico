@@ -1,6 +1,6 @@
 import { translator } from "@use-pico/common";
-import type { FC } from "react";
-import { useDebounce } from "../debounce/useDebounce";
+import { type FC, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { Icon } from "../icon/Icon";
 import { FulltextCls } from "./FulltextCls";
 
@@ -24,7 +24,10 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	cls,
 }) => {
 	const { slots } = tva(variant, cls);
-	const [search, setSearch] = useDebounce(value, onFulltext, 500);
+	const [search, setSearch] = useState(value || "");
+	const debounced = useDebouncedCallback((value) => {
+		onFulltext(value);
+	}, 500);
 
 	return (
 		<div className={slots.base()}>
@@ -37,7 +40,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				/>
 			</div>
 			<input
-				value={search || ""}
+				value={search}
 				className={slots.input()}
 				type={"text"}
 				placeholder={
@@ -45,12 +48,14 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				}
 				onChange={(event) => {
 					setSearch(event.target.value);
+					debounced(event.target.value);
 				}}
 			/>
 			{value && (
 				<div
 					className={slots.clear()}
 					onClick={() => {
+						setSearch("");
 						onFulltext("");
 					}}
 				>

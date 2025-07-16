@@ -5,7 +5,7 @@ import { z } from "zod";
  *
  * @group schema
  */
-export const FilterSchema = z.object({
+export const FilterSchema = z.strictObject({
 	/**
 	 * Basically any entity should have an ID, thus it's present in the default schema.
 	 */

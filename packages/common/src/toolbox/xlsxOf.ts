@@ -1,5 +1,5 @@
 import readXlsxFile from "read-excel-file";
-import type { z } from "zod";
+import { safeParse, type z } from "zod";
 
 export namespace xlsxOf {
 	export interface Meta<TValue> {
@@ -7,9 +7,7 @@ export namespace xlsxOf {
 		value: TValue;
 	}
 
-	export interface Props<
-		TSchema extends z.ZodObject<any, any, any, any, any>,
-	> {
+	export interface Props<TSchema extends z.core.$ZodObject> {
 		/**
 		 * Sheet you want to load; if it does not exist, it will return an empty array.
 		 */
@@ -44,9 +42,7 @@ export namespace xlsxOf {
 /**
  * Reads an xlsx file and returns the data as an array of objects.
  */
-export const xlsxOf = async <
-	TSchema extends z.ZodObject<any, any, any, any, any>,
->({
+export const xlsxOf = async <TSchema extends z.core.$ZodObject>({
 	sheet,
 	file,
 	schema,
@@ -68,8 +64,6 @@ export const xlsxOf = async <
 			return [];
 		}
 
-		const $defaults = schema.partial().parse(defaults);
-
 		return data
 			.map((row) => {
 				const item = row.reduce(
@@ -86,8 +80,8 @@ export const xlsxOf = async <
 					},
 					{} as Record<string | number, any>,
 				);
-				const validate = schema.safeParse({
-					...$defaults,
+				const validate = safeParse(schema, {
+					...defaults,
 					...item,
 				});
 				if (!validate.success) {
@@ -99,7 +93,7 @@ export const xlsxOf = async <
 				}
 				return validate.data;
 			})
-			.filter(Boolean);
+			.filter(Boolean) as z.infer<TSchema>[];
 	} catch (e) {
 		console.warn(e);
 		return [];

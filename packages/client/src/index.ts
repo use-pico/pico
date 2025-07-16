@@ -29,7 +29,6 @@ export { CursorCls } from "./cursor/CursorCls";
 export { Data } from "./data/Data";
 export { withDatabase } from "./database/withDatabase";
 export { DateInline } from "./date-inline/DateInline";
-export { useDebounce } from "./debounce/useDebounce";
 export { Detail } from "./detail/Detail";
 export { DetailCls } from "./detail/DetailCls";
 export { DownloadButton } from "./download-button/DownloadButton";

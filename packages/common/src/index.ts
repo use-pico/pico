@@ -45,7 +45,6 @@ export { withIntSchema } from "./schema/withIntSchema";
 export { withJsonInputSchema } from "./schema/withJsonInputSchema";
 export { withJsonOutputArraySchema } from "./schema/withJsonOutputArraySchema";
 export { withJsonOutputSchema } from "./schema/withJsonOutputSchema";
-export { withSourceSchema } from "./source/withSourceSchema";
 export { cleanOf } from "./toolbox/cleanOf";
 export { cursorOf } from "./toolbox/cursorOf";
 export { diffOf } from "./toolbox/diffOf";

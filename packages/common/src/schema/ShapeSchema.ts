@@ -1,9 +1,9 @@
 import type { z } from "zod";
 
-export type ShapeSchema<TShape extends z.ZodRawShape = z.ZodRawShape> =
-	z.ZodObject<TShape, "strip">;
+export type ShapeSchema<TShape extends z.core.$ZodShape = z.core.$ZodShape> =
+	z.core.$ZodObject<TShape, z.core.$strip>;
+
 export namespace ShapeSchema {
-	export type Type<TShape extends z.ZodRawShape = z.ZodRawShape> = z.infer<
-		ShapeSchema<TShape>
-	>;
+	export type Type<TShape extends z.core.$ZodShape = z.core.$ZodShape> =
+		z.infer<ShapeSchema<TShape>>;
 }

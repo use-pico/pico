@@ -1,5 +1,13 @@
 # @use-pico/server
 
+## 4.1.2
+
+### Patch Changes
+
+- Fixed debounce in client - Fulltext
+- Updated dependencies
+  - @use-pico/common@4.1.2
+
 ## 4.1.1
 
 ### Patch Changes
