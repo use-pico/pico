@@ -1,37 +1,33 @@
-import type { PropsWithChildren, ReactNode } from "react";
-import type { FormState } from "react-hook-form";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import { FormError } from "./FormError";
 import { FormInputCls } from "./FormInputCls";
 
 export namespace FormInput {
-	export interface Props<TFormState extends FormState<any>>
-		extends FormInputCls.Props<PropsWithChildren> {
+	export interface Props extends FormInputCls.Props<PropsWithChildren> {
 		label?: ReactNode;
 		hint?: ReactNode;
+		name: string;
 		required?: boolean;
-		formState: TFormState;
-		name: keyof TFormState["errors"];
 		disabled?: boolean;
 	}
 }
 
-export const FormInput = <TFormState extends FormState<any>>({
+export const FormInput: FC<FormInput.Props> = ({
 	label,
 	hint,
-	required = false,
-	formState,
 	name,
+	required = false,
 	disabled,
 	children,
 	variant,
 	tva = FormInputCls,
 	cls,
-}: FormInput.Props<TFormState>) => {
+}) => {
 	const { slots } = tva(
 		{
-			isSubmitting: formState.isSubmitting,
-			isLoading: formState.isLoading,
-			isError: Boolean(formState.errors[name]),
+			isSubmitting: false,
+			isLoading: false,
+			isError: false,
 			required,
 			disabled,
 			...variant,
@@ -47,7 +43,7 @@ export const FormInput = <TFormState extends FormState<any>>({
 					variant={{
 						compact: true,
 					}}
-					error={formState.errors[name]}
+					error={undefined}
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}

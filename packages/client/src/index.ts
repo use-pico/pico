@@ -46,7 +46,6 @@ export { FormError } from "./form/FormError";
 export { FormInput } from "./form/FormInput";
 export { FormInputCls } from "./form/FormInputCls";
 export { onSubmit } from "./form/onSubmit";
-export { withZodResolver } from "./form/withZodResolver";
 export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCls } from "./fulltext/FulltextCls";
 export { ActionMenuIcon } from "./icon/ActionMenuIcon";

@@ -1,5 +1,23 @@
 # @use-pico/showcase
 
+## 0.5.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.1
+  - @use-pico/common@4.1.1
+  - @use-pico/server@4.1.1
+
+## 0.5.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.0
+  - @use-pico/common@4.1.0
+  - @use-pico/server@4.1.0
+
 ## 0.5.14
 
 ### Patch Changes

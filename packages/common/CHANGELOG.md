@@ -1,5 +1,17 @@
 # @use-pico/common
 
+## 4.1.1
+
+### Patch Changes
+
+- Fixed type, sync packages
+
+## 4.1.0
+
+### Minor Changes
+
+- Preparing for jump to 5.0
+
 ## 4.0.35
 
 ### Patch Changes

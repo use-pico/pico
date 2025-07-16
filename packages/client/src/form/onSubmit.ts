@@ -1,19 +1,10 @@
 import { useRouter } from "@tanstack/react-router";
 import type { ShapeSchema } from "@use-pico/common";
-import {
-	cleanOf,
-	ErrorSchema,
-	mapEmptyToNull,
-	onAxiosSchemaError,
-	withErrors,
-} from "@use-pico/common";
-import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
 import type { Form } from "./Form";
 
 export namespace onSubmit {
 	export interface Props<TShapeSchema extends ShapeSchema> {
-		form: UseFormReturn<z.infer<TShapeSchema>>;
 		mutation: Form.Props.Mutation<TShapeSchema>;
 		/**
 		 * Map form values to mutation request values (output of this goes directly into mutation).
@@ -38,57 +29,56 @@ export namespace onSubmit {
 }
 
 export const onSubmit = <TShapeSchema extends ShapeSchema>({
-	form,
 	mutation,
 	map = ({ cleanup }) => {
 		return cleanup();
 	},
 }: onSubmit.Props<TShapeSchema>) => {
 	const router = useRouter();
-	const submit = form.handleSubmit(async (values) => {
-		return mutation
-			.mutateAsync(
-				await map({
-					values,
-					cleanup() {
-						return cleanOf(mapEmptyToNull(values));
-					},
-				}),
-				{
-					onSuccess() {
-						router.invalidate();
-					},
-					onError(error) {
-						withErrors({
-							error,
-							errors: [
-								onAxiosSchemaError({
-									error,
-									schema: ErrorSchema,
-									onError: ({ data }) => {
-										form.setError("root", {
-											message: data.message,
-										});
-									},
-								}),
-							],
-							onError(error) {
-								console.log("Error", error);
-								form.setError("root", {
-									message: error.message,
-								});
-							},
-						});
-					},
-				},
-			)
-			.catch(() => {
-				//
-			});
-	});
+	// const submit = form.handleSubmit(async (values) => {
+	// 	return mutation
+	// 		.mutateAsync(
+	// 			await map({
+	// 				values,
+	// 				cleanup() {
+	// 					return cleanOf(mapEmptyToNull(values));
+	// 				},
+	// 			}),
+	// 			{
+	// 				onSuccess() {
+	// 					router.invalidate();
+	// 				},
+	// 				onError(error) {
+	// 					withErrors({
+	// 						error,
+	// 						errors: [
+	// 							onAxiosSchemaError({
+	// 								error,
+	// 								schema: ErrorSchema,
+	// 								onError: ({ data }) => {
+	// 									form.setError("root", {
+	// 										message: data.message,
+	// 									});
+	// 								},
+	// 							}),
+	// 						],
+	// 						onError(error) {
+	// 							console.log("Error", error);
+	// 							form.setError("root", {
+	// 								message: error.message,
+	// 							});
+	// 						},
+	// 					});
+	// 				},
+	// 			},
+	// 		)
+	// 		.catch(() => {
+	// 			//
+	// 		});
+	// });
 
 	return (e: any) => {
 		e.stopPropagation();
-		submit(e);
+		// submit(e);
 	};
 };

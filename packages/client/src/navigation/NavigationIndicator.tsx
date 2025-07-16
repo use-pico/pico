@@ -11,7 +11,10 @@ export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
-		let timeout: NodeJS.Timeout | undefined;
+		/**
+		 * We don't care about any here, just removed dependency on `NodeJS.Timeout`.
+		 */
+		let timeout: any | undefined;
 
 		if (status === "pending") {
 			timeout = setTimeout(() => {

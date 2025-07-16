@@ -1,5 +1,24 @@
 # @use-pico/client
 
+## 4.1.1
+
+### Patch Changes
+
+- Fixed type, sync packages
+- Updated dependencies
+  - @use-pico/common@4.1.1
+
+## 4.1.0
+
+### Minor Changes
+
+- Preparing for jump to 5.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/common@4.1.0
+
 ## 4.0.56
 
 ### Patch Changes
