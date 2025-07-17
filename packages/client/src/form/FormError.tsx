@@ -1,4 +1,4 @@
-import { type ErrorSchema, translator } from "@use-pico/common";
+import { translator } from "@use-pico/common";
 import type { FC } from "react";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { Icon } from "../icon/Icon";
@@ -8,7 +8,7 @@ export namespace FormError {
 	export interface Meta {
 		isDirty: boolean;
 		isTouched: boolean;
-		errors: ErrorSchema.Type[] | undefined;
+		errors: any[] | undefined;
 	}
 
 	export interface Props extends FormErrorCls.Props {
