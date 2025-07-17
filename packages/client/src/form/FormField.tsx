@@ -1,9 +1,9 @@
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { FormError } from "./FormError";
-import { FormInputCls } from "./FormInputCls";
+import { FormFieldCls } from "./FormFieldCls";
 
-export namespace FormInput {
-	export interface Props extends FormInputCls.Props<PropsWithChildren> {
+export namespace FormField {
+	export interface Props extends FormFieldCls.Props<PropsWithChildren> {
 		label?: ReactNode;
 		hint?: ReactNode;
 		name: string;
@@ -13,7 +13,7 @@ export namespace FormInput {
 	}
 }
 
-export const FormInput: FC<FormInput.Props> = ({
+export const FormField: FC<FormField.Props> = ({
 	label,
 	hint,
 	name,
@@ -22,7 +22,7 @@ export const FormInput: FC<FormInput.Props> = ({
 	errors,
 	children,
 	variant,
-	tva = FormInputCls,
+	tva = FormFieldCls,
 	cls,
 }) => {
 	const { slots } = tva(

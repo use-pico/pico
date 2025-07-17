@@ -1,6 +1,6 @@
 import { cls } from "@use-pico/common";
 
-export const FormInputCls = cls({
+export const FormFieldCls = cls({
 	slot: {
 		base: [
 			"flex",
@@ -72,10 +72,10 @@ export const FormInputCls = cls({
 		isError: false,
 	},
 });
-export type FormInputCls = typeof FormInputCls;
+export type FormFieldCls = typeof FormFieldCls;
 
-export namespace FormInputCls {
-	export type Props<P = unknown> = cls.Props<FormInputCls, P>;
+export namespace FormFieldCls {
+	export type Props<P = unknown> = cls.Props<FormFieldCls, P>;
 
-	export type Slots = cls.Slots<FormInputCls>;
+	export type Slots = cls.Slots<FormFieldCls>;
 }
