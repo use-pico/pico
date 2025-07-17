@@ -1,19 +1,16 @@
+import type { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import {
-	type PluginFunction,
-	type Types,
-} from "@graphql-codegen/plugin-helpers";
-import {
+	type GraphQLEnumType,
+	type GraphQLInputObjectType,
+	type GraphQLObjectType,
+	type GraphQLSchema,
+	type GraphQLType,
 	getNamedType,
 	isEnumType,
 	isInputObjectType,
 	isListType,
 	isNonNullType,
 	isObjectType,
-	type GraphQLEnumType,
-	type GraphQLInputObjectType,
-	type GraphQLObjectType,
-	type GraphQLSchema,
-	type GraphQLType,
 } from "graphql";
 
 export namespace withZodPlugin {
