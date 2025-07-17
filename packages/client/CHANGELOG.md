@@ -1,5 +1,29 @@
 # @use-pico/client
 
+## 4.1.9
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.9
+
+## 4.1.8
+
+### Patch Changes
+
+- Updated form error display
+- Updated dependencies
+  - @use-pico/common@4.1.8
+
+## 4.1.7
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.7
+
 ## 4.1.6
 
 ### Patch Changes

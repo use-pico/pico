@@ -11,7 +11,7 @@ export namespace FormField {
 		name: string;
 		required?: boolean;
 		disabled?: boolean;
-		errors: FieldError[] | undefined;
+		meta: FormError.Meta;
 	}
 }
 
@@ -21,7 +21,7 @@ export const FormField: FC<FormField.Props> = ({
 	name,
 	required = false,
 	disabled,
-	errors,
+	meta,
 	children,
 	variant,
 	tva = FormFieldCls,
@@ -47,7 +47,7 @@ export const FormField: FC<FormField.Props> = ({
 					variant={{
 						compact: true,
 					}}
-					errors={errors}
+					meta={meta}
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
