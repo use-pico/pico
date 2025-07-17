@@ -8,7 +8,7 @@ export namespace FormError {
 	export interface Meta {
 		isDirty: boolean;
 		isTouched: boolean;
-		errors: ErrorSchema.Type[];
+		errors: ErrorSchema.Type[] | undefined;
 	}
 
 	export interface Props extends FormErrorCls.Props {
@@ -29,7 +29,7 @@ export const FormError: FC<FormError.Props> = ({
 
 	return shouldShowError ? (
 		<div className={slots.base()}>
-			{meta.errors.map((error, index) => (
+			{meta.errors?.map((error, index) => (
 				<div
 					key={`${index}-${error}`}
 					className={slots.error()}
