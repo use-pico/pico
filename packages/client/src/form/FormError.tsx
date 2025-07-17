@@ -6,24 +6,33 @@ import { FormErrorCls } from "./FormErrorCls";
 
 export namespace FormError {
 	export interface Props extends FormErrorCls.Props {
-		error?: {
-			message?: string;
-		};
+		errors: string[] | undefined;
 	}
 }
 
 export const FormError: FC<FormError.Props> = ({
-	error,
+	errors,
 	variant,
 	tva = FormErrorCls,
 	cls,
 }) => {
 	const { slots } = tva(variant, cls);
 
-	return error?.message ? (
+	if (!errors || errors.length === 0) {
+		return null;
+	}
+
+	return (
 		<div className={slots.base()}>
-			<Icon icon={ErrorIcon} />
-			<span>{translator.rich(error.message)}</span>
+			{errors.map((error, index) => (
+				<div
+					key={`${index}-${error}`}
+					className={slots.error()}
+				>
+					<Icon icon={ErrorIcon} />
+					<span>{translator.rich(error)}</span>
+				</div>
+			))}
 		</div>
-	) : null;
+	);
 };

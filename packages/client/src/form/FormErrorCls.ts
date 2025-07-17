@@ -4,6 +4,11 @@ export const FormErrorCls = cls({
 	slot: {
 		base: [
 			"flex",
+			"flex-col",
+			"gap-2",
+		],
+		error: [
+			"flex",
 			"flex-row",
 			"gap-1",
 			"items-center",
@@ -25,7 +30,7 @@ export const FormErrorCls = cls({
 				highlight: true,
 			},
 			do: {
-				base: [
+				error: [
 					"bg-red-100",
 					"p-2",
 					"font-bold",
@@ -41,7 +46,7 @@ export const FormErrorCls = cls({
 				compact: true,
 			},
 			do: {
-				base: [
+				error: [
 					"p-0",
 				],
 			},

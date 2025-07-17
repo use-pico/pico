@@ -9,6 +9,7 @@ export namespace FormInput {
 		name: string;
 		required?: boolean;
 		disabled?: boolean;
+		errors: string[] | undefined;
 	}
 }
 
@@ -18,6 +19,7 @@ export const FormInput: FC<FormInput.Props> = ({
 	name,
 	required = false,
 	disabled,
+	errors,
 	children,
 	variant,
 	tva = FormInputCls,
@@ -43,7 +45,7 @@ export const FormInput: FC<FormInput.Props> = ({
 					variant={{
 						compact: true,
 					}}
-					error={undefined}
+					errors={errors}
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
