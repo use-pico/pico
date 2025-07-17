@@ -3,13 +3,15 @@ import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
 
 export namespace FormField {
+	export type FieldError = any;
+
 	export interface Props extends FormFieldCls.Props<PropsWithChildren> {
 		label?: ReactNode;
 		hint?: ReactNode;
 		name: string;
 		required?: boolean;
 		disabled?: boolean;
-		errors: string[] | undefined;
+		errors: FieldError[] | undefined;
 	}
 }
 
