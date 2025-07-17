@@ -27,6 +27,8 @@ export const FormError: FC<FormError.Props> = ({
 	const shouldShowError =
 		meta.isDirty && meta.isTouched && meta.errors && meta.errors.length > 0;
 
+	console.log("with error", shouldShowError, meta);
+
 	return shouldShowError ? (
 		<div className={slots.base()}>
 			{meta.errors?.map((error, index) => (
