@@ -1,5 +1,13 @@
 # @use-pico/client
 
+## 4.1.6
+
+### Patch Changes
+
+- Updated form cls
+- Updated dependencies
+  - @use-pico/common@4.1.6
+
 ## 4.1.5
 
 ### Patch Changes

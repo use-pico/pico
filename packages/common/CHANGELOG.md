@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.1.6
+
+### Patch Changes
+
+- Updated form cls
+
 ## 4.1.5
 
 ### Patch Changes

@@ -40,9 +40,6 @@ export const FormCls = cls({
 		],
 	},
 	variant: {
-		isLoading: {
-			true: [],
-		},
 		isSubmitting: {
 			true: [],
 		},
@@ -62,7 +59,6 @@ export const FormCls = cls({
 		},
 	],
 	defaults: {
-		isLoading: false,
 		isSubmitting: false,
 	},
 });
