@@ -1,9 +1,9 @@
 import type { Merge } from "../type/merge";
 
 export namespace Mapper {
-	export type MapperFn<A extends object, B> = {
-		[K in keyof B]: (input: A) => Promise<B[K]>;
-	};
+	export type MapperFn<A extends object, B> = Partial<{
+		[K in keyof (B & A)]: (input: A) => Promise<(B & A)[K]>;
+	}>;
 }
 
 export const mapper = async <A extends object, B>(
@@ -15,7 +15,10 @@ export const mapper = async <A extends object, B>(
 	};
 
 	for (const key in mapper) {
-		result[key] = await mapper[key](input);
+		const fn = mapper[key as keyof typeof mapper];
+		if (fn) {
+			result[key] = await fn(input);
+		}
 	}
 
 	return result as Merge<A, B>;
@@ -28,7 +31,7 @@ const bla = await mapper(
 		bar: "foo",
 	},
 	{
-		foo: async ({ foo }) => Boolean(`${foo}-foo`),
+		foo: undefined,
 		bla: async () => 45,
 	},
 );
