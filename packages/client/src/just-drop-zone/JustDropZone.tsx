@@ -11,6 +11,15 @@ export namespace JustDropZone {
 	export type OnDrop = (files: File[]) => void;
 	export type OnError = (error: Error) => void;
 
+	export interface ChildrenProps {
+		files: [
+			File,
+			...File[],
+		];
+		clear(): void;
+		remove(file: File): void;
+	}
+
 	export interface Props
 		extends JustDropZoneCls.Props<dropzone.DropzoneOptions> {
 		id?: string;
@@ -19,14 +28,7 @@ export namespace JustDropZone {
 		/**
 		 * Renders, when file(s) is dropped.
 		 */
-		children?: FC<{
-			files: [
-				File,
-				...File[],
-			];
-			clear(): void;
-			remove(file: File): void;
-		}>;
+		children?: FC<ChildrenProps>;
 	}
 }
 
