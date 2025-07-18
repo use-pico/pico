@@ -23,15 +23,3 @@ export const mapper = async <A extends object, B>(
 
 	return result as Merge<A, B>;
 };
-
-// Usage example
-const bla = await mapper(
-	{
-		foo: "bar",
-		bar: "foo",
-	},
-	{
-		foo: undefined,
-		bla: async () => 45,
-	},
-);
