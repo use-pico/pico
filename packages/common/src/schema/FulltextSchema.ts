@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FulltextSchema = z.object({
+export const FulltextSchema = z.strictObject({
 	fulltext: z.string().optional(),
 });
 

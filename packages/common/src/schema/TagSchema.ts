@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { IdentitySchema } from "./IdentitySchema";
 
-export const TagSchema = IdentitySchema.merge(
-	z.object({
+export const TagSchema = IdentitySchema.extend(
+	z.strictObject({
 		code: z.string().min(1),
 		label: z.string().min(1),
 		group: z.string().nullish(),

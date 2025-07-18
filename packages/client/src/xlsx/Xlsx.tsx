@@ -1,17 +1,25 @@
+import type z from "zod";
 import { JustDropZone } from "../just-drop-zone/JustDropZone";
 import { Reader } from "./Xlsx/Reader";
 
 export namespace Xlsx {
-	export interface Props<TLoad extends Record<string, Reader.Sheet<any>>>
-		extends Omit<JustDropZone.Props, "children">,
-			Reader.Props<TLoad> {
+	export type Sheet<TSchema extends z.core.$ZodObject> =
+		Reader.Sheet<TSchema>;
+
+	export type Result<TLoad extends Record<string, Sheet<z.core.$ZodObject>>> =
+		Reader.Result<TLoad>;
+
+	export interface Props<
+		TLoad extends Record<string, Sheet<z.core.$ZodObject>>,
+	> extends Omit<JustDropZone.Props, "children">,
+			Pick<Reader.Props<TLoad>, "load" | "onSuccess" | "children"> {
 		//
 	}
 }
 
-export const Xlsx = <TLoad extends Record<string, Reader.Sheet<any>>>({
+export const Xlsx = <TLoad extends Record<string, Xlsx.Sheet<any>>>({
 	load,
-	onSuccess = async () => null,
+	onSuccess,
 	children,
 	...props
 }: Xlsx.Props<TLoad>) => {
@@ -31,15 +39,17 @@ export const Xlsx = <TLoad extends Record<string, Reader.Sheet<any>>>({
 			}}
 			{...props}
 		>
-			{(props) => (
-				<Reader
-					load={load}
-					onSuccess={onSuccess}
-					{...props}
-				>
-					{children}
-				</Reader>
-			)}
+			{(props) => {
+				return (
+					<Reader
+						load={load}
+						onSuccess={onSuccess}
+						{...props}
+					>
+						{children}
+					</Reader>
+				);
+			}}
 		</JustDropZone>
 	);
 };

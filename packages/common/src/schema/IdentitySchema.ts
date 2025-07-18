@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const IdentitySchema = z.object({
+export const IdentitySchema = z.strictObject({
 	id: z.string().min(1),
 });
 

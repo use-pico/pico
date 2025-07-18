@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const TranslationSchema = z.object({
+export const TranslationSchema = z.strictObject({
 	ref: z.string().optional(),
 	value: z.string(),
 	static: z.boolean().optional(),

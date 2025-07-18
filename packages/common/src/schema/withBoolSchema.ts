@@ -3,6 +3,7 @@ import { z } from "zod";
 export const withBoolSchema = () => {
 	return z.union([
 		z.boolean(),
+		z.stringbool(),
 		z
 			.number()
 			.int()

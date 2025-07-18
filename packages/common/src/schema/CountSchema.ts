@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CountSchema = z.object({
+export const CountSchema = z.strictObject({
 	where: z.number(),
 	filter: z.number(),
 	total: z.number(),

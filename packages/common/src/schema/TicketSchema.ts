@@ -7,13 +7,13 @@ import { TokenSchema } from "./TokenSchema";
  * - holds ID (of a user)
  * - holds access tokens (for client-side ACL check)
  */
-export const TicketSchema = IdentitySchema.merge(
+export const TicketSchema = IdentitySchema.extend(
 	z
-		.object({
+		.strictObject({
 			name: z.string(),
 			site: z.string(),
 		})
-		.merge(TokenSchema),
+		.extend(TokenSchema),
 );
 
 export type TicketSchema = typeof TicketSchema;

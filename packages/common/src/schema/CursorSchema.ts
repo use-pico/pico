@@ -5,7 +5,7 @@ import { z } from "zod";
  *
  * @group schema
  */
-export const CursorSchema = z.object({
+export const CursorSchema = z.strictObject({
 	/**
 	 * Page.
 	 */
@@ -17,7 +17,9 @@ export const CursorSchema = z.object({
 		.number()
 		.gte(1, "Page size must be greater than one to get any data"),
 });
+
 export type CursorSchema = typeof CursorSchema;
+
 export namespace CursorSchema {
 	export type Type = z.infer<CursorSchema>;
 }

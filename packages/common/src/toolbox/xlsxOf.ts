@@ -1,5 +1,5 @@
 import readXlsxFile from "read-excel-file";
-import { safeParse, type z } from "zod";
+import { safeParse, z } from "zod";
 
 export namespace xlsxOf {
 	export interface Meta<TValue> {
@@ -65,7 +65,7 @@ export const xlsxOf = async <TSchema extends z.core.$ZodObject>({
 		}
 
 		return data
-			.map((row) => {
+			.map((row, index) => {
 				const item = row.reduce(
 					(acc, cell, i) => {
 						const { header: $header, value } = map({
@@ -85,10 +85,9 @@ export const xlsxOf = async <TSchema extends z.core.$ZodObject>({
 					...item,
 				});
 				if (!validate.success) {
-					console.warn("Invalid row", {
-						item,
-						error: validate.error.issues,
-					});
+					console.warn(
+						`${sheet} - #${index + 1}: Invalid row\n${z.prettifyError(validate.error)}`,
+					);
 					return undefined;
 				}
 				return validate.data;

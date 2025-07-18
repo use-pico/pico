@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { xlsxOf } from "@use-pico/common";
-import { type FC, useEffect, useMemo } from "react";
+import { type FC, useMemo } from "react";
 import z from "zod";
 import type { JustDropZone } from "../../just-drop-zone/JustDropZone";
 import { LoadingOverlay } from "../../loading-overlay/LoadingOverlay";
@@ -18,7 +18,7 @@ export namespace Reader {
 	export interface Props<TLoad extends Record<string, Sheet<any>>>
 		extends JustDropZone.ChildrenProps {
 		load: TLoad;
-		onSuccess(result: Result<TLoad>): Promise<any>;
+		onSuccess?(result: Result<TLoad>): Promise<any>;
 		children: FC<{
 			result: Result<TLoad>;
 		}>;
@@ -121,19 +121,11 @@ export const Reader = <TLoad extends Record<string, Reader.Sheet<any>>>({
 				result[key as keyof TLoad] = data;
 			}
 
+			await onSuccess?.(result);
+
 			return result;
 		},
 	});
-
-	useEffect(() => {
-		if (data.isSuccess && data.data) {
-			onSuccess(data.data);
-		}
-	}, [
-		data.isSuccess,
-		data.data,
-		onSuccess,
-	]);
 
 	const memo = useMemo(
 		() =>
