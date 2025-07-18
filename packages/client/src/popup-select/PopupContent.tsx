@@ -1,14 +1,18 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { IdentitySchema } from "@use-pico/common";
+import type { CountSchema, IdentitySchema } from "@use-pico/common";
 import { type FC, useContext, useMemo } from "react";
 import { ModalContext } from "../modal/ModalContext";
-import type { withListCount } from "../source/withListCount";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace PopupContent {
+	export interface List<TItem extends IdentitySchema.Type> {
+		list: TItem[];
+		count: CountSchema.Type;
+	}
+
 	export interface Props extends PopupSelectCls.Props {
 		table: FC<Table.PropsEx<any>>;
 
@@ -17,10 +21,7 @@ export namespace PopupContent {
 		 */
 		useLocalStore: createLocalTableStore.Store;
 
-		result: UseQueryResult<
-			withListCount.Result<IdentitySchema.Type>,
-			Error
-		>;
+		result: UseQueryResult<List<IdentitySchema.Type>, Error>;
 
 		onChange(value: string | null): void;
 		/**

@@ -1,4 +1,4 @@
-import type { Merge } from "../type/merge";
+import type { Merge } from "../type/Merge";
 
 export namespace Mapper {
 	export type MapperFn<A extends object, B> = Partial<{

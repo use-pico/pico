@@ -14,7 +14,6 @@ import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
-import type { withListCount } from "../source/withListCount";
 import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
@@ -30,7 +29,7 @@ export namespace PopupSelect {
 
 		export type Callback<TItem extends IdentitySchema.Type> = (
 			props: Props,
-		) => Promise<withListCount.Result<TItem>>;
+		) => Promise<PopupContent.List<TItem>>;
 	}
 
 	export interface Props<TItem extends IdentitySchema.Type>

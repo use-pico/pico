@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	Button,
 	navigateOnCursor,
 	navigateOnFilter,
 	navigateOnFulltext,
@@ -8,7 +7,6 @@ import {
 	Table,
 	Tx,
 	withColumn,
-	type withListCount,
 	withSourceSearchSchema,
 } from "@use-pico/client";
 import { FilterSchema } from "@use-pico/common";
@@ -90,7 +88,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 					cursor,
 				},
 			],
-			async queryFn(): Promise<withListCount.Result<SomeData>> {
+			async queryFn() {
 				return {
 					count: {
 						filter: someData.length,
@@ -101,7 +99,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 						cursor.page * cursor.size,
 						cursor.page * cursor.size + cursor.size,
 					),
-				};
+				} as const;
 			},
 		});
 	},
@@ -111,50 +109,32 @@ export const Route = createFileRoute("/$locale/components/table")({
 		const navigate = Route.useNavigate();
 
 		return (
-			<div className={"flex flex-col"}>
-				<SomeTable
-					data={list}
-					filter={{
-						state: {
-							value: filter,
-							set: navigateOnFilter(navigate),
-						},
-					}}
-					selection={{
-						type: "multi",
-						state: {
-							value: selection,
-							set: navigateOnSelection(navigate),
-						},
-					}}
-					fulltext={{
-						value: filter?.fulltext,
-						set: navigateOnFulltext(filter?.fulltext, navigate),
-					}}
-					cursor={{
-						count,
-						cursor,
-						textTotal: <Tx label={"Number of items"} />,
-						...navigateOnCursor(navigate),
-					}}
-				/>
-
-				<div>
-					<Button
-						onClick={() => {
-							navigate({
-								search: {
-									filter: {
-										fulltext: "aaa",
-									},
-								},
-							});
-						}}
-					>
-						klyl
-					</Button>
-				</div>
-			</div>
+			<SomeTable
+				data={list}
+				filter={{
+					state: {
+						value: filter,
+						set: navigateOnFilter(navigate),
+					},
+				}}
+				selection={{
+					type: "multi",
+					state: {
+						value: selection,
+						set: navigateOnSelection(navigate),
+					},
+				}}
+				fulltext={{
+					value: filter?.fulltext,
+					set: navigateOnFulltext(filter?.fulltext, navigate),
+				}}
+				cursor={{
+					count,
+					cursor,
+					textTotal: <Tx label={"Number of items"} />,
+					...navigateOnCursor(navigate),
+				}}
+			/>
 		);
 	},
 });

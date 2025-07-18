@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { IdentitySchema } from "./IdentitySchema";
 import { TokenSchema } from "./TokenSchema";
 
 /**
@@ -7,14 +6,13 @@ import { TokenSchema } from "./TokenSchema";
  * - holds ID (of a user)
  * - holds access tokens (for client-side ACL check)
  */
-export const TicketSchema = IdentitySchema.extend(
-	z
-		.strictObject({
-			name: z.string(),
-			site: z.string(),
-		})
-		.extend(TokenSchema),
-);
+export const TicketSchema = z
+	.strictObject({
+		id: z.string(),
+		name: z.string(),
+		site: z.string(),
+	})
+	.extend(TokenSchema);
 
 export type TicketSchema = typeof TicketSchema;
 
