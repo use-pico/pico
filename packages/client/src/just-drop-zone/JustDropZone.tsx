@@ -1,5 +1,5 @@
-import { translator } from "@use-pico/common";
-import { type FC, type ReactNode, useState } from "react";
+import { isNonEmptyArray, translator } from "@use-pico/common";
+import { type FC, type ReactNode, useCallback, useState } from "react";
 import * as dropzone from "react-dropzone";
 import { Icon } from "../icon/Icon";
 import { UploadIcon } from "../icon/UploadIcon";
@@ -63,6 +63,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
+	// TODO Create a hook or something to cache tva's
 	const { slots } = tva(
 		{
 			active: isDragActive,
@@ -72,28 +73,22 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 		cls,
 	);
 
+	const clear = useCallback(() => setFiles([]), []);
+	const remove = useCallback(
+		(file: File) => setFiles((files) => files.filter((f) => f !== file)),
+		[],
+	);
+
 	return (
 		<div
 			{...getRootProps()}
 			className={slots.base()}
 		>
-			{Children && files && files.length > 0 ? (
+			{Children && isNonEmptyArray(files) ? (
 				<Children
-					/**
-					 * Cast to array of files, we're sure at least one file is selected.
-					 */
-					files={
-						files as [
-							File,
-							...File[],
-						]
-					}
-					clear={() => {
-						setFiles([]);
-					}}
-					remove={(file) => {
-						setFiles(files.filter((f) => f !== file));
-					}}
+					files={files}
+					clear={clear}
+					remove={remove}
 				/>
 			) : (
 				<label

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { xlsxOf } from "@use-pico/common";
-import { useMemo, type FC } from "react";
+import { type FC, useEffect, useMemo } from "react";
 import z from "zod";
 import type { JustDropZone } from "../../just-drop-zone/JustDropZone";
 import { LoadingOverlay } from "../../loading-overlay/LoadingOverlay";
@@ -34,6 +34,7 @@ export const Reader = <TLoad extends Record<string, Reader.Sheet<any>>>({
 	const data = useQuery({
 		refetchOnWindowFocus: false,
 		refetchOnReconnect: false,
+		staleTime: 0,
 		queryKey: [
 			"xlsx",
 			{
@@ -120,11 +121,19 @@ export const Reader = <TLoad extends Record<string, Reader.Sheet<any>>>({
 				result[key as keyof TLoad] = data;
 			}
 
-			await onSuccess(result);
-
 			return result;
 		},
 	});
+
+	useEffect(() => {
+		if (data.isSuccess && data.data) {
+			onSuccess(data.data);
+		}
+	}, [
+		data.isSuccess,
+		data.data,
+		onSuccess,
+	]);
 
 	const memo = useMemo(
 		() =>
@@ -138,6 +147,8 @@ export const Reader = <TLoad extends Record<string, Reader.Sheet<any>>>({
 
 	if (data.isFetching) {
 		return <LoadingOverlay />;
+	} else if (data.isError) {
+		return <div>Error loading file</div>;
 	} else if (data.isSuccess) {
 		return memo;
 	}
