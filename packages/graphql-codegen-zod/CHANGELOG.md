@@ -1,5 +1,11 @@
 # @use-pico/graphql-codegen-zod
 
+## 4.0.13
+
+### Patch Changes
+
+- Debugging fragments
+
 ## 4.0.12
 
 ### Patch Changes
