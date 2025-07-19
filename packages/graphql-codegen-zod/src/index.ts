@@ -107,10 +107,9 @@ function createFieldDefinition(
 	zodType: string,
 	required: boolean,
 ): string {
-	if (required) {
-		return `  ${fieldName}: ${zodType}`;
-	}
-	return `  ${fieldName}: ${zodType}.nullish()`;
+	return required
+		? `  ${fieldName}: ${zodType}`
+		: `  ${fieldName}: ${zodType}.nullish()`;
 }
 
 /**
@@ -126,20 +125,105 @@ function createGetterDefinition(
 }
 
 /**
- * Processes a GraphQL field into a Zod schema field
+ * Gets the correct schema name for a field, considering fragment spreads
  */
-function processField(
-	fieldName: string,
+function getFieldSchemaName(
 	field: any,
+	selectionSet: any,
 	config: withZodPlugin.Config,
 ): string {
-	const required = isNonNullType(field.type);
-	const zodType = typeToZod(field.type, config);
-	const isRecursive = isRecursiveReference(field.type);
+	// If the field has a selection set with fragment spreads, use the fragment name
+	if (selectionSet?.selections) {
+		const fragmentSpread = selectionSet.selections.find(
+			(s: any) => s.kind === Kind.FRAGMENT_SPREAD,
+		);
+		if (fragmentSpread) {
+			const fragmentName = fragmentSpread.name.value;
+			if (knownSchemaNames.has(`${fragmentName}Fragment`)) {
+				return `${fragmentName}FragmentSchema`;
+			}
+		}
+	}
 
-	return isRecursive
-		? createGetterDefinition(fieldName, zodType, required)
-		: createFieldDefinition(fieldName, zodType, required);
+	// Otherwise, use the field's type
+	return typeToZod(field.type, config);
+}
+
+/**
+ * Processes a GraphQL selection set into field definitions
+ */
+function processSelectionSet(
+	selectionSet: any,
+	baseType: GraphQLObjectType,
+	schema: GraphQLSchema,
+	config: withZodPlugin.Config,
+): string[] {
+	const fields: string[] = [];
+
+	for (const selection of selectionSet.selections) {
+		if (selection.kind === Kind.FIELD) {
+			const fieldName = selection.name.value;
+			const field = baseType.getFields()[fieldName];
+
+			if (!field) {
+				fields.push(
+					`  // Field ${fieldName} not found on type ${baseType.name}`,
+				);
+				continue;
+			}
+
+			const required = isNonNullType(field.type);
+			const zodType = getFieldSchemaName(
+				field,
+				selection.selectionSet,
+				config,
+			);
+			const isRecursive = isRecursiveReference(field.type);
+
+			fields.push(
+				isRecursive
+					? createGetterDefinition(fieldName, zodType, required)
+					: createFieldDefinition(fieldName, zodType, required),
+			);
+		} else if (selection.kind === Kind.FRAGMENT_SPREAD) {
+			// Handle fragment spreads by referencing the fragment schema
+			const fragmentName = selection.name.value;
+			fields.push(createFragmentSpreadField(fragmentName));
+		} else if (selection.kind === Kind.INLINE_FRAGMENT) {
+			// Handle inline fragments
+			const typeCondition = selection.typeCondition;
+			if (!typeCondition) {
+				continue;
+			}
+
+			const inlineTypeName = typeCondition.name.value;
+			const inlineType = schema.getType(inlineTypeName);
+
+			if (!inlineType) {
+				fields.push(
+					`  // Inline fragment: Type ${inlineTypeName} not found in schema`,
+				);
+				continue;
+			}
+
+			if (!isObjectType(inlineType)) {
+				fields.push(
+					`  // Inline fragment: Type ${inlineTypeName} is not an object type`,
+				);
+				continue;
+			}
+
+			const inlineFields = processSelectionSet(
+				selection.selectionSet,
+				inlineType,
+				schema,
+				config,
+			);
+			fields.push(...inlineFields);
+		}
+	}
+
+	return fields;
 }
 
 /**
@@ -225,6 +309,7 @@ function fragmentToZod(
 	if (!baseType) {
 		return `// Fragment ${fragmentName}: Base type ${typeName} not found in schema`;
 	}
+
 	if (!isObjectType(baseType)) {
 		return `// Fragment ${fragmentName}: Base type ${typeName} is not an object type`;
 	}
@@ -250,68 +335,20 @@ function createFragmentSpreadField(fragmentName: string): string {
 }
 
 /**
- * Processes a GraphQL selection set into field definitions
+ * Processes a GraphQL field into a Zod schema field
  */
-function processSelectionSet(
-	selectionSet: any,
-	baseType: GraphQLObjectType,
-	schema: GraphQLSchema,
+function processField(
+	fieldName: string,
+	field: any,
 	config: withZodPlugin.Config,
-): string[] {
-	const fields: string[] = [];
+): string {
+	const required = isNonNullType(field.type);
+	const zodType = typeToZod(field.type, config);
+	const isRecursive = isRecursiveReference(field.type);
 
-	for (const selection of selectionSet.selections) {
-		if (selection.kind === Kind.FIELD) {
-			const fieldName = selection.name.value;
-			const field = baseType.getFields()[fieldName];
-
-			if (field) {
-				const required = isNonNullType(field.type);
-				const zodType = typeToZod(field.type, config);
-				const isRecursive = isRecursiveReference(field.type);
-
-				fields.push(
-					isRecursive
-						? createGetterDefinition(fieldName, zodType, required)
-						: createFieldDefinition(fieldName, zodType, required),
-				);
-			} else {
-				fields.push(
-					`  // Field ${fieldName} not found on type ${baseType.name}`,
-				);
-			}
-		} else if (selection.kind === Kind.FRAGMENT_SPREAD) {
-			// Handle fragment spreads by referencing the fragment schema
-			const fragmentName = selection.name.value;
-			fields.push(createFragmentSpreadField(fragmentName));
-		} else if (selection.kind === Kind.INLINE_FRAGMENT) {
-			// Handle inline fragments
-			const typeCondition = selection.typeCondition;
-			if (typeCondition) {
-				const inlineTypeName = typeCondition.name.value;
-				const inlineType = schema.getType(inlineTypeName);
-				if (!inlineType) {
-					fields.push(
-						`  // Inline fragment: Type ${inlineTypeName} not found in schema`,
-					);
-				} else if (isObjectType(inlineType)) {
-					const inlineFields = processSelectionSet(
-						selection.selectionSet,
-						inlineType,
-						schema,
-						config,
-					);
-					fields.push(...inlineFields);
-				} else {
-					fields.push(
-						`  // Inline fragment: Type ${inlineTypeName} is not an object type`,
-					);
-				}
-			}
-		}
-	}
-
-	return fields;
+	return isRecursive
+		? createGetterDefinition(fieldName, zodType, required)
+		: createFieldDefinition(fieldName, zodType, required);
 }
 
 /**
@@ -323,15 +360,24 @@ function processType(
 ): string | null {
 	if (isEnumType(type)) {
 		return enumToZod(type);
-	} else if (isInputObjectType(type)) {
+	}
+
+	if (isInputObjectType(type)) {
 		return inputToZod(type, config);
-	} else if (isObjectType(type)) {
+	}
+
+	if (isObjectType(type)) {
 		return objectToZod(type, config);
-	} else if (isUnionType(type)) {
+	}
+
+	if (isUnionType(type)) {
 		return unionToZod(type);
-	} else if (isInterfaceType(type)) {
+	}
+
+	if (isInterfaceType(type)) {
 		return interfaceToZod(type, config);
 	}
+
 	return null;
 }
 
@@ -364,7 +410,9 @@ function collectKnownTypes(schema: GraphQLSchema): void {
  */
 function collectFragments(documents: Types.DocumentFile[]): void {
 	for (const document of documents) {
-		if (!document.document?.definitions) continue;
+		if (!document.document?.definitions) {
+			continue;
+		}
 
 		for (const definition of document.document.definitions) {
 			if (definition.kind === Kind.FRAGMENT_DEFINITION) {
@@ -410,12 +458,18 @@ function processTypes(
 	const typeMap = schema.getTypeMap();
 
 	for (const typeName of Object.keys(typeMap)) {
-		if (typeName.startsWith("__")) continue;
+		if (typeName.startsWith("__")) {
+			continue;
+		}
 
 		const type = typeMap[typeName];
-		if (type) {
-			const result = processType(type, config);
-			if (result) results.push(result);
+		if (!type) {
+			continue;
+		}
+
+		const result = processType(type, config);
+		if (result) {
+			results.push(result);
 		}
 	}
 

@@ -58,6 +58,7 @@ export { keyOf } from "./toolbox/keyOf";
 export { mapEmptyToNull } from "./toolbox/mapEmptyToNull";
 export { mapEmptyToUndefined } from "./toolbox/mapEmptyToUndefined";
 export { mapper } from "./toolbox/mapper";
+export { mapperAsync } from "./toolbox/mapperAsync";
 export { omit } from "./toolbox/omit";
 export { pathOf } from "./toolbox/pathOf";
 export { pickOf } from "./toolbox/pickOf";

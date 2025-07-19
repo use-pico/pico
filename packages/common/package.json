@@ -1,13 +1,13 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.34",
+	"version": "4.1.36",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
 		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"build": "bun x rollup -c"
+		"no:build": "bun x rollup -c"
 	},
 	"dependencies": {
 		"@apollo/client": "3.13.8",
