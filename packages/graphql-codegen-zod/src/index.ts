@@ -104,8 +104,10 @@ class FragmentRegistry {
 	validateDependencies(): string[] {
 		const errors: string[] = [];
 
-		for (const [fragmentName, dependencies] of this.fragmentDependencies) {
-			for (const dependency of dependencies) {
+		for (const [fragmentName, dependencies] of Array.from(
+			this.fragmentDependencies.entries(),
+		)) {
+			for (const dependency of Array.from(dependencies)) {
 				if (!this.hasFragment(dependency)) {
 					errors.push(
 						`Fragment '${fragmentName}' depends on undefined fragment '${dependency}'`,
@@ -116,14 +118,6 @@ class FragmentRegistry {
 
 		return errors;
 	}
-}
-
-/**
- * Extracts field name from a field definition string
- */
-function extractFieldName(fieldDefinition: string): string | null {
-	const fieldMatch = fieldDefinition.match(/^\s*(\w+):/);
-	return fieldMatch?.[1] || null;
 }
 
 /**
@@ -324,7 +318,10 @@ function processSelectionSet(
 	config: withZodPlugin.Config,
 	knownSchemaNames: Set<string>,
 	fragmentRegistry: FragmentRegistry,
-): string[] {
+): {
+	fields: string[];
+	fieldNames: Set<string>;
+} {
 	const fields: string[] = [];
 	const fieldNames = new Set<string>(); // Track field names to prevent duplicates
 
@@ -385,7 +382,7 @@ function processSelectionSet(
 				fragmentRegistry.findFragment(fragmentName);
 			if (fragmentDefinition) {
 				// Process the fragment's selection set and merge the fields
-				const fragmentFields = processSelectionSet(
+				const fragmentResult = processSelectionSet(
 					fragmentDefinition.selectionSet,
 					baseType,
 					schema,
@@ -394,18 +391,22 @@ function processSelectionSet(
 					fragmentRegistry,
 				);
 
-				// Add fragment fields, checking for duplicates
-				for (const fragmentField of fragmentFields) {
-					const fragmentFieldName = extractFieldName(fragmentField);
-					if (
-						fragmentFieldName &&
-						!fieldNames.has(fragmentFieldName)
-					) {
+				// Add fragment fields, checking for duplicates by field name
+				for (const fragmentFieldName of Array.from(
+					fragmentResult.fieldNames,
+				)) {
+					if (!fieldNames.has(fragmentFieldName)) {
 						fieldNames.add(fragmentFieldName);
-						fields.push(fragmentField);
-					} else if (!fragmentFieldName) {
-						// If we can't extract the field name, add it anyway
-						fields.push(fragmentField);
+						// Find the corresponding field definition
+						const fieldIndex = Array.from(
+							fragmentResult.fieldNames,
+						).indexOf(fragmentFieldName);
+						if (
+							fieldIndex >= 0 &&
+							fragmentResult.fields[fieldIndex]
+						) {
+							fields.push(fragmentResult.fields[fieldIndex]);
+						}
 					}
 				}
 				continue;
@@ -437,7 +438,7 @@ function processSelectionSet(
 				continue;
 			}
 
-			const inlineFields = processSelectionSet(
+			const inlineResult = processSelectionSet(
 				selection.selectionSet,
 				inlineType,
 				schema,
@@ -446,20 +447,26 @@ function processSelectionSet(
 				fragmentRegistry,
 			);
 
-			// Add inline fragment fields, checking for duplicates
-			for (const inlineField of inlineFields) {
-				const inlineFieldName = extractFieldName(inlineField);
-				if (inlineFieldName && !fieldNames.has(inlineFieldName)) {
+			// Add inline fragment fields, checking for duplicates by field name
+			for (const inlineFieldName of Array.from(inlineResult.fieldNames)) {
+				if (!fieldNames.has(inlineFieldName)) {
 					fieldNames.add(inlineFieldName);
-					fields.push(inlineField);
-				} else if (!inlineFieldName) {
-					fields.push(inlineField);
+					// Find the corresponding field definition
+					const fieldIndex = Array.from(
+						inlineResult.fieldNames,
+					).indexOf(inlineFieldName);
+					if (fieldIndex >= 0 && inlineResult.fields[fieldIndex]) {
+						fields.push(inlineResult.fields[fieldIndex]);
+					}
 				}
 			}
 		}
 	}
 
-	return fields;
+	return {
+		fields,
+		fieldNames,
+	};
 }
 
 /**
@@ -743,7 +750,7 @@ function fragmentToZodSafely(
 		// Remove from visited types after processing
 		visitedTypes.delete(fragmentName);
 
-		return wrapSchema(fragmentName, fields);
+		return wrapSchema(fragmentName, fields.fields);
 	} catch (error) {
 		const fragmentName = fragment.name.value;
 		return `// Error processing fragment ${fragmentName}: ${error instanceof Error ? error.message : "Unknown error"}`;
