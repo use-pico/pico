@@ -1,5 +1,29 @@
 # @use-pico/graphql-codegen-zod
 
+## 4.0.17
+
+### Patch Changes
+
+- Bump
+
+## 4.0.16
+
+### Patch Changes
+
+- Bump
+
+## 4.0.15
+
+### Patch Changes
+
+- Fixes
+
+## 4.0.14
+
+### Patch Changes
+
+- Bump
+
 ## 4.0.13
 
 ### Patch Changes
