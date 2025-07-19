@@ -49,14 +49,14 @@ function typeToZod(type: GraphQLType, config: withZodPlugin.Config): string {
 	}
 
 	if (knownSchemaNames.has(name)) {
-		return `z.lazy(() => ${name}Schema)`;
+		return `${name}Schema`; // Just return the schema name for direct reference
 	}
 
 	return `z.any() // unknown: ${name}`;
 }
 
 function wrapSchema(name: string, fields: string[], override?: string): string {
-	const schema = override ?? `z.object({\n${fields.join(",\n")}\n})`;
+	const schema = override ?? `z.strictObject({\n${fields.join(",\n")}\n})`;
 	return [
 		`export const ${name}Schema = ${schema};`,
 		`export type ${name}Schema = typeof ${name}Schema;`,
@@ -74,6 +74,16 @@ function inputToZod(
 		([fieldName, field]) => {
 			const required = isNonNullType(field.type);
 			const zodType = typeToZod(field.type, config);
+
+			// Check if this field references a known schema (potential recursive reference)
+			const namedType = getNamedType(field.type);
+			const isRecursiveReference = knownSchemaNames.has(namedType.name);
+
+			if (isRecursiveReference) {
+				// Use getter pattern for recursive references
+				return `  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`;
+			}
+
 			return `  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`;
 		},
 	);
@@ -88,6 +98,16 @@ function objectToZod(
 		([fieldName, field]) => {
 			const required = isNonNullType(field.type);
 			const zodType = typeToZod(field.type, config);
+
+			// Check if this field references a known schema (potential recursive reference)
+			const namedType = getNamedType(field.type);
+			const isRecursiveReference = knownSchemaNames.has(namedType.name);
+
+			if (isRecursiveReference) {
+				// Use getter pattern for recursive references
+				return `  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`;
+			}
+
 			return `  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`;
 		},
 	);
@@ -105,13 +125,14 @@ function enumToZod(type: GraphQLEnumType): string {
 export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 	schema: GraphQLSchema,
 	_: Types.DocumentFile[],
-	config: withZodPlugin.Config,
+	config: withZodPlugin.Config = {},
 ) => {
 	const output: string[] = [
 		`/* eslint-disable no-use-before-define */`,
 		`import { z } from "zod";`,
 	];
 
+	// First pass: collect all known schema names
 	for (const typeName of Object.keys(schema.getTypeMap())) {
 		if (typeName.startsWith("__")) {
 			continue;
@@ -123,6 +144,7 @@ export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 		}
 	}
 
+	// Second pass: generate schemas
 	for (const typeName of Object.keys(schema.getTypeMap())) {
 		if (typeName.startsWith("__")) {
 			continue;
