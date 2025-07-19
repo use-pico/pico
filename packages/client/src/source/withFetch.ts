@@ -1,4 +1,4 @@
-import type { FilterSchema } from "@use-pico/common";
+import { type FilterSchema, tryZodError } from "@use-pico/common";
 import type { SelectQueryBuilder } from "kysely";
 import type { z } from "zod";
 import type { EnsureOutput } from "./EnsureOutput";
@@ -48,7 +48,8 @@ export const withFetch = async <
 }: withFetch.Props<TSelect, TFilter, TOutputSchema>): Promise<
 	z.infer<TOutputSchema>
 > => {
-	return (output as TOutputSchema).parse(
+	return tryZodError(
+		output as TOutputSchema,
 		await query({
 			select: query({
 				select,

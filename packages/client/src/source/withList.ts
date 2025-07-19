@@ -1,4 +1,8 @@
-import type { CursorSchema, FilterSchema } from "@use-pico/common";
+import {
+	type CursorSchema,
+	type FilterSchema,
+	tryZodError,
+} from "@use-pico/common";
 import type { InferResult, SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 import type { EnsureOutput } from "./EnsureOutput";
@@ -67,7 +71,8 @@ export const withList = async <
 		return $select as TSelect;
 	};
 
-	return z.array(output as TOutputSchema).parse(
+	return tryZodError(
+		z.array(output as TOutputSchema),
 		await limit(
 			query({
 				select: query({

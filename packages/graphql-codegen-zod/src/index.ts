@@ -228,7 +228,7 @@ function typeToZod(
  * Wraps a schema definition with exports and type definitions for TypeScript integration.
  */
 function wrapSchema(name: string, fields: string[], override?: string): string {
-	const schema = override ?? `z.strictObject({\n${fields.join(",\n")}\n})`;
+	const schema = override ?? `z.object({\n${fields.join(",\n")}\n})`;
 	return [
 		`export const ${name}Schema = ${schema};`,
 		`export type ${name}Schema = typeof ${name}Schema;`,

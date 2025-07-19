@@ -1,12 +1,17 @@
 import type { Merge } from "../type/Merge";
 
 export namespace mapperAsync {
-	export type MapperFn<A extends object, B> = Partial<{
-		[K in keyof (B & A)]: (input: A) => Promise<(B & A)[K]>;
-	}>;
+	export type MapperFn<A extends object, B extends object> = Merge<
+		{
+			[K in keyof A]?: (input: A) => Promise<A[K]>;
+		},
+		{
+			[K in keyof B]?: (input: A) => Promise<B[K]>;
+		}
+	>;
 }
 
-export const mapperAsync = async <A extends object, B>(
+export const mapperAsync = async <A extends object, B extends object>(
 	input: A,
 	mapper: mapperAsync.MapperFn<A, B>,
 ): Promise<Merge<A, B>> => {

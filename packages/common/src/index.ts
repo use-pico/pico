@@ -38,6 +38,7 @@ export { TicketSchema } from "./schema/TicketSchema";
 export { TokenSchema } from "./schema/TokenSchema";
 export { TranslationListSchema } from "./schema/TranslationListSchema";
 export { TranslationSchema } from "./schema/TranslationSchema";
+export { tryZodError } from "./schema/tryZodError";
 export { withBoolSchema } from "./schema/withBoolSchema";
 export { withDateTimeSchema } from "./schema/withDateTimeSchema";
 export { withFloatSchema } from "./schema/withFloatSchema";

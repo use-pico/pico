@@ -1,5 +1,45 @@
 # @use-pico/server
 
+## 4.1.41
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.41
+
+## 4.1.40
+
+### Patch Changes
+
+- Improved mapper functions
+- Updated dependencies
+  - @use-pico/common@4.1.40
+
+## 4.1.39
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.39
+
+## 4.1.38
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.38
+
+## 4.1.37
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.37
+
 ## 4.1.36
 
 ### Patch Changes
