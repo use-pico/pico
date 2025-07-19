@@ -26,6 +26,9 @@ export namespace withZodPlugin {
 
 const knownSchemaNames = new Set<string>();
 
+/**
+ * Converts a GraphQL type to its corresponding Zod schema string
+ */
 function typeToZod(type: GraphQLType, config: withZodPlugin.Config): string {
 	if (isNonNullType(type)) {
 		return typeToZod(type.ofType, config);
@@ -35,8 +38,7 @@ function typeToZod(type: GraphQLType, config: withZodPlugin.Config): string {
 		return `z.array(${typeToZod(type.ofType, config)})`;
 	}
 
-	const named = getNamedType(type);
-	const { name } = named;
+	const { name } = getNamedType(type);
 
 	switch (name) {
 		case "String":
@@ -73,6 +75,9 @@ function typeToZod(type: GraphQLType, config: withZodPlugin.Config): string {
 	return `z.any() // unknown: ${name}`;
 }
 
+/**
+ * Wraps a schema definition with exports and type definitions
+ */
 function wrapSchema(name: string, fields: string[], override?: string): string {
 	const schema = override ?? `z.strictObject({\n${fields.join(",\n")}\n})`;
 	return [
@@ -84,58 +89,88 @@ function wrapSchema(name: string, fields: string[], override?: string): string {
 	].join("\n");
 }
 
+/**
+ * Checks if a type reference is recursive (references a known schema)
+ */
+function isRecursiveReference(namedType: GraphQLType): boolean {
+	const name = getNamedType(namedType).name;
+	return (
+		knownSchemaNames.has(name) || knownSchemaNames.has(`${name}Fragment`)
+	);
+}
+
+/**
+ * Creates a regular field definition for Zod schema
+ */
+function createFieldDefinition(
+	fieldName: string,
+	zodType: string,
+	required: boolean,
+): string {
+	if (required) {
+		return `  ${fieldName}: ${zodType}`;
+	}
+	return `  ${fieldName}: ${zodType}.nullish()`;
+}
+
+/**
+ * Creates a getter field definition for recursive references
+ */
+function createGetterDefinition(
+	fieldName: string,
+	zodType: string,
+	required: boolean,
+): string {
+	const value = required ? zodType : `${zodType}.nullish()`;
+	return `  get ${fieldName}() {\n    return ${value}\n  }`;
+}
+
+/**
+ * Processes a GraphQL field into a Zod schema field
+ */
+function processField(
+	fieldName: string,
+	field: any,
+	config: withZodPlugin.Config,
+): string {
+	const required = isNonNullType(field.type);
+	const zodType = typeToZod(field.type, config);
+	const isRecursive = isRecursiveReference(field.type);
+
+	return isRecursive
+		? createGetterDefinition(fieldName, zodType, required)
+		: createFieldDefinition(fieldName, zodType, required);
+}
+
+/**
+ * Converts a GraphQL input object type to Zod schema
+ */
 function inputToZod(
 	type: GraphQLInputObjectType,
 	config: withZodPlugin.Config,
 ): string {
-	const fields = Object.entries(type.getFields()).map(
-		([fieldName, field]) => {
-			const required = isNonNullType(field.type);
-			const zodType = typeToZod(field.type, config);
-
-			// Check if this field references a known schema (potential recursive reference)
-			const namedType = getNamedType(field.type);
-			const isRecursiveReference =
-				knownSchemaNames.has(namedType.name) ||
-				knownSchemaNames.has(`${namedType.name}Fragment`);
-
-			if (isRecursiveReference) {
-				// Use getter pattern for recursive references
-				return `  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`;
-			}
-
-			return `  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`;
-		},
+	const fields = Object.entries(type.getFields()).map(([fieldName, field]) =>
+		processField(fieldName, field, config),
 	);
 	return wrapSchema(type.name, fields);
 }
 
+/**
+ * Converts a GraphQL object type to Zod schema
+ */
 function objectToZod(
 	type: GraphQLObjectType,
 	config: withZodPlugin.Config,
 ): string {
-	const fields = Object.entries(type.getFields()).map(
-		([fieldName, field]) => {
-			const required = isNonNullType(field.type);
-			const zodType = typeToZod(field.type, config);
-
-			// Check if this field references a known schema (potential recursive reference)
-			const namedType = getNamedType(field.type);
-			const isRecursiveReference =
-				knownSchemaNames.has(namedType.name) ||
-				knownSchemaNames.has(`${namedType.name}Fragment`);
-
-			if (isRecursiveReference) {
-				// Use getter pattern for recursive references
-				return `  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`;
-			}
-
-			return `  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`;
-		},
+	const fields = Object.entries(type.getFields()).map(([fieldName, field]) =>
+		processField(fieldName, field, config),
 	);
 	return wrapSchema(type.name, fields);
 }
 
+/**
+ * Converts a GraphQL enum type to Zod schema
+ */
 function enumToZod(type: GraphQLEnumType): string {
 	const values = type
 		.getValues()
@@ -144,6 +179,9 @@ function enumToZod(type: GraphQLEnumType): string {
 	return wrapSchema(type.name, [], `z.enum([${values}])`);
 }
 
+/**
+ * Converts a GraphQL union type to Zod schema
+ */
 function unionToZod(type: GraphQLUnionType): string {
 	const types = type
 		.getTypes()
@@ -157,32 +195,22 @@ function unionToZod(type: GraphQLUnionType): string {
 	return wrapSchema(type.name, [], `z.union([${types}])`);
 }
 
+/**
+ * Converts a GraphQL interface type to Zod schema
+ */
 function interfaceToZod(
 	type: GraphQLInterfaceType,
 	config: withZodPlugin.Config,
 ): string {
-	const fields = Object.entries(type.getFields()).map(
-		([fieldName, field]) => {
-			const required = isNonNullType(field.type);
-			const zodType = typeToZod(field.type, config);
-
-			// Check if this field references a known schema (potential recursive reference)
-			const namedType = getNamedType(field.type);
-			const isRecursiveReference =
-				knownSchemaNames.has(namedType.name) ||
-				knownSchemaNames.has(`${namedType.name}Fragment`);
-
-			if (isRecursiveReference) {
-				// Use getter pattern for recursive references
-				return `  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`;
-			}
-
-			return `  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`;
-		},
+	const fields = Object.entries(type.getFields()).map(([fieldName, field]) =>
+		processField(fieldName, field, config),
 	);
 	return wrapSchema(type.name, fields);
 }
 
+/**
+ * Converts a GraphQL fragment to Zod schema
+ */
 function fragmentToZod(
 	fragment: any,
 	schema: GraphQLSchema,
@@ -212,6 +240,18 @@ function fragmentToZod(
 	return wrapSchema(fragmentName, fields);
 }
 
+/**
+ * Creates a fragment spread field definition
+ */
+function createFragmentSpreadField(fragmentName: string): string {
+	return knownSchemaNames.has(`${fragmentName}Fragment`)
+		? `  get ${fragmentName}() {\n    return ${fragmentName}FragmentSchema\n  }`
+		: `  ${fragmentName}: ${fragmentName}Schema`;
+}
+
+/**
+ * Processes a GraphQL selection set into field definitions
+ */
 function processSelectionSet(
 	selectionSet: any,
 	baseType: GraphQLObjectType,
@@ -228,23 +268,13 @@ function processSelectionSet(
 			if (field) {
 				const required = isNonNullType(field.type);
 				const zodType = typeToZod(field.type, config);
+				const isRecursive = isRecursiveReference(field.type);
 
-				// Check if this field references a known schema (potential recursive reference)
-				const namedType = getNamedType(field.type);
-				const isRecursiveReference =
-					knownSchemaNames.has(namedType.name) ||
-					knownSchemaNames.has(`${namedType.name}Fragment`);
-
-				if (isRecursiveReference) {
-					// Use getter pattern for recursive references
-					fields.push(
-						`  get ${fieldName}() {\n    return ${required ? zodType : `${zodType}.nullish()`}\n  }`,
-					);
-				} else {
-					fields.push(
-						`  ${fieldName}: ${required ? zodType : `${zodType}.nullish()`}`,
-					);
-				}
+				fields.push(
+					isRecursive
+						? createGetterDefinition(fieldName, zodType, required)
+						: createFieldDefinition(fieldName, zodType, required),
+				);
 			} else {
 				fields.push(
 					`  // Field ${fieldName} not found on type ${baseType.name}`,
@@ -253,15 +283,7 @@ function processSelectionSet(
 		} else if (selection.kind === Kind.FRAGMENT_SPREAD) {
 			// Handle fragment spreads by referencing the fragment schema
 			const fragmentName = selection.name.value;
-			// For fragment spreads, we need to check if the fragment exists
-			if (knownSchemaNames.has(`${fragmentName}Fragment`)) {
-				fields.push(
-					`  get ${fragmentName}() {\n    return ${fragmentName}FragmentSchema\n  }`,
-				);
-			} else {
-				// Fallback to the base type if fragment doesn't exist
-				fields.push(`  ${fragmentName}: ${fragmentName}Schema`);
-			}
+			fields.push(createFragmentSpreadField(fragmentName));
 		} else if (selection.kind === Kind.INLINE_FRAGMENT) {
 			// Handle inline fragments
 			const typeCondition = selection.typeCondition;
@@ -292,6 +314,114 @@ function processSelectionSet(
 	return fields;
 }
 
+/**
+ * Routes a GraphQL type to the appropriate conversion function
+ */
+function processType(
+	type: GraphQLType,
+	config: withZodPlugin.Config,
+): string | null {
+	if (isEnumType(type)) {
+		return enumToZod(type);
+	} else if (isInputObjectType(type)) {
+		return inputToZod(type, config);
+	} else if (isObjectType(type)) {
+		return objectToZod(type, config);
+	} else if (isUnionType(type)) {
+		return unionToZod(type);
+	} else if (isInterfaceType(type)) {
+		return interfaceToZod(type, config);
+	}
+	return null;
+}
+
+/**
+ * Collects all known schema names from the GraphQL schema
+ */
+function collectKnownTypes(schema: GraphQLSchema): void {
+	const typeMap = schema.getTypeMap();
+
+	for (const typeName of Object.keys(typeMap)) {
+		if (typeName.startsWith("__")) {
+			continue;
+		}
+
+		const type = typeMap[typeName];
+		if (
+			isEnumType(type) ||
+			isInputObjectType(type) ||
+			isObjectType(type) ||
+			isUnionType(type) ||
+			isInterfaceType(type)
+		) {
+			knownSchemaNames.add(typeName);
+		}
+	}
+}
+
+/**
+ * Collects all fragment names from GraphQL documents
+ */
+function collectFragments(documents: Types.DocumentFile[]): void {
+	for (const document of documents) {
+		if (!document.document?.definitions) continue;
+
+		for (const definition of document.document.definitions) {
+			if (definition.kind === Kind.FRAGMENT_DEFINITION) {
+				knownSchemaNames.add(`${definition.name.value}Fragment`);
+			}
+		}
+	}
+}
+
+/**
+ * Processes all fragments in documents to generate Zod schemas
+ */
+function processFragments(
+	documents: Types.DocumentFile[],
+	schema: GraphQLSchema,
+	config: withZodPlugin.Config,
+): string[] {
+	const results: string[] = [];
+
+	for (const document of documents) {
+		if (!document.document?.definitions) {
+			continue;
+		}
+
+		for (const definition of document.document.definitions) {
+			if (definition.kind === Kind.FRAGMENT_DEFINITION) {
+				results.push(fragmentToZod(definition, schema, config));
+			}
+		}
+	}
+
+	return results;
+}
+
+/**
+ * Processes all types in the schema to generate Zod schemas
+ */
+function processTypes(
+	schema: GraphQLSchema,
+	config: withZodPlugin.Config,
+): string[] {
+	const results: string[] = [];
+	const typeMap = schema.getTypeMap();
+
+	for (const typeName of Object.keys(typeMap)) {
+		if (typeName.startsWith("__")) continue;
+
+		const type = typeMap[typeName];
+		if (type) {
+			const result = processType(type, config);
+			if (result) results.push(result);
+		}
+	}
+
+	return results;
+}
+
 export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 	schema: GraphQLSchema,
 	documents: Types.DocumentFile[],
@@ -303,64 +433,14 @@ export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 	];
 
 	// First pass: collect all known schema names
-	for (const typeName of Object.keys(schema.getTypeMap())) {
-		if (typeName.startsWith("__")) {
-			continue;
-		}
-
-		const type = schema.getType(typeName);
-		if (
-			isEnumType(type) ||
-			isInputObjectType(type) ||
-			isObjectType(type) ||
-			isUnionType(type) ||
-			isInterfaceType(type)
-		) {
-			knownSchemaNames.add(typeName);
-		}
-	}
+	collectKnownTypes(schema);
+	collectFragments(documents);
 
 	// Second pass: generate schemas for types
-	for (const typeName of Object.keys(schema.getTypeMap())) {
-		if (typeName.startsWith("__")) {
-			continue;
-		}
-
-		const type = schema.getType(typeName);
-
-		if (isEnumType(type)) {
-			output.push(enumToZod(type));
-		} else if (isInputObjectType(type)) {
-			output.push(inputToZod(type, config));
-		} else if (isObjectType(type)) {
-			output.push(objectToZod(type, config));
-		} else if (isUnionType(type)) {
-			output.push(unionToZod(type));
-		} else if (isInterfaceType(type)) {
-			output.push(interfaceToZod(type, config));
-		}
-	}
+	output.push(...processTypes(schema, config));
 
 	// Third pass: generate schemas for fragments
-	for (const document of documents) {
-		if (document.document?.definitions) {
-			for (const definition of document.document.definitions) {
-				if (definition.kind === Kind.FRAGMENT_DEFINITION) {
-					knownSchemaNames.add(`${definition.name.value}Fragment`);
-				}
-			}
-		}
-	}
-
-	for (const document of documents) {
-		if (document.document?.definitions) {
-			for (const definition of document.document.definitions) {
-				if (definition.kind === Kind.FRAGMENT_DEFINITION) {
-					output.push(fragmentToZod(definition, schema, config));
-				}
-			}
-		}
-	}
+	output.push(...processFragments(documents, schema, config));
 
 	return output.join("\n\n");
 };
