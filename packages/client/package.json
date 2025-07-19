@@ -5,9 +5,10 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"build": "bun x style-dictionary build --config style-dictionary.config.js"
+		"build:styles": "bun x style-dictionary build --config style-dictionary.config.js",
+		"build:bundle": "bun x rollup -c",
+		"build": "run-p build:styles build:bundle"
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.13",
@@ -16,7 +17,7 @@
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-form": "1.14.1",
 		"@tanstack/react-query": "5.83.0",
-		"@tanstack/react-router": "1.128.3",
+		"@tanstack/react-router": "1.128.4",
 		"@use-pico/common": "4.1.36",
 		"axios": "1.10.0",
 		"js-file-downloader": "1.1.25",
@@ -42,6 +43,7 @@
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@use-pico/tsconfig": "4.0.15",
+		"npm-run-all": "^4.1.5",
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",
 		"style-dictionary": "5.0.1",

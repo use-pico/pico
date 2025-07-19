@@ -5,7 +5,6 @@
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite",
-		"lint": "biome check . --write",
 		"serve": "vite preview",
 		"start": "vite",
 		"translations": "bun ./cli/translations.ts",
@@ -14,8 +13,8 @@
 	"dependencies": {
 		"@tanstack/react-form": "1.14.1",
 		"@tanstack/react-query": "5.83.0",
-		"@tanstack/react-router": "1.128.3",
-		"@tanstack/zod-adapter": "1.128.3",
+		"@tanstack/react-router": "1.128.6",
+		"@tanstack/zod-adapter": "1.128.6",
 		"@use-pico/client": "4.1.36",
 		"@use-pico/common": "4.1.36",
 		"@use-pico/server": "4.1.36",
@@ -31,7 +30,7 @@
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.11",
-		"@tanstack/router-plugin": "1.128.3",
+		"@tanstack/router-plugin": "1.128.6",
 		"@types/react": "19.1.8",
 		"@types/react-dom": "19.1.6",
 		"@vitejs/plugin-react": "4.7.0",

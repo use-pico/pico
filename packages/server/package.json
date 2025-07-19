@@ -5,9 +5,8 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"no:build": "bun x rollup -c"
+		"build": "bun x rollup -c"
 	},
 	"dependencies": {
 		"@phenomnomnominal/tsquery": "6.1.3",
@@ -20,7 +19,7 @@
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
-		"@types/node": "24.0.14",
+		"@types/node": "24.0.15",
 		"@use-pico/tsconfig": "4.0.15",
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",

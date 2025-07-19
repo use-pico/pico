@@ -1,0 +1,231 @@
+0092ad6a12791f98a4c859f26a09b58f58f9f8ad4f692fe2eaae86fc:
+  ref: Badge
+  value: Badge
+048b7d5d150a4ba0ec912fa83c8185537470ac0bbdb9ea8f5e97ccf2:
+  ref: This is disabled subtle button
+  value: This is disabled subtle button
+10ca2e8428c92bea4d4d5f5ede1e1aaaffd771dd0a49e1aa55dd3330:
+  ref: This is danger light button
+  value: This is danger light button
+1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
+  ref: Missing required token(s). (title)
+  value: Missing required token(s). (title)
+139e2ba030c0a5203b3a08fa8613c57866029b903492b00678995e25:
+  ref: This is neutral button
+  value: This is neutral button
+1b163f7a517fd4d7d84d7ac05f4afe6158ea8e941335589a2337ec6c:
+  ref: File downloaded...
+  value: File downloaded...
+21a530541b96fd093a488698fa759d95d5745c770a738243cf01c73f:
+  ref: This is default borderless button
+  value: This is default borderless button
+22648440e36f6980e7bbf7f1f9c5c080edccd9ba1415f301b3b2df2f:
+  ref: Sorted by desc, remove sort
+  value: Sorted by desc, remove sort
+23fd7f8212199acbe5a42aeb1cb10cd76673d55b352f2537300c7df3:
+  ref: Buttons
+  value: Buttons
+24647fffdf06d5f8b85ae24fda203f0fbac70340bfd3167e0875b92b:
+  ref: Number of items
+  value: Number of items
+282447aea716ad0adce959ef2fa721688cf8614506ecdfd8c1dcf052:
+  ref: No tags (label)
+  value: No tags (label)
+29a9c43c5d6206266261e0b786b26eab2be040d6134f7e58805f0da6:
+  ref: Selected value
+  value: Selected value
+35930f1e6d9acf6a3be1be415c1601cbfe1cc32fe5aa8fb5b5f2392e:
+  ref: "@use-pico - Components"
+  value: "@use-pico - Components"
+38347572d8aa1607a788bf890a6e9f83c334d06fc92987ae1535b1f5:
+  ref: Missing any token(s). (title)
+  value: Missing any token(s). (title)
+3909c87c4b736847773096b6ead06fff8cfcab8426b86024493883bd:
+  ref: Select item
+  value: Select item
+3b9b4be744020203adc5a5aeca81a821b1bda652d33bc4b043aa796b:
+  ref: Error (toast)
+  value: Error (toast)
+3fa727133217f67d7ba23ebb7aea03e50418be8190006ec675f298d0:
+  ref: Without VAT
+  value: Without VAT
+41503aab320ccf5b95427ef4788c45beb687ef3435aacb60aaba30ad:
+  ref: Foo column
+  value: Foo column
+420f1e10ac45101f5905b3b0d51d995d7c42e7c38f4dc034c898dca5:
+  ref: Cancel (button)
+  value: Cancel (button)
+4364e4788700cc1d348fee8ceb758b5dd6a101b4a9e34af90cab0623:
+  ref: This is light borderless button
+  value: This is light borderless button
+4b590d441270a4937d1f607c46b982b9faab9389458762e817412846:
+  ref: Select some data
+  value: Select some data
+4ea3e391c2c3d18ab982058cd290fd03fc4d797d92287df40362e956:
+  ref: Some Action 2
+  value: Some Action 2
+52a90ac39b40af333717a0e6d596cd865a4c7f56f760374bb86082ba:
+  ref: Missing any token(s). (message)
+  value: Missing any token(s). (message)
+54f47a22840e2e29550b8bb925fc4dcca868be0b55be5a3063b7fe69:
+  ref: Total count of items (label)
+  value: Total count of items (label)
+568d3ece0540fd580d2c48b7bb3b48905a52a204db6726a452b29659:
+  ref: Invalid on/off value
+  value: Invalid on/off value
+5a44f8595ca5e996fc1fbd6985f5cbbe17f70db224327d0995b6c2bc:
+  ref: This is neutral borderless button
+  value: This is neutral borderless button
+5cd4cffcbafbe0a40563538352c1a593909e57b10bb8d9ad5f9b3d2a:
+  ref: Delete (button)
+  value: Delete (button)
+662c3645d1444ca86336a1f6c04ec76093d3a93567727661b9f8724b:
+  ref: Some disabled Action
+  value: Some disabled Action
+70d7fb9cb6ce7775c5f9e1f890e6b248e538277a973f1aa95a36c0f2:
+  ref: Clear files
+  value: Clear files
+74d93860b1d9adaa3041c8e242c6bcbdddfb366c9df9afc8b942264a:
+  ref: This is disabled neutral button
+  value: This is disabled neutral button
+7680fb8f3804cb69203ef2930cc56dbdb31f63926058831c29abd684:
+  ref: This is disabled secondary button
+  value: This is disabled secondary button
+77b049e75c767c4ca346dd05d7a42c39c3479ac4f6dfaeaaa6efc1da:
+  ref: There is nothing to see right now.
+  value: There is nothing to see right now.
+816c08b99b10a24bccbaf9ed3be66e93498a5ca8967792f35b425fa2:
+  ref: Close (label)
+  value: Close (label)
+83993a4500650e40dd68710b2d5bc5d3e18cb8abad69be6d01cf8bb8:
+  ref: This is secondary borderless button
+  value: This is secondary borderless button
+877f5f6106968c26486b30ccfd0af1e22ca05b4131099f99823b45f6:
+  ref: With VAT
+  value: With VAT
+88c9abef116fa26db0810f3dd06256553413d4292b5f85bcc7550a1d:
+  ref: Random column
+  value: Random column
+891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
+  ref: Missing required token(s). (message)
+  value: Missing required token(s). (message)
+91e78f5df8463664eb78aee8d0a8a599312987b4bec9e1d6000c4c5d:
+  ref: This is default disabled button
+  value: This is default disabled button
+944310e365baa47c6ebbb7ddae6df94131c61cd7155b26907a579ccf:
+  ref: Some Action
+  value: Some Action
+97455a5777f8ba48c4bf3e6028c3dd6562bd0ddf364364935bc87800:
+  ref: This is danger button
+  value: This is danger button
+9787305b076729a8818974ec91c90b96e1bbeee3a189994587c92ff5:
+  ref: Nothing here
+  value: Nothing here
+9e19dd62aa64761b4b405177f6dbec183a2016a0d37e499f7ec58189:
+  ref: This is default button
+  value: This is default button
+9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
+  ref: Fulltext (placeholder)
+  value: Fulltext (placeholder)
+a23ce2805827f8c89f8254b43ecc2a73d5974af2fb57a74ecd8839c5:
+  ref: Invalid data provided (message)
+  value: Invalid data provided (message)
+a26e2f454b3953f2d2b295fcdae89f2bd7b4a6a145918f37d91e31c8:
+  ref: Unsorted, sort by asc
+  value: Unsorted, sort by asc
+a385eac0e16ac724f6be31f2330df9dfb3311b541ee851b50d53f5de:
+  ref: Action menu
+  value: Action menu
+a421acdb6005685abf3ab655b39bd5a6fd36b74ffb42026ddc48fc6b:
+  ref: Cannot resolve iso date time
+  value: Cannot resolve iso date time
+abcfdda5d6985517d677dc843ccdb96a3b74a2e708e82fbc8076dcf8:
+  ref: Success (toast)
+  value: Success (toast)
+acb8bc45623779875e63d70364abc9a77446efe7c8b6c86825497e17:
+  ref: Sorted by asc, sort by desc
+  value: Sorted by asc, sort by desc
+acc7318059ec79c51a702e88e74d7662b6c5cbb5f0ef5d53f056c51e:
+  ref: This is secondary button
+  value: This is secondary button
+ada656378ad55508bb4133baf81d6678f544d15199ed57c1e9ebe146:
+  ref: Export settings (title)
+  value: Export settings (title)
+af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
+  ref: Drag 'n' drop a file here
+  value: Drag 'n' drop a file here
+b12c123f9eed9a50fe59e12f7611bd730d7f470a65203c1e34d50f6e:
+  ref: Quite a strange way, how to use dynamic translations
+  value: Quite a strange way, how to use dynamic translations
+b2a00524ce3a0620b582b540a0f5f1da7fd91db9b79dc3944233603c:
+  ref: Invalid data provided (title)
+  value: Invalid data provided (title)
+b2ac13114ce421981747644546383222cbe243df5acda710069e1f20:
+  ref: This is light button
+  value: This is light button
+b35f0b66df0dbbf3c51b1281ea17e7a0ddeeb96392e89d8bc588b27d:
+  ref: No more items (label)
+  value: No more items (label)
+b4fcc48516f0b04ca6bc78304c96366505e47360ff63bfc8b3a27f7b:
+  ref: Select items (label)
+  value: Select items (label)
+b83f73c562eea84b9ed3076da04cc1ab2fdbeb3f2a701a61159a27d6:
+  ref: Downloading file...
+  value: Downloading file...
+b8a29e8240b405d416cbdd118a8f4d10d8780339344a508395d6cf41:
+  ref: Colors
+  value: Colors
+bc3b9625c52ae926949d1bb415f76b26ffe2272c414e398a22f9403d:
+  ref: This is disabled danger button
+  value: This is disabled danger button
+bcb2263af0ec3c192d55f37db91b702dfb64cd249372992287291fe9:
+  ref: Export (button)
+  value: Export (button)
+c641f978cadd967128b63c6a1ba4a1b9b35a07522ba6eac7b0dada37:
+  ref: Bar column
+  value: Bar column
+c6d6c21e5b7c3b5b0ec93d104717a2f368ba366ba10e877aff9845a8:
+  ref: Input is not Luxon DateTime!
+  value: Input is not Luxon DateTime!
+c7d4cd6e6c5a1f16ab0671da245f4f0de4bffdbac0046460eb5e205b:
+  ref: Action
+  value: Action
+c94aa760b53a9542894aefd458bc140239b35de4c737b235df7d5e30:
+  ref: Selecting some data
+  value: Selecting some data
+c9c476d23927e4f88653018dc6c592a90dc2282ccc040acce5961294:
+  ref: Cannot download the file...
+  value: Cannot download the file...
+ce7cb5b3af74d5479f8a7b17dfa69f487edfffc9dcc6e11d99e9bb3c:
+  ref: Alert
+  value: Alert
+d4efcdbe9a8b6fb3d244e81df6bd956b4dee55a38ea8d54fc188d8fd:
+  ref: Table
+  value: Table
+dc077fb01c73939fbd00e0c77364b45c3d5025c446aa8a4725cfb4ae:
+  ref: Popup Select
+  value: Popup Select
+dc408471ab7060a83f7ded6167a5ce1c79ea02a9b5d44f40c4530ee2:
+  ref: Loading... (toast)
+  value: Loading... (toast)
+df6e3a6bdf659da4cf4477f8eda4ac34bf466eb72b95be103b9b3475:
+  ref: This is subtle borderless button
+  value: This is subtle borderless button
+e9ad3e90b2c35bd7a1b782369908e50182b4c66794c5e7a36861f411:
+  ref: This is danger borderless button
+  value: This is danger borderless button
+e9c24bfbf06755877d0fa51f062bc6e0475f722e432ce78224fb77d5:
+  ref: Select item (label)
+  value: Select item (label)
+f3e6b2ab774fc8055e7ddfada36978044b8f3e09564051ba05f499c9:
+  ref: Components
+  value: Components
+f6de44a47a8f237e4f311f77a3a1c218992b825240f918311096b32b:
+  ref: This is disabled light button
+  value: This is disabled light button
+f92c5bcd27dd6e6537d9b4eaaac63558d27e759c58675fef5f4f992c:
+  ref: Confirm selection (label)
+  value: Confirm selection (label)
+fad812c10e3d97866b7e586c4a1b65eb3cf3157ae6a23ceaddf0b0e7:
+  ref: This is subtle button
+  value: This is subtle button

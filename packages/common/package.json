@@ -5,15 +5,14 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"no:build": "bun x rollup -c"
+		"build": "bun x rollup -c"
 	},
 	"dependencies": {
 		"@apollo/client": "3.13.8",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.128.3",
+		"@tanstack/zod-adapter": "1.128.4",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.6.2",

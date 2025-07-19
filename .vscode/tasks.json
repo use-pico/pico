@@ -2,66 +2,8 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "npm",
-			"script": "changeset",
-			"problemMatcher": [],
-			"label": "changeset",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "changeset:version",
-			"problemMatcher": [],
-			"dependsOn": [
-				"changeset"
-			],
-			"label": "changeset:version",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "changeset:publish",
-			"problemMatcher": [],
-			"dependsOn": [
-				"build",
-				"changeset:version"
-			],
-			"label": "changeset:publish",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "dev",
+			"type": "shell",
+			"command": "bun run dev",
 			"problemMatcher": [],
 			"label": "dev",
 			"detail": "Starts a development server of the client.",
@@ -78,66 +20,8 @@
 			}
 		},
 		{
-			"type": "npm",
-			"script": "format",
-			"problemMatcher": [],
-			"label": "format",
-			"detail": "Format whole codebase.",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "lint",
-			"problemMatcher": [],
-			"label": "lint",
-			"detail": "Lint! Lint! Lint!",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "typecheck",
-			"problemMatcher": [],
-			"dependsOn": [
-				"format",
-				"lint"
-			],
-			"label": "typecheck",
-			"detail": "Typescript Time!",
-			"runOptions": {
-				"instanceLimit": 1
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "build",
+			"type": "shell",
+			"command": "bun run build",
 			"problemMatcher": [],
 			"label": "build",
 			"detail": "Build the project.",
@@ -155,9 +39,10 @@
 		},
 		{
 			"type": "shell",
-			"command": "bun update",
-			"label": "update",
-			"detail": "Updates all dependencies in the client.",
+			"command": "bun run workflow:check",
+			"problemMatcher": [],
+			"label": "check",
+			"detail": "Run lint and typecheck.",
 			"runOptions": {
 				"instanceLimit": 1
 			},
@@ -168,15 +53,32 @@
 				"panel": "shared",
 				"showReuseMessage": true,
 				"clear": true
-			},
-			"problemMatcher": []
+			}
 		},
 		{
-			"type": "npm",
-			"script": "translations",
+			"type": "shell",
+			"command": "bun run workflow:update",
 			"problemMatcher": [],
-			"label": "pico: translations",
-			"detail": "Update all translation keys from the project.",
+			"label": "update",
+			"detail": "Update dependencies and format.",
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			}
+		},
+		{
+			"type": "shell",
+			"command": "bun run workflow:release",
+			"problemMatcher": [],
+			"label": "release",
+			"detail": "Full release workflow.",
 			"runOptions": {
 				"instanceLimit": 1
 			},

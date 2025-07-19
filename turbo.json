@@ -8,33 +8,39 @@
 			"cache": false,
 			"persistent": true
 		},
-		"lint": {
-			"dependsOn": [
-				"^lint"
-			],
-			"outputs": [],
-			"inputs": [
-				"src/**"
-			],
-			"outputLogs": "new-only",
-			"cache": false
-		},
 		"typecheck": {
-			"outputs": [],
 			"inputs": [
-				"src/**"
+				"src/**",
+				"tsconfig.json"
 			],
+			"outputs": [],
 			"outputLogs": "new-only",
-			"cache": false
+			"cache": true
 		},
 		"build": {
 			"dependsOn": [
 				"^build"
 			],
-			"cache": false
+			"inputs": [
+				"src/**",
+				"package.json",
+				"rollup.config.*",
+				"style-dictionary.config.*"
+			],
+			"outputs": [
+				"dist/**",
+				"build/**"
+			],
+			"cache": true
 		},
 		"translations": {
-			"cache": false,
+			"inputs": [
+				"src/**"
+			],
+			"outputs": [
+				"src/translation/**"
+			],
+			"cache": true,
 			"persistent": true
 		}
 	}
