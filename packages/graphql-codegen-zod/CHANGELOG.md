@@ -1,5 +1,29 @@
 # @use-pico/graphql-codegen-zod
 
+## 4.0.9
+
+### Patch Changes
+
+- Improved fragment generation and overall code
+
+## 4.0.8
+
+### Patch Changes
+
+- Handling fragment spreads
+
+## 4.0.7
+
+### Patch Changes
+
+- Name fix
+
+## 4.0.6
+
+### Patch Changes
+
+- Added fragment schema support
+
 ## 4.0.5
 
 ### Patch Changes
