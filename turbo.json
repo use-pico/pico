@@ -15,7 +15,7 @@
 			],
 			"outputs": [],
 			"outputLogs": "new-only",
-			"cache": true
+			"cache": false
 		},
 		"build": {
 			"dependsOn": [
@@ -31,7 +31,7 @@
 				"dist/**",
 				"build/**"
 			],
-			"cache": true
+			"cache": false
 		},
 		"translations": {
 			"inputs": [
@@ -40,8 +40,7 @@
 			"outputs": [
 				"src/translation/**"
 			],
-			"cache": true,
-			"persistent": true
+			"cache": false
 		}
 	}
 }

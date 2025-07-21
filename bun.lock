@@ -14,15 +14,15 @@
     },
     "apps/showcase": {
       "name": "@use-pico/showcase",
-      "version": "0.5.51",
+      "version": "0.5.56",
       "dependencies": {
         "@tanstack/react-form": "1.14.1",
         "@tanstack/react-query": "5.83.0",
         "@tanstack/react-router": "1.128.6",
         "@tanstack/zod-adapter": "1.128.6",
-        "@use-pico/client": "4.1.36",
-        "@use-pico/common": "4.1.36",
-        "@use-pico/server": "4.1.36",
+        "@use-pico/client": "4.1.41",
+        "@use-pico/common": "4.1.41",
+        "@use-pico/server": "4.1.41",
         "fuse.js": "7.1.0",
         "kysely": "0.28.3",
         "react": "19.1.0",
@@ -51,13 +51,13 @@
     "packages/@misc/tsconfig": {
       "name": "@use-pico/tsconfig",
       "version": "4.0.15",
-      "peerDependencies": {
+      "dependencies": {
         "@total-typescript/ts-reset": "0.6.1",
       },
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "4.1.36",
+      "version": "4.1.41",
       "dependencies": {
         "@floating-ui/react": "0.27.13",
         "@lexical/react": "0.33.1",
@@ -66,7 +66,7 @@
         "@tanstack/react-form": "1.14.1",
         "@tanstack/react-query": "5.83.0",
         "@tanstack/react-router": "1.128.6",
-        "@use-pico/common": "4.1.36",
+        "@use-pico/common": "4.1.41",
         "axios": "1.10.0",
         "js-file-downloader": "1.1.25",
         "kysely": "0.28.3",
@@ -100,7 +100,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "4.1.36",
+      "version": "4.1.41",
       "dependencies": {
         "@apollo/client": "3.13.8",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -144,7 +144,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.21",
+      "version": "4.0.23",
       "dependencies": {
         "@graphql-codegen/plugin-helpers": "5.1.1",
         "graphql": "16.11.0",
@@ -162,10 +162,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "4.1.36",
+      "version": "4.1.41",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "4.1.36",
+        "@use-pico/common": "4.1.41",
         "axios": "1.10.0",
         "yaml": "2.8.0",
       },

@@ -13,3 +13,7 @@ This is a collection of packages built on top of Tailwind CSS, React and other c
 - [Client-side components](./modules/_use_pico_client.html)
 - [Server-side components](./modules/_use_pico_server.html)
 - [Common components](./modules/_use_pico_common.html)
+
+## Install
+
+`bun install --linker=isolated`

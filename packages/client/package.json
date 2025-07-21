@@ -42,7 +42,7 @@
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
-		"@use-pico/tsconfig": "4.0.15",
+		"@use-pico/tsconfig": "4.0.17",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",
