@@ -1,5 +1,11 @@
 # @use-pico/tsconfig
 
+## 4.0.19
+
+### Patch Changes
+
+- Bump
+
 ## 4.0.18
 
 ### Patch Changes

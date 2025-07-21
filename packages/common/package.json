@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.42",
+	"version": "4.1.43",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -10,9 +10,8 @@
 	},
 	"dependencies": {
 		"@apollo/client": "3.13.8",
-		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.128.6",
+		"@tanstack/zod-adapter": "1.129.0",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.6.2",
@@ -37,13 +36,11 @@
 		"zod": "4.0.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.1.2",
-		"@graphql-typed-document-node/core": "3.2.0",
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/react": "19.1.8",
-		"@use-pico/tsconfig": "4.0.18",
+		"@use-pico/tsconfig": "4.0.19",
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",
 		"typescript": "5.8.3"
