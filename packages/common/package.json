@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.41",
+	"version": "4.1.42",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -43,7 +43,7 @@
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/react": "19.1.8",
-		"@use-pico/tsconfig": "4.0.17",
+		"@use-pico/tsconfig": "4.0.18",
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",
 		"typescript": "5.8.3"
