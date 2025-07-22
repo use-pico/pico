@@ -11,12 +11,13 @@
 		"changeset:changeset": "changeset",
 		"changeset:publish": "changeset publish",
 		"changeset:version": "changeset version",
+		"update": "bun update",
 		"sp:fix": "bun x syncpack fix-mismatches",
 		"sp:format": "bun x syncpack format",
 		"sp:update": "bun x syncpack update",
 		"workflow:format": "run-s sp:format format",
 		"workflow:check": "run-s workflow:format lint typecheck",
-		"workflow:update": "run-s sp:fix sp:update workflow:format",
+		"workflow:update": "run-s sp:fix sp:update workflow:format update",
 		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {

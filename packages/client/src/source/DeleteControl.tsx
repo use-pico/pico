@@ -1,15 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type FC, type ReactNode, useContext } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { TrashIcon } from "../icon/TrashIcon";
-import type { useInvalidator } from "../invalidator/useInvalidator";
 import { ModalContext } from "../modal/ModalContext";
 import { withToastPromiseTx } from "../toast/withToastPromiseTx";
 import { Tx } from "../tx/Tx";
 import { DeleteControlCls } from "./DeleteControlCls";
+import { withInvalidator } from "./withInvalidator";
 
 export namespace DeleteControl {
 	export interface Props extends DeleteControlCls.Props {
@@ -17,7 +16,7 @@ export namespace DeleteControl {
 		textToast: string;
 		callback(): Promise<any>;
 		onCancel?(): void;
-		invalidator?: useInvalidator.Invalidator.Callback;
+		invalidate?: withInvalidator.Invalidate[];
 	}
 }
 
@@ -26,23 +25,25 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	textToast,
 	callback,
 	onCancel,
-	invalidator,
+	invalidate: $invalidate = [],
 	variant,
 	tva = DeleteControlCls,
 	cls,
 }) => {
-	const router = useRouter();
 	const { slots } = tva(variant, cls);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
+	const queryClient = useQueryClient();
+	const { invalidate } = withInvalidator({
+		invalidate: $invalidate,
+	});
 	const mutation = useMutation({
 		async mutationFn() {
 			return toast.promise(callback(), withToastPromiseTx(textToast));
 		},
 
 		async onSuccess() {
-			router.invalidate();
-			await invalidator?.();
+			await invalidate(queryClient);
 			close();
 		},
 	});

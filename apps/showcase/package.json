@@ -1,6 +1,6 @@
 {
 	"name": "@use-pico/showcase",
-	"version": "0.5.58",
+	"version": "0.5.66",
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
@@ -11,13 +11,13 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@tanstack/react-form": "1.14.1",
+		"@tanstack/react-form": "1.14.2",
 		"@tanstack/react-query": "5.83.0",
-		"@tanstack/react-router": "1.129.0",
-		"@tanstack/zod-adapter": "1.129.0",
-		"@use-pico/client": "4.1.43",
-		"@use-pico/common": "4.1.43",
-		"@use-pico/server": "4.1.43",
+		"@tanstack/react-router": "1.129.2",
+		"@tanstack/zod-adapter": "1.129.2",
+		"@use-pico/client": "4.1.51",
+		"@use-pico/common": "4.1.51",
+		"@use-pico/server": "4.1.51",
 		"fuse.js": "7.1.0",
 		"kysely": "0.28.3",
 		"react": "19.1.0",
@@ -30,7 +30,7 @@
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.11",
-		"@tanstack/router-plugin": "1.129.0",
+		"@tanstack/router-plugin": "1.129.2",
 		"@types/react": "19.1.8",
 		"@types/react-dom": "19.1.6",
 		"@vitejs/plugin-react": "4.7.0",

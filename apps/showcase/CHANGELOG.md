@@ -1,5 +1,77 @@
 # @use-pico/showcase
 
+## 0.5.66
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.51
+  - @use-pico/common@4.1.51
+  - @use-pico/server@4.1.51
+
+## 0.5.65
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.50
+  - @use-pico/common@4.1.50
+  - @use-pico/server@4.1.50
+
+## 0.5.64
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.49
+  - @use-pico/common@4.1.49
+  - @use-pico/server@4.1.49
+
+## 0.5.63
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.48
+  - @use-pico/common@4.1.48
+  - @use-pico/server@4.1.48
+
+## 0.5.62
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.47
+  - @use-pico/common@4.1.47
+  - @use-pico/server@4.1.47
+
+## 0.5.61
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.46
+  - @use-pico/common@4.1.46
+  - @use-pico/server@4.1.46
+
+## 0.5.60
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.45
+  - @use-pico/common@4.1.45
+  - @use-pico/server@4.1.45
+
+## 0.5.59
+
+### Patch Changes
+
+- Updated dependencies
+  - @use-pico/client@4.1.44
+  - @use-pico/common@4.1.44
+  - @use-pico/server@4.1.44
+
 ## 0.5.58
 
 ### Patch Changes
