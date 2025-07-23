@@ -1,13 +1,15 @@
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 export namespace Footer {
-	export type Props = {};
+	export interface Props extends PropsWithChildren {
+		//
+	}
 }
 
-export const Footer: FC<Footer.Props> = () => {
+export const Footer: FC<Footer.Props> = ({ children }) => {
 	return (
 		<div className={"text-center text-xs text-gray-500 mb-8"}>
-			{import.meta.env.VITE_VERSION}
+			{children}
 		</div>
 	);
 };

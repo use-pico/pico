@@ -11,7 +11,7 @@
 		"changeset:changeset": "changeset",
 		"changeset:publish": "changeset publish",
 		"changeset:version": "changeset version",
-		"update": "bun update",
+		"update": "bun update --linker=isolated",
 		"sp:fix": "bun x syncpack fix-mismatches",
 		"sp:format": "bun x syncpack format",
 		"sp:update": "bun x syncpack update",

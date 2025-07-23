@@ -35,8 +35,6 @@
 		"strictPropertyInitialization": true,
 		"target": "ES2022",
 		"types": [
-			"@total-typescript/ts-reset",
-			"vite/client",
 			"node"
 		],
 		"useDefineForClassFields": true

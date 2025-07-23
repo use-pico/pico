@@ -5,6 +5,15 @@ import { isEmpty } from "../toolbox/isEmpty";
 
 export namespace linkTo {
 	export interface Props {
+		/**
+		 * @example
+		 * 		linkTo({
+		 * 			base: import.meta.env.BASE_URL,
+		 * 			href: "/foo/[id]/bar",
+		 * 			query: { id: 123 },
+		 * 		})
+		 */
+		base?: string;
 		query?: Record<string, any>;
 		href: string;
 	}
@@ -18,7 +27,7 @@ export namespace linkTo {
  * @example
  * /foo/[id]/bar => /foo/123/bar
  */
-export const linkTo = ({ query = {}, href }: linkTo.Props) => {
+export const linkTo = ({ base = "", query = {}, href }: linkTo.Props) => {
 	const link = href
 		.replace(/\[(?<id>.*?)\]/gu, ":$1")
 		.replace(/\{(?<id>.*?)\}/gu, ":$1");
@@ -36,7 +45,7 @@ export const linkTo = ({ query = {}, href }: linkTo.Props) => {
 	);
 
 	return buildUrl({
-		path: `${import.meta.env.BASE_URL}${compiled}`.replace(/\/+/gu, "/"),
+		path: `${base}${compiled}`.replace(/\/+/gu, "/"),
 		queryParams: isEmpty(queryParams) ? undefined : queryParams,
 	}) as string;
 };

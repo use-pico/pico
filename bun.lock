@@ -14,15 +14,15 @@
     },
     "apps/showcase": {
       "name": "@use-pico/showcase",
-      "version": "0.5.67",
+      "version": "0.5.68",
       "dependencies": {
         "@tanstack/react-form": "^1.14.2",
         "@tanstack/react-query": "^5.83.0",
         "@tanstack/react-router": "^1.129.5",
-        "@tanstack/zod-adapter": "^1.129.5",
-        "@use-pico/client": "4.1.52",
-        "@use-pico/common": "4.1.52",
-        "@use-pico/server": "4.1.52",
+        "@tanstack/zod-adapter": "^1.129.7",
+        "@use-pico/client": "4.1.53",
+        "@use-pico/common": "4.1.53",
+        "@use-pico/server": "4.1.53",
         "fuse.js": "7.1.0",
         "kysely": "^0.28.3",
         "react": "^19.1.0",
@@ -36,7 +36,8 @@
         "@modyfi/vite-plugin-yaml": "1.1.1",
         "@tailwindcss/vite": "4.1.11",
         "@tanstack/router-plugin": "1.129.7",
-        "@types/react": "19.1.8",
+        "@types/node": "^24.1.0",
+        "@types/react": "^19.1.8",
         "@types/react-dom": "19.1.6",
         "@vitejs/plugin-react": "4.7.0",
         "tailwindcss": "4.1.11",
@@ -51,22 +52,22 @@
     "packages/@misc/tsconfig": {
       "name": "@use-pico/tsconfig",
       "version": "4.0.19",
-      "dependencies": {
-        "@total-typescript/ts-reset": "0.6.1",
-      },
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "4.1.52",
+      "version": "4.1.53",
       "dependencies": {
         "@floating-ui/react": "^0.27.13",
+        "@lexical/list": "0.33.1",
         "@lexical/react": "0.33.1",
         "@lexical/utils": "0.33.1",
         "@standard-schema/spec": "1.0.0",
         "@tanstack/react-form": "^1.14.2",
         "@tanstack/react-query": "^5.83.0",
         "@tanstack/react-router": "^1.129.5",
-        "@use-pico/common": "4.1.52",
+        "@tanstack/zod-adapter": "^1.129.7",
+        "@types/luxon": "^3.6.2",
+        "@use-pico/common": "4.1.53",
         "axios": "^1.10.0",
         "js-file-downloader": "1.1.25",
         "kysely": "^0.28.3",
@@ -89,6 +90,8 @@
         "@rollup/plugin-commonjs": "28.0.6",
         "@rollup/plugin-node-resolve": "16.0.1",
         "@rollup/plugin-typescript": "12.1.4",
+        "@types/node": "^24.1.0",
+        "@types/react": "^19.1.8",
         "@use-pico/tsconfig": "4.0.19",
         "npm-run-all2": "8.0.4",
         "rollup": "4.45.1",
@@ -99,14 +102,15 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "4.1.52",
+      "version": "4.1.53",
       "dependencies": {
         "@apollo/client": "^3.13.8",
+        "@graphql-typed-document-node/core": "3.2.0",
         "@paralleldrive/cuid2": "^2.2.2",
-        "@tanstack/zod-adapter": "^1.129.5",
+        "@tanstack/zod-adapter": "^1.129.7",
         "@types/is-callable": "1.1.2",
         "@types/is-empty": "1.2.3",
-        "@types/luxon": "3.6.2",
+        "@types/luxon": "^3.6.2",
         "@types/object-path": "0.11.4",
         "axios": "^1.10.0",
         "axios-rate-limit": "^1.4.0",
@@ -131,7 +135,8 @@
         "@rollup/plugin-commonjs": "28.0.6",
         "@rollup/plugin-node-resolve": "16.0.1",
         "@rollup/plugin-typescript": "12.1.4",
-        "@types/react": "19.1.8",
+        "@types/node": "^24.1.0",
+        "@types/react": "^19.1.8",
         "@use-pico/tsconfig": "4.0.19",
         "rollup": "4.45.1",
         "rollup-plugin-dts": "6.2.1",
@@ -140,7 +145,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.29",
+      "version": "4.0.30",
       "dependencies": {
         "@graphql-codegen/add": "^5.0.3",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -154,7 +159,7 @@
         "@rollup/plugin-commonjs": "28.0.6",
         "@rollup/plugin-node-resolve": "16.0.1",
         "@rollup/plugin-typescript": "12.1.4",
-        "@types/node": "24.1.0",
+        "@types/node": "^24.1.0",
         "@use-pico/tsconfig": "4.0.19",
         "rollup": "4.45.1",
         "rollup-plugin-dts": "6.2.1",
@@ -163,10 +168,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "4.1.52",
+      "version": "4.1.53",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "4.1.52",
+        "@use-pico/common": "4.1.53",
         "yaml": "2.8.0",
       },
       "devDependencies": {
@@ -174,7 +179,7 @@
         "@rollup/plugin-commonjs": "28.0.6",
         "@rollup/plugin-node-resolve": "16.0.1",
         "@rollup/plugin-typescript": "12.1.4",
-        "@types/node": "24.1.0",
+        "@types/node": "^24.1.0",
         "@use-pico/tsconfig": "4.0.19",
         "rollup": "4.45.1",
         "rollup-plugin-dts": "6.2.1",
@@ -671,9 +676,7 @@
 
     "@tanstack/virtual-file-routes": ["@tanstack/virtual-file-routes@1.129.7", "", {}, "sha512-a+MxoAXG+Sq94Jp67OtveKOp2vQq75AWdVI8DRt6w19B0NEqpfm784FTLbVp/qdR1wmxCOmKAvElGSIiBOx5OQ=="],
 
-    "@tanstack/zod-adapter": ["@tanstack/zod-adapter@1.129.5", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "zod": "^3.23.8" } }, "sha512-3b+grjkszoygYgD6pEcsAR4zzSvxsffEMWkK82AQp01WpQpAUnL4kHaSnCN0vigs0LaakNXxuZ84AVxl3X7OLg=="],
-
-    "@total-typescript/ts-reset": ["@total-typescript/ts-reset@0.6.1", "", {}, "sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg=="],
+    "@tanstack/zod-adapter": ["@tanstack/zod-adapter@1.129.7", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "zod": "^3.23.8" } }, "sha512-9iRFaxB3TuEUG+DgKhQR+FNO7PZA0MjtkBExeMHVmjsEC5SbS1S9KK/oRmNTdy/Tmh2xXTZ87sfg2PjCLs8ufQ=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 
