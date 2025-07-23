@@ -1,103 +1,81 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: false
+    group: ${{ github.ref }}
+    cancel-in-progress: false
 
 jobs:
-  install:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+    install:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - name: cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      node_modules
+                      **/node_modules
+                  key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
-      - name: install
-        run: |
-          bun install
+            - name: install
+              run: |
+                  bun install
 
-  lint:
-    runs-on: ubuntu-22.04
-    needs:
-      - install
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+    check:
+        runs-on: ubuntu-22.04
+        needs:
+            - install
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - name: cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      node_modules
+                      **/node_modules
+                  key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
-      - name: lint
-        run: |
-          bun run lint
+            - name: check
+              run: |
+                  bun run workflow:check
 
-  typecheck:
-    runs-on: ubuntu-22.04
-    needs:
-      - install
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+    deploy:
+        runs-on: ubuntu-22.04
+        needs:
+            - check
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - name: cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      node_modules
+                      **/node_modules
+                  key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
-      - name: typecheck
-        run: |
-          bun run typecheck
+            - name: build
+              run: |
+                  bun run build
 
-  deploy:
-    runs-on: ubuntu-22.04
-    needs:
-      - lint
-      - typecheck
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            **/node_modules
-          key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                  github_token: ${{ secrets.TOKEN }}
+                  publish_dir: ./apps/pico/dist
 
-      - name: build
-        run: |
-          bun run build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.TOKEN }}
-          publish_dir: ./apps/pico/dist
-
-      - name: Pkg.new
-        run: bun x pkg-pr-new publish './packages/**'
+            - name: Pkg.new
+              run: bun x pkg-pr-new publish './packages/**'
