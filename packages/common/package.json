@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.52",
+	"version": "4.1.53",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -9,15 +9,15 @@
 		"build": "bun x rollup -c"
 	},
 	"dependencies": {
-		"@apollo/client": "3.13.8",
-		"@paralleldrive/cuid2": "2.2.2",
-		"@tanstack/zod-adapter": "1.129.2",
+		"@apollo/client": "^3.13.8",
+		"@paralleldrive/cuid2": "^2.2.2",
+		"@tanstack/zod-adapter": "^1.129.5",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.6.2",
 		"@types/object-path": "0.11.4",
-		"axios": "1.10.0",
-		"axios-rate-limit": "1.4.0",
+		"axios": "^1.10.0",
+		"axios-rate-limit": "^1.4.0",
 		"build-url-ts": "6.1.8",
 		"fast-clean": "1.4.0",
 		"flattie": "1.1.1",
@@ -25,15 +25,15 @@
 		"is-empty": "1.2.0",
 		"is-string": "1.1.1",
 		"js-sha256": "0.11.1",
-		"kysely": "0.28.3",
-		"luxon": "3.7.1",
+		"kysely": "^0.28.3",
+		"luxon": "^3.7.1",
 		"object-path": "0.11.8",
 		"path-to-regexp": "8.2.0",
 		"preferred-locale": "2.0.2",
 		"read-excel-file": "5.8.8",
-		"tailwind-merge": "3.3.1",
+		"tailwind-merge": "^3.3.1",
 		"timer-node": "5.0.9",
-		"zod": "4.0.5"
+		"zod": "^4.0.5"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "28.0.6",
