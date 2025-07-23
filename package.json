@@ -17,7 +17,7 @@
 		"sp:update": "bun x syncpack update",
 		"workflow:format": "run-s sp:format format",
 		"workflow:check": "run-s workflow:format lint typecheck",
-		"workflow:update": "run-s sp:fix sp:update workflow:format update",
+		"workflow:update": "run-s sp:fix sp:update workflow:format update workflow:check",
 		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {

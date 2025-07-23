@@ -38,7 +38,7 @@ export namespace withMutation {
 
 	export type PropsEx<TVariables, TResult> = Omit<
 		Props<TVariables, TResult>,
-		"mutationFn" | "keys"
+		"mutationFn" | "keys" | "invalidate"
 	>;
 }
 
