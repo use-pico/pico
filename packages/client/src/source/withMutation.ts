@@ -1,4 +1,5 @@
 import {
+	type QueryClient,
 	type QueryKey,
 	type UseMutationResult,
 	useMutation,
@@ -90,6 +91,18 @@ export function withMutation<TVariables, TResult>({
 					options?.onSuccess?.(data, variables, context);
 				},
 			});
+		},
+		/**
+		 * Directly call mutation function and invalidate cache; there are no hooks or other logic here.
+		 *
+		 * @param queryClient
+		 * @param variables
+		 * @returns
+		 */
+		async mutate(queryClient: QueryClient, variables: TVariables) {
+			const data = await mutationFn(variables);
+			await invalidate(queryClient);
+			return data;
 		},
 		/**
 		 * React Query hook for invalidating queries related to the mutation.

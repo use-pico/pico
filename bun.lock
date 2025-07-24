@@ -14,15 +14,15 @@
     },
     "apps/showcase": {
       "name": "@use-pico/showcase",
-      "version": "0.5.69",
+      "version": "0.5.71",
       "dependencies": {
         "@tanstack/react-form": "^1.14.2",
         "@tanstack/react-query": "^5.83.0",
         "@tanstack/react-router": "^1.129.5",
         "@tanstack/zod-adapter": "^1.129.7",
-        "@use-pico/client": "4.1.54",
-        "@use-pico/common": "4.1.54",
-        "@use-pico/server": "4.1.54",
+        "@use-pico/client": "4.1.56",
+        "@use-pico/common": "4.1.56",
+        "@use-pico/server": "4.1.56",
         "fuse.js": "7.1.0",
         "kysely": "^0.28.3",
         "react": "^19.1.0",
@@ -42,7 +42,7 @@
         "@vitejs/plugin-react": "4.7.0",
         "tailwindcss": "4.1.11",
         "typescript": "5.8.3",
-        "vite": "7.0.5",
+        "vite": "7.0.6",
         "vite-plugin-dynamic-import": "1.6.0",
         "vite-plugin-top-level-await": "1.6.0",
         "vite-plugin-wasm": "3.5.0",
@@ -55,7 +55,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "4.1.54",
+      "version": "4.1.56",
       "dependencies": {
         "@floating-ui/react": "^0.27.13",
         "@lexical/list": "0.33.1",
@@ -67,7 +67,7 @@
         "@tanstack/react-router": "^1.129.5",
         "@tanstack/zod-adapter": "^1.129.7",
         "@types/luxon": "^3.6.2",
-        "@use-pico/common": "4.1.54",
+        "@use-pico/common": "4.1.56",
         "axios": "^1.10.0",
         "js-file-downloader": "1.1.25",
         "kysely": "^0.28.3",
@@ -102,7 +102,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "4.1.54",
+      "version": "4.1.56",
       "dependencies": {
         "@apollo/client": "^3.13.8",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -145,7 +145,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.31",
+      "version": "4.0.33",
       "dependencies": {
         "@graphql-codegen/add": "^5.0.3",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -168,10 +168,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "4.1.54",
+      "version": "4.1.56",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "4.1.54",
+        "@use-pico/common": "4.1.56",
         "yaml": "2.8.0",
       },
       "devDependencies": {
@@ -1676,7 +1676,7 @@
 
     "validate-npm-package-name": ["validate-npm-package-name@6.0.1", "", {}, "sha512-OaI//3H0J7ZkR1OqlhGA8cA+Cbk/2xFOQpJOt5+s27/ta9eZwpeervh4Mxh4w0im/kdgktowaqVNR7QOrUd7Yg=="],
 
-    "vite": ["vite@7.0.5", "", { "dependencies": { "esbuild": "^0.25.0", "fdir": "^6.4.6", "picomatch": "^4.0.2", "postcss": "^8.5.6", "rollup": "^4.40.0", "tinyglobby": "^0.2.14" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-1mncVwJxy2C9ThLwz0+2GKZyEXuC3MyWtAAlNftlZZXZDP3AJt5FmwcMit/IGGaNZ8ZOB2BNO/HFUB+CpN0NQw=="],
+    "vite": ["vite@7.0.6", "", { "dependencies": { "esbuild": "^0.25.0", "fdir": "^6.4.6", "picomatch": "^4.0.3", "postcss": "^8.5.6", "rollup": "^4.40.0", "tinyglobby": "^0.2.14" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-MHFiOENNBd+Bd9uvc8GEsIzdkn1JxMmEeYX35tI3fv0sJBUTfW5tQsoaOwuY4KhBI09A3dUJ/DXf2yxPVPUceg=="],
 
     "vite-plugin-dynamic-import": ["vite-plugin-dynamic-import@1.6.0", "", { "dependencies": { "acorn": "^8.12.1", "es-module-lexer": "^1.5.4", "fast-glob": "^3.3.2", "magic-string": "^0.30.11" } }, "sha512-TM0sz70wfzTIo9YCxVFwS8OA9lNREsh+0vMHGSkWDTZ7bgd1Yjs5RV8EgB634l/91IsXJReg0xtmuQqP0mf+rg=="],
 
