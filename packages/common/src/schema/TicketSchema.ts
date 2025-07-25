@@ -7,7 +7,7 @@ import { TokenSchema } from "./TokenSchema";
  * - holds ID (of a user)
  * - holds access tokens (for client-side ACL check)
  */
-export const TicketSchema = z.strictObject({
+export const TicketSchema = z.object({
 	...IdentitySchema.shape,
 	...TokenSchema.shape,
 	name: z.string(),

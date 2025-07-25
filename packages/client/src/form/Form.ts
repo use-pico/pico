@@ -1,6 +1,7 @@
 import type { UseMutationResult } from "@tanstack/react-query";
 import type { ShapeSchema } from "@use-pico/common";
 import type { z } from "zod";
+import type { withToastPromiseTx } from "../toast/withToastPromiseTx";
 import type { FormCls } from "./FormCls";
 
 export namespace Form {
@@ -19,5 +20,6 @@ export namespace Form {
 		 */
 		mutation: Props.Mutation<TShapeSchema>;
 		defaultValues?: Partial<z.infer<TShapeSchema>>;
+		toast?: withToastPromiseTx.Text;
 	}
 }

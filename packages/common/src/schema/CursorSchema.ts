@@ -5,7 +5,7 @@ import { z } from "zod";
  *
  * @group schema
  */
-export const CursorSchema = z.strictObject({
+export const CursorSchema = z.object({
 	/**
 	 * Page.
 	 */

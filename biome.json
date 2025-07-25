@@ -10,7 +10,8 @@
 		"includes": [
 			"**/*",
 			"!**/_route.ts",
-			"!**/dist"
+			"!**/dist",
+			"!**/.tanstack"
 		]
 	},
 	"formatter": {

@@ -25,21 +25,19 @@ export const Tabs: FC<Tabs.Props> = ({
 	defaultHidden = [],
 	children,
 }) => {
+	const store = useMemo(
+		() =>
+			createTabsStore({
+				tab: defaultTab,
+				hidden: defaultHidden,
+			}),
+		[
+			defaultHidden,
+			defaultTab,
+		],
+	);
+
 	return (
-		<TabsContext.Provider
-			value={useMemo(
-				() =>
-					createTabsStore({
-						tab: defaultTab,
-						hidden: defaultHidden,
-					}),
-				[
-					defaultHidden,
-					defaultTab,
-				],
-			)}
-		>
-			{children}
-		</TabsContext.Provider>
+		<TabsContext.Provider value={store}>{children}</TabsContext.Provider>
 	);
 };

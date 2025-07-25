@@ -32,15 +32,15 @@
     },
     "apps/showcase": {
       "name": "@use-pico/showcase",
-      "version": "0.5.71",
+      "version": "0.5.74",
       "dependencies": {
         "@tanstack/react-form": "^1.14.2",
         "@tanstack/react-query": "^5.83.0",
         "@tanstack/react-router": "^1.129.8",
         "@tanstack/zod-adapter": "^1.129.7",
-        "@use-pico/client": "4.1.56",
-        "@use-pico/common": "4.1.56",
-        "@use-pico/server": "4.1.56",
+        "@use-pico/client": "4.1.59",
+        "@use-pico/common": "4.1.59",
+        "@use-pico/server": "4.1.59",
         "fuse.js": "7.1.0",
         "kysely": "^0.28.3",
         "react": "^19.1.0",
@@ -73,7 +73,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "4.1.56",
+      "version": "4.1.59",
       "dependencies": {
         "@floating-ui/react": "^0.27.13",
         "@lexical/list": "0.33.1",
@@ -85,7 +85,7 @@
         "@tanstack/react-router": "^1.129.8",
         "@tanstack/zod-adapter": "^1.129.7",
         "@types/luxon": "^3.6.2",
-        "@use-pico/common": "4.1.56",
+        "@use-pico/common": "4.1.59",
         "axios": "^1.10.0",
         "js-file-downloader": "1.1.25",
         "kysely": "^0.28.3",
@@ -120,7 +120,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "4.1.56",
+      "version": "4.1.59",
       "dependencies": {
         "@apollo/client": "^3.13.8",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -163,7 +163,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.33",
+      "version": "4.0.34",
       "dependencies": {
         "@graphql-codegen/add": "^5.0.3",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -186,10 +186,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "4.1.56",
+      "version": "4.1.59",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "4.1.56",
+        "@use-pico/common": "4.1.59",
         "yaml": "2.8.0",
       },
       "devDependencies": {

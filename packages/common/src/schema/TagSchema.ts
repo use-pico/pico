@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { IdentitySchema } from "./IdentitySchema";
 
-export const TagSchema = z.strictObject({
+export const TagSchema = z.object({
 	...IdentitySchema.shape,
 	code: z.string().min(1),
 	label: z.string().min(1),

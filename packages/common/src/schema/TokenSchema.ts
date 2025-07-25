@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const TokenSchema = z.strictObject({
+export const TokenSchema = z.object({
 	tokens: z.array(z.string()),
 });
 

@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type FC, memo, useMemo } from "react";
+import type { ButtonHTMLAttributes, FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { ButtonCls } from "./ButtonCls";
@@ -14,58 +14,52 @@ export namespace Button {
 	}
 }
 
-export const Button: FC<Button.Props> = memo(
-	({
-		iconEnabled,
-		iconDisabled,
-		iconLoading = SpinnerIcon,
-		iconProps,
-		loading,
-		variant,
-		tva = ButtonCls,
+export const Button: FC<Button.Props> = ({
+	iconEnabled,
+	iconDisabled,
+	iconLoading = SpinnerIcon,
+	iconProps,
+	loading,
+	variant,
+	tva = ButtonCls,
+	cls,
+	children,
+	...props
+}) => {
+	const { el } = tva(
+		{
+			disabled: props.disabled,
+			...variant,
+		},
 		cls,
-		children,
-		...props
-	}) => {
-		const { el } = tva(
-			{
+	);
+
+	const iconVariant = {
+		size: "xl",
+	} as const;
+
+	return (
+		<el.base.Button
+			type={"button"}
+			variant={{
 				disabled: props.disabled,
-				...variant,
-			},
-			cls,
-		);
-
-		const iconVariant = useMemo(
-			() =>
-				({
-					size: "xl",
-				}) as const,
-			[],
-		);
-
-		return (
-			<el.base.Button
-				type={"button"}
-				variant={{
-					disabled: props.disabled,
-				}}
-				{...props}
-			>
-				{props.disabled ? (
-					<Icon
-						icon={loading === true ? iconLoading : iconDisabled}
-						variant={iconVariant}
-						{...iconProps}
-					/>
-				) : (
-					<Icon
-						icon={loading === true ? iconLoading : iconEnabled}
-						variant={iconVariant}
-						{...iconProps}
-					/>
-				)}
-				{children}
-			</el.base.Button>
-		);
-	},
-);
+			}}
+			{...props}
+		>
+			{props.disabled ? (
+				<Icon
+					icon={loading === true ? iconLoading : iconDisabled}
+					variant={iconVariant}
+					{...iconProps}
+				/>
+			) : (
+				<Icon
+					icon={loading === true ? iconLoading : iconEnabled}
+					variant={iconVariant}
+					{...iconProps}
+				/>
+			)}
+			{children}
+		</el.base.Button>
+	);
+};
