@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "4.1.56",
+	"version": "4.1.57",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -18,10 +18,10 @@
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-form": "^1.14.2",
 		"@tanstack/react-query": "^5.83.0",
-		"@tanstack/react-router": "^1.129.5",
+		"@tanstack/react-router": "^1.129.8",
 		"@tanstack/zod-adapter": "^1.129.7",
 		"@types/luxon": "^3.6.2",
-		"@use-pico/common": "4.1.56",
+		"@use-pico/common": "4.1.57",
 		"axios": "^1.10.0",
 		"js-file-downloader": "1.1.25",
 		"kysely": "^0.28.3",
@@ -35,7 +35,7 @@
 		"sqlocal": "0.14.2",
 		"use-debounce": "10.0.5",
 		"uuid": "^11.1.0",
-		"write-excel-file": "2.3.2",
+		"write-excel-file": "2.3.3",
 		"zod": "^4.0.5",
 		"zustand": "^5.0.6"
 	},
@@ -51,7 +51,7 @@
 		"rollup": "4.45.1",
 		"rollup-plugin-dts": "6.2.1",
 		"style-dictionary": "5.0.1",
-		"typescript": "5.8.3"
+		"typescript": "^5.8.3"
 	},
 	"main": "src/index.ts",
 	"module": "src/index.ts",
