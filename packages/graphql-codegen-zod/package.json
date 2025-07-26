@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/graphql-codegen-zod",
 	"description": "Simple Zod generator for graphql schemas.",
-	"version": "4.0.34",
+	"version": "4.0.36",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -37,5 +37,12 @@
 	"license": "MIT",
 	"repository": "use-pico/pico",
 	"homepage": "https://github.com/use-pico/pico#readme",
-	"bugs": "https://github.com/use-pico/pico/issues"
+	"bugs": "https://github.com/use-pico/pico/issues",
+	"keywords": [
+		"codegen",
+		"graphql",
+		"schema-validation",
+		"typescript",
+		"zod"
+	]
 }

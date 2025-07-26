@@ -122,15 +122,31 @@ class FragmentRegistry {
 /**
  * Creates a field definition with proper indentation
  */
-function createFieldDefinition(fieldName: string, zodType: string): string {
-	return `  ${fieldName}: ${zodType}`;
+function createFieldDefinition(
+	fieldName: string,
+	zodType: string,
+	description?: string,
+): string {
+	const comment = description ? `  /** ${description} */\n` : "";
+	const meta = description
+		? `.meta({description: "${description.replace(/"/g, '\\"')}"})`
+		: "";
+	return `${comment}  ${fieldName}: ${zodType}${meta}`;
 }
 
 /**
  * Creates a getter field definition with proper indentation
  */
-function createGetterDefinition(fieldName: string, zodType: string): string {
-	return `  get ${fieldName}() {\n    return ${zodType}\n  }`;
+function createGetterDefinition(
+	fieldName: string,
+	zodType: string,
+	description?: string,
+): string {
+	const comment = description ? `  /** ${description} */\n` : "";
+	const meta = description
+		? `.meta({description: "${description.replace(/"/g, '\\"')}"})`
+		: "";
+	return `${comment}  get ${fieldName}() {\n    return ${zodType}${meta}\n  }`;
 }
 
 /**
@@ -226,13 +242,20 @@ function typeToZod(
 /**
  * Wraps a schema definition with exports and type definitions for TypeScript integration.
  */
-function wrapSchema(name: string, fields: string[], override?: string): string {
+function wrapSchema(
+	name: string,
+	fields: string[],
+	override?: string,
+	description?: string,
+): string {
+	const comment = description ? `/** ${description} */\n` : "";
+	const typeComment = description ? `\t/** ${description} */\n` : "";
 	const schema = override ?? `z.object({\n${fields.join(",\n")}\n})`;
 	return [
-		`export const ${name}Schema = ${schema};`,
+		`${comment}export const ${name}Schema = ${schema};`,
 		`export type ${name}Schema = typeof ${name}Schema;`,
 		`export namespace ${name}Schema {`,
-		`	export type Type = z.infer<${name}Schema>;`,
+		`${typeComment}\texport type Type = z.infer<${name}Schema>;`,
 		`}`,
 	].join("\n");
 }
@@ -368,11 +391,20 @@ function processSelectionSet(
 
 			// Handle nullish logic consistently for all field types
 			const finalZodType = required ? zodType : `${zodType}.nullish()`;
+			const description = field.description || undefined;
 
 			fields.push(
 				isRecursive
-					? createGetterDefinition(fieldName, finalZodType)
-					: createFieldDefinition(fieldName, finalZodType),
+					? createGetterDefinition(
+							fieldName,
+							finalZodType,
+							description,
+						)
+					: createFieldDefinition(
+							fieldName,
+							finalZodType,
+							description,
+						),
 			);
 		} else if (selection.kind === Kind.FRAGMENT_SPREAD) {
 			// Handle fragment spreads by merging their fields into the current selection set
@@ -486,10 +518,11 @@ function processObjectFields(
 		const zodType = typeToZod(field.type, config, knownSchemaNames);
 		const isRecursive = isRecursiveReference(field.type, knownSchemaNames);
 		const finalZodType = required ? zodType : `${zodType}.nullish()`;
+		const description = field.description || undefined;
 
 		return isRecursive
-			? createGetterDefinition(fieldName, finalZodType)
-			: createFieldDefinition(fieldName, finalZodType);
+			? createGetterDefinition(fieldName, finalZodType, description)
+			: createFieldDefinition(fieldName, finalZodType, description);
 	});
 }
 
@@ -506,17 +539,38 @@ function processType(
 			.getValues()
 			.map((v) => `"${v.name}"`)
 			.join(", ");
-		return wrapSchema(type.name, [], `z.enum([${values}])`);
+		const enumSchema = `z.enum([${values}])`;
+		const description = type.description || undefined;
+		const finalSchema = description
+			? `${enumSchema}.meta({description: "${description.replace(/"/g, '\\"')}"})`
+			: enumSchema;
+		return wrapSchema(type.name, [], finalSchema, description);
 	}
 
 	if (isInputObjectType(type)) {
 		const fields = processObjectFields(type, config, knownSchemaNames);
-		return wrapSchema(type.name, fields);
+		const description = type.description || undefined;
+		return wrapSchema(
+			type.name,
+			fields,
+			description
+				? `z.object({\n${fields.join(",\n")}\n}).meta({description: "${description.replace(/"/g, '\\"')}"})`
+				: undefined,
+			description,
+		);
 	}
 
 	if (isObjectType(type)) {
 		const fields = processObjectFields(type, config, knownSchemaNames);
-		return wrapSchema(type.name, fields);
+		const description = type.description || undefined;
+		return wrapSchema(
+			type.name,
+			fields,
+			description
+				? `z.object({\n${fields.join(",\n")}\n}).meta({description: "${description.replace(/"/g, '\\"')}"})`
+				: undefined,
+			description,
+		);
 	}
 
 	if (isUnionType(type)) {
@@ -529,12 +583,25 @@ function processType(
 			return `/** Union ${type.name}: No types found */`;
 		}
 
-		return wrapSchema(type.name, [], `z.union([${types}])`);
+		const unionSchema = `z.union([${types}])`;
+		const description = type.description || undefined;
+		const finalSchema = description
+			? `${unionSchema}.meta({description: "${description.replace(/"/g, '\\"')}"})`
+			: unionSchema;
+		return wrapSchema(type.name, [], finalSchema, description);
 	}
 
 	if (isInterfaceType(type)) {
 		const fields = processObjectFields(type, config, knownSchemaNames);
-		return wrapSchema(type.name, fields);
+		const description = type.description || undefined;
+		return wrapSchema(
+			type.name,
+			fields,
+			description
+				? `z.object({\n${fields.join(",\n")}\n}).meta({description: "${description.replace(/"/g, '\\"')}"})`
+				: undefined,
+			description,
+		);
 	}
 
 	return null;
@@ -685,7 +752,14 @@ function operationToZod(
 		// Remove from visited types after processing
 		visitedTypes.delete(operationName);
 
-		return wrapSchema(`${operationName}Variables`, fields);
+		// Add description for operation variables schema
+		const description = `Variables for operation: ${operationName}`;
+		return wrapSchema(
+			`${operationName}Variables`,
+			fields,
+			`z.object({\n${fields.join(",\n")}\n}).meta({description: "${description}"})`,
+			description,
+		);
 	} catch (error) {
 		const operationName = operation.name?.value || "Anonymous";
 		return `/** Error processing operation ${operationName}: ${error instanceof Error ? error.message : "Unknown error"} */`;
@@ -762,7 +836,12 @@ function processVariableDefinitions(
 		const required = variableType.kind === Kind.NON_NULL_TYPE;
 		const finalZodType = required ? zodType : `${zodType}.nullish()`;
 
-		fields.push(createFieldDefinition(variableName, finalZodType));
+		// GraphQL variable definitions don't have descriptions in the AST
+		// but we could potentially get them from directives or other sources
+		// For now, we'll pass undefined for variable descriptions
+		fields.push(
+			createFieldDefinition(variableName, finalZodType, undefined),
+		);
 	}
 
 	return fields;
@@ -817,7 +896,16 @@ function fragmentToZod(
 		// Remove from visited types after processing
 		visitedTypes.delete(fragmentName);
 
-		return wrapSchema(fragmentName, fields.fields);
+		// Add description from the base type if available
+		const description = baseType.description || undefined;
+		return wrapSchema(
+			fragmentName,
+			fields.fields,
+			description
+				? `z.object({\n${fields.fields.join(",\n")}\n}).meta({description: "${description.replace(/"/g, '\\"')}"})`
+				: undefined,
+			description,
+		);
 	} catch (error) {
 		const fragmentName = fragment.name.value;
 		return `/** Error processing fragment ${fragmentName}: ${error instanceof Error ? error.message : "Unknown error"} */`;
