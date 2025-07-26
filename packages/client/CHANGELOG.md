@@ -1,5 +1,29 @@
 # @use-pico/client
 
+## 4.1.63
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.63
+
+## 4.1.62
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.62
+
+## 4.1.61
+
+### Patch Changes
+
+- Bump
+- Updated dependencies
+  - @use-pico/common@4.1.61
+
 ## 4.1.60
 
 ### Patch Changes

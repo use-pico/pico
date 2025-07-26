@@ -5,10 +5,12 @@ import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import type { TableCls } from "./TableCls";
 import type { ActionType } from "./type/ActionType";
+import type { DataType } from "./type/DataType";
 import type { SelectionType } from "./type/SelectionType";
 
 export namespace TableActionWrapper {
 	export interface Props {
+		data: DataType.Data[];
 		actionTable: ActionType.Table.Component<any> | undefined;
 		selection: SelectionType.Selection | undefined;
 		context: any | undefined;
@@ -17,6 +19,7 @@ export namespace TableActionWrapper {
 }
 
 export const TableActionWrapper: FC<TableActionWrapper.Props> = ({
+	data,
 	actionTable: TableAction,
 	selection,
 	context,
@@ -49,6 +52,7 @@ export const TableActionWrapper: FC<TableActionWrapper.Props> = ({
 			) : null}
 			{TableAction ? (
 				<TableAction
+					data={data}
 					selection={selection}
 					context={context}
 				/>

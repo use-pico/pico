@@ -21,9 +21,56 @@ import type { StateType } from "./type/StateType";
 import type { ToolbarType } from "./type/ToolbarType";
 
 export namespace Table {
+	/**
+	 * === Internal re-exported types
+	 */
+	export type Data = DataType.Data;
+
+	export namespace Toolbar {
+		export type Component<
+			TData extends Data,
+			TContext = any,
+		> = ToolbarType.Component<TData, TContext>;
+
+		export type Props<
+			TData extends Data,
+			TContext = any,
+		> = ToolbarType.Props<TData, TContext>;
+	}
+
+	export namespace Action {
+		export namespace Table {
+			export type Table<
+				TData extends Data,
+				TContext = any,
+			> = ActionType.Table.Component<TData, TContext>;
+
+			export type Props<
+				TData extends Data,
+				TContext = any,
+			> = ActionType.Table.Props<TData, TContext>;
+		}
+
+		export namespace Row {
+			export type Component<
+				TData extends Data,
+				TContext = any,
+			> = ActionType.Row.Component<TData, TContext>;
+
+			export type Props<
+				TData extends Data,
+				TContext = any,
+			> = ActionType.Row.Props<TData, TContext>;
+		}
+	}
+
+	/**
+	 * === Table own public API and stuff
+	 */
+
 	export type Fulltext = StateType<Fulltext.Value>;
 
-	export interface Props<TData extends DataType.Data, TContext = any>
+	export interface Props<TData extends Data, TContext = any>
 		extends TableCls.Props {
 		/**
 		 * Data for the table.
@@ -76,7 +123,7 @@ export namespace Table {
 		 *
 		 * Good UI may be just icons to be used.
 		 */
-		toolbar?: ToolbarType.Component<TContext>;
+		toolbar?: ToolbarType.Component<TData, TContext>;
 		/**
 		 * Control if a toolbar provided is shown/hidden.
 		 */
@@ -86,7 +133,7 @@ export namespace Table {
 		/**
 		 * Table-wise action.
 		 */
-		actionTable?: ActionType.Table.Component<TContext>;
+		actionTable?: ActionType.Table.Component<TData, TContext>;
 		/**
 		 * Explicit control over the table action visibility.
 		 */
@@ -101,13 +148,13 @@ export namespace Table {
 		actionRowHidden?: boolean;
 	}
 
-	export type PropsEx<TData extends DataType.Data, TContext = any> = Omit<
+	export type PropsEx<TData extends Data, TContext = any> = Omit<
 		Props<TData, TContext>,
 		"columns"
 	>;
 }
 
-export const Table = <TData extends DataType.Data, TContext = any>({
+export const Table = <TData extends Table.Data, TContext = any>({
 	columns,
 	data = [],
 	visible,
@@ -169,6 +216,7 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 	return (
 		<div className={slots.base()}>
 			<TableTools
+				data={data}
 				cursor={cursor}
 				fulltext={fulltext}
 				toolbar={toolbar}
@@ -181,6 +229,7 @@ export const Table = <TData extends DataType.Data, TContext = any>({
 			<div className={"overflow-x-auto"}>
 				<div className={slots.table()}>
 					<TableHeader
+						data={data}
 						withActions={withActions}
 						visible={$visible}
 						context={context}

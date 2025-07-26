@@ -11,12 +11,13 @@ import type { SortType } from "./type/SortType";
 
 export namespace TableHeader {
 	export interface Props<TData extends DataType.Data, TContext = any> {
+		data: TData[];
 		withActions: boolean;
 		context: TContext | undefined;
 		selection: SelectionType.Selection | undefined;
 		sort: SortType.Sort | undefined;
 		filter: FilterType.Filter | undefined;
-		actionTable: ActionType.Table.Component<TContext> | undefined;
+		actionTable: ActionType.Table.Component<TData, TContext> | undefined;
 		visible: ColumnType.Props<TData, any, TContext>[];
 		slots: TableCls.Slots;
 		grid: string;
@@ -24,6 +25,7 @@ export namespace TableHeader {
 }
 
 export const TableHeader = <TData extends DataType.Data, TContext = any>({
+	data,
 	withActions,
 	context,
 	selection,
@@ -43,6 +45,7 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 		>
 			{withActions ? (
 				<TableActionWrapper
+					data={data}
 					actionTable={actionTable}
 					context={context}
 					selection={selection}
