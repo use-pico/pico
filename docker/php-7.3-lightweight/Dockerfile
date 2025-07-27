@@ -1,8 +1,7 @@
 FROM debian:bullseye-slim
 
 ENV \
-    DEBIAN_FRONTEND=noninteractive \
-    PHP_VERSION=7.3.33
+    DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
 RUN \
@@ -29,23 +28,32 @@ RUN \
         php7.3-gd php7.3-mbstring php7.3-curl php7.3-xml php7.3-bcmath \
         php7.3-json php7.3-intl php7.3-gettext php7.3-bz2 php7.3-exif
 
-# Install Xdebug and clean up
+# Install Xdebug, Composer, Node.js LTS, and Bun
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests php7.3-xdebug && \
     phpenmod xdebug && \
-    # Clean up unnecessary packages
+    # Install Composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    # Install Node.js LTS
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y --no-install-recommends --no-install-suggests nodejs unzip && \
+    # Install Bun
+    curl -fsSL https://bun.sh/install | bash && \
+    ln -s /root/.bun/bin/bun /usr/local/bin/bun && \
+    # Clean up unnecessary packages (safer approach)
     apt-get remove -y software-properties-common apt-transport-https lsb-release gnupg2 && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    # Remove documentation and man pages to save space
+    # Remove documentation and man pages to save space (safer)
     rm -rf /usr/share/doc/* && \
     rm -rf /usr/share/man/* && \
-    rm -rf /usr/share/locale/* && \
     rm -rf /var/cache/apt/* && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/*
+    # Keep all timezone data (essential for PHP applications)
+    # Keep all locale data (essential for internationalization)
 
 # Copy configuration files
 ADD rootfs /
@@ -81,7 +89,18 @@ RUN \
 RUN \
     php -v && \
     php -m && \
-    caddy version
+    caddy version && \
+    node --version && \
+    npm --version && \
+    bun --version
+
+# Final cleanup - safer approach
+RUN \
+    apt-get update && \
+    # Only remove packages that are definitely not needed
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Default work directory
 WORKDIR /var/www
