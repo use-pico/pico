@@ -9,6 +9,7 @@
 		"**/_route.ts": true
 	},
 	"cSpell.words": [
+		"adduser",
 		"alasql",
 		"aminnairi",
 		"arcticons",
@@ -24,6 +25,7 @@
 		"borsh",
 		"buildable",
 		"Caddyfile",
+		"CBUILD",
 		"CIELAB",
 		"codegen",
 		"colormap",
@@ -50,6 +52,7 @@
 		"finetune",
 		"floorplan",
 		"frameloop",
+		"freetype",
 		"fuckin",
 		"gameplay",
 		"GLSL",
@@ -61,6 +64,7 @@
 		"highp",
 		"Hostbased",
 		"hugeicons",
+		"CHOST",
 		"iconamoon",
 		"iconify",
 		"imap",

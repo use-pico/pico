@@ -27,9 +27,7 @@ RUN \
     apt-get install -y --no-install-recommends --no-install-suggests \
         php7.3-fpm php7.3-cli php7.3-common php7.3-mysql php7.3-zip \
         php7.3-gd php7.3-mbstring php7.3-curl php7.3-xml php7.3-bcmath \
-        php7.3-json php7.3-intl php7.3-soap php7.3-xsl php7.3-ldap \
-        php7.3-imap php7.3-gettext php7.3-bz2 php7.3-exif php7.3-ftp \
-        php7.3-gmp php7.3-readline php7.3-calendar php7.3-sockets
+        php7.3-json php7.3-intl php7.3-gettext php7.3-bz2 php7.3-exif
 
 # Install Xdebug and clean up
 RUN \
@@ -40,7 +38,14 @@ RUN \
     apt-get remove -y software-properties-common apt-transport-https lsb-release gnupg2 && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    # Remove documentation and man pages to save space
+    rm -rf /usr/share/doc/* && \
+    rm -rf /usr/share/man/* && \
+    rm -rf /usr/share/locale/* && \
+    rm -rf /var/cache/apt/* && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/*
 
 # Copy configuration files
 ADD rootfs /
