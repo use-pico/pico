@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# Enable development features
+#mv /etc/php/7.3/fpm/conf.d/opcache.ini /etc/php/7.3/fpm/conf.d/opcache.ini.disabled
+
+# Enable Xdebug by creating the symlink
+ln -sf /etc/php/7.3/mods-available/xdebug.ini /etc/php/7.3/fpm/conf.d/20-xdebug.ini
+ln -sf /etc/php/7.3/mods-available/xdebug.ini /etc/php/7.3/cli/conf.d/20-xdebug.ini
+
+# Enable Mailhog
+mv /usr/local/etc/php/conf.d/mailhog.ini.disabled /etc/php/7.3/fpm/conf.d/mailhog.ini 2>/dev/null || true
+
+php-fpm7.3 -v
+supervisorctl restart php-fpm

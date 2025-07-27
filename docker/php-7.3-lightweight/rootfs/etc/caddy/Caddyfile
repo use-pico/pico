@@ -1,0 +1,15 @@
+http://localhost {
+    root * /var/www/public
+    php_fastcgi unix//run/php/php7.3-fpm.sock
+    file_server {
+        browse off
+    }
+    try_files {path} {path}/ /index.php?{query}
+    
+    # Human-readable access logging
+    log {
+        output stdout
+        format console
+        level INFO
+    }
+} 

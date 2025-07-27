@@ -1,0 +1,15 @@
+zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so
+
+xdebug.mode=develop,debug
+xdebug.start_with_request=yes
+xdebug.discover_client_host=0
+xdebug.client_host=host.docker.internal
+xdebug.log=/var/log/xdebug.log
+
+opcache.enable=1
+opcache.enable_cli=1             
+opcache.validate_timestamps=1    
+opcache.revalidate_freq=0        
+opcache.max_accelerated_files=10000
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=16

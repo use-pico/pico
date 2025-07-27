@@ -1,0 +1,18 @@
+                    PHP 7.3 Docker Container                     
+
+  Web Server:     Caddy (port 80)                                            
+  PHP:            PHP 7.3-FPM with FastCGI                                  
+  Document Root:  /var/www/public                                            
+  SSH Access:     root@localhost:2222 (password: 1234)                      
+`  Logs:           docker logs php-7.3-light                                
+
+  Quick Commands:                                                            
+    • supervisorctl status     - Check service status                       
+    • docker logs php-7.3-light - View all logs                             
+    • php-fpm7.3 -v            - Check PHP version                          
+    • caddy version            - Check Caddy version                        
+    • php-dev                  - Enable development mode                    
+    • php-prod                 - Enable production mode                     
+
+  Services:       Caddy, PHP-FPM, SSH                  
+  Extensions:     MySQL, GD, ZIP, cURL, XML, BCMath, JSON, Intl, etc.      

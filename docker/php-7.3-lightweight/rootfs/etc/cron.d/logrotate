@@ -1,0 +1,2 @@
+# Run logrotate daily at 2 AM
+0 2 * * * root /usr/sbin/logrotate /etc/logrotate.conf 
