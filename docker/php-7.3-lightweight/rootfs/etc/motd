@@ -1,18 +1,25 @@
-                    PHP 7.3 Docker Container                     
+                    PHP 7.3 Lightweight Docker Container                     
 
   Web Server:     Caddy (port 80)                                            
   PHP:            PHP 7.3-FPM with FastCGI                                  
   Document Root:  /var/www/public                                            
-  SSH Access:     root@localhost:2222 (password: 1234)                      
-`  Logs:           docker logs php-7.3-light                                
+  SSH Access:     root@localhost:22 (password: 1234)                        
+  Logs:           docker logs <container-name>                              
 
   Quick Commands:                                                            
     • supervisorctl status     - Check service status                       
-    • docker logs php-7.3-light - View all logs                             
+    • docker logs <container>  - View all logs                             
     • php-fpm7.3 -v            - Check PHP version                          
     • caddy version            - Check Caddy version                        
-    • php-dev                  - Enable development mode                    
+    • composer --version       - Check Composer version                     
+    • bun --version            - Check Bun version                          
+    • php-dev                  - Enable development mode (Xdebug)           
     • php-prod                 - Enable production mode                     
 
-  Services:       Caddy, PHP-FPM, SSH                  
-  Extensions:     MySQL, GD, ZIP, cURL, XML, BCMath, JSON, Intl, etc.      
+  Services:       Caddy, PHP-FPM, SSH                                       
+  Tools:          Composer, Bun                                              
+  Extensions:     MySQL, GD, ZIP, cURL, XML, BCMath, JSON, Intl, Gettext,   
+                  Bzip2, Exif, Xdebug                                        
+
+  Base Image:     Debian Bullseye Slim                                      
+  PHP Version:    7.3 (Ondřej Surý PPA)                                     

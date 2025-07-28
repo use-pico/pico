@@ -5,7 +5,7 @@ set -e
 echo "Building PHP 7.3 Docker image..."
 
 # Build the image
-docker build -t pico-php-7.3 .
+docker build -t usepico/php:7.3 .
 
 echo "Build completed successfully!"
 echo ""

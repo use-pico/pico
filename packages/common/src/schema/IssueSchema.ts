@@ -4,6 +4,13 @@ import { IdentitySchema } from "./IdentitySchema";
 export const IssueSchema = z.object({
 	...IdentitySchema.shape,
 	message: z.string(),
+	type: z
+		.enum([
+			"info",
+			"warning",
+			"error",
+		])
+		.default("info"),
 	context: z.object({}).loose().nullish(),
 });
 

@@ -3,7 +3,7 @@
 	"version": "0.5.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"no:dev": "vite dev",
 		"no:build": "vite build"
 	},
 	"dependencies": {

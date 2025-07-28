@@ -28,17 +28,15 @@ RUN \
         php7.3-gd php7.3-mbstring php7.3-curl php7.3-xml php7.3-bcmath \
         php7.3-json php7.3-intl php7.3-gettext php7.3-bz2 php7.3-exif
 
-# Install Xdebug, Composer, Node.js LTS, and Bun
+# Install Xdebug, Composer, and Bun
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests php7.3-xdebug && \
     phpenmod xdebug && \
     # Install Composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    # Install Node.js LTS
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y --no-install-recommends --no-install-suggests nodejs unzip && \
-    # Install Bun
+    # Install Bun (includes unzip dependency)
+    apt-get install -y --no-install-recommends --no-install-suggests unzip && \
     curl -fsSL https://bun.sh/install | bash && \
     ln -s /root/.bun/bin/bun /usr/local/bin/bun && \
     # Clean up unnecessary packages (safer approach)
@@ -67,6 +65,8 @@ RUN \
     chmod +x -R /usr/local/bin && \
     chmod +x /usr/local/bin/php-dev && \
     chmod +x /usr/local/bin/php-prod && \
+    mkdir -p /var/run && \
+    chmod 755 /var/run && \
     mkdir -p /var/run/sshd && \
     chmod 0755 -R /var/run/sshd && \
     # Copy PHP configuration files to the correct location
@@ -90,9 +90,17 @@ RUN \
     php -v && \
     php -m && \
     caddy version && \
-    node --version && \
-    npm --version && \
+    composer --version && \
     bun --version
+
+# Fix OPcache duplicate configuration
+RUN \
+    # Remove all duplicate OPcache configurations
+    rm -f /etc/php/7.3/cli/conf.d/*opcache* && \
+    rm -f /etc/php/7.3/fpm/conf.d/*opcache* && \
+    # Create single symlink to the main configuration
+    ln -sf /etc/php/7.3/mods-available/opcache.ini /etc/php/7.3/cli/conf.d/20-opcache.ini && \
+    ln -sf /etc/php/7.3/mods-available/opcache.ini /etc/php/7.3/fpm/conf.d/20-opcache.ini
 
 # Final cleanup - safer approach
 RUN \

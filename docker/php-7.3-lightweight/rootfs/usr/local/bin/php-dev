@@ -11,4 +11,6 @@ ln -sf /etc/php/7.3/mods-available/xdebug.ini /etc/php/7.3/cli/conf.d/20-xdebug.
 mv /usr/local/etc/php/conf.d/mailhog.ini.disabled /etc/php/7.3/fpm/conf.d/mailhog.ini 2>/dev/null || true
 
 php-fpm7.3 -v
+
+# Restart PHP-FPM via supervisor
 supervisorctl restart php-fpm

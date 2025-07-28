@@ -16,6 +16,7 @@ import { Route as LocaleComponentsRouteImport } from './@routes/$locale/componen
 import { Route as LocaleComponentsIndexRouteImport } from './@routes/$locale/components/index'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$locale/components/popup-select'
+import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/components/issues'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
 import { Route as LocaleComponentsBadgeRouteImport } from './@routes/$locale/components/badge'
@@ -59,6 +60,11 @@ const LocaleComponentsPopupSelectRoute =
     path: '/popup-select',
     getParentRoute: () => LocaleComponentsRoute,
   } as any)
+const LocaleComponentsIssuesRoute = LocaleComponentsIssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsColorsRoute = LocaleComponentsColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/colors'
+    | '/$locale/components/issues'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
     | '/$locale/components/'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/colors'
+    | '/$locale/components/issues'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
     | '/$locale/components'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/$locale/components/badge'
     | '/$locale/components/button'
     | '/$locale/components/colors'
+    | '/$locale/components/issues'
     | '/$locale/components/popup-select'
     | '/$locale/components/table'
     | '/$locale/components/'
@@ -237,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsPopupSelectRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/issues': {
+      id: '/$locale/components/issues'
+      path: '/issues'
+      fullPath: '/$locale/components/issues'
+      preLoaderRoute: typeof LocaleComponentsIssuesRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/colors': {
       id: '/$locale/components/colors'
       path: '/colors'
@@ -289,6 +308,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsBadgeRoute: typeof LocaleComponentsBadgeRoute
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
+  LocaleComponentsIssuesRoute: typeof LocaleComponentsIssuesRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
@@ -301,6 +321,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsBadgeRoute: LocaleComponentsBadgeRoute,
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
+  LocaleComponentsIssuesRoute: LocaleComponentsIssuesRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,

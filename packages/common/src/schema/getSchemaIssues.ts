@@ -33,6 +33,7 @@ export const getSchemaIssues = ({
 		result.error.issues.forEach((issue) => {
 			issues.push({
 				id: genId(),
+				type: "error",
 				message: translator.text(
 					`${prefix} - ${issue.path.join(".")} - ${issue.message}`,
 				),

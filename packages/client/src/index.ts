@@ -92,6 +92,7 @@ export { UnCheckIcon } from "./icon/UnCheckIcon";
 export { UndefinedIcon } from "./icon/UndefinedIcon";
 export { UploadIcon } from "./icon/UploadIcon";
 export { UserIcon } from "./icon/UserIcon";
+export { Issues } from "./issues/Issues";
 export { DropZone } from "./just-drop-zone/DropZone";
 export { JustDropZone } from "./just-drop-zone/JustDropZone";
 export { JustDropZoneCls } from "./just-drop-zone/JustDropZoneCls";

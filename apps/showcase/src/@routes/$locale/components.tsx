@@ -151,6 +151,21 @@ export const Route = createFileRoute("/$locale/components")({
 						>
 							<Tx label={"Popup Select"} />
 						</MenuLink>
+
+						<MenuLink
+							icon={
+								"icon-[material-symbols-light--flash-on-outline-rounded]"
+							}
+							to={"/$locale/components/issues"}
+							params={{
+								locale,
+							}}
+							variant={{
+								vertical: true,
+							}}
+						>
+							<Tx label={"Issues"} />
+						</MenuLink>
 					</Menu>
 				</div>
 				<div
