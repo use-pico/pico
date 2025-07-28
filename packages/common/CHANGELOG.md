@@ -1,5 +1,17 @@
 # @use-pico/common
 
+## 4.1.73
+
+### Patch Changes
+
+- Bump
+
+## 4.1.72
+
+### Patch Changes
+
+- Bump
+
 ## 4.1.71
 
 ### Patch Changes
