@@ -1,4 +1,4 @@
-import type { cls, IssueSchema } from "@use-pico/common";
+import { type cls, type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
 import { Icon } from "../icon/Icon";
@@ -28,10 +28,30 @@ export const Issues: FC<Issues.Props> = ({
 		info: "icon-[ix--info]",
 	};
 
+	const isErrorWarning = withIssueType({
+		issues: props.items,
+		types: [
+			"error",
+			"warning",
+		],
+	});
+	const isInfo = withIssueType({
+		issues: props.items,
+		types: [
+			"info",
+		],
+	});
+
 	return (
 		<More<IssueSchema.Type>
 			limit={0}
-			icon={"icon-[ix--warning]"}
+			icon={
+				isErrorWarning
+					? "icon-[ix--warning]"
+					: isInfo
+						? "icon-[ix--info]"
+						: "icon-[ix--info]"
+			}
 			render={({ entity }) => {
 				return (
 					<Badge

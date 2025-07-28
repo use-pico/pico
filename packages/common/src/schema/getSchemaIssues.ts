@@ -25,7 +25,7 @@ export const getSchemaIssues = ({
 	data,
 	prefix,
 }: getSchemaIssues.Props) => {
-	const issues: IssueSchema.Type[] = [];
+	const issues: Omit<IssueSchema.Type, "context">[] = [];
 
 	const result = schema.safeParse(data);
 

@@ -5,7 +5,7 @@ export namespace withIssueType {
 		/**
 		 * Array of issues to check for matching types.
 		 */
-		issue: IssueSchema.Type[];
+		issues: Pick<IssueSchema.Type, "type">[];
 		/**
 		 * One or more issue types to match against (e.g., ["error", "warning"]).
 		 * At least one type must be provided.
@@ -26,7 +26,7 @@ export namespace withIssueType {
  * @example
  * // Returns true, because one issue is of type "error"
  * withIssueType({
- *   issue: [
+ *   issues: [
  *     { id: "1", message: "Some error", type: "error" },
  *     { id: "2", message: "Some info", type: "info" }
  *   ],
@@ -36,7 +36,7 @@ export namespace withIssueType {
  * @example
  * // Returns false, because no issue is of type "warning"
  * withIssueType({
- *   issue: [
+ *   issues: [
  *     { id: "1", message: "Some error", type: "error" },
  *     { id: "2", message: "Some info", type: "info" }
  *   ],
@@ -44,8 +44,8 @@ export namespace withIssueType {
  * });
  */
 export const withIssueType = ({
-	issue,
+	issues,
 	types,
 }: withIssueType.Props): boolean => {
-	return issue.some((item) => types.includes(item.type));
+	return issues.some((item) => types.includes(item.type));
 };

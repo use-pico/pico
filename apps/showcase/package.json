@@ -1,6 +1,6 @@
 {
 	"name": "@use-pico/showcase",
-	"version": "0.5.82",
+	"version": "0.5.86",
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
@@ -15,9 +15,9 @@
 		"@tanstack/react-query": "^5.83.0",
 		"@tanstack/react-router": "^1.129.8",
 		"@tanstack/zod-adapter": "^1.129.7",
-		"@use-pico/client": "4.1.67",
-		"@use-pico/common": "4.1.67",
-		"@use-pico/server": "4.1.67",
+		"@use-pico/client": "4.1.71",
+		"@use-pico/common": "4.1.71",
+		"@use-pico/server": "4.1.71",
 		"fuse.js": "7.1.0",
 		"kysely": "^0.28.3",
 		"react": "^19.1.0",
