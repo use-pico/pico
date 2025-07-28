@@ -45,6 +45,7 @@ export { withBoolSchema } from "./schema/withBoolSchema";
 export { withDateTimeSchema } from "./schema/withDateTimeSchema";
 export { withFloatSchema } from "./schema/withFloatSchema";
 export { withIntSchema } from "./schema/withIntSchema";
+export { withSourceSchema } from "./schema/withSourceSchema";
 export { cleanOf } from "./toolbox/cleanOf";
 export { cursorOf } from "./toolbox/cursorOf";
 export { diffOf } from "./toolbox/diffOf";
