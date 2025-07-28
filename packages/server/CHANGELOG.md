@@ -1,5 +1,13 @@
 # @use-pico/server
 
+## 4.1.67
+
+### Patch Changes
+
+- 889270
+- Updated dependencies
+  - @use-pico/common@4.1.67
+
 ## 4.1.66
 
 ### Patch Changes

@@ -73,6 +73,7 @@ export { toSeed } from "./toolbox/toSeed";
 export { withAlphaComposite } from "./toolbox/withAlphaComposite";
 export { withBase64 } from "./toolbox/withBase64";
 export { withErrors } from "./toolbox/withErrors";
+export { withIssueType } from "./toolbox/withIssueType";
 export { xlsxOf } from "./toolbox/xlsxOf";
 export type { DeepKeys } from "./type/DeepKeys";
 export type { DeepValue } from "./type/DeepValue";

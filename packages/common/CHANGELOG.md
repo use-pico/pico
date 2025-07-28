@@ -1,5 +1,11 @@
 # @use-pico/common
 
+## 4.1.67
+
+### Patch Changes
+
+- 889270
+
 ## 4.1.66
 
 ### Patch Changes
