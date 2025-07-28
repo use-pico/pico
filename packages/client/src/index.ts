@@ -44,6 +44,8 @@ export { FormCls } from "./form/FormCls";
 export { FormError } from "./form/FormError";
 export { FormField } from "./form/FormField";
 export { FormFieldCls } from "./form/FormFieldCls";
+export { SubmitButton } from "./form/input/SubmitButton";
+export { TextInput } from "./form/input/TextInput";
 export { onSubmit } from "./form/onSubmit";
 export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCls } from "./fulltext/FulltextCls";
