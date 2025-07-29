@@ -8,6 +8,7 @@ import {
 	useQueryClient,
 	useSuspenseQuery,
 } from "@tanstack/react-query";
+import { cleanOf } from "@use-pico/common";
 
 export namespace withQuery {
 	/**
@@ -51,8 +52,12 @@ export function withQuery<TData, TResult>({
 	queryFn,
 	keys,
 }: withQuery.Props<TData, TResult>) {
+	const $keys = (data?: TData) => {
+		return cleanOf(keys(data)) as QueryKey;
+	};
+
 	const query = (data: TData) => {
-		const queryKey = keys(data);
+		const queryKey = $keys(data);
 
 		return queryOptions<TResult, Error, TResult, QueryKey>({
 			queryKey,
@@ -62,7 +67,7 @@ export function withQuery<TData, TResult>({
 
 	const invalidate = async (queryClient: QueryClient, data?: TData) => {
 		return queryClient.invalidateQueries({
-			queryKey: keys(data),
+			queryKey: $keys(data),
 			refetchType: "all",
 		});
 	};
@@ -71,7 +76,7 @@ export function withQuery<TData, TResult>({
 		/**
 		 * Returns the key generator function for the query.
 		 */
-		keys,
+		keys: $keys,
 		/**
 		 * Returns the queryOptions object for use with React Query hooks.
 		 */
