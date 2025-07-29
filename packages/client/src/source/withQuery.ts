@@ -18,10 +18,6 @@ export namespace withQuery {
 	 */
 	export interface Props<TData, TResult> {
 		/**
-		 * Input data for the query. Also should be used as a key for the query (goes into keys() method).
-		 */
-		data: TData;
-		/**
 		 * Function to fetch/query data based on the input data.
 		 * @param data - The input data for the query.
 		 * @returns A promise resolving to the query result.
@@ -32,7 +28,7 @@ export namespace withQuery {
 		 * @param data - The input data for the query.
 		 * @returns The query key.
 		 */
-		keys(data: TData): QueryKey;
+		keys(data?: TData): QueryKey;
 	}
 
 	export type PropsEx<TData, TResult> = Omit<
@@ -52,19 +48,21 @@ export namespace withQuery {
  * @returns Query helpers and hooks.
  */
 export function withQuery<TData, TResult>({
-	data,
 	queryFn,
 	keys,
 }: withQuery.Props<TData, TResult>) {
-	const queryKey = keys(data);
+	const query = (data: TData) => {
+		const queryKey = keys(data);
 
-	const query = queryOptions<TResult, Error, TResult, QueryKey>({
-		queryKey,
-		queryFn: () => queryFn(data),
-	});
-	const invalidate = async (queryClient: QueryClient) => {
-		return queryClient.invalidateQueries({
+		return queryOptions<TResult, Error, TResult, QueryKey>({
 			queryKey,
+			queryFn: () => queryFn(data),
+		});
+	};
+
+	const invalidate = async (queryClient: QueryClient, data?: TData) => {
+		return queryClient.invalidateQueries({
+			queryKey: keys(data),
 			refetchType: "all",
 		});
 	};
@@ -82,28 +80,28 @@ export function withQuery<TData, TResult>({
 		 * React Query hook for fetching data (non-suspense).
 		 * @returns The result of the query.
 		 */
-		useQuery(): UseQueryResult<TResult, Error> {
-			return useQuery(query);
+		useQuery(data: TData): UseQueryResult<TResult, Error> {
+			return useQuery(query(data));
 		},
 		/**
 		 * React Query hook for fetching data with suspense.
 		 * @returns The result of the query (suspense-enabled).
 		 */
-		useSuspenseQuery(): UseSuspenseQueryResult<TResult, Error> {
-			return useSuspenseQuery(query);
+		useSuspenseQuery(data: TData): UseSuspenseQueryResult<TResult, Error> {
+			return useSuspenseQuery(query(data));
 		},
 		/**
 		 * React Query hook for invalidating the query.
 		 * @returns A function to invalidate the query.
 		 */
-		useInvalidate() {
+		useInvalidate(data?: TData) {
 			const queryClient = useQueryClient();
 
 			/**
 			 * Invalidate the pre-configured query.
 			 */
 			return async () => {
-				return invalidate(queryClient);
+				return invalidate(queryClient, data);
 			};
 		},
 		/**
@@ -118,16 +116,16 @@ export function withQuery<TData, TResult>({
 		 * @param queryClient - The React Query client instance.
 		 * @returns Resolves when prefetching is complete.
 		 */
-		async prefetch(queryClient: QueryClient) {
-			await queryClient.prefetchQuery(query);
+		async prefetch(queryClient: QueryClient, data: TData) {
+			await queryClient.prefetchQuery(query(data));
 		},
 		/**
 		 * Ensures the query data is available in the cache, fetching if necessary.
 		 * @param queryClient - The React Query client instance.
 		 * @returns Resolves with the query data.
 		 */
-		async ensure(queryClient: QueryClient) {
-			return queryClient.ensureQueryData(query);
+		async ensure(queryClient: QueryClient, data: TData) {
+			return queryClient.ensureQueryData(query(data));
 		},
 	} as const;
 }
