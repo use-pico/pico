@@ -146,6 +146,13 @@ export namespace Table {
 		 * Explicit control over the row action visibility.
 		 */
 		actionRowHidden?: boolean;
+		/**
+		 * Width of the action column when actions are present.
+		 *
+		 * This should be set to accommodate the widest possible action content.
+		 * Examples: "2rem", "5rem", "8rem", etc.
+		 */
+		actionWidth?: string;
 	}
 
 	export type PropsEx<TData extends Data, TContext = any> = Omit<
@@ -169,6 +176,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 	actionTableHidden = false,
 	actionRow,
 	actionRowHidden = false,
+	actionWidth,
 	fulltext,
 	toolbar = () => null,
 	toolbarHidden = false,
@@ -211,6 +219,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 		tva,
 		cls,
 		withActions,
+		actionWidth,
 	});
 
 	return (

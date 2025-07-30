@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+	ActionClick,
+	ActionMenu,
 	navigateOnCursor,
 	navigateOnFilter,
 	navigateOnFulltext,
-	navigateOnSelection,
 	Table,
 	Tx,
 	withColumn,
@@ -43,7 +44,7 @@ const columns = [
 		render({ value }) {
 			return value;
 		},
-		size: 12,
+		size: "auto",
 	}),
 ];
 
@@ -109,32 +110,64 @@ export const Route = createFileRoute("/$locale/components/table")({
 		const navigate = Route.useNavigate();
 
 		return (
-			<SomeTable
-				data={list}
-				filter={{
-					state: {
-						value: filter,
-						set: navigateOnFilter(navigate),
-					},
-				}}
-				selection={{
-					type: "multi",
-					state: {
-						value: selection,
-						set: navigateOnSelection(navigate),
-					},
-				}}
-				fulltext={{
-					value: filter?.fulltext,
-					set: navigateOnFulltext(filter?.fulltext, navigate),
-				}}
-				cursor={{
-					count,
-					cursor,
-					textTotal: <Tx label={"Number of items"} />,
-					...navigateOnCursor(navigate),
-				}}
-			/>
+			<div className="flex flex-col gap-4 w-full">
+				{/* <SomeTable
+					data={list}
+					filter={{
+						state: {
+							value: filter,
+							set: navigateOnFilter(navigate),
+						},
+					}}
+					selection={{
+						type: "multi",
+						state: {
+							value: selection,
+							set: navigateOnSelection(navigate),
+						},
+					}}
+					fulltext={{
+						value: filter?.fulltext,
+						set: navigateOnFulltext(filter?.fulltext, navigate),
+					}}
+					cursor={{
+						count,
+						cursor,
+						textTotal: <Tx label={"Number of items"} />,
+						...navigateOnCursor(navigate),
+					}}
+				/> */}
+
+				<SomeTable
+					actionWidth="5rem"
+					data={list}
+					filter={{
+						state: {
+							value: filter,
+							set: navigateOnFilter(navigate),
+						},
+					}}
+					fulltext={{
+						value: filter?.fulltext,
+						set: navigateOnFulltext(filter?.fulltext, navigate),
+					}}
+					cursor={{
+						count,
+						cursor,
+						textTotal: <Tx label={"Number of items"} />,
+						...navigateOnCursor(navigate),
+					}}
+					actionRow={() => {
+						return (
+							<ActionMenu>
+								<ActionClick>
+									<Tx label={"Action"} />
+								</ActionClick>
+							</ActionMenu>
+						);
+					}}
+				/>
+			</div>
 		);
 	},
 });

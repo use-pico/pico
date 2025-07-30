@@ -24,6 +24,7 @@ export namespace useTableInit {
 		selection: SelectionType.Table | undefined;
 		sort: SortType.Table | undefined;
 		withActions: boolean;
+		actionWidth?: string;
 	}
 }
 
@@ -37,6 +38,7 @@ export const useTableInit = <TData extends DataType.Data, TContext = any>({
 	selection,
 	sort,
 	withActions,
+	actionWidth = "auto",
 	variant,
 	tva = TableCls,
 	cls,
@@ -99,7 +101,7 @@ export const useTableInit = <TData extends DataType.Data, TContext = any>({
 		sort: $sort,
 		visible: $visible,
 		rows: $rows,
-		grid: withActions ? `auto ${grid}` : grid,
+		grid: withActions ? `${actionWidth} ${grid}` : grid,
 		slots,
 	} as const;
 };

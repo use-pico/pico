@@ -15,8 +15,9 @@ export const TableCls = cls({
 		],
 		thead: [
 			"grid",
-			"border",
-			"border-(--table-thead-color-border)",
+			"border-t",
+			"border-b",
+			"border-(--table-th-color-border)",
 			"bg-(--table-thead-color-bg)",
 		],
 		th: [
@@ -27,9 +28,6 @@ export const TableCls = cls({
 			"text-left",
 			"px-2",
 			"py-1",
-			"border-t",
-			"border-b",
-			"border-(--table-th-color-border)",
 			"truncate",
 		],
 		tr: [
