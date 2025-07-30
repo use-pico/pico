@@ -51,11 +51,11 @@
   --pico-color-primary-text-default: var(--color-blue-100);
   --pico-color-primary-text-hover: var(--color-blue-100);
   --pico-color-primary-bg-default: var(--color-blue-600);
-  --pico-color-primary-bg-hover: var(--color-blue-500);
+  --pico-color-primary-bg-hover: var(--color-blue-600);
   --pico-color-primary-border-default: var(--color-blue-700);
-  --pico-color-primary-border-hover: var(--color-blue-600);
-  --pico-color-primary-shadow-default: var(--color-sky-200);
-  --pico-color-primary-shadow-hover: var(--color-sky-400);
+  --pico-color-primary-border-hover: var(--color-blue-700);
+  --pico-color-primary-shadow-default: var(--color-black);
+  --pico-color-primary-shadow-hover: var(--color-slate-900);
   --pico-color-secondary-text-default: var(--color-green-100);
   --pico-color-secondary-text-hover: var(--color-green-100);
   --pico-color-secondary-bg-default: var(--color-green-600);

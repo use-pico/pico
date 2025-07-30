@@ -9,10 +9,13 @@ export const ButtonCls = cls({
 			"justify-center",
 			"gap-2",
 			"group",
-			"rounded-md",
+			"rounded-lg",
 			"transition-all",
 			"cursor-pointer",
 			"border",
+			"opacity-80",
+			"hover:opacity-100",
+			"shadow-md",
 			// CSS Variables
 			"bg-(--pico-color-bg-default)",
 			"hover:bg-(--pico-color-bg-hover)",
@@ -55,6 +58,7 @@ export const ButtonCls = cls({
 			true: [
 				"cursor-not-allowed",
 				"opacity-50",
+				"hover:opacity-50",
 				"hover:border-(--pico-color-border-default)",
 				"hover:text-(--pico-color-text-default)",
 				"hover:bg-(--pico-color-bg-default)",

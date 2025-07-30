@@ -19,7 +19,7 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-500)",
+					value: "var(--color-blue-600)",
 					attributes,
 				},
 			},
@@ -29,17 +29,17 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-600)",
+					value: "var(--color-blue-700)",
 					attributes,
 				},
 			},
 			shadow: {
 				default: {
-					value: "var(--color-sky-200)",
+					value: "var(--color-black)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-sky-400)",
+					value: "var(--color-slate-900)",
 					attributes,
 				},
 			},
