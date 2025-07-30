@@ -5,7 +5,7 @@ export default {
 		primary: {
 			text: {
 				default: {
-					value: "var(--color-blue-100)",
+					value: "var(--color-blue-50)",
 					attributes,
 				},
 				hover: {
@@ -15,7 +15,7 @@ export default {
 			},
 			bg: {
 				default: {
-					value: "var(--color-blue-600)",
+					value: "var(--color-blue-500)",
 					attributes,
 				},
 				hover: {
@@ -35,11 +35,11 @@ export default {
 			},
 			shadow: {
 				default: {
-					value: "var(--color-black)",
+					value: "var(--color-slate-600)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-slate-900)",
+					value: "var(--color-slate-700)",
 					attributes,
 				},
 			},

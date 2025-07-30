@@ -5,7 +5,7 @@ export default {
 		secondary: {
 			text: {
 				default: {
-					value: "var(--color-green-100)",
+					value: "var(--color-green-50)",
 					attributes,
 				},
 				hover: {
@@ -19,7 +19,7 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-green-500)",
+					value: "var(--color-green-700)",
 					attributes,
 				},
 			},
@@ -29,17 +29,17 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-green-600)",
+					value: "var(--color-green-800)",
 					attributes,
 				},
 			},
 			shadow: {
 				default: {
-					value: "var(--color-sky-200)",
+					value: "var(--color-slate-400)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-sky-400)",
+					value: "var(--color-slate-700)",
 					attributes,
 				},
 			},

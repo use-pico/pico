@@ -29,7 +29,7 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-blue-300)",
+					value: "var(--color-blue-600)",
 					attributes,
 				},
 			},

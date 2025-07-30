@@ -9,13 +9,11 @@ export const ButtonCls = cls({
 			"justify-center",
 			"gap-2",
 			"group",
-			"rounded-lg",
+			"rounded-md",
 			"transition-all",
 			"cursor-pointer",
 			"border",
-			"opacity-80",
-			"hover:opacity-100",
-			"shadow-md",
+			"shadow-sm",
 			// CSS Variables
 			"bg-(--pico-color-bg-default)",
 			"hover:bg-(--pico-color-bg-hover)",
@@ -26,8 +24,8 @@ export const ButtonCls = cls({
 			"text-(--pico-color-text-default)",
 			"hover:text-(--pico-color-text-hover)",
 			//
-			"shadow-(--pico-color-shadow-default)",
-			"hover:shadow-(--pico-color-shadow-hover)",
+			"shadow-(color:--pico-color-shadow-default)",
+			"hover:shadow-(color:--pico-color-shadow-hover)",
 		],
 	},
 	variant: {

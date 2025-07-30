@@ -5,7 +5,7 @@ export default {
 		danger: {
 			text: {
 				default: {
-					value: "var(--color-red-100)",
+					value: "var(--color-red-50)",
 					attributes,
 				},
 				hover: {
@@ -19,17 +19,17 @@ export default {
 					attributes,
 				},
 				hover: {
-					value: "var(--color-red-400)",
+					value: "var(--color-red-600)",
 					attributes,
 				},
 			},
 			border: {
 				default: {
-					value: "var(--color-red-600)",
+					value: "var(--color-red-700)",
 					attributes,
 				},
 				hover: {
-					value: "var(--color-red-500)",
+					value: "var(--color-red-800)",
 					attributes,
 				},
 			},
