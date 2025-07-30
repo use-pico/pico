@@ -1,10 +1,11 @@
+import type { OrderSchema } from "@use-pico/common";
 import type { StateType } from "./StateType";
 
 export namespace SortType {
 	/**
 	 * Available order values.
 	 */
-	export type Order = "asc" | "desc" | undefined;
+	export type Order = OrderSchema.Type;
 	export type State = StateType<Record<string, Order>>;
 
 	/**

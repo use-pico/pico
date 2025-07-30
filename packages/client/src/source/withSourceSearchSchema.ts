@@ -46,17 +46,19 @@ export const withSourceSearchSchema = <
 						"asc",
 						"desc",
 					])
-					.optional(),
+					.nullish(),
 			)
 			.default(defaultSort) as unknown as z.ZodDefault<
 			z.ZodObject<
 				Record<
 					keyof TSort,
 					z.ZodOptional<
-						z.ZodEnum<{
-							asc: "asc";
-							desc: "desc";
-						}>
+						z.ZodNullable<
+							z.ZodEnum<{
+								asc: "asc";
+								desc: "desc";
+							}>
+						>
 					>
 				>
 			>

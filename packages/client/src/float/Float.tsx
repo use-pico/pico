@@ -1,5 +1,6 @@
 import {
 	autoUpdate,
+	FloatingOverlay,
 	FloatingPortal,
 	flip,
 	offset,
@@ -36,6 +37,10 @@ export namespace Float {
 			UseFloatingOptions,
 			"middleware" | "whileElementsMounted" | "open" | "onOpenChange"
 		>;
+		/**
+		 * Whether to show a backdrop overlay when float is open
+		 */
+		withOverlay?: boolean;
 	}
 }
 
@@ -46,6 +51,7 @@ export const Float: FC<Float.Props> = ({
 	closeOnClick = false,
 	delay = 100,
 	float,
+	withOverlay = false,
 	variant,
 	tva = FloatCls,
 	cls,
@@ -96,32 +102,64 @@ export const Float: FC<Float.Props> = ({
 				{target}
 			</div>
 			<FloatingPortal>
-				<div
-					ref={refs.setFloating}
-					style={{
-						...floatingStyles,
-						...styles,
-					}}
-					className={slots.portal()}
-					{...getFloatingProps()}
-					onClick={
-						closeOnClick
-							? () => {
-									setIsOpen(false);
-								}
-							: undefined
-					}
-				>
-					<FloatContext.Provider
-						value={{
-							close() {
-								setIsOpen(false);
-							},
-						}}
+				{withOverlay && isMounted ? (
+					<FloatingOverlay
+						lockScroll={false}
+						style={styles}
+						className="fixed inset-0 bg-slate-200/50 backdrop-blur-[2px]"
 					>
-						{children}
-					</FloatContext.Provider>
-				</div>
+						<div
+							ref={refs.setFloating}
+							style={floatingStyles}
+							className={slots.portal()}
+							{...getFloatingProps()}
+							onClick={
+								closeOnClick
+									? () => {
+											setIsOpen(false);
+										}
+									: undefined
+							}
+						>
+							<FloatContext.Provider
+								value={{
+									close() {
+										setIsOpen(false);
+									},
+								}}
+							>
+								{children}
+							</FloatContext.Provider>
+						</div>
+					</FloatingOverlay>
+				) : (
+					<div
+						ref={refs.setFloating}
+						style={{
+							...floatingStyles,
+							...styles,
+						}}
+						className={slots.portal()}
+						{...getFloatingProps()}
+						onClick={
+							closeOnClick
+								? () => {
+										setIsOpen(false);
+									}
+								: undefined
+						}
+					>
+						<FloatContext.Provider
+							value={{
+								close() {
+									setIsOpen(false);
+								},
+							}}
+						>
+							{children}
+						</FloatContext.Provider>
+					</div>
+				)}
 			</FloatingPortal>
 		</>
 	);

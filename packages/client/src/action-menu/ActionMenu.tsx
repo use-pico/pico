@@ -15,6 +15,10 @@ export namespace ActionMenu {
 		 */
 		target?: ReactNode;
 		actionProps?: Action.Props;
+		/**
+		 * Whether to show an overlay backdrop when menu is open
+		 */
+		withOverlay?: boolean;
 	}
 }
 
@@ -55,7 +59,13 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<el.base.Div>{children}</el.base.Div>
+				<el.base.Div
+					cls={[
+						"relative",
+					]}
+				>
+					{children}
+				</el.base.Div>
 			</Float>
 		</FloatingTree>
 	);
