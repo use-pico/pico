@@ -7,7 +7,7 @@ import {
 import { z } from "zod";
 
 export namespace withSourceSearchSchema {
-	export interface Opts {
+	export interface Options {
 		size?: number;
 	}
 
@@ -28,7 +28,7 @@ export const withSourceSearchSchema = <
 		filter,
 		defaultSort = {} as TSort,
 	}: withSourceSearchSchema.Props<TFilterSchema, TSort>,
-	{ size = 30 }: withSourceSearchSchema.Opts = {
+	{ size = 30 }: withSourceSearchSchema.Options = {
 		size: 30,
 	},
 ) => {
@@ -48,7 +48,19 @@ export const withSourceSearchSchema = <
 					])
 					.optional(),
 			)
-			.default(defaultSort),
+			.default(defaultSort) as unknown as z.ZodDefault<
+			z.ZodObject<
+				Record<
+					keyof TSort,
+					z.ZodOptional<
+						z.ZodEnum<{
+							asc: "asc";
+							desc: "desc";
+						}>
+					>
+				>
+			>
+		>,
 		selection: z.array(z.string()).default([]),
 	});
 
