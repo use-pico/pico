@@ -5,6 +5,7 @@ import {
 	navigateOnCursor,
 	navigateOnFilter,
 	navigateOnFulltext,
+	navigateOnSelection,
 	Table,
 	Tx,
 	withColumn,
@@ -111,7 +112,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 
 		return (
 			<div className="flex flex-col gap-4 w-full">
-				{/* <SomeTable
+				<SomeTable
 					data={list}
 					filter={{
 						state: {
@@ -136,10 +137,10 @@ export const Route = createFileRoute("/$locale/components/table")({
 						textTotal: <Tx label={"Number of items"} />,
 						...navigateOnCursor(navigate),
 					}}
-				/> */}
+				/>
 
 				<SomeTable
-					actionWidth="5rem"
+					actionWidth="4rem"
 					data={list}
 					filter={{
 						state: {
@@ -156,6 +157,13 @@ export const Route = createFileRoute("/$locale/components/table")({
 						cursor,
 						textTotal: <Tx label={"Number of items"} />,
 						...navigateOnCursor(navigate),
+					}}
+					selection={{
+						type: "multi",
+						state: {
+							value: selection,
+							set: navigateOnSelection(navigate),
+						},
 					}}
 					actionRow={() => {
 						return (
