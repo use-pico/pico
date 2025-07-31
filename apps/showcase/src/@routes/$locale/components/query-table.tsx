@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
 	QueryTable,
+	TableNavigationState,
 	Tx,
 	withColumn,
 	withQuery,
@@ -98,22 +95,28 @@ export const Route = createFileRoute("/$locale/components/query-table")({
 					request={{
 						cursor,
 					}}
-					selection={{
-						type: "multi",
-						state: navigateOnSelection(selection, navigate),
-					}}
-					filter={navigateOnFilter(filter, navigate)}
-					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
-					cursor={{
-						count: {
-							filter: someData.length,
-							total: someData.length,
-							where: someData.length,
+					selection={TableNavigationState.selection(
+						"multi",
+						selection,
+						navigate,
+					)}
+					filter={TableNavigationState.filter(filter, navigate)}
+					fulltext={TableNavigationState.fulltext(
+						filter?.fulltext,
+						navigate,
+					)}
+					cursor={TableNavigationState.cursor(
+						{
+							cursor,
+							count: {
+								filter: someData.length,
+								total: someData.length,
+								where: someData.length,
+							},
+							textTotal: <Tx label={"Number of items"} />,
 						},
-						cursor,
-						textTotal: <Tx label={"Number of items"} />,
-						...navigateOnCursor(navigate),
-					}}
+						navigate,
+					)}
 				/>
 			</div>
 		);

@@ -2,11 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
 	ActionClick,
 	ActionMenu,
-	navigateOnCursor,
-	navigateOnFilter,
-	navigateOnFulltext,
-	navigateOnSelection,
 	Table,
+	TableNavigationState,
 	Tx,
 	withColumn,
 	withSourceSearchSchema,
@@ -114,35 +111,47 @@ export const Route = createFileRoute("/$locale/components/table")({
 			<div className="flex flex-col gap-4 w-full">
 				<SomeTable
 					data={list}
-					filter={navigateOnFilter(filter, navigate)}
-					selection={{
-						type: "multi",
-						state: navigateOnSelection(selection, navigate),
-					}}
-					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
-					cursor={{
-						count,
-						cursor,
-						textTotal: <Tx label={"Number of items"} />,
-						...navigateOnCursor(navigate),
-					}}
+					filter={TableNavigationState.filter(filter, navigate)}
+					selection={TableNavigationState.selection(
+						"multi",
+						selection,
+						navigate,
+					)}
+					fulltext={TableNavigationState.fulltext(
+						filter?.fulltext,
+						navigate,
+					)}
+					cursor={TableNavigationState.cursor(
+						{
+							count,
+							cursor,
+							textTotal: <Tx label={"Number of items"} />,
+						},
+						navigate,
+					)}
 				/>
 
 				<SomeTable
 					actionWidth="4rem"
 					data={list}
-					filter={navigateOnFilter(filter, navigate)}
-					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
-					cursor={{
-						count,
-						cursor,
-						textTotal: <Tx label={"Number of items"} />,
-						...navigateOnCursor(navigate),
-					}}
-					selection={{
-						type: "multi",
-						state: navigateOnSelection(selection, navigate),
-					}}
+					filter={TableNavigationState.filter(filter, navigate)}
+					fulltext={TableNavigationState.fulltext(
+						filter?.fulltext,
+						navigate,
+					)}
+					cursor={TableNavigationState.cursor(
+						{
+							count,
+							cursor,
+							textTotal: <Tx label={"Number of items"} />,
+						},
+						navigate,
+					)}
+					selection={TableNavigationState.selection(
+						"multi",
+						selection,
+						navigate,
+					)}
 					actionRow={() => {
 						return (
 							<ActionMenu>
