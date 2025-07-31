@@ -114,23 +114,12 @@ export const Route = createFileRoute("/$locale/components/table")({
 			<div className="flex flex-col gap-4 w-full">
 				<SomeTable
 					data={list}
-					filter={{
-						state: {
-							value: filter,
-							set: navigateOnFilter(navigate),
-						},
-					}}
+					filter={navigateOnFilter(filter, navigate)}
 					selection={{
 						type: "multi",
-						state: {
-							value: selection,
-							set: navigateOnSelection(navigate),
-						},
+						state: navigateOnSelection(selection, navigate),
 					}}
-					fulltext={{
-						value: filter?.fulltext,
-						set: navigateOnFulltext(filter?.fulltext, navigate),
-					}}
+					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
 					cursor={{
 						count,
 						cursor,
@@ -142,16 +131,8 @@ export const Route = createFileRoute("/$locale/components/table")({
 				<SomeTable
 					actionWidth="4rem"
 					data={list}
-					filter={{
-						state: {
-							value: filter,
-							set: navigateOnFilter(navigate),
-						},
-					}}
-					fulltext={{
-						value: filter?.fulltext,
-						set: navigateOnFulltext(filter?.fulltext, navigate),
-					}}
+					filter={navigateOnFilter(filter, navigate)}
+					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
 					cursor={{
 						count,
 						cursor,
@@ -160,10 +141,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 					}}
 					selection={{
 						type: "multi",
-						state: {
-							value: selection,
-							set: navigateOnSelection(navigate),
-						},
+						state: navigateOnSelection(selection, navigate),
 					}}
 					actionRow={() => {
 						return (

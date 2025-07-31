@@ -21,10 +21,8 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 	filterInstance,
 	value,
 }) => {
-	const isLte =
-		pathOf(filterInstance.state.value || {}).get(lte) !== undefined;
-	const isGte =
-		pathOf(filterInstance.state.value || {}).get(gte) !== undefined;
+	const isLte = pathOf(filterInstance.value || {}).get(lte) !== undefined;
+	const isGte = pathOf(filterInstance.value || {}).get(gte) !== undefined;
 
 	return (
 		<div className={"flex flex-row gap-1"}>

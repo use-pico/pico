@@ -1,3 +1,5 @@
+import type { StateType } from "@use-pico/common";
+
 export namespace navigateOnSelection {
 	export namespace Navigate {
 		export interface Props {
@@ -8,15 +10,21 @@ export namespace navigateOnSelection {
 	export type Navigate = (props: Navigate.Props) => void;
 }
 
-export const navigateOnSelection = (navigate: navigateOnSelection.Navigate) => {
-	return (selection: any[]) => {
-		navigate({
-			search(prev) {
-				return {
-					...prev,
-					selection,
-				};
-			},
-		});
+export const navigateOnSelection = (
+	value: any[],
+	navigate: navigateOnSelection.Navigate,
+): StateType<any[]> => {
+	return {
+		value,
+		set(selection) {
+			navigate({
+				search(prev) {
+					return {
+						...prev,
+						selection,
+					};
+				},
+			});
+		},
 	};
 };

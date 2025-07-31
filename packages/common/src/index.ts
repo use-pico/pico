@@ -86,4 +86,5 @@ export type { Merge } from "./type/Merge";
 export type { NonEmptyArray } from "./type/NonEmptyArray";
 export type { Nullish } from "./type/Nullish";
 export type { Prettify } from "./type/Prettify";
+export type { StateType } from "./type/StateType";
 export { linkTo } from "./url/linkTo";

@@ -29,14 +29,11 @@ export const withEqualFilter = ({
 			});
 		},
 		is({ filter: filterInstance }) {
-			return (
-				pathOf(filterInstance.state.value || {}).get(path) !== undefined
-			);
+			return pathOf(filterInstance.value || {}).get(path) !== undefined;
 		},
 		component({ data, filter: filterInstance }) {
 			const isFilter =
-				pathOf(filterInstance.state.value || {}).get(path) ===
-				undefined;
+				pathOf(filterInstance.value || {}).get(path) === undefined;
 
 			return isFilter ? (
 				<EqualFilter

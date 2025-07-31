@@ -98,23 +98,12 @@ export const Route = createFileRoute("/$locale/components/query-table")({
 					request={{
 						cursor,
 					}}
-					filter={{
-						state: {
-							value: filter,
-							set: navigateOnFilter(navigate),
-						},
-					}}
 					selection={{
 						type: "multi",
-						state: {
-							value: selection,
-							set: navigateOnSelection(navigate),
-						},
+						state: navigateOnSelection(selection, navigate),
 					}}
-					fulltext={{
-						value: filter?.fulltext,
-						set: navigateOnFulltext(filter?.fulltext, navigate),
-					}}
+					filter={navigateOnFilter(filter, navigate)}
+					fulltext={navigateOnFulltext(filter?.fulltext, navigate)}
 					cursor={{
 						count: {
 							filter: someData.length,

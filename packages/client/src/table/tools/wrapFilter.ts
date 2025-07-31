@@ -27,7 +27,7 @@ export const wrapFilter = <
 	}
 
 	const $filter = {
-		...(props.state?.value || {}),
+		...(props.value || {}),
 	};
 	const pathOfFilter = pathOf($filter);
 
@@ -49,7 +49,7 @@ export const wrapFilter = <
 		},
 		shallow({ path, value }) {
 			pathOfFilter.set(path, value);
-			props.state.set({
+			props.set({
 				...$filter,
 			});
 		},

@@ -1,4 +1,4 @@
-import type { DeepKeys } from "@use-pico/common";
+import type { DeepKeys, StateType } from "@use-pico/common";
 import type { FC } from "react";
 import { Cursor } from "../cursor/Cursor";
 import type { Fulltext } from "../fulltext/Fulltext";
@@ -18,7 +18,6 @@ import type { FilterType } from "./type/FilterType";
 import type { RowType } from "./type/RowType";
 import type { SelectionType } from "./type/SelectionType";
 import type { SortType } from "./type/SortType";
-import type { StateType } from "./type/StateType";
 import type { ToolbarType } from "./type/ToolbarType";
 
 export namespace Table {

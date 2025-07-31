@@ -1,3 +1,5 @@
+import type { StateType } from "@use-pico/common";
+
 export namespace navigateOnFilter {
 	export namespace Navigate {
 		export interface Props {
@@ -13,17 +15,23 @@ export namespace navigateOnFilter {
 	export type Navigate = (props: Navigate.Props) => void;
 }
 
-export const navigateOnFilter = (navigate: navigateOnFilter.Navigate) => {
-	return (filter: Record<string, any>) => {
-		return navigate({
-			search: ({ cursor, ...prev }) => ({
-				...prev,
-				filter,
-				cursor: {
-					...cursor,
-					page: 0,
-				},
-			}),
-		});
+export const navigateOnFilter = (
+	value: Record<string, any> | undefined,
+	navigate: navigateOnFilter.Navigate,
+): StateType<Record<string, any> | undefined> => {
+	return {
+		value,
+		set(filter) {
+			navigate({
+				search: ({ cursor, ...prev }) => ({
+					...prev,
+					filter,
+					cursor: {
+						...cursor,
+						page: 0,
+					},
+				}),
+			});
+		},
 	};
 };

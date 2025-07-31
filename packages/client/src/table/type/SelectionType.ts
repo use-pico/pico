@@ -1,5 +1,5 @@
+import type { StateType } from "@use-pico/common";
 import type { DataType } from "./DataType";
-import type { StateType } from "./StateType";
 
 export namespace SelectionType {
 	export type State = StateType<string[]>;

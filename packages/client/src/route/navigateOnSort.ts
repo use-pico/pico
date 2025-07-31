@@ -1,4 +1,4 @@
-import type { OrderSchema } from "@use-pico/common";
+import type { OrderSchema, StateType } from "@use-pico/common";
 
 export namespace navigateOnSort {
 	export namespace Navigate {
@@ -11,12 +11,19 @@ export namespace navigateOnSort {
 	export type Navigate = (props: Navigate.Props) => void;
 }
 
-export const navigateOnSort = (navigate: navigateOnSort.Navigate) => {
-	return (sort: Record<string, OrderSchema.Type>) =>
-		navigate({
-			search: (search) => ({
-				...search,
-				sort,
-			}),
-		});
+export const navigateOnSort = (
+	value: Record<string, OrderSchema.Type>,
+	navigate: navigateOnSort.Navigate,
+): StateType<Record<string, OrderSchema.Type>> => {
+	return {
+		value,
+		set(sort) {
+			navigate({
+				search: (search) => ({
+					...search,
+					sort,
+				}),
+			});
+		},
+	};
 };

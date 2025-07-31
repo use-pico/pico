@@ -1,6 +1,6 @@
+import type { StateType } from "@use-pico/common";
 import type { FC } from "react";
 import type { DataType } from "./DataType";
-import type { StateType } from "./StateType";
 
 /**
  * Overall table filter configuration.
@@ -12,9 +12,7 @@ export namespace FilterType {
 	/**
 	 * Props defines on the whole table
 	 */
-	export interface Table {
-		state: State;
-	}
+	export type Table = State;
 
 	export namespace Column {
 		export namespace is {

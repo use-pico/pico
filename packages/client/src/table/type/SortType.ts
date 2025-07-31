@@ -1,5 +1,4 @@
-import type { OrderSchema } from "@use-pico/common";
-import type { StateType } from "./StateType";
+import type { OrderSchema, StateType } from "@use-pico/common";
 
 export namespace SortType {
 	/**

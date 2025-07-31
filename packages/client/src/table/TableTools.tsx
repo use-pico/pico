@@ -1,3 +1,4 @@
+import type { StateType } from "@use-pico/common";
 import { Action } from "../action/Action";
 import { Cursor } from "../cursor/Cursor";
 import { Fulltext } from "../fulltext/Fulltext";
@@ -5,7 +6,6 @@ import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
 import type { DataType } from "./type/DataType";
 import type { FilterType } from "./type/FilterType";
 import type { SelectionType } from "./type/SelectionType";
-import type { StateType } from "./type/StateType";
 import type { ToolbarType } from "./type/ToolbarType";
 
 export namespace TableTools {

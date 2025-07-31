@@ -31,9 +31,8 @@ export const withRangeFilter = ({
 		},
 		is({ filter: filterInstance }) {
 			return (
-				pathOf(filterInstance.state.value || {}).get(lte) !==
-					undefined ||
-				pathOf(filterInstance.state.value || {}).get(gte) !== undefined
+				pathOf(filterInstance.value || {}).get(lte) !== undefined ||
+				pathOf(filterInstance.value || {}).get(gte) !== undefined
 			);
 		},
 		component({ data, filter: filterInstance }) {
