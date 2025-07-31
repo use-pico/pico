@@ -7,7 +7,11 @@ import {
 	withQuery,
 	withSourceSearchSchema,
 } from "@use-pico/client";
-import { type CursorSchema, FilterSchema } from "@use-pico/common";
+import {
+	type CountSchema,
+	type CursorSchema,
+	FilterSchema,
+} from "@use-pico/common";
 
 const { validateSearch } = withSourceSearchSchema({
 	filter: FilterSchema,
@@ -55,12 +59,11 @@ const someData: SomeData[] = Array.from(
 	}),
 );
 
-const someQuery = withQuery<
-	{
-		cursor: CursorSchema.Type;
-	},
-	SomeData[]
->({
+type SomeQueryRequest = {
+	cursor: CursorSchema.Type;
+};
+
+const someQuery = withQuery<SomeQueryRequest, SomeData[]>({
 	keys(data) {
 		return [
 			"some-data2",
@@ -81,6 +84,25 @@ const someQuery = withQuery<
 	},
 });
 
+const someQueryCount = withQuery<SomeQueryRequest, CountSchema.Type>({
+	keys() {
+		return [
+			"some-data-count",
+		];
+	},
+	async queryFn() {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve({
+					filter: someData.length,
+					total: someData.length,
+					where: someData.length,
+				});
+			}, 2500);
+		});
+	},
+});
+
 export const Route = createFileRoute("/$locale/components/query-table")({
 	validateSearch,
 	component() {
@@ -91,6 +113,7 @@ export const Route = createFileRoute("/$locale/components/query-table")({
 			<div className="flex flex-col gap-4 w-full">
 				<QueryTable
 					withQuery={someQuery}
+					withCountQuery={someQueryCount}
 					columns={columns}
 					request={{
 						cursor,
@@ -107,12 +130,6 @@ export const Route = createFileRoute("/$locale/components/query-table")({
 					)}
 					cursor={TableNavigationState.cursor(
 						{
-							cursor,
-							count: {
-								filter: someData.length,
-								total: someData.length,
-								where: someData.length,
-							},
 							textTotal: <Tx label={"Number of items"} />,
 						},
 						navigate,

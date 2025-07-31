@@ -94,7 +94,7 @@ export const TableNavigationState = {
 		};
 	},
 	cursor(
-		props: Omit<Cursor.Props, "onPage" | "onSize">,
+		props: Omit<Cursor.Props, "count" | "cursor" | "onPage" | "onSize">,
 		navigate: (props: {
 			search: (props: {
 				cursor: {
@@ -103,7 +103,7 @@ export const TableNavigationState = {
 				};
 			}) => any;
 		}) => void,
-	): Cursor.Props {
+	): Omit<Cursor.Props, "count" | "cursor"> {
 		return {
 			...props,
 			onPage(page) {

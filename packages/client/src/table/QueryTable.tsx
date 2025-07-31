@@ -1,7 +1,14 @@
+import type { CountSchema, CursorSchema, FilterSchema } from "@use-pico/common";
+import type { Cursor } from "../cursor/Cursor";
 import type { withQuery } from "../source/withQuery";
 import { Table } from "./Table";
 
 export namespace QueryTable {
+	export interface Request {
+		filter?: FilterSchema.Type;
+		cursor: CursorSchema.Type;
+	}
+
 	/**
 	 * Props for the QueryTable component that combines React Query data fetching with table display.
 	 *
@@ -9,8 +16,11 @@ export namespace QueryTable {
 	 * @template TData - The data type for table rows, must extend Table.Data
 	 * @template TContext - Optional context type for table operations
 	 */
-	export interface Props<TRequest, TData extends Table.Data, TContext = any>
-		extends Omit<Table.Props<TData, TContext>, "data"> {
+	export interface Props<
+		TRequest extends Request,
+		TData extends Table.Data,
+		TContext = any,
+	> extends Omit<Table.Props<TData, TContext>, "data" | "cursor"> {
 		/**
 		 * The typed query API instance that handles data fetching, caching, and invalidation.
 		 * This provides the useQuery hook and other query-related utilities.
@@ -26,6 +36,8 @@ export namespace QueryTable {
 		 * ```
 		 */
 		withQuery: withQuery.Api<TRequest, TData[]>;
+		withCountQuery: withQuery.Api<TRequest, CountSchema.Type>;
+		cursor: Omit<Cursor.Props, "count" | "cursor">;
 
 		/**
 		 * The request parameters that will be passed to the query function.
@@ -46,19 +58,47 @@ export namespace QueryTable {
 		 */
 		request: TRequest;
 	}
+
+	export type PropsEx<
+		TRequest extends Request,
+		TData extends Table.Data,
+		TContext = any,
+	> = Props<TRequest, TData, TContext>;
 }
 
-export const QueryTable = <TRequest, TData extends Table.Data, TContext = any>({
+export const QueryTable = <
+	TRequest extends QueryTable.Request,
+	TData extends Table.Data,
+	TContext = any,
+>({
 	withQuery,
+	withCountQuery,
+	request,
+	cursor,
 	...props
 }: QueryTable.Props<TRequest, TData, TContext>) => {
-	const { data, isLoading, isFetching } = withQuery.useQuery(props.request);
+	const queryResult = withQuery.useQuery(request);
+	const countResult = withCountQuery.useQuery(request);
+
 	return (
 		<Table<TData, TContext>
 			loading={
-				isLoading ? "loading" : isFetching ? "fetching" : undefined
+				queryResult.isLoading
+					? "loading"
+					: queryResult.isFetching
+						? "fetching"
+						: undefined
 			}
-			data={data}
+			data={queryResult.data}
+			cursor={{
+				count: countResult.data ?? {
+					total: 0,
+					filter: 0,
+					where: 0,
+				},
+				cursor: request.cursor,
+				...cursor,
+			}}
 			{...props}
 		/>
 	);
