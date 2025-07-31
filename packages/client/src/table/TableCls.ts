@@ -10,6 +10,7 @@ export const TableCls = cls({
 			"text-sm",
 		],
 		table: [
+			"relative",
 			"w-fit",
 			"min-w-full",
 		],

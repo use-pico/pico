@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Cursor } from "../cursor/Cursor";
 import type { Fulltext } from "../fulltext/Fulltext";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
+import { LoaderIcon } from "../icon/LoaderIcon";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 import { useTableInit } from "./hook/useTableInit";
@@ -119,6 +120,13 @@ export namespace Table {
 		 */
 		fulltext?: Fulltext;
 		/**
+		 * When table is loading, there is an indicator for it.
+		 *
+		 * Fetching - any loading state, e.g. during pagination
+		 * Loading - initial data loading (when mounted)
+		 */
+		loading?: "fetching" | "loading";
+		/**
 		 * Toolbar, displayed next to the fulltext.
 		 *
 		 * Good UI may be just icons to be used.
@@ -181,13 +189,24 @@ export const Table = <TData extends Table.Data, TContext = any>({
 	toolbar = () => null,
 	toolbarHidden = false,
 	cursor,
-	empty: Empty = () => (
-		<Status
-			icon={EmptyResultIcon}
-			textTitle={<Tx label={"Nothing here"} />}
-			textMessage={<Tx label={"There is nothing to see right now."} />}
-		/>
-	),
+	loading = undefined,
+	empty: Empty = loading === "loading"
+		? () => (
+				<Status
+					icon={LoaderIcon}
+					textTitle={<Tx label={"Loading..."} />}
+					textMessage={<Tx label={"Please wait..."} />}
+				/>
+			)
+		: () => (
+				<Status
+					icon={EmptyResultIcon}
+					textTitle={<Tx label={"Nothing here"} />}
+					textMessage={
+						<Tx label={"There is nothing to see right now."} />
+					}
+				/>
+			),
 	variant,
 	tva = TableCls,
 	cls,
@@ -206,6 +225,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 		sort: $sort,
 		visible: $visible,
 		grid,
+		isFetching,
 	} = useTableInit<TData, TContext>({
 		data,
 		columns,
@@ -220,6 +240,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 		cls,
 		withActions,
 		actionWidth,
+		loading,
 	});
 
 	return (
@@ -248,6 +269,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 						actionTable={actionTable}
 						slots={slots}
 						grid={grid}
+						loading={isFetching}
 					/>
 
 					{$rows.map((row) => (

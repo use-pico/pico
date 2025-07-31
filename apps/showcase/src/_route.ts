@@ -15,6 +15,7 @@ import { Route as LocaleIndexRouteImport } from './@routes/$locale/index'
 import { Route as LocaleComponentsRouteImport } from './@routes/$locale/components'
 import { Route as LocaleComponentsIndexRouteImport } from './@routes/$locale/components/index'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
+import { Route as LocaleComponentsQueryTableRouteImport } from './@routes/$locale/components/query-table'
 import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$locale/components/popup-select'
 import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/components/issues'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
@@ -54,6 +55,12 @@ const LocaleComponentsTableRoute = LocaleComponentsTableRouteImport.update({
   path: '/table',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsQueryTableRoute =
+  LocaleComponentsQueryTableRouteImport.update({
+    id: '/query-table',
+    path: '/query-table',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsPopupSelectRoute =
   LocaleComponentsPopupSelectRouteImport.update({
     id: '/popup-select',
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/query-table': typeof LocaleComponentsQueryTableRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
 }
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/query-table': typeof LocaleComponentsQueryTableRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
 }
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
+  '/$locale/components/query-table': typeof LocaleComponentsQueryTableRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
 }
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
+    | '/$locale/components/query-table'
     | '/$locale/components/table'
     | '/$locale/components/'
   fileRoutesByTo: FileRoutesByTo
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
+    | '/$locale/components/query-table'
     | '/$locale/components/table'
     | '/$locale/components'
   id:
@@ -189,6 +201,7 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
+    | '/$locale/components/query-table'
     | '/$locale/components/table'
     | '/$locale/components/'
   fileRoutesById: FileRoutesById
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/table'
       fullPath: '/$locale/components/table'
       preLoaderRoute: typeof LocaleComponentsTableRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/query-table': {
+      id: '/$locale/components/query-table'
+      path: '/query-table'
+      fullPath: '/$locale/components/query-table'
+      preLoaderRoute: typeof LocaleComponentsQueryTableRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/popup-select': {
@@ -310,6 +330,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
   LocaleComponentsIssuesRoute: typeof LocaleComponentsIssuesRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
+  LocaleComponentsQueryTableRoute: typeof LocaleComponentsQueryTableRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
 }
@@ -323,6 +344,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
   LocaleComponentsIssuesRoute: LocaleComponentsIssuesRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
+  LocaleComponentsQueryTableRoute: LocaleComponentsQueryTableRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
 }

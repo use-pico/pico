@@ -1,3 +1,4 @@
+import { tvc } from "@use-pico/common";
 import { ColumnFilter } from "./ColumnFilter";
 import { ColumnSort } from "./ColumnSort";
 import { TableActionWrapper } from "./TableActionWrapper";
@@ -21,6 +22,7 @@ export namespace TableHeader {
 		visible: ColumnType.Props<TData, any, TContext>[];
 		slots: TableCls.Slots;
 		grid: string;
+		loading?: boolean;
 	}
 }
 
@@ -35,54 +37,76 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 	visible,
 	slots,
 	grid,
+	loading,
 }: TableHeader.Props<TData, TContext>) => {
 	return (
-		<div
-			className={slots.thead()}
-			style={{
-				gridTemplateColumns: grid,
-			}}
-		>
-			{withActions ? (
-				<TableActionWrapper
-					data={data}
-					actionTable={actionTable}
-					context={context}
-					selection={selection}
-					slots={slots}
-				/>
-			) : null}
+		<>
+			<div
+				className={tvc(
+					[
+						"absolute",
+						"h-0.5",
+						"w-full",
+					],
+					loading
+						? [
+								"bg-blue-300",
+								"animate-pulse",
+							]
+						: undefined,
+				)}
+			/>
+			<div
+				className={slots.thead()}
+				style={{
+					gridTemplateColumns: grid,
+				}}
+			>
+				{withActions ? (
+					<TableActionWrapper
+						data={data}
+						actionTable={actionTable}
+						context={context}
+						selection={selection}
+						slots={slots}
+					/>
+				) : null}
 
-			{visible.map((column) => {
-				const Header = column.header || (() => null);
-				const withSortOrFilter =
-					(sort && column.sort) ||
-					(filter &&
-						column.filter?.is({
-							filter,
-						}));
+				{visible.map((column) => {
+					const Header = column.header || (() => null);
+					const withSortOrFilter =
+						(sort && column.sort) ||
+						(filter &&
+							column.filter?.is({
+								filter,
+							}));
 
-				return (
-					<div
-						key={`header-${column.name}`}
-						className={slots.th()}
-					>
-						{withSortOrFilter ? (
-							<div className={"flex flex-row items-center gap-2"}>
-								<ColumnSort
-									column={column}
-									sort={sort}
-								/>
-								<ColumnFilter
-									column={column}
-									filter={filter}
-								/>
-							</div>
-						) : null}
-						<Header />
-					</div>
-				);
-			})}
-		</div>
+					return (
+						<div
+							key={`header-${column.name}`}
+							className={slots.th()}
+						>
+							{withSortOrFilter ? (
+								<div
+									className={
+										"flex flex-row items-center gap-2"
+									}
+								>
+									<ColumnSort
+										column={column}
+										sort={sort}
+									/>
+									<ColumnFilter
+										column={column}
+										filter={filter}
+									/>
+								</div>
+							) : null}
+							<Header />
+						</div>
+					);
+				})}
+			</div>
+		</>
 	);
 };

@@ -154,6 +154,7 @@ export { StatusCls } from "./status/StatusCls";
 export { RangeFilter } from "./table/filter/RangeFilter";
 export { withEqualFilter } from "./table/filter/withEqualFilter";
 export { withRangeFilter } from "./table/filter/withRangeFilter";
+export { QueryTable } from "./table/QueryTable";
 export { Table } from "./table/Table";
 export { TableCls } from "./table/TableCls";
 export { withColumn } from "./table/tools/withColumn";

@@ -25,6 +25,7 @@ export namespace useTableInit {
 		sort: SortType.Table | undefined;
 		withActions: boolean;
 		actionWidth?: string;
+		loading?: "fetching" | "loading";
 	}
 }
 
@@ -39,6 +40,7 @@ export const useTableInit = <TData extends DataType.Data, TContext = any>({
 	sort,
 	withActions,
 	actionWidth = "auto",
+	loading,
 	variant,
 	tva = TableCls,
 	cls,
@@ -103,5 +105,7 @@ export const useTableInit = <TData extends DataType.Data, TContext = any>({
 		rows: $rows,
 		grid: withActions ? `${actionWidth} ${grid}` : grid,
 		slots,
+		isLoading: loading === "loading",
+		isFetching: loading === "fetching",
 	} as const;
 };
