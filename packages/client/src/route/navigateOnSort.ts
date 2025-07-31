@@ -1,9 +1,9 @@
+import type { OrderSchema } from "@use-pico/common";
+
 export namespace navigateOnSort {
 	export namespace Navigate {
 		export interface Props {
-			search: (props: {
-				sort: Record<string, "asc" | "desc" | undefined>;
-			}) => any;
+			search: (props: { sort: Record<string, OrderSchema.Type> }) => any;
 			replace?: boolean;
 		}
 	}
@@ -12,7 +12,7 @@ export namespace navigateOnSort {
 }
 
 export const navigateOnSort = (navigate: navigateOnSort.Navigate) => {
-	return (sort: Record<string, "asc" | "desc" | undefined>) =>
+	return (sort: Record<string, OrderSchema.Type>) =>
 		navigate({
 			search: (search) => ({
 				...search,

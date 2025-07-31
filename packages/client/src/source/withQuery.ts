@@ -1,7 +1,9 @@
 import {
+	type OmitKeyof,
 	type QueryClient,
 	type QueryKey,
 	queryOptions,
+	type UseQueryOptions,
 	type UseQueryResult,
 	type UseSuspenseQueryResult,
 	useQuery,
@@ -9,6 +11,7 @@ import {
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 import { cleanOf } from "@use-pico/common";
+import type { withInvalidator } from "./withInvalidator";
 
 export namespace withQuery {
 	/**
@@ -35,6 +38,44 @@ export namespace withQuery {
 	export type PropsEx<TData, TResult> = Omit<
 		Props<TData, TResult>,
 		"queryFn" | "keys"
+	>;
+
+	/**
+	 * Typed public facing API for query operations.
+	 *
+	 * The `Api` type represents the complete interface returned by `withQuery()`,
+	 * providing a strongly-typed, consistent API for all query-related operations.
+	 * This type ensures that consumers have access to a predictable set of methods
+	 * for data fetching, caching, and invalidation.
+	 *
+	 * @template TData - Input data type for the query (e.g., user ID, search parameters)
+	 * @template TResult - Result type returned by the query function (e.g., User, SearchResults)
+	 *
+	 * @example
+	 * ```typescript
+	 * // Define a query API for fetching user data
+	 * const userQuery = withQuery<UserId, User>({
+	 *   queryFn: (userId) => fetchUser(userId),
+	 *   keys: (userId) => ['user', userId]
+	 * });
+	 *
+	 * // The userQuery object is typed as Api<UserId, User>
+	 * // This provides full type safety for all operations
+	 * ```
+	 *
+	 * The API includes:
+	 * - **Query execution**: `query()`, `useQuery()`, `useSuspenseQuery()` (pure TanStack Query under the hood)
+	 * - **Cache management**: `invalidate()`, `useInvalidate()`, `invalidateData()`
+	 * - **Data prefetching**: `prefetch()`, `ensure()` (bound to TanStack Query's prefetchQuery and ensureQueryData)
+	 * - **Key generation**: `keys()`
+	 *
+	 * This type serves as the contract between query definitions and their consumers,
+	 * ensuring that all query operations are properly typed and consistent across
+	 * the application. The implementation is pure TanStack Query, providing full
+	 * compatibility with all TanStack Query features and behaviors.
+	 */
+	export type Api<TData, TResult> = ReturnType<
+		typeof withQuery<TData, TResult>
 	>;
 }
 
@@ -85,15 +126,33 @@ export function withQuery<TData, TResult>({
 		 * React Query hook for fetching data (non-suspense).
 		 * @returns The result of the query.
 		 */
-		useQuery(data: TData): UseQueryResult<TResult, Error> {
-			return useQuery(query(data));
+		useQuery(
+			data: TData,
+			options?: OmitKeyof<
+				UseQueryOptions<TResult, Error>,
+				"queryKey" | "queryFn"
+			>,
+		): UseQueryResult<TResult, Error> {
+			return useQuery({
+				...query(data),
+				...options,
+			});
 		},
 		/**
 		 * React Query hook for fetching data with suspense.
 		 * @returns The result of the query (suspense-enabled).
 		 */
-		useSuspenseQuery(data: TData): UseSuspenseQueryResult<TResult, Error> {
-			return useSuspenseQuery(query(data));
+		useSuspenseQuery(
+			data: TData,
+			options?: OmitKeyof<
+				UseQueryOptions<TResult, Error>,
+				"queryKey" | "queryFn"
+			>,
+		): UseSuspenseQueryResult<TResult, Error> {
+			return useSuspenseQuery({
+				...query(data),
+				...options,
+			});
 		},
 		/**
 		 * React Query hook for invalidating the query.
@@ -115,6 +174,21 @@ export function withQuery<TData, TResult>({
 		 * For use in a component you can use useInvalidate on this object.
 		 */
 		invalidate,
+		/**
+		 * Invalidate the pre-configured query using data in it's key.
+		 *
+		 * For use in a component you can use useInvalidate on this object.
+		 *
+		 * This is useful when you want invalidate e.g. user with an ID:
+		 * Key is ['user', id], so you can call `invalidateData(id)`
+		 */
+		invalidateData(data: TData): withInvalidator.Invalidate {
+			return {
+				async invalidate(queryClient: QueryClient) {
+					return invalidate(queryClient, data);
+				},
+			};
+		},
 		/**
 		 * Prefetches the query using the provided QueryClient.
 		 * Useful for loading data into the cache before rendering.
