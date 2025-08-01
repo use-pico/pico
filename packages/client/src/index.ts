@@ -120,6 +120,7 @@ export { createModalStore } from "./modal/createModalStore";
 export { Modal } from "./modal/Modal";
 export { ModalCls } from "./modal/ModalCls";
 export { ModalContext } from "./modal/ModalContext";
+export { ModalFooter } from "./modal/ModalFooter";
 export { More } from "./more/More";
 export { NavigationIndicator } from "./navigation/NavigationIndicator";
 export { PopupMultiSelect } from "./popup-multi-select/PopupMultiSelect";
