@@ -3,8 +3,8 @@ import type { CountSchema, IdentitySchema } from "@use-pico/common";
 import { type FC, useContext, useMemo } from "react";
 import { ModalContext } from "../modal/ModalContext";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
-import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
+import type { PopupSelect } from "./PopupSelect";
 import { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace PopupContent {
@@ -14,7 +14,7 @@ export namespace PopupContent {
 	}
 
 	export interface Props extends PopupSelectCls.Props {
-		table: FC<Table.PropsEx<any>>;
+		table: PopupSelect.Table.Component;
 
 		/**
 		 * Stable reference to the table store.

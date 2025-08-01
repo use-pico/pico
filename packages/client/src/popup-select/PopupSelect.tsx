@@ -13,7 +13,6 @@ import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
 import { ModalFooter } from "../modal/ModalFooter";
 import { createLocalTableStore } from "../table/createLocalTableStore";
-import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupContent } from "./PopupContent";
 import { PopupSelectCls } from "./PopupSelectCls";
@@ -30,13 +29,24 @@ export namespace PopupSelect {
 		) => Promise<PopupContent.List<TItem>>;
 	}
 
+	/**
+	 * This is a working name for a component used to render items in the popup.
+	 *
+	 * It does not necessarily have to be a table, but it is a good name for a component that renders a list of items.
+	 */
+	export namespace Table {
+		export type Props = {};
+
+		export type Component = FC<Props>;
+	}
+
 	export interface Props<TItem extends IdentitySchema.Type>
 		extends PopupSelectCls.Props {
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		table: FC<Table.PropsEx<TItem>>;
+		table: Table.Component;
 		render: FC<Entity.Type<TItem>>;
 		allowEmpty?: boolean;
 
