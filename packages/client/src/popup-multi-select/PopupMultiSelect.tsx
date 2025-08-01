@@ -5,14 +5,12 @@ import type {
 	IdentitySchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
-import { Button } from "../button/Button";
-import { BackIcon } from "../icon/BackIcon";
-import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
+import { ModalFooter } from "../modal/ModalFooter";
 import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
@@ -188,42 +186,22 @@ export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
 					"w-2/3",
 				],
 			}}
-			footer={({ close }) => {
-				return (
-					<div className={slots.footer()}>
-						<Button
-							iconEnabled={BackIcon}
-							iconDisabled={BackIcon}
-							onClick={() => {
-								close();
-								setSelection(value || []);
-							}}
-							variant={{
-								variant: "subtle",
-							}}
-						>
-							<Tx label={"Close (label)"} />
-						</Button>
-
-						<Button
-							iconEnabled={ConfirmIcon}
-							iconDisabled={ConfirmIcon}
-							disabled={!selection.length && !allowEmpty}
-							onClick={() => {
-								onChange(selection);
-								onSelect?.(
-									result.data?.list?.filter((item) =>
-										selection.includes(item.id),
-									) || [],
-								);
-								close();
-							}}
-						>
-							<Tx label={"Confirm selection (label)"} />
-						</Button>
-					</div>
-				);
-			}}
+			footer={() => (
+				<ModalFooter
+					disabled={!selection.length && !allowEmpty}
+					onCancel={() => {
+						setSelection(value || []);
+					}}
+					onConfirm={() => {
+						onChange(selection);
+						onSelect?.(
+							result.data?.list?.filter((item) =>
+								selection.includes(item.id),
+							) || [],
+						);
+					}}
+				/>
+			)}
 			{...modalProps}
 		>
 			<PopupMultiContent

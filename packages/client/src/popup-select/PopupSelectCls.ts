@@ -27,16 +27,6 @@ export const PopupSelectCls = cls({
 			"focus:border-transparent",
 		],
 		content: [],
-		footer: [
-			"flex",
-			"items-center",
-			"justify-between",
-			"gap-2",
-			"border-t-2",
-			"border-slate-100",
-			"mt-4",
-			"pt-2",
-		],
 	},
 	variant: {
 		loading: {

@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import type { IdentitySchema } from "@use-pico/common";
 import writeXlsxFile, { type Schema } from "write-excel-file";
 import { Button } from "../button/Button";
-import { BackIcon } from "../icon/BackIcon";
 import { ExportIcon } from "../icon/ExportIcon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { Modal } from "../modal/Modal";
+import { ModalFooter } from "../modal/ModalFooter";
 import type { Transfer } from "../transfer/Transfer";
 import { Tx } from "../tx/Tx";
 
@@ -120,45 +120,22 @@ export const ExportButton = <TItem extends IdentitySchema.Type>({
 			textTitle={<Tx label={"Export settings (title)"} />}
 			icon={mutation.isPending ? LoaderIcon : ExportIcon}
 			disabled={mutation.isPending}
-			footer={({ close }) => {
-				return (
-					<div
-						className={
-							"flex flex-row gap-2 justify-between items-center"
-						}
-					>
-						<Button
-							variant={{
-								variant: "light",
-								borderless: true,
-								size: "md",
-							}}
-							iconEnabled={BackIcon}
-							onClick={() => {
+			footer={() => (
+				<ModalFooter
+					disabled={!selected.length}
+					loading={mutation.isPending}
+					cancelText={<Tx label={"Cancel (button)"} />}
+					confirmText={<Tx label={"Export (button)"} />}
+					confirmIcon={ExportIcon}
+					onConfirm={() => {
+						mutation.mutate(undefined, {
+							onSuccess() {
 								close();
-							}}
-						>
-							<Tx label={"Cancel (button)"} />
-						</Button>
-
-						<Button
-							iconEnabled={ExportIcon}
-							iconDisabled={ExportIcon}
-							loading={mutation.isPending}
-							disabled={!selected.length}
-							onClick={() => {
-								mutation.mutate(undefined, {
-									onSuccess() {
-										close();
-									},
-								});
-							}}
-						>
-							<Tx label={"Export (button)"} />
-						</Button>
-					</div>
-				);
-			}}
+							},
+						});
+					}}
+				/>
+			)}
 			cls={{
 				modal: [
 					"w-1/2",

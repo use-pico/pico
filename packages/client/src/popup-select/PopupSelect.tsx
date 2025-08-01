@@ -6,14 +6,12 @@ import type {
 	IdentitySchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
-import { Button } from "../button/Button";
-import { BackIcon } from "../icon/BackIcon";
-import { ConfirmIcon } from "../icon/ConfirmIcon";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
+import { ModalFooter } from "../modal/ModalFooter";
 import { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
@@ -197,46 +195,27 @@ export const PopupSelect = <TItem extends IdentitySchema.Type>({
 					"w-2/3",
 				],
 			}}
-			footer={({ close }) => (
-				<el.footer.Div>
-					<Button
-						iconEnabled={BackIcon}
-						iconDisabled={BackIcon}
-						onClick={() => {
-							close();
-							setSelection(
-								value
-									? [
-											value,
-										]
-									: [],
-							);
-						}}
-						variant={{
-							variant: "light",
-							borderless: true,
-						}}
-					>
-						<Tx label={"Close (label)"} />
-					</Button>
-
-					<Button
-						iconEnabled={ConfirmIcon}
-						iconDisabled={ConfirmIcon}
-						disabled={!selection.length && !allowEmpty}
-						onClick={() => {
-							onChange(selection?.[0] || null);
-							onSelect?.(
-								result.data?.list?.find(
-									(item) => item.id === selection?.[0],
-								) ?? null,
-							);
-							close();
-						}}
-					>
-						<Tx label={"Confirm selection (label)"} />
-					</Button>
-				</el.footer.Div>
+			footer={() => (
+				<ModalFooter
+					disabled={!selection.length && !allowEmpty}
+					onCancel={() => {
+						setSelection(
+							value
+								? [
+										value,
+									]
+								: [],
+						);
+					}}
+					onConfirm={() => {
+						onChange(selection?.[0] || null);
+						onSelect?.(
+							result.data?.list?.find(
+								(item) => item.id === selection?.[0],
+							) ?? null,
+						);
+					}}
+				/>
 			)}
 			{...modalProps}
 		>
