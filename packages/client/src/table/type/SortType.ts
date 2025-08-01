@@ -10,9 +10,7 @@ export namespace SortType {
 	/**
 	 * Sort props defined on a table.
 	 */
-	export interface Table {
-		state: State;
-	}
+	export type Table = State;
 
 	/**
 	 * Sort API available in "runtime" for each column.

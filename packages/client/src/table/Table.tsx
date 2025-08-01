@@ -131,11 +131,11 @@ export namespace Table {
 		 * Good UI may be just icons to be used.
 		 */
 		toolbar?: ToolbarType.Component<TData, TContext>;
-		/**
+        /**
 		 * Control if a toolbar provided is shown/hidden.
 		 */
 		toolbarHidden?: boolean;
-		cursor: Cursor.Props;
+		cursor?: Cursor.Props;
 		empty?: FC;
 		/**
 		 * Table-wise action.
@@ -291,8 +291,8 @@ export const Table = <TData extends Table.Data, TContext = any>({
 
 			{data.length === 0 ? <Empty /> : null}
 			<div className={"flex flex-row items-center justify-end gap-2"}>
-				<div></div>
-				<Cursor {...cursor} />
+				<div />
+				{cursor ? <Cursor {...cursor} /> : null}
 			</div>
 		</div>
 	);

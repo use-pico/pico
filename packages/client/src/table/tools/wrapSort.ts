@@ -15,7 +15,7 @@ export const wrapSort = ({
 	}
 
 	const $sort = {
-		...(props.state.value || {}),
+		...(props.value || {}),
 	};
 	const $sortPath = pathOf($sort);
 
@@ -44,7 +44,7 @@ export const wrapSort = ({
 							: undefined,
 			);
 
-			props.state.set({
+			props.set({
 				...$sort,
 			});
 		},

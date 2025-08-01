@@ -14,7 +14,7 @@ export namespace TableTools {
 		fulltext: StateType<Fulltext.Value> | undefined;
 		toolbarHidden: boolean;
 		toolbar: ToolbarType.Component<TData, TContext>;
-		cursor: Cursor.Props;
+		cursor?: Cursor.Props;
 		context: TContext | undefined;
 		selection: SelectionType.Selection | undefined;
 		filter: FilterType.Filter | undefined;
@@ -59,7 +59,7 @@ export const TableTools = <TData extends DataType.Data, TContext = any>({
 			</div>
 
 			<div className={"flex flex-row items-center justify-center gap-2"}>
-				<Cursor {...cursor} />
+				{cursor ? <Cursor {...cursor} /> : <div />}
 				{filter
 					? filter.is() && (
 							<Action

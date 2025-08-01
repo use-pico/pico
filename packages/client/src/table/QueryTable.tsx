@@ -5,8 +5,8 @@ import { Table } from "./Table";
 
 export namespace QueryTable {
 	export interface Request {
-		filter?: FilterSchema.Type;
-		cursor: CursorSchema.Type;
+		filter?: FilterSchema.Type | null;
+		cursor?: CursorSchema.Type | null;
 	}
 
 	/**
@@ -37,7 +37,7 @@ export namespace QueryTable {
 		 */
 		withQuery: withQuery.Api<TRequest, TData[]>;
 		withCountQuery: withQuery.Api<TRequest, CountSchema.Type>;
-		cursor: Omit<Cursor.Props, "count" | "cursor">;
+		cursor?: Omit<Cursor.Props, "count" | "cursor">;
 
 		/**
 		 * The request parameters that will be passed to the query function.
@@ -63,7 +63,10 @@ export namespace QueryTable {
 		TRequest extends Request,
 		TData extends Table.Data,
 		TContext = any,
-	> = Props<TRequest, TData, TContext>;
+	> = Omit<
+		Props<TRequest, TData, TContext>,
+		"columns" | "withQuery" | "withCountQuery"
+	>;
 }
 
 export const QueryTable = <
@@ -90,15 +93,19 @@ export const QueryTable = <
 						: undefined
 			}
 			data={queryResult.data}
-			cursor={{
-				count: countResult.data ?? {
-					total: 0,
-					filter: 0,
-					where: 0,
-				},
-				cursor: request.cursor,
-				...cursor,
-			}}
+			cursor={
+				cursor && request.cursor
+					? {
+							count: countResult.data ?? {
+								total: 0,
+								filter: 0,
+								where: 0,
+							},
+							cursor: request.cursor,
+							...cursor,
+						}
+					: undefined
+			}
 			{...props}
 		/>
 	);
