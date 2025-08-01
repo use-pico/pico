@@ -142,18 +142,11 @@ export namespace Table {
 		/**
 		 * Table-wise action.
 		 */
-		actionTable?: ActionType.Table.Component<TData, TContext>;
+		actionTable?: ActionType.Table.Table<TData, TContext>;
 		/**
 		 * Row-wise action.
 		 */
-		actionRow?: ActionType.Row.Component<TData, TContext>;
-		/**
-		 * Width of the action column when actions are present.
-		 *
-		 * This should be set to accommodate the widest possible action content.
-		 * Examples: "2rem", "5rem", "8rem", etc.
-		 */
-		actionWidth?: string;
+		actionRow?: ActionType.Row.Table<TData, TContext>;
 	}
 
 	export type PropsEx<TData extends Data, TContext = any> = Omit<
@@ -176,7 +169,6 @@ export const Table = <TData extends Table.Data, TContext = any>({
 	controlsHidden = [],
 	actionTable,
 	actionRow,
-	actionWidth,
 	fulltext,
 	toolbar = () => null,
 	cursor,
@@ -230,7 +222,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 		tva,
 		cls,
 		withActions,
-		actionWidth,
+		actionWidth: actionTable?.width,
 		loading,
 	});
 

@@ -13,6 +13,14 @@ export namespace ActionType {
 		export type Component<TData extends DataType.Data, TContext = any> = FC<
 			Props<TData, TContext>
 		>;
+
+		/**
+		 * Table configuration of action type
+		 */
+		export interface Table<TData extends DataType.Data, TContext = any> {
+			action?: Component<TData, TContext>;
+			width?: string;
+		}
 	}
 
 	export namespace Row {
@@ -24,5 +32,12 @@ export namespace ActionType {
 		export type Component<TData extends DataType.Data, TContext = any> = FC<
 			Props<TData, TContext>
 		>;
+
+		/**
+		 * Table configuration of action type
+		 */
+		export interface Table<TData extends DataType.Data, TContext = any> {
+			action: Component<TData, TContext> | undefined;
+		}
 	}
 }

@@ -20,7 +20,7 @@ export namespace Row {
 		/**
 		 * Row-wise action.
 		 */
-		actionRow: ActionType.Row.Component<TData, TContext> | undefined;
+		actionRow: ActionType.Row.Table<TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
 		context: TContext | undefined;
 		grid: string;
@@ -34,12 +34,16 @@ export const Row = <TData extends DataType.Data>({
 	filter,
 	selection,
 	row,
-	actionRow: RowAction,
+	actionRow,
 	controlsHidden,
 	context,
 	grid,
 	slots,
 }: Row.Props<TData>) => {
+	const { action: RowAction } = actionRow ?? {
+		RowAction: undefined,
+	};
+
 	return (
 		<div
 			className={slots.tr(

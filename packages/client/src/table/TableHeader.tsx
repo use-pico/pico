@@ -19,7 +19,7 @@ export namespace TableHeader {
 		selection: SelectionType.Selection | undefined;
 		sort: SortType.Sort | undefined;
 		filter: FilterType.Filter | undefined;
-		actionTable: ActionType.Table.Component<TData, TContext> | undefined;
+		actionTable: ActionType.Table.Table<TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
 		visible: ColumnType.Props<TData, any, TContext>[];
 		slots: TableCls.Slots;

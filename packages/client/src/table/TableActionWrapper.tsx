@@ -11,7 +11,7 @@ import type { SelectionType } from "./type/SelectionType";
 export namespace TableActionWrapper {
 	export interface Props {
 		data: DataType.Data[];
-		actionTable: ActionType.Table.Component<any> | undefined;
+		actionTable: ActionType.Table.Table<any> | undefined;
 		selection: SelectionType.Selection | undefined;
 		context: any | undefined;
 		slots: TableCls.Slots;
@@ -20,11 +20,15 @@ export namespace TableActionWrapper {
 
 export const TableActionWrapper: FC<TableActionWrapper.Props> = ({
 	data,
-	actionTable: TableAction,
+	actionTable,
 	selection,
 	context,
 	slots,
 }) => {
+	const { action: TableAction } = actionTable ?? {
+		TableAction: undefined,
+	};
+
 	return (
 		<div className={"flex flex-row items-center justify-between gap-2"}>
 			{selection ? (

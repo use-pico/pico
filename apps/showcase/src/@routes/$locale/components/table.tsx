@@ -134,7 +134,9 @@ export const Route = createFileRoute("/$locale/components/table")({
 				/>
 
 				<SomeTable
-					actionWidth="4rem"
+					actionTable={{
+						width: "4rem",
+					}}
 					data={list}
 					filter={TableNavigationState.filter(filter, navigate)}
 					fulltext={TableNavigationState.fulltext(
@@ -156,14 +158,16 @@ export const Route = createFileRoute("/$locale/components/table")({
 						selection,
 						navigate,
 					)}
-					actionRow={() => {
-						return (
-							<ActionMenu>
-								<ActionClick>
-									<Tx label={"Action"} />
-								</ActionClick>
-							</ActionMenu>
-						);
+					actionRow={{
+						action() {
+							return (
+								<ActionMenu>
+									<ActionClick>
+										<Tx label={"Action"} />
+									</ActionClick>
+								</ActionMenu>
+							);
+						},
 					}}
 				/>
 			</div>
