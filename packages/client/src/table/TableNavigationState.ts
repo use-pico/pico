@@ -131,6 +131,44 @@ export const TableNavigationState = {
 			},
 		};
 	},
+	cursorWithCount(
+		props: Omit<Cursor.Props, "onPage" | "onSize">,
+		navigate: (props: {
+			search: (props: {
+				cursor: {
+					page: number;
+					size: number;
+				};
+			}) => any;
+		}) => void,
+	): Cursor.Props {
+		return {
+			...props,
+			onPage(page) {
+				return navigate({
+					search: ({ cursor, ...rest }) => ({
+						...rest,
+						cursor: {
+							...cursor,
+							page,
+						},
+					}),
+				});
+			},
+			onSize(size) {
+				navigate({
+					search: ({ cursor, ...rest }) => ({
+						...rest,
+						cursor: {
+							...cursor,
+							size,
+							page: 0,
+						},
+					}),
+				});
+			},
+		};
+	},
 	sort(
 		value: Record<string, OrderSchema.Type>,
 		navigate: (props: {

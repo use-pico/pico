@@ -121,16 +121,14 @@ export const Route = createFileRoute("/$locale/components/table")({
 						filter?.fulltext,
 						navigate,
 					)}
-					cursor={{
-						count,
-						cursor,
-						...TableNavigationState.cursor(
-							{
-								textTotal: <Tx label={"Number of items"} />,
-							},
-							navigate,
-						),
-					}}
+					cursor={TableNavigationState.cursorWithCount(
+						{
+							count,
+							cursor,
+							textTotal: <Tx label={"Number of items"} />,
+						},
+						navigate,
+					)}
 				/>
 
 				<SomeTable
@@ -143,16 +141,14 @@ export const Route = createFileRoute("/$locale/components/table")({
 						filter?.fulltext,
 						navigate,
 					)}
-					cursor={{
-						count,
-						cursor,
-						...TableNavigationState.cursor(
-							{
-								textTotal: <Tx label={"Number of items"} />,
-							},
-							navigate,
-						),
-					}}
+					cursor={TableNavigationState.cursorWithCount(
+						{
+							count,
+							cursor,
+							textTotal: <Tx label={"Number of items"} />,
+						},
+						navigate,
+					)}
 					selection={TableNavigationState.selection(
 						"multi",
 						selection,
@@ -161,7 +157,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 					actionRow={{
 						action() {
 							return (
-								<ActionMenu>
+								<ActionMenu withOverlay>
 									<ActionClick>
 										<Tx label={"Action"} />
 									</ActionClick>
