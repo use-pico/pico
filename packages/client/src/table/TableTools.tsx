@@ -3,6 +3,7 @@ import { Action } from "../action/Action";
 import { Cursor } from "../cursor/Cursor";
 import { Fulltext } from "../fulltext/Fulltext";
 import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
+import type { Table } from "./Table";
 import type { DataType } from "./type/DataType";
 import type { FilterType } from "./type/FilterType";
 import type { SelectionType } from "./type/SelectionType";
@@ -12,7 +13,7 @@ export namespace TableTools {
 	export interface Props<TData extends DataType.Data, TContext = any> {
 		data: TData[];
 		fulltext: StateType<Fulltext.Value> | undefined;
-		toolbarHidden: boolean;
+		controlsHidden: Table.Controls[];
 		toolbar: ToolbarType.Component<TData, TContext>;
 		cursor?: Cursor.Props;
 		context: TContext | undefined;
@@ -24,7 +25,7 @@ export namespace TableTools {
 export const TableTools = <TData extends DataType.Data, TContext = any>({
 	data,
 	fulltext,
-	toolbarHidden = false,
+	controlsHidden,
 	toolbar: Toolbar,
 	cursor,
 	context,
@@ -48,7 +49,7 @@ export const TableTools = <TData extends DataType.Data, TContext = any>({
 					) : null}
 				</div>
 				<div className={"flex flex-row items-center gap-2"}>
-					{toolbarHidden ? null : (
+					{controlsHidden.includes("toolbar") ? null : (
 						<Toolbar
 							data={data}
 							selection={selection}

@@ -70,6 +70,8 @@ export namespace Table {
 
 	export type Fulltext = StateType<Fulltext.Value>;
 
+	export type Controls = "toolbar" | "action-table" | "action-row";
+
 	export interface Props<TData extends Data, TContext = any>
 		extends TableCls.Props {
 		/**
@@ -126,15 +128,15 @@ export namespace Table {
 		 */
 		loading?: "fetching" | "loading";
 		/**
+		 * Controls to hide.
+		 */
+		controlsHidden?: Controls[];
+		/**
 		 * Toolbar, displayed next to the fulltext.
 		 *
 		 * Good UI may be just icons to be used.
 		 */
 		toolbar?: ToolbarType.Component<TData, TContext>;
-        /**
-		 * Control if a toolbar provided is shown/hidden.
-		 */
-		toolbarHidden?: boolean;
 		cursor?: Cursor.Props;
 		empty?: FC;
 		/**
@@ -142,17 +144,9 @@ export namespace Table {
 		 */
 		actionTable?: ActionType.Table.Component<TData, TContext>;
 		/**
-		 * Explicit control over the table action visibility.
-		 */
-		actionTableHidden?: boolean;
-		/**
 		 * Row-wise action.
 		 */
 		actionRow?: ActionType.Row.Component<TData, TContext>;
-		/**
-		 * Explicit control over the row action visibility.
-		 */
-		actionRowHidden?: boolean;
 		/**
 		 * Width of the action column when actions are present.
 		 *
@@ -179,14 +173,12 @@ export const Table = <TData extends Table.Data, TContext = any>({
 	row: rowProps,
 	filter,
 	sort,
+	controlsHidden = [],
 	actionTable,
-	actionTableHidden = false,
 	actionRow,
-	actionRowHidden = false,
 	actionWidth,
 	fulltext,
 	toolbar = () => null,
-	toolbarHidden = false,
 	cursor,
 	loading = undefined,
 	empty: Empty = loading === "loading"
@@ -211,8 +203,8 @@ export const Table = <TData extends Table.Data, TContext = any>({
 	cls,
 }: Table.Props<TData, TContext>) => {
 	const withActions = Boolean(
-		(actionTable && !actionTableHidden) ||
-			(actionRow && !actionRowHidden) ||
+		(actionTable && !controlsHidden.includes("action-table")) ||
+			(actionRow && !controlsHidden.includes("action-row")) ||
 			selection,
 	);
 
@@ -249,7 +241,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 				cursor={cursor}
 				fulltext={fulltext}
 				toolbar={toolbar}
-				toolbarHidden={toolbarHidden}
+				controlsHidden={controlsHidden}
 				context={context}
 				selection={$selection}
 				filter={$filter}
@@ -266,6 +258,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 						sort={$sort}
 						filter={$filter}
 						actionTable={actionTable}
+						controlsHidden={controlsHidden}
 						slots={slots}
 						grid={grid}
 						loading={isFetching}
@@ -278,7 +271,7 @@ export const Table = <TData extends Table.Data, TContext = any>({
 							key={row.id}
 							row={row}
 							actionRow={actionRow}
-							actionRowHidden={actionRowHidden}
+							controlsHidden={controlsHidden}
 							context={context}
 							filter={$filter}
 							selection={$selection}

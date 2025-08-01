@@ -1,6 +1,7 @@
 import { tvc } from "@use-pico/common";
 import { ColumnFilter } from "./ColumnFilter";
 import { ColumnSort } from "./ColumnSort";
+import type { Table } from "./Table";
 import { TableActionWrapper } from "./TableActionWrapper";
 import type { TableCls } from "./TableCls";
 import type { ActionType } from "./type/ActionType";
@@ -19,6 +20,7 @@ export namespace TableHeader {
 		sort: SortType.Sort | undefined;
 		filter: FilterType.Filter | undefined;
 		actionTable: ActionType.Table.Component<TData, TContext> | undefined;
+		controlsHidden: Table.Controls[];
 		visible: ColumnType.Props<TData, any, TContext>[];
 		slots: TableCls.Slots;
 		grid: string;
@@ -34,6 +36,7 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 	sort,
 	filter,
 	actionTable,
+	controlsHidden,
 	visible,
 	slots,
 	grid,
@@ -62,7 +65,7 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 					gridTemplateColumns: grid,
 				}}
 			>
-				{withActions ? (
+				{withActions && !controlsHidden.includes("action-table") ? (
 					<TableActionWrapper
 						data={data}
 						actionTable={actionTable}
