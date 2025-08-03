@@ -1,7 +1,5 @@
 import type { CursorSchema, OrderSchema, StateType } from "@use-pico/common";
-import type { Cursor } from "../cursor/Cursor";
 import type { Fulltext } from "../fulltext/Fulltext";
-import type { SelectionType } from "../table/type/SelectionType";
 
 export const NavigationState = {
 	filter(
@@ -70,26 +68,22 @@ export const NavigationState = {
 		};
 	},
 	selection(
-		type: "single" | "multi",
-		value: any[],
+		value: string[],
 		navigate: (props: {
-			search: (props: { selection: any[] }) => any;
+			search: (props: { selection: string[] }) => any;
 		}) => void,
-	): SelectionType.Table {
+	): StateType<string[]> {
 		return {
-			type,
-			state: {
-				value,
-				set(selection) {
-					return navigate({
-						search(prev) {
-							return {
-								...prev,
-								selection,
-							};
-						},
-					});
-				},
+			value,
+			set(selection) {
+				return navigate({
+					search(prev) {
+						return {
+							...prev,
+							selection,
+						};
+					},
+				});
 			},
 		};
 	},
@@ -103,7 +97,7 @@ export const NavigationState = {
 				};
 			}) => any;
 		}) => void,
-	): Cursor.State {
+	): StateType<CursorSchema.Type> {
 		return {
 			value,
 			set(value) {

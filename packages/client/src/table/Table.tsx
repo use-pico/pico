@@ -3,6 +3,7 @@ import type {
 	DeepKeys,
 	DeepValue,
 	EntitySchema,
+	StateType,
 	withQuerySchema,
 } from "@use-pico/common";
 import type { FC } from "react";
@@ -15,6 +16,15 @@ import { TableCls } from "./TableCls";
 import { TableHeader } from "./TableHeader";
 
 export namespace Table {
+	export namespace Selection {
+		export type State = StateType<string[]>;
+
+		export interface Props {
+			type: "single" | "multi";
+			state: State;
+		}
+	}
+
 	export namespace Column {
 		export type Size = number | "auto";
 
@@ -128,10 +138,16 @@ export namespace Table {
 		 * Consider this value being "default", so it won't change until the table is re-mounted.
 		 */
 		order?: DeepKeys<TData>[];
-		// /**
-		//  * Selection configuration.
-		//  */
-		// selection?: SelectionType.Table;
+		/**
+		 * Selection configuration.
+		 */
+		selection?: Selection.Props;
+		/**
+		 * If not preferred auto, this can be used to set width of table actions explicitly.
+		 *
+		 * Used only when there are any actions (e.g. selection or user-land actions).
+		 */
+		actionWidth?: string;
 		// /**
 		//  * Filter configuration.
 		//  */
@@ -189,7 +205,8 @@ export const Table = <
 	hidden = [],
 	order = [],
 	context,
-	// selection,
+	selection,
+	actionWidth,
 	// row: rowProps,
 	// filter,
 	// sort,
@@ -219,6 +236,8 @@ export const Table = <
 
 	const grid = useGrid({
 		visible: visibleColumns,
+		actionWidth,
+		selection,
 	});
 
 	return (
@@ -232,6 +251,7 @@ export const Table = <
 					context={context}
 					slots={slots}
 					visible={visibleColumns}
+					selection={selection}
 					{...render}
 				/>
 			)}
@@ -239,6 +259,7 @@ export const Table = <
 				<Row
 					key={render.item.id}
 					visibleColumns={visibleColumns}
+					selection={selection}
 					context={context}
 					grid={grid}
 					slots={slots}

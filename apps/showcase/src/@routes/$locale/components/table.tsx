@@ -45,6 +45,10 @@ export const Route = createFileRoute("/$locale/components/table")({
 						withCountQuery: withInventoryItemCountQuery(),
 						state: NavigationState.cursor(cursor, navigate),
 					}}
+					selection={{
+						type: "multi",
+						state: NavigationState.selection(selection, navigate),
+					}}
 
 					// actionTable={{
 					// 	width: "4rem",

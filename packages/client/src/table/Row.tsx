@@ -1,5 +1,9 @@
-import type { EntitySchema } from "@use-pico/common";
+import { type EntitySchema, tvc } from "@use-pico/common";
 import type { FC } from "react";
+import { match, P } from "ts-pattern";
+import { Icon } from "../icon/Icon";
+import { SelectionOffIcon } from "../icon/SelectionOffIcon";
+import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Cell } from "./Cell";
 import { useRow } from "./hook/useRow";
 import type { Table } from "./Table";
@@ -9,10 +13,10 @@ export namespace Row {
 	export interface Props<TData extends EntitySchema.Type, TContext = any> {
 		item: TData;
 		visibleColumns: Table.Column.Props<TData, any, TContext>[];
+		selection: Table.Selection.Props | undefined;
 		// props: Table.Row<TData> | undefined;
 		// withActions: boolean;
 		// filter: FilterType.Filter | undefined;
-		// selection: SelectionType.Selection | undefined;
 
 		/**
 		 * Row-wise action.
@@ -22,6 +26,7 @@ export namespace Row {
 		context: TContext;
 		grid: string;
 		slots: TableCls.Slots;
+		onDoubleClick?(props: { data: TData; context: TContext }): void;
 	}
 
 	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
@@ -32,15 +37,16 @@ export namespace Row {
 export const Row = <TData extends EntitySchema.Type, TContext = any>({
 	item,
 	visibleColumns,
+	selection,
 	// props,
 	// withActions,
 	// filter,
-	// selection,
 	// actionRow,
 	// controlsHidden,
 	context,
 	grid,
 	slots,
+	onDoubleClick,
 }: Row.Props<TData, TContext>) => {
 	// const { action: RowAction } = actionRow ?? {
 	// 	RowAction: undefined,
@@ -52,63 +58,114 @@ export const Row = <TData extends EntitySchema.Type, TContext = any>({
 		context,
 	});
 
+	const onSelect = () => {
+		match(selection)
+			.with(
+				{
+					type: "single",
+				},
+				({ state: { value, set } }) => {
+					const selected = value.includes(item.id);
+					set(
+						selected
+							? []
+							: [
+									item.id,
+								],
+					);
+					selected
+						? set(value.filter((id) => id !== item.id))
+						: set([
+								...value,
+								item.id,
+							]);
+				},
+			)
+			.with(
+				{
+					type: "multi",
+				},
+				({ state: { value, set } }) => {
+					const selected = value.includes(item.id);
+					set(
+						selected
+							? value.filter((id) => id !== item.id)
+							: [
+									...value,
+									item.id,
+								],
+					);
+				},
+			)
+			.with(P.nullish, () => {
+				//
+			})
+			.exhaustive();
+	};
+
 	return (
 		<div
 			className={slots.row(
 				{
-					// selected: selection?.isSelected(row),
+					selected: selection?.state.value.includes(item.id),
 				},
 				// props?.css?.(row),
 			)}
 			style={{
 				gridTemplateColumns: grid,
 			}}
-			// onDoubleClick={() => {
-			// 	props?.onDoubleClick
-			// 		? props.onDoubleClick({
-			// 				row,
-			// 				data: row.data,
-			// 			})
-			// 		: selection?.event.onSelect(row);
-			// }}
+			onDoubleClick={() => {
+				if (onDoubleClick) {
+					return onDoubleClick({
+						data: row.data,
+						context,
+					});
+				}
+
+				onSelect();
+			}}
 		>
-			{/* {withActions ? (
-				<div
-					className={
-						"flex flex-row items-center justify-between gap-2"
-					}
-				>
-					{selection ? (
-						<Icon
-							icon={
-								selection.isSelected(row)
-									? SelectionOnIcon
-									: SelectionOffIcon
-							}
-							cls={{
-								base: slots.select({
-									selected: selection.isSelected(row),
-								}),
-							}}
-							variant={{
-								size: "2xl",
-							}}
-							onClick={() => selection.event.onSelect(row)}
-						/>
-					) : null}
-					{RowAction && !controlsHidden.includes("action-row") ? (
+			<div
+				className={tvc([
+					"flex",
+					"flex-row",
+					"items-center",
+					"justify-between",
+					"gap-2",
+				])}
+			>
+				{selection ? (
+					<Icon
+						icon={
+							selection.state.value.includes(item.id)
+								? SelectionOnIcon
+								: SelectionOffIcon
+						}
+						cls={{
+							base: slots.select({
+								selected: selection.state.value.includes(
+									item.id,
+								),
+							}),
+						}}
+						variant={{
+							size: "2xl",
+						}}
+						onClick={onSelect}
+					/>
+				) : null}
+				{/* {RowAction && !controlsHidden.includes("action-row") ? (
 						<RowAction
 							data={row.data}
 							context={context}
 						/>
-					) : null}
-				</div>
-			) : null} */}
+					) : null} */}
+			</div>
 
 			{row.cells.map((cell) => {
 				return (
 					<Cell
-						key={`${row.id}-${cell.column.name}`}
+						key={`${item.id}-${cell.column.name}`}
 						cell={cell}
 						slots={slots}
 						// filter={filter}
