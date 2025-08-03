@@ -5,6 +5,7 @@ import type {
 	FilterSchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
+import { useCls } from "../hooks/useCls";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
@@ -82,7 +83,7 @@ export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 	tva = PopupMultiSelectCls,
 	cls,
 }: PopupMultiSelect.Props<TItem>) => {
-	const { slots } = tva(variant, cls);
+	const { slots } = useCls(tva, variant, cls);
 
 	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
 	const fulltext = useLocalStore((state) => state.fulltext);
