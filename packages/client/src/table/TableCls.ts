@@ -2,7 +2,7 @@ import { cls } from "@use-pico/common";
 
 export const TableCls = cls({
 	slot: {
-		base: [
+		root: [
 			"min-w-full",
 			"flex",
 			"flex-col",
@@ -14,14 +14,14 @@ export const TableCls = cls({
 			"w-fit",
 			"min-w-full",
 		],
-		thead: [
+		header: [
 			"grid",
 			"border-t",
 			"border-b",
 			"border-(--table-th-color-border)",
 			"bg-(--table-thead-color-bg)",
 		],
-		th: [
+		headerCell: [
 			"flex",
 			"flex-row",
 			"items-center",
@@ -31,7 +31,7 @@ export const TableCls = cls({
 			"py-1",
 			"truncate",
 		],
-		tr: [
+		row: [
 			"grid",
 			"border-b",
 			"border-b-(--table-tr-color-border)",
@@ -40,7 +40,7 @@ export const TableCls = cls({
 			"hover:bg-(--table-tr-hover-color-bg)",
 			"hover:border-(--table-tr-hover-color-border)",
 		],
-		td: [
+		cell: [
 			"flex",
 			"flex-row",
 			"items-center",
@@ -51,7 +51,7 @@ export const TableCls = cls({
 			"truncate",
 			"group",
 		],
-		tfoot: [],
+		footer: [],
 		select: [
 			"cursor-pointer",
 			"text-(--table-select-color-text)",
@@ -69,7 +69,7 @@ export const TableCls = cls({
 				selected: true,
 			},
 			do: {
-				tr: [
+				row: [
 					"bg-(--table-tr-selected-color-bg)",
 					"odd:bg-(--table-tr-selected-odd-color-bg)",
 					"border-(--table-tr-selected-color-border)",

@@ -6,27 +6,30 @@ import {
 import { type FC, type ReactNode, useMemo } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
+import { Tx } from "../tx/Tx";
 import { CursorCls } from "./CursorCls";
 import { Pages } from "./Pages";
 import { SizeSelect } from "./SizeSelect";
 
 export namespace Cursor {
-	export type OnPage = Pages.Props["onPage"];
-	export type OnSize = SizeSelect.Props["onSize"];
+	export namespace Event {
+		export type OnPage = Pages.Event.OnPage;
+		export type OnSize = SizeSelect.Event.OnSize;
+	}
 
 	export interface Props extends CursorCls.Props {
 		cursor: CursorSchema.Type;
 		count: CountSchema.Type;
-		textTotal: ReactNode;
-		onPage: OnPage;
-		onSize: OnSize;
+		textTotal?: ReactNode;
+		onPage: Event.OnPage;
+		onSize: Event.OnSize;
 	}
 }
 
 export const Cursor: FC<Cursor.Props> = ({
 	cursor,
 	count,
-	textTotal,
+	textTotal = <Tx label={"Number of items"} />,
 	onPage,
 	onSize,
 	variant,

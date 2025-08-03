@@ -6,5 +6,5 @@ export const TranslationListSchema = z.record(z.string(), TranslationSchema);
 export type TranslationListSchema = typeof TranslationListSchema;
 
 export namespace TranslationListSchema {
-	export type Type = z.infer<typeof TranslationListSchema>;
+	export type Type = z.infer<TranslationListSchema>;
 }

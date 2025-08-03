@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { IdentitySchema } from "./IdentitySchema";
+import { EntitySchema } from "../source/EntitySchema";
 
 export const TagSchema = z.object({
-	...IdentitySchema.shape,
+	...EntitySchema.shape,
 	code: z.string().min(1),
 	label: z.string().min(1),
 	group: z.string().nullish(),

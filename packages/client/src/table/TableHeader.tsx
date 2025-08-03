@@ -1,46 +1,43 @@
-import { tvc } from "@use-pico/common";
-import { ColumnFilter } from "./ColumnFilter";
-import { ColumnSort } from "./ColumnSort";
+import { type EntitySchema, tvc } from "@use-pico/common";
+import type { FC } from "react";
 import type { Table } from "./Table";
-import { TableActionWrapper } from "./TableActionWrapper";
 import type { TableCls } from "./TableCls";
-import type { ActionType } from "./type/ActionType";
-import type { ColumnType } from "./type/ColumnType";
-import type { DataType } from "./type/DataType";
-import type { FilterType } from "./type/FilterType";
-import type { SelectionType } from "./type/SelectionType";
-import type { SortType } from "./type/SortType";
 
 export namespace TableHeader {
-	export interface Props<TData extends DataType.Data, TContext = any> {
-		data: TData[];
-		withActions: boolean;
-		context: TContext | undefined;
-		selection: SelectionType.Selection | undefined;
-		sort: SortType.Sort | undefined;
-		filter: FilterType.Filter | undefined;
-		actionTable: ActionType.Table.Table<TData, TContext> | undefined;
-		controlsHidden: Table.Controls[];
-		visible: ColumnType.Props<TData, any, TContext>[];
-		slots: TableCls.Slots;
+	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+		items: TData[];
+		visible: Table.Column.Props<TData, any, TContext>[];
 		grid: string;
-		loading?: boolean;
+		// withActions: boolean;
+		slots: TableCls.Slots;
+		isFetching: boolean;
+		context: TContext;
+		// selection: SelectionType.Selection | undefined;
+		// sort: SortType.Sort | undefined;
+		// filter: FilterType.Filter | undefined;
+		// actionTable: ActionType.Table.Table<TData, TContext> | undefined;
+		// controlsHidden: Table.Controls[];
 	}
+
+	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
+		Props<TData, TContext>
+	>;
 }
 
-export const TableHeader = <TData extends DataType.Data, TContext = any>({
-	data,
-	withActions,
+export const TableHeader = <TData extends EntitySchema.Type, TContext = any>({
+	items,
+	// withActions,
 	context,
-	selection,
-	sort,
-	filter,
-	actionTable,
-	controlsHidden,
 	visible,
 	slots,
 	grid,
-	loading,
+	isFetching,
+	// selection,
+	// sort,
+	// filter,
+	// actionTable,
+	// controlsHidden,
+	// visible,
 }: TableHeader.Props<TData, TContext>) => {
 	return (
 		<>
@@ -51,7 +48,7 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 						"h-0.5",
 						"w-full",
 					],
-					loading
+					isFetching
 						? [
 								"bg-blue-300",
 								"animate-pulse",
@@ -60,12 +57,12 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 				)}
 			/>
 			<div
-				className={slots.thead()}
+				className={slots.header()}
 				style={{
 					gridTemplateColumns: grid,
 				}}
 			>
-				{withActions && !controlsHidden.includes("action-table") ? (
+				{/* {withActions && !controlsHidden.includes("action-table") ? (
 					<TableActionWrapper
 						data={data}
 						actionTable={actionTable}
@@ -73,23 +70,23 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 						selection={selection}
 						slots={slots}
 					/>
-				) : null}
+				) : null} */}
 
 				{visible.map((column) => {
-					const Header = column.header || (() => null);
-					const withSortOrFilter =
-						(sort && column.sort) ||
-						(filter &&
-							column.filter?.is({
-								filter,
-							}));
+					const Header = column.header;
+					// const withSortOrFilter =
+					// 	(sort && column.sort) ||
+					// 	(filter &&
+					// 		column.filter?.is({
+					// 			filter,
+					// 		}));
 
 					return (
 						<div
 							key={`header-${column.name}`}
-							className={slots.th()}
+							className={slots.headerCell()}
 						>
-							{withSortOrFilter ? (
+							{/* {withSortOrFilter ? (
 								<div
 									className={
 										"flex flex-row items-center gap-2"
@@ -104,8 +101,11 @@ export const TableHeader = <TData extends DataType.Data, TContext = any>({
 										filter={filter}
 									/>
 								</div>
-							) : null}
-							<Header />
+							) : null} */}
+							<Header
+								items={items}
+								context={context}
+							/>
 						</div>
 					);
 				})}

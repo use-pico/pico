@@ -1,35 +1,31 @@
-import { tvc } from "@use-pico/common";
+import type { EntitySchema } from "@use-pico/common";
+import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
-import type { CellType } from "./type/CellType";
-import type { DataType } from "./type/DataType";
-import type { FilterType } from "./type/FilterType";
 
 export namespace Cell {
-	export interface Props<TData extends DataType.Data, TContext = any> {
-		cell: CellType.Cell<TData, any>;
-		filter?: FilterType.Filter;
-		context?: TContext;
+	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+		cell: Table.Cell<TData, any, TContext>;
+		// filter?: FilterType.Filter;
 		slots: TableCls.Slots;
 	}
 }
 
-export const Cell = <TData extends DataType.Data, TContext = any>({
-	cell: { column, data, value },
-	filter,
-	context,
+export const Cell = <TData extends EntitySchema.Type, TContext = any>({
+	cell: { column, data, value, context },
+	// filter,
 	slots,
 }: Cell.Props<TData, TContext>) => {
 	const { render: Render } = column;
-	const Filter = column?.filter?.component;
+	// const Filter = column?.filter?.component;
 
 	return (
-		<div className={slots.td()}>
+		<div className={slots.cell()}>
 			<Render
 				data={data}
 				value={value}
 				context={context}
 			/>
-			{Filter && filter && column.filter ? (
+			{/* {Filter && filter && column.filter ? (
 				<div
 					className={tvc([
 						"group-hover:visible",
@@ -43,7 +39,7 @@ export const Cell = <TData extends DataType.Data, TContext = any>({
 						data={data}
 					/>
 				</div>
-			) : null}
+			) : null} */}
 		</div>
 	);
 };

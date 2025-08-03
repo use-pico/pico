@@ -1,4 +1,4 @@
-import type { Entity, IdentitySchema } from "@use-pico/common";
+import type { Entity, EntitySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
@@ -7,7 +7,7 @@ import { Modal } from "../modal/Modal";
 import { MoreCls } from "./MoreCls";
 
 export namespace More {
-	export interface Props<TValues extends IdentitySchema.Type>
+	export interface Props<TValues extends EntitySchema.Type>
 		extends MoreCls.Props {
 		icon?: string;
 		iconProps?: Icon.PropsEx;
@@ -20,13 +20,13 @@ export namespace More {
 		limit?: number;
 	}
 
-	export type PropsEx<TValues extends IdentitySchema.Type> = Omit<
+	export type PropsEx<TValues extends EntitySchema.Type> = Omit<
 		Props<TValues>,
 		"items" | "render"
 	>;
 }
 
-export const More = <TValues extends IdentitySchema.Type>({
+export const More = <TValues extends EntitySchema.Type>({
 	icon = ActionMenuIcon,
 	iconProps,
 	textTitle,

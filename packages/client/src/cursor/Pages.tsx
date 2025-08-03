@@ -2,11 +2,14 @@ import type { FC } from "react";
 import { PagesCls } from "./PagesCls";
 
 export namespace Pages {
+	export namespace Event {
+		export type OnPage = (page: number) => void;
+	}
+
 	export interface Props extends PagesCls.Props {
 		pages: number[];
 		page: number;
-
-		onPage(page: number): void;
+		onPage: Event.OnPage;
 	}
 }
 

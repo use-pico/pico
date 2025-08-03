@@ -140,19 +140,6 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[lsicon--table-outline]"}
-							to={"/$locale/components/query-table"}
-							params={{
-								locale,
-							}}
-							variant={{
-								vertical: true,
-							}}
-						>
-							<Tx label={"Query Table"} />
-						</MenuLink>
-
-						<MenuLink
 							icon={"icon-[vaadin--area-select]"}
 							to={"/$locale/components/popup-select"}
 							params={{

@@ -1,70 +1,78 @@
-import { Icon } from "../icon/Icon";
-import { SelectionOffIcon } from "../icon/SelectionOffIcon";
-import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import type { EntitySchema } from "@use-pico/common";
+import type { FC } from "react";
 import { Cell } from "./Cell";
+import { useRow } from "./hook/useRow";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
-import type { ActionType } from "./type/ActionType";
-import type { DataType } from "./type/DataType";
-import type { FilterType } from "./type/FilterType";
-import type { RowType } from "./type/RowType";
-import type { SelectionType } from "./type/SelectionType";
 
 export namespace Row {
-	export interface Props<TData extends DataType.Data, TContext = any> {
-		props: RowType.Props<TData> | undefined;
-		withActions: boolean;
-		filter: FilterType.Filter | undefined;
-		selection: SelectionType.Selection | undefined;
-		row: RowType.Row<TData>;
+	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+		item: TData;
+		visibleColumns: Table.Column.Props<TData, any, TContext>[];
+		// props: Table.Row<TData> | undefined;
+		// withActions: boolean;
+		// filter: FilterType.Filter | undefined;
+		// selection: SelectionType.Selection | undefined;
+
 		/**
 		 * Row-wise action.
 		 */
-		actionRow: ActionType.Row.Table<TData, TContext> | undefined;
-		controlsHidden: Table.Controls[];
-		context: TContext | undefined;
+		// actionRow: ActionType.Row.Table<TData, TContext> | undefined;
+		// controlsHidden: Table.Controls[];
+		context: TContext;
 		grid: string;
 		slots: TableCls.Slots;
 	}
+
+	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
+		Props<TData, TContext>
+	>;
 }
 
-export const Row = <TData extends DataType.Data>({
-	props,
-	withActions,
-	filter,
-	selection,
-	row,
-	actionRow,
-	controlsHidden,
+export const Row = <TData extends EntitySchema.Type, TContext = any>({
+	item,
+	visibleColumns,
+	// props,
+	// withActions,
+	// filter,
+	// selection,
+	// actionRow,
+	// controlsHidden,
 	context,
 	grid,
 	slots,
-}: Row.Props<TData>) => {
-	const { action: RowAction } = actionRow ?? {
-		RowAction: undefined,
-	};
+}: Row.Props<TData, TContext>) => {
+	// const { action: RowAction } = actionRow ?? {
+	// 	RowAction: undefined,
+	// };
+
+	const row = useRow<TData, TContext>({
+		data: item,
+		visible: visibleColumns,
+		context,
+	});
 
 	return (
 		<div
-			className={slots.tr(
+			className={slots.row(
 				{
-					selected: selection?.isSelected(row),
+					// selected: selection?.isSelected(row),
 				},
-				props?.css?.(row),
+				// props?.css?.(row),
 			)}
 			style={{
 				gridTemplateColumns: grid,
 			}}
-			onDoubleClick={() => {
-				props?.onDoubleClick
-					? props.onDoubleClick({
-							row,
-							data: row.data,
-						})
-					: selection?.event.onSelect(row);
-			}}
+			// onDoubleClick={() => {
+			// 	props?.onDoubleClick
+			// 		? props.onDoubleClick({
+			// 				row,
+			// 				data: row.data,
+			// 			})
+			// 		: selection?.event.onSelect(row);
+			// }}
 		>
-			{withActions ? (
+			{/* {withActions ? (
 				<div
 					className={
 						"flex flex-row items-center justify-between gap-2"
@@ -95,7 +103,7 @@ export const Row = <TData extends DataType.Data>({
 						/>
 					) : null}
 				</div>
-			) : null}
+			) : null} */}
 
 			{row.cells.map((cell) => {
 				return (
@@ -103,7 +111,7 @@ export const Row = <TData extends DataType.Data>({
 						key={`${row.id}-${cell.column.name}`}
 						cell={cell}
 						slots={slots}
-						filter={filter}
+						// filter={filter}
 						context={context}
 					/>
 				);

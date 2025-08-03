@@ -36,6 +36,7 @@
 		"react-hot-toast": "2.5.2",
 		"read-excel-file": "5.8.8",
 		"sqlocal": "0.14.2",
+		"ts-pattern": "^5.8.0",
 		"use-debounce": "10.0.5",
 		"uuid": "^11.1.0",
 		"write-excel-file": "2.3.4",
@@ -55,7 +56,7 @@
 		"rollup": "4.46.2",
 		"rollup-plugin-dts": "6.2.1",
 		"style-dictionary": "5.0.1",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.2"
 	},
 	"main": "src/index.ts",
 	"module": "src/index.ts",

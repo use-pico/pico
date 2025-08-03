@@ -12,7 +12,7 @@ import {
 	useListNavigation,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { type Entity, type IdentitySchema, translator } from "@use-pico/common";
+import { type Entity, type EntitySchema, translator } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -20,7 +20,7 @@ import { Icon } from "../icon/Icon";
 import { SelectCls } from "./SelectCls";
 
 export namespace Select {
-	export interface Props<TItem extends IdentitySchema.Type>
+	export interface Props<TItem extends EntitySchema.Type>
 		extends SelectCls.Props {
 		items: TItem[];
 		icon?: string;
@@ -44,7 +44,7 @@ export namespace Select {
 		onChange?(e: any): void;
 	}
 
-	export type PropsEx<TItem extends IdentitySchema.Type> = Partial<
+	export type PropsEx<TItem extends EntitySchema.Type> = Partial<
 		Props<TItem>
 	>;
 }
@@ -52,7 +52,7 @@ export namespace Select {
 /**
  * Simple select using static data (for simple enums).
  */
-export const Select = <TItem extends IdentitySchema.Type>({
+export const Select = <TItem extends EntitySchema.Type>({
 	items,
 	icon,
 	defaultValue,

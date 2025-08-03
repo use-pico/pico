@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdentitySchema } from "./IdentitySchema";
+import { EntitySchema } from "../source/EntitySchema";
 import { TokenSchema } from "./TokenSchema";
 
 /**
@@ -8,7 +8,7 @@ import { TokenSchema } from "./TokenSchema";
  * - holds access tokens (for client-side ACL check)
  */
 export const TicketSchema = z.object({
-	...IdentitySchema.shape,
+	...EntitySchema.shape,
 	...TokenSchema.shape,
 	name: z.string(),
 	site: z.string(),

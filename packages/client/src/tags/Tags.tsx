@@ -1,19 +1,25 @@
-import type { IdentitySchema } from "@use-pico/common";
+import type { EntitySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Badge } from "../badge/Badge";
 import { Tx } from "../tx/Tx";
 
 export namespace Tags {
-	export interface Data extends IdentitySchema.Type {
+	export interface Data extends EntitySchema.Type {
 		label: string;
 		sort: number;
 	}
 
+	export namespace Render {
+		export interface Props {
+			tag: Data;
+		}
+
+		export type Component = FC<Props>;
+	}
+
 	export interface Props {
 		tags?: (Data | undefined | null)[];
-		render?: FC<{
-			tag: Data;
-		}>;
+		render?: Render.Component;
 		onClick?: (tag: Data) => void;
 		textEmpty?: ReactNode;
 	}

@@ -1,5 +1,5 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { CountSchema, IdentitySchema } from "@use-pico/common";
+import type { CountSchema, EntitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
 import type { Table } from "../table/Table";
@@ -7,13 +7,13 @@ import { Tx } from "../tx/Tx";
 import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
 
 export namespace PopupMultiContent {
-	export interface List<TItem extends IdentitySchema.Type> {
+	export interface List<TItem extends EntitySchema.Type> {
 		list: TItem[];
 		count: CountSchema.Type;
 	}
 
 	export interface Props extends PopupMultiSelectCls.Props {
-		table: FC<Table.PropsEx<any>>;
+		table: FC<Table.PropsEx<any, any>>;
 		/**
 		 * Stable reference to the table store.
 		 */

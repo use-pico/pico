@@ -164,6 +164,7 @@
 		"SSAO",
 		"sshpass",
 		"stringbool",
+		"stringifier",
 		"supervisorctl",
 		"supervisord",
 		"syncpack",

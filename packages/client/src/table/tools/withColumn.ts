@@ -1,13 +1,12 @@
-import type { DeepKeys } from "@use-pico/common";
-import type { ColumnType } from "../type/ColumnType";
-import type { DataType } from "../type/DataType";
+import type { DeepKeys, EntitySchema } from "@use-pico/common";
+import type { Table } from "../Table";
 
 export const withColumn = <
-	TData extends DataType.Data,
+	TData extends EntitySchema.Type,
 	TContext = unknown,
 >() => {
 	return <TKey extends DeepKeys<TData>>(
-		props: ColumnType.Props<TData, TKey, TContext>,
+		props: Table.Column.Props<TData, TKey, TContext>,
 	) => {
 		return props;
 	};

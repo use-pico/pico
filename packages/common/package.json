@@ -45,7 +45,7 @@
 		"@use-pico/tsconfig": "4.0.20",
 		"rollup": "4.46.2",
 		"rollup-plugin-dts": "6.2.1",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.2"
 	},
 	"main": "./srx/index.ts",
 	"module": "./src/index.ts",

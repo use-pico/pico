@@ -7,10 +7,14 @@ export namespace SizeSelect {
 		size: number;
 	}
 
+	export namespace Event {
+		export type OnSize = (size: number) => void;
+	}
+
 	export interface Props extends Select.PropsEx<SizeType> {
 		sizes?: number[];
 		size: number;
-		onSize(size: number): void;
+		onSize: Event.OnSize;
 	}
 }
 

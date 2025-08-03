@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { IdentitySchema } from "./IdentitySchema";
+import { EntitySchema } from "../source/EntitySchema";
 
 export const IssueSchema = z.object({
-	...IdentitySchema.shape,
+	...EntitySchema.shape,
 	message: z.string(),
 	type: z
 		.enum([

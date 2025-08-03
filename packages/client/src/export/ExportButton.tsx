@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { IdentitySchema } from "@use-pico/common";
+import type { EntitySchema } from "@use-pico/common";
 import writeXlsxFile, { type Schema } from "write-excel-file";
 import { Button } from "../button/Button";
 import { ExportIcon } from "../icon/ExportIcon";
@@ -10,7 +10,7 @@ import type { Transfer } from "../transfer/Transfer";
 import { Tx } from "../tx/Tx";
 
 export namespace ExportButton {
-	export type ExportSchema<TItem extends IdentitySchema.Type> = Schema<TItem>;
+	export type ExportSchema<TItem extends EntitySchema.Type> = Schema<TItem>;
 
 	export namespace Source {
 		export interface Props {
@@ -18,10 +18,10 @@ export namespace ExportButton {
 			size: number;
 		}
 
-		export type Callback = (props: Props) => Promise<IdentitySchema.Type[]>;
+		export type Callback = (props: Props) => Promise<EntitySchema.Type[]>;
 	}
 
-	export interface Props<TItem extends IdentitySchema.Type>
+	export interface Props<TItem extends EntitySchema.Type>
 		extends Button.Props {
 		selected: string[];
 		/**
@@ -57,13 +57,13 @@ export namespace ExportButton {
 		file: string;
 	}
 
-	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
+	export type PropsEx<TItem extends EntitySchema.Type> = Omit<
 		Props<TItem>,
 		"items" | "schema"
 	>;
 }
 
-export const ExportButton = <TItem extends IdentitySchema.Type>({
+export const ExportButton = <TItem extends EntitySchema.Type>({
 	selected,
 	items,
 	modalProps,

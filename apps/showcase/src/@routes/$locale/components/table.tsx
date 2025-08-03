@@ -1,27 +1,117 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	ActionClick,
-	ActionMenu,
 	Table,
 	TableNavigationState,
 	Tx,
 	withColumn,
+	withQuery,
 	withSourceSearchSchema,
 } from "@use-pico/client";
-import { FilterSchema } from "@use-pico/common";
+import {
+	type CountSchema,
+	EntitySchema,
+	FilterSchema,
+	fulltextOf,
+	OrderSchema,
+	withSourceSchema,
+} from "@use-pico/common";
 import type { FC } from "react";
+import z from "zod";
 
 const { validateSearch } = withSourceSearchSchema({
 	filter: FilterSchema,
 });
 
-interface SomeData {
-	id: string;
-	foo: string;
-	bar: string;
+const SomeDataSchema = z.object({
+	...EntitySchema.shape,
+	foo: z.string(),
+	bar: z.string(),
+});
+
+namespace SomeDataSchema {
+	export type Type = z.infer<typeof SomeDataSchema>;
 }
 
-const column = withColumn<SomeData>();
+const SomeDataSourceSchema = withSourceSchema({
+	entity: SomeDataSchema,
+	filter: FilterSchema,
+	sort: z.object({
+		name: OrderSchema,
+	}),
+});
+
+type SomeDataSourceSchema = typeof SomeDataSourceSchema;
+
+const someDataQuery = withQuery<
+	withSourceSchema.Query<SomeDataSourceSchema>,
+	SomeDataSchema.Type[]
+>({
+	keys(data) {
+		return [
+			"some-data",
+			data,
+		];
+	},
+	async queryFn({ filter, cursor }) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				let arr = Array.from(
+					{
+						length: 30 * 10,
+					},
+					(_, i) => ({
+						id: i.toString(),
+						foo: `Foo ${i}`,
+						bar: `Bar ${i}`,
+					}),
+				);
+
+				if (cursor) {
+					arr = arr.slice(
+						cursor.page * cursor.size,
+						cursor.page * cursor.size + cursor.size,
+					);
+				}
+
+				if (filter?.fulltext) {
+					arr = arr.filter((item) => {
+						return fulltextOf({
+							source: item,
+							fulltext: filter.fulltext,
+						});
+					});
+				}
+
+				resolve(arr);
+			}, 1500);
+		});
+	},
+});
+
+const someDataCountQuery = withQuery<
+	withSourceSchema.Query<SomeDataSourceSchema>,
+	CountSchema.Type
+>({
+	keys(data) {
+		return [
+			"some-data-count",
+			data,
+		];
+	},
+	async queryFn() {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve({
+					total: 300,
+					where: 300,
+					filter: 600,
+				});
+			}, 750);
+		});
+	},
+});
+
+const column = withColumn<SomeDataSchema.Type>();
 
 const columns = [
 	column({
@@ -47,7 +137,11 @@ const columns = [
 ];
 
 export namespace SomeTable {
-	export interface Props extends Table.PropsEx<SomeData> {
+	export interface Props
+		extends Table.PropsEx<
+			withSourceSchema.Query<SomeDataSourceSchema>,
+			SomeDataSchema.Type
+		> {
 		//
 	}
 }
@@ -55,116 +149,66 @@ export namespace SomeTable {
 const SomeTable: FC<SomeTable.Props> = (props) => {
 	return (
 		<Table
+			withQuery={someDataQuery}
 			columns={columns}
+			context={{}}
 			{...props}
 		/>
 	);
 };
 
-const someData: SomeData[] = Array.from(
-	{
-		length: 30 * 10,
-	},
-	(_, i) => ({
-		id: i.toString(),
-		foo: `Foo ${i}`,
-		bar: `Bar ${i}`,
-	}),
-);
-
 export const Route = createFileRoute("/$locale/components/table")({
 	validateSearch,
-	loaderDeps: ({ search: { filter, cursor } }) => ({
-		filter,
-		cursor,
-	}),
-	async loader({ context: { queryClient }, deps: { filter, cursor } }) {
-		return queryClient.ensureQueryData({
-			queryKey: [
-				"some-data",
-				{
-					filter,
-					cursor,
-				},
-			],
-			async queryFn() {
-				return {
-					count: {
-						filter: someData.length,
-						total: someData.length,
-						where: someData.length,
-					},
-					list: someData.slice(
-						cursor.page * cursor.size,
-						cursor.page * cursor.size + cursor.size,
-					),
-				} as const;
-			},
-		});
-	},
 	component() {
-		const { list, count } = Route.useLoaderData();
 		const { filter, cursor, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 
 		return (
 			<div className="flex flex-col gap-4 w-full">
 				<SomeTable
-					data={list}
-					filter={TableNavigationState.filter(filter, navigate)}
-					selection={TableNavigationState.selection(
-						"multi",
-						selection,
-						navigate,
-					)}
+					request={{
+						filter,
+						cursor,
+					}}
+					// actionTable={{
+					// 	width: "4rem",
+					// }}
+					// filter={TableNavigationState.useFilter(filter, navigate)}
 					fulltext={TableNavigationState.fulltext(
 						filter?.fulltext,
 						navigate,
 					)}
 					cursor={TableNavigationState.cursorWithCount(
 						{
-							count,
-							cursor,
+							withCountQuery: someDataCountQuery,
 							textTotal: <Tx label={"Number of items"} />,
 						},
 						navigate,
 					)}
-				/>
-
-				<SomeTable
-					actionTable={{
-						width: "4rem",
-					}}
-					data={list}
-					filter={TableNavigationState.filter(filter, navigate)}
-					fulltext={TableNavigationState.fulltext(
-						filter?.fulltext,
-						navigate,
-					)}
-					cursor={TableNavigationState.cursorWithCount(
-						{
-							count,
-							cursor,
-							textTotal: <Tx label={"Number of items"} />,
-						},
-						navigate,
-					)}
-					selection={TableNavigationState.selection(
-						"multi",
-						selection,
-						navigate,
-					)}
-					actionRow={{
-						action() {
-							return (
-								<ActionMenu withOverlay>
-									<ActionClick>
-										<Tx label={"Action"} />
-									</ActionClick>
-								</ActionMenu>
-							);
-						},
-					}}
+					// cursor={TableNavigationState.useCursorWithCount(
+					// 	{
+					// 		count,
+					// 		cursor,
+					// 		textTotal: <Tx label={"Number of items"} />,
+					// 	},
+					// 	navigate,
+					// )}
+					// selection={TableNavigationState.useSelection(
+					// 	"multi",
+					// 	selection,
+					// 	navigate,
+					// )}
+					// actionRow={{
+					// 	action() {
+					// 		return (
+					// 			<ActionMenu withOverlay>
+					// 				<ActionClick>
+					// 					<Tx label={"Action"} />
+					// 				</ActionClick>
+					// 			</ActionMenu>
+					// 		);
+					// 	},
+					// }}
 				/>
 			</div>
 		);

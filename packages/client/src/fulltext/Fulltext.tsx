@@ -1,6 +1,7 @@
-import { translator } from "@use-pico/common";
+import { type StateType, translator } from "@use-pico/common";
 import { type FC, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { useCls } from "../hooks/useCls";
 import { Icon } from "../icon/Icon";
 import { FulltextCls } from "./FulltextCls";
 
@@ -9,24 +10,22 @@ export namespace Fulltext {
 	export type OnFulltext = (text: Value) => void;
 
 	export interface Props extends FulltextCls.Props {
-		value?: Value;
-		onFulltext: OnFulltext;
+		state: StateType<Value>;
 		textPlaceholder?: string;
 	}
 }
 
 export const Fulltext: FC<Fulltext.Props> = ({
-	value = "",
-	onFulltext,
+	state: { value = "", set },
 	textPlaceholder,
 	variant,
 	tva = FulltextCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const { slots } = useCls(tva, variant, cls);
 	const [search, setSearch] = useState(value || "");
 	const debounced = useDebouncedCallback((value) => {
-		onFulltext(value);
+		set(value);
 	}, 500);
 
 	return (
@@ -56,7 +55,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 					className={slots.clear()}
 					onClick={() => {
 						setSearch("");
-						onFulltext("");
+						set("");
 					}}
 				>
 					<Icon

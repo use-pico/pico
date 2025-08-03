@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import { proxyOf } from "../toolbox/proxyOf";
+import type { CursorSchema } from "./CursorSchema";
 import type { EntitySchema } from "./EntitySchema";
 import type { FilterSchema } from "./FilterSchema";
 import type { SortSchema } from "./SortSchema";
@@ -27,10 +28,6 @@ export namespace withSourceSchema {
 		 */
 		entity: TEntitySchema;
 		"~entity": z.infer<TEntitySchema>;
-		"~entity-array": z.infer<TEntitySchema>[];
-		"~entity-partial-exclude-id": Partial<
-			Omit<z.infer<TEntitySchema>, "id">
-		>;
 
 		/**
 		 * Filter schema defines client-side (userland) fields available for filtering.
@@ -39,17 +36,30 @@ export namespace withSourceSchema {
 		"~filter": z.infer<TFilterSchema>;
 
 		/**
+		 * Where schema defines system-side (server-side) fields available for filtering.
+		 */
+		where: TFilterSchema;
+		"~where": z.infer<TFilterSchema>;
+
+		/**
 		 * Sort schema defines client-side (userland) fields available for sorting.
 		 */
 		sort: TSortSchema;
 		"~sort": z.infer<TSortSchema>;
+	}
+
+	export interface Query<TInstance extends Instance<any, any, any>> {
+		filter?: TInstance["~filter"];
+		where?: TInstance["~where"];
+		cursor?: CursorSchema.Type;
+		sort?: TInstance["~sort"];
 	}
 }
 
 export const withSourceSchema = <
 	TEntitySchema extends EntitySchema,
 	TFilterSchema extends FilterSchema,
-	TSortSchema extends SortSchema<any>,
+	TSortSchema extends SortSchema,
 >({
 	entity,
 	filter,
@@ -64,11 +74,11 @@ export const withSourceSchema = <
 	return {
 		entity,
 		"~entity": proxy,
-		"~entity-array": [],
-		"~entity-partial-exclude-id": proxy,
 		filter,
 		"~filter": proxy,
-		sort: sort as TSortSchema,
+		where: filter,
+		"~where": proxy,
+		sort,
 		"~sort": proxy,
 	};
 };

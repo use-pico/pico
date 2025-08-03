@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type {
 	CursorSchema,
+	EntitySchema,
 	FilterSchema,
-	IdentitySchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
 import { Icon } from "../icon/Icon";
@@ -24,12 +24,12 @@ export namespace PopupMultiSelect {
 			cursor?: CursorSchema.Type;
 		}
 
-		export type Callback<TItem extends IdentitySchema.Type> = (
+		export type Callback<TItem extends EntitySchema.Type> = (
 			props: Props,
 		) => Promise<PopupMultiContent.List<TItem>>;
 	}
 
-	export interface Props<TItem extends IdentitySchema.Type>
+	export interface Props<TItem extends EntitySchema.Type>
 		extends PopupMultiSelectCls.Props {
 		icon?: string | ReactNode;
 		textTitle?: ReactNode;
@@ -56,13 +56,13 @@ export namespace PopupMultiSelect {
 		onSelect?(items: TItem[]): void;
 	}
 
-	export type PropsEx<TItem extends IdentitySchema.Type> = Omit<
+	export type PropsEx<TItem extends EntitySchema.Type> = Omit<
 		Props<TItem>,
 		"table" | "queryKey" | "queryHash" | "query" | "render"
 	>;
 }
 
-export const PopupMultiSelect = <TItem extends IdentitySchema.Type>({
+export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 	icon,
 	textTitle,
 	textSelect,

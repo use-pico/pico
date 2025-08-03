@@ -1,4 +1,4 @@
-import { type IdentitySchema, tvc } from "@use-pico/common";
+import { type EntitySchema, tvc } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { ArrowRightIcon } from "../icon/ArrowRightIcon";
@@ -8,13 +8,13 @@ import { Tx } from "../tx/Tx";
 import { TransferCls } from "./TransferCls";
 
 export namespace Transfer {
-	export interface Group<TItem extends IdentitySchema.Type> {
+	export interface Group<TItem extends EntitySchema.Type> {
 		id: string;
 		group: ReactNode;
 		items: readonly TItem[];
 	}
 
-	export interface Props<TItem extends IdentitySchema.Type>
+	export interface Props<TItem extends EntitySchema.Type>
 		extends TransferCls.Props {
 		groups: readonly Group<TItem>[];
 		render: FC<{
@@ -25,7 +25,7 @@ export namespace Transfer {
 	}
 }
 
-export const Transfer = <TItem extends IdentitySchema.Type>({
+export const Transfer = <TItem extends EntitySchema.Type>({
 	groups,
 	render: Render,
 	value,

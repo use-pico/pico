@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import type { TranslationListSchema } from "../schema/TranslationListSchema";
 import { keyOf } from "../toolbox/keyOf";
+import type { TranslationListSchema } from "./TranslationListSchema";
 
 export namespace translator {
 	export type TranslateText = (key: string, fallback?: string) => string;
