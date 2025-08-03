@@ -1,8 +1,8 @@
 import type { StateType } from "@use-pico/common";
 import { Fulltext } from "../fulltext/Fulltext";
 import type { AbstractList } from "../list/AbstractList";
-import type { Table } from "../table/Table";
 import { TableCursor } from "../table/TableCursor";
+import type { TableControl } from "./TableControl";
 
 export namespace TablePrefix {
 	export interface Props<
@@ -11,7 +11,7 @@ export namespace TablePrefix {
 	> {
 		request: TRequest;
 		fulltext?: StateType<Fulltext.Value>;
-		cursor?: Table.Cursor.Props<TRequest>;
+		cursor?: TableControl.Cursor.Props<TRequest>;
 		// controlsHidden: Table.Controls[];
 		// toolbar: ToolbarType.Component<TData, TContext>;
 		// selection: SelectionType.Selection | undefined;

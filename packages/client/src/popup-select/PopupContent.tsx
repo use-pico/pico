@@ -1,14 +1,12 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { CountSchema, IdentitySchema } from "@use-pico/common";
-import { type FC, useContext, useMemo } from "react";
-import { ModalContext } from "../modal/ModalContext";
+import type { CountSchema, EntitySchema } from "@use-pico/common";
+import type { FC } from "react";
 import type { createLocalTableStore } from "../table/createLocalTableStore";
-import { Tx } from "../tx/Tx";
 import type { PopupSelect } from "./PopupSelect";
 import { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace PopupContent {
-	export interface List<TItem extends IdentitySchema.Type> {
+	export interface List<TItem extends EntitySchema.Type> {
 		list: TItem[];
 		count: CountSchema.Type;
 	}
@@ -21,47 +19,47 @@ export namespace PopupContent {
 		 */
 		useLocalStore: createLocalTableStore.Store;
 
-		result: UseQueryResult<List<IdentitySchema.Type>, Error>;
+		result: UseQueryResult<List<EntitySchema.Type>, Error>;
 
 		onChange(value: string | null): void;
 		/**
 		 * Selected (submitted) value/null.
 		 */
-		onSelect?(item: IdentitySchema.Type | null): void;
+		onSelect?(item: EntitySchema.Type | null): void;
 	}
 }
 
 export const PopupContent: FC<PopupContent.Props> = ({
-	table: Table,
-	useLocalStore,
+	// table: Table,
+	// useLocalStore,
 
-	result,
+	// result,
 
-	onChange,
-	onSelect,
+	// onChange,
+	// onSelect,
 
 	variant,
 	tva = PopupSelectCls,
 	cls,
 }) => {
-	const page = useLocalStore((state) => state.page);
-	const setPage = useLocalStore((state) => state.setPage);
-	const size = useLocalStore((state) => state.size);
-	const setSize = useLocalStore((state) => state.setSize);
-	const selection = useLocalStore((state) => state.selection);
-	const setSelection = useLocalStore((state) => state.setSelection);
-	const fulltext = useLocalStore((state) => state.fulltext);
-	const setFulltext = useLocalStore((state) => state.setFulltext);
+	// const page = useLocalStore((state) => state.page);
+	// const setPage = useLocalStore((state) => state.setPage);
+	// const size = useLocalStore((state) => state.size);
+	// const setSize = useLocalStore((state) => state.setSize);
+	// const selection = useLocalStore((state) => state.selection);
+	// const setSelection = useLocalStore((state) => state.setSelection);
+	// const fulltext = useLocalStore((state) => state.fulltext);
+	// const setFulltext = useLocalStore((state) => state.setFulltext);
 
-	const useModal = useContext(ModalContext);
-	const close = useModal((state) => state.close);
+	// const useModal = useContext(ModalContext);
+	// const close = useModal((state) => state.close);
 
 	const { slots } = tva(variant, cls);
 
 	return (
 		<div className={slots.base()}>
 			<div className={slots.content()}>
-				<Table
+				{/* <Table
 					cursor={useMemo(
 						() => ({
 							cursor: {
@@ -131,7 +129,7 @@ export const PopupContent: FC<PopupContent.Props> = ({
 							close();
 						},
 					}}
-				/>
+				/> */}
 			</div>
 		</div>
 	);

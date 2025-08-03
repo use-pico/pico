@@ -1,5 +1,4 @@
-import type { StateType } from "@use-pico/common";
-import type { DataType } from "./DataType";
+import type { EntitySchema, StateType } from "@use-pico/common";
 
 export namespace SelectionType {
 	export type State = StateType<string[]>;
@@ -14,22 +13,22 @@ export namespace SelectionType {
 
 	export namespace Selection {
 		export namespace isSelect {
-			export interface Props<TData extends DataType.Data> {
+			export interface Props<TData extends EntitySchema.Type> {
 				data: TData;
 			}
 
-			export type Callback<TData extends DataType.Data> = (
+			export type Callback<TData extends EntitySchema.Type> = (
 				props: Props<TData>,
 			) => boolean;
 		}
 
 		export namespace Event {
 			export namespace onSelect {
-				export interface Props<TData extends DataType.Data> {
+				export interface Props<TData extends EntitySchema.Type> {
 					data: TData;
 				}
 
-				export type Callback<TData extends DataType.Data> = (
+				export type Callback<TData extends EntitySchema.Type> = (
 					props: Props<TData>,
 				) => void;
 			}
@@ -38,7 +37,7 @@ export namespace SelectionType {
 				export type Callback = () => void;
 			}
 
-			export interface Instance<TData extends DataType.Data> {
+			export interface Instance<TData extends EntitySchema.Type> {
 				onSelect: onSelect.Callback<TData>;
 				onSelectAll: onSelectAll.Callback;
 			}
@@ -60,7 +59,7 @@ export namespace SelectionType {
 		/**
 		 * Check if the given row is selected.
 		 */
-		isSelected: Selection.isSelect.Callback<DataType.Data>;
-		event: Selection.Event.Instance<DataType.Data>;
+		isSelected: Selection.isSelect.Callback<EntitySchema.Type>;
+		event: Selection.Event.Instance<EntitySchema.Type>;
 	}
 }

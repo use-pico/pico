@@ -1,14 +1,14 @@
-import type { DataType } from "../type/DataType";
+import type { EntitySchema } from "@use-pico/common";
 import type { SelectionType } from "../type/SelectionType";
 
 export namespace wrapSelection {
-	export interface Props<TData extends DataType.Data> {
+	export interface Props<TData extends EntitySchema.Type> {
 		props?: SelectionType.Table;
 		data: TData[];
 	}
 }
 
-export const wrapSelection = <TData extends DataType.Data>({
+export const wrapSelection = <TData extends EntitySchema.Type>({
 	props,
 	data,
 }: wrapSelection.Props<TData>): SelectionType.Selection | undefined => {

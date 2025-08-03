@@ -112,7 +112,6 @@ export const Row = <TData extends EntitySchema.Type, TContext = any>({
 						cell={cell}
 						slots={slots}
 						// filter={filter}
-						context={context}
 					/>
 				);
 			})}

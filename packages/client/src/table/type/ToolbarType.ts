@@ -1,9 +1,9 @@
+import type { EntitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { DataType } from "./DataType";
 import type { SelectionType } from "./SelectionType";
 
 export namespace ToolbarType {
-	export interface Props<TData extends DataType.Data, TContext = any> {
+	export interface Props<TData extends EntitySchema.Type, TContext = any> {
 		/**
 		 * Access to current data available in the table
 		 */
@@ -18,7 +18,7 @@ export namespace ToolbarType {
 		context?: TContext;
 	}
 
-	export type Component<TData extends DataType.Data, TContext = any> = FC<
+	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
 		Props<TData, TContext>
 	>;
 }

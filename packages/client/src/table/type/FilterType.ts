@@ -1,6 +1,5 @@
-import type { StateType } from "@use-pico/common";
+import type { EntitySchema, StateType } from "@use-pico/common";
 import type { FC } from "react";
-import type { DataType } from "./DataType";
 
 /**
  * Overall table filter configuration.
@@ -32,12 +31,12 @@ export namespace FilterType {
 		}
 
 		export namespace Component {
-			export interface Props<TData extends DataType.Data> {
+			export interface Props<TData extends EntitySchema.Type> {
 				filter: FilterType.Filter;
 				data: TData;
 			}
 
-			export type Callback<TData extends DataType.Data> = FC<
+			export type Callback<TData extends EntitySchema.Type> = FC<
 				Props<TData>
 			>;
 		}
@@ -46,7 +45,7 @@ export namespace FilterType {
 	/**
 	 * Props defined on a column.
 	 */
-	export interface Column<TData extends DataType.Data> {
+	export interface Column<TData extends EntitySchema.Type> {
 		is: Column.is.Callback;
 		reset: Column.reset.Callback;
 		component: Column.Component.Callback<TData>;

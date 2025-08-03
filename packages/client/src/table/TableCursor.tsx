@@ -2,11 +2,11 @@ import { Cursor as CoolCursor } from "../cursor/Cursor";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import type { AbstractList } from "../list/AbstractList";
-import type { Table } from "./Table";
+import type { TableControl } from "../table-control/TableControl";
 
 export namespace TableCursor {
 	export interface Props<TRequest extends AbstractList.Request> {
-		cursor: Table.Cursor.Props<TRequest>;
+		cursor: TableControl.Cursor.Props<TRequest>;
 		request: TRequest;
 	}
 }

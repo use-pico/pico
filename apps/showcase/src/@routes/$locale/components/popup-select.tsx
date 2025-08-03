@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PopupSelect, Table, Tx, withColumn } from "@use-pico/client";
+import { Table, Tx, withColumn } from "@use-pico/client";
 import { genId } from "@use-pico/common";
 import Fuse from "fuse.js";
 import { type FC, useState } from "react";
@@ -47,7 +47,7 @@ const columns = [
 ];
 
 export namespace SomeTable {
-	export interface Props extends Table.PropsEx<SomeData> {
+	export interface Props extends Table.PropsEx<any, SomeData> {
 		//
 	}
 }
@@ -56,6 +56,8 @@ const SomeTable: FC<SomeTable.Props> = (props) => {
 	return (
 		<Table
 			columns={columns}
+			withQuery={null as any}
+			context={{}}
 			{...props}
 		/>
 	);
@@ -88,7 +90,7 @@ export const Route = createFileRoute("/$locale/components/popup-select")({
 		return (
 			<div>
 				<div>
-					<PopupSelect
+					{/* <PopupSelect
 						textTitle={<Tx label={"Selecting some data"} />}
 						textSelect={<Tx label={"Select some data"} />}
 						table={SomeTable}
@@ -142,7 +144,7 @@ export const Route = createFileRoute("/$locale/components/popup-select")({
 						}}
 						value={value}
 						onChange={onChange}
-					/>
+					/> */}
 					<div className={"flex flex-row gap-2 items-center"}>
 						<Tx label={"Selected value"} />
 						<div>{value ?? "-"}</div>

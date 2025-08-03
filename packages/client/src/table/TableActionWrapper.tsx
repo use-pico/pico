@@ -1,3 +1,4 @@
+import type { EntitySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
@@ -5,12 +6,11 @@ import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import type { TableCls } from "./TableCls";
 import type { ActionType } from "./type/ActionType";
-import type { DataType } from "./type/DataType";
 import type { SelectionType } from "./type/SelectionType";
 
 export namespace TableActionWrapper {
 	export interface Props {
-		data: DataType.Data[];
+		data: EntitySchema.Type[];
 		actionTable: ActionType.Table.Table<any> | undefined;
 		selection: SelectionType.Selection | undefined;
 		context: any | undefined;

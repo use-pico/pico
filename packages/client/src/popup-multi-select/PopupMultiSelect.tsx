@@ -12,7 +12,6 @@ import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import { Modal } from "../modal/Modal";
 import { ModalFooter } from "../modal/ModalFooter";
 import { createLocalTableStore } from "../table/createLocalTableStore";
-import type { Table } from "../table/Table";
 import { Tx } from "../tx/Tx";
 import { PopupMultiContent } from "./PopupMultiContent";
 import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
@@ -35,7 +34,7 @@ export namespace PopupMultiSelect {
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		table: FC<Table.PropsEx<TItem>>;
+		// table: FC<Table.PropsEx<TItem>>;
 		render: FC<{
 			entities: TItem[];
 		}>;
@@ -67,7 +66,7 @@ export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 	textTitle,
 	textSelect,
 	modalProps,
-	table,
+	// table,
 	render: Render,
 	allowEmpty = false,
 
@@ -205,7 +204,7 @@ export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 			{...modalProps}
 		>
 			<PopupMultiContent
-				table={table}
+				// table={table}
 				useLocalStore={useLocalStore}
 				result={result}
 			/>
