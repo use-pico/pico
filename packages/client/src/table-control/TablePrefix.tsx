@@ -1,17 +1,16 @@
-import type { StateType } from "@use-pico/common";
+import type { StateType, withQuerySchema } from "@use-pico/common";
 import { Fulltext } from "../fulltext/Fulltext";
-import type { AbstractList } from "../list/AbstractList";
 import { TableCursor } from "../table/TableCursor";
 import type { TableControl } from "./TableControl";
 
 export namespace TablePrefix {
 	export interface Props<
-		TRequest extends AbstractList.Request,
+		TQuery extends withQuerySchema.Query,
 		TContext = any,
 	> {
-		request: TRequest;
+		query: TQuery;
 		fulltext?: StateType<Fulltext.Value>;
-		cursor?: TableControl.Cursor.Props<TRequest>;
+		cursor?: TableControl.Cursor.Props<TQuery>;
 		// controlsHidden: Table.Controls[];
 		// toolbar: ToolbarType.Component<TData, TContext>;
 		// selection: SelectionType.Selection | undefined;
@@ -21,10 +20,10 @@ export namespace TablePrefix {
 }
 
 export const TablePrefix = <
-	TRequest extends AbstractList.Request,
+	TQuery extends withQuerySchema.Query,
 	TContext = any,
 >({
-	request,
+	query,
 	fulltext,
 	cursor,
 	// controlsHidden,
@@ -32,7 +31,7 @@ export const TablePrefix = <
 	// selection,
 	// filter,
 	// context,
-}: TablePrefix.Props<TRequest, TContext>) => {
+}: TablePrefix.Props<TQuery, TContext>) => {
 	return (
 		<div className={"flex items-center justify-between gap-4"}>
 			<div className={"flex flex-row items-center gap-2 flex-grow"}>
@@ -63,7 +62,7 @@ export const TablePrefix = <
 				{cursor ? (
 					<TableCursor
 						cursor={cursor}
-						request={request}
+						query={query}
 					/>
 				) : (
 					<div />

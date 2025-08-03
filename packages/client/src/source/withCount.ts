@@ -8,7 +8,7 @@ export namespace withCount {
 			TFilter extends FilterSchema.Type,
 		> {
 			select: TSelect;
-			where?: TFilter;
+			where?: TFilter | null;
 		}
 	}
 

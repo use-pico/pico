@@ -1,8 +1,4 @@
-import type {
-	CursorSchema,
-	EntitySchema,
-	FilterSchema,
-} from "@use-pico/common";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { match, P } from "ts-pattern";
 import { useCls } from "../hooks/useCls";
@@ -16,25 +12,6 @@ import { AbstractListBody } from "./AbstractListBody";
 import { AbstractListCls } from "./AbstractListCls";
 
 export namespace AbstractList {
-	/**
-	 * Base shape of request required for a Queries to handle.
-	 */
-	export interface Request {
-		/**
-		 * Paging support
-		 */
-		cursor?: CursorSchema.Type;
-		/**
-		 * User-land filters (e.g. from the UI and so on)
-		 */
-		filter?: FilterSchema.Type;
-		/**
-		 * System filters, e.g. pre-set userId, clientId and this kind
-		 * of stuff which a common user cannot change.
-		 */
-		where?: FilterSchema.Type;
-	}
-
 	/**
 	 * Loading state this component understands.
 	 */
@@ -127,7 +104,7 @@ export namespace AbstractList {
 	}
 
 	export interface Props<
-		TRequest extends Request,
+		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> extends AbstractListCls.Props {
 		/**
@@ -135,12 +112,12 @@ export namespace AbstractList {
 		 *
 		 * Item IDs are directly used as React key prop, so you've to ensure they're unique.
 		 */
-		withQuery: withQuery.Api<TRequest, TItem[]>;
+		withQuery: withQuery.Api<TQuery, TItem[]>;
 		/**
 		 * Request used to fetch data; it's assumed change to this prop
 		 * triggers a new query request.
 		 */
-		request: TRequest;
+		query: TQuery;
 		/**
 		 * Empty component to display when there are no items.
 		 */
@@ -172,14 +149,14 @@ export namespace AbstractList {
 	}
 
 	export type PropsEx<
-		TRequest extends Request,
+		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
-	> = Omit<Props<TRequest, TItem>, "renderItem">;
+	> = Omit<Props<TQuery, TItem>, "renderItem">;
 
 	export type Component<
-		TRequest extends Request,
+		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
-	> = FC<Props<TRequest, TItem>>;
+	> = FC<Props<TQuery, TItem>>;
 }
 
 /**
@@ -191,11 +168,11 @@ export namespace AbstractList {
  * You can use even this component, just it's a bit low-level.
  */
 export const AbstractList = <
-	TRequest extends AbstractList.Request,
+	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
 	withQuery,
-	request,
+	query,
 	renderEmpty = ({ loading }) => {
 		return match(loading)
 			.with("fetching", () => {
@@ -240,7 +217,7 @@ export const AbstractList = <
 	variant,
 	tva = AbstractListCls,
 	cls,
-}: AbstractList.Props<TRequest, TItem>) => {
+}: AbstractList.Props<TQuery, TItem>) => {
 	const { slots } = useCls(tva, variant, cls);
 
 	/**
@@ -253,7 +230,7 @@ export const AbstractList = <
 
 			<AbstractListBody
 				withQuery={withQuery}
-				request={request}
+				query={query}
 				//
 				renderHeader={renderHeader}
 				renderItem={renderItem}

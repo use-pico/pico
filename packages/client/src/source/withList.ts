@@ -14,7 +14,7 @@ export namespace withList {
 			TFilter extends FilterSchema.Type,
 		> {
 			select: TSelect;
-			where?: TFilter;
+			where?: TFilter | null;
 		}
 	}
 

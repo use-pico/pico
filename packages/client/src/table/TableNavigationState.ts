@@ -1,7 +1,6 @@
-import type { OrderSchema, StateType } from "@use-pico/common";
+import type { OrderSchema, StateType, withQuerySchema } from "@use-pico/common";
 import type { Cursor } from "../cursor/Cursor";
 import type { Fulltext } from "../fulltext/Fulltext";
-import type { AbstractList } from "../list/AbstractList";
 import type { TableControl } from "../table-control/TableControl";
 import type { SelectionType } from "./type/SelectionType";
 
@@ -133,8 +132,8 @@ export const TableNavigationState = {
 			},
 		};
 	},
-	cursorWithCount<TRequest extends AbstractList.Request>(
-		props: Omit<TableControl.Cursor.Props<TRequest>, "onPage" | "onSize">,
+	cursorWithCount<TQuery extends withQuerySchema.Query>(
+		props: Omit<TableControl.Cursor.Props<TQuery>, "onPage" | "onSize">,
 		navigate: (props: {
 			search: (props: {
 				cursor: {
@@ -143,7 +142,7 @@ export const TableNavigationState = {
 				};
 			}) => any;
 		}) => void,
-	): TableControl.Cursor.Props<TRequest> {
+	): TableControl.Cursor.Props<TQuery> {
 		return {
 			...props,
 			onPage(page) {

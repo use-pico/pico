@@ -1,28 +1,28 @@
+import type { withQuerySchema } from "@use-pico/common";
 import { Cursor as CoolCursor } from "../cursor/Cursor";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
-import type { AbstractList } from "../list/AbstractList";
 import type { TableControl } from "../table-control/TableControl";
 
 export namespace TableCursor {
-	export interface Props<TRequest extends AbstractList.Request> {
-		cursor: TableControl.Cursor.Props<TRequest>;
-		request: TRequest;
+	export interface Props<TQuery extends withQuerySchema.Query> {
+		cursor: TableControl.Cursor.Props<TQuery>;
+		query: TQuery;
 	}
 }
 
-export const TableCursor = <TRequest extends AbstractList.Request>({
+export const TableCursor = <TQuery extends withQuerySchema.Query>({
 	cursor: { withCountQuery, onPage, onSize },
-	request,
-}: TableCursor.Props<TRequest>) => {
+	query,
+}: TableCursor.Props<TQuery>) => {
 	const { data, isSuccess, isLoading, isFetching, isError } =
-		withCountQuery.useQuery(request);
+		withCountQuery.useQuery(query);
 
 	if (isError) {
 		return null;
 	}
 
-	if (!request.cursor) {
+	if (!query.cursor) {
 		return null;
 	}
 
@@ -43,7 +43,7 @@ export const TableCursor = <TRequest extends AbstractList.Request>({
 						]
 					: undefined,
 			}}
-			cursor={request.cursor}
+			cursor={query.cursor}
 			count={data}
 			onPage={onPage}
 			onSize={onSize}

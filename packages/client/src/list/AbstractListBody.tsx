@@ -1,15 +1,15 @@
-import type { cls, EntitySchema } from "@use-pico/common";
+import type { cls, EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { withQuery } from "../source/withQuery";
 import type { AbstractList } from "./AbstractList";
 import type { AbstractListCls } from "./AbstractListCls";
 
 export namespace AbstractListBody {
 	export interface Props<
-		TRequest extends AbstractList.Request,
+		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> {
-		withQuery: withQuery.Api<TRequest, TItem[]>;
-		request: TRequest;
+		withQuery: withQuery.Api<TQuery, TItem[]>;
+		query: TQuery;
 		slots: cls.Slots<typeof AbstractListCls>;
 		renderHeader: AbstractList.Header.Render<TItem>;
 		renderItem: AbstractList.Item.Render<TItem>;
@@ -26,20 +26,20 @@ export namespace AbstractListBody {
 }
 
 export const AbstractListBody = <
-	TRequest extends AbstractList.Request,
+	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
 	withQuery,
-	request,
+	query,
 	slots,
 	renderHeader,
 	renderItem,
 	renderFooter,
 	renderEmpty,
 	renderError,
-}: AbstractListBody.Props<TRequest, TItem>) => {
+}: AbstractListBody.Props<TQuery, TItem>) => {
 	const { isSuccess, isLoading, isFetching, isError, data } =
-		withQuery.useQuery(request);
+		withQuery.useQuery(query);
 
 	if (isLoading) {
 		return renderEmpty({

@@ -1,4 +1,10 @@
-import type { cls, DeepKeys, DeepValue, EntitySchema } from "@use-pico/common";
+import type {
+	cls,
+	DeepKeys,
+	DeepValue,
+	EntitySchema,
+	withQuerySchema,
+} from "@use-pico/common";
 import type { FC } from "react";
 import { useCls } from "../hooks/useCls";
 import { AbstractList } from "../list/AbstractList";
@@ -91,10 +97,10 @@ export namespace Table {
 	}
 
 	export interface Props<
-		TRequest extends AbstractList.Request,
+		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
 		TContext = any,
-	> extends TableCls.Props<cls.Clear<AbstractList.PropsEx<TRequest, TData>>> {
+	> extends TableCls.Props<cls.Clear<AbstractList.PropsEx<TQuery, TData>>> {
 		/**
 		 * All the columns defined in the table.
 		 *
@@ -164,17 +170,17 @@ export namespace Table {
 	}
 
 	export type PropsEx<
-		TRequest extends AbstractList.Request,
+		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
 		TContext = any,
 	> = Omit<
-		Props<TRequest, TData, TContext>,
+		Props<TQuery, TData, TContext>,
 		"columns" | "withQuery" | "withCountQuery" | "context"
 	>;
 }
 
 export const Table = <
-	TRequest extends AbstractList.Request,
+	TQuery extends withQuerySchema.Query,
 	TData extends EntitySchema.Type,
 	TContext = any,
 >({
@@ -195,7 +201,7 @@ export const Table = <
 	tva = TableCls,
 	cls,
 	...props
-}: Table.Props<TRequest, TData, TContext>) => {
+}: Table.Props<TQuery, TData, TContext>) => {
 	// const withActions = Boolean(
 	// 	(actionTable && !controlsHidden.includes("action-table")) ||
 	// 		(actionRow && !controlsHidden.includes("action-row")) ||
