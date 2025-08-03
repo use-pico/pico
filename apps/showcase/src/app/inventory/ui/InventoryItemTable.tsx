@@ -1,4 +1,12 @@
-import { Table, Tx, withColumn } from "@use-pico/client";
+import {
+	ActionClick,
+	ActionMenu,
+	EditIcon,
+	Table,
+	TrashIcon,
+	Tx,
+	withColumn,
+} from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
@@ -91,6 +99,49 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 			withQuery={withInventoryItemListQuery()}
 			context={{}}
 			columns={columns}
+			// actionWidth={({ controlsHidden }) => {
+			// 	return controlsHidden.includes("actions") ? "auto" : "8rem";
+			// }}
+			// controlsHidden={[
+			// 	"toolbar",
+			// 	"actions",
+			// ]}
+			toolbar={() => {
+				return (
+					<ActionMenu withOverlay>
+						<ActionClick icon={EditIcon}>
+							<Tx label={"Add"} />
+						</ActionClick>
+					</ActionMenu>
+				);
+			}}
+			actionTable={() => {
+				return (
+					<ActionMenu withOverlay>
+						<ActionClick icon={EditIcon}>
+							<Tx label={"Add"} />
+						</ActionClick>
+
+						<ActionClick
+							icon={TrashIcon}
+							variant={{
+								variant: "danger",
+							}}
+						>
+							<Tx label={"Remove all"} />
+						</ActionClick>
+					</ActionMenu>
+				);
+			}}
+			actionRow={() => {
+				return (
+					<ActionMenu withOverlay>
+						<ActionClick icon={EditIcon}>
+							<Tx label={"Edit"} />
+						</ActionClick>
+					</ActionMenu>
+				);
+			}}
 			{...props}
 		/>
 	);

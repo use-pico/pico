@@ -16,18 +16,17 @@ export namespace TableHeader {
 		TData extends EntitySchema.Type,
 		TContext = any,
 	> {
-		items: TData[];
+		data: TData[];
 		visible: Table.Column.Props<TQuery, TData, any, TContext>[];
 		grid: string;
-		// withActions: boolean;
 		slots: TableCls.Slots;
 		isFetching: boolean;
 		context: TContext;
 		filter: Table.Filter.State<TQuery> | undefined;
 		selection: Table.Selection.Props | undefined;
 		sort: Table.Sort.State<TQuery> | undefined;
-		// actionTable: ActionType.Table.Table<TData, TContext> | undefined;
-		// controlsHidden: Table.Controls[];
+		actionTable: Table.Action.Table.Render<TData, TContext> | undefined;
+		controlsHidden: Table.Controls[];
 	}
 
 	export type Component<
@@ -42,8 +41,7 @@ export const TableHeader = <
 	TData extends EntitySchema.Type,
 	TContext = any,
 >({
-	items,
-	// withActions,
+	data,
 	context,
 	visible,
 	slots,
@@ -52,22 +50,19 @@ export const TableHeader = <
 	selection,
 	sort,
 	isFetching,
-	// actionTable,
-	// controlsHidden,
-	// visible,
+	actionTable,
+	controlsHidden,
 }: TableHeader.Props<TQuery, TData, TContext>) => {
-	const isAll = items.every((data) =>
+	const isAll = data.every((data) =>
 		selection?.state.value.includes(data.id),
 	);
-	const isAny = items.some((data) =>
-		selection?.state.value.includes(data.id),
-	);
+	const isAny = data.some((data) => selection?.state.value.includes(data.id));
 
 	const onSelectAll = () => {
-		if (items.every((data) => selection?.state.value.includes(data.id))) {
+		if (data.every((data) => selection?.state.value.includes(data.id))) {
 			selection?.state.set([]);
 		} else {
-			selection?.state.set(items.map(({ id }) => id));
+			selection?.state.set(data.map(({ id }) => id));
 		}
 	};
 
@@ -124,13 +119,12 @@ export const TableHeader = <
 							onClick={onSelectAll}
 						/>
 					) : null}
-					{/* {TableAction ? (
-						<TableAction
-							data={data}
-							selection={selection}
-							context={context}
-						/>
-					) : null} */}
+					{controlsHidden.includes("actions")
+						? null
+						: actionTable?.({
+								data,
+								context,
+							})}
 				</div>
 
 				{visible.map((column) => {
@@ -147,7 +141,7 @@ export const TableHeader = <
 							className={slots.headerCell()}
 						>
 							<Header
-								items={items}
+								data={data}
 								context={context}
 							/>
 
@@ -165,13 +159,6 @@ export const TableHeader = <
 										variant={{
 											borderless: true,
 										}}
-										// cls={{
-										// 	base: [
-										// 		"opacity-50",
-										// 		"hover:opacity-100",
-										// 		"cursor-pointer",
-										// 	],
-										// }}
 										onClick={() => {
 											column.filter?.reset({
 												state: filter,

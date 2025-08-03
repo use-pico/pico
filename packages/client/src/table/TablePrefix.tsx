@@ -9,12 +9,12 @@ export namespace TablePrefix {
 		TContext = any,
 	> {
 		query: TQuery;
-		fulltext?: Fulltext.State;
-		cursor?: Table.Cursor.Props<TQuery>;
-		// controlsHidden: Table.Controls[];
-		// toolbar: ToolbarType.Component<TData, TContext>;
-		// selection: SelectionType.Selection | undefined;
-		// filter: FilterType.Filter | undefined;
+		fulltext: Fulltext.State | undefined;
+		cursor: Table.Cursor.Props<TQuery> | undefined;
+		toolbar: Table.Toolbar.Render<TQuery, TContext> | undefined;
+		controlsHidden: Table.Controls[];
+		selection: Table.Selection.State | undefined;
+		filter: Table.Filter.State<TQuery> | undefined;
 		context: TContext;
 	}
 }
@@ -26,11 +26,11 @@ export const TablePrefix = <
 	query,
 	fulltext,
 	cursor,
-	// controlsHidden,
-	// toolbar: Toolbar,
-	// selection,
-	// filter,
-	// context,
+	controlsHidden,
+	toolbar,
+	selection,
+	filter,
+	context,
 }: TablePrefix.Props<TQuery, TContext>) => {
 	return (
 		<div className={"flex items-center justify-between gap-4"}>
@@ -47,15 +47,15 @@ export const TablePrefix = <
 						/>
 					) : null}
 				</div>
-				{/* <div className={"flex flex-row items-center gap-2"}>
-					{controlsHidden.includes("toolbar") ? null : (
-						<Toolbar
-							data={data}
-							selection={selection}
-							context={context}
-						/>
-					)}
-				</div> */}
+				<div className={"flex flex-row items-center gap-2"}>
+					{controlsHidden.includes("toolbar")
+						? null
+						: toolbar?.({
+								context,
+								selection,
+								filter,
+							})}
+				</div>
 			</div>
 
 			<div className={"flex flex-row items-center justify-center gap-2"}>

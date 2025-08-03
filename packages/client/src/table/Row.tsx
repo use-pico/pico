@@ -20,13 +20,11 @@ export namespace Row {
 		selection: Table.Selection.Props | undefined;
 		filter: Table.Filter.State<TQuery> | undefined;
 		// props: Table.Row<TData> | undefined;
-		// withActions: boolean;
-
 		/**
 		 * Row-wise action.
 		 */
-		// actionRow: ActionType.Row.Table<TData, TContext> | undefined;
-		// controlsHidden: Table.Controls[];
+		actionRow: Table.Action.Row.Render<TData, TContext> | undefined;
+		controlsHidden: Table.Controls[];
 		context: TContext;
 		grid: string;
 		slots: TableCls.Slots;
@@ -50,18 +48,13 @@ export const Row = <
 	selection,
 	filter,
 	// props,
-	// withActions,
-	// actionRow,
-	// controlsHidden,
+	actionRow,
+	controlsHidden,
 	context,
 	grid,
 	slots,
 	onDoubleClick,
 }: Row.Props<TQuery, TData, TContext>) => {
-	// const { action: RowAction } = actionRow ?? {
-	// 	RowAction: undefined,
-	// };
-
 	const row = useRow<TQuery, TData, TContext>({
 		data: item,
 		visible: visibleColumns,
@@ -164,12 +157,12 @@ export const Row = <
 						onClick={onSelect}
 					/>
 				) : null}
-				{/* {RowAction && !controlsHidden.includes("action-row") ? (
-						<RowAction
-							data={row.data}
-							context={context}
-						/>
-					) : null} */}
+				{controlsHidden.includes("actions")
+					? null
+					: actionRow?.({
+							data: row.data,
+							context,
+						})}
 			</div>
 
 			{row.cells.map((cell) => {

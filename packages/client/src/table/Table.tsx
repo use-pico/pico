@@ -8,7 +8,7 @@ import {
 	tvc,
 	type withQuerySchema,
 } from "@use-pico/common";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
 import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import { useCls } from "../hooks/useCls";
@@ -123,7 +123,7 @@ export namespace Table {
 				TData extends EntitySchema.Type,
 				TContext = any,
 			> {
-				items: TData[];
+				data: TData[];
 				context: TContext;
 			}
 
@@ -175,10 +175,6 @@ export namespace Table {
 		}
 	}
 
-	export namespace Cell {
-		//
-	}
-
 	export interface Cell<
 		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
@@ -191,8 +187,6 @@ export namespace Table {
 		context: TContext;
 	}
 
-	export namespace Row {}
-
 	export interface Row<
 		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
@@ -202,6 +196,64 @@ export namespace Table {
 		data: TData;
 		cells: Cell<TQuery, TData, any, TContext>[];
 		context: TContext;
+	}
+
+	export namespace Toolbar {
+		export interface Props<
+			TQuery extends withQuerySchema.Query,
+			TContext = any,
+		> {
+			context: TContext;
+			selection: Selection.State | undefined;
+			filter: Filter.State<TQuery> | undefined;
+		}
+
+		export type Render<
+			TQuery extends withQuerySchema.Query,
+			TContext = any,
+		> = (props: Props<TQuery, TContext>) => ReactNode;
+	}
+
+	export namespace Action {
+		export namespace Table {
+			export interface Props<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> {
+				data: TData[];
+				context: TContext;
+			}
+
+			export type Render<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> = (props: Props<TData, TContext>) => ReactNode;
+		}
+
+		export namespace Row {
+			export interface Props<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> {
+				data: TData;
+				context: TContext;
+			}
+
+			export type Render<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> = (props: Props<TData, TContext>) => ReactNode;
+		}
+	}
+
+	export type Controls = "toolbar" | "actions";
+
+	export namespace ActionWidth {
+		export interface Props {
+			controlsHidden: Controls[];
+		}
+
+		export type Fn = (props: Props) => string;
 	}
 
 	export interface Props<
@@ -252,42 +304,32 @@ export namespace Table {
 		 *
 		 * Used only when there are any actions (e.g. selection or user-land actions).
 		 */
-		actionWidth?: string;
-		// /**
-		//  * Filter configuration.
-		//  */
-		// filter?: FilterType.Table;
-		// /**
-		//  * Sort configuration.
-		//  */
-		// sort?: SortType.Table;
+		actionWidth?: ActionWidth.Fn;
 		/**
 		 * Context for the table.
 		 */
 		context: TContext;
+		/**
+		 * Controls to hide.
+		 */
+		controlsHidden?: Controls[];
 		// /**
 		//  * Row configuration.
 		//  */
 		// row?: RowType.Props<TData>;
-		// /**
-		//  * Controls to hide.
-		//  */
-		// controlsHidden?: Controls[];
-		// /**
-		//  * Toolbar, displayed next to the fulltext.
-		//  *
-		//  * Good UI may be just icons to be used.
-		//  */
-		// toolbar?: ToolbarType.Component<TData, TContext>;
-		// empty?: FC;
-		// /**
-		//  * Table-wise action.
-		//  */
-		// actionTable?: ActionType.Table.Table<TData, TContext>;
-		// /**
-		//  * Row-wise action.
-		//  */
-		// actionRow?: ActionType.Row.Table<TData, TContext>;
+		/** Toolbar, displayed next to the fulltext.
+		 *
+		 * Good UI may be just icons to be used.
+		 */
+		toolbar?: Toolbar.Render<TQuery, TContext>;
+		/**
+		 * Table-wise action.
+		 */
+		actionTable?: Action.Table.Render<TData, TContext>;
+		/**
+		 * Row-wise action.
+		 */
+		actionRow?: Action.Row.Render<TData, TContext>;
 	}
 
 	export type PropsEx<
@@ -316,22 +358,16 @@ export const Table = <
 	filter,
 	sort,
 	actionWidth,
+	actionTable,
+	actionRow,
+	toolbar,
+	controlsHidden = [],
 	// row: rowProps,
-	// controlsHidden = [],
-	// actionTable,
-	// actionRow,
-	// toolbar = () => null,
 	variant,
 	tva = TableCls,
 	cls,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	// const withActions = Boolean(
-	// 	(actionTable && !controlsHidden.includes("action-table")) ||
-	// 		(actionRow && !controlsHidden.includes("action-row")) ||
-	// 		selection,
-	// );
-
 	const { slots } = useCls(tva, variant, cls);
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
@@ -343,7 +379,9 @@ export const Table = <
 
 	const grid = useGrid({
 		visible: visibleColumns,
-		actionWidth,
+		actionWidth: actionWidth?.({
+			controlsHidden,
+		}),
 		selection,
 	});
 
@@ -357,12 +395,17 @@ export const Table = <
 					query={props.query}
 					cursor={cursor}
 					fulltext={fulltext}
+					toolbar={toolbar}
+					controlsHidden={controlsHidden}
+					selection={selection?.state}
+					filter={filter}
 					context={context}
 					{...render}
 				/>
 			)}
-			renderHeader={(render) => (
+			renderHeader={({ items, ...render }) => (
 				<TableHeader<TQuery, TData, TContext>
+					data={items}
 					grid={grid}
 					context={context}
 					slots={slots}
@@ -370,6 +413,8 @@ export const Table = <
 					selection={selection}
 					filter={filter}
 					sort={sort}
+					actionTable={actionTable}
+					controlsHidden={controlsHidden}
 					{...render}
 				/>
 			)}
@@ -382,6 +427,8 @@ export const Table = <
 					context={context}
 					grid={grid}
 					slots={slots}
+					actionRow={actionRow}
+					controlsHidden={controlsHidden}
 					{...render}
 				/>
 			)}
@@ -411,60 +458,4 @@ export const Table = <
 			{...props}
 		/>
 	);
-
-	// return (
-	// 	<div className={slots.base()}>
-	// 		<TableTools
-	// 			data={data}
-	// 			cursor={cursor}
-	// 			fulltext={fulltext}
-	// 			toolbar={toolbar}
-	// 			controlsHidden={controlsHidden}
-	// 			context={context}
-	// 			selection={$selection}
-	// 			filter={$filter}
-	// 		/>
-
-	// 		<div className={"overflow-x-auto"}>
-	// 			<div className={slots.table()}>
-	// 				<TableHeader
-	// 					data={data}
-	// 					withActions={withActions}
-	// 					visible={$visible}
-	// 					context={context}
-	// 					selection={$selection}
-	// 					sort={$sort}
-	// 					filter={$filter}
-	// 					actionTable={actionTable}
-	// 					controlsHidden={controlsHidden}
-	// 					slots={slots}
-	// 					grid={grid}
-	// 					loading={isFetching}
-	// 				/>
-
-	// 				{$rows.map((row) => (
-	// 					<Row<TData>
-	// 						props={rowProps}
-	// 						withActions={withActions}
-	// 						key={row.id}
-	// 						row={row}
-	// 						actionRow={actionRow}
-	// 						controlsHidden={controlsHidden}
-	// 						context={context}
-	// 						filter={$filter}
-	// 						selection={$selection}
-	// 						grid={grid}
-	// 						slots={slots}
-	// 					/>
-	// 				))}
-	// 			</div>
-	// 		</div>
-
-	// 		{data.length === 0 ? <Empty /> : null}
-	// 		<div className={"flex flex-row items-center justify-end gap-2"}>
-	// 			<div />
-	// 			{cursor ? <Cursor {...cursor} /> : null}
-	// 		</div>
-	// 	</div>
-	// );
 };
