@@ -28,8 +28,6 @@ export const Route = createFileRoute("/$locale/components/table")({
 		const { where, filter, cursor, sort, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 
-		console.log("sort", sort);
-
 		return (
 			<div className="flex flex-col gap-4 w-full">
 				<InventoryItemTable

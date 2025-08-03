@@ -1,5 +1,4 @@
-import type { withQuerySchema } from "@use-pico/common";
-import { match, P } from "ts-pattern";
+import { tvc, type withQuerySchema } from "@use-pico/common";
 import { Action } from "../action/Action";
 import { AscIcon } from "../icon/AscIcon";
 import { DescIcon } from "../icon/DescIcon";
@@ -23,7 +22,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 
 	const update = (by: "asc" | "desc" | undefined) => {
 		const currentItems = (state.value ?? []) as Array<{
-			sort: "asc" | "desc";
+			sort: "asc" | "desc" | undefined;
 			value: typeof sort.value;
 		}>;
 
@@ -69,75 +68,78 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 		]);
 	};
 
-	return match(type)
-		.with(
-			{
-				sort: "asc",
-			},
-			() => {
-				return (
-					<Tooltip
-						target={
-							<Action
-								iconEnabled={DescIcon}
-								onClick={() => {
-									update("desc");
-								}}
-								variant={{
-									borderless: true,
-								}}
-							/>
-						}
-					>
-						<Tx label={"Sorted by asc, sort by desc"} />
-					</Tooltip>
-				);
-			},
-		)
-		.with(
-			{
-				sort: "desc",
-			},
-			() => {
-				return (
-					<Tooltip
-						target={
-							<Action
-								iconEnabled={SortIcon}
-								onClick={() => {
-									update(undefined);
-								}}
-								variant={{
-									borderless: true,
-								}}
-							/>
-						}
-					>
-						<Tx label={"Sorted by desc, remove sort"} />
-					</Tooltip>
-				);
-			},
-		)
-		.with(P.nullish, () => {
-			return (
+	return (
+		<div
+			className={tvc([
+				"flex",
+				"items-center",
+				"gap-1",
+			])}
+		>
+			{type?.sort === undefined || type?.sort === "asc" ? (
 				<Tooltip
 					target={
 						<Action
 							iconEnabled={AscIcon}
 							onClick={() => {
-								update("asc");
+								update(type?.sort === "asc" ? "desc" : "asc");
 							}}
 							variant={{
+								active: type?.sort === "asc",
 								borderless: true,
 							}}
 						/>
 					}
 				>
-					<Tx label={"Unsorted, sort by asc"} />
+					{type?.sort === "asc" ? (
+						<Tx
+							label={
+								"Sorted by asc, sort by desc; keeps column sorted in selected order"
+							}
+						/>
+					) : (
+						<Tx label={"Unsorted, sort by asc"} />
+					)}
 				</Tooltip>
-			);
-		})
-		.otherwise(() => {
-			return null;
-		});
+			) : null}
+			{type?.sort === "desc" ? (
+				<Tooltip
+					target={
+						<Action
+							iconEnabled={DescIcon}
+							onClick={() => {
+								update("asc");
+							}}
+							variant={{
+								active: type?.sort === "desc",
+								borderless: true,
+							}}
+						/>
+					}
+				>
+					<Tx
+						label={
+							"Sorted by desc, sort by asc; keeps column sorted in selected order"
+						}
+					/>
+				</Tooltip>
+			) : null}
+			<Tooltip
+				target={
+					<Action
+						iconEnabled={SortIcon}
+						onClick={() => {
+							update(undefined);
+						}}
+						variant={{
+							active: type?.sort === undefined,
+							borderless: true,
+						}}
+					/>
+				}
+			>
+				<Tx label={"Remove sorting"} />
+			</Tooltip>
+		</div>
+	);
 };

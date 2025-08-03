@@ -1,5 +1,6 @@
 import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { Action } from "../action/Action";
 import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
 import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
@@ -159,18 +160,18 @@ export const TableHeader = <
 								) : null}
 
 								{isFilter ? (
-									<Icon
-										icon={FilterRemoveIcon}
+									<Action
+										iconEnabled={FilterRemoveIcon}
 										variant={{
-											size: "md",
+											borderless: true,
 										}}
-										cls={{
-											base: [
-												"opacity-50",
-												"hover:opacity-100",
-												"cursor-pointer",
-											],
-										}}
+										// cls={{
+										// 	base: [
+										// 		"opacity-50",
+										// 		"hover:opacity-100",
+										// 		"cursor-pointer",
+										// 	],
+										// }}
 										onClick={() => {
 											column.filter?.reset({
 												state: filter,

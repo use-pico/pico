@@ -33,6 +33,9 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isLte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
+					variant={{
+						borderless: true,
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -47,6 +50,9 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={LteIcon}
+					variant={{
+						borderless: true,
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -62,6 +68,9 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isGte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
+					variant={{
+						borderless: true,
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -76,6 +85,9 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={GteIcon}
+					variant={{
+						borderless: true,
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,

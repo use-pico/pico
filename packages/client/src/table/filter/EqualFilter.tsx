@@ -5,8 +5,8 @@ import type {
 	StateType,
 	withQuerySchema,
 } from "@use-pico/common";
+import { Action } from "../../action/Action";
 import { FilterApplyIcon } from "../../icon/FilterApplyIcon";
-import { Icon } from "../../icon/Icon";
 
 export namespace EqualFilter {
 	export interface Props<
@@ -28,10 +28,10 @@ export const EqualFilter = <
 	value,
 }: EqualFilter.Props<TData, TFilter>) => {
 	return (
-		<Icon
-			icon={FilterApplyIcon}
+		<Action
+			iconEnabled={FilterApplyIcon}
 			variant={{
-				size: "xl",
+				borderless: true,
 			}}
 			onClick={() => {
 				state.set({
