@@ -43,6 +43,7 @@ export { EntitySchema } from "./source/EntitySchema";
 export { FilterSchema } from "./source/FilterSchema";
 export { OrderSchema } from "./source/OrderSchema";
 export type { SortSchema } from "./source/SortSchema";
+export { withQuerySchema } from "./source/withQuerySchema";
 export { withSourceSchema } from "./source/withSourceSchema";
 export { TagSchema } from "./tag/TagSchema";
 export { cleanOf } from "./toolbox/cleanOf";
