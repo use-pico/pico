@@ -3,14 +3,12 @@ import type {
 	EntitySchema,
 	FilterSchema,
 } from "@use-pico/common";
-import type { ComponentType, FC } from "react";
+import type { FC, ReactNode } from "react";
 import { match, P } from "ts-pattern";
 import { useCls } from "../hooks/useCls";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { LoaderIcon } from "../icon/LoaderIcon";
-import { renderSlot } from "../slot/renderSlot";
-import { slot } from "../slot/Slot";
 import type { withQuery } from "../source/withQuery";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
@@ -50,7 +48,7 @@ export namespace AbstractList {
 			loading: Loading | undefined;
 		}
 
-		export type Slot = slot.Slot<ComponentType<any>, Props>;
+		export type Render = (props: Props) => ReactNode;
 	}
 
 	/**
@@ -59,7 +57,7 @@ export namespace AbstractList {
 	export namespace Error {
 		export type Props = {};
 
-		export type Slot = slot.Slot<ComponentType<any>, Props>;
+		export type Render = (props: Props) => ReactNode;
 	}
 
 	/**
@@ -68,7 +66,7 @@ export namespace AbstractList {
 	export namespace Prefix {
 		export type Props = {};
 
-		export type Slot = slot.Slot<ComponentType<any>, Props>;
+		export type Render = (props: Props) => ReactNode;
 	}
 
 	/**
@@ -83,10 +81,9 @@ export namespace AbstractList {
 			items: TItem[];
 		}
 
-		export type Slot<TItem extends EntitySchema.Type> = slot.Slot<
-			ComponentType<any>,
-			Props<TItem>
-		>;
+		export type Render<TItem extends EntitySchema.Type> = (
+			props: Props<TItem>,
+		) => ReactNode;
 	}
 
 	export namespace Item {
@@ -101,10 +98,9 @@ export namespace AbstractList {
 			items: TItem[];
 		}
 
-		export type Slot<TItem extends EntitySchema.Type> = slot.Slot<
-			ComponentType<any>,
-			Props<TItem>
-		>;
+		export type Render<TItem extends EntitySchema.Type> = (
+			props: Props<TItem>,
+		) => ReactNode;
 	}
 
 	/**
@@ -119,16 +115,15 @@ export namespace AbstractList {
 			items: TItem[];
 		}
 
-		export type Slot<TItem extends EntitySchema.Type> = slot.Slot<
-			ComponentType<any>,
-			Props<TItem>
-		>;
+		export type Render<TItem extends EntitySchema.Type> = (
+			props: Props<TItem>,
+		) => ReactNode;
 	}
 
 	export namespace Postfix {
 		export type Props = {};
 
-		export type Slot = slot.Slot<ComponentType<any>, Props>;
+		export type Render = (props: Props) => ReactNode;
 	}
 
 	export interface Props<
@@ -149,37 +144,37 @@ export namespace AbstractList {
 		/**
 		 * Empty component to display when there are no items.
 		 */
-		emptySlot?: Empty.Slot;
+		renderEmpty?: Empty.Render;
 		/**
 		 * Error component to display when there is an error.
 		 */
-		errorSlot?: Error.Slot;
+		renderError?: Error.Render;
 		/**
 		 * Item component to display each item.
 		 */
-		itemSlot: Item.Slot<TItem>;
+		renderItem: Item.Render<TItem>;
 		/**
 		 * Prefix component to display before the list.
 		 */
-		prefixSlot?: Prefix.Slot;
+		renderPrefix?: Prefix.Render;
 		/**
 		 * Header component to display before the list.
 		 */
-		headerSlot?: Header.Slot<TItem>;
+		renderHeader?: Header.Render<TItem>;
 		/**
 		 * Footer component to display after the list.
 		 */
-		footerSlot?: Footer.Slot<TItem>;
+		renderFooter?: Footer.Render<TItem>;
 		/**
 		 * Postfix component to display after the list.
 		 */
-		postfixSlot?: Postfix.Slot;
+		renderPostfix?: Postfix.Render;
 	}
 
 	export type PropsEx<
 		TRequest extends Request,
 		TItem extends EntitySchema.Type,
-	> = Omit<Props<TRequest, TItem>, "itemSlot">;
+	> = Omit<Props<TRequest, TItem>, "renderItem">;
 
 	export type Component<
 		TRequest extends Request,
@@ -201,10 +196,7 @@ export const AbstractList = <
 >({
 	withQuery,
 	request,
-	emptySlot = slot<
-		ComponentType<AbstractList.Empty.Props>,
-		AbstractList.Empty.Props
-	>(({ loading }) => {
+	renderEmpty = ({ loading }) => {
 		return match(loading)
 			.with("fetching", () => {
 				return null;
@@ -230,11 +222,8 @@ export const AbstractList = <
 				);
 			})
 			.exhaustive();
-	}, {}),
-	errorSlot = slot<
-		ComponentType<AbstractList.Error.Props>,
-		AbstractList.Error.Props
-	>(() => {
+	},
+	renderError = () => {
 		return (
 			<Status
 				icon={ErrorIcon}
@@ -242,24 +231,12 @@ export const AbstractList = <
 				textMessage={<Tx label={"Something went wrong."} />}
 			/>
 		);
-	}, {}),
-	itemSlot,
-	prefixSlot = {
-		Component: () => null,
-		props: {},
 	},
-	headerSlot = {
-		Component: () => null,
-		props: {},
-	},
-	footerSlot = {
-		Component: () => null,
-		props: {},
-	},
-	postfixSlot = {
-		Component: () => null,
-		props: {},
-	},
+	renderItem,
+	renderPrefix = () => null,
+	renderHeader = () => null,
+	renderFooter = () => null,
+	renderPostfix = () => null,
 	variant,
 	tva = AbstractListCls,
 	cls,
@@ -272,22 +249,22 @@ export const AbstractList = <
 	 */
 	return (
 		<div className={slots.root()}>
-			{renderSlot(prefixSlot, {})}
+			{renderPrefix({})}
 
 			<AbstractListBody
 				withQuery={withQuery}
 				request={request}
 				//
-				headerSlot={headerSlot}
-				itemSlot={itemSlot}
-				footerSlot={footerSlot}
-				emptySlot={emptySlot}
-				errorSlot={errorSlot}
+				renderHeader={renderHeader}
+				renderItem={renderItem}
+				renderFooter={renderFooter}
+				renderEmpty={renderEmpty}
+				renderError={renderError}
 				//
 				slots={slots}
 			/>
 
-			{renderSlot(postfixSlot, {})}
+			{renderPostfix({})}
 		</div>
 	);
 };

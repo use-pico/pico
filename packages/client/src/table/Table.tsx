@@ -1,24 +1,12 @@
-import type {
-	CountSchema,
-	cls,
-	DeepKeys,
-	DeepValue,
-	EntitySchema,
-	StateType,
-} from "@use-pico/common";
+import type { cls, DeepKeys, DeepValue, EntitySchema } from "@use-pico/common";
 import type { FC } from "react";
-import type { Cursor as CoolCursor } from "../cursor/Cursor";
-import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import { useCls } from "../hooks/useCls";
 import { AbstractList } from "../list/AbstractList";
-import { slot } from "../slot/Slot";
-import type { withQuery } from "../source/withQuery";
 import { useGrid } from "./hook/useGrid";
 import { useVisibleColumns } from "./hook/useVisibleColumns";
 import { Row } from "./Row";
 import { TableCls } from "./TableCls";
 import { TableHeader } from "./TableHeader";
-import { TablePrefix } from "./TablePrefix";
 
 export namespace Table {
 	export namespace Column {
@@ -102,20 +90,6 @@ export namespace Table {
 		context: TContext;
 	}
 
-	export namespace Fulltext {
-		export type Props = StateType<CoolFulltext.Value>;
-	}
-
-	export namespace Cursor {
-		export interface Props<TRequest extends AbstractList.Request>
-			extends Omit<CoolCursor.Props, "count" | "cursor"> {
-			/**
-			 * Query used to fetch count of items.
-			 */
-			withCountQuery: withQuery.Api<TRequest, CountSchema.Type>;
-		}
-	}
-
 	export interface Props<
 		TRequest extends AbstractList.Request,
 		TData extends EntitySchema.Type,
@@ -168,10 +142,6 @@ export namespace Table {
 		//  * Row configuration.
 		//  */
 		// row?: RowType.Props<TData>;
-		/**
-		 * Configure fulltext search
-		 */
-		fulltext?: Fulltext.Props;
 		// /**
 		//  * Controls to hide.
 		//  */
@@ -182,7 +152,6 @@ export namespace Table {
 		//  * Good UI may be just icons to be used.
 		//  */
 		// toolbar?: ToolbarType.Component<TData, TContext>;
-		cursor?: Cursor.Props<TRequest>;
 		// empty?: FC;
 		// /**
 		//  * Table-wise action.
@@ -221,8 +190,6 @@ export const Table = <
 	// controlsHidden = [],
 	// actionTable,
 	// actionRow,
-	fulltext,
-	cursor,
 	// toolbar = () => null,
 	variant,
 	tva = TableCls,
@@ -253,30 +220,25 @@ export const Table = <
 			cls={{
 				root: slots.root(),
 			}}
-			prefixSlot={slot(TablePrefix<TRequest, TContext>, {
-				context,
-				request: props.request,
-				fulltext,
-				cursor,
-			})}
-			headerSlot={slot<
-				TableHeader.Component<TData, TContext>,
-				AbstractList.Header.Props<TData>
-			>(TableHeader, {
-				grid,
-				context,
-				slots,
-				visible: visibleColumns,
-			})}
-			itemSlot={slot<
-				Row.Component<TData, TContext>,
-				AbstractList.Item.Props<TData>
-			>(Row, {
-				visibleColumns,
-				context,
-				grid,
-				slots,
-			})}
+			renderHeader={(render) => (
+				<TableHeader
+					grid={grid}
+					context={context}
+					slots={slots}
+					visible={visibleColumns}
+					{...render}
+				/>
+			)}
+			renderItem={(render) => (
+				<Row
+					key={render.item.id}
+					visibleColumns={visibleColumns}
+					context={context}
+					grid={grid}
+					slots={slots}
+					{...render}
+				/>
+			)}
 			{...props}
 		/>
 	);

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	Table,
+	TableControl,
 	TableNavigationState,
 	Tx,
 	withColumn,
@@ -138,7 +138,7 @@ const columns = [
 
 export namespace SomeTable {
 	export interface Props
-		extends Table.PropsEx<
+		extends TableControl.PropsEx<
 			withSourceSchema.Query<SomeDataSourceSchema>,
 			SomeDataSchema.Type
 		> {
@@ -148,7 +148,7 @@ export namespace SomeTable {
 
 const SomeTable: FC<SomeTable.Props> = (props) => {
 	return (
-		<Table
+		<TableControl
 			withQuery={someDataQuery}
 			columns={columns}
 			context={{}}

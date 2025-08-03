@@ -1,5 +1,4 @@
 import type { cls, EntitySchema } from "@use-pico/common";
-import { renderSlot } from "../slot/renderSlot";
 import type { withQuery } from "../source/withQuery";
 import type { AbstractList } from "./AbstractList";
 import type { AbstractListCls } from "./AbstractListCls";
@@ -12,17 +11,17 @@ export namespace AbstractListBody {
 		withQuery: withQuery.Api<TRequest, TItem[]>;
 		request: TRequest;
 		slots: cls.Slots<typeof AbstractListCls>;
-		headerSlot: AbstractList.Header.Slot<TItem>;
-		itemSlot: AbstractList.Item.Slot<TItem>;
-		footerSlot: AbstractList.Footer.Slot<TItem>;
+		renderHeader: AbstractList.Header.Render<TItem>;
+		renderItem: AbstractList.Item.Render<TItem>;
+		renderFooter: AbstractList.Footer.Render<TItem>;
 		/**
 		 * Empty component to display when there are no items.
 		 */
-		emptySlot: AbstractList.Empty.Slot;
+		renderEmpty: AbstractList.Empty.Render;
 		/**
 		 * Error component to display when there is an error.
 		 */
-		errorSlot: AbstractList.Error.Slot;
+		renderError: AbstractList.Error.Render;
 	}
 }
 
@@ -33,30 +32,30 @@ export const AbstractListBody = <
 	withQuery,
 	request,
 	slots,
-	headerSlot,
-	itemSlot,
-	footerSlot,
-	emptySlot,
-	errorSlot,
+	renderHeader,
+	renderItem,
+	renderFooter,
+	renderEmpty,
+	renderError,
 }: AbstractListBody.Props<TRequest, TItem>) => {
 	const { isSuccess, isLoading, isFetching, isError, data } =
 		withQuery.useQuery(request);
 
 	if (isLoading) {
-		return renderSlot(emptySlot, {
+		return renderEmpty({
 			loading: "loading",
 		});
 	}
 
 	if (isError) {
-		return renderSlot(errorSlot, {});
+		return renderError({});
 	}
 
 	if (isSuccess && data?.length === 0) {
 		/**
 		 * Loading - undefined means we're empty, but loading is not happening anymore.
 		 */
-		return renderSlot(emptySlot, {
+		return renderEmpty({
 			loading: undefined,
 		});
 	}
@@ -72,24 +71,20 @@ export const AbstractListBody = <
 
 	return (
 		<div className={slots.items()}>
-			{renderSlot(headerSlot, {
+			{renderHeader({
 				isFetching,
 				items: data,
 			})}
 
 			{data.map((item) =>
-				renderSlot(
-					itemSlot,
-					{
-						item,
-						items: data,
-						isFetching,
-					},
-					item.id,
-				),
+				renderItem({
+					item,
+					items: data,
+					isFetching,
+				}),
 			)}
 
-			{renderSlot(footerSlot, {
+			{renderFooter({
 				isFetching,
 				items: data,
 			})}

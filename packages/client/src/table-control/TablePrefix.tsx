@@ -1,8 +1,8 @@
 import type { StateType } from "@use-pico/common";
 import { Fulltext } from "../fulltext/Fulltext";
 import type { AbstractList } from "../list/AbstractList";
-import type { Table } from "./Table";
-import { TableCursor } from "./TableCursor";
+import type { Table } from "../table/Table";
+import { TableCursor } from "../table/TableCursor";
 
 export namespace TablePrefix {
 	export interface Props<
