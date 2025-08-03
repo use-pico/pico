@@ -1,5 +1,6 @@
 import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
+import { FilterRemoveIcon } from "../icon/FilterRemoveIcon";
 import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
@@ -22,7 +23,7 @@ export namespace TableHeader {
 		context: TContext;
 		selection: Table.Selection.Props | undefined;
 		// sort: SortType.Sort | undefined;
-		// filter: FilterType.Filter | undefined;
+		filter: Table.Filter.State<TQuery["filter"]> | undefined;
 		// actionTable: ActionType.Table.Table<TData, TContext> | undefined;
 		// controlsHidden: Table.Controls[];
 	}
@@ -48,7 +49,7 @@ export const TableHeader = <
 	selection,
 	isFetching,
 	// sort,
-	// filter,
+	filter,
 	// actionTable,
 	// controlsHidden,
 	// visible,
@@ -132,38 +133,53 @@ export const TableHeader = <
 
 				{visible.map((column) => {
 					const Header = column.header;
-					// const withSortOrFilter =
-					// 	(sort && column.sort) ||
-					// 	(filter &&
-					// 		column.filter?.is({
-					// 			filter,
-					// 		}));
+					const isSortOrFilter =
+						// (sort && column.sort) ||
+						filter &&
+						column.filter?.is({
+							state: filter,
+						});
 
 					return (
 						<div
 							key={`header-${column.name}`}
 							className={slots.headerCell()}
 						>
-							{/* {withSortOrFilter ? (
+							<Header
+								items={items}
+								context={context}
+							/>
+							{isSortOrFilter ? (
 								<div
 									className={
 										"flex flex-row items-center gap-2"
 									}
 								>
-									<ColumnSort
+									{/* <ColumnSort
 										column={column}
 										sort={sort}
-									/>
-									<ColumnFilter
-										column={column}
-										filter={filter}
+									/> */}
+
+									<Icon
+										icon={FilterRemoveIcon}
+										variant={{
+											size: "md",
+										}}
+										cls={{
+											base: [
+												"opacity-50",
+												"hover:opacity-100",
+												"cursor-pointer",
+											],
+										}}
+										onClick={() => {
+											column.filter?.reset({
+												state: filter,
+											});
+										}}
 									/>
 								</div>
-							) : null} */}
-							<Header
-								items={items}
-								context={context}
-							/>
+							) : null}
 						</div>
 					);
 				})}

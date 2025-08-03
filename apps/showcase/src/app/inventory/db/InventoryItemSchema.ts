@@ -6,6 +6,18 @@ export const InventoryItemSchema = z.object({
 	name: z.string(),
 	description: z.string().nullish(),
 	amount: z.number(),
+	kind: z.enum([
+		"WEAPON",
+		"ARMOR",
+		"CONSUMABLE",
+		"MAGICAL",
+	]),
+	type: z.enum([
+		"COMMON",
+		"RARE",
+		"EPIC",
+		"LEGENDARY",
+	]),
 });
 
 export type InventoryItemSchema = typeof InventoryItemSchema;

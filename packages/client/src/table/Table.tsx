@@ -307,6 +307,7 @@ export const Table = <
 					slots={slots}
 					visible={visibleColumns}
 					selection={selection}
+					filter={filter}
 					{...render}
 				/>
 			)}

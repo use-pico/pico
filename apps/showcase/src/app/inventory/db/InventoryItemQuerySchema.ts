@@ -6,11 +6,15 @@ export const InventoryItemQuerySchema = withQuerySchema({
 		...FilterSchema.shape,
 		name: z.string().nullish(),
 		description: z.string().nullish(),
+		kind: z.string().nullish(),
+		type: z.string().nullish(),
 		amountLte: z.number().nullish(),
 		amountGte: z.number().nullish(),
 	}),
 	sort: [
 		"name",
+		"kind",
+		"type",
 		"amount",
 	],
 });

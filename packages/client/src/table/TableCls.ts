@@ -25,6 +25,7 @@ export const TableCls = cls({
 			"flex",
 			"flex-row",
 			"items-center",
+			"justify-between",
 			"gap-2",
 			"text-left",
 			"px-2",

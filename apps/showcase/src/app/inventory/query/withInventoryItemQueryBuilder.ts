@@ -49,6 +49,14 @@ export const withInventoryItemQueryBuilder: withInventoryItemQueryBuilder.Callba
 			);
 		}
 
+		if (where?.kind) {
+			query = query.where("kind", "=", where.kind);
+		}
+
+		if (where?.type) {
+			query = query.where("type", "=", where.type);
+		}
+
 		if (where?.amountLte !== null && where?.amountLte !== undefined) {
 			query = query.where("amount", "<=", where.amountLte);
 		}
@@ -79,6 +87,12 @@ export const withInventoryItemQueryBuilderWithSort = (
 			switch (sortItem.value) {
 				case "name":
 					query = query.orderBy("name", sortItem.sort);
+					break;
+				case "kind":
+					query = query.orderBy("kind", sortItem.sort);
+					break;
+				case "type":
+					query = query.orderBy("type", sortItem.sort);
 					break;
 				case "amount":
 					query = query.orderBy("amount", sortItem.sort);

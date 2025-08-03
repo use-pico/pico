@@ -30,6 +30,24 @@ const columns = [
 		size: "auto",
 	}),
 	create({
+		name: "kind",
+		header: () => <Tx label={"Kind"} />,
+		render: ({ value }) => value,
+		filter: filter.equal({
+			path: "kind",
+		}),
+		size: 12,
+	}),
+	create({
+		name: "type",
+		header: () => <Tx label={"Type"} />,
+		render: ({ value }) => value,
+		filter: filter.equal({
+			path: "type",
+		}),
+		size: 12,
+	}),
+	create({
 		name: "amount",
 		header: () => <Tx label={"Amount"} />,
 		render: ({ value }) =>

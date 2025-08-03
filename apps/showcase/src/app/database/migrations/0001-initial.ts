@@ -1,5 +1,6 @@
 import { genId } from "@use-pico/common";
 import type { Migration } from "kysely";
+import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
 
 // Dictionary of words for generating random names and descriptions
 const words = [
@@ -95,18 +96,34 @@ const generateRandomDescription = () => {
 
 const generateSeedData = () => {
 	const items = [];
+	const kinds: InventoryItemSchema.Type["kind"][] = [
+		"WEAPON",
+		"ARMOR",
+		"CONSUMABLE",
+		"MAGICAL",
+	];
+	const types: InventoryItemSchema.Type["type"][] = [
+		"COMMON",
+		"RARE",
+		"EPIC",
+		"LEGENDARY",
+	];
 
 	for (let i = 0; i < 1024; i++) {
 		const name = generateRandomName();
 		const description =
 			Math.random() > 0.3 ? generateRandomDescription() : null; // 70% chance of having description
 		const amount = Math.floor(Math.random() * 1000) + 1; // 1-1000
+		const kind = kinds[Math.floor(Math.random() * kinds.length)];
+		const type = types[Math.floor(Math.random() * types.length)];
 
 		items.push({
 			id: genId(),
 			name,
 			description,
 			amount,
+			kind,
+			type,
 		});
 	}
 
@@ -121,6 +138,8 @@ export const InitialMigration: Migration = {
 			.addColumn("name", "text", (col) => col.notNull())
 			.addColumn("description", "text")
 			.addColumn("amount", "integer", (col) => col.notNull())
+			.addColumn("kind", "text", (col) => col.notNull())
+			.addColumn("type", "text", (col) => col.notNull())
 			.execute();
 
 		await db
