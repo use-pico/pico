@@ -1,7 +1,7 @@
-import type { StateType, withQuerySchema } from "@use-pico/common";
+import type { withQuerySchema } from "@use-pico/common";
 import { Fulltext } from "../fulltext/Fulltext";
-import { TableCursor } from "../table/TableCursor";
-import type { TableControl } from "./TableControl";
+import type { Table } from "./Table";
+import { TableCursor } from "./TableCursor";
 
 export namespace TablePrefix {
 	export interface Props<
@@ -9,8 +9,8 @@ export namespace TablePrefix {
 		TContext = any,
 	> {
 		query: TQuery;
-		fulltext?: StateType<Fulltext.Value>;
-		cursor?: TableControl.Cursor.Props<TQuery>;
+		fulltext?: Fulltext.State;
+		cursor?: Table.Cursor.Props<TQuery>;
 		// controlsHidden: Table.Controls[];
 		// toolbar: ToolbarType.Component<TData, TContext>;
 		// selection: SelectionType.Selection | undefined;

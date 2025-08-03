@@ -1,21 +1,42 @@
-import type {
-	cls,
-	DeepKeys,
-	DeepValue,
-	EntitySchema,
-	StateType,
-	withQuerySchema,
+import {
+	type CountSchema,
+	type cls,
+	type DeepKeys,
+	type DeepValue,
+	type EntitySchema,
+	type StateType,
+	tvc,
+	type withQuerySchema,
 } from "@use-pico/common";
 import type { FC } from "react";
+import type { Cursor as CoolCursor } from "../cursor/Cursor";
+import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import { useCls } from "../hooks/useCls";
 import { AbstractList } from "../list/AbstractList";
+import type { withQuery } from "../source/withQuery";
 import { useGrid } from "./hook/useGrid";
 import { useVisibleColumns } from "./hook/useVisibleColumns";
 import { Row } from "./Row";
 import { TableCls } from "./TableCls";
+import { TableCursor } from "./TableCursor";
 import { TableHeader } from "./TableHeader";
+import { TablePrefix } from "./TablePrefix";
 
 export namespace Table {
+	export namespace Fulltext {
+		export type Props = CoolFulltext.State;
+	}
+
+	export namespace Cursor {
+		export interface Props<TQuery extends withQuerySchema.Query> {
+			/**
+			 * Query used to fetch count of items.
+			 */
+			withCountQuery: withQuery.Api<TQuery, CountSchema.Type>;
+			state: CoolCursor.State;
+		}
+	}
+
 	export namespace Selection {
 		export type State = StateType<string[]>;
 
@@ -216,6 +237,11 @@ export namespace Table {
 		 */
 		order?: DeepKeys<TData>[];
 		/**
+		 * Configure fulltext search
+		 */
+		fulltext?: Fulltext.Props;
+		cursor?: Cursor.Props<TQuery>;
+		/**
 		 * Selection configuration.
 		 */
 		selection?: Selection.Props;
@@ -283,6 +309,8 @@ export const Table = <
 	visible,
 	hidden = [],
 	order = [],
+	fulltext,
+	cursor,
 	context,
 	selection,
 	filter,
@@ -324,6 +352,15 @@ export const Table = <
 			cls={{
 				root: slots.root(),
 			}}
+			renderPrefix={(render) => (
+				<TablePrefix<TQuery, TContext>
+					query={props.query}
+					cursor={cursor}
+					fulltext={fulltext}
+					context={context}
+					{...render}
+				/>
+			)}
 			renderHeader={(render) => (
 				<TableHeader<TQuery, TData, TContext>
 					grid={grid}
@@ -348,6 +385,29 @@ export const Table = <
 					{...render}
 				/>
 			)}
+			renderFooter={() => {
+				return (
+					<div
+						className={tvc(
+							"flex",
+							"flex-row",
+							"items-center",
+							"justify-end",
+							"gap-2",
+						)}
+					>
+						<div />
+						{cursor ? (
+							<TableCursor
+								cursor={cursor}
+								query={props.query}
+							/>
+						) : (
+							<div />
+						)}
+					</div>
+				);
+			}}
 			{...props}
 		/>
 	);

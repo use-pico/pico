@@ -1,4 +1,4 @@
-import { TableControl, Tx, withColumn } from "@use-pico/client";
+import { Table, Tx, withColumn } from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
@@ -77,7 +77,7 @@ const columns = [
 
 export namespace InventoryItemTable {
 	export interface Props
-		extends TableControl.PropsEx<
+		extends Table.PropsEx<
 			InventoryItemQuerySchema.Type,
 			InventoryItemSchema.Type
 		> {
@@ -87,7 +87,7 @@ export namespace InventoryItemTable {
 
 export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 	return (
-		<TableControl
+		<Table
 			withQuery={withInventoryItemListQuery()}
 			context={{}}
 			columns={columns}

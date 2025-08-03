@@ -155,7 +155,6 @@ export { withRangeFilter } from "./table/filter/withRangeFilter";
 export { Table } from "./table/Table";
 export { TableCls } from "./table/TableCls";
 export { withColumn } from "./table/tools/withColumn";
-export { TableControl } from "./table-control/TableControl";
 export { Tab } from "./tabs/Tab";
 export { TabCls } from "./tabs/TabCls";
 export { TabList } from "./tabs/TabList";

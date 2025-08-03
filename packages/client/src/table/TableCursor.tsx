@@ -2,11 +2,11 @@ import type { withQuerySchema } from "@use-pico/common";
 import { Cursor as CoolCursor } from "../cursor/Cursor";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
-import type { TableControl } from "../table-control/TableControl";
+import type { Table } from "./Table";
 
 export namespace TableCursor {
 	export interface Props<TQuery extends withQuerySchema.Query> {
-		cursor: TableControl.Cursor.Props<TQuery>;
+		cursor: Table.Cursor.Props<TQuery>;
 		query: TQuery;
 	}
 }
