@@ -1,10 +1,9 @@
-import type { OrderSchema, StateType, withQuerySchema } from "@use-pico/common";
+import type { CursorSchema, OrderSchema, StateType } from "@use-pico/common";
 import type { Cursor } from "../cursor/Cursor";
 import type { Fulltext } from "../fulltext/Fulltext";
-import type { TableControl } from "../table-control/TableControl";
-import type { SelectionType } from "./type/SelectionType";
+import type { SelectionType } from "../table/type/SelectionType";
 
-export const TableNavigationState = {
+export const NavigationState = {
 	filter(
 		value: Record<string, any> | undefined,
 		navigate: (props: {
@@ -41,7 +40,7 @@ export const TableNavigationState = {
 				};
 				filter?: {
 					fulltext?: string | null;
-				};
+				} | null;
 			}) => any;
 			replace?: boolean;
 		}) => void,
@@ -95,7 +94,7 @@ export const TableNavigationState = {
 		};
 	},
 	cursor(
-		props: Omit<Cursor.Props, "count" | "cursor" | "onPage" | "onSize">,
+		value: CursorSchema.Type,
 		navigate: (props: {
 			search: (props: {
 				cursor: {
@@ -104,67 +103,14 @@ export const TableNavigationState = {
 				};
 			}) => any;
 		}) => void,
-	): Omit<Cursor.Props, "count" | "cursor"> {
+	): Cursor.State {
 		return {
-			...props,
-			onPage(page) {
+			value,
+			set(value) {
 				return navigate({
 					search: ({ cursor, ...rest }) => ({
 						...rest,
-						cursor: {
-							...cursor,
-							page,
-						},
-					}),
-				});
-			},
-			onSize(size) {
-				navigate({
-					search: ({ cursor, ...rest }) => ({
-						...rest,
-						cursor: {
-							...cursor,
-							size,
-							page: 0,
-						},
-					}),
-				});
-			},
-		};
-	},
-	cursorWithCount<TQuery extends withQuerySchema.Query>(
-		props: Omit<TableControl.Cursor.Props<TQuery>, "onPage" | "onSize">,
-		navigate: (props: {
-			search: (props: {
-				cursor: {
-					page: number;
-					size: number;
-				};
-			}) => any;
-		}) => void,
-	): TableControl.Cursor.Props<TQuery> {
-		return {
-			...props,
-			onPage(page) {
-				return navigate({
-					search: ({ cursor, ...rest }) => ({
-						...rest,
-						cursor: {
-							...cursor,
-							page,
-						},
-					}),
-				});
-			},
-			onSize(size) {
-				navigate({
-					search: ({ cursor, ...rest }) => ({
-						...rest,
-						cursor: {
-							...cursor,
-							size,
-							page: 0,
-						},
+						cursor: value,
 					}),
 				});
 			},

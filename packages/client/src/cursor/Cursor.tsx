@@ -2,8 +2,11 @@ import {
 	type CountSchema,
 	type CursorSchema,
 	cursorOf,
+	type StateType,
+	tvc,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useMemo } from "react";
+import { useCls } from "../hooks/useCls";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
 import { Tx } from "../tx/Tx";
@@ -12,26 +15,19 @@ import { Pages } from "./Pages";
 import { SizeSelect } from "./SizeSelect";
 
 export namespace Cursor {
-	export namespace Event {
-		export type OnPage = Pages.Event.OnPage;
-		export type OnSize = SizeSelect.Event.OnSize;
-	}
+	export type State = StateType<CursorSchema.Type>;
 
 	export interface Props extends CursorCls.Props {
-		cursor: CursorSchema.Type;
+		state: State;
 		count: CountSchema.Type;
 		textTotal?: ReactNode;
-		onPage: Event.OnPage;
-		onSize: Event.OnSize;
 	}
 }
 
 export const Cursor: FC<Cursor.Props> = ({
-	cursor,
+	state,
 	count,
 	textTotal = <Tx label={"Number of items"} />,
-	onPage,
-	onSize,
 	variant,
 	tva = CursorCls,
 	cls,
@@ -39,31 +35,42 @@ export const Cursor: FC<Cursor.Props> = ({
 	const $cursor = useMemo(
 		() =>
 			cursorOf({
-				page: cursor.page,
-				total: Math.ceil(count.filter / cursor.size),
+				page: state.value.page,
+				total: Math.ceil(count.filter / state.value.size),
 				siblings: 1,
 				boundary: 1,
 			}),
 		[
-			cursor.page,
+			state.value.page,
+			state.value.size,
 			count.filter,
-			cursor.size,
 		],
 	);
 
-	const { slots } = tva(variant, cls);
+	const { slots } = useCls(tva, variant, cls);
 
 	return (
 		<div className={slots.base()}>
 			{$cursor.total > 1 ? (
 				<div
-					className={"flex items-center justify-center gap-2 text-sm"}
+					className={tvc(
+						"flex",
+						"items-center",
+						"justify-center",
+						"gap-2",
+						"text-sm",
+					)}
 				>
 					{$cursor.start ? (
 						<Pages
-							page={cursor.page}
+							page={state.value.page}
 							pages={$cursor.start}
-							onPage={onPage}
+							onPage={(page) =>
+								state.set({
+									...state.value,
+									page,
+								})
+							}
 						/>
 					) : null}
 
@@ -73,9 +80,14 @@ export const Cursor: FC<Cursor.Props> = ({
 
 					{$cursor.pages ? (
 						<Pages
-							page={cursor.page}
+							page={state.value.page}
 							pages={$cursor.pages}
-							onPage={onPage}
+							onPage={(page) =>
+								state.set({
+									...state.value,
+									page,
+								})
+							}
 						/>
 					) : null}
 
@@ -86,9 +98,14 @@ export const Cursor: FC<Cursor.Props> = ({
 
 					{$cursor.end ? (
 						<Pages
-							page={cursor.page}
+							page={state.value.page}
 							pages={$cursor.end}
-							onPage={onPage}
+							onPage={(page) =>
+								state.set({
+									...state.value,
+									page,
+								})
+							}
 						/>
 					) : null}
 				</div>
@@ -104,8 +121,13 @@ export const Cursor: FC<Cursor.Props> = ({
 				)}
 			</div>
 			<SizeSelect
-				size={cursor.size}
-				onSize={onSize}
+				size={state.value.size}
+				onSize={(size) =>
+					state.set({
+						page: 0,
+						size,
+					})
+				}
 			/>
 		</div>
 	);

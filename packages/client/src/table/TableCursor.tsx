@@ -12,7 +12,7 @@ export namespace TableCursor {
 }
 
 export const TableCursor = <TQuery extends withQuerySchema.Query>({
-	cursor: { withCountQuery, onPage, onSize },
+	cursor: { withCountQuery, state },
 	query,
 }: TableCursor.Props<TQuery>) => {
 	const { data, isSuccess, isLoading, isFetching, isError } =
@@ -43,10 +43,8 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 						]
 					: undefined,
 			}}
-			cursor={query.cursor}
+			state={state}
 			count={data}
-			onPage={onPage}
-			onSize={onSize}
 		/>
 	);
 };

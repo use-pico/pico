@@ -1,7 +1,6 @@
 import type {
 	CountSchema,
 	EntitySchema,
-	StateType,
 	withQuerySchema,
 } from "@use-pico/common";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
@@ -12,16 +11,16 @@ import { TablePrefix } from "./TablePrefix";
 
 export namespace TableControl {
 	export namespace Fulltext {
-		export type Props = StateType<CoolFulltext.Value>;
+		export type Props = CoolFulltext.State;
 	}
 
 	export namespace Cursor {
-		export interface Props<TQuery extends withQuerySchema.Query>
-			extends Omit<CoolCursor.Props, "count" | "cursor"> {
+		export interface Props<TQuery extends withQuerySchema.Query> {
 			/**
 			 * Query used to fetch count of items.
 			 */
 			withCountQuery: withQuery.Api<TQuery, CountSchema.Type>;
+			state: CoolCursor.State;
 		}
 	}
 
