@@ -1,5 +1,3 @@
-/** @format */
-
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { LinkTo, Tx } from "@use-pico/client";
 
