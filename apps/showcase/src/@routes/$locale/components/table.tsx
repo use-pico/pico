@@ -4,12 +4,26 @@ import { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQueryS
 import { InventoryItemTable } from "~/app/inventory/ui/InventoryItemTable";
 
 export const Route = createFileRoute("/$locale/components/table")({
-	validateSearch: z.object({
-		...InventoryItemQuerySchema.shape,
-		selection: z.array(z.string()).default([]),
-	}),
+	validateSearch: z
+		.object({
+			...InventoryItemQuerySchema.shape,
+			selection: z.array(z.string()).default([]),
+		})
+		.transform(({ cursor, sort, ...data }) => ({
+			...data,
+			cursor: cursor ?? {
+				page: 1,
+				size: 30,
+			},
+			sort: sort ?? [
+				{
+					value: "amount",
+					sort: "desc",
+				},
+			],
+		})),
 	component() {
-		const { filter, cursor, sort, selection } = Route.useSearch();
+		const { where, filter, cursor, sort, selection } = Route.useSearch();
 		const navigate = Route.useNavigate();
 
 		return (
@@ -17,7 +31,9 @@ export const Route = createFileRoute("/$locale/components/table")({
 				<InventoryItemTable
 					query={{
 						filter,
+						where,
 						cursor,
+						sort,
 					}}
 					// actionTable={{
 					// 	width: "4rem",
