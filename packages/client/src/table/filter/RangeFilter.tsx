@@ -1,4 +1,9 @@
-import { type DeepKeys, pathOf, type StateType } from "@use-pico/common";
+import {
+	type DeepKeys,
+	type DeepValue,
+	pathOf,
+	type StateType,
+} from "@use-pico/common";
 import { Action } from "../../action/Action";
 import { FilterRemoveIcon } from "../../icon/FilterRemoveIcon";
 import { GteIcon } from "../../icon/GteIcon";
@@ -9,7 +14,7 @@ export namespace RangeFilter {
 		lte: DeepKeys<TFilter>;
 		gte: DeepKeys<TFilter>;
 		state: StateType<TFilter>;
-		value: any;
+		value: DeepValue<TFilter, DeepKeys<TFilter>>;
 	}
 }
 

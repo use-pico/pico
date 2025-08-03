@@ -1,21 +1,25 @@
-import type { FC } from "react";
+import type {
+	DeepKeys,
+	DeepValue,
+	EntitySchema,
+	StateType,
+} from "@use-pico/common";
 import { FilterApplyIcon } from "../../icon/FilterApplyIcon";
 import { Icon } from "../../icon/Icon";
-import type { FilterType } from "../type/FilterType";
 
 export namespace EqualFilter {
-	export interface Props {
-		path: string;
-		filterInstance: FilterType.Filter;
-		value: any;
+	export interface Props<TData extends EntitySchema.Type, TFilter> {
+		state: StateType<TFilter>;
+		path: DeepKeys<TFilter>;
+		value: DeepValue<TData, DeepKeys<TFilter>>;
 	}
 }
 
-export const EqualFilter: FC<EqualFilter.Props> = ({
-	filterInstance,
+export const EqualFilter = <TData extends EntitySchema.Type, TFilter>({
+	state,
 	path,
 	value,
-}) => {
+}: EqualFilter.Props<TData, TFilter>) => {
 	return (
 		<Icon
 			icon={FilterApplyIcon}
@@ -23,9 +27,9 @@ export const EqualFilter: FC<EqualFilter.Props> = ({
 				size: "xl",
 			}}
 			onClick={() => {
-				filterInstance.shallow({
-					path,
-					value,
+				state.set({
+					...state.value,
+					[path]: value,
 				});
 			}}
 		/>

@@ -18,9 +18,9 @@ export namespace Row {
 		item: TData;
 		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
 		selection: Table.Selection.Props | undefined;
+		filter: Table.Filter.State<TQuery["filter"]> | undefined;
 		// props: Table.Row<TData> | undefined;
 		// withActions: boolean;
-		// filter: FilterType.Filter | undefined;
 
 		/**
 		 * Row-wise action.
@@ -48,9 +48,9 @@ export const Row = <
 	item,
 	visibleColumns,
 	selection,
+	filter,
 	// props,
 	// withActions,
-	// filter,
 	// actionRow,
 	// controlsHidden,
 	context,
@@ -178,7 +178,7 @@ export const Row = <
 						key={`${item.id}-${cell.column.name}`}
 						cell={cell}
 						slots={slots}
-						// filter={filter}
+						filter={filter}
 					/>
 				);
 			})}

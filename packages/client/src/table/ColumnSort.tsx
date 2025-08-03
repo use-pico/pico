@@ -1,14 +1,16 @@
-import type { FC } from "react";
-import type { SortType } from "./type/SortType";
+import type { withQuerySchema } from "@use-pico/common";
 
 export namespace ColumnSort {
-	export interface Props {
-		sort: SortType.Sort | undefined;
+	export interface Props<TQuery extends withQuerySchema.Query> {
+		foo: string;
+		// sort: SortType.Sort | undefined;
 		// column: ColumnType.Props<any, any, any>;
 	}
 }
 
-export const ColumnSort: FC<ColumnSort.Props> = () => {
+export const ColumnSort = <TQuery extends withQuerySchema.Query>({
+	foo,
+}: ColumnSort.Props<TQuery>) => {
 	// TODO use ts-pattern for sort stuff
 
 	return null;

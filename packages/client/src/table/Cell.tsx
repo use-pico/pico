@@ -1,4 +1,4 @@
-import type { EntitySchema, withQuerySchema } from "@use-pico/common";
+import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 
@@ -9,7 +9,7 @@ export namespace Cell {
 		TContext = any,
 	> {
 		cell: Table.Cell<TQuery, TData, any, TContext>;
-		// filter?: FilterType.Filter;
+		filter: Table.Filter.State<TQuery["filter"]> | undefined;
 		slots: TableCls.Slots;
 	}
 }
@@ -20,11 +20,11 @@ export const Cell = <
 	TContext = any,
 >({
 	cell: { column, data, value, context },
-	// filter,
+	filter,
 	slots,
 }: Cell.Props<TQuery, TData, TContext>) => {
 	const { render: Render } = column;
-	// const Filter = column?.filter?.component;
+	const Filter = column?.filter?.component;
 
 	return (
 		<div className={slots.cell()}>
@@ -33,7 +33,7 @@ export const Cell = <
 				value={value}
 				context={context}
 			/>
-			{/* {Filter && filter && column.filter ? (
+			{Filter && column.filter && filter ? (
 				<div
 					className={tvc([
 						"group-hover:visible",
@@ -43,11 +43,12 @@ export const Cell = <
 					])}
 				>
 					<Filter
-						filter={filter}
 						data={data}
+						state={filter}
+						{...column.filter}
 					/>
 				</div>
-			) : null} */}
+			) : null}
 		</div>
 	);
 };

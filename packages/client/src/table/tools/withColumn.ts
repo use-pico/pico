@@ -1,4 +1,5 @@
 import type { DeepKeys, EntitySchema, withQuerySchema } from "@use-pico/common";
+import { withEqualFilter } from "../filter/withEqualFilter";
 import { withRangeFilter } from "../filter/withRangeFilter";
 import type { Table } from "../Table";
 
@@ -14,6 +15,9 @@ export const withColumn = <
 			return props;
 		},
 		filter: {
+			equal(props: withEqualFilter.Props<TData, TQuery["filter"]>) {
+				return withEqualFilter(props);
+			},
 			range(props: withRangeFilter.Props<TData, TQuery["filter"]>) {
 				return withRangeFilter(props);
 			},

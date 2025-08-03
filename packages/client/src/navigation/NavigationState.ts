@@ -3,16 +3,17 @@ import type { Fulltext } from "../fulltext/Fulltext";
 
 export const NavigationState = {
 	filter(
-		value: Record<string, any> | undefined,
+		value: Record<string, any> | undefined | null,
 		navigate: (props: {
 			search: (props: {
-				cursor: {
+				filter?: any;
+				cursor?: {
 					page: number;
 				};
 			}) => any;
 			replace?: boolean;
 		}) => void,
-	): StateType<Record<string, any> | undefined> {
+	): StateType<Record<string, any> | undefined | null> {
 		return {
 			value,
 			set(filter) {

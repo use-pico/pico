@@ -49,6 +49,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 						type: "multi",
 						state: NavigationState.selection(selection, navigate),
 					}}
+					filter={NavigationState.filter(filter, navigate)}
 
 					// actionTable={{
 					// 	width: "4rem",

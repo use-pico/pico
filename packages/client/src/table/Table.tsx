@@ -195,6 +195,7 @@ export namespace Table {
 		 * Selection configuration.
 		 */
 		selection?: Selection.Props;
+		filter?: Filter.State<TQuery["filter"]>;
 		/**
 		 * If not preferred auto, this can be used to set width of table actions explicitly.
 		 *
@@ -259,6 +260,7 @@ export const Table = <
 	order = [],
 	context,
 	selection,
+	filter,
 	actionWidth,
 	// row: rowProps,
 	// filter,
@@ -299,7 +301,7 @@ export const Table = <
 				root: slots.root(),
 			}}
 			renderHeader={(render) => (
-				<TableHeader
+				<TableHeader<TQuery, TData, TContext>
 					grid={grid}
 					context={context}
 					slots={slots}
@@ -309,10 +311,11 @@ export const Table = <
 				/>
 			)}
 			renderItem={(render) => (
-				<Row
+				<Row<TQuery, TData, TContext>
 					key={render.item.id}
 					visibleColumns={visibleColumns}
 					selection={selection}
+					filter={filter}
 					context={context}
 					grid={grid}
 					slots={slots}
