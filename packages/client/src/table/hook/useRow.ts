@@ -3,7 +3,7 @@ import {
 	pathOf,
 	type withQuerySchema,
 } from "@use-pico/common";
-import { v4 } from "uuid";
+import { useId } from "react";
 import type { Table } from "../Table";
 
 export namespace useRow {
@@ -31,8 +31,10 @@ export const useRow = <
 	TData,
 	TContext
 > => {
+	const id = useId();
+
 	return {
-		id: v4(),
+		id,
 		data,
 		cells: visible.map((column) => {
 			return {
