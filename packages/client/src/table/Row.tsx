@@ -19,7 +19,7 @@ export namespace Row {
 		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
 		selection: Table.Selection.Props | undefined;
 		filter: Table.Filter.State<TQuery> | undefined;
-		// props: Table.Row<TData> | undefined;
+		rowCls: Table.Row.Cls.Fn<TData, TContext> | undefined;
 		/**
 		 * Row-wise action.
 		 */
@@ -47,7 +47,7 @@ export const Row = <
 	visibleColumns,
 	selection,
 	filter,
-	// props,
+	rowCls,
 	actionRow,
 	controlsHidden,
 	context,
@@ -112,7 +112,10 @@ export const Row = <
 				{
 					selected: selection?.state.value.includes(item.id),
 				},
-				// props?.css?.(row),
+				rowCls?.({
+					data: row.data,
+					context,
+				}),
 			)}
 			style={{
 				gridTemplateColumns: grid,

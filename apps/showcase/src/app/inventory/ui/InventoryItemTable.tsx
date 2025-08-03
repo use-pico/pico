@@ -99,6 +99,14 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 			withQuery={withInventoryItemListQuery()}
 			context={{}}
 			columns={columns}
+			// rowCls={({ data }) => {
+			// 	return data.amount > 650
+			// 		? [
+			// 				"bg-red-300",
+			// 				"odd:bg-red-400",
+			// 			]
+			// 		: "";
+			// }}
 			// actionWidth={({ controlsHidden }) => {
 			// 	return controlsHidden.includes("actions") ? "auto" : "8rem";
 			// }}

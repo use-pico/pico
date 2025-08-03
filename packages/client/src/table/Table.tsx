@@ -187,6 +187,22 @@ export namespace Table {
 		context: TContext;
 	}
 
+	export namespace Row {
+		export namespace Cls {
+			export interface Props<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> {
+				data: TData;
+				context: TContext;
+			}
+
+			export type Fn<TData extends EntitySchema.Type, TContext = any> = (
+				props: Props<TData, TContext>,
+			) => cls.Class;
+		}
+	}
+
 	export interface Row<
 		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
@@ -313,10 +329,10 @@ export namespace Table {
 		 * Controls to hide.
 		 */
 		controlsHidden?: Controls[];
-		// /**
-		//  * Row configuration.
-		//  */
-		// row?: RowType.Props<TData>;
+		/**
+		 * Row-wise class if you need something special.
+		 */
+		rowCls?: Row.Cls.Fn<TData, TContext>;
 		/** Toolbar, displayed next to the fulltext.
 		 *
 		 * Good UI may be just icons to be used.
@@ -362,7 +378,7 @@ export const Table = <
 	actionRow,
 	toolbar,
 	controlsHidden = [],
-	// row: rowProps,
+	rowCls,
 	variant,
 	tva = TableCls,
 	cls,
@@ -429,6 +445,7 @@ export const Table = <
 					slots={slots}
 					actionRow={actionRow}
 					controlsHidden={controlsHidden}
+					rowCls={rowCls}
 					{...render}
 				/>
 			)}
