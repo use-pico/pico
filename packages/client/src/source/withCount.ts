@@ -19,8 +19,8 @@ export namespace withCount {
 		select: TSelect;
 		query?(props: Query.Props<TSelect, TFilter>): TSelect;
 
-		filter?: TFilter;
-		where?: TFilter;
+		filter?: TFilter | null;
+		where?: TFilter | null;
 	}
 
 	export type Callback<

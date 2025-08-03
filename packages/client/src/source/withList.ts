@@ -31,9 +31,9 @@ export namespace withList {
 		 */
 		output: EnsureOutput<TSelect, TOutputSchema>;
 
-		filter?: TFilter;
-		where?: TFilter;
-		cursor?: CursorSchema.Type;
+		filter?: TFilter | null;
+		where?: TFilter | null;
+		cursor?: CursorSchema.Type | null;
 	}
 
 	export type Callback<
