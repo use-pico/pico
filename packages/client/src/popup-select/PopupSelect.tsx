@@ -6,6 +6,7 @@ import type {
 	FilterSchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
+import { useCls } from "../hooks/useCls";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
@@ -92,7 +93,7 @@ export const PopupSelect = <TItem extends EntitySchema.Type>({
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TItem>) => {
-	const { el } = tva(variant, cls);
+	const { el } = useCls(tva, variant, cls);
 
 	/**
 	 * Dependency-free memo, because... store does not have any dependencies (defaultOpen
