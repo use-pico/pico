@@ -1,4 +1,9 @@
-import { TableControl, Tx, withColumn, withRangeFilter } from "@use-pico/client";
+import {
+	TableControl,
+	Tx,
+	withColumn,
+	withRangeFilter,
+} from "@use-pico/client";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
@@ -36,7 +41,11 @@ const columns = [
 			toHumanNumber({
 				number: value,
 			}),
-            filter: withRangeFilter({gte:''}),
+		filter: withRangeFilter({
+			gte: "amountGte",
+			lte: "amountLte",
+			path: "amount",
+		}),
 		size: 12,
 	}),
 ];

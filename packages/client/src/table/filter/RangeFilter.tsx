@@ -6,8 +6,8 @@ import { LteIcon } from "../../icon/LteIcon";
 
 export namespace RangeFilter {
 	export interface Props<TFilter extends Record<string, any>> {
-		lte: keyof TFilter;
-		gte: keyof TFilter;
+		lte: keyof TFilter & string;
+		gte: keyof TFilter & string;
 		state: StateType<TFilter>;
 		value: any;
 	}

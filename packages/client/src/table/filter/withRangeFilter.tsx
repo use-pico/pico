@@ -8,8 +8,8 @@ export namespace withRangeFilter {
 		 * Path in data property to filter on.
 		 */
 		path: string;
-		lte: keyof TFilter;
-		gte: keyof TFilter;
+		lte: keyof TFilter & string;
+		gte: keyof TFilter & string;
 	}
 }
 
@@ -24,6 +24,7 @@ export const withRangeFilter = <
 	return {
 		reset({ state }) {
 			state.set({
+				...state.value,
 				[lte]: undefined,
 				[gte]: undefined,
 			});
@@ -39,7 +40,7 @@ export const withRangeFilter = <
 				<RangeFilter
 					lte={lte}
 					gte={gte}
-					filterInstance={filterInstance}
+					state={state}
 					value={pathOf(data).get(path)}
 				/>
 			);
