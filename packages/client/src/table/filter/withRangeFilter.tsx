@@ -37,7 +37,7 @@ export const withRangeFilter = <TData extends EntitySchema.Type, TFilter>({
 		},
 		component({ data, state }) {
 			return (
-				<RangeFilter
+				<RangeFilter<TFilter>
 					lte={lte}
 					gte={gte}
 					state={state}
