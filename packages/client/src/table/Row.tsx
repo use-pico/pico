@@ -1,4 +1,4 @@
-import { type EntitySchema, tvc } from "@use-pico/common";
+import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { match, P } from "ts-pattern";
 import { Icon } from "../icon/Icon";
@@ -10,9 +10,13 @@ import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 
 export namespace Row {
-	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> {
 		item: TData;
-		visibleColumns: Table.Column.Props<TData, any, TContext>[];
+		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
 		selection: Table.Selection.Props | undefined;
 		// props: Table.Row<TData> | undefined;
 		// withActions: boolean;
@@ -29,12 +33,18 @@ export namespace Row {
 		onDoubleClick?(props: { data: TData; context: TContext }): void;
 	}
 
-	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
-		Props<TData, TContext>
-	>;
+	export type Component<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> = FC<Props<TQuery, TData, TContext>>;
 }
 
-export const Row = <TData extends EntitySchema.Type, TContext = any>({
+export const Row = <
+	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
+	TContext = any,
+>({
 	item,
 	visibleColumns,
 	selection,
@@ -47,12 +57,12 @@ export const Row = <TData extends EntitySchema.Type, TContext = any>({
 	grid,
 	slots,
 	onDoubleClick,
-}: Row.Props<TData, TContext>) => {
+}: Row.Props<TQuery, TData, TContext>) => {
 	// const { action: RowAction } = actionRow ?? {
 	// 	RowAction: undefined,
 	// };
 
-	const row = useRow<TData, TContext>({
+	const row = useRow<TQuery, TData, TContext>({
 		data: item,
 		visible: visibleColumns,
 		context,

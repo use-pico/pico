@@ -1,4 +1,4 @@
-import { type EntitySchema, tvc } from "@use-pico/common";
+import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
@@ -8,9 +8,13 @@ import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 
 export namespace TableHeader {
-	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> {
 		items: TData[];
-		visible: Table.Column.Props<TData, any, TContext>[];
+		visible: Table.Column.Props<TQuery, TData, any, TContext>[];
 		grid: string;
 		// withActions: boolean;
 		slots: TableCls.Slots;
@@ -23,12 +27,18 @@ export namespace TableHeader {
 		// controlsHidden: Table.Controls[];
 	}
 
-	export type Component<TData extends EntitySchema.Type, TContext = any> = FC<
-		Props<TData, TContext>
-	>;
+	export type Component<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> = FC<Props<TQuery, TData, TContext>>;
 }
 
-export const TableHeader = <TData extends EntitySchema.Type, TContext = any>({
+export const TableHeader = <
+	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
+	TContext = any,
+>({
 	items,
 	// withActions,
 	context,
@@ -42,7 +52,7 @@ export const TableHeader = <TData extends EntitySchema.Type, TContext = any>({
 	// actionTable,
 	// controlsHidden,
 	// visible,
-}: TableHeader.Props<TData, TContext>) => {
+}: TableHeader.Props<TQuery, TData, TContext>) => {
 	const isAll = items.every((data) =>
 		selection?.state.value.includes(data.id),
 	);

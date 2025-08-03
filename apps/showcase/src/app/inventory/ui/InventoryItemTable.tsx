@@ -5,7 +5,10 @@ import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQ
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
 import { withInventoryItemListQuery } from "~/app/inventory/query/withInventoryItemListQuery";
 
-const column = withColumn<InventoryItemSchema.Type>();
+const column = withColumn<
+	InventoryItemQuerySchema.Type,
+	InventoryItemSchema.Type
+>();
 
 const columns = [
 	column({

@@ -1,20 +1,36 @@
-import { type EntitySchema, pathOf } from "@use-pico/common";
+import {
+	type EntitySchema,
+	pathOf,
+	type withQuerySchema,
+} from "@use-pico/common";
 import { v4 } from "uuid";
 import type { Table } from "../Table";
 
 export namespace useRow {
-	export interface Props<TData extends EntitySchema.Type, TContext = any> {
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> {
 		data: TData;
-		visible: Table.Column.Props<TData, any, TContext>[];
+		visible: Table.Column.Props<TQuery, TData, any, TContext>[];
 		context: TContext;
 	}
 }
 
-export const useRow = <TData extends EntitySchema.Type, TContext = any>({
+export const useRow = <
+	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
+	TContext = any,
+>({
 	data,
 	visible,
 	context,
-}: useRow.Props<TData, TContext>): Table.Row<TData, TContext> => {
+}: useRow.Props<TQuery, TData, TContext>): Table.Row<
+	TQuery,
+	TData,
+	TContext
+> => {
 	return {
 		id: v4(),
 		data,
@@ -24,8 +40,8 @@ export const useRow = <TData extends EntitySchema.Type, TContext = any>({
 				data,
 				value: pathOf(data).get(column.name),
 				context,
-			} satisfies Table.Cell<TData, any, TContext>;
+			} satisfies Table.Cell<TQuery, TData, any, TContext>;
 		}),
 		context,
-	} satisfies Table.Row<TData, TContext>;
+	} satisfies Table.Row<TQuery, TData, TContext>;
 };

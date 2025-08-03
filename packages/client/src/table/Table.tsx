@@ -25,6 +25,51 @@ export namespace Table {
 		}
 	}
 
+	export namespace Filter {
+		export type State<TFilter> = StateType<TFilter>;
+
+		export namespace is {
+			export interface Props<TFilter> {
+				state: State<TFilter>;
+			}
+
+			export type Fn<TFilter> = (props: Props<TFilter>) => boolean;
+		}
+
+		export namespace reset {
+			export interface Props<TFilter> {
+				state: State<TFilter>;
+			}
+
+			export type Fn<TFilter> = (props: Props<TFilter>) => void;
+		}
+
+		export namespace component {
+			export interface Props<TFilter> {
+				is: is.Fn<TFilter>;
+				reset: reset.Fn<TFilter>;
+				state: State<TFilter>;
+			}
+
+			export type Component<TFilter> = FC<Props<TFilter>>;
+		}
+
+		export interface Props<TFilter> {
+			/**
+			 * Checks if the filter is enabled for this setup (usually on a value/cell).
+			 */
+			is: is.Fn<TFilter>;
+			/**
+			 * A cell should know how to reset it's own value while preserving the others.
+			 */
+			reset: reset.Fn<TFilter>;
+			/**
+			 * Render filter controls inline
+			 */
+			component: component.Component<TFilter>;
+		}
+	}
+
 	export namespace Column {
 		export type Size = number | "auto";
 
@@ -71,6 +116,7 @@ export namespace Table {
 		 * Input props - definition on user-side
 		 */
 		export interface Props<
+			TQuery extends withQuerySchema.Query,
 			TData extends EntitySchema.Type,
 			TKey extends DeepKeys<TData>,
 			TContext = any,
@@ -78,6 +124,7 @@ export namespace Table {
 			name: TKey;
 			header: Header.Component<TData, TContext>;
 			render: Render.Component<TData, TKey, TContext>;
+			filter?: Filter.Props<TQuery["filter"]>;
 			size: Size;
 		}
 	}
@@ -87,11 +134,12 @@ export namespace Table {
 	}
 
 	export interface Cell<
+		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
 		TKey extends DeepKeys<TData>,
 		TContext = any,
 	> {
-		column: Column.Props<TData, TKey, TContext>;
+		column: Column.Props<TQuery, TData, TKey, TContext>;
 		data: TData;
 		value: DeepValue<TData, TKey>;
 		context: TContext;
@@ -99,10 +147,14 @@ export namespace Table {
 
 	export namespace Row {}
 
-	export interface Row<TData extends EntitySchema.Type, TContext = any> {
+	export interface Row<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> {
 		id: string;
 		data: TData;
-		cells: Cell<TData, any, TContext>[];
+		cells: Cell<TQuery, TData, any, TContext>[];
 		context: TContext;
 	}
 
@@ -117,7 +169,7 @@ export namespace Table {
 		 * Columns _must_ be a stable reference or Strange Things may happen and you'll
 		 * have nightmare during night and day.
 		 */
-		columns: Column.Props<TData, any, TContext>[];
+		columns: Column.Props<TQuery, TData, any, TContext>[];
 		/**
 		 * Only visible columns in the table.
 		 *
@@ -227,7 +279,7 @@ export const Table = <
 
 	const { slots } = useCls(tva, variant, cls);
 
-	const visibleColumns = useVisibleColumns<TData>({
+	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,
 		visible,
 		hidden,

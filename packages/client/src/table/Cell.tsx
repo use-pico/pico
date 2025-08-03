@@ -1,20 +1,28 @@
-import type { EntitySchema } from "@use-pico/common";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 
 export namespace Cell {
-	export interface Props<TData extends EntitySchema.Type, TContext = any> {
-		cell: Table.Cell<TData, any, TContext>;
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+		TContext = any,
+	> {
+		cell: Table.Cell<TQuery, TData, any, TContext>;
 		// filter?: FilterType.Filter;
 		slots: TableCls.Slots;
 	}
 }
 
-export const Cell = <TData extends EntitySchema.Type, TContext = any>({
+export const Cell = <
+	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
+	TContext = any,
+>({
 	cell: { column, data, value, context },
 	// filter,
 	slots,
-}: Cell.Props<TData, TContext>) => {
+}: Cell.Props<TQuery, TData, TContext>) => {
 	const { render: Render } = column;
 	// const Filter = column?.filter?.component;
 

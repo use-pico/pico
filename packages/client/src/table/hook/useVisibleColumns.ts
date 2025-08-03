@@ -1,22 +1,28 @@
-import type { DeepKeys, EntitySchema } from "@use-pico/common";
+import type { DeepKeys, EntitySchema, withQuerySchema } from "@use-pico/common";
 import { useMemo } from "react";
 import type { Table } from "../Table";
 
 export namespace useVisibleColumns {
-	export interface Props<TData extends EntitySchema.Type> {
-		columns: Table.Column.Props<TData, any, any>[];
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
+	> {
+		columns: Table.Column.Props<TQuery, TData, any, any>[];
 		visible: DeepKeys<TData>[] | undefined;
 		hidden: DeepKeys<TData>[] | undefined;
 		order: DeepKeys<TData>[] | undefined;
 	}
 }
 
-export const useVisibleColumns = <TData extends EntitySchema.Type>({
+export const useVisibleColumns = <
+	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
+>({
 	columns,
 	visible = [],
 	hidden = [],
 	order = [],
-}: useVisibleColumns.Props<TData>) => {
+}: useVisibleColumns.Props<TQuery, TData>) => {
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Those values are defaults, so they won't change until the table is re-mounted.
 	return useMemo(() => {
 		// Convert arrays to Sets for O(1) lookup performance
