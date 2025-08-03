@@ -1,26 +1,26 @@
-import { type EntitySchema, pathOf } from "@use-pico/common";
+import { type DeepKeys, type EntitySchema, pathOf } from "@use-pico/common";
 import type { Table } from "../Table";
 import { RangeFilter } from "./RangeFilter";
 
 export namespace withRangeFilter {
-	export interface Props<TFilter extends Record<string, any>> {
+	export interface Props<TData extends EntitySchema.Type, TFilter> {
 		/**
 		 * Path in data property to filter on.
 		 */
-		path: string;
-		lte: keyof TFilter & string;
-		gte: keyof TFilter & string;
+		path: DeepKeys<TData>;
+		lte: DeepKeys<TFilter>;
+		gte: DeepKeys<TFilter>;
 	}
 }
 
-export const withRangeFilter = <
-	TData extends EntitySchema.Type,
-	TFilter extends Record<string, any>,
->({
+export const withRangeFilter = <TData extends EntitySchema.Type, TFilter>({
 	path,
 	lte,
 	gte,
-}: withRangeFilter.Props<TFilter>): Table.Filter.Props<TData, TFilter> => {
+}: withRangeFilter.Props<TData, TFilter>): Table.Filter.Props<
+	TData,
+	TFilter
+> => {
 	return {
 		reset({ state }) {
 			state.set({

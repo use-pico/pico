@@ -1,19 +1,19 @@
-import { pathOf, type StateType } from "@use-pico/common";
+import { type DeepKeys, pathOf, type StateType } from "@use-pico/common";
 import { Action } from "../../action/Action";
 import { FilterRemoveIcon } from "../../icon/FilterRemoveIcon";
 import { GteIcon } from "../../icon/GteIcon";
 import { LteIcon } from "../../icon/LteIcon";
 
 export namespace RangeFilter {
-	export interface Props<TFilter extends Record<string, any>> {
-		lte: keyof TFilter & string;
-		gte: keyof TFilter & string;
+	export interface Props<TFilter> {
+		lte: DeepKeys<TFilter>;
+		gte: DeepKeys<TFilter>;
 		state: StateType<TFilter>;
 		value: any;
 	}
 }
 
-export const RangeFilter = <TFilter extends Record<string, any>>({
+export const RangeFilter = <TFilter,>({
 	lte,
 	gte,
 	state,
