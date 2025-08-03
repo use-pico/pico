@@ -1,41 +1,40 @@
-import { pathOf } from "@use-pico/common";
-import type { FilterType } from "../type/FilterType";
+import { type EntitySchema, pathOf } from "@use-pico/common";
+import type { Table } from "../Table";
 import { RangeFilter } from "./RangeFilter";
 
 export namespace withRangeFilter {
-	export interface Props {
+	export interface Props<TFilter extends Record<string, any>> {
 		/**
 		 * Path in data property to filter on.
 		 */
 		path: string;
-		lte: string;
-		gte: string;
+		lte: keyof TFilter;
+		gte: keyof TFilter;
 	}
 }
 
-export const withRangeFilter = ({
+export const withRangeFilter = <
+	TData extends EntitySchema.Type,
+	TFilter extends Record<string, any>,
+>({
 	path,
 	lte,
 	gte,
-}: withRangeFilter.Props): FilterType.Column<any> => {
+}: withRangeFilter.Props<TFilter>): Table.Filter.Props<TData, TFilter> => {
 	return {
-		reset({ filter: filterInstance }) {
-			filterInstance.shallow({
-				path: lte,
-				value: undefined,
-			});
-			filterInstance.shallow({
-				path: gte,
-				value: undefined,
+		reset({ state }) {
+			state.set({
+				[lte]: undefined,
+				[gte]: undefined,
 			});
 		},
-		is({ filter: filterInstance }) {
+		is({ state: { value } }) {
 			return (
-				pathOf(filterInstance.value || {}).get(lte) !== undefined ||
-				pathOf(filterInstance.value || {}).get(gte) !== undefined
+				pathOf(value || {}).get(lte) !== undefined ||
+				pathOf(value || {}).get(gte) !== undefined
 			);
 		},
-		component({ data, filter: filterInstance }) {
+		component({ data, state }) {
 			return (
 				<RangeFilter
 					lte={lte}

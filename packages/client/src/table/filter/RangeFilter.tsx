@@ -1,28 +1,26 @@
-import { pathOf } from "@use-pico/common";
-import type { FC } from "react";
+import { pathOf, type StateType } from "@use-pico/common";
 import { Action } from "../../action/Action";
 import { FilterRemoveIcon } from "../../icon/FilterRemoveIcon";
 import { GteIcon } from "../../icon/GteIcon";
 import { LteIcon } from "../../icon/LteIcon";
-import type { FilterType } from "../type/FilterType";
 
 export namespace RangeFilter {
-	export interface Props {
-		lte: string;
-		gte: string;
-		filterInstance: FilterType.Filter;
+	export interface Props<TFilter extends Record<string, any>> {
+		lte: keyof TFilter;
+		gte: keyof TFilter;
+		state: StateType<TFilter>;
 		value: any;
 	}
 }
 
-export const RangeFilter: FC<RangeFilter.Props> = ({
+export const RangeFilter = <TFilter extends Record<string, any>>({
 	lte,
 	gte,
-	filterInstance,
+	state,
 	value,
-}) => {
-	const isLte = pathOf(filterInstance.value || {}).get(lte) !== undefined;
-	const isGte = pathOf(filterInstance.value || {}).get(gte) !== undefined;
+}: RangeFilter.Props<TFilter>) => {
+	const isLte = pathOf(state.value || {}).get(lte) !== undefined;
+	const isGte = pathOf(state.value || {}).get(gte) !== undefined;
 
 	return (
 		<div className={"flex flex-row gap-1"}>
@@ -30,9 +28,9 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
-						filterInstance.shallow({
-							path: lte,
-							value: undefined,
+						state.set({
+							...state.value,
+							[lte]: undefined,
 						});
 						window.scrollTo({
 							top: 0,
@@ -44,9 +42,9 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={LteIcon}
 					onClick={() => {
-						filterInstance.shallow({
-							path: lte,
-							value,
+						state.set({
+							...state.value,
+							[lte]: value,
 						});
 						window.scrollTo({
 							top: 0,
@@ -59,9 +57,9 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					onClick={() => {
-						filterInstance.shallow({
-							path: gte,
-							value: undefined,
+						state.set({
+							...state.value,
+							[gte]: undefined,
 						});
 						window.scrollTo({
 							top: 0,
@@ -73,9 +71,9 @@ export const RangeFilter: FC<RangeFilter.Props> = ({
 				<Action
 					iconEnabled={GteIcon}
 					onClick={() => {
-						filterInstance.shallow({
-							path: gte,
-							value,
+						state.set({
+							...state.value,
+							[gte]: value,
 						});
 						window.scrollTo({
 							top: 0,

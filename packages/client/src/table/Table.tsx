@@ -45,16 +45,17 @@ export namespace Table {
 		}
 
 		export namespace component {
-			export interface Props<TFilter> {
+			export interface Props<TData, TFilter> {
+				data: TData;
 				is: is.Fn<TFilter>;
 				reset: reset.Fn<TFilter>;
 				state: State<TFilter>;
 			}
 
-			export type Component<TFilter> = FC<Props<TFilter>>;
+			export type Component<TData, TFilter> = FC<Props<TData, TFilter>>;
 		}
 
-		export interface Props<TFilter> {
+		export interface Props<TData, TFilter> {
 			/**
 			 * Checks if the filter is enabled for this setup (usually on a value/cell).
 			 */
@@ -66,7 +67,7 @@ export namespace Table {
 			/**
 			 * Render filter controls inline
 			 */
-			component: component.Component<TFilter>;
+			component: component.Component<TData, TFilter>;
 		}
 	}
 
@@ -124,7 +125,7 @@ export namespace Table {
 			name: TKey;
 			header: Header.Component<TData, TContext>;
 			render: Render.Component<TData, TKey, TContext>;
-			filter?: Filter.Props<TQuery["filter"]>;
+			filter?: Filter.Props<TData, TQuery["filter"]>;
 			size: Size;
 		}
 	}
