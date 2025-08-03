@@ -1,4 +1,8 @@
-import type { CursorSchema, OrderSchema, StateType } from "@use-pico/common";
+import type {
+	CursorSchema,
+	StateType,
+	withQuerySchema,
+} from "@use-pico/common";
 import type { Fulltext } from "../fulltext/Fulltext";
 
 export const NavigationState = {
@@ -112,12 +116,17 @@ export const NavigationState = {
 		};
 	},
 	sort(
-		value: Record<string, OrderSchema.Type>,
+		value: withQuerySchema.Query<any, any>["sort"] | undefined | null,
 		navigate: (props: {
-			search: (props: { sort: Record<string, OrderSchema.Type> }) => any;
+			search: (props: {
+				sort:
+					| withQuerySchema.Query<any, any>["sort"]
+					| undefined
+					| null;
+			}) => any;
 			replace?: boolean;
 		}) => void,
-	): StateType<Record<string, OrderSchema.Type>> {
+	): StateType<withQuerySchema.Query<any, any>["sort"] | undefined | null> {
 		return {
 			value,
 			set(sort) {

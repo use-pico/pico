@@ -9,7 +9,7 @@ export namespace Cell {
 		TContext = any,
 	> {
 		cell: Table.Cell<TQuery, TData, any, TContext>;
-		filter: Table.Filter.State<TQuery["filter"]> | undefined;
+		filter: Table.Filter.State<TQuery> | undefined;
 		slots: TableCls.Slots;
 	}
 }

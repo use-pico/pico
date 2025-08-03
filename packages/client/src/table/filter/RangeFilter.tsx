@@ -3,6 +3,7 @@ import {
 	type DeepValue,
 	pathOf,
 	type StateType,
+	type withQuerySchema,
 } from "@use-pico/common";
 import { Action } from "../../action/Action";
 import { FilterRemoveIcon } from "../../icon/FilterRemoveIcon";
@@ -10,15 +11,15 @@ import { GteIcon } from "../../icon/GteIcon";
 import { LteIcon } from "../../icon/LteIcon";
 
 export namespace RangeFilter {
-	export interface Props<TFilter> {
-		lte: DeepKeys<TFilter>;
-		gte: DeepKeys<TFilter>;
-		state: StateType<TFilter>;
+	export interface Props<TFilter extends withQuerySchema.Query> {
+		lte: DeepKeys<TFilter["filter"]>;
+		gte: DeepKeys<TFilter["filter"]>;
+		state: StateType<TFilter["filter"]>;
 		value: DeepValue<TFilter, DeepKeys<TFilter>>;
 	}
 }
 
-export const RangeFilter = <TFilter,>({
+export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 	lte,
 	gte,
 	state,

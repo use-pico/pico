@@ -21,6 +21,9 @@ const columns = [
 		name: "name",
 		header: () => <Tx label={"Name"} />,
 		render: ({ value }) => value,
+		sort: {
+			value: "name",
+		},
 		size: "auto",
 	}),
 	create({
@@ -36,6 +39,9 @@ const columns = [
 		filter: filter.equal({
 			path: "kind",
 		}),
+		sort: {
+			value: "kind",
+		},
 		size: 12,
 	}),
 	create({
@@ -45,6 +51,9 @@ const columns = [
 		filter: filter.equal({
 			path: "type",
 		}),
+		sort: {
+			value: "type",
+		},
 		size: 12,
 	}),
 	create({
@@ -59,6 +68,9 @@ const columns = [
 			lte: "amountLte",
 			path: "amount",
 		}),
+		sort: {
+			value: "amount",
+		},
 		size: 12,
 	}),
 ];

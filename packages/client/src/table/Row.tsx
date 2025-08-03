@@ -18,7 +18,7 @@ export namespace Row {
 		item: TData;
 		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
 		selection: Table.Selection.Props | undefined;
-		filter: Table.Filter.State<TQuery["filter"]> | undefined;
+		filter: Table.Filter.State<TQuery> | undefined;
 		// props: Table.Row<TData> | undefined;
 		// withActions: boolean;
 

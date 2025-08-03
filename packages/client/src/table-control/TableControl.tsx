@@ -1,12 +1,14 @@
-import type {
-	CountSchema,
-	EntitySchema,
-	withQuerySchema,
+import {
+	type CountSchema,
+	type EntitySchema,
+	tvc,
+	type withQuerySchema,
 } from "@use-pico/common";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
 import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import type { withQuery } from "../source/withQuery";
 import { Table } from "../table/Table";
+import { TableCursor } from "../table/TableCursor";
 import { TablePrefix } from "./TablePrefix";
 
 export namespace TableControl {
@@ -66,6 +68,29 @@ export const TableControl = <
 					{...render}
 				/>
 			)}
+			renderFooter={() => {
+				return (
+					<div
+						className={tvc(
+							"flex",
+							"flex-row",
+							"items-center",
+							"justify-end",
+							"gap-2",
+						)}
+					>
+						<div />
+						{cursor ? (
+							<TableCursor
+								cursor={cursor}
+								query={props.query}
+							/>
+						) : (
+							<div />
+						)}
+					</div>
+				);
+			}}
 			{...props}
 		/>
 	);

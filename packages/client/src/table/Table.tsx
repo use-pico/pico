@@ -26,48 +26,71 @@ export namespace Table {
 	}
 
 	export namespace Filter {
-		export type State<TFilter> = StateType<TFilter>;
+		export type State<TQuery extends withQuerySchema.Query> = StateType<
+			TQuery["filter"]
+		>;
 
 		export namespace is {
-			export interface Props<TFilter> {
-				state: State<TFilter>;
+			export interface Props<TQuery extends withQuerySchema.Query> {
+				state: State<TQuery>;
 			}
 
-			export type Fn<TFilter> = (props: Props<TFilter>) => boolean;
+			export type Fn<TQuery extends withQuerySchema.Query> = (
+				props: Props<TQuery>,
+			) => boolean;
 		}
 
 		export namespace reset {
-			export interface Props<TFilter> {
-				state: State<TFilter>;
+			export interface Props<TQuery extends withQuerySchema.Query> {
+				state: State<TQuery>;
 			}
 
-			export type Fn<TFilter> = (props: Props<TFilter>) => void;
+			export type Fn<TQuery extends withQuerySchema.Query> = (
+				props: Props<TQuery>,
+			) => void;
 		}
 
 		export namespace component {
-			export interface Props<TData, TFilter> {
+			export interface Props<
+				TData,
+				TQuery extends withQuerySchema.Query,
+			> {
 				data: TData;
-				is: is.Fn<TFilter>;
-				reset: reset.Fn<TFilter>;
-				state: State<TFilter>;
+				is: is.Fn<TQuery>;
+				reset: reset.Fn<TQuery>;
+				state: State<TQuery>;
 			}
 
-			export type Component<TData, TFilter> = FC<Props<TData, TFilter>>;
+			export type Component<
+				TData,
+				TQuery extends withQuerySchema.Query,
+			> = FC<Props<TData, TQuery>>;
 		}
 
-		export interface Props<TData, TFilter> {
+		export interface Props<TData, TQuery extends withQuerySchema.Query> {
 			/**
 			 * Checks if the filter is enabled for this setup (usually on a value/cell).
 			 */
-			is: is.Fn<TFilter>;
+			is: is.Fn<TQuery>;
 			/**
 			 * A cell should know how to reset it's own value while preserving the others.
 			 */
-			reset: reset.Fn<TFilter>;
+			reset: reset.Fn<TQuery>;
 			/**
 			 * Render filter controls inline
 			 */
-			component: component.Component<TData, TFilter>;
+			component: component.Component<TData, TQuery>;
+		}
+	}
+
+	export namespace Sort {
+		export type State<TQuery extends withQuerySchema.Query> = StateType<
+			TQuery["sort"]
+		>;
+
+		export interface Props<TQuery extends withQuerySchema.Query> {
+			value: withQuerySchema.SortKeys<TQuery>;
+			exclusive?: boolean;
 		}
 	}
 
@@ -125,7 +148,8 @@ export namespace Table {
 			name: TKey;
 			header: Header.Component<TData, TContext>;
 			render: Render.Component<TData, TKey, TContext>;
-			filter?: Filter.Props<TData, TQuery["filter"]>;
+			filter?: Filter.Props<TData, TQuery>;
+			sort?: Sort.Props<TQuery>;
 			size: Size;
 		}
 	}
@@ -195,7 +219,8 @@ export namespace Table {
 		 * Selection configuration.
 		 */
 		selection?: Selection.Props;
-		filter?: Filter.State<TQuery["filter"]>;
+		filter?: Filter.State<TQuery>;
+		sort?: Sort.State<TQuery>;
 		/**
 		 * If not preferred auto, this can be used to set width of table actions explicitly.
 		 *
@@ -261,10 +286,9 @@ export const Table = <
 	context,
 	selection,
 	filter,
+	sort,
 	actionWidth,
 	// row: rowProps,
-	// filter,
-	// sort,
 	// controlsHidden = [],
 	// actionTable,
 	// actionRow,
@@ -308,6 +332,7 @@ export const Table = <
 					visible={visibleColumns}
 					selection={selection}
 					filter={filter}
+					sort={sort}
 					{...render}
 				/>
 			)}

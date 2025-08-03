@@ -1,19 +1,30 @@
-import { type DeepKeys, type EntitySchema, pathOf } from "@use-pico/common";
+import {
+	type DeepKeys,
+	type EntitySchema,
+	pathOf,
+	type withQuerySchema,
+} from "@use-pico/common";
 import type { Table } from "../Table";
 import { RangeFilter } from "./RangeFilter";
 
 export namespace withRangeFilter {
-	export interface Props<TData extends EntitySchema.Type, TFilter> {
+	export interface Props<
+		TData extends EntitySchema.Type,
+		TFilter extends withQuerySchema.Query,
+	> {
 		/**
 		 * Path in data property to filter on.
 		 */
 		path: DeepKeys<TData>;
-		lte: DeepKeys<TFilter>;
-		gte: DeepKeys<TFilter>;
+		lte: DeepKeys<TFilter["filter"]>;
+		gte: DeepKeys<TFilter["filter"]>;
 	}
 }
 
-export const withRangeFilter = <TData extends EntitySchema.Type, TFilter>({
+export const withRangeFilter = <
+	TData extends EntitySchema.Type,
+	TFilter extends withQuerySchema.Query,
+>({
 	path,
 	lte,
 	gte,

@@ -15,10 +15,10 @@ export const withColumn = <
 			return props;
 		},
 		filter: {
-			equal(props: withEqualFilter.Props<TData, TQuery["filter"]>) {
+			equal(props: withEqualFilter.Props<TData, TQuery>) {
 				return withEqualFilter(props);
 			},
-			range(props: withRangeFilter.Props<TData, TQuery["filter"]>) {
+			range(props: withRangeFilter.Props<TData, TQuery>) {
 				return withRangeFilter(props);
 			},
 		},

@@ -21,6 +21,22 @@ export namespace withQuerySchema {
 		TFilterSchema extends FilterSchema = FilterSchema,
 		TSort extends string = string,
 	> = z.infer<QuerySchema<TFilterSchema, TSort>>;
+
+	/**
+	 * Extracts all available sort keys from a Query type.
+	 *
+	 * @template TQuery - The Query type to extract sort keys from
+	 * @returns The union of all available sort keys
+	 *
+	 * @example
+	 * ```typescript
+	 * type MyQuery = withQuerySchema.Query<MyFilterSchema, "name" | "age">;
+	 * type SortKeys = withQuerySchema.SortKeys<MyQuery>; // "name" | "age"
+	 * ```
+	 */
+	export type SortKeys<TQuery extends Query> = NonNullable<
+		TQuery["sort"]
+	>[number]["value"];
 }
 
 /**

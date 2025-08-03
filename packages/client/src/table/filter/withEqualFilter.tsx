@@ -1,13 +1,21 @@
-import { type DeepKeys, type EntitySchema, pathOf } from "@use-pico/common";
+import {
+	type DeepKeys,
+	type EntitySchema,
+	pathOf,
+	type withQuerySchema,
+} from "@use-pico/common";
 import type { Table } from "../Table";
 import { EqualFilter } from "./EqualFilter";
 
 export namespace withEqualFilter {
-	export interface Props<TData extends EntitySchema.Type, TFilter> {
+	export interface Props<
+		TData extends EntitySchema.Type,
+		TFilter extends withQuerySchema.Query,
+	> {
 		/**
 		 * Filter path
 		 */
-		path: DeepKeys<TFilter>;
+		path: DeepKeys<TFilter["filter"]>;
 		/**
 		 * Data path to get value from
 		 *
@@ -17,7 +25,10 @@ export namespace withEqualFilter {
 	}
 }
 
-export const withEqualFilter = <TData extends EntitySchema.Type, TFilter>({
+export const withEqualFilter = <
+	TData extends EntitySchema.Type,
+	TFilter extends withQuerySchema.Query,
+>({
 	path,
 	from,
 }: withEqualFilter.Props<TData, TFilter>): Table.Filter.Props<

@@ -5,6 +5,7 @@ import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import { ColumnSort } from "./ColumnSort";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 
@@ -21,9 +22,9 @@ export namespace TableHeader {
 		slots: TableCls.Slots;
 		isFetching: boolean;
 		context: TContext;
+		filter: Table.Filter.State<TQuery> | undefined;
 		selection: Table.Selection.Props | undefined;
-		// sort: SortType.Sort | undefined;
-		filter: Table.Filter.State<TQuery["filter"]> | undefined;
+		sort: Table.Sort.State<TQuery> | undefined;
 		// actionTable: ActionType.Table.Table<TData, TContext> | undefined;
 		// controlsHidden: Table.Controls[];
 	}
@@ -46,10 +47,10 @@ export const TableHeader = <
 	visible,
 	slots,
 	grid,
-	selection,
-	isFetching,
-	// sort,
 	filter,
+	selection,
+	sort,
+	isFetching,
 	// actionTable,
 	// controlsHidden,
 	// visible,
@@ -133,8 +134,7 @@ export const TableHeader = <
 
 				{visible.map((column) => {
 					const Header = column.header;
-					const isSortOrFilter =
-						// (sort && column.sort) ||
+					const isFilter =
 						filter &&
 						column.filter?.is({
 							state: filter,
@@ -149,17 +149,16 @@ export const TableHeader = <
 								items={items}
 								context={context}
 							/>
-							{isSortOrFilter ? (
-								<div
-									className={
-										"flex flex-row items-center gap-2"
-									}
-								>
-									{/* <ColumnSort
-										column={column}
-										sort={sort}
-									/> */}
 
+							<div className={"flex flex-row items-center gap-2"}>
+								{sort && column.sort ? (
+									<ColumnSort
+										state={sort}
+										sort={column.sort}
+									/>
+								) : null}
+
+								{isFilter ? (
 									<Icon
 										icon={FilterRemoveIcon}
 										variant={{
@@ -178,8 +177,8 @@ export const TableHeader = <
 											});
 										}}
 									/>
-								</div>
-							) : null}
+								) : null}
+							</div>
 						</div>
 					);
 				})}
