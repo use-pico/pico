@@ -10,9 +10,10 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { isCallable, isString, tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/common";
 import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
+import { useCls } from "../hooks/useCls";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
 import { createModalStore } from "./createModalStore";
@@ -20,29 +21,37 @@ import { ModalCls } from "./ModalCls";
 import { ModalContext } from "./ModalContext";
 
 export namespace Modal {
+	export namespace Children {
+		export interface Props {
+			close(): void;
+		}
+
+		export type Render = (props: Props) => ReactNode;
+	}
+
+	export namespace Footer {
+		export interface Props {
+			close(): void;
+		}
+
+		export type Render = (props: Props) => ReactNode;
+	}
+
 	export interface Props extends ModalCls.Props {
 		/**
 		 * The target element that will open the modal.
 		 */
 		target: ReactNode;
-		icon?: string | ReactNode;
-		textTitle?: ReactNode;
+		icon?: Icon.Type;
+		textTitle: ReactNode;
 		disabled?: boolean;
 		defaultOpen?: boolean;
 		/**
 		 * Close the modal when clicking outside of it.
 		 */
 		outside?: boolean;
-		children?:
-			| FC<{
-					close(): void;
-			  }>
-			| ReactNode;
-		footer?:
-			| FC<{
-					close(): void;
-			  }>
-			| ReactNode;
+		children?: Children.Render;
+		footer?: Footer.Render;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -58,8 +67,8 @@ export const Modal: FC<Modal.Props> = ({
 	variant,
 	cls,
 	tva = ModalCls,
-	children: Children,
-	footer: Footer,
+	children,
+	footer,
 }) => {
 	const useModalStore = useMemo(
 		() =>
@@ -86,8 +95,8 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-
-	const { slots } = tva(
+	const { slots } = useCls(
+		tva,
 		{
 			disabled,
 			...variant,
@@ -144,26 +153,19 @@ export const Modal: FC<Modal.Props> = ({
 												"flex flex-row items-center gap-2 pr-4"
 											}
 										>
-											{icon &&
-												(isString(icon) ? (
-													<Icon
-														icon={icon}
-														variant={{
-															size: "xl",
-														}}
-													/>
-												) : (
-													icon
-												))}
-											{textTitle && (
-												<div
-													className={
-														"text-lg font-semibold text-slate-700"
-													}
-												>
-													{textTitle}
-												</div>
-											)}
+											<Icon
+												icon={icon}
+												variant={{
+													size: "xl",
+												}}
+											/>
+											<div
+												className={
+													"text-lg font-semibold text-slate-700"
+												}
+											>
+												{textTitle}
+											</div>
 										</div>
 										<Action
 											iconEnabled={CloseIcon}
@@ -177,19 +179,15 @@ export const Modal: FC<Modal.Props> = ({
 									<div
 										className={"flex-grow overflow-y-auto"}
 									>
-										{isCallable(Children) ? (
-											<Children close={close} />
-										) : (
-											Children
-										)}
+										{children?.({
+											close,
+										})}
 									</div>
-									{Footer ? (
+									{footer ? (
 										<div>
-											{isCallable(Footer) ? (
-												<Footer close={close} />
-											) : (
-												Footer
-											)}
+											{footer({
+												close,
+											})}
 										</div>
 									) : null}
 								</div>

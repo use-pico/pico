@@ -42,7 +42,7 @@ export namespace PopupSelect {
 
 	export interface Props<TItem extends EntitySchema.Type>
 		extends PopupSelectCls.Props {
-		icon?: string | ReactNode;
+		icon?: Icon.Type;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
@@ -229,13 +229,15 @@ export const PopupSelect = <TItem extends EntitySchema.Type>({
 			)}
 			{...modalProps}
 		>
-			<PopupContent
-				table={table}
-				useLocalStore={useLocalTableStore}
-				result={result}
-				onChange={onChange}
-				onSelect={onSelect}
-			/>
+			{() => (
+				<PopupContent
+					table={table}
+					useLocalStore={useLocalTableStore}
+					result={result}
+					onChange={onChange}
+					onSelect={onSelect}
+				/>
+			)}
 		</Modal>
 	);
 };

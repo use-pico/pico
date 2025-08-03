@@ -1,4 +1,6 @@
-import type { FC, HTMLAttributes } from "react";
+import { isString } from "@use-pico/common";
+import type { FC, HTMLAttributes, ReactNode } from "react";
+import { useCls } from "../hooks/useCls";
 import { IconCls } from "./IconCls";
 
 /**
@@ -7,6 +9,8 @@ import { IconCls } from "./IconCls";
  * @group ui
  */
 export namespace Icon {
+	export type Type = string | ReactNode;
+
 	/**
 	 * Props for `Icon` component.
 	 */
@@ -16,8 +20,11 @@ export namespace Icon {
 		> {
 		/**
 		 * `Iconify` icon name.
+		 *
+		 * If non-string is provided (basically a JSX element), this component
+		 * is replaced with the element.
 		 */
-		icon: string | undefined;
+		icon: Icon.Type;
 	}
 
 	/**
@@ -33,12 +40,14 @@ export const Icon: FC<Icon.Props> = ({
 	cls,
 	...props
 }) => {
-	const { el } = tva(variant, cls);
+	const { el } = useCls(tva, variant, cls);
 
-	return icon ? (
+	return isString(icon) ? (
 		<el.base.Div
 			cls={icon}
 			{...props}
 		/>
-	) : null;
+	) : (
+		icon
+	);
 };

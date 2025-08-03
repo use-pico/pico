@@ -203,11 +203,13 @@ export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 			)}
 			{...modalProps}
 		>
-			<PopupMultiContent
-				// table={table}
-				useLocalStore={useLocalStore}
-				result={result}
-			/>
+			{() => (
+				<PopupMultiContent
+					// table={table}
+					useLocalStore={useLocalStore}
+					result={result}
+				/>
+			)}
 		</Modal>
 	);
 };
