@@ -38,47 +38,10 @@ export const Route = createFileRoute("/$locale/components/table")({
 						navigate,
 					)}
 					cursor={NavigationState.cursor(cursor, navigate)}
-					// selection={selection}
+					selection={selection}
 					selectionMode={"multi"}
 					filter={NavigationState.filter(filter, navigate)}
 					sort={NavigationState.sort(sort, navigate)}
-
-					// actionTable={{
-					// 	width: "4rem",
-					// }}
-					// filter={TableNavigationState.useFilter(filter, navigate)}
-
-					// cursor={TableNavigationState.cursorWithCount(
-					// 	{
-					// 		withCountQuery: someDataCountQuery,
-					// 		textTotal: <Tx label={"Number of items"} />,
-					// 	},
-					// 	navigate,
-					// )}
-					// cursor={TableNavigationState.useCursorWithCount(
-					// 	{
-					// 		count,
-					// 		cursor,
-					// 		textTotal: <Tx label={"Number of items"} />,
-					// 	},
-					// 	navigate,
-					// )}
-					// selection={TableNavigationState.selection(
-					// 	"multi",
-					// 	selection,
-					// 	navigate,
-					// )}
-					// actionRow={{
-					// 	action() {
-					// 		return (
-					// 			<ActionMenu withOverlay>
-					// 				<ActionClick>
-					// 					<Tx label={"Action"} />
-					// 				</ActionClick>
-					// 			</ActionMenu>
-					// 		);
-					// 	},
-					// }}
 				/>
 			</div>
 		);
