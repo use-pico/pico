@@ -1,4 +1,4 @@
-import { PopupMultiSelect, Tx } from "@use-pico/client";
+import { PopupSelect, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
@@ -7,7 +7,7 @@ import { InventoryItemTable } from "~/app/inventory/ui/InventoryItemTable";
 
 export namespace InventoryItemPopupSelect {
 	export interface Props
-		extends PopupMultiSelect.PropsEx<
+		extends PopupSelect.PropsEx<
 			InventoryItemQuerySchema.Type,
 			InventoryItemSchema.Type
 		> {
@@ -19,11 +19,12 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 	props,
 ) => {
 	return (
-		<PopupMultiSelect
+		<PopupSelect
 			withQuery={withInventoryItemListQuery()}
 			table={InventoryItemTable}
 			textTitle={<Tx label={"Select inventory item (title)"} />}
 			textSelect={<Tx label={"Select inventory item (select)"} />}
+			allowEmpty
 			render={({ entities }) => (
 				<div>
 					{entities.map((entity) => (

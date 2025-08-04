@@ -10,10 +10,10 @@ import { Modal } from "../modal/Modal";
 import type { withQuery } from "../source/withQuery";
 import type { Table } from "../table/Table";
 import { Content } from "./Content";
-import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
+import { PopupSelectCls } from "./PopupSelectCls";
 import { Target } from "./Target";
 
-export namespace PopupMultiSelect {
+export namespace PopupSelect {
 	export type State = StateType<string[]>;
 
 	export namespace Render {
@@ -29,7 +29,8 @@ export namespace PopupMultiSelect {
 	export interface Props<
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
-	> extends PopupMultiSelectCls.Props {
+	> extends PopupSelectCls.Props {
+		mode: "single" | "multi";
 		withQuery: withQuery.Api<TQuery, TItem[]>;
 		query?: TQuery;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
@@ -52,10 +53,11 @@ export namespace PopupMultiSelect {
 	> = Omit<Props<TQuery, TItem>, "withQuery" | "table" | "render">;
 }
 
-export const PopupMultiSelect = <
+export const PopupSelect = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
+	mode,
 	withQuery,
 	query,
 	table,
@@ -71,9 +73,9 @@ export const PopupMultiSelect = <
 	state,
 	//
 	variant,
-	tva = PopupMultiSelectCls,
+	tva = PopupSelectCls,
 	cls,
-}: PopupMultiSelect.Props<TQuery, TItem>) => {
+}: PopupSelect.Props<TQuery, TItem>) => {
 	const { slots } = useCls(tva, variant, cls);
 
 	const modalId = useId();
@@ -107,7 +109,7 @@ export const PopupMultiSelect = <
 			{...modalProps}
 		>
 			<Content
-				mode={"multi"}
+				mode={mode}
 				query={query}
 				table={table}
 				state={state}

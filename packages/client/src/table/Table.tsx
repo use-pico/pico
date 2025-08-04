@@ -25,11 +25,6 @@ import { TablePrefix } from "./TablePrefix";
 export namespace Table {
 	export namespace Selection {
 		export type State = StateType<string[]>;
-
-		export interface Props {
-			type: "single" | "multi";
-			state: State;
-		}
 	}
 
 	export namespace Filter {
@@ -302,7 +297,8 @@ export namespace Table {
 		/**
 		 * Selection configuration.
 		 */
-		selection?: Selection.Props;
+		selection?: Selection.State;
+		selectionMode?: "single" | "multi";
 		filter?: Filter.State<TQuery>;
 		sort?: Sort.State<TQuery>;
 		/**
@@ -362,6 +358,7 @@ export const Table = <
 	withCountQuery,
 	context,
 	selection,
+	selectionMode = "multi",
 	filter,
 	sort,
 	actionWidth,
@@ -405,7 +402,7 @@ export const Table = <
 					fulltext={fulltext}
 					toolbar={toolbar}
 					controlsHidden={controlsHidden}
-					selection={selection?.state}
+					selection={selection}
 					filter={filter}
 					context={context}
 					{...render}
@@ -419,6 +416,7 @@ export const Table = <
 					slots={slots}
 					visible={visibleColumns}
 					selection={selection}
+					selectionMode={selectionMode}
 					filter={filter}
 					sort={sort}
 					actionTable={actionTable}
@@ -431,6 +429,7 @@ export const Table = <
 					key={render.item.id}
 					visibleColumns={visibleColumns}
 					selection={selection}
+					selectionMode={selectionMode}
 					filter={filter}
 					context={context}
 					grid={grid}

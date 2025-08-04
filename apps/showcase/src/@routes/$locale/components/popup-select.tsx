@@ -10,12 +10,23 @@ export const Route = createFileRoute("/$locale/components/popup-select")({
 		return (
 			<div>
 				<div>
-					<InventoryItemPopupSelect
-						state={{
-							set: setValue,
-							value,
-						}}
-					/>
+					<div className={"flex flex-row gap-2"}>
+						<InventoryItemPopupSelect
+							mode="single"
+							state={{
+								set: setValue,
+								value,
+							}}
+						/>
+
+						<InventoryItemPopupSelect
+							mode="multi"
+							state={{
+								set: setValue,
+								value,
+							}}
+						/>
+					</div>
 					<div className={"flex flex-row gap-2 items-center"}>
 						<Tx label={"Selected value"} />
 						<div>{value ?? "-"}</div>

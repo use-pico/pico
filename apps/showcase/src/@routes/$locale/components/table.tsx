@@ -41,10 +41,8 @@ export const Route = createFileRoute("/$locale/components/table")({
 						navigate,
 					)}
 					cursor={NavigationState.cursor(cursor, navigate)}
-					selection={{
-						type: "multi",
-						state: NavigationState.selection(selection, navigate),
-					}}
+					selection={NavigationState.selection(selection, navigate)}
+					selectionMode={"single"}
 					filter={NavigationState.filter(filter, navigate)}
 					sort={NavigationState.sort(sort, navigate)}
 

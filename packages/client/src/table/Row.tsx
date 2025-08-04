@@ -17,7 +17,8 @@ export namespace Row {
 	> {
 		item: TData;
 		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
-		selection: Table.Selection.Props | undefined;
+		selection: Table.Selection.State | undefined;
+		selectionMode: "single" | "multi";
 		filter: Table.Filter.State<TQuery> | undefined;
 		rowCls: Table.Row.Cls.Fn<TData, TContext> | undefined;
 		/**
@@ -46,6 +47,7 @@ export const Row = <
 	item,
 	visibleColumns,
 	selection,
+	selectionMode,
 	filter,
 	rowCls,
 	actionRow,
@@ -62,44 +64,36 @@ export const Row = <
 	});
 
 	const onSelect = () => {
-		match(selection)
-			.with(
-				{
-					type: "single",
-				},
-				({ state: { value, set } }) => {
-					const selected = value.includes(item.id);
-					set(
-						selected
-							? []
-							: [
-									item.id,
-								],
-					);
+		match(selectionMode)
+			.with("single", () => {
+				const selected = selection?.value.includes(item.id);
+				selection?.set(
 					selected
-						? set(value.filter((id) => id !== item.id))
-						: set([
-								...value,
+						? []
+						: [
 								item.id,
-							]);
-				},
-			)
-			.with(
-				{
-					type: "multi",
-				},
-				({ state: { value, set } }) => {
-					const selected = value.includes(item.id);
-					set(
-						selected
-							? value.filter((id) => id !== item.id)
-							: [
-									...value,
-									item.id,
-								],
-					);
-				},
-			)
+							],
+				);
+				selected
+					? selection?.set(
+							selection.value.filter((id) => id !== item.id),
+						)
+					: selection?.set([
+							...selection.value,
+							item.id,
+						]);
+			})
+			.with("multi", () => {
+				const selected = selection?.value.includes(item.id);
+				selection?.set(
+					selected
+						? selection.value.filter((id) => id !== item.id)
+						: [
+								...selection.value,
+								item.id,
+							],
+				);
+			})
 			.with(P.nullish, () => {
 				//
 			})
@@ -110,7 +104,7 @@ export const Row = <
 		<div
 			className={slots.row(
 				{
-					selected: selection?.state.value.includes(item.id),
+					selected: selection?.value.includes(item.id),
 				},
 				rowCls?.({
 					data: row.data,
@@ -143,15 +137,13 @@ export const Row = <
 				{selection ? (
 					<Icon
 						icon={
-							selection.state.value.includes(item.id)
+							selection.value.includes(item.id)
 								? SelectionOnIcon
 								: SelectionOffIcon
 						}
 						cls={{
 							base: slots.select({
-								selected: selection.state.value.includes(
-									item.id,
-								),
+								selected: selection.value.includes(item.id),
 							}),
 						}}
 						variant={{

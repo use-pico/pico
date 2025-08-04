@@ -6,8 +6,8 @@ import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
 import type { withQuery } from "../source/withQuery";
 import { Tx } from "../tx/Tx";
-import type { PopupMultiSelect } from "./PopupMultiSelect";
-import type { PopupMultiSelectCls } from "./PopupMultiSelectCls";
+import type { PopupSelect } from "./PopupSelect";
+import type { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace Target {
 	export interface Props<
@@ -15,13 +15,13 @@ export namespace Target {
 		TItem extends EntitySchema.Type,
 	> {
 		modalId: string;
-		slots: cls.Slots<PopupMultiSelectCls>;
+		slots: cls.Slots<PopupSelectCls>;
 		//
 		withQuery: withQuery.Api<TQuery, TItem[]>;
-		render: PopupMultiSelect.Render.Render<TItem>;
+		render: PopupSelect.Render.Render<TItem>;
 		textSelect: ReactNode;
 		//
-		state: PopupMultiSelect.State;
+		state: PopupSelect.State;
 	}
 }
 

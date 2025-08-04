@@ -8,8 +8,8 @@ import { type FC, useState } from "react";
 import { ModalContent } from "../modal/ModalContent";
 import { ModalFooter } from "../modal/ModalFooter";
 import type { Table } from "../table/Table";
-import type { PopupMultiSelect } from "./PopupMultiSelect";
-import type { PopupMultiSelectCls } from "./PopupMultiSelectCls";
+import type { PopupSelect } from "./PopupSelect";
+import type { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace Content {
 	export interface Props<
@@ -19,8 +19,8 @@ export namespace Content {
 		mode: "single" | "multi";
 		query?: TQuery;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
-		state: PopupMultiSelect.State;
-		slots: cls.Slots<PopupMultiSelectCls>;
+		state: PopupSelect.State;
+		slots: cls.Slots<PopupSelectCls>;
 		allowEmpty: boolean;
 	}
 }
@@ -91,13 +91,11 @@ export const Content = <
 								});
 							},
 						}}
+						selectionMode={mode}
 						selection={{
-							type: mode,
-							state: {
-								value: selection,
-								set(selection) {
-									setSelection(selection);
-								},
+							value: selection,
+							set(selection) {
+								setSelection(selection);
 							},
 						}}
 						// row={{

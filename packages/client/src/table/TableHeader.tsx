@@ -23,7 +23,8 @@ export namespace TableHeader {
 		isFetching: boolean;
 		context: TContext;
 		filter: Table.Filter.State<TQuery> | undefined;
-		selection: Table.Selection.Props | undefined;
+		selection: Table.Selection.State | undefined;
+		selectionMode: "single" | "multi";
 		sort: Table.Sort.State<TQuery> | undefined;
 		actionTable: Table.Action.Table.Render<TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
@@ -48,21 +49,20 @@ export const TableHeader = <
 	grid,
 	filter,
 	selection,
+	selectionMode,
 	sort,
 	isFetching,
 	actionTable,
 	controlsHidden,
 }: TableHeader.Props<TQuery, TData, TContext>) => {
-	const isAll = data.every((data) =>
-		selection?.state.value.includes(data.id),
-	);
-	const isAny = data.some((data) => selection?.state.value.includes(data.id));
+	const isAll = data.every((data) => selection?.value.includes(data.id));
+	const isAny = data.some((data) => selection?.value.includes(data.id));
 
 	const onSelectAll = () => {
-		if (data.every((data) => selection?.state.value.includes(data.id))) {
-			selection?.state.set([]);
+		if (data.every((data) => selection?.value.includes(data.id))) {
+			selection?.set([]);
 		} else {
-			selection?.state.set(data.map(({ id }) => id));
+			selection?.set(data.map(({ id }) => id));
 		}
 	};
 
@@ -108,7 +108,7 @@ export const TableHeader = <
 										: SelectionOffIcon
 							}
 							variant={{
-								disabled: selection.type === "single",
+								disabled: selectionMode === "single",
 								size: "2xl",
 							}}
 							cls={{
