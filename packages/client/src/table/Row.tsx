@@ -21,6 +21,7 @@ export namespace Row {
 		selectionMode: "single" | "multi";
 		filter: Table.Filter.State<TQuery> | undefined;
 		rowCls: Table.Row.Cls.Fn<TData, TContext> | undefined;
+		rowDblClick: Table.Row.DblClick.Fn<TData, TContext> | undefined;
 		/**
 		 * Row-wise action.
 		 */
@@ -55,7 +56,7 @@ export const Row = <
 	context,
 	grid,
 	slots,
-	onDoubleClick,
+	rowDblClick,
 }: Row.Props<TQuery, TData, TContext>) => {
 	const row = useRow<TQuery, TData, TContext>({
 		data: item,
@@ -107,14 +108,11 @@ export const Row = <
 				gridTemplateColumns: grid,
 			}}
 			onDoubleClick={() => {
-				if (onDoubleClick) {
-					return onDoubleClick({
-						data: row.data,
-						context,
-					});
-				}
-
 				onSelect();
+				rowDblClick?.({
+					data: row.data,
+					context,
+				});
 			}}
 		>
 			<div

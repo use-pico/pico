@@ -1,35 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Tx } from "@use-pico/client";
-import { useState } from "react";
+import { useSelection } from "@use-pico/client";
 import { InventoryItemPopupSelect } from "~/app/inventory/ui/InventoryItemPopupSelect";
 
 export const Route = createFileRoute("/$locale/components/popup-select")({
 	component() {
-		const [value, setValue] = useState<string[]>([]);
+		const single = useSelection();
+		const multi = useSelection();
 
 		return (
 			<div>
 				<div>
-					<div className={"flex flex-row gap-2"}>
+					<div className={"flex flex-col gap-2 w-fit"}>
 						<InventoryItemPopupSelect
 							mode="single"
-							state={{
-								set: setValue,
-								value,
-							}}
+							state={single}
 						/>
 
 						<InventoryItemPopupSelect
 							mode="multi"
-							state={{
-								set: setValue,
-								value,
-							}}
+							state={multi}
 						/>
-					</div>
-					<div className={"flex flex-row gap-2 items-center"}>
-						<Tx label={"Selected value"} />
-						<div>{value ?? "-"}</div>
 					</div>
 				</div>
 			</div>

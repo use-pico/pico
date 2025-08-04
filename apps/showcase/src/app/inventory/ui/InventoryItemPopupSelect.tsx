@@ -1,4 +1,4 @@
-import { PopupSelect, Tx } from "@use-pico/client";
+import { Badge, More, PopupSelect, Tx } from "@use-pico/client";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
@@ -26,11 +26,32 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 			textSelect={<Tx label={"Select inventory item (select)"} />}
 			allowEmpty
 			render={({ entities }) => (
-				<div>
-					{entities.map((entity) => (
-						<div key={entity.id}>{entity.name}</div>
-					))}
-				</div>
+				<More
+					items={entities.map((entity) => ({
+						id: entity.id,
+						label: entity.name,
+					}))}
+					renderInline={({ entity }) => (
+						<Badge
+							key={`${entity.id}-inline`}
+							variant={{
+								size: "sm",
+							}}
+						>
+							{entity.label}
+						</Badge>
+					)}
+					renderItem={({ entity }) => (
+						<Badge
+							key={`${entity.id}-item`}
+							variant={{
+								size: "lg",
+							}}
+						>
+							{entity.label}
+						</Badge>
+					)}
+				/>
 			)}
 			{...props}
 		/>

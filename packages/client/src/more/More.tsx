@@ -1,5 +1,5 @@
-import type { Entity, EntitySchema } from "@use-pico/common";
-import type { FC, ReactNode } from "react";
+import type { EntitySchema } from "@use-pico/common";
+import type { ReactNode } from "react";
 import { Action } from "../action/Action";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
 import type { Icon } from "../icon/Icon";
@@ -7,6 +7,16 @@ import { Modal } from "../modal/Modal";
 import { MoreCls } from "./MoreCls";
 
 export namespace More {
+	export namespace Render {
+		export interface Props<TValues extends EntitySchema.Type> {
+			entity: TValues;
+		}
+
+		export type Render<TValues extends EntitySchema.Type> = (
+			props: Props<TValues>,
+		) => ReactNode;
+	}
+
 	export interface Props<TValues extends EntitySchema.Type>
 		extends MoreCls.Props {
 		icon?: string;
@@ -16,13 +26,21 @@ export namespace More {
 		modalProps?: Partial<Modal.PropsEx>;
 		disabled?: boolean;
 		items: TValues[];
-		render: FC<Entity.Type<TValues>>;
+		renderInline: Render.Render<TValues>;
+		/**
+		 * Render individual item in the modal; this could be separated as
+		 * there may be different style for displaying inline item and for
+		 * modal item.
+		 *
+		 * Defaults to `renderInline`.
+		 */
+		renderItem?: Render.Render<TValues>;
 		limit?: number;
 	}
 
 	export type PropsEx<TValues extends EntitySchema.Type> = Omit<
 		Props<TValues>,
-		"items" | "render"
+		"items" | "renderInline"
 	>;
 }
 
@@ -34,7 +52,8 @@ export const More = <TValues extends EntitySchema.Type>({
 	items,
 	modalProps,
 	disabled = false,
-	render: Render,
+	renderInline,
+	renderItem = renderInline,
 	limit,
 	variant,
 	tva = MoreCls,
@@ -46,12 +65,11 @@ export const More = <TValues extends EntitySchema.Type>({
 	return (
 		<div className={slots.base()}>
 			{items.length ? null : textEmpty}
-			{$items.map((item) => (
-				<Render
-					key={`items-${item.id}`}
-					entity={item}
-				/>
-			))}
+			{$items.map((item) =>
+				renderInline({
+					entity: item,
+				}),
+			)}
 			{limit !== undefined && items.length > limit && (
 				<Modal
 					textTitle={textTitle}
@@ -67,12 +85,11 @@ export const More = <TValues extends EntitySchema.Type>({
 					{...modalProps}
 				>
 					<div className={"flex flex-col gap-2"}>
-						{items.map((item) => (
-							<Render
-								key={`items-${item.id}`}
-								entity={item}
-							/>
-						))}
+						{items.map((item) =>
+							renderItem({
+								entity: item,
+							}),
+						)}
 					</div>
 				</Modal>
 			)}

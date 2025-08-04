@@ -1,19 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { NavigationState } from "@use-pico/client";
-import { z } from "zod";
+import { NavigationState, useSelection } from "@use-pico/client";
 import { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import { InventoryItemTable } from "~/app/inventory/ui/InventoryItemTable";
 
 export const Route = createFileRoute("/$locale/components/table")({
-	validateSearch: z
-		.object({
-			...InventoryItemQuerySchema.shape,
-			selection: z.array(z.string()).default([]),
-		})
-		.transform(({ cursor, sort, ...data }) => ({
+	validateSearch: InventoryItemQuerySchema.transform(
+		({ cursor, sort, ...data }) => ({
 			...data,
 			cursor: cursor ?? {
-				page: 1,
+				page: 0,
 				size: 30,
 			},
 			sort: sort ?? [
@@ -22,10 +17,12 @@ export const Route = createFileRoute("/$locale/components/table")({
 					sort: "desc",
 				},
 			],
-		})),
+		}),
+	),
 	component() {
-		const { where, filter, cursor, sort, selection } = Route.useSearch();
+		const { where, filter, cursor, sort } = Route.useSearch();
 		const navigate = Route.useNavigate();
+		const selection = useSelection({});
 
 		return (
 			<div className="flex flex-col gap-4 w-full">
@@ -41,7 +38,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 						navigate,
 					)}
 					cursor={NavigationState.cursor(cursor, navigate)}
-					selection={NavigationState.selection(selection, navigate)}
+					selection={selection}
 					selectionMode={"multi"}
 					filter={NavigationState.filter(filter, navigate)}
 					sort={NavigationState.sort(sort, navigate)}

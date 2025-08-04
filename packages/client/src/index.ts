@@ -137,6 +137,7 @@ export { Progress } from "./progress/Progress";
 export { ProgressCls } from "./progress/ProgressCls";
 export { Select } from "./select/Select";
 export { SelectCls } from "./select/SelectCls";
+export { useSelection } from "./selection/useSelection";
 export { renderSlot } from "./slot/renderSlot";
 export { DeleteControl } from "./source/DeleteControl";
 export { DeleteControlCls } from "./source/DeleteControlCls";

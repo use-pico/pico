@@ -4,9 +4,12 @@ import type {
 	EntitySchema,
 	withQuerySchema,
 } from "@use-pico/common";
-import { type FC, useState } from "react";
+import { type FC, useContext, useState } from "react";
+import type { Fulltext } from "../fulltext/Fulltext";
 import { ModalContent } from "../modal/ModalContent";
+import { ModalContext } from "../modal/ModalContext";
 import { ModalFooter } from "../modal/ModalFooter";
+import { useSelection } from "../selection/useSelection";
 import type { Table } from "../table/Table";
 import type { PopupSelect } from "./PopupSelect";
 import type { PopupSelectCls } from "./PopupSelectCls";
@@ -36,10 +39,12 @@ export const Content = <
 	slots,
 	allowEmpty,
 }: Content.Props<TQuery, TItem>) => {
-	const [selection, setSelection] = useState<string[]>(state.value);
-	const [fulltext, setFulltext] = useState<string | undefined | null>(
-		undefined,
-	);
+	const selection = useSelection({
+		initial: state.value,
+	});
+	const useModal = useContext(ModalContext);
+	const close = useModal((state) => state.close);
+	const [fulltext, setFulltext] = useState<Fulltext.Value>(undefined);
 	const [sort, setSort] = useState<any>([]);
 	const [cursor, setCursor] = useState<CursorSchema.Type>({
 		page: 0,
@@ -50,9 +55,9 @@ export const Content = <
 		<ModalContent
 			footer={
 				<ModalFooter
-					disabled={!selection.length && !allowEmpty}
+					disabled={!selection.value.length && !allowEmpty}
 					onConfirm={() => {
-						state.set(selection);
+						state.set(selection.value);
 					}}
 				/>
 			}
@@ -92,26 +97,15 @@ export const Content = <
 							},
 						}}
 						selectionMode={mode}
-						selection={{
-							value: selection,
-							set(selection) {
-								setSelection(selection);
-							},
+						selection={selection}
+						rowDblClick={({ data }) => {
+							if (mode === "single") {
+								state.set([
+									data.id,
+								]);
+								close();
+							}
 						}}
-						// row={{
-						// 	onDoubleClick({ data }) {
-						// 		setSelection(
-						// 			selection.includes(data.id)
-						// 				? selection.filter(
-						// 						(item) => item !== data.id,
-						// 					)
-						// 				: [
-						// 						...selection,
-						// 						data.id,
-						// 					],
-						// 		);
-						// 	},
-						// }}
 					/>
 				</div>
 			</div>

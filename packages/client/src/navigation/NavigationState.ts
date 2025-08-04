@@ -72,26 +72,6 @@ export const NavigationState = {
 			},
 		};
 	},
-	selection(
-		value: string[],
-		navigate: (props: {
-			search: (props: { selection: string[] }) => any;
-		}) => void,
-	): StateType<string[]> {
-		return {
-			value,
-			set(selection) {
-				return navigate({
-					search(prev) {
-						return {
-							...prev,
-							selection,
-						};
-					},
-				});
-			},
-		};
-	},
 	cursor(
 		value: CursorSchema.Type,
 		navigate: (props: {

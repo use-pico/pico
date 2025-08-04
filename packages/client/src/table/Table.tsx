@@ -182,6 +182,20 @@ export namespace Table {
 				props: Props<TData, TContext>,
 			) => cls.Class;
 		}
+
+		export namespace DblClick {
+			export interface Props<
+				TData extends EntitySchema.Type,
+				TContext = any,
+			> {
+				data: TData;
+				context: TContext;
+			}
+
+			export type Fn<TData extends EntitySchema.Type, TContext = any> = (
+				props: Props<TData, TContext>,
+			) => void;
+		}
 	}
 
 	export interface Row<
@@ -319,6 +333,7 @@ export namespace Table {
 		 * Row-wise class if you need something special.
 		 */
 		rowCls?: Row.Cls.Fn<TData, TContext>;
+		rowDblClick?: Row.DblClick.Fn<TData, TContext>;
 		/** Toolbar, displayed next to the fulltext.
 		 *
 		 * Good UI may be just icons to be used.
@@ -367,6 +382,7 @@ export const Table = <
 	toolbar,
 	controlsHidden = [],
 	rowCls,
+	rowDblClick,
 	variant,
 	tva = TableCls,
 	cls,
@@ -437,10 +453,11 @@ export const Table = <
 					actionRow={actionRow}
 					controlsHidden={controlsHidden}
 					rowCls={rowCls}
+					rowDblClick={rowDblClick}
 					{...render}
 				/>
 			)}
-			renderFooter={() => {
+			renderPostfix={() => {
 				return (
 					<div
 						className={tvc(
