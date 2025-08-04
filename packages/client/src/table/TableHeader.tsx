@@ -59,10 +59,14 @@ export const TableHeader = <
 	const isAny = data.some((data) => selection?.value.includes(data.id));
 
 	const onSelectAll = () => {
-		if (data.every((data) => selection?.value.includes(data.id))) {
-			selection?.set([]);
+		if (isAll) {
+			selection?.set(
+				selection.value.filter(
+					(id) => !data.some((item) => item.id === id),
+				),
+			);
 		} else {
-			selection?.set(data.map(({ id }) => id));
+			selection?.set(selection.value.concat(data.map(({ id }) => id)));
 		}
 	};
 
