@@ -74,14 +74,6 @@ export const Row = <
 								item.id,
 							],
 				);
-				selected
-					? selection?.set(
-							selection.value.filter((id) => id !== item.id),
-						)
-					: selection?.set([
-							...selection.value,
-							item.id,
-						]);
 			})
 			.with("multi", () => {
 				const selected = selection?.value.includes(item.id);
