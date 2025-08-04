@@ -173,6 +173,7 @@ export const Route = createFileRoute("/$locale/components")({
 						"flex",
 						"flex-1",
 						"p-4",
+						"overflow-hidden",
 					])}
 				>
 					<Outlet />

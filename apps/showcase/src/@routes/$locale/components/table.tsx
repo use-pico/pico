@@ -25,7 +25,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 		const selection = useSelection({});
 
 		return (
-			<div className="flex flex-col gap-4 w-full">
+			<div className="flex flex-col gap-4 min-w-0">
 				<InventoryItemTable
 					query={{
 						filter,
