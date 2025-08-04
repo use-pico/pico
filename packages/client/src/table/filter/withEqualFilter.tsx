@@ -13,15 +13,13 @@ export namespace withEqualFilter {
 		TFilter extends withQuerySchema.Query,
 	> {
 		/**
-		 * Filter path
+		 * Which filter value we're about to filter by
 		 */
-		path: DeepKeys<TFilter["filter"]>;
+		value: DeepKeys<TFilter["filter"]>;
 		/**
 		 * Data path to get value from
-		 *
-		 * If not specific, path is used.
 		 */
-		from?: DeepKeys<TData>;
+		from: DeepKeys<TData>;
 	}
 }
 
@@ -29,7 +27,7 @@ export const withEqualFilter = <
 	TData extends EntitySchema.Type,
 	TFilter extends withQuerySchema.Query,
 >({
-	path,
+	value,
 	from,
 }: withEqualFilter.Props<TData, TFilter>): Table.Filter.Props<
 	TData,
@@ -39,20 +37,20 @@ export const withEqualFilter = <
 		reset({ state }) {
 			state.set({
 				...state.value,
-				[path]: undefined,
+				[value]: undefined,
 			});
 		},
 		is({ state }) {
-			return pathOf(state.value || {}).get(path) !== undefined;
+			return pathOf(state.value || {}).get(value) !== undefined;
 		},
 		component({ data, state }) {
-			const isFilter = pathOf(state.value || {}).get(path) === undefined;
+			const isFilter = pathOf(state.value || {}).get(value) === undefined;
 
 			return isFilter ? (
 				<EqualFilter<TData, TFilter>
-					path={path}
+					path={value}
 					state={state}
-					value={pathOf(data).get(from || path)}
+					value={pathOf(data).get(from)}
 				/>
 			) : null;
 		},

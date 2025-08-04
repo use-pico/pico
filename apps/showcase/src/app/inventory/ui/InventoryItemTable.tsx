@@ -24,7 +24,7 @@ const columns = [
 		name: "id",
 		header: () => <Tx label={"ID"} />,
 		render: ({ value }) => value,
-		size: 12,
+		size: 18,
 	}),
 	create({
 		name: "name",
@@ -33,7 +33,7 @@ const columns = [
 		sort: {
 			value: "name",
 		},
-		size: "auto",
+		size: 24,
 	}),
 	create({
 		name: "description",
@@ -46,7 +46,8 @@ const columns = [
 		header: () => <Tx label={"Kind"} />,
 		render: ({ value }) => value,
 		filter: filter.equal({
-			path: "kind",
+			value: "kind",
+			from: "kind",
 		}),
 		sort: {
 			value: "kind",
@@ -58,7 +59,8 @@ const columns = [
 		header: () => <Tx label={"Type"} />,
 		render: ({ value }) => value,
 		filter: filter.equal({
-			path: "type",
+			value: "type",
+			from: "type",
 		}),
 		sort: {
 			value: "type",

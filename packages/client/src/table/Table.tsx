@@ -403,13 +403,13 @@ export const Table = <
 			controlsHidden,
 		}),
 		selection,
+		actionTable,
+		actionRow,
 	});
 
 	return (
 		<AbstractList
-			cls={{
-				root: slots.root(),
-			}}
+			tva={tva}
 			renderPrefix={(render) => (
 				<TablePrefix<TQuery, TContext>
 					withCountQuery={withCountQuery}

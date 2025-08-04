@@ -331,6 +331,8 @@ export namespace cls {
 		 *
 		 * Those are used to compute dynamic class names based on the current state (input values).
 		 */
+
+		// TODO Change structure to tuple [if, do] instead of object
 		match?: Internal.Match<TSlot, TVariant, TUse>[];
 		/**
 		 * Default values.

@@ -14,11 +14,15 @@ export namespace Target {
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> {
+		mode: "single" | "multi";
 		modalId: string;
 		slots: cls.Slots<PopupSelectCls>;
 		//
 		withQuery: withQuery.Api<TQuery, TItem[]>;
-		render: PopupSelect.Render.Render<TItem>;
+		//
+		renderSingle: PopupSelect.Render.Single.Render<TItem>;
+		renderMulti: PopupSelect.Render.Multi.Render<TItem>;
+		//
 		textSelect: ReactNode;
 		//
 		state: PopupSelect.State;
@@ -29,11 +33,13 @@ export const Target = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
+	mode,
 	modalId,
 	slots,
 	//
 	withQuery,
-	render,
+	renderSingle,
+	renderMulti,
 	textSelect,
 	//
 	state,
@@ -69,9 +75,15 @@ export const Target = <
 				}
 			/>
 			{selected.isEnabled && selected.data && selected.data.length
-				? render({
-						entities: selected.data,
-					})
+				? mode === "single"
+					? selected.data[0]
+						? renderSingle({
+								entity: selected.data[0],
+							})
+						: null
+					: renderMulti({
+							entities: selected.data,
+						})
 				: textSelect || <Tx label={"Select item (label)"} />}
 		</label>
 	);

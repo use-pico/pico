@@ -2,8 +2,8 @@ import { cls } from "@use-pico/common";
 
 export const AbstractListCls = cls({
 	slot: {
-		root: [],
-		items: [],
+		root: [] as string[],
+		items: [] as string[],
 	},
 	variant: {},
 	defaults: {},

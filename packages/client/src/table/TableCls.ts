@@ -9,7 +9,7 @@ export const TableCls = cls({
 			"gap-2",
 			"text-sm",
 		],
-		table: [
+		items: [
 			"relative",
 			"w-fit",
 			"min-w-full",

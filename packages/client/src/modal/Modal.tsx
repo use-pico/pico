@@ -11,12 +11,7 @@ import {
 	useTransitionStyles,
 } from "@floating-ui/react";
 import { tvc } from "@use-pico/common";
-import {
-	type FC,
-	type PropsWithChildren,
-	type ReactNode,
-	useMemo,
-} from "react";
+import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
 import { useCls } from "../hooks/useCls";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -26,7 +21,15 @@ import { ModalCls } from "./ModalCls";
 import { ModalContext } from "./ModalContext";
 
 export namespace Modal {
-	export interface Props extends ModalCls.Props<PropsWithChildren> {
+	export namespace Children {
+		export interface Props {
+			close(): void;
+		}
+
+		export type Render = (props: Props) => ReactNode;
+	}
+
+	export interface Props extends ModalCls.Props {
 		/**
 		 * The target element that will open the modal.
 		 */
@@ -39,6 +42,7 @@ export namespace Modal {
 		 * Close the modal when clicking outside of it.
 		 */
 		outside?: boolean;
+		children: Children.Render;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -168,7 +172,9 @@ export const Modal: FC<Modal.Props> = ({
 											}}
 										/>
 									</div>
-									{children}
+									{children({
+										close,
+									})}
 								</div>
 							</FloatingFocusManager>
 						</FloatingOverlay>

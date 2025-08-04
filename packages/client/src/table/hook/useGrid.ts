@@ -10,6 +10,14 @@ export namespace useGrid {
 		 * there is "any" selection, so we can compute grid accordingly.
 		 */
 		selection: any | undefined;
+		/**
+		 * Action table is a table that is used to display the actions.
+		 */
+		actionTable: any | undefined;
+		/**
+		 * Action row is a row that is used to display the actions.
+		 */
+		actionRow: any | undefined;
 	}
 }
 
@@ -17,6 +25,8 @@ export const useGrid = ({
 	visible,
 	actionWidth = "auto",
 	selection,
+	actionTable,
+	actionRow,
 }: useGrid.Props) => {
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Those values are defaults, so they won't change until the table is re-mounted.
 	return useMemo(() => {
@@ -26,7 +36,7 @@ export const useGrid = ({
 			)
 			.join(" ");
 
-		if (selection) {
+		if (selection || actionTable || actionRow) {
 			return `${actionWidth} ${grid}`;
 		}
 

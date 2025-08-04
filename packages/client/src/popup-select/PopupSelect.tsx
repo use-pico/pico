@@ -17,13 +17,25 @@ export namespace PopupSelect {
 	export type State = StateType<string[]>;
 
 	export namespace Render {
-		export interface Props<TItem extends EntitySchema.Type> {
-			entities: TItem[];
+		export namespace Single {
+			export interface Props<TItem extends EntitySchema.Type> {
+				entity: TItem;
+			}
+
+			export type Render<TItem extends EntitySchema.Type> = (
+				props: Props<TItem>,
+			) => ReactNode;
 		}
 
-		export type Render<TItem extends EntitySchema.Type> = (
-			props: Props<TItem>,
-		) => ReactNode;
+		export namespace Multi {
+			export interface Props<TItem extends EntitySchema.Type> {
+				entities: TItem[];
+			}
+
+			export type Render<TItem extends EntitySchema.Type> = (
+				props: Props<TItem>,
+			) => ReactNode;
+		}
 	}
 
 	export interface Props<
@@ -32,10 +44,19 @@ export namespace PopupSelect {
 	> extends PopupSelectCls.Props {
 		mode: "single" | "multi";
 		withQuery: withQuery.Api<TQuery, TItem[]>;
-		query?: TQuery;
+		query?: Omit<TQuery, "filter" | "cursor">;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
 		//
-		render: Render.Render<TItem>;
+		/**
+		 * Because user can switch between single and multi mode, we've to provide
+		 * both renderers - this one is for single mode.
+		 */
+		renderSingle: Render.Single.Render<TItem>;
+		/**
+		 * Because user can switch between single and multi mode, we've to provide
+		 * both renderers - this one is for multi mode.
+		 */
+		renderMulti: Render.Multi.Render<TItem>;
 		//
 		icon?: Icon.Type;
 		textTitle?: ReactNode;
@@ -50,7 +71,10 @@ export namespace PopupSelect {
 	export type PropsEx<
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
-	> = Omit<Props<TQuery, TItem>, "withQuery" | "table" | "render">;
+	> = Omit<
+		Props<TQuery, TItem>,
+		"withQuery" | "table" | "renderSingle" | "renderMulti"
+	>;
 }
 
 export const PopupSelect = <
@@ -61,7 +85,8 @@ export const PopupSelect = <
 	withQuery,
 	query,
 	table,
-	render,
+	renderSingle,
+	renderMulti,
 	//
 	icon,
 	textTitle,
@@ -86,10 +111,12 @@ export const PopupSelect = <
 			icon={icon}
 			target={
 				<Target
+					mode={mode}
 					modalId={modalId}
 					slots={slots}
 					withQuery={withQuery}
-					render={render}
+					renderSingle={renderSingle}
+					renderMulti={renderMulti}
 					textSelect={textSelect}
 					state={state}
 				/>
@@ -108,14 +135,16 @@ export const PopupSelect = <
 			}}
 			{...modalProps}
 		>
-			<Content
-				mode={mode}
-				query={query}
-				table={table}
-				state={state}
-				slots={slots}
-				allowEmpty={allowEmpty}
-			/>
+			{() => (
+				<Content
+					mode={mode}
+					query={query}
+					table={table}
+					state={state}
+					slots={slots}
+					allowEmpty={allowEmpty}
+				/>
+			)}
 		</Modal>
 	);
 };

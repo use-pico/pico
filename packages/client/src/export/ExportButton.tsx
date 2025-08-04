@@ -128,20 +128,22 @@ export const ExportButton = <TItem extends EntitySchema.Type>({
 			{...modalProps}
 			target={<Button {...props} />}
 		>
-			<ModalFooter
-				disabled={!selected.length}
-				loading={mutation.isPending}
-				cancelText={<Tx label={"Cancel (button)"} />}
-				confirmText={<Tx label={"Export (button)"} />}
-				confirmIcon={ExportIcon}
-				onConfirm={() => {
-					mutation.mutate(undefined, {
-						onSuccess() {
-							close();
-						},
-					});
-				}}
-			/>
+			{() => (
+				<ModalFooter
+					disabled={!selected.length}
+					loading={mutation.isPending}
+					cancelText={<Tx label={"Cancel (button)"} />}
+					confirmText={<Tx label={"Export (button)"} />}
+					confirmIcon={ExportIcon}
+					onConfirm={() => {
+						mutation.mutate(undefined, {
+							onSuccess() {
+								close();
+							},
+						});
+					}}
+				/>
+			)}
 		</Modal>
 	);
 };

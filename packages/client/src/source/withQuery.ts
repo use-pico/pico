@@ -97,7 +97,7 @@ export function withQuery<TData, TResult>({
 		return cleanOf(keys(data)) as QueryKey;
 	};
 
-	const query = (data: TData) => {
+	const options = (data: TData) => {
 		const queryKey = $keys(data);
 
 		return queryOptions<TResult, Error, TResult, QueryKey>({
@@ -121,21 +121,21 @@ export function withQuery<TData, TResult>({
 		/**
 		 * Returns the queryOptions object for use with React Query hooks.
 		 */
-		query,
+		options,
 		/**
 		 * React Query hook for fetching data (non-suspense).
 		 * @returns The result of the query.
 		 */
 		useQuery(
 			data: TData,
-			options?: OmitKeyof<
+			opts?: OmitKeyof<
 				UseQueryOptions<TResult, Error>,
 				"queryKey" | "queryFn"
 			>,
 		): UseQueryResult<TResult, Error> {
 			return useQuery({
-				...query(data),
-				...options,
+				...options(data),
+				...opts,
 			});
 		},
 		/**
@@ -144,15 +144,23 @@ export function withQuery<TData, TResult>({
 		 */
 		useSuspenseQuery(
 			data: TData,
-			options?: OmitKeyof<
+			opts?: OmitKeyof<
 				UseQueryOptions<TResult, Error>,
 				"queryKey" | "queryFn"
 			>,
 		): UseSuspenseQueryResult<TResult, Error> {
 			return useSuspenseQuery({
-				...query(data),
-				...options,
+				...options(data),
+				...opts,
 			});
+		},
+		/**
+		 * Directly call query function. There is no caching or other logic here.
+		 * @param data - The input data for the query.
+		 * @returns The query result.
+		 */
+		async query(data: TData) {
+			return queryFn(data);
 		},
 		/**
 		 * React Query hook for invalidating the query.
@@ -196,7 +204,7 @@ export function withQuery<TData, TResult>({
 		 * @returns Resolves when prefetching is complete.
 		 */
 		async prefetch(queryClient: QueryClient, data: TData) {
-			await queryClient.prefetchQuery(query(data));
+			await queryClient.prefetchQuery(options(data));
 		},
 		/**
 		 * Ensures the query data is available in the cache, fetching if necessary.
@@ -204,7 +212,7 @@ export function withQuery<TData, TResult>({
 		 * @returns Resolves with the query data.
 		 */
 		async ensure(queryClient: QueryClient, data: TData) {
-			return queryClient.ensureQueryData(query(data));
+			return queryClient.ensureQueryData(options(data));
 		},
 	} as const;
 }

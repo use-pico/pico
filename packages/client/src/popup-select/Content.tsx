@@ -20,7 +20,7 @@ export namespace Content {
 		TItem extends EntitySchema.Type,
 	> {
 		mode: "single" | "multi";
-		query?: TQuery;
+		query: Omit<TQuery, "filter" | "cursor"> | undefined;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
 		state: PopupSelect.State;
 		slots: cls.Slots<PopupSelectCls>;
