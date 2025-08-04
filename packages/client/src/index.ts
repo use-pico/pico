@@ -130,7 +130,6 @@ export { NavigationIndicator } from "./navigation/NavigationIndicator";
 export { NavigationState } from "./navigation/NavigationState";
 export { PopupMultiSelect } from "./popup-multi-select/PopupMultiSelect";
 export { PopupMultiSelectCls } from "./popup-multi-select/PopupMultiSelectCls";
-export { PopupSelect } from "./popup-select/PopupSelect";
 export { PopupSelectCls } from "./popup-select/PopupSelectCls";
 export { Preview } from "./preview/Preview";
 export { PreviewCls } from "./preview/PreviewCls";

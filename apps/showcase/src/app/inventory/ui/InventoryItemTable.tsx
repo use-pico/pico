@@ -11,6 +11,7 @@ import { toHumanNumber } from "@use-pico/common";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
+import { withInventoryItemCountQuery } from "~/app/inventory/query/withInventoryItemCountQuery";
 import { withInventoryItemListQuery } from "~/app/inventory/query/withInventoryItemListQuery";
 
 const { create, filter } = withColumn<
@@ -97,6 +98,7 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 	return (
 		<Table
 			withQuery={withInventoryItemListQuery()}
+			withCountQuery={withInventoryItemCountQuery()}
 			context={{}}
 			columns={columns}
 			// rowCls={({ data }) => {

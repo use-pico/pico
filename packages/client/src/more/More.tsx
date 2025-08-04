@@ -66,16 +66,14 @@ export const More = <TValues extends EntitySchema.Type>({
 					disabled={disabled}
 					{...modalProps}
 				>
-					{() => (
-						<div className={"flex flex-col gap-2"}>
-							{items.map((item) => (
-								<Render
-									key={`items-${item.id}`}
-									entity={item}
-								/>
-							))}
-						</div>
-					)}
+					<div className={"flex flex-col gap-2"}>
+						{items.map((item) => (
+							<Render
+								key={`items-${item.id}`}
+								entity={item}
+							/>
+						))}
+					</div>
 				</Modal>
 			)}
 		</div>

@@ -120,22 +120,6 @@ export const ExportButton = <TItem extends EntitySchema.Type>({
 			textTitle={<Tx label={"Export settings (title)"} />}
 			icon={mutation.isPending ? LoaderIcon : ExportIcon}
 			disabled={mutation.isPending}
-			footer={() => (
-				<ModalFooter
-					disabled={!selected.length}
-					loading={mutation.isPending}
-					cancelText={<Tx label={"Cancel (button)"} />}
-					confirmText={<Tx label={"Export (button)"} />}
-					confirmIcon={ExportIcon}
-					onConfirm={() => {
-						mutation.mutate(undefined, {
-							onSuccess() {
-								close();
-							},
-						});
-					}}
-				/>
-			)}
 			cls={{
 				modal: [
 					"w-1/2",
@@ -143,6 +127,21 @@ export const ExportButton = <TItem extends EntitySchema.Type>({
 			}}
 			{...modalProps}
 			target={<Button {...props} />}
-		/>
+		>
+			<ModalFooter
+				disabled={!selected.length}
+				loading={mutation.isPending}
+				cancelText={<Tx label={"Cancel (button)"} />}
+				confirmText={<Tx label={"Export (button)"} />}
+				confirmIcon={ExportIcon}
+				onConfirm={() => {
+					mutation.mutate(undefined, {
+						onSuccess() {
+							close();
+						},
+					});
+				}}
+			/>
+		</Modal>
 	);
 };

@@ -1,18 +1,20 @@
-import type { withQuerySchema } from "@use-pico/common";
+import type { CountSchema, withQuerySchema } from "@use-pico/common";
 import { Cursor as CoolCursor } from "../cursor/Cursor";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
-import type { Table } from "./Table";
+import type { withQuery } from "../source/withQuery";
 
 export namespace TableCursor {
 	export interface Props<TQuery extends withQuerySchema.Query> {
-		cursor: Table.Cursor.Props<TQuery>;
+		withCountQuery: withQuery.Api<TQuery, CountSchema.Type>;
+		cursor: CoolCursor.State;
 		query: TQuery;
 	}
 }
 
 export const TableCursor = <TQuery extends withQuerySchema.Query>({
-	cursor: { withCountQuery, state },
+	cursor,
+	withCountQuery,
 	query,
 }: TableCursor.Props<TQuery>) => {
 	const { data, isSuccess, isLoading, isFetching, isError } =
@@ -43,7 +45,7 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 						]
 					: undefined,
 			}}
-			state={state}
+			state={cursor}
 			count={data}
 		/>
 	);

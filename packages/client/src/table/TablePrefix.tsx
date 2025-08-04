@@ -1,5 +1,7 @@
-import type { withQuerySchema } from "@use-pico/common";
+import type { CountSchema, withQuerySchema } from "@use-pico/common";
+import type { Cursor } from "../cursor/Cursor";
 import { Fulltext } from "../fulltext/Fulltext";
+import type { withQuery } from "../source/withQuery";
 import type { Table } from "./Table";
 import { TableCursor } from "./TableCursor";
 
@@ -10,7 +12,8 @@ export namespace TablePrefix {
 	> {
 		query: TQuery;
 		fulltext: Fulltext.State | undefined;
-		cursor: Table.Cursor.Props<TQuery> | undefined;
+		cursor: Cursor.State | undefined;
+		withCountQuery: withQuery.Api<TQuery, CountSchema.Type> | undefined;
 		toolbar: Table.Toolbar.Render<TQuery, TContext> | undefined;
 		controlsHidden: Table.Controls[];
 		selection: Table.Selection.State | undefined;
@@ -26,6 +29,7 @@ export const TablePrefix = <
 	query,
 	fulltext,
 	cursor,
+	withCountQuery,
 	controlsHidden,
 	toolbar,
 	selection,
@@ -59,8 +63,9 @@ export const TablePrefix = <
 			</div>
 
 			<div className={"flex flex-row items-center justify-center gap-2"}>
-				{cursor ? (
+				{cursor && withCountQuery ? (
 					<TableCursor
+						withCountQuery={withCountQuery}
 						cursor={cursor}
 						query={query}
 					/>

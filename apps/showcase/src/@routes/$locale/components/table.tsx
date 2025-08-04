@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { NavigationState } from "@use-pico/client";
 import { z } from "zod";
 import { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
-import { withInventoryItemCountQuery } from "~/app/inventory/query/withInventoryItemCountQuery";
 import { InventoryItemTable } from "~/app/inventory/ui/InventoryItemTable";
 
 export const Route = createFileRoute("/$locale/components/table")({
@@ -41,10 +40,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 						filter?.fulltext,
 						navigate,
 					)}
-					cursor={{
-						withCountQuery: withInventoryItemCountQuery(),
-						state: NavigationState.cursor(cursor, navigate),
-					}}
+					cursor={NavigationState.cursor(cursor, navigate)}
 					selection={{
 						type: "multi",
 						state: NavigationState.selection(selection, navigate),

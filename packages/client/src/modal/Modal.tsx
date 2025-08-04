@@ -11,7 +11,12 @@ import {
 	useTransitionStyles,
 } from "@floating-ui/react";
 import { tvc } from "@use-pico/common";
-import { type FC, type ReactNode, useMemo } from "react";
+import {
+	type FC,
+	type PropsWithChildren,
+	type ReactNode,
+	useMemo,
+} from "react";
 import { Action } from "../action/Action";
 import { useCls } from "../hooks/useCls";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -21,23 +26,7 @@ import { ModalCls } from "./ModalCls";
 import { ModalContext } from "./ModalContext";
 
 export namespace Modal {
-	export namespace Children {
-		export interface Props {
-			close(): void;
-		}
-
-		export type Render = (props: Props) => ReactNode;
-	}
-
-	export namespace Footer {
-		export interface Props {
-			close(): void;
-		}
-
-		export type Render = (props: Props) => ReactNode;
-	}
-
-	export interface Props extends ModalCls.Props {
+	export interface Props extends ModalCls.Props<PropsWithChildren> {
 		/**
 		 * The target element that will open the modal.
 		 */
@@ -50,8 +39,6 @@ export namespace Modal {
 		 * Close the modal when clicking outside of it.
 		 */
 		outside?: boolean;
-		children?: Children.Render;
-		footer?: Footer.Render;
 	}
 
 	export type PropsEx = Partial<Props>;
@@ -68,7 +55,6 @@ export const Modal: FC<Modal.Props> = ({
 	cls,
 	tva = ModalCls,
 	children,
-	footer,
 }) => {
 	const useModalStore = useMemo(
 		() =>
@@ -149,9 +135,13 @@ export const Modal: FC<Modal.Props> = ({
 										])}
 									>
 										<div
-											className={
-												"flex flex-row items-center gap-2 pr-4"
-											}
+											className={tvc(
+												"flex",
+												"flex-row",
+												"items-center",
+												"gap-2",
+												"pr-4",
+											)}
 										>
 											<Icon
 												icon={icon}
@@ -160,9 +150,11 @@ export const Modal: FC<Modal.Props> = ({
 												}}
 											/>
 											<div
-												className={
-													"text-lg font-semibold text-slate-700"
-												}
+												className={tvc(
+													"text-lg",
+													"font-semibold",
+													"text-slate-700",
+												)}
 											>
 												{textTitle}
 											</div>
@@ -176,20 +168,7 @@ export const Modal: FC<Modal.Props> = ({
 											}}
 										/>
 									</div>
-									<div
-										className={"flex-grow overflow-y-auto"}
-									>
-										{children?.({
-											close,
-										})}
-									</div>
-									{footer ? (
-										<div>
-											{footer({
-												close,
-											})}
-										</div>
-									) : null}
+									{children}
 								</div>
 							</FloatingFocusManager>
 						</FloatingOverlay>

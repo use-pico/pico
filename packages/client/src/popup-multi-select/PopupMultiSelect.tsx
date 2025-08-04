@@ -1,150 +1,80 @@
-import { useQuery } from "@tanstack/react-query";
 import type {
-	CursorSchema,
 	EntitySchema,
-	FilterSchema,
+	StateType,
+	withQuerySchema,
 } from "@use-pico/common";
-import { type FC, type ReactNode, useEffect, useId, useMemo } from "react";
+import { type FC, type ReactNode, useId } from "react";
 import { useCls } from "../hooks/useCls";
-import { Icon } from "../icon/Icon";
-import { LoaderIcon } from "../icon/LoaderIcon";
-import { SelectionOffIcon } from "../icon/SelectionOffIcon";
-import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import type { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
-import { ModalFooter } from "../modal/ModalFooter";
-import { createLocalTableStore } from "../table/createLocalTableStore";
-import { Tx } from "../tx/Tx";
-import { PopupMultiContent } from "./PopupMultiContent";
+import type { withQuery } from "../source/withQuery";
+import type { Table } from "../table/Table";
+import { Content } from "./Content";
 import { PopupMultiSelectCls } from "./PopupMultiSelectCls";
+import { Target } from "./Target";
 
 export namespace PopupMultiSelect {
-	export namespace Query {
-		export interface Props {
-			filter?: FilterSchema.Type;
-			cursor?: CursorSchema.Type;
+	export type State = StateType<string[]>;
+
+	export namespace Render {
+		export interface Props<TItem extends EntitySchema.Type> {
+			entities: TItem[];
 		}
 
-		export type Callback<TItem extends EntitySchema.Type> = (
-			props: Props,
-		) => Promise<PopupMultiContent.List<TItem>>;
+		export type Render<TItem extends EntitySchema.Type> = (
+			props: Props<TItem>,
+		) => ReactNode;
 	}
 
-	export interface Props<TItem extends EntitySchema.Type>
-		extends PopupMultiSelectCls.Props {
-		icon?: string | ReactNode;
+	export interface Props<
+		TQuery extends withQuerySchema.Query,
+		TItem extends EntitySchema.Type,
+	> extends PopupMultiSelectCls.Props {
+		withQuery: withQuery.Api<TQuery, TItem[]>;
+		query?: TQuery;
+		table: FC<Table.PropsEx<TQuery, TItem>>;
+		//
+		render: Render.Render<TItem>;
+		//
+		icon?: Icon.Type;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
-		// table: FC<Table.PropsEx<TItem>>;
-		render: FC<{
-			entities: TItem[];
-		}>;
+		//
 		allowEmpty?: boolean;
-
-		/**
-		 * Name used for react-query cache.
-		 */
-		queryKey: string;
-		queryHash?: Record<any, any>;
-		query: Query.Callback<TItem>;
-
-		value: string[] | undefined | null;
-		onChange(value: string[]): void;
-		/**
-		 * When selection is submitted, here is a list of selected items.
-		 */
-		onSelect?(items: TItem[]): void;
+		//
+		state: State;
 	}
 
-	export type PropsEx<TItem extends EntitySchema.Type> = Omit<
-		Props<TItem>,
-		"table" | "queryKey" | "queryHash" | "query" | "render"
-	>;
+	export type PropsEx<
+		TQuery extends withQuerySchema.Query,
+		TItem extends EntitySchema.Type,
+	> = Omit<Props<TQuery, TItem>, "withQuery" | "table" | "render">;
 }
 
-export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
+export const PopupMultiSelect = <
+	TQuery extends withQuerySchema.Query,
+	TItem extends EntitySchema.Type,
+>({
+	withQuery,
+	query,
+	table,
+	render,
+	//
 	icon,
 	textTitle,
 	textSelect,
 	modalProps,
-	// table,
-	render: Render,
+	//
 	allowEmpty = false,
-
-	queryKey,
-	queryHash,
-	query,
-
-	value,
-	onChange,
-	onSelect,
-
+	//
+	state,
+	//
 	variant,
 	tva = PopupMultiSelectCls,
 	cls,
-}: PopupMultiSelect.Props<TItem>) => {
+}: PopupMultiSelect.Props<TQuery, TItem>) => {
 	const { slots } = useCls(tva, variant, cls);
-
-	const useLocalStore = useMemo(() => createLocalTableStore({}), []);
-	const fulltext = useLocalStore((state) => state.fulltext);
-	const page = useLocalStore((state) => state.page);
-	const size = useLocalStore((state) => state.size);
-	const selection = useLocalStore((state) => state.selection);
-	const setSelection = useLocalStore((state) => state.setSelection);
-
-	const result = useQuery({
-		queryKey: [
-			queryKey,
-			"PopupMultiSelect",
-			"data",
-			queryHash,
-			{
-				fulltext,
-				page,
-				size,
-			},
-		],
-		async queryFn() {
-			return query({
-				filter: {
-					fulltext,
-				},
-				cursor: {
-					page,
-					size,
-				},
-			});
-		},
-	});
-
-	const withValue = (value?.length || 0) > 0;
-
-	const selected = useQuery({
-		queryKey: [
-			queryKey,
-			"PopupMultiSelect",
-			"selected",
-			queryHash,
-			{
-				value,
-			},
-		],
-		async queryFn() {
-			return query({
-				filter: {
-					idIn: value || undefined,
-				},
-			});
-		},
-		enabled: withValue,
-	});
-
-	useEffect(() => {
-		setSelection(value || []);
-	}, [
-		setSelection,
-		value,
-	]);
 
 	const modalId = useId();
 
@@ -153,64 +83,37 @@ export const PopupMultiSelect = <TItem extends EntitySchema.Type>({
 			key={modalId}
 			icon={icon}
 			target={
-				<label
-					htmlFor={modalId}
-					className={slots.input({
-						loading: selected.isFetching || result.isFetching,
-						selected: Boolean(selected.data?.list.length),
-					})}
-				>
-					<Icon
-						icon={
-							result.isFetching || selected.isFetching
-								? LoaderIcon
-								: withValue && selected.data?.list?.[0]
-									? SelectionOnIcon
-									: SelectionOffIcon
-						}
-					/>
-					{withValue && selected.data && selected.data.list.length ? (
-						<Render entities={selected.data.list} />
-					) : (
-						textSelect || <Tx label={"Select item (label)"} />
-					)}
-				</label>
+				<Target
+					modalId={modalId}
+					slots={slots}
+					withQuery={withQuery}
+					render={render}
+					textSelect={textSelect}
+					state={state}
+				/>
 			}
 			textTitle={textTitle}
-			variant={{
-				loading: result.isFetching,
-			}}
-			disabled={result.isFetching}
+			variant={
+				{
+					// loading: result.isFetching,
+				}
+			}
+			// disabled={result.isFetching}
 			cls={{
 				modal: [
 					"w-2/3",
 				],
 			}}
-			footer={() => (
-				<ModalFooter
-					disabled={!selection.length && !allowEmpty}
-					onCancel={() => {
-						setSelection(value || []);
-					}}
-					onConfirm={() => {
-						onChange(selection);
-						onSelect?.(
-							result.data?.list?.filter((item) =>
-								selection.includes(item.id),
-							) || [],
-						);
-					}}
-				/>
-			)}
 			{...modalProps}
 		>
-			{() => (
-				<PopupMultiContent
-					// table={table}
-					useLocalStore={useLocalStore}
-					result={result}
-				/>
-			)}
+			<Content
+				mode={"multi"}
+				query={query}
+				table={table}
+				state={state}
+				slots={slots}
+				allowEmpty={allowEmpty}
+			/>
 		</Modal>
 	);
 };

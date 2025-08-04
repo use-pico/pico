@@ -23,20 +23,6 @@ import { TableHeader } from "./TableHeader";
 import { TablePrefix } from "./TablePrefix";
 
 export namespace Table {
-	export namespace Fulltext {
-		export type Props = CoolFulltext.State;
-	}
-
-	export namespace Cursor {
-		export interface Props<TQuery extends withQuerySchema.Query> {
-			/**
-			 * Query used to fetch count of items.
-			 */
-			withCountQuery: withQuery.Api<TQuery, CountSchema.Type>;
-			state: CoolCursor.State;
-		}
-	}
-
 	export namespace Selection {
 		export type State = StateType<string[]>;
 
@@ -307,8 +293,12 @@ export namespace Table {
 		/**
 		 * Configure fulltext search
 		 */
-		fulltext?: Fulltext.Props;
-		cursor?: Cursor.Props<TQuery>;
+		fulltext?: CoolFulltext.State;
+		cursor?: CoolCursor.State;
+		/**
+		 * Query used to fetch count of items.
+		 */
+		withCountQuery?: withQuery.Api<TQuery, CountSchema.Type>;
 		/**
 		 * Selection configuration.
 		 */
@@ -369,6 +359,7 @@ export const Table = <
 	order = [],
 	fulltext,
 	cursor,
+	withCountQuery,
 	context,
 	selection,
 	filter,
@@ -408,6 +399,7 @@ export const Table = <
 			}}
 			renderPrefix={(render) => (
 				<TablePrefix<TQuery, TContext>
+					withCountQuery={withCountQuery}
 					query={props.query}
 					cursor={cursor}
 					fulltext={fulltext}
@@ -461,8 +453,9 @@ export const Table = <
 						)}
 					>
 						<div />
-						{cursor ? (
+						{cursor && withCountQuery ? (
 							<TableCursor
+								withCountQuery={withCountQuery}
 								cursor={cursor}
 								query={props.query}
 							/>
