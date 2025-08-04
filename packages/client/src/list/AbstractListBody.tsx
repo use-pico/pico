@@ -70,24 +70,26 @@ export const AbstractListBody = <
 	}
 
 	return (
-		<div className={slots.items()}>
-			{renderHeader({
-				isFetching,
-				items: data,
-			})}
-
-			{data.map((item) =>
-				renderItem({
-					item,
-					items: data,
+		<div className={slots.body()}>
+			<div className={slots.items()}>
+				{renderHeader({
 					isFetching,
-				}),
-			)}
+					items: data,
+				})}
 
-			{renderFooter({
-				isFetching,
-				items: data,
-			})}
+				{data.map((item) =>
+					renderItem({
+						item,
+						items: data,
+						isFetching,
+					}),
+				)}
+
+				{renderFooter({
+					isFetching,
+					items: data,
+				})}
+			</div>
 		</div>
 	);
 };
