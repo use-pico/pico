@@ -39,7 +39,7 @@ const columns = [
 		name: "description",
 		header: () => <Tx label={"Description"} />,
 		render: ({ value }) => value ?? "-",
-		size: "auto",
+		size: 32,
 	}),
 	create({
 		name: "kind",
@@ -52,7 +52,7 @@ const columns = [
 		sort: {
 			value: "kind",
 		},
-		size: 12,
+		size: 14,
 	}),
 	create({
 		name: "type",
@@ -65,7 +65,7 @@ const columns = [
 		sort: {
 			value: "type",
 		},
-		size: 12,
+		size: 14,
 	}),
 	create({
 		name: "amount",
@@ -82,7 +82,7 @@ const columns = [
 		sort: {
 			value: "amount",
 		},
-		size: 12,
+		size: 14,
 	}),
 ];
 

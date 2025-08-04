@@ -9,7 +9,9 @@ export const TableCls = cls({
 			"gap-2",
 			"text-sm",
 		],
-		body: [],
+		body: [
+			"overflow-x-auto",
+		],
 		items: [
 			"relative",
 			"w-fit",
