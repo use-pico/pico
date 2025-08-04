@@ -8,7 +8,7 @@ import { IssuesCls } from "./IssuesCls";
 
 export namespace Issues {
 	export interface Props
-		extends cls.Clear<Omit<More.Props<IssueSchema.Type>, "render">>,
+		extends cls.Clear<Omit<More.Props<IssueSchema.Type>, "renderInline">>,
 			IssuesCls.Props {
 		//
 	}
@@ -52,7 +52,7 @@ export const Issues: FC<Issues.Props> = ({
 						? "icon-[ix--info]"
 						: "icon-[ix--info]"
 			}
-			render={({ entity }) => {
+			renderInline={({ entity }) => {
 				return (
 					<Badge
 						cls={{
