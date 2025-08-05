@@ -11,11 +11,13 @@ export type Variants<Keys extends string> = Record<
 
 // --- Helpers ---
 
+/** merge local slot‐keys + any inherited slot‐keys from `use` */
 type MergeSlots<
 	Local extends string,
 	U extends Factory<any, any> | undefined,
 > = U extends Factory<infer USlots, any> ? Local | USlots : Local;
 
+/** merge local Variants map + any inherited variants for defaults & match.if */
 type MergeVariants<
 	Local extends Variants<any>,
 	U extends Factory<any, any> | undefined,
@@ -61,9 +63,8 @@ export namespace cls {
 				[K in keyof MergeVariants<LocalVariants, U> &
 					string]: keyof MergeVariants<LocalVariants, U>[K];
 			}>;
-			do: Partial<Record<MergeSlots<SlotKeys, U>, ClassName[]>> & {
-				[key: string]: ClassName[];
-			};
+
+			do: Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>;
 		}>;
 
 		defaults: {
@@ -146,6 +147,8 @@ const BaseCls = cls({
 	},
 });
 
+const bla: typeof UltraBaseCls = BaseCls;
+
 const SomeCls = cls({
 	use: BaseCls,
 	slot: {
@@ -175,18 +178,14 @@ const SomeCls = cls({
 				foo: "bar",
 			},
 			do: {
-				pica: [],
-				// TODO This one should not be allowed as this slot does not exists
-				hovno: [],
-				// now all of these keys are optional,
-				// and you can omit any you don’t care about:
+				// only these keys are allowed now:
 				some: [
 					"foo-style",
 				],
-				// you can still add arbitrary slots if needed:
-				customSlot: [
-					"x",
+				pica: [
+					"pica-style",
 				],
+				// ❌ 'hovno' or 'customSlot' would now error
 			},
 		},
 	],
