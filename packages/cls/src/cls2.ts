@@ -15,9 +15,8 @@ export type Variants<TSlotKeys extends string> = Record<
 
 type MergeVariants<
 	Local extends Variants<any>,
-	Use extends Factory<any, any, any> | undefined,
-> = Local &
-	(Use extends Factory<any, any, any> ? Use["~type"]["variants"] : {});
+	Use extends Factory<any, any> | undefined,
+> = Local & (Use extends Factory<any, any> ? Use["~type"]["variants"] : {});
 
 // --- Internal Core ---
 
@@ -27,13 +26,11 @@ export interface Cls<TSlotKeys extends string> {
 
 export interface Factory<
 	TSlotKeys extends string,
-	TVariantKeys extends string,
 	TVariants extends Variants<TSlotKeys>,
 > {
 	create(): Cls<TSlotKeys>;
 	"~type": {
-		slotKeys: TSlotKeys;
-		variantKeys: TVariantKeys;
+		slots: { [K in TSlotKeys]: true };
 		variants: TVariants;
 	};
 }
@@ -44,12 +41,14 @@ export namespace cls {
 	export interface Props<
 		TSlotKeys extends string,
 		TVariantMap extends Variants<TSlotKeys>,
-		TUse extends Factory<any, any, any> | undefined = undefined,
+		TUse extends Factory<any, any> | undefined = undefined,
 	> {
 		use?: TUse;
 
-		slot: (TUse extends Factory<any, any, any>
-			? Partial<Record<TSlotKeys | TUse["~type"]["slotKeys"], ClassName>>
+		slot: (TUse extends Factory<any, any>
+			? Partial<
+					Record<TSlotKeys | keyof TUse["~type"]["slots"], ClassName>
+				>
 			: Partial<Record<TSlotKeys, ClassName>>) & {
 			[key: string]: ClassName;
 		};
@@ -66,14 +65,13 @@ export namespace cls {
 export function cls<
 	TSlotKeys extends string,
 	TVariantMap extends Variants<TSlotKeys>,
-	TUse extends Factory<any, any, any> | undefined = undefined,
+	TUse extends Factory<any, any> | undefined = undefined,
 >(
 	props: cls.Props<TSlotKeys, TVariantMap, TUse>,
 ): Factory<
-	TUse extends Factory<any, any, any>
-		? TSlotKeys | TUse["~type"]["slotKeys"]
+	TUse extends Factory<any, any>
+		? TSlotKeys | keyof TUse["~type"]["slots"]
 		: TSlotKeys,
-	keyof MergeVariants<TVariantMap, TUse> & string,
 	MergeVariants<TVariantMap, TUse>
 > {
 	return {
@@ -81,8 +79,7 @@ export function cls<
 			return {} as any;
 		},
 		"~type": {
-			slotKeys: props.use ? (null as any) : (null as any),
-			variantKeys: null as any,
+			slots: props.use ? (null as any) : (null as any),
 			variants: props.variant as any,
 		},
 	};
@@ -136,7 +133,7 @@ const BaseCls = cls({
 	},
 });
 
-// TODO This should be assignable
+// TODO This _is_ assignable
 const blabla: typeof UltraBaseCls = BaseCls;
 
 const SomeCls = cls({
