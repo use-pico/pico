@@ -17,6 +17,16 @@
 			"outputLogs": "new-only",
 			"cache": false
 		},
+		"test:types": {
+			"inputs": [
+				"src/**",
+				"test/type/**",
+				"tsconfig.type-tests.json"
+			],
+			"outputs": [],
+			"outputLogs": "new-only",
+			"cache": false
+		},
 		"build": {
 			"dependsOn": [
 				"^build"

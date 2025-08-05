@@ -8,6 +8,7 @@
 		"format": "biome format --write .",
 		"lint": "biome check .",
 		"typecheck": "turbo run typecheck --no-daemon",
+		"test:types": "turbo run test:types --no-daemon",
 		"changeset:changeset": "changeset",
 		"changeset:publish": "changeset publish",
 		"changeset:version": "changeset version",
