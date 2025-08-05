@@ -5,4 +5,4 @@ import type { ClassName } from "../ClassName";
  * TSlotKeys represents the names of different slots (like 'base', 'icon', 'label', etc.)
  * Each slot maps to a class name value that will be applied to that specific part of the component.
  */
-export type SlotDef<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;
+export type SlotProps<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;

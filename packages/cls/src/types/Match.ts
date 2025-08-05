@@ -1,8 +1,8 @@
-import type { SlotDef } from "./definition/SlotDef";
-import type { ValuesDef } from "./definition/ValuesDef";
-import type { VariantDef } from "./definition/VariantDef";
 import type { VariantEx } from "./ex/VariantEx";
 import type { ClsFn } from "./fn/ClsFn";
+import type { SlotProps } from "./props/SlotProps";
+import type { ValuesProps } from "./props/ValuesProps";
+import type { VariantProps } from "./props/VariantProps";
 import type { SlotCls } from "./SlotCls";
 
 /**
@@ -13,8 +13,8 @@ import type { SlotCls } from "./SlotCls";
  * Matching rules allow applying specific classes when certain variant conditions are met.
  */
 export interface Match<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
+	TSlot extends SlotProps<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
 	/**
@@ -22,7 +22,7 @@ export interface Match<
 	 *
 	 * All the provided values must match to apply the rule.
 	 */
-	if: ValuesDef<VariantEx<TVariant, TUse>>;
+	if: ValuesProps<VariantEx<TVariant, TUse>>;
 	/**
 	 * Classes to apply when all conditions are met.
 	 *

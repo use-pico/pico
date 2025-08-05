@@ -1,4 +1,4 @@
-import type { VariantDef } from "../definition/VariantDef";
+import type { VariantProps } from "../props/VariantProps";
 
 /**
  * Computes the extended variants by merging current variants with variants from extensions (uses).
@@ -7,11 +7,11 @@ import type { VariantDef } from "../definition/VariantDef";
  * This type ensures that when a component extends another, all variants from both are available.
  */
 export type VariantEx<
-	TVariant extends VariantDef<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends
 		| (() => {
 				"~type": {
-					variant?: VariantDef<any>;
+					variant?: VariantProps<any>;
 				};
 		  })
 		| unknown = unknown,

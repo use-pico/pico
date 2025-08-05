@@ -1,7 +1,7 @@
 import type { ClassName } from "../ClassName";
-import type { ValuesDef } from "../definition/ValuesDef";
-import type { VariantDef } from "../definition/VariantDef";
 import type { VariantEx } from "../ex/VariantEx";
+import type { ValuesProps } from "../props/ValuesProps";
+import type { VariantProps } from "../props/VariantProps";
 import type { ClsFn } from "./ClsFn";
 
 /**
@@ -11,6 +11,9 @@ import type { ClsFn } from "./ClsFn";
  * The function takes optional variant values and an optional class name override.
  */
 export type SlotFn<
-	TVariant extends VariantDef<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
-> = (values?: ValuesDef<VariantEx<TVariant, TUse>>, cls?: ClassName) => string;
+> = (
+	values?: ValuesProps<VariantEx<TVariant, TUse>>,
+	cls?: ClassName,
+) => string;

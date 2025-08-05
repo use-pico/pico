@@ -4,7 +4,7 @@
  * For other variants, it maps to the union of all possible string keys.
  * This type is used to define what values can be passed to each variant.
  */
-export type ValuesDef<TVariant> = {
+export type ValuesProps<TVariant> = {
 	[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
 		? boolean
 		: keyof TVariant[K];

@@ -1,10 +1,10 @@
 import type { Config } from "../Config";
-import type { SlotDef } from "../definition/SlotDef";
-import type { ValuesDef } from "../definition/ValuesDef";
-import type { VariantDef } from "../definition/VariantDef";
 import type { ElementFn } from "../element/ElementFn";
 import type { SlotEx } from "../ex/SlotEx";
 import type { VariantEx } from "../ex/VariantEx";
+import type { SlotProps } from "../props/SlotProps";
+import type { ValuesProps } from "../props/ValuesProps";
+import type { VariantProps } from "../props/VariantProps";
 import type { SlotCls } from "../SlotCls";
 import type { Slots } from "../Slots";
 import type { Type } from "../Type";
@@ -17,11 +17,11 @@ import type { Type } from "../Type";
  * This function takes variant values and slot class overrides, returning an object with slots, elements, and internal metadata.
  */
 export type ClsFn<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
+	TSlot extends SlotProps<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (
-	variant?: ValuesDef<VariantEx<TVariant, TUse>>,
+	variant?: ValuesProps<VariantEx<TVariant, TUse>>,
 	cls?: SlotCls<TSlot, TUse>,
 ) => {
 	/**

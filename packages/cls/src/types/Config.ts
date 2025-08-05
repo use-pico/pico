@@ -1,5 +1,5 @@
-import type { ValuesDef } from "./definition/ValuesDef";
 import type { VariantEx } from "./ex/VariantEx";
+import type { ValuesProps } from "./props/ValuesProps";
 
 /**
  * Internal configuration object that tracks the state of variant values.
@@ -11,10 +11,10 @@ export interface Config<TVariantEx extends VariantEx<any, any>> {
 	 * Cumulated default values from all variants (including uses - extensions).
 	 * These are the base values that are applied when no specific values are provided.
 	 */
-	defaults: ValuesDef<TVariantEx>;
+	defaults: ValuesProps<TVariantEx>;
 	/**
 	 * Combined cumulated defaults & current values provided to the cls function.
 	 * This represents the final computed state of all variant values.
 	 */
-	values: ValuesDef<TVariantEx>;
+	values: ValuesProps<TVariantEx>;
 }

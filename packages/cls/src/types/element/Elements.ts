@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import type { VariantDef } from "../definition/VariantDef";
 import type { ClsFn } from "../fn/ClsFn";
+import type { VariantProps } from "../props/VariantProps";
 import type { AnchorProps } from "./el/AnchorProps";
 import type { ButtonProps } from "./el/ButtonProps";
 import type { DivProps } from "./el/DivProps";
@@ -15,7 +15,7 @@ import type { SpanProps } from "./el/SpanProps";
  * Each element component accepts the corresponding props interface and renders with computed classes.
  */
 export interface Elements<
-	TVariant extends VariantDef<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
 	Div: FC<DivProps<TVariant, TUse>>;

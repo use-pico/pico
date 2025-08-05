@@ -1,8 +1,8 @@
 import type { ClassName } from "../ClassName";
-import type { ValuesDef } from "../definition/ValuesDef";
-import type { VariantDef } from "../definition/VariantDef";
 import type { VariantEx } from "../ex/VariantEx";
 import type { ClsFn } from "../fn/ClsFn";
+import type { ValuesProps } from "../props/ValuesProps";
+import type { VariantProps } from "../props/VariantProps";
 
 /**
  * Base interface for all element props.
@@ -11,9 +11,9 @@ import type { ClsFn } from "../fn/ClsFn";
  * All elements can accept variant values and class name overrides.
  */
 export interface ElementProps<
-	TVariant extends VariantDef<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
-	variant?: ValuesDef<VariantEx<TVariant, TUse>>;
+	variant?: ValuesProps<VariantEx<TVariant, TUse>>;
 	cls?: ClassName;
 }

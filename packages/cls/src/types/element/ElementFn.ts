@@ -1,7 +1,7 @@
-import type { SlotDef } from "../definition/SlotDef";
-import type { VariantDef } from "../definition/VariantDef";
 import type { SlotEx } from "../ex/SlotEx";
 import type { ClsFn } from "../fn/ClsFn";
+import type { SlotProps } from "../props/SlotProps";
+import type { VariantProps } from "../props/VariantProps";
 import type { Elements } from "./Elements";
 
 /**
@@ -12,8 +12,8 @@ import type { Elements } from "./Elements";
  * This creates an object where each slot name maps to a set of element components for that slot.
  */
 export type ElementFn<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
+	TSlot extends SlotProps<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = {
 	[K in keyof SlotEx<TSlot, TUse>]: Elements<TVariant, TUse>;

@@ -1,13 +1,13 @@
 import { twMerge } from "tailwind-merge";
 import type { ClassName } from "./types/ClassName";
-import type { SlotDef } from "./types/definition/SlotDef";
-import type { VariantDef } from "./types/definition/VariantDef";
 import type { ElementFn } from "./types/element/ElementFn";
 import type { Elements } from "./types/element/Elements";
 import type { DefaultsEx } from "./types/ex/DefaultsEx";
 import type { ClsFn } from "./types/fn/ClsFn";
 import type { SlotFn } from "./types/fn/SlotFn";
 import type { Match } from "./types/Match";
+import type { SlotProps } from "./types/props/SlotProps";
+import type { VariantProps } from "./types/props/VariantProps";
 import { proxyOf } from "./utils/proxyOf";
 
 export namespace cls {
@@ -19,8 +19,8 @@ export namespace cls {
 	 * This interface defines all the options needed to create a fully functional cls component.
 	 */
 	export interface Props<
-		TSlot extends SlotDef<any>,
-		TVariant extends VariantDef<any>,
+		TSlotProps extends SlotProps<any>,
+		TVariantProps extends VariantProps<any>,
 		TUse extends ClsFn<any, any, any> | unknown = unknown,
 	> {
 		/**
@@ -37,27 +37,27 @@ export namespace cls {
 		 *
 		 * By a convention and simpler use, even single-slot component must be placed here.
 		 */
-		slot: TSlot;
+		slot: TSlotProps;
 		/**
 		 * Define or override variants.
 		 *
 		 * Variants can contain an empty array if they're dynamic. When variant contains classes,
 		 * they're applied to all slots.
 		 */
-		variant: TVariant;
+		variant: TVariantProps;
 		/**
 		 * Matching rules.
 		 *
 		 * Those are used to compute dynamic class names based on the current state (input values).
 		 */
 
-		match?: Match<TSlot, TVariant, TUse>[];
+		match?: Match<TSlotProps, TVariantProps, TUse>[];
 		/**
 		 * Default values.
 		 *
 		 * They're (cleverly) required to prevent surprises when using variants.
 		 */
-		defaults: DefaultsEx<TVariant, TUse>;
+		defaults: DefaultsEx<TVariantProps, TUse>;
 	}
 }
 
@@ -71,8 +71,8 @@ export namespace cls {
  * It creates a factory function that can be called with variant values to generate the appropriate class names for each slot.
  */
 export function cls<
-	TSlot extends SlotDef<any>,
-	TVariant extends VariantDef<any>,
+	TSlot extends SlotProps<any>,
+	TVariant extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,

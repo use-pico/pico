@@ -6,7 +6,7 @@ import type { ClassName } from "../ClassName";
  * Each variant category maps to a record where keys are variant values and values are class names.
  * For example: { size: { small: 'text-sm', large: 'text-lg' } }
  */
-export type VariantDef<TVariantKeys extends string> = Record<
+export type VariantProps<TVariantKeys extends string> = Record<
 	TVariantKeys,
 	Record<string, ClassName>
 >;

@@ -1,4 +1,4 @@
-import type { SlotDef } from "../definition/SlotDef";
+import type { SlotProps } from "../props/SlotProps";
 
 /**
  * Computes the extended slots by merging current slots with slots from extensions (uses).
@@ -7,11 +7,11 @@ import type { SlotDef } from "../definition/SlotDef";
  * This type ensures that when a component extends another, all slots from both are available.
  */
 export type SlotEx<
-	TSlot extends SlotDef<any>,
+	TSlot extends SlotProps<any>,
 	TUse extends
 		| (() => {
 				"~type": {
-					slot?: SlotDef<any>;
+					slot?: SlotProps<any>;
 				};
 		  })
 		| unknown = unknown,
