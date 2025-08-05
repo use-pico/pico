@@ -51,6 +51,7 @@ export namespace cls {
 				: TSlotKeys,
 			TVariantKeys
 		>;
+		defaults: {};
 	}
 }
 
@@ -94,8 +95,12 @@ const UltraBaseCls = cls({
 			variant: {
 				ultra: [],
 			},
+			another: {
+				ultra: [],
+			},
 		},
 	},
+	defaults: {},
 });
 type _UltraBaseCls = (typeof UltraBaseCls)["~type"];
 
@@ -118,6 +123,7 @@ const BaseCls = cls({
 			},
 		},
 	},
+	defaults: {},
 });
 type _BaseCls = (typeof BaseCls)["~type"];
 
@@ -140,6 +146,7 @@ const _SomeCls = cls({
 			},
 		},
 	},
+	defaults: {},
 });
 
 type _SomeCls = (typeof _SomeCls)["~type"];
