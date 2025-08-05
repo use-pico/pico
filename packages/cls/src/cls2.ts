@@ -5,7 +5,7 @@ import type { ClassName } from "./types/ClassName";
 export type Slots<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;
 
 export type Variant<TSlotKeys extends string> = Partial<
-	Record<NoInfer<TSlotKeys>, ClassName>
+	Record<TSlotKeys, ClassName>
 >;
 
 export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
@@ -40,8 +40,17 @@ export namespace cls {
 		TUse extends Factory<any, any> | undefined = undefined,
 	> {
 		use?: TUse;
-		slot: Slots<TSlotKeys>;
-		variant: Variants<TSlotKeys, TVariantKeys>;
+		slot: (TUse extends Factory<any, any>
+			? Partial<Record<TSlotKeys | TUse["~type"]["slots"], ClassName>>
+			: Partial<Record<TSlotKeys, ClassName>>) & {
+			[key: string]: ClassName;
+		};
+		variant: Variants<
+			TUse extends Factory<any, any>
+				? TSlotKeys | TUse["~type"]["slots"]
+				: TSlotKeys,
+			TVariantKeys
+		>;
 	}
 }
 
@@ -102,7 +111,7 @@ const BaseCls = cls({
 		color: {
 			blue: {
 				root: [],
-				qqqq: [],
+				// qqqq: [],
 				label: [
 					"text-blue-500",
 				],
@@ -116,6 +125,7 @@ const _SomeCls = cls({
 	use: BaseCls,
 	slot: {
 		some: [] as string[],
+		pica: [],
 	},
 	variant: {
 		foo: {
