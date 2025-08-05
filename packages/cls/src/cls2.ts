@@ -23,6 +23,35 @@ type MergeVariants<
 	U extends Factory<any, any> | undefined,
 > = Local & (U extends Factory<any, any> ? U["~type"]["variants"] : {});
 
+// --- Extracted Match Types ---
+
+/** allowed shape for one `if: { … }` clause */
+type MatchCondition<
+	LocalVars extends Variants<any>,
+	U extends Factory<any, any> | undefined,
+> = Partial<{
+	[K in keyof MergeVariants<LocalVars, U> & string]: keyof MergeVariants<
+		LocalVars,
+		U
+	>[K];
+}>;
+
+/** allowed shape for one `do: { … }` clause */
+type MatchAction<
+	SlotKeys extends string,
+	U extends Factory<any, any> | undefined,
+> = Partial<Record<MergeSlots<SlotKeys, U>, ClassName[]>>;
+
+/** one `{ if, do }` entry */
+type MatchRule<
+	SlotKeys extends string,
+	LocalVars extends Variants<SlotKeys>,
+	U extends Factory<any, any> | undefined,
+> = {
+	if: MatchCondition<LocalVars, U>;
+	do: MatchAction<SlotKeys, U>;
+};
+
 // --- Internal Core ---
 
 export interface Cls<TSlotKeys extends string> {
@@ -58,14 +87,8 @@ export namespace cls {
 
 		variant: Variants<MergeSlots<SlotKeys, U>> & LocalVariants;
 
-		match?: Array<{
-			if: Partial<{
-				[K in keyof MergeVariants<LocalVariants, U> &
-					string]: keyof MergeVariants<LocalVariants, U>[K];
-			}>;
-
-			do: Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>;
-		}>;
+		/** now a named type instead of inline */
+		match?: MatchRule<SlotKeys, LocalVariants, U>[];
 
 		defaults: {
 			[K in keyof MergeVariants<LocalVariants, U> &
@@ -147,8 +170,6 @@ const BaseCls = cls({
 	},
 });
 
-const bla: typeof UltraBaseCls = BaseCls;
-
 const SomeCls = cls({
 	use: BaseCls,
 	slot: {
@@ -171,24 +192,27 @@ const SomeCls = cls({
 			},
 		},
 	},
+
+	// ✅ fully inferred MatchRule[]
 	match: [
 		{
 			if: {
-				color: "blue",
-				foo: "bar",
+				color: "blue", // only "blue"|"red"
+				foo: "baz", // only "bar"|"baz"
+				ultra: "another", // only "variant"|"another"
 			},
 			do: {
-				// only these keys are allowed now:
 				some: [
 					"foo-style",
-				],
+				], // only "some"|"pica"|"root"|"label"|"ultra"
 				pica: [
 					"pica-style",
 				],
-				// ❌ 'hovno' or 'customSlot' would now error
+				// ❌ any other key here will now error
 			},
 		},
 	],
+
 	defaults: {
 		foo: "bar",
 		color: "red",
