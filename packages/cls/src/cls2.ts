@@ -1,4 +1,5 @@
 import type { ClassName } from "./types/ClassName";
+import { proxyOf } from "./utils/proxyOf";
 
 export type Slots<TKeys extends string> = {
 	[K in TKeys]: ClassName;
@@ -12,35 +13,66 @@ export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
 	[VK in TVariantKeys]: Record<string, Variant<TSlotKeys>>;
 };
 
-export type Cls2Fn = () => void;
+export interface Cls<TSlotKeys extends string, TVariantKeys extends string> {
+	slot: { [K in TSlotKeys]: false };
+}
+
+export interface Factory<
+	TSlotKeys extends string,
+	TVariantKeys extends string,
+	TUse extends Factory<any, any, any> | unknown = unknown,
+> {
+	create(): Cls<TSlotKeys, TVariantKeys>;
+	"~type": {
+		slots: TSlotKeys;
+		variants: TVariantKeys;
+	};
+}
 
 //
 //
 //
 //
 
-export namespace cls2 {
+export namespace cls {
 	export interface Props<
 		TSlotKeys extends string,
 		TVariantKeys extends string,
+		TUse extends Factory<any, any, any> | unknown = unknown,
 	> {
+		use?: TUse;
 		slot: Slots<TSlotKeys>;
 		variant: Variants<TSlotKeys, TVariantKeys>;
-		use?: Cls2Fn;
 	}
 }
 
-export const cls2 = <TSlotKeys extends string, TVariantKeys extends string>({
-	slot,
-	variant,
-	use,
-}: cls2.Props<TSlotKeys, TVariantKeys>): Cls2Fn => {
-	return () => {
-		//
-	};
-};
+export function cls<
+	TSlotKeys extends string,
+	TVariantKeys extends string,
+	TUse extends Factory<any, any, any> | unknown = unknown,
+>({
+	use: _3,
+	slot: _1,
+	variant: _2,
+}: cls.Props<TSlotKeys, TVariantKeys, TUse>): Factory<
+	TSlotKeys,
+	TVariantKeys,
+	TUse
+> {
+	const proxy = proxyOf();
 
-const BaseCls = cls2({
+	return {
+		create() {
+			return {} as any;
+		},
+		"~type": {
+			slots: proxy,
+			variants: proxy,
+		},
+	};
+}
+
+const BaseCls = cls({
 	slot: {
 		root: [],
 		label: [
@@ -51,6 +83,7 @@ const BaseCls = cls2({
 		color: {
 			blue: {
 				root: [],
+				qqqq: [],
 				label: [
 					"text-blue-500",
 				],
@@ -58,9 +91,23 @@ const BaseCls = cls2({
 		},
 	},
 });
+type _BaseCls = typeof BaseCls;
 
-const SomeCls = cls2({
+const _SomeCls = cls({
 	use: BaseCls,
-	slot: {},
-	variant: {},
+	slot: {
+		some: [] as string[],
+	},
+	variant: {
+		foo: {
+			bar: {
+				some: [
+					"foo",
+				],
+				gfdg: [],
+			},
+		},
+	},
 });
+
+type _SomeCls = typeof _SomeCls;
