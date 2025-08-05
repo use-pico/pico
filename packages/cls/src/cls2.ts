@@ -133,7 +133,6 @@ const BaseCls = cls({
 	},
 });
 
-// TODO This _is_ assignable
 const blabla: typeof UltraBaseCls = BaseCls;
 
 const SomeCls = cls({
@@ -151,6 +150,7 @@ const SomeCls = cls({
 				root: [
 					"this-works",
 				],
+				// TODO Same as slots - just intellisense
 			},
 			baz: {
 				some: [],
