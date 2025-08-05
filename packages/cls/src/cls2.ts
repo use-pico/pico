@@ -10,7 +10,9 @@ export type Variant<TSlotKeys extends string> = {
 };
 
 export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
-	[VK in TVariantKeys]: Record<string, Variant<TSlotKeys>>;
+	[VK in TVariantKeys]: {
+		[VV in string]: Variant<TSlotKeys>;
+	};
 };
 
 export interface Cls<TSlotKeys extends string, TVariantKeys extends string> {
@@ -103,6 +105,9 @@ const _SomeCls = cls({
 			bar: {
 				some: [
 					"foo",
+				],
+				root: [
+					"this-works",
 				],
 				gfdg: [],
 			},
