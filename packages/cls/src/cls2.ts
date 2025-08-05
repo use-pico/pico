@@ -11,13 +11,11 @@ export type Variants<Keys extends string> = Record<
 
 // --- Helpers ---
 
-/** Merge your local slot‐keys + any inherited slot‐keys from `use` */
 type MergeSlots<
 	Local extends string,
 	U extends Factory<any, any> | undefined,
 > = U extends Factory<infer USlots, any> ? Local | USlots : Local;
 
-/** Merge your local Variants map + any inherited variants map for defaults */
 type MergeVariants<
 	Local extends Variants<any>,
 	U extends Factory<any, any> | undefined,
@@ -25,17 +23,17 @@ type MergeVariants<
 
 // --- Internal Core ---
 
-export interface Cls<Keys extends string> {
-	slot: Record<Keys, false>;
+export interface Cls<TSlotKeys extends string> {
+	slot: Record<TSlotKeys, false>;
 }
 
 export interface Factory<
-	SlotKeys extends string,
-	TVariants extends Variants<SlotKeys>,
+	TSlotKeys extends string,
+	TVariants extends Variants<TSlotKeys>,
 > {
-	create(): Cls<SlotKeys>;
+	create(): Cls<TSlotKeys>;
 	"~type": {
-		slots: { [K in SlotKeys]: true };
+		slots: { [K in TSlotKeys]: true };
 		variants: TVariants;
 	};
 }
@@ -50,15 +48,23 @@ export namespace cls {
 	> {
 		use?: U;
 
-		// ◀ exactly as before
 		slot: (U extends Factory<any, any>
 			? Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>
 			: Partial<Record<SlotKeys, ClassName>>) & {
 			[key: string]: ClassName;
 		};
 
-		// ▶ now we merge inherited slots into the variant definition
 		variant: Variants<MergeSlots<SlotKeys, U>> & LocalVariants;
+
+		match?: Array<{
+			if: Partial<{
+				[K in keyof MergeVariants<LocalVariants, U> &
+					string]: keyof MergeVariants<LocalVariants, U>[K];
+			}>;
+			do: Partial<Record<MergeSlots<SlotKeys, U>, ClassName[]>> & {
+				[key: string]: ClassName[];
+			};
+		}>;
 
 		defaults: {
 			[K in keyof MergeVariants<LocalVariants, U> &
@@ -140,9 +146,6 @@ const BaseCls = cls({
 	},
 });
 
-// ✅ assignable
-const blabla: typeof UltraBaseCls = BaseCls;
-
 const SomeCls = cls({
 	use: BaseCls,
 	slot: {
@@ -158,28 +161,31 @@ const SomeCls = cls({
 				root: [
 					"this-works",
 				],
-				ultra: [], // ▶ now you get autocomplete for 'ultra' too!
+				ultra: [],
 			},
 			baz: {
 				some: [],
 			},
 		},
 	},
-	// TODO Create types for this one, all should be properly inferred and typed
 	match: [
 		{
 			if: {
-				// Matching against "variants" - keys are all available variant keys (+ their values)
 				color: "blue",
-				foo: "baz",
+				foo: "bar",
 			},
 			do: {
-				// Matching against "slots" - keys are all available slot keys
-				root: [
-					"some-root-style",
+				pica: [],
+				// TODO This one should not be allowed as this slot does not exists
+				hovno: [],
+				// now all of these keys are optional,
+				// and you can omit any you don’t care about:
+				some: [
+					"foo-style",
 				],
-				ultra: [
-					"some-style",
+				// you can still add arbitrary slots if needed:
+				customSlot: [
+					"x",
 				],
 			},
 		},
