@@ -33,7 +33,9 @@ export namespace Action {
 	 * All the properties used in the Action icon.
 	 */
 	export interface Props
-		extends ActionCls.Props<HTMLAttributes<HTMLDivElement>> {
+		extends ActionCls.Props<
+			Omit<HTMLAttributes<HTMLDivElement>, "children">
+		> {
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
@@ -60,7 +62,6 @@ export const Action: FC<Action.Props> = ({
 	variant,
 	tva = ActionCls,
 	cls,
-	children,
 	...props
 }) => {
 	const { el } = tva(
@@ -93,7 +94,6 @@ export const Action: FC<Action.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				{children}
 			</el.action.Div>
 		</el.base.Div>
 	);

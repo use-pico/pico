@@ -19,7 +19,6 @@ export const ActionCls = cls({
 			"p-1",
 			"rounded-sm",
 			"rounded",
-			"text-2xl",
 			"transition-all",
 			"w-fit",
 			// CSS Variables

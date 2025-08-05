@@ -15,10 +15,16 @@ export namespace TableCursor {
 export const TableCursor = <TQuery extends withQuerySchema.Query>({
 	cursor,
 	withCountQuery,
-	query,
+	query: { filter, where, ...query },
 }: TableCursor.Props<TQuery>) => {
 	const { data, isSuccess, isLoading, isFetching, isError } =
-		withCountQuery.useQuery(query);
+		withCountQuery.useQuery({
+			/**
+			 * This is a trick - count needs only filters, sort and so on is not necessary
+			 */
+			filter,
+			where,
+		} as TQuery);
 
 	if (isError) {
 		return null;
