@@ -1,76 +1,66 @@
 import type { ClassName } from "./types/ClassName";
 
-export type Slots<TKeys extends string> = {
-	[K in TKeys]: ClassName;
-};
+// --- Core Types ---
 
-export type Variant<TSlotKeys extends string> = {
-	[K in NoInfer<TSlotKeys>]?: ClassName;
-};
+export type Slots<TSlot extends string> = Record<TSlot, ClassName>;
 
-export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
-	[VK in TVariantKeys]: {
-		[VV in string]: Variant<TSlotKeys>;
+export type Variant<TSlot extends string> = Partial<
+	Record<NoInfer<TSlot>, ClassName>
+>;
+
+export type Variants<TSlot extends string, TVariant extends string> = {
+	[VK in TVariant]: {
+		[VV in string]: Variant<TSlot>;
 	};
 };
 
-export interface Cls<TSlotKeys extends string> {
-	slot: { [K in TSlotKeys]: false };
+// --- Internal Type Inference ---
+
+export interface Cls<TSlot extends string> {
+	slot: Record<TSlot, false>;
 }
 
-export interface Factory<
-	TSlotKeys extends string,
-	TVariantKeys extends string,
-	TUse extends Factory<any, any, any> | unknown = unknown,
-> {
-	create(): Cls<TSlotKeys>;
-	"~type": TUse extends Factory<any, any, any>
-		? {
-				slots: TSlotKeys | TUse["~type"]["slots"];
-				variants: TVariantKeys | TUse["~type"]["variants"];
-			}
-		: {
-				slots: TSlotKeys;
-				variants: TVariantKeys;
-			};
+export interface Factory<TSlot extends string, TVariant extends string> {
+	create(): Cls<TSlot>;
+	"~type": {
+		slots: TSlot;
+		variants: TVariant;
+	};
 }
 
-//
-//
-//
-//
+// --- Factory Props & Function ---
 
 export namespace cls {
 	export interface Props<
-		TSlotKeys extends string,
-		TVariantKeys extends string,
-		TUse extends Factory<any, any, any> | unknown = unknown,
+		TSlot extends string,
+		TVariant extends string,
+		TUse extends Factory<any, any> | undefined = undefined,
 	> {
 		use?: TUse;
-		slot: Slots<TSlotKeys>;
-		variant: Variants<TSlotKeys, TVariantKeys>;
+		slot: Slots<TSlot>;
+		variant: Variants<TSlot, TVariant>;
 	}
 }
 
 export function cls<
-	TSlotKeys extends string,
-	TVariantKeys extends string,
-	TUse extends Factory<any, any, any> | unknown = unknown,
->({ use, slot, variant }: cls.Props<TSlotKeys, TVariantKeys, TUse>) {
+	TSlot extends string,
+	TVariant extends string,
+	TUse extends Factory<any, any> | undefined = undefined,
+>(
+	props: cls.Props<TSlot, TVariant, TUse>,
+): Factory<
+	TUse extends Factory<any, any> ? TSlot | TUse["~type"]["slots"] : TSlot,
+	TUse extends Factory<any, any>
+		? TVariant | TUse["~type"]["variants"]
+		: TVariant
+> {
 	return {
 		create() {
 			return {} as any;
 		},
 		"~type": {
-			slots: "slots",
-			variants: "variants",
-		} as {
-			slots: TUse extends Factory<any, any, any>
-				? TSlotKeys | TUse["~type"]["slots"]
-				: TSlotKeys;
-			variants: TUse extends Factory<any, any, any>
-				? TVariantKeys | TUse["~type"]["variants"]
-				: TVariantKeys;
+			slots: null as any,
+			variants: null as any,
 		},
 	};
 }
