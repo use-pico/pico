@@ -123,9 +123,9 @@ const _SomeCls = cls({
 				some: [
 					"foo",
 				],
-				// root: [
-				// 	"this-works",
-				// ],
+				root: [
+					"this-works",
+				],
 				// gfdg: [],
 			},
 		},
