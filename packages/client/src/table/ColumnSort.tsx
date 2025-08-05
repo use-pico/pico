@@ -1,4 +1,5 @@
-import { tvc, type withQuerySchema } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
+import type { withQuerySchema } from "@use-pico/common";
 import { Action } from "../action/Action";
 import { AscIcon } from "../icon/AscIcon";
 import { DescIcon } from "../icon/DescIcon";

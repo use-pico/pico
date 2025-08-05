@@ -1,6 +1,6 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister } from "@lexical/utils";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 import {
 	$getSelection,
 	$isRangeSelection,

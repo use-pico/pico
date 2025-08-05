@@ -10,7 +10,7 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
 import { useCls } from "../hooks/useCls";

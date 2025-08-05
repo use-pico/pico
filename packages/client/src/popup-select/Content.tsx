@@ -1,6 +1,6 @@
+import type { cls } from "@use-pico/cls";
 import type {
 	CursorSchema,
-	cls,
 	EntitySchema,
 	withQuerySchema,
 } from "@use-pico/common";

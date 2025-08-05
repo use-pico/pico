@@ -1,4 +1,5 @@
-import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
 

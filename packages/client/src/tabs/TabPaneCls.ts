@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/common";
+import { cls } from "@use-pico/cls";
 
 export const TabPaneCls = cls({
 	slot: {

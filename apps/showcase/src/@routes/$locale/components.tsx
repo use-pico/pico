@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, useParams } from "@tanstack/react-router";
 import { Menu, MenuLink, Tx } from "@use-pico/client";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components")({
 	component() {

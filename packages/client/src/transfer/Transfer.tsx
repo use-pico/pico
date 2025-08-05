@@ -1,4 +1,5 @@
-import { type EntitySchema, tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
+import type { EntitySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { ArrowRightIcon } from "../icon/ArrowRightIcon";

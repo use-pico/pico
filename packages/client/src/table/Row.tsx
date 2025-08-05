@@ -1,4 +1,5 @@
-import { type EntitySchema, tvc, type withQuerySchema } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
 import { match, P } from "ts-pattern";
 import { Icon } from "../icon/Icon";

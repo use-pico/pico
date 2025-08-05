@@ -1,4 +1,5 @@
-import type { cls, Entity } from "@use-pico/common";
+import type { cls } from "@use-pico/cls";
+import type { Entity } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { ValueOf } from "../value-of/ValueOf";

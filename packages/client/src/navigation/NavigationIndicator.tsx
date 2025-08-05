@@ -1,5 +1,5 @@
 import { useRouterState } from "@tanstack/react-router";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 import { type FC, useEffect, useState } from "react";
 
 export namespace NavigationIndicator {

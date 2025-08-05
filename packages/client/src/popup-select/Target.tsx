@@ -1,4 +1,5 @@
-import type { cls, EntitySchema, withQuerySchema } from "@use-pico/common";
+import type { cls } from "@use-pico/cls";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";

@@ -10,7 +10,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 import type { SerializedEditor } from "lexical";
 import type { FC } from "react";
 import { ToolbarPlugin } from "./ToolbarPlugin";

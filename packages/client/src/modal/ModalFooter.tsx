@@ -1,4 +1,4 @@
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 import { type FC, type ReactNode, useContext } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";

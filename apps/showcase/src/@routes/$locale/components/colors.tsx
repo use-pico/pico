@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components/colors")({
 	component() {

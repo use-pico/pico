@@ -1,4 +1,5 @@
-import { type cls, type IssueSchema, withIssueType } from "@use-pico/common";
+import type { cls } from "@use-pico/cls";
+import { type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
 import { Icon } from "../icon/Icon";

@@ -1,4 +1,5 @@
-import { type Entity, tvc } from "@use-pico/common";
+import { tvc } from "@use-pico/cls";
+import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { PreviewCls } from "./PreviewCls";

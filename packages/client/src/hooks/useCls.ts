@@ -1,4 +1,4 @@
-import type { cls } from "@use-pico/common";
+import type { cls } from "@use-pico/cls";
 import { useStableMemo } from "./useStableMemo";
 
 export const useCls = <

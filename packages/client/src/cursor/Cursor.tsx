@@ -1,9 +1,9 @@
+import { tvc } from "@use-pico/cls";
 import {
 	type CountSchema,
 	type CursorSchema,
 	cursorOf,
 	type StateType,
-	tvc,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useMemo } from "react";
 import { useCls } from "../hooks/useCls";

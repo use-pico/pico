@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/common";
+import { cls } from "@use-pico/cls";
 import { IconCls } from "../icon/IconCls";
 
 export const BoolInlineCls = cls({

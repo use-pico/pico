@@ -1,12 +1,11 @@
-import {
-	type CountSchema,
-	type cls,
-	type DeepKeys,
-	type DeepValue,
-	type EntitySchema,
-	type StateType,
-	tvc,
-	type withQuerySchema,
+import { type cls, tvc } from "@use-pico/cls";
+import type {
+	CountSchema,
+	DeepKeys,
+	DeepValue,
+	EntitySchema,
+	StateType,
+	withQuerySchema,
 } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
