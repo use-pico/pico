@@ -16,8 +16,8 @@ export type Variants<TSlotKeys extends string> = Record<
 // requires one default for every variant key, each constrained
 // to the literal union of that variant's options.
 type Defaults<F extends Factory<any, any, any>> = {
-	[K in keyof F["~type"]["variantMap"] &
-		string]: keyof F["~type"]["variantMap"][K];
+	[K in keyof F["~type"]["variants"] &
+		string]: keyof F["~type"]["variants"][K];
 };
 
 // --- Internal Core ---
@@ -29,13 +29,13 @@ export interface Cls<TSlotKeys extends string> {
 export interface Factory<
 	TSlotKeys extends string,
 	TVariantKeys extends string,
-	TVariantMap extends Variants<TSlotKeys>,
+	TVariants extends Variants<TSlotKeys>,
 > {
 	create(): Cls<TSlotKeys>;
 	"~type": {
-		slots: TSlotKeys;
-		variants: TVariantKeys;
-		variantMap: TVariantMap;
+		slotKeys: TSlotKeys;
+		variantKeys: TVariantKeys;
+		variants: TVariants;
 	};
 }
 
@@ -50,7 +50,7 @@ export namespace cls {
 		use?: TUse;
 
 		slot: (TUse extends Factory<any, any, any>
-			? Partial<Record<TSlotKeys | TUse["~type"]["slots"], ClassName>>
+			? Partial<Record<TSlotKeys | TUse["~type"]["slotKeys"], ClassName>>
 			: Partial<Record<TSlotKeys, ClassName>>) & {
 			[key: string]: ClassName;
 		};
@@ -65,12 +65,12 @@ export namespace cls {
 		defaults: Defaults<
 			Factory<
 				/* slots */ TUse extends Factory<any, any, any>
-					? TSlotKeys | TUse["~type"]["slots"]
+					? TSlotKeys | TUse["~type"]["slotKeys"]
 					: TSlotKeys,
 				/* keys  */ keyof TVariantMap & string,
 				/* map   */ TVariantMap &
 					(TUse extends Factory<any, any, any>
-						? TUse["~type"]["variantMap"]
+						? TUse["~type"]["variants"]
 						: {})
 			>
 		>;
@@ -85,20 +85,20 @@ export function cls<
 	props: cls.Props<TSlotKeys, TVariantMap, TUse>,
 ): Factory<
 	/* merged slots */ TUse extends Factory<any, any, any>
-		? TSlotKeys | TUse["~type"]["slots"]
+		? TSlotKeys | TUse["~type"]["slotKeys"]
 		: TSlotKeys,
 	/* merged keys  */ keyof TVariantMap & string,
 	/* merged map   */ TVariantMap &
-		(TUse extends Factory<any, any, any> ? TUse["~type"]["variantMap"] : {})
+		(TUse extends Factory<any, any, any> ? TUse["~type"]["variants"] : {})
 > {
 	return {
 		create() {
 			return {} as any;
 		},
 		"~type": {
-			slots: null as any,
-			variants: null as any,
-			variantMap: props.variant as any,
+			slotKeys: null as any,
+			variantKeys: null as any,
+			variants: props.variant as any,
 		},
 	};
 }
