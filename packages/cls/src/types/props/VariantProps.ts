@@ -9,4 +9,6 @@ import type { ClassName } from "../ClassName";
 export type VariantProps<
 	TSlotKeys extends string,
 	TVariantKeys extends string,
-> = Record<TVariantKeys, Record<string, Partial<Record<TSlotKeys, ClassName>>>>;
+> = {
+	[K in TVariantKeys]: Record<string, { [S in TSlotKeys]?: ClassName }>;
+};

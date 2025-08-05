@@ -238,10 +238,8 @@ describe("cls - Inheritance and Extensions", () => {
 			variant: {
 				color: {
 					primary: {
-						label: "bg-blue-500 text-white",
-						aicona: [
-							"inheritance-works",
-						],
+                        label: "bg-blue-500 text-white",
+                        pica: [],
 						foo: [],
 					},
 				},
