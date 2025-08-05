@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 import { IconCls } from "../icon/IconCls";
 
 export const BoolInlineCls = cls({
@@ -16,5 +16,5 @@ export const BoolInlineCls = cls({
 });
 
 export namespace BoolInlineCls {
-	export type Props<P = unknown> = cls.Props<typeof BoolInlineCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof BoolInlineCls, P>;
 }

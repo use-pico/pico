@@ -1,14 +1,14 @@
-import type { cls } from "@use-pico/cls";
+import type { ClsFn, Internal } from "@use-pico/cls";
 import { useStableMemo } from "./useStableMemo";
 
 export const useCls = <
-	TSlot extends cls.Internal.SlotDef<any>,
-	TVariant extends cls.Internal.VariantDef<any>,
-	TUse extends cls.Internal.ClsFn<any, any, any> | unknown = unknown,
+	TSlot extends Internal._SlotProps<any>,
+	TVariant extends Internal._VariantProps<any>,
+	TUse extends Internal._ValuesProps<any> | unknown = unknown,
 >(
-	fn: cls.Internal.ClsFn<TSlot, TVariant, TUse>,
-	variant?: cls.Internal.ValuesDef<cls.Internal.VariantEx<TVariant, TUse>>,
-	cls?: cls.Internal.SlotCls<TSlot, TUse>,
+	fn: ClsFn<TSlot, TVariant, TUse>,
+	variant?: Internal._ValuesProps<Internal._VariantEx<TVariant, TUse>>,
+	cls?: Internal._SlotCls<TSlot, TUse>,
 ) => {
 	return useStableMemo(() => {
 		return fn(variant, cls);

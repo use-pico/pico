@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
 
 export const CardCls = cls({
 	slot: {
@@ -30,7 +30,7 @@ export const CardCls = cls({
 export type CardCls = typeof CardCls;
 
 export namespace CardCls {
-	export type Props<P = unknown> = cls.Props<CardCls, P>;
+	export type Props<P = unknown> = ClsProps<CardCls, P>;
 
-	export type Slots = cls.Slots<CardCls>;
+	export type Slots = ClsSlots<CardCls>;
 }

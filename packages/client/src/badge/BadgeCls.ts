@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const BadgeCls = cls({
 	slot: {
@@ -105,5 +105,5 @@ export const BadgeCls = cls({
 });
 
 export namespace BadgeCls {
-	export type Props<P = unknown> = cls.Props<typeof BadgeCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof BadgeCls, P>;
 }

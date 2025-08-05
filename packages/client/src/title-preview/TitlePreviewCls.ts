@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const TitlePreviewCls = cls({
 	slot: {
@@ -50,5 +50,5 @@ export const TitlePreviewCls = cls({
 });
 
 export namespace TitlePreviewCls {
-	export type Props<P = unknown> = cls.Props<typeof TitlePreviewCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof TitlePreviewCls, P>;
 }

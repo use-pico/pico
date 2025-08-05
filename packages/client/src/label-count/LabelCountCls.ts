@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const LabelCountCls = cls({
 	slot: {
@@ -16,5 +16,5 @@ export const LabelCountCls = cls({
 });
 
 export namespace LabelCountCls {
-	export type Props<P = unknown> = cls.Props<typeof LabelCountCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof LabelCountCls, P>;
 }

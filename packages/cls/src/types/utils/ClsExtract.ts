@@ -5,7 +5,7 @@ import type { ClsProps } from "./ClsProps";
  * TProps represents the full props type that includes cls system props.
  * This type picks only the variant, tva, and cls properties for when you need just the cls system props.
  */
-export type Extract<TProps extends ClsProps<any>> = Pick<
+export type ClsExtract<TProps extends ClsProps<any>> = Pick<
 	TProps,
 	"variant" | "tva" | "cls"
 >;

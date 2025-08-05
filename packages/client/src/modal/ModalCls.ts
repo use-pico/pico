@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const ModalCls = cls({
 	slot: {
@@ -54,5 +54,5 @@ export const ModalCls = cls({
 });
 
 export namespace ModalCls {
-	export type Props<P = unknown> = cls.Props<typeof ModalCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof ModalCls, P>;
 }

@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const AbstractListCls = cls({
 	slot: {
@@ -11,5 +11,5 @@ export const AbstractListCls = cls({
 });
 
 export namespace AbstractListCls {
-	export type Props<P = unknown> = cls.Props<typeof AbstractListCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof AbstractListCls, P>;
 }

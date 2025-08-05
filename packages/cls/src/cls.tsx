@@ -71,8 +71,8 @@ export namespace cls {
  * It creates a factory function that can be called with variant values to generate the appropriate class names for each slot.
  */
 export function cls<
-	TSlot extends SlotProps<any>,
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,
@@ -80,7 +80,11 @@ export function cls<
 	variant,
 	match = [],
 	defaults,
-}: cls.Props<TSlot, TVariant, TUse>): ClsFn<TSlot, TVariant, TUse> {
+}: cls.Props<TSlotProps, TVariantProps, TUse>): ClsFn<
+	TSlotProps,
+	TVariantProps,
+	TUse
+> {
 	/**
 	 * Returns a factory function that can be called with variant values and slot overrides.
 	 * This factory function creates the actual cls system instance with computed slots, elements, and metadata.
@@ -92,9 +96,9 @@ export function cls<
 		 * extension values, and any provided overrides.
 		 */
 		const slots = new Proxy(
-			{} as ReturnType<ClsFn<TSlot, TVariant, TUse>>["slots"],
+			{} as ReturnType<ClsFn<TSlotProps, TVariantProps, TUse>>["slots"],
 			{
-				get(_, key: string): SlotFn<TVariant, TUse> {
+				get(_, key: string): SlotFn<TVariantProps, TUse> {
 					return (override, $cls) => {
 						/**
 						 * Array to collect all class names that will be merged together.
@@ -198,8 +202,8 @@ export function cls<
 			 * Each element component accepts the same props as regular HTML elements plus variant and cls props.
 			 * This provides a convenient way to render slots as specific HTML elements with computed classes.
 			 */
-			el: new Proxy({} as ElementFn<TSlot, TVariant, TUse>, {
-				get(_, key: string): Elements<TVariant, TUse> {
+			el: new Proxy({} as ElementFn<TSlotProps, TVariantProps, TUse>, {
+				get(_, key: string): Elements<TVariantProps, TUse> {
 					return {
 						/**
 						 * Div component that renders with computed classes for the specified slot.

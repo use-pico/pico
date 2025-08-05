@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const LoadingOverlayCls = cls({
 	slot: {
@@ -33,5 +33,5 @@ export const LoadingOverlayCls = cls({
 });
 
 export namespace LoadingOverlayCls {
-	export type Props<P = unknown> = cls.Props<typeof LoadingOverlayCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof LoadingOverlayCls, P>;
 }

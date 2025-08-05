@@ -17,34 +17,38 @@ import type { Type } from "../Type";
  * This function takes variant values and slot class overrides, returning an object with slots, elements, and internal metadata.
  */
 export type ClsFn<
-	TSlot extends SlotProps<any>,
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (
-	variant?: ValuesProps<VariantEx<TVariant, TUse>>,
-	cls?: SlotCls<TSlot, TUse>,
+	variant?: ValuesProps<VariantEx<TVariantProps, TUse>>,
+	cls?: SlotCls<TSlotProps, TUse>,
 ) => {
 	/**
 	 * Individual slots for a component. Those slots are then
 	 * used to compute individual class names.
 	 */
-	slots: Slots<TSlot, TVariant, TUse>;
+	slots: Slots<TSlotProps, TVariantProps, TUse>;
 	/**
 	 * Access predefined slots as an elements (e.g. div, span, ...).
 	 *
 	 * This is shortcut for <div className={slots.base()} /> etc.
 	 */
-	el: ElementFn<TSlot, TVariant, TUse>;
+	el: ElementFn<TSlotProps, TVariantProps, TUse>;
 	/**
 	 * Configuration used internally.
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	"~config": Config<VariantEx<TVariant, TUse>>;
+	"~config": Config<VariantEx<TVariantProps, TUse>>;
 	/**
 	 * Used for inheritance and type checking.
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	"~type": Type<SlotEx<TSlot, TUse>, VariantEx<TVariant, TUse>, TUse>;
+	"~type": Type<
+		SlotEx<TSlotProps, TUse>,
+		VariantEx<TVariantProps, TUse>,
+		TUse
+	>;
 };

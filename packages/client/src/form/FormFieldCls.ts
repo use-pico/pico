@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
 
 export const FormFieldCls = cls({
 	slot: {
@@ -75,7 +75,7 @@ export const FormFieldCls = cls({
 export type FormFieldCls = typeof FormFieldCls;
 
 export namespace FormFieldCls {
-	export type Props<P = unknown> = cls.Props<FormFieldCls, P>;
+	export type Props<P = unknown> = ClsProps<FormFieldCls, P>;
 
-	export type Slots = cls.Slots<FormFieldCls>;
+	export type Slots = ClsSlots<FormFieldCls>;
 }

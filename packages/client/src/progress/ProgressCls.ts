@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const ProgressCls = cls({
 	slot: {
@@ -32,5 +32,5 @@ export const ProgressCls = cls({
 export type ProgressCls = typeof ProgressCls;
 
 export namespace ProgressCls {
-	export type Props<P = unknown> = cls.Props<typeof ProgressCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof ProgressCls, P>;
 }

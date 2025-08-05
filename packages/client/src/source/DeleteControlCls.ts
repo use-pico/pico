@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const DeleteControlCls = cls({
 	slot: {
@@ -25,5 +25,5 @@ export const DeleteControlCls = cls({
 });
 
 export namespace DeleteControlCls {
-	export type Props<P = unknown> = cls.Props<typeof DeleteControlCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof DeleteControlCls, P>;
 }

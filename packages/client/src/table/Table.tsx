@@ -1,4 +1,4 @@
-import { type ClassName, type cls, tvc } from "@use-pico/cls";
+import { type ClassName, type ClsClear, tvc } from "@use-pico/cls";
 import type {
 	CountSchema,
 	DeepKeys,
@@ -270,7 +270,7 @@ export namespace Table {
 		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
 		TContext = any,
-	> extends TableCls.Props<cls.Clear<AbstractList.PropsEx<TQuery, TData>>> {
+	> extends TableCls.Props<ClsClear<AbstractList.PropsEx<TQuery, TData>>> {
 		/**
 		 * All the columns defined in the table.
 		 *

@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const TabListCls = cls({
 	slot: {
@@ -21,5 +21,5 @@ export const TabListCls = cls({
 });
 
 export namespace TabListCls {
-	export type Props<P = unknown> = cls.Props<typeof TabListCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof TabListCls, P>;
 }

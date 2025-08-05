@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const LinkToCls = cls({
 	slot: {
@@ -23,5 +23,5 @@ export const LinkToCls = cls({
 });
 
 export namespace LinkToCls {
-	export type Props<P = unknown> = cls.Props<typeof LinkToCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof LinkToCls, P>;
 }

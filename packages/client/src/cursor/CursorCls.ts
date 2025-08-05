@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
 
 export const CursorCls = cls({
 	slot: {
@@ -21,7 +21,7 @@ export const CursorCls = cls({
 export type CursorCls = typeof CursorCls;
 
 export namespace CursorCls {
-	export type Props<P = unknown> = cls.Props<CursorCls, P>;
+	export type Props<P = unknown> = ClsProps<CursorCls, P>;
 
-	export type Slots = cls.Slots<CursorCls>;
+	export type Slots = ClsSlots<CursorCls>;
 }

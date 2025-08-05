@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
 
 export const PopupSelectCls = cls({
 	slot: {
@@ -70,7 +70,7 @@ export const PopupSelectCls = cls({
 export type PopupSelectCls = typeof PopupSelectCls;
 
 export namespace PopupSelectCls {
-	export type Props<P = unknown> = cls.Props<PopupSelectCls, P>;
+	export type Props<P = unknown> = ClsProps<PopupSelectCls, P>;
 
-	export type Slots = cls.Slots<PopupSelectCls>;
+	export type Slots = ClsSlots<PopupSelectCls>;
 }

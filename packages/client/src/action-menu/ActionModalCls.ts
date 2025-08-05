@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
 export const ActionModalCls = cls({
@@ -9,5 +9,5 @@ export const ActionModalCls = cls({
 });
 
 export namespace ActionModalCls {
-	export type Props<P = unknown> = cls.Props<typeof ActionModalCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof ActionModalCls, P>;
 }

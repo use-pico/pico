@@ -7,7 +7,7 @@ import type { SlotProps } from "../props/SlotProps";
  * This type ensures that when a component extends another, all slots from both are available.
  */
 export type SlotEx<
-	TSlot extends SlotProps<any>,
+	TSlotProps extends SlotProps<any>,
 	TUse extends
 		| (() => {
 				"~type": {
@@ -20,5 +20,5 @@ export type SlotEx<
 		slot?: infer S;
 	};
 }
-	? TSlot & S
-	: TSlot;
+	? TSlotProps & S
+	: TSlotProps;

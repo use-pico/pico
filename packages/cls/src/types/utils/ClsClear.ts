@@ -6,7 +6,7 @@ import type { ClsProps } from "./ClsProps";
  * This type omits the variant, tva, and cls properties, useful when you want to extend props
  * and provide your own cls type.
  */
-export type Clear<TProps extends ClsProps<any>> = Omit<
+export type ClsClear<TProps extends ClsProps<any>> = Omit<
 	TProps,
 	"variant" | "tva" | "cls"
 >;

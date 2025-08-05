@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const StatusCls = cls({
 	slot: {
@@ -31,5 +31,5 @@ export const StatusCls = cls({
 });
 
 export namespace StatusCls {
-	export type Props<P = unknown> = cls.Props<typeof StatusCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof StatusCls, P>;
 }

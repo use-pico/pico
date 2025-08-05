@@ -7,7 +7,7 @@ import type { VariantProps } from "../props/VariantProps";
  * This type ensures that when a component extends another, all variants from both are available.
  */
 export type VariantEx<
-	TVariant extends VariantProps<any>,
+	TVariantProps extends VariantProps<any>,
 	TUse extends
 		| (() => {
 				"~type": {
@@ -20,5 +20,5 @@ export type VariantEx<
 		variant?: infer V;
 	};
 }
-	? TVariant & V
-	: TVariant;
+	? TVariantProps & V
+	: TVariantProps;

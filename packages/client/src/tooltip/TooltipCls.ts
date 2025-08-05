@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const TooltipCls = cls({
 	slot: {
@@ -18,5 +18,5 @@ export const TooltipCls = cls({
 });
 
 export namespace TooltipCls {
-	export type Props<P = unknown> = cls.Props<typeof TooltipCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof TooltipCls, P>;
 }

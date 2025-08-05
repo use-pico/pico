@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const FloatCls = cls({
 	slot: {
@@ -32,5 +32,5 @@ export const FloatCls = cls({
 });
 
 export namespace FloatCls {
-	export type Props<P = unknown> = cls.Props<typeof FloatCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof FloatCls, P>;
 }

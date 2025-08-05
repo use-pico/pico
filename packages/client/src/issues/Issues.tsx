@@ -1,4 +1,4 @@
-import type { cls } from "@use-pico/cls";
+import type { ClsClear } from "@use-pico/cls";
 import { type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
@@ -9,7 +9,7 @@ import { IssuesCls } from "./IssuesCls";
 
 export namespace Issues {
 	export interface Props
-		extends cls.Clear<Omit<More.Props<IssueSchema.Type>, "renderInline">>,
+		extends ClsClear<Omit<More.Props<IssueSchema.Type>, "renderInline">>,
 			IssuesCls.Props {
 		//
 	}

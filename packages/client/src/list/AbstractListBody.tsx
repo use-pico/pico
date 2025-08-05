@@ -1,4 +1,4 @@
-import type { cls } from "@use-pico/cls";
+import type { ClsSlots } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { withQuery } from "../source/withQuery";
 import type { AbstractList } from "./AbstractList";
@@ -11,7 +11,7 @@ export namespace AbstractListBody {
 	> {
 		withQuery: withQuery.Api<TQuery, TItem[]>;
 		query: TQuery;
-		slots: cls.Slots<typeof AbstractListCls>;
+		slots: ClsSlots<typeof AbstractListCls>;
 		renderHeader: AbstractList.Header.Render<TItem>;
 		renderItem: AbstractList.Item.Render<TItem>;
 		renderFooter: AbstractList.Footer.Render<TItem>;

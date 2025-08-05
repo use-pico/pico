@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const MenuLinkCls = cls({
 	slot: {
@@ -108,5 +108,5 @@ export const MenuLinkCls = cls({
 });
 
 export namespace MenuLinkCls {
-	export type Props<P = unknown> = cls.Props<typeof MenuLinkCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof MenuLinkCls, P>;
 }

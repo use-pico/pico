@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
 
 export const JustDropZoneCls = cls({
 	slot: {
@@ -79,7 +79,7 @@ export const JustDropZoneCls = cls({
 export type JustDropZoneCls = typeof JustDropZoneCls;
 
 export namespace JustDropZoneCls {
-	export type Props<P = unknown> = cls.Props<JustDropZoneCls, P>;
+	export type Props<P = unknown> = ClsProps<JustDropZoneCls, P>;
 
-	export type Slots = cls.Slots<JustDropZoneCls>;
+	export type Slots = ClsSlots<JustDropZoneCls>;
 }

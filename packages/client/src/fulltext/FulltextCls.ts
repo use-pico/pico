@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type ClsProps, cls } from "@use-pico/cls";
 
 export const FulltextCls = cls({
 	slot: {
@@ -45,5 +45,5 @@ export const FulltextCls = cls({
 });
 
 export namespace FulltextCls {
-	export type Props<P = unknown> = cls.Props<typeof FulltextCls, P>;
+	export type Props<P = unknown> = ClsProps<typeof FulltextCls, P>;
 }
