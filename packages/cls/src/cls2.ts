@@ -2,19 +2,25 @@ import type { ClassName } from "./types/ClassName";
 
 // --- Core Types ---
 
-export type Slots<TSlotKeys extends string> = Record<TSlotKeys, ClassName>;
-
 export type Variant<TSlotKeys extends string> = Partial<
 	Record<TSlotKeys, ClassName>
 >;
 
-export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
-	[V in TVariantKeys]: {
-		[S in string]: Variant<TSlotKeys>;
-	};
+export type Variants<TSlotKeys extends string> = Record<
+	string,
+	Record<string, Variant<TSlotKeys>>
+>;
+
+// --- Defaults Helper ---
+// Reads the fully-merged variantMap from a Factory's "~type" and
+// requires one default for every variant key, each constrained
+// to the literal union of that variant's options.
+type Defaults<F extends Factory<any, any, any>> = {
+	[K in keyof F["~type"]["variantMap"] &
+		string]: keyof F["~type"]["variantMap"][K];
 };
 
-// --- Internal Type Inference ---
+// --- Internal Core ---
 
 export interface Cls<TSlotKeys extends string> {
 	slot: Record<TSlotKeys, false>;
@@ -23,51 +29,67 @@ export interface Cls<TSlotKeys extends string> {
 export interface Factory<
 	TSlotKeys extends string,
 	TVariantKeys extends string,
+	TVariantMap extends Variants<TSlotKeys>,
 > {
 	create(): Cls<TSlotKeys>;
 	"~type": {
 		slots: TSlotKeys;
 		variants: TVariantKeys;
+		variantMap: TVariantMap;
 	};
 }
 
-// --- Factory Props & Function ---
+// --- Public API ---
 
 export namespace cls {
 	export interface Props<
 		TSlotKeys extends string,
-		TVariantKeys extends string,
-		TUse extends Factory<any, any> | undefined = undefined,
+		TVariantMap extends Variants<TSlotKeys>,
+		TUse extends Factory<any, any, any> | undefined = undefined,
 	> {
 		use?: TUse;
-		slot: (TUse extends Factory<any, any>
+
+		slot: (TUse extends Factory<any, any, any>
 			? Partial<Record<TSlotKeys | TUse["~type"]["slots"], ClassName>>
 			: Partial<Record<TSlotKeys, ClassName>>) & {
 			[key: string]: ClassName;
 		};
-		variant: Variants<
-			TUse extends Factory<any, any>
-				? TSlotKeys | TUse["~type"]["slots"]
-				: TSlotKeys,
-			TVariantKeys
+
+		/** Your local variant definitions */
+		variant: TVariantMap;
+
+		/**
+		 * Required defaults for **every** variant key (local + inherited).
+		 * Values are constrained to the exact set of keys under each variant.
+		 */
+		defaults: Defaults<
+			Factory<
+				/* slots */ TUse extends Factory<any, any, any>
+					? TSlotKeys | TUse["~type"]["slots"]
+					: TSlotKeys,
+				/* keys  */ keyof TVariantMap & string,
+				/* map   */ TVariantMap &
+					(TUse extends Factory<any, any, any>
+						? TUse["~type"]["variantMap"]
+						: {})
+			>
 		>;
-		defaults: {};
 	}
 }
 
 export function cls<
 	TSlotKeys extends string,
-	TVariantKeys extends string,
-	TUse extends Factory<any, any> | undefined = undefined,
+	TVariantMap extends Variants<TSlotKeys>,
+	TUse extends Factory<any, any, any> | undefined = undefined,
 >(
-	props: cls.Props<TSlotKeys, TVariantKeys, TUse>,
+	props: cls.Props<TSlotKeys, TVariantMap, TUse>,
 ): Factory<
-	TUse extends Factory<any, any>
+	/* merged slots */ TUse extends Factory<any, any, any>
 		? TSlotKeys | TUse["~type"]["slots"]
 		: TSlotKeys,
-	TUse extends Factory<any, any>
-		? TVariantKeys | TUse["~type"]["variants"]
-		: TVariantKeys
+	/* merged keys  */ keyof TVariantMap & string,
+	/* merged map   */ TVariantMap &
+		(TUse extends Factory<any, any, any> ? TUse["~type"]["variantMap"] : {})
 > {
 	return {
 		create() {
@@ -76,15 +98,12 @@ export function cls<
 		"~type": {
 			slots: null as any,
 			variants: null as any,
+			variantMap: props.variant as any,
 		},
 	};
 }
 
-//
-//
-//
-//
-//
+// --- Test Examples ---
 
 const UltraBaseCls = cls({
 	slot: {
@@ -100,9 +119,11 @@ const UltraBaseCls = cls({
 			},
 		},
 	},
-	defaults: {},
+	defaults: {
+		ultra: "variant", // ✅ only "variant" | "another"
+	},
 });
-type _UltraBaseCls = (typeof UltraBaseCls)["~type"];
+type _UltraBase = (typeof UltraBaseCls)["~type"];
 
 const BaseCls = cls({
 	use: UltraBaseCls,
@@ -116,18 +137,23 @@ const BaseCls = cls({
 		color: {
 			blue: {
 				root: [],
-				// qqqq: [],
 				label: [
 					"text-blue-500",
 				],
 			},
+			red: {
+				root: [],
+			},
 		},
 	},
-	defaults: {},
+	defaults: {
+		color: "red",
+		ultra: "another", // ✅ inherited: "variant" | "another"
+	},
 });
-type _BaseCls = (typeof BaseCls)["~type"];
+type _Base = (typeof BaseCls)["~type"];
 
-const _SomeCls = cls({
+const SomeCls = cls({
 	use: BaseCls,
 	slot: {
 		some: [] as string[],
@@ -142,11 +168,16 @@ const _SomeCls = cls({
 				root: [
 					"this-works",
 				],
-				// gfdg: [],
+			},
+			baz: {
+				some: [],
 			},
 		},
 	},
-	defaults: {},
+	defaults: {
+		foo: "bar", // ✅ only "bar" | "baz"
+		color: "blue", // ✅ inherited
+		ultra: "variant", // ✅ inherited
+	},
 });
-
-type _SomeCls = (typeof _SomeCls)["~type"];
+type _Some = (typeof SomeCls)["~type"];
