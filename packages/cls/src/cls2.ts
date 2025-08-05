@@ -136,6 +136,9 @@ const BaseCls = cls({
 	},
 });
 
+// TODO This should be assignable
+const blabla: typeof UltraBaseCls = BaseCls;
+
 const SomeCls = cls({
 	use: BaseCls,
 	slot: {
