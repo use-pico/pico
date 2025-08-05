@@ -125,6 +125,29 @@ export function cls<
 // --- Test Examples ---
 
 const UltraBaseCls = cls({
+	/**
+	 * TODO Tokens support
+	 */
+	tokens: {
+		/**
+		 * Contract defines all keys available in the "tokens" and in the rest of CLS
+		 */
+		contract: [
+			"bgColor",
+			"hoverColor",
+		],
+		dictionary: {
+			// Token group (used to pick the token group)
+			// Tokens should support inheritance, but they _must_ conform to the "contract"
+			// One option is to setup contract before
+			primary: {
+				// Here are all "contract"; all tokens must be present as keys here
+				bgColor: [
+					"abc",
+				],
+			},
+		},
+	},
 	slot: {
 		ultra: [],
 	},

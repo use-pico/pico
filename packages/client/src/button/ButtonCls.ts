@@ -1,7 +1,7 @@
 import { type ClsProps, cls } from "@use-pico/cls";
 
 export const ButtonCls = cls({
-	slot: {
+    slot: {
 		base: [
 			"flex",
 			"flex-row",
