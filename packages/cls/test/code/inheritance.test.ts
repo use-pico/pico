@@ -9,9 +9,15 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
-					lg: "text-lg",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
+					lg: {
+						base: "text-lg",
+					},
 				},
 			},
 			defaults: {
@@ -26,8 +32,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
-					secondary: "bg-gray-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -49,8 +59,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {
@@ -63,8 +77,12 @@ describe("cls - Inheritance and Extensions", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
-					secondary: "bg-gray-500",
+					primary: {
+						base: "bg-blue-500",
+					},
+					secondary: {
+						base: "bg-gray-500",
+					},
 				},
 			},
 			defaults: {
@@ -86,8 +104,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {
@@ -100,8 +122,12 @@ describe("cls - Inheritance and Extensions", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
-					secondary: "bg-gray-500",
+					primary: {
+						base: "bg-blue-500",
+					},
+					secondary: {
+						base: "bg-gray-500",
+					},
 				},
 			},
 			defaults: {
@@ -123,8 +149,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {
@@ -137,8 +167,12 @@ describe("cls - Inheritance and Extensions", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
-					secondary: "bg-gray-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -153,8 +187,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				disabled: {
-					true: "opacity-50 cursor-not-allowed",
-					false: "cursor-pointer",
+					true: {
+						base: "opacity-50 cursor-not-allowed",
+					},
+					false: {
+						base: "cursor-pointer",
+					},
 				},
 			},
 			defaults: {
@@ -176,8 +214,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {
@@ -189,10 +231,19 @@ describe("cls - Inheritance and Extensions", () => {
 			use: baseButton,
 			slot: {
 				label: "font-medium",
+				el: [
+					"foo",
+				],
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						label: "bg-blue-500 text-white",
+						aicona: [
+							"inheritance-works",
+						],
+						foo: [],
+					},
 				},
 			},
 			defaults: {
@@ -201,15 +252,9 @@ describe("cls - Inheritance and Extensions", () => {
 		});
 
 		const result = extendedButton();
-		expect(result.slots.base()).toBe(
-			"px-4 py-2 rounded text-base bg-blue-500 text-white",
-		);
-		expect(result.slots.icon()).toBe(
-			"w-4 h-4 text-base bg-blue-500 text-white",
-		);
-		expect(result.slots.label()).toBe(
-			"text-base font-medium bg-blue-500 text-white",
-		);
+		expect(result.slots.base()).toBe("px-4 py-2 rounded text-base");
+		expect(result.slots.icon()).toBe("w-4 h-4");
+		expect(result.slots.label()).toBe("font-medium bg-blue-500 text-white");
 	});
 
 	it("should handle variant extensions in inheritance", () => {
@@ -219,8 +264,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {
@@ -233,7 +282,9 @@ describe("cls - Inheritance and Extensions", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -257,8 +308,12 @@ describe("cls - Inheritance and Extensions", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			match: [
@@ -281,7 +336,9 @@ describe("cls - Inheritance and Extensions", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
 				},
 			},
 			match: [

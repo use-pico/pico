@@ -13,8 +13,8 @@ import type { Elements } from "./Elements";
  */
 export type ElementFn<
 	TSlot extends SlotProps<any>,
-	TVariant extends VariantProps<any>,
+	TVariant extends VariantProps<keyof TSlot & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = {
-	[K in keyof SlotEx<TSlot, TUse>]: Elements<TVariant, TUse>;
+	[K in keyof SlotEx<TSlot, TUse>]: Elements<TSlot, TVariant, TUse>;
 };

@@ -18,10 +18,10 @@ import type { Type } from "../Type";
  */
 export type ClsFn<
 	TSlotProps extends SlotProps<any>,
-	TVariantProps extends VariantProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = (
-	variant?: ValuesProps<VariantEx<TVariantProps, TUse>>,
+	variant?: ValuesProps<VariantEx<TSlotProps, TVariantProps, TUse>>,
 	cls?: SlotCls<TSlotProps, TUse>,
 ) => {
 	/**
@@ -40,7 +40,7 @@ export type ClsFn<
 	 *
 	 * This property does not havy any practical use in runtime.
 	 */
-	"~config": Config<VariantEx<TVariantProps, TUse>>;
+	"~config": Config<VariantEx<TSlotProps, TVariantProps, TUse>>;
 	/**
 	 * Used for inheritance and type checking.
 	 *
@@ -48,7 +48,7 @@ export type ClsFn<
 	 */
 	"~type": Type<
 		SlotEx<TSlotProps, TUse>,
-		VariantEx<TVariantProps, TUse>,
+		VariantEx<TSlotProps, TVariantProps, TUse>,
 		TUse
 	>;
 };

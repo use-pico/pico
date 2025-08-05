@@ -6,7 +6,7 @@ import type { ValuesProps } from "./props/ValuesProps";
  * TVariantEx represents the extended variant definition including extensions.
  * This object contains both the default values and the current computed values.
  */
-export interface Config<TVariantEx extends VariantEx<any, any>> {
+export interface Config<TVariantEx extends VariantEx<any, any, any>> {
 	/**
 	 * Cumulated default values from all variants (including uses - extensions).
 	 * These are the base values that are applied when no specific values are provided.

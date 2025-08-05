@@ -12,7 +12,7 @@ import type { ValuesProps } from "../props/ValuesProps";
  */
 export type ClsProps<TCls extends ClsFn<any, any, any>, P = unknown> = {
 	variant?: ValuesProps<
-		VariantEx<ReturnType<TCls>["~type"]["variant"], TCls>
+		VariantEx<any, ReturnType<TCls>["~type"]["variant"], TCls>
 	>;
 	tva?: TCls;
 	cls?: {

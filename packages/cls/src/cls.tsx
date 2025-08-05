@@ -20,7 +20,7 @@ export namespace cls {
 	 */
 	export interface Props<
 		TSlotProps extends SlotProps<any>,
-		TVariantProps extends VariantProps<any>,
+		TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 		TUse extends ClsFn<any, any, any> | unknown = unknown,
 	> {
 		/**
@@ -57,7 +57,7 @@ export namespace cls {
 		 *
 		 * They're (cleverly) required to prevent surprises when using variants.
 		 */
-		defaults: DefaultsEx<TVariantProps, TUse>;
+		defaults: DefaultsEx<TSlotProps, TVariantProps, TUse>;
 	}
 }
 
@@ -72,7 +72,7 @@ export namespace cls {
  */
 export function cls<
 	TSlotProps extends SlotProps<any>,
-	TVariantProps extends VariantProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,
@@ -98,7 +98,7 @@ export function cls<
 		const slots = new Proxy(
 			{} as ReturnType<ClsFn<TSlotProps, TVariantProps, TUse>>["slots"],
 			{
-				get(_, key: string): SlotFn<TVariantProps, TUse> {
+				get(_, key: string): SlotFn<TSlotProps, TVariantProps, TUse> {
 					return (override, $cls) => {
 						/**
 						 * Array to collect all class names that will be merged together.
@@ -155,7 +155,7 @@ export function cls<
 							if (!value) {
 								continue;
 							}
-							$classes.push(value);
+							$classes.push(value[key]);
 						}
 
 						/**
@@ -203,7 +203,7 @@ export function cls<
 			 * This provides a convenient way to render slots as specific HTML elements with computed classes.
 			 */
 			el: new Proxy({} as ElementFn<TSlotProps, TVariantProps, TUse>, {
-				get(_, key: string): Elements<TVariantProps, TUse> {
+				get(_, key: string): Elements<TSlotProps, TVariantProps, TUse> {
 					return {
 						/**
 						 * Div component that renders with computed classes for the specified slot.

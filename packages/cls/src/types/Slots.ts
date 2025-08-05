@@ -12,9 +12,13 @@ import type { VariantProps } from "./props/VariantProps";
  * This creates an object where each slot name maps to a function that computes classes for that slot.
  */
 export type Slots<
-	TSlot extends SlotProps<any>,
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > = {
-	[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
+	[K in keyof SlotEx<TSlotProps, TUse>]: SlotFn<
+		TSlotProps,
+		TVariantProps,
+		TUse
+	>;
 };

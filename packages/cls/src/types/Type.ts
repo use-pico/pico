@@ -11,7 +11,7 @@ import type { ClsFn } from "./fn/ClsFn";
  */
 export type Type<
 	TSlotEx extends SlotEx<any, TUse>,
-	TVariantEx extends VariantEx<any, TUse>,
+	TVariantEx extends VariantEx<any, any, TUse>,
 	TUse extends ClsFn<any, any, any> | unknown,
 > = {
 	/**

@@ -1,6 +1,7 @@
 import type { ClassName } from "../ClassName";
 import type { VariantEx } from "../ex/VariantEx";
 import type { ClsFn } from "../fn/ClsFn";
+import type { SlotProps } from "../props/SlotProps";
 import type { ValuesProps } from "../props/ValuesProps";
 import type { VariantProps } from "../props/VariantProps";
 
@@ -11,9 +12,10 @@ import type { VariantProps } from "../props/VariantProps";
  * All elements can accept variant values and class name overrides.
  */
 export interface ElementProps<
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariant extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
-	variant?: ValuesProps<VariantEx<TVariant, TUse>>;
+	variant?: ValuesProps<VariantEx<TSlotProps, TVariant, TUse>>;
 	cls?: ClassName;
 }

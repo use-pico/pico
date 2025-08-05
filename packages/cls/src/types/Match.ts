@@ -13,8 +13,8 @@ import type { SlotCls } from "./SlotCls";
  * Matching rules allow applying specific classes when certain variant conditions are met.
  */
 export interface Match<
-	TSlot extends SlotProps<any>,
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
 	/**
@@ -22,11 +22,11 @@ export interface Match<
 	 *
 	 * All the provided values must match to apply the rule.
 	 */
-	if: ValuesProps<VariantEx<TVariant, TUse>>;
+	if: ValuesProps<VariantEx<TSlotProps, TVariantProps, TUse>>;
 	/**
 	 * Classes to apply when all conditions are met.
 	 *
 	 * Keys are slot names.
 	 */
-	do: SlotCls<TSlot, TUse>;
+	do: SlotCls<TSlotProps, TUse>;
 }

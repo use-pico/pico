@@ -9,13 +9,23 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
-					lg: "text-lg",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
+					lg: {
+						base: "text-lg",
+					},
 				},
 				color: {
-					primary: "bg-blue-500 text-white",
-					secondary: "bg-gray-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+					},
 				},
 			},
 			match: [
@@ -60,12 +70,20 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 				disabled: {
-					true: "opacity-50",
-					false: "opacity-100",
+					true: {
+						base: "opacity-50",
+					},
+					false: {
+						base: "opacity-100",
+					},
 				},
 			},
 			match: [
@@ -100,7 +118,7 @@ describe("cls - Matching Rules", () => {
 		expect(result.slots.base()).toBe(
 			"rounded text-sm opacity-50 px-2 py-1 cursor-not-allowed",
 		);
-		expect(result.slots.icon()).toBe("text-sm opacity-50 w-3 h-3");
+		expect(result.slots.icon()).toBe("w-3 h-3");
 	});
 
 	it("should not apply matching rules when conditions are not met", () => {
@@ -110,8 +128,12 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			match: [
@@ -140,12 +162,20 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 				color: {
-					primary: "bg-blue-500",
-					secondary: "bg-gray-500",
+					primary: {
+						base: "bg-blue-500",
+					},
+					secondary: {
+						base: "bg-gray-500",
+					},
 				},
 			},
 			match: [
@@ -180,12 +210,20 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				disabled: {
-					true: "opacity-50",
-					false: "opacity-100",
+					true: {
+						base: "opacity-50",
+					},
+					false: {
+						base: "opacity-100",
+					},
 				},
 				loading: {
-					true: "animate-spin",
-					false: "",
+					true: {
+						base: "animate-spin",
+					},
+					false: {
+						base: [],
+					},
 				},
 			},
 			match: [
@@ -230,7 +268,9 @@ describe("cls - Matching Rules", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			match: [],

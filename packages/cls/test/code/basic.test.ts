@@ -11,7 +11,7 @@ describe("cls - Basic Functionality", () => {
 			variant: {
 				size: {
 					sm: {
-						basea: "text-sm",
+						base: "text-sm",
 					},
 					md: {
 						base: "text-base",
@@ -39,9 +39,7 @@ describe("cls - Basic Functionality", () => {
 		expect(result.slots.base()).toBe(
 			"px-4 py-2 rounded text-base bg-blue-500 text-white",
 		);
-		expect(result.slots.icon()).toBe(
-			"w-4 h-4 text-base bg-blue-500 text-white",
-		);
+		expect(result.slots.icon()).toBe("w-4 h-4");
 	});
 
 	it("should handle variant overrides", () => {
@@ -51,13 +49,23 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
-					lg: "text-lg",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
+					lg: {
+						base: "text-lg",
+					},
 				},
 				color: {
-					primary: "bg-blue-500 text-white",
-					secondary: "bg-gray-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -82,7 +90,9 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -104,7 +114,13 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+						icon: "bg-red-400",
+					},
 				},
 			},
 			defaults: {
@@ -119,9 +135,17 @@ describe("cls - Basic Functionality", () => {
 		expect(result.slots.base()).toBe(
 			"px-4 py-2 rounded bg-blue-500 text-white custom-base",
 		);
-		expect(result.slots.icon()).toBe(
-			"w-4 h-4 bg-blue-500 text-white custom-icon",
-		);
+		expect(
+			result.slots.icon(
+				{
+					color: "secondary",
+				},
+				[
+					"custom",
+					"class",
+				],
+			),
+		).toBe("w-4 h-4 bg-red-400 custom-icon custom class");
 	});
 
 	it("should handle boolean variants", () => {
@@ -131,12 +155,20 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				disabled: {
-					true: "opacity-50 cursor-not-allowed",
-					false: "cursor-pointer",
+					true: {
+						base: "opacity-50 cursor-not-allowed",
+					},
+					false: {
+						base: "cursor-pointer",
+					},
 				},
 				loading: {
-					true: "animate-spin",
-					false: "",
+					true: {
+						base: "animate-spin",
+					},
+					false: {
+						base: [],
+					},
 				},
 			},
 			defaults: {
@@ -165,7 +197,9 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
 				},
 			},
 			defaults: {
@@ -186,8 +220,12 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
 				},
 			},
 			defaults: {

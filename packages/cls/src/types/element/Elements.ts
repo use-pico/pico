@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import type { ClsFn } from "../fn/ClsFn";
+import type { SlotProps } from "../props/SlotProps";
 import type { VariantProps } from "../props/VariantProps";
 import type { AnchorProps } from "./el/AnchorProps";
 import type { ButtonProps } from "./el/ButtonProps";
@@ -15,13 +16,14 @@ import type { SpanProps } from "./el/SpanProps";
  * Each element component accepts the corresponding props interface and renders with computed classes.
  */
 export interface Elements<
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > {
-	Div: FC<DivProps<TVariant, TUse>>;
-	Span: FC<SpanProps<TVariant, TUse>>;
-	Paragraph: FC<ParagraphProps<TVariant, TUse>>;
-	Label: FC<LabelProps<TVariant, TUse>>;
-	Button: FC<ButtonProps<TVariant, TUse>>;
-	Anchor: FC<AnchorProps<TVariant, TUse>>;
+	Div: FC<DivProps<TSlotProps, TVariantProps, TUse>>;
+	Span: FC<SpanProps<TSlotProps, TVariantProps, TUse>>;
+	Paragraph: FC<ParagraphProps<TSlotProps, TVariantProps, TUse>>;
+	Label: FC<LabelProps<TSlotProps, TVariantProps, TUse>>;
+	Button: FC<ButtonProps<TSlotProps, TVariantProps, TUse>>;
+	Anchor: FC<AnchorProps<TSlotProps, TVariantProps, TUse>>;
 }

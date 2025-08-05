@@ -15,17 +15,20 @@ export namespace Internal {
 
 	export type _ValuesProps<TVariant> = ValuesProps<TVariant>;
 
-	export type _VariantProps<TVariantKeys extends string> =
-		VariantProps<TVariantKeys>;
+	export type _VariantProps<
+		TSlotKeys extends string,
+		TVariantKeys extends string,
+	> = VariantProps<TSlotKeys, TVariantKeys>;
 
 	export type _VariantEx<
-		TVariantProps extends VariantProps<any>,
+		TSlotProps extends SlotProps<any>,
+		TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 		TUse extends
 			| (() => {
 					"~type": {
-						variant?: VariantProps<any>;
+						variant?: VariantProps<any, any>;
 					};
 			  })
 			| unknown = unknown,
-	> = VariantEx<TVariantProps, TUse>;
+	> = VariantEx<TSlotProps, TVariantProps, TUse>;
 }

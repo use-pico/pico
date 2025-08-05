@@ -1,3 +1,4 @@
+import type { SlotProps } from "../props/SlotProps";
 import type { ValuesProps } from "../props/ValuesProps";
 import type { VariantProps } from "../props/VariantProps";
 
@@ -7,11 +8,12 @@ import type { VariantProps } from "../props/VariantProps";
  * This ensures that base component defaults are always provided, while extensions can add optional defaults.
  */
 export type DefaultsEx<
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariant extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends
 		| (() => {
 				"~type": {
-					variant?: VariantProps<any>;
+					variant?: VariantProps<any, any>;
 				};
 		  })
 		| unknown = unknown,

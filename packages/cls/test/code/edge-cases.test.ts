@@ -7,7 +7,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			slot: {},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -53,7 +55,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -72,7 +76,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -91,7 +97,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -112,7 +120,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -133,7 +143,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -152,7 +164,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "",
+					primary: {
+						base: [],
+					},
 				},
 			},
 			defaults: {
@@ -171,8 +185,12 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				disabled: {
-					true: "opacity-50",
-					false: "",
+					true: {
+						base: "opacity-50",
+					},
+					false: {
+						base: [],
+					},
 				},
 			},
 			defaults: {
@@ -194,9 +212,16 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
-					lg: "text-lg",
+					sm: {
+						base: "text-sm",
+					},
+					md: {
+						base: "text-base",
+						header: "text-md",
+					},
+					lg: {
+						base: "text-lg",
+					},
 				},
 			},
 			defaults: {
@@ -206,9 +231,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 
 		const result = component();
 		expect(result.slots.base()).toBe("px-4 py-2 text-base");
-		expect(result.slots.header()).toBe("font-bold text-base");
-		expect(result.slots.content()).toBe("text-gray-600 text-base");
-		expect(result.slots.footer()).toBe("text-gray-500 text-base");
+		expect(result.slots.header()).toBe("font-bold text-md");
+		expect(result.slots.content()).toBe("text-gray-600");
+		expect(result.slots.footer()).toBe("text-sm text-gray-500");
 	});
 
 	it("should handle multiple boolean variants", () => {
@@ -218,16 +243,28 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				disabled: {
-					true: "opacity-50 cursor-not-allowed",
-					false: "cursor-pointer",
+					true: {
+						base: "opacity-50 cursor-not-allowed",
+					},
+					false: {
+						base: "cursor-pointer",
+					},
 				},
 				loading: {
-					true: "animate-spin",
-					false: "",
+					true: {
+						base: "animate-spin",
+					},
+					false: {
+						base: [],
+					},
 				},
 				active: {
-					true: "ring-2 ring-blue-500",
-					false: "",
+					true: {
+						base: "ring-2 ring-blue-500",
+					},
+					false: {
+						base: [],
+					},
 				},
 			},
 			defaults: {
@@ -254,7 +291,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {
@@ -279,7 +318,9 @@ describe("cls - Edge Cases and Error Handling", () => {
 			},
 			variant: {
 				color: {
-					primary: "bg-blue-500",
+					primary: {
+						base: "bg-blue-500",
+					},
 				},
 			},
 			defaults: {

@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from "react";
 import type { ClsFn } from "../../fn/ClsFn";
+import type { SlotProps } from "../../props/SlotProps";
 import type { VariantProps } from "../../props/VariantProps";
 import type { ElementProps } from "../ElementProps";
 
@@ -9,9 +10,10 @@ import type { ElementProps } from "../ElementProps";
  * TVariant and TUse work the same as in ElementProps.
  */
 export interface DivProps<
-	TVariant extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariant extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends ClsFn<any, any, any> | unknown = unknown,
 > extends Omit<HTMLAttributes<HTMLDivElement>, "className">,
-		ElementProps<TVariant, TUse> {
+		ElementProps<TSlotProps, TVariant, TUse> {
 	//
 }

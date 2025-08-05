@@ -1,3 +1,4 @@
+import type { SlotProps } from "../props/SlotProps";
 import type { VariantProps } from "../props/VariantProps";
 
 /**
@@ -7,11 +8,12 @@ import type { VariantProps } from "../props/VariantProps";
  * This type ensures that when a component extends another, all variants from both are available.
  */
 export type VariantEx<
-	TVariantProps extends VariantProps<any>,
+	TSlotProps extends SlotProps<any>,
+	TVariantProps extends VariantProps<keyof TSlotProps & string, any>,
 	TUse extends
 		| (() => {
 				"~type": {
-					variant?: VariantProps<any>;
+					variant?: VariantProps<any, any>;
 				};
 		  })
 		| unknown = unknown,
