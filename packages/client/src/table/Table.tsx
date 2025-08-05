@@ -1,4 +1,4 @@
-import { type cls, tvc } from "@use-pico/cls";
+import { type ClassName, type cls, tvc } from "@use-pico/cls";
 import type {
 	CountSchema,
 	DeepKeys,
@@ -179,7 +179,7 @@ export namespace Table {
 
 			export type Fn<TData extends EntitySchema.Type, TContext = any> = (
 				props: Props<TData, TContext>,
-			) => cls.Class;
+			) => ClassName;
 		}
 
 		export namespace DblClick {

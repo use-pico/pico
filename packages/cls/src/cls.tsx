@@ -4,7 +4,8 @@ import type {
 	HTMLAttributes,
 	LabelHTMLAttributes,
 } from "react";
-import { type ClassNameValue, twMerge } from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
+import type { ClassName } from "./types/ClassName";
 
 /**
  * Recursive proxy; used to hack the type system.
@@ -17,12 +18,6 @@ const proxyOf: any = new Proxy(() => proxyOf, {
 
 export namespace cls {
 	export namespace Internal {
-		/**
-		 * Just forward class name type to prevent direct dependency on providing package.
-		 * This type represents any valid class name value that can be passed to the system.
-		 */
-		export type ClassName = ClassNameValue;
-
 		/**
 		 * Defines the structure of slots in a component.
 		 * TSlotKeys represents the names of different slots (like 'base', 'icon', 'label', etc.)
@@ -414,12 +409,6 @@ export namespace cls {
 
 export namespace cls {
 	/**
-	 * Alias for the internal ClassName type.
-	 * Represents any valid class name value that can be used in the cls system.
-	 */
-	export type Class = Internal.ClassName;
-
-	/**
 	 * Configuration interface for creating a cls component.
 	 * TSlot represents the slot definition with slot names as keys.
 	 * TVariant represents the variant definition with variant categories as keys.
@@ -487,7 +476,7 @@ export namespace cls {
 			[K in keyof Internal.SlotEx<
 				ReturnType<TCls>["~type"]["slot"],
 				TCls
-			>]?: Class;
+			>]?: ClassName;
 		};
 	} & Omit<P, "variant" | "tva" | "cls">;
 
@@ -566,7 +555,7 @@ export function cls<
 						 * Array to collect all class names that will be merged together.
 						 * Classes are added in order of precedence: extensions first, then base slots, then variants, then overrides.
 						 */
-						const $classes: cls.Internal.ClassName[] = [];
+						const $classes: ClassName[] = [];
 
 						/**
 						 * Cast the extension function for type safety.
