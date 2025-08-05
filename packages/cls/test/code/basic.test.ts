@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("cls - Basic Functionality", () => {
 	it("should create a basic component with slots", () => {

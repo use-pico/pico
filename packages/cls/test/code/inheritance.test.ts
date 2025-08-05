@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("cls - Inheritance and Extensions", () => {
 	it("should extend a base component with additional variants", () => {

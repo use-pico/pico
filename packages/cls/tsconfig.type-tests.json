@@ -1,0 +1,19 @@
+{
+	"extends": "./tsconfig.json",
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"test/type/**/*.ts"
+	],
+	"exclude": [
+		"test/code/**/*.test.ts",
+		"test/code/**/*.spec.ts"
+	],
+	"compilerOptions": {
+		"noEmit": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"rootDir": "."
+	}
+}

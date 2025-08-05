@@ -8,8 +8,9 @@
 		"typecheck": "tsc --noEmit",
 		"build:bundle": "bun x rollup -c",
 		"build": "run-p build:*",
-		"test": "bun test",
-		"test:watch": "bun test --watch"
+		"test": "run-s test:*",
+		"test:types": "tsc --noEmit --project tsconfig.type-tests.json",
+		"test:code": "bun test test/code"
 	},
 	"dependencies": {
 		"react": "^19.0.0",
@@ -22,6 +23,7 @@
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
 		"@use-pico/tsconfig": "4.0.20",
+		"expect-type": "^1.2.2",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.46.2",
 		"rollup-plugin-dts": "6.2.1",

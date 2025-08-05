@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("cls - Matching Rules", () => {
 	it("should apply matching rules when conditions are met", () => {
