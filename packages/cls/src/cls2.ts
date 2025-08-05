@@ -2,35 +2,40 @@ import type { ClassName } from "./types/ClassName";
 
 // --- Core Types ---
 
-export type Variant<TSlotKeys extends string> = Partial<
-	Record<TSlotKeys, ClassName>
->;
+export type Variant<Keys extends string> = Partial<Record<Keys, ClassName>>;
 
-export type Variants<TSlotKeys extends string> = Record<
+export type Variants<Keys extends string> = Record<
 	string,
-	Record<string, Variant<TSlotKeys>>
+	Record<string, Variant<Keys>>
 >;
 
-// --- Helper: merge local + inherited variant maps ---
+// --- Helpers ---
 
+/** Merge your local slot‐keys + any inherited slot‐keys from `use` */
+type MergeSlots<
+	Local extends string,
+	U extends Factory<any, any> | undefined,
+> = U extends Factory<infer USlots, any> ? Local | USlots : Local;
+
+/** Merge your local Variants map + any inherited variants map for defaults */
 type MergeVariants<
 	Local extends Variants<any>,
-	Use extends Factory<any, any> | undefined,
-> = Local & (Use extends Factory<any, any> ? Use["~type"]["variants"] : {});
+	U extends Factory<any, any> | undefined,
+> = Local & (U extends Factory<any, any> ? U["~type"]["variants"] : {});
 
 // --- Internal Core ---
 
-export interface Cls<TSlotKeys extends string> {
-	slot: Record<TSlotKeys, false>;
+export interface Cls<Keys extends string> {
+	slot: Record<Keys, false>;
 }
 
 export interface Factory<
-	TSlotKeys extends string,
-	TVariants extends Variants<TSlotKeys>,
+	SlotKeys extends string,
+	TVariants extends Variants<SlotKeys>,
 > {
-	create(): Cls<TSlotKeys>;
+	create(): Cls<SlotKeys>;
 	"~type": {
-		slots: { [K in TSlotKeys]: true };
+		slots: { [K in SlotKeys]: true };
 		variants: TVariants;
 	};
 }
@@ -39,47 +44,49 @@ export interface Factory<
 
 export namespace cls {
 	export interface Props<
-		TSlotKeys extends string,
-		TVariantMap extends Variants<TSlotKeys>,
-		TUse extends Factory<any, any> | undefined = undefined,
+		SlotKeys extends string,
+		LocalVariants extends Variants<SlotKeys>,
+		U extends Factory<any, any> | undefined = undefined,
 	> {
-		use?: TUse;
+		use?: U;
 
-		slot: (TUse extends Factory<any, any>
-			? Partial<
-					Record<TSlotKeys | keyof TUse["~type"]["slots"], ClassName>
-				>
-			: Partial<Record<TSlotKeys, ClassName>>) & {
+		// ◀ exactly as before
+		slot: (U extends Factory<any, any>
+			? Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>
+			: Partial<Record<SlotKeys, ClassName>>) & {
 			[key: string]: ClassName;
 		};
 
-		variant: TVariantMap;
+		// ▶ now we merge inherited slots into the variant definition
+		variant: Variants<MergeSlots<SlotKeys, U>> & LocalVariants;
 
 		defaults: {
-			[K in keyof MergeVariants<TVariantMap, TUse> &
-				string]: keyof MergeVariants<TVariantMap, TUse>[K];
+			[K in keyof MergeVariants<LocalVariants, U> &
+				string]: keyof MergeVariants<LocalVariants, U>[K];
 		};
 	}
 }
 
 export function cls<
-	TSlotKeys extends string,
-	TVariantMap extends Variants<TSlotKeys>,
-	TUse extends Factory<any, any> | undefined = undefined,
+	SlotKeys extends string,
+	LocalVariants extends Variants<SlotKeys>,
+	U extends Factory<any, any> | undefined = undefined,
 >(
-	props: cls.Props<TSlotKeys, TVariantMap, TUse>,
-): Factory<
-	TUse extends Factory<any, any>
-		? TSlotKeys | keyof TUse["~type"]["slots"]
-		: TSlotKeys,
-	MergeVariants<TVariantMap, TUse>
-> {
+	props: cls.Props<SlotKeys, LocalVariants, U>,
+): Factory<MergeSlots<SlotKeys, U>, MergeVariants<LocalVariants, U>> {
 	return {
 		create() {
 			return {} as any;
 		},
 		"~type": {
-			slots: props.use ? (null as any) : (null as any),
+			slots: props.use
+				? (Object.fromEntries(
+						Object.keys(props.use["~type"].slots).map((k) => [
+							k,
+							true,
+						]),
+					) as any)
+				: ({} as any),
 			variants: props.variant as any,
 		},
 	};
@@ -102,7 +109,7 @@ const UltraBaseCls = cls({
 		},
 	},
 	defaults: {
-		ultra: "variant", // ✅ only "variant" | "another"
+		ultra: "variant",
 	},
 });
 
@@ -128,11 +135,12 @@ const BaseCls = cls({
 		},
 	},
 	defaults: {
-		color: "blue", // ✅ "blue" | "red"
-		ultra: "another", // ✅ inherited: "variant" | "another"
+		color: "blue",
+		ultra: "another",
 	},
 });
 
+// ✅ assignable
 const blabla: typeof UltraBaseCls = BaseCls;
 
 const SomeCls = cls({
@@ -150,7 +158,7 @@ const SomeCls = cls({
 				root: [
 					"this-works",
 				],
-				// TODO Same as slots - just intellisense
+				ultra: [], // ▶ now you get autocomplete for 'ultra' too!
 			},
 			baz: {
 				some: [],
@@ -158,8 +166,8 @@ const SomeCls = cls({
 		},
 	},
 	defaults: {
-		foo: "bar", // ✅ "bar" | "baz"
-		color: "red", // ✅ inherited
-		ultra: "variant", // ✅ inherited
+		foo: "bar",
+		color: "red",
+		ultra: "variant",
 	},
 });
