@@ -1,5 +1,4 @@
 import type { ClassName } from "./types/ClassName";
-import { proxyOf } from "./utils/proxyOf";
 
 export type Slots<TKeys extends string> = {
 	[K in TKeys]: ClassName;
@@ -15,7 +14,7 @@ export type Variants<TSlotKeys extends string, TVariantKeys extends string> = {
 	};
 };
 
-export interface Cls<TSlotKeys extends string, TVariantKeys extends string> {
+export interface Cls<TSlotKeys extends string> {
 	slot: { [K in TSlotKeys]: false };
 }
 
@@ -24,11 +23,16 @@ export interface Factory<
 	TVariantKeys extends string,
 	TUse extends Factory<any, any, any> | unknown = unknown,
 > {
-	create(): Cls<TSlotKeys, TVariantKeys>;
-	"~type": {
-		slots: TSlotKeys;
-		variants: TVariantKeys;
-	};
+	create(): Cls<TSlotKeys>;
+	"~type": TUse extends Factory<any, any, any>
+		? {
+				slots: TSlotKeys | TUse["~type"]["slots"];
+				variants: TVariantKeys | TUse["~type"]["variants"];
+			}
+		: {
+				slots: TSlotKeys;
+				variants: TVariantKeys;
+			};
 }
 
 //
@@ -52,29 +56,41 @@ export function cls<
 	TSlotKeys extends string,
 	TVariantKeys extends string,
 	TUse extends Factory<any, any, any> | unknown = unknown,
->({
-	use: _3,
-	slot: _1,
-	variant: _2,
-}: cls.Props<TSlotKeys, TVariantKeys, TUse>): Factory<
-	TSlotKeys,
-	TVariantKeys,
-	TUse
-> {
-	const proxy = proxyOf();
-
+>({ use, slot, variant }: cls.Props<TSlotKeys, TVariantKeys, TUse>) {
 	return {
 		create() {
 			return {} as any;
 		},
 		"~type": {
-			slots: proxy,
-			variants: proxy,
+			slots: "slots",
+			variants: "variants",
+		} as {
+			slots: TUse extends Factory<any, any, any>
+				? TSlotKeys | TUse["~type"]["slots"]
+				: TSlotKeys;
+			variants: TUse extends Factory<any, any, any>
+				? TVariantKeys | TUse["~type"]["variants"]
+				: TVariantKeys;
 		},
 	};
 }
 
+const UltraBaseCls = cls({
+	slot: {
+		ultra: [],
+	},
+	variant: {
+		ultra: {
+			variant: {
+				ultra: [],
+			},
+		},
+	},
+});
+type _UltraBaseCls = (typeof UltraBaseCls)["~type"];
+
 const BaseCls = cls({
+	use: UltraBaseCls,
 	slot: {
 		root: [],
 		label: [
@@ -93,7 +109,7 @@ const BaseCls = cls({
 		},
 	},
 });
-type _BaseCls = typeof BaseCls;
+type _BaseCls = (typeof BaseCls)["~type"];
 
 const _SomeCls = cls({
 	use: BaseCls,
@@ -106,13 +122,13 @@ const _SomeCls = cls({
 				some: [
 					"foo",
 				],
-				root: [
-					"this-works",
-				],
-				gfdg: [],
+				// root: [
+				// 	"this-works",
+				// ],
+				// gfdg: [],
 			},
 		},
 	},
 });
 
-type _SomeCls = typeof _SomeCls;
+type _SomeCls = (typeof _SomeCls)["~type"];
