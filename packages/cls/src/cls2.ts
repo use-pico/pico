@@ -146,7 +146,7 @@ const blabla: typeof UltraBaseCls = BaseCls;
 const SomeCls = cls({
 	use: BaseCls,
 	slot: {
-		some: [] as string[],
+		some: [],
 		pica: [],
 	},
 	variant: {
@@ -165,6 +165,25 @@ const SomeCls = cls({
 			},
 		},
 	},
+	// TODO Create types for this one, all should be properly inferred and typed
+	match: [
+		{
+			if: {
+				// Matching against "variants" - keys are all available variant keys (+ their values)
+				color: "blue",
+				foo: "baz",
+			},
+			do: {
+				// Matching against "slots" - keys are all available slot keys
+				root: [
+					"some-root-style",
+				],
+				ultra: [
+					"some-style",
+				],
+			},
+		},
+	],
 	defaults: {
 		foo: "bar",
 		color: "red",
