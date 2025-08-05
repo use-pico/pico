@@ -10,13 +10,23 @@ describe("cls - Basic Functionality", () => {
 			},
 			variant: {
 				size: {
-					sm: "text-sm",
-					md: "text-base",
-					lg: "text-lg",
+					sm: {
+						basea: "text-sm",
+					},
+					md: {
+						base: "text-base",
+					},
+					lg: {
+						base: "text-lg",
+					},
 				},
 				color: {
-					primary: "bg-blue-500 text-white",
-					secondary: "bg-gray-500 text-white",
+					primary: {
+						base: "bg-blue-500 text-white",
+					},
+					secondary: {
+						base: "bg-gray-500 text-white",
+					},
 				},
 			},
 			defaults: {
