@@ -12,14 +12,23 @@ type Variant = [
 	...string[],
 ];
 
+type TokenGroup = readonly string[];
+type TokenValue = readonly string[];
+
+interface TokenSchema {
+	group: TokenGroup;
+	value: TokenValue;
+}
+
 export interface Contract<
 	TSlot extends Slot,
 	TVariant extends Record<string, Variant>,
+	TTokens extends TokenSchema = TokenSchema,
 	TUse extends Contract<any, any, any> | unknown = unknown,
 > {
 	slot: TSlot;
 	variant: TVariant;
-	tokens: any;
+	tokens: TTokens;
 	use?: TUse;
 }
 
@@ -91,6 +100,46 @@ type InheritedVariantKeys<T extends Contract<any, any, any>> = Exclude<
 >;
 type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
+// --- Token Helpers ---
+
+type MergeTokens<A extends TokenSchema, B extends TokenSchema> = {
+	group: [
+		...A["group"],
+		...B["group"],
+	];
+	value: [
+		...A["value"],
+		...B["value"],
+	];
+};
+
+type TokenEx<T extends Contract<any, any, any>> = T extends {
+	tokens: infer TTokens extends TokenSchema;
+	use?: infer U;
+}
+	? U extends Contract<any, any, any>
+		? MergeTokens<TokenEx<U>, TTokens>
+		: TTokens
+	: {
+			group: [];
+			value: [];
+		};
+
+type AllTokenGroups<T extends Contract<any, any, any>> =
+	TokenEx<T>["group"][number];
+type AllTokenValues<T extends Contract<any, any, any>> =
+	TokenEx<T>["value"][number];
+
+type OwnTokenGroups<T extends Contract<any, any, any>> =
+	T["tokens"]["group"][number];
+type OwnTokenValues<T extends Contract<any, any, any>> =
+	T["tokens"]["value"][number];
+
+type InheritedTokenGroups<T extends Contract<any, any, any>> = Exclude<
+	AllTokenGroups<T>,
+	OwnTokenGroups<T>
+>;
+
 // --- Variants ---
 
 export type Variants<TContract extends Contract<any, any, any>> = {
@@ -120,6 +169,22 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 	[K in VariantKey<TContract>]: VariantEx<TContract>[K][number];
 };
 
+// --- Tokens ---
+
+type TokenDefinition<T extends Contract<any, any, any>> =
+	// Own groups must define all values (both own and inherited)
+	{
+		[G in OwnTokenGroups<T>]: {
+			[V in AllTokenValues<T>]: ClassName[];
+		};
+	} & (OwnTokenValues<T> extends never // Inherited groups only need to define new values if any exist
+		? {}
+		: {
+				[G in InheritedTokenGroups<T>]?: {
+					[V in OwnTokenValues<T>]: ClassName[];
+				};
+			});
+
 // --- Definition ---
 
 type VariantDefinition<T extends Contract<any, any, any>> = {
@@ -135,6 +200,7 @@ type VariantDefinition<T extends Contract<any, any, any>> = {
 export interface Definition<TContract extends Contract<any, any, any>> {
 	slot: Slots<TContract>;
 	variant: VariantDefinition<TContract>;
+	tokens: TokenDefinition<TContract>;
 	match?: MatchRule<TContract>[];
 	defaults: Defaults<TContract>;
 }
@@ -149,9 +215,10 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
+		const TTokens extends TokenSchema,
 	>(
-		props: Props<Contract<TSlot, TVariant, TContract>>,
-	): Cls<Contract<TSlot, TVariant, TContract>>;
+		props: Props<Contract<TSlot, TVariant, TTokens, TContract>>,
+	): Cls<Contract<TSlot, TVariant, TTokens, TContract>>;
 	contract: TContract;
 }
 
@@ -239,10 +306,10 @@ const CoreCls = cls({
 				],
 			},
 			"group-2": {
-				"variable-3": [
+				"variable-1": [
 					"ClassName",
 				],
-				"variable-4": [
+				"variable-2": [
 					"ClassName",
 				],
 			},
@@ -314,9 +381,9 @@ const ButtonCls = CoreCls.use({
 		tokens: {
 			/**
 			 * Because we've defined new value, inherited tokens forces to define those here,
-			 * inherited values are not required to be defined again (variables-1 and variables-2)
+			 * inherited values are not required to be defined again (variable-1 and variable-2)
 			 */
-			"group-1": {
+			"group-1": {                
 				"foo-bar": [
 					"ClassName",
 				],
@@ -388,24 +455,41 @@ type _ButtonClsSlots = Slots<_ButtonClsContract>;
 
 type _ButtonClsUse = _ButtonClsContract["use"];
 
+// Debug types
+type _CoreClsTokens = _CoreClsContract["tokens"];
+type _ButtonClsTokens = _ButtonClsContract["tokens"];
+type _CoreTokenEx = TokenEx<_CoreClsContract>;
+type _ButtonTokenEx = TokenEx<_ButtonClsContract>;
+type _ButtonAllTokenGroups = AllTokenGroups<_ButtonClsContract>;
+type _ButtonInheritedTokenGroups = InheritedTokenGroups<_ButtonClsContract>;
+type _ButtonAllTokenValues = AllTokenValues<_ButtonClsContract>;
+type _ButtonOwnTokenValues = OwnTokenValues<_ButtonClsContract>;
+type _ButtonOwnTokenGroups = OwnTokenGroups<_ButtonClsContract>;
+type _ButtonTokenDefinition = TokenDefinition<_ButtonClsContract>;
+
 const Uncompatible = cls({
 	contract: {
 		slot: [
 			"foo",
 		],
 		variant: {},
+		tokens: {
+			group: [],
+			value: [],
+		},
 	},
 	definition: {
 		slot: {
 			foo: [],
 		},
 		variant: {},
+		tokens: {},
 		defaults: {},
 	},
 });
 
 // TODO Fix assigning
-const _testAssign = cls2cls(CoreCls, Uncompatible);
+// const _testAssign = cls2cls(CoreCls, Uncompatible);
 const _testAssign2 = cls2cls(CoreCls, ButtonCls);
 
 const SomeButtonCls = ButtonCls.use({
@@ -420,8 +504,13 @@ const SomeButtonCls = ButtonCls.use({
 				"baz",
 			],
 		},
+		tokens: {
+			group: [],
+			value: [],
+		},
 	},
 	definition: {
+		tokens: {},
 		slot: {
 			some: [],
 			pica: [],
