@@ -48,33 +48,43 @@ export type Slots<TContract extends Contract<any, any, any>> = Partial<
 > &
 	Record<TContract["slot"][number], ClassName>;
 
-// type MergeSlots<TContract extends Contract<any, any, any>> =
-// 	TContract["use"] extends Contract<any, any, any>
-// 		? TContract["slot"][number] | TContract["use"]["slot"][number]
-// 		: TContract["slot"][number];
+type VariantRecord = Record<string, readonly string[]>;
 
-// /**
-//  * Variants is a record of variants, each variant has a record of slots and their
-//  * classes.
-//  */
-// export type Variants<TContract extends Contract<any, any, any>> = {
-// 	[K in keyof TContract["variant"]]: {
-// 		[V in TContract["variant"][K][number]]: Partial<
-// 			Record<MergeSlots<TContract>, ClassName>
-// 		>;
-// 	};
-// } & (TContract["use"] extends Contract<any, any, any>
-// 	? {
-// 			[K in Exclude<
-// 				keyof TContract["use"]["variant"],
-// 				keyof TContract["variant"]
-// 			>]?: {
-// 				[V in TContract["use"]["variant"][K][number]]: Partial<
-// 					Record<MergeSlots<TContract>, ClassName>
-// 				>;
-// 			};
-// 		}
-// 	: {});
+type VariantEx<T> = T extends {
+	variant: infer V extends VariantRecord;
+	use?: infer U;
+}
+	? U extends Contract<any, any, any>
+		? VariantEx<U> & V
+		: V
+	: {};
+
+type LocalVariantKeys<T> = T extends {
+	variant: infer V extends VariantRecord;
+}
+	? keyof V
+	: never;
+
+/**
+ * Variants is a record of variants, each variant has a record of slots and their
+ * classes.
+ */
+export type Variants<TContract extends Contract<any, any, any>> = {
+	[K in Extract<keyof VariantEx<TContract>, LocalVariantKeys<TContract>>]: {
+		[V in VariantEx<TContract>[K][number]]: Partial<
+			Record<keyof Slots<TContract>, ClassName>
+		>;
+	};
+} & Partial<{
+	[K in Exclude<
+		keyof VariantEx<TContract>,
+		LocalVariantKeys<TContract>
+	>]: Partial<{
+		[V in VariantEx<TContract>[K][number]]: Partial<
+			Record<keyof Slots<TContract>, ClassName>
+		>;
+	}>;
+}>;
 
 // export type Defaults<TContract extends Contract<any, any, any>> =
 // 	TContract["use"] extends Contract<any, any, any, any>
@@ -92,7 +102,7 @@ export type Slots<TContract extends Contract<any, any, any>> = Partial<
  */
 export interface Definition<TContract extends Contract<any, any, any>> {
 	slot: Slots<TContract>;
-	// variant: Variants<TContract>;
+	variant: Variants<TContract>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
 	// defaults: Defaults<TContract>;
@@ -147,6 +157,22 @@ const CoreCls = cls({
 		},
 	},
 	definition: {
+		variant: {
+			// dfdF: [],
+			color: {
+				blue: {
+					root: [
+						"root-blue-cls",
+					],
+				},
+				// sdfd: [],
+				red: {
+					root: [
+						"root-red-cls",
+					],
+				},
+			},
+		},
 		slot: {
 			root: [
 				"root-cls",
@@ -157,25 +183,6 @@ const CoreCls = cls({
 			// dfg: [],
 		},
 	},
-	// 	variant: {
-	// 		// dfdF: [],
-	// 		color: {
-	// 			blue: {
-	// 				root: [
-	// 					"root-blue-cls",
-	// 				],
-	// 			},
-	// 			red: {
-	// 				root: [
-	// 					"root-red-cls",
-	// 				],
-	// 			},
-	// 		},
-	// 	},
-	// 	defaults: {
-	// 		color: "red",
-	// 	},
-	// },
 });
 
 type _CoreCls = typeof CoreCls;
@@ -206,16 +213,26 @@ const ButtonCls = CoreCls.use({
 			// pica: [],
 			// icon: [],
 		},
+		variant: {
+			color: {
+				blue: {
+					label: [],
+				},
+				red: {
+					icon: [],
+				},
+			},
+			icon: {
+				large: {
+					icon: [],
+					root: [],
+				},
+				small: {
+					icon: [],
+				},
+			},
+		},
 	},
-	// 	variant: {
-	// 		icon: {
-	// 			large: {
-	// 				icon: [],
-	// 			},
-	// 			small: {
-	// 				icon: [],
-	// 			},
-	// 		},
 	// 		// color: {
 	// 		// 	blue: {
 	// 		// 		root: [],
@@ -261,22 +278,24 @@ const SomeButtonCls = ButtonCls.use({
 			some: [],
 			pica: [],
 		},
-		// variant: {
-		// 	foo: {
-		// 		bar: {
-		// 			some: [
-		// 				"foo",
-		// 			],
-		// 			root: [
-		// 				"this-works",
-		// 			],
-		// 		},
-		// 		baz: {
-		// 			some: [],
-		// 			root: [],
-		// 		},
-		// 	},
-		// },
+		variant: {
+			foo: {
+				bar: {
+					some: [
+						"foo",
+					],
+					root: [
+						"this-works",
+					],
+					label: [],
+					// dfg: [],
+				},
+				baz: {
+					some: [],
+					root: [],
+				},
+			},
+		},
 	},
 	// 	// ✅ fully inferred MatchRule[]
 	// 	// match: [
