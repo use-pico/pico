@@ -209,25 +209,44 @@ const CoreCls = cls({
 		 * This must implement inheritance same as "variant" in Contract do
 		 */
 		tokens: {
-			group1: {
-				variable1: [
-					"class-names",
-				],
-				variable2: [
-					"class-names",
-				],
-			},
-			group2: {
-				variable3: [
-					"class-names",
-				],
-				variable4: [
-					"class-names",
-				],
-			},
+			/**
+			 * Define available groups we can use
+			 */
+			group: [
+				"group-1",
+				"group-2",
+			],
+			/**
+			 * Each group must provide all those values
+			 */
+			value: [
+				"variable-1",
+				"variable-2",
+			],
 		},
 	},
 	definition: {
+		/**
+		 * Token definition - here are enforced rules from Contract.tokens
+		 */
+		tokens: {
+			"group-1": {
+				"variable-1": [
+					"ClassName",
+				],
+				"variable-2": [
+					"ClassName",
+				],
+			},
+			"group-2": {
+				"variable-3": [
+					"ClassName",
+				],
+				"variable-4": [
+					"ClassName",
+				],
+			},
+		},
 		variant: {
 			// dfdF: [],
 			color: {
@@ -279,28 +298,49 @@ const ButtonCls = CoreCls.use({
 			],
 		},
 		tokens: {
-			group1: {
-				/**
-				 * This variable _extends_ ones found in group1 (from inheritance)
-				 */
-				variable3: [
-					"class-names",
-				],
-			},
 			/**
-			 * This one is local, nothing is overridden
+			 * From now on all tokens must also provide "foo-bar" value,
+			 * even ones from inheritance, see the comment below
 			 */
-			newGroup: {
-				variable3: [
-					"class-names",
-				],
-				variable4: [
-					"class-names",
-				],
-			},
+			group: [
+				"new-one",
+			],
+			value: [
+				"foo-bar",
+			],
 		},
 	},
 	definition: {
+		tokens: {
+			/**
+			 * Because we've defined new value, inherited tokens forces to define those here,
+			 * inherited values are not required to be defined again (variables-1 and variables-2)
+			 */
+			"group-1": {
+				"foo-bar": [
+					"ClassName",
+				],
+			},
+			"group-2": {
+				"foo-bar": [
+					"ClassName",
+				],
+			},
+			/**
+			 * But this fresh one must implement all values, include ones from inheritance
+			 */
+			"new-one": {
+				"variable-1": [
+					"ClassName",
+				],
+				"variable-2": [
+					"ClassName",
+				],
+				"foo-bar": [
+					"ClassName",
+				],
+			},
+		},
 		slot: {
 			root: [],
 			// wrapper: [],
