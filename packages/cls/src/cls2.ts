@@ -88,6 +88,13 @@ export type Variants<TContract extends Contract<any, any, any>> = {
 	}>;
 }>;
 
+type MatchRule<TContract extends Contract<any, any, any>> = {
+	if?: {
+		[K in keyof VariantEx<TContract>]?: VariantEx<TContract>[K][number];
+	};
+	do?: Partial<Record<keyof Slots<TContract>, ClassName>>;
+};
+
 export type Defaults<TContract extends Contract<any, any, any>> = {
 	[K in AllVariantKeys<TContract>]: VariantEx<TContract>[K][number];
 };
@@ -98,8 +105,7 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 export interface Definition<TContract extends Contract<any, any, any>> {
 	slot: Slots<TContract>;
 	variant: Variants<TContract>;
-	/** now a named type instead of inline */
-	// match?: MatchRule<TContract["slot"][number], U>[];
+	match?: MatchRule<TContract>[];
 	defaults: Defaults<TContract>;
 }
 
@@ -282,6 +288,22 @@ const SomeButtonCls = ButtonCls.use({
 				},
 			},
 		},
+		match: [
+			{
+				if: {
+					color: "red",
+					icon: "large",
+				},
+				do: {
+					root: [
+						"root-blue-large-cls",
+					],
+					wrapper: [
+						"wrapper-blue-large-cls",
+					],
+				},
+			},
+		],
 		defaults: {
 			color: "red",
 			foo: "bar",
