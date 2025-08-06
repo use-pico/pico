@@ -40,10 +40,7 @@ describe("Helper Functions - Simple Usage", () => {
 			const tokens = cls(
 				...clsTokens({
 					tokens: {
-						group: [
-							"foundation",
-						],
-						value: [
+						foundation: [
 							"spacing",
 							"color",
 						],
@@ -68,10 +65,7 @@ describe("Helper Functions - Simple Usage", () => {
 						"icon",
 					],
 					variant: {},
-					tokens: {
-						group: [],
-						value: [],
-					},
+					tokens: {},
 				},
 				{
 					slot: {
@@ -80,8 +74,8 @@ describe("Helper Functions - Simple Usage", () => {
 								"btn",
 							],
 							token: [
-								"spacing",
-								"color",
+								"foundation.spacing",
+								"foundation.color",
 							],
 						},
 						icon: {
@@ -89,7 +83,7 @@ describe("Helper Functions - Simple Usage", () => {
 								"btn-icon",
 							],
 							token: [
-								"color",
+								"foundation.color",
 							],
 						},
 					},
@@ -254,10 +248,7 @@ describe("Helper Functions - Simple Usage", () => {
 							"col",
 						],
 					},
-					tokens: {
-						group: [],
-						value: [],
-					},
+					tokens: {},
 				},
 				{
 					slot: {
@@ -314,10 +305,7 @@ describe("Helper Functions - Simple Usage", () => {
 			const tokens = cls(
 				...clsTokens({
 					tokens: {
-						group: [
-							"foundation",
-						],
-						value: [
+						foundation: [
 							"spacing",
 							"color",
 						],
@@ -348,10 +336,7 @@ describe("Helper Functions - Simple Usage", () => {
 							"secondary",
 						],
 					},
-					tokens: {
-						group: [],
-						value: [],
-					},
+					tokens: {},
 				},
 				{
 					slot: {
@@ -360,8 +345,8 @@ describe("Helper Functions - Simple Usage", () => {
 								"btn",
 							],
 							token: [
-								"spacing",
-								"color",
+								"foundation.spacing",
+								"foundation.color",
 							],
 						},
 						icon: {
@@ -369,7 +354,7 @@ describe("Helper Functions - Simple Usage", () => {
 								"btn-icon",
 							],
 							token: [
-								"color",
+								"foundation.color",
 							],
 						},
 					},

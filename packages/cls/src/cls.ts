@@ -43,25 +43,31 @@ export function cls<const TContract extends Contract<any, any, any>>(
 								classes.push(...slotConfig.class);
 							}
 
-							// Add token classes if specified
-							if (
-								slotConfig.token &&
-								resolvedDefinition.tokens &&
-								group
-							) {
+							// Add token classes if specified (dot notation: "group.value")
+							if (slotConfig.token && resolvedDefinition.tokens) {
 								const tokenDefinition =
 									resolvedDefinition.tokens as Record<
 										string,
-										any
+										Record<string, any>
 									>;
-								const groupTokens =
-									tokenDefinition[group as string];
 
-								if (groupTokens) {
-									for (const tokenName of slotConfig.token) {
-										if (groupTokens[tokenName]) {
+								for (const tokenReference of slotConfig.token) {
+									// Parse dot notation: "spacing.small" -> group="spacing", value="small"
+									const [tokenGroup, tokenValue] = (
+										tokenReference as string
+									).split(".");
+
+									if (
+										tokenGroup &&
+										tokenValue &&
+										tokenDefinition[tokenGroup]
+									) {
+										const groupTokens =
+											tokenDefinition[tokenGroup];
+
+										if (groupTokens[tokenValue]) {
 											const tokenClasses =
-												groupTokens[tokenName];
+												groupTokens[tokenValue];
 											if (Array.isArray(tokenClasses)) {
 												classes.push(...tokenClasses);
 											} else {
@@ -117,32 +123,46 @@ export function cls<const TContract extends Contract<any, any, any>>(
 													);
 												}
 
-												// Add variant token classes if specified
+												// Add variant token classes if specified (dot notation)
 												if (
 													variantSlotValue.token &&
-													resolvedDefinition.tokens &&
-													group
+													resolvedDefinition.tokens
 												) {
 													const tokenDefinition =
 														resolvedDefinition.tokens as Record<
 															string,
-															any
+															Record<string, any>
 														>;
-													const groupTokens =
-														tokenDefinition[
-															group as string
-														];
 
-													if (groupTokens) {
-														for (const tokenName of variantSlotValue.token) {
+													for (const tokenReference of variantSlotValue.token) {
+														// Parse dot notation: "spacing.small" -> group="spacing", value="small"
+														const [
+															tokenGroup,
+															tokenValue,
+														] = (
+															tokenReference as string
+														).split(".");
+
+														if (
+															tokenGroup &&
+															tokenValue &&
+															tokenDefinition[
+																tokenGroup
+															]
+														) {
+															const groupTokens =
+																tokenDefinition[
+																	tokenGroup
+																];
+
 															if (
 																groupTokens[
-																	tokenName
+																	tokenValue
 																]
 															) {
 																const tokenClasses =
 																	groupTokens[
-																		tokenName
+																		tokenValue
 																	];
 																if (
 																	Array.isArray(

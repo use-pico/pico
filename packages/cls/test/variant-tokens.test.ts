@@ -69,10 +69,7 @@ describe("Variant Token Support", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"design",
-					],
-					value: [
+					design: [
 						"color",
 						"spacing",
 					],
@@ -101,8 +98,8 @@ describe("Variant Token Support", () => {
 									"btn-primary",
 								],
 								token: [
-									"color",
-									"spacing",
+									"design.color",
+									"design.spacing",
 								],
 							},
 							icon: {
@@ -110,7 +107,7 @@ describe("Variant Token Support", () => {
 									"icon-primary",
 								],
 								token: [
-									"color",
+									"design.color",
 								],
 							},
 						},
@@ -120,7 +117,7 @@ describe("Variant Token Support", () => {
 									"btn-secondary",
 								],
 								token: [
-									"spacing",
+									"design.spacing",
 								], // Only spacing token
 							},
 							icon: {
@@ -185,10 +182,7 @@ describe("Variant Token Support", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"theme",
-					],
-					value: [
+					theme: [
 						"shadow",
 						"border",
 					],
@@ -222,8 +216,8 @@ describe("Variant Token Support", () => {
 									"card-enhanced",
 								],
 								token: [
-									"shadow",
-									"border",
+									"theme.shadow",
+									"theme.border",
 								],
 							},
 							header: {
@@ -231,7 +225,7 @@ describe("Variant Token Support", () => {
 									"header-enhanced",
 								],
 								token: [
-									"border",
+									"theme.border",
 								],
 							},
 						},
@@ -286,10 +280,7 @@ describe("Variant Token Support", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"foundation",
-					],
-					value: [
+					foundation: [
 						"bg",
 						"text",
 					],
@@ -312,8 +303,8 @@ describe("Variant Token Support", () => {
 									"mode-light",
 								],
 								token: [
-									"bg",
-									"text",
+									"foundation.bg",
+									"foundation.text",
 								],
 							},
 						},
@@ -323,8 +314,8 @@ describe("Variant Token Support", () => {
 									"mode-dark",
 								],
 								token: [
-									"bg",
-									"text",
+									"foundation.bg",
+									"foundation.text",
 								],
 							},
 						},
@@ -358,10 +349,7 @@ describe("Variant Token Support", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"button",
-					],
-					value: [
+					button: [
 						"padding",
 					],
 				},

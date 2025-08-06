@@ -16,13 +16,34 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"foundation",
+					/**
+					 * Define token variants (something like super-group)
+					 *
+					 * Those will be keys in definition.tokens
+					 *
+					 * All variants _must_ implement each member of the group
+					 *
+					 * Variant is _not_ in dot notation, this is same as before,
+					 * meaning spacing.small stays; user will select this "supergroup"
+					 * when calling "create"
+					 */
+					variant: [
+						"default",
+						"extra",
 					],
-					value: [
-						"spacing",
-						"color",
-					],
+					/**
+					 * Individual groups available for dot notation
+					 */
+					group: {
+						spacing: [
+							"small",
+							"medium",
+						],
+						color: [
+							"blue",
+							"green",
+						],
+					},
 				},
 			},
 			{
@@ -32,8 +53,11 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"ds-component",
 						],
 						token: [
-							"spacing",
-							"color",
+							/**
+							 * Super group is ignored, only group is used to compute keys (this is the same as now, only moved one level deeper)
+							 */
+							"spacing.small",
+							"color.blue",
 						],
 					},
 				},
@@ -48,13 +72,51 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					},
 				},
 				tokens: {
-					foundation: {
-						spacing: [
-							"p-2",
-						],
-						color: [
-							"text-gray-900",
-						],
+                    /**
+                     * Here all variants from contract are required
+                     */
+					default: {
+                        /**
+                         * Same here - all groups and values are required
+                         */
+						spacing: {
+							// here will be forced vales defined in contract
+							small: [
+								"p-2",
+							],
+							medium: [
+								"p-3",
+							],
+						},
+						// ... here the same, only for "color" group
+						color: {
+							blue: [
+								"text-gray-900",
+							],
+							green: [
+								"text-gray-900",
+							],
+						},
+					},
+					extra: {
+						spacing: {
+							// here will be forced vales defined in contract
+							small: [
+								"p-2",
+							],
+							medium: [
+								"p-3",
+							],
+						},
+						// ... here the same, only for "color" group
+						color: {
+							blue: [
+								"text-gray-900",
+							],
+							green: [
+								"text-gray-900",
+							],
+						},
 					},
 				},
 				defaults: {
@@ -92,9 +154,9 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"btn",
 						],
 						token: [
-							"spacing",
-							"color",
-							"background",
+							"spacing.small",
+							"color.blue",
+							"value.background",
 						],
 					},
 					icon: {
@@ -102,7 +164,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"btn-icon",
 						],
 						token: [
-							"color",
+							"color.blue",
 						],
 					},
 				},
@@ -129,24 +191,17 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					},
 				},
 				tokens: {
-					foundation: {
-						spacing: [
-							"p-2",
-						],
-						color: [
-							"text-white",
-						],
-						background: [
-							"bg-blue-500",
+					color: {
+						green: [
+							"text-green-900",
 						],
 					},
-					button: {
-						spacing: [
-							"p-3",
+					group: {
+						button: [
+							"bg-blue-600",
 						],
-						color: [
-							"text-blue-900",
-						],
+					},
+					value: {
 						background: [
 							"bg-blue-600",
 						],
@@ -189,10 +244,10 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"special-btn",
 						],
 						token: [
-							"spacing",
-							"color",
-							"background",
-							"border",
+							"spacing.medium",
+							"color.green",
+							"color.green",
+							"color.green",
 						],
 					},
 					icon: {
@@ -201,7 +256,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"special-icon",
 						],
 						token: [
-							"color",
+							"color.green",
 						],
 					},
 					badge: {
@@ -209,7 +264,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							"badge",
 						],
 						token: [
-							"border",
+							"color.green",
 						],
 					},
 				},

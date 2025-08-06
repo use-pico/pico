@@ -5,13 +5,12 @@ export type ClassName = ClassNameValue;
 export type Slot = readonly string[];
 export type Variant = readonly string[];
 
+// New token system: each group has its own specific values
+export type TokenSchema = Record<string, readonly string[]>;
+
+// Legacy types for backward compatibility during transition
 export type TokenGroup = readonly string[];
 export type TokenValue = readonly string[];
-
-export interface TokenSchema {
-	group: TokenGroup;
-	value: TokenValue;
-}
 
 export interface Contract<
 	TSlot extends Slot,
@@ -129,16 +128,8 @@ export type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
 // --- Token Helpers ---
 
-export type MergeTokens<A extends TokenSchema, B extends TokenSchema> = {
-	group: [
-		...A["group"],
-		...B["group"],
-	];
-	value: [
-		...A["value"],
-		...B["value"],
-	];
-};
+// New token system types
+export type MergeTokens<A extends TokenSchema, B extends TokenSchema> = A & B;
 
 export type TokenEx<T extends Contract<any, any, any>> = T extends {
 	tokens: infer TTokens extends TokenSchema;
@@ -147,21 +138,24 @@ export type TokenEx<T extends Contract<any, any, any>> = T extends {
 	? U extends Contract<any, any, any>
 		? MergeTokens<TokenEx<U>, TTokens>
 		: TTokens
-	: {
-			group: [];
-			value: [];
-		};
+	: {};
 
+// Get all token group names from the merged token schema
 export type AllTokenGroups<T extends Contract<any, any, any>> =
-	TokenEx<T>["group"][number];
-export type AllTokenValues<T extends Contract<any, any, any>> =
-	TokenEx<T>["value"][number];
+	keyof TokenEx<T>;
 
+// Get all possible dot-notation token references (group.value)
+export type AllTokenReferences<T extends Contract<any, any, any>> = {
+	[K in keyof TokenEx<T>]: TokenEx<T>[K] extends readonly (infer V)[]
+		? `${string & K}.${string & V}`
+		: never;
+}[keyof TokenEx<T>];
+
+// Get own token groups (defined in this contract, not inherited)
 export type OwnTokenGroups<T extends Contract<any, any, any>> =
-	T["tokens"]["group"][number];
-export type OwnTokenValues<T extends Contract<any, any, any>> =
-	T["tokens"]["value"][number];
+	keyof T["tokens"];
 
+// Get inherited token groups
 export type InheritedTokenGroups<T extends Contract<any, any, any>> = Exclude<
 	AllTokenGroups<T>,
 	OwnTokenGroups<T>
@@ -198,16 +192,23 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 
 // --- Tokens ---
 
+// New token definition: each group defines classes for its specific values
 export type TokenDefinition<T extends Contract<any, any, any>> = {
-	// Own groups must define all values (both own and inherited)
-	[G in OwnTokenGroups<T>]: {
-		[V in AllTokenValues<T>]: ClassName[];
-	};
+	// Own groups must define all their specific values
+	[G in OwnTokenGroups<T>]: T["tokens"][G] extends readonly (infer U extends
+		| string
+		| number
+		| symbol)[]
+		? { [V in U]: ClassName[] }
+		: never;
 } & {
-	// Inherited groups can optionally override any token values
-	[G in InheritedTokenGroups<T>]?: {
-		[V in AllTokenValues<T>]?: ClassName[];
-	};
+	// Inherited groups can optionally override any of their values
+	[G in InheritedTokenGroups<T>]?: TokenEx<T>[G] extends readonly (infer U extends
+		| string
+		| number
+		| symbol)[]
+		? { [V in U]?: ClassName[] }
+		: never;
 };
 
 // --- Definition ---
@@ -217,7 +218,7 @@ export type VariantSlotValue<T extends Contract<any, any, any>> =
 	| ClassName
 	| {
 			class?: ClassName[];
-			token?: AllTokenValues<T>[];
+			token?: AllTokenReferences<T>[]; // Now uses dot notation references
 	  };
 
 export type VariantDefinition<T extends Contract<any, any, any>> = {
@@ -238,7 +239,7 @@ export type VariantDefinition<T extends Contract<any, any, any>> = {
 export type SlotDefinition<T extends Contract<any, any, any>> = {
 	[K in SlotKey<T>]: {
 		class: ClassName[];
-		token?: AllTokenValues<T>[];
+		token?: AllTokenReferences<T>[]; // Now uses dot notation references
 	};
 };
 
