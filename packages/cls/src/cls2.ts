@@ -92,9 +92,7 @@ export type Variants<TContract extends Contract<any, any, any>> = {
 }>;
 
 type MatchRule<TContract extends Contract<any, any, any>> = {
-	if?: {
-		[K in keyof VariantEx<TContract>]?: VariantEx<TContract>[K][number];
-	};
+	if?: { [K in VariantKeys<TContract>]?: VariantEx<TContract>[K][number] };
 	do?: Partial<Record<keyof Slots<TContract>, ClassName>>;
 };
 
