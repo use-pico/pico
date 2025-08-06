@@ -79,6 +79,9 @@ export namespace cls {
 	> {
 		use?: U;
 
+		tokens: any;
+		dictionary: any;
+
 		slot: (U extends Factory<any, any>
 			? Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>
 			: Partial<Record<SlotKeys, ClassName>>) & {
@@ -159,32 +162,29 @@ const CoreCls = cls({
 			],
 		},
 	},
-	slot(dictionary) {
-		return {
-			root: [
-				dictionary.bgColor,
-			],
-		};
+	slot: {
+		root: [
+			"foo-bar",
+			// dictionary.bgColor,
+		],
 	},
-	variant(dictionary) {
-		return {
-			ultra: {
-				variant: {
-					ultra: [],
-				},
-				another: {
-					ultra: [],
-				},
+	variant: {
+		ultra: {
+			variant: {
+				root: [],
 			},
-		};
+			another: {
+				root: [],
+			},
+		},
 	},
 	defaults: {
 		ultra: "variant",
 	},
-} as const);
+});
 
 const ButtonCls = cls({
-	use: UltraBaseCls,
+	use: CoreCls,
 	tokens: [],
 	dictionary: {
 		/**
@@ -199,85 +199,78 @@ const ButtonCls = cls({
 			],
 		},
 	},
-	slot(dictionary) {
-		return {
-			wrapper: [
-				"p-4",
-				"p-2",
-			],
-			label: [
-				"font-bold",
-			],
-		};
+	slot: {
+		wrapper: [
+			"p-4",
+			"p-2",
+		],
+		label: [
+			"font-bold",
+		],
 	},
-	variant(dictionary) {
-		return {
-			color: {
-				blue: {
-					root: [],
-					label: [
-						"text-blue-500",
-					],
-				},
-				red: {
-					root: [],
-				},
+	variant: {
+		color: {
+			blue: {
+				root: [],
+				label: [
+					"text-blue-500",
+				],
 			},
-		};
+			red: {
+				root: [],
+			},
+		},
 	},
 	defaults: {
 		color: "blue",
-		ultra: "another",
+		// ultra: "another",
 	},
 });
 
-const SomeCls = cls({
-	use: BaseCls,
+const ExtendedButtonCls = cls({
+	tokens: [],
+	dictionary: {},
+	use: ButtonCls,
 	slot: {
 		some: [],
 		pica: [],
 	},
-	variant(dictionary) {
-		return {
-			foo: {
-				bar: {
-					some: [
-						"foo",
-					],
-					root: [
-						"this-works",
-					],
-					ultra: [],
-				},
-				baz: {
-					some: [],
-				},
+	variant: {
+		foo: {
+			bar: {
+				some: [
+					"foo",
+				],
+				root: [
+					"this-works",
+				],
+				label: [],
 			},
-		};
+			baz: {
+				some: [],
+			},
+		},
 	},
 
 	// ✅ fully inferred MatchRule[]
-	match(dictionary) {
-		return [
-			{
-				if: {
-					color: "blue", // only "blue"|"red"
-					foo: "baz", // only "bar"|"baz"
-					ultra: "another", // only "variant"|"another"
-				},
-				do: {
-					some: [
-						"foo-style",
-					], // only "some"|"pica"|"root"|"label"|"ultra"
-					pica: [
-						"pica-style",
-					],
-					// ❌ any other key here will now error
-				},
+	match: [
+		{
+			if: {
+				color: "blue", // only "blue"|"red"
+				foo: "baz", // only "bar"|"baz"
+				ultra: "another", // only "variant"|"another"
 			},
-		];
-	},
-
+			do: {
+				some: [
+					"foo-style",
+				], // only "some"|"pica"|"root"|"label"|"ultra"
+				pica: [
+					"pica-style",
+				],
+				// ❌ any other key here will now error
+			},
+		},
+	],
 	defaults: {
 		foo: "bar",
 		color: "red",
