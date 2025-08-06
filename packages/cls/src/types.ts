@@ -67,22 +67,53 @@ type MergeRecords<
 			: never;
 };
 
-// ============================================================================
-// SLOTS
-// ============================================================================
-
-export type AllSlotKeys<T> = T extends {
+/**
+ * Unified inheritance pattern for specific known types
+ */
+type SlotInheritance<T> = T extends {
 	slot: infer S extends readonly string[];
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
 		? [
-				...AllSlotKeys<U>,
+				...SlotInheritance<U>,
 				...S,
 			]
 		: S
 	: [];
 
+type VariantInheritance<T extends Contract<any, any, any>> = T extends {
+	variant: infer V extends VariantRecord;
+	use?: infer U;
+}
+	? U extends Contract<any, any, any>
+		? MergeRecords<VariantInheritance<U>, V>
+		: V
+	: {};
+
+type TokenInheritance<T extends Contract<any, any, any>> = T extends {
+	tokens: infer TTokens extends TokenSchema;
+	use?: infer U;
+}
+	? U extends Contract<any, any, any>
+		? {
+				variant: [
+					...TokenInheritance<U>["variant"],
+					...TTokens["variant"],
+				];
+				group: TokenInheritance<U>["group"] & TTokens["group"];
+			}
+		: TTokens
+	: {
+			variant: [];
+			group: {};
+		};
+
+// ============================================================================
+// SLOTS
+// ============================================================================
+
+export type AllSlotKeys<T> = SlotInheritance<T>;
 export type OwnSlotKeys<T extends Contract<any, any, any>> = ExtractKeys<
 	T,
 	"slot"
@@ -97,26 +128,8 @@ export type SlotKey<T extends Contract<any, any, any>> = AllSlotKeys<T>[number];
 // VARIANTS
 // ============================================================================
 
-/**
- * Merge variants using the generic record merger
- */
-export type MergeVariants<
-	A extends VariantRecord,
-	B extends VariantRecord,
-> = MergeRecords<A, B>;
-
-/**
- * Get merged variant record for a contract
- */
-export type VariantEx<T extends Contract<any, any, any>> = T extends {
-	variant: infer V extends VariantRecord;
-	use?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? MergeVariants<VariantEx<U>, V>
-		: V
-	: {};
-
+export type VariantEx<T extends Contract<any, any, any>> =
+	VariantInheritance<T>;
 export type OwnVariantKeys<T extends Contract<any, any, any>> = ExtractKeys<
 	T,
 	"variant"
@@ -131,31 +144,7 @@ export type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 // TOKENS
 // ============================================================================
 
-/**
- * Merge token schemas
- */
-export type MergeTokens<A extends TokenSchema, B extends TokenSchema> = {
-	variant: [
-		...A["variant"],
-		...B["variant"],
-	];
-	group: A["group"] & B["group"];
-};
-
-/**
- * Get merged token schema for a contract
- */
-export type TokenEx<T extends Contract<any, any, any>> = T extends {
-	tokens: infer TTokens extends TokenSchema;
-	use?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? MergeTokens<TokenEx<U>, TTokens>
-		: TTokens
-	: {
-			variant: [];
-			group: {};
-		};
+export type TokenEx<T extends Contract<any, any, any>> = TokenInheritance<T>;
 
 // Token variant helpers
 export type AllTokenVariants<T extends Contract<any, any, any>> =
@@ -189,16 +178,26 @@ export type AllTokenReferences<T extends Contract<any, any, any>> = {
 // ============================================================================
 
 /**
- * Helper to build token value structure from group schema
+ * Generic inheritance-aware definition builder
+ */
+type InheritanceDefinition<
+	OwnKeys extends string | number | symbol,
+	InheritedKeys extends string | number | symbol,
+	ValueType,
+> = {
+	[K in OwnKeys]: ValueType;
+} & Partial<{
+	[K in InheritedKeys]: ValueType;
+}>;
+
+/**
+ * Simplified token value mappers
  */
 type TokenValueMap<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
 		? { [K in U]: ClassName[] }
 		: never;
 
-/**
- * Helper to build optional token value structure
- */
 type OptionalTokenValueMap<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
 		? { [K in U]?: ClassName[] }
@@ -267,19 +266,16 @@ export type VariantSlotValue<T extends Contract<any, any, any>> =
 /**
  * Variant definition structure
  */
-export type VariantDefinition<T extends Contract<any, any, any>> = {
-	[K in OwnVariantKeys<T>]: {
-		[V in VariantEx<T>[K][number]]: Partial<
-			Record<SlotKey<T>, VariantSlotValue<T>>
-		>;
-	};
-} & Partial<{
-	[K in InheritedVariantKeys<T>]: {
-		[V in VariantEx<T>[K][number]]: Partial<
-			Record<SlotKey<T>, VariantSlotValue<T>>
-		>;
-	};
-}>;
+export type VariantDefinition<T extends Contract<any, any, any>> =
+	InheritanceDefinition<
+		OwnVariantKeys<T>,
+		InheritedVariantKeys<T>,
+		{
+			[V in VariantEx<T>[keyof VariantEx<T>][number]]: Partial<
+				Record<SlotKey<T>, VariantSlotValue<T>>
+			>;
+		}
+	>;
 
 /**
  * Slot definition structure
