@@ -64,9 +64,18 @@ export type Variants<
 	TUse extends Contract<any, any, any> | undefined = undefined,
 > = MergeVariants<TContract, TUse>;
 
-export type Defaults<TContract extends Contract<any, any, any>> = {
-	[S in keyof TContract["variant"]]: TContract["variant"][S][number];
-};
+export type Defaults<
+	TContract extends Contract<any, any, any>,
+	TUse extends Contract<any, any, any> | undefined = undefined,
+> = TUse extends Contract<any, any, any>
+	? {
+			[S in keyof TContract["variant"]]: TContract["variant"][S][number];
+		} & {
+			[S in keyof TUse["variant"]]: TUse["variant"][S][number];
+		}
+	: {
+			[S in keyof TContract["variant"]]: TContract["variant"][S][number];
+		};
 
 /**
  * Definition is used as the primary place to define classes on slots.
@@ -82,7 +91,7 @@ export interface Definition<
 	variant: Variants<TContract, TUse>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
-	defaults: Defaults<TContract>;
+	defaults: Defaults<TContract, TUse>;
 }
 
 export interface Props<
@@ -233,8 +242,8 @@ const ButtonCls = CoreCls.use({
 			},
 		},
 		defaults: {
-			// color: "blue",
-			ultra: "another",
+			icon: "large",
+			color: "red",
 		},
 	},
 });
@@ -295,9 +304,9 @@ const SomeButtonCls = ButtonCls.use({
 		// ],
 
 		defaults: {
+			icon: "large",
 			foo: "bar",
 			color: "red",
-			ultra: "variant",
 		},
 	},
 });
