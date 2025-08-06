@@ -126,26 +126,33 @@ export function cls<
 
 const UltraBaseCls = cls({
 	/**
-	 * TODO Tokens support
+	 * Define tokens which will be required in the dictionary
+	 *
+	 * Tokens are a contract used in "variant", "slot" and so on so when a
+	 * "dictionary" is selected, it provides values defined by those tokens.
+	 *
+	 * Tokens should extend as inheritance goes.
 	 */
-	tokens: {
-		/**
-		 * Contract defines all keys available in the "tokens" and in the rest of CLS
-		 */
-		contract: [
-			"bgColor",
-			"hoverColor",
-		],
-		dictionary: {
-			// Token group (used to pick the token group)
-			// Tokens should support inheritance, but they _must_ conform to the "contract"
-			// One option is to setup contract before
-			primary: {
-				// Here are all "contract"; all tokens must be present as keys here
-				bgColor: [
-					"abc",
-				],
-			},
+	tokens: [
+		"bgColor",
+		"hoverColor",
+	],
+	/**
+	 * Dictionary is a set of tokens adhering a contract.
+	 *
+	 * Each key of dictionary should be extracted, include inheritance and provided later on
+	 * to rest of "cls".
+	 *
+	 * This works basically the same as "variant".
+	 */
+	dictionary: {
+		primary: {
+			/**
+			 * Here all keys from "tokens" are required.
+			 */
+			bgColor: [
+				"abc",
+			],
 		},
 	},
 	slot: {
@@ -164,7 +171,7 @@ const UltraBaseCls = cls({
 	defaults: {
 		ultra: "variant",
 	},
-});
+} as const);
 
 const BaseCls = cls({
 	use: UltraBaseCls,
