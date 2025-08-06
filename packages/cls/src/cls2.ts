@@ -209,23 +209,22 @@ const CoreCls = cls({
 		 * This must implement inheritance same as "variant" in Contract do
 		 */
 		tokens: {
-			/**
-			 * Define individual groups
-			 */
-			group: [
-				"group-1",
-				"group-2",
-			],
-			/**
-			 * Define individual values
-			 *
-			 * which in turn will be provided as
-			 * group-1: { variable-1: ClassName, variable-2: ClassName }
-			 */
-			values: [
-				"variable-1",
-				"variable-2",
-			],
+			group1: {
+				variable1: [
+					"class-names",
+				],
+				variable2: [
+					"class-names",
+				],
+			},
+			group2: {
+				variable3: [
+					"class-names",
+				],
+				variable4: [
+					"class-names",
+				],
+			},
 		},
 	},
 	definition: {
@@ -278,6 +277,27 @@ const ButtonCls = CoreCls.use({
 			color: [
 				"purple",
 			],
+		},
+		tokens: {
+			group1: {
+				/**
+				 * This variable _extends_ ones found in group1 (from inheritance)
+				 */
+				variable3: [
+					"class-names",
+				],
+			},
+			/**
+			 * This one is local, nothing is overridden
+			 */
+			newGroup: {
+				variable3: [
+					"class-names",
+				],
+				variable4: [
+					"class-names",
+				],
+			},
 		},
 	},
 	definition: {
