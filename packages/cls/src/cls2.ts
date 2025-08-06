@@ -27,19 +27,22 @@ export interface Contract<
 	use?: TUse;
 }
 
-type SlotsEx<T> = T extends {
+type SlotKeys<T> = T extends {
 	slot: infer S extends readonly string[];
+}
+	? S
+	: [];
+
+type SlotsEx<T> = T extends {
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
 		? [
 				...SlotsEx<U>,
-				...S,
+				...SlotKeys<T>,
 			]
-		: [
-				...S,
-			]
-	: [];
+		: SlotKeys<T>
+	: SlotKeys<T>;
 
 export type Slots<TContract extends Contract<any, any, any>> = Partial<
 	Required<TContract>["use"] extends Contract<any, any, any>
