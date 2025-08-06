@@ -15,7 +15,7 @@ import type {
 	Variants,
 } from "../../src/types";
 
-describe("Refactored Types - Compatibility Verification", () => {
+describe("Just the huge thing", () => {
 	// === Test Contracts ===
 
 	type BaseContract = Contract<
