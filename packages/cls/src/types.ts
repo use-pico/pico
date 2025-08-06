@@ -2,14 +2,8 @@ import type { ClassNameValue } from "tailwind-merge";
 
 export type ClassName = ClassNameValue;
 
-export type Slot = readonly [
-	string,
-	...string[],
-];
-export type Variant = readonly [
-	string,
-	...string[],
-];
+export type Slot = readonly string[];
+export type Variant = readonly string[];
 
 export type TokenGroup = readonly string[];
 export type TokenValue = readonly string[];
@@ -21,7 +15,7 @@ export interface TokenSchema {
 
 export interface Contract<
 	TSlot extends Slot,
-	TVariant extends Record<string, Variant>,
+	TVariant extends VariantRecord,
 	TTokens extends TokenSchema = TokenSchema,
 	TUse extends Contract<any, any, any> | unknown = unknown,
 > {
@@ -39,6 +33,23 @@ export type HasBaseInUseChain<Sub, Base> = Sub extends Base
 		? HasBaseInUseChain<U, Base>
 		: false;
 
+// === Generic Inheritance Utilities ===
+
+/**
+ * Generic utility for the Own/Inherited/All pattern used throughout the system
+ * This eliminates repetition across slots, variants, and tokens
+ */
+type InheritanceKeys<T, K extends keyof T> = T[K] extends readonly any[]
+	? T[K][number]
+	: T[K] extends Record<string, any>
+		? keyof T[K]
+		: never;
+
+/**
+ * Note: DefinitionBuilder utility was considered but current patterns
+ * are simpler for the specific use cases in this system
+ */
+
 // --- Slot Helpers ---
 
 export type AllSlotKeys<T> = T extends {
@@ -53,7 +64,10 @@ export type AllSlotKeys<T> = T extends {
 		: S
 	: [];
 
-export type OwnSlotKeys<T extends Contract<any, any, any>> = T["slot"][number];
+export type OwnSlotKeys<T extends Contract<any, any, any>> = InheritanceKeys<
+	T,
+	"slot"
+>;
 export type InheritedSlotKeys<T extends Contract<any, any, any>> = Exclude<
 	AllSlotKeys<T>[number],
 	OwnSlotKeys<T>
@@ -70,7 +84,13 @@ export type Slots<TContract extends Contract<any, any, any>> = Record<
 
 export type VariantRecord = Record<string, readonly string[]>;
 
-export type MergeVariants<A extends VariantRecord, B extends VariantRecord> = {
+/**
+ * Generic merge utility for array-based records
+ */
+type MergeArrayRecords<
+	A extends Record<string, readonly any[]>,
+	B extends Record<string, readonly any[]>,
+> = {
 	[K in keyof A | keyof B]: K extends keyof B
 		? K extends keyof A
 			? [
@@ -83,6 +103,11 @@ export type MergeVariants<A extends VariantRecord, B extends VariantRecord> = {
 			: never;
 };
 
+export type MergeVariants<
+	A extends VariantRecord,
+	B extends VariantRecord,
+> = MergeArrayRecords<A, B>;
+
 export type VariantEx<T extends Contract<any, any, any>> = T extends {
 	variant: infer V extends VariantRecord;
 	use?: infer U;
@@ -92,8 +117,10 @@ export type VariantEx<T extends Contract<any, any, any>> = T extends {
 		: V
 	: {};
 
-export type OwnVariantKeys<T extends Contract<any, any, any>> =
-	keyof T["variant"];
+export type OwnVariantKeys<T extends Contract<any, any, any>> = InheritanceKeys<
+	T,
+	"variant"
+>;
 export type InheritedVariantKeys<T extends Contract<any, any, any>> = Exclude<
 	keyof VariantEx<T>,
 	OwnVariantKeys<T>

@@ -5,7 +5,7 @@
  * Use this file to continue development and testing of token-related functionality.
  */
 
-import type { ClassName, Contract, Definition } from "./types";
+import type { ClassName, Contract, Definition } from "../../src/types";
 
 // === COMPREHENSIVE TYPE TESTS ===
 
@@ -85,7 +85,7 @@ import type {
 	OwnTokenValues,
 	TokenDefinition,
 	TokenEx,
-} from "./types";
+} from "../../src/types";
 
 type CoreTokenEx = TokenEx<CoreClsContract>;
 type ButtonTokenEx = TokenEx<ButtonClsContract>;
