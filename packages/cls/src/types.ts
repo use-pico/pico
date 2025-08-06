@@ -203,14 +203,12 @@ export type TokenDefinition<T extends Contract<any, any, any>> = {
 	[G in OwnTokenGroups<T>]: {
 		[V in AllTokenValues<T>]: ClassName[];
 	};
-} & (OwnTokenValues<T> extends never
-	? {} // If no own values, no additional requirements
-	: {
-			// Inherited groups can optionally define only the new values
-			[G in InheritedTokenGroups<T>]?: {
-				[V in OwnTokenValues<T>]: ClassName[];
-			};
-		});
+} & {
+	// Inherited groups can optionally override any token values
+	[G in InheritedTokenGroups<T>]?: {
+		[V in AllTokenValues<T>]?: ClassName[];
+	};
+};
 
 // --- Definition ---
 
