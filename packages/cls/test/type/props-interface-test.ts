@@ -126,14 +126,14 @@ const _testContract: _TestContract = {
 
 const _testProps: Props<_TestContract> = {
 	contract: _testContract,
-	definition: _testDefinition,
+	definition: (tokens) => _testDefinition,
 };
 
 // === Test Cls Interface ===
 
 // This would be the return type of cls(_testProps)
 const _testCls: Cls<_TestContract> = {
-	create: () => ({
+	create: (group) => () => ({
 		slots: {
 			button: () =>
 				"px-4 py-2 rounded font-medium text-base bg-blue-500 text-white",
@@ -304,7 +304,7 @@ const _extendedContract: _ExtendedContract = {
 
 const _extendedProps: Props<_ExtendedContract> = {
 	contract: _extendedContract,
-	definition: _extendedDefinition,
+	definition: (tokens) => _extendedDefinition,
 };
 
 // === Test Complex Inheritance ===
@@ -408,7 +408,7 @@ const _deepContract: _DeepContract = {
 
 const _deepProps: Props<_DeepContract> = {
 	contract: _deepContract,
-	definition: _deepDefinition,
+	definition: (tokens) => _deepDefinition,
 };
 
 // === Runtime Usage Examples ===

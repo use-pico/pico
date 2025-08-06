@@ -232,13 +232,18 @@ export interface Definition<TContract extends Contract<any, any, any>> {
 	defaults: Defaults<TContract>;
 }
 
+// Token object type for definition function
+export type TokenObject<TContract extends Contract<any, any, any>> = {
+	[K in AllTokenValues<TContract>]: string;
+};
+
 export interface Props<TContract extends Contract<any, any, any>> {
 	contract: TContract;
-	definition: Definition<TContract>;
+	definition(tokens: TokenObject<TContract>): Definition<TContract>;
 }
 
 export interface Cls<TContract extends Contract<any, any, any>> {
-	create(): any;
+	create(group: AllTokenGroups<TContract>): any;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,

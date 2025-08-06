@@ -8,14 +8,12 @@ describe("Basic", () => {
 				slot: [
 					"root",
 				],
-				variant: [
-					{
-						color: [
-							"red",
-							"blue",
-						],
-					},
-				],
+				variant: {
+					color: [
+						"red",
+						"blue",
+					],
+				},
 				tokens: {
 					group: [
 						"primary",
@@ -26,37 +24,46 @@ describe("Basic", () => {
 					],
 				},
 			},
-			definition: {
-				slot: {
-					root: [
-						"root-cls",
-					],
-				},
-				variant: {
-					color: {
-						red: {
-							root: "text-red-500",
-						},
-						blue: {
-							root: "text-blue-500",
-						},
-					},
-				},
-				tokens: {
-					primary: {
-						bgColor: [
-							"bg-blue-500",
-						],
-						textColor: [
-							"text-blue-800",
+			definition(tokens) {
+				return {
+					slot: {
+						root: [
+							"root-cls",
+							tokens.bgColor,
+							tokens.textColor,
 						],
 					},
-				},
-				defaults: {
-					color: "red",
-				},
+					variant: {
+						color: {
+							red: {
+								root: "text-red-500",
+							},
+							blue: {
+								root: "text-blue-500",
+							},
+						},
+					},
+					tokens: {
+						primary: {
+							bgColor: [
+								"bg-blue-500",
+							],
+							textColor: [
+								"text-blue-800",
+							],
+						},
+					},
+					defaults: {
+						color: "red",
+					},
+				} as const;
 			},
 		});
+
+		// Test the token system
+		const component = _CoreCls.create("primary");
+		const instance = component();
+		const _rootClass = instance.slots.root();
 
 		// 	const _ButtonCls = cls({
 		// 		contract: {},
