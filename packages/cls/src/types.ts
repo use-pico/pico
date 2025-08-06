@@ -219,54 +219,54 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 // --- Tokens ---
 
 // Token definition: smart inheritance with optional inherited items
-export type TokenDefinition<T extends Contract<any, any, any>> = 
+export type TokenDefinition<T extends Contract<any, any, any>> =
 	// Check if there are any tokens defined (own or inherited)
 	AllTokenVariants<T> extends never
 		? {} // No tokens at all - empty object
 		: OwnTokenVariants<T> extends never
 			? {
-				// No own variants, only inherited variants allowed (and they're optional)
-				// All groups and their values within inherited variants should be optional
-				[V in InheritedTokenVariants<T>]?: {
-					[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
-						| string
-						| number
-						| symbol)[]
-						? { [K in U]?: ClassName[] } // Make individual token values optional too
-						: never;
-				};
-			}
+					// No own variants, only inherited variants allowed (and they're optional)
+					// All groups and their values within inherited variants should be optional
+					[V in InheritedTokenVariants<T>]?: {
+						[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
+							| string
+							| number
+							| symbol)[]
+							? { [K in U]?: ClassName[] } // Make individual token values optional too
+							: never;
+					};
+				}
 			: {
-				// Own variants must implement all groups (inherited + own)
-				[V in OwnTokenVariants<T>]: {
-					// Own groups are required
-					[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
-						| string
-						| number
-						| symbol)[]
-						? { [K in U]: ClassName[] }
-						: never;
+					// Own variants must implement all groups (inherited + own)
+					[V in OwnTokenVariants<T>]: {
+						// Own groups are required
+						[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
+							| string
+							| number
+							| symbol)[]
+							? { [K in U]: ClassName[] }
+							: never;
+					} & {
+						// Inherited groups are optional (can be extended/overridden)
+						[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
+							| string
+							| number
+							| symbol)[]
+							? { [K in U]: ClassName[] }
+							: never;
+					};
 				} & {
-					// Inherited groups are optional (can be extended/overridden)
-					[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
-						| string
-						| number
-						| symbol)[]
-						? { [K in U]: ClassName[] }
-						: never;
+					// Inherited variants are optional but if defined, only need to implement new groups
+					[V in InheritedTokenVariants<T>]?: {
+						// Only new groups are required for inherited variants
+						[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
+							| string
+							| number
+							| symbol)[]
+							? { [K in U]: ClassName[] }
+							: never;
+					};
 				};
-			} & {
-				// Inherited variants are optional but if defined, only need to implement new groups
-				[V in InheritedTokenVariants<T>]?: {
-					// Only new groups are required for inherited variants
-					[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
-						| string
-						| number
-						| symbol)[]
-						? { [K in U]: ClassName[] }
-						: never;
-				};
-			};
 
 // --- Definition ---
 
