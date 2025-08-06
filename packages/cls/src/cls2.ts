@@ -30,7 +30,10 @@ export type Variant<TSlotKeys extends string> = Partial<{
  * Variants is a record of variants, each variant has a record of slots and their
  * classes.
  */
-export type Variants<TContract extends Contract<any, any, any>> = {
+export type Variants<
+	TContract extends Contract<any, any, any>,
+	TUse extends Contract<any, any, any> | undefined = undefined,
+> = {
 	[S in keyof TContract["variant"]]: {
 		[V in TContract["variant"][S][number]]: Partial<{
 			[K in TContract["slot"][number]]: ClassName;
@@ -43,40 +46,53 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 };
 
 /**
- * This is a public facing instance of used "cls".
- */
-export interface Cls<TContract extends Contract<any, any, any>> {
-	create(): any;
-	use<TUse extends Contract<any, any, any>>(props: TUse): TContract;
-	"~contract": TContract;
-}
-
-/**
  * Definition is used as the primary place to define classes on slots.
  */
 export interface Definition<
 	TContract extends Contract<any, any, any>,
-	TUse extends Cls<any> | undefined = undefined,
+	TUse extends Contract<any, any, any> | undefined = undefined,
 > {
 	use?: TUse;
-	slot: Slot<TContract>;
-	variant: Variants<TContract>;
+	slot: TUse extends Contract<any, any, any>
+		? Slot<TContract> & Partial<Slot<TUse>>
+		: Slot<TContract>;
+	variant: Variants<TContract, TUse>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
 	defaults: Defaults<TContract>;
 }
 
-export namespace cls {
-	export interface Props<
-		TSlotKeys extends readonly string[],
-		TVariantKeys extends readonly string[],
-		TVariants extends Record<TVariantKeys[number], readonly string[]>,
+export interface Props<
+	TSlotKeys extends readonly string[],
+	TVariantKeys extends readonly string[],
+	TVariants extends Record<TVariantKeys[number], readonly string[]>,
+	TContract extends Contract<TSlotKeys, TVariantKeys, TVariants>,
+	TUse extends Contract<any, any, any> | undefined = undefined,
+> {
+	contract: TContract;
+	definition: Definition<TContract, TUse>;
+}
+
+/**
+ * This is a public facing instance of used "cls".
+ */
+export interface Cls<TUseContract extends Contract<any, any, any>> {
+	create(): any;
+	use<
+		const TSlotKeys extends readonly string[],
+		const TVariantKeys extends readonly string[],
+		const TVariants extends Record<TVariantKeys[number], readonly string[]>,
 		TContract extends Contract<TSlotKeys, TVariantKeys, TVariants>,
-		TUse extends Cls<any> | undefined = undefined,
-	> {
-		contract: TContract;
-		definition: Definition<TContract, TUse>;
-	}
+	>(
+		props: Props<
+			TSlotKeys,
+			TVariantKeys,
+			TVariants,
+			TContract,
+			TUseContract
+		>,
+	): Cls<TUseContract>;
+	"~contract": TUseContract;
 }
 
 export function cls<
@@ -84,9 +100,9 @@ export function cls<
 	const TVariantKeys extends readonly string[],
 	const TVariants extends Record<TVariantKeys[number], readonly string[]>,
 	TContract extends Contract<TSlotKeys, TVariantKeys, TVariants>,
-	TUse extends Cls<any> | undefined = undefined,
+	TUse extends Contract<any, any, any> | undefined = undefined,
 >(
-	props: cls.Props<TSlotKeys, TVariantKeys, TVariants, TContract, TUse>,
+	props: Props<TSlotKeys, TVariantKeys, TVariants, TContract, TUse>,
 ): Cls<TContract> {
 	const proxy = proxyOf();
 
@@ -95,7 +111,7 @@ export function cls<
 			return {} as any;
 		},
 		use() {
-			//
+			return null as any;
 		},
 		"~contract": proxy,
 	};
@@ -127,6 +143,7 @@ const CoreCls = cls({
 			// dfg: [],
 		},
 		variant: {
+			// dfdF: [],
 			color: {
 				blue: {
 					root: [
@@ -148,8 +165,8 @@ const CoreCls = cls({
 
 type _UltraBaseCls = (typeof CoreCls)["~contract"];
 
-const ButtonCls = cls({
-	contract: CoreCls.use({
+const ButtonCls = CoreCls.use({
+	contract: {
 		slot: [
 			"label",
 			"icon",
@@ -160,23 +177,32 @@ const ButtonCls = cls({
 				"large",
 			],
 		},
-	}),
+	},
 	definition: {
 		slot: {
-			root: [],
+			// root: [],
+			// wrapper: [],
 			label: [
 				"abc",
 			],
 			icon: [],
-			wrapper: [],
+			// icon: [],
 		},
 		variant: {
+			icon: {
+				large: {
+					icon: [],
+				},
+				small: {
+					icon: [],
+				},
+			},
 			color: {
 				blue: {
 					root: [],
-					label: [
-						"text-blue-500",
-					],
+					// label: [
+					// 	"text-blue-500",
+					// ],
 				},
 				red: {
 					root: [],
@@ -190,52 +216,57 @@ const ButtonCls = cls({
 	},
 });
 
-// const SomeCls = cls({
-// 	use: BaseCls,
-// 	slot: {
-// 		some: [],
-// 		pica: [],
-// 	},
-// 	variant: {
-// 		foo: {
-// 			bar: {
-// 				some: [
-// 					"foo",
-// 				],
-// 				root: [
-// 					"this-works",
-// 				],
-// 				ultra: [],
-// 			},
-// 			baz: {
-// 				some: [],
-// 			},
-// 		},
-// 	},
+const SomeButtonCls = ButtonCls.use({
+	contract: {
+		slot: [],
+		variant: {},
+	},
+	definition: {
+		slot: {
+			some: [],
+			pica: [],
+		},
+		variant: {
+			foo: {
+				bar: {
+					some: [
+						"foo",
+					],
+					root: [
+						"this-works",
+					],
+					ultra: [],
+				},
+				baz: {
+					some: [],
+				},
+			},
+		},
 
-// 	// ✅ fully inferred MatchRule[]
-// 	match: [
-// 		{
-// 			if: {
-// 				color: "blue", // only "blue"|"red"
-// 				foo: "baz", // only "bar"|"baz"
-// 				ultra: "another", // only "variant"|"another"
-// 			},
-// 			do: {
-// 				some: [
-// 					"foo-style",
-// 				], // only "some"|"pica"|"root"|"label"|"ultra"
-// 				pica: [
-// 					"pica-style",
-// 				],
-// 				// ❌ any other key here will now error
-// 			},
-// 		},
-// 	],
+		// ✅ fully inferred MatchRule[]
+		// match: [
+		// 	{
+		// 		if: {
+		// 			color: "blue", // only "blue"|"red"
+		// 			foo: "baz", // only "bar"|"baz"
+		// 			ultra: "another", // only "variant"|"another"
+		// 		},
+		// 		do: {
+		// 			some: [
+		// 				"foo-style",
+		// 			], // only "some"|"pica"|"root"|"label"|"ultra"
+		// 			pica: [
+		// 				"pica-style",
+		// 			],
+		// 			// ❌ any other key here will now error
+		// 		},
+		// 	},
+		// ],
 
-// 	defaults: {
-// 		foo: "bar",
-// 		color: "red",
-// 		ultra: "variant",
-// 	},
-// });
+		defaults: {
+			foo: "bar",
+			color: "red",
+			ultra: "variant",
+		},
+	},
+});
