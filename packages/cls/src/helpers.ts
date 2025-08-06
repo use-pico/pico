@@ -50,15 +50,49 @@ export function clsComponent<
 	slots: TSlot;
 	variants?: TVariant;
 	definitions: {
-		variants?: VariantDefinition<Contract<TSlot, TVariant, {}>>;
-		defaults?: Defaults<Contract<TSlot, TVariant, {}>>;
+		variants?: VariantDefinition<
+			Contract<
+				TSlot,
+				TVariant,
+				{
+					variant: [];
+					group: {};
+				}
+			>
+		>;
+		defaults?: Defaults<
+			Contract<
+				TSlot,
+				TVariant,
+				{
+					variant: [];
+					group: {};
+				}
+			>
+		>;
 	};
 	classes: {
 		[S in TSlot[number]]: string[];
 	};
 }): [
-	Contract<TSlot, TVariant, {}>,
-	Definition<Contract<TSlot, TVariant, {}>>,
+	Contract<
+		TSlot,
+		TVariant,
+		{
+			variant: [];
+			group: {};
+		}
+	>,
+	Definition<
+		Contract<
+			TSlot,
+			TVariant,
+			{
+				variant: [];
+				group: {};
+			}
+		>
+	>,
 ] {
 	const variants = config.variants || ({} as TVariant);
 
@@ -66,7 +100,10 @@ export function clsComponent<
 		{
 			slot: config.slots,
 			variant: variants,
-			tokens: {} as const, // Empty token schema for new system
+			tokens: {
+				variant: [],
+				group: {},
+			} as const, // Empty token schema for new system
 		},
 		{
 			slot: Object.fromEntries(
@@ -97,14 +134,33 @@ export function clsSlots<const TSlot extends Slot>(config: {
 		[S in TSlot[number]]: string[];
 	};
 }): [
-	Contract<TSlot, {}, {}>,
-	Definition<Contract<TSlot, {}, {}>>,
+	Contract<
+		TSlot,
+		{},
+		{
+			variant: [];
+			group: {};
+		}
+	>,
+	Definition<
+		Contract<
+			TSlot,
+			{},
+			{
+				variant: [];
+				group: {};
+			}
+		>
+	>,
 ] {
 	return [
 		{
 			slot: config.slots,
 			variant: {},
-			tokens: {} as const, // Empty token schema for new system
+			tokens: {
+				variant: [],
+				group: {},
+			} as const, // Empty token schema for new system
 		},
 		{
 			slot: Object.fromEntries(

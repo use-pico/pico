@@ -72,13 +72,13 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					},
 				},
 				tokens: {
-                    /**
-                     * Here all variants from contract are required
-                     */
+					/**
+					 * Here all variants from contract are required
+					 */
 					default: {
-                        /**
-                         * Same here - all groups and values are required
-                         */
+						/**
+						 * Same here - all groups and values are required
+						 */
 						spacing: {
 							// here will be forced vales defined in contract
 							small: [
@@ -138,12 +138,8 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"button",
-					],
-					value: [
-						"background",
-					],
+					variant: [],
+					group: {},
 				},
 			},
 			{
@@ -156,7 +152,6 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 						token: [
 							"spacing.small",
 							"color.blue",
-							"value.background",
 						],
 					},
 					icon: {
@@ -176,7 +171,12 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 						},
 						dark: {
 							root: "btn-dark theme-dark",
-							icon: "icon-dark",
+							icon: {
+								token: [
+									"color.blue",
+									"color.green",
+								],
+							},
 						},
 					},
 					size: {
@@ -191,20 +191,10 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					},
 				},
 				tokens: {
-					color: {
-						green: [
-							"text-green-900",
-						],
-					},
-					group: {
-						button: [
-							"bg-blue-600",
-						],
-					},
-					value: {
-						background: [
-							"bg-blue-600",
-						],
+					default: {
+                        color: {
+                            blue: ['df'],
+                        },                        
 					},
 				},
 				defaults: {

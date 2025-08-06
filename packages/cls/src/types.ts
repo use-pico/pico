@@ -5,8 +5,11 @@ export type ClassName = ClassNameValue;
 export type Slot = readonly string[];
 export type Variant = readonly string[];
 
-// New token system: each group has its own specific values
-export type TokenSchema = Record<string, readonly string[]>;
+// New token system: variants (super-groups) + groups with specific values
+export type TokenSchema = {
+	variant: readonly string[]; // Token variants/themes (e.g., ["default", "extra"])
+	group: Record<string, readonly string[]>; // Groups with their values (e.g., spacing: ["small", "medium"])
+};
 
 // Legacy types for backward compatibility during transition
 export type TokenGroup = readonly string[];
@@ -128,8 +131,14 @@ export type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
 // --- Token Helpers ---
 
-// New token system types
-export type MergeTokens<A extends TokenSchema, B extends TokenSchema> = A & B;
+// New token system types - merge variants and groups
+export type MergeTokens<A extends TokenSchema, B extends TokenSchema> = {
+	variant: [
+		...A["variant"],
+		...B["variant"],
+	];
+	group: A["group"] & B["group"];
+};
 
 export type TokenEx<T extends Contract<any, any, any>> = T extends {
 	tokens: infer TTokens extends TokenSchema;
@@ -138,22 +147,39 @@ export type TokenEx<T extends Contract<any, any, any>> = T extends {
 	? U extends Contract<any, any, any>
 		? MergeTokens<TokenEx<U>, TTokens>
 		: TTokens
-	: {};
+	: {
+			variant: [];
+			group: {};
+		};
+
+// Get all token variants from the merged schema
+export type AllTokenVariants<T extends Contract<any, any, any>> =
+	TokenEx<T>["variant"][number];
 
 // Get all token group names from the merged token schema
 export type AllTokenGroups<T extends Contract<any, any, any>> =
-	keyof TokenEx<T>;
+	keyof TokenEx<T>["group"];
 
 // Get all possible dot-notation token references (group.value)
 export type AllTokenReferences<T extends Contract<any, any, any>> = {
-	[K in keyof TokenEx<T>]: TokenEx<T>[K] extends readonly (infer V)[]
+	[K in keyof TokenEx<T>["group"]]: TokenEx<T>["group"][K] extends readonly (infer V)[]
 		? `${string & K}.${string & V}`
 		: never;
-}[keyof TokenEx<T>];
+}[keyof TokenEx<T>["group"]];
+
+// Get own token variants (defined in this contract, not inherited)
+export type OwnTokenVariants<T extends Contract<any, any, any>> =
+	T["tokens"]["variant"][number];
 
 // Get own token groups (defined in this contract, not inherited)
 export type OwnTokenGroups<T extends Contract<any, any, any>> =
-	keyof T["tokens"];
+	keyof T["tokens"]["group"];
+
+// Get inherited token variants
+export type InheritedTokenVariants<T extends Contract<any, any, any>> = Exclude<
+	AllTokenVariants<T>,
+	OwnTokenVariants<T>
+>;
 
 // Get inherited token groups
 export type InheritedTokenGroups<T extends Contract<any, any, any>> = Exclude<
@@ -192,24 +218,55 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 
 // --- Tokens ---
 
-// New token definition: each group defines classes for its specific values
-export type TokenDefinition<T extends Contract<any, any, any>> = {
-	// Own groups must define all their specific values
-	[G in OwnTokenGroups<T>]: T["tokens"][G] extends readonly (infer U extends
-		| string
-		| number
-		| symbol)[]
-		? { [V in U]: ClassName[] }
-		: never;
-} & {
-	// Inherited groups can optionally override any of their values
-	[G in InheritedTokenGroups<T>]?: TokenEx<T>[G] extends readonly (infer U extends
-		| string
-		| number
-		| symbol)[]
-		? { [V in U]?: ClassName[] }
-		: never;
-};
+// Token definition: smart inheritance with optional inherited items
+export type TokenDefinition<T extends Contract<any, any, any>> = 
+	// Check if there are any tokens defined (own or inherited)
+	AllTokenVariants<T> extends never
+		? {} // No tokens at all - empty object
+		: OwnTokenVariants<T> extends never
+			? {
+				// No own variants, only inherited variants allowed (and they're optional)
+				// All groups and their values within inherited variants should be optional
+				[V in InheritedTokenVariants<T>]?: {
+					[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
+						| string
+						| number
+						| symbol)[]
+						? { [K in U]?: ClassName[] } // Make individual token values optional too
+						: never;
+				};
+			}
+			: {
+				// Own variants must implement all groups (inherited + own)
+				[V in OwnTokenVariants<T>]: {
+					// Own groups are required
+					[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
+						| string
+						| number
+						| symbol)[]
+						? { [K in U]: ClassName[] }
+						: never;
+				} & {
+					// Inherited groups are optional (can be extended/overridden)
+					[G in InheritedTokenGroups<T>]?: TokenEx<T>["group"][G] extends readonly (infer U extends
+						| string
+						| number
+						| symbol)[]
+						? { [K in U]: ClassName[] }
+						: never;
+				};
+			} & {
+				// Inherited variants are optional but if defined, only need to implement new groups
+				[V in InheritedTokenVariants<T>]?: {
+					// Only new groups are required for inherited variants
+					[G in OwnTokenGroups<T>]: TokenEx<T>["group"][G] extends readonly (infer U extends
+						| string
+						| number
+						| symbol)[]
+						? { [K in U]: ClassName[] }
+						: never;
+				};
+			};
 
 // --- Definition ---
 
@@ -258,7 +315,7 @@ export interface Props<TContract extends Contract<any, any, any>> {
 
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(): any; // Always allow parameterless call
-	create(group: AllTokenGroups<TContract>): any; // Also allow with group
+	create(variant: AllTokenVariants<TContract>): any; // Also allow with variant selection
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
