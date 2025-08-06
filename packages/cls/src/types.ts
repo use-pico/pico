@@ -212,7 +212,7 @@ export type TokenDefinition<T extends Contract<any, any, any>> = {
 
 // --- Definition ---
 
-type VariantDefinition<T extends Contract<any, any, any>> = {
+export type VariantDefinition<T extends Contract<any, any, any>> = {
 	[K in OwnVariantKeys<T>]: {
 		[V in VariantEx<T>[K][number]]: Partial<Record<SlotKey<T>, ClassName>>;
 	};
@@ -244,13 +244,15 @@ export interface Props<TContract extends Contract<any, any, any>> {
 }
 
 export interface Cls<TContract extends Contract<any, any, any>> {
-	create(group: AllTokenGroups<TContract>): any;
+	create(): any; // Always allow parameterless call
+	create(group: AllTokenGroups<TContract>): any; // Also allow with group
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
 		const TTokens extends TokenSchema,
 	>(
-		props: Props<Contract<TSlot, TVariant, TTokens, TContract>>,
+		contract: Contract<TSlot, TVariant, TTokens>,
+		definition: Definition<Contract<TSlot, TVariant, TTokens, TContract>>,
 	): Cls<Contract<TSlot, TVariant, TTokens, TContract>>;
 	contract: TContract;
 }

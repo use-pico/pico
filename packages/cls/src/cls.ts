@@ -3,7 +3,7 @@ import type {
 	AllTokenGroups,
 	Cls,
 	Contract,
-	Props,
+	Definition,
 	Slot,
 	TokenSchema,
 	VariantRecord,
@@ -11,15 +11,16 @@ import type {
 import { proxyOf } from "./utils/proxyOf";
 
 export function cls<const TContract extends Contract<any, any, any>>(
-	props: Props<TContract>,
+	contract: TContract,
+	definition: Definition<TContract>,
 ): Cls<TContract> {
 	const proxy = proxyOf();
-	const { contract, definition } = props;
+	const resolvedDefinition = definition;
 
-	// Create the component function that accepts a group
-	const createFn = (group: AllTokenGroups<TContract>) => {
+	// Create the component function that optionally accepts a group
+	const createFn = (group?: AllTokenGroups<TContract>) => {
 		// Handle defaults for variants
-		const defaults = definition.defaults;
+		const defaults = resolvedDefinition.defaults;
 
 		// Return the component function
 		return (variants: any = {}) => {
@@ -30,93 +31,85 @@ export function cls<const TContract extends Contract<any, any, any>>(
 
 			return {
 				slots: Object.fromEntries(
-					Object.entries(definition.slot as Record<string, any>).map(
-						([slotName, slotConfig]) => [
-							slotName,
-							() => {
-								const classes: string[] = [];
+					Object.entries(
+						resolvedDefinition.slot as Record<string, any>,
+					).map(([slotName, slotConfig]) => [
+						slotName,
+						() => {
+							const classes: string[] = [];
 
-								// Add base slot classes
-								if (slotConfig.class) {
-									classes.push(...slotConfig.class);
-								}
+							// Add base slot classes
+							if (slotConfig.class) {
+								classes.push(...slotConfig.class);
+							}
 
-								// Add token classes if specified
-								if (slotConfig.token && definition.tokens) {
-									const tokenDefinition =
-										definition.tokens as Record<
-											string,
-											any
-										>;
-									const groupTokens =
-										tokenDefinition[group as string];
+							// Add token classes if specified
+							if (
+								slotConfig.token &&
+								resolvedDefinition.tokens &&
+								group
+							) {
+								const tokenDefinition =
+									resolvedDefinition.tokens as Record<
+										string,
+										any
+									>;
+								const groupTokens =
+									tokenDefinition[group as string];
 
-									if (groupTokens) {
-										for (const tokenName of slotConfig.token) {
-											if (groupTokens[tokenName]) {
-												const tokenClasses =
-													groupTokens[tokenName];
-												if (
-													Array.isArray(tokenClasses)
-												) {
-													classes.push(
-														...tokenClasses,
-													);
-												} else {
-													classes.push(tokenClasses);
-												}
+								if (groupTokens) {
+									for (const tokenName of slotConfig.token) {
+										if (groupTokens[tokenName]) {
+											const tokenClasses =
+												groupTokens[tokenName];
+											if (Array.isArray(tokenClasses)) {
+												classes.push(...tokenClasses);
+											} else {
+												classes.push(tokenClasses);
 											}
 										}
 									}
 								}
+							}
 
-								// Add variant classes
-								if (definition.variant) {
-									const variantEntries = Object.entries(
-										definition.variant as Record<
-											string,
-											any
-										>,
-									);
-									for (const [
-										variantName,
-										variantConfig,
-									] of variantEntries) {
-										const variantValue =
-											finalVariants[variantName];
-										if (
-											variantConfig?.[
-												String(variantValue)
-											]
-										) {
-											const variantSlotClass =
-												variantConfig[
-													String(variantValue)
-												][slotName];
-											if (variantSlotClass) {
-												if (
-													Array.isArray(
-														variantSlotClass,
-													)
-												) {
-													classes.push(
-														...variantSlotClass,
-													);
-												} else {
-													classes.push(
-														variantSlotClass,
-													);
-												}
+							// Add variant classes
+							if (resolvedDefinition.variant) {
+								const variantEntries = Object.entries(
+									resolvedDefinition.variant as Record<
+										string,
+										any
+									>,
+								);
+								for (const [
+									variantName,
+									variantConfig,
+								] of variantEntries) {
+									const variantValue =
+										finalVariants[variantName];
+									if (variantConfig?.[String(variantValue)]) {
+										const variantSlotClass =
+											variantConfig[String(variantValue)][
+												slotName
+											];
+										if (variantSlotClass) {
+											if (
+												Array.isArray(variantSlotClass)
+											) {
+												classes.push(
+													...variantSlotClass,
+												);
+											} else {
+												classes.push(variantSlotClass);
 											}
 										}
 									}
 								}
+							}
 
-								// Merge all classes using tvc
-								return tvc(classes);
-							},
-						],
-					),
+							// Merge all classes using tvc
+							return tvc(classes);
+						},
+					]),
 				),
 			};
 		};
@@ -129,8 +122,16 @@ export function cls<const TContract extends Contract<any, any, any>>(
 			const TVariant extends VariantRecord,
 			const TTokens extends TokenSchema,
 		>(
-			childProps: Props<Contract<TSlot, TVariant, TTokens, TContract>>,
+			childContract: Contract<TSlot, TVariant, TTokens>,
+			childDefinition: Definition<
+				Contract<TSlot, TVariant, TTokens, TContract>
+			>,
 		): Cls<Contract<TSlot, TVariant, TTokens, TContract>> {
+			const childProps = {
+				contract: childContract,
+				definition: childDefinition,
+			};
+
 			const inheritedContract: Contract<
 				TSlot,
 				TVariant,
@@ -140,13 +141,7 @@ export function cls<const TContract extends Contract<any, any, any>>(
 				...childProps.contract,
 				use: contract, // Set up the inheritance chain
 			};
-			const inheritedProps: Props<
-				Contract<TSlot, TVariant, TTokens, TContract>
-			> = {
-				...childProps,
-				contract: inheritedContract,
-			};
-			return cls(inheritedProps);
+			return cls(inheritedContract, childProps.definition);
 		},
 		contract: proxy,
 	};

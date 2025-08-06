@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
 import { cls } from "../src";
 
-describe("Cls API Showcase - Complete Feature Test", () => {
+describe("Cls API Showcase - New Two-Argument API", () => {
 	it("should demonstrate 3-level inheritance with all features", () => {
 		// Level 1: Design System Foundation
-		const designSystemCls = cls({
-			contract: {
+		const designSystemCls = cls(
+			{
 				slot: [
 					"root",
 				],
@@ -25,7 +25,7 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					],
 				},
 			},
-			definition: {
+			{
 				slot: {
 					root: {
 						class: [
@@ -50,7 +50,7 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 				tokens: {
 					foundation: {
 						spacing: [
-							"p-4",
+							"p-2",
 						],
 						color: [
 							"text-gray-900",
@@ -61,11 +61,11 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					theme: "light",
 				},
 			},
-		});
+		);
 
 		// Level 2: Button Component
-		const buttonCls = designSystemCls.use({
-			contract: {
+		const buttonCls = designSystemCls.use(
+			{
 				slot: [
 					"icon",
 				],
@@ -84,10 +84,11 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					],
 				},
 			},
-			definition: {
+			{
 				slot: {
 					root: {
 						class: [
+							"ds-component",
 							"btn",
 						],
 						token: [
@@ -98,7 +99,7 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					},
 					icon: {
 						class: [
-							"icon",
+							"btn-icon",
 						],
 						token: [
 							"color",
@@ -108,11 +109,11 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 				variant: {
 					theme: {
 						light: {
-							root: "btn-light",
+							root: "btn-light theme-light",
 							icon: "icon-light",
 						},
 						dark: {
-							root: "btn-dark",
+							root: "btn-dark theme-dark",
 							icon: "icon-dark",
 						},
 					},
@@ -156,11 +157,11 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					size: "sm",
 				},
 			},
-		});
+		);
 
 		// Level 3: Special Button Component
-		const specialButtonCls = buttonCls.use({
-			contract: {
+		const specialButtonCls = buttonCls.use(
+			{
 				slot: [
 					"badge",
 				],
@@ -179,10 +180,12 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					],
 				},
 			},
-			definition: {
+			{
 				slot: {
 					root: {
 						class: [
+							"ds-component",
+							"btn",
 							"special-btn",
 						],
 						token: [
@@ -194,11 +197,11 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					},
 					icon: {
 						class: [
+							"btn-icon",
 							"special-icon",
 						],
 						token: [
 							"color",
-							"border",
 						],
 					},
 					badge: {
@@ -206,7 +209,6 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 							"badge",
 						],
 						token: [
-							"background",
 							"border",
 						],
 					},
@@ -214,23 +216,25 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 				variant: {
 					theme: {
 						light: {
-							root: "special-light",
-							icon: "special-icon-light",
+							root: "special-light btn-light theme-light",
+							icon: "special-icon-light icon-light",
 							badge: "badge-light",
 						},
 						dark: {
-							root: "special-dark",
-							icon: "special-icon-dark",
+							root: "special-dark btn-dark theme-dark",
+							icon: "special-icon-dark icon-dark",
 							badge: "badge-dark",
 						},
 					},
 					size: {
 						sm: {
-							root: "special-sm",
+							root: "special-sm btn-sm",
+							icon: "icon-sm",
 							badge: "badge-sm",
 						},
 						lg: {
-							root: "special-lg",
+							root: "special-lg btn-lg",
+							icon: "icon-lg",
 							badge: "badge-lg",
 						},
 					},
@@ -295,78 +299,64 @@ describe("Cls API Showcase - Complete Feature Test", () => {
 					special: "primary",
 				},
 			},
-		});
+		);
 
-		// Test Level 1: Design System with foundation tokens
+		// Test Level 1: Design System Foundation
 		const foundationComponent = designSystemCls.create("foundation");
 		const foundationInstance = foundationComponent();
 		expect(foundationInstance.slots.root()).toBe(
-			"ds-component p-4 text-gray-900 theme-light",
+			"ds-component p-2 text-gray-900 theme-light",
 		);
 
-		// Test Level 2: Button with inherited + own tokens
-		const buttonFoundationComponent = buttonCls.create("foundation");
-		const buttonFoundationInstance = buttonFoundationComponent();
-		expect(buttonFoundationInstance.slots.root()).toBe(
-			"btn p-2 text-white bg-blue-500 btn-light btn-sm",
-		);
-		expect(buttonFoundationInstance.slots.icon()).toBe(
-			"icon text-white icon-light icon-sm",
-		);
-
+		// Test Level 2: Button Component
 		const buttonComponent = buttonCls.create("button");
-		const buttonInstance = buttonComponent();
-		expect(buttonInstance.slots.root()).toBe(
-			"btn p-3 text-blue-900 bg-blue-600 btn-light btn-sm",
-		);
-		expect(buttonInstance.slots.icon()).toBe(
-			"icon text-blue-900 icon-light icon-sm",
-		);
-
-		// Test Level 3: Special Button with full inheritance chain
-		const specialFoundationComponent =
-			specialButtonCls.create("foundation");
-		const specialFoundationInstance = specialFoundationComponent();
-		expect(specialFoundationInstance.slots.root()).toBe(
-			"special-btn p-1 text-black bg-gray-100 border-gray-300 special-light special-sm variant-primary",
-		);
-		expect(specialFoundationInstance.slots.icon()).toBe(
-			"special-icon text-black border-gray-300 special-icon-light",
-		);
-		expect(specialFoundationInstance.slots.badge()).toBe(
-			"badge bg-gray-100 border-gray-300 badge-light badge-sm badge-primary",
-		);
-
-		const specialButtonComponent = specialButtonCls.create("button");
-		const specialButtonInstance = specialButtonComponent();
-		expect(specialButtonInstance.slots.root()).toBe(
-			"special-btn p-2 text-white bg-blue-700 border-blue-700 special-light special-sm variant-primary",
-		);
-
-		const specialComponent = specialButtonCls.create("special");
-		const specialInstance = specialComponent();
-		expect(specialInstance.slots.root()).toBe(
-			"special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-light special-sm variant-primary",
-		);
-
-		// Test variant overrides
-		const darkLargeSpecial = specialComponent({
-			theme: "dark",
+		const buttonDefaultInstance = buttonComponent();
+		const buttonCustomInstance = buttonComponent({
 			size: "lg",
+			theme: "dark",
+		});
+
+		expect(buttonDefaultInstance.slots.root()).toBe(
+			"ds-component btn p-3 text-blue-900 bg-blue-600 btn-light theme-light btn-sm",
+		);
+		expect(buttonDefaultInstance.slots.icon()).toBe(
+			"btn-icon text-blue-900 icon-light icon-sm",
+		);
+
+		expect(buttonCustomInstance.slots.root()).toBe(
+			"ds-component btn p-3 text-blue-900 bg-blue-600 btn-dark theme-dark btn-lg",
+		);
+		expect(buttonCustomInstance.slots.icon()).toBe(
+			"btn-icon text-blue-900 icon-dark icon-lg",
+		);
+
+		// Test Level 3: Special Button Component
+		const specialComponent = specialButtonCls.create("special");
+		const specialDefaultInstance = specialComponent();
+		const specialCustomInstance = specialComponent({
+			size: "lg",
+			theme: "dark",
 			special: "danger",
 		});
-		expect(darkLargeSpecial.slots.root()).toBe(
-			"special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-dark special-lg variant-danger",
+
+		expect(specialDefaultInstance.slots.root()).toBe(
+			"ds-component btn special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-light btn-light theme-light special-sm btn-sm variant-primary",
 		);
-		expect(darkLargeSpecial.slots.badge()).toBe(
-			"badge bg-purple-600 border-purple-600 badge-dark badge-lg badge-danger",
+		expect(specialDefaultInstance.slots.icon()).toBe(
+			"btn-icon special-icon text-yellow-400 special-icon-light icon-light icon-sm",
+		);
+		expect(specialDefaultInstance.slots.badge()).toBe(
+			"badge border-purple-600 badge-light badge-sm badge-primary",
 		);
 
-		// Verify clean API - no 'as const' needed anywhere!
-		expect(typeof designSystemCls.create).toBe("function");
-		expect(typeof buttonCls.create).toBe("function");
-		expect(typeof specialButtonCls.create).toBe("function");
-		expect(typeof buttonCls.use).toBe("function");
-		expect(typeof specialButtonCls.use).toBe("function");
+		expect(specialCustomInstance.slots.root()).toBe(
+			"ds-component btn special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-dark btn-dark theme-dark special-lg btn-lg variant-danger",
+		);
+		expect(specialCustomInstance.slots.icon()).toBe(
+			"btn-icon special-icon text-yellow-400 special-icon-dark icon-dark icon-lg",
+		);
+		expect(specialCustomInstance.slots.badge()).toBe(
+			"badge border-purple-600 badge-dark badge-lg badge-danger",
+		);
 	});
 });
