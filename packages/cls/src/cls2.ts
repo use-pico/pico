@@ -1,240 +1,213 @@
 import type { ClassName } from "./types/ClassName";
+import { proxyOf } from "./utils/proxyOf";
 
-// --- Core Types ---
+/**
+ * Contract defines what a "cls" contains, it's used for a stable inference
+ * source of truth.
+ */
+export interface Contract<
+	TSlotKeys extends readonly string[],
+	TVariantKeys extends readonly string[],
+	TVariants extends Record<TVariantKeys[number], readonly string[]>,
+> {
+	slot: TSlotKeys;
+	variant: TVariants;
+}
 
-export type Variant<Keys extends string> = Partial<Record<Keys, ClassName>>;
-
-export type Variants<Keys extends string> = Record<
-	string,
-	Record<string, Variant<Keys>>
->;
-
-// --- Helpers ---
-
-/** merge local slot‐keys + any inherited slot‐keys from `use` */
-type MergeSlots<
-	Local extends string,
-	U extends Factory<any, any> | undefined,
-> = U extends Factory<infer USlots, any> ? Local | USlots : Local;
-
-/** merge local Variants map + any inherited variants for defaults & match.if */
-type MergeVariants<
-	Local extends Variants<any>,
-	U extends Factory<any, any> | undefined,
-> = Local & (U extends Factory<any, any> ? U["~type"]["variants"] : {});
-
-// --- Extracted Match Types ---
-
-/** allowed shape for one `if: { … }` clause */
-type MatchCondition<
-	LocalVars extends Variants<any>,
-	U extends Factory<any, any> | undefined,
-> = Partial<{
-	[K in keyof MergeVariants<LocalVars, U> & string]: keyof MergeVariants<
-		LocalVars,
-		U
-	>[K];
+/**
+ * Variant defines which slots uses which classes when this variant is active.
+ */
+export type Variant<TSlotKeys extends string> = Partial<{
+	[K in TSlotKeys]: ClassName;
 }>;
 
-/** allowed shape for one `do: { … }` clause */
-type MatchAction<
-	SlotKeys extends string,
-	U extends Factory<any, any> | undefined,
-> = Partial<Record<MergeSlots<SlotKeys, U>, ClassName[]>>;
-
-/** one `{ if, do }` entry */
-type MatchRule<
-	SlotKeys extends string,
-	LocalVars extends Variants<SlotKeys>,
-	U extends Factory<any, any> | undefined,
-> = {
-	if: MatchCondition<LocalVars, U>;
-	do: MatchAction<SlotKeys, U>;
-};
-
-// --- Internal Core ---
-
-export interface Cls<TSlotKeys extends string> {
-	slot: Record<TSlotKeys, false>;
-}
-
-export interface Factory<
+/**
+ * Variants is a record of variants, each variant has a record of slots and their
+ * classes.
+ */
+export type Variants<
+	TVariantKeys extends string,
 	TSlotKeys extends string,
-	TVariants extends Variants<TSlotKeys>,
-> {
-	create(): Cls<TSlotKeys>;
-	"~type": {
-		slots: { [K in TSlotKeys]: true };
-		variants: TVariants;
+> = Partial<{
+	[S in TVariantKeys]: {
+		[V in TVariantKeys]: Variant<TSlotKeys>;
 	};
+}>;
+
+/**
+ * This is a public facing instance of used "cls".
+ */
+export interface Cls<TContract extends Contract<any, any, any>> {
+	create(): any;
+	"~contract": TContract;
 }
 
-// --- Public API ---
+/**
+ * Definition is used as the primary place to define classes on slots.
+ */
+export interface Definition<
+	TContract extends Contract<any, any, any>,
+	TUse extends Cls<any> | undefined = undefined,
+> {
+	use?: TUse;
+
+	slot: Record<TContract["slot"][number], ClassName>;
+
+	variant: Variants<TContract["variant"][number], TContract["slot"][number]>;
+
+	/** now a named type instead of inline */
+	// match?: MatchRule<TContract["slot"][number], U>[];
+
+	defaults: any;
+}
 
 export namespace cls {
-	export interface Contract {
-		slot: string[];
-		variant: Record<string, string[]>;
-	}
-
-	export interface Definition<
-		SlotKeys extends string,
-		LocalVariants extends Variants<SlotKeys>,
-		U extends Factory<any, any> | undefined = undefined,
+	export interface Props<
+		TSlotKeys extends readonly string[],
+		TVariantKeys extends readonly string[],
+		TVariants extends Record<TVariantKeys[number], readonly string[]>,
+		TContract extends Contract<TSlotKeys, TVariantKeys, TVariants>,
+		TUse extends Cls<any> | undefined = undefined,
 	> {
-		use?: U;
-
-		slot: (U extends Factory<any, any>
-			? Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>
-			: Partial<Record<SlotKeys, ClassName>>) & {
-			[key: string]: ClassName;
-		};
-
-		variant: Variants<MergeSlots<SlotKeys, U>> & LocalVariants;
-
-		/** now a named type instead of inline */
-		match?: MatchRule<SlotKeys, LocalVariants, U>[];
-
-		defaults: {
-			[K in keyof MergeVariants<LocalVariants, U> &
-				string]: keyof MergeVariants<LocalVariants, U>[K];
-		};
+		contract: TContract;
+		definition: Definition<TContract, TUse>;
 	}
 }
 
 export function cls<
-	SlotKeys extends string,
-	LocalVariants extends Variants<SlotKeys>,
-	U extends Factory<any, any> | undefined = undefined,
+	const TSlotKeys extends readonly string[],
+	const TVariantKeys extends readonly string[],
+	const TVariants extends Record<TVariantKeys[number], readonly string[]>,
+	TContract extends Contract<TSlotKeys, TVariantKeys, TVariants>,
+	TUse extends Cls<any> | undefined = undefined,
 >(
-	props: cls.Definition<SlotKeys, LocalVariants, U>,
-): Factory<MergeSlots<SlotKeys, U>, MergeVariants<LocalVariants, U>> {
+	props: cls.Props<TSlotKeys, TVariantKeys, TVariants, TContract, TUse>,
+): Cls<TContract> {
+	const proxy = proxyOf();
+
 	return {
 		create() {
 			return {} as any;
 		},
-		"~type": {
-			slots: props.use
-				? (Object.fromEntries(
-						Object.keys(props.use["~type"].slots).map((k) => [
-							k,
-							true,
-						]),
-					) as any)
-				: ({} as any),
-			variants: props.variant as any,
-		},
+		"~contract": proxy,
 	};
 }
-
-const contract: cls.Contract = {
-	slot: [
-		"ultra",
-		"another",
-		"puca",
-	],
-	variant: {
-		ultra: [
-			"variant",
-			"another",
-		],
-	},
-};
 
 // --- Test Examples ---
 
 const UltraBaseCls = cls({
-	slot: {
-		ultra: [],
-	},
-	variant: {
-		ultra: {
-			variant: {
-				ultra: [],
-			},
-			another: {
-				ultra: [],
-			},
-		},
-	},
-	defaults: {
-		ultra: "variant",
-	},
-});
-
-const BaseCls = cls({
-	use: UltraBaseCls,
-	slot: {
-		root: [],
-		label: [
-			"abc",
+	contract: {
+		slot: [
+			"foo",
+			"ultra",
+			// 'bla',
+			"new",
 		],
-	},
-	variant: {
-		color: {
-			blue: {
-				root: [],
-				label: [
-					"text-blue-500",
-				],
-			},
-			red: {
-				root: [],
-			},
+		variant: {
+			some: [
+				"foo",
+				"bar",
+			],
 		},
 	},
-	defaults: {
-		color: "blue",
-		ultra: "another",
+	definition: {
+		slot: {
+			foo: [],
+			ultra: [],
+			new: [],
+			// dfg: [],
+		},
+		variant: {            
+			ultra: {
+				variant: {
+					foo: [],
+				},
+				another: {
+					foo: [],
+				},
+			},
+		},
+		defaults: {
+			ultra: "variant",
+		},
 	},
 });
 
-const SomeCls = cls({
-	use: BaseCls,
-	slot: {
-		some: [],
-		pica: [],
-	},
-	variant: {
-		foo: {
-			bar: {
-				some: [
-					"foo",
-				],
-				root: [
-					"this-works",
-				],
-				ultra: [],
-			},
-			baz: {
-				some: [],
-			},
-		},
-	},
+type _UltraBaseCls = (typeof UltraBaseCls)["~contract"];
 
-	// ✅ fully inferred MatchRule[]
-	match: [
-		{
-			if: {
-				color: "blue", // only "blue"|"red"
-				foo: "baz", // only "bar"|"baz"
-				ultra: "another", // only "variant"|"another"
-			},
-			do: {
-				some: [
-					"foo-style",
-				], // only "some"|"pica"|"root"|"label"|"ultra"
-				pica: [
-					"pica-style",
-				],
-				// ❌ any other key here will now error
-			},
-		},
-	],
+// const BaseCls = cls({
+// 	use: UltraBaseCls,
+// 	slot: {
+// 		root: [],
+// 		label: [
+// 			"abc",
+// 		],
+// 	},
+// 	variant: {
+// 		color: {
+// 			blue: {
+// 				root: [],
+// 				label: [
+// 					"text-blue-500",
+// 				],
+// 			},
+// 			red: {
+// 				root: [],
+// 			},
+// 		},
+// 	},
+// 	defaults: {
+// 		color: "blue",
+// 		ultra: "another",
+// 	},
+// });
 
-	defaults: {
-		foo: "bar",
-		color: "red",
-		ultra: "variant",
-	},
-});
+// const SomeCls = cls({
+// 	use: BaseCls,
+// 	slot: {
+// 		some: [],
+// 		pica: [],
+// 	},
+// 	variant: {
+// 		foo: {
+// 			bar: {
+// 				some: [
+// 					"foo",
+// 				],
+// 				root: [
+// 					"this-works",
+// 				],
+// 				ultra: [],
+// 			},
+// 			baz: {
+// 				some: [],
+// 			},
+// 		},
+// 	},
+
+// 	// ✅ fully inferred MatchRule[]
+// 	match: [
+// 		{
+// 			if: {
+// 				color: "blue", // only "blue"|"red"
+// 				foo: "baz", // only "bar"|"baz"
+// 				ultra: "another", // only "variant"|"another"
+// 			},
+// 			do: {
+// 				some: [
+// 					"foo-style",
+// 				], // only "some"|"pica"|"root"|"label"|"ultra"
+// 				pica: [
+// 					"pica-style",
+// 				],
+// 				// ❌ any other key here will now error
+// 			},
+// 		},
+// 	],
+
+// 	defaults: {
+// 		foo: "bar",
+// 		color: "red",
+// 		ultra: "variant",
+// 	},
+// });
