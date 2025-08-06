@@ -22,6 +22,14 @@ export interface Contract<
 	use?: TUse;
 }
 
+type HasBaseInUseChain<Sub, Base> = Sub extends Base
+	? true
+	: Sub extends {
+				use?: infer U;
+			}
+		? HasBaseInUseChain<U, Base>
+		: false;
+
 // --- Slot Helpers ---
 
 type AllSlotKeys<T> = T extends {
@@ -160,6 +168,26 @@ export function cls<const TContract extends Contract<any, any, any>>(
 	};
 }
 
+export function cls2cls<
+	Base extends Contract<any, any, any>,
+	Sub extends Contract<any, any, any>,
+>(
+	_: Cls<Base>,
+	sub: Cls<Sub> & {
+		contract: HasBaseInUseChain<Sub, Base> extends true
+			? unknown
+			: [
+					"❌ Not derived from Base contract",
+					{
+						sub: Sub;
+						base: Base;
+					},
+				];
+	},
+): Cls<Base> {
+	return sub as unknown as Cls<Base>;
+}
+
 // --- Test Examples ---
 
 const CoreCls = cls({
@@ -291,32 +319,9 @@ const Uncompatible = cls({
 	},
 });
 
-type HasBaseInUseChain<Sub, Base> = Sub extends Base
-	? true
-	: Sub extends {
-				use?: infer U;
-			}
-		? HasBaseInUseChain<U, Base>
-		: false;
-
-export function satisfiesContract<Base extends Contract<any, any, any>>() {
-	return <Sub extends Contract<any, any, any>>(
-		sub: Cls<Sub> & {
-			contract: HasBaseInUseChain<Sub, Base> extends true
-				? any
-				: [
-						"❌ Not derived from Base contract",
-						{
-							sub: Sub;
-							base: Base;
-						},
-					];
-		},
-	): Cls<Base> => sub as any;
-}
-
 // TODO Fix assigning
-const _testAssign: _CoreCls = satisfiesContract(CoreCls, Uncompatible);
+const _testAssign = cls2cls(CoreCls, Uncompatible);
+const _testAssign2 = cls2cls(CoreCls, ButtonCls);
 
 const SomeButtonCls = ButtonCls.use({
 	contract: {
