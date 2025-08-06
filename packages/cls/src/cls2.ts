@@ -47,6 +47,7 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
  */
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(): any;
+	use<TUse extends Contract<any, any, any>>(props: TUse): TContract;
 	"~contract": TContract;
 }
 
@@ -92,6 +93,9 @@ export function cls<
 	return {
 		create() {
 			return {} as any;
+		},
+		use() {
+			//
 		},
 		"~contract": proxy,
 	};
@@ -144,32 +148,47 @@ const CoreCls = cls({
 
 type _UltraBaseCls = (typeof CoreCls)["~contract"];
 
-// const BaseCls = cls({
-// 	use: UltraBaseCls,
-// 	slot: {
-// 		root: [],
-// 		label: [
-// 			"abc",
-// 		],
-// 	},
-// 	variant: {
-// 		color: {
-// 			blue: {
-// 				root: [],
-// 				label: [
-// 					"text-blue-500",
-// 				],
-// 			},
-// 			red: {
-// 				root: [],
-// 			},
-// 		},
-// 	},
-// 	defaults: {
-// 		color: "blue",
-// 		ultra: "another",
-// 	},
-// });
+const ButtonCls = cls({
+	contract: CoreCls.use({
+		slot: [
+			"label",
+			"icon",
+		],
+		variant: {
+			icon: [
+				"small",
+				"large",
+			],
+		},
+	}),
+	definition: {
+		slot: {
+			root: [],
+			label: [
+				"abc",
+			],
+			icon: [],
+			wrapper: [],
+		},
+		variant: {
+			color: {
+				blue: {
+					root: [],
+					label: [
+						"text-blue-500",
+					],
+				},
+				red: {
+					root: [],
+				},
+			},
+		},
+		defaults: {
+			color: "blue",
+			ultra: "another",
+		},
+	},
+});
 
 // const SomeCls = cls({
 // 	use: BaseCls,
