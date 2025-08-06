@@ -65,6 +65,8 @@ type LocalVariantKeys<T> = T extends {
 	? keyof V
 	: never;
 
+type AllVariantKeys<T extends Contract<any, any, any>> = keyof VariantEx<T>;
+
 /**
  * Variants is a record of variants, each variant has a record of slots and their
  * classes.
@@ -86,16 +88,9 @@ export type Variants<TContract extends Contract<any, any, any>> = {
 	}>;
 }>;
 
-// export type Defaults<TContract extends Contract<any, any, any>> =
-// 	TContract["use"] extends Contract<any, any, any, any>
-// 		? {
-// 				[S in keyof TContract["variant"]]: TContract["variant"][S][number];
-// 			} & {
-// 				[S in keyof TContract["use"]["variant"]]: TContract["use"]["variant"][S][number];
-// 			}
-// 		: {
-// 				[S in keyof TContract["variant"]]: TContract["variant"][S][number];
-// 			};
+export type Defaults<TContract extends Contract<any, any, any>> = {
+	[K in AllVariantKeys<TContract>]: VariantEx<TContract>[K][number];
+};
 
 /**
  * Definition is used as the primary place to define classes on slots.
@@ -105,7 +100,7 @@ export interface Definition<TContract extends Contract<any, any, any>> {
 	variant: Variants<TContract>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
-	// defaults: Defaults<TContract>;
+	defaults: Defaults<TContract>;
 }
 
 export interface Props<TContract extends Contract<any, any, any>> {
@@ -183,6 +178,9 @@ const CoreCls = cls({
 			],
 			// dfg: [],
 		},
+		defaults: {
+			color: "red",
+		},
 	},
 });
 
@@ -233,24 +231,11 @@ const ButtonCls = CoreCls.use({
 				},
 			},
 		},
+		defaults: {
+			color: "blue",
+			icon: "large",
+		},
 	},
-	// 		// color: {
-	// 		// 	blue: {
-	// 		// 		root: [],
-	// 		// 		// label: [
-	// 		// 		// 	"text-blue-500",
-	// 		// 		// ],
-	// 		// 	},
-	// 		// 	red: {
-	// 		// 		root: [],
-	// 		// 	},
-	// 		// },
-	// 	},
-	// 	defaults: {
-	// 		icon: "large",
-	// 		// color: "red",
-	// 	},
-	// },
 });
 
 type _ButtonCls = typeof ButtonCls;
@@ -297,33 +282,12 @@ const SomeButtonCls = ButtonCls.use({
 				},
 			},
 		},
+		defaults: {
+			color: "red",
+			foo: "bar",
+			icon: "large",
+		},
 	},
-	// 	// ✅ fully inferred MatchRule[]
-	// 	// match: [
-	// 	// 	{
-	// 	// 		if: {
-	// 	// 			color: "blue", // only "blue"|"red"
-	// 	// 			foo: "baz", // only "bar"|"baz"
-	// 	// 			ultra: "another", // only "variant"|"another"
-	// 	// 		},
-	// 	// 		do: {
-	// 	// 			some: [
-	// 	// 				"foo-style",
-	// 	// 			], // only "some"|"pica"|"root"|"label"|"ultra"
-	// 	// 			pica: [
-	// 	// 				"pica-style",
-	// 	// 			],
-	// 	// 			// ❌ any other key here will now error
-	// 	// 		},
-	// 	// 	},
-	// 	// ],
-
-	// 	defaults: {
-	// 		icon: "large",
-	// 		foo: "bar",
-	// 		color: "red",
-	// 	},
-	// },
 });
 
 type _SomeButtonCls = typeof SomeButtonCls;
