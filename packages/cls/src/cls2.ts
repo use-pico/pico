@@ -1,7 +1,7 @@
 import type { ClassName } from "./types/ClassName";
 import { proxyOf } from "./utils/proxyOf";
 
-// --- Base Types ---
+// --- Core Types ---
 
 type Slot = [
 	string,
@@ -12,9 +12,17 @@ type Variant = [
 	...string[],
 ];
 
-type VariantRecord = Record<string, readonly string[]>;
+export interface Contract<
+	TSlot extends Slot,
+	TVariant extends Record<string, Variant>,
+	TUse extends Contract<any, any, any> | unknown = unknown,
+> {
+	slot: TSlot;
+	variant: TVariant;
+	use?: TUse;
+}
 
-// --- Recursive Helpers ---
+// --- Slot Helpers ---
 
 type AllSlotKeys<T> = T extends {
 	slot: infer S extends readonly string[];
@@ -28,94 +36,96 @@ type AllSlotKeys<T> = T extends {
 		: S
 	: [];
 
-type AllVariants<T> = T extends {
+type OwnSlotKeys<T extends Contract<any, any, any>> = T["slot"][number];
+type InheritedSlotKeys<T extends Contract<any, any, any>> = Exclude<
+	AllSlotKeys<T>[number],
+	OwnSlotKeys<T>
+>;
+type SlotKey<T extends Contract<any, any, any>> = AllSlotKeys<T>[number];
+
+export type Slots<TContract extends Contract<any, any, any>> = Record<
+	OwnSlotKeys<TContract>,
+	ClassName
+> &
+	Partial<Record<InheritedSlotKeys<TContract>, ClassName>>;
+
+// --- Variant Helpers ---
+
+type VariantRecord = Record<string, readonly string[]>;
+
+export type VariantEx<T extends Contract<any, any, any>> = T extends {
 	variant: infer V extends VariantRecord;
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
-		? AllVariants<U> & V
+		? VariantEx<U> & V
 		: V
 	: {};
 
-type LocalVariantKeys<T> = T extends {
-	variant: infer V extends VariantRecord;
-}
-	? keyof V
-	: never;
+type OwnVariantKeys<T extends Contract<any, any, any>> = keyof T["variant"];
+type InheritedVariantKeys<T extends Contract<any, any, any>> = Exclude<
+	keyof VariantEx<T>,
+	OwnVariantKeys<T>
+>;
+type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
-type AllVariantKeys<T> = keyof AllVariants<T>;
+// --- Variants ---
 
-// --- Contract and Derived Types ---
-
-export interface Contract<
-	TSlot extends Slot,
-	TVariant extends Record<string, Variant>,
-	TUse extends Contract<any, any, any> | unknown = unknown,
-> {
-	slot: TSlot;
-	variant: TVariant;
-	use?: TUse;
-}
-
-export type Slots<T extends Contract<any, any, any>> = Record<
-	T["slot"][number],
-	ClassName
-> &
-	Partial<
-		Record<Exclude<AllSlotKeys<T>[number], T["slot"][number]>, ClassName>
-	>;
-
-export type Variants<T extends Contract<any, any, any>> = {
-	[K in Extract<keyof AllVariants<T>, LocalVariantKeys<T>>]: {
-		[V in AllVariants<T>[K][number]]: Partial<
-			Record<keyof Slots<T>, ClassName>
+export type Variants<TContract extends Contract<any, any, any>> = {
+	[K in OwnVariantKeys<TContract>]: {
+		[V in VariantEx<TContract>[K][number]]: Partial<
+			Record<SlotKey<TContract>, ClassName>
 		>;
 	};
 } & Partial<{
-	[K in Exclude<keyof AllVariants<T>, LocalVariantKeys<T>>]: Partial<{
-		[V in AllVariants<T>[K][number]]: Partial<
-			Record<keyof Slots<T>, ClassName>
+	[K in InheritedVariantKeys<TContract>]: Partial<{
+		[V in VariantEx<TContract>[K][number]]: Partial<
+			Record<SlotKey<TContract>, ClassName>
 		>;
 	}>;
 }>;
 
-type MatchRule<T extends Contract<any, any, any>> = {
-	if?: { [K in AllVariantKeys<T>]?: AllVariants<T>[K][number] };
-	do?: Partial<Record<keyof Slots<T>, ClassName>>;
+// --- Match Rules ---
+
+type MatchRule<TContract extends Contract<any, any, any>> = {
+	if?: { [K in VariantKey<TContract>]?: VariantEx<TContract>[K][number] };
+	do?: Partial<Record<SlotKey<TContract>, ClassName>>;
 };
 
-export type Defaults<T extends Contract<any, any, any>> = {
-	[K in AllVariantKeys<T>]: AllVariants<T>[K][number];
+// --- Defaults ---
+
+export type Defaults<TContract extends Contract<any, any, any>> = {
+	[K in VariantKey<TContract>]: VariantEx<TContract>[K][number];
 };
 
-// --- Main Structures ---
+// --- Definition ---
 
-export interface Definition<T extends Contract<any, any, any>> {
-	slot: Slots<T>;
-	variant: Variants<T>;
-	match?: MatchRule<T>[];
-	defaults: Defaults<T>;
+export interface Definition<TContract extends Contract<any, any, any>> {
+	slot: Slots<TContract>;
+	variant: Variants<TContract>;
+	match?: MatchRule<TContract>[];
+	defaults: Defaults<TContract>;
 }
 
-export interface Props<T extends Contract<any, any, any>> {
-	contract: T;
-	definition: Definition<T>;
+export interface Props<TContract extends Contract<any, any, any>> {
+	contract: TContract;
+	definition: Definition<TContract>;
 }
 
-export interface Cls<T extends Contract<any, any, any>> {
+export interface Cls<TContract extends Contract<any, any, any>> {
 	create(): any;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
 	>(
-		props: Props<Contract<TSlot, TVariant, T>>,
-	): Cls<Contract<TSlot, TVariant, T>>;
-	contract: T;
+		props: Props<Contract<TSlot, TVariant, TContract>>,
+	): Cls<Contract<TSlot, TVariant, TContract>>;
+	contract: TContract;
 }
 
-export function cls<const T extends Contract<any, any, any>>(
-	props: Props<T>,
-): Cls<T> {
+export function cls<const TContract extends Contract<any, any, any>>(
+	props: Props<TContract>,
+): Cls<TContract> {
 	const proxy = proxyOf();
 
 	return {
@@ -235,6 +245,9 @@ type _ButtonClsContract = _ButtonCls["contract"];
 type _ButtonClsSlots = Slots<_ButtonClsContract>;
 
 type _ButtonClsUse = _ButtonClsContract["use"];
+
+// TODO Fix assigning
+// const _testAssign: _CoreCls = ButtonCls;
 
 const SomeButtonCls = ButtonCls.use({
 	contract: {
