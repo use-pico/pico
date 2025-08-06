@@ -146,7 +146,7 @@ export type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
 export type TokenEx<T extends Contract<any, any, any>> = TokenInheritance<T>;
 
-// Token variant helpers
+// Token helpers (variants and groups)
 export type AllTokenVariants<T extends Contract<any, any, any>> =
 	TokenEx<T>["variant"][number];
 export type OwnTokenVariants<T extends Contract<any, any, any>> =
@@ -156,7 +156,6 @@ export type InheritedTokenVariants<T extends Contract<any, any, any>> = Exclude<
 	OwnTokenVariants<T>
 >;
 
-// Token group helpers
 export type AllTokenGroups<T extends Contract<any, any, any>> =
 	keyof TokenEx<T>["group"];
 export type OwnTokenGroups<T extends Contract<any, any, any>> =
@@ -191,52 +190,66 @@ type InheritanceDefinition<
 }>;
 
 /**
- * Simplified token value mappers
+ * Core token value mapping utilities
  */
-type TokenValueMap<Group extends readonly string[]> =
+type TokenValues<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
 		? { [K in U]: ClassName[] }
 		: never;
 
-type OptionalTokenValueMap<Group extends readonly string[]> =
+type OptionalTokenValues<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
 		? { [K in U]?: ClassName[] }
 		: never;
 
 /**
- * Token definition with smart inheritance
+ * Token group mapping for variants
+ */
+type TokenGroupsForVariant<
+	T extends Contract<any, any, any>,
+	Groups extends keyof TokenEx<T>["group"],
+	Optional extends boolean = false,
+> = {
+	[G in Groups]: Optional extends true
+		? OptionalTokenValues<TokenEx<T>["group"][G]>
+		: TokenValues<TokenEx<T>["group"][G]>;
+};
+
+/**
+ * Token variant structures
+ */
+type InheritedOnlyTokens<T extends Contract<any, any, any>> = {
+	[V in InheritedTokenVariants<T>]?: TokenGroupsForVariant<
+		T,
+		InheritedTokenGroups<T>,
+		true
+	>;
+};
+
+type OwnTokensWithInherited<T extends Contract<any, any, any>> = {
+	[V in OwnTokenVariants<T>]: TokenGroupsForVariant<
+		T,
+		OwnTokenGroups<T>,
+		false
+	> &
+		TokenGroupsForVariant<T, InheritedTokenGroups<T>, true>;
+} & {
+	[V in InheritedTokenVariants<T>]?: TokenGroupsForVariant<
+		T,
+		OwnTokenGroups<T>,
+		false
+	>;
+};
+
+/**
+ * Clean token definition with smart inheritance
  */
 export type TokenDefinition<T extends Contract<any, any, any>> =
 	AllTokenVariants<T> extends never
-		? {} // No tokens
+		? {}
 		: OwnTokenVariants<T> extends never
-			? {
-					// Only inherited variants (all optional)
-					[V in InheritedTokenVariants<T>]?: {
-						[G in InheritedTokenGroups<T>]?: OptionalTokenValueMap<
-							TokenEx<T>["group"][G]
-						>;
-					};
-				}
-			: {
-					// Own variants (required with mixed groups)
-					[V in OwnTokenVariants<T>]: {
-						[G in OwnTokenGroups<T>]: TokenValueMap<
-							TokenEx<T>["group"][G]
-						>;
-					} & {
-						[G in InheritedTokenGroups<T>]?: TokenValueMap<
-							TokenEx<T>["group"][G]
-						>;
-					};
-				} & {
-					// Inherited variants (optional, only new groups required)
-					[V in InheritedTokenVariants<T>]?: {
-						[G in OwnTokenGroups<T>]: TokenValueMap<
-							TokenEx<T>["group"][G]
-						>;
-					};
-				};
+			? InheritedOnlyTokens<T>
+			: OwnTokensWithInherited<T>;
 
 /**
  * Match rule structure
@@ -254,38 +267,42 @@ export type Defaults<T extends Contract<any, any, any>> = {
 };
 
 /**
+ * Common slot value structure (used in both slots and variants)
+ */
+type SlotValue<T extends Contract<any, any, any>> = {
+	class: ClassName[];
+	token?: AllTokenReferences<T>[];
+};
+
+/**
  * Variant slot value (supports both legacy string and new object format)
  */
 export type VariantSlotValue<T extends Contract<any, any, any>> =
 	| ClassName
-	| {
-			class?: ClassName[];
-			token?: AllTokenReferences<T>[];
-	  };
-
-/**
- * Variant definition structure
- */
-export type VariantDefinition<T extends Contract<any, any, any>> =
-	InheritanceDefinition<
-		OwnVariantKeys<T>,
-		InheritedVariantKeys<T>,
-		{
-			[V in VariantEx<T>[keyof VariantEx<T>][number]]: Partial<
-				Record<SlotKey<T>, VariantSlotValue<T>>
-			>;
-		}
-	>;
+	| Partial<SlotValue<T>>;
 
 /**
  * Slot definition structure
  */
 export type SlotDefinition<T extends Contract<any, any, any>> = {
-	[K in SlotKey<T>]: {
-		class: ClassName[];
-		token?: AllTokenReferences<T>[];
-	};
+	[K in SlotKey<T>]: SlotValue<T>;
 };
+
+/**
+ * Simplified variant definition using common patterns
+ */
+type VariantValueMap<T extends Contract<any, any, any>> = {
+	[V in VariantEx<T>[keyof VariantEx<T>][number]]: Partial<
+		Record<SlotKey<T>, VariantSlotValue<T>>
+	>;
+};
+
+export type VariantDefinition<T extends Contract<any, any, any>> =
+	InheritanceDefinition<
+		OwnVariantKeys<T>,
+		InheritedVariantKeys<T>,
+		VariantValueMap<T>
+	>;
 
 // ============================================================================
 // MAIN INTERFACES
