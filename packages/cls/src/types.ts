@@ -198,19 +198,19 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 
 // --- Tokens ---
 
-export type TokenDefinition<T extends Contract<any, any, any>> =
+export type TokenDefinition<T extends Contract<any, any, any>> = {
 	// Own groups must define all values (both own and inherited)
-	{
-		[G in OwnTokenGroups<T>]: {
-			[V in AllTokenValues<T>]: ClassName[];
-		};
-	} & (OwnTokenValues<T> extends never // Inherited groups only need to define new values if any exist
-		? {}
-		: {
-				[G in InheritedTokenGroups<T>]?: {
-					[V in OwnTokenValues<T>]: ClassName[];
-				};
-			});
+	[G in OwnTokenGroups<T>]: {
+		[V in AllTokenValues<T>]: ClassName[];
+	};
+} & (OwnTokenValues<T> extends never
+	? {} // If no own values, no additional requirements
+	: {
+			// Inherited groups can optionally define only the new values
+			[G in InheritedTokenGroups<T>]?: {
+				[V in OwnTokenValues<T>]: ClassName[];
+			};
+		});
 
 // --- Definition ---
 
@@ -224,22 +224,25 @@ type VariantDefinition<T extends Contract<any, any, any>> = {
 	};
 }>;
 
+// New slot definition structure with class and token properties
+export type SlotDefinition<T extends Contract<any, any, any>> = {
+	[K in SlotKey<T>]: {
+		class: ClassName[];
+		token?: AllTokenValues<T>[];
+	};
+};
+
 export interface Definition<TContract extends Contract<any, any, any>> {
-	slot: Slots<TContract>;
-	variant: VariantDefinition<TContract>;
-	tokens: TokenDefinition<TContract>;
+	slot: SlotDefinition<TContract>;
+	variant?: VariantDefinition<TContract>;
+	tokens?: TokenDefinition<TContract>;
 	match?: MatchRule<TContract>[];
 	defaults: Defaults<TContract>;
 }
 
-// Token object type for definition function
-export type TokenObject<TContract extends Contract<any, any, any>> = {
-	[K in AllTokenValues<TContract>]: string;
-};
-
 export interface Props<TContract extends Contract<any, any, any>> {
 	contract: TContract;
-	definition(tokens: TokenObject<TContract>): Definition<TContract>;
+	definition: Definition<TContract>;
 }
 
 export interface Cls<TContract extends Contract<any, any, any>> {
