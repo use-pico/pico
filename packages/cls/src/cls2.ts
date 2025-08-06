@@ -72,7 +72,12 @@ export interface Factory<
 // --- Public API ---
 
 export namespace cls {
-	export interface Props<
+	export interface Contract {
+		slot: string[];
+		variant: Record<string, string[]>;
+	}
+
+	export interface Definition<
 		SlotKeys extends string,
 		LocalVariants extends Variants<SlotKeys>,
 		U extends Factory<any, any> | undefined = undefined,
@@ -102,7 +107,7 @@ export function cls<
 	LocalVariants extends Variants<SlotKeys>,
 	U extends Factory<any, any> | undefined = undefined,
 >(
-	props: cls.Props<SlotKeys, LocalVariants, U>,
+	props: cls.Definition<SlotKeys, LocalVariants, U>,
 ): Factory<MergeSlots<SlotKeys, U>, MergeVariants<LocalVariants, U>> {
 	return {
 		create() {
@@ -121,6 +126,20 @@ export function cls<
 		},
 	};
 }
+
+const contract: cls.Contract = {
+	slot: [
+		"ultra",
+		"another",
+		"puca",
+	],
+	variant: {
+		ultra: [
+			"variant",
+			"another",
+		],
+	},
+};
 
 // --- Test Examples ---
 
@@ -202,7 +221,7 @@ const SomeCls = cls({
 				ultra: "another", // only "variant"|"another"
 			},
 			do: {
-                some: [
+				some: [
 					"foo-style",
 				], // only "some"|"pica"|"root"|"label"|"ultra"
 				pica: [
