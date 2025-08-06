@@ -38,6 +38,10 @@ export type Variants<TContract extends Contract<any, any, any>> = {
 	};
 };
 
+export type Defaults<TContract extends Contract<any, any, any>> = {
+	[S in keyof TContract["variant"]]: TContract["variant"][S][number];
+};
+
 /**
  * This is a public facing instance of used "cls".
  */
@@ -58,7 +62,7 @@ export interface Definition<
 	variant: Variants<TContract>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
-	defaults: any;
+	defaults: Defaults<TContract>;
 }
 
 export namespace cls {
@@ -133,7 +137,7 @@ const CoreCls = cls({
 			},
 		},
 		defaults: {
-			ultra: "variant",
+			color: "red",
 		},
 	},
 });
