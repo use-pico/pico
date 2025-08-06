@@ -79,9 +79,6 @@ export namespace cls {
 	> {
 		use?: U;
 
-		tokens: any;
-		dictionary: any;
-
 		slot: (U extends Factory<any, any>
 			? Partial<Record<MergeSlots<SlotKeys, U>, ClassName>>
 			: Partial<Record<SlotKeys, ClassName>>) & {
@@ -127,54 +124,17 @@ export function cls<
 
 // --- Test Examples ---
 
-const CoreCls = cls({
-	/**
-	 * Define tokens which will be required in the dictionary
-	 *
-	 * Tokens are a contract used in "variant", "slot" and so on so when a
-	 * "dictionary" is selected, it provides values defined by those tokens.
-	 *
-	 * Tokens should extend as inheritance goes.
-	 *
-	 * Required, but may be empty
-	 */
-	tokens: [
-		"bgColor",
-		"hoverColor",
-	],
-	/**
-	 * Dictionary is a set of tokens adhering a contract.
-	 *
-	 * Each key of dictionary should be extracted, include inheritance and provided later on
-	 * to rest of "cls".
-	 *
-	 * This works basically the same as "variant".
-	 *
-	 * Required, but may be empty
-	 */
-	dictionary: {
-		primary: {
-			/**
-			 * Here all keys from "tokens" are required.
-			 */
-			bgColor: [
-				"abc",
-			],
-		},
-	},
+const UltraBaseCls = cls({
 	slot: {
-		root: [
-			"foo-bar",
-			// dictionary.bgColor,
-		],
+		ultra: [],
 	},
 	variant: {
 		ultra: {
 			variant: {
-				root: [],
+				ultra: [],
 			},
 			another: {
-				root: [],
+				ultra: [],
 			},
 		},
 	},
@@ -183,29 +143,12 @@ const CoreCls = cls({
 	},
 });
 
-const ButtonCls = cls({
-	use: CoreCls,
-	tokens: [],
-	dictionary: {
-		/**
-		 * This keys should be added to the inheritance
-		 */
-		newOne: {
-			bgColor: [
-				"bg-new-one",
-			],
-			hoverColor: [
-				"hover-new-one",
-			],
-		},
-	},
+const BaseCls = cls({
+	use: UltraBaseCls,
 	slot: {
-		wrapper: [
-			"p-4",
-			"p-2",
-		],
+		root: [],
 		label: [
-			"font-bold",
+			"abc",
 		],
 	},
 	variant: {
@@ -223,14 +166,12 @@ const ButtonCls = cls({
 	},
 	defaults: {
 		color: "blue",
-		// ultra: "another",
+		ultra: "another",
 	},
 });
 
-const ExtendedButtonCls = cls({
-	tokens: [],
-	dictionary: {},
-	use: ButtonCls,
+const SomeCls = cls({
+	use: BaseCls,
 	slot: {
 		some: [],
 		pica: [],
@@ -244,7 +185,7 @@ const ExtendedButtonCls = cls({
 				root: [
 					"this-works",
 				],
-				label: [],
+				ultra: [],
 			},
 			baz: {
 				some: [],
@@ -261,7 +202,7 @@ const ExtendedButtonCls = cls({
 				ultra: "another", // only "variant"|"another"
 			},
 			do: {
-				some: [
+                some: [
 					"foo-style",
 				], // only "some"|"pica"|"root"|"label"|"ultra"
 				pica: [
@@ -271,6 +212,7 @@ const ExtendedButtonCls = cls({
 			},
 		},
 	],
+
 	defaults: {
 		foo: "bar",
 		color: "red",
