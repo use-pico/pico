@@ -53,12 +53,25 @@ export type Slots<TContract extends Contract<any, any, any>> = Record<
 
 type VariantRecord = Record<string, readonly string[]>;
 
+type MergeVariants<A extends VariantRecord, B extends VariantRecord> = {
+	[K in keyof A | keyof B]: K extends keyof B
+		? K extends keyof A
+			? [
+					...A[K],
+					...B[K],
+				]
+			: B[K]
+		: K extends keyof A
+			? A[K]
+			: never;
+};
+
 export type VariantEx<T extends Contract<any, any, any>> = T extends {
 	variant: infer V extends VariantRecord;
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
-		? VariantEx<U> & V
+		? MergeVariants<VariantEx<U>, V>
 		: V
 	: {};
 
@@ -78,11 +91,11 @@ export type Variants<TContract extends Contract<any, any, any>> = {
 		>;
 	};
 } & Partial<{
-	[K in InheritedVariantKeys<TContract>]: Partial<{
+	[K in InheritedVariantKeys<TContract>]: {
 		[V in VariantEx<TContract>[K][number]]: Partial<
 			Record<SlotKey<TContract>, ClassName>
 		>;
-	}>;
+	};
 }>;
 
 // --- Match Rules ---
@@ -209,6 +222,9 @@ const ButtonCls = CoreCls.use({
 				"small",
 				"large",
 			],
+			color: [
+				"purple",
+			],
 		},
 	},
 	definition: {
@@ -229,6 +245,9 @@ const ButtonCls = CoreCls.use({
 				},
 				red: {
 					icon: [],
+				},
+				purple: {
+					label: [],
 				},
 			},
 			icon: {
