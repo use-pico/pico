@@ -30,11 +30,13 @@ export type Variant<TSlotKeys extends string> = Partial<{
  * Variants is a record of variants, each variant has a record of slots and their
  * classes.
  */
-export type Variants<TContract extends Contract<any, any, any>> = Partial<{
-	[S in TContract["variant"][number]]: {
-		[V in TContract["slot"][number]]: Variant<TContract["slot"][number]>;
+export type Variants<TContract extends Contract<any, any, any>> = {
+	[S in keyof TContract["variant"]]: {
+		[V in TContract["variant"][S][number]]: Partial<{
+			[K in TContract["slot"][number]]: ClassName;
+		}>;
 	};
-}>;
+};
 
 /**
  * This is a public facing instance of used "cls".
@@ -93,35 +95,40 @@ export function cls<
 
 // --- Test Examples ---
 
-const UltraBaseCls = cls({
+const CoreCls = cls({
 	contract: {
 		slot: [
-			"foo",
-			"ultra",
-			// 'bla',
-			"new",
+			"root",
+			"wrapper",
 		],
 		variant: {
-			some: [
-				"foo",
-				"bar",
+			color: [
+				"blue",
+				"red",
 			],
 		},
 	},
 	definition: {
 		slot: {
-			foo: [],
-			ultra: [],
-			new: [],
+			root: [
+				"root-cls",
+			],
+			wrapper: [
+				"wrapper-cls",
+			],
 			// dfg: [],
 		},
 		variant: {
-			ultra: {
-				variant: {
-					foo: [],
+			color: {
+				blue: {
+					root: [
+						"root-blue-cls",
+					],
 				},
-				another: {
-					foo: [],
+				red: {
+					root: [
+						"root-red-cls",
+					],
 				},
 			},
 		},
@@ -131,7 +138,7 @@ const UltraBaseCls = cls({
 	},
 });
 
-type _UltraBaseCls = (typeof UltraBaseCls)["~contract"];
+type _UltraBaseCls = (typeof CoreCls)["~contract"];
 
 // const BaseCls = cls({
 // 	use: UltraBaseCls,
