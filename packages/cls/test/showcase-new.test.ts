@@ -192,9 +192,11 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 				},
 				tokens: {
 					default: {
-                        color: {
-                            blue: ['df'],
-                        },                        
+						color: {
+							blue: [
+								"df",
+							],
+						},
 					},
 				},
 				defaults: {
