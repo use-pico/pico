@@ -1,8 +1,6 @@
 import type { ClassName } from "./types/ClassName";
 import { proxyOf } from "./utils/proxyOf";
 
-export type Prettify<T> = { [K in keyof T]: T[K] };
-
 type Slot = [
 	string,
 	...string[],
@@ -249,7 +247,7 @@ type _ButtonCls = typeof ButtonCls;
 
 type _ButtonClsContract = _ButtonCls["contract"];
 
-type _ButtonClsSlots = Prettify<Slots<_ButtonClsContract>>;
+type _ButtonClsSlots = Slots<_ButtonClsContract>;
 
 type _ButtonClsUse = _ButtonClsContract["use"];
 
@@ -317,7 +315,7 @@ type _SomeButtonCls = typeof SomeButtonCls;
 
 type _SomeButtonClsContract = _SomeButtonCls["contract"];
 
-type _SomeButtonClsSlots = Prettify<Slots<_SomeButtonClsContract>>;
+type _SomeButtonClsSlots = Slots<_SomeButtonClsContract>;
 
 type _SomeButtonClsSlotsKeys = keyof _SomeButtonClsSlots;
 
