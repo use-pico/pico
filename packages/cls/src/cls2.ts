@@ -25,22 +25,17 @@ export interface Contract<
 	use?: TUse;
 }
 
-type SlotKeys<T> = T extends {
+type AllSlotKeys<T> = T extends {
 	slot: infer S extends readonly string[];
-}
-	? S
-	: [];
-
-type SlotsEx<T> = T extends {
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
 		? [
-				...SlotsEx<U>,
-				...SlotKeys<T>,
+				...AllSlotKeys<U>,
+				...S,
 			]
-		: SlotKeys<T>
-	: SlotKeys<T>;
+		: S
+	: [];
 
 export type Slots<TContract extends Contract<any, any, any>> = Record<
 	TContract["slot"][number],
@@ -48,7 +43,7 @@ export type Slots<TContract extends Contract<any, any, any>> = Record<
 > &
 	Partial<
 		Record<
-			Exclude<SlotsEx<TContract>[number], TContract["slot"][number]>,
+			Exclude<AllSlotKeys<TContract>[number], TContract["slot"][number]>,
 			ClassName
 		>
 	>;
@@ -98,8 +93,17 @@ type MatchRule<TContract extends Contract<any, any, any>> = {
 	do?: Partial<Record<keyof Slots<TContract>, ClassName>>;
 };
 
+type VariantKeysRecursive<T> = T extends {
+	variant: infer V extends VariantRecord;
+	use?: infer U;
+}
+	? U extends Contract<any, any, any>
+		? keyof V | VariantKeysRecursive<U>
+		: keyof V
+	: never;
+
 export type Defaults<TContract extends Contract<any, any, any>> = {
-	[K in VariantKeys<TContract>]: VariantEx<TContract>[K][number];
+	[K in VariantKeysRecursive<TContract>]: VariantEx<TContract>[K][number];
 };
 
 /**
