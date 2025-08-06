@@ -87,19 +87,80 @@ export function cls<const TContract extends Contract<any, any, any>>(
 									const variantValue =
 										finalVariants[variantName];
 									if (variantConfig?.[String(variantValue)]) {
-										const variantSlotClass =
+										const variantSlotValue =
 											variantConfig[String(variantValue)][
 												slotName
 											];
-										if (variantSlotClass) {
+										if (variantSlotValue) {
+											// Handle both legacy string format and new object format
 											if (
-												Array.isArray(variantSlotClass)
+												typeof variantSlotValue ===
+												"string"
 											) {
+												// Legacy format: direct class name
+												classes.push(variantSlotValue);
+											} else if (
+												Array.isArray(variantSlotValue)
+											) {
+												// Legacy format: array of class names
 												classes.push(
-													...variantSlotClass,
+													...variantSlotValue,
 												);
-											} else {
-												classes.push(variantSlotClass);
+											} else if (
+												typeof variantSlotValue ===
+												"object"
+											) {
+												// New format: {class, token} object
+												if (variantSlotValue.class) {
+													classes.push(
+														...variantSlotValue.class,
+													);
+												}
+
+												// Add variant token classes if specified
+												if (
+													variantSlotValue.token &&
+													resolvedDefinition.tokens &&
+													group
+												) {
+													const tokenDefinition =
+														resolvedDefinition.tokens as Record<
+															string,
+															any
+														>;
+													const groupTokens =
+														tokenDefinition[
+															group as string
+														];
+
+													if (groupTokens) {
+														for (const tokenName of variantSlotValue.token) {
+															if (
+																groupTokens[
+																	tokenName
+																]
+															) {
+																const tokenClasses =
+																	groupTokens[
+																		tokenName
+																	];
+																if (
+																	Array.isArray(
+																		tokenClasses,
+																	)
+																) {
+																	classes.push(
+																		...tokenClasses,
+																	);
+																} else {
+																	classes.push(
+																		tokenClasses,
+																	);
+																}
+															}
+														}
+													}
+												}
 											}
 										}
 									}

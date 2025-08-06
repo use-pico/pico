@@ -212,13 +212,25 @@ export type TokenDefinition<T extends Contract<any, any, any>> = {
 
 // --- Definition ---
 
+// Variant value structure supporting both legacy string format and new object format
+export type VariantSlotValue<T extends Contract<any, any, any>> =
+	| ClassName
+	| {
+			class?: ClassName[];
+			token?: AllTokenValues<T>[];
+	  };
+
 export type VariantDefinition<T extends Contract<any, any, any>> = {
 	[K in OwnVariantKeys<T>]: {
-		[V in VariantEx<T>[K][number]]: Partial<Record<SlotKey<T>, ClassName>>;
+		[V in VariantEx<T>[K][number]]: Partial<
+			Record<SlotKey<T>, VariantSlotValue<T>>
+		>;
 	};
 } & Partial<{
 	[K in InheritedVariantKeys<T>]: {
-		[V in VariantEx<T>[K][number]]: Partial<Record<SlotKey<T>, ClassName>>;
+		[V in VariantEx<T>[K][number]]: Partial<
+			Record<SlotKey<T>, VariantSlotValue<T>>
+		>;
 	};
 }>;
 
