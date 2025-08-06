@@ -100,9 +100,19 @@ export type Defaults<TContract extends Contract<any, any, any>> = {
 
 // --- Definition ---
 
+type VariantDefinition<T extends Contract<any, any, any>> = {
+	[K in OwnVariantKeys<T>]: {
+		[V in VariantEx<T>[K][number]]: Partial<Record<SlotKey<T>, ClassName>>;
+	};
+} & Partial<{
+	[K in InheritedVariantKeys<T>]: {
+		[V in VariantEx<T>[K][number]]: Partial<Record<SlotKey<T>, ClassName>>;
+	};
+}>;
+
 export interface Definition<TContract extends Contract<any, any, any>> {
 	slot: Slots<TContract>;
-	variant: Variants<TContract>;
+	variant: VariantDefinition<TContract>;
 	match?: MatchRule<TContract>[];
 	defaults: Defaults<TContract>;
 }
