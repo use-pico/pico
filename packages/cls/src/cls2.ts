@@ -1,29 +1,20 @@
 import type { ClassName } from "./types/ClassName";
 import { proxyOf } from "./utils/proxyOf";
 
+// --- Base Types ---
+
 type Slot = [
 	string,
 	...string[],
 ];
-
 type Variant = [
 	string,
 	...string[],
 ];
 
-/**
- * Contract defines what a "cls" contains, it's used for a stable inference
- * source of truth.
- */
-export interface Contract<
-	TSlot extends Slot,
-	TVariant extends Record<string, Variant>,
-	TUse extends Contract<any, any, any> | unknown = unknown,
-> {
-	slot: TSlot;
-	variant: TVariant;
-	use?: TUse;
-}
+type VariantRecord = Record<string, readonly string[]>;
+
+// --- Recursive Helpers ---
 
 type AllSlotKeys<T> = T extends {
 	slot: infer S extends readonly string[];
@@ -37,25 +28,12 @@ type AllSlotKeys<T> = T extends {
 		: S
 	: [];
 
-export type Slots<TContract extends Contract<any, any, any>> = Record<
-	TContract["slot"][number],
-	ClassName
-> &
-	Partial<
-		Record<
-			Exclude<AllSlotKeys<TContract>[number], TContract["slot"][number]>,
-			ClassName
-		>
-	>;
-
-type VariantRecord = Record<string, readonly string[]>;
-
-type VariantEx<T extends Contract<any, any, any>> = T extends {
+type AllVariants<T> = T extends {
 	variant: infer V extends VariantRecord;
 	use?: infer U;
 }
 	? U extends Contract<any, any, any>
-		? VariantEx<U> & V
+		? AllVariants<U> & V
 		: V
 	: {};
 
@@ -65,79 +43,79 @@ type LocalVariantKeys<T> = T extends {
 	? keyof V
 	: never;
 
-type VariantKeys<T extends Contract<any, any, any>> = keyof VariantEx<T>;
+type AllVariantKeys<T> = keyof AllVariants<T>;
 
-/**
- * Variants is a record of variants, each variant has a record of slots and their
- * classes.
- */
-export type Variants<TContract extends Contract<any, any, any>> = {
-	[K in Extract<keyof VariantEx<TContract>, LocalVariantKeys<TContract>>]: {
-		[V in VariantEx<TContract>[K][number]]: Partial<
-			Record<keyof Slots<TContract>, ClassName>
+// --- Contract and Derived Types ---
+
+export interface Contract<
+	TSlot extends Slot,
+	TVariant extends Record<string, Variant>,
+	TUse extends Contract<any, any, any> | unknown = unknown,
+> {
+	slot: TSlot;
+	variant: TVariant;
+	use?: TUse;
+}
+
+export type Slots<T extends Contract<any, any, any>> = Record<
+	T["slot"][number],
+	ClassName
+> &
+	Partial<
+		Record<Exclude<AllSlotKeys<T>[number], T["slot"][number]>, ClassName>
+	>;
+
+export type Variants<T extends Contract<any, any, any>> = {
+	[K in Extract<keyof AllVariants<T>, LocalVariantKeys<T>>]: {
+		[V in AllVariants<T>[K][number]]: Partial<
+			Record<keyof Slots<T>, ClassName>
 		>;
 	};
 } & Partial<{
-	[K in Exclude<
-		keyof VariantEx<TContract>,
-		LocalVariantKeys<TContract>
-	>]: Partial<{
-		[V in VariantEx<TContract>[K][number]]: Partial<
-			Record<keyof Slots<TContract>, ClassName>
+	[K in Exclude<keyof AllVariants<T>, LocalVariantKeys<T>>]: Partial<{
+		[V in AllVariants<T>[K][number]]: Partial<
+			Record<keyof Slots<T>, ClassName>
 		>;
 	}>;
 }>;
 
-type MatchRule<TContract extends Contract<any, any, any>> = {
-	if?: { [K in VariantKeys<TContract>]?: VariantEx<TContract>[K][number] };
-	do?: Partial<Record<keyof Slots<TContract>, ClassName>>;
+type MatchRule<T extends Contract<any, any, any>> = {
+	if?: { [K in AllVariantKeys<T>]?: AllVariants<T>[K][number] };
+	do?: Partial<Record<keyof Slots<T>, ClassName>>;
 };
 
-type VariantKeysRecursive<T> = T extends {
-	variant: infer V extends VariantRecord;
-	use?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? keyof V | VariantKeysRecursive<U>
-		: keyof V
-	: never;
-
-export type Defaults<TContract extends Contract<any, any, any>> = {
-	[K in VariantKeysRecursive<TContract>]: VariantEx<TContract>[K][number];
+export type Defaults<T extends Contract<any, any, any>> = {
+	[K in AllVariantKeys<T>]: AllVariants<T>[K][number];
 };
 
-/**
- * Definition is used as the primary place to define classes on slots.
- */
-export interface Definition<TContract extends Contract<any, any, any>> {
-	slot: Slots<TContract>;
-	variant: Variants<TContract>;
-	match?: MatchRule<TContract>[];
-	defaults: Defaults<TContract>;
+// --- Main Structures ---
+
+export interface Definition<T extends Contract<any, any, any>> {
+	slot: Slots<T>;
+	variant: Variants<T>;
+	match?: MatchRule<T>[];
+	defaults: Defaults<T>;
 }
 
-export interface Props<TContract extends Contract<any, any, any>> {
-	contract: TContract;
-	definition: Definition<TContract>;
+export interface Props<T extends Contract<any, any, any>> {
+	contract: T;
+	definition: Definition<T>;
 }
 
-/**
- * This is a public facing instance of used "cls".
- */
-export interface Cls<TContract extends Contract<any, any, any>> {
+export interface Cls<T extends Contract<any, any, any>> {
 	create(): any;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
 	>(
-		props: Props<Contract<TSlot, TVariant, TContract>>,
-	): Cls<Contract<TSlot, TVariant, TContract>>;
-	contract: TContract;
+		props: Props<Contract<TSlot, TVariant, T>>,
+	): Cls<Contract<TSlot, TVariant, T>>;
+	contract: T;
 }
 
-export function cls<const TContract extends Contract<any, any, any>>(
-	props: Props<TContract>,
-): Cls<TContract> {
+export function cls<const T extends Contract<any, any, any>>(
+	props: Props<T>,
+): Cls<T> {
 	const proxy = proxyOf();
 
 	return {
