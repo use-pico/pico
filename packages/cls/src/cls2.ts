@@ -69,23 +69,19 @@ export interface Contract<
 // 				[S in keyof TContract["variant"]]: TContract["variant"][S][number];
 // 			};
 
-// /**
-//  * Definition is used as the primary place to define classes on slots.
-//  */
+/**
+ * Definition is used as the primary place to define classes on slots.
+ */
 // export interface Definition<TContract extends Contract<any, any, any>> {
-// 	slot: Slot<TContract>;
-// 	variant: Variants<TContract>;
-// 	/** now a named type instead of inline */
-// 	// match?: MatchRule<TContract["slot"][number], U>[];
-// 	defaults: Defaults<TContract>;
+// slot: Slot<TContract>;
+// variant: Variants<TContract>;
+/** now a named type instead of inline */
+// match?: MatchRule<TContract["slot"][number], U>[];
+// defaults: Defaults<TContract>;
 // }
 
-export interface Props<
-	TSlot extends Slot,
-	TVariant extends Record<string, Variant>,
-	TUse extends Contract<any, any, any> | unknown = unknown,
-> {
-	contract: Contract<TSlot, TVariant, TUse>;
+export interface Props<TContract extends Contract<any, any, any>> {
+	contract: TContract;
 	// definition: Definition<TContract>;
 }
 
@@ -94,20 +90,25 @@ export interface Props<
  */
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(): any;
+	use<
+		const TSlot extends Slot,
+		const TVariant extends Record<string, Variant>,
+	>(
+		props: Props<Contract<TSlot, TVariant, TContract>>,
+	): Cls<Contract<TSlot, TVariant, TContract>>;
 	contract: TContract;
 }
 
-export function cls<
-	const TSlot extends Slot,
-	const TVariant extends Record<string, Variant>,
-	const TUse extends Contract<any, any, any> | unknown = unknown,
->(props: Props<TSlot, TVariant, TUse>): Cls<Contract<TSlot, TVariant, TUse>> {
+export function cls<const TContract extends Contract<any, any, any>>(
+	props: Props<TContract>,
+): Cls<TContract> {
 	const proxy = proxyOf();
 
 	return {
 		create() {
 			return {} as any;
 		},
+		use: null as any,
 		contract: proxy,
 	};
 }
@@ -160,9 +161,8 @@ const CoreCls = cls({
 
 type _UltraBaseCls = (typeof CoreCls)["contract"];
 
-const ButtonCls = cls({
+const ButtonCls = CoreCls.use({
 	contract: {
-		use: CoreCls.contract,
 		slot: [
 			"label",
 			"icon",
@@ -214,9 +214,8 @@ const ButtonCls = cls({
 
 type _ButtonCls = (typeof ButtonCls)["contract"];
 
-const SomeButtonCls = cls({
+const SomeButtonCls = ButtonCls.use({
 	contract: {
-		use: ButtonCls.contract,
 		slot: [
 			"some",
 			"pica",
