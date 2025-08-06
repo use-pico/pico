@@ -109,6 +109,7 @@ export interface Definition<TContract extends Contract<any, any, any>> {
 }
 
 export interface Props<TContract extends Contract<any, any, any>> {
+	// TODO Support variant extensions from "use", e.g. color in inherited "cls"
 	contract: TContract;
 	definition: Definition<TContract>;
 }
