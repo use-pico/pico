@@ -124,7 +124,7 @@ export function cls<
 
 // --- Test Examples ---
 
-const UltraBaseCls = cls({
+const CoreCls = cls({
 	/**
 	 * Define tokens which will be required in the dictionary
 	 *
@@ -132,6 +132,8 @@ const UltraBaseCls = cls({
 	 * "dictionary" is selected, it provides values defined by those tokens.
 	 *
 	 * Tokens should extend as inheritance goes.
+	 *
+	 * Required, but may be empty
 	 */
 	tokens: [
 		"bgColor",
@@ -144,6 +146,8 @@ const UltraBaseCls = cls({
 	 * to rest of "cls".
 	 *
 	 * This works basically the same as "variant".
+	 *
+	 * Required, but may be empty
 	 */
 	dictionary: {
 		primary: {
@@ -155,44 +159,71 @@ const UltraBaseCls = cls({
 			],
 		},
 	},
-	slot: {
-		ultra: [],
+	slot(dictionary) {
+		return {
+			root: [
+				dictionary.bgColor,
+			],
+		};
 	},
-	variant: {
-		ultra: {
-			variant: {
-				ultra: [],
+	variant(dictionary) {
+		return {
+			ultra: {
+				variant: {
+					ultra: [],
+				},
+				another: {
+					ultra: [],
+				},
 			},
-			another: {
-				ultra: [],
-			},
-		},
+		};
 	},
 	defaults: {
 		ultra: "variant",
 	},
 } as const);
 
-const BaseCls = cls({
+const ButtonCls = cls({
 	use: UltraBaseCls,
-	slot: {
-		root: [],
-		label: [
-			"abc",
-		],
-	},
-	variant: {
-		color: {
-			blue: {
-				root: [],
-				label: [
-					"text-blue-500",
-				],
-			},
-			red: {
-				root: [],
-			},
+	tokens: [],
+	dictionary: {
+		/**
+		 * This keys should be added to the inheritance
+		 */
+		newOne: {
+			bgColor: [
+				"bg-new-one",
+			],
+			hoverColor: [
+				"hover-new-one",
+			],
 		},
+	},
+	slot(dictionary) {
+		return {
+			wrapper: [
+				"p-4",
+				"p-2",
+			],
+			label: [
+				"font-bold",
+			],
+		};
+	},
+	variant(dictionary) {
+		return {
+			color: {
+				blue: {
+					root: [],
+					label: [
+						"text-blue-500",
+					],
+				},
+				red: {
+					root: [],
+				},
+			},
+		};
 	},
 	defaults: {
 		color: "blue",
@@ -206,42 +237,46 @@ const SomeCls = cls({
 		some: [],
 		pica: [],
 	},
-	variant: {
-		foo: {
-			bar: {
-				some: [
-					"foo",
-				],
-				root: [
-					"this-works",
-				],
-				ultra: [],
+	variant(dictionary) {
+		return {
+			foo: {
+				bar: {
+					some: [
+						"foo",
+					],
+					root: [
+						"this-works",
+					],
+					ultra: [],
+				},
+				baz: {
+					some: [],
+				},
 			},
-			baz: {
-				some: [],
-			},
-		},
+		};
 	},
 
 	// ✅ fully inferred MatchRule[]
-	match: [
-		{
-			if: {
-				color: "blue", // only "blue"|"red"
-				foo: "baz", // only "bar"|"baz"
-				ultra: "another", // only "variant"|"another"
+	match(dictionary) {
+		return [
+			{
+				if: {
+					color: "blue", // only "blue"|"red"
+					foo: "baz", // only "bar"|"baz"
+					ultra: "another", // only "variant"|"another"
+				},
+				do: {
+					some: [
+						"foo-style",
+					], // only "some"|"pica"|"root"|"label"|"ultra"
+					pica: [
+						"pica-style",
+					],
+					// ❌ any other key here will now error
+				},
 			},
-			do: {
-				some: [
-					"foo-style",
-				], // only "some"|"pica"|"root"|"label"|"ultra"
-				pica: [
-					"pica-style",
-				],
-				// ❌ any other key here will now error
-			},
-		},
-	],
+		];
+	},
 
 	defaults: {
 		foo: "bar",
