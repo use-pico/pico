@@ -14,6 +14,11 @@ export interface Contract<
 	variant: TVariants;
 }
 
+export type Slot<TContract extends Contract<any, any, any>> = Record<
+	TContract["slot"][number],
+	ClassName
+>;
+
 /**
  * Variant defines which slots uses which classes when this variant is active.
  */
@@ -25,12 +30,9 @@ export type Variant<TSlotKeys extends string> = Partial<{
  * Variants is a record of variants, each variant has a record of slots and their
  * classes.
  */
-export type Variants<
-	TVariantKeys extends string,
-	TSlotKeys extends string,
-> = Partial<{
-	[S in TVariantKeys]: {
-		[V in TVariantKeys]: Variant<TSlotKeys>;
+export type Variants<TContract extends Contract<any, any, any>> = Partial<{
+	[S in TContract["variant"][number]]: {
+		[V in TContract["slot"][number]]: Variant<TContract["slot"][number]>;
 	};
 }>;
 
@@ -50,14 +52,10 @@ export interface Definition<
 	TUse extends Cls<any> | undefined = undefined,
 > {
 	use?: TUse;
-
-	slot: Record<TContract["slot"][number], ClassName>;
-
-	variant: Variants<TContract["variant"][number], TContract["slot"][number]>;
-
+	slot: Slot<TContract>;
+	variant: Variants<TContract>;
 	/** now a named type instead of inline */
 	// match?: MatchRule<TContract["slot"][number], U>[];
-
 	defaults: any;
 }
 
@@ -117,7 +115,7 @@ const UltraBaseCls = cls({
 			new: [],
 			// dfg: [],
 		},
-		variant: {            
+		variant: {
 			ultra: {
 				variant: {
 					foo: [],
