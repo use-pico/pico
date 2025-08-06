@@ -90,17 +90,17 @@ export type Slots<TContract extends Contract<any, any, any>> = Partial<
 /**
  * Definition is used as the primary place to define classes on slots.
  */
-// export interface Definition<TContract extends Contract<any, any, any>> {
-// slot: Slot<TContract>;
-// variant: Variants<TContract>;
-/** now a named type instead of inline */
-// match?: MatchRule<TContract["slot"][number], U>[];
-// defaults: Defaults<TContract>;
-// }
+export interface Definition<TContract extends Contract<any, any, any>> {
+	slot: Slots<TContract>;
+	// variant: Variants<TContract>;
+	/** now a named type instead of inline */
+	// match?: MatchRule<TContract["slot"][number], U>[];
+	// defaults: Defaults<TContract>;
+}
 
 export interface Props<TContract extends Contract<any, any, any>> {
 	contract: TContract;
-	// definition: Definition<TContract>;
+	definition: Definition<TContract>;
 }
 
 /**
@@ -146,16 +146,17 @@ const CoreCls = cls({
 			],
 		},
 	},
-	// definition: {
-	// 	slot: {
-	// 		root: [
-	// 			"root-cls",
-	// 		],
-	// 		wrapper: [
-	// 			"wrapper-cls",
-	// 		],
-	// 		// dfg: [],
-	// 	},
+	definition: {
+		slot: {
+			root: [
+				"root-cls",
+			],
+			wrapper: [
+				"wrapper-cls",
+			],
+			// dfg: [],
+		},
+	},
 	// 	variant: {
 	// 		// dfdF: [],
 	// 		color: {
@@ -194,16 +195,18 @@ const ButtonCls = CoreCls.use({
 			],
 		},
 	},
-	// definition: {
-	// 	slot: {
-	// 		// root: [],
-	// 		// wrapper: [],
-	// 		label: [
-	// 			"abc",
-	// 		],
-	// 		icon: [],
-	// 		// icon: [],
-	// 	},
+	definition: {
+		slot: {
+			root: [],
+			// wrapper: [],
+			label: [
+				"abc",
+			],
+			icon: [],
+			// pica: [],
+			// icon: [],
+		},
+	},
 	// 	variant: {
 	// 		icon: {
 	// 			large: {
@@ -253,28 +256,28 @@ const SomeButtonCls = ButtonCls.use({
 			],
 		},
 	},
-	// definition: {
-	// 	slot: {
-	// 		some: [],
-	// 		pica: [],
-	// 	},
-	// 	variant: {
-	// 		foo: {
-	// 			bar: {
-	// 				some: [
-	// 					"foo",
-	// 				],
-	// 				root: [
-	// 					"this-works",
-	// 				],
-	// 			},
-	// 			baz: {
-	// 				some: [],
-	// 				root: [],
-	// 			},
-	// 		},
-	// 	},
-
+	definition: {
+		slot: {
+			some: [],
+			pica: [],
+		},
+		// variant: {
+		// 	foo: {
+		// 		bar: {
+		// 			some: [
+		// 				"foo",
+		// 			],
+		// 			root: [
+		// 				"this-works",
+		// 			],
+		// 		},
+		// 		baz: {
+		// 			some: [],
+		// 			root: [],
+		// 		},
+		// 	},
+		// },
+	},
 	// 	// ✅ fully inferred MatchRule[]
 	// 	// match: [
 	// 	// 	{
