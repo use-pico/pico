@@ -53,7 +53,7 @@ export type Slots<TContract extends Contract<any, any, any>> = Partial<
 
 type VariantRecord = Record<string, readonly string[]>;
 
-type VariantEx<T> = T extends {
+type VariantEx<T extends Contract<any, any, any>> = T extends {
 	variant: infer V extends VariantRecord;
 	use?: infer U;
 }
@@ -68,7 +68,7 @@ type LocalVariantKeys<T> = T extends {
 	? keyof V
 	: never;
 
-type AllVariantKeys<T extends Contract<any, any, any>> = keyof VariantEx<T>;
+type VariantKeys<T extends Contract<any, any, any>> = keyof VariantEx<T>;
 
 /**
  * Variants is a record of variants, each variant has a record of slots and their
@@ -99,7 +99,7 @@ type MatchRule<TContract extends Contract<any, any, any>> = {
 };
 
 export type Defaults<TContract extends Contract<any, any, any>> = {
-	[K in AllVariantKeys<TContract>]: VariantEx<TContract>[K][number];
+	[K in VariantKeys<TContract>]: VariantEx<TContract>[K][number];
 };
 
 /**
