@@ -19,6 +19,7 @@ export interface Contract<
 > {
 	slot: TSlot;
 	variant: TVariant;
+	tokens: any;
 	use?: TUse;
 }
 
@@ -200,6 +201,30 @@ const CoreCls = cls({
 			color: [
 				"blue",
 				"red",
+			],
+		},
+		/**
+		 * TODO Token support:
+		 *
+		 * This must implement inheritance same as "variant" in Contract do
+		 */
+		tokens: {
+			/**
+			 * Define individual groups
+			 */
+			group: [
+				"group-1",
+				"group-2",
+			],
+			/**
+			 * Define individual values
+			 *
+			 * which in turn will be provided as
+			 * group-1: { variable-1: ClassName, variable-2: ClassName }
+			 */
+			values: [
+				"variable-1",
+				"variable-2",
 			],
 		},
 	},
