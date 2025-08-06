@@ -26,6 +26,35 @@ export type Variant<TSlotKeys extends string> = Partial<{
 	[K in TSlotKeys]: ClassName;
 }>;
 
+type MergeSlots<
+	TContract extends Contract<any, any, any>,
+	TUse extends Contract<any, any, any> | undefined,
+> = TUse extends Contract<any, any, any>
+	? TContract["slot"][number] | TUse["slot"][number]
+	: TContract["slot"][number];
+
+type MergeVariants<
+	TContract extends Contract<any, any, any>,
+	TUse extends Contract<any, any, any> | undefined,
+> = {
+	[K in keyof TContract["variant"]]: {
+		[V in TContract["variant"][K][number]]: Partial<
+			Record<MergeSlots<TContract, TUse>, ClassName>
+		>;
+	};
+} & (TUse extends Contract<any, any, any>
+	? {
+			[K in Exclude<
+				keyof TUse["variant"],
+				keyof TContract["variant"]
+			>]?: {
+				[V in TUse["variant"][K][number]]: Partial<
+					Record<MergeSlots<TContract, TUse>, ClassName>
+				>;
+			};
+		}
+	: {});
+
 /**
  * Variants is a record of variants, each variant has a record of slots and their
  * classes.
@@ -33,13 +62,7 @@ export type Variant<TSlotKeys extends string> = Partial<{
 export type Variants<
 	TContract extends Contract<any, any, any>,
 	TUse extends Contract<any, any, any> | undefined = undefined,
-> = {
-	[S in keyof TContract["variant"]]: {
-		[V in TContract["variant"][S][number]]: Partial<{
-			[K in TContract["slot"][number]]: ClassName;
-		}>;
-	};
-};
+> = MergeVariants<TContract, TUse>;
 
 export type Defaults<TContract extends Contract<any, any, any>> = {
 	[S in keyof TContract["variant"]]: TContract["variant"][S][number];
