@@ -138,8 +138,14 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					],
 				},
 				tokens: {
-					variant: [],
-					group: {},
+					variant: [
+						"default",
+					],
+					group: {
+						color: [
+							"purple",
+						],
+					},
 				},
 			},
 			{
@@ -164,38 +170,30 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					},
 				},
 				variant: {
-					theme: {
-						light: {
-							root: "btn-light theme-light",
-							icon: "icon-light",
+					size: {
+						lg: {
+							icon: [],
 						},
-						dark: {
-							root: "btn-dark theme-dark",
-							icon: {
-								token: [
-									"color.blue",
-									"color.green",
-								],
-							},
+						sm: {
+							icon: [],
 						},
 					},
-					size: {
-						sm: {
-							root: "btn-sm",
-							icon: "icon-sm",
-						},
-						lg: {
-							root: "btn-lg",
-							icon: "icon-lg",
+					theme: {
+						dark: {
+							icon: [],
+							root: [],
 						},
 					},
 				},
 				tokens: {
 					default: {
+						spacing: {
+							medium: [],
+						},
 						color: {
-							blue: [
-								"df",
-							],
+							// purple: [
+							// 	"",
+							// ],
 						},
 					},
 				},
