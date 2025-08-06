@@ -42,12 +42,16 @@ type SlotsEx<T> = T extends {
 		: SlotKeys<T>
 	: SlotKeys<T>;
 
-export type Slots<TContract extends Contract<any, any, any>> = Partial<
-	Required<TContract>["use"] extends Contract<any, any, any>
-		? Record<SlotsEx<Required<TContract>["use"]>[number], ClassName>
-		: {}
+export type Slots<TContract extends Contract<any, any, any>> = Record<
+	TContract["slot"][number],
+	ClassName
 > &
-	Record<TContract["slot"][number], ClassName>;
+	Partial<
+		Record<
+			Exclude<SlotsEx<TContract>[number], TContract["slot"][number]>,
+			ClassName
+		>
+	>;
 
 type VariantRecord = Record<string, readonly string[]>;
 
@@ -109,7 +113,6 @@ export interface Definition<TContract extends Contract<any, any, any>> {
 }
 
 export interface Props<TContract extends Contract<any, any, any>> {
-	// TODO Support variant extensions from "use", e.g. color in inherited "cls"
 	contract: TContract;
 	definition: Definition<TContract>;
 }
