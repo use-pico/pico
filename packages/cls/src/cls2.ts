@@ -275,8 +275,48 @@ type _ButtonClsSlots = Slots<_ButtonClsContract>;
 
 type _ButtonClsUse = _ButtonClsContract["use"];
 
+const Uncompatible = cls({
+	contract: {
+		slot: [
+			"foo",
+		],
+		variant: {},
+	},
+	definition: {
+		slot: {
+			foo: [],
+		},
+		variant: {},
+		defaults: {},
+	},
+});
+
+type HasBaseInUseChain<Sub, Base> = Sub extends Base
+	? true
+	: Sub extends {
+				use?: infer U;
+			}
+		? HasBaseInUseChain<U, Base>
+		: false;
+
+export function satisfiesContract<Base extends Contract<any, any, any>>() {
+	return <Sub extends Contract<any, any, any>>(
+		sub: Cls<Sub> & {
+			contract: HasBaseInUseChain<Sub, Base> extends true
+				? any
+				: [
+						"❌ Not derived from Base contract",
+						{
+							sub: Sub;
+							base: Base;
+						},
+					];
+		},
+	): Cls<Base> => sub as any;
+}
+
 // TODO Fix assigning
-// const _testAssign: _CoreCls = ButtonCls;
+const _testAssign: _CoreCls = satisfiesContract(CoreCls, Uncompatible);
 
 const SomeButtonCls = ButtonCls.use({
 	contract: {
