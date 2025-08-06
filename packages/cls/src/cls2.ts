@@ -233,7 +233,7 @@ const ButtonCls = CoreCls.use({
 			},
 		},
 		defaults: {
-			color: "blue",
+			// color: "blue",
 			ultra: "another",
 		},
 	},
@@ -241,8 +241,16 @@ const ButtonCls = CoreCls.use({
 
 const SomeButtonCls = ButtonCls.use({
 	contract: {
-		slot: [],
-		variant: {},
+		slot: [
+			"some",
+			"pica",
+		],
+		variant: {
+			foo: [
+				"bar",
+				"baz",
+			],
+		},
 	},
 	definition: {
 		slot: {
@@ -258,10 +266,10 @@ const SomeButtonCls = ButtonCls.use({
 					root: [
 						"this-works",
 					],
-					ultra: [],
 				},
 				baz: {
 					some: [],
+					root: [],
 				},
 			},
 		},
