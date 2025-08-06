@@ -1,3 +1,4 @@
+import type { ClassName } from "./types/ClassName";
 import { proxyOf } from "./utils/proxyOf";
 
 type Slot = [
@@ -24,11 +25,13 @@ export interface Contract<
 	use?: TUse;
 }
 
-// export type Slot<TContract extends Contract<any, any, any>> =
-// 	TContract["use"] extends Contract<any, any, any>
-// 		? Record<TContract["slot"][number], ClassName> &
-// 				Partial<Record<TContract["use"]["slot"][number], ClassName>>
-// 		: Record<TContract["slot"][number], ClassName>;
+export type Slots<TContract extends Contract<any, any, any>> =
+	Required<TContract>["use"] extends Contract<any, any, any>
+		? Partial<
+				Record<Required<TContract>["use"]["slot"][number], ClassName>
+			> &
+				Record<TContract["slot"][number], ClassName>
+		: Record<TContract["slot"][number], ClassName>;
 
 // type MergeSlots<TContract extends Contract<any, any, any>> =
 // 	TContract["use"] extends Contract<any, any, any>
@@ -159,7 +162,9 @@ const CoreCls = cls({
 	// },
 });
 
-type _UltraBaseCls = (typeof CoreCls)["contract"];
+type _CoreCls = typeof CoreCls;
+type _CoreClsContract = _CoreCls["contract"];
+type _CoreClsSlots = keyof Slots<_CoreClsContract>;
 
 const ButtonCls = CoreCls.use({
 	contract: {
@@ -212,7 +217,10 @@ const ButtonCls = CoreCls.use({
 	// },
 });
 
-type _ButtonCls = (typeof ButtonCls)["contract"];
+type _ButtonCls = typeof ButtonCls;
+type _ButtonClsContract = _ButtonCls["contract"];
+type _ButtonClsSlots = keyof Slots<_ButtonClsContract>;
+type _ButtonClsUse = _ButtonClsContract["use"];
 
 const SomeButtonCls = ButtonCls.use({
 	contract: {
@@ -277,4 +285,7 @@ const SomeButtonCls = ButtonCls.use({
 	// },
 });
 
-type _SomeButtonCls = (typeof SomeButtonCls)["contract"];
+type _SomeButtonCls = typeof SomeButtonCls;
+type _SomeButtonClsContract = _SomeButtonCls["contract"];
+type _SomeButtonClsSlots = keyof Slots<_SomeButtonClsContract>;
+type _SomeButtonClsUse = _SomeButtonClsContract["use"];
