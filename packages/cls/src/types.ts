@@ -41,7 +41,7 @@ export type HasBaseInUseChain<Sub, Base> = Sub extends Base
 
 export type ClassName = ClassNameValue;
 export type SlotContract = readonly string[];
-export type TokenContract = readonly string[];
+export type TokenContract = Record<string, readonly string[]>;
 export type VariantContract = Record<string, readonly string[]>;
 
 export type Contract<
@@ -77,17 +77,17 @@ export type Contract<
 // TOKEN TYPES
 // ============================================================================
 
-export type Token<TContract extends Contract<any, any, any>> =
-	TContract["tokens"][number];
+export type TokenKey<TContract extends Contract<any, any, any>> =
+	`${keyof TContract["tokens"] & string}.${TContract["tokens"][keyof TContract["tokens"]][number]}`;
 
 export type TokensOf<TContract extends Contract<any, any, any>> =
 	TContract extends {
 		"~use"?: infer TUse;
 	}
 		? TUse extends Contract<any, any, any>
-			? Token<TContract> | TokensOf<TUse>
-			: Token<TContract>
-		: Token<TContract>;
+			? TokenKey<TContract> | TokensOf<TUse>
+			: TokenKey<TContract>
+		: TokenKey<TContract>;
 
 export type TokensOfList<TContract extends Contract<any, any, any>> = [
 	TokensOf<TContract>,
@@ -95,12 +95,21 @@ export type TokensOfList<TContract extends Contract<any, any, any>> = [
 ];
 
 export type InheritedTokens<TContract extends Contract<any, any, any>> =
-	Exclude<TokensOf<TContract>, Token<TContract>>;
+	Exclude<
+		TokensOf<TContract>,
+		`${keyof TContract["tokens"] & string}.${TContract["tokens"][keyof TContract["tokens"]][number]}`
+	>;
 
 export type TokenDefinition<TContract extends Contract<any, any, any>> = {
-	[K in InheritedTokens<TContract>]?: ClassName;
+	// Support inherited tokens from parent (nested structure)
+	[K in InheritedTokens<TContract>]?: {
+		[V in TContract["tokens"][K][number]]?: ClassName;
+	};
 } & {
-	[K in Token<TContract>]: ClassName;
+	// Support current contract tokens in nested structure
+	[K in keyof TContract["tokens"]]?: {
+		[V in TContract["tokens"][K][number]]: ClassName;
+	};
 };
 
 // ============================================================================
@@ -202,7 +211,17 @@ export type Definition<TContract extends Contract<any, any, any>> = {
 	defaults: DefaultDefinition<TContract>;
 };
 
-export type CreateConfig<TContract extends Contract<any, any, any>> = {};
+export type CreateConfig<TContract extends Contract<any, any, any>> = {
+	token?: string;
+	variant?: Partial<DefaultDefinition<TContract>>;
+	slot?: Record<
+		string,
+		{
+			class?: ClassName;
+			token?: string[];
+		}
+	>;
+};
 
 export type Component<TCls extends Cls<any>, P = unknown> = Partial<
 	CreateConfig<TCls["contract"]>

@@ -9,35 +9,51 @@ describe("TDD", () => {
 		 */
 		const PicoCls = cls(
 			{
-				tokens: [
+				tokens: {
 					// === Primary ===
-					"primary.textColor.default",
-					"primary.textColor.hover",
-					"primary.textColor.disabled",
-					"primary.borderColor.default",
-					"primary.borderColor.hover",
-					"primary.borderColor.disabled",
-					"primary.bgColor.default",
-					"primary.bgColor.hover",
-					"primary.bgColor.disabled",
-					"primary.shadowColor.default",
-					"primary.shadowColor.hover",
-					"primary.shadowColor.disabled",
+					"primary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.borderColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.bgColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.shadowColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
 
 					// === Secondary ===
-					"secondary.textColor.default",
-					"secondary.textColor.hover",
-					"secondary.textColor.disabled",
-					"secondary.borderColor.default",
-					"secondary.borderColor.hover",
-					"secondary.borderColor.disabled",
-					"secondary.bgColor.default",
-					"secondary.bgColor.hover",
-					"secondary.bgColor.disabled",
-					"secondary.shadowColor.default",
-					"secondary.shadowColor.hover",
-					"secondary.shadowColor.disabled",
-				],
+					"secondary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.borderColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.bgColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.shadowColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+				},
 				slot: [],
 				variant: {
 					pico: [
@@ -48,35 +64,51 @@ describe("TDD", () => {
 			},
 			{
 				token: {
-					"primary.bgColor.default": [],
-					"primary.bgColor.disabled": [],
-					"primary.bgColor.hover": [],
-					"primary.borderColor.default": [],
-					"primary.borderColor.disabled": [],
-					"primary.borderColor.hover": [],
-					"primary.textColor.disabled": [],
-					"primary.textColor.hover": [],
-					"primary.shadowColor.default": [],
-					"primary.shadowColor.disabled": [],
-					"primary.shadowColor.hover": [],
-					"primary.textColor.default": [
-						"text-blue-600",
-					],
+					"primary.bgColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
+					"primary.borderColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
+					"primary.textColor": {
+						disabled: [],
+						hover: [],
+						default: [
+							"text-blue-600",
+						],
+					},
+					"primary.shadowColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
 					//
-					"secondary.bgColor.default": [],
-					"secondary.bgColor.disabled": [],
-					"secondary.bgColor.hover": [],
-					"secondary.borderColor.default": [],
-					"secondary.borderColor.disabled": [],
-					"secondary.borderColor.hover": [],
-					"secondary.shadowColor.default": [],
-					"secondary.shadowColor.disabled": [],
-					"secondary.shadowColor.hover": [],
-					"secondary.textColor.disabled": [],
-					"secondary.textColor.hover": [],
-					"secondary.textColor.default": [
-						"text-red-600",
-					],
+					"secondary.bgColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
+					"secondary.borderColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
+					"secondary.shadowColor": {
+						default: [],
+						disabled: [],
+						hover: [],
+					},
+					"secondary.textColor": {
+						disabled: [],
+						hover: [],
+						default: [
+							"text-red-600",
+						],
+					},
 				},
 				rule: [],
 				defaults: {
@@ -87,10 +119,14 @@ describe("TDD", () => {
 
 		const ButtonCls = PicoCls.extend(
 			{
-				tokens: [
-					"primary.textColor.default",
-					"button.some.token",
-				],
+				tokens: {
+					"primary.textColor": [
+						"default",
+					],
+					"button.some": [
+						"token",
+					],
+				},
 				slot: [
 					"root",
 					"icon",
@@ -112,8 +148,18 @@ describe("TDD", () => {
 			},
 			{
 				token: {
-					"button.some.token": [],
-					"primary.textColor.default": [],
+					// Current contract tokens (nested structure)
+
+					"button.some": {
+						token: [
+							"button-specific-class",
+						],
+					},
+					"primary.textColor": {
+						default: [
+							"text-white",
+						],
+					},
 				},
 				rule: [
 					{
@@ -176,10 +222,14 @@ describe("TDD", () => {
 
 		const ExtendedButtonCls = ButtonCls.extend(
 			{
-				tokens: [
-					"button.some.token",
-					"extra.token",
-				],
+				tokens: {
+					"button.some": [
+						"token",
+					],
+					extra: [
+						"token",
+					],
+				},
 				slot: [
 					"extra",
 				],
@@ -191,9 +241,17 @@ describe("TDD", () => {
 			},
 			{
 				token: {
-					"button.some.token": [],
-					"primary.bgColor.default": [],
-					"extra.token": [],
+					// Current contract tokens (nested structure)
+					"button.some": {
+						token: [
+							"extended-button-class",
+						],
+					},
+					extra: {
+						token: [
+							"extra-slot-class",
+						],
+					},
 				},
 				rule: [
 					{
@@ -228,5 +286,190 @@ describe("TDD", () => {
 		);
 
 		const _testAssignment2: typeof PicoCls = PicoCls.use(ExtendedButtonCls);
+	});
+
+	it("Demonstrates inheritance correctly", () => {
+		// Base design system with tokens
+		const DesignSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					"color.secondary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+						"xl",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					"color.secondary": {
+						default: [
+							"text-gray-600",
+						],
+						hover: [
+							"text-gray-700",
+						],
+						active: [
+							"text-gray-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+						xl: [
+							"p-8",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		// Button component that extends the design system
+		const Button = DesignSystem.extend(
+			{
+				tokens: {
+					button: [
+						"base",
+						"variant",
+					], // Only defines its own tokens
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
+					size: [
+						"sm",
+						"md",
+						"lg",
+					],
+				},
+			},
+			{
+				token: {
+					// Only define current contract tokens
+					button: {
+						base: [
+							"rounded",
+							"font-medium",
+						],
+						variant: [
+							"transition-colors",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								class: [
+									"inline-flex",
+									"items-center",
+								],
+								// Can use inherited tokens from parent
+								token: [
+									"button.base",
+									"button.variant",
+									"spacing.md",
+								],
+							},
+							label: {
+								// Can use inherited tokens from parent
+								token: [
+									"color.primary.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							variant: "primary",
+						},
+						slot: {
+							root: {
+								// Can use inherited tokens from parent
+								token: [
+									"color.primary.default",
+								],
+							},
+							label: {
+								// Can use inherited tokens from parent
+								token: [
+									"color.primary.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							variant: "secondary",
+						},
+						slot: {
+							root: {
+								// Can use inherited tokens from parent
+								token: [
+									"color.secondary.default",
+								],
+							},
+							label: {
+								// Can use inherited tokens from parent
+								token: [
+									"color.secondary.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					variant: "primary",
+					size: "md",
+				},
+			},
+		);
+
+		// Test that inheritance works
+		const buttonInstance = Button.create({});
+		console.log("Inheritance example created successfully");
 	});
 });

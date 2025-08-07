@@ -30,7 +30,7 @@ export function cls<
 		// Extract configuration
 		const variant = config.token;
 		const variantsOverride = config.variant || {};
-		const slotsOverride = (config.slot || {}) as SlotsOverrideConfig;
+		const slotsOverride = config.slot || {};
 
 		// Handle defaults for variants
 		const defaults = resolvedDefinition.defaults;
@@ -46,22 +46,19 @@ export function cls<
 			tokenReferences: string[],
 			targetClasses: ClassName[],
 		): void => {
-			if (!resolvedDefinition.tokens || !variant) return;
-
-			const tokenDefinition =
-				resolvedDefinition.tokens as ResolvedTokenDefinition;
-
-			const variantTokens = tokenDefinition[variant as string];
-			if (!variantTokens) return;
+			if (!resolvedDefinition.token) return;
 
 			for (const tokenReference of tokenReferences) {
-				const [tokenGroup, tokenValue] = tokenReference.split(".");
-
-				if (tokenGroup && tokenValue) {
-					const groupTokens = variantTokens[tokenGroup];
-					if (groupTokens?.[tokenValue]) {
-						const tokenClasses = groupTokens[tokenValue];
-						targetClasses.push(...tokenClasses);
+				const [tokenGroup, tokenVariant] = tokenReference.split(".");
+				if (tokenGroup && tokenVariant) {
+					const groupTokens = (
+						resolvedDefinition.token as Record<
+							string,
+							Record<string, ClassName[]>
+						>
+					)[tokenGroup];
+					if (groupTokens?.[tokenVariant]) {
+						targetClasses.push(...groupTokens[tokenVariant]);
 					}
 				}
 			}
@@ -70,42 +67,38 @@ export function cls<
 		// Helper function to generate classes for a specific slot
 		const generateSlotClasses = (slotName: string): string => {
 			const classes: ClassName[] = [];
-			const slotConfig = (resolvedDefinition.slot as ResolvedSlotConfig)[
-				slotName
-			];
 
-			if (!slotConfig) return "";
+			// Apply rules in order
+			if (resolvedDefinition.rule) {
+				for (const rule of resolvedDefinition.rule) {
+					// Check if this rule applies to the current slot
+					const slotConfig = (rule.slot as Record<string, any>)[
+						slotName
+					];
+					if (!slotConfig) continue;
 
-			// Add base slot classes
-			if (slotConfig.class) {
-				classes.push(...slotConfig.class);
-			}
-
-			// Add token classes from slot configuration
-			if (slotConfig.token) {
-				resolveTokenClasses(slotConfig.token, classes);
-			}
-
-			// Add variant classes
-			if (resolvedDefinition.variant) {
-				for (const [variantName, variantConfig] of Object.entries(
-					resolvedDefinition.variant as Record<string, any>,
-				)) {
-					const variantValue = finalVariants[variantName];
-					const variantSlotValue =
-						variantConfig?.[String(variantValue)]?.[slotName];
-
-					if (variantSlotValue) {
-						// Only {class, token} object format supported
-						if (variantSlotValue.class) {
-							classes.push(...variantSlotValue.class);
+					// Check if variant conditions match
+					if (rule.match) {
+						let shouldApply = true;
+						for (const [
+							variantName,
+							expectedValue,
+						] of Object.entries(rule.match)) {
+							const actualValue = finalVariants[variantName];
+							if (actualValue !== expectedValue) {
+								shouldApply = false;
+								break;
+							}
 						}
-						if (variantSlotValue.token) {
-							resolveTokenClasses(
-								variantSlotValue.token,
-								classes,
-							);
-						}
+						if (!shouldApply) continue;
+					}
+
+					// Apply the rule
+					if (slotConfig.class) {
+						classes.push(...slotConfig.class);
+					}
+					if (slotConfig.token) {
+						resolveTokenClasses(slotConfig.token, classes);
 					}
 				}
 			}
