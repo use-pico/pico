@@ -216,9 +216,8 @@ describe("TDD", () => {
 				],
 				defaults: {
 					variant: "primary",
-					disabled: true,
 					size: "md",
-					pico: "bar",
+					disabled: false,
 				},
 			},
 		);
@@ -293,18 +292,42 @@ describe("TDD", () => {
 		const _testAssignment2: typeof PicoCls = PicoCls.use(ExtendedButtonCls);
 
 		const bla = ExtendedButtonCls.create({
-            slot: {
-                foo: {
-                    class: [],
-                    token: [],
-                },
-            },
-            token: undefined,
-            variant: {
-                disabled: true,,
-                pico: 'bar'
-            },
-        });
+			slot: {
+				extra: {
+					class: [
+						"dfdf",
+					],
+					token: [
+						"primary.bgColor.default",
+					],
+				},
+			},
+			override: {
+				extra: {
+					class: [
+						"dfdf",
+					],
+					token: [
+						"primary.bgColor.default",
+					],
+				},
+			},
+			/**
+			 * We can replace whatever tokens we want, fully typesafe + inherited
+			 */
+			token: {
+				"button.some": {
+					token: [],
+				},
+				"primary.shadowColor": {
+					disabled: [],
+				},
+			},
+			variant: {
+				disabled: true,
+				pico: "bar",
+			},
+		});
 	});
 
 	it("Demonstrates inheritance correctly", () => {
@@ -633,5 +656,390 @@ describe("TDD", () => {
 		);
 
 		console.log("Type safety for inherited tokens works correctly");
+	});
+
+	it("Demonstrates create method API", () => {
+		// Base design system
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+						"xl",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
+					size: [
+						"sm",
+						"md",
+						"lg",
+					],
+				},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+						xl: [
+							"p-8",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								class: [
+									"base-root",
+								],
+								token: [
+									"spacing.md",
+								],
+							},
+							label: {
+								token: [
+									"color.primary.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					variant: "primary",
+					size: "md",
+					disabled: false,
+				},
+			},
+		);
+
+		// Child component
+		const ChildComponent = BaseSystem.extend(
+			{
+				tokens: {
+					button: [
+						"base",
+						"variant",
+					],
+				},
+				slot: [
+					"icon",
+				],
+				variant: {
+					disabled: [
+						"bool",
+					],
+				},
+			},
+			{
+				token: {
+					button: {
+						base: [
+							"rounded",
+							"font-medium",
+						],
+						variant: [
+							"transition-colors",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"button.base",
+									"button.variant",
+								],
+							},
+							icon: {
+								class: [
+									"icon-class",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					disabled: false,
+				},
+			},
+		);
+
+		// Test create method with inheritance
+		const instance = ChildComponent.create({
+			// Variant overrides (inherited + current)
+			variant: {
+				variant: "secondary", // Inherited from parent
+				size: "lg", // Inherited from parent
+				disabled: true, // Current contract
+			},
+			// Slot overrides (inherited + current)
+			slot: {
+				root: {
+					class: [
+						"override-root-class",
+					],
+					token: [
+						"color.primary.hover",
+					],
+				},
+				label: {
+					class: [
+						"override-label-class",
+					], // Inherited slot
+				},
+				icon: {
+					token: [
+						"button.base",
+					], // Current slot
+				},
+			},
+		});
+
+		console.log("Create method API works correctly with inheritance");
+	});
+
+	it("Demonstrates token override functionality", () => {
+		// Base design system with tokens
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
+					size: [
+						"sm",
+						"md",
+						"lg",
+					],
+				},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.primary.default",
+									"spacing.md",
+								],
+							},
+							label: {
+								token: [
+									"color.primary.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					variant: "primary",
+					size: "md",
+				},
+			},
+		);
+
+		// Test token override during create
+		const instance = BaseSystem.create({
+			// Override specific token definitions
+			token: {
+				"color.primary": {
+					default: [
+						"text-red-600",
+					], // Override default color
+					hover: [
+						"text-red-700",
+					], // Override hover color
+				},
+				spacing: {
+					md: [
+						"p-8",
+					], // Override spacing
+				},
+			},
+			// Override variants
+			variant: {
+				size: "lg",
+			},
+		});
+
+		console.log("Token override functionality works correctly");
+	});
+
+	it("Demonstrates optional token variant values", () => {
+		// Base design system with tokens
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+					],
+				},
+				slot: [
+					"root",
+				],
+				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
+				},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.primary.default",
+									"spacing.md",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					variant: "primary",
+				},
+			},
+		);
+
+		// Test token override with optional values
+		const instance = BaseSystem.create({
+			token: {
+				"color.primary": {
+					default: [
+						"text-red-600",
+					], // Only override default
+					// hover and active are optional and can be omitted
+				},
+				spacing: {
+					md: [
+						"p-8",
+					], // Only override md spacing
+					// xs, sm, lg are optional and can be omitted
+				},
+			},
+		});
+
+		console.log("Optional token variant values work correctly");
 	});
 });

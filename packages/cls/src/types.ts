@@ -134,6 +134,19 @@ export type TokenDefinition<TContract extends Contract<any, any, any>> = {
 	};
 };
 
+export type OptionalTokenDefinition<TContract extends Contract<any, any, any>> =
+	{
+		// Support inherited token groups from parent (nested structure)
+		[K in InheritedTokenGroups<TContract>]?: {
+			[V in TokenGroupVariants<TContract, K>[number]]?: ClassName;
+		};
+	} & {
+		// Support current contract tokens in nested structure
+		[K in keyof TContract["tokens"]]?: {
+			[V in TContract["tokens"][K][number]]?: ClassName;
+		};
+	};
+
 // ============================================================================
 // SLOT TYPES
 // ============================================================================
@@ -234,15 +247,28 @@ export type Definition<TContract extends Contract<any, any, any>> = {
 };
 
 export type CreateConfig<TContract extends Contract<any, any, any>> = {
-	token?: string;
+	/**
+	 * Override default variants
+	 */
 	variant?: Partial<DefaultDefinition<TContract>>;
-	slot?: Record<
-		string,
-		{
-			class?: ClassName;
-			token?: string[];
-		}
-	>;
+	/**
+	 * Append to slots already defined by "cls"
+	 */
+	slot?: {
+		[K in SlotsOf<TContract>]?: What<TContract>;
+	};
+	/**
+	 * If you use this, defined slots are overridden the hard way,
+	 * it's more like you directly push those classes/tokens into
+	 * the slot.
+	 */
+	override?: {
+		[K in SlotsOf<TContract>]?: What<TContract>;
+	};
+	/**
+	 * Override specific token definitions during create
+	 */
+	token?: Partial<OptionalTokenDefinition<TContract>>;
 };
 
 export type Component<TCls extends Cls<any>, P = unknown> = Partial<

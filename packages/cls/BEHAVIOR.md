@@ -197,20 +197,112 @@ const ChildCls = ParentCls.extend(
 ## Create System
 
 ### Create Configuration
-The `create` method accepts configuration to override defaults:
+The `create` method accepts configuration to override defaults, slot styling, and token definitions:
 ```typescript
 const instance = Cls.create({
   variant: { size: "lg" }, // Override default size
   slot: {
-    root: { class: ["override-class"] }, // Override slot styling
+    root: { 
+      class: ["override-class"], // Override with classes
+      token: ["color.primary.default"], // Override with tokens
+    },
+    label: { 
+      class: ["text-sm"], // Override label slot
+    },
+  },
+  override: {
+    root: {
+      class: ["hard-override"], // Hard override - replaces all previous styles
+    },
+  },
+  token: {
+    "color.primary": {
+      default: ["text-red-600"], // Override specific token definition
+      hover: ["text-red-700"],
+    },
+    "spacing.md": ["p-8"], // Override spacing token
   },
 });
 ```
 
+### Configuration Properties
+
+#### variant
+- **Type**: `Partial<DefaultDefinition<TContract>>`
+- **Purpose**: Override default variant values
+- **Inheritance**: Supports all inherited variants from parent contracts
+- **Type Safety**: Only valid variants from the inheritance chain are allowed
+
+#### slot
+- **Type**: `{ [K in SlotsOf<TContract>]?: What<TContract> }`
+- **Purpose**: Append additional styling to slots defined by the cls
+- **Inheritance**: Supports all inherited slots from parent contracts
+- **Type Safety**: Only valid slots from the inheritance chain are allowed
+- **Structure**: Each slot can have `class` and/or `token` properties
+- **Behavior**: Classes and tokens are merged with existing slot styles
+
+#### override
+- **Type**: `{ [K in SlotsOf<TContract>]?: What<TContract> }`
+- **Purpose**: Hard override of slot styling - replaces all previous styles
+- **Inheritance**: Supports all inherited slots from parent contracts
+- **Type Safety**: Only valid slots from the inheritance chain are allowed
+- **Structure**: Each slot can have `class` and/or `token` properties
+- **Behavior**: Completely replaces existing slot styles with new ones
+
+#### token
+- **Type**: `Partial<OptionalTokenDefinition<TContract>>`
+- **Purpose**: Override specific token definitions during create
+- **Inheritance**: Supports all inherited tokens from parent contracts
+- **Type Safety**: Only valid tokens from the inheritance chain are allowed
+- **Structure**: Nested structure matching token organization
+- **Behavior**: Replaces token definitions for the duration of this create call
+- **Scope**: Only affects this specific create call, doesn't modify the original cls definition
+- **Optional Values**: All token variant values are optional (unlike TokenDefinition where some are required)
+
+### Token Override Structure
+Token overrides use the same nested structure as token definitions, but all variant values are optional:
+```typescript
+token: {
+  "color.primary": {
+    default: ["text-red-600"], // Override specific variant
+    hover: ["text-red-700"], // Optional - can be omitted
+    // active: ["text-red-800"], // Optional - can be omitted
+  },
+  "spacing": {
+    md: ["p-8"], // Override spacing token
+    // lg: ["p-12"], // Optional - can be omitted
+  },
+  "button.base": ["rounded-lg", "font-bold"], // Override button token
+}
+```
+
 ### Configuration Merging
-- Variant overrides are merged with defaults
-- Slot overrides are applied after all rules are processed
-- Slot overrides have highest precedence
+1. **Variant Merging**: Variant overrides are merged with defaults
+   - Child variant overrides take precedence over parent defaults
+   - Missing variants use default values
+
+2. **Token Override Application**: Token overrides are applied before rule processing
+   - Token overrides have highest precedence for token resolution
+   - Overrides are scoped to this create call only
+   - Inherited tokens can be overridden
+
+3. **Slot Override Application**: Slot overrides are applied after all rules are processed
+   - `slot` overrides append to existing styles
+   - `override` overrides completely replace existing styles
+   - Overrides are applied to the final computed classes for each slot
+
+4. **Inheritance Support**: 
+   - All inherited slots are available in slot configurations
+   - All inherited variants are available in variant configuration
+   - All inherited tokens are available in token configuration
+   - Type system ensures only valid slots, variants, and tokens can be used
+
+### Type Safety Features
+- **Slot Validation**: Only slots defined in the contract or inherited from parent contracts are allowed
+- **Variant Validation**: Only variants defined in the contract or inherited from parent contracts are allowed
+- **Token Validation**: Only tokens defined in the contract or inherited from parent contracts are allowed
+- **Boolean Variants**: "bool" variants are automatically converted to boolean types in variant overrides
+- **Token Structure Validation**: Token overrides must match the expected nested structure
 
 ## Use System
 
@@ -231,16 +323,19 @@ const AssignedCls = BaseCls.use(ExtendedCls); // Type-safe assignment
 
 ### Resolution Process
 1. Apply default variant values
-2. Merge with create configuration overrides
-3. Apply rules in order based on variant matching
-4. Apply slot overrides from create configuration
-5. Merge all classes using `tvc` (tailwind-merge)
+2. Apply token overrides from create configuration
+3. Merge with create configuration variant overrides
+4. Apply rules in order based on variant matching
+5. Apply slot overrides from create configuration
+6. Apply override overrides from create configuration
+7. Merge all classes using `tvc` (tailwind-merge)
 
 ### Token Resolution
-1. Look up token in current contract definition
-2. If not found, look up in parent contract definitions
-3. Resolve token to CSS classes
-4. Apply classes to the slot
+1. Check for token overrides in create configuration first
+2. Look up token in current contract definition
+3. If not found, look up in parent contract definitions
+4. Resolve token to CSS classes
+5. Apply classes to the slot
 
 ### Class Merging
 - All classes are merged using `tvc` (tailwind-merge)
