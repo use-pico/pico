@@ -175,7 +175,7 @@ export const ButtonCls = cls(
 			// 	],
 			// },
 		},
-		match: [
+		rule: [
 			{
 				if: {
 					variant: "primary",

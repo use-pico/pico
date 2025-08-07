@@ -78,7 +78,7 @@ describe("TDD", () => {
 						"text-red-600",
 					],
 				},
-				match: [],
+				rule: [],
 				defaults: {
 					pico: "foo",
 				},
@@ -115,10 +115,10 @@ describe("TDD", () => {
 					"button.some.token": [],
 					"primary.textColor.default": [],
 				},
-				match: [
+				rule: [
 					{
 						override: true,
-						variant: {
+						match: {
 							disabled: true,
 							pico: "foo",
 						},
@@ -134,7 +134,7 @@ describe("TDD", () => {
 						},
 					},
 					{
-						variant: {
+						match: {
 							pico: "bar",
 						},
 						slot: {
@@ -151,7 +151,7 @@ describe("TDD", () => {
 						},
 					},
 					{
-						variant: {
+						match: {
 							variant: "primary",
 						},
 						slot: {
@@ -195,7 +195,7 @@ describe("TDD", () => {
 					"primary.bgColor.default": [],
 					"extra.token": [],
 				},
-				match: [
+				rule: [
 					{
 						slot: {
 							extra: {
@@ -206,7 +206,7 @@ describe("TDD", () => {
 						},
 					},
 					{
-						variant: {
+						match: {
 							size: "xl",
 						},
 						slot: {

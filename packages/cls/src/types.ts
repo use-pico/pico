@@ -153,7 +153,7 @@ export type What<TContract extends Contract<any, any, any>> =
 	| WhatClass
 	| WhatToken<TContract>;
 
-export type MatchDefinition<TContract extends Contract<any, any, any>> = {
+export type RuleDefinition<TContract extends Contract<any, any, any>> = {
 	/**
 	 * When override mode is active, this rule reset all classes already generated
 	 * and starts over from scratch.
@@ -164,7 +164,7 @@ export type MatchDefinition<TContract extends Contract<any, any, any>> = {
 	 *
 	 * If variant is missing, this rules is applied without any conditions.
 	 */
-	variant?: {
+	match?: {
 		[K in keyof Variants<TContract>]?: StringToBool<
 			Variants<TContract>[K][number]
 		>;
@@ -198,7 +198,7 @@ export type DefaultDefinition<TContract extends Contract<any, any, any>> = {
  */
 export type Definition<TContract extends Contract<any, any, any>> = {
 	token: TokenDefinition<TContract>;
-	match: MatchDefinition<TContract>[];
+	rule: RuleDefinition<TContract>[];
 	defaults: DefaultDefinition<TContract>;
 };
 
