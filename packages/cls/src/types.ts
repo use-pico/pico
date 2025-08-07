@@ -95,10 +95,7 @@ export type TokensOfList<TContract extends Contract<any, any, any>> = [
 ];
 
 export type InheritedTokens<TContract extends Contract<any, any, any>> =
-	Exclude<
-		TokensOf<TContract>,
-		`${keyof TContract["tokens"] & string}.${TContract["tokens"][keyof TContract["tokens"]][number]}`
-	>;
+	Exclude<TokensOf<TContract>, TokenKey<TContract>>;
 
 export type TokenDefinition<TContract extends Contract<any, any, any>> = {
 	// Support inherited tokens from parent (nested structure)

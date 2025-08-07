@@ -149,7 +149,7 @@ describe("TDD", () => {
 			{
 				token: {
 					// Current contract tokens (nested structure)
-
+                    
 					"button.some": {
 						token: [
 							"button-specific-class",
