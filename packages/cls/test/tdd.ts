@@ -291,6 +291,20 @@ describe("TDD", () => {
 		);
 
 		const _testAssignment2: typeof PicoCls = PicoCls.use(ExtendedButtonCls);
+
+		const bla = ExtendedButtonCls.create({
+            slot: {
+                foo: {
+                    class: [],
+                    token: [],
+                },
+            },
+            token: undefined,
+            variant: {
+                disabled: true,,
+                pico: 'bar'
+            },
+        });
 	});
 
 	it("Demonstrates inheritance correctly", () => {
