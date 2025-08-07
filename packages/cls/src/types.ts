@@ -44,18 +44,29 @@ export type SlotContract = readonly string[];
 export type TokenContract = Record<string, readonly string[]>;
 export type VariantContract = Record<string, readonly string[]>;
 
+// Type that collects all tokens from the entire inheritance chain
+export type AllInheritedTokens<TContract extends Contract<any, any, any>> =
+	TContract extends {
+		"~use"?: infer TUse;
+	}
+		? TUse extends Contract<any, any, any>
+			? keyof TContract["tokens"] | AllInheritedTokens<TUse>
+			: keyof TContract["tokens"]
+		: keyof TContract["tokens"];
+
 // Type that allows both inherited token overrides and new token definitions
-export type ExtendableTokenContract<
-	TBaseContract extends Contract<any, any, any>,
-> = {
-	// Allow overriding inherited tokens with their specific variants
-	[K in keyof TBaseContract["tokens"]]?:
-		| TBaseContract["tokens"][K]
-		| readonly string[];
-} & {
-	// Allow defining new tokens
-	[key: string]: readonly string[];
-};
+export type ExtendableTokenContract<TContract extends Contract<any, any, any>> =
+	| {
+			// Allow overriding inherited tokens with their specific variants
+			[K in InheritedTokenGroups<TContract>]?: TokenGroupVariants<
+				TContract,
+				K
+			>;
+	  }// Allow overriding inherited tokens with their specific variants // Allow overriding inherited tokens with their specific variants // Allow overriding inherited tokens with their specific variants
+	| {
+			// Allow defining new tokens
+			[key: string]: readonly string[];
+	  };
 
 export type Contract<
 	TTokenContract extends TokenContract | ExtendableTokenContract<any>,
@@ -117,7 +128,7 @@ export type InheritedTokenGroups<TContract extends Contract<any, any, any>> =
 		"~use"?: infer TUse;
 	}
 		? TUse extends Contract<any, any, any>
-			? TokenGroups<TUse> | InheritedTokenGroups<TUse>
+			? keyof TUse["tokens"] | InheritedTokenGroups<TUse>
 			: never
 		: never;
 

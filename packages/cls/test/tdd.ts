@@ -275,6 +275,12 @@ describe("TDD", () => {
 					"button.some": [
 						"token",
 					],
+                    "primary.textColor": [
+                        ''
+                    ],
+					"primary.shadowColor": [
+						"sd",
+					],
 					extra: [
 						"token",
 					],
@@ -1419,5 +1425,86 @@ describe("TDD", () => {
 			"TestButtonCls contract tokens:",
 			Object.keys(TestButtonCls.contract.tokens),
 		);
+
+		// Let's test a deeper inheritance chain
+		const GrandParent = cls(
+			{
+				tokens: {
+					"grandparent.token": [
+						"value1",
+						"value2",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		const Parent = GrandParent.extend(
+			{
+				tokens: {
+					"parent.token": [
+						"value1",
+						"value2",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		const Child = Parent.extend(
+			{
+				tokens: {
+					// This should show intellisense for both grandparent and parent tokens
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		console.log(
+			"GrandParent tokens:",
+			Object.keys(GrandParent.contract.tokens),
+		);
+		console.log("Parent tokens:", Object.keys(Parent.contract.tokens));
+		console.log("Child tokens:", Object.keys(Child.contract.tokens));
+		console.log(
+			"Child contract ~use:",
+			Child.contract["~use"] ? "has parent" : "no parent",
+		);
+
+		// Let's see the actual contract structure
+		console.log("Child contract structure:", {
+			tokens: Child.contract.tokens,
+			hasUse: !!Child.contract["~use"],
+			useTokens: Child.contract["~use"]
+				? Object.keys((Child.contract["~use"] as any).tokens)
+				: [],
+		});
+
+		// Let's also check the Parent contract structure
+		console.log("Parent contract structure:", {
+			tokens: Parent.contract.tokens,
+			hasUse: !!Parent.contract["~use"],
+			useTokens: Parent.contract["~use"]
+				? Object.keys((Parent.contract["~use"] as any).tokens)
+				: [],
+		});
 	});
 });
