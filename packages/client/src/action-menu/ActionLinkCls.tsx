@@ -2,7 +2,7 @@ import { type ClsProps, cls } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
 export const ActionLinkCls = cls({
-	use: ActionCls,
+	~use: ActionCls,
 	slot: {},
 	variant: {},
 	defaults: {},

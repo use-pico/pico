@@ -2,7 +2,7 @@ import { type ClsProps, cls } from "@use-pico/cls";
 import { IconCls } from "../icon/IconCls";
 
 export const BoolInlineCls = cls({
-	use: IconCls,
+	~use: IconCls,
 	slot: {},
 	variant: {
 		value: {

@@ -35,195 +35,182 @@ describe("TDD", () => {
 					"secondary.shadowColor.disabled",
 				],
 				slot: [],
-				variant: {},
+				variant: {
+					pico: [
+						"foo",
+						"bar",
+					],
+				},
 			},
 			{
-				tokens: {
+				token: {
+					"primary.bgColor.default": [],
+					"primary.bgColor.disabled": [],
+					"primary.bgColor.hover": [],
+					"primary.borderColor.default": [],
+					"primary.borderColor.disabled": [],
+					"primary.borderColor.hover": [],
+					"primary.textColor.disabled": [],
+					"primary.textColor.hover": [],
+					"primary.shadowColor.default": [],
+					"primary.shadowColor.disabled": [],
+					"primary.shadowColor.hover": [],
 					"primary.textColor.default": [
 						"text-blue-600",
 					],
+					//
+					"secondary.bgColor.default": [],
+					"secondary.bgColor.disabled": [],
+					"secondary.bgColor.hover": [],
+					"secondary.borderColor.default": [],
+					"secondary.borderColor.disabled": [],
+					"secondary.borderColor.hover": [],
+					"secondary.shadowColor.default": [],
+					"secondary.shadowColor.disabled": [],
+					"secondary.shadowColor.hover": [],
+					"secondary.textColor.disabled": [],
+					"secondary.textColor.hover": [],
 					"secondary.textColor.default": [
 						"text-red-600",
 					],
 				},
+				match: [],
+				defaults: {
+					pico: "foo",
+				},
 			},
 		);
 
-		const ButtonCls = PicoCls.use(
+		const ButtonCls = PicoCls.extend(
 			{
-				tokens: [],
+				tokens: [
+					"primary.textColor.default",
+					"button.some.token",
+				],
 				slot: [
-					"base",
+					"root",
+					"icon",
+					"label",
 				],
 				variant: {
-					variant: [
-						"primary",
-						"secondary",
-						// "danger",
-						// "danger-light",
-						// "subtle",
-						// "light",
-						// "neutral",
+					size: [
+						"sm",
+						"md",
 					],
 					disabled: [
 						"true",
-						"false",
-					],
-					size: [
-						"xs",
-						"sm",
-						"md",
-						// "lg",
-						// "xl",
-					],
-					borderless: [
-						"true",
-						"false",
 					],
 				},
 			},
 			{
-				slot: {
-					base: {
-						class: [
-							[
-								"flex",
-								"flex-row",
-								"items-center",
-								"justify-center",
-								"gap-2",
-								"group",
-								"rounded-md",
-								"transition-all",
-								"cursor-pointer",
-								"border",
-								"shadow-sm",
-								// CSS Variables
-								"bg-(--pico-color-bg-default)",
-								"hover:bg-(--pico-color-bg-hover)",
-								//
-								"border-(--pico-color-border-default)",
-								"hover:border-(--pico-color-border-hover)",
-								//
-								"text-(--pico-color-text-default)",
-								"hover:text-(--pico-color-text-hover)",
-								//
-								"shadow-(color:--pico-color-shadow-default)",
-								"hover:shadow-(color:--pico-color-shadow-hover)",
-							],
-						],
-					},
-				},
-				variant: {
-					"variant.primary.base": {
-						class: [
-							"",
-						],
-						token: [],
-					},
-
-					variant: {
-						primary: {
-							base: {
-								token: [
-									"primary.textColor.default",
-									"primary.textColor.hover",
-								],
-							},
-						},
-						secondary: {
-							base: {
-								token: [
-									"secondary.textColor.default",
-									"secondary.textColor.hover",
-								],
-							},
-						},
-						// primary: [
-						// 	"pico--button-color-primary",
-						// ],
-						// secondary: [
-						// 	"pico--button-color-secondary",
-						// ],
-						// danger: [
-						// 	"pico--button-color-danger",
-						// ],
-						// "danger-light": [
-						// 	"pico--button-color-danger-light",
-						// ],
-						// subtle: [
-						// 	"pico--button-color-subtle",
-						// ],
-						// light: [
-						// 	"pico--button-color-light",
-						// ],
-						// neutral: [
-						// 	"pico--button-color-neutral",
-						// ],
-					},
-					disabled: {
-						true: {
-							base: {
-								class: [
-									"cursor-not-allowed",
-									"opacity-50",
-									"hover:opacity-50",
-								],
-							},
-						},
-						false: {},
-					},
-					// size: {
-					// 	xs: [
-					// 		"py-0.5",
-					// 		"px-1",
-					// 	],
-					// 	sm: [
-					// 		"py-1",
-					// 		"px-2",
-					// 	],
-					// 	md: [
-					// 		"py-2",
-					// 		"px-4",
-					// 	],
-					// 	lg: [
-					// 		"py-3",
-					// 		"px-6",
-					// 	],
-					// 	xl: [
-					// 		"py-4",
-					// 		"px-8",
-					// 	],
-					// },
-					// borderless: {
-					// 	true: [
-					// 		"border-none",
-					// 	],
-					// },
+				token: {
+					"button.some.token": [],
+					"primary.textColor.default": [],
 				},
 				match: [
 					{
-						if: {
-							variant: "primary",
+						variant: {
 							disabled: "true",
+							pico: "foo",
 						},
-						do: {
-							base: {
-								token: [
-									"default.textColor.hover",
-									"default.bgColor.hover",
-									"default.borderColor.hover",
-								],
-							},
+						override: true,
+						slot: [
+							"root",
+							"label",
+						],
+						what: {
+							token: [
+								"primary.bgColor.default",
+							],
+						},
+					},
+					{
+						slot: [
+							"root",
+						],
+						what: {
+							class: [
+								"root",
+							],
+							token: [
+								"button.some.token",
+								"primary.borderColor.disabled",
+							],
+						},
+					},
+					{
+						variant: {
+							pico: "bar",
+						},
+						slot: [
+							"root",
+							"label",
+						],
+						what: {
+							class: [
+								"root",
+							],
+							token: [
+								"button.some.token",
+								"primary.borderColor.disabled",
+							],
 						},
 					},
 				],
 				defaults: {
-					variant: "primary",
-					disabled: "false",
+					disabled: "true",
 					size: "md",
-					borderless: "false",
+					pico: "bar",
 				},
+			},
+		);
+
+		const ExtendedButtonCls = ButtonCls.extend(
+			{
+				tokens: [
+					"button.some.token",
+					"extra.token",
+				],
+				slot: [
+					"extra",
+				],
+				variant: {
+					size: [
+						"xl",
+					],
+				},
+			},
+			{
+				token: {
+					"button.some.token": [],
+					"primary.bgColor.default": [],
+					"extra.token": [],
+				},
+				match: [
+					{
+						slot: [
+							"extra",
+						],
+						what: {
+							token: [
+								"extra.token",
+							],
+						},
+					},
+					{
+						variant: {
+							size: "xl",
+						},
+						slot: [
+							"root",
+						],
+						what: {
+							token: [
+								"primary.bgColor.default",
+							],
+						},
+					},
+				],
 			},
 		);
 	});
