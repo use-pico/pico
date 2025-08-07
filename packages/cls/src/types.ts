@@ -94,13 +94,38 @@ export type TokensOfList<TContract extends Contract<any, any, any>> = [
 	...TokensOf<TContract>[],
 ];
 
-export type InheritedTokens<TContract extends Contract<any, any, any>> =
-	Exclude<TokensOf<TContract>, TokenKey<TContract>>;
+// Extract just the token group names (e.g., "primary.bgColor")
+export type TokenGroups<TContract extends Contract<any, any, any>> =
+	keyof TContract["tokens"] & string;
+
+// Extract inherited token groups (groups from parent contracts)
+export type InheritedTokenGroups<TContract extends Contract<any, any, any>> =
+	TContract extends {
+		"~use"?: infer TUse;
+	}
+		? TUse extends Contract<any, any, any>
+			? TokenGroups<TUse> | InheritedTokenGroups<TUse>
+			: never
+		: never;
+
+// Get variants for a specific token group from the inheritance chain
+export type TokenGroupVariants<
+	TContract extends Contract<any, any, any>,
+	TGroup extends string,
+> = TContract extends {
+	"~use"?: infer TUse;
+}
+	? TUse extends Contract<any, any, any>
+		? TGroup extends keyof TUse["tokens"]
+			? TUse["tokens"][TGroup]
+			: TokenGroupVariants<TUse, TGroup>
+		: never
+	: never;
 
 export type TokenDefinition<TContract extends Contract<any, any, any>> = {
-	// Support inherited tokens from parent (nested structure)
-	[K in InheritedTokens<TContract>]?: {
-		[V in TContract["tokens"][K][number]]?: ClassName;
+	// Support inherited token groups from parent (nested structure)
+	[K in InheritedTokenGroups<TContract>]?: {
+		[V in TokenGroupVariants<TContract, K>[number]]?: ClassName;
 	};
 } & {
 	// Support current contract tokens in nested structure

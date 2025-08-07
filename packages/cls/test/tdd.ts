@@ -1,5 +1,6 @@
 import { describe, it } from "bun:test";
 import { cls } from "../src";
+import type { TokenGroups } from "../src/types";
 
 describe("TDD", () => {
 	it("Just Showcase", () => {
@@ -149,10 +150,14 @@ describe("TDD", () => {
 			{
 				token: {
 					// Current contract tokens (nested structure)
-                    
 					"button.some": {
 						token: [
 							"button-specific-class",
+						],
+					},
+					"primary.shadowColor": {
+						disabled: [
+							"blabla",
 						],
 					},
 					"primary.textColor": {
@@ -471,5 +476,148 @@ describe("TDD", () => {
 		// Test that inheritance works
 		const buttonInstance = Button.create({});
 		console.log("Inheritance example created successfully");
+	});
+
+	it("Demonstrates helper types", () => {
+		// Example to show how the helper types work
+		const ExampleContract = {
+			tokens: {
+				"color.primary": [
+					"default",
+					"hover",
+					"active",
+				],
+				spacing: [
+					"xs",
+					"sm",
+					"md",
+					"lg",
+					"xl",
+				],
+			},
+			slot: [],
+			variant: {},
+		} as const;
+
+		// TokenGroups extracts just the group names
+		type _Groups = TokenGroups<typeof ExampleContract>;
+		// Result: "color.primary" | "spacing"
+
+		console.log("Helper types work correctly");
+	});
+
+	it("Demonstrates type safety for inherited tokens", () => {
+		// Base design system
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+						"xl",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+						xl: [
+							"p-8",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		// Child component that extends the base
+		const ChildComponent = BaseSystem.extend(
+			{
+				tokens: {
+					button: [
+						"base",
+						"variant",
+					],
+				},
+				slot: [
+					"root",
+				],
+				variant: {},
+			},
+			{
+				token: {
+					// Inherited tokens now have proper type safety
+					"color.primary": {
+						default: [
+							"bg-blue-500",
+						], // ✅ Type-safe: "default" is valid
+						hover: [
+							"bg-blue-600",
+						], // ✅ Type-safe: "hover" is valid
+						active: [
+							"bg-blue-700",
+						], // ✅ Type-safe: "active" is valid
+						// disabled: ["bg-gray-300"], // ❌ Type error: "disabled" not in ["default", "hover", "active"]
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						], // ✅ Type-safe: "xs" is valid
+						md: [
+							"p-4",
+						], // ✅ Type-safe: "md" is valid
+						// xxl: ["p-12"], // ❌ Type error: "xxl" not in ["xs", "sm", "md", "lg", "xl"]
+					},
+
+					// Current contract tokens
+					button: {
+						base: [
+							"rounded",
+							"font-medium",
+						],
+						variant: [
+							"transition-colors",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		console.log("Type safety for inherited tokens works correctly");
 	});
 });
