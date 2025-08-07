@@ -122,59 +122,44 @@ describe("TDD", () => {
 							disabled: true,
 							pico: "foo",
 						},
-						slot: [
-							"root",
-							"label",
-						],
-						what: {
-							token: [
-								"primary.bgColor.default",
-							],
-						},
+						slot: {},
 					},
 					{
-						slot: [
-							"root",
-						],
-						what: {
-							class: [
-								"root",
-							],
-							token: [
-								"button.some.token",
-								"primary.borderColor.disabled",
-							],
+						slot: {
+							icon: {
+								class: [
+									"class",
+								],
+							},
 						},
 					},
 					{
 						variant: {
 							pico: "bar",
 						},
-						slot: [
-							"root",
-							"label",
-						],
-						what: {
-							class: [
-								"root",
-							],
-							token: [
-								"button.some.token",
-								"primary.borderColor.disabled",
-							],
+						slot: {
+							icon: {
+								token: [
+									"primary.bgColor.disabled",
+								],
+							},
+							label: {
+								class: [
+									"dfdf",
+								],
+							},
 						},
 					},
 					{
 						variant: {
 							variant: "primary",
 						},
-						slot: [
-							"icon",
-						],
-						what: {
-							token: [
-								"primary.bgColor.hover",
-							],
+						slot: {
+							label: {
+								class: [
+									"dsf",
+								],
+							},
 						},
 					},
 				],
@@ -212,30 +197,29 @@ describe("TDD", () => {
 				},
 				match: [
 					{
-						slot: [
-							"extra",
-						],
-						what: {
-							token: [
-								"extra.token",
-							],
+						slot: {
+							extra: {
+								token: [
+									"extra.token",
+								],
+							},
 						},
 					},
 					{
 						variant: {
 							size: "xl",
 						},
-						slot: [
-							"root",
-						],
-						what: {
-							token: [
-								"primary.bgColor.default",
-							],
+						slot: {
+							root: {
+								token: [
+									"primary.bgColor.default",
+								],
+							},
 						},
 					},
 				],
 				defaults: {
+					variant: "primary",
 					disabled: false,
 					pico: "foo",
 					size: "sm",

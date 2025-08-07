@@ -170,13 +170,11 @@ export type MatchDefinition<TContract extends Contract<any, any, any>> = {
 		>;
 	};
 	/**
-	 * Which slots are being affected by this rule.
+	 * Each slot may get different styles based on this match.
 	 */
-	slot: SlotsOfList<TContract>;
-	/**
-	 * What to apply - it may be class, tokens or both.
-	 */
-	what: What<TContract>;
+	slot: {
+		[k in SlotsOf<TContract>]?: What<TContract>;
+	};
 };
 
 // ============================================================================
