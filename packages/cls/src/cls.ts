@@ -1,10 +1,15 @@
 import { tvc } from "./tvc";
 import type {
+	ClassName,
 	Cls,
 	Contract,
 	CreateConfig,
 	Definition,
+	ResolvedSlotConfig,
+	ResolvedTokenDefinition,
 	Slot,
+	SlotsOverrideConfig,
+	SlotsProxy,
 	TokenSchema,
 	VariantRecord,
 } from "./types";
@@ -17,286 +22,115 @@ export function cls<const TContract extends Contract<any, any, any>>(
 	const proxy = proxyOf();
 	const resolvedDefinition = definition;
 
-	// Create the component function that accepts a config object
+	// Create function that returns slots directly
 	const createFn = (config: CreateConfig<TContract>) => {
 		// Extract configuration
 		const variant = config.tokens;
 		const variantsOverride = config.variants || {};
-		const slotsOverride = (config.slots || {}) as Record<
-			string,
-			{
-				class?: string[];
-				token?: string[];
-			}
-		>;
+		const slotsOverride = (config.slots || {}) as SlotsOverrideConfig;
 
 		// Handle defaults for variants
 		const defaults = resolvedDefinition.defaults;
 
-		// Return the component function
-		return (variants: any = {}) => {
-			const finalVariants = {
-				...defaults,
-				...variantsOverride,
-				...variants,
-			};
+		// Merge all variants immediately
+		const finalVariants = {
+			...defaults,
+			...variantsOverride,
+		};
 
-			return {
-				slots: Object.fromEntries(
-					Object.entries(
-						resolvedDefinition.slot as Record<string, any>,
-					).map(([slotName, slotConfig]) => [
-						slotName,
-						() => {
-							const classes: string[] = [];
+		// Helper function to resolve token classes
+		const resolveTokenClasses = (
+			tokenReferences: string[],
+			targetClasses: ClassName[],
+		): void => {
+			if (!resolvedDefinition.tokens || !variant) return;
 
-							// Add base slot classes
-							if (slotConfig.class) {
-								classes.push(...slotConfig.class);
-							}
+			const tokenDefinition =
+				resolvedDefinition.tokens as ResolvedTokenDefinition;
 
-							// Add token classes if specified (dot notation: "group.value")
-							if (
-								slotConfig.token &&
-								resolvedDefinition.tokens &&
-								variant
-							) {
-								const tokenDefinition =
-									resolvedDefinition.tokens as Record<
-										string,
-										Record<string, Record<string, any>>
-									>;
+			const variantTokens = tokenDefinition[variant as string];
+			if (!variantTokens) return;
 
-								// Get the specific variant's token definitions
-								const variantTokens =
-									tokenDefinition[variant as string];
+			for (const tokenReference of tokenReferences) {
+				const [tokenGroup, tokenValue] = tokenReference.split(".");
 
-								if (variantTokens) {
-									for (const tokenReference of slotConfig.token) {
-										// Parse dot notation: "spacing.small" -> group="spacing", value="small"
-										const [tokenGroup, tokenValue] = (
-											tokenReference as string
-										).split(".");
+				if (tokenGroup && tokenValue) {
+					const groupTokens = variantTokens[tokenGroup];
+					if (groupTokens?.[tokenValue]) {
+						const tokenClasses = groupTokens[tokenValue];
+						targetClasses.push(...tokenClasses);
+					}
+				}
+			}
+		};
 
-										if (
-											tokenGroup &&
-											tokenValue &&
-											variantTokens[tokenGroup]
-										) {
-											const groupTokens =
-												variantTokens[tokenGroup];
+		// Helper function to generate classes for a specific slot
+		const generateSlotClasses = (slotName: string): string => {
+			const classes: ClassName[] = [];
+			const slotConfig = (resolvedDefinition.slot as ResolvedSlotConfig)[
+				slotName
+			];
 
-											if (groupTokens[tokenValue]) {
-												const tokenClasses =
-													groupTokens[tokenValue];
-												if (
-													Array.isArray(tokenClasses)
-												) {
-													classes.push(
-														...tokenClasses,
-													);
-												} else {
-													classes.push(tokenClasses);
-												}
-											}
-										}
-									}
-								}
-							}
+			if (!slotConfig) return "";
 
-							// Add variant classes
-							if (resolvedDefinition.variant) {
-								const variantEntries = Object.entries(
-									resolvedDefinition.variant as Record<
-										string,
-										any
-									>,
-								);
-								for (const [
-									variantName,
-									variantConfig,
-								] of variantEntries) {
-									const variantValue =
-										finalVariants[variantName];
-									if (variantConfig?.[String(variantValue)]) {
-										const variantSlotValue =
-											variantConfig[String(variantValue)][
-												slotName
-											];
-										if (variantSlotValue) {
-											// Handle both legacy string format and new object format
-											if (
-												typeof variantSlotValue ===
-												"string"
-											) {
-												// Legacy format: direct class name
-												classes.push(variantSlotValue);
-											} else if (
-												Array.isArray(variantSlotValue)
-											) {
-												// Legacy format: array of class names
-												classes.push(
-													...variantSlotValue,
-												);
-											} else if (
-												typeof variantSlotValue ===
-												"object"
-											) {
-												// New format: {class, token} object
-												if (variantSlotValue.class) {
-													classes.push(
-														...variantSlotValue.class,
-													);
-												}
+			// Add base slot classes
+			if (slotConfig.class) {
+				classes.push(...slotConfig.class);
+			}
 
-												// Add variant token classes if specified (dot notation)
-												if (
-													variantSlotValue.token &&
-													resolvedDefinition.tokens &&
-													variant
-												) {
-													const tokenDefinition =
-														resolvedDefinition.tokens as Record<
-															string,
-															Record<
-																string,
-																Record<
-																	string,
-																	any
-																>
-															>
-														>;
+			// Add token classes from slot configuration
+			if (slotConfig.token) {
+				resolveTokenClasses(slotConfig.token, classes);
+			}
 
-													// Get the specific variant's token definitions
-													const variantTokens =
-														tokenDefinition[
-															variant as string
-														];
+			// Add variant classes
+			if (resolvedDefinition.variant) {
+				for (const [variantName, variantConfig] of Object.entries(
+					resolvedDefinition.variant as Record<string, any>,
+				)) {
+					const variantValue = finalVariants[variantName];
+					const variantSlotValue =
+						variantConfig?.[String(variantValue)]?.[slotName];
 
-													if (variantTokens) {
-														for (const tokenReference of variantSlotValue.token) {
-															// Parse dot notation: "spacing.small" -> group="spacing", value="small"
-															const [
-																tokenGroup,
-																tokenValue,
-															] = (
-																tokenReference as string
-															).split(".");
+					if (variantSlotValue) {
+						// Only {class, token} object format supported
+						if (variantSlotValue.class) {
+							classes.push(...variantSlotValue.class);
+						}
+						if (variantSlotValue.token) {
+							resolveTokenClasses(
+								variantSlotValue.token,
+								classes,
+							);
+						}
+					}
+				}
+			}
 
-															if (
-																tokenGroup &&
-																tokenValue &&
-																variantTokens[
-																	tokenGroup
-																]
-															) {
-																const groupTokens =
-																	variantTokens[
-																		tokenGroup
-																	];
+			// Add slot override classes (applied last for precedence)
+			const slotOverride = slotsOverride[slotName];
+			if (slotOverride) {
+				if (slotOverride.class) {
+					classes.push(...slotOverride.class);
+				}
+				if (slotOverride.token) {
+					resolveTokenClasses(slotOverride.token, classes);
+				}
+			}
 
-																if (
-																	groupTokens[
-																		tokenValue
-																	]
-																) {
-																	const tokenClasses =
-																		groupTokens[
-																			tokenValue
-																		];
-																	if (
-																		Array.isArray(
-																			tokenClasses,
-																		)
-																	) {
-																		classes.push(
-																			...tokenClasses,
-																		);
-																	} else {
-																		classes.push(
-																			tokenClasses,
-																		);
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
+			return tvc(classes);
+		};
 
-							// Add additional slot classes from config override (applied last for precedence)
-							if (slotsOverride[slotName]) {
-								const slotOverride = slotsOverride[slotName];
-
-								// Add override classes
-								if (slotOverride.class) {
-									classes.push(...slotOverride.class);
-								}
-
-								// Add override token classes (dot notation: "group.value")
-								if (
-									slotOverride.token &&
-									resolvedDefinition.tokens &&
-									variant
-								) {
-									const tokenDefinition =
-										resolvedDefinition.tokens as Record<
-											string,
-											Record<string, Record<string, any>>
-										>;
-
-									// Get the specific variant's token definitions
-									const variantTokens =
-										tokenDefinition[variant as string];
-
-									if (variantTokens) {
-										for (const tokenReference of slotOverride.token) {
-											// Parse dot notation: "spacing.small" -> group="spacing", value="small"
-											const [tokenGroup, tokenValue] = (
-												tokenReference as string
-											).split(".");
-
-											if (
-												tokenGroup &&
-												tokenValue &&
-												variantTokens[tokenGroup]
-											) {
-												const groupTokens =
-													variantTokens[tokenGroup];
-
-												if (groupTokens[tokenValue]) {
-													const tokenClasses =
-														groupTokens[tokenValue];
-													if (
-														Array.isArray(
-															tokenClasses,
-														)
-													) {
-														classes.push(
-															...tokenClasses,
-														);
-													} else {
-														classes.push(
-															tokenClasses,
-														);
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-
-							// Merge all classes using tvc
-							return tvc(classes);
-						},
-					]),
-				),
-			};
+		// Return slots directly
+		return {
+			slots: new Proxy(
+				{},
+				{
+					get: (_, slotName: string) => {
+						return generateSlotClasses(slotName);
+					},
+				},
+			) as SlotsProxy<TContract>,
 		};
 	};
 

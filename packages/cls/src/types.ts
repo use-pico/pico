@@ -9,15 +9,31 @@ export type Slot = readonly string[];
 export type Variant = readonly string[];
 export type VariantRecord = Record<string, readonly string[]>;
 
-export type TokenSchema = {
-	variant: readonly string[];
-	group: Record<string, readonly string[]>;
-};
+/**
+ * Token schema definition - BOTH properties are required
+ *
+ * @example
+ * ```typescript
+ * tokens: {
+ *   variant: ["default", "primary"],    // Required: token variants/themes
+ *   group: {                            // Required: token groups
+ *     spacing: ["sm", "md", "lg"],
+ *     color: ["blue", "red", "green"]
+ *   }
+ * }
+ * ```
+ */
+export interface TokenSchema {
+	/** Array of token variant names (e.g., "default", "primary") */
+	readonly variant: readonly string[];
+	/** Object mapping group names to their possible values */
+	readonly group: Record<string, readonly string[]>;
+}
 
 export interface Contract<
 	TSlot extends Slot,
 	TVariant extends VariantRecord,
-	TTokens extends TokenSchema = TokenSchema,
+	TTokens extends TokenSchema,
 	TUse extends Contract<any, any, any> | unknown = unknown,
 > {
 	slot: TSlot;
@@ -290,11 +306,11 @@ type SlotValue<T extends Contract<any, any, any>> = {
 };
 
 /**
- * Variant slot value (supports both legacy string and new object format)
+ * Variant slot value (only supports {class, token} object format)
  */
-export type VariantSlotValue<T extends Contract<any, any, any>> =
-	| ClassName
-	| Partial<SlotValue<T>>;
+export type VariantSlotValue<T extends Contract<any, any, any>> = Partial<
+	SlotValue<T>
+>;
 
 /**
  * Slot definition structure
@@ -347,8 +363,51 @@ export interface CreateConfig<T extends Contract<any, any, any>> {
 	};
 }
 
+/**
+ * Type for slots override configuration
+ */
+export type SlotsOverrideConfig = Record<
+	string,
+	{
+		class?: string[];
+		token?: string[];
+	}
+>;
+
+/**
+ * Type for resolved token definition structure
+ */
+export type ResolvedTokenDefinition = Record<
+	string,
+	Record<string, Record<string, ClassName[]>>
+>;
+
+/**
+ * Type for resolved slot configuration
+ */
+export type ResolvedSlotConfig = Record<string, any>;
+
+/**
+ * Type for resolved variant configuration
+ */
+export type ResolvedVariantConfig = Record<string, any>;
+
+/**
+ * Type for the slots proxy object (maps slot names to class strings)
+ */
+export type SlotsProxy<T extends Contract<any, any, any>> = {
+	[K in SlotKey<T>]: string;
+};
+
+/**
+ * Type for the slots object returned by create()
+ */
+export type ClsSlots<T extends Contract<any, any, any>> = {
+	slots: SlotsProxy<T>;
+};
+
 export interface Cls<T extends Contract<any, any, any>> {
-	create(config: CreateConfig<T>): any;
+	create(config: CreateConfig<T>): ClsSlots<T>;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,

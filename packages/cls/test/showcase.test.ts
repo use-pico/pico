@@ -27,23 +27,23 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					 * meaning spacing.small stays; user will select this "supergroup"
 					 * when calling "create"
 					 */
-					variant: [
-						"default",
-						"extra",
-					],
-					/**
-					 * Individual groups available for dot notation
-					 */
-					group: {
-						spacing: [
-							"small",
-							"medium",
-						],
-						color: [
-							"blue",
-							"green",
-						],
-					},
+					// variant: [
+					// 	"default",
+					// 	"extra",
+					// ],
+					// /**
+					//  * Individual groups available for dot notation
+					//  */
+					// group: {
+					// 	spacing: [
+					// 		"small",
+					// 		"medium",
+					// 	],
+					// 	color: [
+					// 		"blue",
+					// 		"green",
+					// 	],
+					// },
 				},
 			},
 			{
@@ -64,10 +64,21 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 				variant: {
 					theme: {
 						light: {
-							root: "theme-light",
+							root: {
+								class: [
+									"theme-light",
+								],
+								token: [
+									"spacing.small",
+								],
+							},
 						},
 						dark: {
-							root: "theme-dark",
+							root: {
+								class: [
+									"theme-dark",
+								],
+							},
 						},
 					},
 				},
@@ -172,16 +183,27 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 				variant: {
 					size: {
 						lg: {
-							icon: [],
+							icon: {
+								class: [],
+								token: [
+									"spacing.small",
+								],
+							},
 						},
 						sm: {
-							icon: [],
+							icon: {
+								class: [],
+							},
 						},
 					},
 					theme: {
 						dark: {
-							icon: [],
-							root: [],
+							icon: {
+								class: [],
+							},
+							root: {
+								class: [],
+							},
 						},
 					},
 				},
@@ -255,36 +277,108 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 				variant: {
 					theme: {
 						light: {
-							root: "special-light btn-light theme-light",
-							icon: "special-icon-light icon-light",
-							badge: "badge-light",
+							root: {
+								class: [
+									"special-light",
+									"btn-light",
+									"theme-light",
+								],
+							},
+							icon: {
+								class: [
+									"special-icon-light",
+									"icon-light",
+								],
+							},
+							badge: {
+								class: [
+									"badge-light",
+								],
+							},
 						},
 						dark: {
-							root: "special-dark btn-dark theme-dark",
-							icon: "special-icon-dark icon-dark",
-							badge: "badge-dark",
+							root: {
+								class: [
+									"special-dark",
+									"btn-dark",
+									"theme-dark",
+								],
+							},
+							icon: {
+								class: [
+									"special-icon-dark",
+									"icon-dark",
+								],
+							},
+							badge: {
+								class: [
+									"badge-dark",
+								],
+							},
 						},
 					},
 					size: {
 						sm: {
-							root: "special-sm btn-sm",
-							icon: "icon-sm",
-							badge: "badge-sm",
+							root: {
+								class: [
+									"special-sm",
+									"btn-sm",
+								],
+							},
+							icon: {
+								class: [
+									"icon-sm",
+								],
+							},
+							badge: {
+								class: [
+									"badge-sm",
+								],
+							},
 						},
 						lg: {
-							root: "special-lg btn-lg",
-							icon: "icon-lg",
-							badge: "badge-lg",
+							root: {
+								class: [
+									"special-lg",
+									"btn-lg",
+								],
+							},
+							icon: {
+								class: [
+									"icon-lg",
+								],
+							},
+							badge: {
+								class: [
+									"badge-lg",
+								],
+							},
 						},
 					},
 					special: {
 						primary: {
-							root: "variant-primary",
-							badge: "badge-primary",
+							root: {
+								class: [
+									"variant-primary",
+								],
+							},
+							badge: {
+								class: [
+									"badge-primary",
+								],
+							},
 						},
 						danger: {
-							root: "variant-danger",
-							badge: "badge-danger",
+							root: {
+								class: [
+									"variant-danger",
+								],
+							},
+							badge: {
+								class: [
+									"badge-danger",
+								],
+							},
 						},
 					},
 				},
@@ -298,7 +392,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 		);
 
 		// Test Level 1: Design System Foundation
-		const foundationComponent = designSystemCls.create({
+		const foundationInstance = designSystemCls.create({
 			// required
 			tokens: "default",
 			// optional variants as they're already required in cls
@@ -315,55 +409,58 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 				},
 			},
 		});
-		const foundationInstance = foundationComponent();
-		expect(foundationInstance.slots.root()).toBe(
-			"ds-component p-2 text-gray-900 theme-light ClassName",
+		expect(foundationInstance.slots.root).toBe(
+			"ds-component text-gray-900 theme-light p-2 ClassName",
 		);
 
 		// Test Level 2: Button Component
-		const buttonComponent = buttonCls.create({
+		const buttonDefaultInstance = buttonCls.create({
 			tokens: "default",
 		});
-		const buttonDefaultInstance = buttonComponent();
-		const buttonCustomInstance = buttonComponent({
-			size: "lg",
-			theme: "dark",
+		const buttonCustomInstance = buttonCls.create({
+			tokens: "default",
+			variants: {
+				size: "lg",
+				theme: "dark",
+			},
 		});
 
-		expect(buttonDefaultInstance.slots.root()).toBe("ds-component btn");
-		expect(buttonDefaultInstance.slots.icon()).toBe("btn-icon");
+		expect(buttonDefaultInstance.slots.root).toBe("ds-component btn");
+		expect(buttonDefaultInstance.slots.icon).toBe("btn-icon");
 
-		expect(buttonCustomInstance.slots.root()).toBe("ds-component btn");
-		expect(buttonCustomInstance.slots.icon()).toBe("btn-icon");
+		expect(buttonCustomInstance.slots.root).toBe("ds-component btn");
+		expect(buttonCustomInstance.slots.icon).toBe("btn-icon");
 
 		// Test Level 3: Special Button Component
-		const specialComponent = specialButtonCls.create({
+		const specialDefaultInstance = specialButtonCls.create({
 			tokens: "extra",
 		});
-		const specialDefaultInstance = specialComponent();
-		const specialCustomInstance = specialComponent({
-			size: "lg",
-			theme: "dark",
-			special: "danger",
+		const specialCustomInstance = specialButtonCls.create({
+			tokens: "extra",
+			variants: {
+				size: "lg",
+				theme: "dark",
+				special: "danger",
+			},
 		});
 
-		expect(specialDefaultInstance.slots.root()).toBe(
+		expect(specialDefaultInstance.slots.root).toBe(
 			"ds-component btn special-btn special-light btn-light theme-light special-sm btn-sm variant-primary",
 		);
-		expect(specialDefaultInstance.slots.icon()).toBe(
+		expect(specialDefaultInstance.slots.icon).toBe(
 			"btn-icon special-icon special-icon-light icon-light icon-sm",
 		);
-		expect(specialDefaultInstance.slots.badge()).toBe(
+		expect(specialDefaultInstance.slots.badge).toBe(
 			"badge badge-light badge-sm badge-primary",
 		);
 
-		expect(specialCustomInstance.slots.root()).toBe(
+		expect(specialCustomInstance.slots.root).toBe(
 			"ds-component btn special-btn special-dark btn-dark theme-dark special-lg btn-lg variant-danger",
 		);
-		expect(specialCustomInstance.slots.icon()).toBe(
+		expect(specialCustomInstance.slots.icon).toBe(
 			"btn-icon special-icon special-icon-dark icon-dark icon-lg",
 		);
-		expect(specialCustomInstance.slots.badge()).toBe(
+		expect(specialCustomInstance.slots.badge).toBe(
 			"badge badge-dark badge-lg badge-danger",
 		);
 	});
