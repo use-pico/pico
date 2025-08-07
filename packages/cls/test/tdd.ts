@@ -1,6 +1,5 @@
 import { describe, it } from "bun:test";
 import { cls } from "../src";
-import type { TokenGroups } from "../src/types";
 
 describe("TDD", () => {
 	it("Just Showcase", () => {
@@ -159,7 +158,6 @@ describe("TDD", () => {
 					 * In this case, PicoCls would have everything, except for
 					 * primary.textColor.default will be _replaced_ by our definition.
 					 */
-
 					"primary.textColor": [
 						"default",
 					],
@@ -198,6 +196,11 @@ describe("TDD", () => {
 					"button.some": {
 						token: [
 							"button-specific-class",
+						],
+					},
+					"primary.borderColor": {
+						default: [
+							"border-gray-300",
 						],
 					},
 					"primary.shadowColor": {
@@ -302,6 +305,19 @@ describe("TDD", () => {
 						token: [
 							"extended-button-class",
 						],
+					},
+					"primary.textColor": {
+						dff: [
+							"extended-text-color",
+						],
+					},
+					"primary.shadowColor": {
+						sd: [
+							"extended-shadow-color",
+						],
+					},
+					"secondary.shadowColor": {
+						disabled: [],
 					},
 					extra: {
 						token: [
