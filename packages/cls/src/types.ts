@@ -175,6 +175,12 @@ export type Contract<
 	variant: TVariantContract;
 	/** Parent contract for inheritance (internal use) */
 	"~use"?: TUse;
+	/**
+	 * Just carry parent definition, if available; the type is not
+	 * important as it's not used in inference; only to compute
+	 * right inheritance chain
+	 */
+	"~definition"?: Definition<any>;
 };
 
 /**
