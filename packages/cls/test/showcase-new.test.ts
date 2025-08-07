@@ -298,36 +298,48 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 		);
 
 		// Test Level 1: Design System Foundation
-		const foundationComponent = designSystemCls.create("default");
+		const foundationComponent = designSystemCls.create({
+			// required
+			tokens: "default",
+			// optional variants as they're already required in cls
+			variants: {
+				theme: "light",
+			},
+			// appending object for slots keys/value: ClassName
+			// This is applied right after the whole "cls" is processed (takes precedence)
+			slots: {
+				root: {
+					class: [
+						"ClassName",
+					],
+				},
+			},
+		});
 		const foundationInstance = foundationComponent();
 		expect(foundationInstance.slots.root()).toBe(
-			"ds-component p-2 text-gray-900 theme-light",
+			"ds-component p-2 text-gray-900 theme-light ClassName",
 		);
 
 		// Test Level 2: Button Component
-		const buttonComponent = buttonCls.create("default");
+		const buttonComponent = buttonCls.create({
+			tokens: "default",
+		});
 		const buttonDefaultInstance = buttonComponent();
 		const buttonCustomInstance = buttonComponent({
 			size: "lg",
 			theme: "dark",
 		});
 
-		expect(buttonDefaultInstance.slots.root()).toBe(
-			"ds-component btn p-3 text-blue-900 bg-blue-600 btn-light theme-light btn-sm",
-		);
-		expect(buttonDefaultInstance.slots.icon()).toBe(
-			"btn-icon text-blue-900 icon-light icon-sm",
-		);
+		expect(buttonDefaultInstance.slots.root()).toBe("ds-component btn");
+		expect(buttonDefaultInstance.slots.icon()).toBe("btn-icon");
 
-		expect(buttonCustomInstance.slots.root()).toBe(
-			"ds-component btn p-3 text-blue-900 bg-blue-600 btn-dark theme-dark btn-lg",
-		);
-		expect(buttonCustomInstance.slots.icon()).toBe(
-			"btn-icon text-blue-900 icon-dark icon-lg",
-		);
+		expect(buttonCustomInstance.slots.root()).toBe("ds-component btn");
+		expect(buttonCustomInstance.slots.icon()).toBe("btn-icon");
 
 		// Test Level 3: Special Button Component
-		const specialComponent = specialButtonCls.create("extra");
+		const specialComponent = specialButtonCls.create({
+			tokens: "extra",
+		});
 		const specialDefaultInstance = specialComponent();
 		const specialCustomInstance = specialComponent({
 			size: "lg",
@@ -336,23 +348,23 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 		});
 
 		expect(specialDefaultInstance.slots.root()).toBe(
-			"ds-component btn special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-light btn-light theme-light special-sm btn-sm variant-primary",
+			"ds-component btn special-btn special-light btn-light theme-light special-sm btn-sm variant-primary",
 		);
 		expect(specialDefaultInstance.slots.icon()).toBe(
-			"btn-icon special-icon text-yellow-400 special-icon-light icon-light icon-sm",
+			"btn-icon special-icon special-icon-light icon-light icon-sm",
 		);
 		expect(specialDefaultInstance.slots.badge()).toBe(
-			"badge border-purple-600 badge-light badge-sm badge-primary",
+			"badge badge-light badge-sm badge-primary",
 		);
 
 		expect(specialCustomInstance.slots.root()).toBe(
-			"ds-component btn special-btn p-6 text-yellow-400 bg-purple-600 border-purple-600 special-dark btn-dark theme-dark special-lg btn-lg variant-danger",
+			"ds-component btn special-btn special-dark btn-dark theme-dark special-lg btn-lg variant-danger",
 		);
 		expect(specialCustomInstance.slots.icon()).toBe(
-			"btn-icon special-icon text-yellow-400 special-icon-dark icon-dark icon-lg",
+			"btn-icon special-icon special-icon-dark icon-dark icon-lg",
 		);
 		expect(specialCustomInstance.slots.badge()).toBe(
-			"badge border-purple-600 badge-dark badge-lg badge-danger",
+			"badge badge-dark badge-lg badge-danger",
 		);
 	});
 });

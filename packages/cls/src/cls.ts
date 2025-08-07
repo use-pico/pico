@@ -1,8 +1,8 @@
 import { tvc } from "./tvc";
 import type {
-	AllTokenVariants,
 	Cls,
 	Contract,
+	CreateConfig,
 	Definition,
 	Slot,
 	TokenSchema,
@@ -17,8 +17,19 @@ export function cls<const TContract extends Contract<any, any, any>>(
 	const proxy = proxyOf();
 	const resolvedDefinition = definition;
 
-	// Create the component function that optionally accepts a variant
-	const createFn = (variant?: AllTokenVariants<TContract>) => {
+	// Create the component function that accepts a config object
+	const createFn = (config: CreateConfig<TContract>) => {
+		// Extract configuration
+		const variant = config.tokens;
+		const variantsOverride = config.variants || {};
+		const slotsOverride = (config.slots || {}) as Record<
+			string,
+			{
+				class?: string[];
+				token?: string[];
+			}
+		>;
+
 		// Handle defaults for variants
 		const defaults = resolvedDefinition.defaults;
 
@@ -26,6 +37,7 @@ export function cls<const TContract extends Contract<any, any, any>>(
 		return (variants: any = {}) => {
 			const finalVariants = {
 				...defaults,
+				...variantsOverride,
 				...variants,
 			};
 
@@ -208,6 +220,69 @@ export function cls<const TContract extends Contract<any, any, any>>(
 																}
 															}
 														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+							// Add additional slot classes from config override (applied last for precedence)
+							if (slotsOverride[slotName]) {
+								const slotOverride = slotsOverride[slotName];
+
+								// Add override classes
+								if (slotOverride.class) {
+									classes.push(...slotOverride.class);
+								}
+
+								// Add override token classes (dot notation: "group.value")
+								if (
+									slotOverride.token &&
+									resolvedDefinition.tokens &&
+									variant
+								) {
+									const tokenDefinition =
+										resolvedDefinition.tokens as Record<
+											string,
+											Record<string, Record<string, any>>
+										>;
+
+									// Get the specific variant's token definitions
+									const variantTokens =
+										tokenDefinition[variant as string];
+
+									if (variantTokens) {
+										for (const tokenReference of slotOverride.token) {
+											// Parse dot notation: "spacing.small" -> group="spacing", value="small"
+											const [tokenGroup, tokenValue] = (
+												tokenReference as string
+											).split(".");
+
+											if (
+												tokenGroup &&
+												tokenValue &&
+												variantTokens[tokenGroup]
+											) {
+												const groupTokens =
+													variantTokens[tokenGroup];
+
+												if (groupTokens[tokenValue]) {
+													const tokenClasses =
+														groupTokens[tokenValue];
+													if (
+														Array.isArray(
+															tokenClasses,
+														)
+													) {
+														classes.push(
+															...tokenClasses,
+														);
+													} else {
+														classes.push(
+															tokenClasses,
+														);
 													}
 												}
 											}

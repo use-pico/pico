@@ -205,6 +205,7 @@ type InheritedOnlyTokens<T extends Contract<any, any, any>> = {
  */
 type TokenVariantStructure<
 	T extends Contract<any, any, any>,
+	// biome-ignore lint: Used in mapped type
 	V extends string,
 > = {
 	[G in AllTokenGroups<T>]: {
@@ -336,9 +337,18 @@ export interface Props<T extends Contract<any, any, any>> {
 	definition: Definition<T>;
 }
 
+export interface CreateConfig<T extends Contract<any, any, any>> {
+	tokens: AllTokenVariants<T>; // Required
+	variants?: Partial<{
+		[K in VariantKey<T>]: VariantEx<T>[K][number];
+	}>;
+	slots?: {
+		[K in SlotKey<T>]?: Partial<SlotValue<T>>;
+	};
+}
+
 export interface Cls<T extends Contract<any, any, any>> {
-	create(): any;
-	create(variant: AllTokenVariants<T>): any;
+	create(config: CreateConfig<T>): any;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends Record<string, Variant>,
