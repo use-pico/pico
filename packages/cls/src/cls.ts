@@ -22,9 +22,9 @@ export function cls<const TContract extends Contract<any, any, any, any, any>>(
 	// Create function that returns slots directly
 	const createFn = (config: CreateConfig<TContract>) => {
 		// Extract configuration
-		const variant = config.tokens;
-		const variantsOverride = config.variants || {};
-		const slotsOverride = (config.slots || {}) as SlotsOverrideConfig;
+		const variant = config.token;
+		const variantsOverride = config.variant || {};
+		const slotsOverride = (config.slot || {}) as SlotsOverrideConfig;
 
 		// Handle defaults for variants
 		const defaults = resolvedDefinition.defaults;

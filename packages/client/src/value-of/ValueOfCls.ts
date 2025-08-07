@@ -1,80 +1,105 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, cls } from "@use-pico/cls";
 
-export const ValueOfCls = cls({
-	slot: {
-		base: [
-			"pico--value-of",
-			"border",
-			"border-(--color-border)",
-			"px-2",
-			"py-1",
-			"rounded-md",
-			"group",
+export const ValueOfCls = cls(
+	{
+		tokens: {
+			variant: [],
+			group: {},
+		},
+		slot: [
+			"base",
+			"label",
+			"value",
 		],
-		label: [
-			"text-sm",
-			"font-semibold",
-			"text-(--label-color-text)",
-			"border-b",
-			"border-(--label-color-border)",
-			"group-hover:border-(--label-color-hover-border)",
-			"mb-2",
-		],
-		value: [],
-	},
-	variant: {
-		inline: {
-			true: [],
-		},
-		withBackground: {
-			true: [],
+		variant: {
+			inline: [
+				"true",
+				"false",
+			],
+			withBackground: [
+				"true",
+				"false",
+			],
 		},
 	},
-	match: [
-		{
-			if: {
-				inline: true,
-			},
-			do: {
-				base: [
-					"border-none",
-					"flex",
-					"flex-row",
-					"items-center",
-					"gap-2",
-				],
-				label: [
-					"mb-0",
-					"font-light",
-					"text-md",
-					"text-(--inline-label-color-text)",
-					"border-none",
-				],
-				value: [
-					"text-md",
-					"text-(--inline-value-color-text)",
+	{
+		slot: {
+			base: {
+				class: [
+					"pico--value-of",
+					"border",
+					"border-(--color-border)",
+					"px-2",
+					"py-1",
+					"rounded-md",
+					"group",
 				],
 			},
-		},
-		{
-			if: {
-				withBackground: true,
-			},
-			do: {
-				base: [
-					"bg-(--color-bg)",
-					"hover:bg-(--color-hover-bg)",
-					"hover:border-(--color-hover-border)",
+			label: {
+				class: [
+					"text-sm",
+					"font-semibold",
+					"text-(--label-color-text)",
+					"border-b",
+					"border-(--label-color-border)",
+					"group-hover:border-(--label-color-hover-border)",
+					"mb-2",
 				],
+			},
+			value: {
+				class: [],
 			},
 		},
-	],
-	defaults: {
-		inline: false,
-		withBackground: true,
+		variant: {
+			inline: {
+				true: {
+					base: {
+						class: [
+							"border-none",
+							"flex",
+							"flex-row",
+							"items-center",
+							"gap-2",
+						],
+					},
+					label: {
+						class: [
+							"mb-0",
+							"font-light",
+							"text-md",
+							"text-(--inline-label-color-text)",
+							"border-none",
+						],
+					},
+					value: {
+						class: [
+							"text-md",
+							"text-(--inline-value-color-text)",
+						],
+					},
+				},
+				false: {},
+			},
+			withBackground: {
+				true: {
+					base: {
+						class: [
+							"bg-(--color-bg)",
+							"hover:bg-(--color-hover-bg)",
+							"hover:border-(--color-hover-border)",
+						],
+					},
+				},
+				false: {},
+			},
+		},
+		defaults: {
+			inline: "false",
+			withBackground: "true",
+		},
 	},
-});
+);
 
 export namespace ValueOfCls {
-	export type Props<P = unknown> = ClsProps<typeof ValueOfCls, P>;
+	export type Props<P = unknown> = Component<typeof ValueOfCls, P>;
 }

@@ -14,24 +14,26 @@ export const ValueOf: FC<ValueOf.Props> = ({
 	inline,
 	label,
 	value,
+	token,
 	variant,
 	tva = ValueOfCls,
-	cls,
+	slot,
 }) => {
 	const inlineStore = useContext(InlineContext);
 	const isInline = inline ?? inlineStore?.inline;
-	const { slots } = tva(
-		{
-			inline: isInline,
+	const { slots } = tva.create({
+		token: token ?? (undefined as never),
+		slot,
+		variant: {
+			inline: isInline ? "true" : "false",
 			...variant,
 		},
-		cls,
-	);
+	});
 
 	return (
-		<div className={slots.base()}>
-			{label ? <div className={slots.label()}>{label}</div> : null}
-			<div className={slots.value()}>{value}</div>
+		<div className={slots.base}>
+			{label ? <div className={slots.label}>{label}</div> : null}
+			<div className={slots.value}>{value}</div>
 		</div>
 	);
 };

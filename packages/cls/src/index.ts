@@ -1,10 +1,8 @@
 export { cls } from "./cls";
 export { cls2cls } from "./cls2cls";
-export { clsComponent, clsSlots, clsTokens } from "./helpers";
 export { tvc } from "./tvc";
-
-// Export main types from types.ts
 export type {
 	ClassName,
 	Cls,
+	Component,
 } from "./types";

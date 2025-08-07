@@ -1,53 +1,65 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, cls } from "@use-pico/cls";
 
-export const TabCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-row",
-			"items-center",
-			"gap-1",
-			"cursor-pointer",
-			"text-slate-600",
-			"border-sky-400",
-			"border",
-			"border-b-2",
-			"border-transparent",
-			"hover:border-b-sky-400",
-			"py-1",
-			"px-2",
-			"rounded",
+export const TabCls = cls(
+	{
+		slot: [
+			"base",
 		],
-	},
-	variant: {
-		active: {
-			true: [],
+		tokens: {
+			variant: [],
+			group: {},
+		},
+		variant: {
+			active: [
+				"true",
+				"false",
+			],
 		},
 	},
-	match: [
-		{
-			if: {
-				active: true,
-			},
-			do: {
-				base: [
-					"cursor-default",
-					"font-semibold",
-					"text-slate-800",
+	{
+		slot: {
+			base: {
+				class: [
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+					"cursor-pointer",
+					"text-slate-600",
 					"border-sky-400",
-					"bg-sky-50",
+					"border",
+					"border-b-2",
+					"border-transparent",
+					"hover:border-b-sky-400",
+					"py-1",
+					"px-2",
+					"rounded",
 				],
 			},
 		},
-	],
-	defaults: {
-		active: false,
+		variant: {
+			active: {
+				true: {
+					base: {
+						class: [
+							"cursor-default",
+							"font-semibold",
+							"text-slate-800",
+							"border-sky-400",
+							"bg-sky-50",
+						],
+					},
+				},
+				false: {},
+			},
+		},
+		defaults: {
+			active: "false",
+		},
 	},
-});
+);
 export type TabCls = typeof TabCls;
 
 export namespace TabCls {
-	export type Props<P = unknown> = ClsProps<TabCls, P>;
-
-	export type Slots = ClsSlots<TabCls>;
+	export type Props<P = unknown> = Component<TabCls, P>;
 }

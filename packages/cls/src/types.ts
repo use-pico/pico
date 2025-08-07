@@ -33,6 +33,15 @@ export interface TokenSchema<
 	readonly group: TGroups;
 }
 
+/**
+ * Core contract interface defining the structure of a cls component
+ *
+ * @template TSlot - Slot definition (which slots are available for components)
+ * @template TVariant - Available variants and their values
+ * @template TTokenVariants - Token variant names (e.g., "default", "primary")
+ * @template TTokenGroups - Token group definitions (e.g., spacing, color)
+ * @template TUse - Extension contract for inheritance (normally unused, used primarily for type inference)
+ */
 export interface Contract<
 	TSlot extends Slot,
 	TVariant extends VariantRecord,
@@ -40,10 +49,14 @@ export interface Contract<
 	TTokenGroups extends Record<string, readonly string[]>,
 	TUse extends Contract<any, any, any, any, any> | unknown = unknown,
 > {
-	slot: TSlot;
-	variant: TVariant;
-	tokens: TokenSchema<TTokenVariants, TTokenGroups>;
+	/** Extension contract for inheritance - normally unused (used primarily for type inference) */
 	use?: TUse;
+	/** Design token support - definition of which tokens are available to "cls" for dynamic values */
+	tokens: TokenSchema<TTokenVariants, TTokenGroups>;
+	/** Slot definition (which slots are available for components) */
+	slot: TSlot;
+	/** Available variants and their values */
+	variant: TVariant;
 }
 
 // ============================================================================
@@ -336,26 +349,44 @@ export type VariantDefinition<T extends Contract<any, any, any, any, any>> = {
 // MAIN INTERFACES
 // ============================================================================
 
-export interface Definition<T extends Contract<any, any, any, any, any>> {
-	slot: SlotDefinition<T>;
-	variant?: VariantDefinition<T>;
-	tokens?: TokenDefinition<T>;
-	match?: MatchRule<T>[];
-	defaults: Defaults<T>;
+/**
+ * Definition is direct mapping got from contract to ClassName values which are at the end used to compute final class name for a slot
+ *
+ * @template TContract - The contract type that defines the structure
+ */
+export interface Definition<
+	TContract extends Contract<any, any, any, any, any>,
+> {
+	/** Slot definitions mapping slot names to their class configurations */
+	slot: SlotDefinition<TContract>;
+	/** Variant definitions mapping variant values to slot overrides */
+	variant?: VariantDefinition<TContract>;
+	/** Token definitions mapping token references to actual CSS classes */
+	tokens?: TokenDefinition<TContract>;
+	/** Match rules for conditional styling based on variant combinations */
+	match?: MatchRule<TContract>[];
+	/** Default variant values used when no specific variants are provided */
+	defaults: Defaults<TContract>;
 }
 
-export interface Props<T extends Contract<any, any, any, any, any>> {
-	contract: T;
-	definition: Definition<T>;
-}
-
-export interface CreateConfig<T extends Contract<any, any, any, any, any>> {
-	tokens: AllTokenVariants<T>; // Required
-	variants?: Partial<{
-		[K in VariantKey<T>]: VariantEx<T>[K][number];
+export interface CreateConfig<
+	TContract extends Contract<any, any, any, any, any>,
+> {
+	/**
+	 * Token used to select proper token group (e.g. a theme).
+	 */
+	token: AllTokenVariants<TContract>;
+	/**
+	 * Variant override from default ones
+	 */
+	variant?: Partial<{
+		[K in VariantKey<TContract>]: VariantEx<TContract>[K][number];
 	}>;
-	slots?: {
-		[K in SlotKey<T>]?: Partial<SlotValue<T>>;
+	/**
+	 * Slot extensions (classes defined here will append ones already computed).
+	 */
+	slot?: {
+		[K in SlotKey<TContract>]?: Partial<SlotValue<TContract>>;
 	};
 }
 
@@ -391,29 +422,41 @@ export type ResolvedVariantConfig = Record<string, any>;
 /**
  * Type for the slots proxy object (maps slot names to class strings)
  */
-export type SlotsProxy<T extends Contract<any, any, any, any, any>> = {
-	[K in SlotKey<T>]: string;
+export type SlotsProxy<TContract extends Contract<any, any, any, any, any>> = {
+	[K in SlotKey<TContract>]: string;
 };
 
 /**
  * Type for the slots object returned by create()
  */
-export type ClsSlots<T extends Contract<any, any, any, any, any>> = {
-	slots: SlotsProxy<T>;
+export type ClsSlots<TContract extends Contract<any, any, any, any, any>> = {
+	slots: SlotsProxy<TContract>;
 };
 
-export interface Cls<T extends Contract<any, any, any, any, any>> {
-	create(config: CreateConfig<T>): ClsSlots<T>;
+export type Component<TCls extends Cls<any>, P = unknown> = Partial<
+	CreateConfig<TCls["contract"]>
+> & {
+	tva?: TCls;
+} & P;
+
+export interface Cls<TContract extends Contract<any, any, any, any, any>> {
+	create(config: CreateConfig<TContract>): ClsSlots<TContract>;
 	use<
 		const TSlot extends Slot,
 		const TVariant extends VariantRecord,
 		const TTokenVariants extends readonly string[],
 		const TTokenGroups extends Record<string, readonly string[]>,
 	>(
-		contract: Contract<TSlot, TVariant, TTokenVariants, TTokenGroups>,
-		definition: Definition<
-			Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, T>
+		contract: Contract<
+			TSlot,
+			TVariant,
+			TTokenVariants,
+			TTokenGroups,
+			TContract
 		>,
-	): Cls<Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, T>>;
-	contract: T;
+		definition: Definition<
+			Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, TContract>
+		>,
+	): Cls<Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, TContract>>;
+	contract: TContract;
 }
