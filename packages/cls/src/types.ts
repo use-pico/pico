@@ -421,7 +421,7 @@ type DefaultDefinition<TContract extends Contract<any, any, any>> =
  * };
  * ```
  */
-type Definition<TContract extends Contract<any, any, any>> = {
+export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Token definitions mapping tokens to CSS classes */
 	token: TokenDefinition<TContract>;
 	/** Rules for conditional styling based on variants */
@@ -472,7 +472,7 @@ type Definition<TContract extends Contract<any, any, any>> = {
  * };
  * ```
  */
-type CreateConfig<TContract extends Contract<any, any, any>> = {
+export type CreateConfig<TContract extends Contract<any, any, any>> = {
 	/** Override variant values */
 	variant?: Partial<DefaultDefinition<TContract>>;
 	/** Override slot styling */
