@@ -159,6 +159,7 @@ describe("TDD", () => {
 					 * In this case, PicoCls would have everything, except for
 					 * primary.textColor.default will be _replaced_ by our definition.
 					 */
+
 					"primary.textColor": [
 						"default",
 					],
@@ -274,10 +275,10 @@ describe("TDD", () => {
 				tokens: {
 					"button.some": [
 						"token",
+					],                    
+					"primary.textColor": [
+						"dff",
 					],
-                    "primary.textColor": [
-                        ''
-                    ],
 					"primary.shadowColor": [
 						"sd",
 					],
