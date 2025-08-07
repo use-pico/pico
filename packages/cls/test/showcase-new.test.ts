@@ -191,9 +191,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 							medium: [],
 						},
 						color: {
-							// purple: [
-							// 	"",
-							// ],
+							purple: [],
 						},
 					},
 				},

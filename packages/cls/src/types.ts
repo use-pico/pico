@@ -168,6 +168,11 @@ export type InheritedTokenGroups<T extends Contract<any, any, any>> = Exclude<
 	OwnTokenGroups<T>
 >;
 
+type TokenValues<Group extends readonly string[]> =
+	Group extends readonly (infer U extends string | number | symbol)[]
+		? { [K in U]: ClassName[] }
+		: never;
+
 type OptionalTokenValues<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
 		? { [K in U]?: ClassName[] }
@@ -195,19 +200,58 @@ type InheritedOnlyTokens<T extends Contract<any, any, any>> = {
 	};
 };
 
-type OwnTokensWithInherited<T extends Contract<any, any, any>> = {
-	// Own variants: require only own groups, but make all values within groups optional
-	[V in OwnTokenVariants<T>]: {
-		[G in OwnTokenGroups<T>]: OptionalTokenValues<TokenEx<T>["group"][G]>;
-	} & {
-		[G in InheritedTokenGroups<T>]?: OptionalTokenValues<
-			TokenEx<T>["group"][G]
-		>;
+/**
+ * Step 1: Build the complete token structure for a variant
+ */
+type TokenVariantStructure<
+	T extends Contract<any, any, any>,
+	V extends string,
+> = {
+	[G in AllTokenGroups<T>]: {
+		[K in TokenEx<T>["group"][G][number]]: ClassName[];
 	};
+};
+
+/**
+ * Step 2: Make specific properties optional based on inheritance rules
+ */
+type MakeInheritedOptional<
+	T extends Contract<any, any, any>,
+	Structure extends Record<string, Record<string, any>>,
+> = {
+	// Own groups: required, but with inherited values made optional
+	[G in keyof Structure as G extends OwnTokenGroups<T> ? G : never]: {
+		// Own values: required
+		[K in keyof Structure[G] as K extends T["tokens"]["group"][G &
+			keyof T["tokens"]["group"]][number]
+			? K
+			: never]: Structure[G][K];
+	} & {
+		// Inherited values: optional
+		[K in keyof Structure[G] as K extends T["tokens"]["group"][G &
+			keyof T["tokens"]["group"]][number]
+			? never
+			: K]?: Structure[G][K];
+	};
+} & {
+	// Pure inherited groups: completely optional
+	[G in keyof Structure as G extends OwnTokenGroups<T> ? never : G]?: {
+		[K in keyof Structure[G]]?: Structure[G][K];
+	};
+};
+
+/**
+ * Step 3: Apply the utility to build the final type
+ */
+type OwnTokensWithInherited<T extends Contract<any, any, any>> = {
+	[V in OwnTokenVariants<T>]: MakeInheritedOptional<
+		T,
+		TokenVariantStructure<T, V>
+	>;
 } & {
 	// Inherited variants: only own groups required (if we define them at all)
 	[V in InheritedTokenVariants<T>]?: {
-		[G in OwnTokenGroups<T>]: OptionalTokenValues<TokenEx<T>["group"][G]>;
+		[G in OwnTokenGroups<T>]: TokenValues<TokenEx<T>["group"][G]>;
 	};
 };
 
