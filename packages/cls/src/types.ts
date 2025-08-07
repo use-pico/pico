@@ -23,6 +23,18 @@ export type MergeRecords<
 			: never;
 };
 
+export type StringToBool<TValue extends string> = TValue extends "bool"
+	? boolean
+	: TValue;
+
+export type HasBaseInUseChain<Sub, Base> = Sub extends Base
+	? true
+	: Sub extends {
+				"~use"?: infer U;
+			}
+		? HasBaseInUseChain<U, Base>
+		: false;
+
 // ============================================================================
 // BASIC TYPES
 // ============================================================================
@@ -50,6 +62,8 @@ export type Contract<
 	slot: TSlotContract;
 	/**
 	 * Available variants to style.
+	 *
+	 * When a value is "bool" automatically typed as boolean.
 	 */
 	variant: TVariantContract;
 	/**
@@ -151,7 +165,9 @@ export type MatchDefinition<TContract extends Contract<any, any, any>> = {
 	 * If variant is missing, this rules is applied without any conditions.
 	 */
 	variant?: {
-		[K in keyof Variants<TContract>]?: Variants<TContract>[K][number];
+		[K in keyof Variants<TContract>]?: StringToBool<
+			Variants<TContract>[K][number]
+		>;
 	};
 	/**
 	 * Which slots are being affected by this rule.
@@ -168,7 +184,9 @@ export type MatchDefinition<TContract extends Contract<any, any, any>> = {
 // ============================================================================
 
 export type DefaultDefinition<TContract extends Contract<any, any, any>> = {
-	[K in keyof Variants<TContract>]: Variants<TContract>[K][number];
+	[K in keyof Variants<TContract>]: StringToBool<
+		Variants<TContract>[K][number]
+	>;
 };
 
 // ============================================================================
@@ -195,7 +213,15 @@ export type Component<TCls extends Cls<any>, P = unknown> = Partial<
 } & P;
 
 export interface Cls<TContract extends Contract<any, any, any>> {
+	/**
+	 * Factory method used in components to create a computed styles
+	 * based on inputs (variants).
+	 */
 	create(config: CreateConfig<TContract>): any;
+	/**
+	 * Inheritance support - if you need to extend previously defined
+	 * "cls", you can use this (ParentCls.extend({...})).
+	 */
 	extend<
 		const TTokenContract extends TokenContract,
 		const TSlotContract extends SlotContract,
@@ -213,5 +239,33 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	): Cls<
 		Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
 	>;
+	/**
+	 * Because assigning compatible "cls"s between each other could be tricky,
+	 * this helper method is used to do so.
+	 *
+	 * E.g. We've BaseButtonCls and ButtonCls = BaseButtonCls.extend({...})
+	 *
+	 * If you want assign ButtonCls to BaseButtonCls, you can do so with:
+	 *
+	 * BaseButtonCls.use(ButtonCls)
+	 *
+	 * This will return BaseButtonCls with all the styles from ButtonCls.
+	 */
+	use<Sub extends Contract<any, any, any>>(
+		sub: Cls<Sub> & {
+			contract: HasBaseInUseChain<Sub, TContract> extends true
+				? unknown
+				: [
+						"❌ Not derived from Base contract",
+						{
+							sub: Sub;
+							base: TContract;
+						},
+					];
+		},
+	): Cls<TContract>;
+	/**
+	 * Just contract.
+	 */
 	contract: TContract;
 }

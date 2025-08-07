@@ -3,6 +3,10 @@ import { cls } from "../src";
 
 describe("TDD", () => {
 	it("Just Showcase", () => {
+		/**
+		 * Base tokens - this should be source of your design tokens provided
+		 * to all further components (meaning, all component should extend from this one).
+		 */
 		const PicoCls = cls(
 			{
 				tokens: [
@@ -98,7 +102,7 @@ describe("TDD", () => {
 						"md",
 					],
 					disabled: [
-						"true",
+						"bool",
 					],
 				},
 			},
@@ -109,11 +113,11 @@ describe("TDD", () => {
 				},
 				match: [
 					{
+						override: true,
 						variant: {
-							disabled: "true",
+							disabled: true,
 							pico: "foo",
 						},
-						override: true,
 						slot: [
 							"root",
 							"label",
@@ -158,12 +162,14 @@ describe("TDD", () => {
 					},
 				],
 				defaults: {
-					disabled: "true",
+					disabled: true,
 					size: "md",
 					pico: "bar",
 				},
 			},
 		);
+
+		const _testAssignment: typeof PicoCls = PicoCls.use(ButtonCls);
 
 		const ExtendedButtonCls = ButtonCls.extend(
 			{
@@ -211,7 +217,14 @@ describe("TDD", () => {
 						},
 					},
 				],
+				defaults: {
+					disabled: false,
+					pico: "foo",
+					size: "sm",
+				},
 			},
 		);
+
+		const _testAssignment2: typeof PicoCls = PicoCls.use(ExtendedButtonCls);
 	});
 });

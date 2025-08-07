@@ -152,6 +152,9 @@ export function cls<
 				childProps.definition,
 			);
 		},
+		use(sub) {
+			return sub as unknown as Cls<TContract>;
+		},
 		contract: proxy,
 	};
 }
