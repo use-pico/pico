@@ -1,8 +1,8 @@
 import type { Cls, Contract, HasBaseInUseChain } from "./types";
 
 export function cls2cls<
-	Base extends Contract<any, any, any>,
-	Sub extends Contract<any, any, any>,
+	Base extends Contract<any, any, any, any, any>,
+	Sub extends Contract<any, any, any, any, any>,
 >(
 	_: Cls<Base>,
 	sub: Cls<Sub> & {

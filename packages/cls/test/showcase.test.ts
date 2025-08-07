@@ -27,24 +27,24 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					 * meaning spacing.small stays; user will select this "supergroup"
 					 * when calling "create"
 					 */
-					// variant: [
-					// 	"default",
-					// 	"extra",
-					// ],
-					// /**
-					//  * Individual groups available for dot notation
-					//  */
-					// group: {
-					// 	spacing: [
-					// 		"small",
-					// 		"medium",
-					// 	],
-					// 	color: [
-					// 		"blue",
-					// 		"green",
-					// 	],
-					// },
-				},
+					variant: [
+						"default",
+						"extra",
+					],
+					/**
+					 * Individual groups available for dot notation
+					 */
+					group: {
+						spacing: [
+							"small",
+							"medium",
+						],
+						color: [
+							"blue",
+							"green",
+						],
+					},
+				} as const,
 			},
 			{
 				slot: {

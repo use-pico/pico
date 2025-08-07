@@ -7,15 +7,12 @@ import type {
 	Definition,
 	ResolvedSlotConfig,
 	ResolvedTokenDefinition,
-	Slot,
 	SlotsOverrideConfig,
 	SlotsProxy,
-	TokenSchema,
-	VariantRecord,
 } from "./types";
 import { proxyOf } from "./utils/proxyOf";
 
-export function cls<const TContract extends Contract<any, any, any>>(
+export function cls<const TContract extends Contract<any, any, any, any, any>>(
 	contract: TContract,
 	definition: Definition<TContract>,
 ): Cls<TContract> {
@@ -136,31 +133,18 @@ export function cls<const TContract extends Contract<any, any, any>>(
 
 	return {
 		create: createFn,
-		use<
-			const TSlot extends Slot,
-			const TVariant extends VariantRecord,
-			const TTokens extends TokenSchema,
-		>(
-			childContract: Contract<TSlot, TVariant, TTokens>,
-			childDefinition: Definition<
-				Contract<TSlot, TVariant, TTokens, TContract>
-			>,
-		): Cls<Contract<TSlot, TVariant, TTokens, TContract>> {
+		use(childContract, childDefinition) {
 			const childProps = {
 				contract: childContract,
 				definition: childDefinition,
 			};
-
-			const inheritedContract: Contract<
-				TSlot,
-				TVariant,
-				TTokens,
-				TContract
-			> = {
-				...childProps.contract,
-				use: contract, // Set up the inheritance chain
-			};
-			return cls(inheritedContract, childProps.definition);
+			return cls(
+				{
+					...childProps.contract,
+					use: contract, // Set up the inheritance chain
+				},
+				childProps.definition,
+			);
 		},
 		contract: proxy,
 	};

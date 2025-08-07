@@ -10,7 +10,7 @@ export type Variant = readonly string[];
 export type VariantRecord = Record<string, readonly string[]>;
 
 /**
- * Token schema definition - BOTH properties are required
+ * Token schema definition - enforces exact structure with generic values
  *
  * @example
  * ```typescript
@@ -23,22 +23,26 @@ export type VariantRecord = Record<string, readonly string[]>;
  * }
  * ```
  */
-export interface TokenSchema {
+export interface TokenSchema<
+	TVariants extends readonly string[],
+	TGroups extends Record<string, readonly string[]>,
+> {
 	/** Array of token variant names (e.g., "default", "primary") */
-	readonly variant: readonly string[];
+	readonly variant: TVariants;
 	/** Object mapping group names to their possible values */
-	readonly group: Record<string, readonly string[]>;
+	readonly group: TGroups;
 }
 
 export interface Contract<
 	TSlot extends Slot,
 	TVariant extends VariantRecord,
-	TTokens extends TokenSchema,
-	TUse extends Contract<any, any, any> | unknown = unknown,
+	TTokenVariants extends readonly string[],
+	TTokenGroups extends Record<string, readonly string[]>,
+	TUse extends Contract<any, any, any, any, any> | unknown = unknown,
 > {
 	slot: TSlot;
 	variant: TVariant;
-	tokens: TTokens;
+	tokens: TokenSchema<TTokenVariants, TTokenGroups>;
 	use?: TUse;
 }
 
@@ -90,7 +94,7 @@ type SlotInheritance<T> = T extends {
 	slot: infer S extends readonly string[];
 	use?: infer U;
 }
-	? U extends Contract<any, any, any>
+	? U extends Contract<any, any, any, any, any>
 		? [
 				...SlotInheritance<U>,
 				...S,
@@ -98,20 +102,21 @@ type SlotInheritance<T> = T extends {
 		: S
 	: [];
 
-type VariantInheritance<T extends Contract<any, any, any>> = T extends {
-	variant: infer V extends VariantRecord;
-	use?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? MergeRecords<VariantInheritance<U>, V>
-		: V
-	: {};
+type VariantInheritance<T extends Contract<any, any, any, any, any>> =
+	T extends {
+		variant: infer V extends VariantRecord;
+		use?: infer U;
+	}
+		? U extends Contract<any, any, any, any, any>
+			? MergeRecords<VariantInheritance<U>, V>
+			: V
+		: {};
 
-type TokenInheritance<T extends Contract<any, any, any>> = T extends {
-	tokens: infer TTokens extends TokenSchema;
+type TokenInheritance<T extends Contract<any, any, any, any, any>> = T extends {
+	tokens: infer TTokens extends TokenSchema<any, any>;
 	use?: infer U;
 }
-	? U extends Contract<any, any, any>
+	? U extends Contract<any, any, any, any, any>
 		? {
 				variant: [
 					...TokenInheritance<U>["variant"],
@@ -133,56 +138,48 @@ type TokenInheritance<T extends Contract<any, any, any>> = T extends {
 // ============================================================================
 
 export type AllSlotKeys<T> = SlotInheritance<T>;
-export type OwnSlotKeys<T extends Contract<any, any, any>> = ExtractKeys<
-	T,
-	"slot"
->;
-export type InheritedSlotKeys<T extends Contract<any, any, any>> = Exclude<
-	AllSlotKeys<T>[number],
-	OwnSlotKeys<T>
->;
-export type SlotKey<T extends Contract<any, any, any>> = AllSlotKeys<T>[number];
+export type OwnSlotKeys<T extends Contract<any, any, any, any, any>> =
+	ExtractKeys<T, "slot">;
+export type InheritedSlotKeys<T extends Contract<any, any, any, any, any>> =
+	Exclude<AllSlotKeys<T>[number], OwnSlotKeys<T>>;
+export type SlotKey<T extends Contract<any, any, any, any, any>> =
+	AllSlotKeys<T>[number];
 
 // ============================================================================
 // VARIANTS
 // ============================================================================
 
-export type VariantEx<T extends Contract<any, any, any>> =
+export type VariantEx<T extends Contract<any, any, any, any, any>> =
 	VariantInheritance<T>;
-export type OwnVariantKeys<T extends Contract<any, any, any>> = ExtractKeys<
-	T,
-	"variant"
->;
-export type InheritedVariantKeys<T extends Contract<any, any, any>> = Exclude<
-	keyof VariantEx<T>,
-	OwnVariantKeys<T>
->;
-export type VariantKey<T extends Contract<any, any, any>> = keyof VariantEx<T>;
+export type OwnVariantKeys<T extends Contract<any, any, any, any, any>> =
+	ExtractKeys<T, "variant">;
+export type InheritedVariantKeys<T extends Contract<any, any, any, any, any>> =
+	Exclude<keyof VariantEx<T>, OwnVariantKeys<T>>;
+export type VariantKey<T extends Contract<any, any, any, any, any>> =
+	keyof VariantEx<T>;
 
 // ============================================================================
 // TOKENS
 // ============================================================================
 
-export type TokenEx<T extends Contract<any, any, any>> = TokenInheritance<T>;
+export type TokenEx<T extends Contract<any, any, any, any, any>> =
+	TokenInheritance<T>;
 
 // Token helpers (variants and groups)
-export type AllTokenVariants<T extends Contract<any, any, any>> =
+export type AllTokenVariants<T extends Contract<any, any, any, any, any>> =
 	TokenEx<T>["variant"][number];
-export type OwnTokenVariants<T extends Contract<any, any, any>> =
+export type OwnTokenVariants<T extends Contract<any, any, any, any, any>> =
 	T["tokens"]["variant"][number];
-export type InheritedTokenVariants<T extends Contract<any, any, any>> = Exclude<
-	AllTokenVariants<T>,
-	OwnTokenVariants<T>
->;
+export type InheritedTokenVariants<
+	T extends Contract<any, any, any, any, any>,
+> = Exclude<AllTokenVariants<T>, OwnTokenVariants<T>>;
 
-export type AllTokenGroups<T extends Contract<any, any, any>> =
+export type AllTokenGroups<T extends Contract<any, any, any, any, any>> =
 	keyof TokenEx<T>["group"];
-export type OwnTokenGroups<T extends Contract<any, any, any>> =
+export type OwnTokenGroups<T extends Contract<any, any, any, any, any>> =
 	keyof T["tokens"]["group"];
-export type InheritedTokenGroups<T extends Contract<any, any, any>> = Exclude<
-	AllTokenGroups<T>,
-	OwnTokenGroups<T>
->;
+export type InheritedTokenGroups<T extends Contract<any, any, any, any, any>> =
+	Exclude<AllTokenGroups<T>, OwnTokenGroups<T>>;
 
 type TokenValues<Group extends readonly string[]> =
 	Group extends readonly (infer U extends string | number | symbol)[]
@@ -195,7 +192,7 @@ type OptionalTokenValues<Group extends readonly string[]> =
 		: never;
 
 // Token references (dot notation: group.value)
-export type AllTokenReferences<T extends Contract<any, any, any>> = {
+export type AllTokenReferences<T extends Contract<any, any, any, any, any>> = {
 	[K in keyof TokenEx<T>["group"]]: TokenEx<T>["group"][K] extends readonly (infer V)[]
 		? `${string & K}.${string & V}`
 		: never;
@@ -208,7 +205,7 @@ export type AllTokenReferences<T extends Contract<any, any, any>> = {
 /**
  * Token variant structures with proper inheritance intellisense
  */
-type InheritedOnlyTokens<T extends Contract<any, any, any>> = {
+type InheritedOnlyTokens<T extends Contract<any, any, any, any, any>> = {
 	[V in InheritedTokenVariants<T>]?: {
 		[G in InheritedTokenGroups<T>]?: OptionalTokenValues<
 			TokenEx<T>["group"][G]
@@ -220,7 +217,7 @@ type InheritedOnlyTokens<T extends Contract<any, any, any>> = {
  * Step 1: Build the complete token structure for a variant
  */
 type TokenVariantStructure<
-	T extends Contract<any, any, any>,
+	T extends Contract<any, any, any, any, any>,
 	// biome-ignore lint: Used in mapped type
 	V extends string,
 > = {
@@ -233,7 +230,7 @@ type TokenVariantStructure<
  * Step 2: Make specific properties optional based on inheritance rules
  */
 type MakeInheritedOptional<
-	T extends Contract<any, any, any>,
+	T extends Contract<any, any, any, any, any>,
 	Structure extends Record<string, Record<string, any>>,
 > = {
 	// Own groups: required, but with inherited values made optional
@@ -260,7 +257,7 @@ type MakeInheritedOptional<
 /**
  * Step 3: Apply the utility to build the final type
  */
-type OwnTokensWithInherited<T extends Contract<any, any, any>> = {
+type OwnTokensWithInherited<T extends Contract<any, any, any, any, any>> = {
 	[V in OwnTokenVariants<T>]: MakeInheritedOptional<
 		T,
 		TokenVariantStructure<T, V>
@@ -275,7 +272,7 @@ type OwnTokensWithInherited<T extends Contract<any, any, any>> = {
 /**
  * Clean token definition with smart inheritance
  */
-export type TokenDefinition<T extends Contract<any, any, any>> =
+export type TokenDefinition<T extends Contract<any, any, any, any, any>> =
 	AllTokenVariants<T> extends never
 		? {}
 		: OwnTokenVariants<T> extends never
@@ -285,7 +282,7 @@ export type TokenDefinition<T extends Contract<any, any, any>> =
 /**
  * Match rule structure
  */
-type MatchRule<T extends Contract<any, any, any>> = {
+type MatchRule<T extends Contract<any, any, any, any, any>> = {
 	if?: { [K in VariantKey<T>]?: VariantEx<T>[K][number] };
 	do?: Partial<Record<SlotKey<T>, ClassName>>;
 };
@@ -293,14 +290,14 @@ type MatchRule<T extends Contract<any, any, any>> = {
 /**
  * Defaults structure
  */
-export type Defaults<T extends Contract<any, any, any>> = {
+export type Defaults<T extends Contract<any, any, any, any, any>> = {
 	[K in VariantKey<T>]: VariantEx<T>[K][number];
 };
 
 /**
  * Common slot value structure (used in both slots and variants)
  */
-type SlotValue<T extends Contract<any, any, any>> = {
+type SlotValue<T extends Contract<any, any, any, any, any>> = {
 	class: ClassName[];
 	token?: AllTokenReferences<T>[];
 };
@@ -308,21 +305,20 @@ type SlotValue<T extends Contract<any, any, any>> = {
 /**
  * Variant slot value (only supports {class, token} object format)
  */
-export type VariantSlotValue<T extends Contract<any, any, any>> = Partial<
-	SlotValue<T>
->;
+export type VariantSlotValue<T extends Contract<any, any, any, any, any>> =
+	Partial<SlotValue<T>>;
 
 /**
  * Slot definition structure
  */
-export type SlotDefinition<T extends Contract<any, any, any>> = {
+export type SlotDefinition<T extends Contract<any, any, any, any, any>> = {
 	[K in SlotKey<T>]: SlotValue<T>;
 };
 
 /**
  * Variant definition with proper inheritance - own variants required, inherited completely optional
  */
-export type VariantDefinition<T extends Contract<any, any, any>> = {
+export type VariantDefinition<T extends Contract<any, any, any, any, any>> = {
 	[K in OwnVariantKeys<T>]: {
 		[V in VariantEx<T>[K][number]]: Partial<
 			Record<SlotKey<T>, VariantSlotValue<T>>
@@ -340,7 +336,7 @@ export type VariantDefinition<T extends Contract<any, any, any>> = {
 // MAIN INTERFACES
 // ============================================================================
 
-export interface Definition<T extends Contract<any, any, any>> {
+export interface Definition<T extends Contract<any, any, any, any, any>> {
 	slot: SlotDefinition<T>;
 	variant?: VariantDefinition<T>;
 	tokens?: TokenDefinition<T>;
@@ -348,12 +344,12 @@ export interface Definition<T extends Contract<any, any, any>> {
 	defaults: Defaults<T>;
 }
 
-export interface Props<T extends Contract<any, any, any>> {
+export interface Props<T extends Contract<any, any, any, any, any>> {
 	contract: T;
 	definition: Definition<T>;
 }
 
-export interface CreateConfig<T extends Contract<any, any, any>> {
+export interface CreateConfig<T extends Contract<any, any, any, any, any>> {
 	tokens: AllTokenVariants<T>; // Required
 	variants?: Partial<{
 		[K in VariantKey<T>]: VariantEx<T>[K][number];
@@ -395,26 +391,29 @@ export type ResolvedVariantConfig = Record<string, any>;
 /**
  * Type for the slots proxy object (maps slot names to class strings)
  */
-export type SlotsProxy<T extends Contract<any, any, any>> = {
+export type SlotsProxy<T extends Contract<any, any, any, any, any>> = {
 	[K in SlotKey<T>]: string;
 };
 
 /**
  * Type for the slots object returned by create()
  */
-export type ClsSlots<T extends Contract<any, any, any>> = {
+export type ClsSlots<T extends Contract<any, any, any, any, any>> = {
 	slots: SlotsProxy<T>;
 };
 
-export interface Cls<T extends Contract<any, any, any>> {
+export interface Cls<T extends Contract<any, any, any, any, any>> {
 	create(config: CreateConfig<T>): ClsSlots<T>;
 	use<
 		const TSlot extends Slot,
-		const TVariant extends Record<string, Variant>,
-		const TTokens extends TokenSchema,
+		const TVariant extends VariantRecord,
+		const TTokenVariants extends readonly string[],
+		const TTokenGroups extends Record<string, readonly string[]>,
 	>(
-		contract: Contract<TSlot, TVariant, TTokens>,
-		definition: Definition<Contract<TSlot, TVariant, TTokens, T>>,
-	): Cls<Contract<TSlot, TVariant, TTokens, T>>;
+		contract: Contract<TSlot, TVariant, TTokenVariants, TTokenGroups>,
+		definition: Definition<
+			Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, T>
+		>,
+	): Cls<Contract<TSlot, TVariant, TTokenVariants, TTokenGroups, T>>;
 	contract: T;
 }
