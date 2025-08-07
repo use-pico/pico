@@ -161,8 +161,12 @@ describe("TDD", () => {
 					"primary.textColor": [
 						"default",
 					],
+					/**
+					 * This one does not replace anything, only adds a "new" value
+					 * to existing tokens.
+					 */
 					"primary.borderColor": [
-						"default",
+						"new",
 					],
 					/**
 					 * This one is new and fresh, nothing interesting
@@ -171,11 +175,18 @@ describe("TDD", () => {
 						"token",
 					],
 				},
+				/**
+				 * Slot definition is harmless, it's safe to override it.
+				 */
 				slot: [
 					"root",
 					"icon",
 					"label",
 				],
+				/**
+				 * Same for variants, it's safe to override them, worst case
+				 * is a new value in existing variant.
+				 */
 				variant: {
 					variant: [
 						"primary",
@@ -186,20 +197,43 @@ describe("TDD", () => {
 						"md",
 					],
 					disabled: [
+						/**
+						 * Important to make docs about this - "bool" is a special
+						 * type for making a variant value a boolean.
+						 */
 						"bool",
 					],
 				},
 			},
 			{
+				/**
+				 * Token definition, all the stuff is contract-driven.
+				 */
 				token: {
-					// Current contract tokens (nested structure)
+					/**
+					 * We've defined this one, se we're forced to implement it.
+					 */
 					"button.some": {
 						token: [
 							"button-specific-class",
 						],
 					},
+					/**
+					 * Here we've added a new value to existing token, again,
+					 * we're forced to implement it.
+					 *
+					 * The rest is optional, but available.
+					 */
 					"primary.borderColor": {
+						/**
+						 * Here we're adding another value to existing token, but
+						 * because we did not specified it in our contract (ButtonCls),
+						 * this one gets added to the parent token, not replacing it.
+						 */
 						default: [
+							"better-default",
+						],
+						new: [
 							"border-gray-300",
 						],
 					},
@@ -208,7 +242,14 @@ describe("TDD", () => {
 							"blabla",
 						],
 					},
+					/**
+					 * Here is a bit of magic...
+					 */
 					"primary.textColor": {
+						/**
+						 * This is the case - we've specified this token in our contract
+						 * meaning this exact value (default) gets replaced by our definition.
+						 */
 						default: [
 							"text-white",
 						],
@@ -216,23 +257,66 @@ describe("TDD", () => {
 				},
 				rule: [
 					{
+						/**
+						 * Override rule means drop everything before and start here fresh
+						 * with values defined in this rule. Next rule in this list may
+						 * add another until another "override" is met.
+						 */
 						override: true,
+						/**
+						 * What we're matching - this should be documented as this is
+						 * all available variants.
+						 *
+						 * All of them must be met to apply this rule.
+						 */
 						match: {
 							disabled: true,
 							pico: "foo",
 						},
-						slot: {},
-					},
-					{
+						/**
+						 * What should happen if this rule is matched:
+						 */
 						slot: {
+							/**
+							 * We've a slot here (icon)
+							 */
 							icon: {
-								class: [
-									"class",
+								/**
+								 * Which gets appended value from tokens...
+								 *
+								 * ...but because we've "override" flag, it will
+								 * replace the value for "icon" slot.
+								 */
+								token: [
+									"button.some.new",
 								],
 							},
 						},
 					},
 					{
+						/**
+						 * Here is a special case
+						 */
+						slot: {
+							/**
+							 * For this slot (icon), we'll apply the given class
+							 */
+							icon: {
+								class: [
+									"class",
+								],
+							},
+							/**
+							 * But there is no "match" - this is a special case which
+							 * is used to defined default classes/tokens for slots (how)
+							 */
+						},
+					},
+					{
+						/**
+						 * Here is nothing interesting - we're matching and applying
+						 * tokens for icon and label slot.
+						 */
 						match: {
 							pico: "bar",
 						},
@@ -262,6 +346,15 @@ describe("TDD", () => {
 						},
 					},
 				],
+				/**
+				 * We're forced all the times to specify default values.
+				 *
+				 * This should be documented as the intention for the user is
+				 * to see all the values styles are working with.
+				 *
+				 * So there is no "magic" defaults from somewhere which may
+				 * cause a surprise.
+				 */
 				defaults: {
 					pico: "bar",
 					variant: "primary",
@@ -292,6 +385,10 @@ describe("TDD", () => {
 				slot: [
 					"extra",
 				],
+				/**
+				 * Rules are basically the same - here we're freely extending
+				 * "variant" of the parent with a new value
+				 */
 				variant: {
 					size: [
 						"xl",
@@ -300,7 +397,9 @@ describe("TDD", () => {
 			},
 			{
 				token: {
-					// Current contract tokens (nested structure)
+					/**
+					 * The stuff here was already documented, behavior is the same
+					 */
 					"button.some": {
 						token: [
 							"extended-button-class",
@@ -359,7 +458,16 @@ describe("TDD", () => {
 
 		const _testAssignment2: typeof PicoCls = PicoCls.use(ExtendedButtonCls);
 
+		/**
+		 * Now how "create" should work and what to do...
+		 */
 		const bla = ExtendedButtonCls.create({
+			/**
+			 * We can define additions to slots, which are appended last (after all computations done).
+			 *
+			 * That means regardless of "variants" being set, here "extra" slot will alway have the given
+			 * classes and tokens.
+			 */
 			slot: {
 				extra: {
 					class: [
@@ -370,6 +478,14 @@ describe("TDD", () => {
 					],
 				},
 			},
+			/**
+			 * This one is used to for "hard" override of the slot, regardless of
+			 * the rules, which means "extra" will alway end up only with the given
+			 * classes and tokens.
+			 *
+			 * This may be useful in case where you're feeding a foreign component and
+			 * you want to disable/override it's internal styles.
+			 */
 			override: {
 				extra: {
 					class: [
@@ -381,16 +497,34 @@ describe("TDD", () => {
 				},
 			},
 			/**
-			 * We can replace whatever tokens we want, fully typesafe + inherited
+			 * This section is useful in case we need to patch individual token values with
+			 * ones provided here.
+			 *
+			 * Each value will replace ones defined in this section.
 			 */
 			token: {
+				/**
+				 * In this case, button.some.token will get an empty value (original will get
+				 * replaced by empty).
+				 */
 				"button.some": {
 					token: [],
 				},
+				/**
+				 * Here we're replacing another one...
+				 */
 				"primary.shadowColor": {
-					disabled: [],
+					/**
+					 * Disabled will get (be replaced by) a new value `[overridden-disabled]`
+					 */
+					disabled: [
+						"overridden-disabled",
+					],
 				},
 			},
+			/**
+			 * A way of overriding individual variants if needed
+			 */
 			variant: {
 				disabled: true,
 				pico: "bar",
