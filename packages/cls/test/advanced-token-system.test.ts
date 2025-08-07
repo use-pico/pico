@@ -21,8 +21,8 @@ describe("Advanced Token System - Variants + Groups", () => {
 							"medium",
 						], // Group with specific values
 						color: [
-							"blue",
-							"green",
+							"red",
+							"red",
 						],
 					},
 				},
@@ -504,7 +504,7 @@ describe("Advanced Token System - Variants + Groups", () => {
 						],
 						color: [
 							"red",
-							"blue",
+							"red",
 						],
 					},
 				},

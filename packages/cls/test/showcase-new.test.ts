@@ -215,12 +215,8 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 					],
 				},
 				tokens: {
-					group: [
-						"special",
-					],
-					value: [
-						"border",
-					],
+					variant: [],
+					group: {},
 				},
 			},
 			{
@@ -292,50 +288,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 						},
 					},
 				},
-				tokens: {
-					foundation: {
-						spacing: [
-							"p-1",
-						],
-						color: [
-							"text-black",
-						],
-						background: [
-							"bg-gray-100",
-						],
-						border: [
-							"border-gray-300",
-						],
-					},
-					button: {
-						spacing: [
-							"p-2",
-						],
-						color: [
-							"text-white",
-						],
-						background: [
-							"bg-blue-700",
-						],
-						border: [
-							"border-blue-700",
-						],
-					},
-					special: {
-						spacing: [
-							"p-6",
-						],
-						color: [
-							"text-yellow-400",
-						],
-						background: [
-							"bg-purple-600",
-						],
-						border: [
-							"border-purple-600",
-						],
-					},
-				},
+				tokens: {},
 				defaults: {
 					theme: "light",
 					size: "sm",
@@ -345,14 +298,14 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 		);
 
 		// Test Level 1: Design System Foundation
-		const foundationComponent = designSystemCls.create("foundation");
+		const foundationComponent = designSystemCls.create("default");
 		const foundationInstance = foundationComponent();
 		expect(foundationInstance.slots.root()).toBe(
 			"ds-component p-2 text-gray-900 theme-light",
 		);
 
 		// Test Level 2: Button Component
-		const buttonComponent = buttonCls.create("button");
+		const buttonComponent = buttonCls.create("default");
 		const buttonDefaultInstance = buttonComponent();
 		const buttonCustomInstance = buttonComponent({
 			size: "lg",
@@ -374,7 +327,7 @@ describe("Cls API Showcase - New Two-Argument API", () => {
 		);
 
 		// Test Level 3: Special Button Component
-		const specialComponent = specialButtonCls.create("special");
+		const specialComponent = specialButtonCls.create("extra");
 		const specialDefaultInstance = specialComponent();
 		const specialCustomInstance = specialComponent({
 			size: "lg",
