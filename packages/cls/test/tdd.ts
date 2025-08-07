@@ -97,6 +97,10 @@ describe("TDD", () => {
 					"label",
 				],
 				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
 					size: [
 						"sm",
 						"md",
@@ -160,8 +164,22 @@ describe("TDD", () => {
 							],
 						},
 					},
+					{
+						variant: {
+							variant: "primary",
+						},
+						slot: [
+							"icon",
+						],
+						what: {
+							token: [
+								"primary.bgColor.hover",
+							],
+						},
+					},
 				],
 				defaults: {
+					variant: "primary",
 					disabled: true,
 					size: "md",
 					pico: "bar",
