@@ -148,6 +148,6 @@ export function cls<
 		use(sub) {
 			return sub as unknown as Cls<TContract>;
 		},
-		contract: proxy,
+		contract,
 	};
 }

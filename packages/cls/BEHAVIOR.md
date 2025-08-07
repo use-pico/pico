@@ -165,34 +165,47 @@ defaults: {
 
 ## Inheritance System
 
-### Contract Inheritance
-Contracts can inherit from parent contracts using the `extend` method:
-```typescript
-const ChildCls = ParentCls.extend(
-  {
-    // Child contract
-    tokens: { "child.token": ["value"] },
-    slot: ["childSlot"],
-    variant: { childVariant: ["value"] },
-  },
-  {
-    // Child definition
-    token: { "child.token": { value: ["class"] } },
-    rule: [],
-    defaults: {},
-  }
-);
-```
+### Token Inheritance and Overrides
+When extending a `cls`, the `ExtendableTokenContract` type allows:
 
-### Inheritance Chain
-- The `~use` property maintains the inheritance chain
-- Type system ensures type safety through the inheritance chain
-- All parent tokens, slots, and variants are available in child contracts
+1. **Inherited Token Overrides**: Override specific token groups from the parent
+   ```typescript
+   const ChildCls = ParentCls.extend({
+     tokens: {
+       "color.primary": ["default", "hover"], // Override inherited token
+       "spacing": ["xs", "sm"], // Override inherited token
+     },
+     // ...
+   });
+   ```
 
-### Type Safety
-- Inherited tokens maintain their variant types
-- Token groups from parent contracts are available in child definitions
-- Variant matching is type-safe across the inheritance chain
+2. **New Token Definitions**: Add completely new token groups
+   ```typescript
+   const ChildCls = ParentCls.extend({
+     tokens: {
+       "button.base": ["default", "variant"], // New token group
+       "icon.size": ["sm", "md", "lg"], // New token group
+     },
+     // ...
+   });
+   ```
+
+3. **Mixed Usage**: Combine both inherited overrides and new tokens
+   ```typescript
+   const ChildCls = ParentCls.extend({
+     tokens: {
+       "color.primary": ["default", "hover"], // Override inherited
+       "button.base": ["default", "variant"], // New token
+     },
+     // ...
+   });
+   ```
+
+### Type Safety Features
+- **Intellisense Support**: Full autocomplete for inherited token groups
+- **Validation**: Only valid inherited tokens can be overridden
+- **Flexibility**: Can override any subset of inherited tokens
+- **Extensibility**: Can add unlimited new token groups
 
 ## Create System
 
@@ -346,6 +359,7 @@ const AssignedCls = BaseCls.use(ExtendedCls); // Type-safe assignment
 
 ### Contract Types
 - `TokenContract`: Record of token groups with variant arrays
+- `ExtendableTokenContract`: Allows both inherited token overrides and new token definitions
 - `SlotContract`: Array of slot names
 - `VariantContract`: Record of variant names with value arrays
 

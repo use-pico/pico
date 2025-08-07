@@ -44,8 +44,21 @@ export type SlotContract = readonly string[];
 export type TokenContract = Record<string, readonly string[]>;
 export type VariantContract = Record<string, readonly string[]>;
 
+// Type that allows both inherited token overrides and new token definitions
+export type ExtendableTokenContract<
+	TBaseContract extends Contract<any, any, any>,
+> = {
+	// Allow overriding inherited tokens with their specific variants
+	[K in keyof TBaseContract["tokens"]]?:
+		| TBaseContract["tokens"][K]
+		| readonly string[];
+} & {
+	// Allow defining new tokens
+	[key: string]: readonly string[];
+};
+
 export type Contract<
-	TTokenContract extends TokenContract,
+	TTokenContract extends TokenContract | ExtendableTokenContract<any>,
 	TSlotContract extends SlotContract,
 	TVariantContract extends VariantContract,
 	TUse extends Contract<any, any, any> | unknown = unknown,
@@ -288,7 +301,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 * "cls", you can use this (ParentCls.extend({...})).
 	 */
 	extend<
-		const TTokenContract extends TokenContract,
+		const TTokenContract extends ExtendableTokenContract<TContract>,
 		const TSlotContract extends SlotContract,
 		const TVariantContract extends VariantContract,
 	>(

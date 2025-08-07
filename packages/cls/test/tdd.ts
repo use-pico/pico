@@ -162,6 +162,9 @@ describe("TDD", () => {
 					"primary.textColor": [
 						"default",
 					],
+					"primary.borderColor": [
+						"default",
+					],
 					/**
 					 * This one is new and fresh, nothing interesting
 					 */
@@ -1083,5 +1086,338 @@ describe("TDD", () => {
 		});
 
 		console.log("Optional token variant values work correctly");
+	});
+
+	it("Demonstrates ExtendableTokenContract intellisense", () => {
+		// Base design system with tokens
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"color.primary": [
+						"default",
+						"hover",
+						"active",
+					],
+					"color.secondary": [
+						"default",
+						"hover",
+						"active",
+					],
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+						"lg",
+						"xl",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {
+					"color.primary": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						active: [
+							"text-blue-800",
+						],
+					},
+					"color.secondary": {
+						default: [
+							"text-gray-600",
+						],
+						hover: [
+							"text-gray-700",
+						],
+						active: [
+							"text-gray-800",
+						],
+					},
+					spacing: {
+						xs: [
+							"p-1",
+						],
+						sm: [
+							"p-2",
+						],
+						md: [
+							"p-4",
+						],
+						lg: [
+							"p-6",
+						],
+						xl: [
+							"p-8",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		// Child component that demonstrates ExtendableTokenContract
+		const ChildComponent = BaseSystem.extend(
+			{
+				tokens: {
+					// ✅ Intellisense should show inherited tokens
+					"color.primary": [
+						"default",
+						"hover",
+					], // Override inherited token
+					spacing: [
+						"xs",
+						"sm",
+						"md",
+					], // Override inherited token
+					// ✅ Can add new tokens
+					"button.base": [
+						"default",
+						"variant",
+					], // New token
+					"icon.size": [
+						"sm",
+						"md",
+						"lg",
+					], // New token
+				},
+				slot: [
+					"root",
+				],
+				variant: {
+					variant: [
+						"primary",
+						"secondary",
+					],
+				},
+			},
+			{
+				token: {
+					// ✅ Can define inherited token overrides
+					"color.primary": {
+						default: [
+							"text-red-600",
+						], // Override inherited
+						hover: [
+							"text-red-700",
+						], // Override inherited
+					},
+					spacing: {
+						xs: [
+							"p-2",
+						], // Override inherited
+						sm: [
+							"p-3",
+						], // Override inherited
+						md: [
+							"p-5",
+						], // Override inherited
+					},
+					// ✅ Can define new tokens
+					"button.base": {
+						default: [
+							"rounded",
+							"font-medium",
+						],
+						variant: [
+							"transition-colors",
+						],
+					},
+					"icon.size": {
+						sm: [
+							"w-4",
+							"h-4",
+						],
+						md: [
+							"w-6",
+							"h-6",
+						],
+						lg: [
+							"w-8",
+							"h-8",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.primary.default", // ✅ Can use inherited tokens
+									"button.base.default", // ✅ Can use new tokens
+									"spacing.md", // ✅ Can use inherited tokens
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					variant: "primary",
+				},
+			},
+		);
+
+		console.log(
+			"ExtendableTokenContract provides proper intellisense and type safety",
+		);
+	});
+
+	it("Debug InheritedTokenGroups type", () => {
+		// Base design system with tokens
+		const BaseSystem = cls(
+			{
+				tokens: {
+					"primary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.bgColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {
+					"primary.textColor": {
+						default: [
+							"text-blue-600",
+						],
+						hover: [
+							"text-blue-700",
+						],
+						disabled: [
+							"text-gray-400",
+						],
+					},
+					"primary.bgColor": {
+						default: [
+							"bg-blue-600",
+						],
+						hover: [
+							"bg-blue-700",
+						],
+						disabled: [
+							"bg-gray-400",
+						],
+					},
+					"secondary.textColor": {
+						default: [
+							"text-gray-600",
+						],
+						hover: [
+							"text-gray-700",
+						],
+						disabled: [
+							"text-gray-400",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		// Let's see what TypeScript thinks the inherited tokens are
+		type BaseTokens = typeof BaseSystem.contract.tokens;
+		type InheritedGroups = import("../src/types").InheritedTokenGroups<
+			typeof BaseSystem.contract
+		>;
+
+		// This should help us debug what's happening
+		console.log("Base tokens:", Object.keys(BaseSystem.contract.tokens));
+		console.log("Debug InheritedTokenGroups type resolution");
+
+		// Let's also check what tokens PicoCls has
+		const PicoCls = cls(
+			{
+				tokens: {
+					"primary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.borderColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.bgColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"primary.shadowColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.textColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.borderColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.bgColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+					"secondary.shadowColor": [
+						"default",
+						"hover",
+						"disabled",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		console.log("PicoCls tokens:", Object.keys(PicoCls.contract.tokens));
+
+		// Now let's see what happens when we extend PicoCls
+		const TestButtonCls = PicoCls.extend(
+			{
+				tokens: {
+					// This should show intellisense for all PicoCls tokens
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		console.log(
+			"TestButtonCls contract tokens:",
+			Object.keys(TestButtonCls.contract.tokens),
+		);
 	});
 });
