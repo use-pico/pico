@@ -10,6 +10,9 @@ describe("TDD", () => {
 		 */
 		const PicoCls = cls(
 			{
+				/**
+				 * Here we're defining core tokens available in the system, nothing interesting happening
+				 */
 				tokens: {
 					// === Primary ===
 					"primary.textColor": [
@@ -55,7 +58,13 @@ describe("TDD", () => {
 						"disabled",
 					],
 				},
+				/**
+				 * Ugly, bu we can live with this
+				 */
 				slot: [],
+				/**
+				 * Some variants to check if the inheritance works for whole chain down the road.
+				 */
 				variant: {
 					pico: [
 						"foo",
@@ -64,8 +73,14 @@ describe("TDD", () => {
 				},
 			},
 			{
+				/**
+				 * Common stuff - we defined tokens in contract, here we're forced to actually implement them
+				 */
 				token: {
 					"primary.bgColor": {
+						/**
+						 * All values we've defined in contract are required
+						 */
 						default: [],
 						disabled: [],
 						hover: [],
@@ -111,19 +126,45 @@ describe("TDD", () => {
 						],
 					},
 				},
+				/**
+				 * Nothing to do, ugly, but intentional
+				 */
 				rule: [],
+				/**
+				 * Because we've defined variant, we're also forced to use default
+				 * value for it
+				 */
 				defaults: {
 					pico: "foo",
 				},
 			},
 		);
 
+		/**
+		 * Here is somewhat real-world example of extending our type system, so it's
+		 * available in the button to be used.
+		 */
 		const ButtonCls = PicoCls.extend(
 			{
+				/**
+				 * Here we'll define tokens available in the button and downwards,
+				 * with a little hack, see below...
+				 */
 				tokens: {
+					/**
+					 * If we provide a token that's already defined in the parent,
+					 * it means we want to _replace_ it by our definition, but _only_
+					 * when the key is specified here.
+					 *
+					 * In this case, PicoCls would have everything, except for
+					 * primary.textColor.default will be _replaced_ by our definition.
+					 */
 					"primary.textColor": [
 						"default",
 					],
+					/**
+					 * This one is new and fresh, nothing interesting
+					 */
 					"button.some": [
 						"token",
 					],
@@ -215,6 +256,7 @@ describe("TDD", () => {
 					},
 				],
 				defaults: {
+					pico: "bar",
 					variant: "primary",
 					size: "md",
 					disabled: false,
