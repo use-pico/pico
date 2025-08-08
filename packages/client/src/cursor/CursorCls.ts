@@ -1,6 +1,7 @@
-import { type Component, component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const CursorCls = component({
+export const CursorCls = PicoCls.component({
 	slots: [
 		"base",
 		"sums",
@@ -23,7 +24,6 @@ export const CursorCls = component({
 			],
 		},
 	},
-	defaults: {},
 });
 export type CursorCls = typeof CursorCls;
 

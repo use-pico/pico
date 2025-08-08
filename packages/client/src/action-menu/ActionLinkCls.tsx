@@ -3,11 +3,7 @@ import { ActionCls } from "./ActionCls";
 
 export const ActionLinkCls = ActionCls.component({
 	slots: [],
-	root: [],    
-	defaults: {
-		disabled: false,
-		variant: "danger",
-	},
+	root: [],
 });
 
 export namespace ActionLinkCls {

@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const LabelCountCls = component({
+export const LabelCountCls = PicoCls.component({
 	slots: [
 		"base",
 		"label",
@@ -15,7 +16,6 @@ export const LabelCountCls = component({
 		]),
 		label: classes([]),
 	},
-	defaults: {},
 });
 
 export namespace LabelCountCls {

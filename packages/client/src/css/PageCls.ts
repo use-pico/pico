@@ -1,6 +1,7 @@
-import { type Component, component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const PageCls = component({
+export const PageCls = PicoCls.component({
 	slots: [
 		"base",
 	],
@@ -13,7 +14,6 @@ export const PageCls = component({
 			],
 		},
 	},
-	defaults: {},
 });
 
 export type PageCls = typeof PageCls;

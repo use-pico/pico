@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const PreviewCls = component({
+export const PreviewCls = PicoCls.component({
 	slots: [
 		"base",
 		"container",
@@ -54,8 +55,8 @@ export const PreviewCls = component({
 			"justify-end",
 		]),
 	},
-	defaults: {},
 });
+
 export type PreviewCls = typeof PreviewCls;
 
 export namespace PreviewCls {

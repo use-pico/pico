@@ -1,6 +1,7 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const ValueOfCls = variant({
+export const ValueOfCls = PicoCls.variant({
 	slots: [
 		"base",
 		"label",

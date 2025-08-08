@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const LinkToCls = component({
+export const LinkToCls = PicoCls.component({
 	slots: [
 		"base",
 	],
@@ -21,8 +22,9 @@ export const LinkToCls = component({
 			"truncate",
 		]),
 	},
-	defaults: {},
 });
+
+export type LinkToCls = typeof LinkToCls;
 
 export namespace LinkToCls {
 	export type Props<P = unknown> = Component<typeof LinkToCls, P>;

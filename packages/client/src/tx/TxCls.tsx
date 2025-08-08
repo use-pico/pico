@@ -1,6 +1,7 @@
-import { type Component, component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const TxCls = component({
+export const TxCls = PicoCls.component({
 	slots: [
 		"base",
 	],
@@ -9,8 +10,9 @@ export const TxCls = component({
 			class: [],
 		},
 	},
-	defaults: {},
 });
+
+export type TxCls = typeof TxCls;
 
 export namespace TxCls {
 	export type Props<P = unknown> = Component<typeof TxCls, P>;

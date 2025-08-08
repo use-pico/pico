@@ -1,6 +1,6 @@
-import { variant } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const ActionCls = variant({
+export const ActionCls = PicoCls.variant({
 	slots: [
 		"base",
 	],

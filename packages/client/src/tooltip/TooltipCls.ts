@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const TooltipCls = component({
+export const TooltipCls = PicoCls.component({
 	slots: [
 		"base",
 	],
@@ -16,8 +17,9 @@ export const TooltipCls = component({
 			"shadow-md",
 		]),
 	},
-	defaults: {},
 });
+
+export type TooltipCls = typeof TooltipCls;
 
 export namespace TooltipCls {
 	export type Props<P = unknown> = Component<typeof TooltipCls, P>;

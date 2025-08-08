@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const ActionMenuCls = component({
+export const ActionMenuCls = PicoCls.component({
 	slots: [
 		"base",
 	],
@@ -19,7 +20,6 @@ export const ActionMenuCls = component({
 			"border-(--pico-border-default)",
 		]),
 	},
-	defaults: {},
 });
 
 export namespace ActionMenuCls {

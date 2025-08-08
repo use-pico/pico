@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const FulltextCls = component({
+export const FulltextCls = PicoCls.component({
 	slots: [
 		"base",
 		"search",
@@ -50,7 +51,6 @@ export const FulltextCls = component({
 			],
 		},
 	},
-	defaults: {},
 });
 
 export namespace FulltextCls {

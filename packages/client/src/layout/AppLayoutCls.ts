@@ -1,6 +1,7 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import { type Component, classes } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const AppLayoutCls = component({
+export const AppLayoutCls = PicoCls.component({
 	slots: [
 		"base",
 		"header",
@@ -32,7 +33,6 @@ export const AppLayoutCls = component({
 			"p-2",
 		]),
 	},
-	defaults: {},
 });
 
 export namespace AppLayoutCls {

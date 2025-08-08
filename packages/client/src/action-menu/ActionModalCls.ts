@@ -4,10 +4,6 @@ import { ActionCls } from "./ActionCls";
 export const ActionModalCls = ActionCls.component({
 	root: [],
 	slots: [],
-	defaults: {
-		disabled: false,
-		variant: "common",
-	},
 });
 
 export namespace ActionModalCls {
