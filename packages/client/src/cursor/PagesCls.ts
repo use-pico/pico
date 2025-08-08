@@ -1,4 +1,4 @@
-¬import type { Component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const PagesCls = PicoCls.extend(

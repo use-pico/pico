@@ -30,9 +30,13 @@ export const ActionClickCls = ActionCls.extend(
 		],
 		defaults: {
 			loading: false,
+			disabled: false,
+			variant: "common",
 		},
 	},
 );
+
+export type ActionClickCls = typeof ActionClickCls;
 
 export namespace ActionClickCls {
 	export type Props<P = unknown> = Component<typeof ActionClickCls, P>;

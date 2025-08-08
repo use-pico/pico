@@ -4,6 +4,11 @@
 # TODO - Add top-level not this lib works great with TailwindCSS, but it's not directly bound to it
 # TODO - Add section telling the motivation of this package - using design tokens and have strict typechecking
 # TODO - Add comparison between similar solutions, e.g. cva or tva
+# TODO - Use section separations in this readme
+
+# TODO - Add keywords to package so it's searchable
+# TODO - Feature - attach Cls directly to component, e.g. using HoC or something; component and CLS is tightly coupled, so they should be exported together
+# TODO - Feature - this is probably client-side stuff, but provide context which could be used to fetch "Tokens" from some parent context?
 
 ✨ Design-token powered, type-safe class builder for modern UI. Ship consistent styles without the boilerplate.
 

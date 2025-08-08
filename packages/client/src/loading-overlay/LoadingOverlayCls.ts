@@ -52,6 +52,8 @@ export const LoadingOverlayCls = PicoCls.extend(
 	},
 );
 
+export type LoadingOverlayCls = typeof LoadingOverlayCls;
+
 export namespace LoadingOverlayCls {
-	export type Props<P = unknown> = Component<typeof LoadingOverlayCls, P>;
+	export type Props<P = unknown> = Component<LoadingOverlayCls, P>;
 }

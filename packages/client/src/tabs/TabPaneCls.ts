@@ -1,34 +1,43 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const TabPaneCls = variant({
-	slots: [
-		"base",
-	],
-	variants: {
-		hidden: [
-			"bool",
+export const TabPaneCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
 		],
+		variant: {
+			hidden: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([]),
-		}),
-		rule(
-			{
-				hidden: true,
-			},
-			{
-				base: classes([
-					"hidden",
-				]),
-			},
-		),
-	],
-	defaults: {
-		hidden: false,
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
+				base: classes([]),
+			}),
+			rule(
+				{
+					hidden: true,
+				},
+				{
+					base: classes([
+						"hidden",
+					]),
+				},
+			),
+		],
+		defaults: {
+			hidden: false,
+		},
 	},
-});
+);
+
+export type TabPaneCls = typeof TabPaneCls;
 
 export namespace TabPaneCls {
-	export type Props<P = unknown> = Component<typeof TabPaneCls, P>;
+	export type Props<P = unknown> = Component<TabPaneCls, P>;
 }

@@ -44,8 +44,10 @@ export const Alert: FC<Alert.Props> = ({
 				{icon && (
 					<Icon
 						icon={icon}
-						variant={{
-							size: "2xl",
+						cls={{
+							variant: {
+								size: "2xl",
+							},
 						}}
 						{...iconProps}
 					/>

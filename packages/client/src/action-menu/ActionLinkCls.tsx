@@ -9,14 +9,17 @@ export const ActionLinkCls = ActionCls.extend(
 	},
 	{
 		token: {},
-		rules: () => [
-			{
-				slot: {},
-			},
+		rules: ({ root }) => [
+			root({}),
 		],
-		defaults: {},
+		defaults: {
+			disabled: false,
+			variant: "common",
+		},
 	},
 );
+
+export type ActionLinkCls = typeof ActionLinkCls;
 
 export namespace ActionLinkCls {
 	export type Props<P = unknown> = Component<typeof ActionLinkCls, P>;

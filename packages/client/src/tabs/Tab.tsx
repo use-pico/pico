@@ -8,29 +8,19 @@ export namespace Tab {
 	}
 }
 
-export const Tab: FC<Tab.Props> = ({
-	tab,
-	token,
-	variant,
-	tva = TabCls,
-	slot,
-	children,
-}) => {
+export const Tab: FC<Tab.Props> = ({ tab, tva = TabCls, cls, children }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const { slots } = tva.create({
-		token: token ?? (undefined as never),
-		slot,
+	const classes = tva.create(cls, {
 		variant: {
-			active: tab === store.tab ? "true" : "false",
-			...variant,
+			active: tab === store.tab,
 		},
 	});
 
 	return store.hidden.includes(tab) ? null : (
 		<div
-			className={slots.base}
+			className={classes.base}
 			onClick={() => store.setCurrent(tab)}
 		>
 			{children}

@@ -21,25 +21,27 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	tva = FulltextCls,
 	cls,
 }) => {
-	const { slots } = tva.create(cls);
+	const classes = tva.create(cls);
 	const [search, setSearch] = useState(value || "");
 	const debounced = useDebouncedCallback((value) => {
 		set(value);
 	}, 500);
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.search()}>
+		<div className={classes.base}>
+			<div className={classes.search}>
 				<Icon
 					icon={"icon-[material-symbols-light--search]"}
-					variant={{
-						size: "xl",
+					cls={{
+						variant: {
+							size: "xl",
+						},
 					}}
 				/>
 			</div>
 			<input
 				value={search}
-				className={slots.input()}
+				className={classes.input}
 				type={"text"}
 				placeholder={
 					textPlaceholder || translator.text("Fulltext (placeholder)")
@@ -51,7 +53,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 			/>
 			{value && (
 				<div
-					className={slots.clear()}
+					className={classes.clear}
 					onClick={() => {
 						setSearch("");
 						set("");
@@ -59,8 +61,10 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				>
 					<Icon
 						icon={"icon-[gridicons--cross]"}
-						variant={{
-							size: "md",
+						cls={{
+							variant: {
+								size: "md",
+							},
 						}}
 					/>
 				</div>

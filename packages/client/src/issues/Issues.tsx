@@ -55,15 +55,18 @@ export const Issues: FC<Issues.Props> = ({
 			renderInline={({ entity }) => {
 				return (
 					<Badge
-						slot={{
-							base: {
-								class: [
-									tva.create(undefined, {
-										variant: {
-											type: entity.type,
-										},
-									}).item,
-								],
+						cls={{
+							slot: {
+								base: {
+									class: [
+										// TODO Enable support for proxy() instead of string
+										tva.create(undefined, {
+											variant: {
+												type: entity.type,
+											},
+										}).item,
+									],
+								},
 							},
 						}}
 					>

@@ -1,4 +1,4 @@
-¬import type { Component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const ProgressCls = PicoCls.extend(
@@ -94,6 +94,7 @@ export const ProgressCls = PicoCls.extend(
 		},
 	},
 );
+
 export type ProgressCls = typeof ProgressCls;
 
 export namespace ProgressCls {

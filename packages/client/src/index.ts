@@ -49,7 +49,6 @@ export { TextInput } from "./form/input/TextInput";
 export { onSubmit } from "./form/onSubmit";
 export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCls } from "./fulltext/FulltextCls";
-export { useCls } from "./hooks/useCls";
 export { useStableCallback } from "./hooks/useStableCallback";
 export { useStableMemo } from "./hooks/useStableMemo";
 export { ActionMenuIcon } from "./icon/ActionMenuIcon";

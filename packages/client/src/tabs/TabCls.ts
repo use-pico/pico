@@ -1,52 +1,60 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const TabCls = variant({
-	slots: [
-		"base",
-	],
-	variants: {
-		active: [
-			"bool",
+export const TabCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
 		],
+		variant: {
+			active: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([
-				"flex",
-				"flex-row",
-				"items-center",
-				"gap-1",
-				"cursor-pointer",
-				"text-slate-600",
-				"border-sky-400",
-				"border",
-				"border-b-2",
-				"border-transparent",
-				"hover:border-b-sky-400",
-				"py-1",
-				"px-2",
-				"rounded",
-			]),
-		}),
-		rule(
-			{
-				active: true,
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
 				base: classes([
-					"cursor-default",
-					"font-semibold",
-					"text-slate-800",
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-1",
+					"cursor-pointer",
+					"text-slate-600",
 					"border-sky-400",
-					"bg-sky-50",
+					"border",
+					"border-b-2",
+					"border-transparent",
+					"hover:border-b-sky-400",
+					"py-1",
+					"px-2",
+					"rounded",
 				]),
-			},
-		),
-	],
-	defaults: {
-		active: false,
+			}),
+			rule(
+				{
+					active: true,
+				},
+				{
+					base: classes([
+						"cursor-default",
+						"font-semibold",
+						"text-slate-800",
+						"border-sky-400",
+						"bg-sky-50",
+					]),
+				},
+			),
+		],
+		defaults: {
+			active: false,
+		},
 	},
-});
+);
+
 export type TabCls = typeof TabCls;
 
 export namespace TabCls {

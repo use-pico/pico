@@ -14,19 +14,11 @@ export namespace BoolInput {
 export const BoolInput: FC<BoolInput.Props> = ({
 	value,
 	onChange,
-	variant,
 	tva = BoolInputCls,
-	slot,
-	token,
-	override,
+	cls,
 	...props
 }) => {
-	const classes = tva.create({
-		variant,
-		slot,
-		token,
-		override,
-	});
+	const classes = tva.create(cls);
 
 	return (
 		<div className={classes.base}>

@@ -1,93 +1,98 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const FormFieldCls = variant({
-	slots: [
-		"base",
-		"input",
-	],
-	variants: {
-		required: [
-			"bool",
+export const FormFieldCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
+			"input",
 		],
-		disabled: [
-			"bool",
-		],
-		isSubmitting: [
-			"bool",
-		],
-		isLoading: [
-			"bool",
-		],
-		isError: [
-			"bool",
-		],
+		variant: {
+			required: [
+				"bool",
+			],
+			disabled: [
+				"bool",
+			],
+			isSubmitting: [
+				"bool",
+			],
+			isLoading: [
+				"bool",
+			],
+			isError: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule }) => [
-		root({
-			base: {
-				class: [
-					"flex",
-					"flex-col",
-					"gap-1",
-					"w-full",
-				],
-			},
-			input: {
-				class: [],
-			},
-		}),
-		rule(
-			{
-				isError: true,
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule }) => [
+			root({
 				base: {
 					class: [
-						"text-(--input-error-color-text)",
+						"flex",
+						"flex-col",
+						"gap-1",
+						"w-full",
 					],
 				},
-			},
-		),
-		rule(
-			{
-				required: true,
-			},
-			{
-				base: {
-					class: [
-						"text-(--input-required-color-text)",
-						"font-bold",
-					],
+			}),
+			rule(
+				{
+					isError: true,
 				},
-			},
-		),
-		rule(
-			{
-				disabled: true,
-			},
-			{
-				base: {
-					class: [
-						"opacity-75",
-						"cursor-not-allowed",
-					],
+				{
+					base: {
+						class: [
+							"text-(--input-error-color-text)",
+						],
+					},
 				},
-				input: {
-					class: [
-						"pointer-events-none",
-					],
+			),
+			rule(
+				{
+					required: true,
 				},
-			},
-		),
-	],
-	defaults: {
-		required: false,
-		disabled: false,
-		isSubmitting: false,
-		isLoading: false,
-		isError: false,
+				{
+					base: {
+						class: [
+							"text-(--input-required-color-text)",
+							"font-bold",
+						],
+					},
+				},
+			),
+			rule(
+				{
+					disabled: true,
+				},
+				{
+					base: {
+						class: [
+							"opacity-75",
+							"cursor-not-allowed",
+						],
+					},
+					input: {
+						class: [
+							"pointer-events-none",
+						],
+					},
+				},
+			),
+		],
+		defaults: {
+			required: false,
+			disabled: false,
+			isSubmitting: false,
+			isLoading: false,
+			isError: false,
+		},
 	},
-});
+);
+
 export type FormFieldCls = typeof FormFieldCls;
 
 export namespace FormFieldCls {

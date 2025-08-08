@@ -1,76 +1,84 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const PopupSelectCls = variant({
-	slots: [
-		"base",
-		"input",
-		"content",
-	],
-	variants: {
-		loading: [
-			"bool",
+export const PopupSelectCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
+			"input",
+			"content",
 		],
-		selected: [
-			"bool",
+		variant: {
+			loading: [
+				"bool",
+			],
+			selected: [
+				"bool",
+			],
+		},
+	},
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
+				base: classes([
+					"flex",
+					"flex-col",
+					"gap-2",
+				]),
+				input: classes([
+					"py-2",
+					"px-2",
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"cursor-pointer",
+					"hover:bg-slate-50",
+					"border",
+					"border-gray-300",
+					"rounded-md",
+					"text-slate-400",
+					"hover:text-slate-700",
+					"focus:outline-hidden",
+					"focus:ring-2",
+					"focus:ring-blue-500",
+					"focus:border-transparent",
+				]),
+			}),
+			rule(
+				{
+					loading: true,
+				},
+				{
+					input: classes([
+						"text-slate-300",
+						"cursor-progress",
+					]),
+				},
+			),
+			rule(
+				{
+					selected: true,
+				},
+				{
+					input: classes([
+						"bg-slate-50",
+						"text-slate-700",
+						"hover:bg-slate-100",
+						"hover:text-slate-800",
+					]),
+				},
+			),
 		],
+		defaults: {
+			loading: false,
+			selected: false,
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([
-				"flex",
-				"flex-col",
-				"gap-2",
-			]),
-			input: classes([
-				"py-2",
-				"px-2",
-				"flex",
-				"flex-row",
-				"gap-2",
-				"items-center",
-				"cursor-pointer",
-				"hover:bg-slate-50",
-				"border",
-				"border-gray-300",
-				"rounded-md",
-				"text-slate-400",
-				"hover:text-slate-700",
-				"focus:outline-hidden",
-				"focus:ring-2",
-				"focus:ring-blue-500",
-				"focus:border-transparent",
-			]),
-		}),
-		rule(
-			{
-				loading: true,
-			},
-			{
-				input: classes([
-					"text-slate-300",
-					"cursor-progress",
-				]),
-			},
-		),
-		rule(
-			{
-				selected: true,
-			},
-			{
-				input: classes([
-					"bg-slate-50",
-					"text-slate-700",
-					"hover:bg-slate-100",
-					"hover:text-slate-800",
-				]),
-			},
-		),
-	],
-	defaults: {
-		loading: false,
-		selected: false,
-	},
-});
+);
+
 export type PopupSelectCls = typeof PopupSelectCls;
 
 export namespace PopupSelectCls {

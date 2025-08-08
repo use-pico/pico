@@ -1,45 +1,53 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const CardCls = variant({
-	slots: [
-		"base",
-	],
-	variants: {
-		inline: [
-			"bool",
+export const CardCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
 		],
+		variant: {
+			inline: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([
-				"flex",
-				"flex-col",
-				"gap-4",
-				"border",
-				"border-slate-100",
-				"p-4",
-				"rounded-lg",
-			]),
-		}),
-		rule(
-			{
-				inline: true,
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
 				base: classes([
-					"flex-row",
-					"border-none",
-					"gap-1",
-					"p-0",
-					"flex-1",
+					"flex",
+					"flex-col",
+					"gap-4",
+					"border",
+					"border-slate-100",
+					"p-4",
+					"rounded-lg",
 				]),
-			},
-		),
-	],
-	defaults: {
-		inline: false,
+			}),
+			rule(
+				{
+					inline: true,
+				},
+				{
+					base: classes([
+						"flex-row",
+						"border-none",
+						"gap-1",
+						"p-0",
+						"flex-1",
+					]),
+				},
+			),
+		],
+		defaults: {
+			inline: false,
+		},
 	},
-});
+);
+
 export type CardCls = typeof CardCls;
 
 export namespace CardCls {

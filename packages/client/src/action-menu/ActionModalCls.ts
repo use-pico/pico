@@ -9,15 +9,16 @@ export const ActionModalCls = ActionCls.extend(
 	},
 	{
 		token: {},
-		rules: () => [
-			{
-				slot: {},
-			},
-		],
-		defaults: {},
+		rules: () => [],
+		defaults: {
+			disabled: false,
+			variant: "common",
+		},
 	},
 );
 
+export type ActionModalCls = typeof ActionModalCls;
+
 export namespace ActionModalCls {
-	export type Props<P = unknown> = Component<typeof ActionModalCls, P>;
+	export type Props<P = unknown> = Component<ActionModalCls, P>;
 }

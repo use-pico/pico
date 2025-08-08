@@ -1,6 +1,8 @@
+import { merge } from "@use-pico/cls";
 import type { FC } from "react";
 import { CheckIcon } from "../icon/CheckIcon";
 import { Icon } from "../icon/Icon";
+import { IconCls } from "../icon/IconCls";
 import { UnCheckIcon } from "../icon/UnCheckIcon";
 import { UndefinedIcon } from "../icon/UndefinedIcon";
 import { BoolInlineCls } from "./BoolInlineCls";
@@ -51,13 +53,15 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	unCheckIcon = UnCheckIcon,
 	undefinedIcon = UndefinedIcon,
 	tva = BoolInlineCls,
+	cls,
 	...props
 }) => {
 	if (value === null || value === undefined) {
 		return (
 			<Icon
 				icon={undefinedIcon}
-				tva={tva}
+				tva={IconCls.use(tva)}
+				cls={cls}
 				{...props}
 			/>
 		);
@@ -65,15 +69,12 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	return (
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
-			tva={(user?, internal?) =>
-				tva.create(user, {
-					...internal,
-					variant: {
-						...(internal?.variant ?? {}),
-						value,
-					},
-				})
-			}
+			tva={IconCls.use(tva)}
+			cls={merge(cls, {
+				variant: {
+					value,
+				},
+			})}
 			{...props}
 		/>
 	);

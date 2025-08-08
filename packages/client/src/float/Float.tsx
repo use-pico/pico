@@ -52,11 +52,8 @@ export const Float: FC<Float.Props> = ({
 	delay = 100,
 	float,
 	withOverlay = false,
-	variant,
 	tva = FloatCls,
-	slot,
-	token,
-	override,
+	cls,
 	children,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -86,14 +83,10 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const classes = tva.create({
+	const classes = tva.create(cls, {
 		variant: {
 			mounted: isMounted,
-			...variant,
 		},
-		slot,
-		token,
-		override,
 	});
 
 	return (
