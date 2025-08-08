@@ -280,6 +280,82 @@ rules: ({ root, rule }) => [
 ]
 ```
 
+### Rule callback: how it works and why it exists
+
+`rules` is a function that receives a small set of type‑safe helpers and returns an ordered list of rule definitions. These helpers make it easy to write readable, type‑checked styling logic:
+
+- `root(slotMapping, override?)`: Declare base styles that always apply. `override: true` makes it a hard override step for the affected slots.
+- `rule(match, slotMapping, override?)`: Declare conditional styles that apply only when `match` equals the current variant values. Fully type‑checked against your `variant` contract.
+- `classes(className, tokens?)`: Convenience to build `{ class, token }` objects without repeating keys.
+
+Why it exists
+- **Type‑safe ergonomics**: Author rules with IntelliSense for variants, slots and tokens. Avoid hand‑rolling objects and typos.
+- **Readable flow**: Compose base and conditional styles in a linear, top‑down order matching how UI states are usually reasoned about.
+- **Consistency**: The same helpers are used across all components and inheritance layers.
+
+What it builds under the hood
+- Each call to `root(...)` or `rule(...)` becomes a unified rule object with shape `{ match?, slot, override? }`.
+- On `create()`, rules are applied in order (see [Precedence Rules](#precedence-rules)), matching against the effective variants. For each matching rule, slot entries append classes and resolve tokens to concrete classes. If `override: true` is set, previous slot content for that step is cleared before applying the new one.
+
+Example: tidy authoring with helpers
+
+```ts
+const Alert = cls(
+  {
+    tokens: {
+      "color.text": ["default", "primary"],
+      "color.bg": ["default", "primary"],
+    },
+    slot: ["root", "icon", "label"] as const,
+    variant: { variant: ["default", "primary"], size: ["sm", "md"] } as const,
+  },
+  {
+    token: {
+      "color.text": {
+        default: ["text-gray-900"],
+        primary: ["text-blue-700"],
+      },
+      "color.bg": {
+        default: ["bg-gray-50"],
+        primary: ["bg-blue-50"],
+      },
+    },
+    rules: ({ root, rule, classes }) => [
+      root({
+        root: classes(["block", "rounded", "p-3"], [
+          "color.text.default",
+          "color.bg.default",
+        ]),
+        icon: { class: ["mr-2"] },
+      }),
+      rule({ variant: "primary" }, {
+        root: classes(["shadow-sm"], ["color.text.primary", "color.bg.primary"]),
+      }),
+      rule({ size: "sm" }, { root: { class: ["text-sm", "p-2"] } }),
+      rule({ size: "md" }, { root: { class: ["text-base", "p-3"] } }),
+    ],
+    defaults: { variant: "default", size: "md" },
+  },
+);
+```
+
+Advanced: hard override for a slot
+
+```ts
+rules: ({ rule }) => [
+  rule(
+    { variant: "primary" },
+    {
+      root: {
+        class: ["border", "border-blue-300", "rounded-lg"],
+        token: ["color.text.primary", "color.bg.primary"],
+      },
+    },
+    true, // override
+  ),
+]
+```
+
 ## Framework-Agnostic Core
 
 The core library is framework-agnostic and provides:
