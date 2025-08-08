@@ -52,7 +52,7 @@ describe("override rules and create-time overrides", () => {
 			},
 		);
 
-		expect(C.create({}).root).toBe("block shadow-blue-600");
+		expect(C.create({}).root()).toBe("block shadow-blue-600");
 	});
 
 	it("create.override replaces all slot output, while create.slot appends", () => {
@@ -104,7 +104,7 @@ describe("override rules and create-time overrides", () => {
 				},
 			},
 		});
-		expect(appended.root).toBe("inline-flex px-2 bg-blue-600");
+		expect(appended.root()).toBe("inline-flex px-2 bg-blue-600");
 
 		const replaced = C.create({
 			override: {
@@ -118,6 +118,6 @@ describe("override rules and create-time overrides", () => {
 				},
 			},
 		});
-		expect(replaced.root).toBe("block bg-blue-600");
+		expect(replaced.root()).toBe("block bg-blue-600");
 	});
 });

@@ -4,6 +4,7 @@ import { merge } from "./merge";
 import { tvc } from "./tvc";
 import type {
 	Cls,
+	ClsSlotFn,
 	Contract,
 	Definition,
 	RuleDefinition,
@@ -13,9 +14,6 @@ import type {
 } from "./types";
 
 // TODO Vibe variable extraction (create PicoCls with tokens)
-// TODO Change slot from "string" to "callback" with "variant" as input - last override
-// TODO Iconsistant calls 	const { slots } = tva.create(cls); vs. const classes = tva(cls);
-// TODO Add default prop in cls definition for default "slot" which will be appended to "rule"?
 
 export function cls<
 	const TTokenContract extends TokenContract,
@@ -168,32 +166,19 @@ export function cls<
 		return slots;
 	};
 
-	return {
-		create(userConfig, internalConfig) {
-			const _config = merge(userConfig, internalConfig);
-
-			const $contractIndex = contractIndex(contract, definition);
-			const $tokenIndex = tokenIndex($contractIndex);
-			const _resolvedTokenIndex = buildTokenIndex(
-				$tokenIndex,
-				$contractIndex,
-			);
-			applyCreateTokenOverrides(
-				_resolvedTokenIndex,
-				(_config as any)?.token as
-					| Record<string, Record<string, string[]>>
-					| undefined,
-			);
-			const _defaults = buildMergedDefaults($contractIndex);
-			const _rules = buildMergedRules($contractIndex);
-			const $slots = collectAllSlots($contractIndex);
-
+	const createSlotFunction = (
+		slotName: string,
+		baseConfig: any,
+		baseDefaults: VariantValues,
+		baseRules: RuleDefinition<any>[],
+		baseTokenIndex: TokenIndex,
+	): ClsSlotFn<TContract> => {
+		return (variantOverrides) => {
+			// Merge base defaults with provided variant overrides
 			const effectiveVariant: Record<string, unknown> = {
-				..._defaults,
-				...((_config as any)?.variant ?? {}),
+				...baseDefaults,
+				...variantOverrides,
 			};
-
-			const cache: Record<string | symbol, string> = {};
 
 			const resolveTokensToClasses = (tokens: string[] | undefined) => {
 				if (!tokens || tokens.length === 0) {
@@ -201,7 +186,7 @@ export function cls<
 				}
 				const out: string[] = [];
 				for (const token of tokens) {
-					const classes = _resolvedTokenIndex[token] ?? [];
+					const classes = baseTokenIndex[token] ?? [];
 					if (classes?.length) {
 						out.push(...classes);
 					}
@@ -242,72 +227,108 @@ export function cls<
 				return true;
 			};
 
-			const handler: ProxyHandler<Record<string, string>> = {
-				get(_, prop) {
-					if (prop in cache) {
-						return cache[prop];
-					}
-					const slotName = prop as string;
-					if ($slots.has(slotName)) {
-						let classes: string[] = [];
-						for (const rule of _rules as any[]) {
-							if (!matches(rule.match)) {
-								continue;
-							}
-							const slotMap = (rule.slot ?? {}) as Record<
-								string,
-								any
-							>;
-							const what = slotMap[slotName];
-							if (!what) {
-								continue;
-							}
-							if (rule.override === true) {
-								classes = [];
-							}
-							classes = applyWhat(classes, what);
+			let classes: string[] = [];
+
+			// Apply rules based on effective variants
+			for (const rule of baseRules as any[]) {
+				if (!matches(rule.match)) {
+					continue;
+				}
+				const slotMap = (rule.slot ?? {}) as Record<string, any>;
+				const what = slotMap[slotName];
+				if (!what) {
+					continue;
+				}
+				if (rule.override === true) {
+					classes = [];
+				}
+				classes = applyWhat(classes, what);
+			}
+
+			// Apply base config slot overrides
+			const createSlot = baseConfig?.slot?.[slotName] as
+				| {
+						class?: unknown;
+						token?: string[];
+				  }
+				| undefined;
+			if (createSlot) {
+				classes = applyWhat(classes, createSlot);
+			}
+
+			// Apply base config override (hard override)
+			const createOverride = baseConfig?.override?.[slotName] as
+				| {
+						class?: unknown;
+						token?: string[];
+				  }
+				| undefined;
+			if (createOverride) {
+				classes = [];
+				classes = applyWhat(classes, createOverride);
+			}
+
+			return tvc(classes);
+		};
+	};
+
+	return {
+		create(userConfig, internalConfig) {
+			const _config = merge(userConfig, internalConfig);
+
+			const $contractIndex = contractIndex(contract, definition);
+			const $tokenIndex = tokenIndex($contractIndex);
+			const _resolvedTokenIndex = buildTokenIndex(
+				$tokenIndex,
+				$contractIndex,
+			);
+			applyCreateTokenOverrides(
+				_resolvedTokenIndex,
+				(_config as any)?.token as
+					| Record<string, Record<string, string[]>>
+					| undefined,
+			);
+			const _defaults = buildMergedDefaults($contractIndex);
+			const _rules = buildMergedRules($contractIndex);
+			const $slots = collectAllSlots($contractIndex);
+
+			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
+
+			const handler: ProxyHandler<Record<string, ClsSlotFn<TContract>>> =
+				{
+					get(_, prop) {
+						if (prop in cache) {
+							return cache[prop];
 						}
-
-						const createSlot = (_config as any)?.slot?.[slotName] as
-							| {
-									class?: unknown;
-									token?: string[];
-							  }
-							| undefined;
-						if (createSlot) {
-							classes = applyWhat(classes, createSlot);
+						const slotName = prop as string;
+						if ($slots.has(slotName)) {
+							const slotFn = createSlotFunction(
+								slotName,
+								_config,
+								_defaults,
+								_rules,
+								_resolvedTokenIndex,
+							);
+							cache[prop] = slotFn;
+							return cache[prop];
 						}
+						return undefined as unknown as ClsSlotFn<TContract>;
+					},
+					ownKeys() {
+						return Array.from($slots);
+					},
+					getOwnPropertyDescriptor() {
+						return {
+							enumerable: true,
+							configurable: true,
+						};
+					},
+				};
 
-						const createOverride = (_config as any)?.override?.[
-							slotName
-						] as
-							| {
-									class?: unknown;
-									token?: string[];
-							  }
-							| undefined;
-						if (createOverride) {
-							classes = [];
-							classes = applyWhat(classes, createOverride);
-						}
-
-						cache[prop] = tvc(classes);
-						return cache[prop];
-					}
-					return undefined as unknown as string;
-				},
-				ownKeys() {
-					return Array.from($slots);
-				},
-				getOwnPropertyDescriptor() {
-					return {
-						enumerable: true,
-						configurable: true,
-					};
-				},
-			};
-
-			return new Proxy<Record<string, string>>({} as any, handler);
+			return new Proxy<Record<string, ClsSlotFn<TContract>>>(
+				{} as any,
+				handler,
+			);
 		},
 		extend(childContract, childDefinition) {
 			/**

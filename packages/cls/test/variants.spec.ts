@@ -76,14 +76,20 @@ describe("variants", () => {
 			},
 		);
 
-		expect(C.create({}).root).toBe("inline-flex items-center px-4 py-2");
-		expect(C.create({}).label).toBe("font-medium text-base");
-		const sm = C.create({
-			variant: {
+		expect(C.create({}).root()).toBe("inline-flex items-center px-4 py-2");
+		expect(C.create({}).label()).toBe("font-medium text-base");
+
+		// Use function-style slots API
+		const slots = C.create({});
+		expect(
+			slots.root({
 				size: "sm",
-			},
-		});
-		expect(sm.root).toBe("inline-flex items-center px-2 py-1");
-		expect(sm.label).toBe("font-medium text-sm");
+			}),
+		).toBe("inline-flex items-center px-2 py-1");
+		expect(
+			slots.label({
+				size: "sm",
+			}),
+		).toBe("font-medium text-sm");
 	});
 });

@@ -51,8 +51,8 @@ describe("tokens", () => {
 		);
 
 		const s = C.create({});
-		expect(s.root).toBe("bg-blue-600");
-		expect(s.label).toBe("text-blue-600");
+		expect(s.root()).toBe("bg-blue-600");
+		expect(s.label()).toBe("text-blue-600");
 	});
 
 	it("create({ token }) overrides definition tokens", () => {
@@ -117,7 +117,7 @@ describe("tokens", () => {
 				},
 			},
 		});
-		expect(s.root).toBe("bg-red-600");
-		expect(s.label).toBe("text-red-600");
+		expect(s.root()).toBe("bg-red-600");
+		expect(s.label()).toBe("text-red-600");
 	});
 });

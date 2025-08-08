@@ -131,9 +131,9 @@ describe("inheritance", () => {
 		);
 
 		const s = Child.create({});
-		expect(s.root).toBe("bg-blue-600 px-4 py-2");
-		expect(s.label).toBe("text-red-600");
-		expect(s.icon).toBe("ring-2 ring-blue-600");
+		expect(s.root()).toBe("bg-blue-600 px-4 py-2");
+		expect(s.label()).toBe("text-red-600");
+		expect(s.icon()).toBe("ring-2 ring-blue-600");
 	});
 
 	it("multi-level extension with create-time overrides at leaf", () => {
@@ -258,8 +258,8 @@ describe("inheritance", () => {
 				},
 			},
 		});
-		expect(s.root).toBe("bg-blue-600");
-		expect(s.label).toBe("text-red-600");
-		expect(s.icon).toBe("size-4");
+		expect(s.root()).toBe("bg-blue-600");
+		expect(s.label()).toBe("text-red-600");
+		expect(s.icon()).toBe("size-4");
 	});
 });

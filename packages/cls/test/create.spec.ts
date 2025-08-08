@@ -59,7 +59,7 @@ describe("create() config", () => {
 				},
 			},
 		});
-		expect(appended.root).toBe(
+		expect(appended.root()).toBe(
 			"inline-flex bg-blue-600 px-2 ring-2 ring-blue-600",
 		);
 
@@ -75,6 +75,6 @@ describe("create() config", () => {
 				},
 			},
 		});
-		expect(replaced.root).toBe("block ring-2 ring-blue-600");
+		expect(replaced.root()).toBe("block ring-2 ring-blue-600");
 	});
 });
