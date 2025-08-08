@@ -87,7 +87,7 @@ tokens: {
 }
 ```
 
-**Heavy Type Checking**: When you reference a token in rules, TypeScript ensures it exists in your contract. Add a new token variant? You must update the definition too.
+**Heavy Type Checking**: The contract is the source of truth - any changes to the contract forces definitions to match. TypeScript ensures all token references in rules exist in your contract.
 
 ### Slots
 
@@ -115,6 +115,29 @@ variant: {
 
 Rules define conditional styling based on variant combinations:
 
+#### Root Rule
+
+The `root` rule is the default that every component should have (not necessary for pure token definitions). It defines the base styling that always applies:
+
+```ts
+root({
+  root: { class: ["base-styles"], token: ["color.bg.default"] },
+  label: { class: ["font-medium"], token: ["color.text.default"] }
+})
+```
+
+#### Variant Rules
+
+The `rule` function creates conditional styling based on variant combinations:
+
+```ts
+rule(
+  { size: "lg", variant: "primary" },
+  { root: { class: ["text-lg"], token: ["color.bg.primary"] } }
+)
+```
+
+**Complete Example:**
 ```ts
 rules: ({ root, rule }) => [
   root({
@@ -138,32 +161,295 @@ The core library is framework-agnostic and provides:
 - `create(userConfig?, internalConfig?)` → Get lazily-resolved classes for each slot
 - `merge(user, internal)` → Merge two create-configs (user wins)
 
+#### cls(contract, definition)
+
+The main function for creating a style module. This is where you define your component's styling contract and provide the concrete styling values. Use this for most components that need tokens, slots, and variants.
+
+#### extend(contract, definition)
+
+Creates a new style module that inherits from an existing one. This is the foundation of the inheritance system - you can add new tokens, slots, and variants while maintaining full type safety through the inheritance chain.
+
+#### create(userConfig?, internalConfig?)
+
+Generates the actual CSS classes for your component. This is called at render time and returns slot functions that compute classes lazily. The user config takes precedence over internal config, allowing for flexible customization.
+
+#### merge(user, internal)
+
+A utility function that encapsulates the merge semantics used internally by `create()`. Useful when you need to combine user-provided styling with component-controlled styling in a predictable way.
+
 ### Helper Functions
 
 - `classes(value)` → Tiny helper to declare `class` arrays succinctly
 - `match(...)` → Typed rule builder with 2-arg (base) and 3-arg (conditional) overloads
 
-### Inheritance System
+#### classes(value)
+
+A tiny helper that wraps a string or string array into the correct shape for slot definitions. This makes your code more readable when defining classes in rules or create-time overrides.
+
+#### match(...)
+
+A typed rule builder with two overloads:
+- **Base rule**: `match(slot, override?)` - Creates a rule that always applies
+- **Conditional rule**: `match(match, slot, override?)` - Creates a rule that applies when the match condition is met
+
+This helper provides full type safety and IntelliSense when building rules.
+
+### Inheritance System 🧬
+
+The inheritance system is where @use-pico/cls truly shines! Unlike other styling libraries, you can build entire design system hierarchies with full type safety and predictable behavior.
+
+#### Multi-Level Inheritance
 
 ```ts
 const Base = cls(baseContract, baseDefinition);
 const Extended = Base.extend(childContract, childDefinition);
+const SuperExtended = Extended.extend(grandChildContract, grandChildDefinition);
 
-// Extended inherits all tokens, slots, and variants from Base
-// Child can add new ones or override inherited values
-// Full type safety maintained through inheritance chain
+// Each level inherits everything from its parent
+// Add new tokens, slots, variants - or override existing ones
+// TypeScript ensures everything stays consistent!
 ```
 
-### Create-time Overrides
+#### Token Inheritance Magic ✨
+
+Tokens follow a sophisticated inheritance pattern:
+
+```ts
+// Base defines primary colors
+const Base = cls({
+  tokens: {
+    "primary.text": ["default", "hover"],
+    "primary.bg": ["default", "hover"]
+  }
+}, {
+  token: {
+    "primary.text": { default: ["text-blue-600"], hover: ["text-blue-700"] },
+    "primary.bg": { default: ["bg-blue-100"], hover: ["bg-blue-200"] }
+  }
+});
+
+// Extended can override the entire token group
+const Extended = Base.extend({
+  tokens: {
+    "primary.text": ["default", "hover"], // Re-declaring replaces parent
+    "accent.ring": ["focus"] // Adding new token group
+  }
+}, {
+  token: {
+    "primary.text": { default: ["text-red-600"], hover: ["text-red-700"] }, // Override
+    "accent.ring": { focus: ["ring-2", "ring-red-500"] } // New token
+  }
+});
+```
+
+#### Variant Inheritance
+
+Variants are intelligently merged across the inheritance chain:
+
+```ts
+const Base = cls({
+  variant: { size: ["sm", "md"] }
+}, { /* ... */ });
+
+const Extended = Base.extend({
+  variant: { 
+    size: ["sm", "md", "lg"], // Extends parent variants
+    variant: ["primary", "secondary"] // Adds new variant
+  }
+}, { /* ... */ });
+
+// Result: size: ["sm", "md", "lg"], variant: ["primary", "secondary"]
+```
+
+#### Slot Inheritance
+
+Slots accumulate through the inheritance chain:
+
+```ts
+const Base = cls({
+  slot: ["root", "label"]
+}, { /* ... */ });
+
+const Extended = Base.extend({
+  slot: ["icon", "badge"] // Adds new slots
+}, { /* ... */ });
+
+// Result: ["root", "label", "icon", "badge"]
+```
+
+#### Type Safety Through Inheritance 🔒
+
+The magic happens at compile time - TypeScript ensures:
+
+- All inherited tokens are available in child components
+- Variant types are correctly inferred (string vs boolean)
+- Slot functions maintain their signatures
+- Rule matching works with the full inheritance chain
+
+```ts
+const Extended = Base.extend(/* ... */);
+
+// TypeScript knows about ALL tokens from Base + Extended
+const classes = Extended.create({
+  token: {
+    "primary.text": { default: ["text-green-600"] }, // ✅ Valid
+    "accent.ring": { focus: ["ring-green-500"] }, // ✅ Valid
+    "nonexistent.token": { default: ["text-red"] } // ❌ Type error!
+  }
+});
+```
+
+#### Real-World Inheritance Patterns
+
+**Theme Inheritance:**
+```ts
+const LightTheme = cls(lightContract, lightDefinition);
+const DarkTheme = LightTheme.extend(darkContract, darkDefinition);
+const HighContrastTheme = DarkTheme.extend(highContrastContract, highContrastDefinition);
+```
+
+**Component Specialization:**
+```ts
+const Button = cls(buttonContract, buttonDefinition);
+const PrimaryButton = Button.extend(primaryContract, primaryDefinition);
+const IconButton = Button.extend(iconContract, iconDefinition);
+const PrimaryIconButton = PrimaryButton.extend(iconContract, iconDefinition);
+```
+
+**Design System Layers:**
+```ts
+const DesignTokens = cls(tokenContract, tokenDefinition);
+const BaseComponents = DesignTokens.extend(baseContract, baseDefinition);
+const BrandedComponents = BaseComponents.extend(brandContract, brandDefinition);
+const AppSpecificComponents = BrandedComponents.extend(appContract, appDefinition);
+```
+
+This inheritance system lets you build complex, maintainable design systems where changes at any level automatically propagate through the entire hierarchy while maintaining full type safety! 🚀
+
+### Create-time Overrides 🎛️
+
+The `create()` method gives you incredible flexibility to customize styling at runtime. You can override variants, append to slots, hard override slots, and even override tokens - all with predictable precedence rules!
+
+#### Variant Overrides
+
+Override the default variant values for this specific instance:
 
 ```ts
 const classes = Button.create({
-  variant: { size: "sm" },           // Override variants
-  slot: { root: { class: ["px-2"] } }, // Append to slots
-  override: { root: { class: ["block"] } }, // Hard override
-  token: { "primary.bg": { default: ["bg-red-500"] } } // Override tokens
+  variant: { 
+    size: "lg",        // Override default size
+    variant: "danger"  // Override default variant
+  }
 });
 ```
+
+#### Slot Appends
+
+Add additional classes or tokens to existing slots (appends to the end):
+
+```ts
+const classes = Button.create({
+  slot: {
+    root: { 
+      class: ["ring-2", "ring-blue-300"],  // Add border
+      token: ["primary.bg.hover"]          // Add hover token
+    },
+    label: { class: ["font-bold"] }        // Make label bold
+  }
+});
+```
+
+#### Slot Hard Overrides
+
+Completely replace a slot's styling (ignores all previous rules):
+
+```ts
+const classes = Button.create({
+  override: {
+    root: { 
+      class: ["block", "w-full", "bg-red-500"],  // Completely new styling
+      token: ["primary.text.default"]            // Keep some tokens
+    }
+  }
+});
+```
+
+#### Token Overrides
+
+Override token definitions for this specific instance:
+
+```ts
+const classes = Button.create({
+  token: {
+    "primary.bg": { 
+      default: ["bg-red-500"],    // Override default background
+      hover: ["bg-red-600"]       // Override hover background
+    },
+    "primary.text": { 
+      default: ["text-white"]     // Override default text color
+    }
+  }
+});
+```
+
+#### Precedence Rules 📋
+
+The override system follows a clear, predictable order:
+
+1. **Base/default rules** (from contract definition)
+2. **Variant matched rules** (in definition order)
+3. **Slot appends** (from `slot` config)
+4. **Hard overrides** (from `override` config)
+
+```ts
+const classes = Button.create({
+  variant: { size: "lg" },                    // 1. Apply variant rules
+  slot: { root: { class: ["ring-1"] } },      // 2. Append to slot
+  override: { root: { class: ["block"] } },   // 3. Hard override (wins!)
+  token: { "primary.bg": { default: ["bg-red"] } } // 4. Override tokens
+});
+```
+
+#### Real-World Use Cases
+
+**Conditional Styling:**
+```ts
+const classes = Button.create({
+  variant: { disabled: isDisabled },
+  slot: isDisabled ? { root: { class: ["opacity-50"] } } : {}
+});
+```
+
+**Theme Overrides:**
+```ts
+const classes = Button.create({
+  token: {
+    "primary.bg": { default: [theme.colors.primary] },
+    "primary.text": { default: [theme.colors.onPrimary] }
+  }
+});
+```
+
+**Responsive Adjustments:**
+```ts
+const classes = Button.create({
+  slot: {
+    root: { class: ["md:px-6", "lg:px-8"] }  // Responsive padding
+  }
+});
+```
+
+**State-based Customization:**
+```ts
+const classes = Button.create({
+  variant: { variant: "primary" },
+  slot: isActive ? { 
+    root: { class: ["ring-2", "ring-blue-500"] } 
+  } : {}
+});
+```
+
+This override system makes @use-pico/cls incredibly flexible - you can customize any aspect of your components at runtime while maintaining the design system's structure and type safety! 🎨
 
 ## React Integration
 
