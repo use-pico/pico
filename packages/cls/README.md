@@ -835,6 +835,8 @@ function App() {
 }
 ```
 
+> **Type-safety note (context)**: Tokens provided via React context are **merged at runtime** and are **not type‑validated** against a specific component’s contract. Keep your theme keys aligned with your contracts. If you need strict typing on token overrides, pass them **directly to `create({ token: ... })`** instead of relying on context. When both are present, a component’s **internal tokens win** over context tokens by design.
+
 ### Component Pattern
 
 ```tsx
