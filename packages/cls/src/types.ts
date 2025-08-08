@@ -321,16 +321,20 @@ type SlotsOf<TContract extends Contract<any, any, any>> = TContract extends {
 /**
  * Utility for mapping slots to their configurations
  */
-export type SlotMapping<T extends Contract<any, any, any>> = {
-	[K in SlotsOf<T>]?: What<T>;
+export type SlotMapping<TContract extends Contract<any, any, any>> = {
+	[K in SlotsOf<TContract>]?: What<TContract>;
 };
+
+export type ClsSlotFn<TContract extends Contract<any, any, any>> = (
+	variants?: Partial<DefaultDefinition<TContract>>,
+) => string;
 
 /**
  * Resolved slot classes returned by create().
  * Keys are all slots from the contract (including inherited), values are class strings.
  */
-export type ClsSlots<T extends Contract<any, any, any>> = {
-	[K in SlotsOf<T>]: string;
+export type ClsSlots<TContract extends Contract<any, any, any>> = {
+	[K in SlotsOf<TContract>]: ClsSlotFn<TContract>;
 };
 
 // ============================================================================

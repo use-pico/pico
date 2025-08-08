@@ -89,7 +89,7 @@ export const TableHeader = <
 				)}
 			/>
 			<div
-				className={slots.header}
+				className={slots.header()}
 				style={{
 					gridTemplateColumns: grid,
 				}}
@@ -148,7 +148,7 @@ export const TableHeader = <
 					return (
 						<div
 							key={`header-${column.name}`}
-							className={slots.headerCell}
+							className={slots.headerCell()}
 						>
 							<Header
 								data={data}
