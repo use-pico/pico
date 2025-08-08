@@ -38,6 +38,123 @@ type InternalCreateConfig = {
 	token?: Record<string, Record<string, string[]>>;
 };
 
+/**
+ * Creates a cls instance for component styling with tokens, slots, and variants.
+ *
+ * cls is the main function for creating type-safe, composable styling systems.
+ * It combines a contract (defining structure) with a definition (providing values)
+ * to create a cls instance that can generate CSS classes based on variants.
+ *
+ * @template TTokenContract - Token definitions for design tokens
+ * @template TSlotContract - Available slots for the component
+ * @template TVariantContract - Available variants for the component
+ * @template TContract - The complete contract type
+ *
+ * @param contract - Defines the structure: tokens, slots, and variants
+ * @param definition - Provides the styling values: token classes, rules, and defaults
+ *
+ * @returns A cls instance with create(), extend(), use(), and contract properties
+ *
+ * @example
+ * ```typescript
+ * // Basic button with variants
+ * const Button = cls(
+ *   {
+ *     tokens: {
+ *       "color.text": ["default", "primary"],
+ *       "color.bg": ["default", "primary"]
+ *     },
+ *     slot: ["root", "label"],
+ *     variant: {
+ *       size: ["sm", "md", "lg"],
+ *       variant: ["default", "primary"]
+ *     }
+ *   },
+ *   {
+ *     token: {
+ *       "color.text": {
+ *         default: ["text-gray-900"],
+ *         primary: ["text-white"]
+ *       },
+ *       "color.bg": {
+ *         default: ["bg-gray-100"],
+ *         primary: ["bg-blue-600"]
+ *       }
+ *     },
+ *     rules: ({ root, rule }) => [
+ *       root({
+ *         root: {
+ *           class: ["inline-flex", "items-center"],
+ *           token: ["color.text.default", "color.bg.default"]
+ *         },
+ *         label: {
+ *           class: ["font-medium"]
+ *         }
+ *       }),
+ *       rule(
+ *         { size: "lg" },
+ *         {
+ *           root: {
+ *             class: ["px-6", "py-3"]
+ *           }
+ *         }
+ *       ),
+ *       rule(
+ *         { variant: "primary" },
+ *         {
+ *           root: {
+ *             token: ["color.text.primary", "color.bg.primary"]
+ *           }
+ *         }
+ *       )
+ *     ],
+ *     defaults: {
+ *       size: "md",
+ *       variant: "default"
+ *     }
+ *   }
+ * );
+ *
+ * // Usage
+ * const classes = Button.create({ variant: "primary", size: "lg" });
+ * // classes.root() -> "inline-flex items-center text-white bg-blue-600 px-6 py-3"
+ * // classes.label() -> "font-medium"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Simple component without tokens
+ * const Card = cls(
+ *   {
+ *     tokens: {},
+ *     slot: ["root", "header", "content"],
+ *     variant: {
+ *       padding: ["sm", "md", "lg"]
+ *     }
+ *   },
+ *   {
+ *     token: {},
+ *     rules: ({ root, rule }) => [
+ *       root({
+ *         root: { class: ["bg-white", "rounded-lg", "shadow"] },
+ *         header: { class: ["font-semibold"] },
+ *         content: { class: ["text-gray-600"] }
+ *       }),
+ *       rule(
+ *         { padding: "lg" },
+ *         {
+ *           root: { class: ["p-6"] },
+ *           header: { class: ["mb-4"] }
+ *         }
+ *       )
+ *     ],
+ *     defaults: {
+ *       padding: "md"
+ *     }
+ *   }
+ * );
+ * ```
+ */
 export function cls<
 	const TTokenContract extends TokenContract,
 	const TSlotContract extends SlotContract,
@@ -364,5 +481,6 @@ export function cls<
 			return sub as unknown as Cls<TContract>;
 		},
 		contract,
+		definition,
 	};
 }

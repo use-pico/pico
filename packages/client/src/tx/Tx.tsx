@@ -13,6 +13,6 @@ export const Tx: FC<Tx.Props> = ({ label, fallback, tva = TxCls, cls }) => {
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>{translator.rich(label, fallback)}</div>
+		<div className={classes.base()}>{translator.rich(label, fallback)}</div>
 	);
 };

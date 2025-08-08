@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { AlertCls } from "./AlertCls";
@@ -29,14 +30,15 @@ export const Alert: FC<Alert.Props> = ({
 	tva = AlertCls,
 	children,
 }) => {
-	const classes = tva.create(cls, {
+	const classes = useCls(tva, cls, {
 		variant: {
 			clickable: Boolean(onClick),
 		},
 	});
+
 	return (
 		<div
-			className={classes.base}
+			className={classes.base()}
 			onClick={onClick}
 			role={"alert"}
 		>
@@ -52,10 +54,10 @@ export const Alert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<div className={classes.title}>{title}</div>
+				<div className={classes.title()}>{title}</div>
 			</div>
-			{message && <div className={classes.message}>{message}</div>}
-			{children && <div className={classes.body}>{children}</div>}
+			{message && <div className={classes.message()}>{message}</div>}
+			{children && <div className={classes.body()}>{children}</div>}
 		</div>
 	);
 };

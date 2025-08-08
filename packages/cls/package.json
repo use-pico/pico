@@ -9,10 +9,11 @@
 		"build:bundle": "bun x rollup -c",
 		"build": "run-p build:*",
 		"test": "run-s test:*",
-		"test:code": "bun test test"
+		"test:code": "vitest --run",
+		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
-		"react": "^19.0.0",
+		"react": "^19.1.1",
 		"tailwind-merge": "^3.3.1"
 	},
 	"devDependencies": {
@@ -20,12 +21,20 @@
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
+		"@testing-library/jest-dom": "^6.6.4",
+		"@testing-library/react": "^16.3.0",
 		"@types/node": "^24.1.0",
+		"@types/react": "^19.1.9",
+		"@types/testing-library__jest-dom": "^6.0.0",
 		"@use-pico/tsconfig": "4.0.20",
+		"@vitejs/plugin-react": "^5.0.0",
+		"@vitest/ui": "^3.2.4",
+		"jsdom": "^26.1.0",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.46.2",
 		"rollup-plugin-dts": "6.2.1",
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
 	},
 	"main": "src/index.ts",
 	"module": "src/index.ts",
@@ -35,11 +44,21 @@
 	],
 	"exports": {
 		".": {
+			"types": "./src/index.ts",
 			"import": "./src/index.ts"
 		}
 	},
 	"license": "MIT",
 	"repository": "use-pico/pico",
 	"homepage": "https://github.com/use-pico/pico#readme",
-	"bugs": "https://github.com/use-pico/pico/issues"
+	"bugs": "https://github.com/use-pico/pico/issues",
+	"keywords": [
+		"component-variants",
+		"css",
+		"design-system",
+		"design-tokens",
+		"styling",
+		"type-safe",
+		"typescript"
+	]
 }

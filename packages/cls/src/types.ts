@@ -440,14 +440,21 @@ type DefaultDefinition<TContract extends Contract<any, any, any>> =
  *       disabled: ["bg-gray-300"]
  *     }
  *   },
- *   rule: [
- *     {
- *       match: { variant: "primary" },
- *       slot: {
- *         root: { token: ["primary.bgColor.default"] },
- *         label: { token: ["primary.textColor.default"] }
+ *   rules: ({ root, rule, classes }) => [
+ *     root({
+ *       root: {
+ *         class: ["inline-flex", "items-center"],
+ *         token: ["primary.bgColor.default", "primary.textColor.default"]
  *       }
- *     }
+ *     }),
+ *     rule(
+ *       { size: "lg" },
+ *       {
+ *         root: {
+ *           class: ["px-6", "py-3"]
+ *         }
+ *       }
+ *     )
  *   ],
  *   defaults: {
  *     size: "md",
@@ -608,14 +615,21 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
  *         disabled: ["bg-gray-300"]
  *       }
  *     },
- *     rule: [
- *       {
- *         match: { variant: "primary" },
- *         slot: {
- *           root: { token: ["primary.bgColor.default"] },
- *           label: { token: ["primary.textColor.default"] }
+ *     rules: ({ root, rule, classes }) => [
+ *       root({
+ *         root: {
+ *           class: ["inline-flex", "items-center"],
+ *           token: ["primary.bgColor.default", "primary.textColor.default"]
  *         }
- *       }
+ *       }),
+ *       rule(
+ *         { size: "lg" },
+ *         {
+ *           root: {
+ *             class: ["px-6", "py-3"]
+ *           }
+ *         }
+ *       )
  *     ],
  *     defaults: {
  *       size: "md",
@@ -656,14 +670,21 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
  *         hover: ["bg-gray-300"]
  *       }
  *     },
- *     rule: [
- *       {
- *         match: { variant: "secondary" },
- *         slot: {
- *           root: { token: ["secondary.bgColor.default"] },
- *           label: { token: ["secondary.textColor.default"] }
+ *     rules: ({ root, rule }) => [
+ *       root({
+ *         root: {
+ *           class: ["inline-flex", "items-center"],
+ *           token: ["secondary.bgColor.default", "secondary.textColor.default"]
  *         }
- *       }
+ *       }),
+ *       rule(
+ *         { size: "xl" },
+ *         {
+ *           root: {
+ *             class: ["px-8", "py-4"]
+ *           }
+ *         }
+ *       )
  *     ],
  *     defaults: {
  *       size: "md",
@@ -698,7 +719,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 * const classes = ButtonCls.create({
 	 *   variant: { variant: "primary", size: "lg" }
 	 * });
-	 * // Result: { root: "bg-blue-500 text-white px-6 py-3", ... }
+	 * // Result: { root: "inline-flex items-center bg-blue-500 text-white px-6 py-3", ... }
 	 *
 	 * // With slot overrides (user only)
 	 * const classes = ButtonCls.create({
@@ -764,13 +785,21 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 *   },
 	 *   {
 	 *     token: {}, // No new token definitions
-	 *     rule: [
-	 *       {
-	 *         match: { size: "xl" },
-	 *         slot: {
-	 *           root: { class: ["px-8", "py-4", "text-lg"] }
+	 *     rules: ({ root, rule }) => [
+	 *       root({
+	 *         root: {
+	 *           class: ["inline-flex", "items-center"],
+	 *           token: ["primary.bgColor.default", "primary.textColor.default"]
 	 *         }
-	 *       }
+	 *       }),
+	 *       rule(
+	 *         { size: "xl" },
+	 *         {
+	 *           root: {
+	 *             class: ["px-8", "py-4", "text-lg"]
+	 *           }
+	 *         }
+	 *       )
 	 *     ],
 	 *     defaults: {
 	 *       size: "md",
@@ -802,14 +831,21 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 *         hover: ["bg-green-600"]
 	 *       }
 	 *     },
-	 *     rule: [
-	 *       {
-	 *         match: { variant: "success" },
-	 *         slot: {
-	 *           root: { token: ["success.bgColor.default"] },
-	 *           label: { token: ["success.textColor.default"] }
+	 *     rules: ({ root, rule }) => [
+	 *       root({
+	 *         root: {
+	 *           class: ["inline-flex", "items-center"],
+	 *           token: ["success.bgColor.default", "success.textColor.default"]
 	 *         }
-	 *       }
+	 *       }),
+	 *       rule(
+	 *         { variant: "success" },
+	 *         {
+	 *           root: {
+	 *             class: ["bg-green-500", "text-white"]
+	 *           }
+	 *         }
+	 *       )
 	 *     ],
 	 *     defaults: {
 	 *       size: "md",
@@ -866,4 +902,8 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 * tokens, slots, and variants, for introspection and type inference.
 	 */
 	contract: TContract;
+	/**
+	 * Definition this Cls was created with
+	 */
+	definition: Definition<TContract>;
 }

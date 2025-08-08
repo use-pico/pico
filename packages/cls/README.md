@@ -6,10 +6,7 @@
 # TODO - Add a standalone section about strict types this lib uses and how it works (in words, no code) and forces right declarations (e.g. when token is added in children with new value, user is forced to add this value to definition too)
 # TODO - Add comparison between similar solutions, e.g. cva or tva
 # TODO - Use section separations in this readme
-
-# TODO - Add keywords to package so it's searchable
-# TODO - Feature - attach Cls directly to component, e.g. using HoC or something; component and CLS is tightly coupled, so they should be exported together
-# TODO - Feature - this is probably client-side stuff, but provide context which could be used to fetch "Tokens" from some parent context?
+# TODO - Add a note to this readme about tw-merge being run on the final set of classes which may alter their order
 
 ✨ Design-token powered, type-safe class builder for modern UI. Ship consistent styles without the boilerplate.
 
@@ -578,6 +575,121 @@ function Button(props: { size?: "sm" | "md"; children: React.ReactNode }) {
   );
 }
 ```
+
+### React Hook: useCls
+
+For React components, you can use the `useCls` hook which provides automatic memoization:
+
+```tsx
+import { useCls } from "@use-pico/cls";
+import { useMemo } from "react";
+
+function Button({ variant = "primary", size = "md", children, ...props }) {
+  const config = useMemo(() => ({
+    variant: { variant, size }
+  }), [variant, size]);
+  
+  const classes = useCls(ButtonCls, config);
+
+  return (
+    <button className={classes.root()} {...props}>
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+```
+
+The `useCls` hook:
+- **Memoizes** the class computation to prevent unnecessary re-renders
+- **Accepts the same config** as `cls.create()` (variant, slot, override, token)
+- **Returns the same slot functions** that need to be called to get class strings
+
+⚠️ **Important**: The `config` parameter should be memoized using `useMemo` to prevent unnecessary re-computations. If the config object is recreated on every render, the memoization will not be effective.
+
+#### Advanced React Usage
+
+```tsx
+// With slot overrides
+function LoadingButton({ loading = false, children, ...props }) {
+  const config = useMemo(() => ({
+    variant: { variant: "primary" },
+    slot: {
+      icon: loading ? { class: ["animate-spin"] } : undefined
+    }
+  }), [loading]);
+  
+  const classes = useCls(ButtonCls, config);
+
+  return (
+    <button className={classes.root()} {...props}>
+      {loading && <span className={classes.icon()}>⏳</span>}
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+
+// With token overrides
+function CustomButton({ children, ...props }) {
+  const config = useMemo(() => ({
+    variant: { variant: "primary" },
+    token: {
+      "primary.bgColor": {
+        default: ["bg-red-500"] // Override the default background
+      }
+    }
+  }), []);
+  
+  const classes = useCls(ButtonCls, config);
+
+  return (
+    <button className={classes.root()} {...props}>
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+```
+
+### React Context: Token Inheritance
+
+The cls package provides React context for token inheritance, allowing components to inherit token overrides from parent contexts:
+
+```tsx
+import { useCls, ClsProvider } from "@use-pico/cls";
+
+// Provide token overrides at the app level
+function App() {
+  return (
+    <ClsProvider tokenOverrides={{
+      "primary.bgColor": { default: ["bg-red-500"] }
+    }}>
+      <Button variant="primary">Red Button</Button>
+    </ClsProvider>
+  );
+}
+
+// Components automatically inherit token overrides
+function Button({ variant, size, children }) {
+  const classes = useCls(ButtonCls, {
+    variant: { variant, size }
+  });
+  // Token overrides from context are automatically applied
+  
+  return (
+    <button className={classes.root()}>
+      {children}
+    </button>
+  );
+}
+```
+
+#### Context Features
+
+- **Token Inheritance**: Components automatically inherit token overrides from parent contexts
+- **Nested Contexts**: Inner contexts can override outer context token overrides
+- **Local Precedence**: Local token overrides take precedence over context overrides
+- **Runtime Token Matching**: Uses runtime token key matching (not type-safe)
+
+⚠️ **Type Safety Note**: The context integration is not type-safe and relies on runtime token matching. Ensure token keys match your cls instance structure.
 
 ### React component usage (example: `Transfer`)
 
