@@ -1,4 +1,0 @@
-- [x] React components tests?
-- [ ] HoC for attaching CLS to a FC component
-- [ ] Document React side of this lib
-- [ ] Feature - attach Cls directly to component, e.g. using HoC or something; component and CLS is tightly coupled, so they should be exported together
