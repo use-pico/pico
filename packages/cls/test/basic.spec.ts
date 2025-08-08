@@ -87,7 +87,7 @@ describe("basic", () => {
 				"root",
 				"label",
 			],
-			slot: {
+			root: {
 				root: {
 					class: [
 						"inline-flex",

@@ -52,31 +52,29 @@ export const ButtonCls = cls(
 				],
 			},
 		},
-		rule: [
-			{
-				slot: {
-					base: {
-						class: [
-							"flex",
-							"flex-row",
-							"items-center",
-							"justify-center",
-							"gap-2",
-							"group",
-							"rounded-md",
-							"transition-all",
-							"cursor-pointer",
-							"border",
-							"shadow-sm",
-						],
-					},
+		rules: ({ root, rule }) => [
+			root({
+				base: {
+					class: [
+						"flex",
+						"flex-row",
+						"items-center",
+						"justify-center",
+						"gap-2",
+						"group",
+						"rounded-md",
+						"transition-all",
+						"cursor-pointer",
+						"border",
+						"shadow-sm",
+					],
 				},
-			},
-			{
-				match: {
+			}),
+			rule(
+				{
 					variant: "primary",
 				},
-				slot: {
+				{
 					base: {
 						token: [
 							"primary.textColor.default",
@@ -84,12 +82,12 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-			},
-			{
-				match: {
+			),
+			rule(
+				{
 					variant: "secondary",
 				},
-				slot: {
+				{
 					base: {
 						token: [
 							"secondary.textColor.default",
@@ -97,12 +95,12 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-			},
-			{
-				match: {
+			),
+			rule(
+				{
 					disabled: true,
 				},
-				slot: {
+				{
 					base: {
 						class: [
 							"cursor-not-allowed",
@@ -111,7 +109,7 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-			},
+			),
 		],
 		defaults: {
 			variant: "primary",

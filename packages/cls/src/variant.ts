@@ -18,6 +18,7 @@ import type {
 export interface VariantProps<
 	TSlots extends SlotContract,
 	TVariants extends VariantContract,
+	TContract extends Contract<any, any, any> = Contract<any, any, any>,
 > {
 	/**
 	 * Slot contract: list of named component parts whose classes will be produced by create().
@@ -40,14 +41,16 @@ export interface VariantProps<
 	 * can add classes conditionally via `match`. When `override: true` is set,
 	 * accumulated classes for affected slots are reset for that step.
 	 */
-	rules: Definition<Contract<{}, TSlots, TVariants>>["rules"];
+	rules: Definition<Contract<{}, TSlots, TVariants, TContract>>["rules"];
 	/**
 	 * Default values for every variant key.
 	 *
 	 * Used when evaluating `match` and generating classes. Can be overridden at
 	 * call sites via `create({ variant: { ... } })` (user) or internal config.
 	 */
-	defaults: Definition<Contract<{}, TSlots, TVariants>>["defaults"];
+	defaults: Definition<
+		Contract<{}, TSlots, TVariants, TContract>
+	>["defaults"];
 }
 
 /**
@@ -98,12 +101,15 @@ export interface VariantProps<
 export function variant<
 	const TSlots extends SlotContract,
 	const TVariants extends VariantContract,
+	TContract extends Contract<any, any, any> = Contract<any, any, any>,
 >({
 	slots,
 	variants,
 	rules,
 	defaults,
-}: VariantProps<TSlots, TVariants>): Cls<Contract<{}, TSlots, TVariants>> {
+}: VariantProps<TSlots, TVariants, TContract>): Cls<
+	Contract<{}, TSlots, TVariants, TContract>
+> {
 	return cls(
 		{
 			tokens: {},

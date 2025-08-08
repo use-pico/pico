@@ -22,39 +22,37 @@ export const FormFieldCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-1",
-						"w-full",
-					],
-				},
-				input: {
-					class: [],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"flex",
+					"flex-col",
+					"gap-1",
+					"w-full",
+				],
 			},
-		},
-		{
-			match: {
+			input: {
+				class: [],
+			},
+		}),
+		rule(
+			{
 				isError: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-(--input-error-color-text)",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				required: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-(--input-required-color-text)",
@@ -62,12 +60,12 @@ export const FormFieldCls = variant({
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"opacity-75",
@@ -80,7 +78,7 @@ export const FormFieldCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		required: false,

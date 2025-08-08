@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const SelectCls = variant({
 	slots: [
@@ -18,8 +18,8 @@ export const SelectCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"cursor-pointer",
 				"bg-slate-50",
@@ -62,7 +62,7 @@ export const SelectCls = variant({
 				"justify-between",
 			]),
 		}),
-		match(
+		rule(
 			{
 				disabled: true,
 			},
@@ -75,7 +75,7 @@ export const SelectCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				selected: true,
 			},
@@ -85,7 +85,7 @@ export const SelectCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				active: true,
 			},

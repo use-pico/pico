@@ -1,4 +1,4 @@
-import { type Component, classes, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const TabCls = variant({
 	slots: [
@@ -9,32 +9,30 @@ export const TabCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: classes([
-					"flex",
-					"flex-row",
-					"items-center",
-					"gap-1",
-					"cursor-pointer",
-					"text-slate-600",
-					"border-sky-400",
-					"border",
-					"border-b-2",
-					"border-transparent",
-					"hover:border-b-sky-400",
-					"py-1",
-					"px-2",
-					"rounded",
-				]),
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			base: classes([
+				"flex",
+				"flex-row",
+				"items-center",
+				"gap-1",
+				"cursor-pointer",
+				"text-slate-600",
+				"border-sky-400",
+				"border",
+				"border-b-2",
+				"border-transparent",
+				"hover:border-b-sky-400",
+				"py-1",
+				"px-2",
+				"rounded",
+			]),
+		}),
+		rule(
+			{
 				active: true,
 			},
-			slot: {
+			{
 				base: classes([
 					"cursor-default",
 					"font-semibold",
@@ -43,7 +41,7 @@ export const TabCls = variant({
 					"bg-sky-50",
 				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		active: false,

@@ -12,60 +12,58 @@ export const FormCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"border",
-						"border-gray-300",
-						"rounded-md",
-						"p-4",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"items-center",
-					],
-				},
-				fieldset: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-4",
-						"w-full",
-						"p-4",
-					],
-				},
-				legend: {
-					class: [
-						"font-bold",
-						"text-lg",
-						"p-1",
-						"border-b",
-						"border-slate-400",
-						"w-full",
-					],
-				},
-				input: {
-					class: [
-						"w-full",
-						"border",
-						"border-gray-300",
-						"rounded-md",
-						"p-2",
-						"focus:outline-hidden",
-						"focus:ring-2",
-						"focus:ring-blue-500",
-						"focus:border-transparent",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"border",
+					"border-gray-300",
+					"rounded-md",
+					"p-4",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"items-center",
+				],
 			},
-		},
-		{
-			match: {
+			fieldset: {
+				class: [
+					"flex",
+					"flex-col",
+					"gap-4",
+					"w-full",
+					"p-4",
+				],
+			},
+			legend: {
+				class: [
+					"font-bold",
+					"text-lg",
+					"p-1",
+					"border-b",
+					"border-slate-400",
+					"w-full",
+				],
+			},
+			input: {
+				class: [
+					"w-full",
+					"border",
+					"border-gray-300",
+					"rounded-md",
+					"p-2",
+					"focus:outline-hidden",
+					"focus:ring-2",
+					"focus:ring-blue-500",
+					"focus:border-transparent",
+				],
+			},
+		}),
+		rule(
+			{
 				isSubmitting: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"opacity-50",
@@ -74,7 +72,7 @@ export const FormCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		isSubmitting: false,

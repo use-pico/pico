@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const LoadingOverlayCls = variant({
 	slots: [
@@ -9,8 +9,8 @@ export const LoadingOverlayCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"fixed",
 				"inset-0",
@@ -27,7 +27,7 @@ export const LoadingOverlayCls = variant({
 				"backdrop-blur-none",
 			]),
 		}),
-		match(
+		rule(
 			{
 				show: true,
 			},

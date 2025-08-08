@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const IssuesCls = variant({
 	slots: [
@@ -11,14 +11,14 @@ export const IssuesCls = variant({
 			"error",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			item: classes([
 				"p-4",
 				"text-md",
 			]),
 		}),
-		match(
+		rule(
 			{
 				type: "info",
 			},
@@ -30,7 +30,7 @@ export const IssuesCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				type: "warning",
 			},
@@ -42,7 +42,7 @@ export const IssuesCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				type: "error",
 			},

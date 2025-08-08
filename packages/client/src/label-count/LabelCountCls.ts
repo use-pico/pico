@@ -5,7 +5,7 @@ export const LabelCountCls = component({
 		"base",
 		"label",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"flex",
 			"flex-row",
@@ -15,6 +15,7 @@ export const LabelCountCls = component({
 		]),
 		label: classes([]),
 	},
+	defaults: {},
 });
 
 export namespace LabelCountCls {

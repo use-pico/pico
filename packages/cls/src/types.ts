@@ -857,7 +857,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 		const TSlots extends SlotContract,
 		const TVariants extends VariantContract,
 	>(
-		props: VariantProps<TSlots, TVariants>,
+		props: VariantProps<TSlots, TVariants, TContract>,
 	): Cls<Contract<{}, TSlots, TVariants, TContract>>;
 
 	/**

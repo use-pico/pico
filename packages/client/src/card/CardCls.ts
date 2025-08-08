@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const CardCls = variant({
 	slots: [
@@ -9,8 +9,8 @@ export const CardCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"flex",
 				"flex-col",
@@ -21,7 +21,7 @@ export const CardCls = variant({
 				"rounded-lg",
 			]),
 		}),
-		match(
+		rule(
 			{
 				inline: true,
 			},

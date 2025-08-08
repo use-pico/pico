@@ -1,4 +1,4 @@
-import { classes, variant } from "@use-pico/cls";
+import { variant } from "@use-pico/cls";
 
 export const ActionCls = variant({
 	slots: [
@@ -14,66 +14,64 @@ export const ActionCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: classes([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"rounded-sm",
-					"px-2",
-					"py-0.5",
-					"cursor-pointer",
-					"text-(--pico-text-default)",
-					"hover:bg-(--pico-bg-hover)",
-					"hover:text-(--pico-text-hover)",
-				]),
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			base: classes([
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+				"rounded-sm",
+				"px-2",
+				"py-0.5",
+				"cursor-pointer",
+				"text-(--pico-text-default)",
+				"hover:bg-(--pico-bg-hover)",
+				"hover:text-(--pico-text-hover)",
+			]),
+		}),
+		rule(
+			{
 				variant: "common",
 			},
-			slot: {
+			{
 				base: classes([
 					"pico--action-menu-item-common",
 				]),
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "warning",
 			},
-			slot: {
+			{
 				base: classes([
 					"pico--action-menu-item-warning",
 				]),
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "danger",
 			},
-			slot: {
+			{
 				base: classes([
 					"pico--action-menu-item-danger",
 				]),
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: classes([
 					"cursor-not-allowed",
 					"hover:text-(--pico-text-default)",
 					"hover:bg-(--pico-bg-default)",
 				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		variant: "common",

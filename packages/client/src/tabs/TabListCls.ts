@@ -5,7 +5,7 @@ export const TabListCls = component({
 		"base",
 		"tabs",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"flex",
 			"flex-row",

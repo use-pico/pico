@@ -7,7 +7,7 @@ export const StatusCls = component({
 		"message",
 		"body",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"w-full",
 			"flex",
@@ -32,6 +32,7 @@ export const StatusCls = component({
 			"w-full",
 		]),
 	},
+	defaults: {},
 });
 
 export namespace StatusCls {

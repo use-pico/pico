@@ -6,7 +6,7 @@ export const DeleteControlCls = component({
 		"content",
 		"footer",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"flex",
 			"flex-col",

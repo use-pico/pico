@@ -5,7 +5,7 @@ export const BoolInputCls = component({
 		"base",
 		"switch",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [
 				"flex",

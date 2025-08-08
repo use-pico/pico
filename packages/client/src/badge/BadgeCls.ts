@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const BadgeCls = variant({
 	slots: [
@@ -27,8 +27,8 @@ export const BadgeCls = variant({
 			"lg",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"border",
 				"flex-row",
@@ -42,7 +42,7 @@ export const BadgeCls = variant({
 				"text-sm",
 			]),
 		}),
-		match(
+		rule(
 			{
 				active: true,
 			},
@@ -52,7 +52,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "primary",
 			},
@@ -64,7 +64,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "secondary",
 			},
@@ -76,7 +76,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "danger",
 			},
@@ -88,7 +88,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "danger-light",
 			},
@@ -100,7 +100,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "light",
 			},
@@ -112,7 +112,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "subtle",
 			},
@@ -124,7 +124,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "neutral",
 			},
@@ -136,7 +136,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				borderless: true,
 			},
@@ -146,7 +146,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				size: "xs",
 			},
@@ -158,7 +158,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				size: "sm",
 			},
@@ -170,7 +170,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				size: "md",
 			},
@@ -182,7 +182,7 @@ export const BadgeCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				size: "lg",
 			},

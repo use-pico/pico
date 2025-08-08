@@ -4,11 +4,12 @@ export const TxCls = component({
 	slots: [
 		"base",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [],
 		},
 	},
+	defaults: {},
 });
 
 export namespace TxCls {

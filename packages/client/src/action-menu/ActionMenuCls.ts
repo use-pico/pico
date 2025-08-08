@@ -4,7 +4,7 @@ export const ActionMenuCls = component({
 	slots: [
 		"base",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"pico--action-menu-base",
 			"p-1",
@@ -19,6 +19,7 @@ export const ActionMenuCls = component({
 			"border-(--pico-border-default)",
 		]),
 	},
+	defaults: {},
 });
 
 export namespace ActionMenuCls {

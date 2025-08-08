@@ -9,7 +9,7 @@ import type { Cls, Contract, SlotContract, SlotMapping } from "./types";
  */
 export type ComponentProps<TSlots extends SlotContract> = {
 	slots: TSlots;
-	slot: SlotMapping<Contract<{}, TSlots, {}>>;
+	root: SlotMapping<Contract<{}, TSlots, {}>>;
 };
 
 /**
@@ -63,7 +63,7 @@ export type ComponentProps<TSlots extends SlotContract> = {
  */
 export function component<const TSlots extends SlotContract>({
 	slots,
-	slot,
+	root,
 }: ComponentProps<TSlots>): Cls<Contract<{}, TSlots, {}>> {
 	return cls(
 		{
@@ -75,7 +75,7 @@ export function component<const TSlots extends SlotContract>({
 			token: {},
 			rules: () => [
 				{
-					slot,
+					slot: root,
 				},
 			],
 			defaults: {},

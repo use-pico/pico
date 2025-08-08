@@ -13,20 +13,8 @@ export namespace Badge {
 	}
 }
 
-export const Badge: FC<Badge.Props> = ({
-	variant,
-	tva = BadgeCls,
-	slot,
-	token,
-	override,
-	...props
-}) => {
-	const classes = tva.create({
-		variant,
-		slot,
-		token,
-		override,
-	});
+export const Badge: FC<Badge.Props> = ({ cls, tva = BadgeCls, ...props }) => {
+	const classes = tva.create(cls);
 
 	return (
 		<div

@@ -43,7 +43,7 @@ describe("Cls.instance helpers inheritance", () => {
 			slots: [
 				"label",
 			],
-			slot: {
+			root: {
 				label: {
 					class: [
 						"font-bold",
@@ -68,7 +68,12 @@ describe("Cls.instance helpers inheritance", () => {
 				slot: [
 					"root",
 				],
-				variant: {},
+				variant: {
+					color: [
+						"blue",
+						"red",
+					],
+				},
 			},
 			{
 				token: {
@@ -90,7 +95,9 @@ describe("Cls.instance helpers inheritance", () => {
 						),
 					}),
 				],
-				defaults: {},
+				defaults: {
+					color: "blue",
+				},
 			},
 		);
 
@@ -121,6 +128,7 @@ describe("Cls.instance helpers inheritance", () => {
 				),
 			],
 			defaults: {
+				color: "blue",
 				active: false,
 			},
 		});

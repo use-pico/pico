@@ -6,7 +6,7 @@ export const AppLayoutCls = component({
 		"header",
 		"content",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"min-h-screen",
 			"flex",
@@ -32,6 +32,7 @@ export const AppLayoutCls = component({
 			"p-2",
 		]),
 	},
+	defaults: {},
 });
 
 export namespace AppLayoutCls {

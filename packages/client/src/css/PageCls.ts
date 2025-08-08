@@ -4,7 +4,7 @@ export const PageCls = component({
 	slots: [
 		"base",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [
 				"flex",
@@ -13,6 +13,7 @@ export const PageCls = component({
 			],
 		},
 	},
+	defaults: {},
 });
 
 export type PageCls = typeof PageCls;

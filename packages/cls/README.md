@@ -2,6 +2,7 @@
 
 # TODO - Add note this is css class-based styling solution which requires existing css classes, not pure Css-in-Js
 # TODO - Add top-level not this lib works great with TailwindCSS, but it's not directly bound to it
+# TODO - Add section telling the motivation of this package - using design tokens and have strict typechecking
 
 ✨ Design-token powered, type-safe class builder for modern UI. Ship consistent styles without the boilerplate.
 

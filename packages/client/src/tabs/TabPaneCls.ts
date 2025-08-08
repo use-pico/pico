@@ -1,4 +1,4 @@
-import { type Component, classes, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const TabPaneCls = variant({
 	slots: [
@@ -9,22 +9,20 @@ export const TabPaneCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: classes([]),
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			base: classes([]),
+		}),
+		rule(
+			{
 				hidden: true,
 			},
-			slot: {
+			{
 				base: classes([
 					"hidden",
 				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		hidden: false,

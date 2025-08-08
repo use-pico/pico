@@ -13,77 +13,75 @@ export const ProgressCls = variant({
 			"lg",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"h-full",
-						"w-full",
-						"bg-slate-200",
-						"rounded-sm",
-						"transition-all",
-					],
-				},
-				progress: {
-					class: [
-						"h-full",
-						"bg-blue-400",
-						"rounded-sm",
-						"leading-none",
-						"transition-all",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"h-full",
+					"w-full",
+					"bg-slate-200",
+					"rounded-sm",
+					"transition-all",
+				],
 			},
-		},
-		{
-			match: {
+			progress: {
+				class: [
+					"h-full",
+					"bg-blue-400",
+					"rounded-sm",
+					"leading-none",
+					"transition-all",
+				],
+			},
+		}),
+		rule(
+			{
 				size: "xs",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"h-0.5",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "sm",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"h-1",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "md",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"h-2",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "lg",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"h-4",
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		size: "md",

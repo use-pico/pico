@@ -14,81 +14,65 @@ export const ValueOfCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"pico--value-of",
-						"border",
-						"border-(--color-border)",
-						"px-2",
-						"py-1",
-						"rounded-md",
-						"group",
-					],
-				},
-				label: {
-					class: [
-						"text-sm",
-						"font-semibold",
-						"text-(--label-color-text)",
-						"border-b",
-						"border-(--label-color-border)",
-						"group-hover:border-(--label-color-hover-border)",
-						"mb-2",
-					],
-				},
-				value: {
-					class: [],
-				},
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			base: classes([
+				"pico--value-of",
+				"border",
+				"border-(--color-border)",
+				"px-2",
+				"py-1",
+				"rounded-md",
+				"group",
+			]),
+			label: classes([
+				"text-sm",
+				"font-semibold",
+				"text-(--label-color-text)",
+				"border-b",
+				"border-(--label-color-border)",
+				"group-hover:border-(--label-color-hover-border)",
+				"mb-2",
+			]),
+			value: classes([]),
+		}),
+		rule(
+			{
 				inline: true,
 			},
-			slot: {
-				base: {
-					class: [
-						"border-none",
-						"flex",
-						"flex-row",
-						"items-center",
-						"gap-2",
-					],
-				},
-				label: {
-					class: [
-						"mb-0",
-						"font-light",
-						"text-md",
-						"text-(--inline-label-color-text)",
-						"border-none",
-					],
-				},
-				value: {
-					class: [
-						"text-md",
-						"text-(--inline-value-color-text)",
-					],
-				},
+			{
+				base: classes([
+					"border-none",
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-2",
+				]),
+				label: classes([
+					"mb-0",
+					"font-light",
+					"text-md",
+					"text-(--inline-label-color-text)",
+					"border-none",
+				]),
+				value: classes([
+					"text-md",
+					"text-(--inline-value-color-text)",
+				]),
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				withBackground: true,
 			},
-			slot: {
-				base: {
-					class: [
-						"bg-(--color-bg)",
-						"hover:bg-(--color-hover-bg)",
-						"hover:border-(--color-hover-border)",
-					],
-				},
+			{
+				base: classes([
+					"bg-(--color-bg)",
+					"hover:bg-(--color-hover-bg)",
+					"hover:border-(--color-hover-border)",
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		inline: false,

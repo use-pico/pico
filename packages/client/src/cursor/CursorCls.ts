@@ -5,7 +5,7 @@ export const CursorCls = component({
 		"base",
 		"sums",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [
 				"flex",
@@ -23,6 +23,7 @@ export const CursorCls = component({
 			],
 		},
 	},
+	defaults: {},
 });
 export type CursorCls = typeof CursorCls;
 

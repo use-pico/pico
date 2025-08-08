@@ -13,31 +13,31 @@ export const BoolInlineCls = IconCls.extend(
 	},
 	{
 		token: {},
-		rule: [
-			{
-				match: {
+		rules: ({ rule }) => [
+			rule(
+				{
 					value: true,
 				},
-				slot: {
+				{
 					base: {
 						class: [
 							"text-green-600",
 						],
 					},
 				},
-			},
-			{
-				match: {
+			),
+			rule(
+				{
 					value: false,
 				},
-				slot: {
+				{
 					base: {
 						class: [
 							"text-amber-600",
 						],
 					},
 				},
-			},
+			),
 		],
 		defaults: {
 			disabled: false,

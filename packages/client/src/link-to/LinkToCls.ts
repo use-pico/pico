@@ -4,7 +4,7 @@ export const LinkToCls = component({
 	slots: [
 		"base",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"flex",
 			"flex-row",
@@ -21,6 +21,7 @@ export const LinkToCls = component({
 			"truncate",
 		]),
 	},
+	defaults: {},
 });
 
 export namespace LinkToCls {

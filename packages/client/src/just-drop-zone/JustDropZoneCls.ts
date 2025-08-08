@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const JustDropZoneCls = variant({
 	slots: [
@@ -14,8 +14,8 @@ export const JustDropZoneCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"flex",
 				"flex-col",
@@ -49,7 +49,7 @@ export const JustDropZoneCls = variant({
 				"text-slate-500",
 			]),
 		}),
-		match(
+		rule(
 			{
 				active: true,
 			},
@@ -62,7 +62,7 @@ export const JustDropZoneCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				rejected: true,
 			},

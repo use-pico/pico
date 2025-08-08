@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const MenuCls = variant({
 	slots: [
@@ -9,8 +9,8 @@ export const MenuCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"flex",
 				"flex-row",
@@ -18,7 +18,7 @@ export const MenuCls = variant({
 				"items-center",
 			]),
 		}),
-		match(
+		rule(
 			{
 				vertical: true,
 			},

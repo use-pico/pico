@@ -9,30 +9,28 @@ export const ButtonLinkCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"px-4",
-						"py-2",
-						"rounded-md",
-						"text-md",
-						"text-blue-400",
-						"hover:text-blue-600",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"px-4",
+					"py-2",
+					"rounded-md",
+					"text-md",
+					"text-blue-400",
+					"hover:text-blue-600",
+				],
 			},
-		},
-		{
-			match: {
+		}),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"cursor-not-allowed",
@@ -41,7 +39,7 @@ export const ButtonLinkCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		disabled: false,

@@ -9,7 +9,7 @@ export const PreviewCls = component({
 		"actions",
 		"extra",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"pico--preview",
 			"flex",
@@ -54,6 +54,7 @@ export const PreviewCls = component({
 			"justify-end",
 		]),
 	},
+	defaults: {},
 });
 export type PreviewCls = typeof PreviewCls;
 

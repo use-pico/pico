@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const PagesCls = variant({
 	slots: [
@@ -11,8 +11,8 @@ export const PagesCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"select-none",
 			]),
@@ -39,7 +39,7 @@ export const PagesCls = variant({
 				"duration-200",
 			]),
 		}),
-		match(
+		rule(
 			{
 				current: true,
 			},

@@ -28,52 +28,46 @@ export const ActionCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"w-fit",
-						"h-fit",
-					],
-				},
-				action: {
-					class: [
-						"border",
-						"cursor-pointer",
-						"flex",
-						"gap-2",
-						"group",
-						"h-fit",
-						"hover:shadow-md",
-						"items-center",
-						"justify-center",
-						"p-1",
-						"rounded-sm",
-						"rounded",
-						"transition-all",
-						"w-fit",
-						// CSS Variables
-						"bg-(--pico-color-bg-default)",
-						"hover:bg-(--pico-color-bg-hover)",
-						//
-						"border-(--pico-color-border-default)",
-						"hover:border-(--pico-color-border-hover)",
-						//
-						"shadow-(--pico-color-shadow-default)",
-						"hover:shadow-(--pico-color-shadow-hover)",
-						//
-						"text-(--pico-color-text-default)",
-						"hover:text-(--pico-color-text-hover)",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"w-fit",
+					"h-fit",
+				],
 			},
-		},
-		{
-			match: {
+			action: {
+				class: [
+					"border",
+					"cursor-pointer",
+					"flex",
+					"gap-2",
+					"group",
+					"h-fit",
+					"hover:shadow-md",
+					"items-center",
+					"justify-center",
+					"p-1",
+					"rounded-sm",
+					"rounded",
+					"transition-all",
+					"w-fit",
+					"bg-(--pico-color-bg-default)",
+					"hover:bg-(--pico-color-bg-hover)",
+					"border-(--pico-color-border-default)",
+					"hover:border-(--pico-color-border-hover)",
+					"shadow-(--pico-color-shadow-default)",
+					"hover:shadow-(--pico-color-shadow-hover)",
+					"text-(--pico-color-text-default)",
+					"hover:text-(--pico-color-text-hover)",
+				],
+			},
+		}),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"opacity-50",
@@ -86,24 +80,24 @@ export const ActionCls = variant({
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				loading: true,
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pointer-events-none",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				active: true,
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"active",
@@ -111,103 +105,103 @@ export const ActionCls = variant({
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "primary",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-danger",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "secondary",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-secondary",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "danger",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-danger",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "danger-light",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-danger-light",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "subtle",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-subtle",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "light",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-light",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				variant: "neutral",
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"pico--action-color-neutral",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				borderless: true,
 			},
-			slot: {
+			{
 				action: {
 					class: [
 						"border-none",
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		disabled: false,

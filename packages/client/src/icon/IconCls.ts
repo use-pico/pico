@@ -23,156 +23,156 @@ export const IconCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			match: {
+	rules: ({ rule }) => [
+		rule(
+			{
 				size: "xs",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-sm",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "sm",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-sm",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "md",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-base",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "lg",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-lg",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "2xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-2xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "3xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-3xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "4xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-4xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "5xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-5xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "6xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-6xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "7xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-7xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				size: "8xl",
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"text-8xl",
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"pointer-events-none",
@@ -182,7 +182,7 @@ export const IconCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		size: "xl",

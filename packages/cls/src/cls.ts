@@ -334,7 +334,7 @@ export function cls<
 					rules() {
 						return [
 							{
-								slot: props.slot,
+								slot: props.root,
 							},
 						];
 					},

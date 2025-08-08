@@ -6,12 +6,14 @@ export const AbstractListCls = component({
 		"body",
 		"items",
 	],
-	slot: {
+	root: {
 		root: classes([]),
 		body: classes([]),
 		items: classes([]),
 	},
 });
+
+export type AbstractListCls = typeof AbstractListCls;
 
 export namespace AbstractListCls {
 	export type Props<P = unknown> = Component<typeof AbstractListCls, P>;

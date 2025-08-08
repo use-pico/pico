@@ -25,21 +25,14 @@ export const Alert: FC<Alert.Props> = ({
 	title,
 	message,
 	onClick,
-	variant,
+	cls,
 	tva = AlertCls,
-	slot,
-	token,
-	override,
 	children,
 }) => {
-	const classes = tva.create({
+	const classes = tva.create(cls, {
 		variant: {
 			clickable: Boolean(onClick),
-			...variant,
 		},
-		slot,
-		token,
-		override,
 	});
 	return (
 		<div

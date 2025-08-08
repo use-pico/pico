@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const AlertCls = variant({
 	slots: [
@@ -20,8 +20,8 @@ export const AlertCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"pico--alert",
 				"border",
@@ -49,7 +49,7 @@ export const AlertCls = variant({
 				"border-(--pico-color-border-default)",
 			]),
 		}),
-		match(
+		rule(
 			{
 				variant: "info",
 				clickable: true,
@@ -60,7 +60,7 @@ export const AlertCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "success",
 				clickable: true,
@@ -71,7 +71,7 @@ export const AlertCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "warning",
 				clickable: true,
@@ -82,7 +82,7 @@ export const AlertCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "error",
 				clickable: true,
@@ -93,7 +93,7 @@ export const AlertCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "neutral",
 				clickable: true,
@@ -104,7 +104,7 @@ export const AlertCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				variant: "subtle",
 				clickable: true,

@@ -8,7 +8,7 @@ export const TransferCls = component({
 		"header",
 		"item",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [
 				"grid",
@@ -55,6 +55,7 @@ export const TransferCls = component({
 			],
 		},
 	},
+	defaults: {},
 });
 export type TransferCls = typeof TransferCls;
 

@@ -14,42 +14,40 @@ export const ModalCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"bg-slate-400/75",
-						"backdrop-blur-xs",
-						"flex",
-						"justify-center",
-						"py-12",
-					],
-				},
-				target: {
-					class: [],
-				},
-				modal: {
-					class: [
-						"bg-white",
-						"rounded-lg",
-						"shadow-lg",
-						"p-4",
-						"max-h-full",
-						"h-fit",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"w-2/3",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"bg-slate-400/75",
+					"backdrop-blur-xs",
+					"flex",
+					"justify-center",
+					"py-12",
+				],
 			},
-		},
-		{
-			match: {
+			target: {
+				class: [],
+			},
+			modal: {
+				class: [
+					"bg-white",
+					"rounded-lg",
+					"shadow-lg",
+					"p-4",
+					"max-h-full",
+					"h-fit",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"w-2/3",
+				],
+			},
+		}),
+		rule(
+			{
 				disabled: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"pointer-events-none",
@@ -57,12 +55,12 @@ export const ModalCls = variant({
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				loading: true,
 			},
-			slot: {
+			{
 				base: {
 					class: [
 						"pointer-events-none",
@@ -70,7 +68,7 @@ export const ModalCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		disabled: false,

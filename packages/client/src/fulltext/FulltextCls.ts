@@ -1,4 +1,4 @@
-import { type Component, component } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
 export const FulltextCls = component({
 	slots: [
@@ -7,24 +7,20 @@ export const FulltextCls = component({
 		"input",
 		"clear",
 	],
-	slot: {
-		base: {
-			class: [
-				"relative",
-				"w-full",
-			],
-		},
-		search: {
-			class: [
-				"absolute",
-				"inset-y-0",
-				"left-2",
-				"flex",
-				"items-center",
-				"pointer-events-none",
-				"text-slate-500",
-			],
-		},
+	root: {
+		base: classes([
+			"relative",
+			"w-full",
+		]),
+		search: classes([
+			"absolute",
+			"inset-y-0",
+			"left-2",
+			"flex",
+			"items-center",
+			"pointer-events-none",
+			"text-slate-500",
+		]),
 		input: {
 			class: [
 				"pl-8",
@@ -54,6 +50,7 @@ export const FulltextCls = component({
 			],
 		},
 	},
+	defaults: {},
 });
 
 export namespace FulltextCls {

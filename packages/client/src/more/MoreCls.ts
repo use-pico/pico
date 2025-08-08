@@ -5,7 +5,7 @@ export const MoreCls = component({
 		"base",
 		"item",
 	],
-	slot: {
+	root: {
 		base: {
 			class: [
 				"flex",

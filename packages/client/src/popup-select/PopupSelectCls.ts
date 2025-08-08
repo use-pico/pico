@@ -14,70 +14,57 @@ export const PopupSelectCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-2",
-					],
-				},
-				input: {
-					class: [
-						"py-2",
-						"px-2",
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"cursor-pointer",
-						"hover:bg-slate-50",
-						"border",
-						"border-gray-300",
-						"rounded-md",
-						"text-slate-400",
-						"hover:text-slate-700",
-						"focus:outline-hidden",
-						"focus:ring-2",
-						"focus:ring-blue-500",
-						"focus:border-transparent",
-					],
-				},
-				content: {
-					class: [],
-				},
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			base: classes([
+				"flex",
+				"flex-col",
+				"gap-2",
+			]),
+			input: classes([
+				"py-2",
+				"px-2",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+				"cursor-pointer",
+				"hover:bg-slate-50",
+				"border",
+				"border-gray-300",
+				"rounded-md",
+				"text-slate-400",
+				"hover:text-slate-700",
+				"focus:outline-hidden",
+				"focus:ring-2",
+				"focus:ring-blue-500",
+				"focus:border-transparent",
+			]),
+		}),
+		rule(
+			{
 				loading: true,
 			},
-			slot: {
-				input: {
-					class: [
-						"text-slate-300",
-						"cursor-progress",
-					],
-				},
+			{
+				input: classes([
+					"text-slate-300",
+					"cursor-progress",
+				]),
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				selected: true,
 			},
-			slot: {
-				input: {
-					class: [
-						"bg-slate-50",
-						"text-slate-700",
-						"hover:bg-slate-100",
-						"hover:text-slate-800",
-					],
-				},
+			{
+				input: classes([
+					"bg-slate-50",
+					"text-slate-700",
+					"hover:bg-slate-100",
+					"hover:text-slate-800",
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		loading: false,

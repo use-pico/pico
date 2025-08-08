@@ -11,44 +11,42 @@ export const TitlePreviewCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-					],
-				},
-				title: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"text-lg",
-						"text-slate-500",
-						"font-bold",
-					],
-				},
-				subtitle: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-4",
-						"items-center",
-						"text-lg",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+				],
 			},
-		},
-		{
-			match: {
+			title: {
+				class: [
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"text-lg",
+					"text-slate-500",
+					"font-bold",
+				],
+			},
+			subtitle: {
+				class: [
+					"flex",
+					"flex-row",
+					"gap-4",
+					"items-center",
+					"text-lg",
+				],
+			},
+		}),
+		rule(
+			{
 				withSubtitle: true,
 			},
-			slot: {
+			{
 				title: {
 					class: [
 						"border-r",
@@ -57,7 +55,7 @@ export const TitlePreviewCls = variant({
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		withSubtitle: false,

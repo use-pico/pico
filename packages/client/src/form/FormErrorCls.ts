@@ -13,33 +13,31 @@ export const FormErrorCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-2",
-					],
-				},
-				error: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-1",
-						"items-center",
-						"text-red-600",
-						"p-2",
-					],
-				},
+	rules: ({ root, rule }) => [
+		root({
+			base: {
+				class: [
+					"flex",
+					"flex-col",
+					"gap-2",
+				],
 			},
-		},
-		{
-			match: {
+			error: {
+				class: [
+					"flex",
+					"flex-row",
+					"gap-1",
+					"items-center",
+					"text-red-600",
+					"p-2",
+				],
+			},
+		}),
+		rule(
+			{
 				highlight: true,
 			},
-			slot: {
+			{
 				error: {
 					class: [
 						"bg-red-100",
@@ -52,19 +50,19 @@ export const FormErrorCls = variant({
 					],
 				},
 			},
-		},
-		{
-			match: {
+		),
+		rule(
+			{
 				compact: true,
 			},
-			slot: {
+			{
 				error: {
 					class: [
 						"p-0",
 					],
 				},
 			},
-		},
+		),
 	],
 	defaults: {
 		highlight: false,

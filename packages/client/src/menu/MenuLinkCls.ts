@@ -1,4 +1,4 @@
-import { type Component, classes, match, variant } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
 export const MenuLinkCls = variant({
 	slots: [
@@ -18,8 +18,8 @@ export const MenuLinkCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		match(undefined, {
+	rules: ({ root, rule, classes }) => [
+		root({
 			base: classes([
 				"pico--menu-link",
 				"flex",
@@ -37,7 +37,7 @@ export const MenuLinkCls = variant({
 				"hover:border-(--color-border-hover)",
 			]),
 		}),
-		match(
+		rule(
 			{
 				active: true,
 				inner: false,
@@ -52,7 +52,7 @@ export const MenuLinkCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				active: true,
 				inner: true,
@@ -67,7 +67,7 @@ export const MenuLinkCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				subtle: true,
 			},
@@ -79,7 +79,7 @@ export const MenuLinkCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				active: true,
 				subtle: true,
@@ -91,7 +91,7 @@ export const MenuLinkCls = variant({
 				]),
 			},
 		),
-		match(
+		rule(
 			{
 				vertical: true,
 			},

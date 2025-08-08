@@ -10,33 +10,25 @@ export const FloatCls = variant({
 			"bool",
 		],
 	},
-	rules: [
-		{
-			slot: {
-				target: {
-					class: [
-						"flex",
-						"justify-center",
-						"items-center",
-					],
-				},
-				portal: {
-					class: [],
-				},
-			},
-		},
-		{
-			match: {
+	rules: ({ root, rule, classes }) => [
+		root({
+			target: classes([
+				"flex",
+				"justify-center",
+				"items-center",
+			]),
+			portal: classes([]),
+		}),
+		rule(
+			{
 				mounted: false,
 			},
-			slot: {
-				portal: {
-					class: [
-						"hidden",
-					],
-				},
+			{
+				portal: classes([
+					"hidden",
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		mounted: false,

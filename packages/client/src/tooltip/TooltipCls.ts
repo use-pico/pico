@@ -4,7 +4,7 @@ export const TooltipCls = component({
 	slots: [
 		"base",
 	],
-	slot: {
+	root: {
 		base: classes([
 			"border",
 			"border-sky-400",
@@ -16,6 +16,7 @@ export const TooltipCls = component({
 			"shadow-md",
 		]),
 	},
+	defaults: {},
 });
 
 export namespace TooltipCls {
