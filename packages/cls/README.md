@@ -12,16 +12,15 @@
 
 🚀 **What you'll love**
 
-- 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere
-- 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
-- 🎛️ **Rules that read like UI**: map variant 
-combos → slot styles with predictable overrides
-- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
-- 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
+- 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere (see [Glossary](#glossary-30-seconds-to-fluent))
+- 🎯 **Design tokens** as first-class citizens with **inheritance** and validation (see [Token Overloading & Theming](#token-overloading--theming))
+- 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides (see [Create-time Overrides](#create-time-overrides))
+- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact (see [Inheritance System](#inheritance-system-))
+- 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides (see [Core Concepts](#core-concepts))
 - ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
-- 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
+- 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time (see [Create-time Overrides](#create-time-overrides))
 - 🌀 **Tailwind-native**: powered by tailwind-merge for sane, deduped class strings
-- 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration
+- 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration (see [React Integration](#react-integration))
 
 _Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX._
 
@@ -31,7 +30,7 @@ _Perfect for design systems, component libraries, and apps that want predictable
 - Starting with **5.0.0**, releases follow **Semantic Versioning (SemVer)**.
 - Prior to 5.0, there might have been a few rough edges in the core API; from 5.0 onward, any breaking change will **bump the major version**.
 
-## What is @use-pico/cls?
+## What is `@use-pico/cls`?
 
 This is a **CSS class-based styling solution** that requires existing CSS classes (like Tailwind CSS) - it's not a pure CSS-in-JS solution. It works great with TailwindCSS but isn't directly bound to it.
 
@@ -84,12 +83,13 @@ const classes2 = Button.create({ variant: { size: "sm" } });
 
 ### Glossary (30 seconds to fluent)
 
-- **Tokens**: Named style primitives (e.g., `color.bg.default`, `spacing.padding.md`).
-- **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string.
-- **Variants**: Appearance knobs (`size`, `variant`, `disabled: bool`).
-- **Rules**: How variant combos map to slot styles (base `root(...)` + conditional `rule(...)`).
-- **Overrides**: Hard replace a slot’s output at `create()` time (`override` beats everything).
-- **Create config**: `variant`, `slot`, `override`, `token` (user config always wins over internal).
+- **Contract**: The **structure** that declares your `tokens`, `slot`, and `variant`. It’s the **source of truth** the type system validates against. See [Main API](#main-api) and [Inheritance System](#inheritance-system-).
+- **Tokens**: Named style primitives (e.g., `color.bg.default`, `spacing.padding.md`). See [Token Overloading & Theming](#token-overloading--theming).
+- **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string. See [Glossary](#glossary-30-seconds-to-fluent) and [Components with Variants](#components-with-variants).
+- **Variants**: Appearance knobs (`size`, `variant`, `disabled: bool`). See [Components with Variants](#components-with-variants).
+- **Rules**: How variant combos map to slot styles (base `root(...)` + conditional `rule(...)`). See [Rules](#rules).
+- **Overrides**: Hard replace a slot’s output at `create()` time (`override` beats everything). See [Create-time Overrides](#create-time-overrides).
+- **Create config**: `variant`, `slot`, `override`, `token` (user config always wins over internal). See [Main API → create](#createuserconfig-internalconfig).
 
 > **Why Empty Fields?**: You'll notice that many examples include empty objects like `tokens: {}`, `variant: {}`, `token: {}`, and `defaults: {}`. This is **intentional** — the **type system requires all fields to be present** for consistency and type safety. While it might seem verbose, this design choice **avoids complex conditional type logic** that would make the types harder to understand. The trade-off is **a few extra keystrokes for much better type inference and DX**.
 
@@ -330,9 +330,9 @@ const a = CardCls.create(composed);
 const b = PanelCls.create(composed);
 ```
 
-### Inheritance System 🧬
+### Inheritance System
 
-The inheritance system is where @use-pico/cls truly shines! While some other libraries support inheritance, @use-pico/cls combines it with design token support and heavy type checking, allowing you to build entire design system hierarchies with full type safety and predictable behavior.
+The inheritance system is where `@use-pico/cls` truly shines! While some other libraries support inheritance, `@use-pico/cls` combines it with design token support and heavy type checking, allowing you to build entire design system hierarchies with full type safety and predictable behavior.
 
 > **Inheritance Note**: While inheritance may look overcomplicated at first, it serves a crucial purpose in this system's design. The examples below will show you how to harness its power effectively in your favor - it's designed to solve real-world design system challenges, not just add complexity.
 
@@ -386,7 +386,7 @@ const Extended = Base.extend({
 
 > **Type System Enforcement**: The type system will force you to declare all tokens defined in the contract - even (and only) the ones you extend from the parent. This ensures design system consistency and prevents missing token definitions.
 
-#### Variant Inheritance 🧠
+#### Variant Inheritance
 
 Variants follow a sophisticated inheritance pattern that's much smarter than simple merging:
 
@@ -426,9 +426,9 @@ const classes = Extended.create({
 
 This isn't just inheritance - it's a sophisticated type-aware variant system that maintains full IntelliSense and compile-time safety across the entire design system hierarchy! 🚀
 
-#### Forced Default Declaration 📋
+#### Forced Default Declaration
 
-One of @use-pico/cls's key design decisions is that **all variants must have defaults declared, even when inherited from parent**. This might seem redundant at first, but it's a deliberate choice for clarity and maintainability.
+One of `@use-pico/cls`'s key design decisions is that **all variants must have defaults declared, even when inherited from parent**. This might seem redundant at first, but it's a deliberate choice for clarity and maintainability.
 
 **Why This Design?**
 
@@ -477,7 +477,7 @@ const Extended = Base.extend({
 // Result: ["root", "label", "icon", "badge"]
 ```
 
-#### Type Safety Through Inheritance 🔒
+#### Type Safety Through Inheritance
 
 The magic happens at compile time - TypeScript ensures:
 
@@ -526,7 +526,7 @@ const AppSpecificComponents = BrandedComponents.extend(appContract, appDefinitio
 
 This inheritance system lets you build complex, maintainable design systems where changes at any level automatically propagate through the entire hierarchy while maintaining full type safety! 🚀
 
-### Create-time Overrides 🎛️
+### Create-time Overrides
 
 The `create()` method gives you incredible flexibility to customize styling at runtime. You can override variants, append to slots, hard override slots, and even override tokens — all with predictable precedence rules!
 
@@ -645,7 +645,7 @@ const classes = Button.create({
 });
 ```
 
-#### Precedence Rules 📋
+#### Precedence Rules
 
 The override system follows a clear, predictable order:
 
@@ -702,11 +702,11 @@ const classes = Button.create({
 });
 ```
 
-This override system makes @use-pico/cls incredibly flexible - you can customize any aspect of your components at runtime while maintaining the design system's structure and type safety! 🎨
+This override system makes `@use-pico/cls` incredibly flexible - you can customize any aspect of your components at runtime while maintaining the design system's structure and type safety! 🎨
 
-## Token Overloading & Theming 🎨
+## Token Overloading & Theming
 
-One of the most powerful features of @use-pico/cls is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
+One of the most powerful features of `@use-pico/cls` is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
 
 > **Type-safety callout**: When using React context for themes, token merges happen **at runtime** and are **not type‑validated** against a specific component’s contract. For strict typing, pass tokens **directly to `create({ token: ... })`**. See the React section for details on precedence.
 
@@ -987,9 +987,9 @@ export const Transfer = <TItem,>({
 };
 ```
 
-## When to Use What and How 🎯
+## When to Use What and How
 
-This section shows you practical scenarios and how to approach them with @use-pico/cls. Each example is complete and ready to use!
+This section shows you practical scenarios and how to approach them with `@use-pico/cls`. Each example is complete and ready to use!
 
 > **Migrate from CVA/TVA (mini playbook)**
 > 1) Start with **variant‑only components** (no tokens, just `rule(...)`) →
@@ -1387,7 +1387,7 @@ const ComplexButton = cls({
 
 ## Comparison with Similar Tools
 
-> **Honest Comparison Disclaimer**: This comparison is written by the @use-pico/cls author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade-offs**. @use-pico/cls prioritizes **type safety and design system consistency** over **conciseness and simplicity**. For simple projects, competitors like class-variance-authority or tailwind-variants might be more appropriate. For complex design systems and production applications where type safety and maintainability are crucial, @use-pico/cls provides unique value. **Choose the tool that fits your specific needs and constraints**.
+> **Honest Comparison Disclaimer**: This comparison is written by the `@use-pico/cls` author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade-offs**. `@use-pico/cls` prioritizes **type safety and design system consistency** over **conciseness and simplicity**. For simple projects, competitors like class-variance-authority or tailwind-variants might be more appropriate. For complex design systems and production applications where type safety and maintainability are crucial, `@use-pico/cls` provides unique value. **Choose the tool that fits your specific needs and constraints**.
 
 | Feature | @use-pico/cls | class-variance-authority | tailwind-variants | @stitches/react | vanilla-extract |
 |---------|---------------|-------------------------|-------------------|-----------------|-----------------|
@@ -1473,7 +1473,7 @@ const classes = Button.create({ variant: { variant: "primary", size: "lg" } });
 <button className={classes.root()}>Click me</button>
 ```
 
-> **Note**: @use-pico/cls is more verbose here, but provides better type safety and extensibility.
+> **Note**: `@use-pico/cls` is more verbose here, but provides better type safety and extensibility.
 
 #### Multi-slot Component
 
@@ -1529,7 +1529,7 @@ const classes = Card.create();
       </div>
 ```
 
-> **Note**: Very similar complexity, but @use-pico/cls provides better type safety and inheritance capabilities.
+> **Note**: Very similar complexity, but `@use-pico/cls` provides better type safety and inheritance capabilities.
 
 #### Design Tokens & Inheritance
 
@@ -1663,7 +1663,7 @@ const IconButton = Button.extend({
 });
 ```
 
-> **Note**: @use-pico/cls is more verbose but provides:
+> **Note**: `@use-pico/cls` is more verbose but provides:
 > - **Type-safe design tokens** with inheritance
 > - **Compile-time validation** of all token references
 > - **Multi-slot support** in the same component
@@ -1766,7 +1766,7 @@ const Button = Theme.extend({
 });
 ```
 
-> **Note**: vanilla-extract is more concise but @use-pico/cls provides:
+> **Note**: vanilla-extract is more concise but `@use-pico/cls` provides:
 > - **Runtime flexibility** (can change themes dynamically)
 > - **Type-safe token inheritance**
 > - **Framework-agnostic** approach
@@ -1804,42 +1804,6 @@ const Toggle = cls(
 );
 ```
 
-### Multi-slot Components
-
-```ts
-slot: ["root", "icon", "label", "description"]
-```
-
-### Token Overrides
-
-```ts
-const classes = Button.create({
-  token: {
-    "primary.bg": { default: ["bg-red-500"] } // Override for this instance
-  }
-});
-```
-
-### Deterministic Order
-
-Within one slot step: `class` then `token`. Across steps:
-1. Base/default rules (top-down)
-2. Variant matched rules (in their order)
-3. `create().slot` appends
-4. `create().override` replaces
-
-All merged and deduped using `tailwind-merge`.
-
-## Recipes
-
-See “When to Use What and How” for end‑to‑end examples:
-- Simple static components
-- Components with variants
-- Design token system
-- Component inheritance
-- Theme system
-- Runtime customization
-
 ## A Personal Note
 
 ### A Brief History
@@ -1857,7 +1821,7 @@ It started with experience using **class-variants utilities**. They worked, but 
 - But I ran into **internal problems and inconsistencies** (values used as "string" vs "arrays"), which were **hard to track** at scale.
 - Alongside other limits, the **last nail in the coffin** was the lack of **design token** support.
 
-> **Credit where it’s due**: tailwind-variants (TVA) did a lot of things **very well** and heavily inspired this library. Its ergonomics and slot model influenced early versions of @use-pico/cls. This project builds on that inspiration while focusing on **design tokens** and **heavy type safety** as first-class features.
+> **Credit where it’s due**: tailwind-variants (TVA) did a lot of things **very well** and heavily inspired this library. Its ergonomics and slot model influenced early versions of `@use-pico/cls`. This project builds on that inspiration while focusing on **design tokens** and **heavy type safety** as first-class features.
 
 So I built the first version of **“cls”**. At the beginning it was conceptually close to _tva_, but with one big change: a **solid, fully typed inheritance model**. That’s where the _**type‑safety first**_ mantra came from.
 
