@@ -6,20 +6,21 @@
 
 ✨ **Design-token powered, type-safe class builder for modern UI.** Ship consistent styles without the boilerplate.
 
+> **Not CSS-in-JS**: This library is **class-first**. It plays beautifully with Tailwind (and friends) instead of generating CSS at runtime.
+
+> **Class merging**: Final classes are normalized with **tailwind-merge** (duplicates deduped, last-wins semantics). Equivalent utilities may be **reordered**.
+
 🚀 **What you'll love**
 
-- 🧱 **Contracts, not configs**: Describe tokens, slots, and variants once — get full IntelliSense everywhere
-- ⚡️ **Lazy by default**: Slots are computed on-demand via Proxy; no wasted work
-- 🎛️ **Rules that read like UI**: Map variant combos → classes/tokens, with predictable override semantics
-- 🧩 **Extend anything**: Inherit tokens/slots/variants across components and keep types intact
-- 🌀 **Tailwind-native**: Merged with tailwind-merge (last-wins, duplicates deduped)
-- 🧠 **Heavy type checking**: Compile-time validation ensures design system consistency
-- 🚀 **Framework agnostic**: Works with any framework, with excellent React integration
-- 🎯 **Design token system**: First-class support for design tokens with inheritance and validation
-- 🔄 **Multi-level inheritance**: Extend components while maintaining full type safety
-- 💪 **Production ready**: Built for complex design systems and large-scale applications
-- 🎨 **Runtime flexibility**: Override any aspect of styling at runtime with full type safety
-- 📦 **Lightweight**: ~3KB gzipped with minimal runtime dependencies
+– 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere
+– 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
+– 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides
+– 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
+– 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
+– ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
+– 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
+– 🌀 **Tailwind-native**: powered by tailwind-merge for sane, deduped class strings
+– 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration
 
 Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX.
 
