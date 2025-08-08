@@ -216,21 +216,21 @@ const Button = cls({
     loading: ["bool"]
   }
 }, {
-  rules: ({ root, rule }) => [
+∆  rules: ({ root, rule, classes }) => [
     root({
-      root: { class: ["inline-flex", "items-center", "rounded"] }
+      root: classes(["inline-flex", "items-center", "rounded"]),
     }),
     // Size variants
-    rule({ size: "sm" }, { root: { class: ["px-2", "py-1", "text-sm"] } }),
-    rule({ size: "md" }, { root: { class: ["px-4", "py-2", "text-base"] } }),
-    rule({ size: "lg" }, { root: { class: ["px-6", "py-3", "text-lg"] } }),
+    rule({ size: "sm" }, { root: classes(["px-2", "py-1", "text-sm"]) }),
+    rule({ size: "md" }, { root: classes(["px-4", "py-2", "text-base"]) }),
+    rule({ size: "lg" }, { root: classes(["px-6", "py-3", "text-lg"]) }),
     // Color variants
-    rule({ variant: "primary" }, { root: { class: ["bg-blue-500", "text-white"] } }),
-    rule({ variant: "secondary" }, { root: { class: ["bg-gray-500", "text-white"] } }),
-    rule({ variant: "danger" }, { root: { class: ["bg-red-500", "text-white"] } }),
+    rule({ variant: "primary" }, { root: classes(["bg-blue-500", "text-white"]) }),
+    rule({ variant: "secondary" }, { root: classes(["bg-gray-500", "text-white"]) }),
+    rule({ variant: "danger" }, { root: classes(["bg-red-500", "text-white"]) }),
     // State variants
-    rule({ disabled: true }, { root: { class: ["opacity-50", "cursor-not-allowed"] } }),
-    rule({ loading: true }, { root: { class: ["cursor-wait"] } })
+    rule({ disabled: true }, { root: classes(["opacity-50", "cursor-not-allowed"]) }),
+    rule({ loading: true }, { root: classes(["cursor-wait"]) }),
   ],
   defaults: { size: "md", variant: "primary", disabled: false, loading: false }
 });
@@ -306,8 +306,8 @@ const Alert = cls(
       "color.text": ["default", "primary"],
       "color.bg": ["default", "primary"],
     },
-    slot: ["root", "icon", "label"] as const,
-    variant: { variant: ["default", "primary"], size: ["sm", "md"] } as const,
+    slot: ["root", "icon", "label"],
+    variant: { variant: ["default", "primary"], size: ["sm", "md"] },
   },
   {
     token: {
@@ -881,7 +881,7 @@ const DarkTheme = {
   "color.border": { 
     default: ["border-gray-600"] 
   },
-} as const;
+};
 
 // Apply theme to any component
 const buttonClasses = Button.create({
@@ -900,7 +900,7 @@ You don’t need to provide every token group. Supply just the groups you want t
 ```ts
 const PartialTheme = {
   "color.text": { default: ["text-amber-100"] },
-} as const;
+};
 
 const classes = Button.create({ token: PartialTheme });
 ```
@@ -1120,7 +1120,7 @@ import { cls } from "@use-pico/cls";
 
 const Card = cls({
   tokens: {}, // No design tokens needed for this simple component
-  slot: ["root", "header", "content", "footer"] as const,
+  slot: ["root", "header", "content", "footer"],
   variant: {}, // No variants needed - static styling only
 }, {
   token: {}, // No token definitions since we have no tokens
@@ -1155,10 +1155,10 @@ import { cls } from "@use-pico/cls";
 
 const Alert = cls({
   tokens: {}, // No design tokens needed - using direct classes
-  slot: ["root", "title", "message"] as const,
+  slot: ["root", "title", "message"],
   variant: { 
-    variant: ["info", "success", "warning", "error"] as const,
-    size: ["sm", "md"] as const 
+    variant: ["info", "success", "warning", "error"],
+    size: ["sm", "md"] 
   },
 }, {
   token: {}, // No token definitions since we have no tokens
@@ -1562,10 +1562,10 @@ import { cls } from "@use-pico/cls";
 
 const Button = cls({
   tokens: {},
-  slot: ["root"] as const,
+  slot: ["root"],
   variant: { 
-    variant: ["primary", "secondary"] as const,
-    size: ["sm", "md", "lg"] as const 
+    variant: ["primary", "secondary"],
+    size: ["sm", "md", "lg"] 
   },
 }, {
   token: {},
@@ -1619,7 +1619,7 @@ import { cls } from "@use-pico/cls";
 
 const Card = cls({
   tokens: {},
-  slot: ["root", "header", "content", "footer"] as const,
+  slot: ["root", "header", "content", "footer"],
   variant: {},
 }, {
   token: {},
