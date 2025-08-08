@@ -329,6 +329,8 @@ The inheritance system is where @use-pico/cls truly shines! While some other lib
 
 > **Inheritance Note**: While inheritance may look overcomplicated at first, it serves a crucial purpose in this system's design. The examples below will show you how to harness its power effectively in your favor - it's designed to solve real-world design system challenges, not just add complexity.
 
+> **Composition or inheritance?** If teams own different layers (or you want looser coupling), prefer **composition** (two smaller `cls` modules used together). Reach for **inheritance** when you need a **single source‑of‑truth** for tokens + rules and want **typed customizations** to flow down safely.
+
 #### Multi-Level Inheritance
 
 ```ts
@@ -372,6 +374,8 @@ const Extended = Base.extend({
   }
 });
 ```
+
+> **Gotcha — replacing token groups**: Re‑declaring a token group in a child **replaces the parent’s group** by design (not a merge). It keeps changes intentional and visible. If you want to **append**, leave the group out of the child’s `tokens` and just reference the parent tokens in rules.
 
 > **Type System Enforcement**: The type system will force you to declare all tokens defined in the contract - even (and only) the ones you extend from the parent. This ensures design system consistency and prevents missing token definitions.
 
