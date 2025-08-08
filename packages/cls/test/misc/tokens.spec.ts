@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("tokens", () => {
 	it("resolves tokens from definition", () => {

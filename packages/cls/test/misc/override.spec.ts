@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("override rules and create-time overrides", () => {
 	it("rule override resets previous classes", () => {

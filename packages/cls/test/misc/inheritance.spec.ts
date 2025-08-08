@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("inheritance", () => {
 	it("child can add tokens and override parent-declared variants only when declared", () => {

@@ -223,7 +223,7 @@ export const AbstractList = <
 	 * loading as the Error is already resolved here.
 	 */
 	return (
-		<div className={classes.root}>
+		<div className={classes.root()}>
 			{renderPrefix({})}
 
 			<AbstractListBody

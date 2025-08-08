@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cls } from "../src/cls";
+import { cls } from "../../src/cls";
 
 describe("function-style slots", () => {
 	it("slots return functions that can be called with variant overrides", () => {

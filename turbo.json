@@ -17,6 +17,16 @@
 			"outputLogs": "new-only",
 			"cache": false
 		},
+		"test": {
+			"inputs": [
+				"src/**",
+				"test/**",
+				"package.json"
+			],
+			"outputs": [],
+			"outputLogs": "new-only",
+			"cache": false
+		},
 		"build": {
 			"dependsOn": [
 				"^build"

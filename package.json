@@ -5,6 +5,7 @@
 		"dev": "turbo run dev --parallel --no-daemon",
 		"build": "turbo run build --no-daemon",
 		"translations": "turbo run translations --no-daemon",
+		"test": "turbo run test --no-daemon",
 		"format": "biome format --write .",
 		"lint": "biome check .",
 		"typecheck": "turbo run typecheck --no-daemon",
@@ -17,9 +18,9 @@
 		"sp:format": "bun x syncpack format",
 		"sp:update": "bun x syncpack update",
 		"workflow:format": "run-s sp:format format",
-		"workflow:check": "run-s workflow:format lint typecheck",
+		"workflow:check": "run-s workflow:format lint typecheck test",
 		"workflow:update": "run-s sp:fix sp:update workflow:format update workflow:check",
-		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
+		"workflow:release": "run-s workflow:check test build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.3",
