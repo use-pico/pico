@@ -2,7 +2,7 @@
 
 > **Stable API**: The core API of this library is stable and production-ready. Future updates may only add convenience helpers around the existing API.
 
-> **Learning Curve**: This library has a bit of a steep learning curve, but many concepts are shared with competitors like class-variance-authority and tailwind-variants. Once you get it, you'll love the power and type safety it provides.
+> **Learning Curve**: This library is designed for **real-world usage** solving **real-world problems** in **larger applications**. While it could serve simple todo apps, it's intended for **complex design systems**, **component libraries**, and **production applications** where **type safety** and **maintainability** matter. The learning curve comes with the territory, but **comprehensive documentation** and familiar concepts from competitors like class-variance-authority and tailwind-variants make it approachable. Once you get it, you'll love the **power** and **type safety** it provides.
 
 ✨ **Design-token powered, type-safe class builder for modern UI.** Ship consistent styles without the boilerplate.
 
