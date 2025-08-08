@@ -786,3 +786,7 @@ export const ThemeTokens = token({
 ## License
 
 MIT © use-pico
+
+---
+
+> **🤖 AI Collaboration Note**: This comprehensive README was crafted with the help of AI assistance, demonstrating how AI can enhance developer documentation and user experience. As the developer behind this library, I'm proud of both the technical implementation and this collaborative documentation effort - it showcases the power of human-AI collaboration in creating better developer tools and clearer documentation. No shame, just progress! 🚀
