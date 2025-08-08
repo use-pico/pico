@@ -164,6 +164,8 @@ slot: ["root", "icon", "label", "badge"]
 
 Each slot becomes a function that returns CSS classes, computed lazily when accessed.
 
+> Naming tip: Prefer naming the main wrapper slot `root` for consistency.
+
 #### Example Usage
 
 ```ts
@@ -306,7 +308,7 @@ const Extended = Base.extend(childContract, childDefinition);
 
 Generates the actual CSS classes for your component. This is called at render time and returns **slot functions** that compute classes lazily.
 
-> **Precedence**: User config **overrides** internal config **field‑by‑field** (variant, slot, override, token).
+> **Precedence**: User config **overrides** internal config **field‑by‑field** (variant, slot, override, token). See [Precedence Rules](#precedence-rules).
 
 > **Two-Parameter Design**: The intention is to have a component that receives `userConfig` from its props while providing its own variants in `internalConfig`. For example, a button component might receive a `disabled` prop (not a variant) and send it to the `variant` field in its `internalConfig`, while user-land config (e.g., `variant: "primary"`) is supplied through `userConfig`.
 
@@ -332,6 +334,19 @@ A tiny helper that encapsulates the **same merge semantics** used by `create()`.
 const composed = merge(userOverrides, { slot: { root: { class: ["relative"] } } });
 const a = CardCls.create(composed);
 const b = PanelCls.create(composed);
+```
+
+#### Types at a glance
+
+```ts
+function cls(contract, definition): ClsInstance
+
+interface ClsInstance {
+  create(userConfig?, internalConfig?): Slots
+  extend(contract, definition): ClsInstance
+}
+
+function merge(userConfig?, internalConfig?): CreateConfig
 ```
 
 ### Utilities: tvc (tailwind-merge)
@@ -666,7 +681,7 @@ const classes = Button.create({
 
 #### Precedence Rules
 
-The override system follows a clear, predictable order:
+The override system follows a clear, predictable order. This is the canonical reference for merge semantics used across the docs:
 
 1. **Base/default rules** (from contract definition)
 2. **Variant matched rules** (in definition order)
@@ -727,9 +742,7 @@ This override system makes `@use-pico/cls` incredibly flexible - you can customi
 
 [Back to top](#top)
 
-One of the most powerful features of `@use-pico/cls` is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
-
-> **Type-safety callout**: When using React context for themes, token merges happen **at runtime** and are **not type‑validated** against a specific component’s contract. For strict typing, pass tokens **directly to `create({ token: ... })`**. See the React section for details on precedence.
+One of the most powerful features of `@use-pico/cls` is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements. For context merges and strict typing guidance, see [Type-safety note (context)](#type-safety-note-context).
 
 > **Team usage tip**: Keep theme objects in your **design system package**, give teams a **typed Theme shape**, and let apps **partially** override only what they need.
 
@@ -983,7 +996,9 @@ function App() {
 }
 ```
 
-> **Type-safety note (context)**: Tokens provided via React context are **merged at runtime** and are **not type‑validated** against a specific component’s contract. Keep your theme keys aligned with your contracts. If you need strict typing on token overrides, pass them **directly to `create({ token: ... })`** instead of relying on context. When both are present, a component’s **internal tokens win** over context tokens by design.
+### Type-safety note (context)
+
+Tokens provided via React context are **merged at runtime** and are **not type‑validated** against a specific component’s contract. Keep your theme keys aligned with your contracts. If you need strict typing on token overrides, pass them **directly to `create({ token: ... })`** instead of relying on context. When both are present, a component’s **internal tokens win** over context tokens by design. See [Precedence Rules](#precedence-rules).
 
 ### Component Pattern
 
@@ -999,7 +1014,7 @@ export const Transfer = <TItem,>({
   const classes = tva.create(cls);
 
   return (
-    <div className={classes.base()}>
+    <div className={classes.root()}>
       <div className={classes.panel()}>
         {/* Component content */}
       </div>
@@ -1519,11 +1534,11 @@ const { base, header, content, footer } = card();
   <div className={header()}>Title</div>
   <div className={content()}>Content</div>
   <div className={footer()}>Footer</div>
-      </div>
+</div>
 ```
 
 **@use-pico/cls:**
-```ts
+```tsx
 import { cls } from "@use-pico/cls";
 
 const Card = cls({
@@ -1549,7 +1564,7 @@ const classes = Card.create();
   <div className={classes.header()}>Title</div>
   <div className={classes.content()}>Content</div>
   <div className={classes.footer()}>Footer</div>
-      </div>
+</div>
 ```
 
 > **Note**: Very similar complexity, but `@use-pico/cls` provides better type safety and inheritance capabilities.
@@ -1880,7 +1895,7 @@ If you find rough edges, **ping me** — I’d love to make it better with you.
 
 ## Known (React) limitations
 
-- **Dynamic token keys aren’t type‑validated**; keep your theme keys aligned with each component’s **contract**. For strict typing, pass tokens **directly to `create({ token })`** instead of relying on untyped context merges.
+- **Dynamic token keys aren’t type‑validated**; keep your theme keys aligned with each component’s **contract**. For strict typing, pass tokens **directly to `create({ token })`** instead of relying on untyped context merges. See [Type-safety note (context)](#type-safety-note-context).
 
 ## Contributing
 
