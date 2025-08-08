@@ -28,7 +28,7 @@ export const Cell = <
 	const Filter = column?.filter?.component;
 
 	return (
-		<div className={slots.cell()}>
+		<div className={slots.cell}>
 			<Render
 				data={data}
 				value={value}

@@ -79,4 +79,3 @@ export const Issues: FC<Issues.Props> = ({
 		/>
 	);
 };
-

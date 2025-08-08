@@ -10,7 +10,7 @@ export namespace AbstractListBody {
 	> {
 		withQuery: withQuery.Api<TQuery, TItem[]>;
 		query: TQuery;
-		slots: AbstractListCls;
+		slots: AbstractListCls.Slots;
 		renderHeader: AbstractList.Header.Render<TItem>;
 		renderItem: AbstractList.Item.Render<TItem>;
 		renderFooter: AbstractList.Footer.Render<TItem>;
@@ -70,8 +70,8 @@ export const AbstractListBody = <
 	}
 
 	return (
-		<div className={slots.body()}>
-			<div className={slots.items()}>
+		<div className={slots.body}>
+			<div className={slots.items}>
 				{renderHeader({
 					isFetching,
 					items: data,
