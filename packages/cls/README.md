@@ -753,7 +753,7 @@ function App() {
       <div>
         <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
           Toggle Theme
-        </button>
+    </button>
         <ThemedButton>Theme-aware button</ThemedButton>
       </div>
     </ThemeProvider>
@@ -829,7 +829,7 @@ function App() {
 import { TransferCls } from "./TransferCls";
 
 export const Transfer = <TItem,>({ 
-  tva = TransferCls, 
+  tva = TransferCls, // tva: tailwind-variants-style naming (historical), here it means the styling instance
   cls, 
   groups, 
   onChange 
@@ -876,7 +876,7 @@ const Card = cls({
 
 // Usage
 const classes = Card.create();
-return (
+  return (
   <div className={classes.root()}>
     <div className={classes.header()}>Title</div>
     <div className={classes.content()}>Content</div>
@@ -1124,7 +1124,7 @@ function CustomButton({
       }
     } : undefined,
   });
-
+  
   return (
     <button className={classes.root()}>
       <span className={classes.label()}>{children}</span>
@@ -1345,7 +1345,7 @@ const { base, header, content, footer } = card();
   <div className={header()}>Title</div>
   <div className={content()}>Content</div>
   <div className={footer()}>Footer</div>
-</div>
+      </div>
 ```
 
 **@use-pico/cls:**
@@ -1375,7 +1375,7 @@ const classes = Card.create();
   <div className={classes.header()}>Title</div>
   <div className={classes.content()}>Content</div>
   <div className={classes.footer()}>Footer</div>
-</div>
+      </div>
 ```
 
 > **Note**: Very similar complexity, but @use-pico/cls provides better type safety and inheritance capabilities.
@@ -1745,6 +1745,27 @@ export const ThemeTokens = cls({
   defaults: {},
 });
 ```
+
+## History – how this library came to be
+
+It started with experience using **class-variants utilities**. They worked, but I kept hitting **limits in real projects**.
+
+- First, I used **class-variance-authority**. Helpful, but I needed **more flexibility** as projects grew.
+- Then I tried **tailwind-variants**. I liked it a lot, but I ran into **internal inconsistencies** (strings vs arrays) that were hard to track across a codebase. The bigger blocker was the **lack of first-class design token support**.
+
+So I built the first version of **“cls”**. At the beginning it was conceptually close to _tva_, but with one big change: a **solid, fully typed inheritance model**. That’s where the _**type‑safety first**_ mantra came from.
+
+Next came the tough part: **design tokens**. I tried CSS variables, but the tokens lived in CSS while classes lived in JS/TS. That **disconnect** made it hard to see who used what, and maintaining tokens across CSS and components felt **brittle**.
+
+The breakthrough was to make **tokens first‑class citizens** in the system:
+
+- Define a core `cls` that declares your tokens (whether they’re **Tailwind utilities** or **custom CSS variables**)
+- Reference tokens **directly** from rules and slots
+- Keep **everything in one place** with **full types**, so as soon as you define a token, it’s **available (and validated) everywhere** across inheritance
+
+This library went through **multiple iterations**. The earliest version was hand‑written by me; later iterations **refined the API** and **internals**. The final version you’re reading now was a **collaboration**: I designed the concepts and type system, and used AI to help with **heavy lifting** and **implementation polish**. Think of it as **human‑led design** with **AI‑assisted execution**.
+
+I’m sharing this story to be transparent: the **ideas, constraints, and overall design** are mine; **AI helped** me accelerate and explore the implementation space. The end result is a tool I’m proud of—**practical, strongly typed, and built for real‑world design systems**.
 
 ## License
 
