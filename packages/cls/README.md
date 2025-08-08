@@ -3,6 +3,7 @@
 # TODO - Add note this is css class-based styling solution which requires existing css classes, not pure Css-in-Js
 # TODO - Add top-level not this lib works great with TailwindCSS, but it's not directly bound to it
 # TODO - Add section telling the motivation of this package - using design tokens and have strict typechecking
+# TODO - Add a standalone section about strict types this lib uses and how it works (in words, no code) and forces right declarations (e.g. when token is added in children with new value, user is forced to add this value to definition too)
 # TODO - Add comparison between similar solutions, e.g. cva or tva
 # TODO - Use section separations in this readme
 

@@ -202,9 +202,10 @@ export function cls<
 		baseTokenIndex: InternalTokenIndex,
 	): ClsSlotFn<TContract> => {
 		return (variantOverrides) => {
-			// Merge base defaults with provided variant overrides
+			// Merge base defaults with create config variants and provided variant overrides
 			const effectiveVariant: Record<string, unknown> = {
 				...baseDefaults,
+				...baseConfig?.variant,
 				...variantOverrides,
 			};
 
@@ -357,7 +358,9 @@ export function cls<
 				childDefinition as Definition<any>,
 			);
 		},
-		use(sub) {
+		use<Sub extends Contract<any, any, any>>(
+			sub: Cls<Sub>,
+		): Cls<TContract> {
 			return sub as unknown as Cls<TContract>;
 		},
 		contract,
