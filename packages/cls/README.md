@@ -8,7 +8,6 @@
 
 > **Not CSS-in-JS**: This library is **class-first**. It plays beautifully with Tailwind (and friends) instead of generating CSS at runtime.
 
-> **Class merging**: Final classes are normalized with **tailwind-merge** (duplicates deduped, last-wins semantics). Equivalent utilities may be **reordered**.
 
 🚀 **What you'll love**
 
@@ -85,7 +84,7 @@ const classes2 = Button.create({ variant: { size: "sm" } });
 
 - **Contract**: The **structure** that declares your `tokens`, `slot`, and `variant`. It’s the **source of truth** the type system validates against. See [Main API](#main-api) and [Inheritance System](#inheritance-system).
 - **Tokens**: Named style primitives (e.g., `color.bg.default`, `spacing.padding.md`). See [Token Overloading & Theming](#token-overloading--theming).
-- **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string. See [Glossary](#glossary-30-seconds-to-fluent) and [Components with Variants](#components-with-variants).
+- **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string. See [Components with Variants](#components-with-variants).
 - **Variants**: Appearance knobs (`size`, `variant`, `disabled: bool`). See [Components with Variants](#components-with-variants).
 - **Rules**: How variant combos map to slot styles (base `root(...)` + conditional `rule(...)`). See [Rules](#rules).
 - **Overrides**: Hard replace a slot’s output at `create()` time (`override` beats everything). See [Create-time Overrides](#create-time-overrides).
@@ -285,7 +284,7 @@ The core library is framework-agnostic and provides:
 - `cls(contract, definition)` → Create a style module
 - `ClsInstance.extend(contract, definition)` → Inherit and add/override (types flow through)
 - `create(userConfig?, internalConfig?)` → Get lazily-resolved classes for each slot
-- `merge(user, internal)` → Merge two create-configs (user wins)
+- `merge(user, internal)` → Merge two create-configs (see [Precedence Rules](#precedence-rules))
 
 #### cls(contract, definition)
 
@@ -302,7 +301,9 @@ const Extended = Base.extend(childContract, childDefinition);
 
 #### create(userConfig?, internalConfig?)
 
-Generates the actual CSS classes for your component. This is called at render time and returns **slot functions** that compute classes lazily. **User config wins** over internal config (field-by-field) for predictable customization.
+Generates the actual CSS classes for your component. This is called at render time and returns **slot functions** that compute classes lazily.
+
+> **Precedence**: User config **overrides** internal config **field‑by‑field** (variant, slot, override, token).
 
 > **Two-Parameter Design**: The intention is to have a component that receives `userConfig` from its props while providing its own variants in `internalConfig`. For example, a button component might receive a `disabled` prop (not a variant) and send it to the `variant` field in its `internalConfig`, while user-land config (e.g., `variant: "primary"`) is supplied through `userConfig`.
 
@@ -319,7 +320,7 @@ function Link({ active, cls: user }: { active: boolean; cls?: any }) {
 
 #### merge(user, internal)
 
-A tiny helper that encapsulates the **same merge semantics** used by `create()`. Use it to pre-compose configs (user wins) before passing them down.
+A tiny helper that encapsulates the **same merge semantics** used by `create()`. Use it to **pre‑compose** configs before passing them down (see [Precedence Rules](#precedence-rules)).
 
 > **Convenience Function**: This is primarily a convenience function to prevent object destructuring when you need to merge two configs and pass them to a component's `cls` prop. For example, you might want to provide custom user-land config that overrides one coming from the `cls` prop itself. It's a type-safe way to merge configs without manual object spreading.
 
@@ -328,6 +329,17 @@ A tiny helper that encapsulates the **same merge semantics** used by `create()`.
 const composed = merge(userOverrides, { slot: { root: { class: ["relative"] } } });
 const a = CardCls.create(composed);
 const b = PanelCls.create(composed);
+```
+
+### Utilities: tvc (tailwind-merge)
+
+`tvc` is a tiny export around `tailwind-merge`. Use it to **normalize arbitrary class strings** the same way `cls` does internally.
+
+```ts
+import { tvc } from "@use-pico/cls";
+
+// Dedupes and keeps last-wins semantics
+const out = tvc("px-2 px-4 md:px-4"); // => "px-4 md:px-4"
 ```
 
 ### Inheritance System
@@ -899,8 +911,8 @@ function App() {
 #### Mini FAQ
 
 - **Do I need `useMemo`?** Yes — if your config object changes every render. Memoize it so `create()` doesn’t recompute needlessly.
-- **Is context required?** No. It’s handy for app‑wide themes, but you can pass tokens directly to `create({ token })`.
-- **Can I mix user + internal overrides?** That’s exactly what `create(userConfig, internalConfig)` is for — and **user wins** field‑by‑field.
+- **Is context required?** **No.** It’s handy for app‑wide themes, but you can pass tokens directly to `create({ token })`. See [Type-safety note (context)](#type-safety-note-context).
+- **Can I mix user + internal overrides?** That’s exactly what `create(userConfig, internalConfig)` is for — see [Precedence Rules](#precedence-rules).
 
 ### Trade-offs & Considerations
 
