@@ -9,7 +9,7 @@ export const TabCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: classes([

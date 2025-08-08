@@ -31,19 +31,17 @@ describe("create() config", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-								],
-								token: [
-									"bg.default",
-								],
-							},
-						},
-					},
+				rules: ({ root, classes }) => [
+					root({
+						root: classes(
+							[
+								"inline-flex",
+							],
+							[
+								"bg.default",
+							],
+						),
+					}),
 				],
 				defaults: {},
 			},

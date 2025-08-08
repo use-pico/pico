@@ -33,7 +33,7 @@ export function token<const TTokens extends TokenContract>({
 		},
 		{
 			token: tokenDef,
-			rule: [],
+			rules: () => [],
 			defaults: {},
 		},
 	);

@@ -1,5 +1,8 @@
 # @use-pico/cls
 
+# TODO - Add note this is css class-based styling solution which requires existing css classes, not pure Css-in-Js
+# TODO - Add top-level not this lib works great with TailwindCSS, but it's not directly bound to it
+
 ✨ Design-token powered, type-safe class builder for modern UI. Ship consistent styles without the boilerplate.
 
 🚀 What you’ll love

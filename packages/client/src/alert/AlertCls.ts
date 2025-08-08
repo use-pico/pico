@@ -20,7 +20,7 @@ export const AlertCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"pico--alert",

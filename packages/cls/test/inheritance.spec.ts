@@ -37,21 +37,19 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"primary.bg.default",
-								],
-							},
-							label: {
-								token: [
-									"primary.text.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"primary.bg.default",
+							],
 						},
-					},
+						label: {
+							token: [
+								"primary.text.default",
+							],
+						},
+					}),
 				],
 				defaults: {
 					theme: "light",
@@ -94,42 +92,36 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							icon: {
-								token: [
-									"accent.ring.focus",
-								],
-							},
+				rules: ({ root, rule, classes }) => [
+					root({
+						icon: {
+							token: [
+								"accent.ring.focus",
+							],
 						},
-					},
-					{
-						match: {
+					}),
+					rule(
+						{
 							size: "sm",
 						},
-						slot: {
-							root: {
-								class: [
-									"px-2",
-									"py-1",
-								],
-							},
+						{
+							root: classes([
+								"px-2",
+								"py-1",
+							]),
 						},
-					},
-					{
-						match: {
+					),
+					rule(
+						{
 							size: "md",
 						},
-						slot: {
-							root: {
-								class: [
-									"px-4",
-									"py-2",
-								],
-							},
+						{
+							root: classes([
+								"px-4",
+								"py-2",
+							]),
 						},
-					},
+					),
 				],
 				defaults: {
 					size: "md",
@@ -179,21 +171,19 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"t.bg.default",
-								],
-							},
-							label: {
-								token: [
-									"t.text.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"t.bg.default",
+							],
 						},
-					},
+						label: {
+							token: [
+								"t.text.default",
+							],
+						},
+					}),
 				],
 				defaults: {
 					size: "md",
@@ -219,8 +209,10 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rule: [],
-				defaults: {},
+				rules: () => [],
+				defaults: {
+					size: "md",
+				},
 			},
 		);
 
@@ -244,18 +236,16 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							icon: {
-								class: [
-									"size-4",
-								],
-							},
-						},
-					},
+				rules: ({ root, classes }) => [
+					root({
+						icon: classes([
+							"size-4",
+						]),
+					}),
 				],
-				defaults: {},
+				defaults: {
+					size: "md",
+				},
 			},
 		);
 

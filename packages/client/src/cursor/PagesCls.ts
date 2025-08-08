@@ -11,7 +11,7 @@ export const PagesCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"select-none",

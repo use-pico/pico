@@ -9,7 +9,7 @@ export const LoadingOverlayCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"fixed",

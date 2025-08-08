@@ -12,7 +12,7 @@ export const FormCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

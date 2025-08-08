@@ -11,7 +11,7 @@ export const TitlePreviewCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

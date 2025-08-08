@@ -11,7 +11,7 @@ export const IssuesCls = variant({
 			"error",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			item: classes([
 				"p-4",

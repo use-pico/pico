@@ -28,7 +28,7 @@ export const ActionCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

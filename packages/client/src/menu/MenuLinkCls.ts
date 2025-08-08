@@ -18,7 +18,7 @@ export const MenuLinkCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"pico--menu-link",

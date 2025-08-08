@@ -23,30 +23,28 @@ describe("override rules and create-time overrides", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-								],
-								token: [
-									"shadow.default",
-								],
-							},
-						},
-					},
+				rules: ({ root, classes }) => [
+					root({
+						root: classes(
+							[
+								"inline-flex",
+							],
+							[
+								"shadow.default",
+							],
+						),
+					}),
 					{
 						override: true,
 						slot: {
-							root: {
-								class: [
+							root: classes(
+								[
 									"block",
 								],
-								token: [
+								[
 									"shadow.default",
 								],
-							},
+							),
 						},
 					},
 				],
@@ -78,19 +76,17 @@ describe("override rules and create-time overrides", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-								],
-								token: [
-									"bg.default",
-								],
-							},
-						},
-					},
+				rules: ({ root, classes }) => [
+					root({
+						root: classes(
+							[
+								"inline-flex",
+							],
+							[
+								"bg.default",
+							],
+						),
+					}),
 				],
 				defaults: {},
 			},

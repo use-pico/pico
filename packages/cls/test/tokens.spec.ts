@@ -32,21 +32,19 @@ describe("tokens", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"color.bg.default",
-								],
-							},
-							label: {
-								token: [
-									"color.text.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"color.bg.default",
+							],
 						},
-					},
+						label: {
+							token: [
+								"color.text.default",
+							],
+						},
+					}),
 				],
 				defaults: {},
 			},
@@ -87,21 +85,19 @@ describe("tokens", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"color.bg.default",
-								],
-							},
-							label: {
-								token: [
-									"color.text.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"color.bg.default",
+							],
 						},
-					},
+						label: {
+							token: [
+								"color.text.default",
+							],
+						},
+					}),
 				],
 				defaults: {},
 			},

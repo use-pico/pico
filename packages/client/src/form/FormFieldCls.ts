@@ -22,7 +22,7 @@ export const FormFieldCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

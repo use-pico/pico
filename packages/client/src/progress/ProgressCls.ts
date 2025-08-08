@@ -13,7 +13,7 @@ export const ProgressCls = variant({
 			"lg",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

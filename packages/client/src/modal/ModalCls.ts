@@ -14,7 +14,7 @@ export const ModalCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

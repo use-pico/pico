@@ -14,7 +14,7 @@ export const ValueOfCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

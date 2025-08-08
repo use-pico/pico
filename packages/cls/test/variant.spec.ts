@@ -1,38 +1,9 @@
 import { describe, expect, it } from "bun:test";
+import { classes } from "../src/classes";
 import { variant } from "../src/variant";
-import { cls } from "../src/cls";
-import { match } from "../src/match";
 
 describe("variant() helper", () => {
 	it("applies base rule classes to slots in order", () => {
-		const bla = cls(
-			{
-				slot: [
-					"foo",
-				],
-				variant: {
-					bla: [
-						"a",
-						"b",
-					],
-				},
-				tokens: {},
-			},
-			{
-				token: {},
-                rule: [
-                    match({
-
-                    }, {
-                        
-                    })
-                ],
-				defaults: {
-					bla: "a",
-				},
-			},
-		);
-
 		const T = variant({
 			slots: [
 				"root",
@@ -44,22 +15,16 @@ describe("variant() helper", () => {
 					"md",
 				],
 			},
-			rule: [
-				{
-					slot: {
-						root: {
-							class: [
-								"inline-flex",
-								"items-center",
-							],
-						},
-						label: {
-							class: [
-								"font-medium",
-							],
-						},
-					},
-				},
+			rules: ({ root, classes }) => [
+				root({
+					root: classes([
+						"inline-flex",
+						"items-center",
+					]),
+					label: classes([
+						"font-medium",
+					]),
+				}),
 			],
 			defaults: {
 				size: "md",
@@ -81,29 +46,23 @@ describe("variant() helper", () => {
 					"bool",
 				],
 			},
-			rule: [
-				{
-					slot: {
-						root: {
-							class: [
-								"px-4",
-								"py-2",
-							],
-						},
-					},
-				},
-				{
-					match: {
+			rules: ({ root, rule, classes }) => [
+				root({
+					root: classes([
+						"px-4",
+						"py-2",
+					]),
+				}),
+				rule(
+					{
 						active: true,
 					},
-					slot: {
-						root: {
-							class: [
-								"bg-blue-600",
-							],
-						},
+					{
+						root: classes([
+							"bg-blue-600",
+						]),
 					},
-				},
+				),
 			],
 			defaults: {
 				active: false,
@@ -131,32 +90,26 @@ describe("variant() helper", () => {
 					"b",
 				],
 			},
-			rule: [
-				{
-					slot: {
-						root: {
-							class: [
-								"px-2",
-								"py-1",
-								"bg-gray-100",
-							],
-						},
-					},
-				},
-				{
-					match: {
+			rules: ({ root, rule, classes }) => [
+				root({
+					root: classes([
+						"px-2",
+						"py-1",
+						"bg-gray-100",
+					]),
+				}),
+				rule(
+					{
 						mode: "b",
 					},
-					override: true,
-					slot: {
-						root: {
-							class: [
-								"px-1",
-								"bg-red-500",
-							],
-						},
+					{
+						root: classes([
+							"px-1",
+							"bg-red-500",
+						]),
 					},
-				},
+					true,
+				),
 			],
 			defaults: {
 				mode: "a",
@@ -183,16 +136,12 @@ describe("variant() helper", () => {
 					"bool",
 				],
 			},
-			rule: [
-				{
-					slot: {
-						root: {
-							class: [
-								"px-2",
-							],
-						},
-					},
-				},
+			rules: ({ root, classes }) => [
+				root({
+					root: classes([
+						"px-2",
+					]),
+				}),
 			],
 			defaults: {
 				selected: false,
@@ -202,22 +151,18 @@ describe("variant() helper", () => {
 		expect(
 			T.create({
 				slot: {
-					root: {
-						class: [
-							"py-1",
-						],
-					},
+					root: classes([
+						"py-1",
+					]),
 				},
 			}).root,
 		).toBe("px-2 py-1");
 		expect(
 			T.create({
 				override: {
-					root: {
-						class: [
-							"block",
-						],
-					},
+					root: classes([
+						"block",
+					]),
 				},
 			}).root,
 		).toBe("block");

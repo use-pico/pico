@@ -1,11 +1,13 @@
+import { classes } from "./classes";
 import type { ComponentProps } from "./component";
+import { match } from "./match";
 import { merge } from "./merge";
-// no-op imports removed
 import { tvc } from "./tvc";
 import type {
 	Cls,
 	Contract,
 	Definition,
+	RuleDefinition,
 	SlotContract,
 	TokenContract,
 	VariantContract,
@@ -145,11 +147,15 @@ export function cls<
 	};
 
 	const buildMergedRules = (contractIndex: ContractIndex[]) => {
-		const rules: any[] = [];
+		const rules: RuleDefinition<any>[] = [];
 		for (const { definition } of contractIndex) {
-			if (Array.isArray(definition.rule)) {
-				rules.push(...definition.rule);
-			}
+			const steps = definition.rules({
+				root: (slot, override = false) =>
+					match(undefined, slot, override),
+				rule: match,
+				classes,
+			});
+			rules.push(...steps);
 		}
 		return rules;
 	};
@@ -325,11 +331,13 @@ export function cls<
 				} as Contract<{}, TSlots, {}, any>,
 				{
 					token: {},
-					rule: [
-						{
-							slot: props.slot,
-						},
-					],
+					rules() {
+						return [
+							{
+								slot: props.slot,
+							},
+						];
+					},
 					defaults: {},
 				} as Definition<Contract<{}, TSlots, {}, any>>,
 			) as any;
@@ -346,7 +354,7 @@ export function cls<
 				} as Contract<{}, TSlots, TVariants, any>,
 				{
 					token: {},
-					rule: props.rule,
+					rules: props.rules,
 					defaults: props.defaults,
 				} as Definition<Contract<{}, TSlots, TVariants, any>>,
 			) as any;

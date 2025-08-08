@@ -18,7 +18,7 @@ export const SelectCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"cursor-pointer",

@@ -16,22 +16,20 @@ describe("basic", () => {
 			},
 			{
 				token: {},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-									"items-center",
-								],
-							},
-							label: {
-								class: [
-									"font-medium",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							class: [
+								"inline-flex",
+								"items-center",
+							],
 						},
-					},
+						label: {
+							class: [
+								"font-medium",
+							],
+						},
+					}),
 				],
 				defaults: {},
 			},
@@ -63,19 +61,17 @@ describe("basic", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-								],
-								token: [
-									"theme.bg.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							class: [
+								"inline-flex",
+							],
+							token: [
+								"theme.bg.default",
+							],
 						},
-					},
+					}),
 				],
 				defaults: {},
 			},
@@ -144,21 +140,19 @@ describe("basic", () => {
 			},
 			{
 				token: {},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"theme.bg.default",
-								],
-							},
-							label: {
-								token: [
-									"theme.text.default",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"theme.bg.default",
+							],
 						},
-					},
+						label: {
+							token: [
+								"theme.text.default",
+							],
+						},
+					}),
 				],
 				defaults: {},
 			},

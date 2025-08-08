@@ -14,7 +14,7 @@ export const JustDropZoneCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"flex",

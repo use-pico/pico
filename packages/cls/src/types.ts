@@ -1,5 +1,7 @@
 import type { ClassNameValue } from "tailwind-merge";
+import type { ClassesFn } from "./classes";
 import type { ComponentProps } from "./component";
+import type { MatchFn, MatchSlotFn } from "./match";
 import type { VariantProps } from "./variant";
 
 // ============================================================================
@@ -230,7 +232,7 @@ type TokensOf<TContract extends Contract<any, any, any>> = TContract extends {
 /**
  * Creates a tuple type for lists of TokensOf
  */
-type TokensOfList<TContract extends Contract<any, any, any>> = ListOf<
+export type TokensOfList<TContract extends Contract<any, any, any>> = ListOf<
 	TokensOf<TContract>
 >;
 
@@ -384,11 +386,26 @@ export type What<TContract extends Contract<any, any, any>> =
 /**
  * Rule definition for conditional styling based on variant combinations
  */
-export type RuleDefinition<TContract extends Contract<any, any, any>> = {
+export interface RuleDefinition<TContract extends Contract<any, any, any>> {
 	override?: boolean;
 	match?: Partial<VariantValueMapping<TContract>>;
 	slot: SlotMapping<TContract>;
-};
+}
+
+export interface RuleBuilderProps<TContract extends Contract<any, any, any>> {
+	/**
+	 * Provides default slot match
+	 */
+	root: MatchSlotFn<TContract>;
+	/**
+	 * Provides type-checked matcher
+	 */
+	rule: MatchFn<TContract>;
+	/**
+	 * Shorthand for classes
+	 */
+	classes: ClassesFn<TContract>;
+}
 
 /**
  * Default values for variants
@@ -441,7 +458,7 @@ export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Token definitions mapping tokens to CSS classes */
 	token: TokenDefinition<TContract>;
 	/** Rules for conditional styling based on variants */
-	rule: RuleDefinition<TContract>[];
+	rules(props: RuleBuilderProps<TContract>): RuleDefinition<TContract>[];
 	/** Default values for variants */
 	defaults: DefaultDefinition<TContract>;
 };

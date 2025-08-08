@@ -23,19 +23,17 @@ describe("Cls.instance helpers inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"theme.text.default",
-								],
-								class: [
-									"base-root",
-								],
-							},
+				rules: ({ root }) => [
+					root({
+						root: {
+							token: [
+								"theme.text.default",
+							],
+							class: [
+								"base-root",
+							],
 						},
-					},
+					}),
 				],
 				defaults: {},
 			},
@@ -80,19 +78,17 @@ describe("Cls.instance helpers inheritance", () => {
 						],
 					},
 				},
-				rule: [
-					{
-						slot: {
-							root: {
-								token: [
-									"theme.text.default",
-								],
-								class: [
-									"base-root",
-								],
-							},
-						},
-					},
+				rules: ({ root, classes }) => [
+					root({
+						root: classes(
+							[
+								"base-root",
+							],
+							[
+								"theme.text.default",
+							],
+						),
+					}),
 				],
 				defaults: {},
 			},
@@ -107,28 +103,22 @@ describe("Cls.instance helpers inheritance", () => {
 					"bool",
 				],
 			},
-			rule: [
-				{
-					slot: {
-						label: {
-							class: [
-								"base-label",
-							],
-						},
-					},
-				},
-				{
-					match: {
+			rules: ({ root, rule, classes }) => [
+				root({
+					label: classes([
+						"base-label",
+					]),
+				}),
+				rule(
+					{
 						active: true,
 					},
-					slot: {
-						label: {
-							class: [
-								"is-active",
-							],
-						},
+					{
+						label: classes([
+							"is-active",
+						]),
 					},
-				},
+				),
 			],
 			defaults: {
 				active: false,

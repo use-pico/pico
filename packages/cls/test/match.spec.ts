@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { classes, match, variant } from "@use-pico/cls";
+import { variant } from "../src/variant";
 
 describe("match() helper", () => {
 	it("applies base rule and matched rules in order", () => {
@@ -17,8 +17,14 @@ describe("match() helper", () => {
 					"bool",
 				],
 			},
-			rule: [
-				match(
+			rules: ({ root, rule, classes }) => [
+				root({
+					base: classes([
+						"p-2",
+						"rounded",
+					]),
+				}),
+				rule(
 					{
 						kind: "info",
 					},
@@ -28,7 +34,7 @@ describe("match() helper", () => {
 						]),
 					},
 				),
-				match(
+				rule(
 					{
 						kind: "success",
 					},
@@ -38,7 +44,7 @@ describe("match() helper", () => {
 						]),
 					},
 				),
-				match(
+				rule(
 					{
 						clickable: true,
 					},
@@ -79,15 +85,15 @@ describe("match() helper", () => {
 					"bool",
 				],
 			},
-			rule: [
-				match(undefined, {
+			rules: ({ root, rule, classes }) => [
+				root({
 					base: classes([
 						"p-2",
 						"rounded",
 						"bg-neutral-50",
 					]),
 				}),
-				match(
+				rule(
 					{
 						danger: true,
 					},
@@ -97,8 +103,8 @@ describe("match() helper", () => {
 						]),
 					},
 					true,
-				), // override
-				match(
+				),
+				rule(
 					{
 						danger: true,
 					},

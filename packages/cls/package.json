@@ -6,12 +6,10 @@
 	"sideEffects": false,
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"typecheck:types": "tsc --project tsconfig.type-tests.json",
 		"build:bundle": "bun x rollup -c",
 		"build": "run-p build:*",
 		"test": "run-s test:*",
-		"test:code": "bun test test/code",
-		"test:types": "bun run typecheck:types"
+		"test:code": "bun test test"
 	},
 	"dependencies": {
 		"react": "^19.0.0",

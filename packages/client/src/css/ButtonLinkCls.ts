@@ -9,7 +9,7 @@ export const ButtonLinkCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

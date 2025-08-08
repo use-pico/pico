@@ -10,7 +10,7 @@ export const FloatCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				target: {

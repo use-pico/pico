@@ -19,27 +19,25 @@ describe("variants", () => {
 			},
 			{
 				token: {},
-				rule: [
-					{
-						slot: {
-							root: {
-								class: [
-									"inline-flex",
-									"items-center",
-								],
-							},
-							label: {
-								class: [
-									"font-medium",
-								],
-							},
+				rules: ({ root, rule }) => [
+					root({
+						root: {
+							class: [
+								"inline-flex",
+								"items-center",
+							],
 						},
-					},
-					{
-						match: {
+						label: {
+							class: [
+								"font-medium",
+							],
+						},
+					}),
+					rule(
+						{
 							size: "sm",
 						},
-						slot: {
+						{
 							root: {
 								class: [
 									"px-2",
@@ -52,12 +50,12 @@ describe("variants", () => {
 								],
 							},
 						},
-					},
-					{
-						match: {
+					),
+					rule(
+						{
 							size: "md",
 						},
-						slot: {
+						{
 							root: {
 								class: [
 									"px-4",
@@ -70,7 +68,7 @@ describe("variants", () => {
 								],
 							},
 						},
-					},
+					),
 				],
 				defaults: {
 					size: "md",

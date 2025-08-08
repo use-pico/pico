@@ -73,7 +73,7 @@ export function component<const TSlots extends SlotContract>({
 		},
 		{
 			token: {},
-			rule: [
+			rules: () => [
 				{
 					slot,
 				},

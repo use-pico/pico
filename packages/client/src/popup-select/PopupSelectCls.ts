@@ -14,7 +14,7 @@ export const PopupSelectCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

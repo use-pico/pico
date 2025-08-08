@@ -27,7 +27,7 @@ export const BadgeCls = variant({
 			"lg",
 		],
 	},
-	rule: [
+	rules: [
 		match(undefined, {
 			base: classes([
 				"border",

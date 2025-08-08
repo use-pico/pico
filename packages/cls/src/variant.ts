@@ -40,7 +40,7 @@ export interface VariantProps<
 	 * can add classes conditionally via `match`. When `override: true` is set,
 	 * accumulated classes for affected slots are reset for that step.
 	 */
-	rule: Definition<Contract<{}, TSlots, TVariants>>["rule"];
+	rules: Definition<Contract<{}, TSlots, TVariants>>["rules"];
 	/**
 	 * Default values for every variant key.
 	 *
@@ -101,7 +101,7 @@ export function variant<
 >({
 	slots,
 	variants,
-	rule = [],
+	rules,
 	defaults,
 }: VariantProps<TSlots, TVariants>): Cls<Contract<{}, TSlots, TVariants>> {
 	return cls(
@@ -112,7 +112,7 @@ export function variant<
 		},
 		{
 			token: {},
-			rule,
+			rules,
 			defaults,
 		},
 	);

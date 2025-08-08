@@ -17,7 +17,7 @@ export const TableCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				root: classes([

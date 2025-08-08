@@ -11,7 +11,7 @@ export const MenuGroupCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

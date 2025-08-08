@@ -13,7 +13,7 @@ export const FormErrorCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			slot: {
 				base: {

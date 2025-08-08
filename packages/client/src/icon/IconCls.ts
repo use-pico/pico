@@ -23,7 +23,7 @@ export const IconCls = variant({
 			"bool",
 		],
 	},
-	rule: [
+	rules: [
 		{
 			match: {
 				size: "xs",
