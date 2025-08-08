@@ -1,20 +1,22 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const LabelCountCls = cls({
+export const LabelCountCls = component({
+	slots: [
+		"base",
+		"label",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"w-fit",
 			"gap-2",
-		],
-		label: [],
+		]),
+		label: classes([]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace LabelCountCls {
-	export type Props<P = unknown> = ClsProps<typeof LabelCountCls, P>;
+	export type Props<P = unknown> = Component<typeof LabelCountCls, P>;
 }

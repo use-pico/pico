@@ -14,9 +14,18 @@ export const Tx: FC<Tx.Props> = ({
 	fallback,
 	variant,
 	tva = TxCls,
-	cls,
+	slot,
+	token,
+	override,
 }) => {
-	const { el } = tva(variant, cls);
+	const classes = tva.create({
+		variant,
+		slot,
+		token,
+		override,
+	});
 
-	return <el.base.Div>{translator.rich(label, fallback)}</el.base.Div>;
+	return (
+		<div className={classes.base}>{translator.rich(label, fallback)}</div>
+	);
 };

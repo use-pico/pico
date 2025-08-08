@@ -1,27 +1,31 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, component } from "@use-pico/cls";
 
-export const CursorCls = cls({
+export const CursorCls = component({
+	slots: [
+		"base",
+		"sums",
+	],
 	slot: {
-		base: [
-			"flex",
-			"items-center",
-			"justify-between",
-			"gap-2",
-		],
-		sums: [
-			"flex",
-			"items-center",
-			"gap-2",
-			"text-sm",
-		],
+		base: {
+			class: [
+				"flex",
+				"items-center",
+				"justify-between",
+				"gap-2",
+			],
+		},
+		sums: {
+			class: [
+				"flex",
+				"items-center",
+				"gap-2",
+				"text-sm",
+			],
+		},
 	},
-	variant: {},
-	defaults: {},
 });
 export type CursorCls = typeof CursorCls;
 
 export namespace CursorCls {
-	export type Props<P = unknown> = ClsProps<CursorCls, P>;
-
-	export type Slots = ClsSlots<CursorCls>;
+	export type Props<P = unknown> = Component<typeof CursorCls, P>;
 }

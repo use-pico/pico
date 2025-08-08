@@ -1,118 +1,120 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, match, variant } from "@use-pico/cls";
 
-export const AlertCls = cls({
-	slot: {
-		base: [
-			"pico--alert",
-			"border",
-			"rounded",
-			"py-2",
-			"px-3",
-			"flex",
-			"flex-col",
-			// CSS Variables
-			"border-(--pico-color-border-default)",
-			"bg-(--pico-color-bg-default)",
-			"text-(--pico-color-text-default)",
+export const AlertCls = variant({
+	slots: [
+		"base",
+		"title",
+		"message",
+		"body",
+	],
+	variants: {
+		variant: [
+			"info",
+			"success",
+			"warning",
+			"error",
+			"neutral",
+			"subtle",
 		],
-		title: [
-			"font-semibold",
-			"w-full",
-		],
-		message: [
-			"opacity-85",
-			"text-sm",
-			"w-full",
-		],
-		body: [
-			"border-t",
-			"w-full",
-			// CSS Variables
-			"border-(--pico-color-border-default)",
+		clickable: [
+			"bool",
 		],
 	},
-	variant: {
-		variant: {
-			info: [
-				"pico--alert-color-info",
-			],
-			success: [
-				"pico--alert-color-success",
-			],
-			warning: [
-				"pico--alert-color-warning",
-			],
-			error: [
-				"pico--alert-color-error",
-			],
-			neutral: [
-				"pico--alert-color-neutral",
-			],
-			subtle: [
-				"pico--alert-color-subtle",
-			],
-		},
-		clickable: {
-			true: [
-				"cursor-pointer",
-			],
-		},
-	},
-	match: [
-		{
-			if: {
+	rule: [
+		match(undefined, {
+			base: classes([
+				"pico--alert",
+				"border",
+				"rounded",
+				"py-2",
+				"px-3",
+				"flex",
+				"flex-col",
+				"border-(--pico-color-border-default)",
+				"bg-(--pico-color-bg-default)",
+				"text-(--pico-color-text-default)",
+			]),
+			title: classes([
+				"font-semibold",
+				"w-full",
+			]),
+			message: classes([
+				"opacity-85",
+				"text-sm",
+				"w-full",
+			]),
+			body: classes([
+				"border-t",
+				"w-full",
+				"border-(--pico-color-border-default)",
+			]),
+		}),
+		match(
+			{
 				variant: "info",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-info-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-info-clickable-hover-bg)",
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				variant: "success",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-success-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-success-clickable-hover-bg)",
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				variant: "warning",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-warning-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-warning-clickable-hover-bg)",
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				variant: "error",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-error-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-error-clickable-hover-bg)",
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				variant: "neutral",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-neutral-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-neutral-clickable-hover-bg)",
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				variant: "subtle",
 				clickable: true,
 			},
-			do: {
-				base: "hover:bg-(--color-subtle-clickable-hover-bg)",
+			{
+				base: classes([
+					"hover:bg-(--color-subtle-clickable-hover-bg)",
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		clickable: false,
@@ -121,5 +123,5 @@ export const AlertCls = cls({
 });
 
 export namespace AlertCls {
-	export type Props<P = unknown> = ClsProps<typeof AlertCls, P>;
+	export type Props<P = unknown> = Component<typeof AlertCls, P>;
 }

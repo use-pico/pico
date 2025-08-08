@@ -26,11 +26,10 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	callback,
 	onCancel,
 	invalidate: $invalidate = [],
-	variant,
 	tva = DeleteControlCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const { slots } = tva.create(cls);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();

@@ -1,3 +1,6 @@
+import type { ComponentProps } from "./component";
+import { merge } from "./merge";
+// no-op imports removed
 import { tvc } from "./tvc";
 import type {
 	Cls,
@@ -7,6 +10,12 @@ import type {
 	TokenContract,
 	VariantContract,
 } from "./types";
+import type { VariantProps } from "./variant";
+
+// TODO Vibe variable extraction (create PicoCls with tokens)
+// TODO Change slot from "string" to "callback" with "variant" as input - last override
+// TODO Iconsistant calls 	const { slots } = tva.create(cls); vs. const classes = tva(cls);
+// TODO Add default prop in cls definition for default "slot" which will be appended to "rule"?
 
 export function cls<
 	const TTokenContract extends TokenContract,
@@ -156,7 +165,9 @@ export function cls<
 	};
 
 	return {
-		create(_config) {
+		create(userConfig, internalConfig) {
+			const _config = merge(userConfig, internalConfig);
+
 			const $contractIndex = contractIndex(contract, definition);
 			const $tokenIndex = tokenIndex($contractIndex);
 			const _resolvedTokenIndex = buildTokenIndex(
@@ -302,6 +313,43 @@ export function cls<
 			childContract["~definition"] = definition;
 
 			return cls(childContract as any, childDefinition as any);
+		},
+		component<const TSlots extends SlotContract>(
+			props: ComponentProps<TSlots>,
+		) {
+			return this.extend(
+				{
+					tokens: {},
+					slot: props.slots,
+					variant: {},
+				} as Contract<{}, TSlots, {}, any>,
+				{
+					token: {},
+					rule: [
+						{
+							slot: props.slot,
+						},
+					],
+					defaults: {},
+				} as Definition<Contract<{}, TSlots, {}, any>>,
+			) as any;
+		},
+		variant<
+			const TSlots extends SlotContract,
+			const TVariants extends VariantContract,
+		>(props: VariantProps<TSlots, TVariants>) {
+			return this.extend(
+				{
+					tokens: {},
+					slot: props.slots,
+					variant: props.variants,
+				} as Contract<{}, TSlots, TVariants, any>,
+				{
+					token: {},
+					rule: props.rule,
+					defaults: props.defaults,
+				} as Definition<Contract<{}, TSlots, TVariants, any>>,
+			) as any;
 		},
 		use(sub) {
 			return sub as unknown as Cls<TContract>;

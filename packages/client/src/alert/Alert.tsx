@@ -27,18 +27,23 @@ export const Alert: FC<Alert.Props> = ({
 	onClick,
 	variant,
 	tva = AlertCls,
-	cls,
+	slot,
+	token,
+	override,
 	children,
 }) => {
-	const { el } = tva(
-		{
+	const classes = tva.create({
+		variant: {
 			clickable: Boolean(onClick),
 			...variant,
 		},
-		cls,
-	);
+		slot,
+		token,
+		override,
+	});
 	return (
-		<el.base.Div
+		<div
+			className={classes.base}
 			onClick={onClick}
 			role={"alert"}
 		>
@@ -52,10 +57,10 @@ export const Alert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<el.title.Div>{title}</el.title.Div>
+				<div className={classes.title}>{title}</div>
 			</div>
-			{message && <el.message.Div>{message}</el.message.Div>}
-			{children && <el.body.Div>{children}</el.body.Div>}
-		</el.base.Div>
+			{message && <div className={classes.message}>{message}</div>}
+			{children && <div className={classes.body}>{children}</div>}
+		</div>
 	);
 };

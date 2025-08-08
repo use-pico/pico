@@ -1,4 +1,3 @@
-import type { ClsClear } from "@use-pico/cls";
 import { type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
@@ -9,19 +8,19 @@ import { IssuesCls } from "./IssuesCls";
 
 export namespace Issues {
 	export interface Props
-		extends ClsClear<Omit<More.Props<IssueSchema.Type>, "renderInline">>,
-			IssuesCls.Props {
+		extends IssuesCls.Props<
+			Omit<More.Props<IssueSchema.Type>, "renderInline">
+		> {
 		//
 	}
 }
 
 export const Issues: FC<Issues.Props> = ({
-	variant,
 	tva = IssuesCls,
 	cls,
 	...props
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
 		error: "icon-[ix--warning]",
@@ -56,10 +55,16 @@ export const Issues: FC<Issues.Props> = ({
 			renderInline={({ entity }) => {
 				return (
 					<Badge
-						cls={{
-							base: slots.item({
-								type: entity.type,
-							}),
+						slot={{
+							base: {
+								class: [
+									tva.create(undefined, {
+										variant: {
+											type: entity.type,
+										},
+									}).item,
+								],
+							},
 						}}
 					>
 						<Icon icon={icons[entity.type]} />

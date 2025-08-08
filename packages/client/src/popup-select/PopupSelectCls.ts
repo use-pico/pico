@@ -1,64 +1,81 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const PopupSelectCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-col",
-			"gap-2",
+export const PopupSelectCls = variant({
+	slots: [
+		"base",
+		"input",
+		"content",
+	],
+	variants: {
+		loading: [
+			"bool",
 		],
-		input: [
-			"py-2",
-			"px-2",
-			"flex",
-			"flex-row",
-			"gap-2",
-			"items-center",
-			"cursor-pointer",
-			"hover:bg-slate-50",
-			"border",
-			"border-gray-300",
-			"rounded-md",
-			"text-slate-400",
-			"hover:text-slate-700",
-			"focus:outline-hidden",
-			"focus:ring-2",
-			"focus:ring-blue-500",
-			"focus:border-transparent",
+		selected: [
+			"bool",
 		],
-		content: [],
 	},
-	variant: {
-		loading: {
-			true: [],
-		},
-		selected: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				base: {
+					class: [
+						"flex",
+						"flex-col",
+						"gap-2",
+					],
+				},
+				input: {
+					class: [
+						"py-2",
+						"px-2",
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"cursor-pointer",
+						"hover:bg-slate-50",
+						"border",
+						"border-gray-300",
+						"rounded-md",
+						"text-slate-400",
+						"hover:text-slate-700",
+						"focus:outline-hidden",
+						"focus:ring-2",
+						"focus:ring-blue-500",
+						"focus:border-transparent",
+					],
+				},
+				content: {
+					class: [],
+				},
+			},
+		},
+		{
+			match: {
 				loading: true,
 			},
-			do: {
-				input: [
-					"text-slate-300",
-					"cursor-progress",
-				],
+			slot: {
+				input: {
+					class: [
+						"text-slate-300",
+						"cursor-progress",
+					],
+				},
 			},
 		},
 		{
-			if: {
+			match: {
 				selected: true,
 			},
-			do: {
-				input: [
-					"bg-slate-50",
-					"text-slate-700",
-					"hover:bg-slate-100",
-					"hover:text-slate-800",
-				],
+			slot: {
+				input: {
+					class: [
+						"bg-slate-50",
+						"text-slate-700",
+						"hover:bg-slate-100",
+						"hover:text-slate-800",
+					],
+				},
 			},
 		},
 	],
@@ -70,7 +87,5 @@ export const PopupSelectCls = cls({
 export type PopupSelectCls = typeof PopupSelectCls;
 
 export namespace PopupSelectCls {
-	export type Props<P = unknown> = ClsProps<PopupSelectCls, P>;
-
-	export type Slots = ClsSlots<PopupSelectCls>;
+	export type Props<P = unknown> = Component<PopupSelectCls, P>;
 }

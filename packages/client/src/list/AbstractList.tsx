@@ -1,7 +1,6 @@
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { match, P } from "ts-pattern";
-import { useCls } from "../hooks/useCls";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { LoaderIcon } from "../icon/LoaderIcon";
@@ -214,18 +213,17 @@ export const AbstractList = <
 	renderHeader = () => null,
 	renderFooter = () => null,
 	renderPostfix = () => null,
-	variant,
 	tva = AbstractListCls,
 	cls,
 }: AbstractList.Props<TQuery, TItem>) => {
-	const { slots } = useCls(tva, variant, cls);
+	const classes = tva.create(cls);
 
 	/**
 	 * Here we're expecting basically only two states - success or
 	 * loading as the Error is already resolved here.
 	 */
 	return (
-		<div className={slots.root()}>
+		<div className={classes.root}>
 			{renderPrefix({})}
 
 			<AbstractListBody
@@ -238,7 +236,7 @@ export const AbstractList = <
 				renderEmpty={renderEmpty}
 				renderError={renderError}
 				//
-				slots={slots}
+				slots={classes}
 			/>
 
 			{renderPostfix({})}

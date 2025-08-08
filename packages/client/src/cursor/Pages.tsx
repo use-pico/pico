@@ -17,22 +17,25 @@ export const Pages: FC<Pages.Props> = ({
 	pages,
 	page,
 	onPage,
-	variant,
 	tva = PagesCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
-		<nav className={slots.base()}>
-			<ul className={slots.list()}>
+		<nav className={classes.base}>
+			<ul className={classes.list}>
 				{pages.map((current) => {
 					return (
 						<li
 							key={`page-${current}`}
-							className={slots.page({
-								current: page === current - 1,
-							})}
+							className={
+								tva.create(undefined, {
+									variant: {
+										current: page === current - 1,
+									},
+								}).page
+							}
 							onClick={() => onPage(current - 1)}
 						>
 							{current}

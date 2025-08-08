@@ -2,33 +2,58 @@ import { cls } from "@use-pico/cls";
 
 export const PicoCls = cls(
 	{
-		slot: [],
-		variant: {},
 		tokens: {
-			color: {
-				variant: [
-					"primary",
-					"secondary",
-				],
-				group: [
-					"textColor",
-					"textHoverColor",
-					"bgColor",
-					"bgHoverColor",
-				],
-			},
-            size: [
-                variant: [
-                    'sm',
-                    'md',
-                ],
-                group: ['size']
-            ]
+			"color.text": [
+				"default",
+				"hover",
+			],
+			"color.bg": [
+				"default",
+				"hover",
+			],
+			size: [
+				"sm",
+				"md",
+			],
+		},
+		slot: [],
+		variant: {
+			theme: [
+				"light",
+				"dark",
+			],
 		},
 	},
 	{
-		defaults: {},
-		slot: {},
-		tokens: {},
+		token: {
+			"color.text": {
+				default: [
+					"text-(--pico-text-default)",
+				],
+				hover: [
+					"text-(--pico-text-hover)",
+				],
+			},
+			"color.bg": {
+				default: [
+					"bg-(--pico-bg-default)",
+				],
+				hover: [
+					"bg-(--pico-bg-hover)",
+				],
+			},
+			size: {
+				sm: [
+					"text-sm",
+				],
+				md: [
+					"text-base",
+				],
+			},
+		},
+		rule: [],
+		defaults: {
+			theme: "light",
+		},
 	},
 );

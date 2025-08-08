@@ -1,28 +1,40 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const FloatCls = cls({
-	slot: {
-		target: [
-			"flex",
-			"justify-center",
-			"items-center",
+export const FloatCls = variant({
+	slots: [
+		"target",
+		"portal",
+	],
+	variants: {
+		mounted: [
+			"bool",
 		],
-		portal: [],
 	},
-	variant: {
-		mounted: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				target: {
+					class: [
+						"flex",
+						"justify-center",
+						"items-center",
+					],
+				},
+				portal: {
+					class: [],
+				},
+			},
+		},
+		{
+			match: {
 				mounted: false,
 			},
-			do: {
-				portal: [
-					"hidden",
-				],
+			slot: {
+				portal: {
+					class: [
+						"hidden",
+					],
+				},
 			},
 		},
 	],
@@ -32,5 +44,5 @@ export const FloatCls = cls({
 });
 
 export namespace FloatCls {
-	export type Props<P = unknown> = ClsProps<typeof FloatCls, P>;
+	export type Props<P = unknown> = Component<typeof FloatCls, P>;
 }

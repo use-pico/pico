@@ -10,7 +10,6 @@ import type {
 import type { FC, ReactNode } from "react";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
 import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
-import { useCls } from "../hooks/useCls";
 import { AbstractList } from "../list/AbstractList";
 import type { withQuery } from "../source/withQuery";
 import { useGrid } from "./hook/useGrid";
@@ -387,7 +386,9 @@ export const Table = <
 	cls,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	const { slots } = useCls(tva, variant, cls);
+	const { slots } = tva.create(cls, {
+		variant,
+	});
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,

@@ -1,86 +1,99 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, classes, variant } from "@use-pico/cls";
 
-export const TableCls = cls({
-	slot: {
-		root: [
-			"min-w-full",
-			"flex",
-			"flex-col",
-			"gap-2",
-			"text-sm",
-		],
-		body: [
-			"overflow-x-auto",
-		],
-		items: [
-			"relative",
-			"w-fit",
-			"min-w-full",
-		],
-		header: [
-			"grid",
-			"border-t",
-			"border-b",
-			"border-(--table-th-color-border)",
-			"bg-(--table-thead-color-bg)",
-		],
-		headerCell: [
-			"flex",
-			"flex-row",
-			"items-center",
-			"justify-between",
-			"gap-2",
-			"text-left",
-			"px-2",
-			"py-1",
-			"truncate",
-		],
-		row: [
-			"grid",
-			"border-b",
-			"border-b-(--table-tr-color-border)",
-			"bg-(--table-tr-color-bg)",
-			"odd:bg-(--table-tr-odd-color-bg)",
-			"hover:bg-(--table-tr-hover-color-bg)",
-			"hover:border-(--table-tr-hover-color-border)",
-		],
-		cell: [
-			"flex",
-			"flex-row",
-			"items-center",
-			"gap-2",
-			"justify-between",
-			"px-2",
-			"py-1",
-			"truncate",
-			"group",
-		],
-		footer: [],
-		select: [
-			"cursor-pointer",
-			"text-(--table-select-color-text)",
-			"hover:text-(--table-select-color-hover-text)",
+export const TableCls = variant({
+	slots: [
+		"root",
+		"body",
+		"items",
+		"header",
+		"headerCell",
+		"row",
+		"cell",
+		"footer",
+		"select",
+	],
+	variants: {
+		selected: [
+			"bool",
 		],
 	},
-	variant: {
-		selected: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				root: classes([
+					"min-w-full",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"text-sm",
+				]),
+				body: classes([
+					"overflow-x-auto",
+				]),
+				items: classes([
+					"relative",
+					"w-fit",
+					"min-w-full",
+				]),
+				header: classes([
+					"grid",
+					"border-t",
+					"border-b",
+					"border-(--table-th-color-border)",
+					"bg-(--table-thead-color-bg)",
+				]),
+				headerCell: classes([
+					"flex",
+					"flex-row",
+					"items-center",
+					"justify-between",
+					"gap-2",
+					"text-left",
+					"px-2",
+					"py-1",
+					"truncate",
+				]),
+				row: classes([
+					"grid",
+					"border-b",
+					"border-b-(--table-tr-color-border)",
+					"bg-(--table-tr-color-bg)",
+					"odd:bg-(--table-tr-odd-color-bg)",
+					"hover:bg-(--table-tr-hover-color-bg)",
+					"hover:border-(--table-tr-hover-color-border)",
+				]),
+				cell: classes([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-2",
+					"justify-between",
+					"px-2",
+					"py-1",
+					"truncate",
+					"group",
+				]),
+				footer: classes([]),
+				select: classes([
+					"cursor-pointer",
+					"text-(--table-select-color-text)",
+					"hover:text-(--table-select-color-hover-text)",
+				]),
+			},
+		},
+		{
+			match: {
 				selected: true,
 			},
-			do: {
-				row: [
+			slot: {
+				row: classes([
 					"bg-(--table-tr-selected-color-bg)",
 					"odd:bg-(--table-tr-selected-odd-color-bg)",
 					"border-(--table-tr-selected-color-border)",
-				],
-				select: [
+				]),
+				select: classes([
 					"text-(--table-tr-selected-select-color-text)",
-				],
+				]),
 			},
 		},
 	],
@@ -92,7 +105,5 @@ export const TableCls = cls({
 export type TableCls = typeof TableCls;
 
 export namespace TableCls {
-	export type Props<P = unknown> = ClsProps<TableCls, P>;
-
-	export type Slots = ClsSlots<TableCls>;
+	export type Props<P = unknown> = Component<TableCls, P>;
 }

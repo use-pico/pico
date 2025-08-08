@@ -16,33 +16,34 @@ export const Status: FC<Status.Props> = ({
 	textMessage,
 	icon,
 	iconProps,
-	variant,
 	tva = StatusCls,
 	cls,
 	children,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			{icon ? (
 				<Icon
 					icon={icon}
 					variant={{
 						size: "6xl",
 					}}
-					cls={{
-						base: [
-							"text-slate-500",
-							"opacity-50",
-						],
+					slot={{
+						base: {
+							class: [
+								"text-slate-500",
+								"opacity-50",
+							],
+						},
 					}}
 					{...iconProps}
 				/>
 			) : null}
-			<div className={slots.title()}>{textTitle}</div>
-			<div className={slots.message()}>{textMessage}</div>
-			<div className={slots.body()}>{children}</div>
+			<div className={classes.title}>{textTitle}</div>
+			<div className={classes.message}>{textMessage}</div>
+			<div className={classes.body}>{children}</div>
 		</div>
 	);
 };

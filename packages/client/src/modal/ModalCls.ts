@@ -1,49 +1,74 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const ModalCls = cls({
-	slot: {
-		base: [
-			"bg-slate-400/75",
-			"backdrop-blur-xs",
-			"flex",
-			"justify-center",
-			"py-12",
+export const ModalCls = variant({
+	slots: [
+		"base",
+		"target",
+		"modal",
+	],
+	variants: {
+		disabled: [
+			"bool",
 		],
-		target: [],
-		modal: [
-			"bg-white",
-			"rounded-lg",
-			"shadow-lg",
-			"p-4",
-			"max-h-full",
-			"h-fit",
-			"flex",
-			"flex-col",
-			"gap-2",
-			"w-2/3",
+		loading: [
+			"bool",
 		],
 	},
-	variant: {
-		disabled: {
-			true: [
-				"pointer-events-none",
-				"cursor-not-allowed",
-			],
-		},
-		loading: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				base: {
+					class: [
+						"bg-slate-400/75",
+						"backdrop-blur-xs",
+						"flex",
+						"justify-center",
+						"py-12",
+					],
+				},
+				target: {
+					class: [],
+				},
+				modal: {
+					class: [
+						"bg-white",
+						"rounded-lg",
+						"shadow-lg",
+						"p-4",
+						"max-h-full",
+						"h-fit",
+						"flex",
+						"flex-col",
+						"gap-2",
+						"w-2/3",
+					],
+				},
+			},
+		},
+		{
+			match: {
+				disabled: true,
+			},
+			slot: {
+				base: {
+					class: [
+						"pointer-events-none",
+						"cursor-not-allowed",
+					],
+				},
+			},
+		},
+		{
+			match: {
 				loading: true,
 			},
-			do: {
-				base: [
-					"pointer-events-none",
-					"opacity-50",
-				],
+			slot: {
+				base: {
+					class: [
+						"pointer-events-none",
+						"opacity-50",
+					],
+				},
 			},
 		},
 	],
@@ -54,5 +79,5 @@ export const ModalCls = cls({
 });
 
 export namespace ModalCls {
-	export type Props<P = unknown> = ClsProps<typeof ModalCls, P>;
+	export type Props<P = unknown> = Component<typeof ModalCls, P>;
 }

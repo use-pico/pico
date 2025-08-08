@@ -18,21 +18,20 @@ export namespace FormError {
 
 export const FormError: FC<FormError.Props> = ({
 	meta,
-	variant,
 	tva = FormErrorCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	const shouldShowError =
 		meta.isDirty && meta.isTouched && meta.errors && meta.errors.length > 0;
 
 	return shouldShowError ? (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			{meta.errors?.map((error, index) => (
 				<div
 					key={`${index}-${error}`}
-					className={slots.error()}
+					className={classes.error}
 				>
 					<Icon icon={ErrorIcon} />
 					<span>{translator.rich(error.message)}</span>

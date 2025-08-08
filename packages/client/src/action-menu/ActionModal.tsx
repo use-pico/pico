@@ -20,21 +20,18 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	label,
 	disabled = false,
 	hidden = false,
-	variant,
 	tva = ActionModalCls,
 	cls,
 	...props
 }) => {
-	const { el } = tva(
-		{
-			...variant,
+	const classes = tva.create(cls, {
+		variant: {
 			disabled,
 		},
-		cls,
-	);
+	});
 
 	return hidden ? null : (
-		<el.base.Div>
+		<div className={classes.base}>
 			<Modal
 				icon={icon}
 				target={
@@ -52,12 +49,16 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				}
 				disabled={disabled}
 				cls={{
-					modal: [
-						"w-2/3",
-					],
+					slot: {
+						modal: {
+							class: [
+								"w-2/3",
+							],
+						},
+					},
 				}}
 				{...props}
 			/>
-		</el.base.Div>
+		</div>
 	);
 };

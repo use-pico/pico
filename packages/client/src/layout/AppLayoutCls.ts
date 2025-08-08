@@ -1,13 +1,18 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const AppLayoutCls = cls({
+export const AppLayoutCls = component({
+	slots: [
+		"base",
+		"header",
+		"content",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"min-h-screen",
 			"flex",
 			"flex-col",
-		],
-		header: [
+		]),
+		header: classes([
 			"flex",
 			"flex-row",
 			"items-center",
@@ -18,19 +23,17 @@ export const AppLayoutCls = cls({
 			"w-full",
 			"gap-4",
 			"p-4",
-		],
-		content: [
+		]),
+		content: classes([
 			"grow",
 			"h-full",
 			"border-b",
 			"border-b-slate-200",
 			"p-2",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace AppLayoutCls {
-	export type Props<P = unknown> = ClsProps<typeof AppLayoutCls, P>;
+	export type Props<P = unknown> = Component<typeof AppLayoutCls, P>;
 }

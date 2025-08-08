@@ -1,21 +1,36 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, variant } from "@use-pico/cls";
 
-export const TabPaneCls = cls({
-	slot: {
-		base: [],
+export const TabPaneCls = variant({
+	slots: [
+		"base",
+	],
+	variants: {
+		hidden: [
+			"bool",
+		],
 	},
-	variant: {
-		hidden: {
-			true: [
-				"hidden",
-			],
+	rule: [
+		{
+			slot: {
+				base: classes([]),
+			},
 		},
-	},
+		{
+			match: {
+				hidden: true,
+			},
+			slot: {
+				base: classes([
+					"hidden",
+				]),
+			},
+		},
+	],
 	defaults: {
 		hidden: false,
 	},
 });
 
 export namespace TabPaneCls {
-	export type Props<P = unknown> = ClsProps<typeof TabPaneCls, P>;
+	export type Props<P = unknown> = Component<typeof TabPaneCls, P>;
 }

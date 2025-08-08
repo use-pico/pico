@@ -1,8 +1,11 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const ActionMenuCls = cls({
+export const ActionMenuCls = component({
+	slots: [
+		"base",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"pico--action-menu-base",
 			"p-1",
 			"border",
@@ -11,16 +14,13 @@ export const ActionMenuCls = cls({
 			"flex",
 			"flex-col",
 			"gap-2",
-			// CSS Variables
 			"bg-(--pico-bg-default)",
 			"text-(--pico-text-default)",
 			"border-(--pico-border-default)",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace ActionMenuCls {
-	export type Props<P = unknown> = ClsProps<typeof ActionMenuCls, P>;
+	export type Props<P = unknown> = Component<typeof ActionMenuCls, P>;
 }

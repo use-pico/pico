@@ -1,54 +1,68 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const FormErrorCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-col",
-			"gap-2",
+export const FormErrorCls = variant({
+	slots: [
+		"base",
+		"error",
+	],
+	variants: {
+		highlight: [
+			"bool",
 		],
-		error: [
-			"flex",
-			"flex-row",
-			"gap-1",
-			"items-center",
-			"text-red-600",
-			"p-2",
+		compact: [
+			"bool",
 		],
 	},
-	variant: {
-		highlight: {
-			true: [],
-		},
-		compact: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				base: {
+					class: [
+						"flex",
+						"flex-col",
+						"gap-2",
+					],
+				},
+				error: {
+					class: [
+						"flex",
+						"flex-row",
+						"gap-1",
+						"items-center",
+						"text-red-600",
+						"p-2",
+					],
+				},
+			},
+		},
+		{
+			match: {
 				highlight: true,
 			},
-			do: {
-				error: [
-					"bg-red-100",
-					"p-2",
-					"font-bold",
-					"border",
-					"border-red-200",
-					"rounded-md",
-					"w-full",
-				],
+			slot: {
+				error: {
+					class: [
+						"bg-red-100",
+						"p-2",
+						"font-bold",
+						"border",
+						"border-red-200",
+						"rounded-md",
+						"w-full",
+					],
+				},
 			},
 		},
 		{
-			if: {
+			match: {
 				compact: true,
 			},
-			do: {
-				error: [
-					"p-0",
-				],
+			slot: {
+				error: {
+					class: [
+						"p-0",
+					],
+				},
 			},
 		},
 	],
@@ -60,7 +74,5 @@ export const FormErrorCls = cls({
 export type FormErrorCls = typeof FormErrorCls;
 
 export namespace FormErrorCls {
-	export type Props<P = unknown> = ClsProps<FormErrorCls, P>;
-
-	export type Slots = ClsSlots<FormErrorCls>;
+	export type Props<P = unknown> = Component<typeof FormErrorCls, P>;
 }

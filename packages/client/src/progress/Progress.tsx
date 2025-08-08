@@ -9,19 +9,18 @@ export namespace Progress {
 
 export const Progress: FC<Progress.Props> = ({
 	value,
-	variant,
 	tva = ProgressCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			<div
 				style={{
 					width: `${Math.max(0, Math.min(100, value))}%`,
 				}}
-				className={slots.progress()}
+				className={classes.progress}
 			></div>
 		</div>
 	);

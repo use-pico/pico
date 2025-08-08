@@ -15,7 +15,6 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		{
 			icon = null,
 			iconProps,
-			variant,
 			tva = ActionLinkCls,
 			cls,
 			children,
@@ -26,12 +25,12 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		/**
 		 * Slots, because we're using `ref` here and `tva` does not support `ref`s.
 		 */
-		const { slots } = tva(variant, cls);
+		const classes = tva.create(cls);
 
 		return (
 			<a
 				{...props}
-				className={slots.base()}
+				className={classes.base}
 				ref={ref}
 			>
 				{isString(icon) ? (

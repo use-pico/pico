@@ -31,7 +31,6 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	render: Render,
 	value,
 	onChange,
-	variant,
 	tva = TransferCls,
 	cls,
 }: Transfer.Props<TItem>) => {
@@ -71,7 +70,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 		};
 	});
 
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	const withHandleSelect = (group: ReactNode, item: TItem) => () => {
 		onChange?.(
@@ -93,8 +92,8 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	};
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.panel()}>
+		<div className={classes.base}>
+			<div className={classes.panel}>
 				{source.reduce((acc, { items }) => {
 					return acc + items.length;
 				}, 0) === 0 ? (
@@ -108,14 +107,14 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-source-group-${id}`}
-							className={slots.group()}
+							className={classes.group}
 						>
-							<div className={slots.header()}>{group}</div>
+							<div className={classes.header}>{group}</div>
 							{items.map((item) => {
 								return (
 									<div
 										key={`transfer-source-item-${item.id}`}
-										className={slots.item()}
+										className={classes.item}
 										onDoubleClick={withHandleSelect(
 											group,
 											item,
@@ -124,23 +123,29 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 										<Render item={item} />
 										<Action
 											cls={{
-												base: [
-													"invisible",
-													"group-hover:visible",
-												],
-												action: [
-													"transition-none",
-												],
+												slot: {
+													base: {
+														class: [
+															"invisible",
+															"group-hover:visible",
+														],
+													},
+													action: {
+														class: [
+															"transition-none",
+														],
+													},
+												},
+												variant: {
+													borderless: true,
+													variant: "subtle",
+												},
 											}}
 											iconEnabled={ArrowRightIcon}
 											onClick={withHandleSelect(
 												group,
 												item,
 											)}
-											variant={{
-												borderless: true,
-												variant: "subtle",
-											}}
 										/>
 									</div>
 								);
@@ -149,7 +154,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					);
 				})}
 			</div>
-			<div className={slots.panel()}>
+			<div className={classes.panel}>
 				{selected.length === 0 ? (
 					<Tx label={"Select items (label)"} />
 				) : null}
@@ -157,7 +162,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-selected-item-${item.id}`}
-							className={slots.item()}
+							className={classes.item}
 							onDoubleClick={withHandleDeselect(item)}
 						>
 							<div
@@ -177,28 +182,36 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 								</div>
 								<Icon
 									icon={ArrowRightIcon}
-									variant={{
-										size: "xs",
+									cls={{
+										variant: {
+											size: "xs",
+										},
 									}}
 								/>
 								<Render item={item} />
 							</div>
 							<Action
 								cls={{
-									base: [
-										"invisible",
-										"group-hover:visible",
-									],
-									action: [
-										"transition-none",
-									],
+									slot: {
+										base: {
+											class: [
+												"invisible",
+												"group-hover:visible",
+											],
+										},
+										action: {
+											class: [
+												"transition-none",
+											],
+										},
+									},
+									variant: {
+										borderless: true,
+										variant: "subtle",
+									},
 								}}
 								iconEnabled={CloseIcon}
 								onClick={withHandleDeselect(item)}
-								variant={{
-									borderless: true,
-									variant: "subtle",
-								}}
 							/>
 						</div>
 					);

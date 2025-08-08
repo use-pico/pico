@@ -8,13 +8,8 @@ export namespace Detail {
 	}
 }
 
-export const Detail: FC<Detail.Props> = ({
-	section,
-	variant,
-	tva = DetailCls,
-	cls,
-}) => {
-	const { slots } = tva(variant, cls);
+export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {
+	const { slots } = tva.create(cls);
 
 	return (
 		<div className={slots.base()}>

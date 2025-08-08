@@ -1,21 +1,22 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, component } from "@use-pico/cls";
 
-export const PageCls = cls({
+export const PageCls = component({
+	slots: [
+		"base",
+	],
 	slot: {
-		base: [
-			"flex",
-			"flex-col",
-			"gap-2",
-		],
+		base: {
+			class: [
+				"flex",
+				"flex-col",
+				"gap-2",
+			],
+		},
 	},
-	variant: {},
-	defaults: {},
 });
 
 export type PageCls = typeof PageCls;
 
 export namespace PageCls {
-	export type Props<P = unknown> = ClsProps<PageCls, P>;
-
-	export type Slots = ClsSlots<PageCls>;
+	export type Props<P = unknown> = Component<typeof PageCls, P>;
 }

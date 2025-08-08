@@ -1,13 +1,22 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
-export const ActionLinkCls = cls({
-	~use: ActionCls,
-	slot: {},
-	variant: {},
-	defaults: {},
-});
+export const ActionLinkCls = ActionCls.extend(
+	{
+		tokens: {},
+		slot: [],
+		variant: {},
+	},
+	{
+		token: {},
+		rule: [],
+		defaults: {
+			disabled: false,
+			variant: "danger",
+		},
+	},
+);
 
 export namespace ActionLinkCls {
-	export type Props<P = unknown> = ClsProps<typeof ActionLinkCls, P>;
+	export type Props<P = unknown> = Component<typeof ActionLinkCls, P>;
 }

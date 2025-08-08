@@ -1,31 +1,34 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, match, variant } from "@use-pico/cls";
 
-export const MenuCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-row",
-			"gap-2",
-			"items-center",
+export const MenuCls = variant({
+	slots: [
+		"base",
+	],
+	variants: {
+		vertical: [
+			"bool",
 		],
 	},
-	variant: {
-		vertical: {
-			true: [],
-		},
-	},
-	match: [
-		{
-			if: {
+	rule: [
+		match(undefined, {
+			base: classes([
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+			]),
+		}),
+		match(
+			{
 				vertical: true,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"flex-col",
 					"items-start",
-				],
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		vertical: false,
@@ -33,5 +36,5 @@ export const MenuCls = cls({
 });
 
 export namespace MenuCls {
-	export type Props<P = unknown> = ClsProps<typeof MenuCls, P>;
+	export type Props<P = unknown> = Component<typeof MenuCls, P>;
 }

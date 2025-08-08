@@ -1,29 +1,32 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const DeleteControlCls = cls({
+export const DeleteControlCls = component({
+	slots: [
+		"base",
+		"content",
+		"footer",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"flex",
 			"flex-col",
 			"gap-4",
-		],
-		content: [
+		]),
+		content: classes([
 			"text-bold",
 			"text-red-500",
 			"font-bold",
-		],
-		footer: [
+		]),
+		footer: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"justify-between",
 			"gap-4",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace DeleteControlCls {
-	export type Props<P = unknown> = ClsProps<typeof DeleteControlCls, P>;
+	export type Props<P = unknown> = Component<typeof DeleteControlCls, P>;
 }

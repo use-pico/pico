@@ -64,7 +64,6 @@ export const Select = <TItem extends EntitySchema.Type>({
 	onSelect,
 	onChange,
 	value,
-	variant,
 	tva = SelectCls,
 	cls,
 }: Select.Props<TItem>) => {
@@ -139,13 +138,11 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const { slots } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			disabled,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return (
 		<>
@@ -153,20 +150,22 @@ export const Select = <TItem extends EntitySchema.Type>({
 				tabIndex={disabled ? -1 : 0}
 				ref={disabled ? undefined : refs.setReference}
 				{...(disabled ? {} : getReferenceProps())}
-				className={slots.base()}
+				className={classes.base}
 			>
-				<div className={slots.input()}>
+				<div className={classes.input}>
 					{icon ? (
 						<Icon
 							icon={icon}
 							variant={{
 								size: "xl",
 							}}
-							cls={{
-								base: [
-									"text-slate-400",
-									"group-hover:text-slate-600",
-								],
+							slot={{
+								base: {
+									class: [
+										"text-slate-400",
+										"group-hover:text-slate-600",
+									],
+								},
 							}}
 						/>
 					) : null}
@@ -199,12 +198,14 @@ export const Select = <TItem extends EntitySchema.Type>({
 							variant={{
 								size: "xl",
 							}}
-							cls={{
-								base: [
-									!isOpen && "text-slate-400",
-									isOpen && "text-slate-600",
-									"group-hover:text-slate-600",
-								],
+							slot={{
+								base: {
+									class: [
+										!isOpen && "text-slate-400",
+										isOpen && "text-slate-600",
+										"group-hover:text-slate-600",
+									].filter(Boolean),
+								},
 							}}
 						/>
 					</div>
@@ -222,7 +223,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 								...floatingStyles,
 								...styles,
 							}}
-							className={slots.popup()}
+							className={classes.popup}
 							{...getFloatingProps()}
 						>
 							{items.map((value, i) => (
@@ -232,10 +233,14 @@ export const Select = <TItem extends EntitySchema.Type>({
 										listRef.current[i] = node;
 									}}
 									tabIndex={i === activeIndex ? 0 : -1}
-									className={slots.item({
-										selected: i === selectedIndex,
-										active: i === activeIndex,
-									})}
+									className={
+										tva.create(undefined, {
+											variant: {
+												selected: i === selectedIndex,
+												active: i === activeIndex,
+											},
+										}).item
+									}
 									{...getItemProps({
 										onClick() {
 											handleSelect(i);

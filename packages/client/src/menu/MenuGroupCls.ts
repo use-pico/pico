@@ -1,61 +1,76 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const MenuGroupCls = cls({
-	slot: {
-		base: [
-			"pico--menu-group",
-			"group",
-			"relative",
-			"cursor-pointer",
-		],
-		label: [
-			"flex",
-			"flex-row",
-			"gap-2",
-			"items-center",
-			"rounded-sm",
-			"px-2",
-			"py-1",
-			"border",
-			"border-b-2",
-			"border-transparent",
-			"hover:text-(--color-text-hover)",
-			"hover:bg-(--color-bg-hover)",
-			"hover:border-(--color-border-hover)",
-		],
-		items: [
-			"flex",
-			"flex-col",
-			"w-max",
-			"gap-2",
-			"invisible",
-			"absolute",
-			"group-hover:visible",
-			"shadow-md",
-			"z-20",
-			"bg-white",
-			"px-4",
-			"py-2",
+export const MenuGroupCls = variant({
+	slots: [
+		"base",
+		"label",
+		"items",
+	],
+	variants: {
+		active: [
+			"bool",
 		],
 	},
-	variant: {
-		active: {
-			true: [],
-		},
-	},
-	match: [
+	rule: [
 		{
-			if: {
+			slot: {
+				base: {
+					class: [
+						"pico--menu-group",
+						"group",
+						"relative",
+						"cursor-pointer",
+					],
+				},
+				label: {
+					class: [
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"rounded-sm",
+						"px-2",
+						"py-1",
+						"border",
+						"border-b-2",
+						"border-transparent",
+						"hover:text-(--color-text-hover)",
+						"hover:bg-(--color-bg-hover)",
+						"hover:border-(--color-border-hover)",
+					],
+				},
+				items: {
+					class: [
+						"flex",
+						"flex-col",
+						"w-max",
+						"gap-2",
+						"invisible",
+						"absolute",
+						"group-hover:visible",
+						"shadow-md",
+						"z-20",
+						"bg-white",
+						"px-4",
+						"py-2",
+					],
+				},
+			},
+		},
+		{
+			match: {
 				active: true,
 			},
-			do: {
-				label: [
-					"bg-(--color-active-bg)",
-					"border-(--color-active-border)",
-					"hover:border-(--color-active-border-hover)",
-					"hover:text-(--color-active-text-hover)",
-					"text-(--color-active-text)",
-				],
+			slot: {
+				label: {
+					class: [
+						"bg-(--color-active-bg)",
+						"border-(--color-active-border)",
+						"hover:border-(--color-active-border-hover)",
+						"hover:text-(--color-active-text-hover)",
+						"text-(--color-active-text)",
+					],
+				},
 			},
 		},
 	],
@@ -65,5 +80,5 @@ export const MenuGroupCls = cls({
 });
 
 export namespace MenuGroupCls {
-	export type Props<P = unknown> = ClsProps<typeof MenuGroupCls, P>;
+	export type Props<P = unknown> = Component<typeof MenuGroupCls, P>;
 }

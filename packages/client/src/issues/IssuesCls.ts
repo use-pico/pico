@@ -1,56 +1,59 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, match, variant } from "@use-pico/cls";
 
-export const IssuesCls = cls({
-	slot: {
-		item: [
-			"p-4",
-			"text-md",
+export const IssuesCls = variant({
+	slots: [
+		"item",
+	],
+	variants: {
+		type: [
+			"info",
+			"warning",
+			"error",
 		],
 	},
-	variant: {
-		type: {
-			info: [],
-			warning: [],
-			error: [],
-		},
-	},
-	match: [
-		{
-			if: {
+	rule: [
+		match(undefined, {
+			item: classes([
+				"p-4",
+				"text-md",
+			]),
+		}),
+		match(
+			{
 				type: "info",
 			},
-			do: {
-				item: [
+			{
+				item: classes([
 					"bg-blue-100",
 					"border-blue-400",
 					"text-blue-700",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				type: "warning",
 			},
-			do: {
-				item: [
+			{
+				item: classes([
 					"bg-amber-100",
 					"border-amber-400",
 					"text-amber-700",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				type: "error",
 			},
-			do: {
-				item: [
+			{
+				item: classes([
 					"bg-red-100",
 					"border-red-400",
 					"text-red-700",
-				],
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		type: "info",
@@ -58,5 +61,5 @@ export const IssuesCls = cls({
 });
 
 export namespace IssuesCls {
-	export type Props<P = unknown> = ClsProps<typeof IssuesCls, P>;
+	export type Props<P = unknown> = Component<typeof IssuesCls, P>;
 }

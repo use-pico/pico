@@ -1,0 +1,275 @@
+import { describe, expect, it } from "bun:test";
+import { cls } from "../src/cls";
+
+describe("inheritance", () => {
+	it("child can add tokens and override parent-declared variants only when declared", () => {
+		const Base = cls(
+			{
+				tokens: {
+					"primary.text": [
+						"default",
+					],
+					"primary.bg": [
+						"default",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {
+					theme: [
+						"light",
+						"dark",
+					],
+				},
+			},
+			{
+				token: {
+					"primary.text": {
+						default: [
+							"text-blue-600",
+						],
+					},
+					"primary.bg": {
+						default: [
+							"bg-blue-600",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"primary.bg.default",
+								],
+							},
+							label: {
+								token: [
+									"primary.text.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					theme: "light",
+				},
+			},
+		);
+
+		const Child = Base.extend(
+			{
+				tokens: {
+					// override only this group's variant we declare here
+					"primary.text": [
+						"default",
+					],
+					// add new token group
+					"accent.ring": [
+						"focus",
+					],
+				},
+				slot: [
+					"icon",
+				],
+				variant: {
+					size: [
+						"sm",
+						"md",
+					],
+				},
+			},
+			{
+				token: {
+					"primary.text": {
+						default: [
+							"text-red-600",
+						],
+					},
+					"accent.ring": {
+						focus: [
+							"ring-2 ring-blue-600",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							icon: {
+								token: [
+									"accent.ring.focus",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							size: "sm",
+						},
+						slot: {
+							root: {
+								class: [
+									"px-2",
+									"py-1",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							size: "md",
+						},
+						slot: {
+							root: {
+								class: [
+									"px-4",
+									"py-2",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					size: "md",
+					theme: "dark",
+				},
+			},
+		);
+
+		const s = Child.create({});
+		expect(s.root).toBe("bg-blue-600 px-4 py-2");
+		expect(s.label).toBe("text-red-600");
+		expect(s.icon).toBe("ring-2 ring-blue-600");
+	});
+
+	it("multi-level extension with create-time overrides at leaf", () => {
+		const Base = cls(
+			{
+				tokens: {
+					"t.text": [
+						"default",
+					],
+					"t.bg": [
+						"default",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {
+					size: [
+						"sm",
+						"md",
+					],
+				},
+			},
+			{
+				token: {
+					"t.text": {
+						default: [
+							"text-blue-600",
+						],
+					},
+					"t.bg": {
+						default: [
+							"bg-blue-600",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"t.bg.default",
+								],
+							},
+							label: {
+								token: [
+									"t.text.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {
+					size: "md",
+				},
+			},
+		);
+
+		const Mid = Base.extend(
+			{
+				tokens: {
+					"t.border": [
+						"default",
+					],
+				},
+				slot: [],
+				variant: {},
+			},
+			{
+				token: {
+					"t.border": {
+						default: [
+							"border",
+						],
+					},
+				},
+				rule: [],
+				defaults: {},
+			},
+		);
+
+		const Leaf = Mid.extend(
+			{
+				tokens: {
+					"t.shadow": [
+						"default",
+					],
+				},
+				slot: [
+					"icon",
+				],
+				variant: {},
+			},
+			{
+				token: {
+					"t.shadow": {
+						default: [
+							"shadow",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							icon: {
+								class: [
+									"size-4",
+								],
+							},
+						},
+					},
+				],
+				defaults: {},
+			},
+		);
+
+		const s = Leaf.create({
+			token: {
+				"t.text": {
+					default: [
+						"text-red-600",
+					],
+				},
+			},
+		});
+		expect(s.root).toBe("bg-blue-600");
+		expect(s.label).toBe("text-red-600");
+		expect(s.icon).toBe("size-4");
+	});
+});

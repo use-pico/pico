@@ -4,7 +4,6 @@ import type {
 	withQuerySchema,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useId } from "react";
-import { useCls } from "../hooks/useCls";
 import type { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
 import type { withQuery } from "../source/withQuery";
@@ -97,11 +96,10 @@ export const PopupSelect = <
 	//
 	state,
 	//
-	variant,
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const { slots } = useCls(tva, variant, cls);
+	const { slots } = tva.create(cls);
 
 	const modalId = useId();
 
@@ -129,9 +127,13 @@ export const PopupSelect = <
 			}
 			// disabled={result.isFetching}
 			cls={{
-				modal: [
-					"w-2/3",
-				],
+				slot: {
+					modal: {
+						class: [
+							"w-2/3",
+						],
+					},
+				},
 			}}
 			{...modalProps}
 		>

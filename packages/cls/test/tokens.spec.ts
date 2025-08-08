@@ -1,0 +1,127 @@
+import { describe, expect, it } from "bun:test";
+import { cls } from "../src/cls";
+
+describe("tokens", () => {
+	it("resolves tokens from definition", () => {
+		const C = cls(
+			{
+				tokens: {
+					"color.text": [
+						"default",
+					],
+					"color.bg": [
+						"default",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {},
+			},
+			{
+				token: {
+					"color.text": {
+						default: [
+							"text-blue-600",
+						],
+					},
+					"color.bg": {
+						default: [
+							"bg-blue-600",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+								],
+							},
+							label: {
+								token: [
+									"color.text.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {},
+			},
+		);
+
+		const s = C.create({});
+		expect(s.root).toBe("bg-blue-600");
+		expect(s.label).toBe("text-blue-600");
+	});
+
+	it("create({ token }) overrides definition tokens", () => {
+		const C = cls(
+			{
+				tokens: {
+					"color.text": [
+						"default",
+					],
+					"color.bg": [
+						"default",
+					],
+				},
+				slot: [
+					"root",
+					"label",
+				],
+				variant: {},
+			},
+			{
+				token: {
+					"color.text": {
+						default: [
+							"text-blue-600",
+						],
+					},
+					"color.bg": {
+						default: [
+							"bg-blue-600",
+						],
+					},
+				},
+				rule: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+								],
+							},
+							label: {
+								token: [
+									"color.text.default",
+								],
+							},
+						},
+					},
+				],
+				defaults: {},
+			},
+		);
+
+		const s = C.create({
+			token: {
+				"color.text": {
+					default: [
+						"text-red-600",
+					],
+				},
+				"color.bg": {
+					default: [
+						"bg-red-600",
+					],
+				},
+			},
+		});
+		expect(s.root).toBe("bg-red-600");
+		expect(s.label).toBe("text-red-600");
+	});
+});

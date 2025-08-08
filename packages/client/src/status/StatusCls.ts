@@ -1,35 +1,39 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const StatusCls = cls({
+export const StatusCls = component({
+	slots: [
+		"base",
+		"title",
+		"message",
+		"body",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"w-full",
 			"flex",
 			"flex-col",
 			"items-center",
 			"justify-center",
-		],
-		title: [
+		]),
+		title: classes([
 			"text-xl",
 			"text-bold",
 			"w-full",
 			"text-center",
-		],
-		message: [
+		]),
+		message: classes([
 			"text-base",
 			"text-slate-500",
 			"w-full",
 			"text-center",
-		],
-		body: [
+		]),
+		body: classes([
 			"pt-2",
 			"w-full",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace StatusCls {
-	export type Props<P = unknown> = ClsProps<typeof StatusCls, P>;
+	export type Props<P = unknown> = Component<typeof StatusCls, P>;
 }

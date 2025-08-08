@@ -4,6 +4,7 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
+import { merge } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
@@ -16,16 +17,13 @@ interface Item
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
-	(
-		{ icon = null, variant, tva = MenuLinkCls, cls, children, ...props },
-		ref,
-	) => {
-		const { slots } = tva(variant, cls);
+	({ icon = null, tva = MenuLinkCls, cls, children, ...props }, ref) => {
+		const classes = tva.create(cls);
 
 		return (
 			<a
 				{...props}
-				className={slots.base()}
+				className={classes.base}
 				ref={ref}
 			>
 				{isString(icon) ? <Icon icon={icon} /> : icon}
@@ -39,7 +37,6 @@ const Link = createLink(Item);
 
 export const MenuLink: LinkComponent<typeof Item> = ({
 	match = [],
-	variant,
 	tva = MenuLinkCls,
 	cls,
 	...props
@@ -50,18 +47,18 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 	return (
 		<Link
 			preload={"intent"}
-			variant={{
-				active:
-					Boolean(
-						matchRoute({
-							to: props.to as string,
-							params: props.params,
-						}),
-					) || isActive,
-				...variant,
-			}}
 			tva={tva}
-			cls={cls}
+			cls={merge(cls, {
+				variant: {
+					active:
+						Boolean(
+							matchRoute({
+								to: props.to as string,
+								params: props.params,
+							}),
+						) || isActive,
+				},
+			})}
 			/**
 			 * TODO Another fuckin' any, kill it!
 			 */

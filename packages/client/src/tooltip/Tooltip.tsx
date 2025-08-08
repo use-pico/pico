@@ -11,18 +11,17 @@ export namespace Tooltip {
 export const Tooltip: FC<Tooltip.Props> = ({
 	target,
 	children,
-	variant,
 	tva = TooltipCls,
 	cls,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
 		<Float
 			action={"hover"}
 			target={target}
 		>
-			<div className={slots.base()}>{children}</div>
+			<div className={classes.base}>{children}</div>
 		</Float>
 	);
 };

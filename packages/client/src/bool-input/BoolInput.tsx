@@ -16,13 +16,20 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	onChange,
 	variant,
 	tva = BoolInputCls,
-	cls,
+	slot,
+	token,
+	override,
 	...props
 }) => {
-	const { el } = tva(variant, cls);
+	const classes = tva.create({
+		variant,
+		slot,
+		token,
+		override,
+	});
 
 	return (
-		<el.base.Div>
+		<div className={classes.base}>
 			<label>
 				<input
 					type={"checkbox"}
@@ -33,8 +40,8 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					}}
 					{...props}
 				/>
-				<el.switch.Div />
+				<div className={classes.switch} />
 			</label>
-		</el.base.Div>
+		</div>
 	);
 };

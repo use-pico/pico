@@ -1,8 +1,11 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const TooltipCls = cls({
+export const TooltipCls = component({
+	slots: [
+		"base",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"border",
 			"border-sky-400",
 			"bg-sky-50",
@@ -11,12 +14,10 @@ export const TooltipCls = cls({
 			"px-4",
 			"py-2",
 			"shadow-md",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace TooltipCls {
-	export type Props<P = unknown> = ClsProps<typeof TooltipCls, P>;
+	export type Props<P = unknown> = Component<typeof TooltipCls, P>;
 }

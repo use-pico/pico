@@ -17,19 +17,20 @@ export const ActionClick: FC<ActionClick.Props> = ({
 	icon,
 	iconProps,
 	loading = false,
-	variant,
 	tva = ActionClickCls,
 	cls,
 	children,
 	...props
 }) => {
-	const { el } = tva(variant, cls);
+	const classes = tva.create(cls, {
+		variant: {
+			loading,
+		},
+	});
 
 	return (
-		<el.base.Div
-			variant={{
-				loading,
-			}}
+		<div
+			className={classes.base}
 			{...props}
 		>
 			{isString(icon) ? (
@@ -41,6 +42,6 @@ export const ActionClick: FC<ActionClick.Props> = ({
 				icon
 			)}
 			{children}
-		</el.base.Div>
+		</div>
 	);
 };

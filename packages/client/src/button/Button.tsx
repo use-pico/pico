@@ -20,30 +20,25 @@ export const Button: FC<Button.Props> = ({
 	iconLoading = SpinnerIcon,
 	iconProps,
 	loading,
-	variant,
 	tva = ButtonCls,
 	cls,
 	children,
 	...props
 }) => {
-	const { el } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			disabled: props.disabled,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	const iconVariant = {
 		size: "xl",
 	} as const;
 
 	return (
-		<el.base.Button
+		<button
+			className={classes.base}
 			type={"button"}
-			variant={{
-				disabled: props.disabled,
-			}}
 			{...props}
 		>
 			{props.disabled ? (
@@ -60,6 +55,6 @@ export const Button: FC<Button.Props> = ({
 				/>
 			)}
 			{children}
-		</el.base.Button>
+		</button>
 	);
 };

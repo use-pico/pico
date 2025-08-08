@@ -1,25 +1,18 @@
-import { type Component, cls } from "@use-pico/cls";
+import { type Component, classes, variant } from "@use-pico/cls";
 
-export const TabCls = cls(
-	{
-		slot: [
-			"base",
+export const TabCls = variant({
+	slots: [
+		"base",
+	],
+	variants: {
+		active: [
+			"bool",
 		],
-		tokens: {
-			variant: [],
-			group: {},
-		},
-		variant: {
-			active: [
-				"true",
-				"false",
-			],
-		},
 	},
-	{
-		slot: {
-			base: {
-				class: [
+	rule: [
+		{
+			slot: {
+				base: classes([
 					"flex",
 					"flex-row",
 					"items-center",
@@ -34,30 +27,28 @@ export const TabCls = cls(
 					"py-1",
 					"px-2",
 					"rounded",
-				],
+				]),
 			},
 		},
-		variant: {
-			active: {
-				true: {
-					base: {
-						class: [
-							"cursor-default",
-							"font-semibold",
-							"text-slate-800",
-							"border-sky-400",
-							"bg-sky-50",
-						],
-					},
-				},
-				false: {},
+		{
+			match: {
+				active: true,
+			},
+			slot: {
+				base: classes([
+					"cursor-default",
+					"font-semibold",
+					"text-slate-800",
+					"border-sky-400",
+					"bg-sky-50",
+				]),
 			},
 		},
-		defaults: {
-			active: "false",
-		},
+	],
+	defaults: {
+		active: false,
 	},
-);
+});
 export type TabCls = typeof TabCls;
 
 export namespace TabCls {

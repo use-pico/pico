@@ -13,7 +13,6 @@ import {
 import { tvc } from "@use-pico/cls";
 import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
-import { useCls } from "../hooks/useCls";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
 import { createModalStore } from "./createModalStore";
@@ -55,7 +54,6 @@ export const Modal: FC<Modal.Props> = ({
 	disabled = false,
 	defaultOpen = false,
 	outside = false,
-	variant,
 	cls,
 	tva = ModalCls,
 	children,
@@ -85,14 +83,11 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const { slots } = useCls(
-		tva,
-		{
+	const { slots } = tva.create(cls, {
+		variant: {
 			disabled,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return (
 		<ModalContext.Provider value={useModalStore}>

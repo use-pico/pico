@@ -1,4 +1,4 @@
-import { cls } from "@use-pico/cls";
+import { type Component, cls } from "@use-pico/cls";
 
 export const ButtonCls = cls(
 	{
@@ -7,19 +7,10 @@ export const ButtonCls = cls(
 				"default",
 				"hover",
 			],
-
-			primary: {
-				textColor: [
-					"default",
-					"hover",
-				],
-			},
-			secondary: {
-				textColor: [
-					"default",
-					"hover",
-				],
-			},
+			"secondary.textColor": [
+				"default",
+				"hover",
+			],
 		},
 		slot: [
 			"base",
@@ -28,76 +19,64 @@ export const ButtonCls = cls(
 			variant: [
 				"primary",
 				"secondary",
-				// "danger",
-				// "danger-light",
-				// "subtle",
-				// "light",
-				// "neutral",
 			],
 			disabled: [
-				"true",
-				"false",
+				"bool",
 			],
 			size: [
 				"xs",
 				"sm",
 				"md",
-				// "lg",
-				// "xl",
 			],
 			borderless: [
-				"true",
-				"false",
+				"bool",
 			],
 		},
 	},
 	{
-		tokens: {
-			"button.primary.text.color.hover": [
-				"text-blue-600",
-			],
-		},
-		slot: {
-			base: {
-				class: [
-					[
-						"flex",
-						"flex-row",
-						"items-center",
-						"justify-center",
-						"gap-2",
-						"group",
-						"rounded-md",
-						"transition-all",
-						"cursor-pointer",
-						"border",
-						"shadow-sm",
-						// CSS Variables
-						"bg-(--pico-color-bg-default)",
-						"hover:bg-(--pico-color-bg-hover)",
-						//
-						"border-(--pico-color-border-default)",
-						"hover:border-(--pico-color-border-hover)",
-						//
-						"text-(--pico-color-text-default)",
-						"hover:text-(--pico-color-text-hover)",
-						//
-						"shadow-(color:--pico-color-shadow-default)",
-						"hover:shadow-(color:--pico-color-shadow-hover)",
-					],
+		token: {
+			"primary.textColor": {
+				default: [
+					"text-blue-600",
+				],
+				hover: [
+					"hover:text-blue-700",
+				],
+			},
+			"secondary.textColor": {
+				default: [
+					"text-slate-600",
+				],
+				hover: [
+					"hover:text-slate-700",
 				],
 			},
 		},
-		variant: {
-			"variant.primary.base": {
-				class: [
-					"",
-				],
-				token: [],
+		rule: [
+			{
+				slot: {
+					base: {
+						class: [
+							"flex",
+							"flex-row",
+							"items-center",
+							"justify-center",
+							"gap-2",
+							"group",
+							"rounded-md",
+							"transition-all",
+							"cursor-pointer",
+							"border",
+							"shadow-sm",
+						],
+					},
+				},
 			},
-
-			variant: {
-				primary: {
+			{
+				match: {
+					variant: "primary",
+				},
+				slot: {
 					base: {
 						token: [
 							"primary.textColor.default",
@@ -105,7 +84,12 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-				secondary: {
+			},
+			{
+				match: {
+					variant: "secondary",
+				},
+				slot: {
 					base: {
 						token: [
 							"secondary.textColor.default",
@@ -113,30 +97,12 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-				// primary: [
-				// 	"pico--button-color-primary",
-				// ],
-				// secondary: [
-				// 	"pico--button-color-secondary",
-				// ],
-				// danger: [
-				// 	"pico--button-color-danger",
-				// ],
-				// "danger-light": [
-				// 	"pico--button-color-danger-light",
-				// ],
-				// subtle: [
-				// 	"pico--button-color-subtle",
-				// ],
-				// light: [
-				// 	"pico--button-color-light",
-				// ],
-				// neutral: [
-				// 	"pico--button-color-neutral",
-				// ],
 			},
-			disabled: {
-				true: {
+			{
+				match: {
+					disabled: true,
+				},
+				slot: {
 					base: {
 						class: [
 							"cursor-not-allowed",
@@ -145,62 +111,17 @@ export const ButtonCls = cls(
 						],
 					},
 				},
-				false: {},
-			},
-			// size: {
-			// 	xs: [
-			// 		"py-0.5",
-			// 		"px-1",
-			// 	],
-			// 	sm: [
-			// 		"py-1",
-			// 		"px-2",
-			// 	],
-			// 	md: [
-			// 		"py-2",
-			// 		"px-4",
-			// 	],
-			// 	lg: [
-			// 		"py-3",
-			// 		"px-6",
-			// 	],
-			// 	xl: [
-			// 		"py-4",
-			// 		"px-8",
-			// 	],
-			// },
-			// borderless: {
-			// 	true: [
-			// 		"border-none",
-			// 	],
-			// },
-		},
-		rule: [
-			{
-				if: {
-					variant: "primary",
-					disabled: "true",
-				},
-				do: {
-					base: {
-						token: [
-							"default.textColor.hover",
-							"default.bgColor.hover",
-							"default.borderColor.hover",
-						],
-					},
-				},
 			},
 		],
 		defaults: {
 			variant: "primary",
-			disabled: "false",
+			disabled: false,
 			size: "md",
-			borderless: "false",
+			borderless: false,
 		},
 	},
 );
 
 export namespace ButtonCls {
-	export type Props<P = unknown> = ClsProps<typeof ButtonCls, P>;
+	export type Props<P = unknown> = Component<typeof ButtonCls, P>;
 }

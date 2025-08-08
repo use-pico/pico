@@ -1,8 +1,16 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const PreviewCls = cls({
+export const PreviewCls = component({
+	slots: [
+		"base",
+		"container",
+		"title",
+		"links",
+		"actions",
+		"extra",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"pico--preview",
 			"flex",
 			"flex-col",
@@ -12,47 +20,43 @@ export const PreviewCls = cls({
 			"rounded-md",
 			"border",
 			"border-(--color-border)",
-		],
-		container: [
+		]),
+		container: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"justify-between",
 			"gap-1",
-		],
-		title: [
+		]),
+		title: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"gap-4",
-		],
-		links: [
+		]),
+		links: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"gap-4",
 			"justify-end",
-		],
-		actions: [
+		]),
+		actions: classes([
 			"flex",
 			"flex-row",
 			"items-center",
 			"gap-4",
-		],
-		extra: [
+		]),
+		extra: classes([
 			"flex",
 			"flex-row",
 			"gap-4",
 			"justify-end",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 export type PreviewCls = typeof PreviewCls;
 
 export namespace PreviewCls {
-	export type Props<P = unknown> = ClsProps<PreviewCls, P>;
-
-	export type Slots = ClsSlots<PreviewCls>;
+	export type Props<P = unknown> = Component<PreviewCls, P>;
 }

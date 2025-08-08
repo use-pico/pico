@@ -1,29 +1,48 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, variant } from "@use-pico/cls";
 
-export const ButtonLinkCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-row",
-			"gap-2",
-			"items-center",
-			"px-4",
-			"py-2",
-			"rounded-md",
-			"text-md",
-			"text-blue-400",
-			"hover:text-blue-600",
+export const ButtonLinkCls = variant({
+	slots: [
+		"base",
+	],
+	variants: {
+		disabled: [
+			"bool",
 		],
 	},
-	variant: {
-		disabled: {
-			true: [
-				"cursor-not-allowed",
-				"text-slate-400",
-				"hover:text-slate-400",
-			],
+	rule: [
+		{
+			slot: {
+				base: {
+					class: [
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"px-4",
+						"py-2",
+						"rounded-md",
+						"text-md",
+						"text-blue-400",
+						"hover:text-blue-600",
+					],
+				},
+			},
 		},
-	},
+		{
+			match: {
+				disabled: true,
+			},
+			slot: {
+				base: {
+					class: [
+						"cursor-not-allowed",
+						"text-slate-400",
+						"hover:text-slate-400",
+					],
+				},
+			},
+		},
+	],
 	defaults: {
 		disabled: false,
 	},
@@ -31,7 +50,5 @@ export const ButtonLinkCls = cls({
 export type ButtonLinkCls = typeof ButtonLinkCls;
 
 export namespace ButtonLinkCls {
-	export type Props<P = unknown> = ClsProps<ButtonLinkCls, P>;
-
-	export type Slots = ClsSlots<ButtonLinkCls>;
+	export type Props<P = unknown> = Component<typeof ButtonLinkCls, P>;
 }

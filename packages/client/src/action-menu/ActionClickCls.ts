@@ -1,22 +1,41 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
-export const ActionClickCls = cls({
-	~use: ActionCls,
-	slot: {},
-	variant: {
-		loading: {
-			true: [
-				"pointer-events-none",
-				"opacity-50",
+export const ActionClickCls = ActionCls.extend(
+	{
+		tokens: {},
+		slot: [],
+		variant: {
+			loading: [
+				"bool",
 			],
 		},
 	},
-	defaults: {
-		loading: false,
+	{
+		token: {},
+		rule: [
+			{
+				match: {
+					loading: true,
+				},
+				slot: {
+					base: {
+						class: [
+							"pointer-events-none",
+							"opacity-50",
+						],
+					},
+				},
+			},
+		],
+		defaults: {
+			disabled: false,
+			variant: "common",
+			loading: false,
+		},
 	},
-});
+);
 
 export namespace ActionClickCls {
-	export type Props<P = unknown> = ClsProps<typeof ActionClickCls, P>;
+	export type Props<P = unknown> = Component<typeof ActionClickCls, P>;
 }

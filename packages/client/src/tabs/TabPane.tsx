@@ -10,7 +10,6 @@ export namespace TabPane {
 
 export const TabPane: FC<TabPane.Props> = ({
 	tab,
-	variant,
 	tva = TabPaneCls,
 	cls,
 	children,
@@ -19,15 +18,13 @@ export const TabPane: FC<TabPane.Props> = ({
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const { slots } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			hidden: tab !== currentTab,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return hidden.includes(tab) ? null : (
-		<div className={slots.base()}>{children}</div>
+		<div className={classes.base}>{children}</div>
 	);
 };

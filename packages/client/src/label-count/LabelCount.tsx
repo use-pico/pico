@@ -17,13 +17,20 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	badgeProps,
 	variant,
 	tva = LabelCountCls,
-	cls,
+	slot,
+	token,
+	override,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create({
+		variant,
+		slot,
+		token,
+		override,
+	});
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.label()}>{label}</div>
+		<div className={classes.base}>
+			<div className={classes.label}>{label}</div>
 			<Badge
 				{...badgeProps}
 				variant={{

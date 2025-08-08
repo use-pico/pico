@@ -16,10 +16,22 @@ export namespace Badge {
 export const Badge: FC<Badge.Props> = ({
 	variant,
 	tva = BadgeCls,
-	cls,
+	slot,
+	token,
+	override,
 	...props
 }) => {
-	const { el } = tva(variant, cls);
+	const classes = tva.create({
+		variant,
+		slot,
+		token,
+		override,
+	});
 
-	return <el.base.Div {...props} />;
+	return (
+		<div
+			className={classes.base}
+			{...props}
+		/>
+	);
 };

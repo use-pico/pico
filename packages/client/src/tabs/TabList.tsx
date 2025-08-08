@@ -9,16 +9,15 @@ export namespace TabList {
 
 export const TabList: FC<TabList.Props> = ({
 	right,
-	variant,
 	tva = TabListCls,
 	cls,
 	children,
 }) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.tabs()}>{children}</div>
+		<div className={classes.base}>
+			<div className={classes.tabs}>{children}</div>
 			{right}
 		</div>
 	);

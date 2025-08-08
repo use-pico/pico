@@ -59,42 +59,34 @@ export const Action: FC<Action.Props> = ({
 	disabled = false,
 	loading = false,
 	onClick,
-	variant,
 	tva = ActionCls,
 	cls,
 	...props
 }) => {
-	const { el } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			disabled,
 			loading,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return (
-		<el.base.Div>
-			<el.action.Div
-				onClick={disabled ? undefined : onClick}
-				{...props}
-			>
-				{disabled ? (
-					<Icon
-						icon={
-							loading
-								? iconLoading
-								: (iconDisabled ?? iconEnabled)
-						}
-						{...iconProps}
-					/>
-				) : (
-					<Icon
-						icon={loading ? iconLoading : iconEnabled}
-						{...iconProps}
-					/>
-				)}
-			</el.action.Div>
-		</el.base.Div>
+		<div
+			className={classes.base}
+			onClick={disabled ? undefined : onClick}
+			{...props}
+		>
+			{disabled ? (
+				<Icon
+					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
+					{...iconProps}
+				/>
+			) : (
+				<Icon
+					icon={loading ? iconLoading : iconEnabled}
+					{...iconProps}
+				/>
+			)}
+		</div>
 	);
 };

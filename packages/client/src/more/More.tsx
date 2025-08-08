@@ -57,13 +57,20 @@ export const More = <TValues extends EntitySchema.Type>({
 	limit,
 	variant,
 	tva = MoreCls,
-	cls,
+	slot,
+	token,
+	override,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const { slots } = tva(variant, cls);
+	const classes = tva.create({
+		variant,
+		slot,
+		token,
+		override,
+	});
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			{items.length ? null : textEmpty}
 			{$items.map((item) =>
 				renderInline({

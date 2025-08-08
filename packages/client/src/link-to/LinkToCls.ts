@@ -1,8 +1,11 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, component } from "@use-pico/cls";
 
-export const LinkToCls = cls({
+export const LinkToCls = component({
+	slots: [
+		"base",
+	],
 	slot: {
-		base: [
+		base: classes([
 			"flex",
 			"flex-row",
 			"gap-2",
@@ -16,12 +19,10 @@ export const LinkToCls = cls({
 			"focus:outline-hidden",
 			"w-fit",
 			"truncate",
-		],
+		]),
 	},
-	variant: {},
-	defaults: {},
 });
 
 export namespace LinkToCls {
-	export type Props<P = unknown> = ClsProps<typeof LinkToCls, P>;
+	export type Props<P = unknown> = Component<typeof LinkToCls, P>;
 }

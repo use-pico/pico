@@ -10,29 +10,30 @@ export namespace LoadingOverlay {
 
 export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	show = true,
-	variant,
 	tva = LoadingOverlayCls,
 	cls,
 }) => {
-	const { slots } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			show,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return show ? (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			<Icon
 				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
-				variant={{
-					size: "8xl",
-				}}
 				cls={{
-					base: [
-						"text-sky-400",
-					],
+					variant: {
+						size: "8xl",
+					},
+					slot: {
+						base: {
+							class: [
+								"text-sky-400",
+							],
+						},
+					},
 				}}
 			/>
 		</div>

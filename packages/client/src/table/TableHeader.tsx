@@ -20,7 +20,7 @@ export namespace TableHeader {
 		data: TData[];
 		visible: Table.Column.Props<TQuery, TData, any, TContext>[];
 		grid: string;
-		slots: TableCls.Slots;
+		slots: TableCls;
 		isFetching: boolean;
 		context: TContext;
 		filter: Table.Filter.State<TQuery> | undefined;

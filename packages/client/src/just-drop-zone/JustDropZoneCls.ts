@@ -1,75 +1,80 @@
-import { type ClsProps, type ClsSlots, cls } from "@use-pico/cls";
+import { type Component, classes, match, variant } from "@use-pico/cls";
 
-export const JustDropZoneCls = cls({
-	slot: {
-		base: [
-			"flex",
-			"flex-col",
-			"gap-2",
-			"items-center",
-			"justify-center",
-			"w-full",
+export const JustDropZoneCls = variant({
+	slots: [
+		"base",
+		"label",
+		"zone",
+	],
+	variants: {
+		active: [
+			"bool",
 		],
-		label: [
-			"flex",
-			"flex-col",
-			"items-center",
-			"justify-center",
-			"w-full",
-			"h-64",
-			"border-2",
-			"border-gray-300",
-			"border-dashed",
-			"rounded-lg",
-			"cursor-pointer",
-			"bg-gray-50",
-			"hover:bg-gray-100",
-		],
-		zone: [
-			"flex",
-			"flex-col",
-			"items-center",
-			"justify-center",
-			"pt-5",
-			"pb-6",
-			"text-slate-500",
+		rejected: [
+			"bool",
 		],
 	},
-	variant: {
-		active: {
-			true: [],
-		},
-		rejected: {
-			true: [],
-		},
-	},
-	match: [
-		{
-			if: {
+	rule: [
+		match(undefined, {
+			base: classes([
+				"flex",
+				"flex-col",
+				"gap-2",
+				"items-center",
+				"justify-center",
+				"w-full",
+			]),
+			label: classes([
+				"flex",
+				"flex-col",
+				"items-center",
+				"justify-center",
+				"w-full",
+				"h-64",
+				"border-2",
+				"border-gray-300",
+				"border-dashed",
+				"rounded-lg",
+				"cursor-pointer",
+				"bg-gray-50",
+				"hover:bg-gray-100",
+			]),
+			zone: classes([
+				"flex",
+				"flex-col",
+				"items-center",
+				"justify-center",
+				"pt-5",
+				"pb-6",
+				"text-slate-500",
+			]),
+		}),
+		match(
+			{
 				active: true,
 			},
-			do: {
-				label: [
+			{
+				label: classes([
 					"text-blue-400",
-				],
-				zone: [
+				]),
+				zone: classes([
 					"text-blue-400",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				rejected: true,
 			},
-			do: {
-				label: [
+			{
+				label: classes([
 					"text-red-400",
-				],
-				zone: [
+				]),
+				zone: classes([
 					"text-red-400",
-				],
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		active: false,
@@ -79,7 +84,5 @@ export const JustDropZoneCls = cls({
 export type JustDropZoneCls = typeof JustDropZoneCls;
 
 export namespace JustDropZoneCls {
-	export type Props<P = unknown> = ClsProps<JustDropZoneCls, P>;
-
-	export type Slots = ClsSlots<JustDropZoneCls>;
+	export type Props<P = unknown> = Component<JustDropZoneCls, P>;
 }

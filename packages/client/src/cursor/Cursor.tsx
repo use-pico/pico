@@ -6,7 +6,6 @@ import {
 	type StateType,
 } from "@use-pico/common";
 import { type FC, type ReactNode, useMemo } from "react";
-import { useCls } from "../hooks/useCls";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
 import { Tx } from "../tx/Tx";
@@ -28,7 +27,6 @@ export const Cursor: FC<Cursor.Props> = ({
 	state,
 	count,
 	textTotal = <Tx label={"Number of items"} />,
-	variant,
 	tva = CursorCls,
 	cls,
 }) => {
@@ -47,10 +45,10 @@ export const Cursor: FC<Cursor.Props> = ({
 		],
 	);
 
-	const { slots } = useCls(tva, variant, cls);
+	const classes = tva.create(cls);
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			{$cursor.total > 1 ? (
 				<div
 					className={tvc(
@@ -110,7 +108,7 @@ export const Cursor: FC<Cursor.Props> = ({
 					) : null}
 				</div>
 			) : null}
-			<div className={slots.sums()}>
+			<div className={classes.sums}>
 				<div>{textTotal}</div>
 				<div className={"font-bold"}>{count.filter}</div>
 				{count.filter !== count.where && (

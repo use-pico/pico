@@ -38,11 +38,10 @@ export const Preview = <TValues extends Record<string, any>>({
 	links: Links,
 	actions: Actions,
 	extra: Extra,
-	variant,
 	tva = PreviewCls,
 	cls,
 }: Preview.Props<TValues>) => {
-	const { slots } = tva(variant, cls);
+	const classes = tva.create(cls);
 
 	return (
 		<InlineContext.Provider
@@ -50,13 +49,13 @@ export const Preview = <TValues extends Record<string, any>>({
 				inline: true,
 			}}
 		>
-			<div className={slots.base()}>
+			<div className={classes.base}>
 				{Title || Links ? (
-					<div className={slots.container()}>
-						<div className={slots.title()}>
+					<div className={classes.container}>
+						<div className={classes.title}>
 							{Title ? <Title entity={entity} /> : null}
 						</div>
-						<div className={slots.links()}>
+						<div className={classes.links}>
 							{Links ? <Links entity={entity} /> : null}
 						</div>
 					</div>
@@ -73,11 +72,11 @@ export const Preview = <TValues extends Record<string, any>>({
 				) : null}
 
 				{Actions || Extra ? (
-					<div className={slots.container()}>
-						<div className={slots.actions()}>
+					<div className={classes.container}>
+						<div className={classes.actions}>
 							{Actions ? <Actions entity={entity} /> : null}
 						</div>
-						<div className={slots.extra()}>
+						<div className={classes.extra}>
 							{Extra ? <Extra entity={entity} /> : null}
 						</div>
 					</div>

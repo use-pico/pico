@@ -65,14 +65,14 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	return (
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
-			tva={(values, cls) =>
-				tva(
-					{
-						...values,
+			tva={(user?, internal?) =>
+				tva.create(user, {
+					...internal,
+					variant: {
+						...(internal?.variant ?? {}),
 						value,
 					},
-					cls,
-				)
+				})
 			}
 			{...props}
 		/>

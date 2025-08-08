@@ -23,24 +23,21 @@ export const FormField: FC<FormField.Props> = ({
 	disabled,
 	meta,
 	children,
-	variant,
 	tva = FormFieldCls,
 	cls,
 }) => {
-	const { slots } = tva(
-		{
+	const classes = tva.create(cls, {
+		variant: {
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
 			required,
 			disabled,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			<div className={"flex flex-row justify-between"}>
 				{label ? <label htmlFor={name as string}>{label}</label> : null}
 				<FormError
@@ -51,7 +48,7 @@ export const FormField: FC<FormField.Props> = ({
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
-			<div className={slots.input()}>{children}</div>
+			<div className={classes.input}>{children}</div>
 		</div>
 	);
 };

@@ -1,4 +1,5 @@
 import { FloatingTree } from "@floating-ui/react";
+import { merge } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
@@ -28,12 +29,19 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 	target,
 	actionProps,
 	children,
-	variant,
 	tva = ActionMenuCls,
 	cls,
 	...props
 }) => {
-	const { el } = tva(variant, cls);
+	const classes = tva.create(cls, {
+		slot: {
+			base: {
+				class: [
+					"relative",
+				],
+			},
+		},
+	});
 
 	return (
 		<FloatingTree>
@@ -44,10 +52,11 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 						<Action
 							iconEnabled={icon}
 							iconProps={iconProps}
-							variant={{
-								borderless: true,
-								variant: "light",
-							}}
+							cls={merge(cls, {
+								variant: {
+									borderless: true,
+								},
+							})}
 							{...actionProps}
 						/>
 					)
@@ -59,13 +68,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<el.base.Div
-					cls={[
-						"relative",
-					]}
-				>
-					{children}
-				</el.base.Div>
+				<div className={classes.base}>{children}</div>
 			</Float>
 		</FloatingTree>
 	);

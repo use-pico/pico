@@ -1,103 +1,106 @@
-import { type ClsProps, cls } from "@use-pico/cls";
+import { type Component, classes, match, variant } from "@use-pico/cls";
 
-export const MenuLinkCls = cls({
-	slot: {
-		base: [
-			"pico--menu-link",
-			"flex",
-			"flex-row",
-			"gap-2",
-			"items-center",
-			"rounded-sm",
-			"px-2",
-			"py-1",
-			"border",
-			"border-b-2",
-			"border-transparent",
-			"hover:text-(--color-text-hover)",
-			"hover:bg-(--color-bg-hover)",
-			"hover:border-(--color-border-hover)",
+export const MenuLinkCls = variant({
+	slots: [
+		"base",
+	],
+	variants: {
+		active: [
+			"bool",
+		],
+		inner: [
+			"bool",
+		],
+		subtle: [
+			"bool",
+		],
+		vertical: [
+			"bool",
 		],
 	},
-	variant: {
-		active: {
-			true: [],
-		},
-		inner: {
-			true: [],
-		},
-		subtle: {
-			true: [],
-		},
-		vertical: {
-			true: [],
-		},
-	},
-	match: [
-		{
-			if: {
+	rule: [
+		match(undefined, {
+			base: classes([
+				"pico--menu-link",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+				"rounded-sm",
+				"px-2",
+				"py-1",
+				"border",
+				"border-b-2",
+				"border-transparent",
+				"hover:text-(--color-text-hover)",
+				"hover:bg-(--color-bg-hover)",
+				"hover:border-(--color-border-hover)",
+			]),
+		}),
+		match(
+			{
 				active: true,
 				inner: false,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"bg-(--color-active-bg)",
 					"border-(--color-active-border)",
 					"hover:border-(--color-active-border-hover)",
 					"hover:text-(--color-active-text-hover)",
 					"text-(--color-active-text)",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				active: true,
 				inner: true,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"border-transparent",
 					"bg-(--color-active-bg)",
 					"hover:border-(--color-active-border-hover)",
 					"hover:text-(--color-active-text-hover)",
 					"text-(--color-active-text)",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				subtle: true,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"hover:bg-slate-50",
 					"hover:border-slate-300",
 					"hover:text-slate-600",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				active: true,
 				subtle: true,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"bg-slate-100",
 					"border-slate-400",
-				],
+				]),
 			},
-		},
-		{
-			if: {
+		),
+		match(
+			{
 				vertical: true,
 			},
-			do: {
-				base: [
+			{
+				base: classes([
 					"w-full",
-				],
+				]),
 			},
-		},
+		),
 	],
 	defaults: {
 		active: false,
@@ -108,5 +111,5 @@ export const MenuLinkCls = cls({
 });
 
 export namespace MenuLinkCls {
-	export type Props<P = unknown> = ClsProps<typeof MenuLinkCls, P>;
+	export type Props<P = unknown> = Component<typeof MenuLinkCls, P>;
 }

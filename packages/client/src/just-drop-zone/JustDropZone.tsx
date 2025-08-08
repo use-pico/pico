@@ -37,7 +37,6 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	accept,
 	textTile,
 	textMessage,
-	variant,
 	tva = JustDropZoneCls,
 	cls,
 	children: Children,
@@ -63,15 +62,12 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	// TODO Create a hook or something to cache tva's
-	const { slots } = tva(
-		{
+	const { slots } = tva.create(cls, {
+		variant: {
 			active: isDragActive,
 			rejected: isDragReject,
-			...variant,
 		},
-		cls,
-	);
+	});
 
 	const clear = useCallback(() => setFiles([]), []);
 	const remove = useCallback(
