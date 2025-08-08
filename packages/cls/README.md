@@ -531,6 +531,51 @@ The `create()` method gives you incredible flexibility to customize styling at r
 
 > **Tip**: Don’t overshare giant override objects in props. Prefer **named variants** for most “features” and keep **overrides** for local, one-off adjustments.
 
+```tsx
+// Anti‑pattern: shipping a massive override through props
+<Button
+  cls={{
+    override: {
+      root: {
+        class: [
+          "px-3",
+          "py-2",
+          "bg-blue-600",
+          "text-white",
+          "rounded",
+          "shadow",
+        ],
+      },
+      label: { class: ["font-semibold"] },
+    },
+  }}
+/>
+
+// Better: promote repeated intent to a named variant
+const Button = cls(
+  {
+    tokens: {},
+    slot: ["root", "label"],
+    variant: { intent: ["primary", "neutral"], dense: ["bool"] },
+  },
+  {
+    token: {},
+    rules: ({ root, rule }) => [
+      root({
+        root: { class: ["inline-flex", "items-center", "rounded"] },
+        label: { class: ["font-medium"] },
+      }),
+      rule({ intent: "primary" }, { root: { class: ["bg-blue-600", "text-white", "hover:bg-blue-700", "shadow"] } }),
+      rule({ dense: true }, { root: { class: ["px-3", "py-2"] } }),
+    ],
+    defaults: { intent: "neutral", dense: false },
+  },
+);
+
+// Consumers express intent with small, typed inputs
+<Button cls={{ variant: { intent: "primary", dense: true } }} />
+```
+
 #### Variant Overrides
 
 Override the default variant values for this specific instance:
