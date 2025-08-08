@@ -14,6 +14,12 @@
 - 🧩 **Extend anything**: Inherit tokens/slots/variants across components and keep types intact
 - 🌀 **Tailwind-native**: Merged with tailwind-merge (last-wins, duplicates deduped)
 - 🧠 **Heavy type checking**: Compile-time validation ensures design system consistency
+- 🚀 **Framework agnostic**: Works with any framework, with excellent React integration
+- 🎯 **Design token system**: First-class support for design tokens with inheritance and validation
+- 🔄 **Multi-level inheritance**: Extend components while maintaining full type safety
+- 💪 **Production ready**: Built for complex design systems and large-scale applications
+- 🎨 **Runtime flexibility**: Override any aspect of styling at runtime with full type safety
+- 📦 **Lightweight**: ~3KB gzipped with minimal runtime dependencies
 
 Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX.
 
@@ -1057,6 +1063,8 @@ const ComplexButton = cls({
 
 ## Comparison with Similar Tools
 
+> **Honest Comparison Disclaimer**: This comparison is written by the @use-pico/cls author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade-offs**. @use-pico/cls prioritizes **type safety and design system consistency** over **conciseness and simplicity**. For simple projects, competitors like class-variance-authority or tailwind-variants might be more appropriate. For complex design systems and production applications where type safety and maintainability are crucial, @use-pico/cls provides unique value. **Choose the tool that fits your specific needs and constraints**.
+
 | Feature | @use-pico/cls | class-variance-authority | tailwind-variants | @stitches/react | vanilla-extract |
 |---------|---------------|-------------------------|-------------------|-----------------|-----------------|
 | **Type Safety** | 🔥 Full compile-time validation | ✅ Basic TypeScript | ✅ TypeScript support | ✅ TypeScript | ✅ TypeScript |
@@ -1068,14 +1076,6 @@ const ComplexButton = cls({
 | **Bundle Size** | ✅ ~3KB gzipped | ✅ ~1KB gzipped | ✅ ~2KB gzipped | 🔥 ~8KB gzipped | ✅ ~1KB gzipped |
 | **Learning Curve** | 🔥 Steep (powerful) | ✅ Easy | ✅ Easy | 🔥 Medium | 🔥 Medium |
 | **Design Systems** | 🔥 Built for scale | ✅ Good for components | ✅ Good for components | 🔥 Excellent | ✅ Good |
-
-### Why @use-pico/cls?
-
-- **🧠 Heavy Type Checking**: Unlike other tools, this library enforces design system consistency at compile time
-- **🏗️ Design Token System**: First-class support for design tokens with inheritance and validation
-- **🔗 Multi-level Inheritance**: Extend components while maintaining full type safety
-- **⚡ Performance**: Lazy evaluation and intelligent caching
-- **🎯 Framework Agnostic**: Works with any framework, with excellent React integration
 
 ### Code Comparison Showcase
 
