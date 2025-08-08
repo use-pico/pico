@@ -40,39 +40,33 @@ import { cls } from "@use-pico/cls";
 
 const Button = cls(
   {
-    tokens: {
-      "primary.text": ["default", "hover"],
-      "primary.bg": ["default", "hover"],
-    },
-    slot: ["root", "label"],
-    variant: { size: ["sm", "md"], variant: ["primary", "secondary"] },
+    slot: ["root"],
+    variant: { size: ["sm", "md"] },
   },
   {
-    token: {
-      "primary.text": { default: ["text-white"], hover: ["text-blue-100"] },
-      "primary.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
-    },
     rules: ({ root, rule }) => [
       root({
-        root: { token: ["primary.bg.default"], class: ["inline-flex", "items-center"] },
-        label: { token: ["primary.text.default"], class: ["font-medium"] },
+        root: { class: ["inline-flex", "items-center", "rounded"] },
       }),
       rule({ size: "sm" }, { root: { class: ["px-2", "py-1"] } }),
       rule({ size: "md" }, { root: { class: ["px-4", "py-2"] } }),
     ],
-    defaults: { size: "md", variant: "primary" },
+    defaults: { size: "md" },
   },
 );
 
 const classes = Button.create({});
-// classes.root()  => "inline-flex items-center bg-blue-600 px-4 py-2"
-// classes.label() => "font-medium text-white"
+// classes.root() => "inline-flex items-center rounded px-4 py-2"
 
 const classes2 = Button.create({ variant: { size: "sm" } });
-// classes2.root() => "inline-flex items-center bg-blue-600 px-2 py-1"
+// classes2.root() => "inline-flex items-center rounded px-2 py-1"
 ```
 
 ## Core Concepts
+
+> **System Design Philosophy**: This system is a **complex set of tools serving its purpose**. Every piece and decision made in its creation is based on **real-world usage patterns** and helps to create a **high-quality class-in-JS system** that scales with your needs. Once you understand how to use the **individual pieces**, it becomes like a **piece of cake to use** - the **type system will guide you** every step of the way.
+
+> **Why Empty Fields?**: You'll notice that many examples include empty objects like `tokens: {}`, `variant: {}`, `token: {}`, and `defaults: {}`. This is **intentional** - the **type system requires all fields to be present** for consistency and type safety. While it might seem verbose, this design choice **prevents complex conditional type logic** that would make the TypeScript types much more complex and harder to understand. The trade-off is **a few extra keystrokes for significantly better type inference and developer experience**.
 
 ### Design Tokens
 
@@ -291,6 +285,8 @@ A utility function that encapsulates the merge semantics used internally by `cre
 ### Inheritance System 🧬
 
 The inheritance system is where @use-pico/cls truly shines! While some other libraries support inheritance, @use-pico/cls combines it with design token support and heavy type checking, allowing you to build entire design system hierarchies with full type safety and predictable behavior.
+
+> **Inheritance Note**: While inheritance may look overcomplicated at first, it serves a crucial purpose in this system's design. The examples below will show you how to harness its power effectively in your favor - it's designed to solve real-world design system challenges, not just add complexity.
 
 #### Multi-Level Inheritance
 
@@ -667,6 +663,398 @@ export const Transfer = <TItem,>({
 };
 ```
 
+## When to Use What and How 🎯
+
+This section shows you practical scenarios and how to approach them with @use-pico/cls. Each example is complete and ready to use!
+
+### Simple Static Components
+
+**When**: You need a basic component with static styling, no variants or tokens.
+
+```ts
+import { cls } from "@use-pico/cls";
+
+const Card = cls({
+  tokens: {}, // No design tokens needed for this simple component
+  slot: ["root", "header", "content", "footer"] as const,
+  variant: {}, // No variants needed - static styling only
+}, {
+  token: {}, // No token definitions since we have no tokens
+  rules: ({ root }) => [
+    root({
+      root: { class: ["border", "rounded-lg", "shadow-sm", "bg-white"] },
+      header: { class: ["p-4", "border-b", "font-semibold"] },
+      content: { class: ["p-4", "text-sm"] },
+      footer: { class: ["p-4", "border-t", "bg-gray-50"] },
+    }),
+  ],
+  defaults: {}, // No defaults needed since we have no variants
+});
+
+// Usage
+const classes = Card.create();
+return (
+  <div className={classes.root()}>
+    <div className={classes.header()}>Title</div>
+    <div className={classes.content()}>Content</div>
+    <div className={classes.footer()}>Footer</div>
+  </div>
+);
+```
+
+### Components with Variants
+
+**When**: You need different styles based on props like size, color, state.
+
+```ts
+import { cls } from "@use-pico/cls";
+
+const Alert = cls({
+  tokens: {}, // No design tokens needed - using direct classes
+  slot: ["root", "title", "message"] as const,
+  variant: { 
+    variant: ["info", "success", "warning", "error"] as const,
+    size: ["sm", "md"] as const 
+  },
+}, {
+  token: {}, // No token definitions since we have no tokens
+  rules: ({ root, rule }) => [
+    root({
+      root: { class: ["rounded", "p-2"] }
+    }),
+    rule({ variant: "info" }, { root: { class: ["bg-blue-100", "border-blue-400", "text-blue-700"] } }),
+    rule({ variant: "success" }, { root: { class: ["bg-green-100", "border-green-400", "text-green-700"] } }),
+    rule({ variant: "warning" }, { root: { class: ["bg-yellow-100", "border-yellow-400", "text-yellow-700"] } }),
+    rule({ variant: "error" }, { root: { class: ["bg-red-100", "border-red-400", "text-red-700"] } }),
+    rule({ size: "sm" }, { root: { class: ["text-sm"] } }),
+    rule({ size: "md" }, { root: { class: ["text-base"] } }),
+  ],
+  defaults: { variant: "info", size: "md" },
+});
+
+// Usage
+const classes = Alert.create({ variant: { variant: "success", size: "sm" } });
+```
+
+### Design Token System
+
+**When**: You want reusable design values that can be inherited and overridden.
+
+```ts
+import { cls } from "@use-pico/cls";
+
+const Button = cls({
+  tokens: {
+    "color.text": ["default", "hover", "disabled"],
+    "color.bg": ["default", "hover", "disabled"],
+    "spacing.padding": ["sm", "md", "lg"],
+  },
+  slot: ["root", "label"],
+  variant: { size: ["sm", "md", "lg"], disabled: ["bool"] },
+}, {
+  token: {
+    "color.text": {
+      default: ["text-white"],
+      hover: ["text-blue-100"],
+      disabled: ["text-gray-400"],
+    },
+    "color.bg": {
+      default: ["bg-blue-600"],
+      hover: ["bg-blue-700"],
+      disabled: ["bg-gray-300"],
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"],
+    },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded"],
+        token: ["color.bg.default", "spacing.padding.md"]
+      },
+      label: { 
+        class: ["font-medium"],
+        token: ["color.text.default"]
+      },
+    }),
+    rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
+    rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
+    rule({ disabled: true }, { 
+      root: { token: ["color.bg.disabled"] },
+      label: { token: ["color.text.disabled"] }
+    }),
+  ],
+  defaults: { size: "md", disabled: false },
+});
+```
+
+### Component Inheritance
+
+**When**: You want to extend existing components with new variants or styling.
+
+```ts
+// Base button with common styling
+const BaseButton = cls({
+  tokens: {
+    "color.text": ["default", "hover"],
+    "color.bg": ["default", "hover"],
+  },
+  slot: ["root", "label"],
+  variant: { size: ["sm", "md"] },
+}, {
+  token: {
+    "color.text": { default: ["text-white"], hover: ["text-blue-100"] },
+    "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded"],
+        token: ["color.bg.default", "spacing.padding.md"]
+      },
+      label: { 
+        class: ["font-medium"],
+        token: ["color.text.default"]
+      },
+    }),
+    rule({ size: "sm" }, { root: { class: ["px-2", "py-1"] } }),
+    rule({ size: "md" }, { root: { class: ["px-4", "py-2"] } }),
+  ],
+  defaults: { size: "md" },
+});
+
+// Extended button with new variants
+const PrimaryButton = BaseButton.extend({
+  tokens: {
+    "color.text": ["default", "hover"], // Override parent tokens
+    "accent.ring": ["focus"], // Add new tokens
+  },
+  slot: ["icon"], // Add new slot
+  variant: { 
+    size: ["sm", "md", "lg"], // Extend parent variants
+    loading: ["bool"] // Add new variant
+  },
+}, {
+  token: {
+    "color.text": { default: ["text-white"], hover: ["text-white"] }, // Override
+    "accent.ring": { focus: ["ring-2", "ring-blue-500"] }, // New token
+  },
+  rules: ({ root, rule }) => [
+    root({
+      icon: { class: ["w-4", "h-4", "mr-2"] }, // New slot styling
+    }),
+    rule({ size: "lg" }, { root: { class: ["px-6", "py-3"] } }), // New variant
+    rule({ loading: true }, { 
+      root: { class: ["opacity-75", "cursor-wait"] },
+      icon: { class: ["animate-spin"] }
+    }),
+  ],
+  defaults: { size: "md", loading: false },
+});
+```
+
+### Theme System
+
+**When**: You need different themes (light/dark) or brand variations.
+
+```ts
+// Base theme tokens
+const BaseTheme = cls({
+  tokens: {
+    "color.text": ["default", "muted"],
+    "color.bg": ["default", "secondary"],
+    "color.border": ["default"],
+  },
+  slot: ["root"],
+  variant: {},
+}, {
+  token: {
+    "color.text": { default: ["text-gray-900"], muted: ["text-gray-600"] },
+    "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
+    "color.border": { default: ["border-gray-200"] },
+  },
+  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  defaults: {},
+});
+
+// Light theme
+const LightTheme = BaseTheme.extend({
+  tokens: {
+    "color.text": ["default", "muted"],
+    "color.bg": ["default", "secondary"],
+    "color.border": ["default"],
+  },
+}, {
+  token: {
+    "color.text": { default: ["text-gray-900"], muted: ["text-gray-600"] },
+    "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
+    "color.border": { default: ["border-gray-200"] },
+  },
+  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  defaults: {},
+});
+
+// Dark theme
+const DarkTheme = BaseTheme.extend({
+  tokens: {
+    "color.text": ["default", "muted"],
+    "color.bg": ["default", "secondary"],
+    "color.border": ["default"],
+  },
+}, {
+  token: {
+    "color.text": { default: ["text-white"], muted: ["text-gray-400"] },
+    "color.bg": { default: ["bg-gray-900"], secondary: ["bg-gray-800"] },
+    "color.border": { default: ["border-gray-700"] },
+  },
+  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  defaults: {},
+});
+```
+
+### Runtime Customization
+
+**When**: You need to customize components at runtime based on props or state.
+
+```ts
+// Component with runtime customization
+function CustomButton({ 
+  variant = "primary", 
+  size = "md", 
+  disabled = false,
+  customColors,
+  children 
+}) {
+  const classes = Button.create({
+    variant: { variant, size, disabled },
+    token: customColors ? {
+      "color.bg": { 
+        default: [customColors.background],
+        hover: [customColors.backgroundHover]
+      },
+      "color.text": { 
+        default: [customColors.text],
+        hover: [customColors.textHover]
+      }
+    } : undefined,
+  });
+
+  return (
+    <button className={classes.root()}>
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+
+// Usage with custom colors
+<CustomButton 
+  variant="primary" 
+  customColors={{
+    background: "bg-purple-600",
+    backgroundHover: "bg-purple-700",
+    text: "text-white",
+    textHover: "text-purple-100"
+  }}
+>
+  Custom Button
+</CustomButton>
+```
+
+### Complex Component with Multiple States
+
+**When**: You have a component with many states and interactions.
+
+```ts
+const ComplexButton = cls({
+  tokens: {
+    "color.text": ["default", "hover", "active", "disabled"],
+    "color.bg": ["default", "hover", "active", "disabled"],
+    "color.border": ["default", "focus"],
+    "spacing.padding": ["sm", "md", "lg"],
+  },
+  slot: ["root", "icon", "label", "spinner"],
+  variant: { 
+    size: ["sm", "md", "lg"],
+    variant: ["primary", "secondary", "danger"],
+    disabled: ["bool"],
+    loading: ["bool"],
+    active: ["bool"],
+  },
+}, {
+  token: {
+    "color.text": {
+      default: ["text-white"],
+      hover: ["text-blue-100"],
+      active: ["text-blue-200"],
+      disabled: ["text-gray-400"],
+    },
+    "color.bg": {
+      default: ["bg-blue-600"],
+      hover: ["bg-blue-700"],
+      active: ["bg-blue-800"],
+      disabled: ["bg-gray-300"],
+    },
+    "color.border": {
+      default: ["border-transparent"],
+      focus: ["border-blue-500"],
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"],
+    },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded", "border-2", "focus:outline-none"],
+        token: ["color.bg.default", "color.text.default", "color.border.default", "spacing.padding.md"]
+      },
+      icon: { class: ["w-4", "h-4", "mr-2"] },
+      label: { class: ["font-medium"] },
+      spinner: { class: ["w-4", "h-4", "mr-2", "animate-spin"] },
+    }),
+    // Size variants
+    rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
+    rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
+    // Color variants
+    rule({ variant: "secondary" }, { 
+      root: { 
+        token: ["color.bg.default", "color.text.default"],
+        class: ["bg-gray-600", "text-white"]
+      }
+    }),
+    rule({ variant: "danger" }, { 
+      root: { 
+        token: ["color.bg.default", "color.text.default"],
+        class: ["bg-red-600", "text-white"]
+      }
+    }),
+    // State variants
+    rule({ disabled: true }, { 
+      root: { 
+        token: ["color.bg.disabled", "color.text.disabled"],
+        class: ["cursor-not-allowed"]
+      }
+    }),
+    rule({ loading: true }, { 
+      root: { class: ["cursor-wait"] },
+      icon: { class: ["hidden"] },
+      spinner: { class: ["block"] },
+    }),
+    rule({ active: true }, { 
+      root: { 
+        token: ["color.bg.active", "color.text.active"]
+      }
+    }),
+  ],
+  defaults: { size: "md", variant: "primary", disabled: false, loading: false, active: false },
+});
+```
+
 ## Comparison with Similar Tools
 
 | Feature | @use-pico/cls | class-variance-authority | tailwind-variants | @stitches/react | vanilla-extract |
@@ -689,15 +1077,396 @@ export const Transfer = <TItem,>({
 - **⚡ Performance**: Lazy evaluation and intelligent caching
 - **🎯 Framework Agnostic**: Works with any framework, with excellent React integration
 
+### Code Comparison Showcase
+
+Let's see how different libraries handle the same scenarios:
+
+#### Simple Button Component
+
+**class-variance-authority:**
+```ts
+import { cva } from "class-variance-authority";
+
+const buttonVariants = cva(
+  "inline-flex items-center rounded font-medium",
+  {
+    variants: {
+      variant: {
+        primary: "bg-blue-600 text-white hover:bg-blue-700",
+        secondary: "bg-gray-600 text-white hover:bg-gray-700",
+      },
+      size: {
+        sm: "px-2 py-1 text-sm",
+        md: "px-4 py-2 text-base",
+        lg: "px-6 py-3 text-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  }
+);
+
+// Usage
+<button className={buttonVariants({ variant: "primary", size: "lg" })}>
+  Click me
+</button>
+```
+
+**@use-pico/cls:**
+```ts
+import { cls } from "@use-pico/cls";
+
+const Button = cls({
+  tokens: {},
+  slot: ["root"] as const,
+  variant: { 
+    variant: ["primary", "secondary"] as const,
+    size: ["sm", "md", "lg"] as const 
+  },
+}, {
+  token: {},
+  rules: ({ root, rule }) => [
+    root({
+      root: { class: ["inline-flex", "items-center", "rounded", "font-medium"] }
+    }),
+    rule({ variant: "primary" }, { root: { class: ["bg-blue-600", "text-white", "hover:bg-blue-700"] } }),
+    rule({ variant: "secondary" }, { root: { class: ["bg-gray-600", "text-white", "hover:bg-gray-700"] } }),
+    rule({ size: "sm" }, { root: { class: ["px-2", "py-1", "text-sm"] } }),
+    rule({ size: "md" }, { root: { class: ["px-4", "py-2", "text-base"] } }),
+    rule({ size: "lg" }, { root: { class: ["px-6", "py-3", "text-lg"] } }),
+  ],
+  defaults: { variant: "primary", size: "md" },
+});
+
+// Usage
+const classes = Button.create({ variant: { variant: "primary", size: "lg" } });
+<button className={classes.root()}>Click me</button>
+```
+
+> **Note**: @use-pico/cls is more verbose here, but provides better type safety and extensibility.
+
+#### Multi-slot Component
+
+**tailwind-variants:**
+```ts
+import { tv } from "tailwind-variants";
+
+const card = tv({
+  slots: {
+    base: "border rounded-lg shadow-sm bg-white",
+    header: "p-4 border-b font-semibold",
+    content: "p-4 text-sm",
+    footer: "p-4 border-t bg-gray-50",
+  },
+});
+
+// Usage
+const { base, header, content, footer } = card();
+<div className={base()}>
+  <div className={header()}>Title</div>
+  <div className={content()}>Content</div>
+  <div className={footer()}>Footer</div>
+</div>
+```
+
+**@use-pico/cls:**
+```ts
+import { cls } from "@use-pico/cls";
+
+const Card = cls({
+  tokens: {},
+  slot: ["root", "header", "content", "footer"] as const,
+  variant: {},
+}, {
+  token: {},
+  rules: ({ root }) => [
+    root({
+      root: { class: ["border", "rounded-lg", "shadow-sm", "bg-white"] },
+      header: { class: ["p-4", "border-b", "font-semibold"] },
+      content: { class: ["p-4", "text-sm"] },
+      footer: { class: ["p-4", "border-t", "bg-gray-50"] },
+    }),
+  ],
+  defaults: {},
+});
+
+// Usage
+const classes = Card.create();
+<div className={classes.root()}>
+  <div className={classes.header()}>Title</div>
+  <div className={classes.content()}>Content</div>
+  <div className={classes.footer()}>Footer</div>
+</div>
+```
+
+> **Note**: Very similar complexity, but @use-pico/cls provides better type safety and inheritance capabilities.
+
+#### Design Tokens & Inheritance
+
+**@stitches/react:**
+```ts
+import { styled } from "@stitches/react";
+
+const Button = styled("button", {
+  // Base styles
+  display: "inline-flex",
+  alignItems: "center",
+  borderRadius: "0.375rem",
+  fontWeight: "500",
+  
+  variants: {
+    variant: {
+      primary: {
+        backgroundColor: "$blue600",
+        color: "white",
+        "&:hover": { backgroundColor: "$blue700" },
+      },
+      secondary: {
+        backgroundColor: "$gray600",
+        color: "white",
+        "&:hover": { backgroundColor: "$gray700" },
+      },
+    },
+    size: {
+      sm: { padding: "$2 $3", fontSize: "$sm" },
+      md: { padding: "$3 $4", fontSize: "$base" },
+      lg: { padding: "$4 $6", fontSize: "$lg" },
+    },
+  },
+  
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+});
+
+// Extended button
+const IconButton = styled(Button, {
+  // Override and extend
+  variants: {
+    size: {
+      sm: { padding: "$2", width: "$8", height: "$8" },
+      md: { padding: "$3", width: "$10", height: "$10" },
+      lg: { padding: "$4", width: "$12", height: "$12" },
+    },
+  },
+});
+```
+
+**@use-pico/cls:**
+```ts
+import { cls } from "@use-pico/cls";
+
+const Button = cls({
+  tokens: {
+    "color.bg": ["default", "hover"],
+    "color.text": ["default"],
+    "spacing.padding": ["sm", "md", "lg"],
+  },
+  slot: ["root"],
+  variant: { variant: ["primary", "secondary"], size: ["sm", "md", "lg"] },
+}, {
+  token: {
+    "color.bg": {
+      default: ["bg-blue-600"],
+      hover: ["hover:bg-blue-700"],
+    },
+    "color.text": {
+      default: ["text-white"],
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"],
+    },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded", "font-medium"],
+        token: ["color.bg.default", "color.text.default", "spacing.padding.md"]
+      },
+    }),
+    rule({ variant: "primary" }, { 
+      root: { token: ["color.bg.default", "color.bg.hover"] }
+    }),
+    rule({ variant: "secondary" }, { 
+      root: { class: ["bg-gray-600", "hover:bg-gray-700"] }
+    }),
+    rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
+    rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
+  ],
+  defaults: { variant: "primary", size: "md" },
+});
+
+// Extended button with inheritance
+const IconButton = Button.extend({
+  tokens: {
+    "color.bg": ["default", "hover"], // Inherit and can override
+    "spacing.size": ["sm", "md", "lg"], // New tokens
+  },
+  slot: ["icon"],
+  variant: { size: ["sm", "md", "lg"] },
+}, {
+  token: {
+    "spacing.size": {
+      sm: ["w-8", "h-8"],
+      md: ["w-10", "h-10"],
+      lg: ["w-12", "h-12"],
+    },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      icon: { class: ["w-4", "h-4"] },
+    }),
+    rule({ size: "sm" }, { 
+      root: { class: ["p-2"], token: ["spacing.size.sm"] }
+    }),
+    rule({ size: "md" }, { 
+      root: { class: ["p-3"], token: ["spacing.size.md"] }
+    }),
+    rule({ size: "lg" }, { 
+      root: { class: ["p-4"], token: ["spacing.size.lg"] }
+    }),
+  ],
+  defaults: { size: "md" },
+});
+```
+
+> **Note**: @use-pico/cls is more verbose but provides:
+> - **Type-safe design tokens** with inheritance
+> - **Compile-time validation** of all token references
+> - **Multi-slot support** in the same component
+> - **Framework-agnostic** approach
+
+#### Theme System
+
+**vanilla-extract:**
+```ts
+// tokens.css.ts
+import { createGlobalTheme } from "@vanilla-extract/css";
+
+export const vars = createGlobalTheme(":root", {
+  color: {
+    primary: "#3b82f6",
+    secondary: "#6b7280",
+    background: "#ffffff",
+    text: "#1f2937",
+  },
+  space: {
+    sm: "0.5rem",
+    md: "1rem",
+    lg: "1.5rem",
+  },
+});
+
+// button.css.ts
+import { styleVariants } from "@vanilla-extract/recipes";
+import { vars } from "./tokens.css";
+
+export const button = styleVariants({
+  primary: {
+    backgroundColor: vars.color.primary,
+    color: "white",
+    padding: `${vars.space.md} ${vars.space.lg}`,
+  },
+  secondary: {
+    backgroundColor: vars.color.secondary,
+    color: "white",
+    padding: `${vars.space.md} ${vars.space.lg}`,
+  },
+});
+```
+
+**@use-pico/cls:**
+```ts
+import { cls } from "@use-pico/cls";
+
+const Theme = cls({
+  tokens: {
+    "color.primary": ["default"],
+    "color.secondary": ["default"],
+    "color.background": ["default"],
+    "color.text": ["default"],
+    "spacing.padding": ["sm", "md", "lg"],
+  },
+  slot: ["root"],
+  variant: {},
+}, {
+  token: {
+    "color.primary": { default: ["#3b82f6"] },
+    "color.secondary": { default: ["#6b7280"] },
+    "color.background": { default: ["#ffffff"] },
+    "color.text": { default: ["#1f2937"] },
+    "spacing.padding": {
+      sm: ["0.5rem"],
+      md: ["1rem"],
+      lg: ["1.5rem"],
+    },
+  },
+  rules: ({ root }) => [root({ root: { class: ["base-styles"] } })],
+  defaults: {},
+});
+
+const Button = Theme.extend({
+  slot: ["root"],
+  variant: { variant: ["primary", "secondary"] },
+}, {
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded"],
+        token: ["spacing.padding.md"]
+      },
+    }),
+    rule({ variant: "primary" }, { 
+      root: { 
+        class: ["text-white"],
+        token: ["color.primary"]
+      }
+    }),
+    rule({ variant: "secondary" }, { 
+      root: { 
+        class: ["text-white"],
+        token: ["color.secondary"]
+      }
+    }),
+  ],
+  defaults: { variant: "primary" },
+});
+```
+
+> **Note**: vanilla-extract is more concise but @use-pico/cls provides:
+> - **Runtime flexibility** (can change themes dynamically)
+> - **Type-safe token inheritance**
+> - **Framework-agnostic** approach
+> - **Component-level token overrides**
+
+#### Summary
+
+| Aspect | Competitors | @use-pico/cls |
+|--------|-------------|---------------|
+| **Simple Components** | ✅ Concise | ⚠️ More verbose but type-safe |
+| **Multi-slot** | ✅ Good | ✅ Excellent with inheritance |
+| **Design Tokens** | ❌ Limited/None | ✅ First-class with validation |
+| **Inheritance** | ⚠️ Basic/None | ✅ Sophisticated with type safety |
+| **Type Safety** | ✅ Basic | ✅ Advanced compile-time validation |
+| **Runtime Flexibility** | ⚠️ Limited | ✅ Full override capabilities |
+| **Learning Curve** | ✅ Easy | ⚠️ Steeper but more powerful |
+
+**The trade-off is clear**: @use-pico/cls prioritizes **type safety**, **design system consistency**, and **scalability** over **conciseness**. For simple projects, competitors might be easier. For complex design systems and production applications, @use-pico/cls provides the tools you need to build maintainable, type-safe styling systems.
+
 ## Advanced Features
 
 ### Boolean Variants
 
 ```ts
 const Toggle = cls(
-  { tokens: {}, slot: ["root"], variant: { disabled: ["bool"] } },
+  { tokens: {}, slot: ["root"], variant: { disabled: ["bool"] } }, // No tokens, just variants
   {
-    token: {},
+    token: {}, // No token definitions needed
     rules: ({ root, rule }) => [
       root({ root: { class: ["base"] } }),
       rule({ disabled: true }, { root: { class: ["opacity-50"] } }),
@@ -738,29 +1507,41 @@ All merged and deduped using `tailwind-merge`.
 ### Simple Components
 
 ```ts
-import { component } from "@use-pico/cls";
+import { cls } from "@use-pico/cls";
 
-export const Card = component({
-  slots: ["base", "header", "content"] as const,
-  slot: {
-    base: { class: ["border", "rounded", "p-4"] },
-    header: { class: ["font-bold", "mb-2"] },
-    content: { class: ["text-sm"] },
-  },
+export const Card = cls({
+  tokens: {}, // Simple component - no design tokens needed
+  slot: ["base", "header", "content"] as const,
+  variant: {}, // No variants - static styling
+}, {
+  token: {}, // No token definitions
+  rules: ({ root }) => [
+    root({
+      base: { class: ["border", "rounded", "p-4"] },
+      header: { class: ["font-bold", "mb-2"] },
+      content: { class: ["text-sm"] },
+    }),
+  ],
+  defaults: {}, // No defaults needed
 });
 ```
 
 ### Variant-only Components
 
 ```ts
-import { variant } from "@use-pico/cls";
+import { cls } from "@use-pico/cls";
 
-export const Alert = variant({
-  slots: ["base", "title", "message"] as const,
-  variants: { variant: ["info", "success"], clickable: ["bool"] } as const,
-  rule: [
-    { slot: { base: { class: ["p-2", "rounded"] } } },
-    { match: { variant: "success" }, slot: { base: { class: ["bg-green-100"] } } },
+export const Alert = cls({
+  tokens: {}, // Using direct classes instead of design tokens
+  slot: ["base", "title", "message"] as const,
+  variant: { variant: ["info", "success"], clickable: ["bool"] } as const,
+}, {
+  token: {}, // No token definitions needed
+  rules: ({ root, rule }) => [
+    root({
+      base: { class: ["p-2", "rounded"] }
+    }),
+    rule({ variant: "success" }, { base: { class: ["bg-green-100"] } }),
   ],
   defaults: { variant: "info", clickable: false },
 });
@@ -769,17 +1550,22 @@ export const Alert = variant({
 ### Token-only Definitions
 
 ```ts
-import { token } from "@use-pico/cls";
+import { cls } from "@use-pico/cls";
 
-export const ThemeTokens = token({
+export const ThemeTokens = cls({
   tokens: {
     "theme.bg": ["default", "hover"],
     "theme.text": ["default", "muted"],
   },
+  slot: [],
+  variant: {},
+}, {
   token: {
     "theme.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
     "theme.text": { default: ["text-white"], muted: ["text-slate-400"] },
   },
+  rules: () => [],
+  defaults: {},
 });
 ```
 
