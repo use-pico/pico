@@ -1,4 +1,5 @@
 import type { FC, HTMLAttributes } from "react";
+import { useCls, withCls } from "../../src/react";
 import { ModernButtonCls } from "./ModernButtonCls";
 
 /**
@@ -34,21 +35,24 @@ export namespace ModernButton {
 	}
 }
 
-export const ModernButton: FC<ModernButton.Props> = ({
+const ModernButtonBase: FC<ModernButton.Props> = ({
 	children,
 	disabled = false,
 	loading = false,
 	onClick,
-	tva = ModernButtonCls,
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
-			disabled,
-			loading,
+	const classes = useCls(
+		ModernButtonCls,
+		{
+			variant: {
+				disabled,
+				loading,
+			},
 		},
-	});
+		cls,
+	);
 
 	return (
 		<button
@@ -63,3 +67,6 @@ export const ModernButton: FC<ModernButton.Props> = ({
 		</button>
 	);
 };
+
+// Attach cls instance to component
+export const ModernButton = withCls(ModernButtonBase, ModernButtonCls);

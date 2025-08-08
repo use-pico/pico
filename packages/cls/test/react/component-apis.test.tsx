@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { cls } from "../../src/cls";
 import { ClsProvider, useCls } from "../../src/react";
 import { ModernButton } from "./ModernButton";
+import { ModernButtonCls } from "./ModernButtonCls";
 
 // Create a component using direct cls.create() (similar to Action.tsx)
 const DirectButtonCls = cls(
@@ -637,6 +638,24 @@ describe("React Component APIs", () => {
 
 			button.click();
 			expect(handleClick).not.toHaveBeenCalled();
+		});
+
+		it("should have cls instance attached via withCls", () => {
+			// ModernButton should now have the cls instance attached
+			expect(ModernButton.cls).toBeDefined();
+			expect(ModernButton.cls).toBe(ModernButtonCls);
+
+			// Users can access the cls instance directly
+			const classes = ModernButton.cls.create({
+				variant: {
+					variant: "danger",
+					size: "lg",
+				},
+			});
+
+			expect(classes.root()).toContain("bg-red-500");
+			expect(classes.root()).toContain("px-6");
+			expect(classes.root()).toContain("py-3");
 		});
 	});
 });
