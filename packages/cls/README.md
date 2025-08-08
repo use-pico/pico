@@ -521,7 +521,15 @@ This inheritance system lets you build complex, maintainable design systems wher
 
 ### Create-time Overrides 🎛️
 
-The `create()` method gives you incredible flexibility to customize styling at runtime. You can override variants, append to slots, hard override slots, and even override tokens - all with predictable precedence rules!
+The `create()` method gives you incredible flexibility to customize styling at runtime. You can override variants, append to slots, hard override slots, and even override tokens — all with predictable precedence rules!
+
+> **What to reach for when…**
+> - **variant**: reflect component state or public API (size, active, disabled)
+> - **slot**: add small tweaks (extra padding, ring, gap) — it **appends**
+> - **override**: hard replace a slot for one-offs (skeleton, layout swap)
+> - **token**: theme/brand level changes (colors, spacing, surfaces)
+
+> **Tip**: Don’t overshare giant override objects in props. Prefer **named variants** for most “features” and keep **overrides** for local, one-off adjustments.
 
 #### Variant Overrides
 
