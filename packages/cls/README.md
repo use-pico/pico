@@ -605,6 +605,183 @@ const classes = Button.create({
 
 This override system makes @use-pico/cls incredibly flexible - you can customize any aspect of your components at runtime while maintaining the design system's structure and type safety! 🎨
 
+## Token Overloading & Theming 🎨
+
+One of the most powerful features of @use-pico/cls is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
+
+### One-Time Token Replacement
+
+You can replace any token definition for a specific component instance:
+
+```ts
+const Button = cls({
+  tokens: {
+    "color.bg": ["default", "hover"],
+    "color.text": ["default"],
+  },
+  slot: ["root"],
+  variant: { variant: ["primary", "secondary"] },
+}, {
+  token: {
+    "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
+    "color.text": { default: ["text-white"] },
+  },
+  rules: ({ root, rule }) => [
+    root({
+      root: { 
+        class: ["inline-flex", "items-center", "rounded"],
+        token: ["color.bg.default", "color.text.default"]
+      }
+    }),
+  ],
+  defaults: { variant: "primary" },
+});
+
+// One-time token replacement
+const classes = Button.create({
+  token: {
+    "color.bg": { 
+      default: ["bg-red-600"], // Override default background
+      hover: ["bg-red-700"]    // Override hover background
+    },
+    "color.text": { 
+      default: ["text-yellow-200"] // Override text color
+    }
+  }
+});
+```
+
+### External Theme Integration
+
+You can create external theme definitions and apply them to any component:
+
+```ts
+// External theme definition
+const DarkTheme = {
+  "color.bg": { 
+    default: ["bg-gray-800"], 
+    hover: ["bg-gray-700"] 
+  },
+  "color.text": { 
+    default: ["text-gray-100"] 
+  },
+  "color.border": { 
+    default: ["border-gray-600"] 
+  },
+} as const;
+
+// Apply theme to any component
+const buttonClasses = Button.create({
+  token: DarkTheme
+});
+
+const cardClasses = Card.create({
+  token: DarkTheme
+});
+```
+
+### Context-Based Theming
+
+Combine with React context for app-wide theming:
+
+```tsx
+// Theme context
+const ThemeContext = createContext({
+  theme: {
+    "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
+    "color.text": { default: ["text-white"] },
+  }
+});
+
+// Theme provider
+function ThemeProvider({ children, theme }) {
+  return (
+    <ThemeContext.Provider value={{ theme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+// Component using theme from context
+function ThemedButton({ variant = "primary", children }) {
+  const { theme } = useContext(ThemeContext);
+  
+  const classes = Button.create({
+    variant: { variant },
+    token: theme // Apply theme from context
+  });
+
+  return (
+    <button className={classes.root()}>
+      {children}
+    </button>
+  );
+}
+
+// Usage
+<ThemeProvider theme={DarkTheme}>
+  <ThemedButton>Dark themed button</ThemedButton>
+</ThemeProvider>
+```
+
+### Type-Safe Token Overloading
+
+The type system ensures you can only override tokens that exist in the component's contract:
+
+```ts
+const classes = Button.create({
+  token: {
+    "color.bg": { default: ["bg-green-600"] }, // ✅ Valid
+    "color.text": { default: ["text-white"] }, // ✅ Valid
+    "nonexistent.token": { default: ["bg-red"] } // ❌ Type error!
+  }
+});
+```
+
+### Dynamic Theme Switching
+
+You can switch themes dynamically based on user preferences:
+
+```tsx
+function App() {
+  const [theme, setTheme] = useState('light');
+  
+  const currentTheme = theme === 'dark' ? DarkTheme : LightTheme;
+  
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <div>
+        <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+          Toggle Theme
+        </button>
+        <ThemedButton>Theme-aware button</ThemedButton>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+### Trade-offs & Considerations
+
+**Advantages:**
+- **Full type safety** - TypeScript ensures token compatibility
+- **Runtime flexibility** - Change themes without rebuilding
+- **Component isolation** - Each component can have its own theme
+- **Performance** - No CSS-in-JS runtime overhead
+
+**Trade-offs:**
+- **Context dependency** - Every component must read from context
+- **Manual application** - Need to explicitly pass theme to `create()`
+- **Bundle size** - Theme definitions included in bundle
+
+**Best Practices:**
+- Create reusable theme objects for consistency
+- Use TypeScript to ensure theme compatibility
+- Consider performance implications of context usage
+- Keep theme definitions close to component definitions
+
+This token overloading system provides the flexibility of CSS-in-JS theming while maintaining the performance and type safety benefits of class-based styling! 🚀
+
 ## React Integration
 
 ### useCls Hook
