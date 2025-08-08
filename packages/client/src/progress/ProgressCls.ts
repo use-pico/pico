@@ -1,92 +1,99 @@
-import { type Component, variant } from "@use-pico/cls";
+¬import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const ProgressCls = variant({
-	slots: [
-		"base",
-		"progress",
-	],
-	variants: {
-		size: [
-			"xs",
-			"sm",
-			"md",
-			"lg",
+export const ProgressCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
+			"progress",
 		],
+		variant: {
+			size: [
+				"xs",
+				"sm",
+				"md",
+				"lg",
+			],
+		},
 	},
-	rules: ({ root, rule }) => [
-		root({
-			base: {
-				class: [
-					"h-full",
-					"w-full",
-					"bg-slate-200",
-					"rounded-sm",
-					"transition-all",
-				],
-			},
-			progress: {
-				class: [
-					"h-full",
-					"bg-blue-400",
-					"rounded-sm",
-					"leading-none",
-					"transition-all",
-				],
-			},
-		}),
-		rule(
-			{
-				size: "xs",
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule }) => [
+			root({
 				base: {
 					class: [
-						"h-0.5",
+						"h-full",
+						"w-full",
+						"bg-slate-200",
+						"rounded-sm",
+						"transition-all",
 					],
 				},
-			},
-		),
-		rule(
-			{
-				size: "sm",
-			},
-			{
-				base: {
+				progress: {
 					class: [
-						"h-1",
+						"h-full",
+						"bg-blue-400",
+						"rounded-sm",
+						"leading-none",
+						"transition-all",
 					],
 				},
-			},
-		),
-		rule(
-			{
-				size: "md",
-			},
-			{
-				base: {
-					class: [
-						"h-2",
-					],
+			}),
+			rule(
+				{
+					size: "xs",
 				},
-			},
-		),
-		rule(
-			{
-				size: "lg",
-			},
-			{
-				base: {
-					class: [
-						"h-4",
-					],
+				{
+					base: {
+						class: [
+							"h-0.5",
+						],
+					},
 				},
-			},
-		),
-	],
-	defaults: {
-		size: "md",
+			),
+			rule(
+				{
+					size: "sm",
+				},
+				{
+					base: {
+						class: [
+							"h-1",
+						],
+					},
+				},
+			),
+			rule(
+				{
+					size: "md",
+				},
+				{
+					base: {
+						class: [
+							"h-2",
+						],
+					},
+				},
+			),
+			rule(
+				{
+					size: "lg",
+				},
+				{
+					base: {
+						class: [
+							"h-4",
+						],
+					},
+				},
+			),
+		],
+		defaults: {
+			size: "md",
+		},
 	},
-});
+);
 export type ProgressCls = typeof ProgressCls;
 
 export namespace ProgressCls {

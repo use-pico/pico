@@ -1,8 +1,6 @@
 import type { ClassNameValue } from "tailwind-merge";
 import type { ClassesFn } from "./classes";
-import type { ComponentProps } from "./component";
 import type { MatchFn, MatchSlotFn } from "./match";
-import type { VariantProps } from "./variant";
 
 // ============================================================================
 // CORE TYPE DEFINITIONS
@@ -834,31 +832,6 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	): Cls<
 		Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
 	>;
-
-	/**
-	 * component(props)
-	 *
-	 * Create a simple extension layer with static slots (no new tokens/variants),
-	 * using the same inheritance chain. Equivalent to calling `extend()` with an
-	 * empty token/variant contract and a single base rule.
-	 */
-	component<const TSlots extends SlotContract>(
-		props: ComponentProps<TSlots, TContract>,
-	): Cls<Contract<{}, TSlots, {}, TContract>>;
-
-	/**
-	 * variant(props)
-	 *
-	 * Create an extension layer with static slots plus variants and full rule
-	 * matching (match/override). Equivalent to calling `extend()` with an empty
-	 * token contract and your provided slots/variants/rule/defaults.
-	 */
-	variant<
-		const TSlots extends SlotContract,
-		const TVariants extends VariantContract,
-	>(
-		props: VariantProps<TSlots, TVariants, TContract>,
-	): Cls<Contract<{}, TSlots, TVariants, TContract>>;
 
 	/**
 	 * Type-safe assignment of compatible cls instances.

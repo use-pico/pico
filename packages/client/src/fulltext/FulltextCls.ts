@@ -1,7 +1,7 @@
-import { type Component, classes } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const FulltextCls = PicoCls.component({
+export const FulltextCls = PicoCls.extend({
 	slots: [
 		"base",
 		"search",
@@ -9,19 +9,23 @@ export const FulltextCls = PicoCls.component({
 		"clear",
 	],
 	root: {
-		base: classes([
-			"relative",
-			"w-full",
-		]),
-		search: classes([
-			"absolute",
-			"inset-y-0",
-			"left-2",
-			"flex",
-			"items-center",
-			"pointer-events-none",
-			"text-slate-500",
-		]),
+		base: {
+			class: [
+				"relative",
+				"w-full",
+			],
+		},
+		search: {
+			class: [
+				"absolute",
+				"inset-y-0",
+				"left-2",
+				"flex",
+				"items-center",
+				"pointer-events-none",
+				"text-slate-500",
+			],
+		},
 		input: {
 			class: [
 				"pl-8",
@@ -52,6 +56,8 @@ export const FulltextCls = PicoCls.component({
 		},
 	},
 });
+
+export type FulltextCls = typeof FulltextCls;
 
 export namespace FulltextCls {
 	export type Props<P = unknown> = Component<typeof FulltextCls, P>;

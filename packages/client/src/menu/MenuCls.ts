@@ -1,39 +1,46 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const MenuCls = variant({
-	slots: [
-		"base",
-	],
-	variants: {
-		vertical: [
-			"bool",
+export const MenuCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
 		],
+		variant: {
+			vertical: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([
-				"flex",
-				"flex-row",
-				"gap-2",
-				"items-center",
-			]),
-		}),
-		rule(
-			{
-				vertical: true,
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
 				base: classes([
-					"flex-col",
-					"items-start",
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
 				]),
-			},
-		),
-	],
-	defaults: {
-		vertical: false,
+			}),
+			rule(
+				{
+					vertical: true,
+				},
+				{
+					base: classes([
+						"flex-col",
+						"items-start",
+					]),
+				},
+			),
+		],
+		defaults: {
+			vertical: false,
+		},
 	},
-});
+);
 
 export namespace MenuCls {
 	export type Props<P = unknown> = Component<typeof MenuCls, P>;

@@ -1,5 +1,4 @@
 import { classes } from "./classes";
-import type { ComponentProps } from "./component";
 import { match } from "./match";
 import { merge } from "./merge";
 import { tvc } from "./tvc";
@@ -12,7 +11,6 @@ import type {
 	TokenContract,
 	VariantContract,
 } from "./types";
-import type { VariantProps } from "./variant";
 
 // TODO Vibe variable extraction (create PicoCls with tokens)
 // TODO Change slot from "string" to "callback" with "variant" as input - last override
@@ -319,45 +317,6 @@ export function cls<
 			childContract["~definition"] = definition;
 
 			return cls(childContract as any, childDefinition as any);
-		},
-		component<const TSlots extends SlotContract>(
-			props: ComponentProps<TSlots>,
-		) {
-			return this.extend(
-				{
-					tokens: {},
-					slot: props.slots,
-					variant: {},
-				} as Contract<{}, TSlots, {}, any>,
-				{
-					token: {},
-					rules() {
-						return [
-							{
-								slot: props.root,
-							},
-						];
-					},
-					defaults: {},
-				} as Definition<Contract<{}, TSlots, {}, any>>,
-			) as any;
-		},
-		variant<
-			const TSlots extends SlotContract,
-			const TVariants extends VariantContract,
-		>(props: VariantProps<TSlots, TVariants>) {
-			return this.extend(
-				{
-					tokens: {},
-					slot: props.slots,
-					variant: props.variants,
-				} as Contract<{}, TSlots, TVariants, any>,
-				{
-					token: {},
-					rules: props.rules,
-					defaults: props.defaults,
-				} as Definition<Contract<{}, TSlots, TVariants, any>>,
-			) as any;
 		},
 		use(sub) {
 			return sub as unknown as Cls<TContract>;

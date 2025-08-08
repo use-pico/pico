@@ -1,49 +1,56 @@
-import { type Component, variant } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const LoadingOverlayCls = variant({
-	slots: [
-		"base",
-	],
-	variants: {
-		show: [
-			"bool",
+export const LoadingOverlayCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"base",
 		],
+		variant: {
+			show: [
+				"bool",
+			],
+		},
 	},
-	rules: ({ root, rule, classes }) => [
-		root({
-			base: classes([
-				"fixed",
-				"inset-0",
-				"h-full",
-				"items-center",
-				"justify-center",
-				"bg-slate-100",
-				"flex",
-				"transition-all",
-				"duration-200",
-				"z-10",
-				"pointer-events-none",
-				"bg-opacity-0",
-				"backdrop-blur-none",
-			]),
-		}),
-		rule(
-			{
-				show: true,
-			},
-			{
+	{
+		token: {},
+		rules: ({ root, rule, classes }) => [
+			root({
 				base: classes([
-					"bg-opacity-50",
-					"backdrop-blur-xs",
-					"pointer-events-auto",
+					"fixed",
+					"inset-0",
+					"h-full",
+					"items-center",
+					"justify-center",
+					"bg-slate-100",
+					"flex",
+					"transition-all",
+					"duration-200",
+					"z-10",
+					"pointer-events-none",
+					"bg-opacity-0",
+					"backdrop-blur-none",
 				]),
-			},
-		),
-	],
-	defaults: {
-		show: true,
+			}),
+			rule(
+				{
+					show: true,
+				},
+				{
+					base: classes([
+						"bg-opacity-50",
+						"backdrop-blur-xs",
+						"pointer-events-auto",
+					]),
+				},
+			),
+		],
+		defaults: {
+			show: true,
+		},
 	},
-});
+);
 
 export namespace LoadingOverlayCls {
 	export type Props<P = unknown> = Component<typeof LoadingOverlayCls, P>;

@@ -1,17 +1,34 @@
-import { type Component, classes, component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const AbstractListCls = component({
-	slots: [
-		"root",
-		"body",
-		"items",
-	],
-	root: {
-		root: classes([]),
-		body: classes([]),
-		items: classes([]),
+export const AbstractListCls = PicoCls.extend(
+	{
+		tokens: {},
+		slot: [
+			"root",
+			"body",
+			"items",
+		],
+		variant: {},
 	},
-});
+	{
+		token: {},
+		rules: ({ root }) => [
+			root({
+				root: {
+					class: [],
+				},
+				body: {
+					class: [],
+				},
+				items: {
+					class: [],
+				},
+			}),
+		],
+		defaults: {},
+	},
+);
 
 export type AbstractListCls = typeof AbstractListCls;
 
