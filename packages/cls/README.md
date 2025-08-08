@@ -1746,12 +1746,24 @@ export const ThemeTokens = cls({
 });
 ```
 
-## History – how this library came to be
+## A Personal Note
+
+### A Brief History
 
 It started with experience using **class-variants utilities**. They worked, but I kept hitting **limits in real projects**.
 
-- First, I used **class-variance-authority**. Helpful, but I needed **more flexibility** as projects grew.
-- Then I tried **tailwind-variants**. I liked it a lot, but I ran into **internal inconsistencies** (strings vs arrays) that were hard to track across a codebase. The bigger blocker was the **lack of first-class design token support**.
+#### class-variance-authority (CVA)
+
+- I used CVA and it worked, but I found **limitations in my projects** as things grew.
+- It nudged me toward wanting **first-class tokens**, **stronger typing**, and **multi-level inheritance**.
+
+#### tailwind-variants (TVA)
+
+- I found TVA and **liked it**; it worked nicely in practice.
+- But I ran into **internal problems and inconsistencies** (values used as "string" vs "arrays"), which were **hard to track** at scale.
+- Alongside other limits, the **last nail in the coffin** was the lack of **design token** support.
+
+> **Credit where it’s due**: tailwind-variants (TVA) did a lot of things **very well** and heavily inspired this library. Its ergonomics and slot model influenced early versions of @use-pico/cls. This project builds on that inspiration while focusing on **design tokens** and **heavy type safety** as first-class features.
 
 So I built the first version of **“cls”**. At the beginning it was conceptually close to _tva_, but with one big change: a **solid, fully typed inheritance model**. That’s where the _**type‑safety first**_ mantra came from.
 
@@ -1763,7 +1775,17 @@ The breakthrough was to make **tokens first‑class citizens** in the system:
 - Reference tokens **directly** from rules and slots
 - Keep **everything in one place** with **full types**, so as soon as you define a token, it’s **available (and validated) everywhere** across inheritance
 
+### Project maturity
+
+- **Stable core API**: The contract/definition/create model is stable; future work focuses on **convenience helpers** and ergonomics.
+- **Heavily tested**: Coverage includes **base rules, variants, tokens, overrides, inheritance, ordering**, and lazy slot behavior.
+- **Production-oriented**: Built for **complex design systems** and **large-scale apps**; prioritizes **maintainability** and **type safety**.
+- **Type-first philosophy**: The system leverages **strict TypeScript** to enforce correctness across inheritance and token usage.
+- **Lightweight runtime**: Minimal overhead; classes are **computed lazily**, deduped via `tailwind-merge`.
+
 This library went through **multiple iterations**. The earliest version was hand‑written by me; later iterations **refined the API** and **internals**. The final version you’re reading now was a **collaboration**: I designed the concepts and type system, and used AI to help with **heavy lifting** and **implementation polish**. Think of it as **human‑led design** with **AI‑assisted execution**.
+
+### Transparency
 
 I’m sharing this story to be transparent: the **ideas, constraints, and overall design** are mine; **AI helped** me accelerate and explore the implementation space. The end result is a tool I’m proud of—**practical, strongly typed, and built for real‑world design systems**.
 
