@@ -83,7 +83,7 @@ const classes2 = Button.create({ variant: { size: "sm" } });
 
 ### Glossary (30 seconds to fluent)
 
-- **Contract**: The **structure** that declares your `tokens`, `slot`, and `variant`. It’s the **source of truth** the type system validates against. See [Main API](#main-api) and [Inheritance System](#inheritance-system-).
+- **Contract**: The **structure** that declares your `tokens`, `slot`, and `variant`. It’s the **source of truth** the type system validates against. See [Main API](#main-api) and [Inheritance System](#inheritance-system).
 - **Tokens**: Named style primitives (e.g., `color.bg.default`, `spacing.padding.md`). See [Token Overloading & Theming](#token-overloading--theming).
 - **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string. See [Glossary](#glossary-30-seconds-to-fluent) and [Components with Variants](#components-with-variants).
 - **Variants**: Appearance knobs (`size`, `variant`, `disabled: bool`). See [Components with Variants](#components-with-variants).
@@ -927,7 +927,7 @@ This token overloading system provides the flexibility of CSS-in-JS theming whil
 
 ### useCls Hook
 
-For React components, use the `useCls` hook with automatic memoization:
+For React components, use the `useCls` hook to **bind a cls instance to React context tokens**. This hook’s main benefit is its **automatic integration with `ClsProvider`** (theme tokens), not memoization. You should still memoize your config if it changes every render.
 
 ```tsx
 import { useCls } from "@use-pico/cls";
@@ -980,8 +980,8 @@ export const Transfer = <TItem,>({
   const classes = tva.create(cls);
 
   return (
-    <div className={classes.base}>
-      <div className={classes.panel}>
+    <div className={classes.base()}>
+      <div className={classes.panel()}>
         {/* Component content */}
       </div>
     </div>
@@ -1025,7 +1025,7 @@ const Card = cls({
 
 // Usage
 const classes = Card.create();
-  return (
+return (
   <div className={classes.root()}>
     <div className={classes.header()}>Title</div>
     <div className={classes.content()}>Content</div>
