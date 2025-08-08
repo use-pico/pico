@@ -98,6 +98,7 @@ describe("basic", () => {
 					class: "font-medium",
 				},
 			},
+			defaults: {},
 		});
 
 		const s = T.create();

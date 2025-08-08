@@ -843,7 +843,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 * empty token/variant contract and a single base rule.
 	 */
 	component<const TSlots extends SlotContract>(
-		props: ComponentProps<TSlots>,
+		props: ComponentProps<TSlots, TContract>,
 	): Cls<Contract<{}, TSlots, {}, TContract>>;
 
 	/**

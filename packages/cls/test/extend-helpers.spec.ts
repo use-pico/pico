@@ -50,6 +50,7 @@ describe("Cls.instance helpers inheritance", () => {
 					],
 				},
 			},
+			defaults: {},
 		});
 
 		const s = Child.create();

@@ -1,5 +1,12 @@
 import { cls } from "./cls";
-import type { Cls, Contract, SlotContract, SlotMapping } from "./types";
+import type {
+	Cls,
+	Contract,
+	Definition,
+	SlotContract,
+	SlotMapping,
+	VariantContract,
+} from "./types";
 
 /**
  * Props for the simple-component helper.
@@ -7,9 +14,16 @@ import type { Cls, Contract, SlotContract, SlotMapping } from "./types";
  * - slots: contract definition listing the component's slots
  * - slot: a single base rule mapping each slot to its static classes
  */
-export type ComponentProps<TSlots extends SlotContract> = {
+export type ComponentProps<
+	TSlots extends SlotContract,
+	TVariants extends VariantContract,
+	TContract extends Contract<any, any, any> = Contract<any, any, any>,
+> = {
 	slots: TSlots;
-	root: SlotMapping<Contract<{}, TSlots, {}>>;
+	root: SlotMapping<Contract<{}, TSlots, TVariants, TContract>>;
+	defaults: Definition<
+		Contract<{}, TSlots, TVariants, TContract>
+	>["defaults"];
 };
 
 /**
@@ -61,15 +75,22 @@ export type ComponentProps<TSlots extends SlotContract> = {
  * // s.base, s.container, s.title, s.links, s.actions, s.extra
  * ```
  */
-export function component<const TSlots extends SlotContract>({
+export function component<
+	const TSlots extends SlotContract,
+	const TVariants extends VariantContract,
+	const TContract extends Contract<any, any, any> = Contract<any, any, any>,
+>({
 	slots,
 	root,
-}: ComponentProps<TSlots>): Cls<Contract<{}, TSlots, {}>> {
+	defaults,
+}: ComponentProps<TSlots, TVariants, TContract>): Cls<
+	Contract<{}, TSlots, TVariants, TContract>
+> {
 	return cls(
 		{
 			tokens: {},
 			slot: slots,
-			variant: {},
+			variant: {} as TVariants,
 		},
 		{
 			token: {},
@@ -78,7 +99,7 @@ export function component<const TSlots extends SlotContract>({
 					slot: root,
 				},
 			],
-			defaults: {},
+			defaults,
 		},
 	);
 }
