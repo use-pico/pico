@@ -42,6 +42,8 @@ bun add @use-pico/cls
 
 ## Quick Start
 
+> We’re starting tiny — **one slot** and a **size** variant — so you can feel the flow before adding tokens, more slots, and complex rules. Keep it simple first; level up fast.
+
 ```ts
 import { cls } from "@use-pico/cls";
 
@@ -71,9 +73,18 @@ const classes2 = Button.create({ variant: { size: "sm" } });
 
 ## Core Concepts
 
-> **System Design Philosophy**: This system is a **complex set of tools serving its purpose**. Every piece and decision made in its creation is based on **real-world usage patterns** and helps to create a **high-quality class-in-JS system** that scales with your needs. Once you understand how to use the **individual pieces**, it becomes like a **piece of cake to use** - the **type system will guide you** every step of the way.
+> **System Design Philosophy**: This system is a **toolbox** — yes, there are a few pieces, but **each one earns its keep**. The design is based on **real-world usage**, so once you get the feel for the **individual pieces**, it becomes a **piece of cake** to use — and the **type system will guide you** the whole way.
 
-> **Why Empty Fields?**: You'll notice that many examples include empty objects like `tokens: {}`, `variant: {}`, `token: {}`, and `defaults: {}`. This is **intentional** - the **type system requires all fields to be present** for consistency and type safety. While it might seem verbose, this design choice **prevents complex conditional type logic** that would make the TypeScript types much more complex and harder to understand. The trade-off is **a few extra keystrokes for significantly better type inference and developer experience**.
+### Glossary (30 seconds to fluent)
+
+- **Tokens**: Named style primitives (e.g., `color.bg.default`, `spacing.padding.md`).
+- **Slots**: Named component parts (`root`, `label`, `icon`) that each produce a class string.
+- **Variants**: Appearance knobs (`size`, `variant`, `disabled: bool`).
+- **Rules**: How variant combos map to slot styles (base `root(...)` + conditional `rule(...)`).
+- **Overrides**: Hard replace a slot’s output at `create()` time (`override` beats everything).
+- **Create config**: `variant`, `slot`, `override`, `token` (user config always wins over internal).
+
+> **Why Empty Fields?**: You'll notice that many examples include empty objects like `tokens: {}`, `variant: {}`, `token: {}`, and `defaults: {}`. This is **intentional** — the **type system requires all fields to be present** for consistency and type safety. While it might seem verbose, this design choice **avoids complex conditional type logic** that would make the types harder to understand. The trade-off is **a few extra keystrokes for much better type inference and DX**.
 
 ### Design Tokens
 
