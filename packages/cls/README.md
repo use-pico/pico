@@ -89,6 +89,50 @@ tokens: {
 
 **Heavy Type Checking**: The contract is the source of truth - any changes to the contract forces definitions to match. TypeScript ensures all token references in rules exist in your contract.
 
+#### Example Usage
+
+```ts
+// Define tokens in contract
+const Button = cls({
+  tokens: {
+    "color.text": ["default", "hover", "disabled"],
+    "color.bg": ["default", "hover", "disabled"],
+    "spacing.padding": ["sm", "md", "lg"]
+  }
+}, {
+  // Provide concrete values
+  token: {
+    "color.text": {
+      default: ["text-blue-600"],
+      hover: ["text-blue-700"],
+      disabled: ["text-gray-400"]
+    },
+    "color.bg": {
+      default: ["bg-blue-100"],
+      hover: ["bg-blue-200"],
+      disabled: ["bg-gray-100"]
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"]
+    }
+  }
+});
+
+// Use tokens in rules
+rules: ({ root, rule }) => [
+  root({
+    root: { token: ["color.bg.default", "spacing.padding.md"] },
+    label: { token: ["color.text.default"] }
+  }),
+  rule({ disabled: true }, {
+    root: { token: ["color.bg.disabled"] },
+    label: { token: ["color.text.disabled"] }
+  })
+]
+```
+
 ### Slots
 
 Slots are named parts of your component that can receive independent styling:
@@ -98,6 +142,33 @@ slot: ["root", "icon", "label", "badge"]
 ```
 
 Each slot becomes a function that returns CSS classes, computed lazily when accessed.
+
+#### Example Usage
+
+```ts
+const Card = cls({
+  slot: ["root", "header", "content", "footer"]
+}, {
+  rules: ({ root }) => [
+    root({
+      root: { class: ["border", "rounded-lg", "shadow-sm"] },
+      header: { class: ["p-4", "border-b", "font-semibold"] },
+      content: { class: ["p-4", "text-sm"] },
+      footer: { class: ["p-4", "border-t", "bg-gray-50"] }
+    })
+  ]
+});
+
+// Usage in component
+const classes = Card.create();
+return (
+  <div className={classes.root()}>
+    <div className={classes.header()}>Title</div>
+    <div className={classes.content()}>Content</div>
+    <div className={classes.footer()}>Footer</div>
+  </div>
+);
+```
 
 ### Variants
 
@@ -109,6 +180,42 @@ variant: {
   variant: ["primary", "secondary"],
   disabled: ["bool"] // Special "bool" type becomes boolean
 }
+```
+
+#### Example Usage
+
+```ts
+const Button = cls({
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["primary", "secondary", "danger"],
+    disabled: ["bool"],
+    loading: ["bool"]
+  }
+}, {
+  rules: ({ root, rule }) => [
+    root({
+      root: { class: ["inline-flex", "items-center", "rounded"] }
+    }),
+    // Size variants
+    rule({ size: "sm" }, { root: { class: ["px-2", "py-1", "text-sm"] } }),
+    rule({ size: "md" }, { root: { class: ["px-4", "py-2", "text-base"] } }),
+    rule({ size: "lg" }, { root: { class: ["px-6", "py-3", "text-lg"] } }),
+    // Color variants
+    rule({ variant: "primary" }, { root: { class: ["bg-blue-500", "text-white"] } }),
+    rule({ variant: "secondary" }, { root: { class: ["bg-gray-500", "text-white"] } }),
+    rule({ variant: "danger" }, { root: { class: ["bg-red-500", "text-white"] } }),
+    // State variants
+    rule({ disabled: true }, { root: { class: ["opacity-50", "cursor-not-allowed"] } }),
+    rule({ loading: true }, { root: { class: ["cursor-wait"] } })
+  ],
+  defaults: { size: "md", variant: "primary", disabled: false, loading: false }
+});
+
+// Usage with different variants
+const primaryButton = Button.create({ variant: { variant: "primary", size: "lg" } });
+const disabledButton = Button.create({ variant: { disabled: true } });
+const loadingButton = Button.create({ variant: { loading: true } });
 ```
 
 ### Rules
@@ -173,30 +280,17 @@ Creates a new style module that inherits from an existing one. This is the found
 
 Generates the actual CSS classes for your component. This is called at render time and returns slot functions that compute classes lazily. The user config takes precedence over internal config, allowing for flexible customization.
 
+> **Two-Parameter Design**: The intention is to have a component that receives `userConfig` from its props while providing its own variants in `internalConfig`. For example, a button component might receive a `disabled` prop (not a variant) and send it to the `variant` field in its `internalConfig`, while user-land config (e.g., `variant: "primary"`) is supplied through `userConfig`.
+
 #### merge(user, internal)
 
 A utility function that encapsulates the merge semantics used internally by `create()`. Useful when you need to combine user-provided styling with component-controlled styling in a predictable way.
 
-### Helper Functions
-
-- `classes(value)` → Tiny helper to declare `class` arrays succinctly
-- `match(...)` → Typed rule builder with 2-arg (base) and 3-arg (conditional) overloads
-
-#### classes(value)
-
-A tiny helper that wraps a string or string array into the correct shape for slot definitions. This makes your code more readable when defining classes in rules or create-time overrides.
-
-#### match(...)
-
-A typed rule builder with two overloads:
-- **Base rule**: `match(slot, override?)` - Creates a rule that always applies
-- **Conditional rule**: `match(match, slot, override?)` - Creates a rule that applies when the match condition is met
-
-This helper provides full type safety and IntelliSense when building rules.
+> **Convenience Function**: This is primarily a convenience function to prevent object destructuring when you need to merge two configs and pass them to a component's `cls` prop. For example, you might want to provide custom user-land config that overrides one coming from the `cls` prop itself. It's a type-safe way to merge configs without manual object spreading.
 
 ### Inheritance System 🧬
 
-The inheritance system is where @use-pico/cls truly shines! Unlike other styling libraries, you can build entire design system hierarchies with full type safety and predictable behavior.
+The inheritance system is where @use-pico/cls truly shines! While some other libraries support inheritance, @use-pico/cls combines it with design token support and heavy type checking, allowing you to build entire design system hierarchies with full type safety and predictable behavior.
 
 #### Multi-Level Inheritance
 
@@ -242,9 +336,11 @@ const Extended = Base.extend({
 });
 ```
 
-#### Variant Inheritance
+> **Type System Enforcement**: The type system will force you to declare all tokens defined in the contract - even (and only) the ones you extend from the parent. This ensures design system consistency and prevents missing token definitions.
 
-Variants are intelligently merged across the inheritance chain:
+#### Variant Inheritance 🧠
+
+Variants follow a sophisticated inheritance pattern that's much smarter than simple merging:
 
 ```ts
 const Base = cls({
@@ -260,6 +356,62 @@ const Extended = Base.extend({
 
 // Result: size: ["sm", "md", "lg"], variant: ["primary", "secondary"]
 ```
+
+**The Magic Behind the Scenes:**
+
+- **Union Merging**: Child variants are intelligently combined with parent variants
+- **Type Preservation**: String variants stay strings, "bool" variants become booleans
+- **Default Inheritance**: Child defaults can override parent defaults with full type safety
+- **Variant Resolution**: The system knows about ALL variants from the entire inheritance chain
+- **Rule Matching**: Rules can match against any variant from any level in the hierarchy
+
+```ts
+// TypeScript knows about the full variant universe
+const classes = Extended.create({
+  variant: {
+    size: "lg",           // ✅ From Extended
+    variant: "primary",   // ✅ From Extended  
+    disabled: true        // ❌ Type error! Not in contract
+  }
+});
+```
+
+This isn't just inheritance - it's a sophisticated type-aware variant system that maintains full IntelliSense and compile-time safety across the entire design system hierarchy! 🚀
+
+#### Forced Default Declaration 📋
+
+One of @use-pico/cls's key design decisions is that **all variants must have defaults declared, even when inherited from parent**. This might seem redundant at first, but it's a deliberate choice for clarity and maintainability.
+
+**Why This Design?**
+
+```ts
+const Base = cls({
+  variant: { size: ["sm", "md", "lg"] }
+}, {
+  defaults: { size: "md" }
+});
+
+const Extended = Base.extend({
+  variant: { 
+    size: ["sm", "md", "lg", "xl"], // Added "xl"
+    variant: ["primary", "secondary"]
+  }
+}, {
+  defaults: { 
+    size: "lg",     // Must declare even though parent has "md"
+    variant: "primary" 
+  }
+});
+```
+
+**Benefits:**
+- **Single Source of Truth**: You can see all current defaults in one place
+- **Clear Configuration**: No need to hunt through inheritance chains
+- **Explicit Overrides**: It's obvious when you're changing parent defaults
+- **Long Chain Safety**: Especially important when inheritance chains are deep
+- **Type Safety**: TypeScript ensures all variants have defaults
+
+This design philosophy prioritizes **explicit clarity** over **implicit convenience**, making your design system more maintainable and easier to understand! 🎯
 
 #### Slot Inheritance
 
