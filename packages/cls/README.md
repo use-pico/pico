@@ -1777,11 +1777,9 @@ The breakthrough was to make **tokens first‑class citizens** in the system:
 
 ### Project maturity
 
-- **Stable core API**: The contract/definition/create model is stable; future work focuses on **convenience helpers** and ergonomics.
-- **Heavily tested**: Coverage includes **base rules, variants, tokens, overrides, inheritance, ordering**, and lazy slot behavior.
-- **Production-oriented**: Built for **complex design systems** and **large-scale apps**; prioritizes **maintainability** and **type safety**.
-- **Type-first philosophy**: The system leverages **strict TypeScript** to enforce correctness across inheritance and token usage.
-- **Lightweight runtime**: Minimal overhead; classes are **computed lazily**, deduped via `tailwind-merge`.
+This project went through **a lot of cycles**. I shipped early iterations into **real production apps**, fixed rough edges that only show up at scale, and folded in **feature requests** from teams that lived with it day to day. That’s how tokens became first‑class, how **override semantics** were nailed down, how **multi‑level inheritance** stayed type‑safe, and why `create(user, internal)` exists.
+
+Today the **core feels stable**. I still add **small conveniences** now and then, but I’m careful not to break what already works in production. The test suite mirrors the cases we actually hit: **base vs variant rules, tokens, overrides (both levels), ordering guarantees, multi‑level inheritance, lazy slots**. If you run into a real‑world edge case, please open an issue — that’s how this library got to where it is.
 
 This library went through **multiple iterations**. The earliest version was hand‑written by me; later iterations **refined the API** and **internals**. The final version you’re reading now was a **collaboration**: I designed the concepts and type system, and used AI to help with **heavy lifting** and **implementation polish**. Think of it as **human‑led design** with **AI‑assisted execution**.
 
