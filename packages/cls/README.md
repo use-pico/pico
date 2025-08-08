@@ -24,6 +24,12 @@
 
 Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX.
 
+## Versioning
+
+- This package is versioned **independently** within the `@use-pico` namespace (it may not always match sibling packages).
+- Starting with **5.0.0**, releases follow **Semantic Versioning (SemVer)**.
+- Prior to 5.0, there might have been a few rough edges in the core API; from 5.0 onward, any breaking change will **bump the major version**.
+
 ## What is @use-pico/cls?
 
 This is a **CSS class-based styling solution** that requires existing CSS classes (like Tailwind CSS) - it's not a pure CSS-in-JS solution. It works great with TailwindCSS but isn't directly bound to it.
@@ -701,6 +707,10 @@ This override system makes @use-pico/cls incredibly flexible - you can customize
 
 One of the most powerful features of @use-pico/cls is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
 
+> **Type-safety callout**: When using React context for themes, token merges happen **at runtime** and are **not type‑validated** against a specific component’s contract. For strict typing, pass tokens **directly to `create({ token: ... })`**. See the React section for details on precedence.
+
+> **Team usage tip**: Keep theme objects in your **design system package**, give teams a **typed Theme shape**, and let apps **partially** override only what they need.
+
 ### One-Time Token Replacement
 
 You can replace any token definition for a specific component instance:
@@ -772,6 +782,18 @@ const cardClasses = Card.create({
 });
 ```
 
+### Partial themes (override only what you need)
+
+You don’t need to provide every token group. Supply just the groups you want to change; the rest use defaults.
+
+```ts
+const PartialTheme = {
+  "color.text": { default: ["text-amber-100"] },
+} as const;
+
+const classes = Button.create({ token: PartialTheme });
+```
+
 ### Context-Based Theming
 
 Combine with React context for app-wide theming:
@@ -830,6 +852,24 @@ const classes = Button.create({
 });
 ```
 
+### Merging theme with internal and user tokens
+
+User tokens override internal tokens; internal tokens override context tokens. This keeps component state in control, but lets apps layer their preferences.
+
+```ts
+// In a component file
+function Card({ accent, cls: user }: { accent?: boolean; cls?: any }) {
+  const classes = CardCls.create(
+    user, // user config (wins)
+    {
+      // internal config (wins over context tokens)
+      token: accent ? { "color.border": { default: ["border-fuchsia-500"] } } : undefined,
+    },
+  );
+  return <div className={classes.root()} />;
+}
+```
+
 ### Dynamic Theme Switching
 
 You can switch themes dynamically based on user preferences:
@@ -852,6 +892,12 @@ function App() {
   );
 }
 ```
+
+#### Mini FAQ
+
+- **Do I need `useMemo`?** Yes — if your config object changes every render. Memoize it so `create()` doesn’t recompute needlessly.
+- **Is context required?** No. It’s handy for app‑wide themes, but you can pass tokens directly to `create({ token })`.
+- **Can I mix user + internal overrides?** That’s exactly what `create(userConfig, internalConfig)` is for — and **user wins** field‑by‑field.
 
 ### Trade-offs & Considerations
 
@@ -943,6 +989,12 @@ export const Transfer = <TItem,>({
 ## When to Use What and How 🎯
 
 This section shows you practical scenarios and how to approach them with @use-pico/cls. Each example is complete and ready to use!
+
+> **Migrate from CVA/TVA (mini playbook)**
+> 1) Start with **variant‑only components** (no tokens, just `rule(...)`) →
+> 2) Add **slots** for structure →
+> 3) **Unify styles into tokens** where reuse appears →
+> 4) Introduce **inheritance** to share tokens/rules across components.
 
 ### Simple Static Components
 
@@ -1347,6 +1399,10 @@ const ComplexButton = cls({
 | **Bundle Size** | ✅ ~3KB gzipped | ✅ ~1KB gzipped | ✅ ~2KB gzipped | 🔥 ~8KB gzipped | ✅ ~1KB gzipped |
 | **Learning Curve** | 🔥 Steep (powerful) | ✅ Easy | ✅ Easy | 🔥 Medium | 🔥 Medium |
 | **Design Systems** | 🔥 Built for scale | ✅ Good for components | ✅ Good for components | 🔥 Excellent | ✅ Good |
+
+> **Callouts**
+> - **CVA** is perfect to get moving fast — if you don’t need tokens/inheritance, it wins on **simplicity**.
+> - **TVA** has great ergonomics; **@use-pico/cls** leans into **design tokens** and **type depth** instead.
 
 ### Code Comparison Showcase
 
@@ -1869,6 +1925,8 @@ The breakthrough was to make **tokens first‑class citizens** in the system:
 - Reference tokens **directly** from rules and slots
 - Keep **everything in one place** with **full types**, so as soon as you define a token, it’s **available (and validated) everywhere** across inheritance
 
+> In human words: **I wanted to see tokens where I use them** — not in a CSS file far away.
+
 ### Project maturity
 
 This project went through **a lot of cycles**. I shipped early iterations into **real production apps**, fixed rough edges that only show up at scale, and folded in **feature requests** from teams that lived with it day to day. That’s how tokens became first‑class, how **override semantics** were nailed down, how **multi‑level inheritance** stayed type‑safe, and why `create(user, internal)` exists.
@@ -1880,6 +1938,22 @@ This library went through **multiple iterations**. The earliest version was hand
 ### Transparency
 
 I’m sharing this story to be transparent: the **ideas, constraints, and overall design** are mine; **AI helped** me accelerate and explore the implementation space. The end result is a tool I’m proud of—**practical, strongly typed, and built for real‑world design systems**.
+
+If you find rough edges, **ping me** — I’d love to make it better with you.
+
+## FAQ
+
+- **Does this replace Tailwind?** No — it **hugs Tailwind**.
+- **Can I use it without Tailwind?** Yes — tokens can use **any class names**.
+- **SSR?** Works — **no CSS-in-JS runtime**.
+
+## Known (React) limitations
+
+- **Dynamic token keys aren’t type‑validated**; keep your theme keys aligned with each component’s **contract**. For strict typing, pass tokens **directly to `create({ token })`** instead of relying on untyped context merges.
+
+## Contributing
+
+Found a bug? **Open an issue.** Have an idea? **Start a discussion.** Good vibes required. ✨
 
 ## License
 
