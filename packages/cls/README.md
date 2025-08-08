@@ -276,7 +276,7 @@ The core library is framework-agnostic and provides:
 ### Main API
 
 - `cls(contract, definition)` → Create a style module
-- `extend(contract, definition)` → Inherit and add/override (types flow through)
+- `ClsInstance.extend(contract, definition)` → Inherit and add/override (types flow through)
 - `create(userConfig?, internalConfig?)` → Get lazily-resolved classes for each slot
 - `merge(user, internal)` → Merge two create-configs (user wins)
 
@@ -286,19 +286,42 @@ The main function for creating a style module. This is where you define your com
 
 #### extend(contract, definition)
 
-Creates a new style module that inherits from an existing one. This is the foundation of the inheritance system - you can add new tokens, slots, and variants while maintaining full type safety through the inheritance chain.
+This is an **instance method**. Call it on a `cls(...)` result to create a new style module that inherits from the current one. It’s the foundation of the inheritance system — add tokens/slots/variants or override anything, with **full type safety** flowing through the chain.
+
+```ts
+const Base = cls(baseContract, baseDefinition);
+const Extended = Base.extend(childContract, childDefinition);
+```
 
 #### create(userConfig?, internalConfig?)
 
-Generates the actual CSS classes for your component. This is called at render time and returns slot functions that compute classes lazily. The user config takes precedence over internal config, allowing for flexible customization.
+Generates the actual CSS classes for your component. This is called at render time and returns **slot functions** that compute classes lazily. **User config wins** over internal config (field-by-field) for predictable customization.
 
 > **Two-Parameter Design**: The intention is to have a component that receives `userConfig` from its props while providing its own variants in `internalConfig`. For example, a button component might receive a `disabled` prop (not a variant) and send it to the `variant` field in its `internalConfig`, while user-land config (e.g., `variant: "primary"`) is supplied through `userConfig`.
 
+```tsx
+// user vs internal config in practice
+function Link({ active, cls: user }: { active: boolean; cls?: any }) {
+  const classes = NavLinkCls.create(
+    user, // userConfig (from props)
+    { variant: { active } }, // internalConfig (computed by component)
+  );
+  return <a className={classes.root()} />;
+}
+```
+
 #### merge(user, internal)
 
-A utility function that encapsulates the merge semantics used internally by `create()`. Useful when you need to combine user-provided styling with component-controlled styling in a predictable way.
+A tiny helper that encapsulates the **same merge semantics** used by `create()`. Use it to pre-compose configs (user wins) before passing them down.
 
 > **Convenience Function**: This is primarily a convenience function to prevent object destructuring when you need to merge two configs and pass them to a component's `cls` prop. For example, you might want to provide custom user-land config that overrides one coming from the `cls` prop itself. It's a type-safe way to merge configs without manual object spreading.
+
+```ts
+// Pre-compose once, reuse many times
+const composed = merge(userOverrides, { slot: { root: { class: ["relative"] } } });
+const a = CardCls.create(composed);
+const b = PanelCls.create(composed);
+```
 
 ### Inheritance System 🧬
 
