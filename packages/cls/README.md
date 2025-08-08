@@ -15,7 +15,7 @@
 - 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere (see [Glossary](#glossary-30-seconds-to-fluent))
 - 🎯 **Design tokens** as first-class citizens with **inheritance** and validation (see [Token Overloading & Theming](#token-overloading--theming))
 - 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides (see [Create-time Overrides](#create-time-overrides))
-- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact (see [Inheritance System](#inheritance-system-))
+- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact (see [Inheritance System](#inheritance-system))
 - 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides (see [Core Concepts](#core-concepts))
 - ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
 - 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time (see [Create-time Overrides](#create-time-overrides))
@@ -32,9 +32,9 @@ _Perfect for design systems, component libraries, and apps that want predictable
 
 ## What is `@use-pico/cls`?
 
-This is a **CSS class-based styling solution** that requires existing CSS classes (like Tailwind CSS) - it's not a pure CSS-in-JS solution. It works great with TailwindCSS but isn't directly bound to it.
+This is a **CSS class‑based styling** solution that works with **existing CSS classes** (like **Tailwind CSS**) — it’s **not** a `CSS‑in‑JS` runtime. It works great with Tailwind, but isn’t bound to it.
 
-The library's main motivation is using **design tokens with strict type checking**. When you add a token in children with a new value, you're forced to add this value to the definition too, ensuring design system consistency.
+The main motivation: **design tokens** with **strict type checking**. The **contract** is the **source of truth** — if you add a token in a child with a new value, the **definition must match**, which keeps your **design system consistent**.
 
 ## Install
 
@@ -332,9 +332,11 @@ const b = PanelCls.create(composed);
 
 ### Inheritance System
 
-The inheritance system is where `@use-pico/cls` truly shines! While some other libraries support inheritance, `@use-pico/cls` combines it with design token support and heavy type checking, allowing you to build entire design system hierarchies with full type safety and predictable behavior.
+The inheritance system is where `@use-pico/cls` **truly shines**. While other libraries support inheritance, this one combines it with **design token support** and **heavy type checking**, so you can build **deep, predictable hierarchies** with full **type safety**.
 
-> **Inheritance Note**: While inheritance may look overcomplicated at first, it serves a crucial purpose in this system's design. The examples below will show you how to harness its power effectively in your favor - it's designed to solve real-world design system challenges, not just add complexity.
+> **Why it matters**: Inheritance lets you keep a **single source‑of‑truth** for tokens and rules, while safely extending components across an entire system.
+
+> **Inheritance Note**: It may look overcomplicated at first — but it solves **real‑world design system challenges**. The examples below show how to use it **in your favor**.
 
 > **Composition or inheritance?** If teams own different layers (or you want looser coupling), prefer **composition** (two smaller `cls` modules used together). Reach for **inheritance** when you need a **single source‑of‑truth** for tokens + rules and want **typed customizations** to flow down safely.
 
@@ -1387,7 +1389,7 @@ const ComplexButton = cls({
 
 ## Comparison with Similar Tools
 
-> **Honest Comparison Disclaimer**: This comparison is written by the `@use-pico/cls` author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade-offs**. `@use-pico/cls` prioritizes **type safety and design system consistency** over **conciseness and simplicity**. For simple projects, competitors like class-variance-authority or tailwind-variants might be more appropriate. For complex design systems and production applications where type safety and maintainability are crucial, `@use-pico/cls` provides unique value. **Choose the tool that fits your specific needs and constraints**.
+> **Honest Comparison Disclaimer**: This comparison is written by the `@use-pico/cls` author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade‑offs**. `@use-pico/cls` prioritizes **type safety** and **design system consistency** over **conciseness**. For **simple projects**, competitors like CVA or TVA might be more appropriate. For **complex design systems** and **production apps** where **type safety** and **maintainability** are crucial, `@use-pico/cls` provides unique value. **Choose the tool that fits your needs.**
 
 | Feature | @use-pico/cls | class-variance-authority | tailwind-variants | @stitches/react | vanilla-extract |
 |---------|---------------|-------------------------|-------------------|-----------------|-----------------|
