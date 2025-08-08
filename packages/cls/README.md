@@ -1,4 +1,5 @@
 # @use-pico/cls
+<a id="top"></a>
 
 > **Stable API**: The core API of this library is stable and production-ready. Future updates may only add convenience helpers around the existing API.
 
@@ -104,6 +105,8 @@ tokens: {
   "spacing.padding": ["sm", "md", "lg"]
 }
 ```
+
+> **Token format note**: Token group and value names in the **contract** are **not restricted** — use any naming scheme that fits your design system. The only rule is that **references use dot notation** `group.variant` (e.g., `color.bg.default`) when you apply tokens in rules or slot mappings.
 
 **Heavy Type Checking**: The contract is the source of truth - any changes to the contract forces definitions to match. TypeScript ensures all token references in rules exist in your contract.
 
@@ -343,6 +346,8 @@ const out = tvc("px-2 px-4 md:px-4"); // => "px-4 md:px-4"
 ```
 
 ### Inheritance System
+
+[Back to top](#top)
 
 The inheritance system is where `@use-pico/cls` **truly shines**. While other libraries support inheritance, this one combines it with **design token support** and **heavy type checking**, so you can build **deep, predictable hierarchies** with full **type safety**.
 
@@ -720,6 +725,8 @@ This override system makes `@use-pico/cls` incredibly flexible - you can customi
 
 ## Token Overloading & Theming
 
+[Back to top](#top)
+
 One of the most powerful features of `@use-pico/cls` is the ability to overload tokens at runtime with full type safety. This enables dynamic theming and one-time token replacements.
 
 > **Type-safety callout**: When using React context for themes, token merges happen **at runtime** and are **not type‑validated** against a specific component’s contract. For strict typing, pass tokens **directly to `create({ token: ... })`**. See the React section for details on precedence.
@@ -1002,6 +1009,8 @@ export const Transfer = <TItem,>({
 ```
 
 ## When to Use What and How
+
+[Back to top](#top)
 
 This section shows you practical scenarios and how to approach them with `@use-pico/cls`. Each example is complete and ready to use!
 
