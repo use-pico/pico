@@ -11,9 +11,32 @@ import type {
 	SlotContract,
 	TokenContract,
 	VariantContract,
+	What,
 } from "./types";
 
 // TODO Vibe variable extraction (create PicoCls with tokens)
+
+// Local types for internal use (not exposed)
+type InternalContractIndex = {
+	contract: Contract<any, any, any>;
+	definition: Definition<any>;
+};
+
+type InternalTokenIndex = Record<string, string[]>;
+
+type InternalVariantValues = Record<string, unknown>;
+
+type InternalSlotWhat = {
+	class?: unknown;
+	token?: string[];
+};
+
+type InternalCreateConfig = {
+	variant?: Record<string, unknown>;
+	slot?: Record<string, InternalSlotWhat>;
+	override?: Record<string, InternalSlotWhat>;
+	token?: Record<string, Record<string, string[]>>;
+};
 
 export function cls<
 	const TTokenContract extends TokenContract,
@@ -26,21 +49,14 @@ export function cls<
 		any
 	>,
 >(contract: TContract, definition: Definition<TContract>): Cls<TContract> {
-	type ContractIndex = {
-		contract: Contract<any, any, any>;
-		definition: Definition<any>;
-	};
-	type TokenIndex = Record<string, string[]>;
-	type VariantValues = Record<string, unknown>;
-
 	const contractIndex = (
 		contract: Contract<any, any, any>,
 		definition: Definition<any>,
-	) => {
-		const index: ContractIndex[] = [];
+	): InternalContractIndex[] => {
+		const index: InternalContractIndex[] = [];
 
-		let $contract: any = contract;
-		let $definition: any = definition;
+		let $contract: Contract<any, any, any> | undefined = contract;
+		let $definition: Definition<any> | undefined = definition;
 
 		while ($contract && $definition) {
 			index.push({
@@ -52,8 +68,12 @@ export function cls<
 			// "~definition" is stored on the CHILD contract as a reference to the PARENT'S definition.
 			// Therefore, when walking the chain upwards, we must read the next definition
 			// from the CURRENT contract before advancing $contract to its parent.
-			const nextContract = $contract["~use"];
-			const nextDefinition = $contract["~definition"];
+			const nextContract = $contract["~use"] as
+				| Contract<any, any, any>
+				| undefined;
+			const nextDefinition = $contract["~definition"] as
+				| Definition<any>
+				| undefined;
 
 			$contract = nextContract;
 			$definition = nextDefinition;
@@ -62,13 +82,15 @@ export function cls<
 		return index.reverse();
 	};
 
-	const tokenIndex = (contractIndex: ContractIndex[]) => {
-		const index: TokenIndex = {};
+	const tokenIndex = (
+		contractIndex: InternalContractIndex[],
+	): InternalTokenIndex => {
+		const index: InternalTokenIndex = {};
 
 		for (const { contract } of contractIndex) {
 			for (const [group, values] of Object.entries(contract.tokens) as [
 				string,
-				string[],
+				readonly string[],
 			][]) {
 				for (const value of values) {
 					index[`${group}.${value}`] = [];
@@ -80,9 +102,9 @@ export function cls<
 	};
 
 	const buildTokenIndex = (
-		tokenIndex: TokenIndex,
-		contractIndex: ContractIndex[],
-	) => {
+		tokenIndex: InternalTokenIndex,
+		contractIndex: InternalContractIndex[],
+	): InternalTokenIndex => {
 		// For each layer, decide REPLACE vs APPEND semantics based on whether
 		// the layer's contract explicitly declares the token variant.
 		for (const { contract, definition } of contractIndex) {
@@ -119,9 +141,9 @@ export function cls<
 	};
 
 	const applyCreateTokenOverrides = (
-		tokenIndex: TokenIndex,
+		tokenIndex: InternalTokenIndex,
 		overrides: Record<string, Record<string, string[]>> | undefined,
-	) => {
+	): InternalTokenIndex => {
 		if (!overrides) {
 			return tokenIndex;
 		}
@@ -134,15 +156,19 @@ export function cls<
 		return tokenIndex;
 	};
 
-	const buildMergedDefaults = (contractIndex: ContractIndex[]) => {
-		const result: VariantValues = {};
+	const buildMergedDefaults = (
+		contractIndex: InternalContractIndex[],
+	): InternalVariantValues => {
+		const result: InternalVariantValues = {};
 		for (const { definition } of contractIndex) {
 			Object.assign(result, definition.defaults ?? {});
 		}
 		return result;
 	};
 
-	const buildMergedRules = (contractIndex: ContractIndex[]) => {
+	const buildMergedRules = (
+		contractIndex: InternalContractIndex[],
+	): RuleDefinition<any>[] => {
 		const rules: RuleDefinition<any>[] = [];
 		for (const { definition } of contractIndex) {
 			const steps = definition.rules({
@@ -156,7 +182,9 @@ export function cls<
 		return rules;
 	};
 
-	const collectAllSlots = (contractIndex: ContractIndex[]) => {
+	const collectAllSlots = (
+		contractIndex: InternalContractIndex[],
+	): Set<string> => {
 		const slots = new Set<string>();
 		for (const { contract } of contractIndex) {
 			for (const slot of contract.slot as string[]) {
@@ -168,10 +196,10 @@ export function cls<
 
 	const createSlotFunction = (
 		slotName: string,
-		baseConfig: any,
-		baseDefaults: VariantValues,
+		baseConfig: InternalCreateConfig,
+		baseDefaults: InternalVariantValues,
 		baseRules: RuleDefinition<any>[],
-		baseTokenIndex: TokenIndex,
+		baseTokenIndex: InternalTokenIndex,
 	): ClsSlotFn<TContract> => {
 		return (variantOverrides) => {
 			// Merge base defaults with provided variant overrides
@@ -180,9 +208,11 @@ export function cls<
 				...variantOverrides,
 			};
 
-			const resolveTokensToClasses = (tokens: string[] | undefined) => {
+			const resolveTokensToClasses = (
+				tokens: string[] | undefined,
+			): string[] => {
 				if (!tokens || tokens.length === 0) {
-					return [] as string[];
+					return [];
 				}
 				const out: string[] = [];
 				for (const token of tokens) {
@@ -196,13 +226,8 @@ export function cls<
 
 			const applyWhat = (
 				acc: string[],
-				what:
-					| {
-							class?: unknown;
-							token?: string[];
-					  }
-					| undefined,
-			) => {
+				what: InternalSlotWhat | undefined,
+			): string[] => {
 				if (!what) return acc;
 				if (what.class) {
 					if (Array.isArray(what.class)) {
@@ -217,7 +242,9 @@ export function cls<
 				return acc;
 			};
 
-			const matches = (match: Record<string, unknown> | undefined) => {
+			const matches = (
+				match: Record<string, unknown> | undefined,
+			): boolean => {
 				if (!match) return true;
 				for (const [key, value] of Object.entries(match)) {
 					if (effectiveVariant[key] !== value) {
@@ -230,11 +257,11 @@ export function cls<
 			let classes: string[] = [];
 
 			// Apply rules based on effective variants
-			for (const rule of baseRules as any[]) {
+			for (const rule of baseRules) {
 				if (!matches(rule.match)) {
 					continue;
 				}
-				const slotMap = (rule.slot ?? {}) as Record<string, any>;
+				const slotMap = (rule.slot ?? {}) as Record<string, What<any>>;
 				const what = slotMap[slotName];
 				if (!what) {
 					continue;
@@ -242,27 +269,17 @@ export function cls<
 				if (rule.override === true) {
 					classes = [];
 				}
-				classes = applyWhat(classes, what);
+				classes = applyWhat(classes, what as InternalSlotWhat);
 			}
 
 			// Apply base config slot overrides
-			const createSlot = baseConfig?.slot?.[slotName] as
-				| {
-						class?: unknown;
-						token?: string[];
-				  }
-				| undefined;
+			const createSlot = baseConfig?.slot?.[slotName];
 			if (createSlot) {
 				classes = applyWhat(classes, createSlot);
 			}
 
 			// Apply base config override (hard override)
-			const createOverride = baseConfig?.override?.[slotName] as
-				| {
-						class?: unknown;
-						token?: string[];
-				  }
-				| undefined;
+			const createOverride = baseConfig?.override?.[slotName];
 			if (createOverride) {
 				classes = [];
 				classes = applyWhat(classes, createOverride);
@@ -274,7 +291,10 @@ export function cls<
 
 	return {
 		create(userConfig, internalConfig) {
-			const _config = merge(userConfig, internalConfig);
+			const _config = merge(
+				userConfig,
+				internalConfig,
+			) as InternalCreateConfig;
 
 			const $contractIndex = contractIndex(contract, definition);
 			const $tokenIndex = tokenIndex($contractIndex);
@@ -282,12 +302,7 @@ export function cls<
 				$tokenIndex,
 				$contractIndex,
 			);
-			applyCreateTokenOverrides(
-				_resolvedTokenIndex,
-				(_config as any)?.token as
-					| Record<string, Record<string, string[]>>
-					| undefined,
-			);
+			applyCreateTokenOverrides(_resolvedTokenIndex, _config?.token);
 			const _defaults = buildMergedDefaults($contractIndex);
 			const _rules = buildMergedRules($contractIndex);
 			const $slots = collectAllSlots($contractIndex);
@@ -326,7 +341,7 @@ export function cls<
 				};
 
 			return new Proxy<Record<string, ClsSlotFn<TContract>>>(
-				{} as any,
+				{} as Record<string, ClsSlotFn<TContract>>,
 				handler,
 			);
 		},
@@ -337,7 +352,10 @@ export function cls<
 			childContract["~use"] = contract;
 			childContract["~definition"] = definition;
 
-			return cls(childContract as any, childDefinition as any);
+			return cls(
+				childContract as Contract<any, any, any>,
+				childDefinition as Definition<any>,
+			);
 		},
 		use(sub) {
 			return sub as unknown as Cls<TContract>;
