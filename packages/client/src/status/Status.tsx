@@ -27,15 +27,17 @@ export const Status: FC<Status.Props> = ({
 			{icon ? (
 				<Icon
 					icon={icon}
-					variant={{
-						size: "6xl",
-					}}
-					slot={{
-						base: {
-							class: [
-								"text-slate-500",
-								"opacity-50",
-							],
+					cls={{
+						variant: {
+							size: "6xl",
+						},
+						slot: {
+							base: {
+								class: [
+									"text-slate-500",
+									"opacity-50",
+								],
+							},
 						},
 					}}
 					{...iconProps}

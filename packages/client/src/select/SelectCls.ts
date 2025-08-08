@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { ClsSlots, Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const SelectCls = PicoCls.extend(
@@ -110,6 +110,10 @@ export const SelectCls = PicoCls.extend(
 	},
 );
 
+export type SelectCls = typeof SelectCls;
+
 export namespace SelectCls {
-	export type Props<P = unknown> = Component<typeof SelectCls, P>;
+	export type Props<P = unknown> = Component<SelectCls, P>;
+
+	export type Slots = ClsSlots<SelectCls["contract"]>;
 }

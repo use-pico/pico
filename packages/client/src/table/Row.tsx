@@ -94,11 +94,14 @@ export const Row = <
 			.exhaustive();
 	};
 
+	const isSelected = selection?.value.includes(item.id);
+
 	return (
 		<div
+			// TODO Feature request for "cls" - add support for variance overrides on slots directly
 			className={slots.row(
 				{
-					selected: selection?.value.includes(item.id),
+					selected: isSelected,
 				},
 				rowCls?.({
 					data: row.data,
@@ -127,18 +130,17 @@ export const Row = <
 			>
 				{selection ? (
 					<Icon
-						icon={
-							selection.value.includes(item.id)
-								? SelectionOnIcon
-								: SelectionOffIcon
-						}
+						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
 						cls={{
-							base: slots.select({
-								selected: selection.value.includes(item.id),
-							}),
-						}}
-						variant={{
-							size: "2xl",
+							// TODO Feature request for "cls" - add support for variance overrides on slots directly
+							slot: {
+								base: slots.select({
+									selected: isSelected,
+								}),
+							},
+							variant: {
+								size: "2xl",
+							},
 						}}
 						onClick={onSelect}
 					/>

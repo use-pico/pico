@@ -44,13 +44,17 @@ export const Button: FC<Button.Props> = ({
 			{props.disabled ? (
 				<Icon
 					icon={loading === true ? iconLoading : iconDisabled}
-					variant={iconVariant}
+					cls={{
+						variant: iconVariant,
+					}}
 					{...iconProps}
 				/>
 			) : (
 				<Icon
 					icon={loading === true ? iconLoading : iconEnabled}
-					variant={iconVariant}
+					cls={{
+						variant: iconVariant,
+					}}
 					{...iconProps}
 				/>
 			)}

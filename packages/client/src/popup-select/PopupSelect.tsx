@@ -99,7 +99,7 @@ export const PopupSelect = <
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const { slots } = tva.create(cls);
+	const classes = tva.create(cls);
 
 	const modalId = useId();
 
@@ -111,7 +111,7 @@ export const PopupSelect = <
 				<Target
 					mode={mode}
 					modalId={modalId}
-					slots={slots}
+					slots={classes}
 					withQuery={withQuery}
 					renderSingle={renderSingle}
 					renderMulti={renderMulti}
@@ -120,13 +120,10 @@ export const PopupSelect = <
 				/>
 			}
 			textTitle={textTitle}
-			variant={
-				{
-					// loading: result.isFetching,
-				}
-			}
-			// disabled={result.isFetching}
 			cls={{
+				variant: {
+					// loading: result.isFetching,
+				},
 				slot: {
 					modal: {
 						class: [
@@ -143,7 +140,7 @@ export const PopupSelect = <
 					query={query}
 					table={table}
 					state={state}
-					slots={slots}
+					slots={classes}
 					allowEmpty={allowEmpty}
 				/>
 			)}

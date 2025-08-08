@@ -41,8 +41,10 @@ export const FormField: FC<FormField.Props> = ({
 			<div className={"flex flex-row justify-between"}>
 				{label ? <label htmlFor={name as string}>{label}</label> : null}
 				<FormError
-					variant={{
-						compact: true,
+					cls={{
+						variant: {
+							compact: true,
+						},
 					}}
 					meta={meta}
 				/>

@@ -156,15 +156,17 @@ export const Select = <TItem extends EntitySchema.Type>({
 					{icon ? (
 						<Icon
 							icon={icon}
-							variant={{
-								size: "xl",
-							}}
-							slot={{
-								base: {
-									class: [
-										"text-slate-400",
-										"group-hover:text-slate-600",
-									],
+							cls={{
+								variant: {
+									size: "xl",
+								},
+								slot: {
+									base: {
+										class: [
+											"text-slate-400",
+											"group-hover:text-slate-600",
+										],
+									},
 								},
 							}}
 						/>
@@ -187,24 +189,28 @@ export const Select = <TItem extends EntitySchema.Type>({
 									e.stopPropagation();
 									e.preventDefault();
 								}}
-								variant={{
-									borderless: true,
-									variant: "light",
+								cls={{
+									variant: {
+										borderless: true,
+										variant: "light",
+									},
 								}}
 							/>
 						) : null}
 						<Icon
 							icon={"icon-[gg--select]"}
-							variant={{
-								size: "xl",
-							}}
-							slot={{
-								base: {
-									class: [
-										!isOpen && "text-slate-400",
-										isOpen && "text-slate-600",
-										"group-hover:text-slate-600",
-									].filter(Boolean),
+							cls={{
+								variant: {
+									size: "xl",
+								},
+								slot: {
+									base: {
+										class: [
+											!isOpen && "text-slate-400",
+											isOpen && "text-slate-600",
+											"group-hover:text-slate-600",
+										].filter(Boolean),
+									},
 								},
 							}}
 						/>
@@ -265,8 +271,10 @@ export const Select = <TItem extends EntitySchema.Type>({
 									{i === selectedIndex && (
 										<Icon
 											icon={"icon-[basil--check-outline]"}
-											variant={{
-												size: "xl",
+											cls={{
+												variant: {
+													size: "xl",
+												},
 											}}
 										/>
 									)}

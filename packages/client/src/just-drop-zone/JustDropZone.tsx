@@ -62,7 +62,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const { slots } = tva.create(cls, {
+	const classes = tva.create(cls, {
 		variant: {
 			active: isDragActive,
 			rejected: isDragReject,
@@ -78,7 +78,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	return (
 		<div
 			{...getRootProps()}
-			className={slots.base()}
+			className={classes.base}
 		>
 			{Children && isNonEmptyArray(files) ? (
 				<Children
@@ -89,13 +89,15 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			) : (
 				<label
 					htmlFor={id}
-					className={slots.label()}
+					className={classes.label}
 				>
-					<div className={slots.zone()}>
+					<div className={classes.zone}>
 						<Icon
 							icon={UploadIcon}
-							variant={{
-								size: "4xl",
+							cls={{
+								variant: {
+									size: "4xl",
+								},
 							}}
 						/>
 						<div className={"mb-2 text-sm font-semibold"}>

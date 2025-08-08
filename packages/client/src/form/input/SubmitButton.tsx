@@ -11,8 +11,10 @@ export const SubmitButton: FC<SubmitButton.Props> = (props) => {
 	return (
 		<Button
 			type={"submit"}
-			variant={{
-				variant: "primary",
+			cls={{
+				variant: {
+					variant: "primary",
+				},
 			}}
 			{...props}
 		/>

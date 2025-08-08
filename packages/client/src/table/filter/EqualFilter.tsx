@@ -30,8 +30,10 @@ export const EqualFilter = <
 	return (
 		<Action
 			iconEnabled={FilterApplyIcon}
-			variant={{
-				borderless: true,
+			cls={{
+				variant: {
+					borderless: true,
+				},
 			}}
 			onClick={() => {
 				state.set({

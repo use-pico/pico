@@ -9,15 +9,15 @@ export namespace Detail {
 }
 
 export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {
-	const { slots } = tva.create(cls);
+	const classes = tva.create(cls);
 
 	return (
-		<div className={slots.base()}>
+		<div className={classes.base}>
 			{section.map(({ id, ...props }) => (
 				<Section
 					key={`detail-section-${id}`}
 					id={id}
-					slots={slots}
+					slots={classes}
 					{...props}
 				/>
 			))}

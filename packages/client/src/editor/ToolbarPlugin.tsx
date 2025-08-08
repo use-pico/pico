@@ -143,8 +143,10 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					variant={{
-						active: isBold,
+					cls={{
+						variant: {
+							active: isBold,
+						},
 					}}
 				/>
 				<Action
@@ -153,8 +155,10 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					variant={{
-						active: isItalic,
+					cls={{
+						variant: {
+							active: isItalic,
+						},
 					}}
 				/>
 				<Action
@@ -166,8 +170,10 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"underline",
 						);
 					}}
-					variant={{
-						active: isUnderline,
+					cls={{
+						variant: {
+							active: isUnderline,
+						},
 					}}
 				/>
 				<Action
@@ -183,8 +189,10 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"strikethrough",
 						);
 					}}
-					variant={{
-						active: isStrikethrough,
+					cls={{
+						variant: {
+							active: isStrikethrough,
+						},
 					}}
 				/>
 			</div>

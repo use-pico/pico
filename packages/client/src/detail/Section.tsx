@@ -25,9 +25,9 @@ export const Section: FC<Section.Props> = ({
 	return hidden ? null : (
 		<fieldset
 			key={`section-${sectionId}`}
-			className={slots.section()}
+			className={slots.section}
 		>
-			<legend className={slots.legend()}>
+			<legend className={slots.legend}>
 				{icon && <Icon icon={icon} />}
 				{title}
 			</legend>

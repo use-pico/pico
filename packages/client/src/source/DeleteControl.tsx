@@ -29,7 +29,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	tva = DeleteControlCls,
 	cls,
 }) => {
-	const { slots } = tva.create(cls);
+	const classes = tva.create(cls);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();
@@ -48,14 +48,16 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	});
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.content()}>{textContent}</div>
-			<div className={slots.footer()}>
+		<div className={classes.base}>
+			<div className={classes.content}>{textContent}</div>
+			<div className={classes.footer}>
 				<Button
-					variant={{
-						variant: "light",
-						borderless: true,
-						size: "md",
+					cls={{
+						variant: {
+							variant: "secondary",
+							borderless: true,
+							size: "md",
+						},
 					}}
 					iconEnabled={BackIcon}
 					onClick={() => {
@@ -67,9 +69,11 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				</Button>
 
 				<Button
-					variant={{
-						variant: "danger",
-						size: "md",
+					cls={{
+						variant: {
+							variant: "primary",
+							size: "md",
+						},
 					}}
 					iconEnabled={TrashIcon}
 					onClick={() => {

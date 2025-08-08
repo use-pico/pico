@@ -1,7 +1,7 @@
-import type { Component } from "@use-pico/cls";
-import { PicoCls } from "../cls/PicoCls";
+import type { ClsSlots, Component } from "@use-pico/cls";
+import { AbstractListCls } from "../list/AbstractListCls";
 
-export const TableCls = PicoCls.extend(
+export const TableCls = AbstractListCls.extend(
 	{
 		tokens: {},
 		slot: [
@@ -111,4 +111,6 @@ export type TableCls = typeof TableCls;
 
 export namespace TableCls {
 	export type Props<P = unknown> = Component<TableCls, P>;
+
+	export type Slots = ClsSlots<TableCls["contract"]>;
 }

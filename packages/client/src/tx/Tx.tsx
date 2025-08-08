@@ -9,21 +9,8 @@ export namespace Tx {
 	}
 }
 
-export const Tx: FC<Tx.Props> = ({
-	label,
-	fallback,
-	variant,
-	tva = TxCls,
-	slot,
-	token,
-	override,
-}) => {
-	const classes = tva.create({
-		variant,
-		slot,
-		token,
-		override,
-	});
+export const Tx: FC<Tx.Props> = ({ label, fallback, tva = TxCls, cls }) => {
+	const classes = tva.create(cls);
 
 	return (
 		<div className={classes.base}>{translator.rich(label, fallback)}</div>

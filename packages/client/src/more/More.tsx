@@ -55,19 +55,11 @@ export const More = <TValues extends EntitySchema.Type>({
 	renderInline,
 	renderItem = renderInline,
 	limit,
-	variant,
 	tva = MoreCls,
-	slot,
-	token,
-	override,
+	cls,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const classes = tva.create({
-		variant,
-		slot,
-		token,
-		override,
-	});
+	const classes = tva.create(cls);
 
 	return (
 		<div className={classes.base}>

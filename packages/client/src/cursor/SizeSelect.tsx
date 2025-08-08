@@ -41,14 +41,20 @@ export const SizeSelect: FC<SizeSelect.Props> = ({
 			onItem={({ size }) => onSize(size)}
 			render={({ entity: { size } }) => size}
 			cls={{
-				base: [
-					"px-4",
-					"py-1",
-				],
-				item: [
-					"px-4",
-					"py-1",
-				],
+				slot: {
+					base: {
+						class: [
+							"px-4",
+							"py-1",
+						],
+					},
+					item: {
+						class: [
+							"px-4",
+							"py-1",
+						],
+					},
+				},
 			}}
 			{...props}
 		/>

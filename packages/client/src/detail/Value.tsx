@@ -14,17 +14,17 @@ export const Value: FC<Value.Props> = ({ id, label, value, slots }) => {
 	return (
 		<div
 			key={`detail-section-item-value-${id}`}
-			className={slots.value()}
+			className={slots.value}
 		>
 			{label ? (
 				<label
 					htmlFor={`detail-section-item-value-${id}`}
-					className={slots.label()}
+					className={slots.label}
 				>
 					{label}
 				</label>
 			) : null}
-			<div className={slots.field()}>{value}</div>
+			<div className={slots.field}>{value}</div>
 		</div>
 	);
 };

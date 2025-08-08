@@ -1,4 +1,3 @@
-import type { ClsSlots } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { ReactNode } from "react";
 import { Icon } from "../icon/Icon";
@@ -17,7 +16,7 @@ export namespace Target {
 	> {
 		mode: "single" | "multi";
 		modalId: string;
-		slots: ClsSlots<PopupSelectCls>;
+		slots: PopupSelectCls.Slots;
 		//
 		withQuery: withQuery.Api<TQuery, TItem[]>;
 		//

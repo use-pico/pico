@@ -20,7 +20,7 @@ export namespace TableHeader {
 		data: TData[];
 		visible: Table.Column.Props<TQuery, TData, any, TContext>[];
 		grid: string;
-		slots: TableCls;
+		slots: TableCls.Slots;
 		isFetching: boolean;
 		context: TContext;
 		filter: Table.Filter.State<TQuery> | undefined;
@@ -89,7 +89,7 @@ export const TableHeader = <
 				)}
 			/>
 			<div
-				className={slots.header()}
+				className={slots.header}
 				style={{
 					gridTemplateColumns: grid,
 				}}
@@ -112,14 +112,19 @@ export const TableHeader = <
 										? SelectionAnyIcon
 										: SelectionOffIcon
 							}
-							variant={{
-								disabled: selectionMode === "single",
-								size: "2xl",
-							}}
 							cls={{
-								base: slots.select({
-									selected: isAny,
-								}),
+								variant: {
+									disabled: selectionMode === "single",
+									size: "2xl",
+								},
+								slot: {
+									base: {
+										// TODO Feature request for "cls" - add support for variance overrides on slots directly
+										class: slots.select({
+											selected: isAny,
+										}),
+									},
+								},
 							}}
 							onClick={onSelectAll}
 						/>
@@ -143,7 +148,7 @@ export const TableHeader = <
 					return (
 						<div
 							key={`header-${column.name}`}
-							className={slots.headerCell()}
+							className={slots.headerCell}
 						>
 							<Header
 								data={data}
@@ -161,8 +166,10 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
-										variant={{
-											borderless: true,
+										cls={{
+											variant: {
+												borderless: true,
+											},
 										}}
 										onClick={() => {
 											column.filter?.reset({

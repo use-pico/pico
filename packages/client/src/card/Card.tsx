@@ -1,4 +1,3 @@
-import type { ClsExtract } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { InlineContext } from "../context/InlineContext";
@@ -31,7 +30,7 @@ import { CardCls } from "./CardCls";
  */
 export namespace Card {
 	export interface Item<TValues extends Record<string, any>>
-		extends ClsExtract<ValueOf.Props> {
+		extends Omit<ValueOf.Props, "value"> {
 		id: string;
 		label?: ReactNode;
 		render: FC<Entity.Type<TValues>>;

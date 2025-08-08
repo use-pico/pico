@@ -107,8 +107,10 @@ export const DropZone: FC<DropZone.Props> = ({
 					<div>
 						<Button
 							iconEnabled={TrashIcon}
-							variant={{
-								variant: "subtle",
+							cls={{
+								variant: {
+									variant: "secondary",
+								},
 							}}
 							onClick={() => {
 								clear();

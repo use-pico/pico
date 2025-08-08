@@ -1,4 +1,4 @@
-import { type ClassName, type ClsClear, tvc } from "@use-pico/cls";
+import { type ClassName, tvc } from "@use-pico/cls";
 import type {
 	CountSchema,
 	DeepKeys,
@@ -11,6 +11,7 @@ import type { FC, ReactNode } from "react";
 import type { Cursor as CoolCursor } from "../cursor/Cursor";
 import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import { AbstractList } from "../list/AbstractList";
+import { AbstractListCls } from "../list/AbstractListCls";
 import type { withQuery } from "../source/withQuery";
 import { useGrid } from "./hook/useGrid";
 import { useVisibleColumns } from "./hook/useVisibleColumns";
@@ -269,7 +270,7 @@ export namespace Table {
 		TQuery extends withQuerySchema.Query,
 		TData extends EntitySchema.Type,
 		TContext = any,
-	> extends TableCls.Props<ClsClear<AbstractList.PropsEx<TQuery, TData>>> {
+	> extends TableCls.Props<AbstractList.PropsEx<TQuery, TData>> {
 		/**
 		 * All the columns defined in the table.
 		 *
@@ -381,14 +382,11 @@ export const Table = <
 	controlsHidden = [],
 	rowCls,
 	rowDblClick,
-	variant,
 	tva = TableCls,
 	cls,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	const { slots } = tva.create(cls, {
-		variant,
-	});
+	const classes = tva.create(cls);
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,
@@ -409,7 +407,7 @@ export const Table = <
 
 	return (
 		<AbstractList
-			tva={tva}
+			tva={AbstractListCls.use(tva)}
 			renderPrefix={(render) => (
 				<TablePrefix<TQuery, TContext>
 					withCountQuery={withCountQuery}
@@ -429,7 +427,7 @@ export const Table = <
 					data={items}
 					grid={grid}
 					context={context}
-					slots={slots}
+					slots={classes}
 					visible={visibleColumns}
 					selection={selection}
 					selectionMode={selectionMode}
@@ -449,7 +447,7 @@ export const Table = <
 					filter={filter}
 					context={context}
 					grid={grid}
-					slots={slots}
+					slots={classes}
 					actionRow={actionRow}
 					controlsHidden={controlsHidden}
 					rowCls={rowCls}

@@ -1,4 +1,3 @@
-import type { ClsSlots } from "@use-pico/cls";
 import type {
 	CursorSchema,
 	EntitySchema,
@@ -23,7 +22,7 @@ export namespace Content {
 		query: Omit<TQuery, "filter" | "cursor"> | undefined;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
 		state: PopupSelect.State;
-		slots: ClsSlots<PopupSelectCls>;
+		slots: PopupSelectCls.Slots;
 		allowEmpty: boolean;
 	}
 }
@@ -62,8 +61,8 @@ export const Content = <
 				/>
 			}
 		>
-			<div className={slots.base()}>
-				<div className={slots.content()}>
+			<div className={slots.base}>
+				<div className={slots.content}>
 					<Table
 						query={
 							{

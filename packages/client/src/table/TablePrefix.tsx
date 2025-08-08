@@ -44,9 +44,13 @@ export const TablePrefix = <
 						<Fulltext
 							state={fulltext}
 							cls={{
-								base: [
-									"w-96",
-								],
+								slot: {
+									base: {
+										class: [
+											"w-96",
+										],
+									},
+								},
 							}}
 						/>
 					) : null}

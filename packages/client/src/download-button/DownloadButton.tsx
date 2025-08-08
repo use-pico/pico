@@ -43,9 +43,11 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 		<Button
 			iconEnabled={DownloadIcon}
 			iconDisabled={DownloadIcon}
-			variant={{
-				variant: "light",
-				borderless: true,
+			cls={{
+				variant: {
+					variant: "secondary",
+					borderless: true,
+				},
 			}}
 			disabled={isLoading}
 			loading={isLoading}
@@ -73,8 +75,10 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 					{progress >= 0 && (
 						<Progress
 							value={progress}
-							variant={{
-								size: "sm",
+							cls={{
+								variant: {
+									size: "sm",
+								},
 							}}
 						/>
 					)}
