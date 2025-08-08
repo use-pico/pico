@@ -12,17 +12,18 @@
 
 🚀 **What you'll love**
 
-– 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere
-– 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
-– 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides
-– 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
-– 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
-– ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
-– 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
-– 🌀 **Tailwind-native**: powered by tailwind-merge for sane, deduped class strings
-– 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration
+- 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere
+- 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
+- 🎛️ **Rules that read like UI**: map variant 
+combos → slot styles with predictable overrides
+- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
+- 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
+- ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
+- 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
+- 🌀 **Tailwind-native**: powered by tailwind-merge for sane, deduped class strings
+- 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration
 
-Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX.
+_Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX._
 
 ## Versioning
 
@@ -1831,70 +1832,13 @@ All merged and deduped using `tailwind-merge`.
 
 ## Recipes
 
-### Simple Components
-
-```ts
-import { cls } from "@use-pico/cls";
-
-export const Card = cls({
-  tokens: {}, // Simple component - no design tokens needed
-  slot: ["base", "header", "content"] as const,
-  variant: {}, // No variants - static styling
-}, {
-  token: {}, // No token definitions
-  rules: ({ root }) => [
-    root({
-      base: { class: ["border", "rounded", "p-4"] },
-      header: { class: ["font-bold", "mb-2"] },
-      content: { class: ["text-sm"] },
-    }),
-  ],
-  defaults: {}, // No defaults needed
-});
-```
-
-### Variant-only Components
-
-```ts
-import { cls } from "@use-pico/cls";
-
-export const Alert = cls({
-  tokens: {}, // Using direct classes instead of design tokens
-  slot: ["base", "title", "message"] as const,
-  variant: { variant: ["info", "success"], clickable: ["bool"] } as const,
-}, {
-  token: {}, // No token definitions needed
-  rules: ({ root, rule }) => [
-    root({
-      base: { class: ["p-2", "rounded"] }
-    }),
-    rule({ variant: "success" }, { base: { class: ["bg-green-100"] } }),
-  ],
-  defaults: { variant: "info", clickable: false },
-});
-```
-
-### Token-only Definitions
-
-```ts
-import { cls } from "@use-pico/cls";
-
-export const ThemeTokens = cls({
-  tokens: {
-    "theme.bg": ["default", "hover"],
-    "theme.text": ["default", "muted"],
-  },
-  slot: [],
-  variant: {},
-}, {
-  token: {
-    "theme.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
-    "theme.text": { default: ["text-white"], muted: ["text-slate-400"] },
-  },
-  rules: () => [],
-  defaults: {},
-});
-```
+See “When to Use What and How” for end‑to‑end examples:
+- Simple static components
+- Components with variants
+- Design token system
+- Component inheritance
+- Theme system
+- Runtime customization
 
 ## A Personal Note
 
