@@ -15,7 +15,7 @@
 - 🧱 **Contracts, not configs** (tokens · slots · variants): describe once → get **full IntelliSense** everywhere (see [Glossary](#glossary-30-seconds-to-fluent))
 - 🎯 **Design tokens** as first-class citizens with **inheritance** and validation (see [Token Overloading & Theming](#token-overloading--theming))
 - 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides (see [Create-time Overrides](#create-time-overrides))
-- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact (see [Inheritance System](#inheritance-system))
+- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact (see [Inheritance System](#inheritance-system) and [Inheritance rules](#inheritance-rules-authoritative))
 - 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides (see [Core Concepts](#core-concepts))
 - ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
 - 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time (see [Create-time Overrides](#create-time-overrides))
@@ -23,6 +23,8 @@
 - 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration (see [React Integration](#react-integration))
 
 _Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX._
+
+> Important: Inheritance is a core part of this library. For precise behavior across tokens, variants, slots, rules, and defaults, see [Inheritance rules (authoritative)](#inheritance-rules-authoritative).
 
 ## Versioning
 
@@ -665,6 +667,52 @@ const AppSpecificComponents = BrandedComponents.extend(appContract, appDefinitio
 ```
 
 This inheritance system lets you build complex, maintainable design systems where changes at any level automatically propagate through the entire hierarchy while maintaining full type safety! 🚀
+
+### Inheritance rules (authoritative)
+
+This is the concise, code-less guide to how inheritance behaves across the system. Consider this the single source of truth.
+
+- **Chain order**
+  - Base → Child → Grandchild (walked top-down when applying, built bottom-up in code, but applied in base-to-child order).
+  - Rules and defaults from later (child) layers override/append earlier (base) ones according to rules below.
+
+- **Tokens (groups and values)**
+  - If a child declares a token group in its `contract.tokens`, then that layer’s `definition.token` for that group **replaces the inherited token entry** for each provided token value.
+  - If a child provides `definition.token` entries for a group/value that it did not declare in `contract.tokens` (but exists in ancestors), those entries **append** to the inherited token entry for that token value.
+  - Adding a new token group in a child expands the token universe (and must be defined in the child’s `definition.token`).
+  - Types enforce that all groups/values declared at the current layer are provided in `definition.token`.
+  - Effective token classes are resolved after walking all layers with REPLACE/APPEND semantics; `create({ token })` may then override per-instance token values (see below).
+
+- **Variants (keys and choices)**
+  - Child variants are a **union merge** with parents (choices accumulate).
+  - Variant types are preserved; the special string value `"bool"` is mapped to TypeScript `boolean`.
+  - All variants must have defaults declared at each layer (child must restate defaults), and child defaults **override** parent defaults.
+
+- **Slots (shape)**
+  - Slots **accumulate** across the chain (set union). `create()` returns functions for every slot in the full chain.
+
+- **Rules (ordering and matching)**
+  - Rules are collected in base-to-child order: **base rules first, then child rules** (per layer, in their written order).
+  - Rule matching uses exact equality against the effective variant values at `create()` time.
+  - When a matching rule for a slot has `override: true`, that rule’s step **clears** prior classes for the affected slot before applying its own.
+  - Otherwise, matching rules **append** classes for the slot in order.
+
+- **Defaults (resolution)**
+  - Defaults are merged base-to-child, with child values **overwriting** parent values key-by-key.
+
+- **Create-time precedence (interplay with inheritance)**
+  - Within one `create()`: user config wins over internal config, field-by-field: `variant` → `slot` → `override` → `token`.
+  - Evaluation order for one slot: base/default rules → variant-matched rules → `slot` appends → `override` replaces.
+  - `create({ token })` provides per-instance token **REPLACEMENTS** for the specified variants within groups; unspecified variants remain as resolved by inheritance.
+
+- **extend() semantics**
+  - `Base.extend(childContract, childDefinition)` creates a child with all the behaviors above; types ensure the child satisfies and extends the parent contract safely.
+
+- **use(sub) assignment**
+  - `Base.use(Sub)` only accepts a derived cls; it returns an instance that keeps the Base type, but routes to Sub’s implementation.
+
+- **Class merging**
+  - Final class strings are deduped and resolved via Tailwind’s last‑wins semantics using `tailwind-merge` (`tvc`).
 
 ### Create-time Overrides
 
