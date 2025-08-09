@@ -141,20 +141,19 @@ const Button = cls({
       md: ["px-4", "py-2"],
       lg: ["px-6", "py-3"]
     }
-  }
+  },
+  // Use tokens in rules
+  rules: ({ root, rule }) => [
+    root({
+        root: { token: ["color.bg.default", "spacing.padding.md"] },
+        label: { token: ["color.text.default"] }
+    }),
+    rule({ disabled: true }, {
+        root: { token: ["color.bg.disabled"] },
+        label: { token: ["color.text.disabled"] }
+    })
+  ]
 });
-
-// Use tokens in rules
-rules: ({ root, rule }) => [
-  root({
-    root: { token: ["color.bg.default", "spacing.padding.md"] },
-    label: { token: ["color.text.default"] }
-  }),
-  rule({ disabled: true }, {
-    root: { token: ["color.bg.disabled"] },
-    label: { token: ["color.text.disabled"] }
-  })
-]
 ```
 
 ### Slots
@@ -966,10 +965,10 @@ The override system follows a clear, predictable order. This is the canonical re
 
 ```ts
 const classes = Button.create({
-  variant: { size: "lg" },                    // 1. Apply variant rules
-  slot: { root: { class: ["ring-1"] } },      // 2. Append to slot
-  override: { root: { class: ["block"] } },   // 3. Hard override (wins!)
-  token: { "primary.bg": { default: ["bg-red"] } } // 4. Override tokens
+  variant: { size: "lg" },                          // Apply variant rules (no-conflict)
+  slot: { root: { class: ["ring-1"] } },            // Append to slot (no-conflict)
+  token: { "primary.bg": { default: ["bg-red"] } }  // Override tokens (replace existing token)
+  override: { root: { class: ["block"] } },         // Hard override (ruthlessly replace - wins!)
 });
 ```
 
