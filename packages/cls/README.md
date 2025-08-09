@@ -1733,21 +1733,23 @@ const ComplexButton = cls({
 
 > **Honest Comparison Disclaimer**: This comparison is written by the `@use-pico/cls` author and is inherently biased toward highlighting this library's strengths. While we strive for accuracy, **every tool has its trade‑offs**. `@use-pico/cls` prioritizes **type safety** and **design system consistency** over **conciseness**. For **simple projects**, competitors like CVA or TVA might be more appropriate. For **complex design systems** and **production apps** where **type safety** and **maintainability** are crucial, `@use-pico/cls` provides unique value. **Choose the tool that fits your needs.**
 
-| Feature | @use-pico/cls | class-variance-authority | tailwind-variants | @stitches/react | vanilla-extract |
-|---------|---------------|-------------------------|-------------------|-----------------|-----------------|
-| **Type Safety** | 🔥 Full compile-time validation | ✅ Basic TypeScript | ✅ TypeScript support | ✅ TypeScript | ✅ TypeScript |
-| **Design Tokens** | 🔥 First-class with inheritance | ❌ No built-in support | ❌ No built-in support | ✅ CSS variables | ✅ CSS variables |
-| **Inheritance** | 🔥 Multi-level with type safety | ❌ No inheritance | ❌ No inheritance | ✅ Component composition | ❌ No inheritance |
-| **Framework** | 🔥 Framework-agnostic + React | ✅ Framework-agnostic | ✅ Framework-agnostic | 🔥 React-focused | ✅ Framework-agnostic |
-| **CSS-in-JS** | ❌ Class-based only | ❌ Class-based only | ❌ Class-based only | 🔥 Full CSS-in-JS | 🔥 Zero-runtime CSS |
-| **Performance** | 🔥 Lazy evaluation + caching | ✅ Good | ✅ Good | ✅ Good | 🔥 Build-time |
-| **Bundle Size** | ✅ ~3KB gzipped | ✅ ~1KB gzipped | ✅ ~2KB gzipped | 🔥 ~8KB gzipped | ✅ ~1KB gzipped |
-| **Learning Curve** | 🔥 Steep (powerful) | ✅ Easy | ✅ Easy | 🔥 Medium | 🔥 Medium |
-| **Design Systems** | 🔥 Built for scale | ✅ Good for components | ✅ Good for components | 🔥 Excellent | ✅ Good |
+| Feature | @use-pico/cls | class-variance-authority (CVA) | tailwind-variants (TV) | @stitches/react | vanilla-extract |
+|---------|---------------|------------------------------|-------------------------|-----------------|-----------------|
+| **TypeScript** | Advanced compile-time validation across tokens/slots/variants | TypeScript support | TypeScript support | TypeScript | TypeScript |
+| **Approach** | Class-based (no CSS-in-JS) | Class-based (no CSS-in-JS) | Class-based (no CSS-in-JS) | CSS-in-JS runtime | Build-time CSS (zero runtime) |
+| **Design tokens** | Built-in token system with inheritance | Not built-in | Not built-in | Theming via CSS variables | Theming via CSS variables |
+| **Inheritance model** | Multi-level, type-safe `extend()` | No formal inheritance model | No formal inheritance model (composition/extend API exists) | Component composition (no typed inheritance chain) | No inheritance model |
+| **Slots** | Multi-slot API | Not provided | Slots API provided | — | — |
+| **Composition/extend** | `extend(contract, definition)` | Composition via function usage; supports compound variants | `extend` API available to build on top of tv config | Compose via `styled()` and variants | Recipes/compose at build-time |
+| **Runtime theming** | Per-instance token overrides at `create()` | Not built-in | Not built-in | Theming via CSS variables | Theming via CSS variables |
+| **Runtime characteristics** | Class merge/lazy evaluation; no runtime CSS | Class merge; no runtime CSS | Class merge; no runtime CSS | Runtime style system | Build-time extraction |
+| **Learning Curve** | Steep (powerful) | Easy | Easy | Medium | Medium |
 
 > **Callouts**
-> - **CVA** is perfect to get moving fast — if you don’t need tokens/inheritance, it wins on **simplicity**.
-> - **TVA** has great ergonomics; **@use-pico/cls** leans into **design tokens** and **type depth** instead.
+> - **CVA** is a minimal, variant-focused class builder; if you don’t need tokens or typed inheritance, it’s simple and effective.
+> - **TV** adds a slots model and ergonomics on top of class composition; it doesn’t model typed inheritance or design tokens.
+> - **Stitches** is a full CSS-in-JS solution (React-first) with tokens/theming via CSS variables.
+> - **vanilla-extract** is a build-time CSS solution with theming via CSS variables and zero runtime.
 
 ### Code Comparison Showcase
 
