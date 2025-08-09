@@ -6,6 +6,7 @@ import type {
 	Cls,
 	ClsSlotFn,
 	Contract,
+	CreateConfig,
 	Definition,
 	RuleDefinition,
 	SlotContract,
@@ -322,45 +323,60 @@ export function cls<
 		const memoizedResults = new Map<string, string>();
 
 		const makeCacheKey = (
-			variantOverrides: Record<string, unknown> | undefined,
+			callConfig: Partial<CreateConfig<TContract>> | undefined,
 		): string => {
-			if (!variantOverrides) {
-				return "__no_variants__";
+			if (callConfig === undefined) {
+				return "__no_config__";
 			}
 			try {
-				return JSON.stringify(variantOverrides);
+				return JSON.stringify(callConfig);
 			} catch {
-				// Fallback in case of unexpected non-serializable input
 				return "__non_serializable__";
 			}
 		};
 
-		return (variantOverrides) => {
-			const cacheKey = makeCacheKey(
-				variantOverrides as unknown as
-					| Record<string, unknown>
-					| undefined,
-			);
+		return (call?: Partial<CreateConfig<TContract>>) => {
+			const cacheKey = makeCacheKey(call);
 			const cached = memoizedResults.get(cacheKey);
 			if (cached !== undefined) {
 				return cached;
 			}
-			// Merge base defaults with create config variants and provided variant overrides
+			let callConfig: InternalCreateConfig | undefined;
+			const full = call as Partial<CreateConfig<TContract>> | undefined;
+			callConfig = full
+				? {
+						variant: full.variant as
+							| Record<string, unknown>
+							| undefined,
+						slot: full.slot as
+							| Record<string, InternalSlotWhat>
+							| undefined,
+						override: full.override as
+							| Record<string, InternalSlotWhat>
+							| undefined,
+						token: full.token as
+							| Record<string, Record<string, string[]>>
+							| undefined,
+					}
+				: undefined;
+
+			// Merge base defaults with create config variants and per-call variant overrides
 			const effectiveVariant: Record<string, unknown> = {
 				...baseDefaults,
 				...baseConfig?.variant,
-				...variantOverrides,
+				...(callConfig?.variant ?? {}),
 			};
 
 			const resolveTokensToClasses = (
 				tokens: string[] | undefined,
+				tokenIndexToUse: InternalTokenIndex,
 			): string[] => {
 				if (!tokens || tokens.length === 0) {
 					return [];
 				}
 				const out: string[] = [];
 				for (const token of tokens) {
-					const classes = baseTokenIndex[token] ?? [];
+					const classes = tokenIndexToUse[token] ?? [];
 					if (classes?.length) {
 						out.push(...classes);
 					}
@@ -371,6 +387,7 @@ export function cls<
 			const applyWhat = (
 				acc: string[],
 				what: InternalSlotWhat | undefined,
+				tokenIndexToUse: InternalTokenIndex,
 			): string[] => {
 				if (!what) return acc;
 				if (what.class) {
@@ -381,7 +398,9 @@ export function cls<
 					}
 				}
 				if (what.token) {
-					acc.push(...resolveTokensToClasses(what.token));
+					acc.push(
+						...resolveTokensToClasses(what.token, tokenIndexToUse),
+					);
 				}
 				return acc;
 			};
@@ -400,6 +419,14 @@ export function cls<
 
 			let classes: string[] = [];
 
+			// Build token index for this call: base + per-call token overrides
+			const localTokenIndex: InternalTokenIndex = {
+				...baseTokenIndex,
+			};
+			if (callConfig?.token) {
+				applyCreateTokenOverrides(localTokenIndex, callConfig.token);
+			}
+
 			// Apply rules based on effective variants
 			for (const rule of baseRules) {
 				if (!matches(rule.match)) {
@@ -413,20 +440,37 @@ export function cls<
 				if (rule.override === true) {
 					classes = [];
 				}
-				classes = applyWhat(classes, what as InternalSlotWhat);
+				classes = applyWhat(
+					classes,
+					what as InternalSlotWhat,
+					localTokenIndex,
+				);
 			}
 
 			// Apply base config slot overrides
 			const createSlot = baseConfig?.slot?.[slotName];
 			if (createSlot) {
-				classes = applyWhat(classes, createSlot);
+				classes = applyWhat(classes, createSlot, localTokenIndex);
 			}
 
 			// Apply base config override (hard override)
 			const createOverride = baseConfig?.override?.[slotName];
 			if (createOverride) {
 				classes = [];
-				classes = applyWhat(classes, createOverride);
+				classes = applyWhat(classes, createOverride, localTokenIndex);
+			}
+
+			// Apply per-call slot appends
+			const callSlot = callConfig?.slot?.[slotName];
+			if (callSlot) {
+				classes = applyWhat(classes, callSlot, localTokenIndex);
+			}
+
+			// Apply per-call hard override
+			const callOverride = callConfig?.override?.[slotName];
+			if (callOverride) {
+				classes = [];
+				classes = applyWhat(classes, callOverride, localTokenIndex);
 			}
 
 			const result = tvc(classes);

@@ -144,12 +144,16 @@ describe("core cls API", () => {
 		expect(slots.root()).toBe("block text-base");
 		expect(
 			slots.root({
-				size: "sm",
+				variant: {
+					size: "sm",
+				},
 			}),
 		).toBe("block text-sm");
 		expect(
 			slots.root({
-				size: "lg",
+				variant: {
+					size: "lg",
+				},
 			}),
 		).toBe("block text-lg");
 	});
@@ -274,18 +278,24 @@ describe("core cls API", () => {
 		expect(slots.root()).toBe("block");
 		expect(
 			slots.root({
-				disabled: true,
+				variant: {
+					disabled: true,
+				},
 			}),
 		).toBe("block opacity-50");
 		expect(
 			slots.root({
-				loading: true,
+				variant: {
+					loading: true,
+				},
 			}),
 		).toBe("block animate-pulse");
 		expect(
 			slots.root({
-				disabled: true,
-				loading: true,
+				variant: {
+					disabled: true,
+					loading: true,
+				},
 			}),
 		).toBe("block opacity-50 animate-pulse");
 	});

@@ -83,13 +83,26 @@ describe("variants", () => {
 		const slots = C.create({});
 		expect(
 			slots.root({
-				size: "sm",
+				variant: {
+					size: "sm",
+				},
 			}),
 		).toBe("inline-flex items-center px-2 py-1");
 		expect(
 			slots.label({
-				size: "sm",
+				variant: {
+					size: "sm",
+				},
 			}),
 		).toBe("font-medium text-sm");
+
+		// Full CreateConfig at slot call-time
+		expect(
+			slots.root({
+				variant: {
+					size: "sm",
+				},
+			}),
+		).toBe("inline-flex items-center px-2 py-1");
 	});
 });

@@ -160,12 +160,16 @@ describe("tokens feature", () => {
 		expect(slots.root()).toBe("block text-gray-900 bg-white");
 		expect(
 			slots.root({
-				variant: "primary",
+				variant: {
+					variant: "primary",
+				},
 			}),
 		).toBe("block text-blue-600 bg-blue-50");
 		expect(
 			slots.root({
-				variant: "secondary",
+				variant: {
+					variant: "secondary",
+				},
 			}),
 		).toBe("block text-green-600 bg-green-50");
 	});
@@ -467,12 +471,16 @@ describe("tokens feature", () => {
 		expect(slots.root()).toBe("block text-gray-900 bg-white p-4 m-2");
 		expect(
 			slots.root({
-				size: "sm",
+				variant: {
+					size: "sm",
+				},
 			}),
 		).toBe("block text-gray-900 bg-white p-2 m-1");
 		expect(
 			slots.root({
-				size: "lg",
+				variant: {
+					size: "lg",
+				},
 			}),
 		).toBe("block text-gray-900 bg-white p-6 m-4");
 	});

@@ -83,8 +83,10 @@ describe("match() helper", () => {
 		const c = Alert.create();
 		expect(
 			c.base({
-				kind: "success",
-				clickable: true,
+				variant: {
+					kind: "success",
+					clickable: true,
+				},
 			}),
 		).toBe("p-2 rounded bg-green-50 hover:shadow-sm");
 	});
@@ -153,7 +155,9 @@ describe("match() helper", () => {
 		// override resets previous classes for base, then adds ring
 		expect(
 			danger.base({
-				danger: true,
+				variant: {
+					danger: true,
+				},
 			}),
 		).toBe("p-2 rounded bg-red-50 ring-1 ring-red-300");
 	});

@@ -9,8 +9,7 @@
 		"build:bundle": "bun x rollup -c",
 		"build": "run-p build:*",
 		"test": "run-s test:*",
-		"test:code": "vitest --run",
-		"test:ui": "vitest --ui"
+		"test:code": "vitest --run"
 	},
 	"dependencies": {
 		"react": "^19.1.1",

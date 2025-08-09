@@ -326,7 +326,7 @@ export type SlotMapping<TContract extends Contract<any, any, any>> = {
 };
 
 export type ClsSlotFn<TContract extends Contract<any, any, any>> = (
-	variants?: Partial<DefaultDefinition<TContract>>,
+	config?: Partial<CreateConfig<TContract>>,
 ) => string;
 
 /**

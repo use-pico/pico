@@ -171,12 +171,16 @@ describe("empty configurations", () => {
 		expect(slots.root()).toBe("block text-base");
 		expect(
 			slots.root({
-				size: "sm",
+				variant: {
+					size: "sm",
+				},
 			}),
 		).toBe("block text-sm");
 		expect(
 			slots.root({
-				size: "lg",
+				variant: {
+					size: "lg",
+				},
 			}),
 		).toBe("block text-lg");
 	});
