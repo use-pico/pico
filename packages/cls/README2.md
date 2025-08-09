@@ -421,20 +421,198 @@ Guidance:
 
 ```mermaid
 flowchart TD
-  A["Contract (per layer)<br/>- tokens<br/>- slots<br/>- variants"] --> B["Definition (per layer)<br/>- token classes<br/>- rules<br/>- defaults"]
-  B --> C["extend(...) chain<br/>parent → child → grandchild"]
-  C --> D["create(options)<br/>- variant<br/>- slot<br/>- override<br/>- token"]
-  D --> E["Build indexes<br/>- merged defaults<br/>- token lookup (REPLACE/APPEND)<br/>- collected rules<br/>- union of slots"]
-  E --> F["For each slot() call<br/>merge effective variants<br/>scan rules, apply matches<br/>resolve tokens → classes<br/>apply slot/override deltas"]
-  F --> G["tvc() normalize/dedupe<br/>return final class string"]
+  A["Contract<br/>tokens, slots, variants"] --> B["Definition<br/>classes, rules, defaults"]
+  B --> C["extend() chain<br/>parent → child → grandchild"]
+  C --> D["create()<br/>variant, slot, override, token"]
+  D --> E["Build indexes<br/>merged defaults, token lookup<br/>collected rules, slot union"]
+  E --> F["slot() call<br/>merge variants, scan rules<br/>resolve tokens, apply deltas"]
+  F --> G["tvc()<br/>normalize & return"]
 
-  subgraph Inheritance
+  subgraph Inheritance["Inheritance Processing"]
     A -->|per layer| B
     B -->|collect| E
   end
 
-  style G stroke:#4c1,stroke-width:2px
-  style F stroke:#06c,stroke-width:2px
-  style E stroke:#06c,stroke-width:2px
-  style D stroke:#333,stroke-dasharray: 3 3
+  style G stroke:#4c1,stroke-width:2px,fill:#e6ffe6
+  style F stroke:#06c,stroke-width:2px,fill:#e6f3ff
+  style E stroke:#06c,stroke-width:2px,fill:#e6f3ff
+  style D stroke:#333,stroke-dasharray: 3 3,fill:#f0f0f0
+  style Inheritance fill:#fff3cd,stroke:#ffc107
+```
+
+---
+
+<a id="chapter-6"></a>
+## Chapter 6. React Integration ⚛️
+
+<a id="6-1-overview"></a>
+### 6.1 Overview
+
+`@use-pico/cls` provides React-specific utilities that make styling components feel natural and type-safe. The integration includes hooks, context providers, and higher-order components designed to eliminate the gap between your `cls` definitions and React components.
+
+> **Key benefits**: Type-safe styling, no prop drilling, automatic re-renders on theme changes, and seamless integration with existing component patterns.
+
+<a id="6-2-usecls-hook"></a>
+### 6.2 `useCls` hook
+
+The primary hook for consuming `cls` instances in React components:
+
+```tsx
+import { useCls } from '@use-pico/cls/react';
+
+function Button({ variant = 'default', children }) {
+  const cls = useCls(ButtonCls);
+  
+  return (
+    <button className={cls.create({ variant }).root()}>
+      {children}
+    </button>
+  );
+}
+```
+
+**Features**:
+- **Automatic re-renders**: When the `ClsProvider` context changes, components using `useCls` automatically update.
+- **Type safety**: Full TypeScript support with your contract definitions.
+- **Performance**: Hooks into React's context system for efficient updates.
+
+<a id="6-3-clsprovider-context"></a>
+### 6.3 `ClsProvider` context
+
+The context provider that enables theme switching and global styling overrides:
+
+```tsx
+import { ClsProvider } from '@use-pico/cls/react';
+
+function App() {
+  return (
+    <ClsProvider>
+      <YourApp />
+    </ClsProvider>
+  );
+}
+```
+
+**Use cases**:
+- **Theme switching**: Change between light/dark modes, brand variations, or product tiers.
+- **Global overrides**: Apply system-wide styling adjustments without component changes.
+- **Context isolation**: Multiple providers can coexist for different styling contexts.
+
+<a id="6-4-withcls-hoc"></a>
+### 6.4 `withCls` HOC
+
+The higher-order component that attaches `cls` instances directly to React components, eliminating export pollution and enabling tight coupling:
+
+```tsx
+import { withCls } from '@use-pico/cls/react';
+
+const Button = withCls(ButtonCls)(function Button({ variant = 'default', children }) {
+  return (
+    <button className={Button.cls.create({ variant }).root()}>
+      {children}
+    </button>
+  );
+});
+```
+
+**Why it exists**:
+- **Export pollution prevention**: UI libraries can export only the component, not both `Button` and `ButtonCls`.
+- **Tight coupling**: The component and its styling are inherently connected — they're designed together.
+- **Developer experience**: Access styling directly from the component: `Button.cls.create().root()`.
+
+**Phantom properties**:
+- **`~slots`**: Access to slot definitions for type checking and tooling.
+- **`~contract`**: The contract shape for validation.
+- **`~definition`**: The styling definition for inspection.
+
+> **Note**: These properties exist only at type-checking time and are not available at runtime.
+
+<a id="6-5-patterns-and-best-practices"></a>
+### 6.5 Patterns and best practices
+
+**File organization**:
+```
+components/
+  Button/
+    ButtonCls.ts      # Styling definition
+    Button.tsx        # React component (imports ButtonCls)
+    index.ts          # Export only Button
+```
+
+**Component composition**:
+```tsx
+// ButtonCls.ts
+export const ButtonCls = cls(buttonContract, buttonDefinition);
+
+// Button.tsx
+import { ButtonCls } from './ButtonCls';
+export const Button = withCls(ButtonCls)(function Button({ ... }) {
+  // Component implementation
+});
+
+// Usage
+<Button variant="primary" size="large" />
+```
+
+**Theme switching**:
+```tsx
+function ThemeToggle() {
+  const { setTheme } = useClsContext();
+  
+  return (
+    <button onClick={() => setTheme('dark')}>
+      Switch to Dark Mode
+    </button>
+  );
+}
+```
+
+<a id="6-6-advanced-react-patterns"></a>
+### 6.6 Advanced React patterns
+
+**Conditional styling with state**:
+```tsx
+function InteractiveButton({ isActive, children }) {
+  const cls = useCls(ButtonCls);
+  
+  return (
+    <button 
+      className={cls.create({ 
+        variant: isActive ? 'active' : 'default' 
+      }).root()}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+**Dynamic slot targeting**:
+```tsx
+function ComplexButton({ icon, label, showBadge }) {
+  const cls = useCls(ButtonCls);
+  
+  return (
+    <button className={cls.create().root()}>
+      {icon && <span className={cls.icon()}>{icon}</span>}
+      <span className={cls.label()}>{label}</span>
+      {showBadge && <span className={cls.badge()}>New</span>}
+    </button>
+  );
+}
+```
+
+**Composition with other styling systems**:
+```tsx
+function HybridButton({ className, ...props }) {
+  const cls = useCls(ButtonCls);
+  
+  return (
+    <button 
+      className={cls.create().root()}
+      style={{ /* CSS custom properties */ }}
+      {...props}
+    />
+  );
+}
 ```
