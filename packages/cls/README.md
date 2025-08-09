@@ -853,17 +853,15 @@ The `create()` method gives you incredible flexibility to customize styling at r
 <Button
   cls={{
     override: {
-      root: {
-        class: [
-          "px-3",
-          "py-2",
-          "bg-blue-600",
-          "text-white",
-          "rounded",
-          "shadow",
-        ],
-      },
-      label: { class: ["font-semibold"] },
+      root: classes([
+        "px-3",
+        "py-2",
+        "bg-blue-600",
+        "text-white",
+        "rounded",
+        "shadow",
+      ]),
+      label: classes(["font-semibold"]),
     },
   }}
 />
@@ -877,13 +875,13 @@ const Button = cls(
   },
   {
     token: {},
-    rules: ({ root, rule }) => [
+    rules: ({ root, rule, classes }) => [
       root({
-        root: { class: ["inline-flex", "items-center", "rounded"] },
-        label: { class: ["font-medium"] },
+        root: classes(["inline-flex", "items-center", "rounded"]),
+        label: classes(["font-medium"]),
       }),
-      rule({ intent: "primary" }, { root: { class: ["bg-blue-600", "text-white", "hover:bg-blue-700", "shadow"] } }),
-      rule({ dense: true }, { root: { class: ["px-3", "py-2"] } }),
+      rule({ intent: "primary" }, { root: classes(["bg-blue-600", "text-white", "hover:bg-blue-700", "shadow"]) }),
+      rule({ dense: true }, { root: classes(["px-3", "py-2"]) }),
     ],
     defaults: { intent: "neutral", dense: false },
   },
