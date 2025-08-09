@@ -2128,7 +2128,7 @@ const Button = Theme.extend({
 | **Runtime Flexibility** | ⚠️ Limited | ✅ Full override capabilities |
 | **Learning Curve** | ✅ Easy | ⚠️ Steeper but more powerful |
 
-**The trade-off is clear**: @use-pico/cls prioritizes **type safety**, **design system consistency**, and **scalability** over **conciseness**. For simple projects, competitors might be easier. For complex design systems and production applications, @use-pico/cls provides the tools you need to build maintainable, type-safe styling systems.
+**The trade-off is clear**: `@use-pico/cls` prioritizes **type safety**, **design system consistency**, and **scalability** over **conciseness**. For simple projects, competitors might be easier. For complex design systems and production applications, `@use-pico/cls` provides the tools you need to build maintainable, type-safe styling systems.
 
 ## Advanced Features
 
