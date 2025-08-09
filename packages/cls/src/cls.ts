@@ -3,6 +3,7 @@ import { match } from "./match";
 import { merge } from "./merge";
 import { tvc } from "./tvc";
 import type {
+	ClassName,
 	Cls,
 	ClsSlotFn,
 	Contract,
@@ -17,18 +18,18 @@ import type {
 
 // TODO Vibe variable extraction (create PicoCls with tokens)
 
-// Local types for internal use (not exposed)
-type InternalContractIndex = {
+// Local internal helpers (runtime only)
+type InternalContractLayer = {
 	contract: Contract<any, any, any>;
 	definition: Definition<any>;
 };
 
 type InternalTokenIndex = Record<string, string[]>;
-
 type InternalVariantValues = Record<string, unknown>;
 
-type InternalSlotWhat = {
-	class?: unknown;
+// Internal type for runtime processing (simplified version of What for internal use)
+type InternalWhat = {
+	class?: ClassName;
 	token?: string[];
 };
 
@@ -167,360 +168,316 @@ export function cls<
 		any
 	>,
 >(contract: TContract, definition: Definition<TContract>): Cls<TContract> {
-	const contractIndex = (
-		contract: Contract<any, any, any>,
-		definition: Definition<any>,
-	): InternalContractIndex[] => {
-		const index: InternalContractIndex[] = [];
+	// Build inheritance chain once for this instance (base -> child order)
+	const buildChain = (
+		base: Contract<any, any, any>,
+		def: Definition<any>,
+	): InternalContractLayer[] => {
+		const layers: InternalContractLayer[] = [];
 
-		let $contract: Contract<any, any, any> | undefined = contract;
-		let $definition: Definition<any> | undefined = definition;
+		let currentContract: Contract<any, any, any> | undefined = base;
+		let currentDefinition: Definition<any> | undefined = def;
 
-		while ($contract && $definition) {
-			index.push({
-				contract: $contract,
-				definition: $definition,
+		while (currentContract && currentDefinition) {
+			layers.push({
+				contract: currentContract,
+				definition: currentDefinition,
 			});
 
-			// IMPORTANT:
-			// "~definition" is stored on the CHILD contract as a reference to the PARENT'S definition.
-			// Therefore, when walking the chain upwards, we must read the next definition
-			// from the CURRENT contract before advancing $contract to its parent.
-			const nextContract = $contract["~use"] as
+			const nextContract = currentContract["~use"] as
 				| Contract<any, any, any>
 				| undefined;
-			const nextDefinition = $contract["~definition"] as
+			const nextDefinition = currentContract["~definition"] as
 				| Definition<any>
 				| undefined;
 
-			$contract = nextContract;
-			$definition = nextDefinition;
+			currentContract = nextContract;
+			currentDefinition = nextDefinition;
 		}
 
-		return index.reverse();
+		return layers.reverse();
 	};
 
-	const tokenIndex = (
-		contractIndex: InternalContractIndex[],
-	): InternalTokenIndex => {
-		const index: InternalTokenIndex = {};
+	const layers = buildChain(contract, definition);
 
-		for (const { contract } of contractIndex) {
-			for (const [group, values] of Object.entries(contract.tokens) as [
-				string,
-				readonly string[],
-			][]) {
-				for (const value of values) {
-					index[`${group}.${value}`] = [];
-				}
-			}
+	// Collect all slots across the chain (set union)
+	const allSlots: Set<string> = (() => {
+		const s = new Set<string>();
+		for (const { contract: c } of layers) {
+			for (const slot of c.slot as string[]) s.add(slot);
 		}
+		return s;
+	})();
 
-		return index;
-	};
+	// Precompute merged defaults (base -> child, child overwrites)
+	const mergedDefaults: InternalVariantValues = (() => {
+		const out: InternalVariantValues = {};
+		for (const { definition: d } of layers)
+			Object.assign(out, d.defaults ?? {});
+		return out;
+	})();
 
-	const buildTokenIndex = (
-		tokenIndex: InternalTokenIndex,
-		contractIndex: InternalContractIndex[],
-	): InternalTokenIndex => {
-		// For each layer, decide REPLACE vs APPEND semantics based on whether
-		// the layer's contract explicitly declares the token variant.
-		for (const { contract, definition } of contractIndex) {
-			const declaredGroups: Record<string, Set<string>> = {};
-			for (const [group, values] of Object.entries(contract.tokens) as [
-				string,
-				readonly string[],
-			][]) {
-				declaredGroups[group] = new Set(values as string[]);
-			}
-
-			for (const [group, values] of Object.entries(
-				(definition.token ?? {}) as Record<
-					string,
-					Record<string, string[]>
-				>,
-			)) {
-				for (const [variant, classes] of Object.entries(values)) {
-					const key = `${group}.${variant}`;
-					const groupDeclared = declaredGroups[group];
-					if (groupDeclared?.has(variant)) {
-						// REPLACE
-						tokenIndex[key] = classes;
-					} else {
-						// APPEND
-						const prev = tokenIndex[key] ?? [];
-						tokenIndex[key] = prev.concat(classes);
-					}
-				}
-			}
-		}
-
-		return tokenIndex;
-	};
-
-	const applyCreateTokenOverrides = (
-		tokenIndex: InternalTokenIndex,
-		overrides: Record<string, Record<string, string[]>> | undefined,
-	): InternalTokenIndex => {
-		if (!overrides) {
-			return tokenIndex;
-		}
-		for (const [group, variants] of Object.entries(overrides)) {
-			for (const [variant, classes] of Object.entries(variants ?? {})) {
-				const key = `${group}.${variant}`;
-				tokenIndex[key] = Array.isArray(classes) ? classes : [];
-			}
-		}
-		return tokenIndex;
-	};
-
-	const buildMergedDefaults = (
-		contractIndex: InternalContractIndex[],
-	): InternalVariantValues => {
-		const result: InternalVariantValues = {};
-		for (const { definition } of contractIndex) {
-			Object.assign(result, definition.defaults ?? {});
-		}
-		return result;
-	};
-
-	const buildMergedRules = (
-		contractIndex: InternalContractIndex[],
-	): RuleDefinition<any>[] => {
-		const rules: RuleDefinition<any>[] = [];
-		for (const { definition } of contractIndex) {
-			const steps = definition.rules({
+	// Precompute merged rules (base rules first, then child rules; keep order)
+	const mergedRules: RuleDefinition<any>[] = (() => {
+		const out: RuleDefinition<any>[] = [];
+		for (const { definition: d } of layers) {
+			const steps = d.rules({
 				root: (slot, override = false) =>
 					match(undefined, slot, override),
 				rule: match,
 				classes,
 			});
-			rules.push(...steps);
+			out.push(...steps);
 		}
-		return rules;
-	};
+		return out;
+	})();
 
-	const collectAllSlots = (
-		contractIndex: InternalContractIndex[],
-	): Set<string> => {
-		const slots = new Set<string>();
-		for (const { contract } of contractIndex) {
-			for (const slot of contract.slot as string[]) {
-				slots.add(slot);
+	// Build base token index table (REPLACE/APPEND semantics handled per layer)
+	const baseTokenIndex: InternalTokenIndex = (() => {
+		const index: InternalTokenIndex = {};
+
+		// Seed all known keys so unresolved references still map to []
+		for (const { contract: c } of layers) {
+			for (const [group, variants] of Object.entries(c.tokens) as [
+				string,
+				readonly string[],
+			][]) {
+				for (const v of variants) index[`${group}.${v}`] = [];
 			}
 		}
-		return slots;
-	};
 
-	const createSlotFunction = (
-		slotName: string,
-		baseConfig: InternalCreateConfig,
-		baseDefaults: InternalVariantValues,
-		baseRules: RuleDefinition<any>[],
-		baseTokenIndex: InternalTokenIndex,
-	): ClsSlotFn<TContract> => {
-		// Simple per-slot memoization to avoid recomputing identical inputs
-		const memoizedResults = new Map<string, string>();
-
-		const makeCacheKey = (
-			callConfig: Partial<CreateConfig<TContract>> | undefined,
-		): string => {
-			if (callConfig === undefined) {
-				return "__no_config__";
+		for (const { contract: c, definition: d } of layers) {
+			const declared: Record<string, Set<string>> = {};
+			for (const [group, variants] of Object.entries(c.tokens) as [
+				string,
+				readonly string[],
+			][]) {
+				declared[group] = new Set(variants as string[]);
 			}
-			try {
-				return JSON.stringify(callConfig);
-			} catch {
-				return "__non_serializable__";
-			}
-		};
 
-		return (call?: Partial<CreateConfig<TContract>>) => {
-			const cacheKey = makeCacheKey(call);
-			const cached = memoizedResults.get(cacheKey);
-			if (cached !== undefined) {
-				return cached;
-			}
-			let callConfig: InternalCreateConfig | undefined;
-			const full = call as Partial<CreateConfig<TContract>> | undefined;
-			callConfig = full
-				? {
-						variant: full.variant as
-							| Record<string, unknown>
-							| undefined,
-						slot: full.slot as
-							| Record<string, InternalSlotWhat>
-							| undefined,
-						override: full.override as
-							| Record<string, InternalSlotWhat>
-							| undefined,
-						token: full.token as
-							| Record<string, Record<string, string[]>>
-							| undefined,
-					}
-				: undefined;
-
-			// Merge base defaults with create config variants and per-call variant overrides
-			const effectiveVariant: Record<string, unknown> = {
-				...baseDefaults,
-				...baseConfig?.variant,
-				...(callConfig?.variant ?? {}),
-			};
-
-			const resolveTokensToClasses = (
-				tokens: string[] | undefined,
-				tokenIndexToUse: InternalTokenIndex,
-			): string[] => {
-				if (!tokens || tokens.length === 0) {
-					return [];
-				}
-				const out: string[] = [];
-				for (const token of tokens) {
-					const classes = tokenIndexToUse[token] ?? [];
-					if (classes?.length) {
-						out.push(...classes);
-					}
-				}
-				return out;
-			};
-
-			const applyWhat = (
-				acc: string[],
-				what: InternalSlotWhat | undefined,
-				tokenIndexToUse: InternalTokenIndex,
-			): string[] => {
-				if (!what) return acc;
-				if (what.class) {
-					if (Array.isArray(what.class)) {
-						acc.push(...(what.class as string[]));
+			for (const [group, values] of Object.entries(
+				(d.token ?? {}) as Record<string, Record<string, string[]>>,
+			)) {
+				for (const [variant, classes] of Object.entries(values)) {
+					const key = `${group}.${variant}`;
+					if (declared[group]?.has(variant)) {
+						// REPLACE when the layer declares this token variant
+						index[key] = classes;
 					} else {
-						acc.push(what.class as string);
+						// APPEND otherwise
+						index[key] = (index[key] ?? []).concat(classes);
 					}
 				}
-				if (what.token) {
-					acc.push(
-						...resolveTokensToClasses(what.token, tokenIndexToUse),
-					);
-				}
-				return acc;
-			};
-
-			const matches = (
-				match: Record<string, unknown> | undefined,
-			): boolean => {
-				if (!match) return true;
-				for (const [key, value] of Object.entries(match)) {
-					if (effectiveVariant[key] !== value) {
-						return false;
-					}
-				}
-				return true;
-			};
-
-			let classes: string[] = [];
-
-			// Build token index for this call: base + per-call token overrides
-			const localTokenIndex: InternalTokenIndex = {
-				...baseTokenIndex,
-			};
-			if (callConfig?.token) {
-				applyCreateTokenOverrides(localTokenIndex, callConfig.token);
 			}
+		}
 
-			// Apply rules based on effective variants
-			for (const rule of baseRules) {
-				if (!matches(rule.match)) {
-					continue;
-				}
-				const slotMap = (rule.slot ?? {}) as Record<string, What<any>>;
-				const what = slotMap[slotName];
-				if (!what) {
-					continue;
-				}
-				if (rule.override === true) {
-					classes = [];
-				}
-				classes = applyWhat(
-					classes,
-					what as InternalSlotWhat,
-					localTokenIndex,
-				);
+		return index;
+	})();
+
+	// Helpers shared by slot invocations
+	const applyTokenOverrides = (
+		target: InternalTokenIndex,
+		overrides: Record<string, Record<string, string[]>> | undefined,
+	) => {
+		if (!overrides) return;
+		for (const [group, variants] of Object.entries(overrides)) {
+			for (const [variant, values] of Object.entries(variants ?? {})) {
+				target[`${group}.${variant}`] = Array.isArray(values)
+					? values
+					: [];
 			}
-
-			// Apply base config slot overrides
-			const createSlot = baseConfig?.slot?.[slotName];
-			if (createSlot) {
-				classes = applyWhat(classes, createSlot, localTokenIndex);
-			}
-
-			// Apply base config override (hard override)
-			const createOverride = baseConfig?.override?.[slotName];
-			if (createOverride) {
-				classes = [];
-				classes = applyWhat(classes, createOverride, localTokenIndex);
-			}
-
-			// Apply per-call slot appends
-			const callSlot = callConfig?.slot?.[slotName];
-			if (callSlot) {
-				classes = applyWhat(classes, callSlot, localTokenIndex);
-			}
-
-			// Apply per-call hard override
-			const callOverride = callConfig?.override?.[slotName];
-			if (callOverride) {
-				classes = [];
-				classes = applyWhat(classes, callOverride, localTokenIndex);
-			}
-
-			const result = tvc(classes);
-			memoizedResults.set(cacheKey, result);
-			return result;
-		};
+		}
 	};
 
+	const resolveTokens = (
+		tokens: string[] | undefined,
+		table: InternalTokenIndex,
+	): string[] => {
+		if (!tokens || tokens.length === 0) return [];
+		const out: string[] = [];
+		for (const t of tokens) {
+			const cls = table[t] ?? [];
+			if (cls.length) out.push(...cls);
+		}
+		return out;
+	};
+
+	const applyWhat = (
+		acc: string[],
+		what: InternalSlotWhat | undefined,
+		table: InternalTokenIndex,
+	): string[] => {
+		if (!what) return acc;
+		if (what.class) {
+			if (Array.isArray(what.class))
+				acc.push(...(what.class as string[]));
+			else acc.push(what.class as string);
+		}
+		if (what.token) acc.push(...resolveTokens(what.token, table));
+		return acc;
+	};
+
+	const matches = (
+		effective: Record<string, unknown>,
+		ruleMatch: Record<string, unknown> | undefined,
+	): boolean => {
+		if (!ruleMatch) return true;
+		for (const [k, v] of Object.entries(ruleMatch)) {
+			if (effective[k] !== v) return false;
+		}
+		return true;
+	};
+
+	// Public API
 	return {
 		create(userConfig, internalConfig) {
-			const _config = merge(
+			const config = merge(
 				userConfig,
 				internalConfig,
 			) as InternalCreateConfig;
 
-			const $contractIndex = contractIndex(contract, definition);
-			const $tokenIndex = tokenIndex($contractIndex);
-			const _resolvedTokenIndex = buildTokenIndex(
-				$tokenIndex,
-				$contractIndex,
-			);
-			applyCreateTokenOverrides(_resolvedTokenIndex, _config?.token);
-			const _defaults = buildMergedDefaults($contractIndex);
-			const _rules = buildMergedRules($contractIndex);
-			const $slots = collectAllSlots($contractIndex);
+			// Effective variants: defaults <- create.variant
+			const effectiveVariant: Record<string, unknown> = {
+				...mergedDefaults,
+				...(config.variant ?? {}),
+			};
+
+			// Build per-create token index (base + create.token)
+			const tokenTable: InternalTokenIndex = {
+				...baseTokenIndex,
+			};
+			applyTokenOverrides(tokenTable, config.token);
 
 			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
+			// Shared result cache across all slots for this create() instance
+			const resultCache = new Map<string, string>();
+			const computeKey = (
+				slot: string,
+				call?: Partial<CreateConfig<TContract>>,
+			): string => {
+				if (call === undefined) return `${slot}|__no_config__`;
+				try {
+					return `${slot}|${JSON.stringify(call)}`;
+				} catch {
+					return `${slot}|__non_serializable__`;
+				}
+			};
 
 			const handler: ProxyHandler<Record<string, ClsSlotFn<TContract>>> =
 				{
 					get(_, prop) {
-						if (prop in cache) {
-							return cache[prop];
-						}
+						if (prop in cache) return cache[prop];
 						const slotName = prop as string;
-						if ($slots.has(slotName)) {
-							const slotFn = createSlotFunction(
-								slotName,
-								_config,
-								_defaults,
-								_rules,
-								_resolvedTokenIndex,
-							);
-							cache[prop] = slotFn;
-							return cache[prop];
+						if (!allSlots.has(slotName)) {
+							return undefined as unknown as ClsSlotFn<TContract>;
 						}
-						return undefined as unknown as ClsSlotFn<TContract>;
+
+						const slotFn: ClsSlotFn<TContract> = (call) => {
+							const key = computeKey(slotName, call);
+							const cached = resultCache.get(key);
+							if (cached !== undefined) {
+								return cached;
+							}
+							const local = call as
+								| Partial<CreateConfig<TContract>>
+								| undefined;
+							const localConfig:
+								| InternalCreateConfig
+								| undefined = local
+								? {
+										variant: local.variant,
+										slot: local.slot,
+										override: local.override,
+										token: local.token,
+									}
+								: undefined;
+
+							const localEffective: Record<string, unknown> = {
+								...effectiveVariant,
+								...(localConfig?.variant ?? {}),
+							};
+
+							// Per-call token overrides
+							const localTokenTable: InternalTokenIndex = {
+								...tokenTable,
+							};
+							if (localConfig?.token)
+								applyTokenOverrides(
+									localTokenTable,
+									localConfig.token,
+								);
+
+							let acc: string[] = [];
+
+							// Apply rules in order
+							for (const rule of mergedRules) {
+								if (!matches(localEffective, rule.match)) {
+									continue;
+								}
+								const slotMap = (rule.slot ?? {}) as Record<
+									string,
+									What<any>
+								>;
+								const what = slotMap[slotName];
+								if (!what) {
+									continue;
+								}
+								if (rule.override === true) {
+									acc = [];
+								}
+								acc = applyWhat(acc, what, localTokenTable);
+							}
+
+							// Apply create-time appends/overrides
+							const baseAppend = config.slot?.[slotName];
+							if (baseAppend) {
+								acc = applyWhat(
+									acc,
+									baseAppend,
+									localTokenTable,
+								);
+							}
+
+							const baseOverride = config.override?.[slotName];
+							if (baseOverride) {
+								acc = [];
+								acc = applyWhat(
+									acc,
+									baseOverride,
+									localTokenTable,
+								);
+							}
+
+							const callAppend = localConfig?.slot?.[slotName];
+							if (callAppend) {
+								acc = applyWhat(
+									acc,
+									callAppend,
+									localTokenTable,
+								);
+							}
+
+							const callOverride =
+								localConfig?.override?.[slotName];
+							if (callOverride) {
+								acc = [];
+								acc = applyWhat(
+									acc,
+									callOverride,
+									localTokenTable,
+								);
+							}
+
+							const out = tvc(acc);
+							resultCache.set(key, out);
+							return out;
+						};
+
+						cache[prop] = slotFn;
+						return cache[prop];
 					},
 					ownKeys() {
-						return Array.from($slots);
+						return Array.from(allSlots);
 					},
 					getOwnPropertyDescriptor() {
 						return {
@@ -536,9 +493,6 @@ export function cls<
 			);
 		},
 		extend(childContract, childDefinition) {
-			/**
-			 * Nothing hard, we'll carry contract we're extending from
-			 */
 			childContract["~use"] = contract;
 			childContract["~definition"] = definition;
 

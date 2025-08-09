@@ -421,12 +421,12 @@ Guidance:
 
 ```mermaid
 flowchart TD
-  A["Contract (per layer)\n- tokens\n- slots\n- variants"] --> B["Definition (per layer)\n- token classes\n- rules\n- defaults"]
-  B --> C["extend(...) chain\nparent → child → grandchild"]
-  C --> D["create(options)\n- variant\n- slot\n- override\n- token"]
-  D --> E["Build indexes\n- merged defaults\n- token lookup (REPLACE/APPEND)\n- collected rules\n- union of slots"]
-  E --> F["For each slot() call\nmerge effective variants\nscan rules, apply matches\nresolve tokens → classes\napply slot/override deltas"]
-  F --> G["tvc() normalize/dedupe\nreturn final class string"]
+  A["Contract (per layer)<br/>- tokens<br/>- slots<br/>- variants"] --> B["Definition (per layer)<br/>- token classes<br/>- rules<br/>- defaults"]
+  B --> C["extend(...) chain<br/>parent → child → grandchild"]
+  C --> D["create(options)<br/>- variant<br/>- slot<br/>- override<br/>- token"]
+  D --> E["Build indexes<br/>- merged defaults<br/>- token lookup (REPLACE/APPEND)<br/>- collected rules<br/>- union of slots"]
+  E --> F["For each slot() call<br/>merge effective variants<br/>scan rules, apply matches<br/>resolve tokens → classes<br/>apply slot/override deltas"]
+  F --> G["tvc() normalize/dedupe<br/>return final class string"]
 
   subgraph Inheritance
     A -->|per layer| B
