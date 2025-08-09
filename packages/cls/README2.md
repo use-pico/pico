@@ -51,6 +51,14 @@
   - [4.2 Variants](#4-2-variants)
   - [4.3 Slots](#4-3-slots)
   - [4.4 Create-time overrides](#4-4-create-time-overrides)
+  
+- [Chapter 5. Inheritance System](#chapter-5)
+  - [5.1 Overview](#5-1-overview)
+  - [5.2 Inheritance rules (authoritative)](#5-2-inheritance-rules)
+  - [5.3 Method peek (where it hooks into the API)](#5-3-method-peek)
+  - [5.4 No‑code patterns](#5-4-no-code-patterns)
+  - [5.5 Notes and guidance](#5-5-notes)
+  - [5.6 Resolution flow (diagram)](#5-6-diagram)
 
 ---
 
@@ -343,3 +351,90 @@ This keeps styling changes local and predictable, and mirrors how components are
 - **override**: hard replace a slot’s classes, ignoring earlier steps.
 - **token**: replace selected token values for this instance.
 - **Order**: base → rules → slot → override; tokens resolve where referenced.
+
+---
+
+<a id="chapter-5"></a>
+## Chapter 5. Inheritance System 🧬
+
+<a id="5-1-overview"></a>
+### 5.1 Overview
+
+Inheritance lets you stack intent across layers: `Base` → `Child` → `Grandchild`. Each layer can add tokens, slots, variants, rules, and adjust defaults — while preserving types.
+
+> Use cases: platform theming, product skins, brand variations, component specializations.
+
+<a id="5-2-inheritance-rules"></a>
+### 5.2 Inheritance rules (authoritative)
+
+- **Evaluation order**: parent rules run first, then children — preserving each layer’s authoring order.
+- **Tokens**:
+  - If a child contract re‑declares a token value, that value is a REPLACE at that layer.
+  - If not re‑declared, the child APPENDS classes to that token value.
+  - Create-time token overrides always replace just the specified values for the instance.
+- **Variants**:
+  - Domains merge by union across layers (you can add new values in children).
+  - Defaults are re-stated each layer; last layer wins for the instance’s base.
+- **Slots**:
+  - The slot list is the union of all layers.
+  - Rules can target any slot present in the union.
+- **Rules**:
+  - Collected from each layer in order: parent → child → grandchild.
+  - Authoring order within each layer is preserved.
+  - `override: true` in a rule step clears classes collected so far for targeted slots.
+- **Create-time precedence** (per slot): base → rules → slot appends → hard overrides.
+
+<a id="5-3-method-peek"></a>
+### 5.3 Method peek (where it hooks into the API)
+
+Cross-link: see [2.3 `extend(contract, definition)`](#2-3-extend) and [2.4 `use(sub)`](#2-4-use).
+
+- **`extend(...)`** wires the inheritance chain by storing references to parent contract and definition. When you later call `create()`, the library walks this chain to build the combined indexes (tokens, rules, defaults, slots) in parent→child order.
+- **`use(sub)`** lets you assign a derived `cls` where a parent shape is expected — a safe, typed narrowing for composition.
+
+> Think of `extend` as building the family tree, and `create()` as reading it top-to-bottom at call time.
+
+<a id="5-4-no-code-patterns"></a>
+### 5.4 No‑code patterns
+
+Common real-life hierarchies you can model without changing code structure:
+
+- **Branding**: `BaseButton` → `BrandButton` (tokens override colors) → `CampaignButton` (rules adjust prominence).
+- **Product tiers**: `BaseCard` → `ProCard` → `EnterpriseCard` (variants added per tier; defaults differ).
+- **Platform skins**: `BaseInput` → `MobileInput` (slot spacing) → `iOSInput` (token tweaks).
+
+Guidance:
+
+- Prefer token changes for theme/brand differences; reach for rules when layout or structure changes.
+- Keep every layer’s `defaults` explicit for quick auditing.
+- Avoid duplicating parent rules; add small deltas instead.
+
+<a id="5-5-notes"></a>
+### 5.5 Notes and guidance
+
+- Re-state defaults at each layer so intent is visible where you read.
+- Prefer tokens for theme-like differences; prefer rules for structural differences.
+- Keep child layers focused: add/override what you need; avoid duplicating parent rules.
+
+<a id="5-6-diagram"></a>
+### 5.6 Resolution flow (diagram)
+
+```mermaid
+flowchart TD
+  A["Contract (per layer)\n- tokens\n- slots\n- variants"] --> B["Definition (per layer)\n- token classes\n- rules\n- defaults"]
+  B --> C["extend(...) chain\nparent → child → grandchild"]
+  C --> D["create(options)\n- variant\n- slot\n- override\n- token"]
+  D --> E["Build indexes\n- merged defaults\n- token lookup (REPLACE/APPEND)\n- collected rules\n- union of slots"]
+  E --> F["For each slot() call\nmerge effective variants\nscan rules, apply matches\nresolve tokens → classes\napply slot/override deltas"]
+  F --> G["tvc() normalize/dedupe\nreturn final class string"]
+
+  subgraph Inheritance
+    A -->|per layer| B
+    B -->|collect| E
+  end
+
+  style G stroke:#4c1,stroke-width:2px
+  style F stroke:#06c,stroke-width:2px
+  style E stroke:#06c,stroke-width:2px
+  style D stroke:#333,stroke-dasharray: 3 3
+```
