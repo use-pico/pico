@@ -21,6 +21,7 @@
 - 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time (see [Create-time Overrides](#create-time-overrides))
 - 🌀 **Tailwind-native**: powered by tailwind-merge for sane, deduped class strings
 - 📦 **Built for production**: framework‑agnostic, ~3KB gzipped, minimal runtime, excellent React integration (see [React Integration](#react-integration))
+- 🧭 **Where this fits**: honest [comparison](#comparison-with-similar-tools) with CVA, TV, Stitches, and vanilla-extract
 
 _Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX._
 
@@ -241,6 +242,22 @@ const Button = cls({
 const primaryButton = Button.create({ variant: { variant: "primary", size: "lg" } });
 const disabledButton = Button.create({ variant: { disabled: true } });
 const loadingButton = Button.create({ variant: { loading: true } });
+```
+
+#### Boolean variants (minimal)
+
+```ts
+const Toggle = cls(
+  { tokens: {}, slot: ["root"], variant: { disabled: ["bool"] } },
+  {
+    token: {},
+    rules: ({ root, rule, classes }) => [
+      root({ root: classes(["base"]) }),
+      rule({ disabled: true }, { root: classes(["opacity-50"]) }),
+    ],
+    defaults: { disabled: false },
+  },
+);
 ```
 
 ### Rules
@@ -1181,7 +1198,7 @@ function App() {
       <div>
         <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
           Toggle Theme
-    </button>
+        </button>
         <ThemedButton>Theme-aware button</ThemedButton>
       </div>
     </ThemeProvider>
@@ -1615,7 +1632,7 @@ function CustomButton({
       }
     } : undefined,
   });
-  
+
   return (
     <button className={classes.root()}>
       <span className={classes.label()}>{children}</span>
@@ -1735,15 +1752,15 @@ const ComplexButton = cls({
 
 | Feature | @use-pico/cls | class-variance-authority (CVA) | tailwind-variants (TV) | @stitches/react | vanilla-extract |
 |---------|---------------|------------------------------|-------------------------|-----------------|-----------------|
-| **TypeScript** | Advanced compile-time validation across tokens/slots/variants | TypeScript support | TypeScript support | TypeScript | TypeScript |
-| **Approach** | Class-based (no CSS-in-JS) | Class-based (no CSS-in-JS) | Class-based (no CSS-in-JS) | CSS-in-JS runtime | Build-time CSS (zero runtime) |
-| **Design tokens** | Built-in token system with inheritance | Not built-in | Not built-in | Theming via CSS variables | Theming via CSS variables |
-| **Inheritance model** | Multi-level, type-safe `extend()` | No formal inheritance model | No formal inheritance model (composition/extend API exists) | Component composition (no typed inheritance chain) | No inheritance model |
-| **Slots** | Multi-slot API | Not provided | Slots API provided | — | — |
-| **Composition/extend** | `extend(contract, definition)` | Composition via function usage; supports compound variants | `extend` API available to build on top of tv config | Compose via `styled()` and variants | Recipes/compose at build-time |
-| **Runtime theming** | Per-instance token overrides at `create()` | Not built-in | Not built-in | Theming via CSS variables | Theming via CSS variables |
-| **Runtime characteristics** | Class merge/lazy evaluation; no runtime CSS | Class merge; no runtime CSS | Class merge; no runtime CSS | Runtime style system | Build-time extraction |
-| **Learning Curve** | Steep (powerful) | Easy | Easy | Medium | Medium |
+| **TypeScript** | 🔥 Advanced compile-time validation across tokens/slots/variants | ✅ TypeScript support | ✅ TypeScript support | ✅ TypeScript | ✅ TypeScript |
+| **Approach** | ❌ Class-based (no CSS-in-JS) | ❌ Class-based (no CSS-in-JS) | ❌ Class-based (no CSS-in-JS) | 🔥 CSS-in-JS runtime | 🔥 Build-time CSS (zero runtime) |
+| **Design tokens** | 🔥 Built-in token system with inheritance | ❌ Not built-in | ❌ Not built-in | ✅ Theming via CSS variables | ✅ Theming via CSS variables |
+| **Inheritance model** | 🔥 Multi-level, type-safe `extend()` | ❌ No formal inheritance model | ❌ No formal inheritance model (composition/extend API exists) | ✅ Component composition (no typed inheritance chain) | ❌ No inheritance model |
+| **Slots** | 🔥 Multi-slot API | ❌ Not provided | ✅ Slots API provided | — | — |
+| **Composition/extend** | 🔥 `extend(contract, definition)` | ✅ Composition via function usage; supports compound variants | ✅ `extend` API to build on top of tv config | 🔥 Compose via `styled()` and variants | ✅ Recipes/compose at build-time |
+| **Runtime theming** | 🔥 Per-instance token overrides at `create()` | ❌ Not built-in | ❌ Not built-in | ✅ Theming via CSS variables | ✅ Theming via CSS variables |
+| **Runtime characteristics** | 🔥 Class merge/lazy evaluation; no runtime CSS | ✅ Class merge; no runtime CSS | ✅ Class merge; no runtime CSS | 🔥 Runtime style system | 🔥 Build-time extraction |
+| **Learning Curve** | 🔥 Steep (powerful) | ✅ Easy | ✅ Easy | 🔥 Medium | 🔥 Medium |
 
 > **Callouts**
 > - **CVA** is a minimal, variant-focused class builder; if you don’t need tokens or typed inheritance, it’s simple and effective.
@@ -2131,24 +2148,6 @@ const Button = Theme.extend({
 | **Learning Curve** | ✅ Easy | ⚠️ Steeper but more powerful |
 
 **The trade-off is clear**: `@use-pico/cls` prioritizes **type safety**, **design system consistency**, and **scalability** over **conciseness**. For simple projects, competitors might be easier. For complex design systems and production applications, `@use-pico/cls` provides the tools you need to build maintainable, type-safe styling systems.
-
-## Advanced Features
-
-### Boolean Variants
-
-```ts
-const Toggle = cls(
-  { tokens: {}, slot: ["root"], variant: { disabled: ["bool"] } }, // No tokens, just variants
-  {
-    token: {}, // No token definitions needed
-    rules: ({ root, rule }) => [
-      root({ root: { class: ["base"] } }),
-      rule({ disabled: true }, { root: { class: ["opacity-50"] } }),
-    ],
-    defaults: { disabled: false },
-  },
-);
-```
 
 ## A Personal Note
 
