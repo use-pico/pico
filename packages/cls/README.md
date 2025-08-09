@@ -425,6 +425,36 @@ interface ClsInstance {
 function merge(userConfig?, internalConfig?): CreateConfig
 ```
 
+#### use(sub)
+
+Type-safe assignment of a compatible (derived) cls instance. This lets you swap the underlying styling implementation while keeping the original type and API. It’s validated through the inheritance chain, so only descendants are accepted.
+
+- **What `sub` is**: A cls instance created via `Base.extend(...)` (or further down the inheritance chain). Tests verify that `Base.use(Extended)` yields an instance that produces Extended’s rules and tokens while remaining type-compatible as Base.
+- **Why**: Polymorphic composition. You can expose a stable base contract in your component API, and internally swap to a branded/extended variant without changing consumer types.
+
+Example: swap a component’s styling in React
+
+```tsx
+// Base list row component expects a base tva API
+export function ListRow({ tva = RowCls, cls: user, children }) {
+  const classes = tva.create(user);
+  return <div className={classes.root()}>{children}</div>;
+}
+
+// Later, provide a branded row by assigning a derived cls
+const BrandedRow = RowCls.extend({ /* contract additions */ }, { /* definition */ });
+
+// Use keeps the external type as RowCls while routing to the derived implementation
+const Row = RowCls.use(BrandedRow);
+
+// App wiring
+<ListRow tva={Row} /> // Consumers still see RowCls-compatible API
+```
+
+Notes
+- `use(sub)` keeps the public type as the base contract (so downstream code doesn’t change) while producing classes from `sub` at runtime.
+- Pairs well with “tva”/“cls” props: you can default to a base module and swap to a submodule centrally without changing component surfaces.
+
 ### Utilities: tvc (tailwind-merge)
 
 `tvc` is a tiny export around `tailwind-merge`. Use it to **normalize arbitrary class strings** the same way `cls` does internally.
@@ -755,6 +785,8 @@ const classes = Button.create({
 });
 ```
 
+> Note: create‑time token overrides replace the provided variants for a token group (not append). Supply only the variants you want to replace; others remain as previously defined.
+
 #### Precedence Rules
 
 The override system follows a clear, predictable order. This is the canonical reference for merge semantics used across the docs:
@@ -1055,6 +1087,51 @@ function Button({ variant = "primary", size = "md", children, ...props }) {
   );
 }
 ```
+
+### withCls HOC
+
+Attach a cls instance to a React component without exporting the cls separately. This keeps your public surface clean (export one component, e.g., a UI library can export only `Button` and not `Button` + `ButtonCls`) while still allowing advanced consumers, composition layers, or tests to access the styling instance via `Component.cls`.
+
+Why it exists
+- **Two-file pattern**: Define styling in `ButtonCls.ts` and component logic in `Button.tsx`. The component imports its cls for rendering, but you don’t want to re-export the cls publicly.
+- **Opt-in advanced usage**: Consumers who need the cls (for composition, theming, or testing) can access it from the component itself.
+ - **Tight coupling by design**: The component and its cls are intentionally coupled as the default pairing. They could even live in the same file when small; extracting `ButtonCls` allows the style module to grow independently while `Button` stays lean.
+
+Example
+
+```tsx
+// ButtonCls.ts
+export const ButtonCls = cls(contract, definition);
+
+// Button.tsx
+import { withCls } from "@use-pico/cls";
+import { ButtonCls } from "./ButtonCls";
+
+function Button({ cls: user, children, ...props }) {
+  const classes = ButtonCls.create(user);
+  return (
+    <button className={classes.root()} {...props}>
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+
+export const ModernButton = withCls(Button, ButtonCls);
+
+// Usage
+<ModernButton>Click me</ModernButton>
+
+// Advanced composition: pass ModernButton.cls to a composed component expecting a tva/cls prop
+<ListRow tva={ModernButton.cls} />
+
+// Direct access (e.g., tests/tooling)
+const classes = ModernButton.cls.create({ variant: { size: "lg" } });
+```
+
+Notes
+- `withCls(Component, clsInstance)` attaches `cls` and also exposes `~contract`, `~definition`, and `~slots` for tooling/testing (not public API).
+- Use when you want a single export (the component) while still enabling advanced, type‑safe styling composition.
+ - `~slots` is particularly useful for type‑level access: `typeof ModernButton["~slots"]` provides strongly‑typed slot keys and slot function signatures for the attached cls. You can pass these around to composed utilities without importing the cls directly. At runtime these are proxies (via `proxyOf()`), but TypeScript infers the correct shapes, as covered by tests.
 
 ### Context Integration
 
