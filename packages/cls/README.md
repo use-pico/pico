@@ -175,14 +175,14 @@ Each slot becomes a function that returns CSS classes, computed lazily when acce
 const Card = cls({
   slot: ["root", "header", "content", "footer"]
 }, {
-  rules: ({ root }) => [
-    root({
-      root: { class: ["border", "rounded-lg", "shadow-sm"] },
-      header: { class: ["p-4", "border-b", "font-semibold"] },
-      content: { class: ["p-4", "text-sm"] },
-      footer: { class: ["p-4", "border-t", "bg-gray-50"] }
-    })
-  ]
+    rules: ({ root, classes }) => [
+      root({
+        root: classes(["border", "rounded-lg", "shadow-sm"]),
+        header: classes(["p-4", "border-b", "font-semibold"]),
+        content: classes(["p-4", "text-sm"]),
+        footer: classes(["p-4", "border-t", "bg-gray-50"])
+      })
+    ]
 });
 
 // Usage in component
@@ -270,8 +270,8 @@ The `root` rule is the default that every component should have (not necessary f
 
 ```ts
 root({
-  root: { class: ["base-styles"], token: ["color.bg.default"] },
-  label: { class: ["font-medium"], token: ["color.text.default"] }
+  root: classes(["base-styles"], ["color.bg.default"]),
+  label: classes(["font-medium"], ["color.text.default"])
 })
 ```
 
@@ -282,7 +282,7 @@ The `rule` function creates conditional styling based on variant combinations:
 ```ts
 rule(
   { size: "lg", variant: "primary" },
-  { root: { class: ["text-lg"], token: ["color.bg.primary"] } }
+  { root: classes(["text-lg"], ["color.bg.primary"]) }
 )
 ```
 
@@ -290,11 +290,11 @@ rule(
 ```ts
 rules: ({ root, rule }) => [
   root({
-    root: { class: ["base-styles"], token: ["color.bg.default"] }
+    root: classes(["base-styles"], ["color.bg.default"])
   }),
   rule(
     { size: "lg", variant: "primary" },
-    { root: { class: ["text-lg"], token: ["color.bg.primary"] } }
+    { root: classes(["text-lg"], ["color.bg.primary"]) }
   )
 ]
 ```
@@ -345,13 +345,13 @@ const Alert = cls(
           "color.text.default",
           "color.bg.default",
         ]),
-        icon: { class: ["mr-2"] },
+        icon: classes(["mr-2"]),
       }),
       rule({ variant: "primary" }, {
         root: classes(["shadow-sm"], ["color.text.primary", "color.bg.primary"]),
       }),
-      rule({ size: "sm" }, { root: { class: ["text-sm", "p-2"] } }),
-      rule({ size: "md" }, { root: { class: ["text-base", "p-3"] } }),
+      rule({ size: "sm" }, { root: classes(["text-sm", "p-2"]) }),
+      rule({ size: "md" }, { root: classes(["text-base", "p-3"]) }),
     ],
     defaults: { variant: "default", size: "md" },
   },
@@ -365,10 +365,10 @@ rules: ({ rule }) => [
   rule(
     { variant: "primary" },
     {
-      root: {
-        class: ["border", "border-blue-300", "rounded-lg"],
-        token: ["color.text.primary", "color.bg.primary"],
-      },
+      root: classes(["border", "border-blue-300", "rounded-lg"], [
+        "color.text.primary",
+        "color.bg.primary",
+      ]),
     },
     true, // override
   ),
@@ -426,7 +426,7 @@ A tiny helper that encapsulates the **same merge semantics** used by `create()`.
 
 ```ts
 // Pre-compose once, reuse many times
-const composed = merge(userOverrides, { slot: { root: { class: ["relative"] } } });
+const composed = merge(userOverrides, { slot: { root: classes(["relative"]) } });
 const a = CardCls.create(composed);
 const b = PanelCls.create(composed);
 ```
