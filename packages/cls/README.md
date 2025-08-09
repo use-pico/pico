@@ -59,12 +59,12 @@ const Button = cls(
     variant: { size: ["sm", "md"] },
   },
   {
-    rules: ({ root, rule }) => [
+    rules: ({ root, rule, classes }) => [
       root({
-        root: { class: ["inline-flex", "items-center", "rounded"] },
+        root: classes(["inline-flex", "items-center", "rounded"]),
       }),
-      rule({ size: "sm" }, { root: { class: ["px-2", "py-1"] } }),
-      rule({ size: "md" }, { root: { class: ["px-4", "py-2"] } }),
+      rule({ size: "sm" }, { root: classes(["px-2", "py-1"]) }),
+      rule({ size: "md" }, { root: classes(["px-4", "py-2"]) }),
     ],
     defaults: { size: "md" },
   },
