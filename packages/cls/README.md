@@ -176,13 +176,13 @@ const Card = cls({
   slot: ["root", "header", "content", "footer"]
 }, {
     rules: ({ root, classes }) => [
-      root({
+    root({
         root: classes(["border", "rounded-lg", "shadow-sm"]),
         header: classes(["p-4", "border-b", "font-semibold"]),
         content: classes(["p-4", "text-sm"]),
         footer: classes(["p-4", "border-t", "bg-gray-50"])
-      })
-    ]
+    })
+  ]
 });
 
 // Usage in component
@@ -1039,12 +1039,12 @@ const Button = cls({
     "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
     "color.text": { default: ["text-white"] },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded"],
-        token: ["color.bg.default", "color.text.default"]
-      }
+      root: classes(["inline-flex", "items-center", "rounded"], [
+        "color.bg.default",
+        "color.text.default",
+      ]),
     }),
   ],
   defaults: { variant: "primary" },
@@ -1458,16 +1458,13 @@ const Button = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded"],
-        token: ["color.bg.default", "spacing.padding.md"]
-      },
-      label: { 
-        class: ["font-medium"],
-        token: ["color.text.default"]
-      },
+      root: classes(["inline-flex", "items-center", "rounded"], [
+        "color.bg.default",
+        "spacing.padding.md",
+      ]),
+      label: classes(["font-medium"], ["color.text.default"]),
     }),
     rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
     rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
@@ -1498,19 +1495,16 @@ const BaseButton = cls({
     "color.text": { default: ["text-white"], hover: ["text-blue-100"] },
     "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded"],
-        token: ["color.bg.default", "spacing.padding.md"]
-      },
-      label: { 
-        class: ["font-medium"],
-        token: ["color.text.default"]
-      },
+      root: classes(["inline-flex", "items-center", "rounded"], [
+        "color.bg.default",
+        "spacing.padding.md",
+      ]),
+      label: classes(["font-medium"], ["color.text.default"]),
     }),
-    rule({ size: "sm" }, { root: { class: ["px-2", "py-1"] } }),
-    rule({ size: "md" }, { root: { class: ["px-4", "py-2"] } }),
+    rule({ size: "sm" }, { root: classes(["px-2", "py-1"]) }),
+    rule({ size: "md" }, { root: classes(["px-4", "py-2"]) }),
   ],
   defaults: { size: "md" },
 });
@@ -1531,14 +1525,14 @@ const PrimaryButton = BaseButton.extend({
     "color.text": { default: ["text-white"], hover: ["text-white"] }, // Override
     "accent.ring": { focus: ["ring-2", "ring-blue-500"] }, // New token
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      icon: { class: ["w-4", "h-4", "mr-2"] }, // New slot styling
+      icon: classes(["w-4", "h-4", "mr-2"]), // New slot styling
     }),
-    rule({ size: "lg" }, { root: { class: ["px-6", "py-3"] } }), // New variant
+    rule({ size: "lg" }, { root: classes(["px-6", "py-3"]) }), // New variant
     rule({ loading: true }, { 
-      root: { class: ["opacity-75", "cursor-wait"] },
-      icon: { class: ["animate-spin"] }
+      root: classes(["opacity-75", "cursor-wait"]),
+      icon: classes(["animate-spin"])
     }),
   ],
   defaults: { size: "md", loading: false },
@@ -1565,7 +1559,7 @@ const BaseTheme = cls({
     "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
     "color.border": { default: ["border-gray-200"] },
   },
-  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
   defaults: {},
 });
 
@@ -1582,7 +1576,7 @@ const LightTheme = BaseTheme.extend({
     "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
     "color.border": { default: ["border-gray-200"] },
   },
-  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
   defaults: {},
 });
 
@@ -1599,7 +1593,7 @@ const DarkTheme = BaseTheme.extend({
     "color.bg": { default: ["bg-gray-900"], secondary: ["bg-gray-800"] },
     "color.border": { default: ["border-gray-700"] },
   },
-  rules: ({ root }) => [root({ root: { class: ["border", "rounded"] } })],
+  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
   defaults: {},
 });
 ```
@@ -1696,43 +1690,42 @@ const ComplexButton = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded", "border-2", "focus:outline-none"],
-        token: ["color.bg.default", "color.text.default", "color.border.default", "spacing.padding.md"]
-      },
-      icon: { class: ["w-4", "h-4", "mr-2"] },
-      label: { class: ["font-medium"] },
-      spinner: { class: ["w-4", "h-4", "mr-2", "animate-spin"] },
+      root: classes([
+        "inline-flex",
+        "items-center",
+        "rounded",
+        "border-2",
+        "focus:outline-none",
+      ], [
+        "color.bg.default",
+        "color.text.default",
+        "color.border.default",
+        "spacing.padding.md",
+      ]),
+      icon: classes(["w-4", "h-4", "mr-2"]),
+      label: classes(["font-medium"]),
+      spinner: classes(["w-4", "h-4", "mr-2", "animate-spin"]),
     }),
     // Size variants
     rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
     rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
     // Color variants
     rule({ variant: "secondary" }, { 
-      root: { 
-        token: ["color.bg.default", "color.text.default"],
-        class: ["bg-gray-600", "text-white"]
-      }
+      root: classes(["bg-gray-600", "text-white"], ["color.bg.default", "color.text.default"]) 
     }),
     rule({ variant: "danger" }, { 
-      root: { 
-        token: ["color.bg.default", "color.text.default"],
-        class: ["bg-red-600", "text-white"]
-      }
+      root: classes(["bg-red-600", "text-white"], ["color.bg.default", "color.text.default"]) 
     }),
     // State variants
     rule({ disabled: true }, { 
-      root: { 
-        token: ["color.bg.disabled", "color.text.disabled"],
-        class: ["cursor-not-allowed"]
-      }
+      root: classes(["cursor-not-allowed"], ["color.bg.disabled", "color.text.disabled"]) 
     }),
     rule({ loading: true }, { 
-      root: { class: ["cursor-wait"] },
-      icon: { class: ["hidden"] },
-      spinner: { class: ["block"] },
+      root: classes(["cursor-wait"]),
+      icon: classes(["hidden"]),
+      spinner: classes(["block"]),
     }),
     rule({ active: true }, { 
       root: { 
@@ -1816,15 +1809,15 @@ const Button = cls({
   },
 }, {
   token: {},
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { class: ["inline-flex", "items-center", "rounded", "font-medium"] }
+      root: classes(["inline-flex", "items-center", "rounded", "font-medium"])
     }),
-    rule({ variant: "primary" }, { root: { class: ["bg-blue-600", "text-white", "hover:bg-blue-700"] } }),
-    rule({ variant: "secondary" }, { root: { class: ["bg-gray-600", "text-white", "hover:bg-gray-700"] } }),
-    rule({ size: "sm" }, { root: { class: ["px-2", "py-1", "text-sm"] } }),
-    rule({ size: "md" }, { root: { class: ["px-4", "py-2", "text-base"] } }),
-    rule({ size: "lg" }, { root: { class: ["px-6", "py-3", "text-lg"] } }),
+    rule({ variant: "primary" }, { root: classes(["bg-blue-600", "text-white", "hover:bg-blue-700"]) }),
+    rule({ variant: "secondary" }, { root: classes(["bg-gray-600", "text-white", "hover:bg-gray-700"]) }),
+    rule({ size: "sm" }, { root: classes(["px-2", "py-1", "text-sm"]) }),
+    rule({ size: "md" }, { root: classes(["px-4", "py-2", "text-base"]) }),
+    rule({ size: "lg" }, { root: classes(["px-6", "py-3", "text-lg"]) }),
   ],
   defaults: { variant: "primary", size: "md" },
 });
@@ -1870,12 +1863,12 @@ const Card = cls({
   variant: {},
 }, {
   token: {},
-  rules: ({ root }) => [
+  rules: ({ root, classes }) => [
     root({
-      root: { class: ["border", "rounded-lg", "shadow-sm", "bg-white"] },
-      header: { class: ["p-4", "border-b", "font-semibold"] },
-      content: { class: ["p-4", "text-sm"] },
-      footer: { class: ["p-4", "border-t", "bg-gray-50"] },
+      root: classes(["border", "rounded-lg", "shadow-sm", "bg-white"]),
+      header: classes(["p-4", "border-b", "font-semibold"]),
+      content: classes(["p-4", "text-sm"]),
+      footer: classes(["p-4", "border-t", "bg-gray-50"]),
     }),
   ],
   defaults: {},
@@ -1971,12 +1964,13 @@ const Button = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded", "font-medium"],
-        token: ["color.bg.default", "color.text.default", "spacing.padding.md"]
-      },
+      root: classes(["inline-flex", "items-center", "rounded", "font-medium"], [
+        "color.bg.default",
+        "color.text.default",
+        "spacing.padding.md",
+      ]),
     }),
     rule({ variant: "primary" }, { 
       root: { token: ["color.bg.default", "color.bg.hover"] }
@@ -2006,9 +2000,9 @@ const IconButton = Button.extend({
       lg: ["w-12", "h-12"],
     },
   },
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      icon: { class: ["w-4", "h-4"] },
+      icon: classes(["w-4", "h-4"]),
     }),
     rule({ size: "sm" }, { 
       root: { class: ["p-2"], token: ["spacing.size.sm"] }
@@ -2095,7 +2089,7 @@ const Theme = cls({
       lg: ["1.5rem"],
     },
   },
-  rules: ({ root }) => [root({ root: { class: ["base-styles"] } })],
+  rules: ({ root, classes }) => [root({ root: classes(["base-styles"]) })],
   defaults: {},
 });
 
@@ -2103,12 +2097,9 @@ const Button = Theme.extend({
   slot: ["root"],
   variant: { variant: ["primary", "secondary"] },
 }, {
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { 
-        class: ["inline-flex", "items-center", "rounded"],
-        token: ["spacing.padding.md"]
-      },
+      root: classes(["inline-flex", "items-center", "rounded"], ["spacing.padding.md"]),
     }),
     rule({ variant: "primary" }, { 
       root: { 
