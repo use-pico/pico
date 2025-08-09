@@ -420,7 +420,7 @@ Guidance:
 ### 5.6 Resolution flow (diagram)
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["Contract<br/>tokens, slots, variants"] --> B["Definition<br/>classes, rules, defaults"]
   B --> C["extend() chain<br/>parent → child → grandchild"]
   C --> D["create()<br/>variant, slot, override, token"]
@@ -438,6 +438,10 @@ flowchart LR
   style E stroke:#06c,stroke-width:2px,fill:#e6f3ff
   style D stroke:#333,stroke-dasharray: 3 3,fill:#f0f0f0
   style Inheritance fill:#fff3cd,stroke:#ffc107
+  
+  %% Make boxes wider by adding padding
+  classDef wideBox fill:#f9f9f9,stroke:#333,stroke-width:1px
+  class A,B,C,D,E,F,G wideBox
 ```
 
 ---
