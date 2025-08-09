@@ -109,7 +109,7 @@ tokens: {
 }
 ```
 
-> **Token format note**: Token group and value names in the **contract** are **not restricted** — use any naming scheme that fits your design system. The only rule is that **references use dot notation** `group.variant` (e.g., `color.bg.default`) when you apply tokens in rules or slot mappings.
+> 🔎 Token format note: Token group and value names in the **contract** are **not restricted** — use any naming scheme that fits your design system. The only rule is that **references use dot notation** `group.variant` (e.g., `color.bg.default`) when you apply tokens in rules or slot mappings.
 
 **Heavy Type Checking**: The contract is the source of truth - any changes to the contract forces definitions to match. TypeScript ensures all token references in rules exist in your contract.
 
@@ -307,7 +307,7 @@ rules: ({ root, rule }) => [
 - `rule(match, slotMapping, override?)`: Declare conditional styles that apply only when `match` equals the current variant values. Fully type‑checked against your `variant` contract.
 - `classes(className, tokens?)`: Convenience to build `{ class, token }` objects without repeating keys.
 
-Why it exists
+> 💡 Why it exists
 - **Type‑safe ergonomics**: Author rules with IntelliSense for variants, slots and tokens. Avoid hand‑rolling objects and typos.
 - **Readable flow**: Compose base and conditional styles in a linear, top‑down order matching how UI states are usually reasoned about.
 - **Consistency**: The same helpers are used across all components and inheritance layers.
@@ -361,7 +361,7 @@ const Alert = cls(
 Advanced: hard override for a slot
 
 ```ts
-rules: ({ rule }) => [
+rules: ({ rule, classes }) => [
   rule(
     { variant: "primary" },
     {
@@ -470,7 +470,7 @@ const Row = RowCls.use(BrandedRow);
 <ListRow tva={Row} /> // Consumers still see RowCls-compatible API
 ```
 
-Notes
+Notes ✍️
 - `use(sub)` keeps the public type as the base contract (so downstream code doesn’t change) while producing classes from `sub` at runtime.
 - Pairs well with “tva”/“cls” props: you can default to a base module and swap to a submodule centrally without changing component surfaces.
 
@@ -1260,7 +1260,7 @@ function Button({ variant = "primary", size = "md", children, ...props }) {
 
 Attach a cls instance to a React component without exporting the cls separately. This keeps your public surface clean (export one component, e.g., a UI library can export only `Button` and not `Button` + `ButtonCls`) while still allowing advanced consumers, composition layers, or tests to access the styling instance via `Component.cls`.
 
-Why it exists
+> 💡 Why it exists
 - **Two-file pattern**: Define styling in `ButtonCls.ts` and component logic in `Button.tsx`. The component imports its cls for rendering, but you don’t want to re-export the cls publicly.
 - **Opt-in advanced usage**: Consumers who need the cls (for composition, theming, or testing) can access it from the component itself.
  - **Tight coupling by design**: The component and its cls are intentionally coupled as the default pairing. They could even live in the same file when small; extracting `ButtonCls` allows the style module to grow independently while `Button` stays lean.
@@ -1296,7 +1296,7 @@ export const ModernButton = withCls(Button, ButtonCls);
 const classes = ModernButton.cls.create({ variant: { size: "lg" } });
 ```
 
-Notes
+Notes ✍️
 - `withCls(Component, clsInstance)` attaches `cls` and also exposes `~contract`, `~definition`, and `~slots` for tooling/testing (not public API).
 - Use when you want a single export (the component) while still enabling advanced, type‑safe styling composition.
  - `~slots` is particularly useful for type‑level access: `typeof ModernButton["~slots"]` provides strongly‑typed slot keys and slot function signatures for the attached cls. You can pass these around to composed utilities without importing the cls directly. At runtime these are proxies (via `proxyOf()`), but TypeScript infers the correct shapes, as covered by tests.
@@ -1369,12 +1369,12 @@ const Card = cls({
   variant: {}, // No variants needed - static styling only
 }, {
   token: {}, // No token definitions since we have no tokens
-  rules: ({ root }) => [
+  rules: ({ root, classes }) => [
     root({
-      root: { class: ["border", "rounded-lg", "shadow-sm", "bg-white"] },
-      header: { class: ["p-4", "border-b", "font-semibold"] },
-      content: { class: ["p-4", "text-sm"] },
-      footer: { class: ["p-4", "border-t", "bg-gray-50"] },
+      root: classes(["border", "rounded-lg", "shadow-sm", "bg-white"]),
+      header: classes(["p-4", "border-b", "font-semibold"]),
+      content: classes(["p-4", "text-sm"]),
+      footer: classes(["p-4", "border-t", "bg-gray-50"]),
     }),
   ],
   defaults: {}, // No defaults needed since we have no variants
@@ -1407,16 +1407,16 @@ const Alert = cls({
   },
 }, {
   token: {}, // No token definitions since we have no tokens
-  rules: ({ root, rule }) => [
+  rules: ({ root, rule, classes }) => [
     root({
-      root: { class: ["rounded", "p-2"] }
+      root: classes(["rounded", "p-2"]),
     }),
-    rule({ variant: "info" }, { root: { class: ["bg-blue-100", "border-blue-400", "text-blue-700"] } }),
-    rule({ variant: "success" }, { root: { class: ["bg-green-100", "border-green-400", "text-green-700"] } }),
-    rule({ variant: "warning" }, { root: { class: ["bg-yellow-100", "border-yellow-400", "text-yellow-700"] } }),
-    rule({ variant: "error" }, { root: { class: ["bg-red-100", "border-red-400", "text-red-700"] } }),
-    rule({ size: "sm" }, { root: { class: ["text-sm"] } }),
-    rule({ size: "md" }, { root: { class: ["text-base"] } }),
+    rule({ variant: "info" }, { root: classes(["bg-blue-100", "border-blue-400", "text-blue-700"]) }),
+    rule({ variant: "success" }, { root: classes(["bg-green-100", "border-green-400", "text-green-700"]) }),
+    rule({ variant: "warning" }, { root: classes(["bg-yellow-100", "border-yellow-400", "text-yellow-700"]) }),
+    rule({ variant: "error" }, { root: classes(["bg-red-100", "border-red-400", "text-red-700"]) }),
+    rule({ size: "sm" }, { root: classes(["text-sm"]) }),
+    rule({ size: "md" }, { root: classes(["text-base"]) }),
   ],
   defaults: { variant: "info", size: "md" },
 });
