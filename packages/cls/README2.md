@@ -58,7 +58,23 @@
   - [5.3 Method peek (where it hooks into the API)](#5-3-method-peek)
   - [5.4 No‑code patterns](#5-4-no-code-patterns)
   - [5.5 Notes and guidance](#5-5-notes)
-  - [5.6 Resolution flow (diagram)](#5-6-diagram)
+
+- [Chapter 6. React Integration](#chapter-6)
+  - [6.1 Overview](#6-1-overview)
+  - [6.2 `useCls` hook](#6-2-usecls-hook)
+  - [6.3 `ClsProvider` context](#6-3-clsprovider-context)
+  - [6.4 `withCls` HOC](#6-4-withcls-hoc)
+  - [6.5 Patterns and best practices](#6-5-patterns-and-best-practices)
+  - [6.6 Advanced React patterns](#6-6-advanced-react-patterns)
+
+- [Chapter 7. Advanced Features & Patterns](#chapter-7)
+  - [7.1 Overview](#7-1-overview)
+  - [7.2 Dynamic contracts and runtime composition](#7-2-dynamic-contracts)
+  - [7.3 Conditional inheritance chains](#7-3-conditional-inheritance)
+  - [7.4 Performance optimization strategies](#7-4-performance-optimization)
+  - [7.5 Integration patterns](#7-5-integration-patterns)
+  - [7.6 Advanced rules patterns](#7-6-advanced-rules-patterns)
+  - [7.7 Anti-patterns and what to avoid](#7-7-anti-patterns)
 
 ---
 
@@ -416,34 +432,6 @@ Guidance:
 - Prefer tokens for theme-like differences; prefer rules for structural differences.
 - Keep child layers focused: add/override what you need; avoid duplicating parent rules.
 
-<a id="5-6-diagram"></a>
-### 5.6 Resolution flow (diagram)
-
-```mermaid
-flowchart TD
-  A["Contract<br/>tokens, slots, variants"] --> B["Definition<br/>classes, rules, defaults"]
-  B --> C["extend() chain<br/>parent → child → grandchild"]
-  C --> D["create()<br/>variant, slot, override, token"]
-  D --> E["Build indexes<br/>merged defaults, token lookup<br/>collected rules, slot union"]
-  E --> F["slot() call<br/>merge variants, scan rules<br/>resolve tokens, apply deltas"]
-  F --> G["tvc()<br/>normalize & return"]
-
-  subgraph Inheritance["Inheritance Processing"]
-    A -->|per layer| B
-    B -->|collect| E
-  end
-
-  style G stroke:#4c1,stroke-width:2px,fill:#e6ffe6
-  style F stroke:#06c,stroke-width:2px,fill:#e6f3ff
-  style E stroke:#06c,stroke-width:2px,fill:#e6f3ff
-  style D stroke:#333,stroke-dasharray: 3 3,fill:#f0f0f0
-  style Inheritance fill:#fff3cd,stroke:#ffc107
-  
-  %% Make boxes wider by adding padding
-  classDef wideBox fill:#f9f9f9,stroke:#333,stroke-width:1px
-  class A,B,C,D,E,F,G wideBox
-```
-
 ---
 
 <a id="chapter-6"></a>
@@ -620,3 +608,336 @@ function HybridButton({ className, ...props }) {
   );
 }
 ```
+
+---
+
+<a id="chapter-7"></a>
+## Chapter 7. Advanced Features & Patterns 🚀
+
+<a id="7-1-overview"></a>
+### 7.1 Overview
+
+Beyond the core API lies a world of advanced patterns and sophisticated use cases. This chapter explores complex inheritance scenarios, dynamic styling, performance optimizations, and integration patterns that unlock the full potential of `@use-pico/cls`.
+
+> **When to use**: Advanced users building complex design systems, performance-critical applications, or integrating with other styling solutions.
+
+> **💡 Pro tip**: Always use `as const` when defining contracts and variants to get proper TypeScript type inference and prevent accidental mutations.
+
+<a id="7-2-dynamic-contracts"></a>
+### 7.2 Dynamic contracts and runtime composition
+
+Create contracts that adapt based on runtime conditions or user preferences:
+
+```tsx
+// Dynamic contract based on user role
+function createUserContract(userRole: 'admin' | 'user' | 'guest') {
+  const baseContract = {
+    tokens: { color: 'primary', spacing: 'medium' },
+    slots: ['root', 'content'],
+    variants: { size: ['small', 'medium', 'large'] } // ✅ Always use arrays for variants
+  } as const;
+
+  if (userRole === 'admin') {
+    return {
+      ...baseContract,
+      tokens: { ...baseContract.tokens, color: 'admin' },
+      variants: { ...baseContract.variants, size: ['medium', 'large', 'xl'] }
+    } as const;
+  }
+
+  return baseContract;
+}
+
+// Usage
+const userCls = cls(createUserContract('admin'), userDefinition);
+const guestCls = cls(createUserContract('guest'), userDefinition);
+```
+
+**Use cases**:
+- **Role-based theming**: Different visual treatments for admin vs. regular users
+- **Feature flags**: Enable/disable styling variants based on feature availability
+- **Runtime configuration**: Adapt styling based on device capabilities or user preferences
+
+<a id="7-3-conditional-inheritance"></a>
+### 7.3 Conditional inheritance chains
+
+Build inheritance hierarchies that branch based on conditions:
+
+```tsx
+// Base styling for all buttons
+const BaseButton = cls(buttonContract, baseButtonDefinition);
+
+// Platform-specific styling
+const WebButton = BaseButton.extend(webButtonContract, webButtonDefinition);
+const MobileButton = BaseButton.extend(mobileButtonContract, mobileButtonDefinition);
+
+// Feature-specific variations
+const ProButton = WebButton.extend(proButtonContract, proButtonDefinition);
+const EnterpriseButton = WebButton.extend(enterpriseButtonContract, enterpriseButtonDefinition);
+
+// Runtime selection
+function getButtonCls(platform: 'web' | 'mobile', tier: 'basic' | 'pro' | 'enterprise') {
+  if (platform === 'mobile') {
+    return tier === 'basic' ? MobileButton : MobileButton.extend(proButtonContract, proButtonDefinition);
+  }
+  
+  if (tier === 'enterprise') return EnterpriseButton;
+  if (tier === 'pro') return ProButton;
+  return WebButton;
+}
+```
+
+**Benefits**:
+- **Conditional styling**: Different inheritance paths based on runtime conditions
+- **Feature gating**: Enable advanced styling only when features are available
+- **Platform optimization**: Tailor styling to specific platforms or contexts
+
+<a id="7-4-performance-optimization"></a>
+### 7.4 Performance optimization strategies
+
+Optimize your `@use-pico/cls` usage for performance-critical scenarios:
+
+**Memoization patterns**:
+```tsx
+import { useMemo } from 'react';
+
+function OptimizedButton({ variant, size, className }) {
+  // Memoize the cls instance to avoid recreation on every render
+  const buttonCls = useMemo(() => {
+    return ButtonCls.create({ variant, size });
+  }, [variant, size]);
+
+  return (
+    <button className={buttonCls.root()}>
+      {/* Button content */}
+    </button>
+  );
+}
+```
+
+**Batch operations**:
+```tsx
+// Instead of multiple individual calls
+const cls = ButtonCls.create();
+const rootClass = cls.root();
+const iconClass = cls.icon();
+const labelClass = cls.label();
+
+// Batch all slot calls at once
+const classes = cls.create().allSlots();
+// Returns: { root: '...', icon: '...', label: '...' }
+```
+
+**Lazy evaluation**:
+```tsx
+// Only create cls instances when actually needed
+function LazyButton({ variant, children }) {
+  const getClasses = useCallback(() => {
+    return ButtonCls.create({ variant });
+  }, [variant]);
+
+  return (
+    <button className={getClasses().root()}>
+      {children}
+    </button>
+  );
+}
+```
+
+<a id="7-5-integration-patterns"></a>
+### 7.5 Integration with other styling systems
+
+Combine `@use-pico/cls` with existing styling solutions:
+
+**CSS Modules integration**:
+```tsx
+import styles from './Button.module.css';
+
+const Button = withCls(ButtonCls)(function Button({ variant, className, ...props }) {
+  return (
+    <button 
+      className={clsx(
+        Button.cls.create({ variant }).root(),
+        styles.button,
+        className
+      )}
+      {...props}
+    />
+  );
+});
+```
+
+**Styled-components compatibility**:
+```tsx
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+  /* Base styles from styled-components */
+  ${props => props.theme.button.base}
+  
+  /* Dynamic classes from @use-pico/cls */
+  &.${ButtonCls.create({ variant: 'primary' }).root()} {
+    /* Primary-specific overrides */
+  }
+`;
+```
+
+**CSS-in-JS hybrid approach**:
+```tsx
+function HybridButton({ variant, customStyles }) {
+  const cls = useCls(ButtonCls);
+  
+  return (
+    <button 
+      className={cls.create({ variant }).root()}
+      style={{
+        // CSS custom properties for dynamic values
+        '--button-accent': customStyles.accent,
+        '--button-radius': customStyles.radius,
+      }}
+    >
+      {/* Button content */}
+    </button>
+  );
+}
+```
+
+<a id="7-6-advanced-rules-patterns"></a>
+### 7.6 Advanced rules patterns
+
+Leverage the full power of the rules system for complex styling logic:
+
+**Multi-variant rules**:
+```tsx
+const ComplexButton = cls(buttonContract, {
+  // ... other definition properties
+  rules: ({ root, rule, classes }) => [
+    // Complex multi-variant combinations
+    rule(
+      { variant: 'primary', size: 'large', disabled: true },
+      classes('bg-blue-600 text-white text-lg px-8 py-4 opacity-50 cursor-not-allowed')
+    ),
+    
+    // Conditional rules based on variant combinations
+    rule(
+      { variant: 'secondary', size: 'small' },
+      classes('bg-gray-200 text-gray-800 text-sm px-3 py-1')
+    ),
+    
+    // Fallback rules with partial matches
+    rule(
+      { variant: 'primary' },
+      classes('bg-blue-500 text-white')
+    ),
+  ]
+});
+```
+
+**Conditional rule application**:
+```tsx
+const ConditionalButton = cls(buttonContract, {
+  rules: ({ root, rule, classes }) => [
+    // Apply different rules based on variant combinations
+    rule(
+      { variant: 'primary', size: 'large' },
+      classes('bg-blue-600 text-white text-lg px-8 py-4')
+    ),
+    
+    // Fallback rules with partial matches
+    rule(
+      { variant: 'primary' },
+      classes('bg-blue-500 text-white')
+    ),
+    
+    // Default fallback
+    rule(
+      {},
+      classes('bg-gray-500 text-white px-4 py-2')
+    )
+  ]
+});
+```
+
+**Slot-specific variant rules**:
+```tsx
+const AdvancedCard = cls(cardContract, {
+  rules: ({ root, rule, classes }) => [
+    // Root-level rules
+    root({ variant: 'elevated' }, classes('shadow-lg border-0')),
+    root({ variant: 'outlined' }, classes('shadow-none border-2')),
+    
+    // Header slot rules
+    rule(
+      { variant: 'elevated' },
+      { header: classes('bg-gradient-to-r from-blue-500 to-purple-600 text-white') }
+    ),
+    
+    // Content slot rules
+    rule(
+      { variant: 'outlined' },
+      { content: classes('border-l-4 border-blue-500 pl-4') }
+    )
+  ]
+});
+```
+
+<a id="7-7-anti-patterns"></a>
+### 7.7 Anti-patterns and what to avoid
+
+> **💡 Important**: Always use arrays for variant values, even single ones, to maintain type safety and consistency.
+
+**❌ Dynamic rule generation (breaks typing)**:
+```tsx
+// DON'T DO THIS - Object.entries() destroys type information
+function createResponsiveRules(breakpoints) {
+  return ({ root, rule, classes }) => [
+    ...Object.entries(breakpoints).map(([breakpoint, styles]) =>
+      rule(
+        { breakpoint }, // ❌ 'breakpoint' becomes 'string' instead of literal union
+        classes(styles)
+      )
+    )
+  ];
+}
+```
+
+**✅ Proper approach - explicit variant definitions**:
+```tsx
+const ResponsiveButton = cls(buttonContract, {
+  variants: {
+    breakpoint: ['sm', 'md', 'lg', 'xl'] as const
+  },
+  rules: ({ root, rule, classes }) => [
+    rule({ breakpoint: 'sm' }, classes('text-xs px-2 py-1')),
+    rule({ breakpoint: 'md' }, classes('text-sm px-4 py-2')),
+    rule({ breakpoint: 'lg' }, classes('text-base px-6 py-3')),
+    rule({ breakpoint: 'xl' }, classes('text-lg px-8 py-4'))
+  ]
+});
+```
+
+**❌ Single string variants (inconsistent)**:
+```tsx
+// DON'T DO THIS
+const BadButton = cls(buttonContract, {
+  variants: {
+    size: 'large' // ❌ Should be ['large']
+  }
+});
+```
+
+**✅ Array-based variants (consistent)**:
+```tsx
+// DO THIS
+const GoodButton = cls(buttonContract, {
+  variants: {
+    size: ['large'] as const // ✅ Consistent with multi-value variants
+  }
+});
+```
+
+**Why arrays for everything**:
+- **Consistency**: All variants follow the same pattern
+- **Type safety**: TypeScript can properly infer literal union types
+- **Extensibility**: Easy to add more values later
+- **Pattern matching**: Consistent with how variants are used in rules
