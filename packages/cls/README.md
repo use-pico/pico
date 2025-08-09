@@ -714,6 +714,111 @@ This is the concise, code-less guide to how inheritance behaves across the syste
 - **Class merging**
   - Final class strings are deduped and resolved via Tailwind’s last‑wins semantics using `tailwind-merge` (`tvc`).
 
+#### Code examples (behavior-focused)
+
+Minimal examples that illustrate the rules above. Comments highlight the behavior; code intentionally omits unrelated details.
+
+Tokens: REPLACE vs APPEND
+
+```ts
+// Base declares a token group → normal definition
+const Base = cls(
+  { tokens: { "primary.bg": ["default", "hover"] }, slot: ["root"], variant: {} },
+  {
+    token: { "primary.bg": { default: ["bg-blue-500"], hover: ["bg-blue-600"] } },
+    rules: ({ root }) => [root({ root: { token: ["primary.bg.default"] } })],
+    defaults: {},
+  },
+);
+
+// Child REDECLARES the token group → entries provided here REPLACE inherited entries
+const ReplaceDefaultOnly = Base.extend(
+  { tokens: { "primary.bg": ["default", "hover"] } },
+  {
+    token: { "primary.bg": { default: ["bg-red-500"] } }, // replaces default only; hover remains from Base
+    rules: ({ root }) => [root({})],
+    defaults: {},
+  },
+);
+
+// Child does NOT redeclare the token group → provided entries APPEND to inherited entries
+const AppendHover = Base.extend(
+  { tokens: {} },
+  {
+    token: { "primary.bg": { hover: ["hover:bg-red-600"] } }, // appends to Base hover
+    rules: ({ root }) => [root({})],
+    defaults: {},
+  },
+);
+
+// Per-instance token override REPLACES provided token values for this instance
+const classes = Base.create({ token: { "primary.bg": { default: ["bg-green-500"] } } });
+// Effective default background is now bg-green-500 for this create() call
+```
+
+Variants: union merge and defaults override
+
+```ts
+const Base = cls(
+  { tokens: {}, slot: ["root"], variant: { size: ["sm", "md"] } },
+  { token: {}, rules: ({ root }) => [root({})], defaults: { size: "md" } },
+);
+
+const Child = Base.extend(
+  { variant: { size: ["sm", "md", "lg"] } }, // union adds "lg"
+  { token: {}, rules: ({ root }) => [root({})], defaults: { size: "lg" } }, // child default overrides parent
+);
+```
+
+Slots: accumulate across the chain
+
+```ts
+const Base = cls(
+  { tokens: {}, slot: ["root", "label"], variant: {} },
+  { token: {}, rules: ({ root }) => [root({})], defaults: {} },
+);
+const Child = Base.extend(
+  { slot: ["icon"] }, // adds icon
+  { token: {}, rules: ({ root }) => [root({})], defaults: {} },
+);
+const classes = Child.create();
+// classes.root(), classes.label(), classes.icon() → all available
+```
+
+Rules: ordering and override
+
+```ts
+const Base = cls(
+  { tokens: {}, slot: ["root"], variant: {} },
+  {
+    token: {},
+    rules: ({ root, classes }) => [root({ root: classes(["base"]) })], // base applies first
+    defaults: {},
+  },
+);
+
+const Child = Base.extend(
+  {},
+  {
+    token: {},
+    rules: ({ rule, classes }) => [
+      rule(undefined, { root: classes(["child"]) }), // appends after base
+      rule(undefined, { root: classes(["only-child"]) }, true), // override: clears then applies
+    ],
+    defaults: {},
+  },
+);
+const classes = Child.create();
+// Result at root(): "only-child" (base + child appended, then cleared by override and replaced)
+```
+
+use(sub): type-safe assignment
+
+```ts
+const Assigned = Base.use(Child); // Child must derive from Base
+// Assigned keeps Base’s type for downstream code, but uses Child’s implementation at runtime
+```
+
 ### Create-time Overrides
 
 The `create()` method gives you incredible flexibility to customize styling at runtime. You can override variants, append to slots, hard override slots, and even override tokens — all with predictable precedence rules!
