@@ -420,7 +420,7 @@ Guidance:
 ### 5.6 Resolution flow (diagram)
 
 ```mermaid
-flowchart TD
+flowchart LR
   A["Contract<br/>tokens, slots, variants"] --> B["Definition<br/>classes, rules, defaults"]
   B --> C["extend() chain<br/>parent → child → grandchild"]
   C --> D["create()<br/>variant, slot, override, token"]
