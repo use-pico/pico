@@ -11,6 +11,7 @@
 - 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
 - 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
 - ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
+- 🚀 **Cached slots**: per-slot memoization; repeated `slot()` calls with identical inputs are near‑zero cost
 - 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
 - 🌀 **Tailwind‑native**: powered by `tailwind-merge` for sane, deduped class strings
 - 📦 **Built for production**: framework‑agnostic, tiny runtime, excellent React integration
@@ -18,7 +19,7 @@
 
 > **Who is this for**: teams building design systems, component libraries, and apps that want predictable styling with a friendly, type-safe developer experience. 🎯
 
-> **Note**: `cls` is not CSS‑in‑JS; it returns class strings and works with your existing CSS (e.g., Tailwind). No runtime style injection. 🚫
+> **Note**: `cls` is not `CSS‑in‑JS`; it returns class strings and works with your existing CSS (e.g., Tailwind). No runtime style injection. 🚫
 
 ## Table of Contents 🧭
 <a id="toc"></a>
@@ -29,6 +30,27 @@
   - [1.2 Motivation](#1-2-motivation)
   - [1.3 Install & Quick Start](#1-3-install-quick-start)
   - [1.4 Mental model: contracts, tokens, slots, variants](#1-4-mental-model)
+  - [1.5 How it works (at a glance)](#1-5-how-it-works)
+  - [1.6 Performance](#1-6-performance)
+  
+- [Chapter 2. Core API](#chapter-2)
+  - [2.1 `cls(contract, definition)`](#2-1-cls)
+  - [2.2 `create(options)`](#2-2-create)
+  - [2.3 `extend(contract, definition)`](#2-3-extend)
+  - [2.4 `use(sub)`](#2-4-use)
+  - [2.5 `merge(a, b)`](#2-5-merge)
+  - [2.6 `tvc(...classes)`](#2-6-tvc)
+  
+- [Chapter 3. Rules & Precedence](#chapter-3)
+  - [3.1 `rules` callback: helpers and intent](#3-1-rules-callback)
+  - [3.2 Precedence: who wins and when](#3-2-precedence)
+  - [3.3 Slots and per-variant targeting](#3-3-slots-variant-targeting)
+  
+- [Chapter 4. Tokens, Variants, Slots](#chapter-4)
+  - [4.1 Tokens](#4-1-tokens)
+  - [4.2 Variants](#4-2-variants)
+  - [4.3 Slots](#4-3-slots)
+  - [4.4 Create-time overrides](#4-4-create-time-overrides)
 
 ---
 
@@ -123,4 +145,201 @@ b.root(); // "inline-flex items-center rounded px-2 py-1 text-sm bg-blue-600 tex
 ```
 
 > **What to expect next**: ➡️ Chapter 2 covers the core API (`cls`, `extend`, `create`, `merge`, `use`, `tvc`). Chapter 3 explains the rule helpers and precedence. Then we dive into tokens, variants, slots, and inheritance, followed by React integration, theming, and recipes.
+
+<a id="1-5-how-it-works"></a>
+### 1.5 How it works (at a glance) 🧭
+
+- You describe a component’s shape with a **contract** (tokens · slots · variants).
+- You provide concrete **definitions** (token classes, rules, defaults).
+- At `create()` time, the library walks the rules, applies matches, and builds class strings per slot.
+- **Variants can target specific slots**: rules apply per-slot, so a variant can tweak `label` without touching `root`, and vice‑versa.
+- Classes are deduped and normalized so that “last wins” is consistent.
+
+> **Note**: under the hood `cls` uses `tailwind-merge` for class string merging. `tvc` is exposed as a direct re-export for when you need it.
+
+<a id="1-6-performance"></a>
+### 1.6 Performance ⚡️
+
+High-level, work is split between the one-time `create()` call and each `slot()` call.
+
+- **`create()` cost (one-time per instance)**
+  - Walks the inheritance chain to build indexes (tokens, rules, defaults, slots).
+  - Computes a token lookup table with correct replace/append semantics.
+  - Gathers all rules from every layer. No slot classes are generated yet.
+  - Complexity roughly scales with: number of layers, tokens, rules, and slots.
+
+- **`slot()` cost (per call)**
+  - Merges effective variants (defaults → `create().variant` → per-call overrides).
+  - Scans the full rule list, checks matches, and applies only the entries for this slot.
+  - Resolves any referenced tokens via the precomputed token table (cheap lookups).
+  - Applies `slot` appends and `override` hard overrides from `create()` options.
+  - Runs `tailwind-merge` at the end to normalize/dedupe class strings.
+  - Dominant work here is “iterate rules + merge classes”. The `tvc` pass is linear in class count.
+  - ⚡️ **Memoized per slot**: results are cached by variant overrides; repeated calls with the same input are near‑zero cost.
+
+Practical guidance:
+
+- **Prefer calling `create()` once per render** and then use many `slot()` calls. `create()` does more upfront work; `slot()` does the cheaper per-slot computation.
+- **In loops**, avoid `create()` inside the tightest loop unless variants truly differ per item. If they do, it’s expected but that’s where cost concentrates.
+- **Know the cache model**: each `slot()` has its own cache, and each `create()` call creates fresh slot functions (with fresh caches). Repeated calls with identical inputs are extremely fast.
+- **Keep rules purposeful**: many tiny rules are fine, but remember each `slot()` scans the list. Coarser rules or fewer combinations reduce per-call work.
+- **Tokens are inexpensive**: token classes are fetched from a prebuilt map; using tokens does not add significant overhead.
+
+> **Note**: class normalization uses `tailwind-merge` (exposed as `tvc`). There’s no extra layer on top — it’s a direct re-export.
+
+---
+
+<a id="chapter-2"></a>
+## Chapter 2. Core API 🔧
+
+This is the quick map of the surface area you’ll use daily.
+
+<a id="2-1-cls"></a>
+### 2.1 `cls(contract, definition)`
+
+- **What it does**: creates a `cls` instance from a contract and definition.
+- **Returns**: an object with `create()`, `extend()`, `use()`, and `contract`.
+- **Contract**: `{ tokens, slot, variant }` describe structure.
+- **Definition**: `{ token, rules, defaults }` provide values and behavior.
+
+```ts
+import { cls } from "@use-pico/cls";
+
+const Button = cls({ /* contract */ }, { /* definition */ });
+```
+
+<a id="2-2-create"></a>
+### 2.2 `create(options)`
+
+- **What it does**: resolves classes for each slot using defaults + your overrides.
+- **Options**: `{ variant?, slot?, override?, token? }`.
+- **Precedence**: base → variant rules → slot appends → hard overrides.
+
+```ts
+const b = Button.create({ variant: { size: "sm" } });
+b.root();
+```
+
+<a id="2-3-extend"></a>
+### 2.3 `extend(contract, definition)`
+
+- **What it does**: creates a derived `cls` with added/overridden tokens/slots/variants.
+- **Why**: build a lineage (e.g., `Button` → `PrimaryButton` → `IconButton`).
+- **Types stay intact** across generations.
+
+```ts
+const PrimaryButton = Button.extend({ /* contract delta */ }, { /* definition delta */ });
+```
+
+<a id="2-4-use"></a>
+### 2.4 `use(sub)`
+
+- **What it does**: narrows a `cls` to a specific derived subtype for composition.
+- **Why**: safely plug a child `cls` where a parent shape is expected (React composition, etc.).
+
+```ts
+function Toolbar({ button }: { button: ReturnType<typeof Button.use<typeof PrimaryButton>> }) { /* ... */ }
+```
+
+<a id="2-5-merge"></a>
+### 2.5 `merge(a, b)`
+
+- **What it does**: pre-compose two `create()` configs; later values win.
+- **Use case**: library defaults + app overrides merged into a single options object.
+
+```ts
+import { merge } from "@use-pico/cls";
+const opts = merge({ variant: { size: "sm" } }, { variant: { intent: "primary" } });
+Button.create(opts);
+```
+
+<a id="2-6-tvc"></a>
+### 2.6 `tvc(...classes)`
+
+- **What it is**: a direct re-export of `tailwind-merge` with no alterations.
+- **Why**: normalize/dedupe classes when you must concatenate manually.
+
+```ts
+import { tvc } from "@use-pico/cls";
+const clsName = tvc("px-2 px-4", "text-sm"); // "px-4 text-sm"
+```
  
+---
+
+<a id="chapter-3"></a>
+## Chapter 3. Rules & Precedence 🎛️
+
+<a id="3-1-rules-callback"></a>
+### 3.1 `rules` callback: helpers and intent
+
+The `rules` callback is where you describe styling in small, readable steps. It returns an array of steps created by helper functions:
+
+- **`root(slotMap, override?)`**: base styles; `override: true` clears classes collected so far for targeted slots.
+- **`rule(match, slotMap, override?)`**: conditional styles applied when `match` (e.g., `{ size: "sm" }`) is satisfied.
+- **`classes(className, tokens?)`**: ergonomic helper to supply `class` and optional `token` together.
+
+> **Intent**: keep rule authoring simple, make variant intent obvious, and let types guide you to valid slots/tokens/variants.
+
+<a id="3-2-precedence"></a>
+### 3.2 Precedence: who wins and when
+
+From lowest to highest within a single `create()` call:
+
+1. Base `root(...)` rules
+2. Matching `rule(...)` steps (in authoring order)
+3. `slot` appends from `create({ slot: ... })`
+4. `override` hard overrides from `create({ override: ... })` or `root/ rule` with `override: true`
+5. Final class normalization via `tvc`
+
+Across inheritance layers, parent rules run first, then child rules, etc., preserving author order per layer.
+
+<a id="3-3-slots-variant-targeting"></a>
+### 3.3 Slots and per-variant targeting
+
+Every rule targets a map of slots. That means variants can adjust individual slots without affecting others.
+
+Examples in words:
+
+- “When `size` is `sm`, make `root` padding smaller; leave `label` alone.”
+- “When `intent` is `primary`, apply `color` tokens to `root` and add weight to `label`.”
+
+This keeps styling changes local and predictable, and mirrors how components are structured.
+
+---
+
+<a id="chapter-4"></a>
+## Chapter 4. Tokens, Variants, Slots 🎨
+
+<a id="4-1-tokens"></a>
+### 4.1 Tokens
+
+- **What**: semantic class lists referenced by name (e.g., `color.text.default`).
+- **Why**: change themes without editing rules; reuse across components.
+- **Where**: declared in `contract.tokens`, values provided in `definition.token`.
+- **Inheritance semantics**: if a child contract re-declares a token value, that value is a *REPLACE*; otherwise the child *APPENDS*.
+- **Create-time overrides**: `create({ token: { group: { value: ["...classes"] } } })` replaces that token’s class list for the instance.
+
+<a id="4-2-variants"></a>
+### 4.2 Variants
+
+- **What**: typed switches (e.g., `size: ["sm","md","lg"]`, `disabled: ["bool"]`).
+- **Defaults**: each layer declares `defaults`; later layers can change them.
+- **Use in rules**: `rule({ size: "sm" }, ...)` or `rule({ disabled: true }, ...)`.
+- **Merging**: variant domains union across inheritance; defaults follow last layer.
+
+<a id="4-3-slots"></a>
+### 4.3 Slots
+
+- **What**: named parts of a component (e.g., `root`, `label`, `icon`). Each slot returns a class string.
+- **Rules target slots**: pass a slot map to `root(...)`/`rule(...)`.
+- **Usage**: `const c = Button.create(); c.root(); c.label();`
+- **Composition**: using slots makes partial overrides ergonomic at `create()` time.
+
+<a id="4-4-create-time-overrides"></a>
+### 4.4 Create-time overrides
+
+- **variant**: set or change variant values for an instance.
+- **slot**: append to specific slot classes after rules.
+- **override**: hard replace a slot’s classes, ignoring earlier steps.
+- **token**: replace selected token values for this instance.
+- **Order**: base → rules → slot → override; tokens resolve where referenced.

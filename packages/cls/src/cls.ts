@@ -318,7 +318,33 @@ export function cls<
 		baseRules: RuleDefinition<any>[],
 		baseTokenIndex: InternalTokenIndex,
 	): ClsSlotFn<TContract> => {
+		// Simple per-slot memoization to avoid recomputing identical inputs
+		const memoizedResults = new Map<string, string>();
+
+		const makeCacheKey = (
+			variantOverrides: Record<string, unknown> | undefined,
+		): string => {
+			if (!variantOverrides) {
+				return "__no_variants__";
+			}
+			try {
+				return JSON.stringify(variantOverrides);
+			} catch {
+				// Fallback in case of unexpected non-serializable input
+				return "__non_serializable__";
+			}
+		};
+
 		return (variantOverrides) => {
+			const cacheKey = makeCacheKey(
+				variantOverrides as unknown as
+					| Record<string, unknown>
+					| undefined,
+			);
+			const cached = memoizedResults.get(cacheKey);
+			if (cached !== undefined) {
+				return cached;
+			}
 			// Merge base defaults with create config variants and provided variant overrides
 			const effectiveVariant: Record<string, unknown> = {
 				...baseDefaults,
@@ -403,7 +429,9 @@ export function cls<
 				classes = applyWhat(classes, createOverride);
 			}
 
-			return tvc(classes);
+			const result = tvc(classes);
+			memoizedResults.set(cacheKey, result);
+			return result;
 		};
 	};
 
