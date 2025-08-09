@@ -25,7 +25,7 @@
 
 _Perfect for design systems, component libraries, and apps that want predictable styling without sacrificing DX._
 
-> Important: Inheritance is a core part of this library. For precise behavior across tokens, variants, slots, rules, and defaults, see [Inheritance rules (authoritative)](#inheritance-rules-authoritative).
+> ❗ Important: Inheritance is a core part of this library. For precise behavior across tokens, variants, slots, rules, and defaults, see [Inheritance rules (authoritative)](#inheritance-rules-authoritative).
 
 ## Versioning
 
