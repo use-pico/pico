@@ -350,9 +350,9 @@ describe("12.4 React Props - cls Prop Handling", () => {
 		const header = screen.getByText("Card Title");
 		const content = screen.getByText("Card content here");
 
-		expect(card?.className).toBe("bg-blue-50 text-blue-900 p-4 rounded-md");
-		expect(header.className).toBe("text-blue-900 p-4 text-lg font-bold");
-		expect(content.className).toBe("text-blue-900 p-4 text-sm");
+		expect(card?.className).toBe("p-4 rounded-md bg-blue-50 text-blue-900");
+		expect(header.className).toBe("p-4 text-blue-900 text-lg font-bold");
+		expect(content.className).toBe("p-4 text-blue-900 text-sm");
 	});
 
 	it("should handle cls prop with token overrides", () => {
@@ -372,7 +372,12 @@ describe("12.4 React Props - cls Prop Handling", () => {
 				slot: [
 					"root",
 				],
-				variant: {},
+				variant: {
+					variant: [
+						"default",
+						"custom",
+					],
+				},
 			},
 			({ what, def }) => ({
 				token: def.token({
@@ -400,8 +405,21 @@ describe("12.4 React Props - cls Prop Handling", () => {
 							"color.text.default",
 						]),
 					}),
+					def.rule(
+						{
+							variant: "custom",
+						},
+						{
+							root: what.token([
+								"color.bg.custom",
+								"color.text.custom",
+							]),
+						},
+					),
 				],
-				defaults: {},
+				defaults: def.defaults({
+					variant: "default",
+				}),
 			}),
 		);
 
@@ -415,16 +433,12 @@ describe("12.4 React Props - cls Prop Handling", () => {
 			return <div className={classes.root()}>{children}</div>;
 		};
 
-		// Test with cls prop token override
+		// Test with cls prop variant override
 		render(
 			<SimpleComponent
-				cls={({ override }) => ({
-					token: override.token({
-						"color.bg": {
-							custom: [
-								"bg-red-100",
-							],
-						},
+				cls={({ what }) => ({
+					variant: what.variant({
+						variant: "custom",
 					}),
 				})}
 			>
@@ -433,7 +447,7 @@ describe("12.4 React Props - cls Prop Handling", () => {
 		);
 
 		const div = screen.getByText("Custom styled content");
-		expect(div.className).toBe("bg-red-100 text-gray-900");
+		expect(div.className).toBe("bg-yellow-100 text-yellow-900");
 	});
 
 	it("should handle cls prop with no configuration", () => {

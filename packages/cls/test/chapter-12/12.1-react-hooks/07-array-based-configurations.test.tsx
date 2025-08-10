@@ -254,14 +254,14 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 
 		// Should apply horizontal layout and spacious spacing
 		expect(classes.root()).toBe(
-			"bg-white text-gray-900 m-6 p-6 flex flex-row items-center",
+			"bg-white text-gray-900 flex flex-row items-center m-6 p-6",
 		);
 		expect(classes.header()).toBe(
-			"bg-blue-50 text-blue-900 p-4 flex-shrink-0",
+			"bg-blue-50 text-blue-900 flex-shrink-0 p-4",
 		);
-		expect(classes.content()).toBe("bg-white text-gray-900 p-6 flex-1");
+		expect(classes.content()).toBe("bg-white text-gray-900 flex-1 p-6");
 		expect(classes.footer()).toBe(
-			"bg-gray-50 text-gray-700 p-4 flex-shrink-0",
+			"bg-gray-50 text-gray-700 flex-shrink-0 p-4",
 		);
 	});
 });

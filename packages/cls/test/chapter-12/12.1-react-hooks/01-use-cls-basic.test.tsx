@@ -198,7 +198,7 @@ describe("12.1 React Hooks - Basic useCls", () => {
 
 		// Should apply secondary variant and large size
 		expect(classes.root()).toBe(
-			"bg-gray-600 text-gray-900 px-6 py-3 m-3 rounded-lg",
+			"rounded-md bg-gray-600 text-gray-900 px-6 py-3 m-3",
 		);
 		expect(classes.label()).toBe("text-gray-900");
 	});

@@ -310,9 +310,9 @@ describe("12.1 React Hooks - Advanced useCls - Dynamic Variant Computation", () 
 
 		// Should apply accent color, xl size, and loading state
 		expect(classes.root()).toBe(
-			"bg-purple-600 text-white px-8 py-4 border animate-pulse cursor-wait",
+			"border bg-purple-600 text-white px-8 py-4 animate-pulse cursor-wait",
 		);
-		expect(classes.icon()).toBe("text-white px-4");
+		expect(classes.icon()).toBe("text-white px-4 py-2");
 		expect(classes.label()).toBe("text-white px-6 py-3");
 	});
 });

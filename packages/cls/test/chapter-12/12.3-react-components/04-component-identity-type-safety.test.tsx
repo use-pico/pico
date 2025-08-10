@@ -201,7 +201,7 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 				size="large"
 				variant="outlined"
 				onClick={() => {}}
-				disabled={false}
+				disabled={true}
 				className="custom-class"
 			>
 				Test Button

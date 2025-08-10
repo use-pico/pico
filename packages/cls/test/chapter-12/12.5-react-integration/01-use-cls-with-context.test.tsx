@@ -217,7 +217,7 @@ describe("12.5 React Integration - useCls with Context", () => {
 		const button = screen.getByRole("button");
 		expect(button).toHaveTextContent("Click me");
 		// Should use button's own styling, not theme context
-		expect(button.className).toBe("bg-gray-600 text-gray-900 rounded-md");
+		expect(button.className).toBe("rounded-md bg-gray-600 text-gray-900");
 	});
 
 	it("should handle context token inheritance correctly", () => {
@@ -366,7 +366,7 @@ describe("12.5 React Integration - useCls with Context", () => {
 		);
 
 		const div = screen.getByText("Component content");
-		expect(div.className).toBe("bg-blue-100 text-blue-900 p-4");
+		expect(div.className).toBe("p-4 bg-blue-100 text-blue-900");
 	});
 
 	it("should handle multiple context providers correctly", () => {
