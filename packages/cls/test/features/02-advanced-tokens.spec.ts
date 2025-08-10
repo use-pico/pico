@@ -254,12 +254,12 @@ describe("advanced tokens", () => {
 		expect(slots.label()).toBe("block font-medium");
 		expect(slots.icon()).toBe("inline-block text-sm");
 
-		const primarySlots = NestedTokens.create({
+		const primarySlots = NestedTokens.create(() => ({
 			variant: {
 				variant: "primary",
 				size: "lg",
 			},
-		});
+		}));
 		expect(primarySlots.root()).toBe(
 			"block border rounded m-2 font-normal text-blue-600 bg-blue-50 border-blue-200 p-6 text-lg",
 		);
@@ -395,11 +395,11 @@ describe("advanced tokens", () => {
 		const slots = Extended.create();
 		expect(slots.root()).toBe("block text-gray-900 bg-white");
 
-		const successSlots = Extended.create({
+		const successSlots = Extended.create(() => ({
 			variant: {
 				variant: "success",
 			},
-		});
+		}));
 		expect(successSlots.root()).toBe("block text-green-600 bg-green-50");
 	});
 
@@ -521,7 +521,7 @@ describe("advanced tokens", () => {
 		);
 
 		// Override tokens in create config
-		const slots = TokenTest.create({
+		const slots = TokenTest.create(() => ({
 			variant: {
 				variant: "primary",
 			},
@@ -537,13 +537,13 @@ describe("advanced tokens", () => {
 					], // Override primary background
 				},
 			},
-		});
+		}));
 		expect(slots.root()).toBe(
 			"block border rounded text-red-600 bg-red-50 border-blue-200",
 		);
 
 		// Override multiple token groups
-		const slots2 = TokenTest.create({
+		const slots2 = TokenTest.create(() => ({
 			variant: {
 				variant: "secondary",
 			},
@@ -564,7 +564,7 @@ describe("advanced tokens", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(slots2.root()).toBe(
 			"block border rounded text-purple-600 bg-purple-50 border-purple-200",
 		);
@@ -856,12 +856,12 @@ describe("advanced tokens", () => {
 		expect(defaultSlots.icon()).toBe("inline-block text-sm px-2 py-1");
 
 		// Test primary variant with large size
-		const primaryLargeSlots = ComplexTokens.create({
+		const primaryLargeSlots = ComplexTokens.create(() => ({
 			variant: {
 				variant: "primary",
 				size: "lg",
 			},
-		});
+		}));
 		expect(primaryLargeSlots.root()).toBe(
 			"block border rounded transition-all text-blue-600 bg-blue-50 border-blue-200 text-lg px-6 py-3",
 		);
@@ -871,13 +871,13 @@ describe("advanced tokens", () => {
 		);
 
 		// Test danger variant with small size and disabled
-		const dangerSmallDisabledSlots = ComplexTokens.create({
+		const dangerSmallDisabledSlots = ComplexTokens.create(() => ({
 			variant: {
 				variant: "danger",
 				size: "sm",
 				disabled: true,
 			},
-		});
+		}));
 		expect(dangerSmallDisabledSlots.root()).toBe(
 			"block border rounded transition-all text-red-600 bg-red-50 border-red-200 text-sm px-2 py-1 opacity-50 cursor-not-allowed",
 		);
@@ -1202,20 +1202,20 @@ describe("advanced tokens", () => {
 		const baseSlots = Base.create();
 		expect(baseSlots.root()).toBe("block text-gray-900 bg-white");
 
-		const level1Slots = Level1.create({
+		const level1Slots = Level1.create(() => ({
 			variant: {
 				variant: "primary",
 				size: "lg",
 			},
-		});
+		}));
 		expect(level1Slots.root()).toBe("block text-blue-600 bg-blue-50 p-6");
 
-		const level2Slots = Level2.create({
+		const level2Slots = Level2.create(() => ({
 			variant: {
 				variant: "success",
 				size: "sm",
 			},
-		});
+		}));
 		expect(level2Slots.root()).toBe(
 			"block p-2 text-green-600 bg-green-50 text-sm",
 		);

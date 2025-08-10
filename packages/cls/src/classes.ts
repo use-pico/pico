@@ -1,19 +1,16 @@
-import type { ClassName, Contract, TokensOfList, What } from "./types";
+import type { ClassName, Contract, WhatClass } from "./types";
 
 export type ClassesFn<TContract extends Contract<any, any, any>> = (
 	classes: ClassName,
-	tokens?: TokensOfList<TContract>,
-) => What<TContract>;
+) => WhatClass;
 
 /**
  * Just a little shortcut for supplying "class" (e.g. in rule -> slot)
  */
 export const classes = <TContract extends Contract<any, any, any>>(
 	classes: ClassName,
-	tokens?: TokensOfList<TContract>,
-): What<TContract> => {
+): WhatClass => {
 	return {
 		class: classes,
-		token: tokens,
 	};
 };

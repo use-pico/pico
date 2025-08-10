@@ -32,25 +32,21 @@ describe("tokens", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							token: [
-								"color.bg.default",
-							],
-						},
-						label: {
-							token: [
-								"color.text.default",
-							],
-						},
+						root: what.token([
+							"color.bg.default",
+						]),
+						label: what.token([
+							"color.text.default",
+						]),
 					}),
 				],
 				defaults: {},
 			},
 		);
 
-		const s = C.create({});
+		const s = C.create();
 		expect(s.root()).toBe("bg-blue-600");
 		expect(s.label()).toBe("text-blue-600");
 	});
@@ -85,25 +81,21 @@ describe("tokens", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							token: [
-								"color.bg.default",
-							],
-						},
-						label: {
-							token: [
-								"color.text.default",
-							],
-						},
+						root: what.token([
+							"color.bg.default",
+						]),
+						label: what.token([
+							"color.text.default",
+						]),
 					}),
 				],
 				defaults: {},
 			},
 		);
 
-		const s = C.create({
+		const s = C.create(() => ({
 			token: {
 				"color.text": {
 					default: [
@@ -116,7 +108,7 @@ describe("tokens", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(s.root()).toBe("bg-red-600");
 		expect(s.label()).toBe("text-red-600");
 	});

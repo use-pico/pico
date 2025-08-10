@@ -49,40 +49,34 @@ describe("create() API", () => {
 					],
 				},
 			},
-			rules: ({ root, rule }) => [
+			rules: ({ root, rule, what }) => [
 				root({
-					root: {
-						class: [
+					root: what.both(
+						[
 							"inline-flex",
 							"items-center",
 						],
-						token: [
+						[
 							"color.text.default",
 							"color.bg.default",
 						],
-					},
-					label: {
-						class: [
-							"font-medium",
-						],
-					},
+					),
+					label: what.css([
+						"font-medium",
+					]),
 				}),
 				rule(
 					{
 						size: "sm",
 					},
 					{
-						root: {
-							class: [
-								"px-2",
-								"py-1",
-							],
-						},
-						label: {
-							class: [
-								"text-sm",
-							],
-						},
+						root: what.css([
+							"px-2",
+							"py-1",
+						]),
+						label: what.css([
+							"text-sm",
+						]),
 					},
 				),
 				rule(
@@ -90,17 +84,13 @@ describe("create() API", () => {
 						size: "md",
 					},
 					{
-						root: {
-							class: [
-								"px-4",
-								"py-2",
-							],
-						},
-						label: {
-							class: [
-								"text-base",
-							],
-						},
+						root: what.css([
+							"px-4",
+							"py-2",
+						]),
+						label: what.css([
+							"text-base",
+						]),
 					},
 				),
 				rule(
@@ -108,17 +98,13 @@ describe("create() API", () => {
 						size: "lg",
 					},
 					{
-						root: {
-							class: [
-								"px-6",
-								"py-3",
-							],
-						},
-						label: {
-							class: [
-								"text-lg",
-							],
-						},
+						root: what.css([
+							"px-6",
+							"py-3",
+						]),
+						label: what.css([
+							"text-lg",
+						]),
 					},
 				),
 				rule(
@@ -126,12 +112,10 @@ describe("create() API", () => {
 						variant: "primary",
 					},
 					{
-						root: {
-							token: [
-								"color.text.primary",
-								"color.bg.primary",
-							],
-						},
+						root: what.token([
+							"color.text.primary",
+							"color.bg.primary",
+						]),
 					},
 				),
 			],
@@ -151,12 +135,12 @@ describe("create() API", () => {
 	});
 
 	it("creates with variant overrides", () => {
-		const slots = Button.create({
+		const slots = Button.create(() => ({
 			variant: {
 				size: "lg",
 				variant: "primary",
 			},
-		});
+		}));
 		expect(slots.root()).toBe(
 			"inline-flex items-center px-6 py-3 text-white bg-blue-600",
 		);
@@ -164,7 +148,7 @@ describe("create() API", () => {
 	});
 
 	it("creates with slot overrides (append)", () => {
-		const slots = Button.create({
+		const slots = Button.create(() => ({
 			slot: {
 				root: {
 					class: [
@@ -177,7 +161,7 @@ describe("create() API", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(slots.root()).toBe(
 			"inline-flex items-center text-gray-900 bg-gray-100 px-4 py-2 rounded",
 		);
@@ -185,55 +169,42 @@ describe("create() API", () => {
 	});
 
 	it("creates with slot overrides (append) and tokens", () => {
-		const slots = Button.create({
+		const slots = Button.create(({ what }) => ({
 			slot: {
-				root: {
-					class: [
+				root: what.both(
+					[
 						"rounded",
 					],
-					token: [
+					[
 						"color.bg.primary",
 					],
-				},
+				),
 			},
-		});
+		}));
 		expect(slots.root()).toBe(
 			"inline-flex items-center text-gray-900 px-4 py-2 rounded bg-blue-600",
 		);
 	});
 
 	it("creates with hard overrides (replace)", () => {
-		const slots = Button.create({
+		const slots = Button.create(({ what }) => ({
 			override: {
-				root: {
-					class: [
-						"block",
-						"w-full",
-					],
-				},
-				label: {
-					class: [
-						"text-center",
-					],
-				},
+				root: what.css([
+					"block",
+					"w-full",
+				]),
+				label: what.css([
+					"text-center",
+				]),
 			},
-		});
+		}));
 		expect(slots.root()).toBe("block w-full");
 		expect(slots.label()).toBe("text-center");
 	});
 
 	it("creates with token overrides", () => {
-		const slots = Button.create({
-			token: {
-				"color.bg": {
-					primary: [
-						"bg-red-600",
-					],
-				},
-			},
-		});
 		// Test with primary variant to see the override
-		const primarySlots = Button.create({
+		const primarySlots = Button.create(() => ({
 			variant: {
 				variant: "primary",
 			},
@@ -244,24 +215,22 @@ describe("create() API", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(primarySlots.root()).toBe(
 			"inline-flex items-center px-4 py-2 text-white bg-red-600",
 		);
 	});
 
 	it("creates with multiple overrides combined", () => {
-		const slots = Button.create({
+		const slots = Button.create(({ what }) => ({
 			variant: {
 				size: "sm",
 				variant: "primary",
 			},
 			slot: {
-				root: {
-					class: [
-						"rounded",
-					],
-				},
+				root: what.css([
+					"rounded",
+				]),
 			},
 			token: {
 				"color.bg": {
@@ -270,7 +239,7 @@ describe("create() API", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(slots.root()).toBe(
 			"inline-flex items-center px-2 py-1 text-white bg-green-600 rounded",
 		);
@@ -279,23 +248,21 @@ describe("create() API", () => {
 
 	it("creates with internal config (user takes precedence)", () => {
 		const slots = Button.create(
-			{
+			() => ({
 				variant: {
 					size: "lg",
 				}, // user config
-			},
-			{
+			}),
+			({ what }) => ({
 				variant: {
 					size: "sm",
 				}, // internal config
 				slot: {
-					root: {
-						class: [
-							"internal-class",
-						],
-					},
+					root: what.css([
+						"internal-class",
+					]),
 				},
-			},
+			}),
 		);
 		expect(slots.root()).toBe(
 			"inline-flex items-center text-gray-900 bg-gray-100 px-6 py-3 internal-class",

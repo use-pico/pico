@@ -23,13 +23,13 @@ describe("function-style slots", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						root: classes([
+						root: u.css([
 							"inline-flex",
 							"items-center",
 						]),
-						label: classes([
+						label: u.css([
 							"font-medium",
 						]),
 					}),
@@ -38,11 +38,11 @@ describe("function-style slots", () => {
 							size: "sm",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-2",
 								"py-1",
 							]),
-							label: classes([
+							label: u.css([
 								"text-sm",
 							]),
 						},
@@ -52,11 +52,11 @@ describe("function-style slots", () => {
 							size: "md",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-4",
 								"py-2",
 							]),
-							label: classes([
+							label: u.css([
 								"text-base",
 							]),
 						},
@@ -66,11 +66,11 @@ describe("function-style slots", () => {
 							size: "lg",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-6",
 								"py-3",
 							]),
-							label: classes([
+							label: u.css([
 								"text-lg",
 							]),
 						},
@@ -80,7 +80,7 @@ describe("function-style slots", () => {
 							selected: true,
 						},
 						{
-							root: classes([
+							root: u.css([
 								"bg-blue-600",
 								"text-white",
 							]),
@@ -94,7 +94,7 @@ describe("function-style slots", () => {
 			},
 		);
 
-		const slots = Button.create({});
+		const slots = Button.create();
 
 		// Test default behavior
 		expect(slots.root()).toBe("inline-flex items-center px-4 py-2");
@@ -191,9 +191,9 @@ describe("function-style slots", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						root: classes([
+						root: u.css([
 							"inline-flex",
 							"items-center",
 						]),
@@ -203,7 +203,7 @@ describe("function-style slots", () => {
 							size: "sm",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-2",
 								"py-1",
 							]),
@@ -214,7 +214,7 @@ describe("function-style slots", () => {
 							size: "md",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-4",
 								"py-2",
 							]),
@@ -227,15 +227,13 @@ describe("function-style slots", () => {
 			},
 		);
 
-		const slots = Button.create({
+		const slots = Button.create(({ what }) => ({
 			slot: {
-				root: {
-					class: [
-						"bg-blue-600",
-					],
-				},
+				root: what.css([
+					"bg-blue-600",
+				]),
 			},
-		});
+		}));
 
 		// Test default with create-time override
 		expect(slots.root()).toBe(
@@ -281,9 +279,9 @@ describe("function-style slots", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						root: classes([
+						root: u.css([
 							"inline-flex",
 						]),
 					}),
@@ -292,7 +290,7 @@ describe("function-style slots", () => {
 							size: "sm",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-2",
 							]),
 						},
@@ -302,7 +300,7 @@ describe("function-style slots", () => {
 							size: "md",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-4",
 							]),
 						},
@@ -330,13 +328,13 @@ describe("function-style slots", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							size: "lg",
 						},
 						{
-							root: classes([
+							root: what.css([
 								"px-6",
 							]),
 						},
@@ -348,7 +346,7 @@ describe("function-style slots", () => {
 			},
 		);
 
-		const slots = Extended.create({});
+		const slots = Extended.create();
 
 		// Test inherited behavior
 		expect(slots.root()).toBe("inline-flex px-4");
@@ -397,27 +395,25 @@ describe("function-style slots", () => {
 						],
 					},
 				},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"inline-flex",
 							],
-							token: [
+							[
 								"theme.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							selected: true,
 						},
 						{
-							root: {
-								token: [
-									"theme.bg.hover",
-								],
-							},
+							root: what.token([
+								"theme.bg.hover",
+							]),
 						},
 					),
 				],
@@ -427,7 +423,7 @@ describe("function-style slots", () => {
 			},
 		);
 
-		const slots = Button.create({});
+		const slots = Button.create();
 
 		// Test default behavior
 		expect(slots.root()).toBe("inline-flex bg-blue-600");

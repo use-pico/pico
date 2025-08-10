@@ -19,36 +19,28 @@ describe("variants", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						root: {
-							class: [
-								"inline-flex",
-								"items-center",
-							],
-						},
-						label: {
-							class: [
-								"font-medium",
-							],
-						},
+						root: u.css([
+							"inline-flex",
+							"items-center",
+						]),
+						label: u.css([
+							"font-medium",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"px-2",
-									"py-1",
-								],
-							},
-							label: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: u.css([
+								"px-2",
+								"py-1",
+							]),
+							label: u.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -56,17 +48,13 @@ describe("variants", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"px-4",
-									"py-2",
-								],
-							},
-							label: {
-								class: [
-									"text-base",
-								],
-							},
+							root: u.css([
+								"px-4",
+								"py-2",
+							]),
+							label: u.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -76,11 +64,11 @@ describe("variants", () => {
 			},
 		);
 
-		expect(C.create({}).root()).toBe("inline-flex items-center px-4 py-2");
-		expect(C.create({}).label()).toBe("font-medium text-base");
+		expect(C.create().root()).toBe("inline-flex items-center px-4 py-2");
+		expect(C.create().label()).toBe("font-medium text-base");
 
 		// Use function-style slots API
-		const slots = C.create({});
+		const slots = C.create();
 		expect(
 			slots.root({
 				variant: {

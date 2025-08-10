@@ -13,13 +13,11 @@ describe("core cls API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"block",
-							],
-						},
+						root: what.css([
+							"block",
+						]),
 					}),
 				],
 				defaults: {},
@@ -43,23 +41,17 @@ describe("core cls API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"flex",
-							],
-						},
-						label: {
-							class: [
-								"text-sm",
-							],
-						},
-						icon: {
-							class: [
-								"w-4",
-							],
-						},
+						root: what.css([
+							"flex",
+						]),
+						label: what.css([
+							"text-sm",
+						]),
+						icon: what.css([
+							"w-4",
+						]),
 					}),
 				],
 				defaults: {},
@@ -89,24 +81,20 @@ describe("core cls API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"block",
-							],
-						},
+						root: what.css([
+							"block",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -114,11 +102,9 @@ describe("core cls API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 					rule(
@@ -126,11 +112,9 @@ describe("core cls API", () => {
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 				],
@@ -142,23 +126,23 @@ describe("core cls API", () => {
 
 		const slots = WithVariants.create();
 		expect(slots.root()).toBe("block text-base");
-		expect(
-			slots.root({
-				variant: {
-					size: "sm",
-				},
-			}),
-		).toBe("block text-sm");
-		expect(
-			slots.root({
-				variant: {
-					size: "lg",
-				},
-			}),
-		).toBe("block text-lg");
+
+		const smallSlots = WithVariants.create(() => ({
+			variant: {
+				size: "sm",
+			},
+		}));
+		expect(smallSlots.root()).toBe("block text-sm");
+
+		const largeSlots = WithVariants.create(() => ({
+			variant: {
+				size: "lg",
+			},
+		}));
+		expect(largeSlots.root()).toBe("block text-lg");
 	});
 
-	it("creates cls instance with basic tokens", () => {
+	it("creates cls instance with tokens", () => {
 		const WithTokens = cls(
 			{
 				tokens: {
@@ -183,29 +167,29 @@ describe("core cls API", () => {
 							"text-gray-900",
 						],
 						primary: [
-							"text-blue-600",
+							"text-white",
 						],
 					},
 					"color.bg": {
 						default: [
-							"bg-white",
+							"bg-gray-100",
 						],
 						primary: [
-							"bg-blue-50",
+							"bg-blue-600",
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -213,90 +197,174 @@ describe("core cls API", () => {
 		);
 
 		const slots = WithTokens.create();
-		expect(slots.root()).toBe("block text-gray-900 bg-white");
+		expect(slots.root()).toBe("block text-gray-900 bg-gray-100");
 	});
 
-	it("creates cls instance with boolean variants", () => {
-		const WithBoolVariants = cls(
+	it("creates cls instance with complex rules", () => {
+		const Complex = cls(
 			{
-				tokens: {},
+				tokens: {
+					"color.text": [
+						"default",
+						"primary",
+					],
+					"color.bg": [
+						"default",
+						"primary",
+					],
+				},
 				slot: [
 					"root",
+					"label",
 				],
 				variant: {
-					disabled: [
-						"bool",
+					size: [
+						"sm",
+						"md",
+						"lg",
 					],
-					loading: [
-						"bool",
+					variant: [
+						"default",
+						"primary",
 					],
 				},
 			},
 			{
-				token: {},
-				rules: ({ root, rule }) => [
+				token: {
+					"color.text": {
+						default: [
+							"text-gray-900",
+						],
+						primary: [
+							"text-white",
+						],
+					},
+					"color.bg": {
+						default: [
+							"bg-gray-100",
+						],
+						primary: [
+							"bg-blue-600",
+						],
+					},
+				},
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
+								"rounded",
 							],
-						},
+							[
+								"color.text.default",
+								"color.bg.default",
+							],
+						),
+						label: what.css([
+							"font-medium",
+						]),
 					}),
 					rule(
 						{
-							disabled: true,
+							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"opacity-50",
-								],
-							},
+							root: what.css([
+								"px-2",
+								"py-1",
+							]),
+							label: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
 						{
-							loading: true,
+							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"animate-pulse",
+							root: what.css([
+								"px-4",
+								"py-2",
+							]),
+							label: what.css([
+								"text-base",
+							]),
+						},
+					),
+					rule(
+						{
+							size: "lg",
+						},
+						{
+							root: what.css([
+								"px-6",
+								"py-3",
+							]),
+							label: what.css([
+								"text-lg",
+							]),
+						},
+					),
+					rule(
+						{
+							variant: "primary",
+						},
+						{
+							root: what.both(
+								[
+									"rounded",
 								],
-							},
+								[
+									"color.text.primary",
+									"color.bg.primary",
+								],
+							),
 						},
 					),
 				],
 				defaults: {
-					disabled: false,
-					loading: false,
+					size: "md",
+					variant: "default",
 				},
 			},
 		);
 
-		const slots = WithBoolVariants.create();
-		expect(slots.root()).toBe("block");
-		expect(
-			slots.root({
-				variant: {
-					disabled: true,
-				},
-			}),
-		).toBe("block opacity-50");
-		expect(
-			slots.root({
-				variant: {
-					loading: true,
-				},
-			}),
-		).toBe("block animate-pulse");
-		expect(
-			slots.root({
-				variant: {
-					disabled: true,
-					loading: true,
-				},
-			}),
-		).toBe("block opacity-50 animate-pulse");
+		const slots = Complex.create();
+		expect(slots.root()).toBe(
+			"block rounded text-gray-900 bg-gray-100 px-4 py-2",
+		);
+		expect(slots.label()).toBe("font-medium text-base");
+
+		const primarySlots = Complex.create(() => ({
+			variant: {
+				variant: "primary",
+			},
+		}));
+		expect(primarySlots.root()).toBe(
+			"block px-4 py-2 rounded text-white bg-blue-600",
+		);
+		expect(primarySlots.label()).toBe("font-medium text-base");
+
+		const smallSlots = Complex.create(() => ({
+			variant: {
+				size: "sm",
+			},
+		}));
+		expect(smallSlots.root()).toBe(
+			"block rounded text-gray-900 bg-gray-100 px-2 py-1",
+		);
+		expect(smallSlots.label()).toBe("font-medium text-sm");
+
+		const smallPrimarySlots = Complex.create(() => ({
+			variant: {
+				size: "sm",
+				variant: "primary",
+			},
+		}));
+		expect(smallPrimarySlots.root()).toBe(
+			"block px-2 py-1 rounded text-white bg-blue-600",
+		);
+		expect(smallPrimarySlots.label()).toBe("font-medium text-sm");
 	});
 });

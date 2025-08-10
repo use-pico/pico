@@ -33,9 +33,9 @@ export const BadgeCls = PicoCls.extend(
 	},
 	{
 		token: {},
-		rules: ({ root, rule, classes }) => [
+		rules: ({ root, rule, what }) => [
 			root({
-				base: classes([
+				base: what.css([
 					"border",
 					"flex-row",
 					"flex",
@@ -53,7 +53,7 @@ export const BadgeCls = PicoCls.extend(
 					active: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"shadow-md",
 					]),
 				},
@@ -63,7 +63,7 @@ export const BadgeCls = PicoCls.extend(
 					variant: "primary",
 				},
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-primary-bg-default)",
 						"border-(--pico-color-primary-border-default)",
 						"text-(--pico-color-primary-text-default)",

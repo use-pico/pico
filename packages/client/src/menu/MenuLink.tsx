@@ -23,7 +23,7 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		return (
 			<a
 				{...props}
-				className={classes.base}
+				className={classes.base()}
 				ref={ref}
 			>
 				{isString(icon) ? <Icon icon={icon} /> : icon}
@@ -48,7 +48,7 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 		<Link
 			preload={"intent"}
 			tva={tva}
-			cls={merge(cls, {
+			cls={merge(cls, () => ({
 				variant: {
 					active:
 						Boolean(
@@ -58,7 +58,7 @@ export const MenuLink: LinkComponent<typeof Item> = ({
 							}),
 						) || isActive,
 				},
-			})}
+			}))}
 			/**
 			 * TODO Another fuckin' any, kill it!
 			 */

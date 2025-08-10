@@ -1,4 +1,3 @@
-import { classes } from "./classes";
 import { match } from "./match";
 import { merge } from "./merge";
 import { tvc } from "./tvc";
@@ -15,6 +14,7 @@ import type {
 	VariantContract,
 	What,
 } from "./types";
+import { what } from "./what";
 
 // TODO Vibe variable extraction (create PicoCls with tokens)
 
@@ -35,8 +35,8 @@ type InternalWhat = {
 
 type InternalCreateConfig = {
 	variant?: Record<string, unknown>;
-	slot?: Record<string, InternalSlotWhat>;
-	override?: Record<string, InternalSlotWhat>;
+	slot?: Record<string, InternalWhat>;
+	override?: Record<string, InternalWhat>;
 	token?: Record<string, Record<string, string[]>>;
 };
 
@@ -225,7 +225,7 @@ export function cls<
 				root: (slot, override = false) =>
 					match(undefined, slot, override),
 				rule: match,
-				classes,
+				what: what(),
 			});
 			out.push(...steps);
 		}
@@ -304,7 +304,7 @@ export function cls<
 
 	const applyWhat = (
 		acc: string[],
-		what: InternalSlotWhat | undefined,
+		what: InternalWhat | undefined,
 		table: InternalTokenIndex,
 	): string[] => {
 		if (!what) return acc;
@@ -386,9 +386,18 @@ export function cls<
 								| undefined = local
 								? {
 										variant: local.variant,
-										slot: local.slot,
-										override: local.override,
-										token: local.token,
+										slot: local.slot as
+											| Record<string, InternalWhat>
+											| undefined,
+										override: local.override as
+											| Record<string, InternalWhat>
+											| undefined,
+										token: local.token as
+											| Record<
+													string,
+													Record<string, string[]>
+											  >
+											| undefined,
 									}
 								: undefined;
 

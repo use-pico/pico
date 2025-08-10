@@ -390,12 +390,12 @@ describe("empty configurations", () => {
 			},
 		);
 
-		const slots = Basic.create({
+		const slots = Basic.create(() => ({
 			variant: undefined,
 			slot: undefined,
 			override: undefined,
 			token: undefined,
-		});
+		}));
 		expect(slots.root()).toBe("block text-base");
 	});
 
@@ -454,12 +454,12 @@ describe("empty configurations", () => {
 			},
 		);
 
-		const slots = Basic.create({
+		const slots = Basic.create(() => ({
 			variant: {},
 			slot: {},
 			override: {},
 			token: {},
-		});
+		}));
 		expect(slots.root()).toBe("block text-base");
 	});
 

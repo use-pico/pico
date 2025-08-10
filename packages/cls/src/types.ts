@@ -1,31 +1,10 @@
 import type { ClassNameValue } from "tailwind-merge";
-import type { ClassesFn } from "./classes";
 import type { MatchFn, MatchSlotFn } from "./match";
 
 // ============================================================================
 // CORE TYPE DEFINITIONS
 // ============================================================================
 
-/**
- * Represents a CSS class name value.
- * This is an alias for Tailwind's ClassNameValue type, which can be a string
- * or an array of strings representing CSS classes.
- *
- * @example
- * ```typescript
- * // Single class
- * const singleClass: ClassName = "text-blue-500";
- *
- * // Multiple classes
- * const multipleClasses: ClassName = "text-blue-500 bg-white rounded-lg";
- *
- * // Array of classes
- * const classArray: ClassName = ["text-blue-500", "bg-white", "rounded-lg"];
- *
- * // Mixed usage
- * const mixed: ClassName = ["text-blue-500", "bg-white rounded-lg"];
- * ```
- */
 export type ClassName = ClassNameValue;
 /**
  * Defines the available slots for a component.
@@ -367,14 +346,14 @@ type VariantValueMapping<T extends Contract<any, any, any>> = {
 /**
  * Represents a direct class name assignment
  */
-type WhatClass = {
+export type WhatClass = {
 	class: ClassName;
 };
 
 /**
  * Represents a token reference for dynamic styling
  */
-type WhatToken<TContract extends Contract<any, any, any>> = {
+export type WhatToken<TContract extends Contract<any, any, any>> = {
 	token: TokensOfList<TContract>;
 };
 
@@ -394,6 +373,24 @@ export interface RuleDefinition<TContract extends Contract<any, any, any>> {
 	slot: SlotMapping<TContract>;
 }
 
+/**
+ * Helper interface providing utility functions for styling
+ */
+export interface WhatUtil<TContract extends Contract<any, any, any>> {
+	/**
+	 * Helper for classes only
+	 */
+	css(classes: ClassName): WhatClass;
+	/**
+	 * What to apply - only tokens
+	 */
+	token(tokens: TokensOfList<TContract>): WhatToken<TContract>;
+	/**
+	 * What to apply - both classes and tokens
+	 */
+	both(classes: ClassName, tokens: TokensOfList<TContract>): What<TContract>;
+}
+
 export interface RuleBuilderProps<TContract extends Contract<any, any, any>> {
 	/**
 	 * Provides default slot match
@@ -404,9 +401,9 @@ export interface RuleBuilderProps<TContract extends Contract<any, any, any>> {
 	 */
 	rule: MatchFn<TContract>;
 	/**
-	 * Shorthand for classes
+	 * Utility functions for styling
 	 */
-	classes: ClassesFn<TContract>;
+	what: WhatUtil<TContract>;
 }
 
 /**
@@ -575,8 +572,15 @@ export type CreateConfig<TContract extends Contract<any, any, any>> = {
 export type Component<TCls extends Cls<any>, P = unknown> = {
 	/** The cls instance for styling */
 	tva?: TCls;
-	/** User-land styling configuration (variant/slot/token/override) */
-	cls?: Partial<CreateConfig<TCls["contract"]>>;
+	/**
+	 * User-land config override.
+	 *
+	 * There is a helper function "what" that you can use to typecheck your config and
+	 * make changes a bit more readable (e.g. changing slot "root" you may write `slot: what.css(['bla'])`)
+	 */
+	cls?: (props: {
+		what: WhatUtil<TCls["contract"]>;
+	}) => Partial<CreateConfig<TCls["contract"]>>;
 } & Omit<P, "tva" | "cls">;
 
 /**
@@ -755,8 +759,12 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 * ```
 	 */
 	create(
-		user?: Partial<CreateConfig<TContract>>,
-		internal?: Partial<CreateConfig<TContract>>,
+		user?: (props: {
+			what: WhatUtil<TContract>;
+		}) => Partial<CreateConfig<TContract>>,
+		internal?: (props: {
+			what: WhatUtil<TContract>;
+		}) => Partial<CreateConfig<TContract>>,
 	): ClsSlots<TContract>;
 
 	/**

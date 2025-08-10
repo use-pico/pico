@@ -26,9 +26,9 @@ export const AlertCls = PicoCls.extend(
 	},
 	{
 		token: {},
-		rules: ({ root, rule, classes }) => [
+		rules: ({ root, rule, what }) => [
 			root({
-				base: classes([
+				base: what.css([
 					"pico--alert",
 					"border",
 					"rounded",
@@ -40,16 +40,16 @@ export const AlertCls = PicoCls.extend(
 					"bg-(--pico-color-bg-default)",
 					"text-(--pico-color-text-default)",
 				]),
-				title: classes([
+				title: what.css([
 					"font-semibold",
 					"w-full",
 				]),
-				message: classes([
+				message: what.css([
 					"opacity-85",
 					"text-sm",
 					"w-full",
 				]),
-				body: classes([
+				body: what.css([
 					"border-t",
 					"w-full",
 					"border-(--pico-color-border-default)",
@@ -61,7 +61,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-info-clickable-hover-bg)",
 					]),
 				},
@@ -72,7 +72,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-success-clickable-hover-bg)",
 					]),
 				},
@@ -83,7 +83,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-warning-clickable-hover-bg)",
 					]),
 				},
@@ -94,7 +94,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-error-clickable-hover-bg)",
 					]),
 				},
@@ -105,7 +105,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-neutral-clickable-hover-bg)",
 					]),
 				},
@@ -116,7 +116,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-(--color-subtle-clickable-hover-bg)",
 					]),
 				},

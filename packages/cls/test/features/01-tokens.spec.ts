@@ -39,17 +39,17 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -111,29 +111,27 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
 						},
 					),
 					rule(
@@ -141,12 +139,10 @@ describe("tokens feature", () => {
 							variant: "secondary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.secondary",
-									"color.bg.secondary",
-								],
-							},
+							root: what.token([
+								"color.text.secondary",
+								"color.bg.secondary",
+							]),
 						},
 					),
 				],
@@ -211,24 +207,24 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
 			},
 		);
 
-		const slots = TokenTest.create({
+		const slots = TokenTest.create(() => ({
 			token: {
 				"color.text": {
 					default: [
@@ -239,7 +235,7 @@ describe("tokens feature", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(slots.root()).toBe("block text-red-900 bg-white");
 	});
 
@@ -285,29 +281,27 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
 						},
 					),
 				],
@@ -317,7 +311,7 @@ describe("tokens feature", () => {
 			},
 		);
 
-		const slots = TokenTest.create({
+		const slots = TokenTest.create(() => ({
 			variant: {
 				variant: "primary",
 			},
@@ -333,7 +327,7 @@ describe("tokens feature", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(slots.root()).toBe("block text-red-600 bg-red-50");
 	});
 
@@ -420,31 +414,29 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 								"spacing.padding.md",
 								"spacing.margin.md",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								token: [
-									"spacing.padding.sm",
-									"spacing.margin.sm",
-								],
-							},
+							root: what.token([
+								"spacing.padding.sm",
+								"spacing.margin.sm",
+							]),
 						},
 					),
 					rule(
@@ -452,12 +444,10 @@ describe("tokens feature", () => {
 							size: "lg",
 						},
 						{
-							root: {
-								token: [
-									"spacing.padding.lg",
-									"spacing.margin.lg",
-								],
-							},
+							root: what.token([
+								"spacing.padding.lg",
+								"spacing.margin.lg",
+							]),
 						},
 					),
 				],
@@ -510,16 +500,16 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -566,17 +556,17 @@ describe("tokens feature", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},

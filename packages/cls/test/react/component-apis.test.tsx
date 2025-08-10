@@ -646,12 +646,12 @@ describe("React Component APIs", () => {
 			expect(ModernButton.cls).toBe(ModernButtonCls);
 
 			// Users can access the cls instance directly
-			const classes = ModernButton.cls.create({
+			const classes = ModernButton.cls.create(() => ({
 				variant: {
 					variant: "danger",
 					size: "lg",
 				},
-			});
+			}));
 
 			expect(classes.root()).toContain("bg-red-500");
 			expect(classes.root()).toContain("px-6");

@@ -22,25 +22,21 @@ describe("match() helper", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						base: {
-							class: [
-								"p-2",
-								"rounded",
-							],
-						},
+						base: u.css([
+							"p-2",
+							"rounded",
+						]),
 					}),
 					rule(
 						{
 							kind: "info",
 						},
 						{
-							base: {
-								class: [
-									"bg-blue-50",
-								],
-							},
+							base: u.css([
+								"bg-blue-50",
+							]),
 						},
 					),
 					rule(
@@ -48,11 +44,9 @@ describe("match() helper", () => {
 							kind: "success",
 						},
 						{
-							base: {
-								class: [
-									"bg-green-50",
-								],
-							},
+							base: u.css([
+								"bg-green-50",
+							]),
 						},
 					),
 					rule(
@@ -60,11 +54,9 @@ describe("match() helper", () => {
 							clickable: true,
 						},
 						{
-							base: {
-								class: [
-									"hover:shadow-sm",
-								],
-							},
+							base: u.css([
+								"hover:shadow-sm",
+							]),
 						},
 					),
 				],
@@ -106,26 +98,22 @@ describe("match() helper", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						base: {
-							class: [
-								"p-2",
-								"rounded",
-								"bg-neutral-50",
-							],
-						},
+						base: u.css([
+							"p-2",
+							"rounded",
+							"bg-neutral-50",
+						]),
 					}),
 					rule(
 						{
 							danger: true,
 						},
 						{
-							base: {
-								class: [
-									"bg-red-50",
-								],
-							},
+							base: u.css([
+								"bg-red-50",
+							]),
 						},
 					),
 					rule(
@@ -133,12 +121,10 @@ describe("match() helper", () => {
 							danger: true,
 						},
 						{
-							base: {
-								class: [
-									"ring-1",
-									"ring-red-300",
-								],
-							},
+							base: u.css([
+								"ring-1",
+								"ring-red-300",
+							]),
 						},
 					),
 				],

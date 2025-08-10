@@ -92,20 +92,18 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root, rule, classes }) => [
+				rules: ({ root, rule, what: u }) => [
 					root({
-						icon: {
-							token: [
-								"accent.ring.focus",
-							],
-						},
+						icon: u.token([
+							"accent.ring.focus",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-2",
 								"py-1",
 							]),
@@ -116,7 +114,7 @@ describe("inheritance", () => {
 							size: "md",
 						},
 						{
-							root: classes([
+							root: u.css([
 								"px-4",
 								"py-2",
 							]),
@@ -130,7 +128,7 @@ describe("inheritance", () => {
 			},
 		);
 
-		const s = Child.create({});
+		const s = Child.create();
 		expect(s.root()).toBe("bg-blue-600 px-4 py-2");
 		expect(s.label()).toBe("text-red-600");
 		expect(s.icon()).toBe("ring-2 ring-blue-600");
@@ -236,9 +234,9 @@ describe("inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root, classes }) => [
+				rules: ({ root, what: u }) => [
 					root({
-						icon: classes([
+						icon: u.css([
 							"size-4",
 						]),
 					}),
@@ -249,7 +247,7 @@ describe("inheritance", () => {
 			},
 		);
 
-		const s = Leaf.create({
+		const s = Leaf.create(() => ({
 			token: {
 				"t.text": {
 					default: [
@@ -257,7 +255,7 @@ describe("inheritance", () => {
 					],
 				},
 			},
-		});
+		}));
 		expect(s.root()).toBe("bg-blue-600");
 		expect(s.label()).toBe("text-red-600");
 		expect(s.icon()).toBe("size-4");

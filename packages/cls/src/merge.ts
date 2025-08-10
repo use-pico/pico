@@ -1,34 +1,46 @@
-import type { Contract, CreateConfig } from "./types";
+import type { Contract, CreateConfig, WhatUtil } from "./types";
+import { what } from "./what";
 
 /**
- * merge(internal, user)
+ * merge(user, internal)
  *
  * Merges two CreateConfig objects of the same contract type.
  * - Field-level precedence: user wins over internal (variant, slot, override, token)
  * - Shallow merge per field to match cls.create() semantics
  */
 export function merge<const TContract extends Contract<any, any, any>>(
-	user?: Partial<CreateConfig<TContract>>,
-	internal?: Partial<CreateConfig<TContract>>,
+	user?: (props: {
+		what: WhatUtil<TContract>;
+	}) => Partial<CreateConfig<TContract>>,
+	internal?: (props: {
+		what: WhatUtil<TContract>;
+	}) => Partial<CreateConfig<TContract>>,
 ): Partial<CreateConfig<TContract>> {
+	const $user = user?.({
+		what: what(),
+	});
+	const $internal = internal?.({
+		what: what(),
+	});
+
 	return {
-		...(internal ?? {}),
-		...(user ?? {}),
+		...($internal ?? {}),
+		...($user ?? {}),
 		variant: {
-			...internal?.variant,
-			...user?.variant,
+			...$internal?.variant,
+			...$user?.variant,
 		} as Partial<CreateConfig<TContract>["variant"]>,
 		slot: {
-			...internal?.slot,
-			...user?.slot,
+			...$internal?.slot,
+			...$user?.slot,
 		} as Partial<CreateConfig<TContract>["slot"]>,
 		override: {
-			...internal?.override,
-			...user?.override,
+			...$internal?.override,
+			...$user?.override,
 		} as Partial<CreateConfig<TContract>["override"]>,
 		token: {
-			...internal?.token,
-			...user?.token,
+			...$internal?.token,
+			...$user?.token,
 		} as Partial<CreateConfig<TContract>["token"]>,
 	};
 }

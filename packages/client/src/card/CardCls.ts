@@ -15,9 +15,9 @@ export const CardCls = PicoCls.extend(
 	},
 	{
 		token: {},
-		rules: ({ root, rule, classes }) => [
+		rules: ({ root, rule, what }) => [
 			root({
-				base: classes([
+				base: what.css([
 					"flex",
 					"flex-col",
 					"gap-4",
@@ -32,7 +32,7 @@ export const CardCls = PicoCls.extend(
 					inline: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"flex-row",
 						"border-none",
 						"gap-1",

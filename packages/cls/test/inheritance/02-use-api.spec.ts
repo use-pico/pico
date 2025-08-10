@@ -44,28 +44,26 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -73,11 +71,9 @@ describe("use API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -133,18 +129,16 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "success",
 						},
 						{
-							root: {
-								token: [
-									"color.text.success",
-									"color.bg.success",
-								],
-							},
+							root: what.token([
+								"color.text.success",
+								"color.bg.success",
+							]),
 						},
 					),
 				],
@@ -159,11 +153,11 @@ describe("use API", () => {
 		const Assigned = Base.use(Extended);
 
 		// The assigned instance should have the extended functionality
-		const slots = Assigned.create({
+		const slots = Assigned.create(() => ({
 			variant: {
 				size: "md",
 			},
-		});
+		}));
 		expect(slots.root()).toBe("block text-base");
 	});
 
@@ -201,28 +195,26 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -230,11 +222,9 @@ describe("use API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -285,18 +275,16 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
 						},
 					),
 				],
@@ -353,18 +341,16 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "success",
 						},
 						{
-							root: {
-								token: [
-									"color.text.success",
-									"color.bg.success",
-								],
-							},
+							root: what.token([
+								"color.text.success",
+								"color.bg.success",
+							]),
 						},
 					),
 				],
@@ -382,18 +368,18 @@ describe("use API", () => {
 		const defaultSlots = Assigned.create();
 		expect(defaultSlots.root()).toBe("block text-base");
 
-		const smallSlots = Assigned.create({
+		const smallSlots = Assigned.create(() => ({
 			variant: {
 				size: "sm",
 			},
-		});
+		}));
 		expect(smallSlots.root()).toBe("block text-sm");
 
-		const largeSlots = Assigned.create({
+		const largeSlots = Assigned.create(() => ({
 			variant: {
 				size: "md",
 			},
-		});
+		}));
 		expect(largeSlots.root()).toBe("block text-base");
 	});
 
@@ -408,13 +394,11 @@ describe("use API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"base-root",
-							],
-						},
+						root: what.css([
+							"base-root",
+						]),
 					}),
 				],
 				defaults: {},
@@ -432,18 +416,14 @@ describe("use API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"extended-root",
-							],
-						},
-						child: {
-							class: [
-								"child-slot",
-							],
-						},
+						root: what.css([
+							"extended-root",
+						]),
+						child: what.css([
+							"child-slot",
+						]),
 					}),
 				],
 				defaults: {},
@@ -485,17 +465,17 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -543,18 +523,16 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
 						},
 					),
 				],
@@ -569,11 +547,11 @@ describe("use API", () => {
 		const slots = Assigned.create();
 		expect(slots.root()).toBe("block text-gray-900 bg-white");
 
-		const primarySlots = Assigned.create({
+		const primarySlots = Assigned.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(primarySlots.root()).toBe("block text-blue-600 bg-blue-50");
 	});
 
@@ -592,24 +570,20 @@ describe("use API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"base",
-							],
-						},
+						root: what.css([
+							"base",
+						]),
 					}),
 					rule(
 						{
 							disabled: true,
 						},
 						{
-							root: {
-								class: [
-									"opacity-50",
-								],
-							},
+							root: what.css([
+								"opacity-50",
+							]),
 						},
 					),
 				],
@@ -636,17 +610,15 @@ describe("use API", () => {
 			},
 			{
 				token: {},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							loading: true,
 						},
 						{
-							root: {
-								class: [
-									"animate-pulse",
-								],
-							},
+							root: what.css([
+								"animate-pulse",
+							]),
 						},
 					),
 				],
@@ -662,18 +634,18 @@ describe("use API", () => {
 		const slots = Assigned.create();
 		expect(slots.root()).toBe("base");
 
-		const disabledSlots = Assigned.create({
+		const disabledSlots = Assigned.create(() => ({
 			variant: {
 				disabled: true,
 			},
-		});
+		}));
 		expect(disabledSlots.root()).toBe("base opacity-50");
 
-		const disabledSlots2 = Assigned.create({
+		const disabledSlots2 = Assigned.create(() => ({
 			variant: {
 				disabled: true,
 			},
-		});
+		}));
 		expect(disabledSlots2.root()).toBe("base opacity-50");
 	});
 
@@ -711,28 +683,26 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -740,11 +710,9 @@ describe("use API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -800,23 +768,19 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
-							label: {
-								class: [
-									"font-medium",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
+							label: what.css([
+								"font-medium",
+							]),
 						},
 					),
 				],
@@ -886,23 +850,19 @@ describe("use API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "success",
 						},
 						{
-							root: {
-								token: [
-									"color.text.success",
-									"color.bg.success",
-								],
-							},
-							icon: {
-								class: [
-									"text-green-500",
-								],
-							},
+							root: what.token([
+								"color.text.success",
+								"color.bg.success",
+							]),
+							icon: what.css([
+								"text-green-500",
+							]),
 						},
 					),
 					rule(
@@ -910,16 +870,12 @@ describe("use API", () => {
 							loading: true,
 						},
 						{
-							root: {
-								class: [
-									"animate-pulse",
-								],
-							},
-							label: {
-								class: [
-									"opacity-50",
-								],
-							},
+							root: what.css([
+								"animate-pulse",
+							]),
+							label: what.css([
+								"opacity-50",
+							]),
 						},
 					),
 				],
@@ -934,18 +890,18 @@ describe("use API", () => {
 		const Assigned = Base.use(Level2);
 
 		// Test complex combinations
-		const smallSlots = Assigned.create({
+		const smallSlots = Assigned.create(() => ({
 			variant: {
 				size: "sm",
 			},
-		});
+		}));
 		expect(smallSlots.root()).toBe("block text-gray-900 bg-white text-sm");
 
-		const defaultSlots = Assigned.create({
+		const defaultSlots = Assigned.create(() => ({
 			variant: {
 				size: "md",
 			},
-		});
+		}));
 		expect(defaultSlots.root()).toBe(
 			"block text-gray-900 bg-white text-base",
 		);

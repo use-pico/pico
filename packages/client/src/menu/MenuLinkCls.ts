@@ -24,9 +24,9 @@ export const MenuLinkCls = PicoCls.extend(
 	},
 	{
 		token: {},
-		rules: ({ root, rule, classes }) => [
+		rules: ({ root, rule, what }) => [
 			root({
-				base: classes([
+				base: what.css([
 					"pico--menu-link",
 					"flex",
 					"flex-row",
@@ -49,7 +49,7 @@ export const MenuLinkCls = PicoCls.extend(
 					inner: false,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--color-active-bg)",
 						"border-(--color-active-border)",
 						"hover:border-(--color-active-border-hover)",
@@ -64,7 +64,7 @@ export const MenuLinkCls = PicoCls.extend(
 					inner: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"border-transparent",
 						"bg-(--color-active-bg)",
 						"hover:border-(--color-active-border-hover)",
@@ -78,7 +78,7 @@ export const MenuLinkCls = PicoCls.extend(
 					subtle: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"hover:bg-slate-50",
 						"hover:border-slate-300",
 						"hover:text-slate-600",
@@ -91,7 +91,7 @@ export const MenuLinkCls = PicoCls.extend(
 					subtle: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"bg-slate-100",
 						"border-slate-400",
 					]),
@@ -102,7 +102,7 @@ export const MenuLinkCls = PicoCls.extend(
 					vertical: true,
 				},
 				{
-					base: classes([
+					base: what.css([
 						"w-full",
 					]),
 				},

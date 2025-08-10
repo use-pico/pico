@@ -31,9 +31,9 @@ describe("create() config", () => {
 						],
 					},
 				},
-				rules: ({ root, classes }) => [
+				rules: ({ root, what: u }) => [
 					root({
-						root: classes(
+						root: u.both(
 							[
 								"inline-flex",
 							],
@@ -47,34 +47,34 @@ describe("create() config", () => {
 			},
 		);
 
-		const appended = C.create({
+		const appended = C.create(({ what }) => ({
 			slot: {
-				root: {
-					class: [
+				root: what.both(
+					[
 						"px-2",
 					],
-					token: [
+					[
 						"ring.focus",
 					],
-				},
+				),
 			},
-		});
+		}));
 		expect(appended.root()).toBe(
 			"inline-flex bg-blue-600 px-2 ring-2 ring-blue-600",
 		);
 
-		const replaced = C.create({
+		const replaced = C.create(({ what }) => ({
 			override: {
-				root: {
-					class: [
+				root: what.both(
+					[
 						"block",
 					],
-					token: [
+					[
 						"ring.focus",
 					],
-				},
+				),
 			},
-		});
+		}));
 		expect(replaced.root()).toBe("block ring-2 ring-blue-600");
 	});
 });

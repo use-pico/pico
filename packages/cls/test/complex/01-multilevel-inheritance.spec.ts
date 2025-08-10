@@ -47,40 +47,34 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"inline-flex",
 								"items-center",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
-						label: {
-							class: [
-								"font-medium",
-							],
-						},
+						),
+						label: what.css([
+							"font-medium",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"px-2",
-									"py-1",
-								],
-							},
-							label: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"px-2",
+								"py-1",
+							]),
+							label: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -88,17 +82,13 @@ describe("multilevel inheritance", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"px-4",
-									"py-2",
-								],
-							},
-							label: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"px-4",
+								"py-2",
+							]),
+							label: what.css([
+								"text-base",
+							]),
 						},
 					),
 					rule(
@@ -106,17 +96,13 @@ describe("multilevel inheritance", () => {
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"px-6",
-									"py-3",
-								],
-							},
-							label: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"px-6",
+								"py-3",
+							]),
+							label: what.css([
+								"text-lg",
+							]),
 						},
 					),
 				],
@@ -185,23 +171,19 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "success",
 						},
 						{
-							root: {
-								token: [
-									"color.text.success",
-									"color.bg.success",
-								],
-							},
-							icon: {
-								class: [
-									"text-green-100",
-								],
-							},
+							root: what.token([
+								"color.text.success",
+								"color.bg.success",
+							]),
+							icon: what.css([
+								"text-green-100",
+							]),
 						},
 					),
 					rule(
@@ -209,17 +191,13 @@ describe("multilevel inheritance", () => {
 							variant: "danger",
 						},
 						{
-							root: {
-								token: [
-									"color.text.danger",
-									"color.bg.danger",
-								],
-							},
-							icon: {
-								class: [
-									"text-red-100",
-								],
-							},
+							root: what.token([
+								"color.text.danger",
+								"color.bg.danger",
+							]),
+							icon: what.css([
+								"text-red-100",
+							]),
 						},
 					),
 				],
@@ -311,30 +289,26 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							loading: true,
 						},
 						{
-							root: {
-								class: [
-									"cursor-not-allowed",
-								],
-							},
-							spinner: {
-								class: [
+							root: what.css([
+								"cursor-not-allowed",
+							]),
+							spinner: what.both(
+								[
 									"inline-block",
 								],
-								token: [
+								[
 									"state.loading.active",
 								],
-							},
-							label: {
-								class: [
-									"opacity-50",
-								],
-							},
+							),
+							label: what.css([
+								"opacity-50",
+							]),
 						},
 					),
 				],
@@ -354,11 +328,11 @@ describe("multilevel inheritance", () => {
 		expect(baseSlots.label()).toBe("font-medium text-base");
 
 		// Test second level
-		const themedSlots = ThemedButton.create({
+		const themedSlots = ThemedButton.create(() => ({
 			variant: {
 				variant: "success",
 			},
-		});
+		}));
 		expect(themedSlots.root()).toBe(
 			"inline-flex items-center px-4 py-2 text-white bg-green-600",
 		);
@@ -366,12 +340,12 @@ describe("multilevel inheritance", () => {
 		expect(themedSlots.icon()).toBe("text-green-100");
 
 		// Test third level
-		const interactiveSlots = InteractiveButton.create({
+		const interactiveSlots = InteractiveButton.create(() => ({
 			variant: {
 				variant: "danger",
 				loading: true,
 			},
-		});
+		}));
 		expect(interactiveSlots.root()).toBe(
 			"inline-flex items-center px-4 py-2 text-red-600 bg-red-50 cursor-not-allowed",
 		);
@@ -419,17 +393,17 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -480,17 +454,17 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.success",
 								"color.bg.success",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -512,13 +486,11 @@ describe("multilevel inheritance", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"base-root",
-							],
-						},
+						root: what.css([
+							"base-root",
+						]),
 					}),
 				],
 				defaults: {},
@@ -536,18 +508,14 @@ describe("multilevel inheritance", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"extended-root",
-							],
-						},
-						child: {
-							class: [
-								"child-slot",
-							],
-						},
+						root: what.css([
+							"extended-root",
+						]),
+						child: what.css([
+							"child-slot",
+						]),
 					}),
 				],
 				defaults: {},
@@ -575,24 +543,20 @@ describe("multilevel inheritance", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"base",
-							],
-						},
+						root: what.css([
+							"base",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -600,11 +564,9 @@ describe("multilevel inheritance", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -634,17 +596,15 @@ describe("multilevel inheritance", () => {
 			},
 			{
 				token: {},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 					rule(
@@ -652,11 +612,9 @@ describe("multilevel inheritance", () => {
 							variant: "primary",
 						},
 						{
-							root: {
-								class: [
-									"bg-blue-500",
-								],
-							},
+							root: what.css([
+								"bg-blue-500",
+							]),
 						},
 					),
 				],
@@ -667,12 +625,12 @@ describe("multilevel inheritance", () => {
 			},
 		);
 
-		const slots = Extended.create({
+		const slots = Extended.create(() => ({
 			variant: {
 				size: "lg",
 				variant: "primary",
 			},
-		});
+		}));
 		expect(slots.root()).toBe("base text-lg bg-blue-500");
 	});
 
@@ -710,28 +668,26 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -739,11 +695,9 @@ describe("multilevel inheritance", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -800,17 +754,15 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 					rule(
@@ -818,17 +770,13 @@ describe("multilevel inheritance", () => {
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
-							label: {
-								class: [
-									"font-medium",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
+							label: what.css([
+								"font-medium",
+							]),
 						},
 					),
 				],
@@ -909,23 +857,19 @@ describe("multilevel inheritance", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "success",
 						},
 						{
-							root: {
-								token: [
-									"color.text.success",
-									"color.bg.success",
-								],
-							},
-							icon: {
-								class: [
-									"text-green-500",
-								],
-							},
+							root: what.token([
+								"color.text.success",
+								"color.bg.success",
+							]),
+							icon: what.css([
+								"text-green-500",
+							]),
 						},
 					),
 					rule(
@@ -933,16 +877,12 @@ describe("multilevel inheritance", () => {
 							loading: true,
 						},
 						{
-							root: {
-								token: [
-									"state.loading",
-								],
-							},
-							label: {
-								class: [
-									"opacity-50",
-								],
-							},
+							root: what.token([
+								"state.loading",
+							]),
+							label: what.css([
+								"opacity-50",
+							]),
 						},
 					),
 				],
@@ -958,24 +898,24 @@ describe("multilevel inheritance", () => {
 		const baseSlots = Base.create();
 		expect(baseSlots.root()).toBe("block text-gray-900 bg-white text-base");
 
-		const level1Slots = Level1.create({
+		const level1Slots = Level1.create(() => ({
 			variant: {
 				variant: "primary",
 				size: "lg",
 			},
-		});
+		}));
 		expect(level1Slots.root()).toBe(
 			"block text-lg text-blue-600 bg-blue-50",
 		);
 		expect(level1Slots.label()).toBe("font-medium");
 
-		const level2Slots = Level2.create({
+		const level2Slots = Level2.create(() => ({
 			variant: {
 				variant: "success",
 				size: "sm",
 				loading: true,
 			},
-		});
+		}));
 		expect(level2Slots.root()).toBe(
 			"block text-sm text-green-600 bg-green-50 animate-pulse",
 		);

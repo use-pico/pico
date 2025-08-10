@@ -152,30 +152,30 @@ describe("advanced token scenarios", () => {
 		const baseSlots = Base.create();
 		expect(baseSlots.root()).toBe("block text-gray-900 bg-white");
 
-		const basePrimarySlots = Base.create({
+		const basePrimarySlots = Base.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(basePrimarySlots.root()).toBe("block text-blue-600 bg-blue-50");
 
 		const extendedSlots = Extended.create();
 		expect(extendedSlots.root()).toBe("block text-gray-800 bg-gray-50");
 
-		const extendedPrimarySlots = Extended.create({
+		const extendedPrimarySlots = Extended.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(extendedPrimarySlots.root()).toBe(
 			"block text-indigo-600 bg-indigo-50",
 		);
 
-		const extendedSuccessSlots = Extended.create({
+		const extendedSuccessSlots = Extended.create(() => ({
 			variant: {
 				variant: "success",
 			},
-		});
+		}));
 		expect(extendedSuccessSlots.root()).toBe(
 			"block text-green-600 bg-green-50",
 		);
@@ -361,39 +361,39 @@ describe("advanced token scenarios", () => {
 		);
 
 		// Test resolution order: Level3 overrides Level2 overrides Level1
-		const level1Slots = Level1.create();
+		const level1Slots = Level1.create(() => ({}));
 		expect(level1Slots.root()).toBe("block text-gray-900 bg-white");
 
-		const level2Slots = Level2.create();
+		const level2Slots = Level2.create(() => ({}));
 		expect(level2Slots.root()).toBe("block text-gray-800 bg-gray-50");
 
-		const level3Slots = Level3.create();
+		const level3Slots = Level3.create(() => ({}));
 		expect(level3Slots.root()).toBe("block text-gray-700 bg-gray-100");
 
 		// Test variant resolution order
-		const level2PrimarySlots = Level2.create({
+		const level2PrimarySlots = Level2.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(level2PrimarySlots.root()).toBe(
 			"block text-blue-600 bg-blue-50",
 		);
 
-		const level3PrimarySlots = Level3.create({
+		const level3PrimarySlots = Level3.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(level3PrimarySlots.root()).toBe(
 			"block text-indigo-600 bg-indigo-50",
 		);
 
-		const level3SuccessSlots = Level3.create({
+		const level3SuccessSlots = Level3.create(() => ({
 			variant: {
 				variant: "success",
 			},
-		});
+		}));
 		expect(level3SuccessSlots.root()).toBe(
 			"block text-green-600 bg-green-50",
 		);
@@ -496,7 +496,7 @@ describe("advanced token scenarios", () => {
 		);
 
 		// Test partial token overrides in create config
-		const partialOverrideSlots = Base.create({
+		const partialOverrideSlots = Base.create(() => ({
 			variant: {
 				variant: "primary",
 			},
@@ -508,7 +508,7 @@ describe("advanced token scenarios", () => {
 				},
 				// Note: not overriding color.bg.primary, so it should use the default
 			},
-		});
+		}));
 		expect(partialOverrideSlots.root()).toBe(
 			"block text-red-600 bg-blue-50",
 		);
@@ -590,20 +590,20 @@ describe("advanced token scenarios", () => {
 			"block text-gray-800 bg-white",
 		);
 
-		const extendedPrimarySlots = Extended.create({
+		const extendedPrimarySlots = Extended.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(extendedPrimarySlots.root()).toBe(
 			"block text-blue-600 bg-purple-50",
 		);
 
-		const extendedSecondarySlots = Extended.create({
+		const extendedSecondarySlots = Extended.create(() => ({
 			variant: {
 				variant: "secondary",
 			},
-		});
+		}));
 		expect(extendedSecondarySlots.root()).toBe(
 			"block text-green-600 bg-green-50",
 		);
@@ -851,36 +851,36 @@ describe("advanced token scenarios", () => {
 		expect(defaultSlots.label()).toBe("block text-gray-900");
 		expect(defaultSlots.icon()).toBe("inline-block p-2");
 
-		const primarySmallSlots = DynamicTokens.create({
+		const primarySmallSlots = DynamicTokens.create(() => ({
 			variant: {
 				variant: "primary",
 				size: "sm",
 			},
-		});
+		}));
 		expect(primarySmallSlots.root()).toBe(
 			"block border rounded text-blue-600 bg-blue-50 border-blue-200 p-2",
 		);
 		expect(primarySmallSlots.label()).toBe("block text-blue-600");
 		expect(primarySmallSlots.icon()).toBe("inline-block p-2");
 
-		const dangerLargeSlots = DynamicTokens.create({
+		const dangerLargeSlots = DynamicTokens.create(() => ({
 			variant: {
 				variant: "danger",
 				size: "lg",
 			},
-		});
+		}));
 		expect(dangerLargeSlots.root()).toBe(
 			"block border rounded text-red-600 bg-red-50 border-red-200 p-6",
 		);
 		expect(dangerLargeSlots.label()).toBe("block text-red-600");
 		expect(dangerLargeSlots.icon()).toBe("inline-block p-4");
 
-		const secondaryMediumSlots = DynamicTokens.create({
+		const secondaryMediumSlots = DynamicTokens.create(() => ({
 			variant: {
 				variant: "secondary",
 				size: "md",
 			},
-		});
+		}));
 		expect(secondaryMediumSlots.root()).toBe(
 			"block border rounded p-4 text-green-600 bg-green-50 border-green-200",
 		);

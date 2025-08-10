@@ -18,24 +18,20 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"block",
-							],
-						},
+						root: what.css([
+							"block",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -43,11 +39,9 @@ describe("extend API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -77,17 +71,15 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 					rule(
@@ -95,11 +87,9 @@ describe("extend API", () => {
 							variant: "primary",
 						},
 						{
-							root: {
-								class: [
-									"bg-blue-500",
-								],
-							},
+							root: what.css([
+								"bg-blue-500",
+							]),
 						},
 					),
 				],
@@ -113,12 +103,12 @@ describe("extend API", () => {
 		const slots = Extended.create();
 		expect(slots.root()).toBe("block text-base");
 
-		const largeSlots = Extended.create({
+		const largeSlots = Extended.create(() => ({
 			variant: {
 				size: "lg",
 				variant: "primary",
 			},
-		});
+		}));
 		expect(largeSlots.root()).toBe("block text-lg bg-blue-500");
 	});
 
@@ -151,17 +141,17 @@ describe("extend API", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -205,18 +195,16 @@ describe("extend API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
 						},
 					),
 				],
@@ -229,11 +217,11 @@ describe("extend API", () => {
 		const slots = Extended.create();
 		expect(slots.root()).toBe("block");
 
-		const primarySlots = Extended.create({
+		const primarySlots = Extended.create(() => ({
 			variant: {
 				variant: "primary",
 			},
-		});
+		}));
 		expect(primarySlots.root()).toBe("block text-blue-600 bg-blue-50");
 	});
 
@@ -248,13 +236,11 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"base-root",
-							],
-						},
+						root: what.css([
+							"base-root",
+						]),
 					}),
 				],
 				defaults: {},
@@ -273,23 +259,17 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
-								"extended-root",
-							],
-						},
-						child: {
-							class: [
-								"child-slot",
-							],
-						},
-						grandchild: {
-							class: [
-								"grandchild-slot",
-							],
-						},
+						root: what.css([
+							"extended-root",
+						]),
+						child: what.css([
+							"child-slot",
+						]),
+						grandchild: what.css([
+							"grandchild-slot",
+						]),
 					}),
 				],
 				defaults: {},
@@ -339,17 +319,17 @@ describe("extend API", () => {
 						],
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -388,17 +368,17 @@ describe("extend API", () => {
 						], // Override primary background color
 					},
 				},
-				rules: ({ root }) => [
+				rules: ({ root, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.primary",
 								"color.bg.primary",
 							],
-						},
+						),
 					}),
 				],
 				defaults: {},
@@ -425,24 +405,20 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"base",
-							],
-						},
+						root: what.css([
+							"base",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -450,11 +426,9 @@ describe("extend API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -479,37 +453,31 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"extended",
-							],
-						},
+						root: what.css([
+							"extended",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-xs",
-								],
-							}, // Override sm size
-						},
+							root: what.css([
+								"text-xs",
+							]),
+						}, // Override sm size
 					),
 					rule(
 						{
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							}, // Override md size
-						},
+							root: what.css([
+								"text-lg",
+							]),
+						}, // Override md size
 					),
 				],
 				defaults: {
@@ -521,11 +489,11 @@ describe("extend API", () => {
 		const slots = Extended.create();
 		expect(slots.root()).toBe("base extended text-lg");
 
-		const smallSlots = Extended.create({
+		const smallSlots = Extended.create(() => ({
 			variant: {
 				size: "sm",
 			},
-		});
+		}));
 		expect(smallSlots.root()).toBe("base extended text-xs");
 	});
 
@@ -546,24 +514,20 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"base",
-							],
-						},
+						root: what.css([
+							"base",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -571,11 +535,9 @@ describe("extend API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 					rule(
@@ -583,11 +545,9 @@ describe("extend API", () => {
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 				],
@@ -613,24 +573,20 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"extended",
-							],
-						},
+						root: what.css([
+							"extended",
+						]),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -638,11 +594,9 @@ describe("extend API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 					rule(
@@ -650,11 +604,9 @@ describe("extend API", () => {
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 				],
@@ -702,28 +654,26 @@ describe("extend API", () => {
 						],
 					},
 				},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
+						root: what.both(
+							[
 								"block",
 							],
-							token: [
+							[
 								"color.text.default",
 								"color.bg.default",
 							],
-						},
+						),
 					}),
 					rule(
 						{
 							size: "sm",
 						},
 						{
-							root: {
-								class: [
-									"text-sm",
-								],
-							},
+							root: what.css([
+								"text-sm",
+							]),
 						},
 					),
 					rule(
@@ -731,11 +681,9 @@ describe("extend API", () => {
 							size: "md",
 						},
 						{
-							root: {
-								class: [
-									"text-base",
-								],
-							},
+							root: what.css([
+								"text-base",
+							]),
 						},
 					),
 				],
@@ -788,17 +736,15 @@ describe("extend API", () => {
 						],
 					},
 				},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							size: "lg",
 						},
 						{
-							root: {
-								class: [
-									"text-lg",
-								],
-							},
+							root: what.css([
+								"text-lg",
+							]),
 						},
 					),
 					rule(
@@ -806,17 +752,13 @@ describe("extend API", () => {
 							variant: "primary",
 						},
 						{
-							root: {
-								token: [
-									"color.text.primary",
-									"color.bg.primary",
-								],
-							},
-							label: {
-								class: [
-									"font-medium",
-								],
-							},
+							root: what.token([
+								"color.text.primary",
+								"color.bg.primary",
+							]),
+							label: what.css([
+								"font-medium",
+							]),
 						},
 					),
 				],
@@ -831,12 +773,12 @@ describe("extend API", () => {
 		expect(slots.root()).toBe("block text-lg text-blue-600 bg-blue-50");
 		expect(slots.label()).toBe("font-medium");
 
-		const defaultSlots = Extended.create({
+		const defaultSlots = Extended.create(() => ({
 			variant: {
 				variant: "default",
 				size: "sm",
 			},
-		});
+		}));
 		expect(defaultSlots.root()).toBe("block text-sm");
 		expect(defaultSlots.label()).toBe("");
 	});
@@ -856,24 +798,20 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ root, rule }) => [
+				rules: ({ root, rule, what }) => [
 					root({
-						root: {
-							class: [
-								"base",
-							],
-						},
+						root: what.css([
+							"base",
+						]),
 					}),
 					rule(
 						{
 							disabled: true,
 						},
 						{
-							root: {
-								class: [
-									"opacity-50",
-								],
-							},
+							root: what.css([
+								"opacity-50",
+							]),
 						},
 					),
 				],
@@ -900,17 +838,15 @@ describe("extend API", () => {
 			},
 			{
 				token: {},
-				rules: ({ rule }) => [
+				rules: ({ rule, what }) => [
 					rule(
 						{
 							loading: true,
 						},
 						{
-							root: {
-								class: [
-									"animate-pulse",
-								],
-							},
+							root: what.css([
+								"animate-pulse",
+							]),
 						},
 					),
 				],
@@ -924,26 +860,26 @@ describe("extend API", () => {
 		const slots = Extended.create();
 		expect(slots.root()).toBe("base");
 
-		const disabledSlots = Extended.create({
+		const disabledSlots = Extended.create(() => ({
 			variant: {
 				disabled: true,
 			},
-		});
+		}));
 		expect(disabledSlots.root()).toBe("base opacity-50");
 
-		const loadingSlots = Extended.create({
+		const loadingSlots = Extended.create(() => ({
 			variant: {
 				loading: true,
 			},
-		});
+		}));
 		expect(loadingSlots.root()).toBe("base animate-pulse");
 
-		const bothSlots = Extended.create({
+		const bothSlots = Extended.create(() => ({
 			variant: {
 				disabled: true,
 				loading: true,
 			},
-		});
+		}));
 		expect(bothSlots.root()).toBe("base opacity-50 animate-pulse");
 	});
 });

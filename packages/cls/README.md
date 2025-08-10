@@ -62,13 +62,13 @@ const Button = cls(
     variant: { size: ["sm", "md"] },
   },
   {
-    rules: ({ root, rule, classes }) => [
-      root({
-        root: classes(["inline-flex", "items-center", "rounded"]),
-      }),
-      rule({ size: "sm" }, { root: classes(["px-2", "py-1"]) }),
-      rule({ size: "md" }, { root: classes(["px-4", "py-2"]) }),
-    ],
+    	rules: ({ root, rule, what }) => [
+		root({
+			root: what.css(["inline-flex", "items-center", "rounded"]),
+		}),
+		rule({ size: "sm" }, { root: what.css(["px-2", "py-1"]) }),
+		rule({ size: "md" }, { root: what.css(["px-4", "py-2"]) }),
+	],
     defaults: { size: "md" },
   },
 );
@@ -174,12 +174,12 @@ Each slot becomes a function that returns CSS classes, computed lazily when acce
 const Card = cls({
   slot: ["root", "header", "content", "footer"]
 }, {
-    rules: ({ root, classes }) => [
+    rules: ({ root, what }) => [
     root({
-        root: classes(["border", "rounded-lg", "shadow-sm"]),
-        header: classes(["p-4", "border-b", "font-semibold"]),
-        content: classes(["p-4", "text-sm"]),
-        footer: classes(["p-4", "border-t", "bg-gray-50"])
+        root: what.css(["border", "rounded-lg", "shadow-sm"]),
+        header: what.css(["p-4", "border-b", "font-semibold"]),
+        content: what.css(["p-4", "text-sm"]),
+        footer: what.css(["p-4", "border-t", "bg-gray-50"])
     })
   ]
 });
@@ -218,21 +218,21 @@ const Button = cls({
     loading: ["bool"]
   }
 }, {
-∆  rules: ({ root, rule, classes }) => [
+∆  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded"]),
+      root: what.css(["inline-flex", "items-center", "rounded"]),
     }),
     // Size variants
-    rule({ size: "sm" }, { root: classes(["px-2", "py-1", "text-sm"]) }),
-    rule({ size: "md" }, { root: classes(["px-4", "py-2", "text-base"]) }),
-    rule({ size: "lg" }, { root: classes(["px-6", "py-3", "text-lg"]) }),
+    rule({ size: "sm" }, { root: what.css(["px-2", "py-1", "text-sm"]) }),
+    rule({ size: "md" }, { root: what.css(["px-4", "py-2", "text-base"]) }),
+    rule({ size: "lg" }, { root: what.css(["px-6", "py-3", "text-lg"]) }),
     // Color variants
-    rule({ variant: "primary" }, { root: classes(["bg-blue-500", "text-white"]) }),
-    rule({ variant: "secondary" }, { root: classes(["bg-gray-500", "text-white"]) }),
-    rule({ variant: "danger" }, { root: classes(["bg-red-500", "text-white"]) }),
+    rule({ variant: "primary" }, { root: what.css(["bg-blue-500", "text-white"]) }),
+    rule({ variant: "secondary" }, { root: what.css(["bg-gray-500", "text-white"]) }),
+    rule({ variant: "danger" }, { root: what.css(["bg-red-500", "text-white"]) }),
     // State variants
-    rule({ disabled: true }, { root: classes(["opacity-50", "cursor-not-allowed"]) }),
-    rule({ loading: true }, { root: classes(["cursor-wait"]) }),
+    rule({ disabled: true }, { root: what.css(["opacity-50", "cursor-not-allowed"]) }),
+    rule({ loading: true }, { root: what.css(["cursor-wait"]) }),
   ],
   defaults: { size: "md", variant: "primary", disabled: false, loading: false }
 });
@@ -250,9 +250,9 @@ const Toggle = cls(
   { tokens: {}, slot: ["root"], variant: { disabled: ["bool"] } },
   {
     token: {},
-    rules: ({ root, rule, classes }) => [
-      root({ root: classes(["base"]) }),
-      rule({ disabled: true }, { root: classes(["opacity-50"]) }),
+    rules: ({ root, rule, what }) => [
+      root({ root: what.css(["base"]) }),
+      rule({ disabled: true }, { root: what.css(["opacity-50"]) }),
     ],
     defaults: { disabled: false },
   },
@@ -269,8 +269,8 @@ The `root` rule is the default that every component should have (not necessary f
 
 ```ts
 root({
-  root: classes(["base-styles"], ["color.bg.default"]),
-  label: classes(["font-medium"], ["color.text.default"])
+  root: what.both(["base-styles"], ["color.bg.default"]),
+  label: what.both(["font-medium"], ["color.text.default"])
 })
 ```
 
@@ -281,7 +281,7 @@ The `rule` function creates conditional styling based on variant combinations:
 ```ts
 rule(
   { size: "lg", variant: "primary" },
-  { root: classes(["text-lg"], ["color.bg.primary"]) }
+  { root: what.both(["text-lg"], ["color.bg.primary"]) }
 )
 ```
 
@@ -289,11 +289,11 @@ rule(
 ```ts
 rules: ({ root, rule }) => [
   root({
-    root: classes(["base-styles"], ["color.bg.default"])
+    root: what.both(["base-styles"], ["color.bg.default"])
   }),
   rule(
     { size: "lg", variant: "primary" },
-    { root: classes(["text-lg"], ["color.bg.primary"]) }
+    { root: what.both(["text-lg"], ["color.bg.primary"]) }
   )
 ]
 ```
@@ -304,7 +304,9 @@ rules: ({ root, rule }) => [
 
 - `root(slotMapping, override?)`: Declare base styles that always apply. `override: true` makes it a hard override step for the affected slots.
 - `rule(match, slotMapping, override?)`: Declare conditional styles that apply only when `match` equals the current variant values. Fully type‑checked against your `variant` contract.
-- `classes(className, tokens?)`: Convenience to build `{ class, token }` objects without repeating keys.
+- `what.css(className)`: Helper for applying raw CSS classes.
+- `what.token(tokens)`: Helper for applying design tokens.
+- `what.both(className, tokens)`: Helper for applying both CSS classes and tokens together.
 
 > 💡 Why it exists
 - **Type‑safe ergonomics**: Author rules with IntelliSense for variants, slots and tokens. Avoid hand‑rolling objects and typos.
@@ -338,19 +340,19 @@ const Alert = cls(
         primary: ["bg-blue-50"],
       },
     },
-    rules: ({ root, rule, classes }) => [
+    rules: ({ root, rule, what }) => [
       root({
-        root: classes(["block", "rounded", "p-3"], [
+        root: what.both(["block", "rounded", "p-3"], [
           "color.text.default",
           "color.bg.default",
         ]),
-        icon: classes(["mr-2"]),
+        icon: what.css(["mr-2"]),
       }),
       rule({ variant: "primary" }, {
-        root: classes(["shadow-sm"], ["color.text.primary", "color.bg.primary"]),
+        root: what.both(["shadow-sm"], ["color.text.primary", "color.bg.primary"]),
       }),
-      rule({ size: "sm" }, { root: classes(["text-sm", "p-2"]) }),
-      rule({ size: "md" }, { root: classes(["text-base", "p-3"]) }),
+      rule({ size: "sm" }, { root: what.css(["text-sm", "p-2"]) }),
+      rule({ size: "md" }, { root: what.css(["text-base", "p-3"]) }),
     ],
     defaults: { variant: "default", size: "md" },
   },
@@ -360,11 +362,11 @@ const Alert = cls(
 Advanced: hard override for a slot
 
 ```ts
-rules: ({ rule, classes }) => [
+rules: ({ rule, what }) => [
   rule(
     { variant: "primary" },
     {
-      root: classes(["border", "border-blue-300", "rounded-lg"], [
+      root: what.both(["border", "border-blue-300", "rounded-lg"], [
         "color.text.primary",
         "color.bg.primary",
       ]),
@@ -425,7 +427,7 @@ A tiny helper that encapsulates the **same merge semantics** used by `create()`.
 
 ```ts
 // Pre-compose once, reuse many times
-const composed = merge(userOverrides, { slot: { root: classes(["relative"]) } });
+const composed = merge(userOverrides, { slot: { root: what.css(["relative"]) } });
 const a = CardCls.create(composed);
 const b = PanelCls.create(composed);
 ```
@@ -808,7 +810,7 @@ const Base = cls(
   { tokens: {}, slot: ["root"], variant: {} },
   {
     token: {},
-    rules: ({ root, classes }) => [root({ root: classes(["base"]) })], // base applies first
+    rules: ({ root, what }) => [root({ root: what.css(["base"]) })], // base applies first
     defaults: {},
   },
 );
@@ -817,9 +819,9 @@ const Child = Base.extend(
   {},
   {
     token: {},
-    rules: ({ rule, classes }) => [
-      rule(undefined, { root: classes(["child"]) }), // appends after base
-      rule(undefined, { root: classes(["only-child"]) }, true), // override: clears then applies
+    rules: ({ rule, what }) => [
+      rule(undefined, { root: what.css(["child"]) }), // appends after base
+      rule(undefined, { root: what.css(["only-child"]) }, true), // override: clears then applies
     ],
     defaults: {},
   },
@@ -852,7 +854,7 @@ The `create()` method gives you incredible flexibility to customize styling at r
 <Button
   cls={{
     override: {
-      root: classes([
+      root: what.css([
         "px-3",
         "py-2",
         "bg-blue-600",
@@ -860,7 +862,7 @@ The `create()` method gives you incredible flexibility to customize styling at r
         "rounded",
         "shadow",
       ]),
-      label: classes(["font-semibold"]),
+      label: what.css(["font-semibold"]),
     },
   }}
 />
@@ -874,13 +876,13 @@ const Button = cls(
   },
   {
     token: {},
-    rules: ({ root, rule, classes }) => [
+    rules: ({ root, rule, what }) => [
       root({
-        root: classes(["inline-flex", "items-center", "rounded"]),
-        label: classes(["font-medium"]),
+        root: what.css(["inline-flex", "items-center", "rounded"]),
+        label: what.css(["font-medium"]),
       }),
-      rule({ intent: "primary" }, { root: classes(["bg-blue-600", "text-white", "hover:bg-blue-700", "shadow"]) }),
-      rule({ dense: true }, { root: classes(["px-3", "py-2"]) }),
+      rule({ intent: "primary" }, { root: what.css(["bg-blue-600", "text-white", "hover:bg-blue-700", "shadow"]) }),
+      rule({ dense: true }, { root: what.css(["px-3", "py-2"]) }),
     ],
     defaults: { intent: "neutral", dense: false },
   },
@@ -1038,9 +1040,9 @@ const Button = cls({
     "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
     "color.text": { default: ["text-white"] },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded"], [
+      root: what.both(["inline-flex", "items-center", "rounded"], [
         "color.bg.default",
         "color.text.default",
       ]),
@@ -1368,12 +1370,12 @@ const Card = cls({
   variant: {}, // No variants needed - static styling only
 }, {
   token: {}, // No token definitions since we have no tokens
-  rules: ({ root, classes }) => [
+  rules: ({ root, what }) => [
     root({
-      root: classes(["border", "rounded-lg", "shadow-sm", "bg-white"]),
-      header: classes(["p-4", "border-b", "font-semibold"]),
-      content: classes(["p-4", "text-sm"]),
-      footer: classes(["p-4", "border-t", "bg-gray-50"]),
+      root: what.css(["border", "rounded-lg", "shadow-sm", "bg-white"]),
+      header: what.css(["p-4", "border-b", "font-semibold"]),
+      content: what.css(["p-4", "text-sm"]),
+      footer: what.css(["p-4", "border-t", "bg-gray-50"]),
     }),
   ],
   defaults: {}, // No defaults needed since we have no variants
@@ -1406,16 +1408,16 @@ const Alert = cls({
   },
 }, {
   token: {}, // No token definitions since we have no tokens
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["rounded", "p-2"]),
+      root: what.css(["rounded", "p-2"]),
     }),
-    rule({ variant: "info" }, { root: classes(["bg-blue-100", "border-blue-400", "text-blue-700"]) }),
-    rule({ variant: "success" }, { root: classes(["bg-green-100", "border-green-400", "text-green-700"]) }),
-    rule({ variant: "warning" }, { root: classes(["bg-yellow-100", "border-yellow-400", "text-yellow-700"]) }),
-    rule({ variant: "error" }, { root: classes(["bg-red-100", "border-red-400", "text-red-700"]) }),
-    rule({ size: "sm" }, { root: classes(["text-sm"]) }),
-    rule({ size: "md" }, { root: classes(["text-base"]) }),
+    rule({ variant: "info" }, { root: what.css(["bg-blue-100", "border-blue-400", "text-blue-700"]) }),
+    rule({ variant: "success" }, { root: what.css(["bg-green-100", "border-green-400", "text-green-700"]) }),
+    rule({ variant: "warning" }, { root: what.css(["bg-yellow-100", "border-yellow-400", "text-yellow-700"]) }),
+    rule({ variant: "error" }, { root: what.css(["bg-red-100", "border-red-400", "text-red-700"]) }),
+    rule({ size: "sm" }, { root: what.css(["text-sm"]) }),
+    rule({ size: "md" }, { root: what.css(["text-base"]) }),
   ],
   defaults: { variant: "info", size: "md" },
 });
@@ -1457,13 +1459,13 @@ const Button = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded"], [
+      root: what.both(["inline-flex", "items-center", "rounded"], [
         "color.bg.default",
         "spacing.padding.md",
       ]),
-      label: classes(["font-medium"], ["color.text.default"]),
+      label: what.both(["font-medium"], ["color.text.default"]),
     }),
     rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
     rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
@@ -1494,16 +1496,16 @@ const BaseButton = cls({
     "color.text": { default: ["text-white"], hover: ["text-blue-100"] },
     "color.bg": { default: ["bg-blue-600"], hover: ["bg-blue-700"] },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded"], [
+      root: what.both(["inline-flex", "items-center", "rounded"], [
         "color.bg.default",
         "spacing.padding.md",
       ]),
-      label: classes(["font-medium"], ["color.text.default"]),
+      label: what.both(["font-medium"], ["color.text.default"]),
     }),
-    rule({ size: "sm" }, { root: classes(["px-2", "py-1"]) }),
-    rule({ size: "md" }, { root: classes(["px-4", "py-2"]) }),
+    rule({ size: "sm" }, { root: what.css(["px-2", "py-1"]) }),
+    rule({ size: "md" }, { root: what.css(["px-4", "py-2"]) }),
   ],
   defaults: { size: "md" },
 });
@@ -1524,14 +1526,14 @@ const PrimaryButton = BaseButton.extend({
     "color.text": { default: ["text-white"], hover: ["text-white"] }, // Override
     "accent.ring": { focus: ["ring-2", "ring-blue-500"] }, // New token
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      icon: classes(["w-4", "h-4", "mr-2"]), // New slot styling
+      icon: what.css(["w-4", "h-4", "mr-2"]), // New slot styling
     }),
-    rule({ size: "lg" }, { root: classes(["px-6", "py-3"]) }), // New variant
+    rule({ size: "lg" }, { root: what.css(["px-6", "py-3"]) }), // New variant
     rule({ loading: true }, { 
-      root: classes(["opacity-75", "cursor-wait"]),
-      icon: classes(["animate-spin"])
+      root: what.css(["opacity-75", "cursor-wait"]),
+      icon: what.css(["animate-spin"])
     }),
   ],
   defaults: { size: "md", loading: false },
@@ -1558,7 +1560,7 @@ const BaseTheme = cls({
     "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
     "color.border": { default: ["border-gray-200"] },
   },
-  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
+  rules: ({ root, what }) => [root({ root: what.css(["border", "rounded"]) })],
   defaults: {},
 });
 
@@ -1575,7 +1577,7 @@ const LightTheme = BaseTheme.extend({
     "color.bg": { default: ["bg-white"], secondary: ["bg-gray-50"] },
     "color.border": { default: ["border-gray-200"] },
   },
-  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
+  rules: ({ root, what }) => [root({ root: what.css(["border", "rounded"]) })],
   defaults: {},
 });
 
@@ -1592,7 +1594,7 @@ const DarkTheme = BaseTheme.extend({
     "color.bg": { default: ["bg-gray-900"], secondary: ["bg-gray-800"] },
     "color.border": { default: ["border-gray-700"] },
   },
-  rules: ({ root, classes }) => [root({ root: classes(["border", "rounded"]) })],
+  rules: ({ root, what }) => [root({ root: what.css(["border", "rounded"]) })],
   defaults: {},
 });
 ```
@@ -1689,9 +1691,9 @@ const ComplexButton = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes([
+      root: what.both([
         "inline-flex",
         "items-center",
         "rounded",
@@ -1703,28 +1705,28 @@ const ComplexButton = cls({
         "color.border.default",
         "spacing.padding.md",
       ]),
-      icon: classes(["w-4", "h-4", "mr-2"]),
-      label: classes(["font-medium"]),
-      spinner: classes(["w-4", "h-4", "mr-2", "animate-spin"]),
+      icon: what.css(["w-4", "h-4", "mr-2"]),
+      label: what.css(["font-medium"]),
+      spinner: what.css(["w-4", "h-4", "mr-2", "animate-spin"]),
     }),
     // Size variants
     rule({ size: "sm" }, { root: { token: ["spacing.padding.sm"] } }),
     rule({ size: "lg" }, { root: { token: ["spacing.padding.lg"] } }),
     // Color variants
     rule({ variant: "secondary" }, { 
-      root: classes(["bg-gray-600", "text-white"], ["color.bg.default", "color.text.default"]) 
+      root: what.both(["bg-gray-600", "text-white"], ["color.bg.default", "color.text.default"]) 
     }),
     rule({ variant: "danger" }, { 
-      root: classes(["bg-red-600", "text-white"], ["color.bg.default", "color.text.default"]) 
+      root: what.both(["bg-red-600", "text-white"], ["color.bg.default", "color.text.default"]) 
     }),
     // State variants
     rule({ disabled: true }, { 
-      root: classes(["cursor-not-allowed"], ["color.bg.disabled", "color.text.disabled"]) 
+      root: what.both(["cursor-not-allowed"], ["color.bg.disabled", "color.text.disabled"]) 
     }),
     rule({ loading: true }, { 
-      root: classes(["cursor-wait"]),
-      icon: classes(["hidden"]),
-      spinner: classes(["block"]),
+      root: what.css(["cursor-wait"]),
+      icon: what.css(["hidden"]),
+      spinner: what.css(["block"]),
     }),
     rule({ active: true }, { 
       root: { 
@@ -1808,15 +1810,15 @@ const Button = cls({
   },
 }, {
   token: {},
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded", "font-medium"])
+      root: what.css(["inline-flex", "items-center", "rounded", "font-medium"])
     }),
-    rule({ variant: "primary" }, { root: classes(["bg-blue-600", "text-white", "hover:bg-blue-700"]) }),
-    rule({ variant: "secondary" }, { root: classes(["bg-gray-600", "text-white", "hover:bg-gray-700"]) }),
-    rule({ size: "sm" }, { root: classes(["px-2", "py-1", "text-sm"]) }),
-    rule({ size: "md" }, { root: classes(["px-4", "py-2", "text-base"]) }),
-    rule({ size: "lg" }, { root: classes(["px-6", "py-3", "text-lg"]) }),
+    rule({ variant: "primary" }, { root: what.css(["bg-blue-600", "text-white", "hover:bg-blue-700"]) }),
+    rule({ variant: "secondary" }, { root: what.css(["bg-gray-600", "text-white", "hover:bg-gray-700"]) }),
+    rule({ size: "sm" }, { root: what.css(["px-2", "py-1", "text-sm"]) }),
+    rule({ size: "md" }, { root: what.css(["px-4", "py-2", "text-base"]) }),
+    rule({ size: "lg" }, { root: what.css(["px-6", "py-3", "text-lg"]) }),
   ],
   defaults: { variant: "primary", size: "md" },
 });
@@ -1862,12 +1864,12 @@ const Card = cls({
   variant: {},
 }, {
   token: {},
-  rules: ({ root, classes }) => [
+  rules: ({ root, what }) => [
     root({
-      root: classes(["border", "rounded-lg", "shadow-sm", "bg-white"]),
-      header: classes(["p-4", "border-b", "font-semibold"]),
-      content: classes(["p-4", "text-sm"]),
-      footer: classes(["p-4", "border-t", "bg-gray-50"]),
+      root: what.css(["border", "rounded-lg", "shadow-sm", "bg-white"]),
+      header: what.css(["p-4", "border-b", "font-semibold"]),
+      content: what.css(["p-4", "text-sm"]),
+      footer: what.css(["p-4", "border-t", "bg-gray-50"]),
     }),
   ],
   defaults: {},
@@ -1963,9 +1965,9 @@ const Button = cls({
       lg: ["px-6", "py-3"],
     },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded", "font-medium"], [
+      root: what.both(["inline-flex", "items-center", "rounded", "font-medium"], [
         "color.bg.default",
         "color.text.default",
         "spacing.padding.md",
@@ -1999,9 +2001,9 @@ const IconButton = Button.extend({
       lg: ["w-12", "h-12"],
     },
   },
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      icon: classes(["w-4", "h-4"]),
+      icon: what.css(["w-4", "h-4"]),
     }),
     rule({ size: "sm" }, { 
       root: { class: ["p-2"], token: ["spacing.size.sm"] }
@@ -2088,7 +2090,7 @@ const Theme = cls({
       lg: ["1.5rem"],
     },
   },
-  rules: ({ root, classes }) => [root({ root: classes(["base-styles"]) })],
+  rules: ({ root, what }) => [root({ root: what.css(["base-styles"]) })],
   defaults: {},
 });
 
@@ -2096,21 +2098,15 @@ const Button = Theme.extend({
   slot: ["root"],
   variant: { variant: ["primary", "secondary"] },
 }, {
-  rules: ({ root, rule, classes }) => [
+  rules: ({ root, rule, what }) => [
     root({
-      root: classes(["inline-flex", "items-center", "rounded"], ["spacing.padding.md"]),
+      root: what.both(["inline-flex", "items-center", "rounded"], ["spacing.padding.md"]),
     }),
     rule({ variant: "primary" }, { 
-      root: { 
-        class: ["text-white"],
-        token: ["color.primary"]
-      }
+      root: what.both(["text-white"], ["color.primary"]),
     }),
     rule({ variant: "secondary" }, { 
-      root: { 
-        class: ["text-white"],
-        token: ["color.secondary"]
-      }
+      root: what.both(["text-white"], ["color.secondary"]),
     }),
   ],
   defaults: { variant: "primary" },

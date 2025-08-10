@@ -23,9 +23,9 @@ describe("override rules and create-time overrides", () => {
 						],
 					},
 				},
-				rules: ({ root, classes }) => [
+				rules: ({ root, what: u }) => [
 					root({
-						root: classes(
+						root: u.both(
 							[
 								"inline-flex",
 							],
@@ -37,7 +37,7 @@ describe("override rules and create-time overrides", () => {
 					{
 						override: true,
 						slot: {
-							root: classes(
+							root: u.both(
 								[
 									"block",
 								],
@@ -52,7 +52,7 @@ describe("override rules and create-time overrides", () => {
 			},
 		);
 
-		expect(C.create({}).root()).toBe("block shadow-blue-600");
+		expect(C.create().root()).toBe("block shadow-blue-600");
 	});
 
 	it("create.override replaces all slot output, while create.slot appends", () => {
@@ -76,9 +76,9 @@ describe("override rules and create-time overrides", () => {
 						],
 					},
 				},
-				rules: ({ root, classes }) => [
+				rules: ({ root, what: u }) => [
 					root({
-						root: classes(
+						root: u.both(
 							[
 								"inline-flex",
 							],
@@ -92,32 +92,32 @@ describe("override rules and create-time overrides", () => {
 			},
 		);
 
-		const appended = C.create({
+		const appended = C.create(({ what }) => ({
 			slot: {
-				root: {
-					class: [
+				root: what.both(
+					[
 						"px-2",
 					],
-					token: [
+					[
 						"bg.default",
 					],
-				},
+				),
 			},
-		});
+		}));
 		expect(appended.root()).toBe("inline-flex px-2 bg-blue-600");
 
-		const replaced = C.create({
+		const replaced = C.create(({ what }) => ({
 			override: {
-				root: {
-					class: [
+				root: what.both(
+					[
 						"block",
 					],
-					token: [
+					[
 						"bg.default",
 					],
-				},
+				),
 			},
-		});
+		}));
 		expect(replaced.root()).toBe("block bg-blue-600");
 	});
 });

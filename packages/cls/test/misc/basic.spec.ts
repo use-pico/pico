@@ -33,7 +33,7 @@ describe("basic", () => {
 			},
 		);
 
-		const s = Button.create({});
+		const s = Button.create();
 		expect(s.root()).toBe("inline-flex items-center");
 		expect(s.label()).toBe("font-medium");
 	});
@@ -75,7 +75,7 @@ describe("basic", () => {
 			},
 		);
 
-		const s = Button.create({});
+		const s = Button.create();
 		expect(s.root()).toBe("inline-flex bg-blue-600");
 	});
 });
