@@ -32,180 +32,152 @@ export const ActionCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"w-fit",
-						"h-fit",
-					],
-				},
-				action: {
-					class: [
-						"border",
-						"cursor-pointer",
-						"flex",
-						"gap-2",
-						"group",
-						"h-fit",
-						"hover:shadow-md",
-						"items-center",
-						"justify-center",
-						"p-1",
-						"rounded-sm",
-						"rounded",
-						"transition-all",
-						"w-fit",
-						"bg-(--pico-color-bg-default)",
-						"hover:bg-(--pico-color-bg-hover)",
-						"border-(--pico-color-border-default)",
-						"hover:border-(--pico-color-border-hover)",
-						"shadow-(--pico-color-shadow-default)",
-						"hover:shadow-(--pico-color-shadow-hover)",
-						"text-(--pico-color-text-default)",
-						"hover:text-(--pico-color-text-hover)",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"w-fit",
+					"h-fit",
+				]),
+				action: what.css([
+					"border",
+					"cursor-pointer",
+					"flex",
+					"gap-2",
+					"group",
+					"h-fit",
+					"hover:shadow-md",
+					"items-center",
+					"justify-center",
+					"p-1",
+					"rounded-sm",
+					"rounded",
+					"transition-all",
+					"w-fit",
+					"bg-(--pico-color-bg-default)",
+					"hover:bg-(--pico-color-bg-hover)",
+					"border-(--pico-color-border-default)",
+					"hover:border-(--pico-color-border-hover)",
+					"shadow-(--pico-color-shadow-default)",
+					"hover:shadow-(--pico-color-shadow-hover)",
+					"text-(--pico-color-text-default)",
+					"hover:text-(--pico-color-text-hover)",
+				]),
 			}),
-			rule(
+			def.rule(
 				{
 					disabled: true,
 				},
 				{
-					base: {
-						class: [
-							"opacity-50",
-							"cursor-not-allowed",
-						],
-					},
-					action: {
-						class: [
-							"pointer-events-none",
-						],
-					},
+					base: what.css([
+						"opacity-50",
+						"cursor-not-allowed",
+					]),
+					action: what.css([
+						"pointer-events-none",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					loading: true,
 				},
 				{
-					action: {
-						class: [
-							"pointer-events-none",
-						],
-					},
+					action: what.css([
+						"pointer-events-none",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					active: true,
 				},
 				{
-					action: {
-						class: [
-							"active",
-							"shadow-md",
-						],
-					},
+					action: what.css([
+						"active",
+						"shadow-md",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "primary",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-danger",
-						],
-					},
+					action: what.css([
+						"pico--action-color-danger",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "secondary",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-secondary",
-						],
-					},
+					action: what.css([
+						"pico--action-color-secondary",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "danger",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-danger",
-						],
-					},
+					action: what.css([
+						"pico--action-color-danger",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "danger-light",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-danger-light",
-						],
-					},
+					action: what.css([
+						"pico--action-color-danger-light",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "subtle",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-subtle",
-						],
-					},
+					action: what.css([
+						"pico--action-color-subtle",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "light",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-light",
-						],
-					},
+					action: what.css([
+						"pico--action-color-light",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					variant: "neutral",
 				},
 				{
-					action: {
-						class: [
-							"pico--action-color-neutral",
-						],
-					},
+					action: what.css([
+						"pico--action-color-neutral",
+					]),
 				},
 			),
-			rule(
+			def.rule(
 				{
 					borderless: true,
 				},
 				{
-					action: {
-						class: [
-							"border-none",
-						],
-					},
+					action: what.css([
+						"border-none",
+					]),
 				},
 			),
 		],
@@ -216,9 +188,11 @@ export const ActionCls = PicoCls.extend(
 			variant: "subtle",
 			borderless: false,
 		},
-	},
+	}),
 );
 
+export type ActionCls = typeof ActionCls;
+
 export namespace ActionCls {
-	export type Props<P = unknown> = Component<typeof ActionCls, P>;
+	export type Props<P = unknown> = Component<ActionCls, P>;
 }

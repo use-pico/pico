@@ -1,6 +1,5 @@
 export { Toaster, toast } from "react-hot-toast";
 export { Action } from "./action/Action";
-export { ActionCls } from "./action/ActionCls";
 export { ActionClick } from "./action-menu/ActionClick";
 export { ActionClickCls } from "./action-menu/ActionClickCls";
 export { ActionLink } from "./action-menu/ActionLink";

@@ -23,6 +23,14 @@
 
 - Add a note that even this library comes from "nowhere", it has solid documentation and is AI compatible, so it's simple to push README into the context and model will know, how to use it (or can help with this lib)
 
+# README - Design choice - callbacks everywhere
+
+# Tests - rewrite to do "exact" matching
+
+# README - Highlight usage of helper "what" and other tools for strict typecheck
+
+# README - The system may look complicated, but most is only TS types and rest a "few lines of runtime code"
+
 # README todo+structure
 
 Planned a book-like outline in packages/cls/README2.md with chapters, 2-level ToC, and short content notes under each heading. It won’t change the current README, but sets a clear structure for the final rewrite.

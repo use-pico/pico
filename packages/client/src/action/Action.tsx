@@ -1,3 +1,4 @@
+import { withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -51,7 +52,7 @@ export namespace Action {
 	}
 }
 
-export const Action: FC<Action.Props> = ({
+const Component: FC<Action.Props> = ({
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
@@ -63,16 +64,16 @@ export const Action: FC<Action.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, {
+	const classes = tva.create(cls, () => ({
 		variant: {
 			disabled,
 			loading,
 		},
-	});
+	}));
 
 	return (
 		<div
-			className={classes.base}
+			className={classes.base()}
 			onClick={disabled ? undefined : onClick}
 			{...props}
 		>
@@ -90,3 +91,5 @@ export const Action: FC<Action.Props> = ({
 		</div>
 	);
 };
+
+export const Action = withCls(Component, ActionCls);
