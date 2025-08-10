@@ -69,13 +69,13 @@ const Button = cls(
         label: what.css(["font-medium"])
       }),
       def.rule(
-        { size: "lg" },
+        what.variant({ size: "lg" }),
         {
           root: what.css(["px-6", "py-3"])
         }
       ),
       def.rule(
-        { variant: "primary" },
+        what.variant({ variant: "primary" }),
         {
           root: what.token(["color.text.primary", "color.bg.primary"])
         }
@@ -102,6 +102,28 @@ Used within rules to create styling configurations:
 - **`what.css(classes)`**: Helper for classes only
 - **`what.token(tokens)`**: Helper for tokens only  
 - **`what.both(classes, tokens)`**: Helper for both classes and tokens
+- **`what.variant(variant)`**: Helper for variant values (provides type safety)
+
+**Variant Helper Usage:**
+The `what.variant()` helper provides type safety when setting variant values in the `create()` method. It ensures that only valid variant combinations are used:
+
+```typescript
+// Type-safe variant usage
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "lg",        // ✅ Valid: "lg" is in ["sm", "md", "lg"]
+    variant: "primary" // ✅ Valid: "primary" is in ["default", "primary"]
+  })
+}));
+
+// TypeScript will catch invalid variants
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "xl",        // ❌ Error: "xl" is not in ["sm", "md", "lg"]
+    variant: "invalid" // ❌ Error: "invalid" is not in ["default", "primary"]
+  })
+}));
+```
 
 ### `def` - Definition Helpers
 
@@ -128,7 +150,7 @@ Generates styled instances with optional overrides. Both parameters are **callba
 - **`override`**: Hard override slot styling (replace mode)
 - **`token`**: Override token definitions
 
-> **Note:** The `what` utility should be used for `slot` and `override` options as it provides proper type-checks and ensures type safety.
+> **Note:** The `what` utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
 
 **Precedence Rules:**
 1. User config takes precedence over internal config
@@ -139,12 +161,17 @@ Generates styled instances with optional overrides. Both parameters are **callba
 ```typescript
 // Basic usage with variants
 const classes = Button.create(({ what }) => ({
-  variant: { variant: "primary", size: "lg" }
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// Using what.variant() for type-safe variant values
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With slot overrides using what utility
 const classes = Button.create(({ what }) => ({
-  variant: { variant: "primary" },
+  variant: what.variant({ variant: "primary" }),
   slot: {
     icon: what.css(["mr-2", "animate-spin"]),
     label: what.token(["color.text.hover"])
@@ -170,7 +197,7 @@ const classes = Button.create(({ what }) => ({
 // Combined user and internal configs
 const classes = Button.create(
   ({ what }) => ({
-    variant: { variant: "primary" }
+    variant: what.variant({ variant: "primary" })
   }),
   ({ what }) => ({
     slot: {
@@ -223,13 +250,13 @@ const PrimaryButton = Button.extend(
         icon: what.css(["mr-2"])
       }),
       def.rule(
-        { size: "xl" },
+        what.variant({ size: "xl" }),
         {
           root: what.css(["px-8", "py-4", "text-lg"])
         }
       ),
       def.rule(
-        { loading: true },
+        what.variant({ loading: true }),
         {
           root: what.css(["opacity-75", "cursor-not-allowed"]),
           icon: what.css(["animate-spin"])
@@ -324,7 +351,7 @@ type RuleDefinition<TContract> = {
 
 // Example
 {
-  match: { size: "lg", variant: "primary" },
+  match: what.variant({ size: "lg", variant: "primary" }),
   slot: {
     root: what.css(["px-6", "py-3"])
   },
@@ -476,7 +503,7 @@ const Button = cls(
         root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"])
       }),
       def.rule(
-        { size: "lg" },
+        what.variant({ size: "lg" }),
         {
           root: what.css(["px-6", "py-3"])
         }
@@ -492,7 +519,7 @@ const Button = cls(
 // React component usage
 const MyButton = ({ size, variant, className, children, ...props }) => {
   const classes = Button.create(({ what }) => ({
-    variant: { size, variant },
+    variant: what.variant({ size, variant }),
     slot: {
       root: what.css([className])
     }

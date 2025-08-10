@@ -398,6 +398,12 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 			classes: ClassName,
 			tokens: TokensOfList<TContract>,
 		): What<TContract>;
+		/**
+		 * Provides types for variant usage (e.g. {color: "primary"}).
+		 */
+		variant(
+			variant: Partial<DefaultDefinition<TContract>>,
+		): Partial<DefaultDefinition<TContract>>;
 	};
 	def: {
 		/**
@@ -425,50 +431,6 @@ type DefaultDefinition<TContract extends Contract<any, any, any>> =
 // PUBLIC API TYPES
 // ============================================================================
 
-/**
- * Complete definition for a cls instance.
- * Maps contract structure to concrete styling values.
- *
- * @template TContract - The contract that defines the structure
- *
- * @example
- * ```typescript
- * const buttonDefinition: Definition<typeof buttonContract> = {
- *   token: {
- *     "primary.textColor": {
- *       default: ["text-white"],
- *       hover: ["text-blue-100"],
- *       disabled: ["text-gray-400"]
- *     },
- *     "primary.bgColor": {
- *       default: ["bg-blue-500"],
- *       hover: ["bg-blue-600"],
- *       disabled: ["bg-gray-300"]
- *     }
- *   },
- *   rules: ({ root, rule, classes }) => [
- *     root({
- *       root: {
- *         class: ["inline-flex", "items-center"],
- *         token: ["primary.bgColor.default", "primary.textColor.default"]
- *       }
- *     }),
- *     rule(
- *       { size: "lg" },
- *       {
- *         root: {
- *           class: ["px-6", "py-3"]
- *         }
- *       }
- *     )
- *   ],
- *   defaults: {
- *     size: "md",
- *     variant: "primary"
- *   }
- * };
- * ```
- */
 export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Token definitions mapping tokens to CSS classes */
 	token: TokenDefinition<TContract>;
@@ -505,10 +467,10 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
 
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(
-		user?: (props: {
+		userConfigFn?: (props: {
 			what: WhatUtil<TContract>;
 		}) => Partial<CreateConfig<TContract>>,
-		internal?: (props: {
+		internalConfigFn?: (props: {
 			what: WhatUtil<TContract>;
 		}) => Partial<CreateConfig<TContract>>,
 	): ClsSlots<TContract>;

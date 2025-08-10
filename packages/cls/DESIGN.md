@@ -2,7 +2,7 @@
 
 ## Overview
 
-CLS (Class List System) is a type-safe, composable styling system that provides a structured approach to managing CSS classes, design tokens, and component variants. It's framework-agnostic and can be used with React, Vue, Svelte, vanilla JavaScript, or any other framework. It combines the flexibility of utility-first CSS with the maintainability of design systems.
+CLS (Class List System) is a **type-safe, composable styling system** that provides a structured approach to managing CSS classes, design tokens, and component variants. It's framework-agnostic and can be used with React, Vue, Svelte, vanilla JavaScript, or any other framework. It combines the flexibility of utility-first CSS with the maintainability of design systems.
 
 ## Core Principles
 
@@ -31,23 +31,23 @@ CLS (Class List System) is a type-safe, composable styling system that provides 
 ### Core Components
 
 #### Contract
-A contract defines the structure of a component's styling system:
+A contract defines the **structure** of a component's styling system:
 - **Tokens**: Named design values organized by groups and variants
-- **Slots**: Named parts of a component that can receive styles
+- **Slots**: Named parts of a component that can receive styles  
 - **Variants**: Configurable properties that affect component appearance
 - **Inheritance**: Optional parent contract for extending functionality
 
 #### Definition
-A definition provides concrete styling values for a contract:
+A definition provides **concrete styling values** for a contract:
 - **Token Definitions**: CSS classes for each token variant
 - **Rules**: Conditional styling based on variant combinations
 - **Defaults**: Default values for variants
 
 #### CLS Instance
 The main interface that combines contract and definition:
-- **create()**: Generates styled instances with optional overrides
-- **extend()**: Creates new instances with additional functionality
-- **use()**: Type-safe assignment of compatible instances
+- **`create()`**: Generates styled instances with optional overrides
+- **`extend()`**: Creates new instances with additional functionality
+- **`use()`**: Type-safe assignment of compatible instances
 
 ### Data Flow
 
@@ -58,6 +58,121 @@ The main interface that combines contract and definition:
 5. **Slot Resolution**: Apply rules and resolve tokens to CSS classes
 
 ## Key Concepts
+
+### What Utility
+
+The `what` utility provides helper functions for creating styling configurations:
+
+```typescript
+// Available what utility methods
+what.css(classes)           // Creates a class-only configuration
+what.token(tokens)          // Creates a token-only configuration  
+what.both(classes, tokens)  // Creates a configuration with both classes and tokens
+```
+
+**Usage Examples:**
+```typescript
+// Class only
+root: what.css(["inline-flex", "items-center"])
+
+// Token only  
+root: what.token(["color.text.primary", "color.bg.primary"])
+
+// Both classes and tokens
+root: what.both(["rounded-md", "shadow"], ["color.bg.primary"])
+```
+
+### Definition Callback
+
+The definition function receives a `WhatUtil` object with two main interfaces:
+
+```typescript
+({ what, def }) => ({ ... })
+```
+
+**`what` - Styling Helpers:**
+- **`what.css(classes)`**: Helper for classes only
+- **`what.token(tokens)`**: Helper for tokens only  
+- **`what.both(classes, tokens)`**: Helper for both classes and tokens
+- **`what.variant(variant)`**: Helper for variant values (provides type safety)
+
+**Variant Helper Usage:**
+The `what.variant()` helper provides type safety when setting variant values in the `create()` method. It ensures that only valid variant combinations are used:
+
+```typescript
+// Type-safe variant usage
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "lg",        // ✅ Valid: "lg" is in ["sm", "md", "lg"]
+    variant: "primary" // ✅ Valid: "primary" is in ["default", "primary"]
+  })
+}));
+
+// TypeScript will catch invalid variants
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "xl",        // ❌ Error: "xl" is not in ["sm", "md", "lg"]
+    variant: "invalid" // ❌ Error: "invalid" is not in ["default", "primary"]
+  })
+}));
+```
+
+**`def` - Definition Helpers:**
+- **`def.root(slotConfig)`**: Creates the default slot configuration
+- **`def.rule(match, slotConfig)`**: Creates a conditional rule
+- **`def.token(tokenDefinition)`**: Wraps token definitions with proper typing
+- **`def.defaults(defaultValues)`**: Wraps default values with proper typing
+
+**Complete Example:**
+```typescript
+const Button = cls(
+  {
+    tokens: {
+      "color.text": ["default", "primary"],
+      "color.bg": ["default", "primary"]
+    },
+    slot: ["root", "label"],
+    variant: {
+      size: ["sm", "md", "lg"],
+      variant: ["default", "primary"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.text": {
+        default: ["text-gray-900"],
+        primary: ["text-white"]
+      },
+      "color.bg": {
+        default: ["bg-gray-100"],
+        primary: ["bg-blue-600"]
+      }
+    }),
+    rules: [
+      def.root({
+        root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"]),
+        label: what.css(["font-medium"])
+      }),
+      def.rule(
+        what.variant({ size: "lg" }),
+        {
+          root: what.css(["px-6", "py-3"])
+        }
+      ),
+      def.rule(
+        what.variant({ variant: "primary" }),
+        {
+          root: what.token(["color.text.primary", "color.bg.primary"])
+        }
+      )
+    ],
+    defaults: def.defaults({
+      size: "md",
+      variant: "default"
+    })
+  })
+);
+```
 
 ### Tokens
 
@@ -75,6 +190,12 @@ Tokens are the foundation of the design system, representing reusable design val
 - Multiple tokens can be applied to a single slot
 - Token inheritance follows the contract hierarchy
 - Token overrides can be provided at creation time
+
+**Implementation Details:**
+- Token resolution uses `InternalTokenIndex` for efficient lookup
+- The `resolveTokens()` function handles token-to-class conversion
+- Token overrides are applied via `applyTokenOverrides()`
+- The `applyWhat()` function processes both classes and tokens for slots
 
 **Token Semantics:**
 - **REPLACE**: When a contract explicitly declares a token variant, it replaces inherited values
@@ -118,11 +239,12 @@ Variants are configurable properties that control component appearance:
 Rules define conditional styling based on variant combinations:
 
 ```typescript
-// Rule structure
+// Rule structure using the what utility
 {
-  match: { size: "lg", variant: "primary" },
+  match: what.variant({ size: "lg", variant: "primary" }),
   slot: {
-    root: { class: ["text-lg"], token: ["color.bg.primary"] }
+    root: what.css(["text-lg"]),
+    label: what.token(["color.bg.primary"])
   },
   override: false // Optional: clears previous styles
 }
@@ -142,10 +264,10 @@ Contracts can inherit from parent contracts, creating a hierarchy:
 
 ```typescript
 // Base contract
-const BaseButton = cls(baseContract, baseDefinition);
+const BaseButton = cls(baseContract, baseDefinitionFn);
 
 // Extended contract
-const ExtendedButton = BaseButton.extend(childContract, childDefinition);
+const ExtendedButton = BaseButton.extend(childContract, childDefinitionFn);
 ```
 
 **Inheritance Behavior:**
@@ -153,6 +275,12 @@ const ExtendedButton = BaseButton.extend(childContract, childDefinition);
 - Child contracts can add new tokens, slots, and variants
 - Child contracts can override inherited tokens
 - Inheritance chain is walked bottom-up for resolution
+
+**Implementation Details:**
+- Inheritance is implemented using internal `~use` and `~definition` properties
+- The `buildChain()` function creates a layer-based inheritance system
+- Token inheritance follows **REPLACE** vs **APPEND** semantics based on explicit declarations
+- Variant inheritance merges arrays using union operations
 
 ### Token Inheritance
 
@@ -177,7 +305,7 @@ Variants are merged across the inheritance chain:
 The `create()` method generates styled instances with optional overrides:
 
 ```typescript
-cls.create(userConfig?, internalConfig?)
+cls.create(userConfigFn?, internalConfigFn?)
 ```
 
 **Configuration Options:**
@@ -191,12 +319,18 @@ cls.create(userConfig?, internalConfig?)
 2. Override config takes precedence over slot config
 3. Later rules take precedence over earlier rules
 
+**Implementation Details:**
+- Uses Proxy for lazy slot function creation
+- Implements caching with `computeKey()` for slot functions
+- Per-call overrides are supported for dynamic styling
+- The `matches()` function tests rule conditions efficiently
+
 ### Extend Method
 
 The `extend()` method creates new instances with additional functionality:
 
 ```typescript
-cls.extend(childContract, childDefinition)
+cls.extend(childContract, childDefinitionFn)
 ```
 
 **Extension Capabilities:**
@@ -217,6 +351,77 @@ cls.use(compatibleClsInstance)
 - Target instance must be derived from current instance
 - Type safety is enforced through inheritance chain checking
 - Allows for polymorphic component usage
+
+## Create Method Usage
+
+The `create()` method generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
+
+**Basic Usage:**
+```typescript
+// With variants only
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// With slot overrides
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary" }),
+  slot: {
+    root: what.css(["mr-2", "animate-spin"]),
+    label: what.token(["color.text.hover"])
+  }
+}));
+
+// Using what.variant() for type-safe variant values
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// With token overrides
+const classes = Button.create(({ what }) => ({
+  token: {
+    "color.text": {
+      primary: ["text-blue-600"]
+    }
+  }
+}));
+
+// With hard overrides
+const classes = Button.create(({ what }) => ({
+  override: {
+    root: what.css(["bg-red-500", "text-white"])
+  }
+}));
+```
+
+**Combined User and Internal Configs:**
+```typescript
+const classes = Button.create(
+  ({ what }) => ({
+    variant: what.variant({ variant: "primary" })
+  }),
+  ({ what }) => ({
+    slot: {
+      root: what.css(["shadow-lg"])
+    }
+  })
+);
+```
+
+**Slot Function Usage:**
+```typescript
+// Access slot functions
+const rootClasses = classes.root();
+const labelClasses = classes.label();
+
+// With per-call overrides
+const rootClasses = classes.root(({ what }) => ({
+  variant: what.variant({ size: "lg" }),
+  slot: {
+    root: what.css(["custom-class"])
+  }
+}));
+```
 
 ## Styling Resolution
 
