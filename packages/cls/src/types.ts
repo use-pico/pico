@@ -150,6 +150,32 @@ export type ContractEx<
 };
 
 /**
+ * Extended WhatUtil type that provides child-only token definitions
+ */
+export type ExtendedWhatUtil<TChildContract extends Contract<any, any, any>> =
+	Omit<WhatUtil<TChildContract>, "def"> & {
+		def: Omit<WhatUtil<TChildContract>["def"], "token"> & {
+			token(
+				token: TokenDefinition<TChildContract>,
+			): TokenDefinition<TChildContract>;
+		};
+	};
+
+/**
+ * Extended definition type that only requires child contract tokens
+ * Inherited tokens are handled at runtime, not at the type level
+ */
+export type ExtendedDefinition<TChildContract extends Contract<any, any, any>> =
+	{
+		/** Token definitions with proper inheritance handling */
+		token: TokenDefinition<TChildContract>;
+		/** Rules for conditional styling based on variants */
+		rules: RuleDefinition<TChildContract>[];
+		/** Default values for variants */
+		defaults: DefaultDefinition<TChildContract>;
+	};
+
+/**
  * Type that allows both inherited token overrides and new token definitions
  * Used in the extend method to provide flexible token extension
  */
@@ -481,21 +507,16 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 			TContract
 		>,
 		definition: (
-			props: WhatUtil<
-				ContractEx<
+			props: ExtendedWhatUtil<
+				Contract<
 					TTokenContract,
 					TSlotContract,
 					TVariantContract,
 					TContract
 				>
 			>,
-		) => Definition<
-			ContractEx<
-				TTokenContract,
-				TSlotContract,
-				TVariantContract,
-				TContract
-			>
+		) => ExtendedDefinition<
+			Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
 		>,
 	): Cls<
 		ContractEx<TTokenContract, TSlotContract, TVariantContract, TContract>

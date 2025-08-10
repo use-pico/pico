@@ -784,12 +784,6 @@ describe("1.2 Token System Basics", () => {
 								"text-blue-600",
 							],
 						},
-						// TODO Enforced type which should not be - fix type system
-						"color.bg": {
-							default: [
-								"bg-gray-100",
-							],
-						},
 					}),
 					rules: [
 						def.root({
