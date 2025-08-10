@@ -39,6 +39,11 @@
 - [10. Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)
   - [10.1 Dynamic Styling](#101-dynamic-styling)
   - [10.2 Advanced Composition](#102-advanced-composition)
+- [11. Complex Inheritance and Override Stress Tests](#11-complex-inheritance-and-override-stress-tests)
+  - [11.1 Multi-Level Inheritance with Progressive Overrides](#111-multi-level-inheritance-with-progressive-overrides)
+  - [11.2 Complex Create-Time Override Combinations](#112-complex-create-time-override-combinations)
+  - [11.3 Slot-Time Override Stress Testing](#113-slot-time-override-stress-testing)
+  - [11.4 Ultimate Integration Stress Test](#114-ultimate-integration-stress-test)
 
 ---
 
@@ -968,7 +973,518 @@ const ComposedComponent = BaseComponent
 
 ---
 
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)** | **[→ Next Chapter: Complex Inheritance and Override Stress Tests](#11-complex-inheritance-and-override-stress-tests)**
+
+## Chapter 11: Complex Inheritance and Override Stress Tests <a id="11-complex-inheritance-and-override-stress-tests"></a>
+
+**[← Previous Chapter: Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)**
+
+This chapter contains the most complex test scenarios that push the CLS library to its absolute limits. These tests validate that the library behaves correctly under extreme conditions with multiple inheritance levels, complex override combinations, and edge cases that stress-test the entire system.
+
+### 11.1 Multi-Level Inheritance with Progressive Overrides <a id="111-multi-level-inheritance-with-progressive-overrides"></a>
+**File**: `26-multi-level-inheritance.test.ts`
+
+**Scenarios to Cover**:
+- 5+ level inheritance chain with progressive complexity
+- Token additions, overrides, and merges at each level
+- Variant extensions and overrides at each level
+- Slot additions and modifications at each level
+- Default value inheritance and overrides
+- Complex rule inheritance and override behavior
+
+**Test Cases**:
+```typescript
+// Level 1: Base component with minimal structure
+const BaseLevel1 = cls(
+  {
+    tokens: { "color.bg": ["default"] },
+    slot: ["root"],
+    variant: { size: ["sm"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { default: ["bg-gray-100"] }
+    }),
+    rules: [def.root({ root: what.css(["p-2", "rounded"]) })],
+    defaults: def.defaults({ size: "sm" })
+  })
+);
+
+// Level 2: Add tokens and variants
+const Level2 = BaseLevel1.extend(
+  {
+    tokens: { "color.bg": ["primary"], "color.text": ["default"] },
+    slot: ["root", "label"],
+    variant: { size: ["sm", "md"], variant: ["default"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { primary: ["bg-blue-600"] },
+      "color.text": { default: ["text-gray-900"] }
+    }),
+    rules: [
+      def.root({
+        root: what.css(["flex", "items-center"]),
+        label: what.token(["color.text.default"])
+      }),
+      def.rule(what.variant({ size: "md" }), {
+        root: what.css(["px-4", "py-2"])
+      })
+    ],
+    defaults: def.defaults({ size: "md", variant: "default" })
+  })
+);
+
+// Level 3: Override tokens and add complex variants
+const Level3 = Level2.extend(
+  {
+    tokens: { "color.bg": ["primary", "secondary"], "spacing": ["sm", "md"] },
+    slot: ["root", "label", "icon"],
+    variant: { size: ["sm", "md", "lg"], variant: ["default", "primary"], disabled: ["bool"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { 
+        primary: ["bg-blue-700"], // Override from Level2
+        secondary: ["bg-gray-600"] // New token
+      },
+      "spacing": { sm: ["p-2"], md: ["p-4"] }
+    }),
+    rules: [
+      def.root({
+        root: what.css(["relative", "transition-all"]),
+        label: what.css(["font-medium"]),
+        icon: what.css(["ml-2"])
+      }),
+      def.rule(what.variant({ size: "lg" }), {
+        root: what.css(["px-6", "py-3", "text-lg"])
+      }),
+      def.rule(what.variant({ variant: "primary" }), {
+        root: what.token(["color.bg.primary"]),
+        label: what.css(["text-white"])
+      }),
+      def.rule(what.variant({ disabled: true }), {
+        root: what.css(["opacity-50", "cursor-not-allowed"])
+      })
+    ],
+    defaults: def.defaults({ size: "lg", variant: "primary", disabled: false })
+  })
+);
+
+// Level 4: Complex token merging and slot overrides
+const Level4 = Level3.extend(
+  {
+    tokens: { "color.bg": ["primary", "secondary", "danger"], "animation": ["fast", "slow"] },
+    slot: ["root", "label", "icon", "badge"],
+    variant: { size: ["sm", "md", "lg", "xl"], variant: ["default", "primary", "danger"], loading: ["bool"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { 
+        danger: ["bg-red-600"] // New token
+      },
+      "animation": { fast: ["animate-pulse"], slow: ["animate-bounce"] }
+    }),
+    rules: [
+      def.root({
+        root: what.css(["group", "focus:outline-none"]),
+        badge: what.css(["absolute", "-top-1", "-right-1"])
+      }),
+      def.rule(what.variant({ size: "xl" }), {
+        root: what.css(["px-8", "py-4", "text-xl"])
+      }),
+      def.rule(what.variant({ variant: "danger" }), {
+        root: what.token(["color.bg.danger"]),
+        label: what.css(["text-white"])
+      }),
+      def.rule(what.variant({ loading: true }), {
+        root: what.css(["animate-spin"])
+      })
+    ],
+    defaults: def.defaults({ size: "xl", variant: "danger", loading: false })
+  })
+);
+
+// Level 5: Ultimate complexity with all features
+const UltimateComponent = Level4.extend(
+  {
+    tokens: { "color.bg": ["primary", "secondary", "danger", "success"], "theme": ["light", "dark"] },
+    slot: ["root", "label", "icon", "badge", "tooltip"],
+    variant: { 
+      size: ["sm", "md", "lg", "xl", "2xl"], 
+      variant: ["default", "primary", "danger", "success"], 
+      theme: ["light", "dark"],
+      interactive: ["bool"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { 
+        success: ["bg-green-600"] // New token
+      },
+      "theme": { light: ["bg-white"], dark: ["bg-gray-900"] }
+    }),
+    rules: [
+      def.root({
+        root: what.css(["cursor-pointer", "select-none"]),
+        tooltip: what.css(["invisible", "group-hover:visible"])
+      }),
+      def.rule(what.variant({ size: "2xl" }), {
+        root: what.css(["px-10", "py-5", "text-2xl"])
+      }),
+      def.rule(what.variant({ variant: "success" }), {
+        root: what.token(["color.bg.success"]),
+        label: what.css(["text-white"])
+      }),
+      def.rule(what.variant({ theme: "dark" }), {
+        root: what.token(["theme.dark"]),
+        label: what.css(["text-white"])
+      }),
+      def.rule(what.variant({ interactive: true }), {
+        root: what.css(["hover:scale-105", "active:scale-95"])
+      })
+    ],
+    defaults: def.defaults({ 
+      size: "2xl", 
+      variant: "success", 
+      theme: "light", 
+      interactive: true 
+    })
+  })
+);
+
+// Test the complete inheritance chain
+const instance = UltimateComponent.create();
+expect(instance.root()).toContain("cursor-pointer");
+expect(instance.label()).toContain("text-white");
+expect(instance.icon()).toContain("ml-2");
+expect(instance.badge()).toContain("absolute");
+expect(instance.tooltip()).toContain("invisible");
+```
+
+### 11.2 Complex Create-Time Override Combinations <a id="112-complex-create-time-override-combinations"></a>
+**File**: `27-create-override-combinations.test.ts`
+
+**Scenarios to Cover**:
+- Multiple user config overrides with different priorities
+- Internal config overrides with user config overrides
+- Token overrides at create time
+- Variant overrides at create time
+- Slot overrides at create time
+- Complex override precedence validation
+- Override inheritance and merging
+
+**Test Cases**:
+```typescript
+// Complex create with multiple override layers
+const ComplexButton = cls(complexContract, complexDefinition);
+
+// Test 1: User config with multiple override types
+const userConfigInstance = ComplexButton.create(
+  ({ what }) => ({
+    // Token overrides
+    token: {
+      "color.bg": {
+        primary: ["bg-custom-blue"],
+        secondary: ["bg-custom-gray"]
+      }
+    },
+    // Variant overrides
+    variant: what.variant({ 
+      size: "xl", 
+      variant: "primary", 
+      theme: "dark" 
+    }),
+    // Slot overrides
+    slot: {
+      root: what.css(["user-root-override", "additional-class"]),
+      label: what.token(["color.text.custom"]),
+      icon: what.css(["user-icon-style"])
+    }
+  })
+);
+
+// Test 2: User config + internal config combination
+const combinedInstance = ComplexButton.create(
+  ({ what }) => ({
+    // User config
+    variant: what.variant({ size: "lg", variant: "secondary" }),
+    slot: {
+      root: what.css(["user-override"])
+    }
+  }),
+  ({ what }) => ({
+    // Internal config (higher priority)
+    variant: what.variant({ size: "md", variant: "primary" }),
+    slot: {
+      root: what.css(["internal-override"]),
+      label: what.css(["internal-label"])
+    }
+  })
+);
+
+// Test 3: Progressive override building
+const progressiveInstance = ComplexButton.create(
+  // First override layer
+  ({ what }) => ({
+    variant: what.variant({ size: "lg" })
+  }),
+  // Second override layer
+  ({ what }) => ({
+    variant: what.variant({ variant: "primary" }),
+    slot: { root: what.css(["second-layer"]) }
+  }),
+  // Third override layer (highest priority)
+  ({ what }) => ({
+    variant: what.variant({ theme: "dark" }),
+    slot: { 
+      root: what.css(["third-layer"]),
+      label: what.css(["final-label"])
+    }
+  })
+);
+
+// Validate override precedence
+expect(progressiveInstance.root()).toContain("third-layer");
+expect(progressiveInstance.label()).toContain("final-label");
+// Size should be from first layer (lg)
+// Variant should be from second layer (primary)
+// Theme should be from third layer (dark)
+```
+
+### 11.3 Slot-Time Override Stress Testing <a id="113-slot-time-override-stress-testing"></a>
+**File**: `28-slot-override-stress.test.ts`
+
+**Scenarios to Cover**:
+- Slot function overrides with complex class combinations
+- Dynamic slot overrides based on runtime conditions
+- Slot override inheritance and merging
+- Slot override precedence validation
+- Complex slot composition patterns
+- Performance under heavy slot override usage
+
+**Test Cases**:
+```typescript
+// Complex slot override scenarios
+const SlotTestComponent = cls(slotTestContract, slotTestDefinition);
+
+// Test 1: Dynamic slot overrides based on conditions
+const createDynamicSlots = (isActive, hasError, userTheme) => {
+  const baseClasses = ["base-class", "transition-all"];
+  const activeClasses = isActive ? ["active-state", "shadow-lg"] : [];
+  const errorClasses = hasError ? ["error-state", "border-red-500"] : [];
+  const themeClasses = userTheme === "dark" ? ["dark-theme", "text-white"] : ["light-theme", "text-black"];
+  
+  return {
+    root: [...baseClasses, ...activeClasses, ...errorClasses, ...themeClasses],
+    label: [
+      "label-base",
+      isActive ? "label-active" : "label-inactive",
+      hasError ? "label-error" : "label-normal"
+    ],
+    icon: [
+      "icon-base",
+      isActive ? "icon-active" : "icon-inactive",
+      userTheme === "dark" ? "icon-dark" : "icon-light"
+    ]
+  };
+};
+
+// Test 2: Complex slot composition with inheritance
+const baseSlotClasses = {
+  root: ["base-root", "flex", "items-center"],
+  label: ["base-label", "font-medium"],
+  icon: ["base-icon", "ml-2"]
+};
+
+const createComposedSlots = (baseClasses, overrides, conditions) => {
+  const composed = { ...baseClasses };
+  
+  // Apply conditional overrides
+  if (conditions.isPrimary) {
+    composed.root = [...composed.root, "bg-blue-600", "text-white"];
+    composed.label = [...composed.label, "text-white"];
+  }
+  
+  if (conditions.isLarge) {
+    composed.root = [...composed.root, "px-6", "py-3", "text-lg"];
+    composed.icon = [...composed.icon, "w-6", "h-6"];
+  }
+  
+  if (conditions.hasIcon) {
+    composed.root = [...composed.root, "justify-between"];
+    composed.label = [...composed.label, "flex-1"];
+  }
+  
+  // Apply user overrides
+  Object.keys(overrides).forEach(slot => {
+    if (composed[slot]) {
+      composed[slot] = [...composed[slot], ...overrides[slot]];
+    }
+  });
+  
+  return composed;
+};
+
+// Test 3: Slot override inheritance chain
+const SlotInheritanceBase = cls(
+  { slot: ["root", "label", "icon"] },
+  ({ what, def }) => ({
+    rules: [def.root({
+      root: what.css(["base-root", "p-2"]),
+      label: what.css(["base-label", "text-sm"]),
+      icon: what.css(["base-icon", "w-4"])
+    })]
+  })
+);
+
+const SlotInheritanceLevel1 = SlotInheritanceBase.extend(
+  { slot: ["root", "label", "icon", "badge"] },
+  ({ what, def }) => ({
+    rules: [def.root({
+      root: what.css(["level1-root", "rounded"]),
+      label: what.css(["level1-label", "font-medium"]),
+      icon: what.css(["level1-icon", "text-blue-600"]),
+      badge: what.css(["level1-badge", "ml-2"])
+    })]
+  })
+);
+
+const SlotInheritanceLevel2 = SlotInheritanceLevel1.extend(
+  { slot: ["root", "label", "icon", "badge", "tooltip"] },
+  ({ what, def }) => ({
+    rules: [def.root({
+      root: what.css(["level2-root", "shadow"]),
+      label: what.css(["level2-label", "text-lg"]),
+      icon: what.css(["level2-icon", "w-6"]),
+      badge: what.css(["level2-badge", "px-2", "py-1"]),
+      tooltip: what.css(["level2-tooltip", "invisible"])
+    })]
+  })
+);
+
+// Test slot inheritance with overrides
+const slotInstance = SlotInheritanceLevel2.create(({ what }) => ({
+  slot: {
+    root: what.css(["user-root", "custom-style"]),
+    label: what.css(["user-label"]),
+    tooltip: what.css(["user-tooltip", "visible"])
+  }
+}));
+
+// Validate inheritance chain
+expect(slotInstance.root()).toContain("base-root");
+expect(slotInstance.root()).toContain("level1-root");
+expect(slotInstance.root()).toContain("level2-root");
+expect(slotInstance.root()).toContain("user-root");
+expect(slotInstance.tooltip()).toContain("level2-tooltip");
+expect(slotInstance.tooltip()).toContain("user-tooltip");
+```
+
+### 11.4 Ultimate Integration Stress Test <a id="114-ultimate-integration-stress-test"></a>
+**File**: `29-ultimate-stress.test.ts`
+
+**Scenarios to Cover**:
+- All inheritance levels combined with all override types
+- Complex token resolution under stress
+- Variant combination explosion testing
+- Slot composition under extreme conditions
+- Performance validation under maximum complexity
+- Memory usage validation
+- Cache effectiveness under stress
+
+**Test Cases**:
+```typescript
+// The ultimate test that combines everything
+const UltimateStressTest = cls(ultimateContract, ultimateDefinition);
+
+// Create instance with maximum complexity
+const stressInstance = UltimateStressTest.create(
+  // User config layer 1
+  ({ what }) => ({
+    token: {
+      "color.bg": { custom: ["bg-stress-test"] },
+      "spacing": { custom: ["p-stress"] }
+    },
+    variant: what.variant({ 
+      size: "2xl", 
+      variant: "success", 
+      theme: "dark",
+      interactive: true,
+      loading: false,
+      disabled: false
+    }),
+    slot: {
+      root: what.css(["user-stress-root"]),
+      label: what.css(["user-stress-label"]),
+      icon: what.css(["user-stress-icon"])
+    }
+  }),
+  // User config layer 2
+  ({ what }) => ({
+    variant: what.variant({ size: "xl", variant: "primary" }),
+    slot: { root: what.css(["user-layer2"]) }
+  }),
+  // Internal config layer
+  ({ what }) => ({
+    variant: what.variant({ theme: "light" }),
+    slot: { 
+      root: what.css(["internal-stress"]),
+      badge: what.css(["internal-badge"])
+    }
+  })
+);
+
+// Validate all aspects work correctly
+const rootClasses = stressInstance.root();
+const labelClasses = stressInstance.label();
+const iconClasses = stressInstance.icon();
+const badgeClasses = stressInstance.badge();
+const tooltipClasses = stressInstance.tooltip();
+
+// Should contain inherited classes from all levels
+expect(rootClasses).toContain("base-root");
+expect(rootClasses).toContain("level1-root");
+expect(rootClasses).toContain("level2-root");
+expect(rootClasses).toContain("user-stress-root");
+expect(rootClasses).toContain("user-layer2");
+expect(rootClasses).toContain("internal-stress");
+
+// Should contain user token overrides
+expect(rootClasses).toContain("bg-stress-test");
+expect(rootClasses).toContain("p-stress");
+
+// Should have correct variant resolution
+// Final variant should be: size="xl", variant="primary", theme="light", interactive=true, loading=false, disabled=false
+
+// Performance validation
+const startTime = performance.now();
+for (let i = 0; i < 1000; i++) {
+  const classes = stressInstance.root();
+  const label = stressInstance.label();
+  const icon = stressInstance.icon();
+}
+const endTime = performance.now();
+
+// Should complete within reasonable time (caching should make this fast)
+expect(endTime - startTime).toBeLessThan(100); // 100ms threshold
+
+// Memory validation - should not create excessive objects
+const initialMemory = performance.memory?.usedJSHeapSize || 0;
+const instances = [];
+for (let i = 0; i < 100; i++) {
+  instances.push(UltimateStressTest.create());
+}
+const finalMemory = performance.memory?.usedJSHeapSize || 0;
+
+// Memory increase should be reasonable
+const memoryIncrease = finalMemory - initialMemory;
+expect(memoryIncrease).toBeLessThan(10 * 1024 * 1024); // 10MB threshold
+```
+
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)**
 
 ## Test Execution Strategy
 
