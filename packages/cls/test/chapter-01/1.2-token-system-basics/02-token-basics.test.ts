@@ -768,9 +768,9 @@ describe("1.2 Token System Basics", () => {
 							"default",
 							"primary",
 						],
-						// "color.bg": [
-						// 	"default",
-						// ],
+						"color.bg": [
+							"default",
+						],
 					},
 					slot: [
 						"root",
@@ -804,14 +804,15 @@ describe("1.2 Token System Basics", () => {
 				}),
 			);
 
-			// The extended component should have its own contract
-			expect(Extended.contract.tokens["color.bg"]).toEqual([
-				"default",
-			]);
-			// The extended component should also have the color.text tokens from its contract
+			// The extended component should have its own contract tokens
 			expect(Extended.contract.tokens["color.text"]).toEqual([
 				"default",
 				"primary",
+			]);
+
+			// The extended component should also have the color.bg tokens from its contract
+			expect(Extended.contract.tokens["color.bg"]).toEqual([
+				"default",
 			]);
 		});
 
@@ -968,6 +969,9 @@ describe("1.2 Token System Basics", () => {
 						spacing: [
 							"md",
 						],
+						"color.bg": [
+							"default",
+						],
 					},
 					slot: [
 						"root",
@@ -984,6 +988,11 @@ describe("1.2 Token System Basics", () => {
 						spacing: {
 							md: [
 								"p-4",
+							],
+						},
+						"color.bg": {
+							default: [
+								"bg-gray-100",
 							],
 						},
 					}),

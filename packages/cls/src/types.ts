@@ -100,48 +100,6 @@ type HasBaseInUseChain<Sub, Base> = Sub extends Base
 // CONTRACT SYSTEM
 // ============================================================================
 
-/**
- * Main contract type that defines the structure of a cls instance.
- * A contract describes what tokens, slots, and variants are available,
- * and optionally inherits from another contract.
- *
- * @template TTokenContract - Token definitions (nested structure)
- * @template TSlotContract - Available slots for the component
- * @template TVariantContract - Available variants for the component
- * @template TUse - Parent contract for inheritance (optional)
- *
- * @example
- * ```typescript
- * // Basic contract without inheritance
- * const buttonContract: Contract<
- *   TokenContract,
- *   ["root", "icon", "label"],
- *   { size: ["sm", "md", "lg"] }
- * > = {
- *   tokens: {
- *     "primary.textColor": ["default", "hover", "disabled"],
- *     "primary.bgColor": ["default", "hover", "disabled"]
- *   },
- *   slot: ["root", "icon", "label"],
- *   variant: { size: ["sm", "md", "lg"] }
- * };
- *
- * // Contract with inheritance
- * const extendedButtonContract: Contract<
- *   TokenContract,
- *   ["root", "icon", "label"],
- *   { size: ["sm", "md", "lg"] },
- *   typeof buttonContract
- * > = {
- *   tokens: {
- *     "secondary.textColor": ["default", "hover", "disabled"]
- *   },
- *   slot: ["root", "icon", "label"],
- *   variant: { size: ["sm", "md", "lg"] },
- *   "~use": buttonContract
- * };
- * ```
- */
 export type Contract<
 	TTokenContract extends TokenContract | ExtendableTokenContract<any>,
 	TSlotContract extends SlotContract,
