@@ -239,16 +239,22 @@ export function cls<
 	const baseTokenIndex: InternalTokenIndex = (() => {
 		const index: InternalTokenIndex = {};
 
-		// Seed all known keys so unresolved references still map to []
+		// First pass: collect all token keys from all contracts and seed with empty arrays
 		for (const { contract: c } of layers) {
 			for (const [group, variants] of Object.entries(c.tokens) as [
 				string,
 				readonly string[],
 			][]) {
-				for (const v of variants) index[`${group}.${v}`] = [];
+				for (const v of variants) {
+					const key = `${group}.${v}`;
+					if (!(key in index)) {
+						index[key] = [];
+					}
+				}
 			}
 		}
 
+		// Second pass: apply token definitions with REPLACE/APPEND semantics
 		for (const { contract: c, definition: d } of layers) {
 			const declared: Record<string, Set<string>> = {};
 			for (const [group, variants] of Object.entries(c.tokens) as [
@@ -258,6 +264,7 @@ export function cls<
 				declared[group] = new Set(variants as string[]);
 			}
 
+			// Process token definitions from this layer
 			for (const [group, values] of Object.entries(
 				(d.token ?? {}) as Record<string, Record<string, string[]>>,
 			)) {
@@ -528,10 +535,21 @@ export function cls<
 			);
 		},
 		extend(childContract, childDefinitionFn) {
+			// Set up inheritance chain
 			childContract["~use"] = contract;
 			childContract["~definition"] = definition;
 
-			return cls(childContract as any, childDefinitionFn as any);
+			// Create a merged contract that includes both child and inherited tokens
+			const mergedContract = {
+				...childContract,
+				tokens: {
+					...contract.tokens, // Inherit all parent tokens
+					...childContract.tokens, // Child tokens REPLACE inherited ones
+				},
+			};
+
+			// Create the extended cls instance with the merged contract
+			return cls(mergedContract as any, childDefinitionFn as any);
 		},
 		use<Sub extends Contract<any, any, any>>(
 			sub: Cls<Sub>,

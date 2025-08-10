@@ -768,9 +768,6 @@ describe("1.2 Token System Basics", () => {
 							"default",
 							"primary",
 						],
-						"color.bg": [
-							"default",
-						],
 					},
 					slot: [
 						"root",
@@ -787,6 +784,7 @@ describe("1.2 Token System Basics", () => {
 								"text-blue-600",
 							],
 						},
+						// TODO Enforced type which should not be - fix type system
 						"color.bg": {
 							default: [
 								"bg-gray-100",

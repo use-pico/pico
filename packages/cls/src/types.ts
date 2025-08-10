@@ -123,6 +123,33 @@ export type Contract<
 };
 
 /**
+ * Extended contract type that properly handles inheritance
+ * This type ensures that extended contracts can inherit tokens from parent contracts
+ * while allowing new token definitions and overrides
+ */
+export type ContractEx<
+	TTokenContract extends ExtendableTokenContract<TBaseContract>,
+	TSlotContract extends SlotContract,
+	TVariantContract extends VariantContract,
+	TBaseContract extends Contract<any, any, any>,
+> = {
+	/** Token definitions organized by group and variant - inherits from parent */
+	tokens: TTokenContract & TBaseContract["tokens"];
+	/** Available slots for the component */
+	slot: TSlotContract;
+	/** Available variants for the component */
+	variant: TVariantContract;
+	/** Parent contract for inheritance (internal use) */
+	"~use"?: TBaseContract;
+	/**
+	 * Just carry parent definition, if available; the type is not
+	 * important as it's not used in inference; only to compute
+	 * right inheritance chain
+	 */
+	"~definition"?: Definition<any>;
+};
+
+/**
  * Type that allows both inherited token overrides and new token definitions
  * Used in the extend method to provide flexible token extension
  */
@@ -454,12 +481,24 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 			TContract
 		>,
 		definition: (
-			props: WhatUtil<TContract>,
+			props: WhatUtil<
+				ContractEx<
+					TTokenContract,
+					TSlotContract,
+					TVariantContract,
+					TContract
+				>
+			>,
 		) => Definition<
-			Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
+			ContractEx<
+				TTokenContract,
+				TSlotContract,
+				TVariantContract,
+				TContract
+			>
 		>,
 	): Cls<
-		Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
+		ContractEx<TTokenContract, TSlotContract, TVariantContract, TContract>
 	>;
 
 	/**
