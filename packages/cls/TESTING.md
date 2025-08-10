@@ -2,6 +2,46 @@
 
 > **Note**: This guide provides a structured approach to testing the CLS library, ensuring comprehensive coverage of all features and edge cases.
 
+## Table of Contents
+
+- [1. Basic CLS Creation](#1-basic-cls-creation)
+  - [1.1 Simple Component Creation](#11-simple-component-creation)
+  - [1.2 Token System Basics](#12-token-system-basics)
+  - [1.3 Slot System Basics](#13-slot-system-basics)
+  - [1.4 Variant System Basics](#14-variant-system-basics)
+- [2. What Utility and Definition Helpers](#2-what-utility-and-definition-helpers)
+  - [2.1 What Utility Functions](#21-what-utility-functions)
+  - [2.2 Definition Helpers](#22-definition-helpers)
+- [3. Rules and Conditional Styling](#3-rules-and-conditional-styling)
+  - [3.1 Basic Rule Matching](#31-basic-rule-matching)
+  - [3.2 Complex Rule Combinations](#32-complex-rule-combinations)
+  - [3.3 Rule Override Behavior](#33-rule-override-behavior)
+- [4. Create Method and Configuration](#4-create-method-and-configuration)
+  - [4.1 Basic Create Usage](#41-basic-create-usage)
+  - [4.2 Advanced Create Configuration](#42-advanced-create-configuration)
+  - [4.3 Create Method Edge Cases](#43-create-method-edge-cases)
+- [5. Inheritance and Extension](#5-inheritance-and-extension)
+  - [5.1 Basic Inheritance](#51-basic-inheritance)
+  - [5.2 Advanced Inheritance Patterns](#52-advanced-inheritance-patterns)
+  - [5.3 Inheritance Edge Cases](#53-inheritance-edge-cases)
+- [6. Use Method and Type Safety](#6-use-method-and-type-safety)
+  - [6.1 Use Method Basics](#61-use-method-basics)
+  - [6.2 Type Safety Features](#62-type-safety-features)
+- [7. Cache Performance Testing](#7-cache-performance-testing)
+  - [7.1 Cache Performance Benchmarks](#71-cache-performance-benchmarks)
+  - [7.2 Cache Validation Tests](#72-cache-validation-tests)
+- [8. Integration and Real-World Usage](#8-integration-and-real-world-usage)
+  - [8.1 React Integration](#81-react-integration)
+  - [8.2 Design System Integration](#82-design-system-integration)
+- [9. Error Handling and Edge Cases](#9-error-handling-and-edge-cases)
+  - [9.1 Validation and Errors](#91-validation-and-errors)
+  - [9.2 Edge Case Handling](#92-edge-case-handling)
+- [10. Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)
+  - [10.1 Dynamic Styling](#101-dynamic-styling)
+  - [10.2 Advanced Composition](#102-advanced-composition)
+
+---
+
 ## Important Testing Philosophy
 
 > **Type Safety Note**: The CLS library provides **compile-time type safety** that prevents invalid values from being passed into the `cls()` function. This means:
@@ -28,9 +68,9 @@
 - **Consistent Patterns**: Follow consistent testing patterns across all test files
 - **Edge Case Coverage**: Include both happy path and edge case scenarios
 
-## Chapter 1: Basic CLS Creation
+## Chapter 1: Basic CLS Creation {#1-basic-cls-creation}
 
-### 1.1 Simple Component Creation
+### 1.1 Simple Component Creation {#11-simple-component-creation}
 **File**: `01-basic-creation.test.ts`
 
 **Scenarios to Cover**:
@@ -59,7 +99,7 @@ const Button = cls(
 );
 ```
 
-### 1.2 Token System Basics
+### 1.2 Token System Basics {#12-token-system-basics}
 **File**: `02-token-basics.test.ts`
 
 **Scenarios to Cover**:
@@ -85,7 +125,7 @@ const Base = cls(
 );
 ```
 
-### 1.3 Slot System Basics
+### 1.3 Slot System Basics {#13-slot-system-basics}
 **File**: `03-slot-basics.test.ts`
 
 **Scenarios to Cover**:
@@ -113,7 +153,7 @@ const Card = cls(
 );
 ```
 
-### 1.4 Variant System Basics
+### 1.4 Variant System Basics {#14-variant-system-basics}
 **File**: `04-variant-basics.test.ts`
 
 **Scenarios to Cover**:
@@ -152,9 +192,9 @@ const Button = cls(
 );
 ```
 
-## Chapter 2: What Utility and Definition Helpers
+## Chapter 2: What Utility and Definition Helpers {#2-what-utility-and-definition-helpers}
 
-### 2.1 What Utility Functions
+### 2.1 What Utility Functions {#21-what-utility-functions}
 **File**: `05-what-utility.test.ts`
 
 **Scenarios to Cover**:
@@ -188,7 +228,7 @@ const TestComponent = cls(
 );
 ```
 
-### 2.2 Definition Helpers
+### 2.2 Definition Helpers {#22-definition-helpers}
 **File**: `06-definition-helpers.test.ts`
 
 **Scenarios to Cover**:
@@ -225,9 +265,9 @@ const Component = cls(
 );
 ```
 
-## Chapter 3: Rules and Conditional Styling
+## Chapter 3: Rules and Conditional Styling {#3-rules-and-conditional-styling}
 
-### 3.1 Basic Rule Matching
+### 3.1 Basic Rule Matching {#31-basic-rule-matching}
 **File**: `07-basic-rules.test.ts`
 
 **Scenarios to Cover**:
@@ -258,7 +298,7 @@ const Button = cls(
 );
 ```
 
-### 3.2 Complex Rule Combinations
+### 3.2 Complex Rule Combinations {#32-complex-rule-combinations}
 **File**: `08-complex-rules.test.ts`
 
 **Scenarios to Cover**:
@@ -297,7 +337,7 @@ const Button = cls(
 );
 ```
 
-### 3.3 Rule Override Behavior
+### 3.3 Rule Override Behavior {#33-rule-override-behavior}
 **File**: `09-rule-override.test.ts`
 
 **Scenarios to Cover**:
@@ -327,9 +367,9 @@ const Component = cls(
 );
 ```
 
-## Chapter 4: Create Method and Configuration
+## Chapter 4: Create Method and Configuration {#4-create-method-and-configuration}
 
-### 4.1 Basic Create Usage
+### 4.1 Basic Create Usage {#41-basic-create-usage}
 **File**: `10-basic-create.test.ts`
 
 **Scenarios to Cover**:
@@ -358,7 +398,7 @@ const classes = Button.create(({ what }) => ({
 }));
 ```
 
-### 4.2 Advanced Create Configuration
+### 4.2 Advanced Create Configuration {#42-advanced-create-configuration}
 **File**: `11-advanced-create.test.ts`
 
 **Scenarios to Cover**:
@@ -391,7 +431,7 @@ const classes = Button.create(({ what }) => ({
 }));
 ```
 
-### 4.3 Create Method Edge Cases
+### 4.3 Create Method Edge Cases {#43-create-method-edge-cases}
 **File**: `12-create-edge-cases.test.ts`
 
 **Scenarios to Cover**:
@@ -414,9 +454,9 @@ const classes = Button.create(({ what }) => ({
 }));
 ```
 
-## Chapter 5: Inheritance and Extension
+## Chapter 5: Inheritance and Extension {#5-inheritance-and-extension}
 
-### 5.1 Basic Inheritance
+### 5.1 Basic Inheritance {#51-basic-inheritance}
 **File**: `13-basic-inheritance.test.ts`
 
 **Scenarios to Cover**:
@@ -473,7 +513,7 @@ const ChildOfMinimal = MinimalParent.extend(
 );
 ```
 
-### 5.2 Advanced Inheritance Patterns
+### 5.2 Advanced Inheritance Patterns {#52-advanced-inheritance-patterns}
 **File**: `14-advanced-inheritance.test.ts`
 
 **Scenarios to Cover**:
@@ -501,7 +541,7 @@ const LargePrimaryButton = PrimaryButton.extend(
 );
 ```
 
-### 5.3 Inheritance Edge Cases
+### 5.3 Inheritance Edge Cases {#53-inheritance-edge-cases}
 **File**: `15-inheritance-edge-cases.test.ts`
 
 **Scenarios to Cover**:
@@ -532,9 +572,9 @@ const OverrideTest = Base.extend(
 );
 ```
 
-## Chapter 6: Use Method and Type Safety
+## Chapter 6: Use Method and Type Safety {#6-use-method-and-type-safety}
 
-### 6.1 Use Method Basics
+### 6.1 Use Method Basics {#61-use-method-basics}
 **File**: `16-use-basics.test.ts`
 
 **Scenarios to Cover**:
@@ -555,7 +595,7 @@ const Compatible = BaseButton.use(PrimaryButton); // Should work
 const Incompatible = PrimaryButton.use(BaseButton); // Should error
 ```
 
-### 6.2 Type Safety Features
+### 6.2 Type Safety Features {#62-type-safety-features}
 **File**: `17-type-safety.test.ts`
 
 **Scenarios to Cover**:
@@ -584,9 +624,9 @@ const ValidContract = cls(
 );
 ```
 
-## Chapter 7: Cache Performance Testing
+## Chapter 7: Cache Performance Testing {#7-cache-performance-testing}
 
-### 7.1 Cache Performance Benchmarks
+### 7.1 Cache Performance Benchmarks {#71-cache-performance-benchmarks}
 **File**: `18-cache-performance.test.ts`
 
 **Scenarios to Cover**:
@@ -633,7 +673,7 @@ const slotFunction2 = Button.create().root;
 expect(slotFunction1).toBe(slotFunction2); // Same function reference
 ```
 
-### 7.2 Cache Validation Tests
+### 7.2 Cache Validation Tests {#72-cache-validation-tests}
 **File**: `19-cache-validation.test.ts`
 
 **Scenarios to Cover**:
@@ -677,9 +717,9 @@ expect(variantInstance.root).toBe(variantInstance2.root);
 
 > **Performance Testing Note**: These cache performance tests are designed to demonstrate the caching benefits of the CLS library, but they are **not direct performance comparisons**. The "create inside loop" test creates new instances on each iteration (cache misses), while the "create outside loop" test reuses cached slot functions. This approach shows the real-world benefit of caching without introducing artificial cache disabling mechanisms. The performance difference should be significant (3-5x) due to the overhead of creating new instances vs. reusing cached functions.
 
-## Chapter 8: Integration and Real-World Usage
+## Chapter 8: Integration and Real-World Usage {#8-integration-and-real-world-usage}
 
-### 8.1 React Integration
+### 8.1 React Integration {#81-react-integration}
 **File**: `20-react-integration.test.ts`
 
 **Scenarios to Cover**:
@@ -710,7 +750,7 @@ const MyButton = ({ size, variant, className, children, ...props }) => {
 };
 ```
 
-### 8.2 Design System Integration
+### 8.2 Design System Integration {#82-design-system-integration}
 **File**: `21-design-system.test.ts`
 
 **Scenarios to Cover**:
@@ -751,9 +791,9 @@ const Component = cls(
 );
 ```
 
-## Chapter 9: Error Handling and Edge Cases
+## Chapter 9: Error Handling and Edge Cases {#9-error-handling-and-edge-cases}
 
-### 9.1 Validation and Errors
+### 9.1 Validation and Errors {#91-validation-and-errors}
 **File**: `22-validation-errors.test.ts`
 
 **Scenarios to Cover**:
@@ -786,7 +826,7 @@ const MissingDefinitions = cls(
 );
 ```
 
-### 9.2 Edge Case Handling
+### 9.2 Edge Case Handling {#92-edge-case-handling}
 **File**: `23-edge-cases.test.ts`
 
 **Scenarios to Cover**:
@@ -817,9 +857,9 @@ const ExtremeComponent = cls(
 );
 ```
 
-## Chapter 10: Advanced Patterns and Techniques
+## Chapter 10: Advanced Patterns and Techniques {#10-advanced-patterns-and-techniques}
 
-### 10.1 Dynamic Styling
+### 10.1 Dynamic Styling {#101-dynamic-styling}
 **File**: `24-dynamic-styling.test.ts`
 
 **Scenarios to Cover**:
@@ -848,7 +888,7 @@ const DynamicComponent = cls(
 );
 ```
 
-### 10.2 Advanced Composition
+### 10.2 Advanced Composition {#102-advanced-composition}
 **File**: `25-advanced-composition.test.ts`
 
 **Scenarios to Cover**:
