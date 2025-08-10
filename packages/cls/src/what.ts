@@ -17,6 +17,9 @@ export const what = <
 		}),
 		variant: (variant) => variant,
 	},
+	override: {
+		token: (token) => token,
+	},
 	def: {
 		root: (slot, override = false) => match(undefined, slot, override),
 		rule: match,

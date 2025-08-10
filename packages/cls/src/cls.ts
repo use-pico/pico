@@ -325,8 +325,29 @@ export function cls<
 		ruleMatch: Record<string, unknown> | undefined,
 	): boolean => {
 		if (!ruleMatch) return true;
+
 		for (const [k, v] of Object.entries(ruleMatch)) {
-			if (effective[k] !== v) return false;
+			const effectiveValue = effective[k];
+
+			// Handle nested variant structures
+			if (
+				typeof v === "object" &&
+				v !== null &&
+				typeof effectiveValue === "object" &&
+				effectiveValue !== null
+			) {
+				// Recursively check nested variant structure
+				if (
+					!matches(
+						effectiveValue as Record<string, unknown>,
+						v as Record<string, unknown>,
+					)
+				) {
+					return false;
+				}
+			} else if (effectiveValue !== v) {
+				return false;
+			}
 		}
 		return true;
 	};
@@ -356,11 +377,15 @@ export function cls<
 			const resultCache = new Map<string, string>();
 			const computeKey = (
 				slot: string,
-				call?: Partial<CreateConfig<TContract>>,
+				call?: (
+					props: WhatUtil<TContract>,
+				) => Partial<CreateConfig<TContract>>,
 			): string => {
-				if (call === undefined) return `${slot}|__no_config__`;
+				if (call === undefined) {
+					return `${slot}|__no_config__`;
+				}
 				try {
-					return `${slot}|${JSON.stringify(call)}`;
+					return `${slot}|${JSON.stringify(call(whatUtil))}`;
 				} catch {
 					return `${slot}|__non_serializable__`;
 				}
@@ -376,19 +401,12 @@ export function cls<
 						}
 
 						const slotFn: ClsSlotFn<TContract> = (call) => {
-							const key = computeKey(
-								slotName,
-								call?.({
-									what: whatUtil,
-								}),
-							);
+							const key = computeKey(slotName, call);
 							const cached = resultCache.get(key);
 							if (cached !== undefined) {
 								return cached;
 							}
-							const local = call as
-								| Partial<CreateConfig<TContract>>
-								| undefined;
+							const local = call?.(whatUtil);
 							const localConfig:
 								| InternalCreateConfig
 								| undefined = local

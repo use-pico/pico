@@ -305,9 +305,7 @@ export type SlotMapping<TContract extends Contract<any, any, any>> = {
 };
 
 export type ClsSlotFn<TContract extends Contract<any, any, any>> = (
-	config?: (props: {
-		what: WhatUtil<TContract>;
-	}) => Partial<CreateConfig<TContract>>,
+	config?: (props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>,
 ) => string;
 
 /**
@@ -405,6 +403,17 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 			variant: Partial<DefaultDefinition<TContract>>,
 		): Partial<DefaultDefinition<TContract>>;
 	};
+	/**
+	 * Semantic section used in overrides
+	 */
+	override: {
+		/**
+		 * Support for type-safe token overrides.
+		 */
+		token(
+			token: Partial<OptionalTokenDefinition<TContract>>,
+		): Partial<OptionalTokenDefinition<TContract>>;
+	};
 	def: {
 		/**
 		 * Provides default slot match
@@ -460,19 +469,19 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
 	 * There is a helper function "what" that you can use to typecheck your config and
 	 * make changes a bit more readable (e.g. changing slot "root" you may write `slot: what.css(['bla'])`)
 	 */
-	cls?: (props: {
-		what: WhatUtil<TCls["contract"]>;
-	}) => Partial<CreateConfig<TCls["contract"]>>;
+	cls?: (
+		props: WhatUtil<TCls["contract"]>,
+	) => Partial<CreateConfig<TCls["contract"]>>;
 } & Omit<P, "tva" | "cls">;
 
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(
-		userConfigFn?: (props: {
-			what: WhatUtil<TContract>;
-		}) => Partial<CreateConfig<TContract>>,
-		internalConfigFn?: (props: {
-			what: WhatUtil<TContract>;
-		}) => Partial<CreateConfig<TContract>>,
+		userConfigFn?: (
+			props: WhatUtil<TContract>,
+		) => Partial<CreateConfig<TContract>>,
+		internalConfigFn?: (
+			props: WhatUtil<TContract>,
+		) => Partial<CreateConfig<TContract>>,
 	): ClsSlots<TContract>;
 
 	extend<

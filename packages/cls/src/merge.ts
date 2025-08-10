@@ -9,19 +9,11 @@ import { what } from "./what";
  * - Shallow merge per field to match cls.create() semantics
  */
 export function merge<const TContract extends Contract<any, any, any>>(
-	user?: (props: {
-		what: WhatUtil<TContract>;
-	}) => Partial<CreateConfig<TContract>>,
-	internal?: (props: {
-		what: WhatUtil<TContract>;
-	}) => Partial<CreateConfig<TContract>>,
+	user?: (props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>,
+	internal?: (props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>,
 ): Partial<CreateConfig<TContract>> {
-	const $user = user?.({
-		what: what(),
-	});
-	const $internal = internal?.({
-		what: what(),
-	});
+	const $user = user?.(what());
+	const $internal = internal?.(what());
 
 	return {
 		...($internal ?? {}),

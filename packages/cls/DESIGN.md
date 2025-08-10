@@ -196,10 +196,10 @@ const classes = Button.create(({ what }) => ({
 
 ### Definition Callback
 
-The definition function receives a `WhatUtil` object with two main interfaces:
+The definition function receives a `WhatUtil` object with three main interfaces:
 
 ```typescript
-({ what, def }) => ({ ... })
+({ what, override, def }) => ({ ... })
 ```
 
 **`what` - Styling Helpers:**
@@ -207,6 +207,9 @@ The definition function receives a `WhatUtil` object with two main interfaces:
 - **`what.token(tokens)`**: Helper for tokens only  
 - **`what.both(classes, tokens)`**: Helper for both classes and tokens
 - **`what.variant(variant)`**: Helper for variant values (provides type safety)
+
+**`override` - Override Helpers:**
+- **`override.token(partialTokens)`**: Provides type-safe partial token overrides, useful for overriding specific tokens while preserving the rest. Takes partial input and returns partial output for use in `CreateConfig.token`.
 
 **`def` - Definition Helpers:**
 - **`def.root(slotConfig)`**: Creates the default slot configuration
@@ -228,7 +231,7 @@ const Button = cls(
       variant: ["default", "primary"]
     }
   },
-  ({ what, def }) => ({
+  ({ what, override, def }) => ({
     token: def.token({
       "color.text": {
         default: ["text-gray-900"],
@@ -238,6 +241,7 @@ const Button = cls(
         default: ["bg-gray-100"],
         primary: ["bg-blue-600"]
       }
+      // Note: override.token() is used in create() calls for partial token overrides
     }),
     rules: [
       def.root({
@@ -291,6 +295,34 @@ Tokens are the foundation of the design system, representing reusable design val
 **Token Semantics:**
 - **REPLACE**: When a contract explicitly declares a token variant, it replaces inherited values
 - **APPEND**: When a contract doesn't declare a token variant, it appends to inherited values
+
+**Token Override Example:**
+```typescript
+// Using override.token() for type-safe partial token overrides in create() calls
+const buttonClasses = Button.create(({ what, override }) => ({
+  token: override.token({
+    "color.text": {
+      primary: ["text-blue-600"] // Override only the primary variant
+    }
+    // Other tokens remain unchanged
+  })
+}));
+
+// Or in component cls prop
+const MyComponent = ({ cls }: Component<typeof Button>) => {
+  return (
+    <button className={cls(({ what, override }) => ({
+      token: override.token({
+        "color.bg": {
+          primary: ["bg-indigo-600"] // Override only the primary background
+        }
+      })
+    }))}>
+      Click me
+    </button>
+  );
+};
+```
 
 ### Slots
 
