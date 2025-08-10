@@ -1589,6 +1589,7 @@ This testing guide ensures comprehensive coverage of the CLS library while maint
 4. **Consistent Patterns**: Use consistent testing patterns across all test files
 5. **Clear Documentation**: Document complex test scenarios with inline comments
 6. **No README Files**: Avoid creating README files in test folders as this testing guide already provides comprehensive documentation
+7. **Single Test Files**: A single test can be in its own file if it's complex or if it helps prevent test files from growing too large. It's better to have many small, focused files than a few large, unwieldy ones
 
 ### Test Writing Best Practices
 1. **Descriptive Test Names**: Use clear, descriptive test names that explain the scenario
@@ -1600,6 +1601,65 @@ This testing guide ensures comprehensive coverage of the CLS library while maint
 7. **No Unused Code**: Remove unused parameters, variables, and imports to maintain clean test code
 8. **Test Validation**: Each test must pass linting/typechecking and run successfully (green) before proceeding to the next test
 9. **Test Extension**: While following this guide is the primary approach, extended tests may be created when needed or desirable to cover additional scenarios
+10. **Class Order Testing**: Tests must verify CSS class order as this is critical for inheritance behavior and CSS specificity. Class order affects how styles cascade and override each other, especially in inheritance chains
+
+### Class Order Testing Guidelines
+Class order is critical in CSS and must be tested thoroughly. Here's why and how:
+
+#### Why Class Order Matters:
+- **CSS Specificity**: Later classes can override earlier ones
+- **Inheritance Behavior**: Parent classes should come before child overrides
+- **Variant Resolution**: Variant-specific classes must override base classes
+- **Token Resolution**: Token-based classes must maintain proper precedence
+- **tw-merge Processing**: CLS uses `tw-merge` at the end which may alter the final class order for optimization
+
+#### Testing Class Order:
+1. **Base Classes First**: Verify base/token classes appear before variant-specific ones
+2. **Inheritance Order**: Parent classes should precede extended/child classes
+3. **Override Classes Last**: Variant overrides and user overrides should come last
+4. **Slot Order**: Multi-slot components should maintain consistent class ordering
+
+#### Example Class Order Test:
+```typescript
+it("should maintain correct class order for inheritance", () => {
+  const Base = cls(/* ... */);
+  const Extended = Base.extend(/* ... */);
+  
+  const classes = Extended.create().root();
+  
+  // Base classes should come first
+  expect(classes.indexOf("base-class")).toBeLessThan(classes.indexOf("extended-class"));
+  
+  // Variant classes should come after base classes
+  expect(classes.indexOf("base-class")).toBeLessThan(classes.indexOf("variant-class"));
+  
+  // User overrides should come last
+  const userClasses = Extended.create(({ what }) => ({
+    slot: { root: what.css(["user-override"]) }
+  })).root();
+  
+  expect(userClasses.indexOf("user-override")).toBeGreaterThan(
+    userClasses.indexOf("base-class")
+  );
+});
+```
+
+#### Common Class Order Scenarios to Test:
+- **Simple Inheritance**: Base → Extended → User Override
+- **Multi-Level Inheritance**: Level1 → Level2 → Level3 → User Override
+- **Variant Overrides**: Base → Variant → User Override
+- **Token Resolution**: Token → Variant → Override
+- **Slot Inheritance**: Parent Slot → Child Slot → User Override
+
+#### Important Note on tw-merge:
+CLS uses `tw-merge` at the end of the class generation process. This utility may alter the final class order for optimization purposes:
+
+- **Class Deduplication**: `tw-merge` removes duplicate classes
+- **Order Optimization**: May reorder classes for better CSS performance
+- **Tailwind Conflicts**: Resolves conflicting Tailwind CSS classes
+- **Final Output**: The actual CSS order may differ from the logical order in your CLS definition
+
+**Testing Strategy**: Focus on testing that the correct classes are present and that overrides work as expected, rather than testing the exact order of classes in the final output string.
 
 ### Test Execution Strategy
 1. **Sequential Execution**: Tests are numbered for logical execution order

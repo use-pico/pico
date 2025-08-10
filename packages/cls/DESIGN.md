@@ -210,9 +210,11 @@ The definition function receives a `WhatUtil` object with three main interfaces:
 
 **`override` - Override Helpers:**
 - **`override.token(partialTokens)`**: Provides type-safe partial token overrides, useful for overriding specific tokens while preserving the rest. Takes partial input and returns partial output for use in `CreateConfig.token`.
+- **`override.root(slotConfig)`**: Creates the default slot configuration with `override: true` by default, preventing boolean hell by hiding the explicit override flag.
+- **`override.rule(match, slotConfig)`**: Creates a conditional rule with `override: true` by default, ensuring the rule clears previous styles and applies only its own styles.
 
 **`def` - Definition Helpers:**
-- **`def.root(slotConfig)`**: Creates the default slot configuration
+- **`def.root(slotConfig, override = false)`**: Creates the default slot configuration
 - **`def.rule(match, slotConfig)`**: Creates a conditional rule
 - **`def.token(tokenDefinition)`**: Wraps token definitions with proper typing
 - **`def.defaults(defaultValues)`**: Wraps default values with proper typing
@@ -324,6 +326,36 @@ const MyComponent = ({ cls }: Component<typeof Button>) => {
 };
 ```
 
+**Override Pattern - Preventing Boolean Hell:**
+
+The `override` helpers provide a clean way to create rules and configurations with `override: true` by default, eliminating the need to explicitly specify `override: true` everywhere:
+
+```typescript
+// ❌ Boolean Hell - Explicit override flags everywhere
+def.rule(
+  { size: "lg" },
+  { root: what.css(["px-6", "py-3"]) },
+  true // Explicit flag required
+);
+
+// ✅ Clean Override - No explicit flags needed
+override.rule(
+  { size: "lg" },
+  { root: what.css(["px-6", "py-3"]) }
+  // override: true is automatically applied
+);
+```
+
+**When to Use Override Helpers:**
+- **`override.root()`**: When you want the default slot configuration to clear any previous styles
+- **`override.rule()`**: When you want a rule to completely replace previous styles instead of appending to them
+- **`override.token()`**: When you want to provide partial token overrides in create() calls
+
+**Override Behavior:**
+- Rules with `override: true` clear the style accumulator completely
+- Only styles from the override rule (and any subsequent rules) are applied
+- Previous styles are discarded, ensuring clean, predictable styling
+
 ### Slots
 
 Slots represent named parts of a component that can receive independent styling:
@@ -378,6 +410,11 @@ Rules define conditional styling based on variant combinations:
 - Multiple rules can apply to the same variant combination
 - Rules can override previous styles or append to them
 - Boolean variants are matched against true/false values
+
+**Override vs Append Behavior:**
+- **Default behavior**: Rules append to previous styles (accumulative)
+- **Override behavior**: Rules with `override: true` clear previous styles completely
+- **Use `override.rule()`** to automatically apply `override: true` without explicit flags
 
 ## CLS Instance Methods
 

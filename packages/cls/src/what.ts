@@ -18,6 +18,8 @@ export const what = <
 		variant: (variant) => variant,
 	},
 	override: {
+		root: (slot, override = true) => match(undefined, slot, override),
+		rule: ($match, slot, override = true) => match($match, slot, override),
 		token: (token) => token,
 	},
 	def: {

@@ -419,6 +419,14 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 	 */
 	override: {
 		/**
+		 * Provides default slot match
+		 */
+		root: MatchSlotFn<TContract>;
+		/**
+		 * Provides type-checked matcher
+		 */
+		rule: MatchFn<TContract>;
+		/**
 		 * Support for type-safe token overrides.
 		 */
 		token(

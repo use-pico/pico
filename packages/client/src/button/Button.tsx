@@ -37,7 +37,7 @@ export const Button: FC<Button.Props> = ({
 
 	return (
 		<button
-			className={classes.base}
+			className={classes.base()}
 			type={"button"}
 			{...props}
 		>
