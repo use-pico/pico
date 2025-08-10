@@ -59,6 +59,40 @@
 
 > **Performance Note**: We do not test performance characteristics, memory usage, or runtime optimization. The focus is on **functional correctness** and **API behavior** rather than performance metrics.
 
+> **Test Organization**: Tests should match individual chapters and subchapters in folders, where each folder can contain an arbitrary number of files (per single responsibility requirement). This allows for better organization and easier maintenance while keeping individual test files focused on specific scenarios.
+
+**Folder Structure Example**:
+```
+test/
+├── chapter-01/
+│   ├── 1.1-simple-component-creation/
+│   │   ├── basic-creation.test.ts
+│   │   └── minimal-contract.test.ts
+│   ├── 1.2-token-system-basics/
+│   │   ├── single-tokens.test.ts
+│   │   └── token-inheritance.test.ts
+│   └── 1.3-slot-system-basics/
+│       ├── single-slot.test.ts
+│       └── multiple-slots.test.ts
+├── chapter-02/
+│   ├── 2.1-what-utility-functions/
+│   │   ├── what-css.test.ts
+│   │   ├── what-token.test.ts
+│   │   └── what-variant.test.ts
+│   └── 2.2-definition-helpers/
+│       ├── def-root.test.ts
+│       └── def-rule.test.ts
+└── chapter-11/
+    ├── 11.1-multi-level-inheritance/
+    │   ├── level-1-base.test.ts
+    │   ├── level-2-extension.test.ts
+    │   └── level-3-complex.test.ts
+    └── 11.2-create-override-combinations/
+        ├── user-config.test.ts
+        ├── internal-config.test.ts
+        └── progressive-overrides.test.ts
+```
+
 ## Testing Philosophy
 
 ### File Organization
@@ -1539,3 +1573,81 @@ bun test --watch
 5. **Reusability**: Create reusable test utilities and data
 
 This testing guide ensures comprehensive coverage of the CLS library while maintaining clear organization and progressive complexity. Each chapter builds upon the previous ones, creating a solid foundation for understanding and testing the library's capabilities.
+
+## Testing Implementation Guidance
+
+### Test File Naming Convention
+- **Chapter folders**: Use `chapter-XX` format (e.g., `chapter-01`, `chapter-11`)
+- **Subsection folders**: Use `X.X-subsection-name` format (e.g., `1.1-simple-component-creation`)
+- **Test files**: Use descriptive names that indicate the specific scenario being tested
+- **File extensions**: Always use `.test.ts` for TypeScript test files
+
+### Test File Organization Principles
+1. **Single Responsibility**: Each test file should focus on one specific concept or scenario
+2. **Progressive Complexity**: Start with basic tests and build up to complex scenarios
+3. **Logical Grouping**: Group related tests within the same subsection folder
+4. **Consistent Patterns**: Use consistent testing patterns across all test files
+5. **Clear Documentation**: Document complex test scenarios with inline comments
+
+### Test Writing Best Practices
+1. **Descriptive Test Names**: Use clear, descriptive test names that explain the scenario
+2. **Single Assertion Focus**: Each test should verify one specific behavior
+3. **Proper Setup/Teardown**: Set up test data properly and clean up after tests
+4. **Edge Case Coverage**: Include both happy path and edge case scenarios
+5. **Realistic Examples**: Use realistic component examples that mirror real-world usage
+
+### Test Execution Strategy
+1. **Sequential Execution**: Tests are numbered for logical execution order
+2. **Independent Tests**: Each test file can run independently
+3. **Shared Utilities**: Common test utilities should be placed in `setup.ts`
+4. **Mock Data**: Use consistent mock data across all tests
+5. **Coverage Goals**: Aim for 100% API coverage and comprehensive edge case testing
+
+### Folder Structure Benefits
+- **Easy Navigation**: Developers can quickly find tests for specific features
+- **Scalable Organization**: Easy to add new tests without losing structure
+- **Maintainable Code**: Related tests are grouped logically
+- **Clear Ownership**: Each subsection has its own folder for focused development
+- **Consistent Patterns**: Enforces consistent testing organization across the project
+
+### Example Test Implementation
+```typescript
+// File: test/chapter-01/1.1-simple-component-creation/basic-creation.test.ts
+import { describe, it, expect } from 'vitest';
+import { cls } from '../../../../src';
+
+describe('1.1 Simple Component Creation - Basic Creation', () => {
+  it('should create a basic CLS instance with minimal contract', () => {
+    const Button = cls(
+      {
+        tokens: { "color.bg": ["default"] },
+        slot: ["root"],
+        variant: { size: ["sm"] }
+      },
+      ({ what, def }) => ({
+        token: def.token({
+          "color.bg": { default: ["bg-gray-100"] }
+        }),
+        rules: [def.root({ root: what.token(["color.bg.default"]) })],
+        defaults: def.defaults({ size: "sm" })
+      })
+    );
+
+    const instance = Button.create();
+    expect(instance.root()).toContain("bg-gray-100");
+  });
+
+  it('should handle parameter-less create() call with defaults', () => {
+    // Test implementation here
+  });
+});
+```
+
+### Maintenance and Updates
+1. **Keep Tests Focused**: Don't let individual test files grow too large
+2. **Regular Refactoring**: Refactor tests when patterns become inconsistent
+3. **Documentation Updates**: Keep test documentation in sync with implementation
+4. **Coverage Monitoring**: Regularly check test coverage and identify gaps
+5. **Performance Awareness**: Monitor test execution time and optimize slow tests
+
+This comprehensive testing structure ensures that the CLS library is thoroughly tested, well-organized, and maintainable for long-term development success.
