@@ -1,4 +1,4 @@
-import type { Cls, Contract, CreateConfig } from "../types";
+import type { Cls, Contract, CreateConfig, WhatUtil } from "../types";
 import { useClsContext } from "./ClsContext";
 
 /**
@@ -109,8 +109,12 @@ import { useClsContext } from "./ClsContext";
  */
 export function useCls<TContract extends Contract<any, any, any>>(
 	clsInstance: Cls<TContract>,
-	userConfig?: Partial<CreateConfig<TContract>>,
-	internalConfig?: Partial<CreateConfig<TContract>>,
+	userConfig?: (props: {
+		what: WhatUtil<TContract>;
+	}) => Partial<CreateConfig<TContract>>,
+	internalConfig?: (props: {
+		what: WhatUtil<TContract>;
+	}) => Partial<CreateConfig<TContract>>,
 ) {
 	// Get context cls instance
 	const contextCls = useClsContext();
@@ -118,12 +122,15 @@ export function useCls<TContract extends Contract<any, any, any>>(
 	// Merge context tokens with internal config
 	let mergedInternalConfig = internalConfig;
 	if (contextCls?.definition?.token) {
-		mergedInternalConfig = {
-			...internalConfig,
-			token: {
-				...contextCls.definition.token,
-				...internalConfig?.token, // Internal tokens win over context tokens
-			} as any, // Type assertion for runtime token merging
+		mergedInternalConfig = (props: { what: WhatUtil<TContract> }) => {
+			const config = internalConfig?.(props) ?? {};
+			return {
+				...config,
+				token: {
+					...contextCls.definition.token,
+					...config.token, // Internal tokens win over context tokens
+				} as any, // Type assertion for runtime token merging
+			};
 		};
 	}
 

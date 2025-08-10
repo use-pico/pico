@@ -305,7 +305,9 @@ export type SlotMapping<TContract extends Contract<any, any, any>> = {
 };
 
 export type ClsSlotFn<TContract extends Contract<any, any, any>> = (
-	config?: Partial<CreateConfig<TContract>>,
+	config?: (props: {
+		what: WhatUtil<TContract>;
+	}) => Partial<CreateConfig<TContract>>,
 ) => string;
 
 /**
@@ -374,36 +376,43 @@ export interface RuleDefinition<TContract extends Contract<any, any, any>> {
 }
 
 /**
- * Helper interface providing utility functions for styling
+ * Helper utility to provide typed callbacks for "cls" system.
  */
 export interface WhatUtil<TContract extends Contract<any, any, any>> {
 	/**
-	 * Helper for classes only
+	 * What to style - e.g. "class"/"token", both, originally used for "rules".
 	 */
-	css(classes: ClassName): WhatClass;
-	/**
-	 * What to apply - only tokens
-	 */
-	token(tokens: TokensOfList<TContract>): WhatToken<TContract>;
-	/**
-	 * What to apply - both classes and tokens
-	 */
-	both(classes: ClassName, tokens: TokensOfList<TContract>): What<TContract>;
-}
-
-export interface RuleBuilderProps<TContract extends Contract<any, any, any>> {
-	/**
-	 * Provides default slot match
-	 */
-	root: MatchSlotFn<TContract>;
-	/**
-	 * Provides type-checked matcher
-	 */
-	rule: MatchFn<TContract>;
-	/**
-	 * Utility functions for styling
-	 */
-	what: WhatUtil<TContract>;
+	what: {
+		/**
+		 * Helper for classes only
+		 */
+		css(classes: ClassName): WhatClass;
+		/**
+		 * What to apply - only tokens
+		 */
+		token(tokens: TokensOfList<TContract>): WhatToken<TContract>;
+		/**
+		 * What to apply - both classes and tokens
+		 */
+		both(
+			classes: ClassName,
+			tokens: TokensOfList<TContract>,
+		): What<TContract>;
+	};
+	def: {
+		/**
+		 * Provides default slot match
+		 */
+		root: MatchSlotFn<TContract>;
+		/**
+		 * Provides type-checked matcher
+		 */
+		rule: MatchFn<TContract>;
+		token(token: TokenDefinition<TContract>): TokenDefinition<TContract>;
+		defaults(
+			defaults: DefaultDefinition<TContract>,
+		): DefaultDefinition<TContract>;
+	};
 }
 
 /**
@@ -464,50 +473,11 @@ export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Token definitions mapping tokens to CSS classes */
 	token: TokenDefinition<TContract>;
 	/** Rules for conditional styling based on variants */
-	rules(props: RuleBuilderProps<TContract>): RuleDefinition<TContract>[];
+	rules: RuleDefinition<TContract>[];
 	/** Default values for variants */
 	defaults: DefaultDefinition<TContract>;
 };
 
-/**
- * Configuration for the create method.
- * Allows overriding variants, slots, and tokens.
- *
- * @template TContract - The contract that defines the structure
- *
- * @example
- * ```typescript
- * // Basic usage
- * const config: CreateConfig<typeof ButtonCls.contract> = {
- *   variant: { variant: "primary", size: "lg" },
- * };
- *
- * // With slot overrides
- * const config: CreateConfig<typeof ButtonCls.contract> = {
- *   variant: { variant: "primary" },
- *   slot: {
- *     icon: { class: ["mr-2", "animate-spin"] },
- *     label: { token: ["primary.textColor.hover"] }
- *   }
- * };
- *
- * // With token overrides
- * const config: CreateConfig<typeof ButtonCls.contract> = {
- *   token: {
- *     "primary.bgColor": {
- *       default: ["bg-red-500"] // Override the default background
- *     }
- *   }
- * };
- *
- * // With hard overrides (ignores rules)
- * const config: CreateConfig<typeof ButtonCls.contract> = {
- *   override: {
- *     root: { class: ["bg-red-500", "text-white"] }
- *   }
- * };
- * ```
- */
 export type CreateConfig<TContract extends Contract<any, any, any>> = {
 	/** Override variant values */
 	variant?: Partial<DefaultDefinition<TContract>>;
@@ -519,56 +489,6 @@ export type CreateConfig<TContract extends Contract<any, any, any>> = {
 	token?: Partial<OptionalTokenDefinition<TContract>>;
 };
 
-/**
- * Component type for React integration.
- * This type combines cls configuration with additional props for React components.
- * It allows you to use cls styling in React components with full type safety.
- *
- * @template TCls - The cls instance type
- * @template P - Additional props for the component
- *
- * @example
- * ```typescript
- * // Basic component with cls styling
- * const Button: React.FC<Component<typeof ButtonCls>> = ({
- *   variant,
- *   size,
- *   children,
- *   ...props
- * }) => {
- *   const classes = ButtonCls.create({ variant, size });
- *   return <button className={classes.root} {...props}>{children}</button>;
- * };
- *
- * // Component with additional props
- * const CustomButton: React.FC<Component<typeof ButtonCls, {
- *   loading?: boolean;
- *   icon?: React.ReactNode;
- * }>> = ({
- *   variant,
- *   size,
- *   loading,
- *   icon,
- *   children,
- *   ...props
- * }) => {
- *   const classes = ButtonCls.create({
- *     variant,
- *     size,
- *     slot: {
- *       icon: loading ? { class: ["animate-spin"] } : undefined
- *     }
- *   });
- *
- *   return (
- *     <button className={classes.root} {...props}>
- *       {icon && <span className={classes.icon}>{icon}</span>}
- *       <span className={classes.label}>{children}</span>
- *     </button>
- *   );
- * };
- * ```
- */
 export type Component<TCls extends Cls<any>, P = unknown> = {
 	/** The cls instance for styling */
 	tva?: TCls;
@@ -583,181 +503,7 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
 	}) => Partial<CreateConfig<TCls["contract"]>>;
 } & Omit<P, "tva" | "cls">;
 
-/**
- * Main cls interface that provides the public API for styling components.
- * A cls instance represents a styled component with tokens, slots, and variants.
- * It provides methods for creating styled instances, extending the design system,
- * and type-safe assignment of compatible cls instances.
- *
- * @template TContract - The contract that defines this cls instance
- *
- * @example
- * ```typescript
- * // Creating a basic cls instance
- * const ButtonCls = cls(
- *   {
- *     tokens: {
- *       "primary.textColor": ["default", "hover", "disabled"],
- *       "primary.bgColor": ["default", "hover", "disabled"]
- *     },
- *     slot: ["root", "icon", "label"],
- *     variant: {
- *       size: ["sm", "md", "lg"],
- *       variant: ["primary", "secondary"]
- *     }
- *   },
- *   {
- *     token: {
- *       "primary.textColor": {
- *         default: ["text-white"],
- *         hover: ["text-blue-100"],
- *         disabled: ["text-gray-400"]
- *       },
- *       "primary.bgColor": {
- *         default: ["bg-blue-500"],
- *         hover: ["bg-blue-600"],
- *         disabled: ["bg-gray-300"]
- *       }
- *     },
- *     rules: ({ root, rule, classes }) => [
- *       root({
- *         root: {
- *           class: ["inline-flex", "items-center"],
- *           token: ["primary.bgColor.default", "primary.textColor.default"]
- *         }
- *       }),
- *       rule(
- *         { size: "lg" },
- *         {
- *           root: {
- *             class: ["px-6", "py-3"]
- *           }
- *         }
- *       )
- *     ],
- *     defaults: {
- *       size: "md",
- *       variant: "primary"
- *     }
- *   }
- * );
- *
- * // Using the cls instance
- * const buttonClasses = ButtonCls.create({
- *   variant: "primary",
- *   size: "lg",
- *   slot: {
- *     icon: { class: ["mr-2"] }
- *   }
- * });
- *
- * // Extending the cls instance
- * const ExtendedButtonCls = ButtonCls.extend(
- *   {
- *     tokens: {
- *       "secondary.textColor": ["default", "hover"],
- *       "secondary.bgColor": ["default", "hover"]
- *     },
- *     slot: ["root", "icon", "label"],
- *     variant: {
- *       size: ["sm", "md", "lg", "xl"]
- *     }
- *   },
- *   {
- *     token: {
- *       "secondary.textColor": {
- *         default: ["text-gray-800"],
- *         hover: ["text-gray-900"]
- *       },
- *       "secondary.bgColor": {
- *         default: ["bg-gray-200"],
- *         hover: ["bg-gray-300"]
- *       }
- *     },
- *     rules: ({ root, rule }) => [
- *       root({
- *         root: {
- *           class: ["inline-flex", "items-center"],
- *           token: ["secondary.bgColor.default", "secondary.textColor.default"]
- *         }
- *       }),
- *       rule(
- *         { size: "xl" },
- *         {
- *           root: {
- *             class: ["px-8", "py-4"]
- *           }
- *         }
- *       )
- *     ],
- *     defaults: {
- *       size: "md",
- *       variant: "secondary"
- *     }
- *   }
- * );
- * ```
- */
 export interface Cls<TContract extends Contract<any, any, any>> {
-	/**
-	 * Creates a styled instance with optional overrides.
-	 * This method generates CSS classes based on the current variant values
-	 * and any provided overrides for variants, slots, or tokens.
-	 *
-	 * Parameter order and precedence
-	 * - The first parameter is the user-land config (always available at call sites)
-	 * - The second parameter is an optional internal config (component-controlled)
-	 * - User config takes precedence over internal config for all fields
-	 *   (variant, slot, override, token)
-	 * The order is intentionally (user, internal) for developer convenience: in
-	 * components, the user config is almost always present, while internal
-	 * overrides are only occasionally supplied by the component.
-	 *
-	 * @param user - User-land configuration for this instance
-	 * @param internal - Optional component-controlled configuration
-	 * @returns An object with slot names as keys and generated CSS classes as values
-	 *
-	 * @example
-	 * ```typescript
-	 * // Basic usage with variants (user only)
-	 * const classes = ButtonCls.create({
-	 *   variant: { variant: "primary", size: "lg" }
-	 * });
-	 * // Result: { root: "inline-flex items-center bg-blue-500 text-white px-6 py-3", ... }
-	 *
-	 * // With slot overrides (user only)
-	 * const classes = ButtonCls.create({
-	 *   variant: { variant: "primary" },
-	 *   slot: {
-	 *     icon: { class: ["mr-2", "animate-spin"] },
-	 *     label: { token: ["primary.textColor.hover"] }
-	 *   }
-	 * });
-	 *
-	 * // With token overrides (user only)
-	 * const classes = ButtonCls.create({
-	 *   token: {
-	 *     "primary.bgColor": {
-	 *       default: ["bg-red-500"] // Override the default background
-	 *     }
-	 *   }
-	 * });
-	 *
-	 * // With hard overrides (user only; ignores rules for the slot)
-	 * const classes = ButtonCls.create({
-	 *   override: {
-	 *     root: { class: ["bg-red-500", "text-white"] }
-	 *   }
-	 * });
-	 *
-	 * // Combining user + internal configs (user wins on conflicts)
-	 * const classes = ButtonCls.create(
-	 *   { variant: { disabled: false } },               // user
-	 *   { variant: { disabled: true }, slot: { root: { class: ["px-2"] } } } // internal
-	 * );
-	 * // disabled -> false (from user), internal slot appends are still applied
-	 * ```
-	 */
 	create(
 		user?: (props: {
 			what: WhatUtil<TContract>;
@@ -767,102 +513,6 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 		}) => Partial<CreateConfig<TContract>>,
 	): ClsSlots<TContract>;
 
-	/**
-	 * Extends the current cls with new tokens, slots, and variants.
-	 * This method creates a new cls instance that inherits from the current one,
-	 * allowing you to add new design tokens, slots, or variants while maintaining
-	 * type safety and inheritance.
-	 *
-	 * @template TTokenContract - New token definitions (can override inherited or add new)
-	 * @template TSlotContract - New slot definitions
-	 * @template TVariantContract - New variant definitions
-	 * @param contract - Contract defining the new structure
-	 * @param definition - Definition providing the styling values
-	 * @returns A new cls instance with the extended functionality
-	 *
-	 * @example
-	 * ```typescript
-	 * // Extending with new variants
-	 * const LargeButtonCls = ButtonCls.extend(
-	 *   {
-	 *     tokens: {}, // No new tokens
-	 *     slot: ["root", "icon", "label"], // Same slots
-	 *     variant: {
-	 *       size: ["sm", "md", "lg", "xl"] // Added "xl" size
-	 *     }
-	 *   },
-	 *   {
-	 *     token: {}, // No new token definitions
-	 *     rules: ({ root, rule }) => [
-	 *       root({
-	 *         root: {
-	 *           class: ["inline-flex", "items-center"],
-	 *           token: ["primary.bgColor.default", "primary.textColor.default"]
-	 *         }
-	 *       }),
-	 *       rule(
-	 *         { size: "xl" },
-	 *         {
-	 *           root: {
-	 *             class: ["px-8", "py-4", "text-lg"]
-	 *           }
-	 *         }
-	 *       )
-	 *     ],
-	 *     defaults: {
-	 *       size: "md",
-	 *       variant: "primary"
-	 *     }
-	 *   }
-	 * );
-	 *
-	 * // Extending with new tokens
-	 * const ThemedButtonCls = ButtonCls.extend(
-	 *   {
-	 *     tokens: {
-	 *       "success.textColor": ["default", "hover"],
-	 *       "success.bgColor": ["default", "hover"]
-	 *     },
-	 *     slot: ["root", "icon", "label"],
-	 *     variant: {
-	 *       variant: ["primary", "secondary", "success"] // Added "success"
-	 *     }
-	 *   },
-	 *   {
-	 *     token: {
-	 *       "success.textColor": {
-	 *         default: ["text-white"],
-	 *         hover: ["text-green-100"]
-	 *       },
-	 *       "success.bgColor": {
-	 *         default: ["bg-green-500"],
-	 *         hover: ["bg-green-600"]
-	 *       }
-	 *     },
-	 *     rules: ({ root, rule }) => [
-	 *       root({
-	 *         root: {
-	 *           class: ["inline-flex", "items-center"],
-	 *           token: ["success.bgColor.default", "success.textColor.default"]
-	 *         }
-	 *       }),
-	 *       rule(
-	 *         { variant: "success" },
-	 *         {
-	 *           root: {
-	 *             class: ["bg-green-500", "text-white"]
-	 *           }
-	 *         }
-	 *       )
-	 *     ],
-	 *     defaults: {
-	 *       size: "md",
-	 *       variant: "primary"
-	 *     }
-	 *   }
-	 * );
-	 * ```
-	 */
 	extend<
 		const TTokenContract extends ExtendableTokenContract<TContract>,
 		const TSlotContract extends SlotContract,
@@ -874,7 +524,9 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 			TVariantContract,
 			TContract
 		>,
-		definition: Definition<
+		definition: (
+			props: WhatUtil<TContract>,
+		) => Definition<
 			Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
 		>,
 	): Cls<

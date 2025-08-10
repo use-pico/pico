@@ -1,4 +1,3 @@
-import { match } from "./match";
 import { merge } from "./merge";
 import { tvc } from "./tvc";
 import type {
@@ -13,6 +12,7 @@ import type {
 	TokenContract,
 	VariantContract,
 	What,
+	WhatUtil,
 } from "./types";
 import { what } from "./what";
 
@@ -167,7 +167,13 @@ export function cls<
 		TVariantContract,
 		any
 	>,
->(contract: TContract, definition: Definition<TContract>): Cls<TContract> {
+>(
+	contract: TContract,
+	definitionFn: (props: WhatUtil<TContract>) => Definition<TContract>,
+): Cls<TContract> {
+	// Create WhatUtil instance for this cls instance
+	const whatUtil = what<TContract>();
+
 	// Build inheritance chain once for this instance (base -> child order)
 	const buildChain = (
 		base: Contract<any, any, any>,
@@ -198,6 +204,8 @@ export function cls<
 		return layers.reverse();
 	};
 
+	// Call definition function to get the actual definition
+	const definition = definitionFn(whatUtil);
 	const layers = buildChain(contract, definition);
 
 	// Collect all slots across the chain (set union)
@@ -221,13 +229,8 @@ export function cls<
 	const mergedRules: RuleDefinition<any>[] = (() => {
 		const out: RuleDefinition<any>[] = [];
 		for (const { definition: d } of layers) {
-			const steps = d.rules({
-				root: (slot, override = false) =>
-					match(undefined, slot, override),
-				rule: match,
-				what: what(),
-			});
-			out.push(...steps);
+			// rules is an array property, not a function
+			out.push(...d.rules);
 		}
 		return out;
 	})();
@@ -330,10 +333,10 @@ export function cls<
 
 	// Public API
 	return {
-		create(userConfig, internalConfig) {
+		create(userConfigFn, internalConfigFn) {
 			const config = merge(
-				userConfig,
-				internalConfig,
+				userConfigFn,
+				internalConfigFn,
 			) as InternalCreateConfig;
 
 			// Effective variants: defaults <- create.variant
@@ -373,7 +376,12 @@ export function cls<
 						}
 
 						const slotFn: ClsSlotFn<TContract> = (call) => {
-							const key = computeKey(slotName, call);
+							const key = computeKey(
+								slotName,
+								call?.({
+									what: whatUtil,
+								}),
+							);
 							const cached = resultCache.get(key);
 							if (cached !== undefined) {
 								return cached;
@@ -501,14 +509,11 @@ export function cls<
 				handler,
 			);
 		},
-		extend(childContract, childDefinition) {
+		extend(childContract, childDefinitionFn) {
 			childContract["~use"] = contract;
 			childContract["~definition"] = definition;
 
-			return cls(
-				childContract as Contract<any, any, any>,
-				childDefinition as Definition<any>,
-			);
+			return cls(childContract as any, childDefinitionFn as any);
 		},
 		use<Sub extends Contract<any, any, any>>(
 			sub: Cls<Sub>,

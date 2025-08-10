@@ -11,6 +11,13 @@
 - test merging in "create" and other places merge is used
 - test slot() calls with different inputs, simple test + inheritance chain test (1 and 2 level)
 - in general, look at source code, how you understand it and make tests for it; source should be stable to make proper tests
+- same for React based tests - env. should be prepared, you can do testing
+    - from most simple (again, test should be smaller in more files)
+    - medium to most complex (e.g. Context and so on)
+
+# README - History
+
+- Add a note about pure objects vs. conversion to callback - stable type-safe references everywhere
 
 # README todo+structure
 
