@@ -2,7 +2,7 @@
 
 > **Note**: This guide provides a structured approach to testing the CLS library, ensuring comprehensive coverage of all features and edge cases.
 
-## Table of Contents
+## Table of Contents <a id="table-of-contents"></a>
 
 - [1. Basic CLS Creation](#1-basic-cls-creation)
   - [1.1 Simple Component Creation](#11-simple-component-creation)
@@ -68,7 +68,9 @@
 - **Consistent Patterns**: Follow consistent testing patterns across all test files
 - **Edge Case Coverage**: Include both happy path and edge case scenarios
 
-## Chapter 1: Basic CLS Creation {#1-basic-cls-creation}
+## Chapter 1: Basic CLS Creation <a id="1-basic-cls-creation"></a>
+
+**[← Previous: Table of Contents](#table-of-contents)** | **[→ Next Chapter: What Utility and Definition Helpers](#2-what-utility-and-definition-helpers)**
 
 ### 1.1 Simple Component Creation {#11-simple-component-creation}
 **File**: `01-basic-creation.test.ts`
@@ -192,7 +194,13 @@ const Button = cls(
 );
 ```
 
-## Chapter 2: What Utility and Definition Helpers {#2-what-utility-and-definition-helpers}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[→ Next Chapter: What Utility and Definition Helpers](#2-what-utility-and-definition-helpers)**
+
+## Chapter 2: What Utility and Definition Helpers <a id="2-what-utility-and-definition-helpers"></a>
+
+**[← Previous Chapter: Basic CLS Creation](#1-basic-cls-creation)** | **[→ Next Chapter: Rules and Conditional Styling](#3-rules-and-conditional-styling)**
 
 ### 2.1 What Utility Functions {#21-what-utility-functions}
 **File**: `05-what-utility.test.ts`
@@ -265,7 +273,13 @@ const Component = cls(
 );
 ```
 
-## Chapter 3: Rules and Conditional Styling {#3-rules-and-conditional-styling}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: What Utility and Definition Helpers](#2-what-utility-and-definition-helpers)** | **[→ Next Chapter: Rules and Conditional Styling](#3-rules-and-conditional-styling)**
+
+## Chapter 3: Rules and Conditional Styling <a id="3-rules-and-conditional-styling"></a>
+
+**[← Previous Chapter: What Utility and Definition Helpers](#2-what-utility-and-definition-helpers)** | **[→ Next Chapter: Create Method and Configuration](#4-create-method-and-configuration)**
 
 ### 3.1 Basic Rule Matching {#31-basic-rule-matching}
 **File**: `07-basic-rules.test.ts`
@@ -367,7 +381,13 @@ const Component = cls(
 );
 ```
 
-## Chapter 4: Create Method and Configuration {#4-create-method-and-configuration}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Rules and Conditional Styling](#3-rules-and-conditional-styling)** | **[→ Next Chapter: Create Method and Configuration](#4-create-method-and-configuration)**
+
+## Chapter 4: Create Method and Configuration <a id="4-create-method-and-configuration"></a>
+
+**[← Previous Chapter: Rules and Conditional Styling](#3-rules-and-conditional-styling)** | **[→ Next Chapter: Inheritance and Extension](#5-inheritance-and-extension)**
 
 ### 4.1 Basic Create Usage {#41-basic-create-usage}
 **File**: `10-basic-create.test.ts`
@@ -454,7 +474,13 @@ const classes = Button.create(({ what }) => ({
 }));
 ```
 
-## Chapter 5: Inheritance and Extension {#5-inheritance-and-extension}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Create Method and Configuration](#4-create-method-and-configuration)** | **[→ Next Chapter: Inheritance and Extension](#5-inheritance-and-extension)**
+
+## Chapter 5: Inheritance and Extension <a id="5-inheritance-and-extension"></a>
+
+**[← Previous Chapter: Create Method and Configuration](#4-create-method-and-configuration)** | **[→ Next Chapter: Use Method and Type Safety](#6-use-method-and-type-safety)**
 
 ### 5.1 Basic Inheritance {#51-basic-inheritance}
 **File**: `13-basic-inheritance.test.ts`
@@ -572,7 +598,13 @@ const OverrideTest = Base.extend(
 );
 ```
 
-## Chapter 6: Use Method and Type Safety {#6-use-method-and-type-safety}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance and Extension](#5-inheritance-and-extension)** | **[→ Next Chapter: Use Method and Type Safety](#6-use-method-and-type-safety)**
+
+## Chapter 6: Use Method and Type Safety <a id="6-use-method-and-type-safety"></a>
+
+**[← Previous Chapter: Inheritance and Extension](#5-inheritance-and-extension)** | **[→ Next Chapter: Cache Performance Testing](#7-cache-performance-testing)**
 
 ### 6.1 Use Method Basics {#61-use-method-basics}
 **File**: `16-use-basics.test.ts`
@@ -624,7 +656,13 @@ const ValidContract = cls(
 );
 ```
 
-## Chapter 7: Cache Performance Testing {#7-cache-performance-testing}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Use Method and Type Safety](#6-use-method-and-type-safety)** | **[→ Next Chapter: Cache Performance Testing](#7-cache-performance-testing)**
+
+## Chapter 7: Cache Performance Testing <a id="7-cache-performance-testing"></a>
+
+**[← Previous Chapter: Use Method and Type Safety](#6-use-method-and-type-safety)** | **[→ Next Chapter: Integration and Real-World Usage](#8-integration-and-real-world-usage)**
 
 ### 7.1 Cache Performance Benchmarks {#71-cache-performance-benchmarks}
 **File**: `18-cache-performance.test.ts`
@@ -717,7 +755,13 @@ expect(variantInstance.root).toBe(variantInstance2.root);
 
 > **Performance Testing Note**: These cache performance tests are designed to demonstrate the caching benefits of the CLS library, but they are **not direct performance comparisons**. The "create inside loop" test creates new instances on each iteration (cache misses), while the "create outside loop" test reuses cached slot functions. This approach shows the real-world benefit of caching without introducing artificial cache disabling mechanisms. The performance difference should be significant (3-5x) due to the overhead of creating new instances vs. reusing cached functions.
 
-## Chapter 8: Integration and Real-World Usage {#8-integration-and-real-world-usage}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Cache Performance Testing](#7-cache-performance-testing)** | **[→ Next Chapter: Integration and Real-World Usage](#8-integration-and-real-world-usage)**
+
+## Chapter 8: Integration and Real-World Usage <a id="8-integration-and-real-world-usage"></a>
+
+**[← Previous Chapter: Cache Performance Testing](#7-cache-performance-testing)** | **[→ Next Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
 
 ### 8.1 React Integration {#81-react-integration}
 **File**: `20-react-integration.test.ts`
@@ -791,7 +835,13 @@ const Component = cls(
 );
 ```
 
-## Chapter 9: Error Handling and Edge Cases {#9-error-handling-and-edge-cases}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Integration and Real-World Usage](#8-integration-and-real-world-usage)** | **[→ Next Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
+
+## Chapter 9: Error Handling and Edge Cases <a id="9-error-handling-and-edge-cases"></a>
+
+**[← Previous Chapter: Integration and Real-World Usage](#8-integration-and-real-world-usage)** | **[→ Next Chapter: Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)**
 
 ### 9.1 Validation and Errors {#91-validation-and-errors}
 **File**: `22-validation-errors.test.ts`
@@ -857,7 +907,13 @@ const ExtremeComponent = cls(
 );
 ```
 
-## Chapter 10: Advanced Patterns and Techniques {#10-advanced-patterns-and-techniques}
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
+
+## Chapter 10: Advanced Patterns and Techniques <a id="10-advanced-patterns-and-techniques"></a>
+
+**[← Previous Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
 
 ### 10.1 Dynamic Styling {#101-dynamic-styling}
 **File**: `24-dynamic-styling.test.ts`
@@ -909,6 +965,10 @@ const ComposedComponent = BaseComponent
   .extend(styleContract, styleDefinition)
   .extend(behaviorContract, behaviorDefinition);
 ```
+
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
 
 ## Test Execution Strategy
 
