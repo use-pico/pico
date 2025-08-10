@@ -2,6 +2,18 @@
 
 > **Note**: This guide provides a structured approach to testing the CLS library, ensuring comprehensive coverage of all features and edge cases.
 
+## Important Testing Philosophy
+
+> **Type Safety Note**: The CLS library provides **compile-time type safety** that prevents invalid values from being passed into the `cls()` function. This means:
+> - **No runtime validation tests needed** for invalid contract structures, token definitions, or variant values
+> - **TypeScript compilation will catch** any attempts to pass invalid configurations
+> - **Tests should focus on valid usage patterns** and ensure the library behaves correctly with valid inputs
+> - **This type safety is one of the main benefits** of using CLS over other styling solutions
+
+> **What We Don't Test**: Invalid contracts, malformed definitions, type mismatches, or other scenarios that TypeScript prevents at compile time.
+
+> **Performance Note**: We do not test performance characteristics, memory usage, or runtime optimization. The focus is on **functional correctness** and **API behavior** rather than performance metrics.
+
 ## Testing Philosophy
 
 ### File Organization
@@ -22,11 +34,11 @@
 **File**: `01-basic-creation.test.ts`
 
 **Scenarios to Cover**:
-- Basic cls instance creation with minimal contract
+- Basic `cls` instance creation with minimal contract
 - Simple token definitions
 - Basic slot definitions
 - Default variant values
-- Basic create() method usage
+- Basic `create()` method usage
 
 **Test Cases**:
 ```typescript
@@ -109,7 +121,7 @@ const Card = cls(
 - Boolean variants (disabled, loading, etc.)
 - Default variant values
 - Variant inheritance
-- Variant override in create()
+- Variant override in `create()`
 
 **Test Cases**:
 ```typescript
@@ -321,6 +333,7 @@ const Component = cls(
 **File**: `10-basic-create.test.ts`
 
 **Scenarios to Cover**:
+- Parameter-less `create()` call (default configuration)
 - Variant overrides
 - Slot overrides
 - Token overrides
@@ -329,7 +342,10 @@ const Component = cls(
 
 **Test Cases**:
 ```typescript
-// Basic create usage
+// Parameter-less create usage (default configuration)
+const classes = Button.create();
+
+// Basic create usage with variants
 const classes = Button.create(({ what }) => ({
   variant: what.variant({ size: "lg", variant: "primary" })
 }));
@@ -409,6 +425,7 @@ const classes = Button.create(({ what }) => ({
 - Slot inheritance
 - Variant inheritance
 - Default value inheritance
+- Minimal parent inheritance (parent with empty tokens/variants/slots)
 
 **Test Cases**:
 ```typescript
@@ -424,6 +441,34 @@ const PrimaryButton = BaseButton.extend(
         root: what.css(["bg-blue-600", "text-white"])
       })
     ]
+  })
+);
+
+// Minimal parent inheritance (parent with empty tokens/variants/slots)
+const MinimalParent = cls(
+  {
+    tokens: {},
+    slot: [],
+    variant: {}
+  },
+  ({ what, def }) => ({
+    token: {},
+    rules: [],
+    defaults: {}
+  })
+);
+const ChildOfMinimal = MinimalParent.extend(
+  {
+    tokens: { "color.bg": ["primary"] },
+    slot: ["root"],
+    variant: { size: ["sm", "md"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { primary: ["bg-blue-600"] }
+    }),
+    rules: [def.root({ root: what.token(["color.bg.primary"]) })],
+    defaults: def.defaults({ size: "md" })
   })
 );
 ```
@@ -493,7 +538,7 @@ const OverrideTest = Base.extend(
 **File**: `16-use-basics.test.ts`
 
 **Scenarios to Cover**:
-- Basic use() functionality
+- Basic `use()` functionality
 - Type compatibility checking
 - Inheritance validation
 - Error handling
@@ -539,54 +584,98 @@ const ValidContract = cls(
 );
 ```
 
-## Chapter 7: Performance and Optimization
+## Chapter 7: Cache Performance Testing
 
-### 7.1 Caching Behavior
-**File**: `18-caching.test.ts`
+### 7.1 Cache Performance Benchmarks
+**File**: `18-cache-performance.test.ts`
 
 **Scenarios to Cover**:
-- Slot function caching
-- Token index caching
-- Rule compilation caching
-- Memory usage patterns
-- Cache invalidation
+- Cache hit performance (create outside loop)
+- Cache miss performance (create inside loop)
+- Performance difference measurement
+- Slot function reuse validation
+- Cache effectiveness demonstration
 
 **Test Cases**:
 ```typescript
-// Caching verification
+// Cache performance test - comparing create inside vs outside loop
 const Button = cls(contract, definition);
+
+// Test 1: Create inside loop (cache misses - slower)
+const startInsideLoop = performance.now();
+for (let i = 0; i < 1000; i++) {
+  const classes = Button.create();
+  // Also call slots to make it a fair comparison
+  const rootClasses = classes.root();
+  const labelClasses = classes.label();
+}
+const insideLoopTime = performance.now() - startInsideLoop;
+
+// Test 2: Create outside loop (cache hits - faster)
+const classes = Button.create();
+const startOutsideLoop = performance.now();
+for (let i = 0; i < 1000; i++) {
+  // Reuse the same slot functions
+  const rootClasses = classes.root();
+  const labelClasses = classes.label();
+}
+const outsideLoopTime = performance.now() - startOutsideLoop;
+
+// Performance difference should be significant
+// create inside loop should be 3-5x slower due to cache misses
+const performanceRatio = insideLoopTime / outsideLoopTime;
+expect(performanceRatio).toBeGreaterThan(3); // At least 3x slower
+expect(performanceRatio).toBeLessThan(10);   // But not more than 10x (reasonable upper bound)
+
+// Validate that slot functions are actually reused
+const slotFunction1 = classes.root;
+const slotFunction2 = Button.create().root;
+expect(slotFunction1).toBe(slotFunction2); // Same function reference
+```
+
+### 7.2 Cache Validation Tests
+**File**: `19-cache-validation.test.ts`
+
+**Scenarios to Cover**:
+- Slot function identity across create calls
+- Variant-specific caching
+- Token resolution caching
+- Rule matching caching
+- Cache consistency validation
+
+**Test Cases**:
+```typescript
+// Cache validation - ensure slot functions are reused
+const Button = cls(contract, definition);
+
+// Create multiple instances
 const instance1 = Button.create();
 const instance2 = Button.create();
+const instance3 = Button.create();
 
-// Should reuse cached slot functions
-const root1 = instance1.root();
-const root2 = instance2.root();
+// All instances should share the same slot functions (cached)
+expect(instance1.root).toBe(instance2.root);
+expect(instance2.root).toBe(instance3.root);
+expect(instance1.label).toBe(instance2.label);
+
+// Variant-specific instances should also share base slot functions
+const variantInstance = Button.create(({ what }) => ({
+  variant: what.variant({ size: "lg" })
+}));
+
+// Base slots should be the same
+expect(instance1.root).toBe(variantInstance.root);
+
+// But variant-specific slots might be different
+const variantInstance2 = Button.create(({ what }) => ({
+  variant: what.variant({ size: "lg" })
+}));
+
+// Same variant should share slot functions
+expect(variantInstance.root).toBe(variantInstance2.root);
 ```
 
-### 7.2 Performance Characteristics
-**File**: `19-performance.test.ts`
-
-**Scenarios to Cover**:
-- Large contract performance
-- Deep inheritance performance
-- Rule evaluation performance
-- Memory allocation patterns
-- Runtime optimization
-
-**Test Cases**:
-```typescript
-// Performance benchmarks
-const LargeComponent = cls(
-  {
-    tokens: { /* many tokens */ },
-    slot: ["root", "header", "body", "footer", "actions"],
-    variant: { /* many variants */ }
-  },
-  ({ what, def }) => ({
-    rules: [/* many rules */]
-  })
-);
-```
+> **Performance Testing Note**: These cache performance tests are designed to demonstrate the caching benefits of the CLS library, but they are **not direct performance comparisons**. The "create inside loop" test creates new instances on each iteration (cache misses), while the "create outside loop" test reuses cached slot functions. This approach shows the real-world benefit of caching without introducing artificial cache disabling mechanisms. The performance difference should be significant (3-5x) due to the overhead of creating new instances vs. reusing cached functions.
 
 ## Chapter 8: Integration and Real-World Usage
 
