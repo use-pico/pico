@@ -1588,6 +1588,7 @@ This testing guide ensures comprehensive coverage of the CLS library while maint
 3. **Logical Grouping**: Group related tests within the same subsection folder
 4. **Consistent Patterns**: Use consistent testing patterns across all test files
 5. **Clear Documentation**: Document complex test scenarios with inline comments
+6. **No README Files**: Avoid creating README files in test folders as this testing guide already provides comprehensive documentation
 
 ### Test Writing Best Practices
 1. **Descriptive Test Names**: Use clear, descriptive test names that explain the scenario
@@ -1595,6 +1596,10 @@ This testing guide ensures comprehensive coverage of the CLS library while maint
 3. **Proper Setup/Teardown**: Set up test data properly and clean up after tests
 4. **Edge Case Coverage**: Include both happy path and edge case scenarios
 5. **Realistic Examples**: Use realistic component examples that mirror real-world usage
+6. **Code Quality**: All test files should pass linting and TypeScript checks without warnings or errors
+7. **No Unused Code**: Remove unused parameters, variables, and imports to maintain clean test code
+8. **Test Validation**: Each test must pass linting/typechecking and run successfully (green) before proceeding to the next test
+9. **Test Extension**: While following this guide is the primary approach, extended tests may be created when needed or desirable to cover additional scenarios
 
 ### Test Execution Strategy
 1. **Sequential Execution**: Tests are numbered for logical execution order
@@ -1614,7 +1619,7 @@ This testing guide ensures comprehensive coverage of the CLS library while maint
 ```typescript
 // File: test/chapter-01/1.1-simple-component-creation/basic-creation.test.ts
 import { describe, it, expect } from 'vitest';
-import { cls } from '../../../../src';
+import { cls } from '../../../src';
 
 describe('1.1 Simple Component Creation - Basic Creation', () => {
   it('should create a basic CLS instance with minimal contract', () => {
