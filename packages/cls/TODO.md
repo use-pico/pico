@@ -31,6 +31,8 @@
 
 # README - The system may look complicated, but most is only TS types and rest a "few lines of runtime code"
 
+# README - Experimentally switch this lib to "dist"
+
 # README todo+structure
 
 Planned a book-like outline in packages/cls/README2.md with chapters, 2-level ToC, and short content notes under each heading. It won’t change the current README, but sets a clear structure for the final rewrite.

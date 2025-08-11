@@ -1,0 +1,99 @@
+import { render, screen } from "@testing-library/react";
+import type { FC, PropsWithChildren } from "react";
+import { describe, expect, it } from "vitest";
+import { cls } from "../../../src";
+import type { Component } from "../../../src/types";
+
+describe("12.4 React Props - Token Overrides", () => {
+	it("should handle cls prop with token overrides", () => {
+		const SimpleCls = cls(
+			{
+				tokens: {
+					"color.bg": [
+						"primary",
+						"secondary",
+					],
+					"color.text": [
+						"primary",
+						"secondary",
+					],
+				},
+				slot: [
+					"root",
+				],
+				variant: {
+					color: [
+						"primary",
+						"secondary",
+					],
+				},
+			},
+			({ what, def }) => ({
+				token: def.token({
+					"color.bg": {
+						primary: [
+							"bg-blue-600",
+						],
+						secondary: [
+							"bg-gray-600",
+						],
+					},
+					"color.text": {
+						primary: [
+							"text-white",
+						],
+						secondary: [
+							"text-gray-900",
+						],
+					},
+				}),
+				rules: [
+					def.root({
+						root: what.token([
+							"color.bg.primary",
+							"color.text.primary",
+						]),
+					}),
+					def.rule(
+						{
+							color: "secondary",
+						},
+						{
+							root: what.token([
+								"color.bg.secondary",
+								"color.text.secondary",
+							]),
+						},
+					),
+				],
+				defaults: def.defaults({
+					color: "primary",
+				}),
+			}),
+		);
+
+		const SimpleComponent: FC<
+			Component<typeof SimpleCls, PropsWithChildren>
+		> = ({ cls: userCls, children }) => {
+			const classes = SimpleCls.create(userCls);
+			return <div className={classes.root()}>{children}</div>;
+		};
+
+		// Test with token overrides
+		render(
+			<SimpleComponent
+				cls={({ what }) => ({
+					variant: what.variant({
+						color: "secondary" as const,
+					}),
+				})}
+			>
+				Simple Component
+			</SimpleComponent>,
+		);
+
+		const component = screen.getByText("Simple Component");
+		expect(component).toBeInTheDocument();
+		expect(component.className).toBe("bg-gray-600 text-gray-900");
+	});
+});
