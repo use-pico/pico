@@ -2601,6 +2601,7 @@ def.defaults({
 It's like having **smart constructors** that ensure your styling definitions are always correct! 🎯✨
 
 So remember: **Definition helpers make your styling structures type-safe and semantic!** 🚀
+
 ---
 
 ### 3.9 Override Helpers <a id="39-override-helpers"></a>
@@ -4240,6 +4241,272 @@ const ButtonCls = cls({
 Ready to learn how to **define the actual token values** in the next section? 🚀
 
 ### 5.2 Token Definitions <a id="52-token-definitions"></a>
+
+[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Contract Declaration](#51-contract-declaration) | [→ Next Chapter: Runtime Overrides](#53-runtime-overrides)
+
+---
+
+**Now that you've declared your token contract**, it's time to **assign actual CSS values** to those tokens! 🎨
+
+**Token definitions** are where the **magic happens** - you take your abstract design tokens and turn them into **real, usable CSS classes** that will be applied to your components.
+
+#### **The Token Definition Structure** 🏗️
+
+**Token definitions** map each token variant to **concrete CSS classes**:
+
+```typescript
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"]
+  },
+  slot: ["root"],
+  variant: {
+    variant: ["default", "primary", "secondary"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    // 🔒 ENFORCED: Each token variant MUST have CSS values
+    "color.bg": {
+      default: ["bg-gray-100"],    // Maps to: bg-gray-100
+      primary: ["bg-blue-500"],    // Maps to: bg-blue-500
+      secondary: ["bg-gray-500"]   // Maps to: bg-gray-500
+    },
+    "color.text": {
+      default: ["text-gray-900"],  // Maps to: text-gray-900
+      primary: ["text-white"],     // Maps to: text-white
+      secondary: ["text-gray-700"] // Maps to: text-gray-700
+    }
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"])
+    })
+  ],
+  defaults: def.defaults({ variant: "default" })
+}));
+```
+
+**What this creates:**
+- ✅ **Token mapping** - `"color.bg.primary"` → `"bg-blue-500"`
+- ✅ **CSS resolution** - tokens resolve to actual CSS classes at runtime
+- ✅ **Type safety** - TypeScript ensures all variants are defined
+- ✅ **Reusability** - tokens can be used across multiple rules and slots
+
+#### **Multiple CSS Classes per Token** 🎨
+
+**Tokens can map to multiple CSS classes** for complex styling:
+
+```typescript
+const CardCls = cls({
+  tokens: {
+    "shadow": ["none", "sm", "md", "lg"],
+    "border": ["none", "thin", "thick"]
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "shadow": {
+      none: ["shadow-none"],
+      sm: ["shadow-sm", "drop-shadow-sm"],      // Multiple classes
+      md: ["shadow", "drop-shadow"],            // Multiple classes
+      lg: ["shadow-lg", "drop-shadow-lg"]       // Multiple classes
+    },
+    "border": {
+      none: [],
+      thin: ["border", "border-gray-200"],      // Multiple classes
+      thick: ["border-2", "border-gray-300"]    // Multiple classes
+    }
+  }),
+  rules: [def.root({ root: what.token(["shadow.md", "border.thin"]) })],
+  defaults: {}
+}));
+```
+
+**Benefits of multiple classes:**
+- 🎯 **Granular control** - combine multiple CSS utilities
+- 🔧 **Flexibility** - mix Tailwind, custom CSS, and CSS variables
+- 🎨 **Complex effects** - shadows, borders, transitions, etc.
+- 🚀 **Performance** - no need for custom CSS files
+
+#### **Using Tokens in Rules** 🎯
+
+**Tokens come alive when used in rules** - they're the **building blocks** of your styling logic:
+
+```typescript
+const AlertCls = cls({
+  tokens: {
+    "color.bg": ["info", "success", "warning", "error"],
+    "color.text": ["info", "success", "warning", "error"],
+    "color.border": ["info", "success", "warning", "error"]
+  },
+  slot: ["root", "icon"],
+  variant: {
+    type: ["info", "success", "warning", "error"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      info: ["bg-blue-50"],
+      success: ["bg-green-50"],
+      warning: ["bg-yellow-50"],
+      error: ["bg-red-50"]
+    },
+    "color.text": {
+      info: ["text-blue-800"],
+      success: ["text-green-800"],
+      warning: ["text-yellow-800"],
+      error: ["text-red-800"]
+    },
+    "color.border": {
+      info: ["border-blue-200"],
+      success: ["border-green-200"],
+      warning: ["border-yellow-200"],
+      error: ["border-red-200"]
+    }
+  }),
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['p-4', 'rounded-lg', 'border-l-4']),
+      icon: what.css(['w-5', 'h-5'])
+    }),
+    
+    // Type-specific styling using tokens
+    def.rule(what.variant({ type: 'info' }), {
+      root: what.token(['color.bg.info', 'color.text.info', 'color.border.info'])
+    }),
+    
+    def.rule(what.variant({ type: 'success' }), {
+      root: what.token(['color.bg.success', 'color.text.success', 'color.border.success'])
+    }),
+    
+    def.rule(what.variant({ type: 'warning' }), {
+      root: what.token(['color.bg.warning', 'color.text.warning', 'color.border.warning'])
+    }),
+    
+    def.rule(what.variant({ type: 'error' }), {
+      root: what.token(['color.bg.error', 'color.text.error', 'color.border.error'])
+    })
+  ],
+  defaults: def.defaults({ type: 'info' })
+}));
+```
+
+**How tokens work in rules:**
+- 🎨 **Dynamic styling** - tokens change based on variant values
+- 🔄 **Automatic resolution** - `what.token(['color.bg.info'])` → `"bg-blue-50"`
+- 🎯 **Consistent theming** - same tokens used across multiple rules
+- 🚀 **Performance** - tokens are resolved once and cached
+
+#### **Token Definition Best Practices** 💡
+
+**Follow these guidelines** for robust token definitions:
+
+**✅ Do:**
+- **Use semantic names** - `"color.bg.primary"` not `"color.bg.blue"`
+- **Group related tokens** - all color tokens together, all spacing together
+- **Provide all variants** - every declared token variant must have CSS values
+- **Use consistent patterns** - same CSS class structure across similar tokens
+- **Document complex tokens** - add comments for multi-class tokens
+
+**❌ Don't:**
+- **Leave tokens undefined** - TypeScript will error on missing variants
+- **Mix CSS frameworks** - stick to one approach (Tailwind, custom, etc.)
+- **Use hardcoded values** - prefer tokens over direct CSS classes in rules
+- **Create too many variants** - keep token groups focused and manageable
+
+**Example of good token organization:**
+
+```typescript
+const DesignSystemCls = cls({
+  tokens: {
+    // 🎨 Color system - semantic naming
+    "color.bg": ["default", "primary", "secondary", "success", "error"],
+    "color.text": ["default", "primary", "secondary", "muted", "inverse"],
+    "color.border": ["default", "focus", "error", "success"],
+    
+    // 📏 Spacing system - consistent scale
+    "spacing.padding": ["xs", "sm", "md", "lg", "xl"],
+    "spacing.margin": ["xs", "sm", "md", "lg", "xl"],
+    
+    // 🔤 Typography system - semantic sizes
+    "typography.size": ["xs", "sm", "base", "lg", "xl", "2xl"],
+    "typography.weight": ["light", "normal", "medium", "semibold", "bold"]
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-50"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"],
+      success: ["bg-green-500"],
+      error: ["bg-red-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-blue-600"],
+      secondary: ["text-gray-600"],
+      muted: ["text-gray-500"],
+      inverse: ["text-white"]
+    },
+    "color.border": {
+      default: ["border-gray-300"],
+      focus: ["border-blue-500"],
+      error: ["border-red-500"],
+      success: ["border-green-500"]
+    },
+    "spacing.padding": {
+      xs: ["px-2", "py-1"],
+      sm: ["px-3", "py-1.5"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"],
+      xl: ["px-8", "py-4"]
+    },
+    "spacing.margin": {
+      xs: ["m-1"],
+      sm: ["m-2"],
+      md: ["m-4"],
+      lg: ["m-6"],
+      xl: ["m-8"]
+    },
+    "typography.size": {
+      xs: ["text-xs"],
+      sm: ["text-sm"],
+      base: ["text-base"],
+      lg: ["text-lg"],
+      xl: ["text-xl"],
+      "2xl": ["text-2xl"]
+    },
+    "typography.weight": {
+      light: ["font-light"],
+      normal: ["font-normal"],
+      medium: ["font-medium"],
+      semibold: ["font-semibold"],
+      bold: ["font-bold"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
+  defaults: {}
+}));
+```
+
+#### **Bottom Line** 🎯
+
+**Token Definitions** are your **styling value foundation**:
+
+- 🎨 **CSS mapping** - abstract tokens become concrete CSS classes
+- 🔒 **Type enforcement** - all declared tokens must have values
+- 🎯 **Rule integration** - tokens power dynamic styling in rules
+- 🚀 **Performance** - resolved once, cached for reuse
+- 🌍 **Design system** - consistent tokens across components
+
+**Remember:** **Good token definitions make good design systems!** Define your tokens well, and your components will look great! 🎉
+
+Ready to learn about **Runtime Overrides** in the next section? This will show how to dynamically change tokens at runtime! 🚀
 
 ### 5.3 Runtime Overrides <a id="53-runtime-overrides"></a>
 
