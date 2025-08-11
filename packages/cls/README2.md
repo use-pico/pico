@@ -2625,7 +2625,7 @@ override.rule(what.variant({ size: 'lg' }), {
 
 **The main purpose:** Override helpers give you **explicit control** over when you want to **start fresh** instead of **building on top** of existing styles! 🎯
 
-#### **3.9.1 `override.root()` <a id="391-overrideroot"></a>
+#### 3.9.1 `override.root()` <a id="391-overrideroot"></a>
 
 **Purpose:** Create **base styling that completely replaces** existing root styles:
 
@@ -2643,7 +2643,7 @@ override.root({
 - ✅ **Component variants** - entirely different styling approach
 - ✅ **Debugging** - clear out inherited styles
 
-#### **3.9.2 `override.rule()` <a id="392-overriderule"></a>
+#### 3.9.2 `override.rule()` <a id="392-overriderule"></a>
 
 **Purpose:** Create **conditional rules that completely replace** existing styles:
 
@@ -2663,7 +2663,7 @@ override.rule(what.variant({ variant: 'danger' }), {
 - ✅ **Size variations** - entirely different layout for sizes
 - ✅ **Theme overrides** - completely different visual theme
 
-#### **3.9.3 `override.token()` <a id="393-overridetoken"></a>
+#### 3.9.3 `override.token()` <a id="393-overridetoken"></a>
 
 **Purpose:** Create **token definitions that completely replace** existing tokens:
 
@@ -3495,216 +3495,6 @@ const CardCls = cls(contract, ({ what, def }) => ({
 
 **Remember:** CLS is **not guessing** - it's following your **explicit rules** to the letter! Every style that appears is there because a rule **explicitly matched** your variants! 🎯
 
----
-
-## 4. Tokens <a id="4-tokens"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Rules System](#4-rules-system)** | **[→ Next Chapter: Variants & Defaults](#5-variants--defaults)**
-
-### 4.1 Contract Declaration <a id="41-contract-declaration"></a>
-
-### 4.2 Token Definitions <a id="42-token-definitions"></a>
-
-### 4.3 Runtime Overrides <a id="43-runtime-overrides"></a>
-
-### 4.4 Inheritance Semantics <a id="44-inheritance-semantics"></a>
-
-### 4.5 Token Conflicts & Resolution <a id="45-token-conflicts--resolution"></a>
-
----
-
-## 5. Variants & Defaults <a id="5-variants--defaults"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Tokens](#4-tokens)** | **[→ Next Chapter: Slots](#6-slots)**
-
-### 5.1 String Variants <a id="51-string-variants"></a>
-
-### 5.2 Boolean Variants <a id="52-boolean-variants"></a>
-
-### 5.3 Forced Defaults <a id="53-forced-defaults"></a>
-
-### 5.4 Default Values <a id="54-default-values"></a>
-
-### 5.5 Variant Combinations <a id="55-variant-combinations"></a>
-
----
-
-## 6. Slots <a id="6-slots"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Variants & Defaults](#5-variants--defaults)** | **[→ Next Chapter: Inheritance](#7-inheritance)**
-
-### 6.1 Slot Definition <a id="61-slot-definition"></a>
-
-### 6.2 Lazy Evaluation <a id="62-lazy-evaluation"></a>
-
-### 6.3 Inheritance Accumulation <a id="63-inheritance-accumulation"></a>
-
-### 6.4 Slot Overrides <a id="64-slot-overrides"></a>
-
-### 6.5 Multi-slot Components <a id="65-multi-slot-components"></a>
-
----
-
-## 7. Inheritance <a id="7-inheritance"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Slots](#6-slots)** | **[→ Next Chapter: React Integration](#8-react-integration)**
-
-### 7.1 Overview <a id="71-overview"></a>
-
-### 7.2 Authoritative Rules <a id="72-authoritative-rules"></a>
-
-### 7.3 Behavior Examples <a id="73-behavior-examples"></a>
-
-### 7.4 Multi-level Inheritance <a id="74-multi-level-inheritance"></a>
-
-### 7.5 Contract Inheritance <a id="75-contract-inheritance"></a>
-
-### 7.6 Token Inheritance <a id="76-token-inheritance"></a>
-
-### 7.7 Variant Inheritance <a id="77-variant-inheritance"></a>
-
----
-
-## 8. React Integration <a id="8-react-integration"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance](#7-inheritance)** | **[→ Next Chapter: Theming & Token Overloading](#9-theming--token-overloading)**
-
-### 8.1 useCls Hook <a id="81-usecls-hook"></a>
-
-### 8.2 withCls HOC <a id="82-withcls-hoc"></a>
-
-### 8.3 Context Integration <a id="83-context-integration"></a>
-
-### 8.4 Component Patterns <a id="84-component-patterns"></a>
-
-### 8.5 ClsProvider & useClsContext <a id="85-clsprovider--useclscontext"></a>
-
----
-
-## 9. Theming & Token Overloading <a id="9-theming--token-overloading"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: React Integration](#8-react-integration)** | **[→ Next Chapter: Recipes & Patterns](#10-recipes--patterns)**
-
-### 9.1 One-time Replace <a id="91-one-time-replace"></a>
-
-### 9.2 External Themes <a id="92-external-themes"></a>
-
-### 9.3 Partial Themes <a id="93-partial-themes"></a>
-
-### 9.4 Dynamic Switching <a id="94-dynamic-switching"></a>
-
-### 9.5 Merge Precedence <a id="95-merge-precedence"></a>
-
-### 9.6 Theme Inheritance <a id="96-theme-inheritance"></a>
-
----
-
-## 10. Recipes & Patterns <a id="10-recipes--patterns"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Theming & Token Overloading](#9-theming--token-overloading)** | **[→ Next Chapter: Advanced Features](#11-advanced-features)**
-
-### 10.1 Simple Static Components <a id="101-simple-static-components"></a>
-
-### 10.2 Variant-only Components <a id="102-variant-only-components"></a>
-
-### 10.3 Token System Components <a id="103-token-system-components"></a>
-
-### 10.4 Inheritance Components <a id="104-inheritance-components"></a>
-
-### 10.5 Theme System Components <a id="105-theme-system-components"></a>
-
-### 10.6 Runtime Customization <a id="106-runtime-customization"></a>
-
-### 10.7 Complex Components <a id="107-complex-components"></a>
-
-### 10.8 Edge Cases & Empty Contracts <a id="108-edge-cases--empty-contracts"></a>
-
----
-
-## 11. Advanced Features <a id="11-advanced-features"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Recipes & Patterns](#10-recipes--patterns)** | **[→ Next Chapter: Comparison](#12-comparison)**
-
-### 11.1 Performance & Caching <a id="111-performance--caching"></a>
-
-### 11.2 Large Component Trees <a id="112-large-component-trees"></a>
-
-### 11.3 Dynamic Variants <a id="113-dynamic-variants"></a>
-
-### 11.4 Real-world Scenarios <a id="114-real-world-scenarios"></a>
-
-### 11.5 Type System Deep Dive <a id="115-type-system-deep-dive"></a>
-
----
-
-## 12. Comparison <a id="12-comparison"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Advanced Features](#11-advanced-features)** | **[→ Next Chapter: FAQ & Known Limitations](#13-faq--known-limitations)**
-
-### 12.1 Feature Table <a id="121-feature-table"></a>
-
-### 12.2 Code Comparisons <a id="122-code-comparisons"></a>
-
-### 12.3 Migration Paths <a id="123-migration-paths"></a>
-
-### 12.4 vs CVA (Class Variance Authority) <a id="124-vs-cva-class-variance-authority"></a>
-
-### 12.5 vs TV (Tailwind Variants) <a id="125-vs-tv-tailwind-variants"></a>
-
-### 12.6 vs Stitches <a id="126-vs-stitches"></a>
-
-### 12.7 vs Vanilla Extract <a id="127-vs-vanilla-extract"></a>
-
----
-
-## 12. FAQ & Known Limitations <a id="12-faq--known-limitations"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Comparison](#11-comparison)** | **[→ Next Chapter: Contributing](#13-contributing)**
-
-### 12.1 Frequently Asked Questions <a id="121-frequently-asked-questions"></a>
-
-### 12.2 Known Limitations <a id="122-known-limitations"></a>
-
-### 12.3 Troubleshooting <a id="123-troubleshooting"></a>
-
-### 12.4 Common Pitfalls <a id="124-common-pitfalls"></a>
-
----
-
-## 14. AI Compatibility & Documentation <a id="14-ai-compatibility--documentation"></a>
-
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: FAQ & Known Limitations](#13-faq--known-limitations)**
-
-### 14.1 AI-First Design Philosophy <a id="141-ai-first-design-philosophy"></a>
-
-### 14.2 Documentation Strategy <a id="142-documentation-strategy"></a>
-
-### 14.3 Context-Aware Usage <a id="143-context-aware-usage"></a>
-
-### 14.4 AI Assistant Integration <a id="144-ai-assistant-integration"></a>
-
----
-
-## Appendix A: Glossary <a id="appendix-a-glossary"></a>
-
-**[↑ Back to Top](#table-of-contents)**
-
----
-
-## Appendix B: Migration Playbook <a id="appendix-b-migration-playbook"></a>
-
-**[↑ Back to Top](#table-of-contents)**
-
-### B.1 From CVA to CLS <a id="b1-from-cva-to-cls"></a>
-
-### B.2 From TV to CLS <a id="b2-from-tv-to-cls"></a>
-
-### B.3 From Stitches to CLS <a id="b3-from-stitches-to-cls"></a>
-
----
-
-**[↑ Back to Top](#table-of-contents)**
-
 ### 4.6 Complex Match Conditions <a id="46-complex-match-conditions"></a>
 
 [↑ Back to Top] | [← Previous Chapter: Rule Matching](#45-rule-matching) | [→ Next Chapter: Inheritance System](#5-inheritance-system)
@@ -3979,3 +3769,213 @@ def.rule(what.variant({ fullWidth: true, rounded: true, shadow: 'lg' }), { ... }
 **Remember:** **Complex doesn't mean complicated** - it means **powerful and flexible**! CLS keeps the complexity **manageable and predictable** while giving you **unlimited styling possibilities**! 🚀
 
 **You're now a CLS Rules System master!** 🎓 Ready to explore the **Inheritance System** next? 🚀
+
+---
+
+## 4. Tokens <a id="4-tokens"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Rules System](#4-rules-system)** | **[→ Next Chapter: Variants & Defaults](#5-variants--defaults)**
+
+### 4.1 Contract Declaration <a id="41-contract-declaration"></a>
+
+### 4.2 Token Definitions <a id="42-token-definitions"></a>
+
+### 4.3 Runtime Overrides <a id="43-runtime-overrides"></a>
+
+### 4.4 Inheritance Semantics <a id="44-inheritance-semantics"></a>
+
+### 4.5 Token Conflicts & Resolution <a id="45-token-conflicts--resolution"></a>
+
+---
+
+## 5. Variants & Defaults <a id="5-variants--defaults"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Tokens](#4-tokens)** | **[→ Next Chapter: Slots](#6-slots)**
+
+### 5.1 String Variants <a id="51-string-variants"></a>
+
+### 5.2 Boolean Variants <a id="52-boolean-variants"></a>
+
+### 5.3 Forced Defaults <a id="53-forced-defaults"></a>
+
+### 5.4 Default Values <a id="54-default-values"></a>
+
+### 5.5 Variant Combinations <a id="55-variant-combinations"></a>
+
+---
+
+## 6. Slots <a id="6-slots"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Variants & Defaults](#5-variants--defaults)** | **[→ Next Chapter: Inheritance](#7-inheritance)**
+
+### 6.1 Slot Definition <a id="61-slot-definition"></a>
+
+### 6.2 Lazy Evaluation <a id="62-lazy-evaluation"></a>
+
+### 6.3 Inheritance Accumulation <a id="63-inheritance-accumulation"></a>
+
+### 6.4 Slot Overrides <a id="64-slot-overrides"></a>
+
+### 6.5 Multi-slot Components <a id="65-multi-slot-components"></a>
+
+---
+
+## 7. Inheritance <a id="7-inheritance"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Slots](#6-slots)** | **[→ Next Chapter: React Integration](#8-react-integration)**
+
+### 7.1 Overview <a id="71-overview"></a>
+
+### 7.2 Authoritative Rules <a id="72-authoritative-rules"></a>
+
+### 7.3 Behavior Examples <a id="73-behavior-examples"></a>
+
+### 7.4 Multi-level Inheritance <a id="74-multi-level-inheritance"></a>
+
+### 7.5 Contract Inheritance <a id="75-contract-inheritance"></a>
+
+### 7.6 Token Inheritance <a id="76-token-inheritance"></a>
+
+### 7.7 Variant Inheritance <a id="77-variant-inheritance"></a>
+
+---
+
+## 8. React Integration <a id="8-react-integration"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance](#7-inheritance)** | **[→ Next Chapter: Theming & Token Overloading](#9-theming--token-overloading)**
+
+### 8.1 useCls Hook <a id="81-usecls-hook"></a>
+
+### 8.2 withCls HOC <a id="82-withcls-hoc"></a>
+
+### 8.3 Context Integration <a id="83-context-integration"></a>
+
+### 8.4 Component Patterns <a id="84-component-patterns"></a>
+
+### 8.5 ClsProvider & useClsContext <a id="85-clsprovider--useclscontext"></a>
+
+---
+
+## 9. Theming & Token Overloading <a id="9-theming--token-overloading"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: React Integration](#8-react-integration)** | **[→ Next Chapter: Recipes & Patterns](#10-recipes--patterns)**
+
+### 9.1 One-time Replace <a id="91-one-time-replace"></a>
+
+### 9.2 External Themes <a id="92-external-themes"></a>
+
+### 9.3 Partial Themes <a id="93-partial-themes"></a>
+
+### 9.4 Dynamic Switching <a id="94-dynamic-switching"></a>
+
+### 9.5 Merge Precedence <a id="95-merge-precedence"></a>
+
+### 9.6 Theme Inheritance <a id="96-theme-inheritance"></a>
+
+---
+
+## 10. Recipes & Patterns <a id="10-recipes--patterns"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Theming & Token Overloading](#9-theming--token-overloading)** | **[→ Next Chapter: Advanced Features](#11-advanced-features)**
+
+### 10.1 Simple Static Components <a id="101-simple-static-components"></a>
+
+### 10.2 Variant-only Components <a id="102-variant-only-components"></a>
+
+### 10.3 Token System Components <a id="103-token-system-components"></a>
+
+### 10.4 Inheritance Components <a id="104-inheritance-components"></a>
+
+### 10.5 Theme System Components <a id="105-theme-system-components"></a>
+
+### 10.6 Runtime Customization <a id="106-runtime-customization"></a>
+
+### 10.7 Complex Components <a id="107-complex-components"></a>
+
+### 10.8 Edge Cases & Empty Contracts <a id="108-edge-cases--empty-contracts"></a>
+
+---
+
+## 11. Advanced Features <a id="11-advanced-features"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Recipes & Patterns](#10-recipes--patterns)** | **[→ Next Chapter: Comparison](#12-comparison)**
+
+### 11.1 Performance & Caching <a id="111-performance--caching"></a>
+
+### 11.2 Large Component Trees <a id="112-large-component-trees"></a>
+
+### 11.3 Dynamic Variants <a id="113-dynamic-variants"></a>
+
+### 11.4 Real-world Scenarios <a id="114-real-world-scenarios"></a>
+
+### 11.5 Type System Deep Dive <a id="115-type-system-deep-dive"></a>
+
+---
+
+## 12. Comparison <a id="12-comparison"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Advanced Features](#11-advanced-features)** | **[→ Next Chapter: FAQ & Known Limitations](#13-faq--known-limitations)**
+
+### 12.1 Feature Table <a id="121-feature-table"></a>
+
+### 12.2 Code Comparisons <a id="122-code-comparisons"></a>
+
+### 12.3 Migration Paths <a id="123-migration-paths"></a>
+
+### 12.4 vs CVA (Class Variance Authority) <a id="124-vs-cva-class-variance-authority"></a>
+
+### 12.5 vs TV (Tailwind Variants) <a id="125-vs-tv-tailwind-variants"></a>
+
+### 12.6 vs Stitches <a id="126-vs-stitches"></a>
+
+### 12.7 vs Vanilla Extract <a id="127-vs-vanilla-extract"></a>
+
+---
+
+## 12. FAQ & Known Limitations <a id="12-faq--known-limitations"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Comparison](#11-comparison)** | **[→ Next Chapter: Contributing](#13-contributing)**
+
+### 12.1 Frequently Asked Questions <a id="121-frequently-asked-questions"></a>
+
+### 12.2 Known Limitations <a id="122-known-limitations"></a>
+
+### 12.3 Troubleshooting <a id="123-troubleshooting"></a>
+
+### 12.4 Common Pitfalls <a id="124-common-pitfalls"></a>
+
+---
+
+## 14. AI Compatibility & Documentation <a id="14-ai-compatibility--documentation"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: FAQ & Known Limitations](#13-faq--known-limitations)**
+
+### 14.1 AI-First Design Philosophy <a id="141-ai-first-design-philosophy"></a>
+
+### 14.2 Documentation Strategy <a id="142-documentation-strategy"></a>
+
+### 14.3 Context-Aware Usage <a id="143-context-aware-usage"></a>
+
+### 14.4 AI Assistant Integration <a id="144-ai-assistant-integration"></a>
+
+---
+
+## Appendix A: Glossary <a id="appendix-a-glossary"></a>
+
+**[↑ Back to Top](#table-of-contents)**
+
+---
+
+## Appendix B: Migration Playbook <a id="appendix-b-migration-playbook"></a>
+
+**[↑ Back to Top](#table-of-contents)**
+
+### B.1 From CVA to CLS <a id="b1-from-cva-to-cls"></a>
+
+### B.2 From TV to CLS <a id="b2-from-tv-to-cls"></a>
+
+### B.3 From Stitches to CLS <a id="b3-from-stitches-to-cls"></a>
+
+---
+
+**[↑ Back to Top](#table-of-contents)**
