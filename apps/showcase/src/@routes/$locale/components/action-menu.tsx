@@ -15,26 +15,32 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "danger",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "danger",
+								}),
+							})}
 						>
 							<Tx label={"Some Action 2"} />
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "warning",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "warning",
+								}),
+							})}
 						>
 							<Tx label={"Some Action 2"} />
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "danger",
-								disabled: true,
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "danger",
+									disabled: true,
+								}),
+							})}
 						>
 							<Tx label={"Some disabled Action"} />
 						</ActionClick>
@@ -51,26 +57,32 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "danger",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "danger",
+								}),
+							})}
 						>
 							<Tx label={"Some Action 2"} />
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "warning",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "warning",
+								}),
+							})}
 						>
 							<Tx label={"Some Action 2"} />
 						</ActionClick>
 
 						<ActionClick
-							variant={{
-								variant: "danger",
-								disabled: true,
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									variant: "danger",
+									disabled: true,
+								}),
+							})}
 						>
 							<Tx label={"Some disabled Action"} />
 						</ActionClick>

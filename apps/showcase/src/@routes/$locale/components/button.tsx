@@ -23,9 +23,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 					</Button>
 
 					<Button
-						variant={{
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is default borderless button"} />
 					</Button>
@@ -42,26 +44,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "secondary",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "secondary",
+							}),
+						})}
 					>
 						<Tx label={"This is secondary button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "secondary",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "secondary",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is secondary borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "secondary",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "secondary",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled secondary button"} />
@@ -75,26 +83,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "light",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "light",
+							}),
+						})}
 					>
 						<Tx label={"This is light button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "light",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "light",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is light borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "light",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "light",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled light button"} />
@@ -108,26 +122,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "subtle",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "subtle",
+							}),
+						})}
 					>
 						<Tx label={"This is subtle button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "subtle",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "subtle",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is subtle borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "subtle",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "subtle",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled subtle button"} />
@@ -141,26 +161,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "neutral",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "neutral",
+							}),
+						})}
 					>
 						<Tx label={"This is neutral button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "neutral",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "neutral",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is neutral borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "neutral",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "neutral",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled neutral button"} />
@@ -174,26 +200,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "danger",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger",
+							}),
+						})}
 					>
 						<Tx label={"This is danger button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "danger",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is danger borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "danger",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled danger button"} />
@@ -207,26 +239,32 @@ export const Route = createFileRoute("/$locale/components/button")({
 					])}
 				>
 					<Button
-						variant={{
-							variant: "danger-light",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger-light",
+							}),
+						})}
 					>
 						<Tx label={"This is danger light button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "danger-light",
-							borderless: true,
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger-light",
+								borderless: true,
+							}),
+						})}
 					>
 						<Tx label={"This is danger borderless button"} />
 					</Button>
 
 					<Button
-						variant={{
-							variant: "danger-light",
-						}}
+						cls={({ what }) => ({
+							variant: what.variant({
+								variant: "danger-light",
+							}),
+						})}
 						disabled
 					>
 						<Tx label={"This is disabled danger button"} />

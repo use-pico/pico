@@ -27,9 +27,11 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 			allowEmpty
 			renderSingle={({ entity }) => (
 				<Badge
-					variant={{
-						size: "lg",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							size: "lg",
+						}),
+					})}
 				>
 					{entity.name}
 				</Badge>
@@ -43,9 +45,11 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 					renderInline={({ entity }) => (
 						<Badge
 							key={`${entity.id}-inline`}
-							variant={{
-								size: "sm",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									size: "sm",
+								}),
+							})}
 						>
 							{entity.label}
 						</Badge>
@@ -53,9 +57,11 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 					renderItem={({ entity }) => (
 						<Badge
 							key={`${entity.id}-item`}
-							variant={{
-								size: "lg",
-							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									size: "lg",
+								}),
+							})}
 						>
 							{entity.label}
 						</Badge>

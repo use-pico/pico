@@ -248,7 +248,7 @@ export function cls<
 			const config = merge(
 				userConfigFn,
 				internalConfigFn,
-			) as InternalCreateConfig;
+			)() as InternalCreateConfig;
 
 			// Effective variants: defaults <- create.variant
 			const effectiveVariant: Record<string, unknown> = {

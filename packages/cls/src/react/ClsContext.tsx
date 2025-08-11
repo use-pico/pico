@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useContext } from "react";
-import type { Cls, Contract, CreateConfig } from "../types";
+import type { Cls } from "../types";
 
 /**
  * Context for providing a cls instance to child components.

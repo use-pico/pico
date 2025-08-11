@@ -55,6 +55,7 @@ export const Issues: FC<Issues.Props> = ({
 			renderInline={({ entity }) => {
 				return (
 					<Badge
+						key={`issues-${entity.id}-inline`}
 						cls={({ what }) => ({
 							slot: {
 								base: what.css(

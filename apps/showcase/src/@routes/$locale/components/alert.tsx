@@ -15,9 +15,11 @@ export const Route = createFileRoute("/$locale/components/alert")({
 				<Alert
 					title={"Error title"}
 					message={"Error message"}
-					variant={{
-						variant: "error",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "error",
+						}),
+					})}
 				>
 					Error
 				</Alert>
@@ -25,9 +27,11 @@ export const Route = createFileRoute("/$locale/components/alert")({
 				<Alert
 					title={"Info title"}
 					message={"Info message"}
-					variant={{
-						variant: "info",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "info",
+						}),
+					})}
 				>
 					Info
 				</Alert>
@@ -35,9 +39,11 @@ export const Route = createFileRoute("/$locale/components/alert")({
 				<Alert
 					title={"Neutral title"}
 					message={"Neutral message"}
-					variant={{
-						variant: "neutral",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "neutral",
+						}),
+					})}
 				>
 					Neutral
 				</Alert>
@@ -45,9 +51,11 @@ export const Route = createFileRoute("/$locale/components/alert")({
 				<Alert
 					title={"Subtle title"}
 					message={"Subtle message"}
-					variant={{
-						variant: "subtle",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "subtle",
+						}),
+					})}
 				>
 					Subtle
 				</Alert>
@@ -55,9 +63,11 @@ export const Route = createFileRoute("/$locale/components/alert")({
 				<Alert
 					title={"Warning title"}
 					message={"Warning message"}
-					variant={{
-						variant: "warning",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "warning",
+						}),
+					})}
 				>
 					Warning
 				</Alert>

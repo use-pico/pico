@@ -236,7 +236,7 @@ describe("9.1 Basic Usage", () => {
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const primaryButton = ButtonGroup.create(({ what }) => ({
+		const primaryButton = ButtonGroup.create(() => ({
 			variant: {
 				color: "primary",
 			},

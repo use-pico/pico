@@ -9,53 +9,67 @@ export const Route = createFileRoute("/$locale/components/badge")({
 					<Icon icon={AscIcon} /> <div>Default</div>
 				</Badge>
 				<Badge
-					variant={{
-						active: true,
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							active: true,
+						}),
+					})}
 				>
 					Default [active]
 				</Badge>
 				<Badge
-					variant={{
-						variant: "primary",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "primary",
+						}),
+					})}
 				>
 					Primary
 				</Badge>
 				<Badge
-					variant={{
-						variant: "secondary",
-						active: true,
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "secondary",
+							active: true,
+						}),
+					})}
 				>
 					Secondary
 				</Badge>
 				<Badge
-					variant={{
-						variant: "subtle",
-						active: true,
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "subtle",
+							active: true,
+						}),
+					})}
 				>
 					Subtle
 				</Badge>
 				<Badge
-					variant={{
-						variant: "neutral",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "neutral",
+						}),
+					})}
 				>
 					Neutral
 				</Badge>
 				<Badge
-					variant={{
-						variant: "danger",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "danger",
+						}),
+					})}
 				>
 					Danger
 				</Badge>
 				<Badge
-					variant={{
-						variant: "danger-light",
-					}}
+					cls={({ what }) => ({
+						variant: what.variant({
+							variant: "danger-light",
+						}),
+					})}
 				>
 					Danger light
 				</Badge>

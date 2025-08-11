@@ -61,7 +61,8 @@ export const BoolInline: FC<BoolInline.Props> = ({
 			<Icon
 				icon={undefinedIcon}
 				tva={IconCls.use(tva)}
-				cls={cls}
+				// TODO Fix this type, "cls" feature request
+				cls={cls as any}
 				{...props}
 			/>
 		);
@@ -70,6 +71,7 @@ export const BoolInline: FC<BoolInline.Props> = ({
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
 			tva={IconCls.use(tva)}
+			// TODO Fix merge as it erases types now
 			cls={merge(cls, ({ what }) => ({
 				variant: what.variant({
 					value,
