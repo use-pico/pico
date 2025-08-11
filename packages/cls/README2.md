@@ -3248,11 +3248,252 @@ const CardCls = cls(contract, ({ what, def, override }) => ({
 - 💥 **Use override sparingly** - when you need a complete reset
 - 🎭 **Mix both modes** - build sophisticated styling systems
 
-**Remember:** Override mode is **powerful but dangerous** - it breaks the inheritance chain completely! Use it when you **really mean it**! ⚡
+> **Remember:** Override mode is **powerful but dangerous** - it breaks the inheritance chain completely! Use it when you **really mean it**! ⚡
 
 ### 4.5 Rule Matching <a id="45-rule-matching"></a>
 
-### 4.6 Complex Match Conditions <a id="46-complex-match-conditions"></a>
+[↑ Back to Top] | [← Previous Chapter: Appends vs Overrides](#44-appends-vs-overrides) | [→ Next Chapter: Complex Match Conditions](#46-complex-match-conditions)
+
+---
+
+#### **How Rules Find Their Match** 🎯
+
+Rule matching is like **playing detective** - CLS examines your variants and finds all the rules that "fit the case"! 🔍
+
+**The matching process:**
+1. **Check variants** - what's currently active?
+2. **Find rules** - which rules match these variants?
+3. **Apply styles** - all matching rules contribute their styles
+4. **Respect order** - styles accumulate in definition order
+
+#### **Single Variant Matching** 🎯
+
+**Single variant rules** match when **one specific variant** is active:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    
+    // Single variant rules
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(['px-2', 'py-1', 'text-sm'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3', 'text-lg'])
+    }),
+    
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['bg-blue-500', 'text-white'])
+    }),
+    
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.css(['bg-gray-500', 'text-white'])
+    })
+  ]
+}));
+
+// When size: 'lg' is active:
+// ✅ Matches: root rule + size: 'lg' rule
+// ❌ No match: size: 'sm', variant rules
+// Result: px-4 py-2 rounded px-6 py-3 text-lg
+```
+
+**Matching logic:**
+- ✅ **Exact match** - `size: 'lg'` matches `size: 'lg'`
+- ❌ **No match** - `size: 'lg'` doesn't match `size: 'sm'`
+- ❌ **No match** - `size: 'lg'` doesn't match `variant: 'primary'`
+
+#### **Multiple Variant Matching** 🎯🎯
+
+**Multiple variant rules** match when **all specified variants** are active:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    
+    // Single variant rules
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3', 'text-lg'])
+    }),
+    
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['bg-blue-500', 'text-white'])
+    }),
+    
+    // Multiple variant rule - requires BOTH to match
+    def.rule(what.variant({ size: 'lg', variant: 'primary' }), {
+      root: what.css(['shadow-lg', 'transform', 'hover:scale-105'])
+    })
+  ]
+}));
+
+// When size: 'lg' AND variant: 'primary' are active:
+// ✅ Matches: root rule + size: 'lg' rule + variant: 'primary' rule + combined rule
+// Result: px-4 py-2 rounded px-6 py-3 text-lg bg-blue-500 text-white shadow-lg transform hover:scale-105
+
+// When only size: 'lg' is active:
+// ✅ Matches: root rule + size: 'lg' rule
+// ❌ No match: variant: 'primary' rule, combined rule
+// Result: px-4 py-2 rounded px-6 py-3 text-lg
+```
+
+**Matching logic:**
+- ✅ **All variants match** - `size: 'lg'` + `variant: 'primary'` matches combined rule
+- ❌ **Partial match** - `size: 'lg'` alone doesn't match combined rule
+- ❌ **No match** - `size: 'sm'` + `variant: 'primary'` doesn't match combined rule
+
+#### **Boolean Variant Matching** ✅❌
+
+**Boolean variants** are **simple true/false** values:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    
+    // Boolean variant rules
+    def.rule(what.variant({ disabled: true }), {
+      root: what.css(['opacity-50', 'cursor-not-allowed', 'pointer-events-none'])
+    }),
+    
+    def.rule(what.variant({ loading: true }), {
+      root: what.css(['animate-spin', 'cursor-wait'])
+    }),
+    
+    def.rule(what.variant({ fullWidth: true }), {
+      root: what.css(['w-full'])
+    })
+  ]
+}));
+
+// When disabled: true is active:
+// ✅ Matches: root rule + disabled: true rule
+// ❌ No match: loading: true, fullWidth: true rules
+// Result: px-4 py-2 rounded opacity-50 cursor-not-allowed pointer-events-none
+
+// When disabled: true AND loading: true are active:
+// ✅ Matches: root rule + disabled: true rule + loading: true rule
+// Result: px-4 py-2 rounded opacity-50 cursor-not-allowed pointer-events-none animate-spin cursor-wait
+```
+
+**Boolean matching:**
+- ✅ **True matches true** - `disabled: true` matches `disabled: true`
+- ❌ **False doesn't match true** - `disabled: false` doesn't match `disabled: true`
+- ✅ **Multiple booleans** - can have multiple boolean variants active
+
+#### **The Matching Algorithm** 🧮
+
+**CLS follows this matching logic:**
+
+```typescript
+// 1. Start with root rules (always applied)
+let activeStyles = rootStyles;
+
+// 2. Check each rule in definition order
+for (const rule of rules) {
+  // 3. Does the rule's condition match current variants?
+  if (rule.matches(currentVariants)) {
+    // 4. Apply the rule's styles
+    if (rule.override) {
+      // Override mode: replace everything
+      activeStyles = rule.styles;
+    } else {
+      // Append mode: add to existing
+      activeStyles = [...activeStyles, ...rule.styles];
+    }
+  }
+}
+
+// 5. Return final accumulated styles
+return activeStyles;
+```
+
+**Key points:**
+- 🔍 **All rules checked** - no rules are skipped
+- 📝 **Order matters** - rules are evaluated in definition order
+- ✅ **All matches apply** - multiple rules can match simultaneously
+- 🎯 **No conflicts** - styles accumulate or override based on mode
+
+#### **Real-World Matching Example** 🌍
+
+```typescript
+const CardCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base card
+    def.root({
+      root: what.css(['bg-white', 'rounded-lg', 'shadow-md', 'p-6'])
+    }),
+    
+    // Size variants
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(['p-4'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['p-8'])
+    }),
+    
+    // Color variants
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['border-l-4', 'border-blue-500'])
+    }),
+    
+    def.rule(what.variant({ variant: 'success' }), {
+      root: what.css(['border-l-4', 'border-green-500'])
+    }),
+    
+    // State variants
+    def.rule(what.variant({ interactive: true }), {
+      root: what.css(['hover:shadow-lg', 'transition-shadow'])
+    }),
+    
+    // Combined variants
+    def.rule(what.variant({ size: 'lg', variant: 'primary', interactive: true }), {
+      root: what.css(['hover:scale-105', 'transform'])
+    })
+  ]
+}));
+```
+
+**Matching scenarios:**
+
+**Scenario 1: `size: 'lg'`**
+- ✅ **Matches:** root + size: 'lg'
+- ❌ **No match:** size: 'sm', variants, states, combined
+- **Result:** `bg-white rounded-lg shadow-md p-6 p-8`
+
+**Scenario 2: `size: 'lg'` + `variant: 'primary'`**
+- ✅ **Matches:** root + size: 'lg' + variant: 'primary'
+- ❌ **No match:** size: 'sm', variant: 'success', states, combined
+- **Result:** `bg-white rounded-lg shadow-md p-6 p-8 border-l-4 border-blue-500`
+
+**Scenario 3: `size: 'lg'` + `variant: 'primary'` + `interactive: true`**
+- ✅ **Matches:** root + size: 'lg' + variant: 'primary' + interactive + combined
+- **Result:** `bg-white rounded-lg shadow-md p-6 p-8 border-l-4 border-blue-500 hover:shadow-lg transition-shadow hover:scale-105 transform`
+
+#### **Bottom Line** 🎯
+
+**Rule Matching** is **predictable and powerful**:
+
+- 🔍 **Exact matching** - variants must match exactly
+- ✅ **Multiple matches** - all matching rules apply
+- 📝 **Order matters** - definition order determines accumulation
+- 🎭 **Append vs Override** - choose your styling behavior
+- 🚀 **No magic** - you control what matches and when
+
+**Remember:** CLS is **not guessing** - it's following your **explicit rules** to the letter! Every style that appears is there because a rule **explicitly matched** your variants! 🎯
 
 ---
 
