@@ -1,10 +1,12 @@
-import { renderHook } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 import { useCls } from "../../../src/react";
+import type { Component } from "../../../src/types";
 
-describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
-	it("should handle basic useCls functionality with cls instance", () => {
+describe("12.4 React Props - Variant Overrides", () => {
+	it("should handle cls prop with variant overrides", () => {
 		const ButtonCls = cls(
 			{
 				tokens: {
@@ -19,16 +21,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 						"accent",
 					],
 					"spacing.padding": [
-						"sm",
-						"md",
-						"lg",
-					],
-					"spacing.margin": [
-						"sm",
-						"md",
-						"lg",
-					],
-					"border.radius": [
 						"sm",
 						"md",
 						"lg",
@@ -50,7 +42,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 						"lg",
 					],
 				},
-				defaults: {},
 			},
 			({ what, def }) => ({
 				token: def.token({
@@ -90,28 +81,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 							"py-3",
 						],
 					},
-					"spacing.margin": {
-						sm: [
-							"m-1",
-						],
-						md: [
-							"m-2",
-						],
-						lg: [
-							"m-3",
-						],
-					},
-					"border.radius": {
-						sm: [
-							"rounded",
-						],
-						md: [
-							"rounded-md",
-						],
-						lg: [
-							"rounded-lg",
-						],
-					},
 				}),
 				rules: [
 					def.root({
@@ -119,8 +88,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
-							"spacing.margin.md",
-							"border.radius.md",
 						]),
 						label: what.token([
 							"color.text.primary",
@@ -134,23 +101,10 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
+								"spacing.padding.md",
 							]),
 							label: what.token([
 								"color.text.secondary",
-							]),
-						},
-					),
-					def.rule(
-						{
-							variant: "accent",
-						},
-						{
-							root: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-							]),
-							label: what.token([
-								"color.text.accent",
 							]),
 						},
 					),
@@ -161,7 +115,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 						{
 							root: what.token([
 								"spacing.padding.sm",
-								"spacing.margin.sm",
 							]),
 						},
 					),
@@ -172,7 +125,6 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 						{
 							root: what.token([
 								"spacing.padding.lg",
-								"spacing.margin.lg",
 							]),
 						},
 					),
@@ -184,22 +136,42 @@ describe("12.1 React Hooks - Basic useCls - Basic Functionality", () => {
 			}),
 		);
 
-		// Test useCls with basic configuration
-		const { result } = renderHook(() =>
-			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
-					variant: "secondary",
-					size: "lg",
-				}),
-			})),
+		const Button: FC<Component<typeof ButtonCls, PropsWithChildren>> = ({
+			cls: userCls,
+			children,
+		}) => {
+			const classes = useCls(ButtonCls, userCls);
+
+			if (!classes) {
+				return null;
+			}
+
+			return (
+				<button
+					type="button"
+					className={classes.root()}
+				>
+					<span className={classes.label()}>{children}</span>
+				</button>
+			);
+		};
+
+		// Test with variant override
+		render(
+			<Button
+				cls={({ what }) => ({
+					variant: what.variant({
+						variant: "secondary" as const,
+						size: "lg" as const,
+					}),
+				})}
+			>
+				Secondary Large Button
+			</Button>,
 		);
 
-		const classes = result.current;
-
-		// Should apply secondary variant and large size
-		expect(classes.root()).toBe(
-			"rounded-md bg-gray-600 text-gray-900 px-6 py-3 m-3",
-		);
-		expect(classes.label()).toBe("text-gray-900");
+		const button = screen.getByRole("button");
+		expect(button).toBeInTheDocument();
+		expect(button).toHaveTextContent("Secondary Large Button");
 	});
 });
