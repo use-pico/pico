@@ -5286,6 +5286,591 @@ Ready to learn about **Variants & Defaults** in the next chapter? This will show
 
 ## 6. Variants & Defaults <a id="6-variants--defaults"></a>
 
+[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Tokens](#5-tokens) | [→ Next Chapter: Slots](#7-slots)
+
+---
+
+**Variants are the heart of component customization** - they let you **control appearance and behavior** based on different states and configurations! 🎭
+
+**Defaults ensure predictable behavior** by providing **sensible starting values** for all variants. Together, they create a **flexible and user-friendly** styling system that adapts to different use cases.
+
+### 6.1 Understanding Variants <a id="61-understanding-variants"></a>
+
+**Variants are configurable properties** that **affect component appearance and behavior**. Think of them as **"settings"** that users can adjust to customize how components look and work! 🎛️
+
+**Common variant types include:**
+- 🎨 **Visual variants** - `variant`, `color`, `theme`
+- 📏 **Size variants** - `size`, `width`, `height`
+- 🚦 **State variants** - `disabled`, `loading`, `active`
+- 🎯 **Behavior variants** - `interactive`, `readonly`, `editable`
+
+**Example of a button with multiple variants:**
+
+```typescript
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary", "danger"],
+    "color.text": ["default", "primary", "secondary", "danger"],
+    "spacing.padding": ["sm", "md", "lg", "xl"],
+    "border.radius": ["none", "sm", "md", "lg", "full"]
+  },
+  slot: ["root", "label"],
+  variant: {
+    variant: ["default", "primary", "secondary", "danger"],  // 🎨 Visual style
+    size: ["sm", "md", "lg", "xl"],                         // 📏 Size variations
+    disabled: "bool",                                        // 🚦 State control
+    loading: "bool"                                          // 🚦 Loading state
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"],
+      danger: ["bg-red-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-white"],
+      danger: ["text-white"]
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"],
+      xl: ["px-8", "py-4"]
+    },
+    "border.radius": {
+      none: [],
+      sm: ["rounded"],
+      md: ["rounded-md"],
+      lg: ["rounded-lg"],
+      full: ["rounded-full"]
+    }
+  }),
+  rules: [
+    // Base styles
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md", "border.radius.md"]),
+      label: what.css(["font-medium", "transition-colors"])
+    }),
+    
+    // Variant styles
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(["color.bg.primary", "color.text.primary"])
+    }),
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.token(["color.bg.secondary", "color.text.secondary"])
+    }),
+    def.rule(what.variant({ variant: 'danger' }), {
+      root: what.token(["color.bg.danger", "color.text.danger"])
+    }),
+    
+    // Size styles
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.token(["spacing.padding.sm", "border.radius.sm"])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.token(["spacing.padding.lg", "border.radius.lg"])
+    }),
+    def.rule(what.variant({ size: 'xl' }), {
+      root: what.token(["spacing.padding.xl", "border.radius.xl"])
+    }),
+    
+    // State styles
+    def.rule(what.variant({ disabled: true }), {
+      root: what.css(["opacity-50", "cursor-not-allowed"]),
+      label: what.css(["text-gray-500"])
+    }),
+    def.rule(what.variant({ loading: true }), {
+      root: what.css(["cursor-wait"]),
+      label: what.css(["animate-pulse"])
+    })
+  ],
+  defaults: def.defaults({
+    variant: 'default',
+    size: 'md',
+    disabled: false,
+    loading: false
+  })
+});
+```
+
+**This button supports:**
+- 🎨 **4 visual variants** - default, primary, secondary, danger
+- 📏 **4 size options** - small, medium, large, extra-large
+- 🚦 **2 state flags** - disabled, loading
+- 🎯 **Combined styling** - variants work together seamlessly
+
+### 6.2 Required Defaults <a id="62-required-defaults"></a>
+
+**Defaults are mandatory in CLS** - they **force you to make conscious choices** about what values variants should have when no specific configuration is provided! 🎯
+
+**Why defaults are required:**
+- 🚫 **No magic values** - you explicitly define what happens by default
+- 🎯 **Predictable behavior** - users know what to expect
+- 🔒 **Type safety** - TypeScript ensures all variants have defaults
+- 🎨 **Design consistency** - consistent starting point for all components
+
+**Example of comprehensive defaults:**
+
+```typescript
+const CardCls = cls({
+  tokens: {
+    "color.bg": ["default", "elevated", "outlined"],
+    "color.border": ["default", "elevated", "outlined"],
+    "color.text": ["default", "elevated", "outlined"],
+    "spacing.padding": ["sm", "md", "lg"],
+    "shadow.size": ["none", "sm", "md", "lg"]
+  },
+  slot: ["root", "header", "body", "footer"],
+  variant: {
+    variant: ["default", "elevated", "outlined"],  // 🎨 Visual style
+    size: ["sm", "md", "lg"],                      // 📏 Size variations
+    interactive: "bool",                            // 🎯 Behavior control
+    hoverable: "bool"                               // 🎯 Hover effects
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-white"],
+      elevated: ["bg-white"],
+      outlined: ["bg-transparent"]
+    },
+    "color.border": {
+      default: ["border-gray-200"],
+      elevated: ["border-transparent"],
+      outlined: ["border-gray-300"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      elevated: ["text-gray-900"],
+      outlined: ["text-gray-900"]
+    },
+    "spacing.padding": {
+      sm: ["p-3"],
+      md: ["p-4"],
+      lg: ["p-6"]
+    },
+    "shadow.size": {
+      none: [],
+      sm: ["shadow-sm"],
+      md: ["shadow"],
+      lg: ["shadow-lg"]
+    }
+  }),
+  rules: [
+    // Base styles with defaults
+    def.root({
+      root: what.token([
+        "color.bg.default",
+        "color.border.default", 
+        "color.text.default",
+        "spacing.padding.md",
+        "shadow.size.none"
+      ]),
+      header: what.css(["border-b", "border-gray-200", "pb-3"]),
+      body: what.css(["py-2"]),
+      footer: what.css(["border-t", "border-gray-200", "pt-3"])
+    }),
+    
+    // Variant-specific styles
+    def.rule(what.variant({ variant: 'elevated' }), {
+      root: what.token(["color.bg.elevated", "color.border.elevated", "shadow.size.md"])
+    }),
+    def.rule(what.variant({ variant: 'outlined' }), {
+      root: what.token(["color.bg.outlined", "color.border.outlined"])
+    }),
+    
+    // Size variations
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.token(["spacing.padding.sm"])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.token(["spacing.padding.lg"])
+    }),
+    
+    // Interactive states
+    def.rule(what.variant({ interactive: true }), {
+      root: what.css(["cursor-pointer", "transition-all", "duration-200"])
+    }),
+    def.rule(what.variant({ hoverable: true }), {
+      root: what.css(["hover:shadow-lg", "hover:transform", "hover:scale-105"])
+    })
+  ],
+  defaults: def.defaults({
+    variant: 'default',    // 🎯 Default visual style
+    size: 'md',            // 📏 Default size
+    interactive: false,    // 🎯 Default behavior
+    hoverable: false       // 🎯 Default hover state
+  })
+});
+```
+
+**Using the card with defaults:**
+
+```typescript
+// Uses all defaults
+const defaultCard = CardCls.create();
+console.log(defaultCard.root()); 
+// "bg-white border-gray-200 text-gray-900 p-4 shadow-none"
+
+// Override specific variants
+const elevatedCard = CardCls.create(({ what }) => ({
+  variant: what.variant({ variant: 'elevated', size: 'lg' })
+}));
+console.log(elevatedCard.root());
+// "bg-white border-transparent text-gray-900 p-6 shadow-md"
+
+// Interactive card with hover effects
+const interactiveCard = CardCls.create(({ what }) => ({
+  variant: what.variant({ interactive: true, hoverable: true })
+}));
+console.log(interactiveCard.root());
+// "bg-white border-gray-200 text-gray-900 p-4 shadow-none cursor-pointer transition-all duration-200 hover:shadow-lg hover:transform hover:scale-105"
+```
+
+### 6.3 Variant Combinations <a id="63-variant-combinations"></a>
+
+**Variants work together seamlessly** - you can **combine multiple variants** to create **rich, contextual styling**! 🎭
+
+**CLS automatically handles variant combinations** by applying **all matching rules** in the order they're defined. This means you get **accumulated styling** rather than **overriding behavior**.
+
+**Example of variant combinations in action:**
+
+```typescript
+const AlertCls = cls({
+  tokens: {
+    "color.bg": ["default", "info", "success", "warning", "error"],
+    "color.border": ["default", "info", "success", "warning", "error"],
+    "color.text": ["default", "info", "success", "warning", "error"],
+    "spacing.padding": ["sm", "md", "lg"],
+    "border.radius": ["sm", "md", "lg"]
+  },
+  slot: ["root", "icon", "content", "close"],
+  variant: {
+    variant: ["default", "info", "success", "warning", "error"],  // 🎨 Alert type
+    size: ["sm", "md", "lg"],                                     // 📏 Size variations
+    dismissible: "bool",                                           // 🎯 Can be closed
+    bordered: "bool"                                               // 🎯 Border style
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-50"],
+      info: ["bg-blue-50"],
+      success: ["bg-green-50"],
+      warning: ["bg-yellow-50"],
+      error: ["bg-red-50"]
+    },
+    "color.border": {
+      default: ["border-gray-200"],
+      info: ["border-blue-200"],
+      success: ["border-green-200"],
+      warning: ["border-yellow-200"],
+      error: ["border-red-200"]
+    },
+    "color.text": {
+      default: ["text-gray-800"],
+      info: ["text-blue-800"],
+      success: ["text-green-800"],
+      warning: ["text-yellow-800"],
+      error: ["text-red-800"]
+    },
+    "spacing.padding": {
+      sm: ["p-2"],
+      md: ["p-3"],
+      lg: ["p-4"]
+    },
+    "border.radius": {
+      sm: ["rounded"],
+      md: ["rounded-md"],
+      lg: ["rounded-lg"]
+    }
+  }),
+  rules: [
+    // Base styles
+    def.root({
+      root: what.token([
+        "color.bg.default",
+        "color.border.default",
+        "color.text.default",
+        "spacing.padding.md",
+        "border.radius.md"
+      ]),
+      icon: what.css(["mr-2", "flex-shrink-0"]),
+      content: what.css(["flex-1"]),
+      close: what.css(["ml-2", "flex-shrink-0", "opacity-70", "hover:opacity-100"])
+    }),
+    
+    // Variant-specific colors
+    def.rule(what.variant({ variant: 'info' }), {
+      root: what.token(["color.bg.info", "color.border.info", "color.text.info"])
+    }),
+    def.rule(what.variant({ variant: 'success' }), {
+      root: what.token(["color.bg.success", "color.border.success", "color.text.success"])
+    }),
+    def.rule(what.variant({ variant: 'warning' }), {
+      root: what.token(["color.bg.warning", "color.border.warning", "color.text.warning"])
+    }),
+    def.rule(what.variant({ variant: 'error' }), {
+      root: what.token(["color.bg.error", "color.border.error", "color.text.error"])
+    }),
+    
+    // Size variations
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.token(["spacing.padding.sm", "border.radius.sm"]),
+      icon: what.css(["w-4", "h-4"]),
+      close: what.css(["w-4", "h-4"])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.token(["spacing.padding.lg", "border.radius.lg"]),
+      icon: what.css(["w-6", "h-6"]),
+      close: what.css(["w-6", "h-6"])
+    }),
+    
+    // Dismissible behavior
+    def.rule(what.variant({ dismissible: true }), {
+      root: what.css(["flex", "items-start", "justify-between"]),
+      content: what.css(["flex", "items-start"])
+    }),
+    def.rule(what.variant({ dismissible: false }), {
+      close: what.css(["hidden"])  // Hide close button
+    }),
+    
+    // Border variations
+    def.rule(what.variant({ bordered: false }), {
+      root: what.css(["border-0"])  // Remove border
+    })
+  ],
+  defaults: def.defaults({
+    variant: 'default',
+    size: 'md',
+    dismissible: false,
+    bordered: true
+  })
+});
+```
+
+**Using variant combinations:**
+
+```typescript
+// Small, dismissible success alert
+const successAlert = AlertCls.create(({ what }) => ({
+  variant: what.variant({ 
+    variant: 'success', 
+    size: 'sm', 
+    dismissible: true 
+  })
+}));
+console.log(successAlert.root());
+// "bg-green-50 border-green-200 text-green-800 p-2 rounded flex items-start justify-between"
+
+// Large, non-dismissible error alert without border
+const errorAlert = AlertCls.create(({ what }) => ({
+  variant: what.variant({ 
+    variant: 'error', 
+    size: 'lg', 
+    dismissible: false, 
+    bordered: false 
+  })
+}));
+console.log(errorAlert.root());
+// "bg-red-50 border-0 text-red-800 p-4 rounded-lg"
+
+// Medium info alert with all defaults
+const infoAlert = AlertCls.create(({ what }) => ({
+  variant: what.variant({ variant: 'info' })
+}));
+console.log(infoAlert.root());
+// "bg-blue-50 border-blue-200 text-blue-800 p-3 rounded-md"
+```
+
+### 6.4 Boolean Variants with "bool" Keyword <a id="64-boolean-variants-with-bool-keyword"></a>
+
+**CLS has a special trick for boolean variants** - use the **"bool" keyword** to enable **true/false boolean values** automatically! 🎭
+
+**The "bool" keyword** tells CLS that a variant should accept **boolean values** instead of **explicit string arrays**. This makes boolean variants much cleaner and more intuitive!
+
+**Comparison: Regular vs Boolean Variants**
+
+**❌ Without "bool" keyword (explicit arrays):**
+```typescript
+const ButtonCls = cls({
+  // ... tokens and slots
+  variant: {
+    disabled: [true, false],      // 🚫 Explicit array
+    loading: [true, false],       // 🚫 Explicit array
+    active: [true, false]         // 🚫 Explicit array
+  }
+}, ({ what, def }) => ({
+  // ... tokens and rules
+  defaults: def.defaults({
+    disabled: false,              // 🚫 Must match array values
+    loading: false,               // 🚫 Must match array values
+    active: false                 // 🚫 Must match array values
+  })
+}));
+```
+
+**✅ With "bool" keyword (automatic boolean):**
+```typescript
+const ButtonCls = cls({
+  // ... tokens and slots
+  variant: {
+    disabled: "bool",             // 🎯 Automatic true/false
+    loading: "bool",              // 🎯 Automatic true/false
+    active: "bool"                // 🎯 Automatic true/false
+  }
+}, ({ what, def }) => ({
+  // ... tokens and rules
+  defaults: def.defaults({
+    disabled: false,              // 🎯 Natural boolean
+    loading: false,               // 🎯 Natural boolean
+    active: false                 // 🎯 Natural boolean
+  })
+}));
+```
+
+**Practical Example with Boolean Variants:**
+
+```typescript
+const ToggleButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "active", "disabled"],
+    "color.text": ["default", "active", "disabled"],
+    "color.border": ["default", "active", "disabled"]
+  },
+  slot: ["root", "icon", "label"],
+  variant: {
+    variant: ["default", "primary", "secondary"],  // 🎨 Visual style
+    size: ["sm", "md", "lg"],                      // 📏 Size variations
+    disabled: "bool",                              // 🎯 Boolean variant
+    loading: "bool",                               // 🎯 Boolean variant
+    active: "bool"                                 // 🎯 Boolean variant
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      active: ["bg-blue-500"],
+      disabled: ["bg-gray-300"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      active: ["text-white"],
+      disabled: ["text-gray-500"]
+    },
+    "color.border": {
+      default: ["border-gray-300"],
+      active: ["border-blue-600"],
+      disabled: ["border-gray-400"]
+    }
+  }),
+  rules: [
+    // Base styles
+    def.root({
+      root: what.token([
+        "color.bg.default",
+        "color.text.default",
+        "color.border.default"
+      ]),
+      icon: what.css(["mr-2", "transition-transform"]),
+      label: what.css(["font-medium", "transition-colors"])
+    }),
+    
+    // Visual variants
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(["shadow-sm", "hover:shadow-md"])
+    }),
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.css(["border-2"])
+    }),
+    
+    // Size variations
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(["px-2", "py-1", "text-sm"]),
+      icon: what.css(["w-4", "h-4"])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(["px-6", "py-3", "text-lg"]),
+      icon: what.css(["w-6", "h-6"])
+    }),
+    
+    // Boolean state variants
+    def.rule(what.variant({ active: true }), {
+      root: what.token(["color.bg.active", "color.text.active", "color.border.active"]),
+      icon: what.css(["rotate-180"])  // Icon rotation for active state
+    }),
+    def.rule(what.variant({ disabled: true }), {
+      root: what.token(["color.bg.disabled", "color.text.disabled", "color.border.disabled"]),
+      icon: what.css(["opacity-50"]),
+      label: what.css(["opacity-50"])
+    }),
+    def.rule(what.variant({ loading: true }), {
+      root: what.css(["cursor-wait"]),
+      icon: what.css(["animate-spin"]),
+      label: what.css(["animate-pulse"])
+    })
+  ],
+  defaults: def.defaults({
+    variant: 'default',
+    size: 'md',
+    disabled: false,    // 🎯 Natural boolean default
+    loading: false,     // 🎯 Natural boolean default
+    active: false       // 🎯 Natural boolean default
+  })
+});
+```
+
+**Using boolean variants:**
+
+```typescript
+// Active primary button
+const activeButton = ToggleButtonCls.create(({ what }) => ({
+  variant: what.variant({ 
+    variant: 'primary', 
+    active: true,      // 🎯 Boolean: true
+    loading: false     // 🎯 Boolean: false
+  })
+}));
+
+// Disabled loading button
+const disabledButton = ToggleButtonCls.create(({ what }) => ({
+  variant: what.variant({ 
+    variant: 'secondary', 
+    disabled: true,    // 🎯 Boolean: true
+    loading: true      // 🎯 Boolean: true
+  })
+}));
+
+// Default state (all booleans false)
+const defaultButton = ToggleButtonCls.create();
+```
+
+#### **Bottom Line** 🎯
+
+**Variants & Defaults** provide **powerful component customization**:
+
+- 🎭 **Multiple variant types** - visual, size, state, behavior
+- 🎯 **Required defaults** - force conscious design choices
+- 🔄 **Variant combinations** - seamless style accumulation
+- 🎯 **"bool" keyword** - automatic boolean variant support
+- 🔒 **Type safety** - TypeScript ensures variant validity
+- 🎨 **Predictable behavior** - consistent styling across components
+
+**Key Benefits:**
+- 🚀 **Flexible styling** - combine variants for rich customization
+- 🎯 **Clear defaults** - no magic values, explicit behavior
+- 🔄 **Accumulative rules** - styles build upon each other
+- 🎭 **Boolean shortcuts** - use "bool" for true/false variants
+- 🌍 **User control** - runtime variant overrides for customization
+
+**Remember:** **Variants are your component's personality, defaults are its foundation!** Design them well, and your components will be both flexible and predictable! 🎉
+
+Ready to learn about **Slots** in the next chapter? This will show how to style different parts of your components! 🚀
+
 [↑ Back to Top] | [← Previous Chapter: Tokens](#5-tokens) | [→ Next Chapter: Slots](#7-slots)
 
 ---
