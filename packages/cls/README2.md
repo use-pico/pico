@@ -1069,7 +1069,7 @@ const buttonClasses = Button.create({ size: 'lg' });
 
 #### **Exhaustive Checking** ✅
 
-CLS ensures you **never miss a case** in your styling logic:
+CLS ensures you **never miss a case** in your styling logic through intelligent type checking:
 
 ```typescript
 const Button = cls({
@@ -1079,13 +1079,30 @@ const Button = cls({
   }
 }, definition);
 
-// TypeScript will warn you if you forget to handle a variant
-const getButtonStyle = (variant: Button['variant']['variant']) => {
+// TypeScript provides IntelliSense for all valid variants
+const button = Button.create(({ what }) => {
+  const size = what.variant({ size: 'lg' });        // ✅ IntelliSense shows: 'sm' | 'md' | 'lg'
+  const variant = what.variant({ variant: 'primary' }); // ✅ IntelliSense shows: 'default' | 'primary' | 'danger'
+  
+  return { size, variant };
+});
+
+// If you try to use an invalid variant, TypeScript catches it immediately
+const invalidButton = Button.create(({ what }) => {
+  const size = what.variant({ size: 'xl' });        // ❌ TypeScript error: 'xl' not assignable
+  const variant = what.variant({ variant: 'super' }); // ❌ TypeScript error: 'super' not assignable
+  
+  return { size, variant };
+});
+
+// Even in your own functions, TypeScript ensures you handle all cases
+const getButtonColor = (variant: 'default' | 'primary' | 'danger') => {
   switch (variant) {
     case 'default': return 'gray';
     case 'primary': return 'blue';
     case 'danger': return 'red';
-    // TypeScript error: 'danger' case is missing!
+    // TypeScript error: Function lacks ending return statement
+    // This ensures you handle all possible variants!
   }
 };
 ```
@@ -1123,6 +1140,112 @@ It's like having a **very smart code reviewer** who never sleeps and catches eve
 So remember: **in CLS, type safety isn't a feature – it's the foundation that makes everything else rock-solid!** 🚀🛡️
 
 ### 2.7 Performance by Design <a id="27-performance-by-design"></a>
+
+Performance isn't something CLS achieves by accident – it's **built into the design** from day one! ⚡ In CLS, every feature is optimized for speed, memory efficiency, and runtime performance. No compromises! 🎯
+
+#### **Lazy Evaluation: Only Compute What You Need** 🦥
+
+CLS doesn't generate all possible style combinations upfront. Instead, it **computes styles on-demand** when you actually need them:
+
+```typescript
+const Button = cls(contract, definition);
+
+// No styles are computed yet - just the component definition
+const button = Button.create({ size: 'lg', variant: 'primary' });
+
+// Styles are computed only when you call the methods
+const rootClasses = button.root(); // Computed now!
+const labelClasses = button.label(); // Computed now!
+const iconClasses = button.icon(); // Computed now!
+
+// If you never call iconClasses, that computation never happens!
+```
+
+#### **Smart Caching: Remember What You've Already Done** 🧠
+
+Once CLS computes styles for a specific variant combination, it **remembers the result**:
+
+```typescript
+const Button = cls(contract, definition);
+
+// First call - computes and caches
+const button1 = Button.create({ size: 'lg', variant: 'primary' });
+const classes1 = button1.root(); // Computes and caches
+
+// Second call - uses cached result
+const button2 = Button.create({ size: 'lg', variant: 'primary' });
+const classes2 = button2.root(); // Returns cached result instantly!
+
+// Different variants - computes and caches separately
+const button3 = Button.create({ size: 'sm', variant: 'danger' });
+const classes3 = button3.root(); // New computation, new cache entry
+```
+
+#### **Minimal Runtime Overhead** 🚀
+
+The actual runtime code in CLS is **extremely lightweight**:
+
+```typescript
+// What happens when you call button.root()?
+// 1. Check cache for existing result
+// 2. If not cached, apply rules based on variants
+// 3. Cache the result
+// 4. Return the string
+
+// That's it! No complex algorithms, no heavy computations
+// Just simple rule matching and string concatenation
+```
+
+#### **TypeScript Does the Heavy Lifting** 💪
+
+Most of the "complexity" in CLS is **compile-time TypeScript types**:
+
+```typescript
+// This looks complex...
+const Button = cls({
+  variant: {
+    size: ['sm', 'md', 'lg'],
+    variant: ['default', 'primary', 'danger']
+  }
+}, definition);
+
+// But at runtime, it's just:
+// - A simple object with variant values
+// - A function that applies rules
+// - Some basic string operations
+
+// All the type checking, validation, and complex logic
+// happens at compile time, not runtime!
+```
+
+#### **Memory Efficiency** 💾
+
+CLS is designed to **minimize memory footprint**:
+
+```typescript
+// Each component instance is lightweight
+const button = Button.create({ size: 'lg' });
+
+// button object contains:
+// - Variant values (just strings)
+// - Reference to the component definition
+// - Cached results (only what you've computed)
+
+// No unnecessary objects, no deep cloning, no memory waste
+```
+
+#### **The Bottom Line** 💡
+
+**Performance by design** means:
+- **Styles are computed only when needed** (lazy evaluation)
+- **Results are cached for instant reuse** (smart caching)
+- **Runtime overhead is minimal** (lightweight operations)
+- **TypeScript handles complexity** (compile-time optimization)
+- **Memory usage is efficient** (no waste)
+
+It's like having a **very fast, very smart styling system** that only does work when you actually need it! ⚡✨
+
+So remember: **in CLS, performance isn't an afterthought – it's the foundation that makes everything feel instant!** 🚀💨
 
 ### 2.8 Simplicity Beneath Complexity <a id="28-simplicity-beneath-complexity"></a>
 
