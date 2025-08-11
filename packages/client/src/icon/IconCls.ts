@@ -27,174 +27,148 @@ export const IconCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ rule }) => [
-			rule(
-				{
+		rules: [
+			def.rule(
+				what.variant({
 					size: "xs",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-sm",
-						],
-					},
+					base: what.css([
+						"text-sm",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "sm",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-sm",
-						],
-					},
+					base: what.css([
+						"text-sm",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "md",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-base",
-						],
-					},
+					base: what.css([
+						"text-base",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "lg",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-lg",
-						],
-					},
+					base: what.css([
+						"text-lg",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-xl",
-						],
-					},
+					base: what.css([
+						"text-xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "2xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-2xl",
-						],
-					},
+					base: what.css([
+						"text-2xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "3xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-3xl",
-						],
-					},
+					base: what.css([
+						"text-3xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "4xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-4xl",
-						],
-					},
+					base: what.css([
+						"text-4xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "5xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-5xl",
-						],
-					},
+					base: what.css([
+						"text-5xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "6xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-6xl",
-						],
-					},
+					base: what.css([
+						"text-6xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "7xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-7xl",
-						],
-					},
+					base: what.css([
+						"text-7xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "8xl",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-8xl",
-						],
-					},
+					base: what.css([
+						"text-8xl",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"pointer-events-none",
-							"cursor-not-allowed",
-							"text-gray-400",
-							"opacity-50",
-						],
-					},
+					base: what.css([
+						"pointer-events-none",
+						"cursor-not-allowed",
+						"text-gray-400",
+						"opacity-50",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			size: "xl",
 			disabled: false,
-		},
-	},
+		}),
+	}),
 );
 
 export namespace IconCls {

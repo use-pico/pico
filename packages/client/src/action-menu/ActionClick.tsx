@@ -22,15 +22,15 @@ export const ActionClick: FC<ActionClick.Props> = ({
 	children,
 	...props
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			loading,
-		},
-	});
+		}),
+	}));
 
 	return (
 		<div
-			className={classes.base}
+			className={classes.base()}
 			{...props}
 		>
 			{isString(icon) ? (

@@ -66,9 +66,9 @@ export const ActionCls = PicoCls.extend(
 				]),
 			}),
 			def.rule(
-				{
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
 					base: what.css([
 						"opacity-50",
@@ -80,9 +80,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					loading: true,
-				},
+				}),
 				{
 					action: what.css([
 						"pointer-events-none",
@@ -90,9 +90,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					active: true,
-				},
+				}),
 				{
 					action: what.css([
 						"active",
@@ -101,9 +101,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "primary",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-danger",
@@ -111,9 +111,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "secondary",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-secondary",
@@ -121,9 +121,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "danger",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-danger",
@@ -131,9 +131,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "danger-light",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-danger-light",
@@ -141,9 +141,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "subtle",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-subtle",
@@ -151,9 +151,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "light",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-light",
@@ -161,9 +161,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					variant: "neutral",
-				},
+				}),
 				{
 					action: what.css([
 						"pico--action-color-neutral",
@@ -171,9 +171,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			def.rule(
-				{
+				what.variant({
 					borderless: true,
-				},
+				}),
 				{
 					action: what.css([
 						"border-none",
@@ -181,13 +181,13 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			disabled: false,
 			loading: false,
 			active: false,
 			variant: "subtle",
 			borderless: false,
-		},
+		}),
 	}),
 );
 

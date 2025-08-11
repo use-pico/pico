@@ -9,17 +9,15 @@ export const TxCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [],
-				},
+		rules: [
+			def.root({
+				base: what.css([]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type TxCls = typeof TxCls;

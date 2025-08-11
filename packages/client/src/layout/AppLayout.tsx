@@ -31,16 +31,16 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<Toaster position={"top-right"} />
-			<div className={classes.header}>
+			<div className={classes.header()}>
 				<div>{logo}</div>
 				<div className={"grow"}>{menu}</div>
 				<div className={"flex flex-row gap-2 items-center"}>
 					{actions}
 				</div>
 			</div>
-			<div className={classes.content}>{children ?? <Outlet />}</div>
+			<div className={classes.content()}>{children ?? <Outlet />}</div>
 		</div>
 	);
 };

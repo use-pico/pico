@@ -11,37 +11,31 @@ export const DeleteControlCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-4",
-					],
-				},
-				content: {
-					class: [
-						"text-bold",
-						"text-red-500",
-						"font-bold",
-					],
-				},
-				footer: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"justify-between",
-						"gap-4",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-col",
+					"gap-4",
+				]),
+				content: what.css([
+					"text-bold",
+					"text-red-500",
+					"font-bold",
+				]),
+				footer: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"justify-between",
+					"gap-4",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type DeleteControlCls = typeof DeleteControlCls;

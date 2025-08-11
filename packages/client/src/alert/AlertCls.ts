@@ -24,10 +24,10 @@ export const AlertCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, what }) => [
-			root({
+		rules: [
+			def.root({
 				base: what.css([
 					"pico--alert",
 					"border",
@@ -55,66 +55,66 @@ export const AlertCls = PicoCls.extend(
 					"border-(--pico-color-border-default)",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "info",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-info-clickable-hover-bg)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "success",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-success-clickable-hover-bg)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "warning",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-warning-clickable-hover-bg)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "error",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-error-clickable-hover-bg)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "neutral",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-neutral-clickable-hover-bg)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "subtle",
 					clickable: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-(--color-subtle-clickable-hover-bg)",
@@ -122,13 +122,15 @@ export const AlertCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			clickable: false,
 			variant: "info",
-		},
-	},
+		}),
+	}),
 );
 
+export type AlertCls = typeof AlertCls;
+
 export namespace AlertCls {
-	export type Props<P = unknown> = Component<typeof AlertCls, P>;
+	export type Props<P = unknown> = Component<AlertCls, P>;
 }

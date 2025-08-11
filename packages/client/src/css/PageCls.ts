@@ -9,21 +9,19 @@ export const PageCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-2",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-col",
+					"gap-2",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type PageCls = typeof PageCls;

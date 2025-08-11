@@ -48,17 +48,17 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	});
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.content}>{textContent}</div>
-			<div className={classes.footer}>
+		<div className={classes.base()}>
+			<div className={classes.content()}>{textContent}</div>
+			<div className={classes.footer()}>
 				<Button
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							variant: "secondary",
 							borderless: true,
 							size: "md",
-						},
-					}}
+						}),
+					})}
 					iconEnabled={BackIcon}
 					onClick={() => {
 						close();
@@ -69,12 +69,12 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				</Button>
 
 				<Button
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							variant: "primary",
 							size: "md",
-						},
-					}}
+						}),
+					})}
 					iconEnabled={TrashIcon}
 					onClick={() => {
 						mutation.mutate();

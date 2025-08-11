@@ -18,13 +18,13 @@ export const TabPane: FC<TabPane.Props> = ({
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			hidden: tab !== currentTab,
-		},
-	});
+		}),
+	}));
 
 	return hidden.includes(tab) ? null : (
-		<div className={classes.base}>{children}</div>
+		<div className={classes.base()}>{children}</div>
 	);
 };

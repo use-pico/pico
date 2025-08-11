@@ -31,10 +31,10 @@ export const BadgeCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, what }) => [
-			root({
+		rules: [
+			def.root({
 				base: what.css([
 					"border",
 					"flex-row",
@@ -48,20 +48,20 @@ export const BadgeCls = PicoCls.extend(
 					"text-sm",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
-				},
+				}),
 				{
 					base: what.css([
 						"shadow-md",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "primary",
-				},
+				}),
 				{
 					base: what.css([
 						"bg-(--pico-color-primary-bg-default)",
@@ -70,130 +70,130 @@ export const BadgeCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "secondary",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-secondary-bg-default)",
 						"border-(--pico-color-secondary-border-default)",
 						"text-(--pico-color-secondary-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "danger",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-danger-bg-default)",
 						"border-(--pico-color-danger-border-default)",
 						"text-(--pico-color-danger-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "danger-light",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-danger-light-bg-default)",
 						"border-(--pico-color-danger-light-border-default)",
 						"text-(--pico-color-danger-light-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "light",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-light-bg-default)",
 						"border-(--pico-color-light-border-default)",
 						"text-(--pico-color-light-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "subtle",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-subtle-bg-default)",
 						"border-(--pico-color-subtle-border-default)",
 						"text-(--pico-color-subtle-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "neutral",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--pico-color-neutral-bg-default)",
 						"border-(--pico-color-neutral-border-default)",
 						"text-(--pico-color-neutral-text-default)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					borderless: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"border-none",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "xs",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"text-xs",
 						"px-2",
 						"py-0.5",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "sm",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"text-sm",
 						"px-2",
 						"py-1",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "md",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"text-md",
 						"px-3",
 						"py-1.5",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "lg",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"text-lg",
 						"px-4",
 						"py-2",
@@ -201,15 +201,17 @@ export const BadgeCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			active: false,
 			variant: "light",
 			borderless: false,
 			size: "md",
-		},
-	},
+		}),
+	}),
 );
 
+export type BadgeCls = typeof BadgeCls;
+
 export namespace BadgeCls {
-	export type Props<P = unknown> = Component<typeof BadgeCls, P>;
+	export type Props<P = unknown> = Component<BadgeCls, P>;
 }

@@ -44,17 +44,17 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 
 	return (
 		<CoolCursor
-			cls={{
+			cls={({ what }) => ({
 				slot: {
-					base: {
-						class: isFetching
+					base: what.css(
+						isFetching
 							? [
 									"opacity-50",
 								]
 							: undefined,
-					},
+					),
 				},
-			}}
+			})}
 			state={cursor}
 			count={data}
 		/>

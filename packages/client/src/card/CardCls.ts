@@ -13,10 +13,10 @@ export const CardCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, what }) => [
-			root({
+		rules: [
+			def.root({
 				base: what.css([
 					"flex",
 					"flex-col",
@@ -27,10 +27,10 @@ export const CardCls = PicoCls.extend(
 					"rounded-lg",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					inline: true,
-				},
+				}),
 				{
 					base: what.css([
 						"flex-row",
@@ -42,10 +42,10 @@ export const CardCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			inline: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type CardCls = typeof CardCls;

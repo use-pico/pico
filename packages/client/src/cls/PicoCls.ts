@@ -19,8 +19,8 @@ export const PicoCls = cls(
 		slot: [],
 		variant: {},
 	},
-	{
-		token: {
+	({ def }) => ({
+		token: def.token({
 			"color.text": {
 				default: [
 					"text-(--pico-text-default)",
@@ -45,8 +45,8 @@ export const PicoCls = cls(
 					"text-base",
 				],
 			},
-		},
-		defaults: {},
-		rules: () => [],
-	},
+		}),
+		rules: [],
+		defaults: def.defaults({}),
+	}),
 );

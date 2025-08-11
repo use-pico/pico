@@ -14,69 +14,57 @@ export const PreviewCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"pico--preview",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"bg-(--color-bg)",
-						"p-2",
-						"rounded-md",
-						"border",
-						"border-(--color-border)",
-					],
-				},
-				container: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"justify-between",
-						"gap-1",
-					],
-				},
-				title: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"gap-4",
-					],
-				},
-				links: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"gap-4",
-						"justify-end",
-					],
-				},
-				actions: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"gap-4",
-					],
-				},
-				extra: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-4",
-						"justify-end",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"pico--preview",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"bg-(--color-bg)",
+					"p-2",
+					"rounded-md",
+					"border",
+					"border-(--color-border)",
+				]),
+				container: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"justify-between",
+					"gap-1",
+				]),
+				title: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-4",
+				]),
+				links: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-4",
+					"justify-end",
+				]),
+				actions: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"gap-4",
+				]),
+				extra: what.css([
+					"flex",
+					"flex-row",
+					"gap-4",
+					"justify-end",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type PreviewCls = typeof PreviewCls;

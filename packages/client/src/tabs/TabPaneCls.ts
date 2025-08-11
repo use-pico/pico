@@ -13,27 +13,27 @@ export const TabPaneCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([]),
+		rules: [
+			def.root({
+				base: what.css([]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					hidden: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"hidden",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			hidden: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type TabPaneCls = typeof TabPaneCls;

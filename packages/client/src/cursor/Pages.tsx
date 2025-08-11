@@ -23,19 +23,17 @@ export const Pages: FC<Pages.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<nav className={classes.base}>
-			<ul className={classes.list}>
+		<nav className={classes.base()}>
+			<ul className={classes.list()}>
 				{pages.map((current) => {
 					return (
 						<li
 							key={`page-${current}`}
-							className={
-								tva.create(undefined, {
-									variant: {
-										current: page === current - 1,
-									},
-								}).page
-							}
+							className={classes.page(({ what }) => ({
+								variant: what.variant({
+									current: page === current - 1,
+								}),
+							}))}
 							onClick={() => onPage(current - 1)}
 						>
 							{current}

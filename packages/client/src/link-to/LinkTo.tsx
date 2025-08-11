@@ -22,7 +22,7 @@ const $LinkTo = forwardRef<HTMLAnchorElement, $LinkTo>(
 			<a
 				{...props}
 				ref={ref}
-				className={classes.base}
+				className={classes.base()}
 			>
 				{isString(icon) ? (
 					<Icon

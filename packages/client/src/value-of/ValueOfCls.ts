@@ -18,11 +18,11 @@ export const ValueOfCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"pico--value-of",
 					"border",
 					"border-(--color-border)",
@@ -31,7 +31,7 @@ export const ValueOfCls = PicoCls.extend(
 					"rounded-md",
 					"group",
 				]),
-				label: classes([
+				label: what.css([
 					"text-sm",
 					"font-semibold",
 					"text-(--label-color-text)",
@@ -40,39 +40,39 @@ export const ValueOfCls = PicoCls.extend(
 					"group-hover:border-(--label-color-hover-border)",
 					"mb-2",
 				]),
-				value: classes([]),
+				value: what.css([]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					inline: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"border-none",
 						"flex",
 						"flex-row",
 						"items-center",
 						"gap-2",
 					]),
-					label: classes([
+					label: what.css([
 						"mb-0",
 						"font-light",
 						"text-md",
 						"text-(--inline-label-color-text)",
 						"border-none",
 					]),
-					value: classes([
+					value: what.css([
 						"text-md",
 						"text-(--inline-value-color-text)",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					withBackground: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-(--color-bg)",
 						"hover:bg-(--color-hover-bg)",
 						"hover:border-(--color-hover-border)",
@@ -80,11 +80,11 @@ export const ValueOfCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			inline: false,
 			withBackground: true,
-		},
-	},
+		}),
+	}),
 );
 
 export type ValueOfCls = typeof ValueOfCls;

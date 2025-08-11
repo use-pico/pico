@@ -33,8 +33,8 @@ export const ButtonCls = cls(
 			],
 		},
 	},
-	{
-		token: {
+	({ what, def }) => ({
+		token: def.token({
 			"primary.textColor": {
 				default: [
 					"text-blue-600",
@@ -51,73 +51,65 @@ export const ButtonCls = cls(
 					"hover:text-slate-700",
 				],
 			},
-		},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"justify-center",
-						"gap-2",
-						"group",
-						"rounded-md",
-						"transition-all",
-						"cursor-pointer",
-						"border",
-						"shadow-sm",
-					],
-				},
+		}),
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"justify-center",
+					"gap-2",
+					"group",
+					"rounded-md",
+					"transition-all",
+					"cursor-pointer",
+					"border",
+					"shadow-sm",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "primary",
-				},
+				}),
 				{
-					base: {
-						token: [
-							"primary.textColor.default",
-							"primary.textColor.hover",
-						],
-					},
+					base: what.token([
+						"primary.textColor.default",
+						"primary.textColor.hover",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "secondary",
-				},
+				}),
 				{
-					base: {
-						token: [
-							"secondary.textColor.default",
-							"secondary.textColor.hover",
-						],
-					},
+					base: what.token([
+						"secondary.textColor.default",
+						"secondary.textColor.hover",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"cursor-not-allowed",
-							"opacity-50",
-							"hover:opacity-50",
-						],
-					},
+					base: what.css([
+						"cursor-not-allowed",
+						"opacity-50",
+						"hover:opacity-50",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			variant: "primary",
 			disabled: false,
 			size: "md",
 			borderless: false,
-		},
-	},
+		}),
+	}),
 );
 
 export namespace ButtonCls {

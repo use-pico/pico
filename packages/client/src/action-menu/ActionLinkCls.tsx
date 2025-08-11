@@ -7,16 +7,14 @@ export const ActionLinkCls = ActionCls.extend(
 		slot: [],
 		variant: {},
 	},
-	{
+	({ def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({}),
-		],
-		defaults: {
+		rules: [],
+		defaults: def.defaults({
 			disabled: false,
 			variant: "common",
-		},
-	},
+		}),
+	}),
 );
 
 export type ActionLinkCls = typeof ActionLinkCls;

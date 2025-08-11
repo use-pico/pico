@@ -17,20 +17,20 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	tva = TitlePreviewCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			withSubtitle: Boolean(subtitle),
-		},
-	});
+		}),
+	}));
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.title}>
+		<div className={classes.base()}>
+			<div className={classes.title()}>
 				{icon ? <Icon icon={icon} /> : null}
 				{title}
 			</div>
 			{subtitle ? (
-				<div className={classes.subtitle}>{subtitle}</div>
+				<div className={classes.subtitle()}>{subtitle}</div>
 			) : null}
 		</div>
 	);

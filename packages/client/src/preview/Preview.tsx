@@ -49,13 +49,13 @@ export const Preview = <TValues extends Record<string, any>>({
 				inline: true,
 			}}
 		>
-			<div className={classes.base}>
+			<div className={classes.base()}>
 				{Title || Links ? (
-					<div className={classes.container}>
-						<div className={classes.title}>
+					<div className={classes.container()}>
+						<div className={classes.title()}>
 							{Title ? <Title entity={entity} /> : null}
 						</div>
-						<div className={classes.links}>
+						<div className={classes.links()}>
 							{Links ? <Links entity={entity} /> : null}
 						</div>
 					</div>
@@ -72,11 +72,11 @@ export const Preview = <TValues extends Record<string, any>>({
 				) : null}
 
 				{Actions || Extra ? (
-					<div className={classes.container}>
-						<div className={classes.actions}>
+					<div className={classes.container()}>
+						<div className={classes.actions()}>
 							{Actions ? <Actions entity={entity} /> : null}
 						</div>
-						<div className={classes.extra}>
+						<div className={classes.extra()}>
 							{Extra ? <Extra entity={entity} /> : null}
 						</div>
 					</div>

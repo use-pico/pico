@@ -11,29 +11,27 @@ export const ActionClickCls = ActionCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ rule }) => [
-			rule(
-				{
+		rules: [
+			def.rule(
+				what.variant({
 					loading: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"pointer-events-none",
-							"opacity-50",
-						],
-					},
+					base: what.css([
+						"pointer-events-none",
+						"opacity-50",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			loading: false,
 			disabled: false,
 			variant: "common",
-		},
-	},
+		}),
+	}),
 );
 
 export type ActionClickCls = typeof ActionClickCls;

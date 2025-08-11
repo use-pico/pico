@@ -23,29 +23,27 @@ export const Status: FC<Status.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			{icon ? (
 				<Icon
 					icon={icon}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							size: "6xl",
-						},
+						}),
 						slot: {
-							base: {
-								class: [
-									"text-slate-500",
-									"opacity-50",
-								],
-							},
+							base: what.css([
+								"text-slate-500",
+								"opacity-50",
+							]),
 						},
-					}}
+					})}
 					{...iconProps}
 				/>
 			) : null}
-			<div className={classes.title}>{textTitle}</div>
-			<div className={classes.message}>{textMessage}</div>
-			<div className={classes.body}>{children}</div>
+			<div className={classes.title()}>{textTitle}</div>
+			<div className={classes.message()}>{textMessage}</div>
+			<div className={classes.body()}>{children}</div>
 		</div>
 	);
 };

@@ -15,58 +15,50 @@ export const TitlePreviewCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-					],
-				},
-				title: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"text-lg",
-						"text-slate-500",
-						"font-bold",
-					],
-				},
-				subtitle: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-4",
-						"items-center",
-						"text-lg",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+				]),
+				title: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"text-lg",
+					"text-slate-500",
+					"font-bold",
+				]),
+				subtitle: what.css([
+					"flex",
+					"flex-row",
+					"gap-4",
+					"items-center",
+					"text-lg",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					withSubtitle: true,
-				},
+				}),
 				{
-					title: {
-						class: [
-							"border-r",
-							"border-r-slate-300",
-							"pr-2",
-						],
-					},
+					title: what.css([
+						"border-r",
+						"border-r-slate-300",
+						"pr-2",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			withSubtitle: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type TitlePreviewCls = typeof TitlePreviewCls;

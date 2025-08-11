@@ -13,11 +13,11 @@ export const TabCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
@@ -34,12 +34,12 @@ export const TabCls = PicoCls.extend(
 					"rounded",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"cursor-default",
 						"font-semibold",
 						"text-slate-800",
@@ -49,10 +49,10 @@ export const TabCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			active: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type TabCls = typeof TabCls;

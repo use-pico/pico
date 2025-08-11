@@ -19,16 +19,16 @@ export const ValueOf: FC<ValueOf.Props> = ({
 }) => {
 	const inlineStore = useContext(InlineContext);
 	const isInline = inline ?? inlineStore?.inline;
-	const slots = tva.create(cls, {
-		variant: {
+	const slots = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			inline: isInline,
-		},
-	});
+		}),
+	}));
 
 	return (
-		<div className={slots.base}>
-			{label ? <div className={slots.label}>{label}</div> : null}
-			<div className={slots.value}>{value}</div>
+		<div className={slots.base()}>
+			{label ? <div className={slots.label()}>{label}</div> : null}
+			<div className={slots.value()}>{value}</div>
 		</div>
 	);
 };

@@ -17,82 +17,70 @@ export const ProgressCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"h-full",
-						"w-full",
-						"bg-slate-200",
-						"rounded-sm",
-						"transition-all",
-					],
-				},
-				progress: {
-					class: [
-						"h-full",
-						"bg-blue-400",
-						"rounded-sm",
-						"leading-none",
-						"transition-all",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"h-full",
+					"w-full",
+					"bg-slate-200",
+					"rounded-sm",
+					"transition-all",
+				]),
+				progress: what.css([
+					"h-full",
+					"bg-blue-400",
+					"rounded-sm",
+					"leading-none",
+					"transition-all",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "xs",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"h-0.5",
-						],
-					},
+					base: what.css([
+						"h-0.5",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "sm",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"h-1",
-						],
-					},
+					base: what.css([
+						"h-1",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "md",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"h-2",
-						],
-					},
+					base: what.css([
+						"h-2",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					size: "lg",
-				},
+				}),
 				{
-					base: {
-						class: [
-							"h-4",
-						],
-					},
+					base: what.css([
+						"h-4",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			size: "md",
-		},
-	},
+		}),
+	}),
 );
 
 export type ProgressCls = typeof ProgressCls;

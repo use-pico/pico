@@ -12,45 +12,37 @@ export const StatusCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"w-full",
-						"flex",
-						"flex-col",
-						"items-center",
-						"justify-center",
-					],
-				},
-				title: {
-					class: [
-						"text-xl",
-						"text-bold",
-						"w-full",
-						"text-center",
-					],
-				},
-				message: {
-					class: [
-						"text-base",
-						"text-slate-500",
-						"w-full",
-						"text-center",
-					],
-				},
-				body: {
-					class: [
-						"pt-2",
-						"w-full",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"w-full",
+					"flex",
+					"flex-col",
+					"items-center",
+					"justify-center",
+				]),
+				title: what.css([
+					"text-xl",
+					"text-bold",
+					"w-full",
+					"text-center",
+				]),
+				message: what.css([
+					"text-base",
+					"text-slate-500",
+					"w-full",
+					"text-center",
+				]),
+				body: what.css([
+					"pt-2",
+					"w-full",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type StatusCls = typeof StatusCls;

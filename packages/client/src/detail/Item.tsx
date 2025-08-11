@@ -14,7 +14,7 @@ export const Item: FC<Item.Props> = ({ id: itemId, value, slots }) => {
 	return (
 		<div
 			key={`detail-section-item-${itemId}`}
-			className={slots.item}
+			className={slots.item()}
 		>
 			{value.map(({ id, ...props }) => (
 				<Value

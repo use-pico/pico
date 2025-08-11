@@ -15,12 +15,12 @@ export const Progress: FC<Progress.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<div
 				style={{
 					width: `${Math.max(0, Math.min(100, value))}%`,
 				}}
-				className={classes.progress}
+				className={classes.progress()}
 			></div>
 		</div>
 	);

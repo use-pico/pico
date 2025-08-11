@@ -138,11 +138,11 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			disabled,
-		},
-	});
+		}),
+	}));
 
 	return (
 		<>
@@ -150,25 +150,23 @@ export const Select = <TItem extends EntitySchema.Type>({
 				tabIndex={disabled ? -1 : 0}
 				ref={disabled ? undefined : refs.setReference}
 				{...(disabled ? {} : getReferenceProps())}
-				className={classes.base}
+				className={classes.base()}
 			>
-				<div className={classes.input}>
+				<div className={classes.input()}>
 					{icon ? (
 						<Icon
 							icon={icon}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									size: "xl",
-								},
+								}),
 								slot: {
-									base: {
-										class: [
-											"text-slate-400",
-											"group-hover:text-slate-600",
-										],
-									},
+									base: what.css([
+										"text-slate-400",
+										"group-hover:text-slate-600",
+									]),
 								},
-							}}
+							})}
 						/>
 					) : null}
 					{item ? (
@@ -189,30 +187,30 @@ export const Select = <TItem extends EntitySchema.Type>({
 									e.stopPropagation();
 									e.preventDefault();
 								}}
-								cls={{
-									variant: {
+								cls={({ what }) => ({
+									variant: what.variant({
 										borderless: true,
 										variant: "light",
-									},
-								}}
+									}),
+								})}
 							/>
 						) : null}
 						<Icon
 							icon={"icon-[gg--select]"}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									size: "xl",
-								},
+								}),
 								slot: {
-									base: {
-										class: [
+									base: what.css(
+										[
 											!isOpen && "text-slate-400",
 											isOpen && "text-slate-600",
 											"group-hover:text-slate-600",
 										].filter(Boolean),
-									},
+									),
 								},
-							}}
+							})}
 						/>
 					</div>
 				</div>
@@ -229,7 +227,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 								...floatingStyles,
 								...styles,
 							}}
-							className={classes.popup}
+							className={classes.popup()}
 							{...getFloatingProps()}
 						>
 							{items.map((value, i) => (
@@ -239,14 +237,12 @@ export const Select = <TItem extends EntitySchema.Type>({
 										listRef.current[i] = node;
 									}}
 									tabIndex={i === activeIndex ? 0 : -1}
-									className={
-										tva.create(undefined, {
-											variant: {
-												selected: i === selectedIndex,
-												active: i === activeIndex,
-											},
-										}).item
-									}
+									className={classes.item(({ what }) => ({
+										variant: what.variant({
+											selected: i === selectedIndex,
+											active: i === activeIndex,
+										}),
+									}))}
 									{...getItemProps({
 										onClick() {
 											handleSelect(i);
@@ -271,11 +267,11 @@ export const Select = <TItem extends EntitySchema.Type>({
 									{i === selectedIndex && (
 										<Icon
 											icon={"icon-[basil--check-outline]"}
-											cls={{
-												variant: {
+											cls={({ what }) => ({
+												variant: what.variant({
 													size: "xl",
-												},
-											}}
+												}),
+											})}
 										/>
 									)}
 								</div>

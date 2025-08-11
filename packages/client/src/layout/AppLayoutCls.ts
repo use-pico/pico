@@ -11,44 +11,38 @@ export const AppLayoutCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"min-h-screen",
-						"flex",
-						"flex-col",
-					],
-				},
-				header: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"bg-slate-50",
-						"shadow-xs",
-						"border-b",
-						"border-b-slate-200",
-						"w-full",
-						"gap-4",
-						"p-4",
-					],
-				},
-				content: {
-					class: [
-						"grow",
-						"h-full",
-						"border-b",
-						"border-b-slate-200",
-						"p-2",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"min-h-screen",
+					"flex",
+					"flex-col",
+				]),
+				header: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"bg-slate-50",
+					"shadow-xs",
+					"border-b",
+					"border-b-slate-200",
+					"w-full",
+					"gap-4",
+					"p-4",
+				]),
+				content: what.css([
+					"grow",
+					"h-full",
+					"border-b",
+					"border-b-slate-200",
+					"p-2",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type AppLayoutCls = typeof AppLayoutCls;

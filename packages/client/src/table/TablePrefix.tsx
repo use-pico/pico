@@ -43,15 +43,13 @@ export const TablePrefix = <
 					{fulltext ? (
 						<Fulltext
 							state={fulltext}
-							cls={{
+							cls={({ what }) => ({
 								slot: {
-									base: {
-										class: [
-											"w-96",
-										],
-									},
+									base: what.css([
+										"w-96",
+									]),
 								},
-							}}
+							})}
 						/>
 					) : null}
 				</div>

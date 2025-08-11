@@ -30,7 +30,7 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		return (
 			<a
 				{...props}
-				className={classes.base}
+				className={classes.base()}
 				ref={ref}
 			>
 				{isString(icon) ? (

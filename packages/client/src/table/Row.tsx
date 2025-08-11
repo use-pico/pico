@@ -98,16 +98,19 @@ export const Row = <
 
 	return (
 		<div
-			// TODO Feature request for "cls" - add support for variance overrides on slots directly
-			className={slots.row(
-				{
+			className={slots.row(({ what }) => ({
+				variant: what.variant({
 					selected: isSelected,
-				},
-				rowCls?.({
-					data: row.data,
-					context,
 				}),
-			)}
+				slot: {
+					row: what.css(
+						rowCls?.({
+							data: row.data,
+							context,
+						}),
+					),
+				},
+			}))}
 			style={{
 				gridTemplateColumns: grid,
 			}}
@@ -131,17 +134,20 @@ export const Row = <
 				{selection ? (
 					<Icon
 						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
-						cls={{
-							// TODO Feature request for "cls" - add support for variance overrides on slots directly
+						cls={({ what }) => ({
 							slot: {
-								base: slots.select({
-									selected: isSelected,
-								}),
+								base: what.css(
+									slots.select(({ what }) => ({
+										variant: what.variant({
+											selected: isSelected,
+										}),
+									})),
+								),
 							},
-							variant: {
+							variant: what.variant({
 								size: "2xl",
-							},
-						}}
+							}),
+						})}
 						onClick={onSelect}
 					/>
 				) : null}

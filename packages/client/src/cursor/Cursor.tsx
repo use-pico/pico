@@ -48,7 +48,7 @@ export const Cursor: FC<Cursor.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			{$cursor.total > 1 ? (
 				<div
 					className={tvc(
@@ -108,7 +108,7 @@ export const Cursor: FC<Cursor.Props> = ({
 					) : null}
 				</div>
 			) : null}
-			<div className={classes.sums}>
+			<div className={classes.sums()}>
 				<div>{textTotal}</div>
 				<div className={"font-bold"}>{count.filter}</div>
 				{count.filter !== count.where && (

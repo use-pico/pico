@@ -85,12 +85,12 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							onClick={() => {
 								update(type?.sort === "asc" ? "desc" : "asc");
 							}}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									active: type?.sort === "asc",
 									borderless: true,
-								},
-							}}
+								}),
+							})}
 						/>
 					}
 				>
@@ -113,12 +113,12 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							onClick={() => {
 								update("asc");
 							}}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									active: type?.sort === "desc",
 									borderless: true,
-								},
-							}}
+								}),
+							})}
 						/>
 					}
 				>
@@ -136,12 +136,12 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 						onClick={() => {
 							update(undefined);
 						}}
-						cls={{
-							variant: {
+						cls={({ what }) => ({
+							variant: what.variant({
 								active: type?.sort === undefined,
 								borderless: true,
-							},
-						}}
+							}),
+						})}
 					/>
 				}
 			>

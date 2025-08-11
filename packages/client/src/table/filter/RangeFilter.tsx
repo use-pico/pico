@@ -33,11 +33,11 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isLte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							borderless: true,
-						},
-					}}
+						}),
+					})}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -52,11 +52,11 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={LteIcon}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							borderless: true,
-						},
-					}}
+						}),
+					})}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -72,11 +72,11 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isGte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							borderless: true,
-						},
-					}}
+						}),
+					})}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -91,11 +91,11 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={GteIcon}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							borderless: true,
-						},
-					}}
+						}),
+					})}
 					onClick={() => {
 						state.set({
 							...state.value,

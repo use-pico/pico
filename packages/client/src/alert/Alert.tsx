@@ -30,11 +30,11 @@ export const Alert: FC<Alert.Props> = ({
 	tva = AlertCls,
 	children,
 }) => {
-	const classes = useCls(tva, cls, {
-		variant: {
+	const classes = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
 			clickable: Boolean(onClick),
-		},
-	});
+		}),
+	}));
 
 	return (
 		<div
@@ -46,11 +46,11 @@ export const Alert: FC<Alert.Props> = ({
 				{icon && (
 					<Icon
 						icon={icon}
-						cls={{
-							variant: {
+						cls={({ what }) => ({
+							variant: what.variant({
 								size: "2xl",
-							},
-						}}
+							}),
+						})}
 						{...iconProps}
 					/>
 				)}

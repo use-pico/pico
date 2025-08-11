@@ -18,7 +18,7 @@ export const Badge: FC<Badge.Props> = ({ cls, tva = BadgeCls, ...props }) => {
 
 	return (
 		<div
-			className={classes.base}
+			className={classes.base()}
 			{...props}
 		/>
 	);

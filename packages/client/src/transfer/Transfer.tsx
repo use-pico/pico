@@ -92,8 +92,8 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	};
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.panel}>
+		<div className={classes.base()}>
+			<div className={classes.panel()}>
 				{source.reduce((acc, { items }) => {
 					return acc + items.length;
 				}, 0) === 0 ? (
@@ -107,14 +107,14 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-source-group-${id}`}
-							className={classes.group}
+							className={classes.group()}
 						>
-							<div className={classes.header}>{group}</div>
+							<div className={classes.header()}>{group}</div>
 							{items.map((item) => {
 								return (
 									<div
 										key={`transfer-source-item-${item.id}`}
-										className={classes.item}
+										className={classes.item()}
 										onDoubleClick={withHandleSelect(
 											group,
 											item,
@@ -122,25 +122,21 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 									>
 										<Render item={item} />
 										<Action
-											cls={{
+											cls={({ what }) => ({
 												slot: {
-													base: {
-														class: [
-															"invisible",
-															"group-hover:visible",
-														],
-													},
-													action: {
-														class: [
-															"transition-none",
-														],
-													},
+													base: what.css([
+														"invisible",
+														"group-hover:visible",
+													]),
+													action: what.css([
+														"transition-none",
+													]),
 												},
-												variant: {
+												variant: what.variant({
 													borderless: true,
 													variant: "subtle",
-												},
-											}}
+												}),
+											})}
 											iconEnabled={ArrowRightIcon}
 											onClick={withHandleSelect(
 												group,
@@ -154,7 +150,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					);
 				})}
 			</div>
-			<div className={classes.panel}>
+			<div className={classes.panel()}>
 				{selected.length === 0 ? (
 					<Tx label={"Select items (label)"} />
 				) : null}
@@ -162,7 +158,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-selected-item-${item.id}`}
-							className={classes.item}
+							className={classes.item()}
 							onDoubleClick={withHandleDeselect(item)}
 						>
 							<div
@@ -182,34 +178,30 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 								</div>
 								<Icon
 									icon={ArrowRightIcon}
-									cls={{
-										variant: {
+									cls={({ what }) => ({
+										variant: what.variant({
 											size: "xs",
-										},
-									}}
+										}),
+									})}
 								/>
 								<Render item={item} />
 							</div>
 							<Action
-								cls={{
+								cls={({ what }) => ({
 									slot: {
-										base: {
-											class: [
-												"invisible",
-												"group-hover:visible",
-											],
-										},
-										action: {
-											class: [
-												"transition-none",
-											],
-										},
+										base: what.css([
+											"invisible",
+											"group-hover:visible",
+										]),
+										action: what.css([
+											"transition-none",
+										]),
 									},
-									variant: {
+									variant: what.variant({
 										borderless: true,
 										variant: "subtle",
-									},
-								}}
+									}),
+								})}
 								iconEnabled={CloseIcon}
 								onClick={withHandleDeselect(item)}
 							/>

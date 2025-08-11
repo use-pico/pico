@@ -21,17 +21,17 @@ export const Upload: FC<Upload.Props> = ({ progressProps, ...props }) => {
 		<div className={"w-full"}>
 			<Progress
 				{...progressProps}
-				cls={{
+				cls={({ what }) => ({
 					slot: {
-						progress: {
-							class: [
+						progress: what.css(
+							[
 								isSuccess && "bg-green-400",
 								isRunning && "bg-blue-400",
 								isError && "bg-red-400",
 							].filter(Boolean),
-						},
+						),
 					},
-				}}
+				})}
 				value={percent()}
 			/>
 		</div>
