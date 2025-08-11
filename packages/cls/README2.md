@@ -36,13 +36,14 @@
   - [2.6 Type Safety as Foundation](#26-type-safety-as-foundation)
   - [2.7 Performance by Design](#27-performance-by-design)
   - [2.8 Simplicity Beneath Complexity](#28-simplicity-beneath-complexity)
+  - [2.9 CSS Connection](#29-css-connection)
 - [3. Core API](#3-core-api)
-  - [3.1 cls() Function](#31-cls-function)
-  - [3.2 extend() Method](#32-extend-method)
-  - [3.3 create() Method](#33-create-method)
-  - [3.4 use() Method](#34-use-method)
-  - [3.5 merge() Utility](#35-merge-utility)
-  - [3.6 tvc() Helper](#36-tvc-helper)
+  - [3.1 `cls()` Function](#31-cls-function)
+  - [3.2 `extend()` Method](#32-extend-method)
+  - [3.3 `create()` Method](#33-create-method)
+  - [3.4 `use()` Method](#34-use-method)
+  - [3.5 `merge()` Utility](#35-merge-utility)
+  - [3.6 `tvc()` Helper](#36-tvc-helper)
   - [3.7 What Utility](#37-what-utility)
   - [3.8 Definition Helpers](#38-definition-helpers)
   - [3.9 Override Helpers](#39-override-helpers)
@@ -705,6 +706,8 @@ So remember: **tokens aren't just values – they're your design system's vocabu
 ### 2.7 Performance by Design <a id="27-performance-by-design"></a>
 
 ### 2.8 Simplicity Beneath Complexity <a id="28-simplicity-beneath-complexity"></a>
+
+### 2.9 CSS Connection <a id="29-css-connection"></a>
 
 ---
 
