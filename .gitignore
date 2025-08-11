@@ -1,7 +1,6 @@
 .DS_Store
 .turbo
 *.log
-docs
 lib
 node_modules
 temp
