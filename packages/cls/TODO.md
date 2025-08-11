@@ -13,14 +13,15 @@ AI to use this lib
 
 # README - The system may look complicated, but most is only TS types and rest a "few lines of runtime code"
 
-# README - Experimentally switch this lib to "dist"
+
+
+
+# README - NOTE in installation Experimentally switch this lib to "dist"
 
 # README - Link to ./DESIGN.md
 
 # README todo+structure
 
-Planned a book-like outline in packages/cls/README2.md with chapters, 2-level ToC, and short content notes under each heading. It won’t change the current README, but sets a clear structure for the final rewrite.
-Intro: brief, mirrors current opening.
 Chapter 1 (Foundations): what the lib is, mental model, install & quick start.
 Chapter 2 (Core API): cls, extend, create, merge, use(sub), tvc.
 Chapter 3 (Rules System): root/rule/classes, precedence, appends vs overrides.
