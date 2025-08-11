@@ -2193,14 +2193,13 @@ Think of `merge()` as a **component state merger** that:
 ```typescript
 import { merge } from '@use-pico/cls';
 
-// User input from component props
-const userCls = { variant: { size: 'lg', variant: 'primary' } };
-
-// Internal component state
-const internalState = () => ({ variant: { disabled: true } });
-
 // Merge user preferences with internal state
-const mergedConfig = merge(userCls, internalState);
+// ! Note this is not necessary as `merge` is called inside .create(), this is example only
+const mergedConfig = merge(
+  ({ what }) => ({ variant: what.variant({ size: 'lg', variant: 'primary', disabled: false }) }), // User wants disabled: false
+  ({ what }) => ({ variant: what.variant({ disabled: true }) })                                   // Internal sets disabled: true
+);
+// Result: { variant: { size: 'lg', variant: 'primary', disabled: false } } - user wins!
 
 // Now use it with create()
 const button = ButtonCls.create(mergedConfig);
@@ -2212,36 +2211,23 @@ const button = ButtonCls.create(mergedConfig);
 
 ```typescript
 // User input from component props
-interface ButtonProps {
-  cls?: CreateConfig<ButtonContract>;
+// Component<typeof ButtonCls> provides:
+// - cls?: (props: WhatUtil<ButtonContract>) => Partial<CreateConfig<ButtonContract>>
+// - tva?: ButtonCls (the cls instance for styling)
+interface ButtonProps extends Component<typeof ButtonCls> {
   disabled?: boolean;
   loading?: boolean;
 }
 
-// Internal component state logic
-const getInternalState = (props: ButtonProps) => {
-  const internal: Partial<CreateConfig<ButtonContract>> = {};
-  
-  if (props.disabled) {
-    internal.variant = { ...internal.variant, disabled: true };
-  }
-  
-  if (props.loading) {
-    internal.variant = { ...internal.variant, loading: true };
-  }
-  
-  return internal;
-};
-
 // Component implementation
 const Button = ({ cls, disabled, loading, ...props }: ButtonProps) => {
-  const internalState = getInternalState({ disabled, loading });
-  
-  // Merge user cls with internal state
-  const mergedConfig = merge(cls, () => internalState);
-  
-  // Create styled instance
-  const button = ButtonCls.create(mergedConfig);
+   // Create styled instance
+  const button = ButtonCls.create(cls, ({ what }) => ({
+    variant: what.variant({
+      disabled: disabled || false,
+      loading: loading || false
+    })
+  }));
   
   return <button className={button.root()} {...props} />;
 };
@@ -2252,64 +2238,42 @@ const Button = ({ cls, disabled, loading, ...props }: ButtonProps) => {
 `merge()` follows **clear precedence rules** when combining configurations:
 
 ```typescript
-// User input (first parameter)
-const userCls = { variant: { size: 'lg', variant: 'primary' } };
-
-// Internal state (second parameter)
-const internalState = () => ({ variant: { disabled: true } });
-
 // Merge: user wins over internal for conflicts
-const merged = merge(userCls, internalState);
+const merged = merge(
+  ({ what }) => ({ variant: what.variant({ size: 'lg', variant: 'primary' }) }),
+  ({ what }) => ({ variant: what.variant({ disabled: true }) })
+);
 // Result: { variant: { size: 'lg', variant: 'primary', disabled: true } }
 
-// User preferences take precedence
-const userOverride = { variant: { size: 'sm' } }; // Overrides 'lg' from userCls
-const finalConfig = merge(userOverride, internalState);
-// Result: { variant: { size: 'sm', disabled: true } }
+// User preferences take precedence over internal state
+const finalConfig = merge(
+  ({ what }) => ({ variant: what.variant({ size: 'sm', disabled: false }) }), // User wants disabled: false
+  ({ what }) => ({ variant: what.variant({ disabled: true }) })              // Internal sets disabled: true
+);
+// Result: { variant: { size: 'sm', disabled: false } } - user wins!
 ```
 
 #### **Real-World Example** 🌍
 
 ```typescript
-// Theme-based configuration system
-const createThemeConfig = (theme: 'light' | 'dark') => {
-  if (theme === 'light') {
-    return {
-      variant: { theme: 'light' },
-      override: { color: 'default' }
-    };
-  } else {
-    return {
-      variant: { theme: 'dark' },
-      override: { color: 'inverted' }
-    };
-  }
-};
-
-// Size-based configuration
-const createSizeConfig = (size: 'sm' | 'md' | 'lg') => ({
-  variant: { size }
-});
-
-// State-based configuration
-const createStateConfig = (state: 'idle' | 'loading' | 'disabled') => ({
-  variant: { state }
-});
-
-// Dynamic component creation
-const createComponent = (theme: 'light' | 'dark', size: 'sm' | 'md' | 'lg', state: 'idle' | 'loading' | 'disabled') => {
-  const config = merge(
-    createThemeConfig(theme),
-    createSizeConfig(size),
-    createStateConfig(state)
-  );
+// Component that needs to merge user cls with internal state
+const Button = ({ cls, disabled, loading, ...props }: ButtonProps) => {
+  // Create styled instance - .create() handles merging internally!
+  const button = ButtonCls.create(cls, ({ what }) => ({
+    variant: what.variant({
+      disabled: disabled || false,
+      loading: loading || false
+    })
+  }));
   
-  return ComponentCls.create(config);
+  return <button className={button.root()} {...props} />;
 };
 
-// Usage
-const lightLargeLoading = createComponent('light', 'lg', 'loading');
-const darkSmallIdle = createComponent('dark', 'sm', 'idle');
+// Usage - user can override internal state
+<Button 
+  cls={({ what }) => ({ variant: what.variant({ disabled: false })} // Override internal disabled state
+  disabled={true} // Component prop
+/>
 ```
 
 #### **Type Safety Guaranteed** 🛡️
@@ -2331,13 +2295,13 @@ const button = ButtonCls.create(merged);
 #### **When to Use `merge()`** 🎯
 
 **Perfect for:**
-- **Component props + internal state** - combining user `cls` with component logic
-- **React components** - merging user styling preferences with internal variants
-- **Form controls** - combining user styling with disabled/loading states
-- **Theme-aware components** - merging user themes with component defaults
+- **Pre-processing configs** - when you need to merge configs before passing to `.create()`
+- **Config composition** - building complex configs from multiple sources
+- **Library development** - when you need fine control over config merging
+- **Advanced use cases** - when `.create()`'s internal merging isn't sufficient
 
 **Not for:**
-- **Multiple user configs** - that's not the intended use case
+- **Simple component usage** - use `.create(userConfig, internalConfig)` instead
 - **Component inheritance** - use `extend()` for that
 - **Instance composition** - use `use()` for that
 
@@ -2355,30 +2319,288 @@ So remember: **`merge()` bridges user styling preferences with internal componen
 
 ### 3.6 `tvc()` Helper <a id="36-tvc-helper"></a>
 
+The **`tvc()` helper** is a **simple re-export** of the `tailwind-merge` utility – it's your **Tailwind class deduplication tool**! 🎯✨
+
+#### **What Does `tvc()` Do?** 🤔
+
+`tvc()` stands for **"Tailwind Value Classes"** and it's just a convenient way to use `tailwind-merge`:
+
+```typescript
+import { tvc } from '@use-pico/cls';
+
+// Merge Tailwind classes with smart deduplication
+const classes = tvc(
+  'px-4 py-2 rounded',           // Base classes
+  'px-6',                        // Override padding
+  'bg-blue-500 text-white'       // Add colors
+);
+// Result: "py-2 rounded px-6 bg-blue-500 text-white"
+// Note: px-4 was overridden by px-6
+```
+
+#### **Perfect for Dynamic Classes** 🎭
+
+Great when you need to **conditionally combine** Tailwind classes:
+
+```typescript
+const getButtonClasses = (size: 'sm' | 'md' | 'lg', variant: 'default' | 'primary') => {
+  return tvc(
+    'px-4 py-2 rounded font-medium', // Base styles
+    size === 'lg' && 'px-6 py-3 text-lg', // Size variants
+    size === 'sm' && 'px-2 py-1 text-sm',
+    variant === 'primary' && 'bg-blue-500 text-white', // Color variants
+    variant === 'default' && 'bg-gray-100 text-gray-800'
+  );
+};
+```
+
+#### **The Bottom Line** 💡
+
+**`tvc()` helper** means:
+- **Tailwind class merging** - smart deduplication and override handling
+- **Simple re-export** - no additional logic, just convenience
+- **Perfect integration** - works seamlessly with CLS and TailwindCSS
+- **Zero learning curve** - if you know `tailwind-merge`, you know `tvc()`
+
+It's like having a **smart class combiner** that handles Tailwind conflicts automatically! 🎯✨
+
+So remember: **`tvc()` is just `tailwind-merge` with a shorter name!** 🚀
+
 ---
 
 ### 3.7 What Utility <a id="37-what-utility"></a>
 
-#### 3.7.1 `what.css()` <a id="371-whatcss"></a>
+The **`what` utility** is your **styling intent clarifier** – it gives meaningful names to styling operations and provides **type-safe tools** for creating definitions! 🎯✨
 
-#### 3.7.2 `what.token()` <a id="372-whattoken"></a>
+#### **What Does `what` Do?** 🤔
 
-#### 3.7.3 `what.both()` <a id="373-whatboth"></a>
+Think of `what` as a **semantic wrapper** that makes your styling code **self-documenting**:
 
-#### 3.7.4 `what.variant()` <a id="374-whatvariant"></a>
+```typescript
+// Instead of this (unclear intent):
+def.root({
+  root: ['px-4', 'py-2', 'rounded'] // What is this? Just an array?
+})
+
+// Use this (clear intent):
+def.root({
+  root: what.css(['px-4', 'py-2', 'rounded']) // Ah, these are CSS classes!
+})
+```
+
+**The main purpose:** When you read `what.css()`, `what.variant()`, etc., you immediately understand **what you're doing** - it's much more readable than plain objects! 🧠
+
+#### **3.7.1 `what.css()` <a id="371-whatcss"></a>
+
+**Purpose:** Create **CSS class-based styling** with clear intent:
+
+```typescript
+def.root({
+  root: what.css(['px-4', 'py-2', 'rounded', 'font-medium']),
+  label: what.css(['text-sm', 'font-medium']),
+  icon: what.css(['w-4', 'h-4'])
+});
+```
+
+**Why `what.css()` instead of plain arrays?**
+- ✅ **Clear intent** - you're defining CSS classes
+- ✅ **Type safety** - TypeScript knows these are CSS classes
+- ✅ **Readability** - `what.css()` is self-documenting
+- ✅ **Consistency** - all styling uses the same pattern
+
+#### **3.7.2 `what.token()` <a id="372-whattoken"></a>
+
+**Purpose:** Create **token-based styling** with clear intent:
+
+```typescript
+def.token({
+  "color.bg": {
+    default: what.token(['bg-gray-100']),
+    primary: what.token(['bg-blue-500']),
+    danger: what.token(['bg-red-500'])
+  }
+});
+```
+
+**Why `what.token()` instead of plain arrays?**
+- ✅ **Clear intent** - you're defining design tokens
+- ✅ **Type safety** - TypeScript knows these are token values
+- ✅ **Semantic meaning** - tokens vs classes are clearly distinguished
+- ✅ **Contract compliance** - ensures tokens match your contract
+
+#### **3.7.3 `what.both()` <a id="373-whatboth"></a>
+
+**Purpose:** Create **combined CSS + token styling** with clear intent:
+
+```typescript
+def.root({
+  root: what.both(
+    ['px-4', 'py-2', 'rounded'],           // CSS classes
+    ['color.bg.default', 'color.text.default'] // Design tokens
+  )
+});
+```
+
+**Why `what.both()` instead of plain objects?**
+- ✅ **Clear intent** - you're combining both CSS and tokens
+- ✅ **Type safety** - TypeScript knows the structure
+- ✅ **Explicit combination** - shows you're using both approaches
+- ✅ **Flexibility** - mix CSS classes with design tokens
+
+#### **3.7.4 `what.variant()` <a id="374-whatvariant"></a>
+
+**Purpose:** Create **variant configurations** with clear intent:
+
+```typescript
+def.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3', 'text-lg'])
+});
+
+def.rule(what.variant({ variant: 'primary' }), {
+  root: what.css(['bg-blue-500', 'text-white'])
+});
+```
+
+**Why `what.variant()` instead of plain objects?**
+- ✅ **Clear intent** - you're defining variant conditions
+- ✅ **Type safety** - TypeScript validates variant values
+- ✅ **Contract compliance** - ensures variants exist in your contract
+- ✅ **IntelliSense** - autocomplete for valid variant values
+
+#### **The Bottom Line** 💡
+
+**`what` utility** means:
+- **Semantic clarity** - `what.css()` is clearer than plain arrays
+- **Type safety** - full TypeScript support for all operations
+- **Readability** - self-documenting code that's easy to understand
+- **Consistency** - unified pattern for all styling operations
+
+It's like having a **styling language** that makes your intent crystal clear! 🎯✨
+
+So remember: **`what` gives meaning to your styling operations and makes code readable!** 🚀
 
 ---
 
 ### 3.8 Definition Helpers <a id="38-definition-helpers"></a>
 
-#### 3.8.1 `def.root()` <a id="381-defroot"></a>
+The **Definition Helpers** are your **styling structure builders** – they provide type-safe, semantic ways to create the different parts of your CLS definitions! 🏗️✨
 
-#### 3.8.2 `def.rule()` <a id="382-defrule"></a>
+#### **What Do Definition Helpers Do?** 🤔
 
-#### 3.8.3 `def.token()` <a id="383-deftoken"></a>
+Think of definition helpers as **specialized constructors** that ensure your styling definitions are **properly structured** and **type-safe**:
 
-#### 3.8.4 `def.defaults()` <a id="384-defdefaults"></a>
+```typescript
+// Instead of plain objects (error-prone):
+const definition = {
+  rules: [
+    { match: { size: 'lg' }, slot: { root: ['px-6', 'py-3'] } } // ❌ No type safety
+  ]
+};
 
+// Use definition helpers (type-safe):
+const definition = ({ what, def }) => ({
+  rules: [
+    def.rule(what.variant({ size: 'lg' }), { 
+      root: what.css(['px-6', 'py-3']) 
+    })
+  ]
+});
+```
+
+**The main purpose:** Definition helpers ensure your styling structures are **correctly formatted** and **fully typed**! 🛡️
+
+#### **3.8.1 `def.root()` <a id="381-defroot"></a>
+
+**Purpose:** Create **base styling** that's always applied to slots:
+
+```typescript
+def.root({
+  root: what.css(['px-4', 'py-2', 'rounded', 'font-medium']),
+  label: what.css(['text-sm', 'font-medium']),
+  icon: what.css(['w-4', 'h-4'])
+})
+```
+
+**Why `def.root()` instead of plain objects?**
+- ✅ **Type safety** - ensures slots match your contract
+- ✅ **Semantic meaning** - clearly indicates "base styles"
+- ✅ **Contract compliance** - validates slot names
+- ✅ **IntelliSense** - autocomplete for valid slots
+
+#### **3.8.2 `def.rule()` <a id="382-defrule"></a>
+
+**Purpose:** Create **conditional styling rules** based on variant combinations:
+
+```typescript
+def.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3', 'text-lg'])
+}),
+
+def.rule(what.variant({ variant: 'primary' }), {
+  root: what.css(['bg-blue-500', 'text-white'])
+})
+```
+
+**Why `def.rule()` instead of plain objects?**
+- ✅ **Type safety** - validates variant combinations
+- ✅ **Semantic meaning** - clearly indicates "conditional rules"
+- ✅ **Contract compliance** - ensures variants exist
+- ✅ **IntelliSense** - autocomplete for valid variants
+
+#### **3.8.3 `def.token()` <a id="383-deftoken"></a>
+
+**Purpose:** Create **design token definitions** that map tokens to CSS classes:
+
+```typescript
+def.token({
+  "color.bg": {
+    default: what.token(['bg-gray-100']),
+    primary: what.token(['bg-blue-500']),
+    danger: what.token(['bg-red-500'])
+  },
+  "color.text": {
+    default: what.token(['text-gray-800']),
+    primary: what.token(['text-white']),
+    danger: what.token(['text-white'])
+  }
+})
+```
+
+**Why `def.token()` instead of plain objects?**
+- ✅ **Type safety** - ensures tokens match your contract
+- ✅ **Semantic meaning** - clearly indicates "token definitions"
+- ✅ **Contract compliance** - validates token structure
+- ✅ **IntelliSense** - autocomplete for valid tokens
+
+#### **3.8.4 `def.defaults()` <a id="384-defdefaults"></a>
+
+**Purpose:** Create **default variant values** that are always applied:
+
+```typescript
+def.defaults({
+  size: 'md',
+  variant: 'default',
+  disabled: false
+})
+```
+
+**Why `def.defaults()` instead of plain objects?**
+- ✅ **Type safety** - ensures defaults match your contract
+- ✅ **Semantic meaning** - clearly indicates "default values"
+- ✅ **Contract compliance** - validates variant names
+- ✅ **IntelliSense** - autocomplete for valid variants
+
+#### **The Bottom Line** 💡
+
+**Definition Helpers** mean:
+- **Type-safe construction** - no more plain object errors
+- **Semantic clarity** - `def.root()` vs just `{ root: ... }`
+- **Contract compliance** - automatic validation of your structures
+- **Developer experience** - IntelliSense and compile-time safety
+
+It's like having **smart constructors** that ensure your styling definitions are always correct! 🎯✨
+
+So remember: **Definition helpers make your styling structures type-safe and semantic!** 🚀
 ---
 
 ### 3.9 Override Helpers <a id="39-override-helpers"></a>
