@@ -14,6 +14,8 @@ export function merge<const TContract extends Contract<any, any, any>>(
 		props: WhatUtil<TContract>,
 	) => Partial<CreateConfig<TContract>>,
 ): Partial<CreateConfig<TContract>> {
+	console.trace("merge", userFn, internalFn);
+
 	const $user = userFn?.(what());
 	const $internal = internalFn?.(what());
 

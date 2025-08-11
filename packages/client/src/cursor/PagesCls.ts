@@ -15,21 +15,21 @@ export const PagesCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"select-none",
 				]),
-				list: classes([
+				list: what.css([
 					"flex",
 					"items-center",
 					"-space-x-px",
 					"text-xs",
 					"gap-2",
 				]),
-				page: classes([
+				page: what.css([
 					"flex",
 					"items-center",
 					"justify-center",
@@ -45,12 +45,12 @@ export const PagesCls = PicoCls.extend(
 					"duration-200",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					current: true,
-				},
+				}),
 				{
-					page: classes([
+					page: what.css([
 						"bg-slate-100",
 						"hover:bg-slate-200",
 						"text-slate-800",
@@ -59,13 +59,13 @@ export const PagesCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			current: false,
-		},
-	},
+		}),
+	}),
 );
 export type PagesCls = typeof PagesCls;
 
 export namespace PagesCls {
-	export type Props<P = unknown> = Component<typeof PagesCls, P>;
+	export type Props<P = unknown> = Component<PagesCls, P>;
 }

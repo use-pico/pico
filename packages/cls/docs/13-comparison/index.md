@@ -1,9 +1,8 @@
 # Chapter 13: Comparison
 
-This chapter compares CLS with other styling solutions and explains the differences.
+Welcome to the Comparison chapter! This chapter covers comparison concepts and usage.
 
 ## Table of Contents
-
 - [13.1 Feature Table](./13.1-feature-table.md)
 - [13.2 Code Comparisons](./13.2-code-comparisons.md)
 - [13.3 Migration Paths](./13.3-migration-paths.md)
@@ -14,4 +13,4 @@ This chapter compares CLS with other styling solutions and explains the differen
 
 ---
 
-**Previous Chapter:** [Chapter 12: Recipes & Patterns](../12-recipes-patterns/index.md) | **Next Chapter:** [Chapter 14: Migration Guide](../14-migration-guide/index.md)
+**Previous:** [Chapter 12: Recipes & Patterns](../12-recipes-&-patterns/index.md) | **Next:** [Chapter 14: Migration Guide](../14-migration-guide/index.md)

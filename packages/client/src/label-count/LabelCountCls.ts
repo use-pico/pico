@@ -10,30 +10,26 @@ export const LabelCountCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"items-center",
-						"w-fit",
-						"gap-2",
-					],
-				},
-				label: {
-					class: [],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-row",
+					"items-center",
+					"w-fit",
+					"gap-2",
+				]),
+				label: what.css([]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type LabelCountCls = typeof LabelCountCls;
 
 export namespace LabelCountCls {
-	export type Props<P = unknown> = Component<typeof LabelCountCls, P>;
+	export type Props<P = unknown> = Component<LabelCountCls, P>;
 }

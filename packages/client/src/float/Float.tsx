@@ -83,18 +83,18 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			mounted: isMounted,
-		},
-	});
+		}),
+	}));
 
 	return (
 		<>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps()}
-				className={classes.target}
+				className={classes.target()}
 			>
 				{target}
 			</div>
@@ -108,7 +108,7 @@ export const Float: FC<Float.Props> = ({
 						<div
 							ref={refs.setFloating}
 							style={floatingStyles}
-							className={classes.portal}
+							className={classes.portal()}
 							{...getFloatingProps()}
 							onClick={
 								closeOnClick
@@ -136,7 +136,7 @@ export const Float: FC<Float.Props> = ({
 							...floatingStyles,
 							...styles,
 						}}
-						className={classes.portal}
+						className={classes.portal()}
 						{...getFloatingProps()}
 						onClick={
 							closeOnClick

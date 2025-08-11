@@ -16,8 +16,8 @@ export const TabList: FC<TabList.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.tabs}>{children}</div>
+		<div className={classes.base()}>
+			<div className={classes.tabs()}>{children}</div>
 			{right}
 		</div>
 	);

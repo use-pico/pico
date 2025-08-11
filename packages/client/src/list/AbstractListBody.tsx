@@ -70,8 +70,8 @@ export const AbstractListBody = <
 	}
 
 	return (
-		<div className={slots.body}>
-			<div className={slots.items}>
+		<div className={slots.body()}>
+			<div className={slots.items()}>
 				{renderHeader({
 					isFetching,
 					items: data,

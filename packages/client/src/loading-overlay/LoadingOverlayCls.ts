@@ -13,11 +13,11 @@ export const LoadingOverlayCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"fixed",
 					"inset-0",
 					"h-full",
@@ -33,12 +33,12 @@ export const LoadingOverlayCls = PicoCls.extend(
 					"backdrop-blur-none",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					show: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"bg-opacity-50",
 						"backdrop-blur-xs",
 						"pointer-events-auto",
@@ -46,10 +46,10 @@ export const LoadingOverlayCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			show: true,
-		},
-	},
+		}),
+	}),
 );
 
 export type LoadingOverlayCls = typeof LoadingOverlayCls;

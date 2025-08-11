@@ -10,17 +10,17 @@ export const TabListCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
 					"justify-between",
 				]),
-				tabs: classes([
+				tabs: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
@@ -29,8 +29,8 @@ export const TabListCls = PicoCls.extend(
 				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type TabListCls = typeof TabListCls;

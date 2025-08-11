@@ -16,74 +16,64 @@ export const FormCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"border",
-						"border-gray-300",
-						"rounded-md",
-						"p-4",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"items-center",
-					],
-				},
-				fieldset: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-4",
-						"w-full",
-						"p-4",
-					],
-				},
-				legend: {
-					class: [
-						"font-bold",
-						"text-lg",
-						"p-1",
-						"border-b",
-						"border-slate-400",
-						"w-full",
-					],
-				},
-				input: {
-					class: [
-						"w-full",
-						"border",
-						"border-gray-300",
-						"rounded-md",
-						"p-2",
-						"focus:outline-hidden",
-						"focus:ring-2",
-						"focus:ring-blue-500",
-						"focus:border-transparent",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"border",
+					"border-gray-300",
+					"rounded-md",
+					"p-4",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"items-center",
+				]),
+				fieldset: what.css([
+					"flex",
+					"flex-col",
+					"gap-4",
+					"w-full",
+					"p-4",
+				]),
+				legend: what.css([
+					"font-bold",
+					"text-lg",
+					"p-1",
+					"border-b",
+					"border-slate-400",
+					"w-full",
+				]),
+				input: what.css([
+					"w-full",
+					"border",
+					"border-gray-300",
+					"rounded-md",
+					"p-2",
+					"focus:outline-hidden",
+					"focus:ring-2",
+					"focus:ring-blue-500",
+					"focus:border-transparent",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					isSubmitting: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"opacity-50",
-							"pointer-events-none",
-							"select-none",
-						],
-					},
+					base: what.css([
+						"opacity-50",
+						"pointer-events-none",
+						"select-none",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			isSubmitting: false,
-		},
-	},
+		}),
+	}),
 );
 export type FormCls = typeof FormCls;
 

@@ -1,9 +1,8 @@
 # Chapter 3: Core API
 
-This chapter covers the fundamental API functions and methods that form the backbone of CLS.
+Welcome to the Core API chapter! This chapter covers core api concepts and usage.
 
 ## Table of Contents
-
 - [3.1 `cls()` Function](./3.1-cls-function.md)
 - [3.2 `extend()` Method](./3.2-extend-method.md)
 - [3.3 `use()` Method](./3.3-use-method.md)
@@ -16,4 +15,4 @@ This chapter covers the fundamental API functions and methods that form the back
 
 ---
 
-**Previous Chapter:** [Chapter 2: Design Philosophy](../02-design-philosophy/index.md) | **Next Chapter:** [Chapter 4: React Integration](../04-react-integration/index.md)
+**Previous:** [Chapter 2: Design Philosophy](../02-design-philosophy/index.md) | **Next:** [Chapter 4: React Integration](../04-react-integration/index.md)

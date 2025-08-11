@@ -9,31 +9,31 @@ export const ActionMenuCls = PicoCls.extend(
 		tokens: {},
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"pico--action-menu-base",
-						"p-1",
-						"border",
-						"rounded-sm",
-						"shadow-md",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"bg-(--pico-bg-default)",
-						"text-(--pico-text-default)",
-						"border-(--pico-border-default)",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"pico--action-menu-base",
+					"p-1",
+					"border",
+					"rounded-sm",
+					"shadow-md",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"bg-(--pico-bg-default)",
+					"text-(--pico-text-default)",
+					"border-(--pico-border-default)",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
+export type ActionMenuCls = typeof ActionMenuCls;
+
 export namespace ActionMenuCls {
-	export type Props<P = unknown> = Component<typeof ActionMenuCls, P>;
+	export type Props<P = unknown> = Component<ActionMenuCls, P>;
 }

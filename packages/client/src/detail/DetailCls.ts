@@ -19,16 +19,16 @@ export const DetailCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-col",
 					"gap-4",
 				]),
-				section: classes([
+				section: what.css([
 					"flex",
 					"flex-col",
 					"gap-4",
@@ -38,20 +38,20 @@ export const DetailCls = PicoCls.extend(
 					"bg-(--detail-section-color-bg)",
 					"p-4",
 				]),
-				legend: classes([
+				legend: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
 					"items-center",
 					"px-2",
 				]),
-				item: classes([
+				item: what.css([
 					"flex",
 					"flex-row",
 					"gap-4",
 					"items-center",
 				]),
-				value: classes([
+				value: what.css([
 					"flex-1",
 					"flex-col",
 					"gap-2",
@@ -60,13 +60,13 @@ export const DetailCls = PicoCls.extend(
 					"rounded-sm",
 					"p-2",
 				]),
-				label: classes([
+				label: what.css([
 					"font-bold",
 					"text-(--detail-label-color-text)",
 					"text-sm",
 					"pb-1",
 				]),
-				field: classes([
+				field: what.css([
 					"text-lg",
 					"hover:bg-(--detail-field-color-hover-bg)",
 					"rounded-sm",
@@ -74,21 +74,21 @@ export const DetailCls = PicoCls.extend(
 					"py-1",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					borderless: true,
-				},
+				}),
 				{
-					value: classes([
+					value: what.css([
 						"border-none",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			borderless: true,
-		},
-	},
+		}),
+	}),
 );
 
 export type DetailCls = typeof DetailCls;

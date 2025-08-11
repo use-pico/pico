@@ -10,38 +10,34 @@ export const MoreCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"flex-wrap",
-						"items-center",
-						"gap-2",
-						"text-sm",
-						"font-semibold",
-					],
-				},
-				item: {
-					class: [
-						"border",
-						"border-blue-200",
-						"bg-blue-50",
-						"rounded-md",
-						"px-2",
-						"py-1",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-row",
+					"flex-wrap",
+					"items-center",
+					"gap-2",
+					"text-sm",
+					"font-semibold",
+				]),
+				item: what.css([
+					"border",
+					"border-blue-200",
+					"bg-blue-50",
+					"rounded-md",
+					"px-2",
+					"py-1",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 export type MoreCls = typeof MoreCls;
 
 export namespace MoreCls {
-	export type Props<P = unknown> = Component<typeof MoreCls, P>;
+	export type Props<P = unknown> = Component<MoreCls, P>;
 }

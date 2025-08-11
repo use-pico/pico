@@ -1,9 +1,8 @@
 # Chapter 8: Rules
 
-This chapter covers the rule system, which defines conditional styling based on variant combinations.
+Welcome to the Rules chapter! This chapter covers rules concepts and usage.
 
 ## Table of Contents
-
 - [8.1 Slots & Variants](./8.1-slots-variants.md)
 - [8.2 Root Rule Definition](./8.2-root-rule-definition.md)
 - [8.3 Rule Definition](./8.3-rule-definition.md)
@@ -12,4 +11,4 @@ This chapter covers the rule system, which defines conditional styling based on 
 
 ---
 
-**Previous Chapter:** [Chapter 7: Variants](../07-variants/index.md) | **Next Chapter:** [Chapter 9: Runtime](../09-runtime/index.md)
+**Previous:** [Chapter 7: Variants](../07-variants/index.md) | **Next:** [Chapter 9: Runtime](../09-runtime/index.md)

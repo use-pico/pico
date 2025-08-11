@@ -26,31 +26,31 @@ export const FormField: FC<FormField.Props> = ({
 	tva = FormFieldCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
 			required,
 			disabled,
-		},
-	});
+		}),
+	}));
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<div className={"flex flex-row justify-between"}>
 				{label ? <label htmlFor={name as string}>{label}</label> : null}
 				<FormError
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							compact: true,
-						},
-					}}
+						}),
+					})}
 					meta={meta}
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
-			<div className={classes.input}>{children}</div>
+			<div className={classes.input()}>{children}</div>
 		</div>
 	);
 };

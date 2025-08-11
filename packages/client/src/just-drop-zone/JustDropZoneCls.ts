@@ -18,11 +18,11 @@ export const JustDropZoneCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-col",
 					"gap-2",
@@ -30,7 +30,7 @@ export const JustDropZoneCls = PicoCls.extend(
 					"justify-center",
 					"w-full",
 				]),
-				label: classes([
+				label: what.css([
 					"flex",
 					"flex-col",
 					"items-center",
@@ -45,7 +45,7 @@ export const JustDropZoneCls = PicoCls.extend(
 					"bg-gray-50",
 					"hover:bg-gray-100",
 				]),
-				zone: classes([
+				zone: what.css([
 					"flex",
 					"flex-col",
 					"items-center",
@@ -55,38 +55,38 @@ export const JustDropZoneCls = PicoCls.extend(
 					"text-slate-500",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
-				},
+				}),
 				{
-					label: classes([
+					label: what.css([
 						"text-blue-400",
 					]),
-					zone: classes([
+					zone: what.css([
 						"text-blue-400",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					rejected: true,
-				},
+				}),
 				{
-					label: classes([
+					label: what.css([
 						"text-red-400",
 					]),
-					zone: classes([
+					zone: what.css([
 						"text-red-400",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			active: false,
 			rejected: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type JustDropZoneCls = typeof JustDropZoneCls;

@@ -27,11 +27,11 @@ export const FormError: FC<FormError.Props> = ({
 		meta.isDirty && meta.isTouched && meta.errors && meta.errors.length > 0;
 
 	return shouldShowError ? (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			{meta.errors?.map((error, index) => (
 				<div
 					key={`${index}-${error}`}
-					className={classes.error}
+					className={classes.error()}
 				>
 					<Icon icon={ErrorIcon} />
 					<span>{translator.rich(error.message)}</span>

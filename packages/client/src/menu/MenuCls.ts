@@ -13,35 +13,37 @@ export const MenuCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
 					"items-center",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					vertical: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"flex-col",
 						"items-start",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			vertical: false,
-		},
-	},
+		}),
+	}),
 );
 
+export type MenuCls = typeof MenuCls;
+
 export namespace MenuCls {
-	export type Props<P = unknown> = Component<typeof MenuCls, P>;
+	export type Props<P = unknown> = Component<MenuCls, P>;
 }

@@ -83,11 +83,11 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			disabled,
-		},
-	});
+		}),
+	}));
 
 	return (
 		<ModalContext.Provider value={useModalStore}>
@@ -96,7 +96,7 @@ export const Modal: FC<Modal.Props> = ({
 				{...getReferenceProps({
 					disabled,
 				})}
-				className={classes.target}
+				className={classes.target()}
 			>
 				{target}
 			</div>
@@ -106,7 +106,7 @@ export const Modal: FC<Modal.Props> = ({
 						<FloatingOverlay
 							lockScroll
 							style={styles}
-							className={classes.base}
+							className={classes.base()}
 							onDoubleClick={(e) => {
 								e.stopPropagation();
 								e.preventDefault();
@@ -116,7 +116,7 @@ export const Modal: FC<Modal.Props> = ({
 								<div
 									ref={refs.setFloating}
 									{...getFloatingProps()}
-									className={classes.modal}
+									className={classes.modal()}
 								>
 									<div
 										className={tvc([
@@ -142,11 +142,11 @@ export const Modal: FC<Modal.Props> = ({
 										>
 											<Icon
 												icon={icon}
-												cls={{
-													variant: {
+												cls={({ what }) => ({
+													variant: what.variant({
 														size: "xl",
-													},
-												}}
+													}),
+												})}
 											/>
 											<div
 												className={tvc(
@@ -161,12 +161,12 @@ export const Modal: FC<Modal.Props> = ({
 										<Action
 											iconEnabled={CloseIcon}
 											onClick={() => close()}
-											cls={{
-												variant: {
+											cls={({ what }) => ({
+												variant: what.variant({
 													variant: "light",
 													borderless: true,
-												},
-											}}
+												}),
+											})}
 										/>
 									</div>
 									{children({

@@ -1,4 +1,4 @@
-import type { ClsSlots, Component } from "@use-pico/cls";
+import type { Component, ComponentSlots } from "@use-pico/cls";
 import { AbstractListCls } from "../list/AbstractListCls";
 
 export const TableCls = AbstractListCls.extend(
@@ -21,33 +21,33 @@ export const TableCls = AbstractListCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				root: classes([
+		rules: [
+			def.root({
+				root: what.css([
 					"min-w-full",
 					"flex",
 					"flex-col",
 					"gap-2",
 					"text-sm",
 				]),
-				body: classes([
+				body: what.css([
 					"overflow-x-auto",
 				]),
-				items: classes([
+				items: what.css([
 					"relative",
 					"w-fit",
 					"min-w-full",
 				]),
-				header: classes([
+				header: what.css([
 					"grid",
 					"border-t",
 					"border-b",
 					"border-(--table-th-color-border)",
 					"bg-(--table-thead-color-bg)",
 				]),
-				headerCell: classes([
+				headerCell: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
@@ -58,7 +58,7 @@ export const TableCls = AbstractListCls.extend(
 					"py-1",
 					"truncate",
 				]),
-				row: classes([
+				row: what.css([
 					"grid",
 					"border-b",
 					"border-b-(--table-tr-color-border)",
@@ -67,7 +67,7 @@ export const TableCls = AbstractListCls.extend(
 					"hover:bg-(--table-tr-hover-color-bg)",
 					"hover:border-(--table-tr-hover-color-border)",
 				]),
-				cell: classes([
+				cell: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
@@ -78,33 +78,33 @@ export const TableCls = AbstractListCls.extend(
 					"truncate",
 					"group",
 				]),
-				footer: classes([]),
-				select: classes([
+				footer: what.css([]),
+				select: what.css([
 					"cursor-pointer",
 					"text-(--table-select-color-text)",
 					"hover:text-(--table-select-color-hover-text)",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					selected: true,
-				},
+				}),
 				{
-					row: classes([
+					row: what.css([
 						"bg-(--table-tr-selected-color-bg)",
 						"odd:bg-(--table-tr-selected-odd-color-bg)",
 						"border-(--table-tr-selected-color-border)",
 					]),
-					select: classes([
+					select: what.css([
 						"text-(--table-tr-selected-select-color-text)",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			selected: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type TableCls = typeof TableCls;
@@ -112,5 +112,5 @@ export type TableCls = typeof TableCls;
 export namespace TableCls {
 	export type Props<P = unknown> = Component<TableCls, P>;
 
-	export type Slots = ClsSlots<TableCls["contract"]>;
+	export type Slots = ComponentSlots<TableCls>;
 }

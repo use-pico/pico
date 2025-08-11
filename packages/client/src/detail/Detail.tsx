@@ -12,7 +12,7 @@ export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			{section.map(({ id, ...props }) => (
 				<Section
 					key={`detail-section-${id}`}

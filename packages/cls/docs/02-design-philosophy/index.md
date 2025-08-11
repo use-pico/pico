@@ -1,9 +1,8 @@
 # Chapter 2: Design Philosophy
 
-This chapter explores the core design principles and philosophy behind CLS, explaining why certain decisions were made and how they benefit developers.
+Welcome to the Design Philosophy chapter! This chapter covers design philosophy concepts and usage.
 
 ## Table of Contents
-
 - [2.1 Callbacks Everywhere](./2.1-callbacks-everywhere.md)
 - [2.2 Why Contracts First](./2.2-why-contracts-first.md)
 - [2.3 Token-Centric Design](./2.3-token-centric-design.md)
@@ -18,4 +17,4 @@ This chapter explores the core design principles and philosophy behind CLS, expl
 
 ---
 
-**Previous Chapter:** [Chapter 1: Foundations](../01-foundations/index.md) | **Next Chapter:** [Chapter 3: Core API](../03-core-api/index.md)
+**Previous:** [Chapter 1: Foundations](../01-foundations/index.md) | **Next:** [Chapter 3: Core API](../03-core-api/index.md)

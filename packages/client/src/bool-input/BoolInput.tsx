@@ -21,7 +21,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<label>
 				<input
 					type={"checkbox"}
@@ -32,7 +32,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					}}
 					{...props}
 				/>
-				<div className={classes.switch} />
+				<div className={classes.switch()} />
 			</label>
 		</div>
 	);

@@ -143,11 +143,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							active: isBold,
-						},
-					}}
+						}),
+					})}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-italic]"}
@@ -155,11 +155,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							active: isItalic,
-						},
-					}}
+						}),
+					})}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-underlined]"}
@@ -170,11 +170,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"underline",
 						);
 					}}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							active: isUnderline,
-						},
-					}}
+						}),
+					})}
 				/>
 				<Action
 					iconEnabled={
@@ -189,11 +189,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"strikethrough",
 						);
 					}}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							active: isStrikethrough,
-						},
-					}}
+						}),
+					})}
 				/>
 			</div>
 			<Divider />

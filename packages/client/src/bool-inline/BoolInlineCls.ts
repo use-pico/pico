@@ -11,42 +11,40 @@ export const BoolInlineCls = IconCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ rule }) => [
-			rule(
-				{
+		rules: [
+			def.rule(
+				what.variant({
 					value: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-green-600",
-						],
-					},
+					base: what.css([
+						"text-green-600",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					value: false,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-amber-600",
-						],
-					},
+					base: what.css([
+						"text-amber-600",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			disabled: false,
 			size: "xl",
 			value: false,
-		},
-	},
+		}),
+	}),
 );
 
+export type BoolInlineCls = typeof BoolInlineCls;
+
 export namespace BoolInlineCls {
-	export type Props<P = unknown> = Component<typeof BoolInlineCls, P>;
+	export type Props<P = unknown> = Component<BoolInlineCls, P>;
 }

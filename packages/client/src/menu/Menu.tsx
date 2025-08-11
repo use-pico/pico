@@ -10,5 +10,5 @@ export namespace Menu {
 export const Menu: FC<Menu.Props> = ({ tva = MenuCls, cls, children }) => {
 	const classes = tva.create(cls);
 
-	return <div className={classes.base}>{children}</div>;
+	return <div className={classes.base()}>{children}</div>;
 };

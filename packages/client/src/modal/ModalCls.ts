@@ -18,69 +18,59 @@ export const ModalCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"bg-slate-400/75",
-						"backdrop-blur-xs",
-						"flex",
-						"justify-center",
-						"py-12",
-					],
-				},
-				target: {
-					class: [],
-				},
-				modal: {
-					class: [
-						"bg-white",
-						"rounded-lg",
-						"shadow-lg",
-						"p-4",
-						"max-h-full",
-						"h-fit",
-						"flex",
-						"flex-col",
-						"gap-2",
-						"w-2/3",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"bg-slate-400/75",
+					"backdrop-blur-xs",
+					"flex",
+					"justify-center",
+					"py-12",
+				]),
+				target: what.css([]),
+				modal: what.css([
+					"bg-white",
+					"rounded-lg",
+					"shadow-lg",
+					"p-4",
+					"max-h-full",
+					"h-fit",
+					"flex",
+					"flex-col",
+					"gap-2",
+					"w-2/3",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"pointer-events-none",
-							"cursor-not-allowed",
-						],
-					},
+					base: what.css([
+						"pointer-events-none",
+						"cursor-not-allowed",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					loading: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"pointer-events-none",
-							"opacity-50",
-						],
-					},
+					base: what.css([
+						"pointer-events-none",
+						"opacity-50",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			disabled: false,
 			loading: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type ModalCls = typeof ModalCls;

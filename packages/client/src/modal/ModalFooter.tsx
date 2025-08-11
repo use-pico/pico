@@ -100,12 +100,12 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				iconEnabled={cancelIcon}
 				iconDisabled={cancelIcon}
 				onClick={handleCancel}
-				cls={{
-					variant: {
+				cls={({ what }) => ({
+					variant: what.variant({
 						variant: "secondary",
 						borderless: true,
-					},
-				}}
+					}),
+				})}
 			>
 				{cancelText}
 			</Button>

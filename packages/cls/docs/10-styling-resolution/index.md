@@ -1,9 +1,8 @@
 # Chapter 10: Styling Resolution
 
-This chapter covers the styling resolution process, explaining how CLS processes and resolves styles.
+Welcome to the Styling Resolution chapter! This chapter covers styling resolution concepts and usage.
 
 ## Table of Contents
-
 - [10.1 Resolution Order](./10.1-resolution-order.md)
 - [10.2 Token Resolution Process](./10.2-token-resolution-process.md)
 - [10.3 Rule Evaluation Process](./10.3-rule-evaluation-process.md)
@@ -12,4 +11,4 @@ This chapter covers the styling resolution process, explaining how CLS processes
 
 ---
 
-**Previous Chapter:** [Chapter 9: Runtime](../09-runtime/index.md) | **Next Chapter:** [Chapter 11: Best Practices & Anti-patterns](../11-best-practices/index.md)
+**Previous:** [Chapter 9: Runtime](../09-runtime/index.md) | **Next:** [Chapter 11: Best Practices](../11-best-practices/index.md)

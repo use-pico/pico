@@ -13,28 +13,26 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	tva = LoadingOverlayCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			show,
-		},
-	});
+		}),
+	}));
 
 	return show ? (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<Icon
 				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
-				cls={{
-					variant: {
+				cls={({ what }) => ({
+					variant: what.variant({
 						size: "8xl",
-					},
+					}),
 					slot: {
-						base: {
-							class: [
-								"text-sky-400",
-							],
-						},
+						base: what.css([
+							"text-sky-400",
+						]),
 					},
-				}}
+				})}
 			/>
 		</div>
 	) : null;

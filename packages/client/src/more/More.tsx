@@ -62,7 +62,7 @@ export const More = <TValues extends EntitySchema.Type>({
 	const classes = tva.create(cls);
 
 	return (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			{items.length ? null : textEmpty}
 			{$items.map((item) =>
 				renderInline({

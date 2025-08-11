@@ -1,9 +1,8 @@
 # Chapter 4: React Integration
 
-This chapter covers how to integrate CLS with React applications, including hooks, HOCs, and context.
+Welcome to the React Integration chapter! This chapter covers react integration concepts and usage.
 
 ## Table of Contents
-
 - [4.1 `useCls` Hook](./4.1-usecls-hook.md)
 - [4.2 `withCls` HOC](./4.2-withcls-hoc.md)
 - [4.3 Context Integration](./4.3-context-integration.md)
@@ -13,4 +12,4 @@ This chapter covers how to integrate CLS with React applications, including hook
 
 ---
 
-**Previous Chapter:** [Chapter 3: Core API](../03-core-api/index.md) | **Next Chapter:** [Chapter 5: Tokens](../05-tokens/index.md)
+**Previous:** [Chapter 3: Core API](../03-core-api/index.md) | **Next:** [Chapter 5: Tokens](../05-tokens/index.md)

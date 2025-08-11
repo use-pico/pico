@@ -60,10 +60,12 @@ export const Target = <
 	return (
 		<label
 			htmlFor={modalId}
-			className={slots.input({
-				loading: selected.isFetching,
-				selected: Boolean(selected.data?.length),
-			})}
+			className={slots.input(({ what }) => ({
+				variant: what.variant({
+					loading: selected.isFetching,
+					selected: Boolean(selected.data?.length),
+				}),
+			}))}
 		>
 			<Icon
 				icon={

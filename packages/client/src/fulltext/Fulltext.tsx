@@ -28,20 +28,20 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	}, 500);
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.search}>
+		<div className={classes.base()}>
+			<div className={classes.search()}>
 				<Icon
 					icon={"icon-[material-symbols-light--search]"}
-					cls={{
-						variant: {
+					cls={({ what }) => ({
+						variant: what.variant({
 							size: "xl",
-						},
-					}}
+						}),
+					})}
 				/>
 			</div>
 			<input
 				value={search}
-				className={classes.input}
+				className={classes.input()}
 				type={"text"}
 				placeholder={
 					textPlaceholder || translator.text("Fulltext (placeholder)")
@@ -53,7 +53,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 			/>
 			{value && (
 				<div
-					className={classes.clear}
+					className={classes.clear()}
 					onClick={() => {
 						setSearch("");
 						set("");
@@ -61,11 +61,11 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				>
 					<Icon
 						icon={"icon-[gridicons--cross]"}
-						cls={{
-							variant: {
+						cls={({ what }) => ({
+							variant: what.variant({
 								size: "md",
-							},
-						}}
+							}),
+						})}
 					/>
 				</div>
 			)}

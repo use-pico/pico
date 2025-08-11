@@ -493,6 +493,8 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
 	) => Partial<CreateConfig<TCls["contract"]>>;
 } & Omit<P, "tva" | "cls">;
 
+export type ComponentSlots<TCls extends Cls<any>> = ClsSlots<TCls["contract"]>;
+
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(
 		userConfigFn?: (

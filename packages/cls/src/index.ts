@@ -7,4 +7,5 @@ export type {
 	Cls,
 	ClsSlots,
 	Component,
+	ComponentSlots,
 } from "./types";

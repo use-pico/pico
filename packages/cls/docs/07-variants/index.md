@@ -1,9 +1,8 @@
 # Chapter 7: Variants
 
-This chapter covers the variant system, which provides configurable properties that control component appearance.
+Welcome to the Variants chapter! This chapter covers variants concepts and usage.
 
 ## Table of Contents
-
 - [7.1 Contract Declaration](./7.1-contract-declaration.md)
 - [7.2 Variant Definition](./7.2-variant-definition.md)
 - [7.3 Inheritance](./7.3-inheritance.md)
@@ -12,4 +11,4 @@ This chapter covers the variant system, which provides configurable properties t
 
 ---
 
-**Previous Chapter:** [Chapter 6: Slots](../06-slots/index.md) | **Next Chapter:** [Chapter 8: Rules](../08-rules/index.md)
+**Previous:** [Chapter 6: Slots](../06-slots/index.md) | **Next:** [Chapter 8: Rules](../08-rules/index.md)

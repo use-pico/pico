@@ -10,34 +10,30 @@ export const CursorCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"items-center",
-						"justify-between",
-						"gap-2",
-					],
-				},
-				sums: {
-					class: [
-						"flex",
-						"items-center",
-						"gap-2",
-						"text-sm",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"items-center",
+					"justify-between",
+					"gap-2",
+				]),
+				sums: what.css([
+					"flex",
+					"items-center",
+					"gap-2",
+					"text-sm",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type CursorCls = typeof CursorCls;
 
 export namespace CursorCls {
-	export type Props<P = unknown> = Component<typeof CursorCls, P>;
+	export type Props<P = unknown> = Component<CursorCls, P>;
 }

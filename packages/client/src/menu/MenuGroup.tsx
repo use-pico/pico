@@ -25,20 +25,20 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			active: isActive,
-		},
-	});
+		}),
+	}));
 
 	return (
-		<div className={classes.base}>
-			<div className={classes.label}>
+		<div className={classes.base()}>
+			<div className={classes.label()}>
 				{icon ? <Icon icon={icon} /> : null}
 				{label}
 			</div>
 
-			<div className={classes.items}>{children}</div>
+			<div className={classes.items()}>{children}</div>
 		</div>
 	);
 };

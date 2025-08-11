@@ -15,73 +15,65 @@ export const MenuGroupCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"pico--menu-group",
-						"group",
-						"relative",
-						"cursor-pointer",
-					],
-				},
-				label: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"rounded-sm",
-						"px-2",
-						"py-1",
-						"border",
-						"border-b-2",
-						"border-transparent",
-						"hover:text-(--color-text-hover)",
-						"hover:bg-(--color-bg-hover)",
-						"hover:border-(--color-border-hover)",
-					],
-				},
-				items: {
-					class: [
-						"flex",
-						"flex-col",
-						"w-max",
-						"gap-2",
-						"invisible",
-						"absolute",
-						"group-hover:visible",
-						"shadow-md",
-						"z-20",
-						"bg-white",
-						"px-4",
-						"py-2",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"pico--menu-group",
+					"group",
+					"relative",
+					"cursor-pointer",
+				]),
+				label: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"rounded-sm",
+					"px-2",
+					"py-1",
+					"border",
+					"border-b-2",
+					"border-transparent",
+					"hover:text-(--color-text-hover)",
+					"hover:bg-(--color-bg-hover)",
+					"hover:border-(--color-border-hover)",
+				]),
+				items: what.css([
+					"flex",
+					"flex-col",
+					"w-max",
+					"gap-2",
+					"invisible",
+					"absolute",
+					"group-hover:visible",
+					"shadow-md",
+					"z-20",
+					"bg-white",
+					"px-4",
+					"py-2",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
-				},
+				}),
 				{
-					label: {
-						class: [
-							"bg-(--color-active-bg)",
-							"border-(--color-active-border)",
-							"hover:border-(--color-active-border-hover)",
-							"hover:text-(--color-active-text-hover)",
-							"text-(--color-active-text)",
-						],
-					},
+					label: what.css([
+						"bg-(--color-active-bg)",
+						"border-(--color-active-border)",
+						"hover:border-(--color-active-border-hover)",
+						"hover:text-(--color-active-text-hover)",
+						"text-(--color-active-text)",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			active: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type MenuGroupCls = typeof MenuGroupCls;

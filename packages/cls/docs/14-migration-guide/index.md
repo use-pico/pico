@@ -1,9 +1,8 @@
 # Chapter 14: Migration Guide
 
-This chapter provides guidance for migrating from other styling solutions to CLS.
+Welcome to the Migration Guide chapter! This chapter covers migration guide concepts and usage.
 
 ## Table of Contents
-
 - [14.1 Migration Overview](./14.1-migration-overview.md)
 - [14.2 From CVA to CLS](./14.2-from-cva-to-cls.md)
 - [14.3 From TV to CLS](./14.3-from-tv-to-cls.md)
@@ -15,4 +14,4 @@ This chapter provides guidance for migrating from other styling solutions to CLS
 
 ---
 
-**Previous Chapter:** [Chapter 13: Comparison](../13-comparison/index.md) | **Next Chapter:** [Chapter 15: FAQ & Known Limitations](../15-faq-limitations/index.md)
+**Previous:** [Chapter 13: Comparison](../13-comparison/index.md) | **Next:** [Chapter 15: FAQ & Known Limitations](../15-faq-&-known-limitations/index.md)

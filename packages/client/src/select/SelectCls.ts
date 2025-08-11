@@ -1,4 +1,4 @@
-import type { ClsSlots, Component } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const SelectCls = PicoCls.extend(
@@ -22,11 +22,11 @@ export const SelectCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"cursor-pointer",
 					"bg-slate-50",
 					"text-slate-900",
@@ -41,14 +41,14 @@ export const SelectCls = PicoCls.extend(
 					"transition-all",
 					"group",
 				]),
-				input: classes([
+				input: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
 					"justify-between",
 					"gap-2",
 				]),
-				popup: classes([
+				popup: what.css([
 					"z-50",
 					"cursor-pointer",
 					"overflow-y-auto",
@@ -59,7 +59,7 @@ export const SelectCls = PicoCls.extend(
 					"shadow-lg",
 					"focus:outline-hidden",
 				]),
-				item: classes([
+				item: what.css([
 					"focus:outline-hidden",
 					"py-2",
 					"px-2.5",
@@ -68,12 +68,12 @@ export const SelectCls = PicoCls.extend(
 					"justify-between",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"cursor-not-allowed",
 						"hover:shadow-none",
 						"focus:border-slate-300",
@@ -81,39 +81,37 @@ export const SelectCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					selected: true,
-				},
+				}),
 				{
-					item: classes([
+					item: what.css([
 						"bg-slate-100",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
-				},
+				}),
 				{
-					item: classes([
+					item: what.css([
 						"bg-slate-200",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			disabled: false,
 			selected: false,
 			active: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type SelectCls = typeof SelectCls;
 
 export namespace SelectCls {
 	export type Props<P = unknown> = Component<SelectCls, P>;
-
-	export type Slots = ClsSlots<SelectCls["contract"]>;
 }

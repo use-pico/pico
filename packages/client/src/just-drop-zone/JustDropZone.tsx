@@ -62,12 +62,12 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			active: isDragActive,
 			rejected: isDragReject,
-		},
-	});
+		}),
+	}));
 
 	const clear = useCallback(() => setFiles([]), []);
 	const remove = useCallback(
@@ -78,7 +78,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	return (
 		<div
 			{...getRootProps()}
-			className={classes.base}
+			className={classes.base()}
 		>
 			{Children && isNonEmptyArray(files) ? (
 				<Children
@@ -89,16 +89,16 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			) : (
 				<label
 					htmlFor={id}
-					className={classes.label}
+					className={classes.label()}
 				>
-					<div className={classes.zone}>
+					<div className={classes.zone()}>
 						<Icon
 							icon={UploadIcon}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									size: "4xl",
-								},
-							}}
+								}),
+							})}
 						/>
 						<div className={"mb-2 text-sm font-semibold"}>
 							{textTile ||

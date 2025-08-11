@@ -25,11 +25,11 @@ export const Button: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			disabled: props.disabled,
-		},
-	});
+		}),
+	}));
 
 	const iconVariant = {
 		size: "xl",
@@ -44,17 +44,17 @@ export const Button: FC<Button.Props> = ({
 			{props.disabled ? (
 				<Icon
 					icon={loading === true ? iconLoading : iconDisabled}
-					cls={{
-						variant: iconVariant,
-					}}
+					cls={({ what }) => ({
+						variant: what.variant(iconVariant),
+					})}
 					{...iconProps}
 				/>
 			) : (
 				<Icon
 					icon={loading === true ? iconLoading : iconEnabled}
-					cls={{
-						variant: iconVariant,
-					}}
+					cls={({ what }) => ({
+						variant: what.variant(iconVariant),
+					})}
 					{...iconProps}
 				/>
 			)}

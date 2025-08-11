@@ -1,9 +1,8 @@
 # Chapter 6: Slots
 
-This chapter covers the slot system, which allows you to style different parts of a component independently.
+Welcome to the Slots chapter! This chapter covers slots concepts and usage.
 
 ## Table of Contents
-
 - [6.1 Contract Declaration](./6.1-contract-declaration.md)
 - [6.2 Slot Definition](./6.2-slot-definition.md)
 - [6.3 Inheritance](./6.3-inheritance.md)
@@ -11,4 +10,4 @@ This chapter covers the slot system, which allows you to style different parts o
 
 ---
 
-**Previous Chapter:** [Chapter 5: Tokens](../05-tokens/index.md) | **Next Chapter:** [Chapter 7: Variants](../07-variants/index.md)
+**Previous:** [Chapter 5: Tokens](../05-tokens/index.md) | **Next:** [Chapter 7: Variants](../07-variants/index.md)

@@ -24,14 +24,14 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			disabled,
-		},
-	});
+		}),
+	}));
 
 	return hidden ? null : (
-		<div className={classes.base}>
+		<div className={classes.base()}>
 			<Modal
 				icon={icon}
 				target={
@@ -48,15 +48,13 @@ export const ActionModal: FC<ActionModal.Props> = ({
 					</div>
 				}
 				disabled={disabled}
-				cls={{
+				cls={({ what }) => ({
 					slot: {
-						modal: {
-							class: [
-								"w-2/3",
-							],
-						},
+						modal: what.css([
+							"w-2/3",
+						]),
 					},
-				}}
+				})}
 				{...props}
 			/>
 		</div>

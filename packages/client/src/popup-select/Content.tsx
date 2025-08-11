@@ -61,8 +61,8 @@ export const Content = <
 				/>
 			}
 		>
-			<div className={slots.base}>
-				<div className={slots.content}>
+			<div className={slots.base()}>
+				<div className={slots.content()}>
 					<Table
 						query={
 							{

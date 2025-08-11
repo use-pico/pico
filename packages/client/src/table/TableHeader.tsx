@@ -112,20 +112,21 @@ export const TableHeader = <
 										? SelectionAnyIcon
 										: SelectionOffIcon
 							}
-							cls={{
-								variant: {
+							cls={({ what }) => ({
+								variant: what.variant({
 									disabled: selectionMode === "single",
 									size: "2xl",
-								},
+								}),
 								slot: {
-									base: {
-										// TODO Feature request for "cls" - add support for variance overrides on slots directly
-										class: slots.select({
-											selected: isAny,
-										}),
-									},
+									base: what.css(
+										slots.select(({ what }) => ({
+											variant: what.variant({
+												selected: isAny,
+											}),
+										})),
+									),
 								},
-							}}
+							})}
 							onClick={onSelectAll}
 						/>
 					) : null}
@@ -166,11 +167,11 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
-										cls={{
-											variant: {
+										cls={({ what }) => ({
+											variant: what.variant({
 												borderless: true,
-											},
-										}}
+											}),
+										})}
 										onClick={() => {
 											column.filter?.reset({
 												state: filter,

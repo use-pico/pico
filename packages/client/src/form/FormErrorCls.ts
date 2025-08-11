@@ -17,68 +17,60 @@ export const FormErrorCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-2",
-					],
-				},
-				error: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-1",
-						"items-center",
-						"text-red-600",
-						"p-2",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-col",
+					"gap-2",
+				]),
+				error: what.css([
+					"flex",
+					"flex-row",
+					"gap-1",
+					"items-center",
+					"text-red-600",
+					"p-2",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					highlight: true,
-				},
+				}),
 				{
-					error: {
-						class: [
-							"bg-red-100",
-							"p-2",
-							"font-bold",
-							"border",
-							"border-red-200",
-							"rounded-md",
-							"w-full",
-						],
-					},
+					error: what.css([
+						"bg-red-100",
+						"p-2",
+						"font-bold",
+						"border",
+						"border-red-200",
+						"rounded-md",
+						"w-full",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					compact: true,
-				},
+				}),
 				{
-					error: {
-						class: [
-							"p-0",
-						],
-					},
+					error: what.css([
+						"p-0",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			highlight: false,
 			compact: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type FormErrorCls = typeof FormErrorCls;
 
 export namespace FormErrorCls {
-	export type Props<P = unknown> = Component<typeof FormErrorCls, P>;
+	export type Props<P = unknown> = Component<FormErrorCls, P>;
 }

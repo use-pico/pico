@@ -9,31 +9,29 @@ export const LinkToCls = PicoCls.extend(
 		],
 		variant: {},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"justify-between",
-						"text-blue-500",
-						"rounded-sm",
-						"px-1",
-						"py-0.5",
-						"hover:text-blue-700",
-						"focus:outline-hidden",
-						"w-fit",
-						"truncate",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"justify-between",
+					"text-blue-500",
+					"rounded-sm",
+					"px-1",
+					"py-0.5",
+					"hover:text-blue-700",
+					"focus:outline-hidden",
+					"w-fit",
+					"truncate",
+				]),
 			}),
 		],
-		defaults: {},
-	},
+		defaults: def.defaults({}),
+	}),
 );
 
 export type LinkToCls = typeof LinkToCls;

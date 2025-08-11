@@ -1,7 +1,9 @@
-# 12.1 Simple Static Components
+# Chapter 12: Recipes & Patterns
+
+Welcome to the Recipes & Patterns chapter! This chapter covers recipes & patterns concepts and usage.
 
 ## Table of Contents
-- [12.1 Simple Static Components](./12.1-simple-static-components.md) *(current)*
+- [12.1 Simple Static Components](./12.1-simple-static-components.md)
 - [12.2 Variant-only Components](./12.2-variant-only-components.md)
 - [12.3 Token System Components](./12.3-token-system-components.md)
 - [12.4 Inheritance Components](./12.4-inheritance-components.md)
@@ -23,8 +25,6 @@
 - [12.20 Merge Precedence & Conflict Resolution](./12.20-merge-precedence-conflict-resolution.md)
 - [12.21 Type System Deep Dive](./12.21-type-system-deep-dive.md)
 
-[Content will be added here]
-
 ---
 
-**Previous:** [index](./index.md) | **Next:** [12.2 Variant-only Components](./12.2-variant-only-components.md)
+**Previous:** [Chapter 11: Best Practices](../11-best-practices/index.md) | **Next:** [Chapter 13: Comparison](../13-comparison/index.md)

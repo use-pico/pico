@@ -14,36 +14,36 @@ export const FloatCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				target: classes([
+		rules: [
+			def.root({
+				target: what.css([
 					"flex",
 					"justify-center",
 					"items-center",
 				]),
-				portal: classes([]),
+				portal: what.css([]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					mounted: false,
-				},
+				}),
 				{
-					portal: classes([
+					portal: what.css([
 						"hidden",
 					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			mounted: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type FloatCls = typeof FloatCls;
 
 export namespace FloatCls {
-	export type Props<P = unknown> = Component<typeof FloatCls, P>;
+	export type Props<P = unknown> = Component<FloatCls, P>;
 }

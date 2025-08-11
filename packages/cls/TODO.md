@@ -1,3 +1,12 @@
+# README - Tutorial how to switch whole theme
+- Assume we've ThemeCls (some default, from library, whatever)
+- We want our own theme - Create CustomThemeCls = ThemeCls.extend(...)
+    - in definition we're free to replace whatever we need
+    - now we can provide our CustomThemeCls into Context using ThemeCls.use(CustomThemeCls) which will ensure themes are compatible!
+- DO TESTS FOR THIS CONCEPT!
+
+
+
 # README - History
 
 - Add a note about pure objects vs. conversion to callback - stable type-safe references everywhere

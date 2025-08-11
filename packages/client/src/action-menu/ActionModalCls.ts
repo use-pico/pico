@@ -7,14 +7,14 @@ export const ActionModalCls = ActionCls.extend(
 		slot: [],
 		variant: {},
 	},
-	{
+	({ def }) => ({
 		token: {},
-		rules: () => [],
-		defaults: {
+		rules: [],
+		defaults: def.defaults({
 			disabled: false,
 			variant: "common",
-		},
-	},
+		}),
+	}),
 );
 
 export type ActionModalCls = typeof ActionModalCls;

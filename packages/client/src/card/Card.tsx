@@ -72,11 +72,11 @@ export const Card = <TValues extends Record<string, any>>({
 	cls,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const classes = tva.create(cls, {
-		variant: {
+	const classes = tva.create(cls, ({ what }) => ({
+		variant: what.variant({
 			inline,
-		},
-	});
+		}),
+	}));
 
 	return (
 		<InlineContext.Provider
@@ -84,7 +84,7 @@ export const Card = <TValues extends Record<string, any>>({
 				inline,
 			}}
 		>
-			<div className={classes.base}>
+			<div className={classes.base()}>
 				{items
 					.filter(({ id }) => !hidden.includes(id))
 					.map(({ id, render: Render, ...props }) => {

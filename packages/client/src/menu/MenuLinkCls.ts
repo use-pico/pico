@@ -22,10 +22,10 @@ export const MenuLinkCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, what }) => [
-			root({
+		rules: [
+			def.root({
 				base: what.css([
 					"pico--menu-link",
 					"flex",
@@ -43,11 +43,11 @@ export const MenuLinkCls = PicoCls.extend(
 					"hover:border-(--color-border-hover)",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
 					inner: false,
-				},
+				}),
 				{
 					base: what.css([
 						"bg-(--color-active-bg)",
@@ -58,11 +58,11 @@ export const MenuLinkCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
 					inner: true,
-				},
+				}),
 				{
 					base: what.css([
 						"border-transparent",
@@ -73,10 +73,10 @@ export const MenuLinkCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					subtle: true,
-				},
+				}),
 				{
 					base: what.css([
 						"hover:bg-slate-50",
@@ -85,11 +85,11 @@ export const MenuLinkCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					active: true,
 					subtle: true,
-				},
+				}),
 				{
 					base: what.css([
 						"bg-slate-100",
@@ -97,10 +97,10 @@ export const MenuLinkCls = PicoCls.extend(
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					vertical: true,
-				},
+				}),
 				{
 					base: what.css([
 						"w-full",
@@ -108,13 +108,13 @@ export const MenuLinkCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			active: false,
 			inner: false,
 			subtle: false,
 			vertical: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type MenuLinkCls = typeof MenuLinkCls;

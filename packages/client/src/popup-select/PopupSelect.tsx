@@ -120,18 +120,16 @@ export const PopupSelect = <
 				/>
 			}
 			textTitle={textTitle}
-			cls={{
-				variant: {
+			cls={({ what }) => ({
+				variant: what.variant({
 					// loading: result.isFetching,
-				},
+				}),
 				slot: {
-					modal: {
-						class: [
-							"w-2/3",
-						],
-					},
+					modal: what.css([
+						"w-2/3",
+					]),
 				},
-			}}
+			})}
 			{...modalProps}
 		>
 			{() => (

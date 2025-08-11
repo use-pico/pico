@@ -15,45 +15,45 @@ export const IssuesCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				item: classes([
+		rules: [
+			def.root({
+				item: what.css([
 					"p-4",
 					"text-md",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					type: "info",
-				},
+				}),
 				{
-					item: classes([
+					item: what.css([
 						"bg-blue-100",
 						"border-blue-400",
 						"text-blue-700",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					type: "warning",
-				},
+				}),
 				{
-					item: classes([
+					item: what.css([
 						"bg-amber-100",
 						"border-amber-400",
 						"text-amber-700",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					type: "error",
-				},
+				}),
 				{
-					item: classes([
+					item: what.css([
 						"bg-red-100",
 						"border-red-400",
 						"text-red-700",
@@ -61,12 +61,14 @@ export const IssuesCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			type: "info",
-		},
-	},
+		}),
+	}),
 );
 
+export type IssuesCls = typeof IssuesCls;
+
 export namespace IssuesCls {
-	export type Props<P = unknown> = Component<typeof IssuesCls, P>;
+	export type Props<P = unknown> = Component<IssuesCls, P>;
 }

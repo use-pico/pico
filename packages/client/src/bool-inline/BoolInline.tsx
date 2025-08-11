@@ -70,11 +70,11 @@ export const BoolInline: FC<BoolInline.Props> = ({
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
 			tva={IconCls.use(tva)}
-			cls={merge(cls, {
-				variant: {
+			cls={merge(cls, ({ what }) => ({
+				variant: what.variant({
 					value,
-				},
-			})}
+				}),
+			}))}
 			{...props}
 		/>
 	);

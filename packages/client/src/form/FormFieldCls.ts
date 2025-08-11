@@ -26,71 +26,61 @@ export const FormFieldCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule }) => [
-			root({
-				base: {
-					class: [
-						"flex",
-						"flex-col",
-						"gap-1",
-						"w-full",
-					],
-				},
+		rules: [
+			def.root({
+				base: what.css([
+					"flex",
+					"flex-col",
+					"gap-1",
+					"w-full",
+				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					isError: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-(--input-error-color-text)",
-						],
-					},
+					base: what.css([
+						"text-(--input-error-color-text)",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					required: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"text-(--input-required-color-text)",
-							"font-bold",
-						],
-					},
+					base: what.css([
+						"text-(--input-required-color-text)",
+						"font-bold",
+					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: {
-						class: [
-							"opacity-75",
-							"cursor-not-allowed",
-						],
-					},
-					input: {
-						class: [
-							"pointer-events-none",
-						],
-					},
+					base: what.css([
+						"opacity-75",
+						"cursor-not-allowed",
+					]),
+					input: what.css([
+						"pointer-events-none",
+					]),
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			required: false,
 			disabled: false,
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
-		},
-	},
+		}),
+	}),
 );
 
 export type FormFieldCls = typeof FormFieldCls;

@@ -17,11 +17,11 @@ export const ActionCls = PicoCls.extend(
 			],
 		},
 	},
-	{
+	({ what, def }) => ({
 		token: {},
-		rules: ({ root, rule, classes }) => [
-			root({
-				base: classes([
+		rules: [
+			def.root({
+				base: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
@@ -35,42 +35,42 @@ export const ActionCls = PicoCls.extend(
 					"hover:text-(--pico-text-hover)",
 				]),
 			}),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "common",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"pico--action-menu-item-common",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "warning",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"pico--action-menu-item-warning",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					variant: "danger",
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"pico--action-menu-item-danger",
 					]),
 				},
 			),
-			rule(
-				{
+			def.rule(
+				what.variant({
 					disabled: true,
-				},
+				}),
 				{
-					base: classes([
+					base: what.css([
 						"cursor-not-allowed",
 						"hover:text-(--pico-text-default)",
 						"hover:bg-(--pico-bg-default)",
@@ -78,9 +78,9 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 		],
-		defaults: {
+		defaults: def.defaults({
 			variant: "common",
 			disabled: false,
-		},
-	},
+		}),
+	}),
 );

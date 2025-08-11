@@ -38,17 +38,20 @@ export const Icon: FC<Icon.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, {
-		slot: {
-			base: {
-				class: isString(icon) ? icon : undefined,
-			},
-		},
-	});
+	const classes = tva.create(
+		cls,
+		isString(icon)
+			? ({ what }) => ({
+					slot: {
+						base: what.css(icon),
+					},
+				})
+			: undefined,
+	);
 
 	return isString(icon) ? (
 		<div
-			className={classes.base}
+			className={classes.base()}
 			{...props}
 		/>
 	) : (
