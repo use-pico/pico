@@ -3084,6 +3084,172 @@ So remember: **Rule precedence ensures predictable styling when multiple conditi
 
 ### 4.4 Appends vs Overrides <a id="44-appends-vs-overrides"></a>
 
+[↑ Back to Top] | [← Previous Chapter: Rule Precedence](#43-rule-precedence) | [→ Next Chapter: Rule Matching](#45-rule-matching)
+
+---
+
+#### **The Two Styling Modes** 🎭
+
+CLS gives you **two ways** to handle styling conflicts:
+
+1. **Append Mode** (default) - *"Add these styles to what's already there"*
+2. **Override Mode** - *"Replace everything and start fresh"*
+
+Think of it like **writing vs. rewriting** - you can either add to the story or start a new chapter! 📚
+
+#### **Append Mode: The Default Behavior** ➕
+
+**Append mode** means rules **add their styles** to the existing styling chain:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    }),
+    
+    // Size variant - ADDS to base styles
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3', 'text-lg'])
+    }),
+    
+    // Color variant - ADDS to base + size styles
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['bg-blue-500', 'text-white'])
+    })
+  ]
+}));
+
+// Result: px-4 py-2 rounded font-medium px-6 py-3 text-lg bg-blue-500 text-white
+// All styles accumulate! 🎯
+```
+
+**What happens:**
+- ✅ **Base styles** - always applied
+- ✅ **Size styles** - added to base
+- ✅ **Color styles** - added to base + size
+- ✅ **No conflicts** - everything accumulates
+
+#### **Override Mode: The Nuclear Option** 💥
+
+**Override mode** means rules **replace everything** and start fresh:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def, override }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    }),
+    
+    // Size variant - ADDS to base styles
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3', 'text-lg'])
+    }),
+    
+    // Special state - OVERRIDES everything!
+    override.rule(what.variant({ state: 'loading' }), {
+      root: what.css(['opacity-50', 'cursor-wait', 'pointer-events-none'])
+    })
+  ]
+}));
+
+// When state: 'loading' is active:
+// Result: opacity-50 cursor-wait pointer-events-none
+// Base and size styles are DROPPED! 💥
+```
+
+**What happens with override:**
+- ❌ **Base styles** - dropped completely
+- ❌ **Size styles** - dropped completely  
+- ✅ **Override styles** - only these apply
+- 💥 **Fresh start** - inheritance chain is ignored
+
+#### **When to Use Each Mode** 🤔
+
+**Use Append Mode (default) when:**
+- ✅ **Building up styles** - adding variants to base
+- ✅ **Inheritance matters** - you want parent styles
+- ✅ **Progressive enhancement** - styles accumulate
+- ✅ **Most cases** - this is what you usually want
+
+**Use Override Mode when:**
+- 🔥 **Complete reset** - you want a fresh start
+- 🔥 **Special states** - loading, disabled, error states
+- 🔥 **Radical changes** - completely different appearance
+- 🔥 **Breaking inheritance** - you know what you're doing
+
+#### **The Override Helpers** 🛠️
+
+CLS provides **convenient helpers** for override mode:
+
+```typescript
+import { override } from '@use-pico/cls';
+
+// These are equivalent:
+override.rule(what.variant({ state: 'loading' }), { ... })
+def.rule(what.variant({ state: 'loading' }), { override: true, ... })
+
+// Override helpers set override: true by default
+override.root({ ... })        // override: true
+override.rule(condition, { ... })  // override: true  
+override.token({ ... })       // override: true
+```
+
+#### **Real-World Example** 🌍
+
+```typescript
+const CardCls = cls(contract, ({ what, def, override }) => ({
+  rules: [
+    // Base card styling
+    def.root({
+      root: what.css(['bg-white', 'rounded-lg', 'shadow-md', 'p-6'])
+    }),
+    
+    // Size variants - ADD to base
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(['p-4'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['p-8'])
+    }),
+    
+    // Loading state - OVERRIDES everything
+    override.rule(what.variant({ loading: true }), {
+      root: what.css(['bg-gray-100', 'animate-pulse', 'cursor-wait'])
+    }),
+    
+    // Error state - OVERRIDES everything  
+    override.rule(what.variant({ error: true }), {
+      root: what.css(['bg-red-50', 'border-red-200', 'text-red-800'])
+    })
+  ]
+}));
+```
+
+**Result:**
+- **Normal card**: `bg-white rounded-lg shadow-md p-6` (base)
+- **Small card**: `bg-white rounded-lg shadow-md p-6 p-4` (base + size)
+- **Large card**: `bg-white rounded-lg shadow-md p-6 p-8` (base + size)
+- **Loading card**: `bg-gray-100 animate-pulse cursor-wait` (override only)
+- **Error card**: `bg-red-50 border-red-200 text-red-800` (override only)
+
+#### **Bottom Line** 🎯
+
+**Appends vs Overrides** gives you **complete control** over styling behavior:
+
+- **Append** = *"Add to what's there"* (default, most common)
+- **Override** = *"Replace everything"* (special cases, powerful)
+
+**Choose wisely:**
+- 🚀 **Start with append** - it's safer and more predictable
+- 💥 **Use override sparingly** - when you need a complete reset
+- 🎭 **Mix both modes** - build sophisticated styling systems
+
+**Remember:** Override mode is **powerful but dangerous** - it breaks the inheritance chain completely! Use it when you **really mean it**! ⚡
+
 ### 4.5 Rule Matching <a id="45-rule-matching"></a>
 
 ### 4.6 Complex Match Conditions <a id="46-complex-match-conditions"></a>
