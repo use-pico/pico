@@ -1540,11 +1540,11 @@ So remember: **CLS doesn't replace CSS – it makes CSS smarter and more organiz
 
 **[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Design Philosophy](#2-design-philosophy)** | **[→ Next Chapter: Rules System](#4-rules-system)**
 
-### 3.1 cls() Function <a id="31-cls-function"></a>
+### 3.1 `cls()` Function <a id="31-cls-function"></a>
 
 The **`cls()` function** is the heart and soul of CLS – it's where the magic begins! ✨ This function takes your contract and definition, and transforms them into a **powerful, type-safe styling component** that you can use throughout your application! 🎯
 
-#### **What Does cls() Do?** 🤔
+#### **What Does `cls()` Do?** 🤔
 
 Think of `cls()` as a **styling module factory** that:
 
@@ -1671,7 +1671,203 @@ It's like having a **magic wand** that transforms your ideas into fully function
 
 So remember: **`cls()` is where your styling dreams become reality!** 🚀
 
-### 3.2 extend() Method <a id="32-extend-method"></a>
+### 3.2 `extend()` Method <a id="32-extend-method"></a>
+
+The **`extend()` method** is where CLS really shines – it's your **inheritance superpower**! 🦸‍♂️✨ With `extend()`, you can take an existing CLS instance and create a new one that **inherits everything** while adding new capabilities! 🚀
+
+#### **What Does `extend()` Do?** 🤔
+
+Think of `extend()` as **evolution in action**:
+
+1. **Takes your existing CLS instance** - the "parent"
+2. **Takes a new contract** - defines what's new
+3. **Takes a new definition** - defines new behavior
+4. **Returns an enhanced CLS instance** - with all the old + new capabilities
+
+```typescript
+// Start with a base button
+const BaseButtonCls = cls(baseContract, baseDefinition);
+
+// Extend it to create something more powerful
+const ExtendedButtonCls = BaseButtonCls.extend(extendedContract, extendedDefinition);
+
+// Now you have both the old and new capabilities!
+```
+
+#### **Inheritance: The Gift That Keeps on Giving** 🎁
+
+When you extend a CLS instance, you get **everything** from the parent:
+
+```typescript
+// Base button with basic capabilities
+const BaseButtonCls = cls({
+  variant: {
+    size: ['sm', 'md', 'lg'],
+    variant: ['default', 'primary']
+  }
+}, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    })
+  ],
+  defaults: {
+    size: 'md',
+    variant: 'default'
+  }
+}));
+
+// Extended button that adds new capabilities
+const ExtendedButtonCls = BaseButtonCls.extend({
+  variant: {
+    size: ['xl'],                            // Only add 'xl' - others inherited automatically
+    variant: ['success', 'danger'],          // Only add new variants - others inherited
+    state: ['idle', 'loading', 'disabled']  // New variant group
+  },
+  token: {
+    "color.bg": ["success", "danger"],      // New token variants
+    "color.text": ["success", "danger"]     // New token variants
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    // TypeScript enforces token definitions!
+    // When you define tokens in the contract above, you MUST define all their values here
+    // Missing definitions = compile-time errors
+    "color.bg": {
+      success: ["bg-green-500"],
+      danger: ["bg-red-500"]
+    },
+    "color.text": {
+      success: ["text-green-700"],
+      danger: ["text-red-700"]
+    }
+  }),
+  rules: [
+    // New rules for new variants - TypeScript will enforce these!
+    def.rule(what.variant({ size: 'xl' }), {
+      root: what.css(['px-8', 'py-4', 'text-xl'])
+    }),
+    
+    def.rule(what.variant({ variant: 'success' }), {
+      root: what.css(['bg-green-500', 'text-white'])
+    }),
+    
+    def.rule(what.variant({ variant: 'danger' }), {
+      root: what.css(['bg-red-500', 'text-white'])
+    }),
+    
+    def.rule(what.variant({ state: 'loading' }), {
+      root: what.css(['opacity-75', 'cursor-wait'])
+    }),
+    
+    def.rule(what.variant({ state: 'disabled' }), {
+      root: what.css(['opacity-50', 'cursor-not-allowed'])
+    })
+  ],
+  defaults: {
+    size: 'md',
+    variant: 'default',
+    state: 'idle'
+  }
+}));
+```
+
+#### **What You Inherit** 📚
+
+**Everything** from the parent flows down automatically:
+
+- **All tokens** - plus any new ones you add
+- **All slots** - plus any new ones you add  
+- **All variants** - plus any new ones you add
+- **All rules** - plus any new ones you add
+- **All defaults** - which you can override
+
+**Important:** You only need to define the **new variants** you want to add. The parent variants are inherited automatically!
+
+**TypeScript Enforcement:** When you define **tokens** in your contract, TypeScript will **force you to define all their values** - otherwise you'll get compile-time errors! 🛡️
+
+**Note:** Inheritance is **append-only** - you cannot remove parent variants, only add new ones! 🎯
+
+```typescript
+// ExtendedButtonCls now has:
+// - Inherited variants: size: ['sm', 'md', 'lg'], variant: ['default', 'primary']
+// - New variants: size: ['xl'], variant: ['success', 'danger'], state: ['idle', 'loading', 'disabled']
+// - All original rules + new rules
+// - All original defaults (can be overridden)
+```
+
+#### **Contract Inheritance: Append-Only** 🎯
+
+The extended contract **inherits everything** from the parent and **adds new capabilities**:
+
+```typescript
+// ✅ Add new variants (inherits all parent variants)
+const ExtendedButtonCls = BaseButtonCls.extend({
+  variant: {
+    size: ['xl'],                    // Add new size
+    variant: ['success', 'danger'],  // Add new variants
+    state: ['loading', 'disabled']   // Add new variant group
+  }
+}, extendedDefinition);
+
+// Result: ExtendedButtonCls has ALL parent variants + new ones
+// - size: ['sm', 'md', 'lg'] (inherited) + ['xl'] (new) = ['sm', 'md', 'lg', 'xl']
+// - variant: ['default', 'primary'] (inherited) + ['success', 'danger'] (new) = ['default', 'primary', 'success', 'danger']
+// - state: ['loading', 'disabled'] (new)
+```
+
+**The key point:** Inheritance is **append-only** - you get everything from the parent plus your additions! 🚀
+
+#### **Real-World Example: Design System Evolution** 🌱
+
+```typescript
+// Start with a theme that contains tokens
+const ThemeCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "success", "danger", "warning"],
+    "color.text": ["default", "primary", "success", "danger", "warning"],
+    "spacing.padding": ["sm", "md", "lg", "xl"],
+    "border.radius": ["none", "sm", "md", "lg", "full"]
+  }
+}, themeDefinition);
+
+// Create a base button that extends the theme
+const BaseButtonCls = ThemeCls.extend({
+  slot: ["root", "label", "icon"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary", "success", "danger"]
+  }
+}, baseButtonDefinition);
+
+// Create specialized button variants
+const PrimaryButtonCls = BaseButtonCls.extend({
+  variant: {
+    variant: ["primary", "secondary", "tertiary"]
+  }
+}, primaryButtonDefinition);
+
+const LargeButtonCls = BaseButtonCls.extend({
+  variant: {
+    size: ["xl", "2xl"]
+  }
+}, largeButtonDefinition);
+
+// Now you have a complete design system with shared tokens!
+```
+
+#### **The Bottom Line** 💡
+
+**`extend()` method** means:
+- **Inheritance without limits** - build on what you already have
+- **Design system evolution** - grow your components over time
+- **Code reuse** - never rewrite what already works
+- **Type safety** - TypeScript ensures compatibility
+- **Flexibility** - add new capabilities without breaking existing ones
+
+It's like having a **styling evolution machine** that lets your components grow and adapt over time! 🧬✨
+
+So remember: **`extend()` is your ticket to building powerful, scalable design systems!** 🚀
 
 ### 3.3 create() Method <a id="33-create-method"></a>
 
