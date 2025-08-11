@@ -19,6 +19,12 @@ export const ButtonCls = cls(
 			variant: [
 				"primary",
 				"secondary",
+				"danger",
+				"neutral",
+				"subtle",
+			],
+			light: [
+				"bool",
 			],
 			disabled: [
 				"bool",
@@ -105,6 +111,7 @@ export const ButtonCls = cls(
 		],
 		defaults: def.defaults({
 			variant: "primary",
+			light: false,
 			disabled: false,
 			size: "md",
 			borderless: false,

@@ -85,7 +85,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "light",
+								light: true,
 							}),
 						})}
 					>
@@ -95,7 +95,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "light",
+								light: true,
 								borderless: true,
 							}),
 						})}
@@ -106,7 +106,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "light",
+								light: true,
 							}),
 						})}
 						disabled
@@ -241,7 +241,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "danger-light",
+								variant: "danger",
+								light: true,
 							}),
 						})}
 					>
@@ -251,7 +252,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "danger-light",
+								variant: "danger",
+								light: true,
 								borderless: true,
 							}),
 						})}
@@ -262,7 +264,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 					<Button
 						cls={({ what }) => ({
 							variant: what.variant({
-								variant: "danger-light",
+								variant: "danger",
+								light: true,
 							}),
 						})}
 						disabled

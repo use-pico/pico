@@ -1,7 +1,7 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env bun
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 interface Subchapter {
 	number: string;
@@ -31,7 +31,7 @@ function generateChapterIndex(
 		)
 		.join("\n");
 
-	const navigation = [];
+	const navigation: string[] = [];
 	if (prevChapter) {
 		navigation.push(
 			`**Previous:** [Chapter ${prevChapter.number}: ${prevChapter.title}](../${String(prevChapter.number).padStart(2, "0")}-${prevChapter.title.toLowerCase().replace(/\s+/g, "-")}/index.md)`,
@@ -71,7 +71,7 @@ function generateSubchapterContent(
 		})
 		.join("\n");
 
-	const navigation = [];
+	const navigation: string[] = [];
 	if (isFirst) {
 		const prevChapter = toc.chapters.find(
 			(ch) => ch.number === chapter.number - 1,
