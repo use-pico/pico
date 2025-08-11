@@ -843,6 +843,158 @@ So remember: **rules aren't just styling – they're your styling intelligence!*
 
 ### 2.5 Required Defaults <a id="25-required-defaults"></a>
 
+Ah, **defaults** – the unsung heroes of predictable styling! 🦸‍♂️ In CLS, defaults aren't just a nice-to-have feature – they're **required** for a very good reason! 🎯
+
+#### **Why Defaults Are Mandatory** 🤔
+
+Defaults are **mandatory** because they force you to **explicitly choose** what your components should look like by default. Without defaults, you'd get mysterious values that appear "from somewhere" – and that's exactly what CLS wants to prevent! 🚫
+
+**The real reason defaults are forced?** To make you **consciously decide** what you want instead of relying on hidden, automatic behavior. CLS believes in **transparency over magic** – you should always know exactly what you're getting! ✨
+
+```typescript
+// Without defaults - chaos! 😱
+const Button = cls(contract, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3'])
+    })
+  ]
+  // No defaults! What happens when someone calls Button.create()?
+  // Answer: TypeScript will scream at you! 🚨
+}));
+
+// With defaults - bliss! ✨
+const Button = cls(contract, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3'])
+    })
+  ],
+  defaults: {
+    size: 'md',      // ✅ Always has a size
+    variant: 'default' // ✅ Always has a variant
+  }
+}));
+```
+
+#### **Defaults as Your Design System's Foundation** 🏗️
+
+Defaults serve as the **baseline** that every component starts from:
+
+```typescript
+const Button = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles that always apply
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    }),
+    
+    // Variant-specific styles
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['bg-blue-500', 'text-white'])
+    }),
+    
+    def.rule(what.variant({ variant: 'danger' }), {
+      root: what.css(['bg-red-500', 'text-white'])
+    })
+  ],
+  defaults: {
+    size: 'md',        // Medium is the standard
+    variant: 'default', // Default variant for consistency
+    disabled: false    // Usually not disabled
+  }
+}));
+
+// Now every button has a predictable starting point!
+const buttonClasses = Button.create(); // Uses all defaults
+const primaryButton = Button.create({ variant: 'primary' }); // Overrides just variant
+```
+
+#### **The "No Surprises" Principle** 🎭
+
+Defaults ensure that your components behave **exactly as expected** because you **explicitly defined** what those expectations are:
+
+```typescript
+// Without defaults - unpredictable behavior! 😵‍💫
+const button1 = Button.create(); // What size? What variant? Who knows!
+const button2 = Button.create(); // Same component, different result?
+
+// With defaults - predictable every time! 🎯
+const button1 = Button.create(); // Always md + default
+const button2 = Button.create(); // Always md + default
+const button3 = Button.create({ size: 'lg' }); // lg + default (overrides size only)
+```
+
+#### **Defaults and Inheritance: The Perfect Duo** 🎭
+
+When you extend components, defaults **cascade down** like a beautiful waterfall:
+
+```typescript
+// Base button with sensible defaults
+const BaseButton = cls(contract, ({ what, def }) => ({
+  rules: [...],
+  defaults: {
+    size: 'md',
+    variant: 'default'
+  }
+}));
+
+// Extended button inherits and extends defaults
+const ExtendedButton = BaseButton.extend(extendedContract, ({ what, def }) => ({
+  rules: [...],
+  defaults: {
+    size: 'lg',        // Override: always large
+    variant: 'primary', // Override: always primary
+    disabled: false    // New default: not disabled
+  }
+}));
+
+// ExtendedButton.create() now gives you lg + primary + not disabled
+// The base defaults are completely overridden! 🎯
+```
+
+#### **Type Safety and Defaults: A Match Made in Heaven** 💕
+
+Defaults work **perfectly** with TypeScript's type system:
+
+```typescript
+// TypeScript knows exactly what defaults you have
+const Button = cls(contract, ({ what, def }) => ({
+  rules: [...],
+  defaults: {
+    size: 'md',
+    variant: 'default'
+  }
+}));
+
+// This is perfectly typed!
+const button = Button.create({
+  size: 'lg'  // ✅ Valid: overrides the 'md' default
+  // variant: 'primary'  // ❌ Optional: will use 'default' default
+});
+
+// TypeScript knows that button.size is 'lg' and button.variant is 'default'
+```
+
+#### **The Bottom Line** 💡
+
+**Required defaults** mean:
+- **You explicitly choose** what your components should look like by default
+- **No magical values** appear "from somewhere" – everything is transparent
+- **Your design system has a solid foundation** that you consciously built
+- **Inheritance works seamlessly** with cascading defaults you control
+- **No more "where did this styling come from?"** mysteries
+
+Defaults ensure your components always behave predictably because you defined exactly what should happen! 🎯
+
+So remember: **defaults aren't optional – they're your styling insurance policy!** 📋🎯
+
 ### 2.6 Type Safety as Foundation <a id="26-type-safety-as-foundation"></a>
 
 ### 2.7 Performance by Design <a id="27-performance-by-design"></a>
