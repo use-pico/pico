@@ -2605,11 +2605,115 @@ So remember: **Definition helpers make your styling structures type-safe and sem
 
 ### 3.9 Override Helpers <a id="39-override-helpers"></a>
 
-#### 3.9.1 `override.root()` <a id="391-overrideroot"></a>
+The **Override Helpers** are your **"nuclear option" styling tools** – they provide the same functionality as definition helpers but with `override: true` by default! ☢️✨
 
-#### 3.9.2 `override.rule()` <a id="392-overrulerule"></a>
+#### **What Do Override Helpers Do?** 🤔
 
-#### 3.9.3 `override.token()` <a id="393-overridetoken"></a>
+Think of override helpers as **definition helpers on steroids** – they're designed for scenarios where you need to **completely replace** existing styling rather than **append** to it:
+
+```typescript
+// Regular definition helper (appends):
+def.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3']) // Adds to existing styles
+});
+
+// Override helper (replaces):
+override.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3']) // Replaces ALL existing styles
+});
+```
+
+**The main purpose:** Override helpers give you **explicit control** over when you want to **start fresh** instead of **building on top** of existing styles! 🎯
+
+#### **3.9.1 `override.root()` <a id="391-overrideroot"></a>
+
+**Purpose:** Create **base styling that completely replaces** existing root styles:
+
+```typescript
+override.root({
+  root: what.css(['px-8', 'py-4', 'text-xl', 'font-bold']), // Replaces ALL root styles
+  label: what.css(['text-lg', 'font-semibold']),              // Replaces ALL label styles
+  icon: what.css(['w-6', 'h-6'])                              // Replaces ALL icon styles
+})
+```
+
+**When to use `override.root()`:**
+- ✅ **Complete style replacement** - you want a fresh start
+- ✅ **Theme switching** - completely different visual appearance
+- ✅ **Component variants** - entirely different styling approach
+- ✅ **Debugging** - clear out inherited styles
+
+#### **3.9.2 `override.rule()` <a id="392-overriderule"></a>
+
+**Purpose:** Create **conditional rules that completely replace** existing styles:
+
+```typescript
+override.rule(what.variant({ size: 'xl' }), {
+  root: what.css(['px-10', 'py-5', 'text-2xl']) // Replaces ALL existing root styles
+}),
+
+override.rule(what.variant({ variant: 'danger' }), {
+  root: what.css(['bg-red-600', 'text-white', 'border-red-700']) // Fresh danger styling
+})
+```
+
+**When to use `override.rule()`:**
+- ✅ **Complete variant overrides** - entirely different styling for variants
+- ✅ **State changes** - completely different appearance for states
+- ✅ **Size variations** - entirely different layout for sizes
+- ✅ **Theme overrides** - completely different visual theme
+
+#### **3.9.3 `override.token()` <a id="393-overridetoken"></a>
+
+**Purpose:** Create **token definitions that completely replace** existing tokens:
+
+```typescript
+override.token({
+  "color.bg": {
+    default: what.token(['bg-gray-900']), // Replaces ALL background tokens
+    primary: what.token(['bg-blue-600']),
+    danger: what.token(['bg-red-600'])
+  }
+})
+```
+
+**When to use `override.token()`:**
+- ✅ **Complete token replacement** - entirely new color scheme
+- ✅ **Theme switching** - completely different design tokens
+- ✅ **Brand overrides** - entirely different brand colors
+- ✅ **Dark mode** - completely inverted color palette
+
+> **💡 Important Note:** `override.token()` is **not intended for definitions** - it's designed for runtime overrides in `.create()`, `cls` props, or `slot()` calls where you want to override tokens. In definitions, use regular `def.token()` instead!
+
+#### **Override vs Append Behavior** ⚖️
+
+**Regular helpers (append):**
+```typescript
+def.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3']) // Adds to existing styles
+});
+// Result: existing styles + px-6 py-3
+```
+
+**Override helpers (replace):**
+```typescript
+override.rule(what.variant({ size: 'lg' }), {
+  root: what.css(['px-6', 'py-3']) // Replaces ALL existing styles
+});
+// Result: ONLY px-6 py-3 (everything else is dropped)
+```
+
+#### **The Bottom Line** 💡
+
+**Override Helpers** mean:
+- **Explicit control** - `override.` clearly indicates replacement behavior
+- **Fresh starts** - completely replace existing styling when needed
+- **Same API** - familiar interface with different behavior
+- **Clear intent** - immediately obvious you're overriding, not appending
+
+It's like having **"reset buttons"** for your styling that let you start completely fresh! 🎯✨
+
+So remember: **Override helpers give you explicit control over when to replace instead of append!** 🚀
 
 ---
 
