@@ -438,7 +438,263 @@ So remember: **callbacks aren't there to make things complicated – they're the
 
 ### 2.2 Why Contracts First <a id="22-why-contracts-first"></a>
 
+Why do we put contracts first in CLS? 🤔 Because we believe in **planning before building** – just like you wouldn't start constructing a skyscraper without blueprints! 🏗️
+
+#### **The Traditional Approach: Chaos First** 😵‍💫
+
+Most styling libraries let you jump straight into writing styles:
+
+```typescript
+// The "figure it out as you go" approach
+const buttonStyles = {
+  base: 'px-4 py-2 rounded',
+  variants: {
+    primary: 'bg-blue-500 text-white',
+    secondary: 'bg-gray-200 text-gray-800'
+  }
+};
+
+// Later... "Wait, what variants did I define again?"
+// "What if I want to add a new size variant?"
+// "How do I make sure all my buttons are consistent?"
+```
+
+**What happens?** You end up with a **messy pile of styles** that grows organically, like a garden that's never been planned. Some components have 3 variants, others have 7, and nobody knows what the "right" way to style something is! 🌱➡️🌿➡️🌳➡️🌴➡️🌵➡️🌾➡️🌿➡️🌱
+
+#### **The CLS Way: Structure First** ✨
+
+In CLS, you start by defining **exactly what's possible**:
+
+```typescript
+// Define your contract FIRST
+const Button = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "danger"],
+    "color.text": ["default", "primary", "danger"]
+  },
+  slot: ["root", "label", "icon"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary", "danger"]
+  }
+}, definition);
+```
+
+**Now you know:**
+- ✅ **Exactly** what variants exist
+- ✅ **Exactly** what slots are available  
+- ✅ **Exactly** what tokens you can use
+- ✅ **Exactly** how everything fits together
+
+#### **Why This Approach Rocks** 🚀
+
+**1. Consistency by Design** 🎯
+- Every button follows the same pattern
+- No more "creative" variants that break the system
+- Your design system actually makes sense!
+
+**2. Discoverability** 🔍
+- New team members can see what's available at a glance
+- No more guessing what variants exist
+- The contract is your documentation
+
+**3. Extensibility** 🔧
+- Want to add a new variant? Update the contract first
+- All existing code will know about it immediately
+- TypeScript will guide you through the changes
+
+**4. Refactoring Safety** 🛡️
+- Change a variant name? TypeScript finds all usages
+- Remove a token? All errors show up at once
+- Your refactoring is bulletproof!
+
+#### **The Contract as Your North Star** ⭐
+
+Think of your contract as the **constitution** of your design system:
+
+- **It defines the rules** everyone must follow
+- **It prevents chaos** from creeping in
+- **It makes decisions for you** when you're not sure what to do
+- **It grows with your needs** in a controlled, predictable way
+
+#### **Real-World Benefits** 🌍
+
+**Before CLS (chaos):**
+```typescript
+// Every developer does their own thing
+const Button1 = { variants: ['primary', 'secondary'] };
+const Button2 = { variants: ['default', 'primary', 'success'] };
+const Button3 = { variants: ['primary', 'secondary', 'tertiary', 'quaternary'] };
+// ... 15 more inconsistent button definitions
+```
+
+**With CLS (order):**
+```typescript
+// One contract, consistent everywhere
+const Button = cls(contract, definition);
+const PrimaryButton = Button.extend(extendedContract, extendedDefinition);
+const DangerButton = Button.extend(dangerContract, dangerDefinition);
+// All follow the same pattern, all are type-safe!
+```
+
+#### **The Bottom Line** 💡
+
+**Contracts first** means:
+- **Less thinking** about "how should I style this?"
+- **More thinking** about "what should be possible?"
+- **Better design systems** that actually work
+- **Happier developers** who know what they're doing
+
+It's like having a **GPS for your styling** – you always know where you are, where you can go, and how to get there! 🗺️
+
+So remember: **define your contracts first, and everything else becomes a breeze!** ✨🚀
+
 ### 2.3 Token-Centric Design <a id="23-token-centric-design"></a>
+
+Welcome to the **token revolution**! 🎉 In CLS, tokens aren't just an afterthought – they're the **beating heart** of your design system! 💓
+
+#### **What Are Tokens, Anyway?** 🤔
+
+Think of tokens as **named design values** that represent the building blocks of your visual language. Instead of writing `bg-blue-500` everywhere, you create a token called `"color.bg.primary"` that means "the primary background color." It's like having a **design vocabulary** that everyone on your team understands! 📚
+
+```typescript
+// Instead of this scattered approach:
+const button1 = "bg-blue-500 text-white";
+const button2 = "bg-blue-500 text-white";  // Duplicated!
+const button3 = "bg-blue-500 text-white";  // Duplicated again!
+
+// You create tokens:
+const tokens = {
+  "color.bg.primary": ["bg-blue-500"],
+  "color.text.primary": ["text-white"]
+};
+
+// And use them everywhere:
+const button1 = "color.bg.primary color.text.primary";
+const button2 = "color.bg.primary color.text.primary";  // Same token!
+const button3 = "color.bg.primary color.text.primary";  // Same token!
+```
+
+#### **Why Tokens Are Game-Changing** 🚀
+
+**1. Single Source of Truth** 🎯
+- Change `bg-blue-500` to `bg-indigo-600` in one place
+- Every component using that token updates automatically
+- No more hunting through your codebase for color references!
+
+**2. Design System Consistency** 🎨
+- Your brand colors are defined once, used everywhere
+- Spacing, typography, and other values are standardized
+- Your app actually looks like it was designed by one person!
+
+**3. Semantic Meaning** 🧠
+- `"color.bg.primary"` is more meaningful than `"bg-blue-500"`
+- `"spacing.padding.md"` tells you exactly what it is
+- Your code becomes self-documenting!
+
+#### **The CLS Token Magic** ✨
+
+In CLS, tokens are **first-class citizens** with superpowers:
+
+```typescript
+const Button = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "danger"],
+    "color.text": ["default", "primary", "danger"],
+    "spacing.padding": ["sm", "md", "lg"],
+    "border.radius": ["none", "sm", "md", "lg"]
+  }
+}, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.token([
+        "color.bg.default",    // Uses the token!
+        "color.text.default",  // Uses the token!
+        "spacing.padding.md"   // Uses the token!
+      ])
+    }),
+    def.rule(
+      what.variant({ variant: "primary" }),
+      {
+        root: what.token([
+          "color.bg.primary",  // Switches to primary tokens!
+          "color.text.primary"
+        ])
+      }
+    )
+  ]
+}));
+```
+
+#### **Token Inheritance: The Gift That Keeps on Giving** 🎁
+
+Tokens in CLS can **inherit and extend** from parent components:
+
+```typescript
+// Base button with basic tokens
+const BaseButton = cls({
+  tokens: {
+    "color.bg": ["default", "primary"],
+    "color.text": ["default", "primary"]
+  }
+}, definition);
+
+// Extended button with more tokens
+const ExtendedButton = BaseButton.extend({
+  tokens: {
+    "color.bg": ["default", "primary", "success", "warning"],  // Adds new variants!
+    "color.text": ["default", "primary", "success", "warning"],
+    "animation.duration": ["fast", "normal", "slow"]           // Adds new token groups!
+  }
+}, extendedDefinition);
+```
+
+**What happens?** The extended button gets **all** the base tokens plus the new ones, and TypeScript knows about everything! 🎯
+
+#### **Real-World Token Examples** 🌍
+
+**Color System:**
+```typescript
+"color.bg": {
+  default: ["bg-gray-100"],
+  primary: ["bg-blue-500"],
+  success: ["bg-green-500"],
+  warning: ["bg-yellow-500"],
+  danger: ["bg-red-500"]
+}
+```
+
+**Spacing System:**
+```typescript
+"spacing.padding": {
+  sm: ["px-2", "py-1"],
+  md: ["px-4", "py-2"],
+  lg: ["px-6", "py-3"],
+  xl: ["px-8", "py-4"]
+}
+```
+
+**Typography System:**
+```typescript
+"typography.size": {
+  sm: ["text-sm"],
+  md: ["text-base"],
+  lg: ["text-lg"],
+  xl: ["text-xl"]
+}
+```
+
+#### **The Bottom Line** 💡
+
+**Token-centric design** means:
+- **Your design values are organized** and easy to find
+- **Changes happen in one place** and update everywhere
+- **Your code is semantic** and self-documenting
+- **Your design system is consistent** and maintainable
+
+It's like having a **design dictionary** that everyone on your team can reference, update, and extend! 📖✨
+
+So remember: **tokens aren't just values – they're your design system's vocabulary!** 🎨🚀
 
 ### 2.4 Rule-Based System <a id="24-rule-based-system"></a>
 
