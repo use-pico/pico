@@ -60,6 +60,10 @@
 - `01-rule-override-semantics.test.ts` - Rule override semantics in inheritance with proper class ordering
 ### 7.3 Conditional Token Application
 - `01-conditional-token-application.test.ts` - Conditional token application based on variant combinations with proper class ordering
+### 7.4 Slot Caching Behavior
+- `01-slot-caching-semantics.test.ts` - Slot caching behavior for parameterless calls vs dynamic calls with parameters
+- `02-inheritance-caching-scenarios.test.ts` - Caching behavior in inheritance scenarios with overrides
+- `03-cache-key-validation.test.ts` - Cache key generation and uniqueness validation
 
 ## Chapter 8: Advanced Create Usage (IN PROGRESS)
 ### 8.1 Slot Overrides
@@ -94,9 +98,9 @@
 ### 11.3 Real-world Scenarios
 
 ## Test Coverage Summary
-- **Completed**: 36 tests across 9 chapters
+- **Completed**: 39 tests across 9 chapters
 - **Remaining**: 2 chapters with estimated 4-6 additional tests
-- **Total Progress**: ~93% complete
+- **Total Progress**: ~95% complete
 
 ## Notes
 - All tests use exact matches (`.toBe()`) for class assertions
