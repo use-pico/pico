@@ -3770,13 +3770,474 @@ def.rule(what.variant({ fullWidth: true, rounded: true, shadow: 'lg' }), { ... }
 
 ## 5. Tokens <a id="5-tokens"></a>
 
-[↑ Back to Top] | [← Previous Chapter: Rules System](#4-rules-system) | [→ Next Chapter: Variants & Defaults](#6-variants--defaults)
+[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Rules System](#4-rules-system) | [→ Next Chapter: Variants & Defaults](#6-variants--defaults)
 
 ---
 
 The **Tokens** chapter covers design tokens, their definitions, and how they work in the CLS system.
 
 ### 5.1 Contract Declaration <a id="51-contract-declaration"></a>
+
+[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Rules System](#4-rules-system) | [→ Next Chapter: Token Definitions](#52-token-definitions)
+
+---
+
+#### **What Are Token Contracts?** 🤔
+
+Think of **token contracts** as the **blueprint** for your design system! They define **what tokens exist**, **what values they can have**, and **how they're organized** - all with **full TypeScript support**! 🏗️✨
+
+**Token contracts are your styling DNA** - they establish the foundation that everything else builds upon! 🧬
+
+#### **The Contract Structure** 📋
+
+**Token contracts** define **what token groups and variants exist** in your design system:
+
+```typescript
+// Define your token contract - groups with variants
+const ButtonCls = cls({
+  tokens: {
+    // Color tokens - group with variants
+    "color.bg": ["default", "primary", "secondary", "success", "error"],
+    "color.text": ["default", "primary", "secondary", "muted"],
+    "color.border": ["default", "focus", "error"],
+    
+    // Spacing tokens - group with variants
+    "spacing.padding": ["xs", "sm", "md", "lg", "xl"],
+    
+    // Typography tokens - group with variants
+    "typography.size": ["xs", "sm", "base", "lg", "xl"],
+    "typography.weight": ["normal", "medium", "semibold", "bold"]
+  },
+  slot: ["root", "label", "icon"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary", "secondary"],
+    disabled: ["bool"]
+  }
+}, ({ what, def }) => ({
+  // Definition will go here...
+}));
+```
+
+**What this contract defines:**
+- ✅ **Token groups** - `"color.bg"`, `"spacing.padding"`, etc.
+- ✅ **Token variants** - `["default", "primary", "secondary"]` for each group
+- ✅ **Available slots** - `["root", "label", "icon"]`
+- ✅ **Component variants** - `size`, `variant`, `disabled`
+
+#### **Token Enforcement Rules** ⚡
+
+**CRITICAL:** CLS enforces different rules for **defined vs inherited tokens**:
+
+- 🔒 **Defined in Contract = ENFORCED** - TypeScript requires definition for ALL variants
+- 🔓 **Inherited from Parent = OPTIONAL** - TypeScript allows partial or no definition
+
+**This prevents token definition gaps** and ensures **complete styling coverage**!
+
+> **💡 CLS Pro Tip:** When extending contracts, **only specify NEW tokens/variants** you're adding. Don't re-specify inherited ones - CLS handles inheritance automatically!
+
+#### **Token Enforcement Deep Dive** 🔍
+
+**Why this matters for your design system:**
+
+```typescript
+// ❌ WRONG: Missing token definition
+const BrokenButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"] // Declares 3 variants
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"]
+      // ❌ Missing "secondary" - TypeScript ERROR!
+    }
+  })
+}));
+
+// ✅ CORRECT: Complete token definition
+const WorkingButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"] // Declares 3 variants
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]  // ✅ All variants defined
+    }
+  })
+}));
+```
+
+**Inheritance behavior:**
+
+```typescript
+// Base with enforced tokens
+const BaseCls = cls({
+  tokens: { "color.bg": ["default", "primary"] },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],  // 🔒 ENFORCED
+      primary: ["bg-blue-500"]   // 🔒 ENFORCED
+    }
+  })
+}));
+
+// Extended - only new tokens enforced
+const ExtendedCls = BaseCls.extend({
+  tokens: { 
+    "color.bg": ["success"],      // ✅ Only add NEW variant
+    "color.text": ["default", "primary"]  // ✅ Add NEW token group
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    // 🔒 ENFORCED: Only NEW tokens
+    "color.bg": {
+      success: ["bg-green-500"]  // ✅ Required - new variant
+    },
+    "color.text": {
+      default: ["text-gray-900"], // ✅ Required - new group
+      primary: ["text-white"]     // ✅ Required - new group
+    }
+    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary)
+    // Can be omitted, overridden, or left as-is
+  })
+}));
+```
+
+#### **Contract Declaration Patterns** 🎨
+
+**Different ways** to declare your token contracts with CLS:
+
+**Pattern 1: Inline Contract**
+```typescript
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"],
+    "spacing.padding": ["sm", "md", "lg"]
+  },
+  slot: ["root", "label"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: ALL declared tokens must be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"]
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
+  defaults: def.defaults({ size: "md", variant: "default" })
+}));
+```
+
+**Pattern 2: Direct Contract Usage**
+```typescript
+// Use contract directly in cls() call
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"],
+    "spacing.padding": ["sm", "md", "lg"]
+  },
+  slot: ["root", "label"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: ALL declared tokens must be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"]
+    },
+    "spacing.padding": {
+      sm: ["px-2", "py-1"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
+  defaults: def.defaults({ size: "md", variant: "default" })
+}));
+```
+
+**Pattern 3: Extended Contract with Token Enforcement**
+```typescript
+// Base CLS instance
+const BaseButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary"],
+    "spacing.padding": ["md"]
+  },
+  slot: ["root"],
+  variant: {
+    size: ["md"],
+    variant: ["default"]
+  }
+}, ({ what, def }) => ({
+  // Base definition - ALL tokens MUST be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"]
+    },
+    "spacing.padding": {
+      md: ["px-4", "py-2"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "spacing.padding.md"]) })],
+  defaults: def.defaults({ size: "md", variant: "default" })
+}));
+
+// Extended CLS instance - inherits from base
+const ExtendedButtonCls = BaseButtonCls.extend({
+  tokens: {
+    "color.bg": ["success"],                // ✅ Only add NEW variant
+    "color.text": ["default", "primary"]    // ✅ Add NEW token group
+  },
+  slot: ["root", "label"],       // Add new slot
+  variant: {
+    size: ["sm", "lg"],          // ✅ Only add NEW variants
+    loading: ["bool"]            // ✅ Add NEW variant
+  }
+}, ({ what, def }) => ({
+  // Extended definition - ONLY NEW tokens are enforced!
+  token: def.token({
+    // 🔒 ENFORCED: Only NEW tokens added in this contract
+    "color.bg": {
+      success: ["bg-green-500"]  // ✅ Required - new variant
+    },
+    "color.text": {
+      default: ["text-gray-900"], // ✅ Required - new token group
+      primary: ["text-white"]     // ✅ Required - new token group
+    }
+    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary, spacing.padding.md)
+    // TypeScript won't complain if you don't define them
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"]),
+      label: what.css(["font-medium"])
+    })
+  ],
+  defaults: def.defaults({ size: "md", variant: "default", loading: false })
+}));
+```
+
+#### **Type Safety Benefits** 🛡️
+
+**Token contracts provide** **compile-time guarantees** in CLS:
+
+```typescript
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"]
+  },
+  slot: ["root"],
+  variant: {
+    variant: ["default", "primary", "secondary"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: ALL declared tokens must be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]  // ✅ Required - declared in contract
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"] // ✅ Required - declared in contract
+    }
+  }),
+  
+  rules: [
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded'])
+    }),
+    
+    // ✅ TypeScript knows these tokens exist
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(['color.bg.primary', 'color.text.primary'])  // ✅ Valid
+    }),
+    
+    // ✅ TypeScript knows this token exists
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.token(['color.bg.secondary', 'color.text.secondary']) // ✅ Valid
+    }),
+    
+    // ❌ TypeScript error - token doesn't exist in contract
+    def.rule(what.variant({ variant: 'error' }), {
+      root: what.token(['color.bg.error'])    // ❌ Error!
+    })
+  ]
+}));
+```
+
+**What TypeScript enforces:**
+- ✅ **Valid tokens** - only declared tokens can be used
+- ✅ **Correct paths** - token paths must match contract exactly
+- ✅ **Type consistency** - all tokens are strings
+- ✅ **IntelliSense** - autocomplete for all available tokens
+
+#### **Real-World Contract Example** 🌍
+
+**A practical button component contract in CLS:**
+
+```typescript
+// Button component with direct contract
+const ButtonCls = cls({
+  tokens: {
+    // Color tokens - group with variants
+    "color.bg": ["default", "primary", "secondary", "success", "error"],
+    "color.text": ["default", "primary", "secondary", "muted"],
+    "color.border": ["default", "focus", "error"],
+    
+    // Spacing tokens - group with variants
+    "spacing.padding": ["xs", "sm", "md", "lg"],
+    
+    // Typography tokens - group with variants
+    "typography.size": ["sm", "base", "lg"],
+    "typography.weight": ["medium", "semibold"],
+    
+    // Component-specific tokens - group with variants
+    "button.radius": ["sm", "md", "lg"],
+    "button.shadow": ["none", "md", "lg"]
+  },
+  slot: ["root", "label", "icon"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary", "secondary", "success", "error"],
+    disabled: ["bool"],
+    loading: ["bool"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: ALL declared tokens must be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"],
+      success: ["bg-green-500"],
+      error: ["bg-red-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"],
+      muted: ["text-gray-500"]
+    },
+    "color.border": {
+      default: ["border-gray-300"],
+      focus: ["border-blue-500"],
+      error: ["border-red-500"]
+    },
+    "spacing.padding": {
+      xs: ["px-2", "py-1"],
+      sm: ["px-3", "py-1.5"],
+      md: ["px-4", "py-2"],
+      lg: ["px-6", "py-3"]
+    },
+    "typography.size": {
+      sm: ["text-sm"],
+      base: ["text-base"],
+      lg: ["text-lg"]
+    },
+    "typography.weight": {
+      medium: ["font-medium"],
+      semibold: ["font-semibold"]
+    },
+    "button.radius": {
+      sm: ["rounded"],
+      md: ["rounded-md"],
+      lg: ["rounded-lg"]
+    },
+    "button.shadow": {
+      none: ["shadow-none"],
+      md: ["shadow"],
+      lg: ["shadow-lg"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
+  defaults: def.defaults({ size: "md", variant: "default", disabled: false, loading: false })
+}));
+```
+
+**This contract provides:**
+- 🎨 **Token groups** - organized by design concept (color, spacing, typography)
+- 🎯 **Token variants** - multiple options for each group (default, primary, secondary)
+- 🎭 **Component variants** - size, variant, disabled, loading states
+- 🛡️ **Type safety** - TypeScript knows exactly what tokens and variants are available
+- 🚀 **CLS integration** - ready to use with cls() function
+
+#### **Contract Best Practices** 💡
+
+**Follow these guidelines** for robust token contracts in CLS:**
+
+**✅ Do:**
+- **Use token groups** - `"color.bg"`, `"spacing.padding"`, `"typography.size"`
+- **Use descriptive variants** - `["default", "primary", "secondary"]` not `["d", "p", "s"]`
+- **Group by design concept** - all color tokens together, all spacing together
+- **Be consistent** - same naming patterns across similar token types
+- **Document your choices** - add comments for complex decisions
+
+**❌ Don't:**
+- **Use flat dot-notation** - CLS expects groups with variants structure
+- **Mix concerns** - don't put spacing variants in color token groups
+- **Use abbreviations** - `["d", "p", "s"]` is hard to understand
+- **Skip validation** - always use TypeScript for contracts
+
+#### **Bottom Line** 🎯
+
+**Token Contract Declaration** is your **CLS design system foundation**:
+
+- 🏗️ **Token groups** - organized by design concept (color, spacing, typography)
+- 🎯 **Token variants** - multiple options for each group (default, primary, secondary)
+- 🔒 **Token enforcement** - declared tokens MUST be defined, inherited tokens are optional
+- 🛡️ **Type safety** - compile-time guarantees prevent missing token definitions
+- 🚀 **CLS integration** - ready to use with cls() function
+- 🌍 **Scalability** - grows with your design system
+
+**Remember:** **Good contracts make good CLS components!** Start with a solid token group structure, and CLS will enforce complete coverage! 🎉
+
+Ready to learn how to **define the actual token values** in the next section? 🚀
 
 ### 5.2 Token Definitions <a id="52-token-definitions"></a>
 
