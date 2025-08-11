@@ -3,7 +3,7 @@
 ## Introduction ✨ <a id="introduction"></a>
 
 `@use-pico/cls` is a class-first styling system built for modern design systems and production apps. It works with existing CSS utilities (like Tailwind), _not_ CSS-in-JS. Its core ideas are: **design tokens** as first‑class citizens, **multi-slot** components, **explicit variants** with strong TypeScript guarantees, and a powerful **multi-level inheritance** model for scalable systems. ✨
-
+`
 - 🧱 **Contracts, not configs**: declare **tokens · slots · variants** once → get full IntelliSense everywhere
 - 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
 - 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides
