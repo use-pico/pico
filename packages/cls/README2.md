@@ -310,10 +310,10 @@ const Button = cls({
       { root: what.css(['bg-blue-500', 'text-white']) }
     )
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 }));
 
 // Use it!
@@ -884,10 +884,10 @@ const Button = cls(contract, ({ what, def }) => ({
       root: what.css(['px-6', 'py-3'])
     })
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',      // ✅ Always has a size
     variant: 'default' // ✅ Always has a variant
-  }
+  })
 }));
 ```
 
@@ -912,11 +912,11 @@ const Button = cls(contract, ({ what, def }) => ({
       root: what.css(['bg-red-500', 'text-white'])
     })
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',        // Medium is the standard
     variant: 'default', // Default variant for consistency
     disabled: false    // Usually not disabled
-  }
+  })
 }));
 
 // Now every button has a predictable starting point!
@@ -947,20 +947,20 @@ When you extend components, defaults **cascade down** like a beautiful waterfall
 // Base button with sensible defaults
 const BaseButton = cls(contract, ({ what, def }) => ({
   rules: [...],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 }));
 
 // Extended button inherits and extends defaults
 const ExtendedButton = BaseButton.extend(extendedContract, ({ what, def }) => ({
   rules: [...],
-  defaults: {
+  defaults: def.defaults({
     size: 'lg',        // Override: always large
     variant: 'primary', // Override: always primary
     disabled: false    // New default: not disabled
-  }
+  })
 }));
 
 // ExtendedButton.create() now gives you lg + primary + not disabled
@@ -975,10 +975,10 @@ Defaults work **perfectly** with TypeScript's type system:
 // TypeScript knows exactly what defaults you have
 const Button = cls(contract, ({ what, def }) => ({
   rules: [...],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 }));
 
 // This is perfectly typed!
@@ -1290,10 +1290,10 @@ const Button = cls({
       root: what.css(['px-6', 'py-3'])
     })
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 }));
 ```
 
@@ -1325,7 +1325,7 @@ const definition = ({ what, def }) => ({
       root: what.css(['px-6', 'py-3'])
     })
   ],
-  defaults: { size: 'md' }
+  defaults: def.defaults({ size: 'md' })
 });
 ```
 
@@ -1420,7 +1420,7 @@ const Button = cls(contract, ({ what, def }) => ({
       root: what.css(['bg-blue-500', 'text-white', 'border-blue-600'])
     })
   ],
-  defaults: { variant: 'default' }
+  defaults: def.defaults({ variant: 'default' })
 }));
 ```
 
@@ -1461,7 +1461,7 @@ const Button = cls(contract, ({ what, def }) => ({
       root: what.css(['bg-[--bg-color-primary]', 'text-[--text-color-primary]'])
     })
   ],
-  defaults: { variant: 'default' }
+  defaults: def.defaults({ variant: 'default' })
 }));
 
 // In your CSS file (just define the variables)
@@ -1613,10 +1613,10 @@ const buttonClsDefinition = ({ what, def }) => ({
   ],
   
   // Default values
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 });
 ```
 
@@ -1711,10 +1711,10 @@ const BaseButtonCls = cls({
       root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
     })
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default'
-  }
+  })
 }));
 
 // Extended button that adds new capabilities
@@ -1764,11 +1764,11 @@ const ExtendedButtonCls = BaseButtonCls.extend({
       root: what.css(['opacity-50', 'cursor-not-allowed'])
     })
   ],
-  defaults: {
+  defaults: def.defaults({
     size: 'md',
     variant: 'default',
     state: 'idle'
-  }
+  })
 }));
 ```
 
@@ -1869,47 +1869,352 @@ It's like having a **styling evolution machine** that lets your components grow 
 
 So remember: **`extend()` is your ticket to building powerful, scalable design systems!** 🚀
 
-### 3.3 create() Method <a id="33-create-method"></a>
+### 3.3 `create()` Method <a id="33-create-method"></a>
 
-### 3.4 use() Method <a id="34-use-method"></a>
+The **`create()` method** is where the magic happens – it's your **styling instance factory**! ✨ With `create()`, you take your CLS instance and generate a **concrete, styled element** that you can use in your application! 🎯
 
-### 3.5 merge() Utility <a id="35-merge-utility"></a>
+#### **What Does `create()` Do?** 🤔
 
-### 3.6 tvc() Helper <a id="36-tvc-helper"></a>
+Think of `create()` as the **final step** in your styling journey:
+
+1. **Takes your CLS instance** - the styling "template"
+2. **Takes a configuration callback** - defines the specific variants
+3. **Returns a styled instance** - ready to use with CSS classes
+
+```typescript
+// Your CLS instance (the template)
+const ButtonCls = cls(contract, definition);
+
+// Create a specific button (the instance)
+const button = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ size: 'lg', variant: 'primary' })
+}));
+
+// Now you can use it!
+const rootClasses = button.root(); // "px-6 py-3 text-lg bg-blue-500 text-white"
+```
+
+#### **The Configuration Callback** ⚙️
+
+The `create()` method takes a callback that receives **type-safe tools**:
+
+```typescript
+ButtonCls.create(({ what, def, override }) => {
+  // what - for creating variant configurations
+  // def - for creating definition structures  
+  // override - for creating override configurations
+  
+  return {
+    variant: what.variant({ 
+      size: 'lg',
+      variant: 'primary',
+      disabled: false
+    })
+  };
+});
+```
+
+**The callback gives you access to the same tools** you use in definitions, but for runtime configuration! 🛠️
+
+#### **Variant Configuration with what.variant()** 🎭
+
+The main way to configure your instance is through `what.variant()`:
+
+```typescript
+const button = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ 
+    size: 'lg',        // Large size
+    variant: 'primary', // Primary variant
+    disabled: false     // Not disabled
+  })
+}));
+
+// You can also use variables for cleaner code
+const button = ButtonCls.create(({ what }) => {
+  const size = 'lg';
+  const variant = 'primary';
+  const disabled = false;
+  
+  return {
+    variant: what.variant({ size, variant, disabled })
+  };
+});
+```
+
+#### **Type Safety in Action** 🛡️
+
+TypeScript ensures you **only use valid variants**:
+
+```typescript
+const ButtonCls = cls({
+  variant: {
+    size: ['sm', 'md', 'lg'],
+    variant: ['default', 'primary', 'danger']
+  }
+}, definition);
+
+const button = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ 
+    size: 'lg',        // ✅ Valid
+    variant: 'primary', // ✅ Valid
+    
+    // TypeScript will catch these errors:
+    // size: 'xl',           // ❌ 'xl' not in contract
+    // variant: 'super',      // ❌ 'super' not in contract
+    // unknown: 'value'       // ❌ 'unknown' not in contract
+  })
+}));
+```
+
+#### **Using Your Styled Instance** 🎨
+
+Once created, your instance provides **methods for each slot**:
+
+```typescript
+const button = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ size: 'lg', variant: 'primary' })
+}));
+
+// Access styles for each slot
+const rootClasses = button.root();   // "px-6 py-3 text-lg bg-blue-500 text-white"
+const labelClasses = button.label(); // "text-sm font-medium"
+const iconClasses = button.icon();   // "w-4 h-4"
+
+// Use in your HTML/JSX
+const html = `
+  <button class="${rootClasses}">
+    <span class="${labelClasses}">Click me</span>
+    <svg class="${iconClasses}">...</svg>
+  </button>
+`;
+```
+
+#### **Caching and Performance** ⚡
+
+Each `create()` call creates a **new instance with its own cache**:
+
+```typescript
+// First call - computes and caches
+const button1 = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ size: 'lg', variant: 'primary' })
+}));
+const classes1 = button1.root(); // Computes and caches
+
+// Second call - new instance, new cache
+const button2 = ButtonCls.create(({ what }) => ({
+  variant: what.variant({ size: 'lg', variant: 'primary' })
+}));
+const classes2 = button2.root(); // Computes and caches
+
+// But multiple calls on the same instance use cache
+const classes3 = button1.root(); // Uses cached result
+const classes4 = button1.root(); // Uses cached result
+```
+
+#### **The Bottom Line** 💡
+
+**`create()` method** means:
+- **Runtime configuration** - define variants when you need them
+- **Type-safe variants** - TypeScript ensures validity
+- **Slot-based access** - get styles for each part of your component
+- **Performance optimized** - caching for repeated access
+- **Ready to use** - instant styling power
+
+It's like having a **styling factory** that creates perfectly configured, type-safe styling instances on demand! 🏭✨
+
+So remember: **`create()` transforms your CLS template into a working styling instance!** 🚀
+
+### 3.4 `use()` Method <a id="34-use-method"></a>
+
+The **`use()` method** is your **styling compatibility checker** – it's like having a **type-safe bridge** from specialized to general CLS instances! 🌉✨ With `use()`, you can assign a **more specific** CLS instance to a **more general** one, but only if they're **compatible** according to TypeScript's strict rules! 🎯
+
+#### **What Does `use()` Do?** 🤔
+
+Think of `use()` as a **type-safe assignment operator** that:
+
+1. **Takes a more specific CLS instance** - the "specialized" component
+2. **Checks compatibility** - ensures the specialized one can work with the general one
+3. **Returns the same instance** - but now TypeScript allows the assignment
+
+**Important:** `use()` is **purely a TypeScript type hack** - it doesn't change any runtime behavior! 🎭 It just convinces TypeScript that the assignment is safe.
+
+```typescript
+// You have two CLS instances
+const ButtonCls = cls(buttonContract, buttonDefinition);           // General button
+const SpecialButtonCls = cls(specialButtonContract, specialDefinition); // Specialized button
+
+// You want to use SpecialButtonCls's styling in ButtonCls
+const EnhancedButton = ButtonCls.use(SpecialButtonCls);
+
+// Now EnhancedButton has ButtonCls's capabilities + SpecialButtonCls's enhancements!
+```
+
+#### **Type Safety in Action** 🛡️
+
+The `use()` method is **incredibly strict** about compatibility:
+
+```typescript
+// ✅ Compatible: ButtonCls can use SpecialButtonCls
+const ButtonCls = cls({
+  variant: { size: ['sm', 'md', 'lg'] },
+  slot: ['root']
+}, definition);
+
+const SpecialButtonCls = cls({
+  variant: { size: ['sm', 'md', 'lg'] },  // Same variants
+  slot: ['root', 'icon']                   // Superset of slots
+}, definition);
+
+// This works! SpecialButtonCls has everything ButtonCls has
+const EnhancedButton = ButtonCls.use(SpecialButtonCls);
+
+// ❌ Incompatible: Different variant values
+const SmallButtonCls = cls({
+  variant: { size: ['xs', 'sm'] },  // Different size values
+  slot: ['root']
+}, definition);
+
+// This fails! TypeScript knows they're incompatible
+const EnhancedButton = ButtonCls.use(SmallButtonCls); // Error!
+```
+
+#### **When to Use `use()`** 🎯
+
+**Perfect for:**
+- **Composing components** - combine styling from multiple sources
+- **Theme switching** - apply different theme instances
+- **Component libraries** - reuse styling across different components
+- **Design system consistency** - ensure components share the same base styles
+
+**Not for:**
+- **Inheritance** - use `extend()` for that
+- **Runtime changes** - use `create()` for that
+- **Merging styles** - use `merge()` for that
+
+#### **Real-World Example** 🌍
+
+```typescript
+// Base button with common styling
+const ButtonCls = cls({
+  variant: { size: ['sm', 'md', 'lg'] },
+  slot: ['root']
+}, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    })
+  ],
+  defaults: def.defaults({ size: 'md' })
+}));
+
+// Special button with enhanced capabilities
+const SpecialButtonCls = cls({
+  variant: { size: ['sm', 'md', 'lg'] },
+  slot: ['root', 'icon']
+}, ({ what, def }) => ({
+  rules: [
+    def.root({
+      root: what.css(['inline-flex', 'items-center', 'gap-2']),
+      icon: what.css(['w-4', 'h-4'])
+    })
+  ],
+  defaults: def.defaults({ size: 'md' })
+}));
+
+// Use special button's styling in base button
+const EnhancedButton = ButtonCls.use(SpecialButtonCls);
+
+// Now EnhancedButton is just ButtonCls with TypeScript allowing the assignment
+// - Runtime behavior: Exactly the same as ButtonCls
+// - TypeScript behavior: Allows assignment because SpecialButtonCls is compatible
+// - No actual styling changes or enhancements are applied
+```
+
+#### **Compatibility Rules** 📋
+
+For `use()` to work, the **specialized CLS instance** must be **compatible** with the **general CLS instance**:
+
+**✅ Compatible:**
+- Same variant values (or superset)
+- Same slot names (or superset)
+- Same token structure (or superset)
+
+**❌ Incompatible:**
+- Different variant values
+- Different slot names
+- Different token structures
+- Missing required capabilities
+
+#### **It's Just a Type Hack!** 🎭
+
+**Important clarification:** `use()` doesn't actually **do** anything at runtime:
+
+```typescript
+const ButtonCls = cls(contract, definition);
+const SpecialButtonCls = cls(specialContract, specialDefinition);
+
+// This is just a type assertion - no runtime changes!
+const EnhancedButton = ButtonCls.use(SpecialButtonCls);
+
+// At runtime, EnhancedButton is identical to ButtonCls
+// The .use() call is purely for TypeScript's benefit
+```
+
+**What `use()` actually does:**
+- ✅ **Compile time**: Convinces TypeScript the assignment is safe
+- ✅ **Runtime**: Absolutely nothing - zero performance impact
+- ✅ **Behavior**: The instance behaves exactly the same
+- ✅ **Purpose**: Allows type-safe assignments in your code
+
+#### **The Bottom Line** 💡
+
+**`use()` method** means:
+- **Type-safe assignment** - only compatible instances can be assigned
+- **Zero runtime impact** - it's purely a TypeScript type hack
+- **Design system compatibility** - ensure components can work together
+- **No actual changes** - the instance behaves exactly the same
+
+It's like having a **smart type assertion** that convinces TypeScript your assignment is safe, without changing anything at runtime! 🎯✨
+
+So remember: **`use()` is your type-safe bridge between compatible CLS instances!** 🌉🚀
+
+### 3.5 `merge()` Utility <a id="35-merge-utility"></a>
+
+### 3.6 `tvc()` Helper <a id="36-tvc-helper"></a>
 
 ---
 
 ### 3.7 What Utility <a id="37-what-utility"></a>
 
-#### 3.7.1 what.css() <a id="371-whatcss"></a>
+#### 3.7.1 `what.css()` <a id="371-whatcss"></a>
 
-#### 3.7.2 what.token() <a id="372-whattoken"></a>
+#### 3.7.2 `what.token()` <a id="372-whattoken"></a>
 
-#### 3.7.3 what.both() <a id="373-whatboth"></a>
+#### 3.7.3 `what.both()` <a id="373-whatboth"></a>
 
-#### 3.7.4 what.variant() <a id="374-whatvariant"></a>
+#### 3.7.4 `what.variant()` <a id="374-whatvariant"></a>
 
 ---
 
 ### 3.8 Definition Helpers <a id="38-definition-helpers"></a>
 
-#### 3.8.1 def.root() <a id="381-defroot"></a>
+#### 3.8.1 `def.root()` <a id="381-defroot"></a>
 
-#### 3.8.2 def.rule() <a id="382-defrule"></a>
+#### 3.8.2 `def.rule()` <a id="382-defrule"></a>
 
-#### 3.8.3 def.token() <a id="383-deftoken"></a>
+#### 3.8.3 `def.token()` <a id="383-deftoken"></a>
 
-#### 3.8.4 def.defaults() <a id="384-defdefaults"></a>
+#### 3.8.4 `def.defaults()` <a id="384-defdefaults"></a>
 
 ---
 
 ### 3.9 Override Helpers <a id="39-override-helpers"></a>
 
-#### 3.9.1 override.root() <a id="391-overrideroot"></a>
+#### 3.9.1 `override.root()` <a id="391-overrideroot"></a>
 
-#### 3.9.2 override.rule() <a id="392-overrulerule"></a>
+#### 3.9.2 `override.rule()` <a id="392-overrulerule"></a>
 
-#### 3.9.3 override.token() <a id="393-overridetoken"></a>
+#### 3.9.3 `override.token()` <a id="393-overridetoken"></a>
 
 ---
 
