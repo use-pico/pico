@@ -439,6 +439,9 @@ export function cls<
 		): Cls<TContract> {
 			return sub as unknown as Cls<TContract>;
 		},
+		cls(configFn?: any): (props: any) => any {
+			return configFn;
+		},
 		contract,
 		definition,
 	};

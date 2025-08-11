@@ -96,6 +96,8 @@ type HasBaseInUseChain<Sub, Base> = Sub extends Base
 		? HasBaseInUseChain<U, Base>
 		: false;
 
+export type { HasBaseInUseChain };
+
 // ============================================================================
 // CONTRACT SYSTEM
 // ============================================================================
@@ -554,6 +556,28 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 					];
 		},
 	): Cls<TContract>;
+
+	/**
+	 * Type-safe cls prop configuration for Component interface.
+	 * Accepts a config function typed for a derived contract and produces a function
+	 * compatible with the current contract. Passing a config for an unrelated contract
+	 * results in a type error.
+	 */
+	cls<Sub extends Contract<any, any, any> = TContract>(
+		configFn?: {
+			hack: (
+				props: WhatUtil<
+					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
+				>,
+			) => Partial<
+				CreateConfig<
+					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
+				>
+			>;
+		}["hack"],
+	):
+		| ((props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>)
+		| undefined;
 
 	/**
 	 * The contract that defines this cls instance.

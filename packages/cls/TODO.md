@@ -5,7 +5,7 @@
     - now we can provide our CustomThemeCls into Context using ThemeCls.use(CustomThemeCls) which will ensure themes are compatible!
 - DO TESTS FOR THIS CONCEPT!
 
-
+# README - Tutorial on passing children to parent component "tva" + "cls" - example is BoolInline
 
 # README - History
 
