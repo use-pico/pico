@@ -2180,6 +2180,179 @@ So remember: **`use()` is your type-safe bridge between compatible CLS instances
 
 ### 3.5 `merge()` Utility <a id="35-merge-utility"></a>
 
+The **`merge()` utility** is your **user + internal configuration merger** – it's like having a **smart bridge** between user input and internal component state! 🌉✨ With `merge()`, you can combine user-provided styling configurations (like `cls` from props) with internal component logic (like disabled states) without any black magic! 🎯
+
+#### **What Does `merge()` Do?** 🤔
+
+Think of `merge()` as a **component state merger** that:
+
+1. **Takes user input** - styling config from component props (like `cls`)
+2. **Takes internal state** - component's internal styling logic (like `() => ({variant: { disabled: true }})`)
+3. **Returns merged config** - user preferences + internal state, ready for `create()`
+
+```typescript
+import { merge } from '@use-pico/cls';
+
+// User input from component props
+const userCls = { variant: { size: 'lg', variant: 'primary' } };
+
+// Internal component state
+const internalState = () => ({ variant: { disabled: true } });
+
+// Merge user preferences with internal state
+const mergedConfig = merge(userCls, internalState);
+
+// Now use it with create()
+const button = ButtonCls.create(mergedConfig);
+```
+
+#### **Perfect for Component Props + Internal State** 🎭
+
+`merge()` shines when you need to **combine user input with internal component logic**:
+
+```typescript
+// User input from component props
+interface ButtonProps {
+  cls?: CreateConfig<ButtonContract>;
+  disabled?: boolean;
+  loading?: boolean;
+}
+
+// Internal component state logic
+const getInternalState = (props: ButtonProps) => {
+  const internal: Partial<CreateConfig<ButtonContract>> = {};
+  
+  if (props.disabled) {
+    internal.variant = { ...internal.variant, disabled: true };
+  }
+  
+  if (props.loading) {
+    internal.variant = { ...internal.variant, loading: true };
+  }
+  
+  return internal;
+};
+
+// Component implementation
+const Button = ({ cls, disabled, loading, ...props }: ButtonProps) => {
+  const internalState = getInternalState({ disabled, loading });
+  
+  // Merge user cls with internal state
+  const mergedConfig = merge(cls, () => internalState);
+  
+  // Create styled instance
+  const button = ButtonCls.create(mergedConfig);
+  
+  return <button className={button.root()} {...props} />;
+};
+```
+
+#### **Smart Merging Behavior** 🧠
+
+`merge()` follows **clear precedence rules** when combining configurations:
+
+```typescript
+// User input (first parameter)
+const userCls = { variant: { size: 'lg', variant: 'primary' } };
+
+// Internal state (second parameter)
+const internalState = () => ({ variant: { disabled: true } });
+
+// Merge: user wins over internal for conflicts
+const merged = merge(userCls, internalState);
+// Result: { variant: { size: 'lg', variant: 'primary', disabled: true } }
+
+// User preferences take precedence
+const userOverride = { variant: { size: 'sm' } }; // Overrides 'lg' from userCls
+const finalConfig = merge(userOverride, internalState);
+// Result: { variant: { size: 'sm', disabled: true } }
+```
+
+#### **Real-World Example** 🌍
+
+```typescript
+// Theme-based configuration system
+const createThemeConfig = (theme: 'light' | 'dark') => {
+  if (theme === 'light') {
+    return {
+      variant: { theme: 'light' },
+      override: { color: 'default' }
+    };
+  } else {
+    return {
+      variant: { theme: 'dark' },
+      override: { color: 'inverted' }
+    };
+  }
+};
+
+// Size-based configuration
+const createSizeConfig = (size: 'sm' | 'md' | 'lg') => ({
+  variant: { size }
+});
+
+// State-based configuration
+const createStateConfig = (state: 'idle' | 'loading' | 'disabled') => ({
+  variant: { state }
+});
+
+// Dynamic component creation
+const createComponent = (theme: 'light' | 'dark', size: 'sm' | 'md' | 'lg', state: 'idle' | 'loading' | 'disabled') => {
+  const config = merge(
+    createThemeConfig(theme),
+    createSizeConfig(size),
+    createStateConfig(state)
+  );
+  
+  return ComponentCls.create(config);
+};
+
+// Usage
+const lightLargeLoading = createComponent('light', 'lg', 'loading');
+const darkSmallIdle = createComponent('dark', 'sm', 'idle');
+```
+
+#### **Type Safety Guaranteed** 🛡️
+
+`merge()` maintains **full type safety** throughout the merging process:
+
+```typescript
+// TypeScript knows exactly what you're merging
+const config1: CreateConfig<ButtonContract> = { variant: { size: 'lg' } };
+const config2: CreateConfig<ButtonContract> = { variant: { variant: 'primary' } };
+
+// Result is perfectly typed
+const merged: CreateConfig<ButtonContract> = merge(config1, config2);
+
+// TypeScript ensures this is valid
+const button = ButtonCls.create(merged);
+```
+
+#### **When to Use `merge()`** 🎯
+
+**Perfect for:**
+- **Component props + internal state** - combining user `cls` with component logic
+- **React components** - merging user styling preferences with internal variants
+- **Form controls** - combining user styling with disabled/loading states
+- **Theme-aware components** - merging user themes with component defaults
+
+**Not for:**
+- **Multiple user configs** - that's not the intended use case
+- **Component inheritance** - use `extend()` for that
+- **Instance composition** - use `use()` for that
+
+#### **The Bottom Line** 💡
+
+**`merge()` utility** means:
+- **User + internal merging** - combine user `cls` with component state
+- **Clear precedence** - user preferences win over internal logic
+- **Type safety** - maintain full TypeScript support
+- **No black magic** - predictable merging behavior
+
+It's like having a **smart bridge** between user styling preferences and internal component logic, without any mysterious behavior! 🌉✨
+
+So remember: **`merge()` bridges user styling preferences with internal component logic!** 🚀
+
 ### 3.6 `tvc()` Helper <a id="36-tvc-helper"></a>
 
 ---
