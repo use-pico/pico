@@ -4510,6 +4510,277 @@ Ready to learn about **Runtime Overrides** in the next section? This will show h
 
 ### 5.3 Runtime Overrides <a id="53-runtime-overrides"></a>
 
+[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Token Definitions](#52-token-definitions) | [→ Next Chapter: Inheritance Semantics](#54-inheritance-semantics)
+
+---
+
+**Tokens aren't just static definitions** - they can be **dynamically overridden** at runtime! 🎭
+
+**Runtime overrides** allow you to **change token values** when creating component instances, making your styling system **flexible** and **context-aware**.
+
+#### **Basic Token Overrides** 🎨
+
+**Override specific token variants** when creating component instances:
+
+```typescript
+const ButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"]
+  },
+  slot: ["root"],
+  variant: {
+    variant: ["default", "primary", "secondary"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"]
+    }
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"])
+    }),
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(["color.bg.primary", "color.text.primary"])
+    }),
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.token(["color.bg.secondary", "color.text.secondary"])
+    })
+  ],
+  defaults: def.defaults({ variant: 'default' })
+}));
+
+// 🎭 Runtime token overrides
+const primaryButton = ButtonCls.create(({ what, override }) => ({
+  variant: what.variant({ variant: 'primary' }),
+  token: override.token({
+    "color.bg": {
+      primary: ["bg-indigo-600"]  // Override primary background
+    },
+    "color.text": {
+      primary: ["text-indigo-50"] // Override primary text
+    }
+  })
+}));
+
+const secondaryButton = ButtonCls.create(({ what, override }) => ({
+  variant: what.variant({ variant: 'secondary' }),
+  token: override.token({
+    "color.bg": {
+      secondary: ["bg-emerald-500"]  // Override secondary background
+    }
+  })
+}));
+```
+
+**What happens:**
+- ✅ **Base tokens** - `"color.bg.primary"` → `"bg-blue-500"` (default)
+- ✅ **Overridden tokens** - `"color.bg.primary"` → `"bg-indigo-600"` (runtime)
+- ✅ **Partial overrides** - only specified tokens are changed
+- ✅ **Type safety** - TypeScript ensures valid token overrides
+
+#### **Component Prop Overrides** 🎯
+
+**Override tokens through component props** for **user-configurable styling**:
+
+```typescript
+// Button component with tva prop for token overrides
+interface ButtonProps extends Component<typeof ButtonCls> {
+  children: React.ReactNode;
+  variant?: 'default' | 'primary' | 'secondary';
+}
+
+const Button = ({ children, variant = 'default', tva = ButtonCls, cls }: ButtonProps) => {
+  const classes = tva.create(cls, ({ what }) => ({
+    variant: what.variant({ variant })
+  })); // 🎭 User's cls prop takes precedence over internal config
+
+  return (
+    <button className={classes.root()}>
+      {children}
+    </button>
+  );
+};
+
+// Usage with token overrides
+const CustomButton = () => (
+  <Button 
+    variant="primary"
+    cls={({ what, override }) => ({
+      token: override.token({
+        "color.bg": {
+          primary: ["bg-purple-600"]  // User override
+        },
+        "color.text": {
+          primary: ["text-purple-50"] // User override
+        }
+      })
+    })}
+  >
+    Custom Purple Button
+  </Button>
+);
+
+// Now use the enhanced version
+const CustomButtonWithUse = () => (
+  <Button 
+    variant="primary"
+    tva={ButtonCls.use(CustomButtonCls)} // Use the enhanced CLS instance
+    cls={({ what, override }) => ({
+      token: override.token({
+        "color.bg": {
+          primary: ["bg-pink-600"]  // Override for enhanced tva
+        }
+      })
+    })}
+  >
+    Custom Pink Button
+  </Button>
+);
+```
+
+**How component overrides work:**
+- 🎭 **User control** - consumers can override any tokens
+- 🔄 **Merge behavior** - user's cls prop takes precedence over internal config
+- 🎯 **Type safety** - TypeScript ensures valid token references
+- 🚀 **Performance** - overrides are resolved at creation time
+
+> **💡 CLS Pro Tip:** The `use` helper allows you to **assign a more specific CLS instance to a more general one**. This is useful when you want to use a specialized button variant (like `CustomButtonCls`) in place of the base button (`ButtonCls`). The `use` method is purely a **TypeScript type hack** with no runtime impact!
+
+#### **Advanced Override Patterns** 🚀
+
+**Combine multiple override strategies** for **powerful styling control**:
+
+```typescript
+const CardCls = cls({
+  tokens: {
+    "color.bg": ["default", "elevated", "muted"],
+    "color.border": ["default", "focus", "error"],
+    "shadow": ["none", "sm", "md", "lg"]
+  },
+  slot: ["root", "header", "content"],
+  variant: {
+    elevation: ["none", "low", "high"],
+    state: ["default", "focus", "error"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-white"],
+      elevated: ["bg-gray-50"],
+      muted: ["bg-gray-100"]
+    },
+    "color.border": {
+      default: ["border-gray-200"],
+      focus: ["border-blue-500"],
+      error: ["border-red-500"]
+    },
+    "shadow": {
+      none: ["shadow-none"],
+      sm: ["shadow-sm"],
+      md: ["shadow"],
+      lg: ["shadow-lg"]
+    }
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.border.default", "shadow.none"]),
+      header: what.css(["p-4", "border-b", "border-gray-200"]),
+      content: what.css(["p-4"])
+    }),
+    def.rule(what.variant({ elevation: 'low' }), {
+      root: what.token(["shadow.sm", "color.bg.elevated"])
+    }),
+    def.rule(what.variant({ elevation: 'high' }), {
+      root: what.token(["shadow.lg", "color.bg.elevated"])
+    }),
+    def.rule(what.variant({ state: 'focus' }), {
+      root: what.token(["color.border.focus"])
+    }),
+    def.rule(what.variant({ state: 'error' }), {
+      root: what.token(["color.border.error"])
+    })
+  ],
+  defaults: def.defaults({ elevation: 'none', state: 'default' })
+}));
+
+// 🎭 Complex runtime overrides
+const elevatedCard = CardCls.create(({ what, override }) => ({
+  variant: what.variant({ elevation: 'high', state: 'focus' }),
+  token: override.token({
+    "color.bg": {
+      elevated: ["bg-blue-50"]  // Override elevated background
+    },
+    "shadow": {
+      lg: ["shadow-xl", "drop-shadow-lg"]  // Enhanced shadow
+    }
+  })
+}));
+
+// 🎭 Component with dynamic overrides
+const DynamicCard = ({ 
+  elevation, 
+  state, 
+  customBg, 
+  customShadow,
+  tva = CardCls
+}: {
+  elevation: 'none' | 'low' | 'high';
+  state: 'default' | 'focus' | 'error';
+  customBg?: string;
+  customShadow?: string;
+  tva?: typeof CardCls;
+}) => {
+  const classes = tva.create(({ what, override }) => ({
+    variant: what.variant({ elevation, state }),
+    token: override.token({
+      "color.bg": customBg ? {
+        elevated: [customBg]  // Dynamic background override
+      } : undefined,
+      "shadow": customShadow ? {
+        lg: [customShadow]    // Dynamic shadow override
+      } : undefined
+    })
+  }));
+
+  return (
+    <div className={classes.root()}>
+      <div className={classes.header()}>Card Header</div>
+      <div className={classes.content()}>Card Content</div>
+    </div>
+  );
+};
+```
+
+**Advanced override capabilities:**
+- 🎭 **Multiple variants** - combine elevation and state overrides
+- 🔄 **Dynamic values** - runtime token values from props
+- 🎯 **Conditional overrides** - only override when custom values provided
+- 🚀 **Performance** - overrides resolved once per instance
+
+#### **Bottom Line** 🎯
+
+**Runtime Token Overrides** make your styling system **truly dynamic**:
+
+- 🎭 **Live customization** - change tokens when creating instances
+- 🎯 **Component props** - users can override tokens through cls prop
+- 🔄 **Merge behavior** - user's cls prop takes precedence over internal config
+- 🚀 **Performance** - overrides resolved once, cached for reuse
+- 🌍 **Flexibility** - adapt styling to context, user preferences, and dynamic data
+
+**Remember:** **Runtime overrides make CLS powerful!** Define your base tokens well, then let users customize them at will! 🎉
+
+Ready to learn about **Inheritance Semantics** in the next section? This will show how tokens flow through inheritance chains! 🚀
+
 ### 5.4 Inheritance Semantics <a id="54-inheritance-semantics"></a>
 
 ### 5.5 Token Conflicts & Resolution <a id="55-token-conflicts--resolution"></a>
