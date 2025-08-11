@@ -1,37 +1,21 @@
-# tests
-- _note_ - test files should be organized in small files (there could be a lot of them), numbered by test complexity (e.g. simple will start with 01-)
-- most basic, simples features
-- add more features to basic test
-- create simple inheritance test (no special features, e.g. variants)
-- multi-level inheritance test
-    - basic, no special features
-    - incl. variants
-    - with proper overrides
-    - slot-level overrides (calls to slot(...))
-- test merging in "create" and other places merge is used
-- test slot() calls with different inputs, simple test + inheritance chain test (1 and 2 level)
-- in general, look at source code, how you understand it and make tests for it; source should be stable to make proper tests
-- same for React based tests - env. should be prepared, you can do testing
-    - from most simple (again, test should be smaller in more files)
-    - medium to most complex (e.g. Context and so on)
-
 # README - History
 
 - Add a note about pure objects vs. conversion to callback - stable type-safe references everywhere
 
 # README - AI compatible library
 
-- Add a note that even this library comes from "nowhere", it has solid documentation and is AI compatible, so it's simple to push README into the context and model will know, how to use it (or can help with this lib)
+- Add a note that even this library comes from "nowhere", it has solid documentation and is AI compatible, so it's simple to push README into the context and model will know, how to use it (or can help with this lib); this README + DESIGN.md will help both humans and
+AI to use this lib
 
 # README - Design choice - callbacks everywhere
-
-# Tests - rewrite to do "exact" matching
 
 # README - Highlight usage of helper "what" and other tools for strict typecheck
 
 # README - The system may look complicated, but most is only TS types and rest a "few lines of runtime code"
 
 # README - Experimentally switch this lib to "dist"
+
+# README - Link to ./DESIGN.md
 
 # README todo+structure
 

@@ -77,10 +77,14 @@ describe("12.4 React Props - Slot Overrides", () => {
 							"color.text.default",
 							"spacing.padding.md",
 						]),
-						header: what.token([
-							"color.text.default",
-							"font-bold",
-						]),
+						header: what.both(
+							[
+								"font-bold",
+							],
+							[
+								"color.text.default",
+							],
+						),
 						content: what.token([
 							"color.text.default",
 						]),
@@ -94,9 +98,14 @@ describe("12.4 React Props - Slot Overrides", () => {
 								"color.bg.highlighted",
 								"color.text.highlighted",
 							]),
-							header: what.token([
-								"color.text.highlighted",
-							]),
+							header: what.both(
+								[
+									"font-bold",
+								],
+								[
+									"color.text.highlighted",
+								],
+							),
 							content: what.token([
 								"color.text.highlighted",
 							]),

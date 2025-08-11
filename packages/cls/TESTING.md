@@ -44,6 +44,13 @@
   - [11.2 Complex Create-Time Override Combinations](#112-complex-create-time-override-combinations)
   - [11.3 Slot-Time Override Stress Testing](#113-slot-time-override-stress-testing)
   - [11.4 Ultimate Integration Stress Test](#114-ultimate-integration-stress-test)
+- [12. React Integration](#12-react-integration)
+  - [12.1 React Hooks](#121-react-hooks)
+  - [12.2 React Context](#122-react-context)
+  - [12.3 React Components](#123-react-components)
+  - [12.4 React Props](#124-react-props)
+  - [12.5 React Integration](#125-react-integration)
+  - [12.6 React Advanced Integration](#126-react-advanced-integration)
 
 ---
 
@@ -803,35 +810,27 @@ expect(variantInstance.root).toBe(variantInstance2.root);
 **[← Previous Chapter: Cache Performance Testing](#7-cache-performance-testing)** | **[→ Next Chapter: Error Handling and Edge Cases](#9-error-handling-and-edge-cases)**
 
 ### 8.1 React Integration <a id="81-react-integration"></a>
-**File**: `20-react-integration.test.ts`
 
-**Scenarios to Cover**:
-- Component prop integration
-- Re-render optimization
-- Class name generation
-- Variant prop handling
-- Slot usage patterns
+**Note**: React integration testing is covered in **Chapter 12: React Integration**, which provides comprehensive coverage of all React-specific features.
 
-**Test Cases**:
-```typescript
-// React component usage
-const Button = cls(contract, definition);
+**Chapter 12 Structure**:
+- **12.1 React Hooks** - `useCls` hook functionality and performance
+- **12.2 React Context** - `ClsProvider` and `useClsContext` usage
+- **12.3 React Components** - `withCls` HOC and component integration
+- **12.4 React Props** - `cls` prop handling and overrides
+- **12.5 React Integration** - Context integration and token inheritance
+- **12.6 React Advanced Integration** - HOC combinations and complex patterns
 
-const MyButton = ({ size, variant, className, children, ...props }) => {
-  const classes = Button.create(({ what }) => ({
-    variant: what.variant({ size, variant }),
-    slot: {
-      root: what.css([className])
-    }
-  }));
-
-  return (
-    <button className={classes.root()} {...props}>
-      {children}
-    </button>
-  );
-};
-```
+**Key React Features Tested**:
+- `useCls` hook with configuration functions
+- `ClsProvider` context provider
+- `useClsContext` hook for accessing context
+- `withCls` Higher-Order Component
+- `cls` prop overrides and merging
+- Context token inheritance and conflicts
+- HOC composition patterns
+- Performance optimization with stable references
+- Error handling for missing tokens and undefined instances
 
 ### 8.2 Design System Integration <a id="82-design-system-integration"></a>
 **File**: `21-design-system.test.ts`
@@ -1011,7 +1010,7 @@ const ComposedComponent = BaseComponent
 
 ## Chapter 11: Complex Inheritance and Override Stress Tests <a id="11-complex-inheritance-and-override-stress-tests"></a>
 
-**[← Previous Chapter: Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)**
+**[← Previous Chapter: Advanced Patterns and Techniques](#10-advanced-patterns-and-techniques)** | **[→ Next Chapter: React Integration](#12-react-integration)**
 
 This chapter contains the most complex test scenarios that push the CLS library to its absolute limits. These tests validate that the library behaves correctly under extreme conditions with multiple inheritance levels, complex override combinations, and edge cases that stress-test the entire system.
 
@@ -1525,16 +1524,19 @@ expect(memoryIncrease).toBeLessThan(10 * 1024 * 1024); // 10MB threshold
 ### Running Tests
 ```bash
 # Run all tests
-bun test
+bun run test
 
 # Run specific test file
-bun test 01-basic-creation.test.ts
+bunx vitest run test/chapter-12/12.1-react-hooks/01-stable-references.test.tsx
+
+# Run specific chapter
+bunx vitest run test/chapter-12/
 
 # Run tests with coverage
-bun test --coverage
+bun run test --coverage
 
 # Run tests in watch mode
-bun test --watch
+bun run test --watch
 ```
 
 ### Test Organization
@@ -1542,12 +1544,16 @@ bun test --watch
 - **Independent Tests**: Each test file can run independently
 - **Shared Utilities**: Common test utilities in `setup.ts`
 - **Mock Data**: Consistent mock data across all tests
+- **React Testing**: Uses `@testing-library/react` for React component testing
+- **Vitest Framework**: Modern testing framework with excellent TypeScript support
 
 ### Coverage Goals
 - **100% API Coverage**: Every public method and feature tested
 - **Edge Case Coverage**: Comprehensive edge case testing
 - **Performance Testing**: Performance characteristics validated
 - **Integration Testing**: Real-world usage patterns tested
+- **React Integration**: Complete coverage of all React-specific features
+- **Type Safety**: Full TypeScript type checking and validation
 
 ## Best Practices
 
@@ -1677,11 +1683,11 @@ CLS uses `tw-merge` at the end of the class generation process. This utility may
 
 ### Example Test Implementation
 ```typescript
-// File: test/chapter-01/1.1-simple-component-creation/basic-creation.test.ts
+// File: test/chapter-01/1.1-simple-component-creation/01-basic-creation-minimal-contract.test.ts
 import { describe, it, expect } from 'vitest';
 import { cls } from '../../../src';
 
-describe('1.1 Simple Component Creation - Basic Creation', () => {
+describe('1.1 Simple Component Creation - Basic Creation Minimal Contract', () => {
   it('should create a basic CLS instance with minimal contract', () => {
     const Button = cls(
       {
@@ -1701,9 +1707,22 @@ describe('1.1 Simple Component Creation - Basic Creation', () => {
     const instance = Button.create();
     expect(instance.root()).toContain("bg-gray-100");
   });
+});
 
-  it('should handle parameter-less create() call with defaults', () => {
-    // Test implementation here
+// File: test/chapter-12/12.1-react-hooks/01-stable-references.test.tsx
+import { renderHook } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { cls } from '../../../src';
+import { useCls } from '../../../src/react';
+
+describe('12.1 React Hooks - Stable References', () => {
+  it('should maintain stable references for same configuration', () => {
+    const ButtonCls = cls(/* contract and definition */);
+    
+    const { result: result1 } = renderHook(() => useCls(ButtonCls, configFn));
+    const { result: result2 } = renderHook(() => useCls(ButtonCls, configFn));
+    
+    expect(result1.current.root()).toBe(result2.current.root());
   });
 });
 ```
@@ -1716,3 +1735,155 @@ describe('1.1 Simple Component Creation - Basic Creation', () => {
 5. **Performance Awareness**: Monitor test execution time and optimize slow tests
 
 This comprehensive testing structure ensures that the CLS library is thoroughly tested, well-organized, and maintainable for long-term development success.
+
+---
+
+## Chapter 12: React Integration <a id="12-react-integration"></a>
+
+**[← Previous Chapter: Complex Inheritance and Override Stress Tests](#11-complex-inheritance-and-override-stress-tests)**
+
+This chapter provides comprehensive testing coverage for all React-specific features of the CLS library, including hooks, context providers, Higher-Order Components (HOCs), and advanced integration patterns.
+
+### 12.1 React Hooks <a id="121-react-hooks"></a>
+
+**File**: `12.1-react-hooks/`
+
+**Scenarios Covered**:
+- `useCls` hook basic functionality and configuration
+- Dynamic variant computation with `useCls`
+- Computed values and functions integration
+- Conditional logic handling
+- Array-based configurations
+- Performance optimization with stable references
+- Configuration function changes efficiency
+- Context changes handling
+- Error handling for missing tokens
+- Missing token graceful degradation
+
+**Test Files**:
+- `01-stable-references.test.tsx` - Maintain stable references for same configuration
+- `02-configuration-function-changes.test.tsx` - Handle configuration function changes efficiently
+- `03-context-changes.test.tsx` - Handle context changes efficiently
+- `01-handle-missing-tokens.test.tsx` - Handle missing tokens gracefully
+- `01-dynamic-variant-computation.test.tsx` - Dynamic variant computation
+- `02-computed-values-functions.test.tsx` - Computed values and functions
+- `03-conditional-logic.test.tsx` - Conditional logic handling
+- `05-computed-values-functions.test.tsx` - Additional computed values scenarios
+- `07-array-based-configurations.test.tsx` - Array-based configurations
+- `03-usecls-function-configuration.test.tsx` - Function configuration patterns
+
+### 12.2 React Context <a id="122-react-context"></a>
+
+**File**: `12.2-react-context/`
+
+**Scenarios Covered**:
+- `ClsProvider` context provider functionality
+- `useClsContext` hook usage
+- Context provider without provider handling
+- Stable cls reference across re-renders
+- Stable instance reference validation
+- Nested providers behavior
+- Undefined context handling
+
+**Test Files**:
+- `01-provide-cls-instance.test.tsx` - Provide cls instance via context
+- `02-no-provider-context.test.tsx` - Handle no provider context
+- `03-stable-cls-reference.test.tsx` - Stable cls reference
+- `04-nested-providers.test.tsx` - Nested providers behavior
+- `02-undefined-context-no-provider.test.tsx` - Undefined context handling
+- `03-stable-instance-reference.test.tsx` - Stable instance reference
+
+### 12.3 React Components <a id="123-react-components"></a>
+
+**File**: `12.3-react-components/`
+
+**Scenarios Covered**:
+- `withCls` HOC attachment to components
+- Component props preservation
+- Multiple cls instances handling
+- Component identity and type safety
+- HOC composition patterns
+
+**Test Files**:
+- `01-attach-cls-instance.test.tsx` - Attach cls instance via HOC
+- `02-preserve-component-props.test.tsx` - Preserve component props
+- `03-multiple-cls-instances.test.tsx` - Handle multiple cls instances
+- `04-component-identity-type-safety.test.tsx` - Component identity and type safety
+
+### 12.4 React Props <a id="124-react-props"></a>
+
+**File**: `12.4-react-props/`
+
+**Scenarios Covered**:
+- `cls` prop with variant overrides
+- `cls` prop with slot overrides
+- `cls` prop with token overrides
+- `cls` prop with no configuration (defaults)
+
+**Test Files**:
+- `01-variant-overrides.test.tsx` - Handle cls prop with variant overrides
+- `02-slot-overrides.test.tsx` - Handle cls prop with slot overrides
+- `03-token-overrides.test.tsx` - Handle cls prop with token overrides
+- `04-no-configuration.test.tsx` - Handle cls prop with no configuration
+
+### 12.5 React Integration <a id="125-react-integration"></a>
+
+**File**: `12.5-react-integration/`
+
+**Scenarios Covered**:
+- Merge context tokens with component configuration
+- Context token inheritance handling
+- Multiple context providers behavior
+- Context token conflicts resolution
+
+**Test Files**:
+- `01-merge-context-tokens.test.tsx` - Merge context tokens with component configuration
+- `02-context-token-inheritance.test.tsx` - Handle context token inheritance correctly
+- `03-multiple-context-providers.test.tsx` - Handle multiple context providers correctly
+- `04-context-token-conflicts.test.tsx` - Handle context token conflicts correctly
+
+### 12.6 React Advanced Integration <a id="126-react-advanced-integration"></a>
+
+**File**: `12.6-react-advanced-integration/`
+
+**Scenarios Covered**:
+- Combine `useCls` with `withCls` HOC
+- `cls` prop overrides with HOC
+- `cls` prop function with context access
+- Merge `cls` prop with context tokens
+- Context token inheritance with `cls` prop overrides
+
+**Test Files**:
+- `01-combine-usecls-with-hoc.test.tsx` - Combine useCls with withCls HOC
+- `02-cls-prop-overrides-with-hoc.test.tsx` - Handle cls prop overrides with HOC
+- `03-cls-prop-function-with-context.test.tsx` - Handle cls prop function with context
+- `01-merge-cls-prop-with-context.test.tsx` - Merge cls prop with context tokens
+- `02-context-token-inheritance.test.tsx` - Handle context token inheritance with cls prop overrides
+
+### React Integration Testing Philosophy
+
+**Key Testing Principles**:
+1. **Hook Testing**: Focus on `useCls` behavior with various configuration patterns
+2. **Context Testing**: Validate `ClsProvider` and `useClsContext` functionality
+3. **HOC Testing**: Ensure `withCls` properly enhances components
+4. **Props Testing**: Verify `cls` prop overrides and merging behavior
+5. **Integration Testing**: Test complex scenarios combining multiple React features
+6. **Performance Testing**: Validate stable references and efficient re-renders
+7. **Error Handling**: Test graceful degradation for edge cases
+
+**React-Specific Considerations**:
+- **Type Safety**: Leverage TypeScript for compile-time validation
+- **Performance**: Test for stable references and efficient updates
+- **Context**: Validate proper context inheritance and override behavior
+- **HOCs**: Ensure proper component enhancement and prop preservation
+- **Props**: Test prop merging and override precedence
+
+**Test Organization**:
+- Each subsection focuses on a specific React integration aspect
+- Individual test files cover single responsibilities
+- Progressive complexity from basic hooks to advanced integration patterns
+- Comprehensive coverage of all React-specific CLS features
+
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Complex Inheritance and Override Stress Tests](#11-complex-inheritance-and-override-stress-tests)**

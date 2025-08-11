@@ -6,52 +6,129 @@
 
 CLS (Class List System) is a **type-safe, composable styling system** that provides a structured approach to managing CSS classes, design tokens, and component variants. It's framework-agnostic and can be used with React, Vue, Svelte, vanilla JavaScript, or any other framework. It combines the flexibility of utility-first CSS with the maintainability of design systems.
 
-## Core Principles
+## Table of Contents <a id="table-of-contents"></a>
 
-### 1. Type Safety First
+- [1. Core Principles](#1-core-principles)
+  - [1.1 Type Safety First](#11-type-safety-first)
+  - [1.2 Composition Over Inheritance](#12-composition-over-inheritance)
+  - [1.3 Declarative Configuration](#13-declarative-configuration)
+  - [1.4 Performance Optimized](#14-performance-optimized)
+- [2. Core Concepts](#2-core-concepts)
+  - [2.1 Contract](#21-contract)
+  - [2.2 Definition](#22-definition)
+  - [2.3 CLS Instance](#23-cls-instance)
+- [3. Architecture](#3-architecture)
+  - [3.1 Core Components](#31-core-components)
+  - [3.2 Data Flow](#32-data-flow)
+- [4. Main API](#4-main-api)
+- [5. Key Concepts](#5-key-concepts)
+  - [5.1 What Utility](#51-what-utility)
+  - [5.2 Definition Callback](#52-definition-callback)
+  - [5.3 Tokens](#53-tokens)
+  - [5.4 Slots](#54-slots)
+  - [5.5 Variants](#55-variants)
+  - [5.6 Rules](#56-rules)
+- [6. CLS Instance Methods](#6-cls-instance-methods)
+  - [6.1 Create Method](#61-create-method)
+  - [6.2 Extend Method](#62-extend-method)
+  - [6.3 Use Method](#63-use-method)
+- [7. Contract Structure](#7-contract-structure)
+  - [7.1 Token Contract](#71-token-contract)
+  - [7.2 Slot Contract](#72-slot-contract)
+  - [7.3 Variant Contract](#73-variant-contract)
+- [8. Definition Structure](#8-definition-structure)
+  - [8.1 Token Definition](#81-token-definition)
+  - [8.2 Rules](#82-rules)
+  - [8.3 Defaults](#83-defaults)
+- [9. Create Method Usage](#9-create-method-usage)
+- [10. Styling Resolution](#10-styling-resolution)
+  - [10.1 Resolution Order](#101-resolution-order)
+  - [10.2 Token Resolution Process](#102-token-resolution-process)
+  - [10.3 Rule Evaluation Process](#103-rule-evaluation-process)
+- [11. Inheritance System](#11-inheritance-system)
+  - [11.1 Contract Inheritance](#111-contract-inheritance)
+  - [11.2 Token Inheritance](#112-token-inheritance)
+  - [11.3 Variant Inheritance](#113-variant-inheritance)
+- [12. Performance Features](#12-performance-features)
+  - [12.1 Caching Strategy](#121-caching-strategy)
+  - [12.2 Memory Management](#122-memory-management)
+  - [12.3 Runtime Optimization](#123-runtime-optimization)
+- [13. Type System](#13-type-system)
+  - [13.1 Generic Constraints](#131-generic-constraints)
+  - [13.2 Type Inference](#132-type-inference)
+  - [13.3 Type Safety Features](#133-type-safety-features)
+- [14. Integration Patterns](#14-integration-patterns)
+  - [14.1 Framework Integration](#141-framework-integration)
+  - [14.2 Design System Integration](#142-design-system-integration)
+  - [14.3 Build System Integration](#143-build-system-integration)
+- [15. Best Practices](#15-best-practices)
+  - [15.1 Contract Design](#151-contract-design)
+  - [15.2 Definition Design](#152-definition-design)
+  - [15.3 Component Design](#153-component-design)
+  - [15.4 Performance Optimization](#154-performance-optimization)
+- [16. Future Considerations](#16-future-considerations)
+  - [16.1 Planned Features](#161-planned-features)
+  - [16.2 Extension Points](#162-extension-points)
+  - [16.3 Ecosystem Integration](#163-ecosystem-integration)
+
+
+
+## 1. Core Principles <a id="1-core-principles"></a>
+
+**[← Previous: Table of Contents](#table-of-contents)** | **[→ Next Chapter: Core Concepts](#2-core-concepts)**
+
+### 1.1 Type Safety First <a id="11-type-safety-first"></a>
 - All styling configurations are fully type-checked at compile time
 - Contract definitions ensure consistency across the design system
 - Inheritance chains maintain type safety through the entire hierarchy
 
-### 2. Composition Over Inheritance
+### 1.2 Composition Over Inheritance <a id="12-composition-over-inheritance"></a>
 - Components can be extended and composed rather than rewritten
 - Design tokens can be inherited and overridden at any level
 - Slots provide granular control over component parts
 
-### 3. Declarative Configuration
+### 1.3 Declarative Configuration <a id="13-declarative-configuration"></a>
 - Styling rules are defined declaratively through contracts and definitions
 - Variant combinations are resolved automatically
 - Token resolution happens at runtime based on current state
 
-### 4. Performance Optimized
+### 1.4 Performance Optimized <a id="14-performance-optimized"></a>
 - Lazy evaluation of slot functions
 - Caching of resolved configurations
 - Minimal runtime overhead with maximum flexibility
 
-## Core Concepts
+---
 
-### Contract
+## 2. Core Concepts <a id="2-core-concepts"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Core Principles](#1-core-principles)** | **[→ Next Chapter: Architecture](#3-architecture)**
+
+### 2.1 Contract <a id="21-contract"></a>
 A contract defines the **structure** of a component's styling system:
 - **Tokens**: Named design values organized by groups and variants
 - **Slots**: Named parts of a component that can receive styles  
 - **Variants**: Configurable properties that affect component appearance
 - **Inheritance**: Optional parent contract for extending functionality
 
-### Definition
+### 2.2 Definition <a id="22-definition"></a>
 A definition provides **concrete styling values** for a contract:
 - **Token Definitions**: CSS classes for each token variant
 - **Rules**: Conditional styling based on variant combinations
 - **Defaults**: Default values for variants
 
-### CLS Instance
+### 2.3 CLS Instance <a id="23-cls-instance"></a>
 The main interface that combines contract and definition:
 - **`create()`**: Generates styled instances with optional overrides
 - **`extend()`**: Creates new instances with additional functionality
 - **`use()`**: Type-safe assignment of compatible instances
 
-## Architecture
+---
 
-### Core Components
+## 3. Architecture <a id="3-architecture"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Core Concepts](#2-core-concepts)** | **[→ Next Chapter: Main API](#4-main-api)**
+
+### 3.1 Core Components <a id="31-core-components"></a>
 
 #### Contract
 A contract defines the **structure** of a component's styling system:
@@ -72,7 +149,7 @@ The main interface that combines contract and definition:
 - **`extend()`**: Creates new instances with additional functionality
 - **`use()`**: Type-safe assignment of compatible instances
 
-### Data Flow
+### 3.2 Data Flow <a id="32-data-flow"></a>
 
 1. **Contract Definition**: Define the structure (tokens, slots, variants)
 2. **Definition Creation**: Provide concrete styling values
@@ -80,7 +157,11 @@ The main interface that combines contract and definition:
 4. **Instance Creation**: Generate styled components with overrides
 5. **Slot Resolution**: Apply rules and resolve tokens to CSS classes
 
-## Main API
+---
+
+## 4. Main API <a id="4-main-api"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Architecture](#3-architecture)** | **[→ Next Chapter: Key Concepts](#5-key-concepts)**
 
 ### `cls(contract, definitionFn)`
 
@@ -144,9 +225,13 @@ const Button = cls(
 );
 ```
 
-## Key Concepts
+---
 
-### What Utility
+## 5. Key Concepts <a id="5-key-concepts"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Main API](#4-main-api)** | **[→ Next Chapter: CLS Instance Methods](#6-cls-instance-methods)**
+
+### 5.1 What Utility <a id="51-what-utility"></a>
 
 The `what` utility provides helper functions for creating styling configurations:
 
@@ -194,7 +279,7 @@ const classes = Button.create(({ what }) => ({
 }));
 ```
 
-### Definition Callback
+### 5.2 Definition Callback <a id="52-definition-callback"></a>
 
 The definition function receives a `WhatUtil` object with three main interfaces:
 
@@ -210,12 +295,12 @@ The definition function receives a `WhatUtil` object with three main interfaces:
 
 **`override` - Override Helpers:**
 - **`override.token(partialTokens)`**: Provides type-safe partial token overrides, useful for overriding specific tokens while preserving the rest. Takes partial input and returns partial output for use in `CreateConfig.token`.
-- **`override.root(slotConfig)`**: Creates the default slot configuration with `override: true` by default, preventing boolean hell by hiding the explicit override flag.
-- **`override.rule(match, slotConfig)`**: Creates a conditional rule with `override: true` by default, ensuring the rule clears previous styles and applies only its own styles.
+- **`override.root(slotConfig, override = true)`**: Creates the default slot configuration with `override: true` by default, preventing boolean hell by hiding the explicit override flag.
+- **`override.rule(match, slotConfig, override = true)`**: Creates a conditional rule with `override: true` by default, ensuring the rule clears previous styles and applies only its own styles.
 
 **`def` - Definition Helpers:**
 - **`def.root(slotConfig, override = false)`**: Creates the default slot configuration
-- **`def.rule(match, slotConfig)`**: Creates a conditional rule
+- **`def.rule(match, slotConfig, override = false)`**: Creates a conditional rule
 - **`def.token(tokenDefinition)`**: Wraps token definitions with proper typing
 - **`def.defaults(defaultValues)`**: Wraps default values with proper typing
 
@@ -271,7 +356,7 @@ const Button = cls(
 );
 ```
 
-### Tokens
+### 5.3 Tokens <a id="53-tokens"></a>
 
 Tokens are the foundation of the design system, representing reusable design values:
 
@@ -356,7 +441,7 @@ override.rule(
 - Only styles from the override rule (and any subsequent rules) are applied
 - Previous styles are discarded, ensuring clean, predictable styling
 
-### Slots
+### 5.4 Slots <a id="54-slots"></a>
 
 Slots represent named parts of a component that can receive independent styling:
 
@@ -371,7 +456,7 @@ Slots represent named parts of a component that can receive independent styling:
 - Slots can be overridden at creation time
 - Slots support both class and token assignments
 
-### Variants
+### 5.5 Variants <a id="55-variants"></a>
 
 Variants are configurable properties that control component appearance:
 
@@ -389,7 +474,7 @@ Variants are configurable properties that control component appearance:
 - **Boolean Variants**: True/false states (disabled, loading, etc.)
 - **Default Values**: Predefined fallbacks for each variant
 
-### Rules
+### 5.6 Rules <a id="56-rules"></a>
 
 Rules define conditional styling based on variant combinations:
 
@@ -416,9 +501,13 @@ Rules define conditional styling based on variant combinations:
 - **Override behavior**: Rules with `override: true` clear previous styles completely
 - **Use `override.rule()`** to automatically apply `override: true` without explicit flags
 
-## CLS Instance Methods
+---
 
-### `create(userConfigFn?, internalConfigFn?)`
+## 6. CLS Instance Methods <a id="6-cls-instance-methods"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Key Concepts](#5-key-concepts)** | **[→ Next Chapter: Contract Structure](#7-contract-structure)**
+
+### 6.1 `create(userConfigFn?, internalConfigFn?)` <a id="61-create-method"></a>
 
 Generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
 
@@ -489,7 +578,7 @@ const classes = Button.create(
 );
 ```
 
-### `extend(childContract, childDefinitionFn)`
+### 6.2 `extend(childContract, childDefinitionFn)` <a id="62-extend-method"></a>
 
 Creates new CLS instances with additional functionality, inheriting from a parent.
 
@@ -554,7 +643,7 @@ const PrimaryButton = Button.extend(
 );
 ```
 
-### `use(sub)`
+### 6.3 `use(sub)` <a id="63-use-method"></a>
 
 Provides type-safe assignment of compatible CLS instances.
 
@@ -569,9 +658,13 @@ const ButtonGroup = Button.use(PrimaryButton);
 // ButtonGroup now has access to PrimaryButton's extended functionality
 ```
 
-## Contract Structure
+---
 
-### Token Contract
+## 7. Contract Structure <a id="7-contract-structure"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: CLS Instance Methods](#6-cls-instance-methods)** | **[→ Next Chapter: Definition Structure](#8-definition-structure)**
+
+### 7.1 Token Contract <a id="71-token-contract"></a>
 ```typescript
 type TokenContract = Record<string, readonly string[]>;
 
@@ -583,7 +676,7 @@ type TokenContract = Record<string, readonly string[]>;
 }
 ```
 
-### Slot Contract
+### 7.2 Slot Contract <a id="72-slot-contract"></a>
 ```typescript
 type SlotContract = readonly string[];
 
@@ -591,7 +684,7 @@ type SlotContract = readonly string[];
 ["root", "icon", "label", "badge"]
 ```
 
-### Variant Contract
+### 7.3 Variant Contract <a id="73-variant-contract"></a>
 ```typescript
 type VariantContract = Record<string, readonly string[]>;
 
@@ -603,9 +696,13 @@ type VariantContract = Record<string, readonly string[]>;
 }
 ```
 
-## Definition Structure
+---
 
-### Token Definition
+## 8. Definition Structure <a id="8-definition-structure"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Contract Structure](#7-contract-structure)** | **[→ Next Chapter: Create Method Usage](#9-create-method-usage)**
+
+### 8.1 Token Definition <a id="81-token-definition"></a>
 ```typescript
 type TokenDefinition<TContract> = {
   [K in keyof TContract["tokens"]]: {
@@ -623,7 +720,7 @@ type TokenDefinition<TContract> = {
 }
 ```
 
-### Rules
+### 8.2 Rules <a id="82-rules"></a>
 ```typescript
 type RuleDefinition<TContract> = {
   match?: Partial<VariantValueMapping<TContract>>;
@@ -641,7 +738,7 @@ type RuleDefinition<TContract> = {
 }
 ```
 
-### Defaults
+### 8.3 Defaults <a id="83-defaults"></a>
 ```typescript
 type DefaultDefinition<TContract> = VariantValueMapping<TContract>;
 
@@ -653,7 +750,11 @@ type DefaultDefinition<TContract> = VariantValueMapping<TContract>;
 }
 ```
 
-## Create Method Usage
+---
+
+## 9. Create Method Usage <a id="9-create-method-usage"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Definition Structure](#8-definition-structure)** | **[→ Next Chapter: Styling Resolution](#10-styling-resolution)**
 
 The `create()` method generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
 
@@ -724,9 +825,13 @@ const rootClasses = classes.root(({ what }) => ({
 }));
 ```
 
-## Styling Resolution
+---
 
-### Resolution Order
+## 10. Styling Resolution <a id="10-styling-resolution"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Create Method Usage](#9-create-method-usage)** | **[→ Next Chapter: Inheritance System](#11-inheritance-system)**
+
+### 10.1 Resolution Order <a id="101-resolution-order"></a>
 
 1. **Default Values**: Apply contract defaults
 2. **Internal Config**: Apply component-controlled overrides
@@ -736,7 +841,7 @@ const rootClasses = classes.root(({ what }) => ({
 6. **Token Resolution**: Resolve tokens to CSS classes
 7. **Class Merging**: Merge all classes using tailwind-merge
 
-### Token Resolution Process
+### 10.2 Token Resolution Process <a id="102-token-resolution-process"></a>
 
 1. **Token Lookup**: Find token in current contract or inheritance chain
 2. **Variant Selection**: Select appropriate variant based on current state
@@ -744,7 +849,7 @@ const rootClasses = classes.root(({ what }) => ({
 4. **Multiple Tokens**: Combine classes from multiple tokens
 5. **Override Application**: Apply any token overrides from create config
 
-### Rule Evaluation Process
+### 10.3 Rule Evaluation Process <a id="103-rule-evaluation-process"></a>
 
 1. **Match Testing**: Test rule conditions against current variants
 2. **Slot Mapping**: Apply rule styling to matching slots
@@ -752,9 +857,13 @@ const rootClasses = classes.root(({ what }) => ({
 4. **Class Application**: Apply classes and tokens to slots
 5. **Order Preservation**: Maintain rule definition order
 
-## Inheritance System
+---
 
-### Contract Inheritance
+## 11. Inheritance System <a id="11-inheritance-system"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Styling Resolution](#10-styling-resolution)** | **[→ Next Chapter: Performance Features](#12-performance-features)**
+
+### 11.1 Contract Inheritance <a id="111-contract-inheritance"></a>
 
 Contracts can inherit from parent contracts, creating a hierarchy:
 
@@ -778,7 +887,7 @@ const ExtendedButton = BaseButton.extend(childContract, childDefinitionFn);
 - Token inheritance follows **REPLACE** vs **APPEND** semantics based on explicit declarations
 - Variant inheritance merges arrays using union operations
 
-### Token Inheritance
+### 11.2 Token Inheritance <a id="112-token-inheritance"></a>
 
 Tokens follow specific inheritance rules:
 
@@ -786,7 +895,7 @@ Tokens follow specific inheritance rules:
 2. **Append Mode**: If child contract doesn't declare a token group, it appends to parent values
 3. **Override Capability**: Child definitions can override any inherited token values
 
-### Variant Inheritance
+### 11.3 Variant Inheritance <a id="113-variant-inheritance"></a>
 
 Variants are merged across the inheritance chain:
 
@@ -794,29 +903,37 @@ Variants are merged across the inheritance chain:
 2. **Type Preservation**: Variant types (string/boolean) are preserved
 3. **Default Inheritance**: Child defaults can override parent defaults
 
-## Performance Features
+---
 
-### Caching Strategy
+## 12. Performance Features <a id="12-performance-features"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance System](#11-inheritance-system)** | **[→ Next Chapter: Type System](#13-type-system)**
+
+### 12.1 Caching Strategy <a id="121-caching-strategy"></a>
 - **Slot Function Caching**: Slot functions are cached after first creation
 - **Token Index Caching**: Token resolution tables are built once per contract
 - **Rule Caching**: Compiled rules are cached for reuse
 - **Proxy Optimization**: Uses Proxy for lazy slot function creation
 
-### Memory Management
+### 12.2 Memory Management <a id="122-memory-management"></a>
 - **Lazy Evaluation**: Slot functions are only created when accessed
 - **Shared References**: Contracts and definitions are shared across instances
 - **Minimal Closures**: Avoid unnecessary closure creation
 - **Efficient Merging**: Use efficient object merging strategies
 
-### Runtime Optimization
+### 12.3 Runtime Optimization <a id="123-runtime-optimization"></a>
 - **Early Exit**: Stop rule evaluation when no more matches are possible
 - **Efficient Matching**: Use direct property access for variant matching
 - **Class Deduplication**: Use tailwind-merge for optimal class output
 - **Minimal Allocations**: Reuse objects where possible
 
-## Type System
+---
 
-### Generic Constraints
+## 13. Type System <a id="13-type-system"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Performance Features](#12-performance-features)** | **[→ Next Chapter: Integration Patterns](#14-integration-patterns)**
+
+### 13.1 Generic Constraints <a id="131-generic-constraints"></a>
 
 The type system ensures compile-time safety through:
 
@@ -825,21 +942,25 @@ The type system ensures compile-time safety through:
 - **Inheritance Constraints**: Ensure inheritance chains are valid
 - **Variant Constraints**: Ensure variant types are correctly inferred
 
-### Type Inference
+### 13.2 Type Inference <a id="132-type-inference"></a>
 - **Automatic Inference**: Most types are inferred from contract structure
 - **Variant Mapping**: String variants are mapped to literal types
 - **Boolean Variants**: "bool" variants are mapped to boolean types
 - **Token Inference**: Token keys are inferred from contract tokens
 
-### Type Safety Features
+### 13.3 Type Safety Features <a id="133-type-safety-features"></a>
 - **Exhaustive Checking**: Ensure all variants are handled
 - **Token Validation**: Ensure token references are valid
 - **Slot Validation**: Ensure slot references are valid
 - **Inheritance Validation**: Ensure inheritance chains are type-safe
 
-## Integration Patterns
+---
 
-### Framework Integration
+## 14. Integration Patterns <a id="14-integration-patterns"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Type System](#13-type-system)** | **[→ Next Chapter: Best Practices](#15-best-practices)**
+
+### 14.1 Framework Integration <a id="141-framework-integration"></a>
 
 CLS integrates seamlessly with any framework through:
 
@@ -849,70 +970,7 @@ CLS integrates seamlessly with any framework through:
 - **Performance**: Minimal re-render impact
 - **Framework Agnostic**: Works with React, Vue, Svelte, vanilla JS, etc.
 
-### React Integration Example
-```typescript
-import { cls } from "@use-pico/cls";
-import { what } from "@use-pico/cls";
-
-const Button = cls(
-  {
-    tokens: {
-      "color.text": ["default", "primary"],
-      "color.bg": ["default", "primary"]
-    },
-    slot: ["root"],
-    variant: {
-      size: ["sm", "md", "lg"],
-      variant: ["default", "primary"]
-    }
-  },
-  ({ what, def }) => ({
-    token: def.token({
-      "color.text": {
-        default: ["text-gray-900"],
-        primary: ["text-white"]
-      },
-      "color.bg": {
-        default: ["bg-gray-100"],
-        primary: ["bg-blue-600"]
-      }
-    }),
-    rules: [
-      def.root({
-        root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"])
-      }),
-      def.rule(
-        what.variant({ size: "lg" }),
-        {
-          root: what.css(["px-6", "py-3"])
-        }
-      )
-    ],
-    defaults: def.defaults({
-      size: "md",
-      variant: "default"
-    })
-  })
-);
-
-// React component usage
-const MyButton = ({ size, variant, className, children, ...props }) => {
-  const classes = Button.create(({ what }) => ({
-    variant: what.variant({ size, variant }),
-    slot: {
-      root: what.css([className])
-    }
-  }));
-
-  return (
-    <button className={classes.root()} {...props}>
-      {children}
-    </button>
-  );
-};
-```
-
-### Design System Integration
+### 14.2 Design System Integration <a id="142-design-system-integration"></a>
 
 CLS supports design system patterns through:
 
@@ -921,7 +979,7 @@ CLS supports design system patterns through:
 - **Inheritance**: Hierarchical design system structure
 - **Composition**: Reusable component patterns
 
-### Build System Integration
+### 14.3 Build System Integration <a id="143-build-system-integration"></a>
 
 CLS works with modern build systems:
 
@@ -930,55 +988,40 @@ CLS works with modern build systems:
 - **Bundle Optimization**: Minimal runtime footprint
 - **Development Experience**: Excellent IDE support
 
-## Best Practices
+---
 
-### Contract Design
+## 15. Best Practices <a id="15-best-practices"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Integration Patterns](#14-integration-patterns)**
+
+### 15.1 Contract Design <a id="151-contract-design"></a>
 
 1. **Clear Naming**: Use descriptive names for tokens, slots, and variants
 2. **Logical Grouping**: Group related tokens together
 3. **Consistent Structure**: Maintain consistent contract structure
 4. **Minimal Coupling**: Keep contracts focused and cohesive
 
-### Definition Design
+### 15.2 Definition Design <a id="152-definition-design"></a>
 
 1. **Semantic Tokens**: Use semantic names for design tokens
 2. **Consistent Rules**: Maintain consistent rule patterns
 3. **Default Values**: Provide sensible defaults for all variants
 4. **Override Strategy**: Plan for override scenarios
 
-### Component Design
+### 15.3 Component Design <a id="153-component-design"></a>
 
 1. **Slot Granularity**: Use appropriate slot granularity
 2. **Variant Simplicity**: Keep variants simple and focused
 3. **Token Reuse**: Reuse tokens across components
 4. **Inheritance Planning**: Plan inheritance hierarchies carefully
 
-### Performance Optimization
+### 15.4 Performance Optimization <a id="154-performance-optimization"></a>
 
 1. **Caching**: Leverage built-in caching mechanisms
 2. **Lazy Loading**: Use lazy evaluation where appropriate
 3. **Bundle Size**: Monitor bundle size impact
 4. **Runtime Performance**: Profile runtime performance
 
-## Future Considerations
+---
 
-### Planned Features
-
-- **Dynamic Tokens**: Runtime token generation
-- **Theme Support**: Multi-theme capabilities
-- **Animation Integration**: Built-in animation support
-- **Responsive Variants**: Responsive design support
-
-### Extension Points
-
-- **Custom Resolvers**: Custom token resolution logic
-- **Plugin System**: Extensible plugin architecture
-- **Custom Mergers**: Custom class merging strategies
-- **Validation Hooks**: Custom validation logic
-
-### Ecosystem Integration
-
-- **Design Tools**: Integration with design tools
-- **Build Tools**: Enhanced build tool integration
-- **Testing Tools**: Testing utilities and helpers
-- **Documentation Tools**: Automated documentation generation
+**[↑ Back to Top](#table-of-contents)**
