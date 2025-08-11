@@ -707,7 +707,7 @@ Welcome to the **rule-based wonderland**! 🎭 In CLS, rules are like **smart re
 
 #### **What Are Rules, Anyway?** 🤔
 
-Think of rules as **conditional styling instructions** that say *"when this happens, apply these styles"*. It's like having a very smart assistant who knows exactly what to wear based on the weather, occasion, and your mood! 🌤️👔
+Think of rules as **conditional styling instructions** that say *"when this happens, apply these styles"*. Rules know exactly when to apply and how to combine based on your variants! 🎯
 
 ```typescript
 // Rules are like smart styling decisions
@@ -778,11 +778,11 @@ def.rule(
 
 #### **Rule Precedence: The Order Matters** 🎭
 
-Think of rules like **layers of paint** on a canvas:
+Think of rules like **building blocks** that stack on top of each other:
 
 1. **Base rules** go first (the foundation)
-2. **Variant rules** go next (the details)
-3. **Specific combinations** go last (the finishing touches)
+2. **Variant rules** go next (adding more styles)
+3. **Specific combinations** go last (adding even more styles)
 
 ```typescript
 const Button = cls(contract, ({ what, def }) => ({
@@ -792,17 +792,17 @@ const Button = cls(contract, ({ what, def }) => ({
       root: what.css(['px-4', 'py-2', 'rounded'])
     }),
     
-    // 2. Size variants (override base)
+    // 2. Size variants (append to base)
     def.rule(what.variant({ size: 'lg' }), {
       root: what.css(['px-6', 'py-3'])
     }),
     
-    // 3. Color variants (override size)
+    // 3. Color variants (append to size)
     def.rule(what.variant({ variant: 'primary' }), {
       root: what.css(['bg-blue-500', 'text-white'])
     }),
     
-    // 4. Specific combinations (override everything)
+    // 4. Specific combinations (append to everything)
     def.rule(what.variant({ size: 'lg', variant: 'primary' }), {
       root: what.css(['shadow-lg', 'transform', 'hover:scale-105'])
     })
@@ -821,13 +821,21 @@ def.rule(
   { root: what.css(['px-6', 'py-3']) }  // Adds to base styles
 );
 
-// Override: replace existing styles
+// Override: replace existing styles completely
 def.rule(
   what.variant({ size: 'lg' }),
   { root: what.css(['px-6', 'py-3']) },
   { override: true }  // Replaces base styles completely
 );
+
+// Or use the explicit override helper
+override.rule(
+  what.variant({ size: 'lg' }),
+  { root: what.css(['px-6', 'py-3']) }  // Same as above, but explicit
+);
 ```
+
+> **Important:** When you use `override: true`, it **drops everything** from the inheritance chain and starts fresh with just that rule's styles. It's like hitting a reset button and building from scratch! 🔄
 
 #### **The Bottom Line** 💡
 
