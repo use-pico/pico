@@ -66,11 +66,6 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
   - [15.2 Definition Design](#152-definition-design)
   - [15.3 Component Design](#153-component-design)
   - [15.4 Performance Optimization](#154-performance-optimization)
-- [16. Future Considerations](#16-future-considerations)
-  - [16.1 Planned Features](#161-planned-features)
-  - [16.2 Extension Points](#162-extension-points)
-  - [16.3 Ecosystem Integration](#163-ecosystem-integration)
-
 
 
 ## 1. Core Principles <a id="1-core-principles"></a>
@@ -512,8 +507,8 @@ Rules define conditional styling based on variant combinations:
 Generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
 
 **Parameters:**
-- `userConfigFn`: Callback function that receives `{ what }` and returns user configuration
-- `internalConfigFn`: Callback function that receives `{ what }` and returns internal configuration
+- `userConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns user configuration
+- `internalConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns internal configuration
 
 **Configuration Options:**
 - **`variant`**: Override variant values
@@ -521,7 +516,7 @@ Generates styled instances with optional overrides. Both parameters are **callba
 - **`override`**: Hard override slot styling (replace mode)
 - **`token`**: Override token definitions
 
-> **Note:** The `what` utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
+> **Note:** The [`what`](#51-what-utility) utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
 
 **Precedence Rules:**
 1. User config takes precedence over internal config
