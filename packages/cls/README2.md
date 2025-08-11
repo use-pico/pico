@@ -5849,7 +5849,7 @@ const disabledButton = ToggleButtonCls.create(({ what }) => ({
 const defaultButton = ToggleButtonCls.create();
 ```
 
-#### **Bottom Line** 🎯
+### **Bottom Line** 🎯
 
 **Variants & Defaults** provide **powerful component customization**:
 
@@ -5870,20 +5870,6 @@ const defaultButton = ToggleButtonCls.create();
 **Remember:** **Variants are your component's personality, defaults are its foundation!** Design them well, and your components will be both flexible and predictable! 🎉
 
 Ready to learn about **Slots** in the next chapter? This will show how to style different parts of your components! 🚀
-
-[↑ Back to Top] | [← Previous Chapter: Tokens](#5-tokens) | [→ Next Chapter: Slots](#7-slots)
-
----
-
-### 6.1 String Variants <a id="61-string-variants"></a>
-
-### 6.2 Boolean Variants <a id="62-boolean-variants"></a>
-
-### 6.3 Forced Defaults <a id="63-forced-defaults"></a>
-
-### 6.4 Default Values <a id="64-default-values"></a>
-
-### 6.5 Variant Combinations <a id="65-variant-combinations"></a>
 
 ---
 
