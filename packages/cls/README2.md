@@ -2366,8 +2366,6 @@ It's like having a **smart class combiner** that handles Tailwind conflicts auto
 
 So remember: **`tvc()` is just `tailwind-merge` with a shorter name!** 🚀
 
----
-
 ### 3.7 What Utility <a id="37-what-utility"></a>
 
 The **`what` utility** is your **styling intent clarifier** – it gives meaningful names to styling operations and provides **type-safe tools** for creating definitions! 🎯✨
@@ -2478,8 +2476,6 @@ def.rule(what.variant({ variant: 'primary' }), {
 It's like having a **styling language** that makes your intent crystal clear! 🎯✨
 
 So remember: **`what` gives meaning to your styling operations and makes code readable!** 🚀
-
----
 
 ### 3.8 Definition Helpers <a id="38-definition-helpers"></a>
 
@@ -2601,8 +2597,6 @@ def.defaults({
 It's like having **smart constructors** that ensure your styling definitions are always correct! 🎯✨
 
 So remember: **Definition helpers make your styling structures type-safe and semantic!** 🚀
-
----
 
 ### 3.9 Override Helpers <a id="39-override-helpers"></a>
 
@@ -3249,10 +3243,6 @@ const CardCls = cls(contract, ({ what, def, override }) => ({
 
 ### 4.5 Rule Matching <a id="45-rule-matching"></a>
 
-[↑ Back to Top] | [← Previous Chapter: Appends vs Overrides](#44-appends-vs-overrides) | [→ Next Chapter: Complex Match Conditions](#46-complex-match-conditions)
-
----
-
 #### **How Rules Find Their Match** 🎯
 
 Rule matching is like **playing detective** - CLS examines your variants and finds all the rules that "fit the case"! 🔍
@@ -3493,10 +3483,6 @@ const CardCls = cls(contract, ({ what, def }) => ({
 **Remember:** CLS is **not guessing** - it's following your **explicit rules** to the letter! Every style that appears is there because a rule **explicitly matched** your variants! 🎯
 
 ### 4.6 Complex Match Conditions <a id="46-complex-match-conditions"></a>
-
-[↑ Back to Top] | [← Previous Chapter: Rule Matching](#45-rule-matching) | [→ Next Chapter: Inheritance System](#5-inheritance-system)
-
----
 
 #### **Beyond Simple Matching** 🧠
 
@@ -3778,10 +3764,6 @@ def.rule(what.variant({ fullWidth: true, rounded: true, shadow: 'lg' }), { ... }
 The **Tokens** chapter covers design tokens, their definitions, and how they work in the CLS system.
 
 ### 5.1 Contract Declaration <a id="51-contract-declaration"></a>
-
-[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Rules System](#4-rules-system) | [→ Next Chapter: Token Definitions](#52-token-definitions)
-
----
 
 #### **What Are Token Contracts?** 🤔
 
@@ -4242,10 +4224,6 @@ Ready to learn how to **define the actual token values** in the next section? �
 
 ### 5.2 Token Definitions <a id="52-token-definitions"></a>
 
-[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Contract Declaration](#51-contract-declaration) | [→ Next Chapter: Runtime Overrides](#53-runtime-overrides)
-
----
-
 **Now that you've declared your token contract**, it's time to **assign actual CSS values** to those tokens! 🎨
 
 **Token definitions** are where the **magic happens** - you take your abstract design tokens and turn them into **real, usable CSS classes** that will be applied to your components.
@@ -4509,10 +4487,6 @@ const DesignSystemCls = cls({
 Ready to learn about **Runtime Overrides** in the next section? This will show how to dynamically change tokens at runtime! 🚀
 
 ### 5.3 Runtime Overrides <a id="53-runtime-overrides"></a>
-
-[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Token Definitions](#52-token-definitions) | [→ Next Chapter: Inheritance Semantics](#54-inheritance-semantics)
-
----
 
 **Tokens aren't just static definitions** - they can be **dynamically overridden** at runtime! 🎭
 
@@ -4783,7 +4757,530 @@ Ready to learn about **Inheritance Semantics** in the next section? This will sh
 
 ### 5.4 Inheritance Semantics <a id="54-inheritance-semantics"></a>
 
+**CLS inheritance isn't just about extending contracts** - it's about **understanding how tokens flow** through the inheritance chain! 🔄
+
+**Inheritance semantics** determine **which tokens are enforced**, **which are optional**, and **how conflicts are resolved** when building complex design systems.
+
+#### **The Two Token Types** 🎯
+
+**CLS distinguishes between two types of tokens** in inheritance:
+
+- 🔒 **ENFORCED tokens** - declared in the current contract, MUST be defined
+- 🔓 **INHERITED tokens** - from parent contracts, optional to define
+
+**This prevents token definition gaps** and ensures **complete coverage**!
+
+```typescript
+// Base CLS instance
+const BaseButtonCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary"],
+    "spacing.padding": ["md"]
+  },
+  slot: ["root"],
+  variant: {
+    size: ["md"],
+    variant: ["default", "primary"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: ALL declared tokens must be defined
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"]
+    },
+    "spacing.padding": {
+      md: ["px-4", "py-2"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "spacing.padding.md"]) })],
+  defaults: def.defaults({ size: "md", variant: "default" })
+}));
+
+// Extended CLS instance
+const ExtendedButtonCls = BaseButtonCls.extend({
+  tokens: {
+    "color.bg": ["success"],      // ✅ Only add NEW variant
+    "color.text": ["default", "primary"]  // ✅ Add NEW token group
+  },
+  slot: ["root", "label"],       // Add new slot
+  variant: {
+    size: ["lg"],                // ✅ Only add NEW variant
+    loading: ["bool"]            // ✅ Add NEW variant
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: Only NEW tokens added in this contract
+  token: def.token({
+    "color.bg": {
+      success: ["bg-green-500"]  // ✅ Required - new variant
+    },
+    "color.text": {
+      default: ["text-gray-900"], // ✅ Required - new token group
+      primary: ["text-white"]     // ✅ Required - new token group
+    }
+    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary, spacing.padding.md)
+    // TypeScript won't complain if you don't define them
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"]),
+      label: what.css(["font-medium"])
+    })
+  ],
+  defaults: def.defaults({ size: "md", variant: "default", loading: false })
+}));
+```
+
+#### **Inheritance Behavior** 🔄
+
+**How tokens flow through the inheritance chain:**
+
+```typescript
+// Multi-level inheritance example
+const ThemeCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"],
+    "spacing.base": ["sm", "md", "lg"]
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-50"],
+      primary: ["bg-blue-500"],
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],
+      secondary: ["text-gray-700"]
+    },
+    "spacing.base": {
+      sm: ["p-2"],
+      md: ["p-4"],
+      lg: ["p-6"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.base.md"]) })],
+  defaults: {}
+}));
+
+// Level 1: Button inherits from Theme
+const ButtonCls = ThemeCls.extend({
+  tokens: {
+    "button.radius": ["sm", "md", "lg"],
+    "button.shadow": ["none", "md"]
+  },
+  slot: ["root", "label"],
+  variant: {
+    size: ["sm", "md", "lg"],
+    variant: ["default", "primary", "secondary"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: Only NEW tokens
+  token: def.token({
+    "button.radius": {
+      sm: ["rounded"],
+      md: ["rounded-md"],
+      lg: ["rounded-lg"]
+    },
+    "button.shadow": {
+      none: ["shadow-none"],
+      md: ["shadow"]
+    }
+    // 🔓 OPTIONAL: Inherited from Theme (color.bg, color.text, spacing.base)
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default", "spacing.base.md", "button.radius.md"]),
+      label: what.css(["font-medium"])
+    }),
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(["color.bg.primary", "color.text.primary"])
+    })
+  ],
+  defaults: def.defaults({ size: "md", variant: "default" })
+}));
+
+// Level 2: PrimaryButton inherits from Button
+const PrimaryButtonCls = ButtonCls.extend({
+  tokens: {
+    "button.animation": ["none", "pulse", "bounce"]
+  },
+  slot: ["root", "label", "icon"],
+  variant: {
+    loading: ["bool"]
+  }
+}, ({ what, def }) => ({
+  // 🔒 ENFORCED: Only NEW tokens
+  token: def.token({
+    "button.animation": {
+      none: [],
+      pulse: ["animate-pulse"],
+      bounce: ["animate-bounce"]
+    }
+    // 🔓 OPTIONAL: Inherited from Button (button.radius, button.shadow)
+    // 🔓 OPTIONAL: Inherited from Theme (color.bg, color.text, spacing.base)
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.primary", "color.text.primary", "spacing.base.md", "button.radius.md", "button.shadow.md"]),
+      label: what.css(["font-medium"]),
+      icon: what.css(["mr-2"])
+    }),
+    def.rule(what.variant({ loading: true }), {
+      root: what.token(["button.animation.pulse"]),
+      icon: what.css(["animate-spin"])
+    })
+  ],
+  defaults: def.defaults({ size: "md", variant: "primary", loading: false })
+}));
+```
+
+**What happens at each level:**
+- 🎨 **ThemeCls** - defines base design tokens (enforced)
+- 🔘 **ButtonCls** - inherits theme tokens, adds button-specific tokens (only new ones enforced)
+- 🎯 **PrimaryButtonCls** - inherits both theme and button tokens, adds animation tokens (only new ones enforced)
+
+#### **Inheritance Rules** 📋
+
+**Key principles** that govern CLS inheritance:
+
+**✅ Token Inheritance:**
+- **Append-only** - child contracts can't remove inherited tokens
+- **New tokens enforced** - only newly declared tokens must be defined
+- **Inherited tokens optional** - can be omitted, overridden, or left as-is
+
+**✅ Variant Inheritance:**
+- **Union merging** - child variants are combined with parent variants
+- **Type preservation** - variant types (string/boolean) are maintained
+- **Default inheritance** - child defaults can override parent defaults
+
+**✅ Slot Inheritance:**
+- **Slot accumulation** - child slots are added to parent slots
+- **No removal** - inherited slots cannot be removed
+- **Slot-specific styling** - each level can style inherited slots
+
+**Example of inheritance rules in action:**
+
+```typescript
+// Base contract
+const BaseCls = cls({
+  tokens: { "color.bg": ["default", "primary"] },
+  slot: ["root"],
+  variant: { size: ["md"] }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-100"],
+      primary: ["bg-blue-500"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default"]) })],
+  defaults: def.defaults({ size: "md" })
+}));
+
+// Extended contract - follows inheritance rules
+const ExtendedCls = BaseCls.extend({
+  tokens: { "color.bg": ["success"] },        // ✅ Add new variant
+  slot: ["label"],                            // ✅ Add new slot
+  variant: { size: ["lg"] }                   // ✅ Add new variant
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      success: ["bg-green-500"]               // ✅ Required - new token
+    }
+    // 🔓 Optional - inherited tokens (color.bg.default, color.bg.primary)
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default"]), // ✅ Can use inherited tokens
+      label: what.css(["font-medium"])        // ✅ Can style new slot
+    })
+  ],
+  defaults: def.defaults({ size: "lg" })     // ✅ Can override parent default
+}));
+```
+
+#### **Bottom Line** 🎯
+
+**Inheritance Semantics** are the **foundation of CLS design systems**:
+
+- 🔒 **Enforced tokens** - newly declared tokens MUST be defined
+- 🔓 **Optional inheritance** - inherited tokens can be omitted or overridden
+- 🔄 **Append-only growth** - contracts can only add, never remove
+- 🎯 **Type safety** - TypeScript ensures inheritance chain validity
+- 🌍 **Scalable architecture** - build complex systems from simple building blocks
+
+**Remember:** **Good inheritance makes great design systems!** Understand the rules, and you can build anything! 🎉
+
+Ready to learn about **Token Conflicts & Resolution** in the next section? This will show how CLS handles conflicting tokens in inheritance chains! 🚀
+
 ### 5.5 Token Conflicts & Resolution <a id="55-token-conflicts--resolution"></a>
+
+**When tokens flow through inheritance chains**, **conflicts can arise** - but CLS has **clear resolution rules**! ⚔️
+
+**Token conflicts** happen when **different levels** in the inheritance chain **define the same token** with **different values**. Understanding how CLS resolves these conflicts is crucial for **predictable styling**.
+
+#### **Conflict Resolution Rules** ⚔️
+
+**CLS follows a simple but powerful rule** for resolving token conflicts:
+
+- 🏆 **Child wins** - child definitions override parent definitions
+- 🔄 **Last definition wins** - later definitions override earlier ones
+- 🎯 **Predictable behavior** - conflicts are resolved consistently
+
+**This ensures that** **specialized components** can **override base styling** when needed!
+
+#### **Token Conflict Examples** 🎭
+
+**See how CLS resolves conflicts** in real inheritance scenarios:
+
+```typescript
+// Base theme with primary color
+const ThemeCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"]
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-50"],
+      primary: ["bg-blue-500"],    // 🎨 Base blue primary
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],     // 🎨 Base white text
+      secondary: ["text-gray-700"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
+  defaults: {}
+}));
+
+// Button inherits from theme
+const ButtonCls = ThemeCls.extend({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary", "success"], // Extends existing group
+    "color.text": ["default", "primary", "secondary", "success"] // Extends existing group
+  },
+  slot: ["root", "label"],
+  variant: {
+    variant: ["default", "primary", "secondary", "success"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      primary: ["bg-indigo-600"],  // 🏆 OVERRIDE: Child wins over parent
+      success: ["bg-green-500"]    // 🆕 NEW: Only new token
+    },
+    "color.text": {
+      primary: ["text-indigo-50"], // 🏆 OVERRIDE: Child wins over parent
+      success: ["text-white"]      // 🆕 NEW: Only new token
+    }
+    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.secondary, etc.)
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"]),
+      label: what.css(["font-medium"])
+    }),
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(["color.bg.primary", "color.text.primary"]) // Uses overridden values
+    }),
+    def.rule(what.variant({ variant: 'success' }), {
+      root: what.token(["color.bg.success", "color.text.success"]) // Uses new values
+    })
+  ],
+  defaults: def.defaults({ variant: 'default' })
+}));
+
+// Specialized button with different primary color
+const SpecialButtonCls = ButtonCls.extend({
+  tokens: {
+    "color.bg": ["primary"],       // Override existing variant
+    "color.text": ["primary"]      // Override existing variant
+  },
+  slot: ["root", "label"],
+  variant: {
+    variant: ["default", "primary", "secondary", "success"]
+  }
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      primary: ["bg-purple-700"]   // 🏆 OVERRIDE: Child wins over ButtonCls
+    },
+    "color.text": {
+      primary: ["text-purple-50"]  // 🏆 OVERRIDE: Child wins over ButtonCls
+    }
+    // 🔓 OPTIONAL: All other inherited tokens
+  }),
+  rules: [
+    def.root({
+      root: what.token(["color.bg.default", "color.text.default"]),
+      label: what.css(["font-medium"])
+    }),
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.token(["color.bg.primary", "color.text.primary"]) // Uses SpecialButtonCls values
+    })
+  ],
+  defaults: def.defaults({ variant: 'default' })
+}));
+```
+
+**What happens in this inheritance chain:**
+
+1. **ThemeCls** - `"color.bg.primary"` → `"bg-blue-500"`
+2. **ButtonCls** - `"color.bg.primary"` → `"bg-indigo-600"` (overrides ThemeCls)
+3. **SpecialButtonCls** - `"color.bg.primary"` → `"bg-purple-700"` (overrides ButtonCls)
+
+**Final result:** `"color.bg.primary"` resolves to `"bg-purple-700"` in SpecialButtonCls! 🎯
+
+#### **Runtime Override Conflicts** 🎭
+
+**Runtime overrides** can also create conflicts with **inherited tokens**:
+
+```typescript
+// Using the SpecialButtonCls from above
+const customButton = SpecialButtonCls.create(({ what, override }) => ({
+  variant: what.variant({ variant: 'primary' }),
+  token: override.token({
+    "color.bg": {
+      primary: ["bg-red-600"]  // 🏆 RUNTIME OVERRIDE: Takes precedence over all inheritance
+    },
+    "color.text": {
+      primary: ["text-red-50"] // 🏆 RUNTIME OVERRIDE: Takes precedence over all inheritance
+    }
+  })
+}));
+
+// Component with runtime overrides
+const DynamicButton = ({ 
+  variant, 
+  customPrimaryColor 
+}: {
+  variant: 'default' | 'primary' | 'secondary' | 'success';
+  customPrimaryColor?: string;
+}) => {
+  const classes = SpecialButtonCls.create(({ what, override }) => ({
+    variant: what.variant({ variant }),
+    token: override.token({
+      "color.bg": customPrimaryColor ? {
+        primary: [customPrimaryColor]  // 🏆 RUNTIME OVERRIDE: Dynamic color
+      } : undefined
+    })
+  }));
+
+  return (
+    <button className={classes.root()}>
+      Dynamic Button
+    </button>
+  );
+};
+```
+
+**Runtime override precedence:**
+
+1. **Runtime overrides** - highest priority (user control)
+2. **Child definitions** - override parent definitions
+3. **Parent definitions** - base styling from inheritance chain
+
+**This gives users** **complete control** over styling while maintaining **inheritance benefits**!
+
+#### **Conflict Resolution Best Practices** 💡
+
+**Follow these guidelines** for predictable token conflicts:
+
+**✅ Do:**
+- **Document overrides** - comment when you're intentionally overriding tokens
+- **Use semantic names** - `"color.bg.primary"` not `"color.bg.blue"`
+- **Test inheritance chains** - verify conflicts resolve as expected
+- **Plan your hierarchy** - design inheritance to minimize conflicts
+
+**❌ Don't:**
+- **Override unnecessarily** - only override when you need different styling
+- **Create circular dependencies** - avoid inheritance loops
+- **Forget runtime precedence** - remember runtime overrides win
+- **Ignore inheritance benefits** - leverage inherited tokens when possible
+
+**Example of good conflict management:**
+
+```typescript
+// Base theme - keep it simple
+const ThemeCls = cls({
+  tokens: {
+    "color.bg": ["default", "primary", "secondary"],
+    "color.text": ["default", "primary", "secondary"]
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-50"],
+      primary: ["bg-blue-500"],    // 🎨 Base primary color
+      secondary: ["bg-gray-500"]
+    },
+    "color.text": {
+      default: ["text-gray-900"],
+      primary: ["text-white"],     // 🎨 Base primary text
+      secondary: ["text-gray-700"]
+    }
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
+  defaults: {}
+}));
+
+// Specialized theme - override only what's needed
+const DarkThemeCls = ThemeCls.extend({
+  tokens: {
+    "color.bg": ["default", "primary"],  // Only override what changes
+    "color.text": ["default", "primary"] // Only override what changes
+  },
+  slot: ["root"],
+  variant: {}
+}, ({ what, def }) => ({
+  token: def.token({
+    "color.bg": {
+      default: ["bg-gray-900"],    // 🏆 OVERRIDE: Dark background
+      primary: ["bg-blue-600"]     // 🏆 OVERRIDE: Darker primary
+    },
+    "color.text": {
+      default: ["text-gray-100"],  // 🏆 OVERRIDE: Light text
+      primary: ["text-blue-50"]    // 🏆 OVERRIDE: Light primary text
+    }
+    // 🔓 OPTIONAL: Inherited secondary tokens remain unchanged
+  }),
+  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
+  defaults: {}
+}));
+```
+
+**Benefits of this approach:**
+- 🎯 **Minimal conflicts** - only override what's necessary
+- 🔄 **Clear inheritance** - easy to understand what changes
+- 🚀 **Maintainable** - changes are localized and predictable
+- 🌍 **Flexible** - runtime overrides still work for customization
+
+#### **Bottom Line** 🎯
+
+**Token Conflicts & Resolution** ensure **predictable styling** in complex inheritance chains:
+
+- 🏆 **Child wins** - child definitions override parent definitions
+- 🎭 **Runtime priority** - runtime overrides take highest precedence
+- 🎯 **Predictable behavior** - conflicts resolved consistently
+- 🔄 **Clear hierarchy** - inheritance chain determines resolution order
+- 🌍 **User control** - runtime overrides give complete customization
+
+**Remember:** **Good conflict resolution makes great design systems!** Understand the rules, and your inheritance chains will be predictable and maintainable! 🎉
+
+Ready to learn about **Variants & Defaults** in the next chapter? This will show how to control component appearance and behavior! 🚀
 
 ---
 
