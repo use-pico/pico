@@ -19,6 +19,8 @@
 - [2.7 Performance by Design](#27-performance-by-design)
 - [2.8 Simplicity Beneath Complexity](#28-simplicity-beneath-complexity)
 - [2.9 CSS Connection](#29-css-connection)
+- [2.10 Composition Over Inheritance](#210-composition-over-inheritance)
+- [2.11 Declarative Configuration](#211-declarative-configuration)
 
 ### [3. Core API](#3-core-api)
 - [3.1 `cls()` Function](#31-cls-function)
@@ -29,68 +31,81 @@
 - [3.6 What Utility](#36-what-utility)
 - [3.7 Definition Helpers](#37-definition-helpers)
 - [3.8 Override Helpers](#38-override-helpers)
+- [3.9 Override System Deep Dive](#39-override-system-deep-dive)
 
-### [4. Tokens](#4-tokens)
-- [4.1 Contract Declaration (for tokens)](#41-contract-declaration-for-tokens)
-- [4.2 Token Definition](#42-token-definition)
-- [4.3 Inheritance](#43-inheritance)
-- [4.4 Runtime Override](#44-runtime-override)
+### [4. React Integration](#4-react-integration)
+- [4.1 `useCls` Hook](#41-usecls-hook)
+- [4.2 `withCls` HOC](#42-withcls-hoc)
+- [4.3 Context Integration](#43-context-integration)
+- [4.4 `Component` Patterns](#44-component-patterns)
+- [4.5 `ClsProvider` & `useClsContext`](#45-clsprovider--useclscontext)
+- [4.6 Component Creation](#46-component-creation)
 
-### [5. Slots](#5-slots)
+### [5. Tokens](#5-tokens)
 - [5.1 Contract Declaration](#51-contract-declaration)
-- [5.2 Slot Definition](#52-slot-definition)
+- [5.2 Token Definition](#52-token-definition)
 - [5.3 Inheritance](#53-inheritance)
+- [5.4 Runtime Overrides](#54-runtime-overrides)
 
-### [6. Variants](#6-variants)
+### [6. Slots](#6-slots)
 - [6.1 Contract Declaration](#61-contract-declaration)
-- [6.2 Variant Definition](#62-variant-definition)
+- [6.2 Slot Definition](#62-slot-definition)
 - [6.3 Inheritance](#63-inheritance)
-- [6.4 Forced Defaults in Inheritance](#64-forced-defaults-in-inheritance)
-- [6.5 Runtime Override](#65-runtime-override)
+- [6.4 Runtime Overrides](#64-runtime-overrides)
 
-### [7. Rules](#7-rules)
-- [7.1 Slots & Variants](#71-slots--variants)
-- [7.2 Root Rule Definition](#72-root-rule-definition)
-- [7.3 Rule Definition](#73-rule-definition)
-- [7.4 Inheritance](#74-inheritance)
-- [7.5 Overrides](#75-overrides)
+### [7. Variants](#7-variants)
+- [7.1 Contract Declaration](#71-contract-declaration)
+- [7.2 Variant Definition](#72-variant-definition)
+- [7.3 Inheritance](#73-inheritance)
+- [7.4 Forced Defaults](#74-forced-defaults)
+- [7.5 Runtime Overrides](#75-runtime-overrides)
 
-### [8. Runtime](#8-runtime)
-- [8.1 `create()` Method](#81-create-method)
-- [8.2 `slot()` Method](#82-slot-method)
-- [8.3 `cls` & `tva` Prop (Component Interface)](#83-cls--tva-prop-component-interface)
+### [8. Rules](#8-rules)
+- [8.1 Slots & Variants](#81-slots--variants)
+- [8.2 Root Rule Definition](#82-root-rule-definition)
+- [8.3 Rule Definition](#83-rule-definition)
+- [8.4 Inheritance](#84-inheritance)
+- [8.5 Definition Overrides](#85-definition-overrides)
 
-### [9. React Integration](#9-react-integration)
-- [9.1 `useCls` Hook](#91-usecls-hook)
-- [9.2 `withCls` HOC](#92-withcls-hoc)
-- [9.3 Context Integration](#93-context-integration)
-- [9.4 `Component` Patterns](#94-component-patterns)
-- [9.5 `ClsProvider` & useClsContext](#95-clsprovider--useclscontext)
+### [9. Runtime](#9-runtime)
+- [9.1 `create()` Method](#91-create-method)
+- [9.2 `slot()` Method](#92-slot-method)
+- [9.3 `cls` & `tva` Prop (`Component` Interface)](#93-cls--tva-prop-component-interface)
 
-### [10. Theming & Token Overloading](#10-theming--token-overloading)
-- [10.1 One-time Replace](#101-one-time-replace)
-- [10.2 External Themes](#102-external-themes)
-- [10.3 Partial Themes](#103-partial-themes)
-- [10.4 Dynamic Switching](#104-dynamic-switching)
-- [10.5 Merge Precedence](#105-merge-precedence)
-- [10.6 Theme Inheritance](#106-theme-inheritance)
+### [10. Styling Resolution](#10-styling-resolution)
+- [10.1 Resolution Order](#101-resolution-order)
+- [10.2 Token Resolution Process](#102-token-resolution-process)
+- [10.3 Rule Evaluation Process](#103-rule-evaluation-process)
+- [10.4 Override vs Append Behavior](#104-override-vs-append-behavior)
+- [10.5 Inheritance Resolution](#105-inheritance-resolution)
 
-### [11. Recipes & Patterns](#11-recipes--patterns)
-- [11.1 Simple Static Components](#111-simple-static-components)
-- [11.2 Variant-only Components](#112-variant-only-components)
-- [11.3 Token System Components](#113-token-system-components)
-- [11.4 Inheritance Components](#114-inheritance-components)
-- [11.5 Theme System Components](#115-theme-system-components)
-- [11.6 Runtime Customization](#116-runtime-customization)
-- [11.7 Complex Components](#117-complex-components)
-- [11.8 Edge Cases & Empty Contracts](#118-edge-cases--empty-contracts)
+### [11. Best Practices & Anti-patterns](#11-best-practices--anti-patterns)
+- [11.1 Token Definition & Theme](#111-token-definition--theme)
+- [11.2 Components & `withCls`](#112-components--withcls)
+- [11.3 Common Anti-patterns](#113-common-anti-patterns)
 
-### [12. Advanced Features](#12-advanced-features)
-- [12.1 Performance & Caching](#121-performance--caching)
-- [12.2 Large Component Trees](#122-large-component-trees)
-- [12.3 Dynamic Variants](#123-dynamic-variants)
-- [12.4 Real-world Scenarios](#124-real-world-scenarios)
-- [12.5 Type System Deep Dive](#125-type-system-deep-dive)
+### [12. Recipes & Patterns](#12-recipes--patterns)
+- [12.1 Simple Static Components](#121-simple-static-components)
+- [12.2 Variant-only Components](#122-variant-only-components)
+- [12.3 Token System Components](#123-token-system-components)
+- [12.4 Inheritance Components](#124-inheritance-components)
+- [12.5 Runtime Customization](#125-runtime-customization)
+- [12.6 Complex Components](#126-complex-components)
+- [12.7 Edge Cases & Empty Contracts](#127-edge-cases--empty-contracts)
+- [12.8 Multi-level Inheritance Patterns](#128-multi-level-inheritance-patterns)
+- [12.9 Complex Rule Matching](#129-complex-rule-matching)
+- [12.10 Boolean Variant Patterns](#1210-boolean-variant-patterns)
+- [12.11 Token Conflict Resolution](#1211-token-conflict-resolution)
+- [12.12 Slot Override Patterns](#1212-slot-override-patterns)
+- [12.13 Large Component Tree Management](#1213-large-component-tree-management)
+- [12.14 Dynamic Variant Handling](#1214-dynamic-variant-handling)
+- [12.15 Complex Configuration Scenarios](#1215-complex-configuration-scenarios)
+- [12.16 Real-world Component Examples](#1216-real-world-component-examples)
+- [12.17 Advanced Integration Patterns](#1217-advanced-integration-patterns)
+- [12.18 Theming & Token Overloading](#1218-theming--token-overloading)
+- [12.19 Theme Inheritance & Management](#1219-theme-inheritance--management)
+- [12.20 Merge Precedence & Conflict Resolution](#1220-merge-precedence--conflict-resolution)
+- [12.21 Type System Deep Dive](#1221-type-system-deep-dive)
 
 ### [13. Comparison](#13-comparison)
 - [13.1 Feature Table](#131-feature-table)
@@ -122,31 +137,3 @@
 - [16.2 Documentation Strategy](#162-documentation-strategy)
 - [16.3 Context-Aware Usage](#163-context-aware-usage)
 - [16.4 AI Assistant Integration](#164-ai-assistant-integration)
-
-### [17. Appendices](#17-appendices)
-- [17.1 Glossary](#171-glossary)
-- [17.2 Migration Playbook](#172-migration-playbook)
-
----
-
-## Key Changes from Original ToC 🔄
-
-### **Logical Flow Improvements:**
-1. **Tokens come first** (Chapter 4) - as they're the foundation of contracts
-2. **Slots follow** (Chapter 5) - defining the component structure
-3. **Variants next** (Chapter 6) - defining how slots behave
-4. **Rules then** (Chapter 7) - applying the contract structure
-5. **Runtime** (Chapter 8) - using the defined contracts
-6. **React Integration** (Chapter 9) - framework-specific usage
-
-### **Chapter Consolidation:**
-- **Core API** (Chapter 3) - streamlined to essential functions
-- **Runtime** (Chapter 8) - focused on actual usage methods
-- **Rules** (Chapter 7) - consolidated rule system concepts
-
-### **Better Learning Path:**
-- **Foundation → Contract Elements → Usage → Integration**
-- **Tokens → Slots → Variants → Rules → Runtime → React**
-- **Logical progression** from basic concepts to advanced usage
-
-This structure makes much more sense for learning CLS! 🎯✨
