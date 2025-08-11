@@ -3704,3 +3704,278 @@ const CardCls = cls(contract, ({ what, def }) => ({
 ---
 
 **[↑ Back to Top](#table-of-contents)**
+
+### 4.6 Complex Match Conditions <a id="46-complex-match-conditions"></a>
+
+[↑ Back to Top] | [← Previous Chapter: Rule Matching](#45-rule-matching) | [→ Next Chapter: Inheritance System](#5-inheritance-system)
+
+---
+
+#### **Beyond Simple Matching** 🧠
+
+While CLS keeps things **simple and predictable**, you can build **sophisticated styling logic** by combining multiple rules! Think of it as **building a puzzle** where each piece fits perfectly! 🧩
+
+**Complex matching doesn't mean complicated - it means powerful!** 💪
+
+#### **Nested Variant Combinations** 🎯🎯🎯
+
+**Multiple variant combinations** create **layered styling logic**:
+
+```typescript
+const ButtonCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['px-4', 'py-2', 'rounded', 'font-medium'])
+    }),
+    
+    // Size variants
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(['px-2', 'py-1', 'text-sm'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['px-6', 'py-3', 'text-lg'])
+    }),
+    
+    // Color variants
+    def.rule(what.variant({ variant: 'primary' }), {
+      root: what.css(['bg-blue-500', 'text-white'])
+    }),
+    
+    def.rule(what.variant({ variant: 'secondary' }), {
+      root: what.css(['bg-gray-500', 'text-white'])
+    }),
+    
+    // State variants
+    def.rule(what.variant({ disabled: true }), {
+      root: what.css(['opacity-50', 'cursor-not-allowed'])
+    }),
+    
+    // Complex combinations - 3 variants
+    def.rule(what.variant({ size: 'lg', variant: 'primary', disabled: true }), {
+      root: what.css(['shadow-lg', 'transform', 'hover:scale-105'])
+    }),
+    
+    // Complex combinations - 2 variants + different state
+    def.rule(what.variant({ size: 'lg', variant: 'primary', loading: true }), {
+      root: what.css(['animate-pulse', 'cursor-wait'])
+    })
+  ]
+}));
+```
+
+**Complex matching scenarios:**
+
+**Scenario 1: `size: 'lg'` + `variant: 'primary'` + `disabled: true`**
+- ✅ **Matches:** root + size: 'lg' + variant: 'primary' + disabled + complex rule
+- **Result:** `px-4 py-2 rounded font-medium px-6 py-3 text-lg bg-blue-500 text-white opacity-50 cursor-not-allowed shadow-lg transform hover:scale-105`
+
+**Scenario 2: `size: 'lg'` + `variant: 'primary'` + `loading: true`**
+- ✅ **Matches:** root + size: 'lg' + variant: 'primary' + loading + complex rule
+- **Result:** `px-4 py-2 rounded font-medium px-6 py-3 text-lg bg-blue-500 text-white animate-pulse cursor-wait`
+
+**Scenario 3: `size: 'lg'` + `variant: 'primary'` (no state)**
+- ✅ **Matches:** root + size: 'lg' + variant: 'primary'
+- ❌ **No match:** complex rules (require all 3 variants)
+- **Result:** `px-4 py-2 rounded font-medium px-6 py-3 text-lg bg-blue-500 text-white`
+
+#### **Exclusion Patterns** 🚫
+
+**Sometimes you want styles to apply** when **certain variants are NOT present**:
+
+```typescript
+const CardCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base card
+    def.root({
+      root: what.css(['bg-white', 'rounded-lg', 'shadow-md', 'p-6'])
+    }),
+    
+    // Interactive card (when NOT disabled)
+    def.rule(what.variant({ interactive: true, disabled: false }), {
+      root: what.css(['hover:shadow-lg', 'transition-shadow', 'cursor-pointer'])
+    }),
+    
+    // Disabled card (overrides interactive)
+    def.rule(what.variant({ disabled: true }), {
+      root: what.css(['opacity-50', 'cursor-not-allowed', 'pointer-events-none'])
+    }),
+    
+    // Loading state (when NOT disabled)
+    def.rule(what.variant({ loading: true, disabled: false }), {
+      root: what.css(['animate-pulse', 'cursor-wait'])
+    })
+  ]
+}));
+```
+
+**Exclusion logic:**
+- ✅ **Interactive + not disabled** - gets hover effects
+- ❌ **Interactive + disabled** - no hover effects (disabled rule overrides)
+- ✅ **Loading + not disabled** - gets loading animation
+- ❌ **Loading + disabled** - no loading animation (disabled rule overrides)
+
+#### **Conditional Slot Styling** 🎭
+
+**Different slots** can have **different matching logic**:
+
+```typescript
+const FormFieldCls = cls(contract, ({ what, def }) => ({
+  rules: [
+    // Base styles
+    def.root({
+      root: what.css(['flex', 'flex-col', 'gap-2']),
+      label: what.css(['text-sm', 'font-medium', 'text-gray-700']),
+      input: what.css(['px-3', 'py-2', 'border', 'rounded-md', 'focus:ring-2'])
+    }),
+    
+    // Error state - affects multiple slots
+    def.rule(what.variant({ error: true }), {
+      root: what.css(['text-red-600']),
+      label: what.css(['text-red-600']),
+      input: what.css(['border-red-300', 'focus:ring-red-500'])
+    }),
+    
+    // Size variants - only affect input slot
+    def.rule(what.variant({ size: 'sm' }), {
+      input: what.css(['px-2', 'py-1', 'text-sm'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      input: what.css(['px-4', 'py-3', 'text-lg'])
+    }),
+    
+    // Disabled state - affects all slots
+    def.rule(what.variant({ disabled: true }), {
+      root: what.css(['opacity-50']),
+      label: what.css(['cursor-not-allowed']),
+      input: what.css(['cursor-not-allowed', 'bg-gray-100'])
+    })
+  ]
+}));
+```
+
+**Slot-specific matching:**
+- **Error state** - affects root, label, and input slots
+- **Size variants** - only affect input slot
+- **Disabled state** - affects all slots
+- **Combined states** - all matching rules apply to their respective slots
+
+#### **Advanced Matching Strategies** 🚀
+
+**Build sophisticated styling systems** with **strategic rule ordering**:
+
+```typescript
+const AlertCls = cls(contract, ({ what, def, override }) => ({
+  rules: [
+    // Base alert
+    def.root({
+      root: what.css(['p-4', 'rounded-lg', 'border-l-4', 'font-medium'])
+    }),
+    
+    // Type variants
+    def.rule(what.variant({ type: 'info' }), {
+      root: what.css(['bg-blue-50', 'border-blue-500', 'text-blue-800'])
+    }),
+    
+    def.rule(what.variant({ type: 'success' }), {
+      root: what.css(['bg-green-50', 'border-green-500', 'text-green-800'])
+    }),
+    
+    def.rule(what.variant({ type: 'warning' }), {
+      root: what.css(['bg-yellow-50', 'border-yellow-500', 'text-yellow-800'])
+    }),
+    
+    def.rule(what.variant({ type: 'error' }), {
+      root: what.css(['bg-red-50', 'border-red-500', 'text-red-800'])
+    }),
+    
+    // Size variants
+    def.rule(what.variant({ size: 'sm' }), {
+      root: what.css(['p-2', 'text-sm'])
+    }),
+    
+    def.rule(what.variant({ size: 'lg' }), {
+      root: what.css(['p-6', 'text-lg'])
+    }),
+    
+    // Dismissible variant
+    def.rule(what.variant({ dismissible: true }), {
+      root: what.css(['pr-12']), // Make room for close button
+      closeButton: what.css(['absolute', 'top-2', 'right-2', 'p-1', 'rounded'])
+    }),
+    
+    // Special states - override everything
+    override.rule(what.variant({ loading: true }), {
+      root: what.css(['animate-pulse', 'cursor-wait'])
+    }),
+    
+    override.rule(what.variant({ minimized: true }), {
+      root: what.css(['p-2', 'text-sm', 'opacity-75'])
+    })
+  ]
+}));
+```
+
+**Advanced matching scenarios:**
+
+**Scenario 1: `type: 'success'` + `size: 'lg'` + `dismissible: true`**
+- ✅ **Matches:** root + type: 'success' + size: 'lg' + dismissible
+- **Result:** `p-4 rounded-lg border-l-4 font-medium bg-green-50 border-green-500 text-green-800 p-6 text-lg pr-12` + close button styles
+
+**Scenario 2: `type: 'error'` + `loading: true`**
+- ✅ **Matches:** root + type: 'error' + loading (override)
+- **Result:** `animate-pulse cursor-wait` (only loading styles, type styles dropped)
+
+**Scenario 3: `type: 'warning'` + `size: 'sm'` + `minimized: true`**
+- ✅ **Matches:** root + type: 'warning' + size: 'sm' + minimized (override)
+- **Result:** `p-2 text-sm opacity-75` (only minimized styles, others dropped)
+
+#### **Performance Considerations** ⚡
+
+**Complex matching is fast** because CLS is **optimized for this**:
+
+```typescript
+// ✅ Good: Clear, predictable rules
+def.rule(what.variant({ size: 'lg', variant: 'primary' }), { ... })
+
+// ✅ Good: Logical grouping
+def.rule(what.variant({ type: 'error', dismissible: true }), { ... })
+
+// ❌ Avoid: Too many variants in one rule
+def.rule(what.variant({ 
+  size: 'lg', 
+  variant: 'primary', 
+  disabled: false, 
+  loading: false, 
+  fullWidth: true,
+  rounded: true,
+  shadow: 'lg'
+}), { ... })
+
+// ✅ Better: Split into logical groups
+def.rule(what.variant({ size: 'lg', variant: 'primary' }), { ... })
+def.rule(what.variant({ disabled: false, loading: false }), { ... })
+def.rule(what.variant({ fullWidth: true, rounded: true, shadow: 'lg' }), { ... })
+```
+
+**Performance tips:**
+- 🎯 **Group related variants** - logical combinations
+- 📝 **Keep rules focused** - one clear purpose per rule
+- 🚀 **Order matters** - most specific rules last
+- ⚡ **CLS is fast** - don't overthink it!
+
+#### **Bottom Line** 🎯
+
+**Complex Match Conditions** give you **unlimited styling power**:
+
+- 🧩 **Nested combinations** - build sophisticated logic
+- 🚫 **Exclusion patterns** - style when variants are NOT present
+- 🎭 **Slot-specific matching** - different logic per slot
+- 🚀 **Advanced strategies** - strategic rule ordering
+- ⚡ **Performance optimized** - CLS handles complexity efficiently
+
+**Remember:** **Complex doesn't mean complicated** - it means **powerful and flexible**! CLS keeps the complexity **manageable and predictable** while giving you **unlimited styling possibilities**! 🚀
+
+**You're now a CLS Rules System master!** 🎓 Ready to explore the **Inheritance System** next? 🚀
