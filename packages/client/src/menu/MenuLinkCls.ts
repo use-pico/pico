@@ -26,22 +26,25 @@ export const MenuLinkCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"pico--menu-link",
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"rounded-sm",
-					"px-2",
-					"py-1",
-					"border",
-					"border-b-2",
-					"border-transparent",
-					"hover:text-(--color-text-hover)",
-					"hover:bg-(--color-bg-hover)",
-					"hover:border-(--color-border-hover)",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"rounded-sm",
+						"px-2",
+						"py-1",
+						"border",
+						"border-b-2",
+						"border-transparent",
+					],
+					[
+						"subtle.color.text-dark-hover",
+						"subtle.color.bg-light-hover",
+						"subtle.color.border-light-hover",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
@@ -49,12 +52,10 @@ export const MenuLinkCls = PicoCls.extend(
 					inner: false,
 				}),
 				{
-					base: what.css([
-						"bg-(--color-active-bg)",
-						"border-(--color-active-border)",
-						"hover:border-(--color-active-border-hover)",
-						"hover:text-(--color-active-text-hover)",
-						"text-(--color-active-text)",
+					base: what.token([
+						"subtle.color.text-dark",
+						"subtle.color.bg-dark",
+						"subtle.color.border-dark",
 					]),
 				},
 			),
@@ -64,13 +65,15 @@ export const MenuLinkCls = PicoCls.extend(
 					inner: true,
 				}),
 				{
-					base: what.css([
-						"border-transparent",
-						"bg-(--color-active-bg)",
-						"hover:border-(--color-active-border-hover)",
-						"hover:text-(--color-active-text-hover)",
-						"text-(--color-active-text)",
-					]),
+					base: what.both(
+						[
+							"border-transparent",
+						],
+						[
+							"subtle.color.text-dark",
+							"subtle.color.bg-dark",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -78,10 +81,10 @@ export const MenuLinkCls = PicoCls.extend(
 					subtle: true,
 				}),
 				{
-					base: what.css([
-						"hover:bg-slate-50",
-						"hover:border-slate-300",
-						"hover:text-slate-600",
+					base: what.token([
+						"subtle.color.text-dark",
+						"subtle.color.bg-light",
+						"subtle.color.border-light",
 					]),
 				},
 			),
@@ -91,9 +94,10 @@ export const MenuLinkCls = PicoCls.extend(
 					subtle: true,
 				}),
 				{
-					base: what.css([
-						"bg-slate-100",
-						"border-slate-400",
+					base: what.token([
+						"subtle.color.text-dark",
+						"subtle.color.bg-dark",
+						"subtle.color.border-dark",
 					]),
 				},
 			),

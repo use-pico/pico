@@ -5,7 +5,7 @@ export const MenuCls = PicoCls.extend(
 	{
 		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			vertical: [
@@ -17,7 +17,7 @@ export const MenuCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
@@ -29,7 +29,7 @@ export const MenuCls = PicoCls.extend(
 					vertical: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"flex-col",
 						"items-start",
 					]),

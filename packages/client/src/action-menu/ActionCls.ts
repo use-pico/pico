@@ -69,8 +69,6 @@ export const ActionCls = PicoCls.extend(
 				{
 					root: what.css([
 						"cursor-not-allowed",
-						"hover:text-(--pico-text-default)",
-						"hover:bg-(--pico-bg-default)",
 					]),
 				},
 			),

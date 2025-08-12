@@ -13,19 +13,23 @@ export const ActionMenuCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"pico--action-menu-base",
-					"p-1",
-					"border",
-					"rounded-sm",
-					"shadow-md",
-					"flex",
-					"flex-col",
-					"gap-2",
-					"bg-(--pico-bg-default)",
-					"text-(--pico-text-default)",
-					"border-(--pico-border-default)",
-				]),
+				base: what.both(
+					[
+						"pico--action-menu-base",
+						"p-1",
+						"border",
+						"rounded-sm",
+						"shadow-md",
+						"flex",
+						"flex-col",
+						"gap-2",
+					],
+					[
+						"neutral.color.text-dark",
+						"neutral.color.bg-light",
+						"neutral.color.border-light",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),
