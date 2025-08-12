@@ -1,5 +1,14 @@
 # Chapter 1: Foundations
 
+## Table of Contents
+- [1.1 What is CLS?](./1.1-what-is-cls.md)
+- [1.2 Mental Model](./1.2-mental-model.md)
+- [1.3 Motivation](./1.3-motivation.md)
+- [1.4 Installation](./1.4-installation.md)
+- [1.5 Quick Start](./1.5-quick-start.md)
+
+---
+
 Welcome to the **Foundations** chapter! This is where we lay the groundwork for everything CLS. Think of this as your **styling system bootcamp** – we'll cover the basics, the philosophy, and get you up and running with your first CLS modules! 🚀
 
 > **💡 Don't Be Intimidated!** This library may look quite complicated and overwhelming at first glance, but it's actually composed of **simple building blocks** that are easy to understand once you grasp them. Think of it like learning to cook – at first, a recipe with 20 ingredients seems impossible, but once you understand the basic techniques, it becomes **as easy as pie**! 🥧✨
@@ -17,13 +26,6 @@ Welcome to the **Foundations** chapter! This is where we lay the groundwork for 
 ## The journey ahead 🗺️
 
 We'll start with the big picture (what is CLS?), then dive into the philosophy (mental model), understand the motivation, get everything installed, and finally build something real together. By the end of this chapter, you'll have a solid foundation to explore the more advanced features in the chapters ahead!
-
-## Table of Contents
-- [1.1 What is CLS?](./1.1-what-is-cls.md)
-- [1.2 Mental Model](./1.2-mental-model.md)
-- [1.3 Motivation](./1.3-motivation.md)
-- [1.4 Installation](./1.4-installation.md)
-- [1.5 Quick Start](./1.5-quick-start.md)
 
 ---
 
