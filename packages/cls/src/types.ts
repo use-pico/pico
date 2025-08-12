@@ -197,16 +197,24 @@ type ExtendableTokenContract<TContract extends Contract<any, any, any>> =
 // ============================================================================
 
 /**
- * Generates full dot-notation token keys (e.g., "primary.textColor.default")
+ * Generates full dot-notation token keys (e.g., "primary.textColor.default").
+ *
+ * Previous implementation used an index access with a union of groups:
+ *   TContract["tokens"][TokenGroups<TContract>][number]
+ * which widens the variants to a union of all variants from all groups,
+ * effectively producing a cartesian product between groups and variants.
+ *
+ * This mapped-type version preserves the pairing between each group and its
+ * own variant list by first mapping group → `${group}.${variant}` and then
+ * indexing back into the union of those mapped values.
  */
-type TokenKey<TContract extends Contract<any, any, any>> =
-	`${TokenGroups<TContract>}.${TContract["tokens"][TokenGroups<TContract>][number]}`;
+type TokenKey<TContract extends Contract<any, any, any>> = {
+	[K in keyof TContract["tokens"] &
+		string]: `${K}.${TContract["tokens"][K][number]}`;
+}[keyof TContract["tokens"] & string];
 
-/**
- * Extracts just the token group names (e.g., "primary.bgColor")
- */
-type TokenGroups<TContract extends Contract<any, any, any>> =
-	keyof TContract["tokens"] & string;
+// Note: The old TokenGroups helper became unnecessary after rewriting TokenKey
+// to a mapped type that directly iterates over `keyof tokens`.
 
 /**
  * Recursively collects all token keys from current and inherited contracts

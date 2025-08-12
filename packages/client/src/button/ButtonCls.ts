@@ -3,12 +3,18 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const ButtonCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: {
+			"button.size": [
+				"xs",
+				"sm",
+				"md",
+			],
+		},
 		slot: [
 			"root",
 		],
 		variant: {
-			variant: [
+			tone: [
 				"primary",
 				"secondary",
 				"danger",
@@ -32,7 +38,25 @@ export const ButtonCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: def.token({}),
+		token: def.token({
+			"button.size": {
+				xs: [
+					"px-1",
+					"py-0.5",
+					"text-xs",
+				],
+				sm: [
+					"px-3",
+					"py-2",
+					"text-sm",
+				],
+				md: [
+					"px-4",
+					"py-2",
+					"text-base",
+				],
+			},
+		}),
 		rules: [
 			def.root({
 				root: what.both(
@@ -43,29 +67,85 @@ export const ButtonCls = PicoCls.extend(
 						"justify-center",
 						"gap-2",
 						"group",
-						"rounded-md",
 						"transition-all",
 						"cursor-pointer",
 						"border",
 					],
 					[
-						"shadow.default",
+						"shadow.sm",
 					],
 				),
 			}),
+			/**
+			 * Size rules
+			 */
 			def.rule(
 				what.variant({
-					variant: "primary",
+					size: "xs",
 				}),
 				{
 					root: what.token([
-						"primary.color.default",
+						"button.size.xs",
+						"round.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "sm",
+				}),
+				{
+					root: what.token([
+						"button.size.sm",
+						"round.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "md",
+				}),
+				{
+					root: what.token([
+						"button.size.md",
+						"round.lg",
+					]),
+				},
+			),
+			/**
+			 * Tone rules
+			 */
+			def.rule(
+				what.variant({
+					tone: "primary",
+					light: false,
+				}),
+				{
+					root: what.token([
+						"primary.color.text-light",
+						"primary.color.bg-dark",
+						"primary.color.border-dark",
+						"primary.color.shadow-dark",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "primary",
+					light: true,
+				}),
+				{
+					root: what.token([
+						"primary.color.text-dark",
+						"primary.color.bg-light",
+						"primary.color.border-light",
+						"primary.color.shadow-light",
 					]),
 				},
 			),
 		],
 		defaults: def.defaults({
-			variant: "primary",
+			tone: "primary",
 			light: false,
 			disabled: false,
 			size: "md",

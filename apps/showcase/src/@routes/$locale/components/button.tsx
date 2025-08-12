@@ -26,6 +26,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 						cls={({ what }) => ({
 							variant: what.variant({
 								borderless: true,
+								size: "xs",
 							}),
 						})}
 					>
