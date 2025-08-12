@@ -176,6 +176,11 @@
 					"number": "4.6",
 					"title": "Component Creation",
 					"filename": "component-creation"
+				},
+				{
+					"number": "4.7",
+					"title": "Theming & Tokens",
+					"filename": "theming-tokens"
 				}
 			]
 		},
