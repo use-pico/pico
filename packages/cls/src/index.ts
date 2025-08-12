@@ -1,4 +1,5 @@
 export { cls } from "./cls";
+export { contract } from "./contract";
 export { merge } from "./merge";
 export * from "./react";
 export { tvc } from "./tvc";
@@ -18,7 +19,6 @@ export type {
 	TokenContract,
 	TokensOfList,
 	VariantContract,
-	// extra public types
 	What,
 	WhatClass,
 	WhatToken,
