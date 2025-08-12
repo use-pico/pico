@@ -1,5 +1,41 @@
 import { cls } from "@use-pico/cls";
 
+const toneType = [
+	"text-light",
+	"text-light-hover",
+	//
+	"bg-light",
+	"bg-light-hover",
+	"bg-light-odd",
+	"bg-light-odd-hover",
+	//
+	"border-light",
+	"border-light-hover",
+	"border-light-odd",
+	"border-light-odd-hover",
+	//
+	"shadow-light",
+	"shadow-light-hover",
+	//
+	//
+	//
+	"text-dark",
+	"text-dark-hover",
+	//
+	"bg-dark",
+	"bg-dark-hover",
+	"bg-dark-odd",
+	"bg-dark-odd-hover",
+	//
+	"border-dark",
+	"border-dark-hover",
+	"border-dark-odd",
+	"border-dark-odd-hover",
+	//
+	"shadow-dark",
+	"shadow-dark-hover",
+] as const;
+
 /**
  * Root theme configuration for Pico, all components
  * will inherit from this theme.
@@ -7,115 +43,11 @@ import { cls } from "@use-pico/cls";
 export const PicoCls = cls(
 	{
 		tokens: {
-			"primary.color": [
-				"text-light",
-				"text-light-hover",
-				"text-dark",
-				"text-dark-hover",
-				//
-				"bg-light",
-				"bg-light-hover",
-				"bg-dark",
-				"bg-dark-hover",
-				//
-				"border-light",
-				"border-light-hover",
-				"border-dark",
-				"border-dark-hover",
-				//
-				"shadow-light",
-				"shadow-light-hover",
-				"shadow-dark",
-				"shadow-dark-hover",
-			],
-			//
-			"secondary.color": [
-				"text-light",
-				"text-light-hover",
-				"text-dark",
-				"text-dark-hover",
-				//
-				"bg-light",
-				"bg-light-hover",
-				"bg-dark",
-				"bg-dark-hover",
-				//
-				"border-light",
-				"border-light-hover",
-				"border-dark",
-				"border-dark-hover",
-				//
-				"shadow-light",
-				"shadow-light-hover",
-				"shadow-dark",
-				"shadow-dark-hover",
-			],
-			//
-			"danger.color": [
-				"text-light",
-				"text-light-hover",
-				"text-dark",
-				"text-dark-hover",
-				//
-				"bg-light",
-				"bg-light-hover",
-				"bg-dark",
-				"bg-dark-hover",
-				//
-				"border-light",
-				"border-light-hover",
-				"border-dark",
-				"border-dark-hover",
-				//
-				"shadow-light",
-				"shadow-light-hover",
-				"shadow-dark",
-				"shadow-dark-hover",
-			],
-			//
-			"neutral.color": [
-				"text-light",
-				"text-light-hover",
-				"text-dark",
-				"text-dark-hover",
-				//
-				"bg-light",
-				"bg-light-hover",
-				"bg-dark",
-				"bg-dark-hover",
-				//
-				"border-light",
-				"border-light-hover",
-				"border-dark",
-				"border-dark-hover",
-				//
-				"shadow-light",
-				"shadow-light-hover",
-				"shadow-dark",
-				"shadow-dark-hover",
-			],
-			//
-			"subtle.color": [
-				"text-light",
-				"text-light-hover",
-				"text-dark",
-				"text-dark-hover",
-				//
-				"bg-light",
-				"bg-light-hover",
-				"bg-dark",
-				"bg-dark-hover",
-				//
-				"border-light",
-				"border-light-hover",
-				"border-dark",
-				"border-dark-hover",
-				//
-				"shadow-light",
-				"shadow-light-hover",
-				"shadow-dark",
-				"shadow-dark-hover",
-			],
+			"primary.color": toneType,
+			"secondary.color": toneType,
+			"danger.color": toneType,
+			"neutral.color": toneType,
+			"subtle.color": toneType,
 			round: [
 				"sm",
 				"md",
@@ -153,11 +85,23 @@ export const PicoCls = cls(
 				"bg-light-hover": [
 					"hover:bg-indigo-100",
 				],
+				"bg-light-odd": [
+					"bg-indigo-100",
+				],
+				"bg-light-odd-hover": [
+					"hover:bg-indigo-200",
+				],
 				"bg-dark": [
 					"bg-indigo-600",
 				],
 				"bg-dark-hover": [
 					"hover:bg-indigo-700",
+				],
+				"bg-dark-odd": [
+					"bg-indigo-700",
+				],
+				"bg-dark-odd-hover": [
+					"hover:bg-indigo-800",
 				],
 				//
 				"border-light": [
@@ -166,11 +110,23 @@ export const PicoCls = cls(
 				"border-light-hover": [
 					"hover:border-indigo-300",
 				],
+				"border-light-odd": [
+					"border-indigo-300",
+				],
+				"border-light-odd-hover": [
+					"hover:border-indigo-400",
+				],
 				"border-dark": [
 					"border-indigo-700",
 				],
 				"border-dark-hover": [
 					"hover:border-indigo-800",
+				],
+				"border-dark-odd": [
+					"border-indigo-800",
+				],
+				"border-dark-odd-hover": [
+					"hover:border-indigo-900",
 				],
 				//
 				"shadow-light": [
@@ -207,11 +163,23 @@ export const PicoCls = cls(
 				"bg-light-hover": [
 					"hover:bg-emerald-100",
 				],
+				"bg-light-odd": [
+					"bg-emerald-100",
+				],
+				"bg-light-odd-hover": [
+					"hover:bg-emerald-200",
+				],
 				"bg-dark": [
 					"bg-emerald-600",
 				],
 				"bg-dark-hover": [
 					"hover:bg-emerald-700",
+				],
+				"bg-dark-odd": [
+					"bg-emerald-700",
+				],
+				"bg-dark-odd-hover": [
+					"hover:bg-emerald-800",
 				],
 				//
 				"border-light": [
@@ -220,11 +188,23 @@ export const PicoCls = cls(
 				"border-light-hover": [
 					"hover:border-emerald-300",
 				],
+				"border-light-odd": [
+					"border-emerald-300",
+				],
+				"border-light-odd-hover": [
+					"hover:border-emerald-400",
+				],
 				"border-dark": [
 					"border-emerald-700",
 				],
 				"border-dark-hover": [
 					"hover:border-emerald-800",
+				],
+				"border-dark-odd": [
+					"border-emerald-800",
+				],
+				"border-dark-odd-hover": [
+					"hover:border-emerald-900",
 				],
 				//
 				"shadow-light": [
@@ -261,11 +241,23 @@ export const PicoCls = cls(
 				"bg-light-hover": [
 					"hover:bg-rose-100",
 				],
+				"bg-light-odd": [
+					"bg-rose-100",
+				],
+				"bg-light-odd-hover": [
+					"hover:bg-rose-200",
+				],
 				"bg-dark": [
 					"bg-rose-600",
 				],
 				"bg-dark-hover": [
 					"hover:bg-rose-700",
+				],
+				"bg-dark-odd": [
+					"bg-rose-700",
+				],
+				"bg-dark-odd-hover": [
+					"hover:bg-rose-800",
 				],
 				//
 				"border-light": [
@@ -274,11 +266,23 @@ export const PicoCls = cls(
 				"border-light-hover": [
 					"hover:border-rose-300",
 				],
+				"border-light-odd": [
+					"border-rose-300",
+				],
+				"border-light-odd-hover": [
+					"hover:border-rose-400",
+				],
 				"border-dark": [
 					"border-rose-700",
 				],
 				"border-dark-hover": [
 					"hover:border-rose-800",
+				],
+				"border-dark-odd": [
+					"border-rose-800",
+				],
+				"border-dark-odd-hover": [
+					"hover:border-rose-900",
 				],
 				//
 				"shadow-light": [
@@ -297,10 +301,10 @@ export const PicoCls = cls(
 			//
 			"neutral.color": {
 				"text-light": [
-					"text-zinc-600",
+					"text-zinc-50",
 				],
 				"text-light-hover": [
-					"hover:text-zinc-700",
+					"hover:text-zinc-100",
 				],
 				"text-dark": [
 					"text-zinc-900",
@@ -315,11 +319,23 @@ export const PicoCls = cls(
 				"bg-light-hover": [
 					"hover:bg-zinc-100",
 				],
+				"bg-light-odd": [
+					"bg-zinc-100",
+				],
+				"bg-light-odd-hover": [
+					"hover:bg-zinc-200",
+				],
 				"bg-dark": [
 					"bg-zinc-200",
 				],
 				"bg-dark-hover": [
 					"hover:bg-zinc-300",
+				],
+				"bg-dark-odd": [
+					"bg-zinc-300",
+				],
+				"bg-dark-odd-hover": [
+					"hover:bg-zinc-400",
 				],
 				//
 				"border-light": [
@@ -328,11 +344,23 @@ export const PicoCls = cls(
 				"border-light-hover": [
 					"hover:border-zinc-400",
 				],
+				"border-light-odd": [
+					"border-zinc-400",
+				],
+				"border-light-odd-hover": [
+					"hover:border-zinc-500",
+				],
 				"border-dark": [
 					"border-zinc-500",
 				],
 				"border-dark-hover": [
 					"hover:border-zinc-600",
+				],
+				"border-dark-odd": [
+					"border-zinc-600",
+				],
+				"border-dark-odd-hover": [
+					"hover:border-zinc-700",
 				],
 				//
 				"shadow-light": [
@@ -351,10 +379,10 @@ export const PicoCls = cls(
 			//
 			"subtle.color": {
 				"text-light": [
-					"text-sky-600",
+					"text-sky-50",
 				],
 				"text-light-hover": [
-					"hover:text-sky-700",
+					"hover:text-sky-100",
 				],
 				"text-dark": [
 					"text-sky-900",
@@ -375,6 +403,18 @@ export const PicoCls = cls(
 				"bg-dark-hover": [
 					"hover:bg-sky-300",
 				],
+				"bg-light-odd": [
+					"bg-sky-100",
+				],
+				"bg-light-odd-hover": [
+					"hover:bg-sky-200",
+				],
+				"bg-dark-odd": [
+					"bg-sky-300",
+				],
+				"bg-dark-odd-hover": [
+					"hover:bg-sky-400",
+				],
 				//
 				"border-light": [
 					"border-sky-300",
@@ -382,11 +422,23 @@ export const PicoCls = cls(
 				"border-light-hover": [
 					"hover:border-sky-400",
 				],
+				"border-light-odd": [
+					"border-sky-400",
+				],
+				"border-light-odd-hover": [
+					"hover:border-sky-500",
+				],
 				"border-dark": [
 					"border-sky-500",
 				],
 				"border-dark-hover": [
 					"hover:border-sky-600",
+				],
+				"border-dark-odd": [
+					"border-sky-600",
+				],
+				"border-dark-odd-hover": [
+					"hover:border-sky-700",
 				],
 				//
 				"shadow-light": [
