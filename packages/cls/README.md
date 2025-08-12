@@ -3,7 +3,7 @@
 ## Introduction ✨ <a id="introduction"></a>
 
 `@use-pico/cls` is a class-first styling system built for modern design systems and production apps. It works with existing CSS utilities (like Tailwind), _not_ CSS-in-JS. Its core ideas are: **design tokens** as first‑class citizens, **multi-slot** components, **explicit variants** with strong TypeScript guarantees, and a powerful **multi-level inheritance** model for scalable systems. ✨
-`
+
 - 🧱 **Contracts, not configs**: declare **tokens · slots · variants** once → get full IntelliSense everywhere
 - 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
 - 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides
@@ -20,9 +20,146 @@
 
 > **Note**: `cls` is **not** `CSS‑in‑JS`; it returns class strings and works with your existing CSS (e.g., Tailwind). No runtime style injection. 🚫
 
-## Table of Contents <a id="table-of-contents"></a>
+## 📚 Documentation
 
-[toc.json here]
+### [📖 Full Documentation](https://github.com/use-pico/pico/tree/main/packages/cls/docs)
+
+#### 1. [Foundations](https://github.com/use-pico/pico/tree/main/packages/cls/docs/01-foundations)
+- [1.1 What is CLS?](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.1-what-is-cls.md)
+- [1.2 Mental Model](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.2-mental-model.md)
+- [1.3 Motivation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.3-motivation.md)
+- [1.4 Installation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.4-installation.md)
+- [1.5 Quick Start](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.5-quick-start.md)
+
+#### 2. [Design Philosophy](https://github.com/use-pico/pico/tree/main/packages/cls/docs/02-design-philosophy)
+- [2.1 Callbacks Everywhere](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.1-callbacks-everywhere.md)
+- [2.2 Why Contracts First](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.2-why-contracts-first.md)
+- [2.3 Token-Centric Design](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.3-token-centric-design.md)
+- [2.4 Rule-Based System](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.4-rule-based-system.md)
+- [2.5 Required Defaults](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.5-required-defaults.md)
+- [2.6 Type Safety as Foundation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.6-type-safety-as-foundation.md)
+- [2.7 Performance by Design](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.7-performance-by-design.md)
+- [2.8 Simplicity Beneath Complexity](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.8-simplicity-beneath-complexity.md)
+- [2.9 CSS Connection](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.9-css-connection.md)
+- [2.10 Inheritance as Foundation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.10-inheritance-as-foundation.md)
+- [2.11 Declarative Configuration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.11-declarative-configuration.md)
+
+#### 3. [Core API](https://github.com/use-pico/pico/tree/main/packages/cls/docs/03-core-api)
+- [3.1 `cls()` Function](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.1-cls-function.md)
+- [3.2 `extend()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.2-extend-method.md)
+- [3.3 `use()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.3-use-method.md)
+- [3.4 `merge()` Utility](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.4-merge-utility.md)
+- [3.5 `tvc()` Helper](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.5-tvc-helper.md)
+- [3.6 What Utility](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.6-what-utility.md)
+- [3.7 Definition Helpers](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.7-definition-helpers.md)
+- [3.8 Override Helpers](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.8-override-helpers.md)
+- [3.9 Override System Deep Dive](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.9-override-system-deep-dive.md)
+
+#### 4. [React Integration](https://github.com/use-pico/pico/tree/main/packages/cls/docs/04-react-integration)
+- [4.1 `useCls` Hook](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.1-usecls-hook.md)
+- [4.2 `withCls` HOC](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.2-withcls-hoc.md)
+- [4.3 Context Integration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.3-context-integration.md)
+- [4.4 `Component` Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.4-component-patterns.md)
+- [4.5 `ClsProvider` & `useClsContext`](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.5-clsprovider-useclscontext.md)
+- [4.6 Component Creation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.6-component-creation.md)
+- [4.7 Theming & Tokens](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.7-theming-tokens.md)
+
+#### 5. [Tokens](https://github.com/use-pico/pico/tree/main/packages/cls/docs/05-tokens)
+- [5.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.1-contract-declaration.md)
+- [5.2 Token Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.2-token-definition.md)
+- [5.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.3-inheritance.md)
+- [5.4 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.4-runtime-overrides.md)
+
+#### 6. [Slots](https://github.com/use-pico/pico/tree/main/packages/cls/docs/06-slots)
+- [6.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.1-contract-declaration.md)
+- [6.2 Slot Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.2-slot-definition.md)
+- [6.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.3-inheritance.md)
+- [6.4 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.4-runtime-overrides.md)
+
+#### 7. [Variants](https://github.com/use-pico/pico/tree/main/packages/cls/docs/07-variants)
+- [7.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.1-contract-declaration.md)
+- [7.2 Variant Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.2-variant-definition.md)
+- [7.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.3-inheritance.md)
+- [7.4 Forced Defaults](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.4-forced-defaults.md)
+- [7.5 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.5-runtime-overrides.md)
+
+#### 8. [Rules](https://github.com/use-pico/pico/tree/main/packages/cls/docs/08-rules)
+- [8.1 Slots & Variants](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.1-slots-variants.md)
+- [8.2 Root Rule Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.2-root-rule-definition.md)
+- [8.3 Rule Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.3-rule-definition.md)
+- [8.4 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.4-inheritance.md)
+- [8.5 Definition Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.5-definition-overrides.md)
+
+#### 9. [Runtime](https://github.com/use-pico/pico/tree/main/packages/cls/docs/09-runtime)
+- [9.1 `create()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.1-create-method.md)
+- [9.2 `slot()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.2-slot-method.md)
+- [9.3 `cls` & `tva` Prop (`Component` Interface)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.3-cls-tva-prop-component-interface.md)
+
+#### 10. [Styling Resolution](https://github.com/use-pico/pico/tree/main/packages/cls/docs/10-styling-resolution)
+- [10.1 Resolution Order](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.1-resolution-order.md)
+- [10.2 Token Resolution Process](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.2-token-resolution-process.md)
+- [10.3 Rule Evaluation Process](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.3-rule-evaluation-process.md)
+- [10.4 Override vs Append Behavior](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.4-override-vs-append-behavior.md)
+- [10.5 Inheritance Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.5-inheritance-resolution.md)
+
+#### 11. [Best Practices](https://github.com/use-pico/pico/tree/main/packages/cls/docs/11-best-practices)
+- [11.1 Token Definition & Theme](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.1-token-definition-theme.md)
+- [11.2 Components & `withCls`](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.2-components-withcls.md)
+- [11.3 Common Anti-patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.3-common-anti-patterns.md)
+
+#### 12. [Recipes & Patterns](https://github.com/use-pico/pico/tree/main/packages/cls/docs/12-recipes-&-patterns)
+- [12.1 Simple Static Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.1-simple-static-components.md)
+- [12.2 Variant-only Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.2-variant-only-components.md)
+- [12.3 Token System Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.3-token-system-components.md)
+- [12.4 Inheritance Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.4-inheritance-components.md)
+- [12.5 Runtime Customization](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.5-runtime-customization.md)
+- [12.6 Complex Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.6-complex-components.md)
+- [12.7 Edge Cases & Empty Contracts](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.7-edge-cases-empty-contracts.md)
+- [12.8 Multi-level Inheritance Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.8-multi-level-inheritance-patterns.md)
+- [12.9 Complex Rule Matching](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.9-complex-rule-matching.md)
+- [12.10 Boolean Variant Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.10-boolean-variant-patterns.md)
+- [12.11 Token Conflict Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.11-token-conflict-resolution.md)
+- [12.12 Slot Override Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.12-slot-override-patterns.md)
+- [12.13 Large Component Tree Management](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.13-large-component-tree-management.md)
+- [12.14 Dynamic Variant Handling](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.14-dynamic-variant-handling.md)
+- [12.15 Complex Configuration Scenarios](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.15-complex-configuration-scenarios.md)
+- [12.16 Real-world Component Examples](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.16-real-world-component-examples.md)
+- [12.17 Advanced Integration Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.17-advanced-integration-patterns.md)
+- [12.18 Theming & Token Overloading](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.18-theming-token-overloading.md)
+- [12.19 Theme Inheritance & Management](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.19-theme-inheritance-management.md)
+- [12.20 Merge Precedence & Conflict Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.20-merge-precedence-conflict-resolution.md)
+- [12.21 Type System Deep Dive](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.21-type-system-deep-dive.md)
+
+#### 13. [Comparison](https://github.com/use-pico/pico/tree/main/packages/cls/docs/13-comparison)
+- [13.1 Feature Table](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.1-feature-table.md)
+- [13.2 Code Comparisons](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.2-code-comparisons.md)
+- [13.3 Migration Paths](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.3-migration-paths.md)
+- [13.4 vs CVA (Class Variance Authority)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.4-vs-cva-class-variance-authority.md)
+- [13.5 vs TV (Tailwind Variants)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.5-vs-tv-tailwind-variants.md)
+- [13.6 vs Stitches](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.6-vs-stitches.md)
+- [13.7 vs Vanilla Extract](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.7-vs-vanilla-extract.md)
+
+#### 14. [Migration Guide](https://github.com/use-pico/pico/tree/main/packages/cls/docs/14-migration-guide)
+- [14.1 Migration Overview](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.1-migration-overview.md)
+- [14.2 From CVA to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.2-from-cva-to-cls.md)
+- [14.3 From TV to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.3-from-tv-to-cls.md)
+- [14.4 From Stitches to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.4-from-stitches-to-cls.md)
+- [14.5 From Vanilla Extract to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.5-from-vanilla-extract-to-cls.md)
+- [14.6 From CSS Modules to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.6-from-css-modules-to-cls.md)
+- [14.7 From Emotion to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.7-from-emotion-to-cls.md)
+- [14.8 Migration Best Practices](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.8-migration-best-practices.md)
+
+#### 15. [FAQ & Known Limitations](https://github.com/use-pico/pico/tree/main/packages/cls/docs/15-faq-&-known-limitations)
+- [15.1 Frequently Asked Questions](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.1-frequently-asked-questions.md)
+- [15.2 Known Limitations](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.2-known-limitations.md)
+- [15.3 Troubleshooting](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.3-troubleshooting.md)
+- [15.4 Common Pitfalls](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.4-common-pitfalls.md)
+
+#### 16. [AI Compatibility](https://github.com/use-pico/pico/tree/main/packages/cls/docs/16-ai-compatibility)
+- [16.1 AI-First Design Philosophy](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.1-ai-first-design-philosophy.md)
+- [16.2 Documentation Strategy](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.2-documentation-strategy.md)
+- [16.3 Context-Aware Usage](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.3-context-aware-usage.md)
+- [16.4 AI Assistant Integration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.4-ai-assistant-integration.md)
 
 ---
 
@@ -297,16 +434,16 @@ const ButtonCls = cls(contract, ({ what, def }) => ({
     
     // 2. Single variant rules (applied when variants match)
     def.rule(what.variant({ size: 'lg' }), {
-      root: what.css(['px-6', 'py-3', 'text-lg']) // Adds size styling
+      root: what.css(['px-6', 'py-3', 'text-lg"]) // Adds size styling
     }),
     
     def.rule(what.variant({ variant: 'primary' }), {
-      root: what.css(['bg-blue-500', 'text-white']) // Adds color styling
+      root: what.css(['bg-blue-500', 'text-white"]) // Adds color styling
     }),
     
     // 3. Combined variant rules (applied when all variants match)
     def.rule(what.variant({ size: 'lg', variant: 'primary' }), {
-      root: what.css(['shadow-lg', 'transform']) // Adds special effects
+      root: what.css(['shadow-lg', 'transform"]) // Adds special effects
     })
   ]
 }));
