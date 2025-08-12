@@ -22,6 +22,8 @@ export const IssuesCls = PicoCls.extend(
 				item: what.css([
 					"p-4",
 					"text-md",
+					"border",
+					"rounded-md",
 				]),
 			}),
 			def.rule(
@@ -29,10 +31,10 @@ export const IssuesCls = PicoCls.extend(
 					type: "info",
 				}),
 				{
-					item: what.css([
-						"bg-blue-100",
-						"border-blue-400",
-						"text-blue-700",
+					item: what.token([
+						"primary.color.text-dark",
+						"primary.color.bg-light",
+						"primary.color.border-light",
 					]),
 				},
 			),
@@ -41,10 +43,10 @@ export const IssuesCls = PicoCls.extend(
 					type: "warning",
 				}),
 				{
-					item: what.css([
-						"bg-amber-100",
-						"border-amber-400",
-						"text-amber-700",
+					item: what.token([
+						"secondary.color.text-dark",
+						"secondary.color.bg-light",
+						"secondary.color.border-light",
 					]),
 				},
 			),
@@ -53,10 +55,10 @@ export const IssuesCls = PicoCls.extend(
 					type: "error",
 				}),
 				{
-					item: what.css([
-						"bg-red-100",
-						"border-red-400",
-						"text-red-700",
+					item: what.token([
+						"danger.color.text-dark",
+						"danger.color.bg-light",
+						"danger.color.border-light",
 					]),
 				},
 			),

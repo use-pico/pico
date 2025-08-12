@@ -22,26 +22,36 @@ export const ModalCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"bg-slate-400/75",
-					"backdrop-blur-xs",
-					"flex",
-					"justify-center",
-					"py-12",
-				]),
+				base: what.both(
+					[
+						"bg-slate-400/75",
+						"backdrop-blur-xs",
+						"flex",
+						"justify-center",
+						"py-12",
+					],
+					[
+						"focus.reset.off",
+					],
+				),
 				target: what.css([]),
-				modal: what.css([
-					"bg-white",
-					"rounded-lg",
-					"shadow-lg",
-					"p-4",
-					"max-h-full",
-					"h-fit",
-					"flex",
-					"flex-col",
-					"gap-2",
-					"w-2/3",
-				]),
+				modal: what.both(
+					[
+						"bg-white",
+						"rounded-lg",
+						"shadow-lg",
+						"p-4",
+						"max-h-full",
+						"h-fit",
+						"flex",
+						"flex-col",
+						"gap-2",
+						"w-2/3",
+					],
+					[
+						"focus.reset.off",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

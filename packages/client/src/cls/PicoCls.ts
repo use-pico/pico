@@ -84,6 +84,9 @@ export const PicoCls = cls(
 			shadow: [
 				"sm",
 			],
+			"focus.reset": [
+				"off",
+			],
 		},
 		slot: [],
 		variant: {},
@@ -295,6 +298,18 @@ export const PicoCls = cls(
 			shadow: {
 				sm: [
 					"shadow-sm",
+				],
+			},
+			"focus.reset": {
+				off: [
+					"outline-none",
+					"focus:outline-none",
+					"focus-visible:outline-none",
+					"ring-0",
+					"focus:ring-0",
+					"focus:ring-transparent",
+					"focus-visible:ring-0",
+					"focus-visible:ring-transparent",
 				],
 			},
 		}),
