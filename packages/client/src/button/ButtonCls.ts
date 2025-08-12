@@ -73,6 +73,7 @@ export const ButtonCls = PicoCls.extend(
 						"select-none",
 						"active:scale-95",
 						"active:opacity-90",
+						"hover:scale-105",
 					],
 					[
 						"shadow.sm",

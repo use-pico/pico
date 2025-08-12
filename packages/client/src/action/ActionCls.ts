@@ -47,6 +47,8 @@ export const ActionCls = PicoCls.extend(
 						"py-1",
 						"rounded-md",
 						"select-none",
+						"active:scale-95",
+						"hover:scale-110",
 					],
 					[
 						"shadow.sm",
