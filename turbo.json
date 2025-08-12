@@ -34,8 +34,7 @@
 			"inputs": [
 				"src/**",
 				"package.json",
-				"rollup.config.*",
-				"style-dictionary.config.*"
+				"rollup.config.*"
 			],
 			"outputs": [
 				"dist/**",

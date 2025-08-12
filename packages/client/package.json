@@ -5,12 +5,9 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"dev": "run-p dev:*",
-		"dev:styles": "chokidar \"src/@tokens/**/*.js\" \"src/**/*.cls.js\" \"style-dictionary.config.js\" -c \"bun run build:styles\"",
 		"typecheck": "tsc --noEmit",
-		"build:styles": "bun x style-dictionary build --config style-dictionary.config.js",
 		"build:bundle": "bun x rollup -c",
-		"build": "run-p build:styles build:bundle"
+		"build": "bun run build:bundle"
 	},
 	"dependencies": {
 		"@floating-ui/react": "^0.27.13",
@@ -52,11 +49,9 @@
 		"@types/node": "^24.1.0",
 		"@types/react": "^19.1.9",
 		"@use-pico/tsconfig": "4.0.20",
-		"chokidar-cli": "^3.0.0",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.46.2",
 		"rollup-plugin-dts": "6.2.1",
-		"style-dictionary": "5.0.1",
 		"typescript": "^5.9.2"
 	},
 	"main": "src/index.ts",
@@ -68,8 +63,7 @@
 	"exports": {
 		".": {
 			"import": "./src/index.ts"
-		},
-		"./pico.css": "./src/pico.css"
+		}
 	},
 	"license": "MIT",
 	"repository": "use-pico/pico",
