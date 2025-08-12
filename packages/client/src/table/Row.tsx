@@ -135,15 +135,15 @@ export const Row = <
 					<Icon
 						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
 						cls={({ what }) => ({
-							slot: {
-								base: what.css(
+							slot: what.slot({
+								root: what.css(
 									slots.select(({ what }) => ({
 										variant: what.variant({
 											selected: isSelected,
 										}),
 									})),
 								),
-							},
+							}),
 							variant: what.variant({
 								size: "2xl",
 							}),

@@ -5,7 +5,7 @@ export const LoadingOverlayCls = PicoCls.extend(
 	{
 		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			show: [
@@ -17,7 +17,7 @@ export const LoadingOverlayCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"fixed",
 					"inset-0",
 					"h-full",
@@ -38,7 +38,7 @@ export const LoadingOverlayCls = PicoCls.extend(
 					show: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"bg-opacity-50",
 						"backdrop-blur-xs",
 						"pointer-events-auto",

@@ -22,7 +22,7 @@ export const Tooltip: FC<Tooltip.Props> = ({
 			action={"hover"}
 			target={target}
 		>
-			<div className={slots.base()}>{children}</div>
+			<div className={slots.root()}>{children}</div>
 		</Float>
 	);
 };

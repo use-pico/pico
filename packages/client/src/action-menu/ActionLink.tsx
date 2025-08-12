@@ -1,4 +1,5 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
+import { useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
@@ -25,12 +26,12 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		/**
 		 * Slots, because we're using `ref` here and `tva` does not support `ref`s.
 		 */
-		const classes = tva.create(cls);
+		const slots = useCls(tva, cls);
 
 		return (
 			<a
 				{...props}
-				className={classes.base()}
+				className={slots.base()}
 				ref={ref}
 			>
 				{isString(icon) ? (

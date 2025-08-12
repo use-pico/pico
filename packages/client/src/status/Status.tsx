@@ -31,12 +31,11 @@ export const Status: FC<Status.Props> = ({
 						variant: what.variant({
 							size: "6xl",
 						}),
-						slot: {
-							base: what.css([
-								"text-slate-500",
+						slot: what.slot({
+							root: what.css([
 								"opacity-50",
 							]),
-						},
+						}),
 					})}
 					{...iconProps}
 				/>

@@ -160,12 +160,12 @@ export const Select = <TItem extends EntitySchema.Type>({
 								variant: what.variant({
 									size: "xl",
 								}),
-								slot: {
-									base: what.css([
+								slot: what.slot({
+									root: what.css([
 										"text-slate-400",
 										"group-hover:text-slate-600",
 									]),
-								},
+								}),
 							})}
 						/>
 					) : null}
@@ -201,15 +201,15 @@ export const Select = <TItem extends EntitySchema.Type>({
 								variant: what.variant({
 									size: "xl",
 								}),
-								slot: {
-									base: what.css(
+								slot: what.slot({
+									root: what.css(
 										[
 											!isOpen && "text-slate-400",
 											isOpen && "text-slate-600",
 											"group-hover:text-slate-600",
 										].filter(Boolean),
 									),
-								},
+								}),
 							})}
 						/>
 					</div>

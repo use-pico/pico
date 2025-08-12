@@ -50,11 +50,11 @@ export const Data = <TSchema extends StandardSchemaV1>({
 			icon={ErrorIcon}
 			iconProps={{
 				cls: ({ what }) => ({
-					slot: {
-						base: what.css([
+					slot: what.slot({
+						root: what.css([
 							"text-red-500",
 						]),
-					},
+					}),
 				}),
 			}}
 			textTitle={<Tx label={"Invalid data provided (title)"} />}

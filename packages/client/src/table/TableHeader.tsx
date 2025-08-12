@@ -117,15 +117,15 @@ export const TableHeader = <
 									disabled: selectionMode === "single",
 									size: "2xl",
 								}),
-								slot: {
-									base: what.css(
+								slot: what.slot({
+									root: what.css(
 										slots.select(({ what }) => ({
 											variant: what.variant({
 												selected: isAny,
 											}),
 										})),
 									),
-								},
+								}),
 							})}
 							onClick={onSelectAll}
 						/>

@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import type { FC, HTMLAttributes, ReactNode } from "react";
 import { IconCls } from "./IconCls";
@@ -38,20 +39,21 @@ export const Icon: FC<Icon.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(
+	const slots = useCls(
+		tva,
 		cls,
 		isString(icon)
 			? ({ what }) => ({
-					slot: {
-						base: what.css(icon),
-					},
+					slot: what.slot({
+						root: what.css(icon),
+					}),
 				})
 			: undefined,
 	);
 
 	return isString(icon) ? (
 		<div
-			className={classes.base()}
+			className={slots.root()}
 			{...props}
 		/>
 	) : (

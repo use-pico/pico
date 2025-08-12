@@ -19,7 +19,7 @@ export const BoolInlineCls = IconCls.extend(
 					value: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-green-600",
 					]),
 				},
@@ -29,7 +29,7 @@ export const BoolInlineCls = IconCls.extend(
 					value: false,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-amber-600",
 					]),
 				},

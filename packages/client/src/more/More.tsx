@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { EntitySchema } from "@use-pico/common";
 import type { ReactNode } from "react";
 import { Action } from "../action/Action";
@@ -59,7 +60,7 @@ export const More = <TValues extends EntitySchema.Type>({
 	cls,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const classes = tva.create(cls);
+	const classes = useCls(tva, cls);
 
 	return (
 		<div className={classes.base()}>

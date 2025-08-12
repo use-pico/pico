@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren } from "react";
 import { MenuCls } from "./MenuCls";
 
@@ -8,7 +9,7 @@ export namespace Menu {
 }
 
 export const Menu: FC<Menu.Props> = ({ tva = MenuCls, cls, children }) => {
-	const classes = tva.create(cls);
+	const classes = useCls(tva, cls);
 
 	return <div className={classes.base()}>{children}</div>;
 };

@@ -5,7 +5,7 @@ export const TooltipCls = PicoCls.extend(
 	{
 		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {},
 	},
@@ -13,16 +13,21 @@ export const TooltipCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"border",
-					"border-sky-400",
-					"bg-sky-50",
-					"text-sky-600",
-					"rounded-lg",
-					"px-4",
-					"py-2",
-					"shadow-md",
-				]),
+				root: what.both(
+					[
+						"border",
+						"rounded-lg",
+						"px-4",
+						"py-2",
+						"shadow-md",
+					],
+					[
+						"secondary.color.text-light",
+						"secondary.color.bg-dark",
+						"secondary.color.border-dark",
+						"secondary.color.shadow-dark",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),

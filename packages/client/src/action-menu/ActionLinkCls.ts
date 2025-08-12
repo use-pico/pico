@@ -20,5 +20,5 @@ export const ActionLinkCls = ActionCls.extend(
 export type ActionLinkCls = typeof ActionLinkCls;
 
 export namespace ActionLinkCls {
-	export type Props<P = unknown> = Component<typeof ActionLinkCls, P>;
+	export type Props<P = unknown> = Component<ActionLinkCls, P>;
 }

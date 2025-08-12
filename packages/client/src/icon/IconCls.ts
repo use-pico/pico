@@ -5,7 +5,7 @@ export const IconCls = PicoCls.extend(
 	{
 		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			size: [
@@ -35,7 +35,7 @@ export const IconCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-sm",
 					]),
 				},
@@ -45,7 +45,7 @@ export const IconCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-sm",
 					]),
 				},
@@ -55,7 +55,7 @@ export const IconCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-base",
 					]),
 				},
@@ -65,7 +65,7 @@ export const IconCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-lg",
 					]),
 				},
@@ -75,7 +75,7 @@ export const IconCls = PicoCls.extend(
 					size: "xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-xl",
 					]),
 				},
@@ -85,7 +85,7 @@ export const IconCls = PicoCls.extend(
 					size: "2xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-2xl",
 					]),
 				},
@@ -95,7 +95,7 @@ export const IconCls = PicoCls.extend(
 					size: "3xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-3xl",
 					]),
 				},
@@ -105,7 +105,7 @@ export const IconCls = PicoCls.extend(
 					size: "4xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-4xl",
 					]),
 				},
@@ -115,7 +115,7 @@ export const IconCls = PicoCls.extend(
 					size: "5xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-5xl",
 					]),
 				},
@@ -125,7 +125,7 @@ export const IconCls = PicoCls.extend(
 					size: "6xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-6xl",
 					]),
 				},
@@ -135,7 +135,7 @@ export const IconCls = PicoCls.extend(
 					size: "7xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-7xl",
 					]),
 				},
@@ -145,7 +145,7 @@ export const IconCls = PicoCls.extend(
 					size: "8xl",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"text-8xl",
 					]),
 				},
@@ -155,10 +155,9 @@ export const IconCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pointer-events-none",
 						"cursor-not-allowed",
-						"text-gray-400",
 						"opacity-50",
 					]),
 				},
@@ -171,6 +170,8 @@ export const IconCls = PicoCls.extend(
 	}),
 );
 
+export type IconCls = typeof IconCls;
+
 export namespace IconCls {
-	export type Props<P = unknown> = Component<typeof IconCls, P>;
+	export type Props<P = unknown> = Component<IconCls, P>;
 }

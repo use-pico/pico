@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { Icon } from "../icon/Icon";
 import { LoadingOverlayCls } from "./LoadingOverlayCls";
@@ -13,25 +14,25 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	tva = LoadingOverlayCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			show,
 		}),
 	}));
 
 	return show ? (
-		<div className={classes.base()}>
+		<div className={slots.root()}>
 			<Icon
 				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
 				cls={({ what }) => ({
 					variant: what.variant({
 						size: "8xl",
 					}),
-					slot: {
-						base: what.css([
+					slot: what.slot({
+						root: what.css([
 							"text-sky-400",
 						]),
-					},
+					}),
 				})}
 			/>
 		</div>
