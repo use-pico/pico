@@ -20,6 +20,7 @@ export { Button } from "./button/Button";
 export { ButtonCls } from "./button/ButtonCls";
 export { Card } from "./card/Card";
 export { CardCls } from "./card/CardCls";
+export { ColorsCls } from "./cls/ColorsCls";
 export { InlineContext } from "./context/InlineContext";
 export { ButtonLinkCls } from "./css/ButtonLinkCls";
 export { PageCls } from "./css/PageCls";

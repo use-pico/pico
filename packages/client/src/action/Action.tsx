@@ -1,4 +1,4 @@
-import { withCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -64,16 +64,16 @@ const Component: FC<Action.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, () => ({
-		variant: {
+	const slots = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
 			disabled,
 			loading,
-		},
+		}),
 	}));
 
 	return (
 		<div
-			className={classes.base()}
+			className={slots.base()}
 			onClick={disabled ? undefined : onClick}
 			{...props}
 		>

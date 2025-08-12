@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
@@ -24,14 +25,14 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 		}),
 	}));
 
 	return hidden ? null : (
-		<div className={classes.base()}>
+		<div className={slots.base()}>
 			<Modal
 				icon={icon}
 				target={

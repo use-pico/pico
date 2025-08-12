@@ -1,4 +1,5 @@
 import { FloatingTree } from "@floating-ui/react";
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
@@ -32,12 +33,12 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
-		slot: {
+	const slots = useCls(tva, cls, ({ what }) => ({
+		slot: what.slot({
 			base: what.css([
 				"relative",
 			]),
-		},
+		}),
 	}));
 
 	return (
@@ -65,7 +66,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<div className={classes.base()}>{children}</div>
+				<div className={slots.base()}>{children}</div>
 			</Float>
 		</FloatingTree>
 	);

@@ -10,7 +10,7 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { tvc } from "@use-pico/cls";
+import { tvc, useCls } from "@use-pico/cls";
 import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -83,7 +83,7 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 		}),
@@ -96,7 +96,7 @@ export const Modal: FC<Modal.Props> = ({
 				{...getReferenceProps({
 					disabled,
 				})}
-				className={classes.target()}
+				className={slots.target()}
 			>
 				{target}
 			</div>
@@ -106,7 +106,7 @@ export const Modal: FC<Modal.Props> = ({
 						<FloatingOverlay
 							lockScroll
 							style={styles}
-							className={classes.base()}
+							className={slots.base()}
 							onDoubleClick={(e) => {
 								e.stopPropagation();
 								e.preventDefault();
@@ -116,7 +116,7 @@ export const Modal: FC<Modal.Props> = ({
 								<div
 									ref={refs.setFloating}
 									{...getFloatingProps()}
-									className={classes.modal()}
+									className={slots.modal()}
 								>
 									<div
 										className={tvc([

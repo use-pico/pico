@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { DetailCls } from "./DetailCls";
 import { Section } from "./Section";
@@ -9,15 +10,15 @@ export namespace Detail {
 }
 
 export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.base()}>
 			{section.map(({ id, ...props }) => (
 				<Section
 					key={`detail-section-${id}`}
 					id={id}
-					slots={classes}
+					slots={slots}
 					{...props}
 				/>
 			))}

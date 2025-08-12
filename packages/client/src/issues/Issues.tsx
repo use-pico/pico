@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
@@ -20,7 +21,7 @@ export const Issues: FC<Issues.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
 		error: "icon-[ix--warning]",
@@ -57,15 +58,15 @@ export const Issues: FC<Issues.Props> = ({
 					<Badge
 						key={`issues-${entity.id}-inline`}
 						cls={({ what }) => ({
-							slot: {
-								base: what.css(
-									classes.item(({ what }) => ({
+							slot: what.slot({
+								root: what.css(
+									slots.item(({ what }) => ({
 										variant: what.variant({
 											type: entity.type,
 										}),
 									})),
 								),
-							},
+							}),
 						})}
 					>
 						<Icon icon={icons[entity.type]} />

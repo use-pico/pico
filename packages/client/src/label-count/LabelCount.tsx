@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { toHumanNumber } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Badge } from "../badge/Badge";
@@ -18,17 +19,17 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	tva = LabelCountCls,
 	cls,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.label()}>{label}</div>
+		<div className={slots.base()}>
+			<div className={slots.label()}>{label}</div>
 			<Badge
 				{...badgeProps}
 				cls={({ what }) => ({
 					variant: what.variant({
 						size: "xs",
-						variant: "light",
+						light: true,
 						borderless: true,
 					}),
 				})}

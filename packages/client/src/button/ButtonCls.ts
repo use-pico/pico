@@ -41,17 +41,17 @@ export const ButtonCls = PicoCls.extend(
 		token: def.token({
 			"button.size": {
 				xs: [
-					"px-1",
+					"px-2",
 					"py-0.5",
 					"text-xs",
 				],
 				sm: [
-					"px-3",
+					"px-4",
 					"py-2",
 					"text-sm",
 				],
 				md: [
-					"px-4",
+					"px-6",
 					"py-2",
 					"text-base",
 				],

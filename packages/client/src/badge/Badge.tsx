@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { BadgeCls } from "./BadgeCls";
 
@@ -14,11 +15,11 @@ export namespace Badge {
 }
 
 export const Badge: FC<Badge.Props> = ({ cls, tva = BadgeCls, ...props }) => {
-	const classes = tva.create(cls);
+	const classes = useCls(tva, cls);
 
 	return (
 		<div
-			className={classes.base()}
+			className={classes.root()}
 			{...props}
 		/>
 	);

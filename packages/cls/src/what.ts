@@ -15,6 +15,7 @@ export const what = <
 			class: classes,
 			token: tokens,
 		}),
+		slot: (slot) => slot,
 		variant: (variant) => variant,
 	},
 	override: {

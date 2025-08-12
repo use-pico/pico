@@ -423,6 +423,8 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 		variant(
 			variant: Partial<DefaultDefinition<TContract>>,
 		): Partial<DefaultDefinition<TContract>>;
+
+		slot(slot: SlotMapping<TContract>): SlotMapping<TContract>;
 	};
 	/**
 	 * Semantic section used in overrides

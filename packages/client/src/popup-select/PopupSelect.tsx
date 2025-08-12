@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type {
 	EntitySchema,
 	StateType,
@@ -99,7 +100,7 @@ export const PopupSelect = <
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	const modalId = useId();
 
@@ -111,7 +112,7 @@ export const PopupSelect = <
 				<Target
 					mode={mode}
 					modalId={modalId}
-					slots={classes}
+					slots={slots}
 					withQuery={withQuery}
 					renderSingle={renderSingle}
 					renderMulti={renderMulti}
@@ -138,7 +139,7 @@ export const PopupSelect = <
 					query={query}
 					table={table}
 					state={state}
-					slots={classes}
+					slots={slots}
 					allowEmpty={allowEmpty}
 				/>
 			)}

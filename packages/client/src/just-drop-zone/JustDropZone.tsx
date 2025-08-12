@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { isNonEmptyArray, translator } from "@use-pico/common";
 import { type FC, type ReactNode, useCallback, useState } from "react";
 import * as dropzone from "react-dropzone";
@@ -62,7 +63,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const classes = tva.create(cls, ({ what }) => ({
+	const classes = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			active: isDragActive,
 			rejected: isDragReject,

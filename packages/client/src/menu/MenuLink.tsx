@@ -4,7 +4,7 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
-import { merge } from "@use-pico/cls";
+import { merge, useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
@@ -18,12 +18,12 @@ interface Item
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
 	({ icon = null, tva = MenuLinkCls, cls, children, ...props }, ref) => {
-		const classes = tva.create(cls);
+		const slots = useCls(tva, cls);
 
 		return (
 			<a
 				{...props}
-				className={classes.base()}
+				className={slots.base()}
 				ref={ref}
 			>
 				{isString(icon) ? <Icon icon={icon} /> : icon}

@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -25,7 +26,7 @@ export const Button: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const classes = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
 		}),

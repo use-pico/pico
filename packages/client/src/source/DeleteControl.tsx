@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCls } from "@use-pico/cls";
 import { type FC, type ReactNode, useContext } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../button/Button";
@@ -29,7 +30,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	tva = DeleteControlCls,
 	cls,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();
@@ -48,9 +49,9 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	});
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.content()}>{textContent}</div>
-			<div className={classes.footer()}>
+		<div className={slots.base()}>
+			<div className={slots.content()}>{textContent}</div>
+			<div className={slots.footer()}>
 				<Button
 					cls={({ what }) => ({
 						variant: what.variant({

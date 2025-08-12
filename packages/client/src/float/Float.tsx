@@ -14,6 +14,7 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
+import { useCls } from "@use-pico/cls";
 import {
 	type FC,
 	type PropsWithChildren,
@@ -83,7 +84,7 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			mounted: isMounted,
 		}),
@@ -94,7 +95,7 @@ export const Float: FC<Float.Props> = ({
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps()}
-				className={classes.target()}
+				className={slots.target()}
 			>
 				{target}
 			</div>
@@ -108,7 +109,7 @@ export const Float: FC<Float.Props> = ({
 						<div
 							ref={refs.setFloating}
 							style={floatingStyles}
-							className={classes.portal()}
+							className={slots.portal()}
 							{...getFloatingProps()}
 							onClick={
 								closeOnClick
@@ -136,7 +137,7 @@ export const Float: FC<Float.Props> = ({
 							...floatingStyles,
 							...styles,
 						}}
-						className={classes.portal()}
+						className={slots.portal()}
 						{...getFloatingProps()}
 						onClick={
 							closeOnClick
