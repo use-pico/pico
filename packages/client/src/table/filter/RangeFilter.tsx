@@ -29,13 +29,14 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 	const isGte = pathOf(state.value || {}).get(gte) !== undefined;
 
 	return (
-		<div className={"flex flex-row gap-1"}>
+		<div className={"flex flex-row gap-2"}>
 			{isLte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
+							tone: "subtle",
 						}),
 					})}
 					onClick={() => {
@@ -55,6 +56,7 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
+							tone: "subtle",
 						}),
 					})}
 					onClick={() => {
@@ -75,6 +77,7 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
+							tone: "subtle",
 						}),
 					})}
 					onClick={() => {
@@ -94,6 +97,7 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
+							tone: "subtle",
 						}),
 					})}
 					onClick={() => {

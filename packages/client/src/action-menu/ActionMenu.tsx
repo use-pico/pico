@@ -52,7 +52,9 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 							iconProps={iconProps}
 							cls={({ what }) => ({
 								variant: what.variant({
-									borderless: true,
+									// borderless: true,
+									tone: "subtle",
+									light: true,
 								}),
 							})}
 							{...actionProps}
