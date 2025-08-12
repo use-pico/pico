@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { translator } from "@use-pico/common";
 import type { FC } from "react";
 import { ErrorIcon } from "../icon/ErrorIcon";
@@ -21,17 +22,17 @@ export const FormError: FC<FormError.Props> = ({
 	tva = FormErrorCls,
 	cls,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	const shouldShowError =
 		meta.isDirty && meta.isTouched && meta.errors && meta.errors.length > 0;
 
 	return shouldShowError ? (
-		<div className={classes.base()}>
+		<div className={slots.base()}>
 			{meta.errors?.map((error, index) => (
 				<div
 					key={`${index}-${error}`}
-					className={classes.error()}
+					className={slots.error()}
 				>
 					<Icon icon={ErrorIcon} />
 					<span>{translator.rich(error.message)}</span>

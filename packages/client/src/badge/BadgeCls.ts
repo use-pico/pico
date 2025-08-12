@@ -43,8 +43,6 @@ export const BadgeCls = PicoCls.extend(
 					"font-bold",
 					"gap-2",
 					"items-center",
-					"px-4",
-					"py-1",
 					"rounded-2xl",
 					"select-none",
 					"text-sm",
@@ -225,7 +223,7 @@ export const BadgeCls = PicoCls.extend(
 				{
 					root: what.css([
 						"text-sm",
-						"px-2",
+						"px-3",
 						"py-1",
 					]),
 				},
@@ -237,7 +235,7 @@ export const BadgeCls = PicoCls.extend(
 				{
 					root: what.css([
 						"text-md",
-						"px-3",
+						"px-4",
 						"py-1.5",
 					]),
 				},
@@ -249,7 +247,7 @@ export const BadgeCls = PicoCls.extend(
 				{
 					root: what.css([
 						"text-lg",
-						"px-4",
+						"px-6",
 						"py-2",
 					]),
 				},

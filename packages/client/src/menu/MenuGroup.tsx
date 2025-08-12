@@ -2,6 +2,7 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { MenuGroupCls } from "./MenuGroupCls";
@@ -25,20 +26,20 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			active: isActive,
 		}),
 	}));
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.label()}>
+		<div className={slots.base()}>
+			<div className={slots.label()}>
 				{icon ? <Icon icon={icon} /> : null}
 				{label}
 			</div>
 
-			<div className={classes.items()}>{children}</div>
+			<div className={slots.items()}>{children}</div>
 		</div>
 	);
 };

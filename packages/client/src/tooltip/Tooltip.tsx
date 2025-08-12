@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Float } from "../float/Float";
 import { TooltipCls } from "./TooltipCls";
@@ -14,14 +15,14 @@ export const Tooltip: FC<Tooltip.Props> = ({
 	tva = TooltipCls,
 	cls,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
 		<Float
 			action={"hover"}
 			target={target}
 		>
-			<div className={classes.base()}>{children}</div>
+			<div className={slots.base()}>{children}</div>
 		</Float>
 	);
 };

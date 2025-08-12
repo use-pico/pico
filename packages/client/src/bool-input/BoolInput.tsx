@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, InputHTMLAttributes } from "react";
 import { BoolInputCls } from "./BoolInputCls";
 
@@ -18,10 +19,10 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	cls,
 	...props
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.base()}>
 			<label>
 				<input
 					type={"checkbox"}
@@ -32,7 +33,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					}}
 					{...props}
 				/>
-				<div className={classes.switch()} />
+				<div className={slots.switch()} />
 			</label>
 		</div>
 	);

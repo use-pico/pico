@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
@@ -26,7 +27,7 @@ export const FormField: FC<FormField.Props> = ({
 	tva = FormFieldCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			isSubmitting: false,
 			isLoading: false,
@@ -37,7 +38,7 @@ export const FormField: FC<FormField.Props> = ({
 	}));
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.base()}>
 			<div className={"flex flex-row justify-between"}>
 				{label ? <label htmlFor={name as string}>{label}</label> : null}
 				<FormError
@@ -50,7 +51,7 @@ export const FormField: FC<FormField.Props> = ({
 				/>
 			</div>
 			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
-			<div className={classes.input()}>{children}</div>
+			<div className={slots.input()}>{children}</div>
 		</div>
 	);
 };
