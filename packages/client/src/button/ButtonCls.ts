@@ -1,19 +1,11 @@
-import { type Component, cls } from "@use-pico/cls";
+import type { Component } from "@use-pico/cls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const ButtonCls = cls(
+export const ButtonCls = PicoCls.extend(
 	{
-		tokens: {
-			"primary.textColor": [
-				"default",
-				"hover",
-			],
-			"secondary.textColor": [
-				"default",
-				"hover",
-			],
-		},
+		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			variant: [
@@ -40,71 +32,34 @@ export const ButtonCls = cls(
 		},
 	},
 	({ what, def }) => ({
-		token: def.token({
-			"primary.textColor": {
-				default: [
-					"text-blue-600",
-				],
-				hover: [
-					"hover:text-blue-700",
-				],
-			},
-			"secondary.textColor": {
-				default: [
-					"text-slate-600",
-				],
-				hover: [
-					"hover:text-slate-700",
-				],
-			},
-		}),
+		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-row",
-					"items-center",
-					"justify-center",
-					"gap-2",
-					"group",
-					"rounded-md",
-					"transition-all",
-					"cursor-pointer",
-					"border",
-					"shadow-sm",
-				]),
+				root: what.both(
+					[
+						"flex",
+						"flex-row",
+						"items-center",
+						"justify-center",
+						"gap-2",
+						"group",
+						"rounded-md",
+						"transition-all",
+						"cursor-pointer",
+						"border",
+					],
+					[
+						"shadow.default",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
 					variant: "primary",
 				}),
 				{
-					base: what.token([
-						"primary.textColor.default",
-						"primary.textColor.hover",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					variant: "secondary",
-				}),
-				{
-					base: what.token([
-						"secondary.textColor.default",
-						"secondary.textColor.hover",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					disabled: true,
-				}),
-				{
-					base: what.css([
-						"cursor-not-allowed",
-						"opacity-50",
-						"hover:opacity-50",
+					root: what.token([
+						"primary.color.default",
 					]),
 				},
 			),

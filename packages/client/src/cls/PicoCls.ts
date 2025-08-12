@@ -7,17 +7,12 @@ import { cls } from "@use-pico/cls";
 export const PicoCls = cls(
 	{
 		tokens: {
-			"color.text": [
-				"default",
-				"hover",
+			"primary.color": [
+				"text",
 			],
-			"color.bg": [
+			shadow: [
 				"default",
-				"hover",
-			],
-			size: [
-				"sm",
-				"md",
+				"foo",
 			],
 		},
 		slot: [],
@@ -25,28 +20,15 @@ export const PicoCls = cls(
 	},
 	({ def }) => ({
 		token: def.token({
-			"color.text": {
-				default: [
-					"text-(--pico-text-default)",
-				],
-				hover: [
-					"text-(--pico-text-hover)",
+			"primary.color": {
+				text: [
+					"text-blue-600",
+					"hover:text-blue-700",
 				],
 			},
-			"color.bg": {
+			shadow: {
 				default: [
-					"bg-(--pico-bg-default)",
-				],
-				hover: [
-					"bg-(--pico-bg-hover)",
-				],
-			},
-			size: {
-				sm: [
-					"text-sm",
-				],
-				md: [
-					"text-base",
+					"shadow-sm",
 				],
 			},
 		}),
