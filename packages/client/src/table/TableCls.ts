@@ -40,13 +40,18 @@ export const TableCls = AbstractListCls.extend(
 					"w-fit",
 					"min-w-full",
 				]),
-				header: what.css([
-					"grid",
-					"border-t",
-					"border-b",
-					"border-(--table-th-color-border)",
-					"bg-(--table-thead-color-bg)",
-				]),
+				header: what.both(
+					[
+						"grid",
+						"border-t",
+						"border-b",
+					],
+					[
+						"subtle.color.text-dark",
+						"subtle.color.bg-light",
+						"subtle.color.border-dark",
+					],
+				),
 				headerCell: what.css([
 					"flex",
 					"flex-row",
@@ -58,15 +63,25 @@ export const TableCls = AbstractListCls.extend(
 					"py-1",
 					"truncate",
 				]),
-				row: what.css([
-					"grid",
-					"border-b",
-					"border-b-(--table-tr-color-border)",
-					"bg-(--table-tr-color-bg)",
-					"odd:bg-(--table-tr-odd-color-bg)",
-					"hover:bg-(--table-tr-hover-color-bg)",
-					"hover:border-(--table-tr-hover-color-border)",
-				]),
+				row: what.both(
+					[
+						"grid",
+						"border-b",
+					],
+					[
+						// "subtle.color.bg-light-odd",
+						"subtle.color.border-dark",
+						"secondary.color.bg-light-hover",
+						"secondary.color.border-dark-hover",
+						// "neutral.color.border-light",
+						// "neutral.color.bg-light-hover",
+						// "neutral.color.border-light-hover",
+						// "neutral.color.bg-light-odd",
+						// "neutral.color.bg-light-odd-hover",
+						// "neutral.color.border-light-odd",
+						// "neutral.color.border-light-odd-hover",
+					],
+				),
 				cell: what.css([
 					"flex",
 					"flex-row",
@@ -79,24 +94,31 @@ export const TableCls = AbstractListCls.extend(
 					"group",
 				]),
 				footer: what.css([]),
-				select: what.css([
-					"cursor-pointer",
-					"text-(--table-select-color-text)",
-					"hover:text-(--table-select-color-hover-text)",
-				]),
+				select: what.both(
+					[
+						"cursor-pointer",
+					],
+					[
+						"secondary.color.text-dark",
+						"secondary.color.text-dark-hover",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
 					selected: true,
 				}),
 				{
-					row: what.css([
-						"bg-(--table-tr-selected-color-bg)",
-						"odd:bg-(--table-tr-selected-odd-color-bg)",
-						"border-(--table-tr-selected-color-border)",
+					row: what.token([
+						"subtle.color.bg-dark",
+						"subtle.color.bg-dark-odd",
+						"subtle.color.border-dark",
+						"subtle.color.border-dark-odd",
+						// "subtle.color.bg-dark-hover",
+						// "subtle.color.border-dark-hover",
 					]),
-					select: what.css([
-						"text-(--table-tr-selected-select-color-text)",
+					select: what.token([
+						"secondary.color.text-dark",
 					]),
 				},
 			),

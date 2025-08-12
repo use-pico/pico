@@ -1,5 +1,8 @@
 import { cls } from "@use-pico/cls";
 
+// TODO Keep tones small
+// TODO Add tokens for common components, e.g. table, button, etc.
+
 const toneType = [
 	"text-light",
 	"text-light-hover",
@@ -43,7 +46,7 @@ const toneType = [
 export const PicoCls = cls(
 	{
 		tokens: {
-			"primary.color": toneType,
+            "primary.color": toneType,
 			"secondary.color": toneType,
 			"danger.color": toneType,
 			"neutral.color": toneType,
@@ -86,10 +89,10 @@ export const PicoCls = cls(
 					"hover:bg-indigo-100",
 				],
 				"bg-light-odd": [
-					"bg-indigo-100",
+					"odd:bg-indigo-100",
 				],
 				"bg-light-odd-hover": [
-					"hover:bg-indigo-200",
+					"odd:hover:bg-indigo-200",
 				],
 				"bg-dark": [
 					"bg-indigo-600",
@@ -98,10 +101,10 @@ export const PicoCls = cls(
 					"hover:bg-indigo-700",
 				],
 				"bg-dark-odd": [
-					"bg-indigo-700",
+					"odd:bg-indigo-700",
 				],
 				"bg-dark-odd-hover": [
-					"hover:bg-indigo-800",
+					"odd:hover:bg-indigo-800",
 				],
 				//
 				"border-light": [
@@ -111,10 +114,10 @@ export const PicoCls = cls(
 					"hover:border-indigo-300",
 				],
 				"border-light-odd": [
-					"border-indigo-300",
+					"odd:border-indigo-300",
 				],
 				"border-light-odd-hover": [
-					"hover:border-indigo-400",
+					"odd:hover:border-indigo-400",
 				],
 				"border-dark": [
 					"border-indigo-700",
@@ -123,10 +126,10 @@ export const PicoCls = cls(
 					"hover:border-indigo-800",
 				],
 				"border-dark-odd": [
-					"border-indigo-800",
+					"odd:border-indigo-800",
 				],
 				"border-dark-odd-hover": [
-					"hover:border-indigo-900",
+					"odd:hover:border-indigo-900",
 				],
 				//
 				"shadow-light": [
@@ -164,10 +167,10 @@ export const PicoCls = cls(
 					"hover:bg-emerald-100",
 				],
 				"bg-light-odd": [
-					"bg-emerald-100",
+					"odd:bg-emerald-100",
 				],
 				"bg-light-odd-hover": [
-					"hover:bg-emerald-200",
+					"odd:hover:bg-emerald-200",
 				],
 				"bg-dark": [
 					"bg-emerald-600",
@@ -176,10 +179,10 @@ export const PicoCls = cls(
 					"hover:bg-emerald-700",
 				],
 				"bg-dark-odd": [
-					"bg-emerald-700",
+					"odd:bg-emerald-700",
 				],
 				"bg-dark-odd-hover": [
-					"hover:bg-emerald-800",
+					"odd:hover:bg-emerald-800",
 				],
 				//
 				"border-light": [
@@ -189,10 +192,10 @@ export const PicoCls = cls(
 					"hover:border-emerald-300",
 				],
 				"border-light-odd": [
-					"border-emerald-300",
+					"odd:border-emerald-300",
 				],
 				"border-light-odd-hover": [
-					"hover:border-emerald-400",
+					"odd:hover:border-emerald-400",
 				],
 				"border-dark": [
 					"border-emerald-700",
@@ -201,10 +204,10 @@ export const PicoCls = cls(
 					"hover:border-emerald-800",
 				],
 				"border-dark-odd": [
-					"border-emerald-800",
+					"odd:border-emerald-800",
 				],
 				"border-dark-odd-hover": [
-					"hover:border-emerald-900",
+					"odd:hover:border-emerald-900",
 				],
 				//
 				"shadow-light": [
@@ -242,10 +245,10 @@ export const PicoCls = cls(
 					"hover:bg-rose-100",
 				],
 				"bg-light-odd": [
-					"bg-rose-100",
+					"odd:bg-rose-100",
 				],
 				"bg-light-odd-hover": [
-					"hover:bg-rose-200",
+					"odd:hover:bg-rose-200",
 				],
 				"bg-dark": [
 					"bg-rose-600",
@@ -254,10 +257,10 @@ export const PicoCls = cls(
 					"hover:bg-rose-700",
 				],
 				"bg-dark-odd": [
-					"bg-rose-700",
+					"odd:bg-rose-700",
 				],
 				"bg-dark-odd-hover": [
-					"hover:bg-rose-800",
+					"odd:hover:bg-rose-800",
 				],
 				//
 				"border-light": [
@@ -267,10 +270,10 @@ export const PicoCls = cls(
 					"hover:border-rose-300",
 				],
 				"border-light-odd": [
-					"border-rose-300",
+					"odd:border-rose-300",
 				],
 				"border-light-odd-hover": [
-					"hover:border-rose-400",
+					"odd:hover:border-rose-400",
 				],
 				"border-dark": [
 					"border-rose-700",
@@ -279,10 +282,10 @@ export const PicoCls = cls(
 					"hover:border-rose-800",
 				],
 				"border-dark-odd": [
-					"border-rose-800",
+					"odd:border-rose-800",
 				],
 				"border-dark-odd-hover": [
-					"hover:border-rose-900",
+					"odd:hover:border-rose-900",
 				],
 				//
 				"shadow-light": [
@@ -320,10 +323,10 @@ export const PicoCls = cls(
 					"hover:bg-zinc-100",
 				],
 				"bg-light-odd": [
-					"bg-zinc-100",
+					"odd:bg-zinc-100",
 				],
 				"bg-light-odd-hover": [
-					"hover:bg-zinc-200",
+					"odd:hover:bg-zinc-200",
 				],
 				"bg-dark": [
 					"bg-zinc-200",
@@ -332,10 +335,10 @@ export const PicoCls = cls(
 					"hover:bg-zinc-300",
 				],
 				"bg-dark-odd": [
-					"bg-zinc-300",
+					"odd:bg-zinc-300",
 				],
 				"bg-dark-odd-hover": [
-					"hover:bg-zinc-400",
+					"odd:hover:bg-zinc-400",
 				],
 				//
 				"border-light": [
@@ -345,10 +348,10 @@ export const PicoCls = cls(
 					"hover:border-zinc-400",
 				],
 				"border-light-odd": [
-					"border-zinc-400",
+					"odd:border-zinc-400",
 				],
 				"border-light-odd-hover": [
-					"hover:border-zinc-500",
+					"odd:hover:border-zinc-500",
 				],
 				"border-dark": [
 					"border-zinc-500",
@@ -357,10 +360,10 @@ export const PicoCls = cls(
 					"hover:border-zinc-600",
 				],
 				"border-dark-odd": [
-					"border-zinc-600",
+					"odd:border-zinc-600",
 				],
 				"border-dark-odd-hover": [
-					"hover:border-zinc-700",
+					"odd:hover:border-zinc-700",
 				],
 				//
 				"shadow-light": [
@@ -404,16 +407,16 @@ export const PicoCls = cls(
 					"hover:bg-sky-300",
 				],
 				"bg-light-odd": [
-					"bg-sky-100",
+					"odd:bg-sky-100",
 				],
 				"bg-light-odd-hover": [
-					"hover:bg-sky-200",
+					"odd:hover:bg-sky-200",
 				],
 				"bg-dark-odd": [
-					"bg-sky-300",
+					"odd:bg-sky-300",
 				],
 				"bg-dark-odd-hover": [
-					"hover:bg-sky-400",
+					"odd:hover:bg-sky-400",
 				],
 				//
 				"border-light": [
@@ -423,10 +426,10 @@ export const PicoCls = cls(
 					"hover:border-sky-400",
 				],
 				"border-light-odd": [
-					"border-sky-400",
+					"odd:border-sky-400",
 				],
 				"border-light-odd-hover": [
-					"hover:border-sky-500",
+					"odd:hover:border-sky-500",
 				],
 				"border-dark": [
 					"border-sky-500",
@@ -435,10 +438,10 @@ export const PicoCls = cls(
 					"hover:border-sky-600",
 				],
 				"border-dark-odd": [
-					"border-sky-600",
+					"odd:border-sky-600",
 				],
 				"border-dark-odd-hover": [
-					"hover:border-sky-700",
+					"odd:hover:border-sky-700",
 				],
 				//
 				"shadow-light": [
