@@ -4,7 +4,7 @@ export const ActionCls = PicoCls.extend(
 	{
 		tokens: {},
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			variant: [
@@ -21,7 +21,7 @@ export const ActionCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
@@ -30,9 +30,6 @@ export const ActionCls = PicoCls.extend(
 					"px-2",
 					"py-0.5",
 					"cursor-pointer",
-					"text-(--pico-text-default)",
-					"hover:bg-(--pico-bg-hover)",
-					"hover:text-(--pico-text-hover)",
 				]),
 			}),
 			def.rule(
@@ -40,7 +37,7 @@ export const ActionCls = PicoCls.extend(
 					variant: "common",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pico--action-menu-item-common",
 					]),
 				},
@@ -50,7 +47,7 @@ export const ActionCls = PicoCls.extend(
 					variant: "warning",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pico--action-menu-item-warning",
 					]),
 				},
@@ -60,7 +57,7 @@ export const ActionCls = PicoCls.extend(
 					variant: "danger",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pico--action-menu-item-danger",
 					]),
 				},
@@ -70,7 +67,7 @@ export const ActionCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"cursor-not-allowed",
 						"hover:text-(--pico-text-default)",
 						"hover:bg-(--pico-bg-default)",

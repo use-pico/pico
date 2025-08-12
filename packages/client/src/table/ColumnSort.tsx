@@ -87,7 +87,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							}}
 							cls={({ what }) => ({
 								variant: what.variant({
-									active: type?.sort === "asc",
+									disabled: type?.sort !== "asc",
 									borderless: true,
 								}),
 							})}
@@ -115,7 +115,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							}}
 							cls={({ what }) => ({
 								variant: what.variant({
-									active: type?.sort === "desc",
+									disabled: type?.sort !== "desc",
 									borderless: true,
 								}),
 							})}
@@ -138,7 +138,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 						}}
 						cls={({ what }) => ({
 							variant: what.variant({
-								active: type?.sort === undefined,
+								disabled: type?.sort !== undefined,
 								borderless: true,
 							}),
 						})}

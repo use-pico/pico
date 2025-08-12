@@ -32,7 +32,7 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	}));
 
 	return hidden ? null : (
-		<div className={slots.base()}>
+		<div className={slots.root()}>
 			<Modal
 				icon={icon}
 				target={

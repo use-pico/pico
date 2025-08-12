@@ -31,7 +31,7 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		return (
 			<a
 				{...props}
-				className={slots.base()}
+				className={slots.root()}
 				ref={ref}
 			>
 				{isString(icon) ? (

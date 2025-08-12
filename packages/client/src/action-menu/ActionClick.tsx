@@ -30,7 +30,7 @@ export const ActionClick: FC<ActionClick.Props> = ({
 
 	return (
 		<div
-			className={classes.base()}
+			className={classes.root()}
 			{...props}
 		>
 			{isString(icon) ? (

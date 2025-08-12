@@ -19,7 +19,7 @@ export const ActionClickCls = ActionCls.extend(
 					loading: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pointer-events-none",
 						"opacity-50",
 					]),

@@ -145,7 +145,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					}}
 					cls={({ what }) => ({
 						variant: what.variant({
-							active: isBold,
+							disabled: !isBold,
 						}),
 					})}
 				/>
@@ -157,7 +157,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					}}
 					cls={({ what }) => ({
 						variant: what.variant({
-							active: isItalic,
+							disabled: !isItalic,
 						}),
 					})}
 				/>
@@ -172,7 +172,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					}}
 					cls={({ what }) => ({
 						variant: what.variant({
-							active: isUnderline,
+							disabled: !isUnderline,
 						}),
 					})}
 				/>
@@ -191,7 +191,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					}}
 					cls={({ what }) => ({
 						variant: what.variant({
-							active: isStrikethrough,
+							disabled: !isStrikethrough,
 						}),
 					})}
 				/>

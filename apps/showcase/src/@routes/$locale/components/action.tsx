@@ -1,451 +1,219 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Action, TrashIcon } from "@use-pico/client";
+import { Action, TrashIcon, Tx } from "@use-pico/client";
+import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components/action")({
 	component() {
+		const tones = [
+			"primary",
+			"secondary",
+			"danger",
+			"neutral",
+			"subtle",
+		] as const;
+
 		return (
-			<div className={"flex flex-col space-y-4"}>
-				<div className={"flex flex-row gap-2"}>
-					<Action iconEnabled={TrashIcon} />
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-					/>
-				</div>
+			<div
+				className={tvc([
+					"flex",
+					"flex-col",
+					"space-y-8",
+				])}
+			>
+				{/* Tones */}
+				<Section title={<Tx label={"Tones"} />}>
+					<Row label={<Tx label={"Default"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`tone-${tone}`}
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						))}
+					</Row>
 
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-							}),
-						})}
-					/>
-				</div>
+					<Row label={<Tx label={"Borderless"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`tone-borderless-${tone}`}
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										borderless: true,
+									}),
+								})}
+							/>
+						))}
+					</Row>
 
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-							}),
-						})}
-					/>
-				</div>
+					<Row label={<Tx label={"Light"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`tone-light-${tone}`}
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+									}),
+								})}
+							/>
+						))}
+					</Row>
 
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger-light",
-							}),
-						})}
-					/>
-				</div>
+					<Row label={<Tx label={"Light + Borderless"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`tone-light-borderless-${tone}`}
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+										borderless: true,
+									}),
+								})}
+							/>
+						))}
+					</Row>
+				</Section>
 
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-							}),
-						})}
-					/>
-				</div>
+				{/* Disabled */}
+				<Section title={<Tx label={"Disabled"} />}>
+					<Row label={<Tx label={"Default"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`disabled-${tone}`}
+								disabled
+								iconDisabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						))}
+					</Row>
+					<Row label={<Tx label={"Light"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`disabled-light-${tone}`}
+								disabled
+								iconDisabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+									}),
+								})}
+							/>
+						))}
+					</Row>
+				</Section>
 
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "light",
-							}),
-						})}
-					/>
-				</div>
-
-				<div className={"flex flex-row gap-2"}>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-								borderless: true,
-							}),
-						})}
-					/>
-					<Action
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-								active: true,
-							}),
-						})}
-						iconEnabled={TrashIcon}
-					/>
-					<Action
-						loading
-						iconEnabled={TrashIcon}
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-							}),
-						})}
-					/>
-					<Action
-						iconDisabled={TrashIcon}
-						disabled
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-							}),
-						})}
-					/>
-				</div>
+				{/* Loading */}
+				<Section title={<Tx label={"Loading"} />}>
+					<Row label={<Tx label={"Default"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`loading-${tone}`}
+								loading
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						))}
+					</Row>
+					<Row label={<Tx label={"Light"} />}>
+						{tones.map((tone) => (
+							<Action
+								key={`loading-light-${tone}`}
+								loading
+								iconEnabled={TrashIcon}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+									}),
+								})}
+							/>
+						))}
+					</Row>
+				</Section>
 			</div>
 		);
 	},
 });
+
+function Section({
+	title,
+	children,
+}: {
+	title: React.ReactNode;
+	children: React.ReactNode;
+}) {
+	return (
+		<div
+			className={tvc([
+				"flex",
+				"flex-col",
+				"space-y-3",
+			])}
+		>
+			<div
+				className={tvc([
+					"text-sm",
+					"text-slate-600",
+				])}
+			>
+				{title}
+			</div>
+			{children}
+		</div>
+	);
+}
+
+function Row({
+	label,
+	children,
+}: {
+	label: React.ReactNode;
+	children: React.ReactNode;
+}) {
+	return (
+		<div
+			className={tvc([
+				"flex",
+				"items-center",
+				"gap-4",
+				"flex-wrap",
+			])}
+		>
+			<div
+				className={tvc([
+					"w-40",
+					"text-slate-500",
+				])}
+			>
+				{label}
+			</div>
+			<div
+				className={tvc([
+					"flex",
+					"gap-3",
+					"flex-wrap",
+				])}
+			>
+				{children}
+			</div>
+		</div>
+	);
+}
