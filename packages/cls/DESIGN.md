@@ -10,7 +10,7 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
 
 - [1. Core Principles](#1-core-principles)
   - [1.1 Type Safety First](#11-type-safety-first)
-  - [1.2 Composition Over Inheritance](#12-composition-over-inheritance)
+  - [1.2 Inheritance as Foundation](#12-inheritance-as-foundation)
   - [1.3 Declarative Configuration](#13-declarative-configuration)
   - [1.4 Performance Optimized](#14-performance-optimized)
 - [2. Core Concepts](#2-core-concepts)
@@ -77,7 +77,7 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
 - Contract definitions ensure consistency across the design system
 - Inheritance chains maintain type safety through the entire hierarchy
 
-### 1.2 Composition Over Inheritance <a id="12-composition-over-inheritance"></a>
+### 1.2 Inheritance as Foundation <a id="12-inheritance-as-foundation"></a>
 - Components can be extended and composed rather than rewritten
 - Design tokens can be inherited and overridden at any level
 - Slots provide granular control over component parts
