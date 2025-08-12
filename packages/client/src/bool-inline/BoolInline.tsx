@@ -1,4 +1,3 @@
-import { merge } from "@use-pico/cls";
 import type { FC } from "react";
 import { CheckIcon } from "../icon/CheckIcon";
 import { Icon } from "../icon/Icon";
@@ -70,13 +69,11 @@ export const BoolInline: FC<BoolInline.Props> = ({
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
 			tva={IconCls.use(tva)}
-			cls={IconCls.cls(
-				merge(cls, ({ what }) => ({
-					variant: what.variant({
-						value,
-					}),
-				})),
-			)}
+			cls={IconCls.cls(cls, ({ what }) => ({
+				variant: what.variant({
+					value,
+				}),
+			}))}
 			{...props}
 		/>
 	);

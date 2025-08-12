@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import type { Cls, ClsSlots } from "../types";
 import { proxyOf } from "../utils/proxyOf";
 
@@ -32,20 +31,17 @@ import { proxyOf } from "../utils/proxyOf";
  * // And access the cls: ModernButton.cls
  * ```
  */
-export function withCls<
-	TCls extends Cls<any>,
-	TProps extends Record<string, any>,
->(
-	Component: ComponentType<TProps>,
+export function withCls<TCls extends Cls<any>, T extends object>(
+	Component: T,
 	clsInstance: TCls,
-): ComponentType<TProps> & {
+): T & {
 	cls: TCls;
 	"~slots": ClsSlots<TCls["contract"]>;
 	"~contract": TCls["contract"];
 	"~definition": TCls["definition"];
 } {
-	// Create the wrapped component with phantom properties
-	const WrappedComponent = Component as ComponentType<TProps> & {
+	// Create the wrapped value with phantom properties
+	const WrappedComponent = Component as T & {
 		cls: TCls;
 		"~slots": ClsSlots<TCls["contract"]>;
 		"~contract": TCls["contract"];

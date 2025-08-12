@@ -558,13 +558,41 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	): Cls<TContract>;
 
 	/**
-	 * Type-safe cls prop configuration for Component interface.
-	 * Accepts a config function typed for a derived contract and produces a function
-	 * compatible with the current contract. Passing a config for an unrelated contract
-	 * results in a type error.
+	 * Type‑safe cls merger for props.
+	 *
+	 * Produces a parent‑compatible `cls` callback from child (or same) contract callbacks,
+	 * intended for inheritance chains where a child needs to assign its `cls` to a parent.
+	 * Internally uses `merge()` from `merge.ts` to shallow‑merge field values with
+	 * user config taking precedence over internal config.
+	 *
+	 * @template Sub Extends the current contract in the `~use` chain. When `Sub` is a
+	 *           descendant of `TContract`, the provided callbacks are typed to `Sub` and the
+	 *           returned function is typed to `TContract` so it can be passed to the parent.
+	 * @param userConfigFn Optional user config producer for the child/derived contract.
+	 * @param internalConfigFn Optional internal config producer for the child/derived contract.
+	 * @returns A `cls` function compatible with the current (parent) contract, or `undefined`
+	 *          when no callbacks are provided.
+	 *
+	 * @example
+	 * // Child assigns its `cls` to Parent in an inheritance chain
+	 * const parentCls = Parent.cls<Child>((what) => ({
+	 *   slot: { root: what.what.css(["text-sm"]) },
+	 * }));
+	 * // `parentCls` can now be used wherever Parent expects a `cls` callback
 	 */
 	cls<Sub extends Contract<any, any, any> = TContract>(
-		configFn?: {
+		userConfigFn?: {
+			hack: (
+				props: WhatUtil<
+					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
+				>,
+			) => Partial<
+				CreateConfig<
+					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
+				>
+			>;
+		}["hack"],
+		internalConfigFn?: {
 			hack: (
 				props: WhatUtil<
 					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never

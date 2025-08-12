@@ -439,8 +439,8 @@ export function cls<
 		): Cls<TContract> {
 			return sub as unknown as Cls<TContract>;
 		},
-		cls(configFn?: any): (props: any) => any {
-			return configFn;
+		cls(userConfigFn, internalConfigFn): (props: any) => any {
+			return merge(userConfigFn, internalConfigFn);
 		},
 		contract,
 		definition,
