@@ -10,4 +10,4 @@ Welcome to the FAQ & Known Limitations chapter! This chapter covers faq & known 
 
 ---
 
-**Previous:** [Chapter 14: Migration Guide](../14-migration-guide/index.md) | **Next:** [Chapter 16: AI Compatibility](../16-ai-compatibility/index.md)
+**Previous:** [Chapter 14: Migration Guide](../14-migration-guide/README.md) | **Next:** [Chapter 16: AI Compatibility](../16-ai-compatibility/README.md)

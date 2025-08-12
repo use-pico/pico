@@ -10,4 +10,4 @@ Welcome to the Slots chapter! This chapter covers slots concepts and usage.
 
 ---
 
-**Previous:** [Chapter 5: Tokens](../05-tokens/index.md) | **Next:** [Chapter 7: Variants](../07-variants/index.md)
+**Previous:** [Chapter 5: Tokens](../05-tokens/README.md) | **Next:** [Chapter 7: Variants](../07-variants/README.md)

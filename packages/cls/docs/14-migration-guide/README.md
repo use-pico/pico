@@ -14,4 +14,4 @@ Welcome to the Migration Guide chapter! This chapter covers migration guide conc
 
 ---
 
-**Previous:** [Chapter 13: Comparison](../13-comparison/index.md) | **Next:** [Chapter 15: FAQ & Known Limitations](../15-faq-&-known-limitations/index.md)
+**Previous:** [Chapter 13: Comparison](../13-comparison/README.md) | **Next:** [Chapter 15: FAQ & Known Limitations](../15-faq-&-known-limitations/README.md)

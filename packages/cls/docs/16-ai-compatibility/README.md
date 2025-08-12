@@ -10,4 +10,4 @@ Welcome to the AI Compatibility chapter! This chapter covers ai compatibility co
 
 ---
 
-**Previous:** [Chapter 15: FAQ & Known Limitations](../15-faq-&-known-limitations/index.md)
+**Previous:** [Chapter 15: FAQ & Known Limitations](../15-faq-&-known-limitations/README.md)

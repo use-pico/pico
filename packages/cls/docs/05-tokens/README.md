@@ -10,4 +10,4 @@ Welcome to the Tokens chapter! This chapter covers tokens concepts and usage.
 
 ---
 
-**Previous:** [Chapter 4: React Integration](../04-react-integration/index.md) | **Next:** [Chapter 6: Slots](../06-slots/index.md)
+**Previous:** [Chapter 4: React Integration](../04-react-integration/README.md) | **Next:** [Chapter 6: Slots](../06-slots/README.md)

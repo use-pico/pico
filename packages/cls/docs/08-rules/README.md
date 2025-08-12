@@ -11,4 +11,4 @@ Welcome to the Rules chapter! This chapter covers rules concepts and usage.
 
 ---
 
-**Previous:** [Chapter 7: Variants](../07-variants/index.md) | **Next:** [Chapter 9: Runtime](../09-runtime/index.md)
+**Previous:** [Chapter 7: Variants](../07-variants/README.md) | **Next:** [Chapter 9: Runtime](../09-runtime/README.md)

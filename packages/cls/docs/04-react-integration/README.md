@@ -12,4 +12,4 @@ Welcome to the React Integration chapter! This chapter covers react integration 
 
 ---
 
-**Previous:** [Chapter 3: Core API](../03-core-api/index.md) | **Next:** [Chapter 5: Tokens](../05-tokens/index.md)
+**Previous:** [Chapter 3: Core API](../03-core-api/README.md) | **Next:** [Chapter 5: Tokens](../05-tokens/README.md)

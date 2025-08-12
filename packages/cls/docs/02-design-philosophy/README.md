@@ -17,4 +17,4 @@ Welcome to the Design Philosophy chapter! This chapter covers design philosophy 
 
 ---
 
-**Previous:** [Chapter 1: Foundations](../01-foundations/index.md) | **Next:** [Chapter 3: Core API](../03-core-api/index.md)
+**Previous:** [Chapter 1: Foundations](../01-foundations/README.md) | **Next:** [Chapter 3: Core API](../03-core-api/README.md)

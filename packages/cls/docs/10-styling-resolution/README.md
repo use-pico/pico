@@ -11,4 +11,4 @@ Welcome to the Styling Resolution chapter! This chapter covers styling resolutio
 
 ---
 
-**Previous:** [Chapter 9: Runtime](../09-runtime/index.md) | **Next:** [Chapter 11: Best Practices](../11-best-practices/index.md)
+**Previous:** [Chapter 9: Runtime](../09-runtime/README.md) | **Next:** [Chapter 11: Best Practices](../11-best-practices/README.md)

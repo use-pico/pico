@@ -11,4 +11,4 @@ Welcome to the Variants chapter! This chapter covers variants concepts and usage
 
 ---
 
-**Previous:** [Chapter 6: Slots](../06-slots/index.md) | **Next:** [Chapter 8: Rules](../08-rules/index.md)
+**Previous:** [Chapter 6: Slots](../06-slots/README.md) | **Next:** [Chapter 8: Rules](../08-rules/README.md)

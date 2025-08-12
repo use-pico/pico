@@ -185,4 +185,4 @@ You're about to learn the **most powerful styling API** you've ever used! Each c
 
 ---
 
-**Previous:** [Chapter 2: Design Philosophy](../02-design-philosophy/index.md) | **Next:** [Chapter 4: React Integration](../04-react-integration/index.md)
+**Previous:** [Chapter 2: Design Philosophy](../02-design-philosophy/README.md) | **Next:** [Chapter 4: React Integration](../04-react-integration/README.md)

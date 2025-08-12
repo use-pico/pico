@@ -9,4 +9,4 @@ Welcome to the Best Practices chapter! This chapter covers best practices concep
 
 ---
 
-**Previous:** [Chapter 10: Styling Resolution](../10-styling-resolution/index.md) | **Next:** [Chapter 12: Recipes & Patterns](../12-recipes-&-patterns/index.md)
+**Previous:** [Chapter 10: Styling Resolution](../10-styling-resolution/README.md) | **Next:** [Chapter 12: Recipes & Patterns](../12-recipes-&-patterns/README.md)

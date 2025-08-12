@@ -9,4 +9,4 @@ Welcome to the Runtime chapter! This chapter covers runtime concepts and usage.
 
 ---
 
-**Previous:** [Chapter 8: Rules](../08-rules/index.md) | **Next:** [Chapter 10: Styling Resolution](../10-styling-resolution/index.md)
+**Previous:** [Chapter 8: Rules](../08-rules/README.md) | **Next:** [Chapter 10: Styling Resolution](../10-styling-resolution/README.md)

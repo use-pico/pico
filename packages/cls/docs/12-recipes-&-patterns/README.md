@@ -27,4 +27,4 @@ Welcome to the Recipes & Patterns chapter! This chapter covers recipes & pattern
 
 ---
 
-**Previous:** [Chapter 11: Best Practices](../11-best-practices/index.md) | **Next:** [Chapter 13: Comparison](../13-comparison/index.md)
+**Previous:** [Chapter 11: Best Practices](../11-best-practices/README.md) | **Next:** [Chapter 13: Comparison](../13-comparison/README.md)

@@ -27,4 +27,4 @@ We'll start with the big picture (what is CLS?), then dive into the philosophy (
 
 ---
 
-**Next:** [Chapter 2: Design Philosophy](../02-design-philosophy/index.md)
+**Next:** [Chapter 2: Design Philosophy](../02-design-philosophy/README.md)

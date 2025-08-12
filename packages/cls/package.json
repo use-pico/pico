@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/cls",
 	"description": "Clever styles for you apps",
-	"version": "4.2.1",
+	"version": "4.2.3",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {

@@ -13,4 +13,4 @@ Welcome to the Comparison chapter! This chapter covers comparison concepts and u
 
 ---
 
-**Previous:** [Chapter 12: Recipes & Patterns](../12-recipes-&-patterns/index.md) | **Next:** [Chapter 14: Migration Guide](../14-migration-guide/index.md)
+**Previous:** [Chapter 12: Recipes & Patterns](../12-recipes-&-patterns/README.md) | **Next:** [Chapter 14: Migration Guide](../14-migration-guide/README.md)
