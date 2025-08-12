@@ -16,14 +16,6 @@
 - Add a note that even this library comes from "nowhere", it has solid documentation and is AI compatible, so it's simple to push README into the context and model will know, how to use it (or can help with this lib); this README + DESIGN.md will help both humans and
 AI to use this lib
 
-# README - Design choice - callbacks everywhere
-
-# README - Highlight usage of helper "what" and other tools for strict typecheck
-
-# README - The system may look complicated, but most is only TS types and rest a "few lines of runtime code"
-
-
-
 
 # README - NOTE in installation Experimentally switch this lib to "dist"
 

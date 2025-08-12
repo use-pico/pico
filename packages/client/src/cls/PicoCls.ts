@@ -1,5 +1,9 @@
 import { cls } from "@use-pico/cls";
 
+/**
+ * Root theme configuration for Pico, all components
+ * will inherit from this theme.
+ */
 export const PicoCls = cls(
 	{
 		tokens: {
