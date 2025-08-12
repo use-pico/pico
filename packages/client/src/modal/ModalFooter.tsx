@@ -102,7 +102,7 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				onClick={handleCancel}
 				cls={({ what }) => ({
 					variant: what.variant({
-						variant: "secondary",
+						tone: "secondary",
 						borderless: true,
 					}),
 				})}

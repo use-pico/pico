@@ -70,6 +70,9 @@ export const ButtonCls = PicoCls.extend(
 						"transition-all",
 						"cursor-pointer",
 						"border",
+						"select-none",
+						"active:scale-95",
+						"active:opacity-90",
 					],
 					[
 						"shadow.sm",
@@ -140,6 +143,147 @@ export const ButtonCls = PicoCls.extend(
 						"primary.color.bg-light",
 						"primary.color.border-light",
 						"primary.color.shadow-light",
+					]),
+				},
+			),
+			// Secondary
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					light: false,
+				}),
+				{
+					root: what.token([
+						"secondary.color.text-light",
+						"secondary.color.bg-dark",
+						"secondary.color.border-dark",
+						"secondary.color.shadow-dark",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					light: true,
+				}),
+				{
+					root: what.token([
+						"secondary.color.text-dark",
+						"secondary.color.bg-light",
+						"secondary.color.border-light",
+						"secondary.color.shadow-light",
+					]),
+				},
+			),
+			// Danger
+			def.rule(
+				what.variant({
+					tone: "danger",
+					light: false,
+				}),
+				{
+					root: what.token([
+						"danger.color.text-light",
+						"danger.color.bg-dark",
+						"danger.color.border-dark",
+						"danger.color.shadow-dark",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "danger",
+					light: true,
+				}),
+				{
+					root: what.token([
+						"danger.color.text-dark",
+						"danger.color.bg-light",
+						"danger.color.border-light",
+						"danger.color.shadow-light",
+					]),
+				},
+			),
+			// Neutral
+			def.rule(
+				what.variant({
+					tone: "neutral",
+					light: false,
+				}),
+				{
+					root: what.token([
+						"neutral.color.text-dark",
+						"neutral.color.bg-dark",
+						"neutral.color.border-dark",
+						"neutral.color.shadow-dark",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "neutral",
+					light: true,
+				}),
+				{
+					root: what.token([
+						"neutral.color.text-dark",
+						"neutral.color.bg-light",
+						"neutral.color.border-light",
+						"neutral.color.shadow-light",
+					]),
+				},
+			),
+			// Subtle
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					light: false,
+				}),
+				{
+					root: what.token([
+						"subtle.color.text-dark",
+						"subtle.color.bg-dark",
+						"subtle.color.border-dark",
+						"subtle.color.shadow-dark",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					light: true,
+				}),
+				{
+					root: what.token([
+						"subtle.color.text-dark",
+						"subtle.color.bg-light",
+						"subtle.color.border-light",
+						"subtle.color.shadow-light",
+					]),
+				},
+			),
+			// Disabled state (applies across tones and sizes)
+			def.rule(
+				what.variant({
+					disabled: true,
+				}),
+				{
+					root: what.css([
+						"opacity-60",
+						"cursor-not-allowed",
+						"pointer-events-none",
+						"shadow-none",
+					]),
+				},
+			),
+			// Borderless state
+			def.rule(
+				what.variant({
+					borderless: true,
+				}),
+				{
+					root: what.css([
+						"border-none",
 					]),
 				},
 			),

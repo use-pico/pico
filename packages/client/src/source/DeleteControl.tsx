@@ -54,7 +54,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				<Button
 					cls={({ what }) => ({
 						variant: what.variant({
-							variant: "secondary",
+							tone: "secondary",
 							borderless: true,
 							size: "md",
 						}),
@@ -71,7 +71,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				<Button
 					cls={({ what }) => ({
 						variant: what.variant({
-							variant: "primary",
+							tone: "primary",
 							size: "md",
 						}),
 					})}

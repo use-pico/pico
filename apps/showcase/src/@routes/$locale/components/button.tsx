@@ -1,6 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
+import type { ReactNode } from "react";
+
+const tones = [
+	"primary",
+	"secondary",
+	"danger",
+	"neutral",
+	"subtle",
+] as const;
+
+const sizes = [
+	"xs",
+	"sm",
+	"md",
+] as const;
 
 export const Route = createFileRoute("/$locale/components/button")({
 	component() {
@@ -9,272 +24,195 @@ export const Route = createFileRoute("/$locale/components/button")({
 				className={tvc([
 					"flex",
 					"flex-col",
-					"space-y-4",
+					"space-y-8",
 				])}
 			>
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button>
-						<Tx label={"This is default button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								borderless: true,
-								size: "xs",
-							}),
-						})}
+				{/* Sizes */}
+				<Section title={<Tx label={"Sizes"} />}>
+					<div
+						className={tvc([
+							"flex",
+							"items-center",
+							"flex-wrap",
+							"gap-3",
+						])}
 					>
-						<Tx label={"This is default borderless button"} />
-					</Button>
+						{sizes.map((size) => (
+							<Button
+								key={`size-${size}`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										size,
+									}),
+								})}
+							>
+								<Tx label={`Size: ${size}`} />
+							</Button>
+						))}
+					</div>
+				</Section>
 
-					<Button disabled>
-						<Tx label={"This is default disabled button"} />
-					</Button>
-				</div>
+				{/* Tones */}
+				<Section title={<Tx label={"Tones"} />}>
+					<Row label={<Tx label={"Default"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`tone-${tone}`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							>
+								<Tx label={`${tone}`} />
+							</Button>
+						))}
+					</Row>
 
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-							}),
-						})}
-					>
-						<Tx label={"This is secondary button"} />
-					</Button>
+					<Row label={<Tx label={"Borderless"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`tone-borderless-${tone}`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										borderless: true,
+									}),
+								})}
+							>
+								<Tx label={`${tone} borderless`} />
+							</Button>
+						))}
+					</Row>
 
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is secondary borderless button"} />
-					</Button>
+					<Row label={<Tx label={"Light"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`tone-light-${tone}`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+									}),
+								})}
+							>
+								<Tx label={`${tone} light`} />
+							</Button>
+						))}
+					</Row>
 
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "secondary",
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled secondary button"} />
-					</Button>
-				</div>
+					<Row label={<Tx label={"Light + Borderless"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`tone-light-borderless-${tone}`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+										borderless: true,
+									}),
+								})}
+							>
+								<Tx label={`${tone} light borderless`} />
+							</Button>
+						))}
+					</Row>
+				</Section>
 
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								light: true,
-							}),
-						})}
-					>
-						<Tx label={"This is light button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								light: true,
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is light borderless button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								light: true,
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled light button"} />
-					</Button>
-				</div>
-
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-							}),
-						})}
-					>
-						<Tx label={"This is subtle button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is subtle borderless button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "subtle",
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled subtle button"} />
-					</Button>
-				</div>
-
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-							}),
-						})}
-					>
-						<Tx label={"This is neutral button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is neutral borderless button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "neutral",
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled neutral button"} />
-					</Button>
-				</div>
-
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-							}),
-						})}
-					>
-						<Tx label={"This is danger button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is danger borderless button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled danger button"} />
-					</Button>
-				</div>
-
-				<div
-					className={tvc([
-						"flex",
-						"space-x-4",
-					])}
-				>
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								light: true,
-							}),
-						})}
-					>
-						<Tx label={"This is danger light button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								light: true,
-								borderless: true,
-							}),
-						})}
-					>
-						<Tx label={"This is danger borderless button"} />
-					</Button>
-
-					<Button
-						cls={({ what }) => ({
-							variant: what.variant({
-								variant: "danger",
-								light: true,
-							}),
-						})}
-						disabled
-					>
-						<Tx label={"This is disabled danger button"} />
-					</Button>
-				</div>
+				{/* Disabled */}
+				<Section title={<Tx label={"Disabled"} />}>
+					<Row label={<Tx label={"Default"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`disabled-${tone}`}
+								disabled
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							>
+								<Tx label={`${tone} disabled`} />
+							</Button>
+						))}
+					</Row>
+					<Row label={<Tx label={"Light"} />}>
+						{tones.map((tone) => (
+							<Button
+								key={`disabled-light-${tone}`}
+								disabled
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										light: true,
+									}),
+								})}
+							>
+								<Tx label={`${tone} light disabled`} />
+							</Button>
+						))}
+					</Row>
+				</Section>
 			</div>
 		);
 	},
 });
+
+function Section({
+	title,
+	children,
+}: {
+	title: ReactNode;
+	children: ReactNode;
+}) {
+	return (
+		<div
+			className={tvc([
+				"flex",
+				"flex-col",
+				"space-y-3",
+			])}
+		>
+			<div
+				className={tvc([
+					"text-sm",
+					"text-slate-600",
+				])}
+			>
+				{title}
+			</div>
+			{children}
+		</div>
+	);
+}
+
+function Row({ label, children }: { label: ReactNode; children: ReactNode }) {
+	return (
+		<div
+			className={tvc([
+				"flex",
+				"items-center",
+				"gap-4",
+				"flex-wrap",
+			])}
+		>
+			<div
+				className={tvc([
+					"w-40",
+					"text-slate-500",
+				])}
+			>
+				{label}
+			</div>
+			<div
+				className={tvc([
+					"flex",
+					"gap-3",
+					"flex-wrap",
+				])}
+			>
+				{children}
+			</div>
+		</div>
+	);
+}
