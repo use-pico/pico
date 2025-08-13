@@ -41,7 +41,7 @@ export function cls<
 	const definition = definitionFn(whatUtil);
 
 	// Set the definition on the contract for inheritance
-	(contract as any)["~definition"] = definition;
+	contract["~definition"] = definition;
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
@@ -112,7 +112,9 @@ export function cls<
 		tokenKeys: string[] | undefined,
 		tokenTable: Record<string, string[]>,
 	): string[] => {
-		if (!tokenKeys) return [];
+		if (!tokenKeys) {
+			return [];
+		}
 		const result: string[] = [];
 		for (const key of tokenKeys) {
 			const classes = tokenTable[key] ?? [];
@@ -167,6 +169,7 @@ export function cls<
 				userConfigFn,
 				internalConfigFn,
 			)() as InternalConfig;
+
 			const effectiveVariant = {
 				...defaults,
 				...(config.variant ?? {}),
@@ -176,13 +179,12 @@ export function cls<
 			const tokenTable = {
 				...tokens,
 			};
-			if (config.token) {
-				for (const [key, values] of Object.entries(config.token)) {
-					tokenTable[key] = values;
-				}
+
+			for (const [key, values] of Object.entries(config.token ?? {})) {
+				tokenTable[key] = values;
 			}
 
-			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
+            const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
 			const resultCache = new Map<string, string>();
 
 			const computeKey = (
@@ -191,7 +193,10 @@ export function cls<
 					props: WhatUtil<TContract>,
 				) => Partial<CreateConfig<TContract>>,
 			): string => {
-				if (!call) return `${slot}|__no_config__`;
+				if (!call) {
+					return `${slot}|__no_config__`;
+				}
+
 				try {
 					return `${slot}|${JSON.stringify(call(whatUtil))}`;
 				} catch {
@@ -204,6 +209,7 @@ export function cls<
 					get(_, prop) {
 						if (prop in cache) return cache[prop];
 						const slotName = prop as string;
+						// TODO This should not happen in type level; instead of returning undefined, throw
 						if (!allSlots.has(slotName)) {
 							return undefined as unknown as ClsSlotFn<TContract>;
 						}
@@ -211,9 +217,12 @@ export function cls<
 						const slotFn: ClsSlotFn<TContract> = (call) => {
 							const key = computeKey(slotName, call);
 							const cached = resultCache.get(key);
-							if (cached !== undefined) return cached;
+							if (cached !== undefined) {
+								return cached;
+							}
 
 							const local = call?.(whatUtil);
+							// TODO use types from ./types.ts
 							const localConfig: InternalConfig | undefined =
 								local
 									? {
@@ -236,12 +245,10 @@ export function cls<
 								...tokenTable,
 							};
 
-							if (localConfig?.token) {
-								for (const [key, values] of Object.entries(
-									localConfig.token,
-								)) {
-									localTokens[key] = values;
-								}
+							for (const [key, values] of Object.entries(
+								localConfig?.token ?? {},
+							)) {
+								localTokens[key] = values;
 							}
 
 							let acc: ClassName[] = [];
@@ -266,12 +273,14 @@ export function cls<
 							}
 
 							// Apply overrides
-							if (config.slot?.[slotName])
+							if (config.slot?.[slotName]) {
 								acc = applyWhat(
 									acc,
 									config.slot[slotName],
 									localTokens,
 								);
+							}
+
 							if (config.override?.[slotName]) {
 								acc = [];
 								acc = applyWhat(
@@ -280,12 +289,15 @@ export function cls<
 									localTokens,
 								);
 							}
-							if (localConfig?.slot?.[slotName])
+
+							if (localConfig?.slot?.[slotName]) {
 								acc = applyWhat(
 									acc,
 									localConfig.slot[slotName],
 									localTokens,
 								);
+							}
+
 							if (localConfig?.override?.[slotName]) {
 								acc = [];
 								acc = applyWhat(
