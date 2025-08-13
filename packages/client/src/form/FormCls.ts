@@ -55,6 +55,10 @@ export const FormCls = PicoCls.extend(
 					"focus:ring-2",
 					"focus:ring-blue-500",
 					"focus:border-transparent",
+					"hover:scale-105",
+					"active:scale-105",
+					"transition-all",
+					"duration-100",
 				]),
 			}),
 			def.rule(
