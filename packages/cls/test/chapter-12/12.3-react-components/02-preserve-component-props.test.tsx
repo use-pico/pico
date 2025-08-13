@@ -41,7 +41,7 @@ describe("12.3 React Components - Preserve Component Props", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 						]),

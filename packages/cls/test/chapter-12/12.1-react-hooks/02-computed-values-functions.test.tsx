@@ -34,24 +34,24 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.base": [
+					"color.bg.base": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.computed": [
+					]),
+					"color.bg.computed": what.css([
 						"bg-blue-100",
-					],
-					"color.text.base": [
+					]),
+					"color.text.base": what.css([
 						"text-gray-900",
-					],
-					"color.text.computed": [
+					]),
+					"color.text.computed": what.css([
 						"text-blue-900",
-					],
-					"spacing.padding.base": [
+					]),
+					"spacing.padding.base": what.css([
 						"p-2",
-					],
-					"spacing.padding.computed": [
+					]),
+					"spacing.padding.computed": what.css([
 						"p-4",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

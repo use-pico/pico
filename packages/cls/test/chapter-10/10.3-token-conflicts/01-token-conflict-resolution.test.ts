@@ -32,30 +32,30 @@ describe("10.3 Token Conflicts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -141,28 +141,28 @@ describe("10.3 Token Conflicts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.success": [
+					"color.bg.success": what.css([
 						"bg-green-500",
-					], // New token
-					"color.text.success": [
+					]), // New token
+					"color.text.success": what.css([
 						"text-white",
-					], // New token
-					"spacing.padding.xl": [
+					]), // New token
+					"spacing.padding.xl": what.css([
 						"px-8",
 						"py-4",
-					], // New size
-					"border.radius.none": [
+					]), // New size
+					"border.radius.none": what.css([
 						"rounded-none",
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -256,9 +256,7 @@ describe("10.3 Token Conflicts", () => {
 
 		// Test base component behavior
 		const baseDefault = BaseComponent.create();
-		expect(baseDefault.root()).toBe(
-			"bg-gray-100 text-gray-900 px-4 py-2",
-		);
+		expect(baseDefault.root()).toBe("bg-gray-100 text-gray-900 px-4 py-2");
 
 		const basePrimary = BaseComponent.create(() => ({
 			variant: {

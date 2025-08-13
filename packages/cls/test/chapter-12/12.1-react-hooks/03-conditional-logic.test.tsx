@@ -40,42 +40,42 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-100",
-					],
-					"color.bg.warning": [
+					]),
+					"color.bg.warning": what.css([
 						"bg-yellow-100",
-					],
-					"color.bg.error": [
+					]),
+					"color.bg.error": what.css([
 						"bg-red-100",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-green-900",
-					],
-					"color.text.warning": [
+					]),
+					"color.text.warning": what.css([
 						"text-yellow-900",
-					],
-					"color.text.error": [
+					]),
+					"color.text.error": what.css([
 						"text-red-900",
-					],
-					"border.color.default": [
+					]),
+					"border.color.default": what.css([
 						"border-gray-300",
-					],
-					"border.color.success": [
+					]),
+					"border.color.success": what.css([
 						"border-green-300",
-					],
-					"border.color.warning": [
+					]),
+					"border.color.warning": what.css([
 						"border-yellow-300",
-					],
-					"border.color.error": [
+					]),
+					"border.color.error": what.css([
 						"border-red-300",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

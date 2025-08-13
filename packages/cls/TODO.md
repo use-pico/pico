@@ -1,6 +1,8 @@
 # CLS - Enable token references in token definition with proper resolutions
 
-# CLS - Simplify "what" API - use only "css" which will also intellisense tokens (so no css and tokens can be mixed; e.g. apply token and right next reset some class it provides)
+# CLS - document why "what" API has separated "css" and "token" - typesafety is not possible, when merged together
+
+# CLS - Document token references in their definitions
 
 # README - Tutorial how to switch whole theme
 - Assume we've ThemeCls (some default, from library, whatever)

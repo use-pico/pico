@@ -40,7 +40,7 @@ describe("12.2 React Context - Stable Cls Reference", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.light",
 							"color.text.light",
 						]),

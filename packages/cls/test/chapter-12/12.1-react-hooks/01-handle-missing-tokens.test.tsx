@@ -29,7 +29,7 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 						]),
 					}),

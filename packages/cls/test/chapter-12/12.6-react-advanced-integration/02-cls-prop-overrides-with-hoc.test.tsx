@@ -41,7 +41,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
@@ -79,7 +79,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.custom",
 							"color.text.custom",
 						]),

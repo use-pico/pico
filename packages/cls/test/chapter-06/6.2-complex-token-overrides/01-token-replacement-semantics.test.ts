@@ -30,34 +30,34 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"spacing.tight": [
+					]),
+					"spacing.tight": what.css([
 						"p-2",
-					],
-					"spacing.normal": [
+					]),
+					"spacing.normal": what.css([
 						"p-4",
-					],
-					"spacing.loose": [
+					]),
+					"spacing.loose": what.css([
 						"p-6",
-					],
-					"typography.body": [
+					]),
+					"typography.body": what.css([
 						"text-base",
-					],
-					"typography.heading": [
+					]),
+					"typography.heading": what.css([
 						"text-lg",
 						"font-bold",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -132,54 +132,54 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-green-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-green-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-600",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-green-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"spacing.tight": [
+					]),
+					"spacing.tight": what.css([
 						"p-1",
-					],
-					"spacing.normal": [
+					]),
+					"spacing.normal": what.css([
 						"p-3",
-					],
-					"spacing.loose": [
+					]),
+					"spacing.loose": what.css([
 						"p-5",
-					],
-					"spacing.xl": [
+					]),
+					"spacing.xl": what.css([
 						"p-8",
-					],
-					"typography.body": [
+					]),
+					"typography.body": what.css([
 						"text-sm",
-					],
-					"typography.heading": [
+					]),
+					"typography.heading": what.css([
 						"text-xl",
 						"font-semibold",
-					],
-					"typography.caption": [
+					]),
+					"typography.caption": what.css([
 						"text-xs",
 						"text-gray-500",
-					],
-					"border.none": [],
-					"border.rounded": [
+					]),
+					"border.none": what.css([]),
+					"border.rounded": what.css([
 						"rounded-md",
-					],
-					"border.pill": [
+					]),
+					"border.pill": what.css([
 						"rounded-full",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(

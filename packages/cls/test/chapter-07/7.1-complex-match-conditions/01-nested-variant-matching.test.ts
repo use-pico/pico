@@ -52,60 +52,60 @@ describe("7.1 Complex Match Conditions - Nested Variant Matching", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.bg.warning": [
+					]),
+					"color.bg.warning": what.css([
 						"bg-yellow-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"color.text.warning": [
+					]),
+					"color.text.warning": what.css([
 						"text-white",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"size.sm": [
+					]),
+					"size.sm": what.css([
 						"text-xs",
 						"px-2",
 						"py-1",
-					],
-					"size.md": [
+					]),
+					"size.md": what.css([
 						"text-sm",
 						"px-3",
 						"py-2",
-					],
-					"size.lg": [
+					]),
+					"size.lg": what.css([
 						"text-base",
 						"px-4",
 						"py-2",
-					],
-					"size.xl": [
+					]),
+					"size.xl": what.css([
 						"text-lg",
 						"px-6",
 						"py-3",
-					],
-					"state.default": [],
-					"state.hover": [],
-					"state.active": [],
-					"state.disabled": [],
+					]),
+					"state.default": what.css([]),
+					"state.hover": what.css([]),
+					"state.active": what.css([]),
+					"state.disabled": what.css([]),
 				}),
 				rules: [
 					def.root({

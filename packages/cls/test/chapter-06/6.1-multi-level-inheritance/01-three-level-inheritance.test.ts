@@ -28,18 +28,18 @@ describe("6.1 Multi-level Inheritance - Three Level Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"size.padding.small": [
+					]),
+					"size.padding.small": what.css([
 						"p-2",
-					],
-					"size.padding.medium": [
+					]),
+					"size.padding.medium": what.css([
 						"p-4",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -133,31 +133,31 @@ describe("6.1 Multi-level Inheritance - Three Level Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-purple-500",
-					],
-					"size.padding.small": [
+					]),
+					"size.padding.small": what.css([
 						"p-2",
-					],
-					"size.padding.medium": [
+					]),
+					"size.padding.medium": what.css([
 						"p-4",
-					],
-					"size.padding.large": [
+					]),
+					"size.padding.large": what.css([
 						"p-6",
-					],
-					"state.interactive.enabled": [
+					]),
+					"state.interactive.enabled": what.css([
 						"cursor-pointer",
-					],
-					"state.interactive.disabled": [
+					]),
+					"state.interactive.disabled": what.css([
 						"cursor-not-allowed",
 						"opacity-50",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -244,47 +244,47 @@ describe("6.1 Multi-level Inheritance - Three Level Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-purple-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"size.padding.small": [
+					]),
+					"size.padding.small": what.css([
 						"p-2",
-					],
-					"size.padding.medium": [
+					]),
+					"size.padding.medium": what.css([
 						"p-4",
-					],
-					"size.padding.large": [
+					]),
+					"size.padding.large": what.css([
 						"p-6",
-					],
-					"size.padding.xl": [
+					]),
+					"size.padding.xl": what.css([
 						"p-8",
-					],
-					"state.interactive.enabled": [
+					]),
+					"state.interactive.enabled": what.css([
 						"cursor-pointer",
-					],
-					"state.interactive.disabled": [
+					]),
+					"state.interactive.disabled": what.css([
 						"cursor-not-allowed",
 						"opacity-50",
-					],
-					"state.interactive.loading": [
+					]),
+					"state.interactive.loading": what.css([
 						"cursor-wait",
 						"animate-pulse",
-					],
-					"theme.mode.light": [
+					]),
+					"theme.mode.light": what.css([
 						"text-gray-900",
-					],
-					"theme.mode.dark": [
+					]),
+					"theme.mode.dark": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(

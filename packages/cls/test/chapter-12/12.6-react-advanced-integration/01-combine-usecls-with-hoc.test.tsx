@@ -73,7 +73,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
@@ -117,7 +117,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"icon.position.left",
 						]),
 						icon: what.css([

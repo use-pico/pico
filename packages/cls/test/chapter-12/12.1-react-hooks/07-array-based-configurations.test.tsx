@@ -56,86 +56,86 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.base": [
+					"color.bg.base": what.css([
 						"bg-white",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-50",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-50",
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-purple-50",
-					],
-					"color.text.base": [
+					]),
+					"color.text.base": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-blue-900",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-700",
-					],
-					"color.text.accent": [
+					]),
+					"color.text.accent": what.css([
 						"text-purple-900",
-					],
-					"spacing.margin.none": [
+					]),
+					"spacing.margin.none": what.css([
 						"m-0",
-					],
-					"spacing.margin.xs": [
+					]),
+					"spacing.margin.xs": what.css([
 						"m-1",
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"spacing.margin.lg": [
+					]),
+					"spacing.margin.lg": what.css([
 						"m-6",
-					],
-					"spacing.margin.xl": [
+					]),
+					"spacing.margin.xl": what.css([
 						"m-8",
-					],
-					"spacing.padding.none": [
+					]),
+					"spacing.padding.none": what.css([
 						"p-0",
-					],
-					"spacing.padding.xs": [
+					]),
+					"spacing.padding.xs": what.css([
 						"p-1",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
-					"spacing.padding.xl": [
+					]),
+					"spacing.padding.xl": what.css([
 						"p-8",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.base",
 							"color.text.base",
 							"spacing.margin.md",
 							"spacing.padding.md",
 						]),
-						header: what.token([
+						header: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
-						content: what.token([
+						content: what.css([
 							"color.bg.base",
 							"color.text.base",
 							"spacing.padding.md",
 						]),
-						footer: what.token([
+						footer: what.css([
 							"color.bg.secondary",
 							"color.text.secondary",
 							"spacing.padding.sm",
@@ -179,17 +179,17 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							spacing: "compact",
 						}),
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.margin.sm",
 								"spacing.padding.sm",
 							]),
-							header: what.token([
+							header: what.css([
 								"spacing.padding.xs",
 							]),
-							content: what.token([
+							content: what.css([
 								"spacing.padding.sm",
 							]),
-							footer: what.token([
+							footer: what.css([
 								"spacing.padding.xs",
 							]),
 						},
@@ -199,17 +199,17 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							spacing: "spacious",
 						}),
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.margin.lg",
 								"spacing.padding.lg",
 							]),
-							header: what.token([
+							header: what.css([
 								"spacing.padding.md",
 							]),
-							content: what.token([
+							content: what.css([
 								"spacing.padding.lg",
 							]),
-							footer: what.token([
+							footer: what.css([
 								"spacing.padding.md",
 							]),
 						},

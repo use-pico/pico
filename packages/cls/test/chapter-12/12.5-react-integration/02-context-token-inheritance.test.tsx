@@ -27,18 +27,18 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.light": [
+					"color.bg.light": what.css([
 						"bg-white",
-					],
-					"color.bg.dark": [
+					]),
+					"color.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"color.text.light": [
+					]),
+					"color.text.light": what.css([
 						"text-gray-900",
-					],
-					"color.text.dark": [
+					]),
+					"color.text.dark": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -96,12 +96,12 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.accent.blue": [
+					"color.accent.blue": what.css([
 						"border-blue-500",
-					],
-					"color.accent.green": [
+					]),
+					"color.accent.green": what.css([
 						"border-green-500",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

@@ -65,90 +65,90 @@ describe("8.2 Token Overrides", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.bg.warning": [
+					]),
+					"color.bg.warning": what.css([
 						"bg-yellow-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"color.text.warning": [
+					]),
+					"color.text.warning": what.css([
 						"text-gray-900",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"color.border.default": [
+					]),
+					"color.border.default": what.css([
 						"border-gray-300",
-					],
-					"color.border.primary": [
+					]),
+					"color.border.primary": what.css([
 						"border-blue-600",
-					],
-					"color.border.success": [
+					]),
+					"color.border.success": what.css([
 						"border-green-600",
-					],
-					"color.border.warning": [
+					]),
+					"color.border.warning": what.css([
 						"border-yellow-600",
-					],
-					"color.border.danger": [
+					]),
+					"color.border.danger": what.css([
 						"border-red-600",
-					],
-					"size.spacing.sm": [
+					]),
+					"size.spacing.sm": what.css([
 						"p-2",
-					],
-					"size.spacing.md": [
+					]),
+					"size.spacing.md": what.css([
 						"p-4",
-					],
-					"size.spacing.lg": [
+					]),
+					"size.spacing.lg": what.css([
 						"p-6",
-					],
-					"size.typography.sm": [
+					]),
+					"size.typography.sm": what.css([
 						"text-sm",
-					],
-					"size.typography.md": [
+					]),
+					"size.typography.md": what.css([
 						"text-base",
-					],
-					"size.typography.lg": [
+					]),
+					"size.typography.lg": what.css([
 						"text-lg",
-					],
-					"size.border.none": [],
-					"size.border.thin": [
+					]),
+					"size.border.none": what.css([]),
+					"size.border.thin": what.css([
 						"border",
-					],
-					"size.border.medium": [
+					]),
+					"size.border.medium": what.css([
 						"border-2",
-					],
-					"size.border.thick": [
+					]),
+					"size.border.thick": what.css([
 						"border-4",
-					],
-					"state.interactive.idle": [],
-					"state.interactive.hover": [
+					]),
+					"state.interactive.idle": what.css([]),
+					"state.interactive.hover": what.css([
 						"hover:opacity-80",
-					],
-					"state.interactive.active": [
+					]),
+					"state.interactive.active": what.css([
 						"active:scale-95",
-					],
-					"state.interactive.disabled": [
+					]),
+					"state.interactive.disabled": what.css([
 						"opacity-50",
 						"cursor-not-allowed",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -200,17 +200,17 @@ describe("8.2 Token Overrides", () => {
 		expect(defaultInstance.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test color token override
-		const colorTokenOverride = TokenComponent.create(() => ({
+		const colorTokenOverride = TokenComponent.create(({ what }) => ({
 			token: {
-				"color.bg.primary": [
+				"color.bg.primary": what.css([
 					"bg-purple-500",
-				],
-				"color.text.primary": [
+				]),
+				"color.text.primary": what.css([
 					"text-purple-900",
-				],
-				"color.border.primary": [
+				]),
+				"color.border.primary": what.css([
 					"border-purple-600",
-				],
+				]),
 			},
 		}));
 		expect(colorTokenOverride.root()).toBe(
@@ -224,17 +224,17 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test size token override
-		const sizeTokenOverride = TokenComponent.create(() => ({
+		const sizeTokenOverride = TokenComponent.create(({ what }) => ({
 			token: {
-				"size.spacing.sm": [
+				"size.spacing.sm": what.css([
 					"p-1",
-				],
-				"size.typography.sm": [
+				]),
+				"size.typography.sm": what.css([
 					"text-xs",
-				],
-				"size.border.medium": [
+				]),
+				"size.border.medium": what.css([
 					"border-2",
-				],
+				]),
 			},
 		}));
 		expect(sizeTokenOverride.root()).toBe(
@@ -243,23 +243,21 @@ describe("8.2 Token Overrides", () => {
 		expect(sizeTokenOverride.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(sizeTokenOverride.actions()).toBe(
-			"flex gap-2 justify-end mt-4",
-		);
+		expect(sizeTokenOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test state token override
-		const stateTokenOverride = TokenComponent.create(() => ({
+		const stateTokenOverride = TokenComponent.create(({ what }) => ({
 			token: {
-				"state.interactive.hover": [
+				"state.interactive.hover": what.css([
 					"hover:bg-blue-100",
-				],
-				"state.interactive.active": [
+				]),
+				"state.interactive.active": what.css([
 					"active:bg-blue-200",
-				],
-				"state.interactive.disabled": [
+				]),
+				"state.interactive.disabled": what.css([
 					"opacity-30",
 					"pointer-events-none",
-				],
+				]),
 			},
 		}));
 		expect(stateTokenOverride.root()).toBe(
@@ -273,23 +271,23 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test multiple token overrides
-		const multiTokenOverride = TokenComponent.create(() => ({
+		const multiTokenOverride = TokenComponent.create(({ what }) => ({
 			token: {
-				"color.bg.primary": [
+				"color.bg.primary": what.css([
 					"bg-indigo-500",
-				],
-				"color.text.primary": [
+				]),
+				"color.text.primary": what.css([
 					"text-indigo-900",
-				],
-				"size.spacing.lg": [
+				]),
+				"size.spacing.lg": what.css([
 					"p-8",
-				],
-				"size.typography.lg": [
+				]),
+				"size.typography.lg": what.css([
 					"text-xl",
-				],
-				"state.interactive.hover": [
+				]),
+				"state.interactive.hover": what.css([
 					"hover:shadow-lg",
-				],
+				]),
 			},
 		}));
 		expect(multiTokenOverride.root()).toBe(
@@ -303,44 +301,48 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test mixed token override (some tokens, some variants)
-		const mixedTokenOverride = TokenComponent.create(() => ({
-			variant: {
-				color: "primary",
-				size: "lg",
-				state: "hover",
-			},
-			token: {
-				"color.bg.primary": [
-					"bg-teal-500",
-				],
-				"color.text.primary": [
-					"text-teal-900",
-				],
-				"size.spacing.lg": [
-					"p-8",
-				],
-			},
-		}));
+		const mixedTokenOverride = TokenComponent.create(
+			({ what, override }) => ({
+				variant: what.variant({
+					color: "primary",
+					size: "lg",
+					state: "hover",
+				}),
+				token: override.token({
+					"color.bg.primary": what.css([
+						"bg-teal-500",
+					]),
+					"color.text.primary": what.css([
+						"text-teal-900",
+					]),
+					"size.spacing.lg": what.css([
+						"p-8",
+					]),
+				}),
+			}),
+		);
 		expect(mixedTokenOverride.root()).toBe("");
 		expect(mixedTokenOverride.content()).toBe("");
 		expect(mixedTokenOverride.actions()).toBe("");
 
 		// Test that variants are preserved when overriding tokens
-		const variantPreservation = TokenComponent.create(() => ({
-			variant: {
-				color: "success",
-				size: "lg",
-				state: "active",
-			},
-			token: {
-				"color.bg.success": [
-					"bg-emerald-500",
-				],
-				"color.text.success": [
-					"text-emerald-900",
-				],
-			},
-		}));
+		const variantPreservation = TokenComponent.create(
+			({ what, override }) => ({
+				variant: what.variant({
+					color: "success",
+					size: "lg",
+					state: "active",
+				}),
+				token: override.token({
+					"color.bg.success": what.css([
+						"bg-emerald-500",
+					]),
+					"color.text.success": what.css([
+						"text-emerald-900",
+					]),
+				}),
+			}),
+		);
 		expect(variantPreservation.root()).toBe("");
 		expect(variantPreservation.content()).toBe("");
 		expect(variantPreservation.actions()).toBe("");

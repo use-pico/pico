@@ -72,16 +72,16 @@ describe("12.3 React Components - Attach Cls Instance", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
 						]),
-						icon: what.token([
+						icon: what.css([
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
-						label: what.token([
+						label: what.css([
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),

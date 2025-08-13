@@ -24,18 +24,18 @@ describe("9.3 Inheritance Chain", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -90,24 +90,24 @@ describe("9.3 Inheritance Chain", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.success": [
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"size.padding.sm": [
+					]),
+					"size.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.md": [
+					]),
+					"size.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.lg": [
+					]),
+					"size.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -202,29 +202,29 @@ describe("9.3 Inheritance Chain", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.danger": [
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"size.padding.sm": [
+					]),
+					"size.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.md": [
+					]),
+					"size.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.lg": [
+					]),
+					"size.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
-					"state.disabled.enabled": [],
-					"state.disabled.disabled": [
+					]),
+					"state.disabled.enabled": what.css([]),
+					"state.disabled.disabled": what.css([
 						"opacity-50",
 						"cursor-not-allowed",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -319,9 +319,7 @@ describe("9.3 Inheritance Chain", () => {
 				size: "sm",
 			},
 		}));
-		expect(smallButton.root()).toBe(
-			"bg-gray-100 text-gray-900 px-2 py-1",
-		);
+		expect(smallButton.root()).toBe("bg-gray-100 text-gray-900 px-2 py-1");
 
 		// Level 1 can use Level 3
 		const ButtonGroup2 = BaseButton.use(StatefulButton);

@@ -17,15 +17,15 @@ describe("1.2 Token System Basics - Multiple Token Variants", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-green-500",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

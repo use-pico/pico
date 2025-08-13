@@ -15,9 +15,9 @@ describe("1.2 Token System Basics - Single Token Definition", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

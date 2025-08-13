@@ -24,12 +24,12 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.conflict": [
+					"color.bg.conflict": what.css([
 						"bg-red-500",
-					],
-					"color.text.conflict": [
+					]),
+					"color.text.conflict": what.css([
 						"text-red-100",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

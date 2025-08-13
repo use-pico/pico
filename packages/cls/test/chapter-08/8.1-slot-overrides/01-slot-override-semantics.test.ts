@@ -60,68 +60,68 @@ describe("8.1 Slot Overrides", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.bg.warning": [
+					]),
+					"color.bg.warning": what.css([
 						"bg-yellow-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"color.text.warning": [
+					]),
+					"color.text.warning": what.css([
 						"text-gray-900",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"size.spacing.sm": [
+					]),
+					"size.spacing.sm": what.css([
 						"p-2",
-					],
-					"size.spacing.md": [
+					]),
+					"size.spacing.md": what.css([
 						"p-4",
-					],
-					"size.spacing.lg": [
+					]),
+					"size.spacing.lg": what.css([
 						"p-6",
-					],
-					"size.typography.sm": [
+					]),
+					"size.typography.sm": what.css([
 						"text-sm",
-					],
-					"size.typography.md": [
+					]),
+					"size.typography.md": what.css([
 						"text-base",
-					],
-					"size.typography.lg": [
+					]),
+					"size.typography.lg": what.css([
 						"text-lg",
-					],
-					"border.style.none": [],
-					"border.style.solid": [
+					]),
+					"border.style.none": what.css([]),
+					"border.style.solid": what.css([
 						"border",
-					],
-					"border.style.dashed": [
+					]),
+					"border.style.dashed": what.css([
 						"border-dashed",
-					],
-					"border.width.0": [],
-					"border.width.1": [
+					]),
+					"border.width.0": what.css([]),
+					"border.width.1": what.css([
 						"border",
-					],
-					"border.width.2": [
+					]),
+					"border.width.2": what.css([
 						"border-2",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -396,9 +396,7 @@ describe("8.1 Slot Overrides", () => {
 		expect(headerOverride.header()).toBe(
 			"bg-blue-50 text-blue-900 border-b-2 border-blue-300 pb-3 mb-3 font-bold text-lg",
 		);
-		expect(headerOverride.content()).toBe(
-			"min-h-0 flex-1 leading-relaxed",
-		);
+		expect(headerOverride.content()).toBe("min-h-0 flex-1 leading-relaxed");
 		expect(headerOverride.footer()).toBe(
 			"border-t border-gray-200 pt-2 mt-2 text-sm text-gray-600",
 		);
@@ -408,26 +406,24 @@ describe("8.1 Slot Overrides", () => {
 		expect(headerOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test slot override - override multiple slots while preserving others
-		const multipleSlotOverride = MultiSlotComponent.create(
-			({ what }) => ({
-				slot: {
-					content: what.css([
-						"bg-gray-50",
-						"p-4",
-						"rounded-lg",
-						"border",
-						"border-gray-200",
-					]),
-					actions: what.css([
-						"bg-blue-100",
-						"p-3",
-						"rounded-md",
-						"border",
-						"border-blue-200",
-					]),
-				},
-			}),
-		);
+		const multipleSlotOverride = MultiSlotComponent.create(({ what }) => ({
+			slot: {
+				content: what.css([
+					"bg-gray-50",
+					"p-4",
+					"rounded-lg",
+					"border",
+					"border-gray-200",
+				]),
+				actions: what.css([
+					"bg-blue-100",
+					"p-3",
+					"rounded-md",
+					"border",
+					"border-blue-200",
+				]),
+			},
+		}));
 		expect(multipleSlotOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
@@ -474,9 +470,7 @@ describe("8.1 Slot Overrides", () => {
 		expect(tokenSlotOverride.sidebar()).toBe(
 			"w-64 bg-gray-50 border-r border-gray-200 p-6",
 		);
-		expect(tokenSlotOverride.actions()).toBe(
-			"flex gap-2 justify-end mt-4",
-		);
+		expect(tokenSlotOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test slot override with mixed CSS and tokens
 		const mixedSlotOverride = MultiSlotComponent.create(({ what }) => ({
@@ -508,9 +502,7 @@ describe("8.1 Slot Overrides", () => {
 		expect(mixedSlotOverride.sidebar()).toBe(
 			"w-64 bg-gray-50 p-4 border-r border-gray-200",
 		);
-		expect(mixedSlotOverride.actions()).toBe(
-			"flex gap-2 justify-end mt-4",
-		);
+		expect(mixedSlotOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test that non-overridden slots still inherit variant styles
 		const variantPreservation = MultiSlotComponent.create(({ what }) => ({

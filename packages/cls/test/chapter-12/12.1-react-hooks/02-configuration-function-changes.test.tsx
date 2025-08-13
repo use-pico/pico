@@ -40,7 +40,7 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 						]),

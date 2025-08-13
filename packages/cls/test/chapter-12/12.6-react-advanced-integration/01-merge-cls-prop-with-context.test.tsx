@@ -41,7 +41,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
@@ -102,7 +102,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",

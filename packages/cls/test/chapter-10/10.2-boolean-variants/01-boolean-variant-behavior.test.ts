@@ -34,28 +34,28 @@ describe("10.2 Boolean Variants", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"state.disabled.enabled": [],
-					"state.disabled.disabled": [
+					]),
+					"state.disabled.enabled": what.css([]),
+					"state.disabled.disabled": what.css([
 						"opacity-50",
 						"cursor-not-allowed",
-					],
-					"state.loading.idle": [],
-					"state.loading.loading": [
+					]),
+					"state.loading.idle": what.css([]),
+					"state.loading.loading": what.css([
 						"animate-pulse",
 						"cursor-wait",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -222,24 +222,24 @@ describe("10.2 Boolean Variants", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.success": [
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"size.padding.sm": [
+					]),
+					"size.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.md": [
+					]),
+					"size.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.lg": [
+					]),
+					"size.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -338,16 +338,14 @@ describe("10.2 Boolean Variants", () => {
 			"bg-gray-100 text-gray-900 px-4 py-2 opacity-50 cursor-not-allowed",
 		);
 
-		const extendedComplexInstance = ExtendedBooleanComponent.create(
-			() => ({
-				variant: {
-					color: "success",
-					disabled: true,
-					loading: true,
-					size: "lg",
-				},
-			}),
-		);
+		const extendedComplexInstance = ExtendedBooleanComponent.create(() => ({
+			variant: {
+				color: "success",
+				disabled: true,
+				loading: true,
+				size: "lg",
+			},
+		}));
 		expect(extendedComplexInstance.root()).toBe(
 			"bg-green-500 text-white opacity-50 animate-pulse cursor-wait px-6 py-3",
 		);

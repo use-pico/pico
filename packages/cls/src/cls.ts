@@ -99,23 +99,57 @@ export function cls<
 		}
 	}
 
-	// Helper functions
-	const resolveTokens = (
-		tokenKeys: string[] | undefined,
+	// Helper function to resolve a single What<T> object recursively
+	const resolveWhat = (
+		what: What<Contract<TokenContract, SlotContract, VariantContract>>,
 		tokenTable: TokenDefinitionRequired<
 			Contract<TokenContract, SlotContract, VariantContract>
 		>,
+		resolvedTokens: Set<string> = new Set(),
 	): ClassName[] => {
-		if (!tokenKeys) {
-			return [];
-		}
 		const result: ClassName[] = [];
-		for (const key of tokenKeys) {
-			result.push(tokenTable[key]);
+
+		// Handle WhatClass (has 'class' property)
+		if ("class" in what && what.class) {
+			result.push(what.class);
 		}
+
+		// Handle WhatToken (has 'token' property) - recursive resolution
+		if ("token" in what && what.token) {
+			for (const tokenKey of what.token) {
+				// Check for circular dependencies
+				if (resolvedTokens.has(tokenKey)) {
+					throw new Error(
+						`Circular dependency detected in token references: ${Array.from(
+							resolvedTokens,
+						).join(" -> ")} -> ${tokenKey}`,
+					);
+				}
+
+				if (!tokenTable[tokenKey]) {
+					continue;
+				}
+
+				// Add to resolved set to prevent cycles
+				resolvedTokens.add(tokenKey);
+
+				// Recursively resolve the token definition
+				const resolved = resolveWhat(
+					tokenTable[tokenKey],
+					tokenTable,
+					resolvedTokens,
+				);
+				result.push(...resolved);
+
+				// Remove from resolved set for other branches
+				resolvedTokens.delete(tokenKey);
+			}
+		}
+
 		return result;
 	};
 
+	// TODO May be simplified as it's only calling internal function
 	const applyWhat = (
 		acc: ClassName[],
 		what:
@@ -129,15 +163,7 @@ export function cls<
 			return acc;
 		}
 
-		// Handle WhatClass (has 'class' property)
-		if ("class" in what && what.class) {
-			acc.push(what.class);
-		}
-
-		// Handle WhatToken (has 'token' property)
-		if ("token" in what && what.token) {
-			acc.push(...resolveTokens(what.token, tokenTable));
-		}
+		acc.push(...resolveWhat(what, tokenTable));
 
 		return acc;
 	};
@@ -178,7 +204,9 @@ export function cls<
 			};
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values as ClassName;
+				tokenTable[key] = values as What<
+					Contract<TokenContract, SlotContract, VariantContract>
+				>;
 			}
 
 			const cache = {} as Record<
@@ -241,7 +269,13 @@ export function cls<
 						for (const [key, values] of Object.entries(
 							localConfig?.token ?? {},
 						)) {
-							localTokens[key] = values as string[];
+							localTokens[key] = values as What<
+								Contract<
+									TokenContract,
+									SlotContract,
+									VariantContract
+								>
+							>;
 						}
 
 						let acc: ClassName[] = [];

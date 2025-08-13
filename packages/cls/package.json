@@ -1,6 +1,7 @@
 {
 	"name": "@use-pico/cls",
-	"description": "Clever styles for you apps",
+	"description": "Type-safe, composable styling system for React, Vue, Svelte, and vanilla JS",
+	"readme": "README.md",
 	"version": "4.2.3",
 	"type": "module",
 	"sideEffects": false,
@@ -42,7 +43,7 @@
 	"files": [
 		"src",
 		"dist",
-		"DESIGN.md"
+		"README.md"
 	],
 	"exports": {
 		".": {

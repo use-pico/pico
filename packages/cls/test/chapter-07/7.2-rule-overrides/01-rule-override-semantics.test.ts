@@ -35,39 +35,39 @@ describe("Rule Override Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-white",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"size.sm": [
+					]),
+					"size.sm": what.css([
 						"px-2",
 						"py-1",
 						"text-sm",
-					],
-					"size.md": [
+					]),
+					"size.md": what.css([
 						"px-4",
 						"py-2",
 						"text-base",
-					],
-					"size.lg": [
+					]),
+					"size.lg": what.css([
 						"px-6",
 						"py-3",
 						"text-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -153,50 +153,50 @@ describe("Rule Override Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-600",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-white",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"size.sm": [
+					]),
+					"size.sm": what.css([
 						"px-2",
 						"py-1",
 						"text-sm",
-					],
-					"size.md": [
+					]),
+					"size.md": what.css([
 						"px-4",
 						"py-2",
 						"text-base",
-					],
-					"size.lg": [
+					]),
+					"size.lg": what.css([
 						"px-8",
 						"py-4",
 						"text-xl",
-					],
-					"size.xl": [
+					]),
+					"size.xl": what.css([
 						"px-10",
 						"py-5",
 						"text-2xl",
-					],
+					]),
 				}),
 				rules: [
 					// Override the root to prevent inheritance of base tokens

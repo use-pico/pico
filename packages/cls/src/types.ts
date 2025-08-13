@@ -90,12 +90,13 @@ export type TokensOfList<T extends Contract<any, any, any>> = ListOf<
 	TokensOf<T>
 >;
 
+// Updated: Token definitions now support What<T> objects (CSS classes + token references)
 export type TokenDefinitionRequired<T extends Contract<any, any, any>> = {
-	[K in T["tokens"][number]]: ClassName;
+	[K in T["tokens"][number]]: What<T>;
 };
 
 export type TokenDefinitionOptional<T extends Contract<any, any, any>> =
-	Partial<Record<TokensOf<T>, string[]>>;
+	Partial<Record<TokensOf<T>, What<T>>>;
 
 // ============================================================================
 // SLOT SYSTEM

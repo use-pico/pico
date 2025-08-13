@@ -20,9 +20,9 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -31,9 +31,9 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							size: "sm",
-						},
+						}),
 						{
 							root: what.css([
 								"text-sm",
@@ -42,9 +42,9 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							size: "md",
-						},
+						}),
 						{
 							root: what.css([
 								"text-base",
@@ -78,12 +78,12 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-blue-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -92,9 +92,9 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							size: "lg",
-						},
+						}),
 						{
 							root: what.css([
 								"text-lg",

@@ -62,7 +62,7 @@ describe("12.1 React Hooks - Stable References", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",

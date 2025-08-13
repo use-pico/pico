@@ -24,18 +24,18 @@ describe("9.2 Type Safety", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -45,9 +45,9 @@ describe("9.2 Type Safety", () => {
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.primary",
@@ -82,12 +82,12 @@ describe("9.2 Type Safety", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.success": [
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -97,9 +97,9 @@ describe("9.2 Type Safety", () => {
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.primary",
@@ -108,9 +108,9 @@ describe("9.2 Type Safety", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "success",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.success",
@@ -146,18 +146,18 @@ describe("9.2 Type Safety", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"size.padding.sm": [
+					"size.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.md": [
+					]),
+					"size.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.lg": [
+					]),
+					"size.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

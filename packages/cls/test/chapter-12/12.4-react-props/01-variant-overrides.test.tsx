@@ -72,12 +72,12 @@ describe("12.4 React Props - Variant Overrides", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
 						]),
-						label: what.token([
+						label: what.css([
 							"color.text.primary",
 						]),
 					}),
@@ -86,12 +86,12 @@ describe("12.4 React Props - Variant Overrides", () => {
 							variant: "secondary",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.secondary",
 								"color.text.secondary",
 								"spacing.padding.md",
 							]),
-							label: what.token([
+							label: what.css([
 								"color.text.secondary",
 							]),
 						},
@@ -101,7 +101,7 @@ describe("12.4 React Props - Variant Overrides", () => {
 							size: "sm",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.padding.sm",
 							]),
 						},
@@ -111,7 +111,7 @@ describe("12.4 React Props - Variant Overrides", () => {
 							size: "lg",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.padding.lg",
 							]),
 						},

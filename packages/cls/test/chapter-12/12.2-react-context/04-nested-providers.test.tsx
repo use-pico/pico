@@ -40,7 +40,7 @@ describe("12.2 React Context - Nested Providers", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.light",
 							"color.text.light",
 						]),
@@ -96,7 +96,7 @@ describe("12.2 React Context - Nested Providers", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.light",
 							"color.text.light",
 						]),

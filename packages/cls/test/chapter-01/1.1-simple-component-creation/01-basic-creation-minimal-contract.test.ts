@@ -19,9 +19,9 @@ describe("1.1 Simple Component Creation - Basic Creation with Minimal Contract",
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

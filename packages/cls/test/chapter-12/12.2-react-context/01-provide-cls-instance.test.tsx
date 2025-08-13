@@ -52,7 +52,7 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.light",
 							"color.text.light",
 							"spacing.padding.md",
@@ -63,7 +63,7 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 							theme: "dark",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.dark",
 								"color.text.dark",
 							]),

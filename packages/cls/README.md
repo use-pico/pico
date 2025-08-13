@@ -1,2280 +1,1739 @@
-# `@use-pico/cls`
+# CLS - Type-Safe Styling System
 
-## Introduction ✨ <a id="introduction"></a>
+> **Type-safe, composable styling system** for React, Vue, Svelte, and vanilla JS
 
-`@use-pico/cls` is a class-first styling system built for modern design systems and production apps. It works with existing CSS utilities (like Tailwind), _not_ CSS-in-JS. Its core ideas are: **design tokens** as first‑class citizens, **multi-slot** components, **explicit variants** with strong TypeScript guarantees, and a powerful **multi-level inheritance** model for scalable systems. ✨
+[![npm version](https://badge.fury.io/js/@use-pico%2Fcls.svg)](https://badge.fury.io/js/@use-pico%2Fcls)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- 🧱 **Contracts, not configs**: declare **tokens · slots · variants** once → get full IntelliSense everywhere
-- 🎯 **Design tokens** as first-class citizens with **inheritance** and validation
-- 🎛️ **Rules that read like UI**: map variant combos → slot styles with predictable overrides
-- 🧩 **Extend anything**: multi‑level inheritance across tokens/slots/variants with types intact
-- 🧠 **Type-safety first**: compile‑time checks across contracts, rules, and overrides
-- ⚡️ **Lazy by default**: slots are computed on demand via Proxy; no wasted work
-- 🚀 **Cached slots**: per-slot memoization; repeated `slot()` calls with identical inputs are near‑zero cost
-- 🎨 **Runtime flexibility**: override variants/slots/tokens at `create()` time
-- 🌀 **Tailwind‑native**: powered by `tailwind-merge` for sane, deduped class strings
-- 📦 **Built for production**: framework‑agnostic, tiny runtime, excellent React integration
-- 🧭 **Where this fits**: honest comparison with CVA, TV, Stitches, and vanilla-extract
-
-> **Who is this for**: teams building design systems, component libraries, and apps that want predictable styling with a friendly, type-safe developer experience. 🎯
-
-> **Note**: `cls` is **not** `CSS‑in‑JS`; it returns class strings and works with your existing CSS (e.g., Tailwind). No runtime style injection. 🚫
-
-## 📚 Documentation
-
-### [📖 Full Documentation](https://github.com/use-pico/pico/tree/main/packages/cls/docs)
-
-#### 1. [Foundations](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/README.md)
-- [1.1 What is CLS?](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.1-what-is-cls.md)
-- [1.2 Mental Model](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.2-mental-model.md)
-- [1.3 Motivation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.3-motivation.md)
-- [1.4 Installation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.4-installation.md)
-- [1.5 Quick Start](https://github.com/use-pico/pico/blob/main/packages/cls/docs/01-foundations/1.5-quick-start.md)
-
-#### 2. [Design Philosophy](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/README.md)
-- [2.1 Callbacks Everywhere](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.1-callbacks-everywhere.md)
-- [2.2 Why Contracts First](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.2-why-contracts-first.md)
-- [2.3 Token-Centric Design](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.3-token-centric-design.md)
-- [2.4 Rule-Based System](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.4-rule-based-system.md)
-- [2.5 Required Defaults](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.5-required-defaults.md)
-- [2.6 Type Safety as Foundation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.6-type-safety-as-foundation.md)
-- [2.7 Performance by Design](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.7-performance-by-design.md)
-- [2.8 Simplicity Beneath Complexity](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.8-simplicity-beneath-complexity.md)
-- [2.9 CSS Connection](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.9-css-connection.md)
-- [2.10 Inheritance as Foundation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.10-inheritance-as-foundation.md)
-- [2.11 Declarative Configuration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/02-design-philosophy/2.11-declarative-configuration.md)
-
-#### 3. [Core API](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/README.md)
-- [3.1 `cls()` Function](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.1-cls-function.md)
-- [3.2 `extend()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.2-extend-method.md)
-- [3.3 `use()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.3-use-method.md)
-- [3.4 `merge()` Utility](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.4-merge-utility.md)
-- [3.5 `tvc()` Helper](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.5-tvc-helper.md)
-- [3.6 What Utility](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.6-what-utility.md)
-- [3.7 Definition Helpers](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.7-definition-helpers.md)
-- [3.8 Override Helpers](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.8-override-helpers.md)
-- [3.9 Override System Deep Dive](https://github.com/use-pico/pico/blob/main/packages/cls/docs/03-core-api/3.9-override-system-deep-dive.md)
-
-#### 4. [React Integration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/README.md)
-- [4.1 `useCls` Hook](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.1-usecls-hook.md)
-- [4.2 `withCls` HOC](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.2-withcls-hoc.md)
-- [4.3 Context Integration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.3-context-integration.md)
-- [4.4 `Component` Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.4-component-patterns.md)
-- [4.5 `ClsProvider` & `useClsContext`](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.5-clsprovider-useclscontext.md)
-- [4.6 Component Creation](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.6-component-creation.md)
-- [4.7 Theming & Tokens](https://github.com/use-pico/pico/blob/main/packages/cls/docs/04-react-integration/4.7-theming-tokens.md)
-
-#### 5. [Tokens](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/README.md)
-- [5.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.1-contract-declaration.md)
-- [5.2 Token Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.2-token-definition.md)
-- [5.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.3-inheritance.md)
-- [5.4 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/05-tokens/5.4-runtime-overrides.md)
-
-#### 6. [Slots](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/README.md)
-- [6.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.1-contract-declaration.md)
-- [6.2 Slot Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.2-slot-definition.md)
-- [6.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.3-inheritance.md)
-- [6.4 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/06-slots/6.4-runtime-overrides.md)
-
-#### 7. [Variants](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/README.md)
-- [7.1 Contract Declaration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.1-contract-declaration.md)
-- [7.2 Variant Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.2-variant-definition.md)
-- [7.3 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.3-inheritance.md)
-- [7.4 Forced Defaults](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.4-forced-defaults.md)
-- [7.5 Runtime Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/07-variants/7.5-runtime-overrides.md)
-
-#### 8. [Rules](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/README.md)
-- [8.1 Slots & Variants](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.1-slots-variants.md)
-- [8.2 Root Rule Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.2-root-rule-definition.md)
-- [8.3 Rule Definition](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.3-rule-definition.md)
-- [8.4 Inheritance](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.4-inheritance.md)
-- [8.5 Definition Overrides](https://github.com/use-pico/pico/blob/main/packages/cls/docs/08-rules/8.5-definition-overrides.md)
-
-#### 9. [Runtime](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/README.md)
-- [9.1 `create()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.1-create-method.md)
-- [9.2 `slot()` Method](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.2-slot-method.md)
-- [9.3 `cls` & `tva` Prop (`Component` Interface)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/09-runtime/9.3-cls-tva-prop-component-interface.md)
-
-#### 10. [Styling Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/README.md)
-- [10.1 Resolution Order](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.1-resolution-order.md)
-- [10.2 Token Resolution Process](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.2-token-resolution-process.md)
-- [10.3 Rule Evaluation Process](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.3-rule-evaluation-process.md)
-- [10.4 Override vs Append Behavior](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.4-override-vs-append-behavior.md)
-- [10.5 Inheritance Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/10-styling-resolution/10.5-inheritance-resolution.md)
-
-#### 11. [Best Practices](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/README.md)
-- [11.1 Token Definition & Theme](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.1-token-definition-theme.md)
-- [11.2 Components & `withCls`](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.2-components-withcls.md)
-- [11.3 Common Anti-patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/11-best-practices/11.3-common-anti-patterns.md)
-
-#### 12. [Recipes & Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/README.md)
-- [12.1 Simple Static Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.1-simple-static-components.md)
-- [12.2 Variant-only Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.2-variant-only-components.md)
-- [12.3 Token System Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.3-token-system-components.md)
-- [12.4 Inheritance Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.4-inheritance-components.md)
-- [12.5 Runtime Customization](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.5-runtime-customization.md)
-- [12.6 Complex Components](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.6-complex-components.md)
-- [12.7 Edge Cases & Empty Contracts](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.7-edge-cases-empty-contracts.md)
-- [12.8 Multi-level Inheritance Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.8-multi-level-inheritance-patterns.md)
-- [12.9 Complex Rule Matching](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.9-complex-rule-matching.md)
-- [12.10 Boolean Variant Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.10-boolean-variant-patterns.md)
-- [12.11 Token Conflict Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.11-token-conflict-resolution.md)
-- [12.12 Slot Override Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.12-slot-override-patterns.md)
-- [12.13 Large Component Tree Management](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.13-large-component-tree-management.md)
-- [12.14 Dynamic Variant Handling](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.14-dynamic-variant-handling.md)
-- [12.15 Complex Configuration Scenarios](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.15-complex-configuration-scenarios.md)
-- [12.16 Real-world Component Examples](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.16-real-world-component-examples.md)
-- [12.17 Advanced Integration Patterns](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.17-advanced-integration-patterns.md)
-- [12.18 Theming & Token Overloading](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.18-theming-token-overloading.md)
-- [12.19 Theme Inheritance & Management](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.19-theme-inheritance-management.md)
-- [12.20 Merge Precedence & Conflict Resolution](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.20-merge-precedence-conflict-resolution.md)
-- [12.21 Type System Deep Dive](https://github.com/use-pico/pico/blob/main/packages/cls/docs/12-recipes-&-patterns/12.21-type-system-deep-dive.md)
-
-#### 13. [Comparison](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/README.md)
-- [13.1 Feature Table](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.1-feature-table.md)
-- [13.2 Code Comparisons](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.2-code-comparisons.md)
-- [13.3 Migration Paths](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.3-migration-paths.md)
-- [13.4 vs CVA (Class Variance Authority)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.4-vs-cva-class-variance-authority.md)
-- [13.5 vs TV (Tailwind Variants)](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.5-vs-tv-tailwind-variants.md)
-- [13.6 vs Stitches](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.6-vs-stitches.md)
-- [13.7 vs Vanilla Extract](https://github.com/use-pico/pico/blob/main/packages/cls/docs/13-comparison/13.7-vs-vanilla-extract.md)
-
-#### 14. [Migration Guide](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/README.md)
-- [14.1 Migration Overview](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.1-migration-overview.md)
-- [14.2 From CVA to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.2-from-cva-to-cls.md)
-- [14.3 From TV to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.3-from-tv-to-cls.md)
-- [14.4 From Stitches to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.4-from-stitches-to-cls.md)
-- [14.5 From Vanilla Extract to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.5-from-vanilla-extract-to-cls.md)
-- [14.6 From CSS Modules to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.6-from-css-modules-to-cls.md)
-- [14.7 From Emotion to CLS](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.7-from-emotion-to-cls.md)
-- [14.8 Migration Best Practices](https://github.com/use-pico/pico/blob/main/packages/cls/docs/14-migration-guide/14.8-migration-best-practices.md)
-
-#### 15. [FAQ & Known Limitations](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/README.md)
-- [15.1 Frequently Asked Questions](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.1-frequently-asked-questions.md)
-- [15.2 Known Limitations](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.2-known-limitations.md)
-- [15.3 Troubleshooting](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.3-troubleshooting.md)
-- [15.4 Common Pitfalls](https://github.com/use-pico/pico/blob/main/packages/cls/docs/15-faq-&-known-limitations/15.4-common-pitfalls.md)
-
-#### 16. [AI Compatibility](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/README.md)
-- [16.1 AI-First Design Philosophy](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.1-ai-first-design-philosophy.md)
-- [16.2 Documentation Strategy](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.2-documentation-strategy.md)
-- [16.3 Context-Aware Usage](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.3-context-aware-usage.md)
-- [16.4 AI Assistant Integration](https://github.com/use-pico/pico/blob/main/packages/cls/docs/16-ai-compatibility/16.4-ai-assistant-integration.md)
-
----
-
-## 5. Tokens <a id="5-tokens"></a>
-
-[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Rules System](#4-rules-system) | [→ Next Chapter: Variants & Defaults](#6-variants--defaults)
-
----
-
-The **Tokens** chapter covers design tokens, their definitions, and how they work in the CLS system.
-
-### 5.1 Contract Declaration <a id="51-contract-declaration"></a>
-
-#### **What Are Token Contracts?** 🤔
-
-Think of **token contracts** as the **blueprint** for your design system! They define **what tokens exist**, **what values they can have**, and **how they're organized** - all with **full TypeScript support**! 🏗️✨
-
-**Token contracts are your styling DNA** - they establish the foundation that everything else builds upon! 🧬
-
-#### **The Contract Structure** 📋
-
-**Token contracts** define **what token groups and variants exist** in your design system:
+## 🚀 Quick Start <a id="quick-start"></a>
 
 ```typescript
-// Define your token contract - groups with variants
-const ButtonCls = cls({
-  tokens: {
-    // Color tokens - group with variants
-    "color.bg": ["default", "primary", "secondary", "success", "error"],
-    "color.text": ["default", "primary", "secondary", "muted"],
-    "color.border": ["default", "focus", "error"],
-    
-    // Spacing tokens - group with variants
-    "spacing.padding": ["xs", "sm", "md", "lg", "xl"],
-    
-    // Typography tokens - group with variants
-    "typography.size": ["xs", "sm", "base", "lg", "xl"],
-    "typography.weight": ["normal", "medium", "semibold", "bold"]
+import { cls } from '@use-pico/cls';
+
+const Button = cls(
+  {
+    tokens: ["color.bg.primary", "color.text.primary"],
+    slot: ["root"],
+    variant: { size: ["sm", "md", "lg"] }
   },
-  slot: ["root", "label", "icon"],
-  variant: {
-    size: ["sm", "md", "lg"],
-    variant: ["default", "primary", "secondary"],
-    disabled: ["bool"]
-  }
-}, ({ what, def }) => ({
-  // Definition will go here...
-}));
-```
-
-**What this contract defines:**
-- ✅ **Token groups** - `"color.bg"`, `"spacing.padding"`, etc.
-- ✅ **Token variants** - `["default", "primary", "secondary"]` for each group
-- ✅ **Available slots** - `["root", "label", "icon"]`
-- ✅ **Component variants** - `size`, `variant`, `disabled`
-
-#### **Token Enforcement Rules** ⚡
-
-**CRITICAL:** CLS enforces different rules for **defined vs inherited tokens**:
-
-- 🔒 **Defined in Contract = ENFORCED** - TypeScript requires definition for ALL variants
-- 🔓 **Inherited from Parent = OPTIONAL** - TypeScript allows partial or no definition
-
-**This prevents token definition gaps** and ensures **complete styling coverage**!
-
-> **💡 CLS Pro Tip:** When extending contracts, **only specify NEW tokens/variants** you're adding. Don't re-specify inherited ones - CLS handles inheritance automatically!
-
-#### **Token Enforcement Deep Dive** 🔍
-
-**Why this matters for your design system:**
-
-```typescript
-// ❌ WRONG: Missing token definition
-const BrokenButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"] // Declares 3 variants
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"]
-      // ❌ Missing "secondary" - TypeScript ERROR!
-    }
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "color.text.primary": what.css(["text-white"])
+    }),
+    rules: [
+      def.root({ root: what.token(["color.bg.primary", "color.text.primary"]) }),
+      def.rule(what.variant({ size: "lg" }), { root: what.css(["px-6", "py-3"]) })
+    ]
   })
-}));
-
-// ✅ CORRECT: Complete token definition
-const WorkingButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"] // Declares 3 variants
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]  // ✅ All variants defined
-    }
-  })
-}));
-```
-
-**Inheritance behavior:**
-
-```typescript
-// Base with enforced tokens
-const BaseCls = cls({
-  tokens: { "color.bg": ["default", "primary"] },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],  // 🔒 ENFORCED
-      primary: ["bg-blue-500"]   // 🔒 ENFORCED
-    }
-  })
-}));
-
-// Extended - only new tokens enforced
-const ExtendedCls = BaseCls.extend({
-  tokens: { 
-    "color.bg": ["success"],      // ✅ Only add NEW variant
-    "color.text": ["default", "primary"]  // ✅ Add NEW token group
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    // 🔒 ENFORCED: Only NEW tokens
-    "color.bg": {
-      success: ["bg-green-500"]  // ✅ Required - new variant
-    },
-    "color.text": {
-      default: ["text-gray-900"], // ✅ Required - new group
-      primary: ["text-white"]     // ✅ Required - new group
-    }
-    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary)
-    // Can be omitted, overridden, or left as-is
-  })
-}));
-```
-
-#### **Contract Declaration Patterns** 🎨
-
-**Different ways** to declare your token contracts with CLS:
-
-**Pattern 1: Inline Contract**
-```typescript
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"],
-    "spacing.padding": ["sm", "md", "lg"]
-  },
-  slot: ["root", "label"],
-  variant: {
-    size: ["sm", "md", "lg"],
-    variant: ["default", "primary"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: ALL declared tokens must be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"]
-    },
-    "spacing.padding": {
-      sm: ["px-2", "py-1"],
-      md: ["px-4", "py-2"],
-      lg: ["px-6", "py-3"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
-  defaults: def.defaults({ size: "md", variant: "default" })
-}));
-```
-
-**Pattern 2: Direct Contract Usage**
-```typescript
-// Use contract directly in cls() call
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"],
-    "spacing.padding": ["sm", "md", "lg"]
-  },
-  slot: ["root", "label"],
-  variant: {
-    size: ["sm", "md", "lg"],
-    variant: ["default", "primary"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: ALL declared tokens must be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"]
-    },
-    "spacing.padding": {
-      sm: ["px-2", "py-1"],
-      md: ["px-4", "py-2"],
-      lg: ["px-6", "py-3"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
-  defaults: def.defaults({ size: "md", variant: "default" })
-}));
-```
-
-**Pattern 3: Extended Contract with Token Enforcement**
-```typescript
-// Base CLS instance
-const BaseButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary"],
-    "spacing.padding": ["md"]
-  },
-  slot: ["root"],
-  variant: {
-    size: ["md"],
-    variant: ["default"]
-  }
-}, ({ what, def }) => ({
-  // Base definition - ALL tokens MUST be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"]
-    },
-    "spacing.padding": {
-      md: ["px-4", "py-2"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "spacing.padding.md"]) })],
-  defaults: def.defaults({ size: "md", variant: "default" })
-}));
-
-// Extended CLS instance - inherits from base
-const ExtendedButtonCls = BaseButtonCls.extend({
-  tokens: {
-    "color.bg": ["success"],                // ✅ Only add NEW variant
-    "color.text": ["default", "primary"]    // ✅ Add NEW token group
-  },
-  slot: ["root", "label"],       // Add new slot
-  variant: {
-    size: ["sm", "lg"],          // ✅ Only add NEW variants
-    loading: ["bool"]            // ✅ Add NEW variant
-  }
-}, ({ what, def }) => ({
-  // Extended definition - ONLY NEW tokens are enforced!
-  token: def.token({
-    // 🔒 ENFORCED: Only NEW tokens added in this contract
-    "color.bg": {
-      success: ["bg-green-500"]  // ✅ Required - new variant
-    },
-    "color.text": {
-      default: ["text-gray-900"], // ✅ Required - new token group
-      primary: ["text-white"]     // ✅ Required - new token group
-    }
-    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary, spacing.padding.md)
-    // TypeScript won't complain if you don't define them
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"]),
-      label: what.css(["font-medium"])
-    })
-  ],
-  defaults: def.defaults({ size: "md", variant: "default", loading: false })
-}));
-```
-
-#### **Type Safety Benefits** 🛡️
-
-**Token contracts provide** **compile-time guarantees** in CLS:
-
-```typescript
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"]
-  },
-  slot: ["root"],
-  variant: {
-    variant: ["default", "primary", "secondary"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: ALL declared tokens must be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]  // ✅ Required - declared in contract
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"] // ✅ Required - declared in contract
-    }
-  }),
-  
-  rules: [
-    def.root({
-      root: what.css(['px-4', 'py-2', 'rounded'])
-    }),
-    
-    // ✅ TypeScript knows these tokens exist
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(['color.bg.primary', 'color.text.primary'])  // ✅ Valid
-    }),
-    
-    // ✅ TypeScript knows this token exists
-    def.rule(what.variant({ variant: 'secondary' }), {
-      root: what.token(['color.bg.secondary', 'color.text.secondary']) // ✅ Valid
-    }),
-    
-    // ❌ TypeScript error - token doesn't exist in contract
-    def.rule(what.variant({ variant: 'error' }), {
-      root: what.token(['color.bg.error'])    // ❌ Error!
-    })
-  ]
-}));
-```
-
-**What TypeScript enforces:**
-- ✅ **Valid tokens** - only declared tokens can be used
-- ✅ **Correct paths** - token paths must match contract exactly
-- ✅ **Type consistency** - all tokens are strings
-- ✅ **IntelliSense** - autocomplete for all available tokens
-
-#### **Real-World Contract Example** 🌍
-
-**A practical button component contract in CLS:**
-
-```typescript
-// Button component with direct contract
-const ButtonCls = cls({
-  tokens: {
-    // Color tokens - group with variants
-    "color.bg": ["default", "primary", "secondary", "success", "error"],
-    "color.text": ["default", "primary", "secondary", "muted"],
-    "color.border": ["default", "focus", "error"],
-    
-    // Spacing tokens - group with variants
-    "spacing.padding": ["xs", "sm", "md", "lg"],
-    
-    // Typography tokens - group with variants
-    "typography.size": ["sm", "base", "lg"],
-    "typography.weight": ["medium", "semibold"],
-    
-    // Component-specific tokens - group with variants
-    "button.radius": ["sm", "md", "lg"],
-    "button.shadow": ["none", "md", "lg"]
-  },
-  slot: ["root", "label", "icon"],
-  variant: {
-    size: ["sm", "md", "lg"],
-    variant: ["default", "primary", "secondary", "success", "error"],
-    disabled: ["bool"],
-    loading: ["bool"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: ALL declared tokens must be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"],
-      success: ["bg-green-500"],
-      error: ["bg-red-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"],
-      muted: ["text-gray-500"]
-    },
-    "color.border": {
-      default: ["border-gray-300"],
-      focus: ["border-blue-500"],
-      error: ["border-red-500"]
-    },
-    "spacing.padding": {
-      xs: ["px-2", "py-1"],
-      sm: ["px-3", "py-1.5"],
-      md: ["px-4", "py-2"],
-      lg: ["px-6", "py-3"]
-    },
-    "typography.size": {
-      sm: ["text-sm"],
-      base: ["text-base"],
-      lg: ["text-lg"]
-    },
-    "typography.weight": {
-      medium: ["font-medium"],
-      semibold: ["font-semibold"]
-    },
-    "button.radius": {
-      sm: ["rounded"],
-      md: ["rounded-md"],
-      lg: ["rounded-lg"]
-    },
-    "button.shadow": {
-      none: ["shadow-none"],
-      md: ["shadow"],
-      lg: ["shadow-lg"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
-  defaults: def.defaults({ size: "md", variant: "default", disabled: false, loading: false })
-}));
-```
-
-**This contract provides:**
-- 🎨 **Token groups** - organized by design concept (color, spacing, typography)
-- 🎯 **Token variants** - multiple options for each group (default, primary, secondary)
-- 🎭 **Component variants** - size, variant, disabled, loading states
-- 🛡️ **Type safety** - TypeScript knows exactly what tokens and variants are available
-- 🚀 **CLS integration** - ready to use with cls() function
-
-#### **Contract Best Practices** 💡
-
-**Follow these guidelines** for robust token contracts in CLS:**
-
-**✅ Do:**
-- **Use token groups** - `"color.bg"`, `"spacing.padding"`, `"typography.size"`
-- **Use descriptive variants** - `["default", "primary", "secondary"]` not `["d", "p", "s"]`
-- **Group by design concept** - all color tokens together, all spacing together
-- **Be consistent** - same naming patterns across similar token types
-- **Document your choices** - add comments for complex decisions
-
-**❌ Don't:**
-- **Use flat dot-notation** - CLS expects groups with variants structure
-- **Mix concerns** - don't put spacing variants in color token groups
-- **Use abbreviations** - `["d", "p", "s"]` is hard to understand
-- **Skip validation** - always use TypeScript for contracts
-
-#### **Bottom Line** 🎯
-
-**Token Contract Declaration** is your **CLS design system foundation**:
-
-- 🏗️ **Token groups** - organized by design concept (color, spacing, typography)
-- 🎯 **Token variants** - multiple options for each group (default, primary, secondary)
-- 🔒 **Token enforcement** - declared tokens MUST be defined, inherited tokens are optional
-- 🛡️ **Type safety** - compile-time guarantees prevent missing token definitions
-- 🚀 **CLS integration** - ready to use with cls() function
-- 🌍 **Scalability** - grows with your design system
-
-**Remember:** **Good contracts make good CLS components!** Start with a solid token group structure, and CLS will enforce complete coverage! 🎉
-
-Ready to learn how to **define the actual token values** in the next section? 🚀
-
-### 5.2 Token Definitions <a id="52-token-definitions"></a>
-
-**Now that you've declared your token contract**, it's time to **assign actual CSS values** to those tokens! 🎨
-
-**Token definitions** are where the **magic happens** - you take your abstract design tokens and turn them into **real, usable CSS classes** that will be applied to your components.
-
-#### **The Token Definition Structure** 🏗️
-
-**Token definitions** map each token variant to **concrete CSS classes**:
-
-```typescript
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"]
-  },
-  slot: ["root"],
-  variant: {
-    variant: ["default", "primary", "secondary"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    // 🔒 ENFORCED: Each token variant MUST have CSS values
-    "color.bg": {
-      default: ["bg-gray-100"],    // Maps to: bg-gray-100
-      primary: ["bg-blue-500"],    // Maps to: bg-blue-500
-      secondary: ["bg-gray-500"]   // Maps to: bg-gray-500
-    },
-    "color.text": {
-      default: ["text-gray-900"],  // Maps to: text-gray-900
-      primary: ["text-white"],     // Maps to: text-white
-      secondary: ["text-gray-700"] // Maps to: text-gray-700
-    }
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"])
-    })
-  ],
-  defaults: def.defaults({ variant: "default" })
-}));
-```
-
-**What this creates:**
-- ✅ **Token mapping** - `"color.bg.primary"` → `"bg-blue-500"`
-- ✅ **CSS resolution** - tokens resolve to actual CSS classes at runtime
-- ✅ **Type safety** - TypeScript ensures all variants are defined
-- ✅ **Reusability** - tokens can be used across multiple rules and slots
-
-#### **Multiple CSS Classes per Token** 🎨
-
-**Tokens can map to multiple CSS classes** for complex styling:
-
-```typescript
-const CardCls = cls({
-  tokens: {
-    "shadow": ["none", "sm", "md", "lg"],
-    "border": ["none", "thin", "thick"]
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "shadow": {
-      none: ["shadow-none"],
-      sm: ["shadow-sm", "drop-shadow-sm"],      // Multiple classes
-      md: ["shadow", "drop-shadow"],            // Multiple classes
-      lg: ["shadow-lg", "drop-shadow-lg"]       // Multiple classes
-    },
-    "border": {
-      none: [],
-      thin: ["border", "border-gray-200"],      // Multiple classes
-      thick: ["border-2", "border-gray-300"]    // Multiple classes
-    }
-  }),
-  rules: [def.root({ root: what.token(["shadow.md", "border.thin"]) })],
-  defaults: {}
-}));
-```
-
-**Benefits of multiple classes:**
-- 🎯 **Granular control** - combine multiple CSS utilities
-- 🔧 **Flexibility** - mix Tailwind, custom CSS, and CSS variables
-- 🎨 **Complex effects** - shadows, borders, transitions, etc.
-- 🚀 **Performance** - no need for custom CSS files
-
-#### **Using Tokens in Rules** 🎯
-
-**Tokens come alive when used in rules** - they're the **building blocks** of your styling logic:
-
-```typescript
-const AlertCls = cls({
-  tokens: {
-    "color.bg": ["info", "success", "warning", "error"],
-    "color.text": ["info", "success", "warning", "error"],
-    "color.border": ["info", "success", "warning", "error"]
-  },
-  slot: ["root", "icon"],
-  variant: {
-    type: ["info", "success", "warning", "error"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      info: ["bg-blue-50"],
-      success: ["bg-green-50"],
-      warning: ["bg-yellow-50"],
-      error: ["bg-red-50"]
-    },
-    "color.text": {
-      info: ["text-blue-800"],
-      success: ["text-green-800"],
-      warning: ["text-yellow-800"],
-      error: ["text-red-800"]
-    },
-    "color.border": {
-      info: ["border-blue-200"],
-      success: ["border-green-200"],
-      warning: ["border-yellow-200"],
-      error: ["border-red-200"]
-    }
-  }),
-  rules: [
-    // Base styles
-    def.root({
-      root: what.css(['p-4', 'rounded-lg', 'border-l-4']),
-      icon: what.css(['w-5', 'h-5'])
-    }),
-    
-    // Type-specific styling using tokens
-    def.rule(what.variant({ type: 'info' }), {
-      root: what.token(['color.bg.info', 'color.text.info', 'color.border.info'])
-    }),
-    
-    def.rule(what.variant({ type: 'success' }), {
-      root: what.token(['color.bg.success', 'color.text.success', 'color.border.success'])
-    }),
-    
-    def.rule(what.variant({ type: 'warning' }), {
-      root: what.token(['color.bg.warning', 'color.text.warning', 'color.border.warning'])
-    }),
-    
-    def.rule(what.variant({ type: 'error' }), {
-      root: what.token(['color.bg.error', 'color.text.error', 'color.border.error'])
-    })
-  ],
-  defaults: def.defaults({ type: 'info' })
-}));
-```
-
-**How tokens work in rules:**
-- 🎨 **Dynamic styling** - tokens change based on variant values
-- 🔄 **Automatic resolution** - `what.token(['color.bg.info'])` → `"bg-blue-50"`
-- 🎯 **Consistent theming** - same tokens used across multiple rules
-- 🚀 **Performance** - tokens are resolved once and cached
-
-#### **Token Definition Best Practices** 💡
-
-**Follow these guidelines** for robust token definitions:
-
-**✅ Do:**
-- **Use semantic names** - `"color.bg.primary"` not `"color.bg.blue"`
-- **Group related tokens** - all color tokens together, all spacing together
-- **Provide all variants** - every declared token variant must have CSS values
-- **Use consistent patterns** - same CSS class structure across similar tokens
-- **Document complex tokens** - add comments for multi-class tokens
-
-**❌ Don't:**
-- **Leave tokens undefined** - TypeScript will error on missing variants
-- **Mix CSS frameworks** - stick to one approach (Tailwind, custom, etc.)
-- **Use hardcoded values** - prefer tokens over direct CSS classes in rules
-- **Create too many variants** - keep token groups focused and manageable
-
-**Example of good token organization:**
-
-```typescript
-const DesignSystemCls = cls({
-  tokens: {
-    // 🎨 Color system - semantic naming
-    "color.bg": ["default", "primary", "secondary", "success", "error"],
-    "color.text": ["default", "primary", "secondary", "muted", "inverse"],
-    "color.border": ["default", "focus", "error", "success"],
-    
-    // 📏 Spacing system - consistent scale
-    "spacing.padding": ["xs", "sm", "md", "lg", "xl"],
-    "spacing.margin": ["xs", "sm", "md", "lg", "xl"],
-    
-    // 🔤 Typography system - semantic sizes
-    "typography.size": ["xs", "sm", "base", "lg", "xl", "2xl"],
-    "typography.weight": ["light", "normal", "medium", "semibold", "bold"]
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-50"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"],
-      success: ["bg-green-500"],
-      error: ["bg-red-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-blue-600"],
-      secondary: ["text-gray-600"],
-      muted: ["text-gray-500"],
-      inverse: ["text-white"]
-    },
-    "color.border": {
-      default: ["border-gray-300"],
-      focus: ["border-blue-500"],
-      error: ["border-red-500"],
-      success: ["border-green-500"]
-    },
-    "spacing.padding": {
-      xs: ["px-2", "py-1"],
-      sm: ["px-3", "py-1.5"],
-      md: ["px-4", "py-2"],
-      lg: ["px-6", "py-3"],
-      xl: ["px-8", "py-4"]
-    },
-    "spacing.margin": {
-      xs: ["m-1"],
-      sm: ["m-2"],
-      md: ["m-4"],
-      lg: ["m-6"],
-      xl: ["m-8"]
-    },
-    "typography.size": {
-      xs: ["text-xs"],
-      sm: ["text-sm"],
-      base: ["text-base"],
-      lg: ["text-lg"],
-      xl: ["text-xl"],
-      "2xl": ["text-2xl"]
-    },
-    "typography.weight": {
-      light: ["font-light"],
-      normal: ["font-normal"],
-      medium: ["font-medium"],
-      semibold: ["font-semibold"],
-      bold: ["font-bold"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md"]) })],
-  defaults: {}
-}));
-```
-
-#### **Bottom Line** 🎯
-
-**Token Definitions** are your **styling value foundation**:
-
-- 🎨 **CSS mapping** - abstract tokens become concrete CSS classes
-- 🔒 **Type enforcement** - all declared tokens must have values
-- 🎯 **Rule integration** - tokens power dynamic styling in rules
-- 🚀 **Performance** - resolved once, cached for reuse
-- 🌍 **Design system** - consistent tokens across components
-
-**Remember:** **Good token definitions make good design systems!** Define your tokens well, and your components will look great! 🎉
-
-Ready to learn about **Runtime Overrides** in the next section? This will show how to dynamically change tokens at runtime! 🚀
-
-### 5.3 Runtime Overrides <a id="53-runtime-overrides"></a>
-
-**Tokens aren't just static definitions** - they can be **dynamically overridden** at runtime! 🎭
-
-**Runtime overrides** allow you to **change token values** when creating component instances, making your styling system **flexible** and **context-aware**.
-
-#### **Basic Token Overrides** 🎨
-
-**Override specific token variants** when creating component instances:
-
-```typescript
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"]
-  },
-  slot: ["root"],
-  variant: {
-    variant: ["default", "primary", "secondary"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"]
-    }
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"])
-    }),
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(["color.bg.primary", "color.text.primary"])
-    }),
-    def.rule(what.variant({ variant: 'secondary' }), {
-      root: what.token(["color.bg.secondary", "color.text.secondary"])
-    })
-  ],
-  defaults: def.defaults({ variant: 'default' })
-}));
-
-// 🎭 Runtime token overrides
-const primaryButton = ButtonCls.create(({ what, override }) => ({
-  variant: what.variant({ variant: 'primary' }),
-  token: override.token({
-    "color.bg": {
-      primary: ["bg-indigo-600"]  // Override primary background
-    },
-    "color.text": {
-      primary: ["text-indigo-50"] // Override primary text
-    }
-  })
-}));
-
-const secondaryButton = ButtonCls.create(({ what, override }) => ({
-  variant: what.variant({ variant: 'secondary' }),
-  token: override.token({
-    "color.bg": {
-      secondary: ["bg-emerald-500"]  // Override secondary background
-    }
-  })
-}));
-```
-
-**What happens:**
-- ✅ **Base tokens** - `"color.bg.primary"` → `"bg-blue-500"` (default)
-- ✅ **Overridden tokens** - `"color.bg.primary"` → `"bg-indigo-600"` (runtime)
-- ✅ **Partial overrides** - only specified tokens are changed
-- ✅ **Type safety** - TypeScript ensures valid token overrides
-
-#### **Component Prop Overrides** 🎯
-
-**Override tokens through component props** for **user-configurable styling**:
-
-```typescript
-// Button component with tva prop for token overrides
-interface ButtonProps extends Component<typeof ButtonCls> {
-  children: React.ReactNode;
-  variant?: 'default' | 'primary' | 'secondary';
-}
-
-const Button = ({ children, variant = 'default', tva = ButtonCls, cls }: ButtonProps) => {
-  const classes = tva.create(cls, ({ what }) => ({
-    variant: what.variant({ variant })
-  })); // 🎭 User's cls prop takes precedence over internal config
-
-  return (
-    <button className={classes.root()}>
-      {children}
-    </button>
-  );
-};
-
-// Usage with token overrides
-const CustomButton = () => (
-  <Button 
-    variant="primary"
-    cls={({ what, override }) => ({
-      token: override.token({
-        "color.bg": {
-          primary: ["bg-purple-600"]  // User override
-        },
-        "color.text": {
-          primary: ["text-purple-50"] // User override
-        }
-      })
-    })}
-  >
-    Custom Purple Button
-  </Button>
 );
 
-// Now use the enhanced version
-const CustomButtonWithUse = () => (
-  <Button 
-    variant="primary"
-    tva={ButtonCls.use(CustomButtonCls)} // Use the enhanced CLS instance
-    cls={({ what, override }) => ({
-      token: override.token({
-        "color.bg": {
-          primary: ["bg-pink-600"]  // Override for enhanced tva
-        }
-      })
-    })}
-  >
-    Custom Pink Button
-  </Button>
+// Usage
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ size: "lg" })
+}));
+console.log(classes.root()); // "bg-blue-600 text-white px-6 py-3"
+```
+
+## ✨ Why CLS? <a id="why-cls"></a>
+
+- **🔒 Type Safety** - Catch styling errors at compile time with full TypeScript support
+- **🧩 Composable** - Build design systems with inheritance and composition
+- **⚡ Performance** - Lazy evaluation, smart caching, and minimal runtime overhead
+- **🌐 Framework Agnostic** - Works with React, Vue, Svelte, vanilla JS, or any framework
+- **🎨 Design System Ready** - Tokens, variants, and slots for scalable styling
+- **🛠 Developer Experience** - Excellent IDE support and intuitive API
+
+## 🛠 Installation <a id="installation"></a>
+
+```bash
+npm install @use-pico/cls
+# or
+bun add @use-pico/cls
+# or
+yarn add @use-pico/cls
+```
+
+## 📖 Basic Usage <a id="basic-usage"></a>
+
+### Simple Component
+```typescript
+const Card = cls(
+  {
+    tokens: ["color.bg", "color.text"],
+    slot: ["root", "title", "content"],
+    variant: { theme: ["light", "dark"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": { light: what.css(["bg-white"]), dark: what.css(["bg-gray-800"]) },
+      "color.text": { light: what.css(["text-gray-900"]), dark: what.css(["text-white"]) }
+    }),
+    rules: [
+      def.root({
+        root: what.both(["rounded-lg", "shadow-md"], ["color.bg.light"]),
+        title: what.css(["text-xl", "font-bold"]),
+        content: what.css(["p-4"])
+      }),
+      def.rule(
+        what.variant({ theme: "dark" }),
+        { root: what.token(["color.bg.dark", "color.text.dark"]) }
+      )
+    ]
+  })
 );
 ```
 
-**How component overrides work:**
-- 🎭 **User control** - consumers can override any tokens
-- 🔄 **Merge behavior** - user's cls prop takes precedence over internal config
-- 🎯 **Type safety** - TypeScript ensures valid token references
-- 🚀 **Performance** - overrides are resolved at creation time
+### With React
+```tsx
+import { cls } from '@use-pico/cls';
+import { useCls } from '@use-pico/cls/react';
 
-> **💡 CLS Pro Tip:** The `use` helper allows you to **assign a more specific CLS instance to a more general one**. This is useful when you want to use a specialized button variant (like `CustomButtonCls`) in place of the base button (`ButtonCls`). The `use` method is purely a **TypeScript type hack** with no runtime impact!
-
-#### **Advanced Override Patterns** 🚀
-
-**Combine multiple override strategies** for **powerful styling control**:
-
-```typescript
-const CardCls = cls({
-  tokens: {
-    "color.bg": ["default", "elevated", "muted"],
-    "color.border": ["default", "focus", "error"],
-    "shadow": ["none", "sm", "md", "lg"]
-  },
-  slot: ["root", "header", "content"],
-  variant: {
-    elevation: ["none", "low", "high"],
-    state: ["default", "focus", "error"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-white"],
-      elevated: ["bg-gray-50"],
-      muted: ["bg-gray-100"]
-    },
-    "color.border": {
-      default: ["border-gray-200"],
-      focus: ["border-blue-500"],
-      error: ["border-red-500"]
-    },
-    "shadow": {
-      none: ["shadow-none"],
-      sm: ["shadow-sm"],
-      md: ["shadow"],
-      lg: ["shadow-lg"]
-    }
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.border.default", "shadow.none"]),
-      header: what.css(["p-4", "border-b", "border-gray-200"]),
-      content: what.css(["p-4"])
-    }),
-    def.rule(what.variant({ elevation: 'low' }), {
-      root: what.token(["shadow.sm", "color.bg.elevated"])
-    }),
-    def.rule(what.variant({ elevation: 'high' }), {
-      root: what.token(["shadow.lg", "color.bg.elevated"])
-    }),
-    def.rule(what.variant({ state: 'focus' }), {
-      root: what.token(["color.border.focus"])
-    }),
-    def.rule(what.variant({ state: 'error' }), {
-      root: what.token(["color.border.error"])
-    })
-  ],
-  defaults: def.defaults({ elevation: 'none', state: 'default' })
-}));
-
-// 🎭 Complex runtime overrides
-const elevatedCard = CardCls.create(({ what, override }) => ({
-  variant: what.variant({ elevation: 'high', state: 'focus' }),
-  token: override.token({
-    "color.bg": {
-      elevated: ["bg-blue-50"]  // Override elevated background
-    },
-    "shadow": {
-      lg: ["shadow-xl", "drop-shadow-lg"]  // Enhanced shadow
-    }
-  })
-}));
-
-// 🎭 Component with dynamic overrides
-const DynamicCard = ({ 
-  elevation, 
-  state, 
-  customBg, 
-  customShadow,
-  tva = CardCls
-}: {
-  elevation: 'none' | 'low' | 'high';
-  state: 'default' | 'focus' | 'error';
-  customBg?: string;
-  customShadow?: string;
-  tva?: typeof CardCls;
-}) => {
-  const classes = tva.create(({ what, override }) => ({
-    variant: what.variant({ elevation, state }),
-    token: override.token({
-      "color.bg": customBg ? {
-        elevated: [customBg]  // Dynamic background override
-      } : undefined,
-      "shadow": customShadow ? {
-        lg: [customShadow]    // Dynamic shadow override
-      } : undefined
-    })
+const MyComponent = ({ theme = "light" }) => {
+  const classes = useCls(Card, ({ what }) => ({
+    variant: what.variant({ theme })
   }));
 
   return (
     <div className={classes.root()}>
-      <div className={classes.header()}>Card Header</div>
-      <div className={classes.content()}>Card Content</div>
+      <h2 className={classes.title()}>Card Title</h2>
+      <div className={classes.content()}>Card content here</div>
     </div>
   );
 };
 ```
 
-**Advanced override capabilities:**
-- 🎭 **Multiple variants** - combine elevation and state overrides
-- 🔄 **Dynamic values** - runtime token values from props
-- 🎯 **Conditional overrides** - only override when custom values provided
-- 🚀 **Performance** - overrides resolved once per instance
+## 🎯 Key Features <a id="key-features"></a>
 
-#### **Bottom Line** 🎯
-
-**Runtime Token Overrides** make your styling system **truly dynamic**:
-
-- 🎭 **Live customization** - change tokens when creating instances
-- 🎯 **Component props** - users can override tokens through cls prop
-- 🔄 **Merge behavior** - user's cls prop takes precedence over internal config
-- 🚀 **Performance** - overrides resolved once, cached for reuse
-- 🌍 **Flexibility** - adapt styling to context, user preferences, and dynamic data
-
-**Remember:** **Runtime overrides make CLS powerful!** Define your base tokens well, then let users customize them at will! 🎉
-
-Ready to learn about **Inheritance Semantics** in the next section? This will show how tokens flow through inheritance chains! 🚀
-
-### 5.4 Inheritance Semantics <a id="54-inheritance-semantics"></a>
-
-**CLS inheritance isn't just about extending contracts** - it's about **understanding how tokens flow** through the inheritance chain! 🔄
-
-**Inheritance semantics** determine **which tokens are enforced**, **which are optional**, and **how conflicts are resolved** when building complex design systems.
-
-#### **The Two Token Types** 🎯
-
-**CLS distinguishes between two types of tokens** in inheritance:
-
-- 🔒 **ENFORCED tokens** - declared in the current contract, MUST be defined
-- 🔓 **INHERITED tokens** - from parent contracts, optional to define
-
-**This prevents token definition gaps** and ensures **complete coverage**!
-
+### Type-Safe Variants
 ```typescript
-// Base CLS instance
-const BaseButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary"],
-    "spacing.padding": ["md"]
+// TypeScript ensures only valid variants are used
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "lg",        // ✅ Valid
+    // size: "xl"      // ❌ TypeScript error
+  })
+}));
+```
+
+### Token Inheritance
+```typescript
+const PrimaryButton = Button.extend(
+  {
+    tokens: ["color.bg.primary"],
+    slot: ["root"],
+    variant: {}
   },
-  slot: ["root"],
-  variant: {
-    size: ["md"],
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg.primary": what.css(["bg-blue-600"]) // Overrides parent
+    })
+  })
+);
+```
+
+### Runtime Overrides
+```typescript
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ size: "lg" }),
+  token: {
+    "color.bg.primary": what.css(["bg-indigo-600"]) // Runtime override
+  }
+}));
+```
+
+## 🔗 Community & Support <a id="community--support"></a>
+
+- [GitHub Issues](https://github.com/use-pico/pico/issues) - Report bugs and request features
+- [Discussions](https://github.com/use-pico/pico/discussions) - Ask questions and share ideas
+
+## 📚 Documentation <a id="documentation"></a>
+
+This document serves as both the **main README** and **comprehensive technical guide**. Keep reading for:
+
+- [Core Concepts](#2-core-concepts) - Understanding the mental model
+- [API Reference](#4-main-api) - Complete API documentation  
+- [Advanced Features](#5-key-concepts) - Tokens, slots, variants, and rules
+- [Best Practices](#15-best-practices) - How to build great design systems
+- [Performance Guide](#12-performance-features) - Optimization strategies
+
+---
+
+# CLS Library Design
+
+> **Note**: This document serves as a single source of truth for this library.
+
+## Overview
+
+CLS (Class List System) is a **type-safe, composable styling system** that provides a structured approach to managing CSS classes, design tokens, and component variants. It's framework-agnostic and can be used with React, Vue, Svelte, vanilla JavaScript, or any other framework. It combines the flexibility of utility-first CSS with the maintainability of design systems.
+
+## Table of Contents <a id="table-of-contents"></a>
+
+- [🚀 Quick Start](#-quick-start)
+- [✨ Why CLS?](#-why-cls)
+- [🛠 Installation](#-installation)
+- [📖 Basic Usage](#-basic-usage)
+- [🎯 Key Features](#-key-features)
+- [🔗 Community & Support](#-community--support)
+- [📚 Documentation](#-documentation)
+
+**Technical Documentation:**
+- [1. Core Principles](#1-core-principles)
+  - [1.1 Type Safety First](#11-type-safety-first)
+  - [1.2 Inheritance as Foundation](#12-inheritance-as-foundation)
+  - [1.3 Declarative Configuration](#13-declarative-configuration)
+  - [1.4 Performance Optimized](#14-performance-optimized)
+- [2. Core Concepts](#2-core-concepts)
+  - [2.1 Contract](#21-contract)
+  - [2.2 Definition](#22-definition)
+  - [2.3 CLS Instance](#23-cls-instance)
+  - [2.4 Contract vs Definition: The Mental Model](#24-contract-vs-definition)
+- [3. Architecture](#3-architecture)
+  - [3.1 Core Components](#31-core-components)
+  - [3.2 Data Flow](#32-data-flow)
+- [4. Main API](#4-main-api)
+- [5. Key Concepts](#5-key-concepts)
+  - [5.1 What Utility](#51-what-utility)
+  - [5.2 Definition Callback](#52-definition-callback)
+  - [5.3 Tokens](#53-tokens)
+  - [5.4 Slots](#54-slots)
+  - [5.5 Variants](#55-variants)
+  - [5.6 Rules](#56-rules)
+- [6. CLS Instance Methods](#6-cls-instance-methods)
+  - [6.1 Create Method](#61-create-method)
+  - [6.2 Extend Method](#62-extend-method)
+  - [6.3 Use Method](#63-use-method)
+- [7. Contract Structure](#7-contract-structure)
+  - [7.1 Token Contract](#71-token-contract)
+  - [7.2 Slot Contract](#72-slot-contract)
+  - [7.3 Variant Contract](#73-variant-contract)
+- [8. Definition Structure](#8-definition-structure)
+  - [8.1 Token Definition](#81-token-definition)
+  - [8.2 Rules](#82-rules)
+  - [8.3 Defaults](#83-defaults)
+- [9. Create Method Usage](#9-create-method-usage)
+- [10. Styling Resolution](#10-styling-resolution)
+  - [10.1 Resolution Order](#101-resolution-order)
+  - [10.2 Token Resolution Process](#102-token-resolution-process)
+  - [10.3 Rule Evaluation Process](#103-rule-evaluation-process)
+- [11. Inheritance System](#11-inheritance-system)
+  - [11.1 Contract Inheritance](#111-contract-inheritance)
+  - [11.2 Token Inheritance](#112-token-inheritance)
+  - [11.3 Variant Inheritance](#113-variant-inheritance)
+- [12. Performance Features](#12-performance-features)
+  - [12.1 Caching Strategy](#121-caching-strategy)
+  - [12.2 Memory Management](#122-memory-management)
+  - [12.3 Runtime Optimization](#123-runtime-optimization)
+- [13. Type System](#13-type-system)
+  - [13.1 Generic Constraints](#131-generic-constraints)
+  - [13.2 Type Inference](#132-type-inference)
+  - [13.3 Type Safety Features](#133-type-safety-features)
+- [14. Integration Patterns](#14-integration-patterns)
+  - [14.1 Framework Integration](#141-framework-integration)
+  - [14.2 Design System Integration](#142-design-system-integration)
+  - [14.3 Build System Integration](#143-build-system-integration)
+- [15. Best Practices](#15-best-practices)
+  - [15.1 Contract Design](#151-contract-design)
+  - [15.2 Definition Design](#152-definition-design)
+  - [15.3 Component Design](#153-component-design)
+  - [15.4 Performance Optimization](#154-performance-optimization)
+
+
+## 1. Core Principles <a id="1-core-principles"></a>
+
+**[← Previous: Table of Contents](#table-of-contents)** | **[→ Next Chapter: Core Concepts](#2-core-concepts)**
+
+### 1.1 Type Safety First <a id="11-type-safety-first"></a>
+- All styling configurations are fully type-checked at compile time
+- Contract definitions ensure consistency across the design system
+- Inheritance chains maintain type safety through the entire hierarchy
+
+### 1.2 Inheritance as Foundation <a id="12-inheritance-as-foundation"></a>
+- Components can be extended and composed rather than rewritten
+- Design tokens can be inherited and overridden at any level
+- Slots provide granular control over component parts
+
+### 1.3 Declarative Configuration <a id="13-declarative-configuration"></a>
+- Styling rules are defined declaratively through contracts and definitions
+- Variant combinations are resolved automatically
+- Token resolution happens at runtime based on current state
+
+### 1.4 Performance Optimized <a id="14-performance-optimized"></a>
+- Lazy evaluation of slot functions via Proxy
+- Caching of resolved configurations
+- Minimal runtime overhead with maximum flexibility
+
+---
+
+## 2. Core Concepts <a id="2-core-concepts"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Core Principles](#1-core-principles)** | **[→ Next Chapter: Architecture](#3-architecture)**
+
+### 2.1 Contract <a id="21-contract"></a>
+A contract defines the **structure** of a component's styling system:
+- **Tokens**: Named design values organized by groups and variants
+- **Slots**: Named parts of a component that can receive styles  
+- **Variants**: Configurable properties that affect component appearance
+- **Inheritance**: Optional parent contract for extending functionality
+
+### 2.2 Definition <a id="22-definition"></a>
+A definition provides **concrete styling values** for a contract:
+- **Token Definitions**: CSS classes or token references for each token variant
+- **Rules**: Conditional styling based on variant combinations
+- **Defaults**: Default values for variants
+
+### 2.3 CLS Instance <a id="23-cls-instance"></a>
+The main interface that combines contract and definition:
+- **`create()`**: Generates styled instances with optional overrides
+- **`extend()`**: Creates new instances with additional functionality
+- **`use()`**: Type-safe assignment of compatible instances
+
+### 2.4 Contract vs Definition: The Mental Model <a id="24-contract-vs-definition"></a>
+
+> **💡 Key Insight**: Think of **Contract** as the "interface" and **Definition** as the "implementation"
+
+**Contract = Structure (What can be styled?)**
+```typescript
+// Contract defines WHAT can be styled
+{
+  tokens: ["color.text", "color.bg"],     // What design tokens exist?
+  slot: ["root", "label"],                // What parts can be styled?
+  variant: {                              // What variations are possible?
+    size: ["sm", "md", "lg"],
     variant: ["default", "primary"]
   }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: ALL declared tokens must be defined
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"]
-    },
-    "spacing.padding": {
-      md: ["px-4", "py-2"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "spacing.padding.md"]) })],
-  defaults: def.defaults({ size: "md", variant: "default" })
-}));
-
-// Extended CLS instance
-const ExtendedButtonCls = BaseButtonCls.extend({
-  tokens: {
-    "color.bg": ["success"],      // ✅ Only add NEW variant
-    "color.text": ["default", "primary"]  // ✅ Add NEW token group
-  },
-  slot: ["root", "label"],       // Add new slot
-  variant: {
-    size: ["lg"],                // ✅ Only add NEW variant
-    loading: ["bool"]            // ✅ Add NEW variant
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: Only NEW tokens added in this contract
-  token: def.token({
-    "color.bg": {
-      success: ["bg-green-500"]  // ✅ Required - new variant
-    },
-    "color.text": {
-      default: ["text-gray-900"], // ✅ Required - new token group
-      primary: ["text-white"]     // ✅ Required - new token group
-    }
-    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.primary, spacing.padding.md)
-    // TypeScript won't complain if you don't define them
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"]),
-      label: what.css(["font-medium"])
-    })
-  ],
-  defaults: def.defaults({ size: "md", variant: "default", loading: false })
-}));
+}
 ```
 
-#### **Inheritance Behavior** 🔄
-
-**How tokens flow through the inheritance chain:**
-
+**Definition = Values (How is it styled?)**
 ```typescript
-// Multi-level inheritance example
-const ThemeCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"],
-    "spacing.base": ["sm", "md", "lg"]
+// Definition defines HOW it's styled
+{
+  token: {
+    "color.text.default": what.css(["text-gray-900"]),
+    "color.text.primary": what.css(["text-white"]),
+    "color.bg.default": what.css(["bg-gray-100"]),
+    "color.bg.primary": what.css(["bg-blue-600"])
   },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-50"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-gray-700"]
-    },
-    "spacing.base": {
-      sm: ["p-2"],
-      md: ["p-4"],
-      lg: ["p-6"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default", "spacing.base.md"]) })],
-  defaults: {}
-}));
-
-// Level 1: Button inherits from Theme
-const ButtonCls = ThemeCls.extend({
-  tokens: {
-    "button.radius": ["sm", "md", "lg"],
-    "button.shadow": ["none", "md"]
-  },
-  slot: ["root", "label"],
-  variant: {
-    size: ["sm", "md", "lg"],
-    variant: ["default", "primary", "secondary"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: Only NEW tokens
-  token: def.token({
-    "button.radius": {
-      sm: ["rounded"],
-      md: ["rounded-md"],
-      lg: ["rounded-lg"]
-    },
-    "button.shadow": {
-      none: ["shadow-none"],
-      md: ["shadow"]
-    }
-    // 🔓 OPTIONAL: Inherited from Theme (color.bg, color.text, spacing.base)
-  }),
   rules: [
+    // How do variants affect styling?
     def.root({
-      root: what.token(["color.bg.default", "color.text.default", "spacing.base.md", "button.radius.md"]),
-      label: what.css(["font-medium"])
+      root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"])
     }),
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(["color.bg.primary", "color.text.primary"])
-    })
+    def.rule(
+      what.variant({ size: "lg" }),
+      { root: what.css(["px-6", "py-3"]) }
+    ),
+    def.rule(
+      what.variant({ variant: "primary" }),
+      { root: what.token(["color.text.primary", "color.bg.primary"]) }
+    )
   ],
-  defaults: def.defaults({ size: "md", variant: "default" })
-}));
-
-// Level 2: PrimaryButton inherits from Button
-const PrimaryButtonCls = ButtonCls.extend({
-  tokens: {
-    "button.animation": ["none", "pulse", "bounce"]
-  },
-  slot: ["root", "label", "icon"],
-  variant: {
-    loading: ["bool"]
-  }
-}, ({ what, def }) => ({
-  // 🔒 ENFORCED: Only NEW tokens
-  token: def.token({
-    "button.animation": {
-      none: [],
-      pulse: ["animate-pulse"],
-      bounce: ["animate-bounce"]
-    }
-    // 🔓 OPTIONAL: Inherited from Button (button.radius, button.shadow)
-    // 🔓 OPTIONAL: Inherited from Theme (color.bg, color.text, spacing.base)
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.primary", "color.text.primary", "spacing.base.md", "button.radius.md", "button.shadow.md"]),
-      label: what.css(["font-medium"]),
-      icon: what.css(["mr-2"])
-    }),
-    def.rule(what.variant({ loading: true }), {
-      root: what.token(["button.animation.pulse"]),
-      icon: what.css(["animate-spin"])
-    })
-  ],
-  defaults: def.defaults({ size: "md", variant: "primary", loading: false })
-}));
+  defaults: { size: "md", variant: "default" }
+}
 ```
 
-**What happens at each level:**
-- 🎨 **ThemeCls** - defines base design tokens (enforced)
-- 🔘 **ButtonCls** - inherits theme tokens, adds button-specific tokens (only new ones enforced)
-- 🎯 **PrimaryButtonCls** - inherits both theme and button tokens, adds animation tokens (only new ones enforced)
+**The Relationship:**
+- **Contract** is like a TypeScript interface - it defines the shape
+- **Definition** is like the implementation - it provides the actual values
+- **CLS Instance** combines both to create a working styling system
+- **Inheritance** allows contracts to extend other contracts, and definitions to override inherited values
 
-#### **Inheritance Rules** 📋
+**Why This Separation Matters:**
+- **Reusability**: Same contract can have multiple definitions (themes, variants)
+- **Type Safety**: Contract ensures all required styling points are defined
+- **Composability**: Contracts can be extended, definitions can be overridden
+- **Clarity**: Clear separation between structure and styling values
+- **Inheritance**: Contract declarations enforce type safety - you must implement declared tokens
 
-**Key principles** that govern CLS inheritance:
+---
 
-**✅ Token Inheritance:**
-- **Append-only** - child contracts can't remove inherited tokens
-- **New tokens enforced** - only newly declared tokens must be defined
-- **Inherited tokens optional** - can be omitted, overridden, or left as-is
+## 3. Architecture <a id="3-architecture"></a>
 
-**✅ Variant Inheritance:**
-- **Union merging** - child variants are combined with parent variants
-- **Type preservation** - variant types (string/boolean) are maintained
-- **Default inheritance** - child defaults can override parent defaults
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Core Concepts](#2-core-concepts)** | **[→ Next Chapter: Main API](#4-main-api)**
 
-**✅ Slot Inheritance:**
-- **Slot accumulation** - child slots are added to parent slots
-- **No removal** - inherited slots cannot be removed
-- **Slot-specific styling** - each level can style inherited slots
+### 3.1 Core Components <a id="31-core-components"></a>
 
-**Example of inheritance rules in action:**
+The CLS system consists of three main components that work together:
 
+- **Contract**: Defines the structure (tokens, slots, variants) - see [Section 2.1-2.3](#2-core-concepts)
+- **Definition**: Provides concrete styling values - see [Section 2.1-2.3](#2-core-concepts)  
+- **CLS Instance**: Main interface with `create()`, `extend()`, `use()` methods - see [Section 6](#6-cls-instance-methods)
+
+### 3.2 Data Flow <a id="32-data-flow"></a>
+
+1. **Contract Definition**: Define the structure (tokens, slots, variants)
+2. **Definition Creation**: Provide concrete styling values
+3. **CLS Instance**: Combine contract and definition
+4. **Instance Creation**: Generate styled components with overrides
+5. **Slot Resolution**: Apply rules and resolve tokens to CSS classes
+
+---
+
+## 4. Main API <a id="4-main-api"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Architecture](#3-architecture)** | **[→ Next Chapter: Key Concepts](#5-key-concepts)**
+
+### `cls(contract, definitionFn)`
+
+Creates a cls instance for component styling with tokens, slots, and variants.
+
+**Parameters:**
+- `contract`: Defines the structure (tokens, slots, and variants)
+- `definitionFn`: A callback function that receives `{ what, override, def }` and returns the definition
+
+**Returns:** A cls instance with `create()`, `extend()`, `use()`, and contract properties
+
+**Example:**
 ```typescript
-// Base contract
-const BaseCls = cls({
-  tokens: { "color.bg": ["default", "primary"] },
-  slot: ["root"],
-  variant: { size: ["md"] }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"]
+// Basic button with variants
+const Button = cls(
+  {
+    tokens: ["color.text.default", "color.text.primary", "color.bg.default", "color.bg.primary"],
+    slot: ["root", "label"],
+    variant: {
+      size: ["sm", "md", "lg"],
+      variant: ["default", "primary"]
     }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default"]) })],
-  defaults: def.defaults({ size: "md" })
-}));
-
-// Extended contract - follows inheritance rules
-const ExtendedCls = BaseCls.extend({
-  tokens: { "color.bg": ["success"] },        // ✅ Add new variant
-  slot: ["label"],                            // ✅ Add new slot
-  variant: { size: ["lg"] }                   // ✅ Add new variant
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      success: ["bg-green-500"]               // ✅ Required - new token
-    }
-    // 🔓 Optional - inherited tokens (color.bg.default, color.bg.primary)
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default"]), // ✅ Can use inherited tokens
-      label: what.css(["font-medium"])        // ✅ Can style new slot
+  },
+  ({ what, override, def }) => ({
+    token: def.token({
+      "color.text.default": what.css(["text-gray-900"]),
+      "color.text.primary": what.css(["text-white"]),
+      "color.bg.default": what.css(["bg-gray-100"]),
+      "color.bg.primary": what.css(["bg-blue-600"])
+    }),
+    rules: [
+      def.root({
+        root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"]),
+        label: what.css(["font-medium"])
+      }),
+      def.rule(
+        what.variant({ size: "lg" }),
+        {
+          root: what.css(["px-6", "py-3"])
+        }
+      ),
+      def.rule(
+        what.variant({ variant: "primary" }),
+        {
+          root: what.token(["color.text.primary", "color.bg.primary"])
+        }
+      )
+    ],
+    defaults: def.defaults({
+      size: "md",
+      variant: "default"
     })
-  ],
-  defaults: def.defaults({ size: "lg" })     // ✅ Can override parent default
-}));
+  })
+);
 ```
 
-#### **Bottom Line** 🎯
+---
 
-**Inheritance Semantics** are the **foundation of CLS design systems**:
+## 5. Key Concepts <a id="5-key-concepts"></a>
 
-- 🔒 **Enforced tokens** - newly declared tokens MUST be defined
-- 🔓 **Optional inheritance** - inherited tokens can be omitted or overridden
-- 🔄 **Append-only growth** - contracts can only add, never remove
-- 🎯 **Type safety** - TypeScript ensures inheritance chain validity
-- 🌍 **Scalable architecture** - build complex systems from simple building blocks
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Main API](#4-main-api)** | **[→ Next Chapter: CLS Instance Methods](#6-cls-instance-methods)**
 
-**Remember:** **Good inheritance makes great design systems!** Understand the rules, and you can build anything! 🎉
+### 5.1 What Utility <a id="51-what-utility"></a>
 
-Ready to learn about **Token Conflicts & Resolution** in the next section? This will show how CLS handles conflicting tokens in inheritance chains! 🚀
+The `what` utility is your **styling toolkit** - it provides type-safe helpers for creating styling configurations. Think of it as a set of specialized functions that ensure your styling is both correct and type-safe.
 
-### 5.5 Token Conflicts & Resolution <a id="55-token-conflicts--resolution"></a>
+> **🎯 Mental Model**: `what` = "What styling do I want to apply?"
 
-**When tokens flow through inheritance chains**, **conflicts can arise** - but CLS has **clear resolution rules**! ⚔️
+#### Core Helper Functions
 
-**Token conflicts** happen when **different levels** in the inheritance chain **define the same token** with **different values**. Understanding how CLS resolves these conflicts is crucial for **predictable styling**.
-
-#### **Conflict Resolution Rules** ⚔️
-
-**CLS follows a simple but powerful rule** for resolving token conflicts:
-
-- 🏆 **Child wins** - child definitions override parent definitions
-- 🔄 **Last definition wins** - later definitions override earlier ones
-- 🎯 **Predictable behavior** - conflicts are resolved consistently
-
-**This ensures that** **specialized components** can **override base styling** when needed!
-
-#### **Token Conflict Examples** 🎭
-
-**See how CLS resolves conflicts** in real inheritance scenarios:
-
+**📝 Styling Helpers**
 ```typescript
-// Base theme with primary color
-const ThemeCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"]
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-50"],
-      primary: ["bg-blue-500"],    // 🎨 Base blue primary
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],     // 🎨 Base white text
-      secondary: ["text-gray-700"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
-  defaults: {}
-}));
-
-// Button inherits from theme
-const ButtonCls = ThemeCls.extend({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary", "success"], // Extends existing group
-    "color.text": ["default", "primary", "secondary", "success"] // Extends existing group
-  },
-  slot: ["root", "label"],
-  variant: {
-    variant: ["default", "primary", "secondary", "success"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      primary: ["bg-indigo-600"],  // 🏆 OVERRIDE: Child wins over parent
-      success: ["bg-green-500"]    // 🆕 NEW: Only new token
-    },
-    "color.text": {
-      primary: ["text-indigo-50"], // 🏆 OVERRIDE: Child wins over parent
-      success: ["text-white"]      // 🆕 NEW: Only new token
-    }
-    // 🔓 OPTIONAL: Inherited tokens (color.bg.default, color.bg.secondary, etc.)
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"]),
-      label: what.css(["font-medium"])
-    }),
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(["color.bg.primary", "color.text.primary"]) // Uses overridden values
-    }),
-    def.rule(what.variant({ variant: 'success' }), {
-      root: what.token(["color.bg.success", "color.text.success"]) // Uses new values
-    })
-  ],
-  defaults: def.defaults({ variant: 'default' })
-}));
-
-// Specialized button with different primary color
-const SpecialButtonCls = ButtonCls.extend({
-  tokens: {
-    "color.bg": ["primary"],       // Override existing variant
-    "color.text": ["primary"]      // Override existing variant
-  },
-  slot: ["root", "label"],
-  variant: {
-    variant: ["default", "primary", "secondary", "success"]
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      primary: ["bg-purple-700"]   // 🏆 OVERRIDE: Child wins over ButtonCls
-    },
-    "color.text": {
-      primary: ["text-purple-50"]  // 🏆 OVERRIDE: Child wins over ButtonCls
-    }
-    // 🔓 OPTIONAL: All other inherited tokens
-  }),
-  rules: [
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default"]),
-      label: what.css(["font-medium"])
-    }),
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(["color.bg.primary", "color.text.primary"]) // Uses SpecialButtonCls values
-    })
-  ],
-  defaults: def.defaults({ variant: 'default' })
-}));
+what.css(classes)           // Pure CSS classes only
+what.token(tokens)          // Design token references only  
+what.both(classes, tokens)  // Both CSS classes + token references
 ```
 
-**What happens in this inheritance chain:**
+**🔧 Configuration Helpers**
+```typescript
+what.variant(variant)       // Type-safe variant values
+what.slot(slot)             // Slot-specific configurations
+```
 
-1. **ThemeCls** - `"color.bg.primary"` → `"bg-blue-500"`
-2. **ButtonCls** - `"color.bg.primary"` → `"bg-indigo-600"` (overrides ThemeCls)
-3. **SpecialButtonCls** - `"color.bg.primary"` → `"bg-purple-700"` (overrides ButtonCls)
+#### Styling Helper Examples
 
-**Final result:** `"color.bg.primary"` resolves to `"bg-purple-700"` in SpecialButtonCls! 🎯
+**CSS-Only Styling**
+```typescript
+// ✅ Good: Pure CSS classes
+root: what.css(["inline-flex", "items-center", "rounded-md"])
 
-#### **Runtime Override Conflicts** 🎭
+// ❌ Avoid: Raw strings (no type safety)
+root: "inline-flex items-center rounded-md"
+```
 
-**Runtime overrides** can also create conflicts with **inherited tokens**:
+**Token-Only Styling**
+```typescript
+// ✅ Good: Design token references
+root: what.token(["color.text.primary", "color.bg.primary"])
+
+// ❌ Avoid: Hardcoded values
+root: "text-white bg-blue-600"
+```
+
+**Mixed Styling (Most Common)**
+```typescript
+// ✅ Good: Both CSS classes and tokens
+root: what.both(
+  ["rounded-md", "shadow-lg"],           // Layout/behavior classes
+  ["color.text.primary", "color.bg.primary"]  // Design tokens
+)
+```
+
+#### Type-Safe Variant Usage
+
+The `what.variant()` helper is **crucial for type safety** - it ensures you only use valid variant combinations:
 
 ```typescript
-// Using the SpecialButtonCls from above
-const customButton = SpecialButtonCls.create(({ what, override }) => ({
-  variant: what.variant({ variant: 'primary' }),
-  token: override.token({
-    "color.bg": {
-      primary: ["bg-red-600"]  // 🏆 RUNTIME OVERRIDE: Takes precedence over all inheritance
-    },
-    "color.text": {
-      primary: ["text-red-50"] // 🏆 RUNTIME OVERRIDE: Takes precedence over all inheritance
-    }
+// ✅ Type-safe variant usage
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "lg",        // ✅ Valid: "lg" is in ["sm", "md", "lg"]
+    variant: "primary" // ✅ Valid: "primary" is in ["default", "primary"]
   })
 }));
 
-// Component with runtime overrides
-const DynamicButton = ({ 
-  variant, 
-  customPrimaryColor 
-}: {
-  variant: 'default' | 'primary' | 'secondary' | 'success';
-  customPrimaryColor?: string;
-}) => {
-  const classes = SpecialButtonCls.create(({ what, override }) => ({
-    variant: what.variant({ variant }),
-    token: override.token({
-      "color.bg": customPrimaryColor ? {
-        primary: [customPrimaryColor]  // 🏆 RUNTIME OVERRIDE: Dynamic color
-      } : undefined
-    })
-  }));
+// ❌ TypeScript will catch invalid variants
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ 
+    size: "xl",        // ❌ Error: "xl" is not in ["sm", "md", "lg"]
+    variant: "invalid" // ❌ Error: "invalid" is not in ["default", "primary"]
+  })
+}));
+```
 
+#### When to Use Each Helper
+
+> **💡 Decision Tree**:
+> - **Pure CSS classes** → `what.css()`
+> - **Design tokens only** → `what.token()`
+> - **Mixed styling** → `what.both()`
+> - **Variant values** → `what.variant()`
+
+**Real-World Example:**
+```typescript
+const Button = cls(
+  {
+    tokens: ["color.text.primary", "color.bg.primary", "spacing.padding.md"],
+    slot: ["root", "icon", "label"],
+    variant: {
+      size: ["sm", "md", "lg"],
+      variant: ["default", "primary"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.text.primary": what.css(["text-white"]),
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "spacing.padding.md": what.css(["px-4", "py-2"])
+    }),
+    rules: [
+      def.root({
+        // Mixed styling: layout + design tokens
+        root: what.both(
+          ["inline-flex", "items-center", "rounded-md"], // Layout
+          ["color.text.primary", "color.bg.primary"]     // Design
+        ),
+        // Pure CSS for utility classes
+        icon: what.css(["mr-2", "w-4", "h-4"]),
+        // Pure tokens for consistent styling
+        label: what.token(["color.text.primary"])
+      }),
+      def.rule(
+        what.variant({ size: "lg" }), // Type-safe variant
+        {
+          root: what.css(["px-6", "py-3"]) // Pure CSS for size-specific styling
+        }
+      )
+    ]
+  })
+);
+```
+
+### 5.2 Definition Callback <a id="52-definition-callback"></a>
+
+The definition function receives a `WhatUtil` object with three main interfaces that serve different purposes:
+
+```typescript
+({ what, override, def }) => ({ ... })
+```
+
+> **🎯 Mental Model**: 
+> - `what` = "What styling do I want?"
+> - `def` = "Define the default behavior"
+> - `override` = "Override and replace previous styles"
+
+#### The Three Interfaces Explained
+
+**`what` - Your Styling Toolkit**
+- **Purpose**: Create type-safe styling configurations
+- **When to use**: Always use for styling values
+- **Examples**: `what.css()`, `what.token()`, `what.both()`, `what.variant()`
+
+**`def` - Define Default Behavior**
+- **Purpose**: Create definitions that **append** to or **extend** existing styles
+- **Behavior**: Accumulative - adds to previous styles
+- **When to use**: For base styles, extensions, and additive styling
+
+**`override` - Override and Replace**
+- **Purpose**: Create definitions that **replace** previous styles completely
+- **Behavior**: Destructive - clears previous styles and applies only new ones
+- **When to use**: When you want clean slate styling
+
+#### Def vs Override: The Key Difference
+
+> **💡 Think of it like CSS specificity**:
+> - `def` = "Add these styles" (like normal CSS rules)
+> - `override` = "Replace all previous styles" (like `!important`)
+
+**Def Helpers (Accumulative)**
+```typescript
+// ✅ Adds to existing styles
+def.root({
+  root: what.css(["px-4", "py-2"]) // Adds padding to existing styles
+})
+
+def.rule(
+  what.variant({ size: "lg" }),
+  {
+    root: what.css(["px-6", "py-3"]) // Adds larger padding when size="lg"
+  }
+)
+```
+
+**Override Helpers (Replacement)**
+```typescript
+// ✅ Replaces all previous styles
+override.root({
+  root: what.css(["px-4", "py-2"]) // ONLY these styles, nothing else
+})
+
+override.rule(
+  what.variant({ size: "lg" }),
+  {
+    root: what.css(["px-6", "py-3"]) // ONLY these styles when size="lg"
+  }
+)
+```
+
+#### Helper Function Reference
+
+**`def` - Definition Helpers (Accumulative)**
+```typescript
+def.root(slotConfig, override = false)           // Default slot configuration
+def.rule(match, slotConfig, override = false)    // Conditional rule
+def.token(tokenDefinition)                       // Token definitions
+def.defaults(defaultValues)                      // Default variant values
+```
+
+**`override` - Override Helpers (Replacement)**
+```typescript
+override.root(slotConfig, override = true)       // Default slot with override=true
+override.rule(match, slotConfig, override = true) // Conditional rule with override=true
+override.token(partialTokens)                    // Partial token overrides
+```
+
+**`what` - Styling Helpers**
+```typescript
+what.css(classes)           // CSS classes only
+what.token(tokens)          // Token references only
+what.both(classes, tokens)  // Both classes and tokens
+what.variant(variant)       // Type-safe variant values
+what.slot(slot)             // Slot configurations
+```
+
+#### Complete Example: Def vs Override in Action
+
+```typescript
+const Button = cls(
+  {
+    tokens: ["color.text", "color.bg"],
+    slot: ["root", "label"],
+    variant: {
+      size: ["sm", "md", "lg"],
+      variant: ["default", "primary"]
+    }
+  },
+  ({ what, override, def }) => ({
+    token: def.token({
+      "color.text": {
+        default: ["text-gray-900"],
+        primary: ["text-white"]
+      },
+      "color.bg": {
+        default: ["bg-gray-100"],
+        primary: ["bg-blue-600"]
+      }
+    }),
+    rules: [
+      // Base styles (accumulative)
+      def.root({
+        root: what.both(["inline-flex", "items-center"], ["color.text.default", "color.bg.default"]),
+        label: what.css(["font-medium"])
+      }),
+      
+      // Size variants (accumulative - adds to base)
+      def.rule(
+        what.variant({ size: "lg" }),
+        {
+          root: what.css(["px-6", "py-3"]) // Adds larger padding
+        }
+      ),
+      
+      // Primary variant (override - replaces base colors)
+      override.rule(
+        what.variant({ variant: "primary" }),
+        {
+          root: what.token(["color.text.primary", "color.bg.primary"]) // Replaces colors completely
+        }
+      )
+    ],
+    defaults: def.defaults({
+      size: "md",
+      variant: "default"
+    })
+  })
+);
+```
+
+**Result Behavior:**
+- **Default button**: `"inline-flex items-center text-gray-900 bg-gray-100 font-medium"`
+- **Large button**: `"inline-flex items-center text-gray-900 bg-gray-100 font-medium px-6 py-3"` (adds padding)
+- **Primary button**: `"inline-flex items-center text-white bg-blue-600 font-medium"` (replaces colors)
+- **Large primary button**: `"inline-flex items-center text-white bg-blue-600 font-medium px-6 py-3"` (replaces colors, adds padding)
+
+### 5.3 Tokens <a id="53-tokens"></a>
+
+Tokens are the **foundation of your design system** - they represent reusable design values that can be referenced throughout your components.
+
+> **🎯 Mental Model**: Tokens = "Named design values that can be reused and inherited"
+
+#### Token Structure
+
+```typescript
+// Token naming: group.variant
+// In contract: flat array of token names
+tokens: [
+  "color.text.default", "color.text.primary", "color.text.secondary",
+  "color.bg.default", "color.bg.primary", "color.bg.secondary",
+  "spacing.padding.sm", "spacing.padding.md", "spacing.padding.lg"
+]
+
+// In definition: each token gets a What<T> object
+token: {
+  "color.text.default": what.css(["text-gray-900"]),
+  "color.text.primary": what.css(["text-white"]),
+  "color.text.secondary": what.css(["text-gray-700"]),
+  "color.bg.default": what.css(["bg-gray-100"]),
+  "color.bg.primary": what.css(["bg-blue-600"]),
+  "color.bg.secondary": what.css(["bg-gray-200"])
+}
+```
+
+#### How Tokens Work
+
+**🔍 Token Resolution Process**
+1. **Lookup**: Find token in current contract or inheritance chain
+2. **Selection**: Choose appropriate variant based on current state
+3. **Extraction**: Get CSS classes from token definition
+4. **Combination**: Merge multiple tokens if needed
+5. **Override**: Apply any runtime overrides
+
+**⚡ Key Features**
+- **Recursive Resolution**: Tokens can reference other tokens
+- **Circular Detection**: Automatic prevention of infinite loops
+- **Inheritance**: Tokens follow contract hierarchy
+- **Runtime Overrides**: Values can be changed at creation time
+
+#### Token Inheritance Behavior
+
+> **💡 Important**: Token inheritance is **always replacement-based**, not accumulation-based
+
+**How Token Inheritance Actually Works**
+```typescript
+// Parent contract
+{
+  tokens: ["color.bg.default"],
+  token: {
+    "color.bg.default": what.css(["bg-gray-100"])
+  }
+}
+
+// Child contract
+{
+  tokens: ["color.bg.default"], // Same token declared
+  token: {
+    "color.bg.default": what.css(["bg-blue-100"]) // REPLACES parent definition
+  }
+}
+
+// Result: Child definition wins, parent is discarded
+// Final token value: "bg-blue-100"
+```
+
+**Key Points:**
+- **Token definitions are merged by direct assignment** - child values replace parent values
+- **Type system enforces implementation** - when you declare a token in a child contract, you must provide its definition
+- **Contract declarations affect type safety** - they ensure all required tokens are implemented
+- **Inheritance order matters** - later definitions override earlier ones
+
+> **⚠️ Important Distinction**: Token inheritance is **different** from variant and default inheritance:
+> - **Tokens**: Direct replacement (child replaces parent) + Type enforcement
+> - **Variants**: Union merging (child combines with parent)
+> - **Defaults**: Object merging (child overrides parent)
+
+#### Token Override Examples
+
+**Runtime Token Overrides**
+```typescript
+// Override specific tokens at creation time
+const buttonClasses = Button.create(({ what }) => ({
+  token: {
+    "color.text.primary": what.css(["text-blue-600"]) // Override only primary text
+    // Other tokens remain unchanged
+  }
+}));
+```
+
+**Component-Level Overrides**
+```typescript
+const MyComponent = ({ cls }: Component<typeof Button>) => {
   return (
-    <button className={classes.root()}>
-      Dynamic Button
+    <button className={cls(({ what }) => ({
+      token: {
+        "color.bg.primary": what.css(["bg-indigo-600"]) // Override primary background
+      }
+    }))}>
+      Click me
     </button>
   );
 };
 ```
 
-**Runtime override precedence:**
+#### Advanced: Token Chain Resolution
 
-1. **Runtime overrides** - highest priority (user control)
-2. **Child definitions** - override parent definitions
-3. **Parent definitions** - base styling from inheritance chain
+> **🚀 Power Feature**: Tokens can reference other tokens, creating dependency chains
 
-**This gives users** **complete control** over styling while maintaining **inheritance benefits**!
-
-#### **Conflict Resolution Best Practices** 💡
-
-**Follow these guidelines** for predictable token conflicts:
-
-**✅ Do:**
-- **Document overrides** - comment when you're intentionally overriding tokens
-- **Use semantic names** - `"color.bg.primary"` not `"color.bg.blue"`
-- **Test inheritance chains** - verify conflicts resolve as expected
-- **Plan your hierarchy** - design inheritance to minimize conflicts
-
-**❌ Don't:**
-- **Override unnecessarily** - only override when you need different styling
-- **Create circular dependencies** - avoid inheritance loops
-- **Forget runtime precedence** - remember runtime overrides win
-- **Ignore inheritance benefits** - leverage inherited tokens when possible
-
-**Example of good conflict management:**
-
+**Simple Token Chain**
 ```typescript
-// Base theme - keep it simple
-const ThemeCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary"],
-    "color.text": ["default", "primary", "secondary"]
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-50"],
-      primary: ["bg-blue-500"],    // 🎨 Base primary color
-      secondary: ["bg-gray-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],     // 🎨 Base primary text
-      secondary: ["text-gray-700"]
-    }
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
-  defaults: {}
-}));
+// Base tokens
+"color.bg.primary": what.css(["bg-blue-600"]),
+"color.text.primary": what.css(["text-white"]),
 
-// Specialized theme - override only what's needed
-const DarkThemeCls = ThemeCls.extend({
-  tokens: {
-    "color.bg": ["default", "primary"],  // Only override what changes
-    "color.text": ["default", "primary"] // Only override what changes
-  },
-  slot: ["root"],
-  variant: {}
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-900"],    // 🏆 OVERRIDE: Dark background
-      primary: ["bg-blue-600"]     // 🏆 OVERRIDE: Darker primary
-    },
-    "color.text": {
-      default: ["text-gray-100"],  // 🏆 OVERRIDE: Light text
-      primary: ["text-blue-50"]    // 🏆 OVERRIDE: Light primary text
-    }
-    // 🔓 OPTIONAL: Inherited secondary tokens remain unchanged
-  }),
-  rules: [def.root({ root: what.token(["color.bg.default", "color.text.default"]) })],
-  defaults: {}
-}));
+// Composite token that references base tokens
+"button.primary": what.token([
+  "color.bg.primary",    // References another token
+  "color.text.primary"   // References another token
+])
 ```
 
-**Benefits of this approach:**
-- 🎯 **Minimal conflicts** - only override what's necessary
-- 🔄 **Clear inheritance** - easy to understand what changes
-- 🚀 **Maintainable** - changes are localized and predictable
-- 🌍 **Flexible** - runtime overrides still work for customization
+**Multi-Level Token Chain**
+```typescript
+// Level 1: Base spacing
+"spacing.sm": what.css(["px-2", "py-1"]),
+"spacing.md": what.css(["px-4", "py-2"]),
 
-#### **Bottom Line** 🎯
+// Level 2: Padding tokens that reference spacing
+"padding.small": what.token(["spacing.sm"]),
+"padding.medium": what.token(["spacing.md"]),
 
-**Token Conflicts & Resolution** ensure **predictable styling** in complex inheritance chains:
+// Level 3: Button tokens that reference padding
+"button.small": what.both(
+  ["rounded", "font-medium"], // CSS classes
+  ["padding.small"]           // References padding.small → spacing.sm
+)
+```
 
-- 🏆 **Child wins** - child definitions override parent definitions
-- 🎭 **Runtime priority** - runtime overrides take highest precedence
-- 🎯 **Predictable behavior** - conflicts resolved consistently
-- 🔄 **Clear hierarchy** - inheritance chain determines resolution order
-- 🌍 **User control** - runtime overrides give complete customization
+**Circular Dependency Protection**
+```typescript
+// ❌ This would cause an error
+{
+  "token.a": what.token(["token.b"]),
+  "token.b": what.token(["token.c"]), 
+  "token.c": what.token(["token.a"]) // Circular reference!
+}
+// Error: Circular dependency detected in token references
+```
 
-**Remember:** **Good conflict resolution makes great design systems!** Understand the rules, and your inheritance chains will be predictable and maintainable! 🎉
+#### Complete Example: Button with Token Chains
 
-Ready to learn about **Variants & Defaults** in the next chapter? This will show how to control component appearance and behavior! 🚀
+```typescript
+const ButtonWithTokens = cls(
+  {
+    tokens: [
+      "color.bg.primary", "color.text.primary",
+      "button.base", "button.primary"
+    ],
+    slot: ["root"],
+    variant: {
+      variant: ["default", "primary"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      // Base design tokens
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "color.text.primary": what.css(["text-white"]),
+      
+      // Composite button tokens
+      "button.base": what.both(
+        ["px-4", "py-2", "rounded", "font-medium"], // Layout
+        ["color.text.primary"]                      // Design
+      ),
+      
+      "button.primary": what.token([
+        "button.base",        // References base button
+        "color.bg.primary"    // References primary background
+      ])
+    }),
+    rules: [
+      def.root({
+        root: what.token(["button.base"])
+      }),
+      def.rule(
+        what.variant({ variant: "primary" }),
+        {
+          root: what.token(["button.primary"])
+        }
+      )
+    ]
+  })
+);
+
+// Usage - token resolution happens automatically
+const instance = ButtonWithTokens.create();
+console.log(instance.root()); // "px-4 py-2 rounded font-medium text-white"
+
+const primaryInstance = ButtonWithTokens.create(({ what }) => ({
+  variant: what.variant({ variant: "primary" })
+}));
+console.log(primaryInstance.root()); // "px-4 py-2 rounded font-medium text-white bg-blue-600"
+```
+
+### 5.4 Slots <a id="54-slots"></a>
+
+Slots represent named parts of a component that can receive independent styling:
+
+```typescript
+// Component slots
+["root", "icon", "label", "badge"]
+```
+
+**Slot Behavior:**
+- Each slot is a function that returns CSS classes
+- Slots can receive variant overrides
+- Slots can be overridden at creation time
+- Slots support both class and token assignments
+
+### 5.5 Variants <a id="55-variants"></a>
+
+Variants are configurable properties that control component appearance:
+
+```typescript
+// Variant definitions
+{
+  size: ["sm", "md", "lg"],
+  variant: ["primary", "secondary"],
+  disabled: ["bool"] // Special "bool" type becomes boolean
+}
+```
+
+**Variant Types:**
+- **String Variants**: Discrete values (size, variant, etc.)
+- **Boolean Variants**: True/false states (disabled, loading, etc.)
+- **Default Values**: Predefined fallbacks for each variant
+
+### 5.6 Rules <a id="56-rules"></a>
+
+Rules define **conditional styling** based on variant combinations. They're the heart of dynamic styling in CLS.
+
+> **🎯 Mental Model**: Rules = "Apply these styles when these conditions are met"
+
+#### Rule Structure
+
+```typescript
+// Basic rule structure
+{
+  match: what.variant({ size: "lg", variant: "primary" }), // When to apply
+  slot: {
+    root: what.css(["text-lg"]),                    // What to apply
+    label: what.token(["color.bg.primary"])
+  },
+  override: false // Optional: how to apply (append vs replace)
+}
+```
+
+#### Rule Matching Behavior
+
+**🔍 How Rules Work**
+1. **Condition Testing**: Check if current variants match the rule
+2. **Slot Application**: Apply styling to matching slots
+3. **Order Processing**: Rules are evaluated in definition order
+4. **Override Handling**: Clear previous styles if override is true
+
+**⚡ Key Features**
+- **Multiple Rules**: Multiple rules can apply to the same variant combination
+- **Order Matters**: Later rules take precedence over earlier ones
+- **Boolean Variants**: True/false values are matched against boolean variants
+- **Partial Matching**: Rules can match on subset of variants
+
+#### Override vs Append Behavior
+
+> **💡 Critical Distinction**: Rules can either add to or replace previous styles
+
+**Append Mode (Default)**
+```typescript
+// ✅ Adds to existing styles
+def.rule(
+  what.variant({ size: "lg" }),
+  {
+    root: what.css(["px-6", "py-3"]) // Adds padding to existing styles
+  }
+)
+// Result: Previous styles + new padding
+```
+
+**Override Mode (Destructive)**
+```typescript
+// ✅ Replaces all previous styles
+override.rule(
+  what.variant({ size: "lg" }),
+  {
+    root: what.css(["px-6", "py-3"]) // ONLY these styles, nothing else
+  }
+)
+// Result: Only the new padding, previous styles discarded
+```
+
+#### Real-World Rule Examples
+
+**Size-Based Styling**
+```typescript
+// Different padding for different sizes
+def.rule(what.variant({ size: "sm" }), {
+  root: what.css(["px-2", "py-1"])
+}),
+def.rule(what.variant({ size: "md" }), {
+  root: what.css(["px-4", "py-2"])
+}),
+def.rule(what.variant({ size: "lg" }), {
+  root: what.css(["px-6", "py-3"])
+})
+```
+
+**Variant-Based Styling**
+```typescript
+// Different colors for different variants
+def.rule(what.variant({ variant: "primary" }), {
+  root: what.token(["color.bg.primary", "color.text.primary"])
+}),
+def.rule(what.variant({ variant: "secondary" }), {
+  root: what.token(["color.bg.secondary", "color.text.secondary"])
+})
+```
+
+**Complex Conditional Styling**
+```typescript
+// Multiple conditions combined
+def.rule(what.variant({ size: "lg", variant: "primary" }), {
+  root: what.both(
+    ["px-8", "py-4", "text-lg"],           // Size-specific layout
+    ["color.bg.primary", "color.text.primary"] // Variant-specific colors
+  )
+})
+```
+
+**Boolean Variant Styling**
+```typescript
+// Boolean variants for state-based styling
+def.rule(what.variant({ disabled: true }), {
+  root: what.css(["opacity-50", "cursor-not-allowed"]),
+  label: what.css(["line-through"])
+})
+```
 
 ---
 
-## 6. Variants & Defaults <a id="6-variants--defaults"></a>
+## 6. CLS Instance Methods <a id="6-cls-instance-methods"></a>
 
-[↑ Back to Top](#table-of-contents) | [← Previous Chapter: Tokens](#5-tokens) | [→ Next Chapter: Slots](#7-slots)
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Key Concepts](#5-key-concepts)** | **[→ Next Chapter: Contract Structure](#7-contract-structure)**
+
+### 6.1 `create(userConfigFn?, internalConfigFn?)` <a id="61-create-method"></a>
+
+Generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
+
+**Parameters:**
+- `userConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns user configuration
+- `internalConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns internal configuration
+
+**Configuration Options:**
+- **`variant`**: Override variant values
+- **`slot`**: Override slot styling (append mode)
+- **`override`**: Hard override slot styling (replace mode)
+- **`token`**: Override token definitions
+
+> **Note:** The [`what`](#51-what-utility) utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
+
+**Precedence Rules:**
+1. User config takes precedence over internal config
+2. Override config takes precedence over slot config
+3. Later rules take precedence over earlier rules
+4. Local slot overrides take precedence over global overrides
+
+> **For detailed usage examples, see [Section 9: Create Method Usage](#9-create-method-usage)**
+
+**Example:**
+```typescript
+// Basic usage with variants
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// Using what.variant() for type-safe variant values
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// With slot overrides using what utility
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary" }),
+  slot: {
+    icon: what.css(["mr-2", "animate-spin"]),
+    label: what.token(["color.text.hover"])
+  }
+}));
+
+// With token overrides
+const classes = Button.create(({ what }) => ({
+  token: {
+    "color.text.primary": what.css(["text-blue-600"])
+  }
+}));
+
+// With hard overrides
+const classes = Button.create(({ what }) => ({
+  override: {
+    root: what.css(["bg-red-500", "text-white"])
+  }
+}));
+
+// Combined user and internal configs
+const classes = Button.create(
+  ({ what }) => ({
+    variant: what.variant({ variant: "primary" })
+  }),
+  ({ what }) => ({
+    slot: {
+      root: what.css(["shadow-lg"])
+    }
+  })
+);
+```
+
+### 6.2 `extend(childContract, childDefinitionFn)` <a id="62-extend-method"></a>
+
+Creates new CLS instances with additional functionality, inheriting from a parent.
+
+**Parameters:**
+- `childContract`: Extended contract with new tokens, slots, or variants
+- `childDefinitionFn`: Callback function that receives the `what` utility and returns the child definition
+
+**Example:**
+```typescript
+const PrimaryButton = Button.extend(
+  {
+    tokens: ["color.text.default", "color.text.primary", "color.text.secondary", "color.bg.default", "color.bg.primary", "color.bg.secondary"],
+    slot: ["root", "label", "icon"],
+    variant: {
+      size: ["sm", "md", "lg", "xl"],
+      variant: ["default", "primary", "secondary"],
+      loading: ["bool"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.text.default": what.css(["text-gray-900"]),
+      "color.text.primary": what.css(["text-white"]),
+      "color.text.secondary": what.css(["text-gray-700"]),
+      "color.bg.default": what.css(["bg-gray-100"]),
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "color.bg.secondary": what.css(["bg-gray-200"])
+    }),
+    rules: [
+      def.root({
+        root: what.both(["inline-flex", "items-center", "rounded-md"], ["color.text.default", "color.bg.default"]),
+        label: what.css(["font-medium"]),
+        icon: what.css(["mr-2"])
+      }),
+      def.rule(
+        what.variant({ size: "xl" }),
+        {
+          root: what.css(["px-8", "py-4", "text-lg"])
+        }
+      ),
+      def.rule(
+        what.variant({ loading: true }),
+        {
+          root: what.css(["opacity-75", "cursor-not-allowed"]),
+          icon: what.css(["animate-spin"])
+        }
+      )
+    ],
+    defaults: def.defaults({
+      size: "md",
+      variant: "primary",
+      loading: false
+    })
+  })
+);
+```
+
+### 6.3 `use(sub)` <a id="63-use-method"></a>
+
+Provides type-safe assignment of compatible CLS instances.
+
+**Parameters:**
+- `sub`: A CLS instance that must be derived from the current instance
+
+**Returns:** The current CLS instance for chaining
+
+**Example:**
+```typescript
+const ButtonGroup = Button.use(PrimaryButton);
+// ButtonGroup now has access to PrimaryButton's extended functionality
+```
 
 ---
 
-**Variants are the heart of component customization** - they let you **control appearance and behavior** based on different states and configurations! 🎭
+## 7. Contract Structure <a id="7-contract-structure"></a>
 
-**Defaults ensure predictable behavior** by providing **sensible starting values** for all variants. Together, they create a **flexible and user-friendly** styling system that adapts to different use cases.
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: CLS Instance Methods](#6-cls-instance-methods)** | **[→ Next Chapter: Definition Structure](#8-definition-structure)**
 
-### 6.1 Understanding Variants <a id="61-understanding-variants"></a>
-
-**Variants are configurable properties** that **affect component appearance and behavior**. Think of them as **"settings"** that users can adjust to customize how components look and work! 🎛️
-
-**Common variant types include:**
-- 🎨 **Visual variants** - `variant`, `color`, `theme`
-- 📏 **Size variants** - `size`, `width`, `height`
-- 🚦 **State variants** - `disabled`, `loading`, `active`
-- 🎯 **Behavior variants** - `interactive`, `readonly`, `editable`
-
-**Example of a button with multiple variants:**
-
+### 7.1 Token Contract <a id="71-token-contract"></a>
 ```typescript
-const ButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "primary", "secondary", "danger"],
-    "color.text": ["default", "primary", "secondary", "danger"],
-    "spacing.padding": ["sm", "md", "lg", "xl"],
-    "border.radius": ["none", "sm", "md", "lg", "full"]
-  },
-  slot: ["root", "label"],
-  variant: {
-    variant: ["default", "primary", "secondary", "danger"],  // 🎨 Visual style
-    size: ["sm", "md", "lg", "xl"],                         // 📏 Size variations
-    disabled: "bool",                                        // 🚦 State control
-    loading: "bool"                                          // 🚦 Loading state
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      primary: ["bg-blue-500"],
-      secondary: ["bg-gray-500"],
-      danger: ["bg-red-500"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      primary: ["text-white"],
-      secondary: ["text-white"],
-      danger: ["text-white"]
-    },
-    "spacing.padding": {
-      sm: ["px-2", "py-1"],
-      md: ["px-4", "py-2"],
-      lg: ["px-6", "py-3"],
-      xl: ["px-8", "py-4"]
-    },
-    "border.radius": {
-      none: [],
-      sm: ["rounded"],
-      md: ["rounded-md"],
-      lg: ["rounded-lg"],
-      full: ["rounded-full"]
-    }
-  }),
-  rules: [
-    // Base styles
-    def.root({
-      root: what.token(["color.bg.default", "color.text.default", "spacing.padding.md", "border.radius.md"]),
-      label: what.css(["font-medium", "transition-colors"])
-    }),
-    
-    // Variant styles
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.token(["color.bg.primary", "color.text.primary"])
-    }),
-    def.rule(what.variant({ variant: 'secondary' }), {
-      root: what.token(["color.bg.secondary", "color.text.secondary"])
-    }),
-    def.rule(what.variant({ variant: 'danger' }), {
-      root: what.token(["color.bg.danger", "color.text.danger"])
-    }),
-    
-    // Size styles
-    def.rule(what.variant({ size: 'sm' }), {
-      root: what.token(["spacing.padding.sm", "border.radius.sm"])
-    }),
-    def.rule(what.variant({ size: 'lg' }), {
-      root: what.token(["spacing.padding.lg", "border.radius.lg"])
-    }),
-    def.rule(what.variant({ size: 'xl' }), {
-      root: what.token(["spacing.padding.xl", "border.radius.xl"])
-    }),
-    
-    // State styles
-    def.rule(what.variant({ disabled: true }), {
-      root: what.css(["opacity-50", "cursor-not-allowed"]),
-      label: what.css(["text-gray-500"])
-    }),
-    def.rule(what.variant({ loading: true }), {
-      root: what.css(["cursor-wait"]),
-      label: what.css(["animate-pulse"])
-    })
-  ],
-  defaults: def.defaults({
-    variant: 'default',
-    size: 'md',
-    disabled: false,
-    loading: false
-  })
-});
+type TokenContract = readonly string[];
+
+// Example - flat array of token names
+[
+  "color.text.default", "color.text.primary", "color.text.secondary",
+  "color.bg.default", "color.bg.primary", "color.bg.secondary",
+  "spacing.padding.sm", "spacing.padding.md", "spacing.padding.lg"
+]
 ```
 
-**This button supports:**
-- 🎨 **4 visual variants** - default, primary, secondary, danger
-- 📏 **4 size options** - small, medium, large, extra-large
-- 🚦 **2 state flags** - disabled, loading
-- 🎯 **Combined styling** - variants work together seamlessly
+**Note**: The actual implementation uses a flat array of token names rather than a nested object structure. This simplifies the type system and makes token inheritance more straightforward.
 
-### 6.2 Required Defaults <a id="62-required-defaults"></a>
+### 7.2 Slot Contract <a id="72-slot-contract"></a>
+```typescript
+type SlotContract = readonly string[];
 
-**Defaults are mandatory in CLS** - they **force you to make conscious choices** about what values variants should have when no specific configuration is provided! 🎯
+// Example
+["root", "icon", "label", "badge"]
+```
 
-**Why defaults are required:**
-- 🚫 **No magic values** - you explicitly define what happens by default
-- 🎯 **Predictable behavior** - users know what to expect
-- 🔒 **Type safety** - TypeScript ensures all variants have defaults
-- 🎨 **Design consistency** - consistent starting point for all components
+### 7.3 Variant Contract <a id="73-variant-contract"></a>
+```typescript
+type VariantContract = Record<string, readonly string[]>;
 
-**Example of comprehensive defaults:**
+// Example
+{
+  size: ["sm", "md", "lg"],
+  variant: ["primary", "secondary"],
+  disabled: ["bool"] // Special "bool" type becomes boolean
+}
+```
+
+---
+
+## 8. Definition Structure <a id="8-definition-structure"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Contract Structure](#7-contract-structure)** | **[→ Next Chapter: Create Method Usage](#9-create-method-usage)**
+
+### 8.1 Token Definition <a id="81-token-definition"></a>
+
+Token definitions use `What<T>` objects that can contain CSS classes, token references, or both:
 
 ```typescript
-const CardCls = cls({
-  tokens: {
-    "color.bg": ["default", "elevated", "outlined"],
-    "color.border": ["default", "elevated", "outlined"],
-    "color.text": ["default", "elevated", "outlined"],
-    "spacing.padding": ["sm", "md", "lg"],
-    "shadow.size": ["none", "sm", "md", "lg"]
-  },
-  slot: ["root", "header", "body", "footer"],
-  variant: {
-    variant: ["default", "elevated", "outlined"],  // 🎨 Visual style
-    size: ["sm", "md", "lg"],                      // 📏 Size variations
-    interactive: "bool",                            // 🎯 Behavior control
-    hoverable: "bool"                               // 🎯 Hover effects
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-white"],
-      elevated: ["bg-white"],
-      outlined: ["bg-transparent"]
-    },
-    "color.border": {
-      default: ["border-gray-200"],
-      elevated: ["border-transparent"],
-      outlined: ["border-gray-300"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      elevated: ["text-gray-900"],
-      outlined: ["text-gray-900"]
-    },
-    "spacing.padding": {
-      sm: ["p-3"],
-      md: ["p-4"],
-      lg: ["p-6"]
-    },
-    "shadow.size": {
-      none: [],
-      sm: ["shadow-sm"],
-      md: ["shadow"],
-      lg: ["shadow-lg"]
+type TokenDefinitionRequired<TContract> = {
+  [K in TContract["tokens"][number]]: What<TContract>;
+};
+
+// Example - Token definitions use What<T> objects
+{
+  "color.text.default": what.css(["text-gray-900"]),
+  "color.text.primary": what.css(["text-white"]),
+  "color.text.secondary": what.css(["text-gray-700"]),
+  "color.bg.default": what.css(["bg-gray-100"]),
+  "color.bg.primary": what.css(["bg-blue-600"]),
+  "color.bg.secondary": what.css(["bg-gray-200"])
+}
+```
+
+#### Token Chain Resolution Examples
+
+> **🚀 Advanced Feature**: Tokens can reference other tokens, creating powerful dependency chains
+
+**Simple Token References**
+```typescript
+// Base color tokens
+"color.bg.primary": what.css(["bg-blue-600"]),
+"color.text.primary": what.css(["text-white"]),
+
+// Button token that references color tokens
+"button.primary": what.token([
+  "color.bg.primary",    // References another token
+  "color.text.primary"   // References another token
+])
+```
+
+**Multi-Level Token Chains**
+```typescript
+// Level 1: Base spacing tokens
+"spacing.xs": what.css(["px-1", "py-0.5"]),
+"spacing.sm": what.css(["px-2", "py-1"]),
+"spacing.md": what.css(["px-4", "py-2"]),
+"spacing.lg": what.css(["px-6", "py-3"]),
+
+// Level 2: Padding tokens that reference spacing
+"padding.small": what.token(["spacing.sm"]),
+"padding.medium": what.token(["spacing.md"]),
+"padding.large": what.token(["spacing.lg"]),
+
+// Level 3: Button tokens that reference padding
+"button.small": what.both(
+  ["rounded", "font-medium"], // CSS classes
+  ["padding.small"]           // References padding.small → spacing.sm
+),
+"button.medium": what.both(
+  ["rounded", "font-medium"], // CSS classes
+  ["padding.medium"]          // References padding.medium → spacing.md
+),
+"button.large": what.both(
+  ["rounded", "font-medium"], // CSS classes
+  ["padding.large"]           // References padding.large → spacing.lg
+)
+```
+
+#### Circular Dependency Protection
+
+> **🛡️ Safety Feature**: The system automatically detects and prevents circular dependencies
+
+```typescript
+// ❌ This would cause a circular dependency error
+{
+  "token.a": what.token(["token.b"]),
+  "token.b": what.token(["token.c"]),
+  "token.c": what.token(["token.a"]) // Circular reference!
+}
+// Error: Circular dependency detected in token references: token.a -> token.b -> token.c -> token.a
+```
+
+#### Complete Component Example
+
+```typescript
+const ButtonWithTokenChains = cls(
+  {
+    tokens: [
+      "color.bg.primary", "color.bg.secondary",
+      "color.text.primary", "color.text.secondary",
+      "button.base", "button.primary", "button.secondary"
+    ],
+    slot: ["root"],
+    variant: {
+      variant: ["default", "primary", "secondary"]
     }
-  }),
-  rules: [
-    // Base styles with defaults
-    def.root({
-      root: what.token([
-        "color.bg.default",
-        "color.border.default", 
-        "color.text.default",
-        "spacing.padding.md",
-        "shadow.size.none"
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      // Base color tokens
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "color.bg.secondary": what.css(["bg-gray-600"]),
+      "color.text.primary": what.css(["text-white"]),
+      "color.text.secondary": what.css(["text-gray-200"]),
+      
+      // Base button token that references color tokens
+      "button.base": what.both(
+        ["px-4", "py-2", "rounded", "font-medium"], // Layout classes
+        ["color.text.primary"]                      // Design token
+      ),
+      
+      // Primary button that references base button and primary colors
+      "button.primary": what.token([
+        "button.base",        // References base button
+        "color.bg.primary"    // References primary background
       ]),
-      header: what.css(["border-b", "border-gray-200", "pb-3"]),
-      body: what.css(["py-2"]),
-      footer: what.css(["border-t", "border-gray-200", "pt-3"])
+      
+      // Secondary button that references base button and secondary colors
+      "button.secondary": what.token([
+        "button.base",           // References base button
+        "color.bg.secondary",    // References secondary background
+        "color.text.secondary"   // References secondary text
+      ])
     }),
-    
-    // Variant-specific styles
-    def.rule(what.variant({ variant: 'elevated' }), {
-      root: what.token(["color.bg.elevated", "color.border.elevated", "shadow.size.md"])
-    }),
-    def.rule(what.variant({ variant: 'outlined' }), {
-      root: what.token(["color.bg.outlined", "color.border.outlined"])
-    }),
-    
-    // Size variations
-    def.rule(what.variant({ size: 'sm' }), {
-      root: what.token(["spacing.padding.sm"])
-    }),
-    def.rule(what.variant({ size: 'lg' }), {
-      root: what.token(["spacing.padding.lg"])
-    }),
-    
-    // Interactive states
-    def.rule(what.variant({ interactive: true }), {
-      root: what.css(["cursor-pointer", "transition-all", "duration-200"])
-    }),
-    def.rule(what.variant({ hoverable: true }), {
-      root: what.css(["hover:shadow-lg", "hover:transform", "hover:scale-105"])
+    rules: [
+      def.root({
+        root: what.token(["button.base"])
+      }),
+      def.rule(
+        what.variant({ variant: "primary" }),
+        {
+          root: what.token(["button.primary"])
+        }
+      ),
+      def.rule(
+        what.variant({ variant: "secondary" }),
+        {
+          root: what.token(["button.secondary"])
+        }
+      )
+    ],
+    defaults: def.defaults({
+      variant: "default"
     })
-  ],
-  defaults: def.defaults({
-    variant: 'default',    // 🎯 Default visual style
-    size: 'md',            // 📏 Default size
-    interactive: false,    // 🎯 Default behavior
-    hoverable: false       // 🎯 Default hover state
   })
-});
+);
+
+// Usage - token chain resolution happens automatically
+const instance = ButtonWithTokenChains.create();
+console.log(instance.root()); // "px-4 py-2 rounded font-medium text-white"
+
+const primaryInstance = ButtonWithTokenChains.create(({ what }) => ({
+  variant: what.variant({ variant: "primary" })
+}));
+console.log(primaryInstance.root()); // "px-4 py-2 rounded font-medium text-white bg-blue-600"
 ```
 
-**Using the card with defaults:**
-
+### 8.2 Rules <a id="82-rules"></a>
 ```typescript
-// Uses all defaults
-const defaultCard = CardCls.create();
-console.log(defaultCard.root()); 
-// "bg-white border-gray-200 text-gray-900 p-4 shadow-none"
+type RuleDefinition<TContract> = {
+  match?: Partial<VariantValueMapping<TContract>>;
+  slot: SlotMapping<TContract>;
+  override?: boolean;
+};
 
-// Override specific variants
-const elevatedCard = CardCls.create(({ what }) => ({
-  variant: what.variant({ variant: 'elevated', size: 'lg' })
-}));
-console.log(elevatedCard.root());
-// "bg-white border-transparent text-gray-900 p-6 shadow-md"
-
-// Interactive card with hover effects
-const interactiveCard = CardCls.create(({ what }) => ({
-  variant: what.variant({ interactive: true, hoverable: true })
-}));
-console.log(interactiveCard.root());
-// "bg-white border-gray-200 text-gray-900 p-4 shadow-none cursor-pointer transition-all duration-200 hover:shadow-lg hover:transform hover:scale-105"
-```
-
-### 6.3 Variant Combinations <a id="63-variant-combinations"></a>
-
-**Variants work together seamlessly** - you can **combine multiple variants** to create **rich, contextual styling**! 🎭
-
-**CLS automatically handles variant combinations** by applying **all matching rules** in the order they're defined. This means you get **accumulated styling** rather than **overriding behavior**.
-
-**Example of variant combinations in action:**
-
-```typescript
-const AlertCls = cls({
-  tokens: {
-    "color.bg": ["default", "info", "success", "warning", "error"],
-    "color.border": ["default", "info", "success", "warning", "error"],
-    "color.text": ["default", "info", "success", "warning", "error"],
-    "spacing.padding": ["sm", "md", "lg"],
-    "border.radius": ["sm", "md", "lg"]
+// Example
+{
+  match: what.variant({ size: "lg", variant: "primary" }),
+  slot: {
+    root: what.css(["px-6", "py-3"])
   },
-  slot: ["root", "icon", "content", "close"],
-  variant: {
-    variant: ["default", "info", "success", "warning", "error"],  // 🎨 Alert type
-    size: ["sm", "md", "lg"],                                     // 📏 Size variations
-    dismissible: "bool",                                           // 🎯 Can be closed
-    bordered: "bool"                                               // 🎯 Border style
+  override: false // Optional: clears previous styles
+}
+```
+
+### 8.3 Defaults <a id="83-defaults"></a>
+```typescript
+type DefaultDefinition<TContract> = VariantValueMapping<TContract>;
+
+// Example
+{
+  size: "md",
+  variant: "default",
+  disabled: false
+}
+```
+
+---
+
+## 9. Create Method Usage <a id="9-create-method-usage"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Definition Structure](#8-definition-structure)** | **[→ Next Chapter: Styling Resolution](#10-styling-resolution)**
+
+> **Note:** This section provides detailed usage examples for the `create()` method. For method signature and parameters, see [Section 6.1](#61-create-method).
+
+**Basic Usage:**
+```typescript
+// With variants only
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// With slot overrides
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary" }),
+  slot: {
+    root: what.css(["mr-2", "animate-spin"]),
+    label: what.token(["color.text.hover"])
   }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-50"],
-      info: ["bg-blue-50"],
-      success: ["bg-green-50"],
-      warning: ["bg-yellow-50"],
-      error: ["bg-red-50"]
-    },
-    "color.border": {
-      default: ["border-gray-200"],
-      info: ["border-blue-200"],
-      success: ["border-green-200"],
-      warning: ["border-yellow-200"],
-      error: ["border-red-200"]
-    },
-    "color.text": {
-      default: ["text-gray-800"],
-      info: ["text-blue-800"],
-      success: ["text-green-800"],
-      warning: ["text-yellow-800"],
-      error: ["text-red-800"]
-    },
-    "spacing.padding": {
-      sm: ["p-2"],
-      md: ["p-3"],
-      lg: ["p-4"]
-    },
-    "border.radius": {
-      sm: ["rounded"],
-      md: ["rounded-md"],
-      lg: ["rounded-lg"]
-    }
+}));
+
+// Using what.variant() for type-safe variant values
+const classes = Button.create(({ what }) => ({
+  variant: what.variant({ variant: "primary", size: "lg" })
+}));
+
+// With token overrides
+const classes = Button.create(({ what }) => ({
+  token: {
+    "color.text.primary": what.css(["text-blue-600"])
+  }
+}));
+
+// With hard overrides
+const classes = Button.create(({ what }) => ({
+  override: {
+    root: what.css(["bg-red-500", "text-white"])
+  }
+}));
+```
+
+**Combined User and Internal Configs:**
+```typescript
+const classes = Button.create(
+  ({ what }) => ({
+    variant: what.variant({ variant: "primary" })
   }),
-  rules: [
-    // Base styles
-    def.root({
-      root: what.token([
-        "color.bg.default",
-        "color.border.default",
-        "color.text.default",
-        "spacing.padding.md",
-        "border.radius.md"
-      ]),
-      icon: what.css(["mr-2", "flex-shrink-0"]),
-      content: what.css(["flex-1"]),
-      close: what.css(["ml-2", "flex-shrink-0", "opacity-70", "hover:opacity-100"])
-    }),
-    
-    // Variant-specific colors
-    def.rule(what.variant({ variant: 'info' }), {
-      root: what.token(["color.bg.info", "color.border.info", "color.text.info"])
-    }),
-    def.rule(what.variant({ variant: 'success' }), {
-      root: what.token(["color.bg.success", "color.border.success", "color.text.success"])
-    }),
-    def.rule(what.variant({ variant: 'warning' }), {
-      root: what.token(["color.bg.warning", "color.border.warning", "color.text.warning"])
-    }),
-    def.rule(what.variant({ variant: 'error' }), {
-      root: what.token(["color.bg.error", "color.border.error", "color.text.error"])
-    }),
-    
-    // Size variations
-    def.rule(what.variant({ size: 'sm' }), {
-      root: what.token(["spacing.padding.sm", "border.radius.sm"]),
-      icon: what.css(["w-4", "h-4"]),
-      close: what.css(["w-4", "h-4"])
-    }),
-    def.rule(what.variant({ size: 'lg' }), {
-      root: what.token(["spacing.padding.lg", "border.radius.lg"]),
-      icon: what.css(["w-6", "h-6"]),
-      close: what.css(["w-6", "h-6"])
-    }),
-    
-    // Dismissible behavior
-    def.rule(what.variant({ dismissible: true }), {
-      root: what.css(["flex", "items-start", "justify-between"]),
-      content: what.css(["flex", "items-start"])
-    }),
-    def.rule(what.variant({ dismissible: false }), {
-      close: what.css(["hidden"])  // Hide close button
-    }),
-    
-    // Border variations
-    def.rule(what.variant({ bordered: false }), {
-      root: what.css(["border-0"])  // Remove border
-    })
-  ],
-  defaults: def.defaults({
-    variant: 'default',
-    size: 'md',
-    dismissible: false,
-    bordered: true
+  ({ what }) => ({
+    slot: {
+      root: what.css(["shadow-lg"])
+    }
   })
-});
+);
 ```
 
-**Using variant combinations:**
-
+**Slot Function Usage:**
 ```typescript
-// Small, dismissible success alert
-const successAlert = AlertCls.create(({ what }) => ({
-  variant: what.variant({ 
-    variant: 'success', 
-    size: 'sm', 
-    dismissible: true 
-  })
-}));
-console.log(successAlert.root());
-// "bg-green-50 border-green-200 text-green-800 p-2 rounded flex items-start justify-between"
+// Access slot functions
+const rootClasses = classes.root();
+const labelClasses = classes.label();
 
-// Large, non-dismissible error alert without border
-const errorAlert = AlertCls.create(({ what }) => ({
-  variant: what.variant({ 
-    variant: 'error', 
-    size: 'lg', 
-    dismissible: false, 
-    bordered: false 
-  })
-}));
-console.log(errorAlert.root());
-// "bg-red-50 border-0 text-red-800 p-4 rounded-lg"
-
-// Medium info alert with all defaults
-const infoAlert = AlertCls.create(({ what }) => ({
-  variant: what.variant({ variant: 'info' })
-}));
-console.log(infoAlert.root());
-// "bg-blue-50 border-blue-200 text-blue-800 p-3 rounded-md"
-```
-
-### 6.4 Boolean Variants with "bool" Keyword <a id="64-boolean-variants-with-bool-keyword"></a>
-
-**CLS has a special trick for boolean variants** - use the **"bool" keyword** to enable **true/false boolean values** automatically! 🎭
-
-**The "bool" keyword** tells CLS that a variant should accept **boolean values** instead of **explicit string arrays**. This makes boolean variants much cleaner and more intuitive!
-
-**Comparison: Regular vs Boolean Variants**
-
-**❌ Without "bool" keyword (explicit arrays):**
-```typescript
-const ButtonCls = cls({
-  // ... tokens and slots
-  variant: {
-    disabled: [true, false],      // 🚫 Explicit array
-    loading: [true, false],       // 🚫 Explicit array
-    active: [true, false]         // 🚫 Explicit array
+// With per-call overrides
+const rootClasses = classes.root(({ what }) => ({
+  variant: what.variant({ size: "lg" }),
+  slot: {
+    root: what.css(["custom-class"])
   }
-}, ({ what, def }) => ({
-  // ... tokens and rules
-  defaults: def.defaults({
-    disabled: false,              // 🚫 Must match array values
-    loading: false,               // 🚫 Must match array values
-    active: false                 // 🚫 Must match array values
-  })
 }));
 ```
 
-**✅ With "bool" keyword (automatic boolean):**
+---
+
+## 10. Styling Resolution <a id="10-styling-resolution"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Create Method Usage](#9-create-method-usage)** | **[→ Next Chapter: Inheritance System](#11-inheritance-system)**
+
+### 10.1 Resolution Order <a id="101-resolution-order"></a>
+
+1. **Default Values**: Apply contract defaults
+2. **Internal Config**: Apply component-controlled overrides
+3. **User Config**: Apply user-provided overrides
+4. **Rule Evaluation**: Apply matching rules in definition order
+5. **Global Slot Overrides**: Apply slot-specific overrides from create config
+6. **Global Override Config**: Apply hard overrides from create config
+7. **Local Slot Overrides**: Apply slot-specific overrides from slot function calls
+8. **Local Override Config**: Apply hard overrides from slot function calls
+9. **Token Resolution**: Resolve tokens to CSS classes
+10. **Class Merging**: Merge all classes using tailwind-merge
+
+### 10.2 Token Resolution Process <a id="102-token-resolution-process"></a>
+
+1. **Token Lookup**: Find token in current contract or inheritance chain
+2. **Variant Selection**: Select appropriate variant based on current state
+3. **Class Extraction**: Extract CSS classes from token definition
+4. **Multiple Tokens**: Combine classes from multiple tokens
+5. **Override Application**: Apply any token overrides from create config
+
+### 10.3 Rule Evaluation Process <a id="103-rule-evaluation-process"></a>
+
+1. **Match Testing**: Test rule conditions against current variants
+2. **Slot Mapping**: Apply rule styling to matching slots
+3. **Override Handling**: Clear previous styles if override is true
+4. **Class Application**: Apply classes and tokens to slots
+5. **Order Preservation**: Maintain rule definition order
+
+---
+
+## 11. Inheritance System <a id="11-inheritance-system"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Styling Resolution](#10-styling-resolution)** | **[→ Next Chapter: Performance Features](#12-performance-features)**
+
+### 11.1 Contract Inheritance <a id="111-contract-inheritance"></a>
+
+Contracts can inherit from parent contracts, creating a hierarchy:
+
 ```typescript
-const ButtonCls = cls({
-  // ... tokens and slots
-  variant: {
-    disabled: "bool",             // 🎯 Automatic true/false
-    loading: "bool",              // 🎯 Automatic true/false
-    active: "bool"                // 🎯 Automatic true/false
-  }
-}, ({ what, def }) => ({
-  // ... tokens and rules
-  defaults: def.defaults({
-    disabled: false,              // 🎯 Natural boolean
-    loading: false,               // 🎯 Natural boolean
-    active: false                 // 🎯 Natural boolean
-  })
-}));
+// Base contract
+const BaseButton = cls(baseContract, baseDefinitionFn);
+
+// Extended contract
+const ExtendedButton = BaseButton.extend(childContract, childDefinitionFn);
 ```
 
-**Practical Example with Boolean Variants:**
+**Inheritance Behavior:**
+- Child contracts inherit all tokens, slots, and variants from parents
+- Child contracts can add new tokens, slots, and variants
+- Child contracts can override inherited tokens
+- Inheritance chain is walked bottom-up for resolution
 
+**Implementation Details:**
+- Inheritance is implemented using internal `~use` and `~definition` properties
+- The inheritance chain is built by walking up the `~use` chain and collecting all layers
+- **Token inheritance uses direct assignment** - child definitions replace parent definitions
+- **Variant inheritance merges arrays** using union operations
+- **Defaults are merged** with child values overriding parent values
+
+### 11.2 Token Inheritance <a id="112-token-inheritance"></a>
+
+Token inheritance follows a **simple replacement model**:
+
+1. **Direct Assignment**: Child token definitions replace parent definitions for the same token key
+2. **No Accumulation**: There's no concept of "appending" or "merging" token values
+3. **Order Matters**: Later definitions in the inheritance chain override earlier ones
+4. **Contract vs Definition**: Contract declarations don't affect inheritance - only definitions matter
+
+**Example:**
 ```typescript
-const ToggleButtonCls = cls({
-  tokens: {
-    "color.bg": ["default", "active", "disabled"],
-    "color.text": ["default", "active", "disabled"],
-    "color.border": ["default", "active", "disabled"]
+// Base component
+const BaseButton = cls(
+  {
+    tokens: ["color.bg.default"],
+    slot: ["root"],
+    variant: {}
   },
-  slot: ["root", "icon", "label"],
-  variant: {
-    variant: ["default", "primary", "secondary"],  // 🎨 Visual style
-    size: ["sm", "md", "lg"],                      // 📏 Size variations
-    disabled: "bool",                              // 🎯 Boolean variant
-    loading: "bool",                               // 🎯 Boolean variant
-    active: "bool"                                 // 🎯 Boolean variant
-  }
-}, ({ what, def }) => ({
-  token: def.token({
-    "color.bg": {
-      default: ["bg-gray-100"],
-      active: ["bg-blue-500"],
-      disabled: ["bg-gray-300"]
-    },
-    "color.text": {
-      default: ["text-gray-900"],
-      active: ["text-white"],
-      disabled: ["text-gray-500"]
-    },
-    "color.border": {
-      default: ["border-gray-300"],
-      active: ["border-blue-600"],
-      disabled: ["border-gray-400"]
-    }
-  }),
-  rules: [
-    // Base styles
-    def.root({
-      root: what.token([
-        "color.bg.default",
-        "color.text.default",
-        "color.border.default"
-      ]),
-      icon: what.css(["mr-2", "transition-transform"]),
-      label: what.css(["font-medium", "transition-colors"])
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg.default": what.css(["bg-gray-100"])
     }),
-    
-    // Visual variants
-    def.rule(what.variant({ variant: 'primary' }), {
-      root: what.css(["shadow-sm", "hover:shadow-md"])
-    }),
-    def.rule(what.variant({ variant: 'secondary' }), {
-      root: what.css(["border-2"])
-    }),
-    
-    // Size variations
-    def.rule(what.variant({ size: 'sm' }), {
-      root: what.css(["px-2", "py-1", "text-sm"]),
-      icon: what.css(["w-4", "h-4"])
-    }),
-    def.rule(what.variant({ size: 'lg' }), {
-      root: what.css(["px-6", "py-3", "text-lg"]),
-      icon: what.css(["w-6", "h-6"])
-    }),
-    
-    // Boolean state variants
-    def.rule(what.variant({ active: true }), {
-      root: what.token(["color.bg.active", "color.text.active", "color.border.active"]),
-      icon: what.css(["rotate-180"])  // Icon rotation for active state
-    }),
-    def.rule(what.variant({ disabled: true }), {
-      root: what.token(["color.bg.disabled", "color.text.disabled", "color.border.disabled"]),
-      icon: what.css(["opacity-50"]),
-      label: what.css(["opacity-50"])
-    }),
-    def.rule(what.variant({ loading: true }), {
-      root: what.css(["cursor-wait"]),
-      icon: what.css(["animate-spin"]),
-      label: what.css(["animate-pulse"])
-    })
-  ],
-  defaults: def.defaults({
-    variant: 'default',
-    size: 'md',
-    disabled: false,    // 🎯 Natural boolean default
-    loading: false,     // 🎯 Natural boolean default
-    active: false       // 🎯 Natural boolean default
+    rules: [def.root({ root: what.token(["color.bg.default"]) })],
+    defaults: {}
   })
-});
+);
+
+// Extended component
+const PrimaryButton = BaseButton.extend(
+  {
+    tokens: ["color.bg.default"], // Same token declared - TypeScript enforces implementation
+    slot: ["root"],
+    variant: {}
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg.default": what.css(["bg-blue-600"]) // MUST provide this - TypeScript enforces it
+    }),
+    rules: [def.root({ root: what.token(["color.bg.default"]) })],
+    defaults: {}
+  })
+);
+
+// Result: PrimaryButton uses "bg-blue-600", not "bg-gray-100"
+const instance = PrimaryButton.create();
+console.log(instance.root()); // "bg-blue-600"
 ```
 
-**Using boolean variants:**
-
+**Type System Enforcement:**
 ```typescript
-// Active primary button
-const activeButton = ToggleButtonCls.create(({ what }) => ({
-  variant: what.variant({ 
-    variant: 'primary', 
-    active: true,      // 🎯 Boolean: true
-    loading: false     // 🎯 Boolean: false
+// ❌ This would cause a TypeScript error
+const PrimaryButton = BaseButton.extend(
+  {
+    tokens: ["color.bg.default"], // Declared but not implemented
+    slot: ["root"],
+    variant: {}
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      // Missing "color.bg.default" definition - TypeScript error!
+    }),
+    rules: [def.root({ root: what.token(["color.bg.default"]) })],
+    defaults: {}
   })
-}));
-
-// Disabled loading button
-const disabledButton = ToggleButtonCls.create(({ what }) => ({
-  variant: what.variant({ 
-    variant: 'secondary', 
-    disabled: true,    // 🎯 Boolean: true
-    loading: true      // 🎯 Boolean: true
-  })
-}));
-
-// Default state (all booleans false)
-const defaultButton = ToggleButtonCls.create();
+);
 ```
 
-### **Bottom Line** 🎯
+### 11.3 Variant Inheritance <a id="113-variant-inheritance"></a>
 
-**Variants & Defaults** provide **powerful component customization**:
+Variants are merged across the inheritance chain:
 
-- 🎭 **Multiple variant types** - visual, size, state, behavior
-- 🎯 **Required defaults** - force conscious design choices
-- 🔄 **Variant combinations** - seamless style accumulation
-- 🎯 **"bool" keyword** - automatic boolean variant support
-- 🔒 **Type safety** - TypeScript ensures variant validity
-- 🎨 **Predictable behavior** - consistent styling across components
+1. **Union Merging**: Child variants are combined with parent variants
+2. **Type Preservation**: Variant types (string/boolean) are preserved
+3. **Default Inheritance**: Child defaults can override parent defaults
 
-**Key Benefits:**
-- 🚀 **Flexible styling** - combine variants for rich customization
-- 🎯 **Clear defaults** - no magic values, explicit behavior
-- 🔄 **Accumulative rules** - styles build upon each other
-- 🎭 **Boolean shortcuts** - use "bool" for true/false variants
-- 🌍 **User control** - runtime variant overrides for customization
+---
 
-**Remember:** **Variants are your component's personality, defaults are its foundation!** Design them well, and your components will be both flexible and predictable! 🎉
+## 12. Performance Features <a id="12-performance-features"></a>
 
-Ready to learn about **Slots** in the next chapter? This will show how to style different parts of your components! 🚀
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance System](#11-inheritance-system)** | **[→ Next Chapter: Type System](#13-type-system)**
+
+### 12.1 Caching Strategy <a id="121-caching-strategy"></a>
+- **Slot Function Caching**: Slot functions are cached after first creation
+- **Result Caching**: Slot function results are cached based on configuration hash
+- **Rule Caching**: Rules are processed once per contract
+- **Proxy Optimization**: Uses Proxy for lazy slot function creation
+
+### 12.2 Memory Management <a id="122-memory-management"></a>
+- **Lazy Evaluation**: Slot functions are only created when accessed via Proxy
+- **Shared References**: Contracts and definitions are shared across instances
+- **Minimal Closures**: Avoid unnecessary closure creation
+- **Efficient Merging**: Use efficient object merging strategies
+- **Result Caching**: Cache slot function results to avoid recomputation
+
+### 12.3 Runtime Optimization <a id="123-runtime-optimization"></a>
+- **Early Exit**: Stop rule evaluation when no more matches are possible
+- **Efficient Matching**: Use direct property access for variant matching
+- **Class Deduplication**: Use tailwind-merge for optimal class output
+- **Minimal Allocations**: Reuse objects where possible
+- **Configuration Hashing**: Use JSON.stringify for cache keys (with fallback for non-serializable configs)
+
+---
+
+## 13. Type System <a id="13-type-system"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Performance Features](#12-performance-features)** | **[→ Next Chapter: Integration Patterns](#14-integration-patterns)**
+
+### 13.1 Generic Constraints <a id="131-generic-constraints"></a>
+
+The type system ensures compile-time safety through contract constraints, definition validation, inheritance chain verification, and variant type inference.
+
+### 13.2 Type Inference <a id="132-type-inference"></a>
+Most types are automatically inferred from contract structure, with string variants mapped to literal types, "bool" variants to boolean types, and token keys inferred from contract tokens.
+
+### 13.3 Type Safety Features <a id="133-type-safety-features"></a>
+Provides exhaustive checking for variants, token validation, slot validation, and inheritance chain type safety.
+
+---
+
+## 14. Integration Patterns <a id="14-integration-patterns"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Type System](#13-type-system)** | **[→ Next Chapter: Best Practices](#15-best-practices)**
+
+### 14.1 Framework Integration <a id="141-framework-integration"></a>
+
+CLS integrates seamlessly with any framework through component props, slot functions, full TypeScript support, minimal re-render impact, and framework-agnostic design.
+
+### 14.2 Design System Integration <a id="142-design-system-integration"></a>
+
+CLS supports design system patterns through centralized tokens, consistent variants, hierarchical inheritance, and reusable component patterns.
+
+### 14.3 Build System Integration <a id="143-build-system-integration"></a>
+
+CLS works with modern build systems through tree shaking, type checking, bundle optimization, and excellent IDE support.
+
+---
+
+## 15. Best Practices <a id="15-best-practices"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Integration Patterns](#14-integration-patterns)**
+
+### 15.1 Contract Design <a id="151-contract-design"></a>
+
+Use clear naming, logical grouping, consistent structure, and minimal coupling for focused, cohesive contracts.
+
+### 15.2 Definition Design <a id="152-definition-design"></a>
+
+Use semantic tokens, consistent rules, sensible defaults, and plan override strategies.
+
+### 15.3 Component Design <a id="153-component-design"></a>
+
+Use appropriate slot granularity, simple variants, token reuse, and careful inheritance planning.
+
+### 15.4 Performance Optimization <a id="154-performance-optimization"></a>
+
+Leverage caching, use lazy evaluation, monitor bundle size, and profile runtime performance.
+
+---
+
+**[↑ Back to Top](#table-of-contents)**

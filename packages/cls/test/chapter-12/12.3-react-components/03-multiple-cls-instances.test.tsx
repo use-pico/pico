@@ -32,7 +32,7 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
@@ -71,7 +71,7 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.secondary",
 							"color.text.secondary",
 						]),

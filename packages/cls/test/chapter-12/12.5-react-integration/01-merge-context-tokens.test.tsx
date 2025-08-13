@@ -54,7 +54,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.light",
 							"color.text.light",
 							"spacing.padding.md",
@@ -65,7 +65,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 							theme: "dark",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.dark",
 								"color.text.dark",
 							]),
@@ -114,7 +114,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
@@ -124,7 +124,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 							variant: "secondary",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),

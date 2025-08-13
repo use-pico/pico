@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("2.1 What Utility Functions - what.token", () => {
-	it("should handle what.token utility for token references", () => {
+describe("1.2 Token System Basics - Self Referencing Tokens", () => {
+	it("should throw error for self-referencing token", () => {
 		const Component = cls(
 			{
 				tokens: [
-					"color.bg.default",
+					"token.self",
 				],
 				slot: [
 					"root",
@@ -15,14 +15,14 @@ describe("2.1 What Utility Functions - what.token", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
+					"token.self": what.token([
+						"token.self",
 					]),
 				}),
 				rules: [
 					def.root({
 						root: what.token([
-							"color.bg.default",
+							"token.self",
 						]),
 					}),
 				],
@@ -31,6 +31,10 @@ describe("2.1 What Utility Functions - what.token", () => {
 		);
 
 		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		expect(() => {
+			instance.root();
+		}).toThrow(
+			"Circular dependency detected in token references: token.self",
+		);
 	});
 });

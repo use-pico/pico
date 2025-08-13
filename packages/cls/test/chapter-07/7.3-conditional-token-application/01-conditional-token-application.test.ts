@@ -53,67 +53,67 @@ describe("7.3 Conditional Token Application", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.success": [
+					]),
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.bg.warning": [
+					]),
+					"color.bg.warning": what.css([
 						"bg-yellow-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"color.text.warning": [
+					]),
+					"color.text.warning": what.css([
 						"text-gray-900",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"state.focus.default": [],
-					"state.focus.focused": [
+					]),
+					"state.focus.default": what.css([]),
+					"state.focus.focused": what.css([
 						"ring-2",
 						"ring-blue-500",
 						"ring-offset-2",
-					],
-					"state.hover.default": [],
-					"state.hover.hovered": [
+					]),
+					"state.hover.default": what.css([]),
+					"state.hover.hovered": what.css([
 						"hover:bg-opacity-90",
-					],
-					"size.spacing.sm": [
+					]),
+					"size.spacing.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.spacing.md": [
+					]),
+					"size.spacing.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.spacing.lg": [
+					]),
+					"size.spacing.lg": what.css([
 						"px-6",
 						"py-3",
-					],
-					"size.typography.sm": [
+					]),
+					"size.typography.sm": what.css([
 						"text-sm",
-					],
-					"size.typography.md": [
+					]),
+					"size.typography.md": what.css([
 						"text-base",
-					],
-					"size.typography.lg": [
+					]),
+					"size.typography.lg": what.css([
 						"text-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -133,9 +133,9 @@ describe("7.3 Conditional Token Application", () => {
 					}),
 					// Conditional token application based on color
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.primary",
@@ -144,9 +144,9 @@ describe("7.3 Conditional Token Application", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "success",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.success",
@@ -155,9 +155,9 @@ describe("7.3 Conditional Token Application", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "warning",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.warning",
@@ -166,9 +166,9 @@ describe("7.3 Conditional Token Application", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "danger",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.danger",
@@ -178,9 +178,9 @@ describe("7.3 Conditional Token Application", () => {
 					),
 					// Conditional token application based on size
 					def.rule(
-						{
+						what.variant({
 							size: "sm",
-						},
+						}),
 						{
 							root: what.token([
 								"size.spacing.sm",
@@ -196,9 +196,9 @@ describe("7.3 Conditional Token Application", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							size: "lg",
-						},
+						}),
 						{
 							root: what.token([
 								"size.spacing.lg",
@@ -215,9 +215,9 @@ describe("7.3 Conditional Token Application", () => {
 					),
 					// Conditional token application based on interactive state
 					def.rule(
-						{
+						what.variant({
 							interactive: true,
-						},
+						}),
 						{
 							root: what.css([
 								"cursor-pointer",
@@ -228,10 +228,10 @@ describe("7.3 Conditional Token Application", () => {
 					),
 					// Combined conditional rules
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
 							interactive: true,
-						},
+						}),
 						{
 							root: what.token([
 								"state.hover.hovered",
@@ -239,11 +239,11 @@ describe("7.3 Conditional Token Application", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
 							interactive: true,
 							size: "lg",
-						},
+						}),
 						{
 							root: what.css([
 								"shadow-lg",
@@ -253,10 +253,10 @@ describe("7.3 Conditional Token Application", () => {
 					),
 					// Conditional focus state for interactive components
 					def.rule(
-						{
+						what.variant({
 							interactive: true,
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"state.focus.focused",
@@ -281,14 +281,12 @@ describe("7.3 Conditional Token Application", () => {
 		expect(defaultInstance.label()).toBe("font-medium");
 
 		// Test primary color with conditional hover state
-		const primaryInteractive = ConditionalComponent.create(
-			({ what }) => ({
-				variant: what.variant({
-					color: "primary",
-					interactive: true,
-				}),
+		const primaryInteractive = ConditionalComponent.create(({ what }) => ({
+			variant: what.variant({
+				color: "primary",
+				interactive: true,
 			}),
-		);
+		}));
 		expect(primaryInteractive.root()).toBe(
 			"px-4 py-2 text-base bg-blue-500 text-white cursor-pointer transition-colors duration-200 hover:bg-opacity-90 ring-2 ring-blue-500 ring-offset-2",
 		);
@@ -302,9 +300,7 @@ describe("7.3 Conditional Token Application", () => {
 		expect(smallInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 px-2 py-1 text-sm",
 		);
-		expect(smallInstance.icon()).toBe(
-			"inline-block align-middle w-4 h-4",
-		);
+		expect(smallInstance.icon()).toBe("inline-block align-middle w-4 h-4");
 		expect(smallInstance.label()).toBe("font-medium text-sm");
 
 		// Test large size with conditional spacing and typography
@@ -316,9 +312,7 @@ describe("7.3 Conditional Token Application", () => {
 		expect(largeInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 px-6 py-3 text-lg",
 		);
-		expect(largeInstance.icon()).toBe(
-			"inline-block align-middle w-6 h-6",
-		);
+		expect(largeInstance.icon()).toBe("inline-block align-middle w-6 h-6");
 		expect(largeInstance.label()).toBe("font-medium text-lg");
 
 		// Test success color with conditional styling

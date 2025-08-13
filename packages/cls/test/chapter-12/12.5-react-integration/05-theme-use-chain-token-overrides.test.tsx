@@ -16,14 +16,14 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				slot: [],
 				variant: {},
 			},
-			({ def }) => ({
+			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [],
 				defaults: def.defaults({}),
@@ -63,14 +63,14 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				slot: [],
 				variant: {},
 			},
-			({ def }) => ({
+			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-red-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-black",
-					],
+					]),
 				}),
 				rules: [],
 				defaults: def.defaults({}),

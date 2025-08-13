@@ -43,51 +43,51 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-blue-900",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"spacing.margin.lg": [
+					]),
+					"spacing.margin.lg": what.css([
 						"m-6",
-					],
-					"border.style.solid": [
+					]),
+					"border.style.solid": what.css([
 						"border-solid",
-					],
-					"border.style.dashed": [
+					]),
+					"border.style.dashed": what.css([
 						"border-dashed",
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -193,84 +193,84 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600", // Override base primary
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600", // Override base secondary
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-purple-500", // New token
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-blue-800", // Override base primary
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-800", // Override base secondary
-					],
-					"color.text.accent": [
+					]),
+					"color.text.accent": what.css([
 						"text-purple-900", // New token
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
-					"spacing.padding.xl": [
+					]),
+					"spacing.padding.xl": what.css([
 						"p-8", // New token
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"spacing.margin.lg": [
+					]),
+					"spacing.margin.lg": what.css([
 						"m-6",
-					],
-					"spacing.margin.xl": [
+					]),
+					"spacing.margin.xl": what.css([
 						"m-8", // New token
-					],
-					"border.style.solid": [
+					]),
+					"border.style.solid": what.css([
 						"border-solid",
-					],
-					"border.style.dashed": [
+					]),
+					"border.style.dashed": what.css([
 						"border-dashed",
-					],
-					"border.style.dotted": [
+					]),
+					"border.style.dotted": what.css([
 						"border-dotted", // New token
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
-					"border.radius.xl": [
+					]),
+					"border.radius.xl": what.css([
 						"rounded-xl", // New token
-					],
-					"border.radius.full": [
+					]),
+					"border.radius.full": what.css([
 						"rounded-full", // New token
-					],
-					"shadow.depth.none": [
+					]),
+					"shadow.depth.none": what.css([
 						"shadow-none",
-					],
-					"shadow.depth.sm": [
+					]),
+					"shadow.depth.sm": what.css([
 						"shadow-sm",
-					],
-					"shadow.depth.md": [
+					]),
+					"shadow.depth.md": what.css([
 						"shadow-md",
-					],
-					"shadow.depth.lg": [
+					]),
+					"shadow.depth.lg": what.css([
 						"shadow-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(

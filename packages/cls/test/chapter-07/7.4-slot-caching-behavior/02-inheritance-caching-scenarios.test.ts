@@ -27,18 +27,18 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -104,27 +104,27 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-600",
-					],
-					"spacing.sm": [
+					]),
+					"spacing.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"spacing.md": [
+					]),
+					"spacing.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"spacing.lg": [
+					]),
+					"spacing.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

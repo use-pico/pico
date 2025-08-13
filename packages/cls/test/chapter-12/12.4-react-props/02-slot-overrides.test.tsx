@@ -60,7 +60,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.token([
+						root: what.css([
 							"color.bg.default",
 							"color.text.default",
 							"spacing.padding.md",
@@ -73,7 +73,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 								"color.text.default",
 							],
 						),
-						content: what.token([
+						content: what.css([
 							"color.text.default",
 						]),
 					}),
@@ -82,7 +82,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 							theme: "highlighted",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.highlighted",
 								"color.text.highlighted",
 							]),
@@ -94,7 +94,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 									"color.text.highlighted",
 								],
 							),
-							content: what.token([
+							content: what.css([
 								"color.text.highlighted",
 							]),
 						},
@@ -104,7 +104,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 							size: "sm",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.padding.sm",
 							]),
 						},
@@ -114,7 +114,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 							size: "lg",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"spacing.padding.lg",
 							]),
 						},

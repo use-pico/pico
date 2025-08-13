@@ -78,12 +78,12 @@ describe("10.1 Empty Contracts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -193,9 +193,9 @@ describe("10.1 Empty Contracts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-blue-500",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

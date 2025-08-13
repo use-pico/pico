@@ -51,63 +51,63 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-500",
-					],
-					"color.bg.neutral": [
+					]),
+					"color.bg.neutral": what.css([
 						"bg-gray-100",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-blue-900",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
-					"color.text.neutral": [
+					]),
+					"color.text.neutral": what.css([
 						"text-gray-600",
-					],
-					"spacing.padding.xs": [
+					]),
+					"spacing.padding.xs": what.css([
 						"p-1",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.margin.xs": [
+					]),
+					"spacing.margin.xs": what.css([
 						"m-1",
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"border.width.thin": [
+					]),
+					"border.width.thin": what.css([
 						"border",
-					],
-					"border.width.medium": [
+					]),
+					"border.width.medium": what.css([
 						"border-2",
-					],
-					"border.width.thick": [
+					]),
+					"border.width.thick": what.css([
 						"border-4",
-					],
-					"border.radius.none": [
+					]),
+					"border.radius.none": what.css([
 						"rounded-none",
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -319,7 +319,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 							theme: "dark",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -337,7 +337,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 							theme: "auto",
 						},
 						{
-							root: what.token([
+							root: what.css([
 								"color.bg.warning",
 								"color.text.warning",
 								"spacing.padding.xl",

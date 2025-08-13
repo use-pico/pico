@@ -24,18 +24,18 @@ describe("9.1 Basic Usage", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-500",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -93,30 +93,30 @@ describe("9.1 Basic Usage", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.success": [
+					"color.bg.success": what.css([
 						"bg-green-500",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-500",
-					],
-					"color.text.success": [
+					]),
+					"color.text.success": what.css([
 						"text-white",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"size.padding.sm": [
+					]),
+					"size.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.md": [
+					]),
+					"size.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.lg": [
+					]),
+					"size.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -127,9 +127,9 @@ describe("9.1 Basic Usage", () => {
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.primary",
@@ -138,9 +138,9 @@ describe("9.1 Basic Usage", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							color: "success",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.success",
@@ -160,9 +160,9 @@ describe("9.1 Basic Usage", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							size: "sm",
-						},
+						}),
 						{
 							root: what.token([
 								"size.padding.sm",
@@ -170,9 +170,9 @@ describe("9.1 Basic Usage", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							size: "lg",
-						},
+						}),
 						{
 							root: what.token([
 								"size.padding.lg",
@@ -204,10 +204,10 @@ describe("9.1 Basic Usage", () => {
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const primaryButton = ButtonGroup.create(() => ({
-			variant: {
+		const primaryButton = ButtonGroup.create(({ what }) => ({
+			variant: what.variant({
 				color: "primary",
-			},
+			}),
 		}));
 
 		expect(primaryButton.root()).toBe("px-4 py-2 bg-blue-500 text-white");
@@ -229,17 +229,13 @@ describe("9.1 Basic Usage", () => {
 				color: "success",
 			},
 		}));
-		expect(successButton.root()).toBe(
-			"px-4 py-2 bg-green-500 text-white",
-		);
+		expect(successButton.root()).toBe("px-4 py-2 bg-green-500 text-white");
 
 		const largeButton = extendedInstance.create(() => ({
 			variant: {
 				size: "lg",
 			},
 		}));
-		expect(largeButton.root()).toBe(
-			"bg-gray-100 text-gray-900 px-6 py-3",
-		);
+		expect(largeButton.root()).toBe("bg-gray-100 text-gray-900 px-6 py-3");
 	});
 });
