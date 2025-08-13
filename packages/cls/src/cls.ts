@@ -11,7 +11,7 @@ import type {
 	RuleDefinition,
 	SlotContract,
 	TokenContract,
-	TokenDefinition,
+	TokenDefinitionRequired,
 	VariantContract,
 	VariantValueMapping,
 	What,
@@ -89,7 +89,7 @@ export function cls<
 	}
 
 	// Build token index with proper inheritance order
-	const tokens: TokenDefinition<
+	const tokens: TokenDefinitionRequired<
 		Contract<TokenContract, SlotContract, VariantContract>
 	> = {};
 
@@ -103,7 +103,7 @@ export function cls<
 	// Helper functions
 	const resolveTokens = (
 		tokenKeys: string[] | undefined,
-		tokenTable: TokenDefinition<
+		tokenTable: TokenDefinitionRequired<
 			Contract<TokenContract, SlotContract, VariantContract>
 		>,
 	): ClassName[] => {
@@ -122,7 +122,7 @@ export function cls<
 		what:
 			| What<Contract<TokenContract, SlotContract, VariantContract>>
 			| undefined,
-		tokenTable: TokenDefinition<
+		tokenTable: TokenDefinitionRequired<
 			Contract<TokenContract, SlotContract, VariantContract>
 		>,
 	): ClassName[] => {

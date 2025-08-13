@@ -54,7 +54,7 @@ type MergeRecords<
 /**
  * Checks if a contract is derived from a base contract through inheritance chain
  */
-type HasBaseInUseChain<Sub, Base> = Sub extends Base
+export type HasBaseInUseChain<Sub, Base> = Sub extends Base
 	? true
 	: Sub extends {
 				"~use"?: infer U;
@@ -62,14 +62,12 @@ type HasBaseInUseChain<Sub, Base> = Sub extends Base
 		? HasBaseInUseChain<U, Base>
 		: false;
 
-export type { HasBaseInUseChain };
-
 // ============================================================================
 // CONTRACT SYSTEM
 // ============================================================================
 
 export type Contract<
-	TTokenContract extends TokenContract | ExtendableTokenContract<any>,
+	TTokenContract extends TokenContract,
 	TSlotContract extends SlotContract,
 	TVariantContract extends VariantContract,
 	TUse extends Contract<any, any, any> | unknown = unknown,
@@ -120,35 +118,29 @@ export type ContractEx<
 /**
  * Extended WhatUtil type that provides child-only token definitions
  */
-export type ExtendedWhatUtil<TChildContract extends Contract<any, any, any>> =
-	Omit<WhatUtil<TChildContract>, "def"> & {
-		def: Omit<WhatUtil<TChildContract>["def"], "token"> & {
-			token(
-				token: TokenDefinition<TChildContract>,
-			): TokenDefinition<TChildContract>;
-		};
+export type WhatUtilEx<TChildContract extends Contract<any, any, any>> = Omit<
+	WhatUtil<TChildContract>,
+	"def"
+> & {
+	def: Omit<WhatUtil<TChildContract>["def"], "token"> & {
+		token(
+			token: TokenDefinitionRequired<TChildContract>,
+		): TokenDefinitionRequired<TChildContract>;
 	};
+};
 
 /**
  * Extended definition type that only requires child contract tokens
  * Inherited tokens are handled at runtime, not at the type level
  */
-export type ExtendedDefinition<TChildContract extends Contract<any, any, any>> =
-	{
-		/** Token definitions with proper inheritance handling */
-		token: TokenDefinition<TChildContract>;
-		/** Rules for conditional styling based on variants */
-		rules: RuleDefinition<TChildContract>[];
-		/** Default values for variants */
-		defaults: DefaultDefinition<TChildContract>;
-	};
-
-/**
- * Type that allows both inherited token overrides and new token definitions
- * Used in the extend method to provide flexible token extension
- */
-type ExtendableTokenContract<TContract extends Contract<any, any, any>> =
-	readonly string[];
+export type DefinitionEx<TChildContract extends Contract<any, any, any>> = {
+	/** Token definitions with proper inheritance handling */
+	token: TokenDefinitionRequired<TChildContract>;
+	/** Rules for conditional styling based on variants */
+	rules: RuleDefinition<TChildContract>[];
+	/** Default values for variants */
+	defaults: DefaultDefinition<TChildContract>;
+};
 
 // ============================================================================
 // TOKEN SYSTEM (FLAT)
@@ -184,27 +176,16 @@ type LocalTokens<TContract extends Contract<any, any, any>> =
 /**
  * Flat required token definition for the current contract with optional inherited keys.
  */
-type FlatTokenDefinitionRequired<TContract extends Contract<any, any, any>> = {
-	[K in LocalTokens<TContract>]: ClassName;
-};
+export type TokenDefinitionRequired<TContract extends Contract<any, any, any>> =
+	{
+		[K in LocalTokens<TContract>]: ClassName;
+	};
 
 /**
  * Flat optional token definition for overrides (create/override paths).
  */
-type FlatTokenDefinitionOptional<TContract extends Contract<any, any, any>> =
+export type TokenDefinitionOptional<TContract extends Contract<any, any, any>> =
 	Partial<Record<TokensOf<TContract>, string[]>>;
-
-/**
- * Token definition for cls instances - requires all current contract tokens
- */
-export type TokenDefinition<TContract extends Contract<any, any, any>> =
-	FlatTokenDefinitionRequired<TContract>;
-
-/**
- * Optional token definition for create method overrides - all variants optional
- */
-type OptionalTokenDefinition<TContract extends Contract<any, any, any>> =
-	FlatTokenDefinitionOptional<TContract>;
 
 // ============================================================================
 // SLOT SYSTEM
@@ -351,8 +332,8 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 		 * Support for type-safe token overrides.
 		 */
 		token(
-			token: Partial<OptionalTokenDefinition<TContract>>,
-		): Partial<OptionalTokenDefinition<TContract>>;
+			token: Partial<TokenDefinitionOptional<TContract>>,
+		): Partial<TokenDefinitionOptional<TContract>>;
 	};
 	def: {
 		/**
@@ -363,7 +344,9 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 		 * Provides type-checked matcher
 		 */
 		rule: MatchFn<TContract>;
-		token(token: TokenDefinition<TContract>): TokenDefinition<TContract>;
+		token(
+			token: TokenDefinitionRequired<TContract>,
+		): TokenDefinitionRequired<TContract>;
 		defaults(
 			defaults: DefaultDefinition<TContract>,
 		): DefaultDefinition<TContract>;
@@ -382,7 +365,7 @@ export type DefaultDefinition<TContract extends Contract<any, any, any>> =
 
 export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Token definitions mapping tokens to CSS classes */
-	token: TokenDefinition<TContract>;
+	token: TokenDefinitionRequired<TContract>;
 	/** Rules for conditional styling based on variants */
 	rules: RuleDefinition<TContract>[];
 	/** Default values for variants */
@@ -397,7 +380,7 @@ export type CreateConfig<TContract extends Contract<any, any, any>> = {
 	/** Hard override slot styling (ignores rules) */
 	override?: SlotMapping<TContract>;
 	/** Override token definitions */
-	token?: Partial<OptionalTokenDefinition<TContract>>;
+	token?: Partial<TokenDefinitionOptional<TContract>>;
 };
 
 export type Component<TCls extends Cls<any>, P = unknown> = {
@@ -427,7 +410,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	): ClsSlots<TContract>;
 
 	extend<
-		const TTokenContract extends ExtendableTokenContract<TContract>,
+		const TTokenContract extends TokenContract,
 		const TSlotContract extends SlotContract,
 		const TVariantContract extends VariantContract,
 	>(
@@ -438,7 +421,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 			TContract
 		>,
 		definition: (
-			props: ExtendedWhatUtil<
+			props: WhatUtilEx<
 				Contract<
 					TTokenContract,
 					TSlotContract,
@@ -446,7 +429,7 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 					TContract
 				>
 			>,
-		) => ExtendedDefinition<
+		) => DefinitionEx<
 			Contract<TTokenContract, TSlotContract, TVariantContract, TContract>
 		>,
 	): Cls<
