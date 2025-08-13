@@ -119,23 +119,23 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 				}),
 				rules: [
 					def.root({
-						root: what.css([
+						root: what.token([
 							"color.bg.base",
 							"color.text.base",
 							"spacing.margin.md",
 							"spacing.padding.md",
 						]),
-						header: what.css([
+						header: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
-						content: what.css([
+						content: what.token([
 							"color.bg.base",
 							"color.text.base",
 							"spacing.padding.md",
 						]),
-						footer: what.css([
+						footer: what.token([
 							"color.bg.secondary",
 							"color.text.secondary",
 							"spacing.padding.sm",
@@ -179,17 +179,17 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							spacing: "compact",
 						}),
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.margin.sm",
 								"spacing.padding.sm",
 							]),
-							header: what.css([
+							header: what.token([
 								"spacing.padding.xs",
 							]),
-							content: what.css([
+							content: what.token([
 								"spacing.padding.sm",
 							]),
-							footer: what.css([
+							footer: what.token([
 								"spacing.padding.xs",
 							]),
 						},
@@ -199,17 +199,17 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							spacing: "spacious",
 						}),
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.margin.lg",
 								"spacing.padding.lg",
 							]),
-							header: what.css([
+							header: what.token([
 								"spacing.padding.md",
 							]),
-							content: what.css([
+							content: what.token([
 								"spacing.padding.lg",
 							]),
-							footer: what.css([
+							footer: what.token([
 								"spacing.padding.md",
 							]),
 						},

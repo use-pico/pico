@@ -154,14 +154,14 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							color: "accent",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.accent",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.accent",
 							]),
 						},
@@ -171,14 +171,14 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							color: "error",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.error",
 								"color.text.error",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.error",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.error",
 							]),
 						},
@@ -188,13 +188,13 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							size: "xs",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.padding.xs",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"spacing.padding.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"spacing.padding.xs",
 							]),
 						},
@@ -204,13 +204,13 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							size: "sm",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.padding.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"spacing.padding.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"spacing.padding.sm",
 							]),
 						},
@@ -220,13 +220,13 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							size: "lg",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.padding.lg",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"spacing.padding.sm",
 							]),
-							label: what.css([
+							label: what.token([
 								"spacing.padding.md",
 							]),
 						},
@@ -236,13 +236,13 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 							size: "xl",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"spacing.padding.xl",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"spacing.padding.md",
 							]),
-							label: what.css([
+							label: what.token([
 								"spacing.padding.lg",
 							]),
 						},

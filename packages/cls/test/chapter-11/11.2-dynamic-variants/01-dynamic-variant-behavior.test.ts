@@ -103,91 +103,91 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 					"color.text.accent": what.css([
 						"text-purple-900",
 					]),
-					"color.text.warning": [
+					"color.text.warning": what.css([
 						"text-yellow-900",
-					],
-					"color.text.error": [
+					]),
+					"color.text.error": what.css([
 						"text-red-900",
-					],
-					"spacing.padding.xs": [
+					]),
+					"spacing.padding.xs": what.css([
 						"p-1",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
-					"spacing.padding.xl": [
+					]),
+					"spacing.padding.xl": what.css([
 						"p-8",
-					],
-					"spacing.margin.xs": [
+					]),
+					"spacing.margin.xs": what.css([
 						"m-1",
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"spacing.margin.lg": [
+					]),
+					"spacing.margin.lg": what.css([
 						"m-6",
-					],
-					"spacing.margin.xl": [
+					]),
+					"spacing.margin.xl": what.css([
 						"m-8",
-					],
-					"border.width.none": [
+					]),
+					"border.width.none": what.css([
 						"border-0",
-					],
-					"border.width.thin": [
+					]),
+					"border.width.thin": what.css([
 						"border",
-					],
-					"border.width.medium": [
+					]),
+					"border.width.medium": what.css([
 						"border-2",
-					],
-					"border.width.thick": [
+					]),
+					"border.width.thick": what.css([
 						"border-4",
-					],
-					"border.radius.none": [
+					]),
+					"border.radius.none": what.css([
 						"rounded-none",
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
-					"border.radius.xl": [
+					]),
+					"border.radius.xl": what.css([
 						"rounded-xl",
-					],
-					"border.radius.full": [
+					]),
+					"border.radius.full": what.css([
 						"rounded-full",
-					],
-					"shadow.depth.none": [
+					]),
+					"shadow.depth.none": what.css([
 						"shadow-none",
-					],
-					"shadow.depth.sm": [
+					]),
+					"shadow.depth.sm": what.css([
 						"shadow-sm",
-					],
-					"shadow.depth.md": [
+					]),
+					"shadow.depth.md": what.css([
 						"shadow-md",
-					],
-					"shadow.depth.lg": [
+					]),
+					"shadow.depth.lg": what.css([
 						"shadow-lg",
-					],
-					"shadow.depth.xl": [
+					]),
+					"shadow.depth.xl": what.css([
 						"shadow-xl",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
-						root: what.css([
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
@@ -196,7 +196,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							"border.radius.md",
 							"shadow.depth.sm",
 						]),
-						icon: what.css([
+						icon: what.token([
 							"color.text.primary",
 							"spacing.padding.xs",
 							"spacing.margin.xs",
@@ -273,7 +273,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "auto",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.error",
 								"color.text.error",
 								"spacing.padding.xl",
@@ -282,12 +282,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.xl",
 								"shadow.depth.xl",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.error",
 								"spacing.padding.md",
 								"spacing.margin.md",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.error",
 								"spacing.padding.lg",
 								"spacing.margin.lg",
@@ -304,7 +304,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 								"spacing.padding.sm",
@@ -313,12 +313,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.secondary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.secondary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
@@ -333,7 +333,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 								"spacing.padding.xs",
@@ -342,12 +342,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.secondary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.secondary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
@@ -391,7 +391,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "auto",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -400,12 +400,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.accent",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.accent",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
@@ -420,7 +420,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.sm",
@@ -429,12 +429,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.primary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.primary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
@@ -449,7 +449,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "dark",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -458,12 +458,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							icon: what.css([
+							icon: what.token([
 								"color.text.accent",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.css([
+							label: what.token([
 								"color.text.accent",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
