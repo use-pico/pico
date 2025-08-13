@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const LoadingOverlayCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 		],

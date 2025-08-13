@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const ModalCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"target",
@@ -31,7 +31,7 @@ export const ModalCls = PicoCls.extend(
 						"py-12",
 					],
 					[
-						"focus.reset.off",
+						"focus.off",
 					],
 				),
 				target: what.css([]),
@@ -49,7 +49,7 @@ export const ModalCls = PicoCls.extend(
 						"w-2/3",
 					],
 					[
-						"focus.reset.off",
+						"focus.off",
 					],
 				),
 			}),

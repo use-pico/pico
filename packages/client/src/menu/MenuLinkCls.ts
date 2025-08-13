@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const MenuLinkCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 		],
@@ -40,9 +40,9 @@ export const MenuLinkCls = PicoCls.extend(
 						"border-transparent",
 					],
 					[
-						"subtle.color.text-dark-hover",
-						"subtle.color.bg-light-hover",
-						"subtle.color.border-light-hover",
+						"tone.subtle.dark.text:hover",
+						"tone.subtle.light.bg:hover",
+						"tone.subtle.light.border:hover",
 					],
 				),
 			}),
@@ -53,9 +53,9 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-dark",
-						"subtle.color.border-dark",
+						"tone.subtle.dark.text",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.border",
 					]),
 				},
 			),
@@ -70,8 +70,8 @@ export const MenuLinkCls = PicoCls.extend(
 							"border-transparent",
 						],
 						[
-							"subtle.color.text-dark",
-							"subtle.color.bg-dark",
+							"tone.subtle.dark.text",
+							"tone.subtle.dark.bg",
 						],
 					),
 				},
@@ -82,9 +82,9 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-light",
+						"tone.subtle.dark.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
 					]),
 				},
 			),
@@ -95,9 +95,9 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-dark",
-						"subtle.color.border-dark",
+						"tone.subtle.dark.text",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.border",
 					]),
 				},
 			),

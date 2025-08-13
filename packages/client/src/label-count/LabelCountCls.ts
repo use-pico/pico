@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const LabelCountCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"label",
