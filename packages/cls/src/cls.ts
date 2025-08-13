@@ -105,8 +105,7 @@ export function cls<
 		}
 		const result: ClassName[] = [];
 		for (const key of tokenKeys) {
-			const classes = tokenTable[key] ?? [];
-			result.push(classes);
+			result.push(tokenTable[key]);
 		}
 		return result;
 	};
