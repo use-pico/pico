@@ -143,7 +143,7 @@ export function cls<
 
 	const matches = (
 		effective: Record<string, unknown>,
-		ruleMatch: Record<string, unknown> | undefined,
+		ruleMatch: Partial<Record<string, unknown>> | undefined,
 	): boolean => {
 		if (!ruleMatch) {
 			return true;
@@ -200,26 +200,26 @@ export function cls<
 				}
 			};
 
-			const handler: ProxyHandler<Record<string, ClsSlotFn<TContract>>> =
-				{
-					get(_, prop) {
-						if (prop in cache) return cache[prop];
-						const slotName = prop as string;
-						if (!allSlots.has(slotName)) {
-							return undefined as unknown as ClsSlotFn<TContract>;
+			const handler: ProxyHandler<
+				Record<TSlotContract[number], ClsSlotFn<TContract>>
+			> = {
+				get(_, prop) {
+					if (prop in cache) return cache[prop];
+					const slotName = prop as string;
+					if (!allSlots.has(slotName)) {
+						return undefined as unknown as ClsSlotFn<TContract>;
+					}
+
+					const slotFn: ClsSlotFn<TContract> = (call) => {
+						const key = computeKey(slotName, call);
+						const cached = resultCache.get(key);
+						if (cached !== undefined) {
+							return cached;
 						}
 
-						const slotFn: ClsSlotFn<TContract> = (call) => {
-							const key = computeKey(slotName, call);
-							const cached = resultCache.get(key);
-							if (cached !== undefined) {
-								return cached;
-							}
-
-							const local = call?.(whatUtil);
-							const localConfig:
-								| CreateConfig<TContract>
-								| undefined = local
+						const local = call?.(whatUtil);
+						const localConfig: CreateConfig<TContract> | undefined =
+							local
 								? {
 										variant: local.variant,
 										slot: local.slot,
@@ -228,118 +228,116 @@ export function cls<
 									}
 								: undefined;
 
-							const localEffective = {
-								...effectiveVariant,
-								...(localConfig?.variant ?? {}),
-							};
-							const localTokens = {
-								...tokenTable,
-							};
+						const localEffective = {
+							...effectiveVariant,
+							...(localConfig?.variant ?? {}),
+						};
+						const localTokens = {
+							...tokenTable,
+						};
 
-							for (const [key, values] of Object.entries(
-								localConfig?.token ?? {},
-							)) {
-								localTokens[key] = values as string[];
+						for (const [key, values] of Object.entries(
+							localConfig?.token ?? {},
+						)) {
+							localTokens[key] = values as string[];
+						}
+
+						let acc: ClassName[] = [];
+
+						// Apply rules
+						for (const rule of rules) {
+							if (!matches(localEffective, rule.match)) {
+								continue;
 							}
-
-							let acc: ClassName[] = [];
-
-							// Apply rules
-							for (const rule of rules) {
-								if (!matches(localEffective, rule.match)) {
-									continue;
-								}
-								const slotMap = rule.slot ?? {};
-								const what = slotMap[slotName];
-								if (!what) {
-									continue;
-								}
-								if (rule.override === true) {
-									acc = [];
-								}
-								acc = applyWhat(acc, what, localTokens);
+							const slotMap = rule.slot ?? {};
+							const what = slotMap[slotName];
+							if (!what) {
+								continue;
 							}
+							if (rule.override === true) {
+								acc = [];
+							}
+							acc = applyWhat(acc, what, localTokens);
+						}
 
-							// Apply overrides
-							if (
-								config.slot?.[
+						// Apply overrides
+						if (
+							config.slot?.[slotName as keyof typeof config.slot]
+						) {
+							acc = applyWhat(
+								acc,
+								config.slot[
 									slotName as keyof typeof config.slot
-								]
-							) {
-								acc = applyWhat(
-									acc,
-									config.slot[
-										slotName as keyof typeof config.slot
-									],
-									localTokens,
-								);
-							}
+								],
+								localTokens,
+							);
+						}
 
-							if (
-								config.override?.[
+						if (
+							config.override?.[
+								slotName as keyof typeof config.override
+							]
+						) {
+							acc = [];
+							acc = applyWhat(
+								acc,
+								config.override[
 									slotName as keyof typeof config.override
-								]
-							) {
-								acc = [];
-								acc = applyWhat(
-									acc,
-									config.override[
-										slotName as keyof typeof config.override
-									],
-									localTokens,
-								);
-							}
+								],
+								localTokens,
+							);
+						}
 
-							if (
-								localConfig?.slot?.[
+						if (
+							localConfig?.slot?.[
+								slotName as keyof typeof localConfig.slot
+							]
+						) {
+							acc = applyWhat(
+								acc,
+								localConfig.slot[
 									slotName as keyof typeof localConfig.slot
-								]
-							) {
-								acc = applyWhat(
-									acc,
-									localConfig.slot[
-										slotName as keyof typeof localConfig.slot
-									],
-									localTokens,
-								);
-							}
+								],
+								localTokens,
+							);
+						}
 
-							if (
-								localConfig?.override?.[
+						if (
+							localConfig?.override?.[
+								slotName as keyof typeof localConfig.override
+							]
+						) {
+							acc = [];
+							acc = applyWhat(
+								acc,
+								localConfig.override[
 									slotName as keyof typeof localConfig.override
-								]
-							) {
-								acc = [];
-								acc = applyWhat(
-									acc,
-									localConfig.override[
-										slotName as keyof typeof localConfig.override
-									],
-									localTokens,
-								);
-							}
+								],
+								localTokens,
+							);
+						}
 
-							const out = tvc(acc);
-							resultCache.set(key, out);
-							return out;
-						};
+						const out = tvc(acc);
+						resultCache.set(key, out);
+						return out;
+					};
 
-						cache[prop] = slotFn;
-						return cache[prop];
-					},
-					ownKeys() {
-						return Array.from(allSlots);
-					},
-					getOwnPropertyDescriptor() {
-						return {
-							enumerable: true,
-							configurable: true,
-						};
-					},
-				};
+					cache[prop] = slotFn;
+					return cache[prop];
+				},
+				ownKeys() {
+					return Array.from(allSlots);
+				},
+				getOwnPropertyDescriptor() {
+					return {
+						enumerable: true,
+						configurable: true,
+					};
+				},
+			};
 
-			return new Proxy<Record<string, ClsSlotFn<TContract>>>(
-				{} as Record<string, ClsSlotFn<TContract>>,
+			return new Proxy(
+				{} as Record<TSlotContract[number], ClsSlotFn<TContract>>,
 				handler,
 			);
 		},

@@ -374,7 +374,7 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 /**
  * Default values for variants
  */
-type DefaultDefinition<TContract extends Contract<any, any, any>> =
+export type DefaultDefinition<TContract extends Contract<any, any, any>> =
 	VariantValueMapping<TContract>;
 
 // ============================================================================
