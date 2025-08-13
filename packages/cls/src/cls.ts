@@ -16,13 +16,6 @@ import type {
 } from "./types";
 import { what } from "./what";
 
-type InternalConfig = {
-	variant?: Record<string, unknown>;
-	slot?: Record<string, What<any>>;
-	override?: Record<string, What<any>>;
-	token?: Record<string, string[]>;
-};
-
 export function cls<
 	const TTokenContract extends TokenContract,
 	const TSlotContract extends SlotContract,
@@ -45,30 +38,44 @@ export function cls<
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract<any, any, any>;
-		definition: Definition<any>;
+		contract: Contract<TokenContract, SlotContract, VariantContract>;
+		definition: Definition<
+			Contract<TokenContract, SlotContract, VariantContract>
+		>;
 	}[] = [];
-	let current: Contract<any, any, any> | undefined = contract;
-	let currentDef: Definition<any> | undefined = definition;
+	let current:
+		| Contract<TokenContract, SlotContract, VariantContract>
+		| undefined = contract;
+	let currentDef:
+		| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+		| undefined = definition;
 
 	while (current && currentDef) {
 		layers.unshift({
 			contract: current,
 			definition: currentDef,
 		});
-		current = current["~use"] as Contract<any, any, any> | undefined;
-		currentDef = current?.["~definition"] as Definition<any> | undefined;
+		current = current["~use"] as
+			| Contract<TokenContract, SlotContract, VariantContract>
+			| undefined;
+		currentDef = current?.["~definition"] as
+			| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+			| undefined;
 	}
 
 	// Collect all slots
 	const allSlots = new Set<string>();
 	for (const { contract: c } of layers) {
-		for (const slot of c.slot as string[]) allSlots.add(slot);
+		for (const slot of c.slot) {
+			allSlots.add(slot);
+		}
 	}
 
 	// Merge defaults and rules from ALL layers in inheritance order
 	const defaults: Record<string, unknown> = {};
-	const rules: RuleDefinition<any>[] = [];
+	const rules: RuleDefinition<
+		Contract<TokenContract, SlotContract, VariantContract>
+	>[] = [];
 
 	// Process layers in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
@@ -79,54 +86,37 @@ export function cls<
 	}
 
 	// Build token index with proper inheritance order
-	const tokens: Record<string, string[]> = {};
+	const tokens: Record<string, ClassName> = {};
 
-	// First pass: collect all token keys from all contracts
-	for (const { contract: c } of layers) {
-		const tokenKeys = c.tokens as unknown as string[];
-		for (const key of tokenKeys) {
-			if (!(key in tokens)) tokens[key] = [];
-		}
-	}
-
-	// Second pass: apply token definitions in inheritance order (base first, child last)
+	// Apply token definitions in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
-		const tokenDefs = d.token as Record<string, any> | undefined;
-		if (tokenDefs) {
-			for (const [k, v] of Object.entries(tokenDefs)) {
-				if (Array.isArray(v)) {
-					tokens[k] = v as string[];
-				} else {
-					for (const [variant, classes] of Object.entries(
-						v as Record<string, string[]>,
-					)) {
-						tokens[`${k}.${variant}`] = classes;
-					}
-				}
-			}
+		for (const [k, v] of Object.entries(d.token)) {
+			tokens[k] = v;
 		}
 	}
 
 	// Helper functions
 	const resolveTokens = (
 		tokenKeys: string[] | undefined,
-		tokenTable: Record<string, string[]>,
-	): string[] => {
+		tokenTable: typeof tokens,
+	): ClassName[] => {
 		if (!tokenKeys) {
 			return [];
 		}
-		const result: string[] = [];
+		const result: ClassName[] = [];
 		for (const key of tokenKeys) {
 			const classes = tokenTable[key] ?? [];
-			if (classes.length) result.push(...classes);
+			result.push(classes);
 		}
 		return result;
 	};
 
 	const applyWhat = (
 		acc: ClassName[],
-		what: What<any> | undefined,
-		tokenTable: Record<string, string[]>,
+		what:
+			| What<Contract<TokenContract, SlotContract, VariantContract>>
+			| undefined,
+		tokenTable: typeof tokens,
 	): ClassName[] => {
 		if (!what) {
 			return acc;
@@ -168,7 +158,7 @@ export function cls<
 			const config = merge(
 				userConfigFn,
 				internalConfigFn,
-			)() as InternalConfig;
+			)() as CreateConfig<TContract>;
 
 			const effectiveVariant = {
 				...defaults,
@@ -181,10 +171,10 @@ export function cls<
 			};
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values;
+				tokenTable[key] = values as string[];
 			}
 
-            const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
+			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
 			const resultCache = new Map<string, string>();
 
 			const computeKey = (
@@ -209,7 +199,6 @@ export function cls<
 					get(_, prop) {
 						if (prop in cache) return cache[prop];
 						const slotName = prop as string;
-						// TODO This should not happen in type level; instead of returning undefined, throw
 						if (!allSlots.has(slotName)) {
 							return undefined as unknown as ClsSlotFn<TContract>;
 						}
@@ -222,20 +211,16 @@ export function cls<
 							}
 
 							const local = call?.(whatUtil);
-							// TODO use types from ./types.ts
-							const localConfig: InternalConfig | undefined =
-								local
-									? {
-											variant: local.variant,
-											slot: local.slot as
-												| Record<string, What<any>>
-												| undefined,
-											override: local.override as
-												| Record<string, What<any>>
-												| undefined,
-											token: local.token as any,
-										}
-									: undefined;
+							const localConfig:
+								| CreateConfig<TContract>
+								| undefined = local
+								? {
+										variant: local.variant,
+										slot: local.slot,
+										override: local.override,
+										token: local.token,
+									}
+								: undefined;
 
 							const localEffective = {
 								...effectiveVariant,
@@ -248,7 +233,7 @@ export function cls<
 							for (const [key, values] of Object.entries(
 								localConfig?.token ?? {},
 							)) {
-								localTokens[key] = values;
+								localTokens[key] = values as string[];
 							}
 
 							let acc: ClassName[] = [];
@@ -258,10 +243,7 @@ export function cls<
 								if (!matches(localEffective, rule.match)) {
 									continue;
 								}
-								const slotMap = (rule.slot ?? {}) as Record<
-									string,
-									What<any>
-								>;
+								const slotMap = rule.slot ?? {};
 								const what = slotMap[slotName];
 								if (!what) {
 									continue;
@@ -273,36 +255,60 @@ export function cls<
 							}
 
 							// Apply overrides
-							if (config.slot?.[slotName]) {
+							if (
+								config.slot?.[
+									slotName as keyof typeof config.slot
+								]
+							) {
 								acc = applyWhat(
 									acc,
-									config.slot[slotName],
+									config.slot[
+										slotName as keyof typeof config.slot
+									],
 									localTokens,
 								);
 							}
 
-							if (config.override?.[slotName]) {
+							if (
+								config.override?.[
+									slotName as keyof typeof config.override
+								]
+							) {
 								acc = [];
 								acc = applyWhat(
 									acc,
-									config.override[slotName],
+									config.override[
+										slotName as keyof typeof config.override
+									],
 									localTokens,
 								);
 							}
 
-							if (localConfig?.slot?.[slotName]) {
+							if (
+								localConfig?.slot?.[
+									slotName as keyof typeof localConfig.slot
+								]
+							) {
 								acc = applyWhat(
 									acc,
-									localConfig.slot[slotName],
+									localConfig.slot[
+										slotName as keyof typeof localConfig.slot
+									],
 									localTokens,
 								);
 							}
 
-							if (localConfig?.override?.[slotName]) {
+							if (
+								localConfig?.override?.[
+									slotName as keyof typeof localConfig.override
+								]
+							) {
 								acc = [];
 								acc = applyWhat(
 									acc,
-									localConfig.override[slotName],
+									localConfig.override[
+										slotName as keyof typeof localConfig.override
+									],
 									localTokens,
 								);
 							}
@@ -335,8 +341,8 @@ export function cls<
 			childContract["~use"] = contract;
 			// Don't set ~definition here - it will be set when cls() is called
 
-			const parentTokens = contract.tokens as unknown as string[];
-			const childTokens = childContract.tokens as unknown as string[];
+			const parentTokens = contract.tokens;
+			const childTokens = childContract.tokens;
 			const mergedTokens = Array.from(
 				new Set([
 					...parentTokens,
