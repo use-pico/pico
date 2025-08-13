@@ -207,289 +207,289 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.primary.dark.text": what.css([
-				"text-indigo-200",
+				"text-violet-100",
 			]),
 			"tone.primary.dark.text:hover": what.css([
-				"hover:text-indigo-100",
+				"hover:text-violet-50",
 			]),
 			"tone.primary.dark.bg": what.css([
-				"bg-indigo-900",
+				"bg-violet-900/90",
 			]),
 			"tone.primary.dark.bg:hover": what.css([
-				"hover:bg-indigo-800",
+				"hover:bg-violet-800/90",
 			]),
 			"tone.primary.dark.bg:even": what.css([
-				"bg-indigo-800",
+				"bg-violet-800/80",
 			]),
 			"tone.primary.dark.bg:odd": what.css([
-				"bg-indigo-950",
+				"bg-violet-950/90",
 			]),
 			"tone.primary.dark.border": what.css([
-				"border-indigo-700",
+				"border-violet-700/60",
 			]),
 			"tone.primary.dark.border:hover": what.css([
-				"hover:border-indigo-600",
+				"hover:border-violet-600/70",
 			]),
 			"tone.primary.dark.shadow": what.css([
-				"shadow-indigo-900",
+				"shadow-violet-900/40",
 			]),
 			"tone.primary.dark.shadow:hover": what.css([
-				"hover:shadow-indigo-800/60",
+				"hover:shadow-violet-800/50",
 			]),
 			//
-			// Secondary Tone - Modern Emerald/Teal
+			// Secondary Tone - Modern Teal/Cyan
 			"tone.secondary.light.text": what.css([
-				"text-emerald-700",
+				"text-teal-700",
 			]),
 			"tone.secondary.light.text:hover": what.css([
-				"hover:text-emerald-800",
+				"hover:text-teal-800",
 			]),
 			"tone.secondary.light.bg": what.css([
-				"bg-emerald-100",
+				"bg-teal-100",
 			]),
 			"tone.secondary.light.bg:hover": what.css([
-				"hover:bg-emerald-200",
+				"hover:bg-teal-200",
 			]),
 			"tone.secondary.light.bg:even": what.css([
-				"bg-emerald-100",
+				"bg-teal-100",
 			]),
 			"tone.secondary.light.bg:odd": what.css([
-				"bg-emerald-50",
+				"bg-teal-50",
 			]),
 			"tone.secondary.light.border": what.css([
-				"border-emerald-200",
+				"border-teal-200",
 			]),
 			"tone.secondary.light.border:hover": what.css([
-				"hover:border-emerald-300",
+				"hover:border-teal-300",
 			]),
 			"tone.secondary.light.shadow": what.css([
-				"shadow-emerald-200/50",
+				"shadow-teal-200/50",
 			]),
 			"tone.secondary.light.shadow:hover": what.css([
-				"hover:shadow-emerald-300/60",
+				"hover:shadow-teal-300/60",
 			]),
 			//
 			"tone.secondary.dark.text": what.css([
-				"text-emerald-200",
+				"text-cyan-100",
 			]),
 			"tone.secondary.dark.text:hover": what.css([
-				"hover:text-emerald-100",
+				"hover:text-cyan-50",
 			]),
 			"tone.secondary.dark.bg": what.css([
-				"bg-emerald-900",
+				"bg-teal-900/90",
 			]),
 			"tone.secondary.dark.bg:hover": what.css([
-				"hover:bg-emerald-800",
+				"hover:bg-teal-800/90",
 			]),
 			"tone.secondary.dark.bg:even": what.css([
-				"bg-emerald-800",
+				"bg-teal-800/80",
 			]),
 			"tone.secondary.dark.bg:odd": what.css([
-				"bg-emerald-950",
+				"bg-teal-950/90",
 			]),
 			"tone.secondary.dark.border": what.css([
-				"border-emerald-700",
+				"border-teal-700/60",
 			]),
 			"tone.secondary.dark.border:hover": what.css([
-				"hover:border-emerald-600",
+				"hover:border-teal-600/70",
 			]),
 			"tone.secondary.dark.shadow": what.css([
-				"shadow-emerald-900/50",
+				"shadow-teal-900/40",
 			]),
 			"tone.secondary.dark.shadow:hover": what.css([
-				"hover:shadow-emerald-800/60",
+				"hover:shadow-teal-800/50",
 			]),
 			//
-			// Danger Tone - Modern Red/Rose
+			// Danger Tone - Modern Rose/Red
 			"tone.danger.light.text": what.css([
-				"text-red-700",
+				"text-rose-700",
 			]),
 			"tone.danger.light.text:hover": what.css([
-				"hover:text-red-800",
+				"hover:text-rose-800",
 			]),
 			"tone.danger.light.bg": what.css([
-				"bg-red-100",
+				"bg-rose-100",
 			]),
 			"tone.danger.light.bg:hover": what.css([
-				"hover:bg-red-200",
+				"hover:bg-rose-200",
 			]),
 			"tone.danger.light.bg:even": what.css([
-				"bg-red-100",
+				"bg-rose-100",
 			]),
 			"tone.danger.light.bg:odd": what.css([
-				"bg-red-50",
+				"bg-rose-50",
 			]),
 			"tone.danger.light.border": what.css([
-				"border-red-200",
+				"border-rose-200",
 			]),
 			"tone.danger.light.border:hover": what.css([
-				"hover:border-red-300",
+				"hover:border-rose-300",
 			]),
 			"tone.danger.light.shadow": what.css([
-				"shadow-red-200/50",
+				"shadow-rose-200/50",
 			]),
 			"tone.danger.light.shadow:hover": what.css([
-				"hover:shadow-red-300/60",
+				"hover:shadow-rose-300/60",
 			]),
 			//
 			"tone.danger.dark.text": what.css([
-				"text-red-200",
+				"text-rose-100",
 			]),
 			"tone.danger.dark.text:hover": what.css([
-				"hover:text-red-100",
+				"hover:text-rose-50",
 			]),
 			"tone.danger.dark.bg": what.css([
-				"bg-red-900",
+				"bg-rose-900/90",
 			]),
 			"tone.danger.dark.bg:hover": what.css([
-				"hover:bg-red-800",
+				"hover:bg-rose-800/90",
 			]),
 			"tone.danger.dark.bg:even": what.css([
-				"bg-red-800",
+				"bg-rose-800/80",
 			]),
 			"tone.danger.dark.bg:odd": what.css([
-				"bg-red-950",
+				"bg-rose-950/90",
 			]),
 			"tone.danger.dark.border": what.css([
-				"border-red-700",
+				"border-rose-700/60",
 			]),
 			"tone.danger.dark.border:hover": what.css([
-				"hover:border-red-600",
+				"hover:border-rose-600/70",
 			]),
 			"tone.danger.dark.shadow": what.css([
-				"shadow-red-900/50",
+				"shadow-rose-900/40",
 			]),
 			"tone.danger.dark.shadow:hover": what.css([
-				"hover:shadow-red-800/60",
+				"hover:shadow-rose-800/50",
 			]),
 			//
-			// Warning Tone - Modern Orange/Amber
+			// Warning Tone - Modern Amber/Orange
 			"tone.warning.light.text": what.css([
-				"text-orange-700",
-			]),
-			"tone.warning.light.text:hover": what.css([
-				"hover:text-orange-800",
-			]),
-			"tone.warning.light.bg": what.css([
-				"bg-orange-100",
-			]),
-			"tone.warning.light.bg:hover": what.css([
-				"hover:bg-orange-200",
-			]),
-			"tone.warning.light.bg:even": what.css([
-				"bg-orange-100",
-			]),
-			"tone.warning.light.bg:odd": what.css([
-				"bg-orange-50",
-			]),
-			"tone.warning.light.border": what.css([
-				"border-orange-200",
-			]),
-			"tone.warning.light.border:hover": what.css([
-				"hover:border-orange-300",
-			]),
-			"tone.warning.light.shadow": what.css([
-				"shadow-orange-200/50",
-			]),
-			"tone.warning.light.shadow:hover": what.css([
-				"hover:shadow-orange-300/60",
-			]),
-			//
-			"tone.warning.dark.text": what.css([
-				"text-orange-200",
-			]),
-			"tone.warning.dark.text:hover": what.css([
-				"hover:text-orange-100",
-			]),
-			"tone.warning.dark.bg": what.css([
-				"bg-orange-900",
-			]),
-			"tone.warning.dark.bg:hover": what.css([
-				"hover:bg-orange-800",
-			]),
-			"tone.warning.dark.bg:even": what.css([
-				"bg-orange-800",
-			]),
-			"tone.warning.dark.bg:odd": what.css([
-				"bg-orange-950",
-			]),
-			"tone.warning.dark.border": what.css([
-				"border-orange-700",
-			]),
-			"tone.warning.dark.border:hover": what.css([
-				"hover:border-orange-600",
-			]),
-			"tone.warning.dark.shadow": what.css([
-				"shadow-orange-900/50",
-			]),
-			"tone.warning.dark.shadow:hover": what.css([
-				"hover:shadow-orange-800/60",
-			]),
-			//
-			// Subtle Tone - Modern Amber/Warm
-			"tone.subtle.light.text": what.css([
 				"text-amber-700",
 			]),
-			"tone.subtle.light.text:hover": what.css([
+			"tone.warning.light.text:hover": what.css([
 				"hover:text-amber-800",
 			]),
-			"tone.subtle.light.bg": what.css([
+			"tone.warning.light.bg": what.css([
 				"bg-amber-100",
 			]),
-			"tone.subtle.light.bg:hover": what.css([
+			"tone.warning.light.bg:hover": what.css([
 				"hover:bg-amber-200",
 			]),
-			"tone.subtle.light.bg:even": what.css([
+			"tone.warning.light.bg:even": what.css([
 				"bg-amber-100",
 			]),
-			"tone.subtle.light.bg:odd": what.css([
+			"tone.warning.light.bg:odd": what.css([
 				"bg-amber-50",
 			]),
-			"tone.subtle.light.border": what.css([
+			"tone.warning.light.border": what.css([
 				"border-amber-200",
 			]),
-			"tone.subtle.light.border:hover": what.css([
+			"tone.warning.light.border:hover": what.css([
 				"hover:border-amber-300",
 			]),
-			"tone.subtle.light.shadow": what.css([
+			"tone.warning.light.shadow": what.css([
 				"shadow-amber-200/50",
 			]),
-			"tone.subtle.light.shadow:hover": what.css([
+			"tone.warning.light.shadow:hover": what.css([
 				"hover:shadow-amber-300/60",
 			]),
 			//
-			"tone.subtle.dark.text": what.css([
-				"text-amber-200",
+			"tone.warning.dark.text": what.css([
+				"text-amber-100",
 			]),
-			"tone.subtle.dark.text:hover": what.css([
-				"hover:text-amber-100",
+			"tone.warning.dark.text:hover": what.css([
+				"hover:text-amber-50",
 			]),
-			"tone.subtle.dark.bg": what.css([
-				"bg-amber-900",
+			"tone.warning.dark.bg": what.css([
+				"bg-amber-900/90",
 			]),
-			"tone.subtle.dark.bg:hover": what.css([
-				"hover:bg-amber-800",
+			"tone.warning.dark.bg:hover": what.css([
+				"hover:bg-amber-800/90",
 			]),
-			"tone.subtle.dark.bg:even": what.css([
-				"bg-amber-800",
+			"tone.warning.dark.bg:even": what.css([
+				"bg-amber-800/80",
 			]),
-			"tone.subtle.dark.bg:odd": what.css([
-				"bg-amber-950",
+			"tone.warning.dark.bg:odd": what.css([
+				"bg-amber-950/90",
 			]),
-			"tone.subtle.dark.border": what.css([
-				"border-amber-700",
+			"tone.warning.dark.border": what.css([
+				"border-amber-700/60",
 			]),
-			"tone.subtle.dark.border:hover": what.css([
-				"hover:border-amber-600",
+			"tone.warning.dark.border:hover": what.css([
+				"hover:border-amber-600/70",
 			]),
-			"tone.subtle.dark.shadow": what.css([
-				"shadow-amber-900/50",
+			"tone.warning.dark.shadow": what.css([
+				"shadow-amber-900/40",
 			]),
-			"tone.subtle.dark.shadow:hover": what.css([
-				"hover:shadow-amber-800/60",
+			"tone.warning.dark.shadow:hover": what.css([
+				"hover:shadow-amber-800/50",
 			]),
 			//
-			// Neutral Tone - Modern Slate/Gray
+			// Subtle Tone - Modern Stone/Neutral
+			"tone.subtle.light.text": what.css([
+				"text-stone-700",
+			]),
+			"tone.subtle.light.text:hover": what.css([
+				"hover:text-stone-800",
+			]),
+			"tone.subtle.light.bg": what.css([
+				"bg-stone-100",
+			]),
+			"tone.subtle.light.bg:hover": what.css([
+				"hover:bg-stone-200",
+			]),
+			"tone.subtle.light.bg:even": what.css([
+				"bg-stone-100",
+			]),
+			"tone.subtle.light.bg:odd": what.css([
+				"bg-stone-50",
+			]),
+			"tone.subtle.light.border": what.css([
+				"border-stone-200",
+			]),
+			"tone.subtle.light.border:hover": what.css([
+				"hover:border-stone-300",
+			]),
+			"tone.subtle.light.shadow": what.css([
+				"shadow-stone-200/50",
+			]),
+			"tone.subtle.light.shadow:hover": what.css([
+				"hover:shadow-stone-300/60",
+			]),
+			//
+			"tone.subtle.dark.text": what.css([
+				"text-stone-100",
+			]),
+			"tone.subtle.dark.text:hover": what.css([
+				"hover:text-stone-50",
+			]),
+			"tone.subtle.dark.bg": what.css([
+				"bg-stone-900/90",
+			]),
+			"tone.subtle.dark.bg:hover": what.css([
+				"hover:bg-stone-800/90",
+			]),
+			"tone.subtle.dark.bg:even": what.css([
+				"bg-stone-800/80",
+			]),
+			"tone.subtle.dark.bg:odd": what.css([
+				"bg-stone-950/90",
+			]),
+			"tone.subtle.dark.border": what.css([
+				"border-stone-700/60",
+			]),
+			"tone.subtle.dark.border:hover": what.css([
+				"hover:border-stone-600/70",
+			]),
+			"tone.subtle.dark.shadow": what.css([
+				"shadow-stone-900/40",
+			]),
+			"tone.subtle.dark.shadow:hover": what.css([
+				"hover:shadow-stone-800/50",
+			]),
+			//
+			// Neutral Tone - Enhanced Slate
 			"tone.neutral.light.text": what.css([
 				"text-slate-900",
 			]),
@@ -528,28 +528,28 @@ export const PicoCls = cls(
 				"hover:text-slate-50",
 			]),
 			"tone.neutral.dark.bg": what.css([
-				"bg-slate-900",
+				"bg-slate-900/90",
 			]),
 			"tone.neutral.dark.bg:hover": what.css([
-				"hover:bg-slate-800",
+				"hover:bg-slate-800/90",
 			]),
 			"tone.neutral.dark.bg:even": what.css([
-				"bg-slate-800",
+				"bg-slate-800/80",
 			]),
 			"tone.neutral.dark.bg:odd": what.css([
-				"bg-slate-950",
+				"bg-slate-950/90",
 			]),
 			"tone.neutral.dark.border": what.css([
-				"border-slate-700",
+				"border-slate-700/60",
 			]),
 			"tone.neutral.dark.border:hover": what.css([
-				"hover:border-slate-600",
+				"hover:border-slate-600/70",
 			]),
 			"tone.neutral.dark.shadow": what.css([
-				"shadow-slate-900/30",
+				"shadow-slate-900/40",
 			]),
 			"tone.neutral.dark.shadow:hover": what.css([
-				"hover:shadow-slate-800/40",
+				"hover:shadow-slate-800/50",
 			]),
 			//
 			// Layout & Spacing

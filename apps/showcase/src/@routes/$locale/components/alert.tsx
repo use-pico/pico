@@ -8,6 +8,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 			"primary",
 			"secondary",
 			"danger",
+			"warning",
 			"neutral",
 			"subtle",
 		] as const;
@@ -54,7 +55,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 									}),
 								})}
 							>
@@ -98,7 +99,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 									}),
 								})}
 								onClick={() => {}}

@@ -12,6 +12,7 @@ export const BadgeCls = PicoCls.extend(
 				"primary",
 				"secondary",
 				"danger",
+				"warning",
 				"neutral",
 				"subtle",
 			],
@@ -94,6 +95,20 @@ export const BadgeCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
+					tone: "warning",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.warning.dark.text",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.border",
+						"tone.warning.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
 					tone: "neutral",
 					theme: "dark",
 				}),
@@ -161,6 +176,20 @@ export const BadgeCls = PicoCls.extend(
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
 						"tone.danger.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.warning.light.text",
+						"tone.warning.light.bg",
+						"tone.warning.light.border",
+						"tone.warning.light.shadow",
 					]),
 				},
 			),

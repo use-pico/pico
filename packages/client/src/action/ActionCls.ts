@@ -12,6 +12,7 @@ export const ActionCls = PicoCls.extend(
 				"primary",
 				"secondary",
 				"danger",
+				"warning",
 				"neutral",
 				"subtle",
 			],
@@ -113,6 +114,24 @@ export const ActionCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
+					tone: "warning",
+					theme: "dark",
+				}),
+				{
+					base: what.token([
+						"tone.warning.dark.text",
+						"tone.warning.dark.text:hover",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.bg:hover",
+						"tone.warning.dark.border",
+						"tone.warning.dark.border:hover",
+						"tone.warning.dark.shadow",
+						"tone.warning.dark.shadow:hover",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
 					tone: "neutral",
 					theme: "dark",
 				}),
@@ -199,6 +218,24 @@ export const ActionCls = PicoCls.extend(
 						"tone.danger.light.border:hover",
 						"tone.danger.light.shadow",
 						"tone.danger.light.shadow:hover",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "light",
+				}),
+				{
+					base: what.token([
+						"tone.warning.light.text",
+						"tone.warning.light.text:hover",
+						"tone.warning.light.bg",
+						"tone.warning.light.bg:hover",
+						"tone.warning.light.border",
+						"tone.warning.light.border:hover",
+						"tone.warning.light.shadow",
+						"tone.warning.light.shadow:hover",
 					]),
 				},
 			),

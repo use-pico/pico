@@ -15,6 +15,7 @@ export const AlertCls = PicoCls.extend(
 				"primary",
 				"secondary",
 				"danger",
+				"warning",
 				"neutral",
 				"subtle",
 			],
@@ -153,6 +154,38 @@ export const AlertCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
+					tone: "warning",
+					theme: "dark",
+				}),
+				{
+					base: what.token([
+						"tone.warning.dark.text",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.border",
+					]),
+					body: what.token([
+						"tone.warning.dark.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "light",
+				}),
+				{
+					base: what.token([
+						"tone.warning.light.text",
+						"tone.warning.light.bg",
+						"tone.warning.light.border",
+					]),
+					body: what.token([
+						"tone.warning.light.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
 					tone: "neutral",
 					theme: "dark",
 				}),
@@ -174,7 +207,7 @@ export const AlertCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.neutral.dark.text",
+						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
 					]),
@@ -206,7 +239,7 @@ export const AlertCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.subtle.dark.text",
+						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 					]),

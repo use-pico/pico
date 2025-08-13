@@ -12,7 +12,9 @@ export const ActionLinkCls = ActionCls.extend(
 		rules: [],
 		defaults: def.defaults({
 			disabled: false,
-			variant: "common",
+			tone: "subtle",
+			theme: "light",
+			loading: false,
 		}),
 	}),
 );

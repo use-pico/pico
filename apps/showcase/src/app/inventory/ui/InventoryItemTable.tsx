@@ -138,7 +138,7 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 							icon={TrashIcon}
 							cls={({ what }) => ({
 								variant: what.variant({
-									variant: "danger",
+									tone: "danger",
 								}),
 							})}
 						>

@@ -5,31 +5,16 @@ export const ActionClickCls = ActionCls.extend(
 	{
 		tokens: [],
 		slot: [],
-		variant: {
-			loading: [
-				"bool",
-			],
-		},
+		variant: {},
 	},
-	({ what, def }) => ({
+	({ def }) => ({
 		token: {},
-		rules: [
-			def.rule(
-				what.variant({
-					loading: true,
-				}),
-				{
-					root: what.css([
-						"pointer-events-none",
-						"opacity-50",
-					]),
-				},
-			),
-		],
+		rules: [],
 		defaults: def.defaults({
 			loading: false,
 			disabled: false,
-			variant: "common",
+			tone: "subtle",
+			theme: "light",
 		}),
 	}),
 );

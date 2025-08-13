@@ -8,6 +8,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 			"primary",
 			"secondary",
 			"danger",
+			"warning",
 			"neutral",
 			"subtle",
 		] as const;

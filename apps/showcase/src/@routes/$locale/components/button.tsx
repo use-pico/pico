@@ -7,6 +7,7 @@ const tones = [
 	"primary",
 	"secondary",
 	"danger",
+	"warning",
 	"neutral",
 	"subtle",
 ] as const;

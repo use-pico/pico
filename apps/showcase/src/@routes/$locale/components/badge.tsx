@@ -23,6 +23,7 @@ export const Route = createFileRoute("/$locale/components/badge")({
 			"primary",
 			"secondary",
 			"danger",
+			"warning",
 			"neutral",
 			"subtle",
 		] as const;
