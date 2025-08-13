@@ -14,11 +14,26 @@ interface Item
 	extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
 	match?: UseMatchRouteOptions[];
+	inner?: boolean;
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
-	({ icon = null, tva = MenuLinkCls, cls, children, ...props }, ref) => {
-		const slots = useCls(tva, cls);
+	(
+		{
+			icon = null,
+			inner = false,
+			tva = MenuLinkCls,
+			cls,
+			children,
+			...props
+		},
+		ref,
+	) => {
+		const slots = useCls(tva, cls, ({ what }) => ({
+			variant: what.variant({
+				inner,
+			}),
+		}));
 
 		return (
 			<a

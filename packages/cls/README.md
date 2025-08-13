@@ -103,6 +103,8 @@ const MyComponent = ({ theme = "light" }) => {
 };
 ```
 
+> **💡 Pro Tip**: This is just the beginning! Check out the [React Integration](#16-react-integration) section for advanced patterns, context providers, HOCs, and more comprehensive examples.
+
 ## 🎯 Key Features <a id="key-features"></a>
 
 ### Type-Safe Variants
@@ -154,8 +156,11 @@ This document serves as both the **main README** and **comprehensive technical g
 - [Core Concepts](#2-core-concepts) - Understanding the mental model
 - [API Reference](#4-main-api) - Complete API documentation  
 - [Advanced Features](#5-key-concepts) - Tokens, slots, variants, and rules
+- [React Integration](#16-react-integration) - **Complete React guide** with hooks, HOCs, and context
 - [Best Practices](#15-best-practices) - How to build great design systems
 - [Performance Guide](#12-performance-features) - Optimization strategies
+
+> **🚀 React Developers**: Check out the [detailed React documentation](./docs/04-react-integration/README.md) for comprehensive examples, patterns, and best practices!
 
 ---
 
@@ -237,6 +242,13 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
   - [15.2 Definition Design](#152-definition-design)
   - [15.3 Component Design](#153-component-design)
   - [15.4 Performance Optimization](#154-performance-optimization)
+- [16. React Integration](#16-react-integration)
+  - [16.1 useCls Hook](#161-usecls-hook)
+  - [16.2 Component Patterns](#162-component-patterns)
+  - [16.3 withCls HOC](#163-withcls-hoc)
+  - [16.4 Context Integration](#164-context-integration)
+  - [16.5 Provider Architecture](#165-provider-architecture)
+  - [16.6 Advanced Patterns](#166-advanced-patterns)
 
 
 ## 1. Core Principles <a id="1-core-principles"></a>
@@ -1736,4 +1748,250 @@ Leverage caching, use lazy evaluation, monitor bundle size, and profile runtime 
 
 ---
 
-**[↑ Back to Top](#table-of-contents)**
+## 16. React Integration <a id="16-react-integration"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Best Practices](#15-best-practices)**
+
+> **🎉 React developers rejoice!** CLS provides first-class React integration with hooks, HOCs, and context providers that make type-safe styling a breeze.
+
+### 16.1 useCls Hook <a id="161-usecls-hook"></a>
+
+The `useCls` hook is the **foundation of React integration** - it bridges CLS instances with React components:
+
+```tsx
+import { cls } from '@use-pico/cls';
+import { useCls } from '@use-pico/cls/react';
+
+const ButtonCls = cls(
+  {
+    tokens: ["color.bg.primary", "color.text.primary"],
+    slot: ["root", "label", "icon"],
+    variant: { 
+      size: ["sm", "md", "lg"],
+      tone: ["primary", "secondary", "danger"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg.primary": what.css(["bg-blue-600"]),
+      "color.text.primary": what.css(["text-white"])
+    }),
+    rules: [
+      def.root({
+        root: what.both(["px-4", "py-2", "rounded", "font-medium"], ["color.bg.primary", "color.text.primary"]),
+        label: what.css(["font-medium"]),
+        icon: what.css(["mr-2", "w-4", "h-4"])
+      }),
+      def.rule(
+        what.variant({ size: "lg" }),
+        { root: what.css(["px-6", "py-3"]) }
+      )
+    ]
+  })
+);
+
+function Button({ children, size = "md", tone = "primary" }) {
+  const classes = useCls(ButtonCls, ({ what }) => ({
+    variant: what.variant({ size, tone })
+  }));
+
+  return (
+    <button className={classes.root()}>
+      <span className={classes.icon()}>🚀</span>
+      <span className={classes.label()}>{children}</span>
+    </button>
+  );
+}
+```
+
+**Key Benefits:**
+- **🎯 Type Safety**: Full TypeScript support with IntelliSense
+- **🔄 Dynamic Styling**: Runtime variant changes with type checking
+- **⚡ Performance**: Optimized for React's rendering cycle
+- **🧩 Composition**: Easy component composition and extension
+- **🌳 Auto Context**: Automatically connects to CLS context providers
+
+### 16.2 Component Patterns <a id="162-component-patterns"></a>
+
+Build reusable, composable React components with CLS. The `cls` prop provides a type-safe way to use the CLS package directly in components:
+
+```tsx
+import type { Component } from '@use-pico/cls';
+
+interface ButtonProps extends Component<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
+  children: React.ReactNode;
+}
+
+function Button({ 
+  children,
+  tva = ButtonCls,
+  cls,
+  ...props 
+}: ButtonProps) {
+  // Use useCls with tva and cls for proper React integration
+  // - "cls" prop is a function that provides user configuration overrides
+  // - Internal config connects button's variant to its state
+  const classes = useCls(tva, cls, ({ what }) => ({
+    variant: what.variant({
+      // Control variant by native prop
+      disabled: props.disabled,
+    })
+  }));
+  
+  return (
+    <button className={classes.root()} {...props}>
+      {children}
+    </button>
+  );
+}
+
+// useCls with tva and cls provides:
+// - Type-safe access to CLS slots
+// - Automatic context inheritance  
+// - Runtime configuration overrides via cls prop function
+// - Proper React integration and performance
+
+// The cls prop is a function that provides user configuration overrides
+// Users pass: cls={({ what }) => ({ variant: { tone: "primary" } })}
+```
+
+### 16.3 withCls HOC <a id="163-withcls-hoc"></a>
+
+Bind CLS instances directly to your components so you can access `Component.cls` externally without exporting both the component and CLS instance separately:
+
+```tsx
+import { withCls } from '@use-pico/cls/react';
+
+// This should be defined in Button.tsx, not in consuming components
+const Button = withCls(ButtonComponent, ButtonCls);
+
+// Now you can access: Button.cls externally
+// No need to export both Button and ButtonCls separately!
+
+function App() {
+  // Use useCls for proper React integration and context inheritance
+  const customClasses = useCls(Button.cls, undefined, ({ what }) => ({
+    variant: what.variant({ size: "lg", tone: "secondary" })
+  }));
+
+  return (
+    <div>
+      <Button size="lg" tone="primary">
+        Click me!
+      </Button>
+      {/* Use useCls for proper React integration */}
+      <div className={customClasses.root()}>
+        Custom styling
+      </div>
+    </div>
+  );
+}
+
+// Export only Button - Button.cls gives access to CLS instance
+export { Button };
+// No need to export ButtonCls separately!
+
+// Key benefit: Single export with typed access to CLS instance
+// Other components can use useCls(Button.cls, ...) for proper React integration
+
+// File structure:
+// Button.tsx: Define ButtonComponent, ButtonCls, and export Button (with withCls)
+// App.tsx: Import Button and use useCls(Button.cls, ...) for custom styling
+```
+
+### 16.4 Context Integration <a id="164-context-integration"></a>
+
+Seamless theme inheritance through React Context. The `ClsProvider` accepts a single CLS instance that provides tokens and styling to child components:
+
+```tsx
+import { ClsProvider } from '@use-pico/cls/react';
+
+const ThemeProvider = ({ children }) => (
+  <ClsProvider value={ThemeCls}>
+    {children}
+  </ClsProvider>
+);
+
+function ThemedButton() {
+  // The cls prop automatically provides the full configuration with context inheritance
+  return <Button cls={({ what }) => ({ variant: what.variant({ tone: "primary" }) })}>Themed Button</Button>;
+}
+
+// The cls prop automatically handles context inheritance and provides
+// the full configuration function with access to what utility
+
+// The cls prop is a function that provides user configuration overrides
+// Users pass: cls={({ what }) => ({ variant: { tone: "primary" } })}
+```
+
+### 16.5 Provider Architecture <a id="165-provider-architecture"></a>
+
+Set up global styling contexts with `ClsProvider`:
+
+```tsx
+const App = () => (
+  <ClsProvider value={ThemeCls}>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </Router>
+  </ClsProvider>
+);
+```
+
+### 16.6 Advanced Patterns <a id="166-advanced-patterns"></a>
+
+> ⚠️ **Proceed with caution!** These patterns are possible but considered _special cases_ or even anti-patterns. Use them sparingly and only when absolutely necessary! 🚨
+
+**Dynamic Token Overrides:**
+```tsx
+function DynamicButton({ theme, ...props }) {
+  return (
+    <Button 
+      cls={({ what, override }) => ({ 
+        token: override.token({ "color.bg.primary": what.css([`bg-${theme}-600`]) })
+      })} 
+      {...props} 
+    />
+  );
+}
+```
+
+**Conditional Styling:**
+```tsx
+function ConditionalButton({ isActive, ...props }) {
+  return (
+    <Button 
+      cls={({ what }) => ({ 
+        variant: what.variant({ tone: isActive ? "primary" : "secondary" })
+      })} 
+      {...props} 
+    />
+  );
+}
+```
+
+**Component Composition:**
+```tsx
+const ButtonGroup = ({ children, variant = "horizontal" }) => {
+  // ✅ Use useCls for proper React integration
+  const classes = useCls(ButtonGroupCls, undefined, ({ what }) => ({
+    variant: what.variant({ variant })
+  }));
+  
+  return (
+    <div className={classes.root()}>
+      {React.Children.map(children, (child, index) => (
+        <div key={index} className={classes.item()}>
+          {child}
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+---
+
+**[↑ Back to Top](#table-of-contents)** | **[→ Next Chapter: Detailed React Documentation](./docs/04-react-integration/README.md)**

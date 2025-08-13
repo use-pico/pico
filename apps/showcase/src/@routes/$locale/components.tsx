@@ -156,6 +156,21 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[mdi-light--chart-line]"}
+							to={"/$locale/components/progress"}
+							params={{
+								locale,
+							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									vertical: true,
+								}),
+							})}
+						>
+							<Tx label={"Progress"} />
+						</MenuLink>
+
+						<MenuLink
 							icon={"icon-[vaadin--area-select]"}
 							to={"/$locale/components/popup-select"}
 							params={{
