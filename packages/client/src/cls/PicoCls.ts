@@ -188,10 +188,10 @@ export const PicoCls = cls(
 				"hover:bg-indigo-200",
 			]),
 			"tone.primary.light.bg:even": what.css([
-				"bg-indigo-100",
+				"even:bg-indigo-100",
 			]),
 			"tone.primary.light.bg:odd": what.css([
-				"bg-indigo-50",
+				"odd:bg-indigo-50",
 			]),
 			"tone.primary.light.border": what.css([
 				"border-indigo-200",
@@ -219,10 +219,10 @@ export const PicoCls = cls(
 				"hover:bg-violet-800/90",
 			]),
 			"tone.primary.dark.bg:even": what.css([
-				"bg-violet-800/80",
+				"even:bg-violet-800/80",
 			]),
 			"tone.primary.dark.bg:odd": what.css([
-				"bg-violet-950/90",
+				"odd:bg-violet-950/90",
 			]),
 			"tone.primary.dark.border": what.css([
 				"border-violet-700/60",
@@ -251,10 +251,10 @@ export const PicoCls = cls(
 				"hover:bg-teal-200",
 			]),
 			"tone.secondary.light.bg:even": what.css([
-				"bg-teal-100",
+				"even:bg-teal-100",
 			]),
 			"tone.secondary.light.bg:odd": what.css([
-				"bg-teal-50",
+				"odd:bg-teal-50",
 			]),
 			"tone.secondary.light.border": what.css([
 				"border-teal-200",
@@ -282,10 +282,10 @@ export const PicoCls = cls(
 				"hover:bg-teal-800/90",
 			]),
 			"tone.secondary.dark.bg:even": what.css([
-				"bg-teal-800/80",
+				"even:bg-teal-800/80",
 			]),
 			"tone.secondary.dark.bg:odd": what.css([
-				"bg-teal-950/90",
+				"odd:bg-teal-950/90",
 			]),
 			"tone.secondary.dark.border": what.css([
 				"border-teal-700/60",
@@ -314,10 +314,10 @@ export const PicoCls = cls(
 				"hover:bg-rose-200",
 			]),
 			"tone.danger.light.bg:even": what.css([
-				"bg-rose-100",
+				"even:bg-rose-100",
 			]),
 			"tone.danger.light.bg:odd": what.css([
-				"bg-rose-50",
+				"odd:bg-rose-50",
 			]),
 			"tone.danger.light.border": what.css([
 				"border-rose-200",
@@ -345,10 +345,10 @@ export const PicoCls = cls(
 				"hover:bg-rose-800/90",
 			]),
 			"tone.danger.dark.bg:even": what.css([
-				"bg-rose-800/80",
+				"even:bg-rose-800/80",
 			]),
 			"tone.danger.dark.bg:odd": what.css([
-				"bg-rose-950/90",
+				"odd:bg-rose-950/90",
 			]),
 			"tone.danger.dark.border": what.css([
 				"border-rose-700/60",
@@ -377,10 +377,10 @@ export const PicoCls = cls(
 				"hover:bg-amber-200",
 			]),
 			"tone.warning.light.bg:even": what.css([
-				"bg-amber-100",
+				"even:bg-amber-100",
 			]),
 			"tone.warning.light.bg:odd": what.css([
-				"bg-amber-50",
+				"odd:bg-amber-50",
 			]),
 			"tone.warning.light.border": what.css([
 				"border-amber-200",
@@ -408,10 +408,10 @@ export const PicoCls = cls(
 				"hover:bg-amber-800/90",
 			]),
 			"tone.warning.dark.bg:even": what.css([
-				"bg-amber-800/80",
+				"even:bg-amber-800/80",
 			]),
 			"tone.warning.dark.bg:odd": what.css([
-				"bg-amber-950/90",
+				"odd:bg-amber-950/90",
 			]),
 			"tone.warning.dark.border": what.css([
 				"border-amber-700/60",
@@ -440,10 +440,10 @@ export const PicoCls = cls(
 				"hover:bg-stone-200",
 			]),
 			"tone.subtle.light.bg:even": what.css([
-				"bg-stone-100",
+				"even:bg-stone-100",
 			]),
 			"tone.subtle.light.bg:odd": what.css([
-				"bg-stone-50",
+				"odd:bg-stone-50",
 			]),
 			"tone.subtle.light.border": what.css([
 				"border-stone-200",
@@ -471,10 +471,10 @@ export const PicoCls = cls(
 				"hover:bg-stone-800/90",
 			]),
 			"tone.subtle.dark.bg:even": what.css([
-				"bg-stone-800/80",
+				"even:bg-stone-800/80",
 			]),
 			"tone.subtle.dark.bg:odd": what.css([
-				"bg-stone-950/90",
+				"odd:bg-stone-950/90",
 			]),
 			"tone.subtle.dark.border": what.css([
 				"border-stone-700/60",
@@ -503,10 +503,10 @@ export const PicoCls = cls(
 				"hover:bg-slate-200",
 			]),
 			"tone.neutral.light.bg:even": what.css([
-				"bg-slate-100",
+				"even:bg-slate-100",
 			]),
 			"tone.neutral.light.bg:odd": what.css([
-				"bg-slate-50",
+				"odd:bg-slate-50",
 			]),
 			"tone.neutral.light.border": what.css([
 				"border-slate-200",
@@ -534,10 +534,10 @@ export const PicoCls = cls(
 				"hover:bg-slate-800/90",
 			]),
 			"tone.neutral.dark.bg:even": what.css([
-				"bg-slate-800/80",
+				"even:bg-slate-800/80",
 			]),
 			"tone.neutral.dark.bg:odd": what.css([
-				"bg-slate-950/90",
+				"odd:bg-slate-950/90",
 			]),
 			"tone.neutral.dark.border": what.css([
 				"border-slate-700/60",

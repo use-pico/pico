@@ -16,11 +16,11 @@ export const ActionMenuCls = PicoCls.extend(
 				base: what.both(
 					[
 						"pico--action-menu-base",
-						"p-2",
+						"p-4",
 						"rounded-sm",
 						"flex",
 						"flex-col",
-						"gap-1",
+						"gap-2",
 					],
 					[
 						"tone.subtle.light.bg",
