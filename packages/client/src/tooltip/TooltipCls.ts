@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const TooltipCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 		],
@@ -22,10 +22,10 @@ export const TooltipCls = PicoCls.extend(
 						"shadow-md",
 					],
 					[
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-light",
-						"subtle.color.shadow-light",
+						"tone.subtle.dark.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
+						"tone.subtle.light.shadow",
 					],
 				),
 			}),

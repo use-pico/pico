@@ -2,7 +2,7 @@ import { PicoCls } from "./PicoCls";
 
 export const ColorsCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 		],
@@ -11,11 +11,13 @@ export const ColorsCls = PicoCls.extend(
 				"primary",
 				"secondary",
 				"danger",
+				"warning",
 				"neutral",
 				"subtle",
 			],
-			light: [
-				"bool",
+			theme: [
+				"light",
+				"dark",
 			],
 		},
 	},
@@ -26,70 +28,108 @@ export const ColorsCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"primary.color.text-light",
-						"primary.color.bg-dark",
-						"primary.color.border-dark",
-						"primary.color.shadow-dark",
+						"tone.primary.dark.text",
+						"tone.primary.dark.text:hover",
+						"tone.primary.dark.bg",
+						"tone.primary.dark.bg:hover",
+						"tone.primary.dark.border",
+						"tone.primary.dark.border:hover",
+						"tone.primary.dark.shadow",
+						"tone.primary.dark.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"secondary.color.text-light",
-						"secondary.color.bg-dark",
-						"secondary.color.border-dark",
-						"secondary.color.shadow-dark",
+						"tone.secondary.dark.text",
+						"tone.secondary.dark.text:hover",
+						"tone.secondary.dark.bg",
+						"tone.secondary.dark.bg:hover",
+						"tone.secondary.dark.border",
+						"tone.secondary.dark.border:hover",
+						"tone.secondary.dark.shadow",
+						"tone.secondary.dark.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"danger.color.text-light",
-						"danger.color.bg-dark",
-						"danger.color.border-dark",
-						"danger.color.shadow-dark",
+						"tone.danger.dark.text",
+						"tone.danger.dark.text:hover",
+						"tone.danger.dark.bg",
+						"tone.danger.dark.bg:hover",
+						"tone.danger.dark.border",
+						"tone.danger.dark.border:hover",
+						"tone.danger.dark.shadow",
+						"tone.danger.dark.shadow:hover",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.warning.dark.text",
+						"tone.warning.dark.text:hover",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.bg:hover",
+						"tone.warning.dark.border",
+						"tone.warning.dark.border:hover",
+						"tone.warning.dark.shadow",
+						"tone.warning.dark.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"neutral.color.text-dark",
-						"neutral.color.bg-dark",
-						"neutral.color.border-dark",
-						"neutral.color.shadow-dark",
+						"tone.neutral.dark.text",
+						"tone.neutral.dark.text:hover",
+						"tone.neutral.dark.bg",
+						"tone.neutral.dark.bg:hover",
+						"tone.neutral.dark.border",
+						"tone.neutral.dark.border:hover",
+						"tone.neutral.dark.shadow",
+						"tone.neutral.dark.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-dark",
-						"subtle.color.border-dark",
-						"subtle.color.shadow-dark",
+						"tone.subtle.dark.text",
+						"tone.subtle.dark.text:hover",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.bg:hover",
+						"tone.subtle.dark.border",
+						"tone.subtle.dark.border:hover",
+						"tone.subtle.dark.shadow",
+						"tone.subtle.dark.shadow:hover",
 					]),
 				},
 			),
@@ -98,77 +138,115 @@ export const ColorsCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"primary.color.text-dark",
-						"primary.color.bg-light",
-						"primary.color.border-light",
-						"primary.color.shadow-light",
+						"tone.primary.light.text",
+						"tone.primary.light.text:hover",
+						"tone.primary.light.bg",
+						"tone.primary.light.bg:hover",
+						"tone.primary.light.border",
+						"tone.primary.light.border:hover",
+						"tone.primary.light.shadow",
+						"tone.primary.light.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"secondary.color.text-dark",
-						"secondary.color.bg-light",
-						"secondary.color.border-light",
-						"secondary.color.shadow-light",
+						"tone.secondary.light.text",
+						"tone.secondary.light.text:hover",
+						"tone.secondary.light.bg",
+						"tone.secondary.light.bg:hover",
+						"tone.secondary.light.border",
+						"tone.secondary.light.border:hover",
+						"tone.secondary.light.shadow",
+						"tone.secondary.light.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"danger.color.text-dark",
-						"danger.color.bg-light",
-						"danger.color.border-light",
-						"danger.color.shadow-light",
+						"tone.danger.light.text",
+						"tone.danger.light.text:hover",
+						"tone.danger.light.bg",
+						"tone.danger.light.bg:hover",
+						"tone.danger.light.border",
+						"tone.danger.light.border:hover",
+						"tone.danger.light.shadow",
+						"tone.danger.light.shadow:hover",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.warning.light.text",
+						"tone.warning.light.text:hover",
+						"tone.warning.light.bg",
+						"tone.warning.light.bg:hover",
+						"tone.warning.light.border",
+						"tone.warning.light.border:hover",
+						"tone.warning.light.shadow",
+						"tone.warning.light.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"neutral.color.text-dark",
-						"neutral.color.bg-light",
-						"neutral.color.border-light",
-						"neutral.color.shadow-light",
+						"tone.neutral.light.text",
+						"tone.neutral.light.text:hover",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.bg:hover",
+						"tone.neutral.light.border",
+						"tone.neutral.light.border:hover",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-light",
-						"subtle.color.shadow-light",
+						"tone.subtle.light.text",
+						"tone.subtle.light.text:hover",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.bg:hover",
+						"tone.subtle.light.border",
+						"tone.subtle.light.border:hover",
+						"tone.subtle.light.shadow",
+						"tone.subtle.light.shadow:hover",
 					]),
 				},
 			),
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			light: false,
+			theme: "dark",
 		}),
 	}),
 );

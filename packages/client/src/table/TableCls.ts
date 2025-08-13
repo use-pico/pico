@@ -3,7 +3,7 @@ import { AbstractListCls } from "../list/AbstractListCls";
 
 export const TableCls = AbstractListCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 			"body",
@@ -47,9 +47,9 @@ export const TableCls = AbstractListCls.extend(
 						"border-b",
 					],
 					[
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-dark",
+						"tone.subtle.dark.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.dark.border",
 					],
 				),
 				headerCell: what.css([
@@ -69,13 +69,13 @@ export const TableCls = AbstractListCls.extend(
 						"border-b",
 					],
 					[
-						// "subtle.color.bg-light-odd",
-						"subtle.color.border-dark",
-						"secondary.color.bg-light-hover",
-						"secondary.color.border-dark-hover",
-						// "neutral.color.border-light",
-						// "neutral.color.bg-light-hover",
-						// "neutral.color.border-light-hover",
+						// "tone.subtle.light.bg:odd",
+						"tone.subtle.dark.border",
+						"tone.secondary.light.bg:hover",
+						"tone.secondary.dark.border:hover",
+						// "tone.neutral.light.border",
+						// "tone.neutral.light.bg:hover",
+						// "tone.neutral.light.border:hover",
 						// "neutral.color.bg-light-odd",
 						// "neutral.color.bg-light-odd-hover",
 						// "neutral.color.border-light-odd",
@@ -99,8 +99,8 @@ export const TableCls = AbstractListCls.extend(
 						"cursor-pointer",
 					],
 					[
-						"secondary.color.text-dark",
-						"secondary.color.text-dark-hover",
+						"tone.secondary.dark.text",
+						"tone.secondary.dark.text:hover",
 					],
 				),
 			}),
@@ -110,15 +110,15 @@ export const TableCls = AbstractListCls.extend(
 				}),
 				{
 					row: what.token([
-						"subtle.color.bg-dark",
-						"subtle.color.bg-dark-odd",
-						"subtle.color.border-dark",
-						"subtle.color.border-dark-odd",
-						// "subtle.color.bg-dark-hover",
-						// "subtle.color.border-dark-hover",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.bg:odd",
+						"tone.subtle.dark.border",
+						"tone.subtle.dark.border",
+						// "tone.subtle.dark.bg:hover",
+						// "tone.subtle.dark.border:hover",
 					]),
 					select: what.token([
-						"secondary.color.text-dark",
+						"tone.secondary.dark.text",
 					]),
 				},
 			),

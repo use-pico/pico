@@ -163,8 +163,8 @@ export const Modal: FC<Modal.Props> = ({
 											onClick={() => close()}
 											cls={({ what }) => ({
 												variant: what.variant({
-													light: true,
 													borderless: true,
+													theme: "light",
 												}),
 											})}
 										/>

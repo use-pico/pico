@@ -59,7 +59,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 									}),
 								})}
 							/>
@@ -74,7 +74,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 										borderless: true,
 									}),
 								})}
@@ -108,7 +108,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 									}),
 								})}
 							/>
@@ -141,7 +141,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
-										light: true,
+										theme: "light",
 									}),
 								})}
 							/>

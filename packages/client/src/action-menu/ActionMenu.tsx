@@ -54,7 +54,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 								variant: what.variant({
 									// borderless: true,
 									tone: "subtle",
-									light: true,
+									theme: "light",
 								}),
 							})}
 							{...actionProps}

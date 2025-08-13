@@ -82,7 +82,7 @@ export const More = <TValues extends EntitySchema.Type>({
 								variant: what.variant({
 									tone: "subtle",
 									borderless: true,
-									light: true,
+									theme: "light",
 								}),
 							})}
 						/>
