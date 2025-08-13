@@ -18,8 +18,9 @@ export const AlertCls = PicoCls.extend(
 				"neutral",
 				"subtle",
 			],
-			light: [
-				"bool",
+			theme: [
+				"light",
+				"dark",
 			],
 			clickable: [
 				"bool",
@@ -57,11 +58,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					base: what.token([
-						"tone.primary.light.text",
+						"tone.primary.dark.text",
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
 					]),
@@ -73,11 +74,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					base: what.token([
-						"tone.primary.dark.text",
+						"tone.primary.light.text",
 						"tone.primary.light.bg",
 						"tone.primary.light.border",
 					]),
@@ -89,11 +90,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					base: what.token([
-						"tone.secondary.light.text",
+						"tone.secondary.dark.text",
 						"tone.secondary.dark.bg",
 						"tone.secondary.dark.border",
 					]),
@@ -105,11 +106,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					base: what.token([
-						"tone.secondary.dark.text",
+						"tone.secondary.light.text",
 						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
 					]),
@@ -121,11 +122,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					base: what.token([
-						"tone.danger.light.text",
+						"tone.danger.dark.text",
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
 					]),
@@ -137,11 +138,11 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: true,
+					theme: "light",
 				}),
 				{
 					base: what.token([
-						"tone.danger.dark.text",
+						"tone.danger.light.text",
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
 					]),
@@ -153,7 +154,7 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					base: what.token([
@@ -169,7 +170,7 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: true,
+					theme: "light",
 				}),
 				{
 					base: what.token([
@@ -185,7 +186,7 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					base: what.token([
@@ -201,7 +202,7 @@ export const AlertCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: true,
+					theme: "light",
 				}),
 				{
 					base: what.token([
@@ -235,7 +236,7 @@ export const AlertCls = PicoCls.extend(
 		defaults: def.defaults({
 			clickable: false,
 			tone: "primary",
-			light: false,
+			theme: "dark",
 		}),
 	}),
 );

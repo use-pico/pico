@@ -25,7 +25,7 @@ export const ActionMenuCls = PicoCls.extend(
 						"gap-2",
 					],
 					[
-						"tone.neutral.dark.text",
+						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
 					],

@@ -32,7 +32,7 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"tone.primary.dark.text",
+						"tone.primary.light.text",
 						"tone.primary.light.bg",
 						"tone.primary.light.border",
 					]),
@@ -44,7 +44,7 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"tone.secondary.dark.text",
+						"tone.secondary.light.text",
 						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
 					]),
@@ -56,7 +56,7 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"tone.danger.dark.text",
+						"tone.danger.light.text",
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
 					]),

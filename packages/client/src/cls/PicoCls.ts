@@ -182,16 +182,16 @@ export const PicoCls = cls(
 				"hover:text-indigo-800",
 			]),
 			"tone.primary.light.bg": what.css([
-				"bg-indigo-50",
+				"bg-indigo-100",
 			]),
 			"tone.primary.light.bg:hover": what.css([
-				"hover:bg-indigo-100",
+				"hover:bg-indigo-200",
 			]),
 			"tone.primary.light.bg:even": what.css([
-				"bg-indigo-50/60",
+				"bg-indigo-100",
 			]),
 			"tone.primary.light.bg:odd": what.css([
-				"bg-indigo-50/40",
+				"bg-indigo-50",
 			]),
 			"tone.primary.light.border": what.css([
 				"border-indigo-200",
@@ -207,22 +207,22 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.primary.dark.text": what.css([
-				"text-indigo-300",
+				"text-indigo-200",
 			]),
 			"tone.primary.dark.text:hover": what.css([
-				"hover:text-indigo-200",
+				"hover:text-indigo-100",
 			]),
 			"tone.primary.dark.bg": what.css([
-				"bg-indigo-900/20",
+				"bg-indigo-900",
 			]),
 			"tone.primary.dark.bg:hover": what.css([
-				"hover:bg-indigo-900/30",
+				"hover:bg-indigo-800",
 			]),
 			"tone.primary.dark.bg:even": what.css([
-				"bg-indigo-900/15",
+				"bg-indigo-800",
 			]),
 			"tone.primary.dark.bg:odd": what.css([
-				"bg-indigo-900/10",
+				"bg-indigo-950",
 			]),
 			"tone.primary.dark.border": what.css([
 				"border-indigo-700",
@@ -231,10 +231,10 @@ export const PicoCls = cls(
 				"hover:border-indigo-600",
 			]),
 			"tone.primary.dark.shadow": what.css([
-				"shadow-indigo-900/30",
+				"shadow-indigo-900",
 			]),
 			"tone.primary.dark.shadow:hover": what.css([
-				"hover:shadow-indigo-800/40",
+				"hover:shadow-indigo-800/60",
 			]),
 			//
 			// Secondary Tone - Modern Emerald/Teal
@@ -245,16 +245,16 @@ export const PicoCls = cls(
 				"hover:text-emerald-800",
 			]),
 			"tone.secondary.light.bg": what.css([
-				"bg-emerald-50",
+				"bg-emerald-100",
 			]),
 			"tone.secondary.light.bg:hover": what.css([
-				"hover:bg-emerald-100",
+				"hover:bg-emerald-200",
 			]),
 			"tone.secondary.light.bg:even": what.css([
-				"bg-emerald-50/60",
+				"bg-emerald-100",
 			]),
 			"tone.secondary.light.bg:odd": what.css([
-				"bg-emerald-50/40",
+				"bg-emerald-50",
 			]),
 			"tone.secondary.light.border": what.css([
 				"border-emerald-200",
@@ -270,22 +270,22 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.secondary.dark.text": what.css([
-				"text-emerald-300",
+				"text-emerald-200",
 			]),
 			"tone.secondary.dark.text:hover": what.css([
-				"hover:text-emerald-200",
+				"hover:text-emerald-100",
 			]),
 			"tone.secondary.dark.bg": what.css([
-				"bg-emerald-900/20",
+				"bg-emerald-900",
 			]),
 			"tone.secondary.dark.bg:hover": what.css([
-				"hover:bg-emerald-900/30",
+				"hover:bg-emerald-800",
 			]),
 			"tone.secondary.dark.bg:even": what.css([
-				"bg-emerald-900/15",
+				"bg-emerald-800",
 			]),
 			"tone.secondary.dark.bg:odd": what.css([
-				"bg-emerald-900/10",
+				"bg-emerald-950",
 			]),
 			"tone.secondary.dark.border": what.css([
 				"border-emerald-700",
@@ -294,10 +294,10 @@ export const PicoCls = cls(
 				"hover:border-emerald-600",
 			]),
 			"tone.secondary.dark.shadow": what.css([
-				"shadow-emerald-900/30",
+				"shadow-emerald-900/50",
 			]),
 			"tone.secondary.dark.shadow:hover": what.css([
-				"hover:shadow-emerald-800/40",
+				"hover:shadow-emerald-800/60",
 			]),
 			//
 			// Danger Tone - Modern Red/Rose
@@ -308,16 +308,16 @@ export const PicoCls = cls(
 				"hover:text-red-800",
 			]),
 			"tone.danger.light.bg": what.css([
-				"bg-red-50",
+				"bg-red-100",
 			]),
 			"tone.danger.light.bg:hover": what.css([
-				"hover:bg-red-100",
+				"hover:bg-red-200",
 			]),
 			"tone.danger.light.bg:even": what.css([
-				"bg-red-50/60",
+				"bg-red-100",
 			]),
 			"tone.danger.light.bg:odd": what.css([
-				"bg-red-50/40",
+				"bg-red-50",
 			]),
 			"tone.danger.light.border": what.css([
 				"border-red-200",
@@ -333,22 +333,22 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.danger.dark.text": what.css([
-				"text-red-300",
+				"text-red-200",
 			]),
 			"tone.danger.dark.text:hover": what.css([
-				"hover:text-red-200",
+				"hover:text-red-100",
 			]),
 			"tone.danger.dark.bg": what.css([
-				"bg-red-900/20",
+				"bg-red-900",
 			]),
 			"tone.danger.dark.bg:hover": what.css([
-				"hover:bg-red-900/30",
+				"hover:bg-red-800",
 			]),
 			"tone.danger.dark.bg:even": what.css([
-				"bg-red-900/15",
+				"bg-red-800",
 			]),
 			"tone.danger.dark.bg:odd": what.css([
-				"bg-red-900/10",
+				"bg-red-950",
 			]),
 			"tone.danger.dark.border": what.css([
 				"border-red-700",
@@ -357,10 +357,10 @@ export const PicoCls = cls(
 				"hover:border-red-600",
 			]),
 			"tone.danger.dark.shadow": what.css([
-				"shadow-red-900/30",
+				"shadow-red-900/50",
 			]),
 			"tone.danger.dark.shadow:hover": what.css([
-				"hover:shadow-red-800/40",
+				"hover:shadow-red-800/60",
 			]),
 			//
 			// Warning Tone - Modern Orange/Amber
@@ -371,16 +371,16 @@ export const PicoCls = cls(
 				"hover:text-orange-800",
 			]),
 			"tone.warning.light.bg": what.css([
-				"bg-orange-50",
+				"bg-orange-100",
 			]),
 			"tone.warning.light.bg:hover": what.css([
-				"hover:bg-orange-100",
+				"hover:bg-orange-200",
 			]),
 			"tone.warning.light.bg:even": what.css([
-				"bg-orange-50/60",
+				"bg-orange-100",
 			]),
 			"tone.warning.light.bg:odd": what.css([
-				"bg-orange-50/40",
+				"bg-orange-50",
 			]),
 			"tone.warning.light.border": what.css([
 				"border-orange-200",
@@ -396,22 +396,22 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.warning.dark.text": what.css([
-				"text-orange-300",
+				"text-orange-200",
 			]),
 			"tone.warning.dark.text:hover": what.css([
-				"hover:text-orange-200",
+				"hover:text-orange-100",
 			]),
 			"tone.warning.dark.bg": what.css([
-				"bg-orange-900/20",
+				"bg-orange-900",
 			]),
 			"tone.warning.dark.bg:hover": what.css([
-				"hover:bg-orange-900/30",
+				"hover:bg-orange-800",
 			]),
 			"tone.warning.dark.bg:even": what.css([
-				"bg-orange-900/15",
+				"bg-orange-800",
 			]),
 			"tone.warning.dark.bg:odd": what.css([
-				"bg-orange-900/10",
+				"bg-orange-950",
 			]),
 			"tone.warning.dark.border": what.css([
 				"border-orange-700",
@@ -420,10 +420,10 @@ export const PicoCls = cls(
 				"hover:border-orange-600",
 			]),
 			"tone.warning.dark.shadow": what.css([
-				"shadow-orange-900/30",
+				"shadow-orange-900/50",
 			]),
 			"tone.warning.dark.shadow:hover": what.css([
-				"hover:shadow-orange-800/40",
+				"hover:shadow-orange-800/60",
 			]),
 			//
 			// Subtle Tone - Modern Amber/Warm
@@ -434,16 +434,16 @@ export const PicoCls = cls(
 				"hover:text-amber-800",
 			]),
 			"tone.subtle.light.bg": what.css([
-				"bg-amber-50",
+				"bg-amber-100",
 			]),
 			"tone.subtle.light.bg:hover": what.css([
-				"hover:bg-amber-100",
+				"hover:bg-amber-200",
 			]),
 			"tone.subtle.light.bg:even": what.css([
-				"bg-amber-50/60",
+				"bg-amber-100",
 			]),
 			"tone.subtle.light.bg:odd": what.css([
-				"bg-amber-50/40",
+				"bg-amber-50",
 			]),
 			"tone.subtle.light.border": what.css([
 				"border-amber-200",
@@ -459,22 +459,22 @@ export const PicoCls = cls(
 			]),
 			//
 			"tone.subtle.dark.text": what.css([
-				"text-amber-300",
+				"text-amber-200",
 			]),
 			"tone.subtle.dark.text:hover": what.css([
-				"hover:text-amber-200",
+				"hover:text-amber-100",
 			]),
 			"tone.subtle.dark.bg": what.css([
-				"bg-amber-900/20",
+				"bg-amber-900",
 			]),
 			"tone.subtle.dark.bg:hover": what.css([
-				"hover:bg-amber-900/30",
+				"hover:bg-amber-800",
 			]),
 			"tone.subtle.dark.bg:even": what.css([
-				"bg-amber-900/15",
+				"bg-amber-800",
 			]),
 			"tone.subtle.dark.bg:odd": what.css([
-				"bg-amber-900/10",
+				"bg-amber-950",
 			]),
 			"tone.subtle.dark.border": what.css([
 				"border-amber-700",
@@ -483,10 +483,10 @@ export const PicoCls = cls(
 				"hover:border-amber-600",
 			]),
 			"tone.subtle.dark.shadow": what.css([
-				"shadow-amber-900/30",
+				"shadow-amber-900/50",
 			]),
 			"tone.subtle.dark.shadow:hover": what.css([
-				"hover:shadow-amber-800/40",
+				"hover:shadow-amber-800/60",
 			]),
 			//
 			// Neutral Tone - Modern Slate/Gray
@@ -497,16 +497,16 @@ export const PicoCls = cls(
 				"hover:text-slate-950",
 			]),
 			"tone.neutral.light.bg": what.css([
-				"bg-slate-50",
+				"bg-slate-100",
 			]),
 			"tone.neutral.light.bg:hover": what.css([
-				"hover:bg-slate-100",
+				"hover:bg-slate-200",
 			]),
 			"tone.neutral.light.bg:even": what.css([
-				"bg-slate-50/60",
+				"bg-slate-100",
 			]),
 			"tone.neutral.light.bg:odd": what.css([
-				"bg-slate-50/40",
+				"bg-slate-50",
 			]),
 			"tone.neutral.light.border": what.css([
 				"border-slate-200",
@@ -534,10 +534,10 @@ export const PicoCls = cls(
 				"hover:bg-slate-800",
 			]),
 			"tone.neutral.dark.bg:even": what.css([
-				"bg-slate-800/60",
+				"bg-slate-800",
 			]),
 			"tone.neutral.dark.bg:odd": what.css([
-				"bg-slate-800/40",
+				"bg-slate-950",
 			]),
 			"tone.neutral.dark.border": what.css([
 				"border-slate-700",

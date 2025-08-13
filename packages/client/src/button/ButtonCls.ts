@@ -88,6 +88,7 @@ export const ButtonCls = PicoCls.extend(
 					root: what.token([
 						"button.size.xs",
 						"round.sm",
+						"shadow.sm",
 					]),
 				},
 			),
@@ -99,6 +100,7 @@ export const ButtonCls = PicoCls.extend(
 					root: what.token([
 						"button.size.sm",
 						"round.md",
+						"shadow.sm",
 					]),
 				},
 			),
@@ -110,6 +112,7 @@ export const ButtonCls = PicoCls.extend(
 					root: what.token([
 						"button.size.md",
 						"round.lg",
+						"shadow.md",
 					]),
 				},
 			),

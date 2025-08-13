@@ -22,7 +22,7 @@ export const TooltipCls = PicoCls.extend(
 						"shadow-md",
 					],
 					[
-						"tone.subtle.dark.text",
+						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",

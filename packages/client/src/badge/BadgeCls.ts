@@ -15,8 +15,9 @@ export const BadgeCls = PicoCls.extend(
 				"neutral",
 				"subtle",
 			],
-			light: [
-				"bool",
+			theme: [
+				"light",
+				"dark",
 			],
 			disabled: [
 				"bool",
@@ -43,7 +44,7 @@ export const BadgeCls = PicoCls.extend(
 					"font-bold",
 					"gap-2",
 					"items-center",
-					"rounded-2xl",
+					"rounded-full",
 					"select-none",
 					"text-sm",
 				]),
@@ -52,65 +53,70 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"tone.primary.light.text",
+						"tone.primary.dark.text",
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
+						"tone.primary.dark.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"tone.secondary.light.text",
+						"tone.secondary.dark.text",
 						"tone.secondary.dark.bg",
 						"tone.secondary.dark.border",
+						"tone.secondary.dark.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
-						"tone.danger.light.text",
+						"tone.danger.dark.text",
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
+						"tone.danger.dark.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
 						"tone.neutral.dark.text",
 						"tone.neutral.dark.bg",
 						"tone.neutral.dark.border",
+						"tone.neutral.dark.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: false,
+					theme: "dark",
 				}),
 				{
 					root: what.token([
 						"tone.subtle.dark.text",
 						"tone.subtle.dark.bg",
 						"tone.subtle.dark.border",
+						"tone.subtle.dark.shadow",
 					]),
 				},
 			),
@@ -119,65 +125,70 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "primary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.primary.dark.text",
+						"tone.primary.light.text",
 						"tone.primary.light.bg",
 						"tone.primary.light.border",
+						"tone.primary.light.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.secondary.dark.text",
+						"tone.secondary.light.text",
 						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
+						"tone.secondary.light.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "danger",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.danger.dark.text",
+						"tone.danger.light.text",
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
+						"tone.danger.light.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.neutral.dark.text",
+						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
+						"tone.neutral.light.shadow",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					light: true,
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.subtle.dark.text",
+						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
+						"tone.subtle.light.shadow",
 					]),
 				},
 			),
@@ -209,11 +220,16 @@ export const BadgeCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.css([
-						"text-xs",
-						"px-2",
-						"py-0.5",
-					]),
+					root: what.both(
+						[
+							"text-xs",
+							"px-2",
+							"py-0.5",
+						],
+						[
+							"shadow.sm",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -221,11 +237,16 @@ export const BadgeCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.css([
-						"text-sm",
-						"px-3",
-						"py-1",
-					]),
+					root: what.both(
+						[
+							"text-sm",
+							"px-3",
+							"py-1",
+						],
+						[
+							"shadow.sm",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -233,11 +254,16 @@ export const BadgeCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.css([
-						"text-md",
-						"px-4",
-						"py-1.5",
-					]),
+					root: what.both(
+						[
+							"text-md",
+							"px-4",
+							"py-1.5",
+						],
+						[
+							"shadow.md",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -245,17 +271,22 @@ export const BadgeCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.css([
-						"text-lg",
-						"px-6",
-						"py-2",
-					]),
+					root: what.both(
+						[
+							"text-lg",
+							"px-6",
+							"py-2",
+						],
+						[
+							"shadow.lg",
+						],
+					),
 				},
 			),
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			light: false,
+			theme: "dark",
 			disabled: false,
 			borderless: false,
 			size: "md",

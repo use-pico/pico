@@ -47,9 +47,9 @@ export const TableCls = AbstractListCls.extend(
 						"border-b",
 					],
 					[
-						"tone.subtle.dark.text",
+						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
-						"tone.subtle.dark.border",
+						"tone.subtle.light.border",
 					],
 				),
 				headerCell: what.css([
@@ -70,9 +70,9 @@ export const TableCls = AbstractListCls.extend(
 					],
 					[
 						// "tone.subtle.light.bg:odd",
-						"tone.subtle.dark.border",
+						"tone.subtle.light.border",
 						"tone.secondary.light.bg:hover",
-						"tone.secondary.dark.border:hover",
+						"tone.secondary.light.border:hover",
 						// "tone.neutral.light.border",
 						// "tone.neutral.light.bg:hover",
 						// "tone.neutral.light.border:hover",
