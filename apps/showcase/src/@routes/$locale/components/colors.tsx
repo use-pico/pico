@@ -14,54 +14,69 @@ export const Route = createFileRoute("/$locale/components/colors")({
 					"gap-4",
 				])}
 			>
-				<Section title="Dark">
+				<Section title="Dark Theme">
 					<Swatch
 						tone="primary"
+						theme="dark"
 						label="Primary"
 					/>
 					<Swatch
 						tone="secondary"
+						theme="dark"
 						label="Secondary"
 					/>
 					<Swatch
 						tone="danger"
+						theme="dark"
 						label="Danger"
 					/>
 					<Swatch
+						tone="warning"
+						theme="dark"
+						label="Warning"
+					/>
+					<Swatch
 						tone="neutral"
+						theme="dark"
 						label="Neutral"
 					/>
 					<Swatch
 						tone="subtle"
+						theme="dark"
 						label="Subtle"
 					/>
 				</Section>
 
-				<Section title="Light">
+				<Section title="Light Theme">
 					<Swatch
 						tone="primary"
-						light
-						label="Primary (light)"
+						theme="light"
+						label="Primary"
 					/>
 					<Swatch
 						tone="secondary"
-						light
-						label="Secondary (light)"
+						theme="light"
+						label="Secondary"
 					/>
 					<Swatch
 						tone="danger"
-						light
-						label="Danger (light)"
+						theme="light"
+						label="Danger"
+					/>
+					<Swatch
+						tone="warning"
+						theme="light"
+						label="Warning"
 					/>
 					<Swatch
 						tone="neutral"
-						light
-						label="Neutral (light)"
+						theme="light"
+						label="Neutral"
 					/>
 					<Swatch
 						tone="subtle"
-						light
-						label="Subtle (light)"
+						theme="light"
+						label="Subtle"
 					/>
 				</Section>
 			</div>
@@ -70,14 +85,14 @@ export const Route = createFileRoute("/$locale/components/colors")({
 });
 
 const Swatch: FC<{
-	tone: "primary" | "secondary" | "danger" | "neutral" | "subtle";
-	light?: boolean;
+	tone: "primary" | "secondary" | "danger" | "warning" | "neutral" | "subtle";
+	theme: "light" | "dark";
 	label: string;
-}> = ({ tone, light = false, label }) => {
+}> = ({ tone, theme, label }) => {
 	const slots = useCls(ColorsCls, ({ what }) => ({
 		variant: what.variant({
 			tone,
-			light,
+			theme,
 		}),
 	}));
 	return (

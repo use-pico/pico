@@ -6,7 +6,7 @@ export const ActionMenuCls = PicoCls.extend(
 		slot: [
 			"base",
 		],
-		tokens: {},
+		tokens: [],
 		variant: {},
 	},
 	({ what, def }) => ({
@@ -25,9 +25,9 @@ export const ActionMenuCls = PicoCls.extend(
 						"gap-2",
 					],
 					[
-						"neutral.color.text-dark",
-						"neutral.color.bg-light",
-						"neutral.color.border-light",
+						"tone.neutral.dark.text",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border",
 					],
 				),
 			}),

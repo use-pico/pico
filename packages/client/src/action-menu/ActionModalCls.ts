@@ -3,7 +3,7 @@ import { ActionCls } from "./ActionCls";
 
 export const ActionModalCls = ActionCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [],
 		variant: {},
 	},

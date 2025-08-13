@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 const OverriddenCls = PicoCls.extend(
 	{
 		slot: [],
-		tokens: {},
+		tokens: [],
 		variant: {},
 	},
 	() => ({

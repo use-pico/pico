@@ -2,7 +2,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const ActionCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 		],
