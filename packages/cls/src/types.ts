@@ -266,7 +266,7 @@ type Variants<T extends Contract<any, any, any>> = T extends {
 /**
  * Utility for mapping variant keys to their processed values
  */
-type VariantValueMapping<T extends Contract<any, any, any>> = {
+export type VariantValueMapping<T extends Contract<any, any, any>> = {
 	[K in keyof Variants<T>]: StringToBool<Variants<T>[K][number]>;
 };
 

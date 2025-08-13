@@ -6,12 +6,14 @@ import type {
 	ClsSlotFn,
 	Contract,
 	CreateConfig,
+	DefaultDefinition,
 	Definition,
 	RuleDefinition,
 	SlotContract,
 	TokenContract,
 	TokenDefinition,
 	VariantContract,
+	VariantValueMapping,
 	What,
 	WhatUtil,
 } from "./types";
@@ -73,7 +75,7 @@ export function cls<
 	}
 
 	// Merge defaults and rules from ALL layers in inheritance order
-	const defaults: Record<string, unknown> = {};
+	const defaultVariant = {} as DefaultDefinition<TContract>;
 	const rules: RuleDefinition<
 		Contract<TokenContract, SlotContract, VariantContract>
 	>[] = [];
@@ -81,9 +83,9 @@ export function cls<
 	// Process layers in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
 		// Merge defaults (child overrides base)
-		Object.assign(defaults, d.defaults ?? {});
+		Object.assign(defaultVariant, d.defaults);
 		// Collect rules (all rules from all layers)
-		rules.push(...(d.rules ?? []));
+		rules.push(...d.rules);
 	}
 
 	// Build token index with proper inheritance order
@@ -142,15 +144,15 @@ export function cls<
 	};
 
 	const matches = (
-		effective: Record<string, unknown>,
-		ruleMatch: Partial<Record<string, unknown>> | undefined,
+		variant: DefaultDefinition<TContract>,
+		ruleMatch?: Partial<VariantValueMapping<TContract>>,
 	): boolean => {
 		if (!ruleMatch) {
 			return true;
 		}
 
 		for (const [k, v] of Object.entries(ruleMatch)) {
-			if (effective[k] !== v) {
+			if (variant[k] !== v) {
 				return false;
 			}
 		}
@@ -167,7 +169,7 @@ export function cls<
 			)() as CreateConfig<TContract>;
 
 			const effectiveVariant = {
-				...defaults,
+				...defaultVariant,
 				...(config.variant ?? {}),
 			};
 
@@ -177,10 +179,13 @@ export function cls<
 			};
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values as string[];
+				tokenTable[key] = values as ClassName;
 			}
 
-			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
+			const cache = {} as Record<
+				TSlotContract[number],
+				ClsSlotFn<TContract>
+			>;
 			const resultCache = new Map<string, string>();
 
 			const computeKey = (
@@ -203,11 +208,9 @@ export function cls<
 			const handler: ProxyHandler<
 				Record<TSlotContract[number], ClsSlotFn<TContract>>
 			> = {
-				get(_, prop) {
-					if (prop in cache) return cache[prop];
-					const slotName = prop as string;
-					if (!allSlots.has(slotName)) {
-						return undefined as unknown as ClsSlotFn<TContract>;
+				get(_, slotName: TSlotContract[number]) {
+					if (slotName in cache) {
+						return cache[slotName];
 					}
 
 					const slotFn: ClsSlotFn<TContract> = (call) => {
@@ -322,8 +325,8 @@ export function cls<
 						return out;
 					};
 
-					cache[prop] = slotFn;
-					return cache[prop];
+					cache[slotName] = slotFn;
+					return cache[slotName];
 				},
 				ownKeys() {
 					return Array.from(allSlots);
