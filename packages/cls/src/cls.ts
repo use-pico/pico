@@ -10,6 +10,7 @@ import type {
 	RuleDefinition,
 	SlotContract,
 	TokenContract,
+	TokenDefinition,
 	VariantContract,
 	What,
 	WhatUtil,
@@ -86,7 +87,9 @@ export function cls<
 	}
 
 	// Build token index with proper inheritance order
-	const tokens: Record<string, ClassName> = {};
+	const tokens: TokenDefinition<
+		Contract<TokenContract, SlotContract, VariantContract>
+	> = {};
 
 	// Apply token definitions in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
@@ -98,7 +101,9 @@ export function cls<
 	// Helper functions
 	const resolveTokens = (
 		tokenKeys: string[] | undefined,
-		tokenTable: typeof tokens,
+		tokenTable: TokenDefinition<
+			Contract<TokenContract, SlotContract, VariantContract>
+		>,
 	): ClassName[] => {
 		if (!tokenKeys) {
 			return [];
@@ -115,7 +120,9 @@ export function cls<
 		what:
 			| What<Contract<TokenContract, SlotContract, VariantContract>>
 			| undefined,
-		tokenTable: typeof tokens,
+		tokenTable: TokenDefinition<
+			Contract<TokenContract, SlotContract, VariantContract>
+		>,
 	): ClassName[] => {
 		if (!what) {
 			return acc;
