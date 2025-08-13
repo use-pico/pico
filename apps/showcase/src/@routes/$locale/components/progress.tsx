@@ -1,24 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Progress, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
+
+const tones = [
+	"primary",
+	"secondary",
+	"danger",
+	"warning",
+	"neutral",
+	"subtle",
+] as const;
+
+const sizes = [
+	"xs",
+	"sm",
+	"md",
+	"lg",
+] as const;
+
+const themes = [
+	"light",
+	"dark",
+] as const;
 
 export const Route = createFileRoute("/$locale/components/progress")({
 	component() {
-		const tones = [
-			"primary",
-			"secondary",
-			"danger",
-			"warning",
-			"neutral",
-			"subtle",
-		] as const;
+		const [progressValue, setProgressValue] = useState(0);
 
-		const sizes = [
-			"xs",
-			"sm",
-			"md",
-			"lg",
-		] as const;
+		useEffect(() => {
+			const interval = setInterval(() => {
+				setProgressValue((prev) => {
+					if (prev > 100) {
+						return 0;
+					}
+					return prev + 10;
+				});
+			}, 500);
+
+			return () => clearInterval(interval);
+		}, []);
 
 		return (
 			<div
@@ -29,235 +51,290 @@ export const Route = createFileRoute("/$locale/components/progress")({
 					"w-full",
 				])}
 			>
-				<Section
-					title={
-						<Tx label={"Tone Variants (md size, light theme)"} />
-					}
-				>
-					{tones.map((tone) => (
-						<Row
-							key={`tone-${tone}`}
-							label={<Tx label={tone} />}
-						>
+				{/* Tones - Light Theme */}
+				<Section title={<Tx label={"Tones - Light Theme"} />}>
+					<div className="grid grid-cols-3 gap-6">
+						{tones.map((tone) => (
+							<Column
+								key={`tone-light-${tone}`}
+								label={tone}
+							>
+								<div className="w-full max-w-md">
+									<Progress
+										value={progressValue}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												size: "md",
+												theme: "light",
+											}),
+										})}
+									/>
+								</div>
+							</Column>
+						))}
+					</div>
+				</Section>
+
+				{/* Tones - Dark Theme */}
+				<Section title={<Tx label={"Tones - Dark Theme"} />}>
+					<div className="grid grid-cols-3 gap-6">
+						{tones.map((tone) => (
+							<Column
+								key={`tone-dark-${tone}`}
+								label={tone}
+							>
+								<div className="w-full max-w-md">
+									<Progress
+										value={progressValue}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												size: "md",
+												theme: "dark",
+											}),
+										})}
+									/>
+								</div>
+							</Column>
+						))}
+					</div>
+				</Section>
+
+				{/* Sizes */}
+				<Section title={<Tx label={"Sizes"} />}>
+					<div className="grid grid-cols-2 gap-8">
+						{themes.map((theme) => (
+							<div
+								key={`sizes-${theme}`}
+								className="flex flex-col space-y-3"
+							>
+								<div className="text-sm font-medium text-slate-600">
+									<Tx label={`${theme} theme`} />
+								</div>
+								<div className="grid grid-cols-4 gap-4">
+									{sizes.map((size) => (
+										<Column
+											key={`size-${size}`}
+											label={size}
+										>
+											<div className="w-full max-w-md">
+												<Progress
+													value={progressValue}
+													cls={({ what }) => ({
+														variant: what.variant({
+															tone: "primary",
+															size,
+															theme,
+														}),
+													})}
+												/>
+											</div>
+										</Column>
+									))}
+								</div>
+							</div>
+						))}
+					</div>
+				</Section>
+
+				{/* Different Values */}
+				<Section title={<Tx label={"Different Values"} />}>
+					<div className="grid grid-cols-4 gap-6">
+						<Column label={<Tx label={"25%"} />}>
 							<div className="w-full max-w-md">
 								<Progress
-									value={65}
+									value={25}
 									cls={({ what }) => ({
 										variant: what.variant({
-											tone,
+											tone: "primary",
 											size: "md",
 											theme: "light",
 										}),
 									})}
 								/>
 							</div>
-						</Row>
-					))}
-				</Section>
-
-				<Section
-					title={<Tx label={"Tone Variants (md size, dark theme)"} />}
-				>
-					{tones.map((tone) => (
-						<Row
-							key={`tone-${tone}`}
-							label={<Tx label={tone} />}
-						>
+						</Column>
+						<Column label={<Tx label={"50%"} />}>
 							<div className="w-full max-w-md">
 								<Progress
-									value={65}
+									value={50}
 									cls={({ what }) => ({
 										variant: what.variant({
-											tone,
+											tone: "secondary",
 											size: "md",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"75%"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={75}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "warning",
+											size: "md",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"100%"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={100}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "primary",
+											size: "md",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Combined Examples - Light Theme */}
+				<Section
+					title={<Tx label={"Combined Examples - Light Theme"} />}
+				>
+					<div className="grid grid-cols-3 gap-6">
+						<Column label={<Tx label={"Danger Large"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={progressValue}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "danger",
+											size: "lg",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Subtle Small"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={progressValue}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "subtle",
+											size: "sm",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Neutral Extra Small"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={progressValue}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "neutral",
+											size: "xs",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Combined Examples - Dark Theme */}
+				<Section
+					title={<Tx label={"Combined Examples - Dark Theme"} />}
+				>
+					<div className="grid grid-cols-3 gap-6">
+						<Column label={<Tx label={"Danger Large"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={progressValue}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "danger",
+											size: "lg",
 											theme: "dark",
 										}),
 									})}
 								/>
 							</div>
-						</Row>
-					))}
-				</Section>
-
-				<Section
-					title={
-						<Tx
-							label={"Size Variants (primary tone, light theme)"}
-						/>
-					}
-				>
-					{sizes.map((size) => (
-						<Row
-							key={`size-${size}`}
-							label={<Tx label={size} />}
-						>
+						</Column>
+						<Column label={<Tx label={"Subtle Small"} />}>
 							<div className="w-full max-w-md">
 								<Progress
-									value={65}
+									value={progressValue}
 									cls={({ what }) => ({
 										variant: what.variant({
-											tone: "primary",
-											size,
-											theme: "light",
+											tone: "subtle",
+											size: "sm",
+											theme: "dark",
 										}),
 									})}
 								/>
 							</div>
-						</Row>
-					))}
+						</Column>
+						<Column label={<Tx label={"Neutral Extra Small"} />}>
+							<div className="w-full max-w-md">
+								<Progress
+									value={progressValue}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "neutral",
+											size: "xs",
+											theme: "dark",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+					</div>
 				</Section>
 
-				<Section title={<Tx label={"Different Values"} />}>
-					<Row label={<Tx label={"25%"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={25}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "primary",
-										size: "md",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"50%"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={50}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "secondary",
-										size: "md",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"75%"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={75}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "warning",
-										size: "md",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"100%"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={100}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "primary",
-										size: "md",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-				</Section>
-
-				<Section
-					title={<Tx label={"Combined Examples (Light Theme)"} />}
-				>
-					<Row label={<Tx label={"Danger Large"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={80}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "danger",
-										size: "lg",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"Subtle Small"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={30}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "subtle",
-										size: "sm",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"Neutral Extra Small"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={45}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "neutral",
-										size: "xs",
-										theme: "light",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-				</Section>
-
-				<Section
-					title={<Tx label={"Combined Examples (Dark Theme)"} />}
-				>
-					<Row label={<Tx label={"Danger Large"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={80}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "danger",
-										size: "lg",
-										theme: "dark",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"Subtle Small"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={30}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "subtle",
-										size: "sm",
-										theme: "dark",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
-					<Row label={<Tx label={"Neutral Extra Small"} />}>
-						<div className="w-full max-w-md">
-							<Progress
-								value={45}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "neutral",
-										size: "xs",
-										theme: "dark",
-									}),
-								})}
-							/>
-						</div>
-					</Row>
+				{/* Complete Combinations */}
+				<Section title={<Tx label={"Complete Combinations"} />}>
+					<div className="grid grid-cols-2 gap-8">
+						{themes.map((theme) => (
+							<div
+								key={`complete-${theme}`}
+								className="flex flex-col space-y-3"
+							>
+								<div className="text-sm font-medium text-slate-600">
+									<Tx label={`${theme} theme`} />
+								</div>
+								<div className="grid grid-cols-3 gap-4">
+									{tones.map((tone) => (
+										<Column
+											key={`complete-${tone}-${theme}`}
+											label={tone}
+										>
+											<div className="w-full max-w-md">
+												<Progress
+													value={progressValue}
+													cls={({ what }) => ({
+														variant: what.variant({
+															size: "md",
+															tone,
+															theme,
+														}),
+													})}
+												/>
+											</div>
+										</Column>
+									))}
+								</div>
+							</div>
+						))}
+					</div>
 				</Section>
 			</div>
 		);
@@ -268,8 +345,8 @@ function Section({
 	title,
 	children,
 }: {
-	title: React.ReactNode;
-	children: React.ReactNode;
+	title: ReactNode;
+	children: ReactNode;
 }) {
 	return (
 		<div
@@ -283,6 +360,7 @@ function Section({
 				className={tvc([
 					"text-sm",
 					"text-slate-600",
+					"font-medium",
 				])}
 			>
 				{title}
@@ -300,34 +378,17 @@ function Section({
 	);
 }
 
-function Row({
+function Column({
 	label,
 	children,
 }: {
-	label: React.ReactNode;
-	children: React.ReactNode;
+	label: ReactNode;
+	children: ReactNode;
 }) {
 	return (
-		<div
-			className={tvc([
-				"flex",
-				"items-center",
-				"gap-4",
-			])}
-		>
-			<div
-				className={tvc([
-					"w-40",
-					"text-slate-500",
-				])}
-			>
-				{label}
-			</div>
-			<div
-				className={tvc([
-					"flex-1",
-				])}
-			>
+		<div className="flex flex-col space-y-2">
+			<div className="text-xs text-slate-500 font-medium">{label}</div>
+			<div className="flex flex-col items-center space-y-2">
 				{children}
 			</div>
 		</div>

@@ -17,23 +17,29 @@ const OverriddenCls = PicoCls.extend(
 	}),
 );
 
+const tones = [
+	"primary",
+	"secondary",
+	"danger",
+	"warning",
+	"neutral",
+	"subtle",
+] as const;
+
+const sizes = [
+	"xs",
+	"sm",
+	"md",
+	"lg",
+] as const;
+
+const themes = [
+	"light",
+	"dark",
+] as const;
+
 export const Route = createFileRoute("/$locale/components/badge")({
 	component() {
-		const tones = [
-			"primary",
-			"secondary",
-			"danger",
-			"warning",
-			"neutral",
-			"subtle",
-		] as const;
-		const sizes = [
-			"xs",
-			"sm",
-			"md",
-			"lg",
-		] as const;
-
 		return (
 			<ClsProvider value={PicoCls.use(OverriddenCls)}>
 				<div
@@ -43,137 +49,264 @@ export const Route = createFileRoute("/$locale/components/badge")({
 						"space-y-8",
 					])}
 				>
+					{/* Sizes */}
 					<Section title={<Tx label={"Sizes"} />}>
-						<div
-							className={tvc([
-								"flex",
-								"items-center",
-								"flex-wrap",
-								"gap-3",
-							])}
-						>
-							{sizes.map((size) => (
-								<Badge
-									key={`size-${size}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size,
-										}),
-									})}
+						<div className="grid grid-cols-2 gap-8">
+							{themes.map((theme) => (
+								<div
+									key={`sizes-${theme}`}
+									className="flex flex-col space-y-3"
 								>
-									<Tx label={`Size: ${size}`} />
-								</Badge>
+									<div className="text-sm font-medium text-slate-600">
+										<Tx label={`${theme} theme`} />
+									</div>
+									<div className="flex items-center justify-center gap-3">
+										{sizes.map((size) => (
+											<Badge
+												key={`size-${size}-${theme}`}
+												cls={({ what }) => ({
+													variant: what.variant({
+														size,
+														theme,
+													}),
+												})}
+											>
+												<Tx label={size} />
+											</Badge>
+										))}
+									</div>
+								</div>
 							))}
 						</div>
 					</Section>
 
-					<Section title={<Tx label={"Tones"} />}>
-						<Row label={<Tx label={"Default"} />}>
-							{tones.map((tone) => (
-								<div
-									className={tvc([
-										"flex",
-										"items-center",
-										"gap-2",
-									])}
-									key={`tone-${tone}`}
-								>
+					{/* Tones - Light Theme */}
+					<Section title={<Tx label={"Tones - Light Theme"} />}>
+						<div className="grid grid-cols-4 gap-6">
+							<Column label={<Tx label={"Default"} />}>
+								{tones.map((tone) => (
 									<Badge
+										key={`tone-light-${tone}`}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone,
+												theme: "light",
 											}),
 										})}
 									>
-										<Tx label={`${tone}`} />
+										<Tx label={tone} />
 									</Badge>
-									{/* color swatch moved to colors.tsx */}
-								</div>
-							))}
-						</Row>
+								))}
+							</Column>
 
-						<Row label={<Tx label={"Borderless"} />}>
-							{tones.map((tone) => (
-								<Badge
-									key={`tone-borderless-${tone}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											borderless: true,
-										}),
-									})}
-								>
-									<Tx label={`${tone} borderless`} />
-								</Badge>
-							))}
-						</Row>
+							<Column label={<Tx label={"Borderless"} />}>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-light-borderless-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "light",
+												borderless: true,
+											}),
+										})}
+									>
+										<Tx label={`${tone} borderless`} />
+									</Badge>
+								))}
+							</Column>
 
-						<Row label={<Tx label={"Light"} />}>
-							{tones.map((tone) => (
-								<Badge
-									key={`tone-light-${tone}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-										}),
-									})}
-								>
-									<Tx label={`${tone} light`} />
-								</Badge>
-							))}
-						</Row>
+							<Column label={<Tx label={"Disabled"} />}>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-light-disabled-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "light",
+												disabled: true,
+											}),
+										})}
+									>
+										<Tx label={`${tone} disabled`} />
+									</Badge>
+								))}
+							</Column>
 
-						<Row label={<Tx label={"Light + Borderless"} />}>
-							{tones.map((tone) => (
-								<Badge
-									key={`tone-light-borderless-${tone}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-											borderless: true,
-										}),
-									})}
-								>
-									<Tx label={`${tone} light borderless`} />
-								</Badge>
-							))}
-						</Row>
+							<Column
+								label={<Tx label={"Borderless + Disabled"} />}
+							>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-light-borderless-disabled-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "light",
+												borderless: true,
+												disabled: true,
+											}),
+										})}
+									>
+										<Tx
+											label={`${tone} borderless disabled`}
+										/>
+									</Badge>
+								))}
+							</Column>
+						</div>
 					</Section>
 
-					<Section title={<Tx label={"Disabled"} />}>
-						<Row label={<Tx label={"Default"} />}>
-							{tones.map((tone) => (
-								<Badge
-									key={`disabled-${tone}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											disabled: true,
-										}),
-									})}
+					{/* Tones - Dark Theme */}
+					<Section title={<Tx label={"Tones - Dark Theme"} />}>
+						<div className="grid grid-cols-4 gap-6">
+							<Column label={<Tx label={"Default"} />}>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-dark-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "dark",
+											}),
+										})}
+									>
+										<Tx label={tone} />
+									</Badge>
+								))}
+							</Column>
+
+							<Column label={<Tx label={"Borderless"} />}>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-dark-borderless-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "dark",
+												borderless: true,
+											}),
+										})}
+									>
+										<Tx label={`${tone} borderless`} />
+									</Badge>
+								))}
+							</Column>
+
+							<Column label={<Tx label={"Disabled"} />}>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-dark-disabled-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "dark",
+												disabled: true,
+											}),
+										})}
+									>
+										<Tx label={`${tone} disabled`} />
+									</Badge>
+								))}
+							</Column>
+
+							<Column
+								label={<Tx label={"Borderless + Disabled"} />}
+							>
+								{tones.map((tone) => (
+									<Badge
+										key={`tone-dark-borderless-disabled-${tone}`}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone,
+												theme: "dark",
+												borderless: true,
+												disabled: true,
+											}),
+										})}
+									>
+										<Tx
+											label={`${tone} borderless disabled`}
+										/>
+									</Badge>
+								))}
+							</Column>
+						</div>
+					</Section>
+
+					{/* Size Combinations */}
+					<Section title={<Tx label={"Size Combinations"} />}>
+						<div className="grid grid-cols-2 gap-8">
+							{themes.map((theme) => (
+								<div
+									key={`size-combinations-${theme}`}
+									className="flex flex-col space-y-3"
 								>
-									<Tx label={`${tone} disabled`} />
-								</Badge>
+									<div className="text-sm font-medium text-slate-600">
+										<Tx label={`${theme} theme`} />
+									</div>
+									<div className="grid grid-cols-4 gap-4">
+										{sizes.map((size) => (
+											<Column
+												key={`size-${size}`}
+												label={size}
+											>
+												{tones.map((tone) => (
+													<Badge
+														key={`size-combination-${size}-${tone}-${theme}`}
+														cls={({ what }) => ({
+															variant:
+																what.variant({
+																	size,
+																	tone,
+																	theme,
+																}),
+														})}
+													>
+														<Tx label={tone} />
+													</Badge>
+												))}
+											</Column>
+										))}
+									</div>
+								</div>
 							))}
-						</Row>
-						<Row label={<Tx label={"Light"} />}>
-							{tones.map((tone) => (
-								<Badge
-									key={`disabled-light-${tone}`}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-											disabled: true,
-										}),
-									})}
+						</div>
+					</Section>
+
+					{/* Complete Combinations */}
+					<Section title={<Tx label={"Complete Combinations"} />}>
+						<div className="grid grid-cols-2 gap-8">
+							{themes.map((theme) => (
+								<div
+									key={`complete-${theme}`}
+									className="flex flex-col space-y-3"
 								>
-									<Tx label={`${tone} light disabled`} />
-								</Badge>
+									<div className="text-sm font-medium text-slate-600">
+										<Tx label={`${theme} theme`} />
+									</div>
+									<div className="flex flex-col space-y-2">
+										{tones.map((tone) => (
+											<Badge
+												key={`complete-${tone}-${theme}`}
+												cls={({ what }) => ({
+													variant: what.variant({
+														size: "md",
+														tone,
+														theme,
+														borderless: false,
+													}),
+												})}
+											>
+												<Tx
+													label={`${tone} ${theme}`}
+												/>
+											</Badge>
+										))}
+									</div>
+								</div>
 							))}
-						</Row>
+						</div>
 					</Section>
 				</div>
 			</ClsProvider>
@@ -200,6 +333,7 @@ function Section({
 				className={tvc([
 					"text-sm",
 					"text-slate-600",
+					"font-medium",
 				])}
 			>
 				{title}
@@ -209,33 +343,17 @@ function Section({
 	);
 }
 
-function Row({ label, children }: { label: ReactNode; children: ReactNode }) {
+function Column({
+	label,
+	children,
+}: {
+	label: ReactNode;
+	children: ReactNode;
+}) {
 	return (
-		<div
-			className={tvc([
-				"flex",
-				"items-center",
-				"gap-4",
-				"flex-wrap",
-			])}
-		>
-			<div
-				className={tvc([
-					"w-40",
-					"text-slate-500",
-				])}
-			>
-				{label}
-			</div>
-			<div
-				className={tvc([
-					"flex",
-					"gap-3",
-					"flex-wrap",
-				])}
-			>
-				{children}
-			</div>
+		<div className="flex flex-col space-y-2">
+			<div className="text-xs text-slate-500 font-medium">{label}</div>
+			<div className="flex flex-col space-y-2">{children}</div>
 		</div>
 	);
 }

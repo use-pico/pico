@@ -1,18 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Action, TrashIcon, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
+import type { ReactNode } from "react";
+
+const tones = [
+	"primary",
+	"secondary",
+	"danger",
+	"warning",
+	"neutral",
+	"subtle",
+] as const;
+
+const themes = [
+	"light",
+	"dark",
+] as const;
 
 export const Route = createFileRoute("/$locale/components/action")({
 	component() {
-		const tones = [
-			"primary",
-			"secondary",
-			"danger",
-			"warning",
-			"neutral",
-			"subtle",
-		] as const;
-
 		return (
 			<div
 				className={tvc([
@@ -21,133 +27,255 @@ export const Route = createFileRoute("/$locale/components/action")({
 					"space-y-8",
 				])}
 			>
-				{/* Tones */}
-				<Section title={<Tx label={"Tones"} />}>
-					<Row label={<Tx label={"Default"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`tone-${tone}`}
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-									}),
-								})}
-							/>
-						))}
-					</Row>
+				{/* Tones - Light Theme */}
+				<Section title={<Tx label={"Tones - Light Theme"} />}>
+					<div className="grid grid-cols-4 gap-6">
+						<Column label={<Tx label={"Default"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-light-${tone}`}
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "light",
+										}),
+									})}
+								/>
+							))}
+						</Column>
 
-					<Row label={<Tx label={"Borderless"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`tone-borderless-${tone}`}
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-										borderless: true,
-									}),
-								})}
-							/>
-						))}
-					</Row>
+						<Column label={<Tx label={"Borderless"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-light-borderless-${tone}`}
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "light",
+											borderless: true,
+										}),
+									})}
+								/>
+							))}
+						</Column>
 
-					<Row label={<Tx label={"Light"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`tone-light-${tone}`}
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-										theme: "light",
-									}),
-								})}
-							/>
-						))}
-					</Row>
+						<Column label={<Tx label={"Disabled"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-light-disabled-${tone}`}
+									disabled
+									iconDisabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "light",
+										}),
+									})}
+								/>
+							))}
+						</Column>
 
-					<Row label={<Tx label={"Light + Borderless"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`tone-light-borderless-${tone}`}
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-										theme: "light",
-										borderless: true,
-									}),
-								})}
-							/>
-						))}
-					</Row>
+						<Column label={<Tx label={"Loading"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-light-loading-${tone}`}
+									loading
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "light",
+										}),
+									})}
+								/>
+							))}
+						</Column>
+					</div>
 				</Section>
 
-				{/* Disabled */}
-				<Section title={<Tx label={"Disabled"} />}>
-					<Row label={<Tx label={"Default"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`disabled-${tone}`}
-								disabled
-								iconDisabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-									}),
-								})}
-							/>
-						))}
-					</Row>
-					<Row label={<Tx label={"Light"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`disabled-light-${tone}`}
-								disabled
-								iconDisabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-										theme: "light",
-									}),
-								})}
-							/>
-						))}
-					</Row>
+				{/* Tones - Dark Theme */}
+				<Section title={<Tx label={"Tones - Dark Theme"} />}>
+					<div className="grid grid-cols-4 gap-6">
+						<Column label={<Tx label={"Default"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-dark-${tone}`}
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "dark",
+										}),
+									})}
+								/>
+							))}
+						</Column>
+
+						<Column label={<Tx label={"Borderless"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-dark-borderless-${tone}`}
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "dark",
+											borderless: true,
+										}),
+									})}
+								/>
+							))}
+						</Column>
+
+						<Column label={<Tx label={"Disabled"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-dark-disabled-${tone}`}
+									disabled
+									iconDisabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "dark",
+										}),
+									})}
+								/>
+							))}
+						</Column>
+
+						<Column label={<Tx label={"Loading"} />}>
+							{tones.map((tone) => (
+								<Action
+									key={`tone-dark-loading-${tone}`}
+									loading
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme: "dark",
+										}),
+									})}
+								/>
+							))}
+						</Column>
+					</div>
 				</Section>
 
-				{/* Loading */}
-				<Section title={<Tx label={"Loading"} />}>
-					<Row label={<Tx label={"Default"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`loading-${tone}`}
-								loading
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-									}),
-								})}
-							/>
+				{/* Combined States */}
+				<Section title={<Tx label={"Combined States"} />}>
+					<div className="grid grid-cols-2 gap-8">
+						{themes.map((theme) => (
+							<div
+								key={`combined-${theme}`}
+								className="flex flex-col space-y-3"
+							>
+								<div className="text-sm font-medium text-slate-600">
+									<Tx label={`${theme} theme`} />
+								</div>
+								<div className="grid grid-cols-3 gap-4">
+									<Column
+										label={
+											<Tx
+												label={"Borderless + Disabled"}
+											/>
+										}
+									>
+										{tones.map((tone) => (
+											<Action
+												key={`combined-${theme}-${tone}-borderless-disabled`}
+												disabled
+												iconDisabled={TrashIcon}
+												cls={({ what }) => ({
+													variant: what.variant({
+														tone,
+														theme,
+														borderless: true,
+													}),
+												})}
+											/>
+										))}
+									</Column>
+
+									<Column
+										label={
+											<Tx
+												label={"Borderless + Loading"}
+											/>
+										}
+									>
+										{tones.map((tone) => (
+											<Action
+												key={`combined-${theme}-${tone}-borderless-loading`}
+												loading
+												iconEnabled={TrashIcon}
+												cls={({ what }) => ({
+													variant: what.variant({
+														tone,
+														theme,
+														borderless: true,
+													}),
+												})}
+											/>
+										))}
+									</Column>
+
+									<Column
+										label={
+											<Tx label={"Disabled + Loading"} />
+										}
+									>
+										{tones.map((tone) => (
+											<Action
+												key={`combined-${theme}-${tone}-disabled-loading`}
+												disabled
+												loading
+												iconDisabled={TrashIcon}
+												cls={({ what }) => ({
+													variant: what.variant({
+														tone,
+														theme,
+													}),
+												})}
+											/>
+										))}
+									</Column>
+								</div>
+							</div>
 						))}
-					</Row>
-					<Row label={<Tx label={"Light"} />}>
-						{tones.map((tone) => (
-							<Action
-								key={`loading-light-${tone}`}
-								loading
-								iconEnabled={TrashIcon}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-										theme: "light",
-									}),
-								})}
-							/>
+					</div>
+				</Section>
+
+				{/* Complete Combinations */}
+				<Section title={<Tx label={"Complete Combinations"} />}>
+					<div className="grid grid-cols-2 gap-8">
+						{themes.map((theme) => (
+							<div
+								key={`complete-${theme}`}
+								className="flex flex-col space-y-3"
+							>
+								<div className="text-sm font-medium text-slate-600">
+									<Tx label={`${theme} theme`} />
+								</div>
+								<div className="flex flex-col items-center space-y-2">
+									{tones.map((tone) => (
+										<Action
+											key={`complete-${tone}-${theme}`}
+											iconEnabled={TrashIcon}
+											cls={({ what }) => ({
+												variant: what.variant({
+													tone,
+													theme,
+													borderless: false,
+												}),
+											})}
+										/>
+									))}
+								</div>
+							</div>
 						))}
-					</Row>
+					</div>
 				</Section>
 			</div>
 		);
@@ -158,8 +286,8 @@ function Section({
 	title,
 	children,
 }: {
-	title: React.ReactNode;
-	children: React.ReactNode;
+	title: ReactNode;
+	children: ReactNode;
 }) {
 	return (
 		<div
@@ -173,6 +301,7 @@ function Section({
 				className={tvc([
 					"text-sm",
 					"text-slate-600",
+					"font-medium",
 				])}
 			>
 				{title}
@@ -182,37 +311,17 @@ function Section({
 	);
 }
 
-function Row({
+function Column({
 	label,
 	children,
 }: {
-	label: React.ReactNode;
-	children: React.ReactNode;
+	label: ReactNode;
+	children: ReactNode;
 }) {
 	return (
-		<div
-			className={tvc([
-				"flex",
-				"items-center",
-				"gap-4",
-				"flex-wrap",
-			])}
-		>
-			<div
-				className={tvc([
-					"w-40",
-					"text-slate-500",
-				])}
-			>
-				{label}
-			</div>
-			<div
-				className={tvc([
-					"flex",
-					"gap-3",
-					"flex-wrap",
-				])}
-			>
+		<div className="flex flex-col space-y-2">
+			<div className="text-xs text-slate-500 font-medium">{label}</div>
+			<div className="flex flex-col items-center space-y-2">
 				{children}
 			</div>
 		</div>

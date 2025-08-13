@@ -368,7 +368,7 @@ export const ButtonCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 			disabled: false,
 			size: "md",
 			borderless: false,
