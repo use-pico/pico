@@ -120,8 +120,13 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 						root: what.token([
 							"icon.position.left",
 						]),
-						icon: what.css("w-4 h-4"),
-						label: what.css("font-medium"),
+						icon: what.css([
+							"w-4",
+							"h-4",
+						]),
+						label: what.css([
+							"font-medium",
+						]),
 					}),
 				],
 				defaults: def.defaults({

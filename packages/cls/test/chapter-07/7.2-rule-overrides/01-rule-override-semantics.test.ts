@@ -103,7 +103,9 @@ describe("Rule Override Semantics", () => {
 							size: "lg",
 						},
 						{
-							root: what.css("shadow-lg"),
+							root: what.css([
+								"shadow-lg",
+							]),
 						},
 					),
 				],
@@ -234,7 +236,10 @@ describe("Rule Override Semantics", () => {
 							size: "lg",
 						},
 						{
-							root: what.css("shadow-xl rounded-lg"),
+							root: what.css([
+								"shadow-xl",
+								"rounded-lg",
+							]),
 						},
 					),
 					// Add new rule for danger color
@@ -279,7 +284,10 @@ describe("Rule Override Semantics", () => {
 							size: "xl",
 						},
 						{
-							root: what.css("shadow-2xl rounded-xl"),
+							root: what.css([
+								"shadow-2xl",
+								"rounded-xl",
+							]),
 						},
 					),
 				],

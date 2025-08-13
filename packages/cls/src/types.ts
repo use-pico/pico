@@ -1,11 +1,10 @@
-import type { ClassNameValue } from "tailwind-merge";
 import type { MatchFn, MatchSlotFn } from "./match";
 
 // ============================================================================
 // CORE TYPE DEFINITIONS
 // ============================================================================
 
-export type ClassName = ClassNameValue;
+export type ClassName = string[] | undefined | null;
 
 export type SlotContract = readonly string[];
 

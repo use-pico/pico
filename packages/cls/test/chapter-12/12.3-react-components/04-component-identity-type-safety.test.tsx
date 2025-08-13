@@ -82,12 +82,23 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 							"spacing.padding.medium",
 							"border.radius.medium",
 						]),
-						icon: what.both("w-4 h-4", [
-							"color.text.primary",
-						]),
-						label: what.both("font-medium", [
-							"color.text.primary",
-						]),
+						icon: what.both(
+							[
+								"w-4",
+								"h-4",
+							],
+							[
+								"color.text.primary",
+							],
+						),
+						label: what.both(
+							[
+								"font-medium",
+							],
+							[
+								"color.text.primary",
+							],
+						),
 					}),
 					def.rule(
 						{
@@ -114,7 +125,10 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 							root: what.token([
 								"spacing.padding.small",
 							]),
-							icon: what.css("w-3 h-3"),
+							icon: what.css([
+								"w-3",
+								"h-3",
+							]),
 						},
 					),
 					def.rule(
@@ -125,7 +139,10 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 							root: what.token([
 								"spacing.padding.large",
 							]),
-							icon: what.css("w-6 h-6"),
+							icon: what.css([
+								"w-6",
+								"h-6",
+							]),
 						},
 					),
 					def.rule(
@@ -133,9 +150,11 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 							variant: "outlined",
 						},
 						{
-							root: what.css(
-								"border border-current bg-transparent",
-							),
+							root: what.css([
+								"border",
+								"border-current",
+								"bg-transparent",
+							]),
 						},
 					),
 					def.rule(
@@ -143,9 +162,10 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 							variant: "ghost",
 						},
 						{
-							root: what.css(
-								"bg-transparent hover:bg-opacity-10",
-							),
+							root: what.css([
+								"bg-transparent",
+								"hover:bg-opacity-10",
+							]),
 						},
 					),
 				],
