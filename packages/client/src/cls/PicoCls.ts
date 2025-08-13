@@ -46,7 +46,18 @@ const toneType = [
 export const PicoCls = cls(
 	{
 		tokens: {
-            "primary.color": toneType,
+			// "tone-dark.primary": [
+			// 	"text",
+			// 	"bg",
+			// 	"border",
+			// ],
+			// "tone-dark.primary:hover": [
+			// 	"text",
+			// 	"bg",
+			// 	"border",
+			// ],
+
+			"primary.color": toneType,
 			"secondary.color": toneType,
 			"danger.color": toneType,
 			"neutral.color": toneType,
