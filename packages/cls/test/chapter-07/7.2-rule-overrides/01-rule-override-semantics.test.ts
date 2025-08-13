@@ -208,9 +208,9 @@ describe("Rule Override Semantics", () => {
 					}),
 					// Override the primary color rule with enhanced styling
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.primary",
@@ -220,9 +220,9 @@ describe("Rule Override Semantics", () => {
 					),
 					// Override the large size rule with different spacing
 					def.rule(
-						{
+						what.variant({
 							size: "lg",
-						},
+						}),
 						{
 							root: what.token([
 								"size.lg",
@@ -231,10 +231,10 @@ describe("Rule Override Semantics", () => {
 					),
 					// Override the combined variant rule
 					def.rule(
-						{
+						what.variant({
 							color: "primary",
 							size: "lg",
-						},
+						}),
 						{
 							root: what.css([
 								"shadow-xl",
@@ -244,9 +244,9 @@ describe("Rule Override Semantics", () => {
 					),
 					// Add new rule for danger color
 					def.rule(
-						{
+						what.variant({
 							color: "danger",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.danger",
@@ -256,9 +256,9 @@ describe("Rule Override Semantics", () => {
 					),
 					// Add new rule for success color
 					def.rule(
-						{
+						what.variant({
 							color: "success",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.success",
@@ -268,9 +268,9 @@ describe("Rule Override Semantics", () => {
 					),
 					// Add new rule for xl size
 					def.rule(
-						{
+						what.variant({
 							size: "xl",
-						},
+						}),
 						{
 							root: what.token([
 								"size.xl",
@@ -279,10 +279,10 @@ describe("Rule Override Semantics", () => {
 					),
 					// Add new combined variant rule
 					def.rule(
-						{
+						what.variant({
 							color: "success",
 							size: "xl",
-						},
+						}),
 						{
 							root: what.css([
 								"shadow-2xl",
