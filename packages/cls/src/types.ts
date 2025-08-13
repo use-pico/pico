@@ -139,7 +139,7 @@ export type DefinitionEx<TChildContract extends Contract<any, any, any>> = {
 	/** Rules for conditional styling based on variants */
 	rules: RuleDefinition<TChildContract>[];
 	/** Default values for variants */
-	defaults: DefaultDefinition<TChildContract>;
+	defaults: VariantValueMapping<TChildContract>;
 };
 
 // ============================================================================
@@ -315,8 +315,8 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 		 * Provides types for variant usage (e.g. {color: "primary"}).
 		 */
 		variant(
-			variant: Partial<DefaultDefinition<TContract>>,
-		): Partial<DefaultDefinition<TContract>>;
+			variant: Partial<VariantValueMapping<TContract>>,
+		): Partial<VariantValueMapping<TContract>>;
 
 		slot(slot: SlotMapping<TContract>): SlotMapping<TContract>;
 	};
@@ -352,16 +352,10 @@ export interface WhatUtil<TContract extends Contract<any, any, any>> {
 			token: TokenDefinitionRequired<TContract>,
 		): TokenDefinitionRequired<TContract>;
 		defaults(
-			defaults: DefaultDefinition<TContract>,
-		): DefaultDefinition<TContract>;
+			defaults: VariantValueMapping<TContract>,
+		): VariantValueMapping<TContract>;
 	};
 }
-
-/**
- * Default values for variants
- */
-export type DefaultDefinition<TContract extends Contract<any, any, any>> =
-	VariantValueMapping<TContract>;
 
 // ============================================================================
 // PUBLIC API TYPES
@@ -373,12 +367,12 @@ export type Definition<TContract extends Contract<any, any, any>> = {
 	/** Rules for conditional styling based on variants */
 	rules: RuleDefinition<TContract>[];
 	/** Default values for variants */
-	defaults: DefaultDefinition<TContract>;
+	defaults: VariantValueMapping<TContract>;
 };
 
 export type CreateConfig<TContract extends Contract<any, any, any>> = {
 	/** Override variant values */
-	variant?: Partial<DefaultDefinition<TContract>>;
+	variant?: Partial<VariantValueMapping<TContract>>;
 	/** Override slot styling */
 	slot?: SlotMapping<TContract>;
 	/** Hard override slot styling (ignores rules) */

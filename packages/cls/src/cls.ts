@@ -6,7 +6,6 @@ import type {
 	ClsSlotFn,
 	Contract,
 	CreateConfig,
-	DefaultDefinition,
 	Definition,
 	RuleDefinition,
 	SlotContract,
@@ -75,7 +74,7 @@ export function cls<
 	}
 
 	// Merge defaults and rules from ALL layers in inheritance order
-	const defaultVariant = {} as DefaultDefinition<TContract>;
+	const defaultVariant = {} as VariantValueMapping<TContract>;
 	const rules: RuleDefinition<
 		Contract<TokenContract, SlotContract, VariantContract>
 	>[] = [];
@@ -144,7 +143,7 @@ export function cls<
 	};
 
 	const matches = (
-		variant: DefaultDefinition<TContract>,
+		variant: VariantValueMapping<TContract>,
 		ruleMatch?: Partial<VariantValueMapping<TContract>>,
 	): boolean => {
 		if (!ruleMatch) {
