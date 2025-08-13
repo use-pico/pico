@@ -215,8 +215,12 @@ export type SlotMapping<TContract extends Contract<any, any, any>> = {
 	[K in SlotsOf<TContract>]?: What<TContract>;
 };
 
+export type WhatConfigFn<TContract extends Contract<any, any, any>> = (
+	props: WhatUtil<TContract>,
+) => Partial<CreateConfig<TContract>>;
+
 export type ClsSlotFn<TContract extends Contract<any, any, any>> = (
-	config?: (props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>,
+	config?: WhatConfigFn<TContract>,
 ) => string;
 
 /**
@@ -401,12 +405,8 @@ export type ComponentSlots<TCls extends Cls<any>> = ClsSlots<TCls["contract"]>;
 
 export interface Cls<TContract extends Contract<any, any, any>> {
 	create(
-		userConfigFn?: (
-			props: WhatUtil<TContract>,
-		) => Partial<CreateConfig<TContract>>,
-		internalConfigFn?: (
-			props: WhatUtil<TContract>,
-		) => Partial<CreateConfig<TContract>>,
+		userConfigFn?: WhatConfigFn<TContract>,
+		internalConfigFn?: WhatConfigFn<TContract>,
 	): ClsSlots<TContract>;
 
 	extend<
@@ -484,30 +484,16 @@ export interface Cls<TContract extends Contract<any, any, any>> {
 	 */
 	cls<Sub extends Contract<any, any, any> = TContract>(
 		userConfigFn?: {
-			hack: (
-				props: WhatUtil<
-					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
-				>,
-			) => Partial<
-				CreateConfig<
-					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
-				>
+			hack: WhatConfigFn<
+				HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
 			>;
 		}["hack"],
 		internalConfigFn?: {
-			hack: (
-				props: WhatUtil<
-					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
-				>,
-			) => Partial<
-				CreateConfig<
-					HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
-				>
+			hack: WhatConfigFn<
+				HasBaseInUseChain<Sub, TContract> extends true ? Sub : never
 			>;
 		}["hack"],
-	):
-		| ((props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>)
-		| undefined;
+	): WhatConfigFn<TContract> | undefined;
 
 	/**
 	 * The contract that defines this cls instance.

@@ -1,4 +1,4 @@
-import type { Contract, CreateConfig, WhatUtil } from "./types";
+import type { Contract, CreateConfig, WhatConfigFn } from "./types";
 import { what } from "./what";
 
 /**
@@ -9,10 +9,8 @@ import { what } from "./what";
  * - Shallow merge per field to match cls.create() semantics
  */
 export function merge<const TContract extends Contract<any, any, any>>(
-	userFn?: (props: WhatUtil<TContract>) => Partial<CreateConfig<TContract>>,
-	internalFn?: (
-		props: WhatUtil<TContract>,
-	) => Partial<CreateConfig<TContract>>,
+	userFn?: WhatConfigFn<TContract>,
+	internalFn?: WhatConfigFn<TContract>,
 ): () => Partial<CreateConfig<TContract>> {
 	const $user = userFn?.(what());
 	const $internal = internalFn?.(what());

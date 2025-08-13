@@ -6,7 +6,6 @@ export { tvc } from "./tvc";
 export type {
 	ClassName,
 	Cls,
-	ClsSlotFn,
 	ClsSlots,
 	Component,
 	ComponentSlots,
@@ -21,6 +20,7 @@ export type {
 	VariantContract,
 	What,
 	WhatClass,
+	WhatConfigFn as ClsSlotFn,
 	WhatToken,
 	WhatUtil,
 } from "./types";
