@@ -41,6 +41,10 @@ export const ActionCls = PicoCls.extend(
 					"py-2",
 					"text-lg",
 					"cursor-pointer",
+					"transition-all",
+					"hover:scale-110",
+					"active:scale-95",
+					"select-none",
 				]),
 			}),
 			// Tone colors (dark theme)

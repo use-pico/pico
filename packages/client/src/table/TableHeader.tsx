@@ -170,6 +170,8 @@ export const TableHeader = <
 										cls={({ what }) => ({
 											variant: what.variant({
 												borderless: true,
+												tone: "neutral",
+												theme: "light",
 											}),
 										})}
 										onClick={() => {

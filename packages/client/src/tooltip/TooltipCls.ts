@@ -26,6 +26,7 @@ export const TooltipCls = PicoCls.extend(
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",
+						"shadow.md",
 					],
 				),
 			}),

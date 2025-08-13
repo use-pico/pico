@@ -36,7 +36,8 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
-							tone: "subtle",
+							tone: "neutral",
+							theme: "light",
 						}),
 					})}
 					onClick={() => {
@@ -56,7 +57,8 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
-							tone: "subtle",
+							tone: "neutral",
+							theme: "light",
 						}),
 					})}
 					onClick={() => {
@@ -77,7 +79,8 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
-							tone: "subtle",
+							tone: "neutral",
+							theme: "light",
 						}),
 					})}
 					onClick={() => {
@@ -97,7 +100,8 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 					cls={({ what }) => ({
 						variant: what.variant({
 							borderless: true,
-							tone: "subtle",
+							tone: "neutral",
+							theme: "light",
 						}),
 					})}
 					onClick={() => {

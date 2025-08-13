@@ -26,26 +26,21 @@ export const MenuLinkCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
-					[
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"rounded-sm",
-						"px-2",
-						"py-1",
-						"border",
-						"border-b-2",
-						"border-transparent",
-					],
-					[
-						"tone.subtle.light.text:hover",
-						"tone.subtle.light.bg:hover",
-						"tone.subtle.light.border:hover",
-						"tone.subtle.light.shadow:hover",
-					],
-				),
+				base: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"rounded-sm",
+					"px-2",
+					"py-1",
+					"border",
+					"border-b-2",
+					"border-transparent",
+					"transition-all",
+					"hover:scale-105",
+					"active:scale-95",
+				]),
 			}),
 			def.rule(
 				what.variant({
@@ -54,10 +49,23 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.subtle.dark.text",
-						"tone.subtle.dark.bg",
-						"tone.subtle.dark.border",
-						"tone.subtle.dark.shadow",
+						"tone.primary.dark.text",
+						"tone.primary.dark.bg",
+						"tone.primary.dark.border",
+						"tone.primary.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					active: false,
+				}),
+				{
+					base: what.token([
+						"tone.primary.light.text:hover",
+						"tone.primary.light.bg:hover",
+						"tone.primary.light.border:hover",
+						"tone.primary.light.shadow:hover",
 					]),
 				},
 			),
@@ -72,10 +80,10 @@ export const MenuLinkCls = PicoCls.extend(
 							"border-transparent",
 						],
 						[
-							"tone.subtle.dark.text",
-							"tone.subtle.dark.bg",
-							"tone.subtle.dark.border",
-							"tone.subtle.dark.shadow",
+							"tone.primary.dark.text",
+							"tone.primary.dark.bg",
+							"tone.primary.dark.border",
+							"tone.primary.dark.shadow",
 						],
 					),
 				},
@@ -86,10 +94,10 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.subtle.dark.text",
-						"tone.subtle.light.bg",
-						"tone.subtle.light.border",
-						"tone.subtle.light.shadow",
+						"tone.primary.dark.text",
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
+						"tone.primary.light.shadow",
 					]),
 				},
 			),
@@ -100,9 +108,20 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.subtle.dark.text",
+						"tone.primary.dark.text",
+						"tone.primary.dark.text:hover",
 						"tone.subtle.dark.bg",
-						"tone.subtle.dark.border",
+						"tone.primary.dark.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					active: true,
+				}),
+				{
+					base: what.css([
+						"scale-105",
 					]),
 				},
 			),

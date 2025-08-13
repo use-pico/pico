@@ -33,7 +33,8 @@ export const EqualFilter = <
 			cls={({ what }) => ({
 				variant: what.variant({
 					borderless: true,
-					tone: "subtle",
+					tone: "neutral",
+					theme: "light",
 				}),
 			})}
 			onClick={() => {
