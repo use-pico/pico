@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const FormFieldCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"input",

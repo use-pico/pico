@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const BadgeCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"root",
 		],
@@ -56,9 +56,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"primary.color.text-light",
-						"primary.color.bg-dark",
-						"primary.color.border-dark",
+						"tone.primary.light.text",
+						"tone.primary.dark.bg",
+						"tone.primary.dark.border",
 					]),
 				},
 			),
@@ -69,9 +69,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"secondary.color.text-light",
-						"secondary.color.bg-dark",
-						"secondary.color.border-dark",
+						"tone.secondary.light.text",
+						"tone.secondary.dark.bg",
+						"tone.secondary.dark.border",
 					]),
 				},
 			),
@@ -82,9 +82,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"danger.color.text-light",
-						"danger.color.bg-dark",
-						"danger.color.border-dark",
+						"tone.danger.light.text",
+						"tone.danger.dark.bg",
+						"tone.danger.dark.border",
 					]),
 				},
 			),
@@ -95,9 +95,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"neutral.color.text-dark",
-						"neutral.color.bg-dark",
-						"neutral.color.border-dark",
+						"tone.neutral.dark.text",
+						"tone.neutral.dark.bg",
+						"tone.neutral.dark.border",
 					]),
 				},
 			),
@@ -108,9 +108,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-dark",
-						"subtle.color.border-dark",
+						"tone.subtle.dark.text",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.border",
 					]),
 				},
 			),
@@ -123,9 +123,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"primary.color.text-dark",
-						"primary.color.bg-light",
-						"primary.color.border-light",
+						"tone.primary.dark.text",
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
 					]),
 				},
 			),
@@ -136,9 +136,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"secondary.color.text-dark",
-						"secondary.color.bg-light",
-						"secondary.color.border-light",
+						"tone.secondary.dark.text",
+						"tone.secondary.light.bg",
+						"tone.secondary.light.border",
 					]),
 				},
 			),
@@ -149,9 +149,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"danger.color.text-dark",
-						"danger.color.bg-light",
-						"danger.color.border-light",
+						"tone.danger.dark.text",
+						"tone.danger.light.bg",
+						"tone.danger.light.border",
 					]),
 				},
 			),
@@ -162,9 +162,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"neutral.color.text-dark",
-						"neutral.color.bg-light",
-						"neutral.color.border-light",
+						"tone.neutral.dark.text",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border",
 					]),
 				},
 			),
@@ -175,9 +175,9 @@ export const BadgeCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-light",
+						"tone.subtle.dark.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
 					]),
 				},
 			),

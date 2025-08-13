@@ -1,494 +1,608 @@
 import { cls } from "@use-pico/cls";
 
-// TODO Keep tones small
-// TODO Add tokens for common components, e.g. table, button, etc.
-
-const toneType = [
-	"text-light",
-	"text-light-hover",
-	//
-	"bg-light",
-	"bg-light-hover",
-	"bg-light-odd",
-	"bg-light-odd-hover",
-	//
-	"border-light",
-	"border-light-hover",
-	"border-light-odd",
-	"border-light-odd-hover",
-	//
-	"shadow-light",
-	"shadow-light-hover",
-	//
-	//
-	//
-	"text-dark",
-	"text-dark-hover",
-	//
-	"bg-dark",
-	"bg-dark-hover",
-	"bg-dark-odd",
-	"bg-dark-odd-hover",
-	//
-	"border-dark",
-	"border-dark-hover",
-	"border-dark-odd",
-	"border-dark-odd-hover",
-	//
-	"shadow-dark",
-	"shadow-dark-hover",
-] as const;
-
 /**
  * Root theme configuration for Pico, all components
  * will inherit from this theme.
+ *
+ * Design System Structure:
+ * - Tones: primary, secondary, subtle, neutral
+ * - Elements: text, background, border, shadow
+ * - States: default, :hover, :even, :odd
+ * - Themes: light, dark
  */
 export const PicoCls = cls(
 	{
 		tokens: [
 			// =====
-			// Tone - Primary
-			"tone.primary.light.color.text",
-			"tone.primary.light.color.text:hover",
-            //
-            "tone.primary.dark.color.text",
-            "tone.primary.dark.color.text:hover",
-            //
-            "tone.primary.light.color.bg",
-            "tone.primary.light.color.bg:hover",
-            //
-            "tone.primary.dark.color.bg",
-            "tone.primary.dark.color.bg:hover",
-            //
+			// Primary Tone
+			"tone.primary.light.text",
+			"tone.primary.light.text:hover",
+			"tone.primary.light.bg",
+			"tone.primary.light.bg:hover",
+			"tone.primary.light.bg:even",
+			"tone.primary.light.bg:odd",
+			"tone.primary.light.border",
+			"tone.primary.light.border:hover",
+			"tone.primary.light.shadow",
+			"tone.primary.light.shadow:hover",
 			//
-            //
+			"tone.primary.dark.text",
+			"tone.primary.dark.text:hover",
+			"tone.primary.dark.bg",
+			"tone.primary.dark.bg:hover",
+			"tone.primary.dark.bg:even",
+			"tone.primary.dark.bg:odd",
+			"tone.primary.dark.border",
+			"tone.primary.dark.border:hover",
+			"tone.primary.dark.shadow",
+			"tone.primary.dark.shadow:hover",
+			//
+			// Secondary Tone
+			"tone.secondary.light.text",
+			"tone.secondary.light.text:hover",
+			"tone.secondary.light.bg",
+			"tone.secondary.light.bg:hover",
+			"tone.secondary.light.bg:even",
+			"tone.secondary.light.bg:odd",
+			"tone.secondary.light.border",
+			"tone.secondary.light.border:hover",
+			"tone.secondary.light.shadow",
+			"tone.secondary.light.shadow:hover",
+			//
+			"tone.secondary.dark.text",
+			"tone.secondary.dark.text:hover",
+			"tone.secondary.dark.bg",
+			"tone.secondary.dark.bg:hover",
+			"tone.secondary.dark.bg:even",
+			"tone.secondary.dark.bg:odd",
+			"tone.secondary.dark.border",
+			"tone.secondary.dark.border:hover",
+			"tone.secondary.dark.shadow",
+			"tone.secondary.dark.shadow:hover",
+			//
+			// Danger Tone
+			"tone.danger.light.text",
+			"tone.danger.light.text:hover",
+			"tone.danger.light.bg",
+			"tone.danger.light.bg:hover",
+			"tone.danger.light.bg:even",
+			"tone.danger.light.bg:odd",
+			"tone.danger.light.border",
+			"tone.danger.light.border:hover",
+			"tone.danger.light.shadow",
+			"tone.danger.light.shadow:hover",
+			//
+			"tone.danger.dark.text",
+			"tone.danger.dark.text:hover",
+			"tone.danger.dark.bg",
+			"tone.danger.dark.bg:hover",
+			"tone.danger.dark.bg:even",
+			"tone.danger.dark.bg:odd",
+			"tone.danger.dark.border",
+			"tone.danger.dark.border:hover",
+			"tone.danger.dark.shadow",
+			"tone.danger.dark.shadow:hover",
+			//
+			// Warning Tone
+			"tone.warning.light.text",
+			"tone.warning.light.text:hover",
+			"tone.warning.light.bg",
+			"tone.warning.light.bg:hover",
+			"tone.warning.light.bg:even",
+			"tone.warning.light.bg:odd",
+			"tone.warning.light.border",
+			"tone.warning.light.border:hover",
+			"tone.warning.light.shadow",
+			"tone.warning.light.shadow:hover",
+			//
+			"tone.warning.dark.text",
+			"tone.warning.dark.text:hover",
+			"tone.warning.dark.bg",
+			"tone.warning.dark.bg:hover",
+			"tone.warning.dark.bg:even",
+			"tone.warning.dark.bg:odd",
+			"tone.warning.dark.border",
+			"tone.warning.dark.border:hover",
+			"tone.warning.dark.shadow",
+			"tone.warning.dark.shadow:hover",
+			//
+			// Subtle Tone
+			"tone.subtle.light.text",
+			"tone.subtle.light.text:hover",
+			"tone.subtle.light.bg",
+			"tone.subtle.light.bg:hover",
+			"tone.subtle.light.bg:even",
+			"tone.subtle.light.bg:odd",
+			"tone.subtle.light.border",
+			"tone.subtle.light.border:hover",
+			"tone.subtle.light.shadow",
+			"tone.subtle.light.shadow:hover",
+			//
+			"tone.subtle.dark.text",
+			"tone.subtle.dark.text:hover",
+			"tone.subtle.dark.bg",
+			"tone.subtle.dark.bg:hover",
+			"tone.subtle.dark.bg:even",
+			"tone.subtle.dark.bg:odd",
+			"tone.subtle.dark.border",
+			"tone.subtle.dark.border:hover",
+			"tone.subtle.dark.shadow",
+			"tone.subtle.dark.shadow:hover",
+			//
+			// Neutral Tone
+			"tone.neutral.light.text",
+			"tone.neutral.light.text:hover",
+			"tone.neutral.light.bg",
+			"tone.neutral.light.bg:hover",
+			"tone.neutral.light.bg:even",
+			"tone.neutral.light.bg:odd",
+			"tone.neutral.light.border",
+			"tone.neutral.light.border:hover",
+			"tone.neutral.light.shadow",
+			"tone.neutral.light.shadow:hover",
+			//
+			"tone.neutral.dark.text",
+			"tone.neutral.dark.text:hover",
+			"tone.neutral.dark.bg",
+			"tone.neutral.dark.bg:hover",
+			"tone.neutral.dark.bg:even",
+			"tone.neutral.dark.bg:odd",
+			"tone.neutral.dark.border",
+			"tone.neutral.dark.border:hover",
+			"tone.neutral.dark.shadow",
+			"tone.neutral.dark.shadow:hover",
+			//
+			// Layout & Spacing
 			"round.sm",
 			"round.md",
 			"round.lg",
+			"round.xl",
 			//
-    //
-    //            
+			// Shadows
+			"shadow.sm",
 			"shadow.md",
+			"shadow.lg",
+			"shadow.xl",
 			//
+			// Focus
 			"focus.off",
+			"focus.ring",
 		],
 		slot: [],
 		variant: {},
 	},
-	({ def }) => ({
+	({ def, what }) => ({
 		token: def.token({
-			"tone.primary.light.color.text": "text-indigo-50",
-			"tone.primary.light.color.text:hover": "hover:text-indigo-100",
-            "tone.primary.dark.color.text": "text-indigo-600",
-            "tone.primary.dark.color.text:hover": "hover:text-indigo-700",
-            
-
-				//
-				"bg-light": [
-					"bg-indigo-50",
-				],
-				"bg-light-hover": [
-					"hover:bg-indigo-100",
-				],
-				"bg-light-odd": [
-					"odd:bg-indigo-100",
-				],
-				"bg-light-odd-hover": [
-					"odd:hover:bg-indigo-200",
-				],
-				"bg-dark": [
-					"bg-indigo-600",
-				],
-				"bg-dark-hover": [
-					"hover:bg-indigo-700",
-				],
-				"bg-dark-odd": [
-					"odd:bg-indigo-700",
-				],
-				"bg-dark-odd-hover": [
-					"odd:hover:bg-indigo-800",
-				],
-				//
-				"border-light": [
-					"border-indigo-200",
-				],
-				"border-light-hover": [
-					"hover:border-indigo-300",
-				],
-				"border-light-odd": [
-					"odd:border-indigo-300",
-				],
-				"border-light-odd-hover": [
-					"odd:hover:border-indigo-400",
-				],
-				"border-dark": [
-					"border-indigo-700",
-				],
-				"border-dark-hover": [
-					"hover:border-indigo-800",
-				],
-				"border-dark-odd": [
-					"odd:border-indigo-800",
-				],
-				"border-dark-odd-hover": [
-					"odd:hover:border-indigo-900",
-				],
-				//
-				"shadow-light": [
-					"shadow-indigo-200",
-				],
-				"shadow-light-hover": [
-					"hover:shadow-indigo-300",
-				],
-				"shadow-dark": [
-					"shadow-indigo-600",
-				],
-				"shadow-dark-hover": [
-					"hover:shadow-indigo-800",
-				],
-			},
+			// =====
+			// Primary Tone - Modern Indigo/Purple
+			"tone.primary.light.text": what.css([
+				"text-indigo-700",
+			]),
+			"tone.primary.light.text:hover": what.css([
+				"hover:text-indigo-800",
+			]),
+			"tone.primary.light.bg": what.css([
+				"bg-indigo-50",
+			]),
+			"tone.primary.light.bg:hover": what.css([
+				"hover:bg-indigo-100",
+			]),
+			"tone.primary.light.bg:even": what.css([
+				"bg-indigo-50/60",
+			]),
+			"tone.primary.light.bg:odd": what.css([
+				"bg-indigo-50/40",
+			]),
+			"tone.primary.light.border": what.css([
+				"border-indigo-200",
+			]),
+			"tone.primary.light.border:hover": what.css([
+				"hover:border-indigo-300",
+			]),
+			"tone.primary.light.shadow": what.css([
+				"shadow-indigo-200/50",
+			]),
+			"tone.primary.light.shadow:hover": what.css([
+				"hover:shadow-indigo-300/60",
+			]),
 			//
-			"secondary.color": {
-				"text-light": [
-					"text-emerald-50",
-				],
-				"text-light-hover": [
-					"hover:text-emerald-100",
-				],
-				"text-dark": [
-					"text-emerald-600",
-				],
-				"text-dark-hover": [
-					"hover:text-emerald-700",
-				],
-				//
-				"bg-light": [
-					"bg-emerald-50",
-				],
-				"bg-light-hover": [
-					"hover:bg-emerald-100",
-				],
-				"bg-light-odd": [
-					"odd:bg-emerald-100",
-				],
-				"bg-light-odd-hover": [
-					"odd:hover:bg-emerald-200",
-				],
-				"bg-dark": [
-					"bg-emerald-600",
-				],
-				"bg-dark-hover": [
-					"hover:bg-emerald-700",
-				],
-				"bg-dark-odd": [
-					"odd:bg-emerald-700",
-				],
-				"bg-dark-odd-hover": [
-					"odd:hover:bg-emerald-800",
-				],
-				//
-				"border-light": [
-					"border-emerald-200",
-				],
-				"border-light-hover": [
-					"hover:border-emerald-300",
-				],
-				"border-light-odd": [
-					"odd:border-emerald-300",
-				],
-				"border-light-odd-hover": [
-					"odd:hover:border-emerald-400",
-				],
-				"border-dark": [
-					"border-emerald-700",
-				],
-				"border-dark-hover": [
-					"hover:border-emerald-800",
-				],
-				"border-dark-odd": [
-					"odd:border-emerald-800",
-				],
-				"border-dark-odd-hover": [
-					"odd:hover:border-emerald-900",
-				],
-				//
-				"shadow-light": [
-					"shadow-emerald-200",
-				],
-				"shadow-light-hover": [
-					"hover:shadow-emerald-300",
-				],
-				"shadow-dark": [
-					"shadow-emerald-600",
-				],
-				"shadow-dark-hover": [
-					"hover:shadow-emerald-800",
-				],
-			},
+			"tone.primary.dark.text": what.css([
+				"text-indigo-300",
+			]),
+			"tone.primary.dark.text:hover": what.css([
+				"hover:text-indigo-200",
+			]),
+			"tone.primary.dark.bg": what.css([
+				"bg-indigo-900/20",
+			]),
+			"tone.primary.dark.bg:hover": what.css([
+				"hover:bg-indigo-900/30",
+			]),
+			"tone.primary.dark.bg:even": what.css([
+				"bg-indigo-900/15",
+			]),
+			"tone.primary.dark.bg:odd": what.css([
+				"bg-indigo-900/10",
+			]),
+			"tone.primary.dark.border": what.css([
+				"border-indigo-700",
+			]),
+			"tone.primary.dark.border:hover": what.css([
+				"hover:border-indigo-600",
+			]),
+			"tone.primary.dark.shadow": what.css([
+				"shadow-indigo-900/30",
+			]),
+			"tone.primary.dark.shadow:hover": what.css([
+				"hover:shadow-indigo-800/40",
+			]),
 			//
-			"danger.color": {
-				"text-light": [
-					"text-rose-50",
-				],
-				"text-light-hover": [
-					"hover:text-rose-100",
-				],
-				"text-dark": [
-					"text-rose-600",
-				],
-				"text-dark-hover": [
-					"hover:text-rose-700",
-				],
-				//
-				"bg-light": [
-					"bg-rose-50",
-				],
-				"bg-light-hover": [
-					"hover:bg-rose-100",
-				],
-				"bg-light-odd": [
-					"odd:bg-rose-100",
-				],
-				"bg-light-odd-hover": [
-					"odd:hover:bg-rose-200",
-				],
-				"bg-dark": [
-					"bg-rose-600",
-				],
-				"bg-dark-hover": [
-					"hover:bg-rose-700",
-				],
-				"bg-dark-odd": [
-					"odd:bg-rose-700",
-				],
-				"bg-dark-odd-hover": [
-					"odd:hover:bg-rose-800",
-				],
-				//
-				"border-light": [
-					"border-rose-200",
-				],
-				"border-light-hover": [
-					"hover:border-rose-300",
-				],
-				"border-light-odd": [
-					"odd:border-rose-300",
-				],
-				"border-light-odd-hover": [
-					"odd:hover:border-rose-400",
-				],
-				"border-dark": [
-					"border-rose-700",
-				],
-				"border-dark-hover": [
-					"hover:border-rose-800",
-				],
-				"border-dark-odd": [
-					"odd:border-rose-800",
-				],
-				"border-dark-odd-hover": [
-					"odd:hover:border-rose-900",
-				],
-				//
-				"shadow-light": [
-					"shadow-rose-200",
-				],
-				"shadow-light-hover": [
-					"hover:shadow-rose-300",
-				],
-				"shadow-dark": [
-					"shadow-rose-600",
-				],
-				"shadow-dark-hover": [
-					"hover:shadow-rose-800",
-				],
-			},
+			// Secondary Tone - Modern Emerald/Teal
+			"tone.secondary.light.text": what.css([
+				"text-emerald-700",
+			]),
+			"tone.secondary.light.text:hover": what.css([
+				"hover:text-emerald-800",
+			]),
+			"tone.secondary.light.bg": what.css([
+				"bg-emerald-50",
+			]),
+			"tone.secondary.light.bg:hover": what.css([
+				"hover:bg-emerald-100",
+			]),
+			"tone.secondary.light.bg:even": what.css([
+				"bg-emerald-50/60",
+			]),
+			"tone.secondary.light.bg:odd": what.css([
+				"bg-emerald-50/40",
+			]),
+			"tone.secondary.light.border": what.css([
+				"border-emerald-200",
+			]),
+			"tone.secondary.light.border:hover": what.css([
+				"hover:border-emerald-300",
+			]),
+			"tone.secondary.light.shadow": what.css([
+				"shadow-emerald-200/50",
+			]),
+			"tone.secondary.light.shadow:hover": what.css([
+				"hover:shadow-emerald-300/60",
+			]),
 			//
-			"neutral.color": {
-				"text-light": [
-					"text-zinc-50",
-				],
-				"text-light-hover": [
-					"hover:text-zinc-100",
-				],
-				"text-dark": [
-					"text-zinc-900",
-				],
-				"text-dark-hover": [
-					"hover:text-black",
-				],
-				//
-				"bg-light": [
-					"bg-zinc-50",
-				],
-				"bg-light-hover": [
-					"hover:bg-zinc-100",
-				],
-				"bg-light-odd": [
-					"odd:bg-zinc-100",
-				],
-				"bg-light-odd-hover": [
-					"odd:hover:bg-zinc-200",
-				],
-				"bg-dark": [
-					"bg-zinc-200",
-				],
-				"bg-dark-hover": [
-					"hover:bg-zinc-300",
-				],
-				"bg-dark-odd": [
-					"odd:bg-zinc-300",
-				],
-				"bg-dark-odd-hover": [
-					"odd:hover:bg-zinc-400",
-				],
-				//
-				"border-light": [
-					"border-zinc-300",
-				],
-				"border-light-hover": [
-					"hover:border-zinc-400",
-				],
-				"border-light-odd": [
-					"odd:border-zinc-400",
-				],
-				"border-light-odd-hover": [
-					"odd:hover:border-zinc-500",
-				],
-				"border-dark": [
-					"border-zinc-500",
-				],
-				"border-dark-hover": [
-					"hover:border-zinc-600",
-				],
-				"border-dark-odd": [
-					"odd:border-zinc-600",
-				],
-				"border-dark-odd-hover": [
-					"odd:hover:border-zinc-700",
-				],
-				//
-				"shadow-light": [
-					"shadow-zinc-100",
-				],
-				"shadow-light-hover": [
-					"hover:shadow-zinc-200",
-				],
-				"shadow-dark": [
-					"shadow-zinc-600",
-				],
-				"shadow-dark-hover": [
-					"hover:shadow-zinc-800",
-				],
-			},
+			"tone.secondary.dark.text": what.css([
+				"text-emerald-300",
+			]),
+			"tone.secondary.dark.text:hover": what.css([
+				"hover:text-emerald-200",
+			]),
+			"tone.secondary.dark.bg": what.css([
+				"bg-emerald-900/20",
+			]),
+			"tone.secondary.dark.bg:hover": what.css([
+				"hover:bg-emerald-900/30",
+			]),
+			"tone.secondary.dark.bg:even": what.css([
+				"bg-emerald-900/15",
+			]),
+			"tone.secondary.dark.bg:odd": what.css([
+				"bg-emerald-900/10",
+			]),
+			"tone.secondary.dark.border": what.css([
+				"border-emerald-700",
+			]),
+			"tone.secondary.dark.border:hover": what.css([
+				"hover:border-emerald-600",
+			]),
+			"tone.secondary.dark.shadow": what.css([
+				"shadow-emerald-900/30",
+			]),
+			"tone.secondary.dark.shadow:hover": what.css([
+				"hover:shadow-emerald-800/40",
+			]),
 			//
-			"subtle.color": {
-				"text-light": [
-					"text-sky-50",
-				],
-				"text-light-hover": [
-					"hover:text-sky-100",
-				],
-				"text-dark": [
-					"text-sky-900",
-				],
-				"text-dark-hover": [
-					"hover:text-black",
-				],
-				//
-				"bg-light": [
-					"bg-sky-50",
-				],
-				"bg-light-hover": [
-					"hover:bg-sky-100",
-				],
-				"bg-dark": [
-					"bg-sky-200",
-				],
-				"bg-dark-hover": [
-					"hover:bg-sky-300",
-				],
-				"bg-light-odd": [
-					"odd:bg-sky-100",
-				],
-				"bg-light-odd-hover": [
-					"odd:hover:bg-sky-200",
-				],
-				"bg-dark-odd": [
-					"odd:bg-sky-300",
-				],
-				"bg-dark-odd-hover": [
-					"odd:hover:bg-sky-400",
-				],
-				//
-				"border-light": [
-					"border-sky-300",
-				],
-				"border-light-hover": [
-					"hover:border-sky-400",
-				],
-				"border-light-odd": [
-					"odd:border-sky-400",
-				],
-				"border-light-odd-hover": [
-					"odd:hover:border-sky-500",
-				],
-				"border-dark": [
-					"border-sky-500",
-				],
-				"border-dark-hover": [
-					"hover:border-sky-600",
-				],
-				"border-dark-odd": [
-					"odd:border-sky-600",
-				],
-				"border-dark-odd-hover": [
-					"odd:hover:border-sky-700",
-				],
-				//
-				"shadow-light": [
-					"shadow-sky-100",
-				],
-				"shadow-light-hover": [
-					"hover:shadow-sky-200",
-				],
-				"shadow-dark": [
-					"shadow-sky-600",
-				],
-				"shadow-dark-hover": [
-					"hover:shadow-sky-800",
-				],
-			},
+			// Danger Tone - Modern Red/Rose
+			"tone.danger.light.text": what.css([
+				"text-red-700",
+			]),
+			"tone.danger.light.text:hover": what.css([
+				"hover:text-red-800",
+			]),
+			"tone.danger.light.bg": what.css([
+				"bg-red-50",
+			]),
+			"tone.danger.light.bg:hover": what.css([
+				"hover:bg-red-100",
+			]),
+			"tone.danger.light.bg:even": what.css([
+				"bg-red-50/60",
+			]),
+			"tone.danger.light.bg:odd": what.css([
+				"bg-red-50/40",
+			]),
+			"tone.danger.light.border": what.css([
+				"border-red-200",
+			]),
+			"tone.danger.light.border:hover": what.css([
+				"hover:border-red-300",
+			]),
+			"tone.danger.light.shadow": what.css([
+				"shadow-red-200/50",
+			]),
+			"tone.danger.light.shadow:hover": what.css([
+				"hover:shadow-red-300/60",
+			]),
 			//
-			round: {
-				sm: [
-					"rounded-sm",
-				],
-				md: [
-					"rounded-md",
-				],
-				lg: [
-					"rounded-lg",
-				],
-			},
+			"tone.danger.dark.text": what.css([
+				"text-red-300",
+			]),
+			"tone.danger.dark.text:hover": what.css([
+				"hover:text-red-200",
+			]),
+			"tone.danger.dark.bg": what.css([
+				"bg-red-900/20",
+			]),
+			"tone.danger.dark.bg:hover": what.css([
+				"hover:bg-red-900/30",
+			]),
+			"tone.danger.dark.bg:even": what.css([
+				"bg-red-900/15",
+			]),
+			"tone.danger.dark.bg:odd": what.css([
+				"bg-red-900/10",
+			]),
+			"tone.danger.dark.border": what.css([
+				"border-red-700",
+			]),
+			"tone.danger.dark.border:hover": what.css([
+				"hover:border-red-600",
+			]),
+			"tone.danger.dark.shadow": what.css([
+				"shadow-red-900/30",
+			]),
+			"tone.danger.dark.shadow:hover": what.css([
+				"hover:shadow-red-800/40",
+			]),
 			//
-			shadow: {
-				sm: [
-					"shadow-sm",
-				],
-			},
-			"focus.reset": {
-				off: [
-					"outline-none",
-					"focus:outline-none",
-					"focus-visible:outline-none",
-					"ring-0",
-					"focus:ring-0",
-					"focus:ring-transparent",
-					"focus-visible:ring-0",
-					"focus-visible:ring-transparent",
-				],
-			},
+			// Warning Tone - Modern Orange/Amber
+			"tone.warning.light.text": what.css([
+				"text-orange-700",
+			]),
+			"tone.warning.light.text:hover": what.css([
+				"hover:text-orange-800",
+			]),
+			"tone.warning.light.bg": what.css([
+				"bg-orange-50",
+			]),
+			"tone.warning.light.bg:hover": what.css([
+				"hover:bg-orange-100",
+			]),
+			"tone.warning.light.bg:even": what.css([
+				"bg-orange-50/60",
+			]),
+			"tone.warning.light.bg:odd": what.css([
+				"bg-orange-50/40",
+			]),
+			"tone.warning.light.border": what.css([
+				"border-orange-200",
+			]),
+			"tone.warning.light.border:hover": what.css([
+				"hover:border-orange-300",
+			]),
+			"tone.warning.light.shadow": what.css([
+				"shadow-orange-200/50",
+			]),
+			"tone.warning.light.shadow:hover": what.css([
+				"hover:shadow-orange-300/60",
+			]),
+			//
+			"tone.warning.dark.text": what.css([
+				"text-orange-300",
+			]),
+			"tone.warning.dark.text:hover": what.css([
+				"hover:text-orange-200",
+			]),
+			"tone.warning.dark.bg": what.css([
+				"bg-orange-900/20",
+			]),
+			"tone.warning.dark.bg:hover": what.css([
+				"hover:bg-orange-900/30",
+			]),
+			"tone.warning.dark.bg:even": what.css([
+				"bg-orange-900/15",
+			]),
+			"tone.warning.dark.bg:odd": what.css([
+				"bg-orange-900/10",
+			]),
+			"tone.warning.dark.border": what.css([
+				"border-orange-700",
+			]),
+			"tone.warning.dark.border:hover": what.css([
+				"hover:border-orange-600",
+			]),
+			"tone.warning.dark.shadow": what.css([
+				"shadow-orange-900/30",
+			]),
+			"tone.warning.dark.shadow:hover": what.css([
+				"hover:shadow-orange-800/40",
+			]),
+			//
+			// Subtle Tone - Modern Amber/Warm
+			"tone.subtle.light.text": what.css([
+				"text-amber-700",
+			]),
+			"tone.subtle.light.text:hover": what.css([
+				"hover:text-amber-800",
+			]),
+			"tone.subtle.light.bg": what.css([
+				"bg-amber-50",
+			]),
+			"tone.subtle.light.bg:hover": what.css([
+				"hover:bg-amber-100",
+			]),
+			"tone.subtle.light.bg:even": what.css([
+				"bg-amber-50/60",
+			]),
+			"tone.subtle.light.bg:odd": what.css([
+				"bg-amber-50/40",
+			]),
+			"tone.subtle.light.border": what.css([
+				"border-amber-200",
+			]),
+			"tone.subtle.light.border:hover": what.css([
+				"hover:border-amber-300",
+			]),
+			"tone.subtle.light.shadow": what.css([
+				"shadow-amber-200/50",
+			]),
+			"tone.subtle.light.shadow:hover": what.css([
+				"hover:shadow-amber-300/60",
+			]),
+			//
+			"tone.subtle.dark.text": what.css([
+				"text-amber-300",
+			]),
+			"tone.subtle.dark.text:hover": what.css([
+				"hover:text-amber-200",
+			]),
+			"tone.subtle.dark.bg": what.css([
+				"bg-amber-900/20",
+			]),
+			"tone.subtle.dark.bg:hover": what.css([
+				"hover:bg-amber-900/30",
+			]),
+			"tone.subtle.dark.bg:even": what.css([
+				"bg-amber-900/15",
+			]),
+			"tone.subtle.dark.bg:odd": what.css([
+				"bg-amber-900/10",
+			]),
+			"tone.subtle.dark.border": what.css([
+				"border-amber-700",
+			]),
+			"tone.subtle.dark.border:hover": what.css([
+				"hover:border-amber-600",
+			]),
+			"tone.subtle.dark.shadow": what.css([
+				"shadow-amber-900/30",
+			]),
+			"tone.subtle.dark.shadow:hover": what.css([
+				"hover:shadow-amber-800/40",
+			]),
+			//
+			// Neutral Tone - Modern Slate/Gray
+			"tone.neutral.light.text": what.css([
+				"text-slate-900",
+			]),
+			"tone.neutral.light.text:hover": what.css([
+				"hover:text-slate-950",
+			]),
+			"tone.neutral.light.bg": what.css([
+				"bg-slate-50",
+			]),
+			"tone.neutral.light.bg:hover": what.css([
+				"hover:bg-slate-100",
+			]),
+			"tone.neutral.light.bg:even": what.css([
+				"bg-slate-50/60",
+			]),
+			"tone.neutral.light.bg:odd": what.css([
+				"bg-slate-50/40",
+			]),
+			"tone.neutral.light.border": what.css([
+				"border-slate-200",
+			]),
+			"tone.neutral.light.border:hover": what.css([
+				"hover:border-slate-300",
+			]),
+			"tone.neutral.light.shadow": what.css([
+				"shadow-slate-200/50",
+			]),
+			"tone.neutral.light.shadow:hover": what.css([
+				"hover:shadow-slate-300/60",
+			]),
+			//
+			"tone.neutral.dark.text": what.css([
+				"text-slate-100",
+			]),
+			"tone.neutral.dark.text:hover": what.css([
+				"hover:text-slate-50",
+			]),
+			"tone.neutral.dark.bg": what.css([
+				"bg-slate-900",
+			]),
+			"tone.neutral.dark.bg:hover": what.css([
+				"hover:bg-slate-800",
+			]),
+			"tone.neutral.dark.bg:even": what.css([
+				"bg-slate-800/60",
+			]),
+			"tone.neutral.dark.bg:odd": what.css([
+				"bg-slate-800/40",
+			]),
+			"tone.neutral.dark.border": what.css([
+				"border-slate-700",
+			]),
+			"tone.neutral.dark.border:hover": what.css([
+				"hover:border-slate-600",
+			]),
+			"tone.neutral.dark.shadow": what.css([
+				"shadow-slate-900/30",
+			]),
+			"tone.neutral.dark.shadow:hover": what.css([
+				"hover:shadow-slate-800/40",
+			]),
+			//
+			// Layout & Spacing
+			"round.sm": what.css([
+				"rounded-sm",
+			]),
+			"round.md": what.css([
+				"rounded-md",
+			]),
+			"round.lg": what.css([
+				"rounded-lg",
+			]),
+			"round.xl": what.css([
+				"rounded-xl",
+			]),
+			//
+			// Shadows
+			"shadow.sm": what.css([
+				"shadow-sm",
+			]),
+			"shadow.md": what.css([
+				"shadow-md",
+			]),
+			"shadow.lg": what.css([
+				"shadow-lg",
+			]),
+			"shadow.xl": what.css([
+				"shadow-xl",
+			]),
+			//
+			// Focus
+			"focus.off": what.css([
+				"outline-none",
+				"focus:outline-none",
+				"focus-visible:outline-none",
+				"ring-0",
+				"focus:ring-0",
+				"focus:ring-transparent",
+				"focus-visible:ring-0",
+				"focus-visible:ring-transparent",
+			]),
+			"focus.ring": what.css([
+				"outline-none",
+				"focus:outline-none",
+				"focus-visible:outline-none",
+				"ring-2",
+				"focus:ring-2",
+				"focus:ring-indigo-500",
+				"focus:ring-offset-2",
+				"focus-visible:ring-2",
+				"focus-visible:ring-indigo-500",
+				"focus-visible:ring-offset-2",
+			]),
 		}),
 		rules: [],
 		defaults: def.defaults({}),

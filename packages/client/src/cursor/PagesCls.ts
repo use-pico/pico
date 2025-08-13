@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const PagesCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"list",
@@ -46,9 +46,9 @@ export const PagesCls = PicoCls.extend(
 						"active:scale-95",
 					],
 					[
-						"subtle.color.text-dark",
-						"subtle.color.bg-light",
-						"subtle.color.border-light",
+						"tone.subtle.dark.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
 					],
 				),
 			}),
@@ -64,9 +64,9 @@ export const PagesCls = PicoCls.extend(
 							"scale-110",
 						],
 						[
-							"subtle.color.text-dark",
-							"subtle.color.bg-dark",
-							"subtle.color.border-dark",
+							"tone.subtle.dark.text",
+							"tone.subtle.dark.bg",
+							"tone.subtle.dark.border",
 						],
 					),
 				},

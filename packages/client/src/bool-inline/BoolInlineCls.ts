@@ -3,7 +3,7 @@ import { IconCls } from "../icon/IconCls";
 
 export const BoolInlineCls = IconCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [],
 		variant: {
 			value: [

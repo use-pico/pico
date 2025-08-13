@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const IssuesCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"item",
 		],
@@ -32,9 +32,9 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"primary.color.text-dark",
-						"primary.color.bg-light",
-						"primary.color.border-light",
+						"tone.primary.dark.text",
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
 					]),
 				},
 			),
@@ -44,9 +44,9 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"secondary.color.text-dark",
-						"secondary.color.bg-light",
-						"secondary.color.border-light",
+						"tone.secondary.dark.text",
+						"tone.secondary.light.bg",
+						"tone.secondary.light.border",
 					]),
 				},
 			),
@@ -56,9 +56,9 @@ export const IssuesCls = PicoCls.extend(
 				}),
 				{
 					item: what.token([
-						"danger.color.text-dark",
-						"danger.color.bg-light",
-						"danger.color.border-light",
+						"tone.danger.dark.text",
+						"tone.danger.light.bg",
+						"tone.danger.light.border",
 					]),
 				},
 			),

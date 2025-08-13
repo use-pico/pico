@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const BoolInputCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"switch",

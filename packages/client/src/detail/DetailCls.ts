@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const DetailCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"section",
