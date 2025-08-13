@@ -169,13 +169,13 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
 
 ## Table of Contents <a id="table-of-contents"></a>
 
-- [🚀 Quick Start](#-quick-start)
-- [✨ Why CLS?](#-why-cls)
-- [🛠 Installation](#-installation)
-- [📖 Basic Usage](#-basic-usage)
-- [🎯 Key Features](#-key-features)
-- [🔗 Community & Support](#-community--support)
-- [📚 Documentation](#-documentation)
+- [🚀 Quick Start](#quick-start)
+- [✨ Why CLS?](#why-cls)
+- [🛠 Installation](#installation)
+- [📖 Basic Usage](#basic-usage)
+- [🎯 Key Features](#key-features)
+- [🔗 Community & Support](#community--support)
+- [📚 Documentation](#documentation)
 
 **Technical Documentation:**
 - [1. Core Principles](#1-core-principles)

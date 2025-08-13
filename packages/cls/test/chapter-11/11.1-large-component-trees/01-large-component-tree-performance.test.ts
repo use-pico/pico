@@ -92,7 +92,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.1",
 								"feature.type.a",
 							]),
@@ -104,7 +104,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.2",
 								"feature.type.a",
 							]),
@@ -163,7 +163,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.1",
 								"feature.type.a",
 							]),
@@ -175,7 +175,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.2",
 								"feature.type.a",
 							]),
@@ -187,7 +187,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.3",
 								"feature.type.a",
 							]),

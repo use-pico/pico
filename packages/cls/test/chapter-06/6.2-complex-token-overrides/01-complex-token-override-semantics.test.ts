@@ -205,111 +205,111 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					], // Override base primary
-					"color.bg.secondary": [
+					]), // Override base primary
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					], // Override base secondary
-					"color.bg.neutral": [
+					]), // Override base secondary
+					"color.bg.neutral": what.css([
 						"bg-gray-200",
-					], // Override base neutral
-					"color.bg.accent": [
+					]), // Override base neutral
+					"color.bg.accent": what.css([
 						"bg-purple-500",
-					], // New token
-					"color.bg.warning": [
+					]), // New token
+					"color.bg.warning": what.css([
 						"bg-yellow-500",
-					], // New token
-					"color.text.primary": [
+					]), // New token
+					"color.text.primary": what.css([
 						"text-blue-800",
-					], // Override base primary
-					"color.text.secondary": [
+					]), // Override base primary
+					"color.text.secondary": what.css([
 						"text-gray-800",
-					], // Override base secondary
-					"color.text.neutral": [
+					]), // Override base secondary
+					"color.text.neutral": what.css([
 						"text-gray-700",
-					], // Override base neutral
-					"color.text.accent": [
+					]), // Override base neutral
+					"color.text.accent": what.css([
 						"text-purple-900",
-					], // New token
-					"color.text.warning": [
+					]), // New token
+					"color.text.warning": what.css([
 						"text-yellow-900",
-					], // New token
-					"spacing.padding.xs": [
+					]), // New token
+					"spacing.padding.xs": what.css([
 						"p-1",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					], // New token
-					"spacing.padding.xl": [
+					]), // New token
+					"spacing.padding.xl": what.css([
 						"p-8",
-					], // New token
-					"spacing.margin.xs": [
+					]), // New token
+					"spacing.margin.xs": what.css([
 						"m-1",
-					],
-					"spacing.margin.sm": [
+					]),
+					"spacing.margin.sm": what.css([
 						"m-2",
-					],
-					"spacing.margin.md": [
+					]),
+					"spacing.margin.md": what.css([
 						"m-4",
-					],
-					"spacing.margin.lg": [
+					]),
+					"spacing.margin.lg": what.css([
 						"m-6",
-					], // New token
-					"spacing.margin.xl": [
+					]), // New token
+					"spacing.margin.xl": what.css([
 						"m-8",
-					], // New token
-					"border.width.thin": [
+					]), // New token
+					"border.width.thin": what.css([
 						"border",
-					],
-					"border.width.medium": [
+					]),
+					"border.width.medium": what.css([
 						"border-2",
-					],
-					"border.width.thick": [
+					]),
+					"border.width.thick": what.css([
 						"border-4",
-					],
-					"border.width.dashed": [
+					]),
+					"border.width.dashed": what.css([
 						"border-dashed",
-					], // New token
-					"border.radius.none": [
+					]), // New token
+					"border.radius.none": what.css([
 						"rounded-none",
-					],
-					"border.radius.sm": [
+					]),
+					"border.radius.sm": what.css([
 						"rounded-sm",
-					],
-					"border.radius.md": [
+					]),
+					"border.radius.md": what.css([
 						"rounded-md",
-					],
-					"border.radius.lg": [
+					]),
+					"border.radius.lg": what.css([
 						"rounded-lg",
-					],
-					"border.radius.xl": [
+					]),
+					"border.radius.xl": what.css([
 						"rounded-xl",
-					], // New token
-					"border.radius.full": [
+					]), // New token
+					"border.radius.full": what.css([
 						"rounded-full",
-					], // New token
-					"shadow.depth.none": [
+					]), // New token
+					"shadow.depth.none": what.css([
 						"shadow-none",
-					],
-					"shadow.depth.sm": [
+					]),
+					"shadow.depth.sm": what.css([
 						"shadow-sm",
-					],
-					"shadow.depth.md": [
+					]),
+					"shadow.depth.md": what.css([
 						"shadow-md",
-					],
-					"shadow.depth.lg": [
+					]),
+					"shadow.depth.lg": what.css([
 						"shadow-lg",
-					],
-					"shadow.depth.xl": [
+					]),
+					"shadow.depth.xl": what.css([
 						"shadow-xl",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -319,7 +319,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 							theme: "dark",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -337,7 +337,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 							theme: "auto",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"color.bg.warning",
 								"color.text.warning",
 								"spacing.padding.xl",
