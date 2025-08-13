@@ -5,7 +5,7 @@ import { cls } from "../../../src";
 import { ClsProvider, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Theme use() chain token overrides", () => {
-	it("should override Button tokens from CustomTheme provided via ThemeCls.use?.(CustomThemeCls)", () => {
+	it("should override Button tokens from CustomTheme provided via ThemeCls.use(CustomThemeCls)", () => {
 		// Root Theme with tokens only
 		const ThemeCls = cls(
 			{
@@ -17,7 +17,7 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				variant: {},
 			},
 			({ def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -26,12 +26,12 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 					],
 				}),
 				rules: [],
-				defaults: def.defaults?.({}),
+				defaults: def.defaults({}),
 			}),
 		);
 
 		// Simple Button extended from Theme; uses Theme tokens in its rules
-		const ButtonCls = ThemeCls.extend?.(
+		const ButtonCls = ThemeCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -40,21 +40,21 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token?.({}),
+				token: def.token({}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({}),
+				defaults: def.defaults({}),
 			}),
 		);
 
 		// Custom theme that overrides some Theme tokens
-		const CustomThemeCls = ThemeCls.extend?.(
+		const CustomThemeCls = ThemeCls.extend(
 			{
 				tokens: [
 					"color.bg.primary",
@@ -64,7 +64,7 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				variant: {},
 			},
 			({ def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-red-600",
 					],
@@ -73,7 +73,7 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 					],
 				}),
 				rules: [],
-				defaults: def.defaults?.({}),
+				defaults: def.defaults({}),
 			}),
 		);
 
@@ -85,16 +85,16 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 			return (
 				<button
 					type="button"
-					className={classes.root?.()}
+					className={classes.root()}
 				>
 					{children}
 				</button>
 			);
 		};
 
-		// Provide CustomTheme via ThemeCls.use?.(CustomThemeCls)
+		// Provide CustomTheme via ThemeCls.use(CustomThemeCls)
 		render(
-			<ClsProvider value={ThemeCls.use?.(CustomThemeCls)}>
+			<ClsProvider value={ThemeCls.use(CustomThemeCls)}>
 				<Button>Click me</Button>
 			</ClsProvider>,
 		);

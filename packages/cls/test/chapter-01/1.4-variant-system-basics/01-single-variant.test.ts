@@ -20,19 +20,19 @@ describe("1.4 Variant System Basics - Single Variant", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root?.({
-						root: what.css?.([
+					def.root({
+						root: what.css([
 							"bg-gray-100",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					size: "sm",
 				}),
 			}),
 		);
 
-		const instance = Component.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100");
+		const instance = Component.create();
+		expect(instance.root()).toBe("bg-gray-100");
 	});
 });

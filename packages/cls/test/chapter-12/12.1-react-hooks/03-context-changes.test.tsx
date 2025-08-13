@@ -24,7 +24,7 @@ describe("12.1 React Hooks - Context Changes", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -39,21 +39,21 @@ describe("12.1 React Hooks - Context Changes", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 				}),
 			}),
 		);
 
 		const configFn = vi.fn?.(({ what }) => ({
-			variant: what.variant?.({
+			variant: what.variant({
 				color: "primary",
 			}),
 		}));
@@ -63,6 +63,6 @@ describe("12.1 React Hooks - Context Changes", () => {
 
 		// Should call config function once
 		expect(configFn).toHaveBeenCalledTimes(1);
-		expect(result.current.root?.()).toBeDefined();
+		expect(result.current.root()).toBeDefined();
 	});
 });

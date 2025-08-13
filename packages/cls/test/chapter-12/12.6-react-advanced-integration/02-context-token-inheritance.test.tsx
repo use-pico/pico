@@ -25,7 +25,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"theme.bg.light": [
 						"bg-white",
 					],
@@ -40,14 +40,14 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					theme: "light",
 				}),
 			}),
@@ -70,7 +70,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"elevation.shadow.low": [
 						"shadow-sm",
 					],
@@ -79,13 +79,13 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"elevation.shadow.low",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					elevation: "low",
 				}),
 			}),
@@ -104,7 +104,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 
 			return (
 				<div
-					className={classes.root?.()}
+					className={classes.root()}
 					{...props}
 				>
 					{children}
@@ -118,7 +118,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				<ClsProvider value={CardCls}>
 					<Card
 						cls={({ what }) => ({
-							variant: what.variant?.({
+							variant: what.variant({
 								elevation: "high" as const,
 							}),
 						})}

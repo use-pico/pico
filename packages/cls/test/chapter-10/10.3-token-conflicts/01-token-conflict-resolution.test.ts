@@ -31,7 +31,7 @@ describe("10.3 Token Conflicts", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -58,46 +58,46 @@ describe("10.3 Token Conflicts", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 							"spacing.padding.md",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "sm",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.lg",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 					size: "md",
 				}),
@@ -105,7 +105,7 @@ describe("10.3 Token Conflicts", () => {
 		);
 
 		// Extended component that overrides some tokens
-		const ExtendedComponent = BaseComponent.extend?.(
+		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.success",
@@ -140,7 +140,7 @@ describe("10.3 Token Conflicts", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.success": [
 						"bg-green-500",
 					], // New token
@@ -165,88 +165,88 @@ describe("10.3 Token Conflicts", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 							"spacing.padding.md",
 							"border.radius.md",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "success",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.success",
 								"color.text.success",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "sm",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.lg",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "xl",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.xl",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							radius: "none",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"border.radius.none",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							radius: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"border.radius.lg",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 					size: "md",
 					radius: "md",
@@ -255,124 +255,124 @@ describe("10.3 Token Conflicts", () => {
 		);
 
 		// Test base component behavior
-		const baseDefault = BaseComponent.create?.();
-		expect(baseDefault.root?.()).toBe(
+		const baseDefault = BaseComponent.create();
+		expect(baseDefault.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const basePrimary = BaseComponent.create?.(() => ({
+		const basePrimary = BaseComponent.create(() => ({
 			variant: {
 				color: "primary",
 			},
 		}));
-		expect(basePrimary.root?.()).toBe("px-4 py-2 bg-blue-500 text-white");
+		expect(basePrimary.root()).toBe("px-4 py-2 bg-blue-500 text-white");
 
 		// Test extended component behavior - should inherit base tokens since no overrides defined
-		const extendedDefault = ExtendedComponent.create?.();
-		expect(extendedDefault.root?.()).toBe(
+		const extendedDefault = ExtendedComponent.create();
+		expect(extendedDefault.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2 rounded-md",
 		);
 
-		const extendedPrimary = ExtendedComponent.create?.(() => ({
+		const extendedPrimary = ExtendedComponent.create(() => ({
 			variant: {
 				color: "primary",
 			},
 		}));
-		expect(extendedPrimary.root?.()).toBe(
+		expect(extendedPrimary.root()).toBe(
 			"px-4 py-2 rounded-md bg-blue-500 text-white",
 		);
 
 		// Test new tokens in extended component
-		const extendedSuccess = ExtendedComponent.create?.(() => ({
+		const extendedSuccess = ExtendedComponent.create(() => ({
 			variant: {
 				color: "success",
 			},
 		}));
-		expect(extendedSuccess.root?.()).toBe(
+		expect(extendedSuccess.root()).toBe(
 			"px-4 py-2 rounded-md bg-green-500 text-white",
 		);
 
 		// Test size variants with overridden tokens
-		const extendedSmall = ExtendedComponent.create?.(() => ({
+		const extendedSmall = ExtendedComponent.create(() => ({
 			variant: {
 				size: "sm",
 			},
 		}));
-		expect(extendedSmall.root?.()).toBe(
+		expect(extendedSmall.root()).toBe(
 			"bg-gray-100 text-gray-900 rounded-md px-2 py-1",
 		);
 
-		const extendedLarge = ExtendedComponent.create?.(() => ({
+		const extendedLarge = ExtendedComponent.create(() => ({
 			variant: {
 				size: "lg",
 			},
 		}));
-		expect(extendedLarge.root?.()).toBe(
+		expect(extendedLarge.root()).toBe(
 			"bg-gray-100 text-gray-900 rounded-md px-6 py-3",
 		);
 
 		// Test new size variant
-		const extendedXl = ExtendedComponent.create?.(() => ({
+		const extendedXl = ExtendedComponent.create(() => ({
 			variant: {
 				size: "xl",
 			},
 		}));
-		expect(extendedXl.root?.()).toBe(
+		expect(extendedXl.root()).toBe(
 			"bg-gray-100 text-gray-900 rounded-md px-8 py-4",
 		);
 
 		// Test radius variants
-		const extendedNoRadius = ExtendedComponent.create?.(() => ({
+		const extendedNoRadius = ExtendedComponent.create(() => ({
 			variant: {
 				radius: "none",
 			},
 		}));
-		expect(extendedNoRadius.root?.()).toBe(
+		expect(extendedNoRadius.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2 rounded-none",
 		);
 
-		const extendedLargeRadius = ExtendedComponent.create?.(() => ({
+		const extendedLargeRadius = ExtendedComponent.create(() => ({
 			variant: {
 				radius: "lg",
 			},
 		}));
-		expect(extendedLargeRadius.root?.()).toBe(
+		expect(extendedLargeRadius.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2 rounded-lg",
 		);
 
 		// Test complex combinations
-		const extendedComplex = ExtendedComponent.create?.(() => ({
+		const extendedComplex = ExtendedComponent.create(() => ({
 			variant: {
 				color: "success",
 				size: "xl",
 				radius: "lg",
 			},
 		}));
-		expect(extendedComplex.root?.()).toBe(
+		expect(extendedComplex.root()).toBe(
 			"bg-green-500 text-white px-8 py-4 rounded-lg",
 		);
 
 		// Test that use method preserves token conflicts resolution
-		const ComponentGroup = BaseComponent.use?.(ExtendedComponent);
+		const ComponentGroup = BaseComponent.use(ExtendedComponent);
 		expect(typeof ComponentGroup.create).toBe("function");
 
 		// Test runtime access to extended tokens
 		const groupInstance = ComponentGroup as any;
-		const groupSuccess = groupInstance.create?.(() => ({
+		const groupSuccess = groupInstance.create(() => ({
 			variant: {
 				color: "success",
 			},
 		}));
-		expect(groupSuccess.root?.()).toBe(
+		expect(groupSuccess.root()).toBe(
 			"px-4 py-2 rounded-md bg-green-500 text-white",
 		);
 
-		const groupXl = groupInstance.create?.(() => ({
+		const groupXl = groupInstance.create(() => ({
 			variant: {
 				size: "xl",
 			},
 		}));
-		expect(groupXl.root?.()).toBe(
+		expect(groupXl.root()).toBe(
 			"bg-gray-100 text-gray-900 rounded-md px-8 py-4",
 		);
 	});

@@ -252,12 +252,12 @@ describe("8.3 Complex Configuration", () => {
 				]),
 			},
 		}));
-		expect(complexConfig1.root?.()).toBe("");
-		expect(complexConfig1.header?.()).toBe("");
-		expect(complexConfig1.content?.()).toBe("");
-		expect(complexConfig1.footer?.()).toBe("");
-		expect(complexConfig1.sidebar?.()).toBe("p-8 bg-yellow-500");
-		expect(complexConfig1.actions?.()).toBe("");
+		expect(complexConfig1.root()).toBe("");
+		expect(complexConfig1.header()).toBe("");
+		expect(complexConfig1.content()).toBe("");
+		expect(complexConfig1.footer()).toBe("");
+		expect(complexConfig1.sidebar()).toBe("p-8 bg-yellow-500");
+		expect(complexConfig1.actions()).toBe("");
 
 		// Test complex configuration 2: Token overrides with variants
 		const complexConfig2 = ComplexComponent.create(() => ({
@@ -277,12 +277,12 @@ describe("8.3 Complex Configuration", () => {
 				],
 			},
 		}));
-		expect(complexConfig2.root?.()).toBe("");
-		expect(complexConfig2.header?.()).toBe("");
-		expect(complexConfig2.content?.()).toBe("");
-		expect(complexConfig2.footer?.()).toBe("");
-		expect(complexConfig2.sidebar?.()).toBe("");
-		expect(complexConfig2.actions?.()).toBe("");
+		expect(complexConfig2.root()).toBe("");
+		expect(complexConfig2.header()).toBe("");
+		expect(complexConfig2.content()).toBe("");
+		expect(complexConfig2.footer()).toBe("");
+		expect(complexConfig2.sidebar()).toBe("");
+		expect(complexConfig2.actions()).toBe("");
 
 		// Test complex configuration 3: Mixed slot and token overrides
 		const complexConfig3 = ComplexComponent.create(({ what }) => ({
@@ -316,18 +316,18 @@ describe("8.3 Complex Configuration", () => {
 				]),
 			},
 		}));
-		expect(complexConfig3.root?.()).toBe(
+		expect(complexConfig3.root()).toBe(
 			"bg-gray-900 text-white shadow-lg",
 		);
-		expect(complexConfig3.header?.()).toBe(
+		expect(complexConfig3.header()).toBe(
 			"bg-blue-500 text-white p-4 rounded-t-lg",
 		);
-		expect(complexConfig3.content?.()).toBe("bg-gray-800 p-6 text-center");
-		expect(complexConfig3.footer?.()).toBe(
+		expect(complexConfig3.content()).toBe("bg-gray-800 p-6 text-center");
+		expect(complexConfig3.footer()).toBe(
 			"bg-red-500 text-white p-4 rounded-b-lg",
 		);
-		expect(complexConfig3.sidebar?.()).toBe("");
-		expect(complexConfig3.actions?.()).toBe("");
+		expect(complexConfig3.sidebar()).toBe("");
+		expect(complexConfig3.actions()).toBe("");
 
 		// Test complex configuration 4: Minimal overrides
 		const complexConfig4 = ComplexComponent.create(() => ({
@@ -337,22 +337,22 @@ describe("8.3 Complex Configuration", () => {
 				],
 			},
 		}));
-		expect(complexConfig4.root?.()).toBe(
+		expect(complexConfig4.root()).toBe(
 			"bg-white text-gray-900 border-gray-200 p-4 text-base border flex-row justify-start",
 		);
-		expect(complexConfig4.header?.()).toBe(
+		expect(complexConfig4.header()).toBe(
 			"border-b border-gray-200 pb-2 mb-2 font-semibold",
 		);
-		expect(complexConfig4.content?.()).toBe(
+		expect(complexConfig4.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(complexConfig4.footer?.()).toBe(
+		expect(complexConfig4.footer()).toBe(
 			"border-t border-gray-200 pt-2 mt-2 text-sm text-gray-600",
 		);
-		expect(complexConfig4.sidebar?.()).toBe(
+		expect(complexConfig4.sidebar()).toBe(
 			"w-64 bg-gray-50 p-4 border-r border-gray-200",
 		);
-		expect(complexConfig4.actions?.()).toBe("flex gap-2 justify-end mt-4");
+		expect(complexConfig4.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test complex configuration 5: All overrides
 		const complexConfig5 = ComplexComponent.create(({ what }) => ({
@@ -385,17 +385,17 @@ describe("8.3 Complex Configuration", () => {
 				]),
 			},
 		}));
-		expect(complexConfig5.root?.()).toBe(
+		expect(complexConfig5.root()).toBe(
 			"bg-gradient-to-b from-purple-500 to-pink-500 text-white shadow-2xl",
 		);
-		expect(complexConfig5.header?.()).toBe(
+		expect(complexConfig5.header()).toBe(
 			"bg-opacity-20 p-6 text-2xl font-bold",
 		);
-		expect(complexConfig5.content?.()).toBe(
+		expect(complexConfig5.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(complexConfig5.footer?.()).toBe("");
-		expect(complexConfig5.sidebar?.()).toBe("");
-		expect(complexConfig5.actions?.()).toBe("");
+		expect(complexConfig5.footer()).toBe("");
+		expect(complexConfig5.sidebar()).toBe("");
+		expect(complexConfig5.actions()).toBe("");
 	});
 });

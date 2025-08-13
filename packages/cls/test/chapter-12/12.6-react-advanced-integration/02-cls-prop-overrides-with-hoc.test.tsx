@@ -25,7 +25,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -40,20 +40,20 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 				}),
 			}),
 		);
 
-		const CustomButtonCls = BaseButtonCls.extend?.(
+		const CustomButtonCls = BaseButtonCls.extend(
 			{
 				tokens: [
 					"color.bg.custom",
@@ -69,7 +69,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.custom": [
 						"bg-purple-600",
 					],
@@ -78,14 +78,14 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.custom",
 							"color.text.custom",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "custom",
 				}),
 			}),
@@ -98,7 +98,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 			...props
 		}: Component<typeof BaseButtonCls, PropsWithChildren>) => {
 			const classes = useCls(tva, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					color: "primary" as const,
 				}),
 			}));
@@ -110,7 +110,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 			return (
 				<button
 					type="button"
-					className={classes.root?.()}
+					className={classes.root()}
 					{...props}
 				>
 					{children}
@@ -126,7 +126,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 
 		// Render with custom cls override
 		render(
-			<EnhancedButton tva={BaseButtonCls.use?.(CustomButtonCls)}>
+			<EnhancedButton tva={BaseButtonCls.use(CustomButtonCls)}>
 				Custom Button
 			</EnhancedButton>,
 		);

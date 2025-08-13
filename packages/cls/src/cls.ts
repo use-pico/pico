@@ -16,28 +16,10 @@ import type {
 } from "./types";
 import { what } from "./what";
 
-// TODO Vibe variable extraction (create PicoCls with tokens)
-
-// Local internal helpers (runtime only)
-type InternalContractLayer = {
-	contract: Contract<any, any, any>;
-	definition: Definition<any>;
-};
-
-type InternalTokenIndex = Record<string, string[]>;
-type InternalVariantValues = Record<string, unknown>;
-
-// Internal type for runtime processing (simplified version of What for internal use)
-type InternalWhat = {
-	class?: ClassName;
-	token?: string[];
-};
-
-type InternalCreateConfig = {
+type InternalConfig = {
 	variant?: Record<string, unknown>;
-	slot?: Record<string, InternalWhat>;
-	override?: Record<string, InternalWhat>;
-	// Flat token overrides: tokenKey → classes
+	slot?: Record<string, What<any>>;
+	override?: Record<string, What<any>>;
 	token?: Record<string, string[]>;
 };
 
@@ -55,164 +37,109 @@ export function cls<
 	contract: TContract,
 	definitionFn: (props: WhatUtil<TContract>) => Definition<TContract>,
 ): Cls<TContract> {
-	// Create WhatUtil instance for this cls instance
 	const whatUtil = what<TContract>();
-
-	// Build inheritance chain once for this instance (base -> child order)
-	const buildChain = (
-		base: Contract<any, any, any>,
-		def: Definition<any>,
-	): InternalContractLayer[] => {
-		const layers: InternalContractLayer[] = [];
-
-		let currentContract: Contract<any, any, any> | undefined = base;
-		let currentDefinition: Definition<any> | undefined = def;
-
-		while (currentContract && currentDefinition) {
-			layers.push({
-				contract: currentContract,
-				definition: currentDefinition,
-			});
-
-			const nextContract = currentContract["~use"] as
-				| Contract<any, any, any>
-				| undefined;
-			const nextDefinition = currentContract["~definition"] as
-				| Definition<any>
-				| undefined;
-
-			currentContract = nextContract;
-			currentDefinition = nextDefinition;
-		}
-
-		return layers.reverse();
-	};
-
-	// Call definition function to get the actual definition
 	const definition = definitionFn(whatUtil);
-	const layers = buildChain(contract, definition);
 
-	// Collect all slots across the chain (set union)
-	const allSlots: Set<string> = (() => {
-		const s = new Set<string>();
-		for (const { contract: c } of layers) {
-			for (const slot of c.slot as string[]) s.add(slot);
+	// Set the definition on the contract for inheritance
+	(contract as any)["~definition"] = definition;
+
+	// Build inheritance chain (base -> child order)
+	const layers: {
+		contract: Contract<any, any, any>;
+		definition: Definition<any>;
+	}[] = [];
+	let current: Contract<any, any, any> | undefined = contract;
+	let currentDef: Definition<any> | undefined = definition;
+
+	while (current && currentDef) {
+		layers.unshift({
+			contract: current,
+			definition: currentDef,
+		});
+		current = current["~use"] as Contract<any, any, any> | undefined;
+		currentDef = current?.["~definition"] as Definition<any> | undefined;
+	}
+
+	// Collect all slots
+	const allSlots = new Set<string>();
+	for (const { contract: c } of layers) {
+		for (const slot of c.slot as string[]) allSlots.add(slot);
+	}
+
+	// Merge defaults and rules from ALL layers in inheritance order
+	const defaults: Record<string, unknown> = {};
+	const rules: RuleDefinition<any>[] = [];
+
+	// Process layers in inheritance order (base first, child last)
+	for (const { definition: d } of layers) {
+		// Merge defaults (child overrides base)
+		Object.assign(defaults, d.defaults ?? {});
+		// Collect rules (all rules from all layers)
+		rules.push(...(d.rules ?? []));
+	}
+
+	// Build token index with proper inheritance order
+	const tokens: Record<string, string[]> = {};
+
+	// First pass: collect all token keys from all contracts
+	for (const { contract: c } of layers) {
+		const tokenKeys = c.tokens as unknown as string[];
+		for (const key of tokenKeys) {
+			if (!(key in tokens)) tokens[key] = [];
 		}
-		return s;
-	})();
+	}
 
-	// Precompute merged defaults (base -> child, child overwrites)
-	const mergedDefaults: InternalVariantValues = (() => {
-		const out: InternalVariantValues = {};
-		for (const { definition: d } of layers)
-			Object.assign(out, d.defaults ?? {});
-		return out;
-	})();
-
-	// Precompute merged rules (base rules first, then child rules; keep order)
-	const mergedRules: RuleDefinition<any>[] = (() => {
-		const out: RuleDefinition<any>[] = [];
-		for (const { definition: d } of layers) {
-			// rules is an array property, not a function
-			out.push(...d.rules);
-		}
-		return out;
-	})();
-
-	// Normalize definitions to flat map: tokenKey -> classes[]
-	const normalizeDefToFlat = (
-		token: Record<string, any> | undefined,
-	): Record<string, string[]> => {
-		const out: Record<string, string[]> = {};
-		if (!token) return out;
-		for (const [k, v] of Object.entries(token)) {
-			if (Array.isArray(v)) {
-				out[k] = v as string[];
-				continue;
-			}
-			if (v && typeof v === "object") {
-				for (const [variant, classes] of Object.entries(
-					v as Record<string, string[]>,
-				)) {
-					out[`${k}.${variant}`] = Array.isArray(classes)
-						? (classes as string[])
-						: [];
-				}
-			}
-		}
-		return out;
-	};
-
-	// Build base token index table (REPLACE/APPEND semantics handled per layer)
-	const baseTokenIndex: InternalTokenIndex = (() => {
-		const index: InternalTokenIndex = {};
-
-		// First pass: collect all token keys from all contracts and seed with empty arrays
-		for (const { contract: c } of layers) {
-			const t = c.tokens as unknown as any;
-			if (Array.isArray(t)) {
-				for (const key of t) {
-					if (!(key in index)) index[key] = [];
-				}
-			} else if (t && typeof t === "object") {
-				for (const [group, variants] of Object.entries(
-					t as Record<string, readonly string[]>,
-				)) {
-					for (const v of variants as readonly string[]) {
-						const key = `${group}.${v}`;
-						if (!(key in index)) index[key] = [];
+	// Second pass: apply token definitions in inheritance order (base first, child last)
+	for (const { definition: d } of layers) {
+		const tokenDefs = d.token as Record<string, any> | undefined;
+		if (tokenDefs) {
+			for (const [k, v] of Object.entries(tokenDefs)) {
+				if (Array.isArray(v)) {
+					tokens[k] = v as string[];
+				} else {
+					for (const [variant, classes] of Object.entries(
+						v as Record<string, string[]>,
+					)) {
+						tokens[`${k}.${variant}`] = classes;
 					}
 				}
 			}
 		}
+	}
 
-		// Second pass: apply token definitions with REPLACE/APPEND semantics
-		for (const { definition: d } of layers) {
-			const map = normalizeDefToFlat(d.token as any);
-			for (const [key, classes] of Object.entries(map)) {
-				index[key] = Array.isArray(classes) ? classes : [];
-			}
-		}
-
-		return index;
-	})();
-
-	// Helpers shared by slot invocations
-	const applyTokenOverrides = (
-		target: InternalTokenIndex,
-		overrides: Record<string, string[]> | undefined,
-	) => {
-		if (!overrides) return;
-		for (const [key, values] of Object.entries(overrides)) {
-			target[key] = Array.isArray(values) ? values : [];
-		}
-	};
-
+	// Helper functions
 	const resolveTokens = (
-		tokens: string[] | undefined,
-		table: InternalTokenIndex,
+		tokenKeys: string[] | undefined,
+		tokenTable: Record<string, string[]>,
 	): string[] => {
-		if (!tokens || tokens.length === 0) return [];
-		const out: string[] = [];
-		for (const t of tokens) {
-			const cls = table[t] ?? [];
-			if (cls.length) out.push(...cls);
+		if (!tokenKeys) return [];
+		const result: string[] = [];
+		for (const key of tokenKeys) {
+			const classes = tokenTable[key] ?? [];
+			if (classes.length) result.push(...classes);
 		}
-		return out;
+		return result;
 	};
 
 	const applyWhat = (
-		acc: string[],
-		what: InternalWhat | undefined,
-		table: InternalTokenIndex,
-	): string[] => {
-		if (!what) return acc;
-		if (what.class) {
-			if (Array.isArray(what.class))
-				acc.push(...(what.class as string[]));
-			else acc.push(what.class as string);
+		acc: ClassName[],
+		what: What<any> | undefined,
+		tokenTable: Record<string, string[]>,
+	): ClassName[] => {
+		if (!what) {
+			return acc;
 		}
-		if (what.token) acc.push(...resolveTokens(what.token, table));
+
+		// Handle WhatClass (has 'class' property)
+		if ("class" in what && what.class) {
+			acc.push(what.class);
+		}
+
+		// Handle WhatToken (has 'token' property)
+		if ("token" in what && what.token) {
+			acc.push(...resolveTokens(what.token, tokenTable));
+		}
+
 		return acc;
 	};
 
@@ -220,31 +147,16 @@ export function cls<
 		effective: Record<string, unknown>,
 		ruleMatch: Record<string, unknown> | undefined,
 	): boolean => {
-		if (!ruleMatch) return true;
+		if (!ruleMatch) {
+			return true;
+		}
 
 		for (const [k, v] of Object.entries(ruleMatch)) {
-			const effectiveValue = effective[k];
-
-			// Handle nested variant structures
-			if (
-				typeof v === "object" &&
-				v !== null &&
-				typeof effectiveValue === "object" &&
-				effectiveValue !== null
-			) {
-				// Recursively check nested variant structure
-				if (
-					!matches(
-						effectiveValue as Record<string, unknown>,
-						v as Record<string, unknown>,
-					)
-				) {
-					return false;
-				}
-			} else if (effectiveValue !== v) {
+			if (effective[k] !== v) {
 				return false;
 			}
 		}
+
 		return true;
 	};
 
@@ -254,37 +166,32 @@ export function cls<
 			const config = merge(
 				userConfigFn,
 				internalConfigFn,
-			)() as InternalCreateConfig;
-
-			// Effective variants: defaults <- create.variant
-			const effectiveVariant: Record<string, unknown> = {
-				...mergedDefaults,
+			)() as InternalConfig;
+			const effectiveVariant = {
+				...defaults,
 				...(config.variant ?? {}),
 			};
 
-			// Build per-create token index (base + create.token)
-			const tokenTable: InternalTokenIndex = {
-				...baseTokenIndex,
+			// Apply token overrides
+			const tokenTable = {
+				...tokens,
 			};
 			if (config.token) {
-				applyTokenOverrides(
-					tokenTable,
-					normalizeDefToFlat(config.token as any),
-				);
+				for (const [key, values] of Object.entries(config.token)) {
+					tokenTable[key] = values;
+				}
 			}
 
 			const cache: Record<string | symbol, ClsSlotFn<TContract>> = {};
-			// Shared result cache across all slots for this create() instance
 			const resultCache = new Map<string, string>();
+
 			const computeKey = (
 				slot: string,
 				call?: (
 					props: WhatUtil<TContract>,
 				) => Partial<CreateConfig<TContract>>,
 			): string => {
-				if (call === undefined) {
-					return `${slot}|__no_config__`;
-				}
+				if (!call) return `${slot}|__no_config__`;
 				try {
 					return `${slot}|${JSON.stringify(call(whatUtil))}`;
 				} catch {
@@ -304,47 +211,43 @@ export function cls<
 						const slotFn: ClsSlotFn<TContract> = (call) => {
 							const key = computeKey(slotName, call);
 							const cached = resultCache.get(key);
-							if (cached !== undefined) {
-								return cached;
-							}
-							const local = call?.(whatUtil);
-							const localConfig:
-								| InternalCreateConfig
-								| undefined = local
-								? {
-										variant: local.variant,
-										slot: local.slot as
-											| Record<string, InternalWhat>
-											| undefined,
-										override: local.override as
-											| Record<string, InternalWhat>
-											| undefined,
-										token: local.token as any,
-									}
-								: undefined;
+							if (cached !== undefined) return cached;
 
-							const localEffective: Record<string, unknown> = {
+							const local = call?.(whatUtil);
+							const localConfig: InternalConfig | undefined =
+								local
+									? {
+											variant: local.variant,
+											slot: local.slot as
+												| Record<string, What<any>>
+												| undefined,
+											override: local.override as
+												| Record<string, What<any>>
+												| undefined,
+											token: local.token as any,
+										}
+									: undefined;
+
+							const localEffective = {
 								...effectiveVariant,
 								...(localConfig?.variant ?? {}),
 							};
-
-							// Per-call token overrides
-							const localTokenTable: InternalTokenIndex = {
+							const localTokens = {
 								...tokenTable,
 							};
+
 							if (localConfig?.token) {
-								applyTokenOverrides(
-									localTokenTable,
-									normalizeDefToFlat(
-										localConfig.token as any,
-									),
-								);
+								for (const [key, values] of Object.entries(
+									localConfig.token,
+								)) {
+									localTokens[key] = values;
+								}
 							}
 
-							let acc: string[] = [];
+							let acc: ClassName[] = [];
 
-							// Apply rules in order
-							for (const rule of mergedRules) {
+							// Apply rules
+							for (const rule of rules) {
 								if (!matches(localEffective, rule.match)) {
 									continue;
 								}
@@ -359,46 +262,36 @@ export function cls<
 								if (rule.override === true) {
 									acc = [];
 								}
-								acc = applyWhat(acc, what, localTokenTable);
+								acc = applyWhat(acc, what, localTokens);
 							}
 
-							// Apply create-time appends/overrides
-							const baseAppend = config.slot?.[slotName];
-							if (baseAppend) {
+							// Apply overrides
+							if (config.slot?.[slotName])
 								acc = applyWhat(
 									acc,
-									baseAppend,
-									localTokenTable,
+									config.slot[slotName],
+									localTokens,
 								);
-							}
-
-							const baseOverride = config.override?.[slotName];
-							if (baseOverride) {
+							if (config.override?.[slotName]) {
 								acc = [];
 								acc = applyWhat(
 									acc,
-									baseOverride,
-									localTokenTable,
+									config.override[slotName],
+									localTokens,
 								);
 							}
-
-							const callAppend = localConfig?.slot?.[slotName];
-							if (callAppend) {
+							if (localConfig?.slot?.[slotName])
 								acc = applyWhat(
 									acc,
-									callAppend,
-									localTokenTable,
+									localConfig.slot[slotName],
+									localTokens,
 								);
-							}
-
-							const callOverride =
-								localConfig?.override?.[slotName];
-							if (callOverride) {
+							if (localConfig?.override?.[slotName]) {
 								acc = [];
 								acc = applyWhat(
 									acc,
-									callOverride,
-									localTokenTable,
+									localConfig.override[slotName],
+									localTokens,
 								);
 							}
 
@@ -427,29 +320,22 @@ export function cls<
 			);
 		},
 		extend(childContract, childDefinitionFn) {
-			// Set up inheritance chain
 			childContract["~use"] = contract;
-			childContract["~definition"] = definition;
+			// Don't set ~definition here - it will be set when cls() is called
 
-			// Create a merged contract that includes both child and inherited tokens (flat)
-			const parentTokens = Array.isArray(contract.tokens)
-				? (contract.tokens as unknown as string[])
-				: [];
-			const childTokens = Array.isArray(childContract.tokens)
-				? (childContract.tokens as unknown as string[])
-				: [];
+			const parentTokens = contract.tokens as unknown as string[];
+			const childTokens = childContract.tokens as unknown as string[];
 			const mergedTokens = Array.from(
 				new Set([
 					...parentTokens,
 					...childTokens,
 				]),
 			) as unknown as TTokenContract & TContract["tokens"];
+
 			const mergedContract = {
 				...childContract,
 				tokens: mergedTokens,
 			};
-
-			// Create the extended cls instance with the merged contract
 			return cls(mergedContract as any, childDefinitionFn as any);
 		},
 		use<Sub extends Contract<any, any, any>>(

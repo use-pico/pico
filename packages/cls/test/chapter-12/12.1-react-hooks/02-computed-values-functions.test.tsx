@@ -33,7 +33,7 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.base": [
 						"bg-gray-100",
 					],
@@ -54,19 +54,19 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.base",
 							"color.text.base",
 							"spacing.padding.base",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							intensity: "high",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.computed",
 								"color.text.computed",
 								"spacing.padding.computed",
@@ -74,7 +74,7 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					intensity: "low",
 					scale: "medium",
 				}),
@@ -84,7 +84,7 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 		// Test with computed values
 		const { result } = renderHook(() =>
 			useCls(ComputedCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					intensity: "high",
 					scale: "large",
 				}),
@@ -94,6 +94,6 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 		const classes = result.current;
 
 		// Should apply computed styling for high intensity
-		expect(classes.root?.()).toBe("bg-blue-100 text-blue-900 p-4");
+		expect(classes.root()).toBe("bg-blue-100 text-blue-900 p-4");
 	});
 });

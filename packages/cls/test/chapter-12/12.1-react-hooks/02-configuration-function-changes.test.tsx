@@ -24,7 +24,7 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -39,21 +39,21 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 				}),
 			}),
 		);
 
 		const configFn = vi.fn?.(({ what }) => ({
-			variant: what.variant?.({
+			variant: what.variant({
 				color: "primary",
 			}),
 		}));
@@ -70,6 +70,6 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 
 		// Should call config function only once per render
 		expect(configFn).toHaveBeenCalledTimes(2);
-		expect(result1.current.root?.()).toBe(result2.current.root?.());
+		expect(result1.current.root()).toBe(result2.current.root());
 	});
 });

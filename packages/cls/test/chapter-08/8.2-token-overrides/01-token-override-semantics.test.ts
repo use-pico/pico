@@ -64,7 +64,7 @@ describe("8.2 Token Overrides", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -151,14 +151,14 @@ describe("8.2 Token Overrides", () => {
 					],
 				}),
 				rules: [
-					def.rule?.(
+					def.rule(
 						{
 							color: "default",
 							size: "md",
 							state: "idle",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.default",
 								"color.text.default",
 								"color.border.default",
@@ -167,12 +167,12 @@ describe("8.2 Token Overrides", () => {
 								"size.border.thin",
 								"state.interactive.idle",
 							]),
-							content: what.css?.([
+							content: what.css([
 								"min-h-0",
 								"flex-1",
 								"leading-relaxed",
 							]),
-							actions: what.css?.([
+							actions: what.css([
 								"flex",
 								"gap-2",
 								"justify-end",
@@ -181,7 +181,7 @@ describe("8.2 Token Overrides", () => {
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 					size: "md",
 					state: "idle",
@@ -190,17 +190,17 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test default behavior
-		const defaultInstance = TokenComponent.create?.();
-		expect(defaultInstance.root?.()).toBe(
+		const defaultInstance = TokenComponent.create();
+		expect(defaultInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
-		expect(defaultInstance.content?.()).toBe(
+		expect(defaultInstance.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(defaultInstance.actions?.()).toBe("flex gap-2 justify-end mt-4");
+		expect(defaultInstance.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test color token override
-		const colorTokenOverride = TokenComponent.create?.(() => ({
+		const colorTokenOverride = TokenComponent.create(() => ({
 			token: {
 				"color.bg.primary": [
 					"bg-purple-500",
@@ -213,18 +213,18 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(colorTokenOverride.root?.()).toBe(
+		expect(colorTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
-		expect(colorTokenOverride.content?.()).toBe(
+		expect(colorTokenOverride.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(colorTokenOverride.actions?.()).toBe(
+		expect(colorTokenOverride.actions()).toBe(
 			"flex gap-2 justify-end mt-4",
 		);
 
 		// Test size token override
-		const sizeTokenOverride = TokenComponent.create?.(() => ({
+		const sizeTokenOverride = TokenComponent.create(() => ({
 			token: {
 				"size.spacing.sm": [
 					"p-1",
@@ -237,18 +237,18 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(sizeTokenOverride.root?.()).toBe(
+		expect(sizeTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
-		expect(sizeTokenOverride.content?.()).toBe(
+		expect(sizeTokenOverride.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(sizeTokenOverride.actions?.()).toBe(
+		expect(sizeTokenOverride.actions()).toBe(
 			"flex gap-2 justify-end mt-4",
 		);
 
 		// Test state token override
-		const stateTokenOverride = TokenComponent.create?.(() => ({
+		const stateTokenOverride = TokenComponent.create(() => ({
 			token: {
 				"state.interactive.hover": [
 					"hover:bg-blue-100",
@@ -262,18 +262,18 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(stateTokenOverride.root?.()).toBe(
+		expect(stateTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
-		expect(stateTokenOverride.content?.()).toBe(
+		expect(stateTokenOverride.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(stateTokenOverride.actions?.()).toBe(
+		expect(stateTokenOverride.actions()).toBe(
 			"flex gap-2 justify-end mt-4",
 		);
 
 		// Test multiple token overrides
-		const multiTokenOverride = TokenComponent.create?.(() => ({
+		const multiTokenOverride = TokenComponent.create(() => ({
 			token: {
 				"color.bg.primary": [
 					"bg-indigo-500",
@@ -292,18 +292,18 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(multiTokenOverride.root?.()).toBe(
+		expect(multiTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
-		expect(multiTokenOverride.content?.()).toBe(
+		expect(multiTokenOverride.content()).toBe(
 			"min-h-0 flex-1 leading-relaxed",
 		);
-		expect(multiTokenOverride.actions?.()).toBe(
+		expect(multiTokenOverride.actions()).toBe(
 			"flex gap-2 justify-end mt-4",
 		);
 
 		// Test mixed token override (some tokens, some variants)
-		const mixedTokenOverride = TokenComponent.create?.(() => ({
+		const mixedTokenOverride = TokenComponent.create(() => ({
 			variant: {
 				color: "primary",
 				size: "lg",
@@ -321,12 +321,12 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(mixedTokenOverride.root?.()).toBe("");
-		expect(mixedTokenOverride.content?.()).toBe("");
-		expect(mixedTokenOverride.actions?.()).toBe("");
+		expect(mixedTokenOverride.root()).toBe("");
+		expect(mixedTokenOverride.content()).toBe("");
+		expect(mixedTokenOverride.actions()).toBe("");
 
 		// Test that variants are preserved when overriding tokens
-		const variantPreservation = TokenComponent.create?.(() => ({
+		const variantPreservation = TokenComponent.create(() => ({
 			variant: {
 				color: "success",
 				size: "lg",
@@ -341,8 +341,8 @@ describe("8.2 Token Overrides", () => {
 				],
 			},
 		}));
-		expect(variantPreservation.root?.()).toBe("");
-		expect(variantPreservation.content?.()).toBe("");
-		expect(variantPreservation.actions?.()).toBe("");
+		expect(variantPreservation.root()).toBe("");
+		expect(variantPreservation.content()).toBe("");
+		expect(variantPreservation.actions()).toBe("");
 	});
 });

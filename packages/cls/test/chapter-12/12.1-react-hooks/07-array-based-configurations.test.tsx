@@ -55,7 +55,7 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.base": [
 						"bg-white",
 					],
@@ -141,7 +141,7 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							"spacing.padding.sm",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						what.variant({
 							layout: "horizontal",
 						}),

@@ -34,7 +34,7 @@ describe("Rule Override Semantics", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-500",
 					],
@@ -70,44 +70,44 @@ describe("Rule Override Semantics", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.secondary",
 							"color.text.secondary",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"size.lg",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "lg",
 						},
 						{
-							root: what.css?.("shadow-lg"),
+							root: what.css("shadow-lg"),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "secondary",
 					size: "md",
 				}),
@@ -115,7 +115,7 @@ describe("Rule Override Semantics", () => {
 		);
 
 		// Extended component that overrides some rules
-		const ExtendedComponent = BaseComponent.extend?.(
+		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.primary",
@@ -150,7 +150,7 @@ describe("Rule Override Semantics", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -198,92 +198,92 @@ describe("Rule Override Semantics", () => {
 				}),
 				rules: [
 					// Override the root to prevent inheritance of base tokens
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.secondary",
 							"color.text.secondary",
 						]),
 					}),
 					// Override the primary color rule with enhanced styling
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
 					// Override the large size rule with different spacing
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"size.lg",
 							]),
 						},
 					),
 					// Override the combined variant rule
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "lg",
 						},
 						{
-							root: what.css?.("shadow-xl rounded-lg"),
+							root: what.css("shadow-xl rounded-lg"),
 						},
 					),
 					// Add new rule for danger color
-					def.rule?.(
+					def.rule(
 						{
 							color: "danger",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.danger",
 								"color.text.danger",
 							]),
 						},
 					),
 					// Add new rule for success color
-					def.rule?.(
+					def.rule(
 						{
 							color: "success",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.success",
 								"color.text.success",
 							]),
 						},
 					),
 					// Add new rule for xl size
-					def.rule?.(
+					def.rule(
 						{
 							size: "xl",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"size.xl",
 							]),
 						},
 					),
 					// Add new combined variant rule
-					def.rule?.(
+					def.rule(
 						{
 							color: "success",
 							size: "xl",
 						},
 						{
-							root: what.css?.("shadow-2xl rounded-xl"),
+							root: what.css("shadow-2xl rounded-xl"),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "secondary",
 					size: "md",
 				}),
@@ -291,106 +291,106 @@ describe("Rule Override Semantics", () => {
 		);
 
 		// Test base component behavior
-		const basePrimary = BaseComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const basePrimary = BaseComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "primary",
 			}),
 		}));
-		expect(basePrimary.root?.()).toBe("bg-blue-500 text-white");
+		expect(basePrimary.root()).toBe("bg-blue-500 text-white");
 
-		const baseLarge = BaseComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const baseLarge = BaseComponent.create(({ what }) => ({
+			variant: what.variant({
 				size: "lg",
 			}),
 		}));
-		expect(baseLarge.root?.()).toBe(
+		expect(baseLarge.root()).toBe(
 			"bg-gray-500 text-white px-6 py-3 text-lg",
 		);
 
-		const basePrimaryLarge = BaseComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const basePrimaryLarge = BaseComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "primary",
 				size: "lg",
 			}),
 		}));
-		expect(basePrimaryLarge.root?.()).toBe(
+		expect(basePrimaryLarge.root()).toBe(
 			"bg-blue-500 text-white px-6 py-3 text-lg shadow-lg",
 		);
 
 		// Test extended component behavior - rules should be overridden
-		const extendedPrimary = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedPrimary = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "primary",
 			}),
 		}));
-		expect(extendedPrimary.root?.()).toBe("bg-blue-600 text-white");
+		expect(extendedPrimary.root()).toBe("bg-blue-600 text-white");
 
-		const extendedLarge = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedLarge = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				size: "lg",
 			}),
 		}));
-		expect(extendedLarge.root?.()).toBe(
+		expect(extendedLarge.root()).toBe(
 			"bg-gray-600 text-white px-8 py-4 text-xl",
 		);
 
-		const extendedPrimaryLarge = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedPrimaryLarge = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "primary",
 				size: "lg",
 			}),
 		}));
-		expect(extendedPrimaryLarge.root?.()).toBe(
+		expect(extendedPrimaryLarge.root()).toBe(
 			"bg-blue-600 text-white px-8 py-4 text-xl shadow-xl rounded-lg",
 		);
 
 		// Test new variants that don't exist in base
-		const extendedSuccess = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedSuccess = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "success",
 			}),
 		}));
-		expect(extendedSuccess.root?.()).toBe("bg-green-500 text-white");
+		expect(extendedSuccess.root()).toBe("bg-green-500 text-white");
 
-		const extendedXl = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedXl = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				size: "xl",
 			}),
 		}));
-		expect(extendedXl.root?.()).toBe(
+		expect(extendedXl.root()).toBe(
 			"bg-gray-600 text-white px-10 py-5 text-2xl",
 		);
 
-		const extendedSuccessXl = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedSuccessXl = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "success",
 				size: "xl",
 			}),
 		}));
-		expect(extendedSuccessXl.root?.()).toBe(
+		expect(extendedSuccessXl.root()).toBe(
 			"bg-green-500 text-white px-10 py-5 text-2xl shadow-2xl rounded-xl",
 		);
 
 		// Test that non-overridden variants still work as expected
-		const extendedSecondary = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedSecondary = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "secondary",
 			}),
 		}));
-		expect(extendedSecondary.root?.()).toBe("bg-gray-600 text-white");
+		expect(extendedSecondary.root()).toBe("bg-gray-600 text-white");
 
-		const extendedDanger = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedDanger = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				color: "danger",
 			}),
 		}));
-		expect(extendedDanger.root?.()).toBe("bg-red-600 text-white");
+		expect(extendedDanger.root()).toBe("bg-red-600 text-white");
 
-		const extendedSm = ExtendedComponent.create?.(({ what }) => ({
-			variant: what.variant?.({
+		const extendedSm = ExtendedComponent.create(({ what }) => ({
+			variant: what.variant({
 				size: "sm",
 			}),
 		}));
-		expect(extendedSm.root?.()).toBe("bg-gray-600 text-white");
+		expect(extendedSm.root()).toBe("bg-gray-600 text-white");
 	});
 });

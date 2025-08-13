@@ -39,7 +39,7 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -78,74 +78,74 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 							"border.color.default",
 						]),
-						message: what.token?.([
+						message: what.token([
 							"color.text.default",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							type: "success",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.success",
 								"color.text.success",
 								"border.color.success",
 							]),
-							message: what.token?.([
+							message: what.token([
 								"color.text.success",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							type: "warning",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.warning",
 								"color.text.warning",
 								"border.color.warning",
 							]),
-							message: what.token?.([
+							message: what.token([
 								"color.text.warning",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							type: "error",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.error",
 								"color.text.error",
 								"border.color.error",
 							]),
-							message: what.token?.([
+							message: what.token([
 								"color.text.error",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							interactive: true,
 						},
 						{
-							root: what.css?.([
+							root: what.css([
 								"cursor-pointer",
 								"hover:opacity-80",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					type: "default",
 					interactive: false,
 				}),
@@ -155,7 +155,7 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 		// Test with conditional logic
 		const { result } = renderHook(() =>
 			useCls(ConditionalCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					type: "default",
 					interactive: false,
 				}),
@@ -165,9 +165,9 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 		const classes = result.current;
 
 		// Should apply default styling
-		expect(classes.root?.()).toBe(
+		expect(classes.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300",
 		);
-		expect(classes.message?.()).toBe("text-gray-900");
+		expect(classes.message()).toBe("text-gray-900");
 	});
 });

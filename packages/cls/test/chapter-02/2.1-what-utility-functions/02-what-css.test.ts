@@ -14,8 +14,8 @@ describe("2.1 What Utility Functions - what.css", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root?.({
-						root: what.css?.([
+					def.root({
+						root: what.css([
 							"bg-gray-100",
 							"p-4",
 							"rounded",
@@ -26,7 +26,7 @@ describe("2.1 What Utility Functions - what.css", () => {
 			}),
 		);
 
-		const instance = Component.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100 p-4 rounded");
+		const instance = Component.create();
+		expect(instance.root()).toBe("bg-gray-100 p-4 rounded");
 	});
 });

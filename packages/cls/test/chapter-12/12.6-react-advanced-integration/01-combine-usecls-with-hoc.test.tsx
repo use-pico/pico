@@ -36,7 +36,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -72,8 +72,8 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
@@ -81,7 +81,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "medium",
 				}),
@@ -107,7 +107,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"icon.position.left": [
 						"flex-row",
 					],
@@ -116,15 +116,15 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"icon.position.left",
 						]),
-						icon: what.css?.("w-4 h-4"),
-						label: what.css?.("font-medium"),
+						icon: what.css("w-4 h-4"),
+						label: what.css("font-medium"),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					iconPosition: "left",
 				}),
 			}),
@@ -152,7 +152,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			}
 		>) => {
 			const classes = useCls(IconButtonCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					iconPosition: "left",
 				}),
 			}));
@@ -164,11 +164,11 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			return (
 				<button
 					type="button"
-					className={classes.root?.()}
+					className={classes.root()}
 					{...props}
 				>
-					<span className={classes.icon?.()}>{icon}</span>
-					<span className={classes.label?.()}>{children}</span>
+					<span className={classes.icon()}>{icon}</span>
+					<span className={classes.label()}>{children}</span>
 				</button>
 			);
 		};

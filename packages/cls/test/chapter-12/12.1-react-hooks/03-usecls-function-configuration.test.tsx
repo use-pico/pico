@@ -24,7 +24,7 @@ describe("12.1 React Hooks - Basic useCls - Function Configuration", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -39,25 +39,25 @@ describe("12.1 React Hooks - Basic useCls - Function Configuration", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							variant: "secondary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					variant: "primary",
 				}),
 			}),
@@ -66,7 +66,7 @@ describe("12.1 React Hooks - Basic useCls - Function Configuration", () => {
 		// Test useCls with function configuration
 		const { result } = renderHook(() =>
 			useCls(VariantCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					variant: "secondary",
 				}),
 			})),
@@ -75,6 +75,6 @@ describe("12.1 React Hooks - Basic useCls - Function Configuration", () => {
 		const classes = result.current;
 
 		// Should apply secondary variant
-		expect(classes.root?.()).toBe("bg-gray-600 text-gray-900");
+		expect(classes.root()).toBe("bg-gray-600 text-gray-900");
 	});
 });

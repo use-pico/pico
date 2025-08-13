@@ -14,14 +14,14 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 						]),
 					}),
@@ -30,7 +30,7 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 			}),
 		);
 
-		const ExtendedComponent = BaseComponent.extend?.(
+		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.default",
@@ -42,7 +42,7 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-blue-100",
 					],
@@ -51,8 +51,8 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 						]),
 					}),
@@ -61,7 +61,7 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 			}),
 		);
 
-		const instance = ExtendedComponent.create?.();
-		expect(instance.root?.()).toBe("bg-blue-100");
+		const instance = ExtendedComponent.create();
+		expect(instance.root()).toBe("bg-blue-100");
 	});
 });

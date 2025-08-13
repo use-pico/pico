@@ -29,7 +29,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.light": [
 						"bg-white",
 					],
@@ -53,26 +53,26 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.light",
 							"color.text.light",
 							"spacing.padding.md",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							theme: "dark",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.dark",
 								"color.text.dark",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					theme: "light",
 				}),
 			}),
@@ -98,7 +98,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -113,25 +113,25 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							variant: "secondary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					variant: "primary",
 				}),
 			}),
@@ -142,7 +142,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 			variant?: "primary" | "secondary";
 		}> = ({ children, variant = "primary" }) => {
 			const classes = useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					variant,
 				}),
 			}));
@@ -154,7 +154,7 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 			return (
 				<button
 					type="button"
-					className={classes.root?.()}
+					className={classes.root()}
 				>
 					{children}
 				</button>

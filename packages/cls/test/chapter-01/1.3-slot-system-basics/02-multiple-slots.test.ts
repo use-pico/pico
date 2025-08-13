@@ -15,12 +15,12 @@ describe("1.3 Slot System Basics - Multiple Slots", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root?.({
-						root: what.css?.([
+					def.root({
+						root: what.css([
 							"bg-gray-100",
 							"p-4",
 						]),
-						label: what.css?.([
+						label: what.css([
 							"text-sm",
 							"font-medium",
 						]),
@@ -30,8 +30,8 @@ describe("1.3 Slot System Basics - Multiple Slots", () => {
 			}),
 		);
 
-		const instance = Component.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100 p-4");
-		expect(instance.label?.()).toBe("text-sm font-medium");
+		const instance = Component.create();
+		expect(instance.root()).toBe("bg-gray-100 p-4");
+		expect(instance.label()).toBe("text-sm font-medium");
 	});
 });

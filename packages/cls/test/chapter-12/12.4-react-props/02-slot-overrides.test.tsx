@@ -35,7 +35,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-white",
 					],
@@ -59,13 +59,13 @@ describe("12.4 React Props - Slot Overrides", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 							"spacing.padding.md",
 						]),
-						header: what.both?.(
+						header: what.both(
 							[
 								"font-bold",
 							],
@@ -73,20 +73,20 @@ describe("12.4 React Props - Slot Overrides", () => {
 								"color.text.default",
 							],
 						),
-						content: what.token?.([
+						content: what.token([
 							"color.text.default",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							theme: "highlighted",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.highlighted",
 								"color.text.highlighted",
 							]),
-							header: what.both?.(
+							header: what.both(
 								[
 									"font-bold",
 								],
@@ -94,33 +94,33 @@ describe("12.4 React Props - Slot Overrides", () => {
 									"color.text.highlighted",
 								],
 							),
-							content: what.token?.([
+							content: what.token([
 								"color.text.highlighted",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "sm",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"spacing.padding.lg",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					theme: "default",
 					size: "md",
 				}),
@@ -133,11 +133,11 @@ describe("12.4 React Props - Slot Overrides", () => {
 				children: string;
 			}
 		> = ({ cls: userCls, title, children }) => {
-			const classes = CardCls.create?.(userCls);
+			const classes = CardCls.create(userCls);
 			return (
-				<div className={classes.root?.()}>
-					<h3 className={classes.header?.()}>{title}</h3>
-					<div className={classes.content?.()}>{children}</div>
+				<div className={classes.root()}>
+					<h3 className={classes.header()}>{title}</h3>
+					<div className={classes.content()}>{children}</div>
 				</div>
 			);
 		};
@@ -146,7 +146,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 		render(
 			<Card
 				cls={({ what }) => ({
-					variant: what.variant?.({
+					variant: what.variant({
 						theme: "highlighted" as const,
 						size: "lg" as const,
 					}),

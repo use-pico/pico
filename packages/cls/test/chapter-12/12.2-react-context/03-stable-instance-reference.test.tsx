@@ -16,14 +16,14 @@ describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 						]),
 					}),

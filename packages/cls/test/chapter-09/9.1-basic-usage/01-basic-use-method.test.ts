@@ -23,7 +23,7 @@ describe("9.1 Basic Usage", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -38,32 +38,32 @@ describe("9.1 Basic Usage", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 				}),
 			}),
 		);
 
 		// Extended button component that inherits from BaseButton
-		const ExtendedButton = BaseButton.extend?.(
+		const ExtendedButton = BaseButton.extend(
 			{
 				tokens: [
 					"color.bg.success",
@@ -92,7 +92,7 @@ describe("9.1 Basic Usage", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.success": [
 						"bg-green-500",
 					],
@@ -119,68 +119,68 @@ describe("9.1 Basic Usage", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 							"size.padding.md", // Add default size
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "success",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.success",
 								"color.text.success",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "danger",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.danger",
 								"color.text.danger",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "sm",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"size.padding.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"size.padding.lg",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default", // Inherits from BaseButton
 					size: "md",
 				}),
@@ -189,7 +189,7 @@ describe("9.1 Basic Usage", () => {
 
 		// Test use method with compatible instances
 		// BaseButton can use ExtendedButton (ExtendedButton is derived from BaseButton)
-		const ButtonGroup = BaseButton.use?.(ExtendedButton);
+		const ButtonGroup = BaseButton.use(ExtendedButton);
 
 		// Test that ButtonGroup preserves the ExtendedButton functionality
 		expect(typeof ButtonGroup.create).toBe("function");
@@ -199,18 +199,18 @@ describe("9.1 Basic Usage", () => {
 		expect(typeof ButtonGroup.definition).toBe("object");
 
 		// Test that we can create instances with the base variants
-		const defaultButton = ButtonGroup.create?.();
-		expect(defaultButton.root?.()).toBe(
+		const defaultButton = ButtonGroup.create();
+		expect(defaultButton.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const primaryButton = ButtonGroup.create?.(() => ({
+		const primaryButton = ButtonGroup.create(() => ({
 			variant: {
 				color: "primary",
 			},
 		}));
 
-		expect(primaryButton.root?.()).toBe("px-4 py-2 bg-blue-500 text-white");
+		expect(primaryButton.root()).toBe("px-4 py-2 bg-blue-500 text-white");
 
 		// Test that the use method successfully assigned ExtendedButton to ButtonGroup
 		// by verifying that the contract has the extended capabilities
@@ -224,21 +224,21 @@ describe("9.1 Basic Usage", () => {
 		// Test that we can access the extended functionality through the runtime instance
 		// even though TypeScript sees it as the base type
 		const extendedInstance = ButtonGroup as any;
-		const successButton = extendedInstance.create?.(() => ({
+		const successButton = extendedInstance.create(() => ({
 			variant: {
 				color: "success",
 			},
 		}));
-		expect(successButton.root?.()).toBe(
+		expect(successButton.root()).toBe(
 			"px-4 py-2 bg-green-500 text-white",
 		);
 
-		const largeButton = extendedInstance.create?.(() => ({
+		const largeButton = extendedInstance.create(() => ({
 			variant: {
 				size: "lg",
 			},
 		}));
-		expect(largeButton.root?.()).toBe(
+		expect(largeButton.root()).toBe(
 			"bg-gray-100 text-gray-900 px-6 py-3",
 		);
 	});

@@ -32,7 +32,7 @@ describe("12.1 React Hooks - Stable References", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -61,8 +61,8 @@ describe("12.1 React Hooks - Stable References", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
@@ -70,7 +70,7 @@ describe("12.1 React Hooks - Stable References", () => {
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "medium",
 				}),
@@ -80,7 +80,7 @@ describe("12.1 React Hooks - Stable References", () => {
 		// First render
 		const { result: result1 } = renderHook(() =>
 			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					color: "primary",
 					size: "medium",
 				}),
@@ -90,7 +90,7 @@ describe("12.1 React Hooks - Stable References", () => {
 		// Second render with same configuration
 		const { result: result2 } = renderHook(() =>
 			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant?.({
+				variant: what.variant({
 					color: "primary",
 					size: "medium",
 				}),
@@ -98,6 +98,6 @@ describe("12.1 React Hooks - Stable References", () => {
 		);
 
 		// Should produce same class strings
-		expect(result1.current.root?.()).toBe(result2.current.root?.());
+		expect(result1.current.root()).toBe(result2.current.root());
 	});
 });

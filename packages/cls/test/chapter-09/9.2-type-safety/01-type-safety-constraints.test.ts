@@ -23,7 +23,7 @@ describe("9.2 Type Safety", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -38,32 +38,32 @@ describe("9.2 Type Safety", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 				}),
 			}),
 		);
 
 		// Compatible component that extends BaseComponent
-		const CompatibleComponent = BaseComponent.extend?.(
+		const CompatibleComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.success",
@@ -81,7 +81,7 @@ describe("9.2 Type Safety", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.success": [
 						"bg-green-500",
 					],
@@ -90,36 +90,36 @@ describe("9.2 Type Safety", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 							"color.text.default",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "success",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.success",
 								"color.text.success",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "default",
 				}),
 			}),
@@ -145,7 +145,7 @@ describe("9.2 Type Safety", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"size.padding.sm": [
 						"px-2",
 						"py-1",
@@ -160,20 +160,20 @@ describe("9.2 Type Safety", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"size.padding.md",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					size: "md",
 				}),
 			}),
 		);
 
 		// Test that compatible components can be used
-		const CompatibleGroup = BaseComponent.use?.(CompatibleComponent);
+		const CompatibleGroup = BaseComponent.use(CompatibleComponent);
 
 		// Verify the use method returns the correct type
 		expect(typeof CompatibleGroup.create).toBe("function");
@@ -181,8 +181,8 @@ describe("9.2 Type Safety", () => {
 		expect(typeof CompatibleGroup.use).toBe("function");
 
 		// Test that we can create instances with the compatible component
-		const instance = CompatibleGroup.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100 text-gray-900");
+		const instance = CompatibleGroup.create();
+		expect(instance.root()).toBe("bg-gray-100 text-gray-900");
 
 		// Test that the contract reflects the base component's structure
 		// (use method returns Cls<BaseComponentContract>)
@@ -192,26 +192,26 @@ describe("9.2 Type Safety", () => {
 		// Test that extended variants are accessible at runtime
 		// even though TypeScript sees the base type
 		const extendedInstance = CompatibleGroup as any;
-		const successInstance = extendedInstance.create?.(() => ({
+		const successInstance = extendedInstance.create(() => ({
 			variant: {
 				color: "success",
 			},
 		}));
-		expect(successInstance.root?.()).toBe("bg-green-500 text-white");
+		expect(successInstance.root()).toBe("bg-green-500 text-white");
 
 		// Test that incompatible components cannot be used
 		// This would cause a TypeScript error at compile time
 		// but we can test the runtime behavior
 		try {
 			// Incompatible component should not be usable
-			const IncompatibleGroup = BaseComponent.use?.(
+			const IncompatibleGroup = BaseComponent.use(
 				IncompatibleComponent as any,
 			);
 
 			// If we somehow get here, the instance should not work properly
-			const testInstance = IncompatibleGroup.create?.();
+			const testInstance = IncompatibleGroup.create();
 			// This should fail because the contract structures don't match
-			expect(() => testInstance.root?.()).toThrow();
+			expect(() => testInstance.root()).toThrow();
 		} catch (error) {
 			// Expected behavior - incompatible components should cause errors
 			expect(error).toBeDefined();

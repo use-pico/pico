@@ -78,7 +78,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-500",
 					],
@@ -186,8 +186,8 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
@@ -196,18 +196,18 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							"border.radius.md",
 							"shadow.depth.sm",
 						]),
-						icon: what.token?.([
+						icon: what.token([
 							"color.text.primary",
 							"spacing.padding.xs",
 							"spacing.margin.xs",
 						]),
-						label: what.token?.([
+						label: what.token([
 							"color.text.primary",
 							"spacing.padding.sm",
 							"spacing.margin.sm",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "md",
@@ -215,7 +215,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.md",
@@ -224,19 +224,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.primary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.primary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "warning",
 							size: "lg",
@@ -244,7 +244,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "dark",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.warning",
 								"color.text.warning",
 								"spacing.padding.lg",
@@ -253,19 +253,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.lg",
 								"shadow.depth.lg",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.warning",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.warning",
 								"spacing.padding.md",
 								"spacing.margin.md",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "error",
 							size: "xl",
@@ -273,7 +273,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "auto",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.error",
 								"color.text.error",
 								"spacing.padding.xl",
@@ -282,12 +282,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.xl",
 								"shadow.depth.xl",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.error",
 								"spacing.padding.md",
 								"spacing.margin.md",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.error",
 								"spacing.padding.lg",
 								"spacing.margin.lg",
@@ -296,7 +296,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 					),
 
 					// Additional rules for test cases
-					def.rule?.(
+					def.rule(
 						{
 							color: "secondary",
 							size: "sm",
@@ -304,7 +304,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 								"spacing.padding.sm",
@@ -313,19 +313,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.secondary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.secondary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "secondary",
 							size: "xs",
@@ -333,7 +333,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 								"spacing.padding.xs",
@@ -342,19 +342,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.secondary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.secondary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "sm",
@@ -362,7 +362,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.sm",
@@ -371,19 +371,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.primary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.primary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "accent",
 							size: "lg",
@@ -391,7 +391,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "auto",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -400,19 +400,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.accent",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.accent",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "sm",
@@ -420,7 +420,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.sm",
@@ -429,19 +429,19 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.sm",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.primary",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.primary",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "accent",
 							size: "lg",
@@ -449,7 +449,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 							theme: "dark",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -458,12 +458,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							icon: what.token?.([
+							icon: what.token([
 								"color.text.accent",
 								"spacing.padding.xs",
 								"spacing.margin.xs",
 							]),
-							label: what.token?.([
+							label: what.token([
 								"color.text.accent",
 								"spacing.padding.sm",
 								"spacing.margin.sm",
@@ -471,7 +471,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "md",
 					state: "normal",
@@ -523,7 +523,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 		};
 
 		// Test dynamic variant computation with different scenarios
-		const dynamicLowPriority = DynamicComponent.create?.(() => ({
+		const dynamicLowPriority = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("low"),
 				size: computeSize(2),
@@ -531,11 +531,11 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("light"),
 			},
 		}));
-		expect(dynamicLowPriority.root?.()).toBe(
+		expect(dynamicLowPriority.root()).toBe(
 			"bg-gray-500 text-gray-900 p-2 m-2 border rounded-sm shadow-sm",
 		);
 
-		const dynamicMediumPriority = DynamicComponent.create?.(() => ({
+		const dynamicMediumPriority = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("medium"),
 				size: computeSize(4),
@@ -543,11 +543,11 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("dark"),
 			},
 		}));
-		expect(dynamicMediumPriority.root?.()).toBe(
+		expect(dynamicMediumPriority.root()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border rounded-md shadow-sm",
 		);
 
-		const dynamicHighPriority = DynamicComponent.create?.(() => ({
+		const dynamicHighPriority = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("high"),
 				size: computeSize(7),
@@ -555,12 +555,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("system"),
 			},
 		}));
-		expect(dynamicHighPriority.root?.()).toBe(
+		expect(dynamicHighPriority.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border rounded-md shadow-sm",
 		);
 
 		// Test dynamic state computation
-		const dynamicDisabled = DynamicComponent.create?.(() => ({
+		const dynamicDisabled = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("medium"),
 				size: computeSize(3),
@@ -568,11 +568,11 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("light"),
 			},
 		}));
-		expect(dynamicDisabled.root?.()).toBe(
+		expect(dynamicDisabled.root()).toBe(
 			"bg-blue-500 text-blue-900 p-2 m-2 border rounded-sm shadow-sm",
 		);
 
-		const dynamicLoading = DynamicComponent.create?.(() => ({
+		const dynamicLoading = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("high"),
 				size: computeSize(8),
@@ -580,12 +580,12 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("dark"),
 			},
 		}));
-		expect(dynamicLoading.root?.()).toBe(
+		expect(dynamicLoading.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border rounded-md shadow-sm",
 		);
 
 		// Test dynamic size computation with different counts
-		const dynamicSizeXS = DynamicComponent.create?.(() => ({
+		const dynamicSizeXS = DynamicComponent.create(() => ({
 			variant: {
 				color: computeColor("low"),
 				size: computeSize(1),
@@ -593,11 +593,11 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("light"),
 			},
 		}));
-		expect(dynamicSizeXS.root?.()).toBe(
+		expect(dynamicSizeXS.root()).toBe(
 			"bg-gray-500 text-gray-900 p-1 m-1 border rounded-sm shadow-sm",
 		);
 
-		const dynamicSizeXL = DynamicComponent.create?.(() => ({
+		const dynamicSizeXL = DynamicComponent.create(() => ({
 			variant: {
 				color: "error",
 				size: computeSize(15),
@@ -605,7 +605,7 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 				theme: computeTheme("system"),
 			},
 		}));
-		expect(dynamicSizeXL.root?.()).toBe(
+		expect(dynamicSizeXL.root()).toBe(
 			"bg-red-500 text-red-900 p-8 m-8 border-4 rounded-xl shadow-xl",
 		);
 	});

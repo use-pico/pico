@@ -29,7 +29,7 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -98,7 +98,7 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 		);
 
 		// Extended component that overrides some tokens and adds new ones
-		const ExtendedComponent = BaseComponent.extend?.(
+		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.default",

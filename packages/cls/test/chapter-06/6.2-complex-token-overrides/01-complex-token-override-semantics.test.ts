@@ -50,7 +50,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-500",
 					],
@@ -110,14 +110,14 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 					],
 				}),
 				rules: [
-					def.rule?.(
+					def.rule(
 						{
 							color: "primary",
 							size: "medium",
 							theme: "light",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.md",
@@ -128,7 +128,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "medium",
 					theme: "light",
@@ -137,7 +137,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 		);
 
 		// Extended component that overrides and extends tokens
-		const ExtendedComponent = BaseComponent.extend?.(
+		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
 					"color.bg.primary",
@@ -204,7 +204,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					], // Override base primary
@@ -312,14 +312,14 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 					],
 				}),
 				rules: [
-					def.rule?.(
+					def.rule(
 						{
 							color: "accent",
 							size: "large",
 							theme: "dark",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -330,14 +330,14 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 							]),
 						},
 					),
-					def.rule?.(
+					def.rule(
 						{
 							color: "warning",
 							size: "xl",
 							theme: "auto",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.warning",
 								"color.text.warning",
 								"spacing.padding.xl",
@@ -349,7 +349,7 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "accent",
 					size: "large",
 					theme: "dark",
@@ -358,50 +358,50 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 		);
 
 		// Test BaseComponent default behavior
-		const baseDefault = BaseComponent.create?.();
-		expect(baseDefault.root?.()).toBe(
+		const baseDefault = BaseComponent.create();
+		expect(baseDefault.root()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border rounded-md",
 		);
 
 		// Test ExtendedComponent default behavior (should use overridden tokens)
-		const extendedDefault = ExtendedComponent.create?.();
-		expect(extendedDefault.root?.()).toBe(
+		const extendedDefault = ExtendedComponent.create();
+		expect(extendedDefault.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-2 rounded-lg shadow-md",
 		);
 
 		// Test ExtendedComponent with new variants
-		const extendedAccent = ExtendedComponent.create?.(() => ({
+		const extendedAccent = ExtendedComponent.create(() => ({
 			variant: {
 				color: "accent",
 				size: "large",
 				theme: "dark",
 			},
 		}));
-		expect(extendedAccent.root?.()).toBe(
+		expect(extendedAccent.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-2 rounded-lg shadow-md",
 		);
 
 		// Test ExtendedComponent with warning variant
-		const extendedWarning = ExtendedComponent.create?.(() => ({
+		const extendedWarning = ExtendedComponent.create(() => ({
 			variant: {
 				color: "warning",
 				size: "xl",
 				theme: "auto",
 			},
 		}));
-		expect(extendedWarning.root?.()).toBe(
+		expect(extendedWarning.root()).toBe(
 			"bg-yellow-500 text-yellow-900 p-8 m-8 border-dashed rounded-full shadow-xl",
 		);
 
 		// Test that inherited variants still work with overridden tokens
-		const extendedInherited = ExtendedComponent.create?.(() => ({
+		const extendedInherited = ExtendedComponent.create(() => ({
 			variant: {
 				color: "primary",
 				size: "medium",
 				theme: "light",
 			},
 		}));
-		expect(extendedInherited.root?.()).toBe(
+		expect(extendedInherited.root()).toBe(
 			"bg-blue-600 text-blue-800 p-4 m-4 border rounded-md",
 		);
 	});

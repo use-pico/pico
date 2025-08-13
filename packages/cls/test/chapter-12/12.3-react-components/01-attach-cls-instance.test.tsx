@@ -38,7 +38,7 @@ describe("12.3 React Components - Attach Cls Instance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -71,23 +71,23 @@ describe("12.3 React Components - Attach Cls Instance", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
 						]),
-						icon: what.token?.([
+						icon: what.token([
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
-						label: what.token?.([
+						label: what.token([
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "md",
 				}),

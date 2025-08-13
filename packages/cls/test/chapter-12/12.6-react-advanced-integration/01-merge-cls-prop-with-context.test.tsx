@@ -25,7 +25,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"theme.bg.light": [
 						"bg-white",
 					],
@@ -40,14 +40,14 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					theme: "light",
 				}),
 			}),
@@ -78,7 +78,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -101,15 +101,15 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
 						]),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 					size: "medium",
 				}),
@@ -130,7 +130,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			return (
 				<button
 					type="button"
-					className={classes.root?.()}
+					className={classes.root()}
 					{...props}
 				>
 					{children}
@@ -143,7 +143,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			<ClsProvider value={ThemeCls}>
 				<Button
 					cls={({ what }) => ({
-						variant: what.variant?.({
+						variant: what.variant({
 							color: "secondary" as const,
 							size: "small" as const,
 						}),

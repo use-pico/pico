@@ -16,7 +16,7 @@ describe("1.2 Token System Basics - Multiple Token Variants", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -28,8 +28,8 @@ describe("1.2 Token System Basics - Multiple Token Variants", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.default",
 						]),
 					}),
@@ -38,7 +38,7 @@ describe("1.2 Token System Basics - Multiple Token Variants", () => {
 			}),
 		);
 
-		const instance = Component.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100");
+		const instance = Component.create();
+		expect(instance.root()).toBe("bg-gray-100");
 	});
 });

@@ -25,7 +25,7 @@ describe("12.4 React Props - Token Overrides", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.primary": [
 						"bg-blue-600",
 					],
@@ -40,25 +40,25 @@ describe("12.4 React Props - Token Overrides", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.token?.([
+					def.root({
+						root: what.token([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
-					def.rule?.(
+					def.rule(
 						{
 							color: "secondary",
 						},
 						{
-							root: what.token?.([
+							root: what.token([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					color: "primary",
 				}),
 			}),
@@ -67,15 +67,15 @@ describe("12.4 React Props - Token Overrides", () => {
 		const SimpleComponent: FC<
 			Component<typeof SimpleCls, PropsWithChildren>
 		> = ({ cls: userCls, children }) => {
-			const classes = SimpleCls.create?.(userCls);
-			return <div className={classes.root?.()}>{children}</div>;
+			const classes = SimpleCls.create(userCls);
+			return <div className={classes.root()}>{children}</div>;
 		};
 
 		// Test with token overrides
 		render(
 			<SimpleComponent
 				cls={({ what }) => ({
-					variant: what.variant?.({
+					variant: what.variant({
 						color: "secondary" as const,
 					}),
 				})}

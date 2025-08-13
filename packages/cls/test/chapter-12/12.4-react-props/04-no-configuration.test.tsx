@@ -22,7 +22,7 @@ describe("12.4 React Props - No Configuration", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token?.({
+				token: def.token({
 					"color.bg.default": [
 						"bg-gray-100",
 					],
@@ -31,8 +31,8 @@ describe("12.4 React Props - No Configuration", () => {
 					],
 				}),
 				rules: [
-					def.root?.({
-						root: what.both?.(
+					def.root({
+						root: what.both(
 							[
 								"p-4",
 								"rounded",
@@ -44,7 +44,7 @@ describe("12.4 React Props - No Configuration", () => {
 						),
 					}),
 				],
-				defaults: def.defaults?.({
+				defaults: def.defaults({
 					theme: "default",
 				}),
 			}),
@@ -55,8 +55,8 @@ describe("12.4 React Props - No Configuration", () => {
 				children: string;
 			}
 		> = ({ cls: userCls, children }) => {
-			const classes = TestCls.create?.(userCls);
-			return <div className={classes.root?.()}>{children}</div>;
+			const classes = TestCls.create(userCls);
+			return <div className={classes.root()}>{children}</div>;
 		};
 
 		// Test with no cls prop (uses defaults)

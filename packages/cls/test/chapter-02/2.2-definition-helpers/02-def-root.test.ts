@@ -14,8 +14,8 @@ describe("2.2 Definition Helpers - def.root", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root?.({
-						root: what.css?.([
+					def.root({
+						root: what.css([
 							"bg-gray-100",
 							"p-4",
 							"rounded-lg",
@@ -27,7 +27,7 @@ describe("2.2 Definition Helpers - def.root", () => {
 			}),
 		);
 
-		const instance = Component.create?.();
-		expect(instance.root?.()).toBe("bg-gray-100 p-4 rounded-lg shadow-sm");
+		const instance = Component.create();
+		expect(instance.root()).toBe("bg-gray-100 p-4 rounded-lg shadow-sm");
 	});
 });
