@@ -228,21 +228,21 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"level.base.1": [
+					"level.base.1": what.css([
 						"level-1-base",
-					],
-					"level.base.2": [
+					]),
+					"level.base.2": what.css([
 						"level-2-base",
-					],
-					"level.base.3": [
+					]),
+					"level.base.3": what.css([
 						"level-3-base",
-					],
-					"feature.type.a": [
+					]),
+					"feature.type.a": what.css([
 						"feature-a",
-					],
-					"feature.type.b": [
+					]),
+					"feature.type.b": what.css([
 						"feature-b",
-					],
+					]),
 				}),
 				rules: [
 					def.rule(
@@ -251,7 +251,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.1",
 								"feature.type.a",
 							]),
@@ -263,7 +263,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.2",
 								"feature.type.a",
 							]),
@@ -275,7 +275,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "a",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.3",
 								"feature.type.a",
 							]),
@@ -287,7 +287,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "b",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.1",
 								"feature.type.b",
 							]),
@@ -299,7 +299,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "b",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.2",
 								"feature.type.b",
 							]),
@@ -311,7 +311,7 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 							feature: "b",
 						},
 						{
-							root: what.css([
+							root: what.token([
 								"level.base.3",
 								"feature.type.b",
 							]),
