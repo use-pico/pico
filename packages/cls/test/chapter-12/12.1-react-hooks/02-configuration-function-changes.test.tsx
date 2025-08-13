@@ -25,18 +25,18 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

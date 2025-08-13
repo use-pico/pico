@@ -36,27 +36,27 @@ describe("12.4 React Props - Slot Overrides", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-white",
-					],
-					"color.bg.highlighted": [
+					]),
+					"color.bg.highlighted": what.css([
 						"bg-blue-50",
-					],
-					"color.text.default": [
+					]),
+					"color.text.default": what.css([
 						"text-gray-900",
-					],
-					"color.text.highlighted": [
+					]),
+					"color.text.highlighted": what.css([
 						"text-blue-900",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

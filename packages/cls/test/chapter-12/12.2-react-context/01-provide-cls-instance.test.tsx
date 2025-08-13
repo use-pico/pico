@@ -28,27 +28,27 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.light": [
+					"color.bg.light": what.css([
 						"bg-white",
-					],
-					"color.bg.dark": [
+					]),
+					"color.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"color.text.light": [
+					]),
+					"color.text.light": what.css([
 						"text-gray-900",
-					],
-					"color.text.dark": [
+					]),
+					"color.text.dark": what.css([
 						"text-white",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

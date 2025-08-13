@@ -30,27 +30,27 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.light": [
+					"color.bg.light": what.css([
 						"bg-white",
-					],
-					"color.bg.dark": [
+					]),
+					"color.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"color.text.light": [
+					]),
+					"color.text.light": what.css([
 						"text-gray-900",
-					],
-					"color.text.dark": [
+					]),
+					"color.text.dark": what.css([
 						"text-white",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"p-2",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"p-4",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"p-6",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -99,18 +99,18 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

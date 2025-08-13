@@ -39,36 +39,36 @@ describe("12.4 React Props - Variant Overrides", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-purple-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
-					"color.text.accent": [
+					]),
+					"color.text.accent": what.css([
 						"text-white",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

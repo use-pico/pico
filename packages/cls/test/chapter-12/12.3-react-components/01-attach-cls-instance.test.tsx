@@ -39,36 +39,36 @@ describe("12.3 React Components - Attach Cls Instance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.bg.danger": [
+					]),
+					"color.bg.danger": what.css([
 						"bg-red-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-white",
-					],
-					"color.text.danger": [
+					]),
+					"color.text.danger": what.css([
 						"text-white",
-					],
-					"spacing.padding.sm": [
+					]),
+					"spacing.padding.sm": what.css([
 						"px-2",
 						"py-1",
-					],
-					"spacing.padding.md": [
+					]),
+					"spacing.padding.md": what.css([
 						"px-4",
 						"py-2",
-					],
-					"spacing.padding.lg": [
+					]),
+					"spacing.padding.lg": what.css([
 						"px-6",
 						"py-3",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

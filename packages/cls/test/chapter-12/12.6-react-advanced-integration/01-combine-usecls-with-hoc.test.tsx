@@ -37,39 +37,39 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
-					"size.padding.small": [
+					]),
+					"size.padding.small": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.medium": [
+					]),
+					"size.padding.medium": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.padding.large": [
+					]),
+					"size.padding.large": what.css([
 						"px-6",
 						"py-3",
-					],
-					"size.text.small": [
+					]),
+					"size.text.small": what.css([
 						"text-sm",
-					],
-					"size.text.medium": [
+					]),
+					"size.text.medium": what.css([
 						"text-base",
-					],
-					"size.text.large": [
+					]),
+					"size.text.large": what.css([
 						"text-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -108,12 +108,12 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"icon.position.left": [
+					"icon.position.left": what.css([
 						"flex-row",
-					],
-					"icon.position.right": [
+					]),
+					"icon.position.right": what.css([
 						"flex-row-reverse",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const TitlePreviewCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 			"title",

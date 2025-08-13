@@ -23,9 +23,9 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

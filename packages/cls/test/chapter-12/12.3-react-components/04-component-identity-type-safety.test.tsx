@@ -43,36 +43,36 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-200",
-					],
-					"spacing.padding.small": [
+					]),
+					"spacing.padding.small": what.css([
 						"p-2",
-					],
-					"spacing.padding.medium": [
+					]),
+					"spacing.padding.medium": what.css([
 						"p-4",
-					],
-					"spacing.padding.large": [
+					]),
+					"spacing.padding.large": what.css([
 						"p-6",
-					],
-					"border.radius.small": [
+					]),
+					"border.radius.small": what.css([
 						"rounded",
-					],
-					"border.radius.medium": [
+					]),
+					"border.radius.medium": what.css([
 						"rounded-md",
-					],
-					"border.radius.large": [
+					]),
+					"border.radius.large": what.css([
 						"rounded-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

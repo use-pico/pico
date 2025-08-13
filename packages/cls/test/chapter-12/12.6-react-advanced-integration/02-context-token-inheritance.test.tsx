@@ -26,18 +26,18 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"theme.bg.light": [
+					"theme.bg.light": what.css([
 						"bg-white",
-					],
-					"theme.bg.dark": [
+					]),
+					"theme.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"theme.text.light": [
+					]),
+					"theme.text.light": what.css([
 						"text-gray-900",
-					],
-					"theme.text.dark": [
+					]),
+					"theme.text.dark": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -71,12 +71,12 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"elevation.shadow.low": [
+					"elevation.shadow.low": what.css([
 						"shadow-sm",
-					],
-					"elevation.shadow.high": [
+					]),
+					"elevation.shadow.high": what.css([
 						"shadow-lg",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

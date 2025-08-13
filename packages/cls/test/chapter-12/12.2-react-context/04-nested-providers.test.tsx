@@ -25,18 +25,18 @@ describe("12.2 React Context - Nested Providers", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.light": [
+					"color.bg.light": what.css([
 						"bg-white",
-					],
-					"color.bg.dark": [
+					]),
+					"color.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"color.text.light": [
+					]),
+					"color.text.light": what.css([
 						"text-gray-900",
-					],
-					"color.text.dark": [
+					]),
+					"color.text.dark": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({
@@ -75,24 +75,24 @@ describe("12.2 React Context - Nested Providers", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.light": [
+					"color.bg.light": what.css([
 						"bg-white",
-					],
-					"color.bg.dark": [
+					]),
+					"color.bg.dark": what.css([
 						"bg-gray-900",
-					],
-					"color.bg.accent": [
+					]),
+					"color.bg.accent": what.css([
 						"bg-blue-500",
-					],
-					"color.text.light": [
+					]),
+					"color.text.light": what.css([
 						"text-gray-900",
-					],
-					"color.text.dark": [
+					]),
+					"color.text.dark": what.css([
 						"text-white",
-					],
-					"color.text.accent": [
+					]),
+					"color.text.accent": what.css([
 						"text-white",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

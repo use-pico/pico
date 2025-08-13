@@ -21,12 +21,12 @@ describe("7.4 Slot Caching Behavior - Cache Key Validation", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.default": [
+					"color.bg.default": what.css([
 						"bg-gray-100",
-					],
-					"color.bg.primary": [
+					]),
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

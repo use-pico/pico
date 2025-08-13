@@ -33,32 +33,32 @@ describe("12.1 React Hooks - Stable References", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg.primary": [
+					"color.bg.primary": what.css([
 						"bg-blue-600",
-					],
-					"color.bg.secondary": [
+					]),
+					"color.bg.secondary": what.css([
 						"bg-gray-600",
-					],
-					"color.text.primary": [
+					]),
+					"color.text.primary": what.css([
 						"text-white",
-					],
-					"color.text.secondary": [
+					]),
+					"color.text.secondary": what.css([
 						"text-gray-900",
-					],
-					"size.padding.small": [
+					]),
+					"size.padding.small": what.css([
 						"px-2",
 						"py-1",
-					],
-					"size.padding.medium": [
+					]),
+					"size.padding.medium": what.css([
 						"px-4",
 						"py-2",
-					],
-					"size.text.small": [
+					]),
+					"size.text.small": what.css([
 						"text-sm",
-					],
-					"size.text.medium": [
+					]),
+					"size.text.medium": what.css([
 						"text-base",
-					],
+					]),
 				}),
 				rules: [
 					def.root({

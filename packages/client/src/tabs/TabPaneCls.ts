@@ -3,7 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const TabPaneCls = PicoCls.extend(
 	{
-		tokens: {},
+		tokens: [],
 		slot: [
 			"base",
 		],
