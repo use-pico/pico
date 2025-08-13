@@ -45,53 +45,44 @@ const toneType = [
  */
 export const PicoCls = cls(
 	{
-		tokens: {
-			// "tone-dark.primary": [
-			// 	"text",
-			// 	"bg",
-			// 	"border",
-			// ],
-			// "tone-dark.primary:hover": [
-			// 	"text",
-			// 	"bg",
-			// 	"border",
-			// ],
-
-			"primary.color": toneType,
-			"secondary.color": toneType,
-			"danger.color": toneType,
-			"neutral.color": toneType,
-			"subtle.color": toneType,
-			round: [
-				"sm",
-				"md",
-				"lg",
-			],
-			shadow: [
-				"sm",
-			],
-			"focus.reset": [
-				"off",
-			],
-		},
+		tokens: [
+			// =====
+			// Tone - Primary
+			"tone.primary.light.color.text",
+			"tone.primary.light.color.text:hover",
+            //
+            "tone.primary.dark.color.text",
+            "tone.primary.dark.color.text:hover",
+            //
+            "tone.primary.light.color.bg",
+            "tone.primary.light.color.bg:hover",
+            //
+            "tone.primary.dark.color.bg",
+            "tone.primary.dark.color.bg:hover",
+            //
+			//
+            //
+			"round.sm",
+			"round.md",
+			"round.lg",
+			//
+    //
+    //            
+			"shadow.md",
+			//
+			"focus.off",
+		],
 		slot: [],
 		variant: {},
 	},
 	({ def }) => ({
 		token: def.token({
-			"primary.color": {
-				"text-light": [
-					"text-indigo-50",
-				],
-				"text-light-hover": [
-					"hover:text-indigo-100",
-				],
-				"text-dark": [
-					"text-indigo-600",
-				],
-				"text-dark-hover": [
-					"hover:text-indigo-700",
-				],
+			"tone.primary.light.color.text": "text-indigo-50",
+			"tone.primary.light.color.text:hover": "hover:text-indigo-100",
+            "tone.primary.dark.color.text": "text-indigo-600",
+            "tone.primary.dark.color.text:hover": "hover:text-indigo-700",
+            
+
 				//
 				"bg-light": [
 					"bg-indigo-50",

@@ -13,7 +13,7 @@ export function useCls<TContract extends Contract<any, any, any>>(
 	// Get context cls instance
 	const contextCls = useClsContext();
 
-	// Merge context tokens with internal config
+	// Merge context tokens with internal config (flat-only)
 	let mergedInternalConfig = internalConfigFn;
 	if (contextCls?.definition?.token) {
 		mergedInternalConfig = (props: WhatUtil<TContract>) => {
@@ -21,9 +21,9 @@ export function useCls<TContract extends Contract<any, any, any>>(
 			return {
 				...config,
 				token: {
-					...contextCls.definition.token,
-					...config.token, // Internal tokens win over context tokens
-				} as any, // Type assertion for runtime token merging
+					...(contextCls.definition.token as any),
+					...(config.token as any), // Internal tokens win over context tokens
+				} as any,
 			};
 		};
 	}

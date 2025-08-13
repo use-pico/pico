@@ -5,39 +5,31 @@ describe("2.2 Definition Helpers - def.token", () => {
 	it("should handle def.token helper for token definitions", () => {
 		const Component = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-						"primary",
-					],
-					"color.text": [
-						"default",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+					"color.bg.primary",
+					"color.text.default",
+				],
 				slot: [
 					"root",
 				],
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-gray-100",
-						],
-						primary: [
-							"bg-blue-500",
-						],
-					},
-					"color.text": {
-						default: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-gray-100",
+					],
+					"color.bg.primary": [
+						"bg-blue-500",
+					],
+					"color.text.default": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 							"color.text.default",
 						]),
@@ -47,7 +39,7 @@ describe("2.2 Definition Helpers - def.token", () => {
 			}),
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 text-gray-900");
+		const instance = Component.create?.();
+		expect(instance.root?.()).toBe("bg-gray-100 text-gray-900");
 	});
 });

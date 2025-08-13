@@ -7,16 +7,12 @@ describe("12.2 React Context - Stable Cls Reference", () => {
 	it("should provide stable cls instance reference", () => {
 		const ThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-					],
-					"color.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.text.light",
+					"color.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -29,22 +25,18 @@ describe("12.2 React Context - Stable Cls Reference", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({

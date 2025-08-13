@@ -8,14 +8,10 @@ describe("12.4 React Props - No Configuration", () => {
 	it("should handle cls prop with no configuration", () => {
 		const TestCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-					],
-					"color.text": [
-						"default",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+					"color.text.default",
+				],
 				slot: [
 					"root",
 				],
@@ -26,21 +22,17 @@ describe("12.4 React Props - No Configuration", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-gray-100",
-						],
-					},
-					"color.text": {
-						default: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-gray-100",
+					],
+					"color.text.default": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.both(
+					def.root?.({
+						root: what.both?.(
 							[
 								"p-4",
 								"rounded",
@@ -52,7 +44,7 @@ describe("12.4 React Props - No Configuration", () => {
 						),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					theme: "default",
 				}),
 			}),
@@ -63,14 +55,14 @@ describe("12.4 React Props - No Configuration", () => {
 				children: string;
 			}
 		> = ({ cls: userCls, children }) => {
-			const classes = TestCls.create(userCls);
-			return <div className={classes.root()}>{children}</div>;
+			const classes = TestCls.create?.(userCls);
+			return <div className={classes.root?.()}>{children}</div>;
 		};
 
 		// Test with no cls prop (uses defaults)
 		render(<TestComponent>Default Component</TestComponent>);
 
-		const component = screen.getByText("Default Component");
+		const component = screen.getByText?.("Default Component");
 		expect(component).toBeInTheDocument();
 		expect(component.className).toBe(
 			"p-4 rounded bg-gray-100 text-gray-900",

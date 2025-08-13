@@ -5,11 +5,9 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 	it("should handle basic component inheritance with extend method", () => {
 		const BaseComponent = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+				],
 				slot: [
 					"root",
 				],
@@ -21,56 +19,52 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-gray-100",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-gray-100",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							size: "sm",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-sm",
 								"p-2",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "md",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-base",
 								"p-4",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					size: "sm",
 				}),
 			}),
 		);
 
-		const ExtendedComponent = BaseComponent.extend(
+		const ExtendedComponent = BaseComponent.extend?.(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-						"primary",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+					"color.bg.primary",
+				],
 				slot: [
 					"root",
 				],
@@ -83,41 +77,39 @@ describe("5.1 Basic Inheritance - Extend Basic Component", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-blue-100",
-						],
-						primary: [
-							"bg-blue-500",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-blue-100",
+					],
+					"color.bg.primary": [
+						"bg-blue-500",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							size: "lg",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-lg",
 								"p-6",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					size: "sm",
 				}),
 			}),
 		);
 
-		const instance = ExtendedComponent.create();
-		expect(instance.root()).toBe("text-sm p-2 bg-blue-100");
+		const instance = ExtendedComponent.create?.();
+		expect(instance.root?.()).toBe("text-sm p-2 bg-blue-100");
 	});
 });

@@ -1,9 +1,15 @@
+# CLS - Enable token references in token definition with proper resolutions
+
+# CLS - Simplify "what" API - use only "css" which will also intellisense tokens (so no css and tokens can be mixed; e.g. apply token and right next reset some class it provides)
+
 # README - Tutorial how to switch whole theme
 - Assume we've ThemeCls (some default, from library, whatever)
 - We want our own theme - Create CustomThemeCls = ThemeCls.extend(...)
     - in definition we're free to replace whatever we need
     - now we can provide our CustomThemeCls into Context using ThemeCls.use(CustomThemeCls) which will ensure themes are compatible!
 - DO TESTS FOR THIS CONCEPT!
+
+# README - Design - Flat tokens decision
 
 # README - Tutorial on passing children to parent component "tva" + "cls" - example is BoolInline
 

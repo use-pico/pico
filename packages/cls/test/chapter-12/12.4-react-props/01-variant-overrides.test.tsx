@@ -9,23 +9,17 @@ describe("12.4 React Props - Variant Overrides", () => {
 	it("should handle cls prop with variant overrides", () => {
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"spacing.padding": [
-						"sm",
-						"md",
-						"lg",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.bg.accent",
+					"color.text.primary",
+					"color.text.secondary",
+					"color.text.accent",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+				],
 				slot: [
 					"root",
 					"label",
@@ -45,42 +39,36 @@ describe("12.4 React Props - Variant Overrides", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-						accent: [
-							"bg-purple-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-						accent: [
-							"text-white",
-						],
-					},
-					"spacing.padding": {
-						sm: [
-							"px-2",
-							"py-1",
-						],
-						md: [
-							"px-4",
-							"py-2",
-						],
-						lg: [
-							"px-6",
-							"py-3",
-						],
-					},
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.bg.accent": [
+						"bg-purple-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"color.text.accent": [
+						"text-white",
+					],
+					"spacing.padding.sm": [
+						"px-2",
+						"py-1",
+					],
+					"spacing.padding.md": [
+						"px-4",
+						"py-2",
+					],
+					"spacing.padding.lg": [
+						"px-6",
+						"py-3",
+					],
 				}),
 				rules: [
 					def.root({

@@ -8,16 +8,12 @@ describe("12.4 React Props - Token Overrides", () => {
 	it("should handle cls prop with token overrides", () => {
 		const SimpleCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -29,44 +25,40 @@ describe("12.4 React Props - Token Overrides", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							color: "secondary",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
@@ -75,15 +67,15 @@ describe("12.4 React Props - Token Overrides", () => {
 		const SimpleComponent: FC<
 			Component<typeof SimpleCls, PropsWithChildren>
 		> = ({ cls: userCls, children }) => {
-			const classes = SimpleCls.create(userCls);
-			return <div className={classes.root()}>{children}</div>;
+			const classes = SimpleCls.create?.(userCls);
+			return <div className={classes.root?.()}>{children}</div>;
 		};
 
 		// Test with token overrides
 		render(
 			<SimpleComponent
 				cls={({ what }) => ({
-					variant: what.variant({
+					variant: what.variant?.({
 						color: "secondary" as const,
 					}),
 				})}
@@ -92,7 +84,7 @@ describe("12.4 React Props - Token Overrides", () => {
 			</SimpleComponent>,
 		);
 
-		const component = screen.getByText("Simple Component");
+		const component = screen.getByText?.("Simple Component");
 		expect(component).toBeInTheDocument();
 		expect(component.className).toBe("bg-gray-600 text-gray-900");
 	});

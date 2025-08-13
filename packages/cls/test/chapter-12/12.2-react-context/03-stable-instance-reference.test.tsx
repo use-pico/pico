@@ -7,27 +7,23 @@ describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 	it("should provide stable cls instance reference", () => {
 		const SimpleCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+				],
 				slot: [
 					"root",
 				],
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-gray-100",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-gray-100",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 						]),
 					}),
@@ -56,7 +52,7 @@ describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 		);
 
 		// Should have same reference
-		expect(screen.getByTestId("reference-test")).toHaveTextContent(
+		expect(screen.getByTestId?.("reference-test")).toHaveTextContent(
 			"Same reference",
 		);
 	});

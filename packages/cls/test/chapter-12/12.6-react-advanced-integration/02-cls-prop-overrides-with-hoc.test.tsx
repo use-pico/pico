@@ -8,16 +8,12 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 	it("should handle cls prop overrides with HOC", () => {
 		const BaseButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -29,48 +25,40 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
 		);
 
-		const CustomButtonCls = BaseButtonCls.extend(
+		const CustomButtonCls = BaseButtonCls.extend?.(
 			{
-				tokens: {
-					"color.bg": [
-						"custom",
-					],
-					"color.text": [
-						"custom",
-					],
-				},
+				tokens: [
+					"color.bg.custom",
+					"color.text.custom",
+				],
 				slot: [
 					"root",
 				],
@@ -81,27 +69,23 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						custom: [
-							"bg-purple-600",
-						],
-					},
-					"color.text": {
-						custom: [
-							"text-white",
-						],
-					},
+				token: def.token?.({
+					"color.bg.custom": [
+						"bg-purple-600",
+					],
+					"color.text.custom": [
+						"text-white",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.custom",
 							"color.text.custom",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "custom",
 				}),
 			}),
@@ -114,7 +98,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 			...props
 		}: Component<typeof BaseButtonCls, PropsWithChildren>) => {
 			const classes = useCls(tva, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					color: "primary" as const,
 				}),
 			}));
@@ -126,7 +110,7 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={classes.root?.()}
 					{...props}
 				>
 					{children}
@@ -142,14 +126,14 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 
 		// Render with custom cls override
 		render(
-			<EnhancedButton tva={BaseButtonCls.use(CustomButtonCls)}>
+			<EnhancedButton tva={BaseButtonCls.use?.(CustomButtonCls)}>
 				Custom Button
 			</EnhancedButton>,
 		);
 
 		// Should render both buttons
-		expect(screen.getByText("Default Button")).toBeInTheDocument();
-		expect(screen.getByText("Custom Button")).toBeInTheDocument();
+		expect(screen.getByText?.("Default Button")).toBeInTheDocument();
+		expect(screen.getByText?.("Custom Button")).toBeInTheDocument();
 
 		// Verify HOC attachment
 		expect(EnhancedButton.cls).toBe(BaseButtonCls);

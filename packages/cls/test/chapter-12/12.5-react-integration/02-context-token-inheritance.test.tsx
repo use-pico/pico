@@ -9,16 +9,12 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 		// Create base theme cls instance
 		const BaseThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-					],
-					"color.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.text.light",
+					"color.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -31,22 +27,18 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({
@@ -88,12 +80,10 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 		// Create extended theme cls instance
 		const ExtendedThemeCls = BaseThemeCls.extend(
 			{
-				tokens: {
-					"color.accent": [
-						"blue",
-						"green",
-					],
-				},
+				tokens: [
+					"color.accent.blue",
+					"color.accent.green",
+				],
 				slot: [
 					"root",
 				],
@@ -106,14 +96,12 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.accent": {
-						blue: [
-							"border-blue-500",
-						],
-						green: [
-							"border-green-500",
-						],
-					},
+					"color.accent.blue": [
+						"border-blue-500",
+					],
+					"color.accent.green": [
+						"border-green-500",
+					],
 				}),
 				rules: [
 					def.root({

@@ -8,16 +8,12 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 	it("should handle context token inheritance with cls prop overrides", () => {
 		const ThemeCls = cls(
 			{
-				tokens: {
-					"theme.bg": [
-						"light",
-						"dark",
-					],
-					"theme.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"theme.bg.light",
+					"theme.bg.dark",
+					"theme.text.light",
+					"theme.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -29,33 +25,29 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"theme.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"theme.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+				token: def.token?.({
+					"theme.bg.light": [
+						"bg-white",
+					],
+					"theme.bg.dark": [
+						"bg-gray-900",
+					],
+					"theme.text.light": [
+						"text-gray-900",
+					],
+					"theme.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					theme: "light",
 				}),
 			}),
@@ -63,12 +55,10 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 
 		const CardCls = cls(
 			{
-				tokens: {
-					"elevation.shadow": [
-						"low",
-						"high",
-					],
-				},
+				tokens: [
+					"elevation.shadow.low",
+					"elevation.shadow.high",
+				],
 				slot: [
 					"root",
 				],
@@ -80,24 +70,22 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"elevation.shadow": {
-						low: [
-							"shadow-sm",
-						],
-						high: [
-							"shadow-lg",
-						],
-					},
+				token: def.token?.({
+					"elevation.shadow.low": [
+						"shadow-sm",
+					],
+					"elevation.shadow.high": [
+						"shadow-lg",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"elevation.shadow.low",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					elevation: "low",
 				}),
 			}),
@@ -116,7 +104,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 
 			return (
 				<div
-					className={classes.root()}
+					className={classes.root?.()}
 					{...props}
 				>
 					{children}
@@ -130,7 +118,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 				<ClsProvider value={CardCls}>
 					<Card
 						cls={({ what }) => ({
-							variant: what.variant({
+							variant: what.variant?.({
 								elevation: "high" as const,
 							}),
 						})}
@@ -141,7 +129,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			</ClsProvider>,
 		);
 
-		const card = screen.getByText("Nested Context Card");
+		const card = screen.getByText?.("Nested Context Card");
 		expect(card).toBeInTheDocument();
 
 		// Check that the card element exists and has some classes

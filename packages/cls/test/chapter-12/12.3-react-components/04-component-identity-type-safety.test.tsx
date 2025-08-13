@@ -7,26 +7,18 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 	it("should maintain component identity and type safety", () => {
 		const TestCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-					"spacing.padding": [
-						"small",
-						"medium",
-						"large",
-					],
-					"border.radius": [
-						"small",
-						"medium",
-						"large",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+					"spacing.padding.small",
+					"spacing.padding.medium",
+					"spacing.padding.large",
+					"border.radius.small",
+					"border.radius.medium",
+					"border.radius.large",
+				],
 				slot: [
 					"root",
 					"icon",
@@ -51,44 +43,36 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-200",
-						],
-					},
-					"spacing.padding": {
-						small: [
-							"p-2",
-						],
-						medium: [
-							"p-4",
-						],
-						large: [
-							"p-6",
-						],
-					},
-					"border.radius": {
-						small: [
-							"rounded",
-						],
-						medium: [
-							"rounded-md",
-						],
-						large: [
-							"rounded-lg",
-						],
-					},
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-200",
+					],
+					"spacing.padding.small": [
+						"p-2",
+					],
+					"spacing.padding.medium": [
+						"p-4",
+					],
+					"spacing.padding.large": [
+						"p-6",
+					],
+					"border.radius.small": [
+						"rounded",
+					],
+					"border.radius.medium": [
+						"rounded-md",
+					],
+					"border.radius.large": [
+						"rounded-lg",
+					],
 				}),
 				rules: [
 					def.root({

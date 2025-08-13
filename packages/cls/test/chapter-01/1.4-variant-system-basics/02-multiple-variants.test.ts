@@ -5,7 +5,7 @@ describe("1.4 Variant System Basics - Multiple Variants", () => {
 	it("should handle multiple variants", () => {
 		const Component = cls(
 			{
-				tokens: {},
+				tokens: [],
 				slot: [
 					"root",
 				],
@@ -24,20 +24,20 @@ describe("1.4 Variant System Basics - Multiple Variants", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
+					def.root?.({
+						root: what.css?.([
 							"bg-gray-100",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					size: "sm",
 					color: "primary",
 				}),
 			}),
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		const instance = Component.create?.();
+		expect(instance.root?.()).toBe("bg-gray-100");
 	});
 });

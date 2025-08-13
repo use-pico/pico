@@ -6,45 +6,12 @@ import type { MatchFn, MatchSlotFn } from "./match";
 // ============================================================================
 
 export type ClassName = ClassNameValue;
-/**
- * Defines the available slots for a component.
- * Slots are named parts of a component that can receive styles.
- *
- * @example
- * ```typescript
- * const slots: SlotContract = ["root", "icon", "label"];
- * ```
- */
+
 export type SlotContract = readonly string[];
 
-/**
- * Defines the token structure for a design system.
- * Tokens are organized in groups with variants.
- *
- * @example
- * ```typescript
- * const tokens: TokenContract = {
- *   "primary.textColor": ["default", "hover", "disabled"],
- *   "primary.bgColor": ["default", "hover", "disabled"],
- *   "secondary.textColor": ["default", "hover", "disabled"]
- * };
- * ```
- */
-export type TokenContract = Record<string, readonly string[]>;
+// Flat-only token contract: list of full token keys (e.g., "color.bg.default")
+export type TokenContract = readonly string[];
 
-/**
- * Defines the available variants for a component.
- * Variants control the component's appearance and behavior.
- *
- * @example
- * ```typescript
- * const variants: VariantContract = {
- *   size: ["sm", "md", "lg"],
- *   variant: ["primary", "secondary"],
- *   disabled: ["bool"] // "bool" becomes boolean type
- * };
- * ```
- */
 export type VariantContract = Record<string, readonly string[]>;
 
 // ============================================================================
@@ -108,7 +75,7 @@ export type Contract<
 	TVariantContract extends VariantContract,
 	TUse extends Contract<any, any, any> | unknown = unknown,
 > = {
-	/** Token definitions organized by group and variant */
+	/** Token definitions as flat keys */
 	tokens: TTokenContract;
 	/** Available slots for the component */
 	slot: TSlotContract;
@@ -130,13 +97,13 @@ export type Contract<
  * while allowing new token definitions and overrides
  */
 export type ContractEx<
-	TTokenContract extends ExtendableTokenContract<TBaseContract>,
+	TTokenContract extends TokenContract,
 	TSlotContract extends SlotContract,
 	TVariantContract extends VariantContract,
 	TBaseContract extends Contract<any, any, any>,
 > = {
-	/** Token definitions organized by group and variant - inherits from parent */
-	tokens: TTokenContract & TBaseContract["tokens"];
+	/** Token definitions as flat keys - inherits from parent */
+	tokens: TTokenContract;
 	/** Available slots for the component */
 	slot: TSlotContract;
 	/** Available variants for the component */
@@ -182,39 +149,11 @@ export type ExtendedDefinition<TChildContract extends Contract<any, any, any>> =
  * Used in the extend method to provide flexible token extension
  */
 type ExtendableTokenContract<TContract extends Contract<any, any, any>> =
-	| {
-			[K in InheritedTokenGroups<TContract>]?: TokenGroupVariants<
-				TContract,
-				K
-			>;
-	  }
-	| {
-			[key: string]: readonly string[];
-	  };
+	readonly string[];
 
 // ============================================================================
-// TOKEN SYSTEM
+// TOKEN SYSTEM (FLAT)
 // ============================================================================
-
-/**
- * Generates full dot-notation token keys (e.g., "primary.textColor.default").
- *
- * Previous implementation used an index access with a union of groups:
- *   TContract["tokens"][TokenGroups<TContract>][number]
- * which widens the variants to a union of all variants from all groups,
- * effectively producing a cartesian product between groups and variants.
- *
- * This mapped-type version preserves the pairing between each group and its
- * own variant list by first mapping group → `${group}.${variant}` and then
- * indexing back into the union of those mapped values.
- */
-type TokenKey<TContract extends Contract<any, any, any>> = {
-	[K in keyof TContract["tokens"] &
-		string]: `${K}.${TContract["tokens"][K][number]}`;
-}[keyof TContract["tokens"] & string];
-
-// Note: The old TokenGroups helper became unnecessary after rewriting TokenKey
-// to a mapped type that directly iterates over `keyof tokens`.
 
 /**
  * Recursively collects all token keys from current and inherited contracts
@@ -223,9 +162,9 @@ type TokensOf<TContract extends Contract<any, any, any>> = TContract extends {
 	"~use"?: infer TUse;
 }
 	? TUse extends Contract<any, any, any>
-		? TokenKey<TContract> | TokensOf<TUse>
-		: TokenKey<TContract>
-	: TokenKey<TContract>;
+		? TContract["tokens"][number] | TokensOf<TUse>
+		: TContract["tokens"][number]
+	: TContract["tokens"][number];
 
 /**
  * Creates a tuple type for lists of TokensOf
@@ -234,68 +173,39 @@ export type TokensOfList<TContract extends Contract<any, any, any>> = ListOf<
 	TokensOf<TContract>
 >;
 
-/**
- * Extracts inherited token group names from the parent inheritance chain
- */
-type InheritedTokenGroups<TContract extends Contract<any, any, any>> =
-	TContract extends {
-		"~use"?: infer TUse;
-	}
-		? TUse extends Contract<any, any, any>
-			? keyof TUse["tokens"] | InheritedTokenGroups<TUse>
-			: never
-		: never;
+type LocalTokens<TContract extends Contract<any, any, any>> =
+	TContract["tokens"][number];
+
+// Only flat keys are supported.
+
+// ----------------------------------------------------------------------------
+// Flat token definition shapes
+// ----------------------------------------------------------------------------
 
 /**
- * Recursively retrieves variants for a specific token group from the inheritance chain
+ * Flat required token definition for the current contract with optional inherited keys.
  */
-type TokenGroupVariants<
-	TContract extends Contract<any, any, any>,
-	TGroup extends string,
-> = TContract extends {
-	"~use"?: infer TUse;
-}
-	? TUse extends Contract<any, any, any>
-		? TGroup extends keyof TUse["tokens"]
-			? TUse["tokens"][TGroup]
-			: TokenGroupVariants<TUse, TGroup>
-		: never
-	: never;
+type FlatTokenDefinitionRequired<TContract extends Contract<any, any, any>> = {
+	[K in LocalTokens<TContract>]: ClassName;
+};
 
 /**
- * Base token definition type with configurable variant requirement
- * Used to create both required and optional token definition types
+ * Flat optional token definition for overrides (create/override paths).
  */
-type BaseTokenDefinition<
-	TContract extends Contract<any, any, any>,
-	TRequired extends boolean = true,
-> = {
-	[K in InheritedTokenGroups<TContract>]?: {
-		[V in TokenGroupVariants<TContract, K>[number]]?: ClassName;
-	};
-} & (TRequired extends true
-	? {
-			[K in keyof TContract["tokens"]]: {
-				[V in TContract["tokens"][K][number]]: ClassName;
-			};
-		}
-	: {
-			[K in keyof TContract["tokens"]]?: {
-				[V in TContract["tokens"][K][number]]?: ClassName;
-			};
-		});
+type FlatTokenDefinitionOptional<TContract extends Contract<any, any, any>> =
+	Partial<Record<TokensOf<TContract>, string[]>>;
 
 /**
  * Token definition for cls instances - requires all current contract tokens
  */
 export type TokenDefinition<TContract extends Contract<any, any, any>> =
-	BaseTokenDefinition<TContract, true>;
+	FlatTokenDefinitionRequired<TContract>;
 
 /**
  * Optional token definition for create method overrides - all variants optional
  */
 type OptionalTokenDefinition<TContract extends Contract<any, any, any>> =
-	BaseTokenDefinition<TContract, false>;
+	FlatTokenDefinitionOptional<TContract>;
 
 // ============================================================================
 // SLOT SYSTEM

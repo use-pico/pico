@@ -7,16 +7,12 @@ describe("12.2 React Context - Nested Providers", () => {
 	it("should handle nested providers correctly", () => {
 		const BaseThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-					],
-					"color.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.text.light",
+					"color.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -29,22 +25,18 @@ describe("12.2 React Context - Nested Providers", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({
@@ -62,18 +54,14 @@ describe("12.2 React Context - Nested Providers", () => {
 
 		const ExtendedThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-						"accent",
-					],
-					"color.text": [
-						"light",
-						"dark",
-						"accent",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.bg.accent",
+					"color.text.light",
+					"color.text.dark",
+					"color.text.accent",
+				],
 				slot: [
 					"root",
 				],
@@ -87,28 +75,24 @@ describe("12.2 React Context - Nested Providers", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-						accent: [
-							"bg-blue-500",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-						accent: [
-							"text-white",
-						],
-					},
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.bg.accent": [
+						"bg-blue-500",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
+					"color.text.accent": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({

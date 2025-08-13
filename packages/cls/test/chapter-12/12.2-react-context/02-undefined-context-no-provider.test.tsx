@@ -18,7 +18,7 @@ describe("12.2 React Context - ClsProvider - Undefined Context No Provider", () 
 		render(<TestComponent />);
 
 		// Should not have context
-		expect(screen.getByTestId("no-context-test")).toHaveTextContent(
+		expect(screen.getByTestId?.("no-context-test")).toHaveTextContent(
 			"No context",
 		);
 	});

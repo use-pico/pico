@@ -5,7 +5,7 @@ describe("2.2 Definition Helpers - def.defaults", () => {
 	it("should handle def.defaults helper for default variant values", () => {
 		const Component = cls(
 			{
-				tokens: {},
+				tokens: [],
 				slot: [
 					"root",
 				],
@@ -24,20 +24,20 @@ describe("2.2 Definition Helpers - def.defaults", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
+					def.root?.({
+						root: what.css?.([
 							"bg-gray-100",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					size: "md",
 					color: "primary",
 				}),
 			}),
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		const instance = Component.create?.();
+		expect(instance.root?.()).toBe("bg-gray-100");
 	});
 });

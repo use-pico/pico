@@ -8,32 +8,24 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 		// Create the cls instance
 		const DynamicCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-						"accent",
-						"error",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-						"accent",
-						"error",
-					],
-					"spacing.padding": [
-						"xs",
-						"sm",
-						"md",
-						"lg",
-						"xl",
-					],
-					"border.width": [
-						"thin",
-						"medium",
-						"thick",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.bg.accent",
+					"color.bg.error",
+					"color.text.primary",
+					"color.text.secondary",
+					"color.text.accent",
+					"color.text.error",
+					"spacing.padding.xs",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+					"spacing.padding.xl",
+					"border.width.thin",
+					"border.width.medium",
+					"border.width.thick",
+				],
 				slot: [
 					"root",
 					"icon",
@@ -68,225 +60,217 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-						accent: [
-							"bg-purple-600",
-						],
-						error: [
-							"bg-red-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-						accent: [
-							"text-white",
-						],
-						error: [
-							"text-white",
-						],
-					},
-					"spacing.padding": {
-						xs: [
-							"px-1",
-							"py-0.5",
-						],
-						sm: [
-							"px-2",
-							"py-1",
-						],
-						md: [
-							"px-4",
-							"py-2",
-						],
-						lg: [
-							"px-6",
-							"py-3",
-						],
-						xl: [
-							"px-8",
-							"py-4",
-						],
-					},
-					"border.width": {
-						thin: [
-							"border",
-						],
-						medium: [
-							"border-2",
-						],
-						thick: [
-							"border-4",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.bg.accent": [
+						"bg-purple-600",
+					],
+					"color.bg.error": [
+						"bg-red-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"color.text.accent": [
+						"text-white",
+					],
+					"color.text.error": [
+						"text-white",
+					],
+					"spacing.padding.xs": [
+						"px-1",
+						"py-0.5",
+					],
+					"spacing.padding.sm": [
+						"px-2",
+						"py-1",
+					],
+					"spacing.padding.md": [
+						"px-4",
+						"py-2",
+					],
+					"spacing.padding.lg": [
+						"px-6",
+						"py-3",
+					],
+					"spacing.padding.xl": [
+						"px-8",
+						"py-4",
+					],
+					"border.width.thin": [
+						"border",
+					],
+					"border.width.medium": [
+						"border-2",
+					],
+					"border.width.thick": [
+						"border-4",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 							"spacing.padding.md",
 							"border.width.thin",
 						]),
-						icon: what.token([
+						icon: what.token?.([
 							"color.text.primary",
 							"spacing.padding.xs",
 						]),
-						label: what.token([
+						label: what.token?.([
 							"color.text.primary",
 							"spacing.padding.sm",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							color: "secondary",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.secondary",
 								"color.text.secondary",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"color.text.secondary",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"color.text.secondary",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							color: "accent",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"color.text.accent",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"color.text.accent",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							color: "error",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.error",
 								"color.text.error",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"color.text.error",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"color.text.error",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "xs",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"spacing.padding.xs",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"spacing.padding.xs",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"spacing.padding.xs",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "sm",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"spacing.padding.sm",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"spacing.padding.xs",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"spacing.padding.sm",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "lg",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"spacing.padding.lg",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"spacing.padding.sm",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"spacing.padding.md",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "xl",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"spacing.padding.xl",
 							]),
-							icon: what.token([
+							icon: what.token?.([
 								"spacing.padding.md",
 							]),
-							label: what.token([
+							label: what.token?.([
 								"spacing.padding.lg",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							state: "disabled",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"opacity-50",
 								"cursor-not-allowed",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							state: "loading",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"animate-pulse",
 								"cursor-wait",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 					size: "md",
 					state: "normal",
@@ -298,7 +282,7 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 		// Test dynamic variant computation
 		const { result } = renderHook(() =>
 			useCls(DynamicCls, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					color: "accent",
 					size: "xl",
 					state: "loading",
@@ -310,10 +294,10 @@ describe("12.1 React Hooks - Dynamic Variant Computation", () => {
 		const classes = result.current;
 
 		// Should apply accent color, xl size, and loading state
-		expect(classes.root()).toBe(
+		expect(classes.root?.()).toBe(
 			"border bg-purple-600 text-white px-8 py-4 animate-pulse cursor-wait",
 		);
-		expect(classes.icon()).toBe("text-white px-4 py-2");
-		expect(classes.label()).toBe("text-white px-6 py-3");
+		expect(classes.icon?.()).toBe("text-white px-4 py-2");
+		expect(classes.label?.()).toBe("text-white px-6 py-3");
 	});
 });

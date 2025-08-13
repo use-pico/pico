@@ -8,16 +8,12 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 	it("should handle cls prop function with context access", () => {
 		const ThemeCls = cls(
 			{
-				tokens: {
-					"theme.bg": [
-						"light",
-						"dark",
-					],
-					"theme.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"theme.bg.light",
+					"theme.bg.dark",
+					"theme.text.light",
+					"theme.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -29,33 +25,29 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"theme.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"theme.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+				token: def.token?.({
+					"theme.bg.light": [
+						"bg-white",
+					],
+					"theme.bg.dark": [
+						"bg-gray-900",
+					],
+					"theme.text.light": [
+						"text-gray-900",
+					],
+					"theme.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					theme: "light",
 				}),
 			}),
@@ -63,16 +55,12 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -84,33 +72,29 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
@@ -130,7 +114,7 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={classes.root?.()}
 					{...props}
 				>
 					{children}
@@ -144,7 +128,7 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 			<ClsProvider value={ThemeCls}>
 				<Button
 					cls={({ what }) => ({
-						variant: what.variant({
+						variant: what.variant?.({
 							color: "secondary",
 						}),
 					})}
@@ -154,7 +138,7 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 			</ClsProvider>,
 		);
 
-		const button = screen.getByRole("button");
+		const button = screen.getByRole?.("button");
 		expect(button).toBeInTheDocument();
 		expect(button).toHaveTextContent("Dynamic Button");
 	});

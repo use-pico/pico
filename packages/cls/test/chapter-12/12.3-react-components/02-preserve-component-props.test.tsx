@@ -8,16 +8,12 @@ describe("12.3 React Components - Preserve Component Props", () => {
 		// Create a cls instance
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -29,33 +25,29 @@ describe("12.3 React Components - Preserve Component Props", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-white",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-white",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
@@ -88,7 +80,7 @@ describe("12.3 React Components - Preserve Component Props", () => {
 		render(<EnhancedButton disabled>Click me</EnhancedButton>);
 
 		// Should render the button with preserved props
-		const button = screen.getByRole("button");
+		const button = screen.getByRole?.("button");
 		expect(button).toBeInTheDocument();
 		expect(button).toHaveTextContent("Click me");
 		expect(button).toBeDisabled();

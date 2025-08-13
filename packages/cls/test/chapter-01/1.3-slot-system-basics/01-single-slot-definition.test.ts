@@ -5,7 +5,7 @@ describe("1.3 Slot System Basics - Single Slot Definition", () => {
 	it("should handle single slot definition", () => {
 		const Component = cls(
 			{
-				tokens: {},
+				tokens: [],
 				slot: [
 					"root",
 				],
@@ -14,8 +14,8 @@ describe("1.3 Slot System Basics - Single Slot Definition", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
+					def.root?.({
+						root: what.css?.([
 							"bg-gray-100",
 							"p-4",
 						]),
@@ -25,7 +25,7 @@ describe("1.3 Slot System Basics - Single Slot Definition", () => {
 			}),
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 p-4");
+		const instance = Component.create?.();
+		expect(instance.root?.()).toBe("bg-gray-100 p-4");
 	});
 });

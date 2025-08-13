@@ -7,21 +7,15 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 	it("should provide cls instance through context", () => {
 		const ThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-					],
-					"color.text": [
-						"light",
-						"dark",
-					],
-					"spacing.padding": [
-						"sm",
-						"md",
-						"lg",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.text.light",
+					"color.text.dark",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+				],
 				slot: [
 					"root",
 				],
@@ -33,56 +27,50 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
-					"spacing.padding": {
-						sm: [
-							"p-2",
-						],
-						md: [
-							"p-4",
-						],
-						lg: [
-							"p-6",
-						],
-					},
+				token: def.token?.({
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
+					"spacing.padding.sm": [
+						"p-2",
+					],
+					"spacing.padding.md": [
+						"p-4",
+					],
+					"spacing.padding.lg": [
+						"p-6",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.light",
 							"color.text.light",
 							"spacing.padding.md",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							theme: "dark",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.dark",
 								"color.text.dark",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					theme: "light",
 				}),
 			}),
@@ -106,7 +94,7 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 		);
 
 		// Should show that context is provided
-		expect(screen.getByTestId("context-test")).toHaveTextContent(
+		expect(screen.getByTestId?.("context-test")).toHaveTextContent(
 			"Context provided",
 		);
 	});

@@ -7,12 +7,10 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 	it("should handle missing tokens gracefully", () => {
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-					],
+				tokens: [
+					"color.bg.primary",
 					// Missing secondary color token
-				},
+				],
 				slot: [
 					"root",
 				],
@@ -24,21 +22,19 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
@@ -46,7 +42,7 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 
 		const { result } = renderHook(() =>
 			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					color: "secondary",
 				}),
 			})),
@@ -55,7 +51,7 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 		const classes = result.current;
 
 		// Should handle missing tokens gracefully
-		expect(classes.root()).toBeDefined();
-		expect(typeof classes.root()).toBe("string");
+		expect(classes.root?.()).toBeDefined();
+		expect(typeof classes.root?.()).toBe("string");
 	});
 });

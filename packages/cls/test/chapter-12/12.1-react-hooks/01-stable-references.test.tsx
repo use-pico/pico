@@ -7,24 +7,16 @@ describe("12.1 React Hooks - Stable References", () => {
 	it("should maintain stable references for same configuration", () => {
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-					"size.padding": [
-						"small",
-						"medium",
-					],
-					"size.text": [
-						"small",
-						"medium",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+					"size.padding.small",
+					"size.padding.medium",
+					"size.text.small",
+					"size.text.medium",
+				],
 				slot: [
 					"root",
 				],
@@ -40,45 +32,37 @@ describe("12.1 React Hooks - Stable References", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
-					"size.padding": {
-						small: [
-							"px-2",
-							"py-1",
-						],
-						medium: [
-							"px-4",
-							"py-2",
-						],
-					},
-					"size.text": {
-						small: [
-							"text-sm",
-						],
-						medium: [
-							"text-base",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"size.padding.small": [
+						"px-2",
+						"py-1",
+					],
+					"size.padding.medium": [
+						"px-4",
+						"py-2",
+					],
+					"size.text.small": [
+						"text-sm",
+					],
+					"size.text.medium": [
+						"text-base",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
@@ -86,7 +70,7 @@ describe("12.1 React Hooks - Stable References", () => {
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -96,7 +80,7 @@ describe("12.1 React Hooks - Stable References", () => {
 		// First render
 		const { result: result1 } = renderHook(() =>
 			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -106,7 +90,7 @@ describe("12.1 React Hooks - Stable References", () => {
 		// Second render with same configuration
 		const { result: result2 } = renderHook(() =>
 			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -114,6 +98,6 @@ describe("12.1 React Hooks - Stable References", () => {
 		);
 
 		// Should produce same class strings
-		expect(result1.current.root()).toBe(result2.current.root());
+		expect(result1.current.root?.()).toBe(result2.current.root?.());
 	});
 });

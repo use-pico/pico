@@ -5,7 +5,7 @@ describe("4.1 Basic Create Usage - Create with Custom Variants", () => {
 	it("should handle create method with custom variant values", () => {
 		const Component = cls(
 			{
-				tokens: {},
+				tokens: [],
 				slot: [
 					"root",
 				],
@@ -20,57 +20,57 @@ describe("4.1 Basic Create Usage - Create with Custom Variants", () => {
 			({ what, def }) => ({
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
+					def.root?.({
+						root: what.css?.([
 							"bg-gray-100",
 							"rounded",
 						]),
 					}),
-					def.rule(
+					def.rule?.(
 						{
 							size: "sm",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-sm",
 								"p-2",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "md",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-base",
 								"p-4",
 							]),
 						},
 					),
-					def.rule(
+					def.rule?.(
 						{
 							size: "lg",
 						},
 						{
-							root: what.css([
+							root: what.css?.([
 								"text-lg",
 								"p-6",
 							]),
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					size: "md",
 				}),
 			}),
 		);
 
-		const instance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const instance = Component.create?.(({ what }) => ({
+			variant: what.variant?.({
 				size: "lg",
 			}),
 		}));
-		expect(instance.root()).toBe("bg-gray-100 rounded text-lg p-6");
+		expect(instance.root?.()).toBe("bg-gray-100 rounded text-lg p-6");
 	});
 });

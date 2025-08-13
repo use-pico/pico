@@ -8,26 +8,18 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 	it("should combine useCls with withCls HOC", () => {
 		const BaseButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-					"size.padding": [
-						"small",
-						"medium",
-						"large",
-					],
-					"size.text": [
-						"small",
-						"medium",
-						"large",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+					"size.padding.small",
+					"size.padding.medium",
+					"size.padding.large",
+					"size.text.small",
+					"size.text.medium",
+					"size.text.large",
+				],
 				slot: [
 					"root",
 				],
@@ -44,52 +36,44 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
-					"size.padding": {
-						small: [
-							"px-2",
-							"py-1",
-						],
-						medium: [
-							"px-4",
-							"py-2",
-						],
-						large: [
-							"px-6",
-							"py-3",
-						],
-					},
-					"size.text": {
-						small: [
-							"text-sm",
-						],
-						medium: [
-							"text-base",
-						],
-						large: [
-							"text-lg",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"size.padding.small": [
+						"px-2",
+						"py-1",
+					],
+					"size.padding.medium": [
+						"px-4",
+						"py-2",
+					],
+					"size.padding.large": [
+						"px-6",
+						"py-3",
+					],
+					"size.text.small": [
+						"text-sm",
+					],
+					"size.text.medium": [
+						"text-base",
+					],
+					"size.text.large": [
+						"text-lg",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
@@ -97,7 +81,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -106,12 +90,10 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 
 		const IconButtonCls = cls(
 			{
-				tokens: {
-					"icon.position": [
-						"left",
-						"right",
-					],
-				},
+				tokens: [
+					"icon.position.left",
+					"icon.position.right",
+				],
 				slot: [
 					"root",
 					"icon",
@@ -125,26 +107,24 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"icon.position": {
-						left: [
-							"flex-row",
-						],
-						right: [
-							"flex-row-reverse",
-						],
-					},
+				token: def.token?.({
+					"icon.position.left": [
+						"flex-row",
+					],
+					"icon.position.right": [
+						"flex-row-reverse",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"icon.position.left",
 						]),
-						icon: what.css("w-4 h-4"),
-						label: what.css("font-medium"),
+						icon: what.css?.("w-4 h-4"),
+						label: what.css?.("font-medium"),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					iconPosition: "left",
 				}),
 			}),
@@ -172,7 +152,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			}
 		>) => {
 			const classes = useCls(IconButtonCls, ({ what }) => ({
-				variant: what.variant({
+				variant: what.variant?.({
 					iconPosition: "left",
 				}),
 			}));
@@ -184,11 +164,11 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={classes.root?.()}
 					{...props}
 				>
-					<span className={classes.icon()}>{icon}</span>
-					<span className={classes.label()}>{children}</span>
+					<span className={classes.icon?.()}>{icon}</span>
+					<span className={classes.label?.()}>{children}</span>
 				</button>
 			);
 		};
@@ -205,9 +185,9 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 		);
 
 		// Should render both buttons
-		expect(screen.getByText("Base Button")).toBeInTheDocument();
-		expect(screen.getByText("Icon Button")).toBeInTheDocument();
-		expect(screen.getByText("★")).toBeInTheDocument();
+		expect(screen.getByText?.("Base Button")).toBeInTheDocument();
+		expect(screen.getByText?.("Icon Button")).toBeInTheDocument();
+		expect(screen.getByText?.("★")).toBeInTheDocument();
 
 		// Verify HOC attachment
 		expect(EnhancedButton.cls).toBe(BaseButtonCls);

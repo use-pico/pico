@@ -7,16 +7,12 @@ describe("12.1 React Hooks - Context Changes", () => {
 	it("should handle context changes efficiently", () => {
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -28,40 +24,36 @@ describe("12.1 React Hooks - Context Changes", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 				}),
 			}),
 		);
 
-		const configFn = vi.fn(({ what }) => ({
-			variant: what.variant({
+		const configFn = vi.fn?.(({ what }) => ({
+			variant: what.variant?.({
 				color: "primary",
 			}),
 		}));
@@ -71,6 +63,6 @@ describe("12.1 React Hooks - Context Changes", () => {
 
 		// Should call config function once
 		expect(configFn).toHaveBeenCalledTimes(1);
-		expect(result.current.root()).toBeDefined();
+		expect(result.current.root?.()).toBeDefined();
 	});
 });

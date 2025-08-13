@@ -9,14 +9,10 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 		// Create conflicting theme cls instance
 		const ConflictingThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"conflict",
-					],
-					"color.text": [
-						"conflict",
-					],
-				},
+				tokens: [
+					"color.bg.conflict",
+					"color.text.conflict",
+				],
 				slot: [
 					"root",
 				],
@@ -28,16 +24,12 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						conflict: [
-							"bg-red-500",
-						],
-					},
-					"color.text": {
-						conflict: [
-							"text-red-100",
-						],
-					},
+					"color.bg.conflict": [
+						"bg-red-500",
+					],
+					"color.text.conflict": [
+						"text-red-100",
+					],
 				}),
 				rules: [
 					def.root({

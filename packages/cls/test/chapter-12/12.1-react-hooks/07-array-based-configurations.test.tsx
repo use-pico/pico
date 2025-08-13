@@ -8,36 +8,28 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 		// Create the cls instance
 		const ArrayCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"base",
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"color.text": [
-						"base",
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"spacing.margin": [
-						"none",
-						"xs",
-						"sm",
-						"md",
-						"lg",
-						"xl",
-					],
-					"spacing.padding": [
-						"none",
-						"xs",
-						"sm",
-						"md",
-						"lg",
-						"xl",
-					],
-				},
+				tokens: [
+					"color.bg.base",
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.bg.accent",
+					"color.text.base",
+					"color.text.primary",
+					"color.text.secondary",
+					"color.text.accent",
+					"spacing.margin.none",
+					"spacing.margin.xs",
+					"spacing.margin.sm",
+					"spacing.margin.md",
+					"spacing.margin.lg",
+					"spacing.margin.xl",
+					"spacing.padding.none",
+					"spacing.padding.xs",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+					"spacing.padding.xl",
+				],
 				slot: [
 					"root",
 					"header",
@@ -63,75 +55,67 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						base: [
-							"bg-white",
-						],
-						primary: [
-							"bg-blue-50",
-						],
-						secondary: [
-							"bg-gray-50",
-						],
-						accent: [
-							"bg-purple-50",
-						],
-					},
-					"color.text": {
-						base: [
-							"text-gray-900",
-						],
-						primary: [
-							"text-blue-900",
-						],
-						secondary: [
-							"text-gray-700",
-						],
-						accent: [
-							"text-purple-900",
-						],
-					},
-					"spacing.margin": {
-						none: [
-							"m-0",
-						],
-						xs: [
-							"m-1",
-						],
-						sm: [
-							"m-2",
-						],
-						md: [
-							"m-4",
-						],
-						lg: [
-							"m-6",
-						],
-						xl: [
-							"m-8",
-						],
-					},
-					"spacing.padding": {
-						none: [
-							"p-0",
-						],
-						xs: [
-							"p-1",
-						],
-						sm: [
-							"p-2",
-						],
-						md: [
-							"p-4",
-						],
-						lg: [
-							"p-6",
-						],
-						xl: [
-							"p-8",
-						],
-					},
+				token: def.token?.({
+					"color.bg.base": [
+						"bg-white",
+					],
+					"color.bg.primary": [
+						"bg-blue-50",
+					],
+					"color.bg.secondary": [
+						"bg-gray-50",
+					],
+					"color.bg.accent": [
+						"bg-purple-50",
+					],
+					"color.text.base": [
+						"text-gray-900",
+					],
+					"color.text.primary": [
+						"text-blue-900",
+					],
+					"color.text.secondary": [
+						"text-gray-700",
+					],
+					"color.text.accent": [
+						"text-purple-900",
+					],
+					"spacing.margin.none": [
+						"m-0",
+					],
+					"spacing.margin.xs": [
+						"m-1",
+					],
+					"spacing.margin.sm": [
+						"m-2",
+					],
+					"spacing.margin.md": [
+						"m-4",
+					],
+					"spacing.margin.lg": [
+						"m-6",
+					],
+					"spacing.margin.xl": [
+						"m-8",
+					],
+					"spacing.padding.none": [
+						"p-0",
+					],
+					"spacing.padding.xs": [
+						"p-1",
+					],
+					"spacing.padding.sm": [
+						"p-2",
+					],
+					"spacing.padding.md": [
+						"p-4",
+					],
+					"spacing.padding.lg": [
+						"p-6",
+					],
+					"spacing.padding.xl": [
+						"p-8",
+					],
 				}),
 				rules: [
 					def.root({
@@ -157,10 +141,10 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 							"spacing.padding.sm",
 						]),
 					}),
-					def.rule(
-						{
+					def.rule?.(
+						what.variant({
 							layout: "horizontal",
-						},
+						}),
 						{
 							root: what.css([
 								"flex",
@@ -179,9 +163,9 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							layout: "grid",
-						},
+						}),
 						{
 							root: what.css([
 								"grid",
@@ -191,9 +175,9 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							spacing: "compact",
-						},
+						}),
 						{
 							root: what.token([
 								"spacing.margin.sm",
@@ -211,9 +195,9 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 						},
 					),
 					def.rule(
-						{
+						what.variant({
 							spacing: "spacious",
-						},
+						}),
 						{
 							root: what.token([
 								"spacing.margin.lg",

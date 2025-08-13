@@ -8,16 +8,12 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 	it("should merge cls prop with context tokens", () => {
 		const ThemeCls = cls(
 			{
-				tokens: {
-					"theme.bg": [
-						"light",
-						"dark",
-					],
-					"theme.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"theme.bg.light",
+					"theme.bg.dark",
+					"theme.text.light",
+					"theme.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -29,33 +25,29 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"theme.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"theme.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+				token: def.token?.({
+					"theme.bg.light": [
+						"bg-white",
+					],
+					"theme.bg.dark": [
+						"bg-gray-900",
+					],
+					"theme.text.light": [
+						"text-gray-900",
+					],
+					"theme.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"theme.bg.light",
 							"theme.text.light",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					theme: "light",
 				}),
 			}),
@@ -63,20 +55,14 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 
 		const ButtonCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-					"size.padding": [
-						"small",
-						"medium",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+					"size.padding.small",
+					"size.padding.medium",
+				],
 				slot: [
 					"root",
 				],
@@ -92,44 +78,38 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
-					"size.padding": {
-						small: [
-							"px-2",
-							"py-1",
-						],
-						medium: [
-							"px-4",
-							"py-2",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"size.padding.small": [
+						"px-2",
+						"py-1",
+					],
+					"size.padding.medium": [
+						"px-4",
+						"py-2",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.primary",
 							"color.text.primary",
 							"size.padding.medium",
 						]),
 					}),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -150,7 +130,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={classes.root?.()}
 					{...props}
 				>
 					{children}
@@ -163,7 +143,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			<ClsProvider value={ThemeCls}>
 				<Button
 					cls={({ what }) => ({
-						variant: what.variant({
+						variant: what.variant?.({
 							color: "secondary" as const,
 							size: "small" as const,
 						}),
@@ -174,7 +154,7 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			</ClsProvider>,
 		);
 
-		const button = screen.getByRole("button");
+		const button = screen.getByRole?.("button");
 		expect(button).toBeInTheDocument();
 		expect(button).toHaveTextContent("Context Button");
 	});

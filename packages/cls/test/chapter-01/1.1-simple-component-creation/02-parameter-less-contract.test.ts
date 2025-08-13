@@ -5,7 +5,7 @@ describe("1.1 Simple Component Creation - Parameter-less Contract", () => {
 	it("should handle parameter-less contract scenarios", () => {
 		const Component = cls(
 			{
-				tokens: {},
+				tokens: [],
 				slot: [
 					"root",
 				],
@@ -25,6 +25,6 @@ describe("1.1 Simple Component Creation - Parameter-less Contract", () => {
 		);
 
 		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		expect(instance.root?.()).toBe("bg-gray-100");
 	});
 });

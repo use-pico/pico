@@ -3,24 +3,19 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 import { useCls } from "../../../src/react";
 
-describe("12.1 React Hooks - Advanced useCls - Computed Values and Functions", () => {
+describe("12.1 React Hooks - Computed Values and Functions", () => {
 	it("should handle useCls with computed values and functions", () => {
+		// Create the cls instance
 		const ComputedCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"base",
-						"computed",
-					],
-					"color.text": [
-						"base",
-						"computed",
-					],
-					"spacing.padding": [
-						"base",
-						"computed",
-					],
-				},
+				tokens: [
+					"color.bg.base",
+					"color.bg.computed",
+					"color.text.base",
+					"color.text.computed",
+					"spacing.padding.base",
+					"spacing.padding.computed",
+				],
 				slot: [
 					"root",
 				],
@@ -39,30 +34,24 @@ describe("12.1 React Hooks - Advanced useCls - Computed Values and Functions", (
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						base: [
-							"bg-gray-100",
-						],
-						computed: [
-							"bg-blue-100",
-						],
-					},
-					"color.text": {
-						base: [
-							"text-gray-900",
-						],
-						computed: [
-							"text-blue-900",
-						],
-					},
-					"spacing.padding": {
-						base: [
-							"p-2",
-						],
-						computed: [
-							"p-4",
-						],
-					},
+					"color.bg.base": [
+						"bg-gray-100",
+					],
+					"color.bg.computed": [
+						"bg-blue-100",
+					],
+					"color.text.base": [
+						"text-gray-900",
+					],
+					"color.text.computed": [
+						"text-blue-900",
+					],
+					"spacing.padding.base": [
+						"p-2",
+					],
+					"spacing.padding.computed": [
+						"p-4",
+					],
 				}),
 				rules: [
 					def.root({
@@ -73,9 +62,9 @@ describe("12.1 React Hooks - Advanced useCls - Computed Values and Functions", (
 						]),
 					}),
 					def.rule(
-						{
+						what.variant({
 							intensity: "high",
-						},
+						}),
 						{
 							root: what.token([
 								"color.bg.computed",

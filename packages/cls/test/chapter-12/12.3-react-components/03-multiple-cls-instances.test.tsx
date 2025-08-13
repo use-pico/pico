@@ -8,14 +8,10 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 		// Create first cls instance
 		const PrimaryCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-					],
-					"color.text": [
-						"primary",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.text.primary",
+				],
 				slot: [
 					"root",
 				],
@@ -27,16 +23,12 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-white",
-						],
-					},
+					"color.bg.primary": [
+						"bg-blue-600",
+					],
+					"color.text.primary": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({
@@ -55,14 +47,10 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 		// Create second cls instance
 		const SecondaryCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"secondary",
-					],
-					"color.text": [
-						"secondary",
-					],
-				},
+				tokens: [
+					"color.bg.secondary",
+					"color.text.secondary",
+				],
 				slot: [
 					"root",
 				],
@@ -74,16 +62,12 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						secondary: [
-							"bg-gray-600",
-						],
-					},
-					"color.text": {
-						secondary: [
-							"text-white",
-						],
-					},
+					"color.bg.secondary": [
+						"bg-gray-600",
+					],
+					"color.text.secondary": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({

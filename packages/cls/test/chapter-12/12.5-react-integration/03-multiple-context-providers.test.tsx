@@ -9,16 +9,12 @@ describe("12.5 React Integration - Multiple Context Providers", () => {
 		// Create base theme cls instance
 		const BaseThemeCls = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"light",
-						"dark",
-					],
-					"color.text": [
-						"light",
-						"dark",
-					],
-				},
+				tokens: [
+					"color.bg.light",
+					"color.bg.dark",
+					"color.text.light",
+					"color.text.dark",
+				],
 				slot: [
 					"root",
 				],
@@ -31,22 +27,18 @@ describe("12.5 React Integration - Multiple Context Providers", () => {
 			},
 			({ what, def }) => ({
 				token: def.token({
-					"color.bg": {
-						light: [
-							"bg-white",
-						],
-						dark: [
-							"bg-gray-900",
-						],
-					},
-					"color.text": {
-						light: [
-							"text-gray-900",
-						],
-						dark: [
-							"text-white",
-						],
-					},
+					"color.bg.light": [
+						"bg-white",
+					],
+					"color.bg.dark": [
+						"bg-gray-900",
+					],
+					"color.text.light": [
+						"text-gray-900",
+					],
+					"color.text.dark": [
+						"text-white",
+					],
 				}),
 				rules: [
 					def.root({

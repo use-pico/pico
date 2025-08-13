@@ -6,35 +6,23 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 		// Base component with multiple slots
 		const BaseComponent = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-					],
-					"spacing.padding": [
-						"sm",
-						"md",
-						"lg",
-					],
-					"spacing.margin": [
-						"sm",
-						"md",
-						"lg",
-					],
-					"border.style": [
-						"solid",
-						"dashed",
-					],
-					"border.radius": [
-						"sm",
-						"md",
-						"lg",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.text.primary",
+					"color.text.secondary",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+					"spacing.margin.sm",
+					"spacing.margin.md",
+					"spacing.margin.lg",
+					"border.style.solid",
+					"border.style.dashed",
+					"border.radius.sm",
+					"border.radius.md",
+					"border.radius.lg",
+				],
 				slot: [
 					"root",
 					"header",
@@ -54,73 +42,61 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-500",
-						],
-						secondary: [
-							"bg-gray-500",
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-blue-900",
-						],
-						secondary: [
-							"text-gray-900",
-						],
-					},
-					"spacing.padding": {
-						sm: [
-							"p-2",
-						],
-						md: [
-							"p-4",
-						],
-						lg: [
-							"p-6",
-						],
-					},
-					"spacing.margin": {
-						sm: [
-							"m-2",
-						],
-						md: [
-							"m-4",
-						],
-						lg: [
-							"m-6",
-						],
-					},
-					"border.style": {
-						solid: [
-							"border-solid",
-						],
-						dashed: [
-							"border-dashed",
-						],
-					},
-					"border.radius": {
-						sm: [
-							"rounded-sm",
-						],
-						md: [
-							"rounded-md",
-						],
-						lg: [
-							"rounded-lg",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-500",
+					],
+					"color.bg.secondary": [
+						"bg-gray-500",
+					],
+					"color.text.primary": [
+						"text-blue-900",
+					],
+					"color.text.secondary": [
+						"text-gray-900",
+					],
+					"spacing.padding.sm": [
+						"p-2",
+					],
+					"spacing.padding.md": [
+						"p-4",
+					],
+					"spacing.padding.lg": [
+						"p-6",
+					],
+					"spacing.margin.sm": [
+						"m-2",
+					],
+					"spacing.margin.md": [
+						"m-4",
+					],
+					"spacing.margin.lg": [
+						"m-6",
+					],
+					"border.style.solid": [
+						"border-solid",
+					],
+					"border.style.dashed": [
+						"border-dashed",
+					],
+					"border.radius.sm": [
+						"rounded-sm",
+					],
+					"border.radius.md": [
+						"rounded-md",
+					],
+					"border.radius.lg": [
+						"rounded-lg",
+					],
 				}),
 				rules: [
-					def.rule(
+					def.rule?.(
 						{
 							color: "primary",
 							size: "medium",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.md",
@@ -128,7 +104,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.style.solid",
 								"border.radius.md",
 							]),
-							header: what.token([
+							header: what.token?.([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.sm",
@@ -136,7 +112,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.style.solid",
 								"border.radius.sm",
 							]),
-							content: what.token([
+							content: what.token?.([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.md",
@@ -144,7 +120,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.style.solid",
 								"border.radius.md",
 							]),
-							footer: what.token([
+							footer: what.token?.([
 								"color.bg.primary",
 								"color.text.primary",
 								"spacing.padding.sm",
@@ -155,7 +131,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "primary",
 					size: "medium",
 				}),
@@ -163,50 +139,36 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 		);
 
 		// Extended component that adds new slots and overrides existing ones
-		const ExtendedComponent = BaseComponent.extend(
+		const ExtendedComponent = BaseComponent.extend?.(
 			{
-				tokens: {
-					"color.bg": [
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"color.text": [
-						"primary",
-						"secondary",
-						"accent",
-					],
-					"spacing.padding": [
-						"sm",
-						"md",
-						"lg",
-						"xl",
-					],
-					"spacing.margin": [
-						"sm",
-						"md",
-						"lg",
-						"xl",
-					],
-					"border.style": [
-						"solid",
-						"dashed",
-						"dotted",
-					],
-					"border.radius": [
-						"sm",
-						"md",
-						"lg",
-						"xl",
-						"full",
-					],
-					"shadow.depth": [
-						"none",
-						"sm",
-						"md",
-						"lg",
-					],
-				},
+				tokens: [
+					"color.bg.primary",
+					"color.bg.secondary",
+					"color.bg.accent",
+					"color.text.primary",
+					"color.text.secondary",
+					"color.text.accent",
+					"spacing.padding.sm",
+					"spacing.padding.md",
+					"spacing.padding.lg",
+					"spacing.padding.xl",
+					"spacing.margin.sm",
+					"spacing.margin.md",
+					"spacing.margin.lg",
+					"spacing.margin.xl",
+					"border.style.solid",
+					"border.style.dashed",
+					"border.style.dotted",
+					"border.radius.sm",
+					"border.radius.md",
+					"border.radius.lg",
+					"border.radius.xl",
+					"border.radius.full",
+					"shadow.depth.none",
+					"shadow.depth.sm",
+					"shadow.depth.md",
+					"shadow.depth.lg",
+				],
 				slot: [
 					"root",
 					"header",
@@ -230,108 +192,94 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						primary: [
-							"bg-blue-600", // Override base primary
-						],
-						secondary: [
-							"bg-gray-600", // Override base secondary
-						],
-						accent: [
-							"bg-purple-500", // New token
-						],
-					},
-					"color.text": {
-						primary: [
-							"text-blue-800", // Override base primary
-						],
-						secondary: [
-							"text-gray-800", // Override base secondary
-						],
-						accent: [
-							"text-purple-900", // New token
-						],
-					},
-					"spacing.padding": {
-						sm: [
-							"p-2",
-						],
-						md: [
-							"p-4",
-						],
-						lg: [
-							"p-6",
-						],
-						xl: [
-							"p-8", // New token
-						],
-					},
-					"spacing.margin": {
-						sm: [
-							"m-2",
-						],
-						md: [
-							"m-4",
-						],
-						lg: [
-							"m-6",
-						],
-						xl: [
-							"m-8", // New token
-						],
-					},
-					"border.style": {
-						solid: [
-							"border-solid",
-						],
-						dashed: [
-							"border-dashed",
-						],
-						dotted: [
-							"border-dotted", // New token
-						],
-					},
-					"border.radius": {
-						sm: [
-							"rounded-sm",
-						],
-						md: [
-							"rounded-md",
-						],
-						lg: [
-							"rounded-lg",
-						],
-						xl: [
-							"rounded-xl", // New token
-						],
-						full: [
-							"rounded-full", // New token
-						],
-					},
-					"shadow.depth": {
-						none: [
-							"shadow-none",
-						],
-						sm: [
-							"shadow-sm",
-						],
-						md: [
-							"shadow-md",
-						],
-						lg: [
-							"shadow-lg",
-						],
-					},
+				token: def.token?.({
+					"color.bg.primary": [
+						"bg-blue-600", // Override base primary
+					],
+					"color.bg.secondary": [
+						"bg-gray-600", // Override base secondary
+					],
+					"color.bg.accent": [
+						"bg-purple-500", // New token
+					],
+					"color.text.primary": [
+						"text-blue-800", // Override base primary
+					],
+					"color.text.secondary": [
+						"text-gray-800", // Override base secondary
+					],
+					"color.text.accent": [
+						"text-purple-900", // New token
+					],
+					"spacing.padding.sm": [
+						"p-2",
+					],
+					"spacing.padding.md": [
+						"p-4",
+					],
+					"spacing.padding.lg": [
+						"p-6",
+					],
+					"spacing.padding.xl": [
+						"p-8", // New token
+					],
+					"spacing.margin.sm": [
+						"m-2",
+					],
+					"spacing.margin.md": [
+						"m-4",
+					],
+					"spacing.margin.lg": [
+						"m-6",
+					],
+					"spacing.margin.xl": [
+						"m-8", // New token
+					],
+					"border.style.solid": [
+						"border-solid",
+					],
+					"border.style.dashed": [
+						"border-dashed",
+					],
+					"border.style.dotted": [
+						"border-dotted", // New token
+					],
+					"border.radius.sm": [
+						"rounded-sm",
+					],
+					"border.radius.md": [
+						"rounded-md",
+					],
+					"border.radius.lg": [
+						"rounded-lg",
+					],
+					"border.radius.xl": [
+						"rounded-xl", // New token
+					],
+					"border.radius.full": [
+						"rounded-full", // New token
+					],
+					"shadow.depth.none": [
+						"shadow-none",
+					],
+					"shadow.depth.sm": [
+						"shadow-sm",
+					],
+					"shadow.depth.md": [
+						"shadow-md",
+					],
+					"shadow.depth.lg": [
+						"shadow-lg",
+					],
 				}),
 				rules: [
-					def.rule(
+					def.rule?.(
 						{
 							color: "accent",
 							size: "large",
 						},
 						{
-							root: what.token([
+							root: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -340,7 +288,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.radius.lg",
 								"shadow.depth.md",
 							]),
-							header: what.token([
+							header: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.md",
@@ -349,7 +297,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							content: what.token([
+							content: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.lg",
@@ -358,7 +306,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.radius.lg",
 								"shadow.depth.md",
 							]),
-							footer: what.token([
+							footer: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.md",
@@ -367,7 +315,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							sidebar: what.token([
+							sidebar: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.md",
@@ -376,7 +324,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 								"border.radius.md",
 								"shadow.depth.sm",
 							]),
-							navigation: what.token([
+							navigation: what.token?.([
 								"color.bg.accent",
 								"color.text.accent",
 								"spacing.padding.sm",
@@ -388,7 +336,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 						},
 					),
 				],
-				defaults: def.defaults({
+				defaults: def.defaults?.({
 					color: "accent",
 					size: "large",
 				}),
@@ -396,58 +344,58 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 		);
 
 		// Test BaseComponent default behavior with all slots
-		const baseDefault = BaseComponent.create();
-		expect(baseDefault.root()).toBe(
+		const baseDefault = BaseComponent.create?.();
+		expect(baseDefault.root?.()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border-solid rounded-md",
 		);
-		expect(baseDefault.header()).toBe(
+		expect(baseDefault.header?.()).toBe(
 			"bg-blue-500 text-blue-900 p-2 m-2 border-solid rounded-sm",
 		);
-		expect(baseDefault.content()).toBe(
+		expect(baseDefault.content?.()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border-solid rounded-md",
 		);
-		expect(baseDefault.footer()).toBe(
+		expect(baseDefault.footer?.()).toBe(
 			"bg-blue-500 text-blue-900 p-2 m-2 border-solid rounded-sm",
 		);
 
 		// Test ExtendedComponent default behavior with all slots
-		const extendedDefault = ExtendedComponent.create();
-		expect(extendedDefault.root()).toBe(
+		const extendedDefault = ExtendedComponent.create?.();
+		expect(extendedDefault.root?.()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-dotted rounded-lg shadow-md",
 		);
-		expect(extendedDefault.header()).toBe(
+		expect(extendedDefault.header?.()).toBe(
 			"bg-purple-500 text-purple-900 p-4 m-4 border-dotted rounded-md shadow-sm",
 		);
-		expect(extendedDefault.content()).toBe(
+		expect(extendedDefault.content?.()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-dotted rounded-lg shadow-md",
 		);
-		expect(extendedDefault.footer()).toBe(
+		expect(extendedDefault.footer?.()).toBe(
 			"bg-purple-500 text-purple-900 p-4 m-4 border-dotted rounded-md shadow-sm",
 		);
-		expect(extendedDefault.sidebar()).toBe(
+		expect(extendedDefault.sidebar?.()).toBe(
 			"bg-purple-500 text-purple-900 p-4 m-4 border-dotted rounded-md shadow-sm",
 		);
-		expect(extendedDefault.navigation()).toBe(
+		expect(extendedDefault.navigation?.()).toBe(
 			"bg-purple-500 text-purple-900 p-2 m-2 border-dotted rounded-sm shadow-sm",
 		);
 
 		// Test that inherited variants still work with overridden tokens
-		const extendedInherited = ExtendedComponent.create(() => ({
+		const extendedInherited = ExtendedComponent.create?.(() => ({
 			variant: {
 				color: "primary",
 				size: "medium",
 			},
 		}));
-		expect(extendedInherited.root()).toBe(
+		expect(extendedInherited.root?.()).toBe(
 			"bg-blue-600 text-blue-800 p-4 m-4 border-solid rounded-md",
 		);
-		expect(extendedInherited.header()).toBe(
+		expect(extendedInherited.header?.()).toBe(
 			"bg-blue-600 text-blue-800 p-2 m-2 border-solid rounded-sm",
 		);
-		expect(extendedInherited.content()).toBe(
+		expect(extendedInherited.content?.()).toBe(
 			"bg-blue-600 text-blue-800 p-4 m-4 border-solid rounded-md",
 		);
-		expect(extendedInherited.footer()).toBe(
+		expect(extendedInherited.footer?.()).toBe(
 			"bg-blue-600 text-blue-800 p-2 m-2 border-solid rounded-sm",
 		);
 	});

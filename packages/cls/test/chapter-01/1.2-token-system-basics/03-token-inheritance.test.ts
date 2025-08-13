@@ -5,27 +5,23 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 	it("should handle token inheritance from parent components", () => {
 		const BaseComponent = cls(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+				],
 				slot: [
 					"root",
 				],
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-gray-100",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-gray-100",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 						]),
 					}),
@@ -34,33 +30,29 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 			}),
 		);
 
-		const ExtendedComponent = BaseComponent.extend(
+		const ExtendedComponent = BaseComponent.extend?.(
 			{
-				tokens: {
-					"color.bg": [
-						"default",
-						"primary",
-					],
-				},
+				tokens: [
+					"color.bg.default",
+					"color.bg.primary",
+				],
 				slot: [
 					"root",
 				],
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token({
-					"color.bg": {
-						default: [
-							"bg-blue-100",
-						],
-						primary: [
-							"bg-blue-500",
-						],
-					},
+				token: def.token?.({
+					"color.bg.default": [
+						"bg-blue-100",
+					],
+					"color.bg.primary": [
+						"bg-blue-500",
+					],
 				}),
 				rules: [
-					def.root({
-						root: what.token([
+					def.root?.({
+						root: what.token?.([
 							"color.bg.default",
 						]),
 					}),
@@ -69,7 +61,7 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 			}),
 		);
 
-		const instance = ExtendedComponent.create();
-		expect(instance.root()).toBe("bg-blue-100");
+		const instance = ExtendedComponent.create?.();
+		expect(instance.root?.()).toBe("bg-blue-100");
 	});
 });

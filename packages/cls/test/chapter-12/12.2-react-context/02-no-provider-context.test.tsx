@@ -18,7 +18,7 @@ describe("12.2 React Context - No Provider Context", () => {
 		render(<TestComponent />);
 
 		// Should show that no context is provided
-		expect(screen.getByTestId("context-test")).toHaveTextContent(
+		expect(screen.getByTestId?.("context-test")).toHaveTextContent(
 			"No context",
 		);
 	});
