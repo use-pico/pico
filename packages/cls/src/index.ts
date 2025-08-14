@@ -1,4 +1,5 @@
 export { cls } from "./cls";
+export { clx } from "./clx";
 export { contract } from "./contract";
 export { merge } from "./merge";
 export * from "./react";

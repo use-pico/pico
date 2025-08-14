@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "4.1.112",
+	"version": "5.0.0",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
