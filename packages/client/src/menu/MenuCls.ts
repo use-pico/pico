@@ -20,7 +20,7 @@ export const MenuCls = PicoCls.extend(
 				root: what.css([
 					"flex",
 					"flex-row",
-					"gap-2",
+					"gap-4",
 					"items-center",
 				]),
 			}),
