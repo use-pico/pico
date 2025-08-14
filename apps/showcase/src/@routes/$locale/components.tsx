@@ -201,6 +201,21 @@ export const Route = createFileRoute("/$locale/components")({
 						>
 							<Tx label={"Issues"} />
 						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[bx--menu]"}
+							to={"/$locale/components/menu"}
+							params={{
+								locale,
+							}}
+							cls={({ what }) => ({
+								variant: what.variant({
+									vertical: true,
+								}),
+							})}
+						>
+							<Tx label={"Menu"} />
+						</MenuLink>
 					</Menu>
 				</div>
 				<div
