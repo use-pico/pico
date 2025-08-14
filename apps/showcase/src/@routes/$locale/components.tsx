@@ -204,9 +204,10 @@ export const Route = createFileRoute("/$locale/components")({
 
 						<MenuLink
 							icon={"icon-[bx--menu]"}
-							to={"/$locale/components/menu"}
+							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
+								selected: "colors",
 							}}
 							cls={({ what }) => ({
 								variant: what.variant({
