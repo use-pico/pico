@@ -20,8 +20,6 @@ export const MenuGroupCls = PicoCls.extend(
 		rules: [
 			def.root({
 				base: what.css([
-					"group",
-					"relative",
 					"cursor-pointer",
 				]),
 				label: what.both(
@@ -38,6 +36,8 @@ export const MenuGroupCls = PicoCls.extend(
 						"border-transparent",
 						"transition-all",
 						"duration-200",
+						"cursor-pointer",
+						"hover:scale-105",
 					],
 					[
 						"tone.primary.light.text:hover",
@@ -52,23 +52,17 @@ export const MenuGroupCls = PicoCls.extend(
 						"flex-col",
 						"w-max",
 						"gap-2",
-						"opacity-0",
-						"scale-95",
-						"absolute",
-						"group-hover:opacity-100",
-						"group-hover:scale-100",
-						"transition-all",
-						"duration-200",
 						"shadow-md",
-						"z-20",
 						"px-4",
-						"py-2",
-						"pointer-events-none",
-						"group-hover:pointer-events-auto",
+						"py-4",
+						"border",
+						"rounded-md",
 					],
 					[
-						"tone.primary.light.bg",
-						"tone.primary.light.border",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
+						"tone.subtle.light.shadow",
+						"shadow.md",
 					],
 				),
 			}),

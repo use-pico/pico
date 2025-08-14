@@ -4,6 +4,7 @@ import {
 } from "@tanstack/react-router";
 import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
+import { Float } from "../float/Float";
 import { Icon } from "../icon/Icon";
 import { MenuGroupCls } from "./MenuGroupCls";
 
@@ -32,14 +33,23 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 		}),
 	}));
 
-	return (
-		<div className={slots.base()}>
-			<div className={slots.label()}>
-				{icon ? <Icon icon={icon} /> : null}
-				{label}
-			</div>
-
-			<div className={slots.items()}>{children}</div>
+	const target = (
+		<div className={slots.label()}>
+			{icon ? <Icon icon={icon} /> : null}
+			{label}
 		</div>
+	);
+
+	return (
+		<Float
+			target={target}
+			action="hover"
+			delay={100}
+			float={{
+				placement: "bottom-start",
+			}}
+		>
+			<div className={slots.items()}>{children}</div>
+		</Float>
 	);
 };
