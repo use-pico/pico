@@ -1,4 +1,3 @@
-import { match } from "./match";
 import type { Contract, WhatUtil } from "./types";
 
 export const what = <
@@ -19,13 +18,29 @@ export const what = <
 		variant: (variant) => variant,
 	},
 	override: {
-		root: (slot, override = true) => match(undefined, slot, override),
-		rule: ($match, slot, override = true) => match($match, slot, override),
+		root: (slot, override = true) => ({
+			match: undefined,
+			slot,
+			override,
+		}),
+		rule: (match, slot, override = true) => ({
+			match,
+			slot,
+			override,
+		}),
 		token: (token) => token,
 	},
 	def: {
-		root: (slot, override = false) => match(undefined, slot, override),
-		rule: match,
+		root: (slot, override = false) => ({
+			match: undefined,
+			slot,
+			override,
+		}),
+		rule: (match, slot, override = false) => ({
+			match,
+			slot,
+			override,
+		}),
 		token: (token) => token,
 		defaults: (defaults) => defaults,
 	},

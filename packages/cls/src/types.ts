@@ -1,5 +1,4 @@
 import type { ClassNameValue } from "tailwind-merge";
-import type { MatchFn, MatchSlotFn } from "./match";
 
 // ============================================================================
 // CORE TYPE DEFINITIONS
@@ -161,6 +160,17 @@ export interface RuleDefinition<T extends Contract<any, any, any>> {
 	match?: Partial<VariantValueMapping<T>>;
 	slot: SlotMapping<T>;
 }
+
+export type MatchFn<TContract extends Contract<any, any, any>> = (
+	match: RuleDefinition<TContract>["match"] | undefined,
+	slot: SlotMapping<TContract>,
+	override?: boolean,
+) => RuleDefinition<TContract>;
+
+export type MatchSlotFn<TContract extends Contract<any, any, any>> = (
+	slot: SlotMapping<TContract>,
+	override?: boolean,
+) => RuleDefinition<TContract>;
 
 export interface WhatUtil<T extends Contract<any, any, any>> {
 	what: {

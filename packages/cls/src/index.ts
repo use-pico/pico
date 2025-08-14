@@ -21,7 +21,7 @@ export type {
 	VariantContract,
 	What,
 	WhatClass,
-	WhatConfigFn as ClsSlotFn,
+	WhatConfigFn,
 	WhatToken,
 	WhatUtil,
 } from "./types";
