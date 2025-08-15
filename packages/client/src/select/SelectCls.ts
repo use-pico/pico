@@ -26,21 +26,25 @@ export const SelectCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"cursor-pointer",
-					"bg-slate-50",
-					"text-slate-900",
-					"text-sm",
-					"border",
-					"border-slate-300",
-					"rounded-sm",
-					"focus:border-sky-400",
-					"focus:outline-hidden",
-					"p-2.5",
-					"hover:shadow-md",
-					"transition-all",
-					"group",
-				]),
+				base: what.both(
+					[
+						"cursor-pointer",
+						"text-sm",
+						"border",
+						"rounded-sm",
+						"focus:outline-hidden",
+						"p-2.5",
+						"hover:shadow-md",
+						"transition-all",
+						"group",
+					],
+					[
+						"tone.neutral.light.bg",
+						"tone.neutral.light.text:hover",
+						"tone.neutral.light.border",
+						"tone.neutral.light.border:hover",
+					],
+				),
 				input: what.css([
 					"flex",
 					"flex-row",
@@ -48,17 +52,21 @@ export const SelectCls = PicoCls.extend(
 					"justify-between",
 					"gap-2",
 				]),
-				popup: what.css([
-					"z-50",
-					"cursor-pointer",
-					"overflow-y-auto",
-					"rounded-sm",
-					"border",
-					"border-slate-300",
-					"bg-white",
-					"shadow-lg",
-					"focus:outline-hidden",
-				]),
+				popup: what.both(
+					[
+						"z-50",
+						"cursor-pointer",
+						"overflow-y-auto",
+						"rounded-sm",
+						"border",
+						"bg-white",
+						"shadow-lg",
+						"focus:outline-hidden",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 				item: what.css([
 					"focus:outline-hidden",
 					"py-2",
@@ -73,12 +81,16 @@ export const SelectCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
-						"cursor-not-allowed",
-						"hover:shadow-none",
-						"focus:border-slate-300",
-						"opacity-50",
-					]),
+					base: what.both(
+						[
+							"cursor-not-allowed",
+							"hover:shadow-none",
+							"opacity-50",
+						],
+						[
+							"tone.neutral.light.border",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -86,8 +98,8 @@ export const SelectCls = PicoCls.extend(
 					selected: true,
 				}),
 				{
-					item: what.css([
-						"bg-slate-100",
+					item: what.token([
+						"tone.neutral.light.bg",
 					]),
 				},
 			),
@@ -96,8 +108,8 @@ export const SelectCls = PicoCls.extend(
 					active: true,
 				}),
 				{
-					item: what.css([
-						"bg-slate-200",
+					item: what.token([
+						"tone.neutral.light.bg:hover",
 					]),
 				},
 			),

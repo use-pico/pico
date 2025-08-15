@@ -17,21 +17,25 @@ export const LoadingOverlayCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				root: what.css([
-					"fixed",
-					"inset-0",
-					"h-full",
-					"items-center",
-					"justify-center",
-					"bg-slate-100",
-					"flex",
-					"transition-all",
-					"duration-200",
-					"z-10",
-					"pointer-events-none",
-					"bg-opacity-0",
-					"backdrop-blur-none",
-				]),
+				root: what.both(
+					[
+						"fixed",
+						"inset-0",
+						"h-full",
+						"items-center",
+						"justify-center",
+						"flex",
+						"transition-all",
+						"duration-200",
+						"z-10",
+						"pointer-events-none",
+						"bg-opacity-0",
+						"backdrop-blur-none",
+					],
+					[
+						"tone.neutral.light.bg",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

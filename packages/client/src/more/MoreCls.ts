@@ -23,14 +23,18 @@ export const MoreCls = PicoCls.extend(
 					"text-sm",
 					"font-semibold",
 				]),
-				item: what.css([
-					"border",
-					"border-blue-200",
-					"bg-blue-50",
-					"rounded-md",
-					"px-2",
-					"py-1",
-				]),
+				item: what.both(
+					[
+						"border",
+						"rounded-md",
+						"px-2",
+						"py-1",
+					],
+					[
+						"tone.neutral.light.border",
+						"tone.neutral.light.bg",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),

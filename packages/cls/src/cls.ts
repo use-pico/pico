@@ -296,34 +296,7 @@ export function cls<
 							acc = applyWhat(acc, what, localTokens);
 						}
 
-						// Apply overrides
-						if (
-							config.slot?.[slotName as keyof typeof config.slot]
-						) {
-							acc = applyWhat(
-								acc,
-								config.slot[
-									slotName as keyof typeof config.slot
-								],
-								localTokens,
-							);
-						}
-
-						if (
-							config.override?.[
-								slotName as keyof typeof config.override
-							]
-						) {
-							acc = [];
-							acc = applyWhat(
-								acc,
-								config.override[
-									slotName as keyof typeof config.override
-								],
-								localTokens,
-							);
-						}
-
+						// Apply slot configurations (append to rules)
 						if (
 							localConfig?.slot?.[
 								slotName as keyof typeof localConfig.slot
@@ -339,6 +312,19 @@ export function cls<
 						}
 
 						if (
+							config.slot?.[slotName as keyof typeof config.slot]
+						) {
+							acc = applyWhat(
+								acc,
+								config.slot[
+									slotName as keyof typeof config.slot
+								],
+								localTokens,
+							);
+						}
+
+						// Apply overrides (clear and replace)
+						if (
 							localConfig?.override?.[
 								slotName as keyof typeof localConfig.override
 							]
@@ -348,6 +334,21 @@ export function cls<
 								acc,
 								localConfig.override[
 									slotName as keyof typeof localConfig.override
+								],
+								localTokens,
+							);
+						}
+
+						if (
+							config.override?.[
+								slotName as keyof typeof config.override
+							]
+						) {
+							acc = [];
+							acc = applyWhat(
+								acc,
+								config.override[
+									slotName as keyof typeof config.override
 								],
 								localTokens,
 							);

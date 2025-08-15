@@ -25,15 +25,19 @@ export const TitlePreviewCls = PicoCls.extend(
 					"gap-2",
 					"items-center",
 				]),
-				title: what.css([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"text-lg",
-					"text-slate-500",
-					"font-bold",
-				]),
+				title: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"text-lg",
+						"font-bold",
+					],
+					[
+						"tone.neutral.light.text",
+					],
+				),
 				subtitle: what.css([
 					"flex",
 					"flex-row",
@@ -47,11 +51,15 @@ export const TitlePreviewCls = PicoCls.extend(
 					withSubtitle: true,
 				}),
 				{
-					title: what.css([
-						"border-r",
-						"border-r-slate-300",
-						"pr-2",
-					]),
+					title: what.both(
+						[
+							"border-r",
+							"pr-2",
+						],
+						[
+							"tone.neutral.light.border",
+						],
+					),
 				},
 			),
 		],

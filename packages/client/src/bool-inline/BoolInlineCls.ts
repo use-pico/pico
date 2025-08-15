@@ -19,8 +19,8 @@ export const BoolInlineCls = IconCls.extend(
 					value: true,
 				}),
 				{
-					root: what.css([
-						"text-green-600",
+					root: what.token([
+						"tone.secondary.light.text",
 					]),
 				},
 			),
@@ -29,8 +29,8 @@ export const BoolInlineCls = IconCls.extend(
 					value: false,
 				}),
 				{
-					root: what.css([
-						"text-amber-600",
+					root: what.token([
+						"tone.warning.light.text",
 					]),
 				},
 			),

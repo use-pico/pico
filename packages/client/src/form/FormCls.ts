@@ -20,16 +20,20 @@ export const FormCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"border",
-					"border-gray-300",
-					"rounded-md",
-					"p-4",
-					"flex",
-					"flex-col",
-					"gap-2",
-					"items-center",
-				]),
+				base: what.both(
+					[
+						"border",
+						"rounded-md",
+						"p-4",
+						"flex",
+						"flex-col",
+						"gap-2",
+						"items-center",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 				fieldset: what.css([
 					"flex",
 					"flex-col",
@@ -37,29 +41,37 @@ export const FormCls = PicoCls.extend(
 					"w-full",
 					"p-4",
 				]),
-				legend: what.css([
-					"font-bold",
-					"text-lg",
-					"p-1",
-					"border-b",
-					"border-slate-400",
-					"w-full",
-				]),
-				input: what.css([
-					"w-full",
-					"border",
-					"border-gray-300",
-					"rounded-md",
-					"p-2",
-					"focus:outline-hidden",
-					"focus:ring-2",
-					"focus:ring-blue-500",
-					"focus:border-transparent",
-					"hover:scale-105",
-					"active:scale-105",
-					"transition-all",
-					"duration-100",
-				]),
+				legend: what.both(
+					[
+						"font-bold",
+						"text-lg",
+						"p-1",
+						"border-b",
+						"w-full",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
+				input: what.both(
+					[
+						"w-full",
+						"border",
+						"rounded-md",
+						"p-2",
+						"focus:outline-hidden",
+						"focus:ring-2",
+						"focus:ring-blue-500",
+						"focus:border-transparent",
+						"hover:scale-105",
+						"active:scale-105",
+						"transition-all",
+						"duration-100",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

@@ -29,12 +29,16 @@ export const StatusCls = PicoCls.extend(
 					"w-full",
 					"text-center",
 				]),
-				message: what.css([
-					"text-base",
-					"text-slate-500",
-					"w-full",
-					"text-center",
-				]),
+				message: what.both(
+					[
+						"text-base",
+						"w-full",
+						"text-center",
+					],
+					[
+						"tone.neutral.light.text",
+					],
+				),
 				body: what.css([
 					"pt-2",
 					"w-full",

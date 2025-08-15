@@ -17,29 +17,36 @@ export const ButtonLinkCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"px-4",
-					"py-2",
-					"rounded-md",
-					"text-md",
-					"text-blue-400",
-					"hover:text-blue-600",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"px-4",
+						"py-2",
+						"rounded-md",
+						"text-md",
+					],
+					[
+						"tone.neutral.light.text",
+						"tone.neutral.light.text:hover",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
 					disabled: true,
 				}),
 				{
-					base: what.css([
-						"cursor-not-allowed",
-						"text-slate-400",
-						"hover:text-slate-400",
-					]),
+					base: what.both(
+						[
+							"cursor-not-allowed",
+						],
+						[
+							"tone.neutral.light.text",
+						],
+					),
 				},
 			),
 		],

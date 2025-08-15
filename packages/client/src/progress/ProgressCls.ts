@@ -37,12 +37,11 @@ export const ProgressCls = PicoCls.extend(
 					[
 						"h-full",
 						"w-full",
-						"bg-slate-200",
 						"rounded-sm",
 						"transition-all",
 					],
 					[
-						"tone.subtle.light.bg",
+						"tone.neutral.light.bg",
 						"shadow.sm",
 					],
 				),

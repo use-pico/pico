@@ -20,25 +20,33 @@ export const AppLayoutCls = PicoCls.extend(
 					"flex",
 					"flex-col",
 				]),
-				header: what.css([
-					"flex",
-					"flex-row",
-					"items-center",
-					"bg-slate-50",
-					"shadow-xs",
-					"border-b",
-					"border-b-slate-200",
-					"w-full",
-					"gap-4",
-					"p-4",
-				]),
-				content: what.css([
-					"grow",
-					"h-full",
-					"border-b",
-					"border-b-slate-200",
-					"p-2",
-				]),
+				header: what.both(
+					[
+						"flex",
+						"flex-row",
+						"items-center",
+						"shadow-xs",
+						"border-b",
+						"w-full",
+						"gap-4",
+						"p-4",
+					],
+					[
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border",
+					],
+				),
+				content: what.both(
+					[
+						"grow",
+						"h-full",
+						"border-b",
+						"p-2",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),
@@ -48,5 +56,5 @@ export const AppLayoutCls = PicoCls.extend(
 export type AppLayoutCls = typeof AppLayoutCls;
 
 export namespace AppLayoutCls {
-	export type Props<P = unknown> = Component<typeof AppLayoutCls, P>;
+	export type Props<P = unknown> = Component<AppLayoutCls, P>;
 }

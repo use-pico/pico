@@ -17,15 +17,19 @@ export const CardCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-col",
-					"gap-4",
-					"border",
-					"border-slate-100",
-					"p-4",
-					"rounded-lg",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-col",
+						"gap-4",
+						"border",
+						"p-4",
+						"rounded-lg",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

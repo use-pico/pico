@@ -22,24 +22,32 @@ export const ValueOfCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"pico--value-of",
-					"border",
-					"border-(--color-border)",
-					"px-2",
-					"py-1",
-					"rounded-md",
-					"group",
-				]),
-				label: what.css([
-					"text-sm",
-					"font-semibold",
-					"text-(--label-color-text)",
-					"border-b",
-					"border-(--label-color-border)",
-					"group-hover:border-(--label-color-hover-border)",
-					"mb-2",
-				]),
+				base: what.both(
+					[
+						"pico--value-of",
+						"border",
+						"px-2",
+						"py-1",
+						"rounded-md",
+						"group",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
+				label: what.both(
+					[
+						"text-sm",
+						"font-semibold",
+						"border-b",
+						"mb-2",
+					],
+					[
+						"tone.neutral.light.text",
+						"tone.neutral.light.border",
+						"tone.neutral.light.border:group-hover",
+					],
+				),
 				value: what.css([]),
 			}),
 			def.rule(
@@ -54,17 +62,25 @@ export const ValueOfCls = PicoCls.extend(
 						"items-center",
 						"gap-2",
 					]),
-					label: what.css([
-						"mb-0",
-						"font-light",
-						"text-md",
-						"text-(--inline-label-color-text)",
-						"border-none",
-					]),
-					value: what.css([
-						"text-md",
-						"text-(--inline-value-color-text)",
-					]),
+					label: what.both(
+						[
+							"mb-0",
+							"font-light",
+							"text-md",
+							"border-none",
+						],
+						[
+							"tone.neutral.light.text",
+						],
+					),
+					value: what.both(
+						[
+							"text-md",
+						],
+						[
+							"tone.neutral.light.text:hover",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -72,11 +88,14 @@ export const ValueOfCls = PicoCls.extend(
 					withBackground: true,
 				}),
 				{
-					base: what.css([
-						"bg-(--color-bg)",
-						"hover:bg-(--color-hover-bg)",
-						"hover:border-(--color-hover-border)",
-					]),
+					base: what.both(
+						[],
+						[
+							"tone.neutral.light.bg",
+							"tone.neutral.light.bg:hover",
+							"tone.neutral.light.border:hover",
+						],
+					),
 				},
 			),
 		],
@@ -90,5 +109,5 @@ export const ValueOfCls = PicoCls.extend(
 export type ValueOfCls = typeof ValueOfCls;
 
 export namespace ValueOfCls {
-	export type Props<P = unknown> = Component<typeof ValueOfCls, P>;
+	export type Props<P = unknown> = Component<ValueOfCls, P>;
 }

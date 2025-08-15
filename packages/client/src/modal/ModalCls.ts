@@ -24,13 +24,13 @@ export const ModalCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"bg-slate-400/75",
 						"backdrop-blur-xs",
 						"flex",
 						"justify-center",
 						"py-12",
 					],
 					[
+						"tone.neutral.light.bg",
 						"focus.off",
 					],
 				),

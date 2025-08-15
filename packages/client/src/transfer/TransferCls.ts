@@ -23,33 +23,41 @@ export const TransferCls = PicoCls.extend(
 					"gap-2",
 					"select-none",
 				]),
-				panel: what.css([
-					"grow",
-					"border",
-					"border-slate-200",
-					"rounded",
-					"p-4",
-				]),
+				panel: what.both(
+					[
+						"grow",
+						"border",
+						"rounded",
+						"p-4",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 				group: what.css([
 					"transition-none",
 				]),
 				header: what.css([
 					"font-bold",
 				]),
-				item: what.css([
-					"flex",
-					"flex-row",
-					"items-center",
-					"justify-between",
-					"p-2",
-					"rounded",
-					"border-b",
-					"border-transparent",
-					"hover:border-slate-300",
-					"hover:bg-slate-100",
-					"cursor-pointer",
-					"group",
-				]),
+				item: what.both(
+					[
+						"flex",
+						"flex-row",
+						"items-center",
+						"justify-between",
+						"p-2",
+						"rounded",
+						"border-b",
+						"border-transparent",
+						"cursor-pointer",
+						"group",
+					],
+					[
+						"tone.neutral.light.border:hover",
+						"tone.neutral.light.bg:hover",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),
@@ -59,5 +67,5 @@ export const TransferCls = PicoCls.extend(
 export type TransferCls = typeof TransferCls;
 
 export namespace TransferCls {
-	export type Props<P = unknown> = Component<typeof TransferCls, P>;
+	export type Props<P = unknown> = Component<TransferCls, P>;
 }

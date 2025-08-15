@@ -17,35 +17,42 @@ export const TabCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-row",
-					"items-center",
-					"gap-1",
-					"cursor-pointer",
-					"text-slate-600",
-					"border-sky-400",
-					"border",
-					"border-b-2",
-					"border-transparent",
-					"hover:border-b-sky-400",
-					"py-1",
-					"px-2",
-					"rounded",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-row",
+						"items-center",
+						"gap-1",
+						"cursor-pointer",
+						"border",
+						"border-b-2",
+						"border-transparent",
+						"py-1",
+						"px-2",
+						"rounded",
+					],
+					[
+						"tone.neutral.light.text",
+						"tone.neutral.light.border:hover",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
 					active: true,
 				}),
 				{
-					base: what.css([
-						"cursor-default",
-						"font-semibold",
-						"text-slate-800",
-						"border-sky-400",
-						"bg-sky-50",
-					]),
+					base: what.both(
+						[
+							"cursor-default",
+							"font-semibold",
+						],
+						[
+							"tone.neutral.light.text:hover",
+							"tone.neutral.light.border",
+							"tone.neutral.light.bg",
+						],
+					),
 				},
 			),
 		],

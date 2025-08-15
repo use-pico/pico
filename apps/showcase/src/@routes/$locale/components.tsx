@@ -41,24 +41,14 @@ export const Route = createFileRoute("/$locale/components")({
 						<Tx label={"@use-pico - Components"} />
 					</h1>
 
-					<Menu
-						cls={({ what }) => ({
-							variant: what.variant({
-								vertical: true,
-							}),
-						})}
-					>
+					<Menu vertical>
 						<MenuLink
 							icon={"icon-[bx--color-fill]"}
 							to={"/$locale/components/colors"}
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Colors"} />
 						</MenuLink>
@@ -69,11 +59,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Action menu"} />
 						</MenuLink>
@@ -84,11 +70,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Alert"} />
 						</MenuLink>
@@ -101,11 +83,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Action"} />
 						</MenuLink>
@@ -116,11 +94,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Badge"} />
 						</MenuLink>
@@ -131,11 +105,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Buttons"} />
 						</MenuLink>
@@ -146,13 +116,53 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Table"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[icon-park-twotone--id-card]"}
+							to={"/$locale/components/card"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Card"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[oui--kql-value]"}
+							to={"/$locale/components/value-of"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"ValueOf"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[gridicons--status]"}
+							to={"/$locale/components/status"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Status"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[mdi-light--star]"}
+							to={"/$locale/components/icon"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Icon"} />
 						</MenuLink>
 
 						<MenuLink
@@ -161,11 +171,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Progress"} />
 						</MenuLink>
@@ -176,11 +182,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Popup Select"} />
 						</MenuLink>
@@ -193,11 +195,7 @@ export const Route = createFileRoute("/$locale/components")({
 							params={{
 								locale,
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Issues"} />
 						</MenuLink>
@@ -209,11 +207,7 @@ export const Route = createFileRoute("/$locale/components")({
 								locale,
 								selected: "colors",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
+							vertical
 						>
 							<Tx label={"Menu"} />
 						</MenuLink>

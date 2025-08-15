@@ -30,42 +30,56 @@ export const JustDropZoneCls = PicoCls.extend(
 					"justify-center",
 					"w-full",
 				]),
-				label: what.css([
-					"flex",
-					"flex-col",
-					"items-center",
-					"justify-center",
-					"w-full",
-					"h-64",
-					"border-2",
-					"border-gray-300",
-					"border-dashed",
-					"rounded-lg",
-					"cursor-pointer",
-					"bg-gray-50",
-					"hover:bg-gray-100",
-				]),
-				zone: what.css([
-					"flex",
-					"flex-col",
-					"items-center",
-					"justify-center",
-					"pt-5",
-					"pb-6",
-					"text-slate-500",
-				]),
+				label: what.both(
+					[
+						"flex",
+						"flex-col",
+						"items-center",
+						"justify-center",
+						"w-full",
+						"h-64",
+						"border-2",
+						"border-dashed",
+						"rounded-lg",
+						"cursor-pointer",
+					],
+					[
+						"tone.neutral.light.border",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.bg:hover",
+					],
+				),
+				zone: what.both(
+					[
+						"flex",
+						"flex-col",
+						"items-center",
+						"justify-center",
+						"pt-5",
+						"pb-6",
+					],
+					[
+						"tone.neutral.light.text",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({
 					active: true,
 				}),
 				{
-					label: what.css([
-						"text-blue-400",
-					]),
-					zone: what.css([
-						"text-blue-400",
-					]),
+					label: what.both(
+						[],
+						[
+							"tone.primary.light.text",
+						],
+					),
+					zone: what.both(
+						[],
+						[
+							"tone.primary.light.text",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -73,12 +87,18 @@ export const JustDropZoneCls = PicoCls.extend(
 					rejected: true,
 				}),
 				{
-					label: what.css([
-						"text-red-400",
-					]),
-					zone: what.css([
-						"text-red-400",
-					]),
+					label: what.both(
+						[],
+						[
+							"tone.danger.light.text",
+						],
+					),
+					zone: what.both(
+						[],
+						[
+							"tone.danger.light.text",
+						],
+					),
 				},
 			),
 		],

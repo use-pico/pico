@@ -20,11 +20,15 @@ export const DeleteControlCls = PicoCls.extend(
 					"flex-col",
 					"gap-4",
 				]),
-				content: what.css([
-					"text-bold",
-					"text-red-500",
-					"font-bold",
-				]),
+				content: what.both(
+					[
+						"text-bold",
+						"font-bold",
+					],
+					[
+						"tone.danger.light.text",
+					],
+				),
 				footer: what.css([
 					"flex",
 					"flex-row",

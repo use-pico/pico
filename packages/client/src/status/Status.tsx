@@ -6,7 +6,7 @@ export namespace Status {
 	export interface Props extends StatusCls.Props<PropsWithChildren> {
 		textTitle: ReactNode;
 		textMessage: ReactNode;
-		icon?: Icon.Props["icon"];
+		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 	}
 }

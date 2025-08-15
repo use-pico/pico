@@ -15,6 +15,7 @@ interface Item
 	icon?: string | ReactNode;
 	match?: UseMatchRouteOptions[];
 	inner?: boolean;
+	vertical?: boolean;
 }
 
 const Item = forwardRef<HTMLAnchorElement, Item>(
@@ -22,6 +23,7 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		{
 			icon = null,
 			inner = false,
+			vertical = false,
 			tva = MenuLinkCls,
 			cls,
 			children,
@@ -32,6 +34,7 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 		const slots = useCls(tva, cls, ({ what }) => ({
 			variant: what.variant({
 				inner,
+				vertical,
 			}),
 		}));
 
