@@ -6,10 +6,8 @@ export const BoolInputCls = PicoCls.extend(
 		tokens: [
 			// Switch-specific tokens
 			"switch.track",
-			"switch.track:checked",
 			"switch.track:disabled",
 			"switch.thumb",
-			"switch.thumb:checked",
 			"switch.thumb:disabled",
 			"switch.input",
 			// Layout tokens
@@ -66,10 +64,7 @@ export const BoolInputCls = PicoCls.extend(
 				"border",
 				"border-gray-300",
 			]),
-			"switch.track:checked": what.css([
-				"bg-indigo-600",
-				"border-indigo-600",
-			]),
+
 			"switch.track:disabled": what.css([
 				"opacity-50",
 				"cursor-not-allowed",
@@ -86,10 +81,7 @@ export const BoolInputCls = PicoCls.extend(
 				"duration-200",
 				"ease-in-out",
 			]),
-			"switch.thumb:checked": what.css([
-				"transform",
-				"translate-x-full",
-			]),
+
 			"switch.thumb:disabled": what.css([
 				"opacity-50",
 			]),
