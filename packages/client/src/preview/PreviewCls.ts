@@ -11,6 +11,7 @@ export const PreviewCls = PicoCls.extend(
 			"links",
 			"actions",
 			"extra",
+			"divider",
 		],
 		variant: {},
 	},
@@ -64,6 +65,15 @@ export const PreviewCls = PicoCls.extend(
 					"gap-4",
 					"justify-end",
 				]),
+				divider: what.both(
+					[
+						"w-full",
+						"border-b",
+					],
+					[
+						"tone.neutral.light.border",
+					],
+				),
 			}),
 		],
 		defaults: def.defaults({}),
