@@ -25,9 +25,13 @@ import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/co
 import { Route as LocaleComponentsIconRouteImport } from './@routes/$locale/components/icon'
 import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/components/form'
 import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
+import { Route as LocaleComponentsDateInlineRouteImport } from './@routes/$locale/components/date-inline'
+import { Route as LocaleComponentsCursorRouteImport } from './@routes/$locale/components/cursor'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
 import { Route as LocaleComponentsCardRouteImport } from './@routes/$locale/components/card'
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
+import { Route as LocaleComponentsBoolInputRouteImport } from './@routes/$locale/components/bool-input'
+import { Route as LocaleComponentsBoolInlineRouteImport } from './@routes/$locale/components/bool-inline'
 import { Route as LocaleComponentsBadgeRouteImport } from './@routes/$locale/components/badge'
 import { Route as LocaleComponentsAlertRouteImport } from './@routes/$locale/components/alert'
 import { Route as LocaleComponentsActionMenuRouteImport } from './@routes/$locale/components/action-menu'
@@ -117,6 +121,17 @@ const LocaleComponentsDetailRoute = LocaleComponentsDetailRouteImport.update({
   path: '/detail',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsDateInlineRoute =
+  LocaleComponentsDateInlineRouteImport.update({
+    id: '/date-inline',
+    path: '/date-inline',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsCursorRoute = LocaleComponentsCursorRouteImport.update({
+  id: '/cursor',
+  path: '/cursor',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsColorsRoute = LocaleComponentsColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
@@ -132,6 +147,18 @@ const LocaleComponentsButtonRoute = LocaleComponentsButtonRouteImport.update({
   path: '/button',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsBoolInputRoute =
+  LocaleComponentsBoolInputRouteImport.update({
+    id: '/bool-input',
+    path: '/bool-input',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsBoolInlineRoute =
+  LocaleComponentsBoolInlineRouteImport.update({
+    id: '/bool-inline',
+    path: '/bool-inline',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsBadgeRoute = LocaleComponentsBadgeRouteImport.update({
   id: '/badge',
   path: '/badge',
@@ -169,9 +196,13 @@ export interface FileRoutesByFullPath {
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
+  '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
+  '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
@@ -193,9 +224,13 @@ export interface FileRoutesByTo {
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
+  '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
+  '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
@@ -220,9 +255,13 @@ export interface FileRoutesById {
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
+  '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
+  '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
@@ -248,9 +287,13 @@ export interface FileRouteTypes {
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
+    | '/$locale/components/bool-inline'
+    | '/$locale/components/bool-input'
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/cursor'
+    | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
@@ -272,9 +315,13 @@ export interface FileRouteTypes {
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
+    | '/$locale/components/bool-inline'
+    | '/$locale/components/bool-input'
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/cursor'
+    | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
@@ -298,9 +345,13 @@ export interface FileRouteTypes {
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
     | '/$locale/components/badge'
+    | '/$locale/components/bool-inline'
+    | '/$locale/components/bool-input'
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/cursor'
+    | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
@@ -435,6 +486,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsDetailRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/date-inline': {
+      id: '/$locale/components/date-inline'
+      path: '/date-inline'
+      fullPath: '/$locale/components/date-inline'
+      preLoaderRoute: typeof LocaleComponentsDateInlineRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/cursor': {
+      id: '/$locale/components/cursor'
+      path: '/cursor'
+      fullPath: '/$locale/components/cursor'
+      preLoaderRoute: typeof LocaleComponentsCursorRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/colors': {
       id: '/$locale/components/colors'
       path: '/colors'
@@ -454,6 +519,20 @@ declare module '@tanstack/react-router' {
       path: '/button'
       fullPath: '/$locale/components/button'
       preLoaderRoute: typeof LocaleComponentsButtonRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/bool-input': {
+      id: '/$locale/components/bool-input'
+      path: '/bool-input'
+      fullPath: '/$locale/components/bool-input'
+      preLoaderRoute: typeof LocaleComponentsBoolInputRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/bool-inline': {
+      id: '/$locale/components/bool-inline'
+      path: '/bool-inline'
+      fullPath: '/$locale/components/bool-inline'
+      preLoaderRoute: typeof LocaleComponentsBoolInlineRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/badge': {
@@ -499,9 +578,13 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsActionMenuRoute: typeof LocaleComponentsActionMenuRoute
   LocaleComponentsAlertRoute: typeof LocaleComponentsAlertRoute
   LocaleComponentsBadgeRoute: typeof LocaleComponentsBadgeRoute
+  LocaleComponentsBoolInlineRoute: typeof LocaleComponentsBoolInlineRoute
+  LocaleComponentsBoolInputRoute: typeof LocaleComponentsBoolInputRoute
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsCardRoute: typeof LocaleComponentsCardRoute
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
+  LocaleComponentsCursorRoute: typeof LocaleComponentsCursorRoute
+  LocaleComponentsDateInlineRoute: typeof LocaleComponentsDateInlineRoute
   LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
   LocaleComponentsFormRoute: typeof LocaleComponentsFormRoute
   LocaleComponentsIconRoute: typeof LocaleComponentsIconRoute
@@ -522,9 +605,13 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsActionMenuRoute: LocaleComponentsActionMenuRoute,
   LocaleComponentsAlertRoute: LocaleComponentsAlertRoute,
   LocaleComponentsBadgeRoute: LocaleComponentsBadgeRoute,
+  LocaleComponentsBoolInlineRoute: LocaleComponentsBoolInlineRoute,
+  LocaleComponentsBoolInputRoute: LocaleComponentsBoolInputRoute,
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsCardRoute: LocaleComponentsCardRoute,
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
+  LocaleComponentsCursorRoute: LocaleComponentsCursorRoute,
+  LocaleComponentsDateInlineRoute: LocaleComponentsDateInlineRoute,
   LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
   LocaleComponentsFormRoute: LocaleComponentsFormRoute,
   LocaleComponentsIconRoute: LocaleComponentsIconRoute,

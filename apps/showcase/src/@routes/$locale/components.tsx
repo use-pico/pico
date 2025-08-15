@@ -208,6 +208,50 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[ph--check-square]"}
+							to={"/$locale/components/bool-inline"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Bool Inline"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[fluent--checkbox-checked-20-regular]"}
+							to={"/$locale/components/bool-input"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Bool Input"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[ph--cursor-text]"}
+							to={"/$locale/components/cursor"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Cursor"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[ph--calendar]"}
+							to={"/$locale/components/date-inline"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Date Inline"} />
+						</MenuLink>
+
+						<MenuLink
 							icon={"icon-[ph--chart-line]"}
 							to={"/$locale/components/progress"}
 							params={{
