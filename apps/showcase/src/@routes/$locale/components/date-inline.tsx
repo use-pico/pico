@@ -23,169 +23,41 @@ export const Route = createFileRoute("/$locale/components/date-inline")({
 				<Section title={<Tx label={"Basic Usage"} />}>
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Current Date"} />}>
-							<DateInline value={now} />
+							<DateInline date={now} />
 						</Column>
 						<Column label={<Tx label={"Past Date"} />}>
-							<DateInline value={yesterday} />
+							<DateInline date={yesterday} />
 						</Column>
 					</div>
 				</Section>
 
-				{/* Different Formats */}
-				<Section title={<Tx label={"Different Formats"} />}>
+				{/* Different Dates */}
+				<Section title={<Tx label={"Different Dates"} />}>
 					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Short Format"} />}>
+						<Column label={<Tx label={"Various Dates"} />}>
 							<div className="space-y-2">
-								<DateInline
-									value={now}
-									format="short"
-								/>
-								<DateInline
-									value={yesterday}
-									format="short"
-								/>
-								<DateInline
-									value={lastWeek}
-									format="short"
-								/>
+								<DateInline date={now} />
+								<DateInline date={yesterday} />
+								<DateInline date={lastWeek} />
+								<DateInline date={lastMonth} />
+								<DateInline date={futureDate} />
 							</div>
 						</Column>
-						<Column label={<Tx label={"Long Format"} />}>
+						<Column label={<Tx label={"With Fallback"} />}>
 							<div className="space-y-2">
 								<DateInline
-									value={now}
-									format="long"
+									date={undefined}
+									fallback={now}
 								/>
 								<DateInline
-									value={yesterday}
-									format="long"
+									date={null}
+									fallback={yesterday}
 								/>
 								<DateInline
-									value={lastWeek}
-									format="long"
+									date={undefined}
+									fallback={lastWeek}
 								/>
 							</div>
-						</Column>
-					</div>
-				</Section>
-
-				{/* Relative Dates */}
-				<Section title={<Tx label={"Relative Dates"} />}>
-					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Recent Dates"} />}>
-							<div className="space-y-2">
-								<div className="flex items-center gap-2">
-									<span className="text-sm">Now:</span>
-									<DateInline
-										value={now}
-										relative
-									/>
-								</div>
-								<div className="flex items-center gap-2">
-									<span className="text-sm">Yesterday:</span>
-									<DateInline
-										value={yesterday}
-										relative
-									/>
-								</div>
-								<div className="flex items-center gap-2">
-									<span className="text-sm">Last week:</span>
-									<DateInline
-										value={lastWeek}
-										relative
-									/>
-								</div>
-							</div>
-						</Column>
-						<Column label={<Tx label={"Future Dates"} />}>
-							<div className="space-y-2">
-								<div className="flex items-center gap-2">
-									<span className="text-sm">Next week:</span>
-									<DateInline
-										value={futureDate}
-										relative
-									/>
-								</div>
-								<div className="flex items-center gap-2">
-									<span className="text-sm">Last month:</span>
-									<DateInline
-										value={lastMonth}
-										relative
-									/>
-								</div>
-							</div>
-						</Column>
-					</div>
-				</Section>
-
-				{/* Different Sizes */}
-				<Section title={<Tx label={"Different Sizes"} />}>
-					<div className="grid grid-cols-3 gap-6">
-						<Column label={<Tx label={"Small Size"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										size: "sm",
-									}),
-								})}
-							/>
-						</Column>
-						<Column label={<Tx label={"Medium Size"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										size: "md",
-									}),
-								})}
-							/>
-						</Column>
-						<Column label={<Tx label={"Large Size"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										size: "lg",
-									}),
-								})}
-							/>
-						</Column>
-					</div>
-				</Section>
-
-				{/* Different Tones */}
-				<Section title={<Tx label={"Different Tones"} />}>
-					<div className="grid grid-cols-3 gap-6">
-						<Column label={<Tx label={"Primary Tone"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "primary",
-									}),
-								})}
-							/>
-						</Column>
-						<Column label={<Tx label={"Secondary Tone"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "secondary",
-									}),
-								})}
-							/>
-						</Column>
-						<Column label={<Tx label={"Neutral Tone"} />}>
-							<DateInline
-								value={now}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone: "neutral",
-									}),
-								})}
-							/>
 						</Column>
 					</div>
 				</Section>
@@ -197,28 +69,19 @@ export const Route = createFileRoute("/$locale/components/date-inline")({
 							<div className="space-y-3">
 								<div className="flex items-center justify-between">
 									<span className="text-sm">Last login:</span>
-									<DateInline
-										value={yesterday}
-										relative
-									/>
+									<DateInline date={yesterday} />
 								</div>
 								<div className="flex items-center justify-between">
 									<span className="text-sm">
 										Account created:
 									</span>
-									<DateInline
-										value={lastMonth}
-										format="long"
-									/>
+									<DateInline date={lastMonth} />
 								</div>
 								<div className="flex items-center justify-between">
 									<span className="text-sm">
 										Last update:
 									</span>
-									<DateInline
-										value={now}
-										relative
-									/>
+									<DateInline date={now} />
 								</div>
 							</div>
 						</Column>
@@ -226,24 +89,15 @@ export const Route = createFileRoute("/$locale/components/date-inline")({
 							<div className="space-y-3">
 								<div className="flex items-center justify-between">
 									<span className="text-sm">Created:</span>
-									<DateInline
-										value={lastWeek}
-										format="short"
-									/>
+									<DateInline date={lastWeek} />
 								</div>
 								<div className="flex items-center justify-between">
 									<span className="text-sm">Modified:</span>
-									<DateInline
-										value={yesterday}
-										relative
-									/>
+									<DateInline date={yesterday} />
 								</div>
 								<div className="flex items-center justify-between">
 									<span className="text-sm">Due date:</span>
-									<DateInline
-										value={futureDate}
-										format="long"
-									/>
+									<DateInline date={futureDate} />
 								</div>
 							</div>
 						</Column>
