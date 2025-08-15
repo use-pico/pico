@@ -23,17 +23,11 @@ export const DetailCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
-					[
-						"flex",
-						"flex-col",
-						"gap-4",
-					],
-					[
-						"tone.neutral.light.shadow",
-						"shadow.sm",
-					],
-				),
+				base: what.css([
+					"flex",
+					"flex-col",
+					"gap-4",
+				]),
 				section: what.both(
 					[
 						"flex",
@@ -44,7 +38,6 @@ export const DetailCls = PicoCls.extend(
 					],
 					[
 						"tone.neutral.light.border",
-						"tone.neutral.light.bg",
 						"round.sm",
 					],
 				),
@@ -55,12 +48,17 @@ export const DetailCls = PicoCls.extend(
 					"items-center",
 					"px-2",
 				]),
-				item: what.css([
-					"flex",
-					"flex-row",
-					"gap-4",
-					"items-center",
-				]),
+				item: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-4",
+						"items-center",
+					],
+					[
+						"tone.danger.dark.shadow",
+					],
+				),
 				value: what.both(
 					[
 						"flex-1",
@@ -90,9 +88,15 @@ export const DetailCls = PicoCls.extend(
 						"rounded-sm",
 						"px-2",
 						"py-1",
+						"transition-all",
+						"duration-300",
+						"hover:scale-105",
 					],
 					[
-						"tone.neutral.light.bg:hover",
+						"tone.subtle.light.bg:hover",
+						"tone.subtle.light.shadow",
+						"tone.subtle.light.shadow:hover",
+						"shadow.md",
 					],
 				),
 			}),
