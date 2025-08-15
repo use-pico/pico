@@ -18,17 +18,20 @@ export const PreviewCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"pico--preview",
-					"flex",
-					"flex-col",
-					"gap-2",
-					"bg-(--color-bg)",
-					"p-2",
-					"rounded-md",
-					"border",
-					"border-(--color-border)",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-col",
+						"gap-2",
+						"p-2",
+						"border",
+					],
+					[
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border",
+						"round.md",
+					],
+				),
 				container: what.css([
 					"flex",
 					"flex-row",
