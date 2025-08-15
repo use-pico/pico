@@ -220,6 +220,17 @@ export const Route = createFileRoute("/$locale/components")({
 							</MenuLink>
 
 							<MenuLink
+								icon={"icon-[ph--clipboard-text]"}
+								to={"/$locale/components/complex-form"}
+								params={{
+									locale,
+								}}
+								vertical
+							>
+								<Tx label={"Complex Form"} />
+							</MenuLink>
+
+							<MenuLink
 								icon={"icon-[ph--check-square]"}
 								to={"/$locale/components/bool-inline"}
 								params={{

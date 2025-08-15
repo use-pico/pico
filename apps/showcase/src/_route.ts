@@ -27,6 +27,7 @@ import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/comp
 import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
 import { Route as LocaleComponentsDateInlineRouteImport } from './@routes/$locale/components/date-inline'
 import { Route as LocaleComponentsCursorRouteImport } from './@routes/$locale/components/cursor'
+import { Route as LocaleComponentsComplexFormRouteImport } from './@routes/$locale/components/complex-form'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
 import { Route as LocaleComponentsCardRouteImport } from './@routes/$locale/components/card'
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
@@ -132,6 +133,12 @@ const LocaleComponentsCursorRoute = LocaleComponentsCursorRouteImport.update({
   path: '/cursor',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsComplexFormRoute =
+  LocaleComponentsComplexFormRouteImport.update({
+    id: '/complex-form',
+    path: '/complex-form',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsColorsRoute = LocaleComponentsColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
@@ -201,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
@@ -229,6 +237,7 @@ export interface FileRoutesByTo {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
@@ -260,6 +269,7 @@ export interface FileRoutesById {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
@@ -320,6 +331,7 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
@@ -350,6 +362,7 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
@@ -500,6 +513,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsCursorRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/complex-form': {
+      id: '/$locale/components/complex-form'
+      path: '/complex-form'
+      fullPath: '/$locale/components/complex-form'
+      preLoaderRoute: typeof LocaleComponentsComplexFormRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/colors': {
       id: '/$locale/components/colors'
       path: '/colors'
@@ -583,6 +603,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsCardRoute: typeof LocaleComponentsCardRoute
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
+  LocaleComponentsComplexFormRoute: typeof LocaleComponentsComplexFormRoute
   LocaleComponentsCursorRoute: typeof LocaleComponentsCursorRoute
   LocaleComponentsDateInlineRoute: typeof LocaleComponentsDateInlineRoute
   LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
@@ -610,6 +631,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsCardRoute: LocaleComponentsCardRoute,
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
+  LocaleComponentsComplexFormRoute: LocaleComponentsComplexFormRoute,
   LocaleComponentsCursorRoute: LocaleComponentsCursorRoute,
   LocaleComponentsDateInlineRoute: LocaleComponentsDateInlineRoute,
   LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
