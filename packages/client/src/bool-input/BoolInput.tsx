@@ -19,22 +19,12 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	cls,
 	...props
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
+			disabled: props.disabled,
+			value: value ?? false,
+		}),
+	}));
 
-	return (
-		<div className={slots.base()}>
-			<label>
-				<input
-					type={"checkbox"}
-					checked={Boolean(value)}
-					className={"sr-only peer"}
-					onChange={(e) => {
-						onChange(e.target.checked);
-					}}
-					{...props}
-				/>
-				<div className={slots.switch()} />
-			</label>
-		</div>
-	);
+	return <div className={slots.root()}></div>;
 };
