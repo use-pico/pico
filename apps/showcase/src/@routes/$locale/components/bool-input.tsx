@@ -63,6 +63,35 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 						/>
 					</div>
 
+					{/* With Status Text */}
+					<div className="p-4 border rounded-lg">
+						<h3 className="text-lg font-semibold mb-2">
+							With Status Text
+						</h3>
+						<BoolInput
+							value={withDescriptionValue}
+							onChange={setWithDescriptionValue}
+							label="Auto-save"
+							textOn="Enabled"
+							textOff="Disabled"
+						/>
+					</div>
+
+					{/* With Status Text and Description */}
+					<div className="p-4 border rounded-lg">
+						<h3 className="text-lg font-semibold mb-2">
+							With Status Text and Description
+						</h3>
+						<BoolInput
+							value={withDescriptionValue}
+							onChange={setWithDescriptionValue}
+							label="Notifications"
+							description="Receive email notifications for updates"
+							textOn="Active"
+							textOff="Inactive"
+						/>
+					</div>
+
 					{/* Different Sizes */}
 					<div className="p-4 border rounded-lg">
 						<h3 className="text-lg font-semibold mb-2">
