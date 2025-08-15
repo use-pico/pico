@@ -210,10 +210,11 @@ export const BoolInputCls = PicoCls.extend(
 					]),
 				},
 			),
-			// Tone variants using PicoCls tokens
+			// Tone variants with value states
 			def.rule(
 				what.variant({
 					tone: "primary",
+					value: false,
 				}),
 				{
 					track: what.token([
@@ -229,14 +230,19 @@ export const BoolInputCls = PicoCls.extend(
 				}),
 				{
 					track: what.token([
-						"tone.primary.light.bg",
-						"tone.primary.light.border",
+						"tone.primary.dark.bg",
+						"tone.primary.dark.border",
+					]),
+					thumb: what.css([
+						"transform",
+						"translate-x-full",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "danger",
+					value: false,
 				}),
 				{
 					track: what.token([
@@ -252,14 +258,19 @@ export const BoolInputCls = PicoCls.extend(
 				}),
 				{
 					track: what.token([
-						"tone.danger.light.bg",
-						"tone.danger.light.border",
+						"tone.danger.dark.bg",
+						"tone.danger.dark.border",
+					]),
+					thumb: what.css([
+						"transform",
+						"translate-x-full",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "warning",
+					value: false,
 				}),
 				{
 					track: what.token([
@@ -275,14 +286,19 @@ export const BoolInputCls = PicoCls.extend(
 				}),
 				{
 					track: what.token([
-						"tone.warning.light.bg",
-						"tone.warning.light.border",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.border",
+					]),
+					thumb: what.css([
+						"transform",
+						"translate-x-full",
 					]),
 				},
 			),
 			def.rule(
 				what.variant({
 					tone: "neutral",
+					value: false,
 				}),
 				{
 					track: what.token([
@@ -298,22 +314,12 @@ export const BoolInputCls = PicoCls.extend(
 				}),
 				{
 					track: what.token([
-						"tone.neutral.light.bg",
-						"tone.neutral.light.border",
+						"tone.neutral.dark.bg",
+						"tone.neutral.dark.border",
 					]),
-				},
-			),
-			// Value variant rules
-			def.rule(
-				what.variant({
-					value: true,
-				}),
-				{
-					track: what.token([
-						"switch.track:checked",
-					]),
-					thumb: what.token([
-						"switch.thumb:checked",
+					thumb: what.css([
+						"transform",
+						"translate-x-full",
 					]),
 				},
 			),

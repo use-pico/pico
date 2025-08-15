@@ -7,8 +7,13 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 		const [basicValue, setBasicValue] = useState(false);
 		const [withLabelValue, setWithLabelValue] = useState(true);
 		const [withDescriptionValue, setWithDescriptionValue] = useState(false);
+		const [withStatusValue, setWithStatusValue] = useState(true);
+		const [withStatusAndDescValue, setWithStatusAndDescValue] =
+			useState(false);
 		const [smallValue, setSmallValue] = useState(true);
-		const [largeValue, setLargeValue] = useState(false);
+		const [mediumValue, setMediumValue] = useState(false);
+		const [largeValue, setLargeValue] = useState(true);
+		const [neutralValue, setNeutralValue] = useState(false);
 		const [primaryValue, setPrimaryValue] = useState(true);
 		const [dangerValue, setDangerValue] = useState(false);
 		const [warningValue, setWarningValue] = useState(true);
@@ -69,8 +74,8 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 							With Status Text
 						</h3>
 						<BoolInput
-							value={withDescriptionValue}
-							onChange={setWithDescriptionValue}
+							value={withStatusValue}
+							onChange={setWithStatusValue}
 							label="Auto-save"
 							textOn="Enabled"
 							textOff="Disabled"
@@ -83,8 +88,8 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 							With Status Text and Description
 						</h3>
 						<BoolInput
-							value={withDescriptionValue}
-							onChange={setWithDescriptionValue}
+							value={withStatusAndDescValue}
+							onChange={setWithStatusAndDescValue}
 							label="Notifications"
 							description="Receive email notifications for updates"
 							textOn="Active"
@@ -109,8 +114,8 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								})}
 							/>
 							<BoolInput
-								value={basicValue}
-								onChange={setBasicValue}
+								value={mediumValue}
+								onChange={setMediumValue}
 								label="Medium toggle (default)"
 								cls={({ what }) => ({
 									variant: what.variant({
@@ -138,8 +143,8 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 						</h3>
 						<div className="space-y-4">
 							<BoolInput
-								value={basicValue}
-								onChange={setBasicValue}
+								value={neutralValue}
+								onChange={setNeutralValue}
 								label="Neutral tone (default)"
 								cls={({ what }) => ({
 									variant: what.variant({
