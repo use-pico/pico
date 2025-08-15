@@ -206,6 +206,7 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
   - [5.6 Rules](#56-rules)
 - [6. CLS Instance Methods](#6-cls-instance-methods)
   - [6.1 Create Method](#61-create-method)
+  - [6.1.1 Slot Configuration Merging](#611-slot-configuration-merging)
   - [6.2 Extend Method](#62-extend-method)
   - [6.3 Use Method](#63-use-method)
 - [7. Contract Structure](#7-contract-structure)
@@ -245,6 +246,7 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
 - [16. React Integration](#16-react-integration)
   - [16.1 useCls Hook](#161-usecls-hook)
   - [16.2 Component Patterns](#162-component-patterns)
+  - [16.2.1 The `cls` Prop and Slot Merging](#1621-the-cls-prop-and-slot-merging)
   - [16.3 withCls HOC](#163-withcls-hoc)
   - [16.4 Context Integration](#164-context-integration)
   - [16.5 Provider Architecture](#165-provider-architecture)
@@ -1091,6 +1093,12 @@ Generates styled instances with optional overrides. Both parameters are **callba
 
 > **Note:** The [`what`](#51-what-utility) utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
 
+**Slot Configuration Behavior:**
+- **`slot` configurations append** classes and tokens to existing slot styling
+- **`override` configurations replace** all previous slot styling completely
+- **Multiple slot sources combine** by appending their classes/tokens (user config + internal config + component rules)
+- **Slot merging preserves order**: Component rules → Internal slot config → User slot config
+
 **Precedence Rules:**
 1. User config takes precedence over internal config
 2. Override config takes precedence over slot config
@@ -1145,6 +1153,126 @@ const classes = Button.create(
     }
   })
 );
+```
+
+### 6.1.1 Slot Configuration Merging <a id="611-slot-configuration-merging"></a>
+
+Understanding how slot configurations are merged is crucial for building composable components. CLS uses an **append-based merging strategy** for slot configurations.
+
+#### How Slot Merging Works
+
+**🔍 Merging Strategy:**
+1. **Component Rules**: Base styling from component definition
+2. **Internal Config**: Component-controlled slot overrides (append)
+3. **User Config**: User-provided slot overrides (append)
+4. **Override Config**: Hard overrides that replace everything (replace)
+
+**⚡ Key Behavior:**
+- **`slot` configurations append** classes and tokens to existing styling
+- **`override` configurations replace** all previous styling completely
+- **Multiple sources combine** by appending their classes/tokens in order
+- **Class arrays are merged** using efficient concatenation
+
+#### Real-World Example: Icon Component
+
+```typescript
+// Icon component definition
+const IconCls = cls(
+  {
+    tokens: ["color.text.default"],
+    slot: ["root"],
+    variant: { size: ["sm", "md", "lg"] }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.text.default": what.css(["text-gray-600"])
+    }),
+    rules: [
+      def.root({
+        root: what.both(["icon-base"], ["color.text.default"]) // Base styling
+      }),
+      def.rule(
+        what.variant({ size: "lg" }),
+        { root: what.css(["w-6", "h-6"]) } // Size-specific styling
+      )
+    ]
+  })
+);
+
+// Icon component with internal and user configs
+function Icon({ icon, cls, ...props }) {
+  const slots = useCls(
+    IconCls,
+    cls, // User config function
+    isString(icon) ? ({ what }) => ({
+      slot: what.slot({
+        root: what.css([icon]) // Internal config: append icon class
+      })
+    }) : undefined
+  );
+
+  return <div className={slots.root()} {...props} />;
+}
+
+// Usage with user config
+<Icon 
+  icon="icon-[mdi-light--home]"
+  cls={({ what }) => ({
+    slot: what.slot({
+      root: what.css(["animate-pulse"]) // User config: append animation
+    })
+  })}
+/>
+
+// Result: "icon-base text-gray-600 icon-[mdi-light--home] animate-pulse"
+// Order: Component rules → Internal config → User config
+```
+
+#### Slot vs Override: The Difference
+
+**Slot Configuration (Append Mode):**
+```typescript
+// ✅ Adds to existing styles
+const classes = Button.create(({ what }) => ({
+  slot: {
+    root: what.css(["mr-2", "animate-spin"]) // Appends to existing root styles
+  }
+}));
+// Result: Previous styles + new styles
+```
+
+**Override Configuration (Replace Mode):**
+```typescript
+// ✅ Replaces all previous styles
+const classes = Button.create(({ what }) => ({
+  override: {
+    root: what.css(["bg-red-500", "text-white"]) // Replaces all root styles
+  }
+}));
+// Result: Only the new styles, previous styles discarded
+```
+
+#### React Integration: useCls Merging
+
+The `useCls` hook combines multiple configuration sources:
+
+```typescript
+// useCls(tva, userConfigFn, internalConfigFn)
+const slots = useCls(
+  ButtonCls,           // CLS instance
+  ({ what }) => ({     // User config (cls prop)
+    slot: what.slot({
+      root: what.css(["user-class"])
+    })
+  }),
+  ({ what }) => ({     // Internal config (component logic)
+    slot: what.slot({
+      root: what.css(["internal-class"])
+    })
+  })
+);
+
+// Result: Component rules + internal-class + user-class
 ```
 
 ### 6.2 `extend(childContract, childDefinitionFn)` <a id="62-extend-method"></a>
@@ -1828,9 +1956,10 @@ function Button({
   cls,
   ...props 
 }: ButtonProps) {
-  // Use useCls with tva and cls for proper React integration
-  // - "cls" prop is a function that provides user configuration overrides
-  // - Internal config connects button's variant to its state
+  // useCls combines three configuration sources:
+  // 1. Component rules (from ButtonCls definition)
+  // 2. User config (cls prop function) - appends to component rules
+  // 3. Internal config (component logic) - appends to user config
   const classes = useCls(tva, cls, ({ what }) => ({
     variant: what.variant({
       // Control variant by native prop
@@ -1850,9 +1979,140 @@ function Button({
 // - Automatic context inheritance  
 // - Runtime configuration overrides via cls prop function
 // - Proper React integration and performance
+// - **Slot merging**: User config appends to component rules, internal config appends to user config
 
 // The cls prop is a function that provides user configuration overrides
 // Users pass: cls={({ what }) => ({ variant: { tone: "primary" } })}
+```
+
+### 16.2.1 The `cls` Prop and Slot Merging <a id="1621-the-cls-prop-and-slot-merging"></a>
+
+The `cls` prop is a **powerful feature** that enables user customization while preserving component integrity. It works through **slot merging** - user configurations append to component rules rather than replacing them.
+
+#### How the `cls` Prop Works
+
+**🔍 Configuration Flow:**
+1. **Component Rules**: Base styling from CLS definition
+2. **User Config** (`cls` prop): User-provided overrides (append mode)
+3. **Internal Config**: Component logic overrides (append mode)
+4. **Result**: All configurations combined in order
+
+**⚡ Key Benefits:**
+- **Preserves Component Integrity**: Base styling is never lost
+- **Enables Customization**: Users can add their own styles
+- **Type Safety**: Full TypeScript support for all configurations
+- **Predictable Behavior**: Append-based merging is intuitive
+
+#### Real-World Example: Customizable Button
+
+```tsx
+// Button component with cls prop support
+function Button({ children, cls, ...props }) {
+  const classes = useCls(ButtonCls, cls, ({ what }) => ({
+    variant: what.variant({
+      disabled: props.disabled,
+    })
+  }));
+
+  return (
+    <button className={classes.root()} {...props}>
+      {children}
+    </button>
+  );
+}
+
+// Usage examples showing slot merging:
+
+// 1. Basic usage (no cls prop)
+<Button>Click me</Button>
+// Result: "px-4 py-2 rounded font-medium bg-blue-600 text-white"
+
+// 2. With cls prop for variant override
+<Button cls={({ what }) => ({ 
+  variant: what.variant({ tone: "secondary" }) 
+})}>
+  Click me
+</Button>
+// Result: "px-4 py-2 rounded font-medium bg-gray-600 text-white"
+
+// 3. With cls prop for slot override (append mode)
+<Button cls={({ what }) => ({ 
+  slot: what.slot({
+    root: what.css(["shadow-lg", "hover:shadow-xl"])
+  })
+})}>
+  Click me
+</Button>
+// Result: "px-4 py-2 rounded font-medium bg-blue-600 text-white shadow-lg hover:shadow-xl"
+
+// 4. With cls prop for override (replace mode)
+<Button cls={({ what }) => ({ 
+  override: what.override({
+    root: what.css(["bg-red-500", "text-white", "border-2"])
+  })
+})}>
+  Click me
+</Button>
+// Result: "bg-red-500 text-white border-2" (replaces all previous styles)
+```
+
+#### Slot vs Override in React Components
+
+**Slot Configuration (Recommended):**
+```tsx
+// ✅ Appends to existing styles - preserves component integrity
+<Button cls={({ what }) => ({ 
+  slot: what.slot({
+    root: what.css(["custom-shadow", "hover:scale-105"])
+  })
+})}>
+  Enhanced Button
+</Button>
+// Result: Component styles + custom styles
+```
+
+**Override Configuration (Use Sparingly):**
+```tsx
+// ⚠️ Replaces all styles - use only when you need complete control
+<Button cls={({ what }) => ({ 
+  override: what.override({
+    root: what.css(["completely-custom-styling"])
+  })
+})}>
+  Custom Button
+</Button>
+// Result: Only custom styles, component styles lost
+```
+
+#### Advanced: Combining Multiple Configurations
+
+```tsx
+// Complex component with internal and user configs
+function Icon({ icon, cls, ...props }) {
+  const slots = useCls(
+    IconCls,
+    cls, // User config (cls prop)
+    isString(icon) ? ({ what }) => ({
+      slot: what.slot({
+        root: what.css([icon]) // Internal config (icon class)
+      })
+    }) : undefined
+  );
+
+  return <div className={slots.root()} {...props} />;
+}
+
+// Usage with multiple configuration layers:
+<Icon 
+  icon="icon-[mdi-light--home]"
+  cls={({ what }) => ({
+    slot: what.slot({
+      root: what.css(["animate-pulse", "text-blue-500"])
+    })
+  })}
+/>
+// Result: "icon-base text-gray-600 icon-[mdi-light--home] animate-pulse text-blue-500"
+// Order: Component rules → Internal config → User config
 ```
 
 ### 16.3 withCls HOC <a id="163-withcls-hoc"></a>

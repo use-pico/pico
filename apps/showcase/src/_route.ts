@@ -15,6 +15,7 @@ import { Route as LocaleIndexRouteImport } from './@routes/$locale/index'
 import { Route as LocaleComponentsRouteImport } from './@routes/$locale/components'
 import { Route as LocaleComponentsIndexRouteImport } from './@routes/$locale/components/index'
 import { Route as LocaleComponentsValueOfRouteImport } from './@routes/$locale/components/value-of'
+import { Route as LocaleComponentsTitlePreviewRouteImport } from './@routes/$locale/components/title-preview'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsStatusRouteImport } from './@routes/$locale/components/status'
 import { Route as LocaleComponentsProgressRouteImport } from './@routes/$locale/components/progress'
@@ -60,6 +61,12 @@ const LocaleComponentsValueOfRoute = LocaleComponentsValueOfRouteImport.update({
   path: '/value-of',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsTitlePreviewRoute =
+  LocaleComponentsTitlePreviewRouteImport.update({
+    id: '/title-preview',
+    path: '/title-preview',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsTableRoute = LocaleComponentsTableRouteImport.update({
   id: '/table',
   path: '/table',
@@ -153,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
+  '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
@@ -173,6 +181,7 @@ export interface FileRoutesByTo {
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
+  '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
@@ -196,6 +205,7 @@ export interface FileRoutesById {
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
+  '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/$locale/components/progress'
     | '/$locale/components/status'
     | '/$locale/components/table'
+    | '/$locale/components/title-preview'
     | '/$locale/components/value-of'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/$locale/components/progress'
     | '/$locale/components/status'
     | '/$locale/components/table'
+    | '/$locale/components/title-preview'
     | '/$locale/components/value-of'
     | '/$locale/components'
     | '/$locale/components/menu/$selected'
@@ -262,6 +274,7 @@ export interface FileRouteTypes {
     | '/$locale/components/progress'
     | '/$locale/components/status'
     | '/$locale/components/table'
+    | '/$locale/components/title-preview'
     | '/$locale/components/value-of'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
@@ -314,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/value-of'
       fullPath: '/$locale/components/value-of'
       preLoaderRoute: typeof LocaleComponentsValueOfRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/title-preview': {
+      id: '/$locale/components/title-preview'
+      path: '/title-preview'
+      fullPath: '/$locale/components/title-preview'
+      preLoaderRoute: typeof LocaleComponentsTitlePreviewRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/table': {
@@ -431,6 +451,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsProgressRoute: typeof LocaleComponentsProgressRoute
   LocaleComponentsStatusRoute: typeof LocaleComponentsStatusRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
+  LocaleComponentsTitlePreviewRoute: typeof LocaleComponentsTitlePreviewRoute
   LocaleComponentsValueOfRoute: typeof LocaleComponentsValueOfRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
   LocaleComponentsMenuSelectedRoute: typeof LocaleComponentsMenuSelectedRoute
@@ -450,6 +471,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsProgressRoute: LocaleComponentsProgressRoute,
   LocaleComponentsStatusRoute: LocaleComponentsStatusRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
+  LocaleComponentsTitlePreviewRoute: LocaleComponentsTitlePreviewRoute,
   LocaleComponentsValueOfRoute: LocaleComponentsValueOfRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
   LocaleComponentsMenuSelectedRoute: LocaleComponentsMenuSelectedRoute,
