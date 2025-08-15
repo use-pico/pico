@@ -42,9 +42,12 @@ export const FormFieldCls = PicoCls.extend(
 					isError: true,
 				}),
 				{
-					base: what.css([
-						"text-(--input-error-color-text)",
-					]),
+					base: what.both(
+						[],
+						[
+							"tone.danger.light.text",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -52,10 +55,14 @@ export const FormFieldCls = PicoCls.extend(
 					required: true,
 				}),
 				{
-					base: what.css([
-						"text-(--input-required-color-text)",
-						"font-bold",
-					]),
+					base: what.both(
+						[
+							"font-bold",
+						],
+						[
+							"tone.secondary.light.text",
+						],
+					),
 				},
 			),
 			def.rule(

@@ -23,21 +23,31 @@ export const DetailCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-col",
-					"gap-4",
-				]),
-				section: what.css([
-					"flex",
-					"flex-col",
-					"gap-4",
-					"border",
-					"border-(--detail-section-color-border)",
-					"rounded-sm",
-					"bg-(--detail-section-color-bg)",
-					"p-4",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-col",
+						"gap-4",
+					],
+					[
+						"tone.neutral.light.shadow",
+						"shadow.sm",
+					],
+				),
+				section: what.both(
+					[
+						"flex",
+						"flex-col",
+						"gap-4",
+						"border",
+						"p-4",
+					],
+					[
+						"tone.neutral.light.border",
+						"tone.neutral.light.bg",
+						"round.sm",
+					],
+				),
 				legend: what.css([
 					"flex",
 					"flex-row",
@@ -51,28 +61,40 @@ export const DetailCls = PicoCls.extend(
 					"gap-4",
 					"items-center",
 				]),
-				value: what.css([
-					"flex-1",
-					"flex-col",
-					"gap-2",
-					"border",
-					"border-(--detail-value-color-border)",
-					"rounded-sm",
-					"p-2",
-				]),
-				label: what.css([
-					"font-bold",
-					"text-(--detail-label-color-text)",
-					"text-sm",
-					"pb-1",
-				]),
-				field: what.css([
-					"text-lg",
-					"hover:bg-(--detail-field-color-hover-bg)",
-					"rounded-sm",
-					"px-2",
-					"py-1",
-				]),
+				value: what.both(
+					[
+						"flex-1",
+						"flex-col",
+						"gap-2",
+						"border",
+						"p-2",
+					],
+					[
+						"tone.neutral.light.border",
+						"round.sm",
+					],
+				),
+				label: what.both(
+					[
+						"font-bold",
+						"text-sm",
+						"pb-1",
+					],
+					[
+						"tone.neutral.light.text",
+					],
+				),
+				field: what.both(
+					[
+						"text-lg",
+						"rounded-sm",
+						"px-2",
+						"py-1",
+					],
+					[
+						"tone.neutral.light.bg:hover",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

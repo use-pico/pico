@@ -14,6 +14,9 @@ export const FormCls = PicoCls.extend(
 			isSubmitting: [
 				"bool",
 			],
+			required: [
+				"bool",
+			],
 		},
 	},
 	({ what, def }) => ({
@@ -85,9 +88,48 @@ export const FormCls = PicoCls.extend(
 					]),
 				},
 			),
+			def.rule(
+				what.variant({
+					required: true,
+				}),
+				{
+					legend: what.both(
+						[
+							"font-bold",
+							"text-lg",
+							"p-1",
+							"border-b",
+							"w-full",
+						],
+						[
+							"tone.secondary.light.border",
+						],
+					),
+					input: what.both(
+						[
+							"w-full",
+							"border",
+							"rounded-md",
+							"p-2",
+							"focus:outline-hidden",
+							"focus:ring-2",
+							"focus:ring-blue-500",
+							"focus:border-transparent",
+							"hover:scale-105",
+							"active:scale-105",
+							"transition-all",
+							"duration-100",
+						],
+						[
+							"tone.secondary.light.border",
+						],
+					),
+				},
+			),
 		],
 		defaults: def.defaults({
 			isSubmitting: false,
+			required: false,
 		}),
 	}),
 );

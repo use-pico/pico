@@ -43,7 +43,7 @@ export const Route = createFileRoute("/$locale/components")({
 
 					<Menu vertical>
 						<MenuLink
-							icon={"icon-[bx--color-fill]"}
+							icon={"icon-[ph--paint-brush]"}
 							to={"/$locale/components/colors"}
 							params={{
 								locale,
@@ -54,7 +54,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[ic--baseline-menu]"}
+							icon={"icon-[ph--list]"}
 							to={"/$locale/components/action-menu"}
 							params={{
 								locale,
@@ -65,7 +65,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[mdi-light--alert]"}
+							icon={"icon-[ph--warning]"}
 							to={"/$locale/components/alert"}
 							params={{
 								locale,
@@ -76,9 +76,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={
-								"icon-[material-symbols-light--flash-on-outline-rounded]"
-							}
+							icon={"icon-[ph--lightning]"}
 							to={"/$locale/components/action"}
 							params={{
 								locale,
@@ -89,7 +87,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[proicons--badge]"}
+							icon={"icon-[ph--tag]"}
 							to={"/$locale/components/badge"}
 							params={{
 								locale,
@@ -100,7 +98,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[teenyicons--button-outline]"}
+							icon={"icon-[ph--cursor]"}
 							to={"/$locale/components/button"}
 							params={{
 								locale,
@@ -111,7 +109,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[lsicon--table-outline]"}
+							icon={"icon-[ph--table]"}
 							to={"/$locale/components/table"}
 							params={{
 								locale,
@@ -122,7 +120,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[icon-park-twotone--id-card]"}
+							icon={"icon-[ph--credit-card]"}
 							to={"/$locale/components/card"}
 							params={{
 								locale,
@@ -133,7 +131,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[oui--kql-value]"}
+							icon={"icon-[ph--function]"}
 							to={"/$locale/components/value-of"}
 							params={{
 								locale,
@@ -144,7 +142,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[gridicons--status]"}
+							icon={"icon-[ph--info]"}
 							to={"/$locale/components/status"}
 							params={{
 								locale,
@@ -155,7 +153,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[mdi-light--star]"}
+							icon={"icon-[ph--star]"}
 							to={"/$locale/components/icon"}
 							params={{
 								locale,
@@ -188,7 +186,29 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[mdi-light--chart-line]"}
+							icon={"icon-[ph--list-dashes]"}
+							to={"/$locale/components/detail"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Detail"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[ph--textbox]"}
+							to={"/$locale/components/form"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Form"} />
+						</MenuLink>
+
+						<MenuLink
+							icon={"icon-[ph--chart-line]"}
 							to={"/$locale/components/progress"}
 							params={{
 								locale,
@@ -199,7 +219,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[vaadin--area-select]"}
+							icon={"icon-[ph--list-plus]"}
 							to={"/$locale/components/popup-select"}
 							params={{
 								locale,
@@ -210,9 +230,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={
-								"icon-[material-symbols-light--flash-on-outline-rounded]"
-							}
+							icon={"icon-[ph--warning-circle]"}
 							to={"/$locale/components/issues"}
 							params={{
 								locale,
@@ -223,7 +241,7 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
-							icon={"icon-[bx--menu]"}
+							icon={"icon-[ph--dots-three-vertical]"}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,

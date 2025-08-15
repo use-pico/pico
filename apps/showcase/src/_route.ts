@@ -23,6 +23,8 @@ import { Route as LocaleComponentsPreviewRouteImport } from './@routes/$locale/c
 import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$locale/components/popup-select'
 import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/components/issues'
 import { Route as LocaleComponentsIconRouteImport } from './@routes/$locale/components/icon'
+import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/components/form'
+import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
 import { Route as LocaleComponentsCardRouteImport } from './@routes/$locale/components/card'
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
@@ -105,6 +107,16 @@ const LocaleComponentsIconRoute = LocaleComponentsIconRouteImport.update({
   path: '/icon',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsFormRoute = LocaleComponentsFormRouteImport.update({
+  id: '/form',
+  path: '/form',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
+const LocaleComponentsDetailRoute = LocaleComponentsDetailRouteImport.update({
+  id: '/detail',
+  path: '/detail',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsColorsRoute = LocaleComponentsColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
@@ -160,6 +172,8 @@ export interface FileRoutesByFullPath {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/detail': typeof LocaleComponentsDetailRoute
+  '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
@@ -182,6 +196,8 @@ export interface FileRoutesByTo {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/detail': typeof LocaleComponentsDetailRoute
+  '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
@@ -207,6 +223,8 @@ export interface FileRoutesById {
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
+  '/$locale/components/detail': typeof LocaleComponentsDetailRoute
+  '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
@@ -233,6 +251,8 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/detail'
+    | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
@@ -255,6 +275,8 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/detail'
+    | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
@@ -279,6 +301,8 @@ export interface FileRouteTypes {
     | '/$locale/components/button'
     | '/$locale/components/card'
     | '/$locale/components/colors'
+    | '/$locale/components/detail'
+    | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/popup-select'
@@ -397,6 +421,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsIconRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/form': {
+      id: '/$locale/components/form'
+      path: '/form'
+      fullPath: '/$locale/components/form'
+      preLoaderRoute: typeof LocaleComponentsFormRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/detail': {
+      id: '/$locale/components/detail'
+      path: '/detail'
+      fullPath: '/$locale/components/detail'
+      preLoaderRoute: typeof LocaleComponentsDetailRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/colors': {
       id: '/$locale/components/colors'
       path: '/colors'
@@ -464,6 +502,8 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
   LocaleComponentsCardRoute: typeof LocaleComponentsCardRoute
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
+  LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
+  LocaleComponentsFormRoute: typeof LocaleComponentsFormRoute
   LocaleComponentsIconRoute: typeof LocaleComponentsIconRoute
   LocaleComponentsIssuesRoute: typeof LocaleComponentsIssuesRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
@@ -485,6 +525,8 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
   LocaleComponentsCardRoute: LocaleComponentsCardRoute,
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
+  LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
+  LocaleComponentsFormRoute: LocaleComponentsFormRoute,
   LocaleComponentsIconRoute: LocaleComponentsIconRoute,
   LocaleComponentsIssuesRoute: LocaleComponentsIssuesRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
