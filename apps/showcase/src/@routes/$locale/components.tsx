@@ -177,6 +177,17 @@ export const Route = createFileRoute("/$locale/components")({
 						</MenuLink>
 
 						<MenuLink
+							icon={"icon-[ph--eye]"}
+							to={"/$locale/components/preview"}
+							params={{
+								locale,
+							}}
+							vertical
+						>
+							<Tx label={"Preview"} />
+						</MenuLink>
+
+						<MenuLink
 							icon={"icon-[mdi-light--chart-line]"}
 							to={"/$locale/components/progress"}
 							params={{
