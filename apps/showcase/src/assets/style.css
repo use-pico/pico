@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* biome-ignore lint/suspicious/noUnknownAtRules: Da Tailwind */
+@config "../../tailwind.config.ts";

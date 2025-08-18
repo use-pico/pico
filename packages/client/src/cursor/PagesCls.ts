@@ -27,7 +27,7 @@ export const PagesCls = PicoCls.extend(
 					"items-center",
 					"-space-x-px",
 					"text-xs",
-					"gap-2",
+					"gap-3",
 				]),
 				page: what.both(
 					[

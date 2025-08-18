@@ -99,8 +99,8 @@ export const TableCls = AbstractListCls.extend(
 						"duration-150",
 					],
 					[
-						"tone.neutral.light.text",
-						"tone.neutral.light.text:hover",
+						"tone.neutral.dark.bg",
+						"tone.neutral.dark.bg:hover",
 					],
 				),
 			}),
@@ -111,11 +111,15 @@ export const TableCls = AbstractListCls.extend(
 				}),
 				{
 					row: what.token([
-						"tone.neutral.dark.bg",
-						"tone.neutral.dark.border",
+						"tone.secondary.light.text",
+						"tone.secondary.light.bg:even",
+						"tone.secondary.light.bg:odd",
+						"tone.secondary.light.bg:hover",
+						"tone.secondary.light.border",
+						"tone.secondary.light.border:hover",
 					]),
 					select: what.token([
-						"tone.neutral.dark.text",
+						"tone.secondary.dark.text",
 					]),
 				},
 			),
