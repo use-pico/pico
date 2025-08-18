@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Tx } from "@use-pico/client";
+import { Badge, PicoCls, Tx } from "@use-pico/client";
 import { ClsProvider, tvc } from "@use-pico/cls";
-import { PicoCls } from "node_modules/@use-pico/client/src/cls/PicoCls";
 import type { ReactNode } from "react";
 
 const OverriddenCls = PicoCls.extend(
