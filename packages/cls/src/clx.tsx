@@ -19,13 +19,43 @@ export namespace clx {
 			ClassName
 		>;
 
-		export type VariantDef<TVariantKeys extends string> = Record<
+		// New: Generic variant map that preserves literal value keys
+		export type VariantMap<
+			TSlot extends SlotDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = {
+			[K in string]: {
+				[V in string]: Partial<
+					Record<keyof SlotEx<TSlot, TUse>, ClassName>
+				>;
+			};
+		};
+
+		export type VariantDef<
+			TVariantKeys extends string,
+			TSlot extends SlotDef<any>,
+			TUse extends ClsFn<any, any, any> | unknown = unknown,
+		> = Record<
 			TVariantKeys,
-			Record<string, ClassName>
+			Record<
+				string,
+				Partial<Record<keyof SlotEx<TSlot, TUse>, ClassName>>
+			>
 		>;
 
-		export type ValuesDef<TVariant> = {
-			[K in keyof TVariant]?: keyof TVariant[K] extends "true" | "false"
+		export type VariantKeys<TVariant> = TVariant extends VariantDef<
+			infer K,
+			any,
+			any
+		>
+			? K
+			: never;
+
+		// Updated: Use literal value keys from TVariant for IntelliSense
+		export type ValuesDef<
+			TVariant extends Record<string, Record<string, any>>,
+		> = {
+			[K in keyof TVariant]?: keyof TVariant[K] extends "bool"
 				? boolean
 				: keyof TVariant[K];
 		};
@@ -54,11 +84,11 @@ export namespace clx {
 		 * Compute variant from all variants (including uses - extensions).
 		 */
 		export type VariantEx<
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends
 				| (() => {
 						"~type": {
-							variant?: VariantDef<any>;
+							variant?: Record<string, Record<string, any>>;
 						};
 				  })
 				| unknown = unknown,
@@ -76,11 +106,11 @@ export namespace clx {
 		 * Current defaults are required, extensions are marked as optional.
 		 */
 		export type DefaultsEx<
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends
 				| (() => {
 						"~type": {
-							variant?: VariantDef<any>;
+							variant?: Record<string, Record<string, any>>;
 						};
 				  })
 				| unknown = unknown,
@@ -90,11 +120,11 @@ export namespace clx {
 					variant?: infer V;
 				};
 			}
-				? ValuesDef<V>
+				? ValuesDef<V & Record<string, Record<string, any>>>
 				: {});
 
 		export type SlotFn<
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends ClsFn<any, any, any> | unknown = unknown,
 		> = (
 			values?: ValuesDef<VariantEx<TVariant, TUse>>,
@@ -103,13 +133,15 @@ export namespace clx {
 
 		export type Slots<
 			TSlot extends SlotDef<any>,
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends ClsFn<any, any, any> | unknown = unknown,
 		> = {
 			[K in keyof SlotEx<TSlot, TUse>]: SlotFn<TVariant, TUse>;
 		};
 
-		export interface Config<TVariantEx extends VariantEx<any, any>> {
+		export interface Config<
+			TVariantEx extends Record<string, Record<string, any>>,
+		> {
 			/**
 			 * Cumulated default values from all variants (including uses - extensions).
 			 */
@@ -151,7 +183,7 @@ export namespace clx {
 		 */
 		export type ClsFn<
 			TSlot extends SlotDef<any>,
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends ClsFn<any, any, any> | unknown = unknown,
 		> = (
 			variant?: ValuesDef<VariantEx<TVariant, TUse>>,
@@ -181,7 +213,7 @@ export namespace clx {
 		 */
 		export interface Match<
 			TSlot extends SlotDef<any>,
-			TVariant extends VariantDef<any>,
+			TVariant extends Record<string, Record<string, any>>,
 			TUse extends ClsFn<any, any, any> | unknown = unknown,
 		> {
 			/**
@@ -208,7 +240,7 @@ export namespace clx {
 	 */
 	export interface Config<
 		TSlot extends Internal.SlotDef<any>,
-		TVariant extends Internal.VariantDef<any>,
+		TVariant extends Internal.VariantMap<TSlot, TUse>,
 		TUse extends Internal.ClsFn<any, any, any> | unknown = unknown,
 	> {
 		/**
@@ -229,8 +261,7 @@ export namespace clx {
 		/**
 		 * Define or override variants.
 		 *
-		 * Variants can contain an empty array if they're dynamic. When variant contains classes,
-		 * they're applied to all slots.
+		 * Variants MUST be defined per slot. Each variant value maps to a record of slot -> class names.
 		 */
 		variant: TVariant;
 		/**
@@ -300,7 +331,7 @@ export namespace clx {
  */
 export function clx<
 	TSlot extends clx.Internal.SlotDef<any>,
-	TVariant extends clx.Internal.VariantDef<any>,
+	TVariant extends clx.Internal.VariantMap<TSlot, TUse>,
 	TUse extends clx.Internal.ClsFn<any, any, any> | unknown = unknown,
 >({
 	use,
@@ -370,14 +401,16 @@ export function clx<
 						);
 
 						/**
-						 * Push all "truthy" present variant values.
+						 * Push all present variant values for this slot.
 						 */
 						for (const [k, v] of Object.entries($values)) {
-							const value = variant[k]?.[v as string];
-							if (!value) {
+							const slotValue = (variant as any)?.[k]?.[
+								v as string
+							]?.[key];
+							if (!slotValue) {
 								continue;
 							}
-							$classes.push(value);
+							$classes.push(slotValue as clx.Internal.ClassName);
 						}
 
 						/**
@@ -421,14 +454,18 @@ export function clx<
 						"~config"
 					].defaults,
 					...defaults,
-				},
+				} as unknown as clx.Internal.ValuesDef<
+					clx.Internal.VariantEx<TVariant, TUse>
+				>,
 				values: {
 					...(use as clx.Internal.ClsFn<any, any, any>)?.()?.[
 						"~config"
 					].defaults,
 					...defaults,
 					...values,
-				},
+				} as unknown as clx.Internal.ValuesDef<
+					clx.Internal.VariantEx<TVariant, TUse>
+				>,
 			},
 			/**
 			 * Used for inheritance and type checking.
