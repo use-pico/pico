@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, type VariantOf } from "../../../src";
 
 describe("10.2 Boolean Variants", () => {
 	it("should handle boolean variant values and their interactions", () => {
@@ -103,6 +103,9 @@ describe("10.2 Boolean Variants", () => {
 				}),
 			}),
 		);
+
+		const _foo: VariantOf<typeof BooleanComponent, "disabled"> = true;
+		const _foo2: VariantOf<typeof BooleanComponent, "color"> = "default";
 
 		// Test basic boolean variant behavior
 		const defaultInstance = BooleanComponent.create();

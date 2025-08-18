@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, type VariantOf } from "../../../src";
 
 describe("1.1 Simple Component Creation - Basic Creation with Minimal Contract", () => {
 	it("should create a basic CLS instance with minimal contract", () => {
@@ -35,6 +35,8 @@ describe("1.1 Simple Component Creation - Basic Creation with Minimal Contract",
 				}),
 			}),
 		);
+
+		const _foo: VariantOf<typeof Button, "size"> = "sm";
 
 		const instance = Button.create();
 		expect(instance.root()).toBe("bg-gray-100");

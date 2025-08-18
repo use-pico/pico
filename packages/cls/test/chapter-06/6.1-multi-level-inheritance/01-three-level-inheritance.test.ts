@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, type VariantOf } from "../../../src";
 
 describe("6.1 Multi-level Inheritance - Three Level Inheritance", () => {
 	it("should handle three-level inheritance with proper token and variant inheritance", () => {
@@ -328,6 +328,8 @@ describe("6.1 Multi-level Inheritance - Three Level Inheritance", () => {
 				}),
 			}),
 		);
+
+		const _foo: VariantOf<typeof FinalComponent, "state"> = "enabled";
 
 		// Test BaseComponent default behavior
 		const baseDefault = BaseComponent.create();
