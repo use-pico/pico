@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, FormField, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
+import { useId } from "react";
 
 // Sample form data for demonstrations
 const sampleMeta = {
@@ -33,7 +34,7 @@ const multipleErrorsMeta = {
 	],
 };
 
-const successMeta = {
+const _successMeta = {
 	isDirty: true,
 	isTouched: true,
 	errors: undefined,
@@ -41,6 +42,34 @@ const successMeta = {
 
 export const Route = createFileRoute("/$locale/components/complex-form")({
 	component() {
+		const firstNameId = useId();
+		const lastNameId = useId();
+		const emailId = useId();
+		const phoneId = useId();
+		const ageId = useId();
+		const salaryId = useId();
+		const birthDateId = useId();
+		const startDateId = useId();
+		const workStartId = useId();
+		const workEndId = useId();
+		const meetingTimeId = useId();
+		const deadlineId = useId();
+		const profilePhotoId = useId();
+		const resumeId = useId();
+		const documentsId = useId();
+		const websiteId = useId();
+		const linkedinId = useId();
+		const githubId = useId();
+		const experienceYearsId = useId();
+		const experienceYearsValueId = useId();
+		const preferredColorId = useId();
+		const satisfactionId = useId();
+		const satisfactionValueId = useId();
+		const searchSkillsId = useId();
+		const currentPasswordId = useId();
+		const newPasswordId = useId();
+		const confirmPasswordId = useId();
+
 		return (
 			<div
 				className={tvc([
@@ -62,7 +91,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="text"
-										id="first-name"
+										id={firstNameId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="Enter first name"
 									/>
@@ -76,7 +105,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="text"
-										id="last-name"
+										id={lastNameId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
 										placeholder="Enter last name"
 									/>
@@ -91,7 +120,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="email"
-										id="email"
+										id={emailId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
 										placeholder="Enter email address"
 									/>
@@ -108,7 +137,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="tel"
-										id="phone"
+										id={phoneId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="+1 (555) 123-4567"
 									/>
@@ -121,7 +150,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="number"
-										id="age"
+										id={ageId}
 										min="0"
 										max="120"
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -137,7 +166,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="number"
-										id="salary"
+										id={salaryId}
 										min="0"
 										step="1000"
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -162,7 +191,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="date"
-										id="birth-date"
+										id={birthDateId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									/>
 								</FormField>
@@ -174,7 +203,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="date"
-										id="start-date"
+										id={startDateId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									/>
 								</FormField>
@@ -190,7 +219,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="time"
-										id="work-start"
+										id={workStartId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									/>
 								</FormField>
@@ -202,7 +231,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="time"
-										id="work-end"
+										id={workEndId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									/>
 								</FormField>
@@ -218,7 +247,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="datetime-local"
-										id="meeting-time"
+										id={meetingTimeId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									/>
 								</FormField>
@@ -230,7 +259,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="datetime-local"
-										id="deadline"
+										id={deadlineId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
 									/>
 								</FormField>
@@ -252,7 +281,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="file"
-										id="profile-photo"
+										id={profilePhotoId}
 										accept="image/*"
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
 									/>
@@ -267,7 +296,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="file"
-										id="resume"
+										id={resumeId}
 										accept=".pdf,.doc,.docx"
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
 									/>
@@ -281,7 +310,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="file"
-										id="documents"
+										id={documentsId}
 										multiple
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
 									/>
@@ -299,7 +328,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="url"
-										id="website"
+										id={websiteId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="https://example.com"
 									/>
@@ -312,7 +341,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="url"
-										id="linkedin"
+										id={linkedinId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="https://linkedin.com/in/username"
 									/>
@@ -325,7 +354,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="url"
-										id="github"
+										id={githubId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="https://github.com/username"
 									/>
@@ -348,14 +377,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="range"
-										id="experience-years"
+										id={experienceYearsId}
 										min="0"
 										max="30"
 										step="1"
 										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
 									/>
 									<div className="text-sm text-gray-600 mt-1">
-										<span id="experience-years-value">
+										<span id={experienceYearsValueId}>
 											5
 										</span>{" "}
 										years
@@ -369,7 +398,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="color"
-										id="preferred-color"
+										id={preferredColorId}
 										className="w-full h-12 border border-gray-300 rounded-md cursor-pointer"
 									/>
 								</FormField>
@@ -381,7 +410,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="range"
-										id="satisfaction"
+										id={satisfactionId}
 										min="1"
 										max="10"
 										step="1"
@@ -389,7 +418,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									/>
 									<div className="text-sm text-gray-600 mt-1">
 										Level:{" "}
-										<span id="satisfaction-value">5</span>
+										<span id={satisfactionValueId}>5</span>
 										/10
 									</div>
 								</FormField>
@@ -406,7 +435,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="search"
-										id="search-skills"
+										id={searchSkillsId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="Search skills..."
 									/>
@@ -420,7 +449,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="password"
-										id="current-password"
+										id={currentPasswordId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 										placeholder="Enter current password"
 									/>
@@ -435,7 +464,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="password"
-										id="new-password"
+										id={newPasswordId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
 										placeholder="Enter new password"
 									/>
@@ -449,7 +478,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									<input
 										type="password"
-										id="confirm-password"
+										id={confirmPasswordId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
 										placeholder="Confirm new password"
 									/>

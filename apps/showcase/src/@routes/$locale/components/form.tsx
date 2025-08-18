@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, FormError, FormField, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
+import { useId } from "react";
 
 // Sample form data for demonstrations
 const sampleMeta = {
@@ -35,6 +36,17 @@ const multipleErrorsMeta = {
 
 export const Route = createFileRoute("/$locale/components/form")({
 	component() {
+		const basicUsernameId = useId();
+		const basicEmailId = useId();
+		const errorEmailId = useId();
+		const multipleErrorsEmailId = useId();
+		const disabledUsernameId = useId();
+		const disabledErrorEmailId = useId();
+		const exampleUsernameId = useId();
+		const exampleEmailId = useId();
+		const examplePasswordId = useId();
+		const exampleConfirmPasswordId = useId();
+
 		return (
 			<div
 				className={tvc([
@@ -55,7 +67,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="text"
-									id="basic-username"
+									id={basicUsernameId}
 									className="w-full px-3 py-2 border border-gray-300 rounded-md"
 									placeholder="Enter username"
 								/>
@@ -70,7 +82,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="email"
-									id="basic-email"
+									id={basicEmailId}
 									className="w-full px-3 py-2 border border-gray-300 rounded-md"
 									placeholder="Enter email"
 								/>
@@ -90,7 +102,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="email"
-									id="error-email"
+									id={errorEmailId}
 									className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50"
 									placeholder="Enter email"
 								/>
@@ -104,7 +116,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="email"
-									id="multiple-errors-email"
+									id={multipleErrorsEmailId}
 									className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50"
 									placeholder="Enter email"
 								/>
@@ -125,7 +137,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="text"
-									id="disabled-username"
+									id={disabledUsernameId}
 									disabled
 									className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
 									placeholder="Enter username"
@@ -141,7 +153,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							>
 								<input
 									type="email"
-									id="disabled-error-email"
+									id={disabledErrorEmailId}
 									disabled
 									className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50"
 									placeholder="Enter email"
@@ -248,7 +260,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 								>
 									<input
 										type="text"
-										id="example-username"
+										id={exampleUsernameId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md"
 										placeholder="Enter username"
 									/>
@@ -262,7 +274,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 								>
 									<input
 										type="email"
-										id="example-email"
+										id={exampleEmailId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md"
 										placeholder="Enter email"
 									/>
@@ -277,7 +289,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 								>
 									<input
 										type="password"
-										id="example-password"
+										id={examplePasswordId}
 										className="w-full px-3 py-2 border border-gray-300 rounded-md"
 										placeholder="Enter password"
 									/>
@@ -291,7 +303,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 								>
 									<input
 										type="password"
-										id="example-confirm-password"
+										id={exampleConfirmPasswordId}
 										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50"
 										placeholder="Confirm password"
 									/>

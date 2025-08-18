@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.5",
+	"version": "5.0.8",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -21,7 +21,7 @@
 		"@tanstack/zod-adapter": "^1.129.7",
 		"@types/luxon": "^3.6.2",
 		"@use-pico/cls": "5.0.3",
-		"@use-pico/common": "5.0.5",
+		"@use-pico/common": "5.0.8",
 		"axios": "^1.10.0",
 		"js-file-downloader": "1.1.25",
 		"kysely": "^0.28.3",
@@ -31,7 +31,7 @@
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-dropzone": "14.3.8",
-		"react-hot-toast": "2.5.2",
+		"react-hot-toast": "2.6.0",
 		"read-excel-file": "5.8.8",
 		"sqlocal": "0.14.2",
 		"ts-pattern": "^5.8.0",
@@ -51,7 +51,7 @@
 		"@use-pico/tsconfig": "4.0.20",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.46.2",
-		"rollup-plugin-dts": "6.2.1",
+		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},
 	"main": "src/index.ts",

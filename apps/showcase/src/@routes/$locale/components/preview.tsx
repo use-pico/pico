@@ -71,7 +71,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										subtitle={entity.role}
 									/>
 								)}
-								links={({ entity }) => (
+								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -111,7 +111,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										title={entity.name}
 									/>
 								)}
-								actions={({ entity }) => (
+								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -163,7 +163,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										</span>
 									</div>
 								)}
-								actions={({ entity }) => (
+								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -211,7 +211,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										subtitle={entity.type}
 									/>
 								)}
-								links={({ entity }) => (
+								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -234,7 +234,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										</Button>
 									</div>
 								)}
-								actions={({ entity }) => (
+								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -338,7 +338,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										</span>
 									</div>
 								)}
-								actions={({ entity }) => (
+								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -440,7 +440,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										</span>
 									</div>
 								)}
-								actions={({ entity }) => (
+								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
 											cls={({ what }) => ({
@@ -574,7 +574,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											</span>
 										</div>
 									)}
-									actions={({ entity }) => (
+									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
 												cls={({ what }) => ({
@@ -632,7 +632,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											</span>
 										</div>
 									)}
-									actions={({ entity }) => (
+									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
 												cls={({ what }) => ({
@@ -673,7 +673,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											subtitle={entity.type}
 										/>
 									)}
-									links={({ entity }) => (
+									links={() => (
 										<div className="flex items-center gap-2">
 											<Button
 												cls={({ what }) => ({
@@ -696,7 +696,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											</Button>
 										</div>
 									)}
-									actions={({ entity }) => (
+									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
 												cls={({ what }) => ({

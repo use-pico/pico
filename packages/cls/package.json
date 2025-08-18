@@ -33,7 +33,7 @@
 		"jsdom": "^26.1.0",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.46.2",
-		"rollup-plugin-dts": "6.2.1",
+		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2",
 		"vitest": "^3.2.4"
 	},

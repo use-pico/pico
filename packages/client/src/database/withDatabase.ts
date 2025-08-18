@@ -1,6 +1,5 @@
 import type { Database } from "@use-pico/common";
 import { Kysely, type MigrationProvider, Migrator } from "kysely";
-// @ts-ignore
 import { SQLocalKysely } from "sqlocal/kysely";
 
 export namespace withDatabase {

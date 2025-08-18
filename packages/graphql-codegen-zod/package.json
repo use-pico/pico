@@ -24,7 +24,7 @@
 		"@types/node": "^24.1.0",
 		"@use-pico/tsconfig": "4.0.20",
 		"rollup": "4.46.2",
-		"rollup-plugin-dts": "6.2.1",
+		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},
 	"main": "dist/index.js",

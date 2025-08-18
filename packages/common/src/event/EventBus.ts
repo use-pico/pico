@@ -103,13 +103,17 @@ export function EventBus<TEvents extends object>(
 			if (handlers && event) {
 				(handlers as EventBus.EventHandlerList<TEvents[keyof TEvents]>)
 					.slice()
-					.forEach((h) => h(event));
+					.forEach((h) => {
+						h(event);
+					});
 			}
 			handlers = all.get("*");
 			if (handlers && event) {
 				(handlers as EventBus.WildCardEventHandlerList<TEvents>)
 					.slice()
-					.forEach((h) => h(type, event));
+					.forEach((h) => {
+						h(type, event);
+					});
 			}
 		},
 	};
