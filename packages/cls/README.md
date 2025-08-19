@@ -33,6 +33,17 @@ const classes = Button.create(({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
 console.log(classes.root()); // "bg-blue-600 text-white px-6 py-3"
+
+// With React
+import { useCls } from '@use-pico/cls';
+
+function MyButton({ size = "md" }) {
+  const classes = useCls(Button, ({ what }) => ({
+    variant: what.variant({ size })
+  }));
+  
+  return <button className={classes.root()}>Click me</button>;
+}
 ```
 
 ## ✨ Why CLS? <a id="why-cls"></a>
@@ -104,6 +115,8 @@ const MyComponent = ({ theme = "light" }) => {
 ```
 
 > **💡 Pro Tip**: This is just the beginning! Check out the [React Integration](#16-react-integration) section for advanced patterns, context providers, HOCs, and more comprehensive examples.
+
+> **📋 Current Implementation**: The examples in this README reflect the current implementation. The `useCls` hook accepts 3 parameters: `clsInstance`, `userConfigFn?`, and `internalConfigFn?`. This allows for flexible configuration merging between user props, internal logic, and context inheritance.
 
 ## 🎯 Key Features <a id="key-features"></a>
 
@@ -250,7 +263,8 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
   - [16.3 withCls HOC](#163-withcls-hoc)
   - [16.4 Context Integration](#164-context-integration)
   - [16.5 Provider Architecture](#165-provider-architecture)
-  - [16.6 Advanced Patterns](#166-advanced-patterns)
+  - [16.6 React Type System](#166-react-type-system)
+  - [16.7 Advanced Patterns](#167-advanced-patterns)
 
 
 ## 1. Core Principles <a id="1-core-principles"></a>
@@ -1882,6 +1896,23 @@ Leverage caching, use lazy evaluation, monitor bundle size, and profile runtime 
 
 > **🎉 React developers rejoice!** CLS provides first-class React integration with hooks, HOCs, and context providers that make type-safe styling a breeze.
 
+### Available React Types
+
+```tsx
+import type { 
+  Component,        // Standard component props with CLS integration
+  ComponentSlots,   // Slot functions from CLS instance
+  VariantOf,        // Extract variant value types
+} from '@use-pico/cls';
+
+import { 
+  useCls,           // Main React hook for CLS integration
+  useClsContext,    // Access CLS context
+  ClsProvider,      // Provide CLS context
+  withCls           // HOC to attach CLS to components
+} from '@use-pico/cls';
+```
+
 ### 16.1 useCls Hook <a id="161-usecls-hook"></a>
 
 The `useCls` hook is the **foundation of React integration** - it bridges CLS instances with React components:
@@ -1938,6 +1969,33 @@ function Button({ children, size = "md", tone = "primary" }) {
 - **⚡ Performance**: Optimized for React's rendering cycle
 - **🧩 Composition**: Easy component composition and extension
 - **🌳 Auto Context**: Automatically connects to CLS context providers
+
+**useCls Hook Signature:**
+```tsx
+useCls(
+  clsInstance,           // CLS instance to use
+  userConfigFn?,         // User configuration (cls prop)
+  internalConfigFn?      // Internal configuration (component logic)
+)
+```
+
+**Common Usage Patterns:**
+```tsx
+// Basic usage with user config only
+const classes = useCls(ButtonCls, ({ what }) => ({
+  variant: what.variant({ size: "lg" })
+}));
+
+// With cls prop and internal config
+const classes = useCls(ButtonCls, cls, ({ what }) => ({
+  variant: what.variant({ disabled: props.disabled })
+}));
+
+// With internal config only
+const classes = useCls(ButtonCls, undefined, ({ what }) => ({
+  slot: what.slot({ root: what.css(["internal-class"]) })
+}));
+```
 
 ### 16.2 Component Patterns <a id="162-component-patterns"></a>
 
@@ -2055,6 +2113,48 @@ function Button({ children, cls, ...props }) {
 </Button>
 // Result: "bg-red-500 text-white border-2" (replaces all previous styles)
 ```
+
+#### Prop Separation Pattern: Base vs User Components
+
+A common pattern is to separate props between a base component (internal) and a user-facing component. This allows you to control which props are available to users while keeping internal logic separate.
+
+**Example: MenuLink Component**
+```tsx
+// Base component - internal props only
+interface BaseMenuLinkProps extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
+  icon?: string | ReactNode;
+  inner?: boolean;
+  vertical?: boolean;
+  // Note: 'match' prop is NOT here - it's only for the user component
+}
+
+const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
+  ({ icon, inner, vertical, tva = MenuLinkCls, cls, children, ...props }, ref) => {
+    const slots = useCls(tva, cls, ({ what }) => ({
+      variant: what.variant({ inner, vertical })
+    }));
+
+    return (
+      <a {...props} className={slots.base()} ref={ref}>
+        {isString(icon) ? <Icon icon={icon} /> : icon}
+        {children}
+      </a>
+    );
+  }
+);
+
+// User-facing component - includes routing-specific props
+export const MenuLink: LinkComponent<typeof BaseMenuLink> = (props) => {
+  // Users can pass 'match' prop here, but BaseMenuLink doesn't see it
+  return <CreateMenuLink preload="intent" {...props} />;
+};
+```
+
+**Benefits of Prop Separation:**
+- **🔒 Type Safety**: TypeScript prevents using internal props in user components
+- **🧹 Clean API**: Users only see the props they should use
+- **🔧 Internal Control**: Base component handles styling, user component handles routing
+- **📦 Better Encapsulation**: Internal logic is isolated from public API
 
 #### Slot vs Override in React Components
 
@@ -2200,7 +2300,183 @@ const App = () => (
 );
 ```
 
-### 16.6 Advanced Patterns <a id="166-advanced-patterns"></a>
+### 16.6 React Type System <a id="166-react-type-system"></a>
+
+CLS provides several TypeScript helper types specifically designed for React integration. These types ensure type safety and provide excellent IntelliSense support.
+
+#### Component Props Type
+
+The `Component<TCls, P>` type provides a standard interface for React component props with CLS integration:
+
+```tsx
+import type { Component } from '@use-pico/cls';
+
+interface ButtonProps extends Component<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
+  children: React.ReactNode;
+  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary";
+}
+
+function Button({ 
+  children,
+  tva = ButtonCls,  // CLS instance (optional)
+  cls,              // Configuration function (optional)
+  ...props 
+}: ButtonProps) {
+  const classes = useCls(tva, cls, ({ what }) => ({
+    variant: what.variant({ 
+      size: props.size,
+      variant: props.variant 
+    })
+  }));
+  
+  return (
+    <button className={classes.root()} {...props}>
+      {children}
+    </button>
+  );
+}
+```
+
+**Key Features:**
+- **`tva?: TCls`**: Optional CLS instance for styling
+- **`cls?: WhatConfigFn<TCls>`**: Optional configuration function
+- **`& Omit<P, "tva" | "cls">`**: Preserves all other props from base type `P`
+
+#### ComponentSlots Type
+
+The `ComponentSlots<TCls>` type extracts slot functions from a CLS instance for use in component props:
+
+```tsx
+import type { ComponentSlots } from '@use-pico/cls';
+
+interface IconProps {
+  icon: string;
+  slots?: ComponentSlots<typeof IconCls>;
+}
+
+function Icon({ icon, slots = IconCls.create() }: IconProps) {
+  return <div className={slots.root()}>{icon}</div>;
+}
+
+// Usage with custom configuration
+function CustomIcon({ icon }: { icon: string }) {
+  const slots = IconCls.create(({ what }) => ({
+    variant: what.variant({ size: "lg" })
+  }));
+  
+  return <Icon icon={icon} slots={slots} />;
+}
+```
+
+**Key Features:**
+- **Type-safe slot access**: Each slot function is properly typed
+- **Configuration support**: Slots can accept configuration functions
+- **Flexible usage**: Can be passed as props or used directly
+
+#### VariantOf Type
+
+The `VariantOf<TCls, TVariant>` type extracts the value type for a specific variant:
+
+```tsx
+import type { VariantOf } from '@use-pico/cls';
+
+// Given ButtonCls with variants: { size: ["sm", "md", "lg"], disabled: ["bool"] }
+type ButtonSize = VariantOf<typeof ButtonCls, "size">;     // "sm" | "md" | "lg"
+type ButtonDisabled = VariantOf<typeof ButtonCls, "disabled">; // boolean
+
+interface ButtonProps {
+  size?: VariantOf<typeof ButtonCls, "size">;
+  disabled?: VariantOf<typeof ButtonCls, "disabled">;
+  children: React.ReactNode;
+}
+
+function Button({ size = "md", disabled = false, children }: ButtonProps) {
+  const classes = useCls(ButtonCls, ({ what }) => ({
+    variant: what.variant({ size, disabled })
+  }));
+  
+  return (
+    <button className={classes.root()} disabled={disabled}>
+      {children}
+    </button>
+  );
+}
+```
+
+**Key Features:**
+- **Automatic type inference**: Extracts correct types from CLS contract
+- **Boolean variant support**: "bool" variants become `boolean` type
+- **String variant support**: Other variants become union of string literals
+- **Type safety**: Ensures only valid variant values are used
+
+#### Complete Example: Type-Safe Component
+
+```tsx
+import type { Component, VariantOf } from '@use-pico/cls';
+
+// Define CLS with variants
+const CardCls = cls(
+  {
+    tokens: ["color.bg", "color.text"],
+    slot: ["root", "title", "content"],
+    variant: {
+      theme: ["light", "dark"],
+      size: ["sm", "md", "lg"],
+      elevated: ["bool"]
+    }
+  },
+  ({ what, def }) => ({
+    token: def.token({
+      "color.bg": what.css(["bg-white"]),
+      "color.text": what.css(["text-gray-900"])
+    }),
+    rules: [
+      def.root({
+        root: what.both(["rounded-lg", "shadow-md"], ["color.bg", "color.text"]),
+        title: what.css(["text-xl", "font-bold"]),
+        content: what.css(["p-4"])
+      })
+    ]
+  })
+);
+
+// Type-safe component props
+interface CardProps extends Component<typeof CardCls, React.HTMLAttributes<HTMLDivElement>> {
+  children: React.ReactNode;
+  theme?: VariantOf<typeof CardCls, "theme">;
+  size?: VariantOf<typeof CardCls, "size">;
+  elevated?: VariantOf<typeof CardCls, "elevated">;
+}
+
+function Card({ 
+  children,
+  theme = "light",
+  size = "md", 
+  elevated = false,
+  tva = CardCls,
+  cls,
+  ...props 
+}: CardProps) {
+  const classes = useCls(tva, cls, ({ what }) => ({
+    variant: what.variant({ theme, size, elevated })
+  }));
+  
+  return (
+    <div className={classes.root()} {...props}>
+      <h2 className={classes.title()}>Card Title</h2>
+      <div className={classes.content()}>{children}</div>
+    </div>
+  );
+}
+
+// Usage - full type safety
+<Card theme="dark" size="lg" elevated={true}>
+  Card content
+</Card>
+```
+
+### 16.7 Advanced Patterns <a id="167-advanced-patterns"></a>
 
 > ⚠️ **Proceed with caution!** These patterns are possible but considered _special cases_ or even anti-patterns. Use them sparingly and only when absolutely necessary! 🚨
 
