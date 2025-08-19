@@ -150,9 +150,11 @@ export type VariantValueMapping<T extends Contract<any, any, any>> = {
 export type WhatClass = {
 	class: ClassName;
 };
+
 export type WhatToken<T extends Contract<any, any, any>> = {
 	token: TokensOfList<T>;
 };
+
 export type What<T extends Contract<any, any, any>> = WhatClass | WhatToken<T>;
 
 export interface RuleDefinition<T extends Contract<any, any, any>> {
@@ -554,99 +556,6 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 }
 
 /**
- * Extended utility interface for CLS extension operations.
- *
- * This type is functionally identical to `WhatUtil` and is used specifically when
- * extending existing CLS instances via the `extend()` method. It provides the same
- * styling utilities as `WhatUtil` with identical behavior for all methods.
- *
- * The type is defined as a separate interface for semantic clarity and potential
- * future extensions, but currently there are no functional differences between
- * `WhatUtil` and `WhatUtilEx`.
- *
- * @template T - The contract type that defines the structure (tokens, slots, variants)
- *
- * @example
- * ```typescript
- * // Used in extend() operations
- * const PrimaryButtonCls = ButtonCls.extend(
- *   {
- *     tokens: ["color.bg.primary", "color.text.primary"], // Must define these
- *     slot: ["root"],
- *     variant: {}
- *   },
- *   ({ what, def }) => ({ // WhatUtilEx - def.token() requires all declared tokens
- *     token: def.token({
- *       "color.bg.primary": what.css(["bg-blue-600"]), // Required
- *       "color.text.primary": what.css(["text-white"]) // Required
- *     }),
- *     rules: [
- *       def.root({
- *         root: what.token(["color.bg.primary", "color.text.primary"])
- *       })
- *     ],
- *     defaults: {}
- *   })
- * );
- * ```
- *
- * @example
- * ```typescript
- * // TypeScript enforces all declared tokens must be defined
- * const InvalidButtonCls = ButtonCls.extend(
- *   {
- *     tokens: ["color.bg.primary", "color.text.primary"], // Declared tokens
- *     slot: ["root"],
- *     variant: {}
- *   },
- *   ({ what, def }) => ({
- *     token: def.token({
- *       "color.bg.primary": what.css(["bg-blue-600"])
- *       // ❌ TypeScript error: missing "color.text.primary" definition
- *     }),
- *     rules: [],
- *     defaults: {}
- *   })
- * );
- * ```
- */
-export type WhatUtilEx<T extends Contract<any, any, any>> = Omit<
-	WhatUtil<T>,
-	"def"
-> & {
-	/**
-	 * Definition utilities identical to `WhatUtil.def`.
-	 *
-	 * This object provides the same utilities as `WhatUtil.def` with identical
-	 * behavior for all methods. It's defined separately for semantic clarity
-	 * in extension contexts.
-	 */
-	def: Omit<WhatUtil<T>["def"], "token"> & {
-		/**
-		 * Creates token definitions identical to `WhatUtil.def.token()`.
-		 *
-		 * This method has the same signature and behavior as `WhatUtil.def.token()`.
-		 * It creates token definitions for the design system and is used in the same
-		 * way as the regular `WhatUtil` interface.
-		 *
-		 * @param token - Token definitions for the design system
-		 * @returns Token definitions for the component
-		 *
-		 * @example
-		 * ```typescript
-		 * // Same usage as WhatUtil.def.token()
-		 * def.token({
-		 *   "color.bg.primary": what.css(["bg-blue-600"]),
-		 *   "color.text.primary": what.css(["text-white"]),
-		 *   "spacing.padding.lg": what.css(["px-6", "py-3"])
-		 * })
-		 * ```
-		 */
-		token(token: TokenDefinitionRequired<T>): TokenDefinitionRequired<T>;
-	};
-};
-
-/**
  * Extended styling definition for CLS extension operations.
  *
  * This type is identical to `Definition` and is used specifically when extending
@@ -655,21 +564,21 @@ export type WhatUtilEx<T extends Contract<any, any, any>> = Omit<
  * ensuring that all declared tokens, rules, and defaults are properly defined.
  *
  * The key difference from `Definition` is the context in which it's used - it's
- * returned by extension definition functions and works with `WhatUtilEx` to
- * enforce type safety for extended components.
+ * returned by extension definition functions and works with `WhatUtil` to
+ * provide type safety for extended components.
  *
  * @template T - The contract type that defines the structure (tokens, slots, variants)
  *
  * @example
  * ```typescript
- * // Used in extend() operations with WhatUtilEx
+ * // Used in extend() operations with WhatUtil
  * const PrimaryButtonCls = ButtonCls.extend(
  *   {
  *     tokens: ["color.bg.primary", "color.text.primary"],
  *     slot: ["root"],
  *     variant: {}
  *   },
- *   ({ what, def }) => ({ // Returns DefinitionEx
+ *   ({ what, def }) => ({ // Returns DefinitionEx with WhatUtil
  *     token: def.token({
  *       "color.bg.primary": what.css(["bg-blue-600"]),
  *       "color.text.primary": what.css(["text-white"])
@@ -1228,7 +1137,7 @@ export interface Cls<T extends Contract<any, any, any>> {
 	>(
 		contract: Contract<TTokenContract, TSlotContract, TVariantContract, T>,
 		definition: (
-			props: WhatUtilEx<
+			props: WhatUtil<
 				Contract<TTokenContract, TSlotContract, TVariantContract, T>
 			>,
 		) => DefinitionEx<

@@ -4,13 +4,13 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
-import { merge, useCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { MenuLinkCls } from "./MenuLinkCls";
 
-interface Item
+interface BaseMenuLinkProps
 	extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: string | ReactNode;
 	match?: UseMatchRouteOptions[];
@@ -18,23 +18,28 @@ interface Item
 	vertical?: boolean;
 }
 
-const Item = forwardRef<HTMLAnchorElement, Item>(
+const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 	(
 		{
 			icon = null,
 			inner = false,
 			vertical = false,
 			tva = MenuLinkCls,
+			match = [],
 			cls,
 			children,
 			...props
 		},
 		ref,
 	) => {
+		const matchRoute = useMatchRoute();
+		const isActive = match.some((options) => Boolean(matchRoute(options)));
+
 		const slots = useCls(tva, cls, ({ what }) => ({
 			variant: what.variant({
 				inner,
 				vertical,
+				active: isActive,
 			}),
 		}));
 
@@ -51,36 +56,13 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 	},
 );
 
-const Link = createLink(Item);
+const CreateMenuLink = createLink(BaseMenuLink);
 
-export const MenuLink: LinkComponent<typeof Item> = ({
-	match = [],
-	tva = MenuLinkCls,
-	cls,
-	...props
-}) => {
-	const matchRoute = useMatchRoute();
-	const isActive = match.some((options) => Boolean(matchRoute(options)));
-
+export const MenuLink: LinkComponent<typeof BaseMenuLink> = (props) => {
 	return (
-		<Link
+		<CreateMenuLink
 			preload={"intent"}
-			tva={tva}
-			cls={merge(cls, () => ({
-				variant: {
-					active:
-						Boolean(
-							matchRoute({
-								to: props.to as string,
-								params: props.params,
-							}),
-						) || isActive,
-				},
-			}))}
-			/**
-			 * TODO Another fuckin' any, kill it!
-			 */
-			{...(props as any)}
+			{...props}
 		/>
 	);
 };
