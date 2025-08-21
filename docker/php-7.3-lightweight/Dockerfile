@@ -68,10 +68,7 @@ RUN \
     mkdir -p /var/run && \
     chmod 755 /var/run && \
     mkdir -p /var/run/sshd && \
-    chmod 0755 -R /var/run/sshd && \
-    # Copy PHP configuration files to the correct location
-    cp /usr/local/etc/php/conf.d/*.ini /etc/php/7.3/fpm/conf.d/ && \
-    cp /usr/local/etc/php/conf.d/*.ini /etc/php/7.3/cli/conf.d/
+    chmod 0755 -R /var/run/sshd
 
 # Create www-data user if it doesn't exist
 RUN \
@@ -84,14 +81,6 @@ RUN \
     mkdir -p /var/www/public && \
     mkdir -p /run/php && \
     chown -R www-data:www-data /var/www
-
-# Test installations
-RUN \
-    php -v && \
-    php -m && \
-    caddy version && \
-    composer --version && \
-    bun --version
 
 # Fix OPcache duplicate configuration
 RUN \

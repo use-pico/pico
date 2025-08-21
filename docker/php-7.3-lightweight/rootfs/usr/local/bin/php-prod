@@ -8,7 +8,7 @@ rm -f /etc/php/7.3/fpm/conf.d/20-xdebug.ini
 rm -f /etc/php/7.3/cli/conf.d/20-xdebug.ini
 
 # Disable Mailhog
-mv /etc/php/7.3/fpm/conf.d/mailhog.ini /usr/local/etc/php/conf.d/mailhog.ini.disabled 2>/dev/null || true
+rm -f /etc/php/7.3/fpm/conf.d/mailhog.ini 
 
 php-fpm7.3 -v
 

@@ -8,7 +8,11 @@ ln -sf /etc/php/7.3/mods-available/xdebug.ini /etc/php/7.3/fpm/conf.d/20-xdebug.
 ln -sf /etc/php/7.3/mods-available/xdebug.ini /etc/php/7.3/cli/conf.d/20-xdebug.ini
 
 # Enable Mailhog
-mv /usr/local/etc/php/conf.d/mailhog.ini.disabled /etc/php/7.3/fpm/conf.d/mailhog.ini 2>/dev/null || true
+ln -sf /etc/php/7.3/mods-available/mailhog.ini /etc/php/7.3/fpm/conf.d/mailhog.ini
+ln -sf /etc/php/7.3/mods-available/mailhog.ini /etc/php/7.3/cli/conf.d/mailhog.ini
+
+rm -f /etc/php/7.3/fpm/conf.d/opcache.ini
+rm -f /etc/php/7.3/cli/conf.d/opcache.ini
 
 php-fpm7.3 -v
 
