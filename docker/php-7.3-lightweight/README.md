@@ -11,6 +11,7 @@ This Docker setup provides a modern PHP 7.3 environment using **Caddy** as a web
 - **SSH server** for remote access with informative MOTD
 - **Supervisor** for process management
 - **All major PHP extensions** included
+- **Xdebug** configured for development with logs exposed to Docker stdout
 
 ## Architecture
 
