@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.15",
+	"version": "5.0.16",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -9,7 +9,7 @@
 		"build": "bun x rollup -c"
 	},
 	"dependencies": {
-		"@apollo/client": "^3.13.8",
+		"@apollo/client": "^4.0.0",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "^2.2.2",
 		"@tanstack/zod-adapter": "^1.129.7",
@@ -42,7 +42,7 @@
 		"@types/node": "^24.1.0",
 		"@types/react": "^19.1.9",
 		"@use-pico/tsconfig": "4.0.20",
-		"rollup": "4.47.0",
+		"rollup": "4.48.0",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},
