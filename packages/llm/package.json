@@ -1,0 +1,14 @@
+{
+	"name": "@use-pico/llm",
+	"description": "LLM helpers",
+	"version": "0.5.0",
+	"dependencies": {
+		"@mlc-ai/web-llm": "^0.2.79"
+	},
+	"main": "index.ts",
+	"types": "index.ts",
+	"exports": {
+		".": "./index.ts"
+	},
+	"license": "MIT"
+}
