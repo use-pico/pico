@@ -200,19 +200,21 @@ describe("8.2 Token Overrides", () => {
 		expect(defaultInstance.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test color token override
-		const colorTokenOverride = TokenComponent.create(({ what }) => ({
-			token: {
-				"color.bg.primary": what.css([
-					"bg-purple-500",
-				]),
-				"color.text.primary": what.css([
-					"text-purple-900",
-				]),
-				"color.border.primary": what.css([
-					"border-purple-600",
-				]),
-			},
-		}));
+		const colorTokenOverride = TokenComponent.create(
+			({ what, override }) => ({
+				token: override.token({
+					"color.bg.primary": what.css([
+						"bg-purple-500",
+					]),
+					"color.text.primary": what.css([
+						"text-purple-900",
+					]),
+					"color.border.primary": what.css([
+						"border-purple-600",
+					]),
+				}),
+			}),
+		);
 		expect(colorTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -224,19 +226,21 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test size token override
-		const sizeTokenOverride = TokenComponent.create(({ what }) => ({
-			token: {
-				"size.spacing.sm": what.css([
-					"p-1",
-				]),
-				"size.typography.sm": what.css([
-					"text-xs",
-				]),
-				"size.border.medium": what.css([
-					"border-2",
-				]),
-			},
-		}));
+		const sizeTokenOverride = TokenComponent.create(
+			({ what, override }) => ({
+				token: override.token({
+					"size.spacing.sm": what.css([
+						"p-1",
+					]),
+					"size.typography.sm": what.css([
+						"text-xs",
+					]),
+					"size.border.medium": what.css([
+						"border-2",
+					]),
+				}),
+			}),
+		);
 		expect(sizeTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -246,20 +250,22 @@ describe("8.2 Token Overrides", () => {
 		expect(sizeTokenOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test state token override
-		const stateTokenOverride = TokenComponent.create(({ what }) => ({
-			token: {
-				"state.interactive.hover": what.css([
-					"hover:bg-blue-100",
-				]),
-				"state.interactive.active": what.css([
-					"active:bg-blue-200",
-				]),
-				"state.interactive.disabled": what.css([
-					"opacity-30",
-					"pointer-events-none",
-				]),
-			},
-		}));
+		const stateTokenOverride = TokenComponent.create(
+			({ what, override }) => ({
+				token: override.token({
+					"state.interactive.hover": what.css([
+						"hover:bg-blue-100",
+					]),
+					"state.interactive.active": what.css([
+						"active:bg-blue-200",
+					]),
+					"state.interactive.disabled": what.css([
+						"opacity-30",
+						"pointer-events-none",
+					]),
+				}),
+			}),
+		);
 		expect(stateTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -271,25 +277,27 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test multiple token overrides
-		const multiTokenOverride = TokenComponent.create(({ what }) => ({
-			token: {
-				"color.bg.primary": what.css([
-					"bg-indigo-500",
-				]),
-				"color.text.primary": what.css([
-					"text-indigo-900",
-				]),
-				"size.spacing.lg": what.css([
-					"p-8",
-				]),
-				"size.typography.lg": what.css([
-					"text-xl",
-				]),
-				"state.interactive.hover": what.css([
-					"hover:shadow-lg",
-				]),
-			},
-		}));
+		const multiTokenOverride = TokenComponent.create(
+			({ what, override }) => ({
+				token: override.token({
+					"color.bg.primary": what.css([
+						"bg-indigo-500",
+					]),
+					"color.text.primary": what.css([
+						"text-indigo-900",
+					]),
+					"size.spacing.lg": what.css([
+						"p-8",
+					]),
+					"size.typography.lg": what.css([
+						"text-xl",
+					]),
+					"state.interactive.hover": what.css([
+						"hover:shadow-lg",
+					]),
+				}),
+			}),
+		);
 		expect(multiTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);

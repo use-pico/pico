@@ -13,8 +13,9 @@ import { cls } from "@use-pico/cls";
 export const PicoCls = cls(
 	{
 		tokens: [
-			// =====
-			// Primary Tone
+			/**
+			 * Primary Tone
+			 */
 			"tone.primary.light.text",
 			"tone.primary.light.text:hover",
 			"tone.primary.light.bg",
@@ -38,8 +39,9 @@ export const PicoCls = cls(
 			"tone.primary.dark.border:group-hover",
 			"tone.primary.dark.shadow",
 			"tone.primary.dark.shadow:hover",
-			//
-			// Secondary Tone
+			/**
+			 * Secondary Tone
+			 */
 			"tone.secondary.light.text",
 			"tone.secondary.light.text:hover",
 			"tone.secondary.light.bg",
@@ -63,8 +65,9 @@ export const PicoCls = cls(
 			"tone.secondary.dark.border:group-hover",
 			"tone.secondary.dark.shadow",
 			"tone.secondary.dark.shadow:hover",
-			//
-			// Danger Tone
+			/**
+			 * Danger Tone
+			 */
 			"tone.danger.light.text",
 			"tone.danger.light.text:hover",
 			"tone.danger.light.bg",
@@ -88,8 +91,9 @@ export const PicoCls = cls(
 			"tone.danger.dark.border:group-hover",
 			"tone.danger.dark.shadow",
 			"tone.danger.dark.shadow:hover",
-			//
-			// Warning Tone
+			/**
+			 * Warning Tone
+			 */
 			"tone.warning.light.text",
 			"tone.warning.light.text:hover",
 			"tone.warning.light.bg",
@@ -113,8 +117,9 @@ export const PicoCls = cls(
 			"tone.warning.dark.border:group-hover",
 			"tone.warning.dark.shadow",
 			"tone.warning.dark.shadow:hover",
-			//
-			// Subtle Tone
+			/**
+			 * Subtle Tone
+			 */
 			"tone.subtle.light.text",
 			"tone.subtle.light.text:hover",
 			"tone.subtle.light.bg",
@@ -138,8 +143,9 @@ export const PicoCls = cls(
 			"tone.subtle.dark.border:group-hover",
 			"tone.subtle.dark.shadow",
 			"tone.subtle.dark.shadow:hover",
-			//
-			// Neutral Tone
+			/**
+			 * Neutral Tone
+			 */
 			"tone.neutral.light.text",
 			"tone.neutral.light.text:hover",
 			"tone.neutral.light.bg",
@@ -163,20 +169,30 @@ export const PicoCls = cls(
 			"tone.neutral.dark.border:group-hover",
 			"tone.neutral.dark.shadow",
 			"tone.neutral.dark.shadow:hover",
-			//
-			// Layout & Spacing
+			/**
+			 * Rounding
+			 */
 			"round.sm",
 			"round.md",
 			"round.lg",
 			"round.xl",
-			//
-			// Shadows
+			/**
+			 * X-Y Padding
+			 */
+			"padding.xs",
+			"padding.sm",
+			"padding.md",
+			"padding.lg",
+			/**
+			 * Shadows
+			 */
 			"shadow.sm",
 			"shadow.md",
 			"shadow.lg",
 			"shadow.xl",
-			//
-			// Focus
+			/**
+			 * Focus
+			 */
 			"focus.off",
 			"focus.ring",
 		],
@@ -185,8 +201,9 @@ export const PicoCls = cls(
 	},
 	({ def, what }) => ({
 		token: def.token({
-			// =====
-			// Primary Tone - Modern Indigo/Purple
+			/**
+			 * Primary Tone - Modern Indigo/Purple
+			 */
 			"tone.primary.light.text": what.css([
 				"text-indigo-700",
 			]),
@@ -254,8 +271,9 @@ export const PicoCls = cls(
 			"tone.primary.dark.shadow:hover": what.css([
 				"hover:shadow-violet-800/50",
 			]),
-			//
-			// Secondary Tone - Modern Teal/Cyan
+			/**
+			 * Secondary Tone - Modern Teal/Cyan
+			 */
 			"tone.secondary.light.text": what.css([
 				"text-teal-700",
 			]),
@@ -323,8 +341,9 @@ export const PicoCls = cls(
 			"tone.secondary.dark.shadow:hover": what.css([
 				"hover:shadow-teal-800/50",
 			]),
-			//
-			// Danger Tone - Modern Rose/Red
+			/**
+			 * Danger Tone - Modern Rose/Red
+			 */
 			"tone.danger.light.text": what.css([
 				"text-rose-700",
 			]),
@@ -392,8 +411,9 @@ export const PicoCls = cls(
 			"tone.danger.dark.shadow:hover": what.css([
 				"hover:shadow-rose-800/50",
 			]),
-			//
-			// Warning Tone - Modern Amber/Orange
+			/**
+			 * Warning Tone - Modern Amber/Orange
+			 */
 			"tone.warning.light.text": what.css([
 				"text-amber-700",
 			]),
@@ -461,8 +481,9 @@ export const PicoCls = cls(
 			"tone.warning.dark.shadow:hover": what.css([
 				"hover:shadow-amber-800/50",
 			]),
-			//
-			// Subtle Tone - Modern Stone/Neutral
+			/**
+			 * Subtle Tone - Modern Stone/Neutral
+			 */
 			"tone.subtle.light.text": what.css([
 				"text-stone-700",
 			]),
@@ -530,8 +551,9 @@ export const PicoCls = cls(
 			"tone.subtle.dark.shadow:hover": what.css([
 				"hover:shadow-stone-800/50",
 			]),
-			//
-			// Neutral Tone - Enhanced Slate
+			/**
+			 * Neutral Tone - Enhanced Slate
+			 */
 			"tone.neutral.light.text": what.css([
 				"text-slate-900",
 			]),
@@ -599,8 +621,9 @@ export const PicoCls = cls(
 			"tone.neutral.dark.shadow:hover": what.css([
 				"hover:shadow-slate-800/50",
 			]),
-			//
-			// Layout & Spacing
+			/**
+			 * Rounding
+			 */
 			"round.sm": what.css([
 				"rounded-sm",
 			]),
@@ -613,8 +636,28 @@ export const PicoCls = cls(
 			"round.xl": what.css([
 				"rounded-xl",
 			]),
-			//
-			// Shadows
+			/**
+			 * X-Y Padding
+			 */
+			"padding.xs": what.css([
+				"px-2",
+				"py-0.5",
+			]),
+			"padding.sm": what.css([
+				"px-4",
+				"py-2",
+			]),
+			"padding.md": what.css([
+				"px-6",
+				"py-2",
+			]),
+			"padding.lg": what.css([
+				"px-8",
+				"py-4",
+			]),
+			/**
+			 * Shadows
+			 */
 			"shadow.sm": what.css([
 				"shadow-sm",
 			]),
@@ -627,8 +670,9 @@ export const PicoCls = cls(
 			"shadow.xl": what.css([
 				"shadow-xl",
 			]),
-			//
-			// Focus
+			/**
+			 * Focus
+			 */
 			"focus.off": what.css([
 				"outline-none",
 				"focus:outline-none",

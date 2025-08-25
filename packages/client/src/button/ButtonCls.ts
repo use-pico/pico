@@ -3,11 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const ButtonCls = PicoCls.extend(
 	{
-		tokens: [
-			"button.size.xs",
-			"button.size.sm",
-			"button.size.md",
-		],
+		tokens: [],
 		slot: [
 			"root",
 		],
