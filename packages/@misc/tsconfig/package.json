@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/tsconfig",
 	"description": "Common tsconfig used within @use-pico namespace.",
-	"version": "4.0.20",
+	"version": "4.0.21",
 	"files": [
 		"common.json"
 	],
