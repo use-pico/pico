@@ -26,21 +26,24 @@ export const MenuLinkCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"rounded-sm",
-					"px-2",
-					"py-1",
-					"border",
-					"border-b-2",
-					"border-transparent",
-					"transition-all",
-					"hover:scale-105",
-					"active:scale-95",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"px-2",
+						"py-1",
+						"border",
+						"border-b-2",
+						"border-transparent",
+						"transition-all",
+					],
+					[
+						"round.default",
+						"scale.default",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

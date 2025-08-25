@@ -172,10 +172,18 @@ export const PicoCls = cls(
 			/**
 			 * Rounding
 			 */
+			"round.default",
 			"round.sm",
 			"round.md",
 			"round.lg",
 			"round.xl",
+			/**
+			 * Border
+			 */
+			"border.default",
+			"border.sm",
+			"border.md",
+			"border.lg",
 			/**
 			 * X-Y Padding
 			 */
@@ -183,9 +191,22 @@ export const PicoCls = cls(
 			"padding.sm",
 			"padding.md",
 			"padding.lg",
+			//
+			"square.xs",
+			"square.sm",
+			"square.md",
+			"square.lg",
+			/**
+			 * Scale
+			 */
+			"scale.default",
+			"scale.sm",
+			"scale.md",
+			"scale.lg",
 			/**
 			 * Shadows
 			 */
+			"shadow.default",
 			"shadow.sm",
 			"shadow.md",
 			"shadow.lg",
@@ -195,6 +216,24 @@ export const PicoCls = cls(
 			 */
 			"focus.off",
 			"focus.ring",
+			/**
+			 * Misc
+			 */
+			"disabled",
+			/**
+			 * Button stuff
+			 */
+			"button.round",
+			"button.scale",
+			"button.border",
+			"button.shadow",
+			/**
+			 * Action stuff
+			 */
+			"action.round",
+			"action.scale",
+			"action.border",
+			"action.shadow",
 		],
 		slot: [],
 		variant: {},
@@ -624,6 +663,9 @@ export const PicoCls = cls(
 			/**
 			 * Rounding
 			 */
+			"round.default": what.css([
+				"rounded-md",
+			]),
 			"round.sm": what.css([
 				"rounded-sm",
 			]),
@@ -637,27 +679,81 @@ export const PicoCls = cls(
 				"rounded-xl",
 			]),
 			/**
+			 * Border
+			 */
+			"border.default": what.css([
+				"border-2",
+			]),
+			"border.sm": what.css([
+				"border",
+			]),
+			"border.md": what.css([
+				"border-2",
+			]),
+			"border.lg": what.css([
+				"border-4",
+			]),
+			/**
 			 * X-Y Padding
 			 */
 			"padding.xs": what.css([
-				"px-2",
+				"px-4",
 				"py-0.5",
 			]),
 			"padding.sm": what.css([
-				"px-4",
-				"py-2",
+				"px-6",
+				"py-1",
 			]),
 			"padding.md": what.css([
-				"px-6",
-				"py-2",
+				"px-8",
+				"py-1.5",
 			]),
 			"padding.lg": what.css([
-				"px-8",
+				"px-12",
+				"py-2",
+			]),
+			//
+			"square.xs": what.css([
+				"px-1",
+				"py-1",
+			]),
+			"square.sm": what.css([
+				"px-2",
+				"py-2",
+			]),
+			"square.md": what.css([
+				"px-3",
+				"py-3",
+			]),
+			"square.lg": what.css([
+				"px-4",
 				"py-4",
+			]),
+			/**
+			 * Scale
+			 */
+			"scale.default": what.css([
+				"active:scale-97",
+				"hover:scale-105",
+			]),
+			"scale.sm": what.css([
+				"active:scale-97",
+				"hover:scale-102",
+			]),
+			"scale.md": what.css([
+				"active:scale-97",
+				"hover:scale-105",
+			]),
+			"scale.lg": what.css([
+				"active:scale-97",
+				"hover:scale-107",
 			]),
 			/**
 			 * Shadows
 			 */
+			"shadow.default": what.css([
+				"shadow-sm",
+			]),
 			"shadow.sm": what.css([
 				"shadow-sm",
 			]),
@@ -694,6 +790,45 @@ export const PicoCls = cls(
 				"focus-visible:ring-2",
 				"focus-visible:ring-indigo-500",
 				"focus-visible:ring-offset-2",
+			]),
+			/**
+			 * Misc
+			 */
+			disabled: what.css([
+				"opacity-60",
+				"cursor-not-allowed",
+				"pointer-events-none",
+				"shadow-none",
+			]),
+			/**
+			 * Button stuff
+			 */
+			"button.round": what.token([
+				"round.default",
+			]),
+			"button.scale": what.token([
+				"scale.default",
+			]),
+			"button.border": what.token([
+				"border.default",
+			]),
+			"button.shadow": what.token([
+				"shadow.default",
+			]),
+			/**
+			 * Action stuff
+			 */
+			"action.round": what.token([
+				"round.default",
+			]),
+			"action.scale": what.token([
+				"scale.default",
+			]),
+			"action.border": what.token([
+				"border.default",
+			]),
+			"action.shadow": what.token([
+				"shadow.default",
 			]),
 		}),
 		rules: [],

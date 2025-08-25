@@ -91,9 +91,12 @@ export type TokensOfList<T extends Contract<any, any, any>> = ListOf<
 >;
 
 // Updated: Token definitions now support What<T> objects (CSS classes + token references)
-export type TokenDefinitionRequired<T extends Contract<any, any, any>> = {
-	[K in T["tokens"][number]]: What<T>;
-};
+export type TokenDefinitionRequired<T extends Contract<any, any, any>> =
+	T["tokens"][number] extends never
+		? {
+				[K: string]: never;
+			} // If no tokens declared, no properties allowed
+		: { [K in T["tokens"][number]]: What<T> }; // If tokens declared, they are required
 
 export type TokenDefinitionOptional<T extends Contract<any, any, any>> =
 	Partial<Record<TokensOf<T>, What<T>>>;
@@ -101,7 +104,7 @@ export type TokenDefinitionOptional<T extends Contract<any, any, any>> =
 export type TokenDefinitionEx<T extends Contract<any, any, any>> =
 	T["tokens"][number] extends never
 		? TokenDefinitionOptional<T> // If no local tokens, only inherited tokens are allowed
-		: TokenDefinitionRequired<T>; // If local tokens exist, they are required
+		: TokenDefinitionOptional<T> & TokenDefinitionRequired<T>; // If local tokens exist, they are required
 
 /**
  * Extended utility interface for CLS extension operations.

@@ -42,7 +42,7 @@ describe("1.2 Token System Basics - Token Inheritance", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: def.token({                    
+				token: def.token({
 					"color.bg.default": what.css([
 						"bg-blue-100",
 					]),

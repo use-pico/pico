@@ -17,6 +17,13 @@ const themes = [
 	"dark",
 ] as const;
 
+const sizes = [
+	"xs",
+	"sm",
+	"md",
+	"lg",
+] as const;
+
 export const Route = createFileRoute("/$locale/components/action")({
 	component() {
 		return (
@@ -27,6 +34,37 @@ export const Route = createFileRoute("/$locale/components/action")({
 					"space-y-8",
 				])}
 			>
+				{/* Sizes */}
+				<Section title={<Tx label={"Sizes"} />}>
+					<div className="grid grid-cols-2 gap-8">
+						{themes.map((theme) => (
+							<div
+								key={`sizes-${theme}`}
+								className="flex flex-col space-y-3"
+							>
+								<div className="text-sm font-medium text-slate-600">
+									<Tx label={`${theme} theme`} />
+								</div>
+								<div className="flex flex-col items-center space-y-2">
+									{sizes.map((size) => (
+										<Action
+											key={`size-${size}-${theme}`}
+											iconEnabled={TrashIcon}
+											cls={({ what }) => ({
+												variant: what.variant({
+													tone: "primary",
+													theme,
+													size,
+												}),
+											})}
+										/>
+									))}
+								</div>
+							</div>
+						))}
+					</div>
+				</Section>
+
 				{/* Tones - Light Theme */}
 				<Section title={<Tx label={"Tones - Light Theme"} />}>
 					<div className="grid grid-cols-4 gap-6">

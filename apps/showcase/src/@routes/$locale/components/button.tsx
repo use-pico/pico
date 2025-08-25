@@ -16,6 +16,7 @@ const sizes = [
 	"xs",
 	"sm",
 	"md",
+	"lg",
 ] as const;
 
 const themes = [

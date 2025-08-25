@@ -29,6 +29,12 @@ export const ActionCls = PicoCls.extend(
 			borderless: [
 				"bool",
 			],
+			size: [
+				"xs",
+				"sm",
+				"md",
+				"lg",
+			],
 		},
 	},
 	({ what, def }) => ({
@@ -44,19 +50,59 @@ export const ActionCls = PicoCls.extend(
 						"group",
 						"transition-all",
 						"cursor-pointer",
-						"border",
-						"px-1",
-						"py-1",
-						"rounded-md",
 						"select-none",
-						"active:scale-95",
-						"hover:scale-110",
 					],
 					[
-						"shadow.sm",
+						"action.scale",
+						"action.round",
+						"action.shadow",
+						"action.border",
 					],
 				),
 			}),
+			/**
+			 * Size rules
+			 */
+			def.rule(
+				what.variant({
+					size: "xs",
+				}),
+				{
+					base: what.token([
+						"square.xs",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "sm",
+				}),
+				{
+					base: what.token([
+						"square.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "md",
+				}),
+				{
+					base: what.token([
+						"square.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "lg",
+				}),
+				{
+					base: what.token([
+						"square.lg",
+					]),
+				},
+			),
 			// Tone rules (dark)
 			def.rule(
 				what.variant({
@@ -281,11 +327,8 @@ export const ActionCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
-						"opacity-60",
-						"cursor-not-allowed",
-						"pointer-events-none",
-						"shadow-none",
+					base: what.token([
+						"disabled",
 					]),
 				},
 			),
@@ -295,9 +338,8 @@ export const ActionCls = PicoCls.extend(
 					loading: true,
 				}),
 				{
-					base: what.css([
-						"pointer-events-none",
-						"opacity-60",
+					base: what.token([
+						"disabled",
 					]),
 				},
 			),
@@ -319,6 +361,7 @@ export const ActionCls = PicoCls.extend(
 			disabled: false,
 			loading: false,
 			borderless: false,
+			size: "xs",
 		}),
 	}),
 );

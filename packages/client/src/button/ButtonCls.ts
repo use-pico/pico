@@ -27,6 +27,7 @@ export const ButtonCls = PicoCls.extend(
 				"xs",
 				"sm",
 				"md",
+				"lg",
 			],
 			borderless: [
 				"bool",
@@ -34,23 +35,7 @@ export const ButtonCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: def.token({
-			"button.size.xs": what.css([
-				"px-2",
-				"py-0.5",
-				"text-xs",
-			]),
-			"button.size.sm": what.css([
-				"px-4",
-				"py-2",
-				"text-sm",
-			]),
-			"button.size.md": what.css([
-				"px-6",
-				"py-2",
-				"text-base",
-			]),
-		}),
+		token: def.token({}),
 		rules: [
 			def.root({
 				root: what.both(
@@ -63,14 +48,14 @@ export const ButtonCls = PicoCls.extend(
 						"group",
 						"transition-all",
 						"cursor-pointer",
-						"border",
 						"select-none",
-						"active:scale-95",
 						"active:opacity-90",
-						"hover:scale-105",
 					],
 					[
-						"shadow.sm",
+						"button.scale",
+						"button.border",
+						"button.round",
+						"button.shadow",
 					],
 				),
 			}),
@@ -83,9 +68,8 @@ export const ButtonCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"button.size.xs",
-						"round.sm",
-						"shadow.sm",
+						"padding.xs",
+						"button.shadow",
 					]),
 				},
 			),
@@ -95,9 +79,8 @@ export const ButtonCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"button.size.sm",
-						"round.md",
-						"shadow.sm",
+						"padding.sm",
+						"button.shadow",
 					]),
 				},
 			),
@@ -107,9 +90,19 @@ export const ButtonCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"button.size.md",
-						"round.lg",
-						"shadow.md",
+						"padding.md",
+						"button.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "lg",
+				}),
+				{
+					root: what.token([
+						"padding.lg",
+						"button.shadow",
 					]),
 				},
 			),
@@ -340,11 +333,8 @@ export const ButtonCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					root: what.css([
-						"opacity-60",
-						"cursor-not-allowed",
-						"pointer-events-none",
-						"shadow-none",
+					root: what.token([
+						"disabled",
 					]),
 				},
 			),
