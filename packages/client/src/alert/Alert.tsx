@@ -12,7 +12,7 @@ import { AlertCls } from "./AlertCls";
  */
 export namespace Alert {
 	export interface Props extends AlertCls.Props<PropsWithChildren> {
-		icon?: string;
+		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		title?: ReactNode;
 		message?: ReactNode;
@@ -30,7 +30,7 @@ export const Alert: FC<Alert.Props> = ({
 	tva = AlertCls,
 	children,
 }) => {
-	const classes = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			clickable: Boolean(onClick),
 		}),
@@ -38,11 +38,11 @@ export const Alert: FC<Alert.Props> = ({
 
 	return (
 		<div
-			className={classes.base()}
+			className={slots.base()}
 			onClick={onClick}
 			role={"alert"}
 		>
-			<div className={"flex items-center gap-2 w-full"}>
+			<div className={slots.header()}>
 				{icon && (
 					<Icon
 						icon={icon}
@@ -54,10 +54,10 @@ export const Alert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<div className={classes.title()}>{title}</div>
+				<div className={slots.title()}>{title}</div>
 			</div>
-			{message && <div className={classes.message()}>{message}</div>}
-			{children && <div className={classes.body()}>{children}</div>}
+			{message && <div className={slots.message()}>{message}</div>}
+			{children && <div className={slots.body()}>{children}</div>}
 		</div>
 	);
 };

@@ -22,90 +22,207 @@ export const Route = createFileRoute("/$locale/components/alert")({
 					"w-full",
 				])}
 			>
-				<Section title={<Tx label={"Default (dark)"} />}>
+				<Section title={<Tx label={"Light Theme - Title Only"} />}>
 					{tones.map((tone) => (
 						<Row
-							key={`tone-${tone}`}
+							key={`tone-light-title-${tone}`}
 							label={<Tx label={tone} />}
 						>
 							<Alert
-								title={`${tone} title`}
-								message={`${tone} message`}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-									}),
-								})}
-							>
-								<Tx label={`${tone}`} />
-							</Alert>
-						</Row>
-					))}
-				</Section>
-
-				<Section title={<Tx label={"Light"} />}>
-					{tones.map((tone) => (
-						<Row
-							key={`tone-light-${tone}`}
-							label={<Tx label={`${tone} light`} />}
-						>
-							<Alert
-								title={`${tone} light title`}
-								message={`${tone} light message`}
+								title={`${tone} alert`}
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
 									}),
 								})}
-							>
-								<Tx label={`${tone} light`} />
-							</Alert>
+							/>
 						</Row>
 					))}
 				</Section>
 
-				<Section title={<Tx label={"Clickable (dark)"} />}>
+				<Section title={<Tx label={"Light Theme - Title + Icon"} />}>
 					{tones.map((tone) => (
 						<Row
-							key={`tone-clickable-${tone}`}
-							label={<Tx label={`${tone} clickable`} />}
+							key={`tone-light-icon-${tone}`}
+							label={<Tx label={tone} />}
 						>
 							<Alert
-								title={`${tone} clickable title`}
-								message={`${tone} clickable message`}
-								cls={({ what }) => ({
-									variant: what.variant({
-										tone,
-									}),
-								})}
-								onClick={() => {}}
-							>
-								<Tx label={`${tone} clickable`} />
-							</Alert>
-						</Row>
-					))}
-				</Section>
-
-				<Section title={<Tx label={"Clickable light"} />}>
-					{tones.map((tone) => (
-						<Row
-							key={`tone-clickable-light-${tone}`}
-							label={<Tx label={`${tone} clickable light`} />}
-						>
-							<Alert
-								title={`${tone} clickable light title`}
-								message={`${tone} clickable light message`}
+								icon="icon-[ph--info]"
+								title={`${tone} alert with icon`}
 								cls={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
 									}),
 								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Light Theme - Title + Message"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-light-message-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								title={`${tone} alert`}
+								message={`This is a ${tone} alert with a descriptive message that provides additional context and information.`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										theme: "light",
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section
+					title={
+						<Tx label={"Light Theme - Title + Icon + Message"} />
+					}
+				>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-light-full-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								icon="icon-[ph--info]"
+								title={`${tone} alert`}
+								message={`This is a ${tone} alert with both an icon and a descriptive message that provides additional context and information.`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										theme: "light",
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Light Theme - Clickable"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-light-clickable-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								icon="icon-[ph--info]"
+								title={`${tone} clickable alert`}
+								message={`This ${tone} alert is clickable and can be used for interactive notifications.`}
 								onClick={() => {}}
-							>
-								<Tx label={`${tone} clickable light`} />
-							</Alert>
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+										theme: "light",
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Dark Theme - Title Only"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-dark-title-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								title={`${tone} alert`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Dark Theme - Title + Icon"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-dark-icon-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								icon="icon-[ph--info]"
+								title={`${tone} alert with icon`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Dark Theme - Title + Message"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-dark-message-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								title={`${tone} alert`}
+								message={`This is a ${tone} alert with a descriptive message that provides additional context and information.`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section
+					title={<Tx label={"Dark Theme - Title + Icon + Message"} />}
+				>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-dark-full-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								icon="icon-[ph--info]"
+								title={`${tone} alert`}
+								message={`This is a ${tone} alert with both an icon and a descriptive message that provides additional context and information.`}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
+						</Row>
+					))}
+				</Section>
+
+				<Section title={<Tx label={"Dark Theme - Clickable"} />}>
+					{tones.map((tone) => (
+						<Row
+							key={`tone-dark-clickable-${tone}`}
+							label={<Tx label={tone} />}
+						>
+							<Alert
+								icon="icon-[ph--info]"
+								title={`${tone} clickable alert`}
+								message={`This ${tone} alert is clickable and can be used for interactive notifications.`}
+								onClick={() => {}}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone,
+									}),
+								})}
+							/>
 						</Row>
 					))}
 				</Section>
@@ -161,21 +278,22 @@ function Row({
 		<div
 			className={tvc([
 				"flex",
-				"items-center",
-				"gap-4",
+				"flex-col",
+				"gap-2",
 			])}
 		>
 			<div
 				className={tvc([
-					"w-40",
+					"text-sm",
 					"text-slate-500",
+					"font-medium",
 				])}
 			>
 				{label}
 			</div>
 			<div
 				className={tvc([
-					"flex-1",
+					"w-full",
 				])}
 			>
 				{children}

@@ -47,10 +47,10 @@ export const BadgeCls = PicoCls.extend(
 						"items-center",
 						"select-none",
 						"text-sm",
+						"rounded-full",
 					],
 					[
 						"border.default",
-						"round.default",
 					],
 				),
 			}),
@@ -256,10 +256,9 @@ export const BadgeCls = PicoCls.extend(
 					root: what.both(
 						[
 							"text-xs",
-							"px-2",
-							"py-0.5",
 						],
 						[
+							"padding.xs",
 							"shadow.sm",
 						],
 					),
@@ -277,6 +276,7 @@ export const BadgeCls = PicoCls.extend(
 							"py-1",
 						],
 						[
+							"padding.sm",
 							"shadow.sm",
 						],
 					),
@@ -294,6 +294,7 @@ export const BadgeCls = PicoCls.extend(
 							"py-1.5",
 						],
 						[
+							"padding.md",
 							"shadow.md",
 						],
 					),
@@ -311,6 +312,7 @@ export const BadgeCls = PicoCls.extend(
 							"py-2",
 						],
 						[
+							"padding.lg",
 							"shadow.lg",
 						],
 					),

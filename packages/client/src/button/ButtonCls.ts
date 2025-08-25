@@ -52,10 +52,10 @@ export const ButtonCls = PicoCls.extend(
 						"active:opacity-90",
 					],
 					[
-						"button.scale",
-						"button.border",
-						"button.round",
-						"button.shadow",
+						"scale.default",
+						"border.default",
+						"round.default",
+						"shadow.default",
 					],
 				),
 			}),
@@ -69,7 +69,7 @@ export const ButtonCls = PicoCls.extend(
 				{
 					root: what.token([
 						"padding.xs",
-						"button.shadow",
+						"shadow.default",
 					]),
 				},
 			),
@@ -80,7 +80,7 @@ export const ButtonCls = PicoCls.extend(
 				{
 					root: what.token([
 						"padding.sm",
-						"button.shadow",
+						"shadow.default",
 					]),
 				},
 			),
@@ -91,7 +91,7 @@ export const ButtonCls = PicoCls.extend(
 				{
 					root: what.token([
 						"padding.md",
-						"button.shadow",
+						"shadow.default",
 					]),
 				},
 			),
@@ -102,7 +102,7 @@ export const ButtonCls = PicoCls.extend(
 				{
 					root: what.token([
 						"padding.lg",
-						"button.shadow",
+						"shadow.default",
 					]),
 				},
 			),

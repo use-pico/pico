@@ -6,6 +6,7 @@ export const AlertCls = PicoCls.extend(
 		tokens: [],
 		slot: [
 			"base",
+			"header",
 			"title",
 			"message",
 			"body",
@@ -34,16 +35,24 @@ export const AlertCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"rounded",
 						"py-2",
 						"px-3",
 						"flex",
 						"flex-col",
+						"gap-2",
 					],
 					[
+						"shadow.default",
+						"round.default",
 						"border.default",
 					],
 				),
+				header: what.css([
+					"flex",
+					"items-center",
+					"gap-2",
+					"w-full",
+				]),
 				title: what.css([
 					"font-semibold",
 					"w-full",
@@ -69,6 +78,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.primary.dark.text",
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
+						"tone.primary.dark.shadow",
 					]),
 					body: what.token([
 						"tone.primary.dark.border",
@@ -85,6 +95,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.primary.light.text",
 						"tone.primary.light.bg",
 						"tone.primary.light.border",
+						"tone.primary.light.shadow",
 					]),
 					body: what.token([
 						"tone.primary.light.border",
@@ -101,6 +112,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.secondary.dark.text",
 						"tone.secondary.dark.bg",
 						"tone.secondary.dark.border",
+						"tone.secondary.dark.shadow",
 					]),
 					body: what.token([
 						"tone.secondary.dark.border",
@@ -117,6 +129,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.secondary.light.text",
 						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
+						"tone.secondary.light.shadow",
 					]),
 					body: what.token([
 						"tone.secondary.light.border",
@@ -133,6 +146,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.danger.dark.text",
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
+						"tone.danger.dark.shadow",
 					]),
 					body: what.token([
 						"tone.danger.dark.border",
@@ -149,6 +163,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.danger.light.text",
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
+						"tone.danger.light.shadow",
 					]),
 					body: what.token([
 						"tone.danger.light.border",
@@ -165,6 +180,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.warning.dark.text",
 						"tone.warning.dark.bg",
 						"tone.warning.dark.border",
+						"tone.warning.dark.shadow",
 					]),
 					body: what.token([
 						"tone.warning.dark.border",
@@ -181,6 +197,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.warning.light.text",
 						"tone.warning.light.bg",
 						"tone.warning.light.border",
+						"tone.warning.light.shadow",
 					]),
 					body: what.token([
 						"tone.warning.light.border",
@@ -197,6 +214,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.neutral.dark.text",
 						"tone.neutral.dark.bg",
 						"tone.neutral.dark.border",
+						"tone.neutral.dark.shadow",
 					]),
 					body: what.token([
 						"tone.neutral.dark.border",
@@ -213,6 +231,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
+						"tone.neutral.light.shadow",
 					]),
 					body: what.token([
 						"tone.neutral.light.border",
@@ -229,6 +248,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.subtle.dark.text",
 						"tone.subtle.dark.bg",
 						"tone.subtle.dark.border",
+						"tone.subtle.dark.shadow",
 					]),
 					body: what.token([
 						"tone.subtle.dark.border",
@@ -245,6 +265,7 @@ export const AlertCls = PicoCls.extend(
 						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
+						"tone.subtle.light.shadow",
 					]),
 					body: what.token([
 						"tone.subtle.light.border",
@@ -257,15 +278,18 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				}),
 				{
-					base: what.css([
-						"group",
-						"cursor-pointer",
-						"transition-all",
-						"hover:shadow-md",
-						"active:scale-99",
-						"active:opacity-90",
-						"hover:scale-101",
-					]),
+					base: what.both(
+						[
+							"group",
+							"cursor-pointer",
+							"transition-all",
+							"hover:shadow-md",
+							"active:opacity-90",
+						],
+						[
+							"scale.sm",
+						],
+					),
 				},
 			),
 		],

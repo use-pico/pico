@@ -3,20 +3,7 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const BoolInputCls = PicoCls.extend(
 	{
-		tokens: [
-			// Switch-specific tokens
-			"switch.track",
-			"switch.track:disabled",
-			"switch.thumb",
-			"switch.thumb:disabled",
-			"switch.input",
-			// Layout tokens
-			"switch.container",
-			"switch.content",
-			"switch.label",
-			"switch.description",
-			"switch.textContainer",
-		],
+		tokens: [],
 		slot: [
 			"root",
 			"track",
@@ -49,81 +36,7 @@ export const BoolInputCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: def.token({
-			// Switch track styling
-			"switch.track": what.both(
-				[
-					"relative",
-					"inline-flex",
-					"items-center",
-					"transition-colors",
-					"duration-200",
-					"ease-in-out",
-					"cursor-pointer",
-					"bg-gray-200",
-					"border-gray-300",
-				],
-				[
-					"border.default",
-					"round.full",
-				],
-			),
-
-			"switch.track:disabled": what.css([
-				"opacity-50",
-				"cursor-not-allowed",
-			]),
-			// Switch thumb styling
-			"switch.thumb": what.both(
-				[
-					"inline-block",
-					"bg-white",
-					"shadow-sm",
-					"border-gray-300",
-					"transition-transform",
-					"duration-200",
-					"ease-in-out",
-				],
-				[
-					"border.default",
-					"round.full",
-				],
-			),
-
-			"switch.thumb:disabled": what.css([
-				"opacity-50",
-			]),
-			// Hidden input
-			"switch.input": what.css([
-				"sr-only",
-			]),
-			// Layout styling
-			"switch.container": what.css([
-				"flex",
-				"items-center",
-				"justify-between",
-			]),
-			"switch.content": what.css([
-				"flex",
-				"items-center",
-				"gap-3",
-			]),
-			"switch.label": what.css([
-				"text-sm",
-				"font-medium",
-				"text-gray-900",
-				"cursor-pointer",
-			]),
-			"switch.description": what.css([
-				"text-sm",
-				"text-gray-500",
-			]),
-			"switch.textContainer": what.css([
-				"flex",
-				"flex-col",
-				"gap-1",
-			]),
-		}),
+		token: def.token({}),
 		rules: [
 			def.root({
 				root: what.both(
@@ -140,32 +53,72 @@ export const BoolInputCls = PicoCls.extend(
 						"round.full",
 					],
 				),
-				track: what.token([
-					"switch.track",
+				track: what.both(
+					[
+						"relative",
+						"inline-flex",
+						"items-center",
+						"justify-start",
+						"transition-colors",
+						"duration-200",
+						"ease-in-out",
+						"cursor-pointer",
+						"bg-gray-200",
+						"border-gray-300",
+						"[container-type:size]",
+					],
+					[
+						"border.default",
+						"round.full",
+					],
+				),
+				thumb: what.both(
+					[
+						"absolute",
+						"bg-white",
+						"shadow-sm",
+						"border-gray-300",
+						"transition-transform",
+						"duration-200",
+						"ease-in-out",
+						"top-1/2",
+						"-translate-y-1/2",
+					],
+					[
+						"border.default",
+						"round.full",
+					],
+				),
+				input: what.css([
+					"sr-only",
 				]),
-				thumb: what.token([
-					"switch.thumb",
+				container: what.css([
+					"flex",
+					"items-center",
+					"justify-between",
 				]),
-				input: what.token([
-					"switch.input",
+				content: what.css([
+					"flex",
+					"items-center",
+					"gap-3",
 				]),
-				container: what.token([
-					"switch.container",
+				label: what.css([
+					"text-sm",
+					"font-medium",
+					"text-gray-900",
+					"cursor-pointer",
 				]),
-				content: what.token([
-					"switch.content",
+				description: what.css([
+					"text-sm",
+					"text-gray-500",
 				]),
-				label: what.token([
-					"switch.label",
-				]),
-				description: what.token([
-					"switch.description",
-				]),
-				textContainer: what.token([
-					"switch.textContainer",
+				textContainer: what.css([
+					"flex",
+					"flex-col",
+					"gap-1",
 				]),
 			}),
-			// Size variants
+			// Size variants (shared styles regardless of value)
 			def.rule(
 				what.variant({
 					size: "sm",
@@ -178,7 +131,6 @@ export const BoolInputCls = PicoCls.extend(
 					thumb: what.css([
 						"w-3",
 						"h-3",
-						"ml-0.5",
 					]),
 				},
 			),
@@ -188,13 +140,12 @@ export const BoolInputCls = PicoCls.extend(
 				}),
 				{
 					track: what.css([
-						"w-11",
+						"w-12",
 						"h-6",
 					]),
 					thumb: what.css([
 						"w-5",
 						"h-5",
-						"ml-0.5",
 					]),
 				},
 			),
@@ -210,7 +161,18 @@ export const BoolInputCls = PicoCls.extend(
 					thumb: what.css([
 						"w-6",
 						"h-6",
-						"ml-0.5",
+					]),
+				},
+			),
+			// Value-specific positioning
+			def.rule(
+				what.variant({
+					value: true,
+				}),
+				{
+					thumb: what.css([
+						"transform",
+						"translate-x-[calc(100cqw-100%)]",
 					]),
 				},
 			),
@@ -237,10 +199,6 @@ export const BoolInputCls = PicoCls.extend(
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
 					]),
-					thumb: what.css([
-						"transform",
-						"translate-x-full",
-					]),
 				},
 			),
 			def.rule(
@@ -264,10 +222,6 @@ export const BoolInputCls = PicoCls.extend(
 					track: what.token([
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
-					]),
-					thumb: what.css([
-						"transform",
-						"translate-x-full",
 					]),
 				},
 			),
@@ -293,10 +247,6 @@ export const BoolInputCls = PicoCls.extend(
 						"tone.warning.dark.bg",
 						"tone.warning.dark.border",
 					]),
-					thumb: what.css([
-						"transform",
-						"translate-x-full",
-					]),
 				},
 			),
 			def.rule(
@@ -321,10 +271,6 @@ export const BoolInputCls = PicoCls.extend(
 						"tone.neutral.dark.bg",
 						"tone.neutral.dark.border",
 					]),
-					thumb: what.css([
-						"transform",
-						"translate-x-full",
-					]),
 				},
 			),
 			// Disabled variant rules
@@ -337,11 +283,12 @@ export const BoolInputCls = PicoCls.extend(
 						"focus:ring-0",
 						"focus:outline-none",
 					]),
-					track: what.token([
-						"switch.track:disabled",
+					track: what.css([
+						"opacity-50",
+						"cursor-not-allowed",
 					]),
-					thumb: what.token([
-						"switch.thumb:disabled",
+					thumb: what.css([
+						"opacity-50",
 					]),
 				},
 			),
