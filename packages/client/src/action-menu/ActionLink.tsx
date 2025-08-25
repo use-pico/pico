@@ -1,17 +1,16 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import { useCls } from "@use-pico/cls";
-import { isString } from "@use-pico/common";
-import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from "react";
+import { type AnchorHTMLAttributes, forwardRef } from "react";
 import { Icon } from "../icon/Icon";
 import { ActionLinkCls } from "./ActionLinkCls";
 
-interface Item
+interface BaseActionLinkProps
 	extends ActionLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
-	icon?: string | ReactNode;
+	icon?: Icon.Type;
 	iconProps?: Icon.Props;
 }
 
-const Item = forwardRef<HTMLAnchorElement, Item>(
+const BaseActionLink = forwardRef<HTMLAnchorElement, BaseActionLinkProps>(
 	(
 		{
 			icon = null,
@@ -34,25 +33,21 @@ const Item = forwardRef<HTMLAnchorElement, Item>(
 				className={slots.root()}
 				ref={ref}
 			>
-				{isString(icon) ? (
-					<Icon
-						icon={icon}
-						{...iconProps}
-					/>
-				) : (
-					icon
-				)}
+				<Icon
+					icon={icon}
+					{...iconProps}
+				/>
 				{children}
 			</a>
 		);
 	},
 );
 
-const Link = createLink(Item);
+const CreateActionLink = createLink(BaseActionLink);
 
-export const ActionLink: LinkComponent<typeof Item> = (props) => {
+export const ActionLink: LinkComponent<typeof BaseActionLink> = (props) => {
 	return (
-		<Link
+		<CreateActionLink
 			preload={"intent"}
 			{...props}
 		/>

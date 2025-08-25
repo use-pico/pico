@@ -15,9 +15,6 @@ export const ActionMenuCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"pico--action-menu-base",
-						"p-4",
-						"rounded-sm",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -26,6 +23,8 @@ export const ActionMenuCls = PicoCls.extend(
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.dark.shadow",
+						"round.default",
+						"square.md",
 						"shadow.md",
 					],
 				),

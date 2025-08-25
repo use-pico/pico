@@ -24,15 +24,18 @@ export const ValueOfCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"pico--value-of",
-						"border",
 						"px-2",
 						"py-1",
-						"rounded-md",
 						"group",
+						"transition-all",
 					],
 					[
+						"shadow.sm",
+						"border.default",
+						"round.default",
 						"tone.neutral.light.border",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
 					],
 				),
 				label: what.both(
@@ -88,14 +91,10 @@ export const ValueOfCls = PicoCls.extend(
 					withBackground: true,
 				}),
 				{
-					base: what.both(
-						[],
-						[
-							"tone.neutral.light.bg",
-							"tone.neutral.light.bg:hover",
-							"tone.neutral.light.border:hover",
-						],
-					),
+					base: what.token([
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border:hover",
+					]),
 				},
 			),
 		],

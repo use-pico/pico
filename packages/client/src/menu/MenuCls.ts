@@ -31,6 +31,7 @@ export const MenuCls = PicoCls.extend(
 				{
 					root: what.css([
 						"flex-col",
+						"gap-2",
 						"items-start",
 					]),
 				},

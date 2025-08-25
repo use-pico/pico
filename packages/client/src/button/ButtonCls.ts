@@ -29,7 +29,7 @@ export const ButtonCls = PicoCls.extend(
 				"md",
 				"lg",
 			],
-			borderless: [
+			border: [
 				"bool",
 			],
 		},
@@ -339,11 +339,11 @@ export const ButtonCls = PicoCls.extend(
 				},
 			),
 			/**
-			 * Borderless
+			 * Border
 			 */
 			def.rule(
 				what.variant({
-					borderless: true,
+					border: false,
 				}),
 				{
 					root: what.css([
@@ -357,7 +357,7 @@ export const ButtonCls = PicoCls.extend(
 			theme: "light",
 			disabled: false,
 			size: "md",
-			borderless: false,
+			border: false,
 		}),
 	}),
 );

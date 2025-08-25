@@ -37,9 +37,9 @@ export namespace Action {
 		extends ActionCls.Props<
 			Omit<HTMLAttributes<HTMLDivElement>, "children">
 		> {
-		iconEnabled?: string;
-		iconDisabled?: string;
-		iconLoading?: string;
+		iconEnabled?: Icon.Type;
+		iconDisabled?: Icon.Type;
+		iconLoading?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		/**
 		 * Controls loading state of an action.

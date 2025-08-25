@@ -31,21 +31,24 @@ export const ActionCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				root: what.css([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"rounded-sm",
-					"px-4",
-					"py-2",
-					"text-lg",
-					"cursor-pointer",
-					"transition-all",
-					"hover:scale-110",
-					"active:scale-95",
-					"select-none",
-				]),
+				root: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+						"px-4",
+						"py-2",
+						"text-lg",
+						"cursor-pointer",
+						"transition-all",
+						"select-none",
+					],
+					[
+						"round.default",
+						"scale.md",
+					],
+				),
 			}),
 			// Tone colors (dark theme)
 			def.rule(

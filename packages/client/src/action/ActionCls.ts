@@ -26,7 +26,7 @@ export const ActionCls = PicoCls.extend(
 			loading: [
 				"bool",
 			],
-			borderless: [
+			border: [
 				"bool",
 			],
 			size: [
@@ -343,10 +343,10 @@ export const ActionCls = PicoCls.extend(
 					]),
 				},
 			),
-			// Borderless
+			// Border
 			def.rule(
 				what.variant({
-					borderless: true,
+					border: false,
 				}),
 				{
 					base: what.css([
@@ -360,7 +360,7 @@ export const ActionCls = PicoCls.extend(
 			theme: "dark",
 			disabled: false,
 			loading: false,
-			borderless: false,
+			border: false,
 			size: "xs",
 		}),
 	}),

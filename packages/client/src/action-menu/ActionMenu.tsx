@@ -9,7 +9,7 @@ import { ActionMenuCls } from "./ActionMenuCls";
 
 export namespace ActionMenu {
 	export interface Props extends ActionMenuCls.Props<PropsWithChildren> {
-		icon?: string;
+		icon?: Icon.Type;
 		iconProps?: Omit<Icon.Props, "icon">;
 		/**
 		 * Override the default target element for the menu
