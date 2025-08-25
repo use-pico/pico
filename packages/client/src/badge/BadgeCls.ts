@@ -40,7 +40,6 @@ export const BadgeCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
-						"border",
 						"flex-row",
 						"flex",
 						"font-bold",
@@ -50,6 +49,7 @@ export const BadgeCls = PicoCls.extend(
 						"text-sm",
 					],
 					[
+						"border.default",
 						"round.default",
 					],
 				),

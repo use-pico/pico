@@ -24,7 +24,6 @@ export const TabCls = PicoCls.extend(
 						"items-center",
 						"gap-1",
 						"cursor-pointer",
-						"border",
 						"border-b-2",
 						"border-transparent",
 						"py-1",
@@ -32,6 +31,7 @@ export const TabCls = PicoCls.extend(
 						"rounded",
 					],
 					[
+						"border.default",
 						"tone.neutral.light.text",
 						"tone.neutral.light.border:hover",
 					],

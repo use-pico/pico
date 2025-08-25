@@ -32,15 +32,18 @@ export const AlertCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"pico--alert",
-					"border",
-					"rounded",
-					"py-2",
-					"px-3",
-					"flex",
-					"flex-col",
-				]),
+				base: what.both(
+					[
+						"rounded",
+						"py-2",
+						"px-3",
+						"flex",
+						"flex-col",
+					],
+					[
+						"border.default",
+					],
+				),
 				title: what.css([
 					"font-semibold",
 					"w-full",

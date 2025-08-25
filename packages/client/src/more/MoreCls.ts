@@ -25,11 +25,11 @@ export const MoreCls = PicoCls.extend(
 				]),
 				item: what.both(
 					[
-						"border",
 						"px-2",
 						"py-1",
 					],
 					[
+						"border.default",
 						"round.default",
 						"tone.neutral.light.border",
 						"tone.neutral.light.bg",

@@ -34,12 +34,12 @@ export const MenuLinkCls = PicoCls.extend(
 						"items-center",
 						"px-2",
 						"py-1",
-						"border",
 						"border-b-2",
 						"border-transparent",
 						"transition-all",
 					],
 					[
+						"border.default",
 						"round.default",
 						"scale.default",
 					],

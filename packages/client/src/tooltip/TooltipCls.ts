@@ -15,12 +15,11 @@ export const TooltipCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
-						"border",
 						"px-4",
 						"py-2",
-						"shadow-md",
 					],
 					[
+						"border.default",
 						"round.default",
 						"tone.subtle.light.text",
 						"tone.subtle.light.bg",

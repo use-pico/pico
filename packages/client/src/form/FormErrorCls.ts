@@ -48,10 +48,10 @@ export const FormErrorCls = PicoCls.extend(
 						[
 							"p-2",
 							"font-bold",
-							"border",
 							"w-full",
 						],
 						[
+							"border.default",
 							"round.default",
 							"tone.danger.light.bg",
 							"tone.danger.light.border",

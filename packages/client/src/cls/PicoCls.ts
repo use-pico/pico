@@ -221,20 +221,6 @@ export const PicoCls = cls(
 			 * Misc
 			 */
 			"disabled",
-			/**
-			 * Button stuff
-			 */
-			"button.round",
-			"button.scale",
-			"button.border",
-			"button.shadow",
-			/**
-			 * Action stuff
-			 */
-			"action.round",
-			"action.scale",
-			"action.border",
-			"action.shadow",
 		],
 		slot: [],
 		variant: {},
@@ -803,36 +789,6 @@ export const PicoCls = cls(
 				"cursor-not-allowed",
 				"pointer-events-none",
 				"shadow-none",
-			]),
-			/**
-			 * Button stuff
-			 */
-			"button.round": what.token([
-				"round.default",
-			]),
-			"button.scale": what.token([
-				"scale.default",
-			]),
-			"button.border": what.token([
-				"border.default",
-			]),
-			"button.shadow": what.token([
-				"shadow.default",
-			]),
-			/**
-			 * Action stuff
-			 */
-			"action.round": what.token([
-				"round.default",
-			]),
-			"action.scale": what.token([
-				"scale.default",
-			]),
-			"action.border": what.token([
-				"border.default",
-			]),
-			"action.shadow": what.token([
-				"shadow.default",
 			]),
 		}),
 		rules: [],

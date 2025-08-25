@@ -37,7 +37,6 @@ export const PagesCls = PicoCls.extend(
 						"w-12",
 						"px-2",
 						"py-1",
-						"border",
 						"cursor-pointer",
 						"transition-all",
 						"duration-200",
@@ -45,6 +44,7 @@ export const PagesCls = PicoCls.extend(
 						"active:scale-90",
 					],
 					[
+						"border.default",
 						"round.default",
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",

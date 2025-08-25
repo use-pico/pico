@@ -26,11 +26,11 @@ export const TransferCls = PicoCls.extend(
 				panel: what.both(
 					[
 						"grow",
-						"border",
 						"rounded",
 						"p-4",
 					],
 					[
+						"border.default",
 						"tone.neutral.light.border",
 					],
 				),

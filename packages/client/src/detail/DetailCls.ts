@@ -33,10 +33,10 @@ export const DetailCls = PicoCls.extend(
 						"flex",
 						"flex-col",
 						"gap-4",
-						"border",
 						"p-4",
 					],
 					[
+						"border.default",
 						"tone.neutral.light.border",
 						"round.sm",
 					],
@@ -64,10 +64,10 @@ export const DetailCls = PicoCls.extend(
 						"flex-1",
 						"flex-col",
 						"gap-2",
-						"border",
 						"p-2",
 					],
 					[
+						"border.default",
 						"tone.neutral.light.border",
 						"round.sm",
 					],

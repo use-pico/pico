@@ -30,7 +30,6 @@ export const SelectCls = PicoCls.extend(
 					[
 						"cursor-pointer",
 						"text-sm",
-						"border",
 						"focus:outline-hidden",
 						"p-2.5",
 						"hover:shadow-md",
@@ -38,6 +37,7 @@ export const SelectCls = PicoCls.extend(
 						"group",
 					],
 					[
+						"border.default",
 						"round.default",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.text:hover",
@@ -57,12 +57,12 @@ export const SelectCls = PicoCls.extend(
 						"z-50",
 						"cursor-pointer",
 						"overflow-y-auto",
-						"border",
 						"bg-white",
 						"shadow-lg",
 						"focus:outline-hidden",
 					],
 					[
+						"border.default",
 						"round.default",
 						"tone.neutral.light.border",
 					],

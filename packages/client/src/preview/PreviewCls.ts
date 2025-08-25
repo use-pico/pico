@@ -25,9 +25,9 @@ export const PreviewCls = PicoCls.extend(
 						"flex-col",
 						"gap-2",
 						"p-2",
-						"border",
 					],
 					[
+						"border.default",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
 						"round.md",
