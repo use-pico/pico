@@ -98,19 +98,19 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								))}
 							</Column>
 
-							<Column label={<Tx label={"Borderless"} />}>
+							<Column label={<Tx label={"No Border"} />}>
 								{tones.map((tone) => (
 									<Badge
-										key={`tone-light-borderless-${tone}`}
+										key={`tone-light-no-border-${tone}`}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone,
 												theme: "light",
-												borderless: true,
+												border: false,
 											}),
 										})}
 									>
-										<Tx label={`${tone} borderless`} />
+										<Tx label={`${tone} no border`} />
 									</Badge>
 								))}
 							</Column>
@@ -133,22 +133,22 @@ export const Route = createFileRoute("/$locale/components/badge")({
 							</Column>
 
 							<Column
-								label={<Tx label={"Borderless + Disabled"} />}
+								label={<Tx label={"No Border + Disabled"} />}
 							>
 								{tones.map((tone) => (
 									<Badge
-										key={`tone-light-borderless-disabled-${tone}`}
+										key={`tone-light-no-border-disabled-${tone}`}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone,
 												theme: "light",
-												borderless: true,
+												border: false,
 												disabled: true,
 											}),
 										})}
 									>
 										<Tx
-											label={`${tone} borderless disabled`}
+											label={`${tone} no border disabled`}
 										/>
 									</Badge>
 								))}
@@ -175,19 +175,19 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								))}
 							</Column>
 
-							<Column label={<Tx label={"Borderless"} />}>
+							<Column label={<Tx label={"No Border"} />}>
 								{tones.map((tone) => (
 									<Badge
-										key={`tone-dark-borderless-${tone}`}
+										key={`tone-dark-no-border-${tone}`}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone,
 												theme: "dark",
-												borderless: true,
+												border: false,
 											}),
 										})}
 									>
-										<Tx label={`${tone} borderless`} />
+										<Tx label={`${tone} no border`} />
 									</Badge>
 								))}
 							</Column>
@@ -210,22 +210,22 @@ export const Route = createFileRoute("/$locale/components/badge")({
 							</Column>
 
 							<Column
-								label={<Tx label={"Borderless + Disabled"} />}
+								label={<Tx label={"No Border + Disabled"} />}
 							>
 								{tones.map((tone) => (
 									<Badge
-										key={`tone-dark-borderless-disabled-${tone}`}
+										key={`tone-dark-no-border-disabled-${tone}`}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone,
 												theme: "dark",
-												borderless: true,
+												border: false,
 												disabled: true,
 											}),
 										})}
 									>
 										<Tx
-											label={`${tone} borderless disabled`}
+											label={`${tone} no border disabled`}
 										/>
 									</Badge>
 								))}
@@ -293,7 +293,7 @@ export const Route = createFileRoute("/$locale/components/badge")({
 														size: "md",
 														tone,
 														theme,
-														borderless: false,
+														border: true,
 													}),
 												})}
 											>

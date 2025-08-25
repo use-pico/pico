@@ -23,7 +23,7 @@ export const BadgeCls = PicoCls.extend(
 			disabled: [
 				"bool",
 			],
-			borderless: [
+			border: [
 				"bool",
 			],
 			size: [
@@ -227,7 +227,7 @@ export const BadgeCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					borderless: true,
+					border: false,
 				}),
 				{
 					root: what.css([
@@ -321,9 +321,9 @@ export const BadgeCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 			disabled: false,
-			borderless: false,
+			border: true,
 			size: "md",
 		}),
 	}),

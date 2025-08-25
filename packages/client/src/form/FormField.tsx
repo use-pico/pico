@@ -29,7 +29,7 @@ export namespace FormField {
 		required?: boolean;
 		disabled?: boolean;
 		meta: FormError.Meta;
-		render?: Render.RenderFn;
+		children?: Render.RenderFn;
 	}
 }
 
@@ -44,7 +44,7 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 		meta,
 		tva = FormFieldCls,
 		cls,
-		render = (props) => <input {...props} />,
+		children = (props) => <input {...props} />,
 	} = props;
 
 	const slots = useCls(tva, cls, ({ what }) => ({
@@ -84,7 +84,7 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 				</div>
 			) : null}
 			{hint ? <div className={slots.hint()}>{hint}</div> : null}
-			{render({
+			{children({
 				className: slots.input(),
 				disabled,
 				id,

@@ -30,7 +30,7 @@ export const LabelCount: FC<LabelCount.Props> = ({
 					variant: what.variant({
 						size: "xs",
 						theme: "light",
-						borderless: true,
+						border: false,
 					}),
 				})}
 			>
