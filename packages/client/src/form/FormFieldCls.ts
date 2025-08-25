@@ -42,12 +42,9 @@ export const FormFieldCls = PicoCls.extend(
 					isError: true,
 				}),
 				{
-					base: what.both(
-						[],
-						[
-							"tone.danger.light.text",
-						],
-					),
+					base: what.token([
+						"tone.danger.light.text",
+					]),
 				},
 			),
 			def.rule(
@@ -55,14 +52,9 @@ export const FormFieldCls = PicoCls.extend(
 					required: true,
 				}),
 				{
-					base: what.both(
-						[
-							"font-bold",
-						],
-						[
-							"tone.secondary.light.text",
-						],
-					),
+					base: what.token([
+						"tone.secondary.light.text",
+					]),
 				},
 			),
 			def.rule(
@@ -71,11 +63,27 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					base: what.css([
-						"opacity-75",
+						"opacity-70",
 						"cursor-not-allowed",
 					]),
-					input: what.css([
-						"pointer-events-none",
+					input: what.both(
+						[
+							"pointer-events-none",
+						],
+						[
+							"tone.secondary.light.bg",
+						],
+					),
+				},
+			),
+			def.rule(
+				what.variant({
+					isError: true,
+					disabled: true,
+				}),
+				{
+					input: what.token([
+						"tone.danger.light.bg",
 					]),
 				},
 			),

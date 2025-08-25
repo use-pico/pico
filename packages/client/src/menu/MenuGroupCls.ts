@@ -30,7 +30,6 @@ export const MenuGroupCls = PicoCls.extend(
 						"items-center",
 						"px-2",
 						"py-1",
-						"border-b-2",
 						"border-transparent",
 						"transition-all",
 						"duration-200",

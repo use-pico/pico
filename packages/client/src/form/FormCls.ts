@@ -11,6 +11,9 @@ export const FormCls = PicoCls.extend(
 			"input",
 		],
 		variant: {
+			isError: [
+				"bool",
+			],
 			isSubmitting: [
 				"bool",
 			],
@@ -73,6 +76,19 @@ export const FormCls = PicoCls.extend(
 			}),
 			def.rule(
 				what.variant({
+					isError: true,
+				}),
+				{
+					legend: what.token([
+						"tone.danger.light.border",
+					]),
+					input: what.token([
+						"tone.danger.light.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
 					isSubmitting: true,
 				}),
 				{
@@ -85,6 +101,7 @@ export const FormCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
+					isError: false,
 					required: true,
 				}),
 				{
@@ -98,6 +115,7 @@ export const FormCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			isError: false,
 			isSubmitting: false,
 			required: false,
 		}),

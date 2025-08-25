@@ -76,6 +76,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 					"flex",
 					"flex-col",
 					"space-y-8",
+					"w-full",
 				])}
 			>
 				{/* Personal Information Section */}

@@ -31,7 +31,7 @@ export const FormField: FC<FormField.Props> = ({
 		variant: what.variant({
 			isSubmitting: false,
 			isLoading: false,
-			isError: false,
+			isError: Boolean(meta.errors?.length),
 			required,
 			disabled,
 		}),
