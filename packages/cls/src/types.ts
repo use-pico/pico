@@ -98,6 +98,49 @@ export type TokenDefinitionRequired<T extends Contract<any, any, any>> = {
 export type TokenDefinitionOptional<T extends Contract<any, any, any>> =
 	Partial<Record<TokensOf<T>, What<T>>>;
 
+export type TokenDefinitionEx<T extends Contract<any, any, any>> =
+	T["tokens"][number] extends never
+		? TokenDefinitionOptional<T> // If no local tokens, only inherited tokens are allowed
+		: TokenDefinitionRequired<T>; // If local tokens exist, they are required
+
+/**
+ * Extended utility interface for CLS extension operations.
+ *
+ * This interface is identical to `WhatUtil` but is used specifically when extending
+ * existing CLS instances via the `extend()` method. It provides the same styling
+ * utilities but with types that are appropriate for extended components.
+ *
+ * @template T - The contract type that defines the structure (tokens, slots, variants)
+ */
+export interface WhatUtilEx<T extends Contract<any, any, any>>
+	extends Omit<WhatUtil<T>, "def"> {
+	def: Omit<WhatUtil<T>["def"], "token"> & {
+		/**
+		 * Creates token definitions that define the design system values.
+		 *
+		 * Use this to define the actual CSS values for your design tokens.
+		 * These token definitions are used throughout the styling system
+		 * and can be referenced by other tokens.
+		 *
+		 * @param token - Required token definitions for all declared tokens
+		 * @returns Required token definitions for the design system
+		 *
+		 * @example
+		 * ```typescript
+		 * // Define all required tokens
+		 * def.token({
+		 *   "color.text.default": what.css(["text-gray-900"]),
+		 *   "color.text.primary": what.css(["text-white"]),
+		 *   "color.bg.default": what.css(["bg-gray-100"]),
+		 *   "color.bg.primary": what.css(["bg-blue-600"]),
+		 *   "spacing.padding.md": what.css(["px-4", "py-2"])
+		 * })
+		 * ```
+		 */
+		token(token: TokenDefinitionEx<T>): TokenDefinitionEx<T>;
+	};
+}
+
 // ============================================================================
 // SLOT SYSTEM
 // ============================================================================
@@ -113,7 +156,6 @@ type SlotsOf<T extends Contract<any, any, any>> = T extends {
 export type SlotMapping<T extends Contract<any, any, any>> = {
 	[K in SlotsOf<T>]?: What<T>;
 };
-
 export type WhatConfigFn<T extends Contract<any, any, any>> = (
 	props: WhatUtil<T>,
 ) => Partial<CreateConfig<T>>;
@@ -624,7 +666,7 @@ export type DefinitionEx<T extends Contract<any, any, any>> = {
 	 * })
 	 * ```
 	 */
-	token: TokenDefinitionRequired<T>;
+	token: TokenDefinitionEx<T>;
 
 	/**
 	 * Array of styling rules that define conditional styling for the extended component.
@@ -1137,7 +1179,7 @@ export interface Cls<T extends Contract<any, any, any>> {
 	>(
 		contract: Contract<TTokenContract, TSlotContract, TVariantContract, T>,
 		definition: (
-			props: WhatUtil<
+			props: WhatUtilEx<
 				Contract<TTokenContract, TSlotContract, TVariantContract, T>
 			>,
 		) => DefinitionEx<

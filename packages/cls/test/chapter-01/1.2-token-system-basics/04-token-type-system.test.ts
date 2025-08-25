@@ -6,8 +6,8 @@ describe("1.2 Token System Basics - Token Type System", () => {
 		const BaseComponent = cls(
 			{
 				tokens: [
-					// "color.bg.default",
-					// "color.text.primary",
+					"color.bg.default",
+					"color.text.primary",
 				],
 				slot: [
 					"root",
@@ -38,7 +38,9 @@ describe("1.2 Token System Basics - Token Type System", () => {
 		const ExtendedComponent = BaseComponent.extend(
 			{
 				tokens: [
-					// 'bla',
+					"color.bg.default",
+					"color.text.primary",
+					"color.bg.accent",
 				],
 				slot: [
 					"root",
@@ -46,7 +48,17 @@ describe("1.2 Token System Basics - Token Type System", () => {
 				variant: {},
 			},
 			({ what, def }) => ({
-				token: {},
+				token: def.token({
+					"color.bg.default": what.css([
+						"bg-blue-100",
+					]),
+					"color.text.primary": what.css([
+						"text-blue-900",
+					]),
+					"color.bg.accent": what.css([
+						"bg-blue-500",
+					]),
+				}),
 				rules: [
 					def.root({
 						root: what.token([
