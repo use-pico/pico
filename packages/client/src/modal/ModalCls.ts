@@ -16,10 +16,15 @@ export const ModalCls = PicoCls.extend(
 			loading: [
 				"bool",
 			],
+			size: [
+				"sm",
+				"md",
+				"lg",
+			],
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				base: what.both(
@@ -38,7 +43,6 @@ export const ModalCls = PicoCls.extend(
 				modal: what.both(
 					[
 						"bg-white",
-						"rounded-lg",
 						"shadow-lg",
 						"p-4",
 						"max-h-full",
@@ -46,9 +50,9 @@ export const ModalCls = PicoCls.extend(
 						"flex",
 						"flex-col",
 						"gap-2",
-						"w-2/3",
 					],
 					[
+						"round.default",
 						"focus.off",
 					],
 				),
@@ -75,10 +79,42 @@ export const ModalCls = PicoCls.extend(
 					]),
 				},
 			),
+			// Size variants
+			def.rule(
+				what.variant({
+					size: "sm",
+				}),
+				{
+					modal: what.css([
+						"w-1/3",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "md",
+				}),
+				{
+					modal: what.css([
+						"w-2/3",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "lg",
+				}),
+				{
+					modal: what.css([
+						"w-4/5",
+					]),
+				},
+			),
 		],
 		defaults: def.defaults({
 			disabled: false,
 			loading: false,
+			size: "md",
 		}),
 	}),
 );

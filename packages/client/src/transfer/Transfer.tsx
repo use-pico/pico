@@ -133,7 +133,6 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 													]),
 												},
 												variant: what.variant({
-													borderless: true,
 													tone: "subtle",
 												}),
 											})}
@@ -198,7 +197,6 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 										]),
 									},
 									variant: what.variant({
-										borderless: true,
 										tone: "subtle",
 									}),
 								})}

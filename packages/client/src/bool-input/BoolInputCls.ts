@@ -51,36 +51,44 @@ export const BoolInputCls = PicoCls.extend(
 	({ what, def }) => ({
 		token: def.token({
 			// Switch track styling
-			"switch.track": what.css([
-				"relative",
-				"inline-flex",
-				"items-center",
-				"rounded-full",
-				"transition-colors",
-				"duration-200",
-				"ease-in-out",
-				"cursor-pointer",
-				"bg-gray-200",
-				"border",
-				"border-gray-300",
-			]),
+			"switch.track": what.both(
+				[
+					"relative",
+					"inline-flex",
+					"items-center",
+					"transition-colors",
+					"duration-200",
+					"ease-in-out",
+					"cursor-pointer",
+					"bg-gray-200",
+					"border",
+					"border-gray-300",
+				],
+				[
+					"round.full",
+				],
+			),
 
 			"switch.track:disabled": what.css([
 				"opacity-50",
 				"cursor-not-allowed",
 			]),
 			// Switch thumb styling
-			"switch.thumb": what.css([
-				"inline-block",
-				"bg-white",
-				"rounded-full",
-				"shadow-sm",
-				"border",
-				"border-gray-300",
-				"transition-transform",
-				"duration-200",
-				"ease-in-out",
-			]),
+			"switch.thumb": what.both(
+				[
+					"inline-block",
+					"bg-white",
+					"shadow-sm",
+					"border",
+					"border-gray-300",
+					"transition-transform",
+					"duration-200",
+					"ease-in-out",
+				],
+				[
+					"round.full",
+				],
+			),
 
 			"switch.thumb:disabled": what.css([
 				"opacity-50",
@@ -118,16 +126,20 @@ export const BoolInputCls = PicoCls.extend(
 		}),
 		rules: [
 			def.root({
-				root: what.css([
-					"relative",
-					"inline-flex",
-					"items-center",
-					"focus:outline-none",
-					"focus:ring-3",
-					"focus:ring-indigo-500/50",
-					"focus:ring-offset-2",
-					"rounded-full",
-				]),
+				root: what.both(
+					[
+						"relative",
+						"inline-flex",
+						"items-center",
+						"focus:outline-none",
+						"focus:ring-3",
+						"focus:ring-indigo-500/50",
+						"focus:ring-offset-2",
+					],
+					[
+						"round.full",
+					],
+				),
 				track: what.token([
 					"switch.track",
 				]),

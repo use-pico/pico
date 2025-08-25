@@ -20,7 +20,6 @@ export const LinkToCls = PicoCls.extend(
 						"gap-2",
 						"items-center",
 						"justify-between",
-						"rounded-sm",
 						"px-1",
 						"py-0.5",
 						"focus:outline-hidden",
@@ -28,6 +27,7 @@ export const LinkToCls = PicoCls.extend(
 						"truncate",
 					],
 					[
+						"round.default",
 						"tone.neutral.light.text",
 						"tone.neutral.light.text:hover",
 					],

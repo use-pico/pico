@@ -28,7 +28,6 @@ export const MenuGroupCls = PicoCls.extend(
 						"flex-row",
 						"gap-2",
 						"items-center",
-						"rounded-sm",
 						"px-2",
 						"py-1",
 						"border",
@@ -40,6 +39,7 @@ export const MenuGroupCls = PicoCls.extend(
 						"hover:scale-105",
 					],
 					[
+						"round.default",
 						"tone.primary.light.text:hover",
 						"tone.primary.light.bg:hover",
 						"tone.primary.light.border:hover",
@@ -56,9 +56,9 @@ export const MenuGroupCls = PicoCls.extend(
 						"px-4",
 						"py-4",
 						"border",
-						"rounded-md",
 					],
 					[
+						"round.default",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",

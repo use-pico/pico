@@ -46,7 +46,6 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 			cls={({ what }) => ({
 				variant: what.variant({
 					tone: "secondary",
-					borderless: true,
 				}),
 			})}
 			disabled={isLoading}

@@ -32,7 +32,6 @@ export const EqualFilter = <
 			iconEnabled={FilterApplyIcon}
 			cls={({ what }) => ({
 				variant: what.variant({
-					borderless: true,
 					tone: "neutral",
 					theme: "light",
 				}),

@@ -40,10 +40,10 @@ export const JustDropZoneCls = PicoCls.extend(
 						"h-64",
 						"border-2",
 						"border-dashed",
-						"rounded-lg",
 						"cursor-pointer",
 					],
 					[
+						"round.default",
 						"tone.neutral.light.border",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",

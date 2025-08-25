@@ -37,20 +37,24 @@ export const ProgressCls = PicoCls.extend(
 					[
 						"h-full",
 						"w-full",
-						"rounded-sm",
 						"transition-all",
 					],
 					[
+						"round.default",
 						"tone.neutral.light.bg",
 						"shadow.sm",
 					],
 				),
-				progress: what.css([
-					"h-full",
-					"rounded-sm",
-					"leading-none",
-					"transition-all",
-				]),
+				progress: what.both(
+					[
+						"h-full",
+						"leading-none",
+						"transition-all",
+					],
+					[
+						"round.default",
+					],
+				),
 			}),
 			// Size variants
 			def.rule(

@@ -189,7 +189,6 @@ export const Select = <TItem extends EntitySchema.Type>({
 								}}
 								cls={({ what }) => ({
 									variant: what.variant({
-										borderless: true,
 										theme: "light",
 									}),
 								})}

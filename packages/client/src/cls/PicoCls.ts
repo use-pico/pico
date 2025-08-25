@@ -177,6 +177,7 @@ export const PicoCls = cls(
 			"round.md",
 			"round.lg",
 			"round.xl",
+			"round.full",
 			/**
 			 * Border
 			 */
@@ -677,6 +678,9 @@ export const PicoCls = cls(
 			]),
 			"round.xl": what.css([
 				"rounded-xl",
+			]),
+			"round.full": what.css([
+				"rounded-full",
 			]),
 			/**
 			 * Border

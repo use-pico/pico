@@ -85,7 +85,6 @@ export const DetailCls = PicoCls.extend(
 				field: what.both(
 					[
 						"text-lg",
-						"rounded-sm",
 						"px-2",
 						"py-1",
 						"transition-all",
@@ -93,6 +92,7 @@ export const DetailCls = PicoCls.extend(
 						"hover:scale-105",
 					],
 					[
+						"round.default",
 						"tone.subtle.light.bg:hover",
 						"tone.subtle.light.shadow",
 						"tone.subtle.light.shadow:hover",

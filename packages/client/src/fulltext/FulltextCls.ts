@@ -40,11 +40,10 @@ export const FulltextCls = PicoCls.extend(
 						"w-full",
 						"text-sm",
 						"border",
-						"rounded-sm",
-						"focus:outline-hidden",
 						"block",
 					],
 					[
+						"round.default",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.text:hover",
 						"tone.neutral.light.border",

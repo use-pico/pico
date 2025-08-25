@@ -19,12 +19,16 @@ export const IssuesCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				item: what.css([
-					"p-4",
-					"text-md",
-					"border",
-					"rounded-md",
-				]),
+				item: what.both(
+					[
+						"text-md",
+					],
+					[
+						"square.md",
+						"border.default",
+						"round.default",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

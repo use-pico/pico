@@ -123,13 +123,8 @@ export const PopupSelect = <
 			textTitle={textTitle}
 			cls={({ what }) => ({
 				variant: what.variant({
-					// loading: result.isFetching,
+					size: "md",
 				}),
-				slot: {
-					modal: what.css([
-						"w-2/3",
-					]),
-				},
 			})}
 			{...modalProps}
 		>

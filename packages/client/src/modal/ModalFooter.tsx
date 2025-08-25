@@ -103,7 +103,6 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				cls={({ what }) => ({
 					variant: what.variant({
 						tone: "subtle",
-						borderless: true,
 						theme: "light",
 					}),
 				})}

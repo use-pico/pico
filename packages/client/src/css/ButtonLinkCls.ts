@@ -25,10 +25,10 @@ export const ButtonLinkCls = PicoCls.extend(
 						"items-center",
 						"px-4",
 						"py-2",
-						"rounded-md",
 						"text-md",
 					],
 					[
+						"round.default",
 						"tone.neutral.light.text",
 						"tone.neutral.light.text:hover",
 					],

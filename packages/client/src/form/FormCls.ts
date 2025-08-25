@@ -25,15 +25,15 @@ export const FormCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"border",
-						"rounded-md",
-						"p-4",
 						"flex",
 						"flex-col",
 						"gap-2",
 						"items-center",
 					],
 					[
+						"border.default",
+						"round.default",
+						"square.md",
 						"tone.neutral.light.border",
 					],
 				),
@@ -59,20 +59,15 @@ export const FormCls = PicoCls.extend(
 				input: what.both(
 					[
 						"w-full",
-						"border",
-						"rounded-md",
-						"p-2",
-						"focus:outline-hidden",
-						"focus:ring-2",
-						"focus:ring-blue-500",
-						"focus:border-transparent",
-						"hover:scale-105",
-						"active:scale-105",
 						"transition-all",
 						"duration-100",
 					],
 					[
+						"square.md",
+						"border.default",
+						"round.default",
 						"tone.neutral.light.border",
+						"focus.off",
 					],
 				),
 			}),
@@ -93,37 +88,12 @@ export const FormCls = PicoCls.extend(
 					required: true,
 				}),
 				{
-					legend: what.both(
-						[
-							"font-bold",
-							"text-lg",
-							"p-1",
-							"border-b",
-							"w-full",
-						],
-						[
-							"tone.secondary.light.border",
-						],
-					),
-					input: what.both(
-						[
-							"w-full",
-							"border",
-							"rounded-md",
-							"p-2",
-							"focus:outline-hidden",
-							"focus:ring-2",
-							"focus:ring-blue-500",
-							"focus:border-transparent",
-							"hover:scale-105",
-							"active:scale-105",
-							"transition-all",
-							"duration-100",
-						],
-						[
-							"tone.secondary.light.border",
-						],
-					),
+					legend: what.token([
+						"tone.secondary.light.border",
+					]),
+					input: what.token([
+						"tone.secondary.light.border",
+					]),
 				},
 			),
 		],

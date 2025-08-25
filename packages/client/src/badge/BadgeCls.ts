@@ -38,17 +38,21 @@ export const BadgeCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				root: what.css([
-					"border",
-					"flex-row",
-					"flex",
-					"font-bold",
-					"gap-2",
-					"items-center",
-					"rounded-full",
-					"select-none",
-					"text-sm",
-				]),
+				root: what.both(
+					[
+						"border",
+						"flex-row",
+						"flex",
+						"font-bold",
+						"gap-2",
+						"items-center",
+						"select-none",
+						"text-sm",
+					],
+					[
+						"round.default",
+					],
+				),
 			}),
 			// Tone rules using tokens (dark background)
 			def.rule(

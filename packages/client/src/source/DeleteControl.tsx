@@ -56,7 +56,6 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 					cls={({ what }) => ({
 						variant: what.variant({
 							tone: "secondary",
-							borderless: true,
 							size: "md",
 						}),
 					})}

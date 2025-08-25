@@ -169,7 +169,6 @@ export const TableHeader = <
 										iconEnabled={FilterRemoveIcon}
 										cls={({ what }) => ({
 											variant: what.variant({
-												borderless: true,
 												tone: "neutral",
 												theme: "light",
 											}),
