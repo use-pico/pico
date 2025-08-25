@@ -24,7 +24,7 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 			table={InventoryItemTable}
 			textTitle={<Tx label={"Select inventory item (title)"} />}
 			textSelect={<Tx label={"Select inventory item (select)"} />}
-			allowEmpty
+			required
 			renderSingle={({ entity }) => (
 				<Badge
 					cls={({ what }) => ({

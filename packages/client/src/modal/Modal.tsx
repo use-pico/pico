@@ -74,9 +74,12 @@ export const Modal: FC<Modal.Props> = ({
 		open: useModalStore((state) => state.isOpen),
 		onOpenChange: useModalStore((state) => state.toggle),
 	});
-	const click = useClick(context);
+	const click = useClick(context, {
+		enabled: !disabled,
+	});
 	const dismiss = useDismiss(context, {
 		outsidePress: outside,
+		enabled: !disabled,
 	});
 	const { getReferenceProps, getFloatingProps } = useInteractions([
 		click,

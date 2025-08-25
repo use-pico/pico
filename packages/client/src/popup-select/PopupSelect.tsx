@@ -58,12 +58,14 @@ export namespace PopupSelect {
 		 */
 		renderMulti: Render.Multi.Render<TItem>;
 		//
+		className?: string;
+		//
 		icon?: Icon.Type;
 		textTitle?: ReactNode;
 		textSelect?: ReactNode;
 		modalProps?: Modal.PropsEx;
 		//
-		allowEmpty?: boolean;
+		required?: boolean;
 		disabled?: boolean;
 		//
 		state: State;
@@ -94,7 +96,9 @@ export const PopupSelect = <
 	textSelect,
 	modalProps,
 	//
-	allowEmpty = false,
+	className,
+	//
+	required = false,
 	disabled = false,
 	//
 	state,
@@ -103,9 +107,8 @@ export const PopupSelect = <
 	cls,
 }: PopupSelect.Props<TQuery, TItem>) => {
 	const slots = useCls(tva, cls, ({ what }) => ({
-		variant: what.variant({
-			required: !allowEmpty,
-			disabled,
+		slot: what.slot({
+			input: what.css(className),
 		}),
 	}));
 
@@ -115,6 +118,7 @@ export const PopupSelect = <
 		<Modal
 			key={modalId}
 			icon={icon}
+			disabled={disabled}
 			target={
 				<Target
 					mode={mode}
@@ -142,7 +146,7 @@ export const PopupSelect = <
 					table={table}
 					state={state}
 					slots={slots}
-					allowEmpty={allowEmpty}
+					allowEmpty={!required}
 				/>
 			)}
 		</Modal>

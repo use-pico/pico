@@ -70,6 +70,11 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 		const currentPasswordId = useId();
 		const newPasswordId = useId();
 		const confirmPasswordId = useId();
+		const primaryItemId = useId();
+		const secondaryItemId = useId();
+		const replacementItemsId = useId();
+		const simpleTextId = useId();
+		const simpleEmailId = useId();
 
 		return (
 			<div
@@ -90,9 +95,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="First Name"
 									required
 									meta={sampleMeta}
-									type="text"
 									id={firstNameId}
-									placeholder="Enter first name"
+									render={(props) => (
+										<input
+											type="text"
+											placeholder="Enter first name"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -100,9 +110,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Last Name"
 									required
 									meta={errorMeta}
-									type="text"
 									id={lastNameId}
-									placeholder="Enter last name"
+									render={(props) => (
+										<input
+											type="text"
+											placeholder="Enter last name"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -111,9 +126,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="We'll never share your email"
 									meta={multipleErrorsMeta}
-									type="email"
 									id={emailId}
-									placeholder="Enter email address"
+									render={(props) => (
+										<input
+											type="email"
+											placeholder="Enter email address"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -124,20 +144,30 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="phone"
 									label="Phone Number"
 									meta={sampleMeta}
-									type="tel"
 									id={phoneId}
-									placeholder="+1 (555) 123-4567"
+									render={(props) => (
+										<input
+											type="tel"
+											placeholder="+1 (555) 123-4567"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="age"
 									label="Age"
 									meta={sampleMeta}
-									type="number"
 									id={ageId}
-									min="0"
-									max="120"
-									placeholder="Enter age"
+									render={(props) => (
+										<input
+											type="number"
+											min="0"
+											max="120"
+											placeholder="Enter age"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -145,11 +175,16 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Annual Salary"
 									hint="Enter amount in USD"
 									meta={sampleMeta}
-									type="number"
 									id={salaryId}
-									min="0"
-									step="1000"
-									placeholder="50000"
+									render={(props) => (
+										<input
+											type="number"
+											min="0"
+											step="1000"
+											placeholder="50000"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -166,16 +201,26 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Date of Birth"
 									required
 									meta={sampleMeta}
-									type="date"
 									id={birthDateId}
+									render={(props) => (
+										<input
+											type="date"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="start-date"
 									label="Employment Start Date"
 									meta={sampleMeta}
-									type="date"
 									id={startDateId}
+									render={(props) => (
+										<input
+											type="date"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -186,16 +231,26 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="work-start"
 									label="Work Start Time"
 									meta={sampleMeta}
-									type="time"
 									id={workStartId}
+									render={(props) => (
+										<input
+											type="time"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="work-end"
 									label="Work End Time"
 									meta={sampleMeta}
-									type="time"
 									id={workEndId}
+									render={(props) => (
+										<input
+											type="time"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -206,16 +261,26 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="meeting-time"
 									label="Meeting Date & Time"
 									meta={sampleMeta}
-									type="datetime-local"
 									id={meetingTimeId}
+									render={(props) => (
+										<input
+											type="datetime-local"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="deadline"
 									label="Project Deadline"
 									meta={errorMeta}
-									type="datetime-local"
 									id={deadlineId}
+									render={(props) => (
+										<input
+											type="datetime-local"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -232,9 +297,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Profile Photo"
 									hint="JPG, PNG or GIF. Max 5MB"
 									meta={sampleMeta}
-									type="file"
 									id={profilePhotoId}
-									accept="image/*"
+									render={(props) => (
+										<input
+											type="file"
+											accept="image/*"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -243,9 +313,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="PDF, DOC, or DOCX. Max 10MB"
 									meta={errorMeta}
-									type="file"
 									id={resumeId}
-									accept=".pdf,.doc,.docx"
+									render={(props) => (
+										<input
+											type="file"
+											accept=".pdf,.doc,.docx"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -253,9 +328,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Additional Documents"
 									hint="Multiple files allowed"
 									meta={sampleMeta}
-									type="file"
 									id={documentsId}
-									multiple
+									render={(props) => (
+										<input
+											type="file"
+											multiple
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -267,27 +347,42 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Personal Website"
 									hint="Include https://"
 									meta={sampleMeta}
-									type="url"
 									id={websiteId}
-									placeholder="https://example.com"
+									render={(props) => (
+										<input
+											type="url"
+											placeholder="https://example.com"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="linkedin"
 									label="LinkedIn Profile"
 									meta={sampleMeta}
-									type="url"
 									id={linkedinId}
-									placeholder="https://linkedin.com/in/username"
+									render={(props) => (
+										<input
+											type="url"
+											placeholder="https://linkedin.com/in/username"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="github"
 									label="GitHub Profile"
 									meta={sampleMeta}
-									type="url"
 									id={githubId}
-									placeholder="https://github.com/username"
+									render={(props) => (
+										<input
+											type="url"
+											placeholder="https://github.com/username"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -304,11 +399,16 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Years of Experience"
 									hint="Drag to select"
 									meta={sampleMeta}
-									type="range"
 									id={experienceYearsId}
-									min="0"
-									max="30"
-									step="1"
+									render={(props) => (
+										<input
+											type="range"
+											min="0"
+											max="30"
+											step="1"
+											{...props}
+										/>
+									)}
 								/>
 								<div className="text-sm text-gray-600 mt-1">
 									<span id={experienceYearsValueId}>5</span>{" "}
@@ -319,19 +419,29 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="preferred-color"
 									label="Preferred Color"
 									meta={sampleMeta}
-									type="color"
 									id={preferredColorId}
+									render={(props) => (
+										<input
+											type="color"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="satisfaction"
 									label="Job Satisfaction Level"
 									meta={sampleMeta}
-									type="range"
 									id={satisfactionId}
-									min="1"
-									max="10"
-									step="1"
+									render={(props) => (
+										<input
+											type="range"
+											min="1"
+											max="10"
+											step="1"
+											{...props}
+										/>
+									)}
 								/>
 								<div className="text-sm text-gray-600 mt-1">
 									Level:{" "}
@@ -348,9 +458,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Search Skills"
 									hint="Search for specific skills"
 									meta={sampleMeta}
-									type="search"
 									id={searchSkillsId}
-									placeholder="Search skills..."
+									render={(props) => (
+										<input
+											type="search"
+											placeholder="Search skills..."
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -358,9 +473,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Current Password"
 									required
 									meta={sampleMeta}
-									type="password"
 									id={currentPasswordId}
-									placeholder="Enter current password"
+									render={(props) => (
+										<input
+											type="password"
+											placeholder="Enter current password"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -369,9 +489,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="Minimum 8 characters, include uppercase, lowercase, number, and symbol"
 									meta={errorMeta}
-									type="password"
 									id={newPasswordId}
-									placeholder="Enter new password"
+									render={(props) => (
+										<input
+											type="password"
+											placeholder="Enter new password"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -379,9 +504,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Confirm New Password"
 									required
 									meta={multipleErrorsMeta}
-									type="password"
 									id={confirmPasswordId}
-									placeholder="Confirm new password"
+									render={(props) => (
+										<input
+											type="password"
+											placeholder="Confirm new password"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>
@@ -399,6 +529,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="Select the main item for this record"
 									meta={sampleMeta}
+									id={primaryItemId}
 								/>
 
 								<FormField
@@ -406,6 +537,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Secondary Item"
 									hint="Optional secondary item"
 									meta={sampleMeta}
+									id={secondaryItemId}
 								/>
 							</div>
 						</Column>
@@ -414,14 +546,25 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 							label={<Tx label={"Multiple Items Selection"} />}
 						>
 							<div className="space-y-4">
-								<InventoryItemPopupSelect
-									mode={"single"}
-									state={{
-										set() {
-											//
-										},
-										value: [],
-									}}
+								<FormField
+									id={"singleInventoryId"}
+									name={"Some inventory shit"}
+									label={"Some inventory stuff, bro"}
+									hint={"Even hint works!"}
+									meta={sampleMeta}
+									required
+									render={(props) => (
+										<InventoryItemPopupSelect
+											mode={"single"}
+											state={{
+												set() {
+													//
+												},
+												value: [],
+											}}
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -429,6 +572,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Replacement Items"
 									hint="Items that can replace the primary item"
 									meta={errorMeta}
+									id={replacementItemsId}
 								/>
 							</div>
 						</Column>
@@ -443,15 +587,27 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								<FormField
 									name="simple-text"
 									meta={sampleMeta}
-									type="text"
-									placeholder="Enter some text"
+									id={simpleTextId}
+									render={(props) => (
+										<input
+											type="text"
+											placeholder="Enter some text"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
 									name="simple-email"
 									meta={errorMeta}
-									type="email"
-									placeholder="Enter email"
+									id={simpleEmailId}
+									render={(props) => (
+										<input
+											type="email"
+											placeholder="Enter email"
+											{...props}
+										/>
+									)}
 								/>
 							</div>
 						</Column>

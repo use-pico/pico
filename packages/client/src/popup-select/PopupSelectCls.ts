@@ -1,13 +1,17 @@
 import type { Component, ComponentSlots } from "@use-pico/cls";
-import { FormFieldCls } from "../form/FormFieldCls";
+import { PicoCls } from "../cls/PicoCls";
 
-export const PopupSelectCls = FormFieldCls.extend(
+export const PopupSelectCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
+			"input",
 			"content",
 		],
 		variant: {
+			isLoading: [
+				"bool",
+			],
 			selected: [
 				"bool",
 			],
@@ -17,22 +21,15 @@ export const PopupSelectCls = FormFieldCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				input: what.both(
-					[
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"cursor-pointer",
-						"transition-all",
-						"duration-100",
-					],
-					[
-						"tone.neutral.light.bg:hover",
-						"tone.neutral.light.border:hover",
-						"tone.neutral.light.shadow:hover",
-					],
-				),
+				input: what.css([
+					"flex",
+					"flex-row",
+					"gap-2",
+					"items-center",
+					"cursor-pointer",
+					"transition-all",
+					"duration-100",
+				]),
 			}),
 			def.rule(
 				what.variant({
@@ -49,11 +46,7 @@ export const PopupSelectCls = FormFieldCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			disabled: false,
-			isError: false,
 			isLoading: false,
-			isSubmitting: false,
-			required: false,
 			selected: false,
 		}),
 	}),

@@ -65,9 +65,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Username"
 								hint="Enter your username"
 								meta={sampleMeta}
-								type="text"
 								id={basicUsernameId}
-								placeholder="Enter username"
+								render={(props) => (
+									<input
+										type="text"
+										placeholder="Enter username"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 						<Column label={<Tx label={"Required Field"} />}>
@@ -76,9 +81,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Email Address"
 								required
 								meta={sampleMeta}
-								type="email"
 								id={basicEmailId}
-								placeholder="Enter email"
+								render={(props) => (
+									<input
+										type="email"
+										placeholder="Enter email"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 					</div>
@@ -92,10 +102,15 @@ export const Route = createFileRoute("/$locale/components/form")({
 								name="error-email"
 								label="Email Address"
 								meta={errorMeta}
-								type="email"
 								required
 								id={errorEmailId}
-								placeholder="Enter email"
+								render={(props) => (
+									<input
+										type="email"
+										placeholder="Enter email"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 						<Column label={<Tx label={"Multiple Errors"} />}>
@@ -103,9 +118,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 								name="multiple-errors-email"
 								label="Email Address"
 								meta={multipleErrorsMeta}
-								type="email"
 								id={multipleErrorsEmailId}
-								placeholder="Enter email"
+								render={(props) => (
+									<input
+										type="email"
+										placeholder="Enter email"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 					</div>
@@ -120,9 +140,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Username"
 								disabled
 								meta={sampleMeta}
-								type="text"
 								id={disabledUsernameId}
-								placeholder="Enter username"
+								render={(props) => (
+									<input
+										type="text"
+										placeholder="Enter username"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 						<Column label={<Tx label={"Disabled with Error"} />}>
@@ -131,9 +156,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Email Address"
 								disabled
 								meta={errorMeta}
-								type="email"
 								id={disabledErrorEmailId}
-								placeholder="Enter email"
+								render={(props) => (
+									<input
+										type="email"
+										placeholder="Enter email"
+										{...props}
+									/>
+								)}
 							/>
 						</Column>
 					</div>
@@ -192,9 +222,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 									required
 									hint="Choose a unique username"
 									meta={errorMeta}
-									type="text"
 									id={exampleUsernameId}
-									placeholder="Enter username"
+									render={(props) => (
+										<input
+											type="text"
+											placeholder="Enter username"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -202,9 +237,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 									label="Email Address"
 									required
 									meta={sampleMeta}
-									type="email"
 									id={exampleEmailId}
-									placeholder="Enter email"
+									render={(props) => (
+										<input
+											type="email"
+											placeholder="Enter email"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -213,9 +253,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 									required
 									hint="Minimum 8 characters"
 									meta={sampleMeta}
-									type="password"
 									id={examplePasswordId}
-									placeholder="Enter password"
+									render={(props) => (
+										<input
+											type="password"
+											placeholder="Enter password"
+											{...props}
+										/>
+									)}
 								/>
 
 								<FormField
@@ -223,9 +268,14 @@ export const Route = createFileRoute("/$locale/components/form")({
 									label="Confirm Password"
 									required
 									meta={multipleErrorsMeta}
-									type="password"
 									id={exampleConfirmPasswordId}
-									placeholder="Confirm password"
+									render={(props) => (
+										<input
+											type="password"
+											placeholder="Confirm password"
+											{...props}
+										/>
+									)}
 								/>
 
 								<div className="flex gap-2">
