@@ -1,18 +1,13 @@
 import type { Component, ComponentSlots } from "@use-pico/cls";
-import { PicoCls } from "../cls/PicoCls";
+import { FormFieldCls } from "../form/FormFieldCls";
 
-export const PopupSelectCls = PicoCls.extend(
+export const PopupSelectCls = FormFieldCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
-			"input",
 			"content",
 		],
 		variant: {
-			loading: [
-				"bool",
-			],
 			selected: [
 				"bool",
 			],
@@ -22,15 +17,8 @@ export const PopupSelectCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-col",
-					"gap-2",
-				]),
 				input: what.both(
 					[
-						"py-2",
-						"px-2",
 						"flex",
 						"flex-row",
 						"gap-2",
@@ -40,51 +28,32 @@ export const PopupSelectCls = PicoCls.extend(
 						"duration-100",
 					],
 					[
-						"border.default",
-						"round.default",
-						"focus.off",
-						"scale.md",
 						"tone.neutral.light.bg:hover",
-						"tone.neutral.light.border",
-						"tone.neutral.light.text",
-						"tone.neutral.light.text:hover",
+						"tone.neutral.light.border:hover",
+						"tone.neutral.light.shadow:hover",
 					],
 				),
 			}),
 			def.rule(
 				what.variant({
-					loading: true,
-				}),
-				{
-					input: what.both(
-						[
-							"cursor-progress",
-						],
-						[
-							"tone.neutral.light.text",
-						],
-					),
-				},
-			),
-			def.rule(
-				what.variant({
 					selected: true,
 				}),
 				{
-					input: what.both(
-						[],
-						[
-							"tone.neutral.light.bg",
-							"tone.neutral.light.text:hover",
-							"tone.neutral.light.bg:hover",
-							"tone.neutral.light.text:hover",
-						],
-					),
+					input: what.token([
+						"tone.neutral.light.bg",
+						"tone.neutral.light.text:hover",
+						"tone.neutral.light.bg:hover",
+						"tone.neutral.light.text:hover",
+					]),
 				},
 			),
 		],
 		defaults: def.defaults({
-			loading: false,
+			disabled: false,
+			isError: false,
+			isLoading: false,
+			isSubmitting: false,
+			required: false,
 			selected: false,
 		}),
 	}),

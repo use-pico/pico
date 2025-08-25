@@ -62,7 +62,7 @@ export const Target = <
 			htmlFor={modalId}
 			className={slots.input(({ what }) => ({
 				variant: what.variant({
-					loading: selected.isFetching,
+					isLoading: selected.isFetching,
 					selected: Boolean(selected.data?.length),
 				}),
 			}))}
@@ -90,3 +90,4 @@ export const Target = <
 		</label>
 	);
 };
+ 

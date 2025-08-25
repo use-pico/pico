@@ -46,24 +46,30 @@ export const FormField = forwardRef<HTMLInputElement, FormField.Props>(
 
 		return (
 			<div className={slots.base()}>
-				<div className={"flex flex-row justify-between"}>
-					{label ? (
-						<label
-							htmlFor={name as string}
-							className={slots.label()}
-						>
-							{label}
-						</label>
-					) : null}
-					<FormError
-						cls={({ what }) => ({
-							variant: what.variant({
-								compact: true,
-							}),
-						})}
-						meta={meta}
-					/>
-				</div>
+				{label || meta.errors?.length ? (
+					<div className={"flex flex-row justify-between"}>
+						{label ? (
+							<label
+								htmlFor={name as string}
+								className={slots.label()}
+							>
+								{label}
+							</label>
+						) : (
+							<div />
+						)}
+						{meta.errors?.length ? (
+							<FormError
+								cls={({ what }) => ({
+									variant: what.variant({
+										compact: true,
+									}),
+								})}
+								meta={meta}
+							/>
+						) : null}
+					</div>
+				) : null}
 				{hint ? <div className={slots.hint()}>{hint}</div> : null}
 				<input
 					{...inputProps}

@@ -64,6 +64,7 @@ export namespace PopupSelect {
 		modalProps?: Modal.PropsEx;
 		//
 		allowEmpty?: boolean;
+		disabled?: boolean;
 		//
 		state: State;
 	}
@@ -94,13 +95,19 @@ export const PopupSelect = <
 	modalProps,
 	//
 	allowEmpty = false,
+	disabled = false,
 	//
 	state,
 	//
 	tva = PopupSelectCls,
 	cls,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
+			required: !allowEmpty,
+			disabled,
+		}),
+	}));
 
 	const modalId = useId();
 

@@ -3,6 +3,7 @@ import { Button, FormField, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useId } from "react";
+import { InventoryItemPopupSelect } from "~/app/inventory/ui/InventoryItemPopupSelect";
 
 // Sample form data for demonstrations
 const sampleMeta = {
@@ -413,11 +414,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 							label={<Tx label={"Multiple Items Selection"} />}
 						>
 							<div className="space-y-4">
-								<FormField
-									name="related-items"
-									label="Related Items"
-									hint="Select multiple related items"
-									meta={sampleMeta}
+								<InventoryItemPopupSelect
+									mode={"single"}
+									state={{
+										set() {
+											//
+										},
+										value: [],
+									}}
 								/>
 
 								<FormField
@@ -425,6 +429,55 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Replacement Items"
 									hint="Items that can replace the primary item"
 									meta={errorMeta}
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Style Comparison Section */}
+				<Section title={<Tx label={"Style Comparison"} />}>
+					<div className="grid grid-cols-2 gap-6">
+						<Column label={<Tx label={"Simple FormField"} />}>
+							<div className="space-y-4">
+								<FormField
+									name="simple-text"
+									meta={sampleMeta}
+									type="text"
+									placeholder="Enter some text"
+								/>
+
+								<FormField
+									name="simple-email"
+									meta={errorMeta}
+									type="email"
+									placeholder="Enter email"
+								/>
+							</div>
+						</Column>
+
+						<Column
+							label={<Tx label={"InventoryItemPopupSelect"} />}
+						>
+							<div className="space-y-4">
+								<InventoryItemPopupSelect
+									mode="single"
+									state={{
+										set() {
+											//
+										},
+										value: [],
+									}}
+								/>
+
+								<InventoryItemPopupSelect
+									mode="multi"
+									state={{
+										set() {
+											//
+										},
+										value: [],
+									}}
 								/>
 							</div>
 						</Column>
