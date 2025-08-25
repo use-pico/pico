@@ -89,28 +89,20 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="First Name"
 									required
 									meta={sampleMeta}
-								>
-									<input
-										type="text"
-										id={firstNameId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="Enter first name"
-									/>
-								</FormField>
+									type="text"
+									id={firstNameId}
+									placeholder="Enter first name"
+								/>
 
 								<FormField
 									name="last-name"
 									label="Last Name"
 									required
 									meta={errorMeta}
-								>
-									<input
-										type="text"
-										id={lastNameId}
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-										placeholder="Enter last name"
-									/>
-								</FormField>
+									type="text"
+									id={lastNameId}
+									placeholder="Enter last name"
+								/>
 
 								<FormField
 									name="email"
@@ -118,14 +110,10 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="We'll never share your email"
 									meta={multipleErrorsMeta}
-								>
-									<input
-										type="email"
-										id={emailId}
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-										placeholder="Enter email address"
-									/>
-								</FormField>
+									type="email"
+									id={emailId}
+									placeholder="Enter email address"
+								/>
 							</div>
 						</Column>
 
@@ -135,45 +123,33 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="phone"
 									label="Phone Number"
 									meta={sampleMeta}
-								>
-									<input
-										type="tel"
-										id={phoneId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="+1 (555) 123-4567"
-									/>
-								</FormField>
+									type="tel"
+									id={phoneId}
+									placeholder="+1 (555) 123-4567"
+								/>
 
 								<FormField
 									name="age"
 									label="Age"
 									meta={sampleMeta}
-								>
-									<input
-										type="number"
-										id={ageId}
-										min="0"
-										max="120"
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="Enter age"
-									/>
-								</FormField>
+									type="number"
+									id={ageId}
+									min="0"
+									max="120"
+									placeholder="Enter age"
+								/>
 
 								<FormField
 									name="salary"
 									label="Annual Salary"
 									hint="Enter amount in USD"
 									meta={sampleMeta}
-								>
-									<input
-										type="number"
-										id={salaryId}
-										min="0"
-										step="1000"
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="50000"
-									/>
-								</FormField>
+									type="number"
+									id={salaryId}
+									min="0"
+									step="1000"
+									placeholder="50000"
+								/>
 							</div>
 						</Column>
 					</div>
@@ -189,25 +165,17 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Date of Birth"
 									required
 									meta={sampleMeta}
-								>
-									<input
-										type="date"
-										id={birthDateId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</FormField>
+									type="date"
+									id={birthDateId}
+								/>
 
 								<FormField
 									name="start-date"
 									label="Employment Start Date"
 									meta={sampleMeta}
-								>
-									<input
-										type="date"
-										id={startDateId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</FormField>
+									type="date"
+									id={startDateId}
+								/>
 							</div>
 						</Column>
 
@@ -217,25 +185,17 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="work-start"
 									label="Work Start Time"
 									meta={sampleMeta}
-								>
-									<input
-										type="time"
-										id={workStartId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</FormField>
+									type="time"
+									id={workStartId}
+								/>
 
 								<FormField
 									name="work-end"
 									label="Work End Time"
 									meta={sampleMeta}
-								>
-									<input
-										type="time"
-										id={workEndId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</FormField>
+									type="time"
+									id={workEndId}
+								/>
 							</div>
 						</Column>
 
@@ -245,25 +205,17 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									name="meeting-time"
 									label="Meeting Date & Time"
 									meta={sampleMeta}
-								>
-									<input
-										type="datetime-local"
-										id={meetingTimeId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</FormField>
+									type="datetime-local"
+									id={meetingTimeId}
+								/>
 
 								<FormField
 									name="deadline"
 									label="Project Deadline"
 									meta={errorMeta}
-								>
-									<input
-										type="datetime-local"
-										id={deadlineId}
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-									/>
-								</FormField>
+									type="datetime-local"
+									id={deadlineId}
+								/>
 							</div>
 						</Column>
 					</div>
@@ -279,14 +231,10 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Profile Photo"
 									hint="JPG, PNG or GIF. Max 5MB"
 									meta={sampleMeta}
-								>
-									<input
-										type="file"
-										id={profilePhotoId}
-										accept="image/*"
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-									/>
-								</FormField>
+									type="file"
+									id={profilePhotoId}
+									accept="image/*"
+								/>
 
 								<FormField
 									name="resume"
@@ -294,28 +242,20 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="PDF, DOC, or DOCX. Max 10MB"
 									meta={errorMeta}
-								>
-									<input
-										type="file"
-										id={resumeId}
-										accept=".pdf,.doc,.docx"
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
-									/>
-								</FormField>
+									type="file"
+									id={resumeId}
+									accept=".pdf,.doc,.docx"
+								/>
 
 								<FormField
 									name="documents"
 									label="Additional Documents"
 									hint="Multiple files allowed"
 									meta={sampleMeta}
-								>
-									<input
-										type="file"
-										id={documentsId}
-										multiple
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-									/>
-								</FormField>
+									type="file"
+									id={documentsId}
+									multiple
+								/>
 							</div>
 						</Column>
 
@@ -326,40 +266,28 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Personal Website"
 									hint="Include https://"
 									meta={sampleMeta}
-								>
-									<input
-										type="url"
-										id={websiteId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="https://example.com"
-									/>
-								</FormField>
+									type="url"
+									id={websiteId}
+									placeholder="https://example.com"
+								/>
 
 								<FormField
 									name="linkedin"
 									label="LinkedIn Profile"
 									meta={sampleMeta}
-								>
-									<input
-										type="url"
-										id={linkedinId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="https://linkedin.com/in/username"
-									/>
-								</FormField>
+									type="url"
+									id={linkedinId}
+									placeholder="https://linkedin.com/in/username"
+								/>
 
 								<FormField
 									name="github"
 									label="GitHub Profile"
 									meta={sampleMeta}
-								>
-									<input
-										type="url"
-										id={githubId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="https://github.com/username"
-									/>
-								</FormField>
+									type="url"
+									id={githubId}
+									placeholder="https://github.com/username"
+								/>
 							</div>
 						</Column>
 					</div>
@@ -375,54 +303,40 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Years of Experience"
 									hint="Drag to select"
 									meta={sampleMeta}
-								>
-									<input
-										type="range"
-										id={experienceYearsId}
-										min="0"
-										max="30"
-										step="1"
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-									/>
-									<div className="text-sm text-gray-600 mt-1">
-										<span id={experienceYearsValueId}>
-											5
-										</span>{" "}
-										years
-									</div>
-								</FormField>
+									type="range"
+									id={experienceYearsId}
+									min="0"
+									max="30"
+									step="1"
+								/>
+								<div className="text-sm text-gray-600 mt-1">
+									<span id={experienceYearsValueId}>5</span>{" "}
+									years
+								</div>
 
 								<FormField
 									name="preferred-color"
 									label="Preferred Color"
 									meta={sampleMeta}
-								>
-									<input
-										type="color"
-										id={preferredColorId}
-										className="w-full h-12 border border-gray-300 rounded-md cursor-pointer"
-									/>
-								</FormField>
+									type="color"
+									id={preferredColorId}
+								/>
 
 								<FormField
 									name="satisfaction"
 									label="Job Satisfaction Level"
 									meta={sampleMeta}
-								>
-									<input
-										type="range"
-										id={satisfactionId}
-										min="1"
-										max="10"
-										step="1"
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-									/>
-									<div className="text-sm text-gray-600 mt-1">
-										Level:{" "}
-										<span id={satisfactionValueId}>5</span>
-										/10
-									</div>
-								</FormField>
+									type="range"
+									id={satisfactionId}
+									min="1"
+									max="10"
+									step="1"
+								/>
+								<div className="text-sm text-gray-600 mt-1">
+									Level:{" "}
+									<span id={satisfactionValueId}>5</span>
+									/10
+								</div>
 							</div>
 						</Column>
 
@@ -433,28 +347,20 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Search Skills"
 									hint="Search for specific skills"
 									meta={sampleMeta}
-								>
-									<input
-										type="search"
-										id={searchSkillsId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="Search skills..."
-									/>
-								</FormField>
+									type="search"
+									id={searchSkillsId}
+									placeholder="Search skills..."
+								/>
 
 								<FormField
 									name="current-password"
 									label="Current Password"
 									required
 									meta={sampleMeta}
-								>
-									<input
-										type="password"
-										id={currentPasswordId}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="Enter current password"
-									/>
-								</FormField>
+									type="password"
+									id={currentPasswordId}
+									placeholder="Enter current password"
+								/>
 
 								<FormField
 									name="new-password"
@@ -462,28 +368,20 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="Minimum 8 characters, include uppercase, lowercase, number, and symbol"
 									meta={errorMeta}
-								>
-									<input
-										type="password"
-										id={newPasswordId}
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-										placeholder="Enter new password"
-									/>
-								</FormField>
+									type="password"
+									id={newPasswordId}
+									placeholder="Enter new password"
+								/>
 
 								<FormField
 									name="confirm-password"
 									label="Confirm New Password"
 									required
 									meta={multipleErrorsMeta}
-								>
-									<input
-										type="password"
-										id={confirmPasswordId}
-										className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-										placeholder="Confirm new password"
-									/>
-								</FormField>
+									type="password"
+									id={confirmPasswordId}
+									placeholder="Confirm new password"
+								/>
 							</div>
 						</Column>
 					</div>
@@ -500,27 +398,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									required
 									hint="Select the main item for this record"
 									meta={sampleMeta}
-								>
-									<div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
-										{/* Placeholder for InventoryItemPopupSelect */}
-										<div className="text-gray-500 text-sm">
-											Click to select inventory item...
-										</div>
-									</div>
-								</FormField>
+								/>
 
 								<FormField
 									name="secondary-item"
 									label="Secondary Item"
 									hint="Optional secondary item"
 									meta={sampleMeta}
-								>
-									<div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
-										<div className="text-gray-500 text-sm">
-											Optional secondary item...
-										</div>
-									</div>
-								</FormField>
+								/>
 							</div>
 						</Column>
 
@@ -533,27 +418,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									label="Related Items"
 									hint="Select multiple related items"
 									meta={sampleMeta}
-								>
-									<div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 min-h-[42px]">
-										<div className="text-gray-500 text-sm">
-											Select multiple items...
-										</div>
-									</div>
-								</FormField>
+								/>
 
 								<FormField
 									name="replacement-items"
 									label="Replacement Items"
 									hint="Items that can replace the primary item"
 									meta={errorMeta}
-								>
-									<div className="w-full px-3 py-2 border border-red-300 rounded-md bg-red-50 focus-within:ring-2 focus-within:ring-red-500 focus-within:border-red-500 min-h-[42px]">
-										<div className="text-red-500 text-sm">
-											Please select at least one
-											replacement item
-										</div>
-									</div>
-								</FormField>
+								/>
 							</div>
 						</Column>
 					</div>

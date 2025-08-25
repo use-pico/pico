@@ -6,6 +6,8 @@ export const FormFieldCls = PicoCls.extend(
 		tokens: [],
 		slot: [
 			"base",
+			"label",
+			"hint",
 			"input",
 		],
 		variant: {
@@ -36,24 +38,60 @@ export const FormFieldCls = PicoCls.extend(
 					"gap-1",
 					"w-full",
 				]),
+				label: what.css([
+					"text-sm",
+					"font-medium",
+				]),
+				hint: what.css([
+					"text-sm",
+					"italic",
+					"text-gray-500",
+				]),
+				input: what.both(
+					[
+						"w-full",
+						"transition-all",
+						"duration-100",
+					],
+					[
+						"shadow.default",
+						"square.md",
+						"border.default",
+						"round.default",
+						"tone.neutral.light.border",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
+						"focus.off",
+					],
+				),
 			}),
-			def.rule(
-				what.variant({
-					isError: true,
-				}),
-				{
-					base: what.token([
-						"tone.danger.light.text",
-					]),
-				},
-			),
 			def.rule(
 				what.variant({
 					required: true,
 				}),
 				{
-					base: what.token([
+					input: what.token([
 						"tone.secondary.light.text",
+						"tone.secondary.light.text:hover",
+						"tone.secondary.light.border",
+						"tone.secondary.light.border:hover",
+						"tone.secondary.light.shadow",
+						"tone.secondary.light.shadow:hover",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					isError: true,
+				}),
+				{
+					input: what.token([
+						"tone.danger.light.text",
+						"tone.danger.light.text:hover",
+						"tone.danger.light.border",
+						"tone.danger.light.border:hover",
+						"tone.danger.light.shadow",
+						"tone.danger.light.shadow:hover",
 					]),
 				},
 			),
@@ -63,23 +101,26 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					base: what.css([
-						"opacity-70",
+						"opacity-80",
 						"cursor-not-allowed",
+					]),
+					label: what.css([
+						"opacity-50",
 					]),
 					input: what.both(
 						[
 							"pointer-events-none",
 						],
 						[
-							"tone.secondary.light.bg",
+							"tone.neutral.light.bg",
 						],
 					),
 				},
 			),
 			def.rule(
 				what.variant({
-					isError: true,
 					disabled: true,
+					isError: true,
 				}),
 				{
 					input: what.token([

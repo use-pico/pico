@@ -1,12 +1,16 @@
 import { useCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
+import { forwardRef } from "react";
 import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
 
 export namespace FormField {
 	export type FieldError = any;
 
-	export interface Props extends FormFieldCls.Props<PropsWithChildren> {
+	export interface Props
+		extends FormFieldCls.Props<
+			Omit<InputHTMLAttributes<HTMLInputElement>, "children">
+		> {
 		label?: ReactNode;
 		hint?: ReactNode;
 		name: string;
@@ -16,42 +20,63 @@ export namespace FormField {
 	}
 }
 
-export const FormField: FC<FormField.Props> = ({
-	label,
-	hint,
-	name,
-	required = false,
-	disabled,
-	meta,
-	children,
-	tva = FormFieldCls,
-	cls,
-}) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
-		variant: what.variant({
-			isSubmitting: false,
-			isLoading: false,
-			isError: Boolean(meta.errors?.length),
-			required,
+export const FormField = forwardRef<HTMLInputElement, FormField.Props>(
+	(props, ref) => {
+		const {
+			label,
+			hint,
+			name,
+			required = false,
 			disabled,
-		}),
-	}));
+			meta,
+			tva = FormFieldCls,
+			cls,
+			...inputProps
+		} = props;
 
-	return (
-		<div className={slots.base()}>
-			<div className={"flex flex-row justify-between"}>
-				{label ? <label htmlFor={name as string}>{label}</label> : null}
-				<FormError
-					cls={({ what }) => ({
-						variant: what.variant({
-							compact: true,
-						}),
-					})}
-					meta={meta}
+		const slots = useCls(tva, cls, ({ what }) => ({
+			variant: what.variant({
+				isSubmitting: false,
+				isLoading: false,
+				isError: Boolean(meta.errors?.length),
+				required,
+				disabled,
+			}),
+		}));
+
+		return (
+			<div className={slots.base()}>
+				<div className={"flex flex-row justify-between"}>
+					{label ? (
+						<label
+							htmlFor={name as string}
+							className={slots.label()}
+						>
+							{label}
+						</label>
+					) : null}
+					<FormError
+						cls={({ what }) => ({
+							variant: what.variant({
+								compact: true,
+							}),
+						})}
+						meta={meta}
+					/>
+				</div>
+				{hint ? <div className={slots.hint()}>{hint}</div> : null}
+				<input
+					{...inputProps}
+					ref={ref}
+					name={name}
+					id={name}
+					required={required}
+					disabled={disabled}
+					className={slots.input()}
 				/>
 			</div>
-			{hint ? <div className={"text-sm italic"}>{hint}</div> : null}
-			<div className={slots.input()}>{children}</div>
-		</div>
-	);
-};
+		);
+	},
+);
+
+FormField.displayName = "FormField";

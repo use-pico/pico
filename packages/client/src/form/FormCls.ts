@@ -8,7 +8,6 @@ export const FormCls = PicoCls.extend(
 			"base",
 			"fieldset",
 			"legend",
-			"input",
 		],
 		variant: {
 			isError: [
@@ -59,20 +58,6 @@ export const FormCls = PicoCls.extend(
 						"tone.neutral.light.border",
 					],
 				),
-				input: what.both(
-					[
-						"w-full",
-						"transition-all",
-						"duration-100",
-					],
-					[
-						"square.md",
-						"border.default",
-						"round.default",
-						"tone.neutral.light.border",
-						"focus.off",
-					],
-				),
 			}),
 			def.rule(
 				what.variant({
@@ -80,9 +65,6 @@ export const FormCls = PicoCls.extend(
 				}),
 				{
 					legend: what.token([
-						"tone.danger.light.border",
-					]),
-					input: what.token([
 						"tone.danger.light.border",
 					]),
 				},
@@ -106,9 +88,6 @@ export const FormCls = PicoCls.extend(
 				}),
 				{
 					legend: what.token([
-						"tone.secondary.light.border",
-					]),
-					input: what.token([
 						"tone.secondary.light.border",
 					]),
 				},

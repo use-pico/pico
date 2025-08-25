@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, FormCls, FormError, FormField, Tx } from "@use-pico/client";
+import { Button, FormError, FormField, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useId } from "react";
@@ -46,7 +46,6 @@ export const Route = createFileRoute("/$locale/components/form")({
 		const exampleEmailId = useId();
 		const examplePasswordId = useId();
 		const exampleConfirmPasswordId = useId();
-		const slots = FormCls.create();
 
 		return (
 			<div
@@ -66,14 +65,10 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Username"
 								hint="Enter your username"
 								meta={sampleMeta}
-							>
-								<input
-									type="text"
-									id={basicUsernameId}
-									className={slots.input()}
-									placeholder="Enter username"
-								/>
-							</FormField>
+								type="text"
+								id={basicUsernameId}
+								placeholder="Enter username"
+							/>
 						</Column>
 						<Column label={<Tx label={"Required Field"} />}>
 							<FormField
@@ -81,18 +76,10 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Email Address"
 								required
 								meta={sampleMeta}
-							>
-								<input
-									type="email"
-									id={basicEmailId}
-									className={slots.input(({ what }) => ({
-										variant: what.variant({
-											required: true,
-										}),
-									}))}
-									placeholder="Enter email"
-								/>
-							</FormField>
+								type="email"
+								id={basicEmailId}
+								placeholder="Enter email"
+							/>
 						</Column>
 					</div>
 				</Section>
@@ -105,37 +92,21 @@ export const Route = createFileRoute("/$locale/components/form")({
 								name="error-email"
 								label="Email Address"
 								meta={errorMeta}
-							>
-								<input
-									type="email"
-									id={errorEmailId}
-									className={slots.input(({ what }) => ({
-										variant: what.variant({
-											required: true,
-											isError: true,
-										}),
-									}))}
-									placeholder="Enter email"
-								/>
-							</FormField>
+								type="email"
+								required
+								id={errorEmailId}
+								placeholder="Enter email"
+							/>
 						</Column>
 						<Column label={<Tx label={"Multiple Errors"} />}>
 							<FormField
 								name="multiple-errors-email"
 								label="Email Address"
 								meta={multipleErrorsMeta}
-							>
-								<input
-									type="email"
-									id={multipleErrorsEmailId}
-									className={slots.input(({ what }) => ({
-										variant: what.variant({
-											isError: true,
-										}),
-									}))}
-									placeholder="Enter email"
-								/>
-							</FormField>
+								type="email"
+								id={multipleErrorsEmailId}
+								placeholder="Enter email"
+							/>
 						</Column>
 					</div>
 				</Section>
@@ -149,15 +120,10 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Username"
 								disabled
 								meta={sampleMeta}
-							>
-								<input
-									type="text"
-									id={disabledUsernameId}
-									disabled
-									className={slots.input()}
-									placeholder="Enter username"
-								/>
-							</FormField>
+								type="text"
+								id={disabledUsernameId}
+								placeholder="Enter username"
+							/>
 						</Column>
 						<Column label={<Tx label={"Disabled with Error"} />}>
 							<FormField
@@ -165,15 +131,10 @@ export const Route = createFileRoute("/$locale/components/form")({
 								label="Email Address"
 								disabled
 								meta={errorMeta}
-							>
-								<input
-									type="email"
-									id={disabledErrorEmailId}
-									disabled
-									className={slots.input()}
-									placeholder="Enter email"
-								/>
-							</FormField>
+								type="email"
+								id={disabledErrorEmailId}
+								placeholder="Enter email"
+							/>
 						</Column>
 					</div>
 				</Section>
@@ -231,28 +192,20 @@ export const Route = createFileRoute("/$locale/components/form")({
 									required
 									hint="Choose a unique username"
 									meta={errorMeta}
-								>
-									<input
-										type="text"
-										id={exampleUsernameId}
-										className={slots.input()}
-										placeholder="Enter username"
-									/>
-								</FormField>
+									type="text"
+									id={exampleUsernameId}
+									placeholder="Enter username"
+								/>
 
 								<FormField
 									name="example-email"
 									label="Email Address"
 									required
 									meta={sampleMeta}
-								>
-									<input
-										type="email"
-										id={exampleEmailId}
-										className={slots.input()}
-										placeholder="Enter email"
-									/>
-								</FormField>
+									type="email"
+									id={exampleEmailId}
+									placeholder="Enter email"
+								/>
 
 								<FormField
 									name="example-password"
@@ -260,28 +213,20 @@ export const Route = createFileRoute("/$locale/components/form")({
 									required
 									hint="Minimum 8 characters"
 									meta={sampleMeta}
-								>
-									<input
-										type="password"
-										id={examplePasswordId}
-										className={slots.input()}
-										placeholder="Enter password"
-									/>
-								</FormField>
+									type="password"
+									id={examplePasswordId}
+									placeholder="Enter password"
+								/>
 
 								<FormField
 									name="example-confirm-password"
 									label="Confirm Password"
 									required
 									meta={multipleErrorsMeta}
-								>
-									<input
-										type="password"
-										id={exampleConfirmPasswordId}
-										className={slots.input()}
-										placeholder="Confirm password"
-									/>
-								</FormField>
+									type="password"
+									id={exampleConfirmPasswordId}
+									placeholder="Confirm password"
+								/>
 
 								<div className="flex gap-2">
 									<Button
