@@ -68,7 +68,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 				{/* Tones - Light Theme */}
 				<Section title={<Tx label={"Tones - Light Theme"} />}>
 					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default (Borderless)"} />}>
+						<Column label={<Tx label={"Default (Bordered)"} />}>
 							{tones.map((tone) => (
 								<Action
 									key={`tone-light-${tone}`}
@@ -83,16 +83,16 @@ export const Route = createFileRoute("/$locale/components/action")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"With Border"} />}>
+						<Column label={<Tx label={"Borderless"} />}>
 							{tones.map((tone) => (
 								<Action
-									key={`tone-light-bordered-${tone}`}
+									key={`tone-light-borderless-${tone}`}
 									iconEnabled={TrashIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
-											border: true,
+											border: false,
 										}),
 									})}
 								/>
@@ -136,7 +136,7 @@ export const Route = createFileRoute("/$locale/components/action")({
 				{/* Tones - Dark Theme */}
 				<Section title={<Tx label={"Tones - Dark Theme"} />}>
 					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default"} />}>
+						<Column label={<Tx label={"Default (Bordered)"} />}>
 							{tones.map((tone) => (
 								<Action
 									key={`tone-dark-${tone}`}
@@ -151,16 +151,16 @@ export const Route = createFileRoute("/$locale/components/action")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"With Border"} />}>
+						<Column label={<Tx label={"Borderless"} />}>
 							{tones.map((tone) => (
 								<Action
-									key={`tone-dark-bordered-${tone}`}
+									key={`tone-dark-borderless-${tone}`}
 									iconEnabled={TrashIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
-											border: true,
+											border: false,
 										}),
 									})}
 								/>
@@ -215,19 +215,21 @@ export const Route = createFileRoute("/$locale/components/action")({
 								<div className="grid grid-cols-3 gap-4">
 									<Column
 										label={
-											<Tx label={"Bordered + Disabled"} />
+											<Tx
+												label={"Borderless + Disabled"}
+											/>
 										}
 									>
 										{tones.map((tone) => (
 											<Action
-												key={`combined-${theme}-${tone}-bordered-disabled`}
+												key={`combined-${theme}-${tone}-borderless-disabled`}
 												disabled
 												iconDisabled={TrashIcon}
 												cls={({ what }) => ({
 													variant: what.variant({
 														tone,
 														theme,
-														border: true,
+														border: false,
 													}),
 												})}
 											/>
@@ -236,19 +238,21 @@ export const Route = createFileRoute("/$locale/components/action")({
 
 									<Column
 										label={
-											<Tx label={"Bordered + Loading"} />
+											<Tx
+												label={"Borderless + Loading"}
+											/>
 										}
 									>
 										{tones.map((tone) => (
 											<Action
-												key={`combined-${theme}-${tone}-bordered-loading`}
+												key={`combined-${theme}-${tone}-borderless-loading`}
 												loading
 												iconEnabled={TrashIcon}
 												cls={({ what }) => ({
 													variant: what.variant({
 														tone,
 														theme,
-														border: true,
+														border: false,
 													}),
 												})}
 											/>

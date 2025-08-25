@@ -283,13 +283,13 @@ export const PicoCls = cls(
 				"odd:bg-violet-950/90",
 			]),
 			"tone.primary.dark.border": what.css([
-				"border-violet-700/60",
+				"border-violet-400/80",
 			]),
 			"tone.primary.dark.border:hover": what.css([
-				"hover:border-violet-600/70",
+				"hover:border-violet-300/90",
 			]),
 			"tone.primary.dark.border:group-hover": what.css([
-				"group-hover:border-violet-600/70",
+				"group-hover:border-violet-300/90",
 			]),
 			"tone.primary.dark.shadow": what.css([
 				"shadow-violet-900/40",
@@ -353,13 +353,13 @@ export const PicoCls = cls(
 				"odd:bg-teal-950/90",
 			]),
 			"tone.secondary.dark.border": what.css([
-				"border-teal-700/60",
+				"border-teal-500/80",
 			]),
 			"tone.secondary.dark.border:hover": what.css([
-				"hover:border-teal-600/70",
+				"hover:border-teal-400/90",
 			]),
 			"tone.secondary.dark.border:group-hover": what.css([
-				"group-hover:border-teal-600/70",
+				"group-hover:border-teal-400/90",
 			]),
 			"tone.secondary.dark.shadow": what.css([
 				"shadow-teal-900/40",
@@ -423,13 +423,13 @@ export const PicoCls = cls(
 				"odd:bg-rose-950/90",
 			]),
 			"tone.danger.dark.border": what.css([
-				"border-rose-700/60",
+				"border-rose-500/80",
 			]),
 			"tone.danger.dark.border:hover": what.css([
-				"hover:border-rose-600/70",
+				"hover:border-rose-400/90",
 			]),
 			"tone.danger.dark.border:group-hover": what.css([
-				"group-hover:border-rose-600/70",
+				"group-hover:border-rose-400/90",
 			]),
 			"tone.danger.dark.shadow": what.css([
 				"shadow-rose-900/40",
@@ -493,13 +493,13 @@ export const PicoCls = cls(
 				"odd:bg-amber-950/90",
 			]),
 			"tone.warning.dark.border": what.css([
-				"border-amber-700/60",
+				"border-amber-500/80",
 			]),
 			"tone.warning.dark.border:hover": what.css([
-				"hover:border-amber-600/70",
+				"hover:border-amber-400/90",
 			]),
 			"tone.warning.dark.border:group-hover": what.css([
-				"group-hover:border-amber-600/70",
+				"group-hover:border-amber-400/90",
 			]),
 			"tone.warning.dark.shadow": what.css([
 				"shadow-amber-900/40",
@@ -563,13 +563,13 @@ export const PicoCls = cls(
 				"odd:bg-stone-950/90",
 			]),
 			"tone.subtle.dark.border": what.css([
-				"border-stone-700/60",
+				"border-stone-400/80",
 			]),
 			"tone.subtle.dark.border:hover": what.css([
-				"hover:border-stone-600/70",
+				"hover:border-stone-300/90",
 			]),
 			"tone.subtle.dark.border:group-hover": what.css([
-				"group-hover:border-stone-600/70",
+				"group-hover:border-stone-300/90",
 			]),
 			"tone.subtle.dark.shadow": what.css([
 				"shadow-stone-900/40",
@@ -633,13 +633,13 @@ export const PicoCls = cls(
 				"odd:bg-slate-950/90",
 			]),
 			"tone.neutral.dark.border": what.css([
-				"border-slate-700/60",
+				"border-slate-400/80",
 			]),
 			"tone.neutral.dark.border:hover": what.css([
-				"hover:border-slate-600/70",
+				"hover:border-slate-300/90",
 			]),
 			"tone.neutral.dark.border:group-hover": what.css([
-				"group-hover:border-slate-600/70",
+				"group-hover:border-slate-300/90",
 			]),
 			"tone.neutral.dark.shadow": what.css([
 				"shadow-slate-900/40",
@@ -672,7 +672,7 @@ export const PicoCls = cls(
 			 * Border
 			 */
 			"border.default": what.css([
-				"border-2",
+				"border-b-3",
 			]),
 			"border.sm": what.css([
 				"border",

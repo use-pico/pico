@@ -68,7 +68,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 				{/* Tones - Light Theme */}
 				<Section title={<Tx label={"Tones - Light Theme"} />}>
 					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default (Borderless)"} />}>
+						<Column label={<Tx label={"Default (Bordered)"} />}>
 							{tones.map((tone) => (
 								<Button
 									key={`tone-light-${tone}`}
@@ -84,19 +84,19 @@ export const Route = createFileRoute("/$locale/components/button")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"With Border"} />}>
+						<Column label={<Tx label={"Borderless"} />}>
 							{tones.map((tone) => (
 								<Button
-									key={`tone-light-bordered-${tone}`}
+									key={`tone-light-borderless-${tone}`}
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
-											border: true,
+											border: false,
 										}),
 									})}
 								>
-									<Tx label={`${tone} bordered`} />
+									<Tx label={`${tone} borderless`} />
 								</Button>
 							))}
 						</Column>
@@ -118,20 +118,20 @@ export const Route = createFileRoute("/$locale/components/button")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"Bordered + Disabled"} />}>
+						<Column label={<Tx label={"Borderless + Disabled"} />}>
 							{tones.map((tone) => (
 								<Button
-									key={`tone-light-bordered-disabled-${tone}`}
+									key={`tone-light-borderless-disabled-${tone}`}
 									disabled
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
-											border: true,
+											border: false,
 										}),
 									})}
 								>
-									<Tx label={`${tone} bordered disabled`} />
+									<Tx label={`${tone} borderless disabled`} />
 								</Button>
 							))}
 						</Column>
@@ -141,7 +141,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 				{/* Tones - Dark Theme */}
 				<Section title={<Tx label={"Tones - Dark Theme"} />}>
 					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default (Borderless)"} />}>
+						<Column label={<Tx label={"Default (Bordered)"} />}>
 							{tones.map((tone) => (
 								<Button
 									key={`tone-dark-${tone}`}
@@ -157,19 +157,19 @@ export const Route = createFileRoute("/$locale/components/button")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"With Border"} />}>
+						<Column label={<Tx label={"Borderless"} />}>
 							{tones.map((tone) => (
 								<Button
-									key={`tone-dark-bordered-${tone}`}
+									key={`tone-dark-borderless-${tone}`}
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
-											border: true,
+											border: false,
 										}),
 									})}
 								>
-									<Tx label={`${tone} bordered`} />
+									<Tx label={`${tone} borderless`} />
 								</Button>
 							))}
 						</Column>
@@ -191,20 +191,20 @@ export const Route = createFileRoute("/$locale/components/button")({
 							))}
 						</Column>
 
-						<Column label={<Tx label={"Bordered + Disabled"} />}>
+						<Column label={<Tx label={"Borderless + Disabled"} />}>
 							{tones.map((tone) => (
 								<Button
-									key={`tone-dark-bordered-disabled-${tone}`}
+									key={`tone-dark-borderless-disabled-${tone}`}
 									disabled
 									cls={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
-											border: true,
+											border: false,
 										}),
 									})}
 								>
-									<Tx label={`${tone} bordered disabled`} />
+									<Tx label={`${tone} borderless disabled`} />
 								</Button>
 							))}
 						</Column>

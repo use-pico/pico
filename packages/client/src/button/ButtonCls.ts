@@ -357,7 +357,7 @@ export const ButtonCls = PicoCls.extend(
 			theme: "light",
 			disabled: false,
 			size: "md",
-			border: false,
+			border: true,
 		}),
 	}),
 );

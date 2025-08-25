@@ -34,6 +34,7 @@ export const DetailCls = PicoCls.extend(
 						"flex-col",
 						"gap-4",
 						"p-4",
+						"border",
 					],
 					[
 						"border.default",
@@ -69,7 +70,7 @@ export const DetailCls = PicoCls.extend(
 					[
 						"border.default",
 						"tone.neutral.light.border",
-						"round.sm",
+						"round.default",
 					],
 				),
 				label: what.both(
@@ -77,6 +78,7 @@ export const DetailCls = PicoCls.extend(
 						"font-bold",
 						"text-sm",
 						"pb-1",
+						"opacity-50",
 					],
 					[
 						"tone.neutral.light.text",
@@ -85,18 +87,20 @@ export const DetailCls = PicoCls.extend(
 				field: what.both(
 					[
 						"text-lg",
-						"px-2",
-						"py-1",
+						"px-3",
+						"py-1.5",
 						"transition-all",
 						"duration-300",
-						"hover:scale-105",
 					],
 					[
+						"border.default",
+						"shadow.default",
 						"round.default",
-						"tone.subtle.light.bg:hover",
-						"tone.subtle.light.shadow",
-						"tone.subtle.light.shadow:hover",
-						"shadow.md",
+						"tone.neutral.light.border",
+						"tone.neutral.light.border:hover",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.bg:hover",
+						"tone.neutral.light.shadow",
 					],
 				),
 			}),

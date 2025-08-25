@@ -88,8 +88,8 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							cls={({ what }) => ({
 								variant: what.variant({
 									tone: "neutral",
-									theme:
-										type?.sort !== "asc" ? "light" : "dark",
+									border: Boolean(type?.sort === "asc"),
+									theme: "light",
 								}),
 							})}
 						/>
@@ -117,10 +117,8 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							cls={({ what }) => ({
 								variant: what.variant({
 									tone: "neutral",
-									theme:
-										type?.sort !== "desc"
-											? "light"
-											: "dark",
+									border: Boolean(type?.sort === "desc"),
+									theme: "light",
 								}),
 							})}
 						/>
@@ -143,8 +141,8 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 						cls={({ what }) => ({
 							variant: what.variant({
 								tone: "neutral",
-								theme:
-									type?.sort !== undefined ? "light" : "dark",
+								border: Boolean(type?.sort === undefined),
+								theme: "light",
 							}),
 						})}
 					/>

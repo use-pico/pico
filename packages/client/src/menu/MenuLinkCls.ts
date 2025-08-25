@@ -34,7 +34,6 @@ export const MenuLinkCls = PicoCls.extend(
 						"items-center",
 						"px-2",
 						"py-1",
-						"border-b-2",
 						"border-transparent",
 						"transition-all",
 					],
@@ -52,10 +51,10 @@ export const MenuLinkCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"tone.primary.dark.text",
-						"tone.primary.dark.bg",
-						"tone.primary.dark.border",
-						"tone.primary.dark.shadow",
+						"tone.primary.light.text",
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
+						"tone.primary.light.shadow",
 					]),
 				},
 			),

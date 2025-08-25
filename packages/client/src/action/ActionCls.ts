@@ -360,7 +360,7 @@ export const ActionCls = PicoCls.extend(
 			theme: "dark",
 			disabled: false,
 			loading: false,
-			border: false,
+			border: true,
 			size: "xs",
 		}),
 	}),

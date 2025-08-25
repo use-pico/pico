@@ -46,6 +46,7 @@ export const TableCls = AbstractListCls.extend(
 						"border-t",
 						"border-b",
 						"font-medium",
+						"px-2",
 					],
 					[
 						"tone.neutral.light.text",
@@ -71,6 +72,8 @@ export const TableCls = AbstractListCls.extend(
 						"transition-all",
 						"duration-150",
 						"hover:scale-99",
+						"px-2",
+						"hover:shadow-sm",
 					],
 					[
 						"tone.neutral.light.border",
@@ -78,6 +81,8 @@ export const TableCls = AbstractListCls.extend(
 						"tone.neutral.light.bg:odd",
 						"tone.neutral.light.bg:hover",
 						"tone.neutral.light.border:hover",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
 					],
 				),
 				cell: what.css([
@@ -110,14 +115,21 @@ export const TableCls = AbstractListCls.extend(
 					selected: true,
 				}),
 				{
-					row: what.token([
-						"tone.secondary.light.text",
-						"tone.secondary.light.bg:even",
-						"tone.secondary.light.bg:odd",
-						"tone.secondary.light.bg:hover",
-						"tone.secondary.light.border",
-						"tone.secondary.light.border:hover",
-					]),
+					row: what.both(
+						[
+							"hover:shadow-sm",
+						],
+						[
+							"tone.secondary.light.text",
+							"tone.secondary.light.bg:even",
+							"tone.secondary.light.bg:odd",
+							"tone.secondary.light.bg:hover",
+							"tone.secondary.light.border",
+							"tone.secondary.light.border:hover",
+							"tone.secondary.light.shadow",
+							"tone.secondary.light.shadow:hover",
+						],
+					),
 					select: what.token([
 						"tone.secondary.dark.text",
 					]),

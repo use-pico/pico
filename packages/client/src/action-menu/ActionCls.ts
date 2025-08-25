@@ -47,6 +47,7 @@ export const ActionCls = PicoCls.extend(
 					[
 						"round.default",
 						"scale.md",
+						"border.default",
 					],
 				),
 			}),
