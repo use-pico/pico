@@ -9,7 +9,7 @@ export namespace ModalContent {
 export const ModalContent: FC<ModalContent.Props> = ({ children, footer }) => {
 	return (
 		<>
-			<div className={"flex-grow overflow-y-auto"}>{children}</div>
+			<div className={"py-1 flex-grow overflow-y-auto"}>{children}</div>
 			{footer ? <div>{footer}</div> : null}
 		</>
 	);

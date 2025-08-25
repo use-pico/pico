@@ -145,7 +145,6 @@ export const PopupSelect = <
 					query={query}
 					table={table}
 					state={state}
-					slots={slots}
 					allowEmpty={!required}
 				/>
 			)}

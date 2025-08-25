@@ -50,7 +50,7 @@
 		"@types/react": "^19.1.9",
 		"@use-pico/tsconfig": "4.0.20",
 		"npm-run-all2": "8.0.4",
-		"rollup": "4.48.0",
+		"rollup": "4.48.1",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},

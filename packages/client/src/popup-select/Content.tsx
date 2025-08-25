@@ -11,7 +11,6 @@ import { ModalFooter } from "../modal/ModalFooter";
 import { useSelection } from "../selection/useSelection";
 import type { Table } from "../table/Table";
 import type { PopupSelect } from "./PopupSelect";
-import type { PopupSelectCls } from "./PopupSelectCls";
 
 export namespace Content {
 	export interface Props<
@@ -22,7 +21,6 @@ export namespace Content {
 		query: Omit<TQuery, "filter" | "cursor"> | undefined;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
 		state: PopupSelect.State;
-		slots: PopupSelectCls.Slots;
 		allowEmpty: boolean;
 	}
 }
@@ -35,7 +33,6 @@ export const Content = <
 	query,
 	table: Table,
 	state,
-	slots,
 	allowEmpty,
 }: Content.Props<TQuery, TItem>) => {
 	const selection = useSelection({
@@ -61,53 +58,49 @@ export const Content = <
 				/>
 			}
 		>
-			<div className={slots.base()}>
-				<div className={slots.content()}>
-					<Table
-						query={
-							{
-								filter: {
-									fulltext,
-								},
-								where: query?.where,
-								cursor,
-								sort,
-							} as TQuery
-						}
-						controlsHidden={[
-							"actions",
-						]}
-						cursor={{
-							value: cursor,
-							set: setCursor,
-						}}
-						sort={{
-							value: sort,
-							set: setSort,
-						}}
-						fulltext={{
-							value: fulltext,
-							set(value) {
-								setFulltext(value);
-								setCursor({
-									...cursor,
-									page: 0,
-								});
-							},
-						}}
-						selectionMode={mode}
-						selection={selection}
-						rowDblClick={({ data }) => {
-							if (mode === "single") {
-								state.set([
-									data.id,
-								]);
-								close();
-							}
-						}}
-					/>
-				</div>
-			</div>
+			<Table
+				query={
+					{
+						filter: {
+							fulltext,
+						},
+						where: query?.where,
+						cursor,
+						sort,
+					} as TQuery
+				}
+				controlsHidden={[
+					"actions",
+				]}
+				cursor={{
+					value: cursor,
+					set: setCursor,
+				}}
+				sort={{
+					value: sort,
+					set: setSort,
+				}}
+				fulltext={{
+					value: fulltext,
+					set(value) {
+						setFulltext(value);
+						setCursor({
+							...cursor,
+							page: 0,
+						});
+					},
+				}}
+				selectionMode={mode}
+				selection={selection}
+				rowDblClick={({ data }) => {
+					if (mode === "single") {
+						state.set([
+							data.id,
+						]);
+						close();
+					}
+				}}
+			/>
 		</ModalContent>
 	);
 };

@@ -6,7 +6,6 @@ export const PopupSelectCls = PicoCls.extend(
 		tokens: [],
 		slot: [
 			"input",
-			"content",
 		],
 		variant: {
 			isLoading: [
