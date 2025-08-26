@@ -8,12 +8,11 @@ export const MenuLinkCls = MenuItemCls.extend(
 		variant: {},
 	},
 	({ def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [],
 		defaults: def.defaults({
+			type: "main",
 			active: false,
-			inner: false,
-			subtle: false,
 			vertical: false,
 		}),
 	}),

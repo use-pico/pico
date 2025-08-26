@@ -2,7 +2,7 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
-import { useCls } from "@use-pico/cls";
+import { useCls, type VariantOf } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Float } from "../float/Float";
 import { Icon } from "../icon/Icon";
@@ -10,9 +10,12 @@ import { MenuGroupCls } from "./MenuGroupCls";
 
 export namespace MenuGroup {
 	export interface Props extends MenuGroupCls.Props<PropsWithChildren> {
-		icon?: string;
+		icon?: Icon.Type;
 		label: ReactNode;
 		match?: UseMatchRouteOptions[];
+		active?: boolean;
+		type?: VariantOf<MenuGroupCls, "type">;
+		vertical?: boolean;
 	}
 }
 
@@ -20,6 +23,9 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	icon,
 	label,
 	match = [],
+	active,
+	type,
+	vertical,
 	tva = MenuGroupCls,
 	cls,
 	children,
@@ -29,7 +35,9 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 
 	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
-			active: isActive,
+			type,
+			active: active ?? isActive,
+			vertical,
 		}),
 	}));
 

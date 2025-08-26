@@ -4,7 +4,7 @@ import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
 } from "@tanstack/react-router";
-import { useCls } from "@use-pico/cls";
+import { useCls, type VariantOf } from "@use-pico/cls";
 import { type AnchorHTMLAttributes, forwardRef } from "react";
 import { Icon } from "../icon/Icon";
 import { MenuLinkCls } from "./MenuLinkCls";
@@ -12,8 +12,9 @@ import { MenuLinkCls } from "./MenuLinkCls";
 interface BaseMenuLinkProps
 	extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: Icon.Type;
+	active?: boolean;
 	match?: UseMatchRouteOptions[];
-	inner?: boolean;
+	type?: VariantOf<MenuLinkCls, "type">;
 	vertical?: boolean;
 }
 
@@ -21,8 +22,9 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 	(
 		{
 			icon = null,
-			inner = false,
-			vertical = false,
+			active,
+			type,
+			vertical,
 			tva = MenuLinkCls,
 			match = [],
 			cls,
@@ -36,9 +38,9 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 
 		const slots = useCls(tva, cls, ({ what }) => ({
 			variant: what.variant({
-				inner,
+				type,
+				active: active ?? isActive,
 				vertical,
-				active: isActive,
 			}),
 		}));
 

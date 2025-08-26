@@ -19,7 +19,7 @@ export const Route = createFileRoute("/$locale/components")({
 					className={tvc([
 						"flex",
 						"flex-col",
-						"w-1/6",
+						"w-1/8",
 						"border-r",
 						"border-slate-300",
 						"bg-slate-100",
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/$locale/components")({
 								"font-bold",
 							])}
 						>
-							<Tx label={"@use-pico - Components"} />
+							<Tx label={"Components"} />
 						</h1>
 					</div>
 

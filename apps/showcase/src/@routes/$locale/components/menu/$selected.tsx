@@ -18,11 +18,11 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 		});
 
 		return (
-			<div className="space-y-8">
-				{/* Horizontal Menu */}
+			<div className="space-y-8 w-full">
+				{/* Main Navigation Menu */}
 				<div>
 					<h3 className="text-lg font-semibold mb-4">
-						Horizontal Menu
+						Main Navigation Menu
 					</h3>
 					<Menu>
 						<MenuLink
@@ -30,147 +30,113 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "colors",
+								selected: "main-dashboard",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "colors",
-								}),
-							})}
+							type="main"
+							active={selected === "main-dashboard"}
 						>
-							<Tx label={"Colors"} />
+							<Tx label={"Dashboard"} />
 						</MenuLink>
 						<MenuLink
 							icon={SettingsIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "alert",
+								selected: "main-settings",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "alert",
-								}),
-							})}
+							type="main"
+							active={selected === "main-settings"}
 						>
-							<Tx label={"Alert"} />
-						</MenuLink>
-						<MenuLink
-							icon={CheckIcon}
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "badge",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "badge",
-								}),
-							})}
-						>
-							<Tx label={"Badge"} />
+							<Tx label={"Settings"} />
 						</MenuLink>
 						<MenuLink
 							icon={EditIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "button",
+								selected: "main-content",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "button",
-								}),
-							})}
+							type="main"
+							active={selected === "main-content"}
 						>
-							<Tx label={"Buttons"} />
+							<Tx label={"Content"} />
+						</MenuLink>
+						<MenuLink
+							icon={ListIcon}
+							to={"/$locale/components/menu/$selected"}
+							params={{
+								locale,
+								selected: "main-reports",
+							}}
+							type="main"
+							active={selected === "main-reports"}
+						>
+							<Tx label={"Reports"} />
 						</MenuLink>
 					</Menu>
 				</div>
 
-				{/* Vertical Menu */}
+				{/* Sub-level Menu Items */}
 				<div>
 					<h3 className="text-lg font-semibold mb-4">
-						Vertical Menu
+						Sub-level Menu Items
 					</h3>
-					<Menu
-						cls={({ what }) => ({
-							variant: what.variant({
-								vertical: true,
-							}),
-						})}
-					>
+					<Menu>
 						<MenuLink
 							icon={UserIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "vertical-colors",
+								selected: "sub-profile",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vertical-colors",
-									vertical: true,
-								}),
-							})}
+							type="sub"
+							active={selected === "sub-profile"}
 						>
-							<Tx label={"Colors"} />
+							<Tx label={"Profile Settings"} />
 						</MenuLink>
 						<MenuLink
 							icon={SettingsIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "vertical-alert",
+								selected: "sub-security",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vertical-alert",
-									vertical: true,
-								}),
-							})}
+							type="sub"
+							active={selected === "sub-security"}
 						>
-							<Tx label={"Alert"} />
+							<Tx label={"Security"} />
 						</MenuLink>
 						<MenuLink
 							icon={CheckIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "vertical-badge",
+								selected: "sub-notifications",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vertical-badge",
-									vertical: true,
-								}),
-							})}
+							type="sub"
+							active={selected === "sub-notifications"}
 						>
-							<Tx label={"Badge"} />
+							<Tx label={"Notifications"} />
 						</MenuLink>
 						<MenuLink
 							icon={EditIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "vertical-button",
+								selected: "sub-posts",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vertical-button",
-									vertical: true,
-								}),
-							})}
+							type="sub"
+							active={selected === "sub-posts"}
 						>
-							<Tx label={"Buttons"} />
+							<Tx label={"Posts"} />
 						</MenuLink>
 					</Menu>
 				</div>
 
-				{/* Subtle Menu Links */}
+				{/* Third Level Menu Items */}
 				<div>
 					<h3 className="text-lg font-semibold mb-4">
-						Subtle Menu Links
+						Third Level Menu Items
 					</h3>
 					<Menu>
 						<MenuLink
@@ -178,174 +144,155 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "subtle-colors",
+								selected: "level-account",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "subtle-colors",
-									subtle: true,
-								}),
-							})}
+							type="level"
+							active={selected === "level-account"}
 						>
-							<Tx label={"Colors (active)"} />
+							<Tx label={"Account Details"} />
 						</MenuLink>
 						<MenuLink
 							icon={SettingsIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "subtle-alert",
+								selected: "level-privacy",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "subtle-alert",
-									subtle: true,
-								}),
-							})}
+							type="level"
+							active={selected === "level-privacy"}
 						>
-							<Tx label={"Alert (subtle)"} />
+							<Tx label={"Privacy Settings"} />
 						</MenuLink>
 						<MenuLink
 							icon={CheckIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "subtle-badge",
+								selected: "level-email",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "subtle-badge",
-									subtle: true,
-								}),
-							})}
+							type="level"
+							active={selected === "level-email"}
 						>
-							<Tx label={"Badge (subtle)"} />
+							<Tx label={"Email Preferences"} />
+						</MenuLink>
+						<MenuLink
+							icon={EditIcon}
+							to={"/$locale/components/menu/$selected"}
+							params={{
+								locale,
+								selected: "level-drafts",
+							}}
+							type="level"
+							active={selected === "level-drafts"}
+						>
+							<Tx label={"Draft Posts"} />
 						</MenuLink>
 					</Menu>
 				</div>
 
-				{/* Inner Menu Links */}
+				{/* Hierarchical Menu with All Levels */}
 				<div>
 					<h3 className="text-lg font-semibold mb-4">
-						Inner Menu Links
+						Hierarchical Menu with All Levels
 					</h3>
 					<Menu>
+						{/* Main Level */}
 						<MenuLink
 							icon={UserIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "inner-colors",
+								selected: "hierarchical-dashboard",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "inner-colors",
-									inner: true,
-								}),
-							})}
+							type="main"
+							active={selected === "hierarchical-dashboard"}
 						>
-							<Tx label={"Colors (inner active)"} />
+							<Tx label={"Dashboard"} />
 						</MenuLink>
+
+						{/* Sub Level */}
 						<MenuLink
 							icon={SettingsIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "inner-alert",
+								selected: "hierarchical-settings",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "inner-alert",
-									inner: true,
-								}),
-							})}
+							type="sub"
+							active={selected === "hierarchical-settings"}
 						>
-							<Tx label={"Alert (inner)"} />
+							<Tx label={"Settings"} />
 						</MenuLink>
+
+						{/* Third Level */}
 						<MenuLink
 							icon={CheckIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "inner-badge",
+								selected: "hierarchical-advanced",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "inner-badge",
-									inner: true,
-								}),
-							})}
+							type="level"
+							active={selected === "hierarchical-advanced"}
 						>
-							<Tx label={"Badge (inner)"} />
+							<Tx label={"Advanced Settings"} />
 						</MenuLink>
 					</Menu>
 				</div>
 
-				{/* Mixed Variants */}
+				{/* Vertical Menu with Hierarchy */}
 				<div>
 					<h3 className="text-lg font-semibold mb-4">
-						Mixed Variants
+						Vertical Menu with Hierarchy
 					</h3>
-					<Menu
-						cls={({ what }) => ({
-							variant: what.variant({
-								vertical: true,
-							}),
-						})}
-					>
-						<MenuLink
-							icon={UserIcon}
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "mixed-colors",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "mixed-colors",
-									vertical: true,
-									subtle: true,
-								}),
-							})}
-						>
-							<Tx label={"Colors (active + subtle + vertical)"} />
-						</MenuLink>
-						<MenuLink
-							icon={SettingsIcon}
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "mixed-alert",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "mixed-alert",
-									vertical: true,
-									inner: true,
-								}),
-							})}
-						>
-							<Tx label={"Alert (inner + vertical)"} />
-						</MenuLink>
-						<MenuLink
-							icon={CheckIcon}
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "mixed-badge",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "mixed-badge",
-									vertical: true,
-									inner: true,
-									subtle: true,
-								}),
-							})}
-						>
-							<Tx label={"Badge (all variants)"} />
-						</MenuLink>
-					</Menu>
+					<div className="w-fit">
+						<Menu vertical>
+							{/* Main Level */}
+							<MenuLink
+								icon={UserIcon}
+								to={"/$locale/components/menu/$selected"}
+								params={{
+									locale,
+									selected: "vertical-main",
+								}}
+								type="main"
+								vertical
+								active={selected === "vertical-main"}
+							>
+								<Tx label={"Main Navigation"} />
+							</MenuLink>
+
+							{/* Sub Level */}
+							<MenuLink
+								icon={SettingsIcon}
+								to={"/$locale/components/menu/$selected"}
+								params={{
+									locale,
+									selected: "vertical-sub",
+								}}
+								type="sub"
+								vertical
+								active={selected === "vertical-sub"}
+							>
+								<Tx label={"Sub Navigation"} />
+							</MenuLink>
+
+							{/* Third Level */}
+							<MenuLink
+								icon={CheckIcon}
+								to={"/$locale/components/menu/$selected"}
+								params={{
+									locale,
+									selected: "vertical-level",
+								}}
+								type="level"
+								vertical
+								active={selected === "vertical-level"}
+							>
+								<Tx label={"Deep Navigation"} />
+							</MenuLink>
+						</Menu>
+					</div>
 				</div>
 
 				{/* Navigation Menu Example */}
@@ -354,94 +301,62 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 						Navigation Menu Example
 					</h3>
 					<div className="border rounded-lg p-4 bg-slate-50">
-						<Menu
-							cls={({ what }) => ({
-								variant: what.variant({
-									vertical: true,
-								}),
-							})}
-						>
-							<MenuLink
-								icon={UserIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "nav-colors",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "nav-colors",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Colors"} />
-							</MenuLink>
-							<MenuLink
-								icon={SettingsIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "nav-alert",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "nav-alert",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Alert"} />
-							</MenuLink>
-							<MenuLink
-								icon={CheckIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "nav-badge",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "nav-badge",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Badge"} />
-							</MenuLink>
-							<MenuLink
-								icon={EditIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "nav-button",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "nav-button",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Buttons"} />
-							</MenuLink>
-							<MenuLink
-								icon={ListIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "nav-table",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "nav-table",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Table"} />
-							</MenuLink>
-						</Menu>
+						<div className="w-fit">
+							<Menu vertical>
+								<MenuLink
+									icon={UserIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "nav-dashboard",
+									}}
+									type="main"
+									vertical
+									active={selected === "nav-dashboard"}
+								>
+									<Tx label={"Dashboard"} />
+								</MenuLink>
+								<MenuLink
+									icon={SettingsIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "nav-settings",
+									}}
+									type="main"
+									vertical
+									active={selected === "nav-settings"}
+								>
+									<Tx label={"Settings"} />
+								</MenuLink>
+								<MenuLink
+									icon={EditIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "nav-content",
+									}}
+									type="main"
+									vertical
+									active={selected === "nav-content"}
+								>
+									<Tx label={"Content"} />
+								</MenuLink>
+								<MenuLink
+									icon={ListIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "nav-reports",
+									}}
+									type="main"
+									vertical
+									active={selected === "nav-reports"}
+								>
+									<Tx label={"Reports"} />
+								</MenuLink>
+							</Menu>
+						</div>
 					</div>
 				</div>
 
@@ -455,57 +370,34 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "noicon-colors",
+								selected: "noicon-main",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "noicon-colors",
-								}),
-							})}
+							type="main"
+							active={selected === "noicon-main"}
 						>
-							<Tx label={"Colors"} />
+							<Tx label={"Main Item"} />
 						</MenuLink>
 						<MenuLink
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "noicon-alert",
+								selected: "noicon-sub",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "noicon-alert",
-								}),
-							})}
+							type="sub"
+							active={selected === "noicon-sub"}
 						>
-							<Tx label={"Alert"} />
+							<Tx label={"Sub Item"} />
 						</MenuLink>
 						<MenuLink
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "noicon-badge",
+								selected: "noicon-level",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "noicon-badge",
-								}),
-							})}
+							type="level"
+							active={selected === "noicon-level"}
 						>
-							<Tx label={"Badge"} />
-						</MenuLink>
-						<MenuLink
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "noicon-button",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "noicon-button",
-								}),
-							})}
-						>
-							<Tx label={"Buttons"} />
+							<Tx label={"Deep Item"} />
 						</MenuLink>
 					</Menu>
 				</div>
@@ -523,17 +415,15 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "submenu-dashboard",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "submenu-dashboard",
-								}),
-							})}
+							type="main"
+							active={selected === "submenu-dashboard"}
 						>
 							<Tx label={"Dashboard"} />
 						</MenuLink>
 						<MenuGroup
 							icon="icon-[ph--gear-six]"
 							label={<Tx label={"Settings"} />}
+							type="main"
 							match={[
 								{
 									to: "/$locale/components/menu/$selected",
@@ -562,11 +452,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-profile",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "submenu-profile",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-profile"}
 							>
 								<Tx label={"Profile Settings"} />
 							</MenuLink>
@@ -577,11 +464,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-security",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "submenu-security",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-security"}
 							>
 								<Tx label={"Security"} />
 							</MenuLink>
@@ -592,13 +476,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-notifications",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active:
-											selected ===
-											"submenu-notifications",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-notifications"}
 							>
 								<Tx label={"Notifications"} />
 							</MenuLink>
@@ -606,6 +485,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 						<MenuGroup
 							icon="icon-[ph--folder]"
 							label={<Tx label={"Content"} />}
+							type="main"
 						>
 							<MenuLink
 								icon={EditIcon}
@@ -614,11 +494,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-posts",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "submenu-posts",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-posts"}
 							>
 								<Tx label={"Posts"} />
 							</MenuLink>
@@ -629,11 +506,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-pages",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "submenu-pages",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-pages"}
 							>
 								<Tx label={"Pages"} />
 							</MenuLink>
@@ -644,11 +518,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-media",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "submenu-media",
-									}),
-								})}
+								type="sub"
+								active={selected === "submenu-media"}
 							>
 								<Tx label={"Media"} />
 							</MenuLink>
@@ -660,11 +531,8 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "submenu-help",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "submenu-help",
-								}),
-							})}
+							type="main"
+							active={selected === "submenu-help"}
 						>
 							<Tx label={"Help"} />
 						</MenuLink>
@@ -676,119 +544,145 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 					<h3 className="text-lg font-semibold mb-4">
 						Vertical Menu with Submenus
 					</h3>
-					<Menu
-						cls={({ what }) => ({
-							variant: what.variant({
-								vertical: true,
-							}),
-						})}
-					>
-						<MenuLink
-							icon={UserIcon}
-							to={"/$locale/components/menu/$selected"}
-							params={{
-								locale,
-								selected: "vsubmenu-dashboard",
-							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vsubmenu-dashboard",
-									vertical: true,
-								}),
-							})}
-						>
-							<Tx label={"Dashboard"} />
-						</MenuLink>
-						<MenuGroup
-							icon="icon-[ph--gear-six]"
-							label={<Tx label={"Settings"} />}
-						>
+					<div className="w-fit">
+						<Menu vertical>
 							<MenuLink
 								icon={UserIcon}
 								to={"/$locale/components/menu/$selected"}
 								params={{
 									locale,
-									selected: "vsubmenu-profile",
+									selected: "vsubmenu-dashboard",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "vsubmenu-profile",
-										vertical: true,
-									}),
-								})}
+								type="main"
+								vertical
+								active={selected === "vsubmenu-dashboard"}
 							>
-								<Tx label={"Profile Settings"} />
+								<Tx label={"Dashboard"} />
 							</MenuLink>
-							<MenuLink
-								icon={SettingsIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "vsubmenu-security",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active:
-											selected === "vsubmenu-security",
-										vertical: true,
-									}),
-								})}
+							<MenuGroup
+								icon="icon-[ph--gear-six]"
+								label={<Tx label={"Settings"} />}
+								type="main"
+								vertical
 							>
-								<Tx label={"Security"} />
-							</MenuLink>
-						</MenuGroup>
-						<MenuGroup
-							icon="icon-[ph--folder]"
-							label={<Tx label={"Content"} />}
-						>
+								<MenuLink
+									icon={UserIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "vsubmenu-profile",
+									}}
+									type="sub"
+									vertical
+									active={selected === "vsubmenu-profile"}
+								>
+									<Tx label={"Profile Settings"} />
+								</MenuLink>
+								<MenuLink
+									icon={SettingsIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "vsubmenu-security",
+									}}
+									type="sub"
+									vertical
+									active={selected === "vsubmenu-security"}
+								>
+									<Tx label={"Security"} />
+								</MenuLink>
+							</MenuGroup>
+							<MenuGroup
+								icon="icon-[ph--folder]"
+								label={<Tx label={"Content"} />}
+								type="main"
+								vertical
+							>
+								<MenuLink
+									icon={EditIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "vsubmenu-posts",
+									}}
+									type="sub"
+									vertical
+									active={selected === "vsubmenu-posts"}
+								>
+									<Tx label={"Posts"} />
+								</MenuLink>
+								<MenuLink
+									icon={ListIcon}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "vsubmenu-pages",
+									}}
+									type="sub"
+									vertical
+									active={selected === "vsubmenu-pages"}
+								>
+									<Tx label={"Pages"} />
+								</MenuLink>
+							</MenuGroup>
 							<MenuLink
 								icon={EditIcon}
 								to={"/$locale/components/menu/$selected"}
 								params={{
 									locale,
-									selected: "vsubmenu-posts",
+									selected: "vsubmenu-help",
 								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "vsubmenu-posts",
-										vertical: true,
-									}),
-								})}
+								type="main"
+								vertical
+								active={selected === "vsubmenu-help"}
 							>
-								<Tx label={"Posts"} />
+								<Tx label={"Help"} />
 							</MenuLink>
-							<MenuLink
-								icon={ListIcon}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "vsubmenu-pages",
-								}}
-								cls={({ what }) => ({
-									variant: what.variant({
-										active: selected === "vsubmenu-pages",
-										vertical: true,
-									}),
-								})}
-							>
-								<Tx label={"Pages"} />
-							</MenuLink>
-						</MenuGroup>
+						</Menu>
+					</div>
+				</div>
+
+				{/* Mixed Type Variants */}
+				<div>
+					<h3 className="text-lg font-semibold mb-4">
+						Mixed Type Variants
+					</h3>
+					<Menu>
 						<MenuLink
-							icon={EditIcon}
+							icon={UserIcon}
 							to={"/$locale/components/menu/$selected"}
 							params={{
 								locale,
-								selected: "vsubmenu-help",
+								selected: "mixed-main",
 							}}
-							cls={({ what }) => ({
-								variant: what.variant({
-									active: selected === "vsubmenu-help",
-									vertical: true,
-								}),
-							})}
+							type="main"
+							active={selected === "mixed-main"}
 						>
-							<Tx label={"Help"} />
+							<Tx label={"Main Type"} />
+						</MenuLink>
+						<MenuLink
+							icon={SettingsIcon}
+							to={"/$locale/components/menu/$selected"}
+							params={{
+								locale,
+								selected: "mixed-sub",
+							}}
+							type="sub"
+							active={selected === "mixed-sub"}
+						>
+							<Tx label={"Sub Type"} />
+						</MenuLink>
+						<MenuLink
+							icon={CheckIcon}
+							to={"/$locale/components/menu/$selected"}
+							params={{
+								locale,
+								selected: "mixed-level",
+							}}
+							type="level"
+							active={selected === "mixed-level"}
+						>
+							<Tx label={"Level Type"} />
 						</MenuLink>
 					</Menu>
 				</div>

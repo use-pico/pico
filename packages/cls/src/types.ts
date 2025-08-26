@@ -1073,8 +1073,11 @@ export type ComponentSlots<TCls extends Cls<any>> = ClsSlots<TCls["contract"]>;
  */
 export type VariantOf<
 	TCls extends Cls<any>,
-	TVariant extends keyof TCls["contract"]["variant"],
-> = StringToBool<TCls["contract"]["variant"][TVariant][number]>;
+	TVariant extends keyof Variants<TCls["contract"]>,
+> = Variants<TCls["contract"]>[TVariant] extends readonly (infer U extends
+	string)[]
+	? StringToBool<U>
+	: never;
 
 /**
  * Main CLS instance interface that provides styling capabilities through contracts and definitions.
