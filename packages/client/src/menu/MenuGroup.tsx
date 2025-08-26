@@ -34,7 +34,7 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	}));
 
 	const target = (
-		<div className={slots.label()}>
+		<div className={slots.root()}>
 			{icon ? <Icon icon={icon} /> : null}
 			{label}
 		</div>
