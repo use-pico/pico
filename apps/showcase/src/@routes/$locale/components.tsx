@@ -325,9 +325,9 @@ export const Route = createFileRoute("/$locale/components")({
 				</div>
 				<div
 					className={tvc([
-						"flex",
 						"flex-1",
 						"p-4",
+						"pb-16",
 						"overflow-y-auto",
 					])}
 				>

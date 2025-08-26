@@ -8,45 +8,11 @@ export const Route = createFileRoute("/$locale/components/colors")({
 		return (
 			<div
 				className={tvc([
-					"w-full",
 					"flex",
-					"flex-col",
+					"flex-row",
 					"gap-4",
 				])}
 			>
-				<Section title="Dark Theme">
-					<Swatch
-						tone="primary"
-						theme="dark"
-						label="Primary"
-					/>
-					<Swatch
-						tone="secondary"
-						theme="dark"
-						label="Secondary"
-					/>
-					<Swatch
-						tone="danger"
-						theme="dark"
-						label="Danger"
-					/>
-					<Swatch
-						tone="warning"
-						theme="dark"
-						label="Warning"
-					/>
-					<Swatch
-						tone="neutral"
-						theme="dark"
-						label="Neutral"
-					/>
-					<Swatch
-						tone="subtle"
-						theme="dark"
-						label="Subtle"
-					/>
-				</Section>
-
 				<Section title="Light Theme">
 					<Swatch
 						tone="primary"
@@ -76,6 +42,39 @@ export const Route = createFileRoute("/$locale/components/colors")({
 					<Swatch
 						tone="subtle"
 						theme="light"
+						label="Subtle"
+					/>
+				</Section>
+
+				<Section title="Dark Theme">
+					<Swatch
+						tone="primary"
+						theme="dark"
+						label="Primary"
+					/>
+					<Swatch
+						tone="secondary"
+						theme="dark"
+						label="Secondary"
+					/>
+					<Swatch
+						tone="danger"
+						theme="dark"
+						label="Danger"
+					/>
+					<Swatch
+						tone="warning"
+						theme="dark"
+						label="Warning"
+					/>
+					<Swatch
+						tone="neutral"
+						theme="dark"
+						label="Neutral"
+					/>
+					<Swatch
+						tone="subtle"
+						theme="dark"
 						label="Subtle"
 					/>
 				</Section>
@@ -118,6 +117,7 @@ const Section: FC<{
 	return (
 		<div
 			className={tvc([
+				"flex-1",
 				"flex",
 				"flex-col",
 				"gap-2",

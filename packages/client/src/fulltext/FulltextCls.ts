@@ -48,6 +48,7 @@ export const FulltextCls = PicoCls.extend(
 						"tone.neutral.light.text:hover",
 						"tone.neutral.light.border",
 						"tone.neutral.light.border:hover",
+						"focus.off",
 					],
 				),
 				clear: what.both(

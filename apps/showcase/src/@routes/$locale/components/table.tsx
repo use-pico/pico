@@ -9,7 +9,7 @@ export const Route = createFileRoute("/$locale/components/table")({
 			...data,
 			cursor: cursor ?? {
 				page: 0,
-				size: 30,
+				size: 15,
 			},
 			sort: sort ?? [
 				{
