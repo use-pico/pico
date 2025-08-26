@@ -534,6 +534,26 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 						<MenuGroup
 							icon="icon-[ph--gear-six]"
 							label={<Tx label={"Settings"} />}
+							match={[
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-profile",
+									},
+								},
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-security",
+									},
+								},
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-notifications",
+									},
+								},
+							]}
 						>
 							<MenuLink
 								icon={UserIcon}
