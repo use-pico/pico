@@ -2,6 +2,25 @@ import type { Contract, CreateConfig, What, WhatConfigFn } from "./types";
 import { what } from "./what";
 
 /**
+ * Filters out undefined values from an object
+ */
+function filter<T extends Record<string, any>>(
+	input: T | undefined,
+): Partial<T> {
+	if (!input) {
+		return {};
+	}
+
+	const result: Partial<T> = {};
+	for (const [key, value] of Object.entries(input)) {
+		if (value !== undefined) {
+			result[key as keyof T] = value;
+		}
+	}
+	return result;
+}
+
+/**
  * Combines two What objects by merging their class and token arrays
  */
 function combineWhat<T extends Contract<any, any, any>>(
@@ -88,8 +107,8 @@ export function merge<const TContract extends Contract<any, any, any>>(
 		...($internal ?? {}),
 		...($user ?? {}),
 		variant: {
-			...$internal?.variant,
-			...$user?.variant,
+			...filter($internal?.variant),
+			...filter($user?.variant),
 		} as Partial<CreateConfig<TContract>["variant"]>,
 		slot: (() => {
 			const internalSlot = $internal?.slot;

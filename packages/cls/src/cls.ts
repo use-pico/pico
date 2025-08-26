@@ -195,7 +195,11 @@ export function cls<
 
 			const effectiveVariant = {
 				...defaultVariant,
-				...(config.variant ?? {}),
+				...Object.fromEntries(
+					Object.entries(config.variant ?? {}).filter(
+						([, value]) => value !== undefined,
+					),
+				),
 			};
 
 			// Apply token overrides
@@ -260,7 +264,11 @@ export function cls<
 
 						const localEffective = {
 							...effectiveVariant,
-							...(localConfig?.variant ?? {}),
+							...Object.fromEntries(
+								Object.entries(
+									localConfig?.variant ?? {},
+								).filter(([, value]) => value !== undefined),
+							),
 						};
 						const localTokens = {
 							...tokenTable,

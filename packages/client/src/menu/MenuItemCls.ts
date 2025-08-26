@@ -57,16 +57,29 @@ export const MenuItemCls = PicoCls.extend(
 					[
 						"border.default",
 						"round.default",
+						"shadow.default",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",
-						"shadow.md",
 					],
 				),
 			}),
 			def.rule(
 				what.variant({
 					type: "main",
+					active: true,
+				}),
+				{
+					root: what.token([
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
+						"tone.primary.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					type: "sub",
 					active: true,
 				}),
 				{
