@@ -80,11 +80,13 @@ const Component: FC<Action.Props> = ({
 			{disabled ? (
 				<Icon
 					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
+					size={"sm"}
 					{...iconProps}
 				/>
 			) : (
 				<Icon
 					icon={loading ? iconLoading : iconEnabled}
+					size={"sm"}
 					{...iconProps}
 				/>
 			)}

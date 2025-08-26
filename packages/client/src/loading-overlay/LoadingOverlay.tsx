@@ -25,11 +25,10 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 			<Icon
 				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
 				cls={({ what }) => ({
-					variant: what.variant({
-						size: "8xl",
-					}),
 					slot: what.slot({
 						root: what.css([
+							"w-24",
+							"h-24",
 							"text-sky-400",
 						]),
 					}),

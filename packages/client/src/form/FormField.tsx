@@ -59,31 +59,24 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 
 	return (
 		<div className={slots.base()}>
-			{label || meta.errors?.length ? (
-				<div className={"flex flex-row justify-between"}>
-					{label ? (
-						<label
-							htmlFor={name as string}
-							className={slots.label()}
-						>
-							{label}
-						</label>
-					) : (
-						<div />
-					)}
-					{meta.errors?.length ? (
-						<FormError
-							cls={({ what }) => ({
-								variant: what.variant({
-									compact: true,
-								}),
-							})}
-							meta={meta}
-						/>
-					) : null}
-				</div>
-			) : null}
-			{hint ? <div className={slots.hint()}>{hint}</div> : null}
+			<div className={slots.header()}>
+				{label || meta.errors?.length ? (
+					<div className={"flex flex-row items-end justify-between"}>
+						{label ? (
+							<label
+								htmlFor={name as string}
+								className={slots.label()}
+							>
+								{label}
+							</label>
+						) : (
+							<div />
+						)}
+						{meta.errors?.length ? <FormError meta={meta} /> : null}
+					</div>
+				) : null}
+				{hint ? <div className={slots.hint()}>{hint}</div> : null}
+			</div>
 			{children({
 				className: slots.input(),
 				disabled,

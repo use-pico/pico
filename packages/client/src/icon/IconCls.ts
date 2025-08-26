@@ -14,13 +14,6 @@ export const IconCls = PicoCls.extend(
 				"md",
 				"lg",
 				"xl",
-				"2xl",
-				"3xl",
-				"4xl",
-				"5xl",
-				"6xl",
-				"7xl",
-				"8xl",
 			],
 			disabled: [
 				"bool",
@@ -35,8 +28,8 @@ export const IconCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.css([
-						"text-sm",
+					root: what.token([
+						"icon.xs",
 					]),
 				},
 			),
@@ -45,8 +38,8 @@ export const IconCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.css([
-						"text-sm",
+					root: what.token([
+						"icon.sm",
 					]),
 				},
 			),
@@ -55,8 +48,8 @@ export const IconCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.css([
-						"text-base",
+					root: what.token([
+						"icon.md",
 					]),
 				},
 			),
@@ -65,8 +58,8 @@ export const IconCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.css([
-						"text-lg",
+					root: what.token([
+						"icon.lg",
 					]),
 				},
 			),
@@ -75,78 +68,8 @@ export const IconCls = PicoCls.extend(
 					size: "xl",
 				}),
 				{
-					root: what.css([
-						"text-xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "2xl",
-				}),
-				{
-					root: what.css([
-						"text-2xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "3xl",
-				}),
-				{
-					root: what.css([
-						"text-3xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "4xl",
-				}),
-				{
-					root: what.css([
-						"text-4xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "5xl",
-				}),
-				{
-					root: what.css([
-						"text-5xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "6xl",
-				}),
-				{
-					root: what.css([
-						"text-6xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "7xl",
-				}),
-				{
-					root: what.css([
-						"text-7xl",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "8xl",
-				}),
-				{
-					root: what.css([
-						"text-8xl",
+					root: what.token([
+						"icon.xl",
 					]),
 				},
 			),
@@ -157,14 +80,13 @@ export const IconCls = PicoCls.extend(
 				{
 					root: what.css([
 						"pointer-events-none",
-						"cursor-not-allowed",
 						"opacity-50",
 					]),
 				},
 			),
 		],
 		defaults: def.defaults({
-			size: "xl",
+			size: "md",
 			disabled: false,
 		}),
 	}),

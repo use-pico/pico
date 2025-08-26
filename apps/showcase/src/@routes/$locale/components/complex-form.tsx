@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, FormField, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { InventoryItemPopupSelect } from "~/app/inventory/ui/InventoryItemPopupSelect";
 
 // Sample form data for demonstrations
@@ -75,6 +75,14 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 		const replacementItemsId = useId();
 		const simpleTextId = useId();
 		const simpleEmailId = useId();
+
+		// Inventory item states
+		const [primaryItem, setPrimaryItem] = useState<string[]>([]);
+		const [secondaryItem, setSecondaryItem] = useState<string[]>([]);
+		const [replacementItems, setReplacementItems] = useState<string[]>([]);
+		const [singleInventoryItem, setSingleInventoryItem] = useState<
+			string[]
+		>([]);
 
 		return (
 			<div
@@ -555,7 +563,18 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									hint="Select the main item for this record"
 									meta={sampleMeta}
 									id={primaryItemId}
-								/>
+								>
+									{(props) => (
+										<InventoryItemPopupSelect
+											mode="single"
+											state={{
+												set: setPrimaryItem,
+												value: primaryItem,
+											}}
+											{...props}
+										/>
+									)}
+								</FormField>
 
 								<FormField
 									name="secondary-item"
@@ -563,7 +582,18 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									hint="Optional secondary item"
 									meta={sampleMeta}
 									id={secondaryItemId}
-								/>
+								>
+									{(props) => (
+										<InventoryItemPopupSelect
+											mode="single"
+											state={{
+												set: setSecondaryItem,
+												value: secondaryItem,
+											}}
+											{...props}
+										/>
+									)}
+								</FormField>
 							</div>
 						</Column>
 
@@ -583,10 +613,8 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 										<InventoryItemPopupSelect
 											mode={"single"}
 											state={{
-												set() {
-													//
-												},
-												value: [],
+												set: setSingleInventoryItem,
+												value: singleInventoryItem,
 											}}
 											{...props}
 										/>
@@ -599,7 +627,18 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 									hint="Items that can replace the primary item"
 									meta={errorMeta}
 									id={replacementItemsId}
-								/>
+								>
+									{(props) => (
+										<InventoryItemPopupSelect
+											mode="multi"
+											state={{
+												set: setReplacementItems,
+												value: replacementItems,
+											}}
+											{...props}
+										/>
+									)}
+								</FormField>
 							</div>
 						</Column>
 					</div>
@@ -647,20 +686,16 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								<InventoryItemPopupSelect
 									mode="single"
 									state={{
-										set() {
-											//
-										},
-										value: [],
+										set: setSingleInventoryItem,
+										value: singleInventoryItem,
 									}}
 								/>
 
 								<InventoryItemPopupSelect
 									mode="multi"
 									state={{
-										set() {
-											//
-										},
-										value: [],
+										set: setReplacementItems,
+										value: replacementItems,
 									}}
 								/>
 							</div>

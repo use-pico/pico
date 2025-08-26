@@ -145,7 +145,7 @@ export const Row = <
 								),
 							}),
 							variant: what.variant({
-								size: "2xl",
+								size: "md",
 							}),
 						})}
 						onClick={onSelect}

@@ -48,7 +48,7 @@ export const Alert: FC<Alert.Props> = ({
 						icon={icon}
 						cls={({ what }) => ({
 							variant: what.variant({
-								size: "2xl",
+								size: "md",
 							}),
 						})}
 						{...iconProps}

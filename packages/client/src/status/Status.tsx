@@ -29,7 +29,7 @@ export const Status: FC<Status.Props> = ({
 					icon={icon}
 					cls={({ what }) => ({
 						variant: what.variant({
-							size: "6xl",
+							size: "xl",
 						}),
 						slot: what.slot({
 							root: what.css([

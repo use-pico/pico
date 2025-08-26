@@ -1,9 +1,9 @@
-import { useCls } from "@use-pico/cls";
 import { translator } from "@use-pico/common";
 import type { FC } from "react";
+import { Badge } from "../badge/Badge";
 import { ErrorIcon } from "../icon/ErrorIcon";
-import { Icon } from "../icon/Icon";
-import { FormErrorCls } from "./FormErrorCls";
+import { More } from "../more/More";
+import { Tx } from "../tx/Tx";
 
 export namespace FormError {
 	export interface Meta {
@@ -12,32 +12,62 @@ export namespace FormError {
 		errors: any[] | undefined;
 	}
 
-	export interface Props extends FormErrorCls.Props {
+	export interface Props {
 		meta: Meta;
 	}
 }
 
-export const FormError: FC<FormError.Props> = ({
-	meta,
-	tva = FormErrorCls,
-	cls,
-}) => {
-	const slots = useCls(tva, cls);
-
+export const FormError: FC<FormError.Props> = ({ meta }) => {
 	const shouldShowError =
 		meta.isDirty && meta.isTouched && meta.errors && meta.errors.length > 0;
 
 	return shouldShowError ? (
-		<div className={slots.base()}>
-			{meta.errors?.map((error, index) => (
-				<div
-					key={`${index}-${error}`}
-					className={slots.error()}
+		<More
+			limit={1}
+			items={meta.errors ?? []}
+			textTitle={<Tx label={"Field errors (title)"} />}
+			renderInline={({ entity: { error, message } }) => (
+				<Badge
+					key={`${error}`}
+					cls={({ what }) => ({
+						variant: what.variant({
+							theme: "light",
+							tone: "danger",
+							size: "xs",
+						}),
+					})}
 				>
-					<Icon icon={ErrorIcon} />
-					<span>{translator.rich(error.message)}</span>
-				</div>
-			))}
-		</div>
+					{translator.rich(message)}
+				</Badge>
+			)}
+			renderItem={({ entity: { error, message } }) => (
+				<Badge
+					key={`more-badge-${error}`}
+					cls={({ what }) => ({
+						variant: what.variant({
+							theme: "light",
+							tone: "danger",
+							size: "md",
+						}),
+					})}
+				>
+					{translator.rich(message)}
+				</Badge>
+			)}
+			actionProps={{
+				iconEnabled: ErrorIcon,
+				cls({ what }) {
+					return {
+						variant: what.variant({
+							theme: "light",
+							tone: "danger",
+						}),
+					};
+				},
+			}}
+			modalProps={{
+				size: "sm",
+			}}
+		/>
 	) : null;
 };

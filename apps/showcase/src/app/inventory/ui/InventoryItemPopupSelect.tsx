@@ -24,20 +24,9 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 			table={InventoryItemTable}
 			textTitle={<Tx label={"Select inventory item (title)"} />}
 			textSelect={<Tx label={"Select inventory item (select)"} />}
-			required
-			renderSingle={({ entity }) => (
-				<Badge
-					cls={({ what }) => ({
-						variant: what.variant({
-							size: "lg",
-						}),
-					})}
-				>
-					{entity.name}
-				</Badge>
-			)}
 			renderMulti={({ entities }) => (
 				<More
+					// limit={1}
 					items={entities.map((entity) => ({
 						id: entity.id,
 						label: entity.name,
@@ -47,7 +36,8 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 							key={`${entity.id}-inline`}
 							cls={({ what }) => ({
 								variant: what.variant({
-									size: "sm",
+									size: "xs",
+									border: false,
 								}),
 							})}
 						>
@@ -59,7 +49,7 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 							key={`${entity.id}-item`}
 							cls={({ what }) => ({
 								variant: what.variant({
-									size: "lg",
+									size: "xs",
 								}),
 							})}
 						>

@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, type VariantOf } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import type { FC, HTMLAttributes, ReactNode } from "react";
 import { IconCls } from "./IconCls";
@@ -25,6 +25,7 @@ export namespace Icon {
 		 * is replaced with the element.
 		 */
 		icon: Icon.Type;
+		size?: VariantOf<IconCls, "size">;
 	}
 
 	/**
@@ -35,21 +36,19 @@ export namespace Icon {
 
 export const Icon: FC<Icon.Props> = ({
 	icon,
+	size,
 	tva = IconCls,
 	cls,
 	...props
 }) => {
-	const slots = useCls(
-		tva,
-		cls,
-		isString(icon)
-			? ({ what }) => ({
-					slot: what.slot({
-						root: what.css(icon),
-					}),
-				})
-			: undefined,
-	);
+	const slots = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
+			size,
+		}),
+		slot: what.slot({
+			root: what.css(isString(icon) ? icon : undefined),
+		}),
+	}));
 
 	return isString(icon) ? (
 		<div

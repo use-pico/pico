@@ -197,6 +197,12 @@ export const PicoCls = cls(
 			"square.sm",
 			"square.md",
 			"square.lg",
+			//
+			"icon.xs",
+			"icon.sm",
+			"icon.md",
+			"icon.lg",
+			"icon.xl",
 			/**
 			 * Scale
 			 */
@@ -709,7 +715,7 @@ export const PicoCls = cls(
 			 */
 			"border.default": what.css([
 				"border-1",
-				"border-b-3",
+				"border-b-2",
 			]),
 			"border.sm": what.css([
 				"border-b-2",
@@ -755,6 +761,27 @@ export const PicoCls = cls(
 			"square.lg": what.css([
 				"px-4",
 				"py-4",
+			]),
+			//
+			"icon.xs": what.css([
+				"w-2",
+				"h-2",
+			]),
+			"icon.sm": what.css([
+				"w-4",
+				"h-4",
+			]),
+			"icon.md": what.css([
+				"w-6",
+				"h-6",
+			]),
+			"icon.lg": what.css([
+				"w-8",
+				"h-8",
+			]),
+			"icon.xl": what.css([
+				"w-12",
+				"h-12",
 			]),
 			/**
 			 * Scale

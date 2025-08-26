@@ -97,7 +97,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 							icon={UploadIcon}
 							cls={({ what }) => ({
 								variant: what.variant({
-									size: "4xl",
+									size: "xl",
 								}),
 							})}
 						/>

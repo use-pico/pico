@@ -196,10 +196,8 @@ export const Select = <TItem extends EntitySchema.Type>({
 						) : null}
 						<Icon
 							icon={"icon-[gg--select]"}
+							size={"md"}
 							cls={({ what }) => ({
-								variant: what.variant({
-									size: "xl",
-								}),
 								slot: what.slot({
 									root: what.css(
 										[
@@ -268,7 +266,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 											icon={"icon-[basil--check-outline]"}
 											cls={({ what }) => ({
 												variant: what.variant({
-													size: "xl",
+													size: "md",
 												}),
 											})}
 										/>

@@ -6,6 +6,7 @@ export const FormFieldCls = PicoCls.extend(
 		tokens: [],
 		slot: [
 			"base",
+			"header",
 			"label",
 			"hint",
 			"input",
@@ -38,8 +39,12 @@ export const FormFieldCls = PicoCls.extend(
 					"gap-1",
 					"w-full",
 				]),
+				header: what.css([
+					"flex",
+					"flex-col",
+					"w-full",
+				]),
 				label: what.css([
-					"text-sm",
 					"font-medium",
 				]),
 				hint: what.css([

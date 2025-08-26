@@ -22,6 +22,7 @@ export namespace More {
 		extends MoreCls.Props {
 		icon?: string;
 		iconProps?: Icon.PropsEx;
+		actionProps?: Action.Props;
 		textTitle?: ReactNode;
 		textEmpty?: ReactNode;
 		modalProps?: Partial<Modal.PropsEx>;
@@ -48,6 +49,7 @@ export namespace More {
 export const More = <TValues extends EntitySchema.Type>({
 	icon = ActionMenuIcon,
 	iconProps,
+	actionProps,
 	textTitle,
 	textEmpty,
 	items,
@@ -84,6 +86,7 @@ export const More = <TValues extends EntitySchema.Type>({
 									theme: "light",
 								}),
 							})}
+							{...actionProps}
 						/>
 					}
 					outside

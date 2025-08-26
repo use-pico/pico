@@ -115,7 +115,7 @@ export const TableHeader = <
 							cls={({ what }) => ({
 								variant: what.variant({
 									disabled: selectionMode === "single",
-									size: "2xl",
+									size: "md",
 								}),
 								slot: what.slot({
 									root: what.css(

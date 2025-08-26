@@ -49,14 +49,14 @@ export namespace PopupSelect {
 		//
 		/**
 		 * Because user can switch between single and multi mode, we've to provide
-		 * both renderers - this one is for single mode.
-		 */
-		renderSingle: Render.Single.Render<TItem>;
-		/**
-		 * Because user can switch between single and multi mode, we've to provide
 		 * both renderers - this one is for multi mode.
 		 */
 		renderMulti: Render.Multi.Render<TItem>;
+		/**
+		 * Because user can switch between single and multi mode, we've to provide
+		 * both renderers - this one is for single mode.
+		 */
+		renderSingle?: Render.Single.Render<TItem>;
 		//
 		className?: string;
 		//
@@ -88,8 +88,13 @@ export const PopupSelect = <
 	withQuery,
 	query,
 	table,
-	renderSingle,
 	renderMulti,
+	renderSingle = ({ entity }) =>
+		renderMulti({
+			entities: [
+				entity,
+			],
+		}),
 	//
 	icon,
 	textTitle,

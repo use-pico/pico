@@ -243,6 +243,7 @@ export const Route = createFileRoute("/$locale/components/detail")({
 					"flex",
 					"flex-col",
 					"space-y-8",
+					"w-full",
 				])}
 			>
 				{/* Basic Usage */}

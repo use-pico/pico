@@ -30,19 +30,6 @@ export const PopupSelectCls = PicoCls.extend(
 					"duration-100",
 				]),
 			}),
-			def.rule(
-				what.variant({
-					selected: true,
-				}),
-				{
-					input: what.token([
-						"tone.neutral.light.bg",
-						"tone.neutral.light.text:hover",
-						"tone.neutral.light.bg:hover",
-						"tone.neutral.light.text:hover",
-					]),
-				},
-			),
 		],
 		defaults: def.defaults({
 			isLoading: false,
