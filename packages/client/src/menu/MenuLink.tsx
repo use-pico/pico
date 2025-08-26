@@ -14,16 +14,16 @@ interface BaseMenuLinkProps
 	icon?: Icon.Type;
 	active?: boolean;
 	match?: UseMatchRouteOptions[];
-	type?: VariantOf<MenuLinkCls, "type">;
+	variantType?: VariantOf<MenuLinkCls, "type">;
 	vertical?: boolean;
 }
 
 const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 	(
 		{
-			icon = null,
+			icon,
 			active,
-			type,
+			variantType,
 			vertical,
 			tva = MenuLinkCls,
 			match = [],
@@ -38,7 +38,7 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 
 		const slots = useCls(tva, cls, ({ what }) => ({
 			variant: what.variant({
-				type,
+				type: variantType,
 				active: active ?? isActive,
 				vertical,
 			}),

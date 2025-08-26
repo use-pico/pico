@@ -41,16 +41,17 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 		}),
 	}));
 
-	const target = (
-		<div className={slots.root()}>
-			{icon ? <Icon icon={icon} /> : null}
-			{label}
-		</div>
-	);
-
 	return (
 		<Float
-			target={target}
+			target={(props) => (
+				<div
+					className={slots.root()}
+					{...props}
+				>
+					{icon ? <Icon icon={icon} /> : null}
+					{label}
+				</div>
+			)}
 			action="hover"
 			delay={100}
 			float={{

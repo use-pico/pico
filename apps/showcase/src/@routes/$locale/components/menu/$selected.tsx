@@ -32,7 +32,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "main-dashboard",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "main-dashboard"}
 						>
 							<Tx label={"Dashboard"} />
@@ -44,7 +44,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "main-settings",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "main-settings"}
 						>
 							<Tx label={"Settings"} />
@@ -56,7 +56,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "main-content",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "main-content"}
 						>
 							<Tx label={"Content"} />
@@ -68,7 +68,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "main-reports",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "main-reports"}
 						>
 							<Tx label={"Reports"} />
@@ -89,7 +89,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "sub-profile",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "sub-profile"}
 						>
 							<Tx label={"Profile Settings"} />
@@ -101,7 +101,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "sub-security",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "sub-security"}
 						>
 							<Tx label={"Security"} />
@@ -113,7 +113,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "sub-notifications",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "sub-notifications"}
 						>
 							<Tx label={"Notifications"} />
@@ -125,7 +125,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "sub-posts",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "sub-posts"}
 						>
 							<Tx label={"Posts"} />
@@ -146,7 +146,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "level-account",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "level-account"}
 						>
 							<Tx label={"Account Details"} />
@@ -158,7 +158,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "level-privacy",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "level-privacy"}
 						>
 							<Tx label={"Privacy Settings"} />
@@ -170,7 +170,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "level-email",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "level-email"}
 						>
 							<Tx label={"Email Preferences"} />
@@ -182,7 +182,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "level-drafts",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "level-drafts"}
 						>
 							<Tx label={"Draft Posts"} />
@@ -204,7 +204,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "hierarchical-dashboard",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "hierarchical-dashboard"}
 						>
 							<Tx label={"Dashboard"} />
@@ -218,7 +218,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "hierarchical-settings",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "hierarchical-settings"}
 						>
 							<Tx label={"Settings"} />
@@ -232,7 +232,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "hierarchical-advanced",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "hierarchical-advanced"}
 						>
 							<Tx label={"Advanced Settings"} />
@@ -255,7 +255,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "vertical-main",
 								}}
-								type="main"
+								variantType="main"
 								vertical
 								active={selected === "vertical-main"}
 							>
@@ -270,7 +270,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "vertical-sub",
 								}}
-								type="sub"
+								variantType="sub"
 								vertical
 								active={selected === "vertical-sub"}
 							>
@@ -285,7 +285,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "vertical-level",
 								}}
-								type="level"
+								variantType="level"
 								vertical
 								active={selected === "vertical-level"}
 							>
@@ -310,7 +310,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "nav-dashboard",
 									}}
-									type="main"
+									variantType="main"
 									vertical
 									active={selected === "nav-dashboard"}
 								>
@@ -323,7 +323,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "nav-settings",
 									}}
-									type="main"
+									variantType="main"
 									vertical
 									active={selected === "nav-settings"}
 								>
@@ -336,7 +336,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "nav-content",
 									}}
-									type="main"
+									variantType="main"
 									vertical
 									active={selected === "nav-content"}
 								>
@@ -349,7 +349,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "nav-reports",
 									}}
-									type="main"
+									variantType="main"
 									vertical
 									active={selected === "nav-reports"}
 								>
@@ -372,7 +372,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "noicon-main",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "noicon-main"}
 						>
 							<Tx label={"Main Item"} />
@@ -383,7 +383,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "noicon-sub",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "noicon-sub"}
 						>
 							<Tx label={"Sub Item"} />
@@ -394,7 +394,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "noicon-level",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "noicon-level"}
 						>
 							<Tx label={"Deep Item"} />
@@ -415,7 +415,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "submenu-dashboard",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "submenu-dashboard"}
 						>
 							<Tx label={"Dashboard"} />
@@ -452,7 +452,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-profile",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-profile"}
 							>
 								<Tx label={"Profile Settings"} />
@@ -464,7 +464,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-security",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-security"}
 							>
 								<Tx label={"Security"} />
@@ -476,7 +476,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-notifications",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-notifications"}
 							>
 								<Tx label={"Notifications"} />
@@ -486,6 +486,26 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 							icon="icon-[ph--folder]"
 							label={<Tx label={"Content"} />}
 							type="main"
+							match={[
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-posts",
+									},
+								},
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-pages",
+									},
+								},
+								{
+									to: "/$locale/components/menu/$selected",
+									params: {
+										selected: "submenu-media",
+									},
+								},
+							]}
 						>
 							<MenuLink
 								icon={EditIcon}
@@ -494,7 +514,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-posts",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-posts"}
 							>
 								<Tx label={"Posts"} />
@@ -506,7 +526,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-pages",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-pages"}
 							>
 								<Tx label={"Pages"} />
@@ -518,7 +538,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "submenu-media",
 								}}
-								type="sub"
+								variantType="sub"
 								active={selected === "submenu-media"}
 							>
 								<Tx label={"Media"} />
@@ -531,7 +551,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "submenu-help",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "submenu-help"}
 						>
 							<Tx label={"Help"} />
@@ -553,7 +573,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "vsubmenu-dashboard",
 								}}
-								type="main"
+								variantType="main"
 								vertical
 								active={selected === "vsubmenu-dashboard"}
 							>
@@ -564,6 +584,20 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								label={<Tx label={"Settings"} />}
 								type="main"
 								vertical
+								match={[
+									{
+										to: "/$locale/components/menu/$selected",
+										params: {
+											selected: "vsubmenu-profile",
+										},
+									},
+									{
+										to: "/$locale/components/menu/$selected",
+										params: {
+											selected: "vsubmenu-security",
+										},
+									},
+								]}
 							>
 								<MenuLink
 									icon={UserIcon}
@@ -572,7 +606,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "vsubmenu-profile",
 									}}
-									type="sub"
+									variantType="sub"
 									vertical
 									active={selected === "vsubmenu-profile"}
 								>
@@ -585,7 +619,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "vsubmenu-security",
 									}}
-									type="sub"
+									variantType="sub"
 									vertical
 									active={selected === "vsubmenu-security"}
 								>
@@ -597,6 +631,20 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								label={<Tx label={"Content"} />}
 								type="main"
 								vertical
+								match={[
+									{
+										to: "/$locale/components/menu/$selected",
+										params: {
+											selected: "vsubmenu-posts",
+										},
+									},
+									{
+										to: "/$locale/components/menu/$selected",
+										params: {
+											selected: "vsubmenu-pages",
+										},
+									},
+								]}
 							>
 								<MenuLink
 									icon={EditIcon}
@@ -605,7 +653,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "vsubmenu-posts",
 									}}
-									type="sub"
+									variantType="sub"
 									vertical
 									active={selected === "vsubmenu-posts"}
 								>
@@ -618,7 +666,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 										locale,
 										selected: "vsubmenu-pages",
 									}}
-									type="sub"
+									variantType="sub"
 									vertical
 									active={selected === "vsubmenu-pages"}
 								>
@@ -632,7 +680,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 									locale,
 									selected: "vsubmenu-help",
 								}}
-								type="main"
+								variantType="main"
 								vertical
 								active={selected === "vsubmenu-help"}
 							>
@@ -655,7 +703,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "mixed-main",
 							}}
-							type="main"
+							variantType="main"
 							active={selected === "mixed-main"}
 						>
 							<Tx label={"Main Type"} />
@@ -667,7 +715,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "mixed-sub",
 							}}
-							type="sub"
+							variantType="sub"
 							active={selected === "mixed-sub"}
 						>
 							<Tx label={"Sub Type"} />
@@ -679,7 +727,7 @@ export const Route = createFileRoute("/$locale/components/menu/$selected")({
 								locale,
 								selected: "mixed-level",
 							}}
-							type="level"
+							variantType="level"
 							active={selected === "mixed-level"}
 						>
 							<Tx label={"Level Type"} />

@@ -766,22 +766,37 @@ export const PicoCls = cls(
 			"icon.xs": what.css([
 				"w-2",
 				"h-2",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
 			]),
 			"icon.sm": what.css([
 				"w-4",
 				"h-4",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
 			]),
 			"icon.md": what.css([
 				"w-6",
 				"h-6",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
 			]),
 			"icon.lg": what.css([
 				"w-8",
 				"h-8",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
 			]),
 			"icon.xl": what.css([
 				"w-12",
 				"h-12",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
 			]),
 			/**
 			 * Scale

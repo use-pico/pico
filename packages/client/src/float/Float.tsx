@@ -25,8 +25,16 @@ import { FloatCls } from "./FloatCls";
 import { FloatContext } from "./FloatContext";
 
 export namespace Float {
+	export namespace Target {
+		export interface Props {
+			ref: any;
+		}
+
+		export type TargetFn = (props: Props) => ReactNode;
+	}
+
 	export interface Props extends FloatCls.Props<PropsWithChildren> {
-		target: ReactNode;
+		target: Target.TargetFn;
 		action?: "hover" | "click";
 		disabled?: boolean;
 		/**
@@ -92,13 +100,10 @@ export const Float: FC<Float.Props> = ({
 
 	return (
 		<>
-			<div
-				ref={refs.setReference}
-				{...getReferenceProps()}
-				className={slots.target()}
-			>
-				{target}
-			</div>
+			{target({
+				ref: refs.setReference,
+				...getReferenceProps(),
+			})}
 			<FloatingPortal>
 				{withOverlay && isMounted ? (
 					<FloatingOverlay

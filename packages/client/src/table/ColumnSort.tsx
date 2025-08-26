@@ -79,7 +79,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 		>
 			{type?.sort === undefined || type?.sort === "asc" ? (
 				<Tooltip
-					target={
+					target={(props) => (
 						<Action
 							iconEnabled={AscIcon}
 							onClick={() => {
@@ -92,8 +92,9 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 									theme: "light",
 								}),
 							})}
+							{...props}
 						/>
-					}
+					)}
 				>
 					{type?.sort === "asc" ? (
 						<Tx
@@ -108,7 +109,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 			) : null}
 			{type?.sort === "desc" ? (
 				<Tooltip
-					target={
+					target={(props) => (
 						<Action
 							iconEnabled={DescIcon}
 							onClick={() => {
@@ -121,8 +122,9 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 									theme: "light",
 								}),
 							})}
+							{...props}
 						/>
-					}
+					)}
 				>
 					<Tx
 						label={
@@ -132,7 +134,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 				</Tooltip>
 			) : null}
 			<Tooltip
-				target={
+				target={(props) => (
 					<Action
 						iconEnabled={SortIcon}
 						onClick={() => {
@@ -145,8 +147,9 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 								theme: "light",
 							}),
 						})}
+						{...props}
 					/>
-				}
+				)}
 			>
 				<Tx label={"Remove sorting"} />
 			</Tooltip>

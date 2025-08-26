@@ -149,25 +149,6 @@ export function cls<
 		return result;
 	};
 
-	// TODO May be simplified as it's only calling internal function
-	const applyWhat = (
-		acc: ClassName[],
-		what:
-			| What<Contract<TokenContract, SlotContract, VariantContract>>
-			| undefined,
-		tokenTable: TokenDefinitionRequired<
-			Contract<TokenContract, SlotContract, VariantContract>
-		>,
-	): ClassName[] => {
-		if (!what) {
-			return acc;
-		}
-
-		acc.push(...resolveWhat(what, tokenTable));
-
-		return acc;
-	};
-
 	const matches = (
 		variant: VariantValueMapping<TContract>,
 		ruleMatch?: Partial<VariantValueMapping<TContract>>,
@@ -301,7 +282,7 @@ export function cls<
 							if (rule.override === true) {
 								acc = [];
 							}
-							acc = applyWhat(acc, what, localTokens);
+							acc.push(...resolveWhat(what, localTokens));
 						}
 
 						// Apply slot configurations (append to rules)
@@ -310,25 +291,25 @@ export function cls<
 								slotName as keyof typeof localConfig.slot
 							]
 						) {
-							acc = applyWhat(
-								acc,
+							const what =
 								localConfig.slot[
 									slotName as keyof typeof localConfig.slot
-								],
-								localTokens,
-							);
+								];
+							if (what) {
+								acc.push(...resolveWhat(what, localTokens));
+							}
 						}
 
 						if (
 							config.slot?.[slotName as keyof typeof config.slot]
 						) {
-							acc = applyWhat(
-								acc,
+							const what =
 								config.slot[
 									slotName as keyof typeof config.slot
-								],
-								localTokens,
-							);
+								];
+							if (what) {
+								acc.push(...resolveWhat(what, localTokens));
+							}
 						}
 
 						// Apply overrides (clear and replace)
@@ -338,13 +319,13 @@ export function cls<
 							]
 						) {
 							acc = [];
-							acc = applyWhat(
-								acc,
+							const what =
 								localConfig.override[
 									slotName as keyof typeof localConfig.override
-								],
-								localTokens,
-							);
+								];
+							if (what) {
+								acc.push(...resolveWhat(what, localTokens));
+							}
 						}
 
 						if (
@@ -353,13 +334,13 @@ export function cls<
 							]
 						) {
 							acc = [];
-							acc = applyWhat(
-								acc,
+							const what =
 								config.override[
 									slotName as keyof typeof config.override
-								],
-								localTokens,
-							);
+								];
+							if (what) {
+								acc.push(...resolveWhat(what, localTokens));
+							}
 						}
 
 						const out = tvc(acc);

@@ -69,7 +69,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"square.xs",
+						"icon.xs",
 					]),
 				},
 			),
@@ -79,7 +79,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"square.sm",
+						"icon.sm",
 					]),
 				},
 			),
@@ -89,7 +89,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"square.md",
+						"icon.md",
 					]),
 				},
 			),
@@ -99,7 +99,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"square.lg",
+						"icon.lg",
 					]),
 				},
 			),
@@ -361,7 +361,7 @@ export const ActionCls = PicoCls.extend(
 			disabled: false,
 			loading: false,
 			border: true,
-			size: "xs",
+			size: "md",
 		}),
 	}),
 );

@@ -1,6 +1,6 @@
 import { FloatingTree } from "@floating-ui/react";
 import { useCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
@@ -14,7 +14,7 @@ export namespace ActionMenu {
 		/**
 		 * Override the default target element for the menu
 		 */
-		target?: ReactNode;
+		target?: Float.Target.TargetFn;
 		actionProps?: Action.Props;
 		/**
 		 * Whether to show an overlay backdrop when menu is open
@@ -46,7 +46,8 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 			<Float
 				action={"click"}
 				target={
-					target ?? (
+					target ??
+					((props) => (
 						<Action
 							iconEnabled={icon}
 							iconProps={iconProps}
@@ -58,8 +59,9 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 								}),
 							})}
 							{...actionProps}
+							{...props}
 						/>
-					)
+					))
 				}
 				delay={100}
 				float={{
