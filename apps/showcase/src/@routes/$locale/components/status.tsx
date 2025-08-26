@@ -177,9 +177,6 @@ export const Route = createFileRoute("/$locale/components/status")({
 								icon="icon-[mdi-light--star]"
 								iconProps={{
 									cls: ({ what }) => ({
-										variant: what.variant({
-											size: "4xl",
-										}),
 										slot: what.slot({
 											root: what.css([
 												"text-yellow-500",

@@ -5,6 +5,7 @@ export const ButtonCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
+			"wrapper",
 			"root",
 		],
 		variant: {
@@ -52,6 +53,7 @@ export const ButtonCls = PicoCls.extend(
 						"active:opacity-90",
 					],
 					[
+						"padding.sm",
 						"scale.default",
 						"border.default",
 						"round.default",
@@ -67,9 +69,8 @@ export const ButtonCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.token([
-						"padding.xs",
-						"shadow.default",
+					root: what.css([
+						"text-xs",
 					]),
 				},
 			),
@@ -78,9 +79,8 @@ export const ButtonCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.token([
-						"padding.sm",
-						"shadow.default",
+					root: what.css([
+						"text-sm",
 					]),
 				},
 			),
@@ -89,9 +89,8 @@ export const ButtonCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.token([
-						"padding.md",
-						"shadow.default",
+					root: what.css([
+						"text-md",
 					]),
 				},
 			),
@@ -100,9 +99,8 @@ export const ButtonCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.token([
-						"padding.lg",
-						"shadow.default",
+					root: what.css([
+						"text-xl",
 					]),
 				},
 			),
@@ -333,6 +331,9 @@ export const ButtonCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
+					wrapper: what.css([
+						"cursor-not-allowed",
+					]),
 					root: what.token([
 						"disabled",
 					]),

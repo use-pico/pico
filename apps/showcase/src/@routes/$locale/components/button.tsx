@@ -32,6 +32,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 					"flex",
 					"flex-col",
 					"space-y-8",
+					"w-full",
 				])}
 			>
 				{/* Sizes */}

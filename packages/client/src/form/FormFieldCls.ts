@@ -63,6 +63,7 @@ export const FormFieldCls = PicoCls.extend(
 						"square.md",
 						"border.default",
 						"round.default",
+						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
 						"tone.neutral.light.shadow",
 						"tone.neutral.light.shadow:hover",
@@ -78,6 +79,7 @@ export const FormFieldCls = PicoCls.extend(
 					input: what.token([
 						"tone.secondary.light.text",
 						"tone.secondary.light.text:hover",
+						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
 						"tone.secondary.light.border:hover",
 						"tone.secondary.light.shadow",
@@ -93,6 +95,7 @@ export const FormFieldCls = PicoCls.extend(
 					input: what.token([
 						"tone.danger.light.text",
 						"tone.danger.light.text:hover",
+						"tone.danger.light.bg",
 						"tone.danger.light.border",
 						"tone.danger.light.border:hover",
 						"tone.danger.light.shadow",

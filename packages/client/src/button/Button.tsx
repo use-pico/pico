@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, type VariantOf } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -12,6 +12,7 @@ export namespace Button {
 		iconLoading?: string;
 		iconProps?: Omit<Icon.Props, "icon">;
 		loading?: boolean;
+		size?: VariantOf<ButtonCls, "size">;
 	}
 }
 
@@ -21,6 +22,7 @@ export const Button: FC<Button.Props> = ({
 	iconLoading = SpinnerIcon,
 	iconProps,
 	loading,
+	size,
 	tva = ButtonCls,
 	cls,
 	children,
@@ -29,37 +31,32 @@ export const Button: FC<Button.Props> = ({
 	const classes = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
+			size,
 		}),
 	}));
 
-	const iconVariant = {
-		size: "xl",
-	} as const;
-
 	return (
-		<button
-			className={classes.root()}
-			type={"button"}
-			{...props}
-		>
-			{props.disabled ? (
-				<Icon
-					icon={loading === true ? iconLoading : iconDisabled}
-					cls={({ what }) => ({
-						variant: what.variant(iconVariant),
-					})}
-					{...iconProps}
-				/>
-			) : (
-				<Icon
-					icon={loading === true ? iconLoading : iconEnabled}
-					cls={({ what }) => ({
-						variant: what.variant(iconVariant),
-					})}
-					{...iconProps}
-				/>
-			)}
-			{children}
-		</button>
+		<div className={classes.wrapper()}>
+			<button
+				className={classes.root()}
+				type={"button"}
+				{...props}
+			>
+				{props.disabled ? (
+					<Icon
+						icon={loading === true ? iconLoading : iconDisabled}
+						size={"md"}
+						{...iconProps}
+					/>
+				) : (
+					<Icon
+						icon={loading === true ? iconLoading : iconEnabled}
+						size={"md"}
+						{...iconProps}
+					/>
+				)}
+				{children}
+			</button>
+		</div>
 	);
 };

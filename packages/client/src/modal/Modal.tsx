@@ -148,11 +148,7 @@ export const Modal: FC<Modal.Props> = ({
 										>
 											<Icon
 												icon={icon}
-												cls={({ what }) => ({
-													variant: what.variant({
-														size: "xl",
-													}),
-												})}
+												size={"xl"}
 											/>
 											<div
 												className={tvc(
@@ -169,9 +165,13 @@ export const Modal: FC<Modal.Props> = ({
 											onClick={() => close()}
 											cls={({ what }) => ({
 												variant: what.variant({
+													tone: "neutral",
 													theme: "light",
 												}),
 											})}
+											iconProps={{
+												size: "md",
+											}}
 										/>
 									</div>
 									{children({

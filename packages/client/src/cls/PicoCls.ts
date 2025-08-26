@@ -730,15 +730,15 @@ export const PicoCls = cls(
 			 * X-Y Padding
 			 */
 			"padding.xs": what.css([
-				"px-4",
+				"px-2",
 				"py-0.5",
 			]),
 			"padding.sm": what.css([
-				"px-6",
+				"px-2",
 				"py-1",
 			]),
 			"padding.md": what.css([
-				"px-8",
+				"px-6",
 				"py-1.5",
 			]),
 			"padding.lg": what.css([
@@ -850,7 +850,6 @@ export const PicoCls = cls(
 			 */
 			disabled: what.css([
 				"opacity-60",
-				"cursor-not-allowed",
 				"pointer-events-none",
 				"shadow-none",
 			]),

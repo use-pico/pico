@@ -182,14 +182,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 							<FormError meta={errorMeta} />
 						</Column>
 						<Column label={<Tx label={"Highlighted Error"} />}>
-							<FormError
-								meta={errorMeta}
-								cls={({ what }) => ({
-									variant: what.variant({
-										highlight: true,
-									}),
-								})}
-							/>
+							<FormError meta={errorMeta} />
 						</Column>
 					</div>
 				</Section>
@@ -205,14 +198,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 						<Column
 							label={<Tx label={"Multiple Errors Highlighted"} />}
 						>
-							<FormError
-								meta={multipleErrorsMeta}
-								cls={({ what }) => ({
-									variant: what.variant({
-										highlight: true,
-									}),
-								})}
-							/>
+							<FormError meta={multipleErrorsMeta} />
 						</Column>
 					</div>
 				</Section>

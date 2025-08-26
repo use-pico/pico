@@ -70,10 +70,79 @@ export const Route = createFileRoute("/$locale/components/icon")({
 				{/* Different Sizes */}
 				<Section title={<Tx label={"Different Sizes"} />}>
 					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Size Variants"} />}>
+						<Column label={<Tx label={"All Available Sizes"} />}>
+							<div className="flex items-center space-x-4">
+								<div className="flex flex-col items-center space-y-1">
+									<Icon
+										icon={UserIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												size: "xs",
+											}),
+										})}
+									/>
+									<span className="text-xs text-gray-500">
+										xs
+									</span>
+								</div>
+								<div className="flex flex-col items-center space-y-1">
+									<Icon
+										icon={UserIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												size: "sm",
+											}),
+										})}
+									/>
+									<span className="text-xs text-gray-500">
+										sm
+									</span>
+								</div>
+								<div className="flex flex-col items-center space-y-1">
+									<Icon
+										icon={UserIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												size: "md",
+											}),
+										})}
+									/>
+									<span className="text-xs text-gray-500">
+										md
+									</span>
+								</div>
+								<div className="flex flex-col items-center space-y-1">
+									<Icon
+										icon={UserIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												size: "lg",
+											}),
+										})}
+									/>
+									<span className="text-xs text-gray-500">
+										lg
+									</span>
+								</div>
+								<div className="flex flex-col items-center space-y-1">
+									<Icon
+										icon={UserIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												size: "xl",
+											}),
+										})}
+									/>
+									<span className="text-xs text-gray-500">
+										xl
+									</span>
+								</div>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Size Comparison"} />}>
 							<div className="flex items-center space-x-4">
 								<Icon
-									icon={UserIcon}
+									icon={CheckIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											size: "xs",
@@ -81,7 +150,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									})}
 								/>
 								<Icon
-									icon={UserIcon}
+									icon={CheckIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											size: "sm",
@@ -89,7 +158,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									})}
 								/>
 								<Icon
-									icon={UserIcon}
+									icon={CheckIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											size: "md",
@@ -97,7 +166,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									})}
 								/>
 								<Icon
-									icon={UserIcon}
+									icon={CheckIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											size: "lg",
@@ -105,54 +174,10 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									})}
 								/>
 								<Icon
-									icon={UserIcon}
+									icon={CheckIcon}
 									cls={({ what }) => ({
 										variant: what.variant({
 											size: "xl",
-										}),
-									})}
-								/>
-								<Icon
-									icon={UserIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "2xl",
-										}),
-									})}
-								/>
-							</div>
-						</Column>
-						<Column label={<Tx label={"Large Sizes"} />}>
-							<div className="flex items-center space-x-4">
-								<Icon
-									icon={CheckIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "3xl",
-										}),
-									})}
-								/>
-								<Icon
-									icon={CheckIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "4xl",
-										}),
-									})}
-								/>
-								<Icon
-									icon={CheckIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "5xl",
-										}),
-									})}
-								/>
-								<Icon
-									icon={CheckIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "6xl",
 										}),
 									})}
 								/>

@@ -75,6 +75,7 @@ export const Target = <
 							? SelectionOnIcon
 							: SelectionOffIcon
 				}
+				size={"md"}
 			/>
 			{selected.isEnabled && selected.data && selected.data.length
 				? mode === "single"

@@ -102,10 +102,11 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				onClick={handleCancel}
 				cls={({ what }) => ({
 					variant: what.variant({
-						tone: "subtle",
+						tone: "neutral",
 						theme: "light",
 					}),
 				})}
+				size={"md"}
 			>
 				{cancelText}
 			</Button>
@@ -116,6 +117,7 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				disabled={disabled}
 				loading={loading}
 				onClick={handleConfirm}
+				size={"lg"}
 			>
 				{confirmText}
 			</Button>
