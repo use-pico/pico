@@ -116,8 +116,6 @@ const MyComponent = ({ theme = "light" }) => {
 
 > **💡 Pro Tip**: This is just the beginning! Check out the [React Integration](#16-react-integration) section for advanced patterns, context providers, HOCs, and more comprehensive examples.
 
-> **📋 Current Implementation**: The examples in this README reflect the current implementation. The `useCls` hook accepts 3 parameters: `clsInstance`, `userConfigFn?`, and `internalConfigFn?`. This allows for flexible configuration merging between user props, internal logic, and context inheritance.
-
 ## 🎯 Key Features <a id="key-features"></a>
 
 ### Type-Safe Variants
