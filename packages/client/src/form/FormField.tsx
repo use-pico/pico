@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
 import type { ForwardedRef, ReactNode } from "react";
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
 import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
 
@@ -13,8 +13,8 @@ export namespace FormField {
 			className: string;
 			disabled: boolean;
 			id: string;
-			meta: FormError.Meta;
-			name: string;
+			meta?: FormError.Meta;
+			name?: string;
 			required: boolean;
 		}
 
@@ -22,13 +22,13 @@ export namespace FormField {
 	}
 
 	export interface Props extends FormFieldCls.Props {
-		id: string;
+		id?: string;
 		label?: ReactNode;
 		hint?: ReactNode;
-		name: string;
+		name?: string;
 		required?: boolean;
 		disabled?: boolean;
-		meta: FormError.Meta;
+		meta?: FormError.Meta;
 		children?: Render.RenderFn;
 	}
 }
@@ -47,11 +47,15 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 		children = (props) => <input {...props} />,
 	} = props;
 
+	const localId = useId();
+
+	const isError = meta?.isTouched && meta.errors && meta.errors.length > 0;
+
 	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			isSubmitting: false,
 			isLoading: false,
-			isError: Boolean(meta.errors?.length),
+			isError,
 			required,
 			disabled,
 		}),
@@ -59,28 +63,36 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 
 	return (
 		<div className={slots.base()}>
-			<div className={slots.header()}>
-				{label || meta.errors?.length ? (
-					<div className={"flex flex-row items-end justify-between"}>
-						{label ? (
-							<label
-								htmlFor={name as string}
-								className={slots.label()}
-							>
-								{label}
-							</label>
-						) : (
-							<div />
-						)}
-						{meta.errors?.length ? <FormError meta={meta} /> : null}
-					</div>
-				) : null}
-				{hint ? <div className={slots.hint()}>{hint}</div> : null}
-			</div>
+			{label || meta?.errors?.length || hint ? (
+				<div className={slots.header()}>
+					{label || meta?.errors?.length ? (
+						<div
+							className={
+								"flex flex-row items-end justify-between"
+							}
+						>
+							{label ? (
+								<label
+									htmlFor={name as string}
+									className={slots.label()}
+								>
+									{label}
+								</label>
+							) : (
+								<div />
+							)}
+							{meta?.errors?.length ? (
+								<FormError meta={meta} />
+							) : null}
+						</div>
+					) : null}
+					{hint ? <div className={slots.hint()}>{hint}</div> : null}
+				</div>
+			) : null}
 			{children({
 				className: slots.input(),
 				disabled,
-				id,
+				id: id ?? localId,
 				meta,
 				name,
 				ref,

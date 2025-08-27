@@ -27,6 +27,12 @@ export const FormFieldCls = PicoCls.extend(
 			isError: [
 				"bool",
 			],
+			size: [
+				"xs",
+				"sm",
+				"md",
+				"lg",
+			],
 		},
 	},
 	({ what, def }) => ({
@@ -60,7 +66,6 @@ export const FormFieldCls = PicoCls.extend(
 					],
 					[
 						"shadow.default",
-						"square.md",
 						"border.default",
 						"round.default",
 						"tone.neutral.light.set",
@@ -121,6 +126,46 @@ export const FormFieldCls = PicoCls.extend(
 					]),
 				},
 			),
+			def.rule(
+				what.variant({
+					size: "xs",
+				}),
+				{
+					input: what.token([
+						"padding.xs",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "sm",
+				}),
+				{
+					input: what.token([
+						"padding.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "md",
+				}),
+				{
+					input: what.token([
+						"padding.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "lg",
+				}),
+				{
+					input: what.token([
+						"padding.lg",
+					]),
+				},
+			),
 		],
 		defaults: def.defaults({
 			required: false,
@@ -128,6 +173,7 @@ export const FormFieldCls = PicoCls.extend(
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
+			size: "sm",
 		}),
 	}),
 );
