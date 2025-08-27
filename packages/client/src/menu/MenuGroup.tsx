@@ -48,7 +48,10 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 					className={slots.root()}
 					{...props}
 				>
-					{icon ? <Icon icon={icon} /> : null}
+					<Icon
+						icon={icon}
+						size={"sm"}
+					/>
 					{label}
 				</div>
 			)}

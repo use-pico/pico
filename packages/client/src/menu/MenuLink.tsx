@@ -52,7 +52,7 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 			>
 				<Icon
 					icon={icon}
-					size="sm"
+					size={"sm"}
 				/>
 				{children}
 			</a>
