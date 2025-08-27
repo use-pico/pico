@@ -9,17 +9,15 @@ import { BadgeCls } from "./BadgeCls";
  */
 export namespace Badge {
 	export interface Props
-		extends BadgeCls.Props<HTMLAttributes<HTMLDivElement>> {
-		//
-	}
+		extends BadgeCls.Props<HTMLAttributes<HTMLDivElement>> {}
 }
 
 export const Badge: FC<Badge.Props> = ({ cls, tva = BadgeCls, ...props }) => {
-	const classes = useCls(tva, cls);
+	const slots = useCls(tva, cls);
 
 	return (
 		<div
-			className={classes.root()}
+			className={slots.root()}
 			{...props}
 		/>
 	);
