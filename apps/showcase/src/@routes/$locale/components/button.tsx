@@ -10,6 +10,7 @@ const tones = [
 	"warning",
 	"neutral",
 	"subtle",
+	"link",
 ] as const;
 
 const sizes = [
@@ -46,7 +47,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<div className="text-sm font-medium text-slate-600">
 									<Tx label={`${theme} theme`} />
 								</div>
-								<div className="flex items-center justify-center gap-3">
+								<div className="flex items-center justify-center gap-2">
 									{sizes.map((size) => (
 										<Button
 											key={`size-${size}-${theme}`}
@@ -223,7 +224,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<div className="text-sm font-medium text-slate-600">
 									<Tx label={`${theme} theme`} />
 								</div>
-								<div className="grid grid-cols-3 gap-4">
+								<div className="grid grid-cols-4 gap-2">
 									{sizes.map((size) => (
 										<Column
 											key={`size-${size}`}

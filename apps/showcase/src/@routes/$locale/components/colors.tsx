@@ -44,6 +44,11 @@ export const Route = createFileRoute("/$locale/components/colors")({
 						theme="light"
 						label="Subtle"
 					/>
+					<Swatch
+						tone="link"
+						theme="light"
+						label="Link"
+					/>
 				</Section>
 
 				<Section title="Dark Theme">
@@ -77,6 +82,11 @@ export const Route = createFileRoute("/$locale/components/colors")({
 						theme="dark"
 						label="Subtle"
 					/>
+					<Swatch
+						tone="link"
+						theme="dark"
+						label="Link"
+					/>
 				</Section>
 			</div>
 		);
@@ -84,7 +94,14 @@ export const Route = createFileRoute("/$locale/components/colors")({
 });
 
 const Swatch: FC<{
-	tone: "primary" | "secondary" | "danger" | "warning" | "neutral" | "subtle";
+	tone:
+		| "primary"
+		| "secondary"
+		| "danger"
+		| "warning"
+		| "neutral"
+		| "subtle"
+		| "link";
 	theme: "light" | "dark";
 	label: string;
 }> = ({ tone, theme, label }) => {
