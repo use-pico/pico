@@ -5,7 +5,7 @@ export const LinkToCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {},
 	},
@@ -13,23 +13,29 @@ export const LinkToCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
 						"flex",
 						"flex-row",
 						"gap-2",
 						"items-center",
 						"justify-between",
-						"px-1",
+						"px-2",
 						"py-0.5",
 						"focus:outline-hidden",
 						"w-fit",
 						"truncate",
+						"border-transparent",
+						"transition-all",
 					],
 					[
 						"round.default",
-						"tone.neutral.light.text",
-						"tone.neutral.light.text:hover",
+						"scale.default",
+						"border.default",
+						"tone.link.light.text",
+						"tone.link.light.text:hover",
+						"tone.link.light.bg:hover",
+						"tone.link.light.border:hover",
 					],
 				),
 			}),

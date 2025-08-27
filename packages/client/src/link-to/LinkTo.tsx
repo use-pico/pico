@@ -1,52 +1,44 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { isString } from "@use-pico/common";
-import {
-	type ComponentProps,
-	forwardRef,
-	type PropsWithChildren,
-	type ReactNode,
-} from "react";
+import { useCls } from "@use-pico/cls";
+import { type ComponentProps, forwardRef, type PropsWithChildren } from "react";
 import { Icon } from "../icon/Icon";
 import { LinkToCls } from "./LinkToCls";
 
-interface $LinkTo extends LinkToCls.Props<PropsWithChildren> {
-	icon?: string | ReactNode;
+interface BaseLinkToProps extends LinkToCls.Props<PropsWithChildren> {
+	icon?: Icon.Type;
 	iconProps?: Icon.PropsEx;
 }
 
-const $LinkTo = forwardRef<HTMLAnchorElement, $LinkTo>(
+const BaseLinkTo = forwardRef<HTMLAnchorElement, BaseLinkToProps>(
 	({ icon, iconProps, tva = LinkToCls, cls, children, ...props }, ref) => {
-		const classes = tva.create(cls);
+		const slots = useCls(tva, cls);
 
 		return (
 			<a
 				{...props}
 				ref={ref}
-				className={classes.base()}
+				className={slots.root()}
 			>
-				{isString(icon) ? (
-					<Icon
-						icon={icon}
-						{...iconProps}
-					/>
-				) : (
-					icon
-				)}
+				<Icon
+					icon={icon}
+					size={"xs"}
+					{...iconProps}
+				/>
 				{children}
 			</a>
 		);
 	},
 );
 
-const $LinkToLink = createLink($LinkTo);
+const CreateLinkTo = createLink(BaseLinkTo);
 
 export namespace LinkTo {
 	export type Props = ComponentProps<typeof LinkTo>;
 }
 
-export const LinkTo: LinkComponent<typeof $LinkTo> = (props) => {
+export const LinkTo: LinkComponent<typeof BaseLinkTo> = (props) => {
 	return (
-		<$LinkToLink
+		<CreateLinkTo
 			preload={"intent"}
 			{...props}
 		/>
