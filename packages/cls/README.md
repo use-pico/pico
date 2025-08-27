@@ -1901,6 +1901,7 @@ import type {
   Component,        // Standard component props with CLS integration
   ComponentSlots,   // Slot functions from CLS instance
   VariantOf,        // Extract variant value types
+  VariantsOf,       // Extract all variant types
 } from '@use-pico/cls';
 
 import { 
@@ -2407,6 +2408,56 @@ function Button({ size = "md", disabled = false, children }: ButtonProps) {
 - **Boolean variant support**: "bool" variants become `boolean` type
 - **String variant support**: Other variants become union of string literals
 - **Type safety**: Ensures only valid variant values are used
+
+#### VariantsOf Type
+
+The `VariantsOf<TCls>` type extracts **all available variants** from a CLS instance into a type-safe object structure:
+
+```tsx
+import type { VariantsOf } from '@use-pico/cls';
+
+// Given ButtonCls with variants: { size: ["sm", "md", "lg"], disabled: ["bool"] }
+type ButtonVariants = VariantsOf<typeof ButtonCls>;
+// Result: {
+//   size?: "sm" | "md" | "lg";
+//   disabled?: boolean;
+// }
+
+// Use for component props that accept all variants
+interface ButtonProps {
+  variants?: VariantsOf<typeof ButtonCls>;
+  children: React.ReactNode;
+}
+
+// Use for default variant objects
+const defaultVariants: VariantsOf<typeof ButtonCls> = {
+  size: "md",
+  disabled: false
+};
+
+// Use for type-safe variant configurations
+function createButtonConfig(variants: VariantsOf<typeof ButtonCls>) {
+  return ButtonCls.create(({ what }) => ({
+    variant: what.variant(variants)
+  }));
+}
+
+// Usage
+const config = createButtonConfig({ size: "lg", disabled: true });
+```
+
+**Key Features:**
+- **Complete variant extraction**: Gets all variants from a CLS instance
+- **Partial object type**: All variant properties are optional for flexibility
+- **Type safety**: Ensures only valid variant combinations are used
+- **IDE autocompletion**: Provides full IntelliSense for all available variants
+- **Default object creation**: Perfect for creating default variant configurations
+
+**Common Use Cases:**
+- **Component props**: Accept all variants as a single object
+- **Default configurations**: Create type-safe default variant objects
+- **Configuration functions**: Build functions that accept complete variant sets
+- **Documentation**: Generate type-safe documentation of available variants
 
 #### Complete Example: Type-Safe Component
 

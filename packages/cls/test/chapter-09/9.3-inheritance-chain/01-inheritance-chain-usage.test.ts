@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, type VariantsOf } from "../../../src";
 
 describe("9.3 Inheritance Chain", () => {
 	it("should handle use method with multi-level inheritance chains", () => {
@@ -358,6 +358,12 @@ describe("9.3 Inheritance Chain", () => {
 		expect(largeDangerButton.root()).toBe(
 			"bg-red-500 text-white px-6 py-3",
 		);
+
+		const _variants: VariantsOf<typeof StatefulButton> = {
+			size: "md",
+			state: "enabled",
+			color: "primary",
+		};
 
 		// Test that the inheritance chain preserves all levels
 		// ButtonGroup3 should have access to all variants from all levels

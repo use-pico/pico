@@ -1080,6 +1080,65 @@ export type VariantOf<
 	: never;
 
 /**
+ * Extracts all available variants from a CLS instance into a type-safe object structure.
+ *
+ * This utility type creates a partial object type where each key represents a variant name
+ * and each value represents the possible variant values for that variant. It's particularly
+ * useful for:
+ * - Type-checking variant configurations in component props
+ * - Creating default variant objects
+ * - Ensuring type safety when working with variant combinations
+ * - Documentation and IDE autocompletion for available variants
+ *
+ * The resulting type is `Partial`, meaning all variant properties are optional, allowing
+ * you to specify only the variants you need while maintaining type safety for the ones
+ * you do specify.
+ *
+ * @template TCls - The CLS instance type to extract variants from
+ * @returns A partial object type with variant names as keys and their possible values as values
+ *
+ * @example
+ * ```typescript
+ * // Define a button with multiple variants
+ * const ButtonCls = cls(
+ *   {
+ *     variant: {
+ *       size: ["sm", "md", "lg"],
+ *       color: ["primary", "secondary", "danger"],
+ *       state: ["enabled", "disabled"]
+ *     }
+ *   },
+ *   ({ what, def }) => ({
+ *     // ... styling definition
+ *   })
+ * );
+ *
+ * // Extract all variants into a type-safe object
+ * type ButtonVariants = VariantsOf<typeof ButtonCls>;
+ * // Result: {
+ * //   size?: "sm" | "md" | "lg";
+ * //   color?: "primary" | "secondary" | "danger";
+ * //   state?: "enabled" | "disabled";
+ * // }
+ *
+ * // Use in component props for type safety
+ * interface ButtonProps {
+ *   variants?: VariantsOf<typeof ButtonCls>;
+ * }
+ *
+ * // Create a default variants object
+ * const defaultVariants: VariantsOf<typeof ButtonCls> = {
+ *   size: "md",
+ *   color: "primary",
+ *   state: "enabled"
+ * };
+ * ```
+ */
+export type VariantsOf<TCls extends Cls<any>> = Partial<
+	VariantValueMapping<TCls["contract"]>
+>;
+
+/**
  * Main CLS instance interface that provides styling capabilities through contracts and definitions.
  *
  * This interface represents a complete CLS instance that combines a contract (structure)

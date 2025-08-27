@@ -20,6 +20,7 @@ export type {
 	TokensOfList,
 	VariantContract,
 	VariantOf,
+	VariantsOf,
 	What,
 	WhatClass,
 	WhatConfigFn,
