@@ -33,9 +33,10 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isLte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
+					size={"xs"}
 					cls={({ what }) => ({
 						variant: what.variant({
-							tone: "neutral",
+							tone: "primary",
 							theme: "light",
 						}),
 					})}
@@ -53,9 +54,10 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={LteIcon}
+					size={"xs"}
 					cls={({ what }) => ({
 						variant: what.variant({
-							tone: "neutral",
+							tone: "primary",
 							theme: "light",
 						}),
 					})}
@@ -74,9 +76,10 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			{isGte ? (
 				<Action
 					iconEnabled={FilterRemoveIcon}
+					size={"xs"}
 					cls={({ what }) => ({
 						variant: what.variant({
-							tone: "neutral",
+							tone: "primary",
 							theme: "light",
 						}),
 					})}
@@ -94,9 +97,10 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 			) : (
 				<Action
 					iconEnabled={GteIcon}
+					size={"xs"}
 					cls={({ what }) => ({
 						variant: what.variant({
-							tone: "neutral",
+							tone: "primary",
 							theme: "light",
 						}),
 					})}

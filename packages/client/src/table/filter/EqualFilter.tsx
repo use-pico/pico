@@ -30,9 +30,10 @@ export const EqualFilter = <
 	return (
 		<Action
 			iconEnabled={FilterApplyIcon}
+			size={"xs"}
 			cls={({ what }) => ({
 				variant: what.variant({
-					tone: "neutral",
+					tone: "primary",
 					theme: "light",
 				}),
 			})}

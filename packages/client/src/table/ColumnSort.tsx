@@ -1,4 +1,4 @@
-import { tvc } from "@use-pico/cls";
+import { tvc, type VariantOf, type VariantsOf } from "@use-pico/cls";
 import type { withQuerySchema } from "@use-pico/common";
 import { Action } from "../action/Action";
 import { AscIcon } from "../icon/AscIcon";
@@ -69,6 +69,13 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 		]);
 	};
 
+	const actionSize: VariantOf<typeof Action.cls, "size"> = "xs";
+
+	const actionVariant: VariantsOf<typeof Action.cls> = {
+		tone: "primary",
+		theme: "light",
+	};
+
 	return (
 		<div
 			className={tvc([
@@ -85,11 +92,14 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							onClick={() => {
 								update(type?.sort === "asc" ? "desc" : "asc");
 							}}
+							size={actionSize}
 							cls={({ what }) => ({
 								variant: what.variant({
-									tone: "neutral",
-									border: Boolean(type?.sort === "asc"),
-									theme: "light",
+									...actionVariant,
+									tone:
+										type?.sort === "asc"
+											? "secondary"
+											: actionVariant.tone,
 								}),
 							})}
 							{...props}
@@ -115,11 +125,14 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							onClick={() => {
 								update("asc");
 							}}
+							size={actionSize}
 							cls={({ what }) => ({
 								variant: what.variant({
-									tone: "neutral",
-									border: Boolean(type?.sort === "desc"),
-									theme: "light",
+									...actionVariant,
+									tone:
+										type?.sort === "desc"
+											? "secondary"
+											: actionVariant.tone,
 								}),
 							})}
 							{...props}
@@ -140,11 +153,14 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 						onClick={() => {
 							update(undefined);
 						}}
+						size={actionSize}
 						cls={({ what }) => ({
 							variant: what.variant({
-								tone: "neutral",
-								border: Boolean(type?.sort === undefined),
-								theme: "light",
+								...actionVariant,
+								tone:
+									type?.sort === undefined
+										? "secondary"
+										: actionVariant.tone,
 							}),
 						})}
 						{...props}

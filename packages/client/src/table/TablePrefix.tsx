@@ -43,13 +43,13 @@ export const TablePrefix = <
 					{fulltext ? (
 						<Fulltext
 							state={fulltext}
-							cls={({ what }) => ({
-								slot: {
-									base: what.css([
-										"w-96",
-									]),
-								},
-							})}
+							// cls={({ what }) => ({
+							// 	slot: {
+							// 		base: what.css([
+							// 			"w-96",
+							// 		]),
+							// 	},
+							// })}
 						/>
 					) : null}
 				</div>
@@ -74,19 +74,6 @@ export const TablePrefix = <
 				) : (
 					<div />
 				)}
-				{/* {filter
-					? filter.is() && (
-							<Action
-								iconEnabled={FilterRemoveIcon}
-								cls={{
-									base: [
-										"text-amber-500",
-									],
-								}}
-								onClick={() => filter.reset()}
-							/>
-						)
-					: null} */}
 			</div>
 		</div>
 	);

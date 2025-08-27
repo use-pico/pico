@@ -46,7 +46,7 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 		<CoolCursor
 			cls={({ what }) => ({
 				slot: {
-					base: what.css(
+					root: what.css(
 						isFetching
 							? [
 									"opacity-50",

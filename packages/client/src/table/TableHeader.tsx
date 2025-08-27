@@ -167,9 +167,10 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
+										size={"xs"}
 										cls={({ what }) => ({
 											variant: what.variant({
-												tone: "neutral",
+												tone: "primary",
 												theme: "light",
 											}),
 										})}

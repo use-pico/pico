@@ -30,7 +30,6 @@ export const TableCls = AbstractListCls.extend(
 					"flex",
 					"flex-col",
 					"gap-2",
-					"text-sm",
 				]),
 				body: what.css([
 					"overflow-x-auto",
