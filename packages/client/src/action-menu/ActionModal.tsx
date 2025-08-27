@@ -1,5 +1,4 @@
 import { useCls } from "@use-pico/cls";
-import { isString } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
@@ -37,25 +36,16 @@ export const ActionModal: FC<ActionModal.Props> = ({
 				icon={icon}
 				target={
 					<div className={"flex flex-row gap-2 items-center"}>
-						{isString(icon) ? (
-							<Icon
-								icon={icon}
-								{...iconProps}
-							/>
-						) : (
-							icon
-						)}
+						<Icon
+							icon={icon}
+							size={"sm"}
+							{...iconProps}
+						/>
 						{label}
 					</div>
 				}
 				disabled={disabled}
-				cls={({ what }) => ({
-					slot: {
-						modal: what.css([
-							"w-2/3",
-						]),
-					},
-				})}
+				size={"lg"}
 				{...props}
 			/>
 		</div>

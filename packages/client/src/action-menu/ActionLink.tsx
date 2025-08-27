@@ -35,6 +35,7 @@ const BaseActionLink = forwardRef<HTMLAnchorElement, BaseActionLinkProps>(
 			>
 				<Icon
 					icon={icon}
+					size={"sm"}
 					{...iconProps}
 				/>
 				{children}

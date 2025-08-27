@@ -1,5 +1,4 @@
-import { isString } from "@use-pico/common";
-import type { FC, HTMLAttributes, ReactNode } from "react";
+import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { ActionClickCls } from "./ActionClickCls";
@@ -7,7 +6,7 @@ import { ActionClickCls } from "./ActionClickCls";
 export namespace ActionClick {
 	export interface Props
 		extends ActionClickCls.Props<HTMLAttributes<HTMLDivElement>> {
-		icon?: string | ReactNode;
+		icon?: Icon.Type;
 		iconProps?: Icon.Props;
 		loading?: boolean;
 	}
@@ -33,14 +32,11 @@ export const ActionClick: FC<ActionClick.Props> = ({
 			className={classes.root()}
 			{...props}
 		>
-			{isString(icon) ? (
-				<Icon
-					icon={loading ? LoaderIcon : icon}
-					{...iconProps}
-				/>
-			) : (
-				icon
-			)}
+			<Icon
+				icon={loading ? LoaderIcon : icon}
+				size={"sm"}
+				{...iconProps}
+			/>
 			{children}
 		</div>
 	);
