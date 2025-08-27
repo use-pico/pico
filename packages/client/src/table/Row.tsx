@@ -134,6 +134,7 @@ export const Row = <
 				{selection ? (
 					<Icon
 						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
+						size={"sm"}
 						cls={({ what }) => ({
 							slot: what.slot({
 								root: what.css(
@@ -143,9 +144,6 @@ export const Row = <
 										}),
 									})),
 								),
-							}),
-							variant: what.variant({
-								size: "md",
 							}),
 						})}
 						onClick={onSelect}

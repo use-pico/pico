@@ -296,7 +296,7 @@ export const AlertCls = PicoCls.extend(
 		defaults: def.defaults({
 			clickable: false,
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 		}),
 	}),
 );

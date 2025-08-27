@@ -258,7 +258,7 @@ export const ColorsCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 		}),
 	}),
 );

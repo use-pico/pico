@@ -33,7 +33,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 			<div className={slots.search()}>
 				<Icon
 					icon={"icon-[material-symbols-light--search]"}
-					size={"md"}
+					size={"sm"}
 				/>
 			</div>
 			<input

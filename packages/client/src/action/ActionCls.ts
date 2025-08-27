@@ -69,7 +69,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"icon.xs",
+						"icon-p.xs",
 					]),
 				},
 			),
@@ -79,7 +79,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"icon.sm",
+						"icon-p.sm",
 					]),
 				},
 			),
@@ -89,7 +89,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"icon.md",
+						"icon-p.md",
 					]),
 				},
 			),
@@ -99,7 +99,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					base: what.token([
-						"icon.lg",
+						"icon-p.lg",
 					]),
 				},
 			),
@@ -357,11 +357,11 @@ export const ActionCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 			disabled: false,
 			loading: false,
 			border: true,
-			size: "md",
+			size: "sm",
 		}),
 	}),
 );

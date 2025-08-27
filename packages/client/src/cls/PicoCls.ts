@@ -263,6 +263,11 @@ export const PicoCls = cls(
 			"icon.md",
 			"icon.lg",
 			"icon.xl",
+			"icon-p.xs",
+			"icon-p.sm",
+			"icon-p.md",
+			"icon-p.lg",
+			"icon-p.xl",
 			/**
 			 * Scale
 			 */
@@ -1163,29 +1168,29 @@ export const PicoCls = cls(
 			]),
 			//
 			"icon.xs": what.css([
-				"w-2",
-				"h-2",
-				"flex-shrink-0",
-				"min-w-0",
-				"min-h-0",
-			]),
-			"icon.sm": what.css([
 				"w-4",
 				"h-4",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon.md": what.css([
+			"icon.sm": what.css([
 				"w-6",
 				"h-6",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon.lg": what.css([
+			"icon.md": what.css([
 				"w-8",
 				"h-8",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			"icon.lg": what.css([
+				"w-10",
+				"h-10",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
@@ -1193,6 +1198,42 @@ export const PicoCls = cls(
 			"icon.xl": what.css([
 				"w-12",
 				"h-12",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			//
+			"icon-p.xs": what.css([
+				"w-7",
+				"h-7",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			"icon-p.sm": what.css([
+				"w-9",
+				"h-9",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			"icon-p.md": what.css([
+				"w-11",
+				"h-11",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			"icon-p.lg": what.css([
+				"w-13",
+				"h-13",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
+			"icon-p.xl": what.css([
+				"w-15",
+				"h-15",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",

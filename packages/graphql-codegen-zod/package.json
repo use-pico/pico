@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/graphql-codegen-zod",
 	"description": "Simple Zod generator for graphql schemas.",
-	"version": "4.0.41",
+	"version": "4.0.42",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -23,7 +23,7 @@
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
 		"@use-pico/tsconfig": "4.0.22",
-		"rollup": "4.48.1",
+		"rollup": "4.49.0",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},

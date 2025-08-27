@@ -148,7 +148,7 @@ export const Modal: FC<Modal.Props> = ({
 										>
 											<Icon
 												icon={icon}
-												size={"xl"}
+												size={"lg"}
 											/>
 											<div
 												className={tvc(

@@ -53,7 +53,6 @@ export const ButtonCls = PicoCls.extend(
 						"active:opacity-90",
 					],
 					[
-						"padding.sm",
 						"scale.default",
 						"border.default",
 						"round.default",
@@ -69,9 +68,14 @@ export const ButtonCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.css([
-						"text-xs",
-					]),
+					root: what.both(
+						[
+							"text-xs",
+						],
+						[
+							"padding.xs",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -79,9 +83,14 @@ export const ButtonCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.css([
-						"text-sm",
-					]),
+					root: what.both(
+						[
+							"text-sm",
+						],
+						[
+							"padding.sm",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -89,9 +98,14 @@ export const ButtonCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.css([
-						"text-md",
-					]),
+					root: what.both(
+						[
+							"text-md",
+						],
+						[
+							"padding.md",
+						],
+					),
 				},
 			),
 			def.rule(
@@ -99,9 +113,14 @@ export const ButtonCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.css([
-						"text-xl",
-					]),
+					root: what.both(
+						[
+							"text-lg",
+						],
+						[
+							"padding.lg",
+						],
+					),
 				},
 			),
 			/**

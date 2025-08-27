@@ -36,281 +36,36 @@ export const Route = createFileRoute("/$locale/components/action")({
 			>
 				{/* Sizes */}
 				<Section title={<Tx label={"Sizes"} />}>
-					<div className="grid grid-cols-2 gap-8">
-						{themes.map((theme) => (
-							<div
-								key={`sizes-${theme}`}
-								className="flex flex-col space-y-3"
-							>
-								<div className="text-sm font-medium text-slate-600">
-									<Tx label={`${theme} theme`} />
-								</div>
-								<div className="flex flex-col items-center space-y-2">
-									{sizes.map((size) => (
-										<Action
-											key={`size-${size}-${theme}`}
-											iconEnabled={TrashIcon}
-											cls={({ what }) => ({
-												variant: what.variant({
-													tone: "primary",
-													theme,
-													size,
-												}),
-											})}
-										/>
-									))}
-								</div>
-							</div>
+					<div className="flex flex-col space-y-6">
+						{sizes.map((size) => (
+							<SizeRow
+								key={size}
+								size={size}
+							/>
 						))}
 					</div>
 				</Section>
 
-				{/* Tones - Light Theme */}
-				<Section title={<Tx label={"Tones - Light Theme"} />}>
-					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default (Bordered)"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-light-${tone}`}
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Borderless"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-light-borderless-${tone}`}
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-											border: false,
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Disabled"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-light-disabled-${tone}`}
-									disabled
-									iconDisabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Loading"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-light-loading-${tone}`}
-									loading
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "light",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-					</div>
-				</Section>
-
-				{/* Tones - Dark Theme */}
-				<Section title={<Tx label={"Tones - Dark Theme"} />}>
-					<div className="grid grid-cols-4 gap-6">
-						<Column label={<Tx label={"Default (Bordered)"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-dark-${tone}`}
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "dark",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Borderless"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-dark-borderless-${tone}`}
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "dark",
-											border: false,
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Disabled"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-dark-disabled-${tone}`}
-									disabled
-									iconDisabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "dark",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-
-						<Column label={<Tx label={"Loading"} />}>
-							{tones.map((tone) => (
-								<Action
-									key={`tone-dark-loading-${tone}`}
-									loading
-									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme: "dark",
-										}),
-									})}
-								/>
-							))}
-						</Column>
-					</div>
-				</Section>
-
-				{/* Combined States */}
-				<Section title={<Tx label={"Combined States"} />}>
-					<div className="grid grid-cols-2 gap-8">
-						{themes.map((theme) => (
-							<div
-								key={`combined-${theme}`}
-								className="flex flex-col space-y-3"
-							>
-								<div className="text-sm font-medium text-slate-600">
-									<Tx label={`${theme} theme`} />
-								</div>
-								<div className="grid grid-cols-3 gap-4">
-									<Column
-										label={
-											<Tx
-												label={"Borderless + Disabled"}
-											/>
-										}
-									>
-										{tones.map((tone) => (
-											<Action
-												key={`combined-${theme}-${tone}-borderless-disabled`}
-												disabled
-												iconDisabled={TrashIcon}
-												cls={({ what }) => ({
-													variant: what.variant({
-														tone,
-														theme,
-														border: false,
-													}),
-												})}
-											/>
-										))}
-									</Column>
-
-									<Column
-										label={
-											<Tx
-												label={"Borderless + Loading"}
-											/>
-										}
-									>
-										{tones.map((tone) => (
-											<Action
-												key={`combined-${theme}-${tone}-borderless-loading`}
-												loading
-												iconEnabled={TrashIcon}
-												cls={({ what }) => ({
-													variant: what.variant({
-														tone,
-														theme,
-														border: false,
-													}),
-												})}
-											/>
-										))}
-									</Column>
-
-									<Column
-										label={
-											<Tx label={"Disabled + Loading"} />
-										}
-									>
-										{tones.map((tone) => (
-											<Action
-												key={`combined-${theme}-${tone}-disabled-loading`}
-												disabled
-												loading
-												iconDisabled={TrashIcon}
-												cls={({ what }) => ({
-													variant: what.variant({
-														tone,
-														theme,
-													}),
-												})}
-											/>
-										))}
-									</Column>
-								</div>
-							</div>
+				{/* Tones by Row */}
+				<Section title={<Tx label={"Tones by Row"} />}>
+					<div className="flex flex-col space-y-6">
+						{tones.map((tone) => (
+							<ToneRow
+								key={tone}
+								tone={tone}
+							/>
 						))}
 					</div>
 				</Section>
 
-				{/* Complete Combinations */}
-				<Section title={<Tx label={"Complete Combinations"} />}>
-					<div className="grid grid-cols-2 gap-8">
-						{themes.map((theme) => (
-							<div
-								key={`complete-${theme}`}
-								className="flex flex-col space-y-3"
-							>
-								<div className="text-sm font-medium text-slate-600">
-									<Tx label={`${theme} theme`} />
-								</div>
-								<div className="flex flex-col items-center space-y-2">
-									{tones.map((tone) => (
-										<Action
-											key={`complete-${tone}-${theme}`}
-											iconEnabled={TrashIcon}
-											cls={({ what }) => ({
-												variant: what.variant({
-													tone,
-													theme,
-												}),
-											})}
-										/>
-									))}
-								</div>
-							</div>
+				{/* Combined States by Tone */}
+				<Section title={<Tx label={"Combined States by Tone"} />}>
+					<div className="flex flex-col space-y-6">
+						{tones.map((tone) => (
+							<CombinedStatesRow
+								key={tone}
+								tone={tone}
+							/>
 						))}
 					</div>
 				</Section>
@@ -318,6 +73,183 @@ export const Route = createFileRoute("/$locale/components/action")({
 		);
 	},
 });
+
+function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
+	return (
+		<div className="border border-slate-200 rounded-lg p-4">
+			<div className="text-sm font-medium text-slate-700 mb-4 capitalize">
+				{tone} Tone
+			</div>
+			<div className="grid grid-cols-2 gap-8">
+				{themes.map((theme) => (
+					<div
+						key={`tone-${tone}-${theme}`}
+						className="flex flex-col space-y-3"
+					>
+						<div className="text-sm font-medium text-slate-600">
+							<Tx label={`${theme} theme`} />
+						</div>
+						<div className="grid grid-cols-4 gap-4">
+							<Column label={<Tx label={"Default"} />}>
+								<Action
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+										}),
+									})}
+								/>
+							</Column>
+
+							<Column label={<Tx label={"Borderless"} />}>
+								<Action
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+											border: false,
+										}),
+									})}
+								/>
+							</Column>
+
+							<Column label={<Tx label={"Disabled"} />}>
+								<Action
+									disabled
+									iconDisabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+										}),
+									})}
+								/>
+							</Column>
+
+							<Column label={<Tx label={"Loading"} />}>
+								<Action
+									loading
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+										}),
+									})}
+								/>
+							</Column>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+
+function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
+	return (
+		<div className="border border-slate-200 rounded-lg p-4">
+			<div className="text-sm font-medium text-slate-700 mb-4 capitalize">
+				{tone} Tone - Combined States
+			</div>
+			<div className="grid grid-cols-2 gap-8">
+				{themes.map((theme) => (
+					<div
+						key={`combined-${tone}-${theme}`}
+						className="flex flex-col space-y-3"
+					>
+						<div className="text-sm font-medium text-slate-600">
+							<Tx label={`${theme} theme`} />
+						</div>
+						<div className="grid grid-cols-3 gap-4">
+							<Column
+								label={<Tx label={"Borderless + Disabled"} />}
+							>
+								<Action
+									disabled
+									iconDisabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+											border: false,
+										}),
+									})}
+								/>
+							</Column>
+
+							<Column
+								label={<Tx label={"Borderless + Loading"} />}
+							>
+								<Action
+									loading
+									iconEnabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+											border: false,
+										}),
+									})}
+								/>
+							</Column>
+
+							<Column label={<Tx label={"Disabled + Loading"} />}>
+								<Action
+									disabled
+									loading
+									iconDisabled={TrashIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone,
+											theme,
+										}),
+									})}
+								/>
+							</Column>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+
+function SizeRow({ size }: { size: (typeof sizes)[number] }) {
+	return (
+		<div className="border border-slate-200 rounded-lg p-4">
+			<div className="text-sm font-medium text-slate-700 mb-4 capitalize">
+				{size} Size
+			</div>
+			<div className="grid grid-cols-2 gap-8">
+				{themes.map((theme) => (
+					<div
+						key={`size-${size}-${theme}`}
+						className="flex flex-col space-y-3"
+					>
+						<div className="text-sm font-medium text-slate-600">
+							<Tx label={`${theme} theme`} />
+						</div>
+						<div className="flex flex-col items-start space-y-2">
+							<Action
+								iconEnabled={TrashIcon}
+								size={size}
+								cls={({ what }) => ({
+									variant: what.variant({
+										tone: "primary",
+										theme,
+									}),
+								})}
+							/>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
 
 function Section({
 	title,
@@ -358,7 +290,7 @@ function Column({
 	return (
 		<div className="flex flex-col space-y-2">
 			<div className="text-xs text-slate-500 font-medium">{label}</div>
-			<div className="flex flex-col items-center space-y-2">
+			<div className="flex flex-col items-start space-y-2">
 				{children}
 			</div>
 		</div>

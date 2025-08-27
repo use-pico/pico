@@ -13,7 +13,7 @@ export const ActionModalCls = ActionCls.extend(
 		defaults: def.defaults({
 			disabled: false,
 			tone: "primary",
-			theme: "dark",
+			theme: "light",
 			loading: false,
 		}),
 	}),

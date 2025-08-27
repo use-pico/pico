@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls, type VariantOf, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -41,6 +41,7 @@ export namespace Action {
 		iconDisabled?: Icon.Type;
 		iconLoading?: Icon.Type;
 		iconProps?: Icon.PropsEx;
+		size?: VariantOf<ActionCls, "size">;
 		/**
 		 * Controls loading state of an action.
 		 */
@@ -57,6 +58,7 @@ const Component: FC<Action.Props> = ({
 	iconDisabled,
 	iconLoading = SpinnerIcon,
 	iconProps,
+	size = "sm",
 	disabled = false,
 	loading = false,
 	onClick,
@@ -68,6 +70,7 @@ const Component: FC<Action.Props> = ({
 		variant: what.variant({
 			disabled,
 			loading,
+			size,
 		}),
 	}));
 
@@ -80,13 +83,13 @@ const Component: FC<Action.Props> = ({
 			{disabled ? (
 				<Icon
 					icon={loading ? iconLoading : (iconDisabled ?? iconEnabled)}
-					size={"sm"}
+					size={size}
 					{...iconProps}
 				/>
 			) : (
 				<Icon
 					icon={loading ? iconLoading : iconEnabled}
-					size={"sm"}
+					size={size}
 					{...iconProps}
 				/>
 			)}
