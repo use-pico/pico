@@ -1,4 +1,4 @@
-import { translator } from "@use-pico/common";
+import { isString, translator } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
 import { ErrorIcon } from "../icon/ErrorIcon";
@@ -37,7 +37,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 						}),
 					})}
 				>
-					{translator.rich(message)}
+					{isString(message) ? translator.rich(message) : message}
 				</Badge>
 			)}
 			renderItem={({ entity: { error, message } }) => (
@@ -51,7 +51,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 						}),
 					})}
 				>
-					{translator.rich(message)}
+					{isString(message) ? translator.rich(message) : message}
 				</Badge>
 			)}
 			actionProps={{
