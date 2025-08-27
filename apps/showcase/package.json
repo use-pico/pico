@@ -11,20 +11,20 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@tanstack/react-form": "^1.14.2",
-		"@tanstack/react-query": "^5.83.0",
-		"@tanstack/react-router": "^1.129.8",
+		"@tanstack/react-form": "1.19.2",
+		"@tanstack/react-query": "5.85.5",
+		"@tanstack/react-router": "1.131.28",
 		"@tanstack/zod-adapter": "^1.129.7",
 		"@use-pico/client": "5.0.31",
 		"@use-pico/cls": "5.0.16",
 		"@use-pico/common": "5.0.21",
 		"@use-pico/server": "5.0.21",
 		"fuse.js": "7.1.0",
-		"kysely": "^0.28.3",
+		"kysely": "0.28.5",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"sqlocal": "0.14.2",
-		"zod": "^4.0.5"
+		"zod": "4.1.3"
 	},
 	"devDependencies": {
 		"@iconify/json": "2.2.378",
@@ -33,7 +33,7 @@
 		"@tailwindcss/vite": "4.1.12",
 		"@tanstack/router-plugin": "1.131.28",
 		"@types/node": "^24.1.0",
-		"@types/react": "^19.1.9",
+		"@types/react": "19.1.11",
 		"@types/react-dom": "19.1.8",
 		"@vitejs/plugin-react": "^5.0.0",
 		"tailwindcss": "4.1.12",
