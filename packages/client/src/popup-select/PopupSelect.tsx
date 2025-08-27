@@ -137,11 +137,7 @@ export const PopupSelect = <
 				/>
 			}
 			textTitle={textTitle}
-			cls={({ what }) => ({
-				variant: what.variant({
-					size: "md",
-				}),
-			})}
+			size={"lg"}
 			{...modalProps}
 		>
 			{() => (
