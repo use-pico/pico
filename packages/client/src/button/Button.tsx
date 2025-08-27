@@ -45,13 +45,13 @@ export const Button: FC<Button.Props> = ({
 				{props.disabled ? (
 					<Icon
 						icon={loading === true ? iconLoading : iconDisabled}
-						size={"md"}
+						size={"sm"}
 						{...iconProps}
 					/>
 				) : (
 					<Icon
 						icon={loading === true ? iconLoading : iconEnabled}
-						size={"md"}
+						size={"sm"}
 						{...iconProps}
 					/>
 				)}
