@@ -80,6 +80,7 @@ export const More = <TValues extends EntitySchema.Type>({
 							iconEnabled={icon}
 							iconProps={iconProps}
 							disabled={disabled}
+							size={"xs"}
 							cls={({ what }) => ({
 								variant: what.variant({
 									tone: "subtle",
