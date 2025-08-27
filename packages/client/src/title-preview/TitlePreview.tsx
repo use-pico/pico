@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { TitlePreviewCls } from "./TitlePreviewCls";
@@ -17,20 +18,25 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	tva = TitlePreviewCls,
 	cls,
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			withSubtitle: Boolean(subtitle),
 		}),
 	}));
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.title()}>
-				{icon ? <Icon icon={icon} /> : null}
+		<div className={slots.base()}>
+			<div className={slots.title()}>
+				{icon ? (
+					<Icon
+						icon={icon}
+						size={"sm"}
+					/>
+				) : null}
 				{title}
 			</div>
 			{subtitle ? (
-				<div className={classes.subtitle()}>{subtitle}</div>
+				<div className={slots.subtitle()}>{subtitle}</div>
 			) : null}
 		</div>
 	);
