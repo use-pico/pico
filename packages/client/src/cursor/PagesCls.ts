@@ -25,8 +25,6 @@ export const PagesCls = PicoCls.extend(
 				list: what.css([
 					"flex",
 					"items-center",
-					"-space-x-px",
-					"text-xs",
 					"gap-3",
 				]),
 				page: what.both(
@@ -34,17 +32,16 @@ export const PagesCls = PicoCls.extend(
 						"flex",
 						"items-center",
 						"justify-center",
-						"w-12",
 						"cursor-pointer",
 						"transition-all",
 						"duration-200",
 						"hover:shadow-sm",
 					],
 					[
-						"padding.sm",
 						"scale.sm",
 						"border.default",
 						"round.default",
+						"padding.sm",
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",

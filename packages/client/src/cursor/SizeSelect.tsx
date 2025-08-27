@@ -11,7 +11,7 @@ export namespace SizeSelect {
 		export type OnSize = (size: number) => void;
 	}
 
-	export interface Props extends Select.PropsEx<SizeType> {
+	export interface Props extends Omit<Select.PropsEx<SizeType>, "size"> {
 		sizes?: number[];
 		size: number;
 		onSize: Event.OnSize;
@@ -40,18 +40,7 @@ export const SizeSelect: FC<SizeSelect.Props> = ({
 			value={`${size}`}
 			onItem={({ size }) => onSize(size)}
 			render={({ entity: { size } }) => size}
-			cls={({ what }) => ({
-				slot: {
-					base: what.css([
-						"px-4",
-						"py-1",
-					]),
-					item: what.css([
-						"px-4",
-						"py-1",
-					]),
-				},
-			})}
+			size={"sm"}
 			{...props}
 		/>
 	);

@@ -5,7 +5,9 @@ export const CursorCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
+			"pages",
+			"pages-wrapper",
 			"sums",
 		],
 		variant: {},
@@ -14,11 +16,25 @@ export const CursorCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"flex",
 					"items-center",
 					"justify-between",
 					"gap-2",
+				]),
+				pages: what.css([
+					"flex",
+					"items-center",
+					"justify-center",
+					"gap-2",
+					"text-sm",
+				]),
+				"pages-wrapper": what.css([
+					// "flex",
+					// "flex-col",
+					// "items-end",
+					// // "justify-start",
+					// "gap-2",
 				]),
 				sums: what.css([
 					"flex",

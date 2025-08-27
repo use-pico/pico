@@ -1,4 +1,4 @@
-import { tvc } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import {
 	type CountSchema,
 	type CursorSchema,
@@ -45,20 +45,23 @@ export const Cursor: FC<Cursor.Props> = ({
 		],
 	);
 
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.root()}>
+			<div className={slots.sums()}>
+				<div>{textTotal}</div>
+				<div className={"font-bold"}>{count.filter}</div>
+				{count.filter !== count.where && (
+					<>
+						<div>/</div>
+						<div className={"font-semibold"}>{count.where}</div>
+					</>
+				)}
+			</div>
+
 			{$cursor.total > 1 ? (
-				<div
-					className={tvc(
-						"flex",
-						"items-center",
-						"justify-center",
-						"gap-2",
-						"text-sm",
-					)}
-				>
+				<div className={slots.pages()}>
 					{$cursor.start ? (
 						<Pages
 							page={state.value.page}
@@ -73,7 +76,10 @@ export const Cursor: FC<Cursor.Props> = ({
 					) : null}
 
 					{$cursor.start && $cursor.pages ? (
-						<Icon icon={DotsIcon} />
+						<Icon
+							icon={DotsIcon}
+							size={"xs"}
+						/>
 					) : null}
 
 					{$cursor.pages ? (
@@ -91,7 +97,10 @@ export const Cursor: FC<Cursor.Props> = ({
 
 					{($cursor.pages && $cursor.end) ||
 					($cursor.start && $cursor.end) ? (
-						<Icon icon={DotsIcon} />
+						<Icon
+							icon={DotsIcon}
+							size={"xs"}
+						/>
 					) : null}
 
 					{$cursor.end ? (
@@ -108,16 +117,6 @@ export const Cursor: FC<Cursor.Props> = ({
 					) : null}
 				</div>
 			) : null}
-			<div className={classes.sums()}>
-				<div>{textTotal}</div>
-				<div className={"font-bold"}>{count.filter}</div>
-				{count.filter !== count.where && (
-					<>
-						<div>/</div>
-						<div className={"font-semibold"}>{count.where}</div>
-					</>
-				)}
-			</div>
 			<SizeSelect
 				size={state.value.size}
 				onSize={(size) =>
