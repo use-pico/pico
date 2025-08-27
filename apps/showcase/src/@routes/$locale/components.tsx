@@ -299,6 +299,17 @@ export const Route = createFileRoute("/$locale/components")({
 							</MenuLink>
 
 							<MenuLink
+								icon={"icon-[ph--caret-down]"}
+								to={"/$locale/components/select"}
+								params={{
+									locale,
+								}}
+								vertical
+							>
+								<Tx label={"Select"} />
+							</MenuLink>
+
+							<MenuLink
 								icon={"icon-[ph--warning-circle]"}
 								to={"/$locale/components/issues"}
 								params={{
