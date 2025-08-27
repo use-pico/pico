@@ -13,9 +13,6 @@ export const ValueOfCls = PicoCls.extend(
 			inline: [
 				"bool",
 			],
-			withBackground: [
-				"bool",
-			],
 		},
 	},
 	({ what, def }) => ({
@@ -86,21 +83,9 @@ export const ValueOfCls = PicoCls.extend(
 					),
 				},
 			),
-			def.rule(
-				what.variant({
-					withBackground: true,
-				}),
-				{
-					base: what.token([
-						"tone.neutral.light.bg",
-						"tone.neutral.light.border:hover",
-					]),
-				},
-			),
 		],
 		defaults: def.defaults({
 			inline: false,
-			withBackground: true,
 		}),
 	}),
 );
