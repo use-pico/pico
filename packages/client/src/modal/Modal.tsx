@@ -148,7 +148,7 @@ export const Modal: FC<Modal.Props> = ({
 										>
 											<Icon
 												icon={icon}
-												size={"lg"}
+												size={"sm"}
 											/>
 											<div
 												className={tvc(
@@ -169,9 +169,7 @@ export const Modal: FC<Modal.Props> = ({
 													theme: "light",
 												}),
 											})}
-											iconProps={{
-												size: "md",
-											}}
+											size={"sm"}
 										/>
 									</div>
 									{children({
