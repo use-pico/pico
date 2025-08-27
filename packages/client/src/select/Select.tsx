@@ -12,16 +12,18 @@ import {
 	useListNavigation,
 	useTransitionStyles,
 } from "@floating-ui/react";
+import { useCls, type VariantOf } from "@use-pico/cls";
 import { type Entity, type EntitySchema, translator } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import { Action } from "../action/Action";
+import { FormField } from "../form/FormField";
 import { CloseIcon } from "../icon/CloseIcon";
 import { Icon } from "../icon/Icon";
 import { SelectCls } from "./SelectCls";
 
 export namespace Select {
 	export interface Props<TItem extends EntitySchema.Type>
-		extends SelectCls.Props {
+		extends SelectCls.Props<FormField.Props> {
 		items: TItem[];
 		icon?: string;
 		defaultValue?: string;
@@ -30,6 +32,7 @@ export namespace Select {
 		textSelect?: ReactNode;
 		disabled?: boolean;
 		allowClear?: boolean;
+		size?: VariantOf<SelectCls, "size">;
 		/**
 		 * Called only when an item is actually selected
 		 */
@@ -60,12 +63,14 @@ export const Select = <TItem extends EntitySchema.Type>({
 	textSelect,
 	disabled = false,
 	allowClear = false,
+	size: $size = "sm",
 	onItem,
 	onSelect,
 	onChange,
 	value,
 	tva = SelectCls,
 	cls,
+	...props
 }: Select.Props<TItem>) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -138,27 +143,29 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			disabled,
+			size: $size,
 		}),
 	}));
 
 	return (
-		<>
-			<div
-				tabIndex={disabled ? -1 : 0}
-				ref={disabled ? undefined : refs.setReference}
-				{...(disabled ? {} : getReferenceProps())}
-				className={classes.base()}
-			>
-				<div className={classes.input()}>
-					{icon ? (
+		<FormField {...props}>
+			{({ ref: _, ...props }) => (
+				<>
+					<div
+						tabIndex={disabled ? -1 : 0}
+						ref={disabled ? undefined : refs.setReference}
+						{...(disabled ? {} : getReferenceProps())}
+						{...props}
+						className={slots.input()}
+					>
 						<Icon
 							icon={icon}
 							cls={({ what }) => ({
 								variant: what.variant({
-									size: "xl",
+									size: "sm",
 								}),
 								slot: what.slot({
 									root: what.css([
@@ -168,115 +175,120 @@ export const Select = <TItem extends EntitySchema.Type>({
 								}),
 							})}
 						/>
-					) : null}
-					{item ? (
-						<Render entity={item} />
-					) : (
-						textSelect || translator.rich("Select item")
-					)}
-					<div className={"flex flex-row gap-2 items-center"}>
-						{allowClear ? (
-							<Action
-								iconEnabled={CloseIcon}
-								onClick={(e) => {
-									e.stopPropagation();
-									e.preventDefault();
-									handleSelect(-1);
-								}}
-								onMouseDown={(e) => {
-									e.stopPropagation();
-									e.preventDefault();
-								}}
+						{item ? (
+							<Render entity={item} />
+						) : (
+							textSelect || translator.rich("Select item")
+						)}
+						<div className={"flex flex-row gap-2 items-center"}>
+							{allowClear ? (
+								<Action
+									iconEnabled={CloseIcon}
+									onClick={(e) => {
+										e.stopPropagation();
+										e.preventDefault();
+										handleSelect(-1);
+									}}
+									onMouseDown={(e) => {
+										e.stopPropagation();
+										e.preventDefault();
+									}}
+									size={"sm"}
+									cls={({ what }) => ({
+										variant: what.variant({
+											theme: "light",
+										}),
+									})}
+								/>
+							) : null}
+							<Icon
+								icon={"icon-[gg--select]"}
+								size={"sm"}
 								cls={({ what }) => ({
-									variant: what.variant({
-										theme: "light",
+									slot: what.slot({
+										root: what.css(
+											[
+												!isOpen && "text-slate-400",
+												isOpen && "text-slate-600",
+												"group-hover:text-slate-600",
+											].filter(Boolean),
+										),
 									}),
 								})}
 							/>
-						) : null}
-						<Icon
-							icon={"icon-[gg--select]"}
-							size={"md"}
-							cls={({ what }) => ({
-								slot: what.slot({
-									root: what.css(
-										[
-											!isOpen && "text-slate-400",
-											isOpen && "text-slate-600",
-											"group-hover:text-slate-600",
-										].filter(Boolean),
-									),
-								}),
-							})}
-						/>
-					</div>
-				</div>
-			</div>
-			{isMounted && (
-				<FloatingPortal>
-					<FloatingFocusManager
-						context={context}
-						modal={false}
-					>
-						<div
-							ref={refs.setFloating}
-							style={{
-								...floatingStyles,
-								...styles,
-							}}
-							className={classes.popup()}
-							{...getFloatingProps()}
-						>
-							{items.map((value, i) => (
-								<div
-									key={value.id}
-									ref={(node) => {
-										listRef.current[i] = node;
-									}}
-									tabIndex={i === activeIndex ? 0 : -1}
-									className={classes.item(({ what }) => ({
-										variant: what.variant({
-											selected: i === selectedIndex,
-											active: i === activeIndex,
-										}),
-									}))}
-									{...getItemProps({
-										onClick() {
-											handleSelect(i);
-										},
-										onKeyDown(event) {
-											if (event.key === "Enter") {
-												event.preventDefault();
-												handleSelect(i);
-											}
-
-											if (
-												event.key === " " &&
-												!isTypingRef.current
-											) {
-												event.preventDefault();
-												handleSelect(i);
-											}
-										},
-									})}
-								>
-									<Render entity={value} />
-									{i === selectedIndex && (
-										<Icon
-											icon={"icon-[basil--check-outline]"}
-											cls={({ what }) => ({
-												variant: what.variant({
-													size: "md",
-												}),
-											})}
-										/>
-									)}
-								</div>
-							))}
 						</div>
-					</FloatingFocusManager>
-				</FloatingPortal>
+					</div>
+					{isMounted && (
+						<FloatingPortal>
+							<FloatingFocusManager
+								context={context}
+								modal={false}
+							>
+								<div
+									ref={refs.setFloating}
+									style={{
+										...floatingStyles,
+										...styles,
+									}}
+									className={slots.popup()}
+									{...getFloatingProps()}
+								>
+									{items.map((value, i) => (
+										<div
+											key={value.id}
+											ref={(node) => {
+												listRef.current[i] = node;
+											}}
+											tabIndex={
+												i === activeIndex ? 0 : -1
+											}
+											className={slots.item(
+												({ what }) => ({
+													variant: what.variant({
+														selected:
+															i === selectedIndex,
+														active:
+															i === activeIndex,
+													}),
+												}),
+											)}
+											{...getItemProps({
+												onClick() {
+													handleSelect(i);
+												},
+												onKeyDown(event) {
+													if (event.key === "Enter") {
+														event.preventDefault();
+														handleSelect(i);
+													}
+
+													if (
+														event.key === " " &&
+														!isTypingRef.current
+													) {
+														event.preventDefault();
+														handleSelect(i);
+													}
+												},
+											})}
+										>
+											<Render entity={value} />
+											{i === selectedIndex && (
+												<Icon
+													icon={
+														"icon-[basil--check-outline]"
+													}
+													size={"md"}
+												/>
+											)}
+										</div>
+									))}
+								</div>
+							</FloatingFocusManager>
+						</FloatingPortal>
+					)}
+				</>
 			)}
-		</>
+		</FormField>
 	);
 };

@@ -1,12 +1,10 @@
 import type { Component } from "@use-pico/cls";
-import { PicoCls } from "../cls/PicoCls";
+import { FormFieldCls } from "../form/FormFieldCls";
 
-export const SelectCls = PicoCls.extend(
+export const SelectCls = FormFieldCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
-			"input",
 			"popup",
 			"item",
 		],
@@ -26,31 +24,12 @@ export const SelectCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
-					[
-						"cursor-pointer",
-						"text-sm",
-						"focus:outline-hidden",
-						"p-2.5",
-						"hover:shadow-md",
-						"transition-all",
-						"group",
-					],
-					[
-						"border.default",
-						"round.default",
-						"tone.neutral.light.bg",
-						"tone.neutral.light.text:hover",
-						"tone.neutral.light.border",
-						"tone.neutral.light.border:hover",
-					],
-				),
 				input: what.css([
 					"flex",
 					"flex-row",
 					"items-center",
 					"justify-between",
-					"gap-2",
+					"cursor-pointer",
 				]),
 				popup: what.both(
 					[
@@ -115,6 +94,11 @@ export const SelectCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			size: "md",
+			isError: false,
+			isLoading: false,
+			isSubmitting: false,
+			required: false,
 			disabled: false,
 			selected: false,
 			active: false,
