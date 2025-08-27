@@ -230,6 +230,42 @@ export const PicoCls = cls(
 			"tone.neutral.dark.shadow:focus",
 			"tone.neutral.dark.set",
 			/**
+			 * Link Tone
+			 */
+			"tone.link.light.text",
+			"tone.link.light.text:hover",
+			"tone.link.light.text:focus",
+			"tone.link.light.bg",
+			"tone.link.light.bg:hover",
+			"tone.link.light.bg:focus",
+			"tone.link.light.bg:even",
+			"tone.link.light.bg:odd",
+			"tone.link.light.border",
+			"tone.link.light.border:hover",
+			"tone.link.light.border:focus",
+			"tone.link.light.border:group-hover",
+			"tone.link.light.shadow",
+			"tone.link.light.shadow:hover",
+			"tone.link.light.shadow:focus",
+			"tone.link.light.set",
+			//
+			"tone.link.dark.text",
+			"tone.link.dark.text:hover",
+			"tone.link.dark.text:focus",
+			"tone.link.dark.bg",
+			"tone.link.dark.bg:hover",
+			"tone.link.dark.bg:focus",
+			"tone.link.dark.bg:even",
+			"tone.link.dark.bg:odd",
+			"tone.link.dark.border",
+			"tone.link.dark.border:hover",
+			"tone.link.dark.border:focus",
+			"tone.link.dark.border:group-hover",
+			"tone.link.dark.shadow",
+			"tone.link.dark.shadow:hover",
+			"tone.link.dark.shadow:focus",
+			"tone.link.dark.set",
+			/**
 			 * Rounding
 			 */
 			"round.default",
@@ -911,6 +947,108 @@ export const PicoCls = cls(
 				"focus:shadow-slate-800/50",
 			]),
 			/**
+			 * Link Tone - Modern Blue
+			 */
+			"tone.link.light.text": what.css([
+				"text-blue-600",
+			]),
+			"tone.link.light.text:hover": what.css([
+				"hover:text-blue-700",
+			]),
+			"tone.link.light.text:focus": what.css([
+				"focus:text-blue-700",
+			]),
+			"tone.link.light.bg": what.css([
+				"bg-blue-50",
+			]),
+			"tone.link.light.bg:hover": what.css([
+				"hover:bg-blue-100",
+			]),
+			"tone.link.light.bg:focus": what.css([
+				"focus:bg-blue-100",
+			]),
+			"tone.link.light.bg:even": what.css([
+				"even:bg-blue-50",
+			]),
+			"tone.link.light.bg:odd": what.css([
+				"odd:bg-blue-25",
+			]),
+			"tone.link.light.border": what.css([
+				"border-blue-200/60",
+				"border-b-blue-200",
+			]),
+			"tone.link.light.border:hover": what.css([
+				"hover:border-blue-300/60",
+				"hover:border-b-blue-300",
+			]),
+			"tone.link.light.border:focus": what.css([
+				"focus:border-blue-300/60",
+				"focus:border-b-blue-300",
+			]),
+			"tone.link.light.border:group-hover": what.css([
+				"group-hover:border-blue-300/60",
+				"group-hover:border-b-blue-300",
+			]),
+			"tone.link.light.shadow": what.css([
+				"shadow-blue-200/50",
+			]),
+			"tone.link.light.shadow:hover": what.css([
+				"hover:shadow-blue-300/60",
+			]),
+			"tone.link.light.shadow:focus": what.css([
+				"focus:shadow-blue-300/60",
+			]),
+			//
+			"tone.link.dark.text": what.css([
+				"text-blue-300",
+			]),
+			"tone.link.dark.text:hover": what.css([
+				"hover:text-blue-200",
+			]),
+			"tone.link.dark.text:focus": what.css([
+				"focus:text-blue-200",
+			]),
+			"tone.link.dark.bg": what.css([
+				"bg-blue-900/90",
+			]),
+			"tone.link.dark.bg:hover": what.css([
+				"hover:bg-blue-800/90",
+			]),
+			"tone.link.dark.bg:focus": what.css([
+				"focus:bg-blue-800/90",
+			]),
+			"tone.link.dark.bg:even": what.css([
+				"even:bg-blue-800/80",
+			]),
+			"tone.link.dark.bg:odd": what.css([
+				"odd:bg-blue-950/90",
+			]),
+			"tone.link.dark.border": what.css([
+				"border-blue-500/60",
+				"border-b-blue-500/80",
+			]),
+			"tone.link.dark.border:hover": what.css([
+				"hover:border-blue-400/70",
+				"hover:border-b-blue-400/90",
+			]),
+			"tone.link.dark.border:focus": what.css([
+				"focus:border-blue-400/70",
+				"focus:border-b-blue-400/90",
+			]),
+			"tone.link.dark.border:group-hover": what.css([
+				"group-hover:border-blue-400/70",
+				"group-hover:border-b-blue-400/90",
+			]),
+			"tone.link.dark.shadow": what.css([
+				"shadow-blue-900/40",
+			]),
+			"tone.link.dark.shadow:hover": what.css([
+				"hover:shadow-blue-800/50",
+			]),
+			"tone.link.dark.shadow:focus": what.css([
+				"focus:shadow-blue-800/50",
+			]),
+			/**
 			 * Tone Sets - Complete style collections (without :even/:odd)
 			 */
 			"tone.primary.light.set": what.token([
@@ -1093,6 +1231,36 @@ export const PicoCls = cls(
 				"tone.neutral.dark.shadow:hover",
 				"tone.neutral.dark.shadow:focus",
 			]),
+			"tone.link.light.set": what.token([
+				"tone.link.light.text",
+				"tone.link.light.text:hover",
+				"tone.link.light.text:focus",
+				"tone.link.light.bg",
+				"tone.link.light.bg:hover",
+				"tone.link.light.bg:focus",
+				"tone.link.light.border",
+				"tone.link.light.border:hover",
+				"tone.link.light.border:focus",
+				"tone.link.light.border:group-hover",
+				"tone.link.light.shadow",
+				"tone.link.light.shadow:hover",
+				"tone.link.light.shadow:focus",
+			]),
+			"tone.link.dark.set": what.token([
+				"tone.link.dark.text",
+				"tone.link.dark.text:hover",
+				"tone.link.dark.text:focus",
+				"tone.link.dark.bg",
+				"tone.link.dark.bg:hover",
+				"tone.link.dark.bg:focus",
+				"tone.link.dark.border",
+				"tone.link.dark.border:hover",
+				"tone.link.dark.border:focus",
+				"tone.link.dark.border:group-hover",
+				"tone.link.dark.shadow",
+				"tone.link.dark.shadow:hover",
+				"tone.link.dark.shadow:focus",
+			]),
 			/**
 			 * Rounding
 			 */
@@ -1135,19 +1303,19 @@ export const PicoCls = cls(
 			 */
 			"padding.xs": what.css([
 				"px-2",
-				"py-0.5",
+				"py-1",
 			]),
 			"padding.sm": what.css([
 				"px-2",
-				"py-1",
+				"py-2",
 			]),
 			"padding.md": what.css([
 				"px-6",
-				"py-1.5",
+				"py-3",
 			]),
 			"padding.lg": what.css([
 				"px-12",
-				"py-2",
+				"py-4",
 			]),
 			//
 			"square.xs": what.css([
