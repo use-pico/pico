@@ -44,11 +44,6 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 							<ValueOf
 								label="Email"
 								value={sampleData.email}
-								cls={({ what }) => ({
-									variant: what.variant({
-										withBackground: false,
-									}),
-								})}
 							/>
 						</Column>
 					</div>
@@ -233,20 +228,10 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 								<ValueOf
 									label="Role"
 									value={sampleData.role}
-									cls={({ what }) => ({
-										variant: what.variant({
-											withBackground: false,
-										}),
-									})}
 								/>
 								<ValueOf
 									label="Department"
 									value={sampleData.department}
-									cls={({ what }) => ({
-										variant: what.variant({
-											withBackground: false,
-										}),
-									})}
 								/>
 							</div>
 						</Column>
